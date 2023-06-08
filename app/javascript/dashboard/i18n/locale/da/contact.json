@@ -122,6 +122,7 @@
         "LABEL": "Telefonnummer",
         "HELP": "Telefonnummer skal være af E.164 format fx: +1415555555 [+] [landekode] [områdekode] [lokalt telefonnummer]",
         "ERROR": "Telefonnummer skal være enten tomt eller i E.164-format",
+        "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "Dette telefonnummer er i brug for en anden kontakt."
       },
       "LOCATION": {
@@ -131,6 +132,17 @@
       "COMPANY_NAME": {
         "PLACEHOLDER": "Indtast virksomhedens navn",
         "LABEL": "Virksomhedens Navn"
+      },
+      "COUNTRY": {
+        "PLACEHOLDER": "Enter the country name",
+        "LABEL": "Land Navn",
+        "SELECT_PLACEHOLDER": "Vælg",
+        "REMOVE": "Fjern",
+        "SELECT_COUNTRY": "Select Country"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Enter the city name",
+        "LABEL": "City Name"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -171,6 +183,7 @@
       },
       "INBOX": {
         "LABEL": "Indbakke",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Vælg en indbakke"
       },
       "SUBJECT": {

@@ -37,6 +37,7 @@
     "UNKNOWN_FILE_TYPE": "پرونده ناشناخته",
     "SAVE_CONTACT": "ذخیره",
     "UPLOADING_ATTACHMENTS": "در حال بارگذاری پیوست‌ها...",
+    "REPLIED_TO_STORY": "Replied to your story",
     "SUCCESS_DELETE_MESSAGE": "پیام با موفقیت حذف شد",
     "FAIL_DELETE_MESSSAGE": "پیام حذف نشد! دوباره امتحان کنید",
     "NO_RESPONSE": "بدون پاسخ",
@@ -64,6 +65,23 @@
         "NEXT_REPLY": "پاسخ بعدی",
         "TOMORROW": "فردا",
         "NEXT_WEEK": "هفته بعد"
+      }
+    },
+    "PRIORITY": {
+      "TITLE": "اولویت",
+      "OPTIONS": {
+        "NONE": "هیچکدام",
+        "URGENT": "Urgent",
+        "HIGH": "High",
+        "MEDIUM": "Medium",
+        "LOW": "Low"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "هیچکدام",
+        "INPUT_PLACEHOLDER": "Select priority",
+        "NO_RESULTS": "نتیجه‌ای یافت نشد",
+        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "FAILED": "Couldn't change priority. Please try again."
       }
     },
     "CARD_CONTEXT_MENU": {
@@ -167,6 +185,8 @@
       "DELETE": "حذف",
       "CREATE_A_CANNED_RESPONSE": "اضافه کردن به پاسخ‌های آماده",
       "TRANSLATE": "ترجمه",
+      "COPY_PERMALINK": "کپی پیوند پیام",
+      "LINK_COPIED": "نشانی اینترنتی پیام در کلیپ‌بورد کپی شد",
       "DELETE_CONFIRMATION": {
         "TITLE": "آیا از حذف این پیام مطمئن هستید؟",
         "MESSAGE": "شما نمی توانید این عمل را لغو کنید",

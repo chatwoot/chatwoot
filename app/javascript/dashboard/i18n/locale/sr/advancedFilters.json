@@ -22,7 +22,8 @@
       "is_not_present": "Ne postoji",
       "is_greater_than": "Veće je od",
       "is_less_than": "Manje je od",
-      "days_before": "Je x dana pre"
+      "days_before": "Je x dana pre",
+      "starts_with": "Starts with"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Istinito",
@@ -37,6 +38,7 @@
       "CAMPAIGN_NAME": "Naziv kampanje",
       "LABELS": "Oznake",
       "BROWSER_LANGUAGE": "Jezik pregledača",
+      "PRIORITY": "Priority",
       "COUNTRY_NAME": "Naziv zemlje",
       "REFERER_LINK": "Veza reference",
       "CUSTOM_ATTRIBUTE_LIST": "Lista",

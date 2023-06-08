@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe ConversationReplyMailer, type: :mailer do
+RSpec.describe ConversationReplyMailer do
   describe 'reply' do
     let!(:account) { create(:account) }
     let!(:agent) { create(:user, email: 'agent1@example.com', account: account) }
@@ -171,7 +171,7 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
 
       it 'renders assignee name in the from address' do
         mail = described_class.email_reply(message)
-        expect(mail['from'].value).to eq "#{conversation.assignee.available_name} from #{smtp_email_channel.inbox.name}"
+        expect(mail['from'].value).to eq "#{conversation.assignee.available_name} from #{smtp_email_channel.inbox.name} <#{smtp_email_channel.email}>"
       end
 
       it 'renders inbox name in the from address' do

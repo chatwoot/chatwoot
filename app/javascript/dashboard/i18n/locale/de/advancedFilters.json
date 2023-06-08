@@ -22,7 +22,8 @@
       "is_not_present": "Ist nicht anwesend",
       "is_greater_than": "Ist größer als",
       "is_less_than": "Ist kleiner als",
-      "days_before": "Ist x Tage her"
+      "days_before": "Ist x Tage her",
+      "starts_with": "Starts with"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Ja",
@@ -37,6 +38,7 @@
       "CAMPAIGN_NAME": "Kampagnenname",
       "LABELS": "Labels",
       "BROWSER_LANGUAGE": "Browsersprache",
+      "PRIORITY": "Priority",
       "COUNTRY_NAME": "Ländername",
       "REFERER_LINK": "Referer-Link",
       "CUSTOM_ATTRIBUTE_LIST": "Liste",

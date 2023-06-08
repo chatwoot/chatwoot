@@ -6,7 +6,11 @@ module MessageFilterHelpers
   end
 
   def webhook_sendable?
-    incoming? || outgoing?
+    incoming? || outgoing? || template?
+  end
+
+  def slack_hook_sendable?
+    incoming? || outgoing? || template?
   end
 
   def notifiable?

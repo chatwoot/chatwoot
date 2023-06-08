@@ -22,7 +22,8 @@
       "is_not_present": "Şu an değil",
       "is_greater_than": "Şundan büyük",
       "is_less_than": "Şundan daha az",
-      "days_before": "x gün önce"
+      "days_before": "x gün önce",
+      "starts_with": "Starts with"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Doğru",
@@ -37,6 +38,7 @@
       "CAMPAIGN_NAME": "Kampanya Adı",
       "LABELS": "Etiketler",
       "BROWSER_LANGUAGE": "Tarayıcı Dili",
+      "PRIORITY": "Priority",
       "COUNTRY_NAME": "Ülke Adı",
       "REFERER_LINK": "Yönlendirme bağlantısı",
       "CUSTOM_ATTRIBUTE_LIST": "Liste",

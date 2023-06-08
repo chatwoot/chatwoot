@@ -22,7 +22,8 @@
       "is_not_present": "Δεν υπάρχει",
       "is_greater_than": "Είναι μεγαλύτερο από",
       "is_less_than": "Είναι μικρότερο από",
-      "days_before": "Είναι x ημέρες πριν"
+      "days_before": "Είναι x ημέρες πριν",
+      "starts_with": "Starts with"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "True",
@@ -37,6 +38,7 @@
       "CAMPAIGN_NAME": "Όνομα Καμπάνιας",
       "LABELS": "Ετικέτες",
       "BROWSER_LANGUAGE": "Γλώσσα Περιήγησης",
+      "PRIORITY": "Priority",
       "COUNTRY_NAME": "Όνομα Χώρας",
       "REFERER_LINK": "Σύνδεσμος αναφοράς",
       "CUSTOM_ATTRIBUTE_LIST": "Λίστα",

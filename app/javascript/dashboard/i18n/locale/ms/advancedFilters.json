@@ -22,7 +22,8 @@
       "is_not_present": "Tidak sedia ada",
       "is_greater_than": "Adalah lebih besar",
       "is_less_than": "Adalah lebih kurang",
-      "days_before": "Adalah x hari sebelum"
+      "days_before": "Adalah x hari sebelum",
+      "starts_with": "Starts with"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Benar",
@@ -37,6 +38,7 @@
       "CAMPAIGN_NAME": "Nama Kempen",
       "LABELS": "Label",
       "BROWSER_LANGUAGE": "Bahasa Pelayar",
+      "PRIORITY": "Priority",
       "COUNTRY_NAME": "Nama Negara",
       "REFERER_LINK": "Perujuk pautan",
       "CUSTOM_ATTRIBUTE_LIST": "Senarai",

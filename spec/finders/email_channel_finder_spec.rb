@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ::EmailChannelFinder do
+describe EmailChannelFinder do
   include ActionMailbox::TestHelper
   let!(:channel_email) { create(:channel_email) }
 
@@ -28,6 +28,30 @@ describe ::EmailChannelFinder do
       it 'return channel with to+extension email' do
         channel_email.update(email: 'test@example.com')
         reply_mail.mail['to'] = 'test+123@example.com'
+        channel = described_class.new(reply_mail.mail).perform
+        expect(channel).to eq(channel_email)
+      end
+
+      it 'return channel with cc email' do
+        channel_email.update(email: 'test@example.com')
+        reply_mail.mail['to'] = nil
+        reply_mail.mail['cc'] = 'test@example.com'
+        channel = described_class.new(reply_mail.mail).perform
+        expect(channel).to eq(channel_email)
+      end
+
+      it 'return channel with bcc email' do
+        channel_email.update(email: 'test@example.com')
+        reply_mail.mail['to'] = nil
+        reply_mail.mail['bcc'] = 'test@example.com'
+        channel = described_class.new(reply_mail.mail).perform
+        expect(channel).to eq(channel_email)
+      end
+
+      it 'return channel with X-Original-To email' do
+        channel_email.update(email: 'test@example.com')
+        reply_mail.mail['to'] = nil
+        reply_mail.mail['X-Original-To'] = 'test@example.com'
         channel = described_class.new(reply_mail.mail).perform
         expect(channel).to eq(channel_email)
       end

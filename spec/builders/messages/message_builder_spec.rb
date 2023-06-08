@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ::Messages::MessageBuilder do
+describe Messages::MessageBuilder do
   subject(:message_builder) { described_class.new(user, conversation, params).perform }
 
   let(:account) { create(:account) }
@@ -97,6 +97,17 @@ describe ::Messages::MessageBuilder do
       it 'does not create message with wrong cc and bcc email addresses' do
         params = ActionController::Parameters.new({ cc_emails: 'test.com', bcc_emails: 'test_bcc.com' })
         expect { described_class.new(user, conversation, params).perform }.to raise_error 'Invalid email address'
+      end
+
+      it 'strips off whitespace before saving cc_emails and bcc_emails' do
+        cc_emails = ' test1@test.com , test2@test.com, test3@test.com'
+        bcc_emails = 'test1@test.com,test2@test.com, test3@test.com '
+        params = ActionController::Parameters.new({ cc_emails: cc_emails, bcc_emails: bcc_emails })
+
+        message = described_class.new(user, conversation, params).perform
+
+        expect(message.content_attributes[:cc_emails]).to eq ['test1@test.com', 'test2@test.com', 'test3@test.com']
+        expect(message.content_attributes[:bcc_emails]).to eq ['test1@test.com', 'test2@test.com', 'test3@test.com']
       end
     end
   end

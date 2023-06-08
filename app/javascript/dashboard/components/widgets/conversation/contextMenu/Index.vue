@@ -23,6 +23,14 @@
         @click="snoozeConversation(option.snoozedUntil)"
       />
     </menu-item-with-submenu>
+    <menu-item-with-submenu :option="priorityConfig">
+      <menu-item
+        v-for="(option, i) in priorityConfig.options"
+        :key="i"
+        :option="option"
+        @click="assignPriority(option.key)"
+      />
+    </menu-item-with-submenu>
     <menu-item-with-submenu
       :option="labelMenuConfig"
       :sub-menu-available="!!labels.length"
@@ -69,8 +77,9 @@
 <script>
 import MenuItem from './menuItem.vue';
 import MenuItemWithSubmenu from './menuItemWithSubmenu.vue';
-import wootConstants from 'dashboard/constants.js';
+import wootConstants from 'dashboard/constants/globals';
 import snoozeTimesMixin from 'dashboard/mixins/conversation/snoozeTimesMixin';
+import agentMixin from 'dashboard/mixins/agentMixin';
 import { mapGetters } from 'vuex';
 import AgentLoadingPlaceholder from './agentLoadingPlaceholder.vue';
 export default {
@@ -79,7 +88,7 @@ export default {
     MenuItemWithSubmenu,
     AgentLoadingPlaceholder,
   },
-  mixins: [snoozeTimesMixin],
+  mixins: [snoozeTimesMixin, agentMixin],
   props: {
     status: {
       type: String,
@@ -91,6 +100,10 @@ export default {
     },
     inboxId: {
       type: Number,
+      default: null,
+    },
+    priority: {
+      type: String,
       default: null,
     },
   },
@@ -140,6 +153,33 @@ export default {
           },
         ],
       },
+      priorityConfig: {
+        key: 'priority',
+        label: this.$t('CONVERSATION.PRIORITY.TITLE'),
+        icon: 'warning',
+        options: [
+          {
+            label: this.$t('CONVERSATION.PRIORITY.OPTIONS.NONE'),
+            key: null,
+          },
+          {
+            label: this.$t('CONVERSATION.PRIORITY.OPTIONS.URGENT'),
+            key: 'urgent',
+          },
+          {
+            label: this.$t('CONVERSATION.PRIORITY.OPTIONS.HIGH'),
+            key: 'high',
+          },
+          {
+            label: this.$t('CONVERSATION.PRIORITY.OPTIONS.MEDIUM'),
+            key: 'medium',
+          },
+          {
+            label: this.$t('CONVERSATION.PRIORITY.OPTIONS.LOW'),
+            key: 'low',
+          },
+        ].filter(item => item.key !== this.priority),
+      },
       labelMenuConfig: {
         key: 'label',
         icon: 'tag',
@@ -163,6 +203,16 @@ export default {
       teams: 'teams/getTeams',
       assignableAgentsUiFlags: 'inboxAssignableAgents/getUIFlags',
     }),
+    filteredAgentOnAvailability() {
+      const agents = this.$store.getters[
+        'inboxAssignableAgents/getAssignableAgents'
+      ](this.inboxId);
+      const agentsByUpdatedPresence = this.getAgentsByUpdatedPresence(agents);
+      const filteredAgents = this.sortedAgentsByAvailability(
+        agentsByUpdatedPresence
+      );
+      return filteredAgents;
+    },
     assignableAgents() {
       return [
         {
@@ -173,9 +223,7 @@ export default {
           account_id: 0,
           email: 'None',
         },
-        ...this.$store.getters['inboxAssignableAgents/getAssignableAgents'](
-          this.inboxId
-        ),
+        ...this.filteredAgentOnAvailability,
       ];
     },
   },
@@ -193,6 +241,9 @@ export default {
         this.snoozeTimes[snoozedUntil] || null
       );
     },
+    assignPriority(priority) {
+      this.$emit('assign-priority', priority);
+    },
     show(key) {
       // If the conversation status is same as the action, then don't display the option
       // i.e.: Don't show an option to resolve if the conversation is already resolved.
@@ -204,6 +255,7 @@ export default {
         ...(type === 'icon' && { icon: option.icon }),
         ...(type === 'label' && { color: option.color }),
         ...(type === 'agent' && { thumbnail: option.thumbnail }),
+        ...(type === 'agent' && { status: option.availability_status }),
         ...(type === 'text' && { label: option.label }),
         ...(type === 'label' && { label: option.title }),
         ...(type === 'agent' && { label: option.name }),

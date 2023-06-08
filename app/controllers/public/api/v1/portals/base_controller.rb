@@ -5,6 +5,9 @@ class Public::Api::V1::Portals::BaseController < PublicController
 
   def set_locale(&)
     switch_locale_with_portal(&) if params[:locale].present?
+    switch_locale_with_article(&) if params[:article_slug].present?
+
+    yield
   end
 
   def switch_locale_with_portal(&)
@@ -16,6 +19,18 @@ class Public::Api::V1::Portals::BaseController < PublicController
     elsif is_locale_variant_available
       @locale = locale_without_variant
     end
+
+    I18n.with_locale(@locale, &)
+  end
+
+  def switch_locale_with_article(&)
+    article = Article.find_by(slug: params[:article_slug])
+
+    @locale = if article.category.present?
+                article.category.locale
+              else
+                'en'
+              end
 
     I18n.with_locale(@locale, &)
   end

@@ -18,18 +18,18 @@ export const initializeAnalyticsEvents = () => {
       });
     }
   });
-  window.bus.$on(ANALYTICS_RESET, () => {});
 };
 
 const initializeAudioAlerts = user => {
-  // InitializeAudioNotifications
   const { ui_settings: uiSettings } = user || {};
   const {
     always_play_audio_alert: alwaysPlayAudioAlert,
     enable_audio_alerts: audioAlertType,
     alert_if_unread_assigned_conversation_exist: alertIfUnreadConversationExist,
     notification_tone: audioAlertTone,
-  } = uiSettings;
+    // UI Settings can be undefined initally as we don't send the
+    // entire payload for the user during the signup process.
+  } = uiSettings || {};
 
   DashboardAudioNotificationHelper.setInstanceValues({
     currentUserId: user.id,
@@ -57,6 +57,7 @@ export const initializeChatwootEvents = () => {
       window.$chatwoot.setCustomAttributes({
         signedUpAt: user.created_at,
         cloudCustomer: 'true',
+        account_id: user.account_id,
       });
     }
 

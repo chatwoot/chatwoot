@@ -1,8 +1,23 @@
 <template>
   <div class="code--container">
-    <button class="button small button--copy-code" @click="onCopy">
-      {{ $t('COMPONENTS.CODE.BUTTON_TEXT') }}
-    </button>
+    <div class="code--action-area">
+      <form
+        v-if="enableCodePen"
+        class="code--codeopen-form"
+        action="https://codepen.io/pen/define"
+        method="POST"
+        target="_blank"
+      >
+        <input type="hidden" name="data" :value="codepenScriptValue" />
+
+        <button type="submit" class="button secondary tiny">
+          {{ $t('COMPONENTS.CODE.CODEPEN') }}
+        </button>
+      </form>
+      <button class="button secondary tiny" @click="onCopy">
+        {{ $t('COMPONENTS.CODE.BUTTON_TEXT') }}
+      </button>
+    </div>
     <highlightjs v-if="script" :language="lang" :code="script" />
   </div>
 </template>
@@ -21,6 +36,24 @@ export default {
       type: String,
       default: 'javascript',
     },
+    enableCodePen: {
+      type: Boolean,
+      default: false,
+    },
+    codepenTitle: {
+      type: String,
+      default: 'Chatwoot Codepen',
+    },
+  },
+  computed: {
+    codepenScriptValue() {
+      const lang = this.lang === 'javascript' ? 'js' : this.lang;
+      return JSON.stringify({
+        title: this.codepenTitle,
+        private: true,
+        [lang]: this.script,
+      });
+    },
   },
   methods: {
     async onCopy(e) {
@@ -37,10 +70,14 @@ export default {
   position: relative;
   text-align: left;
 
-  .button--copy-code {
-    margin-top: 0;
+  .code--action-area {
+    top: var(--space-small);
     position: absolute;
-    right: 0;
+    right: var(--space-small);
+  }
+
+  .code--codeopen-form {
+    display: inline-block;
   }
 }
 </style>

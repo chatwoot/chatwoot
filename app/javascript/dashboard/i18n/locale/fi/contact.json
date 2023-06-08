@@ -122,6 +122,7 @@
         "LABEL": "Puhelinnumero",
         "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
         "ERROR": "Phone number should be either empty or of E.164 format",
+        "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "This phone number is in use for another contact."
       },
       "LOCATION": {
@@ -131,6 +132,17 @@
       "COMPANY_NAME": {
         "PLACEHOLDER": "Anna yrityksen nimi",
         "LABEL": "Yrityksen nimi"
+      },
+      "COUNTRY": {
+        "PLACEHOLDER": "Enter the country name",
+        "LABEL": "Country Name",
+        "SELECT_PLACEHOLDER": "Select",
+        "REMOVE": "Poista",
+        "SELECT_COUNTRY": "Select Country"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Enter the city name",
+        "LABEL": "City Name"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -171,6 +183,7 @@
       },
       "INBOX": {
         "LABEL": "Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Select an inbox"
       },
       "SUBJECT": {

@@ -6,6 +6,8 @@ import {
   toggleTyping,
   setUserLastSeenAt,
   toggleStatus,
+  setCustomAttributes,
+  deleteCustomAttribute,
 } from 'widget/api/conversation';
 
 import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
@@ -48,6 +50,10 @@ export const actions = {
         meta: { ...meta, error: '' },
       });
     }
+  },
+
+  setLastMessageId: async ({ commit }) => {
+    commit('setLastMessageId');
   },
 
   sendAttachment: async ({ commit }, params) => {
@@ -97,6 +103,36 @@ export const actions = {
     }
   },
 
+  syncLatestMessages: async ({ state, commit }) => {
+    try {
+      const { lastMessageId, conversations } = state;
+
+      const {
+        data: { payload, meta },
+      } = await getMessagesAPI({ after: lastMessageId });
+
+      const { contact_last_seen_at: lastSeen } = meta;
+      const formattedMessages = getNonDeletedMessages({ messages: payload });
+      const missingMessages = formattedMessages.filter(
+        message => conversations?.[message.id] === undefined
+      );
+      if (!missingMessages.length) return;
+      missingMessages.forEach(message => {
+        conversations[message.id] = message;
+      });
+      // Sort conversation messages by created_at
+      const updatedConversation = Object.fromEntries(
+        Object.entries(conversations).sort(
+          (a, b) => a[1].created_at - b[1].created_at
+        )
+      );
+      commit('conversation/setMetaUserLastSeenAt', lastSeen, { root: true });
+      commit('setMissingMessagesInConversation', updatedConversation);
+    } catch (error) {
+      // IgnoreError
+    }
+  },
+
   clearConversations: ({ commit }) => {
     commit('clearConversations');
   },
@@ -138,5 +174,21 @@ export const actions = {
 
   resolveConversation: async () => {
     await toggleStatus();
+  },
+
+  setCustomAttributes: async (_, customAttributes = {}) => {
+    try {
+      await setCustomAttributes(customAttributes);
+    } catch (error) {
+      // IgnoreError
+    }
+  },
+
+  deleteCustomAttribute: async (_, customAttribute) => {
+    try {
+      await deleteCustomAttribute(customAttribute);
+    } catch (error) {
+      // IgnoreError
+    }
   },
 };

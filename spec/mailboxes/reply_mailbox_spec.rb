@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ReplyMailbox, type: :mailbox do
+RSpec.describe ReplyMailbox do
   include ActionMailbox::TestHelper
 
   describe 'add mail as reply in a conversation' do
@@ -62,7 +62,51 @@ RSpec.describe ReplyMailbox, type: :mailbox do
 
       it 'find channel with in-reply-to mail' do
         described_subject
-        expect(conversation_1.messages.last.content).to eq("Let's talk about these images:")
+        expect(conversation_1.messages.last.content).to include("Let's talk about these images:")
+      end
+    end
+
+    context 'with inline attachments' do
+      let(:mail_with_inline_images) { create_inbound_email_from_fixture('mail_with_inline_images.eml') }
+      let(:described_subject) { described_class.receive mail_with_inline_images }
+
+      before do
+        conversation.uuid = '6bdc3f4d-0bed-4515-a284-5d916fdde489'
+        conversation.save!
+
+        described_subject
+      end
+
+      it 'mail content contains img source' do
+        expect(conversation.messages.last.content).to include('HTML content and inline images')
+      end
+
+      it 'will not add the attachments' do
+        expect(conversation.messages.last.attachments.count).to eq(0)
+
+        html_full_content = conversation.messages.last.content_attributes[:email][:html_content][:full]
+        expect(html_full_content).to include('img')
+      end
+    end
+
+    context 'with inline attachments and plain text' do
+      let(:mail_with_plain_text_and_inline_image) { create_inbound_email_from_fixture('mail_with_plain_text_and_inline_image.eml') }
+      let(:described_subject) { described_class.receive mail_with_plain_text_and_inline_image }
+
+      before do
+        conversation.uuid = '6bdc3f4d-0bed-4515-a284-5d916fdde489'
+        conversation.save!
+
+        described_subject
+      end
+
+      it 'will not add the attachments' do
+        described_class.receive mail_with_plain_text_and_inline_image
+        text_full_content = conversation.messages.last.content_attributes[:email][:text_content][:full]
+
+        expect(text_full_content).to include('img')
+        expect(conversation.messages.last.content).to include("Let's add no HTML content here, just plain text and images")
+        expect(conversation.messages.last.attachments.count).to eq(0)
       end
     end
 

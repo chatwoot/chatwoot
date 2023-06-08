@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Kopyala",
+      "CODEPEN": "Open in CodePen",
       "COPY_SUCCESSFUL": "Kod panoya başarıyla kopyalandı"
     },
     "SHOW_MORE_BLOCK": {
@@ -202,6 +203,7 @@
     "HOME": "Anasayfa",
     "AGENTS": "Kullanıcılar",
     "AGENT_BOTS": "Bots",
+    "AUDIT_LOGS": "Audit Logs",
     "INBOXES": "Gelen kutuları",
     "NOTIFICATIONS": "Bildirimler",
     "CANNED_RESPONSES": "Hazır Yanıtlar",

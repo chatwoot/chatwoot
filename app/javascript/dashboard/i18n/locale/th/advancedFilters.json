@@ -22,7 +22,8 @@
       "is_not_present": "ไม่แสดงอยู่",
       "is_greater_than": "หลังจาก",
       "is_less_than": "ก่อนหน้า",
-      "days_before": "x วันก่อน"
+      "days_before": "x วันก่อน",
+      "starts_with": "Starts with"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "จริง",
@@ -37,6 +38,7 @@
       "CAMPAIGN_NAME": "ชื่อแคมเปญ",
       "LABELS": "ป้ายกำกับ",
       "BROWSER_LANGUAGE": "ภาษาของเบราว์เซอร์",
+      "PRIORITY": "Priority",
       "COUNTRY_NAME": "ชื่อประเทศ",
       "REFERER_LINK": "ลิงก์อ้างอิง",
       "CUSTOM_ATTRIBUTE_LIST": "รายการ",

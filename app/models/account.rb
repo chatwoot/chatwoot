@@ -10,7 +10,6 @@
 #  limits                :jsonb
 #  locale                :integer          default("en")
 #  name                  :string           not null
-#  settings_flags        :integer          default(0), not null
 #  status                :integer          default("active")
 #  support_email         :string(100)
 #  created_at            :datetime         not null
@@ -33,13 +32,9 @@ class Account < ApplicationRecord
     check_for_column: false
   }.freeze
 
-  ACCOUNT_SETTINGS_FLAGS = {
-    1 => :custom_email_domain_enabled
-  }.freeze
-
   validates :name, presence: true
   validates :auto_resolve_duration, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 999, allow_nil: true }
-  validates :name, length: { maximum: 255 }
+  validates :domain, length: { maximum: 100 }
 
   has_many :account_users, dependent: :destroy_async
   has_many :agent_bot_inboxes, dependent: :destroy_async
@@ -81,8 +76,6 @@ class Account < ApplicationRecord
   has_many :webhooks, dependent: :destroy_async
   has_many :whatsapp_channels, dependent: :destroy_async, class_name: '::Channel::Whatsapp'
   has_many :working_hours, dependent: :destroy_async
-
-  has_flags ACCOUNT_SETTINGS_FLAGS.merge(column: 'settings_flags').merge(DEFAULT_QUERY_SETTING)
 
   enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h
   enum status: { active: 0, suspended: 1 }
@@ -156,4 +149,5 @@ class Account < ApplicationRecord
 end
 
 Account.prepend_mod_with('Account')
+Account.include_mod_with('EnterpriseAccountConcern')
 Account.include_mod_with('Audit::Account')

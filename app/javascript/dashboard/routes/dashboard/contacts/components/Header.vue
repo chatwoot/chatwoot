@@ -70,6 +70,7 @@
         </woot-button>
 
         <woot-button
+          v-if="isAdmin"
           color-scheme="info"
           icon="upload"
           class="clear"
@@ -84,8 +85,10 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import adminMixin from 'dashboard/mixins/isAdmin';
 
 export default {
+  mixins: [adminMixin],
   props: {
     headerTitle: {
       type: String,

@@ -42,11 +42,10 @@
         </div>
         <p
           v-if="message.showAvatar || hasRecordedResponse"
+          v-dompurify-html="agentName"
           class="agent-name"
           :class="$dm('text-slate-700', 'dark:text-slate-200')"
-        >
-          {{ agentName }}
-        </p>
+        />
       </div>
     </div>
 
@@ -119,13 +118,15 @@ export default {
       return type;
     },
     agentName() {
-      if (this.message.message_type === MESSAGE_TYPE.TEMPLATE) {
-        return 'Bot';
-      }
       if (this.message.sender) {
         return this.message.sender.available_name || this.message.sender.name;
       }
-      return 'Bot';
+
+      if (this.useInboxAvatarForBot) {
+        return this.channelConfig.websiteName;
+      }
+
+      return this.$t('UNREAD_VIEW.BOT');
     },
     avatarUrl() {
       // eslint-disable-next-line

@@ -74,6 +74,11 @@
           "LABEL": "Uw e-mailadres",
           "PLACEHOLDER": "Voer een e-mailadres in van de medewerker"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Beschikbaarheid",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "Bewerk medewerker"
       },
       "BUTTON_TEXT": "Bewerken",
@@ -105,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "Zoek agenten",
-          "TEAM": "Teams zoeken"
+          "TEAM": "Teams zoeken",
+          "INPUT": "Search for agents"
         }
       }
     }

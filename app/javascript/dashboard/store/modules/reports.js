@@ -7,7 +7,7 @@ import { REPORTS_EVENTS } from '../../helper/AnalyticsHelper/events';
 import {
   reconcileHeatmapData,
   clampDataBetweenTimeline,
-} from 'helpers/ReportsDataHelper';
+} from 'shared/helpers/ReportsDataHelper';
 
 const state = {
   fetchingStatus: false,
@@ -70,7 +70,7 @@ export const actions = {
   },
   fetchAccountConversationHeatmap({ commit }, reportObj) {
     commit(types.default.TOGGLE_HEATMAP_LOADING, true);
-    Report.getReports({ ...reportObj, group_by: 'hour' }).then(heatmapData => {
+    Report.getReports({ ...reportObj, groupBy: 'hour' }).then(heatmapData => {
       let { data } = heatmapData;
       data = clampDataBetweenTimeline(data, reportObj.from, reportObj.to);
 
@@ -180,7 +180,7 @@ export const actions = {
       });
   },
   downloadAccountConversationHeatmap(_, reportObj) {
-    Report.getConversationTrafficCSV(reportObj)
+    Report.getConversationTrafficCSV()
       .then(response => {
         downloadCsvFile(
           generateFileName({

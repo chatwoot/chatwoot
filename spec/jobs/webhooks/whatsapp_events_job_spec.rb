@@ -1,10 +1,27 @@
 require 'rails_helper'
 
-RSpec.describe Webhooks::WhatsappEventsJob, type: :job do
+RSpec.describe Webhooks::WhatsappEventsJob do
   subject(:job) { described_class }
 
   let(:channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false) }
-  let(:params)  { { phone_number: channel.phone_number } }
+  let(:params)  do
+    {
+      object: 'whatsapp_business_account',
+      phone_number: channel.phone_number,
+      entry: [{
+        changes: [
+          {
+            value: {
+              metadata: {
+                phone_number_id: channel.provider_config['phone_number_id'],
+                display_phone_number: channel.phone_number.delete('+')
+              }
+            }
+          }
+        ]
+      }]
+    }
+  end
   let(:process_service) { double }
 
   before do
@@ -14,26 +31,60 @@ RSpec.describe Webhooks::WhatsappEventsJob, type: :job do
   it 'enqueues the job' do
     expect { job.perform_later(params) }.to have_enqueued_job(described_class)
       .with(params)
-      .on_queue('default')
+      .on_queue('low')
   end
 
   context 'when whatsapp_cloud provider' do
-    it 'enques Whatsapp::IncomingMessageWhatsappCloudService' do
+    it 'enqueue Whatsapp::IncomingMessageWhatsappCloudService' do
       allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
       expect(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new)
       job.perform_now(params)
     end
 
-    it 'will not enques Whatsapp::IncomingMessageWhatsappCloudService if channel reauthorization required' do
+    it 'will not enqueue message jobs based on phone number in the URL if the entry payload is not present' do
+      params = {
+        object: 'whatsapp_business_account',
+        phone_number: channel.phone_number,
+        entry: [{ changes: [{}] }]
+      }
+      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new)
+      allow(Whatsapp::IncomingMessageService).to receive(:new)
+
+      expect(Whatsapp::IncomingMessageWhatsappCloudService).not_to receive(:new)
+      expect(Whatsapp::IncomingMessageService).not_to receive(:new)
+      job.perform_now(params)
+    end
+
+    it 'will not enqueue Whatsapp::IncomingMessageWhatsappCloudService if channel reauthorization required' do
       channel.prompt_reauthorization!
       allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
       expect(Whatsapp::IncomingMessageWhatsappCloudService).not_to receive(:new)
       job.perform_now(params)
     end
+
+    it 'will not enqueue if channel is not present' do
+      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
+      allow(Whatsapp::IncomingMessageService).to receive(:new).and_return(process_service)
+
+      expect(Whatsapp::IncomingMessageWhatsappCloudService).not_to receive(:new)
+      expect(Whatsapp::IncomingMessageService).not_to receive(:new)
+      job.perform_now(phone_number: 'random_phone_number')
+    end
+
+    it 'will not enqueue Whatsapp::IncomingMessageWhatsappCloudService if account is suspended' do
+      account = channel.account
+      account.update!(status: :suspended)
+      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
+      allow(Whatsapp::IncomingMessageService).to receive(:new).and_return(process_service)
+
+      expect(Whatsapp::IncomingMessageWhatsappCloudService).not_to receive(:new)
+      expect(Whatsapp::IncomingMessageService).not_to receive(:new)
+      job.perform_now(params)
+    end
   end
 
   context 'when default provider' do
-    it 'enques Whatsapp::IncomingMessageService' do
+    it 'enqueue Whatsapp::IncomingMessageService' do
       stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook')
       channel.update(provider: 'default')
       allow(Whatsapp::IncomingMessageService).to receive(:new).and_return(process_service)
@@ -43,7 +94,7 @@ RSpec.describe Webhooks::WhatsappEventsJob, type: :job do
   end
 
   context 'when whatsapp business params' do
-    it 'enques Whatsapp::IncomingMessageWhatsappCloudService based on the number in payload' do
+    it 'enqueue Whatsapp::IncomingMessageWhatsappCloudService based on the number in payload' do
       other_channel = create(:channel_whatsapp, phone_number: '+1987654', provider: 'whatsapp_cloud', sync_templates: false,
                                                 validate_provider_config: false)
       wb_params = {

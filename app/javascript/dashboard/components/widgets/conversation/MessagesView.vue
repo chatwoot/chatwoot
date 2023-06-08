@@ -36,6 +36,7 @@
         v-for="message in getReadMessages"
         :key="message.id"
         class="message--read ph-no-capture"
+        data-clarity-mask="True"
         :data="message"
         :is-a-tweet="isATweet"
         :is-a-whatsapp-channel="isAWhatsAppChannel"
@@ -56,6 +57,7 @@
         v-for="message in getUnReadMessages"
         :key="message.id"
         class="message--unread ph-no-capture"
+        data-clarity-mask="True"
         :data="message"
         :is-a-tweet="isATweet"
         :is-a-whatsapp-channel="isAWhatsAppChannel"
@@ -93,7 +95,9 @@ import { mapGetters } from 'vuex';
 
 import ReplyBox from './ReplyBox';
 import Message from './Message';
-import conversationMixin from '../../../mixins/conversations';
+import conversationMixin, {
+  filterDuplicateSourceMessages,
+} from '../../../mixins/conversations';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import { getTypingUsersText } from '../../../helper/commons';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -171,24 +175,28 @@ export default {
 
       return '';
     },
-
     getMessages() {
-      const [chat] = this.allConversations.filter(
-        c => c.id === this.currentChat.id
-      );
-      return chat;
+      const messages = this.currentChat.messages || [];
+      if (this.isAWhatsAppChannel) {
+        return filterDuplicateSourceMessages(messages);
+      }
+      return messages;
     },
     getReadMessages() {
-      const chat = this.getMessages;
-      return chat === undefined ? null : this.readMessages(chat);
+      return this.readMessages(
+        this.getMessages,
+        this.currentChat.agent_last_seen_at
+      );
     },
     getUnReadMessages() {
-      const chat = this.getMessages;
-      return chat === undefined ? null : this.unReadMessages(chat);
+      return this.unReadMessages(
+        this.getMessages,
+        this.currentChat.agent_last_seen_at
+      );
     },
     shouldShowSpinner() {
       return (
-        (this.getMessages && this.getMessages.dataFetched === undefined) ||
+        (this.currentChat && this.currentChat.dataFetched === undefined) ||
         (!this.listLoadingStatus && this.isLoadingPrevious)
       );
     },
@@ -208,7 +216,7 @@ export default {
 
     selectedTweet() {
       if (this.selectedTweetId) {
-        const { messages = [] } = this.getMessages;
+        const { messages = [] } = this.currentChat;
         const [selectedMessage] = messages.filter(
           message => message.id === this.selectedTweetId
         );
@@ -271,6 +279,7 @@ export default {
       if (newChat.id === oldChat.id) {
         return;
       }
+      this.fetchAllAttachmentsFromCurrentChat();
       this.selectedTweetId = null;
     },
   },
@@ -282,6 +291,7 @@ export default {
 
   mounted() {
     this.addScrollListener();
+    this.fetchAllAttachmentsFromCurrentChat();
   },
 
   beforeDestroy() {
@@ -290,6 +300,9 @@ export default {
   },
 
   methods: {
+    fetchAllAttachmentsFromCurrentChat() {
+      this.$store.dispatch('fetchAllAttachments', this.currentChat.id);
+    },
     removeBusListeners() {
       bus.$off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
       bus.$off(BUS_EVENTS.SET_TWEET_REPLY, this.setSelectedTweet);
@@ -360,7 +373,7 @@ export default {
     async fetchPreviousMessages(scrollTop = 0) {
       this.setScrollParams();
       const shouldLoadMoreMessages =
-        this.getMessages.dataFetched === true &&
+        this.currentChat.dataFetched === true &&
         !this.listLoadingStatus &&
         !this.isLoadingPrevious;
 
@@ -373,7 +386,7 @@ export default {
         try {
           await this.$store.dispatch('fetchPreviousMessages', {
             conversationId: this.currentChat.id,
-            before: this.getMessages.messages[0].id,
+            before: this.currentChat.messages[0].id,
           });
           const heightDifference =
             this.conversationPanel.scrollHeight - this.heightBeforeLoad;

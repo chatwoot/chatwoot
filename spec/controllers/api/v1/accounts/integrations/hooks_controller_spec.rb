@@ -35,7 +35,7 @@ RSpec.describe 'Integration Hooks API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        data = JSON.parse(response.body)
+        data = response.parsed_body
         expect(data['app_id']).to eq params[:app_id]
       end
     end
@@ -71,8 +71,35 @@ RSpec.describe 'Integration Hooks API', type: :request do
               as: :json
 
         expect(response).to have_http_status(:success)
-        data = JSON.parse(response.body)
+        data = response.parsed_body
         expect(data['app_id']).to eq 'slack'
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/integrations/hooks/{hook_id}/process_event' do
+    let(:hook) { create(:integrations_hook, account: account) }
+    let(:params) { { event: 'rephrase', payload: { test: 'test' } } }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post process_event_api_v1_account_integrations_hook_url(account_id: account.id, id: hook.id),
+             params: params,
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      it 'will process the events' do
+        post process_event_api_v1_account_integrations_hook_url(account_id: account.id, id: hook.id),
+             params: params,
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['message']).to eq('No processor found')
       end
     end
   end
@@ -104,7 +131,7 @@ RSpec.describe 'Integration Hooks API', type: :request do
                as: :json
 
         expect(response).to have_http_status(:success)
-        expect(::Integrations::Hook.exists?(hook.id)).to be false
+        expect(Integrations::Hook.exists?(hook.id)).to be false
       end
     end
   end

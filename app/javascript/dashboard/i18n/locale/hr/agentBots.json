@@ -1,68 +1,68 @@
 {
   "AGENT_BOTS": {
-    "HEADER": "Bots",
-    "LOADING_EDITOR": "Loading Editor...",
-    "HEADER_BTN_TXT": "Add Bot Configuration",
-    "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent bots allows you to automate the conversations</p>",
+    "HEADER": "Botovi",
+    "LOADING_EDITOR": "Otvaranje Editora...",
+    "HEADER_BTN_TXT": "Dodaj konfiguraciju Bota",
+    "SIDEBAR_TXT": "<p><b>Agentski Botovi</b> <p>Agentski botovi omogućuju automatizaciju razgovora</p>",
     "CSML_BOT_EDITOR": {
       "NAME": {
-        "LABEL": "Bot Name",
-        "PLACEHOLDER": "Give your bot a name",
-        "ERROR": "Bot name is required"
+        "LABEL": "Ime Bota",
+        "PLACEHOLDER": "Dodijeli ime Botu",
+        "ERROR": "Potrebno je unijeti ime Bota"
       },
       "DESCRIPTION": {
-        "LABEL": "Bot Description",
-        "PLACEHOLDER": "What does this bot do?"
+        "LABEL": "Opis Bota",
+        "PLACEHOLDER": "Što ovaj Bot radi?"
       },
       "BOT_CONFIG": {
-        "ERROR": "Please enter your CSML bot configuration above",
-        "API_ERROR": "Your CSML configuration is invalid, please fix it and try again."
+        "ERROR": "Unesi iznad svoju CSML bot konfiguraciju",
+        "API_ERROR": "Unesena CSML konfiguracija nije validna, molimo ispravite i ponovno unesite."
       },
-      "SUBMIT": "Validate and save"
+      "SUBMIT": "Validacija i pohrana"
     },
     "BOT_CONFIGURATION": {
-      "TITLE": "Select an agent bot",
-      "DESC": "You can set an agent bot from the list to this inbox. The bot can initially handle the conversation and transfer it to an agent when needed.",
-      "SUBMIT": "Update",
-      "DISCONNECT": "Disconnect Bot",
-      "SUCCESS_MESSAGE": "Successfully updated the agent bot",
-      "DISCONNECTED_SUCCESS_MESSAGE": "Successfully disconnected the agent bot",
-      "ERROR_MESSAGE": "Could not update the agent bot, please try again later",
-      "DISCONNECTED_ERROR_MESSAGE": "Could not disconnect the agent bot, please try again later",
-      "SELECT_PLACEHOLDER": "Select Bot"
+      "TITLE": "Izaberi agentskog bota",
+      "DESC": "Možeš dodijeliti agentskog bota iz liste ovom sandučiću. Bot može inicijalno voditi razgovor i predati ga agentu kad je potrebno.",
+      "SUBMIT": "Ažuriraj",
+      "DISCONNECT": "Isključi Bota",
+      "SUCCESS_MESSAGE": "Uspješno ažuriran agentski bot",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Uspješno isključen agentski bot",
+      "ERROR_MESSAGE": "Nije moguće ažurirati agentskog bota, molimo pokušajte kasnije",
+      "DISCONNECTED_ERROR_MESSAGE": "Nije moguće ažurirati agentskog bota, molimo pokušajte kasnije",
+      "SELECT_PLACEHOLDER": "Izaberi Bota"
     },
     "ADD": {
-      "TITLE": "Configure new bot",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "TITLE": "Konfiguriraj novog bota",
+      "CANCEL_BUTTON_TEXT": "Odustani",
       "API": {
-        "SUCCESS_MESSAGE": "Bot added successfully",
-        "ERROR_MESSAGE": "Could not add bot, Please try again later"
+        "SUCCESS_MESSAGE": "Uspješno dodan Bot",
+        "ERROR_MESSAGE": "Nije moguće dodati bota, molimo pokušajte kasnije"
       }
     },
     "LIST": {
-      "404": "No Bots found, you can create a bot by clicking the 'Configure new bot' Button ↗",
-      "LOADING": "Fetching Bots...",
-      "TYPE": "Bot Type"
+      "404": "Nije pronađen nijedan Bot, možeš kreirati Bota koristeći gumb 'Konfiguriraj novog bota' ↗",
+      "LOADING": "Dohvat Botova...",
+      "TYPE": "Tip Bota"
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
-      "TITLE": "Delete Bot",
-      "SUBMIT": "Delete",
-      "CANCEL_BUTTON_TEXT": "Cancel",
-      "DESCRIPTION": "Are you sure you want to delete this bot? This action is irreversible",
+      "BUTTON_TEXT": "Izbriši",
+      "TITLE": "Izbriši Bota",
+      "SUBMIT": "Izbriši",
+      "CANCEL_BUTTON_TEXT": "Odustani",
+      "DESCRIPTION": "Jeste li sigurni da želite izbrisati ovog bota? Akciju nije moguće poništiti",
       "API": {
-        "SUCCESS_MESSAGE": "Bot deleted successfully",
-        "ERROR_MESSAGE": "Could not able to delete bot, Please try again later"
+        "SUCCESS_MESSAGE": "Bot uspješno izbrisan",
+        "ERROR_MESSAGE": "Nije moguće izbrisati bota, molimo pokušajte kasnije"
       }
     },
     "EDIT": {
-      "BUTTON_TEXT": "Edit",
-      "LOADING": "Fetching Bots...",
-      "TITLE": "Edit Bot",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "BUTTON_TEXT": "Uredi",
+      "LOADING": "Dohvat Botova...",
+      "TITLE": "Uredi Bota",
+      "CANCEL_BUTTON_TEXT": "Odustani",
       "API": {
-        "SUCCESS_MESSAGE": "Bot updated successfully",
-        "ERROR_MESSAGE": "Could not update bot, Please try again later"
+        "SUCCESS_MESSAGE": "Bot uspješno izbrisan",
+        "ERROR_MESSAGE": "Nije moguće ažurirati bota, molimo pokušajte kasnije"
       }
     },
     "TYPES": {

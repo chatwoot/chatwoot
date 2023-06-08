@@ -85,7 +85,7 @@
     }
   }
 
-  .settings.back-button {
+  .header-section.back-button {
     direction: initial;
     margin-left: var(--space-normal);
     margin-right: var(--space-smaller);
@@ -259,6 +259,12 @@
       .layout-switch__container {
         transform: rotate(180deg);
       }
+    }
+
+    // Basic filter dropdown
+    .basic-filter {
+      left: 0;
+      right: unset;
     }
 
     // Card label

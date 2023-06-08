@@ -19,6 +19,22 @@ export const CONVERSATION_STATUS = {
   PENDING: 'pending',
   SNOOZED: 'snoozed',
 };
+
+export const CONVERSATION_PRIORITY = {
+  URGENT: 'urgent',
+  HIGH: 'high',
+  LOW: 'low',
+  MEDIUM: 'medium',
+};
+
+export const CONVERSATION_PRIORITY_ORDER = {
+  urgent: 1,
+  high: 2,
+  medium: 3,
+  low: 4,
+  null: 5,
+};
+
 // Size in mega bytes
 export const MAXIMUM_FILE_UPLOAD_SIZE = 40;
 export const MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL = 5;
@@ -43,24 +59,28 @@ export const ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP =
 export const CSAT_RATINGS = [
   {
     key: 'disappointed',
+    translationKey: 'CSAT.RATINGS.POOR',
     emoji: '😞',
     value: 1,
     color: '#FDAD2A',
   },
   {
     key: 'expressionless',
+    translationKey: 'CSAT.RATINGS.FAIR',
     emoji: '😑',
     value: 2,
     color: '#FFC532',
   },
   {
     key: 'neutral',
+    translationKey: 'CSAT.RATINGS.AVERAGE',
     emoji: '😐',
     value: 3,
     color: '#FCEC56',
   },
   {
     key: 'grinning',
+    translationKey: 'CSAT.RATINGS.GOOD',
     emoji: '😀',
     value: 4,
     color: '#6FD86F',
@@ -68,6 +88,7 @@ export const CSAT_RATINGS = [
   {
     key: 'smiling',
     emoji: '😍',
+    translationKey: 'CSAT.RATINGS.EXCELLENT',
     value: 5,
     color: '#44CE4B',
   },
@@ -76,6 +97,7 @@ export const CSAT_RATINGS = [
 export const AUDIO_FORMATS = {
   WEBM: 'audio/webm',
   OGG: 'audio/ogg',
+  WAV: 'audio/wav',
 };
 
 export const MESSAGE_VARIABLES = [

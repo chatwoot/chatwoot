@@ -122,6 +122,7 @@
         "LABEL": "Telefonszám",
         "HELP": "A telefonszámnak E.164 formátumúnak kell lennie, pl: +[+][országkód][körzetszám][helyi telefonszám]",
         "ERROR": "A telefonszámnak üresnek vagy E.164 formátumúnak kell lennie",
+        "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "Ez a telefonszám már egy másik kontakthoz tartozik."
       },
       "LOCATION": {
@@ -131,6 +132,17 @@
       "COMPANY_NAME": {
         "PLACEHOLDER": "Cégnév megadása",
         "LABEL": "Cégnév"
+      },
+      "COUNTRY": {
+        "PLACEHOLDER": "Enter the country name",
+        "LABEL": "Country Name",
+        "SELECT_PLACEHOLDER": "Select",
+        "REMOVE": "Eltávolítás",
+        "SELECT_COUNTRY": "Select Country"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Enter the city name",
+        "LABEL": "City Name"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -171,6 +183,7 @@
       },
       "INBOX": {
         "LABEL": "Fiók",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Válassz egy fiókot"
       },
       "SUBJECT": {

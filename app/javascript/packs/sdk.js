@@ -11,6 +11,7 @@ import {
   hasUserKeys,
 } from '../sdk/cookieHelpers';
 import { addClasses, removeClasses } from '../sdk/DOMHelpers';
+import { setCookieWithDomain } from '../sdk/cookieHelpers';
 import { SDK_SET_BUBBLE_VISIBILITY } from 'shared/constants/sharedFrameEvents';
 const runSDK = ({ baseUrl, websiteToken }) => {
   if (window.$chatwoot) {
@@ -19,6 +20,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
 
   const chatwootSettings = window.chatwootSettings || {};
   let locale = chatwootSettings.locale;
+  let baseDomain = chatwootSettings.baseDomain;
 
   if (chatwootSettings.useBrowserLanguage) {
     locale = window.navigator.language.replace('-', '_');
@@ -26,6 +28,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
 
   window.$chatwoot = {
     baseUrl,
+    baseDomain,
     hasLoaded: false,
     hideMessageBubble: chatwootSettings.hideMessageBubble || false,
     isOpen: false,
@@ -90,9 +93,9 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       window.$chatwoot.identifier = identifier;
       window.$chatwoot.user = user;
       IFrameHelper.sendMessage('set-user', { identifier, user });
-      Cookies.set(userCookieName, hashToBeStored, {
-        expires: 365,
-        sameSite: 'Lax',
+
+      setCookieWithDomain(userCookieName, hashToBeStored, {
+        baseDomain,
       });
     },
 
@@ -114,6 +117,26 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       }
     },
 
+    setConversationCustomAttributes(customAttributes = {}) {
+      if (!customAttributes || !Object.keys(customAttributes).length) {
+        throw new Error('Custom attributes should have atleast one key');
+      } else {
+        IFrameHelper.sendMessage('set-conversation-custom-attributes', {
+          customAttributes,
+        });
+      }
+    },
+
+    deleteConversationCustomAttribute(customAttribute = '') {
+      if (!customAttribute) {
+        throw new Error('Custom attribute is required');
+      } else {
+        IFrameHelper.sendMessage('delete-conversation-custom-attribute', {
+          customAttribute,
+        });
+      }
+    },
+
     setLabel(label = '') {
       IFrameHelper.sendMessage('set-label', { label });
     },
@@ -124,6 +147,12 @@ const runSDK = ({ baseUrl, websiteToken }) => {
 
     setLocale(localeToBeUsed = 'en') {
       IFrameHelper.sendMessage('set-locale', { locale: localeToBeUsed });
+    },
+
+    setColorScheme(darkMode = 'light') {
+      IFrameHelper.sendMessage('set-color-scheme', {
+        darkMode: getDarkMode(darkMode),
+      });
     },
 
     reset() {

@@ -80,7 +80,7 @@
         "CONVERSATION_CREATION": "Отправлять email уведомление, когда новый диалог создан",
         "CONVERSATION_MENTION": "Отправлять email уведомление, когда вас упоминают в диалоге",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Отправлять email уведомления при создании нового сообщения в назначенном диалоге",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Отправлять уведомления по электронной почте, когда в разговоре создается новое сообщение"
       },
       "API": {
         "UPDATE_SUCCESS": "Настройки уведомлений сохранены",
@@ -93,7 +93,7 @@
         "CONVERSATION_CREATION": "Отправлять push уведомление, когда новый диалог создан",
         "CONVERSATION_MENTION": "Отправлять уведомления при упоминании в разговоре",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Отправлять push уведомления при создании нового сообщения в назначенном диалоге",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Отправлять push-уведомления при создании нового сообщения в участвующем разговоре",
         "HAS_ENABLED_PUSH": "Вы включили push уведомления для этого браузера.",
         "REQUEST_PUSH": "Включить push-уведомления"
       },
@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Копировать",
+      "CODEPEN": "Открыть в CodePen",
       "COPY_SUCCESSFUL": "Код скопирован в буфер обмена"
     },
     "SHOW_MORE_BLOCK": {
@@ -194,7 +195,7 @@
     "CONVERSATIONS": "Диалоги",
     "ALL_CONVERSATIONS": "Диалоги",
     "MENTIONED_CONVERSATIONS": "Упоминания",
-    "PARTICIPATING_CONVERSATIONS": "Participating",
+    "PARTICIPATING_CONVERSATIONS": "Участвующие",
     "UNATTENDED_CONVERSATIONS": "Несвязанные",
     "REPORTS": "Отчёты",
     "SETTINGS": "Настройки",
@@ -202,6 +203,7 @@
     "HOME": "Главная",
     "AGENTS": "Операторы",
     "AGENT_BOTS": "Боты",
+    "AUDIT_LOGS": "Журнал аудита",
     "INBOXES": "Источники",
     "NOTIFICATIONS": "Уведомления",
     "CANNED_RESPONSES": "Шаблонные ответы",
@@ -212,7 +214,7 @@
     "LABELS": "Категории",
     "CUSTOM_ATTRIBUTES": "Пользовательские атрибуты",
     "AUTOMATION": "Автоматизация",
-    "MACROS": "Macros",
+    "MACROS": "Макрос",
     "TEAMS": "Команды",
     "BILLING": "Платёж",
     "CUSTOM_VIEWS_FOLDER": "Папки",
@@ -287,7 +289,7 @@
     }
   },
   "KEYBOARD_SHORTCUTS": {
-    "TOGGLE_MODAL": "View all shortcuts",
+    "TOGGLE_MODAL": "Показать все ярлыки",
     "TITLE": {
       "OPEN_CONVERSATION": "Открыть беседу",
       "RESOLVE_AND_NEXT": "Решить и перейти к следующему",

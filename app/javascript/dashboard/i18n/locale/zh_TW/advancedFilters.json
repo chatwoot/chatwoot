@@ -22,7 +22,8 @@
       "is_not_present": "不存在",
       "is_greater_than": "大於",
       "is_less_than": "小於",
-      "days_before": "x 天前"
+      "days_before": "x 天前",
+      "starts_with": "Starts with"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "True",
@@ -37,6 +38,7 @@
       "CAMPAIGN_NAME": "Campaign Name",
       "LABELS": "標籤",
       "BROWSER_LANGUAGE": "瀏覽器語言",
+      "PRIORITY": "Priority",
       "COUNTRY_NAME": "國家名稱",
       "REFERER_LINK": "推薦人連結",
       "CUSTOM_ATTRIBUTE_LIST": "列表",

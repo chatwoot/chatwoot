@@ -81,8 +81,7 @@ fa:
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
     conversation_traffic_csv:
-      date: تاریخ و زمان
-      conversations_count: تعداد گفتگوها
+      timezone: منطقه زمانی
     default_group_by: روز
     csat:
       headers:
@@ -113,6 +112,11 @@ fa:
         pending: "مکالمه توسط %{user_name} به عنوان معلق علامت گذاری شد"
         snoozed: "مکالمه توسط %{user_name} به تعویق افتاد"
         auto_resolved: "به دلیل %{duration} روز عدم فعالیت ، مکالمه توسط سیستم بسته شد"
+        system_auto_open: سیستم به دلیل یک پیام دریافتی جدید، مکالمه را دوباره باز کرد.
+      priority:
+        added: '%{user_name} اولویت را روی %{new_priority} تنظیم کرد'
+        updated: '%{user_name} اولویت را از %{old_priority} به %{new_priority} تغییر داد'
+        removed: '%{user_name} اولویت را حذف کرد'
       assignee:
         self_assigned: "%{user_name} این مکالمه را به خود اختصاص داد"
         assigned: "%{user_name} گفتگو را به %{assignee_name} اختصاص داد"
@@ -138,7 +142,7 @@ fa:
           reply_with_name: "%{assignee_name} از %{inbox_name} <reply+%{reply_email}>"
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} از %{inbox_name}"
+          reply_with_name: "%{assignee_name} از %{inbox_name} «%{from_email}»"
           reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "پیام‌های جدید در این مکالمه"
       transcript_subject: "متن مکالمه"
@@ -167,6 +171,9 @@ fa:
     google_translate:
       name: "مترجم گوگل"
       description: "با افزودن Google Translate یکپارچه سازی، ترجمه پیام ها را برای نمایندگان آسان تر کنید. Google translate به شناسایی خودکار زبان و تبدیل آن به زبان انتخاب شده توسط نماینده/مدیر حساب کمک می کند."
+    openai:
+      name: "OpenAI"
+      description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
   public_portal:
     search:
       search_placeholder: جستجوی مقاله براساس عنوان یا متن...

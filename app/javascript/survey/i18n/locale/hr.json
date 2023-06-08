@@ -1,18 +1,18 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Dear customer 👋, please take a few moments to share feedback about the conversation you had with %{inboxName}.",
+    "DESCRIPTION": "Dragi korisniče 👋, odvojite nekoliko trenutaka i podijelite dojam razogovora koji ste imali s %{inboxName}.",
     "RATING": {
-      "LABEL": "Rate your conversation",
-      "SUCCESS_MESSAGE": "Thank you for submitting the rating"
+      "LABEL": "Ocijeni svoj razgovor",
+      "SUCCESS_MESSAGE": "Hvala Vam na ocjeni"
     },
     "FEEDBACK": {
-      "LABEL": "Do you have any thoughts you'd like to share?",
-      "PLACEHOLDER": "Your feedback (optional)",
-      "BUTTON_TEXT": "Submit feedback"
+      "LABEL": "Želite li podijeliti neki komentar?",
+      "PLACEHOLDER": "Vaš komentar (opcionalno)",
+      "BUTTON_TEXT": "Unesi komentar"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Survey updated successfully",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      "SUCCESS_MESSAGE": "Anketa uspješno ažurirana",
+      "ERROR_MESSAGE": "Neuspješno spajanje na Woot Server, Molimo pokušajte kasnije"
     }
   },
   "POWERED_BY": "Powered by Chatwoot"

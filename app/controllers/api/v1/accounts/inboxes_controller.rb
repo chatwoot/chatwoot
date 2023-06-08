@@ -44,26 +44,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def update
     @inbox.update!(permitted_params.except(:channel))
     update_inbox_working_hours
-    channel_attributes = get_channel_attributes(@inbox.channel_type)
-
-    # Inbox update doesn't necessarily need channel attributes
-    return if permitted_params(channel_attributes)[:channel].blank?
-
-    if @inbox.inbox_type == 'Email'
-      begin
-        validate_email_channel(channel_attributes)
-      rescue StandardError => e
-        render json: { message: e }, status: :unprocessable_entity and return
-      end
-      @inbox.channel.reauthorized!
-    end
-
-    @inbox.channel.update!(permitted_params(channel_attributes)[:channel])
-    update_channel_feature_flags
-  end
-
-  def update_inbox_working_hours
-    @inbox.update_working_hours(params.permit(working_hours: Inbox::OFFISABLE_ATTRS)[:working_hours]) if params[:working_hours]
+    update_channel if channel_update_required?
   end
 
   def agent_bot
@@ -103,6 +84,35 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     account_channels_method.create!(permitted_params(channel_type_from_params::EDITABLE_ATTRS)[:channel].except(:type))
   end
 
+  def update_inbox_working_hours
+    @inbox.update_working_hours(params.permit(working_hours: Inbox::OFFISABLE_ATTRS)[:working_hours]) if params[:working_hours]
+  end
+
+  def update_channel
+    channel_attributes = get_channel_attributes(@inbox.channel_type)
+    return if permitted_params(channel_attributes)[:channel].blank?
+
+    validate_and_update_email_channel(channel_attributes) if @inbox.inbox_type == 'Email'
+
+    reauthorize_and_update_channel(channel_attributes)
+    update_channel_feature_flags
+  end
+
+  def channel_update_required?
+    permitted_params(get_channel_attributes(@inbox.channel_type))[:channel].present?
+  end
+
+  def validate_and_update_email_channel(channel_attributes)
+    validate_email_channel(channel_attributes)
+  rescue StandardError => e
+    render json: { message: e }, status: :unprocessable_entity and return
+  end
+
+  def reauthorize_and_update_channel(channel_attributes)
+    @inbox.channel.reauthorized! if @inbox.channel.respond_to?(:reauthorized!)
+    @inbox.channel.update!(permitted_params(channel_attributes)[:channel])
+  end
+
   def update_channel_feature_flags
     return unless @inbox.web_widget?
     return unless permitted_params(Channel::WebWidget::EDITABLE_ATTRS)[:channel].key? :selected_feature_flags
@@ -114,10 +124,13 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def inbox_attributes
     [:name, :avatar, :greeting_enabled, :greeting_message, :enable_email_collect, :csat_survey_enabled,
      :enable_auto_assignment, :working_hours_enabled, :out_of_office_message, :timezone, :allow_messages_after_resolved,
-     :lock_to_single_conversation]
+     :lock_to_single_conversation, :portal_id]
   end
 
   def permitted_params(channel_attributes = [])
+    # We will remove this line after fixing https://linear.app/chatwoot/issue/CW-1567/null-value-passed-as-null-string-to-backend
+    params.each { |k, v| params[k] = params[k] == 'null' ? nil : v }
+
     params.permit(
       *inbox_attributes,
       channel: [:type, *channel_attributes]

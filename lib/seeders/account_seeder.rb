@@ -12,7 +12,7 @@ class Seeders::AccountSeeder
   def initialize(account:)
     raise 'Account Seeding is not allowed.' unless ENV.fetch('ENABLE_ACCOUNT_SEEDING', !Rails.env.production?)
 
-    @account_data = HashWithIndifferentAccess.new(YAML.safe_load(File.read(Rails.root.join('lib/seeders/seed_data.yml'))))
+    @account_data = ActiveSupport::HashWithIndifferentAccess.new(YAML.safe_load(Rails.root.join('lib/seeders/seed_data.yml').read))
     @account = account
   end
 
@@ -90,6 +90,7 @@ class Seeders::AccountSeeder
                                                        inbox: contact_inbox.inbox, assignee: assignee)
     create_messages(conversation: conversation, messages: conversation_data['messages'])
     conversation.update_labels(conversation_data[:labels]) if conversation_data[:labels].present?
+    conversation.update!(priority: conversation_data[:priority]) if conversation_data[:priority].present?
   end
 
   def create_messages(conversation:, messages:)

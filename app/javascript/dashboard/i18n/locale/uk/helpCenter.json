@@ -228,14 +228,14 @@
         "DOMAIN": {
           "LABEL": "Домен для користувача",
           "PLACEHOLDER": "Власний домен порталу",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: https://example.com",
-          "ERROR": "Enter a valid domain URL"
+          "HELP_TEXT": "Додайте лише якщо ви хочете використовувати власний домен для своїх порталів. Наприклад: https://example.com",
+          "ERROR": "Введіть дійсну URL-адресу домену"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Посилання на головну сторінку",
           "PLACEHOLDER": "Посилання на головну сторінку порталу",
-          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: https://example.com",
-          "ERROR": "Enter a valid home page URL"
+          "HELP_TEXT": "Посилання буде використане для повернення з порталу на домашню сторінку. Наприклад: https://example.com",
+          "ERROR": "Введіть дійсний URL домашньої сторінки"
         },
         "THEME_COLOR": {
           "LABEL": "Колір теми порталу",
@@ -317,7 +317,7 @@
     "PUBLISH_ARTICLE": {
       "API": {
         "ERROR": "Помилка під час публікації статті",
-        "SUCCESS": "Article published successfully"
+        "SUCCESS": "Стаття успішно опублікована"
       }
     },
     "ARCHIVE_ARTICLE": {

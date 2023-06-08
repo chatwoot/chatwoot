@@ -22,7 +22,8 @@
       "is_not_present": "غير موجود",
       "is_greater_than": "هو أكبر من",
       "is_less_than": "هو أقل من",
-      "days_before": "قبل x أيام"
+      "days_before": "قبل x أيام",
+      "starts_with": "Starts with"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "صحيح",
@@ -37,6 +38,7 @@
       "CAMPAIGN_NAME": "اسم الحملة",
       "LABELS": "الوسوم",
       "BROWSER_LANGUAGE": "لغة المتصفح",
+      "PRIORITY": "Priority",
       "COUNTRY_NAME": "اسم الدولة",
       "REFERER_LINK": "رابط المرجع",
       "CUSTOM_ATTRIBUTE_LIST": "القائمة",

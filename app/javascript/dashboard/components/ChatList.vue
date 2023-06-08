@@ -11,15 +11,23 @@
       class="chat-list__top"
       :class="{ filter__applied: hasAppliedFiltersOrActiveFolders }"
     >
-      <h1 class="page-title text-truncate" :title="pageTitle">
-        {{ pageTitle }}
-      </h1>
-
-      <div class="filter--actions">
-        <chat-filter
+      <div class="flex-center chat-list__title">
+        <h1
+          class="page-sub-title text-truncate margin-bottom-0"
+          :title="pageTitle"
+        >
+          {{ pageTitle }}
+        </h1>
+        <span
           v-if="!hasAppliedFiltersOrActiveFolders"
-          @statusFilterChange="updateStatusType"
-        />
+          class="conversation--status-pill"
+        >
+          {{
+            this.$t(`CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.${activeStatus}.TEXT`)
+          }}
+        </span>
+      </div>
+      <div class="filter--actions">
         <div v-if="hasAppliedFilters && !hasActiveFolders">
           <woot-button
             v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.ADD.SAVE_BUTTON')"
@@ -40,6 +48,14 @@
         </div>
         <div v-if="hasActiveFolders">
           <woot-button
+            v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.EDIT.EDIT_BUTTON')"
+            size="tiny"
+            variant="smooth"
+            color-scheme="secondary"
+            icon="edit"
+            @click="onToggleAdvanceFiltersModal"
+          />
+          <woot-button
             v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
             size="tiny"
             variant="smooth"
@@ -48,7 +64,6 @@
             @click="onClickOpenDeleteFoldersModal"
           />
         </div>
-
         <woot-button
           v-else
           v-tooltip.right="$t('FILTER.TOOLTIP_LABEL')"
@@ -57,6 +72,10 @@
           icon="filter"
           size="tiny"
           @click="onToggleAdvanceFiltersModal"
+        />
+        <conversation-basic-filter
+          v-if="!hasAppliedFiltersOrActiveFolders"
+          @changeFilter="onBasicFilterChange"
         />
       </div>
     </div>
@@ -125,6 +144,7 @@
         @update-conversation-status="toggleConversationStatus"
         @context-menu-toggle="onContextMenuToggle"
         @mark-as-unread="markAsUnread"
+        @assign-priority="assignPriority"
       />
 
       <div v-if="chatListLoading" class="text-center">
@@ -156,8 +176,11 @@
         v-if="showAdvancedFilters"
         :initial-filter-types="advancedFilterTypes"
         :initial-applied-filters="appliedFilter"
+        :active-folder-name="activeFolderName"
         :on-close="closeAdvanceFiltersModal"
+        :is-folder-view="hasActiveFolders"
         @applyFilter="onApplyFilter"
+        @updateFolder="onUpdateSavedFilter"
       />
     </woot-modal>
   </div>
@@ -166,14 +189,14 @@
 <script>
 import { mapGetters } from 'vuex';
 
-import ChatFilter from './widgets/conversation/ChatFilter';
 import ConversationAdvancedFilter from './widgets/conversation/ConversationAdvancedFilter';
+import ConversationBasicFilter from './widgets/conversation/ConversationBasicFilter';
 import ChatTypeTabs from './widgets/ChatTypeTabs';
 import ConversationCard from './widgets/conversation/ConversationCard';
 import timeMixin from '../mixins/time';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import conversationMixin from '../mixins/conversations';
-import wootConstants from '../constants';
+import wootConstants from 'dashboard/constants/globals';
 import advancedFilterTypes from './widgets/conversation/advancedFilterItems';
 import filterQueryGenerator from '../helper/filterQueryGenerator.js';
 import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews';
@@ -181,6 +204,9 @@ import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCust
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import filterMixin from 'shared/mixins/filterMixin';
+import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
+import countries from 'shared/constants/countries';
+import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
 
 import {
   hasPressedAltAndJKey,
@@ -191,16 +217,17 @@ import {
   isOnMentionsView,
   isOnUnattendedView,
 } from '../store/modules/conversations/helpers/actionHelpers';
+import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
 
 export default {
   components: {
     AddCustomViews,
     ChatTypeTabs,
     ConversationCard,
-    ChatFilter,
     ConversationAdvancedFilter,
     DeleteCustomViews,
     ConversationBulkActions,
+    ConversationBasicFilter,
   },
   mixins: [
     timeMixin,
@@ -243,11 +270,15 @@ export default {
     return {
       activeAssigneeTab: wootConstants.ASSIGNEE_TYPE.ME,
       activeStatus: wootConstants.STATUS_TYPE.OPEN,
+      activeSortBy: wootConstants.SORT_BY_TYPE.LATEST,
       showAdvancedFilters: false,
       advancedFilterTypes: advancedFilterTypes.map(filter => ({
         ...filter,
         attributeName: this.$t(`FILTER.ATTRIBUTES.${filter.attributeI18nKey}`),
       })),
+      // chatsOnView is to store the chats that are currently visible on the screen,
+      // which mirrors the conversationList.
+      chatsOnView: [],
       foldersQuery: {},
       showAddFoldersModal: false,
       showDeleteFoldersModal: false,
@@ -272,6 +303,11 @@ export default {
       appliedFilters: 'getAppliedConversationFilters',
       folders: 'customViews/getCustomViews',
       inboxes: 'inboxes/getInboxes',
+      agentList: 'agents/getAgents',
+      teamsList: 'teams/getTeams',
+      inboxesList: 'inboxes/getInboxes',
+      campaigns: 'campaigns/getAllCampaigns',
+      labels: 'labels/getLabels',
     }),
     hasAppliedFilters() {
       return this.appliedFilters.length !== 0;
@@ -347,17 +383,39 @@ export default {
         this.currentPageFilterKey
       );
     },
+    activeAssigneeTabCount() {
+      const { activeAssigneeTab } = this;
+      const count = this.assigneeTabItems.find(
+        item => item.key === activeAssigneeTab
+      ).count;
+      return count;
+    },
     conversationFilters() {
       return {
         inboxId: this.conversationInbox ? this.conversationInbox : undefined,
         assigneeType: this.activeAssigneeTab,
         status: this.activeStatus,
-        page: this.currentPage + 1,
+        sortBy: this.activeSortBy,
+        page: this.conversationListPagination,
         labels: this.label ? [this.label] : undefined,
         teamId: this.teamId || undefined,
         conversationType: this.conversationType || undefined,
         folders: this.hasActiveFolders ? this.savedFoldersValue : undefined,
       };
+    },
+    conversationListPagination() {
+      const conversationsPerPage = 25;
+      const isNoFiltersOrFoldersAndChatListNotEmpty =
+        !this.hasAppliedFiltersOrActiveFolders && this.chatsOnView !== [];
+      const isUnderPerPage =
+        this.chatsOnView.length < conversationsPerPage &&
+        this.activeAssigneeTabCount < conversationsPerPage &&
+        this.activeAssigneeTabCount > this.chatsOnView.length;
+
+      if (isNoFiltersOrFoldersAndChatListNotEmpty && isUnderPerPage) {
+        return 1;
+      }
+      return this.currentPage + 1;
     },
     pageTitle() {
       if (this.hasAppliedFilters) {
@@ -400,7 +458,6 @@ export default {
       } else {
         conversationList = [...this.chatLists];
       }
-
       return conversationList;
     },
     activeFolder() {
@@ -412,6 +469,9 @@ export default {
         return firstValue;
       }
       return undefined;
+    },
+    activeFolderName() {
+      return this.activeFolder?.name;
     },
     activeTeam() {
       if (this.teamId) {
@@ -445,14 +505,20 @@ export default {
       this.resetAndFetchData();
     },
     activeFolder() {
-      if (!this.hasAppliedFilters) {
-        this.resetAndFetchData();
-      }
+      this.resetAndFetchData();
+    },
+    chatLists() {
+      this.chatsOnView = this.conversationList;
     },
   },
   mounted() {
-    this.$store.dispatch('setChatFilter', this.activeStatus);
+    this.$store.dispatch('setChatStatusFilter', this.activeStatus);
+    this.$store.dispatch('setChatSortFilter', this.activeSortBy);
     this.resetAndFetchData();
+
+    if (this.hasActiveFolders) {
+      this.$store.dispatch('campaigns/get');
+    }
 
     bus.$on('fetch_conversation_stats', () => {
       this.$store.dispatch('conversationStats/get', this.conversationFilters);
@@ -465,6 +531,15 @@ export default {
       this.$store.dispatch('conversationPage/reset');
       this.$store.dispatch('emptyAllConversations');
       this.fetchFilteredConversations(payload);
+    },
+    onUpdateSavedFilter(payload, folderName) {
+      const payloadData = {
+        ...this.activeFolder,
+        name: folderName,
+        query: filterQueryGenerator(payload),
+      };
+      this.$store.dispatch('customViews/update', payloadData);
+      this.closeAdvanceFiltersModal();
     },
     onClickOpenAddFoldersModal() {
       this.showAddFoldersModal = true;
@@ -479,14 +554,69 @@ export default {
       this.showDeleteFoldersModal = false;
     },
     onToggleAdvanceFiltersModal() {
-      if (!this.hasAppliedFilters) {
+      if (!this.hasAppliedFilters && !this.hasActiveFolders) {
         this.initializeExistingFilterToModal();
+      }
+      if (this.hasActiveFolders) {
+        this.initializeFolderToFilterModal(this.activeFolder);
       }
       this.showAdvancedFilters = true;
     },
     closeAdvanceFiltersModal() {
       this.showAdvancedFilters = false;
       this.appliedFilter = [];
+    },
+    setParamsForEditFolderModal() {
+      // Here we are setting the params for edit folder modal to show the existing values.
+
+      // For agent, team, inboxes,and campaigns we get only the id's from the query.
+      // So we are mapping the id's to the actual values.
+
+      // For labels we get the name of the label from the query.
+      // If we delete the label from the label list then we will not be able to show the label name.
+
+      // For custom attributes we get only attribute key.
+      // So we are mapping it to find the input type of the attribute to show in the edit folder modal.
+      const params = {
+        agents: this.agentList,
+        teams: this.teamsList,
+        inboxes: this.inboxesList,
+        labels: this.labels,
+        campaigns: this.campaigns,
+        languages: languages,
+        countries: countries,
+        filterTypes: advancedFilterTypes,
+        allCustomAttributes: this.$store.getters[
+          'attributes/getAttributesByModel'
+        ]('conversation_attribute'),
+      };
+      return params;
+    },
+    initializeFolderToFilterModal(activeFolder) {
+      // Here we are setting the params for edit folder modal.
+      //  To show the existing values. when we click on edit folder button.
+
+      // Here we get the query from the active folder.
+      // And we are mapping the query to the actual values.
+      // To show in the edit folder modal by the help of generateValuesForEditCustomViews helper.
+      const query = activeFolder?.query?.payload;
+      if (!Array.isArray(query)) return;
+
+      this.appliedFilter.push(
+        ...query.map(filter => ({
+          attribute_key: filter.attribute_key,
+          attribute_model: filter.attribute_model,
+          filter_operator: filter.filter_operator,
+          values: Array.isArray(filter.values)
+            ? generateValuesForEditCustomViews(
+                filter,
+                this.setParamsForEditFolderModal()
+              )
+            : [],
+          query_operator: filter.query_operator,
+          custom_attribute_type: filter.custom_attribute_type,
+        }))
+      );
     },
     getKeyboardListenerParams() {
       const allConversations = this.$refs.activeConversation.querySelectorAll(
@@ -533,6 +663,7 @@ export default {
       }
     },
     resetAndFetchData() {
+      this.appliedFilter = [];
       this.resetBulkActions();
       this.$store.dispatch('conversationPage/reset');
       this.$store.dispatch('emptyAllConversations');
@@ -545,7 +676,6 @@ export default {
         return;
       }
       this.fetchConversations();
-      this.appliedFilter = [];
     },
     fetchConversations() {
       this.$store
@@ -597,11 +727,13 @@ export default {
       this.selectedConversations = [];
       this.selectedInboxes = [];
     },
-    updateStatusType(index) {
-      if (this.activeStatus !== index) {
-        this.activeStatus = index;
-        this.resetAndFetchData();
+    onBasicFilterChange(value, type) {
+      if (type === 'status') {
+        this.activeStatus = value;
+      } else {
+        this.activeSortBy = value;
       }
+      this.resetAndFetchData();
     },
     openLastSavedItemInFolder() {
       const lastItemOfFolder = this.folders[this.folders.length - 1];
@@ -669,6 +801,26 @@ export default {
       } catch (err) {
         this.showAlert(this.$t('BULK_ACTION.ASSIGN_FAILED'));
       }
+    },
+    async assignPriority(priority, conversationId = null) {
+      this.$store.dispatch('setCurrentChatPriority', {
+        priority,
+        conversationId,
+      });
+      this.$store
+        .dispatch('assignPriority', { conversationId, priority })
+        .then(() => {
+          this.$track(CONVERSATION_EVENTS.CHANGE_PRIORITY, {
+            newValue: priority,
+            from: 'Context menu',
+          });
+          this.showAlert(
+            this.$t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.SUCCESSFUL', {
+              priority,
+              conversationId,
+            })
+          );
+        });
     },
     async markAsUnread(conversationId) {
       try {
@@ -830,11 +982,15 @@ export default {
   &.list--full-width {
     flex-basis: 100%;
   }
+
+  .page-sub-title {
+    font-size: var(--font-size-two);
+  }
 }
 .filter--actions {
   display: flex;
   align-items: center;
-  gap: var(--space-micro);
+  gap: var(--space-smaller);
 }
 
 .filter__applied {
@@ -850,5 +1006,20 @@ export default {
       padding: 0;
     }
   }
+}
+
+.conversation--status-pill {
+  background: var(--color-background);
+  border-radius: var(--border-radius-small);
+  color: var(--color-medium-gray);
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-medium);
+  margin: var(--space-micro) var(--space-small) 0;
+  padding: var(--space-smaller);
+  text-transform: capitalize;
+}
+
+.chat-list__title {
+  max-width: 85%;
 }
 </style>

@@ -439,7 +439,8 @@
       "LABEL": "Funktioner",
       "DISPLAY_FILE_PICKER": "Visa filväljare på widgeten",
       "DISPLAY_EMOJI_PICKER": "Visa emoji-väljare på widgeten",
-      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
+      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
+      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Skript för Messenger",
@@ -462,9 +463,10 @@
       "INBOX_UPDATE_SUB_TEXT": "Uppdatera inställningarna för din inkorg",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivera eller inaktivera automatisk tilldelning av nya konversationer till de agenter som lagts till den här inkorgen.",
       "HMAC_VERIFICATION": "Validering av användaridentitet",
-      "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
+      "HMAC_DESCRIPTION": "With this key you can generate a secret token that can be used to verify the identity of your users.",
+      "HMAC_LINK_TO_DOCS": "You can read more here.",
       "HMAC_MANDATORY_VERIFICATION": "Validering av användaridentitet",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests that cannot be verified will be rejected.",
       "INBOX_IDENTIFIER": "Identifierare för inkorgen",
       "INBOX_IDENTIFIER_SUB_TEXT": "Använd `inbox_identifier`-token som visas här för att autentisera dina API-klienter.",
       "FORWARD_EMAIL_TITLE": "Vidarebefordra till e-post",
@@ -477,7 +479,16 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Uppdatera",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verify Token",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+    },
+    "HELP_CENTER": {
+      "LABEL": "Help Center",
+      "PLACEHOLDER": "Select Help Center",
+      "SELECT_PLACEHOLDER": "Select Help Center",
+      "REMOVE": "Remove Help Center",
+      "SUB_TEXT": "Attach a Help Center with the inbox"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",

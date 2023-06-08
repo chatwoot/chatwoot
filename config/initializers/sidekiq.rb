@@ -7,6 +7,7 @@ Sidekiq.configure_client do |config|
 end
 
 Sidekiq.configure_server do |config|
+  config.logger.formatter = Sidekiq::Logger::Formatters::JSON.new
   config.redis = Redis::Config.app
   config.logger.level = Logger.const_get(ENV.fetch('LOG_LEVEL', 'info').upcase.to_s)
 end

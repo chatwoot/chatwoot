@@ -3,18 +3,21 @@ import types from '../../mutation-types';
 import getters, { getSelectedChatConversation } from './getters';
 import actions from './actions';
 import { findPendingMessageIndex } from './helpers';
-import wootConstants from '../../../constants';
+import { MESSAGE_STATUS } from 'shared/constants/messages';
+import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
 
 const state = {
   allConversations: [],
   listLoadingStatus: true,
   chatStatusFilter: wootConstants.STATUS_TYPE.OPEN,
+  chatSortFilter: wootConstants.SORT_BY_TYPE.LATEST,
   currentInbox: null,
   selectedChatId: null,
   appliedFilters: [],
   conversationParticipants: [],
   conversationLastSeen: null,
+  syncConversationsMessages: {},
 };
 
 // mutations
@@ -54,6 +57,18 @@ export const mutations = {
       chat.messages.unshift(...data);
     }
   },
+  [types.SET_ALL_ATTACHMENTS](_state, { id, data }) {
+    if (data.length) {
+      const [chat] = _state.allConversations.filter(c => c.id === id);
+      Vue.set(chat, 'attachments', []);
+      chat.attachments.push(...data);
+    }
+  },
+  [types.SET_MISSING_MESSAGES](_state, { id, data }) {
+    const [chat] = _state.allConversations.filter(c => c.id === id);
+    if (!chat) return;
+    Vue.set(chat, 'messages', data);
+  },
 
   [types.SET_CURRENT_CHAT_WINDOW](_state, activeChat) {
     if (activeChat) {
@@ -69,6 +84,18 @@ export const mutations = {
   [types.ASSIGN_TEAM](_state, { team, conversationId }) {
     const [chat] = _state.allConversations.filter(c => c.id === conversationId);
     Vue.set(chat.meta, 'team', team);
+  },
+
+  [types.UPDATE_CONVERSATION_LAST_ACTIVITY](
+    _state,
+    { lastActivityAt, conversationId }
+  ) {
+    const [chat] = _state.allConversations.filter(c => c.id === conversationId);
+    Vue.set(chat, 'last_activity_at', lastActivityAt);
+  },
+  [types.ASSIGN_PRIORITY](_state, { priority, conversationId }) {
+    const [chat] = _state.allConversations.filter(c => c.id === conversationId);
+    Vue.set(chat, 'priority', priority);
   },
 
   [types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES](_state, custom_attributes) {
@@ -94,6 +121,44 @@ export const mutations = {
   [types.UNMUTE_CONVERSATION](_state) {
     const [chat] = getSelectedChatConversation(_state);
     Vue.set(chat, 'muted', false);
+  },
+
+  [types.ADD_CONVERSATION_ATTACHMENTS]({ allConversations }, message) {
+    const { conversation_id: conversationId } = message;
+    const [chat] = getSelectedChatConversation({
+      allConversations,
+      selectedChatId: conversationId,
+    });
+
+    if (!chat) return;
+
+    const isMessageSent =
+      message.status === MESSAGE_STATUS.SENT && message.attachments;
+    if (isMessageSent) {
+      message.attachments.forEach(attachment => {
+        if (!chat.attachments.some(a => a.id === attachment.id)) {
+          chat.attachments.push(attachment);
+        }
+      });
+    }
+  },
+
+  [types.DELETE_CONVERSATION_ATTACHMENTS]({ allConversations }, message) {
+    const { conversation_id: conversationId } = message;
+    const [chat] = getSelectedChatConversation({
+      allConversations,
+      selectedChatId: conversationId,
+    });
+
+    if (!chat) return;
+
+    const isMessageSent = message.status === MESSAGE_STATUS.SENT;
+    if (isMessageSent) {
+      const attachmentIndex = chat.attachments.findIndex(
+        a => a.message_id === message.id
+      );
+      if (attachmentIndex !== -1) chat.attachments.splice(attachmentIndex, 1);
+    }
   },
 
   [types.ADD_MESSAGE]({ allConversations, selectedChatId }, message) {
@@ -164,6 +229,10 @@ export const mutations = {
     _state.chatStatusFilter = data;
   },
 
+  [types.CHANGE_CHAT_SORT_FILTER](_state, data) {
+    _state.chatSortFilter = data;
+  },
+
   // Update assignee on action cable message
   [types.UPDATE_ASSIGNEE](_state, payload) {
     const [chat] = _state.allConversations.filter(c => c.id === payload.id);
@@ -201,6 +270,13 @@ export const mutations = {
 
   [types.CLEAR_CONVERSATION_FILTERS](_state) {
     _state.appliedFilters = [];
+  },
+
+  [types.SET_LAST_MESSAGE_ID_IN_SYNC_CONVERSATION](
+    _state,
+    { conversationId, messageId }
+  ) {
+    _state.syncConversationsMessages[conversationId] = messageId;
   },
 };
 

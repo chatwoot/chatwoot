@@ -22,6 +22,18 @@
           :bcc="emailHeadAttributes.bcc"
           :is-incoming="isIncoming"
         />
+        <blockquote v-if="storyReply" class="story-reply-quote">
+          <span>{{ $t('CONVERSATION.REPLIED_TO_STORY') }}</span>
+          <bubble-image
+            v-if="!hasImgStoryError && storyUrl"
+            :url="storyUrl"
+            @error="onStoryLoadError"
+          />
+          <bubble-video
+            v-else-if="hasImgStoryError && storyUrl"
+            :url="storyUrl"
+          />
+        </blockquote>
         <bubble-text
           v-if="data.content"
           :message="message"
@@ -41,21 +53,10 @@
         </span>
         <div v-if="!isPending && hasAttachments">
           <div v-for="attachment in data.attachments" :key="attachment.id">
-            <bubble-image
-              v-if="attachment.file_type === 'image' && !hasImageError"
-              :url="attachment.data_url"
+            <bubble-image-audio-video
+              v-if="isAttachmentImageVideoAudio(attachment.file_type)"
+              :attachment="attachment"
               @error="onImageLoadError"
-            />
-            <audio
-              v-else-if="attachment.file_type === 'audio'"
-              controls
-              class="skip-context-menu"
-            >
-              <source :src="attachment.data_url" />
-            </audio>
-            <bubble-video
-              v-else-if="attachment.file_type === 'video'"
-              :url="attachment.data_url"
             />
             <bubble-location
               v-else-if="attachment.file_type === 'location'"
@@ -79,7 +80,7 @@
           :sender="data.sender"
           :story-sender="storySender"
           :external-error="externalError"
-          :story-id="storyId"
+          :story-id="`${storyId}`"
           :is-a-tweet="isATweet"
           :is-a-whatsapp-channel="isAWhatsAppChannel"
           :has-instagram-story="hasInstagramStory"
@@ -132,11 +133,12 @@ import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import BubbleActions from './bubble/Actions';
 import BubbleFile from './bubble/File';
 import BubbleImage from './bubble/Image';
+import BubbleVideo from './bubble/Video';
+import BubbleImageAudioVideo from './bubble/ImageAudioVideo';
 import BubbleIntegration from './bubble/Integration.vue';
 import BubbleLocation from './bubble/Location';
 import BubbleMailHead from './bubble/MailHead';
 import BubbleText from './bubble/Text';
-import BubbleVideo from './bubble/Video.vue';
 import BubbleContact from './bubble/Contact';
 import Spinner from 'shared/components/Spinner';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu';
@@ -153,11 +155,12 @@ export default {
     BubbleActions,
     BubbleFile,
     BubbleImage,
+    BubbleVideo,
+    BubbleImageAudioVideo,
     BubbleIntegration,
     BubbleLocation,
     BubbleMailHead,
     BubbleText,
-    BubbleVideo,
     BubbleContact,
     ContextMenu,
     Spinner,
@@ -192,6 +195,7 @@ export default {
       hasImageError: false,
       contextMenuPosition: {},
       showBackgroundHighlight: false,
+      hasImgStoryError: false,
     };
   },
   computed: {
@@ -276,6 +280,12 @@ export default {
     },
     storyId() {
       return this.contentAttributes.story_id || null;
+    },
+    storyUrl() {
+      return this.contentAttributes.story_url || null;
+    },
+    storyReply() {
+      return this.storyUrl && this.hasInstagramStory;
     },
     contentType() {
       const {
@@ -414,10 +424,12 @@ export default {
   watch: {
     data() {
       this.hasImageError = false;
+      this.hasImgStoryError = false;
     },
   },
   mounted() {
     this.hasImageError = false;
+    this.hasImgStoryError = false;
     bus.$on(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
     this.setupHighlightTimer();
   },
@@ -426,11 +438,17 @@ export default {
     clearTimeout(this.higlightTimeout);
   },
   methods: {
+    isAttachmentImageVideoAudio(fileType) {
+      return ['image', 'audio', 'video'].includes(fileType);
+    },
     hasMediaAttachment(type) {
       if (this.hasAttachments && this.data.attachments.length > 0) {
         const { attachments = [{}] } = this.data;
         const { file_type: fileType } = attachments[0];
         return fileType === type && !this.hasImageError;
+      }
+      if (this.storyReply) {
+        return true;
       }
       return false;
     },
@@ -443,10 +461,13 @@ export default {
     onImageLoadError() {
       this.hasImageError = true;
     },
+    onStoryLoadError() {
+      this.hasImgStoryError = true;
+    },
     openContextMenu(e) {
-      const shouldSkipContextMenu = e.target?.classList.contains(
-        'skip-context-menu'
-      );
+      const shouldSkipContextMenu =
+        e.target?.classList.contains('skip-context-menu') ||
+        e.target?.tagName.toLowerCase() === 'a';
       if (shouldSkipContextMenu || getSelection().toString()) {
         return;
       }
@@ -672,7 +693,6 @@ li.right {
   blockquote {
     border-left: var(--space-micro) solid var(--s-75);
     color: var(--s-800);
-    padding: var(--space-smaller) var(--space-small);
     margin: var(--space-smaller) 0;
     padding: var(--space-small) var(--space-small) 0 var(--space-normal);
   }
@@ -703,5 +723,12 @@ li.right {
       color: var(--w-75);
     }
   }
+}
+
+.story-reply-quote {
+  border-left: var(--space-micro) solid var(--s-75);
+  color: var(--s-600);
+  margin: var(--space-small) var(--space-normal) 0;
+  padding: var(--space-small) var(--space-small) 0 var(--space-small);
 }
 </style>

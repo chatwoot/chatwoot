@@ -16,6 +16,7 @@
       :title="$t('SEARCH.PLACEHOLDER_KEYBINDING')"
       :show-close="false"
       small
+      class="helper-label"
     />
   </div>
 </template>
@@ -100,5 +101,9 @@ export default {
   .icon {
     color: var(--s-400);
   }
+}
+
+.helper-label {
+  margin: 0;
 }
 </style>

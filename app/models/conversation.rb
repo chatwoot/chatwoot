@@ -11,6 +11,7 @@
 #  first_reply_created_at :datetime
 #  identifier             :string
 #  last_activity_at       :datetime         not null
+#  priority               :integer
 #  snoozed_until          :datetime
 #  status                 :integer          default("open"), not null
 #  uuid                   :uuid             not null
@@ -38,7 +39,9 @@
 #  index_conversations_on_id_and_account_id           (account_id,id)
 #  index_conversations_on_inbox_id                    (inbox_id)
 #  index_conversations_on_last_activity_at            (last_activity_at)
+#  index_conversations_on_priority                    (priority)
 #  index_conversations_on_status_and_account_id       (status,account_id)
+#  index_conversations_on_status_and_priority         (status,priority)
 #  index_conversations_on_team_id                     (team_id)
 #  index_conversations_on_uuid                        (uuid) UNIQUE
 #
@@ -61,6 +64,7 @@ class Conversation < ApplicationRecord
   validate :validate_referer_url
 
   enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
+  enum priority: { low: 0, medium: 1, high: 2, urgent: 3 }
 
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned, -> { where.not(assignee_id: nil) }
@@ -91,6 +95,7 @@ class Conversation < ApplicationRecord
   has_one :csat_survey_response, dependent: :destroy_async
   has_many :conversation_participants, dependent: :destroy_async
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
+  has_many :attachments, through: :messages
 
   before_save :ensure_snooze_until_reset
   before_create :mark_conversation_pending_if_bot
@@ -145,6 +150,11 @@ class Conversation < ApplicationRecord
     save
   end
 
+  def toggle_priority(priority = nil)
+    self.priority = priority.presence
+    save
+  end
+
   def bot_handoff!
     open!
     dispatcher_dispatch(CONVERSATION_BOT_HANDOFF)
@@ -186,6 +196,10 @@ class Conversation < ApplicationRecord
     messages.chat.last(5)
   end
 
+  def csat_survey_link
+    "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{uuid}"
+  end
+
   private
 
   def execute_after_update_commit_callbacks
@@ -212,10 +226,16 @@ class Conversation < ApplicationRecord
   end
 
   def notify_conversation_updation
-    return unless previous_changes.keys.present? && (previous_changes.keys & %w[team_id assignee_id status snoozed_until
-                                                                                custom_attributes label_list first_reply_created_at]).present?
+    return unless previous_changes.keys.present? && allowed_keys?
 
     dispatcher_dispatch(CONVERSATION_UPDATED, previous_changes)
+  end
+
+  def allowed_keys?
+    (
+      previous_changes.keys.intersect?(%w[team_id assignee_id status snoozed_until custom_attributes label_list first_reply_created_at priority]) ||
+      (previous_changes['additional_attributes'].present? && previous_changes['additional_attributes'][1].keys.intersect?(%w[conversation_language]))
+    )
   end
 
   def self_assign?(assignee_id)

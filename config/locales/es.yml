@@ -81,8 +81,7 @@ es:
       avg_first_response_time: Promedio de tiempo de la primera respuesta (Minutos)
       avg_resolution_time: Promedio de tiempo de resolución (Minutos)
     conversation_traffic_csv:
-      date: Date and time
-      conversations_count: Núm. de conversaciones
+      timezone: Timezone
     default_group_by: día
     csat:
       headers:
@@ -113,6 +112,11 @@ es:
         pending: "La conversación fue marcada como pendiente por %{user_name}"
         snoozed: "La conversación fue pospuesta por %{user_name}"
         auto_resolved: "La conversación fue marcada por el sistema debido a %{duration} días de inactividad"
+        system_auto_open: System reopened the conversation due to a new incoming message.
+      priority:
+        added: '%{user_name} set the priority to %{new_priority}'
+        updated: '%{user_name} changed the priority from %{old_priority} to %{new_priority}'
+        removed: '%{user_name} removed the priority'
       assignee:
         self_assigned: "%{user_name} auto-asignado a esta conversación"
         assigned: "Asignado a %{assignee_name} por %{user_name}"
@@ -138,7 +142,7 @@ es:
           reply_with_name: "%{assignee_name} de %{inbox_name} <reply+%{reply_email}>"
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} de %{inbox_name}"
+          reply_with_name: "%{assignee_name} de %{inbox_name} <%{from_email}>"
           reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Nuevos mensajes en esta conversación"
       transcript_subject: "Transcripción de la conversación"
@@ -167,6 +171,9 @@ es:
     google_translate:
       name: "Traductor de Google"
       description: "Facilita a los agentes la traducción de mensajes añadiendo una integración de traducción de Google. Google Translate ayuda a identificar el idioma automáticamente y convertirlo al idioma elegido por el agente o administrador de la cuenta."
+    openai:
+      name: "OpenAI"
+      description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
   public_portal:
     search:
       search_placeholder: Buscar artículo por título o cuerpo...

@@ -1,8 +1,8 @@
 {
   "AGENT_BOTS": {
-    "HEADER": "Bots",
-    "LOADING_EDITOR": "Loading Editor...",
-    "HEADER_BTN_TXT": "Add Bot Configuration",
+    "HEADER": "机器人",
+    "LOADING_EDITOR": "正在加载编辑器...",
+    "HEADER_BTN_TXT": "添加机器人配置",
     "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent bots allows you to automate the conversations</p>",
     "CSML_BOT_EDITOR": {
       "NAME": {
@@ -12,7 +12,7 @@
       },
       "DESCRIPTION": {
         "LABEL": "Bot Description",
-        "PLACEHOLDER": "What does this bot do?"
+        "PLACEHOLDER": "这个机器人的用途是？"
       },
       "BOT_CONFIG": {
         "ERROR": "Please enter your CSML bot configuration above",
@@ -21,7 +21,7 @@
       "SUBMIT": "Validate and save"
     },
     "BOT_CONFIGURATION": {
-      "TITLE": "Select an agent bot",
+      "TITLE": "选择一个代理机器人",
       "DESC": "You can set an agent bot from the list to this inbox. The bot can initially handle the conversation and transfer it to an agent when needed.",
       "SUBMIT": "更新",
       "DISCONNECT": "Disconnect Bot",
@@ -35,7 +35,7 @@
       "TITLE": "Configure new bot",
       "CANCEL_BUTTON_TEXT": "取消",
       "API": {
-        "SUCCESS_MESSAGE": "Bot added successfully",
+        "SUCCESS_MESSAGE": "机器人添加成功",
         "ERROR_MESSAGE": "Could not add bot, Please try again later"
       }
     },
@@ -58,7 +58,7 @@
     "EDIT": {
       "BUTTON_TEXT": "编辑",
       "LOADING": "Fetching Bots...",
-      "TITLE": "Edit Bot",
+      "TITLE": "配置机器人",
       "CANCEL_BUTTON_TEXT": "取消",
       "API": {
         "SUCCESS_MESSAGE": "Bot updated successfully",

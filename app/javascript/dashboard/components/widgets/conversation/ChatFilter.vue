@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import wootConstants from '../../../constants';
+import wootConstants from 'dashboard/constants/globals';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import { hasPressedAltAndBKey } from 'shared/helpers/KeyboardHelpers';
 
@@ -38,8 +38,8 @@ export default {
       this.onTabChange();
     },
     onTabChange() {
-      this.$store.dispatch('setChatFilter', this.activeStatus);
-      this.$emit('statusFilterChange', this.activeStatus);
+      this.$store.dispatch('setChatStatusFilter', this.activeStatus);
+      this.$emit('onChangeFilter', this.activeStatus);
     },
   },
 };

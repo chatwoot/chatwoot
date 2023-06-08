@@ -22,7 +22,8 @@
       "is_not_present": "不存在",
       "is_greater_than": "大于",
       "is_less_than": "小于：",
-      "days_before": "是 x 天前"
+      "days_before": "是 x 天前",
+      "starts_with": "Starts with"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "真的",
@@ -37,6 +38,7 @@
       "CAMPAIGN_NAME": "活动名称",
       "LABELS": "标签",
       "BROWSER_LANGUAGE": "浏览器语言",
+      "PRIORITY": "Priority",
       "COUNTRY_NAME": "国家",
       "REFERER_LINK": "引用链接",
       "CUSTOM_ATTRIBUTE_LIST": "列表",

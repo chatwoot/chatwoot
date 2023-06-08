@@ -22,7 +22,8 @@
       "is_not_present": "നിലവിലില്ല",
       "is_greater_than": "Is greater than",
       "is_less_than": "Is lesser than",
-      "days_before": "Is x days before"
+      "days_before": "Is x days before",
+      "starts_with": "Starts with"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "True",
@@ -37,6 +38,7 @@
       "CAMPAIGN_NAME": "പ്രചാരണ നാമം",
       "LABELS": "ലേബലുകൾ",
       "BROWSER_LANGUAGE": "ബ്രൗസറിന്റെ ഭാഷ",
+      "PRIORITY": "Priority",
       "COUNTRY_NAME": "രാജ്യത്തിന്റെ പേര്",
       "REFERER_LINK": "റഫറർ ലിങ്ക്",
       "CUSTOM_ATTRIBUTE_LIST": "List",

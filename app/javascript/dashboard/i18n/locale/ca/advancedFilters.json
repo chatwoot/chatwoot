@@ -22,7 +22,8 @@
       "is_not_present": "No és present",
       "is_greater_than": "És més gran que",
       "is_less_than": "És més petit que",
-      "days_before": "Is x days before"
+      "days_before": "Is x days before",
+      "starts_with": "Starts with"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Cert",
@@ -37,6 +38,7 @@
       "CAMPAIGN_NAME": "Campaign Name",
       "LABELS": "Etiquetes",
       "BROWSER_LANGUAGE": "Browser Language",
+      "PRIORITY": "Priority",
       "COUNTRY_NAME": "Nom del país",
       "REFERER_LINK": "Referer link",
       "CUSTOM_ATTRIBUTE_LIST": "List",

@@ -74,6 +74,11 @@
           "LABEL": "E-Mail Adresse",
           "PLACEHOLDER": "Indtast venligst en e-mail adresse på agenten"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Tilgængelighed",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "Rediger Agent"
       },
       "BUTTON_TEXT": "Rediger",
@@ -105,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "Søg agenter",
-          "TEAM": "Søg i teams"
+          "TEAM": "Søg i teams",
+          "INPUT": "Search for agents"
         }
       }
     }

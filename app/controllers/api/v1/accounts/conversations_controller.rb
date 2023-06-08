@@ -1,6 +1,7 @@
 class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseController
   include Events::Types
   include DateRangeHelper
+  include HmacConcern
 
   before_action :conversation, except: [:index, :meta, :search, :create, :filter]
   before_action :inbox, :contact, :contact_inbox, only: [:create]
@@ -22,14 +23,18 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     @conversations_count = result[:count]
   end
 
+  def attachments
+    @attachments = @conversation.attachments
+  end
+
+  def show; end
+
   def create
     ActiveRecord::Base.transaction do
       @conversation = ConversationBuilder.new(params: params, contact_inbox: @contact_inbox).perform
       Messages::MessageBuilder.new(Current.user, @conversation, params[:message]).perform if params[:message].present?
     end
   end
-
-  def show; end
 
   def filter
     result = ::Conversations::FilterService.new(params.permit!, current_user).perform
@@ -64,13 +69,14 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     assign_conversation if @conversation.status == 'open' && Current.user.is_a?(User) && Current.user&.agent?
   end
 
+  def toggle_priority
+    @conversation.toggle_priority(params[:priority])
+    head :ok
+  end
+
   def toggle_typing_status
-    case params[:typing_status]
-    when 'on'
-      trigger_typing_event(CONVERSATION_TYPING_ON, params[:is_private])
-    when 'off'
-      trigger_typing_event(CONVERSATION_TYPING_OFF, params[:is_private])
-    end
+    typing_status_manager = ::Conversations::TypingStatusManager.new(@conversation, current_user, params)
+    typing_status_manager.toggle_typing_status
     head :ok
   end
 
@@ -99,9 +105,6 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def set_conversation_status
-    # TODO: temporary fallback for the old bot status in conversation, we will remove after couple of releases
-    # commenting this out to see if there are any errors, if not we can remove this in subsequent releases
-    # status = params[:status] == 'bot' ? 'pending' : params[:status]
     @conversation.status = params[:status]
     @conversation.snoozed_until = parse_date_time(params[:snoozed_until].to_s) if params[:snoozed_until]
   end
@@ -109,11 +112,6 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def assign_conversation
     @agent = Current.account.users.find(current_user.id)
     @conversation.update_assignee(@agent)
-  end
-
-  def trigger_typing_event(event, is_private)
-    user = current_user.presence || @resource
-    Rails.configuration.dispatcher.dispatch(event, Time.zone.now, conversation: @conversation, user: user, is_private: is_private)
   end
 
   def conversation
@@ -152,7 +150,8 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     ContactInboxBuilder.new(
       contact: @contact,
       inbox: @inbox,
-      source_id: params[:source_id]
+      source_id: params[:source_id],
+      hmac_verified: hmac_verified?
     ).perform
   end
 

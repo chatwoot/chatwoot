@@ -5,7 +5,7 @@ class Whatsapp::IncomingMessageWhatsappCloudService < Whatsapp::IncomingMessageB
   private
 
   def processed_params
-    @processed_params ||= params[:entry].first['changes'].first['value']
+    @processed_params ||= params[:entry].try(:first).try(:[], 'changes').try(:first).try(:[], 'value')
   end
 
   def download_attachment_file(attachment_payload)

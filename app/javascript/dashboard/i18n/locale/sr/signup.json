@@ -10,33 +10,33 @@
     },
     "COMPANY_NAME": {
       "LABEL": "Company name",
-      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
-      "ERROR": "Company name is too short"
+      "PLACEHOLDER": "Enter your company name. E.g., Wayne Enterprises",
+      "ERROR": "Company name is too short."
     },
     "FULL_NAME": {
       "LABEL": "Puno ime",
-      "PLACEHOLDER": "Unesite vaše puno ime. npr.: Bruce Wayne",
-      "ERROR": "Puno ime je prekratko"
+      "PLACEHOLDER": "Enter your full name. E.g., Bruce Wayne",
+      "ERROR": "Puno ime je prekratko."
     },
     "EMAIL": {
       "LABEL": "Poslovna e-pošta",
-      "PLACEHOLDER": "Unesite adresu vaše poslovne e-pošte. npr.: bruce@wayne.enterprises",
-      "ERROR": "Please enter a valid work email address"
+      "PLACEHOLDER": "Enter your work email address. E.g., bruce@wayne.enterprises",
+      "ERROR": "Please enter a valid work email address."
     },
     "PASSWORD": {
       "LABEL": "Lozinka",
       "PLACEHOLDER": "Lozinka",
-      "ERROR": "Lozinka je prekratka",
-      "IS_INVALID_PASSWORD": "Lozinka bi trebalo da sadrži najmanje 1 veliko slovo, 1 malo slovo, 1 broj i 1 specijalni karakter"
+      "ERROR": "Lozinka je prekratka.",
+      "IS_INVALID_PASSWORD": "Lozinka bi trebalo da sadrži najmanje 1 veliko slovo, 1 malo slovo, 1 broj i 1 specijalni karakter."
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Potvrdite lozinku",
-      "PLACEHOLDER": "Potvrdite lozinku",
-      "ERROR": "Lozinka se ne poklapa"
+      "LABEL": "Confirm password",
+      "PLACEHOLDER": "Confirm password",
+      "ERROR": "Lozinka se ne poklapa."
     },
     "API": {
       "SUCCESS_MESSAGE": "Registracija je uspešna",
-      "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
+      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
     },
     "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Već imate nalog?"

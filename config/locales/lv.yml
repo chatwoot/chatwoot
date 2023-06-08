@@ -81,8 +81,7 @@ lv:
       avg_first_response_time: Vidējais pirmās atbildes laiks (Minūtes)
       avg_resolution_time: Vidējais atrisinājuma laiks (Minūtes)
     conversation_traffic_csv:
-      date: Datums un laiks
-      conversations_count: Sarunu skaits
+      timezone: Laika zona
     default_group_by: diena
     csat:
       headers:
@@ -113,6 +112,11 @@ lv:
         pending: "%{user_name} sarunu atzīmēja kā neapstiprinātu"
         snoozed: "%{user_name} atlika sarunu"
         auto_resolved: "Sistēma sarunu atzīmēja kā atrisinātu %{duration} dienu neaktivitātes dēļ"
+        system_auto_open: Sistēma atkārtoti atvēra sarunu jauna ienākoša ziņojuma dēļ.
+      priority:
+        added: '%{user_name} iestatīja prioritāti uz %{new_priority}'
+        updated: '%{user_name} nomainīja prioritāti no %{old_priority} uz %{new_priority}'
+        removed: '%{user_name} noņēma prioritāti'
       assignee:
         self_assigned: "%{user_name} sev piešķīra šo sarunu"
         assigned: "%{user_name} piešķīra sarunu %{assignee_name}"
@@ -138,7 +142,7 @@ lv:
           reply_with_name: "%{assignee_name} no %{inbox_name} <reply+%{reply_email}>"
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} no %{inbox_name}"
+          reply_with_name: "%{assignee_name} no %{inbox_name} <%{from_email}>"
           reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Jauni ziņojumi šajā sarunā"
       transcript_subject: "Sarunas Transkripts"
@@ -167,6 +171,9 @@ lv:
     google_translate:
       name: "Google Tulkotājs"
       description: "Atvieglojiet aģentiem ziņojumu tulkošanu, pievienojot Google tulkotāja integrāciju. Google tulkotājs palīdz automātiski identificēt valodu un pārvērst to aģenta/konta administratora izvēlētajā valodā."
+    openai:
+      name: "OpenAI"
+      description: "Integrēt jaudīgas AI funkcijas programmā Chatwoot, izmantojot OpenAI GPT modeļus."
   public_portal:
     search:
       search_placeholder: Meklēt rakstu pēc nosaukuma vai pamatteksta...

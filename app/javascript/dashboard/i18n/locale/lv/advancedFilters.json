@@ -22,7 +22,8 @@
       "is_not_present": "Neiekļauj sevī",
       "is_greater_than": "Ir lielāks par",
       "is_less_than": "Ir mazāks par",
-      "days_before": "Ir x dienas pirms"
+      "days_before": "Ir x dienas pirms",
+      "starts_with": "Sākas ar"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Patiesi",
@@ -37,6 +38,7 @@
       "CAMPAIGN_NAME": "Kampaņas Nosaukums",
       "LABELS": "Etiķetes",
       "BROWSER_LANGUAGE": "Pārlūkprogrammas Valoda",
+      "PRIORITY": "Prioritāte",
       "COUNTRY_NAME": "Valsts Nosaukums",
       "REFERER_LINK": "Atsauces saite",
       "CUSTOM_ATTRIBUTE_LIST": "Saraksts",
