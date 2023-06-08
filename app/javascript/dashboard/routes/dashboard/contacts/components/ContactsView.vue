@@ -1,6 +1,6 @@
 <template>
   <div class="contacts-page row">
-    <div class="left-wrap" :class="wrapClas">
+    <div class="left-wrap" :class="wrapClass">
       <contacts-header
         :search-query="searchQuery"
         :segments-id="segmentsId"
@@ -14,6 +14,7 @@
         :header-title="pageTitle"
         @on-toggle-save-filter="onToggleSaveFilters"
         @on-toggle-delete-filter="onToggleDeleteFilters"
+        @on-toggle-edit-filter="onToggleFilters"
       />
       <contacts-table
         :contacts="records"
@@ -59,14 +60,18 @@
     </woot-modal>
     <woot-modal
       :show.sync="showFiltersModal"
-      :on-close="onToggleFilters"
+      :on-close="closeAdvanceFiltersModal"
       size="medium"
     >
       <contacts-advanced-filters
         v-if="showFiltersModal"
-        :on-close="onToggleFilters"
+        :on-close="closeAdvanceFiltersModal"
         :initial-filter-types="contactFilterItems"
+        :initial-applied-filters="appliedFilter"
+        :active-segment-name="activeSegmentName"
+        :is-segments-view="hasActiveSegments"
         @applyFilter="onApplyFilter"
+        @updateSegment="onUpdateSegment"
         @clearFilters="clearFilters"
       />
     </woot-modal>
@@ -89,6 +94,8 @@ import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomView
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews';
 import { CONTACTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 import alertMixin from 'shared/mixins/alertMixin';
+import countries from 'shared/constants/countries.js';
+import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
 
 const DEFAULT_PAGE = 1;
 const FILTER_TYPE_CONTACT = 1;
@@ -131,6 +138,7 @@ export default {
       filterType: FILTER_TYPE_CONTACT,
       showAddSegmentsModal: false,
       showDeleteSegmentsModal: false,
+      appliedFilter: [],
     };
   },
   computed: {
@@ -178,7 +186,7 @@ export default {
     showContactViewPane() {
       return this.selectedContactId !== '';
     },
-    wrapClas() {
+    wrapClass() {
       return this.showContactViewPane ? 'medium-9' : 'medium-12';
     },
     pageParameter() {
@@ -196,6 +204,9 @@ export default {
         return firstValue;
       }
       return undefined;
+    },
+    activeSegmentName() {
+      return this.activeSegment?.name;
     },
   },
   watch: {
@@ -348,7 +359,14 @@ export default {
       });
     },
     onToggleFilters() {
-      this.showFiltersModal = !this.showFiltersModal;
+      if (this.hasActiveSegments) {
+        this.initializeSegmentToFilterModal(this.activeSegment);
+      }
+      this.showFiltersModal = true;
+    },
+    closeAdvanceFiltersModal() {
+      this.showFiltersModal = false;
+      this.appliedFilter = [];
     },
     onApplyFilter(payload) {
       this.closeContactInfoPanel();
@@ -357,6 +375,15 @@ export default {
         queryPayload: filterQueryGenerator(payload),
       });
       this.showFiltersModal = false;
+    },
+    onUpdateSegment(payload, segmentName) {
+      const payloadData = {
+        ...this.activeSegment,
+        name: segmentName,
+        query: filterQueryGenerator(payload),
+      };
+      this.$store.dispatch('customViews/update', payloadData);
+      this.closeAdvanceFiltersModal();
     },
     clearFilters() {
       this.$store.dispatch('contacts/clearContactFilters');
@@ -371,6 +398,46 @@ export default {
           error.message || this.$t('EXPORT_CONTACTS.ERROR_MESSAGE')
         );
       }
+    },
+    setParamsForEditSegmentModal() {
+      // Here we are setting the params for edit segment modal to show the existing values.
+
+      // For custom attributes we get only attribute key.
+      // So we are mapping it to find the input type of the attribute to show in the edit segment modal.
+      const params = {
+        countries: countries,
+        filterTypes: contactFilterItems,
+        allCustomAttributes: this.$store.getters[
+          'attributes/getAttributesByModel'
+        ]('contact_attribute'),
+      };
+      return params;
+    },
+    initializeSegmentToFilterModal(activeSegment) {
+      // Here we are setting the params for edit segment modal.
+      //  To show the existing values. when we click on edit segment button.
+
+      // Here we get the query from the active segment.
+      // And we are mapping the query to the actual values.
+      // To show in the edit segment modal by the help of generateValuesForEditCustomViews helper.
+      const query = activeSegment?.query?.payload;
+      if (!Array.isArray(query)) return;
+
+      this.appliedFilter.push(
+        ...query.map(filter => ({
+          attribute_key: filter.attribute_key,
+          attribute_model: filter.attribute_model,
+          filter_operator: filter.filter_operator,
+          values: Array.isArray(filter.values)
+            ? generateValuesForEditCustomViews(
+                filter,
+                this.setParamsForEditSegmentModal()
+              )
+            : [],
+          query_operator: filter.query_operator,
+          custom_attribute_type: filter.custom_attribute_type,
+        }))
+      );
     },
     openSavedItemInSegment() {
       const lastItemInSegments = this.segments[this.segments.length - 1];
