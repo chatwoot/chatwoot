@@ -22,10 +22,13 @@
       :label-class="context => labelClass(context)"
       :input-class="context => inputClass(context)"
       :validation-messages="{
-        isPhoneE164OrEmpty: $t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.VALID_ERROR'),
+        isPhoneE164OrEmpty: $t(
+          'PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.DIAL_CODE_VALID_ERROR'
+        ),
         email: $t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.VALID_ERROR'),
         required: $t('PRE_CHAT_FORM.REQUIRED'),
       }"
+      :has-error-in-phone-input="hasErrorInPhoneInput"
     />
     <FormulateInput
       v-if="!hasActiveCampaign"
@@ -64,6 +67,7 @@ import { isEmptyObject } from 'widget/helpers/utils';
 import routerMixin from 'widget/mixins/routerMixin';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
 import configMixin from 'widget/mixins/configMixin';
+
 export default {
   components: {
     CustomButton,
@@ -79,6 +83,7 @@ export default {
   data() {
     return {
       locale: this.$root.$i18n.locale,
+      hasErrorInPhoneInput: false,
       message: '',
       formValues: {},
       labels: {
@@ -143,7 +148,10 @@ export default {
         .filter(field => field.enabled)
         .map(field => ({
           ...field,
-          type: this.findFieldType(field.type),
+          type:
+            field.name === 'phoneNumber'
+              ? 'phoneInput'
+              : this.findFieldType(field.type),
         }));
     },
     conversationCustomAttributes() {
@@ -201,6 +209,9 @@ export default {
       const { hasErrors, classification, type } = context;
       if (classification === 'box' && type === 'checkbox') {
         return '';
+      }
+      if (type === 'phoneInput') {
+        this.hasErrorInPhoneInput = hasErrors;
       }
       if (!hasErrors) {
         return `${this.inputStyles} hover:border-black-300 focus:border-black-300 ${this.isInputDarkOrLightMode} ${this.inputBorderColor}`;

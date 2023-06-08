@@ -10,6 +10,8 @@ import i18n from '../widget/i18n';
 import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
 import router from '../widget/router';
 import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
+import PhoneInput from '../widget/components/Form/PhoneInput';
+
 Vue.use(VueI18n);
 Vue.use(Vuelidate);
 Vue.use(VueDOMPurifyHTML, domPurifyConfig);
@@ -19,6 +21,15 @@ const i18nConfig = new VueI18n({
   messages: i18n,
 });
 Vue.use(VueFormulate, {
+  library: {
+    phoneInput: {
+      classification: 'number',
+      component: PhoneInput,
+      slotProps: {
+        component: ['placeholder', 'hasErrorInPhoneInput'],
+      },
+    },
+  },
   rules: {
     isPhoneE164OrEmpty: ({ value }) => isPhoneE164OrEmpty(value),
   },

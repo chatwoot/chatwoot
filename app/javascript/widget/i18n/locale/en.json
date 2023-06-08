@@ -66,7 +66,7 @@
         "LABEL": "Phone Number",
         "PLACEHOLDER": "Please enter your phone number",
         "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "DIAL_CODE_VALID_ERROR": "Please select a country code"
       },
       "MESSAGE": {
         "LABEL": "Message",
