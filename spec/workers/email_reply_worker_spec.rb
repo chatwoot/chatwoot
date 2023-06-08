@@ -4,20 +4,16 @@ RSpec.describe EmailReplyWorker, type: :worker do
   let(:account) { create(:account) }
   let(:channel) { create(:channel_email, account: account) }
   let(:message) do
-    create(:message, message_type: :outgoing, inbox: channel.inbox, account: account,
-                     content_attributes: { email: { text_content: { quoted: 'quoted text' } } })
+    create(:message, message_type: :outgoing, inbox: channel.inbox, account: account)
   end
   let(:private_message) do
-    create(:message, private: true, message_type: :outgoing, inbox: channel.inbox, account: account,
-                     content_attributes: { email: { text_content: { quoted: 'quoted text' } } })
+    create(:message, private: true, message_type: :outgoing, inbox: channel.inbox, account: account)
   end
   let(:incoming_message) do
-    create(:message, message_type: :incoming, inbox: channel.inbox, account: account,
-                     content_attributes: { email: { text_content: { quoted: 'quoted text' } } })
+    create(:message, message_type: :incoming, inbox: channel.inbox, account: account)
   end
   let(:template_message) do
-    create(:message, message_type: :template, content_type: :input_csat, inbox: channel.inbox, account: account,
-                     content_attributes: { email: { text_content: { quoted: 'quoted text' } } })
+    create(:message, message_type: :template, content_type: :input_csat, inbox: channel.inbox, account: account)
   end
   let(:mailer) { double }
   let(:mailer_action) { double }
