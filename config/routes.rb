@@ -36,6 +36,7 @@ Rails.application.routes.draw do
         member do
           post :update_active_at
           get :cache_keys
+          get :limits
         end
 
         scope module: :accounts do
