@@ -16,6 +16,7 @@
         v-if="hasActionButton"
         size="tiny"
         icon="arrow-right"
+        :variant="actionButtonVariant"
         color-scheme="primary"
         class-names="banner-action__button"
         @click="onClick"
@@ -54,6 +55,10 @@ export default {
     hasActionButton: {
       type: Boolean,
       default: false,
+    },
+    actionButtonVariant: {
+      type: String,
+      default: '',
     },
     actionButtonLabel: {
       type: String,
