@@ -10,7 +10,11 @@ class AgentBotDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     access_token: Field::HasOne,
     avatar_url: AvatarField,
-    avatar: Field::ActiveStorage,
+    avatar: Field::ActiveStorage.with_options(
+      destroy_url: proc do |_namespace, _resource, attachment|
+        [:avatar_super_admin_agent_bot, { attachment_id: attachment.id }]
+      end
+    ),
     id: Field::Number,
     name: Field::String,
     account: Field::BelongsTo.with_options(searchable: true, searchable_field: 'name', order: 'id DESC'),

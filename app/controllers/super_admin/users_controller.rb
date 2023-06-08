@@ -49,7 +49,7 @@ class SuperAdmin::UsersController < SuperAdmin::ApplicationController
   def destroy_avatar
     avatar = requested_resource.avatar
     avatar.purge
-    redirect_back(fallback_location: requested_resource)
+    redirect_back(fallback_location: super_admin_users_path)
   end
 
   def scoped_resource
