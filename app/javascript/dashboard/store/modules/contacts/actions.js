@@ -140,7 +140,7 @@ export const actions = {
     }
   },
 
-  export: async({ commit }) => {
+  export: async ({ commit }) => {
     try {
       await ContactAPI.exportContacts();
       commit(types.SET_CONTACT_UI_FLAG, { isCreating: false });
