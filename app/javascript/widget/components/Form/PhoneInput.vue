@@ -44,7 +44,7 @@
           ref="searchbar"
           v-model="searchCountry"
           type="text"
-          placeholder="Search"
+          placeholder="Search country"
           class="dropdown-search h-8 text-sm mb-1 mt-1 w-full rounded py-2 px-3 outline-none border border-solid"
           :class="[$dm('bg-slate-50', 'dark:bg-slate-800'), inputBorderColor]"
         />
@@ -74,7 +74,7 @@
           class="text-sm mt-4 justify-center text-center flex"
           :class="$dm('text-slate-700', 'dark:text-slate-50')"
         >
-          No results found
+          {{ this.$t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.DROPDOWN_EMPTY') }}
         </span>
       </div>
     </div>

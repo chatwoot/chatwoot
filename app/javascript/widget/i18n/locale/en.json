@@ -66,7 +66,8 @@
         "LABEL": "Phone Number",
         "PLACEHOLDER": "Please enter your phone number",
         "REQUIRED_ERROR": "Phone Number is required",
-        "DIAL_CODE_VALID_ERROR": "Please select a country code"
+        "DIAL_CODE_VALID_ERROR": "Please select a country code",
+        "DROPDOWN_EMPTY": "No results found"
       },
       "MESSAGE": {
         "LABEL": "Message",
