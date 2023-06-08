@@ -13,8 +13,8 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
 
   def limits
     limits = {
-      'conversation' => nil,
-      'non_web_inboxes' => nil
+      'conversation' => {},
+      'non_web_inboxes' => {}
     }
 
     if default_plan?(@account)
