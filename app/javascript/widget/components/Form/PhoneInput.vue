@@ -99,10 +99,6 @@ export default {
   },
   mixins: [eventListenerMixins, FormulateInputMixin, darkModeMixin],
   props: {
-    value: {
-      type: String,
-      default: '',
-    },
     placeholder: {
       type: String,
       default: '',
