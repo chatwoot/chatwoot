@@ -73,6 +73,13 @@
     "SUCCESS_MESSAGE": "Contacts saved successfully",
     "ERROR_MESSAGE": "There was an error, please try again"
   },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "There was an error, please try again"
+  },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Confirm Deletion",
