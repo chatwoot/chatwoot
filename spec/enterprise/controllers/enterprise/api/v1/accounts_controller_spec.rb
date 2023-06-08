@@ -110,4 +110,76 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
       end
     end
   end
+
+  describe 'GET /enterprise/api/v1/accounts/{account.id}/limits' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/enterprise/api/v1/accounts/#{account.id}/limits", as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      context 'when it is an agent' do
+        it 'returns unauthorized' do
+          get "/enterprise/api/v1/accounts/#{account.id}/limits",
+              headers: agent.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:unauthorized)
+        end
+      end
+
+      context 'when it is an admin' do
+        before do
+          allow_any_instance_of(Enterprise::Api::V1::AccountsController).to receive(:default_plan?).and_return(true) # rubocop:disable RSpec/AnyInstance
+          allow_any_instance_of(Enterprise::Api::V1::AccountsController).to receive(:conversations_this_month).and_return(100) # rubocop:disable RSpec/AnyInstance
+          allow_any_instance_of(Enterprise::Api::V1::AccountsController).to receive(:non_web_inboxes).and_return(2) # rubocop:disable RSpec/AnyInstance
+        end
+
+        it 'returns the limits if the plan is default' do
+          get "/enterprise/api/v1/accounts/#{account.id}/limits",
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          expected_response = {
+            'id' => account.id,
+            'limits' => {
+              'conversation' => {
+                'allowed' => 500,
+                'consumed' => 100
+              },
+              'non_web_inboxes' => {
+                'allowed' => 0,
+                'consumed' => 2
+              }
+            }
+          }
+
+          expect(response).to have_http_status(:ok)
+          expect(JSON.parse(response.body)).to eq(expected_response)
+        end
+
+        it 'returns nil if the plan is not default' do
+          allow_any_instance_of(Enterprise::Api::V1::AccountsController).to receive(:default_plan?).and_return(false) # rubocop:disable RSpec/AnyInstance
+
+          get "/enterprise/api/v1/accounts/#{account.id}/limits",
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          expected_response = {
+            'id' => account.id,
+            'limits' => {
+              'conversation' => {},
+              'non_web_inboxes' => {}
+            }
+          }
+
+          expect(response).to have_http_status(:ok)
+          expect(JSON.parse(response.body)).to eq(expected_response)
+        end
+      end
+    end
+  end
 end
