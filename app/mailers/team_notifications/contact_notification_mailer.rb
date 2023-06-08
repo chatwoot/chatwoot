@@ -4,12 +4,12 @@ class TeamNotifications::ContactNotificationMailer < ApplicationMailer
 
     @admins = account.administrators
 
-    send_an_email_to_team(account, file_url)
+    send_an_email_to_team(file_url)
   end
 
   private
 
-  def send_an_email_to_team(account, file_url)
+  def send_an_email_to_team(file_url)
     subject = "Your contact's export file is available to download."
     @action_url = file_url
     @agent_emails = @admins.pluck(:email)
