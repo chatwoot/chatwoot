@@ -79,8 +79,12 @@ class ConversationReplyMailer < ApplicationMailer
     @conversation.messages.chat.where.not(message_type: :incoming)&.last
   end
 
-  def assignee_name
-    @assignee_name ||= @agent&.available_name || 'Notifications'
+  def sender_name
+    @sender_name ||= current_message&.sender&.name || @agent&.available_name || 'Notifications'
+  end
+
+  def current_message
+    @message || @messages.last
   end
 
   def mail_subject
@@ -97,7 +101,7 @@ class ConversationReplyMailer < ApplicationMailer
 
   def reply_email
     if should_use_conversation_email_address?
-      I18n.t('conversations.reply.email.header.reply_with_name', assignee_name: assignee_name, inbox_name: @inbox.name,
+      I18n.t('conversations.reply.email.header.reply_with_name', assignee_name: sender_name, inbox_name: @inbox.name,
                                                                  reply_email: "#{@conversation.uuid}@#{@account.inbound_email_domain}")
     else
       @inbox.email_address || @agent&.email
@@ -106,21 +110,17 @@ class ConversationReplyMailer < ApplicationMailer
 
   def from_email_with_name
     if should_use_conversation_email_address?
-      I18n.t('conversations.reply.email.header.from_with_name', assignee_name: assignee_name, inbox_name: @inbox.name,
+      I18n.t('conversations.reply.email.header.from_with_name', assignee_name: sender_name, inbox_name: @inbox.name,
                                                                 from_email: parse_email(@account.support_email))
     else
-      I18n.t('conversations.reply.email.header.from_with_name', assignee_name: assignee_name, inbox_name: @inbox.name,
+      I18n.t('conversations.reply.email.header.from_with_name', assignee_name: sender_name, inbox_name: @inbox.name,
                                                                 from_email: parse_email(inbox_from_email_address))
     end
   end
 
   def channel_email_with_name
-    if @conversation.assignee.present?
-      I18n.t('conversations.reply.channel_email.header.reply_with_name', assignee_name: assignee_name, inbox_name: @inbox.name,
-                                                                         from_email: @channel.email)
-    else
-      I18n.t('conversations.reply.channel_email.header.reply_with_inbox_name', inbox_name: @inbox.name, from_email: @channel.email)
-    end
+    I18n.t('conversations.reply.channel_email.header.reply_with_name', assignee_name: sender_name, inbox_name: @inbox.name,
+                                                                       from_email: @channel.email)
   end
 
   def parse_email(email_string)
