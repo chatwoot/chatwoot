@@ -7,6 +7,7 @@
   >
     <update-banner :latest-chatwoot-version="latestChatwootVersion" />
     <payment-pending-banner />
+    <upgrade-banner />
     <transition name="fade" mode="out-in">
       <router-view />
     </transition>
@@ -26,6 +27,7 @@ import AddAccountModal from '../dashboard/components/layout/sidebarComponents/Ad
 import LoadingState from './components/widgets/LoadingState.vue';
 import NetworkNotification from './components/NetworkNotification';
 import UpdateBanner from './components/app/UpdateBanner.vue';
+import UpgradeBanner from './components/app/UpgradeBanner.vue';
 import PaymentPendingBanner from './components/app/PaymentPendingBanner.vue';
 import vueActionCable from './helper/actionCable';
 import WootSnackbarBox from './components/SnackbarContainer';
@@ -45,6 +47,7 @@ export default {
     UpdateBanner,
     PaymentPendingBanner,
     WootSnackbarBox,
+    UpgradeBanner,
   },
 
   mixins: [rtlMixin],
@@ -91,6 +94,8 @@ export default {
     },
     async initializeAccount() {
       await this.$store.dispatch('accounts/get');
+
+      this.$store.dispatch('accounts/limits');
       this.$store.dispatch('setActiveAccount', {
         accountId: this.currentAccountId,
       });
