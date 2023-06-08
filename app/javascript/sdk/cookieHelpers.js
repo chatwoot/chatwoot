@@ -26,7 +26,7 @@ export const hasUserKeys = user =>
 export const setCookieWithDomain = (
   name,
   value,
-  { expires = 365, baseDomain = undefined }
+  { expires = 365, baseDomain = undefined } = {}
 ) => {
   const cookieOptions = {
     expires,
