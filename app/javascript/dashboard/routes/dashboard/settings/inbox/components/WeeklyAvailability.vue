@@ -102,9 +102,7 @@ export default {
   data() {
     return {
       isBusinessHoursEnabled: false,
-      unavailableMessage: this.$t(
-        'INBOX_MGMT.BUSINESS_HOURS.UNAVAILABLE_MESSAGE_DEFAULT'
-      ),
+      unavailableMessage: '',
       timeZone: DEFAULT_TIMEZONE,
       dayNames: {
         0: 'Sunday',
@@ -157,9 +155,7 @@ export default {
         ? timeSlotParse(timeSlots)
         : defaultTimeSlot;
       this.isBusinessHoursEnabled = isEnabled;
-      this.unavailableMessage =
-        unavailableMessage ||
-        this.$t('INBOX_MGMT.BUSINESS_HOURS.UNAVAILABLE_MESSAGE_DEFAULT');
+      this.unavailableMessage = unavailableMessage || '';
       this.timeSlots = slots;
       this.timeZone =
         this.timeZones.find(item => timeZone === item.value) ||
