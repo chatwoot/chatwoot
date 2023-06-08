@@ -16,6 +16,7 @@
       />
     </template>
     <menu-item
+      v-if="show(snoozeOption.key)"
       :option="snoozeOption"
       variant="icon"
       @click="snoozeConversation()"
@@ -129,7 +130,7 @@ export default {
         },
       ],
       snoozeOption: {
-        key: 'snooze',
+        key: wootConstants.STATUS_TYPE.SNOOZED,
         label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.SNOOZE.TITLE'),
         icon: 'snooze',
       },
