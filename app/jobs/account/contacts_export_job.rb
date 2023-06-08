@@ -2,26 +2,23 @@ class Account::ContactsExportJob < ApplicationJob
   queue_as :low
 
   def perform(account_id, column_names)
-    headers = valid_headers(column_names)
     account = Account.find(account_id)
+    headers = valid_headers(column_names)
+    generate_csv(account, headers)
+    file_url = account_contact_export_url(account)
 
-    file_url = generate_csv(account, headers)
-
-    TeamNotifications::ContactNotificationMailer.contact_export_notification(account, file_url)&.deliver_now
+    AdministratorNotifications::ChannelNotificationsMailer.with(account: account).contact_export_complete(file_url)&.deliver_later
   end
 
   def generate_csv(account, headers)
-    file_blob_url = nil
-
-    Tempfile.open(["#{account.name}_#{account.id}_contacts", '.csv']).tap do |tempfile|
-      CSV.open(tempfile, 'w', write_headers: true, headers: headers) do |writer|
-        account.contacts.each do |contact|
-          writer << headers.map { |header| contact.send(header) }
-        end
+    csv_data = CSV.generate do |csv|
+      csv << headers
+      account.contacts.each do |contact|
+        csv << headers.map { |header| contact.send(header) }
       end
-      file_blob_url = attach_export_file(account, tempfile)
     end
-    file_blob_url
+
+    attach_export_file(account, csv_data)
   end
 
   def valid_headers(column_names)
@@ -30,16 +27,18 @@ class Account::ContactsExportJob < ApplicationJob
     headers.compact
   end
 
-  def attach_export_file(account, tempfile)
-    file_blob = ActiveStorage::Blob.create_and_upload!(
-      key: nil,
-      io: tempfile,
-      filename: "#{account.name}_#{account.id}_contacts",
+  def attach_export_file(account, csv_data)
+    return if csv_data.blank?
+
+    account.contacts_export.attach(
+      io: StringIO.new(csv_data),
+      filename: "#{account.name}_#{account.id}_contacts.csv",
       content_type: 'text/csv'
     )
-    file_blob.save!
+  end
 
-    Rails.application.routes.url_helpers.url_for(file_blob)
+  def account_contact_export_url(account)
+    Rails.application.routes.url_helpers.rails_blob_url(account.contacts_export)
   end
 
   def default_columns

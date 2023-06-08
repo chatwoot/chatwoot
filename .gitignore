@@ -31,7 +31,6 @@ master.key
 .env
 
 public/uploads
-public/contacts
 public/packs*
 
 # VIM files

@@ -105,6 +105,7 @@ export default {
     AddCustomViews,
     DeleteCustomViews,
   },
+  mixins: [alertMixin],
   props: {
     label: { type: String, default: '' },
     segmentsId: {

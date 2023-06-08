@@ -10,14 +10,38 @@ RSpec.describe Account::ContactsExportJob do
       .on_queue('low')
   end
 
-  it 'send an email about export is completed' do
-    expect(TeamNotifications::ContactNotificationMailer).to receive(:contact_export_notification).with(account)
+  context 'when export_contacts' do
+    before do
+      create(:contact, account: account, phone_number: '+910808080818', email: 'test1@text.example')
+      8.times do
+        create(:contact, account: account)
+      end
+      create(:contact, account: account, phone_number: '+910808080808', email: 'test2@text.example')
+    end
 
-    described_class.perform_now(account.id, [])
+    it 'generates CSV file and attach to account' do
+      mailer = double
+      allow(AdministratorNotifications::ChannelNotificationsMailer).to receive(:with).with(account: account).and_return(mailer)
+      allow(mailer).to receive(:contact_export_complete)
 
-    path_to_file = "#{Rails.root}/public/contacts/#{account.id}/#{account.name}_#{account.id}_contacts.csv"
+      described_class.perform_now(account.id, [])
 
-    expect(CSV.open(path_to_file, 'r')).to be_truthy
-    File.delete(path_to_file)
+      file_url = Rails.application.routes.url_helpers.rails_blob_url(account.contacts_export)
+
+      expect(account.contacts_export).to be_present
+      expect(file_url).to be_present
+      expect(mailer).to have_received(:contact_export_complete).with(file_url)
+    end
+
+    it 'generates valid data export file' do
+      described_class.perform_now(account.id, [])
+
+      csv_data = CSV.parse(account.contacts_export.download, headers: true)
+      first_row = csv_data[0]
+
+      expect(csv_data.length).to eq(account.contacts.count)
+      expect(first_row['email']).to eq('test1@text.example')
+      expect(first_row['phone_number']).to eq('+910808080818')
+    end
   end
 end
