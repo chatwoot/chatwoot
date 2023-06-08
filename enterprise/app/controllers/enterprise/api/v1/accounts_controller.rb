@@ -1,4 +1,5 @@
 class Enterprise::Api::V1::AccountsController < Api::BaseController
+  include BillingHelper
   before_action :fetch_account
   before_action :check_authorization
 
@@ -8,6 +9,28 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
       Enterprise::CreateStripeCustomerJob.perform_later(@account)
     end
     head :no_content
+  end
+
+  def limits
+    limits = {
+      'conversation' => nil,
+      'non_web_inboxes' => nil
+    }
+
+    if default_plan?(@account)
+      limits = {
+        'conversation' => {
+          'available' => 500,
+          'consumed' => conversations_this_month(@account)
+        },
+        'non_web_inboxes' => {
+          'available' => 0,
+          'consumed' => non_web_inboxes(@account)
+        }
+      }
+    end
+
+    render json: { limits: limits }, status: :ok
   end
 
   def checkout

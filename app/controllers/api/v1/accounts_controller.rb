@@ -1,7 +1,6 @@
 class Api::V1::AccountsController < Api::BaseController
   include AuthHelper
   include CacheKeysHelper
-  include BillingHelper
 
   skip_before_action :authenticate_user!, :set_current_user, :handle_with_exception,
                      only: [:create], raise: false
@@ -49,28 +48,6 @@ class Api::V1::AccountsController < Api::BaseController
     @current_account_user.active_at = Time.now.utc
     @current_account_user.save!
     head :ok
-  end
-
-  def limits
-    limits = {
-      'conversation' => nil,
-      'non_web_inboxes' => nil
-    }
-
-    if default_plan?(@account)
-      limits = {
-        'conversation' => {
-          'available' => 500,
-          'consumed' => conversations_this_month(@account)
-        },
-        'non_web_inboxes' => {
-          'available' => 0,
-          'consumed' => non_web_inboxes(@account)
-        }
-      }
-    end
-
-    render json: { limits: limits }, status: :ok
   end
 
   private
