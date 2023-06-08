@@ -217,13 +217,10 @@ class Message < ApplicationRecord
   private
 
   def ensure_processed_message_content
-    self.processed_message_content = if inbox.channel_type == 'Channel::Email'
-                                       text_content_quoted = content_attributes.dig(:email, :text_content, :quoted)
-                                       html_content_quoted = content_attributes.dig(:email, :html_content, :quoted)
-                                       text_content_quoted || html_content_quoted || content
-                                     else
-                                       content
-                                     end
+    text_content_quoted = content_attributes.dig(:email, :text_content, :quoted)
+    html_content_quoted = content_attributes.dig(:email, :html_content, :quoted)
+
+    self.processed_message_content = text_content_quoted || html_content_quoted || content
   end
 
   def ensure_content_type
