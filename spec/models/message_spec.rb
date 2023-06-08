@@ -223,6 +223,15 @@ RSpec.describe Message do
     end
   end
 
+  context 'when processed_message_content is blank' do
+    let(:message) { build(:message, content_type: :text, account: create(:account), content: 'Processed message content') }
+
+    it 'sets content_type as text' do
+      message.save!
+      expect(message.processed_message_content).to eq message.content
+    end
+  end
+
   context 'when attachments size maximum' do
     let(:message) { build(:message, content_type: nil, account: create(:account)) }
 
