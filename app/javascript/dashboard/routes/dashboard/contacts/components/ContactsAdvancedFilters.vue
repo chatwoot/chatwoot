@@ -1,9 +1,25 @@
 <template>
   <div class="column">
-    <woot-modal-header :header-title="$t('CONTACTS_FILTER.TITLE')">
-      <p>{{ $t('CONTACTS_FILTER.SUBTITLE') }}</p>
+    <woot-modal-header :header-title="filterModalHeaderTitle">
+      <p>{{ filterModalSubTitle }}</p>
     </woot-modal-header>
-    <div class="row modal-content">
+    <div class="column modal-content">
+      <div v-if="isSegmentsView" class="columns">
+        <label class="input-label" :class="{ error: !activeSegmentNewName }">
+          {{ $t('CONTACTS_FILTER.SEGMENT_LABEL') }}
+          <input
+            v-model="activeSegmentNewName"
+            type="text"
+            class="name-input"
+          />
+          <span v-if="!activeSegmentNewName" class="message">
+            {{ $t('CONTACTS_FILTER.EMPTY_VALUE_ERROR') }}
+          </span>
+        </label>
+        <label class="input-label">
+          {{ $t('CONTACTS_FILTER.SEGMENT_QUERY_LABEL') }}
+        </label>
+      </div>
       <div class="medium-12 columns filters-wrap">
         <filter-input-box
           v-for="(filter, i) in appliedFilters"
@@ -36,7 +52,7 @@
             {{ $t('CONTACTS_FILTER.ADD_NEW_FILTER') }}
           </woot-button>
           <woot-button
-            v-if="hasAppliedFilters"
+            v-if="hasAppliedFilters && !isSegmentsView"
             icon="subtract"
             color-scheme="alert"
             variant="smooth"
@@ -52,7 +68,14 @@
           <woot-button class="button clear" @click.prevent="onClose">
             {{ $t('CONTACTS_FILTER.CANCEL_BUTTON_LABEL') }}
           </woot-button>
-          <woot-button @click="submitFilterQuery">
+          <woot-button
+            v-if="isSegmentsView"
+            :disabled="!activeSegmentNewName"
+            @click="updateSegment"
+          >
+            {{ $t('CONTACTS_FILTER.UPDATE_BUTTON_LABEL') }}
+          </woot-button>
+          <woot-button v-else @click="submitFilterQuery">
             {{ $t('CONTACTS_FILTER.SUBMIT_BUTTON_LABEL') }}
           </woot-button>
         </div>
@@ -85,6 +108,18 @@ export default {
       type: Array,
       default: () => [],
     },
+    initialAppliedFilters: {
+      type: Array,
+      default: () => [],
+    },
+    isSegmentsView: {
+      type: Boolean,
+      default: false,
+    },
+    activeSegmentName: {
+      type: String,
+      default: '',
+    },
   },
   validations: {
     appliedFilters: {
@@ -105,7 +140,8 @@ export default {
   data() {
     return {
       show: true,
-      appliedFilters: [],
+      appliedFilters: this.initialAppliedFilters,
+      activeSegmentNewName: this.activeSegmentName,
       filterTypes: this.initialFilterTypes,
       filterGroups: [],
       allCustomAttributes: [],
@@ -121,12 +157,22 @@ export default {
     hasAppliedFilters() {
       return this.getAppliedContactFilters.length;
     },
+    filterModalHeaderTitle() {
+      return !this.isSegmentsView
+        ? this.$t('CONTACTS_FILTER.TITLE')
+        : this.$t('CONTACTS_FILTER.EDIT_CUSTOM_SEGMENT');
+    },
+    filterModalSubTitle() {
+      return !this.isSegmentsView
+        ? this.$t('CONTACTS_FILTER.SUBTITLE')
+        : this.$t('CONTACTS_FILTER.CUSTOM_VIEWS_SUBTITLE');
+    },
   },
   mounted() {
     this.setFilterAttributes();
     if (this.getAppliedContactFilters.length) {
       this.appliedFilters = [...this.getAppliedContactFilters];
-    } else {
+    } else if (!this.isSegmentsView) {
       this.appliedFilters.push({
         attribute_key: 'name',
         filter_operator: 'equal_to',
@@ -177,11 +223,11 @@ export default {
       if (key === 'created_at' || key === 'last_activity_at')
         if (operator === 'days_before') return 'plain_text';
       const type = this.filterTypes.find(filter => filter.attributeKey === key);
-      return type.inputType;
+      return type?.inputType;
     },
     getOperators(key) {
       const type = this.filterTypes.find(filter => filter.attributeKey === key);
-      return type.filterOperators;
+      return type?.filterOperators;
     },
     getDropdownValues(type) {
       const allCustomAttributes = this.$store.getters[
@@ -230,11 +276,30 @@ export default {
       }
     },
     appendNewFilter() {
-      this.appliedFilters.push({
-        attribute_key: 'name',
-        filter_operator: 'equal_to',
-        values: '',
+      if (this.isSegmentsView) {
+        this.setQueryOperatorOnLastQuery();
+      } else {
+        this.appliedFilters.push({
+          attribute_key: 'name',
+          filter_operator: 'equal_to',
+          values: '',
+          query_operator: 'and',
+        });
+      }
+    },
+    setQueryOperatorOnLastQuery() {
+      const lastItemIndex = this.appliedFilters.length - 1;
+      this.appliedFilters[lastItemIndex] = {
+        ...this.appliedFilters[lastItemIndex],
         query_operator: 'and',
+      };
+      this.$nextTick(() => {
+        this.appliedFilters.push({
+          attribute_key: 'name',
+          filter_operator: 'equal_to',
+          values: '',
+          query_operator: 'and',
+        });
       });
     },
     removeFilter(index) {
@@ -258,6 +323,13 @@ export default {
           operator: filter.filter_operator,
         })),
       });
+    },
+    updateSegment() {
+      this.$emit(
+        'updateSegment',
+        this.appliedFilters,
+        this.activeSegmentNewName
+      );
     },
     resetFilter(index, currentFilter) {
       this.appliedFilters[index].filter_operator = this.filterTypes.find(
