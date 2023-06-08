@@ -40,14 +40,16 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     received_mails(imap_inbox).each do |message_id|
       inbound_mail = Mail.read_from_string imap_inbox.fetch(message_id, 'RFC822')[0].attr['RFC822']
 
+      mail_info_logger(channel, inbound_mail, message_id)
+
       next if email_already_present?(channel, inbound_mail, last_email_time)
 
       process_mail(inbound_mail, channel)
     end
   end
 
-  def email_already_present?(channel, inbound_mail, last_email_time)
-    processed_email?(inbound_mail, last_email_time) || channel.inbox.messages.find_by(source_id: inbound_mail.message_id).present?
+  def email_already_present?(channel, inbound_mail, _last_email_time)
+    channel.inbox.messages.find_by(source_id: inbound_mail.message_id).present?
   end
 
   def received_mails(imap_inbox)
@@ -76,10 +78,19 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     received_mails(imap_inbox).each do |message_id|
       inbound_mail = Mail.read_from_string imap_inbox.fetch(message_id, 'RFC822')[0].attr['RFC822']
 
+      mail_info_logger(channel, inbound_mail, message_id)
+
       next if channel.inbox.messages.find_by(source_id: inbound_mail.message_id).present?
 
       process_mail(inbound_mail, channel)
     end
+  end
+
+  def mail_info_logger(channel, inbound_mail, message_id)
+    return if Rails.env.test?
+
+    Rails.logger.info("
+      #{channel.provider} Email id: #{inbound_mail.from} and message_source_id: #{inbound_mail.message_id}, message_id: #{message_id}")
   end
 
   def authenticated_imap_inbox(channel, access_token, auth_method)
@@ -113,6 +124,8 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     Imap::ImapMailbox.new.process(inbound_mail, channel)
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: channel.account).capture_exception
+    Rails.logger.error("
+      #{channel.provider} Email dropped: #{inbound_mail.from} and message_source_id: #{inbound_mail.message_id}, message_id: #{message_id}")
   end
 
   # Making sure the access token is valid for microsoft provider
