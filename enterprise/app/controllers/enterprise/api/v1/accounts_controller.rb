@@ -30,7 +30,8 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
       }
     end
 
-    render json: { limits: limits }, status: :ok
+    # include id in response to ensure that the store can be updated on the frontend
+    render json: { id: @account.id, limits: limits }, status: :ok
   end
 
   def checkout
