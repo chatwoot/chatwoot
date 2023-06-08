@@ -3,10 +3,22 @@ require 'rails_helper'
 RSpec.describe EmailReplyWorker, type: :worker do
   let(:account) { create(:account) }
   let(:channel) { create(:channel_email, account: account) }
-  let(:message) { create(:message, message_type: :outgoing, inbox: channel.inbox, account: account) }
-  let(:private_message) { create(:message, private: true, message_type: :outgoing, inbox: channel.inbox, account: account) }
-  let(:incoming_message) { create(:message, message_type: :incoming, inbox: channel.inbox, account: account) }
-  let(:template_message) { create(:message, message_type: :template, content_type: :input_csat, inbox: channel.inbox, account: account) }
+  let(:message) do
+    create(:message, message_type: :outgoing, inbox: channel.inbox, account: account,
+                     content_attributes: { email: { text_content: { quoted: 'quoted text' } } })
+  end
+  let(:private_message) do
+    create(:message, private: true, message_type: :outgoing, inbox: channel.inbox, account: account,
+                     content_attributes: { email: { text_content: { quoted: 'quoted text' } } })
+  end
+  let(:incoming_message) do
+    create(:message, message_type: :incoming, inbox: channel.inbox, account: account,
+                     content_attributes: { email: { text_content: { quoted: 'quoted text' } } })
+  end
+  let(:template_message) do
+    create(:message, message_type: :template, content_type: :input_csat, inbox: channel.inbox, account: account,
+                     content_attributes: { email: { text_content: { quoted: 'quoted text' } } })
+  end
   let(:mailer) { double }
   let(:mailer_action) { double }
 
