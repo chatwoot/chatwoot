@@ -29,7 +29,7 @@ import {
   CHATWOOT_READY,
 } from '../widget/constants/sdkEvents';
 import { SET_USER_ERROR } from '../widget/constants/errorTypes';
-import { getUserCookieName } from './cookieHelpers';
+import { getUserCookieName, setCookieWithDomain } from './cookieHelpers';
 import {
   getAlertAudio,
   initOnEvents,
@@ -38,17 +38,16 @@ import { isFlatWidgetStyle } from './settingsHelper';
 import { popoutChatWindow } from '../widget/helpers/popoutHelper';
 import addHours from 'date-fns/addHours';
 
-const updateAuthCookie = cookieContent =>
-  Cookies.set('cw_conversation', cookieContent, {
-    expires: 365,
-    sameSite: 'Lax',
+const updateAuthCookie = (cookieContent, baseDomain = '') =>
+  setCookieWithDomain('cw_conversation', cookieContent, {
+    baseDomain,
   });
 
-const updateCampaignReadStatus = () => {
+const updateCampaignReadStatus = baseDomain => {
   const expireBy = addHours(new Date(), 1);
-  Cookies.set('cw_snooze_campaigns_till', Number(expireBy), {
+  setCookieWithDomain('cw_snooze_campaigns_till', Number(expireBy), {
     expires: expireBy,
-    sameSite: 'Lax',
+    baseDomain,
   });
 };
 
@@ -154,7 +153,7 @@ export const IFrameHelper = {
 
   events: {
     loaded: message => {
-      updateAuthCookie(message.config.authToken);
+      updateAuthCookie(message.config.authToken, window.$chatwoot.baseDomain);
       window.$chatwoot.hasLoaded = true;
       const campaignsSnoozedTill = Cookies.get('cw_snooze_campaigns_till');
       IFrameHelper.sendMessage('config-set', {
@@ -200,11 +199,11 @@ export const IFrameHelper = {
     },
 
     setAuthCookie({ data: { widgetAuthToken } }) {
-      updateAuthCookie(widgetAuthToken);
+      updateAuthCookie(widgetAuthToken, window.$chatwoot.baseDomain);
     },
 
     setCampaignReadOn() {
-      updateCampaignReadStatus();
+      updateCampaignReadStatus(window.$chatwoot.baseDomain);
     },
 
     toggleBubble: state => {
