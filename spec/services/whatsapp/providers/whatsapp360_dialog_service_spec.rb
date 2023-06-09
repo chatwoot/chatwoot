@@ -1,4 +1,4 @@
-## th older specs are covered in send in spec/services/whatsapp/send_on_whatsapp_service_spec.rb
+## the older specs are covered in send in spec/services/whatsapp/send_on_whatsapp_service_spec.rb
 require 'rails_helper'
 
 describe Whatsapp::Providers::Whatsapp360DialogService do
