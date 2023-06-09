@@ -37,6 +37,7 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def cache_keys
+    expires_in 1.minute, public: false
     render json: { cache_keys: get_cache_keys }, status: :ok
   end
 
