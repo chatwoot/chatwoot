@@ -38,6 +38,11 @@
     "USER_ACTION": {
       "SIGN_IN": "%{agentName} signed in",
       "SIGN_OUT": "%{agentName} signed out"
+    },
+    "TEAM": {
+      "ADD": "%{agentName} created a new team (#%{id})",
+      "EDIT": "%{agentName} updated a team (#%{id})",
+      "DELETE": "%{agentName} deleted a team (#%{id})"
     }
   }
 }
