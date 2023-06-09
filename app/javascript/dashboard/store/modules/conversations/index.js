@@ -134,10 +134,11 @@ export const mutations = {
 
     const isMessageSent =
       message.status === MESSAGE_STATUS.SENT && message.attachments;
+    const { attachments: chatAttachments = [] } = chat;
     if (isMessageSent) {
       message.attachments.forEach(attachment => {
-        if (!chat.attachments.some(a => a.id === attachment.id)) {
-          chat.attachments.push(attachment);
+        if (!chatAttachments.some(a => a.id === attachment.id)) {
+          chatAttachments.push(attachment);
         }
       });
     }
