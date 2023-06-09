@@ -46,7 +46,7 @@ class Imap::ImapMailbox
   end
 
   def find_conversation_by_reference_ids
-    return if @inbound_mail.references.blank?
+    return if @inbound_mail.references.blank? && in_reply_to.present?
 
     message = find_message_by_references
 
