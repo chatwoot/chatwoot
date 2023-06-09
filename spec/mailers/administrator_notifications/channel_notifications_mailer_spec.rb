@@ -55,4 +55,15 @@ RSpec.describe AdministratorNotifications::ChannelNotificationsMailer do
       expect(mail.to).to eq([administrator.email])
     end
   end
+
+  describe 'contact_export_complete' do
+    it 'renders the subject' do
+      Account::ContactsExportJob.perform_now(account.id, [])
+      file_url = Rails.application.routes.url_helpers.rails_blob_url(account.contacts_export)
+
+      mail = described_class.with(account: account).contact_export_complete(file_url)&.deliver_later
+
+      expect(mail.subject).to eq('Your Whatsapp connection has expired')
+    end
+  end
 end
