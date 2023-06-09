@@ -113,6 +113,9 @@ GEM
       kaminari (>= 1.0)
       sassc-rails (~> 2.1)
       selectize-rails (~> 0.6)
+    administrate-field-active_storage (0.4.2)
+      administrate (>= 0.2.2)
+      rails (>= 7.0)
     annotate (3.2.0)
       activerecord (>= 3.2, < 8.0)
       rake (>= 10.4, < 14.0)
@@ -798,6 +801,7 @@ DEPENDENCIES
   activerecord-import
   acts-as-taggable-on
   administrate
+  administrate-field-active_storage
   annotate
   attr_extras
   audited (~> 5.3)
