@@ -102,7 +102,7 @@ class ConversationFinder
     when 'participating'
       @conversations = current_user.participating_conversations.where(account_id: current_account.id)
     when 'unattended'
-      @conversations = @conversations.where(first_reply_created_at: nil)
+      @conversations = @conversations.unattended
     end
     @conversations
   end
