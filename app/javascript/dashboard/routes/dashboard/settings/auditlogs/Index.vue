@@ -127,6 +127,9 @@ export default {
         'inbox:destroy': `AUDIT_LOGS.INBOX.DELETE`,
         'user:sign_in': `AUDIT_LOGS.USER_ACTION.SIGN_IN`,
         'user:sign_out': `AUDIT_LOGS.USER_ACTION.SIGN_OUT`,
+        'channel::webwidget:create': `AUDIT_LOGS.CHANNEL.WEB_WIDGET.ADD`,
+        'channel::webwidget:update': `AUDIT_LOGS.CHANNEL.WEB_WIDGET.EDIT`,
+        'channel::webwidget:destroy': `AUDIT_LOGS.CHANNEL.WEB_WIDGET.DELETE`,
       };
 
       return this.$t(translationKeys[logActionKey] || '', translationPayload);

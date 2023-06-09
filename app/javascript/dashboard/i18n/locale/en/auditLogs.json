@@ -38,6 +38,13 @@
     "USER_ACTION": {
       "SIGN_IN": "%{agentName} signed in",
       "SIGN_OUT": "%{agentName} signed out"
+    },
+    "CHANNEL": {
+      "WEB_WIDGET": {
+        "ADD": "%{agentName} created a new web channel (#%{id})",
+        "EDIT": "%{agentName} updated a web channel (#%{id})",
+        "DELETE": "%{agentName} deleted a web channel (#%{id})"
+      }
     }
   }
 }

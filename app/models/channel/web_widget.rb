@@ -39,6 +39,7 @@ class Channel::WebWidget < ApplicationRecord
                     { selected_feature_flags: [] }].freeze
 
   before_validation :validate_pre_chat_options
+  belongs_to :account
   validates :website_url, presence: true
   validates :widget_color, presence: true
 
@@ -105,3 +106,5 @@ class Channel::WebWidget < ApplicationRecord
                                          }).perform
   end
 end
+
+Channel::WebWidget.include_mod_with('Audit::Channel::WebWidget')
