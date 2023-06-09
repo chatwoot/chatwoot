@@ -58,11 +58,10 @@ export const mutations = {
     }
   },
   [types.SET_ALL_ATTACHMENTS](_state, { id, data }) {
-    if (data.length) {
-      const [chat] = _state.allConversations.filter(c => c.id === id);
-      Vue.set(chat, 'attachments', []);
-      chat.attachments.push(...data);
-    }
+    const [chat] = _state.allConversations.filter(c => c.id === id);
+    if (!chat) return;
+    Vue.set(chat, 'attachments', []);
+    chat.attachments.push(...data);
   },
   [types.SET_MISSING_MESSAGES](_state, { id, data }) {
     const [chat] = _state.allConversations.filter(c => c.id === id);
@@ -134,11 +133,10 @@ export const mutations = {
 
     const isMessageSent =
       message.status === MESSAGE_STATUS.SENT && message.attachments;
-    const { attachments: chatAttachments = [] } = chat;
     if (isMessageSent) {
       message.attachments.forEach(attachment => {
-        if (!chatAttachments.some(a => a.id === attachment.id)) {
-          chatAttachments.push(attachment);
+        if (!chat.attachments.some(a => a.id === attachment.id)) {
+          chat.attachments.push(attachment);
         }
       });
     }
