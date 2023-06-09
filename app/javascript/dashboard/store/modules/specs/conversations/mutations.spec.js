@@ -288,6 +288,14 @@ describe('#mutations', () => {
       mutations[types.SET_ALL_ATTACHMENTS](state, { id: 1, data });
       expect(state.allConversations[0].attachments).toEqual(data);
     });
+    it('set attachments key even if the attachments are empty', () => {
+      const state = {
+        allConversations: [{ id: 1 }],
+      };
+      const data = [];
+      mutations[types.SET_ALL_ATTACHMENTS](state, { id: 1, data });
+      expect(state.allConversations[0].attachments).toEqual([]);
+    });
   });
 
   describe('#ADD_CONVERSATION_ATTACHMENTS', () => {
