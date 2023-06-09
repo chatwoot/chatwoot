@@ -299,8 +299,8 @@ export default {
   }
 
   .country-emoji--wrap {
-    border-top-left-radius: 0.18rem;
     border-bottom-left-radius: 0.18rem;
+    border-top-left-radius: 0.18rem;
     min-width: 3.6rem;
     width: 3.6rem;
   }
