@@ -38,10 +38,11 @@ RSpec.describe Account::ContactsExportJob do
 
       csv_data = CSV.parse(account.contacts_export.download, headers: true)
       first_row = csv_data[0]
+      contact = account.contacts.order(:created_at).first
 
       expect(csv_data.length).to eq(account.contacts.count)
-      expect(first_row['email']).to eq('test1@text.example')
-      expect(first_row['phone_number']).to eq('+910808080818')
+      expect(first_row['email']).to eq(contact.email)
+      expect(first_row['phone_number']).to eq(contact.phone_number)
     end
   end
 end
