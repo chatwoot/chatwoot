@@ -201,6 +201,7 @@ RSpec.describe Message do
         message.inbox = create(:inbox, account: message.account, channel: build(:channel_email, account: message.account))
         allow(EmailReplyWorker).to receive(:perform_in).and_return(true)
         message.message_type = 'outgoing'
+        message.content_attributes = { email: { text_content: { quoted: 'quoted text' } } }
         message.save!
         expect(EmailReplyWorker).to have_received(:perform_in).with(1.second, message.id)
       end
@@ -220,6 +221,15 @@ RSpec.describe Message do
     it 'sets content_type as text' do
       message.save!
       expect(message.content_type).to eq 'text'
+    end
+  end
+
+  context 'when processed_message_content is blank' do
+    let(:message) { build(:message, content_type: :text, account: create(:account), content: 'Processed message content') }
+
+    it 'sets content_type as text' do
+      message.save!
+      expect(message.processed_message_content).to eq message.content
     end
   end
 
