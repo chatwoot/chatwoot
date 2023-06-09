@@ -15,7 +15,7 @@ RSpec.describe Team do
 
     context 'when team is updated' do
       it 'has associated audit log created' do
-        team.update(url: 'https://example.com')
+        team.update(description: 'awesome team')
         expect(Audited::Audit.where(auditable_type: 'Team', action: 'update').count).to eq 1
       end
     end
