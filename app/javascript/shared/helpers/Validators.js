@@ -4,6 +4,11 @@ export const isPhoneNumberValid = (value, dialCode) => {
   return !!number.match(/^[0-9]{1,14}$/);
 };
 export const isPhoneE164OrEmpty = value => isPhoneE164(value) || value === '';
+export const isPhoneNumberValidWithDialCode = value => {
+  const number = value.replace(/^\+/, ''); // Remove the '+' sign
+  return !!number.match(/^[1-9]\d{4,}$/); // Validate the phone number with minimum 5 digits
+};
+export const isPhoneNumberStartsWithPlus = value => value.startsWith('+');
 export const shouldBeUrl = (value = '') =>
   value ? value.startsWith('http') : true;
 export const isValidPassword = value => {

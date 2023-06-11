@@ -7,10 +7,13 @@ import store from '../widget/store';
 import App from '../widget/App.vue';
 import ActionCableConnector from '../widget/helpers/actionCable';
 import i18n from '../widget/i18n';
-import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
+import {
+  isPhoneNumberStartsWithPlus,
+  isPhoneNumberValidWithDialCode,
+} from 'shared/helpers/Validators';
 import router from '../widget/router';
 import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
-import PhoneInput from '../widget/components/Form/PhoneInput';
+const PhoneInput = () => import('../widget/components/Form/PhoneInput');
 
 Vue.use(VueI18n);
 Vue.use(Vuelidate);
@@ -31,7 +34,8 @@ Vue.use(VueFormulate, {
     },
   },
   rules: {
-    isPhoneE164OrEmpty: ({ value }) => isPhoneE164OrEmpty(value),
+    startsWithPlus: ({ value }) => isPhoneNumberStartsWithPlus(value),
+    isPhoneNumberValid: ({ value }) => isPhoneNumberValidWithDialCode(value),
   },
   classes: {
     outer: 'mb-4 wrapper',

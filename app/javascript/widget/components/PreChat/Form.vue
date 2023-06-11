@@ -22,9 +22,10 @@
       :label-class="context => labelClass(context)"
       :input-class="context => inputClass(context)"
       :validation-messages="{
-        isPhoneE164OrEmpty: $t(
+        startsWithPlus: $t(
           'PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.DIAL_CODE_VALID_ERROR'
         ),
+        isPhoneNumberValid: $t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.VALID_ERROR'),
         email: $t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.VALID_ERROR'),
         required: $t('PRE_CHAT_FORM.REQUIRED'),
       }"
@@ -240,7 +241,7 @@ export default {
       }
       const validations = {
         emailAddress: 'email',
-        phoneNumber: 'isPhoneE164OrEmpty',
+        phoneNumber: 'startsWithPlus|isPhoneNumberValid',
         url: 'url',
         date: 'date',
         text: null,

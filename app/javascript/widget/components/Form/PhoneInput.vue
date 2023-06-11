@@ -51,7 +51,7 @@
         />
       </div>
       <div
-        v-for="(country, index) in filteredCountriesBySearch"
+        v-for="(country, index) in items"
         ref="dropdownItem"
         :key="index"
         class="country-dropdown--item h-8 flex items-center cursor-pointer rounded py-2 px-2"
@@ -70,7 +70,7 @@
         </span>
         <span class="ml-2 text-xs">{{ country.dial_code }}</span>
       </div>
-      <div v-if="filteredCountriesBySearch.length === 0">
+      <div v-if="items.length === 0">
         <span
           class="text-sm mt-4 justify-center text-center flex"
           :class="$dm('text-slate-700', 'dark:text-slate-50')"
@@ -85,13 +85,8 @@
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
 import countries from 'shared/constants/countries.js';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import {
-  hasPressedArrowUpKey,
-  hasPressedArrowDownKey,
-  isEnter,
-} from 'shared/helpers/KeyboardHelpers';
+import mentionSelectionKeyboardMixin from 'dashboard/components/widgets/mentions/mentionSelectionKeyboardMixin.js';
 import FormulateInputMixin from '@braid/vue-formulate/src/FormulateInputMixin';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
 
@@ -99,7 +94,12 @@ export default {
   components: {
     FluentIcon,
   },
-  mixins: [eventListenerMixins, FormulateInputMixin, darkModeMixin, clickaway],
+  mixins: [
+    mentionSelectionKeyboardMixin,
+    FormulateInputMixin,
+    darkModeMixin,
+    clickaway,
+  ],
   props: {
     placeholder: {
       type: String,
@@ -112,15 +112,6 @@ export default {
   },
   data() {
     return {
-      countries: [
-        {
-          name: 'Select Country',
-          dial_code: '',
-          emoji: '',
-          id: '',
-        },
-        ...countries,
-      ],
       selectedIndex: -1,
       showDropdown: false,
       searchCountry: '',
@@ -130,6 +121,20 @@ export default {
     };
   },
   computed: {
+    countries() {
+      return [
+        {
+          name: this.dropdownFirstItemName,
+          dial_code: '',
+          emoji: '',
+          id: '',
+        },
+        ...countries,
+      ];
+    },
+    dropdownFirstItemName() {
+      return this.activeCountryCode ? 'Clear selection' : 'Select Country';
+    },
     dropdownClass() {
       return `${this.$dm('bg-slate-100', 'dark:bg-slate-700')} ${this.$dm(
         'text-slate-700',
@@ -168,7 +173,7 @@ export default {
         'dark:text-slate-50'
       )}`;
     },
-    filteredCountriesBySearch() {
+    items() {
       return this.countries.filter(country => {
         const { name, dial_code, id } = country;
         const search = this.searchCountry.toLowerCase();
@@ -180,12 +185,10 @@ export default {
       });
     },
     activeCountry() {
-      if (this.activeCountryCode) {
-        return this.countries.find(
-          country => country.id === this.activeCountryCode
-        );
-      }
-      return '';
+      return (
+        this.countries.find(country => country.id === this.activeCountryCode) ||
+        ''
+      );
     },
   },
   methods: {
@@ -195,14 +198,9 @@ export default {
       this.context.model = `${code}${this.phoneNumber}`;
     },
     onChange(e) {
-      if (e.target.value === '') {
-        // This is to reset the active country code and dial code when the user clears the phone number field.
-        this.activeCountryCode = '';
-        this.activeDialCode = '';
-      }
       this.phoneNumber = e.target.value;
       // This function is used to set the context value when the user types in the phone number field.
-      this.setContextValue();
+      this.setContextValue(this.activeDialCode);
     },
     dropdownItem() {
       // This function is used to get all the items in the dropdown.
@@ -220,32 +218,14 @@ export default {
         )
       );
     },
-    onKeyDownHandler(e) {
-      // Here the code does is to check if the dropdown is open.
-      // If it is open, then it checks if the user has pressed the arrow down key or arrow up key.
-      // If the user has pressed the arrow down key, then it will increment the selectedIndex by 1.
-      // If the user has pressed the arrow up key, then it will decrement the selectedIndex by 1.
-      // If the user has pressed the enter key, then it will select the country.
-      const { showDropdown, filteredCountriesBySearch, onSelectCountry } = this;
-      const { selectedIndex } = this;
-
-      if (showDropdown) {
-        if (hasPressedArrowDownKey(e)) {
-          e.preventDefault();
-          this.selectedIndex = Math.min(
-            selectedIndex + 1,
-            filteredCountriesBySearch.length - 1
-          );
-          this.scrollToFocusedOrActiveItem(this.focusedOrActiveItem('focus'));
-        } else if (hasPressedArrowUpKey(e)) {
-          e.preventDefault();
-          this.selectedIndex = Math.max(selectedIndex - 1, 0);
-          this.scrollToFocusedOrActiveItem(this.focusedOrActiveItem('focus'));
-        } else if (isEnter(e)) {
-          e.preventDefault();
-          onSelectCountry(filteredCountriesBySearch[selectedIndex]);
-        }
+    handleKeyboardEvent(e) {
+      if (this.showDropdown) {
+        this.processKeyDownEvent(e);
+        this.scrollToFocusedOrActiveItem(this.focusedOrActiveItem('focus'));
       }
+    },
+    onSelect() {
+      this.onSelectCountry(this.items[this.selectedIndex]);
     },
     scrollToFocusedOrActiveItem(item) {
       // This function is used to scroll the dropdown to the focused or active item.
