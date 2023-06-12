@@ -8,7 +8,7 @@ module BillingHelper
   end
 
   def conversations_this_month(account)
-    account.conversations.where('created_at > ?', Time.zone.now.beginning_of_month).count
+    account.conversations.where('created_at > ?', 30.days.ago).count
   end
 
   def non_web_inboxes(account)
