@@ -4,7 +4,7 @@ module BillingHelper
   def default_plan?(account)
     installation_config = InstallationConfig.find_by(name: 'CHATWOOT_CLOUD_PLANS')
     default_plan = installation_config.value.first
-    account.custom_attributes['plan_name'] == default_plan['name']
+    account.custom_attributes['plan_name'].nil? || account.custom_attributes['plan_name'] == default_plan['name']
   end
 
   def conversations_this_month(account)
