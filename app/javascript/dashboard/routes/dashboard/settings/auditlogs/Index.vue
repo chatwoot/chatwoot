@@ -80,6 +80,13 @@ export default {
       },
     };
   },
+  activated() {
+    this.$store.dispatch('auditlogs/fetch', { page: 1 }).catch(error => {
+      const errorMessage =
+        error?.message || this.$t('AUDIT_LOGS.API.ERROR_MESSAGE');
+      this.showAlert(errorMessage);
+    });
+  },
   computed: {
     ...mapGetters({
       records: 'auditlogs/getAuditLogs',
