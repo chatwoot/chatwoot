@@ -107,13 +107,18 @@ describe V2::ReportBuilder do
 
         conversations = account.conversations.where('created_at < ?', 1.day.ago)
         perform_enqueued_jobs do
+          # Resolve all 5 conversations
           conversations.each(&:resolved!)
+
+          # Reopen 1 conversation
+          conversation.first.open!
         end
 
         builder = described_class.new(account, params)
         metrics = builder.timeseries
 
-        expect(metrics[Time.zone.today]).to be 5
+        # 4 conversations are resolved
+        expect(metrics[Time.zone.today]).to be 4
         expect(metrics[Time.zone.today - 2.days]).to be 0
       end
 
@@ -221,13 +226,18 @@ describe V2::ReportBuilder do
         conversations = account.conversations.where('created_at < ?', 1.day.ago)
 
         perform_enqueued_jobs do
+          # ensure 5 reporting events are created
           conversations.each(&:resolved!)
+
+          # open one of the conversations to check if it is not counted
+          conversations.last.open!
         end
 
         builder = described_class.new(account, params)
         metrics = builder.timeseries
 
-        expect(metrics[Time.zone.today]).to be 5
+        # this should count only 4 since the last conversation was reopened
+        expect(metrics[Time.zone.today]).to be 4
         expect(metrics[Time.zone.today - 2.days]).to be 0
       end
 
