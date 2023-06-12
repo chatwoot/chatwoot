@@ -111,7 +111,7 @@ describe V2::ReportBuilder do
           conversations.each(&:resolved!)
 
           # Reopen 1 conversation
-          conversation.first.open!
+          conversations.first.open!
         end
 
         builder = described_class.new(account, params)
