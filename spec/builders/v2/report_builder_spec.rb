@@ -106,12 +106,15 @@ describe V2::ReportBuilder do
         }
 
         conversations = account.conversations.where('created_at < ?', 1.day.ago)
-        conversations.each(&:resolved!)
+        perform_enqueued_jobs do
+          conversations.each(&:resolved!)
+        end
+
         builder = described_class.new(account, params)
         metrics = builder.timeseries
 
-        expect(metrics[Time.zone.today]).to be 0
-        expect(metrics[Time.zone.today - 2.days]).to be 5
+        expect(metrics[Time.zone.today]).to be 5
+        expect(metrics[Time.zone.today - 2.days]).to be 0
       end
 
       it 'returns average first response time' do
@@ -216,11 +219,16 @@ describe V2::ReportBuilder do
         }
 
         conversations = account.conversations.where('created_at < ?', 1.day.ago)
-        conversations.each(&:resolved!)
+
+        perform_enqueued_jobs do
+          conversations.each(&:resolved!)
+        end
+
         builder = described_class.new(account, params)
         metrics = builder.timeseries
 
-        expect(metrics[Time.zone.today - 2.days]).to be 5
+        expect(metrics[Time.zone.today]).to be 5
+        expect(metrics[Time.zone.today - 2.days]).to be 0
       end
 
       it 'returns average first response time' do
