@@ -94,8 +94,6 @@ export default {
     },
     async initializeAccount() {
       await this.$store.dispatch('accounts/get');
-
-      this.$store.dispatch('accounts/limits');
       this.$store.dispatch('setActiveAccount', {
         accountId: this.currentAccountId,
       });

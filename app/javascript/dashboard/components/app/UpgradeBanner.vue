@@ -45,7 +45,15 @@ export default {
       return this.isLimitExceeded();
     },
   },
+  mounted() {
+    if (this.isOnChatwootCloud) {
+      this.fetchLimits();
+    }
+  },
   methods: {
+    fetchLimits() {
+      this.$store.dispatch('accounts/limits');
+    },
     routeToBilling() {
       this.$router.push({
         name: 'billing_settings_index',
