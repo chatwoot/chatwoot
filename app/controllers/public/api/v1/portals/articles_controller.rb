@@ -43,11 +43,6 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   end
 
   def render_article_content(content)
-    # rubocop:disable Rails/OutputSafety
-    doc = CommonMarker.render_doc(content, :DEFAULT)
-    html = SuperscriptRenderer.new.render(doc)
-
-    html.html_safe
-    # rubocop:enable Rails/OutputSafety
+    ChatwootMarkdownRenderer.new.render_article(content)
   end
 end
