@@ -6,8 +6,10 @@
     :class="{ 'app-rtl--wrapper': isRTLView }"
   >
     <update-banner :latest-chatwoot-version="latestChatwootVersion" />
-    <payment-pending-banner />
-    <upgrade-banner />
+    <template v-if="!accountUIFlags.isFetchingItem && currentAccountId">
+      <payment-pending-banner />
+      <upgrade-banner />
+    </template>
     <transition name="fade" mode="out-in">
       <router-view />
     </transition>
@@ -65,6 +67,7 @@ export default {
       currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
       authUIFlags: 'getAuthUIFlags',
+      accountUIFlags: 'accounts/getUIFlags',
       currentAccountId: 'getCurrentAccountId',
     }),
     hasAccounts() {
