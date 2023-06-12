@@ -35,14 +35,24 @@ class Imap::ImapMailbox
   end
 
   def find_conversation_by_in_reply_to
-    return if in_reply_to.blank? && @inbound_mail.references.blank?
+    return if in_reply_to.blank?
 
-    message = @inbox.messages.find_by(source_id: in_reply_to) || find_message_by_references
+    message = @inbox.messages.find_by(source_id: in_reply_to)
     if message.nil?
       @inbox.conversations.where("additional_attributes->>'in_reply_to' = ?", in_reply_to).first
     else
       @inbox.conversations.find(message.conversation_id)
     end
+  end
+
+  def find_conversation_by_reference_ids
+    return if @inbound_mail.references.blank? && in_reply_to.present?
+
+    message = find_message_by_references
+
+    return if message.nil?
+
+    @inbox.conversations.find(message.conversation_id)
   end
 
   def in_reply_to
@@ -51,8 +61,6 @@ class Imap::ImapMailbox
 
   def find_message_by_references
     message_to_return = nil
-
-    return if @inbound_mail.references.blank?
 
     references = Array.wrap(@inbound_mail.references)
 
@@ -64,18 +72,22 @@ class Imap::ImapMailbox
   end
 
   def find_or_create_conversation
-    @conversation = find_conversation_by_in_reply_to || ::Conversation.create!({ account_id: @account.id,
-                                                                                 inbox_id: @inbox.id,
-                                                                                 contact_id: @contact.id,
-                                                                                 contact_inbox_id: @contact_inbox.id,
-                                                                                 additional_attributes: {
-                                                                                   source: 'email',
-                                                                                   in_reply_to: in_reply_to,
-                                                                                   mail_subject: @processed_mail.subject,
-                                                                                   initiated_at: {
-                                                                                     timestamp: Time.now.utc
-                                                                                   }
-                                                                                 } })
+    @conversation = find_conversation_by_in_reply_to || find_conversation_by_reference_ids || ::Conversation.create!(
+      {
+        account_id: @account.id,
+        inbox_id: @inbox.id,
+        contact_id: @contact.id,
+        contact_inbox_id: @contact_inbox.id,
+        additional_attributes: {
+          source: 'email',
+          in_reply_to: in_reply_to,
+          mail_subject: @processed_mail.subject,
+          initiated_at: {
+            timestamp: Time.now.utc
+          }
+        }
+      }
+    )
   end
 
   def find_or_create_contact
