@@ -29,7 +29,8 @@ module ReportHelper
   end
 
   def resolutions_count
-    object_scope = scope.reporting_events.select(:conversation_id).where(account_id: account.id, name: :conversation_resolved).distinct
+    object_scope = scope.reporting_events.joins(:conversation).select(:conversation_id).where(account_id: account.id, name: :conversation_resolved,
+                                                                                              conversations: { status: :resolved }).distinct
     (get_grouped_values object_scope).count
   end
 
