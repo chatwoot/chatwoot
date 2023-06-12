@@ -79,6 +79,42 @@ RSpec.describe Imap::ImapMailbox do
       end
     end
 
+    context 'when a new conversation with nil in_reply_to' do
+      let(:prev_conversation) { create(:conversation, account: account, inbox: channel.inbox, assignee: agent) }
+      let(:reply_mail) do
+        create_inbound_email_from_mail(from: 'email@gmail.com', to: 'imap@gmail.com', subject: 'Hello!', in_reply_to: nil)
+      end
+
+      it 'appends new email to the existing conversation' do
+        create(
+          :message,
+          content: 'Incoming Message',
+          message_type: 'incoming',
+          inbox: inbox,
+          account: account,
+          conversation: prev_conversation
+        )
+        create(
+          :message,
+          content: 'Outgoing Message',
+          message_type: 'outgoing',
+          inbox: inbox,
+          source_id: nil,
+          account: account,
+          conversation: prev_conversation
+        )
+
+        expect(prev_conversation.messages.size).to eq(2)
+
+        class_instance.process(reply_mail.mail, channel)
+
+        expect(prev_conversation.messages.size).to eq(2)
+
+        new_converstion_message = Conversation.last.messages.last.content_attributes
+        expect(new_converstion_message['email']['subject']).to eq('Hello!')
+      end
+    end
+
     context 'when a reply for non existing email conversation' do
       let(:reply_mail) do
         create_inbound_email_from_mail(from: 'email@gmail.com', to: 'imap@gmail.com', subject: 'Hello!', in_reply_to: 'test-in-reply-to')
