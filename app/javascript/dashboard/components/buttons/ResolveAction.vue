@@ -59,17 +59,15 @@
           >
             {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.MARK_PENDING') }}
           </woot-button>
-          <woot-dropdown-item>
-            <woot-button
-              variant="clear"
-              color-scheme="secondary"
-              size="small"
-              icon="snooze"
-              @click="() => openSnoozeModal()"
-            >
-              {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE_UNTIL') }}
-            </woot-button>
-          </woot-dropdown-item>
+          <woot-button
+            variant="clear"
+            color-scheme="secondary"
+            size="small"
+            icon="snooze"
+            @click="() => openSnoozeModal()"
+          >
+            {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE_UNTIL') }}
+          </woot-button>
         </woot-dropdown-item>
       </woot-dropdown-menu>
     </div>
@@ -263,5 +261,9 @@ export default {
   right: 0;
   max-width: 20rem;
   min-width: 15.6rem;
+
+  .dropdown-menu__item {
+    margin-bottom: var(--space-zero);
+  }
 }
 </style>
