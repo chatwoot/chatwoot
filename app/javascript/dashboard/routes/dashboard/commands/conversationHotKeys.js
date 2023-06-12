@@ -83,7 +83,7 @@ const SNOOZE_CONVERSATION_ACTIONS = [
     section: 'COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION',
     parent: 'snooze_conversation',
     icon: ICON_SNOOZE_CONVERSATION,
-    handler: () => bus.$emit(CMD_SNOOZE_CONVERSATION, 'next monday at 9.00AM'),
+    handler: () => bus.$emit(CMD_SNOOZE_CONVERSATION, 'next week at 9.00AM'),
   },
   {
     id: 'until_next_month',
