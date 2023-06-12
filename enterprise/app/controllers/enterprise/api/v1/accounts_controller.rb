@@ -2,6 +2,7 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   include BillingHelper
   before_action :fetch_account
   before_action :check_authorization
+  before_action :check_cloud_env, only: [:limits]
 
   def subscription
     if stripe_customer_id.blank? && @account.custom_attributes['is_creating_customer'].blank?
@@ -38,6 +39,10 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
     return create_stripe_billing_session(stripe_customer_id) if stripe_customer_id.present?
 
     render_invalid_billing_details
+  end
+
+  def check_cloud_env
+    render json: { error: 'Not found' }, status: :not_found unless ENV['DEPLOYMENT_ENV'] == 'cloud'
   end
 
   private
