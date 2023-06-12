@@ -2,23 +2,24 @@
 #
 # Table name: messages
 #
-#  id                    :integer          not null, primary key
-#  additional_attributes :jsonb
-#  content               :text
-#  content_attributes    :json
-#  content_type          :integer          default("text"), not null
-#  external_source_ids   :jsonb
-#  message_type          :integer          not null
-#  private               :boolean          default(FALSE)
-#  sender_type           :string
-#  status                :integer          default("sent")
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
-#  account_id            :integer          not null
-#  conversation_id       :integer          not null
-#  inbox_id              :integer          not null
-#  sender_id             :bigint
-#  source_id             :string
+#  id                        :integer          not null, primary key
+#  additional_attributes     :jsonb
+#  content                   :text
+#  content_attributes        :json
+#  content_type              :integer          default("text"), not null
+#  external_source_ids       :jsonb
+#  message_type              :integer          not null
+#  private                   :boolean          default(FALSE)
+#  processed_message_content :text
+#  sender_type               :string
+#  status                    :integer          default("sent")
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  account_id                :integer          not null
+#  conversation_id           :integer          not null
+#  inbox_id                  :integer          not null
+#  sender_id                 :bigint
+#  source_id                 :string
 #
 # Indexes
 #
@@ -57,6 +58,7 @@ class Message < ApplicationRecord
   }.to_json.freeze
 
   before_validation :ensure_content_type
+  before_save :ensure_processed_message_content
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
@@ -213,6 +215,13 @@ class Message < ApplicationRecord
   end
 
   private
+
+  def ensure_processed_message_content
+    text_content_quoted = content_attributes.dig(:email, :text_content, :quoted)
+    html_content_quoted = content_attributes.dig(:email, :html_content, :quoted)
+
+    self.processed_message_content = text_content_quoted || html_content_quoted || content
+  end
 
   def ensure_content_type
     self.content_type ||= Message.content_types[:text]
