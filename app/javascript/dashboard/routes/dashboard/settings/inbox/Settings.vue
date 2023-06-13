@@ -150,6 +150,23 @@
             }}
           </p>
         </label>
+        <div class="profile--settings--row row">
+          <div class="columns small-9 medium-5 card-preview">
+            <button
+              v-for="keyOption in keyOptions"
+              :key="keyOption.key"
+              class="preview-button"
+              @click="toggleEditorMessageKey(keyOption.key)"
+            >
+              <preview-card
+                :heading="keyOption.heading"
+                :content="keyOption.content"
+                :src="keyOption.src"
+                :active="isEditorHotKeyEnabled(uiSettings, keyOption.key)"
+              />
+            </button>
+          </div>
+        </div>
         <div v-if="greetingEnabled" class="settings-item">
           <greetings-editor
             v-model.trim="greetingMessage"
@@ -420,6 +437,10 @@ import CollaboratorsPage from './settingsPage/CollaboratorsPage';
 import WidgetBuilder from './WidgetBuilder';
 import BotConfiguration from './components/BotConfiguration';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
+import PreviewCard from 'dashboard/components/ui/PreviewCard.vue';
+import uiSettingsMixin, {
+  isEditorHotKeyEnabled,
+} from 'dashboard/mixins/uiSettings';
 
 export default {
   components: {
@@ -433,8 +454,9 @@ export default {
     SettingsSection,
     WeeklyAvailability,
     WidgetBuilder,
+    PreviewCard,
   },
-  mixins: [alertMixin, configMixin, inboxMixin],
+  mixins: [alertMixin, configMixin, inboxMixin, uiSettingsMixin],
   data() {
     return {
       avatarFile: null,
@@ -457,6 +479,28 @@ export default {
       replyTime: '',
       selectedTabIndex: 0,
       selectedPortalSlug: '',
+      keyOptions: [
+        {
+          key: 'enter',
+          src: '/assets/images/dashboard/editor/enter-editor.png',
+          heading: this.$t(
+            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.HEADING'
+          ),
+          content: this.$t(
+            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.CONTENT'
+          ),
+        },
+        {
+          key: 'cmd_enter',
+          src: '/assets/images/dashboard/editor/cmd-editor.png',
+          heading: this.$t(
+            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.HEADING'
+          ),
+          content: this.$t(
+            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.CONTENT'
+          ),
+        },
+      ],
     };
   },
   computed: {
@@ -606,6 +650,7 @@ export default {
     fetchPortals() {
       this.$store.dispatch('portals/index');
     },
+    isEditorHotKeyEnabled,
     handleFeatureFlag(e) {
       this.selectedFeatureFlags = this.toggleInput(
         this.selectedFeatureFlags,
@@ -711,6 +756,12 @@ export default {
             : this.$t('INBOX_MGMT.DELETE.API.AVATAR_ERROR_MESSAGE')
         );
       }
+    },
+    toggleEditorMessageKey(key) {
+      this.updateUISettings({ editor_message_key: key });
+      this.showAlert(
+        this.$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.UPDATE_SUCCESS')
+      );
     },
   },
   validations: {
