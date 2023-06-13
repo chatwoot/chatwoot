@@ -87,6 +87,16 @@
         >
           {{ $t('IMPORT_CONTACTS.BUTTON_LABEL') }}
         </woot-button>
+
+        <woot-button
+          v-if="isAdmin"
+          color-scheme="info"
+          icon="upload"
+          class="clear"
+          @click="onExportSubmit"
+        >
+          {{ $t('EXPORT_CONTACTS.BUTTON_LABEL') }}
+        </woot-button>
       </div>
     </div>
   </header>
@@ -124,6 +134,10 @@ export default {
       default: () => {},
     },
     onToggleImport: {
+      type: Function,
+      default: () => {},
+    },
+    onExportSubmit: {
       type: Function,
       default: () => {},
     },
