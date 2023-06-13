@@ -12,7 +12,6 @@
 #  email_address                 :string
 #  enable_auto_assignment        :boolean          default(TRUE)
 #  enable_email_collect          :boolean          default(TRUE)
-#  friendly_sender_name_enabled  :boolean          default(FALSE)
 #  greeting_enabled              :boolean          default(FALSE)
 #  greeting_message              :string
 #  lock_to_single_conversation   :boolean          default(FALSE), not null

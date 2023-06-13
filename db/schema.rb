@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_12_170145) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_08_040738) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -582,7 +582,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_12_170145) do
     t.jsonb "auto_assignment_config", default: {}
     t.boolean "lock_to_single_conversation", default: false, null: false
     t.bigint "portal_id"
-    t.boolean "friendly_sender_name_enabled", default: false
     t.index ["account_id"], name: "index_inboxes_on_account_id"
     t.index ["channel_id", "channel_type"], name: "index_inboxes_on_channel_id_and_channel_type"
     t.index ["portal_id"], name: "index_inboxes_on_portal_id"
