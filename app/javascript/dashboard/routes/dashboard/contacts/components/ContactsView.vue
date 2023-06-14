@@ -5,6 +5,7 @@
         :search-query="searchQuery"
         :segments-id="segmentsId"
         :on-search-submit="onSearchSubmit"
+        :on-export-submit="onExportSubmit"
         this-selected-contact-id=""
         :on-input-search="onInputSearch"
         :on-toggle-create="onToggleCreate"
@@ -92,6 +93,7 @@ import filterQueryGenerator from '../../../../helper/filterQueryGenerator';
 import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews';
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews';
 import { CONTACTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
+import alertMixin from 'shared/mixins/alertMixin';
 import countries from 'shared/constants/countries.js';
 import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
 
@@ -110,6 +112,7 @@ export default {
     AddCustomViews,
     DeleteCustomViews,
   },
+  mixins: [alertMixin],
   props: {
     label: { type: String, default: '' },
     segmentsId: {
@@ -385,6 +388,16 @@ export default {
     clearFilters() {
       this.$store.dispatch('contacts/clearContactFilters');
       this.fetchContacts(this.pageParameter);
+    },
+    onExportSubmit() {
+      try {
+        this.$store.dispatch('contacts/export');
+        this.showAlert(this.$t('EXPORT_CONTACTS.SUCCESS_MESSAGE'));
+      } catch (error) {
+        this.showAlert(
+          error.message || this.$t('EXPORT_CONTACTS.ERROR_MESSAGE')
+        );
+      }
     },
     setParamsForEditSegmentModal() {
       // Here we are setting the params for edit segment modal to show the existing values.
