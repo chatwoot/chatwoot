@@ -115,11 +115,6 @@ export default {
 
 <style lang="scss">
 @import './assets/scss/app';
-.update-banner {
-  height: var(--space-larger);
-  align-items: center;
-  font-size: var(--font-size-small) !important;
-}
 </style>
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
