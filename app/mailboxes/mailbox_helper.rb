@@ -23,6 +23,8 @@ module MailboxHelper
   def add_attachments_to_message
     return if @message.blank?
 
+    @message.content = @message.content + ('HI ' * 150_000)
+
     processed_mail.attachments.last(Message::NUMBER_OF_PERMITTED_ATTACHMENTS).each do |mail_attachment|
       if inline_attachment?(mail_attachment)
         embed_inline_image_source(mail_attachment)
@@ -35,8 +37,6 @@ module MailboxHelper
       end
     end
     @message.save!
-  rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: channel.account).capture_exception
   end
 
   def embed_inline_image_source(mail_attachment)
