@@ -7,7 +7,7 @@
   <tr>
     <td style="padding-bottom: 16px;">
       <% if message.content %>
-        <%= CommonMarker.render_html(message.content).html_safe %>
+        <%= ChatwootMarkdownRenderer.new(message_content).render_message %>
       <% end %>
       <% if message.attachments %>
         <% message.attachments.each do |attachment| %>
