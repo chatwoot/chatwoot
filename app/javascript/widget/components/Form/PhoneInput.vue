@@ -17,7 +17,7 @@
       </div>
       <span
         v-if="activeDialCode"
-        class="py-2 pr-0 pl-2 text-sm"
+        class="py-2 pr-0 pl-2 text-base"
         :class="$dm('text-slate-700', 'dark:text-slate-50')"
       >
         {{ activeDialCode }}
@@ -197,8 +197,24 @@ export default {
       // The context value is used to set the value of the phone number field in the pre-chat form.
       this.context.model = `${code}${this.phoneNumber}`;
     },
+    dynamicallySetCountryCode(value) {
+      // This function is used to set the country code dynamically.
+      // The country and dial code is used to set from the value of the phone number field in the pre-chat form.
+      if (!value) return;
+
+      // check the number first four digit and check weather it is available in the countries array or not.
+      const country = countries.find(code => value.startsWith(code.dial_code));
+      if (country) {
+        // if it is available then set the country code and dial code.
+        this.activeCountryCode = country.id;
+        this.activeDialCode = country.dial_code;
+        // set the phone number without dial code.
+        this.phoneNumber = value.replace(country.dial_code, '');
+      }
+    },
     onChange(e) {
       this.phoneNumber = e.target.value;
+      this.dynamicallySetCountryCode(this.phoneNumber);
       // This function is used to set the context value when the user types in the phone number field.
       this.setContextValue(this.activeDialCode);
     },
