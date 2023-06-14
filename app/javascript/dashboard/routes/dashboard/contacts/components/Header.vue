@@ -27,15 +27,24 @@
             {{ $t('CONTACTS_PAGE.SEARCH_BUTTON') }}
           </woot-button>
         </div>
-        <woot-button
-          v-if="hasActiveSegments"
-          class="margin-right-1 clear"
-          color-scheme="alert"
-          icon="delete"
-          @click="onToggleDeleteSegmentsModal"
-        >
-          {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_DELETE') }}
-        </woot-button>
+        <div v-if="hasActiveSegments">
+          <woot-button
+            class="margin-right-1 clear"
+            color-scheme="secondary"
+            icon="edit"
+            @click="onToggleEditSegmentsModal"
+          >
+            {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_EDIT') }}
+          </woot-button>
+          <woot-button
+            class="margin-right-1 clear"
+            color-scheme="alert"
+            icon="delete"
+            @click="onToggleDeleteSegmentsModal"
+          >
+            {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_DELETE') }}
+          </woot-button>
+        </div>
         <div v-if="!hasActiveSegments" class="filters__button-wrap">
           <div v-if="hasAppliedFilters" class="filters__applied-indicator" />
           <woot-button
@@ -78,6 +87,16 @@
         >
           {{ $t('IMPORT_CONTACTS.BUTTON_LABEL') }}
         </woot-button>
+
+        <woot-button
+          v-if="isAdmin"
+          color-scheme="info"
+          icon="upload"
+          class="clear"
+          @click="onExportSubmit"
+        >
+          {{ $t('EXPORT_CONTACTS.BUTTON_LABEL') }}
+        </woot-button>
       </div>
     </div>
   </header>
@@ -118,6 +137,10 @@ export default {
       type: Function,
       default: () => {},
     },
+    onExportSubmit: {
+      type: Function,
+      default: () => {},
+    },
     onToggleFilter: {
       type: Function,
       default: () => {},
@@ -146,6 +169,9 @@ export default {
   methods: {
     onToggleSegmentsModal() {
       this.$emit('on-toggle-save-filter');
+    },
+    onToggleEditSegmentsModal() {
+      this.$emit('on-toggle-edit-filter');
     },
     onToggleDeleteSegmentsModal() {
       this.$emit('on-toggle-delete-filter');
