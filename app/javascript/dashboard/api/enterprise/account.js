@@ -13,10 +13,6 @@ class EnterpriseAccountAPI extends ApiClient {
   subscription() {
     return axios.post(`${this.url}subscription`);
   }
-
-  getLimits() {
-    return axios.get(`${this.url}limits`);
-  }
 }
 
 export default new EnterpriseAccountAPI();
