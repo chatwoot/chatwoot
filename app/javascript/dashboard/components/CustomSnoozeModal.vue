@@ -70,6 +70,6 @@ export default {
   padding: var(--space-two);
 }
 .modal-content {
-  padding: var(----space-zero);
+  padding: var(--space-small) var(--space-two) var(--space-zero);
 }
 </style>
