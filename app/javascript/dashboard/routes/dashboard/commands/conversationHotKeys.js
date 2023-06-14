@@ -28,6 +28,8 @@ import {
   ICON_PRIORITY_NONE,
 } from './CommandBarIcons';
 
+const SNOOZE_OPTIONS = wootConstants.SNOOZE_OPTIONS;
+
 const OPEN_CONVERSATION_ACTIONS = [
   {
     id: 'resolve_conversation',
@@ -43,67 +45,62 @@ const SNOOZE_CONVERSATION_ACTIONS = [
     id: 'snooze_conversation',
     title: 'COMMAND_BAR.COMMANDS.SNOOZE_CONVERSATION',
     icon: ICON_SNOOZE_CONVERSATION,
-    children: [
-      'until_next_reply',
-      'an_hour_from_now',
-      'until_tomorrow',
-      'until_next_week',
-      'until_next_month',
-      'until_custom_time',
-    ],
+    children: Object.values(SNOOZE_OPTIONS),
   },
 
   {
-    id: 'until_next_reply',
+    id: SNOOZE_OPTIONS.UNTIL_NEXT_REPLY,
     title: 'COMMAND_BAR.COMMANDS.UNTIL_NEXT_REPLY',
     parent: 'snooze_conversation',
     section: 'COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION',
     icon: ICON_SNOOZE_CONVERSATION,
-    handler: () => bus.$emit(CMD_SNOOZE_CONVERSATION, 'nextReply'),
+    handler: () =>
+      bus.$emit(CMD_SNOOZE_CONVERSATION, SNOOZE_OPTIONS.UNTIL_NEXT_REPLY),
   },
   {
-    id: 'an_hour_from_now',
+    id: SNOOZE_OPTIONS.AN_HOUR_FROM_NOW,
     title: 'COMMAND_BAR.COMMANDS.AN_HOUR_FROM_NOW',
     parent: 'snooze_conversation',
     section: 'COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION',
     icon: ICON_SNOOZE_CONVERSATION,
-    handler: () => bus.$emit(CMD_SNOOZE_CONVERSATION, 'an hour from now'),
+    handler: () =>
+      bus.$emit(CMD_SNOOZE_CONVERSATION, SNOOZE_OPTIONS.AN_HOUR_FROM_NOW),
   },
   {
-    id: 'until_tomorrow',
+    id: SNOOZE_OPTIONS.UNTIL_TOMORROW,
     title: 'COMMAND_BAR.COMMANDS.UNTIL_TOMORROW',
     section: 'COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION',
     parent: 'snooze_conversation',
     icon: ICON_SNOOZE_CONVERSATION,
-    handler: () => bus.$emit(CMD_SNOOZE_CONVERSATION, 'tomorrow at 9.00AM'),
+    handler: () =>
+      bus.$emit(CMD_SNOOZE_CONVERSATION, SNOOZE_OPTIONS.UNTIL_TOMORROW),
   },
   {
-    id: 'until_next_week',
+    id: SNOOZE_OPTIONS.UNTIL_NEXT_WEEK,
     title: 'COMMAND_BAR.COMMANDS.UNTIL_NEXT_WEEK',
     section: 'COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION',
     parent: 'snooze_conversation',
     icon: ICON_SNOOZE_CONVERSATION,
-    handler: () => bus.$emit(CMD_SNOOZE_CONVERSATION, 'next week at 9.00AM'),
+    handler: () =>
+      bus.$emit(CMD_SNOOZE_CONVERSATION, SNOOZE_OPTIONS.UNTIL_NEXT_WEEK),
   },
   {
-    id: 'until_next_month',
+    id: SNOOZE_OPTIONS.UNTIL_NEXT_MONTH,
     title: 'COMMAND_BAR.COMMANDS.UNTIL_NEXT_MONTH',
     section: 'COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION',
     parent: 'snooze_conversation',
     icon: ICON_SNOOZE_CONVERSATION,
     handler: () =>
-      bus.$emit(
-        CMD_SNOOZE_CONVERSATION,
-        'first weekday of next month at 9.00AM'
-      ),
+      bus.$emit(CMD_SNOOZE_CONVERSATION, SNOOZE_OPTIONS.UNTIL_NEXT_MONTH),
   },
   {
-    id: 'until_custom_time',
+    id: SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME,
     title: 'COMMAND_BAR.COMMANDS.CUSTOM',
     section: 'COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION',
     parent: 'snooze_conversation',
     icon: ICON_SNOOZE_CONVERSATION,
-    handler: () => bus.$emit(CMD_SNOOZE_CONVERSATION, 'customTime'),
+    handler: () =>
+      bus.$emit(CMD_SNOOZE_CONVERSATION, SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME),
   },
 ];
 

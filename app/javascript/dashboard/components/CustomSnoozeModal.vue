@@ -7,6 +7,7 @@
           v-model="snoozeTime"
           type="datetime"
           inline
+          :lang="lang"
           :disabled-date="disabledDate"
           :disabled-time="disabledTime"
           :popup-style="{ width: '100%' }"
@@ -35,6 +36,11 @@ export default {
   data() {
     return {
       snoozeTime: null,
+      lang: {
+        days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        yearFormat: 'YYYY',
+        monthFormat: 'MMMM',
+      },
     };
   },
 

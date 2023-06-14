@@ -46,7 +46,6 @@
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-vue-jsx": "^3.7.0",
     "chart.js": "~2.9.4",
-    "chrono-node": "^2.6.3",
     "company-email-validator": "^1.0.8",
     "core-js": "3.11.0",
     "date-fns": "2.21.1",

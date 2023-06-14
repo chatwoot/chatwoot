@@ -191,7 +191,7 @@ export default {
       }
     },
     onCmdSnoozeConversation(snoozeType) {
-      if (snoozeType === 'customTime') {
+      if (snoozeType === wootConstants.SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME) {
         this.showCustomSnoozeModal = true;
       } else {
         this.toggleStatus(
