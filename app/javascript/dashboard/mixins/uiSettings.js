@@ -27,6 +27,20 @@ export const isEditorHotKeyEnabled = (uiSettings, key) => {
   return editorMessageKey === key;
 };
 
+export const isFriendlyNameEnabled = (uiSettings, key) => {
+  const {
+    editor_message_key: editorMessageKey,
+    enter_to_send_enabled: enterToSendEnabled,
+  } = uiSettings || {};
+  if (!editorMessageKey) {
+    if (enterToSendEnabled) {
+      return key === 'friendly';
+    }
+    return key === 'professional';
+  }
+  return editorMessageKey === key;
+};
+
 export default {
   computed: {
     ...mapGetters({ uiSettings: 'getUISettings' }),

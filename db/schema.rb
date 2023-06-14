@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_08_040738) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_14_044633) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -253,7 +253,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_040738) do
 
   create_table "channel_email", force: :cascade do |t|
     t.integer "account_id", null: false
-    t.boolean "agent_name_enabled", default: true, null: false
     t.string "email", null: false
     t.string "forward_to_email", null: false
     t.datetime "created_at", null: false
@@ -277,6 +276,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_040738) do
     t.boolean "smtp_enable_ssl_tls", default: false
     t.jsonb "provider_config", default: {}
     t.string "provider"
+    t.boolean "agent_name_enabled", default: true, null: false
     t.index ["email"], name: "index_channel_email_on_email", unique: true
     t.index ["forward_to_email"], name: "index_channel_email_on_forward_to_email", unique: true
   end
@@ -582,6 +582,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_040738) do
     t.jsonb "auto_assignment_config", default: {}
     t.boolean "lock_to_single_conversation", default: false, null: false
     t.bigint "portal_id"
+    t.string "sender_name"
     t.index ["account_id"], name: "index_inboxes_on_account_id"
     t.index ["channel_id", "channel_type"], name: "index_inboxes_on_channel_id_and_channel_type"
     t.index ["portal_id"], name: "index_inboxes_on_portal_id"

@@ -150,6 +150,7 @@
             }}
           </p>
         </label>
+
         <div class="profile--settings--row row">
           <div class="columns small-9 medium-5 card-preview">
             <button
@@ -162,11 +163,12 @@
                 :heading="keyOption.heading"
                 :content="keyOption.content"
                 :src="keyOption.src"
-                :active="isEditorHotKeyEnabled(uiSettings, keyOption.key)"
+                :active="isFriendlyNameEnabled(uiSettings, keyOption.key)"
               />
             </button>
           </div>
         </div>
+
         <div v-if="greetingEnabled" class="settings-item">
           <greetings-editor
             v-model.trim="greetingMessage"
@@ -235,21 +237,6 @@
           </select>
           <p class="help-text">
             {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CSAT_SUB_TEXT') }}
-          </p>
-        </label>
-
-        <label class="medium-9 columns settings-item">
-          {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_AGENT_NAME') }}
-          <select v-model="agentNameEnabled">
-            <option :value="true">
-              {{ $t('INBOX_MGMT.EDIT.ENABLE_AGENT_NAME.ENABLED') }}
-            </option>
-            <option :value="false">
-              {{ $t('INBOX_MGMT.EDIT.ENABLE_AGENT_NAME.DISABLED') }}
-            </option>
-          </select>
-          <p class="help-text">
-            {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_AGENT_NAME_TEXT') }}
           </p>
         </label>
 
@@ -439,7 +426,7 @@ import BotConfiguration from './components/BotConfiguration';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import PreviewCard from 'dashboard/components/ui/PreviewCard.vue';
 import uiSettingsMixin, {
-  isEditorHotKeyEnabled,
+  isFriendlyNameEnabled,
 } from 'dashboard/mixins/uiSettings';
 
 export default {
@@ -481,24 +468,16 @@ export default {
       selectedPortalSlug: '',
       keyOptions: [
         {
-          key: 'enter',
+          key: 'friendly',
           src: '/assets/images/dashboard/editor/enter-editor.png',
-          heading: this.$t(
-            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.HEADING'
-          ),
-          content: this.$t(
-            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.CONTENT'
-          ),
+          heading: this.$t('INBOX_MGMT.EDIT.ENABLE_AGENT_NAME.ENABLED'),
+          content: this.$t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_AGENT_NAME_TEXT'),
         },
         {
-          key: 'cmd_enter',
+          key: 'professional',
           src: '/assets/images/dashboard/editor/cmd-editor.png',
-          heading: this.$t(
-            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.HEADING'
-          ),
-          content: this.$t(
-            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.CONTENT'
-          ),
+          heading: this.$t('INBOX_MGMT.EDIT.ENABLE_AGENT_NAME.DISABLED'),
+          content: this.$t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_AGENT_NAME_TEXT'),
         },
       ],
     };
@@ -650,7 +629,7 @@ export default {
     fetchPortals() {
       this.$store.dispatch('portals/index');
     },
-    isEditorHotKeyEnabled,
+    isFriendlyNameEnabled,
     handleFeatureFlag(e) {
       this.selectedFeatureFlags = this.toggleInput(
         this.selectedFeatureFlags,
@@ -758,10 +737,7 @@ export default {
       }
     },
     toggleEditorMessageKey(key) {
-      this.updateUISettings({ editor_message_key: key });
-      this.showAlert(
-        this.$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.UPDATE_SUCCESS')
-      );
+      this.senderName = key;
     },
   },
   validations: {

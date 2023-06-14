@@ -393,7 +393,9 @@
       },
       "ENABLE_AGENT_NAME": {
         "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "DISABLED": "Disabled",
+        "FRIENDLY": "Add the name of the agent who sent the reply in the sender name to make it friendly.",
+        "PROFESSIONAL": "Use only the configured business name as the sender name in the email header."
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
         "ENABLED": "Enabled",
