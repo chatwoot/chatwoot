@@ -34,7 +34,7 @@ class CustomFilter < ApplicationRecord
 
   def set_record_count_in_redis
     records = filter_records
-    Redis::Alfred.set(filter_count_key, records[:count][:all_count])
+    Redis::Alfred.set(filter_count_key, records[:count][:all_count].to_i)
   end
 
   def fetch_record_count_from_redis
