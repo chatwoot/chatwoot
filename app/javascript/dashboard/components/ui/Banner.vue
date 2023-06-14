@@ -11,26 +11,29 @@
         {{ hrefLinkText }}
       </a>
     </span>
-    <woot-button
-      v-if="hasActionButton"
-      size="small"
-      variant="link"
-      icon="arrow-right"
-      color-scheme="primary"
-      class-names="banner-action__button"
-      @click="onClick"
-    >
-      {{ actionButtonLabel }}
-    </woot-button>
-    <woot-button
-      v-if="hasCloseButton"
-      size="small"
-      variant="link"
-      color-scheme="secondary"
-      icon="dismiss-circle"
-      class-names="banner-action__button"
-      @click="onClickClose"
-    />
+    <div class="actions">
+      <woot-button
+        v-if="hasActionButton"
+        size="tiny"
+        icon="arrow-right"
+        :variant="actionButtonVariant"
+        color-scheme="primary"
+        class-names="banner-action__button"
+        @click="onClick"
+      >
+        {{ actionButtonLabel }}
+      </woot-button>
+      <woot-button
+        v-if="hasCloseButton"
+        size="tiny"
+        :color-scheme="colorScheme"
+        icon="dismiss-circle"
+        class-names="banner-action__button"
+        @click="onClickClose"
+      >
+        {{ $t('GENERAL_SETTINGS.DISMISS') }}
+      </woot-button>
+    </div>
   </div>
 </template>
 
@@ -53,6 +56,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    actionButtonVariant: {
+      type: String,
+      default: '',
+    },
     actionButtonLabel: {
       type: String,
       default: '',
@@ -68,7 +75,12 @@ export default {
   },
   computed: {
     bannerClasses() {
-      return [this.colorScheme];
+      const classList = [this.colorScheme, `banner-align-${this.align}`];
+
+      if (this.hasActionButton || this.hasCloseButton) {
+        classList.push('has-button');
+      }
+      return classList;
     },
   },
   methods: {
@@ -84,17 +96,26 @@ export default {
 
 <style lang="scss" scoped>
 .banner {
+  --x-padding: var(--space-normal);
+  --y-padding: var(--space-slab);
+
   display: flex;
+  gap: var(--x-padding);
   color: var(--white);
   font-size: var(--font-size-mini);
-  padding: var(--space-slab) var(--space-normal);
+  padding: var(--y-padding) var(--x-padding);
   justify-content: center;
-  position: sticky;
 
   &.primary {
     background: var(--w-500);
     .banner-action__button {
+      background: var(--w-600);
+      border: none;
       color: var(--white);
+
+      &:hover {
+        background: var(--w-800);
+      }
     }
   }
 
@@ -107,7 +128,16 @@ export default {
   }
 
   &.alert {
-    background: var(--r-400);
+    background: var(--r-500);
+    .banner-action__button {
+      background: var(--r-700);
+      border: none;
+      color: var(--white);
+
+      &:hover {
+        background: var(--r-800);
+      }
+    }
   }
 
   &.warning {
@@ -133,8 +163,6 @@ export default {
   }
 
   .banner-action__button {
-    margin: 0 var(--space-smaller);
-
     ::v-deep .button__content {
       white-space: nowrap;
     }
@@ -143,6 +171,12 @@ export default {
   .banner-message {
     display: flex;
     align-items: center;
+  }
+
+  .actions {
+    display: flex;
+    gap: var(--space-smaller);
+    right: var(--y-padding);
   }
 }
 </style>
