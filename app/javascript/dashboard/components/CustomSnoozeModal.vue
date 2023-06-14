@@ -2,17 +2,15 @@
   <div class="column">
     <woot-modal-header :header-title="$t('CONVERSATION.CUSTOM_SNOOZE.TITLE')" />
     <form class="row modal-content" @submit.prevent="chooseTime">
-      <div class="medium-12 columns">
-        <date-picker
-          v-model="snoozeTime"
-          type="datetime"
-          inline
-          :lang="lang"
-          :disabled-date="disabledDate"
-          :disabled-time="disabledTime"
-          :popup-style="{ width: '100%' }"
-        />
-      </div>
+      <date-picker
+        v-model="snoozeTime"
+        type="datetime"
+        inline
+        :lang="lang"
+        :disabled-date="disabledDate"
+        :disabled-time="disabledTime"
+        :popup-style="{ width: '100%' }"
+      />
       <div class="modal-footer justify-content-end w-full">
         <woot-button variant="clear" @click.prevent="onClose">
           {{ this.$t('CONVERSATION.CUSTOM_SNOOZE.CANCEL') }}
@@ -69,6 +67,9 @@ export default {
 
 <style lang="scss" scoped>
 .modal-footer {
-  padding-top: var(--font-size-mega);
+  padding: var(--space-two);
+}
+.modal-content {
+  padding: var(----space-zero);
 }
 </style>
