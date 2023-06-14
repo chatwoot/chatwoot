@@ -35,6 +35,8 @@ module MailboxHelper
       end
     end
     @message.save!
+  rescue StandardError => e
+    ChatwootExceptionTracker.new(e, account: channel.account).capture_exception
   end
 
   def embed_inline_image_source(mail_attachment)
