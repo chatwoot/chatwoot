@@ -236,9 +236,6 @@ export default {
       return this.formValues[name] || null;
     },
     getValidation({ type, name }) {
-      if (!this.isContactFieldRequired(name)) {
-        return '';
-      }
       const validations = {
         emailAddress: 'email',
         phoneNumber: 'startsWithPlus|isValidPhoneNumber',
@@ -250,11 +247,17 @@ export default {
         checkbox: false,
       };
       const validationKeys = Object.keys(validations);
-      const validation = 'bail|required';
+      const isRequired = this.isContactFieldRequired(name);
+      const validation = isRequired ? 'bail|required' : 'bail|optional';
+
       if (validationKeys.includes(name) || validationKeys.includes(type)) {
         const validationType = validations[type] || validations[name];
-        return validationType ? `${validation}|${validationType}` : validation;
+        const validationString = validationType
+          ? `${validation}|${validationType}`
+          : validation;
+        return validationString;
       }
+
       return '';
     },
     findFieldType(type) {
