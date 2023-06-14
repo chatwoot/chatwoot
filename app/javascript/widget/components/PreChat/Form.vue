@@ -25,7 +25,7 @@
         startsWithPlus: $t(
           'PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.DIAL_CODE_VALID_ERROR'
         ),
-        isPhoneNumberValid: $t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.VALID_ERROR'),
+        isValidPhoneNumber: $t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.VALID_ERROR'),
         email: $t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.VALID_ERROR'),
         required: $t('PRE_CHAT_FORM.REQUIRED'),
       }"
@@ -241,7 +241,7 @@ export default {
       }
       const validations = {
         emailAddress: 'email',
-        phoneNumber: 'startsWithPlus|isPhoneNumberValid',
+        phoneNumber: 'startsWithPlus|isValidPhoneNumber',
         url: 'url',
         date: 'date',
         text: null,
