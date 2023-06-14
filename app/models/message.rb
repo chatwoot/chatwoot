@@ -70,6 +70,7 @@ class Message < ApplicationRecord
 
   validates :content_type, presence: true
   validates :content, length: { maximum: 150_000 }
+  validates :processed_message_content, length: { maximum: 150_000 }
 
   # when you have a temperory id in your frontend and want it echoed back via action cable
   attr_accessor :echo_id
@@ -220,7 +221,8 @@ class Message < ApplicationRecord
     text_content_quoted = content_attributes.dig(:email, :text_content, :quoted)
     html_content_quoted = content_attributes.dig(:email, :html_content, :quoted)
 
-    self.processed_message_content = text_content_quoted || html_content_quoted || content
+    message_content = text_content_quoted || html_content_quoted || content
+    self.processed_message_content = message_content&.truncate(150_000)
   end
 
   def ensure_content_type
