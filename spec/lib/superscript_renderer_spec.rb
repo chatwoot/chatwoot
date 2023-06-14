@@ -27,4 +27,24 @@ describe SuperscriptRenderer do
       expect(rendered_html).to include('<sup>superscripts</sup>')
     end
   end
+
+  describe 'broken ^ usage' do
+    it 'does not convert text that only starts with ^' do
+      markdown = 'This is an example with ^broken superscript.'
+      expected_output = '<p>This is an example with ^broken superscript.</p>'
+      expect(render_markdown(markdown)).to include(expected_output)
+    end
+
+    it 'does not convert text that only ends with ^' do
+      markdown = 'This is an example with broken^ superscript.'
+      expected_output = '<p>This is an example with broken^ superscript.</p>'
+      expect(render_markdown(markdown)).to include(expected_output)
+    end
+
+    it 'does not convert text with uneven numbers of ^' do
+      markdown = 'This is an example with ^broken^ superscript^.'
+      expected_output = '<p>This is an example with <sup>broken</sup> superscript^.</p>'
+      expect(render_markdown(markdown)).to include(expected_output)
+    end
+  end
 end
