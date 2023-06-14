@@ -43,6 +43,7 @@ RSpec.describe Account::ContactsExportJob do
       last_contact = account.contacts.last
 
       expect(csv_data.length).to eq(account.contacts.count)
+
       expect([first_row['email'], last_row['email']]).to contain_exactly(first_contact.email, last_contact.email)
       expect([first_row['phone_number'], last_row['phone_number']]).to contain_exactly(first_contact.phone_number, last_contact.phone_number)
     end
