@@ -153,8 +153,6 @@ RSpec.describe 'Accounts API', type: :request do
     end
 
     it 'sets the appropriate cache headers' do
-      account.update(auto_resolve_duration: 30)
-
       get "/api/v1/accounts/#{account.id}/cache_keys",
           headers: admin.create_new_auth_token,
           as: :json
