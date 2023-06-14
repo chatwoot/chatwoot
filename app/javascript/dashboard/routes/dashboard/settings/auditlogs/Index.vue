@@ -127,6 +127,9 @@ export default {
         'inbox:destroy': `AUDIT_LOGS.INBOX.DELETE`,
         'user:sign_in': `AUDIT_LOGS.USER_ACTION.SIGN_IN`,
         'user:sign_out': `AUDIT_LOGS.USER_ACTION.SIGN_OUT`,
+        'team:create': `AUDIT_LOGS.TEAM.ADD`,
+        'team:update': `AUDIT_LOGS.TEAM.EDIT`,
+        'team:destroy': `AUDIT_LOGS.TEAM.DELETE`,
       };
 
       return this.$t(translationKeys[logActionKey] || '', translationPayload);

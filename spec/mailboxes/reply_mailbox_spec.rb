@@ -110,6 +110,29 @@ RSpec.describe ReplyMailbox do
       end
     end
 
+    context 'with inline attachments and html_part' do
+      let(:mail_with_html_part_no_html_content) { create_inbound_email_from_fixture('mail_with_html_part_no_html_content.eml') }
+      let(:described_subject) { described_class.receive mail_with_html_part_no_html_content }
+
+      before do
+        conversation.uuid = '6bdc3f4d-0bed-4515-a284-5d916fdde489'
+        conversation.save!
+
+        described_subject
+      end
+
+      it 'mail content will create message' do
+        expect(conversation.messages.last.content).to include('This is test message.')
+      end
+
+      it 'html_content is empty' do
+        expect(conversation.messages.last.attachments.count).to eq(0)
+
+        html_full_content = conversation.messages.last.content_attributes[:email][:html_content][:full]
+        expect(html_full_content).to be_nil
+      end
+    end
+
     context 'with reply_to email address present' do
       let(:email_channel) { create(:channel_email, email: 'test@example.com', account: account) }
       let(:conversation_1) do
