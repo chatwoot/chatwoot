@@ -1,8 +1,8 @@
 <template>
-  <div class="column content-box">
+  <div class="column content-box audit-log--settings">
     <!-- List Audit Logs -->
-    <div class="row">
-      <div class="small-8 columns with-right-space ">
+    <div>
+      <div>
         <p
           v-if="!uiFlags.fetchingList && !records.length"
           class="no-items-error-message"
@@ -16,8 +16,13 @@
 
         <table
           v-if="!uiFlags.fetchingList && records.length"
-          class="woot-table"
+          class="woot-table width-100"
         >
+          <colgroup>
+            <col class="column-activity" />
+            <col />
+            <col />
+          </colgroup>
           <thead>
             <!-- Header -->
             <th
@@ -29,15 +34,19 @@
           </thead>
           <tbody>
             <tr v-for="auditLogItem in records" :key="auditLogItem.id">
-              <td class="wrap-break-words">{{ auditLogItem.username }}</td>
               <td class="wrap-break-words">
-                {{ auditLogItem.auditable_type }}.{{ auditLogItem.action }}
+                {{ generateLogText(auditLogItem) }}
+              </td>
+              <td class="wrap-break-words">
+                {{
+                  messageTimestamp(
+                    auditLogItem.created_at,
+                    'MMM dd, yyyy hh:mm a'
+                  )
+                }}
               </td>
               <td class="remote-address">
                 {{ auditLogItem.remote_address }}
-              </td>
-              <td class="wrap-break-words">
-                {{ dynamicTime(auditLogItem.created_at) }}
               </td>
             </tr>
           </tbody>
@@ -76,13 +85,55 @@ export default {
       records: 'auditlogs/getAuditLogs',
       uiFlags: 'auditlogs/getUIFlags',
       meta: 'auditlogs/getMeta',
+      agentList: 'agents/getAgents',
     }),
   },
   mounted() {
     // Fetch API Call
     this.$store.dispatch('auditlogs/fetch', { page: 1 });
+    this.$store.dispatch('agents/get');
   },
   methods: {
+    getAgentName(email) {
+      if (email === null) {
+        return this.$t('AUDIT_LOGS.DEFAULT_USER');
+      }
+      const agentName = this.agentList.find(agent => agent.email === email)
+        ?.name;
+      // If agent does not exist(removed/deleted), return email from audit log
+      return agentName || email;
+    },
+    generateLogText(auditLogItem) {
+      const agentName = this.getAgentName(auditLogItem.username);
+      const auditableType = auditLogItem.auditable_type.toLowerCase();
+      const action = auditLogItem.action.toLowerCase();
+      const auditId = auditLogItem.auditable_id;
+      const logActionKey = `${auditableType}:${action}`;
+
+      const translationPayload = {
+        agentName,
+        id: auditId,
+      };
+
+      const translationKeys = {
+        'automationrule:create': `AUDIT_LOGS.AUTOMATION_RULE.ADD`,
+        'automationrule:update': `AUDIT_LOGS.AUTOMATION_RULE.EDIT`,
+        'automationrule:destroy': `AUDIT_LOGS.AUTOMATION_RULE.DELETE`,
+        'webhook:create': `AUDIT_LOGS.WEBHOOK.ADD`,
+        'webhook:update': `AUDIT_LOGS.WEBHOOK.EDIT`,
+        'webhook:destroy': `AUDIT_LOGS.WEBHOOK.DELETE`,
+        'inbox:create': `AUDIT_LOGS.INBOX.ADD`,
+        'inbox:update': `AUDIT_LOGS.INBOX.EDIT`,
+        'inbox:destroy': `AUDIT_LOGS.INBOX.DELETE`,
+        'user:sign_in': `AUDIT_LOGS.USER_ACTION.SIGN_IN`,
+        'user:sign_out': `AUDIT_LOGS.USER_ACTION.SIGN_OUT`,
+        'team:create': `AUDIT_LOGS.TEAM.ADD`,
+        'team:update': `AUDIT_LOGS.TEAM.EDIT`,
+        'team:destroy': `AUDIT_LOGS.TEAM.DELETE`,
+      };
+
+      return this.$t(translationKeys[logActionKey] || '', translationPayload);
+    },
     onPageChange(page) {
       window.history.pushState({}, null, `${this.$route.path}?page=${page}`);
       try {
@@ -96,12 +147,24 @@ export default {
   },
 };
 </script>
-<style scoped>
-.remote-address {
-  width: 14rem;
-}
-.wrap-break-words {
-  word-break: break-all;
-  white-space: normal;
+
+<style lang="scss" scoped>
+.audit-log--settings {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+
+  .remote-address {
+    width: 14rem;
+  }
+
+  .wrap-break-words {
+    word-break: break-all;
+    white-space: normal;
+  }
+
+  .column-activity {
+    width: 60%;
+  }
 }
 </style>

@@ -14,6 +14,11 @@ class Api::V1::AccountsController < Api::BaseController
               CustomExceptions::Account::UserErrors,
               with: :render_error_response
 
+  def show
+    @latest_chatwoot_version = ::Redis::Alfred.get(::Redis::Alfred::LATEST_CHATWOOT_VERSION)
+    render 'api/v1/accounts/show', format: :json
+  end
+
   def create
     @user, @account = AccountBuilder.new(
       account_name: account_params[:account_name],
@@ -32,12 +37,8 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def cache_keys
+    expires_in 10.seconds, public: false, stale_while_revalidate: 5.minutes
     render json: { cache_keys: get_cache_keys }, status: :ok
-  end
-
-  def show
-    @latest_chatwoot_version = ::Redis::Alfred.get(::Redis::Alfred::LATEST_CHATWOOT_VERSION)
-    render 'api/v1/accounts/show', format: :json
   end
 
   def update

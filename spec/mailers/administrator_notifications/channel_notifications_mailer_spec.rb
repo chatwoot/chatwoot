@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe AdministratorNotifications::ChannelNotificationsMailer, type: :mailer do
+RSpec.describe AdministratorNotifications::ChannelNotificationsMailer do
   let(:class_instance) { described_class.new }
   let!(:account) { create(:account) }
   let!(:administrator) { create(:user, :administrator, email: 'agent1@example.com', account: account) }
@@ -10,6 +10,7 @@ RSpec.describe AdministratorNotifications::ChannelNotificationsMailer, type: :ma
   before do
     allow(described_class).to receive(:new).and_return(class_instance)
     allow(class_instance).to receive(:smtp_config_set_or_development?).and_return(true)
+    Account::ContactsExportJob.perform_now(account.id, [])
   end
 
   describe 'slack_disconnect' do
@@ -49,6 +50,19 @@ RSpec.describe AdministratorNotifications::ChannelNotificationsMailer, type: :ma
 
     it 'renders the subject' do
       expect(mail.subject).to eq('Your Whatsapp connection has expired')
+    end
+
+    it 'renders the receiver email' do
+      expect(mail.to).to eq([administrator.email])
+    end
+  end
+
+  describe 'contact_export_complete' do
+    let!(:file_url) { Rails.application.routes.url_helpers.rails_blob_url(account.contacts_export) }
+    let(:mail) { described_class.with(account: account).contact_export_complete(file_url).deliver_now }
+
+    it 'renders the subject' do
+      expect(mail.subject).to eq("Your contact's export file is available to download.")
     end
 
     it 'renders the receiver email' do

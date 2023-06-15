@@ -29,13 +29,13 @@
     }
 
     .modal-image {
-      max-height: 90%;
-      max-width: 90%;
+      max-height: 80vh;
+      max-width: 80vw;
     }
 
     .modal-video {
-      max-height: 75vh;
-      max-width: 100%;
+      max-height: 80vh;
+      max-width: 80vw;
     }
 
     &::before {
@@ -51,16 +51,6 @@
       opacity: 0.8;
       position: absolute;
       width: 100%;
-    }
-  }
-
-  .video {
-    .modal-container {
-      width: auto;
-
-      .modal--close {
-        z-index: var(--z-index-low);
-      }
     }
   }
 }
@@ -400,4 +390,3 @@
     margin-bottom: 0;
   }
 }
-

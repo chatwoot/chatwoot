@@ -164,6 +164,13 @@ describe AutomationRuleListener do
         listener.message_created(event)
         expect(AutomationRules::ActionService).not_to have_received(:new).with(automation_rule, account, conversation)
       end
+
+      it 'does not call AutomationRules::ActionService if conditions do not match based on content' do
+        message.update!(processed_message_content: 'hi', content: "hi\n\nhello")
+        allow(condition_match).to receive(:present?).and_return(false)
+        listener.message_created(event)
+        expect(AutomationRules::ActionService).not_to have_received(:new).with(automation_rule, account, conversation)
+      end
     end
   end
 end
