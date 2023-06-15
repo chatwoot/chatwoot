@@ -11,14 +11,18 @@
           <thumbnail
             :username="senderDetails.name"
             :src="senderDetails.avatar"
-            size="40px"
           />
           <div class="header-info">
-            <h3 class="sub-block-title sender-name text-truncate">
-              <span>{{ senderDetails.name }}</span>
+            <h3 class="sub-block-title sender-name">
+              <span class="text-truncate">{{ senderDetails.name }}</span>
             </h3>
-            <span class="time-stamp">{{ readableTime }}</span>
+            <span class="time-stamp text-truncate">{{ readableTime }}</span>
           </div>
+        </div>
+        <div class="file-name--header">
+          <span class="text-truncate">
+            {{ fileNameFromDataUrl }}
+          </span>
         </div>
         <div class="header-actions" @click.stop>
           <woot-button
@@ -100,6 +104,13 @@
           />
         </div>
       </div>
+      <div class="gallery-modal--footer">
+        <div class="header-count">
+          <span class="count">
+            {{ `${activeImageIndex + 1} / ${allAttachments.length}` }}
+          </span>
+        </div>
+      </div>
     </div>
   </woot-modal>
 </template>
@@ -160,10 +171,11 @@ export default {
     },
     readableTime() {
       if (!this.activeAttachment.created_at) return '';
-      return this.messageTimestamp(
+      const time = this.messageTimestamp(
         this.activeAttachment.created_at,
         'LLL d yyyy, h:mm a'
       );
+      return time || '';
     },
     isImage() {
       return this.activeFileType === ALLOWED_FILE_TYPES.IMAGE;
@@ -179,9 +191,15 @@ export default {
         this.activeAttachment?.sender || this.attachment?.sender;
       const currentUserID = this.currentUser?.id;
       return {
-        name: currentUserID === id ? 'You' : name || availableName,
-        avatar: thumbnail || avatar_url,
+        name: currentUserID === id ? 'You' : name || availableName || '',
+        avatar: thumbnail || avatar_url || '',
       };
+    },
+    fileNameFromDataUrl() {
+      const { data_url: dataUrl } = this.activeAttachment;
+      if (!dataUrl) return '';
+      const fileName = dataUrl?.split('/').pop();
+      return fileName || '';
     },
   },
   mounted() {
@@ -236,38 +254,40 @@ export default {
 </script>
 <style lang="scss" scoped>
 .gallery-modal--wrap {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: inherit;
   height: inherit;
+  width: inherit;
 
   .gallery-modal--header {
+    align-items: center;
     display: flex;
     flex-direction: row;
-    align-items: center;
+    height: var(--space-jumbo);
     justify-content: space-between;
-    width: 100%;
     padding: var(--space-small) var(--space-medium);
+    width: 100%;
 
     .header-info--wrap {
-      display: flex;
       align-items: center;
+      display: flex;
       justify-content: flex-start;
+      min-width: var(--space-giga);
 
       .header-info {
+        align-items: flex-start;
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
         justify-content: center;
         margin-left: var(--space-small);
 
         .sender-name {
           display: inline-block;
           line-height: 1.4;
-          text-transform: capitalize;
           margin: 0;
           padding: 0;
+          text-transform: capitalize;
         }
 
         .time-stamp {
@@ -279,35 +299,70 @@ export default {
       }
     }
 
+    .file-name--header {
+      align-items: center;
+      color: var(--s-700);
+      display: flex;
+      font-size: var(--font-size-small);
+      font-weight: var(--font-weight-bold);
+      justify-content: flex-start;
+      min-width: 0;
+      padding: var(--space-smaller);
+      width: auto;
+    }
+
     .header-actions {
+      align-items: center;
       display: flex;
       flex-direction: row;
-      align-items: center;
-      justify-content: flex-end;
-      margin-left: auto;
       gap: var(--space-small);
+      justify-content: flex-end;
+      min-width: var(--space-giga);
     }
   }
 
   .gallery-modal--body {
+    align-items: center;
     display: flex;
     flex-direction: row;
-    align-items: center;
+    height: 100%;
     justify-content: center;
     width: 100%;
-    height: 86%;
+  }
+
+  .gallery-modal--footer {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    height: var(--space-jumbo);
+    justify-content: center;
+    padding: var(--space-small) var(--space-medium);
+    width: 100%;
+
+    .header-count {
+      align-items: center;
+      border-radius: var(--border-radius-small);
+      background-color: var(--s-25);
+      color: var(--s-600);
+      display: flex;
+      font-size: var(--font-size-small);
+      font-weight: var(--font-weight-bold);
+      justify-content: center;
+      min-width: 8rem;
+      padding: var(--space-smaller);
+    }
   }
 
   .attachments-viewer {
     display: flex;
     flex-direction: column;
+    height: 100%;
     justify-content: center;
     width: 100%;
-    height: 100%;
 
     .attachment-view {
-      display: flex;
       align-items: center;
+      display: flex;
       justify-content: center;
 
       img {
@@ -321,10 +376,10 @@ export default {
   }
 
   .attachment-toggle--button {
-    width: var(--space-mega);
-    min-width: var(--space-mega);
     display: flex;
     justify-content: center;
+    min-width: var(--space-mega);
+    width: var(--space-mega);
   }
 }
 </style>
