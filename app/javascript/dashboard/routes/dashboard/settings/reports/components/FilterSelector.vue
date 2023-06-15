@@ -1,72 +1,43 @@
 <template>
-  <div class="flex-container flex-dir-column medium-flex-dir-row">
-    <div class="small-12 medium-3 pull-right multiselect-wrap--small">
-      <multiselect
-        v-model="currentDateRangeSelection"
-        track-by="name"
-        label="name"
-        :placeholder="$t('FORMS.MULTISELECT.SELECT_ONE')"
-        selected-label
-        :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
-        deselect-label=""
-        :options="dateRange"
-        :searchable="false"
-        :allow-empty="false"
-        @select="changeDateSelection"
-      />
-    </div>
+  <div class="filter-container">
+    <reports-filters-date-range @on-range-change="onDateRangeChange" />
     <woot-date-range-picker
       v-if="isDateRangeSelected"
-      class="margin-left-1"
       show-range
+      class="no-margin auto-width"
       :value="customDateRange"
       :confirm-text="$t('REPORT.CUSTOM_DATE_RANGE.CONFIRM')"
       :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
-      @change="onChange"
+      @change="onCustomDateRangeChange"
     />
-    <div
-      v-if="notLast7Days && groupByFilter"
-      class="small-12 medium-3 pull-right margin-left-1 margin-right-1 multiselect-wrap--small"
-    >
-      <p aria-hidden="true" class="hide">
-        {{ $t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL') }}
-      </p>
-      <multiselect
-        v-model="currentSelectedFilter"
-        track-by="id"
-        label="groupBy"
-        :placeholder="$t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL')"
-        :options="filterItemsList"
-        :allow-empty="false"
-        :show-labels="false"
-        @input="changeFilterSelection"
-      />
-    </div>
-    <div
-      v-if="agentsFilter"
-      class="small-12 medium-3 pull-right margin-left-1 margin-right-1 multiselect-wrap--small"
-    >
-      <multiselect
-        v-model="selectedAgents"
-        :options="agentsFilterItemsList"
-        track-by="id"
-        label="name"
-        :multiple="true"
-        :close-on-select="false"
-        :clear-on-select="false"
-        :hide-selected="true"
-        :placeholder="$t('CSAT_REPORTS.FILTERS.AGENTS.PLACEHOLDER')"
-        selected-label
-        :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
-        :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
-        @input="handleAgentsFilterSelection"
-      />
-    </div>
-    <div
-      v-if="showBusinessHoursSwitch"
-      class="small-12 medium-3 business-hours"
-    >
-      <span class="business-hours-text margin-right-1">
+    <reports-filters-date-group-by
+      v-if="showGroupByFilter && isGroupByPossible"
+      :valid-group-options="validGroupOptions"
+      :selected-option="selectedGroupByFilter"
+      @on-grouping-change="onGroupingChange"
+    />
+    <reports-filters-agents
+      v-if="showAgentsFilter"
+      @agents-filter-selection="handleAgentsFilterSelection"
+    />
+    <reports-filters-labels
+      v-if="showLabelsFilter"
+      @labels-filter-selection="handleLabelsFilterSelection"
+    />
+    <reports-filters-teams
+      v-if="showTeamFilter"
+      @team-filter-selection="handleTeamFilterSelection"
+    />
+    <reports-filters-inboxes
+      v-if="showInboxFilter"
+      @inbox-filter-selection="handleInboxFilterSelection"
+    />
+    <reports-filters-ratings
+      v-if="showRatingFilter"
+      @rating-filter-selection="handleRatingFilterSelection"
+    />
+    <div v-if="showBusinessHoursSwitch" class="business-hours">
+      <span class="business-hours-text ">
         {{ $t('REPORT.BUSINESS_HOURS') }}
       </span>
       <span>
@@ -77,36 +48,54 @@
 </template>
 <script>
 import WootDateRangePicker from 'dashboard/components/ui/DateRangePicker.vue';
+import ReportsFiltersDateRange from './Filters/DateRange.vue';
+import ReportsFiltersDateGroupBy from './Filters/DateGroupBy.vue';
+import ReportsFiltersAgents from './Filters/Agents.vue';
+import ReportsFiltersLabels from './Filters/Labels.vue';
+import ReportsFiltersInboxes from './Filters/Inboxes.vue';
+import ReportsFiltersTeams from './Filters/Teams.vue';
+import ReportsFiltersRatings from './Filters/Ratings.vue';
 import subDays from 'date-fns/subDays';
-import startOfDay from 'date-fns/startOfDay';
-import getUnixTime from 'date-fns/getUnixTime';
-import { GROUP_BY_FILTER } from '../constants';
-import endOfDay from 'date-fns/endOfDay';
-
-const CUSTOM_DATE_RANGE_ID = 5;
+import { DATE_RANGE_OPTIONS } from '../constants';
+import { getUnixStartOfDay, getUnixEndOfDay } from 'helpers/DateHelper';
 
 export default {
   components: {
     WootDateRangePicker,
+    ReportsFiltersDateRange,
+    ReportsFiltersDateGroupBy,
+    ReportsFiltersAgents,
+    ReportsFiltersLabels,
+    ReportsFiltersInboxes,
+    ReportsFiltersTeams,
+    ReportsFiltersRatings,
   },
   props: {
     filterItemsList: {
       type: Array,
       default: () => [],
     },
-    agentsFilterItemsList: {
-      type: Array,
-      default: () => [],
-    },
-    selectedGroupByFilter: {
-      type: Object,
-      default: () => {},
-    },
-    groupByFilter: {
+    showGroupByFilter: {
       type: Boolean,
       default: false,
     },
-    agentsFilter: {
+    showAgentsFilter: {
+      type: Boolean,
+      default: false,
+    },
+    showLabelsFilter: {
+      type: Boolean,
+      default: false,
+    },
+    showInboxFilter: {
+      type: Boolean,
+      default: false,
+    },
+    showRatingFilter: {
+      type: Boolean,
+      default: false,
+    },
+    showTeamFilter: {
       type: Boolean,
       default: false,
     },
@@ -117,95 +106,134 @@ export default {
   },
   data() {
     return {
-      currentDateRangeSelection: this.$t('REPORT.DATE_RANGE')[0],
-      dateRange: this.$t('REPORT.DATE_RANGE'),
-      customDateRange: [new Date(), new Date()],
-      currentSelectedFilter: null,
+      // default value, need not be translated
+      selectedDateRange: DATE_RANGE_OPTIONS.LAST_7_DAYS,
+      selectedGroupByFilter: null,
+      selectedLabel: null,
+      selectedInbox: null,
+      selectedTeam: null,
+      selectedRating: null,
       selectedAgents: [],
+      customDateRange: [new Date(), new Date()],
       businessHoursSelected: false,
     };
   },
   computed: {
     isDateRangeSelected() {
-      return this.currentDateRangeSelection.id === CUSTOM_DATE_RANGE_ID;
+      return (
+        this.selectedDateRange.id === DATE_RANGE_OPTIONS.CUSTOM_DATE_RANGE.id
+      );
+    },
+    isGroupByPossible() {
+      return this.selectedDateRange.id !== DATE_RANGE_OPTIONS.LAST_7_DAYS.id;
     },
     to() {
       if (this.isDateRangeSelected) {
-        return this.toCustomDate(this.customDateRange[1]);
+        return getUnixEndOfDay(this.customDateRange[1]);
       }
-      return this.toCustomDate(new Date());
+      return getUnixEndOfDay(new Date());
     },
     from() {
       if (this.isDateRangeSelected) {
-        return this.fromCustomDate(this.customDateRange[0]);
+        return getUnixStartOfDay(this.customDateRange[0]);
       }
-      const dateRange = {
-        0: 6,
-        1: 29,
-        2: 89,
-        3: 179,
-        4: 364,
-      };
-      const diff = dateRange[this.currentDateRangeSelection.id];
-      const fromDate = subDays(new Date(), diff);
-      return this.fromCustomDate(fromDate);
+
+      const { offset } = this.selectedDateRange;
+      const fromDate = subDays(new Date(), offset);
+      return getUnixStartOfDay(fromDate);
     },
-    groupBy() {
-      if (this.isDateRangeSelected) {
-        return GROUP_BY_FILTER[4].period;
+    validGroupOptions() {
+      return this.selectedDateRange.groupByOptions;
+    },
+    validGroupBy() {
+      if (!this.selectedGroupByFilter) {
+        return this.validGroupOptions[0];
       }
-      const groupRange = {
-        0: GROUP_BY_FILTER[1].period,
-        1: GROUP_BY_FILTER[2].period,
-        2: GROUP_BY_FILTER[3].period,
-        3: GROUP_BY_FILTER[3].period,
-        4: GROUP_BY_FILTER[3].period,
-      };
-      return groupRange[this.currentDateRangeSelection.id];
-    },
-    notLast7Days() {
-      return this.groupBy !== GROUP_BY_FILTER[1].period;
+
+      const validIds = this.validGroupOptions.map(opt => opt.id);
+      if (validIds.includes(this.selectedGroupByFilter.id)) {
+        return this.selectedGroupByFilter;
+      }
+      return this.validGroupOptions[0];
     },
   },
   watch: {
-    filterItemsList() {
-      this.currentSelectedFilter = this.selectedGroupByFilter;
-    },
     businessHoursSelected() {
-      this.$emit('business-hours-toggle', this.businessHoursSelected);
+      this.emitChange();
     },
   },
   mounted() {
-    this.onDateRangeChange();
+    this.emitChange();
   },
   methods: {
-    onDateRangeChange() {
-      this.$emit('date-range-change', {
-        from: this.from,
-        to: this.to,
-        groupBy: this.groupBy,
+    emitChange() {
+      const {
+        from,
+        to,
+        selectedGroupByFilter: groupBy,
+        businessHoursSelected: businessHours,
+        selectedAgents,
+        selectedLabel,
+        selectedInbox,
+        selectedTeam,
+        selectedRating,
+      } = this;
+      this.$emit('filter-change', {
+        from,
+        to,
+        groupBy,
+        businessHours,
+        selectedAgents,
+        selectedLabel,
+        selectedInbox,
+        selectedTeam,
+        selectedRating,
       });
     },
-    fromCustomDate(date) {
-      return getUnixTime(startOfDay(date));
+    onDateRangeChange(selectedRange) {
+      this.selectedDateRange = selectedRange;
+      this.selectedGroupByFilter = this.validGroupBy;
+      this.emitChange();
     },
-    toCustomDate(date) {
-      return getUnixTime(endOfDay(date));
-    },
-    changeDateSelection(selectedRange) {
-      this.currentDateRangeSelection = selectedRange;
-      this.onDateRangeChange();
-    },
-    onChange(value) {
+    onCustomDateRangeChange(value) {
       this.customDateRange = value;
-      this.onDateRangeChange();
+      this.selectedGroupByFilter = this.validGroupBy;
+      this.emitChange();
     },
-    changeFilterSelection() {
-      this.$emit('filter-change', this.currentSelectedFilter);
+    onGroupingChange(payload) {
+      this.selectedGroupByFilter = payload;
+      this.emitChange();
     },
-    handleAgentsFilterSelection() {
-      this.$emit('agents-filter-change', this.selectedAgents);
+    handleAgentsFilterSelection(selectedAgents) {
+      this.selectedAgents = selectedAgents;
+      this.emitChange();
+    },
+    handleLabelsFilterSelection(selectedLabel) {
+      this.selectedLabel = selectedLabel;
+      this.emitChange();
+    },
+    handleInboxFilterSelection(selectedInbox) {
+      this.selectedInbox = selectedInbox;
+      this.emitChange();
+    },
+    handleTeamFilterSelection(selectedTeam) {
+      this.selectedTeam = selectedTeam;
+      this.emitChange();
+    },
+    handleRatingFilterSelection(selectedRating) {
+      this.selectedRating = selectedRating;
+      this.emitChange();
     },
   },
 };
 </script>
+
+<style scoped>
+.filter-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-gap: var(--space-slab);
+
+  margin-bottom: var(--space-normal);
+}
+</style>

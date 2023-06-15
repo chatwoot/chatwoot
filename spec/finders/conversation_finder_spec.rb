@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ::ConversationFinder do
+describe ConversationFinder do
   subject(:conversation_finder) { described_class.new(user_1, params) }
 
   let!(:account) { create(:account) }

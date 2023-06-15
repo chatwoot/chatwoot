@@ -45,6 +45,14 @@ export default {
       default: () => {},
     },
   },
+  watch: {
+    collection() {
+      this.renderChart(this.collection, {
+        ...chartOptions,
+        ...this.chartOptions,
+      });
+    },
+  },
   mounted() {
     this.renderChart(this.collection, {
       ...chartOptions,

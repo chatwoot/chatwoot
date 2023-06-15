@@ -22,7 +22,7 @@ RSpec.describe 'DashboardAppsController', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        response_body = JSON.parse(response.body)
+        response_body = response.parsed_body
         expect(response_body.first['title']).to eq(dashboard_app.title)
         expect(response_body.first['content']).to eq(dashboard_app.content)
       end
@@ -76,7 +76,7 @@ RSpec.describe 'DashboardAppsController', type: :request do
         end.to change(DashboardApp, :count).by(1)
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['title']).to eq 'CRM Dashboard'
         expect(json_response['content'][0]['link']).to eq payload[:dashboard_app][:content][0][:link]
         expect(json_response['content'][0]['type']).to eq payload[:dashboard_app][:content][0][:type]
@@ -89,7 +89,7 @@ RSpec.describe 'DashboardAppsController', type: :request do
         end.not_to change(DashboardApp, :count)
 
         expect(response).to have_http_status(:unprocessable_entity)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['message']).to eq 'Content : Invalid data'
       end
 
@@ -126,7 +126,7 @@ RSpec.describe 'DashboardAppsController', type: :request do
               as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(dashboard_app.reload.title).to eq('CRM Dashboard')
         expect(json_response['content'][0]['link']).to eq payload[:dashboard_app][:content][0][:link]
         expect(json_response['content'][0]['type']).to eq payload[:dashboard_app][:content][0][:type]

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Portal, type: :model do
+RSpec.describe Portal do
   context 'with validations' do
     it { is_expected.to validate_presence_of(:account_id) }
     it { is_expected.to validate_presence_of(:slug) }

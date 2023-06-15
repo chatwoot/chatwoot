@@ -10,6 +10,11 @@ class AgentBotDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     access_token: Field::HasOne,
     avatar_url: AvatarField,
+    avatar: Field::ActiveStorage.with_options(
+      destroy_url: proc do |_namespace, _resource, attachment|
+        [:avatar_super_admin_agent_bot, { attachment_id: attachment.id }]
+      end
+    ),
     id: Field::Number,
     name: Field::String,
     account: Field::BelongsTo.with_options(searchable: true, searchable_field: 'name', order: 'id DESC'),
@@ -36,6 +41,7 @@ class AgentBotDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
     id
+    avatar_url
     account
     name
     description
@@ -47,6 +53,7 @@ class AgentBotDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
     name
+    avatar
     account
     description
     outgoing_url
