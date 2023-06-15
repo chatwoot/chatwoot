@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Webhooks::WhatsappEventsJob, type: :job do
+RSpec.describe Webhooks::WhatsappEventsJob do
   subject(:job) { described_class }
 
   let(:channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false) }

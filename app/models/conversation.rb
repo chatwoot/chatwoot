@@ -69,6 +69,7 @@ class Conversation < ApplicationRecord
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned, -> { where.not(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
+  scope :unattended, -> { where(first_reply_created_at: nil) }
   scope :resolvable, lambda { |auto_resolve_duration|
     return none if auto_resolve_duration.to_i.zero?
 
@@ -233,8 +234,8 @@ class Conversation < ApplicationRecord
 
   def allowed_keys?
     (
-      (previous_changes.keys & %w[team_id assignee_id status snoozed_until custom_attributes label_list first_reply_created_at priority]).present? ||
-      (previous_changes['additional_attributes'].present? && (previous_changes['additional_attributes'][1].keys & %w[conversation_language]).present?)
+      previous_changes.keys.intersect?(%w[team_id assignee_id status snoozed_until custom_attributes label_list first_reply_created_at priority]) ||
+      (previous_changes['additional_attributes'].present? && previous_changes['additional_attributes'][1].keys.intersect?(%w[conversation_language]))
     )
   end
 

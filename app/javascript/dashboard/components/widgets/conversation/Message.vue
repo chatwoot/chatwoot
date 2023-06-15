@@ -25,9 +25,13 @@
         <blockquote v-if="storyReply" class="story-reply-quote">
           <span>{{ $t('CONVERSATION.REPLIED_TO_STORY') }}</span>
           <bubble-image
-            v-if="!hasStoryError"
+            v-if="!hasImgStoryError && storyUrl"
             :url="storyUrl"
             @error="onStoryLoadError"
+          />
+          <bubble-video
+            v-else-if="hasImgStoryError && storyUrl"
+            :url="storyUrl"
           />
         </blockquote>
         <bubble-text
@@ -49,21 +53,10 @@
         </span>
         <div v-if="!isPending && hasAttachments">
           <div v-for="attachment in data.attachments" :key="attachment.id">
-            <bubble-image
-              v-if="attachment.file_type === 'image' && !hasImageError"
-              :url="attachment.data_url"
+            <bubble-image-audio-video
+              v-if="isAttachmentImageVideoAudio(attachment.file_type)"
+              :attachment="attachment"
               @error="onImageLoadError"
-            />
-            <audio
-              v-else-if="attachment.file_type === 'audio'"
-              controls
-              class="skip-context-menu"
-            >
-              <source :src="`${attachment.data_url}?t=${Date.now()}`" />
-            </audio>
-            <bubble-video
-              v-else-if="attachment.file_type === 'video'"
-              :url="attachment.data_url"
             />
             <bubble-location
               v-else-if="attachment.file_type === 'location'"
@@ -140,11 +133,12 @@ import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import BubbleActions from './bubble/Actions';
 import BubbleFile from './bubble/File';
 import BubbleImage from './bubble/Image';
+import BubbleVideo from './bubble/Video';
+import BubbleImageAudioVideo from './bubble/ImageAudioVideo';
 import BubbleIntegration from './bubble/Integration.vue';
 import BubbleLocation from './bubble/Location';
 import BubbleMailHead from './bubble/MailHead';
 import BubbleText from './bubble/Text';
-import BubbleVideo from './bubble/Video.vue';
 import BubbleContact from './bubble/Contact';
 import Spinner from 'shared/components/Spinner';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu';
@@ -161,11 +155,12 @@ export default {
     BubbleActions,
     BubbleFile,
     BubbleImage,
+    BubbleVideo,
+    BubbleImageAudioVideo,
     BubbleIntegration,
     BubbleLocation,
     BubbleMailHead,
     BubbleText,
-    BubbleVideo,
     BubbleContact,
     ContextMenu,
     Spinner,
@@ -200,7 +195,7 @@ export default {
       hasImageError: false,
       contextMenuPosition: {},
       showBackgroundHighlight: false,
-      hasStoryError: false,
+      hasImgStoryError: false,
     };
   },
   computed: {
@@ -429,12 +424,12 @@ export default {
   watch: {
     data() {
       this.hasImageError = false;
-      this.hasStoryError = false;
+      this.hasImgStoryError = false;
     },
   },
   mounted() {
     this.hasImageError = false;
-    this.hasStoryError = false;
+    this.hasImgStoryError = false;
     bus.$on(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
     this.setupHighlightTimer();
   },
@@ -443,6 +438,9 @@ export default {
     clearTimeout(this.higlightTimeout);
   },
   methods: {
+    isAttachmentImageVideoAudio(fileType) {
+      return ['image', 'audio', 'video'].includes(fileType);
+    },
     hasMediaAttachment(type) {
       if (this.hasAttachments && this.data.attachments.length > 0) {
         const { attachments = [{}] } = this.data;
@@ -464,7 +462,7 @@ export default {
       this.hasImageError = true;
     },
     onStoryLoadError() {
-      this.hasStoryError = true;
+      this.hasImgStoryError = true;
     },
     openContextMenu(e) {
       const shouldSkipContextMenu =

@@ -18,6 +18,6 @@ if defined?(ActiveRecord::Base)
 end
 
 filename = command_options.fetch('runnable_full_title', 'no title').gsub(/[^[:print:]]/, '')
-File.open(Rails.root.join("log/#{filename}.json"), 'w+') do |file|
+Rails.root.join("log/#{filename}.json").open('w+') do |file|
   file << JSON.pretty_generate(json_result)
 end

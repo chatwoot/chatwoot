@@ -150,7 +150,7 @@ describe Integrations::Dialogflow::ProcessorService do
   end
 
   describe '#get_response' do
-    let(:google_dialogflow) { ::Google::Cloud::Dialogflow::V2::Sessions::Client }
+    let(:google_dialogflow) { Google::Cloud::Dialogflow::V2::Sessions::Client }
     let(:session_client) { double }
     let(:session) { double }
     let(:query_input) { { text: { text: message, language_code: 'en-US' } } }
