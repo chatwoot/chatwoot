@@ -105,7 +105,7 @@
 </template>
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
-
+import { mapGetters } from 'vuex';
 import {
   isEscape,
   hasPressedArrowLeftKey,
@@ -152,6 +152,9 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      currentUser: 'getCurrentUser',
+    }),
     hasMoreThanOneAttachment() {
       return this.allAttachments.length > 1;
     },
@@ -172,10 +175,11 @@ export default {
       return this.activeFileType === ALLOWED_FILE_TYPES.AUDIO;
     },
     senderDetails() {
-      const { name, available_name: availableName, avatar_url, thumbnail } =
+      const { name, available_name: availableName, avatar_url, thumbnail, id } =
         this.activeAttachment?.sender || this.attachment?.sender;
+      const currentUserID = this.currentUser?.id;
       return {
-        name: name || availableName,
+        name: currentUserID === id ? 'You' : name || availableName,
         avatar: thumbnail || avatar_url,
       };
     },
@@ -244,7 +248,7 @@ export default {
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding: var(--space-normal) var(--space-medium);
+    padding: var(--space-small) var(--space-medium);
 
     .header-info--wrap {
       display: flex;
