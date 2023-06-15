@@ -4,11 +4,11 @@ export const LocalStorage = {
   },
 
   get(key) {
-    const value = window.localStorage.getItem(key);
     try {
+      const value = window.localStorage.getItem(key);
       return typeof value === 'string' ? JSON.parse(value) : value;
     } catch (error) {
-      return value;
+      return undefined;
     }
   },
   set(key, value) {
