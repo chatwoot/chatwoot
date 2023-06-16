@@ -11,13 +11,13 @@
       "CONVERSATIONS": "Pokalbiai",
       "MESSAGES": "Pranešimai"
     },
-    "EMPTY_STATE": "No %{item} found for query '%{query}'",
-    "EMPTY_STATE_FULL": "No results found for query '%{query}'",
-    "PLACEHOLDER_KEYBINDING": "/ to focus",
-    "INPUT_PLACEHOLDER": "Type 3 or more characters to search",
-    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results. ",
+    "EMPTY_STATE": "Nerasta %{item} pagal užklausą '%{query}'",
+    "EMPTY_STATE_FULL": "Nerasta rezultatų pagal užklausą '%{query}'",
+    "PLACEHOLDER_KEYBINDING": "/ sutelkti dėmesį",
+    "INPUT_PLACEHOLDER": "Įveskite 3 ar daugiau smibolius paieškai",
+    "EMPTY_STATE_DEFAULT": "Norėdami gauti geresnių paieškos rezultatų, ieškokite pagal pokalbio ID, el. pašto adresą, telefono numerį, žinutes.",
     "BOT_LABEL": "Botas",
     "READ_MORE": "Skaityti daugiau",
-    "WROTE": "wrote:"
+    "WROTE": "parašei:"
   }
 }
