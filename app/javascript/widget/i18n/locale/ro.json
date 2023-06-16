@@ -19,8 +19,18 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "De obicei, răspunsurile în câteva minute",
     "IN_A_FEW_HOURS": "De obicei, răspunsurile în câteva ore",
-    "IN_A_DAY": "De obicei, răspunsurile într-o zi"
+    "IN_A_DAY": "De obicei, răspunsurile într-o zi",
+    "BACK_IN": "We will be back online"
   },
+  "DAY_NAMES": [
+    "Duminică",
+    "Luni",
+    "Marți",
+    "Miercuri",
+    "Joi",
+    "Vineri",
+    "Sâmbătă"
+  ],
   "START_CONVERSATION": "Începe conversația",
   "END_CONVERSATION": "Terminați conversația",
   "CONTINUE_CONVERSATION": "Continuați conversația",
