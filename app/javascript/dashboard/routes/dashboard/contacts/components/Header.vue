@@ -54,7 +54,7 @@
             color-scheme="secondary"
             data-testid="create-new-contact"
             icon="filter"
-            @click="onToggleFilter"
+            @click="toggleFilter"
           >
             {{ $t('CONTACTS_PAGE.FILTER_CONTACTS') }}
           </woot-button>
@@ -75,7 +75,7 @@
           color-scheme="success"
           icon="person-add"
           data-testid="create-new-contact"
-          @click="onToggleCreate"
+          @click="toggleCreate"
         >
           {{ $t('CREATE_CONTACT.BUTTON_LABEL') }}
         </woot-button>
@@ -127,14 +127,6 @@ export default {
       type: Function,
       default: () => {},
     },
-    onToggleCreate: {
-      type: Function,
-      default: () => {},
-    },
-    onToggleFilter: {
-      type: Function,
-      default: () => {},
-    },
   },
   data() {
     return {
@@ -165,6 +157,12 @@ export default {
     },
     onToggleDeleteSegmentsModal() {
       this.$emit('on-toggle-delete-filter');
+    },
+    toggleCreate() {
+      this.$emit('on-toggle-create');
+    },
+    toggleFilter() {
+      this.$emit('on-toggle-filter');
     },
     toggleImport() {
       this.$emit('on-toggle-import');

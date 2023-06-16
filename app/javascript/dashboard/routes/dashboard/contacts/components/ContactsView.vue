@@ -3,12 +3,12 @@
     <div class="left-wrap" :class="wrapClass">
       <contacts-header
         :search-query="searchQuery"
+        :header-title="pageTitle"
         :segments-id="segmentsId"
         this-selected-contact-id=""
         :on-input-search="onInputSearch"
-        :on-toggle-create="onToggleCreate"
-        :on-toggle-filter="onToggleFilters"
-        :header-title="pageTitle"
+        @on-toggle-create="onToggleCreate"
+        @on-toggle-filter="onToggleFilters"
         @on-search-submit="onSearchSubmit"
         @on-toggle-import="onToggleImport"
         @on-export-submit="onExportSubmit"
