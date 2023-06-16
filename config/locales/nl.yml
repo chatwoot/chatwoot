@@ -38,6 +38,8 @@ nl:
     contacts:
       import:
         failed: Bestand is leeg
+      export:
+        success: We will notify you once contacts export file is ready to view.
       email:
         invalid: Ongeldig email
       phone_number:
@@ -56,6 +58,8 @@ nl:
         connection_closed_error: Verbinding verbroken.
       validations:
         name: mag niet beginnen of eindigen met symbolen, en mag geen < > / \ @ karakters hebben.
+    custom_filters:
+      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
   reports:
     period: Rapportering van %{since} tot %{until}
     utc_warning: The report generated is in UTC timezone
@@ -180,6 +184,7 @@ nl:
       empty_placeholder: Geen resultaten gevonden.
       loading_placeholder: Zoeken...
       results_title: Zoekresultaten
+    toc_header: 'On this page'
     hero:
       sub_title: Search for the articles here or browse the categories below.
     common:
