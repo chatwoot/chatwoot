@@ -36,17 +36,20 @@
       }
     },
     "VIEW_FILTER": "Просмотр",
-    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "SORT_TOOLTIP_LABEL": "Сортировать сообщения",
     "CHAT_SORT": {
       "STATUS": "Статус",
-      "ORDER_BY": "Order by"
+      "ORDER_BY": "Сортировать по"
     },
     "CHAT_SORT_FILTER_ITEMS": {
       "latest": {
-        "TEXT": "Last activity"
+        "TEXT": "Последние действия"
       },
       "sort_on_created_at": {
         "TEXT": "Дата создания"
+      },
+      "sort_on_priority": {
+        "TEXT": "Приоритет"
       }
     },
     "ATTACHMENTS": {
@@ -70,20 +73,20 @@
       }
     },
     "CHAT_SORT_BY_FILTER": {
-      "TITLE": "Sort conversation",
+      "TITLE": "Сортировать разговор",
       "DROPDOWN_TITLE": "Сортировать по",
       "ITEMS": {
         "LATEST": {
-          "NAME": "Last activity at",
-          "LABEL": "Last activity"
+          "NAME": "Последняя активность",
+          "LABEL": "Последние действия"
         },
         "CREATED_AT": {
           "NAME": "Дата создания",
           "LABEL": "Дата создания"
         },
         "LAST_USER_MESSAGE_AT": {
-          "NAME": "Last user message at",
-          "LABEL": "Last message"
+          "NAME": "Последнее сообщение пользователя",
+          "LABEL": "Последнее сообщение"
         }
       }
     },
