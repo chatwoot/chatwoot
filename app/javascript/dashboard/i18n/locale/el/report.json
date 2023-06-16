@@ -4,6 +4,8 @@
     "LOADING_CHART": "Φόρτωση δεδομένων γραφήματος...",
     "NO_ENOUGH_DATA": "Δεν έχουν ληφθεί αρκετά σημεία δεδομένων για την δημιουργία της αναφοράς, Παρακαλώ προσπαθήστε αργότερα.",
     "DOWNLOAD_AGENT_REPORTS": "Κατέβασμα αναφορών πράκτορα",
+    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
+    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Συζητήσεις",
@@ -33,6 +35,14 @@
         "NAME": "Αριθμός Αναλύσεων",
         "DESC": "(Σύνολο)"
       }
+    },
+    "DATE_RANGE_OPTIONS": {
+      "LAST_7_DAYS": "Τελευταίες 7 ημέρες",
+      "LAST_30_DAYS": "Τελευταίες 30 ημέρες",
+      "LAST_3_MONTHS": "Τελευταίοι 3 μήνες",
+      "LAST_6_MONTHS": "Τελευταίοι 6 μήνες",
+      "LAST_YEAR": "Τελευταίο έτος",
+      "CUSTOM_DATE_RANGE": "Προσαρμοσμένο εύρος ημερομηνιών"
     },
     "DATE_RANGE": [
       {
@@ -66,6 +76,12 @@
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Ομαδοποίηση Κατά",
     "DURATION_FILTER_LABEL": "Διάρκεια",
+    "GROUPING_OPTIONS": {
+      "DAY": "Ημέρα",
+      "WEEK": "Εβδομάδα",
+      "MONTH": "Μήνα",
+      "YEAR": "Έτος"
+    },
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
@@ -388,6 +404,7 @@
     "HEADER": "Αναφορές CSAT",
     "NO_RECORDS": "Δεν υπάρχουν διαθέσιμες απαντήσεις ερευνών CSAT.",
     "DOWNLOAD": "Λήψη αναφορών CSAT",
+    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Επιλέξτε Πράκτορες"
