@@ -2,12 +2,17 @@
   "FILTER": {
     "TITLE": "Tapisan Perbualan",
     "SUBTITLE": "Tambahkan tapisan di bawah dan tekan \"Gunakan Tetapan\" untuk menapis perbualan.",
+    "EDIT_CUSTOM_FILTER": "Edit Folder",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
     "ADD_NEW_FILTER": "Tambahan Tapisan",
     "FILTER_DELETE_ERROR": "Kamu perlukan sekurang-kurangnya satu tapisan untuk simpan tetapan",
     "SUBMIT_BUTTON_LABEL": "Tetapkan tapisan",
+    "UPDATE_BUTTON_LABEL": "Update folder",
     "CANCEL_BUTTON_LABEL": "Batalkan",
     "CLEAR_BUTTON_LABEL": "Kosongkan tapisan",
     "EMPTY_VALUE_ERROR": "Nilai diperlukan",
+    "FOLDER_LABEL": "Folder Name",
+    "FOLDER_QUERY_LABEL": "Folder Query",
     "TOOLTIP_LABEL": "Tapiskan perbualan",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "DAN",
@@ -70,6 +75,9 @@
           "SUCCESS_MESSAGE": "Segmen telah berjaya ditetapkan",
           "ERROR_MESSAGE": "Segmen tidak berjaya ditetapkan"
         }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Edit folder"
       },
       "DELETE": {
         "DELETE_BUTTON": "Padam tapisan",
