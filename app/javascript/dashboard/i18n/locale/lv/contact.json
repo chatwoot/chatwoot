@@ -73,6 +73,13 @@
     "SUCCESS_MESSAGE": "Kontaktpersonas ir veiksmīgi saglabātas",
     "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
   },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
+  },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Apstiprināt Dzēšanu",
@@ -211,6 +218,7 @@
     "FILTER_CONTACTS": "Filtrs",
     "FILTER_CONTACTS_SAVE": "Saglabāt filtru",
     "FILTER_CONTACTS_DELETE": "Dzēst filtru",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "Notiek kontaktpersonu ielāde...",
       "404": "Neviena kontaktpersona neatbilst jūsu meklēšanas vaicājumam 🔍",
