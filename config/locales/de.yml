@@ -21,7 +21,7 @@ de:
   messages:
     reset_password_success: Woot! Die Anforderung zum Zurücksetzen des Passworts ist erfolgreich. Überprüfen Sie Ihre E-Mails auf Anweisungen.
     reset_password_failure: Uh ho! Wir konnten keinen Benutzer mit der angegebenen E-Mail-Adresse finden.
-    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
+    inbox_deletetion_response: Die Löschanfrage Ihres Posteingangs wird in Kürze bearbeitet.
   errors:
     validations:
       presence: darf nicht leer sein
@@ -38,6 +38,8 @@ de:
     contacts:
       import:
         failed: Datei ist leer
+      export:
+        success: We will notify you once contacts export file is ready to view.
       email:
         invalid: Ungültige E-Mail
       phone_number:
@@ -56,9 +58,11 @@ de:
         connection_closed_error: Verbindung geschlossen.
       validations:
         name: Sollte nicht mit Symbolen beginnen oder enden, und es sollte keine < > / \ @ Zeichen enthalten.
+    custom_filters:
+      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
   reports:
     period: Berichtszeitraum von %{since} bis %{until}
-    utc_warning: The report generated is in UTC timezone
+    utc_warning: Der generierte Bericht ist in UTC-Zeitzone
     agent_csv:
       agent_name: Agentenname
       conversations_count: Anzahl Gespräche
@@ -81,7 +85,7 @@ de:
       avg_first_response_time: Durchschnittliche Reaktionszeit (Minuten)
       avg_resolution_time: Durchschnittliche Auflösungszeit (Minuten)
     conversation_traffic_csv:
-      timezone: Timezone
+      timezone: Zeitzone
     default_group_by: Tag
     csat:
       headers:
@@ -112,11 +116,11 @@ de:
         pending: "Das Gespräch wurde von %{user_name} als ausstehend markiert"
         snoozed: "Das Gespräch wurde von %{user_name} zur Erinnerung markiert"
         auto_resolved: "Das Gespräch wurde vom System aufgrund von %{duration} Tagen Inaktivität gelöst"
-        system_auto_open: System reopened the conversation due to a new incoming message.
+        system_auto_open: Das System hat die Unterhaltung aufgrund einer neuen eingehenden Nachricht wieder geöffnet.
       priority:
-        added: '%{user_name} set the priority to %{new_priority}'
-        updated: '%{user_name} changed the priority from %{old_priority} to %{new_priority}'
-        removed: '%{user_name} removed the priority'
+        added: '%{user_name} hat die Priorität auf %{new_priority} gesetzt'
+        updated: '%{user_name} hat die Priorität von %{old_priority} zu %{new_priority} geändert'
+        removed: '%{user_name} hat die Priorität entfernt'
       assignee:
         self_assigned: "%{user_name} hat sich dieses Gespräch selbst zugewiesen"
         assigned: "%{user_name} von %{assignee_name} zugewiesen"
@@ -169,27 +173,28 @@ de:
       name: "Vollständiger Kontakt"
       description: "Die vollständige Kontakt-Integration hilft die Besucherprofile zu erweitern. Identifizieren Sie die Benutzer, sobald diese ihre E-Mail-Adresse speichern um Ihnen maßgeschneiderten Kundenservice anbieten. Verbinden Sie einen Kontakt mit Ihrem Konto, indem Sie den Kontakt-API-Schlüssel freigeben."
     google_translate:
-      name: "Google Translate"
-      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
+      name: "Google Übersetzer"
+      description: "Machen Sie es Agenten einfacher Nachrichten zu übersetzen, indem Sie eine Google Übersetzer Integration hinzufügen. Google Übersetzer hilft die Sprache automatisch zu identifizieren und in die Sprache umzuwandeln, die vom Agenten/Account-Administrator gewählt wurde."
     openai:
-      name: "OpenAI"
-      description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
+      name: "OpenKI"
+      description: "Integrieren Sie leistungsstarke KI-Funktionen in Chatwoot, indem Sie die GPT-Modelle von OpenKI nutzen."
   public_portal:
     search:
       search_placeholder: Artikel nach Titel oder Text suchen...
       empty_placeholder: Keine Ergebnisse gefunden.
       loading_placeholder: Suchen...
       results_title: Suchergebnisse
+    toc_header: 'On this page'
     hero:
       sub_title: Suchen Sie hier nach den Artikeln oder stöbern Sie in den unten stehenden Kategorien.
     common:
       home: Hauptseite
-      last_updated_on: Last updated on %{last_updated_on}
+      last_updated_on: Zuletzt aktualisiert am %{last_updated_on}
       view_all_articles: Alle Artikel anzeigen
       article: Artikel
       articles: Artikel
-      no_articles: There are no articles here
+      no_articles: Keine Artikel vorhanden
     footer:
-      made_with: Made with
+      made_with: Erstellt mit
     header:
       go_to_homepage: Zur Hauptseite wechseln
