@@ -73,6 +73,13 @@
     "SUCCESS_MESSAGE": "Tókst að hlaða inn tengiliðum",
     "ERROR_MESSAGE": "Það kom upp villa, vinsamlegast reyndur aftur"
   },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "Það kom upp villa, vinsamlegast reyndu aftur"
+  },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Staðfesta eyðingu",
@@ -211,6 +218,7 @@
     "FILTER_CONTACTS": "Sía",
     "FILTER_CONTACTS_SAVE": "Vista síu",
     "FILTER_CONTACTS_DELETE": "Eyða síu",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "Hleð tengiliðum...",
       "404": "Engir tengiliðir fundust",
