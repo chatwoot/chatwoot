@@ -80,7 +80,7 @@
         "CONVERSATION_CREATION": "Senden Sie E-Mail-Benachrichtigungen, wenn eine neue Konversation erstellt wird",
         "CONVERSATION_MENTION": "Senden Sie E-Mail-Benachrichtigungen, wenn Sie in einer Konversation erwähnt werden",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Senden Sie E-Mail-Benachrichtigungen, wenn eine neue Nachricht in einer zugewiesenen Konversation erstellt wird",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "E-Mail-Benachrichtigungen senden, wenn eine neue Nachricht in einer zugewiesenen Konversation erstellt wird"
       },
       "API": {
         "UPDATE_SUCCESS": "Ihre Benachrichtigungseinstellungen wurden erfolgreich aktualisiert",
@@ -93,7 +93,7 @@
         "CONVERSATION_CREATION": "Push-Benachrichtigungen senden, wenn eine neue Konversation startet",
         "CONVERSATION_MENTION": "Senden Sie Push-Benachrichtigungen, wenn Sie in einer Konversation erwähnt werden",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Senden Sie Push-Benachrichtigungen, wenn eine neue Nachricht in einer zugewiesenen Konversation erstellt wird",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Sende Push-Benachrichtigungen, wenn eine neue Nachricht in einer zugewiesenen Konversation erstellt wird",
         "HAS_ENABLED_PUSH": "Sie haben die Push-Benachrichtigung für diesen Browser aktiviert.",
         "REQUEST_PUSH": "Push-Benachrichtigungen aktivieren"
       },
@@ -164,7 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Kopieren",
-      "CODEPEN": "Open in CodePen",
+      "CODEPEN": "In CodePen öffnen",
       "COPY_SUCCESSFUL": "Code erfolgreich in die Zwischenablage kopiert"
     },
     "SHOW_MORE_BLOCK": {
@@ -195,7 +195,7 @@
     "CONVERSATIONS": "Gespräche",
     "ALL_CONVERSATIONS": "Alle Konversationen",
     "MENTIONED_CONVERSATIONS": "Erwähnungen",
-    "PARTICIPATING_CONVERSATIONS": "Participating",
+    "PARTICIPATING_CONVERSATIONS": "Beteiligt",
     "UNATTENDED_CONVERSATIONS": "Unbeaufsichtigt",
     "REPORTS": "Berichte",
     "SETTINGS": "Einstellungen",
@@ -203,7 +203,7 @@
     "HOME": "Hauptseite",
     "AGENTS": "Agenten",
     "AGENT_BOTS": "Bots",
-    "AUDIT_LOGS": "Audit Logs",
+    "AUDIT_LOGS": "Audit-Protokolle",
     "INBOXES": "Posteingänge",
     "NOTIFICATIONS": "Push-Benachrichtigungen",
     "CANNED_RESPONSES": "Vorgefertigte Antworten",
