@@ -2,12 +2,17 @@
   "FILTER": {
     "TITLE": "Filtrar Conversas",
     "SUBTITLE": "Adicione filtros abaixo e pressione 'Aplicar filtros' para filtrar conversas.",
+    "EDIT_CUSTOM_FILTER": "Edit Folder",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
     "ADD_NEW_FILTER": "Adicionar Filtro",
     "FILTER_DELETE_ERROR": "Você deve ter pelo menos um filtro para guardar",
     "SUBMIT_BUTTON_LABEL": "Aplicar filtros",
+    "UPDATE_BUTTON_LABEL": "Update folder",
     "CANCEL_BUTTON_LABEL": "cancelar",
     "CLEAR_BUTTON_LABEL": "Limpar Filtros",
     "EMPTY_VALUE_ERROR": "Valor obrigatório",
+    "FOLDER_LABEL": "Folder Name",
+    "FOLDER_QUERY_LABEL": "Folder Query",
     "TOOLTIP_LABEL": "Filtrar Conversas",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "E",
@@ -70,6 +75,9 @@
           "SUCCESS_MESSAGE": "Segmento criado com sucesso",
           "ERROR_MESSAGE": "Erro ao criar segmento"
         }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Edit folder"
       },
       "DELETE": {
         "DELETE_BUTTON": "Apagar filtro",
