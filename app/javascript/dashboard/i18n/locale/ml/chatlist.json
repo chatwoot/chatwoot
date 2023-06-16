@@ -47,6 +47,9 @@
       },
       "sort_on_created_at": {
         "TEXT": "എന്ന സ്ഥലത്ത് സൃഷ്ടിച്ചു"
+      },
+      "sort_on_priority": {
+        "TEXT": "Priority"
       }
     },
     "ATTACHMENTS": {
