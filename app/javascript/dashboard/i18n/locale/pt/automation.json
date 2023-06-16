@@ -2,7 +2,7 @@
   "AUTOMATION": {
     "HEADER": "Automatizações",
     "HEADER_BTN_TXT": "Adicionar Regra de Automação",
-    "LOADING": "Fetching automation rules",
+    "LOADING": "Buscando regras de automação",
     "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
     "ADD": {
       "TITLE": "Adicionar Regra de Automação",
