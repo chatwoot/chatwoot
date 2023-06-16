@@ -19,8 +19,18 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Reageert meestal binnen een paar minuten",
     "IN_A_FEW_HOURS": "Reageert meestal binnen een paar uur",
-    "IN_A_DAY": "Reageert meestal binnen een dag"
+    "IN_A_DAY": "Reageert meestal binnen een dag",
+    "BACK_IN": "We will be back online"
   },
+  "DAY_NAMES": [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ],
   "START_CONVERSATION": "Start Chat",
   "END_CONVERSATION": "Gesprek beëindigen",
   "CONTINUE_CONVERSATION": "Verdergaan met gesprek",
