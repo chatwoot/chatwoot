@@ -1089,7 +1089,7 @@ export default {
 
       // If the last incoming message sender is different from the conversation contact, add them to the "to"
       // and add the conversation contact to the CC
-      if (conversationContact !== emailAttributes.from) {
+      if (!emailAttributes.from.includes(conversationContact)) {
         to.push(...emailAttributes.from);
         cc.push(conversationContact);
       }
