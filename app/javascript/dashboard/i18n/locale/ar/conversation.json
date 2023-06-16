@@ -68,7 +68,7 @@
       }
     },
     "PRIORITY": {
-      "TITLE": "Priority",
+      "TITLE": "الأولوية",
       "OPTIONS": {
         "NONE": "لا شيء",
         "URGENT": "Urgent",
