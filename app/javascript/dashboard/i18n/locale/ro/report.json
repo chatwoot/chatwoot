@@ -4,6 +4,8 @@
     "LOADING_CHART": "Încărcare date grafic...",
     "NO_ENOUGH_DATA": "Nu am primit suficiente date pentru a genera raportul. Vă rugăm să încercați din nou mai târziu.",
     "DOWNLOAD_AGENT_REPORTS": "Descărcați rapoartele agenților",
+    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
+    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversații",
@@ -33,6 +35,14 @@
         "NAME": "Număr de rezoluții",
         "DESC": "( Total )"
       }
+    },
+    "DATE_RANGE_OPTIONS": {
+      "LAST_7_DAYS": "Ultimele 7 zile",
+      "LAST_30_DAYS": "Ultimele 30 zile",
+      "LAST_3_MONTHS": "Ultimele 3 luni",
+      "LAST_6_MONTHS": "Ultimele 6 luni",
+      "LAST_YEAR": "Anul trecut",
+      "CUSTOM_DATE_RANGE": "Interval de date particularizat"
     },
     "DATE_RANGE": [
       {
@@ -64,8 +74,14 @@
       "CONFIRM": "Aplică",
       "PLACEHOLDER": "Selectarea intervalului de date"
     },
-    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Nu sunt conversații active în acest grup.",
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Grupează după",
     "DURATION_FILTER_LABEL": "Durata",
+    "GROUPING_OPTIONS": {
+      "DAY": "Zi",
+      "WEEK": "Săptămână",
+      "MONTH": "Luna",
+      "YEAR": "Anul"
+    },
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
@@ -254,7 +270,7 @@
     "HEADER": "Prezentare generală a inboxului",
     "LOADING_CHART": "Încărcare date grafic...",
     "NO_ENOUGH_DATA": "Nu am primit suficiente date pentru a genera raportul. Vă rugăm să încercați din nou mai târziu.",
-    "DOWNLOAD_INBOX_REPORTS": "Descarcă un formular csv.",
+    "DOWNLOAD_INBOX_REPORTS": "Descărcarea rapoartelor inbox",
     "FILTER_DROPDOWN_LABEL": "Selectați Inbox",
     "METRICS": {
       "CONVERSATIONS": {
@@ -388,6 +404,7 @@
     "HEADER": "Rapoarte CSAT",
     "NO_RECORDS": "Nu există răspunsuri predefinite disponibile în acest cont.",
     "DOWNLOAD": "Descărcați rapoartele CSAT",
+    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Alege agenți"
