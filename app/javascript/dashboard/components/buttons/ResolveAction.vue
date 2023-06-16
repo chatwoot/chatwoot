@@ -73,7 +73,7 @@
     </div>
     <woot-modal
       :show.sync="showCustomSnoozeModal"
-      :close="hideCustomSnoozeModal"
+      :on-close="hideCustomSnoozeModal"
     >
       <custom-snooze-modal
         @close="hideCustomSnoozeModal"
@@ -88,7 +88,7 @@ import { getUnixTime } from 'date-fns';
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
-import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal';
+import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal.vue';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import {
   hasPressedAltAndEKey,
