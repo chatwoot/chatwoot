@@ -535,7 +535,6 @@
       "UPDATE": "Mettre à jour les paramètres des heures de bureau",
       "TOGGLE_AVAILABILITY": "Activer la disponibilité aux heures de bureau pour cette boîte de réception",
       "UNAVAILABLE_MESSAGE_LABEL": "Message d'indisponibilité pour les visiteurs",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "Nous ne sommes pas disponibles pour le moment. Laissez-nous un message, et nous répondrons dès notre retour.",
       "TOGGLE_HELP": "Activer la disponibilité aux heures de bureau montrera les heures disponibles sur le widget chat en direct même si tous les agents sont hors ligne. En dehors des heures disponibles, les visiteurs peuvent être avertis avec un message et un formulaire de préconversation.",
       "DAY": {
         "ENABLE": "Activer la disponibilité pour ce jour",
