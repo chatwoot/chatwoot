@@ -1,24 +1,48 @@
 {
   "AUDIT_LOGS": {
-    "HEADER": "Audit Logs",
-    "HEADER_BTN_TXT": "Add Audit Logs",
-    "LOADING": "Fetching Audit Logs",
+    "HEADER": "Audito Žurnalas",
+    "HEADER_BTN_TXT": "Pridėti Audito Žurnalus",
+    "LOADING": "Parsiunčiami Audito Žurnalai",
     "SEARCH_404": "Šią užklausą atitinkančių elementų nėra",
-    "SIDEBAR_TXT": "<p><b>Audit Logs</b> </p><p> Audit Logs are trails for events and actions in a Chatwoot System. </p>",
+    "SIDEBAR_TXT": "<p><b>Audito žurnalai</b> </p><p> Audito žurnalai yra įvykių ir veiksmų Chatwoot sistemoje pėdsakai. </p>",
     "LIST": {
-      "404": "There are no Audit Logs available in this account.",
-      "TITLE": "Manage Audit Logs",
-      "DESC": "Audit Logs are trails for events and actions in a Chatwoot System.",
+      "404": "Šiai paskyrai nėra prieinamų Audito Žurnalų.",
+      "TITLE": "Tvarkyti Audito Žurnalus",
+      "DESC": "Audito žurnalai yra įvykių ir veiksmų „Chatwoot“ sistemoje pėdsakai.",
       "TABLE_HEADER": [
         "Vartotojas",
         "Action",
-        "IP Adresas",
-        "Laikas"
+        "IP Adresas"
       ]
     },
     "API": {
-      "SUCCESS_MESSAGE": "AuditLogs retrieved successfully",
+      "SUCCESS_MESSAGE": "Audito Žurnalai parsiųsti sėkmingai",
       "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
+    },
+    "DEFAULT_USER": "System",
+    "AUTOMATION_RULE": {
+      "ADD": "%{agentName} created a new automation rule (#%{id})",
+      "EDIT": "%{agentName} updated an automation rule (#%{id})",
+      "DELETE": "%{agentName} deleted an automation rule (#%{id})"
+    },
+    "INBOX": {
+      "ADD": "%{agentName} created a new inbox (#%{id})",
+      "EDIT": "%{agentName} updated an inbox (#%{id})",
+      "DELETE": "%{agentName} deleted an inbox (#%{id})"
+    },
+    "WEBHOOK": {
+      "ADD": "%{agentName} created a new webhook (#%{id})",
+      "EDIT": "%{agentName} updated a webhook (#%{id})",
+      "DELETE": "%{agentName} deleted a webhook (#%{id})"
+    },
+    "USER_ACTION": {
+      "SIGN_IN": "%{agentName} signed in",
+      "SIGN_OUT": "%{agentName} signed out"
+    },
+    "TEAM": {
+      "ADD": "%{agentName} created a new team (#%{id})",
+      "EDIT": "%{agentName} updated a team (#%{id})",
+      "DELETE": "%{agentName} deleted a team (#%{id})"
     }
   }
 }
