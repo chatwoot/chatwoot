@@ -2,17 +2,17 @@
   "LOGIN": {
     "TITLE": "Conectează-te la Chatwoot",
     "EMAIL": {
-      "LABEL": "Email",
-      "PLACEHOLDER": "example@companyname.com"
+      "LABEL": "E-mail",
+      "PLACEHOLDER": "exemplu@companyname.com"
     },
     "PASSWORD": {
       "LABEL": "Parola",
       "PLACEHOLDER": "Parola"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Login successful",
-      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again.",
-      "UNAUTH": "Username or password is incorrect. Please try again."
+      "SUCCESS_MESSAGE": "Autentificare reușită",
+      "ERROR_MESSAGE": "Nu s-a putut conecta la serverul Woot. Vă rugăm să încercați din nou.",
+      "UNAUTH": "Numele de utilizator sau parola sunt incorecte. Vă rugăm să încercați din nou."
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "Autentifica-te cu Google+",
