@@ -1,71 +1,87 @@
 {
   "REPORT": {
     "HEADER": "Pokalbiai",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "LOADING_CHART": "Įkeliami diagramos duomenys...",
+    "NO_ENOUGH_DATA": "Negavome pakankamai duomenų, kad galėtume sugeneruoti ataskaitą. Bandykite dar kartą vėliau.",
+    "DOWNLOAD_AGENT_REPORTS": "Parsisiųsti agentų ataskaitas",
+    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
+    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Pokalbiai",
-        "DESC": "( Total )"
+        "DESC": "( Viso )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "Gaunami pranešimai",
+        "DESC": "( Viso )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "Siunčiami pranešimai",
+        "DESC": "( Viso )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "NAME": "Pirmojo atsakymo laikas",
+        "DESC": "( Vid )",
+        "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
+        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "NAME": "Sprendimo laikas",
+        "DESC": "( Vid )",
+        "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
+        "TOOLTIP_TEXT": "Sprendimo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Sprendimų skaičius",
+        "DESC": "( Viso )"
       }
+    },
+    "DATE_RANGE_OPTIONS": {
+      "LAST_7_DAYS": "Paskutines 7 dienas",
+      "LAST_30_DAYS": "Paskutines 30 dienų",
+      "LAST_3_MONTHS": "Paskutinius 3 mėnesius",
+      "LAST_6_MONTHS": "Paskutinius 6 mėnesius",
+      "LAST_YEAR": "Paskutinius metus",
+      "CUSTOM_DATE_RANGE": "Pritaikytas datos intervalas"
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Paskutines 7 dienas"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Paskutines 30 dienų"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Paskutinius 3 mėnesius"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Paskutinius 6 mėnesius"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Paskutinius metus"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Pritaikytas datos intervalas"
       }
     ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Taikyti",
-      "PLACEHOLDER": "Select date range"
+      "PLACEHOLDER": "Pasirinkti datos intervalą"
     },
-    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Grupuoti pagal",
     "DURATION_FILTER_LABEL": "Trukmė",
+    "GROUPING_OPTIONS": {
+      "DAY": "Diena",
+      "WEEK": "Savaitė",
+      "MONTH": "Mėnuo",
+      "YEAR": "Metai"
+    },
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
@@ -117,10 +133,10 @@
     "BUSINESS_HOURS": "Darbo valandos"
   },
   "AGENT_REPORTS": {
-    "HEADER": "Agents Overview",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "HEADER": "Agentų apžvalga",
+    "LOADING_CHART": "Įkeliami diagramos duomenys...",
+    "NO_ENOUGH_DATA": "Negavome pakankamai duomenų, kad galėtume sugeneruoti ataskaitą. Bandykite dar kartą vėliau.",
+    "DOWNLOAD_AGENT_REPORTS": "Parsisiųsti agentų ataskaitas",
     "FILTER_DROPDOWN_LABEL": "Pasirinkti agentą",
     "METRICS": {
       "CONVERSATIONS": {
@@ -128,269 +144,270 @@
         "DESC": "( Viso )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
+        "NAME": "Gaunami pranešimai",
         "DESC": "( Viso )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
+        "NAME": "Siunčiami pranešimai",
         "DESC": "( Viso )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "NAME": "Pirmojo atsakymo laikas",
+        "DESC": "( Vid )",
+        "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
+        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "NAME": "Sprendimo laikas",
+        "DESC": "( Vid )",
+        "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
+        "TOOLTIP_TEXT": "Sprendimo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
+        "NAME": "Sprendimų skaičius",
         "DESC": "( Viso )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Paskutines 7 dienas"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Paskutines 30 dienų"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Paskutinius 3 mėnesius"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Paskutinius 6 mėnesius"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Paskutinius metus"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Pritaikytas datos intervalas"
       }
     ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Taikyti",
-      "PLACEHOLDER": "Select date range"
+      "PLACEHOLDER": "Pasirinkti datos intervalą"
     }
   },
   "LABEL_REPORTS": {
-    "HEADER": "Etikečių Peržiūra",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
+    "HEADER": "Etikečių Apžvalga",
+    "LOADING_CHART": "Įkeliami diagramos duomenys...",
+    "NO_ENOUGH_DATA": "Negavome pakankamai duomenų, kad galėtume sugeneruoti ataskaitą. Bandykite dar kartą vėliau.",
     "DOWNLOAD_LABEL_REPORTS": "Parsisiųsti etiketės ataskaitas",
     "FILTER_DROPDOWN_LABEL": "Pažymėti Etiketę",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Pokalbiai",
-        "DESC": "( Total )"
+        "DESC": "( Viso )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "Gaunami pranešimai",
+        "DESC": "( Viso )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "Siunčiami pranešimai",
+        "DESC": "( Viso )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "NAME": "Pirmojo atsakymo laikas",
+        "DESC": "( Vid )",
+        "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
+        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "NAME": "Sprendimo laikas",
+        "DESC": "( Vid )",
+        "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
+        "TOOLTIP_TEXT": "Sprendimo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
+        "NAME": "Sprendimų skaičius",
         "DESC": "( Viso )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Paskutines 7 dienas"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Paskutines 30 dienų"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Paskutinius 3 mėnesius"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Paskutinius 6 mėnesius"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Paskutinius metus"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Pritaikytas datos intervalas"
       }
     ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Taikyti",
-      "PLACEHOLDER": "Select date range"
+      "PLACEHOLDER": "Pasirinkti datos intervalą"
     }
   },
   "INBOX_REPORTS": {
-    "HEADER": "Inbox Overview",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
-    "FILTER_DROPDOWN_LABEL": "Select Inbox",
+    "HEADER": "Gautų Laiškų Aplanko Apžvalga",
+    "LOADING_CHART": "Įkeliami diagramos duomenys...",
+    "NO_ENOUGH_DATA": "Negavome pakankamai duomenų, kad galėtume sugeneruoti ataskaitą. Bandykite dar kartą vėliau.",
+    "DOWNLOAD_INBOX_REPORTS": "Parsisiųsti gautų laiškų aplanko ataskaitas",
+    "FILTER_DROPDOWN_LABEL": "Pasirinkti gautų laiškų aplanką",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Pokalbiai",
         "DESC": "( Viso )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
+        "NAME": "Gaunami pranešimai",
         "DESC": "( Viso )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "Siunčiami pranešimai",
+        "DESC": "( Viso )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "NAME": "Pirmojo atsakymo laikas",
+        "DESC": "( Vid )",
+        "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
+        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "NAME": "Sprendimo laikas",
+        "DESC": "( Vid )",
+        "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
+        "TOOLTIP_TEXT": "Sprendimo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
+        "NAME": "Sprendimų skaičius",
         "DESC": "( Viso )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Paskutines 7 dienas"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Paskutines 30 dienų"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Paskutinius 3 mėnesius"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Paskutinius 6 mėnesius"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Paskutinius metus"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Pritaikytas datos intervalas"
       }
     ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Taikyti",
-      "PLACEHOLDER": "Select date range"
+      "PLACEHOLDER": "Pasirinkti datos intervalą"
     }
   },
   "TEAM_REPORTS": {
-    "HEADER": "Team Overview",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
-    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "HEADER": "Komandos apžvalga",
+    "LOADING_CHART": "Įkeliami diagramos duomenys...",
+    "NO_ENOUGH_DATA": "Negavome pakankamai duomenų, kad galėtume sugeneruoti ataskaitą. Bandykite dar kartą vėliau.",
+    "DOWNLOAD_TEAM_REPORTS": "Parsisiųsti komandos ataskaitas",
+    "FILTER_DROPDOWN_LABEL": "Pasirinkite komandą",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Pokalbiai",
         "DESC": "( Viso )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
+        "NAME": "Gaunami pranešimai",
         "DESC": "( Viso )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "Siunčiami pranešimai",
+        "DESC": "( Viso )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "NAME": "Pirmojo atsakymo laikas",
+        "DESC": "( Vid )",
+        "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
+        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "NAME": "Sprendimo laikas",
+        "DESC": "( Vid )",
+        "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
+        "TOOLTIP_TEXT": "Sprendimo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
+        "NAME": "Sprendimų skaičius",
         "DESC": "( Viso )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Paskutines 7 dienas"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Paskutines 30 dienų"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Paskutinius 3 mėnesius"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Paskutinius 6 mėnesius"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Paskutinius metus"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Pritaikytas datos intervalas"
       }
     ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Taikyti",
-      "PLACEHOLDER": "Select date range"
+      "PLACEHOLDER": "Pasirinkti datos intervalą"
     }
   },
   "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
-    "NO_RECORDS": "There are no CSAT survey responses available.",
-    "DOWNLOAD": "Download CSAT Reports",
+    "HEADER": "CSAT Ataskaitas",
+    "NO_RECORDS": "Nėra CSAT apklausos atsakymų.",
+    "DOWNLOAD": "Parsisiųsti CSAT ataskaitas",
+    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
     "FILTERS": {
       "AGENTS": {
-        "PLACEHOLDER": "Choose Agents"
+        "PLACEHOLDER": "Pasirinkti Agentus"
       }
     },
     "TABLE": {
@@ -398,48 +415,48 @@
         "CONTACT_NAME": "Kontaktas",
         "AGENT_NAME": "Priskirtas agentas",
         "RATING": "Reitingas",
-        "FEEDBACK_TEXT": "Feedback comment"
+        "FEEDBACK_TEXT": "Facebook komentaras"
       }
     },
     "METRIC": {
       "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+        "LABEL": "Iš viso atsakymų",
+        "TOOLTIP": "Bendras surinktų atsakymų skaičius"
       },
       "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+        "LABEL": "Pasitenkinimo balas",
+        "TOOLTIP": "Bendras teigiamų atsakymų skaičius / Bendras atsakymų skaičius * 100"
       },
       "RESPONSE_RATE": {
-        "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+        "LABEL": "Atsakymo įvertinimas",
+        "TOOLTIP": "Bendras atsakymų skaičius / Bendras skaičius išsiųstų CSAT apklausų pranešimų * 100"
       }
     }
   },
   "OVERVIEW_REPORTS": {
     "HEADER": "Apžvalga",
-    "LIVE": "Live",
+    "LIVE": "Tiesiogiai",
     "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Open Conversations",
-      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "HEADER": "Atidaryti pokalbius",
+      "LOADING_MESSAGE": "Įkeliama pokalbio metrika...",
       "OPEN": "Atidaryti",
-      "UNATTENDED": "Unattended",
-      "UNASSIGNED": "Unassigned"
+      "UNATTENDED": "Be priežiūros",
+      "UNASSIGNED": "Ne priskirtas"
     },
     "CONVERSATION_HEATMAP": {
-      "HEADER": "Conversation Traffic",
-      "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "%{count} conversation",
-      "CONVERSATIONS": "%{count} conversations"
+      "HEADER": "Pokalbių srautas",
+      "NO_CONVERSATIONS": "Pokalbių nėra",
+      "CONVERSATION": "%{count} pokalbis",
+      "CONVERSATIONS": "%{count} pokalbiai"
     },
     "AGENT_CONVERSATIONS": {
-      "HEADER": "Conversations by agents",
-      "LOADING_MESSAGE": "Loading agent metrics...",
-      "NO_AGENTS": "There are no conversations by agents",
+      "HEADER": "Agentų pokalbiai",
+      "LOADING_MESSAGE": "Įkeliama agento metrika...",
+      "NO_AGENTS": "Agentų pokalbių nėra",
       "TABLE_HEADER": {
         "AGENT": "Agentas",
         "OPEN": "ATIDARYTI",
-        "UNATTENDED": "Unattended",
+        "UNATTENDED": "Be priežiūros",
         "STATUS": "Būsena"
       }
     },
