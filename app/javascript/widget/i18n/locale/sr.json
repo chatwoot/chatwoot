@@ -19,8 +19,18 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Obično odgovaramo u roku od nekoliko minuta",
     "IN_A_FEW_HOURS": "Obično odgovaramo u roku od nekoliko sati",
-    "IN_A_DAY": "Obično odgovaramo u roku od jednog dana"
+    "IN_A_DAY": "Obično odgovaramo u roku od jednog dana",
+    "BACK_IN": "We will be back online"
   },
+  "DAY_NAMES": [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ],
   "START_CONVERSATION": "Započnite razgovor",
   "END_CONVERSATION": "Završi razgovor",
   "CONTINUE_CONVERSATION": "Nastavi razgovor",
