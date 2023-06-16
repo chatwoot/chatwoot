@@ -2,12 +2,17 @@
   "FILTER": {
     "TITLE": "Conversaties filteren",
     "SUBTITLE": "Voeg hieronder filters toe en druk op 'Filters toepassen' om te filteren.",
+    "EDIT_CUSTOM_FILTER": "Edit Folder",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
     "ADD_NEW_FILTER": "Filter toevoegen",
     "FILTER_DELETE_ERROR": "U moet minstens één filter hebben om op te slaan",
     "SUBMIT_BUTTON_LABEL": "Filters toepassen",
+    "UPDATE_BUTTON_LABEL": "Update folder",
     "CANCEL_BUTTON_LABEL": "Annuleren",
     "CLEAR_BUTTON_LABEL": "Filters wissen",
     "EMPTY_VALUE_ERROR": "Waarde is vereist",
+    "FOLDER_LABEL": "Folder Name",
+    "FOLDER_QUERY_LABEL": "Folder Query",
     "TOOLTIP_LABEL": "Gesprekken filteren",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "EN",
@@ -70,6 +75,9 @@
           "SUCCESS_MESSAGE": "Segment succesvol aangemaakt",
           "ERROR_MESSAGE": "Fout bij het maken van segment"
         }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Edit folder"
       },
       "DELETE": {
         "DELETE_BUTTON": "Filter verwijderen",
