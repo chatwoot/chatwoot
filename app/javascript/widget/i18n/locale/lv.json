@@ -19,8 +19,18 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Parasti atbild pēc dažām minūtēm",
     "IN_A_FEW_HOURS": "Parasti atbild pēc dažām stundām",
-    "IN_A_DAY": "Parasti atbild vienas dienas laikā"
+    "IN_A_DAY": "Parasti atbild vienas dienas laikā",
+    "BACK_IN": "We will be back online"
   },
+  "DAY_NAMES": [
+    "Svētdiena",
+    "Pirmdiena",
+    "Otrdiena",
+    "Trešdiena",
+    "Ceturtdiena",
+    "Piektdiena",
+    "Sestdiena"
+  ],
   "START_CONVERSATION": "Sākt Sarunu",
   "END_CONVERSATION": "Beigt Sarunu",
   "CONTINUE_CONVERSATION": "Turpināt Sarunu",
