@@ -42,7 +42,8 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   end
 
   def check_cloud_env
-    render json: { error: 'Not found' }, status: :not_found unless ENV['DEPLOYMENT_ENV'] == 'cloud'
+    installation_config = InstallationConfig.find_by(name: 'DEPLOYMENT_ENV')
+    render json: { error: 'Not found' }, status: :not_found unless installation_config&.value == 'cloud'
   end
 
   private
