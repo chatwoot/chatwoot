@@ -47,6 +47,9 @@
       },
       "sort_on_created_at": {
         "TEXT": "Dibuat pada"
+      },
+      "sort_on_priority": {
+        "TEXT": "Priority"
       }
     },
     "ATTACHMENTS": {
