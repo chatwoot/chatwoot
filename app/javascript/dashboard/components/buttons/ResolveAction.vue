@@ -73,10 +73,10 @@
     </div>
     <woot-modal
       :show.sync="showCustomSnoozeModal"
-      :on-close="hideCustomSnoozeModal"
+      :close="hideCustomSnoozeModal"
     >
-      <CustomSnoozeModal
-        @on-close="hideCustomSnoozeModal"
+      <custom-snooze-modal
+        @close="hideCustomSnoozeModal"
         @choose-time="chooseSnoozeTime"
       />
     </woot-modal>

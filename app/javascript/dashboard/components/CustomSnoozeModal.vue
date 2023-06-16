@@ -44,7 +44,7 @@ export default {
 
   methods: {
     onClose() {
-      this.$emit('on-close');
+      this.$emit('close');
     },
     chooseTime() {
       this.$emit('choose-time', this.snoozeTime);

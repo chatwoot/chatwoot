@@ -43,6 +43,19 @@
     width: 100%;
   }
 
+  .cell.disabled {
+    background-color: var(--s-25);
+    color: var(--s-200);
+  }
+
+  .mx-time-item.disabled {
+    background-color: var(--s-25);
+  }
+
+  .today {
+    font-weight: var(--font-weight-bold);
+  }
+
   .mx-datepicker-main {
     border: 0;
   }
