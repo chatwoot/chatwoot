@@ -37,7 +37,7 @@
     "UNKNOWN_FILE_TYPE": "Fișier necunoscut",
     "SAVE_CONTACT": "Salvează",
     "UPLOADING_ATTACHMENTS": "Se încarcă atașamentele...",
-    "REPLIED_TO_STORY": "Replied to your story",
+    "REPLIED_TO_STORY": "A răspuns la povestea ta",
     "SUCCESS_DELETE_MESSAGE": "Mesaj şters cu succes",
     "FAIL_DELETE_MESSSAGE": "Mesajul nu a putut fi șters! Încercați din nou",
     "NO_RESPONSE": "Niciun răspuns",
@@ -72,16 +72,16 @@
       "OPTIONS": {
         "NONE": "Nimic",
         "URGENT": "Urgent",
-        "HIGH": "High",
-        "MEDIUM": "Medium",
-        "LOW": "Low"
+        "HIGH": "Mare",
+        "MEDIUM": "Mediu",
+        "LOW": "Scăzut"
       },
       "CHANGE_PRIORITY": {
         "SELECT_PLACEHOLDER": "Nimic",
-        "INPUT_PLACEHOLDER": "Select priority",
+        "INPUT_PLACEHOLDER": "Selectați prioritatea",
         "NO_RESULTS": "Niciun rezultat găsit",
-        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
-        "FAILED": "Couldn't change priority. Please try again."
+        "SUCCESSFUL": "A schimbat prioritatea ID-ului conversației %{conversationId} în %{priority}",
+        "FAILED": "Nu s-a putut schimba prioritatea. Vă rugăm să încercați din nou."
       }
     },
     "CARD_CONTEXT_MENU": {
