@@ -4,6 +4,8 @@
     "LOADING_CHART": "در حال دریافت اطلاعات...",
     "NO_ENOUGH_DATA": "متاسفانه اطلاعات کافی دریافت نشد، لطفا بعدا دوباره امتحان کنید",
     "DOWNLOAD_AGENT_REPORTS": "دانلود گزارش ایجنت",
+    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
+    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "گفتگوها",
@@ -33,6 +35,14 @@
         "NAME": "تعداد مسائل حل شده",
         "DESC": "( جمع کل )"
       }
+    },
+    "DATE_RANGE_OPTIONS": {
+      "LAST_7_DAYS": "در ۷ روز گذشته",
+      "LAST_30_DAYS": "در ۳۰ روز گذشته",
+      "LAST_3_MONTHS": "۳ ماه گذشته",
+      "LAST_6_MONTHS": "۶ ماه گذشته",
+      "LAST_YEAR": "پارسال",
+      "CUSTOM_DATE_RANGE": "محدوده تاریخ سفارشی"
     },
     "DATE_RANGE": [
       {
@@ -66,6 +76,12 @@
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "دسته بندی بر اساس",
     "DURATION_FILTER_LABEL": "مدت زمان",
+    "GROUPING_OPTIONS": {
+      "DAY": "روز",
+      "WEEK": "هفته",
+      "MONTH": "ماه",
+      "YEAR": "سال"
+    },
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
@@ -388,6 +404,7 @@
     "HEADER": "گزارشات رضایت مشتری",
     "NO_RECORDS": "هیچ پاسخ برای نظرسنجی رضایت مشتری در دسترس نیست.",
     "DOWNLOAD": "دانلود گزارش CSAT",
+    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "ایجنت را انتخاب کنید"
