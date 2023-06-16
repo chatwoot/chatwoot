@@ -2,12 +2,17 @@
   "FILTER": {
     "TITLE": "Фільтрувати Діалоги",
     "SUBTITLE": "Додайте фільтри та натисніть \"Застосувати фільтри\" для фільтрації діалогів.",
+    "EDIT_CUSTOM_FILTER": "Edit Folder",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
     "ADD_NEW_FILTER": "Додати фільтр",
     "FILTER_DELETE_ERROR": "Ви повинні мати хоча б один фільтр для збереження",
     "SUBMIT_BUTTON_LABEL": "Застосувати фільтри",
+    "UPDATE_BUTTON_LABEL": "Update folder",
     "CANCEL_BUTTON_LABEL": "Скасувати",
     "CLEAR_BUTTON_LABEL": "Скинути фільтри",
     "EMPTY_VALUE_ERROR": "Необхідно вказати значення",
+    "FOLDER_LABEL": "Folder Name",
+    "FOLDER_QUERY_LABEL": "Folder Query",
     "TOOLTIP_LABEL": "Фільтрувати діалоги",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "ТА",
@@ -70,6 +75,9 @@
           "SUCCESS_MESSAGE": "Сегмент успішно створено",
           "ERROR_MESSAGE": "Помилка при створенні сегменту"
         }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Edit folder"
       },
       "DELETE": {
         "DELETE_BUTTON": "Видалити фільтр",
