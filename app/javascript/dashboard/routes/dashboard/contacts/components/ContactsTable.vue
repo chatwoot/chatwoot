@@ -127,7 +127,7 @@ export default {
             >
               <div class="row--user-block">
                 <Thumbnail
-                  src={row.thumbnail}
+                  src={`https://i.pravatar.cc/150?u=${row.name}`}
                   size="32px"
                   username={row.name}
                   status={row.availability_status}

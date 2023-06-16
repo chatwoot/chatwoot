@@ -9,7 +9,9 @@
       </div>
       <div class="right-aligned-wrap">
         <div class="search-wrap">
-          <fluent-icon icon="search" class="search-icon" />
+          <div class="search-icon-container">
+            <fluent-icon icon="search" class="search-icon" />
+          </div>
           <input
             type="text"
             :placeholder="$t('CONTACTS_PAGE.SEARCH_INPUT_PLACEHOLDER')"
@@ -218,14 +220,19 @@ export default {
   margin-right: var(--space-small);
   margin-left: var(--space-small);
 
-  .search-icon {
+  .search-icon-container {
+    display: flex;
+    align-items: center;
     position: absolute;
-    top: 1px;
+    height: 100%;
     left: var(--space-one);
-    height: 3.8rem;
-    line-height: 3.6rem;
-    font-size: var(--font-size-small);
-    color: var(--b-700);
+
+    .search-icon {
+      height: var(--font-size-medium);
+      line-height: 3.6rem;
+      font-size: var(--font-size-small);
+      color: var(--b-700);
+    }
   }
   .contact-search {
     margin: 0;
