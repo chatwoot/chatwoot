@@ -4,6 +4,8 @@
     "LOADING_CHART": "Notiek diagrammas datu ielāde...",
     "NO_ENOUGH_DATA": "Mēs neesam saņēmuši pietiekami daudz datu punktu, lai izveidotu pārskatu. Lūdzu, vēlāk mēģiniet vēlreiz.",
     "DOWNLOAD_AGENT_REPORTS": "Lejupielādēt aģentu pārskatus",
+    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
+    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Sarunas",
@@ -33,6 +35,14 @@
         "NAME": "Atrisināšanas Skaits",
         "DESC": "( Kopā )"
       }
+    },
+    "DATE_RANGE_OPTIONS": {
+      "LAST_7_DAYS": "Pēdējās 7 dienas",
+      "LAST_30_DAYS": "Pēdējās 30 dienas",
+      "LAST_3_MONTHS": "Pēdējie 3 mēneši",
+      "LAST_6_MONTHS": "Pēdējie 6 mēneši",
+      "LAST_YEAR": "Pagājušais gads",
+      "CUSTOM_DATE_RANGE": "Pielāgots datumu diapazons"
     },
     "DATE_RANGE": [
       {
@@ -66,6 +76,12 @@
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Grupēt Pēc",
     "DURATION_FILTER_LABEL": "Ilgums",
+    "GROUPING_OPTIONS": {
+      "DAY": "Diena",
+      "WEEK": "Nedēļa",
+      "MONTH": "Mēnesis",
+      "YEAR": "Gads"
+    },
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
@@ -388,6 +404,7 @@
     "HEADER": "CSAT Pārskati",
     "NO_RECORDS": "CSAT aptaujas atbildes nav pieejamas.",
     "DOWNLOAD": "Lejupielādēt CSAT Pārskatus",
+    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Izvēlieties Aģentus"
