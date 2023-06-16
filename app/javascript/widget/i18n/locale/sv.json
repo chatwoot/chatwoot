@@ -19,8 +19,18 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Svarar vanligtvis inom några minuter",
     "IN_A_FEW_HOURS": "Svarar vanligtvis inom några timmar",
-    "IN_A_DAY": "Svar vanligtvis inom en dag"
+    "IN_A_DAY": "Svar vanligtvis inom en dag",
+    "BACK_IN": "We will be back online"
   },
+  "DAY_NAMES": [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ],
   "START_CONVERSATION": "Starta konversation",
   "END_CONVERSATION": "End Conversation",
   "CONTINUE_CONVERSATION": "Fortsätt konversation",
