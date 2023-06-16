@@ -73,6 +73,13 @@
     "SUCCESS_MESSAGE": "Kontaktok sikeresen elmentve",
     "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra"
   },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra"
+  },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Törlés megerősítése",
@@ -211,6 +218,7 @@
     "FILTER_CONTACTS": "Szűrő",
     "FILTER_CONTACTS_SAVE": "Save filter",
     "FILTER_CONTACTS_DELETE": "Delete filter",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "Kontaktok betöltése...",
       "404": "Nincs a keresésnek megfelelő kontakt 🔍",
