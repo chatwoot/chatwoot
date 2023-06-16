@@ -4,6 +4,8 @@
     "LOADING_CHART": "Chargement des données du graphique ...",
     "NO_ENOUGH_DATA": "Nous n'avons pas reçu assez de points de données pour générer un rapport. Veuillez réessayer plus tard.",
     "DOWNLOAD_AGENT_REPORTS": "Télécharger les rapports de l'agent",
+    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
+    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversations",
@@ -33,6 +35,14 @@
         "NAME": "Nombre de résolutions",
         "DESC": "(Total)"
       }
+    },
+    "DATE_RANGE_OPTIONS": {
+      "LAST_7_DAYS": "7 derniers jours",
+      "LAST_30_DAYS": "30 derniers jours",
+      "LAST_3_MONTHS": "3 derniers mois",
+      "LAST_6_MONTHS": "6 derniers mois",
+      "LAST_YEAR": "Année dernière",
+      "CUSTOM_DATE_RANGE": "Plage de date personnalisée"
     },
     "DATE_RANGE": [
       {
@@ -66,6 +76,12 @@
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Par groupe",
     "DURATION_FILTER_LABEL": "Duration",
+    "GROUPING_OPTIONS": {
+      "DAY": "Jour",
+      "WEEK": "Semaine",
+      "MONTH": "Mois",
+      "YEAR": "Année"
+    },
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
@@ -388,6 +404,7 @@
     "HEADER": "Rapports CSAT",
     "NO_RECORDS": "Il n'y a aucune réponse à l'enquête CSAT disponible.",
     "DOWNLOAD": "Download CSAT Reports",
+    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Choisissez des agents"
