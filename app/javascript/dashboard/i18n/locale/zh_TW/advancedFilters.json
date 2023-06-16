@@ -2,12 +2,17 @@
   "FILTER": {
     "TITLE": "篩選對話",
     "SUBTITLE": "在下方新增篩選條件並點擊「篩選」來篩選對話",
+    "EDIT_CUSTOM_FILTER": "Edit Folder",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
     "ADD_NEW_FILTER": "新增篩選條件",
     "FILTER_DELETE_ERROR": "你必須有至少一個篩選條件才能儲存",
     "SUBMIT_BUTTON_LABEL": "篩選",
+    "UPDATE_BUTTON_LABEL": "Update folder",
     "CANCEL_BUTTON_LABEL": "取消",
     "CLEAR_BUTTON_LABEL": "清除篩選條件",
     "EMPTY_VALUE_ERROR": "此欄位為必填項目",
+    "FOLDER_LABEL": "Folder Name",
+    "FOLDER_QUERY_LABEL": "Folder Query",
     "TOOLTIP_LABEL": "篩選對話",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "且",
@@ -70,6 +75,9 @@
           "SUCCESS_MESSAGE": "Segment created successfully",
           "ERROR_MESSAGE": "Error while creating segment"
         }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Edit folder"
       },
       "DELETE": {
         "DELETE_BUTTON": "刪除篩選條件",
