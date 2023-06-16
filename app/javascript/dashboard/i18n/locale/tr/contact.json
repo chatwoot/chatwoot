@@ -73,6 +73,13 @@
     "SUCCESS_MESSAGE": "Kişiler başarıyla kaydedildi",
     "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
   },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
+  },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Silmeyi onayla",
@@ -211,6 +218,7 @@
     "FILTER_CONTACTS": "Filtre",
     "FILTER_CONTACTS_SAVE": "Filtreyi kaydet",
     "FILTER_CONTACTS_DELETE": "Filtreyi sil",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "Kişiler yükleniyor ...",
       "404": "Aramanızla eşleşen kişi yok 🔍",
