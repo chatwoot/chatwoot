@@ -2,12 +2,17 @@
   "FILTER": {
     "TITLE": "Filtrar Conversaciones",
     "SUBTITLE": "Añada filtros a continuación y pulse 'Enviar' para filtrar conversaciones.",
+    "EDIT_CUSTOM_FILTER": "Edit Folder",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
     "ADD_NEW_FILTER": "Añadir Filtro",
     "FILTER_DELETE_ERROR": "Debes tener al menos un filtro para guardar",
     "SUBMIT_BUTTON_LABEL": "Aplicar filtros",
+    "UPDATE_BUTTON_LABEL": "Update folder",
     "CANCEL_BUTTON_LABEL": "Cancelar",
     "CLEAR_BUTTON_LABEL": "Limpiar filtros",
     "EMPTY_VALUE_ERROR": "El valor es requerido",
+    "FOLDER_LABEL": "Folder Name",
+    "FOLDER_QUERY_LABEL": "Folder Query",
     "TOOLTIP_LABEL": "Filtrar conversaciones",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "Y",
@@ -38,7 +43,7 @@
       "CAMPAIGN_NAME": "Nombre de Campaña",
       "LABELS": "Etiquetas",
       "BROWSER_LANGUAGE": "Idioma del navegador",
-      "PRIORITY": "Priority",
+      "PRIORITY": "Prioridad",
       "COUNTRY_NAME": "Nombre del país",
       "REFERER_LINK": "Enlace de referencia",
       "CUSTOM_ATTRIBUTE_LIST": "Lista",
@@ -70,6 +75,9 @@
           "SUCCESS_MESSAGE": "Segmento creado con éxito",
           "ERROR_MESSAGE": "Error al crear segmento"
         }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Edit folder"
       },
       "DELETE": {
         "DELETE_BUTTON": "Eliminar filtro",
