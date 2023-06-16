@@ -73,6 +73,13 @@
     "SUCCESS_MESSAGE": "Contacte salvate cu succes",
     "ERROR_MESSAGE": "A apărut o eroare, încercați din nou"
   },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "A apărut o eroare, încercați din nou"
+  },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Confirmă ștergerea",
@@ -211,6 +218,7 @@
     "FILTER_CONTACTS": "Filtru",
     "FILTER_CONTACTS_SAVE": "Salvare filtru",
     "FILTER_CONTACTS_DELETE": "Ștergere filtru",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "Se încarcă contactele...",
       "404": "Niciun contact nu se potrivește cu căutarea ta 🔍",
