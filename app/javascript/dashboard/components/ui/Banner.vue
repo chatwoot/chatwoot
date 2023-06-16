@@ -75,7 +75,7 @@ export default {
   },
   computed: {
     bannerClasses() {
-      const classList = [this.colorScheme, `banner-align-${this.align}`];
+      const classList = [this.colorScheme];
 
       if (this.hasActionButton || this.hasCloseButton) {
         classList.push('has-button');
