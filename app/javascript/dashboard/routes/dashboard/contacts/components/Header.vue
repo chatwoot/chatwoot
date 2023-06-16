@@ -224,14 +224,15 @@ export default {
     left: var(--space-one);
     height: 3.8rem;
     line-height: 3.6rem;
-    font-size: var(--font-size-medium);
+    font-size: var(--font-size-small);
     color: var(--b-700);
   }
   .contact-search {
     margin: 0;
     height: 3.8rem;
     width: 100%;
-    padding-left: var(--space-large);
+    font-size: var(--font-size-small);
+    padding-left: calc(var(--space-large) + var(--space-smaller));
     padding-right: 6rem;
     border-color: var(--s-100);
   }
