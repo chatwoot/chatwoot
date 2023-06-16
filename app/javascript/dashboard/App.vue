@@ -6,6 +6,10 @@
     :class="{ 'app-rtl--wrapper': isRTLView }"
   >
     <update-banner :latest-chatwoot-version="latestChatwootVersion" />
+    <template v-if="!accountUIFlags.isFetchingItem && currentAccountId">
+      <payment-pending-banner />
+      <upgrade-banner />
+    </template>
     <transition name="fade" mode="out-in">
       <router-view />
     </transition>
@@ -25,6 +29,8 @@ import AddAccountModal from '../dashboard/components/layout/sidebarComponents/Ad
 import LoadingState from './components/widgets/LoadingState.vue';
 import NetworkNotification from './components/NetworkNotification';
 import UpdateBanner from './components/app/UpdateBanner.vue';
+import UpgradeBanner from './components/app/UpgradeBanner.vue';
+import PaymentPendingBanner from './components/app/PaymentPendingBanner.vue';
 import vueActionCable from './helper/actionCable';
 import WootSnackbarBox from './components/SnackbarContainer';
 import rtlMixin from 'shared/mixins/rtlMixin';
@@ -41,7 +47,9 @@ export default {
     LoadingState,
     NetworkNotification,
     UpdateBanner,
+    PaymentPendingBanner,
     WootSnackbarBox,
+    UpgradeBanner,
   },
 
   mixins: [rtlMixin],
@@ -59,6 +67,7 @@ export default {
       currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
       authUIFlags: 'getAuthUIFlags',
+      accountUIFlags: 'accounts/getUIFlags',
       currentAccountId: 'getCurrentAccountId',
     }),
     hasAccounts() {
@@ -115,11 +124,6 @@ export default {
 
 <style lang="scss">
 @import './assets/scss/app';
-.update-banner {
-  height: var(--space-larger);
-  align-items: center;
-  font-size: var(--font-size-small) !important;
-}
 </style>
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
