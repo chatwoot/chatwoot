@@ -152,3 +152,41 @@ openai:
     },
   ]
   visible_properties: ['api_key']
+douyin:
+  id: douyin
+  logo: douyin.png
+  i18n_key: douyin
+  action: /douyin
+  hook_type: account
+  allow_multiple_hooks: false
+  settings_json_schema: {
+    "type": "object",
+    "properties": {
+        "client_key": { "type": "string" },
+        "client_secret": { "type": "string" },
+        "oauth_callback": { "type": "string" },
+      },
+    "required": ["client_key", "client_secret", "oauth_callback"],
+    "additionalProperties": false,
+  }
+  settings_form_schema: [
+    {
+      "label": "Client Key",
+      "type": "text",
+      "name": "client_key",
+      "validation": "required",
+    },
+    {
+      "label": "Client Secret",
+      "type": "text",
+      "name": "client_secret",
+      "validation": "required",
+    },
+    {
+      "label": "OAuth Callback",
+      "type": "text",
+      "name": "oauth_callback",
+      "validation": "required",
+    },
+  ]
+  visible_properties: ['client_key', 'client_secret', 'oauth_callback']

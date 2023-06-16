@@ -374,6 +374,7 @@ Rails.application.routes.draw do
   end
 
   get 'microsoft/callback', to: 'microsoft/callbacks#show'
+  get 'douyin/callback', to: 'douyin/callbacks#bind'
 
   # ----------------------------------------------------------------------
   # Routes for external service verifications

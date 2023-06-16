@@ -85,6 +85,24 @@
       <div class="profile--settings--row row">
         <div class="columns small-3">
           <h4 class="block-title">
+            抖音企业号
+          </h4>
+          <p>
+            如果此处无法显示您的抖音企业号信息，请前往 Applications ->
+            "抖音"（配置） -> "绑定企业号"; 如果需要解绑抖音企业号，请前往
+            Applications -> "抖音"（配置） -> "Disconnect"。
+          </p>
+        </div>
+        <div class="columns small-9 medium-5">
+          <woot-code :script="getDouyinNickname" />
+          <img :src="getDouyinAvatar" />
+          <span>{{ douyinEAccountRole }}</span>
+        </div>
+      </div>
+
+      <div class="profile--settings--row row">
+        <div class="columns small-3">
+          <h4 class="block-title">
             {{ $t('GENERAL_SETTINGS.FORM.ACCOUNT_ID.TITLE') }}
           </h4>
           <p>
@@ -95,6 +113,7 @@
           <woot-code :script="getAccountId" />
         </div>
       </div>
+
       <div class="current-version">
         <div>{{ `v${globalConfig.appVersion}` }}</div>
         <div v-if="hasAnUpdateAvailable && globalConfig.displayManifest">
@@ -143,6 +162,9 @@ export default {
       features: {},
       autoResolveDuration: null,
       latestChatwootVersion: null,
+      douyinNickName: null,
+      douyinAvatar: null,
+      douyinEAccountRole: null,
     };
   },
   validations: {
@@ -210,6 +232,13 @@ export default {
     getAccountId() {
       return this.id.toString();
     },
+
+    getDouyinNickname() {
+      return this.douyinNickName;
+    },
+    getDouyinAvatar() {
+      return this.douyinAvatar;
+    },
   },
   mounted() {
     if (!this.id) {
@@ -229,6 +258,9 @@ export default {
           features,
           auto_resolve_duration,
           latest_chatwoot_version: latestChatwootVersion,
+          douyin_nickname,
+          douyin_avatar,
+          douyin_e_account_role,
         } = this.getAccount(this.accountId);
 
         this.$root.$i18n.locale = locale;
@@ -240,6 +272,9 @@ export default {
         this.features = features;
         this.autoResolveDuration = auto_resolve_duration;
         this.latestChatwootVersion = latestChatwootVersion;
+        this.douyinNickName = douyin_nickname;
+        this.douyinAvatar = douyin_avatar;
+        this.douyinEAccountRole = douyin_e_account_role;
       } catch (error) {
         // Ignore error
       }

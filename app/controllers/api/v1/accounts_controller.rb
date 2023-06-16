@@ -1,6 +1,7 @@
 class Api::V1::AccountsController < Api::BaseController
   include AuthHelper
   include CacheKeysHelper
+  include DouyinHelper
 
   skip_before_action :authenticate_user!, :set_current_user, :handle_with_exception,
                      only: [:create], raise: false
@@ -8,6 +9,7 @@ class Api::V1::AccountsController < Api::BaseController
   before_action :validate_captcha, only: [:create]
   before_action :fetch_account, except: [:create]
   before_action :check_authorization, except: [:create]
+  before_action :append_douyin_info, only: [:show]
 
   rescue_from CustomExceptions::Account::InvalidEmail,
               CustomExceptions::Account::UserExists,
@@ -51,6 +53,14 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   private
+
+  def append_douyin_info
+    account_douyin_hook = @account.hooks.where(app_id: 'douyin').first
+    userinfo_response = post_douyin_user_info(account_douyin_hook)
+    @douyin_nickname = userinfo_response['data']['nickname']
+    @douyin_avatar = userinfo_response['data']['avatar']
+    @douyin_e_account_role = e_account_role(userinfo_response['data']['e_account_role'])
+  end
 
   def get_cache_keys
     {
