@@ -91,7 +91,7 @@
         <woot-button
           v-if="isAdmin"
           color-scheme="info"
-          icon="upload"
+          icon="download"
           class="clear"
           @click="onExportSubmit"
         >
