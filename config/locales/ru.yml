@@ -38,6 +38,8 @@ ru:
     contacts:
       import:
         failed: Пустой файл
+      export:
+        success: We will notify you once contacts export file is ready to view.
       email:
         invalid: Не верный email
       phone_number:
@@ -56,6 +58,8 @@ ru:
         connection_closed_error: Соединение закрыто.
       validations:
         name: Не должен начинаться или заканчиваться символами, и у него Не должно быть < > / \ @ символов.
+    custom_filters:
+      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
   reports:
     period: Отчётный период с %{since} по %{until}
     utc_warning: Отчёт создан в часовом поясе UTC
@@ -180,6 +184,7 @@ ru:
       empty_placeholder: Результаты не найдены.
       loading_placeholder: Идёт поиск...
       results_title: Результаты поиска
+    toc_header: 'On this page'
     hero:
       sub_title: Ищите здесь статьи или выберите категории, указанные ниже.
     common:
