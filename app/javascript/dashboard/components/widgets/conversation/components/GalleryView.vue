@@ -19,7 +19,7 @@
             <span class="time-stamp text-truncate">{{ readableTime }}</span>
           </div>
         </div>
-        <div class="file-name--header">
+        <div class="file-name--header text-block-title">
           <span class="text-truncate">
             {{ fileNameFromDataUrl }}
           </span>
@@ -105,7 +105,7 @@
         </div>
       </div>
       <div class="gallery-modal--footer">
-        <div class="header-count">
+        <div class="header-count text-block-title">
           <span class="count">
             {{ `${activeImageIndex + 1} / ${allAttachments.length}` }}
           </span>
@@ -254,7 +254,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .gallery-modal--wrap {
-  align-items: center;
   display: flex;
   flex-direction: column;
   height: inherit;
@@ -263,7 +262,6 @@ export default {
   .gallery-modal--header {
     align-items: center;
     display: flex;
-    flex-direction: row;
     height: var(--space-jumbo);
     justify-content: space-between;
     padding: var(--space-small) var(--space-medium);
@@ -303,7 +301,6 @@ export default {
       align-items: center;
       color: var(--s-700);
       display: flex;
-      font-size: var(--font-size-small);
       font-weight: var(--font-weight-bold);
       justify-content: flex-start;
       min-width: 0;
@@ -314,7 +311,6 @@ export default {
     .header-actions {
       align-items: center;
       display: flex;
-      flex-direction: row;
       gap: var(--space-small);
       justify-content: flex-end;
       min-width: var(--space-giga);
@@ -324,7 +320,6 @@ export default {
   .gallery-modal--body {
     align-items: center;
     display: flex;
-    flex-direction: row;
     height: 100%;
     justify-content: center;
     width: 100%;
@@ -333,7 +328,6 @@ export default {
   .gallery-modal--footer {
     align-items: center;
     display: flex;
-    flex-direction: row;
     height: var(--space-jumbo);
     justify-content: center;
     padding: var(--space-small) var(--space-medium);
@@ -345,7 +339,6 @@ export default {
       background-color: var(--s-25);
       color: var(--s-600);
       display: flex;
-      font-size: var(--font-size-small);
       font-weight: var(--font-weight-bold);
       justify-content: center;
       min-width: 8rem;
@@ -361,10 +354,6 @@ export default {
     width: 100%;
 
     .attachment-view {
-      align-items: center;
-      display: flex;
-      justify-content: center;
-
       img {
         margin: 0 auto;
       }
