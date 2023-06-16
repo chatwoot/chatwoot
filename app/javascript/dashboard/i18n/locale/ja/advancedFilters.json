@@ -2,12 +2,17 @@
   "FILTER": {
     "TITLE": "Filter Conversations",
     "SUBTITLE": "会話のフィルターを行うには、適用したいフィルターを選択して「フィルターを適用」を押してください。",
+    "EDIT_CUSTOM_FILTER": "Edit Folder",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
     "ADD_NEW_FILTER": "フィルターを追加",
     "FILTER_DELETE_ERROR": "保存するには少なくとも一つのフィルター選択が必要です。",
     "SUBMIT_BUTTON_LABEL": "フィルターを適用",
+    "UPDATE_BUTTON_LABEL": "Update folder",
     "CANCEL_BUTTON_LABEL": "キャンセル",
     "CLEAR_BUTTON_LABEL": "フィルターをクリア",
     "EMPTY_VALUE_ERROR": "値は必須です",
+    "FOLDER_LABEL": "Folder Name",
+    "FOLDER_QUERY_LABEL": "Folder Query",
     "TOOLTIP_LABEL": "会話をフィルターする",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "AND",
@@ -70,6 +75,9 @@
           "SUCCESS_MESSAGE": "Segment created successfully",
           "ERROR_MESSAGE": "Error while creating segment"
         }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Edit folder"
       },
       "DELETE": {
         "DELETE_BUTTON": "Delete filter",
