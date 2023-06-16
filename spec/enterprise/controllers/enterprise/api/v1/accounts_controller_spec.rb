@@ -133,12 +133,14 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
 
       context 'when it is an admin' do
         before do
-          allow_any_instance_of(Enterprise::Api::V1::AccountsController).to receive(:default_plan?).and_return(true) # rubocop:disable RSpec/AnyInstance
-          allow_any_instance_of(Enterprise::Api::V1::AccountsController).to receive(:conversations_this_month).and_return(100) # rubocop:disable RSpec/AnyInstance
-          allow_any_instance_of(Enterprise::Api::V1::AccountsController).to receive(:non_web_inboxes).and_return(2) # rubocop:disable RSpec/AnyInstance
+          create(:conversation, account: account)
+          create(:channel_api, account: account)
+          InstallationConfig.where(name: 'DEPLOYMENT_ENV').first_or_create(value: 'cloud')
+          InstallationConfig.where(name: 'CHATWOOT_CLOUD_PLANS').first_or_create(value: [{ 'name': 'Hacker' }])
         end
 
         it 'returns the limits if the plan is default' do
+          account.update!(custom_attributes: { plan_name: 'Hacker' })
           get "/enterprise/api/v1/accounts/#{account.id}/limits",
               headers: admin.create_new_auth_token,
               as: :json
@@ -148,11 +150,11 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
             'limits' => {
               'conversation' => {
                 'allowed' => 500,
-                'consumed' => 100
+                'consumed' => 1
               },
               'non_web_inboxes' => {
                 'allowed' => 0,
-                'consumed' => 2
+                'consumed' => 1
               }
             }
           }
@@ -162,8 +164,7 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
         end
 
         it 'returns nil if the plan is not default' do
-          allow_any_instance_of(Enterprise::Api::V1::AccountsController).to receive(:default_plan?).and_return(false) # rubocop:disable RSpec/AnyInstance
-
+          account.update!(custom_attributes: { plan_name: 'Startups' })
           get "/enterprise/api/v1/accounts/#{account.id}/limits",
               headers: admin.create_new_auth_token,
               as: :json
@@ -176,6 +177,28 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
             }
           }
 
+          expect(response).to have_http_status(:ok)
+          expect(JSON.parse(response.body)).to eq(expected_response)
+        end
+
+        it 'returns limits if a plan is not configured' do
+          get "/enterprise/api/v1/accounts/#{account.id}/limits",
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          expected_response = {
+            'id' => account.id,
+            'limits' => {
+              'conversation' => {
+                'allowed' => 500,
+                'consumed' => 1
+              },
+              'non_web_inboxes' => {
+                'allowed' => 0,
+                'consumed' => 1
+              }
+            }
+          }
           expect(response).to have_http_status(:ok)
           expect(JSON.parse(response.body)).to eq(expected_response)
         end
