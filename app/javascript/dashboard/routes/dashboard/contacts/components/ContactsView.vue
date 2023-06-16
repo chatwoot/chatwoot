@@ -6,7 +6,7 @@
         :header-title="pageTitle"
         :segments-id="segmentsId"
         this-selected-contact-id=""
-        :on-input-search="onInputSearch"
+        @on-input-search="onInputSearch"
         @on-toggle-create="onToggleCreate"
         @on-toggle-filter="onToggleFilters"
         @on-search-submit="onSearchSubmit"

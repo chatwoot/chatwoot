@@ -18,7 +18,7 @@
             class="contact-search"
             :value="searchQuery"
             @keyup.enter="submitSearch"
-            @input="onInputSearch"
+            @input="inputSearch"
           />
           <woot-button
             :is-loading="false"
@@ -123,10 +123,6 @@ export default {
       type: [String, Number],
       default: 0,
     },
-    onInputSearch: {
-      type: Function,
-      default: () => {},
-    },
   },
   data() {
     return {
@@ -172,6 +168,9 @@ export default {
     },
     submitSearch() {
       this.$emit('on-search-submit');
+    },
+    inputSearch(event) {
+      this.$emit('on-input-search', event);
     },
   },
 };
