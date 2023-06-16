@@ -1,47 +1,47 @@
 {
   "AGENT_BOTS": {
     "HEADER": "Botai",
-    "LOADING_EDITOR": "Loading Editor...",
-    "HEADER_BTN_TXT": "Add Bot Configuration",
-    "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent bots allows you to automate the conversations</p>",
+    "LOADING_EDITOR": "Įkeliama redagavimo priemonė...",
+    "HEADER_BTN_TXT": "Pridėti Boto konfiguraciją",
+    "SIDEBAR_TXT": "<p><b>Agentų botai</b> <p>Agentų botai leidžia automatizuoti pokalbius</p>",
     "CSML_BOT_EDITOR": {
       "NAME": {
         "LABEL": "Boto Pavadinimas",
-        "PLACEHOLDER": "Give your bot a name",
+        "PLACEHOLDER": "Suteikite savo botui vardą",
         "ERROR": "Yra reikalingas Boto vardas"
       },
       "DESCRIPTION": {
         "LABEL": "Boto Aprašymas",
-        "PLACEHOLDER": "What does this bot do?"
+        "PLACEHOLDER": "Ką daro šis botas?"
       },
       "BOT_CONFIG": {
-        "ERROR": "Please enter your CSML bot configuration above",
-        "API_ERROR": "Your CSML configuration is invalid, please fix it and try again."
+        "ERROR": "Įveskite CSML boto konfigūraciją aukščiau",
+        "API_ERROR": "Jūsų CSML konfigūracija neteisinga, pataisykite ją ir bandykite dar kartą."
       },
-      "SUBMIT": "Validate and save"
+      "SUBMIT": "Patvirtinkite ir išsaugokite"
     },
     "BOT_CONFIGURATION": {
-      "TITLE": "Select an agent bot",
-      "DESC": "You can set an agent bot from the list to this inbox. The bot can initially handle the conversation and transfer it to an agent when needed.",
+      "TITLE": "Pasirinkite agento botą",
+      "DESC": "Iš sąrašo galite nustatyti agento botą šiam gautų pranešimų aplankui. Iš pradžių botas gali vykdyti pokalbį ir prireikus perduoti jį agentui.",
       "SUBMIT": "Atnaujinti",
-      "DISCONNECT": "Disconnect Bot",
-      "SUCCESS_MESSAGE": "Successfully updated the agent bot",
-      "DISCONNECTED_SUCCESS_MESSAGE": "Successfully disconnected the agent bot",
-      "ERROR_MESSAGE": "Could not update the agent bot, please try again later",
-      "DISCONNECTED_ERROR_MESSAGE": "Could not disconnect the agent bot, please try again later",
+      "DISCONNECT": "Atsijungti Botą",
+      "SUCCESS_MESSAGE": "Sėkmingai atnaujintas agento botas",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Sėkmingai atjungtas agento botas",
+      "ERROR_MESSAGE": "Nepavyko atnaujinti agento boto, bandykite dar kartą vėliau",
+      "DISCONNECTED_ERROR_MESSAGE": "Nepavyko ajungti agento boto, bandykite dar kartą vėliau",
       "SELECT_PLACEHOLDER": "Pasirinkti Botą"
     },
     "ADD": {
-      "TITLE": "Configure new bot",
+      "TITLE": "Konfigūruoti naują botą",
       "CANCEL_BUTTON_TEXT": "Atšaukti",
       "API": {
-        "SUCCESS_MESSAGE": "Bot added successfully",
-        "ERROR_MESSAGE": "Could not add bot, Please try again later"
+        "SUCCESS_MESSAGE": "Botas pridėtas sėkmingai",
+        "ERROR_MESSAGE": "Nepavyko pridėti agento boto, bandykite dar kartą vėliau"
       }
     },
     "LIST": {
-      "404": "No Bots found, you can create a bot by clicking the 'Configure new bot' Button ↗",
-      "LOADING": "Fetching Bots...",
+      "404": "Botų nerasta, galite sukurti botą spustelėdami mygtuką „Konfigūruoti naują robotą“ ↗",
+      "LOADING": "Gaunami Botai...",
       "TYPE": "Boto Tipas"
     },
     "DELETE": {
@@ -49,24 +49,24 @@
       "TITLE": "Ištrinti Botą",
       "SUBMIT": "Ištrinti",
       "CANCEL_BUTTON_TEXT": "Atšaukti",
-      "DESCRIPTION": "Are you sure you want to delete this bot? This action is irreversible",
+      "DESCRIPTION": "Ar tikrai norite ištrinti šį botą? Šis veiksmas yra neatšaukiamas",
       "API": {
-        "SUCCESS_MESSAGE": "Bot deleted successfully",
-        "ERROR_MESSAGE": "Could not able to delete bot, Please try again later"
+        "SUCCESS_MESSAGE": "Botas ištrintas sėkmingai",
+        "ERROR_MESSAGE": "Nepavyko ištrinti boto, bandykite dar kartą vėliau"
       }
     },
     "EDIT": {
       "BUTTON_TEXT": "Redaguoti",
-      "LOADING": "Fetching Bots...",
+      "LOADING": "Gaunami Botai...",
       "TITLE": "Keisti Botą",
       "CANCEL_BUTTON_TEXT": "Atšaukti",
       "API": {
-        "SUCCESS_MESSAGE": "Bot updated successfully",
-        "ERROR_MESSAGE": "Could not update bot, Please try again later"
+        "SUCCESS_MESSAGE": "Botas atnaujintas sėkmingai",
+        "ERROR_MESSAGE": "Nepavyko atnaujinti boto, bandykite dar kartą vėliau"
       }
     },
     "TYPES": {
-      "WEBHOOK": "Webhook Bot",
+      "WEBHOOK": "Boto Webhook",
       "CSML": "CSML Bot"
     }
   }
