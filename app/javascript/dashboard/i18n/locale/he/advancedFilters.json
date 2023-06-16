@@ -2,12 +2,17 @@
   "FILTER": {
     "TITLE": "סינון שיחות",
     "SUBTITLE": "הוסף מסננים למטה והקש על 'החל מסננים' כדי לסנן שיחות.",
+    "EDIT_CUSTOM_FILTER": "Edit Folder",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
     "ADD_NEW_FILTER": "הוסף מסנן",
     "FILTER_DELETE_ERROR": "צריך להיות לפחות מסנן אחד כדי לשמור",
     "SUBMIT_BUTTON_LABEL": "שמור סננים",
+    "UPDATE_BUTTON_LABEL": "Update folder",
     "CANCEL_BUTTON_LABEL": "ביטול",
     "CLEAR_BUTTON_LABEL": "מחק סננים",
     "EMPTY_VALUE_ERROR": "חובה ערך",
+    "FOLDER_LABEL": "Folder Name",
+    "FOLDER_QUERY_LABEL": "Folder Query",
     "TOOLTIP_LABEL": "סינון שיחות",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "ו/גם",
@@ -70,6 +75,9 @@
           "SUCCESS_MESSAGE": "הסגמנט נשמר בהצלחה",
           "ERROR_MESSAGE": "תקלה או שגיאה בהקמת הסגמנט"
         }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Edit folder"
       },
       "DELETE": {
         "DELETE_BUTTON": "מחק מסנן",
