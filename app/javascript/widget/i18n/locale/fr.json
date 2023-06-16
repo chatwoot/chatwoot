@@ -8,8 +8,8 @@
       "SUBMIT": "Envoyer"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Envoyer le message à nouveau",
-      "ERROR_MESSAGE": "Impossible d'envoyer, réessayez"
+      "RETRY": "Renvoyer le message",
+      "ERROR_MESSAGE": "Échec de l'envoi, veuillez réessayer"
     }
   },
   "TEAM_AVAILABILITY": {
@@ -19,10 +19,20 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Répond généralement en quelques minutes",
     "IN_A_FEW_HOURS": "Répond généralement en quelques heures",
-    "IN_A_DAY": "Répond généralement dans la journée"
+    "IN_A_DAY": "Répond généralement dans la journée",
+    "BACK_IN": "We will be back online"
   },
+  "DAY_NAMES": [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ],
   "START_CONVERSATION": "Démarrer la conversation",
-  "END_CONVERSATION": "Mettre fin à la conversation",
+  "END_CONVERSATION": "Clôturer la conversation",
   "CONTINUE_CONVERSATION": "Continuer la conversation",
   "START_NEW_CONVERSATION": "Démarrer une nouvelle conversation",
   "UNREAD_VIEW": {
@@ -49,13 +59,13 @@
       "EMAIL_ADDRESS": {
         "LABEL": "Adresse de courriel",
         "PLACEHOLDER": "Veuillez saisir votre adresse de courriel",
-        "REQUIRED_ERROR": "L'adresse courriel est requise",
+        "REQUIRED_ERROR": "L'adresse email est obligatoire",
         "VALID_ERROR": "Veuillez saisir une adresse de courriel valide"
       },
       "PHONE_NUMBER": {
         "LABEL": "Numéro de téléphone",
-        "PLACEHOLDER": "Veuillez entrer votre numéro de téléphone",
-        "REQUIRED_ERROR": "Le numéro de téléphone est requis",
+        "PLACEHOLDER": "Veuillez saisir votre numéro de téléphone",
+        "REQUIRED_ERROR": "Le numéro de téléphone est obligatoire",
         "VALID_ERROR": "Le numéro de téléphone doit être au format E.164. Ex : +1415555555"
       },
       "MESSAGE": {
@@ -65,8 +75,8 @@
       }
     },
     "CAMPAIGN_HEADER": "Veuillez fournir votre nom et votre courriel avant de commencer la conversation",
-    "IS_REQUIRED": "est requis",
-    "REQUIRED": "Nécessaire"
+    "IS_REQUIRED": "est obligatoire",
+    "REQUIRED": "Requis"
   },
   "FILE_SIZE_LIMIT": "Le fichier dépasse la limite de {MAXIMUM_FILE_UPLOAD_SIZE} pour les pièces jointes",
   "CHAT_FORM": {
