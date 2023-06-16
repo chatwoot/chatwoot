@@ -15,9 +15,9 @@
       "UNAUTH": "Benutzername / Passwort falsch. Bitte versuche es erneut"
     },
     "OAUTH": {
-      "GOOGLE_LOGIN": "Login with Google",
-      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
-      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+      "GOOGLE_LOGIN": "Mit Google anmelden",
+      "BUSINESS_ACCOUNTS_ONLY": "Bitte verwenden Sie Ihre Firmen-E-Mail-Adresse zum Anmelden",
+      "NO_ACCOUNT_FOUND": "Wir konnten kein Konto für Ihre E-Mail-Adresse finden."
     },
     "FORGOT_PASSWORD": "Haben Sie Ihr Passwort vergessen?",
     "CREATE_NEW_ACCOUNT": "Neuen Account erstellen",
