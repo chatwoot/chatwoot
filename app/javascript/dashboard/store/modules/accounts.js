@@ -97,6 +97,15 @@ export const actions = {
       commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: false });
     }
   },
+
+  limits: async ({ commit }) => {
+    try {
+      const response = await EnterpriseAccountAPI.getLimits();
+      commit(types.default.SET_ACCOUNT_LIMITS, response.data);
+    } catch (error) {
+      // silent error
+    }
+  },
 };
 
 export const mutations = {
@@ -108,6 +117,7 @@ export const mutations = {
   },
   [types.default.ADD_ACCOUNT]: MutationHelpers.setSingleRecord,
   [types.default.EDIT_ACCOUNT]: MutationHelpers.update,
+  [types.default.SET_ACCOUNT_LIMITS]: MutationHelpers.updateAttributes,
 };
 
 export default {
