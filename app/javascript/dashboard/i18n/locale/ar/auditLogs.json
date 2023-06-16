@@ -12,13 +12,37 @@
       "TABLE_HEADER": [
         "User",
         "Action",
-        "عنوان IP",
-        "Time"
+        "عنوان IP"
       ]
     },
     "API": {
       "SUCCESS_MESSAGE": "AuditLogs retrieved successfully",
       "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
+    },
+    "DEFAULT_USER": "System",
+    "AUTOMATION_RULE": {
+      "ADD": "%{agentName} created a new automation rule (#%{id})",
+      "EDIT": "%{agentName} updated an automation rule (#%{id})",
+      "DELETE": "%{agentName} deleted an automation rule (#%{id})"
+    },
+    "INBOX": {
+      "ADD": "%{agentName} created a new inbox (#%{id})",
+      "EDIT": "%{agentName} updated an inbox (#%{id})",
+      "DELETE": "%{agentName} deleted an inbox (#%{id})"
+    },
+    "WEBHOOK": {
+      "ADD": "%{agentName} created a new webhook (#%{id})",
+      "EDIT": "%{agentName} updated a webhook (#%{id})",
+      "DELETE": "%{agentName} deleted a webhook (#%{id})"
+    },
+    "USER_ACTION": {
+      "SIGN_IN": "%{agentName} signed in",
+      "SIGN_OUT": "%{agentName} signed out"
+    },
+    "TEAM": {
+      "ADD": "%{agentName} created a new team (#%{id})",
+      "EDIT": "%{agentName} updated a team (#%{id})",
+      "DELETE": "%{agentName} deleted a team (#%{id})"
     }
   }
 }
