@@ -535,7 +535,6 @@
       "UPDATE": "Zaktualizuj ustawienia godzin pracy",
       "TOGGLE_AVAILABILITY": "Włącz dostępność biznesową dla tej skrzynki odbiorczej",
       "UNAVAILABLE_MESSAGE_LABEL": "Wiadomość niedostępna dla odwiedzających",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "W tej chwili jesteśmy niedostępni. Pozostaw wiadomość, a odpowiemy, gdy będzie to możliwe.",
       "TOGGLE_HELP": "Włączenie dostępności biznesowej pokaże dostępne godziny na czacie na żywo, nawet jeśli wszyscy agenci są offline. Poza dostępnymi godzinami można ostrzec za pomocą wiadomości i formularza wstępnego czatu.",
       "DAY": {
         "ENABLE": "Włącz dostępność w tym dniu",
