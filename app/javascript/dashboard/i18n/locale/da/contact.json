@@ -73,6 +73,13 @@
     "SUCCESS_MESSAGE": "Kontakter gemt",
     "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen"
   },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen"
+  },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Bekræft Sletning",
@@ -211,6 +218,7 @@
     "FILTER_CONTACTS": "Filtrer",
     "FILTER_CONTACTS_SAVE": "Gem filter",
     "FILTER_CONTACTS_DELETE": "Slet filter",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "Indlæser kontakter...",
       "404": "Ingen kontakter matcher din søgning 🔍",
