@@ -73,6 +73,13 @@
     "SUCCESS_MESSAGE": "聯絡人儲存成功",
     "ERROR_MESSAGE": "出現錯誤，請重試"
   },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "出現錯誤，請重試"
+  },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "確認刪除",
@@ -211,6 +218,7 @@
     "FILTER_CONTACTS": "Filter",
     "FILTER_CONTACTS_SAVE": "儲存篩選條件",
     "FILTER_CONTACTS_DELETE": "刪除篩選條件",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "聯絡人載入中...",
       "404": "找不到符合條件的聯絡人 🔍",
