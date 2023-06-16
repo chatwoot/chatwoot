@@ -48,7 +48,10 @@
       }
     },
     "UPDATE_CHATWOOT": "Aktualizacja %{latestChatwootVersion} dla Chatwoot jest dostępna. Proszę zaktualizować swoją instancję.",
-    "LEARN_MORE": "Dowiedz się więcej"
+    "LEARN_MORE": "Dowiedz się więcej",
+    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
+    "OPEN_BILLING": "Open billing"
   },
   "FORMS": {
     "MULTISELECT": {
