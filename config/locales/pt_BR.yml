@@ -38,6 +38,8 @@ pt_BR:
     contacts:
       import:
         failed: Arquivo vazio
+      export:
+        success: We will notify you once contacts export file is ready to view.
       email:
         invalid: E-mail inválido
       phone_number:
@@ -56,6 +58,8 @@ pt_BR:
         connection_closed_error: Conexão fechada.
       validations:
         name: 'não deve iniciar ou terminar com símbolos e não deve ter os caracteres: < > / \ @.'
+    custom_filters:
+      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
   reports:
     period: Reportando o período %{since} a %{until}
     utc_warning: O relatório gerado está em fuso horário UTC
@@ -180,6 +184,7 @@ pt_BR:
       empty_placeholder: Nenhum resultado encontrado.
       loading_placeholder: Procurando...
       results_title: Resultados de pesquisa
+    toc_header: 'On this page'
     hero:
       sub_title: Pesquise os artigos aqui ou navegue pelas categorias abaixo.
     common:
