@@ -17,20 +17,20 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 lt:
-  hello: "Hello world"
+  hello: "Labas pasauli"
   messages:
-    reset_password_success: Woot! Request for password reset is successful. Check your mail for instructions.
-    reset_password_failure: Uh ho! We could not find any user with the specified email.
-    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
+    reset_password_success: Kietai! Slaptažodžio nustatymo iš naujo užklausa įvykdyta. Instrukcijų ieškokite savo pašte.
+    reset_password_failure: Oho! Nepavyko rasti vartotojo su nurodytu el. pašto adresu.
+    inbox_deletetion_response: Jūsų gautųj laiškų aplanko ištrynimo užklausa bus apdorota po kurio laiko.
   errors:
     validations:
-      presence: must not be blank
+      presence: neturi būti tuščias
     webhook:
-      invalid: Invalid events
+      invalid: Netinkami įvykiai
     signup:
-      disposable_email: We do not allow disposable emails
-      invalid_email: You have entered an invalid email
-      email_already_exists: "You have already signed up for an account with %{email}"
+      disposable_email: Neleidžiame naudoti vienkartinių el. laiškų
+      invalid_email: Įvedėte neteisingą el. pašto adresą
+      email_already_exists: "Jūs jau užregistravote paskyrą su %{email}"
       failed: Prisijungimas nesėkmingas
     data_import:
       data_type:
@@ -38,48 +38,52 @@ lt:
     contacts:
       import:
         failed: Failas yra tuščias
+      export:
+        success: We will notify you once contacts export file is ready to view.
       email:
         invalid: Neteisingas el. paštas
       phone_number:
-        invalid: should be in e164 format
+        invalid: turėtų būti e164 formato
     categories:
       locale:
-        unique: should be unique in the category and portal
+        unique: turėtų būti unikalūs kategorijoje ir portale
     dyte:
-      invalid_message_type: "Invalid message type. Action not permitted"
+      invalid_message_type: "Neteisingas pranešimo tipas. Veiksmas neleidžiamas"
     inboxes:
       imap:
-        socket_error: Please check the network connection, IMAP address and try again.
-        no_response_error: Please check the IMAP credentials and try again.
-        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
-        connection_timed_out_error: Connection timed out for %{address}:%{port}
+        socket_error: Patikrinkite tinklo sujungimus, IMAP adresą ir bandykite dar kartą.
+        no_response_error: Patikrinkite IMAP prisijungimo duomenis ir bandykite dar kartą.
+        host_unreachable_error: Kompiuteris nepasiekiamas. Patikrinkite IMAP adresą, IMAP prievadą ir bandykite dar kartą.
+        connection_timed_out_error: Baigėsi %{address}:%{port} sujungimo laukimo laikas
         connection_closed_error: Sujungimas uždarytas.
       validations:
-        name: should not start or end with symbols, and it should not have < > / \ @ characters.
+        name: neturėtų prasidėti ar baigtis simboliais ir jame neturėtų būti simbolių < > / \ @.
+    custom_filters:
+      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
   reports:
-    period: Reporting period %{since} to %{until}
-    utc_warning: The report generated is in UTC timezone
+    period: Ataskaitinis laikotarpis nuo %{since} iki %{until}
+    utc_warning: Sugeneruota ataskaita yra UTC laiko juostoje
     agent_csv:
       agent_name: Agento Vardas
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      conversations_count: Pokalbių skaičius
+      avg_first_response_time: Vidutinis pirmojo reagavimo laikas (minutėmis)
+      avg_resolution_time: Vidutinis sprendimo laikas(Minutėmis)
     inbox_csv:
-      inbox_name: Inbox name
-      inbox_type: Inbox type
-      conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      inbox_name: Gautų laiškų aplanko pavadinimas
+      inbox_type: Gautų laiškų aplanko tipas
+      conversations_count: Pokalbių kiekis
+      avg_first_response_time: Vidutinis pirmojo reagavimo laikas (minutėmis)
+      avg_resolution_time: Vidutinis sprendimo laikas(Minutėmis)
     label_csv:
       label_title: Etiketė
-      conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      conversations_count: Pokalbių kiekis
+      avg_first_response_time: Vidutinis pirmojo reagavimo laikas (minutėmis)
+      avg_resolution_time: Vidutinis sprendimo laikas(Minutėmis)
     team_csv:
       team_name: Komandos pavadinimas
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      conversations_count: Pokalbių skaičius
+      avg_first_response_time: Vidutinis pirmojo reagavimo laikas (minutėmis)
+      avg_resolution_time: Vidutinis sprendimo laikas(Minutėmis)
     conversation_traffic_csv:
       timezone: Laiko zona
     default_group_by: diena
@@ -87,23 +91,23 @@ lt:
       headers:
         contact_name: Kontakto Vardas
         contact_email_address: Kontakto El. pašto Adresas
-        contact_phone_number: Contact Phone Number
-        link_to_the_conversation: Link to the conversation
+        contact_phone_number: Kontaktinis Telefonas
+        link_to_the_conversation: Nuoroda į pokalbį
         agent_name: Agento Vardas
         rating: Reitingas
-        feedback: Feedback Comment
+        feedback: Atsiliepimų komentaras
         recorded_at: Įrašo data
   notifications:
     notification_title:
-      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
-      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
-      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
-      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
+      conversation_creation: "[Naujas pokalbis] – #%{display_id} buvo sukurtas %{inbox_name}"
+      conversation_assignment: "[Priskirta jums] – jums buvo priskirta #%{display_id}"
+      assigned_conversation_new_message: "[Naujas pranešimas] – #%{display_id} %{content}"
+      conversation_mention: "Jus %{name} paminėjo [ID - %{display_id}] pokalbyje"
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} mentioned you in the story: "
-      instagram_deleted_story_content: This story is no longer available.
-      deleted: This message was deleted
+      instagram_story_content: "%{story_sender} paminėjo jus pasakojime: "
+      instagram_deleted_story_content: Šis pasakojimas nebepasiekiamas.
+      deleted: Šis pranešimas buvo ištrintas
     activity:
       status:
         resolved: "Pokalbį pažymėjo %{user_name} kaip baigtą"
@@ -114,82 +118,83 @@ lt:
         auto_resolved: "Sistema pokalbį pažymėjo kaip baigtą dėl %{duration} neaktyvumo dienų"
         system_auto_open: Sistema vėl atidarė pokalbį dėl naujo gaunamo pranešimo.
       priority:
-        added: '%{user_name} set the priority to %{new_priority}'
-        updated: '%{user_name} changed the priority from %{old_priority} to %{new_priority}'
-        removed: '%{user_name} removed the priority'
+        added: '%{user_name} nustatė prioritetą į %{new_priority}'
+        updated: '%{user_name} pakeitė prioritetą iš %{old_priority} į %{new_priority}'
+        removed: '%{user_name} pašalino prioritetą'
       assignee:
-        self_assigned: "%{user_name} self-assigned this conversation"
-        assigned: "Assigned to %{assignee_name} by %{user_name}"
-        removed: "Conversation unassigned by %{user_name}"
+        self_assigned: "%{user_name} sau priskyrė šį pokalbį"
+        assigned: "%{user_name} priskyrė %{assignee_name}"
+        removed: "%{user_name} atšaukė pokalbio priskyrimą"
       team:
-        assigned: "Assigned to %{team_name} by %{user_name}"
-        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
-        removed: "Unassigned from %{team_name} by %{user_name}"
+        assigned: "%{user_name} priskyrė %{team_name}"
+        assigned_with_assignee: "%{user_name} priskyrė %{assignee_name} per %{team_name}"
+        removed: "%{user_name} atšauktas iš %{team_name}"
       labels:
         added: "%{user_name} pridėjo %{labels}"
         removed: "%{user_name} pašalino %{labels}"
-      muted: "%{user_name} has muted the conversation"
-      unmuted: "%{user_name} has unmuted the conversation"
+      muted: "%{user_name} nutildė pokalbį"
+      unmuted: "%{user_name} įjungė pokalbio garsą"
     templates:
-      greeting_message_body: "%{account_name} typically replies in a few hours."
-      ways_to_reach_you_message_body: "Give the team a way to reach you."
-      email_input_box_message_body: "Get notified by email"
-      csat_input_message_body: "Please rate the conversation"
+      greeting_message_body: "%{account_name} paprastai atsako per kelias valandas."
+      ways_to_reach_you_message_body: "Suteikite komandai būdą, kaip su jumis susisiekti."
+      email_input_box_message_body: "Gaukite perspėjimą el. paštu"
+      csat_input_message_body: "Prašome įvertinti pokalbį"
     reply:
       email:
         header:
-          from_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
-          reply_with_name: "%{assignee_name} from %{inbox_name} <reply+%{reply_email}>"
+          from_with_name: "%{assignee_name} nuo %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} nuo %{inbox_name} <reply+%{reply_email}>"
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} nuo %{inbox_name} <%{from_email}>"
           reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
-      email_subject: "New messages on this conversation"
-      transcript_subject: "Conversation Transcript"
+      email_subject: "Nauji pranešimai šiame pokalbyje"
+      transcript_subject: "Poklabio stenograma"
     survey:
-      response: "Please rate this conversation, %{link}"
+      response: "Prašome įvertinti pokalbį, %{link}"
   contacts:
     online:
-      delete: "%{contact_name} is Online, please try again later"
+      delete: "%{contact_name} yra prisijungęs, pabandykite dar kartą vėliau"
   integration_apps:
     dyte:
       name: "Dyte"
-      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
-      meeting_name: "%{agent_name} has started a meeting"
+      description: "Dyte yra įrankis, padedantis pridėti tiesioginį garso ir vaizdo įrašą prie programos naudojant tik kelias kodo eilutes. Ši integracija leidžia agentams suteikti galimybę užmegzti vaizdo arba balso skambutį su klientais nepaliekant Chatwoot."
+      meeting_name: "%{agent_name} pradėjo susitikimą"
     slack:
       name: "Slack"
-      description: "Slack is a chat tool that brings all your communication together in one place. By integrating Slack, you can get notified of all the new conversations in your account right inside your Slack."
+      description: "Slack yra pokalbių įrankis, kuris visą jūsų bendravimą sujungia į vieną vietą. Integravę Slack, galite gauti pranešimus apie visus naujus savo paskyros pokalbius tiesiai Slack."
     webhooks:
-      name: "Webhooks"
-      description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."
+      name: "Webhook"
+      description: "Webhook įvykiai suteikia jums realaus laiko informaciją apie tai, kas vyksta jūsų paskyroje. Galite naudoti Webhook, kad praneštumėte apie įvykius mėgstamoms programoms, pvz., Slack ar Github. Spustelėkite Konfigūruoti, kad nustatytumėte Webhook."
     dialogflow:
       name: "Dialogflow"
-      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
+      description: "Kurkite pokalbių robotus naudodami „Dialogflow“ ir greitai prijunkite juos prie savo gautų pranešimų aplanko. Leiskite robotams tvarkyti užklausas prieš perduodant jas klientų aptarnavimo agentui."
     fullcontact:
-      name: "Fullcontact"
-      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
+      name: "FullContact"
+      description: "FullContact integracija padeda praturtinti lankytojų profilius. Identifikuokite vartotojus, kai tik jie pasidalins savo el. pašto adresu, ir pasiūlykite jiems pritaikytą klientų aptarnavimą. Prijunkite FullContact prie paskyros bendrindami FullContact API raktą."
     google_translate:
       name: "Google Translate"
-      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
+      description: "Padėkite agentams lengviau išversti pranešimus pridėdami Google Translate integravimą. Google Translate padeda automatiškai identifikuoti kalbą ir konvertuoti ją į agento/paskyros administratoriaus pasirinktą kalbą."
     openai:
       name: "OpenAI"
-      description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
+      description: "Integruokite galingas AI funkcijas į Chatwoot, naudodamiesi OpenAI GPT modeliais."
   public_portal:
     search:
-      search_placeholder: Search for article by title or body...
+      search_placeholder: Ieškokite straipsnio pagal pavadinimą arba turinį...
       empty_placeholder: Nieko nerasta.
       loading_placeholder: Ieškoma...
       results_title: Paieškos rezultatai
+    toc_header: 'On this page'
     hero:
-      sub_title: Search for the articles here or browse the categories below.
+      sub_title: Ieškokite straipsnių čia arba naršykite toliau pateiktose kategorijose.
     common:
-      home: Home
-      last_updated_on: Last updated on %{last_updated_on}
-      view_all_articles: View all articles
+      home: Pagrindinis
+      last_updated_on: Paskutinį kartą atnaujinta %{last_updated_on}
+      view_all_articles: Žiūrėti visus straipsnius
       article: straipsnis
       articles: straipsniai
-      no_articles: There are no articles here
+      no_articles: Čia nėra straipsnių
     footer:
-      made_with: Made with
+      made_with: Padaryta su
     header:
-      go_to_homepage: Go to the main site
+      go_to_homepage: Eikite į pagrindinę svetainę
