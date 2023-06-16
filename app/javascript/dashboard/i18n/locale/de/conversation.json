@@ -35,9 +35,9 @@
     "REMOVE_SELECTION": "Auswahl entfernen",
     "DOWNLOAD": "Herunterladen",
     "UNKNOWN_FILE_TYPE": "Unbekannte Datei",
-    "SAVE_CONTACT": "Save",
+    "SAVE_CONTACT": "Speichern",
     "UPLOADING_ATTACHMENTS": "Anhänge werden hochgeladen...",
-    "REPLIED_TO_STORY": "Replied to your story",
+    "REPLIED_TO_STORY": "Auf deine Geschichte geantwortet",
     "SUCCESS_DELETE_MESSAGE": "Nachricht erfolgreich gelöscht",
     "FAIL_DELETE_MESSSAGE": "Nachricht konnte nicht gelöscht werden! Versuchen Sie es erneut",
     "NO_RESPONSE": "Keine Antwort",
@@ -68,20 +68,20 @@
       }
     },
     "PRIORITY": {
-      "TITLE": "Priority",
+      "TITLE": "Priorität",
       "OPTIONS": {
         "NONE": "Keine",
-        "URGENT": "Urgent",
-        "HIGH": "High",
-        "MEDIUM": "Medium",
-        "LOW": "Low"
+        "URGENT": "Dringend",
+        "HIGH": "Hoch",
+        "MEDIUM": "Mittel",
+        "LOW": "Niedrig"
       },
       "CHANGE_PRIORITY": {
         "SELECT_PLACEHOLDER": "Keine",
-        "INPUT_PLACEHOLDER": "Select priority",
+        "INPUT_PLACEHOLDER": "Priorität auswählen",
         "NO_RESULTS": "Keine Ergebnisse gefunden",
-        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
-        "FAILED": "Couldn't change priority. Please try again."
+        "SUCCESSFUL": "Priorität der Konversations-ID %{conversationId} zu %{priority} geändert",
+        "FAILED": "Priorität konnte nicht geändert werden. Bitte versuchen Sie es erneut."
       }
     },
     "CARD_CONTEXT_MENU": {
@@ -153,8 +153,8 @@
         }
       },
       "UNDEFINED_VARIABLES": {
-        "TITLE": "Undefined variables",
-        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "TITLE": "Undefinierte Variablen",
+        "MESSAGE": "Sie haben {undefinedVariablesCount} undefinierte Variablen in Ihrer Nachricht: {undefinedVariables}. Möchten Sie die Nachricht trotzdem senden?",
         "CONFIRM": {
           "YES": "Senden",
           "CANCEL": "Stornieren"
@@ -184,12 +184,12 @@
       "COPY": "Kopieren",
       "DELETE": "Löschen",
       "CREATE_A_CANNED_RESPONSE": "Zu vorgefertigten Antworten hinzufügen",
-      "TRANSLATE": "Translate",
-      "COPY_PERMALINK": "Copy link to the message",
-      "LINK_COPIED": "Message URL copied to the clipboard",
+      "TRANSLATE": "Übersetzen",
+      "COPY_PERMALINK": "Link zur Nachricht kopieren",
+      "LINK_COPIED": "URL der Nachricht in die Zwischenablage kopiert",
       "DELETE_CONFIRMATION": {
-        "TITLE": "Are you sure you want to delete this message?",
-        "MESSAGE": "You cannot undo this action",
+        "TITLE": "Sind Sie sicher, dass Sie diese Nachricht löschen möchten?",
+        "MESSAGE": "Sie können diese Aktion nicht rückgängig machen",
         "DELETE": "Löschen",
         "CANCEL": "Stornieren"
       }
@@ -282,27 +282,27 @@
     "SUBJECT": "Betreff"
   },
   "CONVERSATION_PARTICIPANTS": {
-    "SIDEBAR_MENU_TITLE": "Participating",
-    "SIDEBAR_TITLE": "Conversation participants",
+    "SIDEBAR_MENU_TITLE": "Zugewiesen",
+    "SIDEBAR_TITLE": "Konversationsteilnehmer",
     "NO_RECORDS_FOUND": "Keine Ergebnisse gefunden",
-    "ADD_PARTICIPANTS": "Select participants",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} other",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
-    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
-    "WATCH_CONVERSATION": "Join conversation",
-    "YOU_ARE_WATCHING": "You are participating",
+    "ADD_PARTICIPANTS": "Teilnehmer wählen",
+    "REMANING_PARTICIPANTS_TEXT": "+%{count} andere",
+    "REMANING_PARTICIPANT_TEXT": "+%{count} andere",
+    "TOTAL_PARTICIPANTS_TEXT": "%{count} Personen nehmen teil.",
+    "TOTAL_PARTICIPANT_TEXT": "%{count} Person nimmt teil.",
+    "NO_PARTICIPANTS_TEXT": "Niemand nimmt teil!.",
+    "WATCH_CONVERSATION": "Konversation beitreten",
+    "YOU_ARE_WATCHING": "Sie nehmen teil",
     "API": {
-      "ERROR_MESSAGE": "Could not update, try again!",
-      "SUCCESS_MESSAGE": "Participants updated!"
+      "ERROR_MESSAGE": "Konnte nicht aktualisiert werden, versuche Sie es noch einmal!",
+      "SUCCESS_MESSAGE": "Teilnehmer aktualisiert!"
     }
   },
   "TRANSLATE_MODAL": {
-    "TITLE": "View translated content",
-    "DESC": "You can view the translated content in each langauge.",
-    "ORIGINAL_CONTENT": "Original Content",
-    "TRANSLATED_CONTENT": "Translated Content",
-    "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
+    "TITLE": "Übersetzten Inhalt anzeigen",
+    "DESC": "Sie können den übersetzten Inhalt in jeder Sprache ansehen.",
+    "ORIGINAL_CONTENT": "Originalinhalt",
+    "TRANSLATED_CONTENT": "Übersetzter Inhalt",
+    "NO_TRANSLATIONS_AVAILABLE": "Für diesen Inhalt sind keine Übersetzungen verfügbar"
   }
 }
