@@ -73,6 +73,13 @@
     "SUCCESS_MESSAGE": "Contacts saved successfully",
     "ERROR_MESSAGE": "Det oppstod en feil. Prøv igjen"
   },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "Det oppstod en feil. Prøv igjen"
+  },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Bekreft sletting",
@@ -211,6 +218,7 @@
     "FILTER_CONTACTS": "Filter",
     "FILTER_CONTACTS_SAVE": "Save filter",
     "FILTER_CONTACTS_DELETE": "Delete filter",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "Laster inn kontakter...",
       "404": "Ingen kontakter samsvarer med søket ditt 🔍",
