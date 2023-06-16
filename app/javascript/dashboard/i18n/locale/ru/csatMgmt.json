@@ -1,6 +1,13 @@
 {
   "CSAT": {
     "TITLE": "Оцените разговор",
-    "PLACEHOLDER": "Расскажите подробнее..."
+    "PLACEHOLDER": "Расскажите подробнее...",
+    "RATINGS": {
+      "POOR": "😞 Poor",
+      "FAIR": "😑 Fair",
+      "AVERAGE": "😐 Average",
+      "GOOD": "😀 Good",
+      "EXCELLENT": "😍 Excellent"
+    }
   }
 }
