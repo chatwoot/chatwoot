@@ -1076,7 +1076,7 @@ export default {
 
       // Retrieve the email of the current conversation's sender
       const conversationContact = this.currentChat?.meta?.sender?.email || '';
-      let cc = emailAttributes.cc || [];
+      let cc = [...emailAttributes.cc] || [];
       let to = [];
 
       // there might be a situation where the current conversation will include a message from a third person,
