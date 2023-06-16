@@ -16,6 +16,8 @@ describe Enterprise::Billing::HandleStripeEventService do
                                                      'id' => 'test', 'product' => 'plan_id', 'name' => 'plan_name'
                                                    })
     allow(subscription).to receive(:[]).with('quantity').and_return('10')
+    allow(subscription).to receive(:[]).with('status').and_return('active')
+    allow(subscription).to receive(:[]).with('current_period_end').and_return(1_686_567_520)
     allow(subscription).to receive(:customer).and_return('cus_123')
     create(:installation_config, {
              name: 'CHATWOOT_CLOUD_PLANS',
@@ -44,7 +46,9 @@ describe Enterprise::Billing::HandleStripeEventService do
                                                        'stripe_price_id' => 'test',
                                                        'stripe_product_id' => 'plan_id',
                                                        'plan_name' => 'Hacker',
-                                                       'subscribed_quantity' => '10'
+                                                       'subscribed_quantity' => '10',
+                                                       'subscription_ends_on' => '2023-06-12T10:58:40.000Z',
+                                                       'subscription_status' => 'active'
                                                      })
     end
 
@@ -57,7 +61,9 @@ describe Enterprise::Billing::HandleStripeEventService do
                                                        'stripe_price_id' => 'test',
                                                        'stripe_product_id' => 'plan_id',
                                                        'plan_name' => 'Hacker',
-                                                       'subscribed_quantity' => '10'
+                                                       'subscribed_quantity' => '10',
+                                                       'subscription_ends_on' => '2023-06-12T10:58:40.000Z',
+                                                       'subscription_status' => 'active'
                                                      })
       expect(account).not_to be_feature_enabled('channel_email')
       expect(account).not_to be_feature_enabled('help_center')
@@ -94,7 +100,9 @@ describe Enterprise::Billing::HandleStripeEventService do
                                                        'stripe_price_id' => 'test',
                                                        'stripe_product_id' => 'plan_id_2',
                                                        'plan_name' => 'Startups',
-                                                       'subscribed_quantity' => '10'
+                                                       'subscribed_quantity' => '10',
+                                                       'subscription_ends_on' => '2023-06-12T10:58:40.000Z',
+                                                       'subscription_status' => 'active'
                                                      })
       expect(account).to be_feature_enabled('channel_email')
       expect(account).to be_feature_enabled('help_center')
