@@ -74,6 +74,14 @@
         "DELETE": "Удалить статью"
       }
     },
+    "ARTICLE_SEARCH_RESULT": {
+      "UNCATEGORIZED": "Uncategorized",
+      "INSERT_ARTICLE": "Insert",
+      "NO_RESULT": "No articles found",
+      "COPY_LINK": "Copy article link to clipboard",
+      "OPEN_LINK": "Open article in new tab",
+      "PREVIEW_LINK": "Preview article"
+    },
     "PORTAL": {
       "HEADER": "Портал",
       "DEFAULT": "По умолчанию",
