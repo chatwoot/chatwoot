@@ -535,7 +535,6 @@
       "UPDATE": "Atjaunināt darba laika iestatījumus",
       "TOGGLE_AVAILABILITY": "Iespējot biznesa pieejamību šai iesūtnei",
       "UNAVAILABLE_MESSAGE_LABEL": "Ziņojums nav pieejams priekš apmeklētājiem",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "Šobrīd neesam pieejami. Lūdzu atstājiet ziņojumu, mēs atbildēsim, kad būsim atpakaļ.",
       "TOGGLE_HELP": "Iespējojot biznesa pieejamību, tiešraides tērzēšanas logrīkā tiks rādīts pieejamais laiks, pat ja visi aģenti būs bezsaistē. Ārpus pieejamā laika, apmeklētājus var brīdināt ar ziņojumu un pirms tērzēšanas veidlapu.",
       "DAY": {
         "ENABLE": "Iespējot pieejamību šai dienai",
