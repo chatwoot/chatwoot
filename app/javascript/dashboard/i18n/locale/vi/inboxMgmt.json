@@ -535,7 +535,6 @@
       "UPDATE": "Cập nhật tuỳ chỉnh giờ làm việc",
       "TOGGLE_AVAILABILITY": "Kích hoạt tính khả dụng của doanh nghiệp cho hộp thư đến này",
       "UNAVAILABLE_MESSAGE_LABEL": "Thông báo không có sẵn cho khách truy cập",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "Chúng tôi không có sẵn tại thời điểm này. Để lại tin nhắn, chúng tôi sẽ trả lời khi chúng tôi trở lại.",
       "TOGGLE_HELP": "Việc kích hoạt tính khả dụng của doanh nghiệp sẽ hiển thị giờ có sẵn trên tiện ích trò chuyện trực tiếp ngay cả khi tất cả các đại lý đều ngoại tuyến. Ngoài giờ có sẵn, khách truy cập có thể được cảnh báo bằng thông điệp và biểu mẫu trò chuyện trước.",
       "DAY": {
         "ENABLE": "Kích hoạt tính khả dụng cho hôm nay",
