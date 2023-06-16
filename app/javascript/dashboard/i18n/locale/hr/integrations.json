@@ -87,6 +87,8 @@
     },
     "OPEN_AI": {
       "TITLE": "Poboljšaj s AI",
+      "SUMMARY_TITLE": "Sažetak s AI",
+      "REPLY_TITLE": "Prijedlog odgovora s AI",
       "SUBTITLE": "Poboljšani odgovor će se generirati uz pomoć AI, bazirano na trenutnom odgovoru.",
       "TONE": {
         "TITLE": "Ton",
