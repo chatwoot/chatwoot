@@ -19,8 +19,18 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "보통 몇 분 안에 응답",
     "IN_A_FEW_HOURS": "보통 몇 시간 내에 응답",
-    "IN_A_DAY": "보통 하루 안에 응답"
+    "IN_A_DAY": "보통 하루 안에 응답",
+    "BACK_IN": "We will be back online"
   },
+  "DAY_NAMES": [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ],
   "START_CONVERSATION": "대화 시작",
   "END_CONVERSATION": "End Conversation",
   "CONTINUE_CONVERSATION": "Continue conversation",
