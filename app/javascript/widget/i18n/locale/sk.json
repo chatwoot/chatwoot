@@ -19,8 +19,18 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Zvyčajne odpovedá do niekoľkých minút",
     "IN_A_FEW_HOURS": "Zvyčajne odpovedá do niekoľkých hodín",
-    "IN_A_DAY": "Zvyčajne odpovedá do dňa"
+    "IN_A_DAY": "Zvyčajne odpovedá do dňa",
+    "BACK_IN": "We will be back online"
   },
+  "DAY_NAMES": [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ],
   "START_CONVERSATION": "Začať konverzáciu",
   "END_CONVERSATION": "End Conversation",
   "CONTINUE_CONVERSATION": "Continue conversation",
