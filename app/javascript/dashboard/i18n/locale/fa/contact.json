@@ -73,6 +73,13 @@
     "SUCCESS_MESSAGE": "مخاطبین با موفقیت ذخیره شدند",
     "ERROR_MESSAGE": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
   },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
+  },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "تاییدیه حذف",
@@ -211,6 +218,7 @@
     "FILTER_CONTACTS": "فیلتر",
     "FILTER_CONTACTS_SAVE": "ذخیره فیلتر",
     "FILTER_CONTACTS_DELETE": "حذف فیلتر",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "در حال بارگذاری مخاطبین...",
       "404": "هیچ مخاطبی با جستجوی شما مطابقت ندارد 🔍",
