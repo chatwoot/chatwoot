@@ -3,7 +3,7 @@
     "NOT_AVAILABLE": "Nepasiekiamas",
     "EMAIL_ADDRESS": "El. pašto adresas",
     "PHONE_NUMBER": "Telefono numeris",
-    "IDENTIFIER": "Identifier",
+    "IDENTIFIER": "Identifikatorius",
     "COPY_SUCCESSFUL": "Sėkmingai nukopijuota į iškarpinę",
     "COMPANY": "Įmonė",
     "LOCATION": "Vieta",
@@ -71,14 +71,21 @@
       "CANCEL": "Atšaukti"
     },
     "SUCCESS_MESSAGE": "Kontaktas išsaugotas sėkmingai",
-    "ERROR_MESSAGE": "There was an error, please try again"
+    "ERROR_MESSAGE": "Įvyko klaida, prašau pabandykite dar kartą"
+  },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "Įvyko klaida, prašau pabandykite dar kartą"
   },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Patvirtinti Ištrynimą",
       "MESSAGE": "Ar tikrai norite ištrinti šią pastabą?",
       "YES": "Taip, Trinti",
-      "NO": "No, Keep it"
+      "NO": "Ne, Išsaugoti"
     }
   },
   "DELETE_CONTACT": {
@@ -170,7 +177,7 @@
       }
     },
     "SUCCESS_MESSAGE": "Kontaktas išsaugotas sėkmingai",
-    "ERROR_MESSAGE": "There was an error, please try again"
+    "ERROR_MESSAGE": "Įvyko klaida, prašau pabandykite dar kartą"
   },
   "NEW_CONVERSATION": {
     "BUTTON_LABEL": "Pradėti pokalbį",
@@ -211,6 +218,7 @@
     "FILTER_CONTACTS": "Filtruoti",
     "FILTER_CONTACTS_SAVE": "Išsaugoti filtrą",
     "FILTER_CONTACTS_DELETE": "Trinti filtrą",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "Kontaktai užkraunami...",
       "404": "Nė vienas kontaktas neatitinka jūsų paieškos 🔍",
@@ -220,7 +228,7 @@
         "PHONE_NUMBER": "Telefono numeris",
         "CONVERSATIONS": "Pokalbiai",
         "LAST_ACTIVITY": "Paskutiniai veiksmai",
-        "CREATED_AT": "Created At",
+        "CREATED_AT": "Sukūrimo data",
         "COUNTRY": "Šalis",
         "CITY": "Miestas",
         "SOCIAL_PROFILES": "Socialinių tinklų profiliai",
