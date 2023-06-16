@@ -2,8 +2,8 @@
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Veuillez sélectionner une conversation à partir du panneau de gauche",
     "CSAT_REPLY_MESSAGE": "Veuillez évaluer la conversation",
-    "404": "Sorry, we cannot find the conversation. Please try again",
-    "SWITCH_VIEW_LAYOUT": "Switch the layout",
+    "404": "Désolé, nous ne pouvons pas trouver la conversation. Veuillez réessayer",
+    "SWITCH_VIEW_LAYOUT": "Changer la mise en page",
     "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "L'identité de cet utilisateur n'est pas vérifiée",
     "NO_MESSAGE_1": "Oh oh ! Il semble qu'il n'y ait aucun message de clients dans votre boîte de réception.",
@@ -34,8 +34,8 @@
     "REPLYING_TO": "Vous répondez à :",
     "REMOVE_SELECTION": "Supprimer la sélection",
     "DOWNLOAD": "Télécharger",
-    "UNKNOWN_FILE_TYPE": "Unknown File",
-    "SAVE_CONTACT": "Save",
+    "UNKNOWN_FILE_TYPE": "Fichier inconnu",
+    "SAVE_CONTACT": "Enregistrer",
     "UPLOADING_ATTACHMENTS": "Envoi des pièces jointes...",
     "REPLIED_TO_STORY": "Replied to your story",
     "SUCCESS_DELETE_MESSAGE": "Le message a bien été supprimé",
@@ -68,13 +68,13 @@
       }
     },
     "PRIORITY": {
-      "TITLE": "Priority",
+      "TITLE": "Priorité",
       "OPTIONS": {
         "NONE": "Aucun",
         "URGENT": "Urgent",
-        "HIGH": "High",
-        "MEDIUM": "Medium",
-        "LOW": "Low"
+        "HIGH": "Élevé",
+        "MEDIUM": "Moyenne",
+        "LOW": "Faible"
       },
       "CHANGE_PRIORITY": {
         "SELECT_PLACEHOLDER": "Aucun",
