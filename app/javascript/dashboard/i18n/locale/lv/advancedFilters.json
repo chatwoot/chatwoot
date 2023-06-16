@@ -2,12 +2,17 @@
   "FILTER": {
     "TITLE": "Filtrēt Sarunas",
     "SUBTITLE": "Pievienojiet filtrus un noklikšķiniet uz 'Lietot filtrus', lai filtrētu sarunas.",
+    "EDIT_CUSTOM_FILTER": "Edit Folder",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
     "ADD_NEW_FILTER": "Pievienot Filtru",
     "FILTER_DELETE_ERROR": "Lai saglabātu, Jums ir jābūt vismaz vienam filtram",
     "SUBMIT_BUTTON_LABEL": "Lietot filtrus",
+    "UPDATE_BUTTON_LABEL": "Update folder",
     "CANCEL_BUTTON_LABEL": "Atcelt",
     "CLEAR_BUTTON_LABEL": "Atcelt Filtrus",
     "EMPTY_VALUE_ERROR": "Nepieciešama vērtība",
+    "FOLDER_LABEL": "Folder Name",
+    "FOLDER_QUERY_LABEL": "Folder Query",
     "TOOLTIP_LABEL": "Filtrēt sarunas",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "UN",
@@ -70,6 +75,9 @@
           "SUCCESS_MESSAGE": "Segments ir veiksmīgi izveidots",
           "ERROR_MESSAGE": "Izveidojot segmentu, radās kļūda"
         }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Edit folder"
       },
       "DELETE": {
         "DELETE_BUTTON": "Dzēst filtru",
