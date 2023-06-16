@@ -535,7 +535,6 @@
       "UPDATE": "Nyitvatartási idő beállítások szerkesztése",
       "TOGGLE_AVAILABILITY": "Nyitvatartási idő beállítások engedélyezése erre az inboxra",
       "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "Nem vagyunk elérhetőek jelen pillanatban. Hagyj üzenetet és reagálunk amint visszatértünk.",
       "TOGGLE_HELP": "A nyitvatartási idő megmutatja az elérhetőségetek idejét az élő chat widgeten akkor is ha minden ügynök offline. A nyitvatartási időben a vendégek figyelmeztetést kaphatnak üzenettel és chat előtti űrlappal.",
       "DAY": {
         "ENABLE": "Elérhetőség bekapcsolása erre a napra",
