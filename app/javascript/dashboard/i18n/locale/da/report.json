@@ -4,6 +4,8 @@
     "LOADING_CHART": "Indlæser diagramdata...",
     "NO_ENOUGH_DATA": "Vi har ikke modtaget nok datapunkter til at generere rapport. Prøv igen senere.",
     "DOWNLOAD_AGENT_REPORTS": "Download agentrapporter",
+    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
+    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Samtaler",
@@ -33,6 +35,14 @@
         "NAME": "Antal Afsluttede",
         "DESC": "( Total )"
       }
+    },
+    "DATE_RANGE_OPTIONS": {
+      "LAST_7_DAYS": "Seneste 7 dage",
+      "LAST_30_DAYS": "Seneste 30 dage",
+      "LAST_3_MONTHS": "Seneste 3 måneder",
+      "LAST_6_MONTHS": "Seneste 6 måneder",
+      "LAST_YEAR": "Sidste år",
+      "CUSTOM_DATE_RANGE": "Tilpasset datointerval"
     },
     "DATE_RANGE": [
       {
@@ -66,6 +76,12 @@
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Gruppér Efter",
     "DURATION_FILTER_LABEL": "Varighed",
+    "GROUPING_OPTIONS": {
+      "DAY": "Dag",
+      "WEEK": "Uge",
+      "MONTH": "Måned",
+      "YEAR": "År"
+    },
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
@@ -388,6 +404,7 @@
     "HEADER": "CSAT Rapporter",
     "NO_RECORDS": "Der er ingen CSAT undersøgelse svar til rådighed.",
     "DOWNLOAD": "Download CSAT Rapporter",
+    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Vælg Agenter"
