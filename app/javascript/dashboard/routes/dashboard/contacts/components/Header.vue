@@ -83,7 +83,7 @@
           color-scheme="info"
           icon="upload"
           class="clear"
-          @click="onToggleImport"
+          @click="toggleImport"
         >
           {{ $t('IMPORT_CONTACTS.BUTTON_LABEL') }}
         </woot-button>
@@ -93,7 +93,7 @@
           color-scheme="info"
           icon="download"
           class="clear"
-          @click="onExportSubmit"
+          @click="submitExport"
         >
           {{ $t('EXPORT_CONTACTS.BUTTON_LABEL') }}
         </woot-button>
@@ -133,14 +133,6 @@ export default {
       type: Function,
       default: () => {},
     },
-    onToggleImport: {
-      type: Function,
-      default: () => {},
-    },
-    onExportSubmit: {
-      type: Function,
-      default: () => {},
-    },
     onToggleFilter: {
       type: Function,
       default: () => {},
@@ -175,6 +167,12 @@ export default {
     },
     onToggleDeleteSegmentsModal() {
       this.$emit('on-toggle-delete-filter');
+    },
+    toggleImport() {
+      this.$emit('on-toggle-import');
+    },
+    submitExport() {
+      this.$emit('on-export-submit');
     },
   },
 };
