@@ -20,8 +20,8 @@
         "LABEL": "Etiketės pavadinimas",
         "PLACEHOLDER": "Etiketės pavadinimas",
         "REQUIRED_ERROR": "Yra reikalingas etiketės pavadinimas",
-        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+        "MINIMUM_LENGTH_ERROR": "Minimalus ilgis yra 2",
+        "VALID_ERROR": "Leidžiama naudoti tik abėcėlės raides, skaitmenis, brūkšnelius ir apatinį pabraukimą"
       },
       "DESCRIPTION": {
         "LABEL": "Aprašymas",
@@ -43,21 +43,21 @@
       "DESC": "Etiketės leidžia grupuoti pokalbius kartu.",
       "API": {
         "SUCCESS_MESSAGE": "Etiketė sėkmingai priskirta",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "ERROR_MESSAGE": "Įvyko klaida, prašau pabandykite dar kartą"
       }
     },
     "EDIT": {
       "TITLE": "Tvarkyti Etiketę",
       "API": {
         "SUCCESS_MESSAGE": "Etiketė sėkmingai atnaujinta",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "ERROR_MESSAGE": "Įvyko klaida, prašau pabandykite dar kartą"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Ištrinti",
       "API": {
         "SUCCESS_MESSAGE": "Etiketė sėkmingai ištrinta",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "ERROR_MESSAGE": "Įvyko klaida, prašau pabandykite dar kartą"
       },
       "CONFIRM": {
         "TITLE": "Patvirtinti Ištrynimą",
