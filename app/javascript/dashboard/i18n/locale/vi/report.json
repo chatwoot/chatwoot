@@ -4,6 +4,8 @@
     "LOADING_CHART": "Đang tải các biểu đồ dữ liệu...",
     "NO_ENOUGH_DATA": "Chúng tôi không nhận được đủ điểm dữ liệu để tạo báo cáo, Vui lòng thử lại sau.",
     "DOWNLOAD_AGENT_REPORTS": "Tải xuống báo cáo tổng đài viên",
+    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
+    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Các cuộc trò chuyện",
@@ -33,6 +35,14 @@
         "NAME": "Số lượng giải quyết",
         "DESC": "( Tổng cộng )"
       }
+    },
+    "DATE_RANGE_OPTIONS": {
+      "LAST_7_DAYS": "7 ngày cuối",
+      "LAST_30_DAYS": "30 ngày cuối",
+      "LAST_3_MONTHS": "3 tháng vừa qua",
+      "LAST_6_MONTHS": "6 tháng vừa qua",
+      "LAST_YEAR": "Năm ngoái",
+      "CUSTOM_DATE_RANGE": "Phạm vi ngày tùy chỉnh"
     },
     "DATE_RANGE": [
       {
@@ -66,6 +76,12 @@
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Nhóm theo",
     "DURATION_FILTER_LABEL": "Thời lượng",
+    "GROUPING_OPTIONS": {
+      "DAY": "Ngày",
+      "WEEK": "Tuần",
+      "MONTH": "Tháng",
+      "YEAR": "Năm"
+    },
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
@@ -388,6 +404,7 @@
     "HEADER": "Báo cáo CSAT",
     "NO_RECORDS": "Không có phản hồi báo cáo CSAT có sẵn.",
     "DOWNLOAD": "Tải về các báo cáo CSAT",
+    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Chọn tổng đài viên"
