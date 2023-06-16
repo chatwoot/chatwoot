@@ -1,7 +1,7 @@
 {
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Kairiojoje srityje pasirinkite pokalbį",
-    "CSAT_REPLY_MESSAGE": "Please rate the conversation",
+    "CSAT_REPLY_MESSAGE": "Prašome įvertinti pokalbį",
     "404": "Atsiprašome, negalime rasti pokalbio. Prašau, pabandykite dar kartą",
     "SWITCH_VIEW_LAYOUT": "Perjunkite išdėstymą",
     "DASHBOARD_APP_TAB_MESSAGES": "Pranešimai",
@@ -11,7 +11,7 @@
     "NO_INBOX_1": "Sveiki! Panašu, kad dar nepridėjote jokių gautųjų laiškų aplanko.",
     "NO_INBOX_2": " norint pradėti",
     "NO_INBOX_AGENT": "Oi! Atrodo, kad nesate jokio gautų laiškų aplanko dalis. Susisiekite su administratoriumi",
-    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH_MESSAGES": "Ieškokite pranešimų pokalbiuose",
     "SEARCH": {
       "TITLE": "Ieškoti pranešimų",
       "RESULT_TITLE": "Rezultatų Paieška",
@@ -81,19 +81,19 @@
         "INPUT_PLACEHOLDER": "Pasirinkti prioritetą",
         "NO_RESULTS": "Nieko nerasta",
         "SUCCESSFUL": "Prioritetas pokalbiui id %{conversationId} pakeistas į %{priority}",
-        "FAILED": "Couldn't change priority. Please try again."
+        "FAILED": "Nepavyko pakeisti prioriteto. Prašau, pabandykite dar kartą."
       }
     },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Pažymėti kaip laukiantį",
       "RESOLVED": "Pažymėti kaip išspręstą",
       "MARK_AS_UNREAD": "Pažymėti kaip neperskaitytą",
-      "REOPEN": "Reopen conversation",
+      "REOPEN": "Atidaryti pokalbį",
       "SNOOZE": {
         "TITLE": "Atidėti",
-        "NEXT_REPLY": "Until next reply",
-        "TOMORROW": "Until tomorrow",
-        "NEXT_WEEK": "Until next week"
+        "NEXT_REPLY": "Iki kito atsakymo",
+        "TOMORROW": "Iki rytojaus",
+        "NEXT_WEEK": "Iki kitos savaitės"
       },
       "ASSIGN_AGENT": "Priskirti Agentą",
       "ASSIGN_LABEL": "Priskirti etiketę",
@@ -154,7 +154,7 @@
       },
       "UNDEFINED_VARIABLES": {
         "TITLE": "Neapibrėžti kintamieji",
-        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "MESSAGE": "Jūsų pranešime yra {undefinedVariablesCount} neapibrėžtų kintamųjų: {undefinedVariables}. Ar vis tiek norėtumėte išsiųsti žinutę?",
         "CONFIRM": {
           "YES": "Siųsti",
           "CANCEL": "Atšaukti"
@@ -164,8 +164,8 @@
     "VISIBLE_TO_AGENTS": "Privati ​​pastaba: matoma tik jums ir jūsų komandai",
     "CHANGE_STATUS": "Pokalbio būsena pakeista",
     "CHANGE_STATUS_FAILED": "Pokalbio būsenos nepavyko pakeisti",
-    "CHANGE_AGENT": "Conversation Assignee changed",
-    "CHANGE_AGENT_FAILED": "Assignee change failed",
+    "CHANGE_AGENT": "Pasikeitė pokalbiui priskirtas asmuo",
+    "CHANGE_AGENT_FAILED": "Priskirto asmens pakeitimas nepavyko",
     "ASSIGN_LABEL_SUCCESFUL": "Etiketė sėkmingai priskirta",
     "ASSIGN_LABEL_FAILED": "Etiketės priskirti nepavyko",
     "CHANGE_TEAM": "Pasikeitė pokalbių komanda",
@@ -181,54 +181,54 @@
       "ASSIGN": "Priskirti"
     },
     "CONTEXT_MENU": {
-      "COPY": "Copy",
+      "COPY": "Kopijuoti",
       "DELETE": "Ištrinti",
       "CREATE_A_CANNED_RESPONSE": "Pridėti Atsakymų Ruošinius",
       "TRANSLATE": "Išversti",
       "COPY_PERMALINK": "Nukopijuoti nuorodą į pranešimą",
-      "LINK_COPIED": "Message URL copied to the clipboard",
+      "LINK_COPIED": "Pranešimo URL nukopijuotas į mainų sritį",
       "DELETE_CONFIRMATION": {
-        "TITLE": "Are you sure you want to delete this message?",
-        "MESSAGE": "You cannot undo this action",
+        "TITLE": "Ar tikrai norite ištrinti šį pranešimą?",
+        "MESSAGE": "Negalite anuliuoti šio veiksmo",
         "DELETE": "Ištrinti",
         "CANCEL": "Atšaukti"
       }
     }
   },
   "EMAIL_TRANSCRIPT": {
-    "TITLE": "Send conversation transcript",
-    "DESC": "Send a copy of the conversation transcript to the specified email address",
+    "TITLE": "Siųsti poklabio stenogramą",
+    "DESC": "Siųsti pokalbio stenogramos kopiją nurodytu el. pašto adresu",
     "SUBMIT": "Pateikti",
     "CANCEL": "Atšaukti",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
-    "SEND_EMAIL_ERROR": "There was an error, please try again",
+    "SEND_EMAIL_SUCCESS": "Pokalbio stenograma sėkmingai išsiųsta",
+    "SEND_EMAIL_ERROR": "Įvyko klaida, prašau pabandykite dar kartą",
     "FORM": {
-      "SEND_TO_CONTACT": "Send the transcript to the customer",
-      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
+      "SEND_TO_CONTACT": "Siųsti stenogramą klientui",
+      "SEND_TO_AGENT": "Siųsti stenogramą priskirtam agentui",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Siųsti stenogramą kitu el. pašto adresu",
       "EMAIL": {
-        "PLACEHOLDER": "Enter an email address",
-        "ERROR": "Please enter a valid email address"
+        "PLACEHOLDER": "Įvesti el. pašto adresą",
+        "ERROR": "Prašau įveskite teisingą el. pašto adresą"
       }
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hey 👋, Welcome to %{installationName}!",
-    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
-    "READ_LATEST_UPDATES": "Read our latest updates",
+    "TITLE": "Sveiki 👋, Sveiki atvykę į %{installationName}!",
+    "DESCRIPTION": "Ačiū, kad užsiregistravote. Norime, kad išnaudotumėte visas %{installationName} galimybes. Štai keletas dalykų, kuriuos galite padaryti naudodami %{installationName}, kad patirtis būtų maloni.",
+    "READ_LATEST_UPDATES": "Skaitykite mūsų naujausius atnaujinimus",
     "ALL_CONVERSATION": {
-      "TITLE": "All your conversations in one place",
+      "TITLE": "Visi jūsų pokalbiai vienoje vietoje",
       "DESCRIPTION": "Peržiūrėkite visus savo klientų pokalbius vienoje informacijos suvestinėje. Galite filtruoti pokalbius pagal gaunamą kanalą, etiketę ir būseną."
     },
     "TEAM_MEMBERS": {
-      "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
-      "NEW_LINK": "Click here to invite a team member"
+      "TITLE": "Pakvieskite savo komandos narius",
+      "DESCRIPTION": "Kadangi ruošiatės kalbėtis su savo klientu, pasikvieskite savo komandos draugus, kad jie jums padėtų. Galite pakviesti savo komandos draugus įtraukę jų el. pašto adresus į agentų sąrašą.",
+      "NEW_LINK": "Spustelėkite čia, kad pakviestumėte komandos narį"
     },
     "INBOXES": {
-      "TITLE": "Connect Inboxes",
-      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
-      "NEW_LINK": "Click here to create an inbox"
+      "TITLE": "Sujungti Gautų Laiškų Aplankus",
+      "DESCRIPTION": "Prijunkite įvairius kanalus, kuriais jūsų klientai kalbėtų su jumis. Tai gali būti svetainės live-chat, jūsų Facebook ar Twitter ar net jūsų WhatsApp numeris.",
+      "NEW_LINK": "Spustelėkite čia, kad sukurtumėte gautų laiškų aplanką"
     },
     "LABELS": {
       "TITLE": "Tvarkykite pokalbius etiketėmis",
@@ -250,7 +250,7 @@
       "CONVERSATION_INFO": "Pokalbio Informacija",
       "CONTACT_ATTRIBUTES": "Kontakto Požymiai",
       "PREVIOUS_CONVERSATION": "Ankstesni pokalbiai",
-      "MACROS": "Macros"
+      "MACROS": "Makrokomandos"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -286,23 +286,23 @@
     "SIDEBAR_TITLE": "Pokalbio dalyviai",
     "NO_RECORDS_FOUND": "Nieko nerasta",
     "ADD_PARTICIPANTS": "Pasirinkti dalyvius",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} other",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
-    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
+    "REMANING_PARTICIPANTS_TEXT": "+%{count} kiti",
+    "REMANING_PARTICIPANT_TEXT": "+%{count} kitas",
+    "TOTAL_PARTICIPANTS_TEXT": "%{count} dalyvauja žmonių.",
+    "TOTAL_PARTICIPANT_TEXT": "%{count} dalyvauja asmenų.",
+    "NO_PARTICIPANTS_TEXT": "Niekas nedalyvauja!.",
     "WATCH_CONVERSATION": "Prisijungti pire pokalbio",
     "YOU_ARE_WATCHING": "Jūs dalyvaujate",
     "API": {
-      "ERROR_MESSAGE": "Could not update, try again!",
+      "ERROR_MESSAGE": "Nepavyko atnaujinti, bandykite dar kartą!",
       "SUCCESS_MESSAGE": "Dalyviai atnaujinti!"
     }
   },
   "TRANSLATE_MODAL": {
     "TITLE": "Rodyti išverstą turinį",
-    "DESC": "You can view the translated content in each langauge.",
+    "DESC": "Galite peržiūrėti išverstą turinį kiekviena kalba.",
     "ORIGINAL_CONTENT": "Originalus turinys",
     "TRANSLATED_CONTENT": "Išverstas turinys",
-    "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
+    "NO_TRANSLATIONS_AVAILABLE": "Nėra šio turinio vertimo"
   }
 }
