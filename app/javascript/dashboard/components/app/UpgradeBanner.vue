@@ -79,11 +79,10 @@ export default {
       if (!limits) return false;
 
       const { conversation, non_web_inboxes: nonWebInboxes } = limits;
-
       return this.testLimit(conversation) || this.testLimit(nonWebInboxes);
     },
     testLimit({ allowed, consumed }) {
-      return allowed === 0 || consumed >= allowed;
+      return consumed > allowed;
     },
   },
 };
