@@ -73,6 +73,13 @@
     "SUCCESS_MESSAGE": "연락처가 성공적으로 저장되었습니다",
     "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
   },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
+  },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "삭제 확인",
@@ -211,6 +218,7 @@
     "FILTER_CONTACTS": "필터",
     "FILTER_CONTACTS_SAVE": "필터 저장하기",
     "FILTER_CONTACTS_DELETE": "필터 삭제하기",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "연락처를 불러오는 중...",
       "404": "검색과 일치하는 연락처 없음 🔍",
