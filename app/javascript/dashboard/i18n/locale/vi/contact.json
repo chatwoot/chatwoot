@@ -73,6 +73,13 @@
     "SUCCESS_MESSAGE": "Liên hệ được lưu thành công",
     "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
   },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
+  },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Xác nhận xoá",
@@ -211,6 +218,7 @@
     "FILTER_CONTACTS": "Lọc",
     "FILTER_CONTACTS_SAVE": "Lưu bộ lọc",
     "FILTER_CONTACTS_DELETE": "Xoá bộ lọc",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "Đang tải liên hệ...",
       "404": "Không có liên hệ nào khớp với tìm kiếm của bạn 🔍",
