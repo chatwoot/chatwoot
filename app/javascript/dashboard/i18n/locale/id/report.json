@@ -4,6 +4,8 @@
     "LOADING_CHART": "Memuat data grafik...",
     "NO_ENOUGH_DATA": "Kami belum menerima cukup data untuk membuat laporan, Silakan coba lagi nanti.",
     "DOWNLOAD_AGENT_REPORTS": "Unduh laporan agen",
+    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
+    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Percakapan",
@@ -33,6 +35,14 @@
         "NAME": "Jumlah Terselesaikan",
         "DESC": "( Total )"
       }
+    },
+    "DATE_RANGE_OPTIONS": {
+      "LAST_7_DAYS": "7 hari terakhir",
+      "LAST_30_DAYS": "30 hari terakhir",
+      "LAST_3_MONTHS": "3 bulan terakhir",
+      "LAST_6_MONTHS": "6 bulan terakhir",
+      "LAST_YEAR": "Tahun terakhir",
+      "CUSTOM_DATE_RANGE": "Rentang tanggal kustom"
     },
     "DATE_RANGE": [
       {
@@ -66,6 +76,12 @@
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
     "DURATION_FILTER_LABEL": "Duration",
+    "GROUPING_OPTIONS": {
+      "DAY": "Day",
+      "WEEK": "Week",
+      "MONTH": "Month",
+      "YEAR": "Year"
+    },
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
@@ -388,6 +404,7 @@
     "HEADER": "Laporan CSAT",
     "NO_RECORDS": "Tidak ada respons survey CSAT yang tersedia.",
     "DOWNLOAD": "Download CSAT Reports",
+    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Choose Agents"
