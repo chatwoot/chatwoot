@@ -4,6 +4,8 @@
     "LOADING_CHART": "Загрузка данных графика...",
     "NO_ENOUGH_DATA": "Недостаточно данных для создания отчета, пожалуйста, повторите попытку позже.",
     "DOWNLOAD_AGENT_REPORTS": "Сказать отчёт по агентам",
+    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
+    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Диалоги",
@@ -33,6 +35,14 @@
         "NAME": "Количество завершенных",
         "DESC": "( Всего )"
       }
+    },
+    "DATE_RANGE_OPTIONS": {
+      "LAST_7_DAYS": "Последние 7 дней",
+      "LAST_30_DAYS": "Последние 30 дней",
+      "LAST_3_MONTHS": "Последние 3 месяца",
+      "LAST_6_MONTHS": "Последние 6 месяцев",
+      "LAST_YEAR": "За прошлый год",
+      "CUSTOM_DATE_RANGE": "Настраиваемый диапазон даты"
     },
     "DATE_RANGE": [
       {
@@ -66,6 +76,12 @@
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Группировать по",
     "DURATION_FILTER_LABEL": "Продолжительность",
+    "GROUPING_OPTIONS": {
+      "DAY": "День",
+      "WEEK": "Неделя",
+      "MONTH": "Месяц",
+      "YEAR": "Год"
+    },
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
@@ -388,6 +404,7 @@
     "HEADER": "Отчёты CSAT",
     "NO_RECORDS": "Нет ответов на опрос CSAT.",
     "DOWNLOAD": "Скачать отчёты CSAT",
+    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Выберите Операторов"
