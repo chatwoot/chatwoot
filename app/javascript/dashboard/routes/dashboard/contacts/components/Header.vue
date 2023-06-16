@@ -17,14 +17,14 @@
             :placeholder="$t('CONTACTS_PAGE.SEARCH_INPUT_PLACEHOLDER')"
             class="contact-search"
             :value="searchQuery"
-            @keyup.enter="onSearchSubmit"
+            @keyup.enter="submitSearch"
             @input="onInputSearch"
           />
           <woot-button
             :is-loading="false"
             class="clear"
             :class-names="searchButtonClass"
-            @click="onSearchSubmit"
+            @click="submitSearch"
           >
             {{ $t('CONTACTS_PAGE.SEARCH_BUTTON') }}
           </woot-button>
@@ -127,10 +127,6 @@ export default {
       type: Function,
       default: () => {},
     },
-    onSearchSubmit: {
-      type: Function,
-      default: () => {},
-    },
     onToggleCreate: {
       type: Function,
       default: () => {},
@@ -175,6 +171,9 @@ export default {
     },
     submitExport() {
       this.$emit('on-export-submit');
+    },
+    submitSearch() {
+      this.$emit('on-search-submit');
     },
   },
 };

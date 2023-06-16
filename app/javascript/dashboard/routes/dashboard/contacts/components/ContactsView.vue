@@ -4,12 +4,12 @@
       <contacts-header
         :search-query="searchQuery"
         :segments-id="segmentsId"
-        :on-search-submit="onSearchSubmit"
         this-selected-contact-id=""
         :on-input-search="onInputSearch"
         :on-toggle-create="onToggleCreate"
         :on-toggle-filter="onToggleFilters"
         :header-title="pageTitle"
+        @on-search-submit="onSearchSubmit"
         @on-toggle-import="onToggleImport"
         @on-export-submit="onExportSubmit"
         @on-toggle-save-filter="onToggleSaveFilters"
