@@ -4,8 +4,8 @@
     "LOADING_CHART": "Загрузка данных графика...",
     "NO_ENOUGH_DATA": "Недостаточно данных для создания отчета, пожалуйста, повторите попытку позже.",
     "DOWNLOAD_AGENT_REPORTS": "Сказать отчёт по агентам",
-    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
-    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
+    "DATA_FETCHING_FAILED": "Не удалось получить данные, пожалуйста, повторите попытку позже.",
+    "SUMMARY_FETCHING_FAILED": "Не удалось получить итог, повторите попытку позже.",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Диалоги",
@@ -404,7 +404,7 @@
     "HEADER": "Отчёты CSAT",
     "NO_RECORDS": "Нет ответов на опрос CSAT.",
     "DOWNLOAD": "Скачать отчёты CSAT",
-    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
+    "DOWNLOAD_FAILED": "Не удалось загрузить CSAT отчёты",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Выберите Операторов"
