@@ -74,10 +74,10 @@
     "ERROR_MESSAGE": "Произошла ошибка, попробуйте еще раз"
   },
   "EXPORT_CONTACTS": {
-    "BUTTON_LABEL": "Export",
-    "TITLE": "Export Contacts",
-    "DESC": "Export contacts to a CSV file.",
-    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "BUTTON_LABEL": "Экспорт",
+    "TITLE": "Экспорт контактов",
+    "DESC": "Экспорт контактов в CSV файл.",
+    "SUCCESS_MESSAGE": "Выполняется экспорт. Вы будете уведомлены по электронной почте, когда файл экспорта будет готов к загрузке.",
     "ERROR_MESSAGE": "Произошла ошибка, попробуйте еще раз"
   },
   "DELETE_NOTE": {
@@ -218,7 +218,7 @@
     "FILTER_CONTACTS": "Фильтр",
     "FILTER_CONTACTS_SAVE": "Сохранить фильтр",
     "FILTER_CONTACTS_DELETE": "Удалить фильтр",
-    "FILTER_CONTACTS_EDIT": "Edit segment",
+    "FILTER_CONTACTS_EDIT": "Редактировать сегмент",
     "LIST": {
       "LOADING_MESSAGE": "Загрузка контактов...",
       "404": "Нет контактов по вашему запросу 🔍",
