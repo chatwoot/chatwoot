@@ -75,12 +75,12 @@
       }
     },
     "ARTICLE_SEARCH_RESULT": {
-      "UNCATEGORIZED": "Uncategorized",
-      "INSERT_ARTICLE": "Insert",
-      "NO_RESULT": "No articles found",
-      "COPY_LINK": "Copy article link to clipboard",
-      "OPEN_LINK": "Open article in new tab",
-      "PREVIEW_LINK": "Preview article"
+      "UNCATEGORIZED": "Без категории",
+      "INSERT_ARTICLE": "Вставить",
+      "NO_RESULT": "Статьи не найдены",
+      "COPY_LINK": "Скопировать ссылку статьи в буфер",
+      "OPEN_LINK": "Открыть статью в новой вкладке",
+      "PREVIEW_LINK": "Предпросмотр статьи"
     },
     "PORTAL": {
       "HEADER": "Портал",
