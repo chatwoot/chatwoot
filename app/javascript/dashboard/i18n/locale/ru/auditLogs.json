@@ -19,28 +19,28 @@
       "SUCCESS_MESSAGE": "Журналы успешно загружены",
       "ERROR_MESSAGE": "Не удается соединиться с сервером Woot, попробуйте позже"
     },
-    "DEFAULT_USER": "System",
+    "DEFAULT_USER": "Система",
     "AUTOMATION_RULE": {
-      "ADD": "%{agentName} created a new automation rule (#%{id})",
-      "EDIT": "%{agentName} updated an automation rule (#%{id})",
-      "DELETE": "%{agentName} deleted an automation rule (#%{id})"
+      "ADD": "%{agentName} создал новое правило автоматизации (#%{id})",
+      "EDIT": "%{agentName} обновил правило автоматизации (#%{id})",
+      "DELETE": "%{agentName} удалил правило автоматизации (#%{id})"
     },
     "INBOX": {
-      "ADD": "%{agentName} created a new inbox (#%{id})",
-      "EDIT": "%{agentName} updated an inbox (#%{id})",
-      "DELETE": "%{agentName} deleted an inbox (#%{id})"
+      "ADD": "%{agentName} создал новый почтовый ящик (#%{id})",
+      "EDIT": "%{agentName} обновил почтовый ящик (#%{id})",
+      "DELETE": "%{agentName} удалил ящик (#%{id})"
     },
     "WEBHOOK": {
-      "ADD": "%{agentName} created a new webhook (#%{id})",
-      "EDIT": "%{agentName} updated a webhook (#%{id})",
-      "DELETE": "%{agentName} deleted a webhook (#%{id})"
+      "ADD": "%{agentName} создал новый вебхук (#%{id})",
+      "EDIT": "%{agentName} обновил вебхук (#%{id})",
+      "DELETE": "%{agentName} удалил вебхук (#%{id})"
     },
     "USER_ACTION": {
-      "SIGN_IN": "%{agentName} signed in",
-      "SIGN_OUT": "%{agentName} signed out"
+      "SIGN_IN": "%{agentName} вошел в систему",
+      "SIGN_OUT": "%{agentName} вышел из системы"
     },
     "TEAM": {
-      "ADD": "%{agentName} created a new team (#%{id})",
+      "ADD": "%{agentName} создал новую команду (#%{id})",
       "EDIT": "%{agentName} updated a team (#%{id})",
       "DELETE": "%{agentName} deleted a team (#%{id})"
     }
