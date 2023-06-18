@@ -10,7 +10,7 @@ module Labelable
   end
 
   def add_labels(new_labels = nil)
-    new_labels << labels
-    update!(label_list: new_labels)
+    label_list.add(new_labels)
+    save!
   end
 end
