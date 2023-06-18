@@ -17,8 +17,8 @@
           <div class="small-2 column button-wrap">
             <div v-if="hasConnectedHooks">
               <div @click="redirectToDouyinAuthUrl()">
-                <woot-button class="nice">
-                  绑定企业号
+                <woot-button class="nice" style="margin-right: 5px;">
+                  绑定抖音号
                 </woot-button>
               </div>
             </div>

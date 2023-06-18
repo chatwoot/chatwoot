@@ -85,11 +85,11 @@
       <div class="profile--settings--row row">
         <div class="columns small-3">
           <h4 class="block-title">
-            抖音企业号
+            抖音号
           </h4>
           <p>
-            如果此处无法显示您的抖音企业号信息，请前往 Applications ->
-            "抖音"（配置） -> "绑定企业号"; 如果需要解绑抖音企业号，请前往
+            如果此处无法显示您的抖音号信息，请前往 Applications ->
+            "抖音"（配置） -> "绑定号"; 如果需要解绑抖音企业号，请前往
             Applications -> "抖音"（配置） -> "Disconnect"。
           </p>
         </div>
