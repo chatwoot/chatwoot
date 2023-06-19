@@ -47,6 +47,9 @@
       },
       "sort_on_created_at": {
         "TEXT": "Tạo vào lúc"
+      },
+      "sort_on_priority": {
+        "TEXT": "Priority"
       }
     },
     "ATTACHMENTS": {
