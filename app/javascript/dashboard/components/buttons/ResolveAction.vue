@@ -235,5 +235,9 @@ export default {
   right: 0;
   max-width: 20rem;
   min-width: 15.6rem;
+
+  .dropdown-menu__item {
+    margin-bottom: 0;
+  }
 }
 </style>
