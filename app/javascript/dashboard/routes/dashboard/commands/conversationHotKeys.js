@@ -20,9 +20,6 @@ import {
   ICON_RESOLVE_CONVERSATION,
   ICON_SEND_TRANSCRIPT,
   ICON_SNOOZE_CONVERSATION,
-  ICON_SNOOZE_UNTIL_NEXT_REPLY,
-  ICON_SNOOZE_UNTIL_NEXT_WEEK,
-  ICON_SNOOZE_UNTIL_TOMORRROW,
   ICON_UNMUTE_CONVERSATION,
   ICON_PRIORITY_URGENT,
   ICON_PRIORITY_HIGH,
@@ -30,6 +27,8 @@ import {
   ICON_PRIORITY_MEDIUM,
   ICON_PRIORITY_NONE,
 } from './CommandBarIcons';
+
+const SNOOZE_OPTIONS = wootConstants.SNOOZE_OPTIONS;
 
 const OPEN_CONVERSATION_ACTIONS = [
   {
@@ -39,32 +38,60 @@ const OPEN_CONVERSATION_ACTIONS = [
     icon: ICON_RESOLVE_CONVERSATION,
     handler: () => bus.$emit(CMD_RESOLVE_CONVERSATION),
   },
+];
+
+const SNOOZE_CONVERSATION_ACTIONS = [
   {
     id: 'snooze_conversation',
     title: 'COMMAND_BAR.COMMANDS.SNOOZE_CONVERSATION',
     icon: ICON_SNOOZE_CONVERSATION,
-    children: ['until_next_reply', 'until_tomorrow', 'until_next_week'],
+    children: Object.values(SNOOZE_OPTIONS),
   },
+
   {
-    id: 'until_next_reply',
+    id: SNOOZE_OPTIONS.UNTIL_NEXT_REPLY,
     title: 'COMMAND_BAR.COMMANDS.UNTIL_NEXT_REPLY',
     parent: 'snooze_conversation',
-    icon: ICON_SNOOZE_UNTIL_NEXT_REPLY,
-    handler: () => bus.$emit(CMD_SNOOZE_CONVERSATION, 'nextReply'),
+    section: 'COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION',
+    icon: ICON_SNOOZE_CONVERSATION,
+    handler: () =>
+      bus.$emit(CMD_SNOOZE_CONVERSATION, SNOOZE_OPTIONS.UNTIL_NEXT_REPLY),
   },
   {
-    id: 'until_tomorrow',
+    id: SNOOZE_OPTIONS.AN_HOUR_FROM_NOW,
+    title: 'COMMAND_BAR.COMMANDS.AN_HOUR_FROM_NOW',
+    parent: 'snooze_conversation',
+    section: 'COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION',
+    icon: ICON_SNOOZE_CONVERSATION,
+    handler: () =>
+      bus.$emit(CMD_SNOOZE_CONVERSATION, SNOOZE_OPTIONS.AN_HOUR_FROM_NOW),
+  },
+  {
+    id: SNOOZE_OPTIONS.UNTIL_TOMORROW,
     title: 'COMMAND_BAR.COMMANDS.UNTIL_TOMORROW',
+    section: 'COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION',
     parent: 'snooze_conversation',
-    icon: ICON_SNOOZE_UNTIL_TOMORRROW,
-    handler: () => bus.$emit(CMD_SNOOZE_CONVERSATION, 'tomorrow'),
+    icon: ICON_SNOOZE_CONVERSATION,
+    handler: () =>
+      bus.$emit(CMD_SNOOZE_CONVERSATION, SNOOZE_OPTIONS.UNTIL_TOMORROW),
   },
   {
-    id: 'until_next_week',
+    id: SNOOZE_OPTIONS.UNTIL_NEXT_WEEK,
     title: 'COMMAND_BAR.COMMANDS.UNTIL_NEXT_WEEK',
+    section: 'COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION',
     parent: 'snooze_conversation',
-    icon: ICON_SNOOZE_UNTIL_NEXT_WEEK,
-    handler: () => bus.$emit(CMD_SNOOZE_CONVERSATION, 'nextWeek'),
+    icon: ICON_SNOOZE_CONVERSATION,
+    handler: () =>
+      bus.$emit(CMD_SNOOZE_CONVERSATION, SNOOZE_OPTIONS.UNTIL_NEXT_WEEK),
+  },
+  {
+    id: SNOOZE_OPTIONS.UNTIL_NEXT_MONTH,
+    title: 'COMMAND_BAR.COMMANDS.UNTIL_NEXT_MONTH',
+    section: 'COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION',
+    parent: 'snooze_conversation',
+    icon: ICON_SNOOZE_CONVERSATION,
+    handler: () =>
+      bus.$emit(CMD_SNOOZE_CONVERSATION, SNOOZE_OPTIONS.UNTIL_NEXT_MONTH),
   },
 ];
 
@@ -135,6 +162,7 @@ export default {
     conversationId() {
       return this.currentChat?.id;
     },
+
     statusActions() {
       const isOpen =
         this.currentChat?.status === wootConstants.STATUS_TYPE.OPEN;
@@ -145,7 +173,10 @@ export default {
 
       let actions = [];
       if (isOpen) {
-        actions = OPEN_CONVERSATION_ACTIONS;
+        actions = [
+          ...OPEN_CONVERSATION_ACTIONS,
+          ...SNOOZE_CONVERSATION_ACTIONS,
+        ];
       } else if (isResolved || isSnoozed) {
         actions = RESOLVED_CONVERSATION_ACTIONS;
       }
@@ -296,6 +327,7 @@ export default {
         SEND_TRANSCRIPT_ACTION,
       ]);
     },
+
     conversationHotKeys() {
       if (isAConversationRoute(this.$route.name)) {
         return [

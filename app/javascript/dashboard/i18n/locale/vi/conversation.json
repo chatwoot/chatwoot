@@ -54,18 +54,25 @@
       "OPEN": "Nhiều",
       "CLOSE": "Đóng",
       "DETAILS": "chi tiết",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Tạm dừng đến ngày mai",
       "SNOOZED_UNTIL_NEXT_WEEK": "Tạm dừng đến tuần sau",
       "SNOOZED_UNTIL_NEXT_REPLY": "Tạm dừng đến khi có phản hồi"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Đánh dấu chưa giải quyết",
+      "SNOOZE_UNTIL": "Báo lại",
       "SNOOZE": {
         "TITLE": "Tạm dừng đến khi",
         "NEXT_REPLY": "Phản hồi kế tiếp",
         "TOMORROW": "Ngày mai",
         "NEXT_WEEK": "Tuần sau"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Tạm dừng đến khi",
+      "APPLY": "Báo lại",
+      "CANCEL": "Huỷ"
     },
     "PRIORITY": {
       "TITLE": "Priority",

@@ -38,6 +38,8 @@ uk:
     contacts:
       import:
         failed: Файл порожній
+      export:
+        success: We will notify you once contacts export file is ready to view.
       email:
         invalid: Невірний email
       phone_number:
@@ -56,6 +58,8 @@ uk:
         connection_closed_error: З'єднання закрито.
       validations:
         name: не повинно починатись або закінчуватися символами, і він не повинен мати < > / \ @ символів.
+    custom_filters:
+      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
   reports:
     period: Період звіту %{since} до %{until}
     utc_warning: Звіт створено в часовій зоні UTC
@@ -180,6 +184,7 @@ uk:
       empty_placeholder: Результатів не знайдено.
       loading_placeholder: Шукаємо...
       results_title: Результати пошуку
+    toc_header: 'On this page'
     hero:
       sub_title: Шукайте тут або перегляньте категорії нижче.
     common:

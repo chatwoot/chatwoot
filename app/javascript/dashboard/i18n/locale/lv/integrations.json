@@ -87,6 +87,8 @@
     },
     "OPEN_AI": {
       "TITLE": "Uzlabot ar AI",
+      "SUMMARY_TITLE": "Kopsavilkums ar AI",
+      "REPLY_TITLE": "Atbildes rekomendācija ar AI",
       "SUBTITLE": "Izmantojot AI, tiks ģenerēta uzlabota atbilde, pamatojoties uz jūsu pašreizējo melnrakstu.",
       "TONE": {
         "TITLE": "Tonis",

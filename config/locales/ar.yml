@@ -38,6 +38,8 @@ ar:
     contacts:
       import:
         failed: الملف فارغ
+      export:
+        success: We will notify you once contacts export file is ready to view.
       email:
         invalid: إيميل غير صالح
       phone_number:
@@ -56,6 +58,8 @@ ar:
         connection_closed_error: تم إغلاق الاتصال.
       validations:
         name: لا ينبغي أن تبدأ أو تنتهي بالرموز، ولا ينبغي أن يكون أقل من > / \ أحرف @ .
+    custom_filters:
+      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
   reports:
     period: فترة التبليغ %{since} إلى %{until}
     utc_warning: The report generated is in UTC timezone
@@ -180,6 +184,7 @@ ar:
       empty_placeholder: لم يتم العثور على النتائج.
       loading_placeholder: يبحث...
       results_title: Search results
+    toc_header: 'On this page'
     hero:
       sub_title: Search for the articles here or browse the categories below.
     common:

@@ -3,7 +3,7 @@
     "HEADER": "Registros de Auditoria",
     "HEADER_BTN_TXT": "Adicionar Registros de Auditoria",
     "LOADING": "Buscando Logs de Auditoria",
-    "SEARCH_404": "Não há itens correspondentes a esta consulta",
+    "SEARCH_404": "Não existem itens correspondentes a esta consulta",
     "SIDEBAR_TXT": "<p><b>Registros de Auditoria</b> </p><p> Registros de Auditoria são trilhas para eventos e ações em um Sistema Chatwoot. </p>",
     "LIST": {
       "404": "Não há Registros de Auditoria disponíveis nesta conta.",
@@ -12,13 +12,37 @@
       "TABLE_HEADER": [
         "Usuário",
         "Ação",
-        "Endereço IP",
-        "Hora"
+        "Endereço IP"
       ]
     },
     "API": {
       "SUCCESS_MESSAGE": "AuditLogs recuperados com sucesso",
       "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+    },
+    "DEFAULT_USER": "System",
+    "AUTOMATION_RULE": {
+      "ADD": "%{agentName} created a new automation rule (#%{id})",
+      "EDIT": "%{agentName} updated an automation rule (#%{id})",
+      "DELETE": "%{agentName} deleted an automation rule (#%{id})"
+    },
+    "INBOX": {
+      "ADD": "%{agentName} created a new inbox (#%{id})",
+      "EDIT": "%{agentName} updated an inbox (#%{id})",
+      "DELETE": "%{agentName} deleted an inbox (#%{id})"
+    },
+    "WEBHOOK": {
+      "ADD": "%{agentName} created a new webhook (#%{id})",
+      "EDIT": "%{agentName} updated a webhook (#%{id})",
+      "DELETE": "%{agentName} deleted a webhook (#%{id})"
+    },
+    "USER_ACTION": {
+      "SIGN_IN": "%{agentName} signed in",
+      "SIGN_OUT": "%{agentName} signed out"
+    },
+    "TEAM": {
+      "ADD": "%{agentName} created a new team (#%{id})",
+      "EDIT": "%{agentName} updated a team (#%{id})",
+      "DELETE": "%{agentName} deleted a team (#%{id})"
     }
   }
 }
