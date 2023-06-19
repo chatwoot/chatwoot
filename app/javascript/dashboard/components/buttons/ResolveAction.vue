@@ -86,6 +86,7 @@ import {
   hasPressedAltAndMKey,
 } from 'shared/helpers/KeyboardHelpers';
 
+import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 
@@ -181,7 +182,7 @@ export default {
     onCmdSnoozeConversation(snoozeType) {
       this.toggleStatus(
         this.STATUS_TYPE.SNOOZED,
-        this.snoozeTimes[snoozeType] || null
+        findSnoozeTime(snoozeType) || null
       );
     },
     onCmdOpenConversation() {
