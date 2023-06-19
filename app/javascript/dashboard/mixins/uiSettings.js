@@ -27,7 +27,7 @@ export const isEditorHotKeyEnabled = (uiSettings, key) => {
   return editorMessageKey === key;
 };
 
-export const isFriendlyNameEnabled = (uiSettings, key) => {
+export const customSenderNameEnabled = (uiSettings, key) => {
   const {
     editor_message_key: editorMessageKey,
     enter_to_send_enabled: enterToSendEnabled,
