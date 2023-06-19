@@ -8,12 +8,46 @@ import {
 } from '../snoozeHelpers';
 
 describe('#Snooze Helpers', () => {
+  describe('findStartOfNextWeek', () => {
+    it('should return first working day of next week if a date is passed', () => {
+      const today = new Date('06/16/2023');
+      const startOfNextWeek = new Date('06/19/2023');
+      expect(findStartOfNextWeek(today)).toEqual(startOfNextWeek);
+    });
+    it('should return first working day of next week if a date is passed', () => {
+      const today = new Date('06/03/2023');
+      const startOfNextWeek = new Date('06/05/2023');
+      expect(findStartOfNextWeek(today)).toEqual(startOfNextWeek);
+    });
+  });
+
+  describe('findStartOfNextMonth', () => {
+    it('should return first working day of next month if a valid date is passed', () => {
+      const today = new Date('06/21/2023');
+      const startOfNextMonth = new Date('07/03/2023');
+      expect(findStartOfNextMonth(today)).toEqual(startOfNextMonth);
+    });
+    it('should return first working day of next month if a valid date is passed', () => {
+      const today = new Date('02/28/2023');
+      const startOfNextMonth = new Date('03/06/2023');
+      expect(findStartOfNextMonth(today)).toEqual(startOfNextMonth);
+    });
+  });
+
+  describe('setHoursToNine', () => {
+    it('should return date with 9.00AM time', () => {
+      const nextDay = new Date('06/17/2023');
+      nextDay.setHours(9, 0, 0, 0);
+      expect(setHoursToNine(nextDay)).toEqual(nextDay);
+    });
+  });
+
   describe('findSnoozeTime', () => {
-    it('should return nil if nextReply is passed', () => {
+    it('should return nil if until_next_reply is passed', () => {
       expect(findSnoozeTime('until_next_reply')).toEqual(null);
     });
 
-    it('should return next hour time stamp if an hour from now is passed', () => {
+    it('should return next hour time stamp if an_hour_from_now is passed', () => {
       const nextHour = new Date();
       nextHour.setHours(nextHour.getHours() + 1);
       expect(findSnoozeTime('an_hour_from_now')).toBeCloseTo(
@@ -21,7 +55,7 @@ describe('#Snooze Helpers', () => {
       );
     });
 
-    it('should return next day 9.00AM time stamp if tomorrow at 9.00AM is passed', () => {
+    it('should return next day 9.00AM time stamp until_tomorrow is passed', () => {
       const today = new Date('06/16/2023');
       const nextDay = new Date('06/17/2023');
       nextDay.setHours(9, 0, 0, 0);
@@ -61,35 +95,11 @@ describe('#Snooze Helpers', () => {
     });
   });
 
-  describe('findStartOfNextWeek', () => {
-    it('should return start of next week', () => {
-      const today = new Date('06/16/2023');
-      const startOfNextWeek = new Date('06/19/2023');
-      expect(findStartOfNextWeek(today)).toEqual(startOfNextWeek);
-    });
-  });
-
-  describe('findStartOfNextMonth', () => {
-    it('should return start of next month', () => {
-      const today = new Date('06/21/2023');
-      const startOfNextMonth = new Date('07/03/2023');
-      expect(findStartOfNextMonth(today)).toEqual(startOfNextMonth);
-    });
-  });
-
   describe('findNextDay', () => {
     it('should return next day', () => {
       const today = new Date('06/16/2023');
       const nextDay = new Date('06/17/2023');
       expect(findNextDay(today)).toEqual(nextDay);
-    });
-  });
-
-  describe('setHoursToNine', () => {
-    it('should return date with 9.00AM time', () => {
-      const nextDay = new Date('06/17/2023');
-      nextDay.setHours(9, 0, 0, 0);
-      expect(setHoursToNine(nextDay)).toEqual(nextDay);
     });
   });
 });
