@@ -54,18 +54,25 @@
       "OPEN": "详细信息",
       "CLOSE": "关闭",
       "DETAILS": "详情",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "推迟到明天",
       "SNOOZED_UNTIL_NEXT_WEEK": "推迟到下周",
       "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "标记为待处理",
+      "SNOOZE_UNTIL": "推迟",
       "SNOOZE": {
         "TITLE": "推迟到",
         "NEXT_REPLY": "下一个回复",
         "TOMORROW": "明天",
         "NEXT_WEEK": "下周"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "推迟到",
+      "APPLY": "推迟",
+      "CANCEL": "取消"
     },
     "PRIORITY": {
       "TITLE": "Priority",
