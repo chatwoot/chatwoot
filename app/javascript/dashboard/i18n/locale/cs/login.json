@@ -3,16 +3,16 @@
     "TITLE": "Přihlásit se do Chatwoot",
     "EMAIL": {
       "LABEL": "E-mailová adresa",
-      "PLACEHOLDER": "example@companyname.com"
+      "PLACEHOLDER": "E-mail např: někdo@example.com"
     },
     "PASSWORD": {
       "LABEL": "Heslo",
       "PLACEHOLDER": "Heslo"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Login successful",
-      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again.",
-      "UNAUTH": "Username or password is incorrect. Please try again."
+      "SUCCESS_MESSAGE": "Přihlášení úspěšné",
+      "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později",
+      "UNAUTH": "Nesprávné uživatelské jméno / heslo. Zkuste to prosím znovu"
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "Login with Google",

@@ -54,18 +54,25 @@
       "OPEN": "Więcej",
       "CLOSE": "Zamknij",
       "DETAILS": "szczegóły",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Drzemka do jutra",
       "SNOOZED_UNTIL_NEXT_WEEK": "Drzemka do następnego tygodnia",
       "SNOOZED_UNTIL_NEXT_REPLY": "Drzemka do następnej odpowiedzi"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Oznacz jako oczekujące",
+      "SNOOZE_UNTIL": "Snooze",
       "SNOOZE": {
         "TITLE": "Uśpij do",
         "NEXT_REPLY": "Następna odpowiedź",
         "TOMORROW": "Jutro",
         "NEXT_WEEK": "Następny tydzień"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Uśpij do",
+      "APPLY": "Snooze",
+      "CANCEL": "Anuluj"
     },
     "PRIORITY": {
       "TITLE": "Priority",

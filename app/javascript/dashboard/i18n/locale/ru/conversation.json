@@ -54,18 +54,25 @@
       "OPEN": "Открыть",
       "CLOSE": "Закрыть",
       "DETAILS": "подробности",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Отложено до завтра",
       "SNOOZED_UNTIL_NEXT_WEEK": "Отложено до следующей недели",
       "SNOOZED_UNTIL_NEXT_REPLY": "Отложить до следующего ответа"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Отметить как ожидающие",
+      "SNOOZE_UNTIL": "Отложено",
       "SNOOZE": {
         "TITLE": "Отложить до",
         "NEXT_REPLY": "Следующий ответ",
         "TOMORROW": "Завтра",
         "NEXT_WEEK": "На следующей неделе"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Отложить до",
+      "APPLY": "Отложено",
+      "CANCEL": "Отменить"
     },
     "PRIORITY": {
       "TITLE": "Приоритет",

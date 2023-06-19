@@ -36,17 +36,20 @@
       }
     },
     "VIEW_FILTER": "عرض",
-    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "SORT_TOOLTIP_LABEL": "ترتيب المحادثات",
     "CHAT_SORT": {
       "STATUS": "الحالة",
-      "ORDER_BY": "Order by"
+      "ORDER_BY": "الترتيب بواسطة"
     },
     "CHAT_SORT_FILTER_ITEMS": {
       "latest": {
-        "TEXT": "Last activity"
+        "TEXT": "النشاط الأخير"
       },
       "sort_on_created_at": {
         "TEXT": "تم إنشاؤها في"
+      },
+      "sort_on_priority": {
+        "TEXT": "الأولوية"
       }
     },
     "ATTACHMENTS": {
@@ -70,12 +73,12 @@
       }
     },
     "CHAT_SORT_BY_FILTER": {
-      "TITLE": "Sort conversation",
+      "TITLE": "ترتيب المحادثات",
       "DROPDOWN_TITLE": "ترتيب حسب",
       "ITEMS": {
         "LATEST": {
-          "NAME": "Last activity at",
-          "LABEL": "Last activity"
+          "NAME": "النشاط الأخير في",
+          "LABEL": "النشاط الأخير"
         },
         "CREATED_AT": {
           "NAME": "تم إنشاؤها في",

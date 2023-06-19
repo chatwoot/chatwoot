@@ -19,8 +19,18 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Normalmente responde em alguns minutos",
     "IN_A_FEW_HOURS": "Responde normalmente em algumas horas",
-    "IN_A_DAY": "Responde normalmente em um dia"
+    "IN_A_DAY": "Responde normalmente em um dia",
+    "BACK_IN": "We will be back online"
   },
+  "DAY_NAMES": [
+    "Domingo",
+    "Segunda-Feira",
+    "Terça-feira",
+    "Quarta-feira",
+    "Quinta-feira",
+    "Sexta-feira",
+    "Sábado"
+  ],
   "START_CONVERSATION": "Iniciar Conversa",
   "END_CONVERSATION": "Finalizar Conversa",
   "CONTINUE_CONVERSATION": "Continuar conversa",

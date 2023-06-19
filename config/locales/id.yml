@@ -24,7 +24,7 @@ id:
     inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
     validations:
-      presence: must not be blank
+      presence: tidak boleh kosong
     webhook:
       invalid: Invalid events
     signup:
@@ -38,6 +38,8 @@ id:
     contacts:
       import:
         failed: File kosong
+      export:
+        success: We will notify you once contacts export file is ready to view.
       email:
         invalid: Invalid email
       phone_number:
@@ -50,12 +52,14 @@ id:
     inboxes:
       imap:
         socket_error: Please check the network connection, IMAP address and try again.
-        no_response_error: Please check the IMAP credentials and try again.
+        no_response_error: Periksa kembali kredensial IMAP dan coba lagi.
         host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
         connection_timed_out_error: Connection timed out for %{address}:%{port}
         connection_closed_error: Connection closed.
       validations:
         name: should not start or end with symbols, and it should not have < > / \ @ characters.
+    custom_filters:
+      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
   reports:
     period: Periode pelaporan %{since} hingga %{until}
     utc_warning: The report generated is in UTC timezone
@@ -180,6 +184,7 @@ id:
       empty_placeholder: Tidak ada hasil ditemukan.
       loading_placeholder: Searching...
       results_title: Search results
+    toc_header: 'On this page'
     hero:
       sub_title: Search for the articles here or browse the categories below.
     common:

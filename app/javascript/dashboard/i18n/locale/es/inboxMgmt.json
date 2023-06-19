@@ -440,7 +440,7 @@
       "DISPLAY_FILE_PICKER": "Mostrar el selector de archivos en el widget",
       "DISPLAY_EMOJI_PICKER": "Mostrar el selector de emoji en el widget",
       "ALLOW_END_CONVERSATION": "Permitir a los usuarios finalizar conversaciones desde el widget",
-      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
+      "USE_INBOX_AVATAR_FOR_BOT": "Usar nombre de bandeja de entrada y avatar para el bot"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Script de Messenger",
@@ -464,7 +464,7 @@
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activar o desactivar la asignación automática de nuevas conversaciones a los agentes añadidos a esta bandeja de entrada.",
       "HMAC_VERIFICATION": "Validación de identidad de usuario",
       "HMAC_DESCRIPTION": "Para validar la identidad del usuario, puede pasar un `identifier_hash` para cada usuario. Puedes generar un hash HMAC sha256 usando el `identifier` con la clave que se muestra aquí.",
-      "HMAC_LINK_TO_DOCS": "You can read more here.",
+      "HMAC_LINK_TO_DOCS": "Puedes leer más aquí.",
       "HMAC_MANDATORY_VERIFICATION": "Forzar validación de identidad de usuario",
       "HMAC_MANDATORY_DESCRIPTION": "Si está activado, las peticiones que no tengan el `identifier_hash` serán rechazadas.",
       "INBOX_IDENTIFIER": "Identificador de bandeja de entrada",
@@ -480,15 +480,15 @@
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Introduzca aquí la nueva Clave API",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Actualizar",
       "WHATSAPP_WEBHOOK_TITLE": "Token de verificación del Webhook",
-      "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "Este token se utiliza para verificar la autenticidad del extremo del webhook.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Actualizar configuración de Formulario de Chat"
     },
     "HELP_CENTER": {
-      "LABEL": "Help Center",
-      "PLACEHOLDER": "Select Help Center",
-      "SELECT_PLACEHOLDER": "Select Help Center",
-      "REMOVE": "Remove Help Center",
-      "SUB_TEXT": "Attach a Help Center with the inbox"
+      "LABEL": "Centro de ayuda",
+      "PLACEHOLDER": "Seleccione Centro de Ayuda",
+      "SELECT_PLACEHOLDER": "Seleccione Centro de Ayuda",
+      "REMOVE": "Eliminar Centro de Ayuda",
+      "SUB_TEXT": "Adjuntar un Centro de Ayuda con la bandeja de entrada"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Límite de asignación automática",
@@ -535,7 +535,6 @@
       "UPDATE": "Actualice las horas de atención",
       "TOGGLE_AVAILABILITY": "Habilite la disponibilidad de atención para esta bandeja de entrada",
       "UNAVAILABLE_MESSAGE_LABEL": "Mensaje no disponible para visitantes",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "No estamos disponibles en este momento. Déjenos un mensaje y le responderemos tan pronto estemos de regreso.",
       "TOGGLE_HELP": "Al habilitar el horario de atención se mostraran las horas disponibles en el \"widget\" del chat en vivo si todos los agentes están fuera de línea. Fuera de las horas disponibles los visitantes pueden ser notificado con un mensaje y una forma PreChat.",
       "DAY": {
         "ENABLE": "Activar la disponibilidad para este día",

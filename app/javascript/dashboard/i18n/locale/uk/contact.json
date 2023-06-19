@@ -73,6 +73,13 @@
     "SUCCESS_MESSAGE": "Контакт успішно збережено",
     "ERROR_MESSAGE": "Сталася помилка, будь ласка, спробуйте ще раз"
   },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "Сталася помилка, будь ласка, спробуйте ще раз"
+  },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Підтвердження видалення",
@@ -211,6 +218,7 @@
     "FILTER_CONTACTS": "Фільтр",
     "FILTER_CONTACTS_SAVE": "Зберегти фільтр",
     "FILTER_CONTACTS_DELETE": "Видалити фільтр",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "Завантаження контактів...",
       "404": "Немає контактів, які відповідають вашому пошуку 🔍",
