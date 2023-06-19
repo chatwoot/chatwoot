@@ -6,47 +6,54 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
   def text(node)
     content = node.string_content
 
-    # Check for presence of '^' in the content
     if content.include?('^')
-      # Split the text and insert <sup> tags where necessary
       split_content = parse_sup(content)
-      # Output the transformed content
       out(split_content.join)
     else
-      # Output the original content
       out(escape_html(content))
     end
   end
 
-  def link(node) # rubocop:disable Metrics/MethodLength
-    link_url = node.url
+  def link(node)
+    prev_node = node.previous
+    next_node = node.next
 
-    youtube_match = link_url.match(YOUTUBE_REGEX)
-    if youtube_match
-      embed_code = make_youtube_embed(youtube_match)
-      out(embed_code)
-      return
-    end
-
-    vimeo_match = link_url.match(VIMEO_REGEX)
-    if vimeo_match
-      embed_code = make_vimeo_embed(vimeo_match)
-      out(embed_code)
-      return
-    end
-
-    mp4_match = link_url.match(MP4_REGEX)
-    if mp4_match
-      embed_code = make_video_embed(link_url)
-      out(embed_code)
-      return
-    end
+    return render_embedded_content(node) || super if surrounded_by_empty_lines?(prev_node, next_node)
 
     # If it's not YouTube or Vimeo link, render normally
     super
   end
 
   private
+
+  def surrounded_by_empty_lines?(prev_node, next_node)
+    (prev_node.nil? || prev_node.string_content.strip.empty?) &&
+      (next_node.nil? || next_node.string_content.strip.empty?)
+  end
+
+  def render_embedded_content(node)
+    link_url = node.url
+
+    youtube_match = link_url.match(YOUTUBE_REGEX)
+    if youtube_match
+      out(make_youtube_embed(youtube_match))
+      return true
+    end
+
+    vimeo_match = link_url.match(VIMEO_REGEX)
+    if vimeo_match
+      out(make_vimeo_embed(vimeo_match))
+      return true
+    end
+
+    mp4_match = link_url.match(MP4_REGEX)
+    if mp4_match
+      out(make_video_embed(link_url))
+      return true
+    end
+
+    false
+  end
 
   def parse_sup(content)
     content.split(/(\^[^\^]+\^)/).map do |segment|
