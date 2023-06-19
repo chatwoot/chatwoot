@@ -2,12 +2,17 @@
   "FILTER": {
     "TITLE": "过滤会话",
     "SUBTITLE": "在下方添加过滤器并点击“应用过滤器”到过滤对话。",
+    "EDIT_CUSTOM_FILTER": "Edit Folder",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
     "ADD_NEW_FILTER": "添加过滤器",
     "FILTER_DELETE_ERROR": "您至少需要一个过滤器来保存",
     "SUBMIT_BUTTON_LABEL": "应用过滤器",
+    "UPDATE_BUTTON_LABEL": "Update folder",
     "CANCEL_BUTTON_LABEL": "取消",
     "CLEAR_BUTTON_LABEL": "清除过滤器",
     "EMPTY_VALUE_ERROR": "必须填写值",
+    "FOLDER_LABEL": "Folder Name",
+    "FOLDER_QUERY_LABEL": "Folder Query",
     "TOOLTIP_LABEL": "过滤会话",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "和",
@@ -70,6 +75,9 @@
           "SUCCESS_MESSAGE": "片段创建成功",
           "ERROR_MESSAGE": "创建片段时出错"
         }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Edit folder"
       },
       "DELETE": {
         "DELETE_BUTTON": "删除过滤器",

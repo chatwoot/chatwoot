@@ -440,7 +440,7 @@
       "DISPLAY_FILE_PICKER": "Dateiauswahl im Widget anzeigen",
       "DISPLAY_EMOJI_PICKER": "Emoji-Auswahl im Widget anzeigen",
       "ALLOW_END_CONVERSATION": "Benutzern erlauben, die Konversation vom Widget zu beenden",
-      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
+      "USE_INBOX_AVATAR_FOR_BOT": "Posteingangsname und Avatar für den Bot verwenden"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger-Skript",
@@ -464,7 +464,7 @@
       "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivieren oder deaktivieren Sie die automatische Zuweisung verfügbarer Agenten für neue Konversationen",
       "HMAC_VERIFICATION": "Benutzeridentitätsüberprüfung",
       "HMAC_DESCRIPTION": "Um die Identität des Benutzers zu validieren, können Sie für jeden Benutzer einen `identifier_hash` übergeben. Sie können einen HMAC sha256-Hash generieren, indem Sie den 'Bezeichner' mit dem hier gezeigten Schlüssel verwenden.",
-      "HMAC_LINK_TO_DOCS": "You can read more here.",
+      "HMAC_LINK_TO_DOCS": "Lesen Sie hier mehr.",
       "HMAC_MANDATORY_VERIFICATION": "Erzwinge Benutzer-Identitätsüberprüfung",
       "HMAC_MANDATORY_DESCRIPTION": "Wenn aktiviert, werden Anfragen, denen der `identifier_hash` fehlt, abgelehnt.",
       "INBOX_IDENTIFIER": "Identifizierung für Posteingang",
@@ -474,21 +474,21 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Nachrichten zulassen, nachdem die Konversation gelöst wurde",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Den Endbenutzern erlauben, Nachrichten zu versenden, auch wenn die Unterhaltung abgeschlossen ist.",
       "WHATSAPP_SECTION_SUBHEADER": "Dieser API Key wird für die Integration mit den WhatsApp APIs verwendet.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Geben Sie den aktualisierten Schlüssel ein, der für die Integration von WhatsApp API verwendet werden soll.",
       "WHATSAPP_SECTION_TITLE": "API-Schlüssel",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "API-Schlüssel aktualisieren",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Neuen API-Schlüssel hier eingeben",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Aktualisieren",
       "WHATSAPP_WEBHOOK_TITLE": "Webhook-Verifizierungstoken",
-      "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+      "WHATSAPP_WEBHOOK_SUBHEADER": "Mit diesem Token wird die Authentizität des Webhook Endpunktes überprüft.",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Pre Chat Einstellungen aktualisieren"
     },
     "HELP_CENTER": {
-      "LABEL": "Help Center",
-      "PLACEHOLDER": "Select Help Center",
-      "SELECT_PLACEHOLDER": "Select Help Center",
-      "REMOVE": "Remove Help Center",
-      "SUB_TEXT": "Attach a Help Center with the inbox"
+      "LABEL": "Hilfezentrum",
+      "PLACEHOLDER": "Hilfezentrum auswählen",
+      "SELECT_PLACEHOLDER": "Hilfezentrum auswählen",
+      "REMOVE": "Hilfezentrum entfernen",
+      "SUB_TEXT": "Ein Hilfezentrum am Posteingang anhängen"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Limit für automatische Zuweisung",
@@ -535,7 +535,6 @@
       "UPDATE": "Einstellungen für Geschäftszeiten aktualisieren",
       "TOGGLE_AVAILABILITY": "Geschäftszeiten für diesen Posteingang aktivieren",
       "UNAVAILABLE_MESSAGE_LABEL": "Nachricht für Besucher außerhalb Geschäftszeiten",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "Wir sind momentan nicht erreichbar. Hinterlassen Sie eine Nachricht und wir antworten Ihnen sobald wir wieder zurück sind.",
       "TOGGLE_HELP": "Die Aktivierung der Geschäftsverfügbarkeit zeigt die verfügbaren Stunden auf dem Live-Chat-Widget an, auch wenn alle Agenten offline sind. Außerhalb der verfügbaren Stunden können Besucher mit einer Nachricht und einem Vor-Chat-Formular gewarnt werden.",
       "DAY": {
         "ENABLE": "Verfügbarkeit für diesen Tag aktivieren",

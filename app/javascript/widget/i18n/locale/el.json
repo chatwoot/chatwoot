@@ -19,8 +19,18 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Τυπικά έχετε απάντηση σε μερικά λεπτά",
     "IN_A_FEW_HOURS": "Τυπικά έχετε απάντηση σε μερικές σε μερικές ώρες",
-    "IN_A_DAY": "Τυπικά έχετε απάντηση σε μία ημέρα"
+    "IN_A_DAY": "Τυπικά έχετε απάντηση σε μία ημέρα",
+    "BACK_IN": "We will be back online"
   },
+  "DAY_NAMES": [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ],
   "START_CONVERSATION": "Έναρξη Συνομιλίας",
   "END_CONVERSATION": "Τέλος Συνομιλίας",
   "CONTINUE_CONVERSATION": "Συνέχιση συνομιλίας",

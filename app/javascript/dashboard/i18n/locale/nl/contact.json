@@ -73,6 +73,13 @@
     "SUCCESS_MESSAGE": "Contacten werden succesvol opgeslagen",
     "ERROR_MESSAGE": "Er is een fout opgetreden, probeer het opnieuw"
   },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "Er is een fout opgetreden, probeer het opnieuw"
+  },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Verwijderen bevestigen",
@@ -211,6 +218,7 @@
     "FILTER_CONTACTS": "Filteren",
     "FILTER_CONTACTS_SAVE": "Filter opslaan",
     "FILTER_CONTACTS_DELETE": "Filter verwijderen",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "Contacten laden...",
       "404": "Er zijn geen contacten die overeenkomen met je zoekopdracht 🔍",
