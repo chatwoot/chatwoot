@@ -1,6 +1,13 @@
 {
   "CSAT": {
     "TITLE": "Αξιολογήστε τη συνομιλία σας",
-    "PLACEHOLDER": "Πείτε μας περισσότερα..."
+    "PLACEHOLDER": "Πείτε μας περισσότερα...",
+    "RATINGS": {
+      "POOR": "😞 Poor",
+      "FAIR": "😑 Fair",
+      "AVERAGE": "😐 Average",
+      "GOOD": "😀 Good",
+      "EXCELLENT": "😍 Excellent"
+    }
   }
 }

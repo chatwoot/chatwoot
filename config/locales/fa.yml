@@ -38,6 +38,8 @@ fa:
     contacts:
       import:
         failed: پرونده خالی است
+      export:
+        success: We will notify you once contacts export file is ready to view.
       email:
         invalid: ایمیل نامعتبر است
       phone_number:
@@ -56,6 +58,8 @@ fa:
         connection_closed_error: اتصال بسته شد.
       validations:
         name: نباید با نمادها شروع یا ختم شود و نباید دارای کاراکترهای < > / \ @ باشد.
+    custom_filters:
+      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
   reports:
     period: زمان گزارش از %{since} تا %{until}
     utc_warning: گزارش تولید شده در منطقه زمانی UTC است
@@ -180,6 +184,7 @@ fa:
       empty_placeholder: نتیجه‌ای یافت نشد.
       loading_placeholder: در حال جستجو...
       results_title: نتایج جستجو
+    toc_header: 'On this page'
     hero:
       sub_title: مقالات را در اینجا جستجو کنید یا دسته‌بندی‌های زیر را مرور کنید.
     common:

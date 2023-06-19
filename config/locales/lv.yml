@@ -38,6 +38,8 @@ lv:
     contacts:
       import:
         failed: Fails ir tukšs
+      export:
+        success: Mēs jūs informēsim, kad kontaktpersonu eksporta fails būs gatavs apskatei.
       email:
         invalid: Nederīga e-pasta adrese
       phone_number:
@@ -56,6 +58,8 @@ lv:
         connection_closed_error: Savienojums slēgts.
       validations:
         name: nevajadzētu sākties vai beigties ar simboliem, un nevajadzētu saturēt <> / \ @ rakstzīmes.
+    custom_filters:
+      number_of_records: Sasniegts limits. Maksimālais atļauto pielāgoto filtru skaits vienam lietotājam ir 50.
   reports:
     period: Ziņošanas periods %{since} līdz %{until}
     utc_warning: Izveidotais pārskats atbilst UTC laika joslai
@@ -180,6 +184,7 @@ lv:
       empty_placeholder: Nav atrasts.
       loading_placeholder: Meklēšana...
       results_title: Meklēšanas rezultāti
+    toc_header: 'Šajā lapā'
     hero:
       sub_title: Meklējiet rakstus šeit, vai pārlūkojiet tālāk norādītās kategorijas.
     common:

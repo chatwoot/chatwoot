@@ -54,18 +54,25 @@
       "OPEN": "Více",
       "CLOSE": "Zavřít",
       "DETAILS": "Podrobnosti",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Odloženo do zítřka",
       "SNOOZED_UNTIL_NEXT_WEEK": "Odloženo do příštího týdne",
       "SNOOZED_UNTIL_NEXT_REPLY": "Odloženo do další odpovědi"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Označit jako nevyřízené",
+      "SNOOZE_UNTIL": "Odložit",
       "SNOOZE": {
         "TITLE": "Odložit do",
         "NEXT_REPLY": "Další odpověď",
         "TOMORROW": "Zítra",
         "NEXT_WEEK": "Příští týden"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Odložit do",
+      "APPLY": "Odložit",
+      "CANCEL": "Zrušit"
     },
     "PRIORITY": {
       "TITLE": "Priority",
