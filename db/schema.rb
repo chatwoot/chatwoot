@@ -276,7 +276,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_14_044633) do
     t.boolean "smtp_enable_ssl_tls", default: false
     t.jsonb "provider_config", default: {}
     t.string "provider"
-    t.boolean "agent_name_enabled", default: true, null: false
     t.index ["email"], name: "index_channel_email_on_email", unique: true
     t.index ["forward_to_email"], name: "index_channel_email_on_forward_to_email", unique: true
   end
@@ -583,6 +582,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_14_044633) do
     t.boolean "lock_to_single_conversation", default: false, null: false
     t.bigint "portal_id"
     t.string "sender_name"
+    t.boolean "custom_sender_name_enabled", default: true, null: false
     t.index ["account_id"], name: "index_inboxes_on_account_id"
     t.index ["channel_id", "channel_type"], name: "index_inboxes_on_channel_id_and_channel_type"
     t.index ["portal_id"], name: "index_inboxes_on_portal_id"

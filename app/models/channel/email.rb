@@ -3,7 +3,6 @@
 # Table name: channel_email
 #
 #  id                        :bigint           not null, primary key
-#  agent_name_enabled        :boolean          default(TRUE), not null
 #  email                     :string           not null
 #  forward_to_email          :string           not null
 #  imap_address              :string           default("")

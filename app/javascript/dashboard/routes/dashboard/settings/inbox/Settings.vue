@@ -163,7 +163,7 @@
                 :heading="keyOption.heading"
                 :content="keyOption.content"
                 :src="keyOption.src"
-                :active="isFriendlyNameEnabled(uiSettings, keyOption.key)"
+                :active="customSenderNameEnabled(uiSettings, keyOption.key)"
               />
             </button>
           </div>
@@ -426,7 +426,7 @@ import BotConfiguration from './components/BotConfiguration';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import PreviewCard from 'dashboard/components/ui/PreviewCard.vue';
 import uiSettingsMixin, {
-  isFriendlyNameEnabled,
+  customSenderNameEnabled,
 } from 'dashboard/mixins/uiSettings';
 
 export default {
@@ -453,7 +453,7 @@ export default {
       greetingMessage: '',
       emailCollectEnabled: false,
       csatSurveyEnabled: false,
-      agentNameEnabled: false,
+      customSenderNameEnabled: false,
       locktoSingleConversation: false,
       allowMessagesAfterResolved: true,
       continuityViaEmail: true,
@@ -629,7 +629,7 @@ export default {
     fetchPortals() {
       this.$store.dispatch('portals/index');
     },
-    isFriendlyNameEnabled,
+    customSenderNameEnabled,
     handleFeatureFlag(e) {
       this.selectedFeatureFlags = this.toggleInput(
         this.selectedFeatureFlags,
@@ -661,7 +661,7 @@ export default {
         this.greetingMessage = this.inbox.greeting_message || '';
         this.emailCollectEnabled = this.inbox.enable_email_collect;
         this.csatSurveyEnabled = this.inbox.csat_survey_enabled;
-        this.agentNameEnabled = this.inbox.agent_name_enabled;
+        this.customSenderNameEnabled = this.inbox.custom_sender_name_enabled;
         this.allowMessagesAfterResolved = this.inbox.allow_messages_after_resolved;
         this.continuityViaEmail = this.inbox.continuity_via_email;
         this.channelWebsiteUrl = this.inbox.website_url;
@@ -701,7 +701,7 @@ export default {
             reply_time: this.replyTime || 'in_a_few_minutes',
             tweets_enabled: this.tweetsEnabled,
             continuity_via_email: this.continuityViaEmail,
-            agent_name_enabled: this.agentNameEnabled,
+            custom_sender_name_enabled: this.customSenderNameEnabled,
           },
         };
         if (this.avatarFile) {

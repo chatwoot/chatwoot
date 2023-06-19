@@ -61,7 +61,7 @@ if resource.email?
   ## Email Channel Attributes
   json.forward_to_email resource.channel.try(:forward_to_email)
   json.email resource.channel.try(:email)
-  json.agent_name_enabled resource.channel.agent_name_enabled
+  json.custom_sender_name_enabled resource.custom_sender_name_enabled
 
   ## IMAP
   if Current.account_user&.administrator?
