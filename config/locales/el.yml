@@ -38,6 +38,8 @@ el:
     contacts:
       import:
         failed: Το αρχείο είναι κενό
+      export:
+        success: We will notify you once contacts export file is ready to view.
       email:
         invalid: Ακατάλληλο email
       phone_number:
@@ -56,6 +58,8 @@ el:
         connection_closed_error: Η σύνδεση έκλεισε.
       validations:
         name: δεν πρέπει να ξεκινά ή να τελειώνει με σύμβολα, και δεν πρέπει να περιέχει τους χαρακτήρες < > / \ @
+    custom_filters:
+      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
   reports:
     period: Περίοδος αναφοράς %{since} έως %{until}
     utc_warning: The report generated is in UTC timezone
@@ -180,6 +184,7 @@ el:
       empty_placeholder: Δεν βρέθηκαν αποτελέσματα.
       loading_placeholder: Αναζήτηση...
       results_title: Αποτελέσματα Αναζήτησης
+    toc_header: 'On this page'
     hero:
       sub_title: Αναζητήστε τα άρθρα εδώ ή περιηγηθείτε στις κατηγορίες παρακάτω.
     common:

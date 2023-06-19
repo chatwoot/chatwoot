@@ -73,6 +73,13 @@
     "SUCCESS_MESSAGE": "已成功保存联系人",
     "ERROR_MESSAGE": "出现错误，请重试"
   },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "出现错误，请重试"
+  },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "确认删除",
@@ -211,6 +218,7 @@
     "FILTER_CONTACTS": "过滤器",
     "FILTER_CONTACTS_SAVE": "保存过滤器",
     "FILTER_CONTACTS_DELETE": "删除过滤器",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "正在加载联系人列表...",
       "404": "没有搜索到联系人🔍",

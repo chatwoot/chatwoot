@@ -47,6 +47,9 @@
       },
       "sort_on_created_at": {
         "TEXT": "Creato il"
+      },
+      "sort_on_priority": {
+        "TEXT": "Priorità"
       }
     },
     "ATTACHMENTS": {

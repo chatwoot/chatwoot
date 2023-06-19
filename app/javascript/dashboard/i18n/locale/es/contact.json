@@ -73,6 +73,13 @@
     "SUCCESS_MESSAGE": "Contacto guardado correctamente",
     "ERROR_MESSAGE": "Hubo un error, por favor inténtelo de nuevo"
   },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "Hubo un error, por favor inténtelo de nuevo"
+  },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Confirmar eliminación",
@@ -120,9 +127,9 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Escriba el número de teléfono del contacto",
         "LABEL": "Número telefónico",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
+        "HELP": "El número telefónico debe tener el formato E.164, por ejemplo: +753001234567 [+][código del país][código de área][número teléfonico]",
         "ERROR": "El número telefónico debe estar vacío o en formato E.164",
-        "DIAL_CODE_ERROR": "Please select a dial code from the list",
+        "DIAL_CODE_ERROR": "Por favor, seleccione un código de marcado de la lista",
         "DUPLICATE": "Este número de teléfono está en uso para otro contacto."
       },
       "LOCATION": {
@@ -134,15 +141,15 @@
         "LABEL": "Empresa"
       },
       "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
+        "PLACEHOLDER": "Introduzca el nombre del país",
         "LABEL": "Nombre del país",
         "SELECT_PLACEHOLDER": "Seleccionar",
         "REMOVE": "Eliminar",
-        "SELECT_COUNTRY": "Select Country"
+        "SELECT_COUNTRY": "Seleccionar país"
       },
       "CITY": {
-        "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
+        "PLACEHOLDER": "Introduzca el nombre de la ciudad",
+        "LABEL": "Nombre de ciudad"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -182,8 +189,8 @@
         "LABEL": "Para"
       },
       "INBOX": {
-        "LABEL": "Via Inbox",
-        "PLACEHOLDER": "Choose source inbox",
+        "LABEL": "Bandeja de entrada",
+        "PLACEHOLDER": "Elegir bandeja de entrada",
         "ERROR": "Seleccione una bandeja de entrada"
       },
       "SUBJECT": {
@@ -211,6 +218,7 @@
     "FILTER_CONTACTS": "Filtro",
     "FILTER_CONTACTS_SAVE": "Guardar filtro",
     "FILTER_CONTACTS_DELETE": "Eliminar filtro",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "Cargando contactos...",
       "404": "No hay contactos que coincidan con tu búsqueda 🔍",

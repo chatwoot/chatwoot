@@ -54,18 +54,25 @@
       "OPEN": "Više",
       "CLOSE": "Zatvori",
       "DETAILS": "detalji",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Odloženo do sutra",
       "SNOOZED_UNTIL_NEXT_WEEK": "Odloženo do sledeće nedelje",
       "SNOOZED_UNTIL_NEXT_REPLY": "Odloženo do sledećeg odgovora"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Označeno na čekanju",
+      "SNOOZE_UNTIL": "Odloži",
       "SNOOZE": {
         "TITLE": "Odloži do",
         "NEXT_REPLY": "Sledećeg odgovora",
         "TOMORROW": "Sutra",
         "NEXT_WEEK": "Sledeće nedelje"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Odloži do",
+      "APPLY": "Odloži",
+      "CANCEL": "Otkaži"
     },
     "PRIORITY": {
       "TITLE": "Priority",

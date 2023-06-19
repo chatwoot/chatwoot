@@ -87,6 +87,8 @@
     },
     "OPEN_AI": {
       "TITLE": "Melhore com IA",
+      "SUMMARY_TITLE": "Resumo com IA",
+      "REPLY_TITLE": "Responder sugestão com IA",
       "SUBTITLE": "Uma resposta melhor será gerada usando AI, com base no seu rascunho atual.",
       "TONE": {
         "TITLE": "Tom",

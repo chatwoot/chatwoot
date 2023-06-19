@@ -2,12 +2,17 @@
   "FILTER": {
     "TITLE": "Φίλτρο Συνομιλιών",
     "SUBTITLE": "Προσθέστε φίλτρα παρακάτω και πατήστε το 'Εφαρμογή φίλτρων' για να φιλτράρετε συνομιλίες.",
+    "EDIT_CUSTOM_FILTER": "Edit Folder",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
     "ADD_NEW_FILTER": "Προσθήκη Φίλτρου",
     "FILTER_DELETE_ERROR": "Θα πρέπει να έχετε τουλάχιστον ένα φίλτρο για την αποθήκευση",
     "SUBMIT_BUTTON_LABEL": "Εφαρμογή φίλτρων",
+    "UPDATE_BUTTON_LABEL": "Update folder",
     "CANCEL_BUTTON_LABEL": "Άκυρο",
     "CLEAR_BUTTON_LABEL": "Εκκαθάριση Φίλτρων",
     "EMPTY_VALUE_ERROR": "Απαιτείται τιμή",
+    "FOLDER_LABEL": "Folder Name",
+    "FOLDER_QUERY_LABEL": "Folder Query",
     "TOOLTIP_LABEL": "Φιλτράρισμα συνομιλιών",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "AND",
@@ -70,6 +75,9 @@
           "SUCCESS_MESSAGE": "Το τμήμα δημιουργήθηκε με επιτυχία",
           "ERROR_MESSAGE": "Σφάλμα κατά τη δημιουργία τμήματος"
         }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Edit folder"
       },
       "DELETE": {
         "DELETE_BUTTON": "Διαγραφή φίλτρου",
