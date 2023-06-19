@@ -80,11 +80,11 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def sender_name
-    @sender_name ||= current_message&.sender&.name || @agent&.available_name || 'Notifications'
+    @sender_name ||= current_message&.sender&.available_name || @agent&.available_name || 'Notifications'
   end
 
   def current_message
-    @message || @messages.last
+    @message || @conversation.messages.outgoing.last
   end
 
   def mail_subject

@@ -286,6 +286,7 @@ Rails.application.routes.draw do
             member do
               post :checkout
               post :subscription
+              get :limits
             end
           end
         end
