@@ -9,20 +9,22 @@
       </div>
       <div class="right-aligned-wrap">
         <div class="search-wrap">
-          <fluent-icon icon="search" class="search-icon" />
+          <div class="search-icon-container">
+            <fluent-icon icon="search" class="search-icon" />
+          </div>
           <input
             type="text"
             :placeholder="$t('CONTACTS_PAGE.SEARCH_INPUT_PLACEHOLDER')"
             class="contact-search"
             :value="searchQuery"
-            @keyup.enter="onSearchSubmit"
-            @input="onInputSearch"
+            @keyup.enter="submitSearch"
+            @input="inputSearch"
           />
           <woot-button
             :is-loading="false"
             class="clear"
             :class-names="searchButtonClass"
-            @click="onSearchSubmit"
+            @click="submitSearch"
           >
             {{ $t('CONTACTS_PAGE.SEARCH_BUTTON') }}
           </woot-button>
@@ -52,7 +54,7 @@
             color-scheme="secondary"
             data-testid="create-new-contact"
             icon="filter"
-            @click="onToggleFilter"
+            @click="toggleFilter"
           >
             {{ $t('CONTACTS_PAGE.FILTER_CONTACTS') }}
           </woot-button>
@@ -73,7 +75,7 @@
           color-scheme="success"
           icon="person-add"
           data-testid="create-new-contact"
-          @click="onToggleCreate"
+          @click="toggleCreate"
         >
           {{ $t('CREATE_CONTACT.BUTTON_LABEL') }}
         </woot-button>
@@ -83,7 +85,7 @@
           color-scheme="info"
           icon="upload"
           class="clear"
-          @click="onToggleImport"
+          @click="toggleImport"
         >
           {{ $t('IMPORT_CONTACTS.BUTTON_LABEL') }}
         </woot-button>
@@ -91,9 +93,9 @@
         <woot-button
           v-if="isAdmin"
           color-scheme="info"
-          icon="upload"
+          icon="download"
           class="clear"
-          @click="onExportSubmit"
+          @click="submitExport"
         >
           {{ $t('EXPORT_CONTACTS.BUTTON_LABEL') }}
         </woot-button>
@@ -120,30 +122,6 @@ export default {
     segmentsId: {
       type: [String, Number],
       default: 0,
-    },
-    onInputSearch: {
-      type: Function,
-      default: () => {},
-    },
-    onSearchSubmit: {
-      type: Function,
-      default: () => {},
-    },
-    onToggleCreate: {
-      type: Function,
-      default: () => {},
-    },
-    onToggleImport: {
-      type: Function,
-      default: () => {},
-    },
-    onExportSubmit: {
-      type: Function,
-      default: () => {},
-    },
-    onToggleFilter: {
-      type: Function,
-      default: () => {},
     },
   },
   data() {
@@ -175,6 +153,24 @@ export default {
     },
     onToggleDeleteSegmentsModal() {
       this.$emit('on-toggle-delete-filter');
+    },
+    toggleCreate() {
+      this.$emit('on-toggle-create');
+    },
+    toggleFilter() {
+      this.$emit('on-toggle-filter');
+    },
+    toggleImport() {
+      this.$emit('on-toggle-import');
+    },
+    submitExport() {
+      this.$emit('on-export-submit');
+    },
+    submitSearch() {
+      this.$emit('on-search-submit');
+    },
+    inputSearch(event) {
+      this.$emit('on-input-search', event);
     },
   },
 };
@@ -220,20 +216,26 @@ export default {
   margin-right: var(--space-small);
   margin-left: var(--space-small);
 
-  .search-icon {
+  .search-icon-container {
+    display: flex;
+    align-items: center;
     position: absolute;
-    top: 1px;
+    height: 100%;
     left: var(--space-one);
-    height: 3.8rem;
-    line-height: 3.6rem;
-    font-size: var(--font-size-medium);
-    color: var(--b-700);
+
+    .search-icon {
+      height: var(--font-size-medium);
+      line-height: 3.6rem;
+      font-size: var(--font-size-small);
+      color: var(--b-700);
+    }
   }
   .contact-search {
     margin: 0;
     height: 3.8rem;
     width: 100%;
-    padding-left: var(--space-large);
+    font-size: var(--font-size-small);
+    padding-left: calc(var(--space-large) + var(--space-smaller));
     padding-right: 6rem;
     border-color: var(--s-100);
   }
