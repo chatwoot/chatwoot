@@ -12,13 +12,37 @@
       "TABLE_HEADER": [
         "Lietotājs",
         "Darbība",
-        "IP adrese",
-        "Laiks"
+        "IP adrese"
       ]
     },
     "API": {
       "SUCCESS_MESSAGE": "AuditaŽurnāli ir veiksmīgi iegūti",
       "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+    },
+    "DEFAULT_USER": "Sistēma",
+    "AUTOMATION_RULE": {
+      "ADD": "%{agentName} izveidoja jaunu automatizācijas noteikumu (#%{id})",
+      "EDIT": "%{agentName} atjaunināja automatizācijas noteikumu (#%{id})",
+      "DELETE": "%{agentName} izdzēsa automatizācijas noteikumu (#%{id})"
+    },
+    "INBOX": {
+      "ADD": "%{agentName} izveidoja jaunu iesūtni (#%{id})",
+      "EDIT": "%{agentName} atjaunināja iesūtni (#%{id})",
+      "DELETE": "%{agentName} izdzēsa iesūtni (#%{id})"
+    },
+    "WEBHOOK": {
+      "ADD": "%{agentName} izveidoja jaunu webhook (#%{id})",
+      "EDIT": "%{agentName} atjaunināja webhook (#%{id})",
+      "DELETE": "%{agentName} izdzēsa webhook (#%{id})"
+    },
+    "USER_ACTION": {
+      "SIGN_IN": "%{agentName} pierakstījies",
+      "SIGN_OUT": "%{agentName} izrakstījies"
+    },
+    "TEAM": {
+      "ADD": "%{agentName} izveidoja jaunu komandu (#%{id})",
+      "EDIT": "%{agentName} atjaunināja komandu (#%{id})",
+      "DELETE": "%{agentName} izdzēsa komandu (#%{id})"
     }
   }
 }
