@@ -1,77 +1,77 @@
 {
   "ATTRIBUTES_MGMT": {
     "HEADER": "Personalizuoti Požymiai",
-    "HEADER_BTN_TXT": "Add Custom Attribute",
-    "LOADING": "Fetching custom attributes",
-    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
+    "HEADER_BTN_TXT": "Pridėti personalizuotą požymį",
+    "LOADING": "Gaunami personalizuoti požymiai",
+    "SIDEBAR_TXT": "<p><b>Personalizuoti požymiai</b> <p>Personalizuotas požymis seka faktus apie jūsų kontaktus/pokalbį, pvz., prenumeratos planą, kada jie užsakė pirmąją prekę ir pan. <br /><br />Kuriant personalizuotą požymį, tiesiog spustelėkite <b>Pridėti personalizuotą požymį.</b> Taip pat galite redaguoti arba ištrinti esamą personalizuotą požymį spustelėdami mygtuką Redaguoti arba Naikinti.</p>",
     "ADD": {
-      "TITLE": "Add Custom Attribute",
+      "TITLE": "Pridėti personalizuotą požymį",
       "SUBMIT": "Sukurti",
       "CANCEL_BUTTON_TEXT": "Atšaukti",
       "FORM": {
         "NAME": {
-          "LABEL": "Display Name",
-          "PLACEHOLDER": "Enter custom attribute display name",
+          "LABEL": "Rodomas Vardas",
+          "PLACEHOLDER": "Įveskite personalizuoto požymio rodomą vardą",
           "ERROR": "Yra reikalingas vardas"
         },
         "DESC": {
           "LABEL": "Aprašymas",
-          "PLACEHOLDER": "Enter custom attribute description",
-          "ERROR": "Description is required"
+          "PLACEHOLDER": "Įveskite personalizuotą požymio aprašymą",
+          "ERROR": "Būtinas aprašymas"
         },
         "MODEL": {
-          "LABEL": "Applies to",
-          "PLACEHOLDER": "Please select one",
-          "ERROR": "Model is required"
+          "LABEL": "Taikomas",
+          "PLACEHOLDER": "Prašau pasirinkti vieną",
+          "ERROR": "Yra reikalingas modelis"
         },
         "TYPE": {
           "LABEL": "Tipas",
           "PLACEHOLDER": "Prašau pasirinkti tipą",
           "ERROR": "Yra reikalingas tipas",
           "LIST": {
-            "LABEL": "List Values",
-            "PLACEHOLDER": "Please enter value and press enter key",
-            "ERROR": "Must have at least one value"
+            "LABEL": "Reikšmių sąrašas",
+            "PLACEHOLDER": "Įveskite reikšmę ir paspauskite klavišą Enter",
+            "ERROR": "Turi turėti bent vieną reikšmę"
           }
         },
         "KEY": {
           "LABEL": "Raktas",
-          "PLACEHOLDER": "Enter custom attribute key",
-          "ERROR": "Key is required",
+          "PLACEHOLDER": "Įveskite personalizuotą atributo raktą",
+          "ERROR": "Yra reikalingas raktas",
           "IN_VALID": "Neteisingas raktas"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute added successfully!",
-        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
+        "SUCCESS_MESSAGE": "Personalizuotas požymis pridėtas sėkmingai!",
+        "ERROR_MESSAGE": "Nepavyko sukurti personalizuoto požymio. Pabandykite dar kartą vėliau."
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Ištrinti",
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
+        "SUCCESS_MESSAGE": "Personalizuotas požymis ištrintas sėkmingai.",
+        "ERROR_MESSAGE": "Nepavyko ištrinti personalizuoto požymio. Pabandykite dar kartą vėliau."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{attributeName}",
-        "PLACE_HOLDER": "Please type {attributeName} to confirm",
-        "MESSAGE": "Deleting will remove the custom attribute",
+        "TITLE": "Ar tikrai norite ištrinti – %{attributeName}",
+        "PLACE_HOLDER": "Įveskite {attributeName}, kad patvirtintumėte",
+        "MESSAGE": "Ištrynus bus pašalintas personalizuotas požymis",
         "YES": "Ištrinti ",
         "NO": "Atšaukti"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Custom Attribute",
+      "TITLE": "Redaguoti personalizuotą požymį",
       "UPDATE_BUTTON_TEXT": "Atnaujinti",
       "TYPE": {
         "LIST": {
-          "LABEL": "List Values",
-          "PLACEHOLDER": "Please enter values and press enter key"
+          "LABEL": "Reikšmių sąrašas",
+          "PLACEHOLDER": "Įveskite reikšmes ir paspauskite klavišą Enter"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
-        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
+        "SUCCESS_MESSAGE": "Personalizuotas požymis atnaujintas sėkmingai",
+        "ERROR_MESSAGE": "Atnaujinant personalizuotą požymį įvyko klaida, bandykite dar kartą"
       }
     },
     "TABS": {
@@ -91,8 +91,8 @@
         "DELETE": "Ištrinti"
       },
       "EMPTY_RESULT": {
-        "404": "There are no custom attributes created",
-        "NOT_FOUND": "There are no custom attributes configured"
+        "404": "Nėra sukurta personalizuotų požymių",
+        "NOT_FOUND": "Nėra sukonfiguruota personalizuotų požymių"
       }
     }
   }

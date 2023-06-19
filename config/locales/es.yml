@@ -21,7 +21,7 @@ es:
   messages:
     reset_password_success: '¡Genial! La solicitud de restablecimiento de contraseña ha sido exitosa. Revisa tu correo para ver las instrucciones.'
     reset_password_failure: '¡Uh ho! No hemos podido encontrar ningún usuario con el correo electrónico especificado.'
-    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
+    inbox_deletetion_response: Su solicitud de eliminación de la bandeja de entrada será procesada en algún tiempo.
   errors:
     validations:
       presence: no debe estar en blanco
@@ -38,6 +38,8 @@ es:
     contacts:
       import:
         failed: Archivo está en blanco
+      export:
+        success: We will notify you once contacts export file is ready to view.
       email:
         invalid: Email inválido
       phone_number:
@@ -56,9 +58,11 @@ es:
         connection_closed_error: Conexión cerrada.
       validations:
         name: no debe comenzar ni terminar con símbolos, y no debe tener caracteres < > / \ @.
+    custom_filters:
+      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
   reports:
     period: Reportando el periodo desde %{since} hasta %{until}
-    utc_warning: The report generated is in UTC timezone
+    utc_warning: El informe generado está en zona horaria UTC
     agent_csv:
       agent_name: Nombre del agente
       conversations_count: Cantidad de conversaciones
@@ -112,11 +116,11 @@ es:
         pending: "La conversación fue marcada como pendiente por %{user_name}"
         snoozed: "La conversación fue pospuesta por %{user_name}"
         auto_resolved: "La conversación fue marcada por el sistema debido a %{duration} días de inactividad"
-        system_auto_open: System reopened the conversation due to a new incoming message.
+        system_auto_open: El sistema reabrió la conversación debido a un nuevo mensaje entrante.
       priority:
-        added: '%{user_name} set the priority to %{new_priority}'
-        updated: '%{user_name} changed the priority from %{old_priority} to %{new_priority}'
-        removed: '%{user_name} removed the priority'
+        added: '%{user_name} estableció la prioridad a %{new_priority}'
+        updated: '%{user_name} cambió la prioridad de %{old_priority} a %{new_priority}'
+        removed: '%{user_name} eliminó la prioridad'
       assignee:
         self_assigned: "%{user_name} auto-asignado a esta conversación"
         assigned: "Asignado a %{assignee_name} por %{user_name}"
@@ -173,13 +177,14 @@ es:
       description: "Facilita a los agentes la traducción de mensajes añadiendo una integración de traducción de Google. Google Translate ayuda a identificar el idioma automáticamente y convertirlo al idioma elegido por el agente o administrador de la cuenta."
     openai:
       name: "OpenAI"
-      description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
+      description: "Integra poderosas características de IA en Chatwoot aprovechando los modelos GPT de OpenAI."
   public_portal:
     search:
       search_placeholder: Buscar artículo por título o cuerpo...
       empty_placeholder: No se encontraron resultados.
       loading_placeholder: Buscando...
       results_title: Buscar resultados
+    toc_header: 'On this page'
     hero:
       sub_title: Busque aquí los artículos o busque las categorías de abajo.
     common:

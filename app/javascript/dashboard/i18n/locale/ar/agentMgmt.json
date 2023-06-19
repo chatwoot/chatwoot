@@ -76,8 +76,8 @@
         },
         "AGENT_AVAILABILITY": {
           "LABEL": "التوفر",
-          "PLACEHOLDER": "Please select an availability status",
-          "ERROR": "Availability is required"
+          "PLACEHOLDER": "الرجاء تحديد حالة التوفر",
+          "ERROR": "حالة التوفر مطلوبة"
         },
         "SUBMIT": "تعديل حساب الموظف"
       },
@@ -111,7 +111,7 @@
         "PLACEHOLDER": {
           "AGENT": "البحث عن وكلاء",
           "TEAM": "البحث عن فريق",
-          "INPUT": "Search for agents"
+          "INPUT": "البحث عن ممثلى الخدمة"
         }
       }
     }

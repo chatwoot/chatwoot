@@ -4,6 +4,8 @@
     "LOADING_CHART": "Načítanie grafu...",
     "NO_ENOUGH_DATA": "Na vygenerovanie reportu sme nedostali dostatok dát, skúste to prosím neskôr.",
     "DOWNLOAD_AGENT_REPORTS": "Stiahnutie reportov o agentoch",
+    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
+    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Rozhovory",
@@ -33,6 +35,14 @@
         "NAME": "Počet vyriešených problémov",
         "DESC": "( Spolu )"
       }
+    },
+    "DATE_RANGE_OPTIONS": {
+      "LAST_7_DAYS": "Posledných 7 dní",
+      "LAST_30_DAYS": "Posledných 30 dní",
+      "LAST_3_MONTHS": "Posledné 3 mesiace",
+      "LAST_6_MONTHS": "Posledných 6 mesiacov",
+      "LAST_YEAR": "Posledný rok",
+      "CUSTOM_DATE_RANGE": "Vlastný rozsah dátumov"
     },
     "DATE_RANGE": [
       {
@@ -66,6 +76,12 @@
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
     "DURATION_FILTER_LABEL": "Duration",
+    "GROUPING_OPTIONS": {
+      "DAY": "Day",
+      "WEEK": "Week",
+      "MONTH": "Month",
+      "YEAR": "Year"
+    },
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
@@ -388,6 +404,7 @@
     "HEADER": "CSAT Reports",
     "NO_RECORDS": "There are no CSAT survey responses available.",
     "DOWNLOAD": "Download CSAT Reports",
+    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Choose Agents"
