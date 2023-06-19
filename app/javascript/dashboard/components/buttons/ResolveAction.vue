@@ -88,7 +88,7 @@ import { getUnixTime } from 'date-fns';
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
-import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal.vue';
+import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import {
   hasPressedAltAndEKey,
@@ -202,10 +202,12 @@ export default {
     },
     chooseSnoozeTime(customSnoozeTime) {
       this.showCustomSnoozeModal = false;
-      this.toggleStatus(
-        this.STATUS_TYPE.SNOOZED,
-        getUnixTime(customSnoozeTime)
-      );
+      if (customSnoozeTime) {
+        this.toggleStatus(
+          this.STATUS_TYPE.SNOOZED,
+          getUnixTime(customSnoozeTime)
+        );
+      }
     },
     hideCustomSnoozeModal() {
       this.showCustomSnoozeModal = false;
