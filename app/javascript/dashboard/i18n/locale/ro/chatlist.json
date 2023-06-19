@@ -36,17 +36,20 @@
       }
     },
     "VIEW_FILTER": "Vizualizare",
-    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "SORT_TOOLTIP_LABEL": "Sortarea conversațiilor",
     "CHAT_SORT": {
       "STATUS": "Status",
-      "ORDER_BY": "Order by"
+      "ORDER_BY": "Ordonat după"
     },
     "CHAT_SORT_FILTER_ITEMS": {
       "latest": {
-        "TEXT": "Last activity"
+        "TEXT": "Ultima activitate"
       },
       "sort_on_created_at": {
         "TEXT": "Creat la"
+      },
+      "sort_on_priority": {
+        "TEXT": "Prioritate"
       }
     },
     "ATTACHMENTS": {
@@ -70,20 +73,20 @@
       }
     },
     "CHAT_SORT_BY_FILTER": {
-      "TITLE": "Sort conversation",
+      "TITLE": "Sortarea conversației",
       "DROPDOWN_TITLE": "Sortați după",
       "ITEMS": {
         "LATEST": {
-          "NAME": "Last activity at",
-          "LABEL": "Last activity"
+          "NAME": "Ultima activitate la",
+          "LABEL": "Ultima activitate"
         },
         "CREATED_AT": {
           "NAME": "Creat la",
           "LABEL": "Creat la"
         },
         "LAST_USER_MESSAGE_AT": {
-          "NAME": "Last user message at",
-          "LABEL": "Last message"
+          "NAME": "Ultimul mesaj de utilizator la",
+          "LABEL": "Ultimul mesaj"
         }
       }
     },
