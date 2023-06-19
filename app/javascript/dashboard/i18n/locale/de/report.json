@@ -4,6 +4,8 @@
     "LOADING_CHART": "Diagrammdaten laden ...",
     "NO_ENOUGH_DATA": "Wir haben nicht genügend Datenpunkte erhalten, um einen Bericht zu erstellen. Bitte versuchen Sie es später erneut.",
     "DOWNLOAD_AGENT_REPORTS": "Agenten-Berichte herunterladen",
+    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
+    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Konversationen",
@@ -33,6 +35,14 @@
         "NAME": "Auflösungsanzahl",
         "DESC": "( Gesamt )"
       }
+    },
+    "DATE_RANGE_OPTIONS": {
+      "LAST_7_DAYS": "Letzten 7 Tage",
+      "LAST_30_DAYS": "Letzte 30 Tage",
+      "LAST_3_MONTHS": "Die letzten 3 Monate",
+      "LAST_6_MONTHS": "Die letzten 6 Monate",
+      "LAST_YEAR": "Letztes Jahr",
+      "CUSTOM_DATE_RANGE": "Benutzerdefinierter Zeitraum"
     },
     "DATE_RANGE": [
       {
@@ -66,6 +76,12 @@
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Gruppieren nach",
     "DURATION_FILTER_LABEL": "Dauer",
+    "GROUPING_OPTIONS": {
+      "DAY": "Tag",
+      "WEEK": "Woche",
+      "MONTH": "Monat",
+      "YEAR": "Jahr"
+    },
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
@@ -388,6 +404,7 @@
     "HEADER": "CSAT-Berichte",
     "NO_RECORDS": "Es sind keine Antworten zu CSAT Umfragen verfügbar.",
     "DOWNLOAD": "CSAT-Berichte herunterladen",
+    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Agenten wählen"
@@ -427,10 +444,10 @@
       "UNASSIGNED": "Nicht zugewiesen"
     },
     "CONVERSATION_HEATMAP": {
-      "HEADER": "Conversation Traffic",
-      "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "%{count} conversation",
-      "CONVERSATIONS": "%{count} conversations"
+      "HEADER": "Gesprächsprotokoll",
+      "NO_CONVERSATIONS": "Keine Konversation",
+      "CONVERSATION": "%{count} Konversation",
+      "CONVERSATIONS": "%{count} Konversationen"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Konversationen von Agenten",

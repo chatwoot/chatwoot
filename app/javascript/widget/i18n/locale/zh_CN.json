@@ -8,7 +8,7 @@
       "SUBMIT": "提交"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "重新发送消息",
+      "RETRY": "请重新发送消息",
       "ERROR_MESSAGE": "无法发送，请重试"
     }
   },
@@ -19,8 +19,18 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "通常在几分钟内回复您",
     "IN_A_FEW_HOURS": "通常在几小时内回复您",
-    "IN_A_DAY": "通常在一天之内回复您"
+    "IN_A_DAY": "通常在一天之内回复您",
+    "BACK_IN": "We will be back online"
   },
+  "DAY_NAMES": [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ],
   "START_CONVERSATION": "开始会话",
   "END_CONVERSATION": "结束对话",
   "CONTINUE_CONVERSATION": "继续对话",

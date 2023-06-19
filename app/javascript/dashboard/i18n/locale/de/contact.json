@@ -15,7 +15,7 @@
     "INITIATED_FROM": "Initiiert von",
     "INITIATED_AT": "Initiiert bei",
     "IP_ADDRESS": "IP-Adresse",
-    "CREATED_AT_LABEL": "Created",
+    "CREATED_AT_LABEL": "Erstellt",
     "NEW_MESSAGE": "Neue Nachricht",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Es sind keine vorherigen Gespräche mit diesem Kontakt verbunden.",
@@ -73,6 +73,13 @@
     "SUCCESS_MESSAGE": "Kontakte erfolgreich gespeichert",
     "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
   },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
+  },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Löschung bestätigen",
@@ -122,7 +129,7 @@
         "LABEL": "Telefonnummer",
         "HELP": "Telefonnummer sollte im E.164-Format sein, z. B.: +1415555555 [+][Landesvorwahl][Landesvorwahl][Ortsvorwahl]",
         "ERROR": "Telefonnummer muss leer sein oder im E.164-Format",
-        "DIAL_CODE_ERROR": "Please select a dial code from the list",
+        "DIAL_CODE_ERROR": "Bitte wählen Sie einen Wählcode aus der Liste",
         "DUPLICATE": "Diese Telefonnummer wird für einen anderen Kontakt verwendet."
       },
       "LOCATION": {
@@ -134,15 +141,15 @@
         "LABEL": "Firmenname"
       },
       "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
+        "PLACEHOLDER": "Geben Sie den Landesnamen ein",
         "LABEL": "Ländername",
         "SELECT_PLACEHOLDER": "Auswählen",
         "REMOVE": "Entfernen",
-        "SELECT_COUNTRY": "Select Country"
+        "SELECT_COUNTRY": "Land auswählen"
       },
       "CITY": {
-        "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
+        "PLACEHOLDER": "Geben Sie den Ortsnamen ein",
+        "LABEL": "Stadtname"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -183,7 +190,7 @@
       },
       "INBOX": {
         "LABEL": "Posteingang",
-        "PLACEHOLDER": "Choose source inbox",
+        "PLACEHOLDER": "Posteingang auswählen",
         "ERROR": "Posteingang auswählen"
       },
       "SUBJECT": {
@@ -211,6 +218,7 @@
     "FILTER_CONTACTS": "Filter",
     "FILTER_CONTACTS_SAVE": "Filter speichern",
     "FILTER_CONTACTS_DELETE": "Filter löschen",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "Kontakte werden geladen...",
       "404": "Keine Kontakte entsprechen Ihrer Suche 🔍",

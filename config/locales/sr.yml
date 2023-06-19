@@ -38,6 +38,8 @@ sr-Latn:
     contacts:
       import:
         failed: Datoteka je prazna
+      export:
+        success: We will notify you once contacts export file is ready to view.
       email:
         invalid: Neispravna e-pošta
       phone_number:
@@ -56,6 +58,8 @@ sr-Latn:
         connection_closed_error: Povezivanje je prekinuto.
       validations:
         name: ne treba početi ili se završiti sa simbolima i ne treba da sadrži < > / \ @ karaktere.
+    custom_filters:
+      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
   reports:
     period: Period izveštaja %{since} do %{until}
     utc_warning: Generisani izveštaj je u UTC vremenskoj zoni
@@ -180,6 +184,7 @@ sr-Latn:
       empty_placeholder: Ništa nije pronađeno.
       loading_placeholder: Searching...
       results_title: Search results
+    toc_header: 'On this page'
     hero:
       sub_title: Search for the articles here or browse the categories below.
     common:

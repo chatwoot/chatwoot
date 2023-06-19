@@ -73,6 +73,13 @@
     "SUCCESS_MESSAGE": "Contacts enregistrés avec succès",
     "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer"
   },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer"
+  },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Confirmer la suppression",
@@ -120,7 +127,7 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Entrez le numéro de téléphone du contact",
         "LABEL": "Numéro de téléphone",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
+        "HELP": "Le numéro de téléphone doit être au format E.164. Ex. : +1415555555 [+][code pays][code régional][numéro de téléphone local]",
         "ERROR": "Le numéro de téléphone doit être soit vide soit au format E.164",
         "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "Ce numéro de téléphone est utilisé par un autre contact."
@@ -182,7 +189,7 @@
         "LABEL": "À"
       },
       "INBOX": {
-        "LABEL": "Via Inbox",
+        "LABEL": "Boîte de réception",
         "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Sélectionner une boîte de réception"
       },
@@ -211,6 +218,7 @@
     "FILTER_CONTACTS": "Filtrer",
     "FILTER_CONTACTS_SAVE": "Enregistrer le filtre",
     "FILTER_CONTACTS_DELETE": "Supprimer le filtre",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "Chargement des contacts...",
       "404": "Aucun contact ne correspond à votre recherche 🔍",

@@ -73,6 +73,13 @@
     "SUCCESS_MESSAGE": "کانٹیکٹ کامیابی سے محفوظ ہو گیا۔",
     "ERROR_MESSAGE": "ایک خامی تھی، براہ کرم دوبارہ کوشش کریں۔"
   },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "ایک خامی تھی، براہ کرم دوبارہ کوشش کریں۔"
+  },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "حذف کرنے کی تصدیق کریں۔",
@@ -211,6 +218,7 @@
     "FILTER_CONTACTS": "فلٹر",
     "FILTER_CONTACTS_SAVE": "فلٹر محفوظ کریں۔",
     "FILTER_CONTACTS_DELETE": "فلٹر کو حذف کریں۔",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "کانٹیکٹس لوڈ ہو رہے ہیں...",
       "404": "کوئی کانٹیکٹ آپ کی تلاش سے میل نہیں کھاتا 🔍",
