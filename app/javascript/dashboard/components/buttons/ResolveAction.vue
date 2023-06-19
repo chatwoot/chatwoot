@@ -71,21 +71,30 @@
         </woot-dropdown-item>
       </woot-dropdown-menu>
     </div>
+    <woot-modal
+      :show.sync="showCustomSnoozeModal"
+      :on-close="hideCustomSnoozeModal"
+    >
+      <custom-snooze-modal
+        @close="hideCustomSnoozeModal"
+        @choose-time="chooseSnoozeTime"
+      />
+    </woot-modal>
   </div>
 </template>
 
 <script>
+import { getUnixTime } from 'date-fns';
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
-import snoozeTimesMixin from 'dashboard/mixins/conversation/snoozeTimesMixin.js';
+import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import {
   hasPressedAltAndEKey,
   hasPressedCommandPlusAltAndEKey,
   hasPressedAltAndMKey,
 } from 'shared/helpers/KeyboardHelpers';
-
 import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
@@ -101,14 +110,16 @@ export default {
   components: {
     WootDropdownItem,
     WootDropdownMenu,
+    CustomSnoozeModal,
   },
-  mixins: [clickaway, alertMixin, eventListenerMixins, snoozeTimesMixin],
+  mixins: [clickaway, alertMixin, eventListenerMixins],
   props: { conversationId: { type: [String, Number], required: true } },
   data() {
     return {
       isLoading: false,
       showActionsDropdown: false,
       STATUS_TYPE: wootConstants.STATUS_TYPE,
+      showCustomSnoozeModal: false,
     };
   },
   computed: {
@@ -180,10 +191,26 @@ export default {
       }
     },
     onCmdSnoozeConversation(snoozeType) {
-      this.toggleStatus(
-        this.STATUS_TYPE.SNOOZED,
-        findSnoozeTime(snoozeType) || null
-      );
+      if (snoozeType === wootConstants.SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME) {
+        this.showCustomSnoozeModal = true;
+      } else {
+        this.toggleStatus(
+          this.STATUS_TYPE.SNOOZED,
+          findSnoozeTime(snoozeType) || null
+        );
+      }
+    },
+    chooseSnoozeTime(customSnoozeTime) {
+      this.showCustomSnoozeModal = false;
+      if (customSnoozeTime) {
+        this.toggleStatus(
+          this.STATUS_TYPE.SNOOZED,
+          getUnixTime(customSnoozeTime)
+        );
+      }
+    },
+    hideCustomSnoozeModal() {
+      this.showCustomSnoozeModal = false;
     },
     onCmdOpenConversation() {
       this.toggleStatus(this.STATUS_TYPE.OPEN);

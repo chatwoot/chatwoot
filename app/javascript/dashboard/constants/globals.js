@@ -36,6 +36,7 @@ export default {
     UNTIL_TOMORROW: 'until_tomorrow',
     UNTIL_NEXT_WEEK: 'until_next_week',
     UNTIL_NEXT_MONTH: 'until_next_month',
+    UNTIL_CUSTOM_TIME: 'until_custom_time',
   },
 };
 export const DEFAULT_REDIRECT_URL = '/app/';
