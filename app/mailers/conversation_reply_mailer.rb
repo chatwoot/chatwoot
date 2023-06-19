@@ -80,17 +80,19 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def sender_name
-    @sender_name ||= current_message&.sender&.available_name || @agent&.available_name || 'Notifications'
+    @sender_name ||= if @inbox.custom_sender_name_enabled?
+                       custom_sender_name
+                     else
+                       @inbox.sender_name || @account.name
+                     end
   end
 
   def current_message
     @message || @conversation.messages.outgoing.last
   end
 
-  def assignee_name
-    @assignee_name ||= @agent&.available_name || 'Notifications'
-    @assignee_name = 'Notifications' if @inbox.email? && !@inbox.channel.agent_name_enabled?
-    @assignee_name
+  def custom_sender_name
+    current_message&.sender&.available_name || @agent&.available_name || 'Notifications'
   end
 
   def mail_subject
