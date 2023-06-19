@@ -73,6 +73,13 @@
     "SUCCESS_MESSAGE": "Kontak berhasil disimpan",
     "ERROR_MESSAGE": "Terjadi kesalahan, harap coba lagi"
   },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "Terjadi kesalahan, harap coba lagi"
+  },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Konfirmasi Penghapusan",
@@ -211,6 +218,7 @@
     "FILTER_CONTACTS": "Saring",
     "FILTER_CONTACTS_SAVE": "Save filter",
     "FILTER_CONTACTS_DELETE": "Delete filter",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "Memuat kontak...",
       "404": "Tidak ada kontak yang cocok dengan pencarian Anda 🔍",

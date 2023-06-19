@@ -19,8 +19,18 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Biasanya membalas dalam beberapa menit",
     "IN_A_FEW_HOURS": "Biasanya membalas dalam beberapa jam",
-    "IN_A_DAY": "Biasanya membalas dalam sehari"
+    "IN_A_DAY": "Biasanya membalas dalam sehari",
+    "BACK_IN": "We will be back online"
   },
+  "DAY_NAMES": [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ],
   "START_CONVERSATION": "Mulai Percakapan",
   "END_CONVERSATION": "Akhiri Percakapan",
   "CONTINUE_CONVERSATION": "Lanjutkan Percakapan",

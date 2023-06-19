@@ -74,6 +74,14 @@
         "DELETE": "Dzēst rakstu"
       }
     },
+    "ARTICLE_SEARCH_RESULT": {
+      "UNCATEGORIZED": "Bez kategorijas",
+      "INSERT_ARTICLE": "Ievietot",
+      "NO_RESULT": "Raksti nav atrasti",
+      "COPY_LINK": "Kopēt raksta saiti starpliktuvē",
+      "OPEN_LINK": "Atvērt rakstu jaunā cilnē",
+      "PREVIEW_LINK": "Raksta priekšskatījums"
+    },
     "PORTAL": {
       "HEADER": "Portāli",
       "DEFAULT": "Noklusēts",
