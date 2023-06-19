@@ -100,7 +100,8 @@ export default {
   },
   methods: {
     fetchAuditLogs() {
-      this.$store.dispatch('auditlogs/fetch', { page: 1 }).catch(error => {
+      const page = this.$route.query.page ?? 1;
+      this.$store.dispatch('auditlogs/fetch', { page }).catch(error => {
         const errorMessage =
           error?.message || this.$t('AUDIT_LOGS.API.ERROR_MESSAGE');
         this.showAlert(errorMessage);
