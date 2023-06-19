@@ -73,6 +73,13 @@
     "SUCCESS_MESSAGE": "Οι επαφές αποθηκεύτηκαν με επιτυχία",
     "ERROR_MESSAGE": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά"
   },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά"
+  },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Επιβεβαίωση Διαγραφής",
@@ -211,6 +218,7 @@
     "FILTER_CONTACTS": "Φίλτρο",
     "FILTER_CONTACTS_SAVE": "Αποθήκευση φίλτρου",
     "FILTER_CONTACTS_DELETE": "Διαγραφή φίλτρου",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "Φόρτωση επαφών...",
       "404": "Δεν υπάρχουν επαφές που να αντιστοιχούν με την αναζήτησή σας 🔍",
