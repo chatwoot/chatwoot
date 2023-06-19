@@ -75,7 +75,7 @@ RSpec.describe 'Custom Filters API', type: :request do
         expect(response).to have_http_status(:success)
         expect(response.body).to include(custom_filter.name)
         json_response = response.parsed_body
-        expect(json_response['count']).to eq '1'
+        expect(json_response['count']).to eq 1
       end
     end
   end
@@ -106,7 +106,7 @@ RSpec.describe 'Custom Filters API', type: :request do
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
         expect(json_response['name']).to eq 'vip-customers'
-        expect(json_response['count']).to be_nil
+        expect(json_response['count']).to be_zero
       end
 
       it 'gives the error for 51st record' do
