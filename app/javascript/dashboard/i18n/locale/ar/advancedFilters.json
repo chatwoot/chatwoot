@@ -2,13 +2,18 @@
   "FILTER": {
     "TITLE": "تصفية المحادثات",
     "SUBTITLE": "إضافة فلاتر أدناه واضغط على 'إرسال' لتصفية المحادثات.",
-    "ADD_NEW_FILTER": "إضافة فلتر",
-    "FILTER_DELETE_ERROR": "يجب ان يكون لديك فلتر واحد على الاقل",
-    "SUBMIT_BUTTON_LABEL": "تطبيق الفلاتر",
+    "EDIT_CUSTOM_FILTER": "Edit Folder",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
+    "ADD_NEW_FILTER": "إضافة عامل تصفية",
+    "FILTER_DELETE_ERROR": "يجب أن يكون لديك عامل تصفية واحد على الأقل للحفظ",
+    "SUBMIT_BUTTON_LABEL": "تطبيق عامل التصفية",
+    "UPDATE_BUTTON_LABEL": "Update folder",
     "CANCEL_BUTTON_LABEL": "إلغاء",
-    "CLEAR_BUTTON_LABEL": "مسح الفلاتر",
+    "CLEAR_BUTTON_LABEL": "مسح عامل التصفية",
     "EMPTY_VALUE_ERROR": "القيمة مطلوبة",
-    "TOOLTIP_LABEL": "تصفية المحادثة",
+    "FOLDER_LABEL": "Folder Name",
+    "FOLDER_QUERY_LABEL": "Folder Query",
+    "TOOLTIP_LABEL": "تصفية المحادثات",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "و",
       "OR": "أو"
@@ -23,7 +28,7 @@
       "is_greater_than": "هو أكبر من",
       "is_less_than": "هو أقل من",
       "days_before": "قبل x أيام",
-      "starts_with": "Starts with"
+      "starts_with": "يبدأ بـ"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "صحيح",
@@ -38,7 +43,7 @@
       "CAMPAIGN_NAME": "اسم الحملة",
       "LABELS": "الوسوم",
       "BROWSER_LANGUAGE": "لغة المتصفح",
-      "PRIORITY": "Priority",
+      "PRIORITY": "الأولوية",
       "COUNTRY_NAME": "اسم الدولة",
       "REFERER_LINK": "رابط المرجع",
       "CUSTOM_ATTRIBUTE_LIST": "القائمة",
@@ -70,6 +75,9 @@
           "SUCCESS_MESSAGE": "تم إنشاء طريقة عرض مخصصة بنجاح",
           "ERROR_MESSAGE": "خطأ أثناء إنشاء طريقة عرض مخصصة"
         }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Edit folder"
       },
       "DELETE": {
         "DELETE_BUTTON": "حذف الفلتر",
