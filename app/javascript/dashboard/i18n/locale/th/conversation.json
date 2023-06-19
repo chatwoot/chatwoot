@@ -54,18 +54,25 @@
       "OPEN": "เพิ่มเติม",
       "CLOSE": "ปิด",
       "DETAILS": "รายละเอียด",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "พักการสนทนาจนถึงพรุ่งนี้",
       "SNOOZED_UNTIL_NEXT_WEEK": "พักการสนทนาจนถึงสัปดาห์หน้า",
       "SNOOZED_UNTIL_NEXT_REPLY": "พักการสนทนาจนกว่าจะมีการตอบกลับถัดไป"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "ทำเครื่องหมายว่าอยู่ระหว่างดำเนินการ",
+      "SNOOZE_UNTIL": "Snooze",
       "SNOOZE": {
         "TITLE": "พักการสนทนาจนถึง",
         "NEXT_REPLY": "การตอบกลับถัดไป",
         "TOMORROW": "พรุ่งนี้",
         "NEXT_WEEK": "สัปดาห์หน้า"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "พักการสนทนาจนถึง",
+      "APPLY": "Snooze",
+      "CANCEL": "ยกเลิก"
     },
     "PRIORITY": {
       "TITLE": "Priority",
