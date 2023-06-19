@@ -53,7 +53,7 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
   end
 
   def received_mails(imap_inbox)
-    imap_inbox.search(['BEFORE', tomorrow, 'SINCE', yesterday, 'FROM', 'amanda.thomason@att.net'])
+    imap_inbox.search(['BEFORE', tomorrow, 'SINCE', yesterday])
   end
 
   def processed_email?(current_email, last_email_time)
@@ -93,9 +93,9 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
       #{channel.provider} Email id: #{inbound_mail.from} and message_source_id: #{inbound_mail.message_id}, message_id: #{message_id}")
   end
 
-  def authenticated_imap_inbox(channel, access_token, _auth_method)
+  def authenticated_imap_inbox(channel, access_token, auth_method)
     imap = Net::IMAP.new(channel.imap_address, channel.imap_port, true)
-    imap.authenticate('XOAUTH2', channel.imap_login, access_token)
+    imap.authenticate(auth_method, channel.imap_login, access_token)
     imap.select('INBOX')
     imap
   end
@@ -113,7 +113,7 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
   end
 
   def yesterday
-    (Time.zone.today - 4).strftime('%d-%b-%Y')
+    (Time.zone.today - 1).strftime('%d-%b-%Y')
   end
 
   def tomorrow
@@ -130,6 +130,6 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
 
   # Making sure the access token is valid for microsoft provider
   def valid_access_token(channel)
-    Microsoft::RefreshOauthTokenService.new(channel: channel).refresh_tokens
+    Microsoft::RefreshOauthTokenService.new(channel: channel).access_token
   end
 end
