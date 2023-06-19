@@ -74,6 +74,14 @@
         "DELETE": "Ștergeți articolul"
       }
     },
+    "ARTICLE_SEARCH_RESULT": {
+      "UNCATEGORIZED": "Necategorizat",
+      "INSERT_ARTICLE": "Inserați",
+      "NO_RESULT": "Nu s-au găsit articole",
+      "COPY_LINK": "Copiați link-ul articolului în clipboard",
+      "OPEN_LINK": "Deschide articolul în tab nou",
+      "PREVIEW_LINK": "Previzualizează articolul"
+    },
     "PORTAL": {
       "HEADER": "Portaluri",
       "DEFAULT": "Implicit",

@@ -4,6 +4,8 @@
     "LOADING_CHART": "Učitavanje podataka grafikona...",
     "NO_ENOUGH_DATA": "Nismo primili dovoljno podataka da bi smo generisali izveštaj, Molim vas pokušajte ponovo.",
     "DOWNLOAD_AGENT_REPORTS": "Preuzmi izveštaj o agentima",
+    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
+    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Razgovori",
@@ -33,6 +35,14 @@
         "NAME": "Broj rešenih",
         "DESC": "( Ukupno )"
       }
+    },
+    "DATE_RANGE_OPTIONS": {
+      "LAST_7_DAYS": "Poslednjih 7 dana",
+      "LAST_30_DAYS": "Poslednjih 30 dana",
+      "LAST_3_MONTHS": "Poslednja 3 meseca",
+      "LAST_6_MONTHS": "Poslednjih 6 meseci",
+      "LAST_YEAR": "Poslednja godina",
+      "CUSTOM_DATE_RANGE": "Prilagođen opseg vremena"
     },
     "DATE_RANGE": [
       {
@@ -66,6 +76,12 @@
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Vrednost za grupisanje",
     "DURATION_FILTER_LABEL": "Trajanje",
+    "GROUPING_OPTIONS": {
+      "DAY": "Dan",
+      "WEEK": "Nedelja",
+      "MONTH": "Mesec",
+      "YEAR": "Godina"
+    },
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
@@ -388,6 +404,7 @@
     "HEADER": "Izveštaji zadovoljstva korisnika",
     "NO_RECORDS": "Nema dostupnih odgovora o zadovoljstvu korisnika.",
     "DOWNLOAD": "Preuzmite izveštaje o zadovoljstvu korisnika",
+    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Izaberite agente"
