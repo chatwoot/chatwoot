@@ -21,7 +21,10 @@ RSpec.describe Message do
 
       it 'invalid when crossed the limit' do
         message.content = 'a' * 150_001
+        message.processed_message_content = 'a' * 150_001
         message.valid?
+
+        expect(message.errors[:processed_message_content]).to include('is too long (maximum is 150000 characters)')
         expect(message.errors[:content]).to include('is too long (maximum is 150000 characters)')
       end
     end
