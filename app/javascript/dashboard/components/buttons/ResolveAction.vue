@@ -263,7 +263,7 @@ export default {
   min-width: 15.6rem;
 
   .dropdown-menu__item {
-    margin-bottom: var(--space-zero);
+    margin-bottom: 0;
   }
 }
 </style>
