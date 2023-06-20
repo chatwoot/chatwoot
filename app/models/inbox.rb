@@ -7,6 +7,7 @@
 #  id                            :integer          not null, primary key
 #  allow_messages_after_resolved :boolean          default(TRUE)
 #  auto_assignment_config        :jsonb
+#  business_name                 :string
 #  channel_type                  :string
 #  csat_survey_enabled           :boolean          default(FALSE)
 #  custom_sender_name_enabled    :boolean          default(TRUE), not null
