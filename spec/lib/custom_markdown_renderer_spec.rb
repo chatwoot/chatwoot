@@ -102,8 +102,7 @@ describe CustomMarkdownRenderer do
       it 'renders a normal link' do
         output = render_markdown_link(normal_url)
         expect(output).to include('<a href="https://example.com">')
-      rescue NoMethodError => e
-        print e.message
+      rescue NoMethodError
         # Ignore error for this test.
       end
     end
