@@ -163,7 +163,7 @@
                 :heading="keyOption.heading"
                 :content="keyOption.content"
                 :src="keyOption.src"
-                :active="customSenderNameEnabled(uiSettings, keyOption.key)"
+                :active="friendlyNameEnabled(uiSettings, keyOption.key)"
               />
             </button>
           </div>
@@ -426,7 +426,7 @@ import BotConfiguration from './components/BotConfiguration';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import PreviewCard from 'dashboard/components/ui/PreviewCard.vue';
 import uiSettingsMixin, {
-  customSenderNameEnabled,
+  friendlyNameEnabled,
 } from 'dashboard/mixins/uiSettings';
 
 export default {
@@ -629,7 +629,7 @@ export default {
     fetchPortals() {
       this.$store.dispatch('portals/index');
     },
-    customSenderNameEnabled,
+    friendlyNameEnabled,
     handleFeatureFlag(e) {
       this.selectedFeatureFlags = this.toggleInput(
         this.selectedFeatureFlags,
