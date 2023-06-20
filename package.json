@@ -64,7 +64,7 @@
     "md5": "^2.3.0",
     "ninja-keys": "^1.1.9",
     "opus-recorder": "^8.0.5",
-    "semver": "7.3.5",
+    "semver": "7.5.2",
     "spinkit": "~1.2.5",
     "tailwindcss": "^1.9.6",
     "turbolinks": "^5.2.0",
@@ -92,7 +92,7 @@
     "vuex-router-sync": "~4.1.2",
     "wavesurfer.js": "^6.0.4",
     "webpack": "^4.46.0",
-    "webpack-cli": "^3.3.12"
+    "webpack-cli": "^4.0.0"
   },
   "devDependencies": {
     "@babel/core": "7.13.16",
