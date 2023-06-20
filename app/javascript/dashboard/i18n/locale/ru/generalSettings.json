@@ -106,6 +106,7 @@
       "CHANGE_ASSIGNEE": "Изменить Назначенного",
       "CHANGE_PRIORITY": "Изменить приоритет",
       "CHANGE_TEAM": "Изменить команду",
+      "SNOOZE_CONVERSATION": "Включить звук диалога",
       "ADD_LABEL": "Добавить метку в разговор",
       "REMOVE_LABEL": "Удалить метку из разговора",
       "SETTINGS": "Настройки"
@@ -141,7 +142,10 @@
       "SNOOZE_CONVERSATION": "Включить звук диалога",
       "UNTIL_NEXT_REPLY": "До следующего ответа",
       "UNTIL_NEXT_WEEK": "До следующей недели",
-      "UNTIL_TOMORROW": "До завтра"
+      "UNTIL_TOMORROW": "До завтра",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom..."
     }
   },
   "DASHBOARD_APPS": {
