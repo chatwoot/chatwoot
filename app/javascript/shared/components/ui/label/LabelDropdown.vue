@@ -25,8 +25,26 @@
             @click="onAddRemove(label)"
           />
         </woot-dropdown-menu>
-        <div v-if="noResult" class="no-result">
-          {{ $t('CONTACT_PANEL.LABELS.LABEL_SELECT.NO_RESULT') }}
+        <div v-if="noResult" class="new-label">
+          <woot-button
+            size="small"
+            variant="clear"
+            color-scheme="secondary"
+            icon="add"
+            is-expanded
+            class="button-new-label"
+            @click="showCreateModal"
+          >
+            {{ createLabelPlaceholder }}
+            {{ search }}
+          </woot-button>
+
+          <woot-modal
+            :show.sync="createModalVisible"
+            :on-close="hideCreateModal"
+          >
+            <add-label-modal :prefill-title="search" @close="hideCreateModal" />
+          </woot-modal>
         </div>
       </div>
     </div>
@@ -35,11 +53,16 @@
 
 <script>
 import LabelDropdownItem from './LabelDropdownItem';
+import WootButton from 'dashboard/components/ui/WootButton.vue';
+import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel';
+
 import { picoSearch } from '@scmmishra/pico-search';
 
 export default {
   components: {
     LabelDropdownItem,
+    WootButton,
+    AddLabelModal,
   },
 
   props: {
@@ -56,10 +79,16 @@ export default {
   data() {
     return {
       search: '',
+      createModalVisible: false,
     };
   },
 
   computed: {
+    createLabelPlaceholder() {
+      const label = this.$t('CONTACT_PANEL.LABELS.LABEL_SELECT.CREATE_LABEL');
+      return `${label}:`;
+    },
+
     filteredActiveLabels() {
       return picoSearch(this.accountLabels, this.search, ['title'], {
         threshold: 0.9,
@@ -98,6 +127,14 @@ export default {
       } else {
         this.onAdd(label);
       }
+    },
+
+    showCreateModal() {
+      this.createModalVisible = true;
+    },
+
+    hideCreateModal() {
+      this.createModalVisible = false;
     },
   },
 };
@@ -141,13 +178,26 @@ export default {
       width: 100%;
     }
 
-    .no-result {
+    .new-label {
       display: flex;
-      justify-content: center;
-      color: var(--s-700);
-      padding: var(--space-smaller) var(--space-one);
+      color: var(--s-600);
       font-weight: var(--font-weight-medium);
       font-size: var(--font-size-small);
+
+      .button-new-label {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        align-items: center;
+
+        .icon {
+          min-width: 0;
+        }
+      }
+
+      .search-term {
+        color: var(--s-700);
+      }
     }
   }
 }
