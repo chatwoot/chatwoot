@@ -36,6 +36,7 @@
             icon="add"
             is-expanded
             class="button-new-label"
+            :is-disabled="hasExactMatchInResults"
             @click="showCreateModal"
           >
             {{ createLabelPlaceholder }}
@@ -100,6 +101,12 @@ export default {
 
     noResult() {
       return this.filteredActiveLabels.length === 0 && this.search !== '';
+    },
+
+    hasExactMatchInResults() {
+      return this.filteredActiveLabels.some(
+        label => label.title === this.search
+      );
     },
 
     shouldShowCreate() {
