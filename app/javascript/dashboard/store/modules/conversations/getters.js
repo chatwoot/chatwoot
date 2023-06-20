@@ -22,6 +22,21 @@ const getters = {
           CONVERSATION_PRIORITY_ORDER[b.priority]
         );
       },
+      sort_on_waiting_since: (a, b) => {
+        if (!a.waiting_since && !b.waiting_since) {
+          return a.created_at - b.created_at;
+        }
+
+        if (!a.waiting_since) {
+          return 1;
+        }
+
+        if (!b.waiting_since) {
+          return -1;
+        }
+
+        return a.waiting_since - b.waiting_since;
+      },
     };
 
     return allConversations.sort(comparator[chatSortFilter]);
