@@ -38,6 +38,8 @@ fr:
     contacts:
       import:
         failed: Le fichier est vide
+      export:
+        success: We will notify you once contacts export file is ready to view.
       email:
         invalid: Email non valide
       phone_number:
@@ -56,6 +58,8 @@ fr:
         connection_closed_error: Connexion fermée.
       validations:
         name: 'ne doit pas commencer ou se terminer par des symboles, et ne doit pas comporter les caractères suivants : "< > / \ @".'
+    custom_filters:
+      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
   reports:
     period: Période de rapport %{since} à %{until}
     utc_warning: Le rapport généré est dans le fuseau horaire UTC
@@ -180,6 +184,7 @@ fr:
       empty_placeholder: Aucun résultat trouvé.
       loading_placeholder: Recherche en cours...
       results_title: Résultats de recherche
+    toc_header: 'On this page'
     hero:
       sub_title: Recherchez les articles ici ou parcourez les catégories ci-dessous.
     common:

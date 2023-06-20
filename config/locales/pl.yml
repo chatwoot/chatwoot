@@ -38,6 +38,8 @@ pl:
     contacts:
       import:
         failed: Plik jest pusty
+      export:
+        success: We will notify you once contacts export file is ready to view.
       email:
         invalid: Invalid email
       phone_number:
@@ -56,6 +58,8 @@ pl:
         connection_closed_error: Connection closed.
       validations:
         name: should not start or end with symbols, and it should not have < > / \ @ characters.
+    custom_filters:
+      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
   reports:
     period: Okres raportowania od %{since} do %{until}
     utc_warning: The report generated is in UTC timezone
@@ -180,6 +184,7 @@ pl:
       empty_placeholder: Brak wyników.
       loading_placeholder: Searching...
       results_title: Search results
+    toc_header: 'On this page'
     hero:
       sub_title: Search for the articles here or browse the categories below.
     common:

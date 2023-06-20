@@ -74,6 +74,14 @@
         "DELETE": "Удалить статью"
       }
     },
+    "ARTICLE_SEARCH_RESULT": {
+      "UNCATEGORIZED": "Без категории",
+      "INSERT_ARTICLE": "Вставить",
+      "NO_RESULT": "Статьи не найдены",
+      "COPY_LINK": "Скопировать ссылку статьи в буфер",
+      "OPEN_LINK": "Открыть статью в новой вкладке",
+      "PREVIEW_LINK": "Предпросмотр статьи"
+    },
     "PORTAL": {
       "HEADER": "Портал",
       "DEFAULT": "По умолчанию",

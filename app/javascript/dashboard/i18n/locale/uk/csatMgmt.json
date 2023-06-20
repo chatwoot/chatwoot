@@ -1,6 +1,13 @@
 {
   "CSAT": {
     "TITLE": "Оцініть ваш діалог",
-    "PLACEHOLDER": "Розкажіть нам більше..."
+    "PLACEHOLDER": "Розкажіть нам більше...",
+    "RATINGS": {
+      "POOR": "😞 Poor",
+      "FAIR": "😑 Fair",
+      "AVERAGE": "😐 Average",
+      "GOOD": "😀 Good",
+      "EXCELLENT": "😍 Excellent"
+    }
   }
 }

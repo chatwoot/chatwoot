@@ -48,7 +48,10 @@
       }
     },
     "UPDATE_CHATWOOT": "Ir pieejams Chatwoot %{latestChatwootVersion} jauninājums. Lūdzu, atjauniniet savu programmatūru.",
-    "LEARN_MORE": "Uzzināt vairāk"
+    "LEARN_MORE": "Uzzināt vairāk",
+    "PAYMENT_PENDING": "Jūsu maksājums tiek gaidīts. Lūdzu, atjauniniet savu maksājumu informāciju, lai turpinātu lietot Chatwoot",
+    "LIMITS_UPGRADE": "Jūsu konts ir pārsniedzis lietošanas ierobežojumus. Lūdzu, uzlabojiet savu abonementu, lai turpinātu izmantot Chatwoot",
+    "OPEN_BILLING": "Atvērt norēķinus"
   },
   "FORMS": {
     "MULTISELECT": {
