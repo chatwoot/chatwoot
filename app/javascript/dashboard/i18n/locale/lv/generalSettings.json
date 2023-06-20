@@ -106,6 +106,7 @@
       "CHANGE_ASSIGNEE": "Mainīt Pilnvaroto",
       "CHANGE_PRIORITY": "Mainīt prioritāti",
       "CHANGE_TEAM": "Mainīt Komandu",
+      "SNOOZE_CONVERSATION": "Atlikt Sarunu",
       "ADD_LABEL": "Pievienot sarunai etiķeti",
       "REMOVE_LABEL": "Noņemt etiķeti no sarunas",
       "SETTINGS": "Iestatījumi"
@@ -141,7 +142,10 @@
       "SNOOZE_CONVERSATION": "Atlikt Sarunu",
       "UNTIL_NEXT_REPLY": "Līdz nākamajai atbildei",
       "UNTIL_NEXT_WEEK": "Līdz nākamajai nedēļai",
-      "UNTIL_TOMORROW": "Līdz rītdienai"
+      "UNTIL_TOMORROW": "Līdz rītdienai",
+      "UNTIL_NEXT_MONTH": "Līdz nākamajam mēnesim",
+      "AN_HOUR_FROM_NOW": "Līdz stundai, no šī brīža",
+      "CUSTOM": "Pielāgot..."
     }
   },
   "DASHBOARD_APPS": {
