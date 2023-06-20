@@ -106,6 +106,7 @@
       "CHANGE_ASSIGNEE": "שנה מוקצה",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "להחליף קבוצה",
+      "SNOOZE_CONVERSATION": "נודניק שיחה",
       "ADD_LABEL": "הוסף תווית לשיחה",
       "REMOVE_LABEL": "הסר תווית מהשיחה",
       "SETTINGS": "הגדרות"
@@ -141,7 +142,10 @@
       "SNOOZE_CONVERSATION": "נודניק שיחה",
       "UNTIL_NEXT_REPLY": "עד לתשובה הבאה",
       "UNTIL_NEXT_WEEK": "עד שבוע הבא",
-      "UNTIL_TOMORROW": "עד מחר"
+      "UNTIL_TOMORROW": "עד מחר",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom..."
     }
   },
   "DASHBOARD_APPS": {
