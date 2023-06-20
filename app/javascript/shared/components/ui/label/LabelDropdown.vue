@@ -25,7 +25,10 @@
             @click="onAddRemove(label)"
           />
         </woot-dropdown-menu>
-        <div v-if="noResult" class="new-label">
+        <div v-if="noResult" class="no-result">
+          {{ $t('CONTACT_PANEL.LABELS.LABEL_SELECT.NO_RESULT') }}
+        </div>
+        <div v-if="shouldShowCreate" class="new-label">
           <woot-button
             size="small"
             variant="clear"
@@ -97,6 +100,10 @@ export default {
 
     noResult() {
       return this.filteredActiveLabels.length === 0 && this.search !== '';
+    },
+
+    shouldShowCreate() {
+      return this.filteredActiveLabels.length < 3 && this.search !== '';
     },
   },
 
@@ -178,11 +185,19 @@ export default {
       width: 100%;
     }
 
+    .no-result {
+      display: flex;
+      justify-content: center;
+      color: var(--s-700);
+      padding: var(--space-normal) var(--space-one);
+      font-weight: var(--font-weight-medium);
+      font-size: var(--font-size-mini);
+    }
+
     .new-label {
       display: flex;
-      color: var(--s-600);
-      font-weight: var(--font-weight-medium);
-      font-size: var(--font-size-small);
+      padding-top: var(--space-smaller);
+      border-top: 1px solid var(--s-100);
 
       .button-new-label {
         white-space: nowrap;
