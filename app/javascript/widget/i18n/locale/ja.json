@@ -19,8 +19,18 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "通常数分以内にご返信します。",
     "IN_A_FEW_HOURS": "通常数時間以内にご返信します。",
-    "IN_A_DAY": "通常数日以内にご返信します。"
+    "IN_A_DAY": "通常数日以内にご返信します。",
+    "BACK_IN": "We will be back online"
   },
+  "DAY_NAMES": [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ],
   "START_CONVERSATION": "チャットを開始する",
   "END_CONVERSATION": "End Conversation",
   "CONTINUE_CONVERSATION": "Continue conversation",

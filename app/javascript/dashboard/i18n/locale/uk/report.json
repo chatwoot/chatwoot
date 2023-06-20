@@ -4,6 +4,8 @@
     "LOADING_CHART": "Завантаження даних діаграми...",
     "NO_ENOUGH_DATA": "Ми не отримали достатньо даних для генерації звіту. Будь ласка, спробуйте ще раз пізніше.",
     "DOWNLOAD_AGENT_REPORTS": "Завантажити звіти агентів",
+    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
+    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Бесіди",
@@ -33,6 +35,14 @@
         "NAME": "Кількість вирішень",
         "DESC": "(Загалом)"
       }
+    },
+    "DATE_RANGE_OPTIONS": {
+      "LAST_7_DAYS": "Останні 7 днів",
+      "LAST_30_DAYS": "Останні 30 днів",
+      "LAST_3_MONTHS": "Останні 3 місяці",
+      "LAST_6_MONTHS": "Останні 6 місяців",
+      "LAST_YEAR": "Минулий рік",
+      "CUSTOM_DATE_RANGE": "Довільний діапазон дат"
     },
     "DATE_RANGE": [
       {
@@ -66,6 +76,12 @@
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Групувати за",
     "DURATION_FILTER_LABEL": "Тривалість",
+    "GROUPING_OPTIONS": {
+      "DAY": "День",
+      "WEEK": "Тиждень",
+      "MONTH": "Місяць",
+      "YEAR": "Рік"
+    },
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
@@ -388,6 +404,7 @@
     "HEADER": "Звіти CSAT",
     "NO_RECORDS": "Немає доступних відповідей для опитувань CSAT.",
     "DOWNLOAD": "Завантажити CSAT звіти",
+    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Виберіть Агентів"

@@ -37,7 +37,7 @@
       }
     },
     "MERGE_CONTACT": "Mesclar contatos",
-    "CONTACT_ACTIONS": "Ações para contatos",
+    "CONTACT_ACTIONS": "Ações de contatos",
     "MUTE_CONTACT": "Silenciar Conversa",
     "UNMUTE_CONTACT": "Reativar Conversa",
     "MUTED_SUCCESS": "Esta conversa está silenciada por 6 horas",
@@ -71,6 +71,13 @@
       "CANCEL": "Cancelar"
     },
     "SUCCESS_MESSAGE": "Contatos salvos com sucesso",
+    "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
+  },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
     "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
   },
   "DELETE_NOTE": {
@@ -120,7 +127,7 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Adicione o número de telefone do contato",
         "LABEL": "Número de Telefone",
-        "HELP": "O número de telefone deve ser do formato E.164, por exemplo: +1415555555 [+][código do país][código de área][número de telefone local]",
+        "HELP": "O número de telefone deve ser do formato E.164, por exemplo: +5511000000000 [+][código do país][código de área][número de telefone local].",
         "ERROR": "O número de telefone deve estar vazio ou no formato E.164",
         "DIAL_CODE_ERROR": "Por favor, selecione um código de discagem da lista",
         "DUPLICATE": "Este número de telefone está em uso para outro contato."
@@ -211,6 +218,7 @@
     "FILTER_CONTACTS": "Filtro",
     "FILTER_CONTACTS_SAVE": "Salvar filtro",
     "FILTER_CONTACTS_DELETE": "Excluir filtro",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "Carregando contatos...",
       "404": "Nenhum contato corresponde à sua pesquisa 🔍",
