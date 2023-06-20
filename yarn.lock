@@ -2772,6 +2772,11 @@
   dependencies:
     any-observable "^0.3.0"
 
+"@scmmishra/pico-search@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@scmmishra/pico-search/-/pico-search-0.5.0.tgz#0c306b8e6b0f5a30ca1190e9f945e702c3ffd5e8"
+  integrity sha512-sEBIKPxoCasx2WolfoKVsvttviWDebarDDQ343hdl7Vgr5ogwaMu0XV8nVuf9/nhy1EX6rIYwuvZNYwxgGwDKg==
+
 "@segment/analytics.js-video-plugins@^0.2.1":
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/@segment/analytics.js-video-plugins/-/analytics.js-video-plugins-0.2.1.tgz#3596fa3887dcd9df5978dc566edf4a0aea2a9b1e"

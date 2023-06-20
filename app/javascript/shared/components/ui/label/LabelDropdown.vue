@@ -35,6 +35,8 @@
 
 <script>
 import LabelDropdownItem from './LabelDropdownItem';
+import { picoSearch } from '@scmmishra/pico-search';
+
 export default {
   components: {
     LabelDropdownItem,
@@ -59,8 +61,8 @@ export default {
 
   computed: {
     filteredActiveLabels() {
-      return this.accountLabels.filter(label => {
-        return label.title.toLowerCase().includes(this.search.toLowerCase());
+      return picoSearch(this.accountLabels, this.search, ['title'], {
+        threshold: 0.9,
       });
     },
 
