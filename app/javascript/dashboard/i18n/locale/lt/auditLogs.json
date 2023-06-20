@@ -43,6 +43,11 @@
       "ADD": "%{agentName} sukūrė naują komandą (#%{id})",
       "EDIT": "%{agentName} atnaujino komandą (#%{id})",
       "DELETE": "%{agentName} ištrynė komandą (#%{id})"
+    },
+    "MACRO": {
+      "ADD": "%{agentName} sukūrė naują makrokomandą (#%{id})",
+      "EDIT": "%{agentName} atnaujino makrokomandą (#%{id})",
+      "DELETE": "%{agentName} ištrynė makrokomandą (#%{id})"
     }
   }
 }
