@@ -143,6 +143,9 @@ export default {
         'team:create': `AUDIT_LOGS.TEAM.ADD`,
         'team:update': `AUDIT_LOGS.TEAM.EDIT`,
         'team:destroy': `AUDIT_LOGS.TEAM.DELETE`,
+        'macro:create': `AUDIT_LOGS.MACRO.ADD`,
+        'macro:update': `AUDIT_LOGS.MACRO.EDIT`,
+        'macro:destroy': `AUDIT_LOGS.MACRO.DELETE`,
       };
 
       return this.$t(translationKeys[logActionKey] || '', translationPayload);
