@@ -106,6 +106,7 @@
       "CHANGE_ASSIGNEE": "Atanan Kişiyi Değiştir",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Takım değiştir",
+      "SNOOZE_CONVERSATION": "Snooze Conversation",
       "ADD_LABEL": "Konuşmaya etiket ekle",
       "REMOVE_LABEL": "Konuşmadan etiketi kaldır",
       "SETTINGS": "Ayarlar"
@@ -141,7 +142,10 @@
       "SNOOZE_CONVERSATION": "Snooze Conversation",
       "UNTIL_NEXT_REPLY": "Until next reply",
       "UNTIL_NEXT_WEEK": "Until next week",
-      "UNTIL_TOMORROW": "Until tomorrow"
+      "UNTIL_TOMORROW": "Until tomorrow",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom..."
     }
   },
   "DASHBOARD_APPS": {
