@@ -63,9 +63,9 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def conversation
-    @conversation ||= Conversation.where(
+    @conversation ||= Conversation.where(conversation_params).find_by(
       "additional_attributes ->> 'type' = 'instagram_direct_message'"
-    ).find_by(conversation_params) || build_conversation
+    ) || build_conversation
   end
 
   def message_content
@@ -96,6 +96,7 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
 
   def build_conversation
     @contact_inbox ||= contact.contact_inboxes.find_by!(source_id: message_source_id)
+
     Conversation.create!(conversation_params.merge(
                            contact_inbox_id: @contact_inbox.id,
                            additional_attributes: { type: 'instagram_direct_message' }

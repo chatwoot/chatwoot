@@ -1,17 +1,17 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Dear customer 👋, please take a few moments to share feedback about the conversation you had with %{inboxName}.",
+    "DESCRIPTION": "Gerbiamas kliente 👋, skirkite kelias minutes ir pasidalykite atsiliepimais apie pokalbį su %{inboxName}.",
     "RATING": {
-      "LABEL": "Rate your conversation",
-      "SUCCESS_MESSAGE": "Thank you for submitting the rating"
+      "LABEL": "Įvertinkite savo pokalbį",
+      "SUCCESS_MESSAGE": "Dėkojame, kad pateikėte įvertinimą"
     },
     "FEEDBACK": {
-      "LABEL": "Do you have any thoughts you'd like to share?",
-      "PLACEHOLDER": "Your feedback (optional)",
-      "BUTTON_TEXT": "Submit feedback"
+      "LABEL": "Ar turite kokių nors minčių, kuriomis norėtumėte pasidalinti?",
+      "PLACEHOLDER": "Jūsų atsiliepimas (neprivaloma)",
+      "BUTTON_TEXT": "Pateikite atsiliepimą"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Survey updated successfully",
+      "SUCCESS_MESSAGE": "Apklausa sėkmingai atnaujinta",
       "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
     }
   },

@@ -535,7 +535,6 @@
       "UPDATE": "Izmena podešavanja radnog vremena",
       "TOGGLE_AVAILABILITY": "Omogući vreme dostupnosti za ovo prijemno sanduče",
       "UNAVAILABLE_MESSAGE_LABEL": "Poruka nedostupnosti za posetioce",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "Trenutno nismo dostupni. Ostavite poruku i odgovorićemo vam čim je pročitamo.",
       "TOGGLE_HELP": "Omogućavanje vremena dostupnosti će prikazati dostupno vreme na vidžetu ćaskanja čak i kada su svi agenti nedostupni. Van radnih sati posetioci će biti upozoreni porukom i formularom pre ćaskanja.",
       "DAY": {
         "ENABLE": "Omogućite dostupnost za ovaj dan",

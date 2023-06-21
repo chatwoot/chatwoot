@@ -124,6 +124,16 @@
 
 # ---------------- end of public api routes-----------#
 
+# ------------ Other routes  ------------#
+
+/survey/responses/{conversation_uuid}:
+  parameters:
+    - $ref: '#/parameters/conversation_uuid'
+  get:
+    $ref: ./survey/show.yml
+
+# ----------- end of other routes -----------#
+
 # ------------  Application API routes  ------------#
 
 
@@ -245,6 +255,35 @@
     $ref: ./application/automation_rule/delete.yml
 
 
+# Help Center
+/api/v1/accounts/{account_id}/portals:
+  parameters:
+    - $ref: '#/parameters/account_id'
+  post:
+    $ref: ./application/portal/create.yml
+  get:
+    $ref: ./application/portal/index.yml
+  patch:
+    $ref: ./application/portal/update.yml
+
+
+# Help Center category
+/api/v1/accounts/{account_id}/portals/{portal_id}/categories:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - $ref: '#/parameters/portal_id'
+  post:
+    $ref: ./application/category/create.yml
+
+# Help Center article
+/api/v1/accounts/{account_id}/portals/{portal_id}/articles:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - $ref: '#/parameters/portal_id'
+  post:
+    $ref: ./application/article/create.yml
+
+
 # Conversations
 /api/v1/accounts/{account_id}/conversations/meta:
   $ref: ./application/conversation/meta.yml
@@ -267,6 +306,12 @@
     - $ref: '#/parameters/conversation_id'
   post:
     $ref: ./application/conversation/toggle_status.yml
+/api/v1/accounts/{account_id}/conversations/{conversation_id}/toggle_priority:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - $ref: '#/parameters/conversation_id'
+  post:
+    $ref: ./application/conversation/toggle_priority.yml
 
 # Conversations Assignments
 

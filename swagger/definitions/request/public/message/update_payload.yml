@@ -2,7 +2,19 @@
 type: object
 properties:
   submitted_values:
-    type: object
-    description: Replies to the Bot Message Types
-
-  
+    oneOf:
+      - type: object
+        description: Replies to the Bot Message Types
+        properties:
+          csat_survey_response:
+            type: object
+            description: CSAT Survey Response if original message is CSAT Survey
+            properties:
+              rating:
+                type: integer
+                description: CSAT Rating
+                example: 5
+              feedback_message:
+                type: string
+                description: CSAT Comment
+                example: 'Great'

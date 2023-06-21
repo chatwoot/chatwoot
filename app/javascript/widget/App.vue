@@ -2,6 +2,7 @@
   <div
     v-if="!conversationSize && isFetchingList"
     class="flex flex-1 items-center h-full bg-black-25 justify-center"
+    :class="{ dark: prefersDarkMode }"
   >
     <spinner size="" />
   </div>
@@ -13,6 +14,7 @@
       'is-widget-right': isRightAligned,
       'is-bubble-hidden': hideMessageBubble,
       'is-flat-design': isWidgetStyleFlat,
+      dark: prefersDarkMode,
     }"
   >
     <router-view />
@@ -65,6 +67,7 @@ export default {
       isFetchingList: 'conversation/getIsFetchingList',
       isRightAligned: 'appConfig/isRightAligned',
       isWidgetOpen: 'appConfig/getIsWidgetOpen',
+      darkMode: 'appConfig/darkMode',
       messageCount: 'conversation/getMessageCount',
       unreadMessageCount: 'conversation/getUnreadMessageCount',
       isWidgetStyleFlat: 'appConfig/isWidgetStyleFlat',
@@ -74,6 +77,12 @@ export default {
     },
     isRNWebView() {
       return RNHelper.isRNWebView();
+    },
+    prefersDarkMode() {
+      const isOSOnDarkMode =
+        this.darkMode === 'auto' &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches;
+      return isOSOnDarkMode || this.darkMode === 'dark';
     },
   },
   watch: {
@@ -108,6 +117,7 @@ export default {
       'setReferrerHost',
       'setWidgetColor',
       'setBubbleVisibility',
+      'setColorScheme',
     ]),
     ...mapActions('conversation', ['fetchOldConversations', 'setUserLastSeen']),
     ...mapActions('campaign', [
@@ -298,6 +308,8 @@ export default {
         } else if (message.event === 'set-locale') {
           this.setLocale(message.locale);
           this.setBubbleLabel();
+        } else if (message.event === 'set-color-scheme') {
+          this.setColorScheme(message.darkMode);
         } else if (message.event === 'toggle-open') {
           this.$store.dispatch('appConfig/toggleWidgetOpen', message.isOpen);
 

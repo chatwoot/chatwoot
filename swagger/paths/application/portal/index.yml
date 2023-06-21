@@ -1,0 +1,19 @@
+tags:
+  - Help Center
+operationId: get-portal
+summary: List all portals in an account
+parameters:
+  - $ref: '#/parameters/account_id'
+description: Get details of portals in an Account
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Success
+    schema:
+      type: array
+      description: Array of all portals
+      items:
+        $ref: '#/definitions/portal'
+  '403':
+    description: Access denied

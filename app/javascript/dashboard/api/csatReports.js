@@ -35,10 +35,10 @@ class CSATReportsAPI extends ApiClient {
     });
   }
 
-  getMetrics({ from, to, user_ids, inbox_id, team_id } = {}) {
+  getMetrics({ from, to, user_ids, inbox_id, team_id, rating } = {}) {
     // no ratings for metrics
     return axios.get(`${this.url}/metrics`, {
-      params: { since: from, until: to, user_ids, inbox_id, team_id },
+      params: { since: from, until: to, user_ids, inbox_id, team_id, rating },
     });
   }
 }

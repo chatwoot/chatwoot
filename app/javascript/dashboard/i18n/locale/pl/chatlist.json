@@ -47,6 +47,9 @@
       },
       "sort_on_created_at": {
         "TEXT": "Utworzono"
+      },
+      "sort_on_priority": {
+        "TEXT": "Priority"
       }
     },
     "ATTACHMENTS": {

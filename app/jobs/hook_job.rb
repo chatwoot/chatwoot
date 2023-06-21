@@ -20,8 +20,11 @@ class HookJob < ApplicationJob
     return unless ['message.created'].include?(event_name)
 
     message = event_data[:message]
-
-    Integrations::Slack::SendOnSlackService.new(message: message, hook: hook).perform
+    if message.attachments.blank?
+      ::SendOnSlackJob.perform_later(message, hook)
+    else
+      ::SendOnSlackJob.set(wait: 2.seconds).perform_later(message, hook)
+    end
   end
 
   def process_dialogflow_integration(hook, event_name, event_data)

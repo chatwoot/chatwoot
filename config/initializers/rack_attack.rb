@@ -48,6 +48,10 @@ class Rack::Attack
 
   throttle('req/ip', limit: 300, period: 1.minute, &:ip)
 
+  ###-----------------------------------------------###
+  ###-----Authentication Related Throttling---------###
+  ###-----------------------------------------------###
+
   ### Prevent Brute-Force Super Admin Login Attacks ###
   throttle('super_admin_login/ip', limit: 5, period: 5.minutes) do |req|
     req.ip if req.path_without_extentions == '/super_admin/sign_in' && req.post?
@@ -95,6 +99,12 @@ class Rack::Attack
     req.ip if req.path_without_extentions == '/api/v1/accounts' && req.post?
   end
 
+  ##-----------------------------------------------##
+
+  ###-----------------------------------------------###
+  ###-----------Widget API Throttling---------------###
+  ###-----------------------------------------------###
+
   ## Prevent Conversation Bombing on Widget APIs ###
   throttle('api/v1/widget/conversations', limit: 6, period: 12.hours) do |req|
     req.ip if req.path_without_extentions == '/api/v1/widget/conversations' && req.post?
@@ -109,6 +119,20 @@ class Rack::Attack
   throttle('widget?website_token={website_token}&cw_conversation={x-auth-token}', limit: 5, period: 1.hour) do |req|
     req.ip if req.path_without_extentions == '/widget' && ActionDispatch::Request.new(req.env).params['cw_conversation'].blank?
   end
+
+  ##-----------------------------------------------##
+
+  ###-----------------------------------------------###
+  ###----------Application API Throttling-----------###
+  ###-----------------------------------------------###
+
+  ## Prevent Abuse of Converstion Transcript APIs ###
+  throttle('/api/v1/accounts/:account_id/conversations/:conversation_id/transcript', limit: 20, period: 1.hour) do |req|
+    match_data = %r{/api/v1/accounts/(?<account_id>\d+)/conversations/(?<conversation_id>\d+)/transcript}.match(req.path)
+    match_data[:account_id] if match_data.present?
+  end
+
+  ## ----------------------------------------------- ##
 end
 
 # Log blocked events

@@ -37,3 +37,5 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
     @resource = user if user&.valid_sso_auth_token?(params[:sso_auth_token])
   end
 end
+
+DeviseOverrides::SessionsController.prepend_mod_with('DeviseOverrides::SessionsController')

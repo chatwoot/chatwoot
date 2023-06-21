@@ -1,0 +1,47 @@
+MIME-Version: 1.0
+Date: Wed, 31 May 2023 15:27:36 +0530
+Message-ID: <CAFkiBVzURp=z2g5nAevAtdQvFfxkLrpvTeDFcwFaGQhdo_-Mkg@mail.gmail.com>
+Subject: New inline image test email conversation
+From: Sony Mathew <sony@chatwoot.com>
+To: "Replies" <reply+6bdc3f4d-0bed-4515-a284-5d916fdde489@example.com>
+Content-Type: multipart/related; boundary="0000000000007a538405fcfa5967"
+
+--0000000000007a538405fcfa5967
+Content-Type: multipart/alternative; boundary="0000000000007a538205fcfa5966"
+
+--0000000000007a538205fcfa5966
+Content-Type: text/plain; charset="UTF-8"
+
+[image: ptrol.jpeg]
+
+HTML content and inline images
+
+--
+*Tejaswini Chile.*
+Software developer
+*Mob:8485827731 | *@tejaswini_chile <https://twitter.com/tejaswini_chile>
+
+--0000000000007a538205fcfa5966
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><img src=3D"cid:ii_libj9tsr0" alt=3D"ptrol.jpeg" width=3D"=
+286" height=3D"508"><div><br></div><div>Let&#39;s add no HTML content here,=
+ just plain text and images<br><div><br></div><span class=3D"gmail_signatur=
+e_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature" data-sma=
+rtmail=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div=
+><b>Tejaswini Chile.</b><br></div><span style=3D"font-family:times new roma=
+n,serif"><span></span><span></span>Software developer</span><br></div><b>Mo=
+b:8485827731 |=C2=A0</b><a href=3D"https://twitter.com/tejaswini_chile" tar=
+get=3D"_blank">@tejaswini_chile</a></div></div></div></div></div></div>
+
+--0000000000007a538205fcfa5966--
+--0000000000007a538405fcfa5967
+Content-Type: image/jpeg; name="ptrol.jpeg"
+Content-Disposition: inline; filename="ptrol.jpeg"
+Content-Transfer-Encoding: base64
+X-Attachment-Id: ii_libj9tsr0
+Content-ID: <ii_libj9tsr0>
+
+
+--0000000000007a538405fcfa5967--

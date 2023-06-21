@@ -18,6 +18,16 @@ custom_attribute:
   $ref: ./resource/custom_attribute.yml
 automation_rule:
   $ref: ./resource/automation_rule.yml
+portal:
+  $ref: ./resource/portal.yml
+category:
+  $ref: ./resource/category.yml
+article:
+  $ref: ./resource/article.yml
+category:
+  $ref: ./resource/category.yml
+article:
+  $ref: ./resource/article.yml
 contact:
   $ref: ./resource/contact.yml
 conversation:
@@ -109,6 +119,14 @@ integrations_hook_update_payload:
 # Automation Rule
 automation_rule_create_update_payload:
   $ref: ./request/automation_rule/create_update_payload.yml
+
+# Help Center
+portal_create_update_payload:
+  $ref: ./request/portal/portal_create_update_payload.yml
+category_create_update_payload:
+  $ref: ./request/portal/category_create_update_payload.yml
+article_create_update_payload:
+  $ref: ./request/portal/article_create_update_payload.yml
 
 
 ## public requests

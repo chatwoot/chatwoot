@@ -127,6 +127,10 @@ class ConversationApi extends ApiClient {
       user_ids: userIds,
     });
   }
+
+  getAllAttachments(conversationId) {
+    return axios.get(`${this.url}/${conversationId}/attachments`);
+  }
 }
 
 export default new ConversationApi();

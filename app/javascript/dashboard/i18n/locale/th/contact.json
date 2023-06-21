@@ -73,6 +73,13 @@
     "SUCCESS_MESSAGE": "บันทึกผู้ติดต่อเรียบร้อยแล้ว",
     "ERROR_MESSAGE": "เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง"
   },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง"
+  },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "ยืนยันการลบ",
@@ -211,6 +218,7 @@
     "FILTER_CONTACTS": "ตัวกรอง",
     "FILTER_CONTACTS_SAVE": "บันทึกตัวกรอง",
     "FILTER_CONTACTS_DELETE": "ลบตัวกรอง",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "กำลังโหลดรายชื่อผู้ติดต่อ",
       "404": "ไม่มีผู้ติดต่อที่ตรงกัน 🔍",

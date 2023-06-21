@@ -1,0 +1,34 @@
+type: object
+properties:
+  id:
+    type: integer
+  archived:
+    type: boolean
+  color:
+    type: string
+  config:
+    type: object
+    description: Save information about locales, allowed_locales and default portal/help-center locale
+  custom_domain:
+    type: string
+  header_text:
+    type: string
+    description: The text content.
+  homepage_link:
+    type: string
+  name:
+    type: string
+  slug:
+    type: string
+  page_title:
+    type: string
+  account_id:
+    type: integer
+  categories:
+    type: array
+    items:
+      $ref: '#/definitions/category'
+  articles:
+    type: array
+    items:
+      $ref: '#/definitions/article'

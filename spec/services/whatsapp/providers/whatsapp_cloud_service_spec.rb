@@ -66,6 +66,65 @@ describe Whatsapp::Providers::WhatsappCloudService do
     end
   end
 
+  describe '#send_interactive message' do
+    context 'when called' do
+      it 'calls message endpoints with button payload when number of items is less than or equal to 3' do
+        message = create(:message, message_type: :outgoing, content: 'test',
+                                   inbox: whatsapp_channel.inbox, content_type: 'input_select',
+                                   content_attributes: {
+                                     items: [
+                                       { title: 'Burito', value: 'Burito' },
+                                       { title: 'Pasta', value: 'Pasta' },
+                                       { title: 'Sushi', value: 'Sushi' }
+                                     ]
+                                   })
+        stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+          .with(
+            body: {
+              messaging_product: 'whatsapp', to: '+123456789',
+              interactive: {
+                type: 'button',
+                body: {
+                  text: 'test'
+                },
+                action: '{"buttons":[{"type":"reply","reply":{"id":"Burito","title":"Burito"}},{"type":"reply",' \
+                        '"reply":{"id":"Pasta","title":"Pasta"}},{"type":"reply","reply":{"id":"Sushi","title":"Sushi"}}]}'
+              }, type: 'interactive'
+            }.to_json
+          ).to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+        expect(service.send_message('+123456789', message)).to eq 'message_id'
+      end
+
+      it 'calls message endpoints with list payload when number of items is greater than 3' do
+        message = create(:message, message_type: :outgoing, content: 'test', inbox: whatsapp_channel.inbox,
+                                   content_type: 'input_select',
+                                   content_attributes: {
+                                     items: [
+                                       { title: 'Burito', value: 'Burito' },
+                                       { title: 'Pasta', value: 'Pasta' },
+                                       { title: 'Sushi', value: 'Sushi' },
+                                       { title: 'Salad', value: 'Salad' }
+                                     ]
+                                   })
+        stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+          .with(
+            body: {
+              messaging_product: 'whatsapp', to: '+123456789',
+              interactive: {
+                type: 'list',
+                body: {
+                  text: 'test'
+                },
+                action: '{"button":"Choose an item","sections":[{"rows":[{"id":"Burito","title":"Burito"},' \
+                        '{"id":"Pasta","title":"Pasta"},{"id":"Sushi","title":"Sushi"},{"id":"Salad","title":"Salad"}]}]}'
+              }, type: 'interactive'
+            }.to_json
+          ).to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+        expect(service.send_message('+123456789', message)).to eq 'message_id'
+      end
+    end
+  end
+
   describe '#send_template' do
     let(:template_info) do
       {
@@ -127,10 +186,21 @@ describe Whatsapp::Providers::WhatsappCloudService do
               ], paging: { prev: 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key' } }.to_json }
           )
 
+        timstamp = whatsapp_channel.reload.message_templates_last_updated
         expect(subject.sync_templates).to be(true)
         expect(whatsapp_channel.reload.message_templates.first).to eq({ id: '123456789', name: 'test_template' }.stringify_keys)
         expect(whatsapp_channel.reload.message_templates.second).to eq({ id: '123456789', name: 'next_template' }.stringify_keys)
         expect(whatsapp_channel.reload.message_templates.last).to eq({ id: '123456789', name: 'last_template' }.stringify_keys)
+        expect(whatsapp_channel.reload.message_templates_last_updated).not_to eq(timstamp)
+      end
+
+      it 'updates message_templates_last_updated even when template request fails' do
+        stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key')
+          .to_return(status: 401)
+
+        timstamp = whatsapp_channel.reload.message_templates_last_updated
+        subject.sync_templates
+        expect(whatsapp_channel.reload.message_templates_last_updated).not_to eq(timstamp)
       end
     end
   end

@@ -9,9 +9,11 @@
 <% if @resource.confirmed? %>
   <p>You can login to your <%= global_config['BRAND_NAME'] || 'Chatwoot' %> account through the link below:</p>
 <% else %>
+  <% if account_user&.inviter.blank? %>
   <p>
     Welcome to <%= global_config['BRAND_NAME'] || 'Chatwoot' %>! We have a suite of powerful tools ready for you to explore. Before that we quickly need to verify your email address to know it's really you.
   </p>
+  <% end %>
   <p>Please take a moment and click the link below and activate your account.</p>
 <% end %>
 

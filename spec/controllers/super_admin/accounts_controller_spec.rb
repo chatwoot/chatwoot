@@ -15,14 +15,38 @@ RSpec.describe 'Super Admin accounts API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      let!(:account) { create(:account) }
-
       it 'shows the list of accounts' do
         sign_in(super_admin, scope: :super_admin)
         get '/super_admin/accounts'
         expect(response).to have_http_status(:success)
         expect(response.body).to include('New account')
         expect(response.body).to include(account.name)
+      end
+    end
+  end
+
+  describe 'POST /super_admin/accounts/{account_id}/reset_cache' do
+    before do
+      create(:label, account: account)
+      create(:inbox, account: account)
+      create(:team, account: account)
+    end
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/super_admin/accounts/#{account.id}/reset_cache"
+        expect(response).to have_http_status(:redirect)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      it 'shows the list of accounts' do
+        expect(account.cache_keys.keys).to contain_exactly(:inbox, :label, :team)
+        sign_in(super_admin, scope: :super_admin)
+        post "/super_admin/accounts/#{account.id}/reset_cache"
+        expect(response).to have_http_status(:redirect)
+        expect(flash[:notice]).to eq('Cache keys cleared')
+        expect(account.reload.cache_keys.values.map(&:to_i)).to eq([0, 0, 0])
       end
     end
   end

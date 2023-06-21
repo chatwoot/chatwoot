@@ -231,7 +231,7 @@ export default {
 <style scoped>
 .filter-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   grid-gap: var(--space-slab);
 
   margin-bottom: var(--space-normal);

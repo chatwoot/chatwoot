@@ -12,7 +12,7 @@ module ExceptionList
   ].freeze
 
   IMAP_EXCEPTIONS = [
-    Errno::ECONNREFUSED, Net::OpenTimeout, Net::IMAP::NoResponseError,
+    Errno::ECONNREFUSED, Net::OpenTimeout,
     Errno::ECONNRESET, Errno::ENETUNREACH, Net::IMAP::ByeResponseError,
     SocketError
   ].freeze

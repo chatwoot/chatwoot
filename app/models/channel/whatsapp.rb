@@ -50,6 +50,12 @@ class Channel::Whatsapp < ApplicationRecord
     true
   end
 
+  def mark_message_templates_updated
+    # rubocop:disable Rails/SkipsModelValidations
+    update_column(:message_templates_last_updated, Time.zone.now)
+    # rubocop:enable Rails/SkipsModelValidations
+  end
+
   delegate :send_message, to: :provider_service
   delegate :send_template, to: :provider_service
   delegate :sync_templates, to: :provider_service

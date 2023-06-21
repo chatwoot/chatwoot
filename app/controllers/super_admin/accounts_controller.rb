@@ -50,6 +50,13 @@ class SuperAdmin::AccountsController < SuperAdmin::ApplicationController
     # rubocop:enable Rails/I18nLocaleTexts
   end
 
+  def reset_cache
+    requested_resource.reset_cache_keys
+    # rubocop:disable Rails/I18nLocaleTexts
+    redirect_back(fallback_location: [namespace, requested_resource], notice: 'Cache keys cleared')
+    # rubocop:enable Rails/I18nLocaleTexts
+  end
+
   def destroy
     account = Account.find(params[:id])
 

@@ -27,6 +27,7 @@ RSpec.describe 'Confirmation Instructions' do
 
     it 'does not refer to the inviter and their account' do
       expect(mail.body).to_not match('has invited you to try out Chatwoot!')
+      expect(mail.body).to match('We have a suite of powerful tools ready for you to explore.')
     end
 
     it 'sends a confirmation link' do
@@ -41,6 +42,7 @@ RSpec.describe 'Confirmation Instructions' do
         expect(mail.body).to match(
           "#{CGI.escapeHTML(inviter_val.name)}, with #{CGI.escapeHTML(account.name)}, has invited you to try out Chatwoot."
         )
+        expect(mail.body).not_to match('We have a suite of powerful tools ready for you to explore.')
       end
 
       it 'sends a password reset link' do
