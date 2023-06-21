@@ -19,8 +19,18 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Svarer typisk på et par minutter",
     "IN_A_FEW_HOURS": "Svarer typisk på et par timer",
-    "IN_A_DAY": "Svarer typisk på en dag"
+    "IN_A_DAY": "Svarer typisk på en dag",
+    "BACK_IN": "We will be back online"
   },
+  "DAY_NAMES": [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ],
   "START_CONVERSATION": "Start Samtale",
   "END_CONVERSATION": "Afslut Samtale",
   "CONTINUE_CONVERSATION": "Fortsæt samtale",

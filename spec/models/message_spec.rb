@@ -21,7 +21,10 @@ RSpec.describe Message do
 
       it 'invalid when crossed the limit' do
         message.content = 'a' * 150_001
+        message.processed_message_content = 'a' * 150_001
         message.valid?
+
+        expect(message.errors[:processed_message_content]).to include('is too long (maximum is 150000 characters)')
         expect(message.errors[:content]).to include('is too long (maximum is 150000 characters)')
       end
     end
@@ -29,6 +32,22 @@ RSpec.describe Message do
 
   describe 'concerns' do
     it_behaves_like 'liqudable'
+  end
+
+  describe 'message_filter_helpers' do
+    context 'when webhook_sendable?' do
+      [
+        { type: :incoming, expected: true },
+        { type: :outgoing, expected: true },
+        { type: :template, expected: true },
+        { type: :activity, expected: false }
+      ].each do |scenario|
+        it "returns #{scenario[:expected]} for #{scenario[:type]} message" do
+          message = create(:message, message_type: scenario[:type])
+          expect(message.webhook_sendable?).to eq(scenario[:expected])
+        end
+      end
+    end
   end
 
   describe 'Check if message is a valid first reply' do
@@ -185,6 +204,7 @@ RSpec.describe Message do
         message.inbox = create(:inbox, account: message.account, channel: build(:channel_email, account: message.account))
         allow(EmailReplyWorker).to receive(:perform_in).and_return(true)
         message.message_type = 'outgoing'
+        message.content_attributes = { email: { text_content: { quoted: 'quoted text' } } }
         message.save!
         expect(EmailReplyWorker).to have_received(:perform_in).with(1.second, message.id)
       end
@@ -204,6 +224,15 @@ RSpec.describe Message do
     it 'sets content_type as text' do
       message.save!
       expect(message.content_type).to eq 'text'
+    end
+  end
+
+  context 'when processed_message_content is blank' do
+    let(:message) { build(:message, content_type: :text, account: create(:account), content: 'Processed message content') }
+
+    it 'sets content_type as text' do
+      message.save!
+      expect(message.processed_message_content).to eq message.content
     end
   end
 

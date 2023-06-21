@@ -115,7 +115,7 @@
 </template>
 
 <script>
-import format from 'date-fns/format';
+import { format, parseISO } from 'date-fns';
 import { required, url } from 'vuelidate/lib/validators';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
@@ -143,14 +143,19 @@ export default {
   },
 
   computed: {
-    formattedValue() {
+    displayValue() {
       if (this.isAttributeTypeDate) {
-        return format(new Date(this.value || new Date()), DATE_FORMAT);
+        return new Date(this.value || new Date()).toLocaleDateString();
       }
       if (this.isAttributeTypeCheckbox) {
         return this.value === 'false' ? false : this.value;
       }
       return this.value;
+    },
+    formattedValue() {
+      return this.isAttributeTypeDate
+        ? format(this.value ? new Date(this.value) : new Date(), DATE_FORMAT)
+        : this.value;
     },
     listOptions() {
       return this.values.map((value, index) => ({
@@ -192,17 +197,11 @@ export default {
       }
       return this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.REQUIRED');
     },
-    displayValue() {
-      if (this.attributeType === 'date') {
-        return format(new Date(this.editedValue), 'dd-MM-yyyy');
-      }
-      return this.editedValue;
-    },
   },
   watch: {
     value() {
       this.isEditing = false;
-      this.editedValue = this.value;
+      this.editedValue = this.formattedValue;
     },
   },
 
@@ -249,9 +248,8 @@ export default {
     onUpdate() {
       const updatedValue =
         this.attributeType === 'date'
-          ? format(new Date(this.editedValue), DATE_FORMAT)
+          ? parseISO(this.editedValue)
           : this.editedValue;
-
       this.$v.$touch();
       if (this.$v.$invalid) {
         return;

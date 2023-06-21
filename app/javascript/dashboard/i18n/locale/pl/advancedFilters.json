@@ -2,12 +2,17 @@
   "FILTER": {
     "TITLE": "Filtruj rozmowy",
     "SUBTITLE": "Dodaj poniższe filtry i kliknij 'Zastosuj filtry', aby przefiltrować rozmowy.",
+    "EDIT_CUSTOM_FILTER": "Edit Folder",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
     "ADD_NEW_FILTER": "Dodaj filtr",
     "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
     "SUBMIT_BUTTON_LABEL": "Zastosuj filtry",
+    "UPDATE_BUTTON_LABEL": "Update folder",
     "CANCEL_BUTTON_LABEL": "Anuluj",
     "CLEAR_BUTTON_LABEL": "Wyczyść filtry",
     "EMPTY_VALUE_ERROR": "Wartość jest wymagana",
+    "FOLDER_LABEL": "Folder Name",
+    "FOLDER_QUERY_LABEL": "Folder Query",
     "TOOLTIP_LABEL": "Filtruj konwersacje",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "i",
@@ -70,6 +75,9 @@
           "SUCCESS_MESSAGE": "Segment utworzony pomyślnie",
           "ERROR_MESSAGE": "Błąd podczas tworzenia segmentu"
         }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Edit folder"
       },
       "DELETE": {
         "DELETE_BUTTON": "Usuń filtr",

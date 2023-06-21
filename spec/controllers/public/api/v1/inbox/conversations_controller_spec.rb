@@ -13,6 +13,7 @@ RSpec.describe 'Public Inbox Contact Conversations API', type: :request do
       expect(response).to have_http_status(:success)
       data = response.parsed_body
       expect(data.length).to eq 1
+      expect(data.first['uuid']).to eq contact_inbox.conversations.first.uuid
     end
 
     it 'does not return any private or activity message' do

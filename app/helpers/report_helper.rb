@@ -29,7 +29,9 @@ module ReportHelper
   end
 
   def resolutions_count
-    (get_grouped_values scope.conversations.where(account_id: account.id).resolved).count
+    object_scope = scope.reporting_events.joins(:conversation).select(:conversation_id).where(account_id: account.id, name: :conversation_resolved,
+                                                                                              conversations: { status: :resolved }).distinct
+    (get_grouped_values object_scope).count
   end
 
   def avg_first_response_time

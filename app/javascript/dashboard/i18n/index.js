@@ -35,6 +35,7 @@ import vi from './locale/vi';
 import zh_CN from './locale/zh_CN';
 import zh_TW from './locale/zh_TW';
 import is from './locale/is';
+import lt from './locale/lt';
 
 export default {
   ar,
@@ -74,4 +75,5 @@ export default {
   zh_CN,
   zh_TW,
   is,
+  lt,
 };

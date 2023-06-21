@@ -32,6 +32,7 @@ RSpec.describe 'Conversations API', type: :request do
         body = JSON.parse(response.body, symbolize_names: true)
         expect(body[:data][:meta][:all_count]).to eq(1)
         expect(body[:data][:meta].keys).to include(:all_count, :mine_count, :assigned_count, :unassigned_count)
+        expect(body[:data][:payload].first[:uuid]).to eq(conversation.uuid)
         expect(body[:data][:payload].first[:messages].first[:id]).to eq(message.id)
       end
 
@@ -752,6 +753,7 @@ RSpec.describe 'Conversations API', type: :request do
         expect(response).to have_http_status(:success)
         response_body = response.parsed_body
         expect(response_body['payload'].first['file_type']).to eq('image')
+        expect(response_body['payload'].first['sender']['id']).to eq(conversation.messages.last.sender.id)
       end
 
       it 'return the attachments if you are an agent with access to inbox' do

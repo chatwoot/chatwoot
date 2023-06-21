@@ -1000,6 +1000,29 @@
         }
       }
     },
+    "/survey/responses/{conversation_uuid}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/conversation_uuid"
+        }
+      ],
+      "get": {
+        "tags": [
+          "CSAT Survey Page"
+        ],
+        "operationId": "get-csat-survey-page",
+        "summary": "Get CSAT survey page",
+        "description": "You can redirect the client to this URL, instead of implementing the CSAT survey component yourself.",
+        "security": [
+
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/v1/accounts/{account_id}/agent_bots": {
       "parameters": [
         {
@@ -2014,63 +2037,68 @@
             "type": "integer"
           },
           {
-            "name": "payload",
+            "name": "body",
             "in": "body",
             "required": true,
             "schema": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "attribute_key": {
-                    "type": "string",
-                    "description": "filter attribute name"
+              "type": "object",
+              "properties": {
+                "payload": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "attribute_key": {
+                        "type": "string",
+                        "description": "filter attribute name"
+                      },
+                      "filter_operator": {
+                        "type": "string",
+                        "description": "filter operator name",
+                        "enum": [
+                          "equal_to",
+                          "not_equal_to",
+                          "contains",
+                          "does_not_contain"
+                        ]
+                      },
+                      "values": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "array of the attribute values to filter"
+                      },
+                      "query_operator": {
+                        "type": "string",
+                        "description": "query operator name"
+                      },
+                      "enum": [
+                        "AND",
+                        "OR"
+                      ]
+                    }
                   },
-                  "filter_operator": {
-                    "type": "string",
-                    "description": "filter operator name",
-                    "enum": [
-                      "equal_to",
-                      "not_equal_to",
-                      "contains",
-                      "does_not_contain"
-                    ]
-                  },
-                  "values": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
+                  "example": [
+                    {
+                      "attribute_key": "name",
+                      "filter_operator": "equal_to",
+                      "values": [
+                        "en"
+                      ],
+                      "query_operator": "AND"
                     },
-                    "description": "array of the attribute values to filter"
-                  },
-                  "query_operator": {
-                    "type": "string",
-                    "description": "query operator name",
-                    "enum": [
-                      "AND",
-                      "OR"
-                    ]
-                  }
+                    {
+                      "attribute_key": "country_code",
+                      "filter_operator": "equal_to",
+                      "values": [
+                        "us"
+                      ],
+                      "query_operator": null
+                    }
+                  ]
                 }
-              },
-              "example": [
-                {
-                  "attribute_key": "name",
-                  "filter_operator": "equal_to",
-                  "values": [
-                    "en"
-                  ],
-                  "query_operator": "AND"
-                },
-                {
-                  "attribute_key": "country_code",
-                  "filter_operator": "equal_to",
-                  "values": [
-                    "us"
-                  ],
-                  "query_operator": "nil"
-                }
-              ]
+              }
             }
           }
         ],
@@ -2907,63 +2935,68 @@
             "type": "integer"
           },
           {
-            "name": "payload",
+            "name": "body",
             "in": "body",
             "required": true,
             "schema": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "attribute_key": {
-                    "type": "string",
-                    "description": "filter attribute name"
+              "type": "object",
+              "properties": {
+                "payload": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "attribute_key": {
+                        "type": "string",
+                        "description": "filter attribute name"
+                      },
+                      "filter_operator": {
+                        "type": "string",
+                        "description": "filter operator name",
+                        "enum": [
+                          "equal_to",
+                          "not_equal_to",
+                          "contains",
+                          "does_not_contain"
+                        ]
+                      },
+                      "values": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "array of the attribute values to filter"
+                      },
+                      "query_operator": {
+                        "type": "string",
+                        "description": "query operator name",
+                        "enum": [
+                          "AND",
+                          "OR"
+                        ]
+                      }
+                    }
                   },
-                  "filter_operator": {
-                    "type": "string",
-                    "description": "filter operator name",
-                    "enum": [
-                      "equal_to",
-                      "not_equal_to",
-                      "contains",
-                      "does_not_contain"
-                    ]
-                  },
-                  "values": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
+                  "example": [
+                    {
+                      "attribute_key": "browser_language",
+                      "filter_operator": "not_eq",
+                      "values": [
+                        "en"
+                      ],
+                      "query_operator": "AND"
                     },
-                    "description": "array of the attribute values to filter"
-                  },
-                  "query_operator": {
-                    "type": "string",
-                    "description": "query operator name",
-                    "enum": [
-                      "AND",
-                      "OR"
-                    ]
-                  }
+                    {
+                      "attribute_key": "status",
+                      "filter_operator": "eq",
+                      "values": [
+                        "pending"
+                      ],
+                      "query_operator": null
+                    }
+                  ]
                 }
-              },
-              "example": [
-                {
-                  "attribute_key": "browser_language",
-                  "filter_operator": "not_eq",
-                  "values": [
-                    "en"
-                  ],
-                  "query_operator": "AND"
-                },
-                {
-                  "attribute_key": "status",
-                  "filter_operator": "eq",
-                  "values": [
-                    "pending"
-                  ],
-                  "query_operator": "nil"
-                }
-              ]
+              }
             }
           }
         ],
@@ -6557,8 +6590,30 @@
       "type": "object",
       "properties": {
         "submitted_values": {
-          "type": "object",
-          "description": "Replies to the Bot Message Types"
+          "oneOf": [
+            {
+              "type": "object",
+              "description": "Replies to the Bot Message Types",
+              "properties": {
+                "csat_survey_response": {
+                  "type": "object",
+                  "description": "CSAT Survey Response if original message is CSAT Survey",
+                  "properties": {
+                    "rating": {
+                      "type": "integer",
+                      "description": "CSAT Rating",
+                      "example": 5
+                    },
+                    "feedback_message": {
+                      "type": "string",
+                      "description": "CSAT Comment",
+                      "example": "Great"
+                    }
+                  }
+                }
+              }
+            }
+          ]
         }
       }
     },
@@ -6963,6 +7018,13 @@
       "required": true,
       "description": "The numeric ID of the conversation"
     },
+    "conversation_uuid": {
+      "in": "path",
+      "name": "conversation_uuid",
+      "type": "integer",
+      "required": true,
+      "description": "The uuid of the conversation"
+    },
     "custom_filter_id": {
       "in": "path",
       "name": "custom_filter_id",
@@ -7082,6 +7144,12 @@
         "Contacts API",
         "Conversations API",
         "Messages API"
+      ]
+    },
+    {
+      "name": "Others",
+      "tags": [
+        "CSAT Survey Page"
       ]
     }
   ]

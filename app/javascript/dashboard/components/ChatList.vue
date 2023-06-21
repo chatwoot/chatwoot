@@ -48,6 +48,14 @@
         </div>
         <div v-if="hasActiveFolders">
           <woot-button
+            v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.EDIT.EDIT_BUTTON')"
+            size="tiny"
+            variant="smooth"
+            color-scheme="secondary"
+            icon="edit"
+            @click="onToggleAdvanceFiltersModal"
+          />
+          <woot-button
             v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
             size="tiny"
             variant="smooth"
@@ -168,8 +176,11 @@
         v-if="showAdvancedFilters"
         :initial-filter-types="advancedFilterTypes"
         :initial-applied-filters="appliedFilter"
+        :active-folder-name="activeFolderName"
         :on-close="closeAdvanceFiltersModal"
+        :is-folder-view="hasActiveFolders"
         @applyFilter="onApplyFilter"
+        @updateFolder="onUpdateSavedFilter"
       />
     </woot-modal>
   </div>
@@ -193,6 +204,9 @@ import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCust
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import filterMixin from 'shared/mixins/filterMixin';
+import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
+import countries from 'shared/constants/countries';
+import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
 
 import {
   hasPressedAltAndJKey,
@@ -289,6 +303,11 @@ export default {
       appliedFilters: 'getAppliedConversationFilters',
       folders: 'customViews/getCustomViews',
       inboxes: 'inboxes/getInboxes',
+      agentList: 'agents/getAgents',
+      teamsList: 'teams/getTeams',
+      inboxesList: 'inboxes/getInboxes',
+      campaigns: 'campaigns/getAllCampaigns',
+      labels: 'labels/getLabels',
     }),
     hasAppliedFilters() {
       return this.appliedFilters.length !== 0;
@@ -451,6 +470,9 @@ export default {
       }
       return undefined;
     },
+    activeFolderName() {
+      return this.activeFolder?.name;
+    },
     activeTeam() {
       if (this.teamId) {
         return this.$store.getters['teams/getTeam'](this.teamId);
@@ -483,9 +505,7 @@ export default {
       this.resetAndFetchData();
     },
     activeFolder() {
-      if (!this.hasAppliedFilters) {
-        this.resetAndFetchData();
-      }
+      this.resetAndFetchData();
     },
     chatLists() {
       this.chatsOnView = this.conversationList;
@@ -495,6 +515,10 @@ export default {
     this.$store.dispatch('setChatStatusFilter', this.activeStatus);
     this.$store.dispatch('setChatSortFilter', this.activeSortBy);
     this.resetAndFetchData();
+
+    if (this.hasActiveFolders) {
+      this.$store.dispatch('campaigns/get');
+    }
 
     bus.$on('fetch_conversation_stats', () => {
       this.$store.dispatch('conversationStats/get', this.conversationFilters);
@@ -507,6 +531,15 @@ export default {
       this.$store.dispatch('conversationPage/reset');
       this.$store.dispatch('emptyAllConversations');
       this.fetchFilteredConversations(payload);
+    },
+    onUpdateSavedFilter(payload, folderName) {
+      const payloadData = {
+        ...this.activeFolder,
+        name: folderName,
+        query: filterQueryGenerator(payload),
+      };
+      this.$store.dispatch('customViews/update', payloadData);
+      this.closeAdvanceFiltersModal();
     },
     onClickOpenAddFoldersModal() {
       this.showAddFoldersModal = true;
@@ -521,14 +554,69 @@ export default {
       this.showDeleteFoldersModal = false;
     },
     onToggleAdvanceFiltersModal() {
-      if (!this.hasAppliedFilters) {
+      if (!this.hasAppliedFilters && !this.hasActiveFolders) {
         this.initializeExistingFilterToModal();
+      }
+      if (this.hasActiveFolders) {
+        this.initializeFolderToFilterModal(this.activeFolder);
       }
       this.showAdvancedFilters = true;
     },
     closeAdvanceFiltersModal() {
       this.showAdvancedFilters = false;
       this.appliedFilter = [];
+    },
+    setParamsForEditFolderModal() {
+      // Here we are setting the params for edit folder modal to show the existing values.
+
+      // For agent, team, inboxes,and campaigns we get only the id's from the query.
+      // So we are mapping the id's to the actual values.
+
+      // For labels we get the name of the label from the query.
+      // If we delete the label from the label list then we will not be able to show the label name.
+
+      // For custom attributes we get only attribute key.
+      // So we are mapping it to find the input type of the attribute to show in the edit folder modal.
+      const params = {
+        agents: this.agentList,
+        teams: this.teamsList,
+        inboxes: this.inboxesList,
+        labels: this.labels,
+        campaigns: this.campaigns,
+        languages: languages,
+        countries: countries,
+        filterTypes: advancedFilterTypes,
+        allCustomAttributes: this.$store.getters[
+          'attributes/getAttributesByModel'
+        ]('conversation_attribute'),
+      };
+      return params;
+    },
+    initializeFolderToFilterModal(activeFolder) {
+      // Here we are setting the params for edit folder modal.
+      //  To show the existing values. when we click on edit folder button.
+
+      // Here we get the query from the active folder.
+      // And we are mapping the query to the actual values.
+      // To show in the edit folder modal by the help of generateValuesForEditCustomViews helper.
+      const query = activeFolder?.query?.payload;
+      if (!Array.isArray(query)) return;
+
+      this.appliedFilter.push(
+        ...query.map(filter => ({
+          attribute_key: filter.attribute_key,
+          attribute_model: filter.attribute_model,
+          filter_operator: filter.filter_operator,
+          values: Array.isArray(filter.values)
+            ? generateValuesForEditCustomViews(
+                filter,
+                this.setParamsForEditFolderModal()
+              )
+            : [],
+          query_operator: filter.query_operator,
+          custom_attribute_type: filter.custom_attribute_type,
+        }))
+      );
     },
     getKeyboardListenerParams() {
       const allConversations = this.$refs.activeConversation.querySelectorAll(
@@ -575,6 +663,7 @@ export default {
       }
     },
     resetAndFetchData() {
+      this.appliedFilter = [];
       this.resetBulkActions();
       this.$store.dispatch('conversationPage/reset');
       this.$store.dispatch('emptyAllConversations');
@@ -587,7 +676,6 @@ export default {
         return;
       }
       this.fetchConversations();
-      this.appliedFilter = [];
     },
     fetchConversations() {
       this.$store

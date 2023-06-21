@@ -24,6 +24,7 @@
 #  contact_inbox_id       :bigint
 #  display_id             :integer          not null
 #  inbox_id               :integer          not null
+#  sla_policy_id          :bigint
 #  team_id                :bigint
 #
 # Indexes
@@ -69,6 +70,7 @@ class Conversation < ApplicationRecord
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned, -> { where.not(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
+  scope :unattended, -> { where(first_reply_created_at: nil) }
   scope :resolvable, lambda { |auto_resolve_duration|
     return none if auto_resolve_duration.to_i.zero?
 
@@ -293,3 +295,5 @@ class Conversation < ApplicationRecord
     "NEW.display_id := nextval('conv_dpid_seq_' || NEW.account_id);"
   end
 end
+
+Conversation.include_mod_with('EnterpriseConversationConcern')

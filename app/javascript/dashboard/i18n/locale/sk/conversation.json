@@ -54,18 +54,25 @@
       "OPEN": "Viac",
       "CLOSE": "Zatvoriť",
       "DETAILS": "detaily",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Odložené do zajtra",
       "SNOOZED_UNTIL_NEXT_WEEK": "Odložené do ďalšieho týždňa",
       "SNOOZED_UNTIL_NEXT_REPLY": "Odložené do ďalšej odpovede"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Označiť ako čakajúce na vybavenie",
+      "SNOOZE_UNTIL": "Snooze",
       "SNOOZE": {
         "TITLE": "Odložiť do",
         "NEXT_REPLY": "Ďalšia odpoveď",
         "TOMORROW": "Zajtra",
         "NEXT_WEEK": "Ďalší ťýždeň"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Odložiť do",
+      "APPLY": "Snooze",
+      "CANCEL": "Zrušiť"
     },
     "PRIORITY": {
       "TITLE": "Priority",

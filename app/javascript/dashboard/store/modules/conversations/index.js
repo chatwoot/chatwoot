@@ -3,6 +3,7 @@ import types from '../../mutation-types';
 import getters, { getSelectedChatConversation } from './getters';
 import actions from './actions';
 import { findPendingMessageIndex } from './helpers';
+import { MESSAGE_STATUS } from 'shared/constants/messages';
 import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
 
@@ -55,6 +56,12 @@ export const mutations = {
       const [chat] = _state.allConversations.filter(c => c.id === id);
       chat.messages.unshift(...data);
     }
+  },
+  [types.SET_ALL_ATTACHMENTS](_state, { id, data }) {
+    const [chat] = _state.allConversations.filter(c => c.id === id);
+    if (!chat) return;
+    Vue.set(chat, 'attachments', []);
+    chat.attachments.push(...data);
   },
   [types.SET_MISSING_MESSAGES](_state, { id, data }) {
     const [chat] = _state.allConversations.filter(c => c.id === id);
@@ -113,6 +120,44 @@ export const mutations = {
   [types.UNMUTE_CONVERSATION](_state) {
     const [chat] = getSelectedChatConversation(_state);
     Vue.set(chat, 'muted', false);
+  },
+
+  [types.ADD_CONVERSATION_ATTACHMENTS]({ allConversations }, message) {
+    const { conversation_id: conversationId } = message;
+    const [chat] = getSelectedChatConversation({
+      allConversations,
+      selectedChatId: conversationId,
+    });
+
+    if (!chat) return;
+
+    const isMessageSent =
+      message.status === MESSAGE_STATUS.SENT && message.attachments;
+    if (isMessageSent) {
+      message.attachments.forEach(attachment => {
+        if (!chat.attachments.some(a => a.id === attachment.id)) {
+          chat.attachments.push(attachment);
+        }
+      });
+    }
+  },
+
+  [types.DELETE_CONVERSATION_ATTACHMENTS]({ allConversations }, message) {
+    const { conversation_id: conversationId } = message;
+    const [chat] = getSelectedChatConversation({
+      allConversations,
+      selectedChatId: conversationId,
+    });
+
+    if (!chat) return;
+
+    const isMessageSent = message.status === MESSAGE_STATUS.SENT;
+    if (isMessageSent) {
+      const attachmentIndex = chat.attachments.findIndex(
+        a => a.message_id === message.id
+      );
+      if (attachmentIndex !== -1) chat.attachments.splice(attachmentIndex, 1);
+    }
   },
 
   [types.ADD_MESSAGE]({ allConversations, selectedChatId }, message) {

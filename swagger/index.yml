@@ -75,3 +75,6 @@ x-tagGroups:
       - Contacts API
       - Conversations API
       - Messages API
+  - name: Others
+    tags:
+      - CSAT Survey Page

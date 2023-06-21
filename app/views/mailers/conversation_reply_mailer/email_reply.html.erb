@@ -1,5 +1,5 @@
 <% if @message.content %>
-  <%= CommonMarker.render_html(@message.content).html_safe %>
+  <%= ChatwootMarkdownRenderer.new(@message.content).render_message %>
 <% end %>
 <% if @message.attachments %>
   <% @message.attachments.each do |attachment| %>
