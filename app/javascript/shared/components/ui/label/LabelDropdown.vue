@@ -40,14 +40,17 @@
             @click="showCreateModal"
           >
             {{ createLabelPlaceholder }}
-            {{ search }}
+            {{ parsedSearch }}
           </woot-button>
 
           <woot-modal
             :show.sync="createModalVisible"
             :on-close="hideCreateModal"
           >
-            <add-label-modal :prefill-title="search" @close="hideCreateModal" />
+            <add-label-modal
+              :prefill-title="parsedSearch"
+              @close="hideCreateModal"
+            />
           </woot-modal>
         </div>
       </div>
@@ -111,6 +114,17 @@ export default {
 
     shouldShowCreate() {
       return this.filteredActiveLabels.length < 3 && this.search !== '';
+    },
+
+    parsedSearch() {
+      const labelRegex = /[^a-zA-Z0-9_-]/g;
+      const spaceRegex = /\s+/g;
+
+      return this.search
+        .trim()
+        .toLowerCase()
+        .replace(spaceRegex, '-')
+        .replace(labelRegex, '');
     },
   },
 
