@@ -448,6 +448,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_20_212340) do
     t.datetime "assignee_last_seen_at", precision: nil
     t.datetime "first_reply_created_at", precision: nil
     t.integer "priority"
+    t.bigint "sla_policy_id"
     t.datetime "waiting_since"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
