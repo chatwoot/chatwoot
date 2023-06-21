@@ -97,8 +97,10 @@
       "BUTTONS": {
         "GENERATE": "Generate",
         "GENERATING": "Generating...",
+        "REPLACE": "Replace",
         "CANCEL": "Cancel"
       },
+      "GENERATE_TITLE": "Generated Text",
       "GENERATE_ERROR": "There was an error processing the content, please try again"
     },
     "DELETE": {

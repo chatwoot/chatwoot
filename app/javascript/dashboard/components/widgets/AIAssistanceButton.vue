@@ -53,16 +53,28 @@
             </option>
           </select>
         </div>
+        <div v-if="uiFlags.isContentGenerated">
+          <label>
+            {{ $t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_TITLE') }}
+          </label>
+          <p>
+            {{ generatedMessage }}
+          </p>
+        </div>
         <div class="modal-footer flex-container align-right">
           <woot-button variant="clear" size="small" @click="closeDropdown">
             {{ $t('INTEGRATION_SETTINGS.OPEN_AI.BUTTONS.CANCEL') }}
           </woot-button>
           <woot-button
+            v-if="!uiFlags.isContentGenerated"
             :is-loading="uiFlags.rephrase"
             size="small"
             @click="processEvent('rephrase')"
           >
             {{ buttonText }}
+          </woot-button>
+          <woot-button v-else size="small" @click="replaceText('rephrase')">
+            {{ $t('INTEGRATION_SETTINGS.OPEN_AI.BUTTONS.REPLACE') }}
           </woot-button>
         </div>
       </div>
@@ -98,7 +110,9 @@ export default {
         rephrase: false,
         reply_suggestion: false,
         summarize: false,
+        isisContentGenerated: false,
       },
+      generatedMessage: '',
       showDropdown: false,
       activeTone: 'professional',
       tones: [
@@ -140,6 +154,8 @@ export default {
   },
   methods: {
     toggleDropdown() {
+      this.uiFlags.isContentGenerated = false;
+      this.generatedMessage = '';
       this.showDropdown = !this.showDropdown;
     },
     closeDropdown() {
@@ -154,6 +170,11 @@ export default {
         });
       }
     },
+    replaceText(type) {
+      this.$emit('replace-text', this.generatedMessage || this.message);
+      this.recordAnalytics({ type, tone: this.activeTone });
+      this.closeDropdown();
+    },
     async processEvent(type = 'rephrase') {
       this.uiFlags[type] = true;
       try {
@@ -167,9 +188,12 @@ export default {
         const {
           data: { message: generatedMessage },
         } = result;
-        this.$emit('replace-text', generatedMessage || this.message);
-        this.closeDropdown();
-        this.recordAnalytics({ type, tone: this.activeTone });
+        this.uiFlags.isContentGenerated = true;
+        this.generatedMessage = generatedMessage;
+        // It the type is not rephrase, replace the text
+        if (type !== 'rephrase') {
+          this.replaceText(type);
+        }
       } catch (error) {
         this.showAlert(this.$t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR'));
       } finally {
