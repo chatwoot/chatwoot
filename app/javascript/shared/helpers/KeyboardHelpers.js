@@ -133,6 +133,7 @@ export const isActiveElementTypeable = e => {
 
   return !!(
     activeElement?.tagName === 'INPUT' ||
+    activeElement?.tagName === 'NINJA-KEYS' ||
     activeElement?.tagName === 'TEXTAREA' ||
     activeElement?.contentEditable === 'true'
   );
