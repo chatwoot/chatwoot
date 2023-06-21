@@ -93,7 +93,7 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def custom_sender_name
-    current_message&.sender&.available_name || @agent&.available_name || business_name
+    current_message&.sender&.available_name || @agent&.available_name || 'Notifications'
   end
 
   def business_name

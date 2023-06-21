@@ -192,7 +192,7 @@ RSpec.describe ConversationReplyMailer do
         conversation.update(assignee_id: nil)
 
         mail = described_class.email_reply(message)
-        expect(mail['from'].value).to eq "Inbox from #{smtp_email_channel.inbox.name} <#{smtp_email_channel.email}>"
+        expect(mail['from'].value).to eq "Notifications from #{smtp_email_channel.inbox.name} <#{smtp_email_channel.email}>"
       end
 
       context 'when friendly name enabled' do
@@ -208,7 +208,7 @@ RSpec.describe ConversationReplyMailer do
 
           mail = described_class.email_reply(message)
 
-          expect(mail['from'].value).to eq "#{conversation.inbox.name} from #{conversation.inbox.name} <#{smtp_email_channel.email}>"
+          expect(mail['from'].value).to eq "Notifications from #{conversation.inbox.name} <#{smtp_email_channel.email}>"
         end
 
         it 'renders sender name as sender and assignee nil and business_name present' do
@@ -218,7 +218,7 @@ RSpec.describe ConversationReplyMailer do
           mail = described_class.email_reply(message)
 
           expect(mail['from'].value).to eq(
-            "#{conversation.inbox.business_name} from #{conversation.inbox.business_name} <#{smtp_email_channel.email}>"
+            "Notifications from #{conversation.inbox.business_name} <#{smtp_email_channel.email}>"
           )
         end
 
