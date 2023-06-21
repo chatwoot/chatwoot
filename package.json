@@ -106,6 +106,7 @@
     "@storybook/addon-links": "6.5.9",
     "@storybook/addons": "6.5.9",
     "@storybook/vue": "6.5.9",
+    "@types/jest": "^29.5.2",
     "@vue/test-utils": "1.1.4",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
