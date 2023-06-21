@@ -24,6 +24,7 @@
 #  contact_inbox_id       :bigint
 #  display_id             :integer          not null
 #  inbox_id               :integer          not null
+#  sla_policy_id          :bigint
 #  team_id                :bigint
 #
 # Indexes
@@ -294,3 +295,5 @@ class Conversation < ApplicationRecord
     "NEW.display_id := nextval('conv_dpid_seq_' || NEW.account_id);"
   end
 end
+
+Conversation.include_mod_with('EnterpriseConversationConcern')
