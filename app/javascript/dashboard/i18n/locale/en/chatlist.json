@@ -52,7 +52,7 @@
         "TEXT": "Priority"
       },
       "sort_on_waiting_since": {
-        "TEXT": "Longest waiting"
+        "TEXT": "Pending Response"
       }
     },
     "ATTACHMENTS": {
