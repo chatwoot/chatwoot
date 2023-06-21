@@ -127,3 +127,13 @@ export const buildHotKeys = e => {
   hotKeyPattern += key;
   return hotKeyPattern;
 };
+
+export const isActiveElementTypeable = e => {
+  const activeElement = e.target ?? document.activeElement;
+
+  return !!(
+    activeElement?.tagName === 'INPUT' ||
+    activeElement?.tagName === 'TEXTAREA' ||
+    activeElement?.contentEditable === 'true'
+  );
+};

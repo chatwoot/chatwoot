@@ -50,7 +50,10 @@ import AddLabel from 'shared/components/ui/dropdown/AddLabel';
 import { mixin as clickaway } from 'vue-clickaway';
 import adminMixin from 'dashboard/mixins/isAdmin';
 import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
-import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
+import {
+  buildHotKeys,
+  isActiveElementTypeable,
+} from 'shared/helpers/KeyboardHelpers';
 
 export default {
   components: {
@@ -95,7 +98,7 @@ export default {
     },
     handleKeyEvents(e) {
       const keyPattern = buildHotKeys(e);
-      if (keyPattern === 'l' && e.target.tagName === 'BODY') {
+      if (keyPattern === 'l' && !isActiveElementTypeable(e)) {
         this.toggleLabels();
         e.preventDefault();
       } else if (keyPattern === 'escape' && this.showSearchDropdownLabel) {
