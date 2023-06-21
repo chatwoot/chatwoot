@@ -28,7 +28,7 @@
         <div v-if="noResult" class="no-result">
           {{ $t('CONTACT_PANEL.LABELS.LABEL_SELECT.NO_RESULT') }}
         </div>
-        <div v-if="shouldShowCreate" class="new-label">
+        <div v-if="allowCreation && shouldShowCreate" class="new-label">
           <woot-button
             size="small"
             variant="clear"
@@ -62,7 +62,6 @@
 import LabelDropdownItem from './LabelDropdownItem';
 import WootButton from 'dashboard/components/ui/WootButton.vue';
 import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel';
-
 import { picoSearch } from '@scmmishra/pico-search';
 
 export default {
@@ -80,6 +79,10 @@ export default {
     selectedLabels: {
       type: Array,
       default: () => [],
+    },
+    allowCreation: {
+      type: Boolean,
+      default: false,
     },
   },
 
@@ -113,7 +116,11 @@ export default {
     },
 
     shouldShowCreate() {
-      return this.filteredActiveLabels.length < 3 && this.search !== '';
+      return (
+        this.allowCreation &&
+        this.filteredActiveLabels.length < 3 &&
+        this.search !== ''
+      );
     },
 
     parsedSearch() {

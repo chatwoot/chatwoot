@@ -30,6 +30,7 @@
               v-if="showSearchDropdownLabel"
               :account-labels="accountLabels"
               :selected-labels="savedLabels"
+              :allow-creation="isAdmin"
               @add="addLabelToConversation"
               @remove="removeLabelFromConversation"
             />
@@ -47,6 +48,7 @@ import Spinner from 'shared/components/Spinner';
 import LabelDropdown from 'shared/components/ui/label/LabelDropdown';
 import AddLabel from 'shared/components/ui/dropdown/AddLabel';
 import { mixin as clickaway } from 'vue-clickaway';
+import adminMixin from 'dashboard/mixins/isAdmin';
 import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
 
 export default {
@@ -56,7 +58,7 @@ export default {
     AddLabel,
   },
 
-  mixins: [clickaway, conversationLabelMixin],
+  mixins: [clickaway, conversationLabelMixin, adminMixin],
   props: {
     conversationId: {
       type: Number,
