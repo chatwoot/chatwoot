@@ -1,8 +1,11 @@
 <template>
   <div class="dropdown-search-wrap">
-    <h4 class="text-block-title">
-      {{ $t('CONTACT_PANEL.LABELS.LABEL_SELECT.TITLE') }}
-    </h4>
+    <div class="dropdown-title-container">
+      <h4 class="text-block-title">
+        {{ $t('CONTACT_PANEL.LABELS.LABEL_SELECT.TITLE') }}
+      </h4>
+      <hotkey>L</hotkey>
+    </div>
     <div class="search-wrap">
       <input
         ref="searchbar"
@@ -61,6 +64,7 @@
 <script>
 import LabelDropdownItem from './LabelDropdownItem';
 import WootButton from 'dashboard/components/ui/WootButton.vue';
+import Hotkey from 'dashboard/components/base/Hotkey.vue';
 import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel';
 import { picoSearch } from '@scmmishra/pico-search';
 
@@ -69,6 +73,7 @@ export default {
     LabelDropdownItem,
     WootButton,
     AddLabelModal,
+    Hotkey,
   },
 
   props: {
@@ -176,6 +181,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.dropdown-title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-smaller);
+
+  .text-block-title {
+    flex-grow: 1;
+    margin: 0px;
+  }
+
+  .hotkey {
+    flex-shrink: 0;
+  }
+}
+
 .dropdown-search-wrap {
   display: flex;
   flex-direction: column;
