@@ -51,9 +51,7 @@ describe CustomMarkdownRenderer do
   describe '#link' do
     def render_markdown_link(link)
       doc = CommonMarker.render_doc("[link](#{link})", :DEFAULT)
-      link_node = doc.first_child.first_child
-      renderer.link(link_node)
-      renderer.instance_variable_get(:@stream).string
+      renderer.render(doc)
     end
 
     context 'when link is a YouTube URL' do
@@ -102,8 +100,17 @@ describe CustomMarkdownRenderer do
       it 'renders a normal link' do
         output = render_markdown_link(normal_url)
         expect(output).to include('<a href="https://example.com">')
-      rescue NoMethodError
-        # Ignore error for this test.
+      end
+    end
+
+    context 'when multiple links are present' do
+      it 'renders all links' do
+        markdown = '[youtube](https://www.youtube.com/watch?v=VIDEO_ID) [vimeo](https://vimeo.com/1234567) ^ hello ^ [normal](https://example.com)'
+        output = render_markdown(markdown)
+        expect(output).to include('src="https://www.youtube.com/embed/VIDEO_ID"')
+        expect(output).to include('src="https://player.vimeo.com/video/1234567"')
+        expect(output).to include('<a href="https://example.com">')
+        expect(output).to include('<sup> hello </sup>')
       end
     end
   end
