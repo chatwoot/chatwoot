@@ -17,7 +17,15 @@ class ConversationUpdateContactAction
   private
 
   def update_contact_inbox
-    @conversation.contact_inbox.update(contact_id: @contact.id)
+    contact_inbox = @conversation.contact_inbox
+
+    if @conversation.inbox.channel_type == 'Channel::Email'
+      new_source_id = @contact.email || SecureRandom.uuid
+      contact_inbox.source_id = new_source_id
+    end
+
+    contact_inbox.contact_id = @contact.id
+    contact_inbox.save
   end
 
   def validate_contacts
