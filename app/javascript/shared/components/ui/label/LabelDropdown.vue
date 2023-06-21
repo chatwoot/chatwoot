@@ -191,7 +191,7 @@ export default {
     }
 
     input:focus {
-      border: 1px solid var(--w-500);
+      outline: 1px solid var(--color-border-dark);
     }
   }
 
