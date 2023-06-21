@@ -201,11 +201,8 @@ class Message < ApplicationRecord
   end
 
   def valid_first_reply?
-    return false if !outgoing? || private?
-
+    return false unless outgoing? && human_response? && !private?
     return false if conversation.first_reply_created_at.present?
-
-    return false unless human_response?
     return false if conversation.messages.outgoing
                                 .where.not(sender_type: 'AgentBot')
                                 .where.not(private: true)
