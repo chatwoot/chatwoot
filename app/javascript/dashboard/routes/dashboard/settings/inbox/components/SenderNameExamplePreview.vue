@@ -14,7 +14,7 @@
         <div class="sender-name--preview-content">
           <span class="text">For eg:</span>
           <div class="sender-name--preview">
-            <thumbnail :username="userName(keyOption)" />
+            <thumbnail :username="userName(keyOption)" size="36px" />
             <div class="preview-card--content">
               <div>
                 <span v-if="isKeyOptionFriendly(keyOption.key)" class="name">
