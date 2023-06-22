@@ -106,6 +106,11 @@ export const hasPressedCommandPlusKKey = e => {
   return e.metaKey && e.keyCode === 75;
 };
 
+/**
+ * Returns a string representation of the hotkey pattern based on the provided event object.
+ * @param {KeyboardEvent} e - The keyboard event object.
+ * @returns {string} - The hotkey pattern string.
+ */
 export const buildHotKeys = e => {
   const key = e.key.toLowerCase();
   if (['shift', 'meta', 'alt', 'control'].includes(key)) {
@@ -128,8 +133,23 @@ export const buildHotKeys = e => {
   return hotKeyPattern;
 };
 
+/**
+ * Determines whether the active element is typeable.
+ *
+ * @param {KeyboardEvent} e - The keyboard event object.
+ * @returns {boolean} `true` if the active element is typeable, `false` otherwise.
+ *
+ * @example
+ * document.addEventListener('keydown', e => {
+ *   if (isActiveElementTypeable(e)) {
+ *     handleTypeableElement(e);
+ *   }
+ * });
+ */
 export const isActiveElementTypeable = e => {
-  const activeElement = e.target ?? document.activeElement;
+  /** @type {HTMLElement | null} */
+  // @ts-ignore
+  const activeElement = e.target || document.activeElement;
 
   return !!(
     activeElement?.tagName === 'INPUT' ||
