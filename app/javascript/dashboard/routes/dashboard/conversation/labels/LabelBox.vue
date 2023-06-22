@@ -49,9 +49,11 @@ import LabelDropdown from 'shared/components/ui/label/LabelDropdown';
 import AddLabel from 'shared/components/ui/dropdown/AddLabel';
 import { mixin as clickaway } from 'vue-clickaway';
 import adminMixin from 'dashboard/mixins/isAdmin';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
 import {
   buildHotKeys,
+  isEscape,
   isActiveElementTypeable,
 } from 'shared/helpers/KeyboardHelpers';
 
@@ -62,7 +64,7 @@ export default {
     AddLabel,
   },
 
-  mixins: [clickaway, conversationLabelMixin, adminMixin],
+  mixins: [clickaway, conversationLabelMixin, adminMixin, eventListenerMixins],
   props: {
     conversationId: {
       type: Number,
@@ -83,12 +85,6 @@ export default {
       labelUiFlags: 'conversationLabels/getUIFlags',
     }),
   },
-  mounted() {
-    document.addEventListener('keydown', this.handleKeyEvents);
-  },
-  destroyed() {
-    document.removeEventListener('keydown', this.handleKeyEvents);
-  },
   methods: {
     toggleLabels() {
       this.showSearchDropdownLabel = !this.showSearchDropdownLabel;
@@ -98,10 +94,11 @@ export default {
     },
     handleKeyEvents(e) {
       const keyPattern = buildHotKeys(e);
+
       if (keyPattern === 'l' && !isActiveElementTypeable(e)) {
         this.toggleLabels();
         e.preventDefault();
-      } else if (keyPattern === 'escape' && this.showSearchDropdownLabel) {
+      } else if (isEscape(e) && this.showSearchDropdownLabel) {
         this.closeDropdownLabel();
         e.preventDefault();
       }
