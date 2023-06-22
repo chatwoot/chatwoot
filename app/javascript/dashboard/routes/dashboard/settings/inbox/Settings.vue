@@ -23,6 +23,7 @@
       <settings-section
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_UPDATE_TITLE')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_UPDATE_SUB_TEXT')"
+        :show-border="false"
       >
         <woot-avatar-uploader
           :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AVATAR.LABEL')"
@@ -150,25 +151,6 @@
             }}
           </p>
         </label>
-
-        <div class="profile--settings--row row">
-          <div class="columns small-9 medium-5 card-preview">
-            <button
-              v-for="keyOption in keyOptions"
-              :key="keyOption.key"
-              class="preview-button"
-              @click="toggleEditorMessageKey(keyOption.key)"
-            >
-              <preview-card
-                :heading="keyOption.heading"
-                :content="keyOption.content"
-                :src="keyOption.src"
-                :active="friendlyNameEnabled(uiSettings, keyOption.key)"
-              />
-            </button>
-          </div>
-        </div>
-
         <div v-if="greetingEnabled" class="settings-item">
           <greetings-editor
             v-model.trim="greetingMessage"
@@ -365,7 +347,21 @@
             {{ $t('INBOX_MGMT.FEATURES.USE_INBOX_AVATAR_FOR_BOT') }}
           </label>
         </div>
-
+      </settings-section>
+      <settings-section
+        v-if="isAnEmailChannel"
+        :title="$t('INBOX_MGMT.EDIT.ENABLE_AGENT_NAME.TITLE')"
+        :sub-title="$t('INBOX_MGMT.EDIT.ENABLE_AGENT_NAME.SUB_TEXT')"
+        :show-border="false"
+      >
+        <div class="small-9 medium-5">
+          <sender-name-example-preview
+            :custom-sender-name-enabled="customSenderNameEnabled"
+            @update="toggleCustomSenderName"
+          />
+        </div>
+      </settings-section>
+      <settings-section :show-border="false">
         <woot-submit-button
           v-if="isAPIInbox"
           type="submit"
@@ -424,10 +420,7 @@ import CollaboratorsPage from './settingsPage/CollaboratorsPage';
 import WidgetBuilder from './WidgetBuilder';
 import BotConfiguration from './components/BotConfiguration';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
-import PreviewCard from 'dashboard/components/ui/PreviewCard.vue';
-import uiSettingsMixin, {
-  friendlyNameEnabled,
-} from 'dashboard/mixins/uiSettings';
+import SenderNameExamplePreview from './components/SenderNameExamplePreview';
 
 export default {
   components: {
@@ -441,9 +434,9 @@ export default {
     SettingsSection,
     WeeklyAvailability,
     WidgetBuilder,
-    PreviewCard,
+    SenderNameExamplePreview,
   },
-  mixins: [alertMixin, configMixin, inboxMixin, uiSettingsMixin],
+  mixins: [alertMixin, configMixin, inboxMixin],
   data() {
     return {
       avatarFile: null,
@@ -466,20 +459,6 @@ export default {
       replyTime: '',
       selectedTabIndex: 0,
       selectedPortalSlug: '',
-      keyOptions: [
-        {
-          key: 'friendly',
-          src: '/assets/images/dashboard/editor/enter-editor.png',
-          heading: this.$t('INBOX_MGMT.EDIT.ENABLE_AGENT_NAME.ENABLED'),
-          content: this.$t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_AGENT_NAME_TEXT'),
-        },
-        {
-          key: 'professional',
-          src: '/assets/images/dashboard/editor/cmd-editor.png',
-          heading: this.$t('INBOX_MGMT.EDIT.ENABLE_AGENT_NAME.DISABLED'),
-          content: this.$t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_AGENT_NAME_TEXT'),
-        },
-      ],
     };
   },
   computed: {
@@ -629,7 +608,6 @@ export default {
     fetchPortals() {
       this.$store.dispatch('portals/index');
     },
-    friendlyNameEnabled,
     handleFeatureFlag(e) {
       this.selectedFeatureFlags = this.toggleInput(
         this.selectedFeatureFlags,
@@ -691,6 +669,7 @@ export default {
               ).id
             : null,
           lock_to_single_conversation: this.locktoSingleConversation,
+          custom_sender_name_enabled: this.customSenderNameEnabled,
           channel: {
             widget_color: this.inbox.widget_color,
             website_url: this.channelWebsiteUrl,
@@ -701,7 +680,6 @@ export default {
             reply_time: this.replyTime || 'in_a_few_minutes',
             tweets_enabled: this.tweetsEnabled,
             continuity_via_email: this.continuityViaEmail,
-            custom_sender_name_enabled: this.customSenderNameEnabled,
           },
         };
         if (this.avatarFile) {
@@ -736,8 +714,8 @@ export default {
         );
       }
     },
-    toggleEditorMessageKey(key) {
-      this.senderName = key;
+    toggleCustomSenderName(value) {
+      this.customSenderNameEnabled = value;
     },
   },
   validations: {
@@ -759,12 +737,6 @@ export default {
   .settings--tabs {
     ::v-deep .tabs {
       padding: 0;
-    }
-  }
-
-  .settings--content {
-    div:last-child {
-      border-bottom: 0;
     }
   }
 
