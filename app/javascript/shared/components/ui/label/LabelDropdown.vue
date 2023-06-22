@@ -64,7 +64,7 @@
 <script>
 import LabelDropdownItem from './LabelDropdownItem';
 import WootButton from 'dashboard/components/ui/WootButton.vue';
-import Hotkey from 'dashboard/components/base/Hotkey.vue';
+import Hotkey from 'dashboard/components/base/Hotkey';
 import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel';
 import { picoSearch } from '@scmmishra/pico-search';
 
