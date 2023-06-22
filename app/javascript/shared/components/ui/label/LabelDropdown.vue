@@ -63,7 +63,6 @@
 
 <script>
 import LabelDropdownItem from './LabelDropdownItem';
-import WootButton from 'dashboard/components/ui/WootButton.vue';
 import Hotkey from 'dashboard/components/base/Hotkey';
 import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel';
 import { picoSearch } from '@scmmishra/pico-search';
@@ -71,7 +70,6 @@ import { picoSearch } from '@scmmishra/pico-search';
 export default {
   components: {
     LabelDropdownItem,
-    WootButton,
     AddLabelModal,
     Hotkey,
   },
