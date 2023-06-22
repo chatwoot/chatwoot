@@ -66,6 +66,7 @@ import LabelDropdownItem from './LabelDropdownItem';
 import Hotkey from 'dashboard/components/base/Hotkey';
 import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel';
 import { picoSearch } from '@scmmishra/pico-search';
+import { sanitizeLabel } from 'shared/helpers/sanitizeData';
 
 export default {
   components: {
@@ -127,14 +128,7 @@ export default {
     },
 
     parsedSearch() {
-      const labelRegex = /[^a-zA-Z0-9_-]/g;
-      const spaceRegex = /\s+/g;
-
-      return this.search
-        .trim()
-        .toLowerCase()
-        .replace(spaceRegex, '-')
-        .replace(labelRegex, '');
+      return sanitizeLabel(this.search);
     },
   },
 
