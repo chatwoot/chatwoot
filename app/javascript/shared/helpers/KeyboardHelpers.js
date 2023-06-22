@@ -135,6 +135,7 @@ export const isActiveElementTypeable = e => {
     activeElement?.tagName === 'INPUT' ||
     activeElement?.tagName === 'NINJA-KEYS' ||
     activeElement?.tagName === 'TEXTAREA' ||
-    activeElement?.contentEditable === 'true'
+    activeElement?.contentEditable === 'true' ||
+    activeElement?.className?.includes('ProseMirror')
   );
 };
