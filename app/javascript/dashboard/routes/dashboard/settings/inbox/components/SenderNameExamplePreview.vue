@@ -14,7 +14,7 @@
         <div class="sender-name--preview-content">
           <span class="text">For eg:</span>
           <div class="sender-name--preview">
-            <thumbnail :username="userNames(keyOption)" />
+            <thumbnail :username="userName(keyOption)" />
             <div class="preview-card--content">
               <div>
                 <span v-if="isKeyOptionFriendly(keyOption.key)" class="name">
@@ -87,7 +87,7 @@ export default {
     isKeyOptionFriendly(key) {
       return key === 'friendly';
     },
-    userNames(keyOption) {
+    userName(keyOption) {
       return this.isKeyOptionFriendly(keyOption.key)
         ? keyOption.preview.senderName
         : keyOption.preview.businessName;
