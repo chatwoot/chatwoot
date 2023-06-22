@@ -80,6 +80,12 @@ export default {
       },
     };
   },
+  beforeRouteEnter(to, from, next) {
+    // Fetch Audit Logs on page load without manual refresh
+    next(vm => {
+      vm.fetchAuditLogs();
+    });
+  },
   computed: {
     ...mapGetters({
       records: 'auditlogs/getAuditLogs',
@@ -90,10 +96,17 @@ export default {
   },
   mounted() {
     // Fetch API Call
-    this.$store.dispatch('auditlogs/fetch', { page: 1 });
     this.$store.dispatch('agents/get');
   },
   methods: {
+    fetchAuditLogs() {
+      const page = this.$route.query.page ?? 1;
+      this.$store.dispatch('auditlogs/fetch', { page }).catch(error => {
+        const errorMessage =
+          error?.message || this.$t('AUDIT_LOGS.API.ERROR_MESSAGE');
+        this.showAlert(errorMessage);
+      });
+    },
     getAgentName(email) {
       if (email === null) {
         return this.$t('AUDIT_LOGS.DEFAULT_USER');
@@ -130,6 +143,9 @@ export default {
         'team:create': `AUDIT_LOGS.TEAM.ADD`,
         'team:update': `AUDIT_LOGS.TEAM.EDIT`,
         'team:destroy': `AUDIT_LOGS.TEAM.DELETE`,
+        'macro:create': `AUDIT_LOGS.MACRO.ADD`,
+        'macro:update': `AUDIT_LOGS.MACRO.EDIT`,
+        'macro:destroy': `AUDIT_LOGS.MACRO.DELETE`,
       };
 
       return this.$t(translationKeys[logActionKey] || '', translationPayload);
