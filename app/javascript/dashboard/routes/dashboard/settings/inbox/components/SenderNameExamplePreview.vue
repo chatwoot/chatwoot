@@ -105,7 +105,6 @@ export default {
   flex-direction: row;
   align-items: center;
   gap: var(--space-normal);
-  margin-bottom: var(--space-normal);
 
   .sender-name--preview-content {
     display: flex;
@@ -118,7 +117,6 @@ export default {
 
 .preview-button {
   color: var(--s-700);
-  width: 25rem;
 
   .text {
     font-size: var(--font-size-mini);

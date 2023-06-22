@@ -259,7 +259,7 @@
             }}
           </p>
         </label>
-        <div class="medium-9 settings-item settings-item">
+        <div class="medium-9 settings-item">
           <label>
             {{ $t('INBOX_MGMT.HELP_CENTER.LABEL') }}
           </label>
@@ -314,7 +314,7 @@
             {{ $t('INBOX_MGMT.FEATURES.DISPLAY_FILE_PICKER') }}
           </label>
         </div>
-        <div v-if="isAWebWidgetInbox" class="settings-item settings-item">
+        <div v-if="isAWebWidgetInbox" class="settings-item">
           <input
             v-model="selectedFeatureFlags"
             type="checkbox"
@@ -325,7 +325,7 @@
             {{ $t('INBOX_MGMT.FEATURES.DISPLAY_EMOJI_PICKER') }}
           </label>
         </div>
-        <div v-if="isAWebWidgetInbox" class="settings-item settings-item">
+        <div v-if="isAWebWidgetInbox" class="settings-item">
           <input
             v-model="selectedFeatureFlags"
             type="checkbox"
@@ -336,7 +336,7 @@
             {{ $t('INBOX_MGMT.FEATURES.ALLOW_END_CONVERSATION') }}
           </label>
         </div>
-        <div v-if="isAWebWidgetInbox" class="settings-item settings-item">
+        <div v-if="isAWebWidgetInbox" class="settings-item">
           <input
             v-model="selectedFeatureFlags"
             type="checkbox"
@@ -354,7 +354,7 @@
         :sub-title="$t('INBOX_MGMT.EDIT.ENABLE_AGENT_NAME.SUB_TEXT')"
         :show-border="false"
       >
-        <div class="small-9 medium-5">
+        <div class="medium-9 settings-item">
           <sender-name-example-preview
             :custom-sender-name-enabled="customSenderNameEnabled"
             @update="toggleCustomSenderName"
