@@ -189,7 +189,7 @@ export default {
 
   .text-block-title {
     flex-grow: 1;
-    margin: 0px;
+    margin: 0;
   }
 
   .hotkey {
