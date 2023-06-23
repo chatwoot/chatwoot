@@ -106,6 +106,7 @@
       "CHANGE_ASSIGNEE": "Promeni dodeljenog",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Promeni tim",
+      "SNOOZE_CONVERSATION": "Odloži razgovor",
       "ADD_LABEL": "Dodaj oznaku razgovoru",
       "REMOVE_LABEL": "Ukloni oznaku sa razgovora",
       "SETTINGS": "Podešavanja"
@@ -141,7 +142,10 @@
       "SNOOZE_CONVERSATION": "Odloži razgovor",
       "UNTIL_NEXT_REPLY": "Do sledećeg odgovora",
       "UNTIL_NEXT_WEEK": "Do sledeće nedelje",
-      "UNTIL_TOMORROW": "Do sutra"
+      "UNTIL_TOMORROW": "Do sutra",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom..."
     }
   },
   "DASHBOARD_APPS": {

@@ -106,6 +106,7 @@
       "CHANGE_ASSIGNEE": "Zmień przypisaną osobę",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Zmień zespół",
+      "SNOOZE_CONVERSATION": "Wycisz rozmowę",
       "ADD_LABEL": "Dodaj etykietę do rozmowy",
       "REMOVE_LABEL": "Usuń etykietę z rozmowy",
       "SETTINGS": "Ustawienia"
@@ -141,7 +142,10 @@
       "SNOOZE_CONVERSATION": "Wycisz rozmowę",
       "UNTIL_NEXT_REPLY": "Do następnej odpowiedzi",
       "UNTIL_NEXT_WEEK": "Do następnego tygodnia",
-      "UNTIL_TOMORROW": "Do jutra"
+      "UNTIL_TOMORROW": "Do jutra",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom..."
     }
   },
   "DASHBOARD_APPS": {

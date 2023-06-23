@@ -106,6 +106,7 @@
       "CHANGE_ASSIGNEE": "เปลี่ยนผู้รับมอบหมาย",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "เปลี่ยนทีม",
+      "SNOOZE_CONVERSATION": "พักการสนทนา",
       "ADD_LABEL": "เพิ่มป้ายกำกับให้การสนทนา",
       "REMOVE_LABEL": "ลบป้ายกำกับออกจากการสนทนา",
       "SETTINGS": "ตั้งค่า"
@@ -141,7 +142,10 @@
       "SNOOZE_CONVERSATION": "พักการสนทนา",
       "UNTIL_NEXT_REPLY": "จนกว่าการตอบกลับถัดไป",
       "UNTIL_NEXT_WEEK": "จนกว่าสัปดาห์หน้า",
-      "UNTIL_TOMORROW": "จนกว่าพรุ่งนี้"
+      "UNTIL_TOMORROW": "จนกว่าพรุ่งนี้",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom..."
     }
   },
   "DASHBOARD_APPS": {
