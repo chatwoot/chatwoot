@@ -21,12 +21,12 @@ id:
   messages:
     reset_password_success: Woot! Permintaan pengaturan ulang kata sandi berhasil. Periksa email Anda untuk mendapatkan petunjuk.
     reset_password_failure: Aduh! Kami tidak dapat menemukan pengguna dengan email yang dimasukkan.
-    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
+    inbox_deletetion_response: Permintaan penghapusan kotak masuk Anda akan diproses dalam beberapa waktu.
   errors:
     validations:
       presence: tidak boleh kosong
     webhook:
-      invalid: Invalid events
+      invalid: Acara tidak valid
     signup:
       disposable_email: Kami tidak mengizinkan email sekali pakai
       invalid_email: Anda telah memasukkan email yang tidak valid
@@ -34,49 +34,49 @@ id:
       failed: Pendaftaran gagal
     data_import:
       data_type:
-        invalid: Invalid data type
+        invalid: Jenis data tidak valid
     contacts:
       import:
         failed: File kosong
       export:
-        success: We will notify you once contacts export file is ready to view.
+        success: Kami akan memberi tahu Anda setelah file ekspor kontak siap dilihat.
       email:
-        invalid: Invalid email
+        invalid: Email tidak valid
       phone_number:
-        invalid: should be in e164 format
+        invalid: harus dalam format e164
     categories:
       locale:
-        unique: should be unique in the category and portal
+        unique: harus unik dalam kategori dan portal
     dyte:
-      invalid_message_type: "Invalid message type. Action not permitted"
+      invalid_message_type: "Jenis pesan tidak valid. Tindakan tidak diizinkan"
     inboxes:
       imap:
-        socket_error: Please check the network connection, IMAP address and try again.
+        socket_error: Periksa sambungan jaringan, alamat IMAP, dan coba lagi.
         no_response_error: Periksa kembali kredensial IMAP dan coba lagi.
-        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
-        connection_timed_out_error: Connection timed out for %{address}:%{port}
-        connection_closed_error: Connection closed.
+        host_unreachable_error: Host tidak dapat dijangkau, Harap periksa alamat IMAP, port IMAP, dan coba lagi.
+        connection_timed_out_error: Waktu koneksi habis untuk %{address}:%{port}
+        connection_closed_error: Koneksi terputus.
       validations:
-        name: should not start or end with symbols, and it should not have < > / \ @ characters.
+        name: tidak boleh dimulai atau diakhiri dengan simbol, dan tidak boleh memiliki karakter < > / \ @.
     custom_filters:
-      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
+      number_of_records: Batas tercapai. Jumlah maksimum filter ubahsuaian yang diizinkan untuk satu pengguna per akun adalah 50.
   reports:
     period: Periode pelaporan %{since} hingga %{until}
-    utc_warning: The report generated is in UTC timezone
+    utc_warning: Laporan yang dihasilkan berada dalam zona waktu UTC
     agent_csv:
       agent_name: Nama agen
       conversations_count: Jumlah percakapan
       avg_first_response_time: Rata-rata waktu respons pertama (Menit)
       avg_resolution_time: Rata-rata waktu resolusi (Menit)
     inbox_csv:
-      inbox_name: Inbox name
-      inbox_type: Inbox type
-      conversations_count: No. of conversations
+      inbox_name: Nama kotak masuk
+      inbox_type: Jenis kotak masuk
+      conversations_count: Jumlah percakapan
       avg_first_response_time: Rata-rata waktu respons pertama (Menit)
       avg_resolution_time: Rata-rata waktu resolusi (Menit)
     label_csv:
       label_title: Label
-      conversations_count: No. of conversations
+      conversations_count: Jumlah percakapan
       avg_first_response_time: Rata-rata waktu respons pertama (Menit)
       avg_resolution_time: Rata-rata waktu resolusi (Menit)
     team_csv:
@@ -85,11 +85,11 @@ id:
       avg_first_response_time: Rata-rata waktu respons pertama (Menit)
       avg_resolution_time: Rata-rata waktu resolusi (Menit)
     conversation_traffic_csv:
-      timezone: Timezone
-    default_group_by: day
+      timezone: Zona Waktu
+    default_group_by: hari
     csat:
       headers:
-        contact_name: Contact Name
+        contact_name: Nama Kontak
         contact_email_address: Contact Email Address
         contact_phone_number: Contact Phone Number
         link_to_the_conversation: Link to the conversation

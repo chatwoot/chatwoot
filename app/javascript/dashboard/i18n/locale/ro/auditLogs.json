@@ -43,6 +43,11 @@
       "ADD": "%{agentName} a creat o nouă echipa (#%{id})",
       "EDIT": "%{agentName} a actualizat o echipa (#%{id})",
       "DELETE": "%{agentName} a șters o echipa (#%{id})"
+    },
+    "MACRO": {
+      "ADD": "%{agentName} created a new macro (#%{id})",
+      "EDIT": "%{agentName} updated a macro (#%{id})",
+      "DELETE": "%{agentName} deleted a macro (#%{id})"
     }
   }
 }
