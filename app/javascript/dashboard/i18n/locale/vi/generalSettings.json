@@ -106,6 +106,7 @@
       "CHANGE_ASSIGNEE": "Thay đổi người được phân công",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Thay đổi nhóm",
+      "SNOOZE_CONVERSATION": "Tạm dừng \bhội thoại",
       "ADD_LABEL": "Thêm nhãn vào hội thoại",
       "REMOVE_LABEL": "Xoá nhãn khỏi hội thoại",
       "SETTINGS": "Cài đặt"
@@ -141,7 +142,10 @@
       "SNOOZE_CONVERSATION": "Tạm dừng \bhội thoại",
       "UNTIL_NEXT_REPLY": "Cho đến phản hồi kế tiếp",
       "UNTIL_NEXT_WEEK": "Cho đến tuần sau",
-      "UNTIL_TOMORROW": "Cho đến ngày mai"
+      "UNTIL_TOMORROW": "Cho đến ngày mai",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom..."
     }
   },
   "DASHBOARD_APPS": {
