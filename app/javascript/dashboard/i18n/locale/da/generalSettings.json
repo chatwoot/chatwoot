@@ -106,6 +106,7 @@
       "CHANGE_ASSIGNEE": "Skift Modtager",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Skift Team",
+      "SNOOZE_CONVERSATION": "Udsæt Samtale",
       "ADD_LABEL": "Tilføj etiket til samtalen",
       "REMOVE_LABEL": "Fjern etiket fra samtalen",
       "SETTINGS": "Indstillinger"
@@ -141,7 +142,10 @@
       "SNOOZE_CONVERSATION": "Udsæt Samtale",
       "UNTIL_NEXT_REPLY": "Indtil næste svar",
       "UNTIL_NEXT_WEEK": "Indtil næste uge",
-      "UNTIL_TOMORROW": "Indtil i morgen"
+      "UNTIL_TOMORROW": "Indtil i morgen",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom..."
     }
   },
   "DASHBOARD_APPS": {
