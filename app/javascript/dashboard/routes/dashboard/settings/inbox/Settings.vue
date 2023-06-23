@@ -349,7 +349,6 @@
         </div>
       </settings-section>
       <settings-section
-        v-if="isAnEmailChannel"
         :title="$t('INBOX_MGMT.EDIT.ENABLE_AGENT_NAME.TITLE')"
         :sub-title="$t('INBOX_MGMT.EDIT.ENABLE_AGENT_NAME.SUB_TEXT')"
         :show-border="false"

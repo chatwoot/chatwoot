@@ -16,6 +16,8 @@ json.timezone resource.timezone
 json.callback_webhook_url resource.callback_webhook_url
 json.allow_messages_after_resolved resource.allow_messages_after_resolved
 json.lock_to_single_conversation resource.lock_to_single_conversation
+json.custom_sender_name_enabled resource.custom_sender_name_enabled
+json.business_name resource.business_name
 
 if resource.portal.present?
   json.help_center do
@@ -61,7 +63,6 @@ if resource.email?
   ## Email Channel Attributes
   json.forward_to_email resource.channel.try(:forward_to_email)
   json.email resource.channel.try(:email)
-  json.custom_sender_name_enabled resource.custom_sender_name_enabled
 
   ## IMAP
   if Current.account_user&.administrator?
