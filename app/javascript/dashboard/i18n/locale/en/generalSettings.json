@@ -2,6 +2,7 @@
   "GENERAL_SETTINGS": {
     "TITLE": "Account settings",
     "SUBMIT": "Update settings",
+    "DISMISS": "Dismiss",
     "BACK": "Back",
     "UPDATE": {
       "ERROR": "Could not update settings, try again!",

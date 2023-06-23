@@ -23,8 +23,8 @@ Vue.use(VueFormulate, {
     isPhoneE164OrEmpty: ({ value }) => isPhoneE164OrEmpty(value),
   },
   classes: {
-    outer: 'mb-4 wrapper',
-    error: 'text-red-400 mt-2 text-xs font-medium',
+    outer: 'mb-2 wrapper',
+    error: 'text-red-400 mt-2 text-xs leading-3 font-medium',
   },
 });
 // Event Bus
