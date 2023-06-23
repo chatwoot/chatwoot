@@ -138,6 +138,37 @@ RSpec.describe Message do
     end
   end
 
+  describe '#waiting since' do
+    let(:conversation) { create(:conversation) }
+    let(:agent) { create(:user, account: conversation.account) }
+    let(:message) { build(:message, conversation: conversation) }
+
+    it 'resets the waiting_since if an agent sent a reply' do
+      message.message_type = :outgoing
+      message.sender = agent
+      message.save!
+
+      expect(conversation.waiting_since).to be_nil
+    end
+
+    it 'sets the waiting_since if there is an incoming message' do
+      conversation.update(waiting_since: nil)
+      message.message_type = :incoming
+      message.save!
+
+      expect(conversation.waiting_since).not_to be_nil
+    end
+
+    it 'does not overwrite the previous value if there are newer messages' do
+      old_waiting_since = conversation.waiting_since
+      message.message_type = :incoming
+      message.save!
+      conversation.reload
+
+      expect(conversation.waiting_since).to eq old_waiting_since
+    end
+  end
+
   context 'with webhook_data' do
     it 'contains the message attachment when attachment is present' do
       message = create(:message)

@@ -77,7 +77,7 @@
         "AGENT_AVAILABILITY": {
           "LABEL": "Disponibilidade",
           "PLACEHOLDER": "Por favor selecione a disponibilidade do agente",
-          "ERROR": "Disponibilidade é obrigatoria"
+          "ERROR": "Disponibilidade é obrigatória"
         },
         "SUBMIT": "Editar agente"
       },

@@ -31,7 +31,7 @@
       "CHANNEL_NAME": {
         "LABEL": "Nama Kotak Masuk",
         "PLACEHOLDER": "Masukkan nama kotak masuk anda (mis: Acme Inc)",
-        "ERROR": "Please enter a valid inbox name"
+        "ERROR": "Harap masukkan nama inbox yang valid"
       },
       "WEBSITE_NAME": {
         "LABEL": "Nama Website",
@@ -173,13 +173,13 @@
             "ERROR": "Bagian ini diperlukan"
           },
           "APPLICATION_ID": {
-            "LABEL": "Application ID",
+            "LABEL": "ID Aplikasi",
             "PLACEHOLDER": "Please enter your Bandwidth Application ID",
             "ERROR": "Bagian ini diperlukan"
           },
           "INBOX_NAME": {
             "LABEL": "Nama Kotak Masuk",
-            "PLACEHOLDER": "Please enter a inbox name",
+            "PLACEHOLDER": "Harap masukkan nama inbox",
             "ERROR": "Bagian ini diperlukan"
           },
           "PHONE_NUMBER": {
@@ -232,9 +232,9 @@
           "ERROR": "Please enter a valid value."
         },
         "API_KEY": {
-          "LABEL": "API key",
+          "LABEL": "API Key",
           "SUBTITLE": "Configure the WhatsApp API key.",
-          "PLACEHOLDER": "API key",
+          "PLACEHOLDER": "API Key",
           "ERROR": "Please enter a valid value."
         },
         "API_CALLBACK": {
@@ -535,7 +535,6 @@
       "UPDATE": "Perbarui pengaturan jam kerja",
       "TOGGLE_AVAILABILITY": "Aktifkan ketersediaan bisnis untuk kotak masuk ini",
       "UNAVAILABLE_MESSAGE_LABEL": "Pesan tidak tersedia untuk pengunjung",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "Kami tidak tersedia saat ini. Tinggalkan pesan kami akan merespon setelah kami kembali.",
       "TOGGLE_HELP": "Mengaktifkan ketersediaan bisnis akan menunjukkan jam yang tersedia di widget obrolan langsung meskipun semua agen sedang offline. Di luar jam buka yang tersedia, pengunjung dapat diperingatkan dengan pesan dan formulir pra-obrolan.",
       "DAY": {
         "ENABLE": "Aktifkan ketersediaan untuk hari ini",
