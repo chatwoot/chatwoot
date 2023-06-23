@@ -3,12 +3,12 @@ const { VueLoaderPlugin } = require('vue-loader');
 const resolve = require('./resolve');
 const vue = require('./loaders/vue');
 
+// Implementation reference: https://chwt.app/webpacker-tailwind-jit
 const sassLoader = environment.loaders.get('sass');
 const sassLoaderConfig = sassLoader.use.find(
   element => element.loader === 'sass-loader'
 );
 
-// Use Dart-implementation of Sass (default is node-sass)
 const options = sassLoaderConfig.options;
 options.implementation = require('sass');
 
