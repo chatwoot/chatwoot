@@ -100,17 +100,19 @@ export default {
   computed: {
     createLabelPlaceholder() {
       const label = this.$t('CONTACT_PANEL.LABELS.LABEL_SELECT.CREATE_LABEL');
-      return `${label}:`;
+      return this.search ? `${label}:` : label;
     },
 
     filteredActiveLabels() {
+      if (!this.search) return this.accountLabels;
+
       return picoSearch(this.accountLabels, this.search, ['title'], {
         threshold: 0.9,
       });
     },
 
     noResult() {
-      return this.filteredActiveLabels.length === 0 && this.search !== '';
+      return this.filteredActiveLabels.length === 0;
     },
 
     hasExactMatchInResults() {
@@ -120,11 +122,7 @@ export default {
     },
 
     shouldShowCreate() {
-      return (
-        this.allowCreation &&
-        this.filteredActiveLabels.length < 3 &&
-        this.search !== ''
-      );
+      return this.allowCreation && this.filteredActiveLabels.length < 3;
     },
 
     parsedSearch() {
