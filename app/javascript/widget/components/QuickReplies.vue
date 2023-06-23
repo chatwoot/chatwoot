@@ -1,5 +1,5 @@
 <template>
-  <div class="quick-replies" :class="classObject" :style="showHideElement">
+  <div class="quick-replies" :style="showHideElement">
     <chat-option
       v-for="option in options"
       :key="option.id"
@@ -32,37 +32,17 @@ export default {
       options: 'conversation/getQuickRepliesOptions',
       onOptionSelect: 'conversation/getQuickRepliesCallback',
     }),
-    isMobile() {
-      return this.width < 668;
-    },
-    classObject() {
-      return { 'mobile-quick-replies': this.isMobile };
-    },
     showHideElement() {
       return { display: this.isVisible ? 'flex' : 'none' };
     },
   },
   mounted() {
     window.addEventListener('resize', this.getDimensions);
-    const quickRepliesContainer = document.querySelector(
-      '.mobile-quick-replies'
-    );
-    quickRepliesContainer?.addEventListener('wheel', this.scrollListener);
   },
   unmounted() {
     window.removeEventListener('resize', this.getDimensions);
-    const quickRepliesContainer = document.querySelector(
-      '.mobile-quick-replies'
-    );
-    quickRepliesContainer?.removeEventListener('wheel', this.scrollListener);
   },
   methods: {
-    scrollListener(event) {
-      event.preventDefault();
-      const isTrackpad = event.deltaX && event.deltaY
-      const increment = isTrackpad ? event.deltaX : event.deltaY
-      document.querySelector('.mobile-quick-replies').scrollLeft += increment
-    },
     getDimensions() {
       this.width = document.documentElement.clientWidth;
     },
@@ -89,24 +69,5 @@ export default {
   padding: 20px 20px 0 20px;
   max-width: $break-point-tablet;
   margin: 0 auto;
-}
-
-.mobile-quick-replies {
-  justify-content: unset;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-
-  /* Hide scrollbar for IE, Edge and Firefox */
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-
-  /* Hide scrollbar for Chrome, Safari and Opera */
-  &::-webkit-scrollbar {
-    display: none;
-  }
-
-  .option:first-child {
-    margin-left: auto !important;
-  }
 }
 </style>
