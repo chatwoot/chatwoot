@@ -69,6 +69,7 @@ test/cypress/videos/*
 yalc.lock
 
 /public/packs
+/public/assets
 /public/packs-test
 /node_modules
 /yarn-error.log
