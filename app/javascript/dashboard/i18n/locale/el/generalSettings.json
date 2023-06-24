@@ -48,7 +48,10 @@
       }
     },
     "UPDATE_CHATWOOT": "Μια ενημέρωση %{latestChatwootVersion} για το Chatwoot είναι διαθέσιμη. Ενημερώστε την εφαρμογή σας.",
-    "LEARN_MORE": "Μάθετε περισσότερα"
+    "LEARN_MORE": "Μάθετε περισσότερα",
+    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
+    "OPEN_BILLING": "Open billing"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -103,6 +106,7 @@
       "CHANGE_ASSIGNEE": "Αλλαγή Αναδόχου",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Αλλαγή Ομάδας",
+      "SNOOZE_CONVERSATION": "Αναβολή Συνομιλίας",
       "ADD_LABEL": "Προσθήκη ετικέτας στη συνομιλία",
       "REMOVE_LABEL": "Αφαίρεση ετικέτας από την συνομιλία",
       "SETTINGS": "Ρυθμίσεις"
@@ -138,7 +142,10 @@
       "SNOOZE_CONVERSATION": "Αναβολή Συνομιλίας",
       "UNTIL_NEXT_REPLY": "Μέχρι την επόμενη απάντηση",
       "UNTIL_NEXT_WEEK": "Έως την επόμενη εβδομάδα",
-      "UNTIL_TOMORROW": "Μέχρι αύριο"
+      "UNTIL_TOMORROW": "Μέχρι αύριο",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom..."
     }
   },
   "DASHBOARD_APPS": {

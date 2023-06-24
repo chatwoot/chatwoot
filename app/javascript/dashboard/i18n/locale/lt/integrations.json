@@ -1,42 +1,42 @@
 {
   "INTEGRATION_SETTINGS": {
-    "HEADER": "Integrations",
+    "HEADER": "Integracijos",
     "WEBHOOK": {
-      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "SUBSCRIBED_EVENTS": "Prenumeruoti įvykiai",
       "FORM": {
         "CANCEL": "Atšaukti",
-        "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
+        "DESC": "Webhook įvykiai suteikia jums realaus laiko informaciją apie tai, kas vyksta jūsų Chatwoot paskyroje. Norėdami sukonfigūruoti atgalinį skambinimą, įveskite tinkamą URL.",
         "SUBSCRIPTIONS": {
-          "LABEL": "Events",
+          "LABEL": "Įvykiai",
           "EVENTS": {
-            "CONVERSATION_CREATED": "Conversation Created",
+            "CONVERSATION_CREATED": "Pokalbis sukurtas",
             "CONVERSATION_STATUS_CHANGED": "Pokalbio būsena pakeista",
-            "CONVERSATION_UPDATED": "Conversation Updated",
-            "MESSAGE_CREATED": "Message created",
-            "MESSAGE_UPDATED": "Message updated",
-            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user",
-            "CONTACT_CREATED": "Contact created",
-            "CONTACT_UPDATED": "Contact updated"
+            "CONVERSATION_UPDATED": "Pokalbis atnaujintas",
+            "MESSAGE_CREATED": "Pranešimas sukurtas",
+            "MESSAGE_UPDATED": "Pranešimas atnaujintas",
+            "WEBWIDGET_TRIGGERED": "Tiesioginio pokalbio valdiklis, kurį atidarė vartotojas",
+            "CONTACT_CREATED": "Sukurtas kontaktas",
+            "CONTACT_UPDATED": "Kontaktas atnaujintas"
           }
         },
         "END_POINT": {
           "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Example: https://example/api/webhook",
+          "PLACEHOLDER": "Pavyzdys: https://example/api/webhook",
           "ERROR": "Prašome įvesti tesingą URL adresą"
         },
-        "EDIT_SUBMIT": "Update webhook",
-        "ADD_SUBMIT": "Create webhook"
+        "EDIT_SUBMIT": "Atnaujinti webhook",
+        "ADD_SUBMIT": "Sukurti webhook"
       },
       "TITLE": "Webhook",
-      "CONFIGURE": "Configure",
-      "HEADER": "Webhook settings",
-      "HEADER_BTN_TXT": "Add new webhook",
-      "LOADING": "Fetching attached webhooks",
+      "CONFIGURE": "Konfigūruoti",
+      "HEADER": "Webhook nustatymai",
+      "HEADER_BTN_TXT": "Pridėti naują webhook",
+      "LOADING": "Pridėtų webhooks gavimas",
       "SEARCH_404": "Šią užklausą atitinkančių elementų nėra",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks are HTTP callbacks which can be defined for every account. They are triggered by events like message creation in Chatwoot. You can create more than one webhook for this account. <br /><br /> For creating a <b>webhook</b>, click on the <b>Add new webhook</b> button. You can also remove any existing webhook by clicking on the Delete button.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks yra HTTP užklausos, kurias galima nustatyti kiekvienai paskyrai. Juos suaktyvina tokie įvykiai kaip pranešimų kūrimas Chatwoot. Šiai paskyrai galite sukurti daugiau nei vieną webhook. <br /><br /> Norėdami sukurti <b>webhook</b>, spustelėkite mygtuką <b>Pridėti naują webhook</b>. Taip pat galite pašalinti bet kurį esamą webhook spustelėdami mygtuką Ištrinti.</p>",
       "LIST": {
-        "404": "There are no webhooks configured for this account.",
-        "TITLE": "Manage webhooks",
+        "404": "Šioje paskyroje nėra sukonfigūruotų webhook.",
+        "TITLE": "Tvarkykite webhooks",
         "TABLE_HEADER": [
           "Webhook endpoint",
           "Veiksmai"
@@ -44,117 +44,119 @@
       },
       "EDIT": {
         "BUTTON_TEXT": "Redaguoti",
-        "TITLE": "Edit webhook",
+        "TITLE": "Redaguoti webhook",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
+          "SUCCESS_MESSAGE": "Webhook konfigūracija sėkmingai atnaujinta",
           "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
         }
       },
       "ADD": {
         "CANCEL": "Atšaukti",
-        "TITLE": "Add new webhook",
+        "TITLE": "Pridėti naują webhook",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
+          "SUCCESS_MESSAGE": "Webhook konfigūracija pridėta sėkmingai",
           "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Ištrinti",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook deleted successfully",
+          "SUCCESS_MESSAGE": "Webhook ištrintas sėkmingai",
           "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
         },
         "CONFIRM": {
           "TITLE": "Patvirtinti Ištrynimą",
-          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
+          "MESSAGE": "Ar tikrai norite ištrinti webhook? (%{webhookURL})",
           "YES": "Taip, Trinti ",
-          "NO": "No, Keep it"
+          "NO": "Ne, Išsaugoti"
         }
       }
     },
     "SLACK": {
       "HELP_TEXT": {
-        "TITLE": "Using Slack Integration",
-        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>"
+        "TITLE": "Slack integracijos naudojimas",
+        "BODY": "<br/><p>Dabar Chatwoot sinchronizuos visus gaunamus pokalbius į <b><i>kliento pokalbiai</i></b> kanalą jūsų laisvoje darbo vietoje.</p><p>Atsakymas į pokalbių giją <b><i>kliento pokalbiai</i></b> Slack kanale pateiks atsakymą klientui per chatwoot.</p><p>Atsakymus pradėkite naudodami <b><i> pastaba:</i></b> jei norite sukurti privačias pastabas, o ne atsakymus.</p><p>Jei „slack“ atsakytojas turi agento profilį „chatwoot“ tuo pačiu el. pašto adresu, atsakymai bus atitinkamai susieti.</p><p> p><p>Kai atsakiklis neturi susieto agento profilio, atsakymai bus pateikiami iš boto profilio.</p>"
       }
     },
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the room",
-      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
-      "JOIN_ERROR": "There was an error joining the call, please try again",
-      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+      "CLICK_HERE_TO_JOIN": "Spausti čia kad prisijungti",
+      "LEAVE_THE_ROOM": "Išeiti iš kambario",
+      "START_VIDEO_CALL_HELP_TEXT": "Pradėkite naują vaizdo skambutį su klientu",
+      "JOIN_ERROR": "Prisijungiant prie skambučio įvyko klaida, bandykite dar kartą",
+      "CREATE_ERROR": "Įvyko klaida kuriant susitikimo nuorodą, pabandykite dar kartą"
     },
     "OPEN_AI": {
-      "TITLE": "Improve With AI",
-      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TITLE": "Tobulinti naudojant AI",
+      "SUMMARY_TITLE": "Apibendrinimas naudojant AI",
+      "REPLY_TITLE": "Atsakymo pasiūlymas naudjant AI",
+      "SUBTITLE": "Patobulintas atsakymas bus sukurtas naudojant AI, remiantis dabartiniu juodraščiu.",
       "TONE": {
-        "TITLE": "Tone",
+        "TITLE": "Tonas",
         "OPTIONS": {
-          "PROFESSIONAL": "Professional",
-          "FRIENDLY": "Friendly"
+          "PROFESSIONAL": "Profesionalas",
+          "FRIENDLY": "Draugiškas"
         }
       },
       "BUTTONS": {
-        "GENERATE": "Generate",
-        "GENERATING": "Generating...",
+        "GENERATE": "Generuoti",
+        "GENERATING": "Sukurti...",
         "CANCEL": "Atšaukti"
       },
-      "GENERATE_ERROR": "There was an error processing the content, please try again"
+      "GENERATE_ERROR": "Įvyko klaida apdorojant turinį, pabandykite dar kartą"
     },
     "DELETE": {
       "BUTTON_TEXT": "Ištrinti",
       "API": {
-        "SUCCESS_MESSAGE": "Integration deleted successfully"
+        "SUCCESS_MESSAGE": "Integracija sėkmingai ištrinta"
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "Sujungti"
     },
     "DASHBOARD_APPS": {
-      "TITLE": "Dashboard Apps",
-      "HEADER_BTN_TXT": "Add a new dashboard app",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
-      "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
+      "TITLE": "Informacinio skydelio programos",
+      "HEADER_BTN_TXT": "Pridėkite naują informacinio skydelio programą",
+      "SIDEBAR_TXT": "<p><b>Informacinio skydelio programos</b></p><p>Informacinio skydelio programos leidžia organizacijoms įterpti programą į Chatwood valdymo skydelį, kad klientų aptarnavimo agentams būtų suteiktas kontekstas. Ši funkcija leidžia savarankiškai kurti programą ir įterpti informaciją apie vartotoją, jo užsakymus ar mokėjimų istoriją.</p><p>Kai įterpiate programą naudodami Chatwood valdymo skydelį, programa gaus pokalbio kontekstą ir įvykio nuorodas. Įdiekite pranešimo įvykio nuorodas savo puslapyje, kad gautumėte kontekstą.</p><p>Jei norite pridėti naują informacinio skydelio programą, spustelėkite mygtuką \"Pridėti naują skydelio programą\".</p>",
+      "DESCRIPTION": "Informacinio skydelio programos leidžia organizacijoms įterpti programą į valdymo skydelį, kad klientų aptarnavimo agentams būtų suteiktas kontekstas. Ši funkcija leidžia savarankiškai kurti programą ir įterpti informaciją apie vartotoją, jo užsakymus ar mokėjimų istoriją.",
       "LIST": {
-        "404": "There are no dashboard apps configured on this account yet",
-        "LOADING": "Fetching dashboard apps...",
+        "404": "Šioje paskyroje nėra sukonfigūruotų informacinio skydelio programų",
+        "LOADING": "Gaunamos informacinio skydelio programos...",
         "TABLE_HEADER": [
           "Vardas",
           "Endpoint"
         ],
-        "EDIT_TOOLTIP": "Edit app",
-        "DELETE_TOOLTIP": "Delete app"
+        "EDIT_TOOLTIP": "Redaguoti programą",
+        "DELETE_TOOLTIP": "Ištrinti programą"
       },
       "FORM": {
         "TITLE_LABEL": "Vardas",
-        "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
-        "TITLE_ERROR": "A name for the dashboard app is required",
+        "TITLE_PLACEHOLDER": "Įveskite informacinio skydelio programos pavadinimą",
+        "TITLE_ERROR": "Reikalingas informacinio skydelio programos pavadinimas",
         "URL_LABEL": "Endpoint",
-        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
-        "URL_ERROR": "A valid URL is required"
+        "URL_PLACEHOLDER": "Įveskite URL adresą, kuriuo pasiekiama jūsų programa",
+        "URL_ERROR": "Reikalingas tinkamas URL"
       },
       "CREATE": {
-        "HEADER": "Add a new dashboard app",
+        "HEADER": "Pridėkite naują informacinio skydelio programą",
         "FORM_SUBMIT": "Pateikti",
         "FORM_CANCEL": "Atšaukti",
-        "API_SUCCESS": "Dashboard app configured successfully",
-        "API_ERROR": "We couldn't create an app. Please try again later"
+        "API_SUCCESS": "Informacinio skydelio programa sėkmingai sukonfiguruota",
+        "API_ERROR": "Nepavyko sukurti programos. Pabandykite dar kartą vėliau"
       },
       "UPDATE": {
-        "HEADER": "Edit dashboard app",
+        "HEADER": "Tvarkyti informacinio skydelio programą",
         "FORM_SUBMIT": "Atnaujinti",
         "FORM_CANCEL": "Atšaukti",
-        "API_SUCCESS": "Dashboard app updated successfully",
-        "API_ERROR": "We couldn't update the app. Please try again later"
+        "API_SUCCESS": "Informacinio skydelio programa atnaujinta sėkmingai",
+        "API_ERROR": "Nepavyko atnaujinti programos. Pabandykite dar kartą vėliau"
       },
       "DELETE": {
         "CONFIRM_YES": "Taip, Trinti",
         "CONFIRM_NO": "Ne, Išsaugoti",
-        "TITLE": "Confirm deletion",
-        "MESSAGE": "Are you sure to delete the app - %{appName}?",
-        "API_SUCCESS": "Dashboard app deleted successfully",
-        "API_ERROR": "We couldn't delete the app. Please try again later"
+        "TITLE": "Patvirtinti Ištrynimą",
+        "MESSAGE": "Ar tikrai norite ištrinti programą - %{appName}?",
+        "API_SUCCESS": "Informacinio skydelio programa ištrinta sėkmingai",
+        "API_ERROR": "Nepavyko ištrinti programos. Pabandykite dar kartą vėliau"
       }
     }
   }

@@ -48,7 +48,10 @@
       }
     },
     "UPDATE_CHATWOOT": "Ein Update %{latestChatwootVersion} für Chatwoot ist verfügbar. Bitte aktualisieren Sie Ihre Instanz.",
-    "LEARN_MORE": "Mehr erfahren"
+    "LEARN_MORE": "Mehr erfahren",
+    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
+    "OPEN_BILLING": "Open billing"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -101,8 +104,9 @@
       "REPORTS": "Berichte",
       "CONVERSATION": "Konversation",
       "CHANGE_ASSIGNEE": "Beauftragten ändern",
-      "CHANGE_PRIORITY": "Change Priority",
+      "CHANGE_PRIORITY": "Priorität ändern",
       "CHANGE_TEAM": "Team wechseln",
+      "SNOOZE_CONVERSATION": "Snooze-Konversation",
       "ADD_LABEL": "Label zur Konversation hinzufügen",
       "REMOVE_LABEL": "Label aus der Konversation entfernen",
       "SETTINGS": "Einstellungen"
@@ -127,7 +131,7 @@
       "GO_TO_NOTIFICATIONS": "Zu Benachrichtigungen",
       "ADD_LABELS_TO_CONVERSATION": "Label zur Konversation hinzufügen",
       "ASSIGN_AN_AGENT": "Einen Agent zuweisen",
-      "ASSIGN_PRIORITY": "Assign priority",
+      "ASSIGN_PRIORITY": "Priorität zuweisen",
       "ASSIGN_A_TEAM": "Ein Team zuweisen",
       "MUTE_CONVERSATION": "Konversation stummschalten",
       "UNMUTE_CONVERSATION": "Konversation entstummen",
@@ -138,7 +142,10 @@
       "SNOOZE_CONVERSATION": "Snooze-Konversation",
       "UNTIL_NEXT_REPLY": "Bis zur nächsten Antwort",
       "UNTIL_NEXT_WEEK": "Bis nächste Woche",
-      "UNTIL_TOMORROW": "Bis morgen"
+      "UNTIL_TOMORROW": "Bis morgen",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom..."
     }
   },
   "DASHBOARD_APPS": {
