@@ -424,6 +424,18 @@
           "ERROR_MESSAGE": "Unable to delete category"
         }
       }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Search articles",
+      "PLACEHOLDER": "Search articles",
+      "NO_RESULT": "No articles found",
+      "SEARCHING": "Searching...",
+      "SEARCH_BUTTON": "Search",
+      "INSERT_ARTICLE": "Insert",
+      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
+      "OPEN_LINK": "Open article in new tab",
+      "PREVIEW_LINK": "Preview article",
+      "CANCEL": "Cancel"
     }
   }
 }
