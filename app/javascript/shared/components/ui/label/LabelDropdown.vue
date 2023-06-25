@@ -1,8 +1,11 @@
 <template>
   <div class="dropdown-search-wrap">
-    <h4 class="text-block-title">
-      {{ $t('CONTACT_PANEL.LABELS.LABEL_SELECT.TITLE') }}
-    </h4>
+    <div class="dropdown-title-container">
+      <h4 class="text-block-title">
+        {{ $t('CONTACT_PANEL.LABELS.LABEL_SELECT.TITLE') }}
+      </h4>
+      <hotkey>L</hotkey>
+    </div>
     <div class="search-wrap">
       <input
         ref="searchbar"
@@ -28,6 +31,31 @@
         <div v-if="noResult" class="no-result">
           {{ $t('CONTACT_PANEL.LABELS.LABEL_SELECT.NO_RESULT') }}
         </div>
+        <div v-if="allowCreation && shouldShowCreate" class="new-label">
+          <woot-button
+            size="small"
+            variant="clear"
+            color-scheme="secondary"
+            icon="add"
+            is-expanded
+            class="button-new-label"
+            :is-disabled="hasExactMatchInResults"
+            @click="showCreateModal"
+          >
+            {{ createLabelPlaceholder }}
+            {{ parsedSearch }}
+          </woot-button>
+
+          <woot-modal
+            :show.sync="createModalVisible"
+            :on-close="hideCreateModal"
+          >
+            <add-label-modal
+              :prefill-title="parsedSearch"
+              @close="hideCreateModal"
+            />
+          </woot-modal>
+        </div>
       </div>
     </div>
   </div>
@@ -35,9 +63,16 @@
 
 <script>
 import LabelDropdownItem from './LabelDropdownItem';
+import Hotkey from 'dashboard/components/base/Hotkey';
+import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel';
+import { picoSearch } from '@scmmishra/pico-search';
+import { sanitizeLabel } from 'shared/helpers/sanitizeData';
+
 export default {
   components: {
     LabelDropdownItem,
+    AddLabelModal,
+    Hotkey,
   },
 
   props: {
@@ -49,23 +84,49 @@ export default {
       type: Array,
       default: () => [],
     },
+    allowCreation: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data() {
     return {
       search: '',
+      createModalVisible: false,
     };
   },
 
   computed: {
+    createLabelPlaceholder() {
+      const label = this.$t('CONTACT_PANEL.LABELS.LABEL_SELECT.CREATE_LABEL');
+      return this.search ? `${label}:` : label;
+    },
+
     filteredActiveLabels() {
-      return this.accountLabels.filter(label => {
-        return label.title.toLowerCase().includes(this.search.toLowerCase());
+      if (!this.search) return this.accountLabels;
+
+      return picoSearch(this.accountLabels, this.search, ['title'], {
+        threshold: 0.9,
       });
     },
 
     noResult() {
-      return this.filteredActiveLabels.length === 0 && this.search !== '';
+      return this.filteredActiveLabels.length === 0;
+    },
+
+    hasExactMatchInResults() {
+      return this.filteredActiveLabels.some(
+        label => label.title === this.search
+      );
+    },
+
+    shouldShowCreate() {
+      return this.allowCreation && this.filteredActiveLabels.length < 3;
+    },
+
+    parsedSearch() {
+      return sanitizeLabel(this.search);
     },
   },
 
@@ -97,11 +158,35 @@ export default {
         this.onAdd(label);
       }
     },
+
+    showCreateModal() {
+      this.createModalVisible = true;
+    },
+
+    hideCreateModal() {
+      this.createModalVisible = false;
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.dropdown-title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-smaller);
+
+  .text-block-title {
+    flex-grow: 1;
+    margin: 0;
+  }
+
+  .hotkey {
+    flex-shrink: 0;
+  }
+}
+
 .dropdown-search-wrap {
   display: flex;
   flex-direction: column;
@@ -124,7 +209,7 @@ export default {
     }
 
     input:focus {
-      border: 1px solid var(--w-500);
+      outline: 1px solid var(--color-border-dark);
     }
   }
 
@@ -143,9 +228,30 @@ export default {
       display: flex;
       justify-content: center;
       color: var(--s-700);
-      padding: var(--space-smaller) var(--space-one);
+      padding: var(--space-normal) var(--space-one);
       font-weight: var(--font-weight-medium);
-      font-size: var(--font-size-small);
+      font-size: var(--font-size-mini);
+    }
+
+    .new-label {
+      display: flex;
+      padding-top: var(--space-smaller);
+      border-top: 1px solid var(--s-100);
+
+      .button-new-label {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        align-items: center;
+
+        .icon {
+          min-width: 0;
+        }
+      }
+
+      .search-term {
+        color: var(--s-700);
+      }
     }
   }
 }
