@@ -1,8 +1,8 @@
 class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::BaseController
-  before_action :ensure_custom_domain_request, only: [:show, :index]
+  before_action :ensure_custom_domain_request, only: [:show, :index, :show_plain]
   before_action :portal
-  before_action :set_category, except: [:index, :show]
-  before_action :set_article, only: [:show]
+  before_action :set_category, except: [:index, :show, :show_plain]
+  before_action :set_article, only: [:show, :show_plain]
   layout 'portal'
 
   def index
@@ -12,6 +12,13 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   end
 
   def show; end
+
+  def show_plain
+    @article = @portal.articles.find_by(slug: permitted_params[:article_slug])
+    @article.increment_view_count
+    @parsed_content = render_article_content(@article.content)
+    render 'show-plain', layout: 'plain-portal'
+  end
 
   private
 

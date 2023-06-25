@@ -345,6 +345,7 @@ Rails.application.routes.draw do
   get 'hc/:slug/:locale/categories/:category_slug', to: 'public/api/v1/portals/categories#show'
   get 'hc/:slug/:locale/categories/:category_slug/articles', to: 'public/api/v1/portals/articles#index'
   get 'hc/:slug/articles/:article_slug', to: 'public/api/v1/portals/articles#show'
+  get 'hc/:slug/articles/:article_slug/plain', to: 'public/api/v1/portals/articles#show_plain'
 
   # ----------------------------------------------------------------------
   # Used in mailer templates
