@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Adicionar marcador",
         "PLACEHOLDER": "Pesquisar marcador ",
-        "NO_RESULT": "Nenhum rótulo encontrado"
+        "NO_RESULT": "Nenhum rótulo encontrado",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Mesclar contatos",
