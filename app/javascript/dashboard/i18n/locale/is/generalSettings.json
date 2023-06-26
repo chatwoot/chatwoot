@@ -106,6 +106,7 @@
       "CHANGE_ASSIGNEE": "Breyta úthlutun",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Breyta Teymi",
+      "SNOOZE_CONVERSATION": "Fresta Samtali",
       "ADD_LABEL": "Merkja samtalið",
       "REMOVE_LABEL": "Fjarlægja merki af samtali",
       "SETTINGS": "Stillingar"
@@ -141,7 +142,10 @@
       "SNOOZE_CONVERSATION": "Fresta Samtali",
       "UNTIL_NEXT_REPLY": "Þar til að næsta svar berst",
       "UNTIL_NEXT_WEEK": "Þar til í næstu viku",
-      "UNTIL_TOMORROW": "Þar til á morgun"
+      "UNTIL_TOMORROW": "Þar til á morgun",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom..."
     }
   },
   "DASHBOARD_APPS": {
