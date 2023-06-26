@@ -3,7 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe Inbox do
+  include ActiveJob::TestHelper
   let!(:inbox) { create(:inbox) }
+  let!(:user) { create(:user) }
 
   describe 'member_ids_with_assignment_capacity' do
     let!(:inbox_member_1) { create(:inbox_member, inbox: inbox) }
@@ -53,8 +55,13 @@ RSpec.describe Inbox do
 
     context 'when inbox is deleted' do
       it 'has associated audit log created' do
-        inbox.destroy!
-        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'destroy').count).to eq 1
+        expect do
+          DeleteObjectJob.perform_later(inbox, user, '127.0.0.1')
+        end.to have_enqueued_job(DeleteObjectJob)
+
+        perform_enqueued_jobs do
+          expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'destroy', username: user.uid, remote_address: '127.0.0.1').count).to eq 1
+        end
       end
     end
   end
