@@ -59,9 +59,9 @@ RSpec.describe Inbox do
           DeleteObjectJob.perform_later(inbox, user, '127.0.0.1')
         end.to have_enqueued_job(DeleteObjectJob)
 
-        perform_enqueued_jobs do
-          expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'destroy', username: user.uid, remote_address: '127.0.0.1').count).to eq 1
-        end
+        perform_enqueued_jobs
+
+        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'destroy', username: user.uid, remote_address: '127.0.0.1').count).to eq 1
       end
     end
   end
