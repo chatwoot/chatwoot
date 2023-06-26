@@ -90,11 +90,6 @@ module.exports = {
       },
       body: '#2f3b49',
     },
-    extend: {
-      screens: {
-        dark: { raw: '(prefers-color-scheme: dark)' },
-      },
-    },
   },
   plugins: [
     // eslint-disable-next-line
