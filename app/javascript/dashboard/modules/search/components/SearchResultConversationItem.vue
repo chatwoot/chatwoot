@@ -24,6 +24,10 @@
         <span class="pre-text">from:</span>
         {{ name }}
       </h5>
+      <h5 v-if="email" class="text-block-title name">
+        <span class="pre-text">email:</span>
+        {{ email }}
+      </h5>
       <slot />
     </div>
   </router-link>
@@ -49,6 +53,10 @@ export default {
       default: () => ({}),
     },
     name: {
+      type: String,
+      default: '',
+    },
+    email: {
       type: String,
       default: '',
     },
