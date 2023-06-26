@@ -13,9 +13,10 @@
     <div class="content-wrap">
       {{ content }}
     </div>
-    <div class="image-wrap">
+    <div v-if="src" class="image-wrap">
       <img :src="src" class="image" :class="{ activeimage: active }" />
     </div>
+    <slot v-else />
   </div>
 </template>
 

@@ -392,10 +392,17 @@
         "DISABLED": "Disabled"
       },
       "ENABLE_AGENT_NAME": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled",
-        "FRIENDLY": "Add the name of the agent who sent the reply in the sender name to make it friendly.",
-        "PROFESSIONAL": "Use only the configured business name as the sender name in the email header."
+        "TITLE": "Sender name",
+        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
+        "FRIENDLY": {
+          "TITLE": "Friendly",
+          "FROM": "from",
+          "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
+        },
+        "PROFESSIONAL": {
+          "TITLE": "Professional",
+          "SUBTITLE": "Use only the configured business name as the sender name in the email header."
+        }
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
         "ENABLED": "Enabled",
