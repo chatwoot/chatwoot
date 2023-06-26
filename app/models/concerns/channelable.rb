@@ -11,9 +11,7 @@ module Channelable
     false
   end
 
-  def create_audit_log_entry?
-    Rails.logger.info 'skip audit_log '
-  end
+  def create_audit_log_entry; end
 end
 
-Channelable.prepend_mod_with('Enterprise::Channelable')
+Channelable.prepend_mod_with('Channelable')
