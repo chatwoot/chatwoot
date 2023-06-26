@@ -26,7 +26,11 @@
       "DELETE": "%{agentName} deleted an automation rule (#%{id})"
     },
     "ACCOUNT_USER": {
-      "ADD": "%{agentName} invited (#%{invitee}) to the account as an (#%{role})"
+      "ADD": "%{agentName} invited (#%{invitee}) to the account as an (#%{role})",
+      "EDIT": {
+        "SELF": "%{agentName} changed their %{attributes} to %{values}",
+        "OTHER": "%{agentName} changed %{attributes} of (#%{user}) to %{values}"
+      }
     },
     "INBOX": {
       "ADD": "%{agentName} created a new inbox (#%{id})",

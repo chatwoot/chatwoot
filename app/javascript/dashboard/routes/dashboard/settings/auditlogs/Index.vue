@@ -116,12 +116,48 @@ export default {
       // If agent does not exist(removed/deleted), return email from audit log
       return agentName || user_id;
     },
+    extractChangedAccountUserValues(audited_changes) {
+      let changes = [];
+      let values = [];
+      const roleMapping = {
+        0: 'agent',
+        1: 'admin',
+      };
+
+      const availabilityMapping = {
+        0: 'online',
+        1: 'offline',
+        2: 'busy',
+      };
+
+      // Iterate over roles
+      if (audited_changes.role && audited_changes.role.length) {
+        changes.push('role');
+        values.push(
+          roleMapping[audited_changes.role[audited_changes.role.length - 1]]
+        );
+      }
+
+      // Iterate over availability
+      if (audited_changes.availability && audited_changes.availability.length) {
+        changes.push('availability');
+        values.push(
+          availabilityMapping[
+            audited_changes.availability[
+              audited_changes.availability.length - 1
+            ]
+          ]
+        );
+      }
+
+      return { changes, values };
+    },
     generateLogText(auditLogItem) {
       const agentName = this.getAgentName(auditLogItem.user_id);
       const auditableType = auditLogItem.auditable_type.toLowerCase();
       const action = auditLogItem.action.toLowerCase();
       const auditId = auditLogItem.auditable_id;
-      const logActionKey = `${auditableType}:${action}`;
+      let logActionKey = `${auditableType}:${action}`;
 
       const translationPayload = {
         agentName,
@@ -129,13 +165,35 @@ export default {
       };
 
       if (auditableType === 'accountuser') {
-        translationPayload.invitee = this.getAgentName(
-          auditLogItem.audited_changes.user_id
-        );
-        if (auditLogItem.audited_changes.role === 0) {
-          translationPayload.role = 'admin';
-        } else {
-          translationPayload.role = 'agent';
+        if (action === 'update') {
+          if (auditLogItem.user_id === auditLogItem.auditable.user_id) {
+            logActionKey += ':self';
+          } else {
+            logActionKey += ':other';
+            translationPayload.user = this.getAgentName(
+              auditLogItem.auditable.user_id
+            );
+          }
+          translationPayload.invitee = this.getAgentName(
+            auditLogItem.auditable.user_id
+          );
+
+          const accountUserChanges = this.extractChangedAccountUserValues(
+            auditLogItem.audited_changes
+          );
+          translationPayload.attributes = accountUserChanges.changes;
+          translationPayload.values = accountUserChanges.values;
+        }
+
+        if (action === 'create') {
+          translationPayload.invitee = this.getAgentName(
+            auditLogItem.audited_changes.user_id
+          );
+          if (auditLogItem.audited_changes.role === 0) {
+            translationPayload.role = 'admin';
+          } else {
+            translationPayload.role = 'agent';
+          }
         }
       }
 
@@ -158,6 +216,8 @@ export default {
         'macro:update': `AUDIT_LOGS.MACRO.EDIT`,
         'macro:destroy': `AUDIT_LOGS.MACRO.DELETE`,
         'accountuser:create': `AUDIT_LOGS.ACCOUNT_USER.ADD`,
+        'accountuser:update:self': `AUDIT_LOGS.ACCOUNT_USER.EDIT.SELF`,
+        'accountuser:update:other': `AUDIT_LOGS.ACCOUNT_USER.EDIT.OTHER`,
       };
 
       return this.$t(translationKeys[logActionKey] || '', translationPayload);
