@@ -4,6 +4,7 @@
     "SUBMIT": "Update settings",
     "DISMISS": "Dismiss",
     "BACK": "Back",
+    "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "Could not update settings, try again!",
       "SUCCESS": "Successfully updated account settings"
