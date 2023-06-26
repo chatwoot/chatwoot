@@ -54,7 +54,7 @@ export default {
       senderNameKeyOptions: [
         {
           key: 'friendly',
-          value: false,
+          value: true,
           heading: this.$t('INBOX_MGMT.EDIT.ENABLE_AGENT_NAME.FRIENDLY.TITLE'),
           content: this.$t(
             'INBOX_MGMT.EDIT.ENABLE_AGENT_NAME.FRIENDLY.SUBTITLE'
@@ -67,7 +67,7 @@ export default {
         },
         {
           key: 'professional',
-          value: true,
+          value: false,
           heading: this.$t(
             'INBOX_MGMT.EDIT.ENABLE_AGENT_NAME.PROFESSIONAL.TITLE'
           ),
