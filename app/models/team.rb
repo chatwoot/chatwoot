@@ -6,6 +6,7 @@
 #  allow_auto_assign :boolean          default(TRUE)
 #  description       :text
 #  name              :string           not null
+#  private           :boolean          default(FALSE), not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  account_id        :bigint           not null

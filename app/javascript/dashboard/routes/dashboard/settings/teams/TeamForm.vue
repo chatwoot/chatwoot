@@ -26,6 +26,14 @@
             {{ $t('TEAMS_SETTINGS.FORM.AUTO_ASSIGN.LABEL') }}
           </label>
         </div>
+
+        <div class="medium-12">
+          <input v-model="isPrivate" type="checkbox" :value="isPrivate" />
+          <label for="conversation_creation">
+            {{ $t('TEAMS_SETTINGS.FORM.PRIVATE.LABEL') }}
+          </label>
+        </div>
+
         <div class="modal-footer">
           <div class="medium-12 columns">
             <woot-submit-button
@@ -73,12 +81,14 @@ export default {
       description = '',
       name: title = '',
       allow_auto_assign: allowAutoAssign = true,
+      private: isPrivate = false,
     } = formData;
 
     return {
       description,
       title,
       allowAutoAssign,
+      isPrivate,
     };
   },
   validations,
@@ -92,6 +102,7 @@ export default {
         description: this.description,
         name: this.title,
         allow_auto_assign: this.allowAutoAssign,
+        private: this.isPrivate,
       });
     },
   },
