@@ -43,6 +43,11 @@
       "ADD": "%{agentName} izveidoja jaunu komandu (#%{id})",
       "EDIT": "%{agentName} atjaunināja komandu (#%{id})",
       "DELETE": "%{agentName} izdzēsa komandu (#%{id})"
+    },
+    "MACRO": {
+      "ADD": "%{agentName} izveidoja jaunu makro (#%{id})",
+      "EDIT": "%{agentName} atjaunināja makro (#%{id})",
+      "DELETE": "%{agentName} izdzēsa makro (#%{id})"
     }
   }
 }

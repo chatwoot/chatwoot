@@ -106,6 +106,7 @@
       "CHANGE_ASSIGNEE": "تغيير المحال إليه",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "تغيير الفريق",
+      "SNOOZE_CONVERSATION": "تأجيل المحادثة",
       "ADD_LABEL": "إضافة تسمية إلى المحادثة",
       "REMOVE_LABEL": "إزالة التسمية من المحادثة",
       "SETTINGS": "الإعدادات"
@@ -141,7 +142,10 @@
       "SNOOZE_CONVERSATION": "تأجيل المحادثة",
       "UNTIL_NEXT_REPLY": "حتى الرد القادم",
       "UNTIL_NEXT_WEEK": "حتى الأسبوع القادم",
-      "UNTIL_TOMORROW": "حتى الغد"
+      "UNTIL_TOMORROW": "حتى الغد",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom..."
     }
   },
   "DASHBOARD_APPS": {
