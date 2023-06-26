@@ -106,6 +106,7 @@
       "CHANGE_ASSIGNEE": "Pakeisti Priskirtąjį",
       "CHANGE_PRIORITY": "Pakeisti Prioritetą",
       "CHANGE_TEAM": "Pakeisti Komandą",
+      "SNOOZE_CONVERSATION": "Atidėti Pokalbį",
       "ADD_LABEL": "Pridėti etiketę pokalbiui",
       "REMOVE_LABEL": "Pašalinti pokalbio etiketę",
       "SETTINGS": "Nustatymai"
@@ -141,7 +142,10 @@
       "SNOOZE_CONVERSATION": "Atidėti Pokalbį",
       "UNTIL_NEXT_REPLY": "Iki kito atsakymo",
       "UNTIL_NEXT_WEEK": "Iki kitos savaitės",
-      "UNTIL_TOMORROW": "Iki rytojaus"
+      "UNTIL_TOMORROW": "Iki rytojaus",
+      "UNTIL_NEXT_MONTH": "Iki kito mėnesio",
+      "AN_HOUR_FROM_NOW": "Iki valandos nuo dabar",
+      "CUSTOM": "Personalizuotas..."
     }
   },
   "DASHBOARD_APPS": {

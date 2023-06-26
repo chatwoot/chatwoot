@@ -106,6 +106,7 @@
       "CHANGE_ASSIGNEE": "Modificarea cesionarului",
       "CHANGE_PRIORITY": "Modificarea priorității",
       "CHANGE_TEAM": "Schimbarea echipei",
+      "SNOOZE_CONVERSATION": "Snooze conversație",
       "ADD_LABEL": "Adăugarea etichetei la conversație",
       "REMOVE_LABEL": "Eliminarea etichetei din conversație",
       "SETTINGS": "Setări"
@@ -141,7 +142,10 @@
       "SNOOZE_CONVERSATION": "Snooze conversație",
       "UNTIL_NEXT_REPLY": "Până la următorul răspuns",
       "UNTIL_NEXT_WEEK": "Până săptămâna viitoare",
-      "UNTIL_TOMORROW": "Până mâine"
+      "UNTIL_TOMORROW": "Până mâine",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom..."
     }
   },
   "DASHBOARD_APPS": {
