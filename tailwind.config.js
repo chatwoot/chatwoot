@@ -1,5 +1,5 @@
 module.exports = {
-  dark: 'class',
+  darkMode: 'class',
   content: [
     './app/javascript/widget/**/*.vue',
     './app/javascript/portal/**/*.vue',
