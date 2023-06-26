@@ -1,5 +1,5 @@
 module.exports = {
-  dark: 'class',
+  darkMode: 'class',
   content: [
     './app/javascript/widget/**/*.vue',
     './app/javascript/portal/**/*.vue',
@@ -89,11 +89,6 @@ module.exports = {
         900: '#C30011',
       },
       body: '#2f3b49',
-    },
-    extend: {
-      screens: {
-        dark: { raw: '(prefers-color-scheme: dark)' },
-      },
     },
   },
   plugins: [
