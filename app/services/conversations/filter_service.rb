@@ -2,7 +2,7 @@ class Conversations::FilterService < FilterService
   ATTRIBUTE_MODEL = 'conversation_attribute'.freeze
 
   def initialize(params, user, filter_account = nil)
-    @filter_account = filter_account
+    @account = filter_account || Current.account
     super(params, user)
   end
 
@@ -54,8 +54,7 @@ class Conversations::FilterService < FilterService
   end
 
   def base_relation
-    account = @filter_account || Current.account
-    account.conversations.left_outer_joins(:labels)
+    @account.conversations.left_outer_joins(:labels)
   end
 
   def current_page

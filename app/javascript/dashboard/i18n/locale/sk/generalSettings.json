@@ -106,6 +106,7 @@
       "CHANGE_ASSIGNEE": "Zmeniť prideleného agenta",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Zmeniť tím",
+      "SNOOZE_CONVERSATION": "Snooze Conversation",
       "ADD_LABEL": "Pridať štítok do konverzácie",
       "REMOVE_LABEL": "Odstrániť štítok z konverzácie",
       "SETTINGS": "Nastavenia"
@@ -141,7 +142,10 @@
       "SNOOZE_CONVERSATION": "Snooze Conversation",
       "UNTIL_NEXT_REPLY": "Until next reply",
       "UNTIL_NEXT_WEEK": "Until next week",
-      "UNTIL_TOMORROW": "Until tomorrow"
+      "UNTIL_TOMORROW": "Until tomorrow",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom..."
     }
   },
   "DASHBOARD_APPS": {

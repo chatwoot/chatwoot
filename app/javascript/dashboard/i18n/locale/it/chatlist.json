@@ -50,6 +50,9 @@
       },
       "sort_on_priority": {
         "TEXT": "Priorità"
+      },
+      "sort_on_waiting_since": {
+        "TEXT": "Pending Response"
       }
     },
     "ATTACHMENTS": {

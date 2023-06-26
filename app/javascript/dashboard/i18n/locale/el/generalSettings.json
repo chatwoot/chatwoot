@@ -106,6 +106,7 @@
       "CHANGE_ASSIGNEE": "Αλλαγή Αναδόχου",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Αλλαγή Ομάδας",
+      "SNOOZE_CONVERSATION": "Αναβολή Συνομιλίας",
       "ADD_LABEL": "Προσθήκη ετικέτας στη συνομιλία",
       "REMOVE_LABEL": "Αφαίρεση ετικέτας από την συνομιλία",
       "SETTINGS": "Ρυθμίσεις"
@@ -141,7 +142,10 @@
       "SNOOZE_CONVERSATION": "Αναβολή Συνομιλίας",
       "UNTIL_NEXT_REPLY": "Μέχρι την επόμενη απάντηση",
       "UNTIL_NEXT_WEEK": "Έως την επόμενη εβδομάδα",
-      "UNTIL_TOMORROW": "Μέχρι αύριο"
+      "UNTIL_TOMORROW": "Μέχρι αύριο",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom..."
     }
   },
   "DASHBOARD_APPS": {

@@ -201,7 +201,14 @@ class Message < ApplicationRecord
   end
 
   def valid_first_reply?
-    outgoing? && human_response? && not_created_by_automation? && !private?
+    return false unless outgoing? && human_response? && !private?
+    return false if conversation.first_reply_created_at.present?
+    return false if conversation.messages.outgoing
+                                .where.not(sender_type: 'AgentBot')
+                                .where.not(private: true)
+                                .where("(additional_attributes->'campaign_id') is null").count > 1
+
+    true
   end
 
   def save_story_info(story_info)
@@ -238,39 +245,27 @@ class Message < ApplicationRecord
     send_reply
     execute_message_template_hooks
     update_contact_activity
+    update_waiting_since
   end
 
   def update_contact_activity
     sender.update(last_activity_at: DateTime.now) if sender.is_a?(Contact)
   end
 
-  def human_response?
-    # given the checks are already in place, we need not query
-    # the database again to check if the message is created by a human
-    # we can just see if the first_reply is recorded or not
-    # if it is record, we can just return false
-    return false if conversation.first_reply_created_at.present?
+  def update_waiting_since
+    conversation.update(waiting_since: nil) if human_response? && !private && conversation.waiting_since.present?
 
-    # if the sender is not a user, it's not a human response
-    return false unless sender.is_a?(User)
-
-    # if automation rule id is present, it's not a human response
-    # if campaign id is present, it's not a human response
-    # this check already happens in `not_created_by_automation` but added here for the sake of brevity
-    # also the purity of this method is intact, and can be relied on this solely
-    return false if content_attributes['automation_rule_id'].present? || additional_attributes['campaign_id'].present?
-
-    # adding this condition again to ensure if the first_reply_created_at is not present
-    return false if conversation.messages.outgoing
-                                .where.not(sender_type: 'AgentBot')
-                                .where.not(private: true)
-                                .where("(additional_attributes->'campaign_id') is null").count > 1
-
-    true
+    conversation.update(waiting_since: Time.now.utc) if incoming? && conversation.waiting_since.blank?
   end
 
-  def not_created_by_automation?
-    content_attributes['automation_rule_id'].blank?
+  def human_response?
+    # if the sender is not a user, it's not a human response
+    # if automation rule id is present, it's not a human response
+    # if campaign id is present, it's not a human response
+    outgoing? &&
+      content_attributes['automation_rule_id'].blank? &&
+      additional_attributes['campaign_id'].blank? &&
+      sender.is_a?(User)
   end
 
   def dispatch_create_events
