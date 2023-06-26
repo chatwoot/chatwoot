@@ -63,3 +63,5 @@ class AccountUser < ApplicationRecord
     OnlineStatusTracker.set_status(account.id, user.id, availability)
   end
 end
+
+AccountUser.include_mod_with('Audit::AccountUser')

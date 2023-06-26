@@ -107,17 +107,17 @@ export default {
         this.showAlert(errorMessage);
       });
     },
-    getAgentName(email) {
-      if (email === null) {
+    getAgentName(user_id) {
+      if (user_id === null) {
         return this.$t('AUDIT_LOGS.DEFAULT_USER');
       }
-      const agentName = this.agentList.find(agent => agent.email === email)
+      const agentName = this.agentList.find(agent => agent.id === user_id)
         ?.name;
       // If agent does not exist(removed/deleted), return email from audit log
-      return agentName || email;
+      return agentName || user_id;
     },
     generateLogText(auditLogItem) {
-      const agentName = this.getAgentName(auditLogItem.username);
+      const agentName = this.getAgentName(auditLogItem.user_id);
       const auditableType = auditLogItem.auditable_type.toLowerCase();
       const action = auditLogItem.action.toLowerCase();
       const auditId = auditLogItem.auditable_id;
@@ -127,6 +127,17 @@ export default {
         agentName,
         id: auditId,
       };
+
+      if (auditableType === 'accountuser') {
+        translationPayload.invitee = this.getAgentName(
+          auditLogItem.audited_changes.user_id
+        );
+        if (auditLogItem.audited_changes.role === 0) {
+          translationPayload.role = 'admin';
+        } else {
+          translationPayload.role = 'agent';
+        }
+      }
 
       const translationKeys = {
         'automationrule:create': `AUDIT_LOGS.AUTOMATION_RULE.ADD`,
@@ -146,6 +157,7 @@ export default {
         'macro:create': `AUDIT_LOGS.MACRO.ADD`,
         'macro:update': `AUDIT_LOGS.MACRO.EDIT`,
         'macro:destroy': `AUDIT_LOGS.MACRO.DELETE`,
+        'accountuser:create': `AUDIT_LOGS.ACCOUNT_USER.ADD`,
       };
 
       return this.$t(translationKeys[logActionKey] || '', translationPayload);

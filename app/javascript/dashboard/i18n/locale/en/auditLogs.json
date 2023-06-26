@@ -25,6 +25,9 @@
       "EDIT": "%{agentName} updated an automation rule (#%{id})",
       "DELETE": "%{agentName} deleted an automation rule (#%{id})"
     },
+    "ACCOUNT_USER": {
+      "ADD": "%{agentName} invited (#%{invitee}) to the account as an (#%{role})"
+    },
     "INBOX": {
       "ADD": "%{agentName} created a new inbox (#%{id})",
       "EDIT": "%{agentName} updated an inbox (#%{id})",
