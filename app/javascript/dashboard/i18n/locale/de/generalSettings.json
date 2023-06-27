@@ -106,6 +106,7 @@
       "CHANGE_ASSIGNEE": "Beauftragten ändern",
       "CHANGE_PRIORITY": "Priorität ändern",
       "CHANGE_TEAM": "Team wechseln",
+      "SNOOZE_CONVERSATION": "Snooze-Konversation",
       "ADD_LABEL": "Label zur Konversation hinzufügen",
       "REMOVE_LABEL": "Label aus der Konversation entfernen",
       "SETTINGS": "Einstellungen"
@@ -141,7 +142,10 @@
       "SNOOZE_CONVERSATION": "Snooze-Konversation",
       "UNTIL_NEXT_REPLY": "Bis zur nächsten Antwort",
       "UNTIL_NEXT_WEEK": "Bis nächste Woche",
-      "UNTIL_TOMORROW": "Bis morgen"
+      "UNTIL_TOMORROW": "Bis morgen",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom..."
     }
   },
   "DASHBOARD_APPS": {
