@@ -10,7 +10,7 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
   rescue *ExceptionList::IMAP_EXCEPTIONS => e
     Rails.logger.error e
     channel.authorization_error!
-  rescue EOFError, OpenSSL::SSL::SSLError, Net::IMAP::NoResponseError => e
+  rescue EOFError, OpenSSL::SSL::SSLError, Net::IMAP::NoResponseError, Net::IMAP::BadResponseError => e
     Rails.logger.error e
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: channel.account).capture_exception
