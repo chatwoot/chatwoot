@@ -169,7 +169,7 @@ export default {
     confirmDeleteMessage() {
       return `${this.$t('INBOX_MGMT.DELETE.CONFIRM.MESSAGE')} ${
         this.selectedInbox.name
-      } ?`;
+      }?`;
     },
     confirmPlaceHolderText() {
       return `${this.$t('INBOX_MGMT.DELETE.CONFIRM.PLACE_HOLDER', {
