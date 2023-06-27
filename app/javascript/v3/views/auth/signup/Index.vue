@@ -1,26 +1,32 @@
 <template>
-  <div class="h-full w-full">
-    <div v-show="!isLoading" class="row h-full">
+  <div class="h-full w-full dark:bg-slate-900">
+    <div v-show="!isLoading" class="flex h-full">
       <div
-        :class="
-          `${showTestimonials ? 'large-6' : 'large-12'} signup-form--container`
-        "
+        class="flex-1 min-h-[640px] inline-flex items-center h-full justify-center overflow-auto"
       >
-        <div class="signup-form--content">
-          <div class="signup--hero">
+        <div class="px-8 max-w-[560px] w-full overflow-auto">
+          <div class="mb-4">
             <img
               :src="globalConfig.logo"
               :alt="globalConfig.installationName"
-              class="hero--logo"
+              class="h-8 w-auto block dark:hidden"
             />
-            <h2 class="hero--title">
+            <img
+              v-if="globalConfig.logoDark"
+              :src="globalConfig.logoDark"
+              :alt="globalConfig.installationName"
+              class="h-8 w-auto hidden dark:block"
+            />
+            <h2
+              class="mb-7 mt-6 text-left text-3xl font-medium text-slate-900 dark:text-woot-50"
+            >
               {{ $t('REGISTER.TRY_WOOT') }}
             </h2>
           </div>
           <signup-form />
-          <div class="auth-screen--footer">
+          <div class="text-sm text-slate-800 dark:text-woot-50">
             <span>{{ $t('REGISTER.HAVE_AN_ACCOUNT') }}</span>
-            <router-link to="/app/login">
+            <router-link class="text-link" to="/app/login">
               {{
                 useInstallationName(
                   $t('LOGIN.TITLE'),
@@ -33,12 +39,15 @@
       </div>
       <testimonials
         v-if="isAChatwootInstance"
-        class="medium-6 testimonial--container"
+        class="flex-1"
         @resize-containers="resizeContainers"
       />
     </div>
-    <div v-show="isLoading" class="spinner--container">
-      <spinner size="" />
+    <div
+      v-show="isLoading"
+      class="flex items-center justify-center h-full w-full"
+    >
+      <spinner color-scheme="primary" size="" />
     </div>
   </div>
 </template>
@@ -58,7 +67,7 @@ export default {
   },
   mixins: [globalConfigMixin],
   data() {
-    return { showTestimonials: false, isLoading: false };
+    return { isLoading: false };
   },
   computed: {
     ...mapGetters({ globalConfig: 'globalConfig/get' }),
@@ -70,42 +79,13 @@ export default {
     this.isLoading = this.isAChatwootInstance;
   },
   methods: {
-    resizeContainers(hasTestimonials) {
-      this.showTestimonials = hasTestimonials;
+    resizeContainers() {
       this.isLoading = false;
     },
   },
 };
 </script>
 <style scoped lang="scss">
-.signup-form--container {
-  display: flex;
-  align-items: center;
-  height: 100%;
-  min-height: 640px;
-  overflow: auto;
-  justify-content: center;
-}
-
-.signup-form--content {
-  padding: var(--space-larger);
-  max-width: 600px;
-  width: 100%;
-}
-
-.signup--hero {
-  margin-bottom: var(--space-normal);
-
-  .hero--logo {
-    width: 160px;
-  }
-
-  .hero--title {
-    margin-top: var(--space-medium);
-    font-weight: var(--font-weight-light);
-  }
-}
-
 .auth-screen--footer {
   font-size: var(--font-size-small);
 }
@@ -124,7 +104,7 @@ export default {
   }
 }
 
-.spinner--container {
+.flex items-center justify-center h-full w-full {
   display: flex;
   align-items: center;
   justify-content: center;

@@ -9,20 +9,6 @@ import {
 } from '../store/utils/api';
 
 export default {
-  login(creds) {
-    return new Promise((resolve, reject) => {
-      axios
-        .post('auth/sign_in', creds)
-        .then(response => {
-          setAuthCredentials(response);
-          resolve(response.data);
-        })
-        .catch(error => {
-          reject(error.response);
-        });
-    });
-  },
-
   register(creds) {
     const urlData = endPoints('register');
     const fetchPromise = new Promise((resolve, reject) => {

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="flex flex-col">
     <div v-if="showSeparator" class="separator">
       OR
     </div>
@@ -67,30 +67,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.separator {
-  display: flex;
-  align-items: center;
-  margin: var(--space-two) var(--space-zero);
-  gap: var(--space-one);
-  color: var(--s-300);
-  font-size: var(--font-size-small);
-  &::before,
-  &::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--s-100);
-  }
-}
-.button__google_login {
-  background: var(--white);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-one);
-  border: 1px solid var(--s-100);
-  color: var(--b-800);
-}
-</style>

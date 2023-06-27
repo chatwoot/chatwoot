@@ -1,14 +1,16 @@
 <template>
-  <loading-state :message="$t('CONFIRM_EMAIL')" />
+  <div class="flex items-center justify-center h-full w-full">
+    <spinner color-scheme="primary" size="" />
+    <div class="ml-2">{{ $t('CONFIRM_EMAIL') }}</div>
+  </div>
 </template>
 <script>
-import LoadingState from '../../components/widgets/LoadingState';
-import Auth from '../../api/auth';
 import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
+import { verifyPasswordToken } from '../../../api/auth';
+import Spinner from 'shared/components/Spinner';
+
 export default {
-  components: {
-    LoadingState,
-  },
+  components: { Spinner },
   props: {
     confirmationToken: {
       type: String,
@@ -21,7 +23,7 @@ export default {
   methods: {
     async confirmToken() {
       try {
-        await Auth.verifyPasswordToken({
+        await verifyPasswordToken({
           confirmationToken: this.confirmationToken,
         });
         window.location = DEFAULT_REDIRECT_URL;

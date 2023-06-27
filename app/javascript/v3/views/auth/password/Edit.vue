@@ -1,59 +1,63 @@
 <template>
-  <form
-    class="login-box medium-4 column align-self-middle"
-    @submit.prevent="login()"
+  <div
+    class="flex flex-col bg-woot-25 min-h-full w-full py-12 sm:px-6 lg:px-8 justify-center dark:bg-slate-900"
   >
-    <div class="column log-in-form">
-      <h4>{{ $t('SET_NEW_PASSWORD.TITLE') }}</h4>
-      <label :class="{ error: $v.credentials.password.$error }">
-        {{ $t('LOGIN.PASSWORD.LABEL') }}
-        <input
+    <form
+      class="sm:mx-auto sm:w-full sm:max-w-lg bg-white dark:bg-slate-800 p-11 shadow sm:shadow-lg sm:rounded-lg"
+      @submit.prevent="submitForm"
+    >
+      <h1
+        class="mb-1 text-left text-2xl font-medium tracking-tight text-slate-900 dark:text-white"
+      >
+        {{ $t('SET_NEW_PASSWORD.TITLE') }}
+      </h1>
+
+      <div class="column log-in-form space-y-5">
+        <form-input
           v-model.trim="credentials.password"
+          class="mt-3"
+          name="password"
           type="password"
+          :has-error="$v.credentials.password.$error"
+          :error-message="$t('SET_NEW_PASSWORD.PASSWORD.ERROR')"
           :placeholder="$t('SET_NEW_PASSWORD.PASSWORD.PLACEHOLDER')"
-          @input="$v.credentials.password.$touch"
+          @blur="$v.credentials.password.$touch"
         />
-        <span v-if="$v.credentials.password.$error" class="message">
-          {{ $t('SET_NEW_PASSWORD.PASSWORD.ERROR') }}
-        </span>
-      </label>
-      <label :class="{ error: $v.credentials.confirmPassword.$error }">
-        {{ $t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.LABEL') }}
-        <input
+        <form-input
           v-model.trim="credentials.confirmPassword"
+          class="mt-3"
+          name="confirm_password"
           type="password"
+          :has-error="$v.credentials.confirmPassword.$error"
+          :error-message="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.ERROR')"
           :placeholder="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.PLACEHOLDER')"
-          @input="$v.credentials.confirmPassword.$touch"
+          @blur="$v.credentials.confirmPassword.$touch"
         />
-        <span v-if="$v.credentials.confirmPassword.$error" class="message">
-          {{ $t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.ERROR') }}
-        </span>
-      </label>
-      <woot-submit-button
-        :disabled="
-          $v.credentials.password.$invalid ||
-            $v.credentials.confirmPassword.$invalid ||
-            newPasswordAPI.showLoading
-        "
-        :button-text="$t('SET_NEW_PASSWORD.SUBMIT')"
-        :loading="newPasswordAPI.showLoading"
-        button-class="expanded"
-      />
-      <!-- <input type="submit" class="button " v-on:click.prevent="login()" v-bind:value="" > -->
-    </div>
-  </form>
+        <submit-button
+          :disabled="
+            $v.credentials.password.$invalid ||
+              $v.credentials.confirmPassword.$invalid ||
+              newPasswordAPI.showLoading
+          "
+          :button-text="$t('SET_NEW_PASSWORD.SUBMIT')"
+          :loading="newPasswordAPI.showLoading"
+        />
+      </div>
+    </form>
+  </div>
 </template>
 
 <script>
 import { required, minLength } from 'vuelidate/lib/validators';
-import Auth from '../../api/auth';
-
-import WootSubmitButton from '../../components/buttons/FormSubmitButton';
+import FormInput from '../../../components/Form/Input.vue';
+import SubmitButton from '../../../components/Button/SubmitButton.vue';
 import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
+import { setNewPassword } from '../../../api/auth';
 
 export default {
   components: {
-    WootSubmitButton,
+    FormInput,
+    SubmitButton,
   },
   props: {
     resetPasswordToken: { type: String, default: '' },
@@ -106,25 +110,21 @@ export default {
       this.newPasswordAPI.showLoading = false;
       bus.$emit('newToastMessage', message);
     },
-    login() {
+    submitForm() {
       this.newPasswordAPI.showLoading = true;
       const credentials = {
         confirmPassword: this.credentials.confirmPassword,
         password: this.credentials.password,
         resetPasswordToken: this.resetPasswordToken,
       };
-      Auth.setNewPassword(credentials)
-        .then(res => {
-          if (res.status === 200) {
-            window.location = DEFAULT_REDIRECT_URL;
-          }
+      setNewPassword(credentials)
+        .then(() => {
+          window.location = DEFAULT_REDIRECT_URL;
         })
         .catch(error => {
-          let errorMessage = this.$t('SET_NEW_PASSWORD.API.ERROR_MESSAGE');
-          if (error?.data?.message) {
-            errorMessage = error.data.message;
-          }
-          this.showAlert(errorMessage);
+          this.showAlert(
+            error?.message || this.$t('SET_NEW_PASSWORD.API.ERROR_MESSAGE')
+          );
         });
     },
   },
