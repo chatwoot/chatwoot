@@ -394,6 +394,7 @@
       "ENABLE_AGENT_NAME": {
         "TITLE": "Sender name",
         "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
+        "FOR_EG": "For eg:",
         "FRIENDLY": {
           "TITLE": "Friendly",
           "FROM": "from",
