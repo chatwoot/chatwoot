@@ -7,9 +7,7 @@
           v-model.trim="url"
           type="text"
           name="url"
-          :placeholder="
-            $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.END_POINT.PLACEHOLDER')
-          "
+          :placeholder="webhookURLInputPlaceholder"
           @input="$v.url.$touch"
         />
         <span v-if="$v.url.$error" class="message">
@@ -53,6 +51,9 @@
 <script>
 import { required, url, minLength } from 'vuelidate/lib/validators';
 import webhookMixin from './webhookMixin';
+import wootConstants from 'dashboard/constants/globals';
+
+const { INTEGRATIONS_EXAMPLE_URL } = wootConstants;
 
 const SUPPORTED_WEBHOOK_EVENTS = [
   'conversation_created',
@@ -97,6 +98,16 @@ export default {
       subscriptions: this.value.subscriptions || [],
       supportedWebhookEvents: SUPPORTED_WEBHOOK_EVENTS,
     };
+  },
+  computed: {
+    webhookURLInputPlaceholder() {
+      return this.$t(
+        'INTEGRATION_SETTINGS.WEBHOOK.FORM.END_POINT.PLACEHOLDER',
+        {
+          webhookExampleURL: INTEGRATIONS_EXAMPLE_URL,
+        }
+      );
+    },
   },
   methods: {
     onSubmit() {
