@@ -22,11 +22,11 @@
       </div>
       <div class="user-details">
         <h5 v-if="name" class="text-block-title name">
-          <span class="pre-text">from:</span>
+          <span class="pre-text"> {{ $t('SEARCH.FROM') }}: </span>
           {{ name }}
         </h5>
         <h5 v-if="email" class="text-block-title email text-truncate">
-          <span class="pre-text">email:</span>
+          <span class="pre-text">{{ $t('SEARCH.EMAIL') }}:</span>
           {{ email }}
         </h5>
       </div>
