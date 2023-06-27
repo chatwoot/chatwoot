@@ -374,6 +374,11 @@
               <input
                 ref="businessNameInput"
                 v-model="businessName"
+                :placeholder="
+                  $t(
+                    'INBOX_MGMT.EDIT.ENABLE_AGENT_NAME.BUSINESS_NAME.PLACEHOLDER'
+                  )
+                "
                 type="text"
                 class="business-name"
               />
