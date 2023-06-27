@@ -10,7 +10,7 @@
       @error="handleIframeError"
     />
     <article-skeleton-loader-vue v-if="isLoading" />
-    <div v-if="!showEmptyState" class="empty-state">
+    <div v-if="showEmptyState" class="empty-state">
       <p>{{ $t('HELP_CENTER.ARTICLE_SEARCH.IFRAME_ERROR') }}</p>
     </div>
   </div>
