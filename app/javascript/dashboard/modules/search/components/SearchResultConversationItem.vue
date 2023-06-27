@@ -20,10 +20,16 @@
           <span class="created-at">{{ createdAtTime }}</span>
         </div>
       </div>
-      <h5 v-if="name" class="text-block-title name">
-        <span class="pre-text">from:</span>
-        {{ name }}
-      </h5>
+      <div class="user-details">
+        <h5 v-if="name" class="text-block-title name">
+          <span class="pre-text"> {{ $t('SEARCH.FROM') }}: </span>
+          {{ name }}
+        </h5>
+        <h5 v-if="email" class="text-block-title email text-truncate">
+          <span class="pre-text">{{ $t('SEARCH.EMAIL') }}:</span>
+          {{ email }}
+        </h5>
+      </div>
       <slot />
     </div>
   </router-link>
@@ -49,6 +55,10 @@ export default {
       default: () => ({}),
     },
     name: {
+      type: String,
+      default: '',
+    },
+    email: {
       type: String,
       default: '',
     },
@@ -128,8 +138,13 @@ export default {
   flex-grow: 1;
   min-width: 0;
 }
-.conversation-id,
+
 .name {
+  flex-shrink: 0;
+}
+.conversation-id,
+.name,
+.email {
   margin: 0;
 }
 .created-at,
@@ -137,5 +152,10 @@ export default {
   color: var(--s-600);
   font-size: var(--font-size-mini);
   font-weight: var(--font-weight-normal);
+}
+
+.user-details {
+  display: flex;
+  gap: var(--space-small);
 }
 </style>
