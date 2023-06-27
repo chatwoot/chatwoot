@@ -1,20 +1,18 @@
 module Enterprise::DeleteObjectJob
-  def create_audit_entry(object, user, ip, audited_changes)
-    return unless object.is_a?(Inbox) && user.present?
+  def process_post_deletion_tasks(object, user, ip)
+    create_audit_entry(object, user, ip)
+  end
 
-    account = object.account
-    associated_type = 'Account'
+  def create_audit_entry(object, user, ip)
+    return unless ['Inbox'].include?(object.class.to_s) && user.present?
+
     Enterprise::AuditLog.create(
-      auditable_id: object.id,
-      auditable_type: object.class.name,
-      audited_changes: audited_changes,
+      auditable: object,
+      audited_changes: object.attributes,
       action: 'destroy',
-      user_id: user.id,
-      user_type: 'User',
-      associated_id: account.id,
-      associated_type: associated_type,
-      remote_address: ip,
-      comment: 'Deleted Inbox'
+      user: user,
+      associated: object.account,
+      remote_address: ip
     )
   end
 end
