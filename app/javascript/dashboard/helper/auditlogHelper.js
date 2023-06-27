@@ -1,6 +1,6 @@
 const roleMapping = {
   0: 'agent',
-  1: 'admin',
+  1: 'administrator',
 };
 
 const availabilityMapping = {
@@ -32,8 +32,11 @@ const translationKeys = {
   'accountuser:update:other': `AUDIT_LOGS.ACCOUNT_USER.EDIT.OTHER`,
 };
 
-function getLastElement(array) {
-  return array[array.length - 1];
+function extractAttrChange(attrChange) {
+  if (Array.isArray(attrChange)) {
+    return attrChange[attrChange.length - 1];
+  }
+  return attrChange;
 }
 
 export function extractChangedAccountUserValues(audited_changes) {
@@ -43,14 +46,14 @@ export function extractChangedAccountUserValues(audited_changes) {
   // Check roles
   if (audited_changes.role && audited_changes.role.length) {
     changes.push('role');
-    values.push(roleMapping[getLastElement(audited_changes.role)]);
+    values.push(roleMapping[extractAttrChange(audited_changes.role)]);
   }
 
   // Check availability
   if (audited_changes.availability && audited_changes.availability.length) {
     changes.push('availability');
     values.push(
-      availabilityMapping[getLastElement(audited_changes.availability)]
+      availabilityMapping[extractAttrChange(audited_changes.availability)]
     );
   }
 
@@ -65,8 +68,8 @@ function handleAccountUserCreate(
   translationPayload.invitee = getAgentName(
     auditLogItem.audited_changes.user_id
   );
-  if (auditLogItem.audited_changes.role === 0) {
-    translationPayload.role = 'admin';
+  if (auditLogItem.audited_changes.role === 1) {
+    translationPayload.role = 'administrator';
   } else {
     translationPayload.role = 'agent';
   }
