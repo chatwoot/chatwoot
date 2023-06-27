@@ -68,7 +68,7 @@ import timeMixin from 'dashboard/mixins/time';
 import alertMixin from 'shared/mixins/alertMixin';
 import {
   generateTranslationPayload,
-  translationKeys,
+  generateLogActionKey,
 } from 'dashboard/helper/auditlogHelper';
 
 export default {
@@ -125,19 +125,9 @@ export default {
         auditLogItem,
         this.getAgentName
       );
-      const auditableType = auditLogItem.auditable_type.toLowerCase();
-      const action = auditLogItem.action.toLowerCase();
-      let logActionKey = `${auditableType}:${action}`;
+      const translationKey = generateLogActionKey(auditLogItem);
 
-      if (auditableType === 'accountuser' && action === 'update') {
-        if (auditLogItem.user_id === auditLogItem.auditable.user_id) {
-          logActionKey += ':self';
-        } else {
-          logActionKey += ':other';
-        }
-      }
-
-      return this.$t(translationKeys[logActionKey] || '', translationPayload);
+      return this.$t(translationKey, translationPayload);
     },
     onPageChange(page) {
       window.history.pushState({}, null, `${this.$route.path}?page=${page}`);
