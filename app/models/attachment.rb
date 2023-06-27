@@ -51,7 +51,7 @@ class Attachment < ApplicationRecord
 
   # NOTE: the URl returned does a 301 redirect to the actual file
   def file_url
-    file.attached? ? rails_blob_path(file, only_path: true) : ''
+    file.attached? ? url_for(file) : ''
   end
 
   # NOTE: for External services use this methods since redirect doesn't work effectively in a lot of cases
