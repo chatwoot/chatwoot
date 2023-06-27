@@ -25,7 +25,6 @@ class TeamFilter
 
   def team_filter
     raise Pundit::NotAuthorizedError if excluded_team_ids.to_set.include?(@team.id)
-    raise Pundit::NotAuthorizedError if excluded_team_ids.to_set.include?(@team.id)
 
     @conversations.where(team: @team)
   end
