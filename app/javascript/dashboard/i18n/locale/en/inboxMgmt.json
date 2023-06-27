@@ -402,6 +402,11 @@
         "PROFESSIONAL": {
           "TITLE": "Professional",
           "SUBTITLE": "Use only the configured business name as the sender name in the email header."
+        },
+        "BUSINESS_NAME": {
+          "BUTTON_TEXT": "+ Configure your business name",
+          "PLACEHOLDER": "Enter your business name",
+          "SAVE_BUTTON_TEXT": "Save"
         }
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
