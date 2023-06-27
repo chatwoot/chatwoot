@@ -4,7 +4,7 @@ module Channelable
     validates :account_id, presence: true
     belongs_to :account
     has_one :inbox, as: :channel, dependent: :destroy_async, touch: true
-    after_update :create_audit_log_entry?
+    after_update :create_audit_log_entry
   end
 
   def messaging_window_enabled?
