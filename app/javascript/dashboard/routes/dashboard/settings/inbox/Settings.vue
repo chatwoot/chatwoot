@@ -380,7 +380,6 @@
                   )
                 "
                 type="text"
-                class="business-name"
               />
               <woot-button color-scheme="primary" @click="updateInbox">
                 {{
