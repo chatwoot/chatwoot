@@ -139,6 +139,8 @@ openai:
     "type": "object",
     "properties": {
         "api_key": { "type": "string" },
+        "model_name": { "type": "string" },
+        "api_url": { "type": "string" },
       },
     "required": ["api_key"],
     "additionalProperties": false,
@@ -150,5 +152,15 @@ openai:
       "name": "api_key",
       "validation": "required",
     },
+    {
+      "label": "Model Name (optional)",
+      "type": "text",
+      "name": "model_name",
+    },
+    {
+      "label": "API URL (optional)",
+      "type": "text",
+      "name": "api_url",
+    },
   ]
-  visible_properties: ['api_key']
+  visible_properties: ['api_key', 'model_name', 'api_url']
