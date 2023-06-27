@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :team do
-    name { 'MyString' }
+    name { Faker::Name.name }
     description { 'MyText' }
     allow_auto_assign { true }
     account
