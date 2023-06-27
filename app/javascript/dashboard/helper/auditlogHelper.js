@@ -57,6 +57,41 @@ export function extractChangedAccountUserValues(audited_changes) {
   return { changes, values };
 }
 
+function handleAccountUserCreate(
+  auditLogItem,
+  translationPayload,
+  getAgentName
+) {
+  translationPayload.invitee = getAgentName(
+    auditLogItem.audited_changes.user_id
+  );
+  if (auditLogItem.audited_changes.role === 0) {
+    translationPayload.role = 'admin';
+  } else {
+    translationPayload.role = 'agent';
+  }
+  return translationPayload;
+}
+
+function handleAccountUserUpdate(
+  auditLogItem,
+  translationPayload,
+  getAgentName
+) {
+  if (auditLogItem.user_id !== auditLogItem.auditable.user_id) {
+    translationPayload.user = getAgentName(auditLogItem.auditable.user_id);
+  }
+
+  const accountUserChanges = extractChangedAccountUserValues(
+    auditLogItem.audited_changes
+  );
+  if (accountUserChanges) {
+    translationPayload.attributes = accountUserChanges.changes;
+    translationPayload.values = accountUserChanges.values;
+  }
+  return translationPayload;
+}
+
 export function generateTranslationPayload(auditLogItem, getAgentName) {
   let translationPayload = {
     agentName: getAgentName(auditLogItem.user_id),
@@ -68,30 +103,19 @@ export function generateTranslationPayload(auditLogItem, getAgentName) {
 
   if (auditableType === 'accountuser') {
     if (action === 'create') {
-      translationPayload.invitee = getAgentName(
-        auditLogItem.audited_changes.user_id
+      translationPayload = handleAccountUserCreate(
+        auditLogItem,
+        translationPayload,
+        getAgentName
       );
-      if (auditLogItem.audited_changes.role === 0) {
-        translationPayload.role = 'admin';
-      } else {
-        translationPayload.role = 'agent';
-      }
     }
 
     if (action === 'update') {
-      if (auditLogItem.user_id === auditLogItem.auditable.user_id) {
-        // do nothing
-      } else {
-        translationPayload.user = getAgentName(auditLogItem.auditable.user_id);
-      }
-
-      const accountUserChanges = extractChangedAccountUserValues(
-        auditLogItem.audited_changes
+      translationPayload = handleAccountUserUpdate(
+        auditLogItem,
+        translationPayload,
+        getAgentName
       );
-      if (accountUserChanges) {
-        translationPayload.attributes = accountUserChanges.changes;
-        translationPayload.values = accountUserChanges.values;
-      }
     }
   }
 
