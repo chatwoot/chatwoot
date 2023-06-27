@@ -74,7 +74,7 @@ class ConversationFinder
   end
 
   def set_team
-    @team = current_account.teams.find(params[:team_id]) if params[:team_id]
+    @team = params[:team_id] ? current_account.teams.find(params[:team_id]) : nil
   end
 
   def find_all_conversations
@@ -125,9 +125,7 @@ class ConversationFinder
   end
 
   def filter_by_team
-    return unless @team
-
-    @conversations = @conversations.where(team: @team)
+    @conversations = TeamFilter.new(@conversations, current_user, @team).filter
   end
 
   def filter_by_labels
