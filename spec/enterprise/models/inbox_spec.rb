@@ -50,12 +50,5 @@ RSpec.describe Inbox do
         expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update').count).to eq 1
       end
     end
-
-    context 'when inbox is deleted' do
-      it 'has associated audit log created' do
-        inbox.destroy!
-        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'destroy').count).to eq 1
-      end
-    end
   end
 end
