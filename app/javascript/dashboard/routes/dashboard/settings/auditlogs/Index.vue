@@ -111,14 +111,13 @@ export default {
         this.showAlert(errorMessage);
       });
     },
-    getAgentName(user_id) {
-      if (user_id === null) {
+    getAgentName(userId) {
+      if (userId === null) {
         return this.$t('AUDIT_LOGS.DEFAULT_USER');
       }
-      const agentName = this.agentList.find(agent => agent.id === user_id)
-        ?.name;
+      const agentName = this.agentList.find(agent => agent.id === userId)?.name;
       // If agent does not exist(removed/deleted), return email from audit log
-      return agentName || user_id;
+      return agentName || userId;
     },
     generateLogText(auditLogItem) {
       const translationPayload = generateTranslationPayload(
