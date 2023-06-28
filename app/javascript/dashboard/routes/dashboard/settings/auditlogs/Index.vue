@@ -111,18 +111,10 @@ export default {
         this.showAlert(errorMessage);
       });
     },
-    getAgentName(userId) {
-      if (userId === null) {
-        return this.$t('AUDIT_LOGS.DEFAULT_USER');
-      }
-      const agentName = this.agentList.find(agent => agent.id === userId)?.name;
-      // If agent does not exist(removed/deleted), return email from audit log
-      return agentName || userId;
-    },
     generateLogText(auditLogItem) {
       const translationPayload = generateTranslationPayload(
         auditLogItem,
-        this.getAgentName
+        this.agentList
       );
       const translationKey = generateLogActionKey(auditLogItem);
 

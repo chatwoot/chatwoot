@@ -5,6 +5,12 @@ import {
 } from '../auditlogHelper'; // import the functions
 
 describe('Helper functions', () => {
+  const agentList = [
+    { id: 1, name: 'Agent 1' },
+    { id: 2, name: 'Agent 2' },
+    { id: 3, name: 'Agent 3' },
+  ];
+
   describe('extractChangedAccountUserValues', () => {
     it('should correctly extract values when role is changed', () => {
       const changes = {
@@ -45,8 +51,6 @@ describe('Helper functions', () => {
   });
 
   describe('generateTranslationPayload', () => {
-    const getAgentName = id => `Agent ${id}`;
-
     it('should handle AccountUser create', () => {
       const auditLogItem = {
         auditable_type: 'AccountUser',
@@ -59,7 +63,7 @@ describe('Helper functions', () => {
         },
       };
 
-      const payload = generateTranslationPayload(auditLogItem, getAgentName);
+      const payload = generateTranslationPayload(auditLogItem, agentList);
       expect(payload).toEqual({
         agentName: 'Agent 1',
         id: 123,
@@ -84,7 +88,7 @@ describe('Helper functions', () => {
         },
       };
 
-      const payload = generateTranslationPayload(auditLogItem, getAgentName);
+      const payload = generateTranslationPayload(auditLogItem, agentList);
       expect(payload).toEqual({
         agentName: 'Agent 1',
         id: 123,
@@ -102,7 +106,7 @@ describe('Helper functions', () => {
         auditable_id: 456,
       };
 
-      const payload = generateTranslationPayload(auditLogItem, getAgentName);
+      const payload = generateTranslationPayload(auditLogItem, agentList);
       expect(payload).toEqual({
         agentName: 'Agent 1',
         id: 456,

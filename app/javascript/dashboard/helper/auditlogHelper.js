@@ -60,13 +60,21 @@ export function extractChangedAccountUserValues(auditedChanges) {
   return { changes, values };
 }
 
-function handleAccountUserCreate(
-  auditLogItem,
-  translationPayload,
-  getAgentName
-) {
+function getAgentName(userId, agentList) {
+  if (userId === null) {
+    return 'System';
+  }
+
+  const agentName = agentList.find(agent => agent.id === userId)?.name;
+
+  // If agent does not exist(removed/deleted), return email from audit log
+  return agentName || userId;
+}
+
+function handleAccountUserCreate(auditLogItem, translationPayload, agentList) {
   translationPayload.invitee = getAgentName(
-    auditLogItem.audited_changes.user_id
+    auditLogItem.audited_changes.user_id,
+    agentList
   );
 
   const roleKey = auditLogItem.audited_changes.role;
@@ -75,13 +83,12 @@ function handleAccountUserCreate(
   return translationPayload;
 }
 
-function handleAccountUserUpdate(
-  auditLogItem,
-  translationPayload,
-  getAgentName
-) {
+function handleAccountUserUpdate(auditLogItem, translationPayload, agentList) {
   if (auditLogItem.user_id !== auditLogItem.auditable.user_id) {
-    translationPayload.user = getAgentName(auditLogItem.auditable.user_id);
+    translationPayload.user = getAgentName(
+      auditLogItem.auditable.user_id,
+      agentList
+    );
   }
 
   const accountUserChanges = extractChangedAccountUserValues(
@@ -94,9 +101,9 @@ function handleAccountUserUpdate(
   return translationPayload;
 }
 
-export function generateTranslationPayload(auditLogItem, getAgentName) {
+export function generateTranslationPayload(auditLogItem, agentList) {
   let translationPayload = {
-    agentName: getAgentName(auditLogItem.user_id),
+    agentName: getAgentName(auditLogItem.user_id, agentList),
     id: auditLogItem.auditable_id,
   };
 
@@ -108,7 +115,7 @@ export function generateTranslationPayload(auditLogItem, getAgentName) {
       translationPayload = handleAccountUserCreate(
         auditLogItem,
         translationPayload,
-        getAgentName
+        agentList
       );
     }
 
@@ -116,7 +123,7 @@ export function generateTranslationPayload(auditLogItem, getAgentName) {
       translationPayload = handleAccountUserUpdate(
         auditLogItem,
         translationPayload,
-        getAgentName
+        agentList
       );
     }
   }
