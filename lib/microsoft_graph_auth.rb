@@ -9,6 +9,18 @@ require 'omniauth-oauth2'
 # Implements an OmniAuth strategy to get a Microsoft Graph
 # compatible token from Azure AD
 class MicrosoftGraphAuth < OmniAuth::Strategies::OAuth2
+  # Microsoft Azure Tenant
+  # For single tenant applications, meant to be used by
+  # organisations for their own apps, the 'common' endpoint is not allowed.
+  # If the environment variable 'AZURE_TENANT_ID' is set,
+  # this will return it's value, otherwise, it will default to 'common'.
+  #
+  # The tenant id for your Azure organization can be obtained by
+  # by accessing 'Tenant properties' from the Azure portal.
+  def self.azure_tenant_id
+    ENV.fetch('AZURE_TENANT_ID', 'common')
+  end
+
   option :name, :microsoft_graph_auth
 
   DEFAULT_SCOPE = 'offline_access https://outlook.office.com/IMAP.AccessAsUser.All https://outlook.office.com/SMTP.Send'
@@ -16,8 +28,8 @@ class MicrosoftGraphAuth < OmniAuth::Strategies::OAuth2
   # Configure the Microsoft identity platform endpoints
   option :client_options,
          site: 'https://login.microsoftonline.com',
-         authorize_url: '/common/oauth2/v2.0/authorize',
-         token_url: '/common/oauth2/v2.0/token'
+         authorize_url: "/#{azure_tenant_id}/oauth2/v2.0/authorize",
+         token_url: "/#{azure_tenant_id}/oauth2/v2.0/token"
 
   option :pcke, true
   # Send the scope parameter during authorize
