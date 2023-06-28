@@ -12,7 +12,9 @@
         :active="keyOption.value === customSenderNameEnabled"
       >
         <div class="sender-name--preview-content">
-          <span class="text">For eg:</span>
+          <span class="text">
+            {{ $t('INBOX_MGMT.EDIT.ENABLE_AGENT_NAME.FOR_EG') }}
+          </span>
           <div class="sender-name--preview">
             <thumbnail :username="userName(keyOption)" size="32px" />
             <div class="preview-card--content">

@@ -358,6 +358,38 @@
             :custom-sender-name-enabled="customSenderNameEnabled"
             @update="toggleCustomSenderName"
           />
+          <div class="business-section">
+            <woot-button
+              variant="clear"
+              color-scheme="primary"
+              @click="onClickShowBusinessNameInput"
+            >
+              {{
+                $t(
+                  'INBOX_MGMT.EDIT.ENABLE_AGENT_NAME.BUSINESS_NAME.BUTTON_TEXT'
+                )
+              }}
+            </woot-button>
+            <div v-if="showBusinessNameInput" class="business-name-input">
+              <input
+                ref="businessNameInput"
+                v-model="businessName"
+                :placeholder="
+                  $t(
+                    'INBOX_MGMT.EDIT.ENABLE_AGENT_NAME.BUSINESS_NAME.PLACEHOLDER'
+                  )
+                "
+                type="text"
+              />
+              <woot-button color-scheme="primary" @click="updateInbox">
+                {{
+                  $t(
+                    'INBOX_MGMT.EDIT.ENABLE_AGENT_NAME.BUSINESS_NAME.SAVE_BUTTON_TEXT'
+                  )
+                }}
+              </woot-button>
+            </div>
+          </div>
         </div>
       </settings-section>
       <settings-section :show-border="false">
@@ -446,6 +478,7 @@ export default {
       emailCollectEnabled: false,
       csatSurveyEnabled: false,
       customSenderNameEnabled: false,
+      businessName: '',
       locktoSingleConversation: false,
       allowMessagesAfterResolved: true,
       continuityViaEmail: true,
@@ -458,6 +491,7 @@ export default {
       replyTime: '',
       selectedTabIndex: 0,
       selectedPortalSlug: '',
+      showBusinessNameInput: false,
     };
   },
   computed: {
@@ -639,6 +673,7 @@ export default {
         this.emailCollectEnabled = this.inbox.enable_email_collect;
         this.csatSurveyEnabled = this.inbox.csat_survey_enabled;
         this.customSenderNameEnabled = this.inbox.custom_sender_name_enabled;
+        this.businessName = this.inbox.business_name;
         this.allowMessagesAfterResolved = this.inbox.allow_messages_after_resolved;
         this.continuityViaEmail = this.inbox.continuity_via_email;
         this.channelWebsiteUrl = this.inbox.website_url;
@@ -669,6 +704,7 @@ export default {
             : null,
           lock_to_single_conversation: this.locktoSingleConversation,
           custom_sender_name_enabled: this.customSenderNameEnabled,
+          business_name: this.businessName || null,
           channel: {
             widget_color: this.inbox.widget_color,
             website_url: this.channelWebsiteUrl,
@@ -716,6 +752,14 @@ export default {
     toggleCustomSenderName(value) {
       this.customSenderNameEnabled = value;
     },
+    onClickShowBusinessNameInput() {
+      this.showBusinessNameInput = !this.showBusinessNameInput;
+      if (this.showBusinessNameInput) {
+        this.$nextTick(() => {
+          this.$refs.businessNameInput.focus();
+        });
+      }
+    },
   },
   validations: {
     webhookUrl: {
@@ -756,6 +800,24 @@ export default {
     font-style: normal;
     color: var(--b-500);
     padding-bottom: var(--space-smaller);
+  }
+}
+
+.business-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-small);
+  margin-top: var(--space-small);
+
+  .business-name-input {
+    display: flex;
+    gap: var(--space-small);
+    width: 80%;
+
+    input {
+      margin-bottom: 0;
+    }
   }
 }
 </style>
