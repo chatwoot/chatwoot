@@ -704,7 +704,7 @@ export default {
             : null,
           lock_to_single_conversation: this.locktoSingleConversation,
           custom_sender_name_enabled: this.customSenderNameEnabled,
-          business_name: this.businessName,
+          business_name: this.businessName || null,
           channel: {
             widget_color: this.inbox.widget_color,
             website_url: this.channelWebsiteUrl,
