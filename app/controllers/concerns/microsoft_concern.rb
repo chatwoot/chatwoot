@@ -5,8 +5,8 @@ module MicrosoftConcern
     ::OAuth2::Client.new(ENV.fetch('AZURE_APP_ID', nil), ENV.fetch('AZURE_APP_SECRET', nil),
                          {
                            site: 'https://login.microsoftonline.com',
-                           authorize_url: 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
-                           token_url: 'https://login.microsoftonline.com/common/oauth2/v2.0/token'
+                           authorize_url: "https://login.microsoftonline.com/#{azure_tenant_id}/oauth2/v2.0/authorize",
+                           token_url: "https://login.microsoftonline.com/#{azure_tenant_id}/oauth2/v2.0/token"
                          })
   end
 
@@ -18,5 +18,9 @@ module MicrosoftConcern
 
   def base_url
     ENV.fetch('FRONTEND_URL', 'http://localhost:3000')
+  end
+
+  def azure_tenant_id
+    MicrosoftGraphAuth.azure_tenant_id
   end
 end
