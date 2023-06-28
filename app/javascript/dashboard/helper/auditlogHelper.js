@@ -67,7 +67,7 @@ function getAgentName(userId, agentList) {
 
   const agentName = agentList.find(agent => agent.id === userId)?.name;
 
-  // If agent does not exist(removed/deleted), return email from audit log
+  // If agent does not exist(removed/deleted), return userId
   return agentName || userId;
 }
 
