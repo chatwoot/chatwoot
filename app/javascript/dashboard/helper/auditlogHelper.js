@@ -39,21 +39,21 @@ function extractAttrChange(attrChange) {
   return attrChange;
 }
 
-export function extractChangedAccountUserValues(audited_changes) {
+export function extractChangedAccountUserValues(auditedChanges) {
   let changes = [];
   let values = [];
 
   // Check roles
-  if (audited_changes.role && audited_changes.role.length) {
+  if (auditedChanges.role && auditedChanges.role.length) {
     changes.push('role');
-    values.push(roleMapping[extractAttrChange(audited_changes.role)]);
+    values.push(roleMapping[extractAttrChange(auditedChanges.role)]);
   }
 
   // Check availability
-  if (audited_changes.availability && audited_changes.availability.length) {
+  if (auditedChanges.availability && auditedChanges.availability.length) {
     changes.push('availability');
     values.push(
-      availabilityMapping[extractAttrChange(audited_changes.availability)]
+      availabilityMapping[extractAttrChange(auditedChanges.availability)]
     );
   }
 
