@@ -68,11 +68,10 @@ function handleAccountUserCreate(
   translationPayload.invitee = getAgentName(
     auditLogItem.audited_changes.user_id
   );
-  if (auditLogItem.audited_changes.role === 1) {
-    translationPayload.role = 'administrator';
-  } else {
-    translationPayload.role = 'agent';
-  }
+
+  const roleKey = auditLogItem.audited_changes.role;
+  translationPayload.role = roleMapping[roleKey] || 'unknown'; // 'unknown' as a fallback in case an unrecognized key is provided
+
   return translationPayload;
 }
 
