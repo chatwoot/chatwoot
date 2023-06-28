@@ -66,6 +66,10 @@ import { mapGetters } from 'vuex';
 import TableFooter from 'dashboard/components/widgets/TableFooter';
 import timeMixin from 'dashboard/mixins/time';
 import alertMixin from 'shared/mixins/alertMixin';
+import {
+  generateTranslationPayload,
+  generateLogActionKey,
+} from 'dashboard/helper/auditlogHelper';
 
 export default {
   components: {
@@ -107,48 +111,14 @@ export default {
         this.showAlert(errorMessage);
       });
     },
-    getAgentName(email) {
-      if (email === null) {
-        return this.$t('AUDIT_LOGS.DEFAULT_USER');
-      }
-      const agentName = this.agentList.find(agent => agent.email === email)
-        ?.name;
-      // If agent does not exist(removed/deleted), return email from audit log
-      return agentName || email;
-    },
     generateLogText(auditLogItem) {
-      const agentName = this.getAgentName(auditLogItem.username);
-      const auditableType = auditLogItem.auditable_type.toLowerCase();
-      const action = auditLogItem.action.toLowerCase();
-      const auditId = auditLogItem.auditable_id;
-      const logActionKey = `${auditableType}:${action}`;
+      const translationPayload = generateTranslationPayload(
+        auditLogItem,
+        this.agentList
+      );
+      const translationKey = generateLogActionKey(auditLogItem);
 
-      const translationPayload = {
-        agentName,
-        id: auditId,
-      };
-
-      const translationKeys = {
-        'automationrule:create': `AUDIT_LOGS.AUTOMATION_RULE.ADD`,
-        'automationrule:update': `AUDIT_LOGS.AUTOMATION_RULE.EDIT`,
-        'automationrule:destroy': `AUDIT_LOGS.AUTOMATION_RULE.DELETE`,
-        'webhook:create': `AUDIT_LOGS.WEBHOOK.ADD`,
-        'webhook:update': `AUDIT_LOGS.WEBHOOK.EDIT`,
-        'webhook:destroy': `AUDIT_LOGS.WEBHOOK.DELETE`,
-        'inbox:create': `AUDIT_LOGS.INBOX.ADD`,
-        'inbox:update': `AUDIT_LOGS.INBOX.EDIT`,
-        'inbox:destroy': `AUDIT_LOGS.INBOX.DELETE`,
-        'user:sign_in': `AUDIT_LOGS.USER_ACTION.SIGN_IN`,
-        'user:sign_out': `AUDIT_LOGS.USER_ACTION.SIGN_OUT`,
-        'team:create': `AUDIT_LOGS.TEAM.ADD`,
-        'team:update': `AUDIT_LOGS.TEAM.EDIT`,
-        'team:destroy': `AUDIT_LOGS.TEAM.DELETE`,
-        'macro:create': `AUDIT_LOGS.MACRO.ADD`,
-        'macro:update': `AUDIT_LOGS.MACRO.EDIT`,
-        'macro:destroy': `AUDIT_LOGS.MACRO.DELETE`,
-      };
-
-      return this.$t(translationKeys[logActionKey] || '', translationPayload);
+      return this.$t(translationKey, translationPayload);
     },
     onPageChange(page) {
       window.history.pushState({}, null, `${this.$route.path}?page=${page}`);
