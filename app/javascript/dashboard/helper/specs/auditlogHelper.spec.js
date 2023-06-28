@@ -2,7 +2,7 @@ import {
   extractChangedAccountUserValues,
   generateTranslationPayload,
   generateLogActionKey,
-} from './auditlogHelper'; // import the functions
+} from '../auditlogHelper'; // import the functions
 
 describe('Helper functions', () => {
   describe('extractChangedAccountUserValues', () => {
