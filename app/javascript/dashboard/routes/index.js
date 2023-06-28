@@ -34,6 +34,17 @@ generateRoleWiseRoute(routes);
 export const router = new VueRouter({ mode: 'history', routes });
 
 export const validateAuthenticateRoutePermission = (to, next, { getters }) => {
+  const { isLoggedIn, getCurrentUser: user } = getters;
+
+  if (!isLoggedIn) {
+    window.location = '/app/login';
+    return '/app/login';
+  }
+
+  if (!to.name) {
+    return next(frontendURL(`accounts/${user.account_id}/dashboard`));
+  }
+
   const nextRoute = validateLoggedInRoutes(
     to,
     getters.getCurrentUser,
@@ -52,16 +63,6 @@ export const initalizeRouter = () => {
     });
 
     userAuthentication.then(() => {
-      if (!to.name) {
-        const { isLoggedIn, getCurrentUser: user } = store.getters;
-        if (isLoggedIn) {
-          return next(frontendURL(`accounts/${user.account_id}/dashboard`));
-        }
-
-        window.location = '/app/login';
-        return '';
-      }
-
       return validateAuthenticateRoutePermission(to, next, store);
     });
   });

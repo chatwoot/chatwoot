@@ -11,6 +11,7 @@
     </a>
     <simple-divider
       v-if="showSeparator"
+      ref="divider"
       :label="$t('COMMON.OR')"
       class="uppercase"
     />
@@ -19,7 +20,6 @@
 
 <script>
 import SimpleDivider from '../Divider/SimpleDivider.vue';
-const validButtonSizes = ['small', 'tiny', 'large'];
 
 export default {
   components: {
@@ -29,12 +29,6 @@ export default {
     showSeparator: {
       type: Boolean,
       default: true,
-    },
-    buttonSize: {
-      type: String,
-      default: undefined,
-      validator: value =>
-        validButtonSizes.includes(value) || value === undefined,
     },
   },
   methods: {
