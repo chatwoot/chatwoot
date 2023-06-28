@@ -35,7 +35,9 @@
     <div class="flex flex-col items-start justify-between w-full md:flex-row md:items-center pt-2">
       <div class="flex items-center space-x-2">
         <% if @article.author&.avatar_url&.present? %>
-          <img src="<%= @article.author.avatar_url %>" alt="<%= @article.author.display_name %>" class="w-12 h-12 border rounded-full pr-1">
+          <div class="pr-1">
+            <img src="<%= @article.author.avatar_url %>" alt="<%= @article.author.display_name %>" class="w-12 h-12 border rounded-full">
+          </div>
         <% end %>
         <div>
           <h5 class="text-base font-medium text-slate-900 mb-2"><%= @article.author.available_name %></h5>

@@ -54,18 +54,25 @@
       "OPEN": "詳細資訊",
       "CLOSE": "關閉",
       "DETAILS": "詳情",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
       "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
       "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "標記為待處理",
+      "SNOOZE_UNTIL": "Snooze",
       "SNOOZE": {
         "TITLE": "Snooze until",
         "NEXT_REPLY": "下個回覆",
         "TOMORROW": "明天",
         "NEXT_WEEK": "下週"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Snooze until",
+      "APPLY": "Snooze",
+      "CANCEL": "取消"
     },
     "PRIORITY": {
       "TITLE": "Priority",

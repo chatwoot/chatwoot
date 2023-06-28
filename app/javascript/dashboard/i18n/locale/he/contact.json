@@ -73,6 +73,13 @@
     "SUCCESS_MESSAGE": "אנשי הקשר נשמרו בהצלחה",
     "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
   },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
+  },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "אשר מחיקה",
@@ -211,6 +218,7 @@
     "FILTER_CONTACTS": "סנן",
     "FILTER_CONTACTS_SAVE": "שמור סנן",
     "FILTER_CONTACTS_DELETE": "מחק סנן",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "טוען אנשי קשר...",
       "404": "אין אנשי קשר שתואמים לחיפוש שלך 🔍",

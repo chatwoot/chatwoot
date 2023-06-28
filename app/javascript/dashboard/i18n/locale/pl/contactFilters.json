@@ -1,50 +1,55 @@
 {
-    "CONTACTS_FILTER": {
-        "TITLE": "Filtruj kontakty",
-        "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
-        "ADD_NEW_FILTER": "Dodaj filtr",
-        "CLEAR_ALL_FILTERS": "Wyczyść wszystkie filtry",
-        "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
-        "SUBMIT_BUTTON_LABEL": "Prześlij",
-        "CANCEL_BUTTON_LABEL": "Anuluj",
-        "CLEAR_BUTTON_LABEL": "Wyczyść filtry",
-        "EMPTY_VALUE_ERROR": "Wartość jest wymagana",
-        "TOOLTIP_LABEL": "Filter contacts",
-        "QUERY_DROPDOWN_LABELS": {
-            "AND": "i",
-            "OR": "albo"
-        },
-        "OPERATOR_LABELS": {
-            "equal_to": "Równa się",
-            "not_equal_to": "Nie równa się",
-            "contains": "Zawiera",
-            "does_not_contain": "Nie zawiera",
-            "is_present": "Istnieje",
-            "is_not_present": "Nie istnieje",
-            "is_greater_than": "Jest większe niż",
-            "is_lesser_than": "Is lesser than",
-            "days_before": "Jest x dni przed"
-        },
-        "ATTRIBUTES": {
-            "NAME": "Nazwa",
-            "EMAIL": "E-mail",
-            "PHONE_NUMBER": "Numer telefonu",
-            "IDENTIFIER": "Identifier",
-            "CITY": "Miasto",
-            "COUNTRY": "Kraj",
-            "CUSTOM_ATTRIBUTE_LIST": "Lista",
-            "CUSTOM_ATTRIBUTE_TEXT": "Tekst",
-            "CUSTOM_ATTRIBUTE_NUMBER": "Numer",
-            "CUSTOM_ATTRIBUTE_LINK": "Łącze",
-            "CUSTOM_ATTRIBUTE_CHECKBOX": "Pole wyboru",
-            "CREATED_AT": "Utworzono",
-            "LAST_ACTIVITY": "Ostatnia aktywność",
-            "REFERER_LINK": "Referrer link"
-        },
-        "GROUPS": {
-            "STANDARD_FILTERS": "Filtry standardowe",
-            "ADDITIONAL_FILTERS": "Dodatkowe filtry",
-            "CUSTOM_ATTRIBUTES": "Niestandardowe atrybuty"
-        }
+  "CONTACTS_FILTER": {
+    "TITLE": "Filtruj kontakty",
+    "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
+    "EDIT_CUSTOM_SEGMENT": "Edit Segment",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your segment.",
+    "ADD_NEW_FILTER": "Dodaj filtr",
+    "CLEAR_ALL_FILTERS": "Wyczyść wszystkie filtry",
+    "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
+    "SUBMIT_BUTTON_LABEL": "Prześlij",
+    "UPDATE_BUTTON_LABEL": "Update Segment",
+    "CANCEL_BUTTON_LABEL": "Anuluj",
+    "CLEAR_BUTTON_LABEL": "Wyczyść filtry",
+    "EMPTY_VALUE_ERROR": "Wartość jest wymagana",
+    "SEGMENT_LABEL": "Segment Name",
+    "SEGMENT_QUERY_LABEL": "Segment Query",
+    "TOOLTIP_LABEL": "Filter contacts",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "i",
+      "OR": "albo"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "Równa się",
+      "not_equal_to": "Nie równa się",
+      "contains": "Zawiera",
+      "does_not_contain": "Nie zawiera",
+      "is_present": "Istnieje",
+      "is_not_present": "Nie istnieje",
+      "is_greater_than": "Jest większe niż",
+      "is_lesser_than": "Is lesser than",
+      "days_before": "Jest x dni przed"
+    },
+    "ATTRIBUTES": {
+      "NAME": "Nazwa",
+      "EMAIL": "E-mail",
+      "PHONE_NUMBER": "Numer telefonu",
+      "IDENTIFIER": "Identifier",
+      "CITY": "Miasto",
+      "COUNTRY": "Kraj",
+      "CUSTOM_ATTRIBUTE_LIST": "Lista",
+      "CUSTOM_ATTRIBUTE_TEXT": "Tekst",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Numer",
+      "CUSTOM_ATTRIBUTE_LINK": "Łącze",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Pole wyboru",
+      "CREATED_AT": "Utworzono",
+      "LAST_ACTIVITY": "Ostatnia aktywność",
+      "REFERER_LINK": "Referrer link"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Filtry standardowe",
+      "ADDITIONAL_FILTERS": "Dodatkowe filtry",
+      "CUSTOM_ATTRIBUTES": "Niestandardowe atrybuty"
     }
+  }
 }

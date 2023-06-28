@@ -54,18 +54,25 @@
       "OPEN": "Altro",
       "CLOSE": "Chiudi",
       "DETAILS": "Dettagli",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Posticipato fino a domani",
       "SNOOZED_UNTIL_NEXT_WEEK": "Posticipato fino alla prossima settimana",
       "SNOOZED_UNTIL_NEXT_REPLY": "Posticipato fino alla prossima risposta"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Segna come in sospeso",
+      "SNOOZE_UNTIL": "Posticipa",
       "SNOOZE": {
         "TITLE": "Posticipa fino a",
         "NEXT_REPLY": "Risposta successiva",
         "TOMORROW": "Domani",
         "NEXT_WEEK": "Prossima settimana"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Posticipa fino a",
+      "APPLY": "Posticipa",
+      "CANCEL": "annulla"
     },
     "PRIORITY": {
       "TITLE": "Priorità",

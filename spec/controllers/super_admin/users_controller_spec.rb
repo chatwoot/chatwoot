@@ -45,4 +45,25 @@ RSpec.describe 'Super Admin Users API', type: :request do
       end
     end
   end
+
+  describe 'DELETE /super_admin/users/:id/avatar' do
+    let!(:user) { create(:user, :with_avatar) }
+
+    context 'when it is an unauthenticated super admin' do
+      it 'returns unauthorized' do
+        delete "/super_admin/users/#{user.id}/avatar", params: { attachment_id: user.avatar.id }
+        expect(response).to have_http_status(:redirect)
+        expect(user.reload.avatar).to be_attached
+      end
+    end
+
+    context 'when it is an authenticated super admin' do
+      it 'destroys the avatar' do
+        sign_in(super_admin, scope: :super_admin)
+        delete "/super_admin/users/#{user.id}/avatar", params: { attachment_id: user.avatar.id }
+        expect(response).to have_http_status(:redirect)
+        expect(user.reload.avatar).not_to be_attached
+      end
+    end
+  end
 end

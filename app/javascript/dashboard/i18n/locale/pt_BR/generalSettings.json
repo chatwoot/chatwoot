@@ -48,7 +48,10 @@
       }
     },
     "UPDATE_CHATWOOT": "Uma atualização %{latestChatwootVersion} para o Chatwoot está disponível. Por favor, atualize sua instância.",
-    "LEARN_MORE": "Saiba mais"
+    "LEARN_MORE": "Saiba mais",
+    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
+    "OPEN_BILLING": "Open billing"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -103,6 +106,7 @@
       "CHANGE_ASSIGNEE": "Alterar Responsável",
       "CHANGE_PRIORITY": "Alterar Prioridade",
       "CHANGE_TEAM": "Alterar a Equipe",
+      "SNOOZE_CONVERSATION": "Adiar conversa",
       "ADD_LABEL": "Adicionar etiqueta à conversa",
       "REMOVE_LABEL": "Remover etiqueta da conversa",
       "SETTINGS": "Confirgurações"
@@ -138,7 +142,10 @@
       "SNOOZE_CONVERSATION": "Adiar conversa",
       "UNTIL_NEXT_REPLY": "Até a próxima resposta",
       "UNTIL_NEXT_WEEK": "Até a próxima semana",
-      "UNTIL_TOMORROW": "Até amanhã"
+      "UNTIL_TOMORROW": "Até amanhã",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom..."
     }
   },
   "DASHBOARD_APPS": {

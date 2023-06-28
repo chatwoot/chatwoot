@@ -22,6 +22,9 @@ contact_sort_param:
 conversation_id:
   $ref: ./conversation_id.yml
 
+conversation_uuid:
+  $ref: ./conversation_uuid.yml
+
 custom_filter_id:
   $ref: ./custom_filter_id.yml
 

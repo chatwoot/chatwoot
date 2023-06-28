@@ -48,7 +48,10 @@
       }
     },
     "UPDATE_CHATWOOT": "Uppfærsla %{latestChatwootVersion} fyrir Chatwoot er fáanleg. Vinsamlegast uppfærðu tilvikið þitt.",
-    "LEARN_MORE": "Læra meira"
+    "LEARN_MORE": "Læra meira",
+    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
+    "OPEN_BILLING": "Open billing"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -103,6 +106,7 @@
       "CHANGE_ASSIGNEE": "Breyta úthlutun",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Breyta Teymi",
+      "SNOOZE_CONVERSATION": "Fresta Samtali",
       "ADD_LABEL": "Merkja samtalið",
       "REMOVE_LABEL": "Fjarlægja merki af samtali",
       "SETTINGS": "Stillingar"
@@ -138,7 +142,10 @@
       "SNOOZE_CONVERSATION": "Fresta Samtali",
       "UNTIL_NEXT_REPLY": "Þar til að næsta svar berst",
       "UNTIL_NEXT_WEEK": "Þar til í næstu viku",
-      "UNTIL_TOMORROW": "Þar til á morgun"
+      "UNTIL_TOMORROW": "Þar til á morgun",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom..."
     }
   },
   "DASHBOARD_APPS": {

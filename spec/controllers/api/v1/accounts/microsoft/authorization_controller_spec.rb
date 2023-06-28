@@ -43,6 +43,29 @@ RSpec.describe 'Microsoft Authorization API', type: :request do
         expect(response.parsed_body['url']).to eq response_url
         expect(Redis::Alfred.get(administrator.email)).to eq(account.id.to_s)
       end
+
+      it 'creates a new authorization and returns the redirect url for single tenant' do
+        with_modified_env AZURE_TENANT_ID: 'azure_tenant_id' do
+          post "/api/v1/accounts/#{account.id}/microsoft/authorization",
+               headers: administrator.create_new_auth_token,
+               params: { email: administrator.email },
+               as: :json
+
+          microsoft_service = Class.new { extend MicrosoftConcern }
+
+          response_url = microsoft_service.microsoft_client.auth_code.authorize_url(
+            {
+              redirect_uri: "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/microsoft/callback",
+              scope: 'offline_access https://graph.microsoft.com/Mail.Read https://graph.microsoft.com/Mail.Send openid profile',
+              prompt: 'consent'
+            }
+          )
+          expect(response.parsed_body['url']).to eq response_url
+        end
+
+        expect(response).to have_http_status(:success)
+        expect(Redis::Alfred.get(administrator.email)).to eq(account.id.to_s)
+      end
     end
   end
 end

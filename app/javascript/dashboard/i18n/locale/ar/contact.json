@@ -73,6 +73,13 @@
     "SUCCESS_MESSAGE": "تم حفظ جهة الاتصال بنجاح",
     "ERROR_MESSAGE": "حدث خطأ، الرجاء المحاولة مرة أخرى"
   },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "حدث خطأ، الرجاء المحاولة مرة أخرى"
+  },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "تأكيد الحذف",
@@ -120,7 +127,7 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "أدخل رقم الهاتف الخاص بجهة الاتصال",
         "LABEL": "رقم الهاتف",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
+        "HELP": "يجب ان يحتوى رقم الهاتف على كود دولتك تسبقها علامة +\nمثال: +20101243567",
         "ERROR": "يجب ان تكون خانة رقم الهاتف إما فارغة او مكتملة مع رمز الدولة",
         "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "رقم الهاتف هذا مستخدم لجهة اتصال أخرى."
@@ -182,7 +189,7 @@
         "LABEL": "إلى"
       },
       "INBOX": {
-        "LABEL": "Via Inbox",
+        "LABEL": "صندوق الوارد",
         "PLACEHOLDER": "Choose source inbox",
         "ERROR": "حدد صندوق الوارد"
       },
@@ -211,6 +218,7 @@
     "FILTER_CONTACTS": "فلترة",
     "FILTER_CONTACTS_SAVE": "حفظ الفلتر",
     "FILTER_CONTACTS_DELETE": "حذف الفلتر",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "جاري تحميل جهات الاتصال...",
       "404": "لا توجد جهات اتصال تطابق بحثك 🔍",

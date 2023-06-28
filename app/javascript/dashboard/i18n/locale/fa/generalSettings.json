@@ -48,7 +48,10 @@
       }
     },
     "UPDATE_CHATWOOT": "به روزرسانی%{latestChatwootVersion} برای Chatwoot در دسترس است. لطفا نمونه خود را به روز کنید.",
-    "LEARN_MORE": "بیشتر بدانید"
+    "LEARN_MORE": "بیشتر بدانید",
+    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
+    "OPEN_BILLING": "Open billing"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -103,6 +106,7 @@
       "CHANGE_ASSIGNEE": "نماینده را تغییر دهید",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "تیم را تغییر دهید",
+      "SNOOZE_CONVERSATION": "به تعویق انداختن مکالمه",
       "ADD_LABEL": "برچسب را به مکالمه اضافه کنید",
       "REMOVE_LABEL": "برچسب را از مکالمه حذف کنید",
       "SETTINGS": "تنظیمات"
@@ -138,7 +142,10 @@
       "SNOOZE_CONVERSATION": "به تعویق انداختن مکالمه",
       "UNTIL_NEXT_REPLY": "تا پاسخ بعدی",
       "UNTIL_NEXT_WEEK": "تا هفته بعد",
-      "UNTIL_TOMORROW": "تا فردا"
+      "UNTIL_TOMORROW": "تا فردا",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom..."
     }
   },
   "DASHBOARD_APPS": {

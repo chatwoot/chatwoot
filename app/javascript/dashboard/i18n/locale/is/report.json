@@ -4,6 +4,8 @@
     "LOADING_CHART": "Loading chart data...",
     "NO_ENOUGH_DATA": "Við höfum ekki fengið nógu marga gagnapunkta til að búa til skýrslu, vinsamlegast reyndu aftur síðar.",
     "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
+    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Samtöl",
@@ -33,6 +35,14 @@
         "NAME": "Resolution Count",
         "DESC": "( Total )"
       }
+    },
+    "DATE_RANGE_OPTIONS": {
+      "LAST_7_DAYS": "Síðustu 7 daga",
+      "LAST_30_DAYS": "Síðustu 30 daga",
+      "LAST_3_MONTHS": "Síðustu 3 mánuði",
+      "LAST_6_MONTHS": "Síðustu 6 mánuði",
+      "LAST_YEAR": "Síðasta ár",
+      "CUSTOM_DATE_RANGE": "Custom date range"
     },
     "DATE_RANGE": [
       {
@@ -66,6 +76,12 @@
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
     "DURATION_FILTER_LABEL": "Duration",
+    "GROUPING_OPTIONS": {
+      "DAY": "Dagur",
+      "WEEK": "Vika",
+      "MONTH": "Mánuður",
+      "YEAR": "Ár"
+    },
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
@@ -388,6 +404,7 @@
     "HEADER": "CSAT Reports",
     "NO_RECORDS": "Engin svör við CSAT könnun eru fáanleg.",
     "DOWNLOAD": "Download CSAT Reports",
+    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Choose Agents"

@@ -2,6 +2,8 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
   def send_message(phone_number, message)
     if message.attachments.present?
       send_attachment_message(phone_number, message)
+    elsif message.content_type == 'input_select'
+      send_interactive_text_message(phone_number, message)
     else
       send_text_message(phone_number, message)
     end
@@ -22,6 +24,8 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
   end
 
   def sync_templates
+    # ensuring that channels with wrong provider config wouldn't keep trying to sync templates
+    whatsapp_channel.mark_message_templates_updated
     response = HTTParty.get("#{api_base_path}/configs/templates", headers: api_headers)
     whatsapp_channel.update(message_templates: response['waba_templates'], message_templates_last_updated: Time.now.utc) if response.success?
   end
@@ -109,5 +113,21 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
         parameters: template_info[:parameters]
       }]
     }
+  end
+
+  def send_interactive_text_message(phone_number, message)
+    payload = create_payload_based_on_items(message)
+
+    response = HTTParty.post(
+      "#{api_base_path}/messages",
+      headers: api_headers,
+      body: {
+        to: phone_number,
+        interactive: payload,
+        type: 'interactive'
+      }.to_json
+    )
+
+    process_response(response)
   end
 end

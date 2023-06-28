@@ -6,7 +6,8 @@ class ConversationFinder
     latest: 'latest',
     sort_on_created_at: 'sort_on_created_at',
     last_user_message_at: 'last_user_message_at',
-    sort_on_priority: 'sort_on_priority'
+    sort_on_priority: 'sort_on_priority',
+    sort_on_waiting_since: 'sort_on_waiting_since'
   }.with_indifferent_access
 
   # assumptions
@@ -102,7 +103,7 @@ class ConversationFinder
     when 'participating'
       @conversations = current_user.participating_conversations.where(account_id: current_account.id)
     when 'unattended'
-      @conversations = @conversations.where(first_reply_created_at: nil)
+      @conversations = @conversations.unattended
     end
     @conversations
   end

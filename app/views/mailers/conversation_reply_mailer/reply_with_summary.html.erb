@@ -13,7 +13,7 @@
       <% if (message.content_type == 'input_csat' && message.message_type == 'template') %>
         <p>Click <a href="<%= message.conversation.csat_survey_link %>" _target="blank">here</a> to rate the conversation.</p>
       <% elsif message.content.present? %>
-        <%= CommonMarker.render_html(message.content).html_safe %>
+        <%= ChatwootMarkdownRenderer.new(message.content).render_message %>
       <% end %>
       <% if message.attachments.count.positive? %>
         <p>

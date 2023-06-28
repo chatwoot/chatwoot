@@ -2,12 +2,17 @@
   "FILTER": {
     "TITLE": "대화 필터링하기",
     "SUBTITLE": "필터를 추가하고 \"필터 적용하기\"를 눌러 대화를 필터링하세요.",
+    "EDIT_CUSTOM_FILTER": "Edit Folder",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
     "ADD_NEW_FILTER": "필터 추가하기",
     "FILTER_DELETE_ERROR": "적어도 하나 이상의 필터가 있어야 저장됩니다.",
     "SUBMIT_BUTTON_LABEL": "필터 적용하기",
+    "UPDATE_BUTTON_LABEL": "Update folder",
     "CANCEL_BUTTON_LABEL": "취소",
     "CLEAR_BUTTON_LABEL": "필터 제거하기",
     "EMPTY_VALUE_ERROR": "값이 필요합니다.",
+    "FOLDER_LABEL": "Folder Name",
+    "FOLDER_QUERY_LABEL": "Folder Query",
     "TOOLTIP_LABEL": "대화 필터링하기",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "와/과",
@@ -70,6 +75,9 @@
           "SUCCESS_MESSAGE": "구획이 성공적으로 생성됨",
           "ERROR_MESSAGE": "구획 생성 중 에러 발생"
         }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Edit folder"
       },
       "DELETE": {
         "DELETE_BUTTON": "필터 삭제하기",

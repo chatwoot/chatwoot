@@ -73,6 +73,13 @@
     "SUCCESS_MESSAGE": "Contatti salvati con successo",
     "ERROR_MESSAGE": "Si è verificato un errore, riprova"
   },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "Si è verificato un errore, riprova"
+  },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Conferma eliminazione",
@@ -211,6 +218,7 @@
     "FILTER_CONTACTS": "Filtro",
     "FILTER_CONTACTS_SAVE": "Salva filtro",
     "FILTER_CONTACTS_DELETE": "Elimina filtro",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "Caricamento contatti...",
       "404": "Nessun contatto corrisponde alla tua ricerca 🔍",

@@ -48,7 +48,10 @@
       }
     },
     "UPDATE_CHATWOOT": "Доступне оновлення %{latestChatwootVersion} для Chatwoot. Будь ласка, оновіть вашу копію.",
-    "LEARN_MORE": "Детальніше"
+    "LEARN_MORE": "Детальніше",
+    "PAYMENT_PENDING": "Очікується ваш платіж. Будь ласка, оновіть вашу платіжну інформацію, щоб продовжити використовувати Chatwoot",
+    "LIMITS_UPGRADE": "В вашому обліковому записі перевищено ліміт використання, будь ласка, поновіть ваш план, щоб продовжити використання Chatwoot",
+    "OPEN_BILLING": "Open billing"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -103,6 +106,7 @@
       "CHANGE_ASSIGNEE": "Змінити виконавця",
       "CHANGE_PRIORITY": "Змінити пріоритет",
       "CHANGE_TEAM": "Змінити команду",
+      "SNOOZE_CONVERSATION": "Відкласти розмову",
       "ADD_LABEL": "Додати мітку до діалогу",
       "REMOVE_LABEL": "Видалити мітку з діалогу",
       "SETTINGS": "Налаштування"
@@ -138,7 +142,10 @@
       "SNOOZE_CONVERSATION": "Відкласти розмову",
       "UNTIL_NEXT_REPLY": "До наступної відповіді",
       "UNTIL_NEXT_WEEK": "До наступного тижня",
-      "UNTIL_TOMORROW": "До завтра"
+      "UNTIL_TOMORROW": "До завтра",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom..."
     }
   },
   "DASHBOARD_APPS": {

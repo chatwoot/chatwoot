@@ -42,11 +42,10 @@
         </div>
         <p
           v-if="message.showAvatar || hasRecordedResponse"
+          v-dompurify-html="agentName"
           class="agent-name"
           :class="$dm('text-slate-700', 'dark:text-slate-200')"
-        >
-          {{ agentName }}
-        </p>
+        />
       </div>
     </div>
 

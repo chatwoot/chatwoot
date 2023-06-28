@@ -3,10 +3,8 @@ class Channels::Whatsapp::TemplatesSyncSchedulerJob < ApplicationJob
 
   def perform
     Channel::Whatsapp.where('message_templates_last_updated <= ? OR message_templates_last_updated IS NULL',
-                            15.minutes.ago).find_in_batches do |channels_batch|
-      channels_batch.each do |channel|
-        Channels::Whatsapp::TemplatesSyncJob.perform_later(channel)
-      end
+                            3.hours.ago).limit(Limits::BULK_EXTERNAL_HTTP_CALLS_LIMIT).all.each do |channel|
+      Channels::Whatsapp::TemplatesSyncJob.perform_later(channel)
     end
   end
 end

@@ -48,7 +48,10 @@
       }
     },
     "UPDATE_CHATWOOT": "Chatwoot 有可用更新%{latestChatwootVersion}，请更新您的应用。",
-    "LEARN_MORE": "了解更多"
+    "LEARN_MORE": "了解更多",
+    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
+    "OPEN_BILLING": "Open billing"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -103,6 +106,7 @@
       "CHANGE_ASSIGNEE": "更改分配",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "更改团队",
+      "SNOOZE_CONVERSATION": "Snooze Conversation",
       "ADD_LABEL": "为对话添加标签",
       "REMOVE_LABEL": "从对话移除标签",
       "SETTINGS": "设置"
@@ -138,7 +142,10 @@
       "SNOOZE_CONVERSATION": "Snooze Conversation",
       "UNTIL_NEXT_REPLY": "Until next reply",
       "UNTIL_NEXT_WEEK": "Until next week",
-      "UNTIL_TOMORROW": "Until tomorrow"
+      "UNTIL_TOMORROW": "Until tomorrow",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom..."
     }
   },
   "DASHBOARD_APPS": {

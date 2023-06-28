@@ -54,18 +54,25 @@
       "OPEN": "Περισσότερα",
       "CLOSE": "Κλείσιμο",
       "DETAILS": "Λεπτομέρειες",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Αναβλήθηκε μέχρι αύριο",
       "SNOOZED_UNTIL_NEXT_WEEK": "Αναβολή έως την επόμενη εβδομάδα",
       "SNOOZED_UNTIL_NEXT_REPLY": "Αναβολή έως την επόμενη απάντηση"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Σήμανση ως εκκρεμής",
+      "SNOOZE_UNTIL": "Αναβολή",
       "SNOOZE": {
         "TITLE": "Αναβολή έως",
         "NEXT_REPLY": "Επόμενη απάντηση",
         "TOMORROW": "Αύριο",
         "NEXT_WEEK": "Επόμενη εβδομάδα"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Αναβολή έως",
+      "APPLY": "Αναβολή",
+      "CANCEL": "Άκυρο"
     },
     "PRIORITY": {
       "TITLE": "Priority",

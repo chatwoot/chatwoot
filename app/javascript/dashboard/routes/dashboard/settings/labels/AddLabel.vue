@@ -65,6 +65,12 @@ import { getRandomColor } from 'dashboard/helper/labelColor';
 
 export default {
   mixins: [alertMixin, validationMixin],
+  props: {
+    prefillTitle: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
       color: '#000',
@@ -81,6 +87,7 @@ export default {
   },
   mounted() {
     this.color = getRandomColor();
+    this.title = this.prefillTitle.toLowerCase();
   },
   methods: {
     onClose() {

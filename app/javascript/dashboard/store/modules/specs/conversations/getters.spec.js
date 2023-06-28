@@ -190,6 +190,56 @@ describe('#getters', () => {
         },
       ]);
     });
+    it('order conversations based on waiting_since', () => {
+      const state = {
+        allConversations: [
+          {
+            id: 3,
+            created_at: 1683645800,
+            waiting_since: 0,
+          },
+          {
+            id: 4,
+            created_at: 1683645799,
+            waiting_since: 0,
+          },
+          {
+            id: 1,
+            created_at: 1683645801,
+            waiting_since: 1683645802,
+          },
+          {
+            id: 2,
+            created_at: 1683645803,
+            waiting_since: 1683645800,
+          },
+        ],
+        chatSortFilter: 'sort_on_waiting_since',
+      };
+
+      expect(getters.getAllConversations(state)).toEqual([
+        {
+          id: 2,
+          created_at: 1683645803,
+          waiting_since: 1683645800,
+        },
+        {
+          id: 1,
+          created_at: 1683645801,
+          waiting_since: 1683645802,
+        },
+        {
+          id: 4,
+          created_at: 1683645799,
+          waiting_since: 0,
+        },
+        {
+          id: 3,
+          created_at: 1683645800,
+          waiting_since: 0,
+        },
+      ]);
+    });
   });
   describe('#getUnAssignedChats', () => {
     it('order returns only chats assigned to user', () => {
@@ -303,6 +353,36 @@ describe('#getters', () => {
           },
         },
       });
+    });
+  });
+
+  describe('#getSelectedChatAttachments', () => {
+    it('Returns attachments in selected chat', () => {
+      const state = {};
+      const getSelectedChat = {
+        attachments: [
+          {
+            id: 1,
+            file_name: 'test1',
+          },
+          {
+            id: 2,
+            file_name: 'test2',
+          },
+        ],
+      };
+      expect(
+        getters.getSelectedChatAttachments(state, { getSelectedChat })
+      ).toEqual([
+        {
+          id: 1,
+          file_name: 'test1',
+        },
+        {
+          id: 2,
+          file_name: 'test2',
+        },
+      ]);
     });
   });
 });
