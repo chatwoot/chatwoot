@@ -63,7 +63,7 @@ $black: #000;
 $white: #fff;
 $body-background: $white;
 $body-font-color: $color-body;
-$body-font-family: 'Inter',
+$body-font-family: 'PlusJakarta',
 -apple-system,
 system-ui,
 BlinkMacSystemFont,
@@ -133,7 +133,7 @@ $header-styles: (small: ("h1": ("font-size": 24),
 $header-text-rendering: optimizeLegibility;
 $small-font-size: 80%;
 $header-small-font-color: $medium-gray;
-$paragraph-lineheight: 1.45;
+$paragraph-lineheight: 1.65;
 $paragraph-margin-bottom: var(--space-small);
 $paragraph-text-rendering: optimizeLegibility;
 $code-color: $black;
