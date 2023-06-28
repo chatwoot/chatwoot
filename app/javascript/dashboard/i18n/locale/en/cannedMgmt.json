@@ -52,7 +52,7 @@
       "BUTTON_TEXT": "Edit",
       "API": {
         "SUCCESS_MESSAGE": "Canned Response updated successfully",
-        "ERROR_MESSAGE": "Could not update canned response. Please try again later"
+        "ERROR_MESSAGE": "Could not update canned response. Please try again later."
       }
     },
     "DELETE": {
