@@ -59,7 +59,7 @@
       "BUTTON_TEXT": "Delete",
       "API": {
         "SUCCESS_MESSAGE": "Canned response deleted successfully",
-        "ERROR_MESSAGE": "Could not delete canned response. Please try again later"
+        "ERROR_MESSAGE": "Could not delete canned response. Please try again later."
       },
       "CONFIRM": {
         "TITLE": "Confirm Deletion",
