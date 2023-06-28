@@ -30,7 +30,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Canned Response added successfully",
-        "ERROR_MESSAGE": "Could not create canned response. Please try again later"
+        "ERROR_MESSAGE": "Could not create canned response. Please try again later."
       }
     },
     "EDIT": {
