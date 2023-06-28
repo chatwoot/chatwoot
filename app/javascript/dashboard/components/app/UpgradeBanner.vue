@@ -28,6 +28,9 @@ export default {
       getAccount: 'accounts/getAccount',
     }),
     bannerMessage() {
+      if (this.isPromoRunning) {
+        return this.$t('GENERAL_SETTINGS.LIMITS_UPGRADE_PROMO');
+      }
       return this.$t('GENERAL_SETTINGS.LIMITS_UPGRADE');
     },
     actionButtonMessage() {
@@ -43,6 +46,16 @@ export default {
       }
 
       return this.isLimitExceeded();
+    },
+    isPromoRunning() {
+      const today = new Date();
+      const promoEndDate = new Date('5 July 2023 04:00:00 GMT');
+
+      if (today > promoEndDate) {
+        return false;
+      }
+
+      return true;
     },
   },
   mounted() {
