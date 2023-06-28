@@ -13,7 +13,7 @@
       >
         <div class="sender-name--preview-content">
           <span class="text">
-            {{ $t('INBOX_MGMT.EDIT.ENABLE_AGENT_NAME.FOR_EG') }}
+            {{ $t('INBOX_MGMT.EDIT.SENDER_NAME_SECTION.FOR_EG') }}
           </span>
           <div class="sender-name--preview">
             <thumbnail :username="userName(keyOption)" size="32px" />
@@ -23,9 +23,11 @@
                   {{ keyOption.preview.senderName }}
                 </span>
                 <span v-if="isKeyOptionFriendly(keyOption.key)" class="text">
-                  {{ $t('INBOX_MGMT.EDIT.ENABLE_AGENT_NAME.FRIENDLY.FROM') }}
+                  {{ $t('INBOX_MGMT.EDIT.SENDER_NAME_SECTION.FRIENDLY.FROM') }}
                 </span>
-                <span class="name">{{ keyOption.preview.businessName }}</span>
+                <span class="name">
+                  {{ businessName || keyOption.preview.businessName }}
+                </span>
               </div>
               <span class="text">{{ keyOption.preview.email }}</span>
             </div>
@@ -50,6 +52,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    businessName: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -57,9 +63,11 @@ export default {
         {
           key: 'friendly',
           value: true,
-          heading: this.$t('INBOX_MGMT.EDIT.ENABLE_AGENT_NAME.FRIENDLY.TITLE'),
+          heading: this.$t(
+            'INBOX_MGMT.EDIT.SENDER_NAME_SECTION.FRIENDLY.TITLE'
+          ),
           content: this.$t(
-            'INBOX_MGMT.EDIT.ENABLE_AGENT_NAME.FRIENDLY.SUBTITLE'
+            'INBOX_MGMT.EDIT.SENDER_NAME_SECTION.FRIENDLY.SUBTITLE'
           ),
           preview: {
             senderName: 'Smith',
@@ -71,10 +79,10 @@ export default {
           key: 'professional',
           value: false,
           heading: this.$t(
-            'INBOX_MGMT.EDIT.ENABLE_AGENT_NAME.PROFESSIONAL.TITLE'
+            'INBOX_MGMT.EDIT.SENDER_NAME_SECTION.PROFESSIONAL.TITLE'
           ),
           content: this.$t(
-            'INBOX_MGMT.EDIT.ENABLE_AGENT_NAME.PROFESSIONAL.SUBTITLE'
+            'INBOX_MGMT.EDIT.SENDER_NAME_SECTION.PROFESSIONAL.SUBTITLE'
           ),
           preview: {
             senderName: '',

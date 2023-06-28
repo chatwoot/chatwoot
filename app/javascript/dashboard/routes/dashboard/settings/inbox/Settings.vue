@@ -349,13 +349,15 @@
         </div>
       </settings-section>
       <settings-section
-        :title="$t('INBOX_MGMT.EDIT.ENABLE_AGENT_NAME.TITLE')"
-        :sub-title="$t('INBOX_MGMT.EDIT.ENABLE_AGENT_NAME.SUB_TEXT')"
+        v-if="isAWebWidgetInbox || isAnEmailChannel"
+        :title="$t('INBOX_MGMT.EDIT.SENDER_NAME_SECTION.TITLE')"
+        :sub-title="$t('INBOX_MGMT.EDIT.SENDER_NAME_SECTION.SUB_TEXT')"
         :show-border="false"
       >
         <div class="medium-9 settings-item">
           <sender-name-example-preview
             :custom-sender-name-enabled="customSenderNameEnabled"
+            :business-name="businessName"
             @update="toggleCustomSenderName"
           />
           <div class="business-section">
@@ -366,7 +368,7 @@
             >
               {{
                 $t(
-                  'INBOX_MGMT.EDIT.ENABLE_AGENT_NAME.BUSINESS_NAME.BUTTON_TEXT'
+                  'INBOX_MGMT.EDIT.SENDER_NAME_SECTION.BUSINESS_NAME.BUTTON_TEXT'
                 )
               }}
             </woot-button>
@@ -376,7 +378,7 @@
                 v-model="businessName"
                 :placeholder="
                   $t(
-                    'INBOX_MGMT.EDIT.ENABLE_AGENT_NAME.BUSINESS_NAME.PLACEHOLDER'
+                    'INBOX_MGMT.EDIT.SENDER_NAME_SECTION.BUSINESS_NAME.PLACEHOLDER'
                   )
                 "
                 type="text"
@@ -384,7 +386,7 @@
               <woot-button color-scheme="primary" @click="updateInbox">
                 {{
                   $t(
-                    'INBOX_MGMT.EDIT.ENABLE_AGENT_NAME.BUSINESS_NAME.SAVE_BUTTON_TEXT'
+                    'INBOX_MGMT.EDIT.SENDER_NAME_SECTION.BUSINESS_NAME.SAVE_BUTTON_TEXT'
                   )
                 }}
               </woot-button>
