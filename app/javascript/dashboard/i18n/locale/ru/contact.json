@@ -34,7 +34,7 @@
         "TITLE": "Добавить метки",
         "PLACEHOLDER": "Поиск меток",
         "NO_RESULT": "Метки не найдены",
-        "CREATE_LABEL": "Create new label"
+        "CREATE_LABEL": "Создать новую метку"
       }
     },
     "MERGE_CONTACT": "Объединить контакты",
