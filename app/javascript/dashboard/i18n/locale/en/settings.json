@@ -265,7 +265,8 @@
       "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
       "BUTTON_TXT": "Chat with us"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again.",
+    "COPY_CODE": "Copy coupon code"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",

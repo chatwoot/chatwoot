@@ -1,5 +1,5 @@
 <template>
-  <div class="columns profile--settings">
+  <div class="columns profile--settings stamp-container">
     <woot-loading-state v-if="uiFlags.isFetchingItem" />
     <div v-else-if="!hasABillingPlan">
       <p>{{ $t('BILLING_SETTINGS.NO_BILLING_USER') }}</p>
@@ -17,6 +17,14 @@
             )
           "
         />
+      </div>
+      <div
+        v-tooltip.top="$t('BILLING_SETTINGS.COPY_CODE')"
+        class="stamp"
+        @click="copyToClipboard"
+      >
+        Use Code<br />
+        <span class="coupon">HAPPYJULY4</span>
       </div>
       <billing-item
         :title="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.TITLE')"
@@ -37,7 +45,7 @@
 
 <script>
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-
+import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import accountMixin from '../../../../mixins/account';
@@ -71,6 +79,11 @@ export default {
     this.fetchAccountDetails();
   },
   methods: {
+    async copyToClipboard(e) {
+      e.preventDefault();
+      await copyTextToClipboard('HAPPYJULY4');
+      bus.$emit('newToastMessage', this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
+    },
     async fetchAccountDetails() {
       await this.$store.dispatch('accounts/get');
 
@@ -111,6 +124,63 @@ export default {
 .manage-subscription {
   .manage-subscription--description {
     margin-bottom: 0;
+  }
+}
+
+.stamp-container {
+  position: relative;
+}
+
+.stamp {
+  position: absolute;
+  padding: 1.5rem 2rem;
+  background: var(--w-500);
+  color: var(--white);
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  text-align: center;
+  transform: rotate(5deg);
+  right: 3rem;
+  top: 1.5rem;
+  cursor: pointer;
+
+  .coupon {
+    font-size: 2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+  }
+}
+
+.stamp {
+  --mask: linear-gradient(#000 0 0) 50% / calc(100% - 9.25px)
+      calc(100% - 9.25px) no-repeat,
+    radial-gradient(farthest-side, #000 98%, #0000) 0 0/10px 10px round;
+  -webkit-mask: var(--mask);
+  mask: var(--mask);
+}
+
+.stamp::after {
+  content: '';
+  opacity: 0.1;
+  width: 40px;
+  height: 100%;
+  position: absolute;
+  background-color: white;
+  top: 0;
+  left: 0;
+  transform: rotate(10deg);
+  animation: move 2s infinite;
+}
+
+@keyframes move {
+  0% {
+    left: -10%;
+  }
+  100% {
+    left: 110%;
   }
 }
 </style>
