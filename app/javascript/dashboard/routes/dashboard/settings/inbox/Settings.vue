@@ -356,7 +356,7 @@
       >
         <div class="medium-9 settings-item">
           <sender-name-example-preview
-            :sender_name_type="senderNameType"
+            :sender-name-type="senderNameType"
             :business-name="businessName"
             @update="toggleSenderNameType"
           />
