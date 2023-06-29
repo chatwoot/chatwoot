@@ -2,7 +2,7 @@
   <div class="h-full w-full dark:bg-slate-900">
     <div v-show="!isLoading" class="flex h-full">
       <div
-        class="flex-1 min-h-[640px] inline-flex items-center h-full justify-center overflow-auto"
+        class="flex-1 min-h-[640px] inline-flex items-center h-full justify-center overflow-auto py-6"
       >
         <div class="px-8 max-w-[560px] w-full overflow-auto">
           <div class="mb-4">
