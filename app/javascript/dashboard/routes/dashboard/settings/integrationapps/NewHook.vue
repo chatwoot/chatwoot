@@ -103,11 +103,9 @@ export default {
       }, {});
 
       this.formItems.forEach(item => {
-        if (item.validation.includes('JSON')) {
-          hookPayload.settings[item.name] = JSON.parse(
-            hookPayload.settings[item.name]
-          );
-        }
+          if (item.validation && item.validation.includes('JSON')) {
+              hookPayload.settings[item.name] = JSON.parse(hookPayload.settings[item.name]);
+          }
       });
 
       if (this.isHookTypeInbox && this.values.inbox) {
