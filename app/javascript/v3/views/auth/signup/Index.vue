@@ -24,7 +24,7 @@
             </h2>
           </div>
           <signup-form />
-          <div class="text-sm text-slate-800 dark:text-woot-50">
+          <div class="text-sm text-slate-800 dark:text-woot-50 px-1">
             <span>{{ $t('REGISTER.HAVE_AN_ACCOUNT') }}</span>
             <router-link class="text-link" to="/app/login">
               {{
