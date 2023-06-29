@@ -53,7 +53,7 @@ import { required, url, minLength } from 'vuelidate/lib/validators';
 import webhookMixin from './webhookMixin';
 import wootConstants from 'dashboard/constants/globals';
 
-const { INTEGRATIONS_EXAMPLE_URL } = wootConstants;
+const { EXAMPLE_WEBHOOK_URL } = wootConstants;
 
 const SUPPORTED_WEBHOOK_EVENTS = [
   'conversation_created',
