@@ -1,27 +1,21 @@
-class Integrations::Openai::ProcessorService
-  # 3.5 support 4,096 tokens
-  # 1 token is approx 4 characters
-  # 4,096 * 4 = 16,384 characters, sticking to 15,000 to be safe
-  TOKEN_LIMIT = 15_000
-  API_URL = 'https://api.openai.com/v1/chat/completions'.freeze
-  GPT_MODEL = 'gpt-3.5-turbo'.freeze
+class Integrations::Openai::ProcessorService < Integrations::OpenaiProcessorService
+  def reply_suggestion_message
+    make_api_call(reply_suggestion_body)
+  end
 
-  ALLOWED_EVENT_NAMES = %w[rephrase summarize reply_suggestion].freeze
+  def summarize_message
+    make_api_call(summarize_body)
+  end
 
-  pattr_initialize [:hook!, :event!]
+  def rephrase_message
+    make_api_call(rephrase_body)
+  end
 
-  def perform
-    event_name = event['name']
-    return nil unless valid_event_name?(event_name)
-
-    send("#{event_name}_message")
+  def suggest_label_message
+    make_api_call(suggest_label_body)
   end
 
   private
-
-  def valid_event_name?(event_name)
-    ALLOWED_EVENT_NAMES.include?(event_name)
-  end
 
   def rephrase_body
     {
@@ -42,12 +36,19 @@ class Integrations::Openai::ProcessorService
     add_messages_until_token_limit(conversation, messages, in_array_format)
   end
 
-  def find_conversation
-    hook.account.conversations.find_by(display_id: event['data']['conversation_display_id'])
+  def labels_with_messages
+    labels = hook.account.labels.pluck(:title).join(', ')
+
+    character_count = labels.length
+    conversation = find_conversation
+    messages = init_messages_body(false)
+    add_messages_until_token_limit(conversation, messages, false, character_count)
+
+    "Messages:\n#{messages}\nLabels:\n#{labels}"
   end
 
-  def add_messages_until_token_limit(conversation, messages, in_array_format)
-    character_count = 0
+  def add_messages_until_token_limit(conversation, messages, in_array_format, start_from = 0)
+    character_count = start_from
     conversation.messages.chat.reorder('id desc').each do |message|
       character_count, message_added = add_message_if_within_limit(character_count, message, messages, in_array_format)
       break unless message_added
@@ -113,25 +114,24 @@ class Integrations::Openai::ProcessorService
     }.to_json
   end
 
-  def reply_suggestion_message
-    make_api_call(reply_suggestion_body)
-  end
-
-  def summarize_message
-    make_api_call(summarize_body)
-  end
-
-  def rephrase_message
-    make_api_call(rephrase_body)
-  end
-
-  def make_api_call(body)
-    headers = {
-      'Content-Type' => 'application/json',
-      'Authorization' => "Bearer #{hook.settings['api_key']}"
-    }
-
-    response = HTTParty.post(API_URL, headers: headers, body: body)
-    JSON.parse(response.body)['choices'].first['message']['content']
+  def suggest_label_body
+    {
+      model: GPT_MODEL,
+      messages: [
+        {
+          role: 'system',
+          content: 'Your role is as an assistant to a customer support agent. You will be provided with a transcript of a conversation between a ' \
+                   'customer and the support agent, along with a list of potential labels. ' \
+                   'Your task is to analyze the conversation and select the two labels from the given list that most accurately ' \
+                   'represent the themes or issues discussed. Ensure you preserve the exact casing of the labels as they are provided in the list. ' \
+                   'Do not create new labels; only choose from those provided. Once you have made your selections, please provide your response ' \
+                   'as a comma-separated list of the provided labels. Remember, your response should only contain the labels you\'ve selected, ' \
+                   'in their original casing, and nothing else. '
+        },
+        {
+          role: 'user', content: labels_with_messages
+        }
+      ]
+    }.to_json
   end
 end
