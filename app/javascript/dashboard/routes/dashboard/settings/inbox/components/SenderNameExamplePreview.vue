@@ -4,12 +4,12 @@
       v-for="keyOption in senderNameKeyOptions"
       :key="keyOption.key"
       class="preview-button"
-      @click="toggleSenderNameType(keyOption.value)"
+      @click="toggleSenderNameType(keyOption.key)"
     >
       <preview-card
         :heading="keyOption.heading"
         :content="keyOption.content"
-        :active="keyOption.value === senderNameType"
+        :active="keyOption.key === senderNameType"
       >
         <div class="sender-name--preview-content">
           <span class="text">
@@ -62,7 +62,6 @@ export default {
       senderNameKeyOptions: [
         {
           key: 'friendly',
-          value: 'friendly',
           heading: this.$t(
             'INBOX_MGMT.EDIT.SENDER_NAME_SECTION.FRIENDLY.TITLE'
           ),
@@ -77,7 +76,6 @@ export default {
         },
         {
           key: 'professional',
-          value: 'professional',
           heading: this.$t(
             'INBOX_MGMT.EDIT.SENDER_NAME_SECTION.PROFESSIONAL.TITLE'
           ),
@@ -102,8 +100,8 @@ export default {
         ? keyOption.preview.senderName
         : keyOption.preview.businessName;
     },
-    toggleSenderNameType(value) {
-      this.$emit('update', value);
+    toggleSenderNameType(key) {
+      this.$emit('update', key);
     },
   },
 };

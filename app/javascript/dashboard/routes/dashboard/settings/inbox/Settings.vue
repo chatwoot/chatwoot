@@ -751,8 +751,8 @@ export default {
         );
       }
     },
-    toggleSenderNameType(value) {
-      this.senderNameType = value;
+    toggleSenderNameType(key) {
+      this.senderNameType = key;
     },
     onClickShowBusinessNameInput() {
       this.showBusinessNameInput = !this.showBusinessNameInput;
