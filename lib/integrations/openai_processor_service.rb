@@ -1,4 +1,7 @@
 class Integrations::OpenaiProcessorService
+  # 3.5 support 4,096 tokens
+  # 1 token is approx 4 characters
+  # 4,096 * 4 = 16,384 characters, sticking to 15,000 to be safe
   TOKEN_LIMIT = 15_000
   API_URL = 'https://api.openai.com/v1/chat/completions'.freeze
   GPT_MODEL = 'gpt-3.5-turbo'.freeze
