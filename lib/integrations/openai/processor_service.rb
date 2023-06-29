@@ -12,6 +12,9 @@ class Integrations::Openai::ProcessorService < Integrations::OpenaiProcessorServ
   end
 
   def suggest_label_message
+    payload = suggest_label_body
+    return nil if payload.blank?
+
     make_api_call(suggest_label_body)
   end
 
@@ -43,6 +46,8 @@ class Integrations::Openai::ProcessorService < Integrations::OpenaiProcessorServ
     conversation = find_conversation
     messages = init_messages_body(false)
     add_messages_until_token_limit(conversation, messages, false, character_count)
+
+    return nil if messages.blank? || labels.blank?
 
     "Messages:\n#{messages}\nLabels:\n#{labels}"
   end
@@ -115,6 +120,9 @@ class Integrations::Openai::ProcessorService < Integrations::OpenaiProcessorServ
   end
 
   def suggest_label_body
+    content = labels_with_messages
+    return nil if content.blank?
+
     {
       model: GPT_MODEL,
       messages: [
@@ -128,9 +136,7 @@ class Integrations::Openai::ProcessorService < Integrations::OpenaiProcessorServ
                    'as a comma-separated list of the provided labels. Remember, your response should only contain the labels you\'ve selected, ' \
                    'in their original casing, and nothing else. '
         },
-        {
-          role: 'user', content: labels_with_messages
-        }
+        { role: 'user', content: content }
       ]
     }.to_json
   end
