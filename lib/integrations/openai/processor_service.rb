@@ -138,10 +138,8 @@ class Integrations::Openai::ProcessorService
     JSON.parse(response.body)['choices'].first['message']['content']
   end
 
-  private
-
   def set_api_url_and_gpt_model
     @api_url = hook.settings['api_url'].presence || 'https://api.openai.com/v1/chat/completions'
     @gpt_model = hook.settings['model_name'].presence || 'gpt-3.5-turbo'
   end
-end 
+end
