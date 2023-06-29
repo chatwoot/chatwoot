@@ -19,7 +19,6 @@
       "SUCCESS_MESSAGE": "AuditLogs retrieved successfully",
       "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
     },
-    "DEFAULT_USER": "System",
     "AUTOMATION_RULE": {
       "ADD": "%{agentName} created a new automation rule (#%{id})",
       "EDIT": "%{agentName} updated an automation rule (#%{id})",
