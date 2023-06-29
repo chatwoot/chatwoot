@@ -356,9 +356,9 @@
       >
         <div class="medium-9 settings-item">
           <sender-name-example-preview
-            :custom-sender-name-enabled="customSenderNameEnabled"
+            :sender_name_type="senderNameType"
             :business-name="businessName"
-            @update="toggleCustomSenderName"
+            @update="toggleSenderNameType"
           />
           <div class="business-section">
             <woot-button
@@ -479,7 +479,7 @@ export default {
       greetingMessage: '',
       emailCollectEnabled: false,
       csatSurveyEnabled: false,
-      customSenderNameEnabled: false,
+      senderNameType: 0,
       businessName: '',
       locktoSingleConversation: false,
       allowMessagesAfterResolved: true,
@@ -674,7 +674,7 @@ export default {
         this.greetingMessage = this.inbox.greeting_message || '';
         this.emailCollectEnabled = this.inbox.enable_email_collect;
         this.csatSurveyEnabled = this.inbox.csat_survey_enabled;
-        this.customSenderNameEnabled = this.inbox.custom_sender_name_enabled;
+        this.senderNameType = this.inbox.sender_name_type;
         this.businessName = this.inbox.business_name;
         this.allowMessagesAfterResolved = this.inbox.allow_messages_after_resolved;
         this.continuityViaEmail = this.inbox.continuity_via_email;
@@ -705,7 +705,7 @@ export default {
               ).id
             : null,
           lock_to_single_conversation: this.locktoSingleConversation,
-          custom_sender_name_enabled: this.customSenderNameEnabled,
+          sender_name_type: this.senderNameType,
           business_name: this.businessName || null,
           channel: {
             widget_color: this.inbox.widget_color,
@@ -751,8 +751,8 @@ export default {
         );
       }
     },
-    toggleCustomSenderName(value) {
-      this.customSenderNameEnabled = value;
+    toggleSenderNameType(value) {
+      this.senderNameType = value;
     },
     onClickShowBusinessNameInput() {
       this.showBusinessNameInput = !this.showBusinessNameInput;
