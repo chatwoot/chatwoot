@@ -8,6 +8,8 @@ import {
   isMonday,
   isToday,
   setHours,
+  setMinutes,
+  setSeconds,
 } from 'date-fns';
 import wootConstants from 'dashboard/constants/globals';
 
@@ -36,7 +38,7 @@ export const findNextDay = currentDate => {
 };
 
 export const setHoursToNine = date => {
-  return setHours(date, 9, 0, 0);
+  return setSeconds(setMinutes(setHours(date, 9), 0), 0);
 };
 
 export const findSnoozeTime = (snoozeType, currentDate = new Date()) => {
