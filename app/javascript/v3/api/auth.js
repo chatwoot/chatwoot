@@ -18,7 +18,7 @@ export const login = async ({
     window.location = getLoginRedirectURL({
       ssoAccountId,
       ssoConversationId,
-      user: response.data,
+      user: response.data.data,
     });
   } catch (error) {
     throwErrorMessage(error);
