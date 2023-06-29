@@ -35,9 +35,11 @@ export const register = async creds => {
       h_captcha_client_response: creds.hCaptchaClientResponse,
     });
     setAuthCredentials(response);
+    return response.data;
   } catch (error) {
     throwErrorMessage(error);
   }
+  return null;
 };
 
 export const verifyPasswordToken = async ({ confirmationToken }) => {

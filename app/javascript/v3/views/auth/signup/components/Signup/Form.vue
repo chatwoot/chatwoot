@@ -47,7 +47,7 @@
         :error-message="passwordErrorText"
         @blur="$v.credentials.password.$touch"
       />
-      <div v-if="globalConfig.hCaptchaSiteKey" class="h-captcha--box">
+      <div v-if="globalConfig.hCaptchaSiteKey" class="mb-3">
         <vue-hcaptcha
           ref="hCaptcha"
           :class="{ error: !hasAValidCaptcha && didCaptchaReset }"
@@ -177,16 +177,12 @@ export default {
       }
       this.isSignupInProgress = true;
       try {
-        const response = await register(this.credentials);
-        if (response.status === 200) {
-          window.location = DEFAULT_REDIRECT_URL;
-        }
+        await register(this.credentials);
+        window.location = DEFAULT_REDIRECT_URL;
       } catch (error) {
-        let errorMessage = this.$t('REGISTER.API.ERROR_MESSAGE');
-        if (error.response && error.response.data.message) {
-          this.resetCaptcha();
-          errorMessage = error.response.data.message;
-        }
+        let errorMessage =
+          error?.message || this.$t('REGISTER.API.ERROR_MESSAGE');
+        this.resetCaptcha();
         this.showAlert(errorMessage);
       } finally {
         this.isSignupInProgress = false;
@@ -209,8 +205,6 @@ export default {
 </script>
 <style scoped lang="scss">
 .h-captcha--box {
-  margin-bottom: var(--space-small);
-
   .captcha-error {
     color: var(--r-400);
     font-size: var(--font-size-small);

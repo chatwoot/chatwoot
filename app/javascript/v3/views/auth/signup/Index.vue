@@ -85,29 +85,3 @@ export default {
   },
 };
 </script>
-<style scoped lang="scss">
-.auth-screen--footer {
-  font-size: var(--font-size-small);
-}
-
-@media screen and (max-width: 1200px) {
-  .testimonial--container {
-    display: none;
-  }
-  .signup-form--container {
-    width: 100%;
-    flex: 0 0 100%;
-    max-width: 100%;
-  }
-  .signup-form--content {
-    margin: 0 auto;
-  }
-}
-
-.flex items-center justify-center h-full w-full {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-</style>
