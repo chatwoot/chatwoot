@@ -104,7 +104,7 @@ export default {
       return this.$t(
         'INTEGRATION_SETTINGS.WEBHOOK.FORM.END_POINT.PLACEHOLDER',
         {
-          webhookExampleURL: INTEGRATIONS_EXAMPLE_URL,
+          webhookExampleURL: EXAMPLE_WEBHOOK_URL,
         }
       );
     },
