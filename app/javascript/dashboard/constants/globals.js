@@ -40,6 +40,6 @@ export default {
     UNTIL_CUSTOM_TIME: 'until_custom_time',
   },
   EXAMPLE_URL: 'https://example.com',
-  INTEGRATIONS_EXAMPLE_URL: 'https://example/api/webhook',
+  EXAMPLE_WEBHOOK_URL: 'https://example/api/webhook',
 };
 export const DEFAULT_REDIRECT_URL = '/app/';
