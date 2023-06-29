@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-slate-900 rounded-md drop-shadow-md mb-4 max-w-[40rem] inline-flex items-center min-w-[20rem] py-3 px-4"
+    class="bg-slate-900 rounded-md drop-shadow-md mb-4 max-w-[40rem] inline-flex items-center min-w-[22rem] py-3 px-4"
     :class="isActionPresent ? 'justify-between' : 'justify-center'"
   >
     <div class="text-sm font-medium text-white">
