@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe 'Enterprise Audit API', type: :request do
   let!(:account) { create(:account) }
-  let!(:inbox) { create(:inbox, account: account) }
   let!(:admin) { create(:user, account: account, role: :administrator) }
+  let!(:inbox) { create(:inbox, account: account) }
 
   describe 'GET /api/v1/accounts/{account.id}/audit_logs' do
     context 'when it is an un-authenticated user' do
@@ -52,7 +52,8 @@ RSpec.describe 'Enterprise Audit API', type: :request do
         expect(json_response['audit_logs'][0]['audited_changes']['name']).to eql(inbox.name)
         expect(json_response['audit_logs'][0]['associated_id']).to eql(account.id)
         expect(json_response['current_page']).to be(1)
-        expect(json_response['total_entries']).to be(1)
+        # contains audit log for account user as well
+        expect(json_response['total_entries']).to be(2)
       end
     end
   end
