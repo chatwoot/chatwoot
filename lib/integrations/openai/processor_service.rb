@@ -22,6 +22,11 @@ class Integrations::Openai::ProcessorService
 
   private
 
+  def set_api_url_and_gpt_model
+    @api_url = hook.settings['api_url'].presence || 'https://api.openai.com/v1/chat/completions'
+    @gpt_model = hook.settings['model_name'].presence || 'gpt-3.5-turbo'
+  end
+
   def valid_event_name?(event_name)
     ALLOWED_EVENT_NAMES.include?(event_name)
   end
@@ -136,10 +141,5 @@ class Integrations::Openai::ProcessorService
 
     response = HTTParty.post(api_url, headers: headers, body: body)
     JSON.parse(response.body)['choices'].first['message']['content']
-  end
-
-  def set_api_url_and_gpt_model
-    @api_url = hook.settings['api_url'].presence || 'https://api.openai.com/v1/chat/completions'
-    @gpt_model = hook.settings['model_name'].presence || 'gpt-3.5-turbo'
   end
 end
