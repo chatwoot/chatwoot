@@ -289,6 +289,17 @@ const actions = {
     }
   },
 
+  updateUnreadCount({ getters }) {
+    const { installationName } = window.chatwootConfig;
+    const unreadCount = getters.getUnreadConversationsCount;
+
+    if (unreadCount === 0) {
+      document.title = installationName;
+    } else {
+      document.title = `${installationName} (${getters.getUnreadConversationsCount})`;
+    }
+  },
+
   updateMessage({ commit }, message) {
     commit(types.ADD_MESSAGE, message);
   },

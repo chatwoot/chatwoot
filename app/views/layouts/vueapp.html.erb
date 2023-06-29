@@ -32,6 +32,7 @@
     <%= csrf_meta_tags %>
     <script>
       window.chatwootConfig = {
+        installationName: '<%= @global_config['INSTALLATION_NAME'] %>',
         hostURL: '<%= ENV.fetch('FRONTEND_URL', '') %>',
         helpCenterURL: '<%= ENV.fetch('HELPCENTER_URL', '') %>',
         fbAppId: '<%= ENV.fetch('FB_APP_ID', nil) %>',

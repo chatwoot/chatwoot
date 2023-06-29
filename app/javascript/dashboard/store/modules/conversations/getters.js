@@ -10,6 +10,15 @@ export const getSelectedChatConversation = ({
 }) =>
   allConversations.filter(conversation => conversation.id === selectedChatId);
 
+export const getUnreadCountForChat = chat => {
+  return chat.messages.filter(
+    chatMessage =>
+      chatMessage.created_at * 1000 > chat.agent_last_seen_at * 1000 &&
+      chatMessage.message_type === 0 &&
+      chatMessage.private !== true
+  ).length;
+};
+
 const sortComparator = {
   latest: (a, b) => b.last_activity_at - a.last_activity_at,
   sort_on_created_at: (a, b) => a.created_at - b.created_at,
@@ -107,15 +116,15 @@ const getters = {
       ? false
       : chat.allMessagesLoaded;
   },
+  getUnreadConversationsCount({ allConversations }) {
+    return allConversations.filter(chat => {
+      return getUnreadCountForChat(chat) > 0;
+    }).length;
+  },
   getUnreadCount(_state) {
     const [chat] = getSelectedChatConversation(_state);
     if (!chat) return [];
-    return chat.messages.filter(
-      chatMessage =>
-        chatMessage.created_at * 1000 > chat.agent_last_seen_at * 1000 &&
-        chatMessage.message_type === 0 &&
-        chatMessage.private !== true
-    ).length;
+    return getUnreadCountForChat(chat);
   },
   getChatStatusFilter: ({ chatStatusFilter }) => chatStatusFilter,
   getChatSortFilter: ({ chatSortFilter }) => chatSortFilter,
