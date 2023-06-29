@@ -23,7 +23,7 @@
         class="stamp"
         @click="copyToClipboard"
       >
-        Use Code<br />
+        Use Code for 25% off<br />
         <span class="coupon">HAPPYJULY4</span>
       </div>
       <billing-item
