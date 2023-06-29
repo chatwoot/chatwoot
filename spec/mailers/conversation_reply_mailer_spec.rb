@@ -197,7 +197,7 @@ RSpec.describe ConversationReplyMailer do
 
       context 'when friendly name enabled' do
         before do
-          conversation.inbox.update(custom_sender_name_enabled: true)
+          conversation.inbox.update(sender_name_type: 0)
           conversation.inbox.update(business_name: 'Business Name')
         end
 
@@ -242,7 +242,7 @@ RSpec.describe ConversationReplyMailer do
 
       context 'when friendly name disabled' do
         before do
-          conversation.inbox.update(custom_sender_name_enabled: false)
+          conversation.inbox.update(sender_name_type: 1)
           conversation.inbox.update(business_name: 'Business Name')
         end
 

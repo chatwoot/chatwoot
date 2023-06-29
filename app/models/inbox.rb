@@ -10,7 +10,6 @@
 #  business_name                 :string
 #  channel_type                  :string
 #  csat_survey_enabled           :boolean          default(FALSE)
-#  custom_sender_name_enabled    :boolean          default(TRUE), not null
 #  email_address                 :string
 #  enable_auto_assignment        :boolean          default(TRUE)
 #  enable_email_collect          :boolean          default(TRUE)
@@ -19,6 +18,7 @@
 #  lock_to_single_conversation   :boolean          default(FALSE), not null
 #  name                          :string           not null
 #  out_of_office_message         :string
+#  sender_name_type              :integer          default("friendly"), not null
 #  timezone                      :string           default("UTC")
 #  working_hours_enabled         :boolean          default(FALSE)
 #  created_at                    :datetime         not null
@@ -70,6 +70,8 @@ class Inbox < ApplicationRecord
   has_one :agent_bot, through: :agent_bot_inbox
   has_many :webhooks, dependent: :destroy_async
   has_many :hooks, dependent: :destroy_async, class_name: 'Integrations::Hook'
+
+  enum sender_name_type: { friendly: 0, professional: 1 }
 
   after_destroy :delete_round_robin_agents
 
