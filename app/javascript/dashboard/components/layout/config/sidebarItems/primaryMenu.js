@@ -54,6 +54,14 @@ const primaryMenuItems = accountId => [
     toStateName: 'settings_home',
     roles: ['administrator', 'agent'],
   },
+  {
+    icon: 'douyin',
+    key: 'douyin',
+    label: 'DOUYIN',
+    toState: frontendURL(`accounts/${accountId}/douyin`),
+    toStateName: 'douyin_home',
+    roles: ['administrator', 'agent'],
+  },
 ];
 
 export default primaryMenuItems;
