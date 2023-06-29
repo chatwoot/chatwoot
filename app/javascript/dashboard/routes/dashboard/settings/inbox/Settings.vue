@@ -479,7 +479,7 @@ export default {
       greetingMessage: '',
       emailCollectEnabled: false,
       csatSurveyEnabled: false,
-      senderNameType: 0,
+      senderNameType: 'friendly',
       businessName: '',
       locktoSingleConversation: false,
       allowMessagesAfterResolved: true,

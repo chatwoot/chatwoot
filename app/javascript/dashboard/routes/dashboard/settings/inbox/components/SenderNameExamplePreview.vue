@@ -49,8 +49,8 @@ export default {
   },
   props: {
     senderNameType: {
-      type: Number,
-      default: 0,
+      type: String,
+      default: 'friendly',
     },
     businessName: {
       type: String,
@@ -62,7 +62,7 @@ export default {
       senderNameKeyOptions: [
         {
           key: 'friendly',
-          value: 0,
+          value: 'friendly',
           heading: this.$t(
             'INBOX_MGMT.EDIT.SENDER_NAME_SECTION.FRIENDLY.TITLE'
           ),
@@ -77,7 +77,7 @@ export default {
         },
         {
           key: 'professional',
-          value: 1,
+          value: 'professional',
           heading: this.$t(
             'INBOX_MGMT.EDIT.SENDER_NAME_SECTION.PROFESSIONAL.TITLE'
           ),
