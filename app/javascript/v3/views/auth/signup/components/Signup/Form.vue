@@ -54,7 +54,10 @@
           :sitekey="globalConfig.hCaptchaSiteKey"
           @verify="onRecaptchaVerified"
         />
-        <span v-if="!hasAValidCaptcha && didCaptchaReset" class="captcha-error">
+        <span
+          v-if="!hasAValidCaptcha && didCaptchaReset"
+          class="text-xs text-red-400"
+        >
           {{ $t('SET_NEW_PASSWORD.CAPTCHA.ERROR') }}
         </span>
       </div>
@@ -205,11 +208,6 @@ export default {
 </script>
 <style scoped lang="scss">
 .h-captcha--box {
-  .captcha-error {
-    color: var(--r-400);
-    font-size: var(--font-size-small);
-  }
-
   &::v-deep .error {
     iframe {
       border: 1px solid var(--r-500);
