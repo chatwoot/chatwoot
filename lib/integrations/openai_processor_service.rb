@@ -41,7 +41,7 @@ class Integrations::OpenaiProcessorService
   end
 
   def save_to_cache(response)
-    Redis::Alfred.set(cache_key, response)
+    Redis::Alfred.setex(cache_key, response)
   end
 
   def find_conversation
