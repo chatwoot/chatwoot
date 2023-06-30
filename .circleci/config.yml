@@ -140,6 +140,7 @@ jobs:
                               --out ~/tmp/test-results/rspec.xml \
                               -- ${TESTFILES}
           no_output_timeout: 30m
+
       - run:
           name: Code Climate Test Coverage
           command: |
@@ -149,16 +150,17 @@ jobs:
           name: Run frontend tests
           command: |
             mkdir -p ~/tmp/test-results/frontend_specs
-            ~/tmp/cc-test-reporter before-build
+           ~/tmp/cc-test-reporter before-build
             TESTFILES=$(circleci tests glob **/specs/*.spec.js | circleci tests split --split-by=timings)
             yarn test:coverage --profile 10 \
                                --out ~/tmp/test-results/yarn.xml \
                                -- ${TESTFILES}
-      - run:
+     - run:
           name: Code Climate Test Coverage
           command: |
-            ~/tmp/cc-test-reporter format-coverage -t lcov -o "coverage/codeclimate.frontend_$CIRCLE_NODE_INDEX.json"  
-            
+            ~/tmp/cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
+            ~/tmp/cc-test-reporter format-coverage -t lcov -o "coverage/codeclimate.frontend_$CIRCLE_NODE_INDEX.json"
+
       - persist_to_workspace:
           root: coverage
           paths:
