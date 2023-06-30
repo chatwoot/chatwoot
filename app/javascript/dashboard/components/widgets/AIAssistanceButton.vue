@@ -12,6 +12,16 @@
         @click="processEvent('summarize')"
       />
       <woot-button
+        v-if="isPrivateNote"
+        v-tooltip.top-end="$t('INTEGRATION_SETTINGS.OPEN_AI.SUMMARY_TITLE')"
+        icon="book-pulse"
+        color-scheme="secondary"
+        variant="smooth"
+        size="small"
+        :is-loading="uiFlags.summarize"
+        @click="processEvent('summarize')"
+      />
+      <woot-button
         v-else
         v-tooltip.top-end="$t('INTEGRATION_SETTINGS.OPEN_AI.REPLY_TITLE')"
         icon="wand"

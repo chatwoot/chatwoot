@@ -28,7 +28,7 @@ class OpenAIAPI extends ApiClient {
     this.conversation_events = [
       'summarize',
       'reply_suggestion',
-      'suggest_label',
+      'label_suggestion',
     ];
 
     /**

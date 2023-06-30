@@ -11,11 +11,11 @@ class Integrations::Openai::ProcessorService < Integrations::OpenaiProcessorServ
     make_api_call(rephrase_body)
   end
 
-  def suggest_label_message
-    payload = suggest_label_body
+  def label_suggestion_message
+    payload = label_suggestion_body
     return nil if payload.blank?
 
-    make_api_call(suggest_label_body)
+    make_api_call(label_suggestion_body)
   end
 
   private
@@ -119,7 +119,7 @@ class Integrations::Openai::ProcessorService < Integrations::OpenaiProcessorServ
     }.to_json
   end
 
-  def suggest_label_body
+  def label_suggestion_body
     content = labels_with_messages
     return nil if content.blank?
 
