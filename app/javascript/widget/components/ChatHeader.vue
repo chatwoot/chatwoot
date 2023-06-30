@@ -23,12 +23,7 @@
           :class="$dm('text-black-900', 'dark:text-slate-50')"
         >
           <span v-dompurify-html="title" class="mr-1" />
-          <div
-            :class="
-              `h-2 w-2 rounded-full
-              ${isOnline ? 'bg-green-500' : 'hidden'}`
-            "
-          />
+          <div v-if="isOnline" class="h-2 w-2 rounded-full bg-green-500" />
         </div>
         <div
           class="text-xs mt-1 leading-3"
@@ -85,12 +80,12 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
     }),
-    isOnline() {
+     isOnline() {
       const { workingHoursEnabled } = this.channelConfig;
       const anyAgentOnline = this.availableAgents.length > 0;
 
       if (workingHoursEnabled) {
-        return this.isInBetweenTheWorkingHours;
+        return this.isInBetweenTheWorkingHours && anyAgentOnline;
       }
       return anyAgentOnline;
     },
