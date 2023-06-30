@@ -18,7 +18,7 @@ class Integrations::OpenaiProcessorService
     return value_from_cache if CACHEABLE_EVENTS.include?(event_name) && value_from_cache.present?
 
     response = send("#{event_name}_message")
-    save_to_cache(response) if CACHEABLE_EVENTS.include?(event_name)
+    save_to_cache(response) if CACHEABLE_EVENTS.include?(event_name) && response.present?
 
     response
   end
