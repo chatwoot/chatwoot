@@ -5,7 +5,11 @@
   >
     <div class="card-body">
       <h4 class="title" :class="$dm('text-black-900', 'dark:text-slate-50')">
-        {{ formatMessage(title, false) }}
+        <div
+          v-dompurify-html="formatMessage(title, false)"
+          class="message-content"
+          :class="$dm('text-black-900', 'dark:text-slate-50')"
+        />
       </h4>
       <ul
         v-if="!hideFields"
