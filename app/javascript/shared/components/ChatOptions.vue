@@ -5,7 +5,7 @@
   >
     <div class="card-body">
       <h4 class="title" :class="$dm('text-black-900', 'dark:text-slate-50')">
-        {{ title }}
+        {{ formatMessage(title, false) }}
       </h4>
       <ul
         v-if="!hideFields"
@@ -27,12 +27,13 @@
 <script>
 import ChatOption from 'shared/components/ChatOption';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 
 export default {
   components: {
     ChatOption,
   },
-  mixins: [darkModeMixin],
+  mixins: [darkModeMixin,messageFormatterMixin],
   props: {
     title: {
       type: String,
