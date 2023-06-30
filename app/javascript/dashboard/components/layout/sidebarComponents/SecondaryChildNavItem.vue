@@ -28,7 +28,11 @@
           >
             {{ label }}
           </span>
-          <span v-if="showChildCount" class="count-view">
+          <span
+            v-if="showChildCount"
+            class="count-view"
+            :class="isCountZero ? 'text-muted' : 'text-color'"
+          >
             {{ childItemCount }}
           </span>
         </div>
@@ -84,6 +88,9 @@ export default {
     showIcon() {
       return { 'text-truncate': this.shouldTruncate };
     },
+    isCountZero() {
+      return this.childItemCount === 0;
+    },
     menuTitle() {
       return this.shouldTruncate ? this.label : '';
     },
@@ -135,6 +142,7 @@ $label-badge-size: var(--space-slab);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  width: 100%;
 }
 
 .menu-label {
@@ -177,11 +185,14 @@ $label-badge-size: var(--space-slab);
 .count-view {
   background: var(--s-50);
   border-radius: var(--border-radius-normal);
-  color: var(--s-600);
   font-size: var(--font-size-micro);
   font-weight: var(--font-weight-bold);
   margin-left: var(--space-smaller);
   padding: var(--space-zero) var(--space-smaller);
   line-height: var(--font-size-small);
+
+  &.text-color {
+    color: var(--s-600);
+  }
 }
 </style>
