@@ -1,7 +1,7 @@
 module ConversationReplyMailerHelper
   def prepare_mail(cc_bcc_enabled)
     @options = {
-      to: @contact&.email,
+      to: to_emails,
       from: email_from,
       reply_to: email_reply_to,
       subject: mail_subject,
@@ -23,7 +23,6 @@ module ConversationReplyMailerHelper
 
   def ms_smtp_settings
     return unless @inbox.email? && @channel.imap_enabled && @inbox.channel.provider == 'microsoft'
-    return ms_graph_settings if ENV.fetch('AZURE_TENANT_ID', false)
 
     smtp_settings = {
       address: 'smtp.office365.com',
@@ -39,15 +38,6 @@ module ConversationReplyMailerHelper
 
     @options[:delivery_method] = :smtp
     @options[:delivery_method_options] = smtp_settings
-  end
-
-  def ms_graph_settings
-    graph_settings = {
-      token: @channel.provider_config['access_token']
-    }
-
-    @options[:delivery_method] = :microsoft_graph
-    @options[:delivery_method_options] = graph_settings
   end
 
   def set_delivery_method
