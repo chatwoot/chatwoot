@@ -30,6 +30,7 @@ export default [
     path: frontendURL('auth/confirmation'),
     name: 'auth_confirmation',
     component: Confirmation,
+    meta: { ignoreSession: true },
     props: route => ({
       config: route.query.config,
       confirmationToken: route.query.confirmation_token,
@@ -40,6 +41,7 @@ export default [
     path: frontendURL('auth/password/edit'),
     name: 'auth_password_edit',
     component: PasswordEdit,
+    meta: { ignoreSession: true },
     props: route => ({
       config: route.query.config,
       resetPasswordToken: route.query.reset_password_token,

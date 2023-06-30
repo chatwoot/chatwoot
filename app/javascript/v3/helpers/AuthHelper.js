@@ -6,12 +6,6 @@ export const hasAuthCookie = () => {
   return !!Cookies.getJSON('cw_d_session_info');
 };
 
-export const redirectIfAuthCookieExist = () => {
-  if (hasAuthCookie()) {
-    window.location = DEFAULT_REDIRECT_URL;
-  }
-};
-
 const getSSOAccountPath = ({ ssoAccountId, user }) => {
   const { accounts = [], account_id = null } = user || {};
   const ssoAccount = accounts.find(
