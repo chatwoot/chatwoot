@@ -30,11 +30,11 @@ class Integrations::OpenaiProcessorService
     return nil unless conversation
 
     format(::Redis::Alfred::OPENAI_CONVERSATION_KEY, event_name: event['name'], conversation_id: conversation.id,
-                                                     updated_at: conversation.updated_at.to_i)
+                                                     updated_at: conversation.last_activity_at.to_i)
   end
 
   def value_from_cache
-    # since the value from cache depends on the conversation last_updated_at, it will always be fresh
+    # since the value from cache depends on the conversation last_activity_at, it will always be fresh
     return nil if cache_key.blank?
 
     Redis::Alfred.get(cache_key)
