@@ -193,6 +193,7 @@ export default {
           .map(view => ({
             id: view.id,
             label: view.name,
+            count: view.count,
             truncateLabel: true,
             toState: frontendURL(
               `accounts/${this.accountId}/custom_view/${view.id}`
@@ -211,6 +212,7 @@ export default {
           .map(view => ({
             id: view.id,
             label: view.name,
+            count: view.count,
             truncateLabel: true,
             toState: frontendURL(
               `accounts/${this.accountId}/contacts/custom_view/${view.id}`

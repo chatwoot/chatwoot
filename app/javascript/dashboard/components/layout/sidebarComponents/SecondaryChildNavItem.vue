@@ -20,19 +20,18 @@
           class="badge--label"
           :style="{ backgroundColor: labelColor }"
         />
-        <span
-          :title="menuTitle"
-          class="menu-label button__content"
-          :class="{ 'text-truncate': shouldTruncate }"
-        >
-          {{ label }}
+        <div class="menu-label--wrapper">
+          <span
+            :title="menuTitle"
+            class="menu-label button__content"
+            :class="{ 'text-truncate': shouldTruncate }"
+          >
+            {{ label }}
+          </span>
           <span v-if="showChildCount" class="count-view">
             {{ childItemCount }}
           </span>
-        </span>
-        <span v-if="count" class="badge" :class="{ secondary: !isActive }">
-          {{ count }}
-        </span>
+        </div>
         <span v-if="warningIcon" class="badge--icon">
           <fluent-icon
             v-tooltip.top-end="$t('SIDEBAR.FACEBOOK_REAUTHORIZE')"
@@ -69,10 +68,6 @@ export default {
       default: '',
     },
     warningIcon: {
-      type: String,
-      default: '',
-    },
-    count: {
       type: String,
       default: '',
     },
@@ -132,6 +127,14 @@ $label-badge-size: var(--space-slab);
     background: var(--w-75);
     color: var(--w-500);
   }
+}
+
+.menu-label--wrapper {
+  align-items: center;
+  display: flex;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .menu-label {
