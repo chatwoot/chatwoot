@@ -2,6 +2,7 @@ module.exports = {
   darkMode: 'class',
   content: [
     './app/javascript/widget/**/*.vue',
+    './app/javascript/v3/**/*.vue',
     './app/javascript/portal/**/*.vue',
     './app/javascript/shared/**/*.vue',
     './app/javascript/survey/**/*.vue',
