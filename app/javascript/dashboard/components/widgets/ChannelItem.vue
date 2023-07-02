@@ -47,6 +47,7 @@ export default {
         'sms',
         'telegram',
         'line',
+        'internal',
       ].includes(key);
     },
   },

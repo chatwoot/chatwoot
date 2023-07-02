@@ -22,7 +22,15 @@ class Contacts::ContactableInboxesService
       api_contactable_inbox(inbox)
     when 'Channel::WebWidget'
       website_contactable_inbox(inbox)
+    when 'Channel::Internal'
+      internal_contactable_inbox(inbox)
     end
+  end
+
+  def internal_contactable_inbox(inbox)
+    return unless @contact.email || User.joins(:account_users).where(email: @contact.email, account_users: { account_id: inbox.account_id }).exists?
+
+    { source_id: @contact.email, inbox: inbox }
   end
 
   def website_contactable_inbox(inbox)

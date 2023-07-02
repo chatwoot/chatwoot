@@ -19,6 +19,8 @@ class ContactInboxBuilder
       wa_source_id
     when 'Channel::Email'
       email_source_id
+    when 'Channel::Internal'
+      email_source_id
     when 'Channel::Sms'
       phone_source_id
     when 'Channel::Api', 'Channel::WebWidget'
