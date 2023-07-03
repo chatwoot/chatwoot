@@ -61,6 +61,13 @@ export const actions = {
       commit(types.SET_CUSTOM_VIEW_UI_FLAG, { isCreating: false });
     }
   },
+  setCustomViewCount: async ({ commit }, { id, count }) => {
+    try {
+      commit(types.SET_CUSTOM_VIEW_COUNT, {id, count});
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
   delete: async ({ commit }, { id, filterType }) => {
     commit(types.SET_CUSTOM_VIEW_UI_FLAG, { isDeleting: true });
     try {
@@ -82,10 +89,19 @@ export const mutations = {
     };
   },
 
+  [types.SET_CUSTOM_VIEW_COUNT](_state, data) {
+    _state.records.forEach(record => {
+      if(record.id === data.id) {
+        record.count = data.count
+      }
+    });
+  },
+
   [types.ADD_CUSTOM_VIEW]: MutationHelpers.create,
   [types.SET_CUSTOM_VIEW]: MutationHelpers.set,
   [types.UPDATE_CUSTOM_VIEW]: MutationHelpers.update,
   [types.DELETE_CUSTOM_VIEW]: MutationHelpers.destroy,
+  [types.SET_CUSTOM_VIEW_COUNT]: MutationHelpers.setSingleRecord,
 };
 
 export default {

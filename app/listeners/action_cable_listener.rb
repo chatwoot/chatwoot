@@ -157,7 +157,7 @@ class ActionCableListener < BaseListener
   end
 
   def custom_filter_updated(event)
-    custom_filter = event[:custom_filter]
+    custom_filter = event.data[:custom_filter]
     account = custom_filter.account
     tokens = user_tokens(account, account.agents)
 

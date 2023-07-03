@@ -205,7 +205,7 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onCustomFilterUpdated = data => {
-    //fetchSavedFilteredConversations
+    var count = data['count'];
   }
 }
 
