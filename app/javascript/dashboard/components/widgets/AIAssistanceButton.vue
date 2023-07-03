@@ -101,6 +101,7 @@ export default {
       },
       showDropdown: false,
       activeTone: 'professional',
+      initialMessage: '',
       tones: [
         {
           key: 'professional',
@@ -134,11 +135,21 @@ export default {
     },
   },
   mounted() {
+    document.addEventListener('keydown', this.onKeyDownHandler);
     if (!this.appIntegrations.length) {
       this.$store.dispatch('integrations/get');
     }
   },
+  destroyed() {
+    document.removeEventListener('keydown', this.onKeyDownHandler);
+  },
+
   methods: {
+    onKeyDownHandler(event) {
+      if ((event.metaKey || event.ctrlKey) && event.key === 'z') {
+        this.$emit('replace-text', this.initialMessage);
+      }
+    },
     toggleDropdown() {
       this.showDropdown = !this.showDropdown;
     },
@@ -167,6 +178,7 @@ export default {
         const {
           data: { message: generatedMessage },
         } = result;
+        this.initialMessage = this.message;
         this.$emit('replace-text', generatedMessage || this.message);
         this.closeDropdown();
         this.recordAnalytics({ type, tone: this.activeTone });
