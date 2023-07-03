@@ -18,14 +18,14 @@
           <div class="sender-name--preview">
             <thumbnail :username="userName(keyOption)" size="32px" />
             <div class="preview-card--content">
-              <div>
+              <div class="sender-name--preview">
                 <span v-if="isKeyOptionFriendly(keyOption.key)" class="name">
                   {{ keyOption.preview.senderName }}
                 </span>
                 <span v-if="isKeyOptionFriendly(keyOption.key)" class="text">
                   {{ $t('INBOX_MGMT.EDIT.SENDER_NAME_SECTION.FRIENDLY.FROM') }}
                 </span>
-                <span class="name">
+                <span class="name text-truncate">
                   {{ businessName || keyOption.preview.businessName }}
                 </span>
               </div>
@@ -142,9 +142,17 @@ export default {
       align-items: flex-start;
       gap: var(--space-smaller);
 
-      .name {
-        font-size: var(--font-size-mini);
-        font-weight: var(--font-weight-bold);
+      .sender-name--preview {
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        gap: var(--space-micro);
+        max-width: 18rem;
+
+        .name {
+          font-size: var(--font-size-mini);
+          font-weight: var(--font-weight-bold);
+        }
       }
     }
   }
