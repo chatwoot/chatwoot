@@ -51,7 +51,7 @@ class Attachment < ApplicationRecord
 
   # NOTE: the URl returned does a 301 redirect to the actual file
   def file_url
-    file.attached? ? url_for(file) : ''
+    file.attached? ? url_for(file, only_path => false) : ''
   end
 
   # NOTE: for External services use this methods since redirect doesn't work effectively in a lot of cases
