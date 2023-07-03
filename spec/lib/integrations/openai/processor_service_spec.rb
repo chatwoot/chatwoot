@@ -4,6 +4,8 @@ RSpec.describe Integrations::Openai::ProcessorService do
   subject { described_class.new(hook: hook, event: event) }
 
   let(:account) { create(:account) }
+  let(:label1) { create(:label, account: account) }
+  let(:label2) { create(:label, account: account) }
   let(:hook) { create(:integrations_hook, :openai, account: account) }
   let(:expected_headers) { { 'Authorization' => "Bearer #{hook.settings['api_key']}" } }
   let(:openai_response) do
@@ -86,6 +88,43 @@ RSpec.describe Integrations::Openai::ProcessorService do
               'content' => 'Please summarize the key points from the following conversation between support agents and customer ' \
                            'as bullet points for the next support agent looking into the conversation. Reply in the user\'s language.' },
             { 'role' => 'user', 'content' => conversation_messages }
+          ]
+        }.to_json
+
+        stub_request(:post, 'https://api.openai.com/v1/chat/completions')
+          .with(body: request_body, headers: expected_headers)
+          .to_return(status: 200, body: openai_response, headers: {})
+
+        result = subject.perform
+        expect(result).to eq('This is a reply from openai.')
+      end
+    end
+
+    context 'when event name is label_suggestion' do
+      let(:event) { { 'name' => 'label_suggestion', 'data' => { 'conversation_display_id' => conversation.display_id } } }
+      let(:label_suggestion_payload) do
+        labels = "#{label1.title}, #{label2.title}"
+        messages =
+          "Customer #{customer_message.sender.name} : #{customer_message.content}\nAgent #{agent_message.sender.name} : #{agent_message.content}"
+
+        "Messages:\n#{messages}\n\nLabels:\n#{labels}"
+      end
+
+      it 'returns the label suggestions with no labels' do
+        request_body = {
+          'model' => 'gpt-3.5-turbo',
+          'messages' => [
+            {
+              role: 'system',
+              content: 'Your role is as an assistant to a customer support agent. You will be provided with ' \
+                       'a transcript of a conversation between a customer and the support agent, along with a list of potential labels. ' \
+                       'Your task is to analyze the conversation and select the two labels from the given list that most accurately ' \
+                       'represent the themes or issues discussed. Ensure you preserve the exact casing of the labels as they are provided ' \
+                       'in the list. Do not create new labels; only choose from those provided. Once you have made your selections, ' \
+                       'please provide your response as a comma-separated list of the provided labels. Remember, your response should only contain ' \
+                       'the labels you\'ve selected, in their original casing, and nothing else. '
+            },
+            { role: 'user', content: label_suggestion_payload }
           ]
         }.to_json
 
