@@ -106,7 +106,7 @@ export default {
   .modal-container {
     border-radius: 0;
     height: 100%;
-    width: 48rem;
+    width: 30rem;
   }
 }
 .modal-big {

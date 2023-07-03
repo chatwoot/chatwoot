@@ -92,7 +92,7 @@ export default {
   background-color: var(--white);
   border-radius: var(--border-radius-normal);
   box-shadow: var(--shadow-large);
-  max-width: 48rem;
+  max-width: 30rem;
   z-index: var(--z-index-high);
 
   header {

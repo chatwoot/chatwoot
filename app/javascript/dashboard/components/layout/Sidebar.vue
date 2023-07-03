@@ -230,7 +230,7 @@ export default {
 
 .account-selector--modal {
   .modal-container {
-    width: 40rem;
+    width: 25rem;
   }
 }
 
@@ -284,7 +284,7 @@ export default {
   cursor: pointer;
   display: flex;
   flex-direction: row;
-  height: 6rem;
+  height: 3.75rem;
 }
 
 .current-user--options {
