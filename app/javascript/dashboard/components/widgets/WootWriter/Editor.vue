@@ -468,8 +468,8 @@ export default {
 }
 
 .ProseMirror-woot-style {
-  min-height: 8rem;
-  max-height: 12rem;
+  min-height: 5rem;
+  max-height: 7.5rem;
   overflow: auto;
 }
 

@@ -188,7 +188,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .timezone-input-wrap {
-  max-width: 60rem;
+  max-width: 37.5rem;
 
   &::v-deep .multiselect {
     margin-top: var(--space-small);
@@ -196,7 +196,7 @@ export default {
 }
 
 .unavailable-input-wrap {
-  max-width: 60rem;
+  max-width: 37.5rem;
 
   textarea {
     min-height: var(--space-jumbo);

@@ -141,7 +141,7 @@ export default {
   }
 
   .ProseMirror-woot-style {
-    min-height: 20rem;
+    min-height: 12.5rem;
 
     p {
       font-size: var(--font-size-default);

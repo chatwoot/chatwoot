@@ -85,7 +85,7 @@ export default {
   box-shadow: var(--shadow-medium);
   left: 0;
   bottom: 100%;
-  max-height: 15.6rem;
+  max-height: 9.75rem;
   overflow: auto;
   padding: var(--space-small) var(--space-small) 0;
   position: absolute;

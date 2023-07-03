@@ -230,8 +230,8 @@ export default {
 }
 
 .ProseMirror-woot-style {
-  min-height: 8rem;
-  max-height: 12rem;
+  min-height: 5rem;
+  max-height: 7.5rem;
   overflow: auto;
 }
 
@@ -241,6 +241,6 @@ export default {
   box-shadow: var(--shadow-large);
   border-radius: var(--border-radius-normal);
   border: 1px solid var(--color-border);
-  min-width: 40rem;
+  min-width: 25rem;
 }
 </style>

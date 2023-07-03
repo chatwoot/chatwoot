@@ -105,7 +105,7 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-height: 20rem;
+  max-height: 12.5rem;
 
   .search-wrap {
     margin-bottom: var(--space-small);

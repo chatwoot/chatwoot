@@ -112,7 +112,7 @@ export default {
 <style lang="scss">
 .profile--settings--row {
   .ProseMirror-woot-style {
-    height: 8rem;
+    height: 5rem;
   }
 
   .editor-root {

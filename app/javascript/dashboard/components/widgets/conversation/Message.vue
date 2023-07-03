@@ -520,7 +520,7 @@ export default {
 
       .image,
       .video {
-        max-width: 32rem;
+        max-width: 20rem;
         padding: var(--space-micro);
 
         > img,
@@ -534,13 +534,13 @@ export default {
         }
       }
       .video {
-        height: 18rem;
+        height: 11.25rem;
       }
     }
 
     &.is-image.is-text > .message-text__wrap,
     &.is-video.is-text > .message-text__wrap {
-      max-width: 32rem;
+      max-width: 20rem;
       padding: var(--space-small) var(--space-normal);
     }
 
