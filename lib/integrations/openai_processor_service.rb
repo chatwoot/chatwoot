@@ -12,35 +12,43 @@ class Integrations::OpenaiProcessorService
   pattr_initialize [:hook!, :event!]
 
   def perform
-    event_name = event['name']
-    return nil unless valid_event_name?(event_name)
+    return nil unless valid_event_name?
 
-    return value_from_cache if CACHEABLE_EVENTS.include?(event_name) && value_from_cache.present?
+    return value_from_cache if value_from_cache.present?
 
     response = send("#{event_name}_message")
-    save_to_cache(response) if CACHEABLE_EVENTS.include?(event_name) && response.present?
+    save_to_cache(response) if response.present?
 
     response
   end
 
   private
 
+  def event_name
+    event['name']
+  end
+
   def cache_key
+    return nil unless event_is_cacheable?
+
     conversation = find_conversation
     return nil unless conversation
 
-    format(::Redis::Alfred::OPENAI_CONVERSATION_KEY, event_name: event['name'], conversation_id: conversation.id,
+    # since the value from cache depends on the conversation last_activity_at, it will always be fresh
+    format(::Redis::Alfred::OPENAI_CONVERSATION_KEY, event_name: event_name, conversation_id: conversation.id,
                                                      updated_at: conversation.last_activity_at.to_i)
   end
 
   def value_from_cache
-    # since the value from cache depends on the conversation last_activity_at, it will always be fresh
+    return nil unless event_is_cacheable?
     return nil if cache_key.blank?
 
     Redis::Alfred.get(cache_key)
   end
 
   def save_to_cache(response)
+    return nil unless event_is_cacheable?
+
     Redis::Alfred.setex(cache_key, response)
   end
 
@@ -48,8 +56,12 @@ class Integrations::OpenaiProcessorService
     hook.account.conversations.find_by(display_id: event['data']['conversation_display_id'])
   end
 
-  def valid_event_name?(event_name)
+  def valid_event_name?
     ALLOWED_EVENT_NAMES.include?(event_name)
+  end
+
+  def event_is_cacheable?
+    CACHEABLE_EVENTS.include?(event_name)
   end
 
   def make_api_call(body)
