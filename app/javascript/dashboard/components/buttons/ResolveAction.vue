@@ -258,11 +258,11 @@ export default {
 
 .dropdown-pane {
   left: unset;
-  top: 4.2rem;
+  top: 2.625rem;
   margin-top: var(--space-micro);
   right: 0;
-  max-width: 20rem;
-  min-width: 15.6rem;
+  max-width: 12.5rem;
+  min-width: 9.75rem;
 
   .dropdown-menu__item {
     margin-bottom: 0;

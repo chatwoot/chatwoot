@@ -101,7 +101,7 @@ export default {
   padding: var(--space-slab);
   background-color: var(--white);
   // full screen height subtracted by the height of the header
-  height: calc(100vh - 5.6rem);
+  height: calc(100vh - 3.5rem);
   display: flex;
   flex-direction: column;
   border-left: 1px solid var(--s-50);

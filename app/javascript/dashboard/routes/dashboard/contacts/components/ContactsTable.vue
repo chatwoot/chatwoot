@@ -2,7 +2,7 @@
   <section class="contacts-table-wrap">
     <ve-table
       :fixed-header="true"
-      max-height="calc(100vh - 11.4rem)"
+      max-height="calc(100vh - 7.125rem)"
       scroll-width="187rem"
       :columns="columns"
       :table-data="tableData"

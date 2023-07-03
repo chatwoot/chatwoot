@@ -381,7 +381,7 @@ export default {
 .contact-input {
   display: flex;
   align-items: center;
-  height: 3.9rem;
+  height: 2.4735rem;
   background: var(--color-background-light);
   border: 1px solid var(--color-border);
   padding: var(--space-smaller) var(--space-small);
@@ -395,7 +395,7 @@ export default {
 }
 
 .message-input {
-  min-height: 8rem;
+  min-height: 5rem;
 }
 
 .row.gutter-small {

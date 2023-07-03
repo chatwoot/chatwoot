@@ -365,6 +365,6 @@ export default {
 }
 
 .icon {
-  font-size: 8rem;
+  font-size: 5rem;
 }
 </style>
