@@ -4,8 +4,6 @@ RSpec.describe Integrations::Openai::ProcessorService do
   subject { described_class.new(hook: hook, event: event) }
 
   let(:account) { create(:account) }
-  let(:label1) { create(:label, account: account) }
-  let(:label2) { create(:label, account: account) }
   let(:hook) { create(:integrations_hook, :openai, account: account) }
   let(:expected_headers) { { 'Authorization' => "Bearer #{hook.settings['api_key']}" } }
   let(:openai_response) do
@@ -100,8 +98,10 @@ RSpec.describe Integrations::Openai::ProcessorService do
       end
     end
 
-    context 'when event name is label_suggestion' do
+    context 'when event name is label_suggestion with labels' do
       let(:event) { { 'name' => 'label_suggestion', 'data' => { 'conversation_display_id' => conversation.display_id } } }
+      let(:label1) { create(:label, account: account) }
+      let(:label2) { create(:label, account: account) }
       let(:label_suggestion_payload) do
         labels = "#{label1.title}, #{label2.title}"
         messages =
@@ -110,7 +110,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
         "Messages:\n#{messages}\n\nLabels:\n#{labels}"
       end
 
-      it 'returns the label suggestions with no labels' do
+      it 'returns the label suggestions' do
         request_body = {
           'model' => 'gpt-3.5-turbo',
           'messages' => [
@@ -134,6 +134,15 @@ RSpec.describe Integrations::Openai::ProcessorService do
 
         result = subject.perform
         expect(result).to eq('This is a reply from openai.')
+      end
+    end
+
+    context 'when event name is label_suggestion with no labels' do
+      let(:event) { { 'name' => 'label_suggestion', 'data' => { 'conversation_display_id' => conversation.display_id } } }
+
+      it 'returns nil' do
+        result = subject.perform
+        expect(result).to be_nil
       end
     end
 
