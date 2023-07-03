@@ -180,7 +180,7 @@ export default {
 }
 .dropdown-pane--open {
   top: var(--space-larger);
-  right: 14.8rem;
+  right: 9.25rem;
 }
 .selected-value {
   display: inline-flex;

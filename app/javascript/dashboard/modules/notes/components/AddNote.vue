@@ -72,7 +72,7 @@ export default {
   }
 
   &::v-deep .ProseMirror-woot-style {
-    max-height: 36rem;
+    max-height: 22.5rem;
   }
 }
 

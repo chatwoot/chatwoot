@@ -52,9 +52,9 @@ export default {
   border: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
-  max-height: 34rem;
-  max-width: 38rem;
-  min-width: 24rem;
+  max-height: 21.25rem;
+  max-width: 23.75rem;
+  min-width: 15rem;
 
   .header--wrap {
     background: var(--s-50);
@@ -62,7 +62,7 @@ export default {
     border-top-left-radius: var(--border-radius-normal);
     border-top-right-radius: var(--border-radius-normal);
     display: flex;
-    height: 4rem;
+    height: 2.5rem;
     justify-content: space-between;
     padding: var(--space-small);
     width: 100%;

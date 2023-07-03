@@ -204,7 +204,7 @@ export default {
 <style lang="scss" scoped>
 .day-wrap::v-deep .multiselect {
   margin: 0;
-  width: 12rem;
+  width: 7.5rem;
 
   > .multiselect__tags {
     padding-left: var(--space-slab);
@@ -266,7 +266,7 @@ export default {
 .day {
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-medium);
-  width: 13rem;
+  width: 8.125rem;
 }
 
 .label {

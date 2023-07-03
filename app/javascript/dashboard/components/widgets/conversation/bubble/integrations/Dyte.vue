@@ -97,7 +97,7 @@ export default {
   button {
     position: absolute;
     top: var(--space-smaller);
-    right: 16rem;
+    right: 10rem;
   }
 }
 </style>

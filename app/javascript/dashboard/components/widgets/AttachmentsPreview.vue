@@ -75,7 +75,7 @@ export default {
   flex-direction: column;
   overflow: auto;
   margin-top: var(--space-normal);
-  max-height: 20rem;
+  max-height: 12.5rem;
 }
 
 .preview-item {
@@ -84,7 +84,7 @@ export default {
   background: var(--color-background-light);
   background: var(--b-50);
   border-radius: var(--border-radius-normal);
-  width: 24rem;
+  width: 15rem;
   padding: var(--space-smaller);
   margin-bottom: var(--space-one);
 }

@@ -70,7 +70,7 @@ export default {
     background: white;
 
     &.is-focused {
-      box-shadow: 0 0 0 0.1rem var(--color-woot), 0 0 0.2rem 0.2rem var(--w-100);
+      box-shadow: 0 0 0 1px var(--color-woot), 0 0 2px 2px var(--w-100);
     }
   }
 
