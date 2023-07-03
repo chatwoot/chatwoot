@@ -90,7 +90,9 @@ export const mutations = {
     { lastActivityAt, conversationId }
   ) {
     const [chat] = _state.allConversations.filter(c => c.id === conversationId);
-    Vue.set(chat, 'last_activity_at', lastActivityAt);
+    if (chat) {
+      Vue.set(chat, 'last_activity_at', lastActivityAt);
+    }
   },
   [types.ASSIGN_PRIORITY](_state, { priority, conversationId }) {
     const [chat] = _state.allConversations.filter(c => c.id === conversationId);
