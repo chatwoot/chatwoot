@@ -152,6 +152,7 @@ export default {
         .name {
           font-size: var(--font-size-mini);
           font-weight: var(--font-weight-bold);
+          line-height: 1.2;
         }
       }
     }
