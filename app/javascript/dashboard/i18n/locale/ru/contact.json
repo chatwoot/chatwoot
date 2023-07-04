@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Добавить метки",
         "PLACEHOLDER": "Поиск меток",
-        "NO_RESULT": "Метки не найдены"
+        "NO_RESULT": "Метки не найдены",
+        "CREATE_LABEL": "Создать новую метку"
       }
     },
     "MERGE_CONTACT": "Объединить контакты",

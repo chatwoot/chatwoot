@@ -3,11 +3,11 @@
     "TITLE": "Oceń udzielone Ci wsparcie",
     "PLACEHOLDER": "Dodaj swój komentarz...",
     "RATINGS": {
-      "POOR": "😞 Poor",
-      "FAIR": "😑 Fair",
-      "AVERAGE": "😐 Average",
-      "GOOD": "😀 Good",
-      "EXCELLENT": "😍 Excellent"
+      "POOR": "😞 Słabo",
+      "FAIR": "😑 Średnio",
+      "AVERAGE": "😐 Przeciętnie",
+      "GOOD": "😀 Dobrze",
+      "EXCELLENT": "😍 Doskonale"
     }
   }
 }
