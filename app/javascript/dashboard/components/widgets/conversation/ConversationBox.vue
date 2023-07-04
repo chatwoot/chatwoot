@@ -161,6 +161,27 @@ export default {
 .conversation-sidebar-wrap {
   @apply border-r border-slate-50 dark:border-slate-700;
   background: white;
+  flex-basis: 100%;
+
+  @include breakpoint(medium up) {
+    flex-basis: 17.5rem;
+  }
+
+  @include breakpoint(large up) {
+    flex-basis: 18.75rem;
+  }
+
+  @include breakpoint(xlarge up) {
+    flex-basis: 19.375rem;
+  }
+
+  @include breakpoint(xxlarge up) {
+    flex-basis: 20.625rem;
+  }
+
+  @include breakpoint(xxxlarge up) {
+    flex-basis: 25rem;
+  }
 
   &::v-deep .contact--panel {
     width: 100%;
