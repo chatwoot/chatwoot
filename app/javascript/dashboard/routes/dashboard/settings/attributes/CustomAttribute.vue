@@ -228,14 +228,14 @@ export default {
 
 .item {
   padding-left: 0;
-  max-width: 10rem;
-  min-width: 8rem;
+  max-width: 6.25rem;
+  min-width: 5rem;
 }
 
 .item-description {
   padding-left: 0;
-  max-width: 16rem;
-  min-width: 10rem;
+  max-width: 10rem;
+  min-width: 6.25rem;
 }
 
 .key {

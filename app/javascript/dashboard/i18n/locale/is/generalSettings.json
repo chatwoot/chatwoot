@@ -3,6 +3,7 @@
     "TITLE": "Aðgangs stillingar",
     "SUBMIT": "Uppfæra stillingar",
     "BACK": "Til baka",
+    "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "Gat ekki uppfært stillingar, reyndu aftur!",
       "SUCCESS": "Tókst að uppfæra stillingar"

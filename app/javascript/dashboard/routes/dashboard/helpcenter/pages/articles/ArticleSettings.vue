@@ -227,7 +227,7 @@ export default {
 .article-settings--container {
   flex: 0.3;
   min-width: var(--space-giga);
-  max-width: 36rem;
+  max-width: 22.5rem;
   overflow-y: auto;
   border-left: 1px solid var(--color-border-light);
   margin-left: var(--space-normal);

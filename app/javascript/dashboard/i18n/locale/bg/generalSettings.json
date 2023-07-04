@@ -3,6 +3,7 @@
     "TITLE": "Account settings",
     "SUBMIT": "Update settings",
     "BACK": "Back",
+    "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "Could not update settings, try again!",
       "SUCCESS": "Successfully updated account settings"
