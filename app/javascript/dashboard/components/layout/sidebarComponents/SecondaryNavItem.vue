@@ -9,7 +9,7 @@
     </div>
     <router-link
       v-else
-      class="rounded-lg leading-4 font-medium flex items-center p-2 m-0 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-25 hover:text-bg-50 hover:text-woot-500"
+      class="rounded-lg leading-4 font-medium flex items-center p-2 m-0 text-sm text-slate-700 dark:text-slate-100 hover:bg-slate-25 dark:hover:bg-slate-800"
       :class="computedClass"
       :to="menuItem && menuItem.toState"
     >
@@ -17,7 +17,7 @@
       {{ $t(`SIDEBAR.${menuItem.label}`) }}
       <span
         v-if="showChildCount(menuItem.count)"
-        class="bg-slate-50 rounded-xl text-slate-600 text-xxs font-medium mx-1 py-0 px-1"
+        class="rounded-xl text-xxs font-medium mx-1 py-0 px-1"
       >
         {{ `${menuItem.count}` }}
       </span>
@@ -169,7 +169,7 @@ export default {
         this.isUnattended ||
         this.isCurrentRoute
       ) {
-        return 'bg-woot-25 text-woot-500';
+        return 'bg-woot-25 dark:bg-slate-800 text-woot-500 dark:text-woot-500 hover:text-woot-500 dark:hover:text-woot-500';
       }
       if (this.hasSubMenu) {
         if (
@@ -178,12 +178,12 @@ export default {
           this.isIntegrationsSettings ||
           this.isApplicationsSettings
         ) {
-          return 'bg-woot-25 text-woot-500 hover:text-woot-600';
+          return 'bg-woot-25 dark:bg-slate-800 text-woot-500 dark:text-woot-500 hover:text-woot-500 dark:hover:text-woot-500';
         }
-        return ' ';
+        return 'hover:text-slate-700 dark:hover:text-slate-100';
       }
 
-      return '';
+      return 'hover:text-slate-700 dark:hover:text-slate-100';
     },
   },
   methods: {

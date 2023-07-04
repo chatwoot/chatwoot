@@ -6,22 +6,29 @@
     active-class="active"
   >
     <li
-      class="text-slate-600 dark:text-slate-50 font-medium h-6 my-1 hover:bg-slate-25 hover:text-bg-50 flex items-center px-2 rounded-sm"
+      class="font-medium h-7 my-1 hover:bg-slate-25 hover:text-bg-50 flex items-center px-2 rounded-md dark:hover:bg-slate-800"
       :class="{
-        'bg-woot-25 text-woot-500 dark:bg-slate-800 dark:text-slate-300': isActive,
-        'text-truncate': shouldTruncate,
+        'bg-woot-25 dark:bg-slate-800': isActive,
+        'text-ellipsis overflow-hidden whitespace-nowrap max-w-full': shouldTruncate,
       }"
+      @click="navigate"
     >
       <a
         :href="href"
-        class="inline-flex text-left max-w-full items-center"
-        @click="navigate"
+        class="inline-flex text-left max-w-full w-full items-center"
       >
         <span
           v-if="icon"
-          class="inline-flex items-center justify-center w-4 rounded-sm bg-slate-100 p-0.5 mr-1.5"
+          class="inline-flex items-center justify-center w-4 rounded-sm bg-slate-100 dark:bg-slate-700 p-0.5 mr-1.5"
         >
-          <fluent-icon class="text-xxs" :icon="icon" size="12" />
+          <fluent-icon
+            class="text-xxs text-slate-600 dark:text-slate-200"
+            :class="{
+              'text-woot-500 dark:text-woot-500': isActive,
+            }"
+            :icon="icon"
+            size="12"
+          />
         </span>
 
         <span
@@ -29,21 +36,31 @@
           class="inline-flex rounded-sm bg-slate-100 h-3 w-3 ml-0.5 mr-2.5"
           :style="{ backgroundColor: labelColor }"
         />
-        <span
-          :title="menuTitle"
-          class="text-sm "
-          :class="{
-            'text-ellipsis overflow-hidden whitespace-nowrap max-w-full': shouldTruncate,
-          }"
+        <div
+          class="items-center flex overflow-hidden whitespace-nowrap text-ellipsis w-full justify-between"
         >
-          {{ label }}
+          <span
+            :title="menuTitle"
+            class="text-sm text-slate-600 dark:text-slate-100"
+            :class="{
+              'text-woot-500 dark:text-woot-500': isActive,
+              'text-ellipsis overflow-hidden whitespace-nowrap max-w-full': shouldTruncate,
+            }"
+          >
+            {{ label }}
+          </span>
           <span
             v-if="showChildCount"
-            class="bg-slate-50 rounded-xl text-slate-600 text-xxs font-medium mx-1 py-0 px-1"
+            class="bg-slate-50 dark:bg-slate-700 rounded text-xxs font-medium mx-1 py-0 px-1"
+            :class="
+              isCountZero
+                ? `text-slate-300 dark:text-slate-600`
+                : `text-slate-600 dark:text-slate-50`
+            "
           >
             {{ childItemCount }}
           </span>
-        </span>
+        </div>
         <span
           v-if="warningIcon"
           class="inline-flex rounded-sm mr-1 bg-slate-100"
@@ -98,6 +115,9 @@ export default {
   computed: {
     showIcon() {
       return { 'text-truncate': this.shouldTruncate };
+    },
+    isCountZero() {
+      return this.childItemCount === 0;
     },
     menuTitle() {
       return this.shouldTruncate ? this.label : '';
