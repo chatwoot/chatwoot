@@ -66,7 +66,9 @@
         "LABEL": "Số điện thoại",
         "PLACEHOLDER": "\u001dVui lòng nhập số điện thoại của bạn",
         "REQUIRED_ERROR": "Cần phải nhập số điện thoại",
-        "VALID_ERROR": "Số điện thoại nên theo định dạng E.164, ví dụ: +1415555555"
+        "DIAL_CODE_VALID_ERROR": "Please select a country code",
+        "VALID_ERROR": "Please enter a valid phone number",
+        "DROPDOWN_EMPTY": "Không tìm thấy kết quả"
       },
       "MESSAGE": {
         "LABEL": "Tin nhắn",

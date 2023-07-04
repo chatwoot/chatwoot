@@ -3,6 +3,7 @@
     "TITLE": "Kontoeinstellungen",
     "SUBMIT": "Einstellungen aktualisieren",
     "BACK": "Zurück",
+    "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "Einstellungen konnten nicht aktualisiert werden, versuchen Sie es erneut!",
       "SUCCESS": "Kontoeinstellungen erfolgreich aktualisiert"
