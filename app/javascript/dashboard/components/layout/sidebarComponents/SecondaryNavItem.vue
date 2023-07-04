@@ -29,7 +29,7 @@
         v-if="menuItem.beta"
         data-view-component="true"
         label="Beta"
-        class="px-1 mx-1 inline-block font-medium leading-4 border border-green-400 text-green-500 rounded-lg text-xs"
+        class="px-1 mx-1 inline-block font-medium leading-4 border border-green-400 text-green-500 rounded-lg text-xxs"
       >
         {{ $t('SIDEBAR.BETA') }}
       </span>

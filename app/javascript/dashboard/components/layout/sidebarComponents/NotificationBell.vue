@@ -10,7 +10,7 @@
       <fluent-icon icon="alert" />
       <span
         v-if="unreadCount"
-        class="text-black-900 bg-yellow-300 absolute -top-0.5 right-0.5 p-1 text-xxs min-w-[1rem] rounded-full"
+        class="text-black-900 bg-yellow-300 absolute -top-0.5 -right-1 p-1 text-xxs min-w-[1rem] rounded-full"
       >
         {{ unreadCount }}
       </span>
