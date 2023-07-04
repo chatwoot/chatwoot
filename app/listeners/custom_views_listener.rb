@@ -5,19 +5,19 @@ class CustomViewsListener < BaseListener
     conversation = event.data[:conversation]
     account = conversation.account
 
-    dispatch_custom_filter_event(account, conversation)
+    dispatch_custom_filter_event(account)
   end
 
   def conversation_updated(event)
     conversation = event.data[:conversation]
     account = conversation.account
 
-    dispatch_custom_filter_event(account, conversation)
+    dispatch_custom_filter_event(account)
   end
 
   private
 
-  def dispatch_custom_filter_event(account, _conversation)
+  def dispatch_custom_filter_event(account)
     account.custom_filters.each do |filter|
       records = filter.filter_records
 
