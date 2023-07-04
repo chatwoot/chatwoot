@@ -66,7 +66,9 @@
         "LABEL": "Telefonnummer",
         "PLACEHOLDER": "Bitte geben Sie ihre Telefonnummer ein",
         "REQUIRED_ERROR": "Telefonnummer ist erforderlich",
-        "VALID_ERROR": "Die Telefonnummer sollte im E.164-Format vorliegen, z. B.: +1415555555"
+        "DIAL_CODE_VALID_ERROR": "Please select a country code",
+        "VALID_ERROR": "Please enter a valid phone number",
+        "DROPDOWN_EMPTY": "Keine Ergebnisse gefunden"
       },
       "MESSAGE": {
         "LABEL": "Nachricht",

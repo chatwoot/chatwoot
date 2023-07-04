@@ -3,6 +3,7 @@
     "TITLE": "Kontoinnstillinger",
     "SUBMIT": "Oppdater innstillinger",
     "BACK": "Tilbake",
+    "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "Kunne ikke oppdatere innstillinger, prøv igjen!",
       "SUCCESS": "Innstillinger ble oppdatert"

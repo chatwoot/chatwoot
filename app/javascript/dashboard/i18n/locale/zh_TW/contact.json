@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "新增標籤",
         "PLACEHOLDER": "搜尋標籤",
-        "NO_RESULT": "查無標籤"
+        "NO_RESULT": "查無標籤",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Merge contact",
