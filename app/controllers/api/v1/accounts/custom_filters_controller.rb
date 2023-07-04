@@ -1,4 +1,6 @@
 class Api::V1::Accounts::CustomFiltersController < Api::V1::Accounts::BaseController
+  include Events::Types
+
   before_action :check_authorization
   before_action :fetch_custom_filters, except: [:create]
   before_action :fetch_custom_filter, only: [:show, :update, :destroy]
@@ -13,10 +15,13 @@ class Api::V1::Accounts::CustomFiltersController < Api::V1::Accounts::BaseContro
       permitted_payload.merge(account_id: Current.account.id)
     )
     render json: { error: @custom_filter.errors.messages }, status: :unprocessable_entity and return unless @custom_filter.valid?
+
+    update_filter_conversation_count(@custom_filter)
   end
 
   def update
     @custom_filter.update!(permitted_payload)
+    update_filter_conversation_count(@custom_filter)
   end
 
   def destroy
@@ -25,6 +30,14 @@ class Api::V1::Accounts::CustomFiltersController < Api::V1::Accounts::BaseContro
   end
 
   private
+
+  def update_filter_conversation_count(filter)
+    records = filter.filter_records
+
+    Redis::Alfred.set(filter.filter_count_key, records[:count][:all_count])
+
+    Rails.configuration.dispatcher.dispatch(CUSTOM_FILTER_UPDATED, Time.zone.now, custom_filter: filter)
+  end
 
   def fetch_custom_filters
     @custom_filters = current_user.custom_filters.where(
