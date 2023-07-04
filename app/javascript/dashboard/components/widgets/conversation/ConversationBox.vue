@@ -141,6 +141,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import '~dashboard/assets/scss/woot';
 .conversation-details-wrap {
   display: flex;
   flex-direction: column;
