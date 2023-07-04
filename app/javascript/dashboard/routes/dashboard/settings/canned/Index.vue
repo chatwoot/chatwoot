@@ -209,7 +209,7 @@ export default {
 </script>
 <style scoped>
 .short-code {
-  width: 14rem;
+  width: 8.75rem;
 }
 .wrap-break-words {
   word-break: break-all;

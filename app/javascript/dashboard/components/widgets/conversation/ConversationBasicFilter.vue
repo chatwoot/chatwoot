@@ -90,7 +90,7 @@ export default {
   margin-top: var(--space-smaller);
   padding: var(--space-normal);
   right: 0;
-  width: 21rem;
+  width: 13.125rem;
 
   span {
     font-size: var(--font-size-small);

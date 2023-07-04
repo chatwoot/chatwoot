@@ -249,15 +249,15 @@ export default {
 }
 
 .label-actions-box {
-  --triangle-position: 8.5rem;
+  --triangle-position: 5.3125rem;
 }
 .update-actions-box {
-  --triangle-position: 5.6rem;
+  --triangle-position: 3.5rem;
 }
 .agent-actions-box {
-  --triangle-position: 2.8rem;
+  --triangle-position: 1.75rem;
 }
 .team-actions-box {
-  --triangle-position: 0.2rem;
+  --triangle-position: 0.125rem;
 }
 </style>

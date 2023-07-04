@@ -18,6 +18,8 @@
     "EMPTY_STATE_DEFAULT": "Lai iegūtu labākus meklēšanas rezultātus, meklējiet pēc sarunas Id, e-pasta, tālruņa numura vai ziņām. ",
     "BOT_LABEL": "Bot",
     "READ_MORE": "Lasīt vairāk",
-    "WROTE": "rakstīja:"
+    "WROTE": "rakstīja:",
+    "FROM": "no",
+    "EMAIL": "e-pasts"
   }
 }

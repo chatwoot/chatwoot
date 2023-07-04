@@ -129,13 +129,13 @@ export default {
         max-width: 100%;
 
         .chat-bubble {
-          border-radius: 2rem;
+          border-radius: 1.25rem;
           box-shadow: var(--shadow-medium);
           color: var(--white);
           display: inline-block;
           font-size: var(--font-size-nano);
           line-height: 1.5;
-          padding: 1.3rem 1.75rem;
+          padding: 0.8125rem 1.09375rem;
           text-align: left;
 
           p {

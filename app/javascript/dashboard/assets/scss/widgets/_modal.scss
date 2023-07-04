@@ -27,7 +27,7 @@
   padding: $space-large $space-large $zero;
 
   img {
-    max-height: 6rem;
+    max-height: 3.75rem;
   }
 }
 
@@ -39,11 +39,11 @@
   max-height: 100%;
   overflow: auto;
   position: relative;
-  width: 60rem;
+  width: 37.5rem;
 
   &.medium {
     max-width: 80%;
-    width: 90rem;
+    width: 56.25rem;
   }
 
   .content-box {
