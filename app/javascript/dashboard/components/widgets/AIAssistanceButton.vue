@@ -146,10 +146,10 @@ export default {
 
   methods: {
     onKeyDownHandler(event) {
+      const { metaKey, ctrlKey, key } = event;
       const shouldRevertTheContent =
-        (event.metaKey || event.ctrlKey) &&
-        event.key === 'z' &&
-        !!this.initialMessage;
+        (metaKey || ctrlKey) && key === 'z' && !!this.initialMessage;
+
       if (shouldRevertTheContent) {
         this.$emit('replace-text', this.initialMessage);
       }
