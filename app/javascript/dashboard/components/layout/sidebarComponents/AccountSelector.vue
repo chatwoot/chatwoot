@@ -18,7 +18,7 @@
           @click="onChangeAccount(account.id)"
         >
           <span class="w-full">
-            <label :for="account.name" class="text-left">
+            <label :for="account.name" class="text-left rtl:text-right">
               <div
                 class="text-slate-700 text-lg dark:text-slate-100 font-medium hover:underline-offset-4 leading-5"
               >

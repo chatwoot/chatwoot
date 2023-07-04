@@ -19,7 +19,7 @@
       >
         <span
           v-if="icon"
-          class="inline-flex items-center justify-center w-4 rounded-sm bg-slate-100 dark:bg-slate-700 p-0.5 mr-1.5"
+          class="inline-flex items-center justify-center w-4 rounded-sm bg-slate-100 dark:bg-slate-700 p-0.5 mr-1.5 rtl:mr-0 rtl:ml-1.5"
         >
           <fluent-icon
             class="text-xxs text-slate-600 dark:text-slate-200"
@@ -33,7 +33,7 @@
 
         <span
           v-if="labelColor"
-          class="inline-flex rounded-sm bg-slate-100 h-3 w-3 ml-0.5 mr-2.5"
+          class="inline-flex rounded-sm bg-slate-100 h-3 w-3.5 mr-1.5 rtl:mr-0 rtl:ml-1.5 border border-slate-50 dark:border-slate-900"
           :style="{ backgroundColor: labelColor }"
         />
         <div

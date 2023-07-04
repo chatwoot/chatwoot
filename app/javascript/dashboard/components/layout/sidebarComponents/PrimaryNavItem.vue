@@ -3,7 +3,7 @@
     <a
       v-tooltip.right="$t(`SIDEBAR.${name}`)"
       :href="href"
-      class="text-slate-600 dark:text-woot-50 w-10 h-10 my-2 flex items-center justify-center rounded-lg hover:bg-woot-25 dark:hover:bg-slate-800 hover:text-woot-500"
+      class="text-slate-600 dark:text-woot-50 w-10 h-10 my-2 flex items-center justify-center rounded-lg hover:bg-woot-25 dark:hover:bg-slate-800 hover:text-woot-500 focus-visible:ring-2 focus-visible:ring-woot-500 focus-visible:ring-opacity-50 focus:outline-none relative"
       :class="{
         'bg-woot-50 dark:bg-slate-800 text-woot-500':
           isActive || isChildMenuActive,
@@ -12,7 +12,13 @@
       :target="openInNewPage ? '_blank' : undefined"
       @click="navigate"
     >
-      <fluent-icon :icon="icon" />
+      <fluent-icon
+        :icon="icon"
+        :class="{
+          'bg-woot-50 dark:bg-slate-800 text-woot-500':
+            isActive || isChildMenuActive,
+        }"
+      />
       <span class="sr-only">{{ name }}</span>
       <span
         v-if="count"

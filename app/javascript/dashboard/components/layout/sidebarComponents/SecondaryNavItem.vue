@@ -13,7 +13,11 @@
       :class="computedClass"
       :to="menuItem && menuItem.toState"
     >
-      <fluent-icon :icon="menuItem.icon" class="min-w-[1rem] mr-2" size="14" />
+      <fluent-icon
+        :icon="menuItem.icon"
+        class="min-w-[1rem] mr-2 rtl:mr-0 rtl:ml-2"
+        size="14"
+      />
       {{ $t(`SIDEBAR.${menuItem.label}`) }}
       <span
         v-if="showChildCount(menuItem.count)"
