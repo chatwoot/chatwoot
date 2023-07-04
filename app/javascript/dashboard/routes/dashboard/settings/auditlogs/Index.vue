@@ -141,7 +141,7 @@ export default {
   flex-direction: column;
 
   .remote-address {
-    width: 14rem;
+    width: 8.75rem;
   }
 
   .wrap-break-words {

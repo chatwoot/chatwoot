@@ -195,17 +195,17 @@ export default {
 }
 
 .thumbnail--column {
-  width: 5.2rem;
+  width: 3.25rem;
 }
 
 .timestamp--column {
-  min-width: 13rem;
+  min-width: 8.125rem;
   text-align: right;
 }
 
 .notification-contant--wrap {
   flex-direction: column;
-  max-width: 50rem;
+  max-width: 31.25rem;
 }
 
 .notification--message-title {

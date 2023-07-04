@@ -112,7 +112,7 @@ export default {
 }
 
 .scroll-wrap {
-  padding: var(--space-larger) 13.6rem;
+  padding: var(--space-larger) 8.5rem;
   min-height: 100vh;
   display: flex;
   flex-direction: column;

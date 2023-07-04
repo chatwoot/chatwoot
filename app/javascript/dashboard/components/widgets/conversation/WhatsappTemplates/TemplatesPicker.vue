@@ -125,7 +125,7 @@ export default {
 .template__list-container {
   background-color: var(--s-25);
   border-radius: var(--border-radius-medium);
-  max-height: 30rem;
+  max-height: 18.75rem;
   overflow-y: auto;
   padding: var(--space-one);
 
