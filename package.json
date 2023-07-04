@@ -18,8 +18,7 @@
     "prepare": "husky install",
     "size": "size-limit"
   },
-  "size-limit": [
-    {
+  "size-limit": [{
       "path": "public/packs/js/widget-*.js",
       "limit": "270 KB"
     },
@@ -30,7 +29,7 @@
   ],
   "dependencies": {
     "@braid/vue-formulate": "^2.5.2",
-    "@chatwoot/prosemirror-schema": "https://github.com/chatwoot/prosemirror-schema.git",
+    "@chatwoot/prosemirror-schema": "https://github.com/chatwoot/prosemirror-schema.git#657f1243a8f0ae3c7b6655454989e06149695a17",
     "@chatwoot/utils": "^0.0.16",
     "@hcaptcha/vue-hcaptcha": "^0.3.2",
     "@june-so/analytics-next": "^1.36.5",
