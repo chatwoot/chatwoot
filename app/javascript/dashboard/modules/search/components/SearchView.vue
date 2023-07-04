@@ -222,8 +222,8 @@ export default {
 }
 .search-root {
   margin: 0 auto;
-  max-width: 72rem;
-  min-height: 32rem;
+  max-width: 45rem;
+  min-height: 20rem;
   width: 100%;
   height: 100%;
   padding: var(--space-normal);

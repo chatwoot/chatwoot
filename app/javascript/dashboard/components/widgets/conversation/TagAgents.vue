@@ -96,7 +96,7 @@ export default {
   left: 0;
   bottom: 100%;
   line-height: 1.2;
-  max-height: 20rem;
+  max-height: 12.5rem;
   overflow: auto;
   padding: var(--space-small) var(--space-small) 0 var(--space-small);
   position: absolute;

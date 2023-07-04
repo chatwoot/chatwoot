@@ -43,15 +43,15 @@ table {
 
   .woot-thumbnail {
     border-radius: 50%;
-    height: 5rem;
-    width: 5rem;
+    height: 3.125rem;
+    width: 3.125rem;
   }
 
   .button-wrapper {
     @include flex-align(left, null);
     @include flex;
     flex-direction: row;
-    min-width: 20rem;
+    min-width: 12.5rem;
   }
 
   .button {

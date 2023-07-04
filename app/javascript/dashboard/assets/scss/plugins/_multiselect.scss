@@ -28,7 +28,7 @@
   }
 
   .multiselect__select {
-    min-height: 4.6rem;
+    min-height: 2.875rem;
     padding: 0;
     right: 0;
     top: 0;
@@ -98,7 +98,7 @@
     border: 1px solid var(--s-200);
     border-color: var(--s-200);
     margin: 0;
-    min-height: 4.4rem;
+    min-height: 2.75rem;
     padding-top: $zero;
   }
 
@@ -130,7 +130,7 @@
   .multiselect__input {
     @include ghost-input;
     font-size: $font-size-small;
-    height: 4.4rem;
+    height: 2.75rem;
     margin-bottom: $zero;
     padding: 0;
   }
@@ -168,7 +168,7 @@
 }
 
 .multiselect-wrap--small {
-  $multiselect-height: 4.0rem;
+  $multiselect-height: 2.5rem;
 
   .multiselect__tags,
   .multiselect__input {
@@ -195,7 +195,7 @@
     display: flex;
     font-size: var(--font-size-small);
     margin: 0;
-    max-height: 3.8rem;
+    max-height: 2.375rem;
     padding: var(--space-smaller) var(--space-micro);
   }
 
@@ -219,7 +219,7 @@
 }
 
 .multiselect-wrap--medium {
-  $multiselect-height: 4.8rem;
+  $multiselect-height: 3rem;
 
   .multiselect__tags,
   .multiselect__input {

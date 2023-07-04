@@ -66,6 +66,7 @@
     "md5": "^2.3.0",
     "ninja-keys": "^1.1.9",
     "opus-recorder": "^8.0.5",
+    "pinia": "^2.1.4",
     "postcss": "^8.4.24",
     "postcss-loader": "^4.2.0",
     "semver": "7.3.5",

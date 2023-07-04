@@ -116,7 +116,7 @@ export default {
 
     img {
       margin: var(--space-normal);
-      width: 10rem;
+      width: 6.25rem;
     }
 
     span {

@@ -259,8 +259,8 @@ export default {
     justify-content: center;
     gap: var(--space-small);
     background: var(--s-25);
-    height: 4rem;
-    width: 5.2rem;
+    height: 2.5rem;
+    width: 3.25rem;
     border-radius: var(--border-radius-normal) 0 0 var(--border-radius-normal);
     padding: var(--space-small) var(--space-smaller) var(--space-small)
       var(--space-small);
@@ -288,9 +288,9 @@ export default {
     z-index: var(--z-index-low);
     position: absolute;
     height: var(--space-giga);
-    width: 20rem;
+    width: 12.5rem;
     overflow-y: auto;
-    top: 4rem;
+    top: 2.5rem;
     border-radius: var(--border-radius-default);
     padding: 0 0 var(--space-smaller) 0;
     background-color: var(--white);
@@ -314,7 +314,7 @@ export default {
     .country-dropdown--item {
       display: flex;
       align-items: center;
-      height: 2.8rem;
+      height: 1.75rem;
       padding: 0 var(--space-smaller);
       cursor: pointer;
 
@@ -336,7 +336,7 @@ export default {
       }
 
       .country-name {
-        max-width: 12rem;
+        max-width: 7.5rem;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
