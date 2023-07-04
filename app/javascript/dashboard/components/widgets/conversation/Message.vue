@@ -52,7 +52,7 @@
           {{ $t('CONVERSATION.UPLOADING_ATTACHMENTS') }}
         </span>
         <div v-if="!isPending && hasAttachments">
-          <div v-for="attachment in data.attachments" :key="attachment.id">
+          <div v-for="attachment in attachments" :key="attachment.id">
             <bubble-image-audio-video
               v-if="isAttachmentImageVideoAudio(attachment.file_type)"
               :attachment="attachment"
@@ -199,6 +199,14 @@ export default {
     };
   },
   computed: {
+    attachments() {
+      // Here it is used to get sender and created_at for each attachment
+      return this.data?.attachments.map(attachment => ({
+        ...attachment,
+        sender: this.data.sender || {},
+        created_at: this.data.created_at || '',
+      }));
+    },
     shouldRenderMessage() {
       return (
         this.hasAttachments ||
@@ -512,7 +520,7 @@ export default {
 
       .image,
       .video {
-        max-width: 32rem;
+        max-width: 20rem;
         padding: var(--space-micro);
 
         > img,
@@ -526,13 +534,13 @@ export default {
         }
       }
       .video {
-        height: 18rem;
+        height: 11.25rem;
       }
     }
 
     &.is-image.is-text > .message-text__wrap,
     &.is-video.is-text > .message-text__wrap {
-      max-width: 32rem;
+      max-width: 20rem;
       padding: var(--space-small) var(--space-normal);
     }
 

@@ -54,18 +54,25 @@
       "OPEN": "もっと見る",
       "CLOSE": "閉じる",
       "DETAILS": "詳細",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "明日までスヌーズしました",
       "SNOOZED_UNTIL_NEXT_WEEK": "来週までスヌーズ",
       "SNOOZED_UNTIL_NEXT_REPLY": "次の返信までうたた寝。"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "保留としてマークする",
+      "SNOOZE_UNTIL": "スヌーズ",
       "SNOOZE": {
         "TITLE": "までスヌーズする",
         "NEXT_REPLY": "Next reply",
         "TOMORROW": "明日",
         "NEXT_WEEK": "次週"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "までスヌーズする",
+      "APPLY": "スヌーズ",
+      "CANCEL": "キャンセル"
     },
     "PRIORITY": {
       "TITLE": "Priority",

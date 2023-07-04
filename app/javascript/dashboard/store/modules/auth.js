@@ -2,12 +2,7 @@ import Vue from 'vue';
 import types from '../mutation-types';
 import authAPI from '../../api/auth';
 
-import {
-  setUser,
-  clearCookiesOnLogout,
-  clearLocalStorageOnLogout,
-} from '../utils/api';
-import { getLoginRedirectURL } from '../../helper/URLHelper';
+import { setUser, clearCookiesOnLogout } from '../utils/api';
 
 const initialState = {
   currentUser: {
@@ -97,24 +92,6 @@ export const getters = {
 
 // actions
 export const actions = {
-  login(_, { ssoAccountId, ssoConversationId, ...credentials }) {
-    return new Promise((resolve, reject) => {
-      authAPI
-        .login(credentials)
-        .then(response => {
-          clearLocalStorageOnLogout();
-          window.location = getLoginRedirectURL({
-            ssoAccountId,
-            ssoConversationId,
-            user: response.data,
-          });
-          resolve();
-        })
-        .catch(error => {
-          reject(error);
-        });
-    });
-  },
   async validityCheck(context) {
     try {
       const response = await authAPI.validityCheck();

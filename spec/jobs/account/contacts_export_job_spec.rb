@@ -39,8 +39,8 @@ RSpec.describe Account::ContactsExportJob do
       csv_data = CSV.parse(account.contacts_export.download, headers: true)
       first_row = csv_data[0]
       last_row = csv_data[csv_data.length - 1]
-      first_contact = account.contacts.first
-      last_contact = account.contacts.last
+      first_contact = account.contacts.find_by(email: 'test1@text.example')
+      last_contact = account.contacts.find_by(email: 'test2@text.example')
 
       expect(csv_data.length).to eq(account.contacts.count)
 

@@ -430,22 +430,22 @@ export default {
 .modal-mask {
   &::v-deep {
     .ProseMirror-woot-style {
-      max-height: 40rem;
+      max-height: 25rem;
     }
 
     .reply-box {
       border: 1px solid var(--color-border);
-      max-width: 120rem;
+      max-width: 75rem;
       width: 70%;
     }
 
     .reply-box .reply-box__top {
       position: relative;
-      min-height: 44rem;
+      min-height: 27.5rem;
     }
 
     .reply-box__top .input {
-      min-height: 44rem;
+      min-height: 27.5rem;
     }
 
     .emoji-dialog {

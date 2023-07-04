@@ -138,13 +138,13 @@ export default {
     transform: translateX(0);
   }
   25% {
-    transform: translateX(0.375rem);
+    transform: translateX(0.234375rem);
   }
   50% {
-    transform: translateX(-0.375rem);
+    transform: translateX(-0.234375rem);
   }
   75% {
-    transform: translateX(0.375rem);
+    transform: translateX(0.234375rem);
   }
   100% {
     transform: translateX(0);

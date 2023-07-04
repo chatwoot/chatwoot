@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Adicionar Etiquetas",
         "PLACEHOLDER": "Procurar Etiquetas",
-        "NO_RESULT": "Nenhuma Etiqueta encontrada"
+        "NO_RESULT": "Nenhuma Etiqueta encontrada",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Unir contacto",
@@ -71,6 +72,13 @@
       "CANCEL": "cancelar"
     },
     "SUCCESS_MESSAGE": "Contactos guardados com sucesso",
+    "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
+  },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
     "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
   },
   "DELETE_NOTE": {
@@ -211,6 +219,7 @@
     "FILTER_CONTACTS": "Filtro",
     "FILTER_CONTACTS_SAVE": "Guardar filtro",
     "FILTER_CONTACTS_DELETE": "Apagar filtro",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "A carregar contactos...",
       "404": "Nenhum contacto corresponde à sua pesquisa 🔍",

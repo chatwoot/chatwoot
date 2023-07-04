@@ -29,13 +29,13 @@
     }
 
     .modal-image {
-      max-height: 80vh;
-      max-width: 80vw;
+      max-height: 76vh;
+      max-width: 76vw;
     }
 
     .modal-video {
-      max-height: 80vh;
-      max-width: 80vw;
+      max-height: 76vh;
+      max-width: 76vw;
     }
 
     &::before {
@@ -273,7 +273,7 @@
   }
 
   .wrap {
-    --bubble-max-width: 49.6rem;
+    --bubble-max-width: 31rem;
     margin: $zero $space-normal;
     max-width: Min(var(--bubble-max-width), 84%);
 

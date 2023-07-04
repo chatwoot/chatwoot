@@ -252,7 +252,7 @@ export default {
 .context-menu--delete-modal {
   ::v-deep {
     .modal-container {
-      max-width: 48rem;
+      max-width: 30rem;
 
       h2 {
         font-weight: var(--font-weight-medium);

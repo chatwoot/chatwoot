@@ -1,7 +1,7 @@
 <template>
   <div class="agent-table-container">
     <ve-table
-      max-height="calc(100vh - 35rem)"
+      max-height="calc(100vh - 21.875rem)"
       :fixed-header="true"
       :columns="columns"
       :table-data="tableData"

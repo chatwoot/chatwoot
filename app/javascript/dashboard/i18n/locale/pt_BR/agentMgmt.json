@@ -75,9 +75,9 @@
           "PLACEHOLDER": "Por favor, insira um endereço de e-mail do agente"
         },
         "AGENT_AVAILABILITY": {
-          "LABEL": "Disponibilidade",
-          "PLACEHOLDER": "Por favor selecione a disponibilidade do agente",
-          "ERROR": "Disponibilidade é obrigatoria"
+          "LABEL": "Status do agente",
+          "PLACEHOLDER": "Por favor, selecione o status do agente",
+          "ERROR": "O status do agente é obrigatório!"
         },
         "SUBMIT": "Editar agente"
       },

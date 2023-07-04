@@ -8,6 +8,7 @@
     >
       <div :class="modalContainerClassName" @click.stop>
         <woot-button
+          v-if="showCloseButton"
           color-scheme="secondary"
           icon="dismiss"
           variant="clear"
@@ -28,6 +29,10 @@ export default {
       default: true,
     },
     show: Boolean,
+    showCloseButton: {
+      type: Boolean,
+      default: true,
+    },
     onClose: {
       type: Function,
       required: true,
@@ -101,7 +106,7 @@ export default {
   .modal-container {
     border-radius: 0;
     height: 100%;
-    width: 48rem;
+    width: 30rem;
   }
 }
 .modal-big {

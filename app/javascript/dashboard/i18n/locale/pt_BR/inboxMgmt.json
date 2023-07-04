@@ -535,7 +535,6 @@
       "UPDATE": "Atualizar configurações do horário comercial",
       "TOGGLE_AVAILABILITY": "Permitir a disponibilidade de negócios para essa caixa de entrada",
       "UNAVAILABLE_MESSAGE_LABEL": "Mensagem indisponível para visitantes",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "Nós estamos indisponíveis no momento. Deixe uma mensagem a ser respondida assim que voltarmos.",
       "TOGGLE_HELP": "Permitir a disponibilidade de negócios mostrará as horas disponíveis no widget de bate-papo ao vivo, mesmo que todos os agentes estejam offline. Os vistores disponíveis horários externos podem ser avisados com uma mensagem e um formulário de pré-bate-papo.",
       "DAY": {
         "ENABLE": "Permitir a disponibilidade para este dia",
