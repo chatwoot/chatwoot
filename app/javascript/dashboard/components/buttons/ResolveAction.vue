@@ -54,19 +54,21 @@
             variant="clear"
             color-scheme="secondary"
             size="small"
-            icon="book-clock"
-            @click="() => toggleStatus(STATUS_TYPE.PENDING)"
-          >
-            {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.MARK_PENDING') }}
-          </woot-button>
-          <woot-button
-            variant="clear"
-            color-scheme="secondary"
-            size="small"
             icon="snooze"
             @click="() => openSnoozeModal()"
           >
             {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE_UNTIL') }}
+          </woot-button>
+        </woot-dropdown-item>
+        <woot-dropdown-item v-if="!isPending">
+          <woot-button
+            variant="clear"
+            color-scheme="secondary"
+            size="small"
+            icon="book-clock"
+            @click="() => toggleStatus(STATUS_TYPE.PENDING)"
+          >
+            {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.MARK_PENDING') }}
           </woot-button>
         </woot-dropdown-item>
       </woot-dropdown-menu>
