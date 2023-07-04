@@ -1,7 +1,16 @@
 <template>
   <div v-if="isAIIntegrationEnabled" class="position-relative">
+    <woot-button
+      v-tooltip.top-end="$t('INTEGRATION_SETTINGS.OPEN_AI.AI_ASSIST')"
+      icon="wand"
+      color-scheme="secondary"
+      variant="smooth"
+      size="small"
+      @click="openAIAssist"
+    />
+
     <div v-if="!message">
-      <woot-button
+      <!-- <woot-button
         v-if="isPrivateNote"
         v-tooltip.top-end="$t('INTEGRATION_SETTINGS.OPEN_AI.SUMMARY_TITLE')"
         icon="book-pulse"
@@ -20,18 +29,19 @@
         size="small"
         :is-loading="uiFlags.reply_suggestion"
         @click="processEvent('reply_suggestion')"
-      />
+      /> -->
     </div>
 
     <div v-else>
-      <woot-button
+      <!-- <woot-button
         v-tooltip.top-end="$t('INTEGRATION_SETTINGS.OPEN_AI.TITLE')"
         icon="text-grammar-wand"
         color-scheme="secondary"
         variant="smooth"
         size="small"
         @click="toggleDropdown"
-      />
+      /> -->
+
       <div
         v-if="showDropdown"
         v-on-clickaway="closeDropdown"
@@ -75,6 +85,7 @@ import { mixin as clickaway } from 'vue-clickaway';
 import OpenAPI from 'dashboard/api/integrations/openapi';
 import alertMixin from 'shared/mixins/alertMixin';
 import { OPEN_AI_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { CMD_AI_ASSIST } from '../../routes/dashboard/commands/commandBarBusEvents';
 
 export default {
   mixins: [alertMixin, clickaway],
@@ -134,11 +145,24 @@ export default {
     },
   },
   mounted() {
+    bus.$on(CMD_AI_ASSIST, this.onAIAssist);
     if (!this.appIntegrations.length) {
       this.$store.dispatch('integrations/get');
     }
   },
+  destroyed() {
+    bus.$off(CMD_AI_ASSIST, this.onAIAssist);
+  },
   methods: {
+    openAIAssist() {
+      const ninja = document.querySelector('ninja-keys');
+      ninja.open({ parent: 'ai_assist' });
+    },
+    onAIAssist() {
+      // this.$track(OPEN_AI_EVENTS.AI_ASSIST);
+      // this.openAIAssist();
+      // console.log('onAIAssist', action);
+    },
     toggleDropdown() {
       this.showDropdown = !this.showDropdown;
     },

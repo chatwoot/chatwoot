@@ -1,6 +1,10 @@
 import { mapGetters } from 'vuex';
 import wootConstants from 'dashboard/constants/globals';
+import { LocalStorage } from 'shared/helpers/localStorage';
+import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
+
 import {
+  CMD_AI_ASSIST,
   CMD_MUTE_CONVERSATION,
   CMD_REOPEN_CONVERSATION,
   CMD_RESOLVE_CONVERSATION,
@@ -26,6 +30,8 @@ import {
   ICON_PRIORITY_LOW,
   ICON_PRIORITY_MEDIUM,
   ICON_PRIORITY_NONE,
+  ICON_AI_ASSIST,
+  ICON_AI_SUMMARY,
 } from './CommandBarIcons';
 
 const SNOOZE_OPTIONS = wootConstants.SNOOZE_OPTIONS;
@@ -337,6 +343,77 @@ export default {
       ]);
     },
 
+    AIAssistActions() {
+      const savedDraftMessages =
+        LocalStorage.get(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES) || {};
+      const replyType = 'REPLY';
+      const key = `draft-${this.currentChat.id}-${replyType}`;
+      const message = `${savedDraftMessages[key] || ''}`;
+      let aiOptions = [];
+
+      if (!message) {
+        aiOptions = [
+          {
+            label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.REPLY_TITLE'),
+            key: 'reply_suggestion',
+            icon: ICON_AI_ASSIST,
+          },
+          {
+            label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.SUMMARY_TITLE'),
+            key: 'summarize',
+            icon: ICON_AI_SUMMARY,
+          },
+        ];
+      } else {
+        aiOptions = [
+          {
+            label: this.$t('CONVERSATION.PRIORITY.OPTIONS.NONE'),
+            key: null,
+            icon: ICON_PRIORITY_NONE,
+          },
+          {
+            label: this.$t('CONVERSATION.PRIORITY.OPTIONS.URGENT'),
+            key: 'urgent',
+            icon: ICON_PRIORITY_URGENT,
+          },
+          {
+            label: this.$t('CONVERSATION.PRIORITY.OPTIONS.HIGH'),
+            key: 'high',
+            icon: ICON_PRIORITY_HIGH,
+          },
+          {
+            label: this.$t('CONVERSATION.PRIORITY.OPTIONS.MEDIUM'),
+            key: 'medium',
+            icon: ICON_PRIORITY_MEDIUM,
+          },
+          {
+            label: this.$t('CONVERSATION.PRIORITY.OPTIONS.LOW'),
+            key: 'low',
+            icon: ICON_PRIORITY_LOW,
+          },
+        ];
+      }
+      const options = aiOptions.map(item => ({
+        id: `ai-assist-${item.key}`,
+        title: item.label,
+        parent: 'ai_assist',
+        section: this.$t('COMMAND_BAR.SECTIONS.AI_ASSIST'),
+        priority: item,
+        icon: item.icon,
+        handler: () => bus.$emit(CMD_AI_ASSIST, item.key),
+      }));
+      return [
+        {
+          id: 'ai_assist',
+          title: this.$t('COMMAND_BAR.COMMANDS.AI_ASSIST'),
+          section: this.$t('COMMAND_BAR.SECTIONS.AI_ASSIST'),
+          icon: ICON_AI_ASSIST,
+          children: options.map(option => option.id),
+        },
+        ...options,
+      ];
+    },
+
     conversationHotKeys() {
       if (isAConversationRoute(this.$route.name)) {
         return [
@@ -346,6 +423,7 @@ export default {
           ...this.assignTeamActions,
           ...this.labelActions,
           ...this.assignPriorityActions,
+          ...this.AIAssistActions,
         ];
       }
 

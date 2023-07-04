@@ -83,6 +83,7 @@
       "CREATE_ERROR": "There was an error creating a meeting link, please try again"
     },
     "OPEN_AI": {
+      "AI_ASSIST": "AI Assist",
       "TITLE": "Improve With AI",
       "SUMMARY_TITLE": "Summary with AI",
       "REPLY_TITLE": "Reply suggestion with AI",
