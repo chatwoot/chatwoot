@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "添加标签",
         "PLACEHOLDER": "搜索标签",
-        "NO_RESULT": "未找到标签"
+        "NO_RESULT": "未找到标签",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "合并联系人",

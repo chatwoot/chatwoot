@@ -66,7 +66,9 @@
         "LABEL": "Numer telefonu",
         "PLACEHOLDER": "Wprowadź numer telefonu",
         "REQUIRED_ERROR": "Numer telefonu jest wymagany",
-        "VALID_ERROR": "Numer telefonu powinien być w formacie E.164 tj. +48123456789"
+        "DIAL_CODE_VALID_ERROR": "Please select a country code",
+        "VALID_ERROR": "Please enter a valid phone number",
+        "DROPDOWN_EMPTY": "Brak wyników"
       },
       "MESSAGE": {
         "LABEL": "Wiadomość",
@@ -85,8 +87,8 @@
     }
   },
   "EMOJI": {
-    "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+    "PLACEHOLDER": "Wyszukaj emoji",
+    "NOT_FOUND": "Nie znaleziono emoji pasującego do wyszukiwania"
   },
   "CSAT": {
     "TITLE": "Oceń udzielone Ci wsparcie",

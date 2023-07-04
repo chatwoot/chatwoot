@@ -3,6 +3,7 @@
     "TITLE": "Hesap ayarları",
     "SUBMIT": "Ayarları güncelle",
     "BACK": "Geri",
+    "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "Ayarlar güncellenemedi, tekrar deneyin!",
       "SUCCESS": "Hesap ayarları başarıyla güncellendi"
