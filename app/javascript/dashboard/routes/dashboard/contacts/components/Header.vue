@@ -225,24 +225,24 @@ export default {
 
     .search-icon {
       height: var(--font-size-medium);
-      line-height: 3.6rem;
+      line-height: 2.25rem;
       font-size: var(--font-size-small);
       color: var(--b-700);
     }
   }
   .contact-search {
     margin: 0;
-    height: 3.8rem;
+    height: 2.375rem;
     width: 100%;
     font-size: var(--font-size-small);
     padding-left: calc(var(--space-large) + var(--space-smaller));
-    padding-right: 6rem;
+    padding-right: 3.75rem;
     border-color: var(--s-100);
   }
 
   .button {
     margin-left: var(--space-small);
-    height: 3.2rem;
+    height: 2rem;
     right: var(--space-smaller);
     position: absolute;
     padding: 0 var(--space-small);

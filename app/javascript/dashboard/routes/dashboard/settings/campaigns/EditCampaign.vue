@@ -281,6 +281,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 ::v-deep .ProseMirror-woot-style {
-  height: 8rem;
+  height: 5rem;
 }
 </style>

@@ -1,4 +1,4 @@
-$resolve-button-width: 13.2rem;
+$resolve-button-width: 8.25rem;
 
 // Conversation header - Light BG
 .conv-header {
@@ -14,12 +14,12 @@ $resolve-button-width: 13.2rem;
     border: 1px solid var(--color-border);
     border-radius: var(--space-smaller);
     margin-right: var(--space-small);
-    width: 21.6rem;
+    width: 13.5rem;
 
     .icon {
       color: $medium-gray;
       font-size: $font-size-default;
-      line-height: 3.8rem;
+      line-height: 2.375rem;
       padding-left: $space-slab;
       padding-right: $space-smaller;
     }

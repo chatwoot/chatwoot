@@ -11,6 +11,7 @@
         <search-result-conversation-item
           :id="conversation.id"
           :name="conversation.contact.name"
+          :email="conversation.contact.email"
           :account-id="accountId"
           :inbox="conversation.inbox"
           :created-at="conversation.created_at"

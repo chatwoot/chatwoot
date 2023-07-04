@@ -314,6 +314,6 @@ export default {
   justify-content: space-evenly;
   display: flex;
   flex-direction: row;
-  min-width: 20rem;
+  min-width: 12.5rem;
 }
 </style>

@@ -54,19 +54,21 @@
             variant="clear"
             color-scheme="secondary"
             size="small"
-            icon="book-clock"
-            @click="() => toggleStatus(STATUS_TYPE.PENDING)"
-          >
-            {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.MARK_PENDING') }}
-          </woot-button>
-          <woot-button
-            variant="clear"
-            color-scheme="secondary"
-            size="small"
             icon="snooze"
             @click="() => openSnoozeModal()"
           >
             {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE_UNTIL') }}
+          </woot-button>
+        </woot-dropdown-item>
+        <woot-dropdown-item v-if="!isPending">
+          <woot-button
+            variant="clear"
+            color-scheme="secondary"
+            size="small"
+            icon="book-clock"
+            @click="() => toggleStatus(STATUS_TYPE.PENDING)"
+          >
+            {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.MARK_PENDING') }}
           </woot-button>
         </woot-dropdown-item>
       </woot-dropdown-menu>
@@ -258,11 +260,11 @@ export default {
 
 .dropdown-pane {
   left: unset;
-  top: 4.2rem;
+  top: 2.625rem;
   margin-top: var(--space-micro);
   right: 0;
-  max-width: 20rem;
-  min-width: 15.6rem;
+  max-width: 12.5rem;
+  min-width: 9.75rem;
 
   .dropdown-menu__item {
     margin-bottom: 0;
