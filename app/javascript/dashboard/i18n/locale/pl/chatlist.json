@@ -49,7 +49,7 @@
         "TEXT": "Utworzono"
       },
       "sort_on_priority": {
-        "TEXT": "Priority"
+        "TEXT": "Priorytet"
       },
       "sort_on_waiting_since": {
         "TEXT": "Pending Response"
