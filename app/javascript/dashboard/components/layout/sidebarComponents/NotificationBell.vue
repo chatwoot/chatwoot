@@ -1,13 +1,18 @@
 <template>
   <div class="mb-4">
     <button
-      class="text-slate-600 dark:text-woot-50 w-10 h-10 my-1 flex items-center justify-center rounded-lg hover:bg-woot-25 dark:hover:bg-slate-800 hover:text-woot-500 relative"
+      class="text-slate-600 dark:text-slate-100 w-10 h-10 my-2 flex items-center justify-center rounded-lg hover:bg-slate-25 dark:hover:bg-slate-800 dark:hover:text-slate-100 hover:text-slate-600 relative"
       :class="{
-        'bg-woot-50 dark:bg-slate-800 text-woot-500': isNotificationPanelActive,
+        'bg-woot-50 dark:bg-slate-800 text-woot-500 hover:bg-woot-50': isNotificationPanelActive,
       }"
       @click="openNotificationPanel"
     >
-      <fluent-icon icon="alert" />
+      <fluent-icon
+        icon="alert"
+        :class="{
+          'text-woot-500': isNotificationPanelActive,
+        }"
+      />
       <span
         v-if="unreadCount"
         class="text-black-900 bg-yellow-300 absolute -top-0.5 -right-1 p-1 text-xxs min-w-[1rem] rounded-full"

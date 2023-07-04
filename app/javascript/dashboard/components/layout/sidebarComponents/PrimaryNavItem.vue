@@ -3,9 +3,9 @@
     <a
       v-tooltip.right="$t(`SIDEBAR.${name}`)"
       :href="href"
-      class="text-slate-600 dark:text-woot-50 w-10 h-10 my-2 flex items-center justify-center rounded-lg hover:bg-woot-25 dark:hover:text-woot-50 hover:text-slate-600 focus-visible:ring-2 focus-visible:ring-woot-500 focus-visible:ring-opacity-50 focus:outline-none relative"
+      class="text-slate-600 dark:text-slate-100 w-10 h-10 my-2 flex items-center justify-center rounded-lg hover:bg-slate-25 dark:hover:bg-slate-800 dark:hover:text-slate-100 hover:text-slate-600 relative"
       :class="{
-        'bg-woot-50 dark:bg-slate-800 text-woot-500':
+        'bg-woot-50 dark:bg-slate-800 text-woot-500 hover:bg-woot-50':
           isActive || isChildMenuActive,
       }"
       :rel="openInNewPage ? 'noopener noreferrer nofollow' : undefined"
@@ -15,8 +15,7 @@
       <fluent-icon
         :icon="icon"
         :class="{
-          'bg-woot-50 dark:bg-slate-800 text-woot-500':
-            isActive || isChildMenuActive,
+          'text-woot-500': isActive || isChildMenuActive,
         }"
       />
       <span class="sr-only">{{ name }}</span>
