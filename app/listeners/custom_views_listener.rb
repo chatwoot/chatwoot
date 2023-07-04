@@ -5,25 +5,27 @@ class CustomViewsListener < BaseListener
     conversation = event.data[:conversation]
     account = conversation.account
 
-    account.custom_filters.each do |filter|
-      records = filter.filter_records
+    dispatch_custom_filter_event(account, conversation)
+  end
 
-      next if records[:count][:all_count] == 0
+  def conversation_updated(event)
+    conversation = event.data[:conversation]
+    account = conversation.account
 
-      next unless conversation_belongs_to_filtered_records?(records, conversation)
-
-      unless records[:count][:all_count] == Redis::Alfred.get(filter.filter_count_key).to_i
-        Redis::Alfred.set(filter.filter_count_key, records[:count][:all_count])
-
-        Rails.configuration.dispatcher.dispatch(CUSTOM_FILTER_UPDATED, Time.zone.now, custom_filter: filter)
-      end
-    end
+    dispatch_custom_filter_event(account, conversation)
   end
 
   private
 
-  def conversation_belongs_to_filtered_records?(records, conversation)
-    conversations = records[:conversations].pluck(:id)
-    conversations.include?(conversation.id)
+  def dispatch_custom_filter_event(account, _conversation)
+    account.custom_filters.each do |filter|
+      records = filter.filter_records
+
+      next if (records[:count][:all_count]).zero? || records[:count][:all_count] == Redis::Alfred.get(filter.filter_count_key).to_i
+
+      Redis::Alfred.set(filter.filter_count_key, records[:count][:all_count])
+
+      Rails.configuration.dispatcher.dispatch(CUSTOM_FILTER_UPDATED, Time.zone.now, custom_filter: filter)
+    end
   end
 end

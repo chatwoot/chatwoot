@@ -61,9 +61,9 @@ export const actions = {
       commit(types.SET_CUSTOM_VIEW_UI_FLAG, { isCreating: false });
     }
   },
-  setCustomViewCount: async ({ commit }, { id, count }) => {
+  setCustomViewCount: async ({ commit }, { filter }) => {
     try {
-      commit(types.SET_CUSTOM_VIEW_COUNT, {id, count});
+      commit(types.SET_CUSTOM_VIEW_COUNT, filter);
     } catch (error) {
       throw new Error(error);
     }
@@ -87,14 +87,6 @@ export const mutations = {
       ..._state.uiFlags,
       ...data,
     };
-  },
-
-  [types.SET_CUSTOM_VIEW_COUNT](_state, data) {
-    _state.records.forEach(record => {
-      if(record.id === data.id) {
-        record.count = data.count
-      }
-    });
   },
 
   [types.ADD_CUSTOM_VIEW]: MutationHelpers.create,

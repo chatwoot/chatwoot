@@ -205,8 +205,10 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onCustomFilterUpdated = data => {
-    var count = data['count'];
-  }
+    this.app.$store.dispatch('customViews/setCustomViewCount', {
+      filter: data,
+    });
+  };
 }
 
 export default {
