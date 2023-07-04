@@ -75,9 +75,11 @@ import { mixin as clickaway } from 'vue-clickaway';
 import OpenAPI from 'dashboard/api/integrations/openapi';
 import alertMixin from 'shared/mixins/alertMixin';
 import { OPEN_AI_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import { hasPressedCommandZKey } from 'shared/helpers/KeyboardHelpers';
 
 export default {
-  mixins: [alertMixin, clickaway],
+  mixins: [alertMixin, clickaway, eventListenerMixins],
   props: {
     conversationId: {
       type: Number,
@@ -135,23 +137,19 @@ export default {
     },
   },
   mounted() {
-    document.addEventListener('keydown', this.onKeyDownHandler);
     if (!this.appIntegrations.length) {
       this.$store.dispatch('integrations/get');
     }
   },
-  destroyed() {
-    document.removeEventListener('keydown', this.onKeyDownHandler);
-  },
 
   methods: {
     onKeyDownHandler(event) {
-      const { metaKey, ctrlKey, key } = event;
       const shouldRevertTheContent =
-        (metaKey || ctrlKey) && key === 'z' && !!this.initialMessage;
+        hasPressedCommandZKey(event) && !!this.initialMessage;
 
       if (shouldRevertTheContent) {
         this.$emit('replace-text', this.initialMessage);
+        this.initialMessage = '';
       }
     },
     toggleDropdown() {

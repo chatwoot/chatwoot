@@ -106,6 +106,10 @@ export const hasPressedCommandPlusKKey = e => {
   return e.metaKey && e.keyCode === 75;
 };
 
+export const hasPressedCommandZKey = e => {
+  return (e.metaKey || e.ctrlKey) && e.key === 'z';
+};
+
 /**
  * Returns a string representation of the hotkey pattern based on the provided event object.
  * @param {KeyboardEvent} e - The keyboard event object.
