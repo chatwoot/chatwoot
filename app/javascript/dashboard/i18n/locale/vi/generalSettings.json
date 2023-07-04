@@ -3,6 +3,7 @@
     "TITLE": "Cài đặt tài khoản",
     "SUBMIT": "Cập nhật cài đặt",
     "BACK": "Trờ về",
+    "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "Không thể cập nhật cài đặt, hãy thử lại!",
       "SUCCESS": "Đã cập nhật thành công cài đặt tài khoản"

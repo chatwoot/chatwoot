@@ -3,6 +3,7 @@
     "TITLE": "Podešavanja naloga",
     "SUBMIT": "Primeni izmene",
     "BACK": "Nazad",
+    "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "Nije bilo moguće primeniti izmene, pokušajte ponovo!",
       "SUCCESS": "Izmene podešavanja naloga su uspešno primenjene"
