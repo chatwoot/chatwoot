@@ -8,7 +8,7 @@
       :header-title="$t('SIDEBAR_ITEMS.CHANGE_ACCOUNTS')"
       :header-content="$t('SIDEBAR_ITEMS.SELECTOR_SUBTITLE')"
     />
-    <div class="account-selector--wrap">
+    <div class="account-selector--wrap px-5">
       <div
         v-for="account in currentUser.accounts"
         :key="account.id"

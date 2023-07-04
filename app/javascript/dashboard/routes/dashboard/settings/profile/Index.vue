@@ -3,7 +3,7 @@
     <form @submit.prevent="updateUser('profile')">
       <div class="small-12 row profile--settings--row">
         <div class="columns small-3">
-          <h4 class="block-title">
+          <h4 class="block-title text-black-900 dark:text-slate-200">
             {{ $t('PROFILE_SETTINGS.FORM.PROFILE_SECTION.TITLE') }}
           </h4>
           <p>{{ $t('PROFILE_SETTINGS.FORM.PROFILE_SECTION.NOTE') }}</p>
@@ -70,9 +70,9 @@
       </div>
     </form>
     <message-signature />
-    <div class="profile--settings--row row">
+    <div class="profile--settings--row text-black-900 dark:text-slate-300 row">
       <div class="columns small-3">
-        <h4 class="block-title">
+        <h4 class="block-title text-black-900 dark:text-slate-200">
           {{ $t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.TITLE') }}
         </h4>
         <p>
@@ -97,9 +97,9 @@
     </div>
     <change-password v-if="!globalConfig.disableUserProfileUpdate" />
     <notification-settings />
-    <div class="profile--settings--row row">
+    <div class="profile--settings--row text-black-900 dark:text-slate-300 row">
       <div class="columns small-3">
-        <h4 class="block-title">
+        <h4 class="block-title text-black-900 dark:text-slate-200">
           {{ $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE') }}
         </h4>
         <p>

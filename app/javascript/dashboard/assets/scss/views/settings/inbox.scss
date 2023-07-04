@@ -4,10 +4,8 @@
 
 // Conversation header - Light BG
 .settings-header {
-  @include background-white;
   @include flex;
   @include flex-align($x: justify, $y: middle);
-  border-bottom: 1px solid var(--s-50);
   height: $header-height;
   min-height: $header-height;
   padding: $space-small $space-normal;
@@ -128,8 +126,8 @@
 }
 
 .wizard-body {
-  @include background-white;
   @include border-light;
+  @include background-white;
   @include full-height();
   padding: $space-medium;
 

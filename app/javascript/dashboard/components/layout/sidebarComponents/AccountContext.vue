@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="showShowCurrentAccountContext"
-    class="account-context--group"
+    class="account-context--group border border-slate-25 dark:border-slate-700"
     @mouseover="setShowSwitch"
     @mouseleave="resetShowSwitch"
   >
@@ -53,10 +53,9 @@ export default {
 <style scoped lang="scss">
 .account-context--group {
   border-radius: var(--border-radius-normal);
-  border: 1px solid var(--color-border);
   font-size: var(--font-size-mini);
   padding: var(--space-small);
-  margin: var(--space-small) var(--space-small) 0 var(--space-small);
+  margin: var(--space-small) 0 0;
   position: relative;
 
   &:hover {

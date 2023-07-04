@@ -22,7 +22,7 @@
     </div>
     <draggable
       tag="div"
-      class="article-container--border"
+      class="border-t-0"
       :disabled="!dragEnabled"
       :list="localArticles"
       ghost-class="article-ghost-class"
@@ -141,11 +141,6 @@ export default {
 <style lang="scss" scoped>
 .article-container {
   width: 100%;
-
-  & > :not([hidden]) ~ :not([hidden]) {
-    border-top-width: 1px;
-    border-bottom-width: 0px;
-  }
 
   .article-container--header {
     margin: 0 var(--space-minus-normal);

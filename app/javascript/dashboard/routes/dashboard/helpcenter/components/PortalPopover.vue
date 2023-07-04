@@ -2,7 +2,7 @@
   <div v-on-clickaway="closePortalPopover" class="portal-popover__container">
     <header>
       <div class="actions">
-        <h2 class="block-title">
+        <h2 class="block-title text-black-900 dark:text-slate-200">
           {{ $t('HELP_CENTER.PORTAL.POPOVER.TITLE') }}
         </h2>
         <div>
