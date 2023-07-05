@@ -1,76 +1,63 @@
-$default-button-height: 2.5rem;
-
 .button {
-  align-items: center;
-  display: inline-flex;
-  height: $default-button-height;
-  margin-bottom: 0;
+  @apply items-center inline-flex h-10 mb-0;
 
   .button__content {
-    width: 100%;
+    @apply w-full;
 
     img,
     svg {
-      display: inline-block;
+      @apply inline-block;
     }
   }
 
   .spinner {
-    padding: 0 var(--space-small);
+    @apply px-0.5 py-0;
   }
 
   .icon--emoji+.button__content {
-    padding-left: var(--space-small);
+    @apply pl-0.5;
   }
 
   .icon--font+.button__content {
-    padding-left: var(--space-small);
+    @apply pl-0.5;
   }
 
   // @TODDO - Remove after moving all buttons to woot-button
   .icon+.button__content {
-    padding-left: var(--space-small);
-    width: auto;
+    @apply pl-0.5 w-auto;
   }
 
   &.expanded {
-    display: flex;
-    justify-content: center;
+    @apply flex justify-center;
   }
 
   &.round {
-    border-radius: $space-larger;
+    @apply rounded-full;
   }
 
   // @TODO Use with link
 
   &.compact {
-    padding-bottom: 0;
-    padding-top: 0;
+    @apply pb-0 pt-0;
   }
 
   &.hollow {
-    border-color: var(--s-200);
-    color: var(--w-700);
+    @apply border border-slate-200 text-woot-700 dark:text-woot-100 hover:bg-woot-50 dark:hover:bg-woot-900;
 
     &.secondary {
-      border-color: var(--s-200);
-      color: var(--s-700);
+      @apply text-slate-700 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-700;
     }
 
     &.success {
-      border-color: var(--s-200);
-      color: var(--g-700);
+      @apply text-green-700 dark:text-green-100 hover:bg-green-50 dark:hover:bg-green-800;
     }
 
     &.alert {
-      border-color: var(--s-200);
-      color: var(--r-700);
+      @apply text-red-700 dark:text-red-100 hover:bg-red-50 dark:hover:bg-red-800;
     }
 
     &.warning {
-      border-color: var(--s-200);
-      color: var(--y-700);
+      @apply text-yellow-700 dark:text-yellow-100 hover:bg-yellow-50 dark:hover:bg-yellow-800;
     }
 
     &:hover {
@@ -116,7 +103,6 @@ $default-button-height: 2.5rem;
   }
 
   &.clear {
-    // color: var(--w-700);
     @apply text-woot-500 dark:text-woot-500;
 
     &.secondary {
@@ -154,57 +140,62 @@ $default-button-height: 2.5rem;
         @apply hover:bg-yellow-50 dark:hover:bg-yellow-800;
       }
     }
+
+    &:active {
+      &.secondary {
+        @apply active:bg-slate-100 dark:active:bg-slate-900;
+      }
+    }
+
+    &:focus {
+      &.secondary {
+        @apply focus:bg-slate-50 dark:focus:bg-slate-700;
+      }
+    }
   }
 
   // Sizes
   &.tiny {
-    height: var(--space-medium);
+    @apply h-6;
 
     .icon+.button__content {
-      padding-left: var(--space-micro);
+      @apply pl-1;
     }
   }
 
   &.small {
-    height: var(--space-large);
-    padding-bottom: var(--space-smaller);
-    padding-top: var(--space-smaller);
+    @apply h-8 pb-1 pt-1;
 
     .icon+.button__content {
-      padding-left: var(--space-smaller);
+      @apply pl-1;
     }
   }
 
   &.large {
-    height: var(--space-larger);
+    @apply h-12;
   }
 
   &.button--only-icon {
-    justify-content: center;
-    padding-left: 0;
-    padding-right: 0;
-    width: $default-button-height;
+    @apply justify-center pl-0 pr-0 w-10;
 
     &.tiny {
-      width: var(--space-medium);
+      @apply w-6;
     }
 
     &.small {
-      width: var(--space-large);
+      @apply w-8;
     }
 
     &.large {
-      width: var(--space-larger);
+      @apply w-12;
     }
   }
 
   &.link {
-    height: auto;
-    margin: 0;
-    padding: 0;
+    @apply h-auto m-0 p-0;
 
     &:hover {
-      text-decoration: underline;
+      @apply underline;
     }
   }
 }

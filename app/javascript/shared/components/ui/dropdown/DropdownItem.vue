@@ -31,19 +31,18 @@ export default {
   ::v-deep {
     a,
     .button {
-      display: inline-flex;
-      white-space: nowrap;
-      width: 100%;
-      text-align: left;
-
-      &:hover {
-        background: var(--color-background);
-      }
-
-      &:focus {
-        background: var(--color-background);
-      }
+      @apply inline-flex whitespace-nowrap w-full text-left rtl:text-right;
     }
+  }
+}
+
+// A hacky fix to remove the background that came from the foundation styles node module file
+// Can be removed once we remove the foundation styles node module
+.dropdown.menu {
+  // Top-level item
+  > li > a {
+    background: transparent;
+    padding: 4px 10.8px;
   }
 }
 </style>

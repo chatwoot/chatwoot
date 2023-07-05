@@ -18,7 +18,10 @@
       :icon="icon"
       :icon-size="iconSize"
     />
-    <span v-if="$slots.default" class="button__content">
+    <span
+      v-if="$slots.default"
+      class="button__content text-left rtl:text-right"
+    >
       <slot />
     </span>
   </button>
