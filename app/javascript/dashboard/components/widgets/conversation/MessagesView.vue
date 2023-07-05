@@ -64,6 +64,15 @@
         :has-instagram-story="hasInstagramStory"
         :is-web-widget-inbox="isAWebWidgetInbox"
       />
+      <conversation-label-suggestion
+        :labels="[
+          'account-delete',
+          'api-customer',
+          'delete',
+          'bugs',
+          'authority',
+        ]"
+      />
     </ul>
     <div
       class="conversation-footer"
@@ -95,6 +104,7 @@ import { mapGetters } from 'vuex';
 
 import ReplyBox from './ReplyBox';
 import Message from './Message';
+import ConversationLabelSuggestion from './conversation/LabelSuggestion';
 import conversationMixin, {
   filterDuplicateSourceMessages,
 } from '../../../mixins/conversations';
@@ -112,6 +122,7 @@ export default {
     Message,
     ReplyBox,
     Banner,
+    ConversationLabelSuggestion,
   },
   mixins: [conversationMixin, inboxMixin, eventListenerMixins],
   props: {
