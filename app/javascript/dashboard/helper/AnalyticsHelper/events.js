@@ -81,4 +81,5 @@ export const OPEN_AI_EVENTS = Object.freeze({
   SUMMARIZE: 'OpenAI: Used summarize',
   REPLY_SUGGESTION: 'OpenAI: Used reply suggestion',
   REPHRASE: 'OpenAI: Used rephrase',
+  LABEL_SUGGESTION: 'OpenAI: Apply label from suggestion',
 });
