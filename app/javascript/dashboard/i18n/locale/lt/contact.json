@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Pridėti Etiketę",
         "PLACEHOLDER": "Ieškoti etikečių",
-        "NO_RESULT": "Etikečių nerasta"
+        "NO_RESULT": "Etikečių nerasta",
+        "CREATE_LABEL": "Sukurti naują etiketę"
       }
     },
     "MERGE_CONTACT": "Sujungti kontaktą",

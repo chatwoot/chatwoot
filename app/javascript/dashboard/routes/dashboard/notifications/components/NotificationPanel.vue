@@ -248,7 +248,7 @@ export default {
 .notification-wrap {
   flex-direction: column;
   height: 90vh;
-  width: 52rem;
+  width: 32.5rem;
   background-color: var(--white);
   border-radius: var(--border-radius-medium);
   position: absolute;

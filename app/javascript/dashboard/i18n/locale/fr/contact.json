@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Ajouter une étiquette",
         "PLACEHOLDER": "Rechercher des étiquettes",
-        "NO_RESULT": "Aucune étiquette trouvée"
+        "NO_RESULT": "Aucune étiquette trouvée",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Fusionner le contact",

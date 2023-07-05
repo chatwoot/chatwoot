@@ -343,11 +343,11 @@ export default {
 .error-message {
   color: var(--r-400);
   display: block;
-  font-size: 1.4rem;
+  font-size: 0.875rem;
   font-size: var(--font-size-small);
   font-weight: 400;
-  margin-bottom: 1rem;
-  margin-top: -1.6rem;
+  margin-bottom: 0.625rem;
+  margin-top: -1rem;
   width: 100%;
 }
 

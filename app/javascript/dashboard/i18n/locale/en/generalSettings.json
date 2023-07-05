@@ -3,6 +3,7 @@
     "TITLE": "Account settings",
     "SUBMIT": "Update settings",
     "BACK": "Back",
+    "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "Could not update settings, try again!",
       "SUCCESS": "Successfully updated account settings"
@@ -150,5 +151,9 @@
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "Loading Dashboard App..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "click here"
   }
 }

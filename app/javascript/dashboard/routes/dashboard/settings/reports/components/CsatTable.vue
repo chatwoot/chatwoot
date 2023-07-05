@@ -1,7 +1,7 @@
 <template>
   <div class="csat--table-container">
     <ve-table
-      max-height="calc(100vh - 35rem)"
+      max-height="calc(100vh - 21.875rem)"
       :fixed-header="true"
       :columns="columns"
       :table-data="tableData"
@@ -194,7 +194,7 @@ export default {
   color: var(--b-600);
   display: flex;
   font-size: var(--font-size-small);
-  height: 20rem;
+  height: 12.5rem;
   justify-content: center;
   margin-top: -1px;
   width: 100%;

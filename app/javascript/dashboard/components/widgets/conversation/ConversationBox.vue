@@ -176,23 +176,23 @@ export default {
   flex-basis: 100%;
 
   @include breakpoint(medium up) {
-    flex-basis: 28rem;
+    flex-basis: 17.5rem;
   }
 
   @include breakpoint(large up) {
-    flex-basis: 30em;
+    flex-basis: 18.75rem;
   }
 
   @include breakpoint(xlarge up) {
-    flex-basis: 31em;
+    flex-basis: 19.375rem;
   }
 
   @include breakpoint(xxlarge up) {
-    flex-basis: 33rem;
+    flex-basis: 20.625rem;
   }
 
   @include breakpoint(xxxlarge up) {
-    flex-basis: 40rem;
+    flex-basis: 25rem;
   }
 
   &::v-deep .contact--panel {

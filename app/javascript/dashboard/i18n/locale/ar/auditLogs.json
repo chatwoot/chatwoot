@@ -19,7 +19,6 @@
       "SUCCESS_MESSAGE": "AuditLogs retrieved successfully",
       "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
     },
-    "DEFAULT_USER": "System",
     "AUTOMATION_RULE": {
       "ADD": "%{agentName} created a new automation rule (#%{id})",
       "EDIT": "%{agentName} updated an automation rule (#%{id})",
@@ -43,6 +42,11 @@
       "ADD": "%{agentName} created a new team (#%{id})",
       "EDIT": "%{agentName} updated a team (#%{id})",
       "DELETE": "%{agentName} deleted a team (#%{id})"
+    },
+    "MACRO": {
+      "ADD": "%{agentName} created a new macro (#%{id})",
+      "EDIT": "%{agentName} updated a macro (#%{id})",
+      "DELETE": "%{agentName} deleted a macro (#%{id})"
     }
   }
 }
