@@ -73,7 +73,7 @@ jobs:
 
       - run:
           name: yarn
-          command: yarn --frozen-lockfile --cache-folder ~/.cache/yarn --verbose
+          command: yarn install --frozen-lockfile --cache-folder ~/.cache/yarn
 
       # Store yarn / webpacker cache
       - save_cache:
@@ -106,7 +106,6 @@ jobs:
             java -jar ~/tmp/openapi-generator-cli-6.3.0.jar validate -i swagger/swagger.json
 
       # Database setup
-      - run: yarn install --check-files
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
 
