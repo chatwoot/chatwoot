@@ -108,9 +108,9 @@ gem 'elastic-apm', require: false
 gem 'newrelic_rpm', require: false
 gem 'newrelic-sidekiq-metrics', require: false
 gem 'scout_apm', require: false
-gem 'sentry-rails', require: false
+gem 'sentry-rails', '>= 5.10.0', require: false
 gem 'sentry-ruby', require: false
-gem 'sentry-sidekiq', require: false
+gem 'sentry-sidekiq', '>= 5.10.0', require: false
 
 ##-- background job processing --##
 gem 'sidekiq'
