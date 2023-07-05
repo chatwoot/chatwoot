@@ -145,7 +145,8 @@ describe Conversations::FilterService do
         result = filter_service.new(params, user_1).perform
 
         expect(result[:count][:all_count]).to be 2
-        expect(result[:conversations].pluck(:campaign_id).sort).to eq [campaign_2.id, campaign_1.id].sort
+        conversations = result[:conversations]
+        expect(conversations.to_a.pluck(:campaign_id)).to contain_exactly(campaign_2.id, campaign_1.id)
       end
     end
   end

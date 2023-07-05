@@ -7,7 +7,7 @@ class Conversations::FilterService < FilterService
   end
 
   def perform
-    @conversations = conversation_query_builder
+    @conversations = conversation_query_builder.distinct
     mine_count, unassigned_count, all_count, = set_count_for_all_conversations
     assigned_count = all_count - unassigned_count
 
@@ -58,7 +58,7 @@ class Conversations::FilterService < FilterService
   end
 
   def base_relation
-    @account.conversations.left_outer_joins(:labels).distinct
+    @account.conversations.left_outer_joins(:labels)
   end
 
   def current_page
