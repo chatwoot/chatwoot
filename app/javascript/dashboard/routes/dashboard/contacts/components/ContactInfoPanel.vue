@@ -154,12 +154,11 @@ export default {
 }
 .contact--panel {
   height: 100%;
-  background: white;
   font-size: var(--font-size-small);
   overflow-y: auto;
   overflow: auto;
   position: relative;
-  border-right: 1px solid var(--color-border);
+  @apply border-r border-slate-50 dark:border-slate-700;
 }
 
 .list-group {

@@ -8,6 +8,11 @@ $default-button-height: 2.5rem;
 
   .button__content {
     width: 100%;
+
+    img,
+    svg {
+      display: inline-block;
+    }
   }
 
   .spinner {

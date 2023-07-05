@@ -1,7 +1,7 @@
 <template>
   <div class="column page-top-bar">
     <img v-if="headerImage" :src="headerImage" alt="No image" />
-    <h2 class="page-sub-title">
+    <h2 class="text-slate-800 text-lg dark:text-slate-100">
       {{ headerTitle }}
     </h2>
     <p v-if="headerContent" class="small-12 column wrap-content">

@@ -98,7 +98,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~dashboard/assets/scss/woot';
+@import '~dashboard/assets/scss/variables';
 .secondary-menu {
   display: flex;
   flex-direction: column;
