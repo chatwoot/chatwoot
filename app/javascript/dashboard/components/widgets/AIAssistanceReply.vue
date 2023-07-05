@@ -2,7 +2,13 @@
   <div class="column">
     <woot-modal-header header-title="Reply suggestion with AI" />
     <form class="row modal-content" @submit.prevent="chooseTime">
-      <div v-if="!generatedContent" class="animation-container">
+      <div v-if="!generatedContent" class="animation-container margin-top-1">
+        <div class="ai-typing--wrap ">
+          <fluent-icon icon="wand" size="14" class="ai-typing--icon" />
+          <label>AI is writing</label>
+        </div>
+        <span class="loader" />
+        <span class="loader" />
         <span class="loader" />
       </div>
 
@@ -31,7 +37,7 @@
           :disabled="!enableButtons"
           >Retry
         </woot-button> -->
-        <woot-button :disabled="!enableButtons">
+        <woot-button :disabled="!enableButtons" @click="applyContent">
           Apply
         </woot-button>
       </div>
@@ -70,6 +76,10 @@ export default {
       this.$emit('close');
     },
     chooseTime() {},
+    applyContent() {
+      this.$emit('apply-text', this.generatedContent);
+      this.$emit('close');
+    },
   },
 };
 </script>
@@ -83,39 +93,56 @@ export default {
   width: 100%;
 }
 
-.animation-container {
-  width: 100%;
+.ai-typing--wrap {
   display: flex;
   align-items: center;
-  justify-content: center;
-}
-.loader {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  display: block;
-  margin-top: 2rem;
-  position: relative;
-  color: #000;
-  box-sizing: border-box;
-  animation: animloader 2s linear infinite;
+  gap: 4px;
+
+  .ai-typing--icon {
+    color: var(--v-500);
+  }
 }
 
-@keyframes animloader {
-  0% {
-    box-shadow: 14px 0 0 -2px, 38px 0 0 -2px, -14px 0 0 -2px, -38px 0 0 -2px;
+.animation-container {
+  position: relative;
+  display: flex;
+}
+
+.animation-container label {
+  display: inline-block;
+  margin-right: 8px;
+  color: var(--v-400);
+}
+
+.loader {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 4px;
+  margin-top: 12px;
+  background-color: var(--v-300);
+  border-radius: 50%;
+  animation: bubble-scale 1.2s infinite;
+}
+
+.loader:nth-child(2) {
+  animation-delay: 0.4s;
+}
+
+.loader:nth-child(3) {
+  animation-delay: 0.8s;
+}
+
+@keyframes bubble-scale {
+  0%,
+  100% {
+    transform: scale(1);
   }
   25% {
-    box-shadow: 14px 0 0 -2px, 38px 0 0 -2px, -14px 0 0 -2px, -38px 0 0 2px;
+    transform: scale(1.3);
   }
   50% {
-    box-shadow: 14px 0 0 -2px, 38px 0 0 -2px, -14px 0 0 2px, -38px 0 0 -2px;
-  }
-  75% {
-    box-shadow: 14px 0 0 2px, 38px 0 0 -2px, -14px 0 0 -2px, -38px 0 0 -2px;
-  }
-  100% {
-    box-shadow: 14px 0 0 -2px, 38px 0 0 2px, -14px 0 0 -2px, -38px 0 0 -2px;
+    transform: scale(1);
   }
 }
 

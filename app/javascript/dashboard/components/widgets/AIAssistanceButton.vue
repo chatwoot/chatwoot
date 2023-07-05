@@ -80,13 +80,19 @@
       :show.sync="showAIAssistanceModal"
       :on-close="hideAIAssistanceModal"
     >
-      <AIAssistanceModal @close="hideAIAssistanceModal" />
+      <AIAssistanceModal
+        @apply-text="insertText"
+        @close="hideAIAssistanceModal"
+      />
     </woot-modal>
     <woot-modal
       :show.sync="showAIAssistanceReply"
       :on-close="hideAIAssistanceReplyModal"
     >
-      <AIAssistanceReply @close="hideAIAssistanceReplyModal" />
+      <AIAssistanceReply
+        @apply-text="insertText"
+        @close="hideAIAssistanceReplyModal"
+      />
     </woot-modal>
   </div>
 </template>
@@ -184,8 +190,8 @@ export default {
       ninja.open({ parent: 'ai_assist' });
     },
     onAIAssist() {
-      this.showAIAssistanceModal = true;
-      // this.showAIAssistanceReply = true;
+      // this.showAIAssistanceModal = true;
+      this.showAIAssistanceReply = true;
     },
     toggleDropdown() {
       this.showDropdown = !this.showDropdown;
@@ -201,6 +207,11 @@ export default {
           tone,
         });
       }
+    },
+    insertText(message) {
+      console.log('message', message);
+
+      this.$emit('replace-text', message);
     },
     async processEvent(type = 'rephrase') {
       this.uiFlags[type] = true;

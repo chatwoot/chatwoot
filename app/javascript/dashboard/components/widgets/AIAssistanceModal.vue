@@ -16,22 +16,15 @@
           AI generated content
         </h4>
       </div>
-      <!-- <TypingIndicator /> -->
-      <div class="animation-container">
-        <label>AI is typing</label> <span class="loader" />
+      <div class="animation-container margin-top-1">
+        <div class="ai-typing--wrap ">
+          <fluent-icon icon="wand" size="14" class="ai-typing--icon" />
+          <label>AI is writing</label>
+        </div>
+        <span class="loader" />
+        <span class="loader" />
+        <span class="loader" />
       </div>
-      <!-- <div class="loading loading04">
-        <label>AI is typing</label>
-        <span>.</span>
-        <span>.</span>
-        <span>.</span>
-      </div> -->
-
-      <!-- <div v-else>
-        <p>
-          {{ aiContent }}
-        </p>
-      </div> -->
 
       <div class="modal-footer justify-content-end w-full">
         <!-- <woot-button
@@ -61,12 +54,7 @@
 </template>
 
 <script>
-import TypingIndicator from './TypingIndicator.vue';
-
 export default {
-  components: {
-    TypingIndicator,
-  },
   data() {
     return {
       draftContent:
@@ -109,71 +97,56 @@ export default {
   width: 100%;
 }
 
-.animation-container {
-  width: 100%;
+.ai-typing--wrap {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  label {
-    width: 8rem;
+  gap: 4px;
+
+  .ai-typing--icon {
+    color: var(--v-500);
   }
 }
-.loader {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  display: block;
+
+.animation-container {
   position: relative;
-  color: #000;
-  box-sizing: border-box;
-  animation: animloader 2s linear infinite;
+  display: flex;
 }
 
-@keyframes animloader {
-  0% {
-    box-shadow: 14px 0 0 -2px, 38px 0 0 -2px, -14px 0 0 -2px, -38px 0 0 -2px;
-  }
-  25% {
-    box-shadow: 14px 0 0 -2px, 38px 0 0 -2px, -14px 0 0 -2px, -38px 0 0 2px;
-  }
-  50% {
-    box-shadow: 14px 0 0 -2px, 38px 0 0 -2px, -14px 0 0 2px, -38px 0 0 -2px;
-  }
-  75% {
-    box-shadow: 14px 0 0 2px, 38px 0 0 -2px, -14px 0 0 -2px, -38px 0 0 -2px;
-  }
-  100% {
-    box-shadow: 14px 0 0 -2px, 38px 0 0 2px, -14px 0 0 -2px, -38px 0 0 -2px;
-  }
+.animation-container label {
+  display: inline-block;
+  margin-right: 8px;
+  color: var(--v-400);
 }
 
-.loading {
-  font-weight: 800;
-  text-align: center;
+.loader {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 4px;
+  margin-top: 12px;
+  background-color: var(--v-300);
   border-radius: 50%;
-  span {
-    display: inline-block;
-    margin: 0 -0.05em;
-  }
+  animation: bubble-scale 1.2s infinite;
 }
 
-.loading04 {
-  span {
-    animation: loading04 0.7s infinite;
-    @for $i from 1 through 6 {
-      &:nth-child(#{$i + 1}) {
-        animation-delay: #{$i * 0.1}s;
-      }
-    }
-  }
+.loader:nth-child(2) {
+  animation-delay: 0.4s;
 }
-@keyframes loading04 {
+
+.loader:nth-child(3) {
+  animation-delay: 0.8s;
+}
+
+@keyframes bubble-scale {
   0%,
   100% {
-    transform: translateY(0);
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.3);
   }
   50% {
-    transform: translateY(15px);
+    transform: scale(1);
   }
 }
 </style>
