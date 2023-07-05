@@ -1,25 +1,30 @@
 <template>
-  <li v-if="preparedLabels.length" class="label-suggestion right">
+  <li v-if="shouldShowSuggestions" class="label-suggestion right">
     <div class="wrap">
       <div class="label-suggestion--container">
         <h6 class="label-suggestion--title">Suggested labels</h6>
         <div class="label-suggestion--options">
-          <woot-label
+          <button
             v-for="label in preparedLabels"
             :key="label.title"
-            variant="smooth"
-            :dashed="true"
-            v-bind="label"
-          />
+            @click="addLabel(label.title)"
+          >
+            <woot-label variant="smooth" :dashed="true" v-bind="label" />
+          </button>
         </div>
         <woot-button
           variant="smooth"
           class="label--add"
           icon="add"
           size="tiny"
-          @click="addLabel"
+          @click="addAllLabels"
         >
-          Add all labls
+          <template v-if="selectedLabels.length === 0">
+            Add all labels
+          </template>
+          <template v-else>
+            Add selected labels
+          </template>
         </woot-button>
       </div>
       <div class="sender--info has-tooltip" data-original-title="null">
@@ -57,7 +62,9 @@
 <script>
 import WootButton from '../../../ui/WootButton.vue';
 import Avatar from '../../Avatar.vue';
+import OpenAPI from 'dashboard/api/integrations/openapi';
 import { mapGetters } from 'vuex';
+import aiMixin from 'dashboard/mixins/aiMixin';
 
 export default {
   name: 'LabelSuggestion',
@@ -65,18 +72,92 @@ export default {
     Avatar,
     WootButton,
   },
+  mixins: [aiMixin],
   props: {
-    labels: {
+    chatLabels: {
       type: Array,
+      required: false,
+      default: () => [],
+    },
+    conversationId: {
+      type: Number,
       required: true,
     },
+  },
+  data() {
+    return {
+      suggestedLabels: [],
+      selectedLabels: [],
+    };
   },
   computed: {
     ...mapGetters({
       allLabels: 'labels/getLabels',
     }),
     preparedLabels() {
-      return this.allLabels.filter(label => this.labels.includes(label.title));
+      return this.allLabels.filter(label =>
+        this.suggestedLabels.includes(label.title)
+      );
+    },
+    shouldShowSuggestions() {
+      return this.preparedLabels.length && this.chatLabels.length === 0;
+    },
+  },
+  mounted() {
+    if (this.chatLabels.length !== 0) {
+      return;
+    }
+
+    this.fetchIntegrationsIfRequired().then(() => {
+      if (this.isAIIntegrationEnabled) {
+        this.fetchLabelSuggestion().then(labels => {
+          this.suggestedLabels = labels;
+        });
+      }
+    });
+  },
+  methods: {
+    async fetchLabelSuggestion() {
+      try {
+        const result = await OpenAPI.processEvent({
+          type: 'label_suggestion',
+          hookId: this.hookId,
+          conversationId: this.conversationId,
+        });
+
+        const {
+          data: { message: labels },
+        } = result;
+
+        return this.cleanLabels(labels);
+      } catch (error) {
+        return [];
+      }
+    },
+    cleanLabels(labels) {
+      return labels
+        .toLowerCase() // Set it to lowercase
+        .split(',') // split the string into an array
+        .filter(label => label.trim()) // remove any empty strings
+        .filter((label, index, self) => self.indexOf(label) === index) // remove any duplicates
+        .map(label => label.trim()); // trim the words
+    },
+    addLabel(label) {
+      if (!this.selectedLabels.includes(label)) {
+        this.selectedLabels.push(label);
+      } else {
+        this.selectedLabels = this.selectedLabels.filter(l => l !== label);
+      }
+    },
+    addAllLabels() {
+      if (this.selectedLabels.length) {
+        this.$emit('add-labels', this.selectedLabels);
+      } else {
+        this.$emit(
+          'add-labels',
+          this.preparedLabels.map(label => label.title)
+        );
+      }
     },
   },
 };

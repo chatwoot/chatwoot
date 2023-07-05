@@ -72,6 +72,8 @@
           'bugs',
           'authority',
         ]"
+        :chat-labels="currentChat.labels"
+        :conversation-id="currentChat.id"
       />
     </ul>
     <div
@@ -303,6 +305,7 @@ export default {
   mounted() {
     this.addScrollListener();
     this.fetchAllAttachmentsFromCurrentChat();
+    this.fetchIntegrations();
   },
 
   beforeDestroy() {
@@ -313,6 +316,11 @@ export default {
   methods: {
     fetchAllAttachmentsFromCurrentChat() {
       this.$store.dispatch('fetchAllAttachments', this.currentChat.id);
+    },
+    fetchIntegrations() {
+      if (!this.appIntegrations.length) {
+        this.$store.dispatch('integrations/get');
+      }
     },
     removeBusListeners() {
       bus.$off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
