@@ -1,7 +1,7 @@
 <template>
   <transition name="popover-animation">
     <div class="article-settings--container">
-      <h3 class="block-title">
+      <h3 class="block-title text-black-900 dark:text-slate-200">
         {{ $t('HELP_CENTER.ARTICLE_SETTINGS.TITLE') }}
       </h3>
       <div class="form-wrap">

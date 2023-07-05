@@ -1144,8 +1144,7 @@ export default {
 }
 
 .reply-box {
-  border-top: 1px solid var(--color-border);
-  background: white;
+  @apply border-r border-slate-50 dark:border-slate-700 bg-white dark:bg-slate-900;
 
   &.is-private {
     background: var(--y-50);

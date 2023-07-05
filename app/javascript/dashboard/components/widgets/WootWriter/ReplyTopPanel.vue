@@ -121,8 +121,7 @@ export default {
 .top-box {
   display: flex;
   justify-content: space-between;
-
-  background: var(--b-50);
+  @apply bg-black-50 dark:bg-slate-800;
 }
 
 .button-group {
@@ -145,11 +144,11 @@ export default {
 
   .button--reply {
     border-radius: 0;
-    border-right: 1px solid var(--color-border);
+    @apply border-r border-slate-50 dark:border-slate-700;
 
     &:hover,
     &:focus {
-      border-right: 1px solid var(--color-border);
+      @apply border-r border-slate-50 dark:border-slate-700;
     }
   }
 
@@ -157,7 +156,7 @@ export default {
     border-radius: 0;
 
     &.is-active {
-      border-right: 1px solid var(--color-border);
+      @apply border-r border-slate-50 dark:border-slate-700;
       background: var(--y-50);
     }
 

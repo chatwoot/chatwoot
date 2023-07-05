@@ -34,7 +34,6 @@
 .modal-container {
   @include normal-shadow;
 
-  background-color: $color-white;
   border-radius: $space-smaller;
   max-height: 100%;
   overflow: auto;
