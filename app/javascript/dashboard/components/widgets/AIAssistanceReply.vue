@@ -1,37 +1,16 @@
 <template>
   <div class="column">
-    <woot-modal-header header-title="Rephrase the content" />
+    <woot-modal-header header-title="Reply suggestion with AI" />
     <form class="row modal-content" @submit.prevent="chooseTime">
-      <div>
-        <h4 class="sub-block-title margin-top-1">
-          Draft content
-        </h4>
+      <div v-if="!generatedContent" class="animation-container">
+        <span class="loader" />
       </div>
 
-      <p>
-        {{ draftContent }}
-      </p>
-      <div class="container">
-        <h4 class="sub-block-title margin-top-1">
-          AI generated content
-        </h4>
-      </div>
-      <!-- <TypingIndicator /> -->
-      <div class="animation-container">
-        <label>AI is typing</label> <span class="loader" />
-      </div>
-      <!-- <div class="loading loading04">
-        <label>AI is typing</label>
-        <span>.</span>
-        <span>.</span>
-        <span>.</span>
-      </div> -->
-
-      <!-- <div v-else>
+      <div v-else>
         <p>
           {{ aiContent }}
         </p>
-      </div> -->
+      </div>
 
       <div class="modal-footer justify-content-end w-full">
         <!-- <woot-button
@@ -61,12 +40,7 @@
 </template>
 
 <script>
-import TypingIndicator from './TypingIndicator.vue';
-
 export default {
-  components: {
-    TypingIndicator,
-  },
   data() {
     return {
       draftContent:
@@ -87,8 +61,8 @@ export default {
   mounted() {
     setTimeout(() => {
       this.generatedContent =
-        'I am closing this thread as there has been no response. Please feel free to create a new thread if the issue or query remains unresolved.';
-    }, 6000);
+        'Hi there! Its great to see you here. How can I be of assistance to you today? Whether you need help with a specific task or have a general question, I am here to lend a hand. Let me know what you need, and I will do my best to provide you with the information or guidance you are looking for.';
+    }, 5000);
   },
 
   methods: {
@@ -113,16 +87,14 @@ export default {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  label {
-    width: 8rem;
-  }
+  justify-content: center;
 }
 .loader {
-  width: 8px;
-  height: 8px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   display: block;
+  margin-top: 2rem;
   position: relative;
   color: #000;
   box-sizing: border-box;
@@ -147,33 +119,30 @@ export default {
   }
 }
 
-.loading {
-  font-weight: 800;
-  text-align: center;
-  border-radius: 50%;
-  span {
-    display: inline-block;
-    margin: 0 -0.05em;
-  }
-}
+// .typewriter p {
+//   overflow: hidden; /* Ensures the content is not revealed until the animation */
+//   border-right: 0.15em solid orange; /* The typwriter cursor */
+//   margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+//   animation: typing 3.5s steps(30, end), blink-caret 0.5s step-end infinite;
+// }
 
-.loading04 {
-  span {
-    animation: loading04 0.7s infinite;
-    @for $i from 1 through 6 {
-      &:nth-child(#{$i + 1}) {
-        animation-delay: #{$i * 0.1}s;
-      }
-    }
-  }
-}
-@keyframes loading04 {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(15px);
-  }
-}
+// /* The typing effect */
+// @keyframes typing {
+//   from {
+//     width: 0;
+//   }
+//   to {
+//     width: 100%;
+//   }
+// }
+
+// @keyframes blink-caret {
+//   from,
+//   to {
+//     border-color: transparent;
+//   }
+//   50% {
+//     border-color: orange;
+//   }
+// }
 </style>
