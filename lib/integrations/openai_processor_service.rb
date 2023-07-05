@@ -6,8 +6,8 @@ class Integrations::OpenaiProcessorService
   API_URL = 'https://api.openai.com/v1/chat/completions'.freeze
   GPT_MODEL = 'gpt-3.5-turbo'.freeze
 
-  ALLOWED_EVENT_NAMES = %w[rephrase summarize reply_suggestion label_suggestion].freeze
-  CACHEABLE_EVENTS = %w[label_suggestion].freeze
+  ALLOWED_EVENT_NAMES = %w[rephrase summarize reply_suggestion].freeze
+  CACHEABLE_EVENTS = %w[].freeze
 
   pattr_initialize [:hook!, :event!]
 
@@ -57,11 +57,15 @@ class Integrations::OpenaiProcessorService
   end
 
   def valid_event_name?
-    ALLOWED_EVENT_NAMES.include?(event_name)
+    # self.class::ALLOWED_EVENT_NAMES is way to access ALLOWED_EVENT_NAMES defined in the class hierarchy of the current object.
+    # This ensures that if ALLOWED_EVENT_NAMES is updated elsewhere in it's ancestors, we access the latest value.
+    self.class::ALLOWED_EVENT_NAMES.include?(event_name)
   end
 
   def event_is_cacheable?
-    CACHEABLE_EVENTS.include?(event_name)
+    # self.class::CACHEABLE_EVENTS is way to access CACHEABLE_EVENTS defined in the class hierarchy of the current object.
+    # This ensures that if CACHEABLE_EVENTS is updated elsewhere in it's ancestors, we access the latest value.
+    self.class::CACHEABLE_EVENTS.include?(event_name)
   end
 
   def make_api_call(body)

@@ -141,3 +141,5 @@ class Integrations::Openai::ProcessorService < Integrations::OpenaiProcessorServ
     }.to_json
   end
 end
+
+Integrations::Openai::ProcessorService.prepend_mod_with('Integrations::OpenaiProcessorService')
