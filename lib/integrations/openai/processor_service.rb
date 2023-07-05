@@ -11,13 +11,6 @@ class Integrations::Openai::ProcessorService < Integrations::OpenaiProcessorServ
     make_api_call(rephrase_body)
   end
 
-  def label_suggestion_message
-    payload = label_suggestion_body
-    return nil if payload.blank?
-
-    make_api_call(label_suggestion_body)
-  end
-
   private
 
   def rephrase_body
@@ -37,19 +30,6 @@ class Integrations::Openai::ProcessorService < Integrations::OpenaiProcessorServ
     messages = init_messages_body(in_array_format)
 
     add_messages_until_token_limit(conversation, messages, in_array_format)
-  end
-
-  def labels_with_messages
-    labels = hook.account.labels.pluck(:title).join(', ')
-
-    character_count = labels.length
-    conversation = find_conversation
-    messages = init_messages_body(false)
-    add_messages_until_token_limit(conversation, messages, false, character_count)
-
-    return nil if messages.blank? || labels.blank?
-
-    "Messages:\n#{messages}\nLabels:\n#{labels}"
   end
 
   def add_messages_until_token_limit(conversation, messages, in_array_format, start_from = 0)
@@ -116,28 +96,6 @@ class Integrations::Openai::ProcessorService < Integrations::OpenaiProcessorServ
         { role: 'system',
           content: 'Please suggest a reply to the following conversation between support agents and customer. Reply in the user\'s language.' }
       ].concat(conversation_messages(in_array_format: true))
-    }.to_json
-  end
-
-  def label_suggestion_body
-    content = labels_with_messages
-    return nil if content.blank?
-
-    {
-      model: GPT_MODEL,
-      messages: [
-        {
-          role: 'system',
-          content: 'Your role is as an assistant to a customer support agent. You will be provided with a transcript of a conversation between a ' \
-                   'customer and the support agent, along with a list of potential labels. ' \
-                   'Your task is to analyze the conversation and select the two labels from the given list that most accurately ' \
-                   'represent the themes or issues discussed. Ensure you preserve the exact casing of the labels as they are provided in the list. ' \
-                   'Do not create new labels; only choose from those provided. Once you have made your selections, please provide your response ' \
-                   'as a comma-separated list of the provided labels. Remember, your response should only contain the labels you\'ve selected, ' \
-                   'in their original casing, and nothing else. '
-        },
-        { role: 'user', content: content }
-      ]
     }.to_json
   end
 end
