@@ -65,6 +65,10 @@ export default {
       type: String,
       default: '',
     },
+    dashed: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     textColor() {
@@ -74,7 +78,7 @@ export default {
     labelClass() {
       return `label ${this.colorScheme} ${this.variant} ${
         this.small ? 'small' : ''
-      }`;
+      } ${this.dashed ? 'dashed' : ''}`;
     },
     labelStyle() {
       if (this.bgColor) {
@@ -199,8 +203,15 @@ export default {
 
   &.smooth {
     background: transparent;
-    border: 1px solid var(--s-100);
     color: var(--s-700);
+  }
+
+  &.smooth:not(.dashed) {
+    border: 1px solid var(--s-100);
+  }
+
+  &.dashed {
+    border: 1px dashed var(--s-100);
   }
 }
 
