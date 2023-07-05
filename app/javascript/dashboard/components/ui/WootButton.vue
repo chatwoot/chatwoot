@@ -20,7 +20,8 @@
     />
     <span
       v-if="$slots.default"
-      class="button__content text-left rtl:text-right"
+      class="button__content"
+      :class="{ 'text-left rtl:text-right': size !== 'expanded' }"
     >
       <slot />
     </span>

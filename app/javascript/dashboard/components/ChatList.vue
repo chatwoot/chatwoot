@@ -155,6 +155,7 @@
         v-if="!hasCurrentPageEndReached && !chatListLoading"
         variant="clear"
         size="expanded"
+        class="text-center"
         @click="loadMoreConversations"
       >
         {{ $t('CHAT_LIST.LOAD_MORE_CONVERSATIONS') }}
