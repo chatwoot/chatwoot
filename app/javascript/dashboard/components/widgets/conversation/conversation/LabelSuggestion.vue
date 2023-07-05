@@ -3,7 +3,7 @@
     <div class="wrap">
       <div class="label-suggestion--container">
         <h6 class="label-suggestion--title">Suggested labels</h6>
-        <div class="label-suggestion--options">
+        <div v-if="!fetchingSuggestions" class="label-suggestion--options">
           <button
             v-for="label in preparedLabels"
             :key="label.title"
@@ -86,6 +86,7 @@ export default {
   },
   data() {
     return {
+      fetchingSuggestions: false,
       suggestedLabels: [],
       selectedLabels: [],
     };
@@ -100,25 +101,38 @@ export default {
       );
     },
     shouldShowSuggestions() {
-      return this.preparedLabels.length && this.chatLabels.length === 0;
+      return (
+        !this.fetchingSuggestions &&
+        this.preparedLabels.length &&
+        this.chatLabels.length === 0
+      );
+    },
+  },
+  watch: {
+    conversationId() {
+      this.fetchIfRequired();
     },
   },
   mounted() {
-    if (this.chatLabels.length !== 0) {
-      return;
-    }
-
-    this.fetchIntegrationsIfRequired().then(() => {
-      if (this.isAIIntegrationEnabled) {
-        this.fetchLabelSuggestion().then(labels => {
-          this.suggestedLabels = labels;
-        });
-      }
-    });
+    this.fetchIfRequired();
   },
   methods: {
+    async fetchIfRequired() {
+      if (this.chatLabels.length !== 0) {
+        return;
+      }
+
+      this.fetchIntegrationsIfRequired().then(() => {
+        if (this.isAIIntegrationEnabled) {
+          this.fetchLabelSuggestion().then(labels => {
+            this.suggestedLabels = labels;
+          });
+        }
+      });
+    },
     async fetchLabelSuggestion() {
       try {
+        this.fetchingSuggestions = true;
         const result = await OpenAPI.processEvent({
           type: 'label_suggestion',
           hookId: this.hookId,
@@ -132,6 +146,8 @@ export default {
         return this.cleanLabels(labels);
       } catch (error) {
         return [];
+      } finally {
+        this.fetchingSuggestions = false;
       }
     },
     cleanLabels(labels) {

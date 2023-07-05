@@ -65,13 +65,6 @@
         :is-web-widget-inbox="isAWebWidgetInbox"
       />
       <conversation-label-suggestion
-        :labels="[
-          'account-delete',
-          'api-customer',
-          'delete',
-          'bugs',
-          'authority',
-        ]"
         :chat-labels="currentChat.labels"
         :conversation-id="currentChat.id"
       />
