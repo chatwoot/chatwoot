@@ -3,6 +3,7 @@
     "TITLE": "Accountinstellingen",
     "SUBMIT": "Instellingen bijwerken",
     "BACK": "Back",
+    "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "Instellingen konden niet worden bijgewerkt, probeer het opnieuw!",
       "SUCCESS": "Accountinstellingen succesvol bijgewerkt"

@@ -3,6 +3,7 @@
     "TITLE": "Paskyros nustatymai",
     "SUBMIT": "Atnaujinti nustatymai",
     "BACK": "Atgal",
+    "DISMISS": "Atsisakyti",
     "UPDATE": {
       "ERROR": "Nepavyko atnaujinti nustatymų, bandykite dar kartą!",
       "SUCCESS": "Sėkmingai atnaujinti paskyros nustatymai"

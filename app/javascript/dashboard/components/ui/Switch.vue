@@ -61,7 +61,7 @@ export default {
   }
 
   span {
-    --space-one-point-five: 1.5rem;
+    --space-one-point-five: 0.9375rem;
     background-color: var(--white);
     border-radius: 100%;
     box-shadow: var(--toggle-button-box-shadow);

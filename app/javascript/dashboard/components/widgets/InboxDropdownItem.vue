@@ -61,7 +61,7 @@ export default {
 .option-item--inbox {
   display: flex;
   align-items: center;
-  height: 3.8rem;
+  height: 2.375rem;
   min-width: 0;
   padding: 0 var(--space-smaller);
 }

@@ -52,8 +52,8 @@ export default {
 
 <style lang="scss">
 .announcement-popup {
-  max-width: 24rem;
-  min-width: 16rem;
+  max-width: 15rem;
+  min-width: 10rem;
   display: flex;
   position: absolute;
   flex-direction: column;

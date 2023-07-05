@@ -131,7 +131,7 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: column;
-  max-height: 20rem;
+  max-height: 12.5rem;
 }
 
 .search-wrap {
@@ -164,7 +164,7 @@ export default {
 
 .multiselect-dropdown--list {
   width: 100%;
-  max-height: 16rem;
+  max-height: 10rem;
 }
 
 .multiselect-dropdown--item {

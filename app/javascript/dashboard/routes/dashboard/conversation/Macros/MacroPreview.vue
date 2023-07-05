@@ -69,9 +69,9 @@ export default {
 <style lang="scss" scoped>
 .macro-preview {
   position: absolute;
-  max-height: 36rem;
+  max-height: 22.5rem;
   min-height: var(--space-jumbo);
-  width: 27.2rem;
+  width: 17rem;
   border-radius: var(--border-radius-normal);
   background-color: var(--white);
   box-shadow: var(--shadow-dropdown-pane);
@@ -93,7 +93,7 @@ export default {
     }
 
     .macro-block-border {
-      top: 0.625rem;
+      top: 0.390625rem;
       position: absolute;
       bottom: var(--space-minus-smaller);
       left: 0;
@@ -103,13 +103,13 @@ export default {
 
     .macro-block-dot {
       position: absolute;
-      left: -0.35rem;
+      left: -0.21875rem;
       height: var(--space-small);
       width: var(--space-small);
       border: 2px solid var(--s-100);
       background-color: var(--white);
       border-radius: var(--border-radius-full);
-      top: 0.4375rem;
+      top: 0.2734375rem;
     }
   }
 

@@ -1,11 +1,11 @@
 <template>
-  <div class="row settings--section">
+  <div class="row settings--section" :class="{ border: showBorder }">
     <div class="medium-4 small-12 title--section">
-      <p class="sub-block-title">
+      <p v-if="title" class="sub-block-title">
         {{ title }}
       </p>
       <p class="sub-head">
-        <slot name="subTitle">
+        <slot v-if="subTitle" name="subTitle">
           {{ subTitle }}
         </slot>
       </p>
@@ -25,11 +25,15 @@ export default {
   props: {
     title: {
       type: String,
-      required: true,
+      default: '',
     },
     subTitle: {
       type: String,
-      required: true,
+      default: '',
+    },
+    showBorder: {
+      type: Boolean,
+      default: true,
     },
     note: {
       type: String,
@@ -43,9 +47,13 @@ export default {
 @import '~dashboard/assets/scss/variables';
 
 .settings--section {
-  border-bottom: 1px solid $color-border;
   display: flex;
-  padding: $space-normal $space-normal $space-normal 0;
+  padding: 0 $space-normal $space-normal 0;
+
+  &.border {
+    padding-top: $space-normal;
+    border-bottom: 1px solid $color-border;
+  }
 
   .sub-block-title {
     color: $color-woot;

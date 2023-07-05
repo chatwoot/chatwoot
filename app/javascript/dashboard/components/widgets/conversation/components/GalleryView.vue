@@ -341,7 +341,7 @@ export default {
       display: flex;
       font-weight: var(--font-weight-bold);
       justify-content: center;
-      min-width: 8rem;
+      min-width: 5rem;
       padding: var(--space-smaller);
     }
   }
