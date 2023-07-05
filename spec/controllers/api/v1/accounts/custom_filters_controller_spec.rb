@@ -99,14 +99,14 @@ RSpec.describe 'Custom Filters API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      it 'creates the filter' do
+      it 'creates the filter with count update' do
         post "/api/v1/accounts/#{account.id}/custom_filters", headers: user.create_new_auth_token,
                                                               params: payload
 
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
         expect(json_response['name']).to eq 'vip-customers'
-        expect(json_response['count']).to be_zero
+        expect(json_response['count']).to eq(1)
       end
 
       it 'gives the error for 51st record' do
