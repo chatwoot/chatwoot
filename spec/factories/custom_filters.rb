@@ -4,7 +4,7 @@ FactoryBot.define do
   factory :custom_filter do
     sequence(:name) { |n| "Custom Filter #{n}" }
     filter_type { 0 }
-    query { { labels: ['customer-support'], status: 'open' } }
+    query { { payload: [{ values: [:open], attribute_key: 'status', filter_operator: 'equal_to', attribute_model: 'standard' }] } }
     user
     account
   end

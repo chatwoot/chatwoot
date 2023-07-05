@@ -159,4 +159,24 @@ describe ActionCableListener do
       listener.conversation_updated(event)
     end
   end
+
+  describe '#custom_filter_updated' do
+    let(:event_name) { :'custom_filter.updated' }
+    let!(:custom_filter) { create(:custom_filter, user: agent, account: account) }
+    let!(:event) { Events::Base.new(event_name, Time.zone.now, custom_filter: custom_filter, is_private: false) }
+
+    before do
+      custom_filter.update(name: 'New Filter')
+    end
+
+    it 'broadcast custom filter update' do
+      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+        [agent.pubsub_token, admin.pubsub_token],
+        'custom_filter.updated',
+        custom_filter.push_event_data.merge(account_id: account.id)
+      )
+
+      listener.custom_filter_updated(event)
+    end
+  end
 end

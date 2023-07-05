@@ -23,6 +23,7 @@ class CustomFilter < ApplicationRecord
 
   enum filter_type: { conversation: 0, contact: 1, report: 2 }
   validate :validate_number_of_filters
+  after_save :update_filter_conversation_count
 
   def records_count
     fetch_record_count_from_redis
@@ -51,6 +52,16 @@ class CustomFilter < ApplicationRecord
     return true if account.custom_filters.where(user_id: user_id).size < MAX_FILTER_PER_USER
 
     errors.add :account_id, I18n.t('errors.custom_filters.number_of_records')
+  end
+
+  def update_filter_conversation_count
+    records = filter_records
+
+    return if (records[:count][:all_count]).zero? || records[:count][:all_count] == Redis::Alfred.get(filter_count_key).to_i
+
+    Redis::Alfred.set(filter_count_key, records[:count][:all_count])
+
+    Rails.configuration.dispatcher.dispatch(CUSTOM_FILTER_UPDATED, Time.zone.now, custom_filter: self)
   end
 
   def push_event_data

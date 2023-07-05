@@ -18,14 +18,6 @@ class CustomViewsListener < BaseListener
   private
 
   def dispatch_custom_filter_event(account)
-    account.custom_filters.each do |filter|
-      records = filter.filter_records
-
-      next if (records[:count][:all_count]).zero? || records[:count][:all_count] == Redis::Alfred.get(filter.filter_count_key).to_i
-
-      Redis::Alfred.set(filter.filter_count_key, records[:count][:all_count])
-
-      Rails.configuration.dispatcher.dispatch(CUSTOM_FILTER_UPDATED, Time.zone.now, custom_filter: filter)
-    end
+    account.custom_filters.each(&:update_filter_conversation_count)
   end
 end
