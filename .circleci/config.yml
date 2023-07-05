@@ -73,7 +73,7 @@ jobs:
 
       - run:
           name: yarn
-          command: yarn --frozen-lockfile --cache-folder ~/.cache/yarn
+          command: yarn --frozen-lockfile --cache-folder ~/.cache/yarn --verbose
 
       # Store yarn / webpacker cache
       - save_cache:
