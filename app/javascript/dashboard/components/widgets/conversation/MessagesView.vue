@@ -151,6 +151,7 @@ export default {
       inboxesList: 'inboxes/getInboxes',
       listLoadingStatus: 'getAllMessagesLoaded',
       loadingChatList: 'getChatListLoadingStatus',
+      appIntegrations: 'integrations/getAppIntegrations',
     }),
     inboxId() {
       return this.currentChat.inbox_id;
