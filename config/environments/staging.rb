@@ -51,7 +51,7 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "chatwoot_#{Rails.env}"
 
   Rails.application.routes.default_url_options = { host: ENV['FRONTEND_URL'] }
-  config.action_mailer.default_url_options = { :host => ENV['FRONTEND_URL'] }
+  config.action_mailer.default_url_options = { host: ENV['FRONTEND_URL'] }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
