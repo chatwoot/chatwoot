@@ -1,6 +1,6 @@
 <template>
   <li
-    class="dropdown-menu__item"
+    class="dropdown-menu__item list-none mb-1"
     :class="{
       'is-disabled': disabled,
     }"
@@ -28,9 +28,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .dropdown-menu__item {
-  list-style: none;
-  margin-bottom: var(--space-micro);
-
   ::v-deep {
     a,
     .button {
@@ -38,7 +35,6 @@ export default {
       white-space: nowrap;
       width: 100%;
       text-align: left;
-      color: var(--s-700);
 
       &:hover {
         background: var(--color-background);

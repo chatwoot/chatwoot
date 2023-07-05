@@ -74,85 +74,84 @@ $default-button-height: 2.5rem;
     }
 
     &:hover {
-      background: var(--s-75);
-      border-color: var(--s-100);
+      @apply bg-slate-75 dark:bg-slate-900 border-slate-100 dark:border-slate-700;
 
       &.secondary {
-        border-color: var(--s-100);
+        @apply border-slate-100 dark:border-slate-700;
       }
 
       &.success {
-        border-color: var(--s-100);
+        @apply border-slate-100 dark:border-slate-700;
       }
 
       &.alert {
-        border-color: var(--s-100);
+        @apply border-slate-100 dark:border-slate-700;
       }
 
       &.warning {
-        border-color: var(--s-100);
+        @apply border-slate-100 dark:border-slate-700;
       }
     }
   }
 
   // Smooth style
   &.smooth {
-    @include button-style(var(--w-50), var(--w-100), var(--w-700));
-
+    @apply bg-woot-50 dark:bg-woot-800 text-woot-700 dark:text-woot-100 hover:text-woot-700 dark:hover:text-woot-700 hover:bg-woot-100 dark:hover:bg-woot-900;
 
     &.secondary {
-      @include button-style(var(--s-50), var(--s-100), var(--s-700));
+      @apply bg-slate-50 dark:bg-slate-700 text-slate-700 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800;
     }
 
     &.success {
-      @include button-style(var(--g-50), var(--g-100), var(--g-700));
+      @apply bg-green-50 dark:bg-green-700 text-green-700 dark:text-green-100 hover:bg-green-100 dark:hover:bg-green-800;
     }
 
     &.alert {
-      @include button-style(var(--r-50), var(--r-100), var(--r-700));
+      @apply bg-red-50 dark:bg-red-700 text-red-700 dark:text-red-100 hover:bg-red-100 dark:hover:bg-red-800;
     }
 
     &.warning {
-      @include button-style(var(--y-100), var(--y-200), var(--y-700));
+      @apply bg-yellow-50 dark:bg-yellow-700 text-yellow-700 dark:text-yellow-100 hover:bg-yellow-100 dark:hover:bg-yellow-800;
     }
   }
 
   &.clear {
-    color: var(--w-700);
+    // color: var(--w-700);
+    @apply text-woot-500 dark:text-woot-500;
 
     &.secondary {
-      color: var(--s-700);
+      @apply text-slate-700 dark:text-slate-100;
     }
 
     &.success {
-      color: var(--g-700);
+      @apply text-green-700 dark:text-green-100;
     }
 
     &.alert {
-      color: var(--r-700);
+      @apply text-red-700 dark:text-red-100;
     }
 
     &.warning {
-      color: var(--y-700);
+      @apply text-yellow-700 dark:text-yellow-100;
     }
 
     &:hover {
-      background: var(--w-50);
+      @apply hover:bg-woot-50 dark:hover:bg-woot-300;
 
       &.secondary {
-        background: var(--s-50);
+        @apply hover:bg-slate-50 dark:hover:bg-slate-700;
       }
 
       &.success {
-        background: var(--g-50);
+        @apply hover:bg-green-50 dark:hover:bg-green-800;
       }
 
       &.alert {
-        background: var(--r-50);
+        @apply hover:bg-red-50 dark:hover:bg-red-800;
       }
 
       &.warning {
-        background: var(--y-50);
+        @apply hover:bg-yellow-50 dark:hover:bg-yellow-800;
       }
     }
   }
@@ -208,5 +207,4 @@ $default-button-height: 2.5rem;
       text-decoration: underline;
     }
   }
-
 }
