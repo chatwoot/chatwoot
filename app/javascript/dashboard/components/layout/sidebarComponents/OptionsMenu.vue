@@ -7,7 +7,6 @@
       :class="{ 'dropdown-pane--open': show }"
     >
       <availability-status />
-      <li class="divider" />
       <woot-dropdown-menu>
         <woot-dropdown-item v-if="showChangeAccountOption">
           <woot-button

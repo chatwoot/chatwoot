@@ -1,6 +1,6 @@
 .reply-box {
   transition: box-shadow 0.35s $swift-ease-out-function,
-    height 2s $swift-ease-out-function;
+  height 2s $swift-ease-out-function;
 
   &.is-focused {
     box-shadow: var(--shadow);

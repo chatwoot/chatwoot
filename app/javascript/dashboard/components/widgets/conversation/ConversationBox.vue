@@ -1,6 +1,6 @@
 <template>
   <div
-    class="conversation-details-wrap"
+    class="conversation-details-wrap bg-slate-25 dark:bg-slate-800"
     :class="{ 'with-border-right': !isOnExpandedLayout }"
   >
     <conversation-header
@@ -23,7 +23,10 @@
         :show-badge="false"
       />
     </woot-tabs>
-    <div v-show="!activeIndex" class="messages-and-sidebar">
+    <div
+      v-show="!activeIndex"
+      class="flex bg-slate-25 dark:bg-slate-800 m-0 h-full min-h-0"
+    >
       <messages-view
         v-if="currentChat.id"
         :inbox-id="inboxId"
@@ -139,16 +142,14 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '~dashboard/assets/scss/woot';
-
 .conversation-details-wrap {
   display: flex;
   flex-direction: column;
   min-width: 0;
   width: 100%;
-  background: var(--color-background-light);
 
   &.with-border-right {
-    border-right: 1px solid var(--color-border);
+    @apply border-r border-slate-50 dark:border-slate-700;
   }
 }
 
@@ -158,20 +159,8 @@ export default {
   min-height: var(--dashboard-app-tabs-height);
 }
 
-.messages-and-sidebar {
-  display: flex;
-  background: var(--color-background-light);
-  margin: 0;
-  height: 100%;
-  min-height: 0;
-}
-
 .conversation-sidebar-wrap {
-  border-right: 1px solid var(--color-border);
-  height: auto;
-  flex: 0 0;
-  z-index: var(--z-index-low);
-  overflow: auto;
+  @apply border-r border-slate-50 dark:border-slate-700;
   background: white;
   flex-basis: 100%;
 

@@ -43,15 +43,11 @@
 }
 
 .border-right {
-  border-right: 1px solid var(--color-border);
+  @apply border-r border-slate-50 dark:border-slate-700;
 }
 
 .border-left {
   border-left: 1px solid var(--color-border);
-}
-
-.bg-white {
-  background-color: var(--white);
 }
 
 .text-ellipsis {
