@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="h-full overflow-auto w-60 flex flex-col bg-white dark:bg-slate-900 border-r dark:border-slate-700 rtl:border-r-0 rtl:border-l border-slate-50 text-sm px-2 pb-8"
-  >
+  <div class="main-nav secondary-menu">
     <sidebar-header
       :thumbnail-src="thumbnailSrc"
       :header-title="headerTitle"
@@ -9,11 +7,7 @@
       :portal-link="portalLink"
       @open-popover="openPortalPopover"
     />
-    <transition-group
-      name="menu-list"
-      tag="ul"
-      class="pt-2 list-none ml-0 mb-0"
-    >
+    <transition-group name="menu-list" tag="ul" class="menu vertical">
       <secondary-nav-item
         v-for="menuItem in accessibleMenuItems"
         :key="menuItem.toState"
@@ -28,7 +22,7 @@
       <p
         v-if="!hasCategory"
         key="empty-category-nessage"
-        class="p-1.5 px-4 text-slate-300"
+        class="empty-text text-muted"
       >
         {{ $t('SIDEBAR.HELP_CENTER.CATEGORY_EMPTY_MESSAGE') }}
       </p>
@@ -102,3 +96,32 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="scss">
+@import '~dashboard/assets/scss/variables';
+.secondary-menu {
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  border-right: 1px solid var(--s-50);
+  height: 100%;
+  width: var(--space-giga);
+  flex-shrink: 0;
+  overflow: hidden;
+  padding: var(--space-small);
+  position: unset;
+
+  &:hover {
+    overflow: auto;
+  }
+
+  .menu {
+    padding: var(--space-small);
+    overflow-y: auto;
+  }
+}
+
+.empty-text {
+  padding: var(--space-smaller) var(--space-normal);
+}
+</style>
