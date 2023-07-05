@@ -1,5 +1,5 @@
 <template>
-  <li class="label-suggestion right">
+  <li v-if="preparedLabels.length" class="label-suggestion right">
     <div class="wrap">
       <div class="label-suggestion--container">
         <h6 class="label-suggestion--title">Suggested labels</h6>
@@ -57,6 +57,8 @@
 <script>
 import WootButton from '../../../ui/WootButton.vue';
 import Avatar from '../../Avatar.vue';
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'LabelSuggestion',
   components: {
@@ -70,11 +72,11 @@ export default {
     },
   },
   computed: {
+    ...mapGetters({
+      allLabels: 'labels/getLabels',
+    }),
     preparedLabels() {
-      return this.labels.map(label => ({
-        title: label,
-        color: '#252525',
-      }));
+      return this.allLabels.filter(label => this.labels.includes(label.title));
     },
   },
 };
@@ -91,7 +93,7 @@ export default {
   margin-top: var(--space-normal);
 
   .label-suggestion--container {
-    max-width: 280px;
+    max-width: 300px;
   }
 
   .label-suggestion--options {
