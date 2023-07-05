@@ -11,20 +11,20 @@
   }
 
   .spinner {
-    @apply px-0.5 py-0;
+    @apply px-2 py-0;
   }
 
-  .icon--emoji+.button__content {
-    @apply pl-0.5;
+  .icon--emoji + .button__content {
+    @apply pl-2 rtl:pr-2 rtl:pl-0;
   }
 
-  .icon--font+.button__content {
-    @apply pl-0.5;
+  .icon--font + .button__content {
+    @apply pl-2 rtl:pr-2 rtl:pl-0;
   }
 
   // @TODDO - Remove after moving all buttons to woot-button
-  .icon+.button__content {
-    @apply pl-0.5 w-auto;
+  .icon + .button__content {
+    @apply pl-2 w-auto rtl:pr-2 rtl:pl-0;
   }
 
   &.expanded {
@@ -158,16 +158,16 @@
   &.tiny {
     @apply h-6;
 
-    .icon+.button__content {
-      @apply pl-1;
+    .icon + .button__content {
+      @apply pl-1 rtl:pr-1 rtl:pl-0;
     }
   }
 
   &.small {
     @apply h-8 pb-1 pt-1;
 
-    .icon+.button__content {
-      @apply pl-1;
+    .icon + .button__content {
+      @apply pl-1 rtl:pr-1 rtl:pl-0;
     }
   }
 
