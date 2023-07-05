@@ -170,6 +170,7 @@ describe ActionCableListener do
     end
 
     it 'broadcast custom filter update' do
+      expect(custom_filter.reload.push_event_data[:count]).to eq(custom_filter.filter_records[:count][:all_count])
       expect(ActionCableBroadcastJob).to receive(:perform_later).with(
         [agent.pubsub_token, admin.pubsub_token],
         'custom_filter.updated',
