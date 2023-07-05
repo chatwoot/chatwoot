@@ -9,7 +9,14 @@
             :key="label.title"
             @click="addLabel(label.title)"
           >
-            <woot-label variant="smooth" :dashed="true" v-bind="label" />
+            <woot-label
+              variant="smooth"
+              :dashed="true"
+              v-bind="label"
+              :bg-color="
+                selectedLabels.includes(label.title) ? 'var(--w-100)' : ''
+              "
+            />
           </button>
         </div>
         <woot-button
@@ -110,10 +117,14 @@ export default {
   },
   watch: {
     conversationId() {
+      this.selectedLabels = [];
+      this.suggestedLabels = [];
       this.fetchIfRequired();
     },
   },
   mounted() {
+    this.selectedLabels = [];
+    this.suggestedLabels = [];
     this.fetchIfRequired();
   },
   methods: {
@@ -166,14 +177,14 @@ export default {
       }
     },
     addAllLabels() {
-      if (this.selectedLabels.length) {
-        this.$emit('add-labels', this.selectedLabels);
-      } else {
-        this.$emit(
-          'add-labels',
-          this.preparedLabels.map(label => label.title)
-        );
+      let labelsToAdd = this.selectedLabels;
+      if (!labelsToAdd.length) {
+        labelsToAdd = this.preparedLabels.map(label => label.title);
       }
+      this.$store.dispatch('conversationLabels/update', {
+        conversationId: this.conversationId,
+        labels: labelsToAdd,
+      });
     },
   },
 };
