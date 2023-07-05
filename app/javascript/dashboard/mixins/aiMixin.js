@@ -3,9 +3,7 @@ import { OPEN_AI_EVENTS } from '../helper/AnalyticsHelper/events';
 
 export default {
   mounted() {
-    if (!this.appIntegrations.length) {
-      this.$store.dispatch('integrations/get');
-    }
+    this.fetchIntegrationsIfRequired();
   },
   computed: {
     ...mapGetters({ appIntegrations: 'integrations/getAppIntegrations' }),
@@ -21,6 +19,11 @@ export default {
     },
   },
   methods: {
+    async fetchIntegrationsIfRequired() {
+      if (!this.appIntegrations.length) {
+        await this.$store.dispatch('integrations/get');
+      }
+    },
     async recordAnalytics(type, payload) {
       const event = OPEN_AI_EVENTS[type.toUpperCase()];
       if (event) {
