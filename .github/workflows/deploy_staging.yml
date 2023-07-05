@@ -34,7 +34,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_STAGING }}
           ECR_REGISTRY: 823532849758.dkr.ecr.us-east-1.amazonaws.com
           ECR_REPOSITORY: conversations/birdwoot/staging/sidekiq
-          DOCKERFILE_PATH: docker/dockerfiles/sidekiq.Dockerfile
+          DOCKERFILE_PATH: docker/Dockerfile
 
       # Send status notification
       - name: Build Slack notification payload
