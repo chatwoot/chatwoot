@@ -3,6 +3,7 @@
     "TITLE": "帐户设置",
     "SUBMIT": "更新设置",
     "BACK": "后退",
+    "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "无法更新设置，请重试！",
       "SUCCESS": "已成功更新账户设置"

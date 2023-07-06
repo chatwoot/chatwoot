@@ -3,6 +3,7 @@
     "TITLE": "Setări cont",
     "SUBMIT": "Actualizați setările",
     "BACK": "Înapoi",
+    "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "Nu s-au putut actualiza setările, încercați din nou!",
       "SUCCESS": "Setările contului actualizate cu succes"

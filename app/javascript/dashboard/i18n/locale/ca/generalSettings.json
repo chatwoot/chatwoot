@@ -3,6 +3,7 @@
     "TITLE": "Configuració del compte",
     "SUBMIT": "Actualització de la configuració",
     "BACK": "Enrere",
+    "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "No s'ha pogut actualitzar la configuració, torna-ho a provar!",
       "SUCCESS": "La configuració del compte s'ha actualitzat correctament"

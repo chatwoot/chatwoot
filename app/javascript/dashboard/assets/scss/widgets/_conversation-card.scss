@@ -82,6 +82,11 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 16.875rem;
+
+    img,
+    svg {
+      display: inline-block;
+    }
   }
 
   .conversation--meta {

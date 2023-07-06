@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Tambah label",
         "PLACEHOLDER": "Cari label",
-        "NO_RESULT": "Tidak ada label"
+        "NO_RESULT": "Tidak ada label",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Gabungkan Kontak",

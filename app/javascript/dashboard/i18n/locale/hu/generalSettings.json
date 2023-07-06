@@ -3,6 +3,7 @@
     "TITLE": "Fiókbeállítások",
     "SUBMIT": "Beállítások frissítése",
     "BACK": "Vissza",
+    "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "Beállítás frissítés sikertelen, kérjük próbáld később!",
       "SUCCESS": "Fiókbeállítások frissítve"

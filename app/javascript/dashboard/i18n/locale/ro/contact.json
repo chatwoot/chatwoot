@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Adaugă etichete",
         "PLACEHOLDER": "Căutare etichete",
-        "NO_RESULT": "Nu s-au găsit etichete"
+        "NO_RESULT": "Nu s-au găsit etichete",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Îmbinare contact",
