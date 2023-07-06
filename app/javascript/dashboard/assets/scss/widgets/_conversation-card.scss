@@ -1,20 +1,20 @@
 @keyframes left-shift-animation {
   0%,
   100% {
-    @apply translate-x-0;
+    transform: translateX(0);
   }
 
   50% {
-    @apply translate-x-1;
+    transform: translateX(1px);
   }
 }
 
 .conversation {
-  @apply flex flex-shrink-0 flex-grow-0 w-auto max-w-full cursor-pointer relative py-0 px-4 border-transparent border-l-4 border-solid;
+  @apply flex flex-shrink-0 flex-grow-0 w-auto max-w-full cursor-pointer relative py-0 px-4 border-transparent border-l-2 border-t-0 border-b-0 border-r-0 border-solid;
 
   &.active {
     animation: left-shift-animation 0.25s $swift-ease-out-function;
-    @apply bg-slate-50 border-woot-500;
+    @apply bg-slate-50 dark:bg-slate-700 border-woot-500;
   }
 
   .conversation--details {
