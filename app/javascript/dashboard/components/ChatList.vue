@@ -126,27 +126,28 @@
       class="conversations-list"
       :class="{ 'is-context-menu-open': isContextMenuOpen }"
     >
-      <conversation-card
-        v-for="chat in conversationList"
-        :key="chat.id"
-        :active-label="label"
-        :team-id="teamId"
-        :folders-id="foldersId"
-        :chat="chat"
-        :conversation-type="conversationType"
-        :show-assignee="showAssigneeInConversationCard"
-        :selected="isConversationSelected(chat.id)"
-        @select-conversation="selectConversation"
-        @de-select-conversation="deSelectConversation"
-        @assign-agent="onAssignAgent"
-        @assign-team="onAssignTeam"
-        @assign-label="onAssignLabels"
-        @update-conversation-status="toggleConversationStatus"
-        @context-menu-toggle="onContextMenuToggle"
-        @mark-as-unread="markAsUnread"
-        @assign-priority="assignPriority"
-      />
-
+      <div>
+        <conversation-card
+          v-for="chat in conversationList"
+          :key="chat.id"
+          :active-label="label"
+          :team-id="teamId"
+          :folders-id="foldersId"
+          :chat="chat"
+          :conversation-type="conversationType"
+          :show-assignee="showAssigneeInConversationCard"
+          :selected="isConversationSelected(chat.id)"
+          @select-conversation="selectConversation"
+          @de-select-conversation="deSelectConversation"
+          @assign-agent="onAssignAgent"
+          @assign-team="onAssignTeam"
+          @assign-label="onAssignLabels"
+          @update-conversation-status="toggleConversationStatus"
+          @context-menu-toggle="onContextMenuToggle"
+          @mark-as-unread="markAsUnread"
+          @assign-priority="assignPriority"
+        />
+      </div>
       <div v-if="chatListLoading" class="text-center">
         <span class="spinner" />
       </div>
@@ -155,6 +156,7 @@
         v-if="!hasCurrentPageEndReached && !chatListLoading"
         variant="clear"
         size="expanded"
+        class="text-center"
         @click="loadMoreConversations"
       >
         {{ $t('CHAT_LIST.LOAD_MORE_CONVERSATIONS') }}
