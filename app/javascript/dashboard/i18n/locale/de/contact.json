@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Labels hinzufügen",
         "PLACEHOLDER": "Labels suchen",
-        "NO_RESULT": "Keine Labels gefunden"
+        "NO_RESULT": "Keine Labels gefunden",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Kontakte zusammenführen",

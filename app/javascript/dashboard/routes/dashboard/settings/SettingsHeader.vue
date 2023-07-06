@@ -1,6 +1,8 @@
 <template>
-  <div class="settings-header">
-    <h1 class="page-title">
+  <div
+    class="settings-header bg-white dark:bg-slate-900 border-b border-slate-50 dark:border-slate-800"
+  >
+    <h1 class="page-title text-black-900 dark:text-slate-300">
       <woot-sidemenu-icon v-if="showSidemenuIcon" />
       <back-button
         v-if="showBackButton"

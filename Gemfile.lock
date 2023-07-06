@@ -441,7 +441,7 @@ GEM
     mini_magick (4.12.0)
     mini_mime (1.1.2)
     mini_portile2 (2.8.2)
-    minitest (5.18.0)
+    minitest (5.18.1)
     mock_redis (0.36.0)
       ruby2_keywords
     msgpack (1.7.0)
@@ -450,7 +450,7 @@ GEM
     multipart-post (2.3.0)
     net-http-persistent (4.0.2)
       connection_pool (~> 2.2)
-    net-imap (0.3.4)
+    net-imap (0.3.6)
       date
       net-protocol
     net-pop (0.1.2)
@@ -525,7 +525,7 @@ GEM
     pundit (2.3.0)
       activesupport (>= 3.0.0)
     raabro (1.4.0)
-    racc (1.7.0)
+    racc (1.7.1)
     rack (2.2.7)
     rack-attack (6.6.1)
       rack (>= 1.0, < 3)
@@ -731,7 +731,7 @@ GEM
     time_diff (0.3.0)
       activesupport
       i18n
-    timeout (0.3.2)
+    timeout (0.4.0)
     trailblazer-option (0.1.2)
     twilio-ruby (5.77.0)
       faraday (>= 0.9, < 3.0)

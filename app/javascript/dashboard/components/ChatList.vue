@@ -956,8 +956,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~dashboard/assets/scss/woot';
-
 .spinner {
   margin-top: var(--space-normal);
   margin-bottom: var(--space-normal);
@@ -972,7 +970,7 @@ export default {
 
 .conversations-list-wrap {
   flex-shrink: 0;
-  flex-basis: clamp(32rem, 4vw + 34rem, 44rem);
+  flex-basis: clamp(20rem, 4vw + 21.25rem, 27.5rem);
   overflow: hidden;
 
   &.hide {

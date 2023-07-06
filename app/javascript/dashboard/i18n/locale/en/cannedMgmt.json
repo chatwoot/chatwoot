@@ -9,11 +9,7 @@
       "404": "There are no canned responses available in this account.",
       "TITLE": "Manage canned responses",
       "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to tickets.",
-      "TABLE_HEADER": [
-        "Short Code",
-        "Content",
-        "Actions"
-      ]
+      "TABLE_HEADER": ["Short Code", "Content", "Actions"]
     },
     "ADD": {
       "TITLE": "Add Canned Response",
@@ -34,7 +30,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Canned Response added successfully",
-        "ERROR_MESSAGE": "Could not create canned response, Please try again later"
+        "ERROR_MESSAGE": "Could not create canned response. Please try again later."
       }
     },
     "EDIT": {
@@ -56,14 +52,14 @@
       "BUTTON_TEXT": "Edit",
       "API": {
         "SUCCESS_MESSAGE": "Canned Response updated successfully",
-        "ERROR_MESSAGE": "Could not update canned response, Please try again later"
+        "ERROR_MESSAGE": "Could not update canned response. Please try again later."
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Delete",
       "API": {
         "SUCCESS_MESSAGE": "Canned response deleted successfully",
-        "ERROR_MESSAGE": "Could not delete canned response, Please try again later"
+        "ERROR_MESSAGE": "Could not delete canned response. Please try again later."
       },
       "CONFIRM": {
         "TITLE": "Confirm Deletion",

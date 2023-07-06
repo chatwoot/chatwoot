@@ -584,6 +584,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_20_212340) do
     t.jsonb "auto_assignment_config", default: {}
     t.boolean "lock_to_single_conversation", default: false, null: false
     t.bigint "portal_id"
+    t.string "business_name"
+    t.integer "sender_name_type", default: 0, null: false
     t.index ["account_id"], name: "index_inboxes_on_account_id"
     t.index ["channel_id", "channel_type"], name: "index_inboxes_on_channel_id_and_channel_type"
     t.index ["portal_id"], name: "index_inboxes_on_portal_id"

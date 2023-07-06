@@ -1,6 +1,6 @@
 <template>
   <div
-    class="conversation-details-wrap"
+    class="conversation-details-wrap bg-slate-25 dark:bg-slate-800"
     :class="{ 'with-border-right': !isOnExpandedLayout }"
   >
     <conversation-header
@@ -23,7 +23,10 @@
         :show-badge="false"
       />
     </woot-tabs>
-    <div v-show="!activeIndex" class="messages-and-sidebar">
+    <div
+      v-show="!activeIndex"
+      class="flex bg-slate-25 dark:bg-slate-800 m-0 h-full min-h-0"
+    >
       <messages-view
         v-if="currentChat.id"
         :inbox-id="inboxId"
@@ -139,16 +142,14 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '~dashboard/assets/scss/woot';
-
 .conversation-details-wrap {
   display: flex;
   flex-direction: column;
   min-width: 0;
   width: 100%;
-  background: var(--color-background-light);
 
   &.with-border-right {
-    border-right: 1px solid var(--color-border);
+    @apply border-r border-slate-50 dark:border-slate-700;
   }
 }
 
@@ -158,41 +159,29 @@ export default {
   min-height: var(--dashboard-app-tabs-height);
 }
 
-.messages-and-sidebar {
-  display: flex;
-  background: var(--color-background-light);
-  margin: 0;
-  height: 100%;
-  min-height: 0;
-}
-
 .conversation-sidebar-wrap {
-  border-right: 1px solid var(--color-border);
-  height: auto;
-  flex: 0 0;
-  z-index: var(--z-index-low);
-  overflow: auto;
+  @apply border-r border-slate-50 dark:border-slate-700;
   background: white;
   flex-basis: 100%;
 
   @include breakpoint(medium up) {
-    flex-basis: 28rem;
+    flex-basis: 17.5rem;
   }
 
   @include breakpoint(large up) {
-    flex-basis: 30em;
+    flex-basis: 18.75rem;
   }
 
   @include breakpoint(xlarge up) {
-    flex-basis: 31em;
+    flex-basis: 19.375rem;
   }
 
   @include breakpoint(xxlarge up) {
-    flex-basis: 33rem;
+    flex-basis: 20.625rem;
   }
 
   @include breakpoint(xxxlarge up) {
-    flex-basis: 40rem;
+    flex-basis: 25rem;
   }
 
   &::v-deep .contact--panel {

@@ -7,7 +7,6 @@
       :class="{ 'dropdown-pane--open': show }"
     >
       <availability-status />
-      <li class="divider" />
       <woot-dropdown-menu>
         <woot-dropdown-item v-if="showChangeAccountOption">
           <woot-button
@@ -50,7 +49,7 @@
           >
             <a
               :href="href"
-              class="button small clear secondary"
+              class="button small clear secondary custom-sidebar--button"
               :class="{ 'is-active': isActive }"
               @click="e => handleProfileSettingClick(e, navigate)"
             >
@@ -64,7 +63,7 @@
         <woot-dropdown-item v-if="currentUser.type === 'SuperAdmin'">
           <a
             href="/super_admin"
-            class="button small clear secondary"
+            class="button small clear secondary custom-sidebar--button"
             target="_blank"
             rel="noopener nofollow noreferrer"
             @click="$emit('close')"
@@ -156,5 +155,10 @@ export default {
   min-width: var(--space-giga);
   top: unset;
   z-index: var(--z-index-low);
+}
+
+.custom-sidebar--button {
+  height: var(--space-large) !important;
+  padding: var(--space-smaller) 0.675rem !important;
 }
 </style>

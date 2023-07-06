@@ -124,7 +124,7 @@ export default {
 @import '~dashboard/assets/scss/mixins';
 
 .left {
-  border-right: 1px solid var(--color-border);
+  @apply border-r border-slate-50 dark:border-slate-700;
   overflow: auto;
 }
 
