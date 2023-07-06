@@ -456,6 +456,12 @@ const actions = {
     commit(types.ASSIGN_PRIORITY, { priority, conversationId });
   },
 
+  setDraftMessages: async ({ commit }, { draftMessages }) => {
+    commit(types.SET_DRAFT_MESSAGES, {
+      draftMessages,
+    });
+  },
+
   ...messageReadActions,
   ...messageTranslateActions,
 };
