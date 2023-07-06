@@ -15,7 +15,7 @@
               hideOnClick: true,
             }"
             class="label-suggestion--option"
-            @click="addLabel(label.title)"
+            @click="pushOrAddLabel(label.title)"
           >
             <woot-label
               variant="smooth"
@@ -27,16 +27,30 @@
             />
           </button>
         </div>
-        <woot-button
-          v-if="preparedLabels.length > 1"
-          variant="smooth"
-          class="label--add"
-          icon="add"
-          size="tiny"
-          @click="addAllLabels"
-        >
-          {{ addButtonText }}
-        </woot-button>
+        <div>
+          <woot-button
+            v-if="preparedLabels.length > 1"
+            variant="smooth"
+            class="label--add"
+            icon="add"
+            size="tiny"
+            @click="addAllLabels"
+          >
+            {{ addButtonText }}
+          </woot-button>
+          <woot-button
+            v-tooltip.top="{
+              content: $t('LABEL_MGMT.SUGGESTIONS.TOOLTIP.DISMISS'),
+              delay: { show: 600, hide: 0 },
+              hideOnClick: true,
+            }"
+            variant="smooth"
+            class="label--add"
+            icon="dismiss"
+            size="tiny"
+            @click="dismissSuggestions"
+          />
+        </div>
       </div>
       <div class="sender--info has-tooltip" data-original-title="null">
         <woot-thumbnail
@@ -62,6 +76,8 @@ import Avatar from '../../Avatar.vue';
 import OpenAPI from 'dashboard/api/integrations/openapi';
 import { mapGetters } from 'vuex';
 import aiMixin from 'dashboard/mixins/aiMixin';
+import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
+import { LocalStorage } from 'shared/helpers/localStorage';
 
 export default {
   name: 'LabelSuggestion',
@@ -83,6 +99,7 @@ export default {
   },
   data() {
     return {
+      isDismissed: false,
       fetchingSuggestions: false,
       suggestedLabels: [],
       selectedLabels: [],
@@ -91,6 +108,7 @@ export default {
   computed: {
     ...mapGetters({
       allLabels: 'labels/getLabels',
+      currentAccountId: 'getCurrentAccountId',
     }),
     labelTooltip() {
       if (this.preparedLabels.length > 1) {
@@ -116,6 +134,8 @@ export default {
       );
     },
     shouldShowSuggestions() {
+      if (this.isDismissed) return false;
+
       return (
         !this.fetchingSuggestions &&
         this.preparedLabels.length &&
@@ -127,12 +147,14 @@ export default {
     conversationId() {
       this.selectedLabels = [];
       this.suggestedLabels = [];
+      this.isDismissed = this.isConversationDismissed();
       this.fetchIfRequired();
     },
   },
   mounted() {
     this.selectedLabels = [];
     this.suggestedLabels = [];
+    this.isDismissed = this.isConversationDismissed();
     this.fetchIfRequired();
   },
   methods: {
@@ -177,7 +199,7 @@ export default {
         .filter((label, index, self) => self.indexOf(label) === index) // remove any duplicates
         .map(label => label.trim()); // trim the words
     },
-    addLabel(label) {
+    pushOrAddLabel(label) {
       if (this.preparedLabels.length === 1) {
         this.addAllLabels();
         return;
@@ -188,6 +210,45 @@ export default {
       } else {
         this.selectedLabels = this.selectedLabels.filter(l => l !== label);
       }
+    },
+    dismissSuggestions() {
+      const dismissed = this.getDismissedConversations();
+      dismissed[this.currentAccountId].push(this.conversationId);
+
+      LocalStorage.set(
+        LOCAL_STORAGE_KEYS.DISMISSED_LABEL_SUGGESTIONS,
+        dismissed
+      );
+
+      // dismiss this once the values are set
+      this.isDismissed = true;
+    },
+    isConversationDismissed() {
+      const dismissed = this.getDismissedConversations();
+      return dismissed[this.currentAccountId].includes(this.conversationId);
+    },
+    getDismissedConversations() {
+      const suggestionKey = LOCAL_STORAGE_KEYS.DISMISSED_LABEL_SUGGESTIONS;
+
+      // fetch the value from Storage
+      const valueFromStorage = LocalStorage.get(suggestionKey);
+
+      // Case 1: the key is not initialized
+      if (!valueFromStorage) {
+        LocalStorage.set(suggestionKey, {
+          [this.currentAccountId]: [],
+        });
+        return LocalStorage.get(suggestionKey);
+      }
+
+      // Case 2: the key is initialized, but account ID is not present
+      if (!valueFromStorage[this.currentAccountId]) {
+        valueFromStorage[this.currentAccountId] = [];
+        LocalStorage.set(suggestionKey, valueFromStorage);
+        return LocalStorage.get(suggestionKey);
+      }
+
+      return valueFromStorage;
     },
     addAllLabels() {
       let labelsToAdd = this.selectedLabels;
