@@ -254,8 +254,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/woot';
-
 .right {
   .message-text--metadata {
     align-items: center;
@@ -319,10 +317,6 @@ export default {
       text-align: center;
       font-size: var(--font-size-micro);
       margin-left: 0;
-
-      @include breakpoint(xlarge up) {
-        margin-left: var(--space-small);
-      }
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="row settings--section" :class="{ border: showBorder }">
+  <div class="row settings--section" :class="{ 'border-bottom': showBorder }">
     <div class="medium-4 small-12 title--section">
       <p v-if="title" class="sub-block-title">
         {{ title }}
@@ -50,7 +50,7 @@ export default {
   display: flex;
   padding: 0 $space-normal $space-normal 0;
 
-  &.border {
+  &.border-bottom {
     padding-top: $space-normal;
     border-bottom: 1px solid $color-border;
   }
