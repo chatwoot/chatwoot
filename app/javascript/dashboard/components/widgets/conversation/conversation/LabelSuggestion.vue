@@ -26,10 +26,22 @@
               "
             />
           </button>
-        </div>
-        <div>
           <woot-button
-            v-if="preparedLabels.length > 1"
+            v-if="preparedLabels.length === 1"
+            v-tooltip.top="{
+              content: $t('LABEL_MGMT.SUGGESTIONS.TOOLTIP.DISMISS'),
+              delay: { show: 600, hide: 0 },
+              hideOnClick: true,
+            }"
+            variant="smooth"
+            class="label--add"
+            icon="dismiss"
+            size="tiny"
+            @click="dismissSuggestions"
+          />
+        </div>
+        <div v-if="preparedLabels.length > 1">
+          <woot-button
             variant="smooth"
             class="label--add"
             icon="add"
@@ -298,6 +310,9 @@ export default {
 
   .label-suggestion--options {
     text-align: right;
+    display: flex;
+    align-items: center;
+    gap: var(--space-micro);
 
     button.label-suggestion--option {
       .label {
