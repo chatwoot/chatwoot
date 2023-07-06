@@ -30,7 +30,7 @@
   }
 
   .conversation--message {
-    @apply text-slate-600 dark:text-slate-200 text-sm my-0 mx-2 leading-6 h-6 max-w-[96%] w-[16.875rem] overflow-hidden text-ellipsis whitespace-nowrap;
+    @apply text-slate-700 dark:text-slate-200 text-sm my-0 mx-2 leading-6 h-6 max-w-[96%] w-[16.875rem] overflow-hidden text-ellipsis whitespace-nowrap;
 
     img,
     svg {
