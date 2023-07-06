@@ -1,4 +1,4 @@
-class Integrations::OpenaiProcessorService
+class Integrations::OpenaiBaseService
   # 3.5 support 4,096 tokens
   # 1 token is approx 4 characters
   # 4,096 * 4 = 16,384 characters, sticking to 15,000 to be safe

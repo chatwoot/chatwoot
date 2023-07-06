@@ -1,4 +1,4 @@
-class Integrations::Openai::ProcessorService < Integrations::OpenaiProcessorService
+class Integrations::Openai::ProcessorService < Integrations::OpenaiBaseService
   def reply_suggestion_message
     make_api_call(reply_suggestion_body)
   end
