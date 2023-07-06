@@ -17,54 +17,6 @@
     }
   }
 
-  // Secondary sidebar
-  .secondary-sidebar {
-    .secondary-menu {
-      border-left: 1px solid var(--s-50);
-      border-right: 0;
-
-      .nested.vertical.menu {
-        .badge--icon {
-          margin-left: var(--space-smaller);
-          margin-right: unset;
-        }
-
-        .menu-label {
-          text-align: right;
-        }
-      }
-
-      .secondary-menu--icon {
-        margin-left: var(--space-smaller);
-        margin-right: unset;
-      }
-
-      // Help center sidebar
-      .sidebar-header--wrap .header-title--wrap {
-        margin-left: unset;
-        margin-right: var(--space-small);
-      }
-    }
-  }
-
-  // Woot button
-  .button {
-    .icon--emoji + .button__content {
-      padding-left: 0;
-      padding-right: var(--space-small);
-    }
-
-    .icon--font + .button__content {
-      padding-left: 0;
-      padding-right: var(--space-small);
-    }
-
-    .icon + .button__content {
-      padding-left: 0;
-      padding-right: var(--space-small);
-    }
-  }
-
   // Settings header
   .settings-header {
     .header--icon {
