@@ -3,21 +3,23 @@ class Messages::SentimentAnalysisJob < ApplicationJob
 
   def perform(message)
     return if message.account.locale != 'en'
-    return if !message.incoming? || message.private?
+    return if valid_incoming_message?(message)
 
-    # We are truncating the data here to avoind the OnnxRuntime::Error
-    # Indices element out of data bounds, idx=512 must be within the inclusive range [-512,511]
-    # While gathering the maningfull node the Array/tensor index is going out of bound
-    text = message.content&.truncate(2900)
-    sentiment = model.predict(text)
-    save_message_sentiment(message, sentiment)
+    save_message_sentiment(message)
   rescue StandardError => e
     Rails.logger.error("Sentiment Analysis Error for message #{message.id}: #{e}")
     ChatwootExceptionTracker.new(e, account: message.account).capture_exception
   end
 
-  def save_message_sentiment(message, sentiment)
+  def save_message_sentiment(message)
+    # We are truncating the data here to avoind the OnnxRuntime::Error
+    # Indices element out of data bounds, idx=512 must be within the inclusive range [-512,511]
+    # While gathering the maningfull node the Array/tensor index is going out of bound
+
+    text = message.content&.truncate(2900)
+    sentiment = model.predict(text)
     message.sentiment = sentiment.merge(value: label_val(sentiment))
+
     message.save!
   end
 
@@ -29,5 +31,9 @@ class Messages::SentimentAnalysisJob < ApplicationJob
 
   def label_val(sentiment)
     sentiment[:label] == 'positive' ? 1 : -1
+  end
+
+  def valid_incoming_message?(message)
+    !message.incoming? || message.private?
   end
 end

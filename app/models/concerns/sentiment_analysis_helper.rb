@@ -26,7 +26,7 @@ module SentimentAnalysisHelper
   end
 
   def average_sentiment_score(records)
-    total = records.pluck(:sentiment).sum { |a| a['score'] }
+    total = records.pluck(:sentiment).sum { |a| a['score'].to_f }
     total / average_message_count
   end
 
