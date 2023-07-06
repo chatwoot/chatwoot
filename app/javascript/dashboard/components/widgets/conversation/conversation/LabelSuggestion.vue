@@ -81,7 +81,7 @@ import { mapGetters } from 'vuex';
 import { LocalStorage } from 'shared/helpers/localStorage';
 
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
-import { OPEN_AI_EVENTS } from '../helper/AnalyticsHelper/events';
+import { OPEN_AI_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 
 export default {
   name: 'LabelSuggestion',
