@@ -10,7 +10,7 @@
     <letter v-else class="text-content" :html="message" />
     <button
       v-if="showQuoteToggle"
-      class="text-slate-300 dar:text-slate-300 cursor-pointer text-xs py-1"
+      class="text-slate-300 dark:text-slate-300 cursor-pointer text-xs py-1"
       @click="toggleQuotedContent"
     >
       <span v-if="showQuotedContent" class="flex items-center gap-0.5">

@@ -144,7 +144,7 @@ export default {
 
   .button--reply {
     border-radius: 0;
-    @apply border-r border-b-0 border-slate-50 dark:border-slate-700;
+    @apply border-r border-b-0 border-l-0 border-slate-50 dark:border-slate-700;
 
     &:hover,
     &:focus {
