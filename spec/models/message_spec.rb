@@ -345,4 +345,16 @@ RSpec.describe Message do
       expect(instagram_message.reload.attachments.count).to eq 1
     end
   end
+
+  context 'with sentiment analysis' do
+    let(:message) { build(:message, message_type: :incoming, content_type: nil, account: create(:account)) }
+
+    it 'calls SentimentAnalysisJob' do
+      allow(Messages::SentimentAnalysisJob).to receive(:perform_later).and_return(:perform_later).with(message)
+
+      message.save!
+
+      expect(Messages::SentimentAnalysisJob).to have_received(:perform_later)
+    end
+  end
 end
