@@ -65,6 +65,7 @@
         :is-web-widget-inbox="isAWebWidgetInbox"
       />
       <conversation-label-suggestion
+        v-if="isEnterprise"
         :chat-labels="currentChat.labels"
         :conversation-id="currentChat.id"
       />
@@ -95,22 +96,31 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
+// components
 import ReplyBox from './ReplyBox';
 import Message from './Message';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion';
+import Banner from 'dashboard/components/ui/Banner.vue';
+
+// stores and apis
+import { mapGetters } from 'vuex';
+
+// mixins
 import conversationMixin, {
   filterDuplicateSourceMessages,
 } from '../../../mixins/conversations';
-import Banner from 'dashboard/components/ui/Banner.vue';
-import { getTypingUsersText } from '../../../helper/commons';
-import { BUS_EVENTS } from 'shared/constants/busEvents';
-import { REPLY_POLICY } from 'shared/constants/links';
 import inboxMixin from 'shared/mixins/inboxMixin';
+import configMixin from 'shared/mixins/configMixin';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+
+// utils
+import { getTypingUsersText } from '../../../helper/commons';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 import { isEscape } from 'shared/helpers/KeyboardHelpers';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+
+// constants
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { REPLY_POLICY } from 'shared/constants/links';
 
 export default {
   components: {
@@ -119,7 +129,7 @@ export default {
     Banner,
     ConversationLabelSuggestion,
   },
-  mixins: [conversationMixin, inboxMixin, eventListenerMixins],
+  mixins: [conversationMixin, inboxMixin, eventListenerMixins, configMixin],
   props: {
     isContactPanelOpen: {
       type: Boolean,
