@@ -34,6 +34,14 @@
       "DELETE": "Delete",
       "CANCEL": "Cancel"
     },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Add label to conversation",
+        "MULTIPLE_SUGGESTION": "Select this label",
+        "DESELECT": "Deselect label"
+      },
+      "POWERED_BY": "Chatwoot AI"
+    },
     "ADD": {
       "TITLE": "Add label",
       "DESC": "Labels let you group the conversations together.",

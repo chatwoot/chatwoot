@@ -7,6 +7,14 @@
           <button
             v-for="label in preparedLabels"
             :key="label.title"
+            v-tooltip.top="{
+              content: selectedLabels.includes(label.title)
+                ? $t('LABEL_MGMT.SUGGESTIONS.TOOLTIP.DESELECT')
+                : labelTooltip,
+              delay: { show: 600, hide: 0 },
+              hideOnClick: true,
+            }"
+            class="label-suggestion--option"
             @click="addLabel(label.title)"
           >
             <woot-label
@@ -20,6 +28,7 @@
           </button>
         </div>
         <woot-button
+          v-if="preparedLabels.length > 1"
           variant="smooth"
           class="label--add"
           icon="add"
@@ -35,7 +44,14 @@
         </woot-button>
       </div>
       <div class="sender--info has-tooltip" data-original-title="null">
-        <woot-thumbnail size="16px">
+        <woot-thumbnail
+          v-tooltip.top="{
+            content: $t('LABEL_MGMT.SUGGESTIONS.POWERED_BY'),
+            delay: { show: 600, hide: 0 },
+            hideOnClick: true,
+          }"
+          size="16px"
+        >
           <avatar class="user-thumbnail thumbnail-rounded">
             <!-- replace with icon -->
             <svg
@@ -102,6 +118,13 @@ export default {
     ...mapGetters({
       allLabels: 'labels/getLabels',
     }),
+    labelTooltip() {
+      if (this.preparedLabels.length > 1) {
+        return this.$t('LABEL_MGMT.SUGGESTIONS.TOOLTIP.MULTIPLE_SUGGESTION');
+      }
+
+      return this.$t('LABEL_MGMT.SUGGESTIONS.TOOLTIP.SINGLE_SUGGESTION');
+    },
     preparedLabels() {
       return this.allLabels.filter(label =>
         this.suggestedLabels.includes(label.title)
@@ -170,6 +193,11 @@ export default {
         .map(label => label.trim()); // trim the words
     },
     addLabel(label) {
+      if (this.preparedLabels.length === 1) {
+        this.addAllLabels();
+        return;
+      }
+
       if (!this.selectedLabels.includes(label)) {
         this.selectedLabels.push(label);
       } else {
@@ -206,6 +234,13 @@ export default {
 
   .label-suggestion--options {
     text-align: right;
+
+    button.label-suggestion--option {
+      .label {
+        cursor: pointer;
+        margin-bottom: 0;
+      }
+    }
   }
 
   .label-suggestion--title {
