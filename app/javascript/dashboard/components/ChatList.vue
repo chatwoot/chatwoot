@@ -1,6 +1,6 @@
 <template>
   <div
-    class="conversations-list-wrap"
+    class="conversations-list-wrap flex-shrink-0 flex-basis-custom overflow-hidden flex flex-col border-r rtl:border-r-0 rtl:border-l border-slate-50 dark:border-slate-700"
     :class="{
       hide: !showConversationList,
       'list--full-width': isOnExpandedLayout,
@@ -8,26 +8,28 @@
   >
     <slot />
     <div
-      class="chat-list__top"
-      :class="{ filter__applied: hasAppliedFiltersOrActiveFolders }"
+      class="flex items-center justify-between py-0 px-4"
+      :class="{
+        'pb-3 border-b border-slate-75': hasAppliedFiltersOrActiveFolders,
+      }"
     >
-      <div class="flex-center chat-list__title">
+      <div class="flex max-w-[85%] justify-center items-center">
         <h1
-          class="page-sub-title text-truncate margin-bottom-0"
+          class="text-xl break-words overflow-hidden whitespace-nowrap text-ellipsis text-black-800 dark:text-slate-100 text-truncate mb-0"
           :title="pageTitle"
         >
           {{ pageTitle }}
         </h1>
         <span
           v-if="!hasAppliedFiltersOrActiveFolders"
-          class="conversation--status-pill"
+          class="p-1 my-0.5 mx-1 rounded-md capitalize bg-slate-50 dark:bg-slate-800 text-xxs text-slate-500 dark:text-slate-300"
         >
           {{
             this.$t(`CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.${activeStatus}.TEXT`)
           }}
         </span>
       </div>
-      <div class="filter--actions">
+      <div class="flex items-center gap-1">
         <div v-if="hasAppliedFilters && !hasActiveFolders">
           <woot-button
             v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.ADD.SAVE_BUTTON')"
@@ -124,7 +126,7 @@
     <div
       ref="activeConversation"
       class="conversations-list"
-      :class="{ 'is-context-menu-open': isContextMenuOpen }"
+      :class="{ 'overflow-hidden': isContextMenuOpen }"
     >
       <div>
         <conversation-card
@@ -149,7 +151,7 @@
         />
       </div>
       <div v-if="chatListLoading" class="text-center">
-        <span class="spinner" />
+        <span class="spinner mt-4 mb-4" />
       </div>
 
       <woot-button
@@ -162,10 +164,7 @@
         {{ $t('CHAT_LIST.LOAD_MORE_CONVERSATIONS') }}
       </woot-button>
 
-      <p
-        v-if="showEndOfListMessage"
-        class="text-center text-muted end-of-list-text"
-      >
+      <p v-if="showEndOfListMessage" class="text-center text-muted p-4">
         {{ $t('CHAT_LIST.EOF') }}
       </p>
     </div>
@@ -958,22 +957,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.spinner {
-  margin-top: var(--space-normal);
-  margin-bottom: var(--space-normal);
-}
-
-.conversations-list {
-  // Prevent the list from scrolling if the submenu is opened
-  &.is-context-menu-open {
-    overflow: hidden !important;
-  }
-}
-
 .conversations-list-wrap {
-  flex-shrink: 0;
   flex-basis: clamp(20rem, 4vw + 21.25rem, 27.5rem);
-  overflow: hidden;
 
   &.hide {
     display: none;
@@ -982,44 +967,15 @@ export default {
   &.list--full-width {
     flex-basis: 100%;
   }
-
-  .page-sub-title {
-    font-size: var(--font-size-two);
-  }
-}
-.filter--actions {
-  display: flex;
-  align-items: center;
-  gap: var(--space-smaller);
-}
-
-.filter__applied {
-  padding-bottom: var(--space-slab) !important;
-  border-bottom: 1px solid var(--color-border);
 }
 
 .tab--chat-type {
-  padding: 0 var(--space-normal);
+  @apply py-0 px-4;
 
   ::v-deep {
     .tabs {
-      padding: 0;
+      @apply p-0;
     }
   }
-}
-
-.conversation--status-pill {
-  background: var(--color-background);
-  border-radius: var(--border-radius-small);
-  color: var(--color-medium-gray);
-  font-size: var(--font-size-micro);
-  font-weight: var(--font-weight-medium);
-  margin: var(--space-micro) var(--space-small) 0;
-  padding: var(--space-smaller);
-  text-transform: capitalize;
-}
-
-.chat-list__title {
-  max-width: 85%;
 }
 </style>

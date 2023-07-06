@@ -50,51 +50,36 @@
   margin: 0 var(--space-small);
 
   .badge {
-    background: var(--color-background);
-    border-radius: var(--space-small);
-    color: var(--color-gray);
-    font-size: var(--font-size-micro);
-    font-weight: var(--font-weight-black);
-    margin: 0 var(--space-smaller);
-    padding: var(--space-smaller);
+    @apply bg-slate-50 dark:bg-slate-800 rounded-md text-black-600 dark:text-black-100 text-xxs font-semibold my-0 mx-1 px-1 py-0;
   }
 
   &:first-child {
-    margin-left: 0;
+    @apply ml-0;
   }
 
   &:last-child {
-    margin-right: 0;
+    @apply mr-0;
   }
 
   &:hover,
   &:focus {
     a {
-      color: darken($medium-gray, 20%);
+      @apply text-black-800 dark:text-black-200;
     }
   }
 
   a {
-    align-items: center;
-    border-bottom: 2px solid transparent;
-    color: $medium-gray;
-    display: flex;
-    flex-direction: row;
-    font-size: var(--font-size-small);
-    position: relative;
-    top: 1px;
+    @apply flex items-center flex-row border-b border-transparent text-black-600 dark:text-black-100 text-sm top-[1px] relative;
     transition: border-color 0.15s $swift-ease-out-function;
   }
 
   &.is-active {
     a {
-      border-bottom-color: var(--color-woot);
-      color: var(--color-woot);
+      @apply border-b border-woot-500 text-woot-500 dark:text-woot-500;
     }
 
     .badge {
-      background: $color-extra-light-blue;
-      color: var(--color-woot);
+      @apply bg-woot-50 dark:bg-woot-500 text-woot-500 dark:text-woot-50 dark:bg-opacity-40;
     }
   }
 }
