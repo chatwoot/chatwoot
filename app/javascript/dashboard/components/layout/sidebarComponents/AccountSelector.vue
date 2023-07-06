@@ -10,6 +10,7 @@
     <div class="px-8 pt-4 pb-8">
       <div
         v-for="account in currentUser.accounts"
+        :id="`account-${account.id}`"
         :key="account.id"
         class="pt-0 pb-0"
       >

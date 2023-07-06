@@ -4,7 +4,6 @@ import Vuex from 'vuex';
 import VueI18n from 'vue-i18n';
 
 import i18n from 'dashboard/i18n';
-
 import WootModal from 'dashboard/components/Modal';
 import WootModalHeader from 'dashboard/components/ModalHeader';
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
@@ -38,9 +37,7 @@ describe('accountSelctor', () => {
       },
     ],
   };
-  const accountId = 1;
-  const globalConfig = { createNewAccountFromDashboard: false };
-  let store = null;
+
   let actions = null;
   let modules = null;
 
@@ -49,44 +46,46 @@ describe('accountSelctor', () => {
     modules = {
       auth: {
         getters: {
-          getCurrentAccountId: () => accountId,
+          getCurrentAccountId: () => 1,
           getCurrentUser: () => currentUser,
         },
       },
       globalConfig: {
         getters: {
-          'globalConfig/get': () => globalConfig,
+          'globalConfig/get': () => ({ createNewAccountFromDashboard: false }),
         },
       },
     };
 
-    store = new Vuex.Store({
-      actions,
-      modules,
-    });
+    let store = new Vuex.Store({ actions, modules });
     accountSelector = mount(AccountSelector, {
       store,
       localVue,
       i18n: i18nConfig,
-      propsData: {
-        showAccountModal: true,
-      },
+      propsData: { showAccountModal: true },
+      stubs: { WootButton: { template: '<button />' } },
     });
   });
 
   it('title and sub title exist', () => {
     const headerComponent = accountSelector.findComponent(WootModalHeader);
-    const topBar = headerComponent.find('.page-top-bar');
-    const titleComponent = topBar.find('.page-sub-title');
-    expect(titleComponent.text()).toBe('Switch Account');
-    const subTitleComponent = topBar.find('p');
-    expect(subTitleComponent.text()).toBe(
-      'Select an account from the following list'
-    );
+    const title = headerComponent.findComponent({ ref: 'modalHeaderTitle' });
+    expect(title.text()).toBe('Switch Account');
+    const content = headerComponent.findComponent({
+      ref: 'modalHeaderContent',
+    });
+    expect(content.text()).toBe('Select an account from the following list');
   });
 
   it('first account item is checked', () => {
-    const accountFirstItem = accountSelector.find('.account-selector svg');
-    expect(accountFirstItem.exists()).toBe(true);
+    const selectedAccountCheckmark = accountSelector.find(
+      '#account-1 > button > svg'
+    );
+    expect(selectedAccountCheckmark.exists()).toBe(true);
+
+    const otherAccountCheckmark = accountSelector.find(
+      '#account-2 > button > svg'
+    );
+    expect(otherAccountCheckmark.exists()).toBe(true);
   });
 });

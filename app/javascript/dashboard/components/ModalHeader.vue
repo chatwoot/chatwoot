@@ -1,10 +1,17 @@
 <template>
   <div class="column page-top-bar">
     <img v-if="headerImage" :src="headerImage" alt="No image" />
-    <h2 class="text-slate-800 text-lg dark:text-slate-100">
+    <h2
+      ref="modalHeaderTitle"
+      class="text-slate-800 text-lg dark:text-slate-100"
+    >
       {{ headerTitle }}
     </h2>
-    <p v-if="headerContent" class="small-12 column wrap-content">
+    <p
+      v-if="headerContent"
+      ref="modalHeaderContent"
+      class="small-12 column wrap-content"
+    >
       {{ headerContent }}
       <span v-if="headerContentValue" class="content-value">
         {{ headerContentValue }}
