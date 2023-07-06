@@ -25,7 +25,7 @@
 
 .wizard-box {
   .item {
-    @include background-light;
+    // @include background-light;
 
     cursor: pointer;
     padding: $space-normal $space-normal $space-normal $space-medium;

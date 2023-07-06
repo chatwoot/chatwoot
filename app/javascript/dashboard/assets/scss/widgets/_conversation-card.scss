@@ -12,9 +12,7 @@
 .conversation {
   @include flex;
   @include flex-shrink;
-  border-bottom: 1px solid transparent;
   border-left: var(--space-micro) solid transparent;
-  border-top: 1px solid transparent;
   cursor: pointer;
   padding: 0 var(--space-normal);
   position: relative;
@@ -22,35 +20,11 @@
   &.active {
     animation: left-shift-animation 0.25s $swift-ease-out-function;
     background: var(--color-background);
-    border-bottom-color: var(--color-border-light);
     border-left-color: var(--color-woot);
-    border-top-color: var(--color-border-light);
-
-    .conversation--details {
-      border-top-color: transparent;
-    }
-
-    + .conversation .conversation--details {
-      border-top-color: transparent;
-    }
   }
 
-  &:first-child {
-    .conversation--details {
-      border-top-color: transparent;
-    }
-  }
-
-  &:last-child {
-    .conversation--details {
-      border-bottom-color: var(--color-border-light);
-    }
-  }
 
   .conversation--details {
-    @include border-light-bottom;
-    @include border-light-top;
-    border-bottom-color: transparent;
     padding: var(--space-slab) 0;
   }
 
