@@ -71,15 +71,17 @@
 </template>
 
 <script>
+// components
 import WootButton from '../../../ui/WootButton.vue';
 import Avatar from '../../Avatar.vue';
-import OpenAPI from 'dashboard/api/integrations/openapi';
 import aiMixin from 'dashboard/mixins/aiMixin';
 
+// store & api
 import { mapGetters } from 'vuex';
+import OpenAPI from 'dashboard/api/integrations/openapi';
 
+// utils & constants
 import { LocalStorage } from 'shared/helpers/localStorage';
-
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { OPEN_AI_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 
@@ -148,18 +150,15 @@ export default {
     },
   },
   watch: {
-    conversationId() {
-      this.selectedLabels = [];
-      this.suggestedLabels = [];
-      this.isDismissed = this.isConversationDismissed();
-      this.fetchIfRequired();
+    conversationId: {
+      immediate: true,
+      handler() {
+        this.selectedLabels = [];
+        this.suggestedLabels = [];
+        this.isDismissed = this.isConversationDismissed();
+        this.fetchIfRequired();
+      },
     },
-  },
-  mounted() {
-    this.selectedLabels = [];
-    this.suggestedLabels = [];
-    this.isDismissed = this.isConversationDismissed();
-    this.fetchIfRequired();
   },
   methods: {
     async fetchIfRequired() {
