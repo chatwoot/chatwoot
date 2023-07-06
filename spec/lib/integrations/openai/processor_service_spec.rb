@@ -153,5 +153,27 @@ RSpec.describe Integrations::Openai::ProcessorService do
         expect(subject.perform).to be_nil
       end
     end
+
+    context 'when event name is fix_spelling_grammar' do
+      let(:event) { { 'name' => 'fix_spelling_grammar', 'data' => { 'content' => 'This is a test' } } }
+
+      it 'returns the corrected text' do
+        request_body = {
+          'model' => 'gpt-3.5-turbo',
+          'messages' => [
+            { 'role' => 'system', 'content' => 'You are a helpful support agent. Please fix the spelling and grammar of the following response. ' \
+                                               'Reply in the user\'s language.' },
+            { 'role' => 'user', 'content' => event['data']['content'] }
+          ]
+        }.to_json
+
+        stub_request(:post, 'https://api.openai.com/v1/chat/completions')
+          .with(body: request_body, headers: expected_headers)
+          .to_return(status: 200, body: openai_response, headers: {})
+
+        result = subject.perform
+        expect(result).to eq('This is a reply from openai.')
+      end
+    end
   end
 end
