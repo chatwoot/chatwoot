@@ -815,4 +815,27 @@ RSpec.describe Conversation do
       end
     end
   end
+
+  describe 'conversation sentiments' do
+    include ActiveJob::TestHelper
+
+    let(:conversation) { create(:conversation, additional_attributes: { referer: 'https://www.chatwoot.com/' }) }
+
+    before do
+      10.times do
+        message = create(:message, conversation_id: conversation.id, account_id: conversation.account_id, message_type: 'incoming')
+        Messages::SentimentAnalysisJob.perform_now(message)
+      end
+    end
+
+    it 'returns opening sentiments' do
+      sentiments = conversation.opening_sentiments
+      expect(sentiments[:label]).to eq('positive')
+    end
+
+    it 'returns closing sentiments' do
+      sentiments = conversation.closing_sentiments
+      expect(sentiments[:label]).to eq('positive')
+    end
+  end
 end

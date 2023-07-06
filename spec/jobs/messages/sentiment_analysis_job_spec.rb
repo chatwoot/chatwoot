@@ -21,6 +21,7 @@ RSpec.describe Messages::SentimentAnalysisJob do
 
         expect(message.sentiment).not_to be_empty
         expect(message.sentiment['label']).to eq('positive')
+        expect(message.sentiment['value']).to eq(1)
       end
 
       it 'update sentiment label for negative message' do
@@ -30,6 +31,7 @@ RSpec.describe Messages::SentimentAnalysisJob do
 
         expect(message.sentiment).not_to be_empty
         expect(message.sentiment['label']).to eq('negative')
+        expect(message.sentiment['value']).to eq(-1)
       end
     end
 

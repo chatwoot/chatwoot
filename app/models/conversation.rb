@@ -57,6 +57,7 @@ class Conversation < ApplicationRecord
   include UrlHelper
   include SortHandler
   include ConversationMuteHelpers
+  include SentimentAnalysisHelper
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true

@@ -17,7 +17,7 @@ class Messages::SentimentAnalysisJob < ApplicationJob
   end
 
   def save_message_sentiment(message, sentiment)
-    message.sentiment = sentiment
+    message.sentiment = sentiment.merge(value: label_val(sentiment))
     message.save!
   end
 
@@ -25,5 +25,9 @@ class Messages::SentimentAnalysisJob < ApplicationJob
   def model
     model_path = ENV.fetch('SENTIMENT_FILE_PATH', nil)
     Informers::SentimentAnalysis.new(model_path)
+  end
+
+  def label_val(sentiment)
+    sentiment[:label] == 'positive' ? 1 : -1
   end
 end
