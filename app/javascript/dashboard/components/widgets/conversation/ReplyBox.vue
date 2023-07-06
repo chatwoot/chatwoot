@@ -607,6 +607,9 @@ export default {
           LOCAL_STORAGE_KEYS.DRAFT_MESSAGES,
           updatedDraftMessages
         );
+        this.$store.dispatch('setDraftMessages', {
+          draftMessages: updatedDraftMessages,
+        });
       }
     },
     setToDraft(conversationId, replyType) {
