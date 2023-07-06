@@ -1,5 +1,5 @@
 <template>
-  <div class="row app-wrapper">
+  <div class="row app-wrapper dark:text-slate-300">
     <sidebar
       :route="currentRoute"
       :show-secondary-sidebar="isSidebarOpen"

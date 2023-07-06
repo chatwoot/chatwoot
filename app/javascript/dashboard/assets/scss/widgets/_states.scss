@@ -1,18 +1,3 @@
-.loading-state {
-  padding: $space-jumbo $space-smaller;
-
-  .message {
-    color: $color-gray;
-    display: block;
-    text-align: center;
-    width: 100%;
-  }
-
-  .spinner {
-    float: none;
-    top: -$space-smaller;
-  }
-}
 
 // EMPTY STATES
 .empty-state {

@@ -61,3 +61,7 @@ input {
     border-color: var(--r-400);
   }
 }
+
+label {
+  @apply dark:text-slate-300;
+}

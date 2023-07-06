@@ -18,7 +18,11 @@
       :icon="icon"
       :icon-size="iconSize"
     />
-    <span v-if="$slots.default" class="button__content">
+    <span
+      v-if="$slots.default"
+      class="button__content"
+      :class="{ 'text-left rtl:text-right': size !== 'expanded' }"
+    >
       <slot />
     </span>
   </button>

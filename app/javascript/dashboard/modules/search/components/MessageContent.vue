@@ -1,5 +1,8 @@
 <template>
-  <blockquote ref="messageContainer" class="message">
+  <blockquote
+    ref="messageContainer"
+    class="message border-l-2 border-slate-100"
+  >
     <p class="header">
       <strong class="author">
         {{ author }}
@@ -80,8 +83,6 @@ export default {
 
 <style scoped lang="scss">
 .message {
-  border-color: var(--s-100);
-  border-width: var(--space-micro);
   padding: 0 var(--space-small);
   margin-top: var(--space-small);
 }

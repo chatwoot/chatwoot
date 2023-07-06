@@ -2,10 +2,10 @@
   <div class="modal-mask">
     <div
       v-on-clickaway="closeNotificationPanel"
-      class="notification-wrap flex-space-between"
+      class="notification-wrap flex justify-between z-10 rounded-md shadow-md absolute bg-white dark:bg-slate-800 left-14 rtl:left-auto rtl:right-14 m-4"
     >
-      <div class="header-wrap w-full flex-space-between">
-        <div class="header-title--wrap flex-view">
+      <div class="header-wrap w-full flex justify-between">
+        <div class="header-title--wrap flex">
           <span class="header-title">
             {{ $t('NOTIFICATIONS_PAGE.UNREAD_NOTIFICATION.TITLE') }}
           </span>
@@ -13,7 +13,7 @@
             {{ totalUnreadNotifications }}
           </span>
         </div>
-        <div class="flex-view">
+        <div class="flex">
           <woot-button
             v-if="!noUnreadNotificationAvailable"
             color-scheme="primary"
@@ -48,8 +48,8 @@
         :on-click-notification="openConversation"
         :in-last-page="inLastPage"
       />
-      <div v-if="records.length !== 0" class="footer-wrap flex-space-between">
-        <div class="flex-view">
+      <div v-if="records.length !== 0" class="footer-wrap flex justify-between">
+        <div class="flex">
           <woot-button
             size="medium"
             variant="clear"
@@ -75,7 +75,7 @@
           />
         </div>
         <span class="page-count"> {{ currentPage }} - {{ lastPage }} </span>
-        <div class="flex-view">
+        <div class="flex">
           <woot-button
             color-scheme="secondary"
             variant="clear"
@@ -236,24 +236,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.flex-view {
-  display: flex;
-}
-
-.flex-space-between {
-  display: flex;
-  justify-content: space-between;
-}
-
 .notification-wrap {
   flex-direction: column;
   height: 90vh;
   width: 32.5rem;
-  background-color: var(--white);
-  border-radius: var(--border-radius-medium);
-  position: absolute;
-  left: var(--space-jumbo);
-  margin: var(--space-small);
 }
 
 .header-wrap {

@@ -390,3 +390,42 @@
     margin-bottom: 0;
   }
 }
+
+.conversation-sidebar-wrap {
+  flex: 0 0;
+  flex-basis: 100%;
+  height: auto;
+  overflow: auto;
+  z-index: var(--z-index-low);
+
+  @include breakpoint(medium up) {
+    flex-basis: 17.5rem;
+  }
+
+  @include breakpoint(large up) {
+    flex-basis: 18.75rem;
+  }
+
+  @include breakpoint(xlarge up) {
+    flex-basis: 19.375rem;
+  }
+
+  @include breakpoint(xxlarge up) {
+    flex-basis: 20.625rem;
+  }
+
+  @include breakpoint(xxxlarge up) {
+    flex-basis: 25rem;
+  }
+}
+
+
+.activity-wrap {
+  .message-text--metadata {
+    .time {
+      @include breakpoint(xlarge up) {
+        margin-left: var(--space-small);
+      }
+    }
+  }
+}

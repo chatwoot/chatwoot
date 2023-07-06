@@ -1,5 +1,7 @@
 <template>
-  <div class="medium-3 bg-white contact--panel">
+  <div
+    class="medium-3 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-300 contact--panel"
+  >
     <contact-info
       :contact="contact"
       :channel-type="channelType"
@@ -258,7 +260,6 @@ export default {
 @import '~dashboard/assets/scss/variables';
 
 .contact--panel {
-  background: white;
   border-left: 1px solid var(--color-border);
   font-size: $font-size-small;
   overflow-y: auto;
