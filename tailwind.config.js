@@ -1,14 +1,20 @@
+const defaultTheme = require('tailwindcss/defaultTheme');
 module.exports = {
   darkMode: 'class',
   content: [
     './app/javascript/widget/**/*.vue',
     './app/javascript/v3/**/*.vue',
+    './app/javascript/dashboard/**/*.vue',
     './app/javascript/portal/**/*.vue',
     './app/javascript/shared/**/*.vue',
     './app/javascript/survey/**/*.vue',
     './app/views/**/*.html.erb',
   ],
   theme: {
+    fontSize: {
+      xxs: '0.625rem',
+      ...defaultTheme.fontSize,
+    },
     colors: {
       transparent: 'transparent',
       white: '#fff',

@@ -4,15 +4,13 @@ table {
 
   thead {
     th {
-      font-weight: var(--font-weight-bold);
-      text-align: left;
-      text-transform: uppercase;
+      @apply font-medium text-left uppercase text-slate-900 dark:text-slate-200;
     }
   }
 
   tbody {
     tr {
-      border-bottom: 1px solid var(--color-border-light);
+      @apply border-b border-slate-50 dark:border-slate-700;
     }
 
     td {
