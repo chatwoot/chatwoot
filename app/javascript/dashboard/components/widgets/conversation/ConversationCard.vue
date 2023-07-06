@@ -1,6 +1,6 @@
 <template>
   <div
-    class="conversation"
+    class="conversation group border-t border-transparent"
     :class="{
       active: isActiveChat,
       'unread-chat': hasUnread,
@@ -30,7 +30,9 @@
       :status="currentContact.availability_status"
       size="40px"
     />
-    <div class="conversation--details columns">
+    <div
+      class="conversation--details border-b group-last:border-transparent group-hover:border-transparent border-slate-50 dark:border-slate-800 columns"
+    >
       <div class="conversation--metadata">
         <inbox-name v-if="showInboxName" :inbox="inbox" />
         <div class="conversation-metadata-attributes">
