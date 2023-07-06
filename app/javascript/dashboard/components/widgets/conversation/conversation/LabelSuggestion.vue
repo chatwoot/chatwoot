@@ -74,10 +74,14 @@
 import WootButton from '../../../ui/WootButton.vue';
 import Avatar from '../../Avatar.vue';
 import OpenAPI from 'dashboard/api/integrations/openapi';
-import { mapGetters } from 'vuex';
 import aiMixin from 'dashboard/mixins/aiMixin';
-import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
+
+import { mapGetters } from 'vuex';
+
 import { LocalStorage } from 'shared/helpers/localStorage';
+
+import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
+import { OPEN_AI_EVENTS } from '../helper/AnalyticsHelper/events';
 
 export default {
   name: 'LabelSuggestion',
@@ -222,6 +226,7 @@ export default {
 
       // dismiss this once the values are set
       this.isDismissed = true;
+      this.trackLabelEvent(OPEN_AI_EVENTS.DISMISS_LABEL_SUGGESTION);
     },
     isConversationDismissed() {
       const dismissed = this.getDismissedConversations();
@@ -259,6 +264,19 @@ export default {
         conversationId: this.conversationId,
         labels: labelsToAdd,
       });
+      this.trackLabelEvent(OPEN_AI_EVENTS.LABEL_SUGGESTION_APPLIED);
+    },
+    trackLabelEvent(event) {
+      const payload = {
+        conversationId: this.conversationId,
+        account: this.currentAccountId,
+        suggestions: this.suggestedLabels,
+        labelsApplied: this.selectedLabels.length
+          ? this.selectedLabels
+          : this.suggestedLabels,
+      };
+
+      this.$track(event, payload);
     },
   },
 };
