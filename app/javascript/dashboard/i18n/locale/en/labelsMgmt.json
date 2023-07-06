@@ -40,7 +40,10 @@
         "MULTIPLE_SUGGESTION": "Select this label",
         "DESELECT": "Deselect label"
       },
-      "POWERED_BY": "Chatwoot AI"
+      "POWERED_BY": "Chatwoot AI",
+      "ADD_SELECTED_LABELS": "Add selected labels",
+      "ADD_SELECTED_LABEL": "Add selected label",
+      "ADD_ALL_LABELS": "Add all labels"
     },
     "ADD": {
       "TITLE": "Add label",

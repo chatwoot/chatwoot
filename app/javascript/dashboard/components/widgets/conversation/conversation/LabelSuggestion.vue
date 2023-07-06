@@ -35,12 +35,7 @@
           size="tiny"
           @click="addAllLabels"
         >
-          <template v-if="selectedLabels.length === 0">
-            Add all labels
-          </template>
-          <template v-else>
-            Add selected labels
-          </template>
+          {{ addButtonText }}
         </woot-button>
       </div>
       <div class="sender--info has-tooltip" data-original-title="null">
@@ -124,6 +119,17 @@ export default {
       }
 
       return this.$t('LABEL_MGMT.SUGGESTIONS.TOOLTIP.SINGLE_SUGGESTION');
+    },
+    addButtonText() {
+      if (this.selectedLabels.length === 1) {
+        return this.$t('LABEL_MGMT.SUGGESTIONS.ADD_SELECTED_LABEL');
+      }
+
+      if (this.selectedLabels.length > 1) {
+        return this.$t('LABEL_MGMT.SUGGESTIONS.ADD_SELECTED_LABELS');
+      }
+
+      return this.$t('LABEL_MGMT.SUGGESTIONS.ADD_ALL_LABELS');
     },
     preparedLabels() {
       return this.allLabels.filter(label =>
