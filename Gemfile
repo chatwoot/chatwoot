@@ -167,7 +167,7 @@ gem 'omniauth-rails_csrf_protection', '~> 1.0'
 
 
 # Sentiment analysis
-gem "informers"
+gem 'informers'
 
 ### Gems required only in specific deployment environments ###
 ##############################################################
