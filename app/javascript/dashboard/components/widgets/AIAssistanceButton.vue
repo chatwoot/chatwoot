@@ -76,7 +76,7 @@ import OpenAPI from 'dashboard/api/integrations/openapi';
 import alertMixin from 'shared/mixins/alertMixin';
 import { OPEN_AI_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
-import { hasPressedCommandZKey } from 'shared/helpers/KeyboardHelpers';
+import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 
 export default {
   mixins: [alertMixin, clickaway, eventListenerMixins],
@@ -144,8 +144,9 @@ export default {
 
   methods: {
     onKeyDownHandler(event) {
+      const keyPattern = buildHotKeys(event);
       const shouldRevertTheContent =
-        hasPressedCommandZKey(event) && !!this.initialMessage;
+        ['meta+z', 'ctrl+z'].includes(keyPattern) && !!this.initialMessage;
 
       if (shouldRevertTheContent) {
         this.$emit('replace-text', this.initialMessage);
