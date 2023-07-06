@@ -1,123 +1,75 @@
 @keyframes left-shift-animation {
   0%,
   100% {
-    transform: translateX(0);
+    @apply translate-x-0;
   }
 
   50% {
-    transform: translateX(1px);
+    @apply translate-x-1;
   }
 }
 
 .conversation {
-  @include flex;
-  @include flex-shrink;
-  border-left: var(--space-micro) solid transparent;
-  cursor: pointer;
-  padding: 0 var(--space-normal);
-  position: relative;
+  @apply flex flex-shrink-0 flex-grow-0 w-auto max-w-full cursor-pointer relative py-0 px-4 border-transparent border-l-4 border-solid;
 
   &.active {
     animation: left-shift-animation 0.25s $swift-ease-out-function;
-    background: var(--color-background);
-    border-left-color: var(--color-woot);
+    @apply bg-slate-50 border-woot-500;
   }
 
-
   .conversation--details {
-    padding: var(--space-slab) 0;
+    @apply py-3 px-0;
   }
 
   .conversation--user {
-    font-size: var(--font-size-small);
-    margin: 0 var(--space-small);
-    text-transform: capitalize;
+    @apply text-sm my-0 mx-2 capitalize;
 
     .label {
-      left: var(--space-one);
-      max-width: var(--space-jumbo);
-      overflow: hidden;
-      position: relative;
-      text-overflow: ellipsis;
-      top: var(--space-one);
-      white-space: nowrap;
+      @apply left-2.5 max-w-[4rem] overflow-hidden relative text-ellipsis top-2.5 whitespace-nowrap;
     }
   }
 
   .conversation--message {
-    color: var(--color-body);
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-normal);
-    height: var(--space-medium);
-    line-height: var(--space-medium);
-    margin: 0 var(--space-small);
-    max-width: 96%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 16.875rem;
+    @apply text-slate-600 dark:text-slate-200 text-sm my-0 mx-2 leading-6 h-6 max-w-[96%] w-[16.875rem] overflow-hidden text-ellipsis whitespace-nowrap;
 
     img,
     svg {
-      display: inline-block;
+      @apply inline-block;
     }
   }
 
   .conversation--meta {
-    @include flex;
-    flex-direction: column;
-    position: absolute;
-    right: var(--space-normal);
-    top: var(--space-normal);
+    @apply flex flex-col absolute right-4 top-4;
 
     .unread {
-      @include round-corner;
       @include light-shadow;
-      background: darken($success-color, 3%);
-      color: var(--white);
-      display: none;
-      font-size: var(--font-size-micro);
-      font-weight: var(--font-weight-black);
-      height: var(--space-normal);
-      line-height: var(--space-normal);
-      margin-left: auto;
-      margin-top: var(--space-smaller);
-      min-width: var(--space-normal);
-      padding: 0 var(--space-smaller);
-      text-align: center;
+      @apply rounded-full hidden text-xxs font-semibold h-4 leading-4 ml-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-green-400;
     }
 
     .timestamp {
-      color: $dark-gray;
-      font-size: var(--font-size-micro);
-      font-weight: var(--font-weight-normal);
-      line-height: var(--space-normal);
-      margin-left: auto;
+      @apply text-black-600 text-xxs font-normal leading-4 ml-auto;
     }
   }
 
   &.unread-chat {
     .unread {
-      display: inline-block;
+      @apply block;
     }
 
     .conversation--message {
-      font-weight: var(--font-weight-bold);
+      @apply font-semibold;
     }
 
     .conversation--user {
-      font-weight: var(--font-weight-bold);
+      @apply font-semibold;
     }
   }
 
   &.compact {
-    padding-left: 0;
+    @apply pl-0;
 
     .conversation--details {
-      border-radius: var(--border-radius-small);
-      margin-left: 0;
-      padding-left: var(--space-two);
-      padding-right: var(--space-small);
+      @apply rounded-sm ml-0 pl-5 pr-2;
     }
   }
 }

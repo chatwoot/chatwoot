@@ -1,6 +1,6 @@
 <template>
   <div
-    class="conversation group border-t border-transparent"
+    class="conversation items-start hover:bg-slate-50 dark:hover:bg-slate-800 group border-t border-transparent"
     :class="{
       active: isActiveChat,
       'unread-chat': hasUnread,
@@ -33,12 +33,12 @@
     <div
       class="conversation--details border-b group-last:border-transparent group-hover:border-transparent border-slate-50 dark:border-slate-800 columns"
     >
-      <div class="conversation--metadata">
+      <div class="flex justify-between">
         <inbox-name v-if="showInboxName" :inbox="inbox" />
-        <div class="conversation-metadata-attributes">
+        <div class="flex gap-2 ml-2 rtl:mr-2 rtl:ml-0">
           <span
             v-if="showAssignee && assignee.name"
-            class="label assignee-label text-truncate"
+            class="text-slate-500 dark:text-slate-400 test-xs font-medium leading-3 py-0.5 px-0 inline-flex max-w-[50%] text-ellipsis overflow-hidden whitespace-nowrap"
           >
             <fluent-icon icon="person" size="12" />
             {{ assignee.name }}
@@ -46,26 +46,28 @@
           <priority-mark :priority="chat.priority" />
         </div>
       </div>
-      <h4 class="conversation--user">
+      <h4
+        class="conversation--user pt-0.5 text-ellipsis overflow-hidden whitespace-nowrap w-[60%] text-slate-900 dark:text-slate-100"
+      >
         {{ currentContact.name }}
       </h4>
       <p v-if="lastMessageInChat" class="conversation--message">
         <fluent-icon
           v-if="isMessagePrivate"
           size="16"
-          class="message--attachment-icon last-message-icon"
+          class="-mt-0.5 align-middle text-slate-600 dark:text-slate-300"
           icon="lock-closed"
         />
         <fluent-icon
           v-else-if="messageByAgent"
           size="16"
-          class="message--attachment-icon last-message-icon"
+          class="-mt-0.5 align-middle text-slate-600 dark:text-slate-300"
           icon="arrow-reply"
         />
         <fluent-icon
           v-else-if="isMessageAnActivity"
           size="16"
-          class="message--attachment-icon last-message-icon"
+          class="-mt-0.5 align-middle text-slate-600 dark:text-slate-300"
           icon="info"
         />
         <span v-if="lastMessageInChat.content">
@@ -75,7 +77,7 @@
           <fluent-icon
             v-if="attachmentIcon"
             size="16"
-            class="message--attachment-icon"
+            class="-mt-0.5 align-middle"
             :icon="attachmentIcon"
           />
           {{ this.$t(`${attachmentMessageContent}`) }}
@@ -85,7 +87,7 @@
         </span>
       </p>
       <p v-else class="conversation--message">
-        <fluent-icon size="16" class="message--attachment-icon" icon="info" />
+        <fluent-icon size="16" class="-mt-0.5 align-middle" icon="info" />
         <span>
           {{ this.$t(`CHAT_LIST.NO_MESSAGES`) }}
         </span>
@@ -400,94 +402,32 @@ export default {
 </script>
 <style lang="scss" scoped>
 .conversation {
-  align-items: flex-start;
-
-  &:hover {
-    background: var(--color-background-light);
-  }
-
   &::v-deep .user-thumbnail-box {
-    margin-top: var(--space-normal);
+    @apply mt-4;
   }
-}
 
-.conversation-selected {
-  background: var(--color-background-light);
-}
-
-.has-inbox-name {
-  &::v-deep .user-thumbnail-box {
-    margin-top: var(--space-large);
+  &.conversation-selected {
+    @apply bg-slate-25 dark:bg-slate-800;
   }
+
+  &.has-inbox-name {
+    &::v-deep .user-thumbnail-box {
+      @apply mt-8;
+    }
+    .checkbox-wrapper {
+      @apply mt-8;
+    }
+    .conversation--meta {
+      @apply mt-4;
+    }
+  }
+
   .checkbox-wrapper {
-    margin-top: var(--space-large);
-  }
-  .conversation--meta {
-    margin-top: var(--space-normal);
-  }
-}
+    @apply h-10 w-10 flex items-center justify-center rounded-full cursor-pointer mt-4 hover:bg-woot-100 dark:hover:bg-woot-800;
 
-.conversation--details {
-  .conversation--user {
-    padding-top: var(--space-micro);
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    width: 60%;
-  }
-}
-
-.last-message-icon {
-  color: var(--s-600);
-}
-
-.conversation--metadata {
-  display: flex;
-  justify-content: space-between;
-
-  .label {
-    background: none;
-    color: var(--s-500);
-    font-size: var(--font-size-mini);
-    font-weight: var(--font-weight-medium);
-    line-height: var(--space-slab);
-    padding: var(--space-micro) 0 var(--space-micro) 0;
-  }
-
-  .conversation-metadata-attributes {
-    display: flex;
-    gap: var(--space-small);
-    margin-left: var(--space-small);
-  }
-
-  .assignee-label {
-    display: inline-flex;
-    max-width: 50%;
-  }
-}
-
-.message--attachment-icon {
-  margin-top: var(--space-minus-micro);
-  vertical-align: middle;
-}
-
-.checkbox-wrapper {
-  height: 40px;
-  width: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 100%;
-  margin-top: var(--space-normal);
-  cursor: pointer;
-
-  &:hover {
-    background-color: var(--w-100);
-  }
-
-  input[type='checkbox'] {
-    margin: var(--space-zero);
-    cursor: pointer;
+    input[type='checkbox'] {
+      @apply m-0 cursor-pointer;
+    }
   }
 }
 </style>
