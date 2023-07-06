@@ -329,8 +329,8 @@ export default {
 
   .label-suggestion--title {
     color: var(--b-600);
+    margin-top: var(--space-micro);
     font-size: var(--font-size-micro);
-    line-height: var(--font-size-big);
   }
 }
 </style>
