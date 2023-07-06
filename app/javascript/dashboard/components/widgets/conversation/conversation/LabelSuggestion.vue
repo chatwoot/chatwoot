@@ -141,6 +141,7 @@ export default {
     },
     shouldShowSuggestions() {
       if (this.isDismissed) return false;
+      if (!this.isAIIntegrationEnabled) return false;
 
       return (
         !this.fetchingSuggestions &&
@@ -167,11 +168,11 @@ export default {
       }
 
       this.fetchIntegrationsIfRequired().then(() => {
-        if (this.isAIIntegrationEnabled) {
-          this.fetchLabelSuggestion().then(labels => {
-            this.suggestedLabels = labels;
-          });
-        }
+        if (!this.isAIIntegrationEnabled) return;
+
+        this.fetchLabelSuggestion().then(labels => {
+          this.suggestedLabels = labels;
+        });
       });
     },
     async fetchLabelSuggestion() {

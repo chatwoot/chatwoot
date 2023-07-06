@@ -65,7 +65,7 @@
         :is-web-widget-inbox="isAWebWidgetInbox"
       />
       <conversation-label-suggestion
-        v-if="isEnterprise"
+        v-if="isEnterprise && isAIIntegrationEnabled"
         :chat-labels="currentChat.labels"
         :conversation-id="currentChat.id"
       />
@@ -112,6 +112,7 @@ import conversationMixin, {
 import inboxMixin from 'shared/mixins/inboxMixin';
 import configMixin from 'shared/mixins/configMixin';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import aiMixin from 'dashboard/mixins/aiMixin';
 
 // utils
 import { getTypingUsersText } from '../../../helper/commons';
@@ -129,7 +130,13 @@ export default {
     Banner,
     ConversationLabelSuggestion,
   },
-  mixins: [conversationMixin, inboxMixin, eventListenerMixins, configMixin],
+  mixins: [
+    conversationMixin,
+    inboxMixin,
+    eventListenerMixins,
+    configMixin,
+    aiMixin,
+  ],
   props: {
     isContactPanelOpen: {
       type: Boolean,
@@ -309,7 +316,7 @@ export default {
   mounted() {
     this.addScrollListener();
     this.fetchAllAttachmentsFromCurrentChat();
-    this.fetchIntegrations();
+    this.fetchIntegrationsIfRequired();
   },
 
   beforeDestroy() {
@@ -320,11 +327,6 @@ export default {
   methods: {
     fetchAllAttachmentsFromCurrentChat() {
       this.$store.dispatch('fetchAllAttachments', this.currentChat.id);
-    },
-    fetchIntegrations() {
-      if (!this.appIntegrations.length) {
-        this.$store.dispatch('integrations/get');
-      }
     },
     removeBusListeners() {
       bus.$off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
