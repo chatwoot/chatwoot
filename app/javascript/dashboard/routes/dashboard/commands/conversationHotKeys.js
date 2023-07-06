@@ -1,6 +1,8 @@
 import { mapGetters } from 'vuex';
 import wootConstants from 'dashboard/constants/globals';
+
 import {
+  CMD_AI_ASSIST,
   CMD_MUTE_CONVERSATION,
   CMD_REOPEN_CONVERSATION,
   CMD_RESOLVE_CONVERSATION,
@@ -26,6 +28,8 @@ import {
   ICON_PRIORITY_LOW,
   ICON_PRIORITY_MEDIUM,
   ICON_PRIORITY_NONE,
+  ICON_AI_ASSIST,
+  ICON_AI_SUMMARY,
 } from './CommandBarIcons';
 
 const SNOOZE_OPTIONS = wootConstants.SNOOZE_OPTIONS;
@@ -162,9 +166,15 @@ export default {
     activeLabels() {
       this.setCommandbarData();
     },
+    draftMessages() {
+      this.setCommandbarData();
+    },
   },
   computed: {
-    ...mapGetters({ currentChat: 'getSelectedChat' }),
+    ...mapGetters({
+      currentChat: 'getSelectedChat',
+      draftMessages: 'getDraftMessages',
+    }),
     inboxId() {
       return this.currentChat?.inbox_id;
     },
@@ -337,6 +347,92 @@ export default {
       ]);
     },
 
+    AIAssistActions() {
+      const savedDraftMessages = this.draftMessages || {};
+      const replyType = 'REPLY';
+      const key = `draft-${this.currentChat.id}-${replyType}`;
+      const message = `${savedDraftMessages[key] || ''}`;
+      let aiOptions = [];
+
+      if (!message) {
+        aiOptions = [
+          {
+            label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.REPLY_TITLE'),
+            key: 'reply_suggestion',
+            icon: ICON_AI_ASSIST,
+          },
+          {
+            label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.SUMMARY_TITLE'),
+            key: 'summarize',
+            icon: ICON_AI_SUMMARY,
+          },
+        ];
+      } else {
+        aiOptions = [
+          {
+            label: this.$t(
+              'INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.IMPROVE_WRITING'
+            ),
+            key: 'improve_writing',
+            icon: ICON_AI_ASSIST,
+          },
+          {
+            label: this.$t(
+              'INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.FIX_SPELLING_AND_GRAMMAR'
+            ),
+            key: 'fix_spelling_grammar',
+            icon: ICON_AI_ASSIST,
+          },
+          {
+            label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.SHORTEN'),
+            key: 'shorten',
+            icon: ICON_AI_ASSIST,
+          },
+          {
+            label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.EXPAND'),
+            key: 'expand',
+            icon: ICON_AI_ASSIST,
+          },
+          {
+            label: this.$t(
+              'INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.MAKE_FRIENDLY'
+            ),
+            key: 'make_friendly',
+            icon: ICON_AI_ASSIST,
+          },
+          {
+            label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.MAKE_FORMAL'),
+            key: 'make_formal',
+            icon: ICON_AI_ASSIST,
+          },
+          {
+            label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.SIMPLIFY'),
+            key: 'simplify',
+            icon: ICON_AI_ASSIST,
+          },
+        ];
+      }
+      const options = aiOptions.map(item => ({
+        id: `ai-assist-${item.key}`,
+        title: item.label,
+        parent: 'ai_assist',
+        section: this.$t('COMMAND_BAR.SECTIONS.AI_ASSIST'),
+        priority: item,
+        icon: item.icon,
+        handler: () => bus.$emit(CMD_AI_ASSIST, item.key),
+      }));
+      return [
+        {
+          id: 'ai_assist',
+          title: this.$t('COMMAND_BAR.COMMANDS.AI_ASSIST'),
+          section: this.$t('COMMAND_BAR.SECTIONS.AI_ASSIST'),
+          icon: ICON_AI_ASSIST,
+          children: options.map(option => option.id),
+        },
+        ...options,
+      ];
+    },
+
     conversationHotKeys() {
       if (isAConversationRoute(this.$route.name)) {
         return [
@@ -346,6 +442,7 @@ export default {
           ...this.assignTeamActions,
           ...this.labelActions,
           ...this.assignPriorityActions,
+          ...this.AIAssistActions,
         ];
       }
 

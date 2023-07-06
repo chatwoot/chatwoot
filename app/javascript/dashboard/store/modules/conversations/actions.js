@@ -162,6 +162,12 @@ const actions = {
     });
   },
 
+  setDraftMessages: async ({ commit }, { draftMessages }) => {
+    commit(types.SET_DRAFT_MESSAGES, {
+      draftMessages,
+    });
+  },
+
   async setActiveChat({ commit, dispatch }, { data, after }) {
     commit(types.SET_CURRENT_CHAT_WINDOW, data);
     commit(types.CLEAR_ALL_MESSAGES_LOADED);

@@ -18,6 +18,7 @@ const state = {
   conversationParticipants: [],
   conversationLastSeen: null,
   syncConversationsMessages: {},
+  draftMessages: {},
 };
 
 // mutations
@@ -278,6 +279,9 @@ export const mutations = {
     { conversationId, messageId }
   ) {
     _state.syncConversationsMessages[conversationId] = messageId;
+  },
+  [types.SET_DRAFT_MESSAGES](_state, { draftMessages }) {
+    _state.draftMessages = draftMessages;
   },
 };
 

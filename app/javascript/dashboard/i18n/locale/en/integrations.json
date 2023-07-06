@@ -83,6 +83,16 @@
       "CREATE_ERROR": "There was an error creating a meeting link, please try again"
     },
     "OPEN_AI": {
+      "AI_ASSIST": "AI Assist",
+      "OPTIONS": {
+        "IMPROVE_WRITING": "Improve Writing",
+        "FIX_SPELLING_AND_GRAMMAR": "Fix Spelling and Grammar",
+        "SHORTEN": "Shorten",
+        "EXPAND": "Expand",
+        "MAKE_FRIENDLY": "Make Friendly",
+        "MAKE_FORMAL": "Make Formal",
+        "SIMPLIFY": "Simplify"
+      },
       "TITLE": "Improve With AI",
       "SUMMARY_TITLE": "Summary with AI",
       "REPLY_TITLE": "Reply suggestion with AI",
