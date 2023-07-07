@@ -39,7 +39,7 @@
     </woot-button>
     <div
       :class="{ 'dropdown-pane--open': showSearchDropdown }"
-      class="dropdown-pane box-border top-[2.625rem] w-full"
+      class="dropdown-pane"
     >
       <div class="flex justify-between items-center mb-1">
         <h4
@@ -137,3 +137,8 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.dropdown-pane {
+  @apply box-border top-[2.625rem] w-full;
+}
+</style>
