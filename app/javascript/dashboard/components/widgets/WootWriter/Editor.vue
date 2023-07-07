@@ -450,7 +450,7 @@ export default {
   @apply flex flex-col;
 
   .ProseMirror-menubar {
-    @apply min-h-[1.25rem] -ml-2.5 pb-0 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-100;
+    @apply min-h-[1.25rem] -ml-4 pl-1 pb-0 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-100;
   }
 
   .ProseMirror-menu-active {
@@ -458,7 +458,7 @@ export default {
   }
 
   > .ProseMirror {
-    @apply p-0 break-words;
+    @apply p-0 break-words text-slate-800 dark:text-slate-100;
   }
 }
 
@@ -471,42 +471,38 @@ export default {
 }
 
 .ProseMirror-prompt {
-  z-index: var(--z-index-highest);
-  background: var(--color-background-light);
-  border-radius: var(--border-radius-normal);
-  border: 1px solid var(--color-border);
+  @apply z-50 bg-slate-25 dark:bg-slate-700 rounded-md border border-solid border-slate-75 dark:border-slate-800;
 }
 
 .is-private {
   .prosemirror-mention-node {
-    font-weight: var(--font-weight-medium);
-    background: var(--s-50);
-    color: var(--s-900);
-    padding: 0 var(--space-smaller);
+    @apply font-medium bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 py-0 px-1;
   }
-  .ProseMirror-menubar {
-    background: var(--y-50);
+
+  .ProseMirror-menubar-wrapper {
+    .ProseMirror-menubar {
+      @apply bg-yellow-50 dark:bg-yellow-50 text-slate-700 dark:text-slate-700;
+    }
+
+    > .ProseMirror {
+      @apply text-slate-800 dark:text-slate-800;
+    }
   }
 }
 
 .editor-wrap {
-  margin-bottom: var(--space-normal);
+  @apply mb-4;
 }
 
 .message-editor {
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius-normal);
-  padding: 0 var(--space-slab);
-  margin-bottom: 0;
+  @apply border border-solid border-slate-75 dark:border-slate-800 rounded-md py-0 px-1 mb-0;
 }
 
 .editor_warning {
-  border: 1px solid var(--r-400);
+  @apply border border-solid border-red-400 dark:border-red-400;
 }
 
 .editor-warning__message {
-  color: var(--r-400);
-  font-weight: var(--font-weight-normal);
-  padding: var(--space-smaller) 0 0 0;
+  @apply text-red-400 dark:text-red-400 font-normal pt-1 pb-0 px-0;
 }
 </style>

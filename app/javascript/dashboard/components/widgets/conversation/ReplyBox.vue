@@ -1144,10 +1144,10 @@ export default {
 }
 
 .reply-box {
-  @apply border-r border-slate-50 dark:border-slate-700 bg-white dark:bg-slate-900;
+  @apply border-t border-slate-50 dark:border-slate-700 bg-white dark:bg-slate-900;
 
   &.is-private {
-    background: var(--y-50);
+    @apply bg-yellow-50 dark:bg-yellow-50;
   }
 }
 .send-button {
@@ -1155,10 +1155,7 @@ export default {
 }
 
 .reply-box__top {
-  position: relative;
-  padding: 0 var(--space-normal);
-  border-top: 1px solid var(--color-border);
-  margin-top: -1px;
+  @apply relative py-0 px-4 -mt-px border-slate-50 dark:border-slate-700;
 }
 
 .emoji-dialog {

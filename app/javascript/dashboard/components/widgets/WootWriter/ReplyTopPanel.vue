@@ -1,6 +1,6 @@
 <template>
-  <div class="top-box">
-    <div class="mode-wrap button-group">
+  <div class="bg-black-50 flex justify-between dark:bg-slate-800">
+    <div class="mode-wrap flex border-0 p-0 m-0">
       <woot-button
         variant="clear"
         class="button--reply"
@@ -20,8 +20,8 @@
         {{ $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE') }}
       </woot-button>
     </div>
-    <div class="action-wrap">
-      <div v-if="isMessageLengthReachingThreshold" class="tabs-title">
+    <div class="flex items-center my-0 mx-4">
+      <div v-if="isMessageLengthReachingThreshold" class="text-xs">
         <span :class="charLengthClass">
           {{ characterLengthWarning }}
         </span>
@@ -90,7 +90,7 @@ export default {
       };
     },
     charLengthClass() {
-      return this.charactersRemaining < 0 ? 'message-error' : 'message-length';
+      return this.charactersRemaining < 0 ? 'text-red-600' : 'text-slate-600';
     },
     characterLengthWarning() {
       return this.charactersRemaining < 0
@@ -118,70 +118,24 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.top-box {
-  display: flex;
-  justify-content: space-between;
-  @apply bg-black-50 dark:bg-slate-800;
-}
+.button--reply {
+  border-width: 0 1px 1px 0 !important;
+  @apply border-slate-50 dark:border-slate-700 rounded-none relative z-10;
 
-.button-group {
-  border: 0;
-  padding: 0;
-  margin: 0;
-
-  .button {
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-medium);
-    padding: var(--space-one) var(--space-normal);
-    margin: 0;
-    position: relative;
-    z-index: 1;
-
-    &.is-active {
-      @apply bg-white dark:bg-slate-700;
-    }
-  }
-
-  .button--reply {
-    border-radius: 0;
-    @apply border-r border-b-0 border-l-0 border-slate-50 dark:border-slate-700;
-
-    &:hover,
-    &:focus {
-      @apply border-r border-slate-50 dark:border-slate-700;
-    }
-  }
-
-  .button--note {
-    border-radius: 0;
-
-    &.is-active {
-      @apply border-r border-b-0 border-slate-50 dark:border-slate-700;
-      background: var(--y-50);
-    }
-
-    &:hover,
-    &:active {
-      color: var(--y-700);
-    }
+  &.is-active {
+    border-bottom-color: transparent;
+    @apply bg-white dark:bg-slate-900;
   }
 }
 
 .button--note {
-  color: var(--y-600);
-}
+  border-width: 0 0 1px 0 !important;
+  @apply text-yellow-700 dark:text-yellow-700 border-slate-50 dark:border-slate-700 rounded-none relative z-10;
 
-.action-wrap {
-  display: flex;
-  align-items: center;
-  margin: 0 var(--space-normal);
-  font-size: var(--font-size-mini);
-
-  .message-error {
-    color: var(--r-600);
-  }
-  .message-length {
-    color: var(--s-600);
+  &.is-active {
+    border-right-width: 1px !important;
+    border-bottom-color: transparent;
+    @apply bg-yellow-50 dark:bg-yellow-50;
   }
 }
 </style>
