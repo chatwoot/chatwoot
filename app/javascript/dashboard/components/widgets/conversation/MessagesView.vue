@@ -461,13 +461,7 @@ export default {
   justify-content: flex-end;
 
   .sidebar-toggle--button {
-    position: fixed;
-
-    top: var(--space-mega);
-    z-index: var(--z-index-low);
-
-    background: var(--white);
-
+    @apply fixed top-[6.25rem] z-10 bg-white dark:bg-slate-700 border-slate-50 dark:border-slate-600 border-solid border border-r-0 box-border;
     padding: inherit 0;
     border-top-left-radius: calc(
       var(--space-medium) + 1px
@@ -475,9 +469,6 @@ export default {
     border-bottom-left-radius: calc(
       var(--space-medium) + 1px
     ); /* 100px of height + 10px of border */
-    border: 1px solid var(--color-border-light);
-    border-right: 0;
-    box-sizing: border-box;
   }
 }
 </style>

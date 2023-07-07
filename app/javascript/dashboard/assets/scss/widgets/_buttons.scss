@@ -42,10 +42,10 @@
   }
 
   &.hollow {
-    @apply border border-slate-200 text-woot-700 dark:text-woot-100 hover:bg-woot-50 dark:hover:bg-woot-900;
+    @apply border border-slate-200 dark:border-slate-600 text-woot-700 dark:text-woot-100 hover:bg-woot-50 dark:hover:bg-woot-900;
 
     &.secondary {
-      @apply text-slate-700 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-700;
+      @apply text-slate-700 border-slate-200 dark:border-slate-600 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-700;
     }
 
     &.success {

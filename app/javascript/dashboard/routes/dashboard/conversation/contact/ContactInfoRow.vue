@@ -18,7 +18,7 @@
       >
         {{ value }}
       </span>
-      <span v-else class="text-slate-300 dark:text-slate-600">{{
+      <span v-else class="text-slate-300 dark:text-slate-600 text-sm">{{
         $t('CONTACT_PANEL.NOT_AVAILABLE')
       }}</span>
 
@@ -50,7 +50,7 @@
       >
         {{ value }}
       </span>
-      <span v-else class="text-slate-300 dark:text-slate-600">{{
+      <span v-else class="text-slate-300 dark:text-slate-600 text-sm">{{
         $t('CONTACT_PANEL.NOT_AVAILABLE')
       }}</span>
     </div>
