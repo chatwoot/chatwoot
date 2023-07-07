@@ -18,7 +18,9 @@
             class="text-truncate"
             @click.prevent="$emit('contact-panel-toggle')"
           >
-            <h3 class="sub-block-title user--name text-truncate">
+            <h3
+              class="text-base inline-block leading-tight capitalize m-0 p-0 text-ellipsis overflow-hidden whitespace-nowrap text-slate-900 dark:text-slate-100"
+            >
               <span>{{ currentContact.name }}</span>
               <fluent-icon
                 v-if="!isHMACVerified"
@@ -46,7 +48,7 @@
         </div>
       </div>
       <div
-        class="header-actions-wrap mt-3 lg:mt-0"
+        class="header-actions-wrap items-center flex flex-row flex-grow justify-end mt-3 lg:mt-0"
         :class="{ 'has-open-sidebar': isContactPanelOpen }"
       >
         <more-actions :conversation-id="currentChat.id" />
@@ -177,14 +179,6 @@ export default {
     min-width: 0;
     flex-shrink: 0;
   }
-}
-
-.user--name {
-  display: inline-block;
-  line-height: 1.2;
-  text-transform: capitalize;
-  margin: 0;
-  padding: 0;
 }
 
 .conversation--header--actions {

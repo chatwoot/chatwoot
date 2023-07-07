@@ -13,7 +13,7 @@
     <woot-tabs
       v-if="dashboardApps.length && currentChat.id"
       :index="activeIndex"
-      class="dashboard-app--tabs"
+      class="dashboard-app--tabs bg-white dark:bg-slate-900 -mt-px"
       @change="onDashboardAppTabChange"
     >
       <woot-tabs-item
@@ -143,10 +143,7 @@ export default {
 <style lang="scss" scoped>
 @import '~dashboard/assets/scss/woot';
 .conversation-details-wrap {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  width: 100%;
+  @apply flex flex-col min-w-0 w-full;
 
   &.with-border-right {
     @apply border-r border-slate-50 dark:border-slate-700;
@@ -154,14 +151,17 @@ export default {
 }
 
 .dashboard-app--tabs {
-  background: var(--white);
-  margin-top: -1px;
-  min-height: var(--dashboard-app-tabs-height);
+  ::v-deep {
+    .tabs-title {
+      a {
+        @apply pb-2 pt-1;
+      }
+    }
+  }
 }
 
 .conversation-sidebar-wrap {
-  @apply border-r border-slate-50 dark:border-slate-700;
-  background: white;
+  @apply border-r border-white dark:border-slate-700;
   flex-basis: 100%;
 
   @include breakpoint(medium up) {
@@ -185,9 +185,7 @@ export default {
   }
 
   &::v-deep .contact--panel {
-    width: 100%;
-    height: 100%;
-    max-width: 100%;
+    @apply w-full h-full max-w-full;
   }
 }
 </style>

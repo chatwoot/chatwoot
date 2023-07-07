@@ -447,30 +447,27 @@ export default {
 @import '~@chatwoot/prosemirror-schema/src/styles/base.scss';
 
 .ProseMirror-menubar-wrapper {
-  display: flex;
-  flex-direction: column;
+  @apply flex flex-col;
 
   .ProseMirror-menubar {
-    min-height: var(--space-two) !important;
-    margin-left: var(--space-minus-one);
-    padding-bottom: 0;
+    @apply min-h-[1.25rem] -ml-2.5 pb-0 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-100;
+  }
+
+  .ProseMirror-menu-active {
+    @apply bg-slate-25 dark:bg-slate-800;
   }
 
   > .ProseMirror {
-    padding: 0;
-    word-break: break-word;
+    @apply p-0 break-words;
   }
 }
 
 .editor-root {
-  width: 100%;
-  position: relative;
+  @apply w-full relative;
 }
 
 .ProseMirror-woot-style {
-  min-height: 5rem;
-  max-height: 7.5rem;
-  overflow: auto;
+  @apply overflow-auto min-h-[5rem] max-h-[7.5rem];
 }
 
 .ProseMirror-prompt {

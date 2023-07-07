@@ -74,16 +74,6 @@
   // Conversation details
   .conversation-details-wrap {
     .conv-header {
-      .user {
-        margin-left: var(--space-normal);
-        margin-right: unset;
-
-        .user--profile__meta {
-          margin-left: unset;
-          margin-right: var(--space-small);
-        }
-      }
-
       .actions--container .resolve-actions {
         margin-left: unset;
         margin-right: var(--space-small);

@@ -138,7 +138,7 @@ export default {
     z-index: 1;
 
     &.is-active {
-      background: white;
+      @apply bg-white dark:bg-slate-700;
     }
   }
 

@@ -292,9 +292,7 @@
   }
 
   .activity-wrap {
-    background: var(--s-50);
-    border: 1px solid var(--s-100);
-    border-radius: var(--border-radius-medium);
+    @apply bg-slate-50 dark:bg-slate-600 rounded-md border border-slate-100 dark:border-slate-500 border-solid;
     display: flex;
     font-size: var(--font-size-small);
     justify-content: center;
@@ -418,7 +416,6 @@
     flex-basis: 25rem;
   }
 }
-
 
 .activity-wrap {
   .message-text--metadata {

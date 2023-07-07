@@ -1,5 +1,5 @@
 .tabs--container {
-  display: flex;
+  @apply flex;
 }
 
 .tabs--container--with-border {
@@ -7,47 +7,31 @@
 }
 
 .tabs {
-  border-left-width: 0;
-  border-right-width: 0;
-  border-top-width: 0;
-  display: flex;
-  min-width: var(--space-mega);
-  padding: 0 var(--space-normal);
+  @apply border-r-0 border-l-0 border-t-0 flex min-w-[6.25rem] py-0 px-4;
 }
 
 .tabs--with-scroll {
+  @apply overflow-hidden py-0 px-1;
   max-width: calc(100% - 64px);
-  overflow: hidden;
-  padding: 0 var(--space-smaller);
 }
 
 .tabs--scroll-button {
-  align-items: center;
-  border-radius: 0;
-  cursor: pointer;
-  display: flex;
-  height: auto;
-  justify-content: center;
-  min-width: var(--space-large);
+  @apply items-center rounded-none cursor-pointer flex h-auto justify-center min-w-[2rem];
 }
 
 // Tab chat type
 .tab--chat-type {
-  @include flex;
+  @apply flex;
 
   .tabs-title {
     a {
-      font-size: var(--font-size-default);
-      font-weight: var(--font-weight-medium);
-      padding-bottom: var(--space-slab);
-      padding-top: var(--space-slab);
+      @apply text-base font-medium py-3;
     }
   }
 }
 
 .tabs-title {
-  flex-shrink: 0;
-  margin: 0 var(--space-small);
+  @apply flex-shrink-0 my-0 mx-2;
 
   .badge {
     @apply bg-slate-50 dark:bg-slate-800 rounded-md text-black-600 dark:text-black-100 text-xxs font-semibold my-0 mx-1 px-1 py-0;
@@ -69,7 +53,7 @@
   }
 
   a {
-    @apply flex items-center flex-row border-b border-transparent text-black-600 dark:text-black-100 text-sm top-[1px] relative;
+    @apply flex items-center flex-row border-b border-transparent text-slate-500 dark:text-slate-200 text-sm top-[1px] relative;
     transition: border-color 0.15s $swift-ease-out-function;
   }
 
