@@ -152,10 +152,9 @@
   &.left {
     .bubble {
       @include border-normal;
-      background: $white;
+      @apply bg-white dark:bg-slate-700 text-black-900 dark:text-slate-50;
       border-bottom-left-radius: $space-smaller;
       border-top-left-radius: $space-smaller;
-      color: $color-body;
       margin-right: auto;
       word-break: break-word;
 
