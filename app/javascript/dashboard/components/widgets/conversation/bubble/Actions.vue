@@ -316,7 +316,7 @@ export default {
       display: flex;
       text-align: center;
       font-size: var(--font-size-micro);
-      margin-left: 0;
+      @apply ml-2 rtl:mr-2 rtl:ml-0;
     }
   }
 }

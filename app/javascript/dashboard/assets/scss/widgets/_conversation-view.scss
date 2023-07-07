@@ -420,7 +420,7 @@
   .message-text--metadata {
     .time {
       @include breakpoint(xlarge up) {
-        margin-left: var(--space-small);
+        @apply ml-2 rtl:mr-2 rtl:ml-0;
       }
     }
   }
