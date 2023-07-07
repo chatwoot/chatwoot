@@ -1,22 +1,6 @@
 .app-rtl--wrapper {
   direction: rtl;
 
-  // Primary sidebar
-  .primary--sidebar {
-    .options-menu.dropdown-pane {
-      right: var(--space-smaller);
-
-      .auto-offline--toggle {
-        padding: var(--space-smaller) var(--space-one) var(--space-smaller)
-          var(--space-smaller);
-      }
-
-      .status-items .button {
-        text-align: right;
-      }
-    }
-  }
-
   // Settings header
   .settings-header {
     .header--icon {
@@ -73,13 +57,6 @@
 
   // Conversation details
   .conversation-details-wrap {
-    .conv-header {
-      .actions--container .resolve-actions {
-        margin-left: unset;
-        margin-right: var(--space-small);
-      }
-    }
-
     .conversation-panel {
       // Message text
       .text-content {

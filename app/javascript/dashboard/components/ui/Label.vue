@@ -102,8 +102,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~dashboard/assets/scss/variables';
-
 .label {
   @apply inline-flex items-center font-medium gap-1 mr-1 rtl:ml-1 rtl:mr-0 mb-1 p-1 bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 border border-solid border-slate-75 dark:border-slate-600 h-6;
 
