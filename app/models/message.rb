@@ -369,6 +369,8 @@ class Message < ApplicationRecord
   end
 
   def update_message_sentiments
-    ::Enterprise::SentimentAnalysisJob.perform_later(self)
+    # override in the enterprise ::Enterprise::SentimentAnalysisJob.perform_later(self)
   end
 end
+
+Message.prepend_mod_with('Message')
