@@ -90,7 +90,6 @@ import aiMixin from 'dashboard/mixins/aiMixin';
 
 // store & api
 import { mapGetters } from 'vuex';
-import OpenAPI from 'dashboard/api/integrations/openapi';
 
 // utils & constants
 import { LocalStorage } from 'shared/helpers/localStorage';
@@ -105,6 +104,10 @@ export default {
   },
   mixins: [aiMixin],
   props: {
+    suggestedLabels: {
+      type: Array,
+      required: true,
+    },
     chatLabels: {
       type: Array,
       required: false,
@@ -119,7 +122,6 @@ export default {
     return {
       isDismissed: false,
       fetchingSuggestions: false,
-      suggestedLabels: [],
       selectedLabels: [],
     };
   },
@@ -167,54 +169,11 @@ export default {
       immediate: true,
       handler() {
         this.selectedLabels = [];
-        this.suggestedLabels = [];
         this.isDismissed = this.isConversationDismissed();
-        this.fetchIfRequired();
       },
     },
   },
   methods: {
-    async fetchIfRequired() {
-      if (this.chatLabels.length !== 0) {
-        return;
-      }
-
-      this.fetchIntegrationsIfRequired().then(() => {
-        if (!this.isAIIntegrationEnabled) return;
-
-        this.fetchLabelSuggestion().then(labels => {
-          this.suggestedLabels = labels;
-        });
-      });
-    },
-    async fetchLabelSuggestion() {
-      try {
-        this.fetchingSuggestions = true;
-        const result = await OpenAPI.processEvent({
-          type: 'label_suggestion',
-          hookId: this.hookId,
-          conversationId: this.conversationId,
-        });
-
-        const {
-          data: { message: labels },
-        } = result;
-
-        return this.cleanLabels(labels);
-      } catch (error) {
-        return [];
-      } finally {
-        this.fetchingSuggestions = false;
-      }
-    },
-    cleanLabels(labels) {
-      return labels
-        .toLowerCase() // Set it to lowercase
-        .split(',') // split the string into an array
-        .filter(label => label.trim()) // remove any empty strings
-        .filter((label, index, self) => self.indexOf(label) === index) // remove any duplicates
-        .map(label => label.trim()); // trim the words
-    },
     pushOrAddLabel(label) {
       if (this.preparedLabels.length === 1) {
         this.addAllLabels();
