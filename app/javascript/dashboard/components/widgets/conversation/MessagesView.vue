@@ -66,6 +66,7 @@
       />
       <conversation-label-suggestion
         v-if="isEnterprise && isAIIntegrationEnabled"
+        :suggested-labels="labelSuggestions"
         :chat-labels="currentChat.labels"
         :conversation-id="currentChat.id"
       />
@@ -151,6 +152,7 @@ export default {
       conversationPanel: null,
       selectedTweetId: null,
       isPopoutReplyBox: false,
+      labelSuggestions: [],
     };
   },
 
@@ -304,6 +306,7 @@ export default {
         return;
       }
       this.fetchAllAttachmentsFromCurrentChat();
+      this.fetchSuggestions();
       this.selectedTweetId = null;
     },
   },
@@ -316,7 +319,7 @@ export default {
   mounted() {
     this.addScrollListener();
     this.fetchAllAttachmentsFromCurrentChat();
-    this.fetchIntegrationsIfRequired();
+    this.fetchSuggestions();
   },
 
   beforeDestroy() {
@@ -325,6 +328,18 @@ export default {
   },
 
   methods: {
+    async fetchSuggestions() {
+      // start empty
+      this.labelSuggestions = [];
+
+      await this.fetchIntegrationsIfRequired();
+      this.labelSuggestions = await this.fetchLabelSuggestions({
+        conversationId: this.currentChat.id,
+      });
+      this.$nextTick(() => {
+        this.scrollToBottom();
+      });
+    },
     fetchAllAttachmentsFromCurrentChat() {
       this.$store.dispatch('fetchAllAttachments', this.currentChat.id);
     },
@@ -370,17 +385,24 @@ export default {
     },
     scrollToBottom() {
       let relevantMessages = [];
+      let labelSuggestions = this.conversationPanel.querySelector(
+        '.label-suggestion'
+      );
+      // if there are unread messages, scroll to the first unread message
       if (this.unreadMessageCount > 0) {
         // capturing only the unread messages
         relevantMessages = this.conversationPanel.querySelectorAll(
           '.message--unread'
         );
+      } else if (labelSuggestions) {
+        relevantMessages = [labelSuggestions];
       } else {
         // capturing last message from the messages list
         relevantMessages = Array.from(
           this.conversationPanel.querySelectorAll('.message--read')
         ).slice(-1);
       }
+
       this.conversationPanel.scrollTop = calculateScrollTop(
         this.conversationPanel.scrollHeight,
         this.$el.scrollHeight,
