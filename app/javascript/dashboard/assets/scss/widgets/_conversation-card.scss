@@ -10,66 +10,7 @@
 }
 
 .conversation {
-  @apply flex flex-shrink-0 flex-grow-0 w-auto max-w-full cursor-pointer relative py-0 px-4 border-transparent border-l-2 border-t-0 border-b-0 border-r-0 border-solid;
-
   &.active {
     animation: left-shift-animation 0.25s $swift-ease-out-function;
-    @apply bg-slate-50 dark:bg-slate-700 border-woot-500;
-  }
-
-  .conversation--details {
-    @apply py-3 px-0;
-  }
-
-  .conversation--user {
-    @apply text-sm my-0 mx-2 capitalize;
-
-    .label {
-      @apply left-2.5 max-w-[4rem] overflow-hidden relative text-ellipsis top-2.5 whitespace-nowrap;
-    }
-  }
-
-  .conversation--message {
-    @apply text-slate-700 dark:text-slate-200 text-sm my-0 mx-2 leading-6 h-6 max-w-[96%] w-[16.875rem] overflow-hidden text-ellipsis whitespace-nowrap;
-
-    img,
-    svg {
-      @apply inline-block;
-    }
-  }
-
-  .conversation--meta {
-    @apply flex flex-col absolute right-4 top-4;
-
-    .unread {
-      @include light-shadow;
-      @apply rounded-full hidden text-xxs font-semibold h-4 leading-4 ml-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-green-400;
-    }
-
-    .timestamp {
-      @apply text-black-600 text-xxs font-normal leading-4 ml-auto;
-    }
-  }
-
-  &.unread-chat {
-    .unread {
-      @apply block;
-    }
-
-    .conversation--message {
-      @apply font-semibold;
-    }
-
-    .conversation--user {
-      @apply font-semibold;
-    }
-  }
-
-  &.compact {
-    @apply pl-0;
-
-    .conversation--details {
-      @apply rounded-sm ml-0 pl-5 pr-2;
-    }
   }
 }
