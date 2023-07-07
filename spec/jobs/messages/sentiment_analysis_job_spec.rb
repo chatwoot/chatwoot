@@ -6,6 +6,13 @@ RSpec.describe Messages::SentimentAnalysisJob do
     let(:message) { build(:message, content_type: nil, account: account) }
 
     context 'when update the message sentiments' do
+      let(:model) { double }
+
+      before do
+        allow(Informers::SentimentAnalysis).to receive(:new).and_return(model)
+        allow(model).to receive(:predict).and_return({ label: 'positive', score: '0.6' })
+      end
+
       it 'with incoming message' do
         message.update(message_type: :incoming)
 
@@ -26,6 +33,7 @@ RSpec.describe Messages::SentimentAnalysisJob do
 
       it 'update sentiment label for negative message' do
         message.update(message_type: :incoming, content: 'I did not like your product')
+        allow(model).to receive(:predict).and_return({ label: 'negative', score: '0.6' })
 
         described_class.perform_now(message)
 
