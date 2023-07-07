@@ -1,4 +1,4 @@
-class Messages::SentimentAnalysisJob < ApplicationJob
+class Enterprise::SentimentAnalysisJob < ApplicationJob
   queue_as :default
 
   def perform(message)

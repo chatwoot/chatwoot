@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Messages::SentimentAnalysisJob do
+RSpec.describe Enterprise::SentimentAnalysisJob do
   context 'when account locale set to english language' do
     let(:account) { create(:account, locale: 'en') }
     let(:message) { build(:message, content_type: nil, account: account) }

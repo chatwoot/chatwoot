@@ -369,6 +369,6 @@ class Message < ApplicationRecord
   end
 
   def update_message_sentiments
-    ::Messages::SentimentAnalysisJob.perform_later(self)
+    ::Enterprise::SentimentAnalysisJob.perform_later(self)
   end
 end
