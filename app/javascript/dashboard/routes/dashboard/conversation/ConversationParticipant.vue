@@ -54,7 +54,9 @@
       class="dropdown-pane"
     >
       <div class="flex justify-between items-center mb-1">
-        <h4 class="text-sm m-0 overflow-hidden whitespace-nowrap text-ellipsis">
+        <h4
+          class="text-sm m-0 overflow-hidden whitespace-nowrap text-ellipsis text-slate-800 dark:text-slate-100"
+        >
           {{ $t('CONVERSATION_PARTICIPANTS.ADD_PARTICIPANTS') }}
         </h4>
         <woot-button

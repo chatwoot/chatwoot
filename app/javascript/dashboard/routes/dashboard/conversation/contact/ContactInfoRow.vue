@@ -13,7 +13,7 @@
       />
       <span
         v-if="value"
-        class="overflow-hidden whitespace-nowrap text-ellipsis"
+        class="overflow-hidden whitespace-nowrap text-ellipsis text-sm"
         :title="value"
       >
         {{ value }}
@@ -46,7 +46,7 @@
       />
       <span
         v-if="value"
-        class="overflow-hidden whitespace-nowrap text-ellipsis"
+        class="overflow-hidden whitespace-nowrap text-ellipsis text-sm"
       >
         {{ value }}
       </span>

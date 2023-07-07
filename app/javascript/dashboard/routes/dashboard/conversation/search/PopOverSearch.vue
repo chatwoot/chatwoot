@@ -16,7 +16,7 @@
           />
         </div>
         <p
-          class="search--label mb-0 overflow-hidden whitespace-nowrap text-ellipsis text-slate-800 dark:text-slate-200"
+          class="search--label mb-0 overflow-hidden whitespace-nowrap text-ellipsis text-sm text-slate-800 dark:text-slate-200"
         >
           {{ $t('CONVERSATION.SEARCH_MESSAGES') }}
         </p>
