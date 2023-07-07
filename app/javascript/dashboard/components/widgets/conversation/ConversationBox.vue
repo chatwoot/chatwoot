@@ -161,7 +161,7 @@ export default {
 }
 
 .conversation-sidebar-wrap {
-  @apply border-r border-white dark:border-slate-700;
+  @apply rtl:border-r border-slate-50 dark:border-slate-700;
   flex-basis: 100%;
 
   @include breakpoint(medium up) {
