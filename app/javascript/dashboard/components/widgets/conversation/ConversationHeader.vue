@@ -1,6 +1,8 @@
 <template>
-  <div class="conv-header">
-    <div class="conversation-header--details">
+  <div class="conv-header flex-col md:flex-row">
+    <div
+      class="flex-1 w-100 flex flex-col md:flex-row items-center justify-center"
+    >
       <div class="user">
         <back-button v-if="showBackButton" :back-url="backButtonUrl" />
         <Thumbnail
@@ -44,7 +46,7 @@
         </div>
       </div>
       <div
-        class="header-actions-wrap"
+        class="header-actions-wrap mt-3 lg:mt-0"
         :class="{ 'has-open-sidebar': isContactPanelOpen }"
       >
         <more-actions :conversation-id="currentChat.id" />
@@ -159,27 +161,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/woot';
-
 .conv-header {
   flex: 0 0 var(--space-jumbo);
   flex-direction: row;
-
-  @include breakpoint(medium up) {
-    flex-direction: column;
-  }
-}
-
-.conversation-header--details {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-
-  @include breakpoint(medium up) {
-    flex-direction: row;
-  }
 }
 
 .option__desc {

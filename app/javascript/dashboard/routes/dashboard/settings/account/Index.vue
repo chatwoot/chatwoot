@@ -1,9 +1,11 @@
 <template>
   <div class="columns profile--settings">
     <form v-if="!uiFlags.isFetchingItem" @submit.prevent="updateAccount">
-      <div class="small-12 row profile--settings--row">
+      <div
+        class="small-12 row profile--settings--row border-b border-slate-25 dark:border-slate-700"
+      >
         <div class="columns small-3">
-          <h4 class="block-title">
+          <h4 class="block-title text-black-900 dark:text-slate-200">
             {{ $t('GENERAL_SETTINGS.FORM.GENERAL_SECTION.TITLE') }}
           </h4>
           <p>{{ $t('GENERAL_SETTINGS.FORM.GENERAL_SECTION.NOTE') }}</p>
@@ -82,9 +84,11 @@
         </div>
       </div>
 
-      <div class="profile--settings--row row">
+      <div
+        class="profile--settings--row border-slate-25 dark:border-slate-700 text-black-900 dark:text-slate-300 row"
+      >
         <div class="columns small-3">
-          <h4 class="block-title">
+          <h4 class="block-title text-black-900 dark:text-slate-200">
             {{ $t('GENERAL_SETTINGS.FORM.ACCOUNT_ID.TITLE') }}
           </h4>
           <p>
@@ -288,7 +292,6 @@ export default {
 }
 
 .profile--settings--row {
-  @include border-normal-bottom;
   padding: $space-normal;
   .small-3 {
     padding: $space-normal $space-medium $space-normal 0;
