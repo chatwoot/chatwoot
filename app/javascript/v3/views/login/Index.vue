@@ -1,6 +1,6 @@
 <template>
   <main
-    class="flex flex-col bg-woot-25 min-h-full w-full py-12 sm:px-6 lg:px-8 justify-center dark:bg-slate-900"
+    class="flex flex-col bg-woot-25 min-h-screen w-full py-20 sm:px-6 lg:px-8 dark:bg-slate-900"
   >
     <section class="max-w-5xl mx-auto">
       <img
