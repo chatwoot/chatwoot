@@ -1,5 +1,5 @@
 <template>
-  <div class="view-box h-auto flex-grow min-w-0">
+  <div class="m-0 flex flex-col justify-between h-full flex-grow min-w-0">
     <banner
       v-if="!currentChat.can_reply"
       color-scheme="alert"
