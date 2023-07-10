@@ -152,6 +152,7 @@ export default {
       conversationPanel: null,
       selectedTweetId: null,
       hasUserScrolled: false,
+      isProgrammaticScroll: false,
       isPopoutReplyBox: false,
       labelSuggestions: [],
     };
@@ -322,7 +323,9 @@ export default {
   mounted() {
     this.addScrollListener();
     this.fetchAllAttachmentsFromCurrentChat();
-    this.fetchSuggestions();
+    setTimeout(() => {
+      this.fetchSuggestions();
+    }, 2000);
   },
 
   beforeDestroy() {
@@ -376,6 +379,7 @@ export default {
       this.$nextTick(() => {
         const messageElement = document.getElementById('message' + messageId);
         if (messageElement) {
+          this.isProgrammaticScroll = true;
           messageElement.scrollIntoView({ behavior: 'smooth' });
           this.fetchPreviousMessages();
         } else {
@@ -406,6 +410,7 @@ export default {
       this.conversationPanel.removeEventListener('scroll', this.handleScroll);
     },
     scrollToBottom() {
+      this.isProgrammaticScroll = true;
       let relevantMessages = [];
 
       // label suggestions are not part of the messages list
@@ -432,9 +437,6 @@ export default {
           this.conversationPanel.querySelectorAll('.message--read')
         ).slice(-1);
       }
-
-      // invalidate if the user has scrolled, since the program has seized control of scrolling. Skynet is real.
-      this.hasUserScrolled = false;
 
       this.conversationPanel.scrollTop = calculateScrollTop(
         this.conversationPanel.scrollHeight,
@@ -482,11 +484,11 @@ export default {
     },
 
     handleScroll(e) {
-      // https://developer.mozilla.org/en-US/docs/Web/API/Event/isTrusted
-      // It's a neat way to know if the event was triggered by the user or not.
-      if (e.isTrusted) {
-        // set the flag, this tells the label suggestion component to not scroll to bottom
-        // this is because the labels load asynchronously and the user might be reading the messages
+      if (this.isProgrammaticScroll) {
+        // Reset the flag
+        this.isProgrammaticScroll = false;
+        this.hasUserScrolled = false;
+      } else {
         this.hasUserScrolled = true;
       }
       bus.$emit(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL);
