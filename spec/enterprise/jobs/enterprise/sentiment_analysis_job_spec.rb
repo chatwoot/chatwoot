@@ -15,38 +15,32 @@ RSpec.describe Enterprise::SentimentAnalysisJob do
       end
 
       it 'with incoming message' do
-        with_modified_env SENTIMENT_FILE_PATH: 'sentiment-analysis-test.onnx' do
-          message.update(message_type: :incoming)
+        message.update(message_type: :incoming)
 
-          described_class.perform_now(message)
+        described_class.perform_now(message)
 
-          expect(message.sentiment).not_to be_empty
-        end
+        expect(message.sentiment).not_to be_empty
       end
 
       it 'update sentiment label for positive message' do
-        with_modified_env SENTIMENT_FILE_PATH: 'sentiment-analysis-test.onnx' do
-          message.update(message_type: :incoming, content: 'I like your product')
+        message.update(message_type: :incoming, content: 'I like your product')
 
-          described_class.perform_now(message)
+        described_class.perform_now(message)
 
-          expect(message.sentiment).not_to be_empty
-          expect(message.sentiment['label']).to eq('positive')
-          expect(message.sentiment['value']).to eq(1)
-        end
+        expect(message.sentiment).not_to be_empty
+        expect(message.sentiment['label']).to eq('positive')
+        expect(message.sentiment['value']).to eq(1)
       end
 
       it 'update sentiment label for negative message' do
-        with_modified_env SENTIMENT_FILE_PATH: 'sentiment-analysis-test.onnx' do
-          message.update(message_type: :incoming, content: 'I did not like your product')
-          allow(model).to receive(:predict).and_return({ label: 'negative', score: '0.6' })
+        message.update(message_type: :incoming, content: 'I did not like your product')
+        allow(model).to receive(:predict).and_return({ label: 'negative', score: '0.6' })
 
-          described_class.perform_now(message)
+        described_class.perform_now(message)
 
-          expect(message.sentiment).not_to be_empty
-          expect(message.sentiment['label']).to eq('negative')
-          expect(message.sentiment['value']).to eq(-1)
-        end
+        expect(message.sentiment).not_to be_empty
+        expect(message.sentiment['label']).to eq('negative')
+        expect(message.sentiment['value']).to eq(-1)
       end
     end
 
