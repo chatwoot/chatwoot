@@ -26,7 +26,7 @@ class Enterprise::SentimentAnalysisJob < ApplicationJob
   # Model initializes OnnxRuntime::Model, with given file for inference session and to create the tensor
   def model
     model_path = ENV.fetch('SENTIMENT_FILE_PATH', nil)
-    Informers::SentimentAnalysis.new(model_path)
+    Informers::SentimentAnalysis.new(model_path) if model_path.present?
   end
 
   def label_val(sentiment)
