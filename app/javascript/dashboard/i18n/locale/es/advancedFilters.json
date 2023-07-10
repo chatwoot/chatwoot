@@ -1,18 +1,18 @@
 {
   "FILTER": {
-    "TITLE": "Filtrar Conversaciones",
-    "SUBTITLE": "Añada filtros a continuación y pulse 'Enviar' para filtrar conversaciones.",
-    "EDIT_CUSTOM_FILTER": "Edit Folder",
-    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
+    "TITLE": "Filtrar conversaciones",
+    "SUBTITLE": "Agregue filtros a continuación y presione 'Aplicar filtros' para filtrar conversaciones.",
+    "EDIT_CUSTOM_FILTER": "Editar carpeta",
+    "CUSTOM_VIEWS_SUBTITLE": "Agregar o eliminar filtros y actualizar la carpeta.",
     "ADD_NEW_FILTER": "Añadir Filtro",
     "FILTER_DELETE_ERROR": "Debes tener al menos un filtro para guardar",
     "SUBMIT_BUTTON_LABEL": "Aplicar filtros",
-    "UPDATE_BUTTON_LABEL": "Update folder",
+    "UPDATE_BUTTON_LABEL": "Actualizar carpeta",
     "CANCEL_BUTTON_LABEL": "Cancelar",
     "CLEAR_BUTTON_LABEL": "Limpiar filtros",
     "EMPTY_VALUE_ERROR": "El valor es requerido",
-    "FOLDER_LABEL": "Folder Name",
-    "FOLDER_QUERY_LABEL": "Folder Query",
+    "FOLDER_LABEL": "Nombre de la carpeta",
+    "FOLDER_QUERY_LABEL": "Consulta de carpetas",
     "TOOLTIP_LABEL": "Filtrar conversaciones",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "Y",
@@ -77,7 +77,7 @@
         }
       },
       "EDIT": {
-        "EDIT_BUTTON": "Edit folder"
+        "EDIT_BUTTON": "Editar carpeta"
       },
       "DELETE": {
         "DELETE_BUTTON": "Eliminar filtro",

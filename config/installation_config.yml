@@ -72,3 +72,5 @@
   value: self-hosted
 - name: CSML_EDITOR_HOST
   value:
+- name: LOGO_DARK
+  value: '/brand-assets/logo_dark.svg'

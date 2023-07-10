@@ -97,13 +97,5 @@ RSpec.describe Integrations::Openai::ProcessorService do
         expect(result).to eq('This is a reply from openai.')
       end
     end
-
-    context 'when event name is not one that can be processed' do
-      let(:event) { { 'name' => 'unknown', 'data' => {} } }
-
-      it 'returns nil' do
-        expect(subject.perform).to be_nil
-      end
-    end
   end
 end

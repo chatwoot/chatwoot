@@ -52,7 +52,8 @@ export default {
   },
   computed: {
     modalContainerClassName() {
-      let className = 'modal-container skip-context-menu';
+      let className =
+        'modal-container bg-white dark:bg-slate-800 skip-context-menu';
       if (this.fullWidth) {
         return `${className} modal-container--full-width`;
       }
@@ -106,7 +107,7 @@ export default {
   .modal-container {
     border-radius: 0;
     height: 100%;
-    width: 48rem;
+    width: 30rem;
   }
 }
 .modal-big {

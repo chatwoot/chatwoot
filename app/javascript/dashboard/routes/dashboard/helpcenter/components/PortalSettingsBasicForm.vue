@@ -1,7 +1,7 @@
 <template>
   <div class="wizard-body columns content-box small-9">
     <div class="medium-12 columns">
-      <h3 class="block-title">
+      <h3 class="block-title text-black-900 dark:text-slate-200">
         {{
           $t(
             'HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.BASIC_SETTINGS_PAGE.TITLE'
@@ -61,7 +61,7 @@
             :class="{ error: $v.domain.$error }"
             :label="$t('HELP_CENTER.PORTAL.ADD.DOMAIN.LABEL')"
             :placeholder="$t('HELP_CENTER.PORTAL.ADD.DOMAIN.PLACEHOLDER')"
-            :help-text="$t('HELP_CENTER.PORTAL.ADD.DOMAIN.HELP_TEXT')"
+            :help-text="domainExampleHelpText"
             :error="domainError"
             @blur="$v.domain.$touch"
           />
@@ -86,6 +86,9 @@ import { isDomain } from 'shared/helpers/Validators';
 import thumbnail from 'dashboard/components/widgets/Thumbnail';
 import { convertToCategorySlug } from 'dashboard/helper/commons.js';
 import { buildPortalURL } from 'dashboard/helper/portalHelper';
+import wootConstants from 'dashboard/constants/globals';
+
+const { EXAMPLE_URL } = wootConstants;
 
 export default {
   components: {
@@ -146,6 +149,11 @@ export default {
     },
     domainHelpText() {
       return buildPortalURL(this.slug);
+    },
+    domainExampleHelpText() {
+      return this.$t('HELP_CENTER.PORTAL.ADD.DOMAIN.HELP_TEXT', {
+        exampleURL: EXAMPLE_URL,
+      });
     },
   },
   mounted() {

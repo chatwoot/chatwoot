@@ -1,23 +1,24 @@
-const { colors } = require('tailwindcss/defaultTheme');
-
+const defaultTheme = require('tailwindcss/defaultTheme');
 module.exports = {
-  dark: 'class',
-  purge: [
+  darkMode: 'class',
+  content: [
     './app/javascript/widget/**/*.vue',
+    './app/javascript/v3/**/*.vue',
+    './app/javascript/dashboard/**/*.vue',
     './app/javascript/portal/**/*.vue',
     './app/javascript/shared/**/*.vue',
     './app/javascript/survey/**/*.vue',
     './app/views/**/*.html.erb',
   ],
-  future: {
-    removeDeprecatedGapUtilities: true,
-  },
-  experimental: {
-    darkModeVariant: true,
-  },
   theme: {
+    fontSize: {
+      xxs: '0.625rem',
+      ...defaultTheme.fontSize,
+    },
     colors: {
-      white: colors.white,
+      transparent: 'transparent',
+      white: '#fff',
+      current: 'currentColor',
       woot: {
         25: '#F5FAFF',
         50: '#EBF5FF',
@@ -94,11 +95,7 @@ module.exports = {
         800: '#D11320',
         900: '#C30011',
       },
-    },
-    extend: {
-      screens: {
-        dark: { raw: '(prefers-color-scheme: dark)' },
-      },
+      body: '#2f3b49',
     },
   },
   plugins: [

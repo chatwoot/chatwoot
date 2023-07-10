@@ -2,7 +2,7 @@
   <div v-on-clickaway="closePortalPopover" class="portal-popover__container">
     <header>
       <div class="actions">
-        <h2 class="block-title">
+        <h2 class="block-title text-black-900 dark:text-slate-200">
           {{ $t('HELP_CENTER.PORTAL.POPOVER.TITLE') }}
         </h2>
         <div>
@@ -92,7 +92,7 @@ export default {
   background-color: var(--white);
   border-radius: var(--border-radius-normal);
   box-shadow: var(--shadow-large);
-  max-width: 48rem;
+  max-width: 30rem;
   z-index: var(--z-index-high);
 
   header {

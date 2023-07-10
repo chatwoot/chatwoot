@@ -110,11 +110,11 @@ export default {
   position: absolute;
   bottom: 0;
   width: 100%;
-  padding: 1rem;
+  padding: 0.625rem;
   background-color: #e0bbbb;
   display: flex;
   align-items: center;
-  font-size: 1.2rem;
+  font-size: 0.75rem;
   justify-content: center;
   flex-shrink: 0;
 }

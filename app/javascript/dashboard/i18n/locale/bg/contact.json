@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Добавете етикети",
         "PLACEHOLDER": "Търсене на етикети",
-        "NO_RESULT": "Няма намерени етикети"
+        "NO_RESULT": "Няма намерени етикети",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Обединяване на контакти",

@@ -23,6 +23,7 @@
       <settings-section
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_UPDATE_TITLE')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_UPDATE_SUB_TEXT')"
+        :show-border="false"
       >
         <woot-avatar-uploader
           :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AVATAR.LABEL')"
@@ -258,7 +259,7 @@
             }}
           </p>
         </label>
-        <div class="medium-9 settings-item settings-item">
+        <div class="medium-9 settings-item">
           <label>
             {{ $t('INBOX_MGMT.HELP_CENTER.LABEL') }}
           </label>
@@ -313,7 +314,7 @@
             {{ $t('INBOX_MGMT.FEATURES.DISPLAY_FILE_PICKER') }}
           </label>
         </div>
-        <div v-if="isAWebWidgetInbox" class="settings-item settings-item">
+        <div v-if="isAWebWidgetInbox" class="settings-item">
           <input
             v-model="selectedFeatureFlags"
             type="checkbox"
@@ -324,7 +325,7 @@
             {{ $t('INBOX_MGMT.FEATURES.DISPLAY_EMOJI_PICKER') }}
           </label>
         </div>
-        <div v-if="isAWebWidgetInbox" class="settings-item settings-item">
+        <div v-if="isAWebWidgetInbox" class="settings-item">
           <input
             v-model="selectedFeatureFlags"
             type="checkbox"
@@ -335,7 +336,7 @@
             {{ $t('INBOX_MGMT.FEATURES.ALLOW_END_CONVERSATION') }}
           </label>
         </div>
-        <div v-if="isAWebWidgetInbox" class="settings-item settings-item">
+        <div v-if="isAWebWidgetInbox" class="settings-item">
           <input
             v-model="selectedFeatureFlags"
             type="checkbox"
@@ -346,7 +347,54 @@
             {{ $t('INBOX_MGMT.FEATURES.USE_INBOX_AVATAR_FOR_BOT') }}
           </label>
         </div>
-
+      </settings-section>
+      <settings-section
+        v-if="isAWebWidgetInbox || isAnEmailChannel"
+        :title="$t('INBOX_MGMT.EDIT.SENDER_NAME_SECTION.TITLE')"
+        :sub-title="$t('INBOX_MGMT.EDIT.SENDER_NAME_SECTION.SUB_TEXT')"
+        :show-border="false"
+      >
+        <div class="medium-9 settings-item">
+          <sender-name-example-preview
+            :sender-name-type="senderNameType"
+            :business-name="businessName"
+            @update="toggleSenderNameType"
+          />
+          <div class="business-section">
+            <woot-button
+              variant="clear"
+              color-scheme="primary"
+              @click="onClickShowBusinessNameInput"
+            >
+              {{
+                $t(
+                  'INBOX_MGMT.EDIT.SENDER_NAME_SECTION.BUSINESS_NAME.BUTTON_TEXT'
+                )
+              }}
+            </woot-button>
+            <div v-if="showBusinessNameInput" class="business-name-input">
+              <input
+                ref="businessNameInput"
+                v-model="businessName"
+                :placeholder="
+                  $t(
+                    'INBOX_MGMT.EDIT.SENDER_NAME_SECTION.BUSINESS_NAME.PLACEHOLDER'
+                  )
+                "
+                type="text"
+              />
+              <woot-button color-scheme="primary" @click="updateInbox">
+                {{
+                  $t(
+                    'INBOX_MGMT.EDIT.SENDER_NAME_SECTION.BUSINESS_NAME.SAVE_BUTTON_TEXT'
+                  )
+                }}
+              </woot-button>
+            </div>
+          </div>
+        </div>
+      </settings-section>
+      <settings-section :show-border="false">
         <woot-submit-button
           v-if="isAPIInbox"
           type="submit"
@@ -405,6 +453,7 @@ import CollaboratorsPage from './settingsPage/CollaboratorsPage';
 import WidgetBuilder from './WidgetBuilder';
 import BotConfiguration from './components/BotConfiguration';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
+import SenderNameExamplePreview from './components/SenderNameExamplePreview';
 
 export default {
   components: {
@@ -418,6 +467,7 @@ export default {
     SettingsSection,
     WeeklyAvailability,
     WidgetBuilder,
+    SenderNameExamplePreview,
   },
   mixins: [alertMixin, configMixin, inboxMixin],
   data() {
@@ -429,6 +479,8 @@ export default {
       greetingMessage: '',
       emailCollectEnabled: false,
       csatSurveyEnabled: false,
+      senderNameType: 'friendly',
+      businessName: '',
       locktoSingleConversation: false,
       allowMessagesAfterResolved: true,
       continuityViaEmail: true,
@@ -441,6 +493,7 @@ export default {
       replyTime: '',
       selectedTabIndex: 0,
       selectedPortalSlug: '',
+      showBusinessNameInput: false,
     };
   },
   computed: {
@@ -621,6 +674,8 @@ export default {
         this.greetingMessage = this.inbox.greeting_message || '';
         this.emailCollectEnabled = this.inbox.enable_email_collect;
         this.csatSurveyEnabled = this.inbox.csat_survey_enabled;
+        this.senderNameType = this.inbox.sender_name_type;
+        this.businessName = this.inbox.business_name;
         this.allowMessagesAfterResolved = this.inbox.allow_messages_after_resolved;
         this.continuityViaEmail = this.inbox.continuity_via_email;
         this.channelWebsiteUrl = this.inbox.website_url;
@@ -650,6 +705,8 @@ export default {
               ).id
             : null,
           lock_to_single_conversation: this.locktoSingleConversation,
+          sender_name_type: this.senderNameType,
+          business_name: this.businessName || null,
           channel: {
             widget_color: this.inbox.widget_color,
             website_url: this.channelWebsiteUrl,
@@ -694,6 +751,17 @@ export default {
         );
       }
     },
+    toggleSenderNameType(key) {
+      this.senderNameType = key;
+    },
+    onClickShowBusinessNameInput() {
+      this.showBusinessNameInput = !this.showBusinessNameInput;
+      if (this.showBusinessNameInput) {
+        this.$nextTick(() => {
+          this.$refs.businessNameInput.focus();
+        });
+      }
+    },
   },
   validations: {
     webhookUrl: {
@@ -717,12 +785,6 @@ export default {
     }
   }
 
-  .settings--content {
-    div:last-child {
-      border-bottom: 0;
-    }
-  }
-
   .tabs {
     padding: 0;
     margin-bottom: -1px;
@@ -740,6 +802,24 @@ export default {
     font-style: normal;
     color: var(--b-500);
     padding-bottom: var(--space-smaller);
+  }
+}
+
+.business-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-small);
+  margin-top: var(--space-small);
+
+  .business-name-input {
+    display: flex;
+    gap: var(--space-small);
+    width: 80%;
+
+    input {
+      margin-bottom: 0;
+    }
   }
 }
 </style>

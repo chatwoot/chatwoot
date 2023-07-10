@@ -1,6 +1,6 @@
 <template>
   <li
-    class="dropdown-menu__item"
+    class="dropdown-menu__item list-none mb-1"
     :class="{
       'is-disabled': disabled,
     }"
@@ -28,26 +28,21 @@ export default {
 </script>
 <style lang="scss" scoped>
 .dropdown-menu__item {
-  list-style: none;
-  margin-bottom: var(--space-micro);
-
   ::v-deep {
     a,
     .button {
-      display: inline-flex;
-      white-space: nowrap;
-      width: 100%;
-      text-align: left;
-      color: var(--s-700);
-
-      &:hover {
-        background: var(--color-background);
-      }
-
-      &:focus {
-        background: var(--color-background);
-      }
+      @apply inline-flex whitespace-nowrap w-full text-left rtl:text-right;
     }
+  }
+}
+
+// A hacky fix to remove the background that came from the foundation styles node module file
+// Can be removed once we remove the foundation styles node module
+.dropdown.menu {
+  // Top-level item
+  > li > a {
+    background: transparent;
+    padding: 4px 10.8px;
   }
 }
 </style>
