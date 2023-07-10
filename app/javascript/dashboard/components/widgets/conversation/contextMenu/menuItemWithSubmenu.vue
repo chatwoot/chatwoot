@@ -1,6 +1,6 @@
 <template>
   <div
-    class="menu-with-submenu w-full p-1 flex items-center h-7 rounded-md relative bg-white dark:bg-slate-700 justify-between"
+    class="menu-with-submenu min-width-calc w-full p-1 flex items-center h-7 rounded-md relative bg-white dark:bg-slate-700 justify-between hover:bg-woot-75 cursor-pointer dark:hover:bg-slate-800"
     :class="!subMenuAvailable ? 'opacity-50 cursor-not-allowed' : ''"
   >
     <div class="flex items-center">
@@ -31,20 +31,22 @@ export default {
   },
 };
 </script>
+<style scoped>
+@layer components {
+  .min-width-calc {
+    min-width: calc(6.25rem * 2);
+  }
+}
+@tailwind components;
+</style>
 
 <style scoped lang="scss">
 .menu-with-submenu {
   min-width: calc(6.25rem * 2);
 
   &:hover {
-    @apply hover:bg-woot-75 cursor-pointer dark:hover:bg-slate-800;
-
     .submenu {
       @apply block;
-    }
-    &:before {
-      @apply content-none	absolute z-50 bottom-[-65%] h-[75%] right-0 w-[50%];
-      clip-path: polygon(100% 0, 0% 0%, 100% 100%);
     }
   }
 }

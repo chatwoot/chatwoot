@@ -417,7 +417,7 @@ export default {
 </script>
 
 <style scoped>
-@layer utilities {
+@layer components {
   .rounded-bl-calc {
     border-bottom-left-radius: calc(1.5rem + 1px);
   }
@@ -426,7 +426,7 @@ export default {
     border-top-left-radius: calc(1.5rem + 1px);
   }
 }
-@tailwind utilities;
+@tailwind components;
 </style>
 
 <style scoped lang="scss">
