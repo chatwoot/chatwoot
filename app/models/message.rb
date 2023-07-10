@@ -135,7 +135,7 @@ class Message < ApplicationRecord
   end
 
   def push_event_data
-    data = attributes.merge(
+    data = attributes.symbolize_keys.merge(
       created_at: created_at.to_i,
       message_type: message_type_before_type_cast,
       conversation_id: conversation.display_id,
@@ -148,7 +148,6 @@ class Message < ApplicationRecord
 
   def conversation_push_event_data
     {
-      id: conversation.display_id,
       assignee_id: conversation.assignee_id,
       unread_count: conversation.unread_incoming_messages.count,
       last_activity_at: conversation.last_activity_at.to_i,
