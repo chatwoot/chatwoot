@@ -1,12 +1,14 @@
-module Enteprise::Channelable
+module Enterprise::Channelable
   extend ActiveSupport::Concern
 
   def create_audit_log_entry
     account = self.account
     associated_type = 'Account'
-    auditable_id = inbox_id
+    auditable_id = inbox.id
     auditable_type = 'Inbox'
-    audited_changes = attributes.except('id', 'created_at', 'updated_at')
+    audited_changes = saved_changes.except('updated_at')
+
+    return if audited_changes.blank?
 
     Enterprise::AuditLog.create(
       auditable_id: auditable_id,
