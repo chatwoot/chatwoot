@@ -1,4 +1,4 @@
-module SentimentAnalysisHelper
+module Enterprise::SentimentAnalysisHelper
   extend ActiveSupport::Concern
 
   def opening_sentiments
@@ -7,6 +7,8 @@ module SentimentAnalysisHelper
   end
 
   def closing_sentiments
+    return unless resolved?
+
     records = incoming_messages.last(average_message_count)
     average_sentiment(records)
   end
@@ -31,7 +33,8 @@ module SentimentAnalysisHelper
   end
 
   def average_message_count
-    incoming_messages.count >= 10 ? 5 : ((incoming_messages.count / 2) - 1)
+    # incoming_messages.count >= 10 ? 5 : ((incoming_messages.count / 2) - 1)
+    5
   end
 
   def incoming_messages

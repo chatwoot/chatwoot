@@ -57,7 +57,6 @@ class Conversation < ApplicationRecord
   include UrlHelper
   include SortHandler
   include ConversationMuteHelpers
-  include SentimentAnalysisHelper
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
@@ -305,3 +304,4 @@ class Conversation < ApplicationRecord
 end
 
 Conversation.include_mod_with('EnterpriseConversationConcern')
+Conversation.include_mod_with('SentimentAnalysisHelper')
