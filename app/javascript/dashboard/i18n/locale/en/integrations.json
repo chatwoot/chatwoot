@@ -85,13 +85,23 @@
     "OPEN_AI": {
       "AI_ASSIST": "AI Assist",
       "OPTIONS": {
+        "REPLY_SUGGESTION": "Reply Suggestion",
+        "SUMMARIZE": "Summarize",
         "IMPROVE_WRITING": "Improve Writing",
-        "FIX_SPELLING_AND_GRAMMAR": "Fix Spelling and Grammar",
+        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
         "SHORTEN": "Shorten",
         "EXPAND": "Expand",
         "MAKE_FRIENDLY": "Make Friendly",
         "MAKE_FORMAL": "Make Formal",
         "SIMPLIFY": "Simplify"
+      },
+      "ASSISTANCE_MODAL": {
+        "DRAFT_TITLE": "Draft content",
+        "GENERATED_TITLE": "Generated content",
+        "BUTTONS": {
+          "APPLY": "Apply",
+          "CANCEL": "Cancel"
+        }
       },
       "TITLE": "Improve With AI",
       "SUMMARY_TITLE": "Summary with AI",

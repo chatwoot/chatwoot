@@ -2,30 +2,22 @@
   <div class="column">
     <woot-modal-header :header-title="headerTitle" />
     <form class="row modal-content" @submit.prevent="applyText">
-      <div class="container">
+      <div v-if="draftContent" class="container">
         <h4 class="sub-block-title margin-top-1">
-          Draft content
+          {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.DRAFT_TITLE') }}
         </h4>
       </div>
-
-      <p>
+      <p v-if="draftContent">
         {{ draftContent }}
       </p>
-      <div class="container">
+      <div v-if="draftContent" class="container">
         <h4 class="sub-block-title margin-top-1">
-          AI generated content
+          {{
+            $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.GENERATED_TITLE')
+          }}
         </h4>
       </div>
-      <div v-if="isGenerating" class="animation-container margin-top-1">
-        <div class="ai-typing--wrap ">
-          <fluent-icon icon="wand" size="14" class="ai-typing--icon" />
-          <label>AI is writing</label>
-        </div>
-        <span class="loader" />
-        <span class="loader" />
-        <span class="loader" />
-      </div>
-
+      <AILoader v-if="isGenerating" />
       <div v-else>
         <p>
           {{ generatedContent }}
@@ -33,26 +25,15 @@
       </div>
 
       <div class="modal-footer justify-content-end w-full">
-        <!-- <woot-button
-          icon="delete-outline"
-          variant="clear"
-          @click.prevent="onClose"
-        >
-          Discard
-        </woot-button> -->
         <woot-button variant="clear" @click.prevent="onClose">
-          Discard
+          {{
+            $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.CANCEL')
+          }}
         </woot-button>
-        <!-- <woot-button
-          v-tooltip.top-end="$t('CONVERSATION.TRY_AGAIN')"
-          color-scheme="alert"
-          variant="clear"
-          icon="arrow-clockwise"
-          :disabled="!enableButtons"
-          >Retry
-        </woot-button> -->
         <woot-button :disabled="!enableButtons">
-          Apply
+          {{
+            $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.APPLY')
+          }}
         </woot-button>
       </div>
     </form>
@@ -62,8 +43,12 @@
 <script>
 import { mapGetters } from 'vuex';
 import OpenAPI from 'dashboard/api/integrations/openapi';
+import AILoader from './AILoader.vue';
 
 export default {
+  components: {
+    AILoader,
+  },
   props: {
     aiOption: {
       type: String,
@@ -107,7 +92,7 @@ export default {
     const key = `draft-${this.conversationId}-${replyType}`;
     const message = `${savedDraftMessages[key] || ''}`;
     this.draftContent = message;
-    this.processEvent('rephrase');
+    this.processEvent(this.aiOption);
   },
 
   methods: {
@@ -147,58 +132,5 @@ export default {
 
 .container {
   width: 100%;
-}
-
-.ai-typing--wrap {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-
-  .ai-typing--icon {
-    color: var(--v-500);
-  }
-}
-
-.animation-container {
-  position: relative;
-  display: flex;
-}
-
-.animation-container label {
-  display: inline-block;
-  margin-right: 8px;
-  color: var(--v-400);
-}
-
-.loader {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  margin-right: 4px;
-  margin-top: 12px;
-  background-color: var(--v-300);
-  border-radius: 50%;
-  animation: bubble-scale 1.2s infinite;
-}
-
-.loader:nth-child(2) {
-  animation-delay: 0.4s;
-}
-
-.loader:nth-child(3) {
-  animation-delay: 0.8s;
-}
-
-@keyframes bubble-scale {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  25% {
-    transform: scale(1.3);
-  }
-  50% {
-    transform: scale(1);
-  }
 }
 </style>

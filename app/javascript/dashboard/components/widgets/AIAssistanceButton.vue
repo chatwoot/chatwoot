@@ -86,15 +86,6 @@
         @close="hideAIAssistanceModal"
       />
     </woot-modal>
-    <woot-modal
-      :show.sync="showAIAssistanceReply"
-      :on-close="hideAIAssistanceReplyModal"
-    >
-      <AIAssistanceReply
-        @apply-text="insertText"
-        @close="hideAIAssistanceReplyModal"
-      />
-    </woot-modal>
   </div>
 </template>
 <script>
@@ -106,12 +97,10 @@ import alertMixin from 'shared/mixins/alertMixin';
 import { OPEN_AI_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { CMD_AI_ASSIST } from '../../routes/dashboard/commands/commandBarBusEvents';
 import AIAssistanceModal from './AIAssistanceModal.vue';
-import AIAssistanceReply from './AIAssistanceReply.vue';
 
 export default {
   components: {
     AIAssistanceModal,
-    AIAssistanceReply,
   },
   mixins: [alertMixin, clickaway],
   props: {
@@ -132,7 +121,6 @@ export default {
     return {
       aiOption: '',
       showAIAssistanceModal: false,
-      showAIAssistanceReply: false,
       uiFlags: {
         rephrase: false,
         reply_suggestion: false,
@@ -182,9 +170,6 @@ export default {
     bus.$off(CMD_AI_ASSIST, this.onAIAssist);
   },
   methods: {
-    hideAIAssistanceReplyModal() {
-      this.showAIAssistanceReply = false;
-    },
     hideAIAssistanceModal() {
       this.showAIAssistanceModal = false;
     },

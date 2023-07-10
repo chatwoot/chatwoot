@@ -357,12 +357,14 @@ export default {
       if (!message) {
         aiOptions = [
           {
-            label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.REPLY_TITLE'),
+            label: this.$t(
+              'INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.REPLY_SUGGESTION'
+            ),
             key: 'reply_suggestion',
             icon: ICON_AI_ASSIST,
           },
           {
-            label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.SUMMARY_TITLE'),
+            label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.SUMMARIZE'),
             key: 'summarize',
             icon: ICON_AI_SUMMARY,
           },
@@ -378,7 +380,7 @@ export default {
           },
           {
             label: this.$t(
-              'INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.FIX_SPELLING_AND_GRAMMAR'
+              'INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.FIX_SPELLING_GRAMMAR'
             ),
             key: 'fix_spelling_grammar',
             icon: ICON_AI_ASSIST,
