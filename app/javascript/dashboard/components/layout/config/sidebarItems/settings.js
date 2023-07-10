@@ -27,6 +27,7 @@ const settings = accountId => ({
     'settings_inbox',
     'settings_inboxes_add_agents',
     'settings_inboxes_page_channel',
+    'settings_inboxes_page_fb_login',
     'settings_integrations_dashboard_apps',
     'settings_integrations_integration',
     'settings_integrations_webhook',

@@ -7,6 +7,7 @@ import ChannelList from './ChannelList';
 import channelFactory from './channel-factory';
 import AddAgents from './AddAgents';
 import FinishSetup from './FinishSetup';
+import Facebook from './channels/Facebook';
 import { frontendURL } from '../../../../helper/URLHelper';
 
 export default {
@@ -60,6 +61,12 @@ export default {
               props: route => {
                 return { channel_name: route.params.sub_page };
               },
+            },
+            {
+              path: ':sub_page/fb_login',
+              name: 'settings_inboxes_page_fb_login',
+              component: Facebook,
+              roles: ['administrator'],
             },
             {
               path: ':inbox_id/agents',

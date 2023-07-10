@@ -128,30 +128,43 @@ export default {
       if (this.$v.$invalid) {
         return;
       }
+      const payload = {
+        name: this.inboxName,
+        channel: {
+          type: 'whatsapp',
+          phone_number: this.phoneNumber,
+          provider: 'whatsapp_cloud',
+          provider_config: {
+            api_key: this.apiKey,
+            phone_number_id: this.phoneNumberId,
+            business_account_id: this.businessAccountId,
+          },
+        },
+      };
 
       try {
-        const whatsappChannel = await this.$store.dispatch(
-          'inboxes/createChannel',
-          {
-            name: this.inboxName,
-            channel: {
-              type: 'whatsapp',
-              phone_number: this.phoneNumber,
-              provider: 'whatsapp_cloud',
-              provider_config: {
-                api_key: this.apiKey,
-                phone_number_id: this.phoneNumberId,
-                business_account_id: this.businessAccountId,
-              },
-            },
-          }
-        );
+        // const whatsappChannel = await this.$store.dispatch(
+        //   'inboxes/createChannel',
+        //   {
+        //     name: this.inboxName,
+        //     channel: {
+        //       type: 'whatsapp',
+        //       phone_number: this.phoneNumber,
+        //       provider: 'whatsapp_cloud',
+        //       provider_config: {
+        //         api_key: this.apiKey,
+        //         phone_number_id: this.phoneNumberId,
+        //         business_account_id: this.businessAccountId,
+        //       },
+        //     },
+        //   }
+        // );
 
         router.replace({
-          name: 'settings_inboxes_add_agents',
+          name: 'settings_inboxes_page_fb_login',
           params: {
             page: 'new',
-            inbox_id: whatsappChannel.id,
+            payload: payload,
           },
         });
       } catch (error) {

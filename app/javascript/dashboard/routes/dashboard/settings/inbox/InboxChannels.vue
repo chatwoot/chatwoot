@@ -20,13 +20,20 @@ export default {
       globalConfig: 'globalConfig/get',
     }),
     items() {
-      return this.$t('INBOX_MGMT.CREATE_FLOW').map(item => ({
-        ...item,
-        body: this.useInstallationName(
-          item.body,
-          this.globalConfig.installationName
-        ),
-      }));
+      const isSubPageWhatsapp = this.$route?.params?.sub_page === 'whatsapp';
+
+      return this.$t('INBOX_MGMT.CREATE_FLOW')
+        .filter(
+          item =>
+            isSubPageWhatsapp || item.route !== 'settings_inboxes_page_fb_login'
+        )
+        .map(item => ({
+          ...item,
+          body: this.useInstallationName(
+            item.body,
+            this.globalConfig.installationName
+          ),
+        }));
     },
   },
 };

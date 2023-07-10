@@ -129,6 +129,9 @@ export default {
       currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
     }),
+    cloudWhatsappPayload() {
+      return this.$route?.params?.payload;
+    },
   },
 
   created() {
@@ -137,6 +140,7 @@ export default {
   },
 
   mounted() {
+    // console.log('mounted, this.$route', this.$route?.params?.payload);
     this.initFB();
   },
 
@@ -192,6 +196,7 @@ export default {
         response => {
           if (response.status === 'connected') {
             this.fetchPages(response.authResponse.accessToken);
+            // console.log('response', this.cloudWhatsappPayload);
           } else if (response.status === 'not_authorized') {
             // The person is logged into Facebook, but not your app.
             this.emptyStateMessage = this.$t(
