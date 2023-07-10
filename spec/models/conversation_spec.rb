@@ -824,7 +824,7 @@ RSpec.describe Conversation do
     before do
       10.times do
         message = create(:message, conversation_id: conversation.id, account_id: conversation.account_id, message_type: 'incoming')
-        Enterprise::SentimentAnalysisJob.perform_now(message)
+        message.update(sentiment: { 'label': 'positive', score: '0.4' })
       end
     end
 
