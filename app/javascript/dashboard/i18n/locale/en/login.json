@@ -20,7 +20,7 @@
       "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
     },
     "FORGOT_PASSWORD": "Forgot your password?",
-    "CREATE_NEW_ACCOUNT": "Create new account",
+    "CREATE_NEW_ACCOUNT": "Create a new account",
     "SUBMIT": "Login"
   }
 }

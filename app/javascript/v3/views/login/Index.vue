@@ -27,7 +27,7 @@
       >
         {{ $t('COMMON.OR') }}
         <router-link to="auth/signup" class="text-link">
-          {{ $t('LOGIN.CREATE_NEW_ACCOUNT') }}
+          {{ $t('LOGIN.CREATE_NEW_ACCOUNT').toLocaleLowerCase() }}
         </router-link>
       </p>
     </section>
