@@ -17,11 +17,19 @@ module Enterprise::Integrations::OpenaiProcessorService
 
   private
 
+  def should_run_label_suggestion?
+    nil
+  end
+
   def labels_with_messages
     labels = hook.account.labels.pluck(:title).join(', ')
 
     character_count = labels.length
     conversation = find_conversation
+
+    # return nil if conversation has less than 3 incoming messages
+    return nil if conversation.messages.incoming.count < 3
+
     messages = init_messages_body(false)
     add_messages_until_token_limit(conversation, messages, false, character_count)
 
