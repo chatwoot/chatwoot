@@ -6,10 +6,11 @@ RSpec.describe Enterprise::SentimentAnalysisJob do
     let(:message) { build(:message, content_type: nil, account: account) }
 
     context 'when update the message sentiments' do
+      let(:model_path) { 'sentiment-analysis.onnx' }
       let(:model) { double }
 
       before do
-        allow(Informers::SentimentAnalysis).to receive(:new).and_return(model)
+        allow(Informers::SentimentAnalysis).to receive(:new).with(model_path).and_return(model)
         allow(model).to receive(:predict).and_return({ label: 'positive', score: '0.6' })
       end
 
