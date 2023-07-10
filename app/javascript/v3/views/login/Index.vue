@@ -32,8 +32,11 @@
       </p>
     </section>
     <section
-      class="sm:mx-auto mt-11 sm:w-full sm:max-w-lg bg-white dark:bg-slate-800 p-11 shadow sm:shadow-lg sm:rounded-lg"
-      :class="{ 'mb-8 mt-15': !showGoogleOAuth }"
+      class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-slate-800 p-11 sm:shadow-lg sm:rounded-lg"
+      :class="{
+        'mb-8 mt-15': !showGoogleOAuth,
+        'login--error': loginApi.hasErrored,
+      }"
     >
       <div v-if="!email">
         <GoogleOAuthButton v-if="showGoogleOAuth" />
@@ -67,11 +70,7 @@
             </p>
           </form-input>
           <submit-button
-            :disabled="
-              $v.credentials.email.$invalid ||
-                $v.credentials.password.$invalid ||
-                loginApi.showLoading
-            "
+            :disabled="loginApi.showLoading"
             :button-text="$t('LOGIN.SUBMIT')"
             :loading="loginApi.showLoading"
           />
@@ -126,6 +125,7 @@ export default {
       loginApi: {
         message: '',
         showLoading: false,
+        hasErrored: false,
       },
       error: '',
     };
@@ -173,6 +173,7 @@ export default {
       bus.$emit('newToastMessage', this.loginApi.message);
     },
     submitLogin() {
+      this.loginApi.hasErrored = false;
       this.loginApi.showLoading = true;
       const credentials = {
         email: this.email
@@ -193,9 +194,46 @@ export default {
           if (this.email) {
             window.location = '/app/login';
           }
+          this.loginApi.hasErrored = true;
           this.showAlert(response?.message || this.$t('LOGIN.API.UNAUTH'));
         });
     },
   },
 };
 </script>
+
+<style scoped>
+.login--error {
+  animation-name: error-animation;
+  animation-fill-mode: forward;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes error-animation {
+  0% {
+    transform: translateX(0);
+  }
+  15% {
+    transform: translateX(0.375rem);
+  }
+  30% {
+    transform: translateX(-0.375rem);
+  }
+  45% {
+    transform: translateX(0.375rem);
+  }
+  60% {
+    transform: translateX(-0.375rem);
+  }
+  75% {
+    transform: translateX(0.375rem);
+  }
+  90% {
+    transform: translateX(-0.375rem);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+</style>
