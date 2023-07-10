@@ -125,6 +125,14 @@ class Article < ApplicationRecord
     end
   end
 
+  def article_link
+    base_url = portal.custom_domain || ENV.fetch('frontend_url', nil)
+    # Prepend "http://" to base_url if it doesn't start with "http://" or "https://"
+    base_url = "http://#{base_url}" unless %r{\Ahttps?://}.match?(base_url)
+
+    "#{base_url}/hc/#{portal.slug}/articles/#{slug}"
+  end
+
   private
 
   def category_id_changed_action

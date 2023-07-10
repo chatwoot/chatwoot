@@ -57,6 +57,9 @@ gem 'redis'
 gem 'redis-namespace'
 # super fast record imports in bulk
 gem 'activerecord-import'
+# adds cosine similarity to postgres using vector extension
+gem 'neighbor'
+gem 'pgvector'
 
 ##--- gems for server & infra configuration ---##
 gem 'dotenv-rails'
