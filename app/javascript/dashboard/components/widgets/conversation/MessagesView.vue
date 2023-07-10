@@ -1,5 +1,5 @@
 <template>
-  <div class="view-box fill-height">
+  <div class="view-box h-auto flex-grow min-w-0">
     <banner
       v-if="!currentChat.can_reply"
       color-scheme="alert"
@@ -16,19 +16,19 @@
       @close="removeTweetSelection"
     />
 
-    <div class="sidebar-toggle__wrap">
+    <div class="flex justify-end">
       <woot-button
         variant="smooth"
         size="tiny"
         color-scheme="secondary"
-        class="sidebar-toggle--button"
+        class="rounded-bl-calc rounded-tl-calc fixed top-[6.25rem] z-10 bg-white dark:bg-slate-700 border-slate-50 dark:border-slate-600 border-solid border border-r-0 box-border"
         :icon="isRightOrLeftIcon"
         @click="onToggleContactPanel"
       />
     </div>
     <ul class="conversation-panel">
       <transition name="slide-up">
-        <li class="spinner--container">
+        <li class="min-h-[4rem]">
           <span v-if="shouldShowSpinner" class="spinner message" />
         </li>
       </transition>
@@ -416,59 +416,41 @@ export default {
 };
 </script>
 
+<style scoped>
+@layer utilities {
+  .rounded-bl-calc {
+    border-bottom-left-radius: calc(1.5rem + 1px);
+  }
+
+  .rounded-tl-calc {
+    border-top-left-radius: calc(1.5rem + 1px);
+  }
+}
+@tailwind utilities;
+</style>
+
 <style scoped lang="scss">
-.spinner--container {
-  min-height: var(--space-jumbo);
-}
-
-.view-box.fill-height {
-  height: auto;
-  flex-grow: 1;
-  min-width: 0;
-}
-
 .modal-mask {
   &::v-deep {
     .ProseMirror-woot-style {
-      max-height: 25rem;
+      @apply max-h-[25rem];
     }
 
     .reply-box {
-      border: 1px solid var(--color-border);
-      max-width: 75rem;
-      width: 70%;
+      @apply border border-solid border-slate-75 dark:border-slate-600 max-w-[75rem] w-[70%];
     }
 
     .reply-box .reply-box__top {
-      position: relative;
-      min-height: 27.5rem;
+      @apply relative min-h-[27.5rem];
     }
 
     .reply-box__top .input {
-      min-height: 27.5rem;
+      @apply min-h-[27.5rem];
     }
 
     .emoji-dialog {
-      position: fixed;
-      left: unset;
-      position: absolute;
-      bottom: var(--space-smaller);
+      @apply absolute left-auto bottom-1;
     }
-  }
-}
-.sidebar-toggle__wrap {
-  display: flex;
-  justify-content: flex-end;
-
-  .sidebar-toggle--button {
-    @apply fixed top-[6.25rem] z-10 bg-white dark:bg-slate-700 border-slate-50 dark:border-slate-600 border-solid border border-r-0 box-border;
-    padding: inherit 0;
-    border-top-left-radius: calc(
-      var(--space-medium) + 1px
-    ); /* 100px of height + 10px of border */
-    border-bottom-left-radius: calc(
-      var(--space-medium) + 1px
-    ); /* 100px of height + 10px of border */
   }
 }
 </style>
