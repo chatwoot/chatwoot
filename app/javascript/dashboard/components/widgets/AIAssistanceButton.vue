@@ -75,9 +75,11 @@ import { mixin as clickaway } from 'vue-clickaway';
 import OpenAPI from 'dashboard/api/integrations/openapi';
 import alertMixin from 'shared/mixins/alertMixin';
 import { OPEN_AI_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 
 export default {
-  mixins: [alertMixin, clickaway],
+  mixins: [alertMixin, clickaway, eventListenerMixins],
   props: {
     conversationId: {
       type: Number,
@@ -101,6 +103,7 @@ export default {
       },
       showDropdown: false,
       activeTone: 'professional',
+      initialMessage: '',
       tones: [
         {
           key: 'professional',
@@ -138,7 +141,18 @@ export default {
       this.$store.dispatch('integrations/get');
     }
   },
+
   methods: {
+    onKeyDownHandler(event) {
+      const keyPattern = buildHotKeys(event);
+      const shouldRevertTheContent =
+        ['meta+z', 'ctrl+z'].includes(keyPattern) && !!this.initialMessage;
+
+      if (shouldRevertTheContent) {
+        this.$emit('replace-text', this.initialMessage);
+        this.initialMessage = '';
+      }
+    },
     toggleDropdown() {
       this.showDropdown = !this.showDropdown;
     },
@@ -167,6 +181,7 @@ export default {
         const {
           data: { message: generatedMessage },
         } = result;
+        this.initialMessage = this.message;
         this.$emit('replace-text', generatedMessage || this.message);
         this.closeDropdown();
         this.recordAnalytics({ type, tone: this.activeTone });
