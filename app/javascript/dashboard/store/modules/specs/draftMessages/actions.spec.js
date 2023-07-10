@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { actions } from '../../draftMessages';
 import types from '../../../mutation-types';
-import { data } from './fixtures';
 
 const commit = jest.fn();
 global.axios = axios;
@@ -17,16 +16,36 @@ describe('#actions', () => {
             draftMessages: {},
           },
         },
-        { draftMessages: data }
+        { key: 'draft-32-REPLY', message: 'Hey how ' }
       );
       expect(commit.mock.calls).toEqual([
         [
           types.SET_DRAFT_MESSAGES,
           {
-            draftMessages: {
-              'draft-32-REPLY': 'Hey how ',
-              'draft-31-REPLY': 'Nice',
-            },
+            key: 'draft-32-REPLY',
+            message: 'Hey how ',
+          },
+        ],
+      ]);
+    });
+  });
+
+  describe('#delete', () => {
+    it('sends correct actions', async () => {
+      await actions.delete(
+        {
+          commit,
+          state: {
+            draftMessages: {},
+          },
+        },
+        { key: 'draft-32-REPLY' }
+      );
+      expect(commit.mock.calls).toEqual([
+        [
+          types.SET_DRAFT_MESSAGES,
+          {
+            key: 'draft-32-REPLY',
           },
         ],
       ]);

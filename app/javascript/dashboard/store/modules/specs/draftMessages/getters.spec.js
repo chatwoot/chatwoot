@@ -2,13 +2,17 @@ import { getters } from '../../draftMessages';
 import { data } from './fixtures';
 
 describe('#getters', () => {
-  it('get', () => {
+  it('return the payload if key is present', () => {
     const state = {
       records: data,
     };
-    expect(getters.get(state)).toEqual({
-      'draft-32-REPLY': 'Hey how ',
-      'draft-31-REPLY': 'Nice',
-    });
+    expect(getters.get(state)('draft-32-REPLY')).toEqual('Hey how ');
+  });
+
+  it('return empty string if key is not present', () => {
+    const state = {
+      records: data,
+    };
+    expect(getters.get(state)('draft-22-REPLY')).toEqual('');
   });
 });
