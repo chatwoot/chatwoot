@@ -256,7 +256,6 @@ export default {
       lastEmail: 'getLastEmailInSelectedChat',
       globalConfig: 'globalConfig/get',
       accountId: 'getCurrentAccountId',
-      savedDraftMessages: 'draftMessages/get',
     }),
     showRichContentEditor() {
       if (this.isOnPrivateNote || this.isRichEditorEnabled) {
@@ -586,20 +585,10 @@ export default {
       if (this.message || this.message === '') {
         const key = `draft-${conversationId}-${replyType}`;
         const draftToSave = trimContent(this.message || '');
-        const {
-          [key]: currentDraft,
-          ...restOfDraftMessages
-        } = this.savedDraftMessages;
-
-        const updatedDraftMessages = draftToSave
-          ? {
-              ...restOfDraftMessages,
-              [key]: draftToSave,
-            }
-          : restOfDraftMessages;
 
         this.$store.dispatch('draftMessages/set', {
-          draftMessages: updatedDraftMessages,
+          key,
+          message: draftToSave,
         });
       }
     },
@@ -609,24 +598,14 @@ export default {
     },
     getFromDraft() {
       if (this.conversationIdByRoute) {
-        try {
-          const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
-          this.message = `${this.savedDraftMessages[key] || ''}`;
-        } catch (error) {
-          this.message = '';
-        }
+        const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
+        this.message = this.$store.getters['draftMessages/get'](key) || '';
       }
     },
     removeFromDraft() {
       if (this.conversationIdByRoute) {
         const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
-        const {
-          [key]: toBeRemoved,
-          ...updatedDraftMessages
-        } = this.savedDraftMessages;
-        this.$store.dispatch('draftMessages/set', {
-          draftMessages: updatedDraftMessages,
-        });
+        this.$store.dispatch('draftMessages/delete', { key });
       }
     },
     handleKeyEvents(e) {

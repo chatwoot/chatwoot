@@ -9,21 +9,29 @@ const state = {
 };
 
 export const getters = {
-  get: _state => {
-    return _state.records;
+  get: _state => key => {
+    return _state.records[key] || '';
   },
 };
 
 export const actions = {
-  set: async ({ commit }, { draftMessages }) => {
-    commit(types.SET_DRAFT_MESSAGES, { draftMessages });
-    LocalStorage.set(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES, draftMessages);
+  set: async ({ commit }, { key, message }) => {
+    commit(types.SET_DRAFT_MESSAGES, { key, message });
+  },
+  delete: ({ commit }, { key }) => {
+    commit(types.SET_DRAFT_MESSAGES, { key });
   },
 };
 
 export const mutations = {
-  [types.SET_DRAFT_MESSAGES]($state, { draftMessages }) {
-    Vue.set($state, 'records', draftMessages);
+  [types.SET_DRAFT_MESSAGES]($state, { key, message }) {
+    Vue.set($state.records, key, message);
+    LocalStorage.set(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES, $state.records);
+  },
+  [types.REMOVE_DRAFT_MESSAGES]($state, { key }) {
+    const { [key]: draftToBeRemoved, ...updatedRecords } = $state.records;
+    Vue.set($state, 'records', updatedRecords);
+    LocalStorage.set(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES, $state.records);
   },
 };
 
