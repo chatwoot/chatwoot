@@ -187,7 +187,7 @@ export default {
       }
     },
     dismissSuggestions() {
-      const dismissed = this.getDismissedConversations();
+      const dismissed = this.getDismissedConversations(this.currentAccountId);
       dismissed[this.currentAccountId].push(this.conversationId);
 
       LocalStorage.set(
@@ -200,31 +200,8 @@ export default {
       this.trackLabelEvent(OPEN_AI_EVENTS.DISMISS_LABEL_SUGGESTION);
     },
     isConversationDismissed() {
-      const dismissed = this.getDismissedConversations();
+      const dismissed = this.getDismissedConversations(this.currentAccountId);
       return dismissed[this.currentAccountId].includes(this.conversationId);
-    },
-    getDismissedConversations() {
-      const suggestionKey = LOCAL_STORAGE_KEYS.DISMISSED_LABEL_SUGGESTIONS;
-
-      // fetch the value from Storage
-      const valueFromStorage = LocalStorage.get(suggestionKey);
-
-      // Case 1: the key is not initialized
-      if (!valueFromStorage) {
-        LocalStorage.set(suggestionKey, {
-          [this.currentAccountId]: [],
-        });
-        return LocalStorage.get(suggestionKey);
-      }
-
-      // Case 2: the key is initialized, but account ID is not present
-      if (!valueFromStorage[this.currentAccountId]) {
-        valueFromStorage[this.currentAccountId] = [];
-        LocalStorage.set(suggestionKey, valueFromStorage);
-        return LocalStorage.get(suggestionKey);
-      }
-
-      return valueFromStorage;
     },
     addAllLabels() {
       let labelsToAdd = this.selectedLabels;

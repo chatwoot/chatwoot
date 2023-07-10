@@ -336,6 +336,14 @@ export default {
       // start empty, this ensures that the label suggestions are not shown
       this.labelSuggestions = [];
 
+      if (this.isLabelSuggestionDismissed) {
+        return;
+      }
+
+      if (!this.isEnterprise) {
+        return;
+      }
+
       // method available in mixin, need to ensure that integrations are present
       await this.fetchIntegrationsIfRequired();
 
@@ -362,6 +370,10 @@ export default {
           this.scrollToBottom();
         }
       });
+    },
+    isLabelSuggestionDismissed() {
+      const dismissed = this.getDismissedConversations(this.currentAccountId);
+      return dismissed[this.currentAccountId].includes(this.conversationId);
     },
     fetchAllAttachmentsFromCurrentChat() {
       this.$store.dispatch('fetchAllAttachments', this.currentChat.id);
