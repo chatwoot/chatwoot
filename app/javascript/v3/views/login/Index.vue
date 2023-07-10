@@ -173,8 +173,14 @@ export default {
       bus.$emit('newToastMessage', this.loginApi.message);
     },
     submitLogin() {
+      if (this.$v.credentials.email.$invalid) {
+        this.showAlert(this.$t('LOGIN.EMAIL.ERROR'));
+        return;
+      }
+
       this.loginApi.hasErrored = false;
       this.loginApi.showLoading = true;
+
       const credentials = {
         email: this.email
           ? decodeURIComponent(this.email)
