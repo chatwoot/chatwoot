@@ -50,6 +50,50 @@ RSpec.describe Message do
     end
   end
 
+  describe '#push_event_data' do
+    subject(:push_event_data) { message.push_event_data }
+
+    let(:message) { create(:message, echo_id: 'random-echo_id') }
+
+    let(:expected_data) do
+      {
+
+        account_id: message.account_id,
+        additional_attributes: message.additional_attributes,
+        content_attributes: message.content_attributes,
+        content_type: message.content_type,
+        content: message.content,
+        conversation_id: message.conversation.display_id,
+        created_at: message.created_at.to_i,
+        external_source_ids: message.external_source_ids,
+        id: message.id,
+        inbox_id: message.inbox_id,
+        message_type: message.message_type_before_type_cast,
+        private: message.private,
+        processed_message_content: message.processed_message_content,
+        sender_id: message.sender_id,
+        sender_type: message.sender_type,
+        source_id: message.source_id,
+        status: message.status,
+        updated_at: message.updated_at,
+        conversation: {
+          assignee_id: message.conversation.assignee_id,
+          contact_inbox: {
+            source_id: message.conversation.contact_inbox.source_id
+          },
+          last_activity_at: message.conversation.last_activity_at.to_i,
+          unread_count: message.conversation.unread_incoming_messages.count
+        },
+        sender: message.sender.push_event_data,
+        echo_id: 'random-echo_id'
+      }
+    end
+
+    it 'returns push event payload' do
+      expect(push_event_data).to eq(expected_data)
+    end
+  end
+
   describe 'Check if message is a valid first reply' do
     it 'is valid if it is outgoing' do
       outgoing_message = create(:message, message_type: :outgoing)
