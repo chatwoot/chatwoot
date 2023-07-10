@@ -151,6 +151,7 @@ export default {
       heightBeforeLoad: null,
       conversationPanel: null,
       selectedTweetId: null,
+      hasUserScrolled: false,
       isPopoutReplyBox: false,
       labelSuggestions: [],
     };
@@ -313,6 +314,7 @@ export default {
 
   created() {
     bus.$on(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
+    // when a new message comes in, we refetch the label suggestions
     bus.$on(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS, this.fetchSuggestions);
     bus.$on(BUS_EVENTS.SET_TWEET_REPLY, this.setSelectedTweet);
   },
@@ -330,15 +332,34 @@ export default {
 
   methods: {
     async fetchSuggestions() {
-      // start empty
+      // start empty, this ensures that the label suggestions are not shown
       this.labelSuggestions = [];
 
+      // method available in mixin, need to ensure that integrations are present
       await this.fetchIntegrationsIfRequired();
+
+      if (!this.isAIIntegrationEnabled) {
+        return;
+      }
+
       this.labelSuggestions = await this.fetchLabelSuggestions({
         conversationId: this.currentChat.id,
       });
+
+      // once the labels are fetched, we need to scroll to bottom
+      // but we need to wait for the DOM to be updated
+      // so we use the nextTick method
       this.$nextTick(() => {
-        this.scrollToBottom();
+        // this param is added to route, telling the UI to navigate to the message
+        // it is triggered by the SCROLL_TO_MESSAGE method
+        // see setActiveChat on ConversationView.vue for more info
+        const { messageId } = this.$route.query;
+
+        // only trigger the scroll to bottom if the user has not scrolled
+        // and there's no active messageId that is selected in view
+        if (!messageId && !this.hasUserScrolled) {
+          this.scrollToBottom();
+        }
       });
     },
     fetchAllAttachmentsFromCurrentChat() {
@@ -386,9 +407,13 @@ export default {
     },
     scrollToBottom() {
       let relevantMessages = [];
+
+      // label suggestions are not part of the messages list
+      // so we need to handle them separately
       let labelSuggestions = this.conversationPanel.querySelector(
         '.label-suggestion'
       );
+
       // if there are unread messages, scroll to the first unread message
       if (this.unreadMessageCount > 0) {
         // capturing only the unread messages
@@ -396,13 +421,20 @@ export default {
           '.message--unread'
         );
       } else if (labelSuggestions) {
+        // when scrolling to the bottom, the label suggestions is below the last message
+        // so we scroll there if there are no unread messages
+        // Unread messages always take the highest priority
         relevantMessages = [labelSuggestions];
       } else {
+        // if there are no unread messages or label suggestion, scroll to the last message
         // capturing last message from the messages list
         relevantMessages = Array.from(
           this.conversationPanel.querySelectorAll('.message--read')
         ).slice(-1);
       }
+
+      // invalidate if the user has scrolled, since the program has seized control of scrolling. Skynet is real.
+      this.hasUserScrolled = false;
 
       this.conversationPanel.scrollTop = calculateScrollTop(
         this.conversationPanel.scrollHeight,
@@ -450,6 +482,13 @@ export default {
     },
 
     handleScroll(e) {
+      // https://developer.mozilla.org/en-US/docs/Web/API/Event/isTrusted
+      // It's a neat way to know if the event was triggered by the user or not.
+      if (e.isTrusted) {
+        // set the flag, this tells the label suggestion component to not scroll to bottom
+        // this is because the labels load asynchronously and the user might be reading the messages
+        this.hasUserScrolled = true;
+      }
       bus.$emit(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL);
       this.fetchPreviousMessages(e.target.scrollTop);
     },
