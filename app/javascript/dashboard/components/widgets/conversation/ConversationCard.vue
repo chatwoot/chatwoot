@@ -38,9 +38,13 @@
         <div class="flex gap-2 ml-2 rtl:mr-2 rtl:ml-0">
           <span
             v-if="showAssignee && assignee.name"
-            class="text-slate-500 dark:text-slate-400 test-xs font-medium leading-3 py-0.5 px-0 inline-flex max-w-[50%] text-ellipsis overflow-hidden whitespace-nowrap"
+            class="text-slate-500 dark:text-slate-400 text-xs font-medium leading-3 py-0.5 px-0 inline-flex text-ellipsis overflow-hidden whitespace-nowrap"
           >
-            <fluent-icon icon="person" size="12" />
+            <fluent-icon
+              icon="person"
+              size="12"
+              class="text-slate-500 dark:text-slate-400"
+            />
             {{ assignee.name }}
           </span>
           <priority-mark :priority="chat.priority" />
