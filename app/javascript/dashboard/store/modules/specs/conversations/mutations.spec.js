@@ -403,15 +403,4 @@ describe('#mutations', () => {
       expect(state.allConversations[0].attachments).toHaveLength(1);
     });
   });
-
-  describe('#SET_DRAFT_MESSAGES', () => {
-    it('set draft messages', () => {
-      const state = {
-        draftMessages: {},
-      };
-      const data = { 'draft-32-REPLY': 'Hey how ', 'draft-31-REPLY': 'Nice' };
-      mutations[types.SET_DRAFT_MESSAGES](state, { draftMessages: data });
-      expect(state.draftMessages).toEqual(data);
-    });
-  });
 });

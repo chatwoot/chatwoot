@@ -385,19 +385,4 @@ describe('#getters', () => {
       ]);
     });
   });
-
-  describe('#getDraftMessages', () => {
-    it('Returns draft messages', () => {
-      const state = {
-        draftMessages: {
-          'draft-32-REPLY': 'Hey how ',
-          'draft-31-REPLY': 'Nice',
-        },
-      };
-      expect(getters.getDraftMessages(state)).toEqual({
-        'draft-32-REPLY': 'Hey how ',
-        'draft-31-REPLY': 'Nice',
-      });
-    });
-  });
 });

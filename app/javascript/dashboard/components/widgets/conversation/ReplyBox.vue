@@ -178,8 +178,6 @@ import inboxMixin from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { DirectUpload } from 'activestorage';
 import { frontendURL } from '../../../helper/URLHelper';
-import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
-import { LocalStorage } from 'shared/helpers/localStorage';
 import { trimContent, debounce } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants/globals';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
@@ -258,6 +256,7 @@ export default {
       lastEmail: 'getLastEmailInSelectedChat',
       globalConfig: 'globalConfig/get',
       accountId: 'getCurrentAccountId',
+      savedDraftMessages: 'draftMessages/get',
     }),
     showRichContentEditor() {
       if (this.isOnPrivateNote || this.isRichEditorEnabled) {
@@ -583,18 +582,14 @@ export default {
         display_rich_content_editor: !this.showRichContentEditor,
       });
     },
-    getSavedDraftMessages() {
-      return LocalStorage.get(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES) || {};
-    },
     saveDraft(conversationId, replyType) {
       if (this.message || this.message === '') {
-        const savedDraftMessages = this.getSavedDraftMessages();
         const key = `draft-${conversationId}-${replyType}`;
         const draftToSave = trimContent(this.message || '');
         const {
           [key]: currentDraft,
           ...restOfDraftMessages
-        } = savedDraftMessages;
+        } = this.savedDraftMessages;
 
         const updatedDraftMessages = draftToSave
           ? {
@@ -603,11 +598,7 @@ export default {
             }
           : restOfDraftMessages;
 
-        LocalStorage.set(
-          LOCAL_STORAGE_KEYS.DRAFT_MESSAGES,
-          updatedDraftMessages
-        );
-        this.$store.dispatch('setDraftMessages', {
+        this.$store.dispatch('draftMessages/set', {
           draftMessages: updatedDraftMessages,
         });
       }
@@ -620,8 +611,7 @@ export default {
       if (this.conversationIdByRoute) {
         try {
           const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
-          const savedDraftMessages = this.getSavedDraftMessages();
-          this.message = `${savedDraftMessages[key] || ''}`;
+          this.message = `${this.savedDraftMessages[key] || ''}`;
         } catch (error) {
           this.message = '';
         }
@@ -630,12 +620,13 @@ export default {
     removeFromDraft() {
       if (this.conversationIdByRoute) {
         const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
-        const draftMessages = this.getSavedDraftMessages();
-        const { [key]: toBeRemoved, ...updatedDraftMessages } = draftMessages;
-        LocalStorage.set(
-          LOCAL_STORAGE_KEYS.DRAFT_MESSAGES,
-          updatedDraftMessages
-        );
+        const {
+          [key]: toBeRemoved,
+          ...updatedDraftMessages
+        } = this.savedDraftMessages;
+        this.$store.dispatch('draftMessages/set', {
+          draftMessages: updatedDraftMessages,
+        });
       }
     },
     handleKeyEvents(e) {

@@ -595,32 +595,4 @@ describe('#addMentions', () => {
       ]);
     });
   });
-
-  it('#setDraftMessages', async () => {
-    const draftMessages = {
-      'draft-32-REPLY': 'Hey how ',
-      'draft-31-REPLY': 'Nice',
-    };
-    await actions.setDraftMessages(
-      {
-        commit,
-        dispatch,
-        state: {
-          draftMessages: {},
-        },
-      },
-      { draftMessages }
-    );
-    expect(commit.mock.calls).toEqual([
-      [
-        'SET_DRAFT_MESSAGES',
-        {
-          draftMessages: {
-            'draft-32-REPLY': 'Hey how ',
-            'draft-31-REPLY': 'Nice',
-          },
-        },
-      ],
-    ]);
-  });
 });
