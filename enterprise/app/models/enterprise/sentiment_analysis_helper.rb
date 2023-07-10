@@ -1,16 +1,18 @@
 module Enterprise::SentimentAnalysisHelper
   extend ActiveSupport::Concern
 
-  def opening_sentiments
-    records = incoming_messages.first(average_message_count)
-    average_sentiment(records)
-  end
+  included do
+    def opening_sentiments
+      records = incoming_messages.first(average_message_count)
+      average_sentiment(records)
+    end
 
-  def closing_sentiments
-    return unless resolved?
+    def closing_sentiments
+      return unless resolved?
 
-    records = incoming_messages.last(average_message_count)
-    average_sentiment(records)
+      records = incoming_messages.last(average_message_count)
+      average_sentiment(records)
+    end
   end
 
   def average_sentiment(records)
