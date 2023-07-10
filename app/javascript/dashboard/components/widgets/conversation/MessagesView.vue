@@ -323,9 +323,7 @@ export default {
   mounted() {
     this.addScrollListener();
     this.fetchAllAttachmentsFromCurrentChat();
-    setTimeout(() => {
-      this.fetchSuggestions();
-    }, 2000);
+    this.fetchSuggestions();
   },
 
   beforeDestroy() {
