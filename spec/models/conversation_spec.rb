@@ -833,7 +833,14 @@ RSpec.describe Conversation do
       expect(sentiments[:label]).to eq('positive')
     end
 
-    it 'returns closing sentiments' do
+    it 'returns closing sentiments if conversation is not resolved' do
+      sentiments = conversation.closing_sentiments
+      expect(sentiments).to be_nil
+    end
+
+    it 'returns closing sentiments if it is resolved' do
+      conversation.resolved!
+
       sentiments = conversation.closing_sentiments
       expect(sentiments[:label]).to eq('positive')
     end
