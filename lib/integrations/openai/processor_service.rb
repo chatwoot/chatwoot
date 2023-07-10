@@ -1,4 +1,6 @@
 class Integrations::Openai::ProcessorService < Integrations::OpenaiBaseService
+  AGENT_INSTRUCTION = 'You are a helpful support agent.'.freeze
+  LANGUAGE_INSTRUCTION = 'Reply in the user\'s language.'.freeze
   def reply_suggestion_message
     make_api_call(reply_suggestion_body)
   end
@@ -38,33 +40,33 @@ class Integrations::Openai::ProcessorService < Integrations::OpenaiBaseService
   private
 
   def rephrase_body
-    build_api_call_body("You are a helpful support agent. Please rephrase the following response to a more #{event['data']['tone']} tone. " \
-                        'Reply in the user\'s language.')
+    build_api_call_body("#{AGENT_INSTRUCTION} Please rephrase the following response to a more #{event['data']['tone']} tone. " \
+                        "#{LANGUAGE_INSTRUCTION}")
   end
 
   def fix_spelling_grammar_body
-    build_api_call_body('You are a helpful support agent. Please fix the spelling and grammar of the following response. ' \
-                        'Reply in the user\'s language.')
+    build_api_call_body("#{AGENT_INSTRUCTION} Please fix the spelling and grammar of the following response. " \
+                        "#{LANGUAGE_INSTRUCTION}")
   end
 
   def shorten_body
-    build_api_call_body("You are a helpful support agent. Please shorten the following response. Reply in the user's language.")
+    build_api_call_body("#{AGENT_INSTRUCTION} Please shorten the following response. #{LANGUAGE_INSTRUCTION}")
   end
 
   def expand_body
-    build_api_call_body("You are a helpful support agent. Please expand the following response. Reply in the user's language.")
+    build_api_call_body("#{AGENT_INSTRUCTION} Please expand the following response. #{LANGUAGE_INSTRUCTION}")
   end
 
   def make_friendly_body
-    build_api_call_body("You are a helpful support agent. Please make the following response more friendly. Reply in the user's language.")
+    build_api_call_body("#{AGENT_INSTRUCTION} Please make the following response more friendly. #{LANGUAGE_INSTRUCTION}")
   end
 
   def make_formal_body
-    build_api_call_body("You are a helpful support agent. Please make the following response more formal. Reply in the user's language.")
+    build_api_call_body("#{AGENT_INSTRUCTION} Please make the following response more formal. #{LANGUAGE_INSTRUCTION}")
   end
 
   def simplify_body
-    build_api_call_body("You are a helpful support agent. Please simplify the following response. Reply in the user's language.")
+    build_api_call_body("#{AGENT_INSTRUCTION} Please simplify the following response. #{LANGUAGE_INSTRUCTION}")
   end
 
   def build_api_call_body(system_content, user_content = event['data']['content'])
