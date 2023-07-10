@@ -159,6 +159,15 @@ GEM
       bundler (>= 1.2.0, < 3)
       thor (~> 1.0)
     byebug (11.1.3)
+    capybara (3.39.2)
+      addressable
+      matrix
+      mini_mime (>= 0.1.3)
+      nokogiri (~> 1.8)
+      rack (>= 1.6.0)
+      rack-test (>= 0.6.3)
+      regexp_parser (>= 1.5, < 3.0)
+      xpath (~> 3.2)
     climate_control (1.2.0)
     coderay (1.1.3)
     commonmarker (0.23.9)
@@ -432,6 +441,7 @@ GEM
       net-pop
       net-smtp
     marcel (1.0.2)
+    matrix (0.4.2)
     maxminddb (0.1.22)
     memoist (0.16.2)
     method_source (1.0.0)
@@ -647,6 +657,7 @@ GEM
       sexp_processor (~> 4.6)
     ruby_parser (3.20.0)
       sexp_processor (~> 4.16)
+    rubyzip (2.3.2)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -668,6 +679,10 @@ GEM
       activerecord (>= 4)
       activesupport (>= 4)
     selectize-rails (0.12.6)
+    selenium-webdriver (4.10.0)
+      rexml (~> 3.2, >= 3.2.5)
+      rubyzip (>= 1.2.2, < 3.0)
+      websocket (~> 1.0)
     semantic_range (3.0.0)
     sentry-rails (5.9.0)
       railties (>= 5.0)
@@ -777,6 +792,7 @@ GEM
       railties (>= 5.2)
       semantic_range (>= 2.3.0)
     webrick (1.8.1)
+    websocket (1.2.9)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -784,6 +800,8 @@ GEM
     working_hours (1.4.1)
       activesupport (>= 3.2)
       tzinfo
+    xpath (3.2.0)
+      nokogiri (~> 1.8)
     zeitwerk (2.6.8)
 
 PLATFORMS
@@ -815,6 +833,7 @@ DEPENDENCIES
   bullet
   bundle-audit
   byebug
+  capybara
   climate_control
   commonmarker
   csv-safe
@@ -889,6 +908,7 @@ DEPENDENCIES
   scout_apm
   scss_lint
   seed_dump
+  selenium-webdriver
   sentry-rails
   sentry-ruby
   sentry-sidekiq

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_20_212340) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_09_113830) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -810,6 +810,43 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_20_212340) do
     t.index ["inbox_id"], name: "index_reporting_events_on_inbox_id"
     t.index ["name"], name: "index_reporting_events_on_name"
     t.index ["user_id"], name: "index_reporting_events_on_user_id"
+  end
+
+  create_table "response_documents", force: :cascade do |t|
+    t.bigint "response_source_id", null: false
+    t.string "document_link"
+    t.string "document_type"
+    t.bigint "document_id"
+    t.text "content"
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "document_link"], name: "index_response_documents_on_account_id_and_document_link", unique: true
+    t.index ["document_type", "document_id"], name: "index_response_documents_on_document"
+    t.index ["response_source_id"], name: "index_response_documents_on_response_source_id"
+  end
+
+  create_table "response_sources", force: :cascade do |t|
+    t.integer "source_type", default: 0, null: false
+    t.string "name", null: false
+    t.string "source_link"
+    t.string "source_model_type"
+    t.bigint "source_model_id"
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "source_link"], name: "index_response_sources_on_account_id_and_source_link", unique: true
+    t.index ["source_model_type", "source_model_id"], name: "index_response_sources_on_source_model"
+  end
+
+  create_table "responses", force: :cascade do |t|
+    t.bigint "response_document_id"
+    t.string "question", null: false
+    t.text "answer", null: false
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["response_document_id"], name: "index_responses_on_response_document_id"
   end
 
   create_table "sla_policies", force: :cascade do |t|
