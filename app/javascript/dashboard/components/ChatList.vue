@@ -106,7 +106,10 @@
       @chatTabChange="updateAssigneeTab"
     />
 
-    <p v-if="!chatListLoading && !conversationList.length" class="content-box">
+    <p
+      v-if="!chatListLoading && !conversationList.length"
+      class="overflow-auto p-4 flex justify-center items-center"
+    >
       {{ $t('CHAT_LIST.LIST.404') }}
     </p>
     <conversation-bulk-actions
@@ -125,7 +128,7 @@
     />
     <div
       ref="activeConversation"
-      class="conversations-list"
+      class="conversations-list flex-1"
       :class="{ 'overflow-hidden': isContextMenuOpen }"
     >
       <div>
@@ -955,18 +958,30 @@ export default {
   },
 };
 </script>
+<style scoped>
+@layer components {
+  .flex-basis-clamp {
+    flex-basis: clamp(20rem, 4vw + 21.25rem, 27.5rem);
+  }
+}
+@tailwind components;
+</style>
 
 <style scoped lang="scss">
 .conversations-list-wrap {
-  flex-basis: clamp(20rem, 4vw + 21.25rem, 27.5rem);
+  @apply flex-basis-clamp;
 
   &.hide {
-    display: none;
+    @apply hidden;
   }
 
   &.list--full-width {
-    flex-basis: 100%;
+    @apply basis-full;
   }
+}
+
+.conversations-list {
+  @apply overflow-hidden hover:overflow-y-auto;
 }
 
 .tab--chat-type {

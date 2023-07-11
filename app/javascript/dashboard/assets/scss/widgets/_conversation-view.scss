@@ -33,30 +33,6 @@
   }
 }
 
-.conversations-list-wrap {
-  @apply flex flex-col border-r rtl:border-r-0 border-slate-50;
-
-  .load-more-conversations {
-    @apply m-0 text-sm p-4 w-full;
-  }
-
-  .end-of-list-text {
-    @apply p-4;
-  }
-
-  .conversations-list {
-    @apply flex-1 overflow-hidden lg:hover:overflow-y-auto;
-  }
-
-  .chat-list__top {
-    @apply flex items-center justify-between px-4 py-0;
-  }
-
-  .content-box {
-    @apply items-center;
-  }
-}
-
 .conversation-panel {
   @apply flex-shrink flex-grow basis-px flex flex-col overflow-y-auto relative h-full m-0 pb-4;
 }
