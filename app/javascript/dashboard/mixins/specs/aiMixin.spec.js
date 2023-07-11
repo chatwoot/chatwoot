@@ -68,6 +68,13 @@ describe('aiMixin', () => {
     expect(dispatchSpy).toHaveBeenCalledWith('integrations/get');
   });
 
+  it('does not fetch integrations', async () => {
+    const dispatchSpy = jest.spyOn(wrapper.vm.$store, 'dispatch');
+    await wrapper.vm.fetchIntegrationsIfRequired();
+    expect(dispatchSpy).not.toHaveBeenCalledWith('integrations/get');
+    expect(wrapper.vm.isAIIntegrationEnabled).toBeTruthy();
+  });
+
   it('fetches label suggestions', async () => {
     const processEventSpy = jest.spyOn(OpenAPI, 'processEvent');
     await wrapper.vm.fetchLabelSuggestions({
