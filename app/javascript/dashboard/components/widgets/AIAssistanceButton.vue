@@ -1,25 +1,7 @@
 <template>
   <div v-if="isAIIntegrationEnabled" class="position-relative">
-    <woot-button
-      v-tooltip.top-end="$t('INTEGRATION_SETTINGS.OPEN_AI.AI_ASSIST')"
-      icon="wand"
-      color-scheme="secondary"
-      variant="smooth"
-      size="small"
-      @click="openAIAssist"
-    />
-
-    <!-- <woot-button
-      v-tooltip.top-end="$t('INTEGRATION_SETTINGS.OPEN_AI.TITLE')"
-      icon="text-grammar-wand"
-      color-scheme="secondary"
-      variant="smooth"
-      size="small"
-      @click="toggleDropdown"
-    /> -->
-
     <div v-if="!message">
-      <!-- <woot-button
+      <woot-button
         v-if="isPrivateNote"
         v-tooltip.top-end="$t('INTEGRATION_SETTINGS.OPEN_AI.SUMMARY_TITLE')"
         icon="book-pulse"
@@ -38,54 +20,53 @@
         size="small"
         :is-loading="uiFlags.reply_suggestion"
         @click="processEvent('reply_suggestion')"
-      /> -->
-    </div>
-
-    <div
-      v-if="showDropdown"
-      v-on-clickaway="closeDropdown"
-      class="dropdown-pane dropdown-pane--open ai-modal"
-    >
-      <h4 class="sub-block-title margin-top-1">
-        {{ $t('INTEGRATION_SETTINGS.OPEN_AI.TITLE') }}
-      </h4>
-      <p>
-        {{ $t('INTEGRATION_SETTINGS.OPEN_AI.SUBTITLE') }}
-      </p>
-      <label>
-        {{ $t('INTEGRATION_SETTINGS.OPEN_AI.TONE.TITLE') }}
-      </label>
-      <div class="tone__item">
-        <select v-model="activeTone" class="status--filter small">
-          <option v-for="tone in tones" :key="tone.key" :value="tone.key">
-            {{ tone.value }}
-          </option>
-        </select>
-      </div>
-      <div class="modal-footer flex-container align-right">
-        <woot-button variant="clear" size="small" @click="closeDropdown">
-          {{ $t('INTEGRATION_SETTINGS.OPEN_AI.BUTTONS.CANCEL') }}
-        </woot-button>
-        <woot-button
-          :is-loading="uiFlags.rephrase"
-          size="small"
-          @click="processEvent('rephrase')"
-        >
-          {{ buttonText }}
-        </woot-button>
-      </div>
-    </div>
-
-    <woot-modal
-      :show.sync="showAIAssistanceModal"
-      :on-close="hideAIAssistanceModal"
-    >
-      <AIAssistanceModal
-        :ai-option="aiOption"
-        @apply-text="insertText"
-        @close="hideAIAssistanceModal"
       />
-    </woot-modal>
+    </div>
+
+    <div v-else>
+      <woot-button
+        v-tooltip.top-end="$t('INTEGRATION_SETTINGS.OPEN_AI.TITLE')"
+        icon="text-grammar-wand"
+        color-scheme="secondary"
+        variant="smooth"
+        size="small"
+        @click="toggleDropdown"
+      />
+      <div
+        v-if="showDropdown"
+        v-on-clickaway="closeDropdown"
+        class="dropdown-pane dropdown-pane--open ai-modal"
+      >
+        <h4 class="sub-block-title margin-top-1">
+          {{ $t('INTEGRATION_SETTINGS.OPEN_AI.TITLE') }}
+        </h4>
+        <p>
+          {{ $t('INTEGRATION_SETTINGS.OPEN_AI.SUBTITLE') }}
+        </p>
+        <label>
+          {{ $t('INTEGRATION_SETTINGS.OPEN_AI.TONE.TITLE') }}
+        </label>
+        <div class="tone__item">
+          <select v-model="activeTone" class="status--filter small">
+            <option v-for="tone in tones" :key="tone.key" :value="tone.key">
+              {{ tone.value }}
+            </option>
+          </select>
+        </div>
+        <div class="modal-footer flex-container align-right">
+          <woot-button variant="clear" size="small" @click="closeDropdown">
+            {{ $t('INTEGRATION_SETTINGS.OPEN_AI.BUTTONS.CANCEL') }}
+          </woot-button>
+          <woot-button
+            :is-loading="uiFlags.rephrase"
+            size="small"
+            @click="processEvent('rephrase')"
+          >
+            {{ buttonText }}
+          </woot-button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -93,16 +74,12 @@ import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import OpenAPI from 'dashboard/api/integrations/openapi';
 import alertMixin from 'shared/mixins/alertMixin';
-
 import { OPEN_AI_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
-import { CMD_AI_ASSIST } from '../../routes/dashboard/commands/commandBarBusEvents';
-import AIAssistanceModal from './AIAssistanceModal.vue';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 
 export default {
-  components: {
-    AIAssistanceModal,
-  },
-  mixins: [alertMixin, clickaway],
+  mixins: [alertMixin, clickaway, eventListenerMixins],
   props: {
     conversationId: {
       type: Number,
@@ -119,8 +96,6 @@ export default {
   },
   data() {
     return {
-      aiOption: '',
-      showAIAssistanceModal: false,
       uiFlags: {
         rephrase: false,
         reply_suggestion: false,
@@ -128,6 +103,7 @@ export default {
       },
       showDropdown: false,
       activeTone: 'professional',
+      initialMessage: '',
       tones: [
         {
           key: 'professional',
@@ -161,25 +137,21 @@ export default {
     },
   },
   mounted() {
-    bus.$on(CMD_AI_ASSIST, this.onAIAssist);
     if (!this.appIntegrations.length) {
       this.$store.dispatch('integrations/get');
     }
   },
-  destroyed() {
-    bus.$off(CMD_AI_ASSIST, this.onAIAssist);
-  },
+
   methods: {
-    hideAIAssistanceModal() {
-      this.showAIAssistanceModal = false;
-    },
-    openAIAssist() {
-      const ninja = document.querySelector('ninja-keys');
-      ninja.open({ parent: 'ai_assist' });
-    },
-    onAIAssist(option) {
-      this.aiOption = option;
-      this.showAIAssistanceModal = true;
+    onKeyDownHandler(event) {
+      const keyPattern = buildHotKeys(event);
+      const shouldRevertTheContent =
+        ['meta+z', 'ctrl+z'].includes(keyPattern) && !!this.initialMessage;
+
+      if (shouldRevertTheContent) {
+        this.$emit('replace-text', this.initialMessage);
+        this.initialMessage = '';
+      }
     },
     toggleDropdown() {
       this.showDropdown = !this.showDropdown;
@@ -196,9 +168,6 @@ export default {
         });
       }
     },
-    insertText(message) {
-      this.$emit('replace-text', message);
-    },
     async processEvent(type = 'rephrase') {
       this.uiFlags[type] = true;
       try {
@@ -212,6 +181,7 @@ export default {
         const {
           data: { message: generatedMessage },
         } = result;
+        this.initialMessage = this.message;
         this.$emit('replace-text', generatedMessage || this.message);
         this.closeDropdown();
         this.recordAnalytics({ type, tone: this.activeTone });
