@@ -81,8 +81,8 @@ export default {
         .toLowerCase() // Set it to lowercase
         .split(',') // split the string into an array
         .filter(label => label.trim()) // remove any empty strings
-        .filter((label, index, self) => self.indexOf(label) === index) // remove any duplicates
-        .map(label => label.trim()); // trim the words
+        .map(label => label.trim()) // trim the words
+        .filter((label, index, self) => self.indexOf(label) === index); // remove any duplicates
     },
   },
 };
