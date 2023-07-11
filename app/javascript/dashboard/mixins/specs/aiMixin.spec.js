@@ -85,13 +85,41 @@ describe('aiMixin', () => {
     const getSpy = jest.spyOn(LocalStorage, 'get');
     const setSpy = jest.spyOn(LocalStorage, 'set');
 
-    const accountId = '123';
+    const accountId = 123;
     const valueFromStorage = { [accountId]: ['conv1', 'conv2'] };
 
-    getSpy.mockReturnValueOnce(valueFromStorage);
+    // in case key is not initialized
+    getSpy.mockReturnValueOnce(null);
     wrapper.vm.getDismissedConversations(accountId);
+
+    expect(getSpy).toHaveBeenCalledWith('dismissedLabelSuggestions');
+    expect(setSpy).toHaveBeenCalledWith('dismissedLabelSuggestions', {
+      [accountId]: [],
+    });
+
+    // rest spy
+    getSpy.mockReset();
+    setSpy.mockReset();
+
+    // in case we get the value from storage
+    getSpy.mockReturnValueOnce(valueFromStorage);
+    const result = wrapper.vm.getDismissedConversations(accountId);
+    expect(result).toEqual(valueFromStorage);
     expect(getSpy).toHaveBeenCalledWith('dismissedLabelSuggestions');
     expect(setSpy).not.toHaveBeenCalled();
+
+    // rest spy
+    getSpy.mockReset();
+    setSpy.mockReset();
+
+    // in case we get the value from storage but accountId is not present
+    getSpy.mockReturnValueOnce(valueFromStorage);
+    wrapper.vm.getDismissedConversations(234);
+    expect(getSpy).toHaveBeenCalledWith('dismissedLabelSuggestions');
+    expect(setSpy).toHaveBeenCalledWith('dismissedLabelSuggestions', {
+      ...valueFromStorage,
+      234: [],
+    });
   });
 
   it('cleans labels', () => {
