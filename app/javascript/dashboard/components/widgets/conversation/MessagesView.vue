@@ -166,6 +166,7 @@ export default {
       listLoadingStatus: 'getAllMessagesLoaded',
       loadingChatList: 'getChatListLoadingStatus',
       appIntegrations: 'integrations/getAppIntegrations',
+      currentAccountId: 'getCurrentAccountId',
     }),
     inboxId() {
       return this.currentChat.inbox_id;
@@ -336,7 +337,7 @@ export default {
       // start empty, this ensures that the label suggestions are not shown
       this.labelSuggestions = [];
 
-      if (this.isLabelSuggestionDismissed) {
+      if (this.isLabelSuggestionDismissed()) {
         return;
       }
 
