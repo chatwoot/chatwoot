@@ -35,9 +35,6 @@ export default {
       if (key === 'facebook') {
         return this.enabledFeatures.channel_facebook && this.hasFbConfigured;
       }
-      if (key === 'twitter') {
-        return this.enabledFeatures.channel_twitter;
-      }
       if (key === 'email') {
         return this.enabledFeatures.channel_email;
       }
