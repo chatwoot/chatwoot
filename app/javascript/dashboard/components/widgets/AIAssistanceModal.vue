@@ -44,11 +44,15 @@
 import { mapGetters } from 'vuex';
 import OpenAPI from 'dashboard/api/integrations/openapi';
 import AILoader from './AILoader.vue';
+import aiMixin from 'dashboard/mixins/aiMixin';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 
 export default {
   components: {
     AILoader,
   },
+  mixins: [aiMixin, eventListenerMixins],
   props: {
     aiOption: {
       type: String,
@@ -60,6 +64,7 @@ export default {
       draftContent: '',
       generatedContent: '',
       isGenerating: true,
+      initialMessage: '',
     };
   },
   computed: {
@@ -68,11 +73,6 @@ export default {
       draftMessages: 'getDraftMessages',
       appIntegrations: 'integrations/getAppIntegrations',
     }),
-    hookId() {
-      return this.appIntegrations.find(
-        integration => integration.id === 'openai' && !!integration.hooks.length
-      ).hooks[0].id;
-    },
     conversationId() {
       return this.currentChat?.id;
     },
@@ -98,6 +98,16 @@ export default {
   methods: {
     onClose() {
       this.$emit('close');
+    },
+    onKeyDownHandler(event) {
+      const keyPattern = buildHotKeys(event);
+      const shouldRevertTheContent =
+        ['meta+z', 'ctrl+z'].includes(keyPattern) && !!this.initialMessage;
+
+      if (shouldRevertTheContent) {
+        this.$emit('replace-text', this.initialMessage);
+        this.initialMessage = '';
+      }
     },
     async processEvent(type = 'rephrase') {
       try {
