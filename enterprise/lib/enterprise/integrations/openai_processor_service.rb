@@ -17,10 +17,6 @@ module Enterprise::Integrations::OpenaiProcessorService
 
   private
 
-  def should_run_label_suggestion?
-    nil
-  end
-
   def labels_with_messages
     labels = hook.account.labels.pluck(:title).join(', ')
 
