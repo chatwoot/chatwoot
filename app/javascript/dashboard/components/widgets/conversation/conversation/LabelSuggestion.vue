@@ -18,8 +18,7 @@
             @click="pushOrAddLabel(label.title)"
           >
             <woot-label
-              variant="smooth"
-              :dashed="true"
+              variant="dashed"
               v-bind="label"
               :bg-color="
                 selectedLabels.includes(label.title) ? 'var(--w-100)' : ''
