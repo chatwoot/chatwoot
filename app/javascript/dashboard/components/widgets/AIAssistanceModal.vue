@@ -14,9 +14,7 @@
         }}
       </h4>
       <AILoader v-if="isGenerating" />
-      <p v-else>
-        {{ generatedContent }}
-      </p>
+      <p v-else v-dompurify-html="generatedContent" />
 
       <div class="modal-footer justify-content-end w-full">
         <woot-button variant="clear" @click.prevent="onClose">
