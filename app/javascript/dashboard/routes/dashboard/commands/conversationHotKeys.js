@@ -175,9 +175,9 @@ export default {
       currentChat: 'getSelectedChat',
     }),
     draftMessage() {
-      return this.$store.getters['draftMessages/get'](this.key);
+      return this.$store.getters['draftMessages/get'](this.draftKey);
     },
-    key() {
+    draftKey() {
       return `draft-${this.conversationId}-REPLY`;
     },
     inboxId() {

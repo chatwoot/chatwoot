@@ -2,15 +2,15 @@
   <div class="column">
     <woot-modal-header :header-title="headerTitle" />
     <form class="row modal-content" @submit.prevent="applyText">
-      <div v-if="draftContent" class="container">
+      <div v-if="draftMessage" class="container">
         <h4 class="sub-block-title margin-top-1">
           {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.DRAFT_TITLE') }}
         </h4>
       </div>
-      <p v-if="draftContent">
-        {{ draftContent }}
+      <p v-if="draftMessage">
+        {{ draftMessage }}
       </p>
-      <div v-if="draftContent" class="container">
+      <div v-if="draftMessage" class="container">
         <h4 class="sub-block-title margin-top-1">
           {{
             $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.GENERATED_TITLE')
@@ -30,7 +30,7 @@
             $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.CANCEL')
           }}
         </woot-button>
-        <woot-button :disabled="!enableButtons">
+        <woot-button :disabled="!generatedContent">
           {{
             $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.APPLY')
           }}
@@ -45,23 +45,21 @@ import { mapGetters } from 'vuex';
 import OpenAPI from 'dashboard/api/integrations/openapi';
 import AILoader from './AILoader.vue';
 import aiMixin from 'dashboard/mixins/aiMixin';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
-import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 
 export default {
   components: {
     AILoader,
   },
-  mixins: [aiMixin, eventListenerMixins],
+  mixins: [aiMixin],
   props: {
     aiOption: {
       type: String,
       required: true,
     },
   },
+
   data() {
     return {
-      draftContent: '',
       generatedContent: '',
       isGenerating: true,
       initialMessage: '',
@@ -72,6 +70,12 @@ export default {
       currentChat: 'getSelectedChat',
       appIntegrations: 'integrations/getAppIntegrations',
     }),
+    draftMessage() {
+      return this.$store.getters['draftMessages/get'](this.draftKey);
+    },
+    draftKey() {
+      return `draft-${this.conversationId}-REPLY`;
+    },
     conversationId() {
       return this.currentChat?.id;
     },
@@ -81,16 +85,9 @@ export default {
         ? this.$t(`INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.${translationKey}`)
         : '';
     },
-    enableButtons() {
-      return this.generatedContent.length > 0;
-    },
   },
   mounted() {
-    const savedDraftMessages = this.draftMessages || {};
-    const replyType = 'REPLY';
-    const key = `draft-${this.conversationId}-${replyType}`;
-    const message = `${savedDraftMessages[key] || ''}`;
-    this.draftContent = message;
+    this.initialMessage = this.draftMessage;
     this.processEvent(this.aiOption);
   },
 
@@ -98,22 +95,13 @@ export default {
     onClose() {
       this.$emit('close');
     },
-    onKeyDownHandler(event) {
-      const keyPattern = buildHotKeys(event);
-      const shouldRevertTheContent =
-        ['meta+z', 'ctrl+z'].includes(keyPattern) && !!this.initialMessage;
 
-      if (shouldRevertTheContent) {
-        this.$emit('replace-text', this.initialMessage);
-        this.initialMessage = '';
-      }
-    },
     async processEvent(type = 'rephrase') {
       try {
         const result = await OpenAPI.processEvent({
           hookId: this.hookId,
           type,
-          content: this.draftContent,
+          content: this.draftMessage,
           conversationId: this.conversationId,
         });
         const {

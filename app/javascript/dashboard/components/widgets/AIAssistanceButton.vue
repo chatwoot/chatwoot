@@ -8,17 +8,81 @@
       size="small"
       @click="openAIAssist"
     />
+    <woot-modal
+      :show.sync="showAIAssistanceModal"
+      :on-close="hideAIAssistanceModal"
+    >
+      <AIAssistanceModal
+        :ai-option="aiOption"
+        @apply-text="insertText"
+        @close="hideAIAssistanceModal"
+      />
+    </woot-modal>
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
+
+import AIAssistanceModal from './AIAssistanceModal.vue';
 import aiMixin from 'dashboard/mixins/aiMixin';
+import { CMD_AI_ASSIST } from '../../routes/dashboard/commands/commandBarBusEvents';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 
 export default {
-  mixins: [aiMixin],
+  components: {
+    AIAssistanceModal,
+  },
+  mixins: [aiMixin, eventListenerMixins],
+  data: () => ({
+    showAIAssistanceModal: false,
+    aiOption: '',
+    initialMessage: '',
+  }),
+  computed: {
+    ...mapGetters({
+      currentChat: 'getSelectedChat',
+    }),
+    draftMessage() {
+      return this.$store.getters['draftMessages/get'](this.draftKey);
+    },
+    draftKey() {
+      return `draft-${this.conversationId}-REPLY`;
+    },
+    conversationId() {
+      return this.currentChat?.id;
+    },
+  },
+
+  mounted() {
+    bus.$on(CMD_AI_ASSIST, this.onAIAssist);
+    this.initialMessage = this.draftMessage;
+  },
+
   methods: {
+    onKeyDownHandler(event) {
+      const keyPattern = buildHotKeys(event);
+      const shouldRevertTheContent =
+        ['meta+z', 'ctrl+z'].includes(keyPattern) && !!this.initialMessage;
+      if (shouldRevertTheContent) {
+        this.$emit('replace-text', this.initialMessage);
+        this.initialMessage = '';
+      }
+    },
+    hideAIAssistanceModal() {
+      this.showAIAssistanceModal = false;
+    },
     openAIAssist() {
+      this.initialMessage = this.draftMessage;
       const ninja = document.querySelector('ninja-keys');
       ninja.open({ parent: 'ai_assist' });
+    },
+    onAIAssist(option) {
+      this.aiOption = option;
+      this.showAIAssistanceModal = true;
+    },
+    insertText(message) {
+      this.$emit('replace-text', message);
     },
   },
 };
