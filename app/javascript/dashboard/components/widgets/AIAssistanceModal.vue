@@ -70,7 +70,6 @@ export default {
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
-      draftMessages: 'getDraftMessages',
       appIntegrations: 'integrations/getAppIntegrations',
     }),
     conversationId() {

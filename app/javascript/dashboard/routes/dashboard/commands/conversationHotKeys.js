@@ -166,15 +166,20 @@ export default {
     activeLabels() {
       this.setCommandbarData();
     },
-    draftMessages() {
+    draftMessage() {
       this.setCommandbarData();
     },
   },
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
-      draftMessages: 'getDraftMessages',
     }),
+    draftMessage() {
+      return this.$store.getters['draftMessages/get'](this.key);
+    },
+    key() {
+      return `draft-${this.conversationId}-REPLY`;
+    },
     inboxId() {
       return this.currentChat?.inbox_id;
     },
@@ -348,13 +353,8 @@ export default {
     },
 
     AIAssistActions() {
-      const savedDraftMessages = this.draftMessages || {};
-      const replyType = 'REPLY';
-      const key = `draft-${this.currentChat.id}-${replyType}`;
-      const message = `${savedDraftMessages[key] || ''}`;
       let aiOptions = [];
-
-      if (!message) {
+      if (!this.draftMessage) {
         aiOptions = [
           {
             label: this.$t(

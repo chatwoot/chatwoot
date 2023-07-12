@@ -131,9 +131,6 @@ const getters = {
   getConversationLastSeen: _state => {
     return _state.conversationLastSeen;
   },
-  getDraftMessages: _state => {
-    return _state.draftMessages;
-  },
 };
 
 export default getters;
