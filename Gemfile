@@ -165,6 +165,9 @@ gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection', '~> 1.0'
 
+# Sentiment analysis
+gem 'informers'
+
 ### Gems required only in specific deployment environments ###
 ##############################################################
 
