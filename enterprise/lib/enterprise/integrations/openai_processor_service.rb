@@ -34,6 +34,17 @@ module Enterprise::Integrations::OpenaiProcessorService
     "Messages:\n#{messages}\nLabels:\n#{labels}"
   end
 
+  def summarize_body
+    {
+      model: self.class::GPT_MODEL,
+      messages: [
+        { role: 'system',
+          content: prompt_from_file('summary') },
+        { role: 'user', content: conversation_messages }
+      ]
+    }.to_json
+  end
+
   def label_suggestion_body
     content = labels_with_messages
     return nil if content.blank?
