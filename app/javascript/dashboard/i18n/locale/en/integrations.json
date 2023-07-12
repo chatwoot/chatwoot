@@ -84,6 +84,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "AI Assist",
+      "WITH_AI": "With AI",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Reply Suggestion",
         "SUMMARIZE": "Summarize",

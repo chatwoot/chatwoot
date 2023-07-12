@@ -66,7 +66,9 @@ export default {
     headerTitle() {
       const translationKey = this.aiOption?.toUpperCase();
       return translationKey
-        ? this.$t(`INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.${translationKey}`)
+        ? `${this.$t(
+            `INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.${translationKey}`
+          )} ${this.$t(`INTEGRATION_SETTINGS.OPEN_AI.WITH_AI`)}`
         : '';
     },
   },
@@ -84,8 +86,7 @@ export default {
       try {
         const result = await OpenAPI.processEvent({
           hookId: this.hookId,
-          // TODO: change to type
-          type: type ? 'rephrase' : 'rephrase',
+          type,
           content: this.draftMessage,
           conversationId: this.conversationId,
         });

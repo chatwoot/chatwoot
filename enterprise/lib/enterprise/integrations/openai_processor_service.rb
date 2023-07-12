@@ -1,5 +1,6 @@
 module Enterprise::Integrations::OpenaiProcessorService
-  ALLOWED_EVENT_NAMES = %w[rephrase summarize reply_suggestion label_suggestion].freeze
+  ALLOWED_EVENT_NAMES = %w[rephrase summarize reply_suggestion label_suggestion fix_spelling_grammar shorten expand
+                           make_friendly make_formal simplify].freeze
   CACHEABLE_EVENTS = %w[label_suggestion].freeze
 
   def label_suggestion_message
