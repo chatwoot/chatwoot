@@ -25,7 +25,7 @@ import { mapGetters } from 'vuex';
 
 import AIAssistanceModal from './AIAssistanceModal.vue';
 import aiMixin from 'dashboard/mixins/aiMixin';
-import { CMD_AI_ASSIST } from '../../routes/dashboard/commands/commandBarBusEvents';
+import { CMD_AI_ASSIST } from 'dashboard/routes/dashboard/commands/commandBarBusEvents';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 
@@ -43,15 +43,6 @@ export default {
     ...mapGetters({
       currentChat: 'getSelectedChat',
     }),
-    draftMessage() {
-      return this.$store.getters['draftMessages/get'](this.draftKey);
-    },
-    draftKey() {
-      return `draft-${this.conversationId}-REPLY`;
-    },
-    conversationId() {
-      return this.currentChat?.id;
-    },
   },
 
   mounted() {

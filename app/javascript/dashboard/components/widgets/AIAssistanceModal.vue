@@ -2,27 +2,21 @@
   <div class="column">
     <woot-modal-header :header-title="headerTitle" />
     <form class="row modal-content" @submit.prevent="applyText">
-      <div v-if="draftMessage" class="container">
-        <h4 class="sub-block-title margin-top-1">
-          {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.DRAFT_TITLE') }}
-        </h4>
-      </div>
+      <h4 v-if="draftMessage" class="sub-block-title margin-top-1 w-full">
+        {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.DRAFT_TITLE') }}
+      </h4>
       <p v-if="draftMessage">
         {{ draftMessage }}
       </p>
-      <div v-if="draftMessage" class="container">
-        <h4 class="sub-block-title margin-top-1">
-          {{
-            $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.GENERATED_TITLE')
-          }}
-        </h4>
-      </div>
+      <h4 v-if="draftMessage" class="sub-block-title margin-top-1  w-full">
+        {{
+          $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.GENERATED_TITLE')
+        }}
+      </h4>
       <AILoader v-if="isGenerating" />
-      <div v-else>
-        <p>
-          {{ generatedContent }}
-        </p>
-      </div>
+      <p v-else>
+        {{ generatedContent }}
+      </p>
 
       <div class="modal-footer justify-content-end w-full">
         <woot-button variant="clear" @click.prevent="onClose">
@@ -67,18 +61,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      currentChat: 'getSelectedChat',
       appIntegrations: 'integrations/getAppIntegrations',
     }),
-    draftMessage() {
-      return this.$store.getters['draftMessages/get'](this.draftKey);
-    },
-    draftKey() {
-      return `draft-${this.conversationId}-REPLY`;
-    },
-    conversationId() {
-      return this.currentChat?.id;
-    },
     headerTitle() {
       const translationKey = this.aiOption?.toUpperCase();
       return translationKey
@@ -100,7 +84,8 @@ export default {
       try {
         const result = await OpenAPI.processEvent({
           hookId: this.hookId,
-          type,
+          // TODO: change to type
+          type: type ? 'rephrase' : 'rephrase',
           content: this.draftMessage,
           conversationId: this.conversationId,
         });

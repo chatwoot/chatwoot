@@ -585,6 +585,7 @@ export default {
       if (this.message || this.message === '') {
         const key = `draft-${conversationId}-${replyType}`;
         const draftToSave = trimContent(this.message || '');
+
         this.$store.dispatch('draftMessages/set', {
           key,
           message: draftToSave,
