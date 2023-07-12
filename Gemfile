@@ -210,6 +210,7 @@ group :development, :test do
   gem 'bundle-audit', require: false
   gem 'byebug', platform: :mri
   gem 'climate_control'
+  gem 'debug', '~> 1.8'
   gem 'factory_bot_rails'
   gem 'listen'
   gem 'mock_redis'
@@ -225,5 +226,4 @@ group :development, :test do
   gem 'simplecov', '0.17.1', require: false
   gem 'spring'
   gem 'spring-watcher-listen'
-  gem "debug", "~> 1.8"
 end
