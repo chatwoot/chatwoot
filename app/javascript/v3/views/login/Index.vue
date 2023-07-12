@@ -26,8 +26,8 @@
         class="mt-3 text-center text-sm text-slate-600 dark:text-slate-400"
       >
         {{ $t('COMMON.OR') }}
-        <router-link to="auth/signup" class="text-link">
-          {{ $t('LOGIN.CREATE_NEW_ACCOUNT').toLocaleLowerCase() }}
+        <router-link to="auth/signup" class="text-link lowercase">
+          {{ $t('LOGIN.CREATE_NEW_ACCOUNT') }}
         </router-link>
       </p>
     </section>
@@ -35,7 +35,7 @@
       class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-slate-800 p-11 sm:shadow-lg sm:rounded-lg"
       :class="{
         'mb-8 mt-15': !showGoogleOAuth,
-        'login--error': loginApi.hasErrored,
+        'animate-wiggle': loginApi.hasErrored,
       }"
     >
       <div v-if="!email">
@@ -207,39 +207,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.login--error {
-  animation-name: error-animation;
-  animation-fill-mode: forward;
-  animation-duration: 0.5s;
-  animation-timing-function: ease-in-out;
-}
-
-@keyframes error-animation {
-  0% {
-    transform: translateX(0);
-  }
-  15% {
-    transform: translateX(0.375rem);
-  }
-  30% {
-    transform: translateX(-0.375rem);
-  }
-  45% {
-    transform: translateX(0.375rem);
-  }
-  60% {
-    transform: translateX(-0.375rem);
-  }
-  75% {
-    transform: translateX(0.375rem);
-  }
-  90% {
-    transform: translateX(-0.375rem);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-</style>
