@@ -55,6 +55,11 @@
     "ADD": "%{agentName} created a new macro (#%{id})",
     "EDIT": "%{agentName} updated a macro (#%{id})",
     "DELETE": "%{agentName} deleted a macro (#%{id})"
+  },
+  "ACCOUNT": {
+    "ADD": "%{agentName} created a new account (#%{id})",
+    "EDIT": "%{agentName} updated the account configuration (#%{id})",
+    "DELETE": "%{agentName} deleted an account (#%{id})"
   }
   }
 }

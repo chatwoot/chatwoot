@@ -30,6 +30,9 @@ const translationKeys = {
   'accountuser:create': `AUDIT_LOGS.ACCOUNT_USER.ADD`,
   'accountuser:update:self': `AUDIT_LOGS.ACCOUNT_USER.EDIT.SELF`,
   'accountuser:update:other': `AUDIT_LOGS.ACCOUNT_USER.EDIT.OTHER`,
+  'account:create': `AUDIT_LOGS.ACCOUNT.ADD`,
+  'account:update': `AUDIT_LOGS.ACCOUNT.EDIT`,
+  'account:destroy': `AUDIT_LOGS.ACCOUNT.DELETE`,
 };
 
 function extractAttrChange(attrChange) {
