@@ -3,8 +3,7 @@ class ChatGpt
     'https://api.openai.com'
   end
 
-  def initialize(api_key, context_sections = '')
-    @api_key = api_key
+  def initialize(context_sections = '')
     @model = 'gpt-4'
     system_message = { 'role': 'system',
                        'content': 'You are a very enthusiastic customer support representative who loves ' \
@@ -29,7 +28,7 @@ class ChatGpt
 
     @messages << { 'role': 'user', 'content': input } if input.present?
     headers = { 'Content-Type' => 'application/json',
-                'Authorization' => "Bearer #{@api_key}" }
+                'Authorization' => "Bearer #{ENV.fetch('OPENAI_API_KEY')}" }
     body = {
       model: @model,
       messages: @messages

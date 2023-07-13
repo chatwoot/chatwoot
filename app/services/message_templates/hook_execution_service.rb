@@ -16,7 +16,15 @@ class MessageTemplates::HookExecutionService
     ::MessageTemplates::Template::OutOfOffice.new(conversation: conversation).perform if should_send_out_of_office_message?
     ::MessageTemplates::Template::Greeting.new(conversation: conversation).perform if should_send_greeting?
     ::MessageTemplates::Template::EmailCollect.new(conversation: conversation).perform if inbox.enable_email_collect && should_send_email_collect?
+    ::MessageTemplates::Template::ResponseBot.new(conversation: conversation).perform if should_process_response_bot?
     ::MessageTemplates::Template::CsatSurvey.new(conversation: conversation).perform if should_send_csat_survey?
+  end
+
+  def should_process_response_bot?
+    return false unless message.incoming?
+
+    # return false unless conversation.pending?
+    true
   end
 
   def should_send_out_of_office_message?

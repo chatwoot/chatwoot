@@ -3,7 +3,7 @@
 # Table name: response_documents
 #
 #  id                 :bigint           not null, primary key
-#  content            :text             not null
+#  content            :text
 #  document_link      :string
 #  document_type      :string
 #  created_at         :datetime         not null

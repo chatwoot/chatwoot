@@ -1,27 +1,40 @@
-class Integrations::Gpt::ProcessorService < Integrations::BotProcessorService
-  pattr_initialize [:event_name!, :event_data!, :agent_bot!]
+class MessageTemplates::Template::ResponseBot
+  pattr_initialize [:conversation!]
+
+  def perform
+    ActiveRecord::Base.transaction do
+      response = get_response(conversation.messages.last.content)
+      process_response(conversation.messages.last, response)
+    end
+  rescue StandardError => e
+    ChatwootExceptionTracker.new(e, account: conversation.account).capture_exception
+    true
+  end
 
   private
 
-  def get_response(_source_id, content)
+  delegate :contact, :account, to: :conversation
+  delegate :inbox, to: :message
+
+  def get_response(content)
     previous_messages = []
-    conversation.messages.where(message_type: [:outgoing, :incoming]).where(private: false).each do |message|
+    conversation.messages.where(message_type: [:outgoing, :incoming]).where(private: false).find_each do |message|
       next if message.content_type != 'text'
 
       role = message.message_type == 'incoming' ? 'user' : 'system'
       previous_messages << { content: message.content, role: role }
     end
 
-    ChatGpt.new(agent_bot.bot_config['api_key'], context_sections(content)).generate_response('', previous_messages)
+    ChatGpt.new(response_sections(content)).generate_response('', previous_messages)
   end
 
-  def context_sections(content)
+  def response_sections(content)
     sections = ''
-    hook = agent_bot.account.hooks.find { |app| app.app_id == 'openai' }
-    Integrations::Openai::EmbeddingsService.new(hook: hook).search_article_embeddings(content).each do |article|
-      break if article.neighbor_distance > 0.7
 
-      sections += "{context_id: #{article.obj.id}, context: #{article.obj.title} ? #{article.obj.content}}"
+    Response.search(content).each do |response|
+      break if response.neighbor_distance > 0.7
+
+      sections += "{context_id: #{response.id}, context: #{response.question} ? #{response.answer}}"
     end
     sections
   end
@@ -52,8 +65,7 @@ class Integrations::Gpt::ProcessorService < Integrations::BotProcessorService
         message_type: :outgoing,
         account_id: conversation.account_id,
         inbox_id: conversation.inbox_id,
-        content: response,
-        sender: agent_bot
+        content: response
       }
     )
 
@@ -67,8 +79,7 @@ class Integrations::Gpt::ProcessorService < Integrations::BotProcessorService
         inbox_id: conversation.inbox_id,
         content: 'suggested articles',
         content_type: 'article',
-        content_attributes: content_attributes,
-        sender: agent_bot
+        content_attributes: content_attributes
       }
     )
   end
@@ -76,10 +87,10 @@ class Integrations::Gpt::ProcessorService < Integrations::BotProcessorService
   def get_article_hash(article_ids)
     items = []
     article_ids.each do |article_id|
-      article = agent_bot.account.articles.find(article_id)
-      next if article.nil?
+      response = Response.find(article_id)
+      next if response.nil?
 
-      items << { title: article.title, description: article.content[0, 120], link: article.article_link }
+      items << { title: response.question, description: response.answer[0, 120], link: response.response_document.document_link }
     end
 
     items.present? ? { items: items } : {}

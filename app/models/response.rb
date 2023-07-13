@@ -4,6 +4,7 @@
 #
 #  id                   :bigint           not null, primary key
 #  answer               :text             not null
+#  embedding            :vector(1536)
 #  question             :string           not null
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
@@ -12,9 +13,24 @@
 #
 # Indexes
 #
+#  index_responses_on_embedding             (embedding) USING ivfflat
 #  index_responses_on_response_document_id  (response_document_id)
 #
 class Response < ApplicationRecord
   belongs_to :response_document
   belongs_to :account
+  has_neighbors :embedding, normalize: true
+
+  before_save :update_response_embedding
+
+  def self.search(query)
+    embedding = Integrations::Openai::EmbeddingsService.new.get_embedding(query)
+    nearest_neighbors(:embedding, embedding, distance: 'euclidean').first(5)
+  end
+
+  private
+
+  def update_response_embedding
+    self.embedding = Integrations::Openai::EmbeddingsService.new.get_embedding("#{question}: #{answer}")
+  end
 end
