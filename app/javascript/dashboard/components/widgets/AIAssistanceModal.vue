@@ -99,6 +99,7 @@ export default {
       }
     },
     applyText() {
+      this.recordAnalytics(this.aiOption);
       this.$emit('apply-text', this.generatedContent);
       this.onClose();
     },
