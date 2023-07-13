@@ -51,4 +51,26 @@ describe('#actions', () => {
       ]);
     });
   });
+
+  describe('#setReplyMEditorMode', () => {
+    it('sends correct actions', async () => {
+      await actions.setReplyMEditorMode(
+        {
+          commit,
+          state: {
+            draftMessages: {},
+          },
+        },
+        { mode: 'reply' }
+      );
+      expect(commit.mock.calls).toEqual([
+        [
+          types.SET_REPLY_EDITOR_MODE,
+          {
+            mode: 'reply',
+          },
+        ],
+      ]);
+    });
+  });
 });

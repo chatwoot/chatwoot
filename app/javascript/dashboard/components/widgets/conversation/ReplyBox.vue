@@ -781,6 +781,9 @@ export default {
     },
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
       const { can_reply: canReply } = this.currentChat;
+      this.$store.dispatch('draftMessages/setReplyMEditorMode', {
+        mode,
+      });
       if (canReply || this.isAWhatsAppChannel) this.replyType = mode;
       if (this.showRichContentEditor) {
         if (this.isRecordingAudio) {
