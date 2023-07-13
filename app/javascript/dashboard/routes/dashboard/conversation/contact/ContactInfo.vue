@@ -12,7 +12,7 @@
         <woot-button
           v-if="showCloseButton"
           :icon="closeIconName"
-          class="clear secondary close-button--rtl"
+          class="clear secondary rtl:rotate-180"
           @click="onPanelToggle"
         />
       </div>

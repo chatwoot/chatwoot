@@ -50,7 +50,7 @@
         </woot-dropdown-menu>
         <h4
           v-if="noResult"
-          class="w-full justify-center text-slate-500 dark:text-slate-300 py-2 px-2.5 overflow-hidden whitespace-nowrap text-ellipsis text-sm"
+          class="w-full justify-center items-center flex text-slate-500 dark:text-slate-300 py-2 px-2.5 overflow-hidden whitespace-nowrap text-ellipsis text-sm"
         >
           {{ noSearchResult }}
         </h4>
@@ -135,7 +135,7 @@ export default {
 }
 
 .search-input {
-  @apply m-0 w-full border border-solid border-transparent h-8 text-sm rounded-md focus:border-woot-500 bg-slate-50 dark:bg-slate-900;
+  @apply m-0 w-full border border-solid border-transparent h-8 text-sm text-slate-700 dark:text-slate-100 rounded-md focus:border-woot-500 bg-slate-50 dark:bg-slate-900;
 }
 
 .multiselect-dropdown--item {
