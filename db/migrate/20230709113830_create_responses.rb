@@ -14,10 +14,9 @@ class CreateResponses < ActiveRecord::Migration[7.0]
       t.string :source_link
       t.references :source_model, polymorphic: true
       t.bigint :account_id, null: false
+      t.bigint :inbox_id, null: false
       t.timestamps
     end
-
-    add_index :response_sources, [:account_id, :source_link], unique: true
   end
 
   def create_response_documents
@@ -30,7 +29,6 @@ class CreateResponses < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
-    add_index :response_documents, [:account_id, :document_link], unique: true
     add_index :response_documents, :response_source_id
   end
 
@@ -40,9 +38,11 @@ class CreateResponses < ActiveRecord::Migration[7.0]
       t.string :question, null: false
       t.text :answer, null: false
       t.bigint :account_id, null: false
+      t.vector :embedding, limit: 1536
       t.timestamps
     end
 
     add_index :responses, :response_document_id
+    add_index :responses, :embedding, using: :ivfflat, opclass: :vector_l2_ops
   end
 end

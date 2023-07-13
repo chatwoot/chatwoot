@@ -151,6 +151,7 @@ Rails.application.routes.draw do
             end
           end
           resources :labels, only: [:index, :show, :create, :update, :destroy]
+          resources :response_sources, only: [:create]
 
           resources :notifications, only: [:index, :update] do
             collection do
