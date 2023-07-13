@@ -27,8 +27,7 @@ export default {
       return this.$store.getters['draftMessages/get'](this.draftKey);
     },
     draftKey() {
-      // TODO: Remove this hardcoding REPLY
-      return `draft-${this.conversationId}-REPLY`;
+      return `draft-${this.conversationId}-${this.replyMode}`;
     },
     conversationId() {
       return this.currentChat?.id;

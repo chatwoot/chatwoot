@@ -58,12 +58,13 @@ export default {
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
+      replyMode: 'draftMessages/getReplyEditorMode',
     }),
     draftMessage() {
       return this.$store.getters['draftMessages/get'](this.draftKey);
     },
     draftKey() {
-      return `draft-${this.conversationId}-REPLY`;
+      return `draft-${this.conversationId}-${this.replyMode}`;
     },
     inboxId() {
       return this.currentChat?.inbox_id;
