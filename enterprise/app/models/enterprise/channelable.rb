@@ -3,7 +3,7 @@ module Enterprise::Channelable
 
   # Active support concern has `included` which changes the order of the method lookup chain
   # https://stackoverflow.com/q/40061982/3824876
-  # manually prepend the instance methods to combact this
+  # manually prepend the instance methods to combat this
   included do
     prepend InstanceMethods
   end
