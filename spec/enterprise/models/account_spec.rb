@@ -31,7 +31,7 @@ RSpec.describe Account do
     describe 'audit logs' do
       it 'returns audit logs' do
         # checking whether associated_audits method is present
-        expect(account.associated_audits.present?).to be false
+        expect(account.associated_audits.present?).to be true
       end
 
       it 'creates audit logs when account is updated' do
