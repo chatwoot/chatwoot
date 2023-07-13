@@ -14,8 +14,7 @@
         }}
       </h4>
       <AILoader v-if="isGenerating" />
-      <p v-else v-dompurify-html="generatedContent" />
-
+      <p v-else v-dompurify-html="formatMessage(generatedContent, false)" />
       <div class="modal-footer justify-content-end w-full">
         <woot-button variant="clear" @click.prevent="onClose">
           {{
@@ -35,6 +34,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import OpenAPI from 'dashboard/api/integrations/openapi';
+import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import AILoader from './AILoader.vue';
 import aiMixin from 'dashboard/mixins/aiMixin';
 
@@ -42,7 +42,7 @@ export default {
   components: {
     AILoader,
   },
-  mixins: [aiMixin],
+  mixins: [aiMixin, messageFormatterMixin],
   props: {
     aiOption: {
       type: String,

@@ -88,7 +88,7 @@
       "OPTIONS": {
         "REPLY_SUGGESTION": "Reply Suggestion",
         "SUMMARIZE": "Summarize",
-        "IMPROVE_WRITING": "Improve Writing",
+        "REPHRASE": "Improve Writing",
         "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
         "SHORTEN": "Shorten",
         "EXPAND": "Expand",
