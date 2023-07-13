@@ -55,6 +55,10 @@
     "ADD": "%{agentName} created a new macro (#%{id})",
     "EDIT": "%{agentName} updated a macro (#%{id})",
     "DELETE": "%{agentName} deleted a macro (#%{id})"
+  },
+  "INBOX_USER": {
+    "ADD": "%{agentName} added %{user} to the inbox(#%{id})",
+    "REMOVE": "%{agentName} removed %{user} from the inbox(#%{id})"
   }
   }
 }
