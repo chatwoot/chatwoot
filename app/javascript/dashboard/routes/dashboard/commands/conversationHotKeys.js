@@ -237,66 +237,69 @@ export default {
       ]);
     },
 
+    nonDraftMessageAIAssistActions() {
+      return [
+        {
+          label: this.$t(
+            'INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.REPLY_SUGGESTION'
+          ),
+          key: 'reply_suggestion',
+          icon: ICON_AI_ASSIST,
+        },
+        {
+          label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.SUMMARIZE'),
+          key: 'summarize',
+          icon: ICON_AI_SUMMARY,
+        },
+      ];
+    },
+
+    draftMessageAIAssistActions() {
+      return [
+        {
+          label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.REPHRASE'),
+          key: 'rephrase',
+          icon: ICON_AI_ASSIST,
+        },
+        {
+          label: this.$t(
+            'INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.FIX_SPELLING_GRAMMAR'
+          ),
+          key: 'fix_spelling_grammar',
+          icon: ICON_AI_ASSIST,
+        },
+        {
+          label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.SHORTEN'),
+          key: 'shorten',
+          icon: ICON_AI_ASSIST,
+        },
+        {
+          label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.EXPAND'),
+          key: 'expand',
+          icon: ICON_AI_ASSIST,
+        },
+        {
+          label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.MAKE_FRIENDLY'),
+          key: 'make_friendly',
+          icon: ICON_AI_ASSIST,
+        },
+        {
+          label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.MAKE_FORMAL'),
+          key: 'make_formal',
+          icon: ICON_AI_ASSIST,
+        },
+        {
+          label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.SIMPLIFY'),
+          key: 'simplify',
+          icon: ICON_AI_ASSIST,
+        },
+      ];
+    },
+
     AIAssistActions() {
-      let aiOptions = [];
-      if (!this.draftMessage) {
-        aiOptions = [
-          {
-            label: this.$t(
-              'INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.REPLY_SUGGESTION'
-            ),
-            key: 'reply_suggestion',
-            icon: ICON_AI_ASSIST,
-          },
-          {
-            label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.SUMMARIZE'),
-            key: 'summarize',
-            icon: ICON_AI_SUMMARY,
-          },
-        ];
-      } else {
-        aiOptions = [
-          {
-            label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.REPHRASE'),
-            key: 'rephrase',
-            icon: ICON_AI_ASSIST,
-          },
-          {
-            label: this.$t(
-              'INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.FIX_SPELLING_GRAMMAR'
-            ),
-            key: 'fix_spelling_grammar',
-            icon: ICON_AI_ASSIST,
-          },
-          {
-            label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.SHORTEN'),
-            key: 'shorten',
-            icon: ICON_AI_ASSIST,
-          },
-          {
-            label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.EXPAND'),
-            key: 'expand',
-            icon: ICON_AI_ASSIST,
-          },
-          {
-            label: this.$t(
-              'INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.MAKE_FRIENDLY'
-            ),
-            key: 'make_friendly',
-            icon: ICON_AI_ASSIST,
-          },
-          {
-            label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.MAKE_FORMAL'),
-            key: 'make_formal',
-            icon: ICON_AI_ASSIST,
-          },
-          {
-            label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.SIMPLIFY'),
-            key: 'simplify',
-            icon: ICON_AI_ASSIST,
-          },
-        ];
-      }
+      const aiOptions = this.draftMessage
+        ? this.draftMessageAIAssistActions
+        : this.nonDraftMessageAIAssistActions;
       const options = aiOptions.map(item => ({
         id: `ai-assist-${item.key}`,
         title: item.label,
