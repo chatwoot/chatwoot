@@ -52,9 +52,9 @@ describe('#actions', () => {
     });
   });
 
-  describe('#setReplyMEditorMode', () => {
+  describe('#setReplyEditorMode', () => {
     it('sends correct actions', async () => {
-      await actions.setReplyMEditorMode(
+      await actions.setReplyEditorMode(
         {
           commit,
           state: {
