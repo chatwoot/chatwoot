@@ -17,6 +17,8 @@ class Enterprise::SentimentAnalysisJob < ApplicationJob
     # While gathering the maningfull node the Array/tensor index is going out of bound
 
     text = message.content&.truncate(2900)
+    return if model.blank?
+
     sentiment = model.predict(text)
     message.sentiment = sentiment.merge(value: label_val(sentiment))
 
