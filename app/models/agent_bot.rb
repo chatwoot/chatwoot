@@ -25,7 +25,7 @@ class AgentBot < ApplicationRecord
   has_many :inboxes, through: :agent_bot_inboxes
   has_many :messages, as: :sender, dependent: :restrict_with_exception
   belongs_to :account, optional: true
-  enum bot_type: { webhook: 0, csml: 1, openai: 2 }
+  enum bot_type: { webhook: 0, csml: 1 }
 
   validate :validate_agent_bot_config
   validates :outgoing_url, length: { maximum: Limits::URL_LENGTH_LIMIT }
@@ -50,13 +50,7 @@ class AgentBot < ApplicationRecord
       type: 'agent_bot'
     }
   end
-
-  def bot_config
-    return self['bot_config'] unless openai? || account.nil?
-
-    account.hooks.find { |app| app.app_id == 'openai' }&.settings || {}
-  end
-
+  
   private
 
   def validate_agent_bot_config

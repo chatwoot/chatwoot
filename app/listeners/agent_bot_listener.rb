@@ -66,8 +66,6 @@ class AgentBotListener < BaseListener
       process_webhook_bot_event(agent_bot, payload)
     when 'csml'
       process_csml_bot_event(event.name, agent_bot, message)
-    when 'openai'
-      process_openai_bot_event(event.name, agent_bot, message)
     end
   end
 
@@ -79,9 +77,5 @@ class AgentBotListener < BaseListener
 
   def process_csml_bot_event(event, agent_bot, message)
     AgentBots::CsmlJob.perform_later(event, agent_bot, message)
-  end
-
-  def process_openai_bot_event(event, agent_bot, message)
-    AgentBots::OpenaiJob.perform_later(event, agent_bot, message)
   end
 end
