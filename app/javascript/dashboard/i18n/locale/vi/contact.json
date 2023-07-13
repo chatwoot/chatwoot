@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Thêm nhãn",
         "PLACEHOLDER": "Tìm nhãn",
-        "NO_RESULT": "Không tìm thấy nhãn"
+        "NO_RESULT": "Không tìm thấy nhãn",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Hợp nhất liên hệ",

@@ -80,7 +80,7 @@ export default {
 .edit-article--container {
   margin: var(--space-large) auto;
   padding: 0 var(--space-medium);
-  max-width: 89.6rem;
+  max-width: 56rem;
   width: 100%;
 }
 
@@ -89,7 +89,7 @@ export default {
   font-weight: var(--font-weight-bold);
   width: 100%;
   min-height: var(--space-jumbo);
-  max-height: 64rem;
+  max-height: 40rem;
   height: auto;
   margin-bottom: var(--space-small);
   border: 0px solid transparent;

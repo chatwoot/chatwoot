@@ -177,7 +177,7 @@ export default {
 
   .dropdown-pane {
     box-sizing: border-box;
-    top: 4.2rem;
+    top: 2.625rem;
     width: 100%;
   }
 }

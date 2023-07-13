@@ -1,7 +1,7 @@
 <template>
   <div class="wizard-body height-auto small-9 columns">
     <div class="medium-12 columns">
-      <h3 class="block-title">
+      <h3 class="block-title text-black-900 dark:text-slate-200">
         {{
           $t('HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.CUSTOMIZATION_PAGE.TITLE')
         }}
@@ -41,7 +41,7 @@
             :placeholder="
               $t('HELP_CENTER.PORTAL.ADD.HOME_PAGE_LINK.PLACEHOLDER')
             "
-            :help-text="$t('HELP_CENTER.PORTAL.ADD.HOME_PAGE_LINK.HELP_TEXT')"
+            :help-text="homepageExampleHelpText"
             :error="
               $v.homePageLink.$error
                 ? $t('HELP_CENTER.PORTAL.ADD.HOME_PAGE_LINK.ERROR')
@@ -74,6 +74,9 @@ import { url } from 'vuelidate/lib/validators';
 import { getRandomColor } from 'dashboard/helper/labelColor';
 
 import alertMixin from 'shared/mixins/alertMixin';
+import wootConstants from 'dashboard/constants/globals';
+
+const { EXAMPLE_URL } = wootConstants;
 
 export default {
   components: {},
@@ -100,6 +103,13 @@ export default {
   validations: {
     homePageLink: {
       url,
+    },
+  },
+  computed: {
+    homepageExampleHelpText() {
+      return this.$t('HELP_CENTER.PORTAL.ADD.HOME_PAGE_LINK.HELP_TEXT', {
+        exampleURL: EXAMPLE_URL,
+      });
     },
   },
   mounted() {

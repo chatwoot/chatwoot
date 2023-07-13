@@ -10,7 +10,8 @@ module Labelable
   end
 
   def add_labels(new_labels = nil)
-    new_labels << labels
-    update!(label_list: new_labels)
+    new_labels = Array(new_labels) # Make sure new_labels is an array
+    combined_labels = labels + new_labels
+    update!(label_list: combined_labels)
   end
 end

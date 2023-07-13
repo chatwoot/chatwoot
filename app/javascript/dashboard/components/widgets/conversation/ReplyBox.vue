@@ -35,6 +35,7 @@
         v-if="showReplyHead"
         :cc-emails.sync="ccEmails"
         :bcc-emails.sync="bccEmails"
+        :to-emails.sync="toEmails"
       />
       <woot-audio-recorder
         v-if="showAudioRecorderEditor"
@@ -177,8 +178,6 @@ import inboxMixin from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { DirectUpload } from 'activestorage';
 import { frontendURL } from '../../../helper/URLHelper';
-import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
-import { LocalStorage } from 'shared/helpers/localStorage';
 import { trimContent, debounce } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants/globals';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
@@ -238,6 +237,7 @@ export default {
       hasSlashCommand: false,
       bccEmails: '',
       ccEmails: '',
+      toEmails: '',
       doAutoSaveDraft: () => {},
       showWhatsAppTemplatesModal: false,
       updateEditorSelectionWith: '',
@@ -528,7 +528,7 @@ export default {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
       }
 
-      this.setCCEmailFromLastChat();
+      this.setCCAndToEmailsFromLastChat();
     },
     conversationIdByRoute(conversationId, oldConversationId) {
       if (conversationId !== oldConversationId) {
@@ -562,7 +562,7 @@ export default {
     // working even if input/textarea is focussed.
     document.addEventListener('paste', this.onPaste);
     document.addEventListener('keydown', this.handleKeyEvents);
-    this.setCCEmailFromLastChat();
+    this.setCCAndToEmailsFromLastChat();
     this.doAutoSaveDraft = debounce(
       () => {
         this.saveDraft(this.conversationIdByRoute, this.replyType);
@@ -581,30 +581,15 @@ export default {
         display_rich_content_editor: !this.showRichContentEditor,
       });
     },
-    getSavedDraftMessages() {
-      return LocalStorage.get(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES) || {};
-    },
     saveDraft(conversationId, replyType) {
       if (this.message || this.message === '') {
-        const savedDraftMessages = this.getSavedDraftMessages();
         const key = `draft-${conversationId}-${replyType}`;
         const draftToSave = trimContent(this.message || '');
-        const {
-          [key]: currentDraft,
-          ...restOfDraftMessages
-        } = savedDraftMessages;
 
-        const updatedDraftMessages = draftToSave
-          ? {
-              ...restOfDraftMessages,
-              [key]: draftToSave,
-            }
-          : restOfDraftMessages;
-
-        LocalStorage.set(
-          LOCAL_STORAGE_KEYS.DRAFT_MESSAGES,
-          updatedDraftMessages
-        );
+        this.$store.dispatch('draftMessages/set', {
+          key,
+          message: draftToSave,
+        });
       }
     },
     setToDraft(conversationId, replyType) {
@@ -613,24 +598,14 @@ export default {
     },
     getFromDraft() {
       if (this.conversationIdByRoute) {
-        try {
-          const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
-          const savedDraftMessages = this.getSavedDraftMessages();
-          this.message = `${savedDraftMessages[key] || ''}`;
-        } catch (error) {
-          this.message = '';
-        }
+        const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
+        this.message = this.$store.getters['draftMessages/get'](key) || '';
       }
     },
     removeFromDraft() {
       if (this.conversationIdByRoute) {
         const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
-        const draftMessages = this.getSavedDraftMessages();
-        const { [key]: toBeRemoved, ...updatedDraftMessages } = draftMessages;
-        LocalStorage.set(
-          LOCAL_STORAGE_KEYS.DRAFT_MESSAGES,
-          updatedDraftMessages
-        );
+        this.$store.dispatch('draftMessages/delete', { key });
       }
     },
     handleKeyEvents(e) {
@@ -806,6 +781,9 @@ export default {
     },
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
       const { can_reply: canReply } = this.currentChat;
+      this.$store.dispatch('draftMessages/setReplyEditorMode', {
+        mode,
+      });
       if (canReply || this.isAWhatsAppChannel) this.replyType = mode;
       if (this.showRichContentEditor) {
         if (this.isRecordingAudio) {
@@ -844,6 +822,7 @@ export default {
     clearEmailField() {
       this.ccEmails = '';
       this.bccEmails = '';
+      this.toEmails = '';
     },
     toggleEmojiPicker() {
       this.showEmojiPicker = !this.showEmojiPicker;
@@ -1054,22 +1033,56 @@ export default {
         messagePayload.bccEmails = this.bccEmails;
       }
 
+      if (this.toEmails && !this.isOnPrivateNote) {
+        messagePayload.toEmails = this.toEmails;
+      }
+
       return messagePayload;
     },
     setCcEmails(value) {
       this.bccEmails = value.bccEmails;
       this.ccEmails = value.ccEmails;
     },
-    setCCEmailFromLastChat() {
-      if (this.lastEmail) {
-        const {
-          content_attributes: { email: emailAttributes = {} },
-        } = this.lastEmail;
-        const cc = emailAttributes.cc || [];
-        const bcc = emailAttributes.bcc || [];
-        this.ccEmails = cc.join(', ');
-        this.bccEmails = bcc.join(', ');
+    setCCAndToEmailsFromLastChat() {
+      if (!this.lastEmail) return;
+
+      const {
+        content_attributes: { email: emailAttributes = {} },
+      } = this.lastEmail;
+
+      // Retrieve the email of the current conversation's sender
+      const conversationContact = this.currentChat?.meta?.sender?.email || '';
+      let cc = [...emailAttributes.cc] || [];
+      let to = [];
+
+      // there might be a situation where the current conversation will include a message from a third person,
+      // and the current conversation contact is in CC.
+      // This is an edge-case, reported here: CW-1511 [ONLY FOR INTERNAL REFERENCE]
+      // So we remove the current conversation contact's email from the CC list if present
+      if (cc.includes(conversationContact)) {
+        cc = cc.filter(email => email !== conversationContact);
       }
+
+      // If the last incoming message sender is different from the conversation contact, add them to the "to"
+      // and add the conversation contact to the CC
+      if (!emailAttributes.from.includes(conversationContact)) {
+        to.push(...emailAttributes.from);
+        cc.push(conversationContact);
+      }
+
+      // Remove the conversation contact's email from the BCC list if present
+      let bcc = (emailAttributes.bcc || []).filter(
+        email => email !== conversationContact
+      );
+
+      // Ensure only unique email addresses are in the CC list
+      bcc = [...new Set(bcc)];
+      cc = [...new Set(cc)];
+      to = [...new Set(to)];
+
+      this.ccEmails = cc.join(', ');
+      this.bccEmails = bcc.join(', ');
+      this.toEmails = to.join(', ');
     },
   },
 };
@@ -1107,8 +1120,7 @@ export default {
 }
 
 .reply-box {
-  border-top: 1px solid var(--color-border);
-  background: white;
+  @apply border-r border-slate-50 dark:border-slate-700 bg-white dark:bg-slate-900;
 
   &.is-private {
     background: var(--y-50);

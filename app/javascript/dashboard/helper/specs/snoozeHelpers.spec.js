@@ -40,6 +40,11 @@ describe('#Snooze Helpers', () => {
       nextDay.setHours(9, 0, 0, 0);
       expect(setHoursToNine(nextDay)).toEqual(nextDay);
     });
+    it('should return date with 9.00AM time if date with 10am is passes', () => {
+      const nextDay = new Date('06/17/2023 10:00:00');
+      nextDay.setHours(9, 0, 0, 0);
+      expect(setHoursToNine(nextDay)).toEqual(nextDay);
+    });
   });
 
   describe('findSnoozeTime', () => {

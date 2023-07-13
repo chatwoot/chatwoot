@@ -18,6 +18,8 @@
     "EMPTY_STATE_DEFAULT": "Căutați după id-ul conversației, e-mail, numărul de telefon, mesajele pentru rezultate de căutare mai bune. ",
     "BOT_LABEL": "Bot",
     "READ_MORE": "Citeşte mai mult",
-    "WROTE": "scrisese:"
+    "WROTE": "scrisese:",
+    "FROM": "de la",
+    "EMAIL": "e-mail"
   }
 }

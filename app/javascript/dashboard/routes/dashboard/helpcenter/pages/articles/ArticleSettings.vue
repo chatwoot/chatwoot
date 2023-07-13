@@ -1,7 +1,7 @@
 <template>
   <transition name="popover-animation">
     <div class="article-settings--container">
-      <h3 class="block-title">
+      <h3 class="block-title text-black-900 dark:text-slate-200">
         {{ $t('HELP_CENTER.ARTICLE_SETTINGS.TITLE') }}
       </h3>
       <div class="form-wrap">
@@ -227,7 +227,7 @@ export default {
 .article-settings--container {
   flex: 0.3;
   min-width: var(--space-giga);
-  max-width: 36rem;
+  max-width: 22.5rem;
   overflow-y: auto;
   border-left: 1px solid var(--color-border-light);
   margin-left: var(--space-normal);

@@ -3,8 +3,8 @@
     size="small"
     variant="clear"
     color-scheme="secondary"
+    class="-ml-3 text-black-900 dark:text-slate-300"
     icon="list"
-    class="toggle-sidebar"
     @click="onMenuItemClick"
   />
 </template>
@@ -20,8 +20,3 @@ export default {
   },
 };
 </script>
-<style scoped lang="scss">
-.toggle-sidebar {
-  margin-left: var(--space-minus-small);
-}
-</style>

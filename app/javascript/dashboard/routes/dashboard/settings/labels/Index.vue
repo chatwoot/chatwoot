@@ -127,14 +127,10 @@ export default {
     }),
     // Delete Modal
     deleteConfirmText() {
-      return `${this.$t('LABEL_MGMT.DELETE.CONFIRM.YES')} ${
-        this.selectedResponse.title
-      }`;
+      return this.$t('LABEL_MGMT.DELETE.CONFIRM.YES');
     },
     deleteRejectText() {
-      return `${this.$t('LABEL_MGMT.DELETE.CONFIRM.NO')} ${
-        this.selectedResponse.title
-      }`;
+      return this.$t('LABEL_MGMT.DELETE.CONFIRM.NO');
     },
     deleteMessage() {
       return ` ${this.selectedResponse.title}?`;

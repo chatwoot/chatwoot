@@ -4,7 +4,7 @@
     "LOADING_CHART": "Cargando datos del gráfico...",
     "NO_ENOUGH_DATA": "No hemos recibido suficientes puntos de datos para generar el informe. Inténtalo de nuevo más tarde.",
     "DOWNLOAD_AGENT_REPORTS": "Descargar reportes de agente",
-    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
+    "DATA_FETCHING_FAILED": "Error al obtener datos, por favor intente nuevamente.",
     "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
       "CONVERSATIONS": {
@@ -404,7 +404,7 @@
     "HEADER": "Reporte de encuestas de satisfacción",
     "NO_RECORDS": "No hay respuestas de encuestas de satisfacción disponibles.",
     "DOWNLOAD": "Descargar reportes CSAT",
-    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
+    "DOWNLOAD_FAILED": "Error al descargar los informes CSAT",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Elegir agentes"

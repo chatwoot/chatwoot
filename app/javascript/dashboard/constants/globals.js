@@ -16,6 +16,7 @@ export default {
     LATEST: 'latest',
     CREATED_AT: 'sort_on_created_at',
     PRIORITY: 'sort_on_priority',
+    WATIING_SINCE: 'waiting_since',
   },
   ARTICLE_STATUS_TYPES: {
     DRAFT: 0,
@@ -38,5 +39,7 @@ export default {
     UNTIL_NEXT_MONTH: 'until_next_month',
     UNTIL_CUSTOM_TIME: 'until_custom_time',
   },
+  EXAMPLE_URL: 'https://example.com',
+  EXAMPLE_WEBHOOK_URL: 'https://example/api/webhook',
 };
 export const DEFAULT_REDIRECT_URL = '/app/';

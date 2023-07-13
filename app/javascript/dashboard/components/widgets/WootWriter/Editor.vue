@@ -310,11 +310,9 @@ export default {
         userFullName: mentionItem.name,
       });
 
-      const tr = this.editorView.state.tr.replaceWith(
-        this.range.from,
-        this.range.to,
-        node
-      );
+      const tr = this.editorView.state.tr
+        .replaceWith(this.range.from, this.range.to, node)
+        .insertText(` `);
       this.state = this.editorView.state.apply(tr);
       this.emitOnChange();
       this.$track(CONVERSATION_EVENTS.USED_MENTIONS);
@@ -468,8 +466,8 @@ export default {
 }
 
 .ProseMirror-woot-style {
-  min-height: 8rem;
-  max-height: 12rem;
+  min-height: 5rem;
+  max-height: 7.5rem;
   overflow: auto;
 }
 

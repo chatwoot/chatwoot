@@ -4,7 +4,7 @@ ruby '3.2.2'
 
 ##-- base gems for rails --##
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails', '~> 7'
+gem 'rails', '~> 7.0.5.1'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
@@ -164,6 +164,9 @@ gem 'audited', '~> 5.3'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection', '~> 1.0'
+
+# Sentiment analysis
+gem 'informers'
 
 ### Gems required only in specific deployment environments ###
 ##############################################################

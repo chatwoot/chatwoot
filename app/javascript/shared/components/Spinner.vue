@@ -1,5 +1,5 @@
 <template>
-  <span class="spinner" :class="`${size} ${colorScheme}`" />
+  <span class="spinner" :class="`${size} ${colorSchemeClasses}`" />
 </template>
 <script>
 export default {
@@ -11,6 +11,15 @@ export default {
     colorScheme: {
       type: String,
       default: '',
+    },
+  },
+  computed: {
+    colorSchemeClasses() {
+      if (this.colorScheme === 'primary') {
+        return 'before:!border-t-woot-500';
+      }
+
+      return this.colorScheme;
     },
   },
 };
