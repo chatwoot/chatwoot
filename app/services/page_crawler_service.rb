@@ -12,7 +12,7 @@ class PageCrawlerService
 
   def page_title
     title_element = @doc.at_xpath('//title')
-    title_element.text.strip if title_element
+    title_element&.text&.strip
   end
 
   def body_text_content
@@ -26,13 +26,13 @@ class PageCrawlerService
   end
 
   def extract_links_from_sitemap
-    @doc.xpath('//loc').map(&:text).to_set
+    @doc.xpath('//loc').to_set(&:text)
   end
 
   def extract_links_from_html
-    @doc.xpath('//a/@href').map do |link|
+    @doc.xpath('//a/@href').to_set do |link|
       absolute_url = URI.join(@external_link, link.value).to_s
       absolute_url
-    end.to_set
+    end
   end
 end

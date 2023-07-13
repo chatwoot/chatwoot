@@ -151,7 +151,11 @@ Rails.application.routes.draw do
             end
           end
           resources :labels, only: [:index, :show, :create, :update, :destroy]
-          resources :response_sources, only: [:create]
+          resources :response_sources, only: [:create] do
+            collection do
+              post :parse
+            end
+          end
 
           resources :notifications, only: [:index, :update] do
             collection do

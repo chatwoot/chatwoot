@@ -23,7 +23,7 @@ class MessageTemplates::HookExecutionService
   def should_process_response_bot?
     return false unless conversation.pending?
     return false unless message.incoming?
-    return false unless inbox.response_sources.present?
+    return false if inbox.response_sources.blank?
 
     true
   end
