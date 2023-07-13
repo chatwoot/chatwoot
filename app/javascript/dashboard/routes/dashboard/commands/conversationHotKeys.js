@@ -2,7 +2,7 @@ import { mapGetters } from 'vuex';
 import wootConstants from 'dashboard/constants/globals';
 
 import { CMD_AI_ASSIST } from './commandBarBusEvents';
-
+import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import {
   ICON_ADD_LABEL,
   ICON_ASSIGN_AGENT,
@@ -16,6 +16,9 @@ import {
   ICON_PRIORITY_NONE,
   ICON_AI_ASSIST,
   ICON_AI_SUMMARY,
+  ICON_AI_SPELLING,
+  ICON_AI_SHORTEN,
+  ICON_AI_EXPAND,
 } from './CommandBarIcons';
 
 import {
@@ -52,6 +55,9 @@ export default {
       this.setCommandbarData();
     },
     draftMessage() {
+      this.setCommandbarData();
+    },
+    replyMode() {
       this.setCommandbarData();
     },
   },
@@ -239,14 +245,18 @@ export default {
     },
 
     nonDraftMessageAIAssistActions() {
+      if (this.replyMode === REPLY_EDITOR_MODES.REPLY) {
+        return [
+          {
+            label: this.$t(
+              'INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.REPLY_SUGGESTION'
+            ),
+            key: 'reply_suggestion',
+            icon: ICON_AI_ASSIST,
+          },
+        ];
+      }
       return [
-        {
-          label: this.$t(
-            'INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.REPLY_SUGGESTION'
-          ),
-          key: 'reply_suggestion',
-          icon: ICON_AI_ASSIST,
-        },
         {
           label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.SUMMARIZE'),
           key: 'summarize',
@@ -267,17 +277,17 @@ export default {
             'INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.FIX_SPELLING_GRAMMAR'
           ),
           key: 'fix_spelling_grammar',
-          icon: ICON_AI_ASSIST,
+          icon: ICON_AI_SPELLING,
         },
         {
           label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.SHORTEN'),
           key: 'shorten',
-          icon: ICON_AI_ASSIST,
+          icon: ICON_AI_SHORTEN,
         },
         {
           label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.EXPAND'),
           key: 'expand',
-          icon: ICON_AI_ASSIST,
+          icon: ICON_AI_EXPAND,
         },
         {
           label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.MAKE_FRIENDLY'),

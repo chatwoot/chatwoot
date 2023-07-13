@@ -12,6 +12,7 @@ export default {
     ...mapGetters({
       appIntegrations: 'integrations/getAppIntegrations',
       currentChat: 'getSelectedChat',
+      replyMode: 'draftMessages/getReplyEditorMode',
     }),
     isAIIntegrationEnabled() {
       return this.appIntegrations.find(
