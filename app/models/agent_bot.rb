@@ -50,7 +50,7 @@ class AgentBot < ApplicationRecord
       type: 'agent_bot'
     }
   end
-  
+
   private
 
   def validate_agent_bot_config

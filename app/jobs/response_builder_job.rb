@@ -6,12 +6,9 @@ class ResponseBuilderJob < ApplicationJob
     # resetting previous responses
     response_document.responses.destroy_all
 
-    gpt_settings = openai_settings(response_document.account)
-    return if gpt_settings['api_key'].blank?
-
     headers = {
       'Content-Type' => 'application/json',
-      'Authorization' => "Bearer #{gpt_settings['api_key']}"
+      'Authorization' => "Bearer #{ENV.fetch('OPENAI_API_KEY')}"
     }
 
     data = {
@@ -40,9 +37,5 @@ class ResponseBuilderJob < ApplicationJob
     faqs.each do |faq|
       response_document.responses.create!(question: faq['question'], answer: faq['answer'], account_id: response_document.account_id)
     end
-  end
-
-  def openai_settings(account)
-    account.hooks.find { |app| app.app_id == 'openai' }&.settings || {}
   end
 end
