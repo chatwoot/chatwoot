@@ -16,41 +16,6 @@
         }}
       </p>
     </div>
-    <div v-else>
-      <loading-state v-if="showLoader" :message="emptyStateMessage" />
-      <form v-if="!showLoader" class="row" @submit.prevent="createChannel()">
-        <div class="medium-12 columns">
-          <page-header
-            :header-title="$t('INBOX_MGMT.ADD.DETAILS.TITLE')"
-            :header-content="
-              useInstallationName(
-                $t('INBOX_MGMT.ADD.DETAILS.DESC'),
-                globalConfig.installationName
-              )
-            "
-          />
-        </div>
-        <div class="medium-7 columns">
-          <div class="medium-12 columns">
-            <label :class="{ error: $v.pageName.$error }">
-              {{ $t('INBOX_MGMT.ADD.FB.INBOX_NAME') }}
-              <input
-                v-model.trim="pageName"
-                type="text"
-                :placeholder="$t('INBOX_MGMT.ADD.FB.PICK_NAME')"
-                @input="$v.pageName.$touch"
-              />
-              <span v-if="$v.pageName.$error" class="message">
-                {{ $t('INBOX_MGMT.ADD.FB.ADD_NAME') }}
-              </span>
-            </label>
-          </div>
-          <div class="medium-12 columns text-right">
-            <input type="submit" value="Create Inbox" class="button" />
-          </div>
-        </div>
-      </form>
-    </div>
   </div>
 </template>
 <script>
@@ -119,7 +84,7 @@ export default {
   },
 
   mounted() {
-    // console.log('mounted, this.$route', this.$route?.params?.payload);
+    console.log('mounted, this.$route', this.cloudWhatsappPayload);
     this.initFB();
   },
 
@@ -174,9 +139,7 @@ export default {
       FB.login(
         response => {
           if (response.status === 'connected') {
-            debugger
             this.saveUserToken(response.authResponse.accessToken);
-            // console.log('response', this.cloudWhatsappPayload);
           } else if (response.status === 'not_authorized') {
             // The person is logged into Facebook, but not your app.
             this.emptyStateMessage = this.$t(
@@ -199,55 +162,19 @@ export default {
 
     saveUserToken(token) {
       let payload = this.cloudWhatsappPayload;
+      payload.channel.provider_config.api_key = token;
 
-      try {
-        this.$store.dispatch(
-          'inboxes/createChannel',
-          {
-            name: 'WhatsApp Inbox',
-            channel: {
-              type: 'whatsapp',
-              phone_number: '+918485827731',
-              provider: 'whatsapp_cloud',
-              provider_config: {
-                api_key: token,
-                phone_number_id: '918485827731',
-                business_account_id: '918485827731',
-              },
-            },
-          }
-        );
-      } catch (error) {
-        debugger
-      }
-    },
-
-    channelParams() {
-      return {
-        user_access_token: this.user_access_token,
-        page_access_token: this.selectedPage.access_token,
-        page_id: this.selectedPage.id,
-        inbox_name: this.selectedPage.name,
-      };
-    },
-
-    createChannel() {
-      this.$v.$touch();
-      if (!this.$v.$error) {
-        this.emptyStateMessage = this.$t('INBOX_MGMT.DETAILS.CREATING_CHANNEL');
-        this.isCreating = true;
-        this.$store
-          .dispatch('inboxes/createFBChannel', this.channelParams())
-          .then(data => {
-            router.replace({
-              name: 'settings_inboxes_add_agents',
-              params: { page: 'new', inbox_id: data.id },
-            });
-          })
-          .catch(() => {
-            this.isCreating = false;
-          });
-      }
+      this.$store
+      .dispatch('inboxes/createChannel', payload)
+      .then(payload => {
+        router.replace({
+          name: 'settings_inboxes_add_agents',
+          params: {
+            page: 'new',
+            inbox_id: payload.id,
+          },
+        });
+      })
     },
   },
 };

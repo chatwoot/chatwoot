@@ -98,7 +98,6 @@
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import { required } from 'vuelidate/lib/validators';
-import router from '../../../../index';
 import { isPhoneE164OrEmpty, isNumber } from 'shared/helpers/Validators';
 
 export default {
@@ -119,7 +118,6 @@ export default {
   validations: {
     inboxName: { required },
     phoneNumber: { required, isPhoneE164OrEmpty },
-    apiKey: { required },
     appId: { required },
     phoneNumberId: { required, isNumber },
     businessAccountId: { required, isNumber },
@@ -145,17 +143,13 @@ export default {
         },
       };
 
-      try {
-        router.replace({
-          name: 'settings_inboxes_page_fb_login',
-          params: {
-            page: 'new',
-            payload: payload,
-          },
-        });
-      } catch (error) {
-        this.showAlert(this.$t('INBOX_MGMT.ADD.WHATSAPP.API.ERROR_MESSAGE'));
-      }
+      this.$router.push({
+        name: 'settings_inboxes_page_fb_login',
+        params: {
+          page: 'new',
+          payload: payload,
+        },
+      });
     },
   },
 };
