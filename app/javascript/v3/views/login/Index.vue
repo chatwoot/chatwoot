@@ -1,6 +1,6 @@
 <template>
   <main
-    class="flex flex-col bg-woot-25 min-h-full w-full py-12 sm:px-6 lg:px-8 justify-center dark:bg-slate-900"
+    class="flex flex-col bg-woot-25 min-h-screen w-full py-20 sm:px-6 lg:px-8 dark:bg-slate-900"
   >
     <section class="max-w-5xl mx-auto">
       <img
@@ -26,14 +26,17 @@
         class="mt-3 text-center text-sm text-slate-600 dark:text-slate-400"
       >
         {{ $t('COMMON.OR') }}
-        <router-link to="auth/signup" class="text-link">
+        <router-link to="auth/signup" class="text-link lowercase">
           {{ $t('LOGIN.CREATE_NEW_ACCOUNT') }}
         </router-link>
       </p>
     </section>
     <section
-      class="sm:mx-auto mt-11 sm:w-full sm:max-w-lg bg-white dark:bg-slate-800 p-11 shadow sm:shadow-lg sm:rounded-lg"
-      :class="{ 'mb-8 mt-15': !showGoogleOAuth }"
+      class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-slate-800 p-11 sm:shadow-lg sm:rounded-lg"
+      :class="{
+        'mb-8 mt-15': !showGoogleOAuth,
+        'animate-wiggle': loginApi.hasErrored,
+      }"
     >
       <div v-if="!email">
         <GoogleOAuthButton v-if="showGoogleOAuth" />
@@ -67,11 +70,7 @@
             </p>
           </form-input>
           <submit-button
-            :disabled="
-              $v.credentials.email.$invalid ||
-                $v.credentials.password.$invalid ||
-                loginApi.showLoading
-            "
+            :disabled="loginApi.showLoading"
             :button-text="$t('LOGIN.SUBMIT')"
             :loading="loginApi.showLoading"
           />
@@ -126,6 +125,7 @@ export default {
       loginApi: {
         message: '',
         showLoading: false,
+        hasErrored: false,
       },
       error: '',
     };
@@ -173,7 +173,14 @@ export default {
       bus.$emit('newToastMessage', this.loginApi.message);
     },
     submitLogin() {
+      if (this.$v.credentials.email.$invalid) {
+        this.showAlert(this.$t('LOGIN.EMAIL.ERROR'));
+        return;
+      }
+
+      this.loginApi.hasErrored = false;
       this.loginApi.showLoading = true;
+
       const credentials = {
         email: this.email
           ? decodeURIComponent(this.email)
@@ -193,6 +200,7 @@ export default {
           if (this.email) {
             window.location = '/app/login';
           }
+          this.loginApi.hasErrored = true;
           this.showAlert(response?.message || this.$t('LOGIN.API.UNAUTH'));
         });
     },

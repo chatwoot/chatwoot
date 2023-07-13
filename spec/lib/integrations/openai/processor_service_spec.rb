@@ -20,6 +20,14 @@ RSpec.describe Integrations::Openai::ProcessorService do
   let!(:conversation) { create(:conversation, account: account) }
   let!(:customer_message) { create(:message, account: account, conversation: conversation, message_type: :incoming, content: 'hello agent') }
   let!(:agent_message) { create(:message, account: account, conversation: conversation, message_type: :outgoing, content: 'hello customer') }
+  let!(:summary_prompt) do
+    if Dir.exist?('enterprise')
+      Rails.root.join('enterprise/lib/enterprise/integrations/openai_prompts/summary.txt').read
+    else
+      'Please summarize the key points from the following conversation between support agents and customer as bullet points for the next ' \
+        "support agent looking into the conversation. Reply in the user's language."
+    end
+  end
 
   describe '#perform' do
     context 'when event name is rephrase' do
@@ -83,8 +91,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
           'model' => 'gpt-3.5-turbo',
           'messages' => [
             { 'role' => 'system',
-              'content' => 'Please summarize the key points from the following conversation between support agents and customer ' \
-                           'as bullet points for the next support agent looking into the conversation. Reply in the user\'s language.' },
+              'content' => summary_prompt },
             { 'role' => 'user', 'content' => conversation_messages }
           ]
         }.to_json
