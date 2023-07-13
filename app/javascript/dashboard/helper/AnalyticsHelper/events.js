@@ -82,5 +82,5 @@ export const OPEN_AI_EVENTS = Object.freeze({
   REPLY_SUGGESTION: 'OpenAI: Used reply suggestion',
   REPHRASE: 'OpenAI: Used rephrase',
   APPLY_LABEL_SUGGESTION: 'OpenAI: Apply label from suggestion',
-  DISMISS_LABEL_SUGGESTION: 'OpenAI: Apply label from suggestion',
+  DISMISS_LABEL_SUGGESTION: 'OpenAI: Dismiss label suggestions',
 });
