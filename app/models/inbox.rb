@@ -132,7 +132,7 @@ class Inbox < ApplicationRecord
   end
 
   def active_bot?
-    agent_bot_inbox&.active? || hooks.pluck(:app_id).include?('dialogflow')
+    agent_bot_inbox&.active? || hooks.pluck(:app_id).include?('dialogflow') || response_sources.any?
   end
 
   def inbox_type
