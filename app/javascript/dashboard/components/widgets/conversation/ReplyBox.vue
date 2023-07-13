@@ -178,8 +178,6 @@ import inboxMixin from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { DirectUpload } from 'activestorage';
 import { frontendURL } from '../../../helper/URLHelper';
-import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
-import { LocalStorage } from 'shared/helpers/localStorage';
 import { trimContent, debounce } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants/globals';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
@@ -583,30 +581,15 @@ export default {
         display_rich_content_editor: !this.showRichContentEditor,
       });
     },
-    getSavedDraftMessages() {
-      return LocalStorage.get(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES) || {};
-    },
     saveDraft(conversationId, replyType) {
       if (this.message || this.message === '') {
-        const savedDraftMessages = this.getSavedDraftMessages();
         const key = `draft-${conversationId}-${replyType}`;
         const draftToSave = trimContent(this.message || '');
-        const {
-          [key]: currentDraft,
-          ...restOfDraftMessages
-        } = savedDraftMessages;
 
-        const updatedDraftMessages = draftToSave
-          ? {
-              ...restOfDraftMessages,
-              [key]: draftToSave,
-            }
-          : restOfDraftMessages;
-
-        LocalStorage.set(
-          LOCAL_STORAGE_KEYS.DRAFT_MESSAGES,
-          updatedDraftMessages
-        );
+        this.$store.dispatch('draftMessages/set', {
+          key,
+          message: draftToSave,
+        });
       }
     },
     setToDraft(conversationId, replyType) {
@@ -615,24 +598,14 @@ export default {
     },
     getFromDraft() {
       if (this.conversationIdByRoute) {
-        try {
-          const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
-          const savedDraftMessages = this.getSavedDraftMessages();
-          this.message = `${savedDraftMessages[key] || ''}`;
-        } catch (error) {
-          this.message = '';
-        }
+        const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
+        this.message = this.$store.getters['draftMessages/get'](key) || '';
       }
     },
     removeFromDraft() {
       if (this.conversationIdByRoute) {
         const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
-        const draftMessages = this.getSavedDraftMessages();
-        const { [key]: toBeRemoved, ...updatedDraftMessages } = draftMessages;
-        LocalStorage.set(
-          LOCAL_STORAGE_KEYS.DRAFT_MESSAGES,
-          updatedDraftMessages
-        );
+        this.$store.dispatch('draftMessages/delete', { key });
       }
     },
     handleKeyEvents(e) {
