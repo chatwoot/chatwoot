@@ -310,11 +310,9 @@ export default {
         userFullName: mentionItem.name,
       });
 
-      const tr = this.editorView.state.tr.replaceWith(
-        this.range.from,
-        this.range.to,
-        node
-      );
+      const tr = this.editorView.state.tr
+        .replaceWith(this.range.from, this.range.to, node)
+        .insertText(` `);
       this.state = this.editorView.state.apply(tr);
       this.emitOnChange();
       this.$track(CONVERSATION_EVENTS.USED_MENTIONS);
