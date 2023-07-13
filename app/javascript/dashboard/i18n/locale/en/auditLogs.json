@@ -59,6 +59,10 @@
   "INBOX_USER": {
     "ADD": "%{agentName} added %{user} to the inbox(#%{id})",
     "REMOVE": "%{agentName} removed %{user} from the inbox(#%{id})"
+  },
+  "TEAM_MEMBER": {
+    "ADD": "%{agentName} added %{user} to the team(#%{id})",
+    "REMOVE": "%{agentName} removed %{user} from the team(#%{id})"
   }
   }
 }
