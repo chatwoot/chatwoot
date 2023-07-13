@@ -23,6 +23,7 @@ class ResponseDocument < ApplicationRecord
   belongs_to :response_source
 
   before_validation :set_account
+  after_create :ensure_content
   after_update :handle_content_change
 
   private
@@ -31,9 +32,15 @@ class ResponseDocument < ApplicationRecord
     self.account = response_source.account
   end
 
-  def handle_content_change
-    return unless saved_change_to_content? && content_was.nil? && !content.nil?
+  def ensure_content
+    return unless content.nil?
 
-    ResponseBuilderJob.perform_later(id)
+    ResponseDocumentContentJob.perform_later(self)
+  end
+
+  def handle_content_change
+    return unless saved_change_to_content? && content.present?
+
+    ResponseBuilderJob.perform_later(self)
   end
 end

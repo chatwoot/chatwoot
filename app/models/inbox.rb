@@ -71,6 +71,8 @@ class Inbox < ApplicationRecord
   has_many :webhooks, dependent: :destroy_async
   has_many :hooks, dependent: :destroy_async, class_name: 'Integrations::Hook'
   has_many :response_sources, dependent: :destroy_async
+  has_many :response_documents, through: :response_sources
+  has_many :responses, through: :response_documents
 
   enum sender_name_type: { friendly: 0, professional: 1 }
 
@@ -81,6 +83,11 @@ class Inbox < ApplicationRecord
   def add_member(user_id)
     member = inbox_members.new(user_id: user_id)
     member.save!
+  end
+
+  def get_responses(query)
+    embedding = Openai::EmbeddingsService.new.get_embedding(query)
+    responses.nearest_neighbors(:embedding, embedding, distance: 'cosine').first(5)
   end
 
   def remove_member(user_id)

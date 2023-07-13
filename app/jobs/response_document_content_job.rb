@@ -3,11 +3,8 @@ class ResponseDocumentContentJob < ApplicationJob
   queue_as :default
 
   def perform(response_document)
-    session = Capybara::Session.new(:selenium)
-    session.visit(response_document.document_link)
-
     # Replace the selector with the actual one you need.
-    content = session.find('body').text
+    content = PageCrawlerService.new(response_document.document_link).body_text_content
     response_document.update!(content: content[0..15_000])
   end
 end

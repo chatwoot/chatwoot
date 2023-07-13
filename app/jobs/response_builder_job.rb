@@ -1,8 +1,7 @@
 class ResponseBuilderJob < ApplicationJob
   queue_as :default
 
-  def perform(response_document_id)
-    response_document = ResponseDocument.find(response_document_id)
+  def perform(response_document)
     # resetting previous responses
     response_document.responses.destroy_all
 

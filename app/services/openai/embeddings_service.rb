@@ -1,4 +1,4 @@
-class Integrations::Openai::EmbeddingsService
+class Openai::EmbeddingsService
   def get_embedding(content)
     fetch_embeddings(content)
   end
