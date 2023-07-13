@@ -17,6 +17,10 @@ module Enterprise::Integrations::OpenaiProcessorService
 
   private
 
+  def prompt_from_file(file_name)
+    Rails.root.join('enterprise/lib/enterprise/integrations/openai_prompts', "#{file_name}.txt").read
+  end
+
   def labels_with_messages
     labels = hook.account.labels.pluck(:title).join(', ')
 
@@ -30,6 +34,17 @@ module Enterprise::Integrations::OpenaiProcessorService
     "Messages:\n#{messages}\nLabels:\n#{labels}"
   end
 
+  def summarize_body
+    {
+      model: self.class::GPT_MODEL,
+      messages: [
+        { role: 'system',
+          content: prompt_from_file('summary') },
+        { role: 'user', content: conversation_messages }
+      ]
+    }.to_json
+  end
+
   def label_suggestion_body
     content = labels_with_messages
     return nil if content.blank?
@@ -39,13 +54,7 @@ module Enterprise::Integrations::OpenaiProcessorService
       messages: [
         {
           role: 'system',
-          content: 'Your role is as an assistant to a customer support agent. You will be provided with a transcript of a conversation between a ' \
-                   'customer and the support agent, along with a list of potential labels. ' \
-                   'Your task is to analyze the conversation and select the two labels from the given list that most accurately ' \
-                   'represent the themes or issues discussed. Ensure you preserve the exact casing of the labels as they are provided in the list. ' \
-                   'Do not create new labels; only choose from those provided. Once you have made your selections, please provide your response ' \
-                   'as a comma-separated list of the provided labels. Remember, your response should only contain the labels you\'ve selected, ' \
-                   'in their original casing, and nothing else. '
+          content: prompt_from_file('label_suggestion')
         },
         { role: 'user', content: content }
       ]
