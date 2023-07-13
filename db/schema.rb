@@ -670,6 +670,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_10_155231) do
     t.jsonb "external_source_ids", default: {}
     t.jsonb "additional_attributes", default: {}
     t.text "processed_message_content"
+    t.jsonb "sentiment", default: {}
     t.index "((additional_attributes -> 'campaign_id'::text))", name: "index_messages_on_additional_attributes_campaign_id", using: :gin
     t.index ["account_id", "inbox_id"], name: "index_messages_on_account_id_and_inbox_id"
     t.index ["account_id"], name: "index_messages_on_account_id"

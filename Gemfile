@@ -168,9 +168,12 @@ gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection', '~> 1.0'
 
-### test
+### Webcrawler
 gem 'capybara'
 gem 'selenium-webdriver'
+
+# Sentiment analysis
+gem 'informers'
 
 ### Gems required only in specific deployment environments ###
 ##############################################################
