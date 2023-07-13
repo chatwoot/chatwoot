@@ -32,27 +32,6 @@
         </div>
         <div class="medium-7 columns">
           <div class="medium-12 columns">
-            <div class="input-wrap" :class="{ error: $v.selectedPage.$error }">
-              {{ $t('INBOX_MGMT.ADD.FB.CHOOSE_PAGE') }}
-              <multiselect
-                v-model.trim="selectedPage"
-                :close-on-select="true"
-                :allow-empty="true"
-                :options="getSelectablePages"
-                track-by="id"
-                label="name"
-                :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
-                :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
-                :placeholder="$t('INBOX_MGMT.ADD.FB.PICK_A_VALUE')"
-                selected-label
-                @select="setPageName"
-              />
-              <span v-if="$v.selectedPage.$error" class="message">
-                {{ $t('INBOX_MGMT.ADD.FB.CHOOSE_PLACEHOLDER') }}
-              </span>
-            </div>
-          </div>
-          <div class="medium-12 columns">
             <label :class="{ error: $v.pageName.$error }">
               {{ $t('INBOX_MGMT.ADD.FB.INBOX_NAME') }}
               <input
@@ -129,6 +108,9 @@ export default {
       currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
     }),
+    cloudWhatsappPayload() {
+      return this.$route?.params?.payload;
+    },
   },
 
   created() {
@@ -137,6 +119,7 @@ export default {
   },
 
   mounted() {
+    // console.log('mounted, this.$route', this.$route?.params?.payload);
     this.initFB();
   },
 
@@ -161,9 +144,9 @@ export default {
       if (window.fbSDKLoaded === undefined) {
         window.fbAsyncInit = () => {
           FB.init({
-            appId: window.chatwootConfig.fbAppId,
+            appId: '1671387513370718',
             xfbml: true,
-            version: window.chatwootConfig.fbApiVersion,
+            version: 'v17.0',
             status: true,
           });
           window.fbSDKLoaded = true;
@@ -191,7 +174,9 @@ export default {
       FB.login(
         response => {
           if (response.status === 'connected') {
-            this.fetchPages(response.authResponse.accessToken);
+            debugger
+            this.saveUserToken(response.authResponse.accessToken);
+            // console.log('response', this.cloudWhatsappPayload);
           } else if (response.status === 'not_authorized') {
             // The person is logged into Facebook, but not your app.
             this.emptyStateMessage = this.$t(
@@ -207,24 +192,33 @@ export default {
         },
         {
           scope:
-            'pages_manage_metadata,pages_messaging,instagram_basic,pages_show_list,pages_read_engagement,instagram_manage_messages',
+            'pages_manage_metadata,pages_messaging,instagram_basic,pages_show_list,pages_read_engagement,instagram_manage_messages,whatsapp_business_messaging',
         }
       );
     },
 
-    async fetchPages(_token) {
+    saveUserToken(token) {
+      let payload = this.cloudWhatsappPayload;
+
       try {
-        const response = await ChannelApi.fetchFacebookPages(
-          _token,
-          this.accountId
+        this.$store.dispatch(
+          'inboxes/createChannel',
+          {
+            name: 'WhatsApp Inbox',
+            channel: {
+              type: 'whatsapp',
+              phone_number: '+918485827731',
+              provider: 'whatsapp_cloud',
+              provider_config: {
+                api_key: token,
+                phone_number_id: '918485827731',
+                business_account_id: '918485827731',
+              },
+            },
+          }
         );
-        const {
-          data: { data },
-        } = response;
-        this.pageList = data.page_details;
-        this.user_access_token = data.user_access_token;
       } catch (error) {
-        // Ignore error
+        debugger
       }
     },
 

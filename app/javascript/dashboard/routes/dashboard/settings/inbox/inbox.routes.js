@@ -7,7 +7,7 @@ import ChannelList from './ChannelList';
 import channelFactory from './channel-factory';
 import AddAgents from './AddAgents';
 import FinishSetup from './FinishSetup';
-import Facebook from './channels/Facebook';
+import WhatsappLogin from './channels/WhatsappLogin';
 import { frontendURL } from '../../../../helper/URLHelper';
 
 export default {
@@ -65,7 +65,7 @@ export default {
             {
               path: ':sub_page/fb_login',
               name: 'settings_inboxes_page_fb_login',
-              component: Facebook,
+              component: WhatsappLogin,
               roles: ['administrator'],
             },
             {

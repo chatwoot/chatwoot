@@ -69,18 +69,18 @@
     </div>
 
     <div class="medium-8 columns">
-      <label :class="{ error: $v.apiKey.$error }">
+      <label :class="{ error: $v.appId.$error }">
         <span>
-          {{ $t('INBOX_MGMT.ADD.WHATSAPP.API_KEY.LABEL') }}
+          {{ $t('INBOX_MGMT.ADD.WHATSAPP.APP_ID.LABEL') }}
         </span>
         <input
-          v-model.trim="apiKey"
+          v-model.trim="appId"
           type="text"
-          :placeholder="$t('INBOX_MGMT.ADD.WHATSAPP.API_KEY.PLACEHOLDER')"
-          @blur="$v.apiKey.$touch"
+          :placeholder="$t('INBOX_MGMT.ADD.WHATSAPP.APP_ID.PLACEHOLDER')"
+          @blur="$v.appId.$touch"
         />
-        <span v-if="$v.apiKey.$error" class="message">
-          {{ $t('INBOX_MGMT.ADD.WHATSAPP.API_KEY.ERROR') }}
+        <span v-if="$v.appId.$error" class="message">
+          {{ $t('INBOX_MGMT.ADD.WHATSAPP.APP_ID.ERROR') }}
         </span>
       </label>
     </div>
@@ -108,6 +108,7 @@ export default {
       inboxName: '',
       phoneNumber: '',
       apiKey: '',
+      appId: '',
       phoneNumberId: '',
       businessAccountId: '',
     };
@@ -119,6 +120,7 @@ export default {
     inboxName: { required },
     phoneNumber: { required, isPhoneE164OrEmpty },
     apiKey: { required },
+    appId: { required },
     phoneNumberId: { required, isNumber },
     businessAccountId: { required, isNumber },
   },
@@ -136,6 +138,7 @@ export default {
           provider: 'whatsapp_cloud',
           provider_config: {
             api_key: this.apiKey,
+            app_id: this.appId,
             phone_number_id: this.phoneNumberId,
             business_account_id: this.businessAccountId,
           },
@@ -143,23 +146,6 @@ export default {
       };
 
       try {
-        // const whatsappChannel = await this.$store.dispatch(
-        //   'inboxes/createChannel',
-        //   {
-        //     name: this.inboxName,
-        //     channel: {
-        //       type: 'whatsapp',
-        //       phone_number: this.phoneNumber,
-        //       provider: 'whatsapp_cloud',
-        //       provider_config: {
-        //         api_key: this.apiKey,
-        //         phone_number_id: this.phoneNumberId,
-        //         business_account_id: this.businessAccountId,
-        //       },
-        //     },
-        //   }
-        // );
-
         router.replace({
           name: 'settings_inboxes_page_fb_login',
           params: {

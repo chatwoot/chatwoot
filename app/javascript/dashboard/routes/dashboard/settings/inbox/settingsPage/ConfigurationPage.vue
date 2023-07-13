@@ -123,31 +123,6 @@
       >
         <woot-code :script="inbox.provider_config.api_key" />
       </settings-section>
-      <settings-section
-        :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_TITLE')"
-        :sub-title="
-          $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_SUBHEADER')
-        "
-      >
-        <div class="whatsapp-settings--content">
-          <woot-input
-            v-model.trim="whatsAppInboxAPIKey"
-            type="text"
-            class="input"
-            :placeholder="
-              $t(
-                'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_PLACEHOLDER'
-              )
-            "
-          />
-          <woot-button
-            :disabled="$v.whatsAppInboxAPIKey.$invalid"
-            @click="updateWhatsAppInboxAPIKey"
-          >
-            {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_BUTTON') }}
-          </woot-button>
-        </div>
-      </settings-section>
     </div>
   </div>
 </template>

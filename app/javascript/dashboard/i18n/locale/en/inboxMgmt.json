@@ -242,6 +242,12 @@
           "PLACEHOLDER": "API key",
           "ERROR": "Please enter a valid value."
         },
+        "APP_ID": {
+          "LABEL": "App id",
+          "SUBTITLE": "Configure the WhatsApp App id.",
+          "PLACEHOLDER": "App Id",
+          "ERROR": "Please enter a valid value."
+        },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
           "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
