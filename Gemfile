@@ -57,9 +57,6 @@ gem 'redis'
 gem 'redis-namespace'
 # super fast record imports in bulk
 gem 'activerecord-import'
-# adds cosine similarity to postgres using vector extension
-gem 'neighbor'
-gem 'pgvector'
 
 ##--- gems for server & infra configuration ---##
 gem 'dotenv-rails'
@@ -168,7 +165,11 @@ gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection', '~> 1.0'
 
-# Crawl Webpages
+## Gems for reponse bot
+# adds cosine similarity to postgres using vector extension
+gem 'neighbor'
+gem 'pgvector'
+# Convert Website HTML to Markdown
 gem 'reverse_markdown'
 
 # Sentiment analysis
