@@ -448,8 +448,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_06_090122) do
     t.datetime "assignee_last_seen_at", precision: nil
     t.datetime "first_reply_created_at", precision: nil
     t.integer "priority"
-    t.datetime "waiting_since"
     t.bigint "sla_policy_id"
+    t.datetime "waiting_since"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
     t.index ["account_id", "inbox_id", "status", "assignee_id"], name: "conv_acid_inbid_stat_asgnid_idx"
@@ -584,8 +584,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_06_090122) do
     t.jsonb "auto_assignment_config", default: {}
     t.boolean "lock_to_single_conversation", default: false, null: false
     t.bigint "portal_id"
-    t.integer "sender_name_type", default: 0, null: false
     t.string "business_name"
+    t.integer "sender_name_type", default: 0, null: false
     t.index ["account_id"], name: "index_inboxes_on_account_id"
     t.index ["channel_id", "channel_type"], name: "index_inboxes_on_channel_id_and_channel_type"
     t.index ["portal_id"], name: "index_inboxes_on_portal_id"
