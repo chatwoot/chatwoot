@@ -16,10 +16,10 @@ describe('#getters', () => {
     expect(getters.get(state)('draft-22-REPLY')).toEqual('');
   });
 
-  it('return replyMEditorMode', () => {
+  it('return replyEditorMode', () => {
     const state = {
-      replyMEditorMode: 'reply',
+      replyEditorMode: 'reply',
     };
-    expect(getters.getReplyMEditorMode(state)).toEqual('reply');
+    expect(getters.getReplyEditorMode(state)).toEqual('reply');
   });
 });

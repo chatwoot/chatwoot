@@ -7,14 +7,14 @@ import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 
 const state = {
   records: LocalStorage.get(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES) || {},
-  replyMEditorMode: REPLY_EDITOR_MODES.REPLY,
+  replyEditorMode: REPLY_EDITOR_MODES.REPLY,
 };
 
 export const getters = {
   get: _state => key => {
     return _state.records[key] || '';
   },
-  getReplyMEditorMode: _state => _state.replyMEditorMode,
+  getReplyEditorMode: _state => _state.replyEditorMode,
 };
 
 export const actions = {
@@ -40,7 +40,7 @@ export const mutations = {
     LocalStorage.set(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES, $state.records);
   },
   [types.SET_REPLY_EDITOR_MODE]($state, { mode }) {
-    Vue.set($state, 'replyMEditorMode', mode);
+    Vue.set($state, 'replyEditorMode', mode);
   },
 };
 
