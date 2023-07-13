@@ -168,9 +168,8 @@ gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection', '~> 1.0'
 
-### Webcrawler
-gem 'capybara'
-gem 'selenium-webdriver'
+# Crawl Webpages
+gem 'reverse_markdown'
 
 # Sentiment analysis
 gem 'informers'
