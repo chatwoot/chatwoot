@@ -17,17 +17,21 @@
     <div>
       <a
         class="text-slate-700 hover:underline leading-8 text-sm font-semibold"
-        href="/hc/<%= @portal.slug %>/<%= @article.category.locale %>"
+        href="/hc/<%= @portal.slug %>/<%= @article.category&.locale %>"
       >
         Home
       </a>
       <span class="text-xs text-slate-600 px-1">/</span>
-      <a
-        class="text-slate-700 hover:underline leading-8 text-sm font-semibold"
-        href="/hc/<%= @portal.slug %>/<%= @article.category.locale %>/categories/<%= @article.category.slug %>"
-      >
-        <%= @article.category.name %>
-      </a>
+      <% if @article.category %>
+        <a
+          class="text-slate-700 hover:underline leading-8 text-sm font-semibold"
+          href="/hc/<%= @portal.slug %>/<%= @article.category.locale %>/categories/<%= @article.category.slug %>"
+        >
+          <%= @article.category&.name %>
+        </a>
+      <% else %>
+        <span class="text-slate-700 leading-8 text-sm font-semibold" > Uncategorized </span>
+      <% end %>
     </div>
     <h1 class="text-3xl font-semibold md:tracking-normal leading-snug md:text-4xl text-slate-900">
       <%= @article.title %>
