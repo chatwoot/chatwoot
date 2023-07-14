@@ -70,16 +70,15 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import OpenAPI from 'dashboard/api/integrations/openapi';
 import alertMixin from 'shared/mixins/alertMixin';
-import { OPEN_AI_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import aiMixin from 'dashboard/mixins/aiMixin';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 
 export default {
-  mixins: [alertMixin, clickaway, eventListenerMixins],
+  mixins: [aiMixin, alertMixin, clickaway, eventListenerMixins],
   props: {
     conversationId: {
       type: Number,
@@ -119,29 +118,12 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ appIntegrations: 'integrations/getAppIntegrations' }),
-    isAIIntegrationEnabled() {
-      return this.appIntegrations.find(
-        integration => integration.id === 'openai' && !!integration.hooks.length
-      );
-    },
-    hookId() {
-      return this.appIntegrations.find(
-        integration => integration.id === 'openai' && !!integration.hooks.length
-      ).hooks[0].id;
-    },
     buttonText() {
       return this.uiFlags.isRephrasing
         ? this.$t('INTEGRATION_SETTINGS.OPEN_AI.BUTTONS.GENERATING')
         : this.$t('INTEGRATION_SETTINGS.OPEN_AI.BUTTONS.GENERATE');
     },
   },
-  mounted() {
-    if (!this.appIntegrations.length) {
-      this.$store.dispatch('integrations/get');
-    }
-  },
-
   methods: {
     onKeyDownHandler(event) {
       const keyPattern = buildHotKeys(event);
@@ -159,15 +141,6 @@ export default {
     closeDropdown() {
       this.showDropdown = false;
     },
-    async recordAnalytics({ type, tone }) {
-      const event = OPEN_AI_EVENTS[type.toUpperCase()];
-      if (event) {
-        this.$track(event, {
-          type,
-          tone,
-        });
-      }
-    },
     async processEvent(type = 'rephrase') {
       this.uiFlags[type] = true;
       try {
@@ -184,7 +157,7 @@ export default {
         this.initialMessage = this.message;
         this.$emit('replace-text', generatedMessage || this.message);
         this.closeDropdown();
-        this.recordAnalytics({ type, tone: this.activeTone });
+        this.recordAnalytics(type, { tone: this.activeTone });
       } catch (error) {
         this.showAlert(this.$t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR'));
       } finally {
