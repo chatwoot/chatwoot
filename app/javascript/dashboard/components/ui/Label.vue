@@ -4,7 +4,7 @@
       <fluent-icon :icon="icon" size="12" class="label--icon cursor-pointer" />
     </span>
     <span
-      v-if="variant === 'smooth' && title && !icon"
+      v-if="['smooth', 'dashed'].includes(variant) && title && !icon"
       :style="{ background: color }"
       class="label-color-dot"
     />
@@ -69,6 +69,7 @@ export default {
   computed: {
     textColor() {
       if (this.variant === 'smooth') return '';
+      if (this.variant === 'dashed') return '';
       return this.color || getContrastingTextColor(this.bgColor);
     },
     labelClass() {
@@ -175,6 +176,10 @@ export default {
 
   &.smooth {
     @apply bg-transparent text-slate-700 dark:text-slate-100 border border-solid border-slate-100 dark:border-slate-700;
+  }
+
+  &.dashed {
+    @apply bg-transparent text-slate-700 dark:text-slate-100 border border-dashed border-slate-100 dark:border-slate-700;
   }
 }
 

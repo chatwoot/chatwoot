@@ -30,4 +30,16 @@ describe('#mutations', () => {
       expect(state.records).toEqual({});
     });
   });
+
+  describe('#SET_REPLY_EDITOR_MODE', () => {
+    it('sets the reply editor mode', () => {
+      const state = {
+        replyEditorMode: 'reply',
+      };
+      mutations[types.SET_REPLY_EDITOR_MODE](state, {
+        mode: 'note',
+      });
+      expect(state.replyEditorMode).toEqual('note');
+    });
+  });
 });
