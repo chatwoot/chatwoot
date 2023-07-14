@@ -51,6 +51,7 @@ class Enterprise::SentimentAnalysisJob < ApplicationJob
     return sentiment_file if File.exist?(sentiment_file)
 
     source_file = Down.download(model_path) # Download file from AWS-S3
+
     File.rename(source_file, sentiment_file) # Change the file path
 
     sentiment_file
