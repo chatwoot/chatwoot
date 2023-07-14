@@ -10,7 +10,7 @@
     <div
       class="flex items-center justify-between py-0 px-4"
       :class="{
-        'pb-3 border-b border-slate-75': hasAppliedFiltersOrActiveFolders,
+        'pb-3 border-b border-slate-75 dark:border-slate-700': hasAppliedFiltersOrActiveFolders,
       }"
     >
       <div class="flex max-w-[85%] justify-center items-center">
