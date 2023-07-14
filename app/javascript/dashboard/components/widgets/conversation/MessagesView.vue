@@ -65,7 +65,7 @@
         :is-web-widget-inbox="isAWebWidgetInbox"
       />
       <conversation-label-suggestion
-        v-if="isEnterprise && isAIIntegrationEnabled && !messageSentSinceOpened"
+        v-if="shouldShowLabelSuggestions"
         :suggested-labels="labelSuggestions"
         :chat-labels="currentChat.labels"
         :conversation-id="currentChat.id"
@@ -123,6 +123,7 @@ import { isEscape } from 'shared/helpers/KeyboardHelpers';
 // constants
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { REPLY_POLICY } from 'shared/constants/links';
+import wootConstants from 'dashboard/constants/globals';
 
 export default {
   components: {
@@ -169,6 +170,17 @@ export default {
       appIntegrations: 'integrations/getAppIntegrations',
       currentAccountId: 'getCurrentAccountId',
     }),
+    isOpen() {
+      return this.currentChat?.status === wootConstants.STATUS_TYPE.OPEN;
+    },
+    shouldShowLabelSuggestions() {
+      return (
+        this.isOpen &&
+        this.isEnterprise &&
+        this.isAIIntegrationEnabled &&
+        !this.messageSentSinceOpened
+      );
+    },
     inboxId() {
       return this.currentChat.inbox_id;
     },
