@@ -97,5 +97,22 @@ export default {
         .map(label => label.trim()) // trim the words
         .filter((label, index, self) => self.indexOf(label) === index); // remove any duplicates
     },
+    async processEvent(type = 'rephrase') {
+      try {
+        const result = await OpenAPI.processEvent({
+          hookId: this.hookId,
+          type,
+          content: this.draftMessage,
+          conversationId: this.conversationId,
+        });
+        const {
+          data: { message: generatedMessage },
+        } = result;
+        return generatedMessage;
+      } catch (error) {
+        this.showAlert(this.$t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR'));
+        return '';
+      }
+    },
   },
 };

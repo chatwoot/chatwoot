@@ -2,19 +2,24 @@
   <div class="column">
     <woot-modal-header :header-title="headerTitle" />
     <form class="row modal-content" @submit.prevent="applyText">
-      <h4 v-if="draftMessage" class="sub-block-title margin-top-1 w-full">
-        {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.DRAFT_TITLE') }}
-      </h4>
-      <p v-if="draftMessage">
-        {{ draftMessage }}
-      </p>
-      <h4 v-if="draftMessage" class="sub-block-title margin-top-1  w-full">
-        {{
-          $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.GENERATED_TITLE')
-        }}
-      </h4>
-      <AILoader v-if="isGenerating" />
-      <p v-else v-dompurify-html="formatMessage(generatedContent, false)" />
+      <div v-if="draftMessage" class="w-full">
+        <h4 class="sub-block-title margin-top-1 ">
+          {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.DRAFT_TITLE') }}
+        </h4>
+        <p>
+          {{ draftMessage }}
+        </p>
+        <h4 class="sub-block-title margin-top-1">
+          {{
+            $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.GENERATED_TITLE')
+          }}
+        </h4>
+      </div>
+      <div>
+        <AILoader v-if="isGenerating" />
+        <p v-else v-dompurify-html="formatMessage(generatedContent, false)" />
+      </div>
+
       <div class="modal-footer justify-content-end w-full">
         <woot-button variant="clear" @click.prevent="onClose">
           {{
@@ -33,7 +38,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import OpenAPI from 'dashboard/api/integrations/openapi';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import AILoader from './AILoader.vue';
 import aiMixin from 'dashboard/mixins/aiMixin';
@@ -54,7 +58,6 @@ export default {
     return {
       generatedContent: '',
       isGenerating: true,
-      initialMessage: '',
     };
   },
   computed: {
@@ -64,15 +67,16 @@ export default {
     headerTitle() {
       const translationKey = this.aiOption?.toUpperCase();
       return translationKey
-        ? `${this.$t(
-            `INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.${translationKey}`
-          )} ${this.$t(`INTEGRATION_SETTINGS.OPEN_AI.WITH_AI`)}`
+        ? this.$t(`INTEGRATION_SETTINGS.OPEN_AI.WITH_AI`, {
+            option: this.$t(
+              `INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.${translationKey}`
+            ),
+          })
         : '';
     },
   },
   mounted() {
-    this.initialMessage = this.draftMessage;
-    this.processEvent(this.aiOption);
+    this.generateAIContent(this.aiOption);
   },
 
   methods: {
@@ -80,23 +84,10 @@ export default {
       this.$emit('close');
     },
 
-    async processEvent(type = 'rephrase') {
-      try {
-        const result = await OpenAPI.processEvent({
-          hookId: this.hookId,
-          type,
-          content: this.draftMessage,
-          conversationId: this.conversationId,
-        });
-        const {
-          data: { message: generatedMessage },
-        } = result;
-        this.generatedContent = generatedMessage;
-      } catch (error) {
-        this.showAlert(this.$t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR'));
-      } finally {
-        this.isGenerating = false;
-      }
+    async generateAIContent(type = 'rephrase') {
+      this.isGenerating = true;
+      this.generatedContent = await this.processEvent(type);
+      this.isGenerating = false;
     },
     applyText() {
       this.recordAnalytics(this.aiOption);
