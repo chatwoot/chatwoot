@@ -11,17 +11,14 @@ class Api::V1::Accounts::ResponseSourcesController < Api::V1::Accounts::BaseCont
   def create
     @response_source = Current.account.response_sources.new(response_source_params)
     @response_source.save!
-    @response_source
   end
 
   def add_document
     @response_source.response_documents.create!(document_link: params[:document_link])
-    @response_source
   end
 
   def remove_document
     @response_source.response_documents.find(params[:document_id]).destroy!
-    @response_source
   end
 
   private

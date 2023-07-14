@@ -234,6 +234,43 @@ RSpec.describe 'Inboxes API', type: :request do
     end
   end
 
+  describe 'GET /api/v1/accounts/{account.id}/inboxes/{inbox.id}/response_sources' do
+    let(:inbox) { create(:inbox, account: account) }
+    let!(:response_source) { create(:response_source, account: account, inbox: inbox) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/response_sources"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:administrator) { create(:user, account: account, role: :administrator) }
+
+      it 'returns unauthorized for agents' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/response_sources",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'returns all response_sources belonging to the inbox to administrators' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/response_sources",
+            headers: administrator.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        body = JSON.parse(response.body, symbolize_names: true)
+        expect(body.first[:id]).to eq(response_source.id)
+        expect(body.length).to eq(1)
+      end
+    end
+  end
+
   describe 'DELETE /api/v1/accounts/{account.id}/inboxes/{inbox.id}/avatar' do
     let(:inbox) { create(:inbox, account: account) }
 

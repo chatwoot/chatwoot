@@ -21,6 +21,10 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     @campaigns = @inbox.campaigns
   end
 
+  def response_sources
+    @response_sources = @inbox.response_sources
+  end
+
   def avatar
     @inbox.avatar.attachment.destroy! if @inbox.avatar.attached?
     head :ok
