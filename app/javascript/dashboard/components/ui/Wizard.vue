@@ -12,7 +12,9 @@
       :class="{ active: isActive(item), over: isOver(item) }"
     >
       <div class="flex-align-center">
-        <h3 class="text-truncate">
+        <h3
+          class="overflow-hidden whitespace-nowrap text-ellipsis leading-tight"
+        >
           {{ item.title }}
         </h3>
         <span v-if="isOver(item)" class="completed">

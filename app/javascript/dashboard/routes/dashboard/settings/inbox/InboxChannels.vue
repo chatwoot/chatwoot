@@ -30,7 +30,7 @@ export default {
           // To support facebook login, we need to keep the facebook option
           item =>
             isSubPageWhatsappCloud ||
-            item.route !== 'settings_inboxes_page_fb_login'
+            item.route !== 'settings_inboxes_page_whatsapp_fb_login'
         )
         .map(item => ({
           ...item,

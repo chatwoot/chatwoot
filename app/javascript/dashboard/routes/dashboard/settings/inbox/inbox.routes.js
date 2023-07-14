@@ -67,7 +67,7 @@ export default {
             },
             {
               path: ':sub_page/fb_login',
-              name: 'settings_inboxes_page_fb_login',
+              name: 'settings_inboxes_page_whatsapp_fb_login',
               component: WhatsappLogin,
               roles: ['administrator'],
             },

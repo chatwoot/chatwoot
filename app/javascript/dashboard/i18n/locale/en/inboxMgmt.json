@@ -18,7 +18,7 @@
       },
       {
         "title": "Login to Facebook",
-        "route": "settings_inboxes_page_fb_login",
+        "route": "settings_inboxes_page_whatsapp_fb_login",
         "body": "Authenticate your account and create an inbox."
       },
       {

@@ -144,7 +144,7 @@ export default {
       };
 
       this.$router.push({
-        name: 'settings_inboxes_page_fb_login',
+        name: 'settings_inboxes_page_whatsapp_fb_login',
         params: {
           page: 'new',
           payload: payload,
