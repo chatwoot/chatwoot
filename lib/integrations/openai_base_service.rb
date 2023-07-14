@@ -6,7 +6,7 @@ class Integrations::OpenaiBaseService
   API_URL = 'https://api.openai.com/v1/chat/completions'.freeze
   GPT_MODEL = 'gpt-3.5-turbo'.freeze
 
-  ALLOWED_EVENT_NAMES = %w[rephrase summarize reply_suggestion].freeze
+  ALLOWED_EVENT_NAMES = %w[rephrase summarize reply_suggestion fix_spelling_grammar shorten expand make_friendly make_formal simplify].freeze
   CACHEABLE_EVENTS = %w[].freeze
 
   pattr_initialize [:hook!, :event!]

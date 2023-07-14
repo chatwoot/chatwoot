@@ -64,6 +64,12 @@
         :has-instagram-story="hasInstagramStory"
         :is-web-widget-inbox="isAWebWidgetInbox"
       />
+      <conversation-label-suggestion
+        v-if="isEnterprise && isAIIntegrationEnabled"
+        :suggested-labels="labelSuggestions"
+        :chat-labels="currentChat.labels"
+        :conversation-id="currentChat.id"
+      />
     </ul>
     <div
       class="conversation-footer"
@@ -91,29 +97,47 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
+// components
 import ReplyBox from './ReplyBox';
 import Message from './Message';
+import ConversationLabelSuggestion from './conversation/LabelSuggestion';
+import Banner from 'dashboard/components/ui/Banner.vue';
+
+// stores and apis
+import { mapGetters } from 'vuex';
+
+// mixins
 import conversationMixin, {
   filterDuplicateSourceMessages,
 } from '../../../mixins/conversations';
-import Banner from 'dashboard/components/ui/Banner.vue';
-import { getTypingUsersText } from '../../../helper/commons';
-import { BUS_EVENTS } from 'shared/constants/busEvents';
-import { REPLY_POLICY } from 'shared/constants/links';
 import inboxMixin from 'shared/mixins/inboxMixin';
+import configMixin from 'shared/mixins/configMixin';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import aiMixin from 'dashboard/mixins/aiMixin';
+
+// utils
+import { getTypingUsersText } from '../../../helper/commons';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 import { isEscape } from 'shared/helpers/KeyboardHelpers';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+
+// constants
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { REPLY_POLICY } from 'shared/constants/links';
 
 export default {
   components: {
     Message,
     ReplyBox,
     Banner,
+    ConversationLabelSuggestion,
   },
-  mixins: [conversationMixin, inboxMixin, eventListenerMixins],
+  mixins: [
+    conversationMixin,
+    inboxMixin,
+    eventListenerMixins,
+    configMixin,
+    aiMixin,
+  ],
   props: {
     isContactPanelOpen: {
       type: Boolean,
@@ -127,7 +151,10 @@ export default {
       heightBeforeLoad: null,
       conversationPanel: null,
       selectedTweetId: null,
+      hasUserScrolled: false,
+      isProgrammaticScroll: false,
       isPopoutReplyBox: false,
+      labelSuggestions: [],
     };
   },
 
@@ -138,6 +165,8 @@ export default {
       inboxesList: 'inboxes/getInboxes',
       listLoadingStatus: 'getAllMessagesLoaded',
       loadingChatList: 'getChatListLoadingStatus',
+      appIntegrations: 'integrations/getAppIntegrations',
+      currentAccountId: 'getCurrentAccountId',
     }),
     inboxId() {
       return this.currentChat.inbox_id;
@@ -280,18 +309,22 @@ export default {
         return;
       }
       this.fetchAllAttachmentsFromCurrentChat();
+      this.fetchSuggestions();
       this.selectedTweetId = null;
     },
   },
 
   created() {
     bus.$on(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
+    // when a new message comes in, we refetch the label suggestions
+    bus.$on(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS, this.fetchSuggestions);
     bus.$on(BUS_EVENTS.SET_TWEET_REPLY, this.setSelectedTweet);
   },
 
   mounted() {
     this.addScrollListener();
     this.fetchAllAttachmentsFromCurrentChat();
+    this.fetchSuggestions();
   },
 
   beforeDestroy() {
@@ -300,6 +333,49 @@ export default {
   },
 
   methods: {
+    async fetchSuggestions() {
+      // start empty, this ensures that the label suggestions are not shown
+      this.labelSuggestions = [];
+
+      if (this.isLabelSuggestionDismissed()) {
+        return;
+      }
+
+      if (!this.isEnterprise) {
+        return;
+      }
+
+      // method available in mixin, need to ensure that integrations are present
+      await this.fetchIntegrationsIfRequired();
+
+      if (!this.isAIIntegrationEnabled) {
+        return;
+      }
+
+      this.labelSuggestions = await this.fetchLabelSuggestions({
+        conversationId: this.currentChat.id,
+      });
+
+      // once the labels are fetched, we need to scroll to bottom
+      // but we need to wait for the DOM to be updated
+      // so we use the nextTick method
+      this.$nextTick(() => {
+        // this param is added to route, telling the UI to navigate to the message
+        // it is triggered by the SCROLL_TO_MESSAGE method
+        // see setActiveChat on ConversationView.vue for more info
+        const { messageId } = this.$route.query;
+
+        // only trigger the scroll to bottom if the user has not scrolled
+        // and there's no active messageId that is selected in view
+        if (!messageId && !this.hasUserScrolled) {
+          this.scrollToBottom();
+        }
+      });
+    },
+    isLabelSuggestionDismissed() {
+      const dismissed = this.getDismissedConversations(this.currentAccountId);
+      return dismissed[this.currentAccountId].includes(this.conversationId);
+    },
     fetchAllAttachmentsFromCurrentChat() {
       this.$store.dispatch('fetchAllAttachments', this.currentChat.id);
     },
@@ -314,6 +390,7 @@ export default {
       this.$nextTick(() => {
         const messageElement = document.getElementById('message' + messageId);
         if (messageElement) {
+          this.isProgrammaticScroll = true;
           messageElement.scrollIntoView({ behavior: 'smooth' });
           this.fetchPreviousMessages();
         } else {
@@ -344,18 +421,34 @@ export default {
       this.conversationPanel.removeEventListener('scroll', this.handleScroll);
     },
     scrollToBottom() {
+      this.isProgrammaticScroll = true;
       let relevantMessages = [];
+
+      // label suggestions are not part of the messages list
+      // so we need to handle them separately
+      let labelSuggestions = this.conversationPanel.querySelector(
+        '.label-suggestion'
+      );
+
+      // if there are unread messages, scroll to the first unread message
       if (this.unreadMessageCount > 0) {
         // capturing only the unread messages
         relevantMessages = this.conversationPanel.querySelectorAll(
           '.message--unread'
         );
+      } else if (labelSuggestions) {
+        // when scrolling to the bottom, the label suggestions is below the last message
+        // so we scroll there if there are no unread messages
+        // Unread messages always take the highest priority
+        relevantMessages = [labelSuggestions];
       } else {
+        // if there are no unread messages or label suggestion, scroll to the last message
         // capturing last message from the messages list
         relevantMessages = Array.from(
           this.conversationPanel.querySelectorAll('.message--read')
         ).slice(-1);
       }
+
       this.conversationPanel.scrollTop = calculateScrollTop(
         this.conversationPanel.scrollHeight,
         this.$el.scrollHeight,
@@ -402,6 +495,13 @@ export default {
     },
 
     handleScroll(e) {
+      if (this.isProgrammaticScroll) {
+        // Reset the flag
+        this.isProgrammaticScroll = false;
+        this.hasUserScrolled = false;
+      } else {
+        this.hasUserScrolled = true;
+      }
       bus.$emit(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL);
       this.fetchPreviousMessages(e.target.scrollTop);
     },
