@@ -179,6 +179,7 @@ export const mutations = {
       const { conversation: { unread_count: unreadCount = 0 } = {} } = message;
       chat.unread_count = unreadCount;
       if (selectedChatId === conversationId) {
+        window.bus.$emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
         window.bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
       }
     }
@@ -201,6 +202,7 @@ export const mutations = {
       };
       Vue.set(allConversations, currentConversationIndex, currentConversation);
       if (_state.selectedChatId === conversation.id) {
+        window.bus.$emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
         window.bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
       }
     } else {

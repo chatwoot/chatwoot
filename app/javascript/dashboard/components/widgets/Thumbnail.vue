@@ -5,19 +5,21 @@
     :title="title"
   >
     <!-- Using v-show instead of v-if to avoid flickering as v-if removes dom elements.  -->
-    <img
-      v-show="shouldShowImage"
-      :src="src"
-      :class="thumbnailClass"
-      @load="onImgLoad"
-      @error="onImgError"
-    />
-    <Avatar
-      v-show="!shouldShowImage"
-      :username="userNameWithoutEmoji"
-      :class="thumbnailClass"
-      :size="avatarSize"
-    />
+    <slot>
+      <img
+        v-show="shouldShowImage"
+        :src="src"
+        :class="thumbnailClass"
+        @load="onImgLoad"
+        @error="onImgError"
+      />
+      <Avatar
+        v-show="!shouldShowImage"
+        :username="userNameWithoutEmoji"
+        :class="thumbnailClass"
+        :size="avatarSize"
+      />
+    </slot>
     <img
       v-if="badgeSrc"
       class="source-badge"
