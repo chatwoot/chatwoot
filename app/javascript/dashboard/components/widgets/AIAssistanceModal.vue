@@ -2,17 +2,19 @@
   <div class="column">
     <woot-modal-header :header-title="headerTitle" />
     <form class="row modal-content" @submit.prevent="applyText">
-      <h4 v-if="draftMessage" class="sub-block-title margin-top-1 w-full">
+<div v-if="draftMessage">
+      <h4 class="sub-block-title margin-top-1 w-full">
         {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.DRAFT_TITLE') }}
       </h4>
-      <p v-if="draftMessage">
+      <p>
         {{ draftMessage }}
       </p>
-      <h4 v-if="draftMessage" class="sub-block-title margin-top-1  w-full">
+      <h4 class="sub-block-title margin-top-1  w-full">
         {{
           $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.GENERATED_TITLE')
         }}
       </h4>
+</div>
       <AILoader v-if="isGenerating" />
       <p v-else v-dompurify-html="formatMessage(generatedContent, false)" />
       <div class="modal-footer justify-content-end w-full">
