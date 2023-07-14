@@ -29,7 +29,7 @@ class Enterprise::SentimentAnalysisJob < ApplicationJob
   def model
     model = save_and_open_sentiment_file
 
-    return if File.size(model).zero?
+    return if File.empty?(model)
 
     Informers::SentimentAnalysis.new(model)
   end
