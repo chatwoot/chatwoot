@@ -28,6 +28,10 @@ export default {
           type: String,
           required: true,
         },
+        provider_type: {
+          type: String,
+          required: false,
+        },
       },
       name: 'new-channel-view',
       render(h) {

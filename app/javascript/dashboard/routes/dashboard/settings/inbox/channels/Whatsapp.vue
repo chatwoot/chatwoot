@@ -45,5 +45,30 @@ export default {
       provider: 'whatsapp_cloud',
     };
   },
+  computed: {
+    isSubPageWhatsapp() {
+      return this.$route?.params?.sub_page === 'whatsapp';
+    },
+  },
+  watch: {
+    provider() {
+      this.setProviderInRouteQuery();
+    },
+  },
+  methods: {
+    setProviderInRouteQuery() {
+      if (
+        this.$route.query.channel_type !== this.provider &&
+        this.isSubPageWhatsapp
+      ) {
+        this.$router.push({
+          name: 'settings_inboxes_page_channel',
+          query: {
+            provider_type: this.provider,
+          },
+        });
+      }
+    },
+  },
 };
 </script>

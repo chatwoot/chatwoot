@@ -59,7 +59,10 @@ export default {
               component: channelFactory.create(),
               roles: ['administrator'],
               props: route => {
-                return { channel_name: route.params.sub_page };
+                return {
+                  channel_name: route.params.sub_page,
+                  provider_type: route.query.provider_type,
+                };
               },
             },
             {

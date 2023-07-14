@@ -20,12 +20,15 @@ export default {
       globalConfig: 'globalConfig/get',
     }),
     items() {
-      const isSubPageWhatsapp = this.$route?.params?.sub_page === 'whatsapp';
+      const isSubPageWhatsappCloud =
+        this.$route?.params?.sub_page === 'whatsapp' &&
+        this.$route?.query?.provider_type === 'whatsapp_cloud';
 
       return this.$t('INBOX_MGMT.CREATE_FLOW')
         .filter(
           item =>
-            isSubPageWhatsapp || item.route !== 'settings_inboxes_page_fb_login'
+            isSubPageWhatsappCloud ||
+            item.route !== 'settings_inboxes_page_fb_login'
         )
         .map(item => ({
           ...item,

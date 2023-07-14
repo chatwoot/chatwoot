@@ -23,7 +23,6 @@
 
 <script>
 import ChannelItem from 'dashboard/components/widgets/ChannelItem';
-import router from '../../../index';
 import PageHeader from '../SettingsSubPageHeader';
 import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
@@ -74,11 +73,22 @@ export default {
       this.enabledFeatures = this.account.features;
     },
     initChannelAuth(channel) {
+      let query = {};
+      const isWhatsappChannel = channel === 'whatsapp';
       const params = {
         page: 'new',
         sub_page: channel,
       };
-      router.push({ name: 'settings_inboxes_page_channel', params });
+      if (isWhatsappChannel) {
+        query = {
+          provider_type: 'whatsapp_cloud',
+        };
+      }
+      this.$router.push({
+        name: 'settings_inboxes_page_channel',
+        params,
+        query,
+      });
     },
   },
 };
