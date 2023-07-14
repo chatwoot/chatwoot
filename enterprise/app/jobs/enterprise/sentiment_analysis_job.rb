@@ -45,6 +45,9 @@ class Enterprise::SentimentAnalysisJob < ApplicationJob
   # returns the sentiment file from vendor folder else download it to the path from AWS-S3
   def save_and_open_sentiment_file
     model_path = ENV.fetch('SENTIMENT_FILE_PATH', nil)
+
+    return 'sentiment-analysis.onnx' if Rails.env.test?
+
     sentiment_file = Rails.root.join('vendor/db/sentiment-analysis.onnx')
 
     return sentiment_file if File.exist?(sentiment_file)
