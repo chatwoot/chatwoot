@@ -52,11 +52,17 @@ export default {
   },
   watch: {
     provider() {
+      // Here we are setting the provider in the route query dynamically
+      // When the user changes the provider, we are updating the route query
       this.setProviderInRouteQuery();
     },
   },
   methods: {
     setProviderInRouteQuery() {
+      // Here we are setting the provider in the route query
+      // This is to make sure that only show the FB login option in the wizard
+      // Only for the provider-whatsapp_cloud
+
       if (
         this.$route.query.channel_type !== this.provider &&
         this.isSubPageWhatsapp

@@ -80,6 +80,8 @@ export default {
         sub_page: channel,
       };
       if (isWhatsappChannel) {
+        // Here we are setting the provider_type query param to whatsapp_cloud
+        // This is to support the whatsapp cloud FB login option in the wizard
         query = {
           provider_type: 'whatsapp_cloud',
         };

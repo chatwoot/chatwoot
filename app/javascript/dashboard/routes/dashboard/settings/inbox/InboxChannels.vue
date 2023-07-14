@@ -26,6 +26,8 @@ export default {
 
       return this.$t('INBOX_MGMT.CREATE_FLOW')
         .filter(
+          // Here we are filtering out the whatsapp cloud option from the wizard
+          // To support facebook login, we need to keep the facebook option
           item =>
             isSubPageWhatsappCloud ||
             item.route !== 'settings_inboxes_page_fb_login'
