@@ -22,19 +22,11 @@
 /* eslint-env browser */
 /* global FB */
 import { required } from 'vuelidate/lib/validators';
-import LoadingState from 'dashboard/components/widgets/LoadingState';
 import { mapGetters } from 'vuex';
-import ChannelApi from '../../../../../api/channels';
-import PageHeader from '../../SettingsSubPageHeader';
-import router from '../../../../index';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import accountMixin from '../../../../../mixins/account';
 
 export default {
-  components: {
-    LoadingState,
-    PageHeader,
-  },
   mixins: [globalConfigMixin, accountMixin],
   data() {
     return {
@@ -84,7 +76,6 @@ export default {
   },
 
   mounted() {
-    console.log('mounted, this.$route', this.cloudWhatsappPayload);
     this.initFB();
   },
 
@@ -161,20 +152,20 @@ export default {
     },
 
     saveUserToken(token) {
-      let payload = this.cloudWhatsappPayload;
-      payload.channel.provider_config.api_key = token;
+      let channelPayload = this.cloudWhatsappPayload;
+      channelPayload.channel.provider_config.api_key = token;
 
       this.$store
-      .dispatch('inboxes/createChannel', payload)
-      .then(payload => {
-        router.replace({
-          name: 'settings_inboxes_add_agents',
-          params: {
-            page: 'new',
-            inbox_id: payload.id,
-          },
+        .dispatch('inboxes/createChannel', channelPayload)
+        .then(payload => {
+          this.$router.push({
+            name: 'settings_inboxes_add_agents',
+            params: {
+              page: 'new',
+              inbox_id: payload.id,
+            },
+          });
         });
-      })
     },
   },
 };
