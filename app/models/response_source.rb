@@ -20,6 +20,7 @@
 class ResponseSource < ApplicationRecord
   enum source_type: { external: 0, kbase: 1, inbox: 2 }
   belongs_to :account
+  belongs_to :inbox
   has_many :response_documents, dependent: :destroy
   has_many :responses, through: :response_documents
 

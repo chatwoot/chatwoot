@@ -155,6 +155,10 @@ Rails.application.routes.draw do
             collection do
               post :parse
             end
+            member do
+              post :add_document
+              post :remove_document
+            end
           end
 
           resources :notifications, only: [:index, :update] do
