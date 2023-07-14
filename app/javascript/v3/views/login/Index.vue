@@ -173,7 +173,7 @@ export default {
       bus.$emit('newToastMessage', this.loginApi.message);
     },
     submitLogin() {
-      if (this.$v.credentials.email.$invalid) {
+      if (this.$v.credentials.email.$invalid && !this.email) {
         this.showAlert(this.$t('LOGIN.EMAIL.ERROR'));
         return;
       }
