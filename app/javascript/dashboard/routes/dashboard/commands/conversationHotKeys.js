@@ -16,9 +16,9 @@ import {
   ICON_PRIORITY_NONE,
   ICON_AI_ASSIST,
   ICON_AI_SUMMARY,
-  ICON_AI_SPELLING,
   ICON_AI_SHORTEN,
   ICON_AI_EXPAND,
+  ICON_AI_GRAMMAR,
 } from './CommandBarIcons';
 
 import {
@@ -277,17 +277,17 @@ export default {
             'INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.FIX_SPELLING_GRAMMAR'
           ),
           key: 'fix_spelling_grammar',
-          icon: ICON_AI_SPELLING,
-        },
-        {
-          label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.SHORTEN'),
-          key: 'shorten',
-          icon: ICON_AI_SHORTEN,
+          icon: ICON_AI_GRAMMAR,
         },
         {
           label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.EXPAND'),
           key: 'expand',
           icon: ICON_AI_EXPAND,
+        },
+        {
+          label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.SHORTEN'),
+          key: 'shorten',
+          icon: ICON_AI_SHORTEN,
         },
         {
           label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.MAKE_FRIENDLY'),
