@@ -164,6 +164,9 @@ export default {
               page: 'new',
               inbox_id: payload.id,
             },
+            query: {
+              provider_type: 'whatsapp_cloud',
+            },
           });
         });
     },

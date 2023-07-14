@@ -149,6 +149,9 @@ export default {
           page: 'new',
           payload: payload,
         },
+        query: {
+          provider_type: 'whatsapp_cloud',
+        },
       });
     },
   },
