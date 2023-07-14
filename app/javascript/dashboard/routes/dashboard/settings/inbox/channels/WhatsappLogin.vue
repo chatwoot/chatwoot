@@ -146,7 +146,7 @@ export default {
         },
         {
           scope:
-            'pages_manage_metadata,pages_messaging,instagram_basic,pages_show_list,pages_read_engagement,instagram_manage_messages,whatsapp_business_messaging',
+            'whatsapp_business_messaging,whatsapp_business_messaging',
         }
       );
     },
