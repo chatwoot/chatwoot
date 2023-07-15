@@ -111,6 +111,17 @@
           "PLACEHOLDER": "Please enter your Twilio Account SID",
           "ERROR": "This field is required"
         },
+        "API_KEY": {
+          "USE_API_KEY": "Use API Key Authentication",
+          "LABEL": "API Key SID",
+          "PLACEHOLDER": "Please enter your API Key SID",
+          "ERROR": "This field is required"
+        },
+        "API_KEY_SECRET": {
+          "LABEL": "API Key Secret",
+          "PLACEHOLDER": "Please enter your API Key Secret",
+          "ERROR": "This field is required"
+        },
         "MESSAGING_SERVICE_SID": {
           "LABEL": "Messaging Service SID",
           "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
