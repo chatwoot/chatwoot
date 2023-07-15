@@ -92,7 +92,7 @@
         "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
         "SHORTEN": "Shorten",
         "EXPAND": "Expand",
-        "MAKE_FRIENDLY": "Make Friendly",
+        "MAKE_FRIENDLY": "Change message tone to friendly",
         "MAKE_FORMAL": "Use formal tone",
         "SIMPLIFY": "Simplify"
       },
