@@ -6,7 +6,7 @@ RSpec.describe Enterprise::SentimentAnalysisJob do
     let(:message) { build(:message, content_type: nil, account: account) }
 
     context 'when update the message sentiments' do
-      let(:model_path) { 'sentiment-analysis.onnx' }
+      let(:model_path) { Rails.root.join('vendor/db/sentiment-analysis.onnx') }
       let(:model) { double }
 
       before do
@@ -48,6 +48,29 @@ RSpec.describe Enterprise::SentimentAnalysisJob do
           expect(message.sentiment['value']).to eq(-1)
         end
       end
+    end
+
+    context 'when update the message sentiments' do
+      let(:model_path) { nil }
+      let(:model) { double }
+
+      before do
+        allow(Informers::SentimentAnalysis).to receive(:new).with(model_path).and_return(model)
+        allow(model).to receive(:predict).and_return({ label: 'positive', score: '0.6' })
+      end
+
+      it 'update sentiment label for negative message' do
+        with_modified_env SENTIMENT_FILE_PATH: 'sentiment-analysis.onnx' do
+          message.update(message_type: :incoming, content: 'I did not like your product')
+          allow(model).to receive(:predict).and_return({ label: 'negative', score: '0.6' })
+
+          described_class.new(message).save_and_open_sentiment_file
+
+          sentiment_file = Rails.root.join('vendor/db/sentiment-analysis.onnx')
+          expect(File.exist?(sentiment_file)).to be_truthy
+        end
+      end
+
     end
 
     context 'when does not update the message sentiments' do

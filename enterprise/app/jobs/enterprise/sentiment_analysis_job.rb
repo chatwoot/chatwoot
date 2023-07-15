@@ -46,14 +46,12 @@ class Enterprise::SentimentAnalysisJob < ApplicationJob
   def save_and_open_sentiment_file
     model_path = ENV.fetch('SENTIMENT_FILE_PATH', nil)
 
-    return 'sentiment-analysis.onnx' if Rails.env.test?
-
     sentiment_file = Rails.root.join('vendor/db/sentiment-analysis.onnx')
 
     return sentiment_file if File.exist?(sentiment_file)
 
     source_file = Down.download(model_path) # Download file from AWS-S3
-    File.rename(source_file, source_file) # Change the file path
+    File.rename(source_file, sentiment_file) # Change the file path
 
     sentiment_file
   end
