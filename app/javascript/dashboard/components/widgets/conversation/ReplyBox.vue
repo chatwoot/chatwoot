@@ -755,6 +755,7 @@ export default {
           messagePayload
         );
         bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
+        bus.$emit(BUS_EVENTS.MESSAGE_SENT);
         this.removeFromDraft();
       } catch (error) {
         const errorMessage =
