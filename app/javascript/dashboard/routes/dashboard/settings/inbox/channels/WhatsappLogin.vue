@@ -145,8 +145,7 @@ export default {
           }
         },
         {
-          scope:
-            'whatsapp_business_messaging,whatsapp_business_messaging',
+          scope: 'whatsapp_business_messaging,whatsapp_business_messaging',
         }
       );
     },
@@ -163,6 +162,7 @@ export default {
             params: {
               page: 'new',
               inbox_id: payload.id,
+              sub_page: 'whatsapp',
             },
             query: {
               provider_type: 'whatsapp_cloud',
