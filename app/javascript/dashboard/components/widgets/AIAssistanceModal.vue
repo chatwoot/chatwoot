@@ -6,9 +6,7 @@
         <h4 class="sub-block-title margin-top-1 ">
           {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.DRAFT_TITLE') }}
         </h4>
-        <p>
-          {{ draftMessage }}
-        </p>
+        <p v-dompurify-html="formatMessage(draftMessage, false)" />
         <h4 class="sub-block-title margin-top-1">
           {{
             $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.GENERATED_TITLE')
