@@ -59,15 +59,28 @@ RSpec.describe Enterprise::SentimentAnalysisJob do
         allow(model).to receive(:predict).and_return({ label: 'positive', score: '0.6' })
       end
 
-      it 'save file in the server' do
+      it 'fetch saved file in the server' do
         with_modified_env SENTIMENT_FILE_PATH: 'sentiment-analysis.onnx' do
           message.update(message_type: :incoming, content: 'I did not like your product')
-          allow(model).to receive(:predict).and_return({ label: 'negative', score: '0.6' })
 
           described_class.new(message).save_and_open_sentiment_file
 
           sentiment_file = Rails.root.join('vendor/db/sentiment-analysis.onnx')
           expect(File).to exist(sentiment_file)
+        end
+      end
+
+      it 'fetch saved file in the server' do
+        with_modified_env SENTIMENT_FILE_PATH: 'sentiment-analysis.onnx' do
+          message.update(message_type: :incoming, content: 'I did not like your product')
+          allow(File).to receive(:exist?).and_return(false)
+          allow(Down).to receive(:download).and_return('./sentiment-analysis.onnx')
+          allow(File).to receive(:rename).and_return(100)
+
+          described_class.new(message).save_and_open_sentiment_file
+
+          sentiment_file = Rails.root.join('vendor/db/sentiment-analysis.onnx')
+          expect(sentiment_file).to be_present
         end
       end
     end
