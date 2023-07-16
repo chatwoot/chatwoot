@@ -70,7 +70,7 @@ RSpec.describe Enterprise::SentimentAnalysisJob do
         end
       end
 
-      it 'fetch saved file in the server' do
+      it 'fetch file from the storage' do
         with_modified_env SENTIMENT_FILE_PATH: 'sentiment-analysis.onnx' do
           message.update(message_type: :incoming, content: 'I did not like your product')
           allow(File).to receive(:exist?).and_return(false)
