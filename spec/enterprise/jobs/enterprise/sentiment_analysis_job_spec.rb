@@ -50,7 +50,7 @@ RSpec.describe Enterprise::SentimentAnalysisJob do
       end
     end
 
-    context 'when update the message sentiments' do
+    context 'with download sentiment files' do
       let(:model_path) { nil }
       let(:model) { double }
 
@@ -59,7 +59,7 @@ RSpec.describe Enterprise::SentimentAnalysisJob do
         allow(model).to receive(:predict).and_return({ label: 'positive', score: '0.6' })
       end
 
-      it 'update sentiment label for negative message' do
+      it 'save file in the server' do
         with_modified_env SENTIMENT_FILE_PATH: 'sentiment-analysis.onnx' do
           message.update(message_type: :incoming, content: 'I did not like your product')
           allow(model).to receive(:predict).and_return({ label: 'negative', score: '0.6' })
@@ -67,10 +67,9 @@ RSpec.describe Enterprise::SentimentAnalysisJob do
           described_class.new(message).save_and_open_sentiment_file
 
           sentiment_file = Rails.root.join('vendor/db/sentiment-analysis.onnx')
-          expect(File.exist?(sentiment_file)).to be_truthy
+          expect(File).to exist(sentiment_file)
         end
       end
-
     end
 
     context 'when does not update the message sentiments' do
