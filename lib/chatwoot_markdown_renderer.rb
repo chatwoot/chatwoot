@@ -14,7 +14,7 @@ class ChatwootMarkdownRenderer
     doc.walk do |node|
       if node.type == :header
         next_node = node.next
-        node.delete if next_node.nil? || (next_node.type == :header && next_node.header_level <= node.header_level)
+        node.delete if node_removable?(node, next_node)
       end
     end
 
@@ -30,6 +30,10 @@ class ChatwootMarkdownRenderer
   end
 
   private
+
+  def node_removable?(node, next_node)
+    next_node.nil? || (next_node.type == :header && next_node.header_level <= node.header_level)
+  end
 
   def render_as_html_safe(html)
     # rubocop:disable Rails/OutputSafety
