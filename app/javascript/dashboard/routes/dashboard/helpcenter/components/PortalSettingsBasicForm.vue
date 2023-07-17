@@ -1,7 +1,7 @@
 <template>
   <div class="wizard-body columns content-box small-9">
     <div class="medium-12 columns">
-      <h3 class="block-title">
+      <h3 class="block-title text-black-900 dark:text-slate-200">
         {{
           $t(
             'HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.BASIC_SETTINGS_PAGE.TITLE'

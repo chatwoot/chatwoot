@@ -1,14 +1,20 @@
+const defaultTheme = require('tailwindcss/defaultTheme');
 module.exports = {
   darkMode: 'class',
   content: [
     './app/javascript/widget/**/*.vue',
     './app/javascript/v3/**/*.vue',
+    './app/javascript/dashboard/**/*.vue',
     './app/javascript/portal/**/*.vue',
     './app/javascript/shared/**/*.vue',
     './app/javascript/survey/**/*.vue',
     './app/views/**/*.html.erb',
   ],
   theme: {
+    fontSize: {
+      xxs: '0.625rem',
+      ...defaultTheme.fontSize,
+    },
     colors: {
       transparent: 'transparent',
       white: '#fff',
@@ -90,6 +96,21 @@ module.exports = {
         900: '#C30011',
       },
       body: '#2f3b49',
+    },
+    keyframes: {
+      wiggle: {
+        '0%': { transform: 'translateX(0)' },
+        '15%': { transform: 'translateX(0.375rem)' },
+        '30%': { transform: 'translateX(-0.375rem)' },
+        '45%': { transform: 'translateX(0.375rem)' },
+        '60%': { transform: 'translateX(-0.375rem)' },
+        '75%': { transform: 'translateX(0.375rem)' },
+        '90%': { transform: 'translateX(-0.375rem)' },
+        '100%': { transform: 'translateX(0)' },
+      },
+    },
+    animation: {
+      wiggle: 'wiggle 0.5s ease-in-out',
     },
   },
   plugins: [

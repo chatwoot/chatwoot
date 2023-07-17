@@ -1,6 +1,6 @@
 <template>
   <div class="avatar-container" :style="style" aria-hidden="true">
-    {{ userInitial }}
+    <slot>{{ userInitial }}</slot>
   </div>
 </template>
 
