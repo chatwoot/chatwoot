@@ -40,8 +40,8 @@ RSpec.describe Integrations::Openai::ProcessorService do
             {
               'role' => 'system',
               'content' => 'You are a helpful support agent. ' \
-                           'Please rephrase the following response to a more ' \
-                           "#{event['data']['tone']} tone. Reply in the user's language."
+                           'Please rephrase the following response. ' \
+                           'Ensure that the reply should be in user language.'
             },
             { 'role' => 'user', 'content' => event['data']['content'] }
           ]
@@ -130,7 +130,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
           'model' => 'gpt-3.5-turbo',
           'messages' => [
             { 'role' => 'system', 'content' => 'You are a helpful support agent. Please fix the spelling and grammar of the following response. ' \
-                                               'Reply in the user\'s language.' },
+                                               'Ensure that the reply should be in user language.' },
             { 'role' => 'user', 'content' => event['data']['content'] }
           ]
         }.to_json
@@ -152,7 +152,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
           'model' => 'gpt-3.5-turbo',
           'messages' => [
             { 'role' => 'system', 'content' => 'You are a helpful support agent. Please shorten the following response. ' \
-                                               'Reply in the user\'s language.' },
+                                               'Ensure that the reply should be in user language.' },
             { 'role' => 'user', 'content' => event['data']['content'] }
           ]
         }.to_json
@@ -174,7 +174,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
           'model' => 'gpt-3.5-turbo',
           'messages' => [
             { 'role' => 'system', 'content' => 'You are a helpful support agent. Please expand the following response. ' \
-                                               'Reply in the user\'s language.' },
+                                               'Ensure that the reply should be in user language.' },
             { 'role' => 'user', 'content' => event['data']['content'] }
           ]
         }.to_json
@@ -196,7 +196,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
           'model' => 'gpt-3.5-turbo',
           'messages' => [
             { 'role' => 'system', 'content' => 'You are a helpful support agent. Please make the following response more friendly. ' \
-                                               'Reply in the user\'s language.' },
+                                               'Ensure that the reply should be in user language.' },
             { 'role' => 'user', 'content' => event['data']['content'] }
           ]
         }.to_json
@@ -218,7 +218,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
           'model' => 'gpt-3.5-turbo',
           'messages' => [
             { 'role' => 'system', 'content' => 'You are a helpful support agent. Please make the following response more formal. ' \
-                                               'Reply in the user\'s language.' },
+                                               'Ensure that the reply should be in user language.' },
             { 'role' => 'user', 'content' => event['data']['content'] }
           ]
         }.to_json
@@ -240,7 +240,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
           'model' => 'gpt-3.5-turbo',
           'messages' => [
             { 'role' => 'system', 'content' => 'You are a helpful support agent. Please simplify the following response. ' \
-                                               'Reply in the user\'s language.' },
+                                               'Ensure that the reply should be in user language.' },
             { 'role' => 'user', 'content' => event['data']['content'] }
           ]
         }.to_json
