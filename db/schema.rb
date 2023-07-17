@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_06_090122) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_14_054138) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -330,6 +330,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_06_090122) do
     t.datetime "updated_at", null: false
     t.integer "medium", default: 0
     t.string "messaging_service_sid"
+    t.string "api_key_sid"
     t.index ["account_sid", "phone_number"], name: "index_channel_twilio_sms_on_account_sid_and_phone_number", unique: true
     t.index ["messaging_service_sid"], name: "index_channel_twilio_sms_on_messaging_service_sid", unique: true
     t.index ["phone_number"], name: "index_channel_twilio_sms_on_phone_number", unique: true
