@@ -59,6 +59,7 @@ class Conversation < ApplicationRecord
   include UrlHelper
   include SortHandler
   include ConversationMuteHelpers
+  include ConversationPresentationHelper
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
@@ -181,18 +182,6 @@ class Conversation < ApplicationRecord
 
   def unread_incoming_messages
     messages.incoming.unread_since(agent_last_seen_at)
-  end
-
-  def push_event_data
-    Conversations::EventDataPresenter.new(self).push_data
-  end
-
-  def lock_event_data
-    Conversations::EventDataPresenter.new(self).lock_data
-  end
-
-  def webhook_data
-    Conversations::EventDataPresenter.new(self).push_data
   end
 
   def notifiable_assignee_change?
