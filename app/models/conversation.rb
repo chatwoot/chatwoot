@@ -14,6 +14,8 @@
 #  priority               :integer
 #  snoozed_until          :datetime
 #  status                 :integer          default("open"), not null
+#  summary                :string
+#  summary_generated_at   :datetime
 #  uuid                   :uuid             not null
 #  waiting_since          :datetime
 #  created_at             :datetime         not null
