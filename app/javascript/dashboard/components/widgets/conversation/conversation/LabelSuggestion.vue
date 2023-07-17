@@ -1,5 +1,10 @@
 <template>
-  <li v-if="shouldShowSuggestions" class="label-suggestion right">
+  <li
+    v-if="shouldShowSuggestions"
+    class="label-suggestion right"
+    @mouseover="isHovered = true"
+    @mouseleave="isHovered = false"
+  >
     <div class="wrap">
       <div class="label-suggestion--container">
         <h6 class="label-suggestion--title">Suggested labels</h6>
@@ -33,6 +38,7 @@
               hideOnClick: true,
             }"
             variant="smooth"
+            :color-scheme="isHovered ? 'alert' : 'primary'"
             class="label--add"
             icon="dismiss"
             size="tiny"
@@ -41,7 +47,7 @@
         </div>
         <div v-if="preparedLabels.length > 1">
           <woot-button
-            variant="smooth"
+            :variant="selectedLabels.length === 0 ? 'smooth' : ''"
             class="label--add"
             icon="add"
             size="tiny"
@@ -55,6 +61,7 @@
               delay: { show: 600, hide: 0 },
               hideOnClick: true,
             }"
+            :color-scheme="isHovered ? 'alert' : 'primary'"
             variant="smooth"
             class="label--add"
             icon="dismiss"
@@ -117,6 +124,7 @@ export default {
     return {
       isDismissed: false,
       fetchingSuggestions: false,
+      isHovered: false,
       selectedLabels: [],
     };
   },
