@@ -25,9 +25,13 @@ class MessageTemplates::Template::ResponseBotService
     conversation.messages.where(message_type: [:outgoing, :incoming]).where(private: false).find_each do |message|
       next if message.content_type != 'text'
 
-      role = message.message_type == 'incoming' ? 'user' : 'system'
+      role = determine_role(message)
       previous_messages << { content: message.content, role: role }
     end
+  end
+
+  def determine_role(message)
+    message.message_type == 'incoming' ? 'user' : 'system'
   end
 
   def response_sections(content)

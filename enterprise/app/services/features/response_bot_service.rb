@@ -8,6 +8,8 @@ class Features::ResponseBotService
 
   def enable_vector_extension
     MIGRATION_VERSION.enable_extension 'vector'
+  rescue ActiveRecord::StatementInvalid
+    print 'Vector extension not available'
   end
 
   def disable_vector_extension
@@ -15,13 +17,12 @@ class Features::ResponseBotService
   end
 
   def vector_extension_enabled?
-    raise 'Vector extension not available' unless ActiveRecord::Base.connection.extension_enabled?('vector')
-
-    true
+    ActiveRecord::Base.connection.extension_enabled?('vector')
   end
 
   def create_tables
-    vector_extension_enabled?
+    return unless vector_extension_enabled?
+
     %i[response_sources response_documents responses].each do |table|
       send("create_#{table}_table")
     end
