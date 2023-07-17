@@ -15,4 +15,11 @@ describe('#getters', () => {
     };
     expect(getters.get(state)('draft-22-REPLY')).toEqual('');
   });
+
+  it('return replyEditorMode', () => {
+    const state = {
+      replyEditorMode: 'reply',
+    };
+    expect(getters.getReplyEditorMode(state)).toEqual('reply');
+  });
 });

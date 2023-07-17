@@ -1,6 +1,6 @@
 class Integrations::Openai::ProcessorService < Integrations::OpenaiBaseService
   AGENT_INSTRUCTION = 'You are a helpful support agent.'.freeze
-  LANGUAGE_INSTRUCTION = 'Reply in the user\'s language.'.freeze
+  LANGUAGE_INSTRUCTION = 'Ensure that the reply should be in user language.'.freeze
   def reply_suggestion_message
     make_api_call(reply_suggestion_body)
   end
@@ -40,7 +40,7 @@ class Integrations::Openai::ProcessorService < Integrations::OpenaiBaseService
   private
 
   def rephrase_body
-    build_api_call_body("#{AGENT_INSTRUCTION} Please rephrase the following response to a more #{event['data']['tone']} tone. " \
+    build_api_call_body("#{AGENT_INSTRUCTION} Please rephrase the following response. " \
                         "#{LANGUAGE_INSTRUCTION}")
   end
 
