@@ -24,6 +24,16 @@ class Integrations::OpenaiBaseService
 
   private
 
+  def build_api_call_body(system_content, user_content = event['data']['content'])
+    {
+      model: GPT_MODEL,
+      messages: [
+        { role: 'system', content: system_content },
+        { role: 'user', content: user_content }
+      ]
+    }.to_json
+  end
+
   def event_name
     event['name']
   end

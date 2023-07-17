@@ -6,7 +6,13 @@ class Integrations::Openai::ProcessorService < Integrations::OpenaiBaseService
   end
 
   def summarize_message
-    make_api_call(summarize_body)
+    summary = make_api_call(summarize_body)
+    conversation = find_conversation
+    conversation.summary = summary
+    conversation.summary_generated_at = DateTime.now.utc
+    conversation.save
+
+    summary
   end
 
   def rephrase_message
@@ -67,16 +73,6 @@ class Integrations::Openai::ProcessorService < Integrations::OpenaiBaseService
 
   def simplify_body
     build_api_call_body("#{AGENT_INSTRUCTION} Please simplify the following response. #{LANGUAGE_INSTRUCTION}")
-  end
-
-  def build_api_call_body(system_content, user_content = event['data']['content'])
-    {
-      model: GPT_MODEL,
-      messages: [
-        { role: 'system', content: system_content },
-        { role: 'user', content: user_content }
-      ]
-    }.to_json
   end
 
   def conversation_messages(in_array_format: false)
