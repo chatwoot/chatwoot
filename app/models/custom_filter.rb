@@ -23,7 +23,10 @@ class CustomFilter < ApplicationRecord
 
   enum filter_type: { conversation: 0, contact: 1, report: 2 }
   validate :validate_number_of_filters
-  after_save :update_filter_conversation_count
+
+  # TODO: after_save callback adding 2 different filters records for the same filter in the sidebar
+  after_update_commit :update_filter_conversation_count, if: :query_updated?
+  after_create_commit :update_filter_conversation_count
 
   def records_count
     fetch_record_count_from_redis
@@ -72,5 +75,9 @@ class CustomFilter < ApplicationRecord
       query: query,
       count: fetch_record_count_from_redis
     }
+  end
+
+  def query_updated?
+    previous_changes.keys.intersect?(%w[query])
   end
 end
