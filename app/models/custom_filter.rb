@@ -24,9 +24,9 @@ class CustomFilter < ApplicationRecord
   enum filter_type: { conversation: 0, contact: 1, report: 2 }
   validate :validate_number_of_filters
 
+  after_create :update_filter_conversation_count, if: :query_updated?
   # TODO: after_save callback adding 2 different filters records for the same filter in the sidebar
   after_update :update_filter_conversation_count, if: :query_updated?
-  after_create :update_filter_conversation_count, if: :query_updated?
 
   def records_count
     fetch_record_count_from_redis
