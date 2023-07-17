@@ -9,7 +9,11 @@ export default {
     this.fetchIntegrationsIfRequired();
   },
   computed: {
-    ...mapGetters({ appIntegrations: 'integrations/getAppIntegrations' }),
+    ...mapGetters({
+      appIntegrations: 'integrations/getAppIntegrations',
+      currentChat: 'getSelectedChat',
+      replyMode: 'draftMessages/getReplyEditorMode',
+    }),
     isAIIntegrationEnabled() {
       return this.appIntegrations.find(
         integration => integration.id === 'openai' && !!integration.hooks.length
@@ -19,6 +23,15 @@ export default {
       return this.appIntegrations.find(
         integration => integration.id === 'openai' && !!integration.hooks.length
       ).hooks[0].id;
+    },
+    draftMessage() {
+      return this.$store.getters['draftMessages/get'](this.draftKey);
+    },
+    draftKey() {
+      return `draft-${this.conversationId}-${this.replyMode}`;
+    },
+    conversationId() {
+      return this.currentChat?.id;
     },
   },
   methods: {
@@ -83,6 +96,23 @@ export default {
         .filter(label => label.trim()) // remove any empty strings
         .map(label => label.trim()) // trim the words
         .filter((label, index, self) => self.indexOf(label) === index); // remove any duplicates
+    },
+    async processEvent(type = 'rephrase') {
+      try {
+        const result = await OpenAPI.processEvent({
+          hookId: this.hookId,
+          type,
+          content: this.draftMessage,
+          conversationId: this.conversationId,
+        });
+        const {
+          data: { message: generatedMessage },
+        } = result;
+        return generatedMessage;
+      } catch (error) {
+        this.showAlert(this.$t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR'));
+        return '';
+      }
     },
   },
 };
