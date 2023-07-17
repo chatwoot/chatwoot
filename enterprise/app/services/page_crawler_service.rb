@@ -6,7 +6,7 @@ class PageCrawlerService
     @doc = Nokogiri::HTML(HTTParty.get(external_link).body)
   end
 
-  def get_links
+  def page_links
     sitemap? ? extract_links_from_sitemap : extract_links_from_html
   end
 

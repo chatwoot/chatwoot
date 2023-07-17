@@ -24,7 +24,7 @@ RSpec.describe 'Response Sources API', type: :request do
       it 'returns links in the webpage' do
         crawler = double
         allow(PageCrawlerService).to receive(:new).and_return(crawler)
-        allow(crawler).to receive(:get_links).and_return(['http://test.test'])
+        allow(crawler).to receive(:page_links).and_return(['http://test.test'])
 
         post "/api/v1/accounts/#{account.id}/response_sources/parse", headers: admin.create_new_auth_token,
                                                                       params: valid_params

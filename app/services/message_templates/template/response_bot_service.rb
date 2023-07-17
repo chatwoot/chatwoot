@@ -17,14 +17,17 @@ class MessageTemplates::Template::ResponseBotService
 
   def get_response(content)
     previous_messages = []
+    get_previous_messages(previous_messages)
+    ChatGpt.new(response_sections(content)).generate_response('', previous_messages)
+  end
+
+  def get_previous_messages(previous_messages)
     conversation.messages.where(message_type: [:outgoing, :incoming]).where(private: false).find_each do |message|
       next if message.content_type != 'text'
 
       role = message.message_type == 'incoming' ? 'user' : 'system'
       previous_messages << { content: message.content, role: role }
     end
-
-    ChatGpt.new(response_sections(content)).generate_response('', previous_messages)
   end
 
   def response_sections(content)
@@ -54,6 +57,12 @@ class MessageTemplates::Template::ResponseBotService
   end
 
   def create_messages(response, conversation)
+    response, article_ids = process_response_content(response)
+    create_outgoing_message(response, conversation)
+    create_outgoing_message_with_cards(article_ids, conversation) if article_ids.present?
+  end
+
+  def process_response_content(response)
     # Regular expression to match '{context_ids: [ids]}'
     regex = /{context_ids: \[(\d+(?:, *\d+)*)\]}/
 
@@ -64,8 +73,10 @@ class MessageTemplates::Template::ResponseBotService
     # Remove '{context_ids: [ids]}' from string
     response = response.sub(regex, '')
 
-    content_attributes = article_ids.present? ? get_article_hash(article_ids.uniq) : {}
+    [response, article_ids]
+  end
 
+  def create_outgoing_message(response, conversation)
     conversation.messages.create!(
       {
         message_type: :outgoing,
@@ -74,8 +85,10 @@ class MessageTemplates::Template::ResponseBotService
         content: response
       }
     )
+  end
 
-    # create messages with cards
+  def create_outgoing_message_with_cards(article_ids, conversation)
+    content_attributes = get_article_hash(article_ids.uniq)
     return if content_attributes.blank?
 
     conversation.messages.create!(

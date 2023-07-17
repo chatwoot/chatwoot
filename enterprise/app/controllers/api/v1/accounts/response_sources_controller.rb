@@ -4,7 +4,7 @@ class Api::V1::Accounts::ResponseSourcesController < Api::V1::Accounts::BaseCont
   before_action :find_response_source, only: [:add_document, :remove_document]
 
   def parse
-    links = PageCrawlerService.new(params[:link]).get_links
+    links = PageCrawlerService.new(params[:link]).page_links
     render json: { links: links }
   end
 
