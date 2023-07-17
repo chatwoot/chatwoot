@@ -451,7 +451,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_17_075819) do
     t.integer "priority"
     t.datetime "waiting_since"
     t.bigint "sla_policy_id"
-    t.string "summary"
+    t.text "summary"
     t.datetime "summary_generated_at"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
