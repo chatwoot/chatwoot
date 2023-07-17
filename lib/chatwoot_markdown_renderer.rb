@@ -8,6 +8,19 @@ class ChatwootMarkdownRenderer
     render_as_html_safe(html)
   end
 
+  def remove_empty_headers
+    doc = CommonMarker.render_doc(@content, :DEFAULT)
+
+    doc.walk do |node|
+      if node.type == :header
+        next_node = node.next
+        node.delete if next_node.nil? || (next_node.type == :header && next_node.header_level <= node.header_level)
+      end
+    end
+
+    @content = doc.to_commonmark
+  end
+
   def render_article
     markdown_renderer = CustomMarkdownRenderer.new
     doc = CommonMarker.render_doc(@content, :DEFAULT)
