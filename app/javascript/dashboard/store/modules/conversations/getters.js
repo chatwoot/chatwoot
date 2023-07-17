@@ -49,8 +49,7 @@ const getters = {
   },
   getSelectedChatAttachments: (_state, _getters) => {
     const selectedChat = _getters.getSelectedChat;
-    const { attachments } = selectedChat;
-    return attachments;
+    return selectedChat.attachments || [];
   },
   getLastEmailInSelectedChat: (stage, _getters) => {
     const selectedChat = _getters.getSelectedChat;

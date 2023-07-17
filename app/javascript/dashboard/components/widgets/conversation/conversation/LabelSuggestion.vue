@@ -112,10 +112,6 @@ export default {
       required: false,
       default: () => [],
     },
-    conversationId: {
-      type: Number,
-      required: true,
-    },
   },
   data() {
     return {
