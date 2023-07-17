@@ -474,7 +474,7 @@ export default {
 
 .is-private {
   .prosemirror-mention-node {
-    @apply font-medium bg-slate-50 dark:bg-slate-200 text-slate-900 dark:text-slate-100 py-0 px-1;
+    @apply font-medium bg-slate-50 dark:bg-slate-200 text-slate-900 dark:text-slate-900 py-0 px-1;
   }
 
   .ProseMirror-menubar-wrapper {
