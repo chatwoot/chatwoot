@@ -41,7 +41,7 @@
         </div>
         <div v-if="preparedLabels.length > 1">
           <woot-button
-            variant="smooth"
+            :variant="selectedLabels.length === 0 ? 'smooth' : ''"
             class="label--add"
             icon="add"
             size="tiny"
