@@ -25,8 +25,8 @@ class CustomFilter < ApplicationRecord
   validate :validate_number_of_filters
 
   # TODO: after_save callback adding 2 different filters records for the same filter in the sidebar
-  after_update_commit :update_filter_conversation_count, if: :query_updated?
-  after_create_commit :update_filter_conversation_count
+  after_update :update_filter_conversation_count, if: :query_updated?
+  after_create :update_filter_conversation_count, if: :query_updated?
 
   def records_count
     fetch_record_count_from_redis
