@@ -12,6 +12,7 @@
 #  private                   :boolean          default(FALSE)
 #  processed_message_content :text
 #  sender_type               :string
+#  sentiment                 :jsonb
 #  status                    :integer          default("sent")
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
@@ -246,6 +247,7 @@ class Message < ApplicationRecord
     reopen_conversation
     notify_via_mail
     set_conversation_activity
+    update_message_sentiments
     dispatch_create_events
     send_reply
     execute_message_template_hooks
@@ -371,4 +373,10 @@ class Message < ApplicationRecord
     conversation.update_columns(last_activity_at: created_at)
     # rubocop:enable Rails/SkipsModelValidations
   end
+
+  def update_message_sentiments
+    # override in the enterprise ::Enterprise::SentimentAnalysisJob.perform_later(self)
+  end
 end
+
+Message.prepend_mod_with('Message')

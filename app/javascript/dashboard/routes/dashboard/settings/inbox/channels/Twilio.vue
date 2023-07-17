@@ -81,18 +81,45 @@
         }}</span>
       </label>
     </div>
+    <div class="medium-8 columns messagingServiceHelptext">
+      <label for="useAPIKey">
+        <input
+          id="useAPIKey"
+          v-model="useAPIKey"
+          type="checkbox"
+          class="checkbox"
+        />
+        {{ $t('INBOX_MGMT.ADD.TWILIO.API_KEY.USE_API_KEY') }}
+      </label>
+    </div>
+    <div v-if="useAPIKey" class="medium-8 columns">
+      <label :class="{ error: $v.apiKeySID.$error }">
+        {{ $t('INBOX_MGMT.ADD.TWILIO.API_KEY.LABEL') }}
+        <input
+          v-model.trim="apiKeySID"
+          type="text"
+          :placeholder="$t('INBOX_MGMT.ADD.TWILIO.API_KEY.PLACEHOLDER')"
+          @blur="$v.apiKeySID.$touch"
+        />
+        <span v-if="$v.apiKeySID.$error" class="message">{{
+          $t('INBOX_MGMT.ADD.TWILIO.API_KEY.ERROR')
+        }}</span>
+      </label>
+    </div>
     <div class="medium-8 columns">
       <label :class="{ error: $v.authToken.$error }">
-        {{ $t('INBOX_MGMT.ADD.TWILIO.AUTH_TOKEN.LABEL') }}
+        {{ $t(`INBOX_MGMT.ADD.TWILIO.${authTokeni18nKey}.LABEL`) }}
         <input
           v-model.trim="authToken"
           type="text"
-          :placeholder="$t('INBOX_MGMT.ADD.TWILIO.AUTH_TOKEN.PLACEHOLDER')"
+          :placeholder="
+            $t(`INBOX_MGMT.ADD.TWILIO.${authTokeni18nKey}.PLACEHOLDER`)
+          "
           @blur="$v.authToken.$touch"
         />
-        <span v-if="$v.authToken.$error" class="message">{{
-          $t('INBOX_MGMT.ADD.TWILIO.AUTH_TOKEN.ERROR')
-        }}</span>
+        <span v-if="$v.authToken.$error" class="message">
+          {{ $t(`INBOX_MGMT.ADD.TWILIO.${authTokeni18nKey}.ERROR`) }}
+        </span>
       </label>
     </div>
 
@@ -123,11 +150,13 @@ export default {
   data() {
     return {
       accountSID: '',
+      apiKeySID: '',
       authToken: '',
       medium: this.type,
       channelName: '',
       messagingServiceSID: '',
       useMessagingService: false,
+      useAPIKey: false,
       phoneNumber: '',
     };
   },
@@ -135,26 +164,39 @@ export default {
     ...mapGetters({
       uiFlags: 'inboxes/getUIFlags',
     }),
+    authTokeni18nKey() {
+      return this.useAPIKey ? 'API_KEY_SECRET' : 'AUTH_TOKEN';
+    },
   },
   validations() {
-    if (this.phoneNumber) {
-      return {
-        channelName: { required },
-        messagingServiceSID: {},
-        phoneNumber: { required, isPhoneE164OrEmpty },
-        authToken: { required },
-        accountSID: { required },
-        medium: { required },
-      };
-    }
-    return {
+    let validations = {
       channelName: { required },
-      messagingServiceSID: { required },
-      phoneNumber: {},
+
       authToken: { required },
       accountSID: { required },
       medium: { required },
     };
+    if (this.phoneNumber) {
+      validations = {
+        ...validations,
+        phoneNumber: { required, isPhoneE164OrEmpty },
+        messagingServiceSID: {},
+      };
+    } else {
+      validations = {
+        ...validations,
+        messagingServiceSID: { required },
+        phoneNumber: {},
+      };
+    }
+
+    if (this.useAPIKey) {
+      validations = {
+        ...validations,
+        apiKeySID: { required },
+      };
+    }
+    return validations;
   },
   methods: {
     async createChannel() {
@@ -171,6 +213,7 @@ export default {
               name: this.channelName,
               medium: this.medium,
               account_sid: this.accountSID,
+              api_key_sid: this.apiKeySID,
               auth_token: this.authToken,
               messaging_service_sid: this.messagingServiceSID,
               phone_number: this.messagingServiceSID

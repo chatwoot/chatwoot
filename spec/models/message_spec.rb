@@ -84,6 +84,7 @@ RSpec.describe Message do
           last_activity_at: message.conversation.last_activity_at.to_i,
           unread_count: message.conversation.unread_incoming_messages.count
         },
+        sentiment: {},
         sender: message.sender.push_event_data,
         echo_id: 'random-echo_id'
       }
