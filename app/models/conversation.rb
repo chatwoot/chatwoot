@@ -127,7 +127,9 @@ class Conversation < ApplicationRecord
   def rendered_summary
     return nil if summary.nil?
 
-    ChatwootMarkdownRenderer.new(message_content).render_message
+    render_engine = ChatwootMarkdownRenderer.new(summary)
+    render_engine.remove_empty_headers
+    render_engine.render_message
   end
 
   def last_incoming_message
