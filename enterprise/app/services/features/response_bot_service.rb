@@ -36,6 +36,8 @@ class Features::ResponseBotService
   private
 
   def create_response_sources_table
+    return if MIGRATION_VERSION.table_exists?(:response_sources)
+
     MIGRATION_VERSION.create_table :response_sources do |t|
       t.integer :source_type, null: false, default: 0
       t.string :name, null: false
@@ -48,6 +50,8 @@ class Features::ResponseBotService
   end
 
   def create_response_documents_table
+    return if MIGRATION_VERSION.table_exists?(:response_documents)
+
     MIGRATION_VERSION.create_table :response_documents do |t|
       t.bigint :response_source_id, null: false
       t.string :document_link
@@ -61,6 +65,8 @@ class Features::ResponseBotService
   end
 
   def create_responses_table
+    return if MIGRATION_VERSION.table_exists?(:responses)
+
     MIGRATION_VERSION.create_table :responses do |t|
       t.bigint :response_document_id
       t.string :question, null: false
