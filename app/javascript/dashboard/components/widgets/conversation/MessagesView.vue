@@ -65,7 +65,7 @@
         :is-web-widget-inbox="isAWebWidgetInbox"
       />
       <conversation-label-suggestion
-        v-if="isEnterprise && isAIIntegrationEnabled"
+        v-if="shouldShowLabelSuggestions"
         :suggested-labels="labelSuggestions"
         :chat-labels="currentChat.labels"
         :conversation-id="currentChat.id"
@@ -123,6 +123,7 @@ import { isEscape } from 'shared/helpers/KeyboardHelpers';
 // constants
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { REPLY_POLICY } from 'shared/constants/links';
+import wootConstants from 'dashboard/constants/globals';
 
 export default {
   components: {
@@ -154,6 +155,7 @@ export default {
       hasUserScrolled: false,
       isProgrammaticScroll: false,
       isPopoutReplyBox: false,
+      messageSentSinceOpened: false,
       labelSuggestions: [],
     };
   },
@@ -168,6 +170,17 @@ export default {
       appIntegrations: 'integrations/getAppIntegrations',
       currentAccountId: 'getCurrentAccountId',
     }),
+    isOpen() {
+      return this.currentChat?.status === wootConstants.STATUS_TYPE.OPEN;
+    },
+    shouldShowLabelSuggestions() {
+      return (
+        this.isOpen &&
+        this.isEnterprise &&
+        this.isAIIntegrationEnabled &&
+        !this.messageSentSinceOpened
+      );
+    },
     inboxId() {
       return this.currentChat.inbox_id;
     },
@@ -310,6 +323,7 @@ export default {
       }
       this.fetchAllAttachmentsFromCurrentChat();
       this.fetchSuggestions();
+      this.messageSentSinceOpened = false;
       this.selectedTweetId = null;
     },
   },
@@ -319,6 +333,11 @@ export default {
     // when a new message comes in, we refetch the label suggestions
     bus.$on(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS, this.fetchSuggestions);
     bus.$on(BUS_EVENTS.SET_TWEET_REPLY, this.setSelectedTweet);
+    // when a message is sent we set the flag to true this hides the label suggestions,
+    // until the chat is changed and the flag is reset in the watch for currentChat
+    bus.$on(BUS_EVENTS.MESSAGE_SENT, () => {
+      this.messageSentSinceOpened = true;
+    });
   },
 
   mounted() {
