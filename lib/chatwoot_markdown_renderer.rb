@@ -18,7 +18,7 @@ class ChatwootMarkdownRenderer
       end
     end
 
-    @content = doc.to_commonmark
+    @content = doc.to_commonmark.strip
   end
 
   def render_article
