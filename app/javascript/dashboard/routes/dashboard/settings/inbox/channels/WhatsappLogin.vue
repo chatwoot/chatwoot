@@ -145,7 +145,7 @@ export default {
           }
         },
         {
-          scope: 'whatsapp_business_messaging,whatsapp_business_messaging',
+          scope: 'whatsapp_business_messaging,whatsapp_business_management',
         }
       );
     },
