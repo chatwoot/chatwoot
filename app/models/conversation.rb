@@ -124,6 +124,12 @@ class Conversation < ApplicationRecord
     last_message_in_messaging_window?(messaging_window)
   end
 
+  def rendered_summary
+    return nil if summary.nil?
+
+    ChatwootMarkdownRenderer.new(message_content).render_message
+  end
+
   def last_incoming_message
     messages&.incoming&.last
   end
