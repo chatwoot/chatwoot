@@ -62,6 +62,7 @@ export const actions = {
     }
   },
   setCustomViewCount: async ({ commit }, { filter }) => {
+    // filter parameter always contains entire custom_filter object
     commit(types.SET_CUSTOM_VIEW_COUNT, filter);
   },
   delete: async ({ commit }, { id, filterType }) => {
