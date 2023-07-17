@@ -62,11 +62,7 @@ export const actions = {
     }
   },
   setCustomViewCount: async ({ commit }, { filter }) => {
-    try {
-      commit(types.SET_CUSTOM_VIEW_COUNT, filter);
-    } catch (error) {
-      throw new Error(error);
-    }
+    commit(types.SET_CUSTOM_VIEW_COUNT, filter);
   },
   delete: async ({ commit }, { id, filterType }) => {
     commit(types.SET_CUSTOM_VIEW_UI_FLAG, { isDeleting: true });
