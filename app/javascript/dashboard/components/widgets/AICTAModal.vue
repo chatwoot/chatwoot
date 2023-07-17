@@ -1,0 +1,105 @@
+<template>
+  <div class="column">
+    <woot-modal-header
+      :header-title="$t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.TITLE')"
+      :header-content="$t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.DESC')"
+    />
+    <form class="row modal-content" @submit.prevent="finishOpenAI">
+      <div class="margin-top-1  w-full">
+        <woot-input
+          v-model="value"
+          type="text"
+          :class="{ error: $v.value.$error }"
+          :placeholder="
+            $t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.KEY_PLACEHOLDER')
+          "
+          @blur="$v.value.$touch"
+        />
+      </div>
+      <div class="modal-footer justify-content-end w-full">
+        <woot-button
+          variant="smooth"
+          class="margin-left-0"
+          @click.prevent="onClose"
+        >
+          {{ $t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.BUTTONS.NEED_HELP') }}
+        </woot-button>
+        <div class="spacer" />
+        <woot-button variant="clear" @click.prevent="onClose">
+          {{ $t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.BUTTONS.DISMISS') }}
+        </woot-button>
+        <woot-button :is-disabled="$v.value.$invalid">
+          {{ $t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.BUTTONS.FINISH') }}
+        </woot-button>
+      </div>
+    </form>
+  </div>
+</template>
+
+<script>
+import { required } from 'vuelidate/lib/validators';
+import { mapGetters } from 'vuex';
+import aiMixin from 'dashboard/mixins/aiMixin';
+import alertMixin from 'shared/mixins/alertMixin';
+
+export default {
+  mixins: [aiMixin, alertMixin],
+  data() {
+    return {
+      value: '',
+    };
+  },
+  validations: {
+    value: {
+      required,
+    },
+  },
+  computed: {
+    ...mapGetters({
+      appIntegrations: 'integrations/getAppIntegrations',
+    }),
+  },
+  methods: {
+    onClose() {
+      this.$emit('close');
+      this.showAlert(
+        this.$t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.DISMISS_MESSAGE')
+      );
+    },
+
+    async finishOpenAI() {
+      const payload = {
+        app_id: 'openai',
+        settings: {
+          api_key: this.value,
+        },
+      };
+      try {
+        await this.$store.dispatch('integrations/createHook', payload);
+        this.alertMessage = this.$t(
+          'INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.SUCCESS_MESSAGE'
+        );
+        this.onClose();
+      } catch (error) {
+        const errorMessage = error?.response?.data?.message;
+        this.alertMessage =
+          errorMessage || this.$t('INTEGRATION_APPS.ADD.API.ERROR_MESSAGE');
+      } finally {
+        this.showAlert(this.alertMessage);
+      }
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+.modal-content {
+  padding-top: var(--space-small);
+}
+.container {
+  width: 100%;
+}
+.spacer {
+  flex-grow: 1;
+}
+</style>
