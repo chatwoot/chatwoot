@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-shrink flex-grow overflow-auto p-4">
+  <div class="flex-1 overflow-auto p-4">
     <router-link
       :to="addAccountScoping('settings/macros/new')"
       class="button success button--fixed-top"

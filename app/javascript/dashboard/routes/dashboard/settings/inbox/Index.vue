@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-shrink flex-grow overflow-auto p-4">
+  <div class="flex-1 overflow-auto p-4">
     <!-- List Canned Response -->
     <div class="flex flex-row gap-4">
       <div class="w-[60%]">
