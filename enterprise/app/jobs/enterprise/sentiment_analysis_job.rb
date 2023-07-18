@@ -27,8 +27,11 @@ class Enterprise::SentimentAnalysisJob < ApplicationJob
 
   # Model initializes OnnxRuntime::Model, with given file for inference session and to create the tensor
   def model
-    model_path = ENV.fetch('SENTIMENT_FILE_PATH', nil)
-    Informers::SentimentAnalysis.new(model_path) if model_path.present?
+    model = save_and_open_sentiment_file
+
+    return if File.empty?(model)
+
+    Informers::SentimentAnalysis.new(model)
   end
 
   def label_val(sentiment)
@@ -37,5 +40,19 @@ class Enterprise::SentimentAnalysisJob < ApplicationJob
 
   def valid_incoming_message?(message)
     !message.incoming? || message.private?
+  end
+
+  # returns the sentiment file from vendor folder else download it to the path from AWS-S3
+  def save_and_open_sentiment_file
+    model_path = ENV.fetch('SENTIMENT_FILE_PATH', nil)
+
+    sentiment_file = Rails.root.join('vendor/db/sentiment-analysis.onnx')
+
+    return sentiment_file if File.exist?(sentiment_file)
+
+    source_file = Down.download(model_path) # Download file from AWS-S3
+    File.rename(source_file, sentiment_file) # Change the file path
+
+    sentiment_file
   end
 end
