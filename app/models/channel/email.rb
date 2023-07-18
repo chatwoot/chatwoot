@@ -74,11 +74,11 @@ class Channel::Email < ApplicationRecord
   end
 
   def update_imap_configuration
-    self.update(configuration_json['imap'])
+    update(configuration_json['imap'])
   end
 
   def update_smtp_configuration
-    self.update(configuration_json['smtp'])
+    update(configuration_json['smtp'])
   end
 
   def configuration_json
@@ -89,6 +89,6 @@ class Channel::Email < ApplicationRecord
   end
 
   def known_provider?
-    ['gmail', 'yahoo', 'zoho'].include?(provider)
+    %w[gmail yahoo zoho].include?(provider)
   end
 end
