@@ -2,7 +2,7 @@
   <div
     class="settings-header bg-white dark:bg-slate-900 border-b border-slate-50 dark:border-slate-800"
   >
-    <h1 class="page-title text-black-900 dark:text-slate-300">
+    <h1 class="page-title text-slate-900 dark:text-slate-100">
       <woot-sidemenu-icon v-if="showSidemenuIcon" />
       <back-button
         v-if="showBackButton"
@@ -11,7 +11,7 @@
       />
       <fluent-icon v-if="icon" :icon="icon" :class="iconClass" />
       <slot />
-      <span>{{ headerTitle }}</span>
+      <span class="text-slate-900 dark:text-slate-100">{{ headerTitle }}</span>
     </h1>
     <router-link
       v-if="showNewButton && isAdmin"
