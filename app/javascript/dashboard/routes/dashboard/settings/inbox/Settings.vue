@@ -356,7 +356,7 @@
             :business-name="businessName"
             @update="toggleSenderNameType"
           />
-          <div class="flex flex-col items-center gap-2 mt-2">
+          <div class="flex flex-col items-start gap-2 mt-2">
             <woot-button
               variant="clear"
               color-scheme="primary"
