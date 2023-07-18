@@ -10,6 +10,10 @@ textarea {
 
 input {
   @apply bg-white dark:bg-slate-900 focus:bg-white focus:dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-600;
+
+  &[disabled] {
+    @apply bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-400 border-slate-200 dark:border-slate-600;
+  }
 }
 
 input[type='file'] {

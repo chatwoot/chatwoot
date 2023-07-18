@@ -36,7 +36,7 @@
   }
 
   .multiselect__content-wrapper {
-    @apply bg-white dark:bg-slate-800 border border-white dark:border-slate-800 text-slate-800 dark:text-slate-100;
+    @apply bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-600 text-slate-800 dark:text-slate-100;
   }
 
   .multiselect__content {
@@ -88,7 +88,7 @@
   }
 
   .multiselect__tags {
-    @apply border border-solid border-slate-200 dark:border-slate-700 m-0 min-h-[2.875rem] pt-0;
+    @apply bg-white dark:bg-slate-900 border border-solid border-slate-200 dark:border-slate-600 m-0 min-h-[2.875rem] pt-0;
   }
 
   .multiselect__tags-wrap {
@@ -113,8 +113,7 @@
   }
 
   .multiselect__single {
-    @include text-ellipsis;
-    @apply inline-block mb-0 py-3 px-2.5;
+    @apply bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 inline-block mb-0 py-3 px-2.5 overflow-hidden whitespace-nowrap text-ellipsis;
   }
 }
 
