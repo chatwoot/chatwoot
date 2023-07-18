@@ -6,7 +6,7 @@ RSpec.describe Enterprise::SentimentAnalysisJob do
     let(:message) { build(:message, content_type: nil, account: account) }
 
     context 'when update the message sentiments' do
-      let(:model_path) { 'sentiment-analysis.onnx' }
+      let(:model_path) { Rails.root.join('vendor/db/sentiment-analysis.onnx') }
       let(:model) { double }
 
       before do
@@ -46,6 +46,41 @@ RSpec.describe Enterprise::SentimentAnalysisJob do
           expect(message.sentiment).not_to be_empty
           expect(message.sentiment['label']).to eq('negative')
           expect(message.sentiment['value']).to eq(-1)
+        end
+      end
+    end
+
+    context 'with download sentiment files' do
+      let(:model_path) { nil }
+      let(:model) { double }
+
+      before do
+        allow(Informers::SentimentAnalysis).to receive(:new).with(model_path).and_return(model)
+        allow(model).to receive(:predict).and_return({ label: 'positive', score: '0.6' })
+      end
+
+      it 'fetch saved file in the server' do
+        with_modified_env SENTIMENT_FILE_PATH: 'sentiment-analysis.onnx' do
+          message.update(message_type: :incoming, content: 'I did not like your product')
+
+          described_class.new(message).save_and_open_sentiment_file
+
+          sentiment_file = Rails.root.join('vendor/db/sentiment-analysis.onnx')
+          expect(File).to exist(sentiment_file)
+        end
+      end
+
+      it 'fetch file from the storage' do
+        with_modified_env SENTIMENT_FILE_PATH: 'sentiment-analysis.onnx' do
+          message.update(message_type: :incoming, content: 'I did not like your product')
+          allow(File).to receive(:exist?).and_return(false)
+          allow(Down).to receive(:download).and_return('./sentiment-analysis.onnx')
+          allow(File).to receive(:rename).and_return(100)
+
+          described_class.new(message).save_and_open_sentiment_file
+
+          sentiment_file = Rails.root.join('vendor/db/sentiment-analysis.onnx')
+          expect(sentiment_file).to be_present
         end
       end
     end
