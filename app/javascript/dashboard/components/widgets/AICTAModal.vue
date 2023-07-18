@@ -20,7 +20,7 @@
         <woot-button
           variant="smooth"
           class="margin-left-0"
-          @click.prevent="onClose"
+          @click.prevent="onCancel"
         >
           {{ $t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.BUTTONS.NEED_HELP') }}
         </woot-button>
@@ -62,9 +62,13 @@ export default {
   methods: {
     onClose() {
       this.$emit('close');
+    },
+
+    onCancel() {
       this.showAlert(
         this.$t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.DISMISS_MESSAGE')
       );
+      this.onClose();
     },
 
     async finishOpenAI() {
