@@ -1,5 +1,5 @@
 <template>
-  <div class="column content-box">
+  <div class="flex-shrink flex-grow overflow-auto p-4">
     <woot-button
       color-scheme="success"
       class-names="button--fixed-top"
