@@ -50,8 +50,7 @@ class Channel::Email < ApplicationRecord
 
   before_validation :ensure_forward_to_email, on: :create
 
-  after_create :update_imap_configuration
-  after_create :update_smtp_configuration
+  after_create :update_imap_smtp_configuration
 
   def name
     'Email'
@@ -67,6 +66,13 @@ class Channel::Email < ApplicationRecord
     self.forward_to_email ||= "#{SecureRandom.hex}@#{account.inbound_email_domain}"
   end
 
+  def update_imap_smtp_configuration
+    return unless known_provider?
+
+    update_imap_configuration
+    update_smtp_configuration
+  end
+
   def update_imap_configuration
     self.update(configuration_json['imap'])
   end
@@ -78,7 +84,11 @@ class Channel::Email < ApplicationRecord
   def configuration_json
     file = File.read('./lib/channel/imap_smtp_config.json')
     provider_config = JSON.parse(file)
-    provider = 'gmail'
+
     provider_config[provider]
+  end
+
+  def known_provider?
+    ['gmail', 'yahoo', 'zoho'].include?(provider)
   end
 end

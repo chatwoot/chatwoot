@@ -35,4 +35,13 @@ RSpec.describe Channel::Email do
       expect(channel.microsoft?).to be(true)
     end
   end
+
+  context 'when gmail provider' do
+    it 'auto save imap smtp channel' do
+      gmail_channel = create(:channel_email, provider: 'gmail')
+
+      expect(gmail_channel.imap_address).to eq('imap.gmail.com')
+      expect(gmail_channel.imap_enabled).to be_falsy
+    end
+  end
 end

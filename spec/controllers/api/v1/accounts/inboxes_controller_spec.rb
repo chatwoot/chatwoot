@@ -162,6 +162,40 @@ RSpec.describe 'Inboxes API', type: :request do
 
         expect(data[:hmac_token]).to be_nil
       end
+
+      context 'when provider present' do
+        it 'returns auto saved imap details in inbox when admin' do
+          email_channel = create(:channel_email, account: account, imap_enabled: false, imap_login: 'test@test.com', provider: 'gmail')
+          email_inbox = create(:inbox, channel: email_channel, account: account)
+
+          get "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:success)
+          data = JSON.parse(response.body, symbolize_names: true)
+
+          expect(data[:imap_enabled]).to be_falsey
+          expect(data[:imap_login]).to eq('test@test.com')
+          expect(data[:imap_address]).to eq('imap.gmail.com')
+          expect(data[:smtp_address]).to eq('smtp.gmail.com')
+        end
+
+        it 'returns empty imap details in inbox when admin' do
+          email_channel = create(:channel_email, account: account, imap_enabled: false, imap_login: 'test@test.com', provider: 'zapier')
+          email_inbox = create(:inbox, channel: email_channel, account: account)
+
+          get "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:success)
+          data = JSON.parse(response.body, symbolize_names: true)
+
+          expect(data[:imap_enabled]).to be_falsey
+          expect(data[:imap_login]).to eq('test@test.com')
+        end
+      end
     end
   end
 
