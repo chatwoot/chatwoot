@@ -139,7 +139,7 @@ export default {
         )}`;
       }
 
-      if (this.isAEmailInbox && !(this.currentInbox.provider == 'microsoft')) {
+      if (this.isAEmailInbox && !(this.currentInbox.provider === 'microsoft')) {
         return this.$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.FINISH_MESSAGE');
       }
 
