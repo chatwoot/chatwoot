@@ -117,9 +117,7 @@ export default {
       this.showAICtaModal = false;
     },
     openAICta() {
-      if (this.isAdmin) {
-        this.showAICtaModal = true;
-      }
+      this.showAICtaModal = true;
     },
     onAIAssist(option) {
       this.aiOption = option;
