@@ -38,6 +38,14 @@
         >
           {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.ADD_BCC') }}
         </woot-button>
+        <woot-button
+          v-if="!showForwardTo"
+          variant="clear"
+          size="small"
+          @click="handleAddForwardTo"
+        >
+          {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.ADD_FORWARD') }}
+        </woot-button>
       </div>
       <span v-if="$v.ccEmailsVal.$error" class="message">
         {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.ERROR') }}
@@ -64,6 +72,27 @@
         {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.BCC.ERROR') }}
       </span>
     </div>
+    <div v-if="showForwardTo" class="input-group-wrap">
+      <div class="input-group small" :class="{ error: $v.forwardToEmailsVal.$error }">
+        <label class="input-group-label">
+          {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.FORWARD_TO.LABEL') }}
+        </label>
+        <div class="input-group-field">
+          <woot-input
+            v-model.trim="$v.forwardToEmailsVal.$model"
+            type="text"
+            :class="{ error: $v.forwardToEmailsVal.$error }"
+            :placeholder="
+              $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.FORWARD_TO.PLACEHOLDER')
+            "
+            @blur="onBlur"
+          />
+        </div>
+      </div>
+      <span v-if="$v.forwardToEmailsVal.$error" class="message">
+        {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.FORWARD_TO.ERROR') }}
+      </span>
+    </div>
   </div>
 </template>
 
@@ -88,9 +117,11 @@ export default {
   data() {
     return {
       showBcc: false,
+      showForwardTo: false,
       ccEmailsVal: '',
       bccEmailsVal: '',
       toEmailsVal: '',
+      forwardToEmailsVal: '',
     };
   },
   watch: {
@@ -109,11 +140,17 @@ export default {
         this.toEmailsVal = newVal;
       }
     },
+    forwardToEmailsVal(newVal) {
+      if (newVal !== this.forwardToEmailsVal) {
+        this.forwardToEmailsVal = newVal;
+      }
+    },
   },
   mounted() {
     this.ccEmailsVal = this.ccEmails;
     this.bccEmailsVal = this.bccEmails;
     this.toEmailsVal = this.toEmails;
+    this.forwardToEmailsVal = this.forwardToEmailsVal;
   },
   validations: {
     ccEmailsVal: {
@@ -131,16 +168,25 @@ export default {
         return validEmailsByComma(value);
       },
     },
+    forwardToEmailsVal: {
+      hasValidEmails(value) {
+        return validEmailsByComma(value);
+      },
+    }
   },
   methods: {
     handleAddBcc() {
       this.showBcc = true;
+    },
+    handleAddForwardTo() {
+      this.showForwardTo = true;
     },
     onBlur() {
       this.$v.$touch();
       this.$emit('update:bccEmails', this.bccEmailsVal);
       this.$emit('update:ccEmails', this.ccEmailsVal);
       this.$emit('update:toEmails', this.toEmailsVal);
+      this.$emit('update:forwardToEmails', this.forwardToEmailsVal);
     },
   },
 };

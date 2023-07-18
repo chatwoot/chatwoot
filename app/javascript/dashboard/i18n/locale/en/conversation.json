@@ -149,6 +149,7 @@
       "EMAIL_HEAD": {
         "TO": "TO",
         "ADD_BCC": "Add bcc",
+        "ADD_FORWARD": "Forward To",
         "CC": {
           "LABEL": "CC",
           "PLACEHOLDER": "Emails separated by commas",
@@ -156,6 +157,11 @@
         },
         "BCC": {
           "LABEL": "BCC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        },
+        "FORWARD_TO": {
+          "LABEL": "Forward To",
           "PLACEHOLDER": "Emails separated by commas",
           "ERROR": "Please enter valid email addresses"
         }
