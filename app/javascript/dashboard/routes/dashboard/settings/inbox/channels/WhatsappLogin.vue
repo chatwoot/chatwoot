@@ -99,7 +99,6 @@ export default {
     initFB() {
       let app_id = this.cloudWhatsappPayload.channel.provider_config.app_id;
 
-
       if (window.fbSDKLoaded === undefined) {
         window.fbAsyncInit = () => {
           FB.init({
