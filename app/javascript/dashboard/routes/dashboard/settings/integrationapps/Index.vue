@@ -1,19 +1,19 @@
 <template>
-  <div class="column content-box">
-    <div class="row">
-      <div class="empty-wrapper">
+  <div class="flex-shrink flex-grow overflow-auto p-4">
+    <div class="flex flex-row gap-4">
+      <div class="my-0 mx-auto">
         <woot-loading-state
           v-if="uiFlags.isFetching"
           :message="$t('INTEGRATION_APPS.FETCHING')"
         />
       </div>
 
-      <div class="small-12 columns integrations-wrap">
-        <div class="row integrations">
+      <div class="w-full">
+        <div>
           <div
             v-for="item in integrationsList"
             :key="item.id"
-            class="small-12 columns integration"
+            class="bg-white dark:bg-slate-700 border border-solid border-slate-75 dark:border-slate-600 rounded-sm mb-4 p-4"
           >
             <integration-item
               :integration-id="item.id"
@@ -47,10 +47,3 @@ export default {
   },
 };
 </script>
-
-<style scoped lang="scss">
-@import '~dashboard/assets/scss/variables';
-.empty-wrapper {
-  margin: var(--space-zero) auto;
-}
-</style>
