@@ -260,8 +260,12 @@ class Message < ApplicationRecord
   end
 
   def update_waiting_since
-    conversation.update(waiting_since: nil) if human_response? && !private && conversation.waiting_since.present?
-
+    if human_response? && !private && conversation.waiting_since.present?
+      Rails.configuration.dispatcher.dispatch(
+        REPLY_CREATED, Time.zone.now, waiting_since: conversation.waiting_since, message: self
+      )
+      conversation.update(waiting_since: nil)
+    end
     conversation.update(waiting_since: Time.now.utc) if incoming? && conversation.waiting_since.blank?
   end
 
