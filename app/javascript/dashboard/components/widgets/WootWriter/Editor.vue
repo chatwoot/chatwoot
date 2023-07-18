@@ -493,7 +493,7 @@ export default {
 }
 
 .message-editor {
-  @apply border border-solid border-slate-75 dark:border-slate-800 rounded-md py-0 px-1 mb-0;
+  @apply border border-solid border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 rounded-md py-0 px-1 mb-0;
 }
 
 .editor_warning {

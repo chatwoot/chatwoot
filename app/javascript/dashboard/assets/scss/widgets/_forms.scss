@@ -1,5 +1,25 @@
 // scss-lint:disable QualifyingElement
 
+label {
+  @apply text-slate-800 dark:text-slate-200;
+}
+
+textarea {
+  @apply bg-white dark:bg-slate-900 focus:bg-white focus:dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-600;
+}
+
+input {
+  @apply bg-white dark:bg-slate-900 focus:bg-white focus:dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-600;
+}
+
+input[type='file'] {
+  @apply bg-white dark:bg-slate-800;
+}
+
+select {
+  @apply bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-600;
+}
+
 .error {
   input[type='color'],
   input[type='date'],
@@ -60,21 +80,4 @@ input {
   .error {
     border-color: var(--r-400);
   }
-}
-
-label {
-  @apply text-slate-800 dark:text-slate-200;
-}
-
-textarea,
-input {
-  @apply bg-white dark:bg-slate-900 focus:bg-white focus:dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-600;
-}
-
-input[type='file'] {
-  @apply bg-white dark:bg-slate-800;
-}
-
-select {
-  @apply bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-600;
 }
