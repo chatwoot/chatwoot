@@ -1,7 +1,7 @@
 <template>
   <footer
     v-if="isFooterVisible"
-    class="h-[60px] border-t border-solid border-slate-75 dark:border-slate-600 flex items-center justify-between py-0 px-4"
+    class="bg-white dark:bg-slate-800 h-[60px] border-t border-solid border-slate-75 dark:border-slate-600 flex items-center justify-between py-0 px-4"
   >
     <div class="left-aligned-wrap">
       <div class="text-xs">

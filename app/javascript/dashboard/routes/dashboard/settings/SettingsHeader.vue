@@ -2,7 +2,7 @@
   <div
     class="settings-header bg-white dark:bg-slate-900 border-b border-slate-50 dark:border-slate-800"
   >
-    <h1 class="page-title text-slate-900 dark:text-slate-100">
+    <h1 class="text-2xl flex items-center text-slate-900 dark:text-slate-100">
       <woot-sidemenu-icon v-if="showSidemenuIcon" />
       <back-button
         v-if="showBackButton"

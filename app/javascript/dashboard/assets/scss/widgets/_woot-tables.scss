@@ -56,3 +56,23 @@ table {
     margin: 0;
   }
 }
+
+.ve-table {
+  .ve-table-container.ve-table-border-around {
+    @apply border-slate-200 dark:border-slate-600;
+  }
+
+  .ve-table-content {
+    .ve-table-header .ve-table-header-tr .ve-table-header-th {
+      @apply bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 border-slate-100 dark:border-slate-600;
+    }
+
+    .ve-table-body .ve-table-body-tr .ve-table-body-td {
+      @apply bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-75 dark:border-slate-800;
+    }
+
+    .ve-table-body.ve-table-row-hover .ve-table-body-tr:hover td {
+      @apply bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100;
+    }
+  }
+}
