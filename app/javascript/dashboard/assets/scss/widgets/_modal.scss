@@ -69,7 +69,7 @@
   form,
   .modal-content {
     align-self: center;
-    padding: $space-large;
+    @apply pt-4 pb-8 px-8;
 
     a {
       padding: $space-normal;
