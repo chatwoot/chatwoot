@@ -29,7 +29,7 @@ class Enterprise::SentimentAnalysisJob < ApplicationJob
   def model
     model = save_and_open_sentiment_file
 
-    return if File.size(model).zero?
+    return if File.empty?(model)
 
     Informers::SentimentAnalysis.new(model)
   end
@@ -45,12 +45,14 @@ class Enterprise::SentimentAnalysisJob < ApplicationJob
   # returns the sentiment file from vendor folder else download it to the path from AWS-S3
   def save_and_open_sentiment_file
     model_path = ENV.fetch('SENTIMENT_FILE_PATH', nil)
+
     sentiment_file = Rails.root.join('vendor/db/sentiment-analysis.onnx')
 
     return sentiment_file if File.exist?(sentiment_file)
 
     source_file = Down.download(model_path) # Download file from AWS-S3
-    File.rename(source_file, source_file) # Change the file path
+
+    File.rename(source_file, sentiment_file) # Change the file path
 
     sentiment_file
   end
