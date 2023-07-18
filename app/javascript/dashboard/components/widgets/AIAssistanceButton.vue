@@ -1,6 +1,11 @@
 <template>
   <div v-if="isAIIntegrationEnabled" class="position-relative">
+    <AIAssistanceCTAButton
+      v-if="shouldShowAIAssistCTAButtonForAgent"
+      @click="openAIAssist"
+    />
     <woot-button
+      v-else
       v-tooltip.top-end="$t('INTEGRATION_SETTINGS.OPEN_AI.AI_ASSIST')"
       icon="wand"
       color-scheme="secondary"
@@ -19,18 +24,11 @@
       />
     </woot-modal>
   </div>
-  <div v-else class="position-relative">
-    <woot-button
-      icon="wand"
-      color-scheme="secondary"
-      variant="smooth"
-      size="small"
-      class-names="ai-btn"
-      @click="openAICta"
-    >
-      {{ $t('INTEGRATION_SETTINGS.OPEN_AI.AI_ASSIST') }}
-    </woot-button>
-
+  <div
+    v-else-if="shouldShowAIAssistCTAButtonForAdmin"
+    class="position-relative"
+  >
+    <AIAssistanceCTAButton @click="openAICta" />
     <woot-modal :show.sync="showAICtaModal" :on-close="hideAICtaModal">
       <AICTAModal @close="hideAICtaModal" />
     </woot-modal>
@@ -45,13 +43,16 @@ import aiMixin from 'dashboard/mixins/isAdmin';
 import { CMD_AI_ASSIST } from 'dashboard/routes/dashboard/commands/commandBarBusEvents';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import AIAssistanceCTAButton from './AIAssistanceCTAButton.vue';
 
 export default {
   components: {
     AIAssistanceModal,
     AICTAModal,
+    AIAssistanceCTAButton,
   },
-  mixins: [aiMixin, eventListenerMixins, adminMixin],
+  mixins: [aiMixin, eventListenerMixins, adminMixin, uiSettingsMixin],
   data: () => ({
     showAIAssistanceModal: false,
     showAICtaModal: false,
@@ -62,6 +63,25 @@ export default {
     ...mapGetters({
       currentChat: 'getSelectedChat',
     }),
+    isAICTAModalDismissed() {
+      return this.uiSettings.is_open_ai_cta_modal_dismissed;
+    },
+    // Show CTA button for admins when AI integration is enabled and the AI assistance modal is not dismissed
+    shouldShowAIAssistCTAButtonForAdmin() {
+      return (
+        this.isAdmin &&
+        !this.isAIIntegrationEnabled &&
+        !this.isAICTAModalDismissed
+      );
+    },
+    // Show CTA button for agents who never opened the AI assistance modal
+    shouldShowAIAssistCTAButtonForAgent() {
+      return (
+        !this.isAdmin &&
+        !this.isAIIntegrationEnabled &&
+        !this.isAICTAModalDismissed
+      );
+    },
   },
 
   mounted() {
@@ -83,6 +103,12 @@ export default {
       this.showAIAssistanceModal = false;
     },
     openAIAssist() {
+      // Dismiss the CTA modal if it is not dismissed
+      if (!this.isAICTAModalDismissed) {
+        this.updateUISettings({
+          is_open_ai_cta_modal_dismissed: true,
+        });
+      }
       this.initialMessage = this.draftMessage;
       const ninja = document.querySelector('ninja-keys');
       ninja.open({ parent: 'ai_assist' });
@@ -105,25 +131,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.ai-btn {
-  background: linear-gradient(
-      255.98deg,
-      rgba(161, 87, 246, 0.2) 15.83%,
-      rgba(71, 145, 247, 0.2) 81.39%
-    ),
-    linear-gradient(0deg, #f2f5f8, #f2f5f8);
-  animation: gradient 5s ease infinite;
-}
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-</style>

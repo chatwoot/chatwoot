@@ -18,14 +18,14 @@
       </div>
       <div class="modal-footer justify-content-end w-full">
         <woot-button
-          variant="smooth"
+          variant="link"
           class="margin-left-0"
-          @click.prevent="onCancel"
+          @click.prevent="openOpenAIDoc"
         >
           {{ $t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.BUTTONS.NEED_HELP') }}
         </woot-button>
         <div class="spacer" />
-        <woot-button variant="clear" @click.prevent="onClose">
+        <woot-button variant="clear" @click.prevent="onDismiss">
           {{ $t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.BUTTONS.DISMISS') }}
         </woot-button>
         <woot-button :is-disabled="$v.value.$invalid">
@@ -41,9 +41,10 @@ import { required } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import aiMixin from 'dashboard/mixins/aiMixin';
 import alertMixin from 'shared/mixins/alertMixin';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
 export default {
-  mixins: [aiMixin, alertMixin],
+  mixins: [aiMixin, alertMixin, uiSettingsMixin],
   data() {
     return {
       value: '',
@@ -64,10 +65,13 @@ export default {
       this.$emit('close');
     },
 
-    onCancel() {
+    onDismiss() {
       this.showAlert(
         this.$t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.DISMISS_MESSAGE')
       );
+      this.updateUISettings({
+        is_open_ai_cta_modal_dismissed: true,
+      });
       this.onClose();
     },
 
@@ -91,6 +95,9 @@ export default {
       } finally {
         this.showAlert(this.alertMessage);
       }
+    },
+    openOpenAIDoc() {
+      window.open('https://www.chatwoot.com/blog/v2-17', '_blank');
     },
   },
 };
