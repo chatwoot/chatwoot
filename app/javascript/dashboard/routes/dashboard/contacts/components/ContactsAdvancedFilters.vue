@@ -67,8 +67,8 @@
           </woot-button>
         </div>
       </div>
-      <div class="medium-12 columns">
-        <div class="modal-footer justify-content-end w-full">
+      <div class="w-full">
+        <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full w-full">
           <woot-button class="button clear" @click.prevent="onClose">
             {{ $t('CONTACTS_FILTER.CANCEL_BUTTON_LABEL') }}
           </woot-button>

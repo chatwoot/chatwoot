@@ -63,5 +63,13 @@ input {
 }
 
 label {
-  @apply dark:text-slate-300;
+  @apply text-slate-800 dark:text-slate-200;
+}
+
+input {
+  @apply bg-white dark:bg-slate-900 focus:bg-white focus:dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-600;
+}
+
+select {
+  @apply bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-600;
 }
