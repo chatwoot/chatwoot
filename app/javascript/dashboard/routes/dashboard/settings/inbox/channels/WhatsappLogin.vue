@@ -97,10 +97,13 @@ export default {
     },
 
     initFB() {
+      let app_id = this.cloudWhatsappPayload.channel.provider_config.app_id;
+
+
       if (window.fbSDKLoaded === undefined) {
         window.fbAsyncInit = () => {
           FB.init({
-            appId: '1671387513370718',
+            appId: app_id,
             xfbml: true,
             version: 'v17.0',
             status: true,
