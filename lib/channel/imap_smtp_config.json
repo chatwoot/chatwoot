@@ -1,0 +1,47 @@
+{
+  "gmail": {
+    "imap": {
+      "imap_address": "imap.gmail.com",
+      "imap_port": 993,
+      "imap_enable_ssl": true
+    },
+    "smtp": {
+      "smtp_address": "smtp.gmail.com",
+      "smtp_port": 465,
+      "smtp_enable_starttls_auto": false,
+      "smtp_enable_ssl_tls": true,
+      "smtp_openssl_verify_mode": "none",
+      "smtp_authentication": "login"
+    }
+  },
+  "zoho": {
+    "imap": {
+      "imap_address": "imap.zoho.in",
+      "imap_port": 993,
+      "imap_enable_ssl": true
+    },
+    "smtp": {
+      "smtp_address": "smtp.zoho.in",
+      "smtp_port": 465,
+      "smtp_enable_starttls_auto": false,
+      "smtp_enable_ssl_tls": true,
+      "smtp_openssl_verify_mode": "none",
+      "smtp_authentication": "login"
+    }
+  },
+  "yahoo": {
+    "imap": {
+      "imap_address": "imap.mail.yahoo.com",
+      "imap_port": 993,
+      "imap_enable_ssl": true
+    },
+    "smtp": {
+      "smtp_address": "smtp.mail.yahoo.com",
+      "smtp_port": 465,
+      "smtp_enable_starttls_auto": false,
+      "smtp_enable_ssl_tls": true,
+      "smtp_openssl_verify_mode": "none",
+      "smtp_authentication": "login"
+    }
+  }
+}

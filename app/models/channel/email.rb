@@ -50,6 +50,9 @@ class Channel::Email < ApplicationRecord
 
   before_validation :ensure_forward_to_email, on: :create
 
+  after_create :update_imap_configuration
+  after_create :update_smtp_configuration
+
   def name
     'Email'
   end
@@ -62,5 +65,20 @@ class Channel::Email < ApplicationRecord
 
   def ensure_forward_to_email
     self.forward_to_email ||= "#{SecureRandom.hex}@#{account.inbound_email_domain}"
+  end
+
+  def update_imap_configuration
+    self.update(configuration_json['imap'])
+  end
+
+  def update_smtp_configuration
+    self.update(configuration_json['smtp'])
+  end
+
+  def configuration_json
+    file = File.read('./lib/channel/imap_smtp_config.json')
+    provider_config = JSON.parse(file)
+    provider = 'gmail'
+    provider_config[provider]
   end
 end
