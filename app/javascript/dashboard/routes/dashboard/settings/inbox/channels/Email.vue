@@ -18,9 +18,9 @@
     </div>
   </div>
   <microsoft v-else-if="provider === 'microsoft'" />
-  <forward-to-option :provider="provider" v-else-if="provider === 'gmail'" />
-  <forward-to-option :provider="provider" v-else-if="provider === 'yahoo'" />
-  <forward-to-option :provider="provider" v-else-if="provider === 'zoho'" />
+  <forward-to-option v-else-if="provider === 'gmail'" :provider="provider" />
+  <forward-to-option v-else-if="provider === 'yahoo'" :provider="provider" />
+  <forward-to-option v-else-if="provider === 'zoho' :provider="provider"" />
   <forward-to-option v-else-if="provider === 'other_provider'" />
 </template>
 <script>

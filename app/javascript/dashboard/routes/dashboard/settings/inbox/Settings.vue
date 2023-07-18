@@ -552,7 +552,7 @@ export default {
         this.isATwilioChannel ||
         this.isALineChannel ||
         this.isAPIInbox ||
-        (this.isAnEmailChannel && !(this.inbox.provider == 'microsoft')) ||
+        (this.isAnEmailChannel && !(this.inbox.provider === 'microsoft')) ||
         (this.isAnEmailChannel && this.inbox.provider === 'microsoft') ||
         this.isAWhatsAppChannel ||
         this.isAWebWidgetInbox

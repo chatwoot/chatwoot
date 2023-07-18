@@ -51,7 +51,7 @@
           />
         </div>
         <div
-          v-if="isAEmailInbox && !(currentInbox.provider == 'microsoft')"
+          v-if="isAEmailInbox && !(currentInbox.provider === 'microsoft')"
           class="medium-6 small-offset-3"
         >
           <woot-code lang="html" :script="currentInbox.forward_to_email" />

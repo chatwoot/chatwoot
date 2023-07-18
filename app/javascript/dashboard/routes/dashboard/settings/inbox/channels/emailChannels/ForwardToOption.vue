@@ -63,7 +63,7 @@ export default {
     provider: {
       type: String,
        default: '',
-    }
+    },
   },
   data() {
     return {
