@@ -18,6 +18,9 @@
     </div>
   </div>
   <microsoft v-else-if="provider === 'microsoft'" />
+  <forward-to-option :provider="provider" v-else-if="provider === 'gmail'" />
+  <forward-to-option :provider="provider" v-else-if="provider === 'yahoo'" />
+  <forward-to-option :provider="provider" v-else-if="provider === 'zoho'" />
   <forward-to-option v-else-if="provider === 'other_provider'" />
 </template>
 <script>
@@ -46,6 +49,24 @@ export default {
           isEnabled: !!this.globalConfig.azureAppId,
           key: 'microsoft',
           src: '/assets/images/dashboard/channels/microsoft.png',
+        },
+        {
+          title: this.$t('INBOX_MGMT.EMAIL_PROVIDERS.GMAIL'),
+          isEnabled: true,
+          key: 'gmail',
+          src: '/assets/images/dashboard/channels/gmail.png',
+        },
+        {
+          title: this.$t('INBOX_MGMT.EMAIL_PROVIDERS.ZOHO'),
+          isEnabled: true,
+          key: 'zoho',
+          src: '/assets/images/dashboard/channels/zoho.png',
+        },
+        {
+          title: this.$t('INBOX_MGMT.EMAIL_PROVIDERS.YAHOO'),
+          isEnabled: true,
+          key: 'yahoo',
+          src: '/assets/images/dashboard/channels/yahoo.png',
         },
         {
           title: this.$t('INBOX_MGMT.EMAIL_PROVIDERS.OTHER_PROVIDERS'),

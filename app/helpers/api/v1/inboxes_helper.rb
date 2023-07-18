@@ -42,6 +42,7 @@ module Api::V1::InboxesHelper
   rescue SocketError => e
     raise StandardError, I18n.t('errors.inboxes.imap.socket_error')
   rescue Net::IMAP::NoResponseError => e
+    binding.pry
     raise StandardError, I18n.t('errors.inboxes.imap.no_response_error')
   rescue Errno::EHOSTUNREACH => e
     raise StandardError, I18n.t('errors.inboxes.imap.host_unreachable_error')

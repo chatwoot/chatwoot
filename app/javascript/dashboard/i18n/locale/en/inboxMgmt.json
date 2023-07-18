@@ -731,6 +731,9 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
+      "GMAIL": "Gmail",
+      "ZOHO": "Zoho",
+      "YAHOO": "Yahoo",
       "OTHER_PROVIDERS": "Other Providers"
     }
   }

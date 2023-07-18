@@ -51,7 +51,7 @@
           />
         </div>
         <div
-          v-if="isAEmailInbox && !currentInbox.provider"
+          v-if="isAEmailInbox && !(currentInbox.provider == 'microsoft')"
           class="medium-6 small-offset-3"
         >
           <woot-code lang="html" :script="currentInbox.forward_to_email" />
@@ -139,7 +139,7 @@ export default {
         )}`;
       }
 
-      if (this.isAEmailInbox && !this.currentInbox.provider) {
+      if (this.isAEmailInbox && !(this.currentInbox.provider == 'microsoft')) {
         return this.$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.FINISH_MESSAGE');
       }
 

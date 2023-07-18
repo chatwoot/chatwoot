@@ -59,6 +59,12 @@ export default {
     PageHeader,
   },
   mixins: [alertMixin],
+  props: {
+    provider: {
+      type: String,
+       default: '',
+    }
+  },
   data() {
     return {
       channelName: '',
@@ -90,6 +96,7 @@ export default {
             channel: {
               type: 'email',
               email: this.email,
+              provider: this.provider,
             },
           }
         );
