@@ -1,6 +1,5 @@
 table {
-  border-spacing: 0;
-  font-size: var(--font-size-small);
+  @apply border-spacing-0 text-sm;
 
   thead {
     th {
@@ -14,7 +13,7 @@ table {
     }
 
     td {
-      padding: var(--space-small);
+      @apply p-2.5;
     }
   }
 }
@@ -22,34 +21,27 @@ table {
 .woot-table {
   tr {
     .show-if-hover {
-      opacity: 0;
       transition: opacity 0.2s $swift-ease-out-function;
+      @apply opacity-0;
     }
 
     &:hover {
       .show-if-hover {
-        opacity: 1;
+        @apply opacity-100;
       }
     }
   }
 
   .agent-name {
-    display: block;
-    font-weight: var(--font-weight-medium);
-    text-transform: capitalize;
+    @apply block font-medium capitalize;
   }
 
   .woot-thumbnail {
-    border-radius: 50%;
-    height: 3.125rem;
-    width: 3.125rem;
+    @apply rounded-full h-[3.125rem] w-[3.125rem];
   }
 
   .button-wrapper {
-    @include flex-align(left, null);
-    @include flex;
-    flex-direction: row;
-    min-width: 12.5rem;
+    @apply flex justify-start flex-row min-w-[12.5rem];
   }
 
   .button {
