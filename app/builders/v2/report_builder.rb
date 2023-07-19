@@ -33,18 +33,18 @@ class V2::ReportBuilder
 
   def summary
     {
-      conversations_count: conversations_count.values.sum,
-      incoming_messages_count: incoming_messages_count.values.sum,
-      outgoing_messages_count: outgoing_messages_count.values.sum,
+      conversations_count: conversations.count,
+      incoming_messages_count: incoming_messages.count,
+      outgoing_messages_count: outgoing_messages.count,
       avg_first_response_time: avg_first_response_time_summary,
       avg_resolution_time: avg_resolution_time_summary,
-      resolutions_count: resolutions_count.values.sum
+      resolutions_count: resolutions.count
     }
   end
 
   def conversation_metrics
     if params[:type].equal?(:account)
-      conversations
+      live_conversations
     else
       agent_metrics.sort_by { |hash| hash[:metric][:open] }.reverse
     end
@@ -89,12 +89,12 @@ class V2::ReportBuilder
         email: @user.email,
         thumbnail: @user.avatar_url,
         availability: account_user.availability_status,
-        metric: conversations
+        metric: live_conversations
       }
     end
   end
 
-  def conversations
+  def live_conversations
     @open_conversations = scope.conversations.where(account_id: @account.id).open
     metric = {
       open: @open_conversations.count,
