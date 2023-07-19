@@ -18,7 +18,7 @@ export default {
       if (this.isAverageMetricType(key)) {
         return formatTime(this.accountSummary[key]);
       }
-      return this.accountSummary[key];
+      return Number(this.accountSummary[key] || '').toLocaleString();
     },
     displayInfoText(key) {
       if (this.metrics[this.currentSelection].KEY !== key) {

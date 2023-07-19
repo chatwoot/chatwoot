@@ -50,6 +50,12 @@ const REPORTS_KEYS = {
 export default {
   components: { ChartStats },
   mixins: [reportMixin],
+  props: {
+    groupBy: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
   computed: {
     metrics() {
       const reportKeys = [
