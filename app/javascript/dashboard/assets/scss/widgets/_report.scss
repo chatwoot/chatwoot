@@ -58,31 +58,3 @@
     text-transform: capitalize;
   }
 }
-
-.report-bar {
-  @include background-white;
-  @include border-light;
-  margin: var(--space-minus-micro) 0;
-  padding: var(--space-small) var(--space-medium);
-
-  .chart-container {
-    @include flex;
-    @include flex-align(center, middle);
-    flex-direction: column;
-
-    div {
-      width: 100%;
-    }
-
-    .empty-state {
-      color: $color-gray;
-      font-size: var(--font-size-default);
-      margin: var(--space-jumbo);
-    }
-
-    .business-hours {
-      margin: var(--space-normal);
-      text-align: center;
-    }
-  }
-}
