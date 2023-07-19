@@ -184,6 +184,9 @@ GEM
       libddwaf (~> 1.8.2.0.0)
       msgpack
     debase-ruby_core_source (3.2.0)
+    debug (1.8.0)
+      irb (>= 1.5.0)
+      reline (>= 0.3.1)
     declarative (0.0.20)
     devise (4.9.2)
       bcrypt (~> 3.0)
@@ -366,6 +369,9 @@ GEM
       blingfire (>= 0.1.7)
       numo-narray
       onnxruntime (>= 0.5.1)
+    io-console (0.6.0)
+    irb (1.7.2)
+      reline (>= 0.3.6)
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
@@ -596,6 +602,8 @@ GEM
     redis-namespace (1.10.0)
       redis (>= 4)
     regexp_parser (2.8.0)
+    reline (0.3.6)
+      io-console (~> 0.5)
     representable (3.2.0)
       declarative (< 0.1.0)
       trailblazer-option (>= 0.1.1, < 0.2.0)
@@ -840,6 +848,7 @@ DEPENDENCIES
   cypress-on-rails
   database_cleaner
   ddtrace
+  debug (~> 1.8)
   devise
   devise-secure_password!
   devise_token_auth
