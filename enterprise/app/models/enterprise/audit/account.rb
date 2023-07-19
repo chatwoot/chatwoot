@@ -2,7 +2,7 @@ module Enterprise::Audit::Account
   extend ActiveSupport::Concern
 
   included do
-    audited only on: :update
+    audited except: :updated_at, on: [:update]
     has_associated_audits
   end
 end
