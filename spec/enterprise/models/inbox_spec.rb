@@ -49,13 +49,17 @@ RSpec.describe Inbox do
       it 'has associated audit log created' do
         inbox.update(name: 'Updated Inbox')
         expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update').count).to eq(1)
+      end
+    end
 
+    context 'when channel is updated' do
+      it 'has associated audit log created' do
         previous_color = inbox.channel.widget_color
         new_color = '#ff0000'
         inbox.channel.update(widget_color: new_color)
 
         # check if channel update creates an audit log against inbox
-        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update').count).to eq(2)
+        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update').count).to eq(1)
         # Check for the specific widget_color update in the audit log
         expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update',
                                     audited_changes: { 'widget_color' => [previous_color, new_color] }).count).to eq(1)
