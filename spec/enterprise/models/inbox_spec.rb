@@ -73,4 +73,48 @@ RSpec.describe Inbox do
       end
     end
   end
+
+  describe 'audit log with twilio channel' do
+    # reset the table audited only once before all the tests in this block
+    before do
+      Audited::Audit.delete_all
+    end
+
+    let!(:channel) { create(:channel_twilio_sms) }
+    let!(:inbox) { create(:inbox, channel: channel) }
+
+    context 'when inbox is created' do
+      it 'has associated audit log created' do
+        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'create').count).to eq(1)
+      end
+    end
+
+    context 'when inbox is updated' do
+      it 'has associated audit log created' do
+        inbox.update(name: 'Updated Inbox')
+        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update').count).to eq(1)
+      end
+    end
+
+    context 'when channel is updated' do
+      it 'has associated audit log created' do
+        previous_number = inbox.channel.phone_number
+        new_number = '31415926535'
+        inbox.channel.update(phone_number: new_number)
+
+        # check if channel update creates an audit log against inbox
+        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update').count).to eq(1)
+        # Check for the specific widget_color update in the audit log
+        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update',
+                                    audited_changes: { 'phone_number' => [previous_number, new_number] }).count).to eq(1)
+      end
+    end
+
+    context 'when inbox is deleted' do
+      it 'has associated audit log created' do
+        inbox.destroy!
+        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'destroy').count).to eq(1)
+      end
+    end
+  end
 end
