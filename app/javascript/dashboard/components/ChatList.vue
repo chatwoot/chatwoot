@@ -959,12 +959,12 @@ export default {
 };
 </script>
 <style scoped>
+@tailwind components;
 @layer components {
   .flex-basis-clamp {
     flex-basis: clamp(20rem, 4vw + 21.25rem, 27.5rem);
   }
 }
-@tailwind components;
 </style>
 
 <style scoped lang="scss">
