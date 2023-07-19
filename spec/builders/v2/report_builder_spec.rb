@@ -6,14 +6,8 @@ describe V2::ReportBuilder do
   let_it_be(:label_1) { create(:label, title: 'Label_1', account: account) }
   let_it_be(:label_2) { create(:label, title: 'Label_2', account: account) }
 
-  # before do
-  #   travel_to Time.new(2023, 1, 1, 12, 0, 0, '+05:30')
-  # end
-
-  # after do
-  #   travel_back
-  # end
-
+  # Update this spec to use travel_to
+  # This spec breaks in certain timezone
   describe '#timeseries' do
     before_all do
       user = create(:user, account: account)

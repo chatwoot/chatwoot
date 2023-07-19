@@ -89,7 +89,7 @@ class V2::ReportBuilder
         email: @user.email,
         thumbnail: @user.avatar_url,
         availability: account_user.availability_status,
-        metric: conversations
+        metric: live_conversations
       }
     end
   end
