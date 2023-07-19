@@ -4,7 +4,7 @@
       :header-title="$t('LABEL_MGMT.ADD.TITLE')"
       :header-content="$t('LABEL_MGMT.ADD.DESC')"
     />
-    <form class="row" @submit.prevent="addLabel">
+    <form class="mx-0 flex flex-wrap" @submit.prevent="addLabel">
       <woot-input
         v-model.trim="title"
         :class="{ error: $v.title.$error }"
@@ -115,7 +115,7 @@ export default {
 .label-name--input {
   ::v-deep {
     input {
-      text-transform: lowercase;
+      @apply lowercase;
     }
   }
 }
