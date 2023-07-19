@@ -19,7 +19,7 @@
       @group-by-filter-change="onGroupByFilterChange"
       @business-hours-toggle="onBusinessHoursToggle"
     />
-    <report-container v-if="filterItemsList.length" />
+    <report-container v-if="filterItemsList.length" :group-by="groupBy" />
   </div>
 </template>
 
@@ -69,7 +69,6 @@ export default {
     return {
       from: 0,
       to: 0,
-      currentSelection: 0,
       selectedFilter: null,
       groupBy: GROUP_BY_FILTER[1],
       groupByfilterItemsList: this.$t('REPORT.GROUP_BY_DAY_OPTIONS'),
@@ -80,12 +79,6 @@ export default {
   computed: {
     filterItemsList() {
       return this.$store.getters[this.getterKey] || [];
-    },
-    accountSummary() {
-      return this.$store.getters.getAccountSummary || [];
-    },
-    accountReport() {
-      return this.$store.getters.getAccountReports || [];
     },
   },
   mounted() {
@@ -145,10 +138,6 @@ export default {
         const params = { from, to, fileName, businessHours };
         this.$store.dispatch(dispatchMethods[type], params);
       }
-    },
-    changeSelection(index) {
-      this.currentSelection = index;
-      this.fetchChartData();
     },
     onDateRangeChange({ from, to, groupBy }) {
       // do not track filter change on inital load

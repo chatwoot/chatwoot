@@ -5,7 +5,7 @@
         v-if="type === 'agent'"
         class="md:w-[240px] w-full multiselect-wrap--small"
       >
-        <p>
+        <p class="text-xs mb-2 font-medium">
           {{ $t('AGENT_REPORTS.FILTER_DROPDOWN_LABEL') }}
         </p>
         <multiselect
@@ -50,7 +50,7 @@
         v-else-if="type === 'label'"
         class="md:w-[240px] w-full multiselect-wrap--small"
       >
-        <p>
+        <p class="text-xs mb-2 font-medium">
           {{ $t('LABEL_REPORTS.FILTER_DROPDOWN_LABEL') }}
         </p>
         <multiselect
@@ -96,7 +96,7 @@
         </multiselect>
       </div>
       <div v-else class="md:w-[240px] w-full multiselect-wrap--small">
-        <p>
+        <p class="text-xs mb-2 font-medium">
           <template v-if="type === 'inbox'">
             {{ $t('INBOX_REPORTS.FILTER_DROPDOWN_LABEL') }}
           </template>
@@ -123,7 +123,7 @@
         />
       </div>
       <div class="mx-1 md:w-[240px] w-full multiselect-wrap--small">
-        <p>
+        <p class="text-xs mb-2 font-medium">
           {{ $t('REPORT.DURATION_FILTER_LABEL') }}
         </p>
         <multiselect
@@ -141,7 +141,7 @@
         />
       </div>
       <div v-if="isDateRangeSelected" class="">
-        <p>
+        <p class="text-xs mb-2 font-medium">
           {{ $t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER') }}
         </p>
         <woot-date-range-picker
@@ -156,7 +156,7 @@
         v-if="notLast7Days"
         class="mx-1 md:w-[240px] w-full multiselect-wrap--small"
       >
-        <p>
+        <p class="text-xs mb-2 font-medium">
           {{ $t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL') }}
         </p>
         <multiselect
@@ -268,7 +268,7 @@ export default {
         1: GROUP_BY_FILTER[2].period,
         2: GROUP_BY_FILTER[3].period,
         3: GROUP_BY_FILTER[3].period,
-        4: GROUP_BY_FILTER[3].period,
+        4: GROUP_BY_FILTER[4].period,
       };
       return groupRange[this.currentDateRangeSelection.id];
     },
