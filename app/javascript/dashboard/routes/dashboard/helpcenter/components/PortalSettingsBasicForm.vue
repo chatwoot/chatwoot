@@ -1,6 +1,6 @@
 <template>
   <div
-    class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%] border border-r-0 rtl:border-r-1 rtl:border-l-0 border-solid border-slate-25 dark:border-slate-600"
+    class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%] border border-solid border-transparent dark:border-transparent"
   >
     <div class="w-full">
       <h3 class="block-title text-black-900 dark:text-slate-200">
