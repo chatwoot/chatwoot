@@ -1,6 +1,6 @@
 <template>
   <div class="flex-shrink flex-grow overflow-auto p-4">
-    <div class="flex flex-row gap-4">
+    <div class="flex flex-row">
       <div class="my-0 mx-auto">
         <woot-loading-state
           v-if="uiFlags.isFetching"
