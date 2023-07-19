@@ -74,14 +74,9 @@ RSpec.describe Inbox do
     end
   end
 
-  describe 'audit log with twilio channel' do
-    # reset the table audited only once before all the tests in this block
-    before do
-      Audited::Audit.delete_all
-    end
-
-    let!(:channel) { create(:channel_twilio_sms) }
-    let!(:inbox) { create(:inbox, channel: channel) }
+  describe 'audit log with api channel' do
+    let!(:channel) { create(:channel_api) }
+    let!(:inbox) { channel.inbox }
 
     context 'when inbox is created' do
       it 'has associated audit log created' do
@@ -98,15 +93,15 @@ RSpec.describe Inbox do
 
     context 'when channel is updated' do
       it 'has associated audit log created' do
-        previous_number = inbox.channel.phone_number
-        new_number = '31415926535'
-        inbox.channel.update(phone_number: new_number)
+        previous_webhook = inbox.channel.webhook_url
+        new_webhook = 'https://example2.com'
+        inbox.channel.update(webhook_url: new_webhook)
 
         # check if channel update creates an audit log against inbox
         expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update').count).to eq(1)
-        # Check for the specific widget_color update in the audit log
+        # Check for the specific webhook_update update in the audit log
         expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update',
-                                    audited_changes: { 'phone_number' => [previous_number, new_number] }).count).to eq(1)
+                                    audited_changes: { 'webhook_url' => [previous_webhook, new_webhook] }).count).to eq(1)
       end
     end
 
