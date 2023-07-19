@@ -12,11 +12,11 @@
         "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
+        "NAME": "Messages received",
         "DESC": "( Total )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
+        "NAME": "Messages sent",
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
@@ -93,7 +93,6 @@
       { "id": 3, "groupBy": "Month" }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
-      { "id": 1, "groupBy": "Day" },
       { "id": 2, "groupBy": "Week" },
       { "id": 3, "groupBy": "Month" },
       { "id": 4, "groupBy": "Year" }
