@@ -2,7 +2,7 @@
   <div v-if="!isFetchingAppIntegrations">
     <div v-if="isAIIntegrationEnabled" class="position-relative">
       <AIAssistanceCTAButton
-        v-if="shouldShowAIAssistCTAButtonForAgent"
+        v-if="shouldShowAIAssistCTAButton"
         @click="openAIAssist"
       />
       <woot-button
@@ -77,7 +77,7 @@ export default {
       );
     },
     // Display a AI CTA button for agents and other admins who have not yet opened the AI assistance modal.
-    shouldShowAIAssistCTAButtonForAgent() {
+    shouldShowAIAssistCTAButton() {
       return this.isAIIntegrationEnabled && !this.isAICTAModalDismissed;
     },
   },
