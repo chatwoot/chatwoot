@@ -10,9 +10,9 @@ RSpec.describe SupportMailbox do
     let(:described_subject) { described_class.receive notification_mail }
     let(:conversation) { Conversation.where(inbox_id: channel_email.inbox).last }
 
-    it 'shouldnt create a conversation in the channel' do
+    it 'should create a conversation in the channel' do
       described_subject
-      expect(conversation.present?).to be(false)
+      expect(conversation.present?).to be(true)
     end
   end
 
