@@ -226,7 +226,6 @@ export const actions = {
 
 const mutations = {
   [types.default.SET_ACCOUNT_REPORTS](_state, { metric, data }) {
-    console.log(metric, data);
     _state.accountReport.data[metric] = data;
   },
   [types.default.SET_HEATMAP_DATA](_state, heatmapData) {

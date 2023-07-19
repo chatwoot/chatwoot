@@ -7,36 +7,7 @@
       :key="metric.KEY"
       class="p-4 rounded-md mb-3"
     >
-      <div>
-        <span class="text-sm">{{ metric.NAME }}</span>
-        <div class="flex items-end">
-          <div class="font-medium text-xl">
-            {{ displayMetric(metric.KEY) }}
-          </div>
-          <div
-            v-if="metric.trend"
-            class="text-xs ml-4 flex items-center mb-0.5"
-          >
-            <div
-              v-if="metric.trend < 0"
-              class="h-0 w-0 border-x-4  medium border-x-transparent border-t-[8px] mr-1 "
-              :class="trendColor(metric.trend, metric.KEY)"
-            />
-            <div
-              v-else
-              class="h-0 w-0 border-x-4  medium border-x-transparent border-b-[8px] mr-1 "
-              :class="trendColor(metric.trend, metric.KEY)"
-            />
-            <span
-              class="font-medium"
-              :class="trendColor(metric.trend, metric.KEY)"
-            >
-              {{ calculateTrend(metric.KEY) }}%
-            </span>
-          </div>
-        </div>
-      </div>
-
+      <chart-stats :metric="metric" />
       <div class="mt-4 h-72">
         <woot-loading-state
           v-if="accountReport.isFetching[metric.KEY]"
@@ -65,7 +36,7 @@ import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
 import { formatTime } from '@chatwoot/utils';
 import reportMixin from 'dashboard/mixins/reportMixin';
-
+import ChartStats from './components/ChartElements/ChartStats.vue';
 const REPORTS_KEYS = {
   CONVERSATIONS: 'conversations_count',
   INCOMING_MESSAGES: 'incoming_messages_count',
@@ -76,6 +47,7 @@ const REPORTS_KEYS = {
 };
 
 export default {
+  components: { ChartStats },
   mixins: [reportMixin],
   computed: {
     metrics() {
@@ -108,17 +80,14 @@ export default {
       if (!this.accountReport.data[metric.KEY]) {
         return {};
       }
-
       const data = this.accountReport.data[metric.KEY];
       const labels = data.map(element => {
         if (this.groupBy?.period === GROUP_BY_FILTER[2].period) {
           let week_date = new Date(fromUnixTime(element.timestamp));
           const first_day = week_date.getDate() - week_date.getDay();
           const last_day = first_day + 6;
-
           const week_first_date = new Date(week_date.setDate(first_day));
           const week_last_date = new Date(week_date.setDate(last_day));
-
           return `${format(week_first_date, 'dd-MMM')} - ${format(
             week_last_date,
             'dd-MMM'
@@ -132,7 +101,6 @@ export default {
         }
         return format(fromUnixTime(element.timestamp), 'dd-MMM');
       });
-
       const datasets = METRIC_CHART[metric.KEY].datasets.map(dataset => {
         switch (dataset.type) {
           case 'bar':
@@ -172,27 +140,10 @@ export default {
           },
         };
       }
-
       return {
         scales: METRIC_CHART[metric.KEY].scales,
         tooltips: tooltips,
       };
-    },
-    trendColor(value, key) {
-      if (
-        [
-          'avg_first_response_time',
-          'avg_resolution_time',
-          'reply_time',
-        ].includes(key)
-      ) {
-        return value > 0
-          ? 'border-red-500 text-red-500'
-          : 'border-green-500 text-green-500';
-      }
-      return value < 0
-        ? 'border-red-500 text-red-500'
-        : 'border-green-500 text-green-500';
     },
   },
 };
