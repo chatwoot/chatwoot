@@ -1,5 +1,8 @@
 <template>
-  <form class="contact--form" @submit.prevent="handleSubmit">
+  <form
+    class="contact--form w-full pt-6 px-8 pb-8"
+    @submit.prevent="handleSubmit"
+  >
     <div>
       <div class="w-full">
         <woot-avatar-uploader
@@ -73,7 +76,7 @@
         </label>
         <div
           v-if="isPhoneNumberNotValid || !phoneNumber"
-          class="callout small warning"
+          class="callout small warning text-sm"
         >
           {{ $t('CONTACT_FORM.FORM.PHONE_NUMBER.HELP') }}
         </div>
@@ -415,21 +418,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.contact--form {
-  @apply pt-6 px-8 pb-8;
-
-  .columns {
-    padding: 0 var(--space-smaller);
-  }
-}
-
 .input-group-label {
-  font-size: var(--font-size-small);
+  @apply text-sm bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 border-slate-200 dark:border-slate-600;
 }
 
 ::v-deep {
   .multiselect .multiselect__tags .multiselect__single {
-    padding-left: 0;
+    @apply pl-0;
   }
 }
 </style>
