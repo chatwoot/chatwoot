@@ -42,9 +42,11 @@ export default {
     },
     isAverageMetricType() {
       return metric_key => {
-        return ['avg_first_response_time', 'avg_resolution_time'].includes(
-          metric_key
-        );
+        return [
+          'avg_first_response_time',
+          'avg_resolution_time',
+          'reply_time',
+        ].includes(metric_key);
       };
     },
   },

@@ -34,6 +34,9 @@
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
         "DESC": "( Total )"
+      },
+      "REPLY_TIME": {
+        "NAME": "Customer waiting time"
       }
     },
     "DATE_RANGE_OPTIONS": {
