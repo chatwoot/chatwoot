@@ -6,6 +6,14 @@ describe V2::ReportBuilder do
   let_it_be(:label_1) { create(:label, title: 'Label_1', account: account) }
   let_it_be(:label_2) { create(:label, title: 'Label_2', account: account) }
 
+  # before do
+  #   travel_to Time.new(2023, 1, 1, 12, 0, 0, '+05:30')
+  # end
+
+  # after do
+  #   travel_back
+  # end
+
   describe '#timeseries' do
     before_all do
       user = create(:user, account: account)
@@ -156,13 +164,14 @@ describe V2::ReportBuilder do
       it 'returns argument error for incorrect group by' do
         params = {
           type: :account,
+          metric: 'avg_first_response_time',
           since: (Time.zone.today - 3.days).to_time.to_i.to_s,
           until: Time.zone.today.end_of_day.to_time.to_i.to_s,
           group_by: 'test'.to_s
         }
 
         builder = described_class.new(account, params)
-        expect { builder.summary }.to raise_error(ArgumentError)
+        expect { builder.timeseries }.to raise_error(ArgumentError)
       end
     end
 
@@ -296,6 +305,7 @@ describe V2::ReportBuilder do
 
       it 'returns argument error for incorrect group by' do
         params = {
+          metric: 'avg_first_response_time',
           type: :label,
           id: label_2.id,
           since: (Time.zone.today - 3.days).to_time.to_i.to_s,
@@ -304,7 +314,7 @@ describe V2::ReportBuilder do
         }
 
         builder = described_class.new(account, params)
-        expect { builder.summary }.to raise_error(ArgumentError)
+        expect { builder.timeseries }.to raise_error(ArgumentError)
       end
     end
   end
