@@ -56,7 +56,7 @@
         >
           <woot-code lang="html" :script="currentInbox.forward_to_email" />
         </div>
-        <div class="flex justify-center gap-2">
+        <div class="flex justify-center gap-2 mt-4">
           <router-link
             class="button hollow primary"
             :to="{
