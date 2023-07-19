@@ -268,7 +268,7 @@ export default {
         1: GROUP_BY_FILTER[2].period,
         2: GROUP_BY_FILTER[3].period,
         3: GROUP_BY_FILTER[3].period,
-        4: GROUP_BY_FILTER[3].period,
+        4: GROUP_BY_FILTER[4].period,
       };
       return groupRange[this.currentDateRangeSelection.id];
     },
