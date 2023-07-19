@@ -12,11 +12,11 @@
         "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
+        "NAME": "Messages received",
         "DESC": "( Total )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
+        "NAME": "Messages sent",
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
