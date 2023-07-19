@@ -93,7 +93,6 @@
       { "id": 3, "groupBy": "Month" }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
-      { "id": 1, "groupBy": "Day" },
       { "id": 2, "groupBy": "Week" },
       { "id": 3, "groupBy": "Month" },
       { "id": 4, "groupBy": "Year" }

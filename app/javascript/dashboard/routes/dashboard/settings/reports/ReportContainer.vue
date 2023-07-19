@@ -49,6 +49,12 @@ const REPORTS_KEYS = {
 export default {
   components: { ChartStats },
   mixins: [reportMixin],
+  props: {
+    groupBy: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
   computed: {
     metrics() {
       const reportKeys = [
@@ -131,7 +137,7 @@ export default {
       if (this.isAverageMetricType(metric.KEY)) {
         tooltips.callbacks = {
           label: tooltipItem => {
-            this.$t(metric.TOOLTIP_TEXT, {
+            return this.$t(metric.TOOLTIP_TEXT, {
               metricValue: formatTime(tooltipItem.yLabel),
               conversationCount: this.accountReport.data[metric.KEY][
                 tooltipItem.index

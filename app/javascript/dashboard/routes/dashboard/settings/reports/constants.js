@@ -78,21 +78,13 @@ export const DATE_RANGE_OPTIONS = {
     id: 'LAST_6_MONTHS',
     translationKey: 'REPORT.DATE_RANGE_OPTIONS.LAST_6_MONTHS',
     offset: 179,
-    groupByOptions: [
-      GROUP_BY_OPTIONS.DAY,
-      GROUP_BY_OPTIONS.WEEK,
-      GROUP_BY_OPTIONS.MONTH,
-    ],
+    groupByOptions: [GROUP_BY_OPTIONS.WEEK, GROUP_BY_OPTIONS.MONTH],
   },
   LAST_YEAR: {
     id: 'LAST_YEAR',
     translationKey: 'REPORT.DATE_RANGE_OPTIONS.LAST_YEAR',
     offset: 364,
-    groupByOptions: [
-      GROUP_BY_OPTIONS.DAY,
-      GROUP_BY_OPTIONS.WEEK,
-      GROUP_BY_OPTIONS.MONTH,
-    ],
+    groupByOptions: [GROUP_BY_OPTIONS.WEEK, GROUP_BY_OPTIONS.MONTH],
   },
   CUSTOM_DATE_RANGE: {
     id: 'CUSTOM_DATE_RANGE',

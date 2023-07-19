@@ -13,7 +13,7 @@
       :show-group-by-filter="true"
       @filter-change="onFilterChange"
     />
-    <report-container />
+    <report-container :group-by="groupBy" />
   </div>
 </template>
 
@@ -48,7 +48,6 @@ export default {
     return {
       from: 0,
       to: 0,
-      currentSelection: 0,
       groupBy: GROUP_BY_FILTER[1],
       businessHours: false,
     };
@@ -107,10 +106,6 @@ export default {
         'dd-MM-yyyy'
       )}.csv`;
       this.$store.dispatch('downloadAgentReports', { from, to, fileName });
-    },
-    changeSelection(index) {
-      this.currentSelection = index;
-      this.fetchChartData();
     },
     onFilterChange({ from, to, groupBy, businessHours }) {
       this.from = from;
