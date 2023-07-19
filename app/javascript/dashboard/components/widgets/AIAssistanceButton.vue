@@ -1,37 +1,39 @@
 <template>
-  <div v-if="isAIIntegrationEnabled" class="position-relative">
-    <AIAssistanceCTAButton
-      v-if="shouldShowAIAssistCTAButtonForAgent"
-      @click="openAIAssist"
-    />
-    <woot-button
-      v-else
-      v-tooltip.top-end="$t('INTEGRATION_SETTINGS.OPEN_AI.AI_ASSIST')"
-      icon="wand"
-      color-scheme="secondary"
-      variant="smooth"
-      size="small"
-      @click="openAIAssist"
-    />
-    <woot-modal
-      :show.sync="showAIAssistanceModal"
-      :on-close="hideAIAssistanceModal"
-    >
-      <AIAssistanceModal
-        :ai-option="aiOption"
-        @apply-text="insertText"
-        @close="hideAIAssistanceModal"
+  <div v-if="!isFetchingAppIntegrations">
+    <div v-if="isAIIntegrationEnabled" class="position-relative">
+      <AIAssistanceCTAButton
+        v-if="shouldShowAIAssistCTAButtonForAgent"
+        @click="openAIAssist"
       />
-    </woot-modal>
-  </div>
-  <div
-    v-else-if="shouldShowAIAssistCTAButtonForAdmin"
-    class="position-relative"
-  >
-    <AIAssistanceCTAButton @click="openAICta" />
-    <woot-modal :show.sync="showAICtaModal" :on-close="hideAICtaModal">
-      <AICTAModal @close="hideAICtaModal" />
-    </woot-modal>
+      <woot-button
+        v-else
+        v-tooltip.top-end="$t('INTEGRATION_SETTINGS.OPEN_AI.AI_ASSIST')"
+        icon="wand"
+        color-scheme="secondary"
+        variant="smooth"
+        size="small"
+        @click="openAIAssist"
+      />
+      <woot-modal
+        :show.sync="showAIAssistanceModal"
+        :on-close="hideAIAssistanceModal"
+      >
+        <AIAssistanceModal
+          :ai-option="aiOption"
+          @apply-text="insertText"
+          @close="hideAIAssistanceModal"
+        />
+      </woot-modal>
+    </div>
+    <div
+      v-else-if="shouldShowAIAssistCTAButtonForAdmin"
+      class="position-relative"
+    >
+      <AIAssistanceCTAButton @click="openAICta" />
+      <woot-modal :show.sync="showAICtaModal" :on-close="hideAICtaModal">
+        <AICTAModal @close="hideAICtaModal" />
+      </woot-modal>
+    </div>
   </div>
 </template>
 <script>
@@ -77,8 +79,8 @@ export default {
     // Show CTA button for agents who never opened the AI assistance modal
     shouldShowAIAssistCTAButtonForAgent() {
       return (
+        this.isAIIntegrationEnabled &&
         !this.isAdmin &&
-        !this.isAIIntegrationEnabled &&
         !this.isAICTAModalDismissed
       );
     },

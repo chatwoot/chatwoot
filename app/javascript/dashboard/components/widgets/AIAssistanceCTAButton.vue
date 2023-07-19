@@ -77,5 +77,6 @@ export default {
   width: 0.75rem;
   height: 0.75rem;
   background-color: var(--w-500);
+  opacity: 0.5;
 }
 </style>
