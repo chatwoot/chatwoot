@@ -13,7 +13,7 @@ const defaultChartOptions = {
     },
   },
   animation: {
-    duration: 0, // general animation time
+    duration: 0,
   },
   datasets: {
     bar: {
