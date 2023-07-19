@@ -1,14 +1,6 @@
 .app-rtl--wrapper {
   direction: rtl;
 
-  // Settings header
-  .settings-header {
-    .header--icon {
-      margin-left: var(--space-small);
-      margin-right: var(--space-smaller);
-    }
-  }
-
   .header-section.back-button {
     direction: initial;
     margin-left: var(--space-normal);
