@@ -68,7 +68,7 @@ export default {
     isAICTAModalDismissed() {
       return this.uiSettings.is_open_ai_cta_modal_dismissed;
     },
-    // Show CTA button for admins when AI integration is enabled and the AI assistance modal is not dismissed
+    // Display a AI CTA button for admins if the AI integration has not been added yet and the AI assistance modal has not been dismissed.
     shouldShowAIAssistCTAButtonForAdmin() {
       return (
         this.isAdmin &&
@@ -76,7 +76,7 @@ export default {
         !this.isAICTAModalDismissed
       );
     },
-    // Show CTA button for agents who never opened the AI assistance modal
+    // Display a AI CTA button for agents who have not yet opened the AI assistance modal.
     shouldShowAIAssistCTAButtonForAgent() {
       return (
         this.isAIIntegrationEnabled &&

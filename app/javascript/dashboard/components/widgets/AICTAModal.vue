@@ -42,6 +42,7 @@ import { mapGetters } from 'vuex';
 import aiMixin from 'dashboard/mixins/aiMixin';
 import alertMixin from 'shared/mixins/alertMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import { OPEN_AI_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 export default {
   mixins: [aiMixin, alertMixin, uiSettingsMixin],
@@ -86,6 +87,9 @@ export default {
         await this.$store.dispatch('integrations/createHook', payload);
         this.alertMessage = this.$t(
           'INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.SUCCESS_MESSAGE'
+        );
+        this.recordAnalytics(
+          OPEN_AI_EVENTS.ADDED_AI_INTEGRATION_VIA_CTA_BUTTON
         );
         this.onClose();
       } catch (error) {
