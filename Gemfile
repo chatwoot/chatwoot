@@ -213,6 +213,7 @@ group :development, :test do
   gem 'bundle-audit', require: false
   gem 'byebug', platform: :mri
   gem 'climate_control'
+  gem 'debug', '~> 1.8'
   gem 'factory_bot_rails'
   gem 'listen'
   gem 'mock_redis'
