@@ -76,13 +76,9 @@ export default {
         !this.isAICTAModalDismissed
       );
     },
-    // Display a AI CTA button for agents who have not yet opened the AI assistance modal.
+    // Display a AI CTA button for agents and other admins who have not yet opened the AI assistance modal.
     shouldShowAIAssistCTAButtonForAgent() {
-      return (
-        this.isAIIntegrationEnabled &&
-        !this.isAdmin &&
-        !this.isAICTAModalDismissed
-      );
+      return this.isAIIntegrationEnabled && !this.isAICTAModalDismissed;
     },
   },
 
