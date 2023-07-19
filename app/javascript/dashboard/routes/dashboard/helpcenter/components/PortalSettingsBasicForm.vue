@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%] border border-solid border-transparent dark:border-transparent"
-  >
+  <div class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%]">
     <div class="w-full">
       <h3 class="block-title text-black-900 dark:text-slate-200">
         {{
@@ -191,7 +189,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .wizard-body {
-  @apply pt-3;
+  @apply pt-3 border border-solid border-transparent dark:border-transparent;
 }
 
 ::v-deep {
