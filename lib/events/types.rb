@@ -33,6 +33,7 @@ module Events::Types
   # message events
   MESSAGE_CREATED = 'message.created'
   FIRST_REPLY_CREATED = 'first.reply.created'
+  REPLY_CREATED = 'reply.created'
   MESSAGE_UPDATED = 'message.updated'
 
   # contact events
