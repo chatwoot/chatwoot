@@ -8,11 +8,13 @@ RSpec.describe Message do
     let(:message) { build(:message, message_type: :incoming, content_type: nil, account: create(:account)) }
 
     it 'calls SentimentAnalysisJob' do
-      allow(Enterprise::SentimentAnalysisJob).to receive(:perform_later).and_return(:perform_later).with(message)
+      with_modified_env SENTIMENT_FILE_PATH: 'sentiment-analysis.onnx' do
+        allow(Enterprise::SentimentAnalysisJob).to receive(:perform_later).and_return(:perform_later).with(message)
 
-      message.save!
+        message.save!
 
-      expect(Enterprise::SentimentAnalysisJob).to have_received(:perform_later)
+        expect(Enterprise::SentimentAnalysisJob).to have_received(:perform_later)
+      end
     end
   end
 end
