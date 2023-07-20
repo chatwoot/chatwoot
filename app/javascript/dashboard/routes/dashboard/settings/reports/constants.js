@@ -1,4 +1,25 @@
-import { formatTime } from '@chatwoot/utils';
+export const formatTime = timeInSeconds => {
+  if (!timeInSeconds) {
+    return '';
+  }
+
+  if (timeInSeconds < 60) {
+    return `${timeInSeconds}s`;
+  }
+
+  if (timeInSeconds < 3600) {
+    const minutes = Math.floor(timeInSeconds / 60);
+    return `${minutes}m`;
+  }
+
+  if (timeInSeconds < 86400) {
+    const hours = Math.floor(timeInSeconds / 3600);
+    return `${hours}h`;
+  }
+
+  const days = Math.floor(timeInSeconds / 86400);
+  return `${days}d`;
+};
 
 export const GROUP_BY_FILTER = {
   1: { id: 1, period: 'day' },
@@ -57,21 +78,13 @@ export const DATE_RANGE_OPTIONS = {
     id: 'LAST_6_MONTHS',
     translationKey: 'REPORT.DATE_RANGE_OPTIONS.LAST_6_MONTHS',
     offset: 179,
-    groupByOptions: [
-      GROUP_BY_OPTIONS.DAY,
-      GROUP_BY_OPTIONS.WEEK,
-      GROUP_BY_OPTIONS.MONTH,
-    ],
+    groupByOptions: [GROUP_BY_OPTIONS.WEEK, GROUP_BY_OPTIONS.MONTH],
   },
   LAST_YEAR: {
     id: 'LAST_YEAR',
     translationKey: 'REPORT.DATE_RANGE_OPTIONS.LAST_YEAR',
     offset: 364,
-    groupByOptions: [
-      GROUP_BY_OPTIONS.DAY,
-      GROUP_BY_OPTIONS.WEEK,
-      GROUP_BY_OPTIONS.MONTH,
-    ],
+    groupByOptions: [GROUP_BY_OPTIONS.WEEK, GROUP_BY_OPTIONS.MONTH],
   },
   CUSTOM_DATE_RANGE: {
     id: 'CUSTOM_DATE_RANGE',
@@ -87,7 +100,7 @@ export const DATE_RANGE_OPTIONS = {
 };
 
 export const CHART_FONT_FAMILY =
-  '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+  'PlusJakarta,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 
 export const DEFAULT_LINE_CHART = {
   type: 'line',
@@ -123,6 +136,12 @@ export const DEFAULT_CHART = {
           fontFamily: CHART_FONT_FAMILY,
           beginAtZero: true,
           stepSize: 1,
+          callback: (value, index, values) => {
+            if (!index || index === values.length - 1) {
+              return value;
+            }
+            return '';
+          },
         },
         gridLines: {
           drawOnChartArea: false,
@@ -156,8 +175,11 @@ export const METRIC_CHART = {
           position: 'left',
           ticks: {
             fontFamily: CHART_FONT_FAMILY,
-            callback(value) {
-              return formatTime(value);
+            callback: (value, index, values) => {
+              if (!index || index === values.length - 1) {
+                return formatTime(value);
+              }
+              return '';
             },
           },
           gridLines: {
@@ -187,8 +209,11 @@ export const METRIC_CHART = {
           position: 'left',
           ticks: {
             fontFamily: CHART_FONT_FAMILY,
-            callback(value) {
-              return formatTime(value);
+            callback: (value, index, values) => {
+              if (!index || index === values.length - 1) {
+                return formatTime(value);
+              }
+              return '';
             },
           },
           gridLines: {
