@@ -7,7 +7,7 @@ module Enterprise::MessageTemplates::HookExecutionService
   def should_process_response_bot?
     return false unless conversation.pending?
     return false unless message.incoming?
-    return false if inbox.response_sources.blank?
+    return false unless inbox.response_bot_enabled?
 
     true
   end
