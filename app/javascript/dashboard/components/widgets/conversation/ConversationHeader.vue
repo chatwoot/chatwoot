@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-white dark:bg-slate-900 flex justify-between items-center py-2 px-4 border-b border-slate-50 dark:border-slate-700 flex-col md:flex-row"
+    class="bg-white dark:bg-slate-900 flex justify-between items-center py-2 px-4 border-b border-slate-50 dark:border-slate-800/50 flex-col md:flex-row"
   >
     <div
       class="flex-1 w-100 flex flex-col md:flex-row items-center justify-center"
