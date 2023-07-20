@@ -12,6 +12,9 @@ module Enterprise::Channelable
     def create_audit_log_entry
       account = self.account
       associated_type = 'Account'
+
+      return if inbox.nil?
+
       auditable_id = inbox.id
       auditable_type = 'Inbox'
       audited_changes = saved_changes.except('updated_at')
