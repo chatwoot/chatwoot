@@ -108,9 +108,9 @@ gem 'elastic-apm', require: false
 gem 'newrelic_rpm', require: false
 gem 'newrelic-sidekiq-metrics', require: false
 gem 'scout_apm', require: false
-gem 'sentry-rails', require: false
+gem 'sentry-rails', '>= 5.10.0', require: false
 gem 'sentry-ruby', require: false
-gem 'sentry-sidekiq', require: false
+gem 'sentry-sidekiq', '>= 5.10.0', require: false
 
 ##-- background job processing --##
 gem 'sidekiq'
@@ -213,6 +213,7 @@ group :development, :test do
   gem 'bundle-audit', require: false
   gem 'byebug', platform: :mri
   gem 'climate_control'
+  gem 'debug', '~> 1.8'
   gem 'factory_bot_rails'
   gem 'listen'
   gem 'mock_redis'

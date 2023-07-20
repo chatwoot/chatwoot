@@ -34,6 +34,17 @@ describe ReportingEventListener do
     end
   end
 
+  describe '#reply_created' do
+    it 'creates reply created event' do
+      event = Events::Base.new('reply.created', Time.zone.now, waiting_since: 2.hours.ago, message: message)
+      listener.reply_created(event)
+
+      events = account.reporting_events.where(name: 'reply_time', conversation_id: message.conversation_id)
+      expect(events.length).to be 1
+      expect(events.first.value).to eq 7200
+    end
+  end
+
   describe '#first_reply_created' do
     it 'creates first_response event' do
       previous_count = account.reporting_events.where(name: 'first_response').count
