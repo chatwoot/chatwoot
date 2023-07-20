@@ -76,7 +76,7 @@
         </label>
         <div
           v-if="isPhoneNumberNotValid || !phoneNumber"
-          class="callout small warning text-sm dark:bg-yellow-300/20 dark:text-yellow-400"
+          class="callout small warning text-sm dark:bg-yellow-200/20 dark:text-yellow-400"
         >
           {{ $t('CONTACT_FORM.FORM.PHONE_NUMBER.HELP') }}
         </div>

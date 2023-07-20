@@ -194,9 +194,7 @@ export default {
 }
 
 .bulk-action__container {
-  border-bottom: 1px solid var(--s-100);
-  padding: var(--space-normal);
-  position: relative;
+  @apply p-4 relative border-b border-solid border-slate-100 dark:border-slate-600/70;
 }
 
 .bulk-action__panel {
@@ -214,13 +212,11 @@ export default {
 }
 
 .bulk-action__alert {
-  background-color: var(--y-50);
   border-radius: var(--border-radius-small);
-  border: 1px solid var(--y-300);
-  color: var(--y-700);
   font-size: var(--font-size-mini);
   margin-top: var(--space-small);
   padding: var(--space-smaller) var(--space-small);
+  @apply bg-yellow-50 text-yellow-700 border border-solid border-yellow-300 dark:border-yellow-300/10 dark:bg-yellow-200/20 dark:text-yellow-400;
 }
 
 .popover-animation-enter-active,
