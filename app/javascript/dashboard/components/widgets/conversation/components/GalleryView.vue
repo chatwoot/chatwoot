@@ -7,17 +7,21 @@
   >
     <div
       v-on-clickaway="onClose"
-      class="gallery-modal--wrap bg-white dark:bg-slate-900"
+      class="bg-white dark:bg-slate-900 flex flex-col h-[inherit] w-[inherit]"
       @click="onClose"
     >
-      <div class="gallery-modal--header">
-        <div class="header-info--wrap" @click.stop>
+      <div class="items-center flex h-16 justify-between py-2 px-6 w-full">
+        <div class="items-center flex justify-start min-w-[15rem]" @click.stop>
           <thumbnail
             :username="senderDetails.name"
             :src="senderDetails.avatar"
           />
-          <div class="header-info">
-            <h3 class="sub-block-title sender-name">
+          <div
+            class="flex items-start flex-col justify-center ml-2 rtl:ml-0 rtl:mr-2"
+          >
+            <h3
+              class="sub-block-title inline-block leading-[1.4] m-0 p-0 capitalize"
+            >
               <span
                 class="text-slate-800 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis"
               >
@@ -25,20 +29,25 @@
               </span>
             </h3>
             <span
-              class="time-stamp text-slate-400 dark:text-slate-200 overflow-hidden whitespace-nowrap text-ellipsis"
+              class="text-xs m-0 p-0 text-slate-400 dark:text-slate-200 overflow-hidden whitespace-nowrap text-ellipsis"
             >
               {{ readableTime }}
             </span>
           </div>
         </div>
-        <div class="file-name--header text-block-title">
+        <div
+          class="items-center text-slate-700 dark:text-slate-100 flex font-semibold justify-start min-w-0 p-1 w-auto text-block-title"
+        >
           <span
             class="text-slate-700 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis"
           >
             {{ fileNameFromDataUrl }}
           </span>
         </div>
-        <div class="header-actions" @click.stop>
+        <div
+          class="items-center flex gap-2 justify-end min-w-[15rem]"
+          @click.stop
+        >
           <woot-button
             size="large"
             color-scheme="secondary"
@@ -55,8 +64,8 @@
           />
         </div>
       </div>
-      <div class="gallery-modal--body">
-        <div class="attachment-toggle--button">
+      <div class="items-center flex h-full justify-center w-full">
+        <div class="flex justify-center min-w-[6.25rem] w-[6.25rem]">
           <woot-button
             v-if="hasMoreThanOneAttachment"
             size="large"
@@ -72,13 +81,13 @@
             "
           />
         </div>
-        <div class="attachments-viewer">
-          <div class="attachment-view">
+        <div class="flex items-center flex-col justify-center w-full h-full">
+          <div>
             <img
               v-if="isImage"
               :key="activeAttachment.message_id"
               :src="activeAttachment.data_url"
-              class="modal-image skip-context-menu"
+              class="modal-image skip-context-menu my-0 mx-auto"
               @click.stop
             />
             <video
@@ -87,7 +96,7 @@
               :src="activeAttachment.data_url"
               controls
               playsInline
-              class="modal-video skip-context-menu"
+              class="modal-video skip-context-menu my-0 mx-auto"
               @click.stop
             />
             <audio
@@ -101,7 +110,7 @@
             </audio>
           </div>
         </div>
-        <div class="attachment-toggle--button">
+        <div class="flex justify-center min-w-[6.25rem] w-[6.25rem]">
           <woot-button
             v-if="hasMoreThanOneAttachment"
             size="large"
@@ -118,8 +127,10 @@
           />
         </div>
       </div>
-      <div class="gallery-modal--footer">
-        <div class="header-count text-block-title">
+      <div class="items-center flex h-16 justify-center w-full py-2 px-6">
+        <div
+          class="items-center rounded-sm flex font-semibold justify-center min-w-[5rem] p-1 bg-slate-25 dark:bg-slate-800 text-slate-600 dark:text-slate-200 text-block-title"
+        >
           <span class="count">
             {{ `${activeImageIndex + 1} / ${allAttachments.length}` }}
           </span>
@@ -266,122 +277,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.gallery-modal--wrap {
-  display: flex;
-  flex-direction: column;
-  height: inherit;
-  width: inherit;
-
-  .gallery-modal--header {
-    align-items: center;
-    display: flex;
-    height: var(--space-jumbo);
-    justify-content: space-between;
-    padding: var(--space-small) var(--space-medium);
-    width: 100%;
-
-    .header-info--wrap {
-      align-items: center;
-      display: flex;
-      justify-content: flex-start;
-      min-width: var(--space-giga);
-
-      .header-info {
-        align-items: flex-start;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        margin-left: var(--space-small);
-
-        .sender-name {
-          display: inline-block;
-          line-height: 1.4;
-          margin: 0;
-          padding: 0;
-          text-transform: capitalize;
-        }
-
-        .time-stamp {
-          font-size: var(--font-size-mini);
-          margin: 0;
-          padding: 0;
-        }
-      }
-    }
-
-    .file-name--header {
-      align-items: center;
-      color: var(--s-700);
-      display: flex;
-      font-weight: var(--font-weight-bold);
-      justify-content: flex-start;
-      min-width: 0;
-      padding: var(--space-smaller);
-      width: auto;
-    }
-
-    .header-actions {
-      align-items: center;
-      display: flex;
-      gap: var(--space-small);
-      justify-content: flex-end;
-      min-width: var(--space-giga);
-    }
-  }
-
-  .gallery-modal--body {
-    align-items: center;
-    display: flex;
-    height: 100%;
-    justify-content: center;
-    width: 100%;
-  }
-
-  .gallery-modal--footer {
-    align-items: center;
-    display: flex;
-    height: var(--space-jumbo);
-    justify-content: center;
-    padding: var(--space-small) var(--space-medium);
-    width: 100%;
-
-    .header-count {
-      align-items: center;
-      border-radius: var(--border-radius-small);
-      display: flex;
-      font-weight: var(--font-weight-bold);
-      justify-content: center;
-      min-width: 5rem;
-      padding: var(--space-smaller);
-      @apply bg-slate-25 dark:bg-slate-800 text-slate-600 dark:text-slate-200;
-    }
-  }
-
-  .attachments-viewer {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    height: 100%;
-    justify-content: center;
-    width: 100%;
-
-    .attachment-view {
-      img {
-        margin: 0 auto;
-      }
-
-      video {
-        margin: 0 auto;
-      }
-    }
-  }
-
-  .attachment-toggle--button {
-    display: flex;
-    justify-content: center;
-    min-width: var(--space-mega);
-    width: var(--space-mega);
-  }
-}
-</style>
