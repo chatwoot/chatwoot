@@ -19,10 +19,10 @@ Make sure you strongly adhere to the following rules when generating the summary
 
 Reply in the user's language, as a markdown of the following format.
 
-### Customer Intent
+**Customer Intent**
 
-### Conversation Summary
+**Conversation Summary**
 
-### Action Items
+**Action Items**
 
-### Follow-up Items
+**Follow-up Items**
