@@ -23,7 +23,7 @@ describe('reportMixin', () => {
       mixins: [reportMixin],
     };
     const wrapper = shallowMount(Component, { store, localVue });
-    expect(wrapper.vm.displayMetric('conversations_count')).toEqual(5);
+    expect(wrapper.vm.displayMetric('conversations_count')).toEqual('5,000');
     expect(wrapper.vm.displayMetric('avg_first_response_time')).toEqual(
       '3 Min 18 Sec'
     );
@@ -36,7 +36,7 @@ describe('reportMixin', () => {
       mixins: [reportMixin],
     };
     const wrapper = shallowMount(Component, { store, localVue });
-    expect(wrapper.vm.calculateTrend('conversations_count')).toEqual(25);
+    expect(wrapper.vm.calculateTrend('conversations_count')).toEqual(124900);
     expect(wrapper.vm.calculateTrend('resolutions_count')).toEqual(0);
   });
 
