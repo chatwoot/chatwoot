@@ -82,11 +82,6 @@ class Inbox < ApplicationRecord
     member.save!
   end
 
-  def get_responses(query)
-    embedding = Openai::EmbeddingsService.new.get_embedding(query)
-    responses.nearest_neighbors(:embedding, embedding, distance: 'cosine').first(5)
-  end
-
   def remove_member(user_id)
     member = inbox_members.find_by!(user_id: user_id)
     member.try(:destroy)
@@ -129,7 +124,7 @@ class Inbox < ApplicationRecord
   end
 
   def active_bot?
-    agent_bot_inbox&.active? || hooks.pluck(:app_id).include?('dialogflow') || response_sources.any?
+    agent_bot_inbox&.active? || hooks.pluck(:app_id).include?('dialogflow')
   end
 
   def inbox_type
