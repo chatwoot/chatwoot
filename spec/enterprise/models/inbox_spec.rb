@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe Inbox do
-  # let!(:channel) { create(:channel_widget) }
   let!(:inbox) { create(:inbox) }
 
   describe 'member_ids_with_assignment_capacity' do
