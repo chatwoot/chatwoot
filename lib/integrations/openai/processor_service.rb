@@ -6,13 +6,7 @@ class Integrations::Openai::ProcessorService < Integrations::OpenaiBaseService
   end
 
   def summarize_message
-    summary = make_api_call(summarize_body)
-    conversation = find_conversation
-    conversation.summary = summary
-    conversation.summary_generated_at = DateTime.now.utc
-    conversation.save
-
-    summary
+    make_api_call(summarize_body)
   end
 
   def rephrase_message
