@@ -161,12 +161,11 @@ export default {
           renderBodyCell: ({ row }) => {
             if (row.email)
               return (
-                <div class="overflow-hidden whitespace-nowrap text-ellipsis">
+                <div class="overflow-hidden whitespace-nowrap text-ellipsis text-woot-500 dark:text-woot-500">
                   <a
                     target="_blank"
                     rel="noopener noreferrer nofollow"
                     href={`mailto:${row.email}`}
-                    class="text-woot-500 dark:text-woot-500"
                   >
                     {row.email}
                   </a>
