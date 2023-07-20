@@ -36,6 +36,7 @@
         :cc-emails.sync="ccEmails"
         :bcc-emails.sync="bccEmails"
         :to-emails.sync="toEmails"
+        :forward-to-emails.sync="forwardToEmails"
       />
       <woot-audio-recorder
         v-if="showAudioRecorderEditor"
@@ -824,6 +825,7 @@ export default {
       this.ccEmails = '';
       this.bccEmails = '';
       this.toEmails = '';
+      this.forwardToEmails = '';
     },
     toggleEmojiPicker() {
       this.showEmojiPicker = !this.showEmojiPicker;
@@ -1038,6 +1040,10 @@ export default {
         messagePayload.toEmails = this.toEmails;
       }
 
+      if (this.forwardToEmails && !this.isOnPrivateNote) {
+        messagePayload.forwardToEmails = this.forwardToEmails;
+      }
+
       return messagePayload;
     },
     setCcEmails(value) {
@@ -1080,10 +1086,12 @@ export default {
       bcc = [...new Set(bcc)];
       cc = [...new Set(cc)];
       to = [...new Set(to)];
+      forward_to = [...new Set(forward_to)];
 
       this.ccEmails = cc.join(', ');
       this.bccEmails = bcc.join(', ');
       this.toEmails = to.join(', ');
+      this.forwardToEmails = forwardToEmails.join(', ');
     },
   },
 };

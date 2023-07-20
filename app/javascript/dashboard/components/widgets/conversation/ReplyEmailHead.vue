@@ -113,6 +113,10 @@ export default {
       type: String,
       default: '',
     },
+    forwardToEmails: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -140,7 +144,7 @@ export default {
         this.toEmailsVal = newVal;
       }
     },
-    forwardToEmailsVal(newVal) {
+    forwardToEmails(newVal) {
       if (newVal !== this.forwardToEmailsVal) {
         this.forwardToEmailsVal = newVal;
       }
@@ -150,7 +154,7 @@ export default {
     this.ccEmailsVal = this.ccEmails;
     this.bccEmailsVal = this.bccEmails;
     this.toEmailsVal = this.toEmails;
-    this.forwardToEmailsVal = this.forwardToEmailsVal;
+    this.forwardToEmailsVal = this.forwardToEmails;
   },
   validations: {
     ccEmailsVal: {
