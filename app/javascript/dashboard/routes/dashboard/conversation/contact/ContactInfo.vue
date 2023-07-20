@@ -18,9 +18,9 @@
       </div>
 
       <div class="mt-2 w-full">
-        <div v-if="showAvatar" class="flex items-center mb-2">
+        <div v-if="showAvatar" class="flex items-center mb-2 gap-1">
           <h3
-            class="text-base text-slate-800 dark:text-slate-100 capitalize whitespace-normal my-0 mr-1 rtl:mr-0 rtl:ml-1"
+            class="text-base text-slate-800 dark:text-slate-100 capitalize whitespace-normal my-0"
           >
             {{ contact.name }}
           </h3>
@@ -33,6 +33,7 @@
             "
             icon="info"
             size="14"
+            class="mt-0.5"
           />
           <a
             :href="contactProfileLink"
