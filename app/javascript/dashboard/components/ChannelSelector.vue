@@ -50,6 +50,7 @@ export default {
   img {
     margin: var(--space-normal) auto;
     width: 50%;
+    height: 100%;
   }
 
   .channel__title {
