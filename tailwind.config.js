@@ -11,6 +11,16 @@ module.exports = {
     './app/views/**/*.html.erb',
   ],
   theme: {
+    extend: {
+      boxShadow: {
+        elevation1:
+          '0px 1px 3px 1px rgba(27, 40, 54, 0.15), 0px 1px 2px 0px rgba(27, 40, 54, 0.30)',
+        elevation2:
+          '0px 2px 6px 2px rgba(27, 40, 54, 0.15), 0px 1px 2px 0px rgba(27, 40, 54, 0.30)',
+        elevation3:
+          '0px 1px 3px 0px rgba(27, 40, 54, 0.30), 0px 4px 8px 3px rgba(27, 40, 54, 0.15)',
+      },
+    },
     fontSize: {
       xxs: '0.625rem',
       ...defaultTheme.fontSize,

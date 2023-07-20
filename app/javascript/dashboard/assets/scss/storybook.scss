@@ -30,3 +30,16 @@
 @import 'widgets/forms';
 
 @import 'plugins/multiselect';
+
+@import 'widget/assets/scss/_reset.scss';
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+html,
+body {
+  font-family: 'PlusJakarta', sans-serif;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  height: 100%;
+}
