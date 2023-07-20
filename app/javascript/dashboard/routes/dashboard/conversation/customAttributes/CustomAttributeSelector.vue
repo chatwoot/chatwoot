@@ -58,13 +58,19 @@ export default {
   methods: {
     async addAttribute(attribute) {
       try {
-        const { attribute_key } = attribute;
+        const {
+          attribute_key,
+          attribute_display_type,
+          default_value,
+        } = attribute;
+        const defaultValue =
+          attribute_display_type === 'checkbox' ? false : default_value || null;
         if (this.attributeType === 'conversation_attribute') {
           await this.$store.dispatch('updateCustomAttributes', {
             conversationId: this.conversationId,
             customAttributes: {
               ...this.customAttributes,
-              [attribute_key]: null,
+              [attribute_key]: defaultValue,
             },
           });
         } else {
@@ -72,7 +78,7 @@ export default {
             id: this.contactId,
             custom_attributes: {
               ...this.customAttributes,
-              [attribute_key]: null,
+              [attribute_key]: defaultValue,
             },
           });
         }
