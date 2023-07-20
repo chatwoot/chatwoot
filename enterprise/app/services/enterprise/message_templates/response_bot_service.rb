@@ -1,4 +1,4 @@
-class MessageTemplates::Template::ResponseBotService
+class Enterprise::MessageTemplates::ResponseBotService
   pattr_initialize [:conversation!]
 
   def perform

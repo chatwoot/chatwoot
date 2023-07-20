@@ -30,7 +30,7 @@ class Features::ResponseBotService
 
   def drop_tables
     %i[responses response_documents response_sources].each do |table|
-      MIGRATION_VERSION.drop_table table
+      MIGRATION_VERSION.drop_table table if MIGRATION_VERSION.table_exists?(table)
     end
   end
 
