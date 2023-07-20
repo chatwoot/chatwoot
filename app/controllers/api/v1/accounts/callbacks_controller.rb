@@ -23,10 +23,10 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
   end
 
   def log_additional_info
-    Rails.logger.debug { "user_access_token: #{params[:user_access_token]}" }
-    Rails.logger.debug { "page_access_token: #{params[:page_access_token]}" }
-    Rails.logger.debug { "page_id: #{params[:page_id]}" }
-    Rails.logger.debug { "inbox_name: #{params[:inbox_name]}" }
+    Rails.logger.debug do
+      "user_access_token: #{params[:user_access_token]} , page_access_token: #{params[:page_access_token]} ,
+      page_id: #{params[:page_id]}, inbox_name: #{params[:inbox_name]}"
+    end
   end
 
   def facebook_pages
