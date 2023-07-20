@@ -12,7 +12,7 @@
           'has-submitted': hasSubmitted,
         }"
       >
-        <label :class="$dm('text-black-900', 'dark:text-slate-50')">{{
+        <label :class="$dm('text-slate-900', 'dark:text-slate-50')">{{
           item.label
         }}</label>
         <input
@@ -120,7 +120,7 @@ export default {
     },
     inputColor() {
       return `${this.$dm('bg-white', 'dark:bg-slate-600')}
-        ${this.$dm('text-black-900', 'dark:text-slate-50')}`;
+        ${this.$dm('text-slate-900', 'dark:text-slate-50')}`;
     },
     isFormValid() {
       return this.items.reduce((acc, { name }) => {

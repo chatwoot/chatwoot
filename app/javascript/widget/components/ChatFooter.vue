@@ -1,7 +1,7 @@
 <template>
   <footer
     v-if="!hideReplyBox"
-    class="shadow-sm bg-white mb-1 z-50 relative"
+    class="shadow-sm bg-white mb-1 z-50 relative pt-0.5"
     :class="{ 'rounded-lg': !isWidgetStyleFlat }"
   >
     <chat-input-wrap

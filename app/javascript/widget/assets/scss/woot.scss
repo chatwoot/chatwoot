@@ -10,13 +10,13 @@
 @import 'mixins';
 @import 'forms';
 @import 'utilities';
-@import 'shared/assets/fonts/widget_fonts';
+@import 'shared/assets/fonts/plus-jakarta';
 @import '~spinkit/scss/spinners/7-three-bounce';
 @import 'views/conversation';
 
 html,
 body {
-  font-family: $font-family;
+  font-family: 'PlusJakarta', sans-serif;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   height: 100%;

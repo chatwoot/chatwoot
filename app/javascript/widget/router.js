@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import ViewWithHeader from './components/layouts/ViewWithHeader.vue';
+import SheetsLayout from './components/layouts/SheetsLayout';
 
 Vue.use(Router);
 
@@ -19,7 +19,7 @@ export default new Router({
     },
     {
       path: '/',
-      component: ViewWithHeader,
+      component: SheetsLayout,
       children: [
         {
           path: '',

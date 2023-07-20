@@ -5,26 +5,32 @@
       class="email-input-group"
       @submit.prevent="onSubmit"
     >
-      <input
-        v-model.trim="email"
-        class="form-input"
-        :placeholder="$t('EMAIL_PLACEHOLDER')"
-        :class="inputHasError"
-        @input="$v.email.$touch"
-        @keydown.enter="onSubmit"
-      />
-      <button
-        class="button small"
-        :disabled="$v.email.$invalid"
-        :style="{
-          background: widgetColor,
-          borderColor: widgetColor,
-          color: textColor,
-        }"
-      >
-        <fluent-icon v-if="!isUpdating" icon="chevron-right" />
-        <spinner v-else class="mx-2" />
-      </button>
+      <div class="mt-2 flex rounded-md shadow-sm">
+        <div class="relative flex flex-grow items-stretch focus-within:z-10">
+          <input
+            v-model.trim="email"
+            type="email"
+            class="block w-full rounded-none rounded-l-md border-0 py-2 px-2 text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
+            :placeholder="$t('EMAIL_PLACEHOLDER')"
+            :class="inputHasError"
+            @input="$v.email.$touch"
+            @keydown.enter="onSubmit"
+          />
+        </div>
+        <button
+          type="button"
+          class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-white hover:bg-slate-50"
+          :disabled="$v.email.$invalid"
+          :style="{
+            background: widgetColor,
+            borderColor: widgetColor,
+            color: textColor,
+          }"
+        >
+          <fluent-icon v-if="!isUpdating" icon="chevron-right" />
+          <spinner v-else class="mx-2" />
+        </button>
+      </div>
     </form>
   </div>
 </template>
@@ -112,41 +118,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~widget/assets/scss/variables.scss';
-
 .email-input-group {
-  display: flex;
-  margin: $space-small 0;
-  min-width: 200px;
-
-  input {
-    border-bottom-right-radius: 0;
-    border-top-right-radius: 0;
-    padding: $space-one;
-    width: 100%;
-
-    &::placeholder {
-      color: $color-light-gray;
-    }
-
-    &.error {
-      border-color: $color-error;
-    }
-  }
-
-  .button {
-    border-bottom-left-radius: 0;
-    border-top-left-radius: 0;
-    font-size: $font-size-large;
-    height: auto;
-    margin-left: -1px;
-
-    .spinner {
-      display: block;
-      padding: 0;
-      height: auto;
-      width: auto;
-    }
-  }
 }
 </style>

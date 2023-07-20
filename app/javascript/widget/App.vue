@@ -321,9 +321,9 @@ export default {
             !message.isOpen &&
             ['unread-messages', 'campaigns'].includes(this.$route.name);
 
-          if (shouldShowMessageView) {
-            this.replaceRoute('messages');
-          }
+          // if (shouldShowMessageView) {
+          //   this.replaceRoute('messages');
+          // }
           if (shouldShowHomeView) {
             this.$store.dispatch('conversation/setUserLastSeen');
             this.unsetUnreadView();

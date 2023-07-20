@@ -12,12 +12,19 @@ import {
   isPhoneNumberValidWithDialCode,
 } from 'shared/helpers/Validators';
 import router from '../widget/router';
+import {
+  addPaletteToCss,
+  generateColorPalette,
+} from '../shared/helpers/colorHelper';
 import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
 const PhoneInput = () => import('../widget/components/Form/PhoneInput');
+const FluentIcon = () => import('../shared/components/FluentIcon/Index.vue');
 
 Vue.use(VueI18n);
 Vue.use(Vuelidate);
 Vue.use(VueDOMPurifyHTML, domPurifyConfig);
+
+Vue.component('fluent-icon', FluentIcon);
 
 const i18nConfig = new VueI18n({
   locale: 'en',
@@ -59,4 +66,7 @@ window.onload = () => {
     window.WOOT_WIDGET,
     window.chatwootPubsubToken
   );
+
+  let palette = generateColorPalette(window.chatwootWebChannel.widgetColor);
+  addPaletteToCss(palette, 'brand');
 };

@@ -2,10 +2,10 @@
   <button
     type="submit"
     :disabled="disabled"
-    class="icon-button flex items-center justify-center ml-1"
+    class="flex items-center justify-center px-2 py-1 send-button rounded shadow-sm"
     @click="onClick"
   >
-    <fluent-icon v-if="!loading" icon="send" :style="`color: ${color}`" />
+    <fluent-icon v-if="!loading" icon="send" />
     <spinner v-else size="small" />
   </button>
 </template>
@@ -39,3 +39,12 @@ export default {
   },
 };
 </script>
+<style scoped lang="scss">
+.send-button {
+  background: var(--brand-primary);
+  color: var(--brand-textButton);
+
+  svg {
+  }
+}
+</style>

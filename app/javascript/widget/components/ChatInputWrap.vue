@@ -1,6 +1,6 @@
 <template>
   <div
-    class="chat-message--input is-focused"
+    class="flex relative flex-col rounded-md min-h-[72px] border border-solid border-slate-300 focus-within:border-woot-500 focus-within:ring focus-within:ring-woot-100 "
     :class="$dm('bg-white ', 'dark:bg-slate-600')"
     @keydown.esc="hideEmojiPicker"
   >
@@ -8,19 +8,21 @@
       id="chat-input"
       ref="chatInput"
       v-model="userInput"
+      :min-height="4"
+      rows="1"
       :aria-label="$t('CHAT_PLACEHOLDER')"
       :placeholder="$t('CHAT_PLACEHOLDER')"
-      class="form-input user-message-input is-focused"
+      class="text-sm px-4 py-2 w-full border-0 rounded-t-md focus-within:outline-none leading-6 min-h-[40px] resize-none compose-message"
       :class="inputColor"
       @typing-off="onTypingOff"
       @typing-on="onTypingOn"
       @focus="onFocus"
       @blur="onBlur"
     />
-    <div class="button-wrap">
+    <div class="flex items-center justify-between w-full px-2 py-1">
       <chat-attachment-button
         v-if="showAttachment"
-        :class="$dm('text-black-900', 'dark:text-slate-100')"
+        :class="$dm('text-slate-800', 'dark:text-slate-50')"
         :on-attach="onSendAttachment"
       />
       <button
@@ -101,12 +103,12 @@ export default {
     },
     inputColor() {
       return `${this.$dm('bg-white', 'dark:bg-slate-600')}
-        ${this.$dm('text-black-900', 'dark:text-slate-50')}`;
+        ${this.$dm('text-slate-900', 'dark:text-slate-50')}`;
     },
     emojiIconColor() {
       return this.showEmojiPicker
-        ? `text-woot-500 ${this.$dm('text-black-900', 'dark:text-slate-100')}`
-        : `${this.$dm('text-black-900', 'dark:text-slate-100')}`;
+        ? `text-woot-500 ${this.$dm('text-slate-900', 'dark:text-slate-100')}`
+        : `${this.$dm('text-slate-900', 'dark:text-slate-100')}`;
     },
   },
   watch: {
@@ -177,18 +179,10 @@ export default {
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';
 @import '~widget/assets/scss/mixins.scss';
-
-.chat-message--input {
-  align-items: center;
-  display: flex;
-  padding: 0 $space-small 0 $space-slab;
-  border-radius: 7px;
-
-  &.is-focused {
-    box-shadow: 0 0 0 1px $color-woot, 0 0 2px 3px $color-primary-light;
-  }
+.compose-message {
+  /* Fix the Resizable text area component */
+  height: max-content !important;
 }
-
 .emoji-dialog {
   right: 0;
   top: -302px;
@@ -197,12 +191,6 @@ export default {
   &::before {
     right: $space-one;
   }
-}
-
-.button-wrap {
-  display: flex;
-  align-items: center;
-  padding-left: $space-small;
 }
 
 .user-message-input {

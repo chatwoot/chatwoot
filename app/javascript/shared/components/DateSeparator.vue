@@ -1,6 +1,6 @@
 <template>
   <div
-    class="date--separator"
+    class="text-xs h-12 font-medium leading-12 text-center w-full relative date--separator"
     :class="$dm('text-slate-700', 'dark:text-slate-200')"
   >
     {{ formattedDate }}
@@ -34,22 +34,13 @@ export default {
 <style lang="scss" scoped>
 @import '~widget/assets/scss/variables';
 
-.date--separator {
-  font-size: $font-size-default;
-  height: 50px;
-  line-height: 50px;
-  position: relative;
-  text-align: center;
-  width: 100%;
-}
-
 .date--separator::before,
 .date--separator::after {
-  background-color: $color-border;
+  background-color: var(--s-50);
   content: '';
   height: 1px;
   position: absolute;
-  top: 24px;
+  top: 16px;
   width: calc((100% - 120px) / 2);
 }
 

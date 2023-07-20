@@ -37,7 +37,7 @@ export default {
     },
     iconClass: {
       type: String,
-      default: 'text-black-900',
+      default: 'text-slate-900',
     },
     itemClass: {
       type: String,

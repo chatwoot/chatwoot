@@ -3,6 +3,7 @@
     <pre-chat-form :options="preChatFormOptions" @submit="onSubmit" />
   </div>
 </template>
+
 <script>
 import { mapGetters } from 'vuex';
 import PreChatForm from '../components/PreChat/Form';

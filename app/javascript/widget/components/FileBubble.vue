@@ -69,7 +69,7 @@ export default {
     },
     titleColor() {
       return !this.isUserBubble
-        ? this.$dm('text-black-900', 'dark:text-slate-50')
+        ? this.$dm('text-slate-900', 'dark:text-slate-50')
         : '';
     },
   },

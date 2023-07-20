@@ -1,13 +1,13 @@
 <template>
   <div
     v-if="globalConfig.brandName && !disableBranding"
-    class="px-0 py-3 flex justify-center"
+    class="px-0 pt-2 pb-3 flex justify-center brand-bg"
   >
     <a
       :href="brandRedirectURL"
       rel="noreferrer noopener nofollow"
       target="_blank"
-      class="branding--link justify-center items-center leading-3"
+      class="text-xs text-brand font-medium cursor-pointer inline-flex justify-center items-center leading-3 grayscale opacity-60 hover:opacity-100 hover:grayscale-0"
     >
       <img
         class="branding--image"
@@ -77,19 +77,11 @@ export default {
   max-height: $space-slab;
 }
 
-.branding--link {
-  color: $color-light-gray;
-  cursor: pointer;
-  display: inline-flex;
-  filter: grayscale(1);
-  font-size: $font-size-small;
-  opacity: 0.9;
-  text-decoration: none;
+.brand-bg {
+  background: var(--brand-bgDark);
+}
 
-  &:hover {
-    filter: grayscale(0);
-    opacity: 1;
-    color: $color-gray;
-  }
+.text-brand {
+  color: var(--brand-body);
 }
 </style>

@@ -1,6 +1,12 @@
 <template>
-  <div class="conversation--container" :class="colorSchemeClass">
-    <div class="conversation-wrap" :class="{ 'is-typing': isAgentTyping }">
+  <div
+    class="flex flex-col flex-1 -mx-4 overflow-y-auto conversation--container"
+    :class="colorSchemeClass"
+  >
+    <div
+      class="pt-8 px-4 pb-2 flex-1 conversation-wrap"
+      :class="{ 'is-typing': isAgentTyping }"
+    >
       <div v-if="isFetchingList" class="message--loader">
         <spinner />
       </div>
@@ -111,10 +117,6 @@ export default {
 @import '~widget/assets/scss/mixins.scss';
 
 .conversation--container {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  overflow-y: auto;
   color-scheme: light dark;
 
   &.light-scheme {
@@ -123,11 +125,6 @@ export default {
   &.dark-scheme {
     color-scheme: dark;
   }
-}
-
-.conversation-wrap {
-  flex: 1;
-  padding: $space-large $space-small $space-small $space-small;
 }
 
 .message--loader {

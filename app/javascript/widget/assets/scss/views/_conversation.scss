@@ -1,4 +1,4 @@
-.file-uploads .attachment-button + label {
+.file-uploads .attachment-button+label {
   cursor: pointer;
 }
 
@@ -8,7 +8,7 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    margin: 0 0 $space-micro $space-small;
+    margin: 0 0 $space-micro 0;
     max-width: 88%;
 
     .avatar-wrap {
@@ -61,27 +61,19 @@
   }
 
   .agent-message-wrap {
-    + .agent-message-wrap {
+    +.agent-message-wrap {
       margin-top: $space-micro;
-
-      .agent-message .chat-bubble {
-        border-top-left-radius: $space-smaller;
-      }
     }
 
-    + .user-message-wrap {
+    +.user-message-wrap {
       margin-top: $space-normal;
     }
 
-    &.has-response + .user-message-wrap {
+    &.has-response+.user-message-wrap {
       margin-top: $space-micro;
-
-      .chat-bubble {
-        border-top-right-radius: $space-smaller;
-      }
     }
 
-    &.has-response + .agent-message-wrap {
+    &.has-response+.agent-message-wrap {
       margin-top: $space-normal;
     }
   }
@@ -128,15 +120,11 @@
   }
 
   .user-message-wrap {
-    + .user-message-wrap {
+    +.user-message-wrap {
       margin-top: $space-micro;
-
-      .user-message .chat-bubble {
-        border-top-right-radius: $space-smaller;
-      }
     }
 
-    + .agent-message-wrap {
+    +.agent-message-wrap {
       margin-top: $space-normal;
     }
   }
@@ -165,16 +153,6 @@
     .chat-bubble {
       border: 1px solid $color-border-dark;
     }
-
-    + .chat-bubble-wrap {
-      .chat-bubble {
-        border-top-left-radius: $space-smaller;
-      }
-    }
-
-    &:last-child .chat-bubble {
-      border-bottom-left-radius: $space-two;
-    }
   }
 }
 
@@ -188,7 +166,7 @@
       border-radius: $space-two;
     }
 
-    + .chat-bubble-wrap {
+    +.chat-bubble-wrap {
       .chat-bubble {
         border-top-right-radius: $space-smaller;
       }
@@ -205,22 +183,21 @@
 }
 
 .chat-bubble {
-  @include light-shadow;
-  border-radius: $space-two;
-  color: $color-white;
-  display: inline-block;
-  font-size: $font-size-default;
-  line-height: 1.5;
-  max-width: 100%;
-  padding: $space-slab $space-normal;
-  text-align: left;
-  word-break: break-word;
+  @apply rounded-md;
+  @apply text-sm text-white font-medium text-left;
+  @apply inline-flex flex-col;
+  @apply leading-6;
+  @apply max-w-full;
+  @apply px-4 py-2;
+  @apply border border-slate-100;
+  @apply break-words;
+  @apply text-slate-800;
 
   :not([audio]) {
     max-width: 100%;
   }
 
-  > a {
+  >a {
     color: $color-primary;
     word-break: break-all;
   }
@@ -229,17 +206,13 @@
     text-decoration: underline;
   }
 
-  &.user {
-    border-bottom-right-radius: $space-smaller;
-
-    > a {
-      color: $color-white;
-    }
+  &.user>a {
+    color: $color-white;
   }
 
+
   &.agent {
-    border-bottom-left-radius: $space-smaller;
-    color: $color-body;
+    @apply text-slate-700;
 
     .link {
       color: $color-woot;

@@ -9,6 +9,32 @@ export default {
     replyTime() {
       return window.chatwootWebChannel.replyTime;
     },
+    agentNamesToDisplay() {
+      if (!this.availableAgents) return '';
+
+      const total = this.availableAgents.length;
+      const firstFew = this.availableAgents
+        .slice(0, 2)
+        .map(agent => agent.firstName);
+
+      if (total > 3) {
+        const names = firstFew.join(', ');
+        return `${names} and ${this.availableAgents.length -
+          2} others online to answer your questions.`;
+      }
+      if (total === 3) {
+        const names = firstFew.join(', ');
+        return `${names} and ${names[2]} is online to answer your questions.`;
+      }
+      if (total === 2) {
+        const names = firstFew.join(' and ');
+        return `${names} is online to answer your questions.`;
+      }
+      if (total === 1) {
+        return `${firstFew[0]} is online to answer your questions.`;
+      }
+      return '';
+    },
     replyTimeStatus() {
       switch (this.replyTime) {
         case 'in_a_few_minutes':

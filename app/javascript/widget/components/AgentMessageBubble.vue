@@ -4,13 +4,13 @@
       v-if="
         !isCards && !isOptions && !isForm && !isArticle && !isCards && !isCSAT
       "
-      class="chat-bubble agent"
+      class="chat-bubble agent border border-slate-50 border-solid"
       :class="$dm('bg-white', 'dark:bg-slate-700 has-dark-mode')"
     >
       <div
         v-dompurify-html="formatMessage(message, false)"
         class="message-content"
-        :class="$dm('text-black-900', 'dark:text-slate-50')"
+        :class="$dm('text-slate-800', 'dark:text-slate-50')"
       />
       <email-input
         v-if="isTemplateEmail"
