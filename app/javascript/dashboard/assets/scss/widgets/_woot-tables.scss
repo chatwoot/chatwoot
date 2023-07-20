@@ -51,12 +51,12 @@ table {
 
 .ve-table {
   .ve-table-container.ve-table-border-around {
-    @apply border-slate-200 dark:border-slate-600;
+    @apply border-slate-200 dark:border-slate-700;
   }
 
   .ve-table-content {
     .ve-table-header .ve-table-header-tr .ve-table-header-th {
-      @apply bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 border-slate-100 dark:border-slate-600;
+      @apply bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-100 border-slate-100 dark:border-slate-700/50;
     }
 
     .ve-table-body .ve-table-body-tr .ve-table-body-td {

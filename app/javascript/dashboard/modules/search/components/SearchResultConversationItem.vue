@@ -25,7 +25,10 @@
           <span class="pre-text"> {{ $t('SEARCH.FROM') }}: </span>
           {{ name }}
         </h5>
-        <h5 v-if="email" class="text-block-title email text-truncate">
+        <h5
+          v-if="email"
+          class="text-block-title email overflow-hidden whitespace-nowrap text-ellipsis"
+        >
           <span class="pre-text">{{ $t('SEARCH.EMAIL') }}:</span>
           {{ email }}
         </h5>

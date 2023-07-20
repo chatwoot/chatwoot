@@ -13,7 +13,10 @@
       <h5 class="option__title">
         {{ name }}
       </h5>
-      <p class="option__body text-truncate" :title="inboxIdentifier">
+      <p
+        class="option__body overflow-hidden whitespace-nowrap text-ellipsis"
+        :title="inboxIdentifier"
+      >
         {{ inboxIdentifier || computedInboxType }}
       </p>
     </div>

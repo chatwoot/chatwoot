@@ -96,7 +96,9 @@ export default {
                 status={row.status}
               />
               <div class="user-block">
-                <h6 class="title text-truncate">{row.agent}</h6>
+                <h6 class="title overflow-hidden whitespace-nowrap text-ellipsis">
+                  {row.agent}
+                </h6>
                 <span class="sub-title">{row.email}</span>
               </div>
             </div>

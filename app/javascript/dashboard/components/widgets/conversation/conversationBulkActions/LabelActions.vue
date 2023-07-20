@@ -50,7 +50,10 @@
               :value="label.title"
               class="label-checkbox"
             />
-            <span class="label-title text-truncate">{{ label.title }}</span>
+            <span
+              class="label-title overflow-hidden whitespace-nowrap text-ellipsis"
+              >{{ label.title }}</span
+            >
             <span
               class="label-pill"
               :style="{ backgroundColor: label.color }"

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="conversations-list-wrap flex-shrink-0 flex-basis-custom overflow-hidden flex flex-col border-r rtl:border-r-0 rtl:border-l border-slate-50 dark:border-slate-700"
+    class="conversations-list-wrap flex-shrink-0 flex-basis-custom overflow-hidden flex flex-col border-r rtl:border-r-0 rtl:border-l border-slate-50 dark:border-slate-800/50"
     :class="{
       hide: !showConversationList,
       'list--full-width': isOnExpandedLayout,
@@ -15,7 +15,7 @@
     >
       <div class="flex max-w-[85%] justify-center items-center">
         <h1
-          class="text-xl break-words overflow-hidden whitespace-nowrap text-ellipsis text-black-800 dark:text-slate-100 text-truncate mb-0"
+          class="text-xl break-words overflow-hidden whitespace-nowrap text-ellipsis text-black-800 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis mb-0"
           :title="pageTitle"
         >
           {{ pageTitle }}
@@ -161,7 +161,7 @@
         v-if="!hasCurrentPageEndReached && !chatListLoading"
         variant="clear"
         size="expanded"
-        class="text-center"
+        class="load-more--button"
         @click="loadMoreConversations"
       >
         {{ $t('CHAT_LIST.LOAD_MORE_CONVERSATIONS') }}
@@ -982,6 +982,10 @@ export default {
 
 .conversations-list {
   @apply overflow-hidden hover:overflow-y-auto;
+}
+
+.load-more--button {
+  @apply text-center rounded-none;
 }
 
 .tab--chat-type {

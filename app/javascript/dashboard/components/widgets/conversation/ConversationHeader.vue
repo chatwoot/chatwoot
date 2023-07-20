@@ -19,7 +19,7 @@
           <woot-button
             variant="link"
             color-scheme="secondary"
-            class="text-truncate"
+            class="overflow-hidden whitespace-nowrap text-ellipsis"
             @click.prevent="$emit('contact-panel-toggle')"
           >
             <h3
