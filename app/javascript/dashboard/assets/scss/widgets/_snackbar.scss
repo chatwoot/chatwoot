@@ -1,7 +1,7 @@
 .ui-snackbar-container {
   left: 0;
   margin: 0 auto;
-  max-width: 25rem;
+  max-width: 60rem;
   overflow: hidden;
   position: absolute;
   right: 0;
@@ -12,7 +12,7 @@
 
 .ui-snackbar {
   @include shadow;
-  background-color: $woot-snackbar-bg;
+  background-color: var(--b-900);
   border-radius: $space-smaller;
   display: inline-flex;
   margin-bottom: $space-small;
@@ -21,6 +21,13 @@
   min-width: 15rem;
   padding: $space-slab $space-medium;
   text-align: left;
+
+  &.wide {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    max-width: 60rem;
+  }
 }
 
 .ui-snackbar-text {
@@ -33,7 +40,7 @@
   margin-left: auto;
   padding-left: 1.875rem;
 
-  button {
+  button:not(.primary) {
     background: none;
     border: 0;
     color: $woot-snackbar-button;

@@ -3,8 +3,7 @@
     <woot-snackbar
       v-for="snackMessage in snackMessages"
       :key="snackMessage.key"
-      :message="snackMessage.message"
-      :action="snackMessage.action"
+      v-bind="snackMessage"
     />
   </transition-group>
 </template>
