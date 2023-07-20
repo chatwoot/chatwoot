@@ -9,7 +9,7 @@ table {
 
   tbody {
     tr {
-      @apply border-b border-slate-50 dark:border-slate-700;
+      @apply border-b border-slate-50 dark:border-slate-800/30;
     }
 
     td {
@@ -41,7 +41,7 @@ table {
   }
 
   .button-wrapper {
-    @apply flex justify-start flex-row min-w-[12.5rem];
+    @apply flex justify-start flex-row min-w-[12.5rem] gap-1;
   }
 
   .button {

@@ -132,7 +132,7 @@ export default {
     background-image: radial-gradient(#ebf0f5 1.2px, transparent 0);
   }
   .macro-dark-gradient-radial {
-    background-image: radial-gradient(#1b2836 1.2px, transparent 0);
+    background-image: radial-gradient(#293f51 1.2px, transparent 0);
   }
   .macro-gradient-radial-size {
     background-size: 1rem 1rem;

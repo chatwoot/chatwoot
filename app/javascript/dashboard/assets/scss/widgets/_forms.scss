@@ -64,7 +64,7 @@ input {
 }
 
 .help-text {
-  @apply font-normal;
+  @apply font-normal text-slate-600 dark:text-slate-400;
 }
 
 .input-group.small {
