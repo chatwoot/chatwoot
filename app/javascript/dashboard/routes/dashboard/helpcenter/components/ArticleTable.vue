@@ -48,7 +48,7 @@
       :current-page="currentPage"
       :total-count="totalCount"
       :page-size="pageSize"
-      class="dark:bg-slate-900 border-t-0"
+      class="dark:bg-slate-900 border-t-0 pl-0 pr-0"
       @page-change="onPageChange"
     />
   </div>
