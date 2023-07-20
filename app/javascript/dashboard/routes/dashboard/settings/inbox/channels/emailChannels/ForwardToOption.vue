@@ -62,7 +62,7 @@ export default {
   props: {
     provider: {
       type: String,
-       default: ''
+      default: '',
     },
   },
   data() {

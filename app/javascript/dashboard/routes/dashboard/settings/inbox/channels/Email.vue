@@ -18,7 +18,10 @@
     </div>
   </div>
   <microsoft v-else-if="provider === 'microsoft'" />
-  <forward-to-option v-else-if="provider !== 'other_provider' && provider !== 'microsoft'" :provider="provider" />
+  <forward-to-option
+    v-else-if="provider !== 'other_provider' && provider !== 'microsoft'"
+    :provider="provider"
+  />
   <forward-to-option v-else-if="provider === 'other_provider'" />
 </template>
 <script>
