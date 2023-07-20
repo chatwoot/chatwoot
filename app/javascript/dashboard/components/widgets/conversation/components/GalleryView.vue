@@ -5,7 +5,11 @@
     :show-close-button="false"
     :on-close="onClose"
   >
-    <div v-on-clickaway="onClose" class="gallery-modal--wrap" @click="onClose">
+    <div
+      v-on-clickaway="onClose"
+      class="gallery-modal--wrap bg-white dark:bg-slate-900"
+      @click="onClose"
+    >
       <div class="gallery-modal--header">
         <div class="header-info--wrap" @click.stop>
           <thumbnail
@@ -14,13 +18,23 @@
           />
           <div class="header-info">
             <h3 class="sub-block-title sender-name">
-              <span class="text-truncate">{{ senderDetails.name }}</span>
+              <span
+                class="text-slate-800 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis"
+              >
+                {{ senderDetails.name }}
+              </span>
             </h3>
-            <span class="time-stamp text-truncate">{{ readableTime }}</span>
+            <span
+              class="time-stamp text-slate-400 dark:text-slate-200 overflow-hidden whitespace-nowrap text-ellipsis"
+            >
+              {{ readableTime }}
+            </span>
           </div>
         </div>
         <div class="file-name--header text-block-title">
-          <span class="text-truncate">
+          <span
+            class="text-slate-700 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis"
+          >
             {{ fileNameFromDataUrl }}
           </span>
         </div>
@@ -289,7 +303,6 @@ export default {
         }
 
         .time-stamp {
-          color: var(--s-400);
           font-size: var(--font-size-mini);
           margin: 0;
           padding: 0;
@@ -336,18 +349,18 @@ export default {
     .header-count {
       align-items: center;
       border-radius: var(--border-radius-small);
-      background-color: var(--s-25);
-      color: var(--s-600);
       display: flex;
       font-weight: var(--font-weight-bold);
       justify-content: center;
       min-width: 5rem;
       padding: var(--space-smaller);
+      @apply bg-slate-25 dark:bg-slate-800 text-slate-600 dark:text-slate-200;
     }
   }
 
   .attachments-viewer {
     display: flex;
+    align-items: center;
     flex-direction: column;
     height: 100%;
     justify-content: center;
