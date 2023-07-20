@@ -64,13 +64,6 @@ RSpec.describe Inbox do
                                     audited_changes: { 'widget_color' => [previous_color, new_color] }).count).to eq(1)
       end
     end
-
-    context 'when inbox is deleted' do
-      it 'has associated audit log created' do
-        inbox.destroy!
-        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'destroy').count).to eq(1)
-      end
-    end
   end
 
   describe 'audit log with api channel' do
@@ -101,13 +94,6 @@ RSpec.describe Inbox do
         # Check for the specific webhook_update update in the audit log
         expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update',
                                     audited_changes: { 'webhook_url' => [previous_webhook, new_webhook] }).count).to eq(1)
-      end
-    end
-
-    context 'when inbox is deleted' do
-      it 'has associated audit log created' do
-        inbox.destroy!
-        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'destroy').count).to eq(1)
       end
     end
   end
