@@ -3,8 +3,10 @@ import { OPEN_AI_EVENTS } from '../helper/AnalyticsHelper/events';
 import { LOCAL_STORAGE_KEYS } from '../constants/localStorage';
 import { LocalStorage } from '../../shared/helpers/localStorage';
 import OpenAPI from '../api/integrations/openapi';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
+  mixins: [alertMixin],
   mounted() {
     this.fetchIntegrationsIfRequired();
   },
