@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-20.04
     services:
       postgres:
-        image: postgres:10.8
+        image: postgres:15.3
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: ""
