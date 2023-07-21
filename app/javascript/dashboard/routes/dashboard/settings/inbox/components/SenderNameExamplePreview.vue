@@ -1,9 +1,9 @@
 <template>
-  <div class="sender-name--preview-container">
+  <div class="flex flex-row items-center gap-4">
     <button
       v-for="keyOption in senderNameKeyOptions"
       :key="keyOption.key"
-      class="preview-button"
+      class="text-slate-800 dark:text-slate-100 cursor-pointer"
       @click="toggleSenderNameType(keyOption.key)"
     >
       <preview-card
@@ -11,25 +11,30 @@
         :content="keyOption.content"
         :active="keyOption.key === senderNameType"
       >
-        <div class="sender-name--preview-content">
-          <span class="text">
+        <div class="flex flex-col items-start p-3 gap-2">
+          <span class="text-xs">
             {{ $t('INBOX_MGMT.EDIT.SENDER_NAME_SECTION.FOR_EG') }}
           </span>
-          <div class="sender-name--preview">
+          <div class="flex flex-row items-center gap-2">
             <thumbnail :username="userName(keyOption)" size="32px" />
-            <div class="preview-card--content">
-              <div class="sender-name--preview">
-                <span v-if="isKeyOptionFriendly(keyOption.key)" class="name">
+            <div class="flex flex-col items-start gap-1">
+              <div class="items-center flex flex-row gap-0.5 max-w-[18rem]">
+                <span
+                  v-if="isKeyOptionFriendly(keyOption.key)"
+                  class="text-xs font-semibold leading-tight"
+                >
                   {{ keyOption.preview.senderName }}
                 </span>
-                <span v-if="isKeyOptionFriendly(keyOption.key)" class="text">
+                <span v-if="isKeyOptionFriendly(keyOption.key)" class="text-xs">
                   {{ $t('INBOX_MGMT.EDIT.SENDER_NAME_SECTION.FRIENDLY.FROM') }}
                 </span>
-                <span class="name text-truncate">
+                <span
+                  class="text-xs font-semibold leading-tight overflow-hidden whitespace-nowrap text-ellipsis"
+                >
                   {{ businessName || keyOption.preview.businessName }}
                 </span>
               </div>
-              <span class="text">{{ keyOption.preview.email }}</span>
+              <span class="text-xs">{{ keyOption.preview.email }}</span>
             </div>
           </div>
         </div>
@@ -106,56 +111,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.sender-name--preview-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: var(--space-normal);
-
-  .sender-name--preview-content {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: var(--space-slab);
-    gap: var(--space-small);
-  }
-}
-
-.preview-button {
-  color: var(--s-700);
-
-  .text {
-    font-size: var(--font-size-mini);
-  }
-
-  .sender-name--preview {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: var(--space-small);
-
-    .preview-card--content {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: var(--space-smaller);
-
-      .sender-name--preview {
-        align-items: center;
-        display: flex;
-        flex-direction: row;
-        gap: var(--space-micro);
-        max-width: 18rem;
-
-        .name {
-          font-size: var(--font-size-mini);
-          font-weight: var(--font-weight-bold);
-          line-height: 1.2;
-        }
-      }
-    }
-  }
-}
-</style>

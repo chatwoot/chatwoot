@@ -114,7 +114,9 @@ export default {
   },
   computed: {
     showIcon() {
-      return { 'text-truncate': this.shouldTruncate };
+      return {
+        'overflow-hidden whitespace-nowrap text-ellipsis': this.shouldTruncate,
+      };
     },
     isCountZero() {
       return this.childItemCount === 0;
