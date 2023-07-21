@@ -12,6 +12,7 @@ export const LocalStorage = {
       return value;
     }
   },
+
   set(key, value) {
     if (typeof value === 'object') {
       window.localStorage.setItem(key, JSON.stringify(value));
@@ -19,6 +20,24 @@ export const LocalStorage = {
       window.localStorage.setItem(key, value);
     }
     window.localStorage.setItem(key + ':ts', Date.now());
+  },
+
+  setFlag(store, key, accountId, expiry = 24 * 60 * 60 * 1000) {
+    const storeName = store ? `${store}::${accountId}}` : store;
+
+    const rawValue = window.localStorage.getItem(storeName);
+    const parsedValue = rawValue ? JSON.parse(rawValue) : {};
+
+    parsedValue[key] = Date.now() + expiry;
+
+    window.localStorage.setItem(storeName, JSON.stringify(parsedValue));
+  },
+
+  getFlag(store, key) {
+    const rawValue = window.localStorage.getItem(store);
+    const parsedValue = rawValue ? JSON.parse(rawValue) : {};
+
+    return parsedValue[key] && parsedValue[key] > Date.now();
   },
 
   remove(key) {
