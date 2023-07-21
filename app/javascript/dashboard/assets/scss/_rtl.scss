@@ -239,31 +239,6 @@
     }
   }
 
-  // scss-lint:disable SelectorDepth
-  .container .header-wrap .header-left-wrap .header-left-wrap > .page-title {
-    margin-right: var(--space-small);
-  }
-
-  .portal-container .container {
-    margin-left: unset !important;
-    margin-right: var(--space-small);
-
-    .configuration-items--wrap {
-      margin-left: var(--space-mega);
-      margin-right: unset !important;
-    }
-
-    thead th {
-      padding-left: var(--space-small);
-      padding-right: 0;
-    }
-
-    tbody td {
-      padding-left: var(--space-small);
-      padding-right: 0;
-    }
-  }
-
   .portal-popover__container .portal {
     .actions-container {
       margin-left: unset;

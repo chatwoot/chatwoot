@@ -3,17 +3,17 @@ table {
 
   thead {
     th {
-      @apply font-medium text-left uppercase text-slate-900 dark:text-slate-200;
+      @apply font-semibold tracking-[1px] text-left uppercase text-slate-900 dark:text-slate-200;
     }
   }
 
   tbody {
     tr {
-      @apply border-b border-slate-50 dark:border-slate-700;
+      @apply border-b border-slate-50 dark:border-slate-800/30;
     }
 
     td {
-      @apply p-2.5;
+      @apply p-2.5 text-slate-700 dark:text-slate-100;
     }
   }
 }
@@ -41,7 +41,7 @@ table {
   }
 
   .button-wrapper {
-    @apply flex justify-start flex-row min-w-[12.5rem];
+    @apply flex justify-start flex-row min-w-[12.5rem] gap-1;
   }
 
   .button {
@@ -51,12 +51,12 @@ table {
 
 .ve-table {
   .ve-table-container.ve-table-border-around {
-    @apply border-slate-200 dark:border-slate-600;
+    @apply border-slate-200 dark:border-slate-700;
   }
 
   .ve-table-content {
     .ve-table-header .ve-table-header-tr .ve-table-header-th {
-      @apply bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 border-slate-100 dark:border-slate-600;
+      @apply bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-100 border-slate-100 dark:border-slate-700/50;
     }
 
     .ve-table-body .ve-table-body-tr .ve-table-body-td {
@@ -66,5 +66,23 @@ table {
     .ve-table-body.ve-table-row-hover .ve-table-body-tr:hover td {
       @apply bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100;
     }
+  }
+}
+
+.table-pagination {
+  .ve-pagination-total {
+    @apply text-slate-600 dark:text-slate-200;
+  }
+
+  .ve-pagination-goto {
+    @apply text-slate-600 dark:text-slate-200;
+  }
+
+  .ve-pagination-li {
+    @apply bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-200 border-slate-75 dark:border-slate-700;
+  }
+
+  .ve-pagination-goto-input {
+    @apply bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-200;
   }
 }

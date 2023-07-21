@@ -7,6 +7,7 @@
       scroll-width="190rem"
       :table-data="tableData"
       :border-around="true"
+      style="max-width: calc(100vw - 18rem)"
     />
     <div v-if="isLoading" class="items-center flex text-base justify-center">
       <spinner />

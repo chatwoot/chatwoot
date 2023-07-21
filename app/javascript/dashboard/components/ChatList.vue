@@ -1,6 +1,6 @@
 <template>
   <div
-    class="conversations-list-wrap flex-shrink-0 flex-basis-custom overflow-hidden flex flex-col border-r rtl:border-r-0 rtl:border-l border-slate-50 dark:border-slate-700"
+    class="conversations-list-wrap flex-shrink-0 flex-basis-custom overflow-hidden flex flex-col border-r rtl:border-r-0 rtl:border-l border-slate-50 dark:border-slate-800/50"
     :class="{
       hide: !showConversationList,
       'list--full-width': isOnExpandedLayout,
@@ -15,14 +15,14 @@
     >
       <div class="flex max-w-[85%] justify-center items-center">
         <h1
-          class="text-xl break-words overflow-hidden whitespace-nowrap text-ellipsis text-black-800 dark:text-slate-100 text-truncate mb-0"
+          class="text-xl break-words overflow-hidden whitespace-nowrap text-ellipsis text-black-800 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis mb-0"
           :title="pageTitle"
         >
           {{ pageTitle }}
         </h1>
         <span
           v-if="!hasAppliedFiltersOrActiveFolders"
-          class="p-1 my-0.5 mx-1 rounded-md capitalize bg-slate-50 dark:bg-slate-800 text-xxs text-slate-500 dark:text-slate-300"
+          class="p-1 my-0.5 mx-1 rounded-md capitalize bg-slate-50 dark:bg-slate-800 text-xxs text-slate-600 dark:text-slate-300"
         >
           {{
             this.$t(`CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.${activeStatus}.TEXT`)
@@ -161,7 +161,7 @@
         v-if="!hasCurrentPageEndReached && !chatListLoading"
         variant="clear"
         size="expanded"
-        class="text-center"
+        class="load-more--button"
         @click="loadMoreConversations"
       >
         {{ $t('CHAT_LIST.LOAD_MORE_CONVERSATIONS') }}
@@ -959,12 +959,12 @@ export default {
 };
 </script>
 <style scoped>
+@tailwind components;
 @layer components {
   .flex-basis-clamp {
     flex-basis: clamp(20rem, 4vw + 21.25rem, 27.5rem);
   }
 }
-@tailwind components;
 </style>
 
 <style scoped lang="scss">
@@ -982,6 +982,10 @@ export default {
 
 .conversations-list {
   @apply overflow-hidden hover:overflow-y-auto;
+}
+
+.load-more--button {
+  @apply text-center rounded-none;
 }
 
 .tab--chat-type {

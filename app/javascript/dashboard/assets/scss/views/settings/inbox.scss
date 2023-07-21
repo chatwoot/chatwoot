@@ -76,7 +76,7 @@
 }
 
 .wizard-body {
-  @apply border border-slate-25 dark:border-slate-700 bg-white dark:bg-slate-900 h-full p-6;
+  @apply border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6;
 
   &.height-auto {
     @apply h-auto;

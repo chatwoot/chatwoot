@@ -1,19 +1,16 @@
 <template>
   <div class="flex-shrink flex-grow overflow-auto p-4">
-    <div class="flex flex-row">
-      <div class="my-0 mx-auto">
-        <woot-loading-state
-          v-if="uiFlags.isFetching"
-          :message="$t('INTEGRATION_APPS.FETCHING')"
-        />
+    <div class="flex flex-col">
+      <div v-if="uiFlags.isFetching" class="my-0 mx-auto">
+        <woot-loading-state :message="$t('INTEGRATION_APPS.FETCHING')" />
       </div>
 
-      <div class="w-full">
+      <div v-else class="w-full">
         <div>
           <div
             v-for="item in integrationsList"
             :key="item.id"
-            class="bg-white dark:bg-slate-700 border border-solid border-slate-75 dark:border-slate-600 rounded-sm mb-4 p-4"
+            class="bg-white dark:bg-slate-800 border border-solid border-slate-75 dark:border-slate-700/50 rounded-sm mb-4 p-4"
           >
             <integration-item
               :integration-id="item.id"

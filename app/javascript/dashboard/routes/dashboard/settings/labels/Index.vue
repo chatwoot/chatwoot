@@ -32,7 +32,9 @@
           <tbody>
             <tr v-for="(label, index) in records" :key="label.title">
               <td class="label-title">
-                <span class="text-truncate">{{ label.title }}</span>
+                <span class="overflow-hidden whitespace-nowrap text-ellipsis">{{
+                  label.title
+                }}</span>
               </td>
               <td>{{ label.description }}</td>
               <td>
@@ -189,21 +191,15 @@ export default {
 @import '~dashboard/assets/scss/variables';
 
 .label-color--container {
-  display: flex;
-  align-items: center;
+  @apply flex items-center;
 }
 
 .label-color--display {
-  border-radius: $space-smaller;
-  height: $space-normal;
-  margin-right: $space-smaller;
-  width: $space-normal;
-  border: 1px solid var(--color-border-light);
+  @apply rounded h-4 w-4 mr-1 rtl:mr-0 rtl:ml-1 border border-solid border-slate-50 dark:border-slate-700;
 }
 .label-title {
   span {
-    width: var(--space-giga);
-    display: inline-block;
+    @apply w-60 inline-block;
   }
 }
 </style>

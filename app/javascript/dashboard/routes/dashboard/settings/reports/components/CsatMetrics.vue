@@ -1,5 +1,5 @@
 <template>
-  <div class="row csat--metrics-container">
+  <div class="flex flex-wrap mx-0 csat--metrics-container">
     <csat-metric-card
       :label="$t('CSAT_REPORTS.METRIC.TOTAL_RESPONSES.LABEL')"
       :info-text="$t('CSAT_REPORTS.METRIC.TOTAL_RESPONSES.TOOLTIP')"
@@ -18,9 +18,9 @@
     />
     <div
       v-if="metrics.totalResponseCount && !ratingFilterEnabled"
-      class="medium-6 report-card"
+      class="w-[50%] max-w-[50%] flex-[50%] report-card"
     >
-      <h3 class="heading">
+      <h3 class="heading text-slate-800 dark:text-slate-100">
         <div class="emoji--distribution">
           <div
             v-for="(rating, key, index) in ratingPercentage"
@@ -98,27 +98,22 @@ export default {
 </script>
 <style lang="scss" scoped>
 .csat--metrics-container {
-  background: var(--white);
-  margin-bottom: var(--space-two);
-  border-radius: var(--border-radius-normal);
-  border: 1px solid var(--color-border);
-  padding: var(--space-normal);
+  @apply bg-white dark:bg-slate-800 rounded p-4 mb-5 border border-solid border-slate-75 dark:border-slate-700;
 }
 
 .emoji--distribution {
-  display: flex;
-  justify-content: flex-end;
+  @apply flex justify-end;
 
   .emoji--distribution-item {
-    padding-left: var(--space-normal);
+    @apply pl-4;
   }
 }
 
 .emoji--distribution-chart {
-  margin-top: var(--space-small);
+  @apply mt-2;
 }
 
 .emoji--distribution-key {
-  margin: 0 var(--space-micro);
+  @apply my-0 mx-0.5;
 }
 </style>
