@@ -35,12 +35,10 @@ export default {
 
 <style scoped lang="scss">
 .row--user-block {
-  align-items: center;
-  display: flex;
-  text-align: left;
+  @apply items-center flex text-left;
 
   .user-name {
-    margin: 0 var(--space-small);
+    @apply my-0 mx-2 text-slate-700 dark:text-slate-100;
   }
 }
 </style>
