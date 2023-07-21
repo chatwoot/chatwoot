@@ -446,15 +446,14 @@ export default {
 
 .ProseMirror-menubar-wrapper {
   @apply flex flex-col;
-
   .ProseMirror-menubar {
-    @apply min-h-[1.25rem] -ml-4 pl-1 pb-0 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-100;
-  }
+    min-height: var(--space-two) !important;
+    @apply -ml-2.5 pb-0 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-100;
 
-  .ProseMirror-menu-active {
-    @apply bg-slate-25 dark:bg-slate-800;
+    .ProseMirror-menu-active {
+      @apply bg-slate-75 dark:bg-slate-800;
+    }
   }
-
   > .ProseMirror {
     @apply p-0 break-words text-slate-800 dark:text-slate-100;
   }

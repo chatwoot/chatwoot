@@ -53,31 +53,19 @@ export default {
 
 <style scoped lang="scss">
 .contact-item {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  padding: var(--space-small);
-  border-radius: var(--border-radius-small);
-
-  &:hover {
-    background-color: var(--s-25);
-  }
+  @apply cursor-pointer flex items-center p-2 rounded-sm hover:bg-slate-25 dark:hover:bg-slate-800;
 }
 .contact-details {
-  margin-left: var(--space-small);
+  @apply ml-2 rtl:mr-2 rtl:ml-0;
 }
 .name {
-  margin: 0;
+  @apply m-0;
 }
 .details-meta {
-  margin: 0;
-  color: var(--s-600);
-  font-size: var(--font-size-small);
-  display: flex;
-  align-items: center;
+  @apply m-0 text-slate-600 dark:text-slate-200 text-sm flex items-center;
 
   span {
-    margin-right: var(--space-smaller);
+    @apply ml-1 rtl:mr-1 rtl:ml-0;
   }
 }
 </style>

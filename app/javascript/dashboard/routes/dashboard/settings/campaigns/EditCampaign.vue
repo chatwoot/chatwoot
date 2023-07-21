@@ -289,7 +289,7 @@ export default {
 
   ::v-deep {
     .ProseMirror-menubar {
-      @apply left-2;
+      @apply rounded-tl-[4px];
     }
   }
 }
