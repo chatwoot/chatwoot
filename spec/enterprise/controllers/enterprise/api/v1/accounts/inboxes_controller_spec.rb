@@ -46,7 +46,8 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
 
   describe 'GET /api/v1/accounts/{account.id}/inboxes/{inbox.id}/response_sources' do
     let(:inbox) { create(:inbox, account: account) }
-    let!(:response_source) { create(:response_source, account: account, inbox: inbox) }
+    let(:agent) { create(:user, account: account, role: :agent) }
+    let(:administrator) { create(:user, account: account, role: :administrator) }
 
     before do
       skip('Skipping since vector is not enabled in this environment') unless Features::ResponseBotService.new.vector_extension_enabled?
@@ -61,9 +62,6 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      let(:agent) { create(:user, account: account, role: :agent) }
-      let(:administrator) { create(:user, account: account, role: :administrator) }
-
       it 'returns unauthorized for agents' do
         get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/response_sources",
             headers: agent.create_new_auth_token,
@@ -73,6 +71,7 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
       end
 
       it 'returns all response_sources belonging to the inbox to administrators' do
+        response_source = create(:response_source, account: account, inbox: inbox)
         get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/response_sources",
             headers: administrator.create_new_auth_token,
             as: :json

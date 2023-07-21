@@ -63,7 +63,7 @@ jobs:
       run: bundle exec rake db:schema:load
 
     - name: Enable ResponseBotService in installation
-      run: bundle exec rails runner "Features::ResponseBotService.new.enable_in_installation"
+      run: RAILS_ENV=test bundle exec rails runner "Features::ResponseBotService.new.enable_in_installation"
 
     # Run  Response Bot specs
     - name: Run backend tests
