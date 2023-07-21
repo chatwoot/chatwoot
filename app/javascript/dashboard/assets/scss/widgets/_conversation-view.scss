@@ -34,7 +34,8 @@
 }
 
 .conversation-panel {
-  @apply flex-shrink flex-grow basis-px flex flex-col overflow-y-auto relative h-full m-0 pb-4;
+  // TODO: remove hover:overflow-y-auto
+  @apply flex-shrink flex-grow basis-px flex flex-col overflow-hidden hover:overflow-y-auto relative h-full m-0 pb-4;
 }
 
 .conversation-panel > li {
