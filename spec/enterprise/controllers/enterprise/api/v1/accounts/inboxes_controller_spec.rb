@@ -48,6 +48,10 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
     let(:inbox) { create(:inbox, account: account) }
     let!(:response_source) { create(:response_source, account: account, inbox: inbox) }
 
+    before do
+      skip('Skipping since vector is not enabled in this environment') unless Features::ResponseBotService.new.vector_extension_enabled?
+    end
+
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/response_sources"
