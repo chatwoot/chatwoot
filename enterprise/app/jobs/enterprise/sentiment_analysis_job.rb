@@ -3,7 +3,7 @@ class Enterprise::SentimentAnalysisJob < ApplicationJob
 
   def perform(message)
     return if message.account.locale != 'en'
-    return if valid_incoming_message?(message)
+    return if invalid_incoming_message?(message)
 
     save_message_sentiment(message)
   rescue StandardError => e
@@ -38,8 +38,8 @@ class Enterprise::SentimentAnalysisJob < ApplicationJob
     sentiment[:label] == 'positive' ? 1 : -1
   end
 
-  def valid_incoming_message?(message)
-    !message.incoming? || message.private?
+  def invalid_incoming_message?(message)
+    !message.incoming? || message.private? || message.content.blank?
   end
 
   # returns the sentiment file from vendor folder else download it to the path from AWS-S3
