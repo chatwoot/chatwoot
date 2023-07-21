@@ -37,6 +37,7 @@ export default {
   padding: var(--space-normal) 0;
   transition: all 0.2s ease-in;
   align-items: center;
+  justify-content: space-between;
   &:hover {
     border: 1px solid var(--w-500);
     box-shadow: var(--shadow-medium);
@@ -50,14 +51,12 @@ export default {
   img {
     margin: var(--space-normal) auto;
     width: 50%;
-    height: 100%;
   }
 
   .channel__title {
     color: var(--color-body);
     font-size: var(--font-size-default);
-    text-align: center;
-    text-transform: capitalize;
+    position: relative;
   }
 
   p {
