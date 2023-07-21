@@ -22,6 +22,7 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: ""
           POSTGRES_DB: postgres
+          POSTGRES_HOST_AUTH_METHOD: trust
         ports:
           - 5432:5432
         # needed because the postgres container does not provide a healthcheck
@@ -67,7 +68,7 @@ jobs:
     # Run  Response Bot specs
     - name: Run backend tests
       run: |
-        bundle exec rspec spec/enterprise/controllers/api/v1/accounts/response_sources_controller_spec.rb --profile=10 --format documentation
+        bundle exec rspec spec/enterprise/controllers/api/v1/accounts/response_sources_controller_spec.rb spec/enterprise/controllers/enterprise/api/v1/accounts/inboxes_controller_spec.rb:47 --profile=10 --format documentation
 
     - name: Upload rails log folder
       uses: actions/upload-artifact@v3
