@@ -34,7 +34,10 @@
         @contact-panel-toggle="onToggleContactPanel"
       />
       <empty-state v-else :is-on-expanded-layout="isOnExpandedLayout" />
-      <div v-show="showContactPanel" class="conversation-sidebar-wrap">
+      <div
+        v-show="showContactPanel"
+        class="conversation-sidebar-wrap basis-full sm:basis-[17.5rem] md:basis-[18.75rem] lg:basis-[19.375rem] xl:basis-[20.625rem] 2xl:basis-[25rem] rtl:border-r border-slate-50 dark:border-slate-700 h-auto overflow-auto z-10 flex-shrink-0 flex-grow-0"
+      >
         <contact-panel
           v-if="showContactPanel"
           :conversation-id="currentChat.id"
@@ -141,7 +144,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/woot';
 .conversation-details-wrap {
   @apply flex flex-col min-w-0 w-full;
 
@@ -161,29 +163,6 @@ export default {
 }
 
 .conversation-sidebar-wrap {
-  @apply border-r border-white dark:border-slate-700;
-  flex-basis: 100%;
-
-  @include breakpoint(medium up) {
-    flex-basis: 17.5rem;
-  }
-
-  @include breakpoint(large up) {
-    flex-basis: 18.75rem;
-  }
-
-  @include breakpoint(xlarge up) {
-    flex-basis: 19.375rem;
-  }
-
-  @include breakpoint(xxlarge up) {
-    flex-basis: 20.625rem;
-  }
-
-  @include breakpoint(xxxlarge up) {
-    flex-basis: 25rem;
-  }
-
   &::v-deep .contact--panel {
     @apply w-full h-full max-w-full;
   }

@@ -448,7 +448,7 @@ export default {
     min-height: 40.625rem;
     margin: var(--space-zero) var(--space-two) var(--space-two) var(--space-two);
     padding: var(--space-one) var(--space-one) var(--space-one) var(--space-one);
-    background: var(--s-50);
+    @apply bg-slate-50 dark:bg-slate-700;
 
     @include breakpoint(500px down) {
       background: none;

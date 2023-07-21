@@ -1,10 +1,10 @@
 <template>
-  <div class="columns profile--settings">
+  <div class="overflow-auto flex-1 p-6 dark:bg-slate-900">
     <woot-loading-state v-if="uiFlags.isFetchingItem" />
     <div v-else-if="!hasABillingPlan">
       <p>{{ $t('BILLING_SETTINGS.NO_BILLING_USER') }}</p>
     </div>
-    <div v-else class="small-12 columns ">
+    <div v-else class="w-full">
       <div class="current-plan--details">
         <h6>{{ $t('BILLING_SETTINGS.CURRENT_PLAN.TITLE') }}</h6>
         <div
@@ -42,7 +42,7 @@ import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import accountMixin from '../../../../mixins/account';
 import BillingItem from './components/BillingItem.vue';
-
+// sdds
 export default {
   components: { BillingItem },
   mixins: [accountMixin, alertMixin, messageFormatterMixin],
@@ -92,25 +92,28 @@ export default {
 
 <style lang="scss">
 .manage-subscription {
-  align-items: center;
-  background: var(--white);
-  border-radius: var(--border-radius-normal);
-  border: 1px solid var(--color-border);
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: var(--space-small);
-  padding: var(--space-medium) var(--space-normal);
+  @apply bg-white dark:bg-slate-800 flex justify-between mb-2 py-6 px-4 items-center rounded-md border border-solid border-slate-75 dark:border-slate-700;
 }
 
 .current-plan--details {
-  border-bottom: 1px solid var(--color-border);
-  margin-bottom: var(--space-normal);
-  padding-bottom: var(--space-normal);
+  @apply border-b border-solid border-slate-75 dark:border-slate-800 mb-4 pb-4;
+
+  h6 {
+    @apply text-slate-800 dark:text-slate-100;
+  }
+
+  p {
+    @apply text-slate-600 dark:text-slate-200;
+  }
 }
 
 .manage-subscription {
   .manage-subscription--description {
-    margin-bottom: 0;
+    @apply mb-0 text-slate-600 dark:text-slate-200;
+  }
+
+  h6 {
+    @apply text-slate-800 dark:text-slate-100;
   }
 }
 </style>

@@ -6,7 +6,7 @@
     :show-title="showTitle"
     :is-fetching="isFetching"
   >
-    <ul class="search-list">
+    <ul v-if="messages.length" class="search-list">
       <li v-for="message in messages" :key="message.id">
         <search-result-conversation-item
           :id="message.conversation_id"

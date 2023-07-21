@@ -1,5 +1,5 @@
 <template>
-  <div class="row content-box full-height">
+  <div class="overflow-auto p-4 max-w-full my-auto flex flex-wrap h-full">
     <woot-wizard class="small-3 columns" :items="items" />
     <router-view />
   </div>

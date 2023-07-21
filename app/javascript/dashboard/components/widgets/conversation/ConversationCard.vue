@@ -2,7 +2,7 @@
   <div
     class="conversation flex flex-shrink-0 flex-grow-0 w-auto max-w-full cursor-pointer relative py-0 px-4 border-transparent border-l-2 border-t-0 border-b-0 border-r-0 border-solid items-start hover:bg-slate-50 dark:hover:bg-slate-800 group"
     :class="{
-      'active bg-slate-50 dark:bg-slate-700 border-woot-500': isActiveChat,
+      'active bg-slate-50 dark:bg-slate-800 border-woot-500': isActiveChat,
       'unread-chat': hasUnread,
       'has-inbox-name': showInboxName,
       'conversation-selected': selected,
@@ -31,16 +31,20 @@
       size="40px"
     />
     <div
-      class="py-3 px-0 border-b group-last:border-transparent group-hover:border-transparent border-slate-50 dark:border-slate-800 columns"
+      class="py-3 px-0 border-b group-last:border-transparent group-hover:border-transparent border-slate-50 dark:border-slate-800/75 columns"
     >
       <div class="flex justify-between">
         <inbox-name v-if="showInboxName" :inbox="inbox" />
         <div class="flex gap-2 ml-2 rtl:mr-2 rtl:ml-0">
           <span
             v-if="showAssignee && assignee.name"
-            class="text-slate-500 dark:text-slate-400 test-xs font-medium leading-3 py-0.5 px-0 inline-flex max-w-[50%] text-ellipsis overflow-hidden whitespace-nowrap"
+            class="text-slate-500 dark:text-slate-400 text-xs font-medium leading-3 py-0.5 px-0 inline-flex text-ellipsis overflow-hidden whitespace-nowrap"
           >
-            <fluent-icon icon="person" size="12" />
+            <fluent-icon
+              icon="person"
+              size="12"
+              class="text-slate-500 dark:text-slate-400"
+            />
             {{ assignee.name }}
           </span>
           <priority-mark :priority="chat.priority" />
