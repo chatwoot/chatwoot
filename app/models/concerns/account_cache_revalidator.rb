@@ -6,6 +6,6 @@ module AccountCacheRevalidator
   end
 
   def update_account_cache
-    account.update_cache_key(self.class.name.underscore)
+    account&.update_cache_key(self.class.name.underscore)
   end
 end
