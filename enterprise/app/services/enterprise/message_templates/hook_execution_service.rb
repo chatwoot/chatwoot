@@ -5,10 +5,6 @@ module Enterprise::MessageTemplates::HookExecutionService
   end
 
   def should_process_response_bot?
-    return false unless conversation.pending?
-    return false unless message.incoming?
-    return false unless inbox.response_bot_enabled?
-
-    true
+    conversation.pending? && message.incoming? && inbox.response_bot_enabled?
   end
 end
