@@ -17,43 +17,36 @@ RSpec.describe Integrations::Openai::ProcessorService do
       ]
     }.to_json
   end
-  let!(:conversation) { create(:conversation, account: account) }
-  let!(:customer_message) { create(:message, account: account, conversation: conversation, message_type: :incoming, content: 'hello agent') }
-  let!(:agent_message) { create(:message, account: account, conversation: conversation, message_type: :outgoing, content: 'hello customer') }
+
+  let(:conversation) { create(:conversation, account: account) }
 
   describe '#perform' do
-    context 'when event name is label_suggestion with labels' do
+    context 'when event name is label_suggestion with labels with < 3 messages' do
       let(:event) { { 'name' => 'label_suggestion', 'data' => { 'conversation_display_id' => conversation.display_id } } }
-      let(:label1) { create(:label, account: account) }
-      let(:label2) { create(:label, account: account) }
-      let(:label_suggestion_payload) do
-        labels = "#{label1.title}, #{label2.title}"
-        messages =
-          "Customer #{customer_message.sender.name} : #{customer_message.content}\nAgent #{agent_message.sender.name} : #{agent_message.content}"
 
-        "Messages:\n#{messages}\n\nLabels:\n#{labels}"
+      it 'returns nil' do
+        create(:label, account: account)
+        create(:label, account: account)
+
+        expect(subject.perform).to be_nil
       end
+    end
+
+    context 'when event name is label_suggestion with labels with >3 messages' do
+      let(:event) { { 'name' => 'label_suggestion', 'data' => { 'conversation_display_id' => conversation.display_id } } }
 
       it 'returns the label suggestions' do
-        request_body = {
-          'model' => 'gpt-3.5-turbo',
-          'messages' => [
-            {
-              role: 'system',
-              content: 'Your role is as an assistant to a customer support agent. You will be provided with ' \
-                       'a transcript of a conversation between a customer and the support agent, along with a list of potential labels. ' \
-                       'Your task is to analyze the conversation and select the two labels from the given list that most accurately ' \
-                       'represent the themes or issues discussed. Ensure you preserve the exact casing of the labels as they are provided ' \
-                       'in the list. Do not create new labels; only choose from those provided. Once you have made your selections, ' \
-                       'please provide your response as a comma-separated list of the provided labels. Remember, your response should only contain ' \
-                       'the labels you\'ve selected, in their original casing, and nothing else. '
-            },
-            { role: 'user', content: label_suggestion_payload }
-          ]
-        }.to_json
+        create(:message, account: account, conversation: conversation, message_type: :incoming, content: 'hello agent')
+        create(:message, account: account, conversation: conversation, message_type: :outgoing, content: 'hello customer')
+        create(:message, account: account, conversation: conversation, message_type: :incoming, content: 'hello agent 2')
+        create(:message, account: account, conversation: conversation, message_type: :incoming, content: 'hello agent 3')
+        create(:message, account: account, conversation: conversation, message_type: :incoming, content: 'hello agent 4')
+
+        create(:label, account: account)
+        create(:label, account: account)
 
         stub_request(:post, 'https://api.openai.com/v1/chat/completions')
-          .with(body: request_body, headers: expected_headers)
+          .with(body: anything, headers: expected_headers)
           .to_return(status: 200, body: openai_response, headers: {})
 
         result = subject.perform
