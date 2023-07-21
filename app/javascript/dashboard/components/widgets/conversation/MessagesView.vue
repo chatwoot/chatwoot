@@ -21,7 +21,7 @@
         variant="smooth"
         size="tiny"
         color-scheme="secondary"
-        class="rounded-bl-calc rounded-tl-calc fixed top-[6.25rem] z-10 bg-white dark:bg-slate-700 border-slate-50 dark:border-slate-600 border-solid border border-r-0 box-border"
+        class="rounded-bl-calc rtl:rotate-180 rounded-tl-calc fixed top-[6.25rem] z-10 bg-white dark:bg-slate-700 border-slate-50 dark:border-slate-600 border-solid border border-r-0 box-border"
         :icon="isRightOrLeftIcon"
         @click="onToggleContactPanel"
       />
@@ -44,7 +44,7 @@
         :is-web-widget-inbox="isAWebWidgetInbox"
       />
       <li v-show="unreadMessageCount != 0" class="unread--toast">
-        <span class="text-uppercase">
+        <span>
           {{ unreadMessageCount }}
           {{
             unreadMessageCount > 1
@@ -536,6 +536,7 @@ export default {
 </script>
 
 <style scoped>
+@tailwind components;
 @layer components {
   .rounded-bl-calc {
     border-bottom-left-radius: calc(1.5rem + 1px);
@@ -545,7 +546,6 @@ export default {
     border-top-left-radius: calc(1.5rem + 1px);
   }
 }
-@tailwind components;
 </style>
 
 <style scoped lang="scss">

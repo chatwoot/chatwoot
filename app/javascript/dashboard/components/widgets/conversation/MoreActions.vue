@@ -1,5 +1,5 @@
 <template>
-  <div class="flex actions--container relative items-center">
+  <div class="flex actions--container relative items-center gap-2">
     <woot-button
       v-if="!currentChat.muted"
       v-tooltip="$t('CONTACT_PANEL.MUTE_CONTACT')"
@@ -87,12 +87,6 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.actions--container {
-  .resolve-actions {
-    @apply ml-2 rtl:ml-0 mr-2;
-  }
-}
-
 .more--button {
   @apply items-center flex ml-2 rtl:ml-0 rtl:mr-2;
 }

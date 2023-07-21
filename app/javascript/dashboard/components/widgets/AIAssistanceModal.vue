@@ -1,13 +1,16 @@
 <template>
-  <div class="column">
+  <div class="flex flex-col">
     <woot-modal-header :header-title="headerTitle" />
-    <form class="row modal-content" @submit.prevent="applyText">
+    <form
+      class="modal-content flex flex-col w-full"
+      @submit.prevent="applyText"
+    >
       <div v-if="draftMessage" class="w-full">
-        <h4 class="sub-block-title margin-top-1 ">
+        <h4 class="text-base mt-1 text-slate-700 dark:text-slate-100">
           {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.DRAFT_TITLE') }}
         </h4>
         <p v-dompurify-html="formatMessage(draftMessage, false)" />
-        <h4 class="sub-block-title margin-top-1">
+        <h4 class="text-base mt-1 text-slate-700 dark:text-slate-100">
           {{
             $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.GENERATED_TITLE')
           }}
@@ -18,7 +21,7 @@
         <p v-else v-dompurify-html="formatMessage(generatedContent, false)" />
       </div>
 
-      <div class="modal-footer justify-content-end w-full">
+      <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
         <woot-button variant="clear" @click.prevent="onClose">
           {{
             $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.CANCEL')
@@ -98,7 +101,7 @@ export default {
 
 <style lang="scss" scoped>
 .modal-content {
-  padding-top: var(--space-small);
+  @apply pt-2 px-8 pb-8;
 }
 
 .container {

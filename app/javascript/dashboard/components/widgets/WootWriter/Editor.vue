@@ -446,15 +446,14 @@ export default {
 
 .ProseMirror-menubar-wrapper {
   @apply flex flex-col;
-
   .ProseMirror-menubar {
-    @apply min-h-[1.25rem] -ml-4 pl-1 pb-0 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-100;
-  }
+    min-height: var(--space-two) !important;
+    @apply -ml-2.5 pb-0 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-100;
 
-  .ProseMirror-menu-active {
-    @apply bg-slate-25 dark:bg-slate-800;
+    .ProseMirror-menu-active {
+      @apply bg-slate-75 dark:bg-slate-800;
+    }
   }
-
   > .ProseMirror {
     @apply p-0 break-words text-slate-800 dark:text-slate-100;
   }
@@ -474,7 +473,7 @@ export default {
 
 .is-private {
   .prosemirror-mention-node {
-    @apply font-medium bg-slate-50 dark:bg-slate-200 text-slate-900 dark:text-slate-100 py-0 px-1;
+    @apply font-medium bg-slate-50 dark:bg-slate-200 text-slate-900 dark:text-slate-900 py-0 px-1;
   }
 
   .ProseMirror-menubar-wrapper {
@@ -493,7 +492,7 @@ export default {
 }
 
 .message-editor {
-  @apply border border-solid border-slate-75 dark:border-slate-800 rounded-md py-0 px-1 mb-0;
+  @apply border border-solid border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 rounded-md py-0 px-1 mb-0;
 }
 
 .editor_warning {

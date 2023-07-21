@@ -31,14 +31,6 @@ export default {
   },
 };
 </script>
-<style scoped>
-@layer components {
-  .min-width-calc {
-    min-width: calc(6.25rem * 2);
-  }
-}
-@tailwind components;
-</style>
 
 <style scoped lang="scss">
 .menu-with-submenu {
