@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="showShowCurrentAccountContext"
-    class="rounded-md text-xs py-2 px-2 mt-2 relative border border-slate-50 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer"
+    class="rounded-md text-xs py-2 px-2 mt-2 relative border border-slate-50 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer"
     @mouseover="setShowSwitch"
     @mouseleave="resetShowSwitch"
   >
