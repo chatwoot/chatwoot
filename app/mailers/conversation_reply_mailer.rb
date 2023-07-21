@@ -25,7 +25,7 @@ class ConversationReplyMailer < ApplicationMailer
     @messages = @conversation.messages.chat.where(message_type: [:outgoing, :template]).where('id >= ?', last_queued_id)
     @messages = @messages.reject { |m| m.template? && !m.input_csat? }
     return false if @messages.count.zero?
-
+binding.pry
     prepare_mail(false)
   end
 
@@ -180,9 +180,19 @@ class ConversationReplyMailer < ApplicationMailer
     content_attributes[:to_emails]
   end
 
+  def forward_to_emails
+    content_attributes = @conversation.messages.outgoing.last&.content_attributes
+
+    return [] unless content_attributes
+    return [] unless content_attributes[:forward_to_emails]
+
+    content_attributes[:forward_to_emails]
+  end
+
   def to_emails
     # if there is no to_emails from content_attributes, send it to @contact&.email
-    to_emails_from_content_attributes.presence || [@contact&.email]
+    # check if there is forward-to email address present then that acts as to email address
+    forward_to_emails || to_emails_from_content_attributes.presence || [@contact&.email]
   end
 
   def inbound_email_enabled?

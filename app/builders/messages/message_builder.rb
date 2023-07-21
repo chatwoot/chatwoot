@@ -46,20 +46,21 @@ class Messages::MessageBuilder
   end
 
   def process_emails
-    binding.pry
     return unless @conversation.inbox&.inbox_type == 'Email'
 
     cc_emails = process_email_string(@params[:cc_emails])
     bcc_emails = process_email_string(@params[:bcc_emails])
     to_emails = process_email_string(@params[:to_emails])
+    forward_to_emails = process_email_string(@params[:forward_to_emails])
 
 
-    all_email_addresses = cc_emails + bcc_emails + to_emails
+    all_email_addresses = cc_emails + bcc_emails + to_emails + forward_to_emails
     validate_email_addresses(all_email_addresses)
 
     @message.content_attributes[:cc_emails] = cc_emails
     @message.content_attributes[:bcc_emails] = bcc_emails
     @message.content_attributes[:to_emails] = to_emails
+    @message.content_attributes[:forward_to_emails] = forward_to_emails
   end
 
   def process_email_string(email_string)
