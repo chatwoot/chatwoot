@@ -2,7 +2,7 @@
   <div class="flex-shrink flex-grow overflow-auto p-4">
     <div class="flex flex-col">
       <div
-        class="bg-white dark:bg-slate-700 border border-solid border-slate-75 dark:border-slate-600 rounded-sm mb-4 p-4"
+        class="bg-white dark:bg-slate-800 border border-solid border-slate-75 dark:border-slate-700/50 rounded-sm mb-4 p-4"
       >
         <div class="flex">
           <div class="flex h-[6.25rem] w-[6.25rem]">

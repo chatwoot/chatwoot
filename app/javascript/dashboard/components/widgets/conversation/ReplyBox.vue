@@ -1118,7 +1118,7 @@ export default {
 }
 
 .reply-box__top {
-  @apply relative py-0 px-4 -mt-px border-slate-50 dark:border-slate-700;
+  @apply relative py-0 px-4 -mt-px border-t border-solid border-slate-50 dark:border-slate-700;
 }
 
 .emoji-dialog {

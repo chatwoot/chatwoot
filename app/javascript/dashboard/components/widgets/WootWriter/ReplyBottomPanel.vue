@@ -348,8 +348,7 @@ export default {
 }
 
 .modal-mask {
-  background: var(--white-transparent);
-  @apply text-slate-600 dark:text-slate-200 flex-col;
+  @apply text-slate-600 dark:text-slate-200 bg-white_transparent dark:bg-black_transparent flex-col;
 }
 
 .icon {

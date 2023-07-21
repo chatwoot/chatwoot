@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex justify-between items-center h-14 min-h-[3.5rem] px-4 py-2 bg-white dark:bg-slate-900 border-b border-slate-50 dark:border-slate-800"
+    class="flex justify-between items-center h-14 min-h-[3.5rem] px-4 py-2 bg-white dark:bg-slate-900 border-b border-slate-50 dark:border-slate-800/50"
   >
     <h1
       class="text-2xl mb-0 flex items-center text-slate-900 dark:text-slate-100"
