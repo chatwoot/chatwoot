@@ -18,7 +18,7 @@
       @open-popover="openPortalPopover"
       @open-modal="onClickOpenAddCategoryModal"
     />
-    <section class="app-content columns">
+    <section class="app-content flex-1 px-0 bg-white dark:bg-slate-900">
       <router-view />
       <command-bar />
       <account-selector
