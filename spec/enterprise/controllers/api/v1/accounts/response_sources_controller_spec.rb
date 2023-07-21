@@ -5,6 +5,10 @@ RSpec.describe 'Response Sources API', type: :request do
   let!(:admin) { create(:user, account: account, role: :administrator) }
   let!(:inbox) { create(:inbox, account: account) }
 
+  before do
+    skip('Skipping since vector is not enabled in this environment') unless Features::ResponseBotService.new.vector_extension_enabled?
+  end
+
   describe 'POST /api/v1/accounts/{account.id}/response_sources/parse' do
     let(:valid_params) do
       {
