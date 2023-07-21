@@ -50,6 +50,8 @@ export default {
       }
     },
     async fetchLabelSuggestions({ conversationId }) {
+      if (!conversationId) return [];
+
       try {
         const result = await OpenAPI.processEvent({
           type: 'label_suggestion',
