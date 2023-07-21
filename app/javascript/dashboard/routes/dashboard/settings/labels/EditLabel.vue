@@ -1,7 +1,7 @@
 <template>
   <div class="h-auto overflow-auto flex flex-col">
     <woot-modal-header :header-title="pageTitle" />
-    <form class="row" @submit.prevent="editLabel">
+    <form class="mx-0 flex flex-wrap" @submit.prevent="editLabel">
       <woot-input
         v-model.trim="title"
         :class="{ error: $v.title.$error }"
@@ -118,7 +118,7 @@ export default {
 .label-name--input {
   ::v-deep {
     input {
-      text-transform: lowercase;
+      @apply lowercase;
     }
   }
 }

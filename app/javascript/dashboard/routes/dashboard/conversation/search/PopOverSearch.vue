@@ -2,11 +2,12 @@
   <div class="relative">
     <div class="flex px-4 pb-1 pt-2.5 border-b border-transparent">
       <woot-sidemenu-icon
-        class="relative top-[-4px] left-[-7px] rtl:left-0 rtl:right-[-7px]"
+        size="tiny"
+        class="relative top-0 left-[-6px] rtl:left-0 rtl:right-[-6px]"
       />
       <router-link
         :to="searchUrl"
-        class="search-link flex-1 items-center gap-1 text-left mx-1 h-6 rtl:text-right rounded-md px-2 py-0 bg-slate-25 dark:bg-slate-800 inline-flex"
+        class="search-link flex-1 items-center gap-1 text-left mr-1 rtl:mr-0 rtl:ml-1 h-6 rtl:text-right rounded-md px-2 py-0 bg-slate-25 dark:bg-slate-800 inline-flex"
       >
         <div class="flex">
           <fluent-icon

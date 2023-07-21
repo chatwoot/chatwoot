@@ -1,5 +1,5 @@
 <template>
-  <div class="relative">
+  <div class="relative flex">
     <woot-button
       v-tooltip.right="$t('CHAT_LIST.SORT_TOOLTIP_LABEL')"
       variant="smooth"
@@ -91,6 +91,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .basic-filter {
-  @apply w-52 p-4;
+  @apply w-52 p-4 top-6;
 }
 </style>
