@@ -1,6 +1,6 @@
 <template>
   <section
-    class="contacts-table-wrap bg-white dark:bg-slate-800 flex-1 h-full overflow-hidden"
+    class="contacts-table-wrap bg-white dark:bg-slate-900 flex-1 h-full overflow-hidden"
   >
     <ve-table
       :fixed-header="true"
@@ -135,7 +135,7 @@ export default {
                   status={row.availability_status}
                 />
                 <div class="user-block">
-                  <h6 class="sub-block-title text-truncate">
+                  <h6 class="sub-block-title overflow-hidden whitespace-nowrap text-ellipsis">
                     <router-link
                       to={`/app/accounts/${this.$route.params.accountId}/contacts/${row.id}`}
                       class="user-name"
@@ -161,7 +161,7 @@ export default {
           renderBodyCell: ({ row }) => {
             if (row.email)
               return (
-                <div class="text-truncate">
+                <div class="overflow-hidden whitespace-nowrap text-ellipsis text-woot-500 dark:text-woot-500">
                   <a
                     target="_blank"
                     rel="noopener noreferrer nofollow"
@@ -204,7 +204,7 @@ export default {
           renderBodyCell: ({ row }) => {
             if (row.country) {
               return (
-                <div class="text-truncate">
+                <div class="overflow-hidden whitespace-nowrap text-ellipsis">
                   {`${getCountryFlag(row.countryCode)} ${row.country}`}
                 </div>
               );

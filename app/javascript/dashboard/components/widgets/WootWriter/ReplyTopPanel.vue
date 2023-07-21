@@ -1,6 +1,6 @@
 <template>
   <div class="bg-black-50 flex justify-between dark:bg-slate-800">
-    <div class="mode-wrap flex border-0 p-0 m-0">
+    <div class="button-group">
       <woot-button
         variant="clear"
         class="button--reply"
@@ -118,24 +118,34 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.button--reply {
-  border-width: 0 1px 1px 0 !important;
-  @apply border-slate-50 dark:border-slate-700 rounded-none relative z-10;
+.button-group {
+  @apply flex border-0 p-0 m-0;
 
-  &.is-active {
-    border-bottom-color: transparent;
-    @apply bg-white dark:bg-slate-900;
+  .button {
+    @apply text-sm font-medium py-2.5 px-4 m-0 relative z-10;
+    &.is-active {
+      @apply bg-white dark:bg-slate-900;
+    }
+  }
+  .button--reply {
+    @apply border-r rounded-none border-b-0 border-l-0 border-t-0 border-slate-50 dark:border-slate-700;
+    &:hover,
+    &:focus {
+      @apply border-r border-slate-50 dark:border-slate-700;
+    }
+  }
+  .button--note {
+    @apply border-l-0 rounded-none;
+    &.is-active {
+      @apply border-r border-b-0 bg-yellow-50 dark:bg-yellow-50 border-t-0 border-slate-50 dark:border-slate-700;
+    }
+    &:hover,
+    &:active {
+      @apply text-yellow-700 dark:text-yellow-700;
+    }
   }
 }
-
 .button--note {
-  border-width: 0 0 1px 0 !important;
-  @apply text-yellow-700 dark:text-yellow-700 border-slate-50 dark:border-slate-700 rounded-none relative z-10;
-
-  &.is-active {
-    border-right-width: 1px !important;
-    border-bottom-color: transparent;
-    @apply bg-yellow-50 dark:bg-yellow-50;
-  }
+  @apply text-yellow-600 dark:text-yellow-600;
 }
 </style>

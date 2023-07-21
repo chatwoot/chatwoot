@@ -1,6 +1,6 @@
 <template>
   <div
-    class="p-3 bg-white dark:bg-slate-800 h-[calc(100vh-3.5rem)] flex flex-col border-l border-slate-50 dark:border-slate-700"
+    class="p-3 bg-white dark:bg-slate-900 h-[calc(100vh-3.5rem)] flex flex-col border-l border-slate-50 dark:border-slate-800/50"
   >
     <div>
       <woot-input

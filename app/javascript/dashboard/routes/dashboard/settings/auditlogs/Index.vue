@@ -57,6 +57,7 @@
       :current-page="Number(meta.currentPage)"
       :total-count="meta.totalEntries"
       :page-size="meta.perPage"
+      class="dark:bg-slate-900"
       @page-change="onPageChange"
     />
   </div>

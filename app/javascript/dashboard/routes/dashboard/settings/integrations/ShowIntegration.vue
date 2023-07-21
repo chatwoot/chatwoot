@@ -5,7 +5,7 @@
         <div>
           <div
             v-if="integrationLoaded"
-            class="bg-white dark:bg-slate-700 border border-solid border-slate-75 dark:border-slate-600 rounded-sm mb-4 p-4"
+            class="bg-white dark:bg-slate-800 border border-solid border-slate-75 dark:border-slate-700/50 rounded-sm mb-4 p-4"
           >
             <integration
               :integration-id="integration.id"
@@ -18,7 +18,7 @@
           </div>
           <div
             v-if="integration.enabled"
-            class="bg-white dark:bg-slate-700 border border-solid border-slate-75 dark:border-slate-600 rounded-sm mb-4 p-4"
+            class="bg-white dark:bg-slate-800 border border-solid border-slate-75 dark:border-slate-700/50 rounded-sm mb-4 p-4"
           >
             <IntegrationHelpText />
           </div>

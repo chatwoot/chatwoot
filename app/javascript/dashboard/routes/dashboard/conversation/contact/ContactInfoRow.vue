@@ -29,7 +29,7 @@
         size="tiny"
         color-scheme="secondary"
         icon="clipboard"
-        class-names="ml-1"
+        class-names="copy-button"
         @click="onCopy"
       />
     </a>
@@ -97,3 +97,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.copy-button {
+  @apply ml-1 rtl:ml-0 rtl:mr-1;
+}
+</style>
