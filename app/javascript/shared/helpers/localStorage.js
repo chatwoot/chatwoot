@@ -22,8 +22,8 @@ export const LocalStorage = {
     window.localStorage.setItem(key + ':ts', Date.now());
   },
 
-  setFlag(store, key, accountId, expiry = 24 * 60 * 60 * 1000) {
-    const storeName = store ? `${store}::${accountId}}` : store;
+  setFlag(store, accountId, key, expiry = 24 * 60 * 60 * 1000) {
+    const storeName = store ? `${store}::${accountId}` : store;
 
     const rawValue = window.localStorage.getItem(storeName);
     const parsedValue = rawValue ? JSON.parse(rawValue) : {};
