@@ -459,6 +459,8 @@ GEM
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.3.0)
+    neighbor (0.2.3)
+      activerecord (>= 5.2)
     net-http-persistent (4.0.2)
       connection_pool (~> 2.2)
     net-imap (0.3.6)
@@ -532,6 +534,7 @@ GEM
     pg_search (2.3.6)
       activerecord (>= 5.2)
       activesupport (>= 5.2)
+    pgvector (0.1.1)
     procore-sift (1.0.0)
       activerecord (>= 6.1)
     pry (0.14.2)
@@ -617,6 +620,8 @@ GEM
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
     retriable (3.1.2)
+    reverse_markdown (2.1.1)
+      nokogiri
     rexml (3.2.5)
     rspec-core (3.12.2)
       rspec-support (~> 3.12.0)
@@ -884,6 +889,7 @@ DEPENDENCIES
   lograge (~> 0.12.0)
   maxminddb
   mock_redis
+  neighbor
   newrelic-sidekiq-metrics
   newrelic_rpm
   omniauth
@@ -892,6 +898,7 @@ DEPENDENCIES
   omniauth-rails_csrf_protection (~> 1.0)
   pg
   pg_search
+  pgvector
   procore-sift
   pry-rails
   puma
@@ -905,6 +912,7 @@ DEPENDENCIES
   redis-namespace
   responders
   rest-client
+  reverse_markdown
   rspec-rails
   rspec_junit_formatter
   rubocop

@@ -87,6 +87,7 @@ Style/ClassAndModuleChildren:
   EnforcedStyle: compact
   Exclude:
     - 'config/application.rb'
+    - 'config/initializers/monkey_patches/*'
 Style/MapToHash:
   Enabled: false
 Style/HashSyntax:
