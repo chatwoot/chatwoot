@@ -74,7 +74,7 @@ gem 'devise_token_auth'
 gem 'jwt'
 gem 'pundit'
 # super admin
-gem 'administrate'
+gem 'administrate', '>= 0.19.0'
 gem 'administrate-field-active_storage'
 
 ##--- gems for pubsub service ---##
@@ -164,6 +164,13 @@ gem 'audited', '~> 5.3'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection', '~> 1.0'
+
+## Gems for reponse bot
+# adds cosine similarity to postgres using vector extension
+gem 'neighbor'
+gem 'pgvector'
+# Convert Website HTML to Markdown
+gem 'reverse_markdown'
 
 # Sentiment analysis
 gem 'informers'

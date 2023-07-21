@@ -38,6 +38,7 @@ const REPORTS_KEYS = {
   FIRST_RESPONSE_TIME: 'avg_first_response_time',
   RESOLUTION_TIME: 'avg_resolution_time',
   RESOLUTION_COUNT: 'resolutions_count',
+  REPLY_TIME: 'reply_time',
 };
 
 export default {
@@ -106,6 +107,7 @@ export default {
         'FIRST_RESPONSE_TIME',
         'RESOLUTION_TIME',
         'RESOLUTION_COUNT',
+        'REPLY_TIME',
       ].forEach(async key => {
         try {
           const { from, to, groupBy, businessHours } = this;

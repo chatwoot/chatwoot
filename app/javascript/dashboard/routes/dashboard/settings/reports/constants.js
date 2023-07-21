@@ -151,78 +151,48 @@ export const DEFAULT_CHART = {
   },
 };
 
+const TIME_CHART_CONFIG = {
+  datasets: [DEFAULT_BAR_CHART],
+  scales: {
+    xAxes: [
+      {
+        ticks: {
+          fontFamily: CHART_FONT_FAMILY,
+        },
+        gridLines: {
+          drawOnChartArea: false,
+        },
+      },
+    ],
+    yAxes: [
+      {
+        id: 'y-left',
+        type: 'linear',
+        position: 'left',
+        ticks: {
+          fontFamily: CHART_FONT_FAMILY,
+          callback: (value, index, values) => {
+            if (!index || index === values.length - 1) {
+              return formatTime(value);
+            }
+            return '';
+          },
+        },
+        gridLines: {
+          drawOnChartArea: false,
+        },
+      },
+    ],
+  },
+};
+
 export const METRIC_CHART = {
   conversations_count: DEFAULT_CHART,
   incoming_messages_count: DEFAULT_CHART,
   outgoing_messages_count: DEFAULT_CHART,
-  avg_first_response_time: {
-    datasets: [DEFAULT_BAR_CHART],
-    scales: {
-      xAxes: [
-        {
-          ticks: {
-            fontFamily: CHART_FONT_FAMILY,
-          },
-          gridLines: {
-            drawOnChartArea: false,
-          },
-        },
-      ],
-      yAxes: [
-        {
-          id: 'y-left',
-          type: 'linear',
-          position: 'left',
-          ticks: {
-            fontFamily: CHART_FONT_FAMILY,
-            callback: (value, index, values) => {
-              if (!index || index === values.length - 1) {
-                return formatTime(value);
-              }
-              return '';
-            },
-          },
-          gridLines: {
-            drawOnChartArea: false,
-          },
-        },
-      ],
-    },
-  },
-  avg_resolution_time: {
-    datasets: [DEFAULT_BAR_CHART],
-    scales: {
-      xAxes: [
-        {
-          ticks: {
-            fontFamily: CHART_FONT_FAMILY,
-          },
-          gridLines: {
-            drawOnChartArea: false,
-          },
-        },
-      ],
-      yAxes: [
-        {
-          id: 'y-left',
-          type: 'linear',
-          position: 'left',
-          ticks: {
-            fontFamily: CHART_FONT_FAMILY,
-            callback: (value, index, values) => {
-              if (!index || index === values.length - 1) {
-                return formatTime(value);
-              }
-              return '';
-            },
-          },
-          gridLines: {
-            drawOnChartArea: false,
-          },
-        },
-      ],
-    },
-  },
+  avg_first_response_time: TIME_CHART_CONFIG,
+  reply_time: TIME_CHART_CONFIG,
+  avg_resolution_time: TIME_CHART_CONFIG,
   resolutions_count: DEFAULT_CHART,
 };
 
