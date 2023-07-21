@@ -2,7 +2,7 @@
   <div
     class="conversation flex flex-shrink-0 flex-grow-0 w-auto max-w-full cursor-pointer relative py-0 px-4 border-transparent border-l-2 border-t-0 border-b-0 border-r-0 border-solid items-start hover:bg-slate-50 dark:hover:bg-slate-800 group"
     :class="{
-      'active bg-slate-50 dark:bg-slate-700 border-woot-500': isActiveChat,
+      'active bg-slate-50 dark:bg-slate-800 border-woot-500': isActiveChat,
       'unread-chat': hasUnread,
       'has-inbox-name': showInboxName,
       'conversation-selected': selected,
@@ -31,7 +31,7 @@
       size="40px"
     />
     <div
-      class="py-3 px-0 border-b group-last:border-transparent group-hover:border-transparent border-slate-50 dark:border-slate-800 columns"
+      class="py-3 px-0 border-b group-last:border-transparent group-hover:border-transparent border-slate-50 dark:border-slate-800/75 columns"
     >
       <div class="flex justify-between">
         <inbox-name v-if="showInboxName" :inbox="inbox" />

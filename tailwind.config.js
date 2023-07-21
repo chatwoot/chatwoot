@@ -18,6 +18,9 @@ module.exports = {
     colors: {
       transparent: 'transparent',
       white: '#fff',
+      white_transparent: 'rgba(255, 255, 255, 0.9)',
+      black_transparent: 'rgba(0, 0, 0, 0.9)',
+      modal: 'rgba(0, 0, 0, 0.4)',
       current: 'currentColor',
       woot: {
         25: '#F5FAFF',

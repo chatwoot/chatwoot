@@ -1,6 +1,6 @@
 <template>
   <div
-    class="medium-3 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-300 border-slate-50 dark:border-slate-700 border-l rtl:border-l-0 rtl:border-r contact--panel overflow-y-auto"
+    class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-300 border-slate-50 dark:border-slate-800/50 border-l rtl:border-l-0 rtl:border-r contact--panel overflow-y-auto"
   >
     <contact-info
       :contact="contact"
