@@ -148,7 +148,9 @@ class Integrations::Openai::ProcessorService < Integrations::OpenaiBaseService
       model: GPT_MODEL,
       messages: [
         { role: 'system',
-          content: 'Please suggest a reply to the following conversation between support agents and customer. Reply in the user\'s language.' }
+          content: 'Please suggest a reply to the following conversation between support agents and customer. ' \
+                   'Don\'t expose that you are an AI model, respond "Couldn\'t generate the reply" in cases where you can\'t answer. ' \
+                   'Reply in the user\'s language.' }
       ].concat(conversation_messages(in_array_format: true))
     }.to_json
   end
