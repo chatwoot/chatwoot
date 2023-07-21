@@ -5,37 +5,39 @@ const resolve = require('../config/webpack/resolve');
 process.env.NODE_ENV = 'development';
 const custom = require('../config/webpack/environment');
 module.exports = {
-  stories: ['../stories/**/*.stories.mdx', '../app/javascript/**/*.stories.@(js|jsx|ts|tsx)'],
-  addons: [{
-    name: '@storybook/addon-docs',
-    options: {
-      vueDocgenOptions: {
-        alias: {
-          '@': path.resolve(__dirname, '../')
-        }
-      }
-    }
-  }, '@storybook/addon-links', '@storybook/addon-essentials', '@storybook/addon-mdx-gfm'],
+  stories: [
+    '../stories/**/*.stories.mdx',
+    '../app/javascript/**/*.stories.@(js|jsx|ts|tsx)',
+  ],
+  addons: [
+    {
+      name: '@storybook/addon-docs',
+      options: {
+        vueDocgenOptions: {
+          alias: {
+            '@': path.resolve(__dirname, '../'),
+          },
+        },
+      },
+    },
+    '@storybook/addon-links',
+    '@storybook/addon-essentials',
+  ],
   webpackFinal: config => {
     const newConfig = {
       ...config,
       resolve: {
         ...config.resolve,
-        modules: custom.resolvedModules.map(i => i.value)
-      }
+        modules: custom.resolvedModules.map(i => i.value),
+      },
     };
+
     newConfig.module.rules.push({
       test: /\.scss$/,
       use: ['style-loader', 'css-loader', 'sass-loader'],
-      include: path.resolve(__dirname, '../app/javascript')
+      include: path.resolve(__dirname, '../app/javascript'),
     });
+
     return newConfig;
   },
-  framework: {
-    name: '@storybook/vue-webpack5',
-    options: {}
-  },
-  docs: {
-    autodocs: true
-  }
 };

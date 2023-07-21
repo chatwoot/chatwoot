@@ -24,18 +24,14 @@ const i18nConfig = new VueI18n({
   messages: i18n,
 });
 
-export const decorators = [
-  story => ({
-    components: { story },
-    template: '<div style="margin: 3em;"><story /></div>',
-    template: '<story/>',
-    i18n: i18nConfig,
-    store,
-    beforeCreate: function() {
-      this.$root._i18n = this.$i18n;
-    },
-  }),
-];
+addDecorator(() => ({
+  template: '<story/>',
+  i18n: i18nConfig,
+  store,
+  beforeCreate: function() {
+    this.$root._i18n = this.$i18n;
+  },
+}));
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
