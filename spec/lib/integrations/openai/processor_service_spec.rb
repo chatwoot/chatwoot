@@ -64,7 +64,10 @@ RSpec.describe Integrations::Openai::ProcessorService do
           'model' => 'gpt-3.5-turbo',
           'messages' => [
             { role: 'system',
-              content: 'Please suggest a reply to the following conversation between support agents and customer. Reply in the user\'s language.' },
+              # content: Rails.root.join('lib/integrations/openai/openai_prompts/reply.txt').read },
+              content: 'Please suggest a reply to the following conversation between support agents and customer. ' \
+                       'Don\'t expose that you are an AI model, respond "Couldn\'t generate the reply" in cases where you can\'t answer. ' \
+                       'Reply in the user\'s language.' },
             { role: 'user', content: customer_message.content },
             { role: 'assistant', content: agent_message.content }
           ]

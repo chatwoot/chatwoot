@@ -10,63 +10,44 @@ class Integrations::Openai::ProcessorService < Integrations::OpenaiBaseService
   end
 
   def rephrase_message
-    make_api_call(rephrase_body)
+    make_api_call(build_api_call_body("#{AGENT_INSTRUCTION} Please rephrase the following response. " \
+                                      "#{LANGUAGE_INSTRUCTION}"))
   end
 
   def fix_spelling_grammar_message
-    make_api_call(fix_spelling_grammar_body)
+    make_api_call(build_api_call_body("#{AGENT_INSTRUCTION} Please fix the spelling and grammar of the following response. " \
+                                      "#{LANGUAGE_INSTRUCTION}"))
   end
 
   def shorten_message
-    make_api_call(shorten_body)
+    make_api_call(build_api_call_body("#{AGENT_INSTRUCTION} Please shorten the following response. " \
+                                      "#{LANGUAGE_INSTRUCTION}"))
   end
 
   def expand_message
-    make_api_call(expand_body)
+    make_api_call(build_api_call_body("#{AGENT_INSTRUCTION} Please expand the following response. " \
+                                      "#{LANGUAGE_INSTRUCTION}"))
   end
 
   def make_friendly_message
-    make_api_call(make_friendly_body)
+    make_api_call(build_api_call_body("#{AGENT_INSTRUCTION} Please make the following response more friendly. " \
+                                      "#{LANGUAGE_INSTRUCTION}"))
   end
 
   def make_formal_message
-    make_api_call(make_formal_body)
+    make_api_call(build_api_call_body("#{AGENT_INSTRUCTION} Please make the following response more formal. " \
+                                      "#{LANGUAGE_INSTRUCTION}"))
   end
 
   def simplify_message
-    make_api_call(simplify_body)
+    make_api_call(build_api_call_body("#{AGENT_INSTRUCTION} Please simplify the following response. " \
+                                      "#{LANGUAGE_INSTRUCTION}"))
   end
 
   private
 
-  def rephrase_body
-    build_api_call_body("#{AGENT_INSTRUCTION} Please rephrase the following response. " \
-                        "#{LANGUAGE_INSTRUCTION}")
-  end
-
-  def fix_spelling_grammar_body
-    build_api_call_body("#{AGENT_INSTRUCTION} Please fix the spelling and grammar of the following response. " \
-                        "#{LANGUAGE_INSTRUCTION}")
-  end
-
-  def shorten_body
-    build_api_call_body("#{AGENT_INSTRUCTION} Please shorten the following response. #{LANGUAGE_INSTRUCTION}")
-  end
-
-  def expand_body
-    build_api_call_body("#{AGENT_INSTRUCTION} Please expand the following response. #{LANGUAGE_INSTRUCTION}")
-  end
-
-  def make_friendly_body
-    build_api_call_body("#{AGENT_INSTRUCTION} Please make the following response more friendly. #{LANGUAGE_INSTRUCTION}")
-  end
-
-  def make_formal_body
-    build_api_call_body("#{AGENT_INSTRUCTION} Please make the following response more formal. #{LANGUAGE_INSTRUCTION}")
-  end
-
-  def simplify_body
-    build_api_call_body("#{AGENT_INSTRUCTION} Please simplify the following response. #{LANGUAGE_INSTRUCTION}")
+  def prompts_from_file(file_name)
+    Rails.root.join('lib/integrations/openai/openai_prompts', "#{file_name}.txt").read
   end
 
   def build_api_call_body(system_content, user_content = event['data']['content'])
@@ -136,8 +117,7 @@ class Integrations::Openai::ProcessorService < Integrations::OpenaiBaseService
       model: GPT_MODEL,
       messages: [
         { role: 'system',
-          content: 'Please summarize the key points from the following conversation between support agents and ' \
-                   'customer as bullet points for the next support agent looking into the conversation. Reply in the user\'s language.' },
+          content: prompts_from_file('summary') },
         { role: 'user', content: conversation_messages }
       ]
     }.to_json
@@ -148,7 +128,7 @@ class Integrations::Openai::ProcessorService < Integrations::OpenaiBaseService
       model: GPT_MODEL,
       messages: [
         { role: 'system',
-          content: 'Please suggest a reply to the following conversation between support agents and customer. Reply in the user\'s language.' }
+          content: prompts_from_file('reply') }
       ].concat(conversation_messages(in_array_format: true))
     }.to_json
   end
