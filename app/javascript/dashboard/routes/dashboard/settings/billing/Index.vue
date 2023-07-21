@@ -97,11 +97,23 @@ export default {
 
 .current-plan--details {
   @apply border-b border-solid border-slate-75 dark:border-slate-800 mb-4 pb-4;
+
+  h6 {
+    @apply text-slate-800 dark:text-slate-100;
+  }
+
+  p {
+    @apply text-slate-600 dark:text-slate-200;
+  }
 }
 
 .manage-subscription {
   .manage-subscription--description {
-    @apply mb-0;
+    @apply mb-0 text-slate-600 dark:text-slate-200;
+  }
+
+  h6 {
+    @apply text-slate-800 dark:text-slate-100;
   }
 }
 </style>
