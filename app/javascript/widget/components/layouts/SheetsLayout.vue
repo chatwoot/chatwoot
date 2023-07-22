@@ -3,20 +3,24 @@
     class="w-full h-full flex flex-col brand-bg relative"
     @keydown.esc="closeWindow"
   >
-    <top-bar @back="onBackButtonClick" @close="closeWindow" />
+    <top-bar
+      v-if="isRNWebView"
+      @back="onBackButtonClick"
+      @close="closeWindow"
+    />
     <banner />
     <transition
-      enter-class="translate-y-16 opacity-0 group is-animating"
+      enter-class="translate-y-8 opacity-0 group is-animating"
       enter-active-class="transition-all duration-300 ease-in"
       enter-to-class="opacity-100 translate-y-0"
       leave-class="opacity-100 translate-y-0"
       leave-active-class="transition-all duration-400 ease-out"
-      leave-to-class="translate-y-16 opacity-0"
+      leave-to-class="translate-y-8 opacity-0"
       mode="out-in"
     >
       <router-view />
     </transition>
-    <div class="w-full sticky bottom-0 -z-10">
+    <div class="w-full sticky bottom-0 -z-0">
       <branding :disable-branding="disableBranding" />
     </div>
   </div>
@@ -56,6 +60,9 @@ export default {
       return (
         this.channelConfig.welcomeTitle || this.channelConfig.welcomeTagline
       );
+    },
+    isRNWebView() {
+      return RNHelper.isRNWebView();
     },
   },
   methods: {

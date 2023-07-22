@@ -1,3 +1,35 @@
 .icon-button {
   @include button-size;
 }
+
+.bg-brand-primary {
+  background: var(--brand-primary);
+}
+
+.bg-brand-light {
+  background: var(--brand-bgLight);
+}
+
+.bg-brand-dark {
+  background: var(--brand-bgDark);
+}
+
+.bg-brand-button-dark {
+  background: var(--brand-buttonDark);
+}
+
+.text-brand-title {
+  color: var(--brand-header);
+}
+
+.text-brand-body {
+  color: var(--brand-body);
+}
+
+.text-brand-button {
+  color: var(--brand-textButton);
+}
+
+.text-brand-link {
+  color: var(--brand-textButtonClear);
+}

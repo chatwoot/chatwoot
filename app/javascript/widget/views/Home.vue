@@ -15,7 +15,7 @@
       <div ref="stickyElement" class="relative h-0 w-full" />
       <div
         ref="chatSheetWrap"
-        class="group -mt-8 self-end -bottom-custom w-full sticky"
+        class="group -mt-8 self-end -bottom-custom w-full sticky z-10"
         :class="{ 'is-collapsed': isCollapsed }"
       >
         <chat-hero
@@ -23,10 +23,7 @@
           :has-conversation="conversationSize > 0"
           @start="startConversation"
         >
-          {{
-            agentNamesToDisplay ||
-              `We are offline but we will answer once we are back. Can't wait? ask Lisa, our ai bot 🤖 for faster replies.`
-          }}
+          {{ agentNamesToDisplay || $t('CHAT_SECTION.OFFLINE_BODY') }}
         </chat-hero>
       </div>
     </div>
@@ -96,15 +93,6 @@ export default {
       activeCampaign: 'campaign/getActiveCampaign',
       conversationSize: 'conversation/getConversationSize',
     }),
-    isOnline() {
-      const { workingHoursEnabled } = this.channelConfig;
-      const anyAgentOnline = this.availableAgents.length > 0;
-
-      if (workingHoursEnabled) {
-        return this.isInBetweenTheWorkingHours;
-      }
-      return anyAgentOnline;
-    },
     chatBodyText() {
       if (this.isOnline && this.availableAgents.length > 3) {
         return `Agatha, Hari and ${this.availableAgents.length} others online to answer your questions.`;
@@ -131,7 +119,7 @@ export default {
       }
       return this.replaceRoute('messages');
     },
-    onSearch(query) {},
+    onSearch() {},
     checkMoving() {
       const jockeyElement = this.$refs.stickyElement;
 

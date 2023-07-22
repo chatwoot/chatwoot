@@ -5,7 +5,7 @@
         class="flex flex-col mt-6 opacity-100 group-[.is-collapsed]:opacity-0"
       >
         <h2 class="text-base font-bold leading-6 text-slate-900 mb-1 ">
-          Chat with us
+          {{ $t('CHAT_SECTION.TITLE') }}
         </h2>
         <p class="text-sm leading-6 text-slate-700 my-2">
           <slot />
@@ -18,51 +18,46 @@
           'sticky bottom-2': hasConversation,
         }"
       >
-        <continue-chat-button @continue="startConversation" />
+        <continue-chat-button
+          :title="$t('CHAT_SECTION.CONTINUE_CHAT_TITLE')"
+          :content="$t('CHAT_SECTION.CONTINUE_CHAT_BODY')"
+          @continue="startConversation"
+        />
       </div>
       <div
         :class="{
-          'sticky bottom-2': !hasConversation,
+          'sticky bottom-3': !hasConversation,
         }"
         class="rounded-lg bg-white"
       >
-        <start-chat-button @start="startConversation" />
+        <start-chat-button
+          :text="$t('CHAT_SECTION.START_CONVERSATION')"
+          @start="startConversation"
+        />
       </div>
-      <router-link v-slot="{ href }" custom :to="categoryPath">
-        <a
-          :href="href"
-          class="flex w-full text-sm font-medium rounded-md mt-2 px-2 leading-6 text-slate-800 justify-center items-center hover:bg-slate-75 h-8 all-chat-button"
-        >
-          See all chats
-          <span class="px-1 text-slate-700 all-chat-button">
-            <fluent-icon icon="arrow-right" size="14" />
-          </span>
-        </a>
-      </router-link>
+      <arrow-button
+        v-if="hasConversation"
+        :text="$t('CHAT_SECTION.SEE_ALL_CHATS')"
+        @click="showAllChats"
+      />
     </div>
   </elevated-sheet>
 </template>
 
 <script>
-import StartChatButton from './StartChatButton.vue';
-import ElevatedSheet from './ElevatedSheet.vue';
+import ArrowButton from './ArrowButton.vue';
 import ContinueChatButton from './ContinueChatButton.vue';
+import ElevatedSheet from './ElevatedSheet.vue';
+import StartChatButton from './StartChatButton.vue';
 
 export default {
-  components: { ElevatedSheet, StartChatButton, ContinueChatButton },
+  components: {
+    ArrowButton,
+    ContinueChatButton,
+    ElevatedSheet,
+    StartChatButton,
+  },
   props: {
-    articles: {
-      type: Array,
-      default: () => [],
-    },
-    categoryPath: {
-      type: String,
-      default: '',
-    },
-    isCollapsed: {
-      type: Boolean,
-      default: true,
-    },
     hasConversation: {
       type: Boolean,
       default: false,
@@ -72,15 +67,9 @@ export default {
     startConversation() {
       this.$emit('start');
     },
+    showAllChats() {
+      this.$emit('all-chats');
+    },
   },
 };
 </script>
-
-<style scoped>
-.all-chat-button {
-  color: var(--brand-textButtonClear);
-}
-.has-bg {
-  background: var(--brand-bgLight);
-}
-</style>

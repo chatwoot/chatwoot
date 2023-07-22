@@ -31,7 +31,7 @@
     "Friday",
     "Saturday"
   ],
-  "START_CONVERSATION": "Start Conversation",
+
   "END_CONVERSATION": "End Conversation",
   "CONTINUE_CONVERSATION": "Continue conversation",
   "START_NEW_CONVERSATION": "Start a new conversation",
@@ -105,5 +105,13 @@
       "CLICK_HERE_TO_JOIN": "Click here to join",
       "LEAVE_THE_ROOM": "Leave the call"
     }
+  },
+  "CHAT_SECTION": {
+    "TITLE": "Chat with us",
+    "CONTINUE_CHAT_TITLE": "Continue your conversation",
+    "CONTINUE_CHAT_BODY": "You have a new message",
+    "START_CONVERSATION": "Chat with us",
+    "SEE_ALL_CHATS": "See all conversations",
+    "OFFLINE_BODY": "We are currently offline. Don't worry, Lisa our AI bot 🤖 will assist you."
   }
 }

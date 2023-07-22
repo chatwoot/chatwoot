@@ -10,6 +10,9 @@ export default {
       return window.chatwootWebChannel.replyTime;
     },
     agentNamesToDisplay() {
+      // @TODO
+      // 1. Need to rewrite this function. Needs to do this via i18n.
+      // 2. Need to add a test for this.
       if (!this.availableAgents) return '';
 
       const total = this.availableAgents.length;
@@ -115,6 +118,15 @@ export default {
     isInBusinessHours() {
       const { workingHoursEnabled } = this.channelConfig;
       return workingHoursEnabled ? this.isInBetweenTheWorkingHours : true;
+    },
+    isOnline() {
+      const { workingHoursEnabled } = this.channelConfig;
+      const anyAgentOnline = this.availableAgents.length > 0;
+
+      if (workingHoursEnabled) {
+        return this.isInBetweenTheWorkingHours;
+      }
+      return anyAgentOnline;
     },
   },
 

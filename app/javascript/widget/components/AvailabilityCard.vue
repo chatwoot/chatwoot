@@ -20,10 +20,10 @@
             {{ replyWaitMessage }}
           </span>
           <button
-            class="rounded h-5 px-1 -ml-1 text-sm font-medium hidden hover:bg-slate-75 group-hover:inline chat-with-us"
+            class="rounded h-5 px-1 -ml-1 text-sm font-medium hidden hover:bg-slate-75 group-hover:inline text-brand-link"
             @click="startConversation"
           >
-            Chat with us
+            {{ $t('CHAT_SECTION.START_CONVERSATION') }}
           </button>
         </p>
       </div>
@@ -70,8 +70,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.chat-with-us {
-  color: var(--brand-textButtonClear);
-}
-</style>

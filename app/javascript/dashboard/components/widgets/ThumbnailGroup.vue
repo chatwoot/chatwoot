@@ -61,7 +61,7 @@ export default {
   position: relative;
   box-shadow: var(--shadow-small);
 
-  &:not(:first-child) {
+  &:not(:first-of-type) {
     margin-left: var(--space-minus-smaller);
   }
 

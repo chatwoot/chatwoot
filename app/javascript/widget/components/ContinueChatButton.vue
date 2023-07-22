@@ -5,16 +5,18 @@
     @click="$emit('continue')"
   >
     <div
-      class="w-10 h-10 rounded-md bg-slate-75 text-lg flex items-center justify-center"
+      class="w-10 h-10 rounded-md bg-slate-75 text-lg flex items-center justify-center flex-shrink-0"
     >
       💬
     </div>
     <div class="text-left flex flex-col justify-start flex-grow mx-2">
-      <span class="font-semibold text-slate-900">{{ title }}</span>
+      <span class="font-semibold text-slate-900 text-brand-link">
+        {{ title }}
+      </span>
       <span>{{ content }}</span>
     </div>
     <div class="w-8 h-10 flex items-center justify-center">
-      <fluent-icon icon="chevron-right" />
+      <fluent-icon icon="chevron-right" class="text-brand-link" />
     </div>
   </button>
 </template>

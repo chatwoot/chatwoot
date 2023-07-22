@@ -6,13 +6,14 @@ export default {
   component: HeroIntro,
   argTypes: {
     title: {
-      defaultValue: 'sales',
+      defaultValue: `We're here for you 🙌`,
       control: {
         type: 'text',
       },
     },
     body: {
-      defaultValue: 'sales',
+      defaultValue:
+        'Ask us a question and we will get back to you as soon as possible.',
       control: {
         type: 'text',
       },
@@ -24,7 +25,7 @@ export default {
       },
     },
     replyWaitMessage: {
-      defaultValue: 'Please wait',
+      defaultValue: 'Typically replies within a few hours',
       control: {
         type: 'text',
       },

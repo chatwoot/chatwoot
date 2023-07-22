@@ -2,24 +2,26 @@
   <div class="flex items-end gap-2">
     <button
       v-if="showPopoutButton"
-      class="inline-flex h-10 w-10 rounded items-center justify-center border border-1 border-slate-200 hover:bg-slate-75"
-      @click="popoutChatWindow"
+      class="inline-flex h-10 w-10 rounded items-center justify-center border border-solid border-slate-200 hover:bg-slate-75 group"
+      @click="$emit('popout')"
     >
       <fluent-icon
         icon="open"
         size="16"
+        class="group-hover:text-slate-600"
         :class="$dm('text-slate-900', 'dark:text-slate-50')"
       />
     </button>
     <button
-      v-if="canLeaveConversation && hasEndConversationEnabled"
-      class="inline-flex h-10 w-10 rounded items-center justify-center border border-1 border-slate-200 hover:bg-slate-75"
+      v-if="showResolveButton"
+      class="inline-flex h-10 w-10 rounded items-center justify-center border border-solid border-slate-200 hover:bg-slate-75 group"
       :title="$t('END_CONVERSATION')"
-      @click="resolveConversation"
+      @click="$emit('resolve')"
     >
       <fluent-icon
         icon="checkmark"
         size="16"
+        class="group-hover:text-green-600"
         :class="$dm('text-slate-900', 'dark:text-slate-50')"
       />
     </button>
@@ -28,44 +30,20 @@
 <script>
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
-import configMixin from 'widget/mixins/configMixin';
 
 export default {
   name: 'HeaderActions',
   components: { FluentIcon },
-  mixins: [configMixin, darkModeMixin],
+  mixins: [darkModeMixin],
   props: {
     showPopoutButton: {
       type: Boolean,
       default: false,
     },
-  },
-  computed: {},
-  methods: {
-    resolveConversation() {
-      this.$store.dispatch('conversation/resolveConversation');
-    },
-    popoutChatWindow() {
-      this.$emit('popout');
+    showResolveButton: {
+      type: Boolean,
+      default: false,
     },
   },
 };
 </script>
-<style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
-
-.actions {
-  button {
-    margin-left: $space-normal;
-  }
-
-  span {
-    color: $color-heading;
-    font-size: $font-size-large;
-  }
-
-  .close-button {
-    display: none;
-  }
-}
-</style>

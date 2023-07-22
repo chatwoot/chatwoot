@@ -1,7 +1,7 @@
 <template>
   <FormulateForm
     v-model="formValues"
-    class="flex flex-1 flex-col p-6 overflow-y-auto"
+    class="flex flex-1 flex-col overflow-y-auto"
     @submit="onSubmit"
   >
     <div
@@ -44,17 +44,18 @@
         required: $t('PRE_CHAT_FORM.FIELDS.MESSAGE.ERROR'),
       }"
     />
-
-    <custom-button
-      class="font-medium mt-2 mb-5"
-      block
-      :bg-color="widgetColor"
-      :text-color="textColor"
-      :disabled="isCreating"
-    >
-      <spinner v-if="isCreating" class="p-0" />
-      {{ $t('START_CONVERSATION') }}
-    </custom-button>
+    <div class="rounded-lg bg-white sticky bottom-2">
+      <custom-button
+        class="font-medium mt-2"
+        block
+        :bg-color="widgetColor"
+        :text-color="textColor"
+        :disabled="isCreating"
+      >
+        <spinner v-if="isCreating" class="p-0" />
+        {{ $t('CHAT_SECTION.START_CONVERSATION') }}
+      </custom-button>
+    </div>
   </FormulateForm>
 </template>
 
@@ -180,7 +181,7 @@ export default {
       return contactAttributes;
     },
     inputStyles() {
-      return `mt-1 border rounded w-full py-2 px-3 text-slate-700 outline-none`;
+      return `mt-1 border rounded w-full py-2 px-3 text-slate-700 outline-none text-sm h-10`;
     },
     isInputDarkOrLightMode() {
       return `${this.$dm('bg-white', 'dark:bg-slate-600')} ${this.$dm(
@@ -189,19 +190,19 @@ export default {
       )}`;
     },
     inputBorderColor() {
-      return `${this.$dm('border-black-200', 'dark:border-black-500')}`;
+      return `${this.$dm('border-black-300', 'dark:border-black-500')}`;
     },
   },
   methods: {
     labelClass(context) {
       const { hasErrors } = context;
       if (!hasErrors) {
-        return `text-xs font-medium ${this.$dm(
+        return `text-sm font-semibold ${this.$dm(
           'text-black-800',
           'dark:text-slate-50'
         )}`;
       }
-      return `text-xs font-medium ${this.$dm(
+      return `text-sm font-semibold ${this.$dm(
         'text-red-400',
         'dark:text-red-400'
       )}`;
