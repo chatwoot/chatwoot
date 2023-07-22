@@ -1,7 +1,7 @@
 <template>
   <FormulateForm
     v-model="formValues"
-    class="flex flex-1 flex-col overflow-y-auto"
+    class="flex flex-1 flex-col"
     @submit="onSubmit"
   >
     <div

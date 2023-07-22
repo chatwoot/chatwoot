@@ -7,7 +7,7 @@
       :href="brandRedirectURL"
       rel="noreferrer noopener nofollow"
       target="_blank"
-      class="text-xs text-brand font-medium cursor-pointer inline-flex justify-center items-center leading-3 grayscale opacity-60 hover:opacity-100 hover:grayscale-0"
+      class="text-xs text-brand font-medium cursor-pointer inline-flex justify-center items-center leading-3 grayscale opacity-60 hover:opacity-100 hover:grayscale-0 shadow-inner"
     >
       <img
         class="branding--image"

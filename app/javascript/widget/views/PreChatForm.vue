@@ -4,18 +4,21 @@
   >
     <elevated-sheet
       is-collapsed
+      is-rounded
       class="flex flex-col absolute top-0 flex-1 w-full z-10 h-full"
     >
       <div class="flex flex-col h-full py-4 bg-white">
-        <chat-header
-          :avatar-url="channelConfig.avatarUrl"
-          :title="channelConfig.websiteName"
-          :body="replyWaitMessage"
-          show-back-button
-          :show-popout-button="appConfig.showPopoutButton"
-          @back="onBackButtonClick"
-          @popout="onPopoutButtonClick"
-        />
+        <div class="-mx-4">
+          <chat-header
+            :avatar-url="channelConfig.avatarUrl"
+            :title="channelConfig.websiteName"
+            :body="replyWaitMessage"
+            show-back-button
+            :show-popout-button="appConfig.showPopoutButton"
+            @back="onBackButtonClick"
+            @popout="onPopoutButtonClick"
+          />
+        </div>
         <div class="flex flex-1 overflow-auto pt-4">
           <pre-chat-form :options="preChatFormOptions" @submit="onSubmit" />
         </div>

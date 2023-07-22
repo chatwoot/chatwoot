@@ -2,19 +2,23 @@
   <div class="flex flex-col bg-brand-primary relative flex-1 mt-1 -mb-1">
     <elevated-sheet
       is-collapsed
+      is-rounded
       class="flex flex-col absolute top-0 flex-1 h-custom w-full z-10"
     >
       <div class="flex flex-col h-full py-4 flex-1 bg-white">
-        <chat-header
-          :avatar-url="channelConfig.avatarUrl"
-          :title="channelConfig.websiteName"
-          :body="replyWaitMessage"
-          :show-popout-button="appConfig.showPopoutButton"
-          :show-resolve-button="showResolveButton"
-          @back="onBackButtonClick"
-          @popout="popoutWindow"
-          @resolve="resolveConversation"
-        />
+        <div class="-mx-4">
+          <chat-header
+            :avatar-url="channelConfig.avatarUrl"
+            :title="channelConfig.websiteName"
+            :body="replyWaitMessage"
+            show-back-button
+            :show-popout-button="appConfig.showPopoutButton"
+            :show-resolve-button="showResolveButton"
+            @back="onBackButtonClick"
+            @popout="popoutWindow"
+            @resolve="resolveConversation"
+          />
+        </div>
         <conversation-wrap :grouped-messages="groupedMessages" />
         <chat-footer />
       </div>

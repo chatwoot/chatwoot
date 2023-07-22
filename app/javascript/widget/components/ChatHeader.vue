@@ -1,6 +1,6 @@
 <template>
   <header
-    class="flex justify-between items-center w-full pb-4 border-b border-solid border-slate-50"
+    class="flex justify-between items-center w-full pb-4 border-b border-solid border-slate-50 px-4"
     :class="$dm('bg-white', 'dark:bg-slate-900')"
   >
     <div class="flex-grow flex items-center flex-shrink-0">
