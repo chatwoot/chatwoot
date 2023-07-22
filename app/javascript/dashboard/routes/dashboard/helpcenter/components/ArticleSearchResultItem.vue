@@ -1,7 +1,9 @@
 <template>
   <div class="article-item">
     <h4 class="text-block-title margin-bottom-0">{{ title }}</h4>
-    <p class="margin-bottom-0 text-truncate">{{ body }}</p>
+    <p class="margin-bottom-0 overflow-hidden whitespace-nowrap text-ellipsis">
+      {{ body }}
+    </p>
     <div class="footer">
       <p class="text-small meta">
         {{ locale }}
