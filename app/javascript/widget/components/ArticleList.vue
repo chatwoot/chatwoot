@@ -3,11 +3,11 @@
     <li
       v-for="article in articles"
       :key="article.name"
-      class="py-1 flex items-center justify-between"
+      class="py-1 flex items-center justify-between  -mx-1 px-1 hover:bg-slate-25"
     >
       <a
         :href="article.href"
-        class="text-slate-800 hover:underline underline-offset-2 text-sm leading-6"
+        class="text-slate-700 hover:text-slate-900 underline-offset-2 text-sm leading-6"
       >
         {{ article.name }}
       </a>

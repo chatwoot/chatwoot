@@ -11,7 +11,7 @@
       :placeholder="placeholder"
       type="text"
       name="search"
-      class="block w-full h-8 rounded-md focus-visible:outline-none pl-6 pr-1 px-2 text-sm text-slate-800 border border-slate-100 bg-slate-75 placeholder:text-slate-400 focus:ring focus:border-woot-500 focus:ring-woot-200"
+      class="block w-full h-8 rounded-md focus-visible:outline-none pl-6 pr-1 px-2 text-sm text-slate-800 border border-slate-100 bg-slate-75 placeholder:text-slate-400 focus:ring focus:border-woot-500 focus:ring-woot-200 hover:border-woot-200"
       @input="handleInput"
     />
     <div class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
