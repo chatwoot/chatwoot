@@ -223,10 +223,12 @@ $marker-height: var(--space-two);
     flex-direction: column;
     align-items: end;
     justify-content: center;
+    @apply text-slate-800 dark:text-slate-200;
 
     time {
       font-size: var(--font-size-micro);
       font-weight: var(--font-weight-normal);
+      @apply text-slate-700 dark:text-slate-200;
     }
   }
 }
@@ -297,6 +299,7 @@ $marker-height: var(--space-two);
   font-weight: var(--font-weight-bold);
   height: $marker-height;
   color: var(--color-body);
+  @apply text-slate-800 dark:text-slate-200;
 
   div {
     display: flex;

@@ -12,6 +12,7 @@
 #  private                   :boolean          default(FALSE)
 #  processed_message_content :text
 #  sender_type               :string
+#  sentiment                 :jsonb
 #  status                    :integer          default("sent")
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
@@ -135,19 +136,24 @@ class Message < ApplicationRecord
   end
 
   def push_event_data
-    data = attributes.merge(
+    data = attributes.symbolize_keys.merge(
       created_at: created_at.to_i,
       message_type: message_type_before_type_cast,
       conversation_id: conversation.display_id,
-      conversation: {
-        assignee_id: conversation.assignee_id,
-        unread_count: conversation.unread_incoming_messages.count,
-        last_activity_at: conversation.last_activity_at.to_i
-      }
+      conversation: conversation_push_event_data
     )
     data.merge!(echo_id: echo_id) if echo_id.present?
     data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
     merge_sender_attributes(data)
+  end
+
+  def conversation_push_event_data
+    {
+      assignee_id: conversation.assignee_id,
+      unread_count: conversation.unread_incoming_messages.count,
+      last_activity_at: conversation.last_activity_at.to_i,
+      contact_inbox: { source_id: conversation.contact_inbox.source_id }
+    }
   end
 
   # TODO: We will be removing this code after instagram_manage_insights is implemented
@@ -241,6 +247,7 @@ class Message < ApplicationRecord
     reopen_conversation
     notify_via_mail
     set_conversation_activity
+    update_message_sentiments
     dispatch_create_events
     send_reply
     execute_message_template_hooks
@@ -253,8 +260,12 @@ class Message < ApplicationRecord
   end
 
   def update_waiting_since
-    conversation.update(waiting_since: nil) if human_response? && !private && conversation.waiting_since.present?
-
+    if human_response? && !private && conversation.waiting_since.present?
+      Rails.configuration.dispatcher.dispatch(
+        REPLY_CREATED, Time.zone.now, waiting_since: conversation.waiting_since, message: self
+      )
+      conversation.update(waiting_since: nil)
+    end
     conversation.update(waiting_since: Time.now.utc) if incoming? && conversation.waiting_since.blank?
   end
 
@@ -276,7 +287,8 @@ class Message < ApplicationRecord
   end
 
   def dispatch_update_event
-    Rails.configuration.dispatcher.dispatch(MESSAGE_UPDATED, Time.zone.now, message: self, performed_by: Current.executed_by)
+    Rails.configuration.dispatcher.dispatch(MESSAGE_UPDATED, Time.zone.now, message: self, performed_by: Current.executed_by,
+                                                                            previous_changes: previous_changes)
   end
 
   def send_reply
@@ -365,4 +377,10 @@ class Message < ApplicationRecord
     conversation.update_columns(last_activity_at: created_at)
     # rubocop:enable Rails/SkipsModelValidations
   end
+
+  def update_message_sentiments
+    # override in the enterprise ::Enterprise::SentimentAnalysisJob.perform_later(self)
+  end
 end
+
+Message.prepend_mod_with('Message')

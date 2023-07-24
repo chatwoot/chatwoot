@@ -5,7 +5,7 @@
       delay: { show: 1500, hide: 0 },
       hideOnClick: true,
     }"
-    class="text-xxs text-black-600 leading-4 ml-auto hover:text-black-900"
+    class="text-xxs text-slate-500 dark:text-slate-500 leading-4 ml-auto hover:text-slate-900 dark:hover:text-slate-100"
   >
     <span>{{ `${createdAtTime} • ${lastActivityTime}` }}</span>
   </div>
