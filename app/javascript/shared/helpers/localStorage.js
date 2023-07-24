@@ -33,8 +33,10 @@ export const LocalStorage = {
     window.localStorage.setItem(storeName, JSON.stringify(parsedValue));
   },
 
-  getFlag(store, key) {
-    const rawValue = window.localStorage.getItem(store);
+  getFlag(store, accountId, key) {
+    const storeName = store ? `${store}::${accountId}` : store;
+
+    const rawValue = window.localStorage.getItem(storeName);
     const parsedValue = rawValue ? JSON.parse(rawValue) : {};
 
     return parsedValue[key] && parsedValue[key] > Date.now();
