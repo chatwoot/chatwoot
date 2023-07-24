@@ -1,8 +1,10 @@
 import { mapGetters } from 'vuex';
 import { OPEN_AI_EVENTS } from '../helper/AnalyticsHelper/events';
 import OpenAPI from '../api/integrations/openapi';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
+  mixins: [alertMixin],
   mounted() {
     this.fetchIntegrationsIfRequired();
   },
