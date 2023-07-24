@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Pridaj označenia",
         "PLACEHOLDER": "Hľadaj označenia",
-        "NO_RESULT": "Žiadne označenia neboli nájdené"
+        "NO_RESULT": "Žiadne označenia neboli nájdené",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Zlúčiť kontakt",

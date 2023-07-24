@@ -140,6 +140,7 @@ Rails.application.routes.draw do
           resources :inboxes, only: [:index, :show, :create, :update, :destroy] do
             get :assignable_agents, on: :member
             get :campaigns, on: :member
+            get :response_sources, on: :member
             get :agent_bot, on: :member
             post :set_agent_bot, on: :member
             delete :avatar, on: :member
@@ -151,6 +152,15 @@ Rails.application.routes.draw do
             end
           end
           resources :labels, only: [:index, :show, :create, :update, :destroy]
+          resources :response_sources, only: [:create] do
+            collection do
+              post :parse
+            end
+            member do
+              post :add_document
+              post :remove_document
+            end
+          end
 
           resources :notifications, only: [:index, :update] do
             collection do

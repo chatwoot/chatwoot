@@ -75,7 +75,7 @@
       "CANCEL": "Anuluj"
     },
     "PRIORITY": {
-      "TITLE": "Priority",
+      "TITLE": "Priorytet",
       "OPTIONS": {
         "NONE": "Brak",
         "URGENT": "Urgent",
@@ -188,7 +188,7 @@
       "ASSIGN": "Przypisz"
     },
     "CONTEXT_MENU": {
-      "COPY": "Copy",
+      "COPY": "Kopiuj",
       "DELETE": "Usuń",
       "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
       "TRANSLATE": "Translate",

@@ -6,7 +6,7 @@
     "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your segment.",
     "ADD_NEW_FILTER": "Dodaj filtr",
     "CLEAR_ALL_FILTERS": "Wyczyść wszystkie filtry",
-    "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
+    "FILTER_DELETE_ERROR": "Musisz mieć co najmniej jeden filtr do zapisu",
     "SUBMIT_BUTTON_LABEL": "Prześlij",
     "UPDATE_BUTTON_LABEL": "Update Segment",
     "CANCEL_BUTTON_LABEL": "Anuluj",

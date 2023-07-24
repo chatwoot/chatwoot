@@ -1,5 +1,5 @@
 <template>
-  <section class="notification--table-wrap">
+  <section class="notification--table-wrap bg-white dark:bg-slate-900">
     <woot-submit-button
       v-if="notificationMetadata.unreadCount"
       class="button nice success button--fixed-top"
@@ -19,7 +19,9 @@
           @click="() => onClickNotification(notificationItem)"
         >
           <td>
-            <div class="flex-view notification-contant--wrap text-truncate">
+            <div
+              class="flex-view notification-contant--wrap overflow-hidden whitespace-nowrap text-ellipsis"
+            >
               <h5 class="notification--title">
                 {{
                   `#${
@@ -29,7 +31,9 @@
                   }`
                 }}
               </h5>
-              <span class="notification--message-title text-truncate">
+              <span
+                class="notification--message-title overflow-hidden whitespace-nowrap text-ellipsis"
+              >
                 {{ notificationItem.push_message_title }}
               </span>
             </div>
@@ -129,86 +133,72 @@ export default {
 @import '~dashboard/assets/scss/mixins';
 
 .notification--title {
-  font-size: var(--font-size-small);
-  margin: 0;
+  @apply text-sm m-0 text-slate-800 dark:text-slate-100;
 }
 
 .notification--table-wrap {
-  @include scroll-on-hover;
-  flex: 1 1;
-  height: 100%;
-  padding: var(--space-large) var(--space-larger);
+  @apply overflow-hidden hover:overflow-y-auto flex-shrink flex-grow h-full py-8 px-12;
 }
 
 .notifications-table {
   > tbody {
     > tr {
-      cursor: pointer;
+      @apply cursor-pointer;
 
       &:hover {
-        background: var(--b-50);
+        @apply bg-slate-50 dark:bg-slate-800;
       }
 
       &.is-active {
-        background: var(--b-100);
+        @apply bg-slate-100 dark:bg-slate-700;
       }
 
       > td {
         &.conversation-count-item {
-          padding-left: var(--space-medium);
+          @apply pl-6 rtl:pl-0 rtl:pr-6;
         }
       }
 
       &:last-child {
-        border-bottom: 0;
+        @apply border-b-0;
       }
     }
   }
 }
 
 .is-unread {
-  font-weight: var(--font-weight-bold);
+  @apply font-semibold;
 }
 
 .notifications--loader {
-  font-size: var(--font-size-default);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-big);
+  @apply text-base flex items-center justify-center p-10;
 }
 
 .notification--unread-indicator {
-  width: var(--space-one);
-  height: var(--space-one);
-  border-radius: 50%;
-  background: var(--color-woot);
+  @apply w-2.5 h-2.5 rounded-full bg-woot-500 dark:bg-woot-500;
 }
 
 .notification--created-at {
-  color: var(--s-700);
-  font-size: var(--font-size-mini);
+  @apply text-slate-700 dark:text-slate-200 text-xs;
 }
 
 .notification--type {
-  font-size: var(--font-size-mini);
+  @apply text-xs;
 }
 
 .thumbnail--column {
-  width: 5.2rem;
+  @apply w-[3.25rem];
 }
 
 .timestamp--column {
-  min-width: 13rem;
-  text-align: right;
+  @apply min-w-[9.125rem] text-right;
 }
 
 .notification-contant--wrap {
-  flex-direction: column;
-  max-width: 50rem;
+  @apply flex-col max-w-[31.25rem];
 }
 
 .notification--message-title {
-  color: var(--s-700);
+  @apply text-slate-700 dark:text-slate-100;
 }
 </style>

@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Labels toevoegen",
         "PLACEHOLDER": "Zoek op labels",
-        "NO_RESULT": "Geen labels gevonden"
+        "NO_RESULT": "Geen labels gevonden",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Contact samenvoegen",

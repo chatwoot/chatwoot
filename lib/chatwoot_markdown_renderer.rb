@@ -9,9 +9,9 @@ class ChatwootMarkdownRenderer
   end
 
   def render_article
-    superscript_renderer = SuperscriptRenderer.new
+    markdown_renderer = CustomMarkdownRenderer.new
     doc = CommonMarker.render_doc(@content, :DEFAULT)
-    html = superscript_renderer.render(doc)
+    html = markdown_renderer.render(doc)
 
     render_as_html_safe(html)
   end

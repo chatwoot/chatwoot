@@ -1,6 +1,7 @@
 class DashboardController < ActionController::Base
   include SwitchLocale
 
+  before_action :set_application_pack
   before_action :set_global_config
   around_action :switch_locale
   before_action :ensure_installation_onboarding, only: [:index]
@@ -14,7 +15,7 @@ class DashboardController < ActionController::Base
 
   def set_global_config
     @global_config = GlobalConfig.get(
-      'LOGO', 'LOGO_THUMBNAIL',
+      'LOGO', 'LOGO_DARK', 'LOGO_THUMBNAIL',
       'INSTALLATION_NAME',
       'WIDGET_BRAND_URL', 'TERMS_URL',
       'PRIVACY_URL',
@@ -59,5 +60,13 @@ class DashboardController < ActionController::Base
       AZURE_APP_ID: ENV.fetch('AZURE_APP_ID', ''),
       GIT_SHA: GIT_HASH
     }
+  end
+
+  def set_application_pack
+    @application_pack = if request.path.include?('/auth') || request.path.include?('/login')
+                          'v3app'
+                        else
+                          'application'
+                        end
   end
 end

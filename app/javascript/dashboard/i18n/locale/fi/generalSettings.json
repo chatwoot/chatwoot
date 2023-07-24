@@ -3,6 +3,7 @@
     "TITLE": "Tilin asetukset",
     "SUBMIT": "Päivitä asetukset",
     "BACK": "Takaisin",
+    "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "Asetuksia ei voitu päivittää, yritä uudelleen",
       "SUCCESS": "Tilin asetukset päivitetty onnistuneesti"
@@ -106,6 +107,7 @@
       "CHANGE_ASSIGNEE": "Change Assignee",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Change Team",
+      "SNOOZE_CONVERSATION": "Snooze Conversation",
       "ADD_LABEL": "Add label to the conversation",
       "REMOVE_LABEL": "Remove label from the conversation",
       "SETTINGS": "Asetukset"
@@ -141,7 +143,10 @@
       "SNOOZE_CONVERSATION": "Snooze Conversation",
       "UNTIL_NEXT_REPLY": "Until next reply",
       "UNTIL_NEXT_WEEK": "Until next week",
-      "UNTIL_TOMORROW": "Until tomorrow"
+      "UNTIL_TOMORROW": "Until tomorrow",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom..."
     }
   },
   "DASHBOARD_APPS": {
