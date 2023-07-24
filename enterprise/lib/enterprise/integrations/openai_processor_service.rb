@@ -27,6 +27,10 @@ module Enterprise::Integrations::OpenaiProcessorService
 
     character_count = labels.length
     conversation = find_conversation
+
+    # return nil if conversation has less than 3 incoming messages
+    return nil if conversation.messages.incoming.count < 3
+
     messages = init_messages_body(false)
     add_messages_until_token_limit(conversation, messages, false, character_count)
 

@@ -1,8 +1,8 @@
 <template>
-  <div class="column">
+  <div>
     <woot-modal-header :header-title="$t('AUTOMATION.EDIT.TITLE')" />
-    <div class="row modal-content">
-      <div v-if="automation" class="medium-12 columns">
+    <div class="flex flex-col modal-content">
+      <div v-if="automation" class="w-full">
         <woot-input
           v-model="automation.name"
           :label="$t('AUTOMATION.ADD.FORM.NAME.LABEL')"
@@ -51,7 +51,9 @@
           <label>
             {{ $t('AUTOMATION.ADD.FORM.CONDITIONS.LABEL') }}
           </label>
-          <div class="medium-12 columns filters-wrap">
+          <div
+            class="w-full w-full p-4 bg-slate-25 dark:bg-slate-700 rounded-lg border border-solid border-slate-50 dark:border-slate-700 mb-4"
+          >
             <filter-input-box
               v-for="(condition, i) in automation.conditions"
               :key="i"
@@ -72,7 +74,7 @@
               @resetFilter="resetFilter(i, automation.conditions[i])"
               @removeFilter="removeFilter(i)"
             />
-            <div class="filter-actions">
+            <div class="mt-4">
               <woot-button
                 icon="add"
                 color-scheme="success"
@@ -91,7 +93,9 @@
           <label>
             {{ $t('AUTOMATION.ADD.FORM.ACTIONS.LABEL') }}
           </label>
-          <div class="medium-12 columns filters-wrap">
+          <div
+            class="w-full w-full p-4 bg-slate-25 dark:bg-slate-700 rounded-lg border border-solid border-slate-50 dark:border-slate-700 mb-4"
+          >
             <automation-action-input
               v-for="(action, i) in automation.actions"
               :key="i"
@@ -104,7 +108,7 @@
               @resetAction="resetAction(i)"
               @removeAction="removeAction(i)"
             />
-            <div class="filter-actions">
+            <div class="mt-4">
               <woot-button
                 icon="add"
                 color-scheme="success"
@@ -118,8 +122,8 @@
           </div>
         </section>
         <!-- // Actions End -->
-        <div class="medium-12 columns">
-          <div class="modal-footer justify-content-end w-full">
+        <div class="w-full">
+          <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
             <woot-button
               class="button"
               variant="clear"
@@ -198,26 +202,14 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.filters-wrap {
-  padding: var(--space-normal);
-  border-radius: var(--border-radius-large);
-  border: 1px solid var(--color-border);
-  background: var(--color-background-light);
-  margin-bottom: var(--space-normal);
-}
-
-.filter-actions {
-  margin-top: var(--space-normal);
-}
 .event_wrapper {
   select {
-    margin: var(--space-zero);
+    @apply m-0;
   }
   .info-message {
-    font-size: var(--font-size-mini);
-    color: var(--s-500);
-    text-align: right;
+    @apply text-xs text-green-500 dark:text-green-500 text-right;
   }
-  margin-bottom: var(--space-medium);
+
+  @apply mb-6;
 }
 </style>

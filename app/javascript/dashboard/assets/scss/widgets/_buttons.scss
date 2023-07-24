@@ -42,10 +42,10 @@
   }
 
   &.hollow {
-    @apply border border-slate-200 text-woot-700 dark:text-woot-100 hover:bg-woot-50 dark:hover:bg-woot-900;
+    @apply border border-slate-200 dark:border-slate-600 text-woot-700 dark:text-woot-100 hover:bg-woot-50 dark:hover:bg-woot-900;
 
     &.secondary {
-      @apply text-slate-700 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-700;
+      @apply text-slate-700 border-slate-200 dark:border-slate-600 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-700;
     }
 
     &.success {
@@ -98,7 +98,7 @@
     }
 
     &.warning {
-      @apply bg-yellow-100 dark:bg-yellow-100 text-yellow-700 dark:text-yellow-100 hover:bg-yellow-200 dark:hover:bg-yellow-200;
+      @apply bg-yellow-100 dark:bg-yellow-100 text-yellow-700 dark:text-yellow-700 hover:bg-yellow-200 dark:hover:bg-yellow-200;
     }
   }
 
@@ -118,11 +118,11 @@
     }
 
     &.warning {
-      @apply text-yellow-700 dark:text-yellow-100;
+      @apply text-yellow-700 dark:text-yellow-700;
     }
 
     &:hover {
-      @apply hover:bg-woot-50 dark:hover:bg-woot-300;
+      @apply hover:bg-woot-50 dark:hover:bg-woot-900/50 hover:text-woot-500 dark:hover:text-woot-100;
 
       &.secondary {
         @apply hover:bg-slate-50 dark:hover:bg-slate-700;
@@ -137,7 +137,7 @@
       }
 
       &.warning {
-        @apply hover:bg-yellow-50 dark:hover:bg-yellow-800;
+        @apply hover:bg-yellow-50 dark:hover:bg-yellow-100;
       }
     }
 
