@@ -53,7 +53,7 @@ export default {
       return this.$refs.messageContainer;
     }, this.setOverflow);
 
-    this.$nextTick(() => this.setOverflow);
+    this.$nextTick(this.setOverflow);
   },
   methods: {
     setOverflow() {
