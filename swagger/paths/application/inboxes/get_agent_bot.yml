@@ -1,6 +1,6 @@
 get:
   tags:
-    - Inbox
+    - Inboxes
   operationId: getInboxAgentBot
   summary: Show Inbox Agent Bot
   description: See if an agent bot is associated to the Inbox

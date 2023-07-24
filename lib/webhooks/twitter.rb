@@ -2,6 +2,7 @@
 
 class Webhooks::Twitter
   SUPPORTED_EVENTS = [:direct_message_events, :tweet_create_events].freeze
+  EDITABLE_ATTRS = [:tweets_enabled].freeze
 
   attr_accessor :params, :account
 

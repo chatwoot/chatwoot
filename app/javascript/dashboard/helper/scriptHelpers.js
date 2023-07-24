@@ -1,4 +1,6 @@
-import posthog from 'posthog-js';
+import AnalyticsHelper from './AnalyticsHelper';
+import LogRocket from 'logrocket';
+import DashboardAudioNotificationHelper from './AudioAlerts/DashboardAudioNotificationHelper';
 
 export const CHATWOOT_SET_USER = 'CHATWOOT_SET_USER';
 export const CHATWOOT_RESET = 'CHATWOOT_RESET';
@@ -8,15 +10,33 @@ export const ANALYTICS_RESET = 'ANALYTICS_RESET';
 
 export const initializeAnalyticsEvents = () => {
   window.bus.$on(ANALYTICS_IDENTITY, ({ user }) => {
-    if (window.analyticsConfig) {
-      posthog.identify(user.id, { name: user.name, email: user.email });
+    AnalyticsHelper.identify(user);
+    if (window.logRocketProjectId) {
+      LogRocket.identify(user.id, {
+        email: user.email,
+        name: user.name,
+      });
     }
   });
+};
 
-  window.bus.$on(ANALYTICS_RESET, () => {
-    if (window.analyticsConfig) {
-      posthog.reset();
-    }
+const initializeAudioAlerts = user => {
+  const { ui_settings: uiSettings } = user || {};
+  const {
+    always_play_audio_alert: alwaysPlayAudioAlert,
+    enable_audio_alerts: audioAlertType,
+    alert_if_unread_assigned_conversation_exist: alertIfUnreadConversationExist,
+    notification_tone: audioAlertTone,
+    // UI Settings can be undefined initally as we don't send the
+    // entire payload for the user during the signup process.
+  } = uiSettings || {};
+
+  DashboardAudioNotificationHelper.setInstanceValues({
+    currentUserId: user.id,
+    audioAlertType: audioAlertType || 'none',
+    audioAlertTone: audioAlertTone || 'ding',
+    alwaysPlayAudioAlert: alwaysPlayAudioAlert || false,
+    alertIfUnreadConversationExist: alertIfUnreadConversationExist || false,
   });
 };
 
@@ -37,7 +57,10 @@ export const initializeChatwootEvents = () => {
       window.$chatwoot.setCustomAttributes({
         signedUpAt: user.created_at,
         cloudCustomer: 'true',
+        account_id: user.account_id,
       });
     }
+
+    initializeAudioAlerts(user);
   });
 };

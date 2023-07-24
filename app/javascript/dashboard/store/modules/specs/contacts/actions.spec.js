@@ -6,8 +6,20 @@ import {
   DuplicateContactException,
   ExceptionWithMessage,
 } from '../../../../../shared/helpers/CustomErrors';
+import { filterApiResponse } from './filterApiResponse';
 
 const { actions } = Contacts;
+
+const filterQueryData = {
+  payload: [
+    {
+      attribute_key: 'email',
+      filter_operator: 'contains',
+      values: ['fayaz'],
+      query_operator: null,
+    },
+  ],
+};
 
 const commit = jest.fn();
 global.axios = axios;
@@ -61,7 +73,13 @@ describe('#actions', () => {
   describe('#update', () => {
     it('sends correct mutations if API is success', async () => {
       axios.patch.mockResolvedValue({ data: { payload: contactList[0] } });
-      await actions.update({ commit }, contactList[0]);
+      await actions.update(
+        { commit },
+        {
+          id: contactList[0].id,
+          contactParams: contactList[0],
+        }
+      );
       expect(commit.mock.calls).toEqual([
         [types.SET_CONTACT_UI_FLAG, { isUpdating: true }],
         [types.EDIT_CONTACT, contactList[0]],
@@ -82,15 +100,22 @@ describe('#actions', () => {
     it('sends correct actions if duplicate contact is found', async () => {
       axios.patch.mockRejectedValue({
         response: {
+          status: 422,
           data: {
             message: 'Incorrect header',
-            contact: { id: 1, name: 'contact-name' },
+            attributes: ['email'],
           },
         },
       });
-      await expect(actions.update({ commit }, contactList[0])).rejects.toThrow(
-        DuplicateContactException
-      );
+      await expect(
+        actions.update(
+          { commit },
+          {
+            id: contactList[0].id,
+            contactParams: contactList[0],
+          }
+        )
+      ).rejects.toThrow(DuplicateContactException);
       expect(commit.mock.calls).toEqual([
         [types.SET_CONTACT_UI_FLAG, { isUpdating: true }],
         [types.SET_CONTACT_UI_FLAG, { isUpdating: false }],
@@ -103,7 +128,12 @@ describe('#actions', () => {
       axios.post.mockResolvedValue({
         data: { payload: { contact: contactList[0] } },
       });
-      await actions.create({ commit }, contactList[0]);
+      await actions.create(
+        { commit },
+        {
+          contactParams: contactList[0],
+        }
+      );
       expect(commit.mock.calls).toEqual([
         [types.SET_CONTACT_UI_FLAG, { isCreating: true }],
         [types.SET_CONTACT_ITEM, contactList[0]],
@@ -129,9 +159,14 @@ describe('#actions', () => {
           },
         },
       });
-      await expect(actions.create({ commit }, contactList[0])).rejects.toThrow(
-        ExceptionWithMessage
-      );
+      await expect(
+        actions.create(
+          { commit },
+          {
+            contactParams: contactList[0],
+          }
+        )
+      ).rejects.toThrow(ExceptionWithMessage);
       expect(commit.mock.calls).toEqual([
         [types.SET_CONTACT_UI_FLAG, { isCreating: true }],
         [types.SET_CONTACT_UI_FLAG, { isCreating: false }],
@@ -228,7 +263,7 @@ describe('#actions', () => {
       ]);
     });
   });
-   describe('#deleteCustomAttributes', () => {
+  describe('#deleteCustomAttributes', () => {
     it('sends correct mutations if API is success', async () => {
       axios.post.mockResolvedValue({ data: { payload: contactList[0] } });
       await actions.deleteCustomAttributes(
@@ -244,6 +279,59 @@ describe('#actions', () => {
           { commit },
           { id: 1, customAttributes: ['cloud-customer'] }
         )
+      ).rejects.toThrow(Error);
+    });
+  });
+
+  describe('#fetchFilteredContacts', () => {
+    it('fetches filtered conversations with a mock commit', async () => {
+      axios.post.mockResolvedValue({
+        data: filterApiResponse,
+      });
+      await actions.filter({ commit }, filterQueryData);
+      expect(commit).toHaveBeenCalledTimes(5);
+      expect(commit.mock.calls).toEqual([
+        ['SET_CONTACT_UI_FLAG', { isFetching: true }],
+        ['CLEAR_CONTACTS'],
+        ['SET_CONTACTS', filterApiResponse.payload],
+        ['SET_CONTACT_META', filterApiResponse.meta],
+        ['SET_CONTACT_UI_FLAG', { isFetching: false }],
+      ]);
+    });
+  });
+
+  describe('#setContactsFilter', () => {
+    it('commits the correct mutation and sets filter state', () => {
+      const filters = [
+        {
+          attribute_key: 'email',
+          filter_operator: 'contains',
+          values: ['fayaz'],
+          query_operator: 'and',
+        },
+      ];
+      actions.setContactFilters({ commit }, filters);
+      expect(commit.mock.calls).toEqual([[types.SET_CONTACT_FILTERS, filters]]);
+    });
+  });
+
+  describe('#clearContactFilters', () => {
+    it('commits the correct mutation and clears filter state', () => {
+      actions.clearContactFilters({ commit });
+      expect(commit.mock.calls).toEqual([[types.CLEAR_CONTACT_FILTERS]]);
+    });
+  });
+
+  describe('#deleteAvatar', () => {
+    it('sends correct mutations if API is success', async () => {
+      axios.delete.mockResolvedValue({ data: { payload: contactList[0] } });
+      await actions.deleteAvatar({ commit }, contactList[0].id);
+      expect(commit.mock.calls).toEqual([[types.EDIT_CONTACT, contactList[0]]]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.delete.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(
+        actions.deleteAvatar({ commit }, contactList[0].id)
       ).rejects.toThrow(Error);
     });
   });

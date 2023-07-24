@@ -1,0 +1,53 @@
+{
+  "AUDIT_LOGS": {
+    "HEADER": "Auditoría de registros",
+    "HEADER_BTN_TXT": "Añadir registros de auditoría",
+    "LOADING": "Obteniendo registros de auditoría",
+    "SEARCH_404": "No hay elementos que coincidan con esta consulta",
+    "SIDEBAR_TXT": "<p><b>Registros de auditoría</b> </p><p> Registros de auditoría son pistas para eventos y acciones en un Sistema de Chatwoot </p>",
+    "LIST": {
+      "404": "No hay registros de auditoría disponibles en esta cuenta.",
+      "TITLE": "Administrar registros de auditoría",
+      "DESC": "Los registros de auditoría son pistas para eventos y acciones en un sistema de Chatwoot.",
+      "TABLE_HEADER": [
+        "User",
+        "Action",
+        "Dirección IP"
+      ]
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Registros de auditoria cargados satisfactoriamente",
+      "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
+    },
+    "DEFAULT_USER": "System",
+    "AUTOMATION_RULE": {
+      "ADD": "%{agentName} created a new automation rule (#%{id})",
+      "EDIT": "%{agentName} updated an automation rule (#%{id})",
+      "DELETE": "%{agentName} deleted an automation rule (#%{id})"
+    },
+    "INBOX": {
+      "ADD": "%{agentName} created a new inbox (#%{id})",
+      "EDIT": "%{agentName} updated an inbox (#%{id})",
+      "DELETE": "%{agentName} deleted an inbox (#%{id})"
+    },
+    "WEBHOOK": {
+      "ADD": "%{agentName} created a new webhook (#%{id})",
+      "EDIT": "%{agentName} updated a webhook (#%{id})",
+      "DELETE": "%{agentName} deleted a webhook (#%{id})"
+    },
+    "USER_ACTION": {
+      "SIGN_IN": "%{agentName} signed in",
+      "SIGN_OUT": "%{agentName} signed out"
+    },
+    "TEAM": {
+      "ADD": "%{agentName} created a new team (#%{id})",
+      "EDIT": "%{agentName} updated a team (#%{id})",
+      "DELETE": "%{agentName} deleted a team (#%{id})"
+    },
+    "MACRO": {
+      "ADD": "%{agentName} created a new macro (#%{id})",
+      "EDIT": "%{agentName} updated a macro (#%{id})",
+      "DELETE": "%{agentName} deleted a macro (#%{id})"
+    }
+  }
+}

@@ -1,7 +1,7 @@
 <template>
   <div
-    class="chat-message--input"
-    :class="{ 'is-focused': isFocused }"
+    class="chat-message--input is-focused"
+    :class="$dm('bg-white ', 'dark:bg-slate-600')"
     @keydown.esc="hideEmojiPicker"
   >
     <resizable-text-area
@@ -10,7 +10,8 @@
       v-model="userInput"
       :aria-label="$t('CHAT_PLACEHOLDER')"
       :placeholder="$t('CHAT_PLACEHOLDER')"
-      class="form-input user-message-input"
+      class="form-input user-message-input is-focused"
+      :class="inputColor"
       @typing-off="onTypingOff"
       @typing-on="onTypingOn"
       @focus="onFocus"
@@ -19,6 +20,7 @@
     <div class="button-wrap">
       <chat-attachment-button
         v-if="showAttachment"
+        :class="$dm('text-black-900', 'dark:text-slate-100')"
         :on-attach="onSendAttachment"
       />
       <button
@@ -27,10 +29,7 @@
         aria-label="Emoji picker"
         @click="toggleEmojiPicker"
       >
-        <fluent-icon
-          icon="emoji"
-          :class="{ 'text-woot-500': showEmojiPicker }"
-        />
+        <fluent-icon icon="emoji" :class="emojiIconColor" />
       </button>
       <emoji-input
         v-if="showEmojiPicker"
@@ -54,9 +53,11 @@ import { mixin as clickaway } from 'vue-clickaway';
 import ChatAttachmentButton from 'widget/components/ChatAttachment.vue';
 import ChatSendButton from 'widget/components/ChatSendButton.vue';
 import configMixin from '../mixins/configMixin';
-import EmojiInput from 'shared/components/emoji/EmojiInput';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea';
+import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+
+const EmojiInput = () => import('shared/components/emoji/EmojiInput');
 
 export default {
   name: 'ChatInputWrap',
@@ -67,7 +68,7 @@ export default {
     FluentIcon,
     ResizableTextArea,
   },
-  mixins: [clickaway, configMixin],
+  mixins: [clickaway, configMixin, darkModeMixin],
   props: {
     onSendMessage: {
       type: Function,
@@ -90,6 +91,7 @@ export default {
   computed: {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
+      isWidgetOpen: 'appConfig/getIsWidgetOpen',
     }),
     showAttachment() {
       return this.hasAttachmentsEnabled && this.userInput.length === 0;
@@ -97,13 +99,19 @@ export default {
     showSendButton() {
       return this.userInput.length > 0;
     },
-    isOpen() {
-      return this.$store.state.events.isOpen;
+    inputColor() {
+      return `${this.$dm('bg-white', 'dark:bg-slate-600')}
+        ${this.$dm('text-black-900', 'dark:text-slate-50')}`;
+    },
+    emojiIconColor() {
+      return this.showEmojiPicker
+        ? `text-woot-500 ${this.$dm('text-black-900', 'dark:text-slate-100')}`
+        : `${this.$dm('text-black-900', 'dark:text-slate-100')}`;
     },
   },
   watch: {
-    isOpen(isOpen) {
-      if (isOpen) {
+    isWidgetOpen(isWidgetOpen) {
+      if (isWidgetOpen) {
         this.focusInput();
       }
     },
@@ -113,7 +121,7 @@ export default {
   },
   mounted() {
     document.addEventListener('keypress', this.handleEnterKeyPress);
-    if (this.isOpen) {
+    if (this.isWidgetOpen) {
       this.focusInput();
     }
   },
@@ -182,7 +190,13 @@ export default {
 }
 
 .emoji-dialog {
-  right: $space-one;
+  right: 0;
+  top: -302px;
+  max-width: 100%;
+
+  &::before {
+    right: $space-one;
+  }
 }
 
 .button-wrap {
@@ -197,8 +211,7 @@ export default {
   min-height: $space-large;
   max-height: 2.4 * $space-mega;
   resize: none;
-  padding: 0;
-  padding-top: $space-small;
+  padding: $space-smaller 0;
   margin-top: $space-small;
   margin-bottom: $space-small;
 }

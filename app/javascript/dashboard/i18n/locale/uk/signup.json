@@ -1,38 +1,44 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Зареєструватися",
+    "TRY_WOOT": "Створити акаунт",
     "TITLE": "Реєстрація",
+    "TESTIMONIAL_HEADER": "Один крок і вперед",
+    "TESTIMONIAL_CONTENT": "Ви за один крок від залучення своїх клієнтів, утримання їх та пошуку нових.",
     "TERMS_ACCEPT": "Зареєструвавшись, ви погоджуєтеся з нашими <a href=\"https://www.chatwoot.com/terms\">Умовами Користування</a> та <a href=\"https://www.chatwoot.com/privacy-policy\">Політикою конфіденційності</a>",
-    "ACCOUNT_NAME": {
-      "LABEL": "Назва облікового запису",
-      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
-      "ERROR": "Account name is too short"
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Зареєструватися через Google"
+    },
+    "COMPANY_NAME": {
+      "LABEL": "Назва компанії",
+      "PLACEHOLDER": "Введіть ім'я вашої компанії. Наприклад Wayne Enterprises",
+      "ERROR": "Назва компанії закоротка."
     },
     "FULL_NAME": {
-      "LABEL": "Full name",
-      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
-      "ERROR": "Full name is too short"
+      "LABEL": "Повне ім'я",
+      "PLACEHOLDER": "Введіть ваше повне ім'я. Наприклад Брюс Вейн",
+      "ERROR": "Повне ім’я занадто коротке."
     },
     "EMAIL": {
-      "LABEL": "Work email",
-      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
-      "ERROR": "Email address is invalid"
+      "LABEL": "Робоча електронна пошта",
+      "PLACEHOLDER": "Введіть робочу адресу електронної пошти. Наприклад, bruce@wayne.enterprises",
+      "ERROR": "Будь ласка, введіть робочу адресу електронної пошти."
     },
     "PASSWORD": {
       "LABEL": "Пароль",
       "PLACEHOLDER": "Пароль",
-      "ERROR": "Пароль занадто короткий"
+      "ERROR": "Пароль занадто короткий.",
+      "IS_INVALID_PASSWORD": "Пароль повинен містити принаймні 1 велику літеру, хоча б 1 малу літеру, 1 цифру та 1 спеціальний символ."
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Підтвердження пароля",
-      "PLACEHOLDER": "Підтвердження пароля",
-      "ERROR": "Пароль не підходить"
+      "LABEL": "Підтвердити пароль",
+      "PLACEHOLDER": "Підтвердити пароль",
+      "ERROR": "Пароль не підходить."
     },
     "API": {
       "SUCCESS_MESSAGE": "Реєстрація пройшла успішно",
-      "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
+      "ERROR_MESSAGE": "Не вдалося підключитися до Woot сервера. Будь ласка, спробуйте ще раз."
     },
-    "SUBMIT": "Додати",
-    "HAVE_AN_ACCOUNT": "Already have an account?"
+    "SUBMIT": "Створити акаунт",
+    "HAVE_AN_ACCOUNT": "Вже маєте обліковий запис?"
   }
 }

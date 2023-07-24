@@ -53,6 +53,11 @@ class ContactAPI extends ApiClient {
     return axios.get(requestURL);
   }
 
+  filter(page = 1, sortAttr = 'name', queryPayload) {
+    let requestURL = `${this.url}/filter?${buildContactParams(page, sortAttr)}`;
+    return axios.post(requestURL, queryPayload);
+  }
+
   importContacts(file) {
     const formData = new FormData();
     formData.append('import_file', file);
@@ -65,6 +70,14 @@ class ContactAPI extends ApiClient {
     return axios.post(`${this.url}/${contactId}/destroy_custom_attributes`, {
       custom_attributes: customAttributes,
     });
+  }
+
+  destroyAvatar(contactId) {
+    return axios.delete(`${this.url}/${contactId}/avatar`);
+  }
+
+  exportContacts() {
+    return axios.get(`${this.url}/export`);
   }
 }
 

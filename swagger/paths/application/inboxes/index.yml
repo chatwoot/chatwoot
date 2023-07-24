@@ -1,6 +1,6 @@
 get:
   tags:
-    - Inbox
+    - Inboxes
   operationId: listAllInboxes
   summary: List all inboxes
   description: List all inboxes available in the current account

@@ -1,5 +1,5 @@
 tags:
-  - Custom Filter
+  - Custom Filters
 operationId: list-all-filters
 summary: List all custom filters
 description: List all custom filters in a category of a user

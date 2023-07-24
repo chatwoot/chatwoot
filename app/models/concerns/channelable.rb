@@ -3,10 +3,15 @@ module Channelable
   included do
     validates :account_id, presence: true
     belongs_to :account
-    has_one :inbox, as: :channel, dependent: :destroy_async
+    has_one :inbox, as: :channel, dependent: :destroy_async, touch: true
+    after_update :create_audit_log_entry
   end
 
-  def has_24_hour_messaging_window?
+  def messaging_window_enabled?
     false
   end
+
+  def create_audit_log_entry; end
 end
+
+Channelable.prepend_mod_with('Channelable')

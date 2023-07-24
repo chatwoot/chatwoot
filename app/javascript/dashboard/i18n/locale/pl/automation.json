@@ -1,0 +1,118 @@
+{
+  "AUTOMATION": {
+    "HEADER": "Automatyzacja",
+    "HEADER_BTN_TXT": "Dodaj regułę automatyzacji",
+    "LOADING": "Pobieranie reguł automatyzacji",
+    "SIDEBAR_TXT": "<p><b>Reguły automatyzacji</b> <p>Automatyzacja może zastąpić i zautomatyzować istniejące procesy, które wymagają ręcznego wysiłku. Możesz zrobić wiele rzeczy za pomocą automatyzacji, w tym dodać etykiety i przypisać konwersację do najlepszego agenta. W efekcie zespół skupia się na tym, co robią najlepiej i może poświęcić więcej czasu na zadania wymagające ręcznej obsługi.</p>",
+    "ADD": {
+      "TITLE": "Dodaj regułę automatyzacji",
+      "SUBMIT": "Stwórz",
+      "CANCEL_BUTTON_TEXT": "Anuluj",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nazwa reguły",
+          "PLACEHOLDER": "Wprowadź nazwę reguły",
+          "ERROR": "Nazwa jest wymagana"
+        },
+        "DESC": {
+          "LABEL": "Opis",
+          "PLACEHOLDER": "Wprowadź opis reguły",
+          "ERROR": "Opis jest wymagany"
+        },
+        "EVENT": {
+          "LABEL": "Zdarzenie",
+          "PLACEHOLDER": "Wybierz jedno",
+          "ERROR": "Zdarzenie jest wymagane"
+        },
+        "CONDITIONS": {
+          "LABEL": "Warunki"
+        },
+        "ACTIONS": {
+          "LABEL": "Akcje"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Dodaj warunek",
+      "ACTION_BUTTON_LABEL": "Dodaj akcję",
+      "API": {
+        "SUCCESS_MESSAGE": "Reguła automatyzacji została dodana",
+        "ERROR_MESSAGE": "Nie udało się utworzyć reguły automatyzacji, spróbuj ponownie później"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Nazwa",
+        "Opis",
+        "Aktywna",
+        "Utworzona dnia"
+      ],
+      "404": "Nie znaleziono reguł automatyzacji"
+    },
+    "DELETE": {
+      "TITLE": "Usuń regułę automatyzacji",
+      "SUBMIT": "Usuń",
+      "CANCEL_BUTTON_TEXT": "Anuluj",
+      "CONFIRM": {
+        "TITLE": "Potwierdź usunięcie",
+        "MESSAGE": "Czy na pewno chcesz usunąć ",
+        "YES": "Tak, usuń ",
+        "NO": "Nie, zachowaj "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Reguła automatyzacji została usunięta",
+        "ERROR_MESSAGE": "Nie udało się usunąć reguły automatyzacji, spróbuj ponownie później"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edytuj regułę automatyzacji",
+      "SUBMIT": "Aktualizuj",
+      "CANCEL_BUTTON_TEXT": "Anuluj",
+      "API": {
+        "SUCCESS_MESSAGE": "Reguła automatyzacji została zaktualizowana",
+        "ERROR_MESSAGE": "Nie udało się zaktualizować reguły automatyzacji, spróbuj ponownie później"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "Klonuj",
+      "API": {
+        "SUCCESS_MESSAGE": "Reguła automatyzacji została sklonowana pomyślnie",
+        "ERROR_MESSAGE": "Nie udało się sklonować reguły automatyzacji, spróbuj ponownie później"
+      }
+    },
+    "FORM": {
+      "EDIT": "Edytuj",
+      "CREATE": "Stwórz",
+      "DELETE": "Usuń",
+      "CANCEL": "Anuluj",
+      "RESET_MESSAGE": "Zmiana typu zdarzenia spowoduje zresetowanie dodanych warunków i zdarzeń poniżej"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "Musisz mieć co najmniej jeden warunek, aby zapisać",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Niestandardowe atrybuty kontaktu",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Niestandardowe atrybuty rozmowy"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "Musisz mieć co najmniej jedną akcję, aby zapisać",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Wprowadź swoją wiadomość tutaj",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Wybierz zespoły"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Aktywuj regułę automatyzacji",
+      "DEACTIVATION_TITLE": "Wyłącz regułę automatyzacji",
+      "ACTIVATION_DESCRIPTION": "Ta akcja spowoduje aktywację reguły automatyzacji '{automationName}'. Czy na pewno chcesz kontynuować?",
+      "DEACTIVATION_DESCRIPTION": "Ta akcja spowoduje deaktywację reguły automatyzacji '{automationName}'. Czy na pewno chcesz kontynuować?",
+      "ACTIVATION_SUCCESFUL": "Reguła automatyzacji została pomyślnie aktywowana",
+      "DEACTIVATION_SUCCESFUL": "Reguła automatyzacji została pomyślnie wyłączona",
+      "ACTIVATION_ERROR": "Nie można aktywować reguły automatyzacji, spróbuj ponownie później",
+      "DEACTIVATION_ERROR": "Nie można wyłączyć reguły automatyzacji, spróbuj ponownie później",
+      "CONFIRMATION_LABEL": "Tak",
+      "CANCEL_LABEL": "Nie"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Nie udało się przesłać załącznika, spróbuj ponownie",
+      "LABEL_IDLE": "Prześlij załącznik",
+      "LABEL_UPLOADING": "Przesyłanie...",
+      "LABEL_UPLOADED": "Przesłano pomyślnie",
+      "LABEL_UPLOAD_FAILED": "Nie udało się przesłać załącznika"
+    }
+  }
+}

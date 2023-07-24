@@ -7,37 +7,17 @@
       "404": "Det er ingen aktive samtaler i denne gruppen."
     },
     "TAB_HEADING": "Samtaler",
+    "MENTION_HEADING": "Mentions",
+    "UNATTENDED_HEADING": "Unattended",
     "SEARCH": {
       "INPUT": "Søk etter personer, samtaler, lagrede svar .."
     },
     "FILTER_ALL": "Alle",
-    "STATUS_TABS": [
-      {
-        "NAME": "Åpne",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Løst",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Mine",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Ikke tildelt",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Alle",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Mine",
+      "unassigned": "Ikke tildelt",
+      "all": "Alle"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Åpne"
@@ -50,41 +30,80 @@
       },
       "snoozed": {
         "TEXT": "Snoozed"
+      },
+      "all": {
+        "TEXT": "Alle"
+      }
+    },
+    "VIEW_FILTER": "Vis",
+    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "CHAT_SORT": {
+      "STATUS": "Satus",
+      "ORDER_BY": "Order by"
+    },
+    "CHAT_SORT_FILTER_ITEMS": {
+      "latest": {
+        "TEXT": "Last activity"
+      },
+      "sort_on_created_at": {
+        "TEXT": "Created at"
+      },
+      "sort_on_priority": {
+        "TEXT": "Priority"
+      },
+      "sort_on_waiting_since": {
+        "TEXT": "Pending Response"
       }
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Bildemelding"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Lydmelding"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Video beskjed"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Vedlegg"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Plassering"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "har delt en URL"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Sort conversation",
+      "DROPDOWN_TITLE": "Sort by",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Last activity at",
+          "LABEL": "Last activity"
+        },
+        "CREATED_AT": {
+          "NAME": "Created at",
+          "LABEL": "Created at"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Last user message at",
+          "LABEL": "Last message"
+        }
       }
     },
     "RECEIVED_VIA_EMAIL": "Mottatt via e-post",
     "VIEW_TWEET_IN_TWITTER": "Vis tweet i Twitter",
     "REPLY_TO_TWEET": "Svar på denne tweeten",
+    "LINK_TO_STORY": "Go to instagram story",
     "SENT": "Sent successfully",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
     "NO_MESSAGES": "Ingen meldinger",
     "NO_CONTENT": "No content available",
     "HIDE_QUOTED_TEXT": "Hide Quoted Text",
-    "SHOW_QUOTED_TEXT": "Show Quoted Text"
+    "SHOW_QUOTED_TEXT": "Show Quoted Text",
+    "MESSAGE_READ": "Read"
   }
 }

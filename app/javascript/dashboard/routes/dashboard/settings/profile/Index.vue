@@ -1,14 +1,16 @@
 <template>
-  <div class="columns profile--settings">
+  <div class="overflow-auto p-6">
     <form @submit.prevent="updateUser('profile')">
-      <div class="small-12 row profile--settings--row">
-        <div class="columns small-3">
-          <h4 class="block-title">
+      <div
+        class="flex flex-row border-b border-slate-50 dark:border-slate-700 items-center flex p-4"
+      >
+        <div class="w-[25%] py-4 pr-6 ml-0">
+          <h4 class="block-title text-black-900 dark:text-slate-200">
             {{ $t('PROFILE_SETTINGS.FORM.PROFILE_SECTION.TITLE') }}
           </h4>
           <p>{{ $t('PROFILE_SETTINGS.FORM.PROFILE_SECTION.NOTE') }}</p>
         </div>
-        <div class="columns small-9 medium-5">
+        <div class="p-4 w-[45%]">
           <woot-avatar-uploader
             :label="$t('PROFILE_SETTINGS.FORM.PROFILE_IMAGE.LABEL')"
             :src="avatarUrl"
@@ -48,7 +50,10 @@
               @input="$v.displayName.$touch"
             />
           </label>
-          <label :class="{ error: $v.email.$error }">
+          <label
+            v-if="!globalConfig.disableUserProfileUpdate"
+            :class="{ error: $v.email.$error }"
+          >
             {{ $t('PROFILE_SETTINGS.FORM.EMAIL.LABEL') }}
             <input
               v-model.trim="email"
@@ -66,11 +71,41 @@
         </div>
       </div>
     </form>
-    <change-password />
+    <message-signature />
+    <div
+      class="border-b border-slate-50 dark:border-slate-700 items-center flex p-4 text-black-900 dark:text-slate-300 row"
+    >
+      <div class="w-[25%] py-4 pr-6 ml-0">
+        <h4 class="block-title text-black-900 dark:text-slate-200">
+          {{ $t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.TITLE') }}
+        </h4>
+        <p>
+          {{ $t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.NOTE') }}
+        </p>
+      </div>
+      <div class="p-4 w-[45%] flex flex-row">
+        <button
+          v-for="keyOption in keyOptions"
+          :key="keyOption.key"
+          class="cursor-pointer mr-4"
+          @click="toggleEditorMessageKey(keyOption.key)"
+        >
+          <preview-card
+            :heading="keyOption.heading"
+            :content="keyOption.content"
+            :src="keyOption.src"
+            :active="isEditorHotKeyEnabled(uiSettings, keyOption.key)"
+          />
+        </button>
+      </div>
+    </div>
+    <change-password v-if="!globalConfig.disableUserProfileUpdate" />
     <notification-settings />
-    <div class="profile--settings--row row">
-      <div class="columns small-3">
-        <h4 class="block-title">
+    <div
+      class="border-b border-slate-50 dark:border-slate-700 items-center flex p-4 text-black-900 dark:text-slate-300 row"
+    >
+      <div class="w-[25%] py-4 pr-6 ml-0">
+        <h4 class="block-title text-black-900 dark:text-slate-200">
           {{ $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE') }}
         </h4>
         <p>
@@ -82,8 +117,8 @@
           }}
         </p>
       </div>
-      <div class="columns small-9 medium-5">
-        <woot-code :script="currentUser.access_token"></woot-code>
+      <div class="p-4 w-[45%]">
+        <masked-text :value="currentUser.access_token" />
       </div>
     </div>
   </div>
@@ -95,15 +130,24 @@ import { mapGetters } from 'vuex';
 import { clearCookiesOnLogout } from '../../../../store/utils/api';
 import NotificationSettings from './NotificationSettings';
 import alertMixin from 'shared/mixins/alertMixin';
-import ChangePassword from './ChangePassword.vue';
+import ChangePassword from './ChangePassword';
+import MessageSignature from './MessageSignature';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import uiSettingsMixin, {
+  isEditorHotKeyEnabled,
+} from 'dashboard/mixins/uiSettings';
+import MaskedText from 'dashboard/components/MaskedText.vue';
+import PreviewCard from 'dashboard/components/ui/PreviewCard.vue';
 
 export default {
   components: {
     NotificationSettings,
     ChangePassword,
+    MessageSignature,
+    PreviewCard,
+    MaskedText,
   },
-  mixins: [alertMixin, globalConfigMixin],
+  mixins: [alertMixin, globalConfigMixin, uiSettingsMixin],
   data() {
     return {
       avatarFile: '',
@@ -113,6 +157,28 @@ export default {
       email: '',
       isProfileUpdating: false,
       errorMessage: '',
+      keyOptions: [
+        {
+          key: 'enter',
+          src: '/assets/images/dashboard/editor/enter-editor.png',
+          heading: this.$t(
+            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.HEADING'
+          ),
+          content: this.$t(
+            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.CONTENT'
+          ),
+        },
+        {
+          key: 'cmd_enter',
+          src: '/assets/images/dashboard/editor/cmd-editor.png',
+          heading: this.$t(
+            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.HEADING'
+          ),
+          content: this.$t(
+            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.CONTENT'
+          ),
+        },
+      ],
     };
   },
   validations: {
@@ -152,6 +218,7 @@ export default {
       this.avatarUrl = this.currentUser.avatar_url;
       this.displayName = this.currentUser.display_name;
     },
+    isEditorHotKeyEnabled,
     async updateUser() {
       this.$v.$touch();
       if (this.$v.$invalid) {
@@ -201,27 +268,12 @@ export default {
     showDeleteButton() {
       return this.avatarUrl && !this.avatarUrl.includes('www.gravatar.com');
     },
+    toggleEditorMessageKey(key) {
+      this.updateUISettings({ editor_message_key: key });
+      this.showAlert(
+        this.$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.UPDATE_SUCCESS')
+      );
+    },
   },
 };
 </script>
-
-<style lang="scss">
-@import '~dashboard/assets/scss/variables.scss';
-@import '~dashboard/assets/scss/mixins.scss';
-
-.profile--settings {
-  padding: 24px;
-  overflow: auto;
-}
-
-.profile--settings--row {
-  @include border-normal-bottom;
-  padding: $space-normal;
-  .small-3 {
-    padding: $space-normal $space-medium $space-normal 0;
-  }
-  .small-9 {
-    padding: $space-normal;
-  }
-}
-</style>

@@ -6,6 +6,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Envoyer"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Renvoyer le message",
+      "ERROR_MESSAGE": "Échec de l'envoi, veuillez réessayer"
     }
   },
   "TEAM_AVAILABILITY": {
@@ -15,9 +19,21 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Répond généralement en quelques minutes",
     "IN_A_FEW_HOURS": "Répond généralement en quelques heures",
-    "IN_A_DAY": "Répond généralement dans la journée"
+    "IN_A_DAY": "Répond généralement dans la journée",
+    "BACK_IN": "We will be back online"
   },
+  "DAY_NAMES": [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ],
   "START_CONVERSATION": "Démarrer la conversation",
+  "END_CONVERSATION": "Clôturer la conversation",
+  "CONTINUE_CONVERSATION": "Continuer la conversation",
   "START_NEW_CONVERSATION": "Démarrer une nouvelle conversation",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Voir les nouveaux messages",
@@ -38,12 +54,21 @@
       "FULL_NAME": {
         "LABEL": "Nom complet",
         "PLACEHOLDER": "Veuillez entrer votre nom complet",
-        "ERROR": "Le nom complet est requis"
+        "REQUIRED_ERROR": "Le nom complet est requis"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "Adresse de courriel",
         "PLACEHOLDER": "Veuillez saisir votre adresse de courriel",
-        "ERROR": "Adresse e-mail invalide"
+        "REQUIRED_ERROR": "L'adresse email est obligatoire",
+        "VALID_ERROR": "Veuillez saisir une adresse de courriel valide"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Numéro de téléphone",
+        "PLACEHOLDER": "Veuillez saisir votre numéro de téléphone",
+        "REQUIRED_ERROR": "Le numéro de téléphone est obligatoire",
+        "DIAL_CODE_VALID_ERROR": "Please select a country code",
+        "VALID_ERROR": "Please enter a valid phone number",
+        "DROPDOWN_EMPTY": "Aucun résultat trouvé"
       },
       "MESSAGE": {
         "LABEL": "Message",
@@ -51,7 +76,9 @@
         "ERROR": "Message trop court"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+    "CAMPAIGN_HEADER": "Veuillez fournir votre nom et votre courriel avant de commencer la conversation",
+    "IS_REQUIRED": "est obligatoire",
+    "REQUIRED": "Requis"
   },
   "FILE_SIZE_LIMIT": "Le fichier dépasse la limite de {MAXIMUM_FILE_UPLOAD_SIZE} pour les pièces jointes",
   "CHAT_FORM": {
@@ -59,14 +86,24 @@
       "FIELD": "Champ non valide"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Rechercher des émojis",
+    "NOT_FOUND": "Aucun émoji ne correspond à votre recherche"
+  },
   "CSAT": {
     "TITLE": "Évaluer votre conversation",
     "SUBMITTED_TITLE": "Merci d'avoir soumis votre évaluation",
     "PLACEHOLDER": "Dites-nous en plus..."
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Demander une transcription de conversation",
+    "BUTTON_TEXT": "Demander une transcription de la conversation",
     "SEND_EMAIL_SUCCESS": "La transcription du chat a été envoyée avec succès",
     "SEND_EMAIL_ERROR": "Une erreur est survenue, veuillez réessayer"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Cliquez ici pour rejoindre",
+      "LEAVE_THE_ROOM": "Quitter l'appel"
+    }
   }
 }

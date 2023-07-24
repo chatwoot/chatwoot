@@ -7,37 +7,17 @@
       "404": "Não há conversas ativas neste grupo."
     },
     "TAB_HEADING": "Conversas",
+    "MENTION_HEADING": "Menções",
+    "UNATTENDED_HEADING": "Unattended",
     "SEARCH": {
       "INPUT": "Pesquisar pessoas, conversas, respostas salvas .."
     },
     "FILTER_ALL": "TODOS",
-    "STATUS_TABS": [
-      {
-        "NAME": "Abertas",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Resolvido",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Minerar",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Não atribuído",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "TODOS",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Minerar",
+      "unassigned": "Não atribuído",
+      "all": "TODOS"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Abertas"
@@ -50,41 +30,80 @@
       },
       "snoozed": {
         "TEXT": "Adiado"
+      },
+      "all": {
+        "TEXT": "TODOS"
+      }
+    },
+    "VIEW_FILTER": "Visualizar",
+    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "CHAT_SORT": {
+      "STATUS": "SItuação",
+      "ORDER_BY": "Order by"
+    },
+    "CHAT_SORT_FILTER_ITEMS": {
+      "latest": {
+        "TEXT": "Last activity"
+      },
+      "sort_on_created_at": {
+        "TEXT": "Criada em"
+      },
+      "sort_on_priority": {
+        "TEXT": "Priority"
+      },
+      "sort_on_waiting_since": {
+        "TEXT": "Pending Response"
       }
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Mensagem de imagem"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Mensagem de áudio"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Mensagem de vídeo"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Arquivo anexo"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Local:"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "compartilhou uma url"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Sort conversation",
+      "DROPDOWN_TITLE": "Sort by",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Last activity at",
+          "LABEL": "Last activity"
+        },
+        "CREATED_AT": {
+          "NAME": "Criada em",
+          "LABEL": "Criada em"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Last user message at",
+          "LABEL": "Last message"
+        }
       }
     },
     "RECEIVED_VIA_EMAIL": "Recebido por e-mail",
     "VIEW_TWEET_IN_TWITTER": "Ver mensagem no Twitter",
     "REPLY_TO_TWEET": "Responder à mensagem",
-    "SENT": "Sent successfully",
+    "LINK_TO_STORY": "Ir para story do instagram",
+    "SENT": "Enviado com sucesso",
+    "READ": "Lido com sucesso",
+    "DELIVERED": "Entregue com Sucesso",
     "NO_MESSAGES": "Nenhuma mensagem",
     "NO_CONTENT": "Sem conteúdo disponível",
-    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
-    "SHOW_QUOTED_TEXT": "Show Quoted Text"
+    "HIDE_QUOTED_TEXT": "Ocultar Texto Citado",
+    "SHOW_QUOTED_TEXT": "Mostrar Texto Citado",
+    "MESSAGE_READ": "Lida"
   }
 }

@@ -13,17 +13,28 @@ class ApiClient {
     return `${this.baseUrl()}/${this.resource}`;
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  get accountIdFromRoute() {
+    const isInsideAccountScopedURLs = window.location.pathname.includes(
+      '/app/accounts'
+    );
+
+    if (isInsideAccountScopedURLs) {
+      return window.location.pathname.split('/')[3];
+    }
+
+    return '';
+  }
+
   baseUrl() {
     let url = this.apiVersion;
-    if (this.options.accountScoped) {
-      const isInsideAccountScopedURLs = window.location.pathname.includes(
-        '/app/accounts'
-      );
 
-      if (isInsideAccountScopedURLs) {
-        const accountId = window.location.pathname.split('/')[3];
-        url = `${url}/accounts/${accountId}`;
-      }
+    if (this.options.enterprise) {
+      url = `/enterprise${url}`;
+    }
+
+    if (this.options.accountScoped && this.accountIdFromRoute) {
+      url = `${url}/accounts/${this.accountIdFromRoute}`;
     }
 
     return url;

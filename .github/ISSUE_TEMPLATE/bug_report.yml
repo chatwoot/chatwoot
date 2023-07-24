@@ -1,0 +1,78 @@
+name: 🐞 Bug report
+description: Create a report to help us improve
+labels: 'Bug'
+body:
+  - type: textarea
+    attributes:
+      label: Describe the bug
+      description: A concise description of what you expected to happen along with screenshots if applicable.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: To Reproduce
+      description: Steps to reproduce the behavior.
+      placeholder: |
+        1. In this environment...
+        2. With this config...
+        3. Run '...'
+        4. See error...
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Expected behavior
+      description: A concise description of what you expected to happen.
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Environment
+      description: Describe whether you are using Chatwoot Cloud (app.chatwoot.com) or a self-hosted installation of Chatwoot. If you are using a self-hosted installation of Chatwoot, describe the type of deployment (Docker/Linux VM installation/Heroku/Kubernetes/Other).
+      options:
+        - app.chatwoot.com
+        - Linux VM
+        - Docker
+        - Kubernetes
+        - Heroku
+        - Other [please specify in the description]
+    validations:
+      required: true
+  - type: dropdown
+    id: provider
+    attributes:
+      label: Cloud Provider
+      description:
+      options:
+        - AWS
+        - GCP
+        - Azure
+        - DigitalOcean
+        - Other [please specify in the description]
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      description: Describe the platform you are using
+      options:
+        - Browser
+        - Mobile
+  - type: input
+    attributes:
+      label: Operating system
+      description: The operating system and the version you are using.
+  - type: input
+    attributes:
+      label: Browser and version
+      description: The name of the browser and version you are using.
+  - type: textarea
+    attributes:
+      label: Docker (if applicable)
+      description: |
+        Please share the output of the following. 
+        - `docker version`
+        - `docker info`
+        - `docker-compose version`
+  - type: textarea
+    attributes:
+      label: Additional context
+      description: Add any other context about the problem here.

@@ -1,9 +1,11 @@
 {
   "REPORT": {
-    "HEADER": "Επισκόπηση",
+    "HEADER": "Συζητήσεις",
     "LOADING_CHART": "Φόρτωση δεδομένων γραφήματος...",
     "NO_ENOUGH_DATA": "Δεν έχουν ληφθεί αρκετά σημεία δεδομένων για την δημιουργία της αναφοράς, Παρακαλώ προσπαθήστε αργότερα.",
     "DOWNLOAD_AGENT_REPORTS": "Κατέβασμα αναφορών πράκτορα",
+    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
+    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Συζητήσεις",
@@ -19,16 +21,28 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Χρόνος πρώτης ανταπόκρισης",
-        "DESC": "(Μ.Ο.)"
+        "DESC": "(Μ.Ο.)",
+        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
+        "TOOLTIP_TEXT": "Ο πρώτος χρόνος απόκρισης είναι %{metricValue} (βάσει %{conversationCount} συνομιλίων)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Χρόνος ανάλυσης",
-        "DESC": "(Μ.Ο.)"
+        "DESC": "(Μ.Ο.)",
+        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
+        "TOOLTIP_TEXT": "Χρόνος Ανάλυσης είναι %{metricValue} (βασίζεται στις %{conversationCount} συνομιλίες)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Αριθμός Αναλύσεων",
         "DESC": "(Σύνολο)"
       }
+    },
+    "DATE_RANGE_OPTIONS": {
+      "LAST_7_DAYS": "Τελευταίες 7 ημέρες",
+      "LAST_30_DAYS": "Τελευταίες 30 ημέρες",
+      "LAST_3_MONTHS": "Τελευταίοι 3 μήνες",
+      "LAST_6_MONTHS": "Τελευταίοι 6 μήνες",
+      "LAST_YEAR": "Τελευταίο έτος",
+      "CUSTOM_DATE_RANGE": "Προσαρμοσμένο εύρος ημερομηνιών"
     },
     "DATE_RANGE": [
       {
@@ -59,7 +73,64 @@
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Εφαρμογή",
       "PLACEHOLDER": "Επιλέξτε εύρος ημερομηνιών"
-    }
+    },
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Ομαδοποίηση Κατά",
+    "DURATION_FILTER_LABEL": "Διάρκεια",
+    "GROUPING_OPTIONS": {
+      "DAY": "Ημέρα",
+      "WEEK": "Εβδομάδα",
+      "MONTH": "Μήνα",
+      "YEAR": "Έτος"
+    },
+    "GROUP_BY_DAY_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Ημέρα"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Ημέρα"
+      },
+      {
+        "id": 2,
+        "groupBy": "Εβδομάδα"
+      }
+    ],
+    "GROUP_BY_MONTH_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Ημέρα"
+      },
+      {
+        "id": 2,
+        "groupBy": "Εβδομάδα"
+      },
+      {
+        "id": 3,
+        "groupBy": "Μήνα"
+      }
+    ],
+    "GROUP_BY_YEAR_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Ημέρα"
+      },
+      {
+        "id": 2,
+        "groupBy": "Εβδομάδα"
+      },
+      {
+        "id": 3,
+        "groupBy": "Μήνα"
+      },
+      {
+        "id": 4,
+        "groupBy": "Έτος"
+      }
+    ],
+    "BUSINESS_HOURS": "Ώρες Εργασίας"
   },
   "AGENT_REPORTS": {
     "HEADER": "Επισκόπηση Πρακτόρων",
@@ -82,11 +153,15 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Χρόνος πρώτης ανταπόκρισης",
-        "DESC": "(Μ.Ο.)"
+        "DESC": "(Μ.Ο.)",
+        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
+        "TOOLTIP_TEXT": "Ο πρώτος χρόνος απόκρισης είναι %{metricValue} (βάσει %{conversationCount} συνομιλίων)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Χρόνος ανάλυσης",
-        "DESC": "(Μ.Ο.)"
+        "DESC": "(Μ.Ο.)",
+        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
+        "TOOLTIP_TEXT": "Χρόνος Ανάλυσης είναι %{metricValue} (βασίζεται στις %{conversationCount} συνομιλίες)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Αριθμός Αναλύσεων",
@@ -145,11 +220,15 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Χρόνος πρώτης ανταπόκρισης",
-        "DESC": "(Μ.Ο.)"
+        "DESC": "(Μ.Ο.)",
+        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
+        "TOOLTIP_TEXT": "Ο πρώτος χρόνος απόκρισης είναι %{metricValue} (βάσει %{conversationCount} συνομιλίων)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Χρόνος ανάλυσης",
-        "DESC": "(Μ.Ο.)"
+        "DESC": "(Μ.Ο.)",
+        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
+        "TOOLTIP_TEXT": "Χρόνος Ανάλυσης είναι %{metricValue} (βασίζεται στις %{conversationCount} συνομιλίες)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Αριθμός Αναλύσεων",
@@ -208,11 +287,15 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Χρόνος πρώτης ανταπόκρισης",
-        "DESC": "(Μ.Ο.)"
+        "DESC": "(Μ.Ο.)",
+        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
+        "TOOLTIP_TEXT": "Ο πρώτος χρόνος απόκρισης είναι %{metricValue} (βάσει %{conversationCount} συνομιλίων)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Χρόνος ανάλυσης",
-        "DESC": "(Μ.Ο.)"
+        "DESC": "(Μ.Ο.)",
+        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
+        "TOOLTIP_TEXT": "Χρόνος Ανάλυσης είναι %{metricValue} (βασίζεται στις %{conversationCount} συνομιλίες)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Αριθμός Αναλύσεων",
@@ -271,11 +354,15 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Χρόνος πρώτης ανταπόκρισης",
-        "DESC": "(Μ.Ο.)"
+        "DESC": "(Μ.Ο.)",
+        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
+        "TOOLTIP_TEXT": "Ο πρώτος χρόνος απόκρισης είναι %{metricValue} (βάσει %{conversationCount} συνομιλίων)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Χρόνος ανάλυσης",
-        "DESC": "(Μ.Ο.)"
+        "DESC": "(Μ.Ο.)",
+        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
+        "TOOLTIP_TEXT": "Ο Χρόνος Ανάλυσης είναι %{metricValue} (βασίζεται στις %{conversationCount} συνομιλίες)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Αριθμός Αναλύσεων",
@@ -316,6 +403,13 @@
   "CSAT_REPORTS": {
     "HEADER": "Αναφορές CSAT",
     "NO_RECORDS": "Δεν υπάρχουν διαθέσιμες απαντήσεις ερευνών CSAT.",
+    "DOWNLOAD": "Λήψη αναφορών CSAT",
+    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "Επιλέξτε Πράκτορες"
+      }
+    },
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "Επαφές",
@@ -338,5 +432,48 @@
         "TOOLTIP": "Συνολικός αριθμός απαντήσεων / Συνολικός αριθμός μηνυμάτων έρευνας CSAT * 100"
       }
     }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "Επισκόπηση",
+    "LIVE": "Ζωντανά",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Άνοιγμα συνομιλιών",
+      "LOADING_MESSAGE": "Φόρτωση μετρητών συνομιλίας...",
+      "OPEN": "Άνοιγμα",
+      "UNATTENDED": "Χωρίς Παρακολούθηση",
+      "UNASSIGNED": "Χωρίς Αντιστοίχιση"
+    },
+    "CONVERSATION_HEATMAP": {
+      "HEADER": "Conversation Traffic",
+      "NO_CONVERSATIONS": "No conversations",
+      "CONVERSATION": "%{count} conversation",
+      "CONVERSATIONS": "%{count} conversations"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Συζητήσεις αντιπροσώπων",
+      "LOADING_MESSAGE": "Φόρτωση μετρήσεων πράκτορα...",
+      "NO_AGENTS": "Δεν υπάρχουν συνομιλίες από πράκτορες",
+      "TABLE_HEADER": {
+        "AGENT": "Πράκτορας",
+        "OPEN": "ΑΝΟΙΓΜΑ",
+        "UNATTENDED": "Χωρίς Παρακολούθηση",
+        "STATUS": "Κατάσταση"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Κατάσταση πράκτορα",
+      "ONLINE": "Στην Γραμμή",
+      "BUSY": "Απασχολημένος",
+      "OFFLINE": "Εκτός"
+    }
+  },
+  "DAYS_OF_WEEK": {
+    "SUNDAY": "Sunday",
+    "MONDAY": "Monday",
+    "TUESDAY": "Tuesday",
+    "WEDNESDAY": "Wednesday",
+    "THURSDAY": "Thursday",
+    "FRIDAY": "Friday",
+    "SATURDAY": "Saturday"
   }
 }

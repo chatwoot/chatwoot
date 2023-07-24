@@ -1,12 +1,15 @@
 require 'rails_helper'
 
-describe ::ConversationFinder do
+describe ConversationFinder do
   subject(:conversation_finder) { described_class.new(user_1, params) }
 
   let!(:account) { create(:account) }
   let!(:user_1) { create(:user, account: account) }
   let!(:user_2) { create(:user, account: account) }
+  let!(:admin) { create(:user, account: account, role: :administrator) }
   let!(:inbox) { create(:inbox, account: account, enable_auto_assignment: false) }
+  let!(:contact_inbox) { create(:contact_inbox, inbox: inbox, source_id: 'testing_source_id') }
+  let!(:restricted_inbox) { create(:inbox, account: account) }
 
   before do
     create(:inbox_member, user: user_1, inbox: inbox)
@@ -14,7 +17,7 @@ describe ::ConversationFinder do
     create(:conversation, account: account, inbox: inbox, assignee: user_1)
     create(:conversation, account: account, inbox: inbox, assignee: user_1)
     create(:conversation, account: account, inbox: inbox, assignee: user_1, status: 'resolved')
-    create(:conversation, account: account, inbox: inbox, assignee: user_2)
+    create(:conversation, account: account, inbox: inbox, assignee: user_2, contact_inbox: contact_inbox)
     # unassigned conversation
     create(:conversation, account: account, inbox: inbox)
     Current.account = account
@@ -27,6 +30,32 @@ describe ::ConversationFinder do
       it 'filter conversations by status' do
         result = conversation_finder.perform
         expect(result[:conversations].length).to be 2
+      end
+    end
+
+    context 'with inbox' do
+      let!(:restricted_conversation) { create(:conversation, account: account, inbox_id: restricted_inbox.id) }
+
+      it 'returns conversation from any inbox if its admin' do
+        params = { inbox_id: restricted_inbox.id }
+        result = described_class.new(admin, params).perform
+
+        expect(result[:conversations].map(&:id)).to include(restricted_conversation.id)
+      end
+
+      it 'returns conversation from inbox if agent is its member' do
+        params = { inbox_id: restricted_inbox.id }
+        create(:inbox_member, user: user_1, inbox: restricted_inbox)
+        result = described_class.new(user_1, params).perform
+
+        expect(result[:conversations].map(&:id)).to include(restricted_conversation.id)
+      end
+
+      it 'does not return conversations from inboxes where agent is not a member' do
+        params = { inbox_id: restricted_inbox.id }
+        result = described_class.new(user_1, params).perform
+
+        expect(result[:conversations].map(&:id)).not_to include(restricted_conversation.id)
       end
     end
 
@@ -99,11 +128,39 @@ describe ::ConversationFinder do
       end
     end
 
+    context 'with source_id' do
+      let(:params) { { source_id: 'testing_source_id' } }
+
+      it 'filter conversations by source id' do
+        result = conversation_finder.perform
+        expect(result[:conversations].length).to be 1
+      end
+    end
+
+    context 'without source' do
+      let(:params) { {} }
+
+      it 'returns conversations with any source' do
+        result = conversation_finder.perform
+        expect(result[:conversations].length).to be 4
+      end
+    end
+
     context 'with pagination' do
       let(:params) { { status: 'open', assignee_type: 'me', page: 1 } }
 
       it 'returns paginated conversations' do
         create_list(:conversation, 50, account: account, inbox: inbox, assignee: user_1)
+        result = conversation_finder.perform
+        expect(result[:conversations].length).to be 25
+      end
+    end
+
+    context 'with unattended' do
+      let(:params) { { status: 'open', assignee_type: 'me', conversation_type: 'unattended' } }
+
+      it 'returns unattended conversations' do
+        create_list(:conversation, 25, account: account, inbox: inbox, assignee: user_1)
         result = conversation_finder.perform
         expect(result[:conversations].length).to be 25
       end

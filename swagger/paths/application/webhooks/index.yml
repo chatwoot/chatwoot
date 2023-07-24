@@ -1,0 +1,15 @@
+tags:
+  - Webhooks
+operationId: list-all-webhooks
+summary: List all webhooks
+description:  List all webhooks in the account
+responses:
+  200:
+    description: Success
+    schema:
+      type: array
+      description: 'Array of webhook objects'
+      items:
+        $ref: '#/definitions/webhook'
+  401:
+    description: Unauthorized

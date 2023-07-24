@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe Webhooks::LineEventsJob, type: :job do
+RSpec.describe Webhooks::LineEventsJob do
   subject(:job) { described_class.perform_later(params: params) }
 
   let!(:line_channel) { create(:channel_line) }
-  let!(:params) { { line_channel_id: line_channel.line_channel_id, 'line' => { test: 'test' } } }
+  let!(:params) { { :line_channel_id => line_channel.line_channel_id, 'line' => { test: 'test' } } }
   let(:post_body) { params.to_json }
   let(:signature) { Base64.strict_encode64(OpenSSL::HMAC.digest(OpenSSL::Digest.new('SHA256'), line_channel.line_channel_secret, post_body)) }
 

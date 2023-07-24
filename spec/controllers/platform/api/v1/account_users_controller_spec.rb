@@ -47,7 +47,7 @@ RSpec.describe 'Platform Account Users API', type: :request do
              headers: { api_access_token: platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
-        data = JSON.parse(response.body)
+        data = response.parsed_body
         expect(data['user_id']).to eq(user.id)
       end
 
@@ -60,7 +60,7 @@ RSpec.describe 'Platform Account Users API', type: :request do
              headers: { api_access_token: platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
-        data = JSON.parse(response.body)
+        data = response.parsed_body
         expect(data['role']).to eq('administrator')
       end
     end

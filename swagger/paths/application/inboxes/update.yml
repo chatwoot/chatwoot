@@ -1,6 +1,6 @@
 patch:
   tags:
-    - Inbox
+    - Inboxes
   operationId: updateInbox
   summary: Update Inbox
   description: Add avatar and disable auto assignment for an inbox

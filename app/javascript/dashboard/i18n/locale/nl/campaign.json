@@ -34,7 +34,7 @@
           "ERROR": "Inbox is required"
         },
         "MESSAGE": {
-          "LABEL": "Message",
+          "LABEL": "Bericht",
           "PLACEHOLDER": "Please enter the message of campaign",
           "ERROR": "Message is required"
         },
@@ -88,8 +88,8 @@
       "404": "There are no campaigns created for this inbox.",
       "TABLE_HEADER": {
         "TITLE": "Title",
-        "MESSAGE": "Message",
-        "INBOX": "Inbox",
+        "MESSAGE": "Bericht",
+        "INBOX": "Postvak In",
         "STATUS": "Status",
         "SENDER": "Sender",
         "URL": "URL",
@@ -98,7 +98,7 @@
         "CREATED_AT": "Created at"
       },
       "BUTTONS": {
-        "ADD": "Add",
+        "ADD": "Toevoegen",
         "EDIT": "Bewerken",
         "DELETE": "Verwijderen"
       },

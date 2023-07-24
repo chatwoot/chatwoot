@@ -7,10 +7,19 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
 
   def create
     ActiveRecord::Base.transaction do
-      update_contact(contact_email) if @contact.email.blank? && contact_email.present?
+      process_update_contact
       @conversation = create_conversation
-      conversation.messages.create(message_params)
+      conversation.messages.create!(message_params)
     end
+  end
+
+  def process_update_contact
+    @contact = ContactIdentifyAction.new(
+      contact: @contact,
+      params: { email: contact_email, phone_number: contact_phone_number, name: contact_name },
+      retain_original_contact_name: true,
+      discard_invalid_attrs: true
+    ).perform
   end
 
   def update_last_seen
@@ -44,6 +53,28 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
     head :ok
   end
 
+  def toggle_status
+    return head :not_found if conversation.nil?
+
+    return head :forbidden unless @web_widget.end_conversation?
+
+    unless conversation.resolved?
+      conversation.status = :resolved
+      conversation.save!
+    end
+    head :ok
+  end
+
+  def set_custom_attributes
+    conversation.update!(custom_attributes: permitted_params[:custom_attributes])
+  end
+
+  def destroy_custom_attributes
+    conversation.custom_attributes = conversation.custom_attributes.excluding(params[:custom_attribute])
+    conversation.save!
+    render json: conversation
+  end
+
   private
 
   def trigger_typing_event(event)
@@ -51,6 +82,8 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   end
 
   def permitted_params
-    params.permit(:id, :typing_status, :website_token, :email, contact: [:name, :email], message: [:content, :referer_url, :timestamp, :echo_id])
+    params.permit(:id, :typing_status, :website_token, :email, contact: [:name, :email, :phone_number],
+                                                               message: [:content, :referer_url, :timestamp, :echo_id],
+                                                               custom_attributes: {})
   end
 end

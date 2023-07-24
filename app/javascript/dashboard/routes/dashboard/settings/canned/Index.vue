@@ -1,17 +1,17 @@
 <template>
-  <div class="column content-box">
+  <div class="flex-1 overflow-auto p-4">
     <woot-button
       color-scheme="success"
-      class-names="button--fixed-right-top"
-      icon="ion-android-add-circle"
+      class-names="button--fixed-top"
+      icon="add-circle"
       @click="openAddPopup()"
     >
       {{ $t('CANNED_MGMT.HEADER_BTN_TXT') }}
     </woot-button>
 
     <!-- List Canned Response -->
-    <div class="row">
-      <div class="small-8 columns with-right-space ">
+    <div class="flex flex-row gap-4">
+      <div class="w-[60%]">
         <p
           v-if="!uiFlags.fetchingList && !records.length"
           class="no-items-error-message"
@@ -42,40 +42,41 @@
               :key="cannedItem.short_code"
             >
               <!-- Short Code  -->
-              <td class="short-code">
+              <td class="w-[8.75rem]">
                 {{ cannedItem.short_code }}
               </td>
               <!-- Content -->
-              <td>{{ cannedItem.content }}</td>
+              <td class="break-all whitespace-normal">
+                {{ cannedItem.content }}
+              </td>
               <!-- Action Buttons -->
               <td class="button-wrapper">
                 <woot-button
-                  variant="link"
+                  v-tooltip.top="$t('CANNED_MGMT.EDIT.BUTTON_TEXT')"
+                  variant="smooth"
+                  size="tiny"
                   color-scheme="secondary"
-                  icon="ion-edit"
-                  class-names="grey-btn"
+                  icon="edit"
                   @click="openEditPopup(cannedItem)"
-                >
-                  {{ $t('CANNED_MGMT.EDIT.BUTTON_TEXT') }}
-                </woot-button>
+                />
                 <woot-button
-                  variant="link"
-                  color-scheme="secondary"
-                  icon="ion-close-circled"
+                  v-tooltip.top="$t('CANNED_MGMT.DELETE.BUTTON_TEXT')"
+                  variant="smooth"
+                  color-scheme="alert"
+                  size="tiny"
+                  icon="dismiss-circle"
                   class-names="grey-btn"
                   :is-loading="loading[cannedItem.id]"
                   @click="openDeletePopup(cannedItem, index)"
-                >
-                  {{ $t('CANNED_MGMT.DELETE.BUTTON_TEXT') }}
-                </woot-button>
+                />
               </td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <div class="small-4 columns">
-        <span v-html="$t('CANNED_MGMT.SIDEBAR_TXT')"></span>
+      <div class="w-[34%]">
+        <span v-dompurify-html="$t('CANNED_MGMT.SIDEBAR_TXT')" />
       </div>
     </div>
     <!-- Add Agent -->
@@ -100,7 +101,8 @@
       :on-close="closeDeletePopup"
       :on-confirm="confirmDeletion"
       :title="$t('CANNED_MGMT.DELETE.CONFIRM.TITLE')"
-      :message="deleteMessage"
+      :message="$t('CANNED_MGMT.DELETE.CONFIRM.MESSAGE')"
+      :message-value="deleteMessage"
       :confirm-text="deleteConfirmText"
       :reject-text="deleteRejectText"
     />
@@ -145,9 +147,7 @@ export default {
       }`;
     },
     deleteMessage() {
-      return `${this.$t('CANNED_MGMT.DELETE.CONFIRM.MESSAGE')} ${
-        this.selectedResponse.short_code
-      } ?`;
+      return ` ${this.selectedResponse.short_code}?`;
     },
   },
   mounted() {
@@ -200,15 +200,12 @@ export default {
         .then(() => {
           this.showAlert(this.$t('CANNED_MGMT.DELETE.API.SUCCESS_MESSAGE'));
         })
-        .catch(() => {
-          this.showAlert(this.$t('CANNED_MGMT.DELETE.API.ERROR_MESSAGE'));
+        .catch(error => {
+          const errorMessage =
+            error?.message || this.$t('CANNED_MGMT.DELETE.API.ERROR_MESSAGE');
+          this.showAlert(errorMessage);
         });
     },
   },
 };
 </script>
-<style scoped>
-.short-code {
-  width: 14rem;
-}
-</style>

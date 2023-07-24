@@ -52,4 +52,8 @@ export const actions = {
       throw new Error(error);
     }
   },
+
+  addNotification({ commit }, data) {
+    commit(types.ADD_NOTIFICATION, data);
+  },
 };

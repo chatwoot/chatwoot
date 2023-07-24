@@ -93,4 +93,29 @@ describe('#mutations', () => {
       });
     });
   });
+
+  describe('#ADD_NOTIFICATION', () => {
+    it('add notification', () => {
+      const state = {
+        meta: { unreadCount: 4, count: 231 },
+        records: {
+          1: { id: 1, primary_actor_id: 1 },
+          2: { id: 2, primary_actor_id: 2 },
+        },
+      };
+      const data = {
+        notification: { id: 3, primary_actor_id: 3 },
+        unread_count: 5,
+        count: 232,
+      };
+      mutations[types.ADD_NOTIFICATION](state, data);
+      expect(state.records).toEqual({
+        1: { id: 1, primary_actor_id: 1 },
+        2: { id: 2, primary_actor_id: 2 },
+        3: { id: 3, primary_actor_id: 3 },
+      });
+      expect(state.meta.unreadCount).toEqual(5);
+      expect(state.meta.count).toEqual(232);
+    });
+  });
 });

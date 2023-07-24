@@ -3,13 +3,19 @@ import { API } from 'widget/helpers/axios';
 
 const getCampaigns = async websiteToken => {
   const urlData = endPoints.getCampaigns(websiteToken);
-  const result = await API.get(urlData.url, { params: urlData.params });
-  return result;
+  return API.get(urlData.url, { params: urlData.params });
 };
 
-const triggerCampaign = async ({ campaignId, websiteToken }) => {
-  const urlData = endPoints.triggerCampaign({ websiteToken, campaignId });
-
+const triggerCampaign = async ({
+  campaignId,
+  websiteToken,
+  customAttributes,
+}) => {
+  const urlData = endPoints.triggerCampaign({
+    websiteToken,
+    campaignId,
+    customAttributes,
+  });
   await API.post(
     urlData.url,
     { ...urlData.data },
@@ -18,5 +24,4 @@ const triggerCampaign = async ({ campaignId, websiteToken }) => {
     }
   );
 };
-
 export { getCampaigns, triggerCampaign };

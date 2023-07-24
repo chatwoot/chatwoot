@@ -1,7 +1,9 @@
 export default {
   computed: {
     useInboxAvatarForBot() {
-      return window.chatwootWidgetDefaults.useInboxAvatarForBot;
+      return this.channelConfig.enabledFeatures.includes(
+        'use_inbox_avatar_for_bot'
+      );
     },
     hasAConnectedAgentBot() {
       return !!window.chatwootWebChannel.hasAConnectedAgentBot;
@@ -18,21 +20,28 @@ export default {
     hasAttachmentsEnabled() {
       return this.channelConfig.enabledFeatures.includes('attachments');
     },
+    hasEndConversationEnabled() {
+      return this.channelConfig.enabledFeatures.includes('end_conversation');
+    },
     preChatFormEnabled() {
       return window.chatwootWebChannel.preChatFormEnabled;
     },
     preChatFormOptions() {
-      let requireEmail = false;
       let preChatMessage = '';
       const options = window.chatwootWebChannel.preChatFormOptions || {};
-      if (!this.isOnNewConversation) {
-        requireEmail = options.require_email;
-        preChatMessage = options.pre_chat_message;
-      }
+      preChatMessage = options.pre_chat_message;
+      const { pre_chat_fields: preChatFields = [] } = options;
       return {
-        requireEmail,
         preChatMessage,
+        preChatFields,
       };
+    },
+    shouldShowPreChatForm() {
+      const { preChatFields } = this.preChatFormOptions;
+      // Check if at least one enabled field in pre-chat fields
+      const hasEnabledFields =
+        preChatFields.filter(field => field.enabled).length > 0;
+      return this.preChatFormEnabled && hasEnabledFields;
     },
   },
 };

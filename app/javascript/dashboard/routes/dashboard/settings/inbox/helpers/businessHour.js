@@ -86,6 +86,7 @@ export const timeSlotParse = timeSlots => {
       close_hour: closeHour,
       close_minutes: closeMinutes,
       closed_all_day: closedAllDay,
+      open_all_day: openAllDay,
     } = slot;
     const from = closedAllDay ? '' : getTime(openHour, openMinutes);
     const to = closedAllDay ? '' : getTime(closeHour, closeMinutes);
@@ -95,13 +96,15 @@ export const timeSlotParse = timeSlots => {
       to,
       from,
       valid: !closedAllDay,
+      openAllDay,
     };
   });
 };
 
 export const timeSlotTransform = timeSlots => {
   return timeSlots.map(slot => {
-    const closed = !(slot.to && slot.from);
+    const closed = slot.openAllDay ? false : !(slot.to && slot.from);
+    const openAllDay = slot.openAllDay;
     let fromDate = '';
     let toDate = '';
     let openHour = '';
@@ -125,6 +128,7 @@ export const timeSlotTransform = timeSlots => {
       open_minutes: openMinutes,
       close_hour: closeHour,
       close_minutes: closeMinutes,
+      open_all_day: openAllDay,
     };
   });
 };

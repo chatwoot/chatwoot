@@ -3,9 +3,11 @@
     "NOT_AVAILABLE": "Ej tillgänglig",
     "EMAIL_ADDRESS": "E-postadress",
     "PHONE_NUMBER": "Telefonnummer",
+    "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "Kopierat till urklipp",
     "COMPANY": "Företag",
     "LOCATION": "Plats",
+    "BROWSER_LANGUAGE": "Browser Language",
     "CONVERSATION_TITLE": "Konversationsdetaljer",
     "VIEW_PROFILE": "Visa profil",
     "BROWSER": "Webbläsare",
@@ -13,6 +15,7 @@
     "INITIATED_FROM": "Initierad från",
     "INITIATED_AT": "Initierad den",
     "IP_ADDRESS": "IP-adress",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Nytt meddelande",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Det finns inga tidigare konversationer kopplade till denna kontakt.",
@@ -30,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Lägg till etiketter",
         "PLACEHOLDER": "Sök etiketter",
-        "NO_RESULT": "Inga etiketter hittades"
+        "NO_RESULT": "Inga etiketter hittades",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Slå samman kontakt",
@@ -70,6 +74,21 @@
     "SUCCESS_MESSAGE": "Kontakter har sparats",
     "ERROR_MESSAGE": "Ett fel uppstod, vänligen försök igen"
   },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "Ett fel uppstod, vänligen försök igen"
+  },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "Bekräfta borttagning",
+      "MESSAGE": "Are you want sure to delete this note?",
+      "YES": "Yes, Delete it",
+      "NO": "Nej, behåll"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Ta bort kontakt",
     "TITLE": "Ta bort kontakt",
@@ -77,9 +96,8 @@
     "CONFIRM": {
       "TITLE": "Bekräfta borttagning",
       "MESSAGE": "Är du säker på att ta bort ",
-      "PLACE_HOLDER": "Vänligen skriv {contactName} för att bekräfta",
-      "YES": "Ja, ta bort ",
-      "NO": "Nej, behåll "
+      "YES": "Ja, ta bort",
+      "NO": "Nej, behåll"
     },
     "API": {
       "SUCCESS_MESSAGE": "Kontakten har tagits bort",
@@ -103,13 +121,17 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Ange e-postadressen till kontakten",
-        "LABEL": "E-postadress"
+        "LABEL": "E-postadress",
+        "DUPLICATE": "Den här e-postadressen används för en annan kontakt.",
+        "ERROR": "Ange en giltig e-postadress."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Ange telefonnummer till kontakten",
         "LABEL": "Telefonnummer",
-        "HELP": "Telefonnumret bör ha formatet E.164, t.ex.: +1415555555 [+][landsnummer][riktnummer][lokalt telefonnummer]",
-        "ERROR": "Telefonnumret ska vara antingen tomt eller i E.164-format"
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
+        "ERROR": "Telefonnumret ska vara antingen tomt eller i E.164-format",
+        "DIAL_CODE_ERROR": "Please select a dial code from the list",
+        "DUPLICATE": "This phone number is in use for another contact."
       },
       "LOCATION": {
         "PLACEHOLDER": "Ange platsen för kontakten",
@@ -118,6 +140,17 @@
       "COMPANY_NAME": {
         "PLACEHOLDER": "Ange företagets namn",
         "LABEL": "Företagsnamn"
+      },
+      "COUNTRY": {
+        "PLACEHOLDER": "Enter the country name",
+        "LABEL": "Country Name",
+        "SELECT_PLACEHOLDER": "Select",
+        "REMOVE": "Radera",
+        "SELECT_COUNTRY": "Select Country"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Enter the city name",
+        "LABEL": "City Name"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -138,8 +171,13 @@
         }
       }
     },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+      }
+    },
     "SUCCESS_MESSAGE": "Kontakt har sparats",
-    "CONTACT_ALREADY_EXIST": "Den här e-postadressen används för en annan kontakt.",
     "ERROR_MESSAGE": "Ett fel uppstod, vänligen försök igen"
   },
   "NEW_CONVERSATION": {
@@ -152,7 +190,8 @@
         "LABEL": "Till"
       },
       "INBOX": {
-        "LABEL": "Inkorg",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Välj en inkorg"
       },
       "SUBJECT": {
@@ -168,6 +207,7 @@
       "SUBMIT": "Skicka meddelande",
       "CANCEL": "Avbryt",
       "SUCCESS_MESSAGE": "Message sent!",
+      "GO_TO_CONVERSATION": "Visa",
       "ERROR_MESSAGE": "Couldn't send! try again"
     }
   },
@@ -176,6 +216,10 @@
     "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "Sök",
     "SEARCH_INPUT_PLACEHOLDER": "Sök kontakter",
+    "FILTER_CONTACTS": "Filter",
+    "FILTER_CONTACTS_SAVE": "Save filter",
+    "FILTER_CONTACTS_DELETE": "Delete filter",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "Laddar kontakter...",
       "404": "Inga kontakter matchar din sökning 🔍",
@@ -185,6 +229,7 @@
         "PHONE_NUMBER": "Telefonnummer",
         "CONVERSATIONS": "Konversationer",
         "LAST_ACTIVITY": "Last Activity",
+        "CREATED_AT": "Created At",
         "COUNTRY": "Country",
         "CITY": "City",
         "SOCIAL_PROFILES": "Social Profiles",
@@ -279,6 +324,13 @@
         "TITLE": "Add attributes",
         "PLACEHOLDER": "Search attributes",
         "NO_RESULT": "No attributes found"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Select value",
+          "SEARCH_INPUT_PLACEHOLDER": "Search value",
+          "NO_RESULT": "No result found"
+        }
       }
     },
     "VALIDATIONS": {

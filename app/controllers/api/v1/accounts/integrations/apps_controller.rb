@@ -1,5 +1,5 @@
 class Api::V1::Accounts::Integrations::AppsController < Api::V1::Accounts::BaseController
-  before_action :check_admin_authorization?
+  before_action :check_admin_authorization?, except: [:index, :show]
   before_action :fetch_apps, only: [:index]
   before_action :fetch_app, only: [:show]
 

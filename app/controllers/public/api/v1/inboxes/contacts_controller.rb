@@ -2,16 +2,16 @@ class Public::Api::V1::Inboxes::ContactsController < Public::Api::V1::InboxesCon
   before_action :contact_inbox, except: [:create]
   before_action :process_hmac
 
+  def show; end
+
   def create
     source_id = params[:source_id] || SecureRandom.uuid
-    @contact_inbox = ::ContactBuilder.new(
+    @contact_inbox = ::ContactInboxWithContactBuilder.new(
       source_id: source_id,
       inbox: @inbox_channel.inbox,
-      contact_attributes: permitted_params.except(:identifier, :identifier_hash)
+      contact_attributes: permitted_params.except(:identifier_hash)
     ).perform
   end
-
-  def show; end
 
   def update
     contact_identify_action = ContactIdentifyAction.new(
@@ -43,6 +43,6 @@ class Public::Api::V1::Inboxes::ContactsController < Public::Api::V1::InboxesCon
   end
 
   def permitted_params
-    params.permit(:identifier, :identifier_hash, :email, :name, :avatar_url, custom_attributes: {})
+    params.permit(:identifier, :identifier_hash, :email, :name, :avatar_url, :phone_number, custom_attributes: {})
   end
 end

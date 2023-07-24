@@ -1,9 +1,9 @@
 <template>
   <modal :show.sync="show" :on-close="onClose">
-    <div class="column content-box">
+    <div class="h-auto overflow-auto flex flex-col">
       <woot-modal-header :header-title="pageTitle" />
-      <form class="row medium-8" @submit.prevent="editCannedResponse()">
-        <div class="medium-12 columns">
+      <form class="flex flex-col w-full" @submit.prevent="editCannedResponse()">
+        <div class="w-full">
           <label :class="{ error: $v.shortCode.$error }">
             {{ $t('CANNED_MGMT.EDIT.FORM.SHORT_CODE.LABEL') }}
             <input
@@ -15,33 +15,35 @@
           </label>
         </div>
 
-        <div class="medium-12 columns">
+        <div class="w-full">
           <label :class="{ error: $v.content.$error }">
             {{ $t('CANNED_MGMT.EDIT.FORM.CONTENT.LABEL') }}
-            <textarea
-              v-model.trim="content"
-              rows="5"
-              type="text"
-              :placeholder="$t('CANNED_MGMT.EDIT.FORM.CONTENT.PLACEHOLDER')"
-              @input="$v.content.$touch"
-            />
           </label>
-        </div>
-        <div class="modal-footer">
-          <div class="medium-12 columns">
-            <woot-submit-button
-              :disabled="
-                $v.content.$invalid ||
-                  $v.shortCode.$invalid ||
-                  editCanned.showLoading
-              "
-              :button-text="$t('CANNED_MGMT.EDIT.FORM.SUBMIT')"
-              :loading="editCanned.showLoading"
+          <div class="editor-wrap">
+            <woot-message-editor
+              v-model="content"
+              class="message-editor"
+              :class="{ editor_warning: $v.content.$error }"
+              :enable-variables="true"
+              :enable-canned-responses="false"
+              :placeholder="$t('CANNED_MGMT.EDIT.FORM.CONTENT.PLACEHOLDER')"
+              @blur="$v.content.$touch"
             />
-            <button class="button clear" @click.prevent="onClose">
-              {{ $t('CANNED_MGMT.EDIT.CANCEL_BUTTON_TEXT') }}
-            </button>
           </div>
+        </div>
+        <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+          <woot-submit-button
+            :disabled="
+              $v.content.$invalid ||
+                $v.shortCode.$invalid ||
+                editCanned.showLoading
+            "
+            :button-text="$t('CANNED_MGMT.EDIT.FORM.SUBMIT')"
+            :loading="editCanned.showLoading"
+          />
+          <button class="button clear" @click.prevent="onClose">
+            {{ $t('CANNED_MGMT.EDIT.CANCEL_BUTTON_TEXT') }}
+          </button>
         </div>
       </form>
     </div>
@@ -51,27 +53,29 @@
 <script>
 /* eslint no-console: 0 */
 import { required, minLength } from 'vuelidate/lib/validators';
-
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import WootSubmitButton from '../../../../components/buttons/FormSubmitButton';
+import alertMixin from 'shared/mixins/alertMixin';
 import Modal from '../../../../components/Modal';
 
 export default {
   components: {
     WootSubmitButton,
     Modal,
+    WootMessageEditor,
   },
+  mixins: [alertMixin],
   props: {
-    id: Number,
-    edcontent: String,
-    edshortCode: String,
-    onClose: Function,
+    id: { type: Number, default: null },
+    edcontent: { type: String, default: '' },
+    edshortCode: { type: String, default: '' },
+    onClose: { type: Function, default: () => {} },
   },
   data() {
     return {
       editCanned: {
         showAlert: false,
         showLoading: false,
-        message: '',
       },
       shortCode: this.edshortCode,
       content: this.edcontent,
@@ -97,9 +101,6 @@ export default {
       this.$v.content.$touch();
       this.content = name;
     },
-    showAlert() {
-      bus.$emit('newToastMessage', this.editCanned.message);
-    },
     resetForm() {
       this.shortCode = '';
       this.content = '';
@@ -119,23 +120,34 @@ export default {
         .then(() => {
           // Reset Form, Show success message
           this.editCanned.showLoading = false;
-          this.editCanned.message = this.$t(
-            'CANNED_MGMT.EDIT.API.SUCCESS_MESSAGE'
-          );
-          this.showAlert();
+          this.showAlert(this.$t('CANNED_MGMT.EDIT.API.SUCCESS_MESSAGE'));
           this.resetForm();
           setTimeout(() => {
             this.onClose();
           }, 10);
         })
-        .catch(() => {
+        .catch(error => {
           this.editCanned.showLoading = false;
-          this.editCanned.message = this.$t(
-            'CANNED_MGMT.EDIT.API.ERROR_MESSAGE'
-          );
-          this.showAlert();
+          const errorMessage =
+            error?.message || this.$t('CANNED_MGMT.EDIT.API.ERROR_MESSAGE');
+          this.showAlert(errorMessage);
         });
     },
   },
 };
 </script>
+<style scoped lang="scss">
+::v-deep {
+  .ProseMirror-menubar {
+    @apply hidden;
+  }
+
+  .ProseMirror-woot-style {
+    @apply min-h-[12.5rem];
+
+    p {
+      @apply text-base;
+    }
+  }
+}
+</style>

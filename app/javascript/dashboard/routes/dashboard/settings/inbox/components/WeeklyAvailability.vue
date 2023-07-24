@@ -1,5 +1,5 @@
 <template>
-  <div class="settings--content">
+  <div class="my-2 mx-8">
     <settings-section
       :title="$t('INBOX_MGMT.BUSINESS_HOURS.TITLE')"
       :sub-title="$t('INBOX_MGMT.BUSINESS_HOURS.SUBTITLE')"
@@ -14,10 +14,22 @@
           {{ $t('INBOX_MGMT.BUSINESS_HOURS.TOGGLE_AVAILABILITY') }}
         </label>
         <p>{{ $t('INBOX_MGMT.BUSINESS_HOURS.TOGGLE_HELP') }}</p>
-        <div v-if="isBusinessHoursEnabled" class="business-hours-wrap">
+        <div v-if="isBusinessHoursEnabled" class="mb-6">
           <label class="unavailable-input-wrap">
             {{ $t('INBOX_MGMT.BUSINESS_HOURS.UNAVAILABLE_MESSAGE_LABEL') }}
-            <textarea v-model="unavailableMessage" type="text" />
+            <label
+              v-if="isRichEditorEnabled"
+              class="py-0 px-4 border border-solid border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 rounded-md mx-0 mt-0 mb-4"
+            >
+              <woot-message-editor
+                v-model="unavailableMessage"
+                :enable-variables="true"
+                :is-format-mode="true"
+                class="message-editor"
+                :min-height="4"
+              />
+            </label>
+            <textarea v-else v-model="unavailableMessage" type="text" />
           </label>
           <div class="timezone-input-wrap">
             <label>
@@ -50,7 +62,7 @@
         </div>
         <woot-submit-button
           :button-text="$t('INBOX_MGMT.BUSINESS_HOURS.UPDATE')"
-          :loading="uiFlags.isUpdatingInbox"
+          :loading="uiFlags.isUpdating"
           :disabled="hasError"
         />
       </form>
@@ -61,7 +73,9 @@
 <script>
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
+import inboxMixin from 'shared/mixins/inboxMixin';
 import SettingsSection from 'dashboard/components/SettingsSection';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import BusinessDay from './BusinessDay';
 import {
   timeSlotParse,
@@ -79,8 +93,9 @@ export default {
   components: {
     SettingsSection,
     BusinessDay,
+    WootMessageEditor,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, inboxMixin],
   props: {
     inbox: {
       type: Object,
@@ -90,9 +105,7 @@ export default {
   data() {
     return {
       isBusinessHoursEnabled: false,
-      unavailableMessage: this.$t(
-        'INBOX_MGMT.BUSINESS_HOURS.UNAVAILABLE_MESSAGE_DEFAULT'
-      ),
+      unavailableMessage: '',
       timeZone: DEFAULT_TIMEZONE,
       dayNames: {
         0: 'Sunday',
@@ -115,6 +128,15 @@ export default {
     timeZones() {
       return [...timeZoneOptions()];
     },
+    isRichEditorEnabled() {
+      if (
+        this.isATwilioChannel ||
+        this.isATwitterInbox ||
+        this.isAFacebookInbox
+      )
+        return false;
+      return true;
+    },
   },
   watch: {
     inbox() {
@@ -136,9 +158,7 @@ export default {
         ? timeSlotParse(timeSlots)
         : defaultTimeSlot;
       this.isBusinessHoursEnabled = isEnabled;
-      this.unavailableMessage =
-        unavailableMessage ||
-        this.$t('INBOX_MGMT.BUSINESS_HOURS.UNAVAILABLE_MESSAGE_DEFAULT');
+      this.unavailableMessage = unavailableMessage || '';
       this.timeSlots = slots;
       this.timeZone =
         this.timeZones.find(item => timeZone === item.value) ||
@@ -171,23 +191,22 @@ export default {
 </script>
 <style lang="scss" scoped>
 .timezone-input-wrap {
-  max-width: 60rem;
+  @apply max-w-[37.5rem];
 
   &::v-deep .multiselect {
-    margin-top: var(--space-small);
+    @apply mt-2;
   }
+}
+
+::v-deep.message-editor {
+  @apply border-0;
 }
 
 .unavailable-input-wrap {
-  max-width: 60rem;
+  @apply max-w-[37.5rem];
 
   textarea {
-    min-height: var(--space-jumbo);
-    margin-top: var(--space-small);
+    @apply min-h-[4rem] mt-2;
   }
-}
-
-.business-hours-wrap {
-  margin-bottom: var(--space-medium);
 }
 </style>

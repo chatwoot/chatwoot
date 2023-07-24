@@ -1,71 +1,114 @@
 {
   "PROFILE_SETTINGS": {
-    "LINK": "Profile Settings",
-    "TITLE": "Profile Settings",
-    "BTN_TEXT": "Update Profile",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
-    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
-    "AFTER_EMAIL_CHANGED": "Your profile has been updated successfully, please login again as your login credentials are changed",
+    "LINK": "הגדרות פרופיל",
+    "TITLE": "הגדרות פרופיל",
+    "BTN_TEXT": "עדכון פרופיל",
+    "DELETE_AVATAR": "מחק אווטר",
+    "AVATAR_DELETE_SUCCESS": "תמונת פרופיל נמחקה בהצלחה",
+    "AVATAR_DELETE_FAILED": "אירעה שגיאה במחיקת תמונת הפרופיל, נסה שנית",
+    "UPDATE_SUCCESS": "הפרופיל עודכן בהצלחה",
+    "PASSWORD_UPDATE_SUCCESS": "הסיסמא שונתה בהצלחה",
+    "AFTER_EMAIL_CHANGED": "הפרופיל עודכן בהצלחה, יש להתחבר מחדש",
     "FORM": {
-      "AVATAR": "Profile Image",
+      "AVATAR": "תמונת פרופיל",
       "ERROR": "אנא תקן שגיאות בטופס",
-      "REMOVE_IMAGE": "Remove",
-      "UPLOAD_IMAGE": "Upload image",
-      "UPDATE_IMAGE": "Update image",
+      "REMOVE_IMAGE": "הסר",
+      "UPLOAD_IMAGE": "העלה תמונה",
+      "UPDATE_IMAGE": "עדכן תמונה",
       "PROFILE_SECTION": {
-        "TITLE": "Profile",
-        "NOTE": "Your email address is your identity and is used to log in."
+        "TITLE": "פרופיל",
+        "NOTE": "כתובת המייל שלך משמשת להתחברות."
+      },
+      "SEND_MESSAGE": {
+        "TITLE": "מקשים חמים לשליחת הודעות",
+        "NOTE": "תוכל לבחור מקש חם (באמצעות Enter או Cmd/Ctrl+Enter) בהתאם להעדפות הכתיבה שלך.",
+        "UPDATE_SUCCESS": "ההגדרות עודכנו בהצלחה",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "אישור (↵)",
+            "CONTENT": "שלח הודעות באמצעות הקשת Enter במקום ללחוץ על כפתור השליחה."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "שלח הודעות באמצעות הקשת Cmd/Ctrl + Enter במקום ללחוץ על כפתור השליחה."
+          }
+        }
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "חתימת הודעה אישית",
+        "NOTE": "ניתן לרשום חתימה לכל ההודעות שתרשום ללקוחות שלך.",
+        "BTN_TEXT": "שמירה",
+        "API_ERROR": "לא ניתן לשמור את החתימה! אנא נסה שנית",
+        "API_SUCCESS": "החתימה נשמרה בהצלחה"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "חתימת הודעה",
+        "ERROR": "חתימת הודעה לא יכולה להיות ריקה",
+        "PLACEHOLDER": "הכנס כאן את חתימת ההודעה האישית שלך."
       },
       "PASSWORD_SECTION": {
         "TITLE": "סיסמה",
-        "NOTE": "Updating your password would reset your logins in multiple devices.",
-        "BTN_TEXT": "Change password"
+        "NOTE": "עדכון הסיסמה שלך יאפס את הכניסות שלך במספר מכשירים.",
+        "BTN_TEXT": "שנה סיסמא"
       },
       "ACCESS_TOKEN": {
-        "TITLE": "Access Token",
-        "NOTE": "This token can be used if you are building an API based integration"
+        "TITLE": "אסימון",
+        "NOTE": "משמש לחיבורי API"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Notifications",
-        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "NONE": "None",
-        "ASSIGNED": "Assigned Conversations",
-        "ALL_CONVERSATIONS": "All Conversations"
+        "TITLE": "התראות קוליות",
+        "NOTE": "אפשר התראות קוליות להודעות ושיחות חדשות.",
+        "ALERT_TYPE": {
+          "TITLE": "סוגי התראות:",
+          "NONE": "כלום",
+          "ASSIGNED": "שיחות משוייכות",
+          "ALL_CONVERSATIONS": "כל השיחות"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "צליל התראה:"
+        },
+        "CONDITIONS": {
+          "TITLE": "העדפות התראה:",
+          "CONDITION_ONE": "שלח התראות קוליות רק במידה והדפדפן לא פעיל",
+          "CONDITION_TWO": "שלח התראות כל 30 שניות עד שכל ההודעות המשוייכות נקראו"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "Email Notifications",
-        "NOTE": "Update your email notification preferences here",
+        "TITLE": "התראות דוא\"ל",
+        "NOTE": "עדכן כאן את העדפות קבלת ההתראות בדוא''ל",
         "CONVERSATION_ASSIGNMENT": "שלח התראה באימייל כאשר שיחה מוקצית עבורי",
         "CONVERSATION_CREATION": "שלח התראה באימייל כאשר נפתחת שיחה חדשה",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "שלח התראה באימייל כאשר יש הודעה חדשה בשיחה המוקצית עבורי"
+        "CONVERSATION_MENTION": "שלח הודעות דחיפה כאשר אתה מוזכר בשיחה",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "שלח התראה באימייל כאשר יש הודעה חדשה בשיחה המוקצית עבורי",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "שלח הודעות דחיפה כאשר נוצרת הודעה חדשה בשיחה המיועדת עבורי"
       },
       "API": {
-        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
-        "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
+        "UPDATE_SUCCESS": "העדפות ההתראות עודכנו בהצלחה",
+        "UPDATE_ERROR": "אירעה שגיאה בעדכון ההעדפות, אנא נסה שנית"
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Push Notifications",
-        "NOTE": "Update your push notification preferences here",
+        "TITLE": "הודעות דחיפה (Push)",
+        "NOTE": "עדכן כאן את העדפות קבלת הודעות הדחיפה שלך",
         "CONVERSATION_ASSIGNMENT": "שלח התראת פוש כאשר שיחה מוקצית עבורי",
         "CONVERSATION_CREATION": "שלח התראת פוש כאשר נפתחת שיחה חדשה",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
+        "CONVERSATION_MENTION": "שלח הודעות דחיפה כאשר אתה מוזכר בשיחה",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "שלח התראת פוש כאשר יש הודעה חדשה בשיחה המוקצית עבורי",
-        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
-        "REQUEST_PUSH": "Enable push notifications"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "שלח הודעות דחיפה כאשר נוצרת הודעה חדשה בשיחה המיועדת עבורי",
+        "HAS_ENABLED_PUSH": "הודעות דחיפה בדפדפן זה הופעלו.",
+        "REQUEST_PUSH": "אפשר הודעות דחיפה"
       },
       "PROFILE_IMAGE": {
-        "LABEL": "Profile Image"
+        "LABEL": "תמונת פרופיל"
       },
       "NAME": {
-        "LABEL": "Your full name",
-        "ERROR": "Please enter a valid full name",
+        "LABEL": "שמך המלא",
+        "ERROR": "נא הכנס שם תקני",
         "PLACEHOLDER": "הכנס שם מלא בבקשה"
       },
       "DISPLAY_NAME": {
-        "LABEL": "Display name",
-        "ERROR": "Please enter a valid display name",
-        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+        "LABEL": "שם תצוגה",
+        "ERROR": "נא הכנס שם תצוגה תקני",
+        "PLACEHOLDER": "נא הכנס שם תצוגה, שם זה יוצג בשיחות"
       },
       "AVAILABILITY": {
         "LABEL": "זמינות",
@@ -73,128 +116,199 @@
           "מחובר",
           "עסוק",
           "לא מחובר"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "זמינות הוגדרה בהצלחה",
+        "SET_AVAILABILITY_ERROR": "לא ניתן להגדיר זמינות, אנא נסה שנית"
       },
       "EMAIL": {
-        "LABEL": "Your email address",
-        "ERROR": "Please enter a valid email address",
-        "PLACEHOLDER": "Please enter your email address, this would be displayed in conversations"
+        "LABEL": "כתובת הדוא\"ל שלך",
+        "ERROR": "נא הכנס כתובת דוא\"ל תקינה",
+        "PLACEHOLDER": "נא הכנס את כתובת הדוא\"ל שלך, כתובת זו תוצג בשיחות"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "סיסמא נוכחית",
+        "ERROR": "אנא הזן את הסיסמה הנוכחית",
+        "PLACEHOLDER": "אנא הזן את הסיסמה הנוכחית"
       },
       "PASSWORD": {
-        "LABEL": "סיסמה",
-        "ERROR": "Please enter a password of length 6 or more",
-        "PLACEHOLDER": "Please enter a new password"
+        "LABEL": "סיסמה חדשה",
+        "ERROR": "אנא הזן סיסמה באורך 6 או יותר",
+        "PLACEHOLDER": "אנא הזן סיסמה חדשה"
       },
       "PASSWORD_CONFIRMATION": {
-        "LABEL": "Confirm new password",
-        "ERROR": "Confirm password should match the password",
-        "PLACEHOLDER": "Please re-enter your password"
+        "LABEL": "תאשר סיסמא חדשה",
+        "ERROR": "אשר את הסיסמה צריכה להתאים לסיסמה",
+        "PLACEHOLDER": "אנא הזן מחדש את הסיסמה החדשה שלך"
       }
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "Change",
+    "CHANGE_AVAILABILITY_STATUS": "שינוי",
     "CHANGE_ACCOUNTS": "החלף חשבון",
-    "SELECTOR_SUBTITLE": "Select an account from the following list",
-    "PROFILE_SETTINGS": "Profile Settings",
-    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
+    "CONTACT_SUPPORT": "צור קשר עם תמיכה",
+    "SELECTOR_SUBTITLE": "בחר חשבון מהרשימה הבאה",
+    "PROFILE_SETTINGS": "הגדרות פרופיל",
+    "KEYBOARD_SHORTCUTS": "קיצורי דרך במקלדת",
+    "SUPER_ADMIN_CONSOLE": "מסוף סופר אדמין",
     "LOGOUT": "התנתק"
   },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "days trial remaining.",
-    "TRAIL_BUTTON": "Buy Now",
-    "DELETED_USER": "Deleted User"
+    "TRIAL_MESSAGE": "שנותרו ימי ניסיון.",
+    "TRAIL_BUTTON": "קנה עכשיו",
+    "DELETED_USER": "משתמש מחוק",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "חשבון מושעה",
+      "MESSAGE": "החשבון שלך מושעה. אנא פנה לצוות התמיכה לקבלת מידע נוסף."
+    }
   },
   "COMPONENTS": {
     "CODE": {
-      "BUTTON_TEXT": "Copy",
-      "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
+      "BUTTON_TEXT": "עותק",
+      "CODEPEN": "פתח ב-CodePen",
+      "COPY_SUCCESSFUL": "הקוד הועתק ללוח בהצלחה"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "להראות יותר",
+      "SHOW_LESS": "הראי פחות"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "הורד",
-      "UPLOADING": "מעלה..."
+      "UPLOADING": "מעלה...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "הסיפור הזה כבר לא זמין."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "ראה במפה"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "שלח"
     }
   },
-  "CONFIRM_EMAIL": "Verifying...",
+  "CONFIRM_EMAIL": "מאמת...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Add Inbox"
+      "NEW_INBOX": "הוסף תיבת דואר נכנס"
     }
   },
   "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "צופה כרגע:",
+    "SWITCH": "החלף",
     "CONVERSATIONS": "שיחות",
-    "REPORTS": "Reports",
+    "ALL_CONVERSATIONS": "כל השיחות",
+    "MENTIONED_CONVERSATIONS": "אִזְכּוּרים",
+    "PARTICIPATING_CONVERSATIONS": "משתתף",
+    "UNATTENDED_CONVERSATIONS": "ללא השגחה",
+    "REPORTS": "דיווחים",
     "SETTINGS": "הגדרות",
     "CONTACTS": "איש קשר",
     "HOME": "בית",
     "AGENTS": "סוכנים",
+    "AGENT_BOTS": "בוטים",
+    "AUDIT_LOGS": "Audit Logs",
     "INBOXES": "תיבות דואר נכנס",
     "NOTIFICATIONS": "התראות",
     "CANNED_RESPONSES": "תגובות מוכנות",
     "INTEGRATIONS": "אינטגרציות",
-    "ACCOUNT_SETTINGS": "Account Settings",
+    "PROFILE_SETTINGS": "הגדרות פרופיל",
+    "ACCOUNT_SETTINGS": "הגדרות חשבון",
     "APPLICATIONS": "יישומים",
-    "LABELS": "Labels",
+    "LABELS": "תוויות",
     "CUSTOM_ATTRIBUTES": "מאפיינים בהתאמה אישית",
-    "TEAMS": "Teams",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
-    "REPORTS_OVERVIEW": "Overview",
+    "AUTOMATION": "אוטומציה",
+    "MACROS": "מאקרו",
+    "TEAMS": "צוותים",
+    "BILLING": "חיוב",
+    "CUSTOM_VIEWS_FOLDER": "תיקיות",
+    "CUSTOM_VIEWS_SEGMENTS": "פלחים",
+    "ALL_CONTACTS": "כל אנשי הקשר",
+    "TAGGED_WITH": "מתוייג עם",
+    "NEW_LABEL": "תווית חדשה",
+    "NEW_TEAM": "קבוצה חדשה",
+    "NEW_INBOX": "תיבת דואר נכנס חדשה",
+    "REPORTS_CONVERSATION": "שיחות",
     "CSAT": "CSAT",
     "CAMPAIGNS": "קמפיין",
-    "ONGOING": "Ongoing",
-    "ONE_OFF": "One off",
+    "ONGOING": "מתמשך",
+    "ONE_OFF": "חד פעמי",
     "REPORTS_AGENT": "סוכנים",
-    "REPORTS_LABEL": "Labels",
+    "REPORTS_LABEL": "תוויות",
     "REPORTS_INBOX": "תיבת הדואר הנכנס",
-    "REPORTS_TEAM": "Team"
+    "REPORTS_TEAM": "צוות",
+    "SET_AVAILABILITY_TITLE": "הגדר את עצמך בתור",
+    "BETA": "בטא",
+    "REPORTS_OVERVIEW": "סקירה כללית",
+    "FACEBOOK_REAUTHORIZE": "פג תוקף החיבור שלך לפייסבוק, אנא חבר מחדש את דף הפייסבוק שלך כדי להמשיך בשירותים",
+    "HELP_CENTER": {
+      "TITLE": "מרכז העזרה (ביטא)",
+      "ALL_ARTICLES": "כל המאמרים",
+      "MY_ARTICLES": "הכתבות שלי",
+      "DRAFT": "טיוטה",
+      "ARCHIVED": "בארכיון",
+      "CATEGORY": "קטגוריה",
+      "SETTINGS": "הגדרות",
+      "CATEGORY_EMPTY_MESSAGE": "לא נמצאו קטגוריות"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "סמן באופן לא מקוון באופן אוטומטי",
+      "INFO_TEXT": "תן למערכת לסמן אותך באופן אוטומטי במצב לא מקוון כשאתה לא משתמש באפליקציה או בלוח המחוונים."
+    },
+    "DOCS": "קרא מסמכים"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "חיוב",
+    "CURRENT_PLAN": {
+      "TITLE": "תוכנית נוכחית",
+      "PLAN_NOTE": "אתה רשום כעת לתוכנית **%{plan}** עם רישיונות **%{quantity}**"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "נהל את המנוי שלך",
+      "DESCRIPTION": "הצג את החשבוניות הקודמות שלך, ערוך את פרטי החיוב שלך או בטל את המנוי שלך.",
+      "BUTTON_TXT": "עבור לפורטל החיובים"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "זקוק לעזרה?",
+      "DESCRIPTION": "האם אתה נתקל בבעיות כלשהן בחיוב? אנחנו כאן כדי לעזור.",
+      "BUTTON_TXT": "דבר איתנו"
+    },
+    "NO_BILLING_USER": "חשבון החיוב שלך מוגדר. אנא רענן את הדף ונסה שוב."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
-    "NEW_ACCOUNT": "New Account",
-    "SELECTOR_SUBTITLE": "Create a new account",
+    "NO_ACCOUNT_WARNING": "אה הו! לא הצלחנו למצוא חשבונות Chatwoot. נא ליצור חשבון חדש כדי להמשיך.",
+    "NEW_ACCOUNT": "חשבון חדש",
+    "SELECTOR_SUBTITLE": "צור חשבון חדש",
     "API": {
-      "SUCCESS_MESSAGE": "Account created successfully",
-      "EXIST_MESSAGE": "Account already exists",
+      "SUCCESS_MESSAGE": "החשבון נוצר בהצלחה",
+      "EXIST_MESSAGE": "החשבון כבר קיים",
       "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Account Name",
-        "PLACEHOLDER": "Wayne Enterprises"
+        "LABEL": "שם החברה",
+        "PLACEHOLDER": "וויין אנטרפרייז"
       },
       "SUBMIT": "שלח"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "הצג את כל קיצורי הדרך",
     "TITLE": {
-      "OPEN_CONVERSATION": "Open conversation",
-      "RESOLVE_AND_NEXT": "Resolve and move to next",
-      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "ADD_ATTACHMENT": "Add Attachment",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "TOGGLE_SIDEBAR": "Toggle Sidebar",
-      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Toggle Rich Content editor",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "OPEN_CONVERSATION": "שיחה פתוחה",
+      "RESOLVE_AND_NEXT": "פתור ועבור להבא",
+      "NAVIGATE_DROPDOWN": "נווט בפריטים הנפתחים",
+      "RESOLVE_CONVERSATION": "פתור שיחה",
+      "GO_TO_CONVERSATION_DASHBOARD": "עבור ללוח המחוונים לשיחה",
+      "ADD_ATTACHMENT": "הוסף קובץ מצורף",
+      "GO_TO_CONTACTS_DASHBOARD": "עבור ללוח המחוונים של אנשי קשר",
+      "TOGGLE_SIDEBAR": "החלפת סרגל צד",
+      "GO_TO_REPORTS_SIDEBAR": "עבור לסרגל הצד של דוחות",
+      "MOVE_TO_NEXT_TAB": "עבור ללשונית הבאה ברשימת השיחות",
+      "GO_TO_SETTINGS": "לך להגדרות",
+      "SWITCH_CONVERSATION_STATUS": "עבור למצב השיחה הבאה",
+      "SWITCH_TO_PRIVATE_NOTE": "עבור להערה פרטית",
+      "SWITCH_TO_REPLY": "עבור לתשובה",
+      "TOGGLE_SNOOZE_DROPDOWN": "החלפת תפריט נודניק"
     },
     "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
+      "WINDOWS_KEY_AND_COMMAND_KEY": "נצח / ⌘",
       "ALT_OR_OPTION_KEY": "Alt / ⌥",
       "FORWARD_SLASH_KEY": "/"
     }

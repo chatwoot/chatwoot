@@ -33,7 +33,14 @@ LANGUAGES_CONFIG = {
   28 => { name: 'magyar nyelv (hu)', iso_639_3_code: 'hun', iso_639_1_code: 'hu', enabled: true },
   29 => { name: 'norsk (no)', iso_639_3_code: 'nor', iso_639_1_code: 'no', enabled: true },
   30 => { name: '中文 (zh-CN)', iso_639_3_code: 'zho', iso_639_1_code: 'zh_CN', enabled: true },
-  31 => { name: 'język polski (pl)', iso_639_3_code: 'pol', iso_639_1_code: 'pl', enabled: true }
+  31 => { name: 'język polski (pl)', iso_639_3_code: 'pol', iso_639_1_code: 'pl', enabled: true },
+  32 => { name: 'slovenčina (sk)', iso_639_3_code: 'slk', iso_639_1_code: 'sk', enabled: true },
+  33 => { name: 'украї́нська мо́ва (uk)', iso_639_3_code: 'ukr', iso_639_1_code: 'uk', enabled: true },
+  34 => { name: 'ภาษาไทย (th)', iso_639_3_code: 'tha', iso_639_1_code: 'th', enabled: true },
+  35 => { name: 'latviešu valoda (lv)', iso_639_3_code: 'lav', iso_639_1_code: 'lv', enabled: true },
+  36 => { name: 'íslenska (is)', iso_639_3_code: 'isl', iso_639_1_code: 'is', enabled: true },
+  37 => { name: 'עִברִית (he)', iso_639_3_code: 'heb', iso_639_1_code: 'he', enabled: true },
+  38 => { name: 'lietuvių (lt)', iso_639_3_code: 'lit', iso_639_1_code: 'lt', enabled: true }
 }.filter { |_key, val| val[:enabled] }.freeze
 
 Rails.configuration.i18n.available_locales = LANGUAGES_CONFIG.map { |_index, lang| lang[:iso_639_1_code].to_sym }

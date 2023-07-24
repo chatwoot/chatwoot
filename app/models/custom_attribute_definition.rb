@@ -16,7 +16,7 @@
 #
 # Indexes
 #
-#  attribute_key_model_index                         (attribute_key,attribute_model) UNIQUE
+#  attribute_key_model_index                         (attribute_key,attribute_model,account_id) UNIQUE
 #  index_custom_attribute_definitions_on_account_id  (account_id)
 #
 class CustomAttributeDefinition < ApplicationRecord
@@ -25,7 +25,7 @@ class CustomAttributeDefinition < ApplicationRecord
 
   validates :attribute_key,
             presence: true,
-            uniqueness: { scope: :attribute_model }
+            uniqueness: { scope: [:account_id, :attribute_model] }
 
   validates :attribute_display_type, presence: true
   validates :attribute_model, presence: true
@@ -34,4 +34,16 @@ class CustomAttributeDefinition < ApplicationRecord
   enum attribute_display_type: { text: 0, number: 1, currency: 2, percent: 3, link: 4, date: 5, list: 6, checkbox: 7 }
 
   belongs_to :account
+  after_update :update_widget_pre_chat_custom_fields
+  after_destroy :sync_widget_pre_chat_custom_fields
+
+  private
+
+  def sync_widget_pre_chat_custom_fields
+    ::Inboxes::SyncWidgetPreChatCustomFieldsJob.perform_later(account, attribute_key)
+  end
+
+  def update_widget_pre_chat_custom_fields
+    ::Inboxes::UpdateWidgetPreChatCustomFieldsJob.perform_later(account, self)
+  end
 end

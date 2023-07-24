@@ -1,57 +1,31 @@
 .side-menu {
   i {
-    margin-right: $space-smaller;
-    min-width: $space-two;
+    margin-right: var(--space-smaller);
+    min-width: var(--space-two);
   }
 }
 
 .sidebar {
-  @include border-normal-right;
-  @include background-white;
-  @include full-height;
-  @include margin(0);
-  @include space-between-column;
-  width: $nav-bar-width;
   z-index: 1024 - 1;
 
   //logo
   .logo {
     img {
-      @include padding($woot-logo-padding);
       max-height: 108px;
-    }
-  }
-
-  .main-nav {
-    a {
-      border-radius: $space-smaller;
-      color: $color-gray;
-      font-size: $font-size-default;
-      font-weight: $font-weight-medium;
-
-      .wrap,
-      .child-icon {
-        &:hover {
-          color: $color-woot;
-        }
-      }
-    }
-
-    .active a .wrap {
-      color: $color-woot;
+      padding: $woot-logo-padding;
     }
   }
 
   .nested {
     a {
-      font-size: $font-size-small;
-      margin-bottom: $space-micro;
-      margin-top: $space-micro;
+      font-size: var(--font-size-small);
+      margin-bottom: var(--space-micro);
+      margin-top: var(--space-micro);
 
       .inbox-icon {
         display: inline-block;
-        margin-right: $space-micro;
-        min-width: $space-normal;
+        margin-right: var(--space-micro);
+        min-width: var(--space-normal);
         text-align: center;
       }
     }
@@ -62,9 +36,10 @@
 .bottom-nav {
   @include flex;
   @include space-between-column;
-  @include padding($space-one $space-normal $space-one $space-one);
   @include border-normal-top;
   flex-direction: column;
+  padding: var(--space-one) var(--space-normal) var(--space-one)
+    var(--space-one);
   position: relative;
 
   &:hover {
@@ -72,7 +47,7 @@
   }
 
   .dropdown-pane {
-    bottom: 6rem;
+    bottom: 3.75rem;
     display: block;
     visibility: visible;
     width: fit-content;
@@ -83,49 +58,21 @@
   }
 }
 
-.main-nav {
-  @include flex-weight(1);
-  @include scroll-on-hover;
-  padding: 0 $space-medium - $space-one;
-
-  a {
-    &::before {
-      margin-right: $space-slab;
-    }
-  }
-
-  .menu-title {
-    color: $color-gray;
-    font-size: $font-size-medium;
-    margin-top: $space-medium;
-
-    >span {
-      margin-left: $space-one;
-    }
-  }
-}
-
-.menu-title+ul>li>a {
-  @include padding($space-micro null);
-  color: $medium-gray;
-  line-height: $global-lineheight;
-}
-
 .hamburger--menu {
   cursor: pointer;
-  display: none;
-  margin-right: $space-normal;
-
-  @media screen and (max-width: 1200px) {
-    display: block;
-  }
+  display: block;
+  margin-right: var(--space-normal);
 }
 
 .header--icon {
   display: block;
-  margin-right: $space-normal;
+  margin: 0 var(--space-small) 0 var(--space-smaller);
 
   @media screen and (max-width: 1200px) {
     display: none;
   }
+}
+
+.header-title {
+  margin: 0 var(--space-small);
 }

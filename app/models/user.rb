@@ -15,6 +15,7 @@
 #  encrypted_password     :string           default(""), not null
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :string
+#  message_signature      :text
 #  name                   :string           not null
 #  provider               :string           default("email"), not null
 #  pubsub_token           :string
@@ -23,6 +24,7 @@
 #  reset_password_token   :string
 #  sign_in_count          :integer          default(0), not null
 #  tokens                 :json
+#  type                   :string
 #  ui_settings            :jsonb
 #  uid                    :string           default(""), not null
 #  unconfirmed_email      :string
@@ -46,6 +48,7 @@ class User < ApplicationRecord
   include Rails.application.routes.url_helpers
   include Reportable
   include SsoAuthenticatable
+  include UserAttributeHelpers
 
   devise :database_authenticatable,
          :registerable,
@@ -54,7 +57,8 @@ class User < ApplicationRecord
          :trackable,
          :validatable,
          :confirmable,
-         :password_has_required_content
+         :password_has_required_content,
+         :omniauthable, omniauth_providers: [:google_oauth2]
 
   # TODO: remove in a future version once online status is moved to account users
   # remove the column availability from users
@@ -65,7 +69,7 @@ class User < ApplicationRecord
   # validates_uniqueness_of :email, scope: :account_id
 
   validates :email, :name, presence: true
-  validates_length_of :name, minimum: 1
+  validates_length_of :name, minimum: 1, maximum: 255
 
   has_many :account_users, dependent: :destroy_async
   has_many :accounts, through: :account_users
@@ -74,23 +78,37 @@ class User < ApplicationRecord
   has_many :assigned_conversations, foreign_key: 'assignee_id', class_name: 'Conversation', dependent: :nullify
   alias_attribute :conversations, :assigned_conversations
   has_many :csat_survey_responses, foreign_key: 'assigned_agent_id', dependent: :nullify
+  has_many :conversation_participants, dependent: :destroy_async
+  has_many :participating_conversations, through: :conversation_participants, source: :conversation
 
   has_many :inbox_members, dependent: :destroy_async
   has_many :inboxes, through: :inbox_members, source: :inbox
   has_many :messages, as: :sender
   has_many :invitees, through: :account_users, class_name: 'User', foreign_key: 'inviter_id', source: :inviter, dependent: :nullify
 
-  has_many :notifications, dependent: :destroy_async
+  has_many :custom_filters, dependent: :destroy_async
+  has_many :dashboard_apps, dependent: :nullify
+  has_many :mentions, dependent: :destroy_async
+  has_many :notes, dependent: :nullify
   has_many :notification_settings, dependent: :destroy_async
   has_many :notification_subscriptions, dependent: :destroy_async
+  has_many :notifications, dependent: :destroy_async
   has_many :team_members, dependent: :destroy_async
   has_many :teams, through: :team_members
-  has_many :notes, dependent: :nullify
-  has_many :custom_filters, dependent: :destroy_async
-
+  has_many :articles, foreign_key: 'author_id', dependent: :nullify
+  has_many :portal_members, class_name: :PortalMember, dependent: :destroy_async
+  has_many :portals, through: :portal_members, source: :portal,
+                     class_name: :Portal,
+                     dependent: :nullify
+  has_many :macros, foreign_key: 'created_by_id'
   before_validation :set_password_and_uid, on: :create
+  after_destroy :remove_macros
 
   scope :order_by_full_name, -> { order('lower(name) ASC') }
+
+  before_validation do
+    self.email = email.try(:downcase)
+  end
 
   def send_devise_notification(notification, *args)
     devise_mailer.with(account: Current.account).send(notification, self, *args).deliver_later
@@ -100,56 +118,8 @@ class User < ApplicationRecord
     self.uid = email
   end
 
-  def active_account_user
-    account_users.order(active_at: :desc)&.first
-  end
-
-  def current_account_user
-    account_users.find_by(account_id: Current.account.id) if Current.account
-  end
-
-  def available_name
-    self[:display_name].presence || name
-  end
-
-  # Used internally for Chatwoot in Chatwoot
-  def hmac_identifier
-    hmac_key = GlobalConfig.get('CHATWOOT_INBOX_HMAC_KEY')['CHATWOOT_INBOX_HMAC_KEY']
-    return OpenSSL::HMAC.hexdigest('sha256', hmac_key, email) if hmac_key.present?
-
-    ''
-  end
-
-  def account
-    current_account_user&.account
-  end
-
   def assigned_inboxes
     administrator? ? Current.account.inboxes : inboxes.where(account_id: Current.account.id)
-  end
-
-  def administrator?
-    current_account_user&.administrator?
-  end
-
-  def agent?
-    current_account_user&.agent?
-  end
-
-  def role
-    current_account_user&.role
-  end
-
-  def availability_status
-    current_account_user&.availability_status
-  end
-
-  def auto_offline
-    current_account_user&.auto_offline
-  end
-
-  def inviter
-    current_account_user&.inviter
   end
 
   def serializable_hash(options = nil)
@@ -176,4 +146,25 @@ class User < ApplicationRecord
       type: 'user'
     }
   end
+
+  # https://github.com/lynndylanhurley/devise_token_auth/blob/6d7780ee0b9750687e7e2871b9a1c6368f2085a9/app/models/devise_token_auth/concerns/user.rb#L45
+  # Since this method is overriden in devise_token_auth it breaks the email reconfirmation flow.
+  def will_save_change_to_email?
+    mutations_from_database.changed?('email')
+  end
+
+  def notifications_meta(account_id)
+    {
+      unread_count: notifications.where(account_id: account_id, read_at: nil).count,
+      count: notifications.where(account_id: account_id).count
+    }
+  end
+
+  private
+
+  def remove_macros
+    macros.personal.destroy_all
+  end
 end
+
+User.include_mod_with('Audit::User')

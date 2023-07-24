@@ -9,8 +9,9 @@ export const routes = [
     component: SettingsWrapper,
     props: {
       headerTitle: 'NOTIFICATIONS_PAGE.HEADER',
-      icon: 'ion-ios-bell',
+      icon: 'alert',
       showNewButton: false,
+      showSidemenuIcon: false,
     },
     children: [
       {

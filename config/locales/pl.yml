@@ -21,27 +21,82 @@ pl:
   messages:
     reset_password_success: Woot! Prośba o zresetowanie hasła zakończona pomyślnie. Sprawdź swoją pocztę, aby uzyskać instrukcje.
     reset_password_failure: Ups! Nie mogliśmy znaleźć żadnego użytkownika z podanym adresem e-mail.
+    inbox_deletetion_response: Żądanie usunięcia skrzynki odbiorczej zostanie rozpatrzone za jakiś czas.
   errors:
+    validations:
+      presence: nie może być puste
+    webhook:
+      invalid: Nieprawidłowe zdarzenia
     signup:
       disposable_email: Nie zezwalamy na jednorazowe konta e-mail
       invalid_email: Wprowadzono nieprawidłowy adres e-mail
       email_already_exists: "Już zarejestrowałeś się na konto %{email}"
       failed: Rejestracja nie powiodła się
+    data_import:
+      data_type:
+        invalid: Nieprawidłowy typ danych
     contacts:
       import:
-        failed: File is blank
+        failed: Plik jest pusty
+      export:
+        success: Powiadomimy Cię, gdy plik eksportu kontaktów będzie gotowy do wyświetlenia.
+      email:
+        invalid: Nieprawidłowy adres e-mail
+      phone_number:
+        invalid: powinno być w formacie e164
+    categories:
+      locale:
+        unique: powinno być unikalne w kategorii i portalu
+    dyte:
+      invalid_message_type: "Nieprawidłowy typ wiadomości. Niedozwolone działanie."
+    inboxes:
+      imap:
+        socket_error: Sprawdź połączenie sieciowe, adres IMAP i spróbuj ponownie.
+        no_response_error: Sprawdź poświadczenia IMAP i spróbuj ponownie.
+        host_unreachable_error: Host nieosiągalny, sprawdź adres IMAP, port IMAP i spróbuj ponownie.
+        connection_timed_out_error: Limit czasu połączenia dla %{address}:%{port}
+        connection_closed_error: Połączenie zakończone.
+      validations:
+        name: nie powinno zaczynać się ani kończyć symbolami i nie powinno zawierać znaków < > / \ @.
+    custom_filters:
+      number_of_records: Osiągnięto limit. Maksymalna liczba dozwolonych filtrów niestandardowych dla użytkownika na konto wynosi 50.
   reports:
     period: Okres raportowania od %{since} do %{until}
+    utc_warning: Generowany raport jest w strefie czasowej UTC
     agent_csv:
       agent_name: Nazwa agenta
       conversations_count: Liczba rozmów
       avg_first_response_time: Średni czas pierwszej odpowiedzi (minuty)
       avg_resolution_time: Średni czas do rozwiązania problemu (minuty)
+    inbox_csv:
+      inbox_name: Nazwa skrzynki odbiorczej
+      inbox_type: Typ skrzynki odbiorczej
+      conversations_count: Ilość rozmów
+      avg_first_response_time: Średni czas pierwszej odpowiedzi (minuty)
+      avg_resolution_time: Średni czas do rozwiązania problemu (minuty)
+    label_csv:
+      label_title: Etykieta
+      conversations_count: Ilość rozmów
+      avg_first_response_time: Średni czas pierwszej odpowiedzi (minuty)
+      avg_resolution_time: Średni czas do rozwiązania problemu (minuty)
     team_csv:
-      team_name: Team name
+      team_name: Nazwa zespołu
       conversations_count: Liczba rozmów
       avg_first_response_time: Średni czas pierwszej odpowiedzi (minuty)
       avg_resolution_time: Średni czas do rozwiązania problemu (minuty)
+    conversation_traffic_csv:
+      timezone: Strefa czasowa
+    default_group_by: dnia
+    csat:
+      headers:
+        contact_name: Nazwa kontaktu
+        contact_email_address: Adres email kontaktu
+        contact_phone_number: Numer telefonu kontaktu
+        link_to_the_conversation: Link do rozmowy
+        agent_name: Nazwa agenta
+        rating: Ocena
+        feedback: Komentarz zwrotny
+        recorded_at: Data nagrania
   notifications:
     notification_title:
       conversation_creation: "[Nowa rozmowa] - #%{display_id} został utworzony w %{inbox_name}"
@@ -50,14 +105,22 @@ pl:
       conversation_mention: "Zostałeś wspomniany w konwersacji [ID - %{display_id}] przez %{name}"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} wspomniał o Tobie w historii: "
+      instagram_deleted_story_content: Ta historia już nie jest dostępna.
       deleted: Ta wiadomość została usunięta
     activity:
       status:
         resolved: "Rozmowa została oznaczona przez %{user_name}"
+        contact_resolved: "Rozmowa została rozwiązana przez %{contact_name}"
         open: "Rozmowa została ponownie otwarta przez %{user_name}"
         pending: "Rozmowa została oznaczona jako oczekująca przez %{user_name}"
-        snoozed: "Conversation was snoozed by %{user_name}"
+        snoozed: "Rozmowa została uśpiona przez %{user_name}"
         auto_resolved: "Rozmowa została oznaczona przez system jako rozwiązana z powodu %{duration} dni bezczynności"
+        system_auto_open: System otworzył ponownie rozmowę z powodu nowej wiadomości przychodzącej.
+      priority:
+        added: '%{user_name} ustawił priorytet na %{new_priority}'
+        updated: '%{user_name} zmienił priorytet z %{old_priority} na %{new_priority}'
+        removed: '%{user_name} usunął priorytet'
       assignee:
         self_assigned: "%{user_name} przypisał się do tej rozmowy"
         assigned: "Przypisane do %{assignee_name} przez %{user_name}"
@@ -75,16 +138,28 @@ pl:
       greeting_message_body: "%{account_name} zazwyczaj odpowiada w ciągu kilku godzin."
       ways_to_reach_you_message_body: "Daj zespołowi możliwość dotarcia do Ciebie."
       email_input_box_message_body: "Otrzymuj powiadomienia przez e-mail"
-      csat_input_message_body: "Please rate the conversation"
+      csat_input_message_body: "Oceń rozmowę"
     reply:
+      email:
+        header:
+          from_with_name: "%{assignee_name} z %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} z %{inbox_name} <reply+%{reply_email}>"
+      channel_email:
+        header:
+          reply_with_name: "%{assignee_name} z %{inbox_name} <%{from_email}>"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Nowe wiadomości w tej dyskusji"
       transcript_subject: "Transkrypcja rozmowy"
     survey:
-      response: "Please rate this conversation, %{link}"
+      response: "Oceń tę rozmowę, %{link}"
   contacts:
     online:
-      delete: "%{contact_name} is Online, please try again later"
+      delete: "%{contact_name} jest online, spróbuj ponownie później"
   integration_apps:
+    dyte:
+      name: "Dyte"
+      description: "Dyte to narzędzie, które pomaga dodać dźwięk i wideo na żywo do aplikacji za pomocą zaledwie kilku linijek kodu. Ta integracja pozwala dać agentom możliwość prowadzenia rozmów wideo lub głosowych z klientami bez opuszczania Chatwoot."
+      meeting_name: "%{agent_name} rozpoczął spotkanie"
     slack:
       name: "Slack"
       description: "Slack to narzędzie czatu, które łączy całą Twoją komunikację w jednym miejscu. Integrując Slack, możesz otrzymywać powiadomienia o wszystkich nowych rozmowach na swoim koncie bezpośrednio wewnątrz Slack."
@@ -93,7 +168,33 @@ pl:
       description: "Webhooki dostarczają informacji o tym, co dzieje się na Twoim koncie do usług zewnętrznych. Możesz wykorzystać webhooki do przekazywania wydarzeń do ulubionych aplikacji, takich jak Slack lub Github. Kliknij na Konfiguruj, aby skonfigurować webhooki."
     dialogflow:
       name: "Dialogflow"
-      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
+      description: "Twórz czatboty za pomocą Dialogflow i szybko łącz je ze swoją skrzynką odbiorczą. Pozwól botom obsługiwać zapytania, zanim przekażesz je agentowi obsługi klienta."
     fullcontact:
-      name: "Fullcontact"
-      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
+      name: "Pełny kontakt"
+      description: "Integracja FullContact pomaga wzbogacić profile odwiedzających. Zidentyfikuj użytkowników, gdy tylko udostępnią swój adres e-mail i zaoferuj im dostosowaną obsługę klienta. Połącz FullContact ze swoim kontem, udostępniając klucz API FullContact."
+    google_translate:
+      name: "Tłumacz Google"
+      description: "Ułatw agentom tłumaczenie wiadomości, dodając integrację z Tłumaczem Google. Tłumacz Google pomaga automatycznie zidentyfikować język i przekonwertować go na język wybrany przez agenta / administratora konta."
+    openai:
+      name: "OpenAI"
+      description: "Zintegruj potężne funkcje AI z Chatwoot, wykorzystując modele GPT od OpenAI."
+  public_portal:
+    search:
+      search_placeholder: Wyszukaj artykuł według tytułu lub treści...
+      empty_placeholder: Brak wyników.
+      loading_placeholder: Wyszukiwanie...
+      results_title: Wyniki wyszukiwania
+    toc_header: 'Na tej stronie'
+    hero:
+      sub_title: Szukaj artykułów tutaj lub przeglądaj kategorie poniżej.
+    common:
+      home: Strona główna
+      last_updated_on: Ostatnia aktualizacja %{last_updated_on}
+      view_all_articles: Zobacz wszystkie artykuły
+      article: artykuł
+      articles: artykuły
+      no_articles: Nie ma tu żadnych artykułów
+    footer:
+      made_with: Wykonane z
+    header:
+      go_to_homepage: Przejdź do strony głównej

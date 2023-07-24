@@ -7,37 +7,17 @@
       "404": "Er zijn geen actieve gesprekken in deze groep."
     },
     "TAB_HEADING": "Gesprekken",
+    "MENTION_HEADING": "Vermeldingen",
+    "UNATTENDED_HEADING": "Onbeheer",
     "SEARCH": {
       "INPUT": "Zoek naar mensen, gesprekken, opgeslagen antwoorden .."
     },
     "FILTER_ALL": "Allemaal",
-    "STATUS_TABS": [
-      {
-        "NAME": "Open",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Opgelost",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Mijn",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Niet toegewezen",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Allemaal",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Mijn",
+      "unassigned": "Niet toegewezen",
+      "all": "Allemaal"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Open"
@@ -50,41 +30,80 @@
       },
       "snoozed": {
         "TEXT": "Gesluimerd"
+      },
+      "all": {
+        "TEXT": "Allemaal"
+      }
+    },
+    "VIEW_FILTER": "Bekijken",
+    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "CHAT_SORT": {
+      "STATUS": "Status",
+      "ORDER_BY": "Order by"
+    },
+    "CHAT_SORT_FILTER_ITEMS": {
+      "latest": {
+        "TEXT": "Last activity"
+      },
+      "sort_on_created_at": {
+        "TEXT": "Created at"
+      },
+      "sort_on_priority": {
+        "TEXT": "Priority"
+      },
+      "sort_on_waiting_since": {
+        "TEXT": "Pending Response"
       }
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Bericht met foto"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Audiobericht"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Videobericht"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Bestandsbijlage"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Locatie"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "heeft een url gedeeld"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Sort conversation",
+      "DROPDOWN_TITLE": "Sort by",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Last activity at",
+          "LABEL": "Last activity"
+        },
+        "CREATED_AT": {
+          "NAME": "Created at",
+          "LABEL": "Created at"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Last user message at",
+          "LABEL": "Last message"
+        }
       }
     },
     "RECEIVED_VIA_EMAIL": "Ontvangen via e-mail",
     "VIEW_TWEET_IN_TWITTER": "Bekijk tweet op Twitter",
     "REPLY_TO_TWEET": "Antwoord op deze tweet",
-    "SENT": "Sent successfully",
+    "LINK_TO_STORY": "Ga naar instagram verhaal",
+    "SENT": "Succesvol verzonden",
+    "READ": "Succesvol gelezen",
+    "DELIVERED": "Succesvol afgeleverd",
     "NO_MESSAGES": "Geen berichten",
     "NO_CONTENT": "Geen inhoud beschikbaar",
-    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
-    "SHOW_QUOTED_TEXT": "Show Quoted Text"
+    "HIDE_QUOTED_TEXT": "Verberg geciteerde tekst",
+    "SHOW_QUOTED_TEXT": "Toon geciteerde tekst",
+    "MESSAGE_READ": "Lezen"
   }
 }

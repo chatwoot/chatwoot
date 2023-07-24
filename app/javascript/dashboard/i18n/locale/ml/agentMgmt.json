@@ -74,6 +74,11 @@
           "LABEL": "ഇമെയിൽ വിലാസം",
           "PLACEHOLDER": "ദയവായി ഏജന്റിന്റെ ഒരു ഇമെയിൽ വിലാസം നൽകുക"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "ലഭ്യത",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "ഏജന്റിനെ എഡിറ്റുചെയ്യുക"
       },
       "BUTTON_TEXT": "എഡിറ്റുചെയ്യുക",
@@ -90,22 +95,23 @@
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "No results found."
+      "NO_RESULTS": "ഒരു ഫലവും കണ്ടെത്താനായില്ല."
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "None",
+      "PLACEHOLDER": "ഒന്നുമില്ല",
       "TITLE": {
-        "AGENT": "Select agent",
-        "TEAM": "Select team"
+        "AGENT": "ഏജന്റിനെ തിരഞ്ഞെടുക്കുക",
+        "TEAM": "ടീം തിരഞ്ഞെടുക്കുക"
       },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "ഏജന്റകളെ ഒന്നും കണ്ടെത്താൻ സാധിച്ചില്ല",
-          "TEAM": "No teams found"
+          "TEAM": "ടീമുകളൊന്നും കണ്ടെത്താനായില്ല"
         },
         "PLACEHOLDER": {
-          "AGENT": "Search agents",
-          "TEAM": "Search teams"
+          "AGENT": "ഏജന്റുകളെ തിരയുക",
+          "TEAM": "ടീമുകളെ തിരയുക",
+          "INPUT": "Search for agents"
         }
       }
     }

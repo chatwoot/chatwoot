@@ -6,6 +6,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Abschicken"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Nachricht erneut senden",
+      "ERROR_MESSAGE": "Senden nicht möglich, versuchen Sie es noch einmal"
     }
   },
   "TEAM_AVAILABILITY": {
@@ -15,9 +19,21 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Wir antworten üblicherweise innerhalb weniger Minuten",
     "IN_A_FEW_HOURS": "Wir antworten üblicherweise innerhalb weniger Stunden",
-    "IN_A_DAY": "Wir antworten üblicherweise innerhalb eines Tages"
+    "IN_A_DAY": "Wir antworten üblicherweise innerhalb eines Tages",
+    "BACK_IN": "We will be back online"
   },
-  "START_CONVERSATION": "Sende uns eine Nachricht",
+  "DAY_NAMES": [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ],
+  "START_CONVERSATION": "Unterhaltung beginnen",
+  "END_CONVERSATION": "Konversation beenden",
+  "CONTINUE_CONVERSATION": "Konversation fortsetzen",
   "START_NEW_CONVERSATION": "Neue Unterhaltung starten",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Neue Nachrichten anzeigen",
@@ -28,7 +44,7 @@
   "BUBBLE": {
     "LABEL": "Chatten Sie mit uns"
   },
-  "POWERED_BY": "Powered by Chatwoot",
+  "POWERED_BY": "Unterstützt von Chatwoot",
   "EMAIL_PLACEHOLDER": "Bitte geben Sie Ihre E-Mail-Adresse ein",
   "CHAT_PLACEHOLDER": "Schreiben Sie Ihre Nachricht",
   "TODAY": "Heute",
@@ -37,13 +53,22 @@
     "FIELDS": {
       "FULL_NAME": {
         "LABEL": "Vollständiger Name",
-        "PLACEHOLDER": "Bitte geben Sie Ihren Namen ein, dies wird in Gesprächen angezeigt",
-        "ERROR": "Vollständiger Name ist erforderlich"
+        "PLACEHOLDER": "Bitte geben Sie Ihren vollständigen Namen ein",
+        "REQUIRED_ERROR": "Vollständiger Name ist erforderlich"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "E-Mail-Adresse",
         "PLACEHOLDER": "Bitte geben Sie ihre E-Mail-Adresse ein",
-        "ERROR": "Ungültige E-Mail-Adresse"
+        "REQUIRED_ERROR": "E-Mail-Adresse wird benötigt",
+        "VALID_ERROR": "Bitte geben Sie eine gültige E-Mail-Adresse ein"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Telefonnummer",
+        "PLACEHOLDER": "Bitte geben Sie ihre Telefonnummer ein",
+        "REQUIRED_ERROR": "Telefonnummer ist erforderlich",
+        "DIAL_CODE_VALID_ERROR": "Please select a country code",
+        "VALID_ERROR": "Please enter a valid phone number",
+        "DROPDOWN_EMPTY": "Keine Ergebnisse gefunden"
       },
       "MESSAGE": {
         "LABEL": "Nachricht",
@@ -51,22 +76,34 @@
         "ERROR": "Nachricht ist zu kurz"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+    "CAMPAIGN_HEADER": "Bitte geben Sie Ihren Namen und Ihre E-Mail-Adresse an, bevor Sie die Konversation beginnen",
+    "IS_REQUIRED": "erforderlich",
+    "REQUIRED": "Benötigt"
   },
-  "FILE_SIZE_LIMIT": "Die Datei überschreitet das Limit von {MAXIMUM_FILE_UPLOAD_SIZE} für Anhänge",
+  "FILE_SIZE_LIMIT": "Die Datei überschreitet das Anhangslimit von {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
     "INVALID": {
       "FIELD": "Ungültiges Feld"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Emojis durchsuchen",
+    "NOT_FOUND": "Kein Emoji entspricht Ihrer Suche"
+  },
   "CSAT": {
-    "TITLE": "Bewerte deine Unterhaltung",
+    "TITLE": "Bewerten Sie Ihre Konversation",
     "SUBMITTED_TITLE": "Danke, dass Sie die Bewertung eingereicht haben",
-    "PLACEHOLDER": "Erzähl uns mehr..."
+    "PLACEHOLDER": "Erzählen Sie uns mehr..."
   },
   "EMAIL_TRANSCRIPT": {
     "BUTTON_TEXT": "Chat-Protokoll anfordern",
     "SEND_EMAIL_SUCCESS": "Das Chat-Protokoll wurde erfolgreich gesendet",
     "SEND_EMAIL_ERROR": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Klicke hier, um beizutreten",
+      "LEAVE_THE_ROOM": "Anruf verlassen"
+    }
   }
 }

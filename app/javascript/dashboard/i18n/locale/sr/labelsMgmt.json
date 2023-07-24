@@ -1,0 +1,70 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "Oznake",
+    "HEADER_BTN_TXT": "Dodaj oznaku",
+    "LOADING": "Preuzimanje oznaka",
+    "SEARCH_404": "Nema razultata",
+    "SIDEBAR_TXT": "<p><b>Oznake</b> <p>Oznake vam pomažu da kategorišete razgovore i učinite ih prioritetnim. Možete dodeliti oznaku razgovoru iz trake sa strane. <br /><br />Oznake su povezane sa nalogom i mogu biti korišćene za pravljenje prilagođenih radnih tokova u vašoj organizaciji. Možete dodeliti prilagođenu boju oznaci, što će je učiniti lakšom za identifikaciju. Možete da prikažete oznaku na traci sa strane da bi ste lakše filtrirali razgovore.</p>",
+    "LIST": {
+      "404": "Ne postoje dostupne oznake u ovom nalogu.",
+      "TITLE": "Upravljanje oznakama",
+      "DESC": "Oznake vam omogućavaju da grupišete razgovore.",
+      "TABLE_HEADER": [
+        "Ime",
+        "Opis",
+        "Bojan"
+      ]
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Naziv oznake",
+        "PLACEHOLDER": "Naziv oznake",
+        "REQUIRED_ERROR": "Naziv oznake je obavezno",
+        "MINIMUM_LENGTH_ERROR": "Obavezna je minimalna dužina od 2 karaktera",
+        "VALID_ERROR": "Dozvoljena su samo slova, brojevi, crtice i donje crtice"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Opis",
+        "PLACEHOLDER": "Opis oznake"
+      },
+      "COLOR": {
+        "LABEL": "Bojan"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "Prikaži oznaku u traci sa strane"
+      },
+      "EDIT": "Uredi",
+      "CREATE": "Napravi",
+      "DELETE": "Izbriši",
+      "CANCEL": "Otkaži"
+    },
+    "ADD": {
+      "TITLE": "Dodaj oznaku",
+      "DESC": "Oznake vam omogućavaju da grupišete razgovore.",
+      "API": {
+        "SUCCESS_MESSAGE": "Oznaka je uspešno dodata",
+        "ERROR_MESSAGE": "Pojavila se greška, molim vas pokušajte ponovo"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Uredi oznaku",
+      "API": {
+        "SUCCESS_MESSAGE": "Oznaka je uspešno izmenjena",
+        "ERROR_MESSAGE": "Pojavila se greška, molim vas pokušajte ponovo"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Izbriši",
+      "API": {
+        "SUCCESS_MESSAGE": "Oznaka je uspešno obrisana",
+        "ERROR_MESSAGE": "Pojavila se greška, molim vas pokušajte ponovo"
+      },
+      "CONFIRM": {
+        "TITLE": "Potvrdite brisanje",
+        "MESSAGE": "Sigurni ste da želite izbrisati ",
+        "YES": "Da, izbriši ",
+        "NO": "Ne, zadrži "
+      }
+    }
+  }
+}

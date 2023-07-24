@@ -1,0 +1,78 @@
+{
+  "MACROS": {
+    "HEADER": "Macros",
+    "HEADER_BTN_TXT": "Add a new macro",
+    "HEADER_BTN_TXT_SAVE": "Save macro",
+    "LOADING": "Fetching macros",
+    "SIDEBAR_TXT": "<p><b>Fjölvi</b><p>Fjölvi er safn vistaðra aðgerða sem auðvelda þjónustufulltrúa að klára verkefni auðveldlega. Þjónustufulltrúarnir geta skilgreint mengi aðgerða eins og að merkja samtal með merkimiða, senda tölvupóstafrit, uppfæra sérsniðna eiginleika o.s.frv., og þeir geta keyrt þessar aðgerðir með einum smelli. Þegar þjónustufulltrúar keyra fjölva, yrðu aðgerðirnar framkvæmdar í þeirri röð sem þær eru skilgreindar. Fjölvi bæta framleiðni og auka samræmi í aðgerðum. </p><p>Fjölvi getur verið gagnlegt á tvo vegu. </p><p><b>Sem aðstoð fyrir þjónustufulltrúa:</b> Ef þjónustufulltrúi framkvæmir sett af aðgerðum mörgum sinnum, getur hann vistað það sem fjölva og framkvæmt allar aðgerðir saman með einum smelli.</ p><p><b>Sem valmöguleiki til þess að bæta við liðsmanni:</b> Sérhver þjónustufulltrúi þarf að framkvæma margar mismunandi athuganir/aðgerðir í hverju samtali. Auðvelt verður að taka inn nýjan teymismeðlim ef fyrirfram skilgreind fjölvi eru tiltæk á reikningnum. Í stað þess að lýsa hverju skrefi í smáatriðum getur stjórnandinn/teymisstjórinn bent á fjölva sem notuð eru við mismunandi aðstæður.</p>",
+    "ERROR": "Something went wrong. Please try again",
+    "ORDER_INFO": "Fjölvi mun keyra í þeirri röð sem þú bætir við aðgerðum þínum. Þú getur endurraðað þeim með því að draga þau í handfangið við hlið hverrar nóðu.",
+    "ADD": {
+      "FORM": {
+        "NAME": {
+          "LABEL": "Macro name",
+          "PLACEHOLDER": "Enter a name for your macro",
+          "ERROR": "Name is required for creating a macro"
+        },
+        "ACTIONS": {
+          "LABEL": "Aðgerðir"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Macro added successfully",
+        "ERROR_MESSAGE": "Ekki tókst að búa til fjölvi, vinsamlegast reyndu aftur síðar"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Nafn",
+        "Created by",
+        "Last updated by",
+        "Visibility"
+      ],
+      "404": "No macros found"
+    },
+    "DELETE": {
+      "TOOLTIP": "Delete macro",
+      "CONFIRM": {
+        "MESSAGE": "Ertu viss um að þú viljir eyða",
+        "YES": "Yes, Delete",
+        "NO": "Nei"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Macro deleted successfully",
+        "ERROR_MESSAGE": "Villa kom upp við að eyða fjölva. Vinsamlegast reyndu aftur síðar"
+      }
+    },
+    "EDIT": {
+      "TOOLTIP": "Edit macro",
+      "API": {
+        "SUCCESS_MESSAGE": "Macro updated successfully",
+        "ERROR_MESSAGE": "Ekki tókst að uppfæra fjölva, vinsamlegast reyndu aftur síðar"
+      }
+    },
+    "EDITOR": {
+      "START_FLOW": "Start Flow",
+      "END_FLOW": "End Flow",
+      "LOADING": "Fetching macro",
+      "ADD_BTN_TOOLTIP": "Add new action",
+      "DELETE_BTN_TOOLTIP": "Delete Action",
+      "VISIBILITY": {
+        "LABEL": "Macro Visibility",
+        "GLOBAL": {
+          "LABEL": "Public",
+          "DESCRIPTION": "Þessi fjölvi er aðgengileg opinberlega fyrir alla þjónustufulltrúa á þessum reikningi."
+        },
+        "PERSONAL": {
+          "LABEL": "Private",
+          "DESCRIPTION": "Þessi fjölvi verður persónulegur fyrir þig og ekki aðgengilegur öðrum."
+        }
+      }
+    },
+    "EXECUTE": {
+      "BUTTON_TOOLTIP": "Execute",
+      "PREVIEW": "Preview Macro",
+      "EXECUTED_SUCCESSFULLY": "Macro executed successfully"
+    }
+  }
+}

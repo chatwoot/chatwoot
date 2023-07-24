@@ -42,7 +42,6 @@
   }
 
   .agent-name {
-    color: $color-body;
     font-size: $font-size-small;
     font-weight: $font-weight-medium;
     margin: $space-small 0;
@@ -51,7 +50,10 @@
 
   .has-attachment {
     overflow: hidden;
-    padding: 0;
+
+    :not([audio]) {
+      padding: 0;
+    }
 
     &.has-text {
       margin-top: $space-smaller;
@@ -98,11 +100,22 @@
       max-width: 100%;
     }
 
-    .in-progress {
+    .in-progress,
+    .is-failed {
       opacity: 0.6;
     }
-  }
 
+    .is-failed {
+      align-items: flex-end;
+      display: flex;
+      flex-direction: row-reverse;
+
+      .chat-bubble.user {
+        background: $color-error !important;
+        // TODO: Remove the important
+      }
+    }
+  }
 
   .user.has-attachment {
     .icon-wrap {
@@ -132,7 +145,6 @@
     margin-bottom: $space-normal;
   }
 }
-
 
 .unread-messages {
   display: flex;
@@ -192,10 +204,8 @@
   }
 }
 
-
 .chat-bubble {
   @include light-shadow;
-  background: $color-woot;
   border-radius: $space-two;
   color: $color-white;
   display: inline-block;
@@ -205,6 +215,10 @@
   padding: $space-slab $space-normal;
   text-align: left;
   word-break: break-word;
+
+  :not([audio]) {
+    max-width: 100%;
+  }
 
   > a {
     color: $color-primary;
@@ -224,7 +238,6 @@
   }
 
   &.agent {
-    background: $color-white;
     border-bottom-left-radius: $space-smaller;
     color: $color-body;
 

@@ -1,7 +1,7 @@
 <template>
-  <div class="column content-box">
-    <div class="row">
-      <div class="small-8 columns with-right-space ">
+  <div class="flex-1 overflow-auto p-4">
+    <div class="flex flex-row gap-4">
+      <div class="w-[60%]">
         <p v-if="!teamsList.length" class="no-items-error-message">
           {{ $t('TEAMS_SETTINGS.LIST.404') }}
           <router-link
@@ -27,25 +27,25 @@
                   >
                     <woot-button
                       v-if="isAdmin"
-                      variant="link"
+                      v-tooltip.top="$t('TEAMS_SETTINGS.LIST.EDIT_TEAM')"
+                      variant="smooth"
+                      size="tiny"
                       color-scheme="secondary"
                       class-names="grey-btn"
-                      icon="ion-gear-b"
-                    >
-                      {{ $t('TEAMS_SETTINGS.LIST.EDIT_TEAM') }}
-                    </woot-button>
+                      icon="settings"
+                    />
                   </router-link>
                   <woot-button
                     v-if="isAdmin"
-                    variant="link"
-                    color-scheme="secondary"
-                    icon="ion-close-circled"
+                    v-tooltip.top="$t('TEAMS_SETTINGS.DELETE.BUTTON_TEXT')"
+                    variant="smooth"
+                    color-scheme="alert"
+                    size="tiny"
+                    icon="dismiss-circle"
                     class-names="grey-btn"
                     :is-loading="loading[item.id]"
                     @click="openDelete(item)"
-                  >
-                    {{ $t('TEAMS_SETTINGS.DELETE.BUTTON_TEXT') }}
-                  </woot-button>
+                  />
                 </div>
               </td>
             </tr>
@@ -53,9 +53,9 @@
         </table>
       </div>
 
-      <div class="small-4 columns">
+      <div class="w-[34%]">
         <span
-          v-html="
+          v-dompurify-html="
             $t('TEAMS_SETTINGS.SIDEBAR_TXT', {
               installationName: globalConfig.installationName,
             })

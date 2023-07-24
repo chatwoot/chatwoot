@@ -15,6 +15,9 @@ class NotificationBuilder
 
   def user_subscribed_to_notification?
     notification_setting = user.notification_settings.find_by(account_id: account.id)
+    # added for the case where an assignee might be removed from the account but remains in conversation
+    return if notification_setting.blank?
+
     return true if notification_setting.public_send("email_#{notification_type}?")
     return true if notification_setting.public_send("push_#{notification_type}?")
 

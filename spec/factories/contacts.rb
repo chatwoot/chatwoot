@@ -3,8 +3,11 @@
 FactoryBot.define do
   factory :contact do
     sequence(:name) { |n| "Contact #{n}" }
-    avatar { fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png') }
     account
+
+    trait :with_avatar do
+      avatar { fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png') }
+    end
 
     trait :with_email do
       sequence(:email) { |n| "contact-#{n}@example.com" }

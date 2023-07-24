@@ -1,21 +1,43 @@
 <template>
-  <div class="conversation-details-wrap">
+  <div
+    class="conversation-details-wrap bg-slate-25 dark:bg-slate-800"
+    :class="{ 'with-border-right': !isOnExpandedLayout }"
+  >
     <conversation-header
       v-if="currentChat.id"
       :chat="currentChat"
       :is-contact-panel-open="isContactPanelOpen"
+      :show-back-button="isOnExpandedLayout"
       @contact-panel-toggle="onToggleContactPanel"
     />
-    <div class="messages-and-sidebar">
+    <woot-tabs
+      v-if="dashboardApps.length && currentChat.id"
+      :index="activeIndex"
+      class="dashboard-app--tabs bg-white dark:bg-slate-900 -mt-px"
+      @change="onDashboardAppTabChange"
+    >
+      <woot-tabs-item
+        v-for="tab in dashboardAppTabs"
+        :key="tab.key"
+        :name="tab.name"
+        :show-badge="false"
+      />
+    </woot-tabs>
+    <div
+      v-show="!activeIndex"
+      class="flex bg-slate-25 dark:bg-slate-800 m-0 h-full min-h-0"
+    >
       <messages-view
         v-if="currentChat.id"
         :inbox-id="inboxId"
         :is-contact-panel-open="isContactPanelOpen"
         @contact-panel-toggle="onToggleContactPanel"
       />
-      <empty-state v-else />
-
-      <div v-show="showContactPanel" class="conversation-sidebar-wrap">
+      <empty-state v-else :is-on-expanded-layout="isOnExpandedLayout" />
+      <div
+        v-show="showContactPanel"
+        class="conversation-sidebar-wrap basis-full sm:basis-[17.5rem] md:basis-[18.75rem] lg:basis-[19.375rem] xl:basis-[20.625rem] 2xl:basis-[25rem] rtl:border-r border-slate-50 dark:border-slate-700 h-auto overflow-auto z-10 flex-shrink-0 flex-grow-0"
+      >
         <contact-panel
           v-if="showContactPanel"
           :conversation-id="currentChat.id"
@@ -24,21 +46,31 @@
         />
       </div>
     </div>
+    <dashboard-app-frame
+      v-for="(dashboardApp, index) in dashboardApps"
+      v-show="activeIndex - 1 === index"
+      :key="currentChat.id + '-' + dashboardApp.id"
+      :is-visible="activeIndex - 1 === index"
+      :config="dashboardApps[index].content"
+      :current-chat="currentChat"
+    />
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
 import ContactPanel from 'dashboard/routes/dashboard/conversation/ContactPanel';
 import ConversationHeader from './ConversationHeader';
+import DashboardAppFrame from '../DashboardApp/Frame.vue';
 import EmptyState from './EmptyState';
 import MessagesView from './MessagesView';
 
 export default {
   components: {
-    EmptyState,
-    MessagesView,
     ContactPanel,
     ConversationHeader,
+    DashboardAppFrame,
+    EmptyState,
+    MessagesView,
   },
 
   props: {
@@ -51,9 +83,31 @@ export default {
       type: Boolean,
       default: true,
     },
+    isOnExpandedLayout: {
+      type: Boolean,
+      default: true,
+    },
+  },
+  data() {
+    return { activeIndex: 0 };
   },
   computed: {
-    ...mapGetters({ currentChat: 'getSelectedChat' }),
+    ...mapGetters({
+      currentChat: 'getSelectedChat',
+      dashboardApps: 'dashboardApps/getRecords',
+    }),
+    dashboardAppTabs() {
+      return [
+        {
+          key: 'messages',
+          name: this.$t('CONVERSATION.DASHBOARD_APP_TAB_MESSAGES'),
+        },
+        ...this.dashboardApps.map(dashboardApp => ({
+          key: `dashboard-${dashboardApp.id}`,
+          name: dashboardApp.title,
+        })),
+      ];
+    },
     showContactPanel() {
       return this.isContactPanelOpen && this.currentChat.id;
     },
@@ -61,15 +115,17 @@ export default {
   watch: {
     'currentChat.inbox_id'(inboxId) {
       if (inboxId) {
-        this.$store.dispatch('inboxAssignableAgents/fetch', { inboxId });
+        this.$store.dispatch('inboxAssignableAgents/fetch', [inboxId]);
       }
     },
     'currentChat.id'() {
       this.fetchLabels();
+      this.activeIndex = 0;
     },
   },
   mounted() {
     this.fetchLabels();
+    this.$store.dispatch('dashboardApps/get');
   },
   methods: {
     fetchLabels() {
@@ -81,56 +137,34 @@ export default {
     onToggleContactPanel() {
       this.$emit('contact-panel-toggle');
     },
+    onDashboardAppTabChange(index) {
+      this.activeIndex = index;
+    },
   },
 };
 </script>
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/woot';
-
 .conversation-details-wrap {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  width: 100%;
-  border-left: 1px solid var(--color-border);
-  background: var(--color-background-light);
+  @apply flex flex-col min-w-0 w-full;
+
+  &.with-border-right {
+    @apply border-r border-slate-50 dark:border-slate-700;
+  }
 }
 
-.messages-and-sidebar {
-  display: flex;
-  background: var(--color-background-light);
-  margin: 0;
-  height: calc(100vh - var(--space-jumbo));
+.dashboard-app--tabs {
+  ::v-deep {
+    .tabs-title {
+      a {
+        @apply pb-2 pt-1;
+      }
+    }
+  }
 }
 
 .conversation-sidebar-wrap {
-  height: auto;
-  flex: 0 0;
-  overflow: hidden;
-  overflow: auto;
-  background: white;
-  flex-basis: 28rem;
-
-  @include breakpoint(large up) {
-    flex-basis: 30em;
-  }
-
-  @include breakpoint(xlarge up) {
-    flex-basis: 31em;
-  }
-
-  @include breakpoint(xxlarge up) {
-    flex-basis: 33rem;
-  }
-
-  @include breakpoint(xxxlarge up) {
-    flex-basis: 40rem;
-  }
-
   &::v-deep .contact--panel {
-    width: 100%;
-    height: 100%;
-    max-width: 100%;
+    @apply w-full h-full max-w-full;
   }
 }
 </style>

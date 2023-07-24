@@ -1,57 +1,116 @@
 <template>
   <div class="message-text--metadata">
-    <span class="time">{{ readableTime }}</span>
-    <span v-if="showSentIndicator" class="time">
-      <i
-        v-tooltip.top-start="$t('CHAT_LIST.SENT')"
-        class="icon ion-checkmark"
+    <span
+      class="time"
+      :class="{
+        'has-status-icon':
+          showSentIndicator || showDeliveredIndicator || showReadIndicator,
+      }"
+    >
+      {{ readableTime }}
+    </span>
+    <span v-if="externalError" class="read-indicator-wrap">
+      <fluent-icon
+        v-tooltip.top-start="externalError"
+        icon="error-circle"
+        class="action--icon"
+        size="14"
       />
     </span>
-    <i
+    <span v-if="showReadIndicator" class="read-indicator-wrap">
+      <fluent-icon
+        v-tooltip.top-start="$t('CHAT_LIST.MESSAGE_READ')"
+        icon="checkmark-double"
+        class="action--icon read-tick read-indicator"
+        size="14"
+      />
+    </span>
+    <span v-else-if="showDeliveredIndicator" class="read-indicator-wrap">
+      <fluent-icon
+        v-tooltip.top-start="$t('CHAT_LIST.DELIVERED')"
+        icon="checkmark-double"
+        class="action--icon read-tick"
+        size="14"
+      />
+    </span>
+    <span v-else-if="showSentIndicator" class="read-indicator-wrap">
+      <fluent-icon
+        v-tooltip.top-start="$t('CHAT_LIST.SENT')"
+        icon="checkmark"
+        class="action--icon read-tick"
+        size="14"
+      />
+    </span>
+    <fluent-icon
       v-if="isEmail"
       v-tooltip.top-start="$t('CHAT_LIST.RECEIVED_VIA_EMAIL')"
-      class="ion ion-android-mail"
+      icon="mail"
+      class="action--icon"
+      size="16"
     />
-    <i
+    <fluent-icon
       v-if="isPrivate"
       v-tooltip.top-start="$t('CONVERSATION.VISIBLE_TO_AGENTS')"
-      class="icon ion-android-lock"
+      icon="lock-closed"
+      class="action--icon lock--icon--private"
+      size="16"
       @mouseenter="isHovered = true"
       @mouseleave="isHovered = false"
     />
-    <i
+    <button
       v-if="isATweet && (isIncoming || isOutgoing) && sourceId"
-      v-tooltip.top-start="$t('CHAT_LIST.REPLY_TO_TWEET')"
-      class="icon ion-reply cursor-pointer"
       @click="onTweetReply"
-    />
+    >
+      <fluent-icon
+        v-tooltip.top-start="$t('CHAT_LIST.REPLY_TO_TWEET')"
+        icon="arrow-reply"
+        class="action--icon cursor-pointer"
+        size="16"
+      />
+    </button>
     <a
       v-if="isATweet && (isOutgoing || isIncoming) && linkToTweet"
       :href="linkToTweet"
       target="_blank"
       rel="noopener noreferrer nofollow"
     >
-      <i
+      <fluent-icon
         v-tooltip.top-start="$t('CHAT_LIST.VIEW_TWEET_IN_TWITTER')"
-        class="icon ion-android-open cursor-pointer"
+        icon="open"
+        class="action--icon cursor-pointer"
+        size="16"
       />
     </a>
   </div>
 </template>
 
 <script>
-import { MESSAGE_TYPE } from 'shared/constants/messages';
+import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import inboxMixin from 'shared/mixins/inboxMixin';
+import { mapGetters } from 'vuex';
+import timeMixin from '../../../../mixins/time';
 
 export default {
-  mixins: [inboxMixin],
+  mixins: [inboxMixin, timeMixin],
   props: {
     sender: {
       type: Object,
       default: () => ({}),
     },
-    readableTime: {
+    createdAt: {
+      type: Number,
+      default: 0,
+    },
+    storySender: {
+      type: String,
+      default: '',
+    },
+    externalError: {
+      type: String,
+      default: '',
+    },
+    storyId: {
       type: String,
       default: '',
     },
@@ -67,9 +126,17 @@ export default {
       type: Boolean,
       default: true,
     },
+    hasInstagramStory: {
+      type: Boolean,
+      default: true,
+    },
     messageType: {
       type: Number,
       default: 1,
+    },
+    messageStatus: {
+      type: String,
+      default: '',
     },
     sourceId: {
       type: String,
@@ -85,6 +152,7 @@ export default {
     },
   },
   computed: {
+    ...mapGetters({ currentChat: 'getSelectedChat' }),
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.inboxId);
     },
@@ -93,6 +161,21 @@ export default {
     },
     isOutgoing() {
       return MESSAGE_TYPE.OUTGOING === this.messageType;
+    },
+    isTemplate() {
+      return MESSAGE_TYPE.TEMPLATE === this.messageType;
+    },
+    isDelivered() {
+      return MESSAGE_STATUS.DELIVERED === this.messageStatus;
+    },
+    isRead() {
+      return MESSAGE_STATUS.READ === this.messageStatus;
+    },
+    isSent() {
+      return MESSAGE_STATUS.SENT === this.messageStatus;
+    },
+    readableTime() {
+      return this.messageTimestamp(this.createdAt, 'LLL d, h:mm a');
     },
     screenName() {
       const { additional_attributes: additionalAttributes = {} } =
@@ -107,8 +190,59 @@ export default {
       return `https://twitter.com/${screenName ||
         this.inbox.name}/status/${sourceId}`;
     },
+    linkToStory() {
+      if (!this.storyId || !this.storySender) {
+        return '';
+      }
+      const { storySender, storyId } = this;
+      return `https://www.instagram.com/stories/direct/${storySender}_${storyId}`;
+    },
+    showStatusIndicators() {
+      if ((this.isOutgoing || this.isTemplate) && !this.isPrivate) {
+        return true;
+      }
+      return false;
+    },
     showSentIndicator() {
-      return this.isOutgoing && this.sourceId && this.isAnEmailChannel;
+      if (!this.showStatusIndicators) {
+        return false;
+      }
+
+      if (this.isAnEmailChannel) {
+        return !!this.sourceId;
+      }
+
+      if (this.isAWhatsAppChannel) {
+        return this.sourceId && this.isSent;
+      }
+      return false;
+    },
+    showDeliveredIndicator() {
+      if (!this.showStatusIndicators) {
+        return false;
+      }
+
+      if (this.isAWhatsAppChannel) {
+        return this.sourceId && this.isDelivered;
+      }
+
+      return false;
+    },
+    showReadIndicator() {
+      if (!this.showStatusIndicators) {
+        return false;
+      }
+
+      if (this.isAWebWidgetInbox) {
+        const { contact_last_seen_at: contactLastSeenAt } = this.currentChat;
+        return contactLastSeenAt >= this.createdAt;
+      }
+
+      if (this.isAWhatsAppChannel) {
+        return this.sourceId && this.isRead;
+      }
+
+      return false;
     },
   },
   methods: {
@@ -120,63 +254,59 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/woot';
-
 .right {
   .message-text--metadata {
+    @apply items-center;
     .time {
-      color: var(--w-100);
+      @apply text-woot-100 dark:text-woot-100;
     }
-  }
 
-  .icon {
-    color: var(--white);
+    .action--icon {
+      @apply text-white dark:text-white;
+
+      &.read-tick {
+        @apply text-violet-100 dark:text-violet-100;
+      }
+
+      &.read-indicator {
+        @apply text-green-200 dark:text-green-200;
+      }
+    }
+
+    .lock--icon--private {
+      @apply text-slate-400 dark:text-slate-400;
+    }
   }
 }
 
 .left {
   .message-text--metadata {
     .time {
-      color: var(--s-400);
+      @apply text-slate-400 dark:text-slate-200;
     }
   }
 }
 
 .message-text--metadata {
-  align-items: flex-end;
-  display: flex;
+  @apply items-start flex;
 
   .time {
-    margin-right: var(--space-small);
-    display: block;
-    font-size: var(--font-size-micro);
-    line-height: 1.8;
+    @apply mr-2 block text-xxs leading-[1.8];
   }
 
-  i {
-    line-height: 1.4;
-    padding-right: var(--space-small);
-    padding-left: var(--space-small);
-    color: var(--s-900);
+  .action--icon {
+    @apply mr-2 ml-2 text-slate-900 dark:text-slate-100;
   }
 
   a {
-    color: var(--s-900);
+    @apply text-slate-900 dark:text-slate-100;
   }
 }
 
 .activity-wrap {
   .message-text--metadata {
     .time {
-      color: var(--s-300);
-      display: flex;
-      text-align: center;
-      font-size: var(--font-size-micro);
-      margin-left: 0;
-
-      @include breakpoint(xlarge up) {
-        margin-left: var(--space-small);
-      }
+      @apply ml-2 rtl:mr-2 rtl:ml-0 flex text-center text-xxs text-slate-300 dark:text-slate-200;
     }
   }
 }
@@ -185,25 +315,28 @@ export default {
 .is-video {
   .message-text--metadata {
     .time {
-      bottom: var(--space-smaller);
-      color: var(--white);
-      position: absolute;
-      right: var(--space-small);
-      white-space: nowrap;
+      @apply bottom-1 text-white dark:text-slate-50 absolute right-2 whitespace-nowrap;
+
+      &.has-status-icon {
+        @apply right-8 leading-loose;
+      }
+    }
+    .read-tick {
+      @apply absolute bottom-2 right-2;
     }
   }
 }
 
 .is-private {
   .message-text--metadata {
-    align-items: flex-end;
+    @apply items-center;
 
     .time {
-      color: var(--s-400);
+      @apply text-slate-400 dark:text-slate-400;
     }
 
     .icon {
-      color: var(--s-400);
+      @apply text-slate-400 dark:text-slate-400;
     }
   }
 
@@ -211,12 +344,16 @@ export default {
   &.is-video {
     .time {
       position: inherit;
-      padding-left: var(--space-one);
+      @apply pl-2.5;
     }
   }
 }
 
 .delivered-icon {
-  margin-left: -var(--space-normal);
+  @apply ml-4;
+}
+
+.read-indicator-wrap {
+  @apply leading-none flex items-center;
 }
 </style>

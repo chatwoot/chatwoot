@@ -21,27 +21,82 @@ ml:
   messages:
     reset_password_success: Woot! പാസ്‌വേഡ് പുനസജ്ജീകരണത്തിനുള്ള അഭ്യർത്ഥന വിജയകരമാണ്. നിർദ്ദേശങ്ങൾക്കായി നിങ്ങളുടെ മെയിൽ പരിശോധിക്കുക.
     reset_password_failure: ക്ഷമിക്കണം! നിർദ്ദിഷ്ട ഇമെയിൽ ഉള്ള ഒരു ഉപയോക്താവിനെയും ഞങ്ങൾക്ക് കണ്ടെത്താൻ കഴിഞ്ഞില്ല.
+    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
+    validations:
+      presence: must not be blank
+    webhook:
+      invalid: Invalid events
     signup:
       disposable_email: ഡിസ്പോസിബിൾ ഇമെയിലുകൾ ഞങ്ങൾ അനുവദിക്കുന്നില്ല
       invalid_email: നിങ്ങൾ ഒരു അസാധുവായ ഇമെയിൽ നൽകി
       email_already_exists: "നിങ്ങൾ ഇതിനകം ഈ %{email} ഉപയോഗിച്ചു ഒരു അക്കൗണ്ടിനായി സൈൻ അപ്പ് ചെയ്തു"
       failed: സൈനപ്പ് പരാജയപ്പെട്ടു
+    data_import:
+      data_type:
+        invalid: Invalid data type
     contacts:
       import:
         failed: File is blank
+      export:
+        success: We will notify you once contacts export file is ready to view.
+      email:
+        invalid: Invalid email
+      phone_number:
+        invalid: should be in e164 format
+    categories:
+      locale:
+        unique: should be unique in the category and portal
+    dyte:
+      invalid_message_type: "Invalid message type. Action not permitted"
+    inboxes:
+      imap:
+        socket_error: Please check the network connection, IMAP address and try again.
+        no_response_error: Please check the IMAP credentials and try again.
+        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
+        connection_timed_out_error: Connection timed out for %{address}:%{port}
+        connection_closed_error: Connection closed.
+      validations:
+        name: should not start or end with symbols, and it should not have < > / \ @ characters.
+    custom_filters:
+      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
   reports:
     period: Reporting period %{since} to %{until}
+    utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Agent name
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
-    team_csv:
-      team_name: Team name
-      conversations_count: Conversations count
+    inbox_csv:
+      inbox_name: Inbox name
+      inbox_type: Inbox type
+      conversations_count: No. of conversations
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
+    label_csv:
+      label_title: Label
+      conversations_count: No. of conversations
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
+    team_csv:
+      team_name: ടീമിന്റെ പേര്
+      conversations_count: സംഭാഷണങ്ങളുടെ എണ്ണം
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
+    conversation_traffic_csv:
+      timezone: Timezone
+    default_group_by: ദിവസം
+    csat:
+      headers:
+        contact_name: Contact Name
+        contact_email_address: Contact Email Address
+        contact_phone_number: Contact Phone Number
+        link_to_the_conversation: Link to the conversation
+        agent_name: ഏജന്റിന്റെ പേര്
+        rating: റേറ്റിംഗ്
+        feedback: Feedback Comment
+        recorded_at: Recorded date
   notifications:
     notification_title:
       conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
@@ -50,14 +105,22 @@ ml:
       conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
   conversations:
     messages:
-      deleted: This message was deleted
+      instagram_story_content: "%{story_sender} mentioned you in the story: "
+      instagram_deleted_story_content: This story is no longer available.
+      deleted: ഈ സന്ദേശം ഇല്ലാതാക്കി
     activity:
       status:
         resolved: "സംഭാഷണം %{user_name} പരിഹരിച്ചതായി അടയാളപ്പെടുത്തി"
+        contact_resolved: "Conversation was resolved by %{contact_name}"
         open: "സംഭാഷണം %{user_name} വീണ്ടും തുറന്നു"
-        pending: "Conversation was marked as pending by %{user_name}"
+        pending: "%{user_name} സംഭാഷണം തീർച്ചപ്പെടുത്താത്തതായി അടയാളപ്പെടുത്തി"
         snoozed: "Conversation was snoozed by %{user_name}"
         auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
+        system_auto_open: System reopened the conversation due to a new incoming message.
+      priority:
+        added: '%{user_name} set the priority to %{new_priority}'
+        updated: '%{user_name} changed the priority from %{old_priority} to %{new_priority}'
+        removed: '%{user_name} removed the priority'
       assignee:
         self_assigned: "%{user_name} self-assigned this conversation"
         assigned: "%{assignee_name} %{user_name}-നെ നിയുക്തനാക്കി "
@@ -77,6 +140,14 @@ ml:
       email_input_box_message_body: "ഇമെയിൽ വഴി അറിയിപ്പ് നേടുക"
       csat_input_message_body: "Please rate the conversation"
     reply:
+      email:
+        header:
+          from_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} from %{inbox_name} <reply+%{reply_email}>"
+      channel_email:
+        header:
+          reply_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "ഈ സംഭാഷണത്തിലെ പുതിയ സന്ദേശങ്ങൾ"
       transcript_subject: "സംഭാഷണ ട്രാൻസ്ക്രിപ്റ്റ്"
     survey:
@@ -85,6 +156,10 @@ ml:
     online:
       delete: "%{contact_name} is Online, please try again later"
   integration_apps:
+    dyte:
+      name: "Dyte"
+      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
+      meeting_name: "%{agent_name} has started a meeting"
     slack:
       name: "Slack"
       description: "Slack is a chat tool that brings all your communication together in one place. By integrating Slack, you can get notified of all the new conversations in your account right inside your Slack."
@@ -97,3 +172,29 @@ ml:
     fullcontact:
       name: "Fullcontact"
       description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
+    google_translate:
+      name: "Google Translate"
+      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
+    openai:
+      name: "OpenAI"
+      description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
+  public_portal:
+    search:
+      search_placeholder: Search for article by title or body...
+      empty_placeholder: ഒരു ഫലവും കണ്ടെത്താനായില്ല.
+      loading_placeholder: Searching...
+      results_title: Search results
+    toc_header: 'On this page'
+    hero:
+      sub_title: Search for the articles here or browse the categories below.
+    common:
+      home: ഹോം
+      last_updated_on: Last updated on %{last_updated_on}
+      view_all_articles: View all articles
+      article: article
+      articles: articles
+      no_articles: There are no articles here
+    footer:
+      made_with: Made with
+    header:
+      go_to_homepage: Go to the main site

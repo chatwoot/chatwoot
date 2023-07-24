@@ -7,37 +7,17 @@
       "404": "Tässä ryhmässä ei ole aktiivisia keskusteluja."
     },
     "TAB_HEADING": "Keskustelut",
+    "MENTION_HEADING": "Mentions",
+    "UNATTENDED_HEADING": "Unattended",
     "SEARCH": {
       "INPUT": "Etsi ihmisiä, keskusteluita, tallennettuja vastauksia..."
     },
     "FILTER_ALL": "Kaikki",
-    "STATUS_TABS": [
-      {
-        "NAME": "Avaa",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Ratkaistu",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Minun",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Osoittamaton",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Kaikki",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Minun",
+      "unassigned": "Osoittamaton",
+      "all": "Kaikki"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Avaa"
@@ -50,41 +30,80 @@
       },
       "snoozed": {
         "TEXT": "Snoozed"
+      },
+      "all": {
+        "TEXT": "Kaikki"
+      }
+    },
+    "VIEW_FILTER": "Näytä",
+    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "CHAT_SORT": {
+      "STATUS": "Tila",
+      "ORDER_BY": "Order by"
+    },
+    "CHAT_SORT_FILTER_ITEMS": {
+      "latest": {
+        "TEXT": "Last activity"
+      },
+      "sort_on_created_at": {
+        "TEXT": "Created at"
+      },
+      "sort_on_priority": {
+        "TEXT": "Priority"
+      },
+      "sort_on_waiting_since": {
+        "TEXT": "Pending Response"
       }
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Kuvaviesti"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Ääniviesti"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Videoviesti"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Liite"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Sijainti"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "on jakanut URL-osoitteen"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Sort conversation",
+      "DROPDOWN_TITLE": "Sort by",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Last activity at",
+          "LABEL": "Last activity"
+        },
+        "CREATED_AT": {
+          "NAME": "Created at",
+          "LABEL": "Created at"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Last user message at",
+          "LABEL": "Last message"
+        }
       }
     },
     "RECEIVED_VIA_EMAIL": "Vastaanotettu sähköpostitse",
     "VIEW_TWEET_IN_TWITTER": "Näytä twiitti Twitterissä",
     "REPLY_TO_TWEET": "Vastaa tähän twiittiin",
+    "LINK_TO_STORY": "Go to instagram story",
     "SENT": "Sent successfully",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
     "NO_MESSAGES": "Ei Viestejä",
     "NO_CONTENT": "No content available",
     "HIDE_QUOTED_TEXT": "Hide Quoted Text",
-    "SHOW_QUOTED_TEXT": "Show Quoted Text"
+    "SHOW_QUOTED_TEXT": "Show Quoted Text",
+    "MESSAGE_READ": "Read"
   }
 }

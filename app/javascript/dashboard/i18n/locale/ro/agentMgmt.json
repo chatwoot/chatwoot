@@ -55,7 +55,7 @@
         "TITLE": "Confirmă ștergerea",
         "MESSAGE": "Sigur doriți să ștergeți ",
         "YES": "Da, șterge ",
-        "NO": "Nu, păstreaza"
+        "NO": "Nu, păstreaza "
       }
     },
     "EDIT": {
@@ -74,6 +74,11 @@
           "LABEL": "Adresa Email",
           "PLACEHOLDER": "Vă rugăm să introduceți o adresă de e-mail a agentului"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Disponibilitate",
+          "PLACEHOLDER": "Vă rugăm să selectați o stare de disponibilitate",
+          "ERROR": "Disponibilitatea este necesară"
+        },
         "SUBMIT": "Editează agent"
       },
       "BUTTON_TEXT": "Editare",
@@ -90,22 +95,23 @@
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "No results found."
+      "NO_RESULTS": "Niciun rezultat găsit."
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "None",
+      "PLACEHOLDER": "Nimic",
       "TITLE": {
-        "AGENT": "Select agent",
-        "TEAM": "Select team"
+        "AGENT": "Selectați agentul",
+        "TEAM": "Selectați echipa"
       },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "Niciun agent găsit",
-          "TEAM": "No teams found"
+          "TEAM": "Nu au fost găsite echipe"
         },
         "PLACEHOLDER": {
-          "AGENT": "Search agents",
-          "TEAM": "Search teams"
+          "AGENT": "Agenți de căutare",
+          "TEAM": "Echipele de căutare",
+          "INPUT": "Căutare agenți"
         }
       }
     }

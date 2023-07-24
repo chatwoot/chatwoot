@@ -11,7 +11,7 @@ class Rack::Attack
   # Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
 
   # https://github.com/rack/rack-attack/issues/102
-  Rack::Attack.cache.store = Rack::Attack::StoreProxy::RedisProxy.new($velma)
+  Rack::Attack.cache.store = ActiveSupport::Cache::RedisCacheStore.new(redis: $velma)
 
   class Request < ::Rack::Request
     # You many need to specify a method to fetch the correct remote IP address
@@ -23,6 +23,12 @@ class Rack::Attack
     def allowed_ip?
       allowed_ips = ['127.0.0.1', '::1']
       allowed_ips.include?(remote_ip)
+    end
+
+    # Rails would allow requests to paths with extentions, so lets compare against the path with extention stripped
+    # example /auth & /auth.json would both work
+    def path_without_extentions
+      path[/^[^.]+/]
     end
   end
 
@@ -42,29 +48,33 @@ class Rack::Attack
 
   throttle('req/ip', limit: 300, period: 1.minute, &:ip)
 
-  ### Prevent Brute-Force Login Attacks ###
-  throttle('login/ip', limit: 5, period: 20.seconds) do |req|
-    req.ip if req.path == '/auth/sign_in' && req.post?
+  ###-----------------------------------------------###
+  ###-----Authentication Related Throttling---------###
+  ###-----------------------------------------------###
+
+  ### Prevent Brute-Force Super Admin Login Attacks ###
+  throttle('super_admin_login/ip', limit: 5, period: 5.minutes) do |req|
+    req.ip if req.path_without_extentions == '/super_admin/sign_in' && req.post?
   end
 
-  ## Prevent Brute-Force Signup Attacks ###
-  throttle('accounts/ip', limit: 5, period: 5.minutes) do |req|
-    req.ip if req.path == '/api/v1/accounts' && req.post?
+  throttle('super_admin_login/email', limit: 5, period: 15.minutes) do |req|
+    if req.path_without_extentions == '/super_admin/sign_in' && req.post?
+      # NOTE: This line used to throw ArgumentError /rails/action_mailbox/sendgrid/inbound_emails : invalid byte sequence in UTF-8
+      # Hence placed in the if block
+      # ref: https://github.com/rack/rack-attack/issues/399
+      email = req.params['email'].presence || ActionDispatch::Request.new(req.env).params['email'].presence
+      email.to_s.downcase.gsub(/\s+/, '')
+    end
   end
 
-  ## Prevent Conversation Bombing on Widget APIs ###
-  throttle('api/v1/widget/conversations', limit: 6, period: 12.hours) do |req|
-    req.ip if req.path == '/api/v1/widget/conversations' && req.post?
+  # ### Prevent Brute-Force Login Attacks ###
+  throttle('login/ip', limit: 5, period: 5.minutes) do |req|
+    req.ip if req.path_without_extentions == '/auth/sign_in' && req.post?
   end
 
-  ## Prevent Contact update Bombing in Widget API ###
-  throttle('api/v1/widget/contacts', limit: 60, period: 1.hour) do |req|
-    req.ip if req.path == '/api/v1/widget/contacts' && (req.patch? || req.put?)
-  end
-
-  # ref: https://github.com/rack/rack-attack/issues/399
-  throttle('login/email', limit: 20, period: 5.minutes) do |req|
-    if req.path == '/auth/sign_in' && req.post?
+  throttle('login/email', limit: 10, period: 15.minutes) do |req|
+    if req.path_without_extentions == '/auth/sign_in' && req.post?
+      # ref: https://github.com/rack/rack-attack/issues/399
       # NOTE: This line used to throw ArgumentError /rails/action_mailbox/sendgrid/inbound_emails : invalid byte sequence in UTF-8
       # Hence placed in the if block
       email = req.params['email'].presence || ActionDispatch::Request.new(req.env).params['email'].presence
@@ -72,17 +82,62 @@ class Rack::Attack
     end
   end
 
+  ## Reset password throttling
+  throttle('reset_password/ip', limit: 5, period: 30.minutes) do |req|
+    req.ip if req.path_without_extentions == '/auth/password' && req.post?
+  end
+
   throttle('reset_password/email', limit: 5, period: 1.hour) do |req|
-    if req.path == '/auth/password' && req.post?
+    if req.path_without_extentions == '/auth/password' && req.post?
       email = req.params['email'].presence || ActionDispatch::Request.new(req.env).params['email'].presence
       email.to_s.downcase.gsub(/\s+/, '')
     end
   end
+
+  ## Prevent Brute-Force Signup Attacks ###
+  throttle('accounts/ip', limit: 5, period: 30.minutes) do |req|
+    req.ip if req.path_without_extentions == '/api/v1/accounts' && req.post?
+  end
+
+  ##-----------------------------------------------##
+
+  ###-----------------------------------------------###
+  ###-----------Widget API Throttling---------------###
+  ###-----------------------------------------------###
+
+  ## Prevent Conversation Bombing on Widget APIs ###
+  throttle('api/v1/widget/conversations', limit: 6, period: 12.hours) do |req|
+    req.ip if req.path_without_extentions == '/api/v1/widget/conversations' && req.post?
+  end
+
+  ## Prevent Contact update Bombing in Widget API ###
+  throttle('api/v1/widget/contacts', limit: 60, period: 1.hour) do |req|
+    req.ip if req.path_without_extentions == '/api/v1/widget/contacts' && (req.patch? || req.put?)
+  end
+
+  ## Prevent Conversation Bombing through multiple sessions
+  throttle('widget?website_token={website_token}&cw_conversation={x-auth-token}', limit: 5, period: 1.hour) do |req|
+    req.ip if req.path_without_extentions == '/widget' && ActionDispatch::Request.new(req.env).params['cw_conversation'].blank?
+  end
+
+  ##-----------------------------------------------##
+
+  ###-----------------------------------------------###
+  ###----------Application API Throttling-----------###
+  ###-----------------------------------------------###
+
+  ## Prevent Abuse of Converstion Transcript APIs ###
+  throttle('/api/v1/accounts/:account_id/conversations/:conversation_id/transcript', limit: 20, period: 1.hour) do |req|
+    match_data = %r{/api/v1/accounts/(?<account_id>\d+)/conversations/(?<conversation_id>\d+)/transcript}.match(req.path)
+    match_data[:account_id] if match_data.present?
+  end
+
+  ## ----------------------------------------------- ##
 end
 
 # Log blocked events
 ActiveSupport::Notifications.subscribe('throttle.rack_attack') do |_name, _start, _finish, _request_id, payload|
-  Rails.logger.info "[Rack::Attack][Blocked] remote_ip: \"#{payload[:request].remote_ip}\", path: \"#{payload[:request].path}\""
+  Rails.logger.warn "[Rack::Attack][Blocked] remote_ip: \"#{payload[:request].remote_ip}\", path: \"#{payload[:request].path}\""
 end
 
 Rack::Attack.enabled = Rails.env.production? ? ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_RACK_ATTACK', true)) : false

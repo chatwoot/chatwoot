@@ -1,0 +1,76 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Sagatavotās Atbildes",
+    "HEADER_BTN_TXT": "Pievienot Sagatavoto Atbildi",
+    "LOADING": "Sagatavoto Atbilžu Iegūšana",
+    "SEARCH_404": "Šim vaicājumam nav atbilstošu vienumu",
+    "SIDEBAR_TXT": "<p><b>Sagatavotās Atbildes</b> </p><p> Sagatavotās Atbildes ir saglabātas atbilžu veidnes, kuras var izmantot, lai ātri nosūtītu atbildi uz sarunu. </p><p> Lai izveidotu sagatavotu atbildi, noklikšķiniet uz <b>Pievienot Sagatavoto Atbildi</b>. Jūs varat arī rediģēt vai dzēst esošas Sagatavotās Atbildes noklikšķinot uz pogas Rediģēt vai Dzēst </p><p> Sagatavotās atbildes tiek izmantotas ar <b>Īso Kodu</b> palīdzību. Aģenti var piekļūt sagatavotajām atbildēm tērzēšanas laikā, rakstot <b>'/'</b> kam seko īsais kods. </p>",
+    "LIST": {
+      "404": "Šajā kontā nav pieejama neviena sagatavota atbilde.",
+      "TITLE": "Pārvaldīt sagatavotās atbildes",
+      "DESC": "Sagatavotās Atbildes ir iepriekš definētas atbilžu veidnes, kuras var izmantot, lai ātri nosūtītu atbildes uz biļetēm.",
+      "TABLE_HEADER": [
+        "Īsais Kods",
+        "Saturs",
+        "Darbības"
+      ]
+    },
+    "ADD": {
+      "TITLE": "Pievienot Sagatavoto Atbildi",
+      "DESC": "Sagatavotās Atbildes ir saglabātas atbilžu veidnes, kuras var izmantot, lai ātri nosūtītu atbildes uz sarunu.",
+      "CANCEL_BUTTON_TEXT": "Atcelt",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Īsais Kods",
+          "PLACEHOLDER": "Lūdzu, ievadiet īso kodu",
+          "ERROR": "Nepieciešams īsais kods"
+        },
+        "CONTENT": {
+          "LABEL": "Saturs",
+          "PLACEHOLDER": "Lūdzu, ievadiet saturu",
+          "ERROR": "Nepieciešams saturs"
+        },
+        "SUBMIT": "Iesniegt"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Sagatavotā Atbilde ir veiksmīgi pievienota",
+        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Rediģēt Sagatavoto Atbildi",
+      "CANCEL_BUTTON_TEXT": "Atcelt",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Īsais Kods",
+          "PLACEHOLDER": "Lūdzu, ievadiet īskodu",
+          "ERROR": "Nepieciešams īsais kods"
+        },
+        "CONTENT": {
+          "LABEL": "Saturs",
+          "PLACEHOLDER": "Lūdzu, ievadiet saturu",
+          "ERROR": "Nepieciešams saturs"
+        },
+        "SUBMIT": "Iesniegt"
+      },
+      "BUTTON_TEXT": "Rediģēt",
+      "API": {
+        "SUCCESS_MESSAGE": "Sagatavotā Atbilde ir veiksmīgi atjaunināta",
+        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Dzēst",
+      "API": {
+        "SUCCESS_MESSAGE": "Sagatavotā Atbilde ir veiksmīgi izdzēsta",
+        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+      },
+      "CONFIRM": {
+        "TITLE": "Apstiprināt Dzēšanu",
+        "MESSAGE": "Vai vēlaties izdzēst ",
+        "YES": "Jā, Dzēst ",
+        "NO": "Nē, Paturēt "
+      }
+    }
+  }
+}

@@ -28,4 +28,10 @@ module CustomExceptions::Account
       I18n.t 'errors.signup.failed'
     end
   end
+
+  class PlanUpgradeRequired < CustomExceptions::Base
+    def message
+      I18n.t 'errors.plan_upgrade_required.failed'
+    end
+  end
 end

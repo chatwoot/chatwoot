@@ -1,13 +1,16 @@
 <template>
-  <div class="wizard-body small-9 columns">
+  <div class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%]">
     <page-header
       :header-title="$t('INBOX_MGMT.ADD.WHATSAPP.TITLE')"
       :header-content="$t('INBOX_MGMT.ADD.WHATSAPP.DESC')"
     />
-    <div class="medium-8 columns">
+    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
       <label>
         {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.LABEL') }}
         <select v-model="provider">
+          <option value="whatsapp_cloud">
+            {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD') }}
+          </option>
           <option value="twilio">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.TWILIO') }}
           </option>
@@ -18,8 +21,9 @@
       </label>
     </div>
 
-    <twilio v-if="provider === 'twilio'" type="whatsapp"></twilio>
-    <three-sixty-dialog-whatsapp v-else />
+    <twilio v-if="provider === 'twilio'" type="whatsapp" />
+    <three-sixty-dialog-whatsapp v-else-if="provider === '360dialog'" />
+    <cloud-whatsapp v-else />
   </div>
 </template>
 
@@ -27,16 +31,18 @@
 import PageHeader from '../../SettingsSubPageHeader';
 import Twilio from './Twilio';
 import ThreeSixtyDialogWhatsapp from './360DialogWhatsapp';
+import CloudWhatsapp from './CloudWhatsapp';
 
 export default {
   components: {
     PageHeader,
     Twilio,
     ThreeSixtyDialogWhatsapp,
+    CloudWhatsapp,
   },
   data() {
     return {
-      provider: 'twilio',
+      provider: 'whatsapp_cloud',
     };
   },
 };

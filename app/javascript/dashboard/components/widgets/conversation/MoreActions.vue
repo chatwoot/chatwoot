@@ -1,23 +1,26 @@
 <template>
-  <div class="flex-container actions--container">
+  <div class="flex actions--container relative items-center gap-2">
     <woot-button
       v-if="!currentChat.muted"
       v-tooltip="$t('CONTACT_PANEL.MUTE_CONTACT')"
-      class="hollow secondary actions--button"
-      icon="ion-volume-mute"
+      variant="clear"
+      color-scheme="secondary"
+      icon="speaker-mute"
       @click="mute"
     />
     <woot-button
       v-else
       v-tooltip.left="$t('CONTACT_PANEL.UNMUTE_CONTACT')"
-      class="hollow secondary actions--button"
-      icon="ion-volume-medium"
+      variant="clear"
+      color-scheme="secondary"
+      icon="speaker-1"
       @click="unmute"
     />
     <woot-button
       v-tooltip="$t('CONTACT_PANEL.SEND_TRANSCRIPT')"
-      class="hollow secondary actions--button"
-      icon="ion-share"
+      variant="clear"
+      color-scheme="secondary"
+      icon="share"
       @click="toggleEmailActionsModal"
     />
     <resolve-action
@@ -79,40 +82,20 @@ export default {
     },
     toggleEmailActionsModal() {
       this.showEmailActionsModal = !this.showEmailActionsModal;
-      this.hideConversationActions();
     },
   },
 };
 </script>
 <style scoped lang="scss">
-.actions--container {
-  align-items: center;
-
-  .button {
-    font-size: var(--font-size-large);
-    margin-right: var(--space-small);
-    border-color: var(--color-border);
-    color: var(--s-400);
-  }
-}
-
 .more--button {
-  align-items: center;
-  display: flex;
-  margin-left: var(--space-small);
-}
-
-.actions--container {
-  position: relative;
+  @apply items-center flex ml-2 rtl:ml-0 rtl:mr-2;
 }
 
 .dropdown-pane {
-  right: var(--space-minus-small);
-  top: 48px;
+  @apply -right-2 top-12;
 }
 
 .icon {
-  margin-right: var(--space-smaller);
-  min-width: var(--space-normal);
+  @apply mr-1 rtl:mr-0 rtl:ml-1 min-w-[1rem];
 }
 </style>

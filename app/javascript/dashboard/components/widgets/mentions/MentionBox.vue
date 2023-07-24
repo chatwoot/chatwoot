@@ -1,26 +1,29 @@
 <template>
-  <ul
-    v-if="items.length"
-    class="vertical dropdown menu mention--box"
-    :style="{ top: getTopPadding() + 'rem' }"
-  >
-    <li
-      v-for="(item, index) in items"
-      :id="`mention-item-${index}`"
-      :key="item.key"
-      :class="{ active: index === selectedIndex }"
-      @click="onListItemSelection(index)"
-      @mouseover="onHover(index)"
-    >
-      <a class="text-truncate">
-        <strong>{{ item.label }}</strong> - {{ item.description }}
-      </a>
-    </li>
-  </ul>
+  <div v-if="items.length" ref="mentionsListContainer" class="mention--box">
+    <ul class="vertical dropdown menu">
+      <woot-dropdown-item
+        v-for="(item, index) in items"
+        :id="`mention-item-${index}`"
+        :key="item.key"
+        @mouseover="onHover(index)"
+      >
+        <woot-button
+          class="canned-item__button"
+          :variant="index === selectedIndex ? '' : 'clear'"
+          :class="{ active: index === selectedIndex }"
+          @click="onListItemSelection(index)"
+        >
+          <strong>{{ item.label }}</strong> - {{ item.description }}
+        </woot-button>
+      </woot-dropdown-item>
+    </ul>
+  </div>
 </template>
 
 <script>
+import mentionSelectionKeyboardMixin from './mentionSelectionKeyboardMixin';
 export default {
+  mixins: [mentionSelectionKeyboardMixin],
   props: {
     items: {
       type: Array,
@@ -38,57 +41,36 @@ export default {
         this.selectedIndex = 0;
       }
     },
-  },
-  mounted() {
-    document.addEventListener('keydown', this.keyListener);
-  },
-  beforeDestroy() {
-    document.removeEventListener('keydown', this.keyListener);
+    selectedIndex() {
+      const container = this.$refs.mentionsListContainer;
+      const item = container.querySelector(
+        `#mention-item-${this.selectedIndex}`
+      );
+      if (item) {
+        const itemTop = item.offsetTop;
+        const itemBottom = itemTop + item.offsetHeight;
+        const containerTop = container.scrollTop;
+        const containerBottom = containerTop + container.offsetHeight;
+        if (itemTop < containerTop) {
+          container.scrollTop = itemTop;
+        } else if (itemBottom + 34 > containerBottom) {
+          container.scrollTop = itemBottom - container.offsetHeight + 34;
+        }
+      }
+    },
   },
   methods: {
-    getTopPadding() {
-      if (this.items.length <= 4) {
-        return -(this.items.length * 2.8 + 1.7);
-      }
-      return -14;
-    },
-    isUp(e) {
-      return e.keyCode === 38 || (e.ctrlKey && e.keyCode === 80); // UP, Ctrl-P
-    },
-    isDown(e) {
-      return e.keyCode === 40 || (e.ctrlKey && e.keyCode === 78); // DOWN, Ctrl-N
-    },
-    isEnter(e) {
-      return e.keyCode === 13;
-    },
-    keyListener(e) {
-      if (this.isUp(e)) {
-        if (!this.selectedIndex) {
-          this.selectedIndex = this.items.length - 1;
-        } else {
-          this.selectedIndex -= 1;
-        }
-      }
-      if (this.isDown(e)) {
-        if (this.selectedIndex === this.items.length - 1) {
-          this.selectedIndex = 0;
-        } else {
-          this.selectedIndex += 1;
-        }
-      }
-      if (this.isEnter(e)) {
-        this.onMentionSelect();
-      }
-      this.$el.scrollTop = 28 * this.selectedIndex;
+    handleKeyboardEvent(e) {
+      this.processKeyDownEvent(e);
     },
     onHover(index) {
       this.selectedIndex = index;
     },
     onListItemSelection(index) {
       this.selectedIndex = index;
-      this.onMentionSelect();
+      this.onSelect();
     },
-    onMentionSelect() {
+    onSelect() {
       this.$emit('mention-select', this.items[this.selectedIndex]);
     },
   },
@@ -97,19 +79,26 @@ export default {
 
 <style scoped lang="scss">
 .mention--box {
-  background: var(--white);
-  border-bottom: var(--space-small) solid var(--white);
-  border-top: 1px solid var(--color-border);
-  left: 0;
-  max-height: 14rem;
-  overflow: auto;
-  padding-top: var(--space-small);
-  position: absolute;
-  width: 100%;
-  z-index: 100;
+  @apply bg-white dark:bg-slate-700 rounded-md overflow-auto absolute w-full z-[100] pt-2 px-2 pb-0 shadow-md left-0 bottom-full max-h-[9.75rem] border-t border-solid border-slate-75 dark:border-slate-800;
 
-  .active a {
-    background: var(--w-500);
+  .dropdown-menu__item:last-child {
+    @apply pb-1;
   }
+
+  .active {
+    @apply text-white dark:text-white;
+
+    &:hover {
+      @apply bg-woot-700 dark:bg-woot-700;
+    }
+  }
+
+  .button {
+    @apply transition-none h-8 leading-[1.4];
+  }
+}
+
+.canned-item__button::v-deep .button__content {
+  @apply overflow-hidden text-ellipsis whitespace-nowrap;
 }
 </style>

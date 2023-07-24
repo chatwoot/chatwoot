@@ -10,17 +10,11 @@ describe('#InboxesAPI', () => {
     expect(inboxesAPI).toHaveProperty('create');
     expect(inboxesAPI).toHaveProperty('update');
     expect(inboxesAPI).toHaveProperty('delete');
-    expect(inboxesAPI).toHaveProperty('getAssignableAgents');
     expect(inboxesAPI).toHaveProperty('getCampaigns');
+    expect(inboxesAPI).toHaveProperty('getAgentBot');
+    expect(inboxesAPI).toHaveProperty('setAgentBot');
   });
   describeWithAPIMock('API calls', context => {
-    it('#getAssignableAgents', () => {
-      inboxesAPI.getAssignableAgents(1);
-      expect(context.axiosMock.get).toHaveBeenCalledWith(
-        '/api/v1/inboxes/1/assignable_agents'
-      );
-    });
-
     it('#getCampaigns', () => {
       inboxesAPI.getCampaigns(2);
       expect(context.axiosMock.get).toHaveBeenCalledWith(

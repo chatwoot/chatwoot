@@ -6,6 +6,14 @@ module MessageFilterHelpers
   end
 
   def webhook_sendable?
+    incoming? || outgoing? || template?
+  end
+
+  def slack_hook_sendable?
+    incoming? || outgoing? || template?
+  end
+
+  def notifiable?
     incoming? || outgoing?
   end
 
@@ -15,5 +23,9 @@ module MessageFilterHelpers
 
   def email_reply_summarizable?
     incoming? || outgoing? || input_csat?
+  end
+
+  def instagram_story_mention?
+    inbox.instagram? && try(:content_attributes)[:image_type] == 'story_mention'
   end
 end

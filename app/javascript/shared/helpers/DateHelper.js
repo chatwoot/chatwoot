@@ -2,7 +2,7 @@ import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
 import isToday from 'date-fns/isToday';
 import isYesterday from 'date-fns/isYesterday';
-import parseISO from 'date-fns/parseISO';
+import { endOfDay, getUnixTime, startOfDay } from 'date-fns';
 
 export const formatUnixDate = (date, dateFormat = 'MMM dd, yyyy') => {
   const unixDate = fromUnixTime(date);
@@ -20,10 +20,28 @@ export const formatDigitToString = val => {
   return val > 9 ? `${val}` : `0${val}`;
 };
 
-export const buildDateFromTime = (hr, min, utcOffset, date = new Date()) => {
-  const today = format(date, 'yyyy-MM-dd');
-  const hour = formatDigitToString(hr);
-  const minute = formatDigitToString(min);
-  const timeString = `${today}T${hour}:${minute}:00${utcOffset}`;
-  return parseISO(timeString);
+export const isTimeAfter = (h1, m1, h2, m2) => {
+  if (h1 < h2) {
+    return false;
+  }
+
+  if (h1 === h2) {
+    return m1 >= m2;
+  }
+
+  return true;
+};
+
+/** Get start of day as a UNIX timestamp */
+export const getUnixStartOfDay = date => getUnixTime(startOfDay(date));
+
+/** Get end of day as a UNIX timestamp */
+export const getUnixEndOfDay = date => getUnixTime(endOfDay(date));
+
+export const generateRelativeTime = (value, unit, languageCode) => {
+  const code = languageCode?.replace(/_/g, '-'); // Hacky fix we need to handle it from source
+  const rtf = new Intl.RelativeTimeFormat(code, {
+    numeric: 'auto',
+  });
+  return rtf.format(value, unit);
 };

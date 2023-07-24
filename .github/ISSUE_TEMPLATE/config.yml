@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security issue
+    url: https://www.chatwoot.com/docs/contributing-guide/security-reports/
+    about: Guidelines and steps to report a security vulnerability. Please report security vulnerabilities here.
+  - name: Product Documentation
+    url: https://www.chatwoot.com/help-center
+    about: If you have questions, are confused, or just want to understand our product better, please check out our documentation.

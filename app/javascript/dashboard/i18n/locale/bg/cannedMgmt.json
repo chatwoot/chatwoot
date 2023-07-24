@@ -1,0 +1,76 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Готови отговори",
+    "HEADER_BTN_TXT": "Добавяне на готов отговор",
+    "LOADING": "Извличане на готови отговори",
+    "SEARCH_404": "Няма резултати отговарящи на тази заявка",
+    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+    "LIST": {
+      "404": "Няма налични готови отговори в този акаунт.",
+      "TITLE": "Управлявайте готовите отговори",
+      "DESC": "Готовите отговори са предварително дефинирани шаблони за отговор, които могат да се изпращат бързо в чата.",
+      "TABLE_HEADER": [
+        "Кратък код",
+        "Съдържание",
+        "Действия"
+      ]
+    },
+    "ADD": {
+      "TITLE": "Добавяне на готов отговор",
+      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
+      "CANCEL_BUTTON_TEXT": "Отмени",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Кратък код",
+          "PLACEHOLDER": "Please enter a short code",
+          "ERROR": "Краткия код е задължителен"
+        },
+        "CONTENT": {
+          "LABEL": "Съдържание",
+          "PLACEHOLDER": "Моля, въведете съдържание",
+          "ERROR": "Съдържанието е задължително"
+        },
+        "SUBMIT": "Изпращане"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Готовия отговор е добавен успешно",
+        "ERROR_MESSAGE": "Не можа да се свърже с Woot сървър. Моля, опитайте отново по-късно"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Промени готовия отговор",
+      "CANCEL_BUTTON_TEXT": "Отмени",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Кратък код",
+          "PLACEHOLDER": "Моля, въведете кратък код",
+          "ERROR": "Краткия код е задължителен"
+        },
+        "CONTENT": {
+          "LABEL": "Съдържание",
+          "PLACEHOLDER": "Моля, въведете съдържание",
+          "ERROR": "Съдържанието е задължително"
+        },
+        "SUBMIT": "Изпращане"
+      },
+      "BUTTON_TEXT": "Редактирай",
+      "API": {
+        "SUCCESS_MESSAGE": "Готовия отговор е обновен успешно",
+        "ERROR_MESSAGE": "Не можа да се свърже с Woot сървър. Моля, опитайте отново по-късно"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Изтрий",
+      "API": {
+        "SUCCESS_MESSAGE": "Готовия отговор е изтрит успешно",
+        "ERROR_MESSAGE": "Не можа да се свърже с Woot сървър. Моля, опитайте отново по-късно"
+      },
+      "CONFIRM": {
+        "TITLE": "Потвърди изтриването",
+        "MESSAGE": "Сигурни ли сте за изтриването ",
+        "YES": "Да, изтрий ",
+        "NO": "Не, запази "
+      }
+    }
+  }
+}

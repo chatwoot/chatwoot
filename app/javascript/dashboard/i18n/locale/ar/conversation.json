@@ -1,6 +1,11 @@
 {
   "CONVERSATION": {
-    "404": "الرجاء اختيار محادثة من قائمة المحادثات",
+    "SELECT_A_CONVERSATION": "الرجاء اختيار محادثة من قائمة المحادثات",
+    "CSAT_REPLY_MESSAGE": "الرجاء تقييم المحادثة",
+    "404": "عذراً، لا يمكننا العثور على المحادثة. الرجاء المحاولة مرة أخرى",
+    "SWITCH_VIEW_LAYOUT": "تبديل التصميم",
+    "DASHBOARD_APP_TAB_MESSAGES": "الرسائل",
+    "UNVERIFIED_SESSION": "لم يتم التحقق من هوية هذا المستخدم",
     "NO_MESSAGE_1": "لا توجد رسائل بعد من العملاء في صندوق الوارد الخاص بك.",
     "NO_MESSAGE_2": " لإرسال رسالة إلى الصفحة الخاصة بك!",
     "NO_INBOX_1": "يبدو أنك لم تقم بإضافة أي صناديق بريدية بعد.",
@@ -21,18 +26,27 @@
     "LOADING_CONVERSATIONS": "جاري تحميل المحادثات",
     "CANNOT_REPLY": "لا يمكنك الرد بسبب",
     "24_HOURS_WINDOW": "قيد نافذة الـ 24 ساعة",
+    "NOT_ASSIGNED_TO_YOU": "لم يتم تعيين هذه المحادثة لك. هل ترغب في تعيين هذه المحادثة لنفسك؟",
+    "ASSIGN_TO_ME": "إسناد لي",
     "TWILIO_WHATSAPP_CAN_REPLY": "يمكنك فقط الرد على هذه المحادثة باستخدام رسالة قالب بسبب",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "قيد نافذة الـ 24 ساعة",
     "SELECT_A_TWEET_TO_REPLY": "الرجاء تحديد تغريدة للرد عليها.",
     "REPLYING_TO": "أنت ترد على:",
     "REMOVE_SELECTION": "إزالة التحديد",
     "DOWNLOAD": "تنزيل",
+    "UNKNOWN_FILE_TYPE": "ملف غير معروف",
+    "SAVE_CONTACT": "حفظ",
     "UPLOADING_ATTACHMENTS": "جاري تحميل المرفقات...",
+    "REPLIED_TO_STORY": "Replied to your story",
     "SUCCESS_DELETE_MESSAGE": "تم حذف الرسالة بنجاح",
     "FAIL_DELETE_MESSSAGE": "تعذر حذف الرسالة! حاول مرة أخرى",
     "NO_RESPONSE": "لا توجد استجابة",
     "RATING_TITLE": "التقييم",
     "FEEDBACK_TITLE": "الملاحظات",
+    "CARD": {
+      "SHOW_LABELS": "إظهار السمات",
+      "HIDE_LABELS": "إخفاء السمات"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "إغلاق المحادثة",
       "REOPEN_ACTION": "إعادة فتح",
@@ -40,12 +54,14 @@
       "OPEN": "المزيد",
       "CLOSE": "أغلق",
       "DETAILS": "التفاصيل",
-      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
+      "SNOOZED_UNTIL": "Snoozed until",
+      "SNOOZED_UNTIL_TOMORROW": "غفوة حتى الغد",
+      "SNOOZED_UNTIL_NEXT_WEEK": "غفوة حتى الأسبوع القادم",
+      "SNOOZED_UNTIL_NEXT_REPLY": "غفوة حتى الرد التالي"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "تحديد كمعلق",
+      "SNOOZE_UNTIL": "غفوة",
       "SNOOZE": {
         "TITLE": "تأجيل حتى",
         "NEXT_REPLY": "الرد القادم",
@@ -53,9 +69,66 @@
         "NEXT_WEEK": "الأسبوع المقبل"
       }
     },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "تأجيل حتى",
+      "APPLY": "غفوة",
+      "CANCEL": "إلغاء"
+    },
+    "PRIORITY": {
+      "TITLE": "الأولوية",
+      "OPTIONS": {
+        "NONE": "لا شيء",
+        "URGENT": "Urgent",
+        "HIGH": "High",
+        "MEDIUM": "Medium",
+        "LOW": "Low"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "لا شيء",
+        "INPUT_PLACEHOLDER": "Select priority",
+        "NO_RESULTS": "لم يتم العثور على النتائج",
+        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "FAILED": "Couldn't change priority. Please try again."
+      }
+    },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "تحديد كمعلق",
+      "RESOLVED": "تحديد كمحلولة",
+      "MARK_AS_UNREAD": "وضع علامة كغير مقروء",
+      "REOPEN": "إعادة فتح المحادثة",
+      "SNOOZE": {
+        "TITLE": "غفوة",
+        "NEXT_REPLY": "حتى الرد القادم",
+        "TOMORROW": "حتى الغد",
+        "NEXT_WEEK": "حتى الأسبوع القادم"
+      },
+      "ASSIGN_AGENT": "تعيين وكيل",
+      "ASSIGN_LABEL": "إضافة وسم",
+      "AGENTS_LOADING": "جاري تحميل الوكلاء...",
+      "ASSIGN_TEAM": "تعيين فريق",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "SUCCESFUL": "معرف المحادثة %{conversationId} تم تعيينه ل \"%{agentName}\"",
+          "FAILED": "تعذر تعيين الوكيل. الرجاء المحاولة مرة أخرى."
+        },
+        "LABEL_ASSIGNMENT": {
+          "SUCCESFUL": "تعيين تسمية #%{labelName} لمعرف المحادثة %{conversationId}",
+          "FAILED": "تعذر تعيين التسمية. الرجاء المحاولة مرة أخرى."
+        },
+        "TEAM_ASSIGNMENT": {
+          "SUCCESFUL": "الفريق المعين \"%{team}\" لمعرف المحادثة %{conversationId}",
+          "FAILED": "تعذر تعيين الفريق. الرجاء المحاولة مرة أخرى."
+        }
+      }
+    },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "توقيع الرسالة",
+      "ENABLE_SIGN_TOOLTIP": "تمكين التوقيع",
+      "DISABLE_SIGN_TOOLTIP": "تعطيل التوقيع",
       "MSG_INPUT": "زر Shift + Enter لإضافة سطر جديد. ابدأ بزر / للاختيار من الردود السريعة.",
-      "PRIVATE_MSG_INPUT": "زر Shift + Enter لإضافة سطر جديد. سيكون هذا مرئياً للموظفين فقط"
+      "PRIVATE_MSG_INPUT": "زر Shift + Enter لإضافة سطر جديد. سيكون هذا مرئياً للموظفين فقط",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "لم يتم تكوين توقيع الرسالة، الرجاء تكوينه في إعدادات الملف الشخصي.",
+      "CLICK_HERE": "انقر هنا للتحديث"
     },
     "REPLYBOX": {
       "REPLY": "إضافة رد",
@@ -66,8 +139,13 @@
       "TIP_FORMAT_ICON": "عرض محرر النصوص",
       "TIP_EMOJI_ICON": "إظهار قائمة الرموز التعبيرية",
       "TIP_ATTACH_ICON": "إرفاق الملفات",
-      "ENTER_TO_SEND": "زر الإدخل للإرسال",
+      "TIP_AUDIORECORDER_ICON": "تسجيل الصوت",
+      "TIP_AUDIORECORDER_PERMISSION": "السماح بالوصول إلى الصوت",
+      "TIP_AUDIORECORDER_ERROR": "تعذر فتح الصوت",
       "DRAG_DROP": "اسحب و أسقط هنا للإرفاق",
+      "START_AUDIO_RECORDING": "بدء التسجيل الصوتي",
+      "STOP_AUDIO_RECORDING": "إيقاف التسجيل الصوتي",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "إضافة bcc",
         "CC": {
@@ -80,15 +158,30 @@
           "PLACEHOLDER": "البريد الإلكتروني مفصولة بفاصلة",
           "ERROR": "الرجاء إدخال عنوان بريد إلكتروني صحيح"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "متغيرات غير معرفة",
+        "MESSAGE": "لديك {undefinedVariablesCount} متغيرات غير محددة في رسالتك: {undefinedVariables}. هل ترغب في إرسال الرسالة على أي حال؟",
+        "CONFIRM": {
+          "YES": "إرسال",
+          "CANCEL": "إلغاء"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "ملاحظة خاصة: مرئية فقط لأعضاء فريق العمل والموظفين",
     "CHANGE_STATUS": "تم تغيير حالة المحادثة",
+    "CHANGE_STATUS_FAILED": "فشل تغيير حالة المحادثة",
     "CHANGE_AGENT": "تم تغيير الموظف الذي تم إحالة المحادثة إليه",
+    "CHANGE_AGENT_FAILED": "فشل تغيير المحال إليه",
+    "ASSIGN_LABEL_SUCCESFUL": "تم تعيين الوسم بنجاح",
+    "ASSIGN_LABEL_FAILED": "فشل تعيين الوسم",
     "CHANGE_TEAM": "تم تغيير فريق المحادثة",
-    "FILE_SIZE_LIMIT": "حجم الملف يتجاوز حد الاقصى وهو {MAXIMUM_FILE_UPLOAD_SIZE}",
-    "MESSAGE_ERROR": "Unable to send this message, please try again later",
+    "FILE_SIZE_LIMIT": "الملف يتجاوز حد المرفق {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} ميغابايت",
+    "MESSAGE_ERROR": "غير قادر على إرسال هذه الرسالة، الرجاء المحاولة مرة أخرى لاحقاً",
     "SENT_BY": "أرسلت بواسطة:",
+    "BOT": "رد آلي",
+    "SEND_FAILED": "تعذر إرسال الرسالة! حاول مرة أخرى",
+    "TRY_AGAIN": "إعادة المحاولة",
     "ASSIGNMENT": {
       "SELECT_AGENT": "اختر وكيل",
       "REMOVE": "حذف",
@@ -96,7 +189,17 @@
     },
     "CONTEXT_MENU": {
       "COPY": "نسخ",
-      "DELETE": "حذف"
+      "DELETE": "حذف",
+      "CREATE_A_CANNED_RESPONSE": "إضافة إلى الردود السريعة",
+      "TRANSLATE": "ترجم",
+      "COPY_PERMALINK": "Copy link to the message",
+      "LINK_COPIED": "Message URL copied to the clipboard",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Are you sure you want to delete this message?",
+        "MESSAGE": "You cannot undo this action",
+        "DELETE": "حذف",
+        "CANCEL": "إلغاء"
+      }
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -148,39 +251,65 @@
       "PLACEHOLDER": "لا شيء"
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
-      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONTACT_DETAILS": "تفاصيل جهة الاتصال",
+      "CONVERSATION_ACTIONS": "إجراءات المحادثة",
       "CONVERSATION_LABELS": "وسوم المحادثة",
-      "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "المحادثات السابقة"
+      "CONVERSATION_INFO": "معلومات المحادثة",
+      "CONTACT_ATTRIBUTES": "سمات جهة الاتصال",
+      "PREVIOUS_CONVERSATION": "المحادثات السابقة",
+      "MACROS": "ماكروس"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Create attribute",
+    "ADD_BUTTON_TEXT": "إنشاء سمة جديدة",
     "UPDATE": {
-      "SUCCESS": "Attribute updated successfully",
-      "ERROR": "Unable to update attribute. Please try again later"
+      "SUCCESS": "تم تحديث السمة المخصصة بنجاح",
+      "ERROR": "غير قادر على تحديث السمة. الرجاء المحاولة مرة أخرى لاحقاً"
     },
     "ADD": {
       "TITLE": "إضافة",
       "SUCCESS": "تمت إضافة السمة بنجاح",
-      "ERROR": "Unable to add attribute. Please try again later"
+      "ERROR": "غير قادر على إضافة السمة. الرجاء المحاولة مرة أخرى لاحقاً"
     },
     "DELETE": {
-      "SUCCESS": "Attribute deleted successfully",
-      "ERROR": "Unable to delete attribute. Please try again later"
+      "SUCCESS": "تم حذف السمة المخصصة بنجاح",
+      "ERROR": "غير قادر على حذف السمة. الرجاء المحاولة مرة أخرى لاحقاً"
     },
     "ATTRIBUTE_SELECT": {
-      "TITLE": "Add attributes",
-      "PLACEHOLDER": "Search attributes",
-      "NO_RESULT": "No attributes found"
+      "TITLE": "أضف سمة",
+      "PLACEHOLDER": "البحث عن سمات",
+      "NO_RESULT": "لم يتم العثور على سمات"
     }
   },
   "EMAIL_HEADER": {
+    "FROM": "من",
     "TO": "إلى",
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "الموضوع"
+  },
+  "CONVERSATION_PARTICIPANTS": {
+    "SIDEBAR_MENU_TITLE": "شارك",
+    "SIDEBAR_TITLE": "المشاركون في المحادثة",
+    "NO_RECORDS_FOUND": "لم يتم العثور على النتائج",
+    "ADD_PARTICIPANTS": "اختر المشاركين",
+    "REMANING_PARTICIPANTS_TEXT": "+%{count} أخرى",
+    "REMANING_PARTICIPANT_TEXT": "+%{count} أخرى",
+    "TOTAL_PARTICIPANTS_TEXT": "%{count} شخص مشارك.",
+    "TOTAL_PARTICIPANT_TEXT": "%{count} شخص مشارك.",
+    "NO_PARTICIPANTS_TEXT": "لا أحد يشارك !.",
+    "WATCH_CONVERSATION": "الانضمام إلى المحادثة",
+    "YOU_ARE_WATCHING": "أنت مشترك",
+    "API": {
+      "ERROR_MESSAGE": "تعذر التحديث، حاول مرة أخرى!",
+      "SUCCESS_MESSAGE": "تم تحديث المشاركين!"
+    }
+  },
+  "TRANSLATE_MODAL": {
+    "TITLE": "عرض المحتوى المترجم",
+    "DESC": "يمكنك عرض المحتوى المترجم في كل لغة.",
+    "ORIGINAL_CONTENT": "المحتوى الأصلي",
+    "TRANSLATED_CONTENT": "المحتوى المترجم",
+    "NO_TRANSLATIONS_AVAILABLE": "لا توجد ترجمات لهذا المحتوى"
   }
 }

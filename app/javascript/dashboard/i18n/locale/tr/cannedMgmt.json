@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "Hazır Yanıt Ekle",
     "LOADING": "Hazır Yanıtlar Getiriliyor",
     "SEARCH_404": "Bu sorgu ile eşleşen öğe yok",
-    "SIDEBAR_TXT": "<p> <b> Hazır Yanıtlar </b> </p> <p> Hazır Yanıtlar, bir sohbete hızlı bir şekilde yanıt göndermek için kullanılabilen kaydedilmiş yanıt şablonlarıdır. </p> <p> Bir Hazır Yanıt oluşturmak için, <b> Hazır Yanıt Ekle </b> 'yi tıklamanız yeterlidir. Ayrıca, Düzenle veya Sil düğmesini tıklayarak mevcut bir Hazır Yanıtı düzenleyebilir veya silebilirsiniz </p> <p> Hazır yanıtlar, <b> Kısa Kodlar </b> yardımıyla kullanılır. Temsilciler, sohbet sırasında <b> '/' </b> ve ardından kısa kodu yazarak hazır yanıtlara erişebilir. </p>",
+    "SIDEBAR_TXT": "<p><b>Hazır Yanıtlar</b> </p><p> Hazır Yanıtlar, bir sohbete hızlı bir şekilde yanıt göndermek için kullanılabilen kaydedilmiş yanıt şablonlarıdır. </p><p> Bir Hazır Yanıt oluşturmak için, <b>Hazır Yanıt Ekle</b>'yi tıklamanız yeterlidir. Ayrıca, Düzenle veya Sil düğmesini tıklayarak mevcut bir Hazır Yanıtı düzenleyebilir veya silebilirsiniz </p><p> Hazır yanıtlar, <b>Kısa Kodlar</b> yardımıyla kullanılır. Temsilciler, sohbet sırasında <b>'/'</b> ve ardından kısa kodu yazarak hazır yanıtlara erişebilir. </p>",
     "LIST": {
       "404": "Bu hesapta hazır yanıt yok.",
       "TITLE": "Hazır yanıtları yönetin",

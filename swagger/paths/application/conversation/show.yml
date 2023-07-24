@@ -1,5 +1,5 @@
 tags:
-  - Conversation
+  - Conversations
 operationId: get-details-of-a-conversation
 summary: Conversation Details
 description: Get all details regarding a conversation with all messages in the conversation

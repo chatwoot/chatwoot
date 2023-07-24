@@ -8,7 +8,7 @@ class SuperAdmin::Devise::SessionsController < Devise::SessionsController
   def create
     redirect_to(super_admin_session_path, flash: { error: @error_message }) && return unless valid_credentials?
 
-    sign_in(@super_admin, scope: :super_admin)
+    sign_in(:super_admin, @super_admin)
     flash.discard
     redirect_to super_admin_users_path
   end

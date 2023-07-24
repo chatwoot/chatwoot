@@ -3,6 +3,9 @@
     "LINK": "Настройки профиля",
     "TITLE": "Настройки профиля",
     "BTN_TEXT": "Обновить профиль",
+    "DELETE_AVATAR": "Удалить аватар",
+    "AVATAR_DELETE_SUCCESS": "Аватар успешно удалён",
+    "AVATAR_DELETE_FAILED": "При удалении аватара произошла ошибка, попробуйте еще раз",
     "UPDATE_SUCCESS": "Ваши данные успешно обновлены",
     "PASSWORD_UPDATE_SUCCESS": "Ваш пароль успешно изменен",
     "AFTER_EMAIL_CHANGED": "Ваш профиль был успешно обновлен, пожалуйста, войдите снова, так как ваши учетные данные были изменены",
@@ -16,6 +19,33 @@
         "TITLE": "Профиль",
         "NOTE": "Адрес электронной почты используется для входа."
       },
+      "SEND_MESSAGE": {
+        "TITLE": "Горячие клавиши для отправки сообщений",
+        "NOTE": "Вы можете выбрать горячую клавишу (Enter или Cmd/Ctrl+Enter), основываясь на вашем предпочтении записи.",
+        "UPDATE_SUCCESS": "Ваши настройки успешно обновлены",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Отправлять сообщения, нажав клавишу Enter вместо нажатия кнопки Отправить."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Отправлять сообщения нажатием клавиши Cmd/Ctrl + enter вместо нажатия кнопки Отправить."
+          }
+        }
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Подпись личных сообщений",
+        "NOTE": "Создать подпись для личных сообщений, которая будет добавлена ко всем сообщениям, которые вы отправляете из вашего почтового ящика. Используйте редактор текста для создания персональной подписи.",
+        "BTN_TEXT": "Сохранить подпись",
+        "API_ERROR": "Не удалось сохранить подпись! Повторите попытку",
+        "API_SUCCESS": "Подпись успешно сохранена"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Подпись для сообщений",
+        "ERROR": "Подпись не может быть пустой",
+        "PLACEHOLDER": "Вставьте подпись для ваших сообщений здесь."
+      },
       "PASSWORD_SECTION": {
         "TITLE": "Пароль",
         "NOTE": "Обновление пароля сбросит вашу авторизацию на всех устройствах.",
@@ -28,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Звуковые уведомления",
         "NOTE": "Включить звуковые уведомления в панели управления для новых сообщений и разговоров.",
-        "NONE": "Ничего",
-        "ASSIGNED": "Назначенные беседы",
-        "ALL_CONVERSATIONS": "Диалоги"
+        "ALERT_TYPE": {
+          "TITLE": "Уведомлять о:",
+          "NONE": "Нет",
+          "ASSIGNED": "Назначенные беседы",
+          "ALL_CONVERSATIONS": "Диалоги"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Звук уведомления:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Условия уведомления:",
+          "CONDITION_ONE": "Отправлять звуковые оповещения только в том случае, если окно браузера не активно",
+          "CONDITION_TWO": "Отправлять уведомления каждые 30 сек., пока все назначенные диалоги не будут прочитаны"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Email Уведомления",
@@ -38,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "Отправлять email уведомление, когда мне назначен диалог",
         "CONVERSATION_CREATION": "Отправлять email уведомление, когда новый диалог создан",
         "CONVERSATION_MENTION": "Отправлять email уведомление, когда вас упоминают в диалоге",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Отправлять email уведомления при создании нового сообщения в назначенном диалоге"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Отправлять email уведомления при создании нового сообщения в назначенном диалоге",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Отправлять уведомления по электронной почте, когда в разговоре создается новое сообщение"
       },
       "API": {
         "UPDATE_SUCCESS": "Настройки уведомлений сохранены",
@@ -51,6 +93,7 @@
         "CONVERSATION_CREATION": "Отправлять push уведомление, когда новый диалог создан",
         "CONVERSATION_MENTION": "Отправлять уведомления при упоминании в разговоре",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Отправлять push уведомления при создании нового сообщения в назначенном диалоге",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Отправлять push-уведомления при создании нового сообщения в участвующем разговоре",
         "HAS_ENABLED_PUSH": "Вы включили push уведомления для этого браузера.",
         "REQUEST_PUSH": "Включить push-уведомления"
       },
@@ -73,7 +116,9 @@
           "В сети",
           "Занят",
           "Оффлайн"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Доступность успешно установлена",
+        "SET_AVAILABILITY_ERROR": "Не удалось установить доступность, попробуйте снова"
       },
       "EMAIL": {
         "LABEL": "Ваш адрес электронной почты",
@@ -86,38 +131,53 @@
         "PLACEHOLDER": "Пожалуйста, введите текущий пароль"
       },
       "PASSWORD": {
-        "LABEL": "Пароль",
+        "LABEL": "Новый пароль",
         "ERROR": "Введите пароль из 6 или более символов",
         "PLACEHOLDER": "Пожалуйста, введите новый пароль"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Подтвердите новый пароль",
         "ERROR": "Подтверждение пароля должно соответствовать паролю",
-        "PLACEHOLDER": "Пожалуйста, введите пароль еще раз"
+        "PLACEHOLDER": "Пожалуйста, введите новый пароль еще раз"
       }
     }
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Изменить",
     "CHANGE_ACCOUNTS": "Сменить Аккаунт",
+    "CONTACT_SUPPORT": "Связаться с поддержкой",
     "SELECTOR_SUBTITLE": "Выберите аккаунт из списка",
     "PROFILE_SETTINGS": "Настройки профиля",
     "KEYBOARD_SHORTCUTS": "Клавиши быстрого доступа",
+    "SUPER_ADMIN_CONSOLE": "Консоль супер администратора",
     "LOGOUT": "Выйти"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "дней до окончания бесплатного периода.",
     "TRAIL_BUTTON": "Купить",
-    "DELETED_USER": "Удаленный пользователь"
+    "DELETED_USER": "Удаленный пользователь",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Аккаунт заблокирован",
+      "MESSAGE": "Ваша учетная запись приостановлена. Пожалуйста, обратитесь в службу поддержки для получения дополнительной информации."
+    }
   },
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Копировать",
+      "CODEPEN": "Открыть в CodePen",
       "COPY_SUCCESSFUL": "Код скопирован в буфер обмена"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Показать больше",
+      "SHOW_LESS": "Показать меньше"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Скачать",
-      "UPLOADING": "Загружаем..."
+      "UPLOADING": "Загружаем...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Эта история больше недоступна."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "Просмотреть на карте"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Отправить"
@@ -130,32 +190,86 @@
     }
   },
   "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "Сейчас просматривается:",
+    "SWITCH": "Переключить",
     "CONVERSATIONS": "Диалоги",
+    "ALL_CONVERSATIONS": "Диалоги",
+    "MENTIONED_CONVERSATIONS": "Упоминания",
+    "PARTICIPATING_CONVERSATIONS": "Участвующие",
+    "UNATTENDED_CONVERSATIONS": "Несвязанные",
     "REPORTS": "Отчёты",
     "SETTINGS": "Настройки",
     "CONTACTS": "Контакты",
     "HOME": "Главная",
     "AGENTS": "Операторы",
+    "AGENT_BOTS": "Боты",
+    "AUDIT_LOGS": "Журнал аудита",
     "INBOXES": "Источники",
     "NOTIFICATIONS": "Уведомления",
     "CANNED_RESPONSES": "Шаблонные ответы",
     "INTEGRATIONS": "Интеграции",
+    "PROFILE_SETTINGS": "Настройки профиля",
     "ACCOUNT_SETTINGS": "Настройки аккаунта",
     "APPLICATIONS": "Приложения",
     "LABELS": "Категории",
     "CUSTOM_ATTRIBUTES": "Пользовательские атрибуты",
+    "AUTOMATION": "Автоматизация",
+    "MACROS": "Макрос",
     "TEAMS": "Команды",
+    "BILLING": "Платёж",
+    "CUSTOM_VIEWS_FOLDER": "Папки",
+    "CUSTOM_VIEWS_SEGMENTS": "Сегменты",
     "ALL_CONTACTS": "Все контакты",
     "TAGGED_WITH": "С метками",
-    "REPORTS_OVERVIEW": "Обзор",
+    "NEW_LABEL": "Новая метка",
+    "NEW_TEAM": "Новая команда",
+    "NEW_INBOX": "Новые канал",
+    "REPORTS_CONVERSATION": "Диалоги",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Кампании",
-    "ONGOING": "В настоящее время",
+    "ONGOING": "Активные",
     "ONE_OFF": "Один выключен",
     "REPORTS_AGENT": "Операторы",
     "REPORTS_LABEL": "Категории",
     "REPORTS_INBOX": "Электронная почта",
-    "REPORTS_TEAM": "Команда"
+    "REPORTS_TEAM": "Команда",
+    "SET_AVAILABILITY_TITLE": "Установить себя",
+    "BETA": "Бета",
+    "REPORTS_OVERVIEW": "Обзор",
+    "FACEBOOK_REAUTHORIZE": "Ваше подключение к Facebook истекло. Пожалуйста, переподключитесь к Facebook для продолжения работы",
+    "HELP_CENTER": {
+      "TITLE": "Центр Справки (Бета)",
+      "ALL_ARTICLES": "Все статьи",
+      "MY_ARTICLES": "Мои статьи",
+      "DRAFT": "Черновик",
+      "ARCHIVED": "Архив",
+      "CATEGORY": "Категория",
+      "SETTINGS": "Настройки",
+      "CATEGORY_EMPTY_MESSAGE": "Категорий не найдено"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Отметить автоматически",
+      "INFO_TEXT": "Позволить системе автоматически отмечать вас в автономном режиме, если вы не используете приложение или приборную панель."
+    },
+    "DOCS": "Открыть документацию"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Платёж",
+    "CURRENT_PLAN": {
+      "TITLE": "Текущий план",
+      "PLAN_NOTE": "На данный момент вы подписаны на ** план%{plan}** с **%{quantity}** лицензиями"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Управление подпиской",
+      "DESCRIPTION": "Просматривайте ваши предыдущие счета, редактируйте платежные реквизиты или отмените подписку.",
+      "BUTTON_TXT": "Перейти на платёжный портал"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Нужна помощь?",
+      "DESCRIPTION": "Вы сталкиваетесь с какими-либо проблемами при оплате? Мы здесь, чтобы помочь.",
+      "BUTTON_TXT": "Пообщайтесь с нами"
+    },
+    "NO_BILLING_USER": "Ваш платёжный счёт настраивается. Пожалуйста, обновите страницу и повторите попытку."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ой! Мы не смогли найти ни одного аккаунта в Chatwoot. Пожалуйста, создайте новый аккаунт, чтобы продолжить.",
@@ -168,13 +282,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Имя аккаунта",
+        "LABEL": "Название компании",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Отправить"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "Показать все ярлыки",
     "TITLE": {
       "OPEN_CONVERSATION": "Открыть беседу",
       "RESOLVE_AND_NEXT": "Решить и перейти к следующему",
@@ -189,7 +304,6 @@
       "GO_TO_SETTINGS": "Перейти к настройкам",
       "SWITCH_CONVERSATION_STATUS": "Переключиться на статус следующего диалога",
       "SWITCH_TO_PRIVATE_NOTE": "Переключиться на заметку",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Переключить редактор содержимого",
       "SWITCH_TO_REPLY": "Переключиться на ответ",
       "TOGGLE_SNOOZE_DROPDOWN": "Вкл/выкл повтор"
     },

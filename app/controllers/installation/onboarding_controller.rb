@@ -10,6 +10,7 @@ class Installation::OnboardingController < ApplicationController
         user_full_name: onboarding_params.dig(:user, :name),
         email: onboarding_params.dig(:user, :email),
         user_password: params.dig(:user, :password),
+        super_admin: true,
         confirmed: true
       ).perform
     rescue StandardError => e

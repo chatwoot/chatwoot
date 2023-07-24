@@ -22,11 +22,21 @@ class Integrations::Slack::IncomingMessageBuilder
   private
 
   def valid_event?
-    supported_event_type? && supported_event?
+    supported_event_type? && supported_event? && should_process_event?
   end
 
   def supported_event_type?
     SUPPORTED_EVENT_TYPES.include?(params[:type])
+  end
+
+  # Discard all the subtype of a message event
+  # We are only considering the actual message sent by a Slack user
+  # Any reactions or messages sent by the bot will be ignored.
+  # https://api.slack.com/events/message#subtypes
+  def should_process_event?
+    return true if params[:type] != 'event_callback'
+
+    params[:event][:user].present? && params[:event][:subtype].blank?
   end
 
   def supported_event?
@@ -34,7 +44,11 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   def supported_message?
-    SUPPORTED_MESSAGE_TYPES.include?(message[:type]) if message.present?
+    if message.present?
+      SUPPORTED_MESSAGE_TYPES.include?(message[:type]) && !attached_file_message?
+    else
+      params[:event][:files].present? && !attached_file_message?
+    end
   end
 
   def hook_verification?
@@ -73,13 +87,13 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   def private_note?
-    params[:event][:text].strip.starts_with?('note:', 'private:')
+    params[:event][:text].strip.downcase.starts_with?('note:', 'private:')
   end
 
   def create_message
     return unless conversation
 
-    @message = conversation.messages.create(
+    @message = conversation.messages.create!(
       message_type: :outgoing,
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
@@ -130,5 +144,13 @@ class Integrations::Slack::IncomingMessageBuilder
     when 'pdf'
       :file
     end
+  end
+
+  # Ignoring the changes added here https://github.com/chatwoot/chatwoot/blob/5b5a6d89c0cf7f3148a1439d6fcd847784a79b94/lib/integrations/slack/send_on_slack_service.rb#L69
+  # This make sure 'Attached File!' comment is not visible on CW dashboard.
+  # This is showing because of https://github.com/chatwoot/chatwoot/pull/4494/commits/07a1c0da1e522d76e37b5f0cecdb4613389ab9b6 change.
+  # As now we consider the postback message with event[:files]
+  def attached_file_message?
+    params[:event][:text] == 'Attached File!'
   end
 end

@@ -5,6 +5,7 @@ FactoryBot.define do
     transient do
       skip_confirmation { true }
       role { 'agent' }
+      auto_offline { true }
       account { nil }
       inviter { nil }
     end
@@ -18,11 +19,14 @@ FactoryBot.define do
 
     after(:build) do |user, evaluator|
       user.skip_confirmation! if evaluator.skip_confirmation
-      create(:account_user, user: user, account: evaluator.account, role: evaluator.role, inviter: evaluator.inviter) if evaluator.account
+      if evaluator.account
+        create(:account_user, user: user, account: evaluator.account, role: evaluator.role, inviter: evaluator.inviter,
+                              auto_offline: evaluator.auto_offline)
+      end
     end
 
     trait :with_avatar do
-      avatar { Rack::Test::UploadedFile.new('spec/assets/avatar.png', 'image/png') }
+      avatar { fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png') }
     end
 
     trait :administrator do

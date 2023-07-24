@@ -7,6 +7,12 @@
       class="conversation--attribute"
     />
     <contact-details-item
+      v-if="browserLanguage"
+      :title="$t('CONTACT_PANEL.BROWSER_LANGUAGE')"
+      :value="browserLanguage"
+      class="conversation--attribute"
+    />
+    <contact-details-item
       v-if="referer"
       :title="$t('CONTACT_PANEL.INITIATED_FROM')"
       :value="referer"
@@ -44,6 +50,7 @@
 </template>
 
 <script>
+import { getLanguageName } from '../../../components/widgets/conversation/advancedFilterItems/languages';
 import ContactDetailsItem from './ContactDetailsItem.vue';
 import CustomAttributes from './customAttributes/CustomAttributes.vue';
 import CustomAttributeSelector from './customAttributes/CustomAttributeSelector.vue';
@@ -103,6 +110,9 @@ export default {
       } = this.conversationAttributes.browser;
       return `${browserName} ${browserVersion}`;
     },
+    browserLanguage() {
+      return getLanguageName(this.conversationAttributes.browser_language);
+    },
     platformName() {
       if (!this.conversationAttributes.browser) {
         return '';
@@ -135,10 +145,10 @@ export default {
 </script>
 <style scoped lang="scss">
 .conversation--attribute {
-  border-bottom: 1px solid var(--color-border-light);
+  @apply border-slate-50 dark:border-slate-700 border-b border-solid;
 
   &:nth-child(2n) {
-    background: var(--b-50);
+    @apply bg-slate-25 dark:bg-slate-800;
   }
 }
 </style>

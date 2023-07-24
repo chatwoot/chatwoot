@@ -6,6 +6,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Додати"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Надіслати ще раз",
+      "ERROR_MESSAGE": "Не вдалося надіслати, спробуйте ще раз"
     }
   },
   "TEAM_AVAILABILITY": {
@@ -15,9 +19,21 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Зазвичай, відповідаємо за декілька хвилин",
     "IN_A_FEW_HOURS": "Зазвичай, відповідаємо за декілька годин",
-    "IN_A_DAY": "Зазвичай, відповідаємо протягом доби"
+    "IN_A_DAY": "Зазвичай, відповідаємо протягом доби",
+    "BACK_IN": "We will be back online"
   },
+  "DAY_NAMES": [
+    "Неділя",
+    "Понеділок",
+    "Вівторок",
+    "Середа",
+    "Четвер",
+    "П'ятниця",
+    "Субота"
+  ],
   "START_CONVERSATION": "Розпочати розмову",
+  "END_CONVERSATION": "Закінчити спілкування",
+  "CONTINUE_CONVERSATION": "Продовжити спілкування",
   "START_NEW_CONVERSATION": "Розпочати нову розмову",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Переглянути нові повідомлення",
@@ -38,12 +54,21 @@
       "FULL_NAME": {
         "LABEL": "Повне ім`я",
         "PLACEHOLDER": "Будь ласка, введіть своє повне ім'я",
-        "ERROR": "Потрібне повне ім'я"
+        "REQUIRED_ERROR": "Потрібне повне ім'я"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "Адреса електронної пошти",
         "PLACEHOLDER": "Будь ласка, введіть адресу вашої електронної пошти",
-        "ERROR": "Некоректна адреса ел. пошти"
+        "REQUIRED_ERROR": "Необхідно вказати адресу електронної пошти",
+        "VALID_ERROR": "Будь ласка, введіть коректну адресу електронної пошти"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Номер телефону",
+        "PLACEHOLDER": "Будь ласка, введіть номер телефону",
+        "REQUIRED_ERROR": "Номер телефону є обов'язковим",
+        "DIAL_CODE_VALID_ERROR": "Please select a country code",
+        "VALID_ERROR": "Please enter a valid phone number",
+        "DROPDOWN_EMPTY": "Результатів не знайдено"
       },
       "MESSAGE": {
         "LABEL": "Текст повідомлення",
@@ -51,13 +76,19 @@
         "ERROR": "Занадто коротке повідомлення"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+    "CAMPAIGN_HEADER": "Будь ласка, надайте своє ім'я та електронну пошту перед початком бесіди",
+    "IS_REQUIRED": "обов'язково",
+    "REQUIRED": "Обов'язково"
   },
   "FILE_SIZE_LIMIT": "Файл перевищує ліміт вкладення {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
     "INVALID": {
       "FIELD": "Невірно заповнене поле"
     }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Пошук емодзі",
+    "NOT_FOUND": "Немає емодзі, що відповідають пошуковому запиту"
   },
   "CSAT": {
     "TITLE": "Оцініть вашу бесіду",
@@ -68,5 +99,11 @@
     "BUTTON_TEXT": "Запит на текст розмови",
     "SEND_EMAIL_SUCCESS": "Текст розмови надісланий",
     "SEND_EMAIL_ERROR": "Сталася помилка, будь ласка, спробуйте ще раз"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Натисніть тут, щоб приєднатися",
+      "LEAVE_THE_ROOM": "Залишити дзвінок"
+    }
   }
 }

@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "Mentett válasz hozzáadása",
     "LOADING": "Mentett válaszok letöltése",
     "SEARCH_404": "Nincs megfelelő elem",
-    "SIDEBAR_TXT": "<p><b>Mentett válaszok</b> </p><p>  A mentett válaszok sablonok, melyeket gyors válaszok kiküldésére használhatsz.  </p><p> Mentett válasz létrehozásához kattints a <b>Mentett válasz létrehozása</b>-ra. Szerkesztheted vagy törölheted is a mentett válaszokat a Szerkesztés és Törlés gombokkal. A mentett válaszokat <b>rövidkódok</b> segítéségével használhatod. Az ügynökök a <b>'/'</b> jel begépelésével és a megfelelő rövidkód begépelésével férhetnek hozzá a válaszokhoz.</p>",
+    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
     "LIST": {
       "404": "Nincs megfelelő mentett válasz ebben a fiókban.",
       "TITLE": "Mentett válaszok kezelése",
@@ -17,12 +17,12 @@
     },
     "ADD": {
       "TITLE": "Mentett válasz hozzáadása",
-      "DESC": "A mentett válaszok előre meghatározott sablonok, melyeket gyors válaszok kiküldésére használhatsz .",
+      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
       "CANCEL_BUTTON_TEXT": "Mégse",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Rövidkód",
-          "PLACEHOLDER": "Kérjük adj meg egy Rövidkódot",
+          "PLACEHOLDER": "Please enter a short code",
           "ERROR": "Rövidkód szükséges"
         },
         "CONTENT": {

@@ -21,20 +21,62 @@ fr:
   messages:
     reset_password_success: Super ! La demande de réinitialisation du mot de passe a réussi. Consultez vos e-mails pour obtenir des instructions.
     reset_password_failure: Oh oh ! Nous n'avons trouvé aucun utilisateur avec le courriel spécifié.
+    inbox_deletetion_response: Votre demande de suppression de la boîte de réception sera traitée dans un certain délai.
   errors:
+    validations:
+      presence: Ne peut être vide
+    webhook:
+      invalid: Événements non valides
     signup:
       disposable_email: Nous n'autorisons pas les courriels jetables
       invalid_email: Vous avez entré un courriel non valide
       email_already_exists: "Vous avez déjà créé un compte avec %{email}"
       failed: L'inscription a échoué
+    data_import:
+      data_type:
+        invalid: Type de données incorrect
     contacts:
       import:
-        failed: File is blank
+        failed: Le fichier est vide
+      export:
+        success: We will notify you once contacts export file is ready to view.
+      email:
+        invalid: Email non valide
+      phone_number:
+        invalid: Doit être au format e164
+    categories:
+      locale:
+        unique: Doit être unique dans la catégorie et le portail
+    dyte:
+      invalid_message_type: "Type de message invalide. Action non autorisée"
+    inboxes:
+      imap:
+        socket_error: Veuillez vérifier la connexion, l'adresse IMAP et réessayez.
+        no_response_error: Veuillez vérifier les identifiants IMAP et réessayez.
+        host_unreachable_error: Hôte injoignable, veuillez vérifier l'adresse IMAP, le port IMAP et réessayer.
+        connection_timed_out_error: La connexion a expiré pour %{address}:%{port}
+        connection_closed_error: Connexion fermée.
+      validations:
+        name: 'ne doit pas commencer ou se terminer par des symboles, et ne doit pas comporter les caractères suivants : "< > / \ @".'
+    custom_filters:
+      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
   reports:
     period: Période de rapport %{since} à %{until}
+    utc_warning: Le rapport généré est dans le fuseau horaire UTC
     agent_csv:
       agent_name: Nom de l'agent
       conversations_count: Nombre de conversations
+      avg_first_response_time: Temps de réponse moyen (Minutes)
+      avg_resolution_time: Temps moyen de résolution (Minutes)
+    inbox_csv:
+      inbox_name: Nom de la boîte de réception
+      inbox_type: Type de boîte de réception
+      conversations_count: Nbre de conversations
+      avg_first_response_time: Temps de réponse moyen (Minutes)
+      avg_resolution_time: Temps moyen de résolution (Minutes)
+    label_csv:
+      label_title: Libellé
+      conversations_count: Nbre de conversations
       avg_first_response_time: Temps de réponse moyen (Minutes)
       avg_resolution_time: Temps moyen de résolution (Minutes)
     team_csv:
@@ -42,6 +84,19 @@ fr:
       conversations_count: Nombre de conversations
       avg_first_response_time: Temps de réponse moyen (Minutes)
       avg_resolution_time: Temps moyen de résolution (Minutes)
+    conversation_traffic_csv:
+      timezone: Fuseau horaire
+    default_group_by: jour
+    csat:
+      headers:
+        contact_name: Nom du contact
+        contact_email_address: Adresse e-mail du contact
+        contact_phone_number: Numéro de téléphone du contact
+        link_to_the_conversation: Lier à la conversation
+        agent_name: Nom de l'agent
+        rating: Note
+        feedback: Commentaire
+        recorded_at: Date d'enregistrement
   notifications:
     notification_title:
       conversation_creation: "[Nouvelle conversation] - #%{display_id} a été créé dans %{inbox_name}"
@@ -50,14 +105,22 @@ fr:
       conversation_mention: "Vous avez été mentionné dans la conversation [ID - %{display_id}] par %{name}"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} vous a mentionné dans la story: "
+      instagram_deleted_story_content: Cette Story n'est plus disponible.
       deleted: Ce message a été supprimé
     activity:
       status:
         resolved: "La conversation a été marquée résolue par %{user_name}"
+        contact_resolved: "La conversation a été résolue par %{contact_name}"
         open: "La conversation a été ré-ouverte par %{user_name}"
         pending: "La conversation a été marquée comme en attente par %{user_name}"
         snoozed: "La conversation a été reportée par %{user_name}"
         auto_resolved: "La conversation a été marquée comme résolue par le système en raison de %{duration} jours d'inactivité"
+        system_auto_open: Le système a rouvert la conversation en raison d'un nouveau message entrant.
+      priority:
+        added: '%{user_name} fixe la priorité à %{new_priority}'
+        updated: '%{user_name} a modifié la priorité de %{old_priority} à %{new_priority}'
+        removed: '%{user_name} a supprimé la priorité'
       assignee:
         self_assigned: "%{user_name} s'est auto-assigné cette conversation"
         assigned: "Assigné à %{assignee_name} par %{user_name}"
@@ -77,14 +140,26 @@ fr:
       email_input_box_message_body: "Recevez des notifications par courriel"
       csat_input_message_body: "Veuillez évaluer la conversation"
     reply:
+      email:
+        header:
+          from_with_name: "%{assignee_name} de %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} de %{inbox_name} <reply+%{reply_email}>"
+      channel_email:
+        header:
+          reply_with_name: "%{assignee_name} de %{inbox_name} <%{from_email}>"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Nouveaux messages dans cette conversation"
       transcript_subject: "Transcription de conversation"
     survey:
       response: "Merci de noter cette conversation, %{link}"
   contacts:
     online:
-      delete: "%{contact_name} is Online, please try again later"
+      delete: "%{contact_name} est en ligne, veuillez réessayer plus tard"
   integration_apps:
+    dyte:
+      name: "Dyte"
+      description: "Dyte est un outil qui vous aide à ajouter de l'audio et de la vidéo en direct à votre application avec seulement quelques lignes de code. Cette intégration vous permet de donner une option à vos agents de passer un appel vidéo ou vocal avec vos clients sans quitter Chatwoot."
+      meeting_name: "%{agent_name} a démarré une réunion"
     slack:
       name: "Slack"
       description: "Slack est un outil de chat qui regroupe toutes vos communications en un seul endroit. En intégrant Slack, vous pouvez être notifié de toutes les nouvelles conversations de votre compte directement dans votre Slack."
@@ -97,3 +172,29 @@ fr:
     fullcontact:
       name: "Fullcontact"
       description: "L'intégration FullContact permet d'enrichir les profils de visiteurs. Identifiez les utilisateurs dès qu'ils partagent leur adresse de courriel et offrez-leur un service client sur mesure. Connectez FullContact à votre compte en partageant la clé API FullContact."
+    google_translate:
+      name: "Google Translate"
+      description: "Facilitez la traduction des messages par les agents en ajoutant une intégration de Google Translate. Google Translate permet d'identifier automatiquement la langue et de la convertir dans la langue choisie par l'agent/administrateur du compte."
+    openai:
+      name: "OpenAI"
+      description: "Intégrez de puissantes fonctions d'IA dans Chatwoot en exploitant les modèles GPT d'OpenAI."
+  public_portal:
+    search:
+      search_placeholder: Rechercher un article par titre ou contenu...
+      empty_placeholder: Aucun résultat trouvé.
+      loading_placeholder: Recherche en cours...
+      results_title: Résultats de recherche
+    toc_header: 'On this page'
+    hero:
+      sub_title: Recherchez les articles ici ou parcourez les catégories ci-dessous.
+    common:
+      home: Page d'accueil
+      last_updated_on: Dernière mise à jour le %{last_updated_on}
+      view_all_articles: Voir tous les articles
+      article: article
+      articles: articles
+      no_articles: Il n'y a pas d'articles ici
+    footer:
+      made_with: Réalisé avec
+    header:
+      go_to_homepage: Aller à la page d'accueil

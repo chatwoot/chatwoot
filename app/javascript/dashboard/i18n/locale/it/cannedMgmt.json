@@ -2,27 +2,27 @@
   "CANNED_MGMT": {
     "HEADER": "Risposte predefinite",
     "HEADER_BTN_TXT": "Aggiungi risposta predefinita",
-    "LOADING": "Recupero risposte predefinite",
+    "LOADING": "Recupero delle risposte predefinite",
     "SEARCH_404": "Non ci sono elementi che corrispondono a questa richiesta",
-    "SIDEBAR_TXT": "<p><b>Risposte predefinite</b> </p><p> Le risposte predefinite sono modelli di risposta salvati che possono essere utilizzati per inviare rapidamente una risposta a una conversazione. </p><p> Per creare una risposta predefinita, basta cliccare sulla <b>Aggiungi risposta preconfezionata</b>. Puoi anche modificare o eliminare una risposta predefinita esistente cliccando sul pulsante Modifica o Elimina </p><p> risposte predefinite sono utilizzate con l'aiuto di <b>Codici Brevi</b>. Gli agenti possono accedere alle risposte predefinite durante una chat digitando <b>'/'</b> seguiti dal codice breve. </p>",
+    "SIDEBAR_TXT": "<p><b>Risposte predefinite</b> </p><p> Le risposte predefinite sono modelli di risposta salvati che possono essere utilizzati per inviare rapidamente una risposta a una conversazione. </p><p> Per creare una risposta predefinita, basta cliccare su <b>Aggiungi risposta predefinita</b>. Puoi anche modificare o eliminare una risposta predefinita esistente facendo clic sul pulsante Modifica o Elimina </p><p> Le risposte predefinite sono utilizzate con l'aiuto dei <b>Codici brevi</b>. Gli agenti possono accedere alle risposte predefinite durante una chat digitando <b>'/'</b> seguito dal codice breve. </p>",
     "LIST": {
       "404": "Non ci sono risposte predefinite disponibili in questo account.",
       "TITLE": "Gestisci le risposte predefinite",
       "DESC": "Le risposte predefinite sono modelli di risposta predefiniti che possono essere utilizzati per inviare rapidamente risposte ai ticket.",
       "TABLE_HEADER": [
-        "Codice Breve",
+        "Codice breve",
         "Contenuto",
-        "azioni"
+        "Azioni"
       ]
     },
     "ADD": {
       "TITLE": "Aggiungi risposta predefinita",
       "DESC": "Le risposte predefinite sono modelli di risposta salvati che possono essere utilizzati per inviare rapidamente una risposta alla conversazione.",
-      "CANCEL_BUTTON_TEXT": "annulla",
+      "CANCEL_BUTTON_TEXT": "Annulla",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Codice Breve",
-          "PLACEHOLDER": "Si prega di inserire uno shortcode",
+          "LABEL": "Codice breve",
+          "PLACEHOLDER": "Si prega di inserire un codice breve",
           "ERROR": "Il codice breve è obbligatorio"
         },
         "CONTENT": {
@@ -39,11 +39,11 @@
     },
     "EDIT": {
       "TITLE": "Modifica risposta predefinita",
-      "CANCEL_BUTTON_TEXT": "annulla",
+      "CANCEL_BUTTON_TEXT": "Annulla",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Codice Breve",
-          "PLACEHOLDER": "Si prega di inserire uno shortcode",
+          "LABEL": "Codice breve",
+          "PLACEHOLDER": "Si prega di inserire un codice breve",
           "ERROR": "Il codice breve è obbligatorio"
         },
         "CONTENT": {
@@ -60,16 +60,16 @@
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Cancellare",
+      "BUTTON_TEXT": "Elimina",
       "API": {
-        "SUCCESS_MESSAGE": "Risposta preconfezionata eliminata correttamente",
+        "SUCCESS_MESSAGE": "Risposta predefinita eliminata correttamente",
         "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
       },
       "CONFIRM": {
         "TITLE": "Conferma eliminazione",
         "MESSAGE": "Sei sicuro di voler eliminare ",
         "YES": "Sì, elimina ",
-        "NO": "No, Conserva "
+        "NO": "No, conserva "
       }
     }
   }

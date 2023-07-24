@@ -1,6 +1,18 @@
 class SuperAdmin::UsersController < SuperAdmin::ApplicationController
   # Overwrite any of the RESTful controller actions to implement custom behavior
   # For example, you may want to send an email after a foo is updated.
+
+  def create
+    resource = resource_class.new(resource_params)
+    authorize_resource(resource)
+
+    if resource.save
+      redirect_to super_admin_user_path(resource), notice: translate_with_resource('create.success')
+    else
+      notice = resource.errors.full_messages.first
+      redirect_to new_super_admin_user_path, notice: notice
+    end
+  end
   #
   # def update
   #   super
@@ -33,12 +45,26 @@ class SuperAdmin::UsersController < SuperAdmin::ApplicationController
   # empty values into nil values. It uses other APIs such as `resource_class`
   # and `dashboard`:
   #
-  # def resource_params
-  #   params.require(resource_class.model_name.param_key).
-  #     permit(dashboard.permitted_attributes).
-  #     transform_values { |value| value == "" ? nil : value }
-  # end
+
+  def destroy_avatar
+    avatar = requested_resource.avatar
+    avatar.purge
+    redirect_back(fallback_location: super_admin_users_path)
+  end
+
+  def scoped_resource
+    resource_class.with_attached_avatar
+  end
+
+  def resource_params
+    permitted_params = super
+    permitted_params.delete(:password) if permitted_params[:password].blank?
+    permitted_params
+  end
 
   # See https://administrate-prototype.herokuapp.com/customizing_controller_actions
   # for more information
+  def find_resource(param)
+    super.becomes(User)
+  end
 end

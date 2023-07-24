@@ -11,7 +11,11 @@ json.data do
       json.notification_type notification.notification_type
       json.push_message_title notification.push_message_title
       # TODO: front end assumes primary actor to be conversation. should fix in future
-      if %w[assigned_conversation_new_message conversation_mention].include? notification.notification_type
+      if %w[
+        assigned_conversation_new_message
+        participating_conversation_new_message
+        conversation_mention
+      ].include? notification.notification_type
         json.primary_actor_type 'Conversation'
         json.primary_actor_id notification.conversation.id
         json.primary_actor notification.conversation.push_event_data

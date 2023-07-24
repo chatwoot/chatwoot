@@ -2,8 +2,8 @@
   <div class="column content-box">
     <woot-button
       color-scheme="success"
-      class-names="button--fixed-right-top"
-      icon="ion-android-download"
+      class-names="button--fixed-top"
+      icon="arrow-download"
       @click="downloadReports"
     >
       {{ downloadButtonLabel }}
@@ -12,45 +12,24 @@
       v-if="filterItemsList"
       :type="type"
       :filter-items-list="filterItemsList"
+      :group-by-filter-items-list="groupByfilterItemsList"
+      :selected-group-by-filter="selectedGroupByFilter"
       @date-range-change="onDateRangeChange"
       @filter-change="onFilterChange"
+      @group-by-filter-change="onGroupByFilterChange"
+      @business-hours-toggle="onBusinessHoursToggle"
     />
-    <div>
-      <div v-if="filterItemsList.length" class="row">
-        <woot-report-stats-card
-          v-for="(metric, index) in metrics"
-          :key="metric.NAME"
-          :desc="metric.DESC"
-          :heading="metric.NAME"
-          :index="index"
-          :on-click="changeSelection"
-          :point="accountSummary[metric.KEY]"
-          :selected="index === currentSelection"
-        />
-      </div>
-      <div class="report-bar">
-        <woot-loading-state
-          v-if="accountReport.isFetching"
-          :message="$t('REPORT.LOADING_CHART')"
-        />
-        <div v-else class="chart-container">
-          <woot-bar
-            v-if="accountReport.data.length && filterItemsList.length"
-            :collection="collection"
-          />
-          <span v-else class="empty-state">
-            {{ $t('REPORT.NO_ENOUGH_DATA') }}
-          </span>
-        </div>
-      </div>
-    </div>
+    <report-container v-if="filterItemsList.length" :group-by="groupBy" />
   </div>
 </template>
 
 <script>
 import ReportFilters from './ReportFilters';
-import fromUnixTime from 'date-fns/fromUnixTime';
-import format from 'date-fns/format';
+import ReportContainer from '../ReportContainer.vue';
+import { GROUP_BY_FILTER } from '../constants';
+import reportMixin from '../../../../../mixins/reportMixin';
+import { generateFileName } from '../../../../../helper/downloadHelper';
+import { REPORTS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 
 const REPORTS_KEYS = {
   CONVERSATIONS: 'conversations_count',
@@ -59,11 +38,15 @@ const REPORTS_KEYS = {
   FIRST_RESPONSE_TIME: 'avg_first_response_time',
   RESOLUTION_TIME: 'avg_resolution_time',
   RESOLUTION_COUNT: 'resolutions_count',
+  REPLY_TIME: 'reply_time',
 };
+
 export default {
   components: {
     ReportFilters,
+    ReportContainer,
   },
+  mixins: [reportMixin],
   props: {
     type: {
       type: String,
@@ -86,60 +69,16 @@ export default {
     return {
       from: 0,
       to: 0,
-      currentSelection: 0,
       selectedFilter: null,
+      groupBy: GROUP_BY_FILTER[1],
+      groupByfilterItemsList: this.$t('REPORT.GROUP_BY_DAY_OPTIONS'),
+      selectedGroupByFilter: null,
+      businessHours: false,
     };
   },
   computed: {
     filterItemsList() {
       return this.$store.getters[this.getterKey] || [];
-    },
-    accountSummary() {
-      return this.$store.getters.getAccountSummary || [];
-    },
-    accountReport() {
-      return this.$store.getters.getAccountReports || [];
-    },
-    collection() {
-      if (this.accountReport.isFetching) {
-        return {};
-      }
-      if (!this.accountReport.data.length) return {};
-      const labels = this.accountReport.data.map(element =>
-        format(fromUnixTime(element.timestamp), 'dd/MMM')
-      );
-      const data = this.accountReport.data.map(element => element.value);
-      return {
-        labels,
-        datasets: [
-          {
-            label: this.metrics[this.currentSelection].NAME,
-            backgroundColor: '#1f93ff',
-            data,
-          },
-        ],
-      };
-    },
-    metrics() {
-      let reportKeys = ['CONVERSATIONS'];
-      // If report type is agent, we don't need to show
-      // incoming messages count, as there will not be any message
-      // sent by an agent which is incoming.
-      if (this.type !== 'agent') {
-        reportKeys.push('INCOMING_MESSAGES');
-      }
-      reportKeys = [
-        ...reportKeys,
-        'OUTGOING_MESSAGES',
-        'FIRST_RESPONSE_TIME',
-        'RESOLUTION_TIME',
-        'RESOLUTION_COUNT',
-      ];
-      return reportKeys.map(key => ({
-        NAME: this.$t(`REPORT.METRICS.${key}.NAME`),
-        KEY: REPORTS_KEYS[key],
-        DESC: this.$t(`REPORT.METRICS.${key}.DESC`),
-      }));
     },
   },
   mounted() {
@@ -148,56 +87,79 @@ export default {
   methods: {
     fetchAllData() {
       if (this.selectedFilter) {
-        const { from, to } = this;
+        const { from, to, groupBy, businessHours } = this;
         this.$store.dispatch('fetchAccountSummary', {
           from,
           to,
           type: this.type,
           id: this.selectedFilter.id,
+          groupBy: groupBy.period,
+          businessHours,
         });
         this.fetchChartData();
       }
     },
     fetchChartData() {
-      const { from, to } = this;
-      this.$store.dispatch('fetchAccountReport', {
-        metric: this.metrics[this.currentSelection].KEY,
-        from,
-        to,
-        type: this.type,
-        id: this.selectedFilter.id,
+      [
+        'CONVERSATIONS',
+        'INCOMING_MESSAGES',
+        'OUTGOING_MESSAGES',
+        'FIRST_RESPONSE_TIME',
+        'RESOLUTION_TIME',
+        'RESOLUTION_COUNT',
+        'REPLY_TIME',
+      ].forEach(async key => {
+        try {
+          const { from, to, groupBy, businessHours } = this;
+          this.$store.dispatch('fetchAccountReport', {
+            metric: REPORTS_KEYS[key],
+            from,
+            to,
+            type: this.type,
+            id: this.selectedFilter.id,
+            groupBy: groupBy.period,
+            businessHours,
+          });
+        } catch {
+          this.showAlert(this.$t('REPORT.DATA_FETCHING_FAILED'));
+        }
       });
     },
     downloadReports() {
-      const { from, to } = this;
-      const fileName = `${this.type}-report-${format(
-        fromUnixTime(to),
-        'dd-MM-yyyy'
-      )}.csv`;
-      switch (this.type) {
-        case 'agent':
-          this.$store.dispatch('downloadAgentReports', { from, to, fileName });
-          break;
-        case 'label':
-          this.$store.dispatch('downloadLabelReports', { from, to, fileName });
-          break;
-        case 'inbox':
-          this.$store.dispatch('downloadInboxReports', { from, to, fileName });
-          break;
-        case 'team':
-          this.$store.dispatch('downloadTeamReports', { from, to, fileName });
-          break;
-        default:
-          break;
+      const { from, to, type, businessHours } = this;
+      const dispatchMethods = {
+        agent: 'downloadAgentReports',
+        label: 'downloadLabelReports',
+        inbox: 'downloadInboxReports',
+        team: 'downloadTeamReports',
+      };
+      if (dispatchMethods[type]) {
+        const fileName = generateFileName({ type, to, businessHours });
+        const params = { from, to, fileName, businessHours };
+        this.$store.dispatch(dispatchMethods[type], params);
       }
     },
-    changeSelection(index) {
-      this.currentSelection = index;
-      this.fetchChartData();
-    },
-    onDateRangeChange({ from, to }) {
+    onDateRangeChange({ from, to, groupBy }) {
+      // do not track filter change on inital load
+      if (this.from !== 0 && this.to !== 0) {
+        this.$track(REPORTS_EVENTS.FILTER_REPORT, {
+          filterType: 'date',
+          reportType: this.type,
+        });
+      }
+
       this.from = from;
       this.to = to;
+      this.groupByfilterItemsList = this.fetchFilterItems(groupBy);
+      const filterItems = this.groupByfilterItemsList.filter(
+        item => item.id === this.groupBy.id
+      );
+      if (filterItems.length > 0) {
+        this.selectedGroupByFilter = filterItems[0];
+      } else {
+        this.selectedGroupByFilter = this.groupByfilterItemsList[0];
+        this.groupBy = GROUP_BY_FILTER[this.selectedGroupByFilter.id];
+      }
       this.fetchAllData();
     },
     onFilterChange(payload) {
@@ -205,6 +167,38 @@ export default {
         this.selectedFilter = payload;
         this.fetchAllData();
       }
+    },
+    onGroupByFilterChange(payload) {
+      this.groupBy = GROUP_BY_FILTER[payload.id];
+      this.fetchAllData();
+
+      this.$track(REPORTS_EVENTS.FILTER_REPORT, {
+        filterType: 'groupBy',
+        filterValue: this.groupBy?.period,
+        reportType: this.type,
+      });
+    },
+    fetchFilterItems(groupBy) {
+      switch (groupBy) {
+        case GROUP_BY_FILTER[2].period:
+          return this.$t('REPORT.GROUP_BY_WEEK_OPTIONS');
+        case GROUP_BY_FILTER[3].period:
+          return this.$t('REPORT.GROUP_BY_MONTH_OPTIONS');
+        case GROUP_BY_FILTER[4].period:
+          return this.$t('REPORT.GROUP_BY_YEAR_OPTIONS');
+        default:
+          return this.$t('REPORT.GROUP_BY_DAY_OPTIONS');
+      }
+    },
+    onBusinessHoursToggle(value) {
+      this.businessHours = value;
+      this.fetchAllData();
+
+      this.$track(REPORTS_EVENTS.FILTER_REPORT, {
+        filterType: 'businessHours',
+        filterValue: value,
+        reportType: this.type,
+      });
     },
   },
 };

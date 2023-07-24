@@ -1,0 +1,118 @@
+{
+  "AUTOMATION": {
+    "HEADER": "Automatizācijas",
+    "HEADER_BTN_TXT": "Pievienot Automatizācijas Noteikumu",
+    "LOADING": "Notiek automatizācijas noteikumu iegūšana",
+    "SIDEBAR_TXT": "<p><b>Automatizācijas Noteikumi</b> <p>Automatizācija var aizstāt un automatizēt esošos procesus, kuriem nepieciešama manuāla piepūle. Izmantojot automatizāciju, Jūs varat veikt daudzas darbības, tostarp pievienot etiķetes un piešķirt sarunu labākajam aģentam. Šādi komanda koncentrēsies uz to, kas viņiem padodas vislabāk, un mazāk laika veltītīs manuāliem uzdevumiem.</p>",
+    "ADD": {
+      "TITLE": "Pievienot Automatizācijas Noteikumu",
+      "SUBMIT": "Izveidot",
+      "CANCEL_BUTTON_TEXT": "Atcelt",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Noteikuma Nosaukums",
+          "PLACEHOLDER": "Ievadiet noteikuma nosaukumu",
+          "ERROR": "Nepieciešams nosaukums"
+        },
+        "DESC": {
+          "LABEL": "Apraksts",
+          "PLACEHOLDER": "Ievadiet noteikuma aprakstu",
+          "ERROR": "Nepieciešams apraksts"
+        },
+        "EVENT": {
+          "LABEL": "Notikums",
+          "PLACEHOLDER": "Lūdzu, izvēlieties vienu",
+          "ERROR": "Nepieciešams notikums"
+        },
+        "CONDITIONS": {
+          "LABEL": "Nosacījumi"
+        },
+        "ACTIONS": {
+          "LABEL": "Darbības"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Pievienot Nosacījumu",
+      "ACTION_BUTTON_LABEL": "Pievienot Darbību",
+      "API": {
+        "SUCCESS_MESSAGE": "Automatizācijas noteikums ir veiksmīgi pievienots",
+        "ERROR_MESSAGE": "Nevarēja izveidot automatizācijas noteikumu. Lūdzu, vēlāk mēģiniet vēlreiz"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Nosaukums",
+        "Apraksts",
+        "Aktīvs",
+        "Izveidots"
+      ],
+      "404": "Automatizācijas noteikumi nav atrasti"
+    },
+    "DELETE": {
+      "TITLE": "Dzēst automatizācijas noteikumu",
+      "SUBMIT": "Dzēst",
+      "CANCEL_BUTTON_TEXT": "Atcelt",
+      "CONFIRM": {
+        "TITLE": "Apstiprināt Dzēšanu",
+        "MESSAGE": "Vai vēlaties izdzēst ",
+        "YES": "Jā, Dzēst ",
+        "NO": "Nē, Paturēt "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Automatizācijas noteikums ir veiksmīgi izdzēsts",
+        "ERROR_MESSAGE": "Nevarēja izdzēst automatizācijas noteikumu. Lūdzu, vēlāk mēģiniet vēlreiz"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Rediģēt Automatizācijas Noteikumu",
+      "SUBMIT": "Atjaunināt",
+      "CANCEL_BUTTON_TEXT": "Atcelt",
+      "API": {
+        "SUCCESS_MESSAGE": "Automatizācijas noteikums ir veiksmīgi atjaunināts",
+        "ERROR_MESSAGE": "Nevarēja atjaunināt automatizācijas noteikumu. Lūdzu, vēlāk mēģiniet vēlreiz"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "Klonēt",
+      "API": {
+        "SUCCESS_MESSAGE": "Automatizācija ir veiksmīgi noklonēta",
+        "ERROR_MESSAGE": "Nevarēja noklonēt automatizācijas noteikumu. Lūdzu, vēlāk mēģiniet vēlreiz"
+      }
+    },
+    "FORM": {
+      "EDIT": "Rediģēt",
+      "CREATE": "Izveidot",
+      "DELETE": "Dzēst",
+      "CANCEL": "Atcelt",
+      "RESET_MESSAGE": "Mainot notikuma tipu tiks atiestatīti tālāk pievienotie nosacījumi un notikumi"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "Lai saglabātu, Jums ir nepieciešams vismaz viens nosacījums",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Kontaktpersonu Pielāgotās Īpašības",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Sarunu Pielāgotās Īpašības"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "Lai saglabātu, ir nepieciešama vismaz viena darbība",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Ievadiet savu ziņojumu šeit",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Izvēlieties komandas"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Aktivizēt Automatizācijas Noteikumu",
+      "DEACTIVATION_TITLE": "Deaktivizēt Automatizācijas Noteikumu",
+      "ACTIVATION_DESCRIPTION": "Šī darbība aktivizēs automatizācijas noteikumu '{automationName}'. Vai tiešām vēlaties turpināt?",
+      "DEACTIVATION_DESCRIPTION": "Šī darbība deaktivizēs automatizācijas noteikumu '{automationName}'. Vai tiešām vēlaties turpināt?",
+      "ACTIVATION_SUCCESFUL": "Automatizācijas Noteikums ir Veiksmīgi Aktivizēts",
+      "DEACTIVATION_SUCCESFUL": "Automatizācijas Noteikums ir Veiksmīgi Deaktivizēts",
+      "ACTIVATION_ERROR": "Nevarēja Aktivizēt Automatizāciju. Lūdzu, vēlāk mēģiniet vēlreiz",
+      "DEACTIVATION_ERROR": "Nevarēja Deaktivizēt Automatizāciju. Lūdzu, vēlāk mēģiniet vēlreiz",
+      "CONFIRMATION_LABEL": "Jā",
+      "CANCEL_LABEL": "Nē"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Nevarēja augšupielādēt pielikumu. Lūdzu, mēģiniet vēlreiz",
+      "LABEL_IDLE": "Augšupielādēt pielikumu",
+      "LABEL_UPLOADING": "Notiek augšupielāde...",
+      "LABEL_UPLOADED": "Veiksmīgi Augšupielādēts",
+      "LABEL_UPLOAD_FAILED": "Augšupielāde neizdevās"
+    }
+  }
+}

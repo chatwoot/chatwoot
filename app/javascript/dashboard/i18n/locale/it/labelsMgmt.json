@@ -1,31 +1,31 @@
 {
   "LABEL_MGMT": {
     "HEADER": "Etichette",
-    "HEADER_BTN_TXT": "Aggiungi Etichette",
+    "HEADER_BTN_TXT": "Aggiungi etichetta",
     "LOADING": "Recupero etichette",
     "SEARCH_404": "Non ci sono elementi che corrispondono a questa richiesta",
-    "SIDEBAR_TXT": "<p><b>Etichette</b> <p>Le etichette ti aiutano a categorizzare le conversazioni e a darle la priorità. È possibile assegnare l'etichetta a una conversazione dal pannello laterale. <br /><br />Le etichette sono legate all'account e possono essere utilizzate per creare flussi di lavoro personalizzati nell'organizzazione. È possibile assegnare un colore personalizzato a un'etichetta, rende più facile identificare l'etichetta. Potrai visualizzare l'etichetta sulla barra laterale per filtrare facilmente le conversazioni.</p>",
+    "SIDEBAR_TXT": "<p><b>Etichette</b> <p>Le etichette ti aiutano a categorizzare le conversazioni e a dargli una priorità. È possibile assegnare l'etichetta a una conversazione dal pannello laterale. <br /><br />Le etichette sono legate all'account e possono essere utilizzate per creare flussi di lavoro personalizzati nell'organizzazione. È possibile assegnare un colore personalizzato a un'etichetta, così da rendere più facile identificare l'etichetta. Potrai visualizzare l'etichetta sulla barra laterale per filtrare facilmente le conversazioni.</p>",
     "LIST": {
       "404": "Non ci sono etichette disponibili in questo account.",
       "TITLE": "Gestisci etichette",
       "DESC": "Le etichette consentono di raggruppare le conversazioni insieme.",
       "TABLE_HEADER": [
-        "nome",
+        "Nome",
         "Descrizione",
         "Colore"
       ]
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Nome Etichetta",
-        "PLACEHOLDER": "Nome Etichetta",
+        "LABEL": "Nome etichetta",
+        "PLACEHOLDER": "Nome etichetta",
         "REQUIRED_ERROR": "Nome etichetta obbligatorio",
-        "MINIMUM_LENGTH_ERROR": "È richiesta la lunghezza minima 2",
+        "MINIMUM_LENGTH_ERROR": "È richiesta una lunghezza minima di 2",
         "VALID_ERROR": "Sono ammessi solo lettere, numeri, trattino e sottolineatura"
       },
       "DESCRIPTION": {
         "LABEL": "Descrizione",
-        "PLACEHOLDER": "Descrizione Etichetta"
+        "PLACEHOLDER": "Descrizione etichetta"
       },
       "COLOR": {
         "LABEL": "Colore"
@@ -35,11 +35,11 @@
       },
       "EDIT": "Modifica",
       "CREATE": "Crea",
-      "DELETE": "Cancellare",
-      "CANCEL": "annulla"
+      "DELETE": "Elimina",
+      "CANCEL": "Annulla"
     },
     "ADD": {
-      "TITLE": "Aggiungi Etichette",
+      "TITLE": "Aggiungi etichetta",
       "DESC": "Le etichette consentono di raggruppare le conversazioni insieme.",
       "API": {
         "SUCCESS_MESSAGE": "Etichetta aggiunta correttamente",
@@ -54,7 +54,7 @@
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Cancellare",
+      "BUTTON_TEXT": "Elimina",
       "API": {
         "SUCCESS_MESSAGE": "Etichetta eliminata con successo",
         "ERROR_MESSAGE": "Si è verificato un errore, riprova"
@@ -63,7 +63,7 @@
         "TITLE": "Conferma eliminazione",
         "MESSAGE": "Sei sicuro di voler eliminare ",
         "YES": "Sì, elimina ",
-        "NO": "No, Conserva "
+        "NO": "No, conserva "
       }
     }
   }

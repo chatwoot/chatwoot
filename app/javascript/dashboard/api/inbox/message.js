@@ -7,21 +7,28 @@ export const buildCreatePayload = ({
   isPrivate,
   contentAttributes,
   echoId,
-  file,
+  files,
   ccEmails = '',
   bccEmails = '',
+  toEmails = '',
+  templateParams,
 }) => {
   let payload;
-  if (file) {
+  if (files && files.length !== 0) {
     payload = new FormData();
-    payload.append('attachments[]', file, file.name);
     if (message) {
       payload.append('content', message);
     }
+    files.forEach(file => {
+      payload.append('attachments[]', file);
+    });
     payload.append('private', isPrivate);
     payload.append('echo_id', echoId);
     payload.append('cc_emails', ccEmails);
     payload.append('bcc_emails', bccEmails);
+    if (toEmails) {
+      payload.append('to_emails', toEmails);
+    }
   } else {
     payload = {
       content: message,
@@ -30,6 +37,8 @@ export const buildCreatePayload = ({
       content_attributes: contentAttributes,
       cc_emails: ccEmails,
       bcc_emails: bccEmails,
+      to_emails: toEmails,
+      template_params: templateParams,
     };
   }
   return payload;
@@ -46,9 +55,11 @@ class MessageApi extends ApiClient {
     private: isPrivate,
     contentAttributes,
     echo_id: echoId,
-    file,
+    files,
     ccEmails = '',
     bccEmails = '',
+    toEmails = '',
+    templateParams,
   }) {
     return axios({
       method: 'post',
@@ -58,9 +69,11 @@ class MessageApi extends ApiClient {
         isPrivate,
         contentAttributes,
         echoId,
-        file,
+        files,
         ccEmails,
         bccEmails,
+        toEmails,
+        templateParams,
       }),
     });
   }
@@ -69,10 +82,21 @@ class MessageApi extends ApiClient {
     return axios.delete(`${this.url}/${conversationID}/messages/${messageId}`);
   }
 
-  getPreviousMessages({ conversationId, before }) {
-    return axios.get(`${this.url}/${conversationId}/messages`, {
-      params: { before },
-    });
+  getPreviousMessages({ conversationId, after, before }) {
+    const params = { before };
+    if (after && Number(after) !== Number(before)) {
+      params.after = after;
+    }
+    return axios.get(`${this.url}/${conversationId}/messages`, { params });
+  }
+
+  translateMessage(conversationId, messageId, targetLanguage) {
+    return axios.post(
+      `${this.url}/${conversationId}/messages/${messageId}/translate`,
+      {
+        target_language: targetLanguage,
+      }
+    );
   }
 }
 

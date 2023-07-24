@@ -6,6 +6,7 @@ jest.mock('../../../../helpers/uuid');
 jest.mock('widget/helpers/axios');
 
 const commit = jest.fn();
+const dispatch = jest.fn();
 
 describe('#actions', () => {
   describe('#createConversation', () => {
@@ -92,7 +93,7 @@ describe('#actions', () => {
   });
 
   describe('#sendMessage', () => {
-    it('sends correct mutations', () => {
+    it('sends correct mutations', async () => {
       const mockDate = new Date(1466424490000);
       getUuid.mockImplementationOnce(() => '1111');
       const spy = jest.spyOn(global, 'Date').mockImplementation(() => mockDate);
@@ -109,15 +110,16 @@ describe('#actions', () => {
           search: '?param=1',
         },
       }));
-      actions.sendMessage({ commit }, { content: 'hello' });
+      await actions.sendMessage({ commit, dispatch }, { content: 'hello' });
       spy.mockRestore();
       windowSpy.mockRestore();
-      expect(commit).toBeCalledWith('pushMessageToConversation', {
-        id: '1111',
+      expect(dispatch).toBeCalledWith('sendMessageWithData', {
+        attachments: undefined,
         content: 'hello',
-        status: 'in_progress',
         created_at: 1466424490,
+        id: '1111',
         message_type: 0,
+        status: 'in_progress',
       });
     });
   });
@@ -130,7 +132,7 @@ describe('#actions', () => {
       const thumbUrl = '';
       const attachment = { thumbUrl, fileType: 'file' };
 
-      actions.sendAttachment({ commit }, { attachment });
+      actions.sendAttachment({ commit, dispatch }, { attachment });
       spy.mockRestore();
       expect(commit).toBeCalledWith('pushMessageToConversation', {
         id: '1111',
@@ -179,22 +181,28 @@ describe('#actions', () => {
   describe('#fetchOldConversations', () => {
     it('sends correct actions', async () => {
       API.get.mockResolvedValue({
-        data: [
-          {
-            id: 1,
-            text: 'hey',
-            content_attributes: {},
+        data: {
+          payload: [
+            {
+              id: 1,
+              text: 'hey',
+              content_attributes: {},
+            },
+            {
+              id: 2,
+              text: 'welcome',
+              content_attributes: { deleted: true },
+            },
+          ],
+          meta: {
+            contact_last_seen_at: 1466424490,
           },
-          {
-            id: 2,
-            text: 'welcome',
-            content_attributes: { deleted: true },
-          },
-        ],
+        },
       });
       await actions.fetchOldConversations({ commit }, {});
       expect(commit.mock.calls).toEqual([
         ['setConversationListLoading', true],
+        ['conversation/setMetaUserLastSeenAt', 1466424490, { root: true }],
         [
           'setMessagesInConversation',
           [
@@ -207,6 +215,211 @@ describe('#actions', () => {
         ],
         ['setConversationListLoading', false],
       ]);
+    });
+  });
+
+  describe('#syncLatestMessages', () => {
+    it('latest message should append to end of list', async () => {
+      const state = {
+        uiFlags: { allMessagesLoaded: false },
+        conversations: {
+          '454': {
+            id: 454,
+            content: 'hi',
+            message_type: 0,
+            content_type: 'text',
+            content_attributes: {},
+            created_at: 1682244355, //  Sunday, 23 April 2023 10:05:55
+            conversation_id: 20,
+          },
+          '463': {
+            id: 463,
+            content: 'ss',
+            message_type: 0,
+            content_type: 'text',
+            content_attributes: {},
+            created_at: 1682490729, // Wednesday, 26 April 2023 06:32:09
+            conversation_id: 20,
+          },
+        },
+        lastMessageId: 463,
+      };
+      API.get.mockResolvedValue({
+        data: {
+          payload: [
+            {
+              id: 465,
+              content: 'hi',
+              message_type: 0,
+              content_type: 'text',
+              content_attributes: {},
+              created_at: 1682504326, // Wednesday, 26 April 2023 10:18:46
+              conversation_id: 20,
+            },
+          ],
+          meta: {
+            contact_last_seen_at: 1466424490,
+          },
+        },
+      });
+      await actions.syncLatestMessages({ state, commit }, {});
+      expect(commit.mock.calls).toEqual([
+        ['conversation/setMetaUserLastSeenAt', 1466424490, { root: true }],
+        [
+          'setMissingMessagesInConversation',
+
+          {
+            '454': {
+              id: 454,
+              content: 'hi',
+              message_type: 0,
+              content_type: 'text',
+              content_attributes: {},
+              created_at: 1682244355,
+              conversation_id: 20,
+            },
+            '463': {
+              id: 463,
+              content: 'ss',
+              message_type: 0,
+              content_type: 'text',
+              content_attributes: {},
+              created_at: 1682490729,
+              conversation_id: 20,
+            },
+            '465': {
+              id: 465,
+              content: 'hi',
+              message_type: 0,
+              content_type: 'text',
+              content_attributes: {},
+              created_at: 1682504326,
+              conversation_id: 20,
+            },
+          },
+        ],
+      ]);
+    });
+
+    it('old message should insert to exact position', async () => {
+      const state = {
+        uiFlags: { allMessagesLoaded: false },
+        conversations: {
+          '454': {
+            id: 454,
+            content: 'hi',
+            message_type: 0,
+            content_type: 'text',
+            content_attributes: {},
+            created_at: 1682244355, //  Sunday, 23 April 2023 10:05:55
+            conversation_id: 20,
+          },
+          '463': {
+            id: 463,
+            content: 'ss',
+            message_type: 0,
+            content_type: 'text',
+            content_attributes: {},
+            created_at: 1682490729, // Wednesday, 26 April 2023 06:32:09
+            conversation_id: 20,
+          },
+        },
+        lastMessageId: 463,
+      };
+      API.get.mockResolvedValue({
+        data: {
+          payload: [
+            {
+              id: 460,
+              content: 'Hi how are you',
+              message_type: 0,
+              content_type: 'text',
+              content_attributes: {},
+              created_at: 1682417926, // Tuesday, 25 April 2023 10:18:46
+              conversation_id: 20,
+            },
+          ],
+          meta: {
+            contact_last_seen_at: 14664223490,
+          },
+        },
+      });
+      await actions.syncLatestMessages({ state, commit }, {});
+
+      expect(commit.mock.calls).toEqual([
+        ['conversation/setMetaUserLastSeenAt', 14664223490, { root: true }],
+        [
+          'setMissingMessagesInConversation',
+
+          {
+            '454': {
+              id: 454,
+              content: 'hi',
+              message_type: 0,
+              content_type: 'text',
+              content_attributes: {},
+              created_at: 1682244355,
+              conversation_id: 20,
+            },
+            '460': {
+              id: 460,
+              content: 'Hi how are you',
+              message_type: 0,
+              content_type: 'text',
+              content_attributes: {},
+              created_at: 1682417926,
+              conversation_id: 20,
+            },
+            '463': {
+              id: 463,
+              content: 'ss',
+              message_type: 0,
+              content_type: 'text',
+              content_attributes: {},
+              created_at: 1682490729,
+              conversation_id: 20,
+            },
+          },
+        ],
+      ]);
+    });
+
+    it('abort syncing if there is no missing messages ', async () => {
+      const state = {
+        uiFlags: { allMessagesLoaded: false },
+        conversation: {
+          '454': {
+            id: 454,
+            content: 'hi',
+            message_type: 0,
+            content_type: 'text',
+            content_attributes: {},
+            created_at: 1682244355, //  Sunday, 23 April 2023 10:05:55
+            conversation_id: 20,
+          },
+          '463': {
+            id: 463,
+            content: 'ss',
+            message_type: 0,
+            content_type: 'text',
+            content_attributes: {},
+            created_at: 1682490729, // Wednesday, 26 April 2023 06:32:09
+            conversation_id: 20,
+          },
+        },
+        lastMessageId: 463,
+      };
+      API.get.mockResolvedValue({
+        data: {
+          payload: [],
+          meta: {
+            contact_last_seen_at: 14664223490,
+          },
+        },
+      });
+      await actions.syncLatestMessages({ state, commit }, {});
+
+      expect(commit.mock.calls).toEqual([]);
     });
   });
 });

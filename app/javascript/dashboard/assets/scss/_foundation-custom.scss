@@ -7,26 +7,19 @@
   }
 }
 
+select {
+  height: 2.5rem;
+}
+
 .card {
   margin-bottom: var(--space-small);
   padding: var(--space-normal);
 }
 
-.button-wrapper .button.link.grey-btn {
-  margin-left: var(--space-normal);
-}
-
-.tooltip {
-  border-radius: $space-smaller;
-  font-size: $font-size-mini;
-  max-width: 15rem;
-  padding: $space-smaller $space-small;
-  z-index: 999;
-}
-
 code {
   border: 0;
-  font-family: 'Monaco', Verdana;
+  font-family: 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas',
+    '"Liberation Mono"', '"Courier New"', 'monospace';
   font-size: $font-size-mini;
 
   &.hljs {
@@ -55,11 +48,10 @@ code {
   padding-right: var(--space-normal);
 }
 
+.badge {
+  border-radius: var(--border-radius-normal);
+}
 
 .padding-right-small {
   padding-right: var(--space-one);
-}
-
-.margin-right-small {
-  margin-right: var(--space-small);
 }

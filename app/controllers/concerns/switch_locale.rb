@@ -3,25 +3,25 @@ module SwitchLocale
 
   private
 
-  def switch_locale(&action)
+  def switch_locale(&)
     # priority is for locale set in query string (mostly for widget/from js sdk)
     locale ||= locale_from_params
     # if locale is not set in account, let's use DEFAULT_LOCALE env variable
     locale ||= locale_from_env_variable
-    set_locale(locale, &action)
+    set_locale(locale, &)
   end
 
-  def switch_locale_using_account_locale(&action)
+  def switch_locale_using_account_locale(&)
     locale = locale_from_account(@current_account)
-    set_locale(locale, &action)
+    set_locale(locale, &)
   end
 
-  def set_locale(locale, &action)
+  def set_locale(locale, &)
     # if locale is empty, use default_locale
     locale ||= I18n.default_locale
     # Ensure locale won't bleed into other requests
     # https://guides.rubyonrails.org/i18n.html#managing-the-locale-across-requests
-    I18n.with_locale(locale, &action)
+    I18n.with_locale(locale, &)
   end
 
   def locale_from_params

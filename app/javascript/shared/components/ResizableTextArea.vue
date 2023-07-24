@@ -12,7 +12,6 @@
 
 <script>
 const TYPING_INDICATOR_IDLE_TIME = 4000;
-
 export default {
   props: {
     placeholder: {
@@ -37,6 +36,13 @@ export default {
     value() {
       this.resizeTextarea();
     },
+  },
+  mounted() {
+    this.$nextTick(() => {
+      if (this.value) {
+        this.resizeTextarea();
+      }
+    });
   },
   methods: {
     resizeTextarea() {

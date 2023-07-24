@@ -1,0 +1,78 @@
+{
+  "MACROS": {
+    "HEADER": "Macrocomenzi",
+    "HEADER_BTN_TXT": "Adaugă un nou webhook",
+    "HEADER_BTN_TXT_SAVE": "Salvarea macrocomenzii",
+    "LOADING": "Preluarea macrocomenzilor",
+    "SIDEBAR_TXT": "<p><b>Macrocomenzi</b><p>O macrocomandă este un set de acțiuni salvate care ajută agenții de servicii pentru clienți să finalizeze cu ușurință activitățile. Agenții pot defini un set de acțiuni, cum ar fi etichetarea unei conversații cu o etichetă, trimiterea unei transcrieri a e-mailului, actualizarea unui atribut particularizat etc., și pot rula aceste acțiuni cu un singur clic. Când agenții execută macrocomanda, acțiunile vor fi efectuate secvențial în ordinea în care sunt definite. Macrocomenzile îmbunătățesc productivitatea și cresc consecvența acțiunilor. </p><p>O macrocomandă poate fi utilă în 2 moduri. </p><p><b>În calitate de agent de asistență:</b> Dacă un agent efectuează un set de acțiuni de mai multe ori, îl poate salva ca macrocomandă și poate executa toate acțiunile împreună folosind un singur clic.</p><p><b>Ca opțiune de a înscrie un membru al echipei:</b> Fiecare agent trebuie să efectueze multe verificări / acțiuni diferite în timpul fiecărei conversații. Înscrierea unui nou membru al echipei de asistență va fi ușoară dacă macrocomenzi predefinite sunt disponibile în cont. În loc să descrie fiecare pas în detaliu, coordonatorul manager/echipă poate indica spre macrocomenzile utilizate în diferite scenarii.</p>",
+    "ERROR": "Ceva nu a mers bine. Vă rugăm să încercați din nou",
+    "ORDER_INFO": "Macrocomenzile vor rula în ordinea în care adăugați acțiunile. Le puteți rearanja trăgându-le de mânerul de lângă fiecare nod.",
+    "ADD": {
+      "FORM": {
+        "NAME": {
+          "LABEL": "Numele macrocomenzii",
+          "PLACEHOLDER": "Introducerea unui nume pentru macrocomandă",
+          "ERROR": "Numele este necesar pentru crearea unei macrocomenzi"
+        },
+        "ACTIONS": {
+          "LABEL": "Actiuni"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Macrocomandă adăugată cu succes",
+        "ERROR_MESSAGE": "Imposibil de creat macrocomanda, încercați din nou mai târziu"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Nume",
+        "Creat de",
+        "Ultima actualizare de către",
+        "Vizibilitate"
+      ],
+      "404": "Nu s-au găsit macrocomenzi"
+    },
+    "DELETE": {
+      "TOOLTIP": "Ștergerea macrocomenzii",
+      "CONFIRM": {
+        "MESSAGE": "Sigur doriți să ștergeți ",
+        "YES": "Da, șterge",
+        "NO": "Nu"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Macrocomanda ștearsă cu succes",
+        "ERROR_MESSAGE": "A existat o eroare la ștergerea macrocomenzii. Încercați din nou mai târziu"
+      }
+    },
+    "EDIT": {
+      "TOOLTIP": "Editarea macrocomenzii",
+      "API": {
+        "SUCCESS_MESSAGE": "Macrocomenzi actualizate cu succes",
+        "ERROR_MESSAGE": "Nu s-a putut actualiza macrocomanda, încercați din nou mai târziu"
+      }
+    },
+    "EDITOR": {
+      "START_FLOW": "Flux de pornire",
+      "END_FLOW": "Fluxul final",
+      "LOADING": "Preluarea macrocomenzii",
+      "ADD_BTN_TOOLTIP": "Adăugarea unei acțiuni noi",
+      "DELETE_BTN_TOOLTIP": "Ștergere acțiune",
+      "VISIBILITY": {
+        "LABEL": "Vizibilitatea macrocomenzilor",
+        "GLOBAL": {
+          "LABEL": "Public",
+          "DESCRIPTION": "Această macrocomandă este disponibilă public pentru toți agenții din acest cont."
+        },
+        "PERSONAL": {
+          "LABEL": "Privat",
+          "DESCRIPTION": "Această macrocomandă va fi privată pentru tine și nu va fi disponibilă pentru alte persoane."
+        }
+      }
+    },
+    "EXECUTE": {
+      "BUTTON_TOOLTIP": "Executa",
+      "PREVIEW": "Previzualizarea macrocomenzii",
+      "EXECUTED_SUCCESSFULLY": "Macrocomandă executată cu succes"
+    }
+  }
+}

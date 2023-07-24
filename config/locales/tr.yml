@@ -21,27 +21,82 @@ tr:
   messages:
     reset_password_success: Parola sıfırlama isteği başarılı. Talimatlar için postanızı kontrol edin.
     reset_password_failure: Belirtilen e-postaya sahip herhangi bir kullanıcı bulamadık.
+    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
+    validations:
+      presence: boş bırakılmamalı
+    webhook:
+      invalid: Hatalı işlem
     signup:
       disposable_email: Tek kullanımlık e-postalara izin vermiyoruz
       invalid_email: Geçersiz bir e-posta girdiniz
       email_already_exists: "%{email} ile zaten bir hesaba kaydoldunuz"
       failed: Kayıt başarısız oldu
+    data_import:
+      data_type:
+        invalid: Hatalı veri türü
     contacts:
       import:
-        failed: File is blank
+        failed: Dosya boş
+      export:
+        success: We will notify you once contacts export file is ready to view.
+      email:
+        invalid: Hatalı e-posta
+      phone_number:
+        invalid: e164 formatında olmalı
+    categories:
+      locale:
+        unique: kategori ve portalde tekil olmalı
+    dyte:
+      invalid_message_type: "Invalid message type. Action not permitted"
+    inboxes:
+      imap:
+        socket_error: Lütfen ağ bağlantınızı, IMAP adresini kontrol edin ve tekrar deneyin.
+        no_response_error: Lütfen IMAP erişim bilgilerinizi kontrol edip tekrar deneyin.
+        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
+        connection_timed_out_error: Connection timed out for %{address}:%{port}
+        connection_closed_error: Connection closed.
+      validations:
+        name: should not start or end with symbols, and it should not have < > / \ @ characters.
+    custom_filters:
+      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
   reports:
     period: Raporlama aralığı %{since}'dan %{until}'a
+    utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Temsilci adı
       conversations_count: Konuşma sayısı
       avg_first_response_time: Ortalama cevap süresi(dakika)
       avg_resolution_time: Ortalama çözüm üretme süresi(dakika)
+    inbox_csv:
+      inbox_name: Inbox name
+      inbox_type: Inbox type
+      conversations_count: No. of conversations
+      avg_first_response_time: Ortalama cevap süresi(dakika)
+      avg_resolution_time: Ortalama çözüm üretme süresi(dakika)
+    label_csv:
+      label_title: Label
+      conversations_count: No. of conversations
+      avg_first_response_time: Ortalama cevap süresi(dakika)
+      avg_resolution_time: Ortalama çözüm üretme süresi(dakika)
     team_csv:
-      team_name: Team name
+      team_name: Ekip İsmi
       conversations_count: Konuşma sayısı
       avg_first_response_time: Ortalama cevap süresi(dakika)
       avg_resolution_time: Ortalama çözüm üretme süresi(dakika)
+    conversation_traffic_csv:
+      timezone: Timezone
+    default_group_by: gün
+    csat:
+      headers:
+        contact_name: Contact Name
+        contact_email_address: Contact Email Address
+        contact_phone_number: Contact Phone Number
+        link_to_the_conversation: Görüşmenin bağlantısı
+        agent_name: Kullanıcı Adı
+        rating: Değerlendirme
+        feedback: Değerlendirme Yorumu
+        recorded_at: Kaydedilen tarih
   notifications:
     notification_title:
       conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
@@ -50,14 +105,22 @@ tr:
       conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} hikayesinde senden bahsetti: "
+      instagram_deleted_story_content: This story is no longer available.
       deleted: Bu mesaj silinmiş
     activity:
       status:
         resolved: "Görüşme %{user_name} tarafından çözüldü olarak işaretlendi"
+        contact_resolved: "Görüşme %{contact_name} tarafından çözüldü olarak işaretlendi"
         open: "Görüşme %{user_name} tarafından çözüldü olarak işaretlendi"
         pending: "Conversation was marked as pending by %{user_name}"
         snoozed: "Conversation was snoozed by %{user_name}"
         auto_resolved: " %{duration} günlük hareketsizlik nedeniyle görüşme, sistem tarafından çözümlendi olarak işaretlendi"
+        system_auto_open: System reopened the conversation due to a new incoming message.
+      priority:
+        added: '%{user_name} set the priority to %{new_priority}'
+        updated: '%{user_name} changed the priority from %{old_priority} to %{new_priority}'
+        removed: '%{user_name} removed the priority'
       assignee:
         self_assigned: "%{user_name} bu görüşmeyi kendisi atadı"
         assigned: "%{user_name} tarafından %{assignee_name} adına atandı"
@@ -75,16 +138,28 @@ tr:
       greeting_message_body: "%{account_name} genellikle birkaç saat içinde yanıt verir."
       ways_to_reach_you_message_body: "Ekibin size ulaşması için bir bilgi verin."
       email_input_box_message_body: "E-posta ile haberdar olun"
-      csat_input_message_body: "Lütfen konuşmayı oylayın"
+      csat_input_message_body: "Lütfen görüşmeyi değerlendirin"
     reply:
+      email:
+        header:
+          from_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} from %{inbox_name} <reply+%{reply_email}>"
+      channel_email:
+        header:
+          reply_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Bu görüşmedeki yeni mesajlar"
       transcript_subject: "Konuşma Metni"
     survey:
-      response: "Lütfen konuşmayı oylayın, %{link}"
+      response: "Lütfen bu görüşmeyi değerlendirin, %{link}"
   contacts:
     online:
       delete: "%{contact_name} is Online, please try again later"
   integration_apps:
+    dyte:
+      name: "Dyte"
+      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
+      meeting_name: "%{agent_name} has started a meeting"
     slack:
       name: "Slack"
       description: "Slack, tüm iletişiminizi tek bir yerde bir araya getiren bir sohbet aracıdır. Slack'i entegre ederek, hesabınızdaki tüm yeni konuşmalardan Slack'inizin içinde bildirim alabilirsiniz."
@@ -97,3 +172,29 @@ tr:
     fullcontact:
       name: "Fullcontact"
       description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
+    google_translate:
+      name: "Google Translate"
+      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
+    openai:
+      name: "OpenAI"
+      description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
+  public_portal:
+    search:
+      search_placeholder: Search for article by title or body...
+      empty_placeholder: Sonuç bulunamadı.
+      loading_placeholder: Searching...
+      results_title: Search results
+    toc_header: 'On this page'
+    hero:
+      sub_title: Search for the articles here or browse the categories below.
+    common:
+      home: Anasayfa
+      last_updated_on: Last updated on %{last_updated_on}
+      view_all_articles: View all articles
+      article: article
+      articles: articles
+      no_articles: There are no articles here
+    footer:
+      made_with: Made with
+    header:
+      go_to_homepage: Go to the main site

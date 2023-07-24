@@ -6,7 +6,16 @@ class ConversationApi extends ApiClient {
     super('conversations', { accountScoped: true });
   }
 
-  get({ inboxId, status, assigneeType, page, labels, teamId }) {
+  get({
+    inboxId,
+    status,
+    assigneeType,
+    page,
+    labels,
+    teamId,
+    conversationType,
+    sortBy,
+  }) {
     return axios.get(this.url, {
       params: {
         inbox_id: inboxId,
@@ -15,6 +24,8 @@ class ConversationApi extends ApiClient {
         assignee_type: assigneeType,
         page,
         labels,
+        conversation_type: conversationType,
+        sort_by: sortBy,
       },
     });
   }
@@ -43,6 +54,12 @@ class ConversationApi extends ApiClient {
     });
   }
 
+  togglePriority({ conversationId, priority }) {
+    return axios.post(`${this.url}/${conversationId}/toggle_priority`, {
+      priority,
+    });
+  }
+
   assignAgent({ conversationId, agentId }) {
     return axios.post(
       `${this.url}/${conversationId}/assignments?assignee_id=${agentId}`,
@@ -57,6 +74,10 @@ class ConversationApi extends ApiClient {
 
   markMessageRead({ id }) {
     return axios.post(`${this.url}/${id}/update_last_seen`);
+  }
+
+  markMessagesUnread({ id }) {
+    return axios.post(`${this.url}/${id}/unread`);
   }
 
   toggleTyping({ conversationId, status, isPrivate }) {
@@ -74,7 +95,7 @@ class ConversationApi extends ApiClient {
     return axios.post(`${this.url}/${conversationId}/unmute`);
   }
 
-  meta({ inboxId, status, assigneeType, labels, teamId }) {
+  meta({ inboxId, status, assigneeType, labels, teamId, conversationType }) {
     return axios.get(`${this.url}/meta`, {
       params: {
         inbox_id: inboxId,
@@ -82,6 +103,7 @@ class ConversationApi extends ApiClient {
         assignee_type: assigneeType,
         labels,
         team_id: teamId,
+        conversation_type: conversationType,
       },
     });
   }
@@ -94,6 +116,20 @@ class ConversationApi extends ApiClient {
     return axios.post(`${this.url}/${conversationId}/custom_attributes`, {
       custom_attributes: customAttributes,
     });
+  }
+
+  fetchParticipants(conversationId) {
+    return axios.get(`${this.url}/${conversationId}/participants`);
+  }
+
+  updateParticipants({ conversationId, userIds }) {
+    return axios.patch(`${this.url}/${conversationId}/participants`, {
+      user_ids: userIds,
+    });
+  }
+
+  getAllAttachments(conversationId) {
+    return axios.get(`${this.url}/${conversationId}/attachments`);
   }
 }
 

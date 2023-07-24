@@ -6,19 +6,19 @@ class Api::V1::Accounts::CampaignsController < Api::V1::Accounts::BaseController
     @campaigns = Current.account.campaigns
   end
 
+  def show; end
+
   def create
     @campaign = Current.account.campaigns.create!(campaign_params)
   end
 
-  def destroy
-    @campaign.destroy
-    head :ok
+  def update
+    @campaign.update!(campaign_params)
   end
 
-  def show; end
-
-  def update
-    @campaign.update(campaign_params)
+  def destroy
+    @campaign.destroy!
+    head :ok
   end
 
   private

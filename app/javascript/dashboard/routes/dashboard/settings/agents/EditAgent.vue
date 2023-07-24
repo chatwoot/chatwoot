@@ -1,9 +1,9 @@
 <template>
   <modal :show.sync="show" :on-close="onClose">
-    <div class="column content-box">
+    <div class="h-auto overflow-auto flex flex-col">
       <woot-modal-header :header-title="pageTitle" />
-      <form class="row medium-8" @submit.prevent="editAgent()">
-        <div class="medium-12 columns">
+      <form class="w-full" @submit.prevent="editAgent()">
+        <div class="w-full">
           <label :class="{ error: $v.agentName.$error }">
             {{ $t('AGENT_MGMT.EDIT.FORM.NAME.LABEL') }}
             <input
@@ -15,7 +15,7 @@
           </label>
         </div>
 
-        <div class="medium-12 columns">
+        <div class="w-full">
           <label :class="{ error: $v.agentType.$error }">
             {{ $t('AGENT_MGMT.EDIT.FORM.AGENT_TYPE.LABEL') }}
             <select v-model="agentType">
@@ -28,8 +28,26 @@
             </span>
           </label>
         </div>
-        <div class="medium-12 modal-footer">
-          <div class="medium-6 columns">
+
+        <div class="w-full">
+          <label :class="{ error: $v.agentAvailability.$error }">
+            {{ $t('PROFILE_SETTINGS.FORM.AVAILABILITY.LABEL') }}
+            <select v-model="agentAvailability">
+              <option
+                v-for="role in availabilityStatuses"
+                :key="role.value"
+                :value="role.value"
+              >
+                {{ role.label }}
+              </option>
+            </select>
+            <span v-if="$v.agentAvailability.$error" class="message">
+              {{ $t('AGENT_MGMT.EDIT.FORM.AGENT_AVAILABILITY.ERROR') }}
+            </span>
+          </label>
+        </div>
+        <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+          <div class="w-[50%]">
             <woot-submit-button
               :disabled="
                 $v.agentType.$invalid ||
@@ -43,9 +61,9 @@
               {{ $t('AGENT_MGMT.EDIT.CANCEL_BUTTON_TEXT') }}
             </button>
           </div>
-          <div class="medium-6 columns text-right">
+          <div class="w-[50%] text-right">
             <woot-button
-              icon="ion-locked"
+              icon="lock-closed"
               variant="clear"
               @click.prevent="resetPassword"
             >
@@ -64,6 +82,9 @@ import { mapGetters } from 'vuex';
 import WootSubmitButton from '../../../../components/buttons/FormSubmitButton';
 import Modal from '../../../../components/Modal';
 import Auth from '../../../../api/auth';
+import wootConstants from 'dashboard/constants/globals';
+
+const { AVAILABILITY_STATUS_KEYS } = wootConstants;
 
 export default {
   components: {
@@ -87,6 +108,10 @@ export default {
       type: String,
       default: '',
     },
+    availability: {
+      type: String,
+      default: '',
+    },
     onClose: {
       type: Function,
       required: true,
@@ -105,6 +130,7 @@ export default {
         },
       ],
       agentName: this.name,
+      agentAvailability: this.availability,
       agentType: this.type,
       agentCredentials: {
         email: this.email,
@@ -120,6 +146,9 @@ export default {
     agentType: {
       required,
     },
+    agentAvailability: {
+      required,
+    },
   },
   computed: {
     pageTitle() {
@@ -128,6 +157,16 @@ export default {
     ...mapGetters({
       uiFlags: 'agents/getUIFlags',
     }),
+    availabilityStatuses() {
+      return this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST').map(
+        (statusLabel, index) => ({
+          label: statusLabel,
+          value: AVAILABILITY_STATUS_KEYS[index],
+          disabled:
+            this.currentUserAvailability === AVAILABILITY_STATUS_KEYS[index],
+        })
+      );
+    },
   },
   methods: {
     showAlert(message) {
@@ -139,6 +178,7 @@ export default {
           id: this.id,
           name: this.agentName,
           role: this.agentType,
+          availability: this.agentAvailability,
         });
         this.showAlert(this.$t('AGENT_MGMT.EDIT.API.SUCCESS_MESSAGE'));
         this.onClose();

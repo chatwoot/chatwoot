@@ -2,7 +2,7 @@
 
 class AccountBuilder
   include CustomExceptions::Account
-  pattr_initialize [:account_name!, :email!, :confirmed, :user, :user_full_name, :user_password]
+  pattr_initialize [:account_name!, :email!, :confirmed, :user, :user_full_name, :user_password, :super_admin, :locale]
 
   def perform
     if @user.nil?
@@ -65,6 +65,7 @@ class AccountBuilder
                      password: user_password,
                      password_confirmation: user_password,
                      name: @user_full_name)
+    @user.type = 'SuperAdmin' if @super_admin
     @user.confirm if @confirmed
     @user.save!
   end

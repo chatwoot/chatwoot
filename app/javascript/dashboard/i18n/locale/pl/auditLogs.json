@@ -1,0 +1,53 @@
+{
+  "AUDIT_LOGS": {
+    "HEADER": "Dzienniki audytowe",
+    "HEADER_BTN_TXT": "Dodaj dziennik audytowy",
+    "LOADING": "Pobieranie dzienników audytowych",
+    "SEARCH_404": "Brak elementów pasujących do tego zapytania",
+    "SIDEBAR_TXT": "<p><b>Dzienniki audytowe</b> </p><p>Dzienniki audytowe to ślady zdarzeń i działań w systemie Chatwoot.</p>",
+    "LIST": {
+      "404": "Brak dostępnych dzienników audytowych w tym koncie.",
+      "TITLE": "Zarządzaj dziennikami audytowymi",
+      "DESC": "Dzienniki audytowe to ślady zdarzeń i działań w systemie Chatwoot.",
+      "TABLE_HEADER": [
+        "Użytkownik",
+        "Akcja",
+        "Adres IP"
+      ]
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Pomyślnie pobrano dzienniki audytowe",
+      "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot, spróbuj ponownie później"
+    },
+    "DEFAULT_USER": "System",
+    "AUTOMATION_RULE": {
+      "ADD": "%{agentName} utworzył nową regułę automatyzacji (#%{id})",
+      "EDIT": "%{agentName} zaktualizował regułę automatyzacji (#%{id})",
+      "DELETE": "%{agentName} usunął regułę automatyzacji (#%{id})"
+    },
+    "INBOX": {
+      "ADD": "%{agentName} utworzył nową skrzynkę odbiorczą (#%{id})",
+      "EDIT": "%{agentName} zaktualizował skrzynkę odbiorczą (#%{id})",
+      "DELETE": "%{agentName} usunął skrzynkę odbiorczą (#%{id})"
+    },
+    "WEBHOOK": {
+      "ADD": "%{agentName} utworzył nowy webhook (#%{id})",
+      "EDIT": "%{agentName} zaktualizował webhook (#%{id})",
+      "DELETE": "%{agentName} usunął webhook (#%{id})"
+    },
+    "USER_ACTION": {
+      "SIGN_IN": "%{agentName} zalogował się",
+      "SIGN_OUT": "%{agentName} wylogował się"
+    },
+    "TEAM": {
+      "ADD": "%{agentName} utworzył nowy zespół (#%{id})",
+      "EDIT": "%{agentName} zaktualizował zespół (#%{id})",
+      "DELETE": "%{agentName} usunął zespół (#%{id})"
+    },
+    "MACRO": {
+      "ADD": "%{agentName} utworzył nową makro (#%{id})",
+      "EDIT": "%{agentName} zaktualizował makro (#%{id})",
+      "DELETE": "%{agentName} usunął makro (#%{id})"
+    }
+  }
+}

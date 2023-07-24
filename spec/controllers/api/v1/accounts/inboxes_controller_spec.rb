@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Inboxes API', type: :request do
+  include ActiveJob::TestHelper
+
   let(:account) { create(:account) }
   let(:agent) { create(:user, account: account, role: :agent) }
   let(:admin) { create(:user, account: account, role: :administrator) }
@@ -40,6 +42,25 @@ RSpec.describe 'Inboxes API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(JSON.parse(response.body, symbolize_names: true)[:payload].size).to eq(1)
+      end
+
+      context 'when provider_config' do
+        let(:inbox) { create(:channel_whatsapp, account: account, sync_templates: false, validate_provider_config: false).inbox }
+
+        it 'returns provider config attributes for admin' do
+          get "/api/v1/accounts/#{account.id}/inboxes",
+              headers: admin.create_new_auth_token,
+              as: :json
+          expect(response.body).to include('provider_config')
+        end
+
+        it 'will not return provider config for agent' do
+          get "/api/v1/accounts/#{account.id}/inboxes",
+              headers: agent.create_new_auth_token,
+              as: :json
+
+          expect(response.body).not_to include('provider_config')
+        end
       end
     end
   end
@@ -84,7 +105,62 @@ RSpec.describe 'Inboxes API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(JSON.parse(response.body, symbolize_names: true)[:id]).to eq(inbox.id)
+        data = JSON.parse(response.body, symbolize_names: true)
+        expect(data[:id]).to eq(inbox.id)
+        expect(data[:hmac_token]).to be_nil
+      end
+
+      it 'returns empty imap details in inbox when agent' do
+        email_channel = create(:channel_email, account: account, imap_enabled: true, imap_login: 'test@test.com')
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+        create(:inbox_member, user: agent, inbox: email_inbox)
+
+        imap_connection = double
+        allow(Mail).to receive(:connection).and_return(imap_connection)
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        data = JSON.parse(response.body, symbolize_names: true)
+
+        expect(data[:imap_enabled]).to be_nil
+        expect(data[:imap_login]).to be_nil
+      end
+
+      it 'returns imap details in inbox when admin' do
+        email_channel = create(:channel_email, account: account, imap_enabled: true, imap_login: 'test@test.com')
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+
+        imap_connection = double
+        allow(Mail).to receive(:connection).and_return(imap_connection)
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        data = JSON.parse(response.body, symbolize_names: true)
+
+        expect(data[:imap_enabled]).to be_truthy
+        expect(data[:imap_login]).to eq('test@test.com')
+      end
+
+      it 'fetch API inbox without hmac token when agent' do
+        api_channel = create(:channel_api, account: account)
+        api_inbox = create(:inbox, channel: api_channel, account: account)
+        create(:inbox_member, user: agent, inbox: api_inbox)
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{api_inbox.id}",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+
+        data = JSON.parse(response.body, symbolize_names: true)
+
+        expect(data[:hmac_token]).to be_nil
       end
     end
   end
@@ -133,7 +209,7 @@ RSpec.describe 'Inboxes API', type: :request do
       let(:agent) { create(:user, account: account, role: :agent) }
       let(:administrator) { create(:user, account: account, role: :administrator) }
 
-      let!(:campaign) { create(:campaign, account: account, inbox: inbox) }
+      let!(:campaign) { create(:campaign, account: account, inbox: inbox, trigger_rules: { url: 'https://test.com' }) }
 
       it 'returns unauthorized for agents' do
         get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/campaigns",
@@ -145,7 +221,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
       it 'returns all campaigns belonging to the inbox to administrators' do
         # create a random campaign
-        create(:campaign, account: account)
+        create(:campaign, account: account, trigger_rules: { url: 'https://test.com' })
         get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/campaigns",
             headers: administrator.create_new_auth_token,
             as: :json
@@ -172,13 +248,15 @@ RSpec.describe 'Inboxes API', type: :request do
     context 'when it is an authenticated user' do
       before do
         create(:inbox_member, user: agent, inbox: inbox)
-        inbox.avatar.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+        inbox.avatar.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
       end
 
       it 'delete inbox avatar for administrator user' do
-        delete "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/avatar",
-               headers: admin.create_new_auth_token,
-               as: :json
+        perform_enqueued_jobs(only: DeleteObjectJob) do
+          delete "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/avatar",
+                 headers: admin.create_new_auth_token,
+                 as: :json
+        end
 
         expect { inbox.avatar.attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
         expect(response).to have_http_status(:success)
@@ -209,12 +287,18 @@ RSpec.describe 'Inboxes API', type: :request do
       let(:admin) { create(:user, account: account, role: :administrator) }
 
       it 'deletes inbox' do
-        delete "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
-               headers: admin.create_new_auth_token,
-               as: :json
+        expect(DeleteObjectJob).to receive(:perform_later).with(inbox, admin, anything).once
+
+        perform_enqueued_jobs(only: DeleteObjectJob) do
+          delete "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+                 headers: admin.create_new_auth_token,
+                 as: :json
+        end
+
+        json_response = response.parsed_body
 
         expect(response).to have_http_status(:success)
-        expect { inbox.reload }.to raise_exception(ActiveRecord::RecordNotFound)
+        expect(json_response['message']).to eq('Your inbox deletion request will be processed in some time.')
       end
 
       it 'is unable to delete inbox of another account' do
@@ -308,6 +392,29 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response.body).to include('Line Inbox')
         expect(response.body).to include('callback_webhook_url')
       end
+
+      it 'creates a sms inbox when administrator' do
+        post "/api/v1/accounts/#{account.id}/inboxes",
+             headers: admin.create_new_auth_token,
+             params: { name: 'Sms Inbox',
+                       channel: { type: 'sms', phone_number: '+123456789', provider_config: { test: 'test' } } },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('Sms Inbox')
+        expect(response.body).to include('+123456789')
+      end
+
+      it 'creates the webwidget inbox that allow messages after conversation is resolved' do
+        post "/api/v1/accounts/#{account.id}/inboxes",
+             headers: admin.create_new_auth_token,
+             params: valid_params,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+        expect(json_response['allow_messages_after_resolved']).to be true
+      end
     end
   end
 
@@ -324,7 +431,8 @@ RSpec.describe 'Inboxes API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:admin) { create(:user, account: account, role: :administrator) }
-      let(:valid_params) { { name: 'new test inbox', enable_auto_assignment: false } }
+      let!(:portal) { create(:portal, account_id: account.id) }
+      let(:valid_params) { { name: 'new test inbox', enable_auto_assignment: false, portal_id: portal.id } }
 
       it 'will not update inbox for agent' do
         agent = create(:user, account: account, role: :agent)
@@ -345,7 +453,8 @@ RSpec.describe 'Inboxes API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(inbox.reload.enable_auto_assignment).to be_falsey
-        expect(JSON.parse(response.body)['name']).to eq 'new test inbox'
+        expect(inbox.reload.portal_id).to eq(portal.id)
+        expect(response.parsed_body['name']).to eq 'new test inbox'
       end
 
       it 'updates api inbox when administrator' do
@@ -360,6 +469,39 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response).to have_http_status(:success)
         expect(api_inbox.reload.enable_auto_assignment).to be_falsey
         expect(api_channel.reload.webhook_url).to eq('webhook.test')
+      end
+
+      it 'updates whatsapp inbox when administrator' do
+        stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook').to_return(status: 200, body: '', headers: {})
+        stub_request(:get, 'https://waba.360dialog.io/v1/configs/templates').to_return(status: 200, body: '', headers: {})
+        whatsapp_channel = create(:channel_whatsapp, account: account)
+        whatsapp_inbox = create(:inbox, channel: whatsapp_channel, account: account)
+        whatsapp_channel.prompt_reauthorization!
+
+        expect(whatsapp_channel).to be_reauthorization_required
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { enable_auto_assignment: false, channel: { provider_config: { api_key: 'new_key' } } },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(whatsapp_inbox.reload.enable_auto_assignment).to be_falsey
+        expect(whatsapp_channel.reload.provider_config['api_key']).to eq('new_key')
+        expect(whatsapp_channel.reload).not_to be_reauthorization_required
+      end
+
+      it 'updates twitter inbox when administrator' do
+        twitter_channel = create(:channel_twitter_profile, account: account, tweets_enabled: true)
+        twitter_inbox = create(:inbox, channel: twitter_channel, account: account)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{twitter_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { channel: { tweets_enabled: false } },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(twitter_channel.reload.tweets_enabled).to be(false)
       end
 
       it 'updates email inbox when administrator' do
@@ -390,7 +532,7 @@ RSpec.describe 'Inboxes API', type: :request do
                   imap_enabled: true,
                   imap_address: 'imap.gmail.com',
                   imap_port: 993,
-                  imap_email: 'imaptest@gmail.com'
+                  imap_login: 'imaptest@gmail.com'
                 }
               },
               as: :json
@@ -401,35 +543,9 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(email_channel.reload.imap_port).to eq(993)
       end
 
-      it 'updates email inbox with smtp when administrator' do
-        email_channel = create(:channel_email, account: account)
-        email_inbox = create(:inbox, channel: email_channel, account: account)
-
-        smtp_connection = double
-        allow(smtp_connection).to receive(:finish).and_return(true)
-        allow(Net::SMTP).to receive(:start).and_return(smtp_connection)
-
-        patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
-              headers: admin.create_new_auth_token,
-              params: {
-                channel: {
-                  smtp_enabled: true,
-                  smtp_address: 'smtp.gmail.com',
-                  smtp_port: 587,
-                  smtp_email: 'smtptest@gmail.com'
-                }
-              },
-              as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(email_channel.reload.smtp_enabled).to be true
-        expect(email_channel.reload.smtp_address).to eq('smtp.gmail.com')
-        expect(email_channel.reload.smtp_port).to eq(587)
-      end
-
       it 'updates avatar when administrator' do
         # no avatar before upload
-        expect(inbox.avatar.attached?).to eq(false)
+        expect(inbox.avatar.attached?).to be(false)
         file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
         patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
               params: valid_params.merge(avatar: file),
@@ -437,7 +553,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
         expect(response).to have_http_status(:success)
         inbox.reload
-        expect(inbox.avatar.attached?).to eq(true)
+        expect(inbox.avatar.attached?).to be(true)
       end
 
       it 'updates working hours when administrator' do
@@ -453,6 +569,110 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response).to have_http_status(:success)
         inbox.reload
         expect(inbox.reload.weekly_schedule.find { |schedule| schedule['day_of_week'] == 0 }['open_hour']).to eq 9
+      end
+
+      it 'updates the webwidget inbox to disallow the messages after conversation is resolved' do
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: valid_params.merge({ allow_messages_after_resolved: false }),
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(inbox.reload.allow_messages_after_resolved).to be_falsey
+      end
+    end
+
+    context 'when an authenticated user updates email inbox' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+      let(:email_channel) { create(:channel_email, account: account) }
+      let(:email_inbox) { create(:inbox, channel: email_channel, account: account) }
+
+      it 'updates smtp configuration with starttls encryption' do
+        smtp_connection = double
+        allow(smtp_connection).to receive(:start).and_return(true)
+        allow(smtp_connection).to receive(:finish).and_return(true)
+        allow(smtp_connection).to receive(:respond_to?).and_return(true)
+        allow(smtp_connection).to receive(:enable_starttls_auto).and_return(true)
+        allow(Net::SMTP).to receive(:new).and_return(smtp_connection)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: {
+                channel: {
+                  smtp_enabled: true,
+                  smtp_address: 'smtp.gmail.com',
+                  smtp_port: 587,
+                  smtp_login: 'smtptest@gmail.com',
+                  smtp_enable_starttls_auto: true,
+                  smtp_openssl_verify_mode: 'peer'
+                }
+              },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(email_channel.reload.smtp_enabled).to be true
+        expect(email_channel.reload.smtp_address).to eq('smtp.gmail.com')
+        expect(email_channel.reload.smtp_port).to eq(587)
+        expect(email_channel.reload.smtp_enable_starttls_auto).to be true
+        expect(email_channel.reload.smtp_openssl_verify_mode).to eq('peer')
+      end
+
+      it 'updates smtp configuration with ssl/tls encryption' do
+        smtp_connection = double
+        allow(smtp_connection).to receive(:start).and_return(true)
+        allow(smtp_connection).to receive(:finish).and_return(true)
+        allow(smtp_connection).to receive(:respond_to?).and_return(true)
+        allow(smtp_connection).to receive(:enable_tls).and_return(true)
+        allow(Net::SMTP).to receive(:new).and_return(smtp_connection)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: {
+                channel: {
+                  smtp_enabled: true,
+                  smtp_address: 'smtp.gmail.com',
+                  smtp_login: 'smtptest@gmail.com',
+                  smtp_port: 587,
+                  smtp_enable_ssl_tls: true,
+                  smtp_openssl_verify_mode: 'none'
+                }
+              },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(email_channel.reload.smtp_enabled).to be true
+        expect(email_channel.reload.smtp_address).to eq('smtp.gmail.com')
+        expect(email_channel.reload.smtp_port).to eq(587)
+        expect(email_channel.reload.smtp_enable_ssl_tls).to be true
+        expect(email_channel.reload.smtp_openssl_verify_mode).to eq('none')
+      end
+
+      it 'updates smtp configuration with authentication mechanism' do
+        smtp_connection = double
+        allow(smtp_connection).to receive(:start).and_return(true)
+        allow(smtp_connection).to receive(:finish).and_return(true)
+        allow(smtp_connection).to receive(:respond_to?).and_return(true)
+        allow(smtp_connection).to receive(:enable_starttls_auto).and_return(true)
+        allow(Net::SMTP).to receive(:new).and_return(smtp_connection)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: {
+                channel: {
+                  smtp_enabled: true,
+                  smtp_address: 'smtp.gmail.com',
+                  smtp_port: 587,
+                  smtp_email: 'smtptest@gmail.com',
+                  smtp_authentication: 'plain'
+                }
+              },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(email_channel.reload.smtp_enabled).to be true
+        expect(email_channel.reload.smtp_address).to eq('smtp.gmail.com')
+        expect(email_channel.reload.smtp_port).to eq(587)
+        expect(email_channel.reload.smtp_authentication).to eq('plain')
       end
     end
   end
@@ -480,7 +700,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
         expect(response).to have_http_status(:success)
         inbox_data = JSON.parse(response.body, symbolize_names: true)
-        expect(inbox_data[:agent_bot].blank?).to eq(true)
+        expect(inbox_data[:agent_bot].blank?).to be(true)
       end
 
       it 'returns the agent bot attached to the inbox' do

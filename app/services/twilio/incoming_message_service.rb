@@ -4,9 +4,11 @@ class Twilio::IncomingMessageService
   pattr_initialize [:params!]
 
   def perform
+    return if twilio_channel.blank?
+
     set_contact
     set_conversation
-    @message = @conversation.messages.create(
+    @message = @conversation.messages.create!(
       content: params[:Body],
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
@@ -19,15 +21,17 @@ class Twilio::IncomingMessageService
 
   private
 
-  def twilio_inbox
-    @twilio_inbox ||= ::Channel::TwilioSms.find_by!(
-      account_sid: params[:AccountSid],
-      phone_number: params[:To]
-    )
+  def twilio_channel
+    @twilio_channel ||= ::Channel::TwilioSms.find_by(messaging_service_sid: params[:MessagingServiceSid]) if params[:MessagingServiceSid].present?
+    if params[:AccountSid].present? && params[:To].present?
+      @twilio_channel ||= ::Channel::TwilioSms.find_by!(account_sid: params[:AccountSid],
+                                                        phone_number: params[:To])
+    end
+    @twilio_channel
   end
 
   def inbox
-    @inbox ||= twilio_inbox.inbox
+    @inbox ||= twilio_channel.inbox
   end
 
   def account
@@ -35,7 +39,7 @@ class Twilio::IncomingMessageService
   end
 
   def phone_number
-    twilio_inbox.sms? ? params[:From] : params[:From].gsub('whatsapp:', '')
+    twilio_channel.sms? ? params[:From] : params[:From].gsub('whatsapp:', '')
   end
 
   def formatted_phone_number
@@ -43,7 +47,7 @@ class Twilio::IncomingMessageService
   end
 
   def set_contact
-    contact_inbox = ::ContactBuilder.new(
+    contact_inbox = ::ContactInboxWithContactBuilder.new(
       source_id: params[:From],
       inbox: inbox,
       contact_attributes: contact_attributes
@@ -79,7 +83,7 @@ class Twilio::IncomingMessageService
   end
 
   def additional_attributes
-    if twilio_inbox.sms?
+    if twilio_channel.sms?
       {
         from_zip_code: params[:FromZip],
         from_country: params[:FromCountry],

@@ -5,7 +5,7 @@ RSpec.describe 'Twilio::CallbacksController', type: :request do
   let(:twilio_service) { instance_double(Twilio::IncomingMessageService) }
 
   before do
-    allow(::Twilio::IncomingMessageService).to receive(:new).and_return(twilio_service)
+    allow(Twilio::IncomingMessageService).to receive(:new).and_return(twilio_service)
     allow(twilio_service).to receive(:perform)
   end
 

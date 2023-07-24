@@ -7,7 +7,8 @@
       :title="label.title"
       :description="label.description"
       :show-close="true"
-      :bg-color="label.color"
+      :color="label.color"
+      variant="smooth"
       @click="removeItem"
     />
     <div class="dropdown-wrap">
@@ -19,6 +20,7 @@
           v-if="showSearchDropdownLabel"
           :account-labels="allLabels"
           :selected-labels="selectedLabels"
+          :allow-creation="isAdmin"
           @add="addItem"
           @remove="removeItem"
         />
@@ -29,8 +31,15 @@
 
 <script>
 import AddLabel from 'shared/components/ui/dropdown/AddLabel';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import LabelDropdown from 'shared/components/ui/label/LabelDropdown';
 import { mixin as clickaway } from 'vue-clickaway';
+import adminMixin from 'dashboard/mixins/isAdmin';
+import {
+  buildHotKeys,
+  isEscape,
+  isActiveElementTypeable,
+} from 'shared/helpers/KeyboardHelpers';
 
 export default {
   components: {
@@ -38,7 +47,7 @@ export default {
     LabelDropdown,
   },
 
-  mixins: [clickaway],
+  mixins: [clickaway, adminMixin, eventListenerMixins],
 
   props: {
     allLabels: {
@@ -78,6 +87,18 @@ export default {
 
     closeDropdownLabel() {
       this.showSearchDropdownLabel = false;
+    },
+
+    handleKeyEvents(e) {
+      const keyPattern = buildHotKeys(e);
+
+      if (keyPattern === 'l' && !isActiveElementTypeable(e)) {
+        this.toggleLabels();
+        e.preventDefault();
+      } else if (isEscape(e) && this.showSearchDropdownLabel) {
+        this.closeDropdownLabel();
+        e.preventDefault();
+      }
     },
   },
 };

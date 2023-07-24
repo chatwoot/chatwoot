@@ -21,20 +21,62 @@ fa:
   messages:
     reset_password_success: سوت! درخواست ریست شدن رمز عبور با موفقیت ارسال شد. ایمیل خود را چک کنید
     reset_password_failure: اوه نه! کاربری با چنین ایمیلی وجود ندارد
+    inbox_deletetion_response: درخواست حذف صندوق ورودی شما پس از مدتی پردازش خواهد شد.
   errors:
+    validations:
+      presence: نباید خالی باشد
+    webhook:
+      invalid: رویدادهای نامعتبر
     signup:
       disposable_email: استفاده از ایمیل‌های موقت امکان‌پذیر نیست
       invalid_email: ایمیل وارد شده معتبر نیست
-      email_already_exists: "قبلا کاربری با ایمیل %{email} ثبت نام کرده است."
+      email_already_exists: "قبلا کاربری با ایمیل %{email} ثبت‌نام کرده است"
       failed: ثبت نام ناموفق بود
+    data_import:
+      data_type:
+        invalid: نوع داده نامعتبر است
     contacts:
       import:
-        failed: فایل خالی است
+        failed: پرونده خالی است
+      export:
+        success: We will notify you once contacts export file is ready to view.
+      email:
+        invalid: ایمیل نامعتبر است
+      phone_number:
+        invalid: باید در قالب e164 باشد
+    categories:
+      locale:
+        unique: باید منحصر به فرد در دسته‌بندی و پورتال باشد
+    dyte:
+      invalid_message_type: "نوع پیام نامعتبر است. اقدام مجاز نیست"
+    inboxes:
+      imap:
+        socket_error: لطفا اتصال شبکه، آدرس IMAP را بررسی کنید و دوباره امتحان کنید.
+        no_response_error: لطفا اعتبارنامه IMAP را بررسی کنید و دوباره امتحان کنید.
+        host_unreachable_error: میزبان غیرقابل دسترسی است، لطفا آدرس IMAP و پورت IMAP را بررسی کنید و دوباره امتحان کنید.
+        connection_timed_out_error: زمان اتصال برای %{address}:%{port} تمام شد
+        connection_closed_error: اتصال بسته شد.
+      validations:
+        name: نباید با نمادها شروع یا ختم شود و نباید دارای کاراکترهای < > / \ @ باشد.
+    custom_filters:
+      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
   reports:
     period: زمان گزارش از %{since} تا %{until}
+    utc_warning: گزارش تولید شده در منطقه زمانی UTC است
     agent_csv:
       agent_name: اسم ایجنت
       conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
+    inbox_csv:
+      inbox_name: نام صندوق ورودی
+      inbox_type: نوع صندوق ورودی
+      conversations_count: تعداد گفتگوها
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
+    label_csv:
+      label_title: برچسب
+      conversations_count: تعداد گفتگوها
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
     team_csv:
@@ -42,6 +84,19 @@ fa:
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
+    conversation_traffic_csv:
+      timezone: منطقه زمانی
+    default_group_by: روز
+    csat:
+      headers:
+        contact_name: نام تماس
+        contact_email_address: آدرس ایمیل تماس
+        contact_phone_number: شماره تلفن تماس
+        link_to_the_conversation: پیوند به گفتگو
+        agent_name: اسم ایجنت
+        rating: رتبه
+        feedback: بازخورد نظر
+        recorded_at: تاریخ ثبت شده
   notifications:
     notification_title:
       conversation_creation: "[گفتگو جدید] - #%{display_id} در %{inbox_name} ایجاد شده است"
@@ -50,14 +105,22 @@ fa:
       conversation_mention: "نام شما در مکالمه [ID -%{display_id}] توسط %{name} ذکر شده است"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} در داستان به شما اشاره کرده: "
+      instagram_deleted_story_content: این داستان دیگر در دسترس نیست.
       deleted: این پیام حذف شد
     activity:
       status:
         resolved: "مکالمه توسط ایجنت %{user_name} حل شده، اعلام شده بود"
+        contact_resolved: "گفتگو توسط %{contact_name} حل شد"
         open: "گفتگو توسط ایجنت %{user_name} مجددا باز شده بود"
         pending: "مکالمه توسط %{user_name} به عنوان معلق علامت گذاری شد"
         snoozed: "مکالمه توسط %{user_name} به تعویق افتاد"
         auto_resolved: "به دلیل %{duration} روز عدم فعالیت ، مکالمه توسط سیستم بسته شد"
+        system_auto_open: سیستم به دلیل یک پیام دریافتی جدید، مکالمه را دوباره باز کرد.
+      priority:
+        added: '%{user_name} اولویت را روی %{new_priority} تنظیم کرد'
+        updated: '%{user_name} اولویت را از %{old_priority} به %{new_priority} تغییر داد'
+        removed: '%{user_name} اولویت را حذف کرد'
       assignee:
         self_assigned: "%{user_name} این مکالمه را به خود اختصاص داد"
         assigned: "%{user_name} گفتگو را به %{assignee_name} اختصاص داد"
@@ -77,6 +140,14 @@ fa:
       email_input_box_message_body: "پیام جدیدی به این گفتگو اضافه شده است"
       csat_input_message_body: "لطفاً به مکالمه امتیاز دهید"
     reply:
+      email:
+        header:
+          from_with_name: "%{assignee_name} از %{inbox_name} «%{from_email}»"
+          reply_with_name: "%{assignee_name} از %{inbox_name} <reply+%{reply_email}>"
+      channel_email:
+        header:
+          reply_with_name: "%{assignee_name} از %{inbox_name} «%{from_email}»"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "پیام‌های جدید در این مکالمه"
       transcript_subject: "متن مکالمه"
     survey:
@@ -85,6 +156,10 @@ fa:
     online:
       delete: "%{contact_name} آنلاین است ، لطفاً بعداً دوباره امتحان کنید"
   integration_apps:
+    dyte:
+      name: "Dyte"
+      description: "Dyte ابزاری است که به شما کمک می کند تا صدا و تصویر زنده را تنها با چند خط کد به برنامه خود اضافه کنید. این ادغام به شما امکان می دهد تا گزینه ای را به نمایندگان خود بدهید تا بدون ترک چت با مشتریان خود تماس ویدیویی یا صوتی داشته باشند."
+      meeting_name: "%{agent_name} جلسه ای را آغاز کرده است"
     slack:
       name: "Slack"
       description: "Slack ابزاری برای گفتگو است که تمام ارتباطات شما را در یک مکان جمع می کند. با ادغام Slack ، می توانید از تمام مکالمات جدید در حساب خود در داخل Slack مطلع شوید."
@@ -97,3 +172,29 @@ fa:
     fullcontact:
       name: "تماس کامل"
       description: "ادغام FullContact به غنی سازی پروفایل بازدیدکنندگان کمک می کند. به محض به اشتراک گذاشتن آدرس ایمیل کاربران ، آنها را شناسایی کرده و به آنها خدمات مشتری مناسب ارائه دهید. با به اشتراک گذاشتن کلید APC FullContact ، حساب FullContact خود را به حساب خود وصل کنید."
+    google_translate:
+      name: "مترجم گوگل"
+      description: "با افزودن Google Translate یکپارچه سازی، ترجمه پیام ها را برای نمایندگان آسان تر کنید. Google translate به شناسایی خودکار زبان و تبدیل آن به زبان انتخاب شده توسط نماینده/مدیر حساب کمک می کند."
+    openai:
+      name: "OpenAI"
+      description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
+  public_portal:
+    search:
+      search_placeholder: جستجوی مقاله براساس عنوان یا متن...
+      empty_placeholder: نتیجه‌ای یافت نشد.
+      loading_placeholder: در حال جستجو...
+      results_title: نتایج جستجو
+    toc_header: 'On this page'
+    hero:
+      sub_title: مقالات را در اینجا جستجو کنید یا دسته‌بندی‌های زیر را مرور کنید.
+    common:
+      home: صفحه اصلی
+      last_updated_on: آخرین به‌روزرسانی در تاریخ %{last_updated_on}
+      view_all_articles: مشاهده همه مقالات
+      article: مقاله
+      articles: مقالات
+      no_articles: هنوز هیچ مقاله‌ای در اینجا وجود ندارد
+    footer:
+      made_with: ساخته شده با
+    header:
+      go_to_homepage: به سایت اصلی بروید

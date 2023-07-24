@@ -2,11 +2,16 @@
   "REGISTER": {
     "TRY_WOOT": "تسجيل حساب",
     "TITLE": "تسجيل",
+    "TESTIMONIAL_HEADER": "إن كل ما يلزم هو خطوة واحدة للمضي قدما",
+    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
     "TERMS_ACCEPT": "من خلال التسجيل، فإنك توافق على <a href=\"https://www.chatwoot.com/terms\">شروط الخدمة</a> و <a href=\"https://www.chatwoot.com/privacy-policy\">سياسة الخصوصية</a>",
-    "ACCOUNT_NAME": {
-      "LABEL": "اسم الحساب",
-      "PLACEHOLDER": "أدخل اسم الحساب. مثال: Wayne Enterprises",
-      "ERROR": "اسم الحساب قصير جداً"
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Sign up with Google"
+    },
+    "COMPANY_NAME": {
+      "LABEL": "Company name",
+      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
+      "ERROR": "Company name is too short"
     },
     "FULL_NAME": {
       "LABEL": "الاسم الكامل",
@@ -16,12 +21,13 @@
     "EMAIL": {
       "LABEL": "البريد الإلكتروني للعمل",
       "PLACEHOLDER": "أدخل عنوان بريدك الإلكتروني للعمل. مثال: bruce@wayne.enterprises",
-      "ERROR": "عنوان البريد الإلكتروني غير صالح"
+      "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {
       "LABEL": "كلمة المرور",
       "PLACEHOLDER": "كلمة المرور",
-      "ERROR": "كلمة المرور قصيرة جداً"
+      "ERROR": "كلمة المرور قصيرة جداً",
+      "IS_INVALID_PASSWORD": "يجب أن تحتوي كلمة المرور على الأقل على حرف كبير واحد وحرف صغير واحد ورقم واحد وحرف خاص واحد"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "تأكيد كلمة المرور",

@@ -24,7 +24,7 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
     @inbox.channel.authorization_error!
     raise
   rescue StandardError => e
-    Sentry.capture_exception(e)
+    ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
     true
   end
 
@@ -63,27 +63,43 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def conversation
-    @conversation ||= Conversation.find_by(conversation_params) || build_conversation
+    @conversation ||= Conversation.where(conversation_params).find_by(
+      "additional_attributes ->> 'type' = 'instagram_direct_message'"
+    ) || build_conversation
   end
 
   def message_content
     @messaging[:message][:text]
   end
 
+  def story_reply_attributes
+    message[:reply_to][:story] if message[:reply_to].present? && message[:reply_to][:story].present?
+  end
+
   def build_message
     return if @outgoing_echo && already_sent_from_chatwoot?
+    return if message_content.blank? && all_unsupported_files?
 
     @message = conversation.messages.create!(message_params)
+    save_story_id
 
     attachments.each do |attachment|
       process_attachment(attachment)
     end
   end
 
+  def save_story_id
+    return if story_reply_attributes.blank?
+
+    @message.save_story_info(story_reply_attributes)
+  end
+
   def build_conversation
     @contact_inbox ||= contact.contact_inboxes.find_by!(source_id: message_source_id)
+
     Conversation.create!(conversation_params.merge(
-                           contact_inbox_id: @contact_inbox.id
+                           contact_inbox_id: @contact_inbox.id,
+                           additional_attributes: { type: 'instagram_direct_message' }
                          ))
   end
 
@@ -91,10 +107,7 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
     {
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
-      contact_id: contact.id,
-      additional_attributes: {
-        type: 'instagram_direct_message'
-      }
+      contact_id: contact.id
     }
   end
 
@@ -115,6 +128,13 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
     ).first
 
     cw_message.present?
+  end
+
+  def all_unsupported_files?
+    return if attachments.empty?
+
+    attachments_type = attachments.pluck(:type).uniq.first
+    unsupported_file_type?(attachments_type)
   end
 
   ### Sample response

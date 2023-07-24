@@ -1,0 +1,29 @@
+type: object
+properties:
+  avg_first_response_time:
+    type: string
+  avg_resolution_time:
+    type: string
+  conversations_count:
+    type: number
+  incoming_messages_count:
+    type: number
+  outgoing_messages_count:
+    type: number
+  resolutions_count:
+    type: number
+  previous:
+    type: object
+    properties:
+      avg_first_response_time:
+        type: string
+      avg_resolution_time:
+        type: string
+      conversations_count:
+        type: number
+      incoming_messages_count:
+        type: number
+      outgoing_messages_count:
+        type: number
+      resolutions_count:
+        type: number

@@ -20,7 +20,7 @@ RSpec.describe ConversationReplyEmailWorker, type: :worker do
 
     it 'worker jobs are enqueued in the mailers queue' do
       described_class.perform_async
-      assert_equal :mailers, described_class.queue
+      expect(described_class.queue).to eq(:mailers)
     end
 
     it 'goes into the jobs array for testing environment' do
@@ -37,7 +37,7 @@ RSpec.describe ConversationReplyEmailWorker, type: :worker do
       end
 
       it 'calls ConversationSummaryMailer#reply_without_summary when last incoming message was from email' do
-        message.save
+        message.save!
         described_class.new.perform(1, message.id)
         expect(mailer).to have_received(:reply_without_summary)
       end

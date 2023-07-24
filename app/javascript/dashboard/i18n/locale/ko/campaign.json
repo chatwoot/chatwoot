@@ -89,7 +89,7 @@
       "TABLE_HEADER": {
         "TITLE": "Title",
         "MESSAGE": "메시지",
-        "INBOX": "Inbox",
+        "INBOX": "받은 메시지함",
         "STATUS": "상태",
         "SENDER": "Sender",
         "URL": "URL",
@@ -98,7 +98,7 @@
         "CREATED_AT": "Created at"
       },
       "BUTTONS": {
-        "ADD": "Add",
+        "ADD": "추가하기",
         "EDIT": "수정",
         "DELETE": "삭제"
       },

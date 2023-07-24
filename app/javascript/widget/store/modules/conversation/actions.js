@@ -5,6 +5,9 @@ import {
   sendAttachmentAPI,
   toggleTyping,
   setUserLastSeenAt,
+  toggleStatus,
+  setCustomAttributes,
+  deleteCustomAttribute,
 } from 'widget/api/conversation';
 
 import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
@@ -24,15 +27,39 @@ export const actions = {
       commit('setConversationUIFlag', { isCreating: false });
     }
   },
-  sendMessage: async ({ commit }, params) => {
+  sendMessage: async ({ dispatch }, params) => {
     const { content } = params;
-    commit('pushMessageToConversation', createTemporaryMessage({ content }));
-    await sendMessageAPI(content);
+    const message = createTemporaryMessage({ content });
+
+    dispatch('sendMessageWithData', message);
+  },
+  sendMessageWithData: async ({ commit }, message) => {
+    const { id, content, meta = {} } = message;
+
+    commit('pushMessageToConversation', message);
+    commit('updateMessageMeta', { id, meta: { ...meta, error: '' } });
+    try {
+      const { data } = await sendMessageAPI(content);
+
+      commit('deleteMessage', message.id);
+      commit('pushMessageToConversation', { ...data, status: 'sent' });
+    } catch (error) {
+      commit('pushMessageToConversation', { ...message, status: 'failed' });
+      commit('updateMessageMeta', {
+        id,
+        meta: { ...meta, error: '' },
+      });
+    }
+  },
+
+  setLastMessageId: async ({ commit }) => {
+    commit('setLastMessageId');
   },
 
   sendAttachment: async ({ commit }, params) => {
     const {
       attachment: { thumbUrl, fileType },
+      meta = {},
     } = params;
     const attachment = {
       thumb_url: thumbUrl,
@@ -50,19 +77,59 @@ export const actions = {
         message: data,
         tempId: tempMessage.id,
       });
+      commit('pushMessageToConversation', { ...data, status: 'sent' });
     } catch (error) {
+      commit('pushMessageToConversation', { ...tempMessage, status: 'failed' });
+      commit('updateMessageMeta', {
+        id: tempMessage.id,
+        meta: { ...meta, error: '' },
+      });
       // Show error
     }
   },
   fetchOldConversations: async ({ commit }, { before } = {}) => {
     try {
       commit('setConversationListLoading', true);
-      const { data } = await getMessagesAPI({ before });
-      const formattedMessages = getNonDeletedMessages({ messages: data });
+      const {
+        data: { payload, meta },
+      } = await getMessagesAPI({ before });
+      const { contact_last_seen_at: lastSeen } = meta;
+      const formattedMessages = getNonDeletedMessages({ messages: payload });
+      commit('conversation/setMetaUserLastSeenAt', lastSeen, { root: true });
       commit('setMessagesInConversation', formattedMessages);
       commit('setConversationListLoading', false);
     } catch (error) {
       commit('setConversationListLoading', false);
+    }
+  },
+
+  syncLatestMessages: async ({ state, commit }) => {
+    try {
+      const { lastMessageId, conversations } = state;
+
+      const {
+        data: { payload, meta },
+      } = await getMessagesAPI({ after: lastMessageId });
+
+      const { contact_last_seen_at: lastSeen } = meta;
+      const formattedMessages = getNonDeletedMessages({ messages: payload });
+      const missingMessages = formattedMessages.filter(
+        message => conversations?.[message.id] === undefined
+      );
+      if (!missingMessages.length) return;
+      missingMessages.forEach(message => {
+        conversations[message.id] = message;
+      });
+      // Sort conversation messages by created_at
+      const updatedConversation = Object.fromEntries(
+        Object.entries(conversations).sort(
+          (a, b) => a[1].created_at - b[1].created_at
+        )
+      );
+      commit('conversation/setMetaUserLastSeenAt', lastSeen, { root: true });
+      commit('setMissingMessagesInConversation', updatedConversation);
+    } catch (error) {
+      // IgnoreError
     }
   },
 
@@ -100,6 +167,26 @@ export const actions = {
     try {
       commit('setMetaUserLastSeenAt', lastSeen);
       await setUserLastSeenAt({ lastSeen });
+    } catch (error) {
+      // IgnoreError
+    }
+  },
+
+  resolveConversation: async () => {
+    await toggleStatus();
+  },
+
+  setCustomAttributes: async (_, customAttributes = {}) => {
+    try {
+      await setCustomAttributes(customAttributes);
+    } catch (error) {
+      // IgnoreError
+    }
+  },
+
+  deleteCustomAttribute: async (_, customAttribute) => {
+    try {
+      await deleteCustomAttribute(customAttribute);
     } catch (error) {
       // IgnoreError
     }

@@ -1,10 +1,10 @@
 <template>
   <woot-modal :show.sync="show" :on-close="onClose">
-    <div class="column content-box">
+    <div class="h-auto overflow-auto flex flex-col">
       <woot-modal-header :header-title="$t('ATTRIBUTES_MGMT.ADD.TITLE')" />
 
-      <form class="row" @submit.prevent="addAttributes">
-        <div class="medium-12 columns">
+      <form class="flex w-full" @submit.prevent="addAttributes">
+        <div class="w-full">
           <label :class="{ error: $v.attributeModel.$error }">
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.MODEL.LABEL') }}
             <select v-model="attributeModel">
@@ -86,7 +86,7 @@
               {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.ERROR') }}
             </label>
           </div>
-          <div class="modal-footer">
+          <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
             <woot-submit-button
               :disabled="isButtonDisabled"
               :button-text="$t('ATTRIBUTES_MGMT.ADD.SUBMIT')"
@@ -104,7 +104,7 @@
 <script>
 import { required, minLength } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
-import { convertToSlug } from 'dashboard/helper/commons.js';
+import { convertToAttributeSlug } from 'dashboard/helper/commons.js';
 import { ATTRIBUTE_MODELS, ATTRIBUTE_TYPES } from './constants';
 import alertMixin from 'shared/mixins/alertMixin';
 
@@ -199,7 +199,7 @@ export default {
       this.isTouched = true;
     },
     onDisplayNameChange() {
-      this.attributeKey = convertToSlug(this.displayName);
+      this.attributeKey = convertToAttributeSlug(this.displayName);
     },
     async addAttributes() {
       this.$v.$touch();

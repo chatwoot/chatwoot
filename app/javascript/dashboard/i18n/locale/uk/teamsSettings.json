@@ -2,7 +2,7 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Створити нову команду",
     "HEADER": "Команди",
-    "SIDEBAR_TXT": "<p><b>Команди</b></p> <p>Команди дозволяють організовувати своїх агентів в групи на основі їх обов'язків. <br /> Користувач може бути частиною декількох команд. Ви можете призначити розмови команді, коли працюєте спільно. </p>",
+    "SIDEBAR_TXT": "<p><b>Команди</b></p> <p>команд дозволяють організовувати своїх агентів в групи на основі їх обов'язків. <br /> агент може бути частиною кількох команд. Ви можете призначити розмови команді, коли працюєте спільно. </p>",
     "LIST": {
       "404": "В цьому обліковому запису не створено жодної команди.",
       "EDIT_TEAM": "Редагувати команду"
@@ -37,25 +37,25 @@
     },
     "EDIT_FLOW": {
       "CREATE": {
-        "TITLE": "Edit your team details",
-        "DESC": "Edit title and description to your team.",
-        "BUTTON_TEXT": "Update team"
+        "TITLE": "Редагувати деталі вашої команди",
+        "DESC": "Редагуйте назву та опис вашої команди.",
+        "BUTTON_TEXT": "Оновити команду"
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Update agents in team",
+        "BUTTON_TEXT": "Оновити агентів у команді",
         "TITLE": "Додати агентів до команди - %{teamName}",
-        "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
+        "DESC": "Додати агентів до щойно створеної команди. Всі додані агенти будуть повідомлені, коли буде присвоєна розмова в цій команді."
       },
       "WIZARD": [
         {
-          "title": "Team details",
+          "title": "Інформація про команду",
           "route": "settings_teams_edit",
-          "body": "Change name, description and other details."
+          "body": "Змінити ім'я, опис та інші деталі."
         },
         {
-          "title": "Edit Agents",
+          "title": "Редагувати агентів",
           "route": "settings_teams_edit_members",
-          "body": "Edit agents in your team."
+          "body": "Редагувати агентів у вашій команді."
         },
         {
           "title": "Закінчити",
@@ -65,61 +65,61 @@
       ]
     },
     "TEAM_FORM": {
-      "ERROR_MESSAGE": "Couldn't save the team details. Try again."
+      "ERROR_MESSAGE": "Не вдалося зберегти деталі команди. Повторіть спробу."
     },
     "AGENTS": {
-      "AGENT": "AGENT",
+      "AGENT": "АГЕНТ",
       "EMAIL": "ПОШТА",
       "BUTTON_TEXT": "Додати агентів",
-      "ADD_AGENTS": "Adding Agents to your Team...",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
+      "ADD_AGENTS": "Додавання агентів до команди...",
+      "SELECT": "вибрати",
+      "SELECT_ALL": "вибрати всіх агентів",
+      "SELECTED_COUNT": "%{selected} з %{total} агентів вибрано."
     },
     "ADD": {
       "TITLE": "Додати агентів до команди - %{teamName}",
       "DESC": "Додати співробітників до новоствореної команди. Це дозволить вам співпрацювати як команда в розмовах, отримувати повідомлення про нові події в тій самій розмові.",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
+      "SELECT": "вибрати",
+      "SELECT_ALL": "вибрати всіх агентів",
+      "SELECTED_COUNT": "%{selected} з %{total} агентів вибрано.",
       "BUTTON_TEXT": "Додати агентів",
-      "AGENT_VALIDATION_ERROR": "Select atleaset one agent."
+      "AGENT_VALIDATION_ERROR": "Виберіть принаймні одного агента."
     },
     "FINISH": {
-      "TITLE": "Your team is ready!",
-      "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
+      "TITLE": "Ваша команда готова!",
+      "MESSAGE": "Тепер ви можете співпрацювати як команда у розмовах. Вдалої вам підтримки ",
       "BUTTON_TEXT": "Закінчити"
     },
     "DELETE": {
       "BUTTON_TEXT": "Видалити",
       "API": {
-        "SUCCESS_MESSAGE": "Team deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the team. Try again."
+        "SUCCESS_MESSAGE": "Команда успішно видалена.",
+        "ERROR_MESSAGE": "Не вдалося видалити команду. Повторіть спробу."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{teamName}",
-        "PLACE_HOLDER": "Please type {teamName} to confirm",
-        "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
+        "TITLE": "Ви впевнені, що бажаєте видалити - %{teamName}",
+        "PLACE_HOLDER": "Будь ласка, введіть {teamName} щоб підтвердити",
+        "MESSAGE": "Видалення команди призведе до видалення призначення команди з розмов.",
         "YES": "Видалити ",
         "NO": "Скасувати"
       }
     },
     "SETTINGS": "Налаштування",
     "FORM": {
-      "UPDATE": "Update team",
-      "CREATE": "Create team",
+      "UPDATE": "Оновити команду",
+      "CREATE": "Створити команду",
       "NAME": {
-        "LABEL": "Team name",
-        "PLACEHOLDER": "Example: Sales, Customer Support"
+        "LABEL": "Назва команди",
+        "PLACEHOLDER": "Приклад: продажі, Підтримка клієнтів"
       },
       "DESCRIPTION": {
-        "LABEL": "Team Description",
-        "PLACEHOLDER": "Short description about this team."
+        "LABEL": "Опис команди",
+        "PLACEHOLDER": "Короткий опис цієї команди."
       },
       "AUTO_ASSIGN": {
-        "LABEL": "Allow auto assign for this team."
+        "LABEL": "Дозволити автоматичне призначити для цієї команди."
       },
-      "SUBMIT_CREATE": "Create team"
+      "SUBMIT_CREATE": "Створити команду"
     }
   }
 }

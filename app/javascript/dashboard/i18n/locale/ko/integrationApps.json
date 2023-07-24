@@ -30,7 +30,7 @@
     },
     "LIST": {
       "FETCHING": "Fetching integration hooks",
-      "INBOX": "Inbox",
+      "INBOX": "받은 메시지함",
       "DELETE": {
         "BUTTON_TEXT": "삭제"
       }

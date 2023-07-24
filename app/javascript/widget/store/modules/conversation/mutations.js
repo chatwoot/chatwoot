@@ -62,6 +62,10 @@ export const mutations = {
     payload.map(message => Vue.set($state.conversations, message.id, message));
   },
 
+  setMissingMessagesInConversation($state, payload) {
+    Vue.set($state, 'conversation', payload);
+  },
+
   updateMessage($state, { id, content_attributes }) {
     $state.conversations[id] = {
       ...$state.conversations[id],
@@ -72,17 +76,34 @@ export const mutations = {
     };
   },
 
+  updateMessageMeta($state, { id, meta }) {
+    const message = $state.conversations[id];
+    if (!message) return;
+
+    const newMeta = message.meta ? { ...message.meta, ...meta } : { ...meta };
+    Vue.set(message, 'meta', {
+      ...newMeta,
+    });
+  },
+
   deleteMessage($state, id) {
     const messagesInbox = $state.conversations;
     Vue.delete(messagesInbox, id);
   },
 
   toggleAgentTypingStatus($state, { status }) {
-    const isTyping = status === 'on';
-    $state.uiFlags.isAgentTyping = isTyping;
+    $state.uiFlags.isAgentTyping = status === 'on';
   },
 
   setMetaUserLastSeenAt($state, lastSeen) {
     $state.meta.userLastSeenAt = lastSeen;
+  },
+
+  setLastMessageId($state) {
+    const { conversations } = $state;
+    const lastMessage = Object.values(conversations).pop();
+    if (!lastMessage) return;
+    const { id } = lastMessage;
+    $state.lastMessageId = id;
   },
 };

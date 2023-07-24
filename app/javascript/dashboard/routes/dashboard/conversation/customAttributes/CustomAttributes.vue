@@ -20,10 +20,11 @@
 </template>
 
 <script>
-import copy from 'copy-text-to-clipboard';
 import CustomAttribute from 'dashboard/components/CustomAttribute.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import attributeMixin from 'dashboard/mixins/attributeMixin';
+import { copyTextToClipboard } from 'shared/helpers/clipboard';
+
 export default {
   components: {
     CustomAttribute,
@@ -86,8 +87,8 @@ export default {
         this.showAlert(errorMessage);
       }
     },
-    onCopy(attributeValue) {
-      copy(attributeValue);
+    async onCopy(attributeValue) {
+      await copyTextToClipboard(attributeValue);
       this.showAlert(this.$t('CUSTOM_ATTRIBUTES.COPY_SUCCESSFUL'));
     },
   },
@@ -96,13 +97,13 @@ export default {
 <style scoped lang="scss">
 .custom-attributes--panel {
   .conversation--attribute {
-    border-bottom: 1px solid var(--color-border-light);
+    @apply border-slate-50 dark:border-slate-700 border-b border-solid;
   }
 
   &.odd {
     .conversation--attribute {
       &:nth-child(2n + 1) {
-        background: var(--b-50);
+        @apply bg-slate-25 dark:bg-slate-800;
       }
     }
   }
@@ -110,7 +111,7 @@ export default {
   &.even {
     .conversation--attribute {
       &:nth-child(2n) {
-        background: var(--b-50);
+        @apply bg-slate-25 dark:bg-slate-800;
       }
     }
   }

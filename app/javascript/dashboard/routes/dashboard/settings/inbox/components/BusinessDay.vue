@@ -4,7 +4,7 @@
       <input
         v-model="isDayEnabled"
         name="enable-day"
-        class="enable-day"
+        class="enable-checkbox"
         type="checkbox"
         :title="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.ENABLE')"
       />
@@ -14,26 +14,38 @@
     </div>
     <div v-if="isDayEnabled" class="hours-select-wrap">
       <div class="hours-range">
+        <div class="checkbox-wrap open-all-day">
+          <input
+            v-model="isOpenAllDay"
+            name="enable-open-all-day"
+            class="enable-checkbox"
+            type="checkbox"
+            :title="$t('INBOX_MGMT.BUSINESS_HOURS.ALL_DAY')"
+          />
+          <span>{{ $t('INBOX_MGMT.BUSINESS_HOURS.ALL_DAY') }}</span>
+        </div>
         <multiselect
           v-model="fromTime"
-          :options="timeSlots"
+          :options="fromTimeSlots"
           deselect-label=""
           select-label=""
           selected-label=""
           :placeholder="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.CHOOSE')"
           :allow-empty="false"
+          :disabled="isOpenAllDay"
         />
         <div class="separator-icon">
-          <i class="ion-minus-round" />
+          <fluent-icon icon="subtract" type="solid" size="16" />
         </div>
         <multiselect
           v-model="toTime"
-          :options="timeSlots"
+          :options="toTimeSlots"
           deselect-label=""
           select-label=""
           selected-label=""
           :placeholder="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.CHOOSE')"
           :allow-empty="false"
+          :disabled="isOpenAllDay"
         />
       </div>
       <div v-if="hasError" class="date-error">
@@ -79,8 +91,13 @@ export default {
     },
   },
   computed: {
-    timeSlots() {
+    fromTimeSlots() {
       return timeSlots;
+    },
+    toTimeSlots() {
+      return timeSlots.filter(slot => {
+        return slot !== '12:00 AM';
+      });
     },
     isDayEnabled: {
       get() {
@@ -93,12 +110,14 @@ export default {
               from: timeSlots[0],
               to: timeSlots[16],
               valid: true,
+              openAllDay: false,
             }
           : {
               ...this.timeSlot,
               from: '',
               to: '',
               valid: false,
+              openAllDay: false,
             };
         this.$emit('update', newSlot);
       },
@@ -146,98 +165,107 @@ export default {
       return parse(this.toTime, 'hh:mm a', new Date());
     },
     totalHours() {
-      const totalHours = differenceInMinutes(this.toDate, this.fromDate) / 60;
-      if (this.toTime === '12:00 AM') {
-        return 24 + totalHours;
+      if (this.timeSlot.openAllDay) {
+        return 24;
       }
+      const totalHours = differenceInMinutes(this.toDate, this.fromDate) / 60;
       return totalHours;
     },
     hasError() {
       return !this.timeSlot.valid;
+    },
+    isOpenAllDay: {
+      get() {
+        return this.timeSlot.openAllDay;
+      },
+      set(value) {
+        if (value) {
+          this.$emit('update', {
+            ...this.timeSlot,
+            from: '12:00 AM',
+            to: '11:59 PM',
+            valid: true,
+            openAllDay: value,
+          });
+        } else {
+          this.$emit('update', {
+            ...this.timeSlot,
+            from: '09:00 AM',
+            to: '05:00 PM',
+            valid: true,
+            openAllDay: value,
+          });
+        }
+      },
     },
   },
 };
 </script>
 <style lang="scss" scoped>
 .day-wrap::v-deep .multiselect {
-  margin: 0;
-  width: 12rem;
+  @apply m-0 w-[7.5rem];
 
   > .multiselect__tags {
-    padding-left: var(--space-slab);
+    @apply pl-3;
 
     .multiselect__single {
-      font-size: var(--font-size-small);
-      line-height: var(--space-medium);
-      padding: var(--space-small) 0;
+      @apply text-sm leading-6 py-2 px-0;
     }
   }
 }
 .day-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--space-small) 0;
-  min-height: var(--space-larger);
-  box-sizing: content-box;
-  border-bottom: 1px solid var(--color-border-light);
+  @apply flex items-center justify-between py-2 px-0 min-h-[3rem] box-content border-b border-solid border-slate-50 dark:border-slate-600;
 }
-.enable-day {
-  margin: 0;
+
+.enable-checkbox {
+  @apply m-0;
 }
 
 .hours-select-wrap {
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-  flex-grow: 1;
-  position: relative;
+  @apply flex flex-col flex-shrink-0 flex-grow relative;
 }
 
 .hours-range,
 .day-unavailable {
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-  flex-grow: 1;
+  @apply flex items-center flex-shrink-0 flex-grow;
 }
 
 .day-unavailable {
-  font-size: var(--font-size-small);
-  color: var(--s-500);
+  @apply text-sm text-slate-500 dark:text-slate-300;
 }
 
 .checkbox-wrap {
-  display: flex;
-  align-items: center;
+  @apply flex items-center;
 }
 
 .separator-icon,
 .day {
-  display: flex;
-  align-items: center;
-  padding: 0 var(--space-slab);
-  height: 100%;
+  @apply flex items-center py-0 px-3;
 }
 
 .day {
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-medium);
-  width: 13rem;
+  @apply text-sm font-medium w-[8.125rem];
 }
 
 .label {
-  font-size: var(--font-size-mini);
-  color: var(--w-700);
-  background: var(--w-50);
+  @apply bg-woot-50 dark:bg-woot-600 text-woot-700 dark:text-woot-100 text-xs;
 }
 
 .date-error {
-  padding-top: var(--space-smaller);
+  @apply pt-1;
 }
 
 .error {
-  font-size: var(--font-size-mini);
-  color: var(--r-300);
+  @apply text-xs text-red-300 dark:text-red-500;
+}
+
+.open-all-day {
+  @apply mr-6;
+  span {
+    @apply text-sm font-medium ml-1;
+  }
+  input {
+    @apply text-sm font-medium;
+  }
 }
 </style>

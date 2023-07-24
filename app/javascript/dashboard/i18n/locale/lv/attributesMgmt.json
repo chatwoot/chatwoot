@@ -1,0 +1,99 @@
+{
+  "ATTRIBUTES_MGMT": {
+    "HEADER": "Pielāgotas Īpašības",
+    "HEADER_BTN_TXT": "Pievienot Pielāgotu Īpašību",
+    "LOADING": "Notiek pielāgotu īpašību iegūšana",
+    "SIDEBAR_TXT": "<p><b>Pielāgotas Īpašības</b> <p>Pielāgotas īpašības izseko faktus par jūsu kontaktpersonām/sarunu, piemēram, abonēšanas plānu vai kad viņi pasūtīja pirmo preci utt. <br /><br />Lai izveidotu Pielāgotu Īpašību, noklikšķiniet uz <b>Pievienot Pielāgotu Īpašību.</b> Jūs varat arī rediģēt vai dzēst esošu Pielāgotu Īpašību, noklikšķinot uz Rediģēt vai Dzēst pogas.</p>",
+    "ADD": {
+      "TITLE": "Pievienot Pielāgotu Īpašību",
+      "SUBMIT": "Izveidot",
+      "CANCEL_BUTTON_TEXT": "Atcelt",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Parādāmais Nosaukums",
+          "PLACEHOLDER": "Ievadiet pielāgotās īpašības parādāmo nosaukumu",
+          "ERROR": "Nepieciešams nosaukums"
+        },
+        "DESC": {
+          "LABEL": "Apraksts",
+          "PLACEHOLDER": "Ievadiet pielāgotās īpašības aprakstu",
+          "ERROR": "Nepieciešams apraksts"
+        },
+        "MODEL": {
+          "LABEL": "Attiecas uz",
+          "PLACEHOLDER": "Lūdzu, izvēlieties vienu",
+          "ERROR": "Nepieciešams modelis"
+        },
+        "TYPE": {
+          "LABEL": "Tips",
+          "PLACEHOLDER": "Lūdzu, izvēlieties tipu",
+          "ERROR": "Nepieciešams tips",
+          "LIST": {
+            "LABEL": "Parādīt Vērtības",
+            "PLACEHOLDER": "Lūdzu, ievadiet vērtību un nospiediet taustiņu enter",
+            "ERROR": "Jābūt vismaz vienai vērtībai"
+          }
+        },
+        "KEY": {
+          "LABEL": "Atslēga",
+          "PLACEHOLDER": "Ievadiet pielāgotas īpašības atslēgu",
+          "ERROR": "Nepieciešama atslēga",
+          "IN_VALID": "Nederīga atslēga"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Pielāgotā īpašība ir veiksmīgi pievienota!",
+        "ERROR_MESSAGE": "Nevarēja izveidot Pielāgotu Atribūtu. Lūdzu, vēlāk pamēģiniet vēlreiz."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Dzēst",
+      "API": {
+        "SUCCESS_MESSAGE": "Pielāgotā Īpašība ir veiksmīgi izdzēsta.",
+        "ERROR_MESSAGE": "Nevarēja izdzēst pielāgoto īpašību. Mēģiniet vēlreiz."
+      },
+      "CONFIRM": {
+        "TITLE": "Vai tiešām vēlaties dzēst - %{attributeName}",
+        "PLACE_HOLDER": "Lai apstiprinātu, lūdzu, uzrakstiet {attributeName}",
+        "MESSAGE": "Dzēšana noņems pielāgoto īpašību",
+        "YES": "Dzēst ",
+        "NO": "Atcelt"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Rediģēt Pielāgoto Īpašību",
+      "UPDATE_BUTTON_TEXT": "Atjaunināt",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "Parādīt Vērtības",
+          "PLACEHOLDER": "Lūdzu, ievadiet vērtības un nospiediet taustiņu enter"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Pielāgotā Īpašība ir veiksmīgi atjaunināta",
+        "ERROR_MESSAGE": "Atjauninot pielāgoto īpašību, radās kļūda. Lūdzu, mēģiniet vēlreiz"
+      }
+    },
+    "TABS": {
+      "HEADER": "Pielāgotās Īpašības",
+      "CONVERSATION": "Saruna",
+      "CONTACT": "Kontaktpersona"
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Nosaukums",
+        "Apraksts",
+        "Tips",
+        "Atslēga"
+      ],
+      "BUTTONS": {
+        "EDIT": "Rediģēt",
+        "DELETE": "Dzēst"
+      },
+      "EMPTY_RESULT": {
+        "404": "Nav izveidotas pielāgotas īpašības",
+        "NOT_FOUND": "Nav nokonfigurētas pielāgotas īpašības"
+      }
+    }
+  }
+}

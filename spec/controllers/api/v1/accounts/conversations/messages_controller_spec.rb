@@ -35,6 +35,21 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(conversation.messages.first.content).to eq(params[:content])
       end
 
+      it 'does not create the message' do
+        params = { content: "#{'h' * 150 * 1000}a", private: true }
+
+        post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+             params: params,
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+
+        json_response = response.parsed_body
+
+        expect(json_response['error']).to eq('Validation failed: Content is too long (maximum is 150000 characters)')
+      end
+
       it 'creates an outgoing text message with a specific bot sender' do
         agent_bot = create(:agent_bot)
         time_stamp = Time.now.utc.to_s
@@ -46,7 +61,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        response_data = JSON.parse(response.body)
+        response_data = response.parsed_body
         expect(response_data['content_attributes']['external_created_at']).to eq time_stamp
         expect(conversation.messages.count).to eq(1)
         expect(conversation.messages.last.sender_id).to eq(agent_bot.id)
@@ -62,8 +77,34 @@ RSpec.describe 'Conversation Messages API', type: :request do
              headers: agent.create_new_auth_token
 
         expect(response).to have_http_status(:success)
-        expect(conversation.messages.last.attachments.first.file.present?).to eq(true)
+        expect(conversation.messages.last.attachments.first.file.present?).to be(true)
         expect(conversation.messages.last.attachments.first.file_type).to eq('image')
+      end
+
+      context 'when api inbox' do
+        let(:api_channel) { create(:channel_api, account: account) }
+        let(:api_inbox) { create(:inbox, channel: api_channel, account: account) }
+        let(:inbox_member) { create(:inbox_member, user: agent, inbox: api_inbox) }
+        let(:conversation) { create(:conversation, inbox: api_inbox, account: account) }
+
+        it 'reopens the conversation with new incoming message' do
+          create(:message, conversation: conversation, account: account)
+          conversation.resolved!
+
+          params = { content: 'test-message', private: false, message_type: 'incoming' }
+
+          post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+               params: params,
+               headers: agent.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(conversation.reload.status).to eq('open')
+          expect(Conversations::ActivityMessageJob)
+            .to(have_been_enqueued.at_least(:once)
+              .with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
+                                    content: 'System reopened the conversation due to a new incoming message.' }))
+        end
       end
     end
 
@@ -98,7 +139,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(response).to have_http_status(:success)
         expect(conversation.messages.count).to eq(1)
         expect(conversation.messages.first.content_type).to eq(params[:content_type])
-        expect(conversation.messages.first.content).to eq nil
+        expect(conversation.messages.first.content).to be_nil
       end
 
       it 'creates a new outgoing cards message' do
@@ -148,7 +189,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
   end
 
   describe 'DELETE /api/v1/accounts/{account.id}/conversations/:conversation_id/messages/:id' do
-    let(:message) { create(:message, account: account) }
+    let(:message) { create(:message, account: account, content_attributes: { bcc_emails: ['hello@chatwoot.com'] }) }
     let(:conversation) { message.conversation }
 
     context 'when it is an unauthenticated user' do
@@ -172,7 +213,8 @@ RSpec.describe 'Conversation Messages API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(message.reload.content).to eq 'This message was deleted'
-        expect(message.reload.deleted).to eq true
+        expect(message.reload.deleted).to be true
+        expect(message.reload.content_attributes['bcc_emails']).to be_nil
       end
     end
 

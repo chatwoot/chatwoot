@@ -10,7 +10,7 @@ describe Facebook::SendOnFacebookService do
   end
 
   let!(:account) { create(:account) }
-  let(:bot) { class_double('Facebook::Messenger::Bot').as_stubbed_const }
+  let(:bot) { class_double(Facebook::Messenger::Bot).as_stubbed_const }
   let!(:widget_inbox) { create(:inbox, account: account) }
   let!(:facebook_channel) { create(:channel_facebook_page, account: account) }
   let!(:facebook_inbox) { create(:inbox, channel: facebook_channel, account: account) }
@@ -22,25 +22,25 @@ describe Facebook::SendOnFacebookService do
     context 'without reply' do
       it 'if message is private' do
         message = create(:message, message_type: 'outgoing', private: true, inbox: facebook_inbox, account: account)
-        ::Facebook::SendOnFacebookService.new(message: message).perform
+        described_class.new(message: message).perform
         expect(bot).not_to have_received(:deliver)
       end
 
       it 'if inbox channel is not facebook page' do
         message = create(:message, message_type: 'outgoing', inbox: widget_inbox, account: account)
-        expect { ::Facebook::SendOnFacebookService.new(message: message).perform }.to raise_error 'Invalid channel service was called'
+        expect { described_class.new(message: message).perform }.to raise_error 'Invalid channel service was called'
         expect(bot).not_to have_received(:deliver)
       end
 
       it 'if message is not outgoing' do
         message = create(:message, message_type: 'incoming', inbox: facebook_inbox, account: account)
-        ::Facebook::SendOnFacebookService.new(message: message).perform
+        described_class.new(message: message).perform
         expect(bot).not_to have_received(:deliver)
       end
 
       it 'if message has an FB ID' do
         message = create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, source_id: SecureRandom.uuid)
-        ::Facebook::SendOnFacebookService.new(message: message).perform
+        described_class.new(message: message).perform
         expect(bot).not_to have_received(:deliver)
       end
     end
@@ -48,19 +48,30 @@ describe Facebook::SendOnFacebookService do
     context 'with reply' do
       it 'if message is sent from chatwoot and is outgoing' do
         message = create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation)
-        ::Facebook::SendOnFacebookService.new(message: message).perform
+        described_class.new(message: message).perform
         expect(bot).to have_received(:deliver)
+      end
+
+      it 'raise and exception to validate access token' do
+        message = create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation)
+        allow(bot).to receive(:deliver).and_raise(Facebook::Messenger::FacebookError.new('message' => 'Error validating access token'))
+        described_class.new(message: message).perform
+
+        expect(facebook_channel.authorization_error_count).to eq(1)
       end
 
       it 'if message with attachment is sent from chatwoot and is outgoing' do
         message = build(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation)
         attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
-        attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+        attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
         message.save!
-        ::Facebook::SendOnFacebookService.new(message: message).perform
+        allow(attachment).to receive(:download_url).and_return('url1')
+        described_class.new(message: message).perform
         expect(bot).to have_received(:deliver).with({
                                                       recipient: { id: contact_inbox.source_id },
-                                                      message: { text: message.content }
+                                                      message: { text: message.content },
+                                                      messaging_type: 'MESSAGE_TAG',
+                                                      tag: 'ACCOUNT_UPDATE'
                                                     }, { page_id: facebook_channel.page_id })
         expect(bot).to have_received(:deliver).with({
                                                       recipient: { id: contact_inbox.source_id },
@@ -68,10 +79,12 @@ describe Facebook::SendOnFacebookService do
                                                         attachment: {
                                                           type: 'image',
                                                           payload: {
-                                                            url: attachment.file_url
+                                                            url: 'url1'
                                                           }
                                                         }
-                                                      }
+                                                      },
+                                                      messaging_type: 'MESSAGE_TAG',
+                                                      tag: 'ACCOUNT_UPDATE'
                                                     }, { page_id: facebook_channel.page_id })
       end
     end

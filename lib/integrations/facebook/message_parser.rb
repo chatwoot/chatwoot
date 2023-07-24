@@ -3,43 +3,44 @@
 class Integrations::Facebook::MessageParser
   def initialize(response_json)
     @response = JSON.parse(response_json)
+    @messaging = @response['messaging'] || @response['standby']
   end
 
   def sender_id
-    @response.dig 'messaging', 'sender', 'id'
+    @messaging.dig('sender', 'id')
   end
 
   def recipient_id
-    @response.dig 'messaging', 'recipient', 'id'
+    @messaging.dig('recipient', 'id')
   end
 
   def time_stamp
-    @response.dig 'messaging', 'timestamp'
+    @messaging['timestamp']
   end
 
   def content
-    @response.dig 'messaging', 'message', 'text'
+    @messaging.dig('message', 'text')
   end
 
   def sequence
-    @response.dig 'messaging', 'message', 'seq'
+    @messaging.dig('message', 'seq')
   end
 
   def attachments
-    @response.dig 'messaging', 'message', 'attachments'
+    @messaging.dig('message', 'attachments')
   end
 
   def identifier
-    @response.dig 'messaging', 'message', 'mid'
+    @messaging.dig('message', 'mid')
   end
 
   def echo?
-    @response.dig 'messaging', 'message', 'is_echo'
+    @messaging.dig('message', 'is_echo')
   end
 
   # TODO : i don't think the payload contains app_id. if not remove
   def app_id
-    @response.dig 'messaging', 'message', 'app_id'
+    @messaging.dig('message', 'app_id')
   end
 
   # TODO : does this work ?

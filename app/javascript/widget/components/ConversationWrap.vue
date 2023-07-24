@@ -1,15 +1,15 @@
 <template>
-  <div class="conversation--container">
+  <div class="conversation--container" :class="colorSchemeClass">
     <div class="conversation-wrap" :class="{ 'is-typing': isAgentTyping }">
       <div v-if="isFetchingList" class="message--loader">
-        <spinner></spinner>
+        <spinner />
       </div>
       <div
         v-for="groupedMessage in groupedMessages"
         :key="groupedMessage.date"
         class="messages-wrap"
       >
-        <date-separator :date="groupedMessage.date"></date-separator>
+        <date-separator :date="groupedMessage.date" />
         <chat-message
           v-for="message in groupedMessage.messages"
           :key="message.id"
@@ -26,6 +26,8 @@ import ChatMessage from 'widget/components/ChatMessage.vue';
 import AgentTypingBubble from 'widget/components/AgentTypingBubble.vue';
 import DateSeparator from 'shared/components/DateSeparator.vue';
 import Spinner from 'shared/components/Spinner.vue';
+import darkModeMixin from 'widget/mixins/darkModeMixin';
+
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
@@ -36,6 +38,7 @@ export default {
     DateSeparator,
     Spinner,
   },
+  mixins: [darkModeMixin],
   props: {
     groupedMessages: {
       type: Array,
@@ -56,6 +59,9 @@ export default {
       conversationSize: 'conversation/getConversationSize',
       isAgentTyping: 'conversation/getIsAgentTyping',
     }),
+    colorSchemeClass() {
+      return `${this.darkMode === 'dark' ? 'dark-scheme' : 'light-scheme'}`;
+    },
   },
   watch: {
     allMessagesLoaded() {
@@ -109,6 +115,14 @@ export default {
   flex-direction: column;
   flex: 1;
   overflow-y: auto;
+  color-scheme: light dark;
+
+  &.light-scheme {
+    color-scheme: light;
+  }
+  &.dark-scheme {
+    color-scheme: dark;
+  }
 }
 
 .conversation-wrap {

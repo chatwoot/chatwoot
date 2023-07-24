@@ -33,7 +33,7 @@ class Notification::PushNotificationService
   def push_message
     {
       title: notification.push_message_title,
-      tag: "#{notification.notification_type}_#{conversation.display_id}",
+      tag: "#{notification.notification_type}_#{conversation.display_id}_#{notification.id}",
       url: push_url
     }
   end
@@ -49,7 +49,7 @@ class Notification::PushNotificationService
   def send_browser_push(subscription)
     return unless send_browser_push?(subscription)
 
-    Webpush.payload_send(
+    WebPush.payload_send(
       message: JSON.generate(push_message),
       endpoint: subscription.subscription_attributes['endpoint'],
       p256dh: subscription.subscription_attributes['p256dh'],
@@ -63,17 +63,17 @@ class Notification::PushNotificationService
       open_timeout: 5,
       read_timeout: 5
     )
-  rescue Webpush::ExpiredSubscription
+  rescue WebPush::ExpiredSubscription
     subscription.destroy!
   rescue Errno::ECONNRESET, Net::OpenTimeout, Net::ReadTimeout => e
-    Rails.logger.info "Webpush operation error: #{e.message}"
+    Rails.logger.error "WebPush operation error: #{e.message}"
   end
 
   def send_fcm_push(subscription)
     return unless ENV['FCM_SERVER_KEY']
     return unless subscription.fcm?
 
-    fcm = FCM.new(ENV['FCM_SERVER_KEY'])
+    fcm = FCM.new(ENV.fetch('FCM_SERVER_KEY', nil))
     response = fcm.send([subscription.subscription_attributes['push_token']], fcm_options)
     remove_subscription_if_error(subscription, response)
   end

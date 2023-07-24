@@ -1,0 +1,118 @@
+{
+  "AUTOMATION": {
+    "HEADER": "Tự động hoá",
+    "HEADER_BTN_TXT": "Thêm luật Tự động hoá",
+    "LOADING": "Đang lấy luật tự động hoá",
+    "SIDEBAR_TXT": "<p><b>Luật tự động hóa</b> <p>Tự động hóa có thể thay thế và tự động hóa các quy trình hiện có mà cần thao tác thủ công. Bạn có thể làm nhiều việc với tự động hóa, bao gồm thêm nhãn và gán cuộc trò chuyện cho người đại diện tốt nhất. Vì vậy, nhóm tập trung vào những gì họ làm tốt nhất và dành ít thời gian hơn cho các công việc thủ công.</p>",
+    "ADD": {
+      "TITLE": "Thêm Quy tắc Tự động hoá",
+      "SUBMIT": "Tạo",
+      "CANCEL_BUTTON_TEXT": "Huỷ",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Tên luật",
+          "PLACEHOLDER": "Nhập tên luật",
+          "ERROR": "Cần phải có tên"
+        },
+        "DESC": {
+          "LABEL": "Mô tả",
+          "PLACEHOLDER": "Nhập mô tả luật",
+          "ERROR": "Cần phải có \u001dmô tả"
+        },
+        "EVENT": {
+          "LABEL": "Sự kiện",
+          "PLACEHOLDER": "Vui lòng chọn một",
+          "ERROR": "Cần phải có \u001dsự kiện"
+        },
+        "CONDITIONS": {
+          "LABEL": "Điều kiện"
+        },
+        "ACTIONS": {
+          "LABEL": "Hành động"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Thêm Điều kiện",
+      "ACTION_BUTTON_LABEL": "Thêm Hành động",
+      "API": {
+        "SUCCESS_MESSAGE": "Luật tự động hoá thêm thành công",
+        "ERROR_MESSAGE": "Không thể tạo luật tự động hoá, Vui lòng thử lại sau"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Tên",
+        "Mô tả",
+        "Có hiệu lực",
+        "Được tạo trên"
+      ],
+      "404": "Không tìm thấy luật tự động hoá"
+    },
+    "DELETE": {
+      "TITLE": "Xoá luật Tự động hoá",
+      "SUBMIT": "Xoá",
+      "CANCEL_BUTTON_TEXT": "Huỷ",
+      "CONFIRM": {
+        "TITLE": "Xác nhận xoá",
+        "MESSAGE": "Bạn có chắc muốn xoá ",
+        "YES": "Có, xoá ",
+        "NO": "Không, giữ "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Luật\u001d tự động hoá được xoá thành công",
+        "ERROR_MESSAGE": "Không thể xoá luật tự động hoá, Vui lòng thử lại sau"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Sửa Luật Tự động hoá",
+      "SUBMIT": "Cập nhật",
+      "CANCEL_BUTTON_TEXT": "Huỷ",
+      "API": {
+        "SUCCESS_MESSAGE": "Luật\u001d tự động hoá được thêm thành công",
+        "ERROR_MESSAGE": "Không thể cập nhật \bluật tự động hoá, Vui lòng thử lại sau"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "Nhân bản",
+      "API": {
+        "SUCCESS_MESSAGE": "Luật tự động hoá mô phỏng thành công",
+        "ERROR_MESSAGE": "Không thể mô phỏng luật tự động hoá, Vui lòng thử lại sau"
+      }
+    },
+    "FORM": {
+      "EDIT": "Chỉnh sửa",
+      "CREATE": "Tạo",
+      "DELETE": "Xoá",
+      "CANCEL": "Huỷ",
+      "RESET_MESSAGE": "Thay đổi loại sự kiện sẽ đặt lại điều kiện và sự kiện mà bạn đã thêm bên dưới"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "Bạn cần có ít nhất một điều kiện để lưu",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Thuộc tính Liên hệ Tùy chỉnh",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Tùy chỉnh Thuộc tính cuộc hội thoại"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "Bạn cần có ít nhất một hành động để lưu",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Viết tin nhắn ở đây",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Chọn nhóm"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Kích hoạt Luật Tự động hoá",
+      "DEACTIVATION_TITLE": "Vô hiệu hoá \bLuật Tự động hoá",
+      "ACTIVATION_DESCRIPTION": "Thao tác này sẽ kích hoạt luật tự động hoá tên '{automationName}'. Bạn có chắc là muốn tiếp tục?",
+      "DEACTIVATION_DESCRIPTION": "Thao tác này sẽ vô hiệu hoá luật tự động hoá tên '{automationName}'. Bạn có chắc là muốn tiếp tục?",
+      "ACTIVATION_SUCCESFUL": "Luật tự động hoá đã được kích hoạt thành công",
+      "DEACTIVATION_SUCCESFUL": "Luật tự động hoá đã vô hiệu hoá thành công",
+      "ACTIVATION_ERROR": "Không thể kích hoạt luật tự động hoá, Vui lòng thử lại sau",
+      "DEACTIVATION_ERROR": "Không thể vô hiệu hoá luật tự động hoá, Vui lòng thử lại sau",
+      "CONFIRMATION_LABEL": "Có",
+      "CANCEL_LABEL": "Không"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Không thể tải tập tin đính kèm, Vui lòng thử lại sau",
+      "LABEL_IDLE": "Tải tập tin đính kèm",
+      "LABEL_UPLOADING": "Đang tải lên...",
+      "LABEL_UPLOADED": "Đã tải lên thành công",
+      "LABEL_UPLOAD_FAILED": "Không tải lên được"
+    }
+  }
+}

@@ -74,6 +74,11 @@
           "LABEL": "电子邮件地址",
           "PLACEHOLDER": "请输入客服的邮箱地址"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "有效的",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "编辑客服"
       },
       "BUTTON_TEXT": "编辑",
@@ -95,17 +100,18 @@
     "MULTI_SELECTOR": {
       "PLACEHOLDER": "没有",
       "TITLE": {
-        "AGENT": "选择代理",
+        "AGENT": "选择客服代表",
         "TEAM": "选择团队"
       },
       "SEARCH": {
         "NO_RESULTS": {
-          "AGENT": "未找到代理",
+          "AGENT": "未找到客服代表",
           "TEAM": "没有找到团队"
         },
         "PLACEHOLDER": {
-          "AGENT": "搜索代理",
-          "TEAM": "查找团队"
+          "AGENT": "搜索客服代表",
+          "TEAM": "查找团队",
+          "INPUT": "Search for agents"
         }
       }
     }

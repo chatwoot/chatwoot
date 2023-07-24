@@ -1,13 +1,13 @@
 <template>
   <li
-    class="dropdown-menu__item"
+    class="dropdown-menu__item list-none mb-1"
     :class="{
       'is-disabled': disabled,
     }"
     :tabindex="disabled ? null : -1"
     :aria-disabled="disabled"
   >
-    <slot></slot>
+    <slot />
   </li>
 </template>
 <script>
@@ -28,25 +28,21 @@ export default {
 </script>
 <style lang="scss" scoped>
 .dropdown-menu__item {
-  list-style: none;
-
   ::v-deep {
     a,
     .button {
-      width: 100%;
-      text-align: left;
-      white-space: nowrap;
-      display: inline-flex;
-      border-radius: var(--border-radius-normal);
-
-      &:hover {
-        background: var(--color-background);
-      }
-
-      &:focus {
-        background: var(--color-background);
-      }
+      @apply inline-flex whitespace-nowrap w-full text-left rtl:text-right;
     }
+  }
+}
+
+// A hacky fix to remove the background that came from the foundation styles node module file
+// Can be removed once we remove the foundation styles node module
+.dropdown.menu {
+  // Top-level item
+  > li > a {
+    background: transparent;
+    padding: 4px 10.8px;
   }
 }
 </style>

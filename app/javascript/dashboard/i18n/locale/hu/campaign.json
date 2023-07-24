@@ -89,7 +89,7 @@
       "TABLE_HEADER": {
         "TITLE": "Title",
         "MESSAGE": "Üzenet",
-        "INBOX": "Inbox",
+        "INBOX": "Fiók",
         "STATUS": "Státusz",
         "SENDER": "Sender",
         "URL": "URL",
@@ -98,7 +98,7 @@
         "CREATED_AT": "Created at"
       },
       "BUTTONS": {
-        "ADD": "Add",
+        "ADD": "Hozzáadás",
         "EDIT": "Szerkesztés",
         "DELETE": "Törlés"
       },

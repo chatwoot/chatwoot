@@ -1,10 +1,23 @@
+import { sendMessage } from 'widget/helpers/utils';
 import ContactsAPI from '../../api/contacts';
-
+import { SET_USER_ERROR } from '../../constants/errorTypes';
+import { setHeader } from '../../helpers/axios';
 const state = {
   currentUser: {},
 };
 
 const SET_CURRENT_USER = 'SET_CURRENT_USER';
+const parseErrorData = error =>
+  error && error.response && error.response.data ? error.response.data : error;
+export const updateWidgetAuthToken = widgetAuthToken => {
+  if (widgetAuthToken) {
+    setHeader(widgetAuthToken);
+    sendMessage({
+      event: 'setAuthCookie',
+      data: { widgetAuthToken },
+    });
+  }
+};
 
 export const getters = {
   getCurrentUser(_state) {
@@ -21,24 +34,57 @@ export const actions = {
       // Ignore error
     }
   },
-  update: async ({ dispatch }, { identifier, user: userObject }) => {
+  update: async ({ dispatch }, { user }) => {
     try {
-      const user = {
-        email: userObject.email,
-        name: userObject.name,
-        avatar_url: userObject.avatar_url,
-        identifier_hash: userObject.identifier_hash,
-        phone_number: userObject.phone_number,
-      };
-      await ContactsAPI.update(identifier, user);
-
+      await ContactsAPI.update(user);
       dispatch('get');
-      if (userObject.identifier_hash) {
-        dispatch('conversation/clearConversations', {}, { root: true });
-        dispatch('conversation/fetchOldConversations', {}, { root: true });
-      }
     } catch (error) {
       // Ignore error
+    }
+  },
+  setUser: async ({ dispatch }, { identifier, user: userObject }) => {
+    try {
+      const {
+        email,
+        name,
+        avatar_url,
+        identifier_hash: identifierHash,
+        phone_number,
+        company_name,
+        city,
+        country_code,
+        description,
+        custom_attributes,
+        social_profiles,
+      } = userObject;
+      const user = {
+        email,
+        name,
+        avatar_url,
+        identifier_hash: identifierHash,
+        phone_number,
+        additional_attributes: {
+          company_name,
+          city,
+          description,
+          country_code,
+          social_profiles,
+        },
+        custom_attributes,
+      };
+      const {
+        data: { widget_auth_token: widgetAuthToken },
+      } = await ContactsAPI.setUser(identifier, user);
+      updateWidgetAuthToken(widgetAuthToken);
+      dispatch('get');
+      if (identifierHash || widgetAuthToken) {
+        dispatch('conversation/clearConversations', {}, { root: true });
+        dispatch('conversation/fetchOldConversations', {}, { root: true });
+        dispatch('conversationAttributes/getAttributes', {}, { root: true });
+      }
+    } catch (error) {
+      const data = parseErrorData(error);
+      sendMessage({ event: 'error', errorType: SET_USER_ERROR, data });
     }
   },
   setCustomAttributes: async (_, customAttributes = {}) => {

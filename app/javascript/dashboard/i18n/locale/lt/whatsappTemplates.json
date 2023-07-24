@@ -1,0 +1,25 @@
+{
+    "WHATSAPP_TEMPLATES": {
+        "MODAL": {
+            "TITLE": "Whatsapp Šablonai",
+            "SUBTITLE": "Pasirinkite WhatsApp šabloną, kurį norite siųsti",
+            "TEMPLATE_SELECTED_SUBTITLE": "Apdoroti %{templateName}"
+        },
+        "PICKER": {
+            "SEARCH_PLACEHOLDER": "Ieškoti šablonų",
+            "NO_TEMPLATES_FOUND": "Šablonų nerasta",
+            "LABELS": {
+                "LANGUAGE": "Kalba",
+                "TEMPLATE_BODY": "Šablono tekstas",
+                "CATEGORY": "Kategorija"
+            }
+        },
+        "PARSER": {
+            "VARIABLES_LABEL": "Kintamieji",
+            "VARIABLE_PLACEHOLDER": "Įveskite %{variable} reikšmę",
+            "GO_BACK_LABEL": "Grįžti",
+            "SEND_MESSAGE_LABEL": "Išsiųsti pranešimą",
+            "FORM_ERROR_MESSAGE": "Prieš siųsdami užpildykite visus kintamuosius"
+        }
+    }
+}

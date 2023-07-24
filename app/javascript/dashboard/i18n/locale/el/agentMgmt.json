@@ -74,6 +74,11 @@
           "LABEL": "Διεύθυνση Email",
           "PLACEHOLDER": "Παρακαλώ εισάγετε το email του πράκτορα"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Διαθεσιμότητα",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "Καταχώρηση"
       },
       "BUTTON_TEXT": "Επεξεργασία",
@@ -105,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "Αναζήτηση πράκτορων",
-          "TEAM": "Αναζήτηση ομάδων"
+          "TEAM": "Αναζήτηση ομάδων",
+          "INPUT": "Search for agents"
         }
       }
     }

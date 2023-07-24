@@ -15,6 +15,11 @@ module SsoAuthenticatable
     ::Redis::Alfred.get(sso_token_key(token)).present?
   end
 
+  def generate_sso_link
+    encoded_email = ERB::Util.url_encode(email)
+    "#{ENV.fetch('FRONTEND_URL', nil)}/app/login?email=#{encoded_email}&sso_auth_token=#{generate_sso_auth_token}"
+  end
+
   private
 
   def sso_token_key(token)

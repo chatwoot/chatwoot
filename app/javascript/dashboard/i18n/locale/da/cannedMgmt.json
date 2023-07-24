@@ -17,7 +17,7 @@
     },
     "ADD": {
       "TITLE": "Tilføj Standardsvar",
-      "DESC": "Standardsvar er gemte svarskabeloner, som kan bruges til hurtigt at sende svar til samtalen .",
+      "DESC": "Standardsvar er gemte svarskabeloner, som kan bruges til hurtigt at sende svar til samtalen.",
       "CANCEL_BUTTON_TEXT": "Annuller",
       "FORM": {
         "SHORT_CODE": {

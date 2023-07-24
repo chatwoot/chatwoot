@@ -1,35 +1,43 @@
 <template>
-  <div>
+  <div
+    class="preview-item__wrap flex flex-col overflow-auto mt-4 max-h-[12.5rem]"
+  >
     <div
       v-for="(attachment, index) in attachments"
       :key="attachment.id"
-      class="preview-item"
+      class="preview-item flex p-1 bg-slate-50 dark:bg-slate-800 rounded-md w-[15rem] mb-1"
     >
-      <div class="thumb-wrap">
+      <div class="max-w-[4rem] flex-shrink-0 w-6 flex items-center">
         <img
-          v-if="isTypeImage(attachment.resource.type)"
+          v-if="isTypeImage(attachment.resource)"
           class="image-thumb"
           :src="attachment.thumb"
         />
-        <span v-else class="attachment-thumb"> 📄 </span>
-      </div>
-      <div class="file-name-wrap">
-        <span class="item">
-          {{ attachment.resource.name }}
+        <span v-else class="w-6 h-6 text-lg relative -top-px text-left">
+          📄
         </span>
       </div>
-      <div class="file-size-wrap">
-        <span class="item">
-          {{ formatFileSize(attachment.resource.size) }}
-        </span>
-      </div>
-      <div class="remove-file-wrap">
-        <button
-          class="remove--attachment"
-          @click="() => onRemoveAttachment(index)"
+      <div class="max-w-[60%] min-w-[50%] overflow-hidden text-ellipsis ml-2">
+        <span
+          class="h-4 overflow-hidden text-sm font-medium text-ellipsis whitespace-nowrap"
         >
-          <i class="ion-android-close"></i>
-        </button>
+          {{ fileName(attachment.resource) }}
+        </span>
+      </div>
+      <div class="w-[30%] justify-center">
+        <span
+          class="item overflow-hidden text-xs text-ellipsis whitespace-nowrap"
+        >
+          {{ formatFileSize(attachment.resource) }}
+        </span>
+      </div>
+      <div class="flex items-center justify-center">
+        <woot-button
+          v-if="!isTypeAudio(attachment.resource)"
+          class="remove--attachment clear secondary"
+          icon="dismiss"
+          @click="() => onRemoveAttachment(index)"
+        />
       </div>
     </div>
   </div>
@@ -51,103 +59,39 @@ export default {
     onRemoveAttachment(index) {
       this.removeAttachment(index);
     },
-    formatFileSize(size) {
+    formatFileSize(file) {
+      const size = file.byte_size || file.size;
       return formatBytes(size, 0);
     },
-    isTypeImage(type) {
+    isTypeImage(file) {
+      const type = file.content_type || file.type;
       return type.includes('image');
+    },
+    isTypeAudio(file) {
+      const type = file.content_type || file.type;
+      return type.includes('audio');
+    },
+    fileName(file) {
+      return file.filename || file.name;
     },
   },
 };
 </script>
 <style lang="scss" scoped>
-.preview-item {
-  display: flex;
-  padding: var(--space-slab) 0 0;
-  background: var(--color-background-light);
-  background: var(--b-50);
-  border-radius: var(--border-radius-normal);
-  width: fit-content;
-  padding: var(--space-smaller);
-  margin-top: var(--space-normal);
-}
-
-.thumb-wrap {
-  max-width: var(--space-jumbo);
-  flex-shrink: 0;
-  width: var(--space-medium);
-  display: flex;
-  align-items: center;
-}
-
 .image-thumb {
-  width: var(--space-medium);
-  height: var(--space-medium);
-  object-fit: cover;
-  border-radius: var(--border-radius-small);
-}
-
-.attachment-thumb {
-  width: var(--space-medium);
-  height: var(--space-medium);
-  font-size: var(--font-size-medium);
-  text-align: center;
-  position: relative;
-  top: -1px;
-  text-align: left;
+  @apply w-6 h-6 object-cover rounded-sm;
 }
 
 .file-name-wrap,
 .file-size-wrap {
-  display: flex;
-  align-items: center;
-  padding: 0 var(--space-smaller);
+  @apply flex items-center py-0 px-1;
 
   > .item {
-    margin: 0;
-    font-size: var(--font-size-mini);
-    font-weight: var(--font-weight-medium);
+    @apply m-0 overflow-hidden text-xs font-medium;
   }
-}
-
-.preview-header {
-  padding: var(--space-slab) var(--space-slab) 0 var(--space-slab);
-}
-
-.file-name-wrap {
-  max-width: 50%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-left: var(--space-small);
-
-  .item {
-    height: var(--space-normal);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-}
-
-.file-size-wrap {
-  width: 30%;
-  justify-content: center;
-}
-
-.remove-file-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .remove--attachment {
-  width: var(--space-medium);
-  height: var(--space-medium);
-  border-radius: var(--space-medium);
-  font-size: var(--font-size-small);
-  cursor: pointer;
-
-  &:hover {
-    background: var(--color-background);
-  }
+  @apply w-6 h-6 rounded-md text-sm cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800;
 }
 </style>

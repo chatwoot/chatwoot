@@ -1,5 +1,5 @@
 tags:
-  - Inbox
+  - Inboxes
 operationId: delete-agent-in-inbox
 summary: Remove an Agent from Inbox
 description: Remove an Agent from Inbox

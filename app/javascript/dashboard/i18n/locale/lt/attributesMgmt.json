@@ -1,0 +1,99 @@
+{
+  "ATTRIBUTES_MGMT": {
+    "HEADER": "Personalizuoti Požymiai",
+    "HEADER_BTN_TXT": "Pridėti personalizuotą požymį",
+    "LOADING": "Gaunami personalizuoti požymiai",
+    "SIDEBAR_TXT": "<p><b>Personalizuoti požymiai</b> <p>Personalizuotas požymis seka faktus apie jūsų kontaktus/pokalbį, pvz., prenumeratos planą, kada jie užsakė pirmąją prekę ir pan. <br /><br />Kuriant personalizuotą požymį, tiesiog spustelėkite <b>Pridėti personalizuotą požymį.</b> Taip pat galite redaguoti arba ištrinti esamą personalizuotą požymį spustelėdami mygtuką Redaguoti arba Naikinti.</p>",
+    "ADD": {
+      "TITLE": "Pridėti personalizuotą požymį",
+      "SUBMIT": "Sukurti",
+      "CANCEL_BUTTON_TEXT": "Atšaukti",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Rodomas Vardas",
+          "PLACEHOLDER": "Įveskite personalizuoto požymio rodomą vardą",
+          "ERROR": "Yra reikalingas vardas"
+        },
+        "DESC": {
+          "LABEL": "Aprašymas",
+          "PLACEHOLDER": "Įveskite personalizuotą požymio aprašymą",
+          "ERROR": "Būtinas aprašymas"
+        },
+        "MODEL": {
+          "LABEL": "Taikomas",
+          "PLACEHOLDER": "Prašau pasirinkti vieną",
+          "ERROR": "Yra reikalingas modelis"
+        },
+        "TYPE": {
+          "LABEL": "Tipas",
+          "PLACEHOLDER": "Prašau pasirinkti tipą",
+          "ERROR": "Yra reikalingas tipas",
+          "LIST": {
+            "LABEL": "Reikšmių sąrašas",
+            "PLACEHOLDER": "Įveskite reikšmę ir paspauskite klavišą Enter",
+            "ERROR": "Turi turėti bent vieną reikšmę"
+          }
+        },
+        "KEY": {
+          "LABEL": "Raktas",
+          "PLACEHOLDER": "Įveskite personalizuotą atributo raktą",
+          "ERROR": "Yra reikalingas raktas",
+          "IN_VALID": "Neteisingas raktas"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Personalizuotas požymis pridėtas sėkmingai!",
+        "ERROR_MESSAGE": "Nepavyko sukurti personalizuoto požymio. Pabandykite dar kartą vėliau."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Ištrinti",
+      "API": {
+        "SUCCESS_MESSAGE": "Personalizuotas požymis ištrintas sėkmingai.",
+        "ERROR_MESSAGE": "Nepavyko ištrinti personalizuoto požymio. Pabandykite dar kartą vėliau."
+      },
+      "CONFIRM": {
+        "TITLE": "Ar tikrai norite ištrinti – %{attributeName}",
+        "PLACE_HOLDER": "Įveskite {attributeName}, kad patvirtintumėte",
+        "MESSAGE": "Ištrynus bus pašalintas personalizuotas požymis",
+        "YES": "Ištrinti ",
+        "NO": "Atšaukti"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Redaguoti personalizuotą požymį",
+      "UPDATE_BUTTON_TEXT": "Atnaujinti",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "Reikšmių sąrašas",
+          "PLACEHOLDER": "Įveskite reikšmes ir paspauskite klavišą Enter"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Personalizuotas požymis atnaujintas sėkmingai",
+        "ERROR_MESSAGE": "Atnaujinant personalizuotą požymį įvyko klaida, bandykite dar kartą"
+      }
+    },
+    "TABS": {
+      "HEADER": "Personalizuoti Požymiai",
+      "CONVERSATION": "Pokalbis",
+      "CONTACT": "Kontaktas"
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Vardas",
+        "Aprašymas",
+        "Tipas",
+        "Raktas"
+      ],
+      "BUTTONS": {
+        "EDIT": "Redaguoti",
+        "DELETE": "Ištrinti"
+      },
+      "EMPTY_RESULT": {
+        "404": "Nėra sukurta personalizuotų požymių",
+        "NOT_FOUND": "Nėra sukonfiguruota personalizuotų požymių"
+      }
+    }
+  }
+}

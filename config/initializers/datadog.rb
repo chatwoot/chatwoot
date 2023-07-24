@@ -1,6 +1,6 @@
-if ENV['DD_TRACE_AGENT_URL']
+if ENV['DD_TRACE_AGENT_URL'].present?
   Datadog.configure do |c|
-    # This will activate auto-instrumentation for Rails
-    c.use :rails
+    # Instrumentation
+    c.tracing.instrument :rails
   end
 end

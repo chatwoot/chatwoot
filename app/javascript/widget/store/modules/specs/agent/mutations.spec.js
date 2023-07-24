@@ -18,7 +18,7 @@ describe('#mutations', () => {
     });
   });
 
-  describe('#setError', () => {
+  describe('#setHasFetched', () => {
     it('set fetched flag', () => {
       const state = { records: [], uiFlags: {} };
       mutations.setHasFetched(state, true);
@@ -47,11 +47,13 @@ describe('#mutations', () => {
           id: 3,
           name: 'Pranav',
           avatar_url: '',
+          availability_status: 'offline',
         },
         {
           id: 4,
           name: 'Nithin',
           avatar_url: '',
+          availability_status: 'offline',
         },
       ]);
     });

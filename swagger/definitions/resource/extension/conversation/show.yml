@@ -1,5 +1,4 @@
 type: object
 allOf:
-  - $ref: '#/definitions/generic_id'
   - $ref: '#/definitions/conversation'
   - $ref: '../contact/conversation.yml'

@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Agents API', type: :request do
+  include ActiveJob::TestHelper
+
   let(:account) { create(:account) }
   let(:admin) { create(:user, custom_attributes: { test: 'test' }, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
@@ -23,7 +25,7 @@ RSpec.describe 'Agents API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(JSON.parse(response.body).size).to eq(account.users.count)
+        expect(response.parsed_body.size).to eq(account.users.count)
       end
 
       it 'returns custom fields on agents if present' do
@@ -34,7 +36,7 @@ RSpec.describe 'Agents API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        data = JSON.parse(response.body)
+        data = response.parsed_body
         expect(data.first['custom_attributes']['test']).to eq('test')
       end
     end
@@ -60,13 +62,31 @@ RSpec.describe 'Agents API', type: :request do
         expect(response).to have_http_status(:unauthorized)
       end
 
-      it 'deletes an agent' do
-        delete "/api/v1/accounts/#{account.id}/agents/#{other_agent.id}",
-               headers: admin.create_new_auth_token,
-               as: :json
+      it 'deletes the agent and user object if associated with only one account' do
+        perform_enqueued_jobs(only: DeleteObjectJob) do
+          delete "/api/v1/accounts/#{account.id}/agents/#{other_agent.id}",
+                 headers: admin.create_new_auth_token,
+                 as: :json
+        end
+
+        expect(response).to have_http_status(:success)
+        expect(account.reload.users.size).to eq(1)
+        expect(User.count).to eq(account.reload.users.size)
+      end
+
+      it 'deletes only the agent object when user is associated with multiple accounts' do
+        other_account = create(:account)
+        create(:account_user, account_id: other_account.id, user_id: other_agent.id)
+
+        perform_enqueued_jobs(only: DeleteObjectJob) do
+          delete "/api/v1/accounts/#{account.id}/agents/#{other_agent.id}",
+                 headers: admin.create_new_auth_token,
+                 as: :json
+        end
 
         expect(response).to have_http_status(:success)
         expect(account.users.size).to eq(1)
+        expect(User.count).to eq(account.reload.users.size + 1)
       end
     end
   end
@@ -111,10 +131,10 @@ RSpec.describe 'Agents API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        response_data = JSON.parse(response.body)
+        response_data = response.parsed_body
         expect(response_data['role']).to eq('administrator')
         expect(response_data['availability_status']).to eq('busy')
-        expect(response_data['auto_offline']).to eq(false)
+        expect(response_data['auto_offline']).to be(false)
         expect(other_agent.account_users.first.role).to eq('administrator')
       end
     end

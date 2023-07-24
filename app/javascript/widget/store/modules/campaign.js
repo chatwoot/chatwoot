@@ -9,10 +9,8 @@ const state = {
   records: [],
   uiFlags: {
     isError: false,
-    hasFetched: false,
   },
   activeCampaign: {},
-  campaignHasExecuted: false,
 };
 
 const resetCampaignTimers = (
@@ -32,10 +30,8 @@ const resetCampaignTimers = (
 };
 
 export const getters = {
-  getHasFetched: $state => $state.uiFlags.hasFetched,
   getCampaigns: $state => $state.records,
   getActiveCampaign: $state => $state.activeCampaign,
-  getCampaignHasExecuted: $state => $state.campaignHasExecuted,
 };
 
 export const actions = {
@@ -47,7 +43,6 @@ export const actions = {
       const { data: campaigns } = await getCampaigns(websiteToken);
       commit('setCampaigns', campaigns);
       commit('setError', false);
-      commit('setHasFetched', true);
       resetCampaignTimers(
         campaigns,
         currentURL,
@@ -56,7 +51,6 @@ export const actions = {
       );
     } catch (error) {
       commit('setError', true);
-      commit('setHasFetched', true);
     }
   },
   initCampaigns: async (
@@ -82,13 +76,13 @@ export const actions = {
     {
       commit,
       rootState: {
-        events: { isOpen },
+        appConfig: { isWidgetOpen },
       },
     },
     { websiteToken, campaignId }
   ) => {
     // Disable campaign execution if widget is opened
-    if (!isOpen) {
+    if (!isWidgetOpen) {
       const { data: campaigns } = await getCampaigns(websiteToken);
       // Check campaign is disabled or not
       const campaign = campaigns.find(item => item.id === campaignId);
@@ -98,17 +92,32 @@ export const actions = {
     }
   },
 
-  executeCampaign: async ({ commit }, { campaignId, websiteToken }) => {
+  executeCampaign: async (
+    { commit },
+    { campaignId, websiteToken, customAttributes }
+  ) => {
     try {
-      await triggerCampaign({ campaignId, websiteToken });
-      commit('setCampaignExecuted');
+      commit(
+        'conversation/setConversationUIFlag',
+        { isCreating: true },
+        { root: true }
+      );
+      await triggerCampaign({ campaignId, websiteToken, customAttributes });
+      commit('setCampaignExecuted', true);
       commit('setActiveCampaign', {});
     } catch (error) {
       commit('setError', true);
+    } finally {
+      commit(
+        'conversation/setConversationUIFlag',
+        { isCreating: false },
+        { root: true }
+      );
     }
   },
   resetCampaign: async ({ commit }) => {
     try {
+      commit('setCampaignExecuted', false);
       commit('setActiveCampaign', {});
     } catch (error) {
       commit('setError', true);
@@ -129,8 +138,8 @@ export const mutations = {
   setHasFetched($state, value) {
     Vue.set($state.uiFlags, 'hasFetched', value);
   },
-  setCampaignExecuted($state) {
-    Vue.set($state, 'campaignHasExecuted', true);
+  setCampaignExecuted($state, data) {
+    Vue.set($state, 'campaignHasExecuted', data);
   },
 };
 

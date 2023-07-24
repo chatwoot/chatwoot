@@ -1,0 +1,25 @@
+{
+    "WHATSAPP_TEMPLATES": {
+        "MODAL": {
+            "TITLE": "Whatsapp Skabeloner",
+            "SUBTITLE": "Vælg den whatsapp skabelon, du vil sende",
+            "TEMPLATE_SELECTED_SUBTITLE": "Proces %{templateName}"
+        },
+        "PICKER": {
+            "SEARCH_PLACEHOLDER": "Søg Skabeloner",
+            "NO_TEMPLATES_FOUND": "Ingen skabeloner fundet for",
+            "LABELS": {
+                "LANGUAGE": "Sprog",
+                "TEMPLATE_BODY": "Skabelon Krop",
+                "CATEGORY": "Kategori"
+            }
+        },
+        "PARSER": {
+            "VARIABLES_LABEL": "Variabler",
+            "VARIABLE_PLACEHOLDER": "Indtast %{variable} værdi",
+            "GO_BACK_LABEL": "Gå Tilbage",
+            "SEND_MESSAGE_LABEL": "Send Besked",
+            "FORM_ERROR_MESSAGE": "Udfyld venligst alle variabler før afsendelse"
+        }
+    }
+}

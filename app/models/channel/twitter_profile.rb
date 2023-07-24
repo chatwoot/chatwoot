@@ -3,6 +3,7 @@
 # Table name: channel_twitter_profiles
 #
 #  id                          :bigint           not null, primary key
+#  tweets_enabled              :boolean          default(TRUE)
 #  twitter_access_token        :string           not null
 #  twitter_access_token_secret :string           not null
 #  created_at                  :datetime         not null
@@ -24,21 +25,18 @@ class Channel::TwitterProfile < ApplicationRecord
 
   before_destroy :unsubscribe
 
+  EDITABLE_ATTRS = [:tweets_enabled].freeze
+
   def name
     'Twitter'
   end
 
   def create_contact_inbox(profile_id, name, additional_attributes)
-    ActiveRecord::Base.transaction do
-      contact = inbox.account.contacts.create!(additional_attributes: additional_attributes, name: name)
-      ::ContactInbox.create!(
-        contact_id: contact.id,
-        inbox_id: inbox.id,
-        source_id: profile_id
-      )
-    rescue StandardError => e
-      Rails.logger.info e
-    end
+    ::ContactInboxWithContactBuilder.new({
+                                           source_id: profile_id,
+                                           inbox: inbox,
+                                           contact_attributes: { name: name, additional_attributes: additional_attributes }
+                                         }).perform
   end
 
   def twitter_client
@@ -59,6 +57,6 @@ class Channel::TwitterProfile < ApplicationRecord
     unsubscribe_response = twitter_client.remove_subscription(user_id: profile_id)
     Rails.logger.info "TWITTER_UNSUBSCRIBE: #{unsubscribe_response.body}"
   rescue StandardError => e
-    Rails.logger.info e
+    Rails.logger.error e
   end
 end

@@ -1,0 +1,119 @@
+{
+  "AGENT_MGMT": {
+    "HEADER": "Aģenti",
+    "HEADER_BTN_TXT": "Pievienot Aģentu",
+    "LOADING": "Aģentu Saraksta Iegūšana",
+    "SIDEBAR_TXT": "<p><b>Aģenti</b></p> <p><b>Aģents</b> ir Jūsu Klientu Atbalsta komandas biedrs.</p><p> Aģenti varēs skatīt jūsu lietotāju ziņojumus un atbildēt uz tiem. Sarakstā ir redzami visi aģenti, kas pašlaik ir jūsu kontā. </p><p> Klikšķiniet uz <b>Pievienot Aģentu</b> lai pievienotu jaunu aģentu. Jūsu pievienotais aģents saņems e-pasta ziņojumu ar apstiprinājuma saiti, lai aktivizētu savu kontu, pēc tam viņš varēs piekļūt Chatwoot un atbildēt uz ziņojumiem. </p><p> Piekļuve Chatwoot funkcijām ir balstīta uz šādām lomām. </p><p> <b>Aģents</b> - Šīs lomas aģentiem ir piekļuve tikai pie iesūtnēm, pārskatiem un sarunām. Viņi var piešķirt sarunas citiem aģentiem, vai sev, un atrisināt sarunas.</p><p> <b>Administrators</b> - Administratoram būs piekļuve pie visām jūsu kontam iespējotajām Chatwoot funkcijām, tostarp iestatījumiem, kā arī visām parasto aģentu privilēģijām.</p>",
+    "AGENT_TYPES": {
+      "ADMINISTRATOR": "Administrators",
+      "AGENT": "Aģents"
+    },
+    "LIST": {
+      "404": "Šim kontam nav piesaistīts neviens aģents",
+      "TITLE": "Pārvaldīt Jūsu komandas aģentus",
+      "DESC": "Jūs varat pievienot/noņemt aģentus pie/no savas komandas.",
+      "NAME": "Nosaukums",
+      "EMAIL": "Epasts",
+      "STATUS": "Statuss",
+      "ACTIONS": "Darbības",
+      "VERIFIED": "Pārbaudīts",
+      "VERIFICATION_PENDING": "Tiek gaidīta verifikācija"
+    },
+    "ADD": {
+      "TITLE": "Pievienot aģentu Jūsu komandai",
+      "DESC": "Jūs varat pievienot personas, kuras būs spējīgas apstrādāt iesūtnes un sniegt atbalstu.",
+      "CANCEL_BUTTON_TEXT": "Atcelt",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Aģenta Vārds",
+          "PLACEHOLDER": "Lūdzu, ievadiet aģenta vārdu"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Loma",
+          "PLACEHOLDER": "Lūdzu, izvēlieties lomu",
+          "ERROR": "Nepieciešama loma"
+        },
+        "EMAIL": {
+          "LABEL": "e-pasta Adrese",
+          "PLACEHOLDER": "Lūdzu, ievadiet aģenta e-pasta adresi"
+        },
+        "SUBMIT": "Pievienot Aģentu"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Aģents ir veiksmīgi pievienots",
+        "EXIST_MESSAGE": "Aģenta e-pasts jau tiek izmantots. Lūdzu, pamēģiniet citu e-pasta adresi",
+        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Dzēst",
+      "API": {
+        "SUCCESS_MESSAGE": "Aģents ir veiksmīgi izdzēsts",
+        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+      },
+      "CONFIRM": {
+        "TITLE": "Apstiprināt Dzēšanu",
+        "MESSAGE": "Vai vēlaties izdzēst ",
+        "YES": "Jā, Dzēst ",
+        "NO": "Nē, Paturēt "
+      }
+    },
+    "EDIT": {
+      "TITLE": "Rediģēt aģentu",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Aģenta Vārds",
+          "PLACEHOLDER": "Lūdzu, ievadiet aģenta vārdu"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Loma",
+          "PLACEHOLDER": "Lūdzu, izvēlieties lomu",
+          "ERROR": "Nepieciešama loma"
+        },
+        "EMAIL": {
+          "LABEL": "e-pasta Adrese",
+          "PLACEHOLDER": "Lūdzu, ievadiet aģenta e-pasta adresi"
+        },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Pieejamība",
+          "PLACEHOLDER": "Lūdzu, izvēlieties pieejamības statusu",
+          "ERROR": "Nepieciešama pieejamība"
+        },
+        "SUBMIT": "Rediģēt Aģentu"
+      },
+      "BUTTON_TEXT": "Rediģēt",
+      "CANCEL_BUTTON_TEXT": "Atcelt",
+      "API": {
+        "SUCCESS_MESSAGE": "Aģents ir veiksmīgi atjaunināts",
+        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+      },
+      "PASSWORD_RESET": {
+        "ADMIN_RESET_BUTTON": "Atiestatīt Paroli",
+        "ADMIN_SUCCESS_MESSAGE": "Aģentam tika nosūtīts e-pasta ziņojums ar paroles atiestatīšanas norādījumiem",
+        "SUCCESS_MESSAGE": "Aģenta parole ir veiksmīgi atiestatīta",
+        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+      }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "Nav atrasts."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "Nav",
+      "TITLE": {
+        "AGENT": "Izvēlieties aģentu",
+        "TEAM": "Izvēlieties komandu"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "Aģenti nav atrasti",
+          "TEAM": "Komandas nav atrastas"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Meklēt aģentus",
+          "TEAM": "Meklēt komandas",
+          "INPUT": "Meklēt aģentus"
+        }
+      }
+    }
+  }
+}

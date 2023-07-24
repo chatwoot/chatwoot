@@ -1,0 +1,6 @@
+<% if article_count == 0 %>
+<% elsif article_count == 1 %>
+  <%= article_count %> <%= I18n.t('public_portal.common.article') %>
+<% else %>
+  <%= article_count %> <%= I18n.t('public_portal.common.articles') %>
+<% end %>

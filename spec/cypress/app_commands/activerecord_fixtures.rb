@@ -7,7 +7,7 @@ if defined?(ActiveRecord)
   require 'active_record/fixtures'
 
   fixtures_dir ||= ActiveRecord::Tasks::DatabaseTasks.fixtures_path
-  fixture_files ||= Dir["#{fixtures_dir}/**/*.yml"].map { |f| f[(fixtures_dir.size + 1)..-5] }
+  fixture_files ||= Dir["#{fixtures_dir}/**/*.yml"].pluck((fixtures_dir.size + 1)..-5)
 
   logger.debug "loading fixtures: { dir: #{fixtures_dir}, files: #{fixture_files} }"
   ActiveRecord::FixtureSet.reset_cache

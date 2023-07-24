@@ -3,9 +3,15 @@ class Public::Api::V1::InboxesController < PublicController
   before_action :set_contact_inbox
   before_action :set_conversation
 
+  def show
+    @inbox_channel = ::Channel::Api.find_by!(identifier: params[:id])
+  end
+
   private
 
   def set_inbox_channel
+    return if params[:inbox_id].blank?
+
     @inbox_channel = ::Channel::Api.find_by!(identifier: params[:inbox_id])
   end
 

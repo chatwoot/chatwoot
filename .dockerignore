@@ -1,8 +1,6 @@
 .bundle
 .env
 .env.*
-.git
-.gitignore
 docker-compose.*
 docker/Dockerfile
 docker/dockerfiles
@@ -11,7 +9,6 @@ storage
 public/system
 tmp
 .codeclimate.yml
-public/assets
 public/packs
 node_modules
 vendor/bundle

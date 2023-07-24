@@ -1,12 +1,17 @@
 <template>
-  <div class="column page-top-banner">
-    <h2 class="page-sub-title">
+  <div
+    class="bg-slate-25 dark:bg-slate-900 pt-4 pb-0 px-8 border-b border-solid border-slate-50 dark:border-slate-800/50"
+  >
+    <h2 class="text-2xl text-slate-800 dark:text-slate-100">
       {{ headerTitle }}
     </h2>
-    <p v-if="headerContent" class="small-12 column">
+    <p
+      v-if="headerContent"
+      class="w-full text-slate-600 dark:text-slate-300 text-sm mb-2"
+    >
       {{ headerContent }}
     </p>
-    <slot></slot>
+    <slot />
   </div>
 </template>
 
@@ -24,10 +29,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.page-top-banner {
-  border-bottom: 1px solid var(--color-border);
-  background: var(--color-background-light);
-  padding: var(--space-normal) var(--space-large) 0;
-}
-</style>

@@ -1,11 +1,11 @@
 {
   "ATTRIBUTES_MGMT": {
     "HEADER": "自訂屬性",
-    "HEADER_BTN_TXT": "Add Custom Attribute",
-    "LOADING": "Fetching custom attributes",
+    "HEADER_BTN_TXT": "新增自訂屬性",
+    "LOADING": "正在取得自訂屬性",
     "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
     "ADD": {
-      "TITLE": "Add Custom Attribute",
+      "TITLE": "新增自訂屬性",
       "SUBMIT": "建立",
       "CANCEL_BUTTON_TEXT": "取消",
       "FORM": {
@@ -21,13 +21,18 @@
         },
         "MODEL": {
           "LABEL": "Applies to",
-          "PLACEHOLDER": "Please select one",
+          "PLACEHOLDER": "請選擇其中一個",
           "ERROR": "Model is required"
         },
         "TYPE": {
           "LABEL": "類別",
           "PLACEHOLDER": "請選擇一個類別",
-          "ERROR": "類別為必填"
+          "ERROR": "類別為必填",
+          "LIST": {
+            "LABEL": "List Values",
+            "PLACEHOLDER": "Please enter value and press enter key",
+            "ERROR": "Must have at least one value"
+          }
         },
         "KEY": {
           "LABEL": "Key",
@@ -37,8 +42,8 @@
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute added successfully",
-        "ERROR_MESSAGE": "Could not able to create a custom attribute, Please try again later"
+        "SUCCESS_MESSAGE": "Custom Attribute added successfully!",
+        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
       }
     },
     "DELETE": {
@@ -58,6 +63,12 @@
     "EDIT": {
       "TITLE": "Edit Custom Attribute",
       "UPDATE_BUTTON_TEXT": "更新",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "List Values",
+          "PLACEHOLDER": "Please enter values and press enter key"
+        }
+      },
       "API": {
         "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
         "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"

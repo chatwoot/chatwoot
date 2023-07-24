@@ -2,22 +2,23 @@
   <div
     class="message-text__wrap"
     :class="{
-      'show--quoted': showQuotedContent,
-      'hide--quoted': !showQuotedContent,
+      'show--quoted': isQuotedContentPresent,
+      'hide--quoted': !isQuotedContentPresent,
     }"
   >
-    <div class="text-content" v-html="message"></div>
+    <div v-if="!isEmail" v-dompurify-html="message" class="text-content" />
+    <letter v-else class="text-content" :html="message" />
     <button
-      v-if="displayQuotedButton"
-      class="quoted-text--button"
+      v-if="showQuoteToggle"
+      class="text-slate-300 dark:text-slate-300 cursor-pointer text-xs py-1"
       @click="toggleQuotedContent"
     >
-      <span v-if="showQuotedContent">
-        <i class="ion-chevron-up" />
+      <span v-if="showQuotedContent" class="flex items-center gap-0.5">
+        <fluent-icon icon="chevron-up" size="16" />
         {{ $t('CHAT_LIST.HIDE_QUOTED_TEXT') }}
       </span>
-      <span v-else>
-        <i class="ion-chevron-down" />
+      <span v-else class="flex items-center gap-0.5">
+        <fluent-icon icon="chevron-down" size="16" />
         {{ $t('CHAT_LIST.SHOW_QUOTED_TEXT') }}
       </span>
     </button>
@@ -25,13 +26,12 @@
 </template>
 
 <script>
+import Letter from 'vue-letter';
+
 export default {
+  components: { Letter },
   props: {
     message: {
-      type: String,
-      default: '',
-    },
-    readableTime: {
       type: String,
       default: '',
     },
@@ -49,6 +49,20 @@ export default {
       showQuotedContent: false,
     };
   },
+  computed: {
+    isQuotedContentPresent() {
+      if (!this.isEmail) {
+        return this.message.includes('<blockquote');
+      }
+      return this.showQuotedContent;
+    },
+    showQuoteToggle() {
+      if (!this.isEmail) {
+        return false;
+      }
+      return this.displayQuotedButton;
+    },
+  },
   methods: {
     toggleQuotedContent() {
       this.showQuotedContent = !this.showQuotedContent;
@@ -65,14 +79,16 @@ export default {
     padding-left: var(--space-two);
   }
   table {
-    all: revert;
+    margin: 0;
+    border: 0;
 
     td {
-      all: revert;
+      margin: 0;
+      border: 0;
     }
 
     tr {
-      all: revert;
+      border-bottom: 0 !important;
     }
   }
 
@@ -88,21 +104,13 @@ export default {
 
 .show--quoted {
   blockquote {
-    display: block;
+    @apply block;
   }
 }
 
 .hide--quoted {
   blockquote {
-    display: none;
+    @apply hidden;
   }
-}
-
-.quoted-text--button {
-  color: var(--s-400);
-  cursor: pointer;
-  font-size: var(--font-size-mini);
-  padding-bottom: var(--space-small);
-  padding-top: var(--space-small);
 }
 </style>

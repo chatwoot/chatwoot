@@ -38,7 +38,7 @@ RSpec.describe 'Inbox Member API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(JSON.parse(response.body)['payload'].pluck('id')).to eq(inbox.inbox_members.pluck(:user_id))
+        expect(response.parsed_body['payload'].pluck('id')).to eq(inbox.inbox_members.pluck(:user_id))
       end
     end
   end
@@ -81,7 +81,7 @@ RSpec.describe 'Inbox Member API', type: :request do
       end
 
       it 'add inbox members' do
-        params = { inbox_id: inbox.id, user_ids: [agent_to_add.id] }
+        params = { inbox_id: inbox.id, user_ids: [old_agent.id, agent_to_add.id] }
 
         post "/api/v1/accounts/#{account.id}/inbox_members",
              headers: administrator.create_new_auth_token,

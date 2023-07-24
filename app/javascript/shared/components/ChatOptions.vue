@@ -1,7 +1,10 @@
 <template>
-  <div class="options-message chat-bubble agent">
+  <div
+    class="options-message chat-bubble agent"
+    :class="$dm('bg-white', 'dark:bg-slate-700')"
+  >
     <div class="card-body">
-      <h4 class="title">
+      <h4 class="title" :class="$dm('text-black-900', 'dark:text-slate-50')">
         {{ title }}
       </h4>
       <ul
@@ -23,11 +26,13 @@
 
 <script>
 import ChatOption from 'shared/components/ChatOption';
+import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 
 export default {
   components: {
     ChatOption,
   },
+  mixins: [darkModeMixin],
   props: {
     title: {
       type: String,
@@ -80,7 +85,6 @@ export default {
     font-weight: $font-weight-normal;
     margin-top: $space-smaller;
     margin-bottom: $space-smaller;
-    color: $color-heading;
     line-height: 1.5;
   }
 

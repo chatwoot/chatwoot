@@ -1,3 +1,6 @@
+@import 'shared/assets/stylesheets/animations';
+@import 'shared/assets/stylesheets/colors';
+
 @import 'reset';
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
@@ -17,13 +20,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   height: 100%;
-}
-
-.woot-widget-wrap {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  justify-content: flex-end;
 }
 
 .is-mobile {
@@ -52,7 +48,6 @@ body {
   cursor: pointer;
 }
 
-
 .message-content {
   ul {
     list-style: disc;
@@ -62,5 +57,29 @@ body {
   ol {
     list-style: decimal;
     padding-left: $space-normal;
+  }
+}
+
+.is-flat-design {
+  .chat-bubble {
+    border-radius: 0 !important;
+    box-shadow: none;
+  }
+
+  button {
+    border-radius: 0 !important;
+  }
+
+  input {
+    border-radius: 0;
+  }
+
+  .chat-message--input {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+
+    &.is-focused {
+      box-shadow: none !important;
+    }
   }
 }

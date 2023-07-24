@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "Adicionar resposta pronta",
     "LOADING": "Buscando respostas prontas",
     "SEARCH_404": "Não existem itens correspondentes a esta consulta",
-    "SIDEBAR_TXT": "<p><b>Respostas Prontas</b> </p><p> Respostas Prontas são templates de resposta salvos, que podem ser usados para enviar rapidamente uma resposta para uma conversa. </p><p> Para criar uma Resposta Pronta, clique no <b>Adicionar Resposta Pronta</b>. Você também pode editar ou excluir uma resposta existente clicando no botão Editar ou Excluir </p><p> respostas prontas são usadas com a ajuda de <b>Código Curto</b>. Os agentes podem acessar as respostas prontas enquanto estiverem em um chat digitando <b>'/'</b> seguido pelo pequeno código. </p>",
+    "SIDEBAR_TXT": "<p><b>Respostas Prontas</b> </p><p> Respostas Prontas são modelos de respostas salvos que podem ser usados para enviar rapidamente uma resposta a uma conversa. </p><p> Para criar uma Resposta Pronta basta clicar em <b>Adicionar Resposta Pronta</b>. Você também pode editar ou apagar uma Resposta Pronta existente clicando no botão Editar ou Remover </p><p> Respostas prontas são usadas com a ajuda de <b>Shortcodes (Atalhos de códigos)</b>. Os agentes podem acessar as respostas prontas num chat digitando <b>'/'</b> seguido pelo shortcode. </p>",
     "LIST": {
       "404": "Não há respostas prontas disponíveis nesta conta.",
       "TITLE": "Gerenciar respostas prontas",
@@ -17,12 +17,12 @@
     },
     "ADD": {
       "TITLE": "Adicionar resposta pronta",
-      "DESC": "Respostas prontas são salvas nos modelos de resposta que podem ser usados para enviar rapidamente uma resposta para a conversa.",
+      "DESC": "Respostas prontas são modelos de respostas salvos que podem ser usados para enviar rapidamente uma resposta para a conversa.",
       "CANCEL_BUTTON_TEXT": "cancelar",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Código curto",
-          "PLACEHOLDER": "Insira o shortcode",
+          "PLACEHOLDER": "Por favor, insira um código curto",
           "ERROR": "É necessário um código curto"
         },
         "CONTENT": {

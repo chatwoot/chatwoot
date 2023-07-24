@@ -1,3 +1,3 @@
 json.data do
-  json.partial! 'api/v1/models/inbox.json.jbuilder', resource: @inbox
+  json.partial! 'api/v1/models/inbox', formats: [:json], resource: @inbox
 end

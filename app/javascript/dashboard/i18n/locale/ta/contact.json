@@ -3,9 +3,11 @@
     "NOT_AVAILABLE": "Not Available",
     "EMAIL_ADDRESS": "ஈ-மெயில் முகவரி",
     "PHONE_NUMBER": "தொலைபேசி எண்",
+    "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "Copied to clipboard successfully",
     "COMPANY": "Company",
     "LOCATION": "இருப்பிடம்",
+    "BROWSER_LANGUAGE": "Browser Language",
     "CONVERSATION_TITLE": "உரையாடல் விவரங்கள்",
     "VIEW_PROFILE": "View Profile",
     "BROWSER": "புரவுஸர்",
@@ -13,6 +15,7 @@
     "INITIATED_FROM": "இருந்து தொடங்கப்பட்டது",
     "INITIATED_AT": "இல் தொடங்கப்பட்டது",
     "IP_ADDRESS": "IP Address",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "New message",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "இந்த தொடர்புடன் முந்தைய உரையாடல்கள் எதுவும் இல்லை.",
@@ -30,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Add Labels",
         "PLACEHOLDER": "Search labels",
-        "NO_RESULT": "No labels found"
+        "NO_RESULT": "No labels found",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Merge contact",
@@ -70,6 +74,21 @@
     "SUCCESS_MESSAGE": "Contacts saved successfully",
     "ERROR_MESSAGE": "There was an error, please try again"
   },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "There was an error, please try again"
+  },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "நீக்குதலை உறுதிப்படுத்தவும்",
+      "MESSAGE": "Are you want sure to delete this note?",
+      "YES": "Yes, Delete it",
+      "NO": "இல்லை, அதை வைத்திரு"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Delete Contact",
     "TITLE": "Delete contact",
@@ -77,9 +96,8 @@
     "CONFIRM": {
       "TITLE": "நீக்குதலை உறுதிப்படுத்தவும்",
       "MESSAGE": "நீக்குவதில் உறுதியாக உள்ளீர்களா ",
-      "PLACE_HOLDER": "Please type {contactName} to confirm",
-      "YES": "ஆம், நீக்கு ",
-      "NO": "இல்லை, வைத்திரு "
+      "YES": "Yes, Delete",
+      "NO": "No, Keep"
     },
     "API": {
       "SUCCESS_MESSAGE": "Contact deleted successfully",
@@ -103,13 +121,17 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Enter the email address of the contact",
-        "LABEL": "ஈ-மெயில் முகவரி"
+        "LABEL": "ஈ-மெயில் முகவரி",
+        "DUPLICATE": "This email address is in use for another contact.",
+        "ERROR": "Please enter a valid email address."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Enter the phone number of the contact",
         "LABEL": "Phone Number",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format"
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
+        "ERROR": "Phone number should be either empty or of E.164 format",
+        "DIAL_CODE_ERROR": "Please select a dial code from the list",
+        "DUPLICATE": "This phone number is in use for another contact."
       },
       "LOCATION": {
         "PLACEHOLDER": "Enter the location of the contact",
@@ -118,6 +140,17 @@
       "COMPANY_NAME": {
         "PLACEHOLDER": "Enter the company name",
         "LABEL": "Company Name"
+      },
+      "COUNTRY": {
+        "PLACEHOLDER": "Enter the country name",
+        "LABEL": "Country Name",
+        "SELECT_PLACEHOLDER": "Select",
+        "REMOVE": "நீக்கு",
+        "SELECT_COUNTRY": "Select Country"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Enter the city name",
+        "LABEL": "City Name"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -138,8 +171,13 @@
         }
       }
     },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+      }
+    },
     "SUCCESS_MESSAGE": "Contact saved successfully",
-    "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
     "ERROR_MESSAGE": "There was an error, please try again"
   },
   "NEW_CONVERSATION": {
@@ -152,7 +190,8 @@
         "LABEL": "To"
       },
       "INBOX": {
-        "LABEL": "Inbox",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Select an inbox"
       },
       "SUBJECT": {
@@ -168,6 +207,7 @@
       "SUBMIT": "Send message",
       "CANCEL": "ரத்துசெய்",
       "SUCCESS_MESSAGE": "Message sent!",
+      "GO_TO_CONVERSATION": "காண்க",
       "ERROR_MESSAGE": "Couldn't send! try again"
     }
   },
@@ -176,6 +216,10 @@
     "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "Search",
     "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "FILTER_CONTACTS": "வடிகட்டவும்",
+    "FILTER_CONTACTS_SAVE": "Save filter",
+    "FILTER_CONTACTS_DELETE": "Delete filter",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "Loading contacts...",
       "404": "No contacts matches your search 🔍",
@@ -185,6 +229,7 @@
         "PHONE_NUMBER": "Phone Number",
         "CONVERSATIONS": "உரையாடல்கள்",
         "LAST_ACTIVITY": "Last Activity",
+        "CREATED_AT": "Created At",
         "COUNTRY": "Country",
         "CITY": "City",
         "SOCIAL_PROFILES": "Social Profiles",
@@ -279,6 +324,13 @@
         "TITLE": "Add attributes",
         "PLACEHOLDER": "Search attributes",
         "NO_RESULT": "No attributes found"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Select value",
+          "SEARCH_INPUT_PLACEHOLDER": "Search value",
+          "NO_RESULT": "No result found"
+        }
       }
     },
     "VALIDATIONS": {

@@ -3,8 +3,8 @@
     "HEADER": "แคมเปญ",
     "SIDEBAR_TXT": "ข้อความที่ช่วยให้ลูกค้าสามารถส่งข้อควาไปยังผู้ติดต่อซึ่งจะทำให้เกิดการสนทนามากขึ้น คลิกที่ <b> เพิ่มแคมเปญ </b> เพื่อสร้างแคมเปญใหม่ คุณยังสามารถแก้ไขหรือลบแคมเปญที่มีอยู่ได้โดยคลิกที่ปุ่มแก้ไขหรือลบ",
     "HEADER_BTN_TXT": {
-      "ONE_OFF": "Create a one off campaign",
-      "ONGOING": "Create a ongoing campaign"
+      "ONE_OFF": "สร้างแคมเปญครั้งเดียว",
+      "ONGOING": "สร้างแคมเปญต่อเนื่อง"
     },
     "ADD": {
       "TITLE": "สร้างแคมเปญใหม่",
@@ -18,20 +18,20 @@
           "ERROR": "โปรดระบุหัวข้อด้วย"
         },
         "SCHEDULED_AT": {
-          "LABEL": "Scheduled time",
-          "PLACEHOLDER": "Please select the time",
-          "CONFIRM": "Confirm",
-          "ERROR": "Scheduled time is required"
+          "LABEL": "วันเริ่มแคมเปญ",
+          "PLACEHOLDER": "โปรดระบุเวลา",
+          "CONFIRM": "ยืนยัน",
+          "ERROR": "โปรดระบุวันเริ่มแคมเปญ"
         },
         "AUDIENCE": {
-          "LABEL": "Audience",
-          "PLACEHOLDER": "Select the customer labels",
-          "ERROR": "Audience is required"
+          "LABEL": "ผู้รับ",
+          "PLACEHOLDER": "เลือกป้ายกำกับลูกค้า",
+          "ERROR": "โปรดระบุผู้รับ"
         },
         "INBOX": {
-          "LABEL": "Select Inbox",
-          "PLACEHOLDER": "Select Inbox",
-          "ERROR": "Inbox is required"
+          "LABEL": "เลือกกล่องข้อความ",
+          "PLACEHOLDER": "เลือกกล่องข้อความ",
+          "ERROR": "โปรดเลือกกล่องข้อความ"
         },
         "MESSAGE": {
           "LABEL": "ข้อความ",
@@ -54,7 +54,7 @@
           "ERROR": "กรุณาระบุเวลาที่อยู่ในหน้านั้นด้วย"
         },
         "ENABLED": "เปิดเเคมเปญ",
-        "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "เปิดใช้แค่ในเวลาทำการ",
         "SUBMIT": "เพิ่มเเคมเปญ"
       },
       "API": {
@@ -71,8 +71,8 @@
         "NO": "ไม่อะเก็บไว้ "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Campaign deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the campaign. Please try again later."
+        "SUCCESS_MESSAGE": "ลบแคมเปญเรียบร้อยแล้ว",
+        "ERROR_MESSAGE": "ไม่สามารถลบแคมเปญได้ โปรดลองใหม่อีกครั้ง"
       }
     },
     "EDIT": {
@@ -93,7 +93,7 @@
         "STATUS": "สถานะ",
         "SENDER": "ผู้ส่ง",
         "URL": "ลิ้ง",
-        "SCHEDULED_AT": "Scheduled time",
+        "SCHEDULED_AT": "วันเริ่มแคมเปญ",
         "TIME_ON_PAGE": "เวลา (วินาที)",
         "CREATED_AT": "สร้างเมื่อ"
       },
@@ -105,22 +105,22 @@
       "STATUS": {
         "ENABLED": "เปิด",
         "DISABLED": "ปิด",
-        "COMPLETED": "Completed",
-        "ACTIVE": "Active"
+        "COMPLETED": "เสร็จสิ้น",
+        "ACTIVE": "ใช้งานอยู่"
       },
       "SENDER": {
         "BOT": "บอท"
       }
     },
     "ONE_OFF": {
-      "HEADER": "One off campaigns",
-      "404": "There are no one off campaigns created",
-      "INBOXES_NOT_FOUND": "Please create an sms inbox and start adding campaigns"
+      "HEADER": "แคมเปญครั้งเดียว",
+      "404": "ยังไม่มีแคมเปญครั้งเดียวที่ถูกสร้าง",
+      "INBOXES_NOT_FOUND": "โปรดสร้างกล่องข้อความ SMS และเพิ่มแคมเปญ"
     },
     "ONGOING": {
-      "HEADER": "Ongoing campaigns",
-      "404": "There are no ongoing campaigns created",
-      "INBOXES_NOT_FOUND": "Please create an website inbox and start adding campaigns"
+      "HEADER": "แคมเปญต่อเนื่อง",
+      "404": "ยังไม่มีแคมเปญต่อเนื่องที่ถูกสร้าง",
+      "INBOXES_NOT_FOUND": "โปรดสร้างกล่องข้อความของเว็บไซต์ และเพิ่มแคมเปญ"
     }
   }
 }

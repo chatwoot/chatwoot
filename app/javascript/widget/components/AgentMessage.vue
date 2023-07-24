@@ -24,24 +24,28 @@
         <div
           v-if="hasAttachments"
           class="chat-bubble has-attachment agent"
-          :class="wrapClass"
+          :class="(wrapClass, $dm('bg-white', 'dark:bg-slate-700'))"
         >
           <div v-for="attachment in message.attachments" :key="attachment.id">
-            <file-bubble
-              v-if="attachment.file_type !== 'image'"
-              :url="attachment.data_url"
-            />
             <image-bubble
-              v-else
+              v-if="attachment.file_type === 'image' && !hasImageError"
               :url="attachment.data_url"
-              :thumb="attachment.thumb_url"
+              :thumb="attachment.data_url"
               :readable-time="readableTime"
+              @error="onImageLoadError"
             />
+            <audio v-else-if="attachment.file_type === 'audio'" controls>
+              <source :src="attachment.data_url" />
+            </audio>
+            <file-bubble v-else :url="attachment.data_url" />
           </div>
         </div>
-        <p v-if="message.showAvatar || hasRecordedResponse" class="agent-name">
-          {{ agentName }}
-        </p>
+        <p
+          v-if="message.showAvatar || hasRecordedResponse"
+          v-dompurify-html="agentName"
+          class="agent-name"
+          :class="$dm('text-slate-700', 'dark:text-slate-200')"
+        />
       </div>
     </div>
 
@@ -67,6 +71,8 @@ import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import configMixin from '../mixins/configMixin';
 import messageMixin from '../mixins/messageMixin';
 import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
+import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+
 export default {
   name: 'AgentMessage',
   components: {
@@ -76,12 +82,17 @@ export default {
     UserMessage,
     FileBubble,
   },
-  mixins: [timeMixin, configMixin, messageMixin],
+  mixins: [timeMixin, configMixin, messageMixin, darkModeMixin],
   props: {
     message: {
       type: Object,
       default: () => {},
     },
+  },
+  data() {
+    return {
+      hasImageError: false,
+    };
   },
   computed: {
     shouldDisplayAgentMessage() {
@@ -92,8 +103,7 @@ export default {
       ) {
         return false;
       }
-      if (!this.message.content) return false;
-      return true;
+      return this.message.content;
     },
     readableTime() {
       const { created_at: createdAt = '' } = this.message;
@@ -108,13 +118,15 @@ export default {
       return type;
     },
     agentName() {
-      if (this.message.message_type === MESSAGE_TYPE.TEMPLATE) {
-        return 'Bot';
-      }
       if (this.message.sender) {
         return this.message.sender.available_name || this.message.sender.name;
       }
-      return 'Bot';
+
+      if (this.useInboxAvatarForBot) {
+        return this.channelConfig.websiteName;
+      }
+
+      return this.$t('UNREAD_VIEW.BOT');
     },
     avatarUrl() {
       // eslint-disable-next-line
@@ -168,6 +180,19 @@ export default {
       return {
         'has-text': this.shouldDisplayAgentMessage,
       };
+    },
+  },
+  watch: {
+    message() {
+      this.hasImageError = false;
+    },
+  },
+  mounted() {
+    this.hasImageError = false;
+  },
+  methods: {
+    onImageLoadError() {
+      this.hasImageError = true;
     },
   },
 };

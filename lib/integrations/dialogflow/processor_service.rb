@@ -1,16 +1,7 @@
-class Integrations::Dialogflow::ProcessorService
+require 'google/cloud/dialogflow/v2'
+
+class Integrations::Dialogflow::ProcessorService < Integrations::BotProcessorService
   pattr_initialize [:event_name!, :hook!, :event_data!]
-
-  def perform
-    message = event_data[:message]
-    return if message.private?
-    return unless processable_message?(message)
-    return unless message.conversation.pending?
-
-    content = message_content(message)
-    response = get_dialogflow_response(message.conversation.contact_inbox.source_id, content) if content.present?
-    process_response(message, response) if response.present?
-  end
 
   private
 
@@ -23,24 +14,20 @@ class Integrations::Dialogflow::ProcessorService
     message.content
   end
 
-  def processable_message?(message)
-    # TODO: change from reportable and create a dedicated method for this?
-    return unless message.reportable?
-    return if message.outgoing? && !processable_outgoing_message?(message)
+  def get_response(session_id, message)
+    if hook.settings['credentials'].blank?
+      Rails.logger.warn "Account: #{hook.try(:account_id)} Hook: #{hook.id} credentials are not present." && return
+    end
 
-    true
-  end
+    ::Google::Cloud::Dialogflow::V2::Sessions::Client.configure do |config|
+      config.timeout = 10.0
+      config.credentials = hook.settings['credentials']
+    end
 
-  def processable_outgoing_message?(message)
-    event_name == 'message.updated' && ['input_select'].include?(message.content_type)
-  end
-
-  def get_dialogflow_response(session_id, message)
-    Google::Cloud::Dialogflow.configure { |config| config.credentials = hook.settings['credentials'] }
-    session_client = Google::Cloud::Dialogflow.sessions
-    session = session_client.session_path project: hook.settings['project_id'], session: session_id
+    client = ::Google::Cloud::Dialogflow::V2::Sessions::Client.new
+    session = "projects/#{hook.settings['project_id']}/agent/sessions/#{session_id}"
     query_input = { text: { text: message, language_code: 'en-US' } }
-    session_client.detect_intent session: session, query_input: query_input
+    client.detect_intent session: session, query_input: query_input
   end
 
   def process_response(message, response)
@@ -66,17 +53,10 @@ class Integrations::Dialogflow::ProcessorService
     return if content_params.blank?
 
     conversation = message.conversation
-    conversation.messages.create(content_params.merge({
-                                                        message_type: :outgoing,
-                                                        account_id: conversation.account_id,
-                                                        inbox_id: conversation.inbox_id
-                                                      }))
-  end
-
-  def process_action(message, action)
-    case action
-    when 'handoff'
-      message.conversation.open!
-    end
+    conversation.messages.create!(content_params.merge({
+                                                         message_type: :outgoing,
+                                                         account_id: conversation.account_id,
+                                                         inbox_id: conversation.inbox_id
+                                                       }))
   end
 end

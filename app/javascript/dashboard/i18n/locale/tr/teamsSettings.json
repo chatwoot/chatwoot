@@ -1,125 +1,125 @@
 {
   "TEAMS_SETTINGS": {
-    "NEW_TEAM": "Create new team",
-    "HEADER": "Teams",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> A user can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "NEW_TEAM": "Yeni ekip oluştur",
+    "HEADER": "Ekipler",
+    "SIDEBAR_TXT": "<p><b>Ekipler</b></p> <p>Ekipler, temsilcilerinizi sorumluluklarına göre gruplayabilmenizi sağlar. <br />Bir temsilci birden çok ekibe dahil olabilir. Ekip olarak çalışıyorsanız, görüşmeleri tüm ekibe atayabilirsiniz. </p>",
     "LIST": {
-      "404": "There are no teams created on this account.",
-      "EDIT_TEAM": "Edit team"
+      "404": "Bu hesap üzerine oluşturulmuş ekip bulunmamaktadır.",
+      "EDIT_TEAM": "Ekibi düzenle"
     },
     "CREATE_FLOW": {
       "CREATE": {
-        "TITLE": "Create a new team",
-        "DESC": "Add a title and description to your new team."
+        "TITLE": "Yeni bir ekip oluştur",
+        "DESC": "Ekibinize bir isim ve açıklama ekleyin."
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Add agents to team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
+        "BUTTON_TEXT": "Ekibinize temsilciler ekleyin",
+        "TITLE": "Ekibe temsilciler ekleyin - %{teamName}",
+        "DESC": "Yeni oluşturduğunuz ekibe Temsilciler ekleyin. Bu özellik ekip olarak görüşme yapabilmenizi, aynı görüşmeye gelecek bildirimlerden haberdar olabilmenize olanak sağlar."
       },
       "WIZARD": [
         {
           "title": "Yarat",
-          "route": "settings_teams_new",
-          "body": "Create a new team of agents."
+          "route": "ayarlar_ekipler_yeni",
+          "body": "Temsilcilerden yeni bir ekip oluştur."
         },
         {
           "title": "Kullanıcı Ekle",
-          "route": "settings_teams_add_agents",
-          "body": "Add agents to the team."
+          "route": "ayarlar_ekipler_temsilci_ekle",
+          "body": "Ekibe temsilciler ekleyin."
         },
         {
-          "title": "Finish",
-          "route": "settings_teams_finish",
+          "title": "Son",
+          "route": "ayarlar_ekipler_son",
           "body": "Hepiniz gitmeye hazırsınız!"
         }
       ]
     },
     "EDIT_FLOW": {
       "CREATE": {
-        "TITLE": "Edit your team details",
-        "DESC": "Edit title and description to your team.",
-        "BUTTON_TEXT": "Update team"
+        "TITLE": "Ekibinizin detaylarını düzenleyin",
+        "DESC": "Ekibinizin ismini ve açıklamasını düzenleyin.",
+        "BUTTON_TEXT": "Ekibi güncelle"
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Update agents in team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
+        "BUTTON_TEXT": "Ekipteki temsilcileri güncelleyin",
+        "TITLE": "Ekibe temsilciler ekleyin - %{teamName}",
+        "DESC": "Yeni oluşturduğunuz ekibe Temsilciler ekleyin. Bir görüşme bu ekibe atandığında tüm temsilcilere bildirim gider."
       },
       "WIZARD": [
         {
-          "title": "Team details",
-          "route": "settings_teams_edit",
-          "body": "Change name, description and other details."
+          "title": "Ekip detayları",
+          "route": "ayarlar_ekipler_duzenle",
+          "body": "İsmi, açıklamayı ve diğer detayları düzenleyin."
         },
         {
-          "title": "Edit Agents",
-          "route": "settings_teams_edit_members",
-          "body": "Edit agents in your team."
+          "title": "Temsicileri Düzenle",
+          "route": "ayarlar_ekipler_uyeleri_duzenle",
+          "body": "Ekibinizdeki temsicileri düzenleyin."
         },
         {
-          "title": "Finish",
-          "route": "settings_teams_edit_finish",
+          "title": "Son",
+          "route": "ayarlar_ekipler_son",
           "body": "Hepiniz gitmeye hazırsınız!"
         }
       ]
     },
     "TEAM_FORM": {
-      "ERROR_MESSAGE": "Couldn't save the team details. Try again."
+      "ERROR_MESSAGE": "Ekip detayları kaydedilemedi. Tekrar deneyin."
     },
     "AGENTS": {
-      "AGENT": "AGENT",
+      "AGENT": "TEMSİLCİ",
       "EMAIL": "E-Posta",
       "BUTTON_TEXT": "Kullanıcı Ekle",
-      "ADD_AGENTS": "Adding Agents to your Team...",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
+      "ADD_AGENTS": "Ekibinize Temsiciler Ekleniyor...",
+      "SELECT": "seçiniz",
+      "SELECT_ALL": "tüm temsicileri seçin",
+      "SELECTED_COUNT": "%{total} temsilciden %{selected} temsilci seçildi."
     },
     "ADD": {
-      "TITLE": "Add agents to team - %{teamName}",
-      "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation.",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
+      "TITLE": "Ekibe temsilciler ekleyin - %{teamName}",
+      "DESC": "Yeni oluşturduğunuz ekibe Temsilciler ekleyin. Bu özellik ekip olarak görüşme yapabilmenizi, aynı görüşmeye gelecek bildirimlerden haberdar olabilmenize olanak sağlar.",
+      "SELECT": "seçiniz",
+      "SELECT_ALL": "tüm temsicileri seçin",
+      "SELECTED_COUNT": "%{total} temsilciden %{selected} temsilci seçildi.",
       "BUTTON_TEXT": "Kullanıcı Ekle",
-      "AGENT_VALIDATION_ERROR": "Select atleaset one agent."
+      "AGENT_VALIDATION_ERROR": "En az bir temsilci seçin."
     },
     "FINISH": {
-      "TITLE": "Your team is ready!",
-      "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
-      "BUTTON_TEXT": "Finish"
+      "TITLE": "Ekibiniz hazır!",
+      "MESSAGE": "Artık görüşmelere takım olarak dahil olabilirsiniz. Mutlu görüşmeler ",
+      "BUTTON_TEXT": "Son"
     },
     "DELETE": {
       "BUTTON_TEXT": "Sil",
       "API": {
-        "SUCCESS_MESSAGE": "Team deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the team. Try again."
+        "SUCCESS_MESSAGE": "Ekip başarıyla silindi.",
+        "ERROR_MESSAGE": "Ekip silinemiyor. Tekrar deneyin."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{teamName}",
-        "PLACE_HOLDER": "Please type {teamName} to confirm",
-        "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
+        "TITLE": "Silmek istediğinize emin misiniz - %{teamName}",
+        "PLACE_HOLDER": "Onaylamak için lütfen {teamName} yazınız",
+        "MESSAGE": "Ekibi silmek aynı zamanda görüşmelere atanmış ekipleri de temizler.",
         "YES": "Sil ",
         "NO": "İptal Et"
       }
     },
     "SETTINGS": "Ayarlar",
     "FORM": {
-      "UPDATE": "Update team",
-      "CREATE": "Create team",
+      "UPDATE": "Ekibi güncelle",
+      "CREATE": "Ekip oluştur",
       "NAME": {
-        "LABEL": "Team name",
-        "PLACEHOLDER": "Example: Sales, Customer Support"
+        "LABEL": "Ekip İsmi",
+        "PLACEHOLDER": "Örneğin: Satış, Müşteri Hizmetleri"
       },
       "DESCRIPTION": {
-        "LABEL": "Team Description",
-        "PLACEHOLDER": "Short description about this team."
+        "LABEL": "Ekip Açıklaması",
+        "PLACEHOLDER": "Ekip hakkında kısa açıklama."
       },
       "AUTO_ASSIGN": {
-        "LABEL": "Allow auto assign for this team."
+        "LABEL": "Bu ekip için otomatik atamayı etkinleştir."
       },
-      "SUBMIT_CREATE": "Create team"
+      "SUBMIT_CREATE": "Ekip oluştur"
     }
   }
 }

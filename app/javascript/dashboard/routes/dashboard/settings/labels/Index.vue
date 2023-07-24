@@ -1,15 +1,15 @@
 <template>
-  <div class="column content-box">
+  <div class="flex-1 overflow-auto p-4">
     <woot-button
       color-scheme="success"
-      class-names="button--fixed-right-top"
-      icon="ion-android-add-circle"
+      class-names="button--fixed-top"
+      icon="add-circle"
       @click="openAddPopup"
     >
       {{ $t('LABEL_MGMT.HEADER_BTN_TXT') }}
     </woot-button>
-    <div class="row">
-      <div class="small-8 columns with-right-space ">
+    <div class="flex flex-row gap-4">
+      <div class="w-[60%]">
         <p
           v-if="!uiFlags.isFetching && !records.length"
           class="no-items-error-message"
@@ -31,7 +31,11 @@
           </thead>
           <tbody>
             <tr v-for="(label, index) in records" :key="label.title">
-              <td>{{ label.title }}</td>
+              <td class="label-title">
+                <span class="overflow-hidden whitespace-nowrap text-ellipsis">{{
+                  label.title
+                }}</span>
+              </td>
               <td>{{ label.description }}</td>
               <td>
                 <div class="label-color--container">
@@ -44,33 +48,33 @@
               </td>
               <td class="button-wrapper">
                 <woot-button
-                  variant="link"
+                  v-tooltip.top="$t('LABEL_MGMT.FORM.EDIT')"
+                  variant="smooth"
+                  size="tiny"
                   color-scheme="secondary"
                   class-names="grey-btn"
                   :is-loading="loading[label.id]"
-                  icon="ion-edit"
+                  icon="edit"
                   @click="openEditPopup(label)"
-                >
-                  {{ $t('LABEL_MGMT.FORM.EDIT') }}
-                </woot-button>
+                />
                 <woot-button
-                  variant="link"
-                  color-scheme="secondary"
-                  icon="ion-close-circled"
+                  v-tooltip.top="$t('LABEL_MGMT.FORM.DELETE')"
+                  variant="smooth"
+                  color-scheme="alert"
+                  size="tiny"
+                  icon="dismiss-circle"
                   class-names="grey-btn"
                   :is-loading="loading[label.id]"
                   @click="openDeletePopup(label, index)"
-                >
-                  {{ $t('LABEL_MGMT.FORM.DELETE') }}
-                </woot-button>
+                />
               </td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <div class="small-4 columns">
-        <span v-html="$t('LABEL_MGMT.SIDEBAR_TXT')"></span>
+      <div class="w-[34%]">
+        <span v-dompurify-html="$t('LABEL_MGMT.SIDEBAR_TXT')" />
       </div>
     </div>
     <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
@@ -89,7 +93,8 @@
       :on-close="closeDeletePopup"
       :on-confirm="confirmDeletion"
       :title="$t('LABEL_MGMT.DELETE.CONFIRM.TITLE')"
-      :message="deleteMessage"
+      :message="$t('LABEL_MGMT.DELETE.CONFIRM.MESSAGE')"
+      :message-value="deleteMessage"
       :confirm-text="deleteConfirmText"
       :reject-text="deleteRejectText"
     />
@@ -124,19 +129,13 @@ export default {
     }),
     // Delete Modal
     deleteConfirmText() {
-      return `${this.$t('LABEL_MGMT.DELETE.CONFIRM.YES')} ${
-        this.selectedResponse.title
-      }`;
+      return this.$t('LABEL_MGMT.DELETE.CONFIRM.YES');
     },
     deleteRejectText() {
-      return `${this.$t('LABEL_MGMT.DELETE.CONFIRM.NO')} ${
-        this.selectedResponse.title
-      }`;
+      return this.$t('LABEL_MGMT.DELETE.CONFIRM.NO');
     },
     deleteMessage() {
-      return `${this.$t('LABEL_MGMT.DELETE.CONFIRM.MESSAGE')} ${
-        this.selectedResponse.title
-      } ?`;
+      return ` ${this.selectedResponse.title}?`;
     },
   },
   mounted() {
@@ -192,14 +191,15 @@ export default {
 @import '~dashboard/assets/scss/variables';
 
 .label-color--container {
-  display: flex;
-  align-items: center;
+  @apply flex items-center;
 }
 
 .label-color--display {
-  border-radius: $space-smaller;
-  height: $space-normal;
-  margin-right: $space-smaller;
-  width: $space-normal;
+  @apply rounded h-4 w-4 mr-1 rtl:mr-0 rtl:ml-1 border border-solid border-slate-50 dark:border-slate-700;
+}
+.label-title {
+  span {
+    @apply w-60 inline-block;
+  }
 }
 </style>

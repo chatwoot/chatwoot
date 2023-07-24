@@ -7,7 +7,14 @@
       @click="onBackDropClick"
     >
       <div :class="modalContainerClassName" @click.stop>
-        <i class="ion-android-close modal--close" @click="close"></i>
+        <woot-button
+          v-if="showCloseButton"
+          color-scheme="secondary"
+          icon="dismiss"
+          variant="clear"
+          class="modal--close"
+          @click="close"
+        />
         <slot />
       </div>
     </div>
@@ -22,6 +29,10 @@ export default {
       default: true,
     },
     show: Boolean,
+    showCloseButton: {
+      type: Boolean,
+      default: true,
+    },
     onClose: {
       type: Function,
       required: true,
@@ -41,7 +52,8 @@ export default {
   },
   computed: {
     modalContainerClassName() {
-      let className = 'modal-container';
+      let className =
+        'modal-container bg-white dark:bg-slate-800 skip-context-menu';
       if (this.fullWidth) {
         return `${className} modal-container--full-width`;
       }
@@ -54,7 +66,9 @@ export default {
         'right-aligned': 'right-aligned',
       };
 
-      return `modal-mask ${modalClassNameMap[this.modalType] || ''}`;
+      return `modal-mask skip-context-menu ${modalClassNameMap[
+        this.modalType
+      ] || ''}`;
     },
   },
   mounted() {
@@ -93,7 +107,10 @@ export default {
   .modal-container {
     border-radius: 0;
     height: 100%;
-    width: 48rem;
+    width: 30rem;
   }
+}
+.modal-big {
+  width: 60%;
 }
 </style>

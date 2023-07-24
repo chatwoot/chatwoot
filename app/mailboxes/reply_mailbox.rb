@@ -26,7 +26,11 @@ class ReplyMailbox < ApplicationMailbox
   end
 
   def conversation_uuid_from_to_address
-    mail.to.each do |email|
+    @mail = MailPresenter.new(mail)
+
+    return if @mail.mail_receiver.blank?
+
+    @mail.mail_receiver.each do |email|
       username = email.split('@')[0]
       match_result = username.match(ApplicationMailbox::REPLY_EMAIL_UUID_PATTERN)
       if match_result
@@ -35,10 +39,6 @@ class ReplyMailbox < ApplicationMailbox
       end
     end
     @conversation_uuid
-  end
-
-  def verify_decoded_params
-    raise 'Conversation uuid not found' if conversation_uuid.nil?
   end
 
   # find conversation uuid from below pattern
@@ -63,14 +63,23 @@ class ReplyMailbox < ApplicationMailbox
   # find conversation uuid from below pattern
   # <conversation/#{@conversation.uuid}/messages/#{@messages&.last&.id}@#{@account.inbound_email_domain}>
   def find_conversation_with_in_reply_to
-    in_reply_to = mail.in_reply_to
-    match_result = in_reply_to.match(ApplicationMailbox::CONVERSATION_MESSAGE_ID_PATTERN) if in_reply_to.present?
-
-    if match_result
-      find_conversation_by_uuid(match_result)
-    else
-      find_conversation_by_message_id(in_reply_to)
+    match_result = nil
+    in_reply_to_addresses = mail.in_reply_to
+    in_reply_to_addresses = [in_reply_to_addresses] if in_reply_to_addresses.is_a?(String)
+    in_reply_to_addresses.each do |in_reply_to|
+      match_result = in_reply_to.match(::ApplicationMailbox::CONVERSATION_MESSAGE_ID_PATTERN)
+      break if match_result
     end
+    find_by_in_reply_to_addresses(match_result, in_reply_to_addresses)
+  end
+
+  def find_by_in_reply_to_addresses(match_result, in_reply_to_addresses)
+    find_conversation_by_uuid(match_result) if match_result
+    find_conversation_by_message_id(in_reply_to_addresses) if @conversation.blank?
+  end
+
+  def verify_decoded_params
+    raise 'Conversation uuid not found' if conversation_uuid.nil?
   end
 
   def validate_resource(resource)

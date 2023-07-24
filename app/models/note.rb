@@ -16,12 +16,6 @@
 #  index_notes_on_contact_id  (contact_id)
 #  index_notes_on_user_id     (user_id)
 #
-# Foreign Keys
-#
-#  fk_rails_...  (account_id => accounts.id)
-#  fk_rails_...  (contact_id => contacts.id)
-#  fk_rails_...  (user_id => users.id)
-#
 class Note < ApplicationRecord
   before_validation :ensure_account_id
   validates :content, presence: true

@@ -1,11 +1,16 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Registrar una cuenta",
+    "TRY_WOOT": "Crear una cuenta",
     "TITLE": "Registrarse",
-    "TERMS_ACCEPT": "Al registrarte, aceptas nuestra <a href=\"https://www.chatwoot.com/terms\">T & C</a> y nuestra <a href=\"https://www.chatwoot.com/privacy-policy\">política de privacidad</a>",
-    "ACCOUNT_NAME": {
-      "LABEL": "Nombre de cuenta",
-      "PLACEHOLDER": "Empresas de Wayne",
+    "TESTIMONIAL_HEADER": "Todo lo que se necesita es un paso adelante",
+    "TESTIMONIAL_CONTENT": "Usted está a un paso de involucrar a sus clientes, conservarlos y encontrar nuevos.",
+    "TERMS_ACCEPT": "Al crear una cuenta, aceptas nuestros <a href=\"https://www.chatwoot.com/terms\">Términos y condiciones</a> y nuestra <a href=\"https://www.chatwoot.com/privacy-policy\">Política de privacidad</a>",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Registrarse con Google"
+    },
+    "COMPANY_NAME": {
+      "LABEL": "Nombre de la empresa",
+      "PLACEHOLDER": "Introduce el nombre de tu empresa, por ejemplo: Wayne Enterprises",
       "ERROR": "El nombre de la cuenta es demasiado corto"
     },
     "FULL_NAME": {
@@ -16,12 +21,13 @@
     "EMAIL": {
       "LABEL": "E-mail",
       "PLACEHOLDER": "bruce@wayne.empresas",
-      "ERROR": "El correo no es válido"
+      "ERROR": "Por favor, introduzca una dirección de correo válida"
     },
     "PASSWORD": {
       "LABEL": "Contraseña",
       "PLACEHOLDER": "Contraseña",
-      "ERROR": "La contraseña es demasiado corta"
+      "ERROR": "La contraseña es demasiado corta",
+      "IS_INVALID_PASSWORD": "La contraseña debe contener al menos 1 letra mayúscula, 1 letra minúscula, 1 número y 1 carácter especial"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirmar contraseña",
@@ -32,7 +38,7 @@
       "SUCCESS_MESSAGE": "Registro Exitoso",
       "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
     },
-    "SUBMIT": "Enviar",
+    "SUBMIT": "Crear una cuenta",
     "HAVE_AN_ACCOUNT": "¿Ya tienes una cuenta?"
   }
 }

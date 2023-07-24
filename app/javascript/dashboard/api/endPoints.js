@@ -16,6 +16,9 @@ const endPoints = {
   availabilityUpdate: {
     url: '/api/v1/profile/availability',
   },
+  autoOffline: {
+    url: '/api/v1/profile/auto_offline',
+  },
   logout: {
     url: 'auth/sign_out',
   },
@@ -39,6 +42,10 @@ const endPoints = {
 
   deleteAvatar: {
     url: '/api/v1/profile/avatar',
+  },
+
+  setActiveAccount: {
+    url: '/api/v1/profile/set_active_account',
   },
 };
 

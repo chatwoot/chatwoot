@@ -5,11 +5,11 @@ describe CampaignListener do
   let(:inbox) { create(:inbox, account: account) }
   let(:contact) { create(:contact, account: account, identifier: '123') }
   let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: inbox) }
-  let(:campaign) { create(:campaign, inbox: inbox, account: account) }
+  let(:campaign) { create(:campaign, inbox: inbox, account: account, trigger_rules: { url: 'https://test.com' }) }
 
   let!(:event) do
     Events::Base.new('campaign_triggered', Time.zone.now,
-                     contact_inbox: contact_inbox, event_info: { campaign_id: campaign.display_id })
+                     contact_inbox: contact_inbox, event_info: { campaign_id: campaign.display_id, custom_attributes: { order_id: 321 } })
   end
 
   describe '#campaign_triggered' do
@@ -23,7 +23,8 @@ describe CampaignListener do
     context 'when params contain campaign id' do
       it 'triggers campaign conversation builder' do
         expect(Campaigns::CampaignConversationBuilder).to receive(:new)
-          .with({ contact_inbox_id: contact_inbox.id, campaign_display_id: campaign.display_id, conversation_additional_attributes: {} }).once
+          .with({ contact_inbox_id: contact_inbox.id, campaign_display_id: campaign.display_id, conversation_additional_attributes: {},
+                  custom_attributes: { order_id: 321 } }).once
         listener.campaign_triggered(event)
       end
     end

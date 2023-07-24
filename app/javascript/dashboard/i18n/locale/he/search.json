@@ -1,0 +1,25 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "הכל",
+      "CONTACTS": "איש קשר",
+      "CONVERSATIONS": "שיחות",
+      "MESSAGES": "הודעות"
+    },
+    "SECTION": {
+      "CONTACTS": "איש קשר",
+      "CONVERSATIONS": "שיחות",
+      "MESSAGES": "הודעות"
+    },
+    "EMPTY_STATE": "לא נמצא %{item} עבור השאילתה '%{query}'",
+    "EMPTY_STATE_FULL": "לא נמצאו תוצאות עבור השאילתה '%{query}'",
+    "PLACEHOLDER_KEYBINDING": "/ להתמקד",
+    "INPUT_PLACEHOLDER": "חפש הודעות, אנשי קשר או שיחות",
+    "EMPTY_STATE_DEFAULT": "חפש לפי מזהה שיחה, אימייל, מספר טלפון, הודעות לתוצאות חיפוש טובות יותר.",
+    "BOT_LABEL": "בוט",
+    "READ_MORE": "קרא עוד",
+    "WROTE": "נכתב:",
+    "FROM": "מ",
+    "EMAIL": "אימייל"
+  }
+}

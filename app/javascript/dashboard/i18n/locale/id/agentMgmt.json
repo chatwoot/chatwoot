@@ -74,6 +74,11 @@
           "LABEL": "Alamat email",
           "PLACEHOLDER": "Silakan masukkan alamat email agen"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Ketersediaan",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "Edit Agen"
       },
       "BUTTON_TEXT": "Edit",
@@ -105,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "Search agents",
-          "TEAM": "Search teams"
+          "TEAM": "Search teams",
+          "INPUT": "Search for agents"
         }
       }
     }

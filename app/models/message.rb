@@ -2,43 +2,76 @@
 #
 # Table name: messages
 #
-#  id                  :integer          not null, primary key
-#  content             :text
-#  content_attributes  :json
-#  content_type        :integer          default("text"), not null
-#  external_source_ids :jsonb
-#  message_type        :integer          not null
-#  private             :boolean          default(FALSE)
-#  sender_type         :string
-#  status              :integer          default("sent")
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
-#  account_id          :integer          not null
-#  conversation_id     :integer          not null
-#  inbox_id            :integer          not null
-#  sender_id           :bigint
-#  source_id           :string
+#  id                        :integer          not null, primary key
+#  additional_attributes     :jsonb
+#  content                   :text
+#  content_attributes        :json
+#  content_type              :integer          default("text"), not null
+#  external_source_ids       :jsonb
+#  message_type              :integer          not null
+#  private                   :boolean          default(FALSE)
+#  processed_message_content :text
+#  sender_type               :string
+#  sentiment                 :jsonb
+#  status                    :integer          default("sent")
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  account_id                :integer          not null
+#  conversation_id           :integer          not null
+#  inbox_id                  :integer          not null
+#  sender_id                 :bigint
+#  source_id                 :string
 #
 # Indexes
 #
-#  index_messages_on_account_id                 (account_id)
-#  index_messages_on_conversation_id            (conversation_id)
-#  index_messages_on_inbox_id                   (inbox_id)
-#  index_messages_on_sender_type_and_sender_id  (sender_type,sender_id)
-#  index_messages_on_source_id                  (source_id)
+#  index_messages_on_account_id                         (account_id)
+#  index_messages_on_account_id_and_inbox_id            (account_id,inbox_id)
+#  index_messages_on_additional_attributes_campaign_id  (((additional_attributes -> 'campaign_id'::text))) USING gin
+#  index_messages_on_content                            (content) USING gin
+#  index_messages_on_conversation_account_type_created  (conversation_id,account_id,message_type,created_at)
+#  index_messages_on_conversation_id                    (conversation_id)
+#  index_messages_on_created_at                         (created_at)
+#  index_messages_on_inbox_id                           (inbox_id)
+#  index_messages_on_sender_type_and_sender_id          (sender_type,sender_id)
+#  index_messages_on_source_id                          (source_id)
 #
 
 class Message < ApplicationRecord
   include MessageFilterHelpers
+  include Liquidable
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
 
+  TEMPLATE_PARAMS_SCHEMA = {
+    'type': 'object',
+    'properties': {
+      'template_params': {
+        'type': 'object',
+        'properties': {
+          'name': { 'type': 'string' },
+          'category': { 'type': 'string' },
+          'language': { 'type': 'string' },
+          'namespace': { 'type': 'string' },
+          'processed_params': { 'type': 'object' }
+        },
+        'required': %w[name]
+      }
+    }
+  }.to_json.freeze
+
   before_validation :ensure_content_type
+  before_save :ensure_processed_message_content
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
   validates :conversation_id, presence: true
   validates_with ContentAttributeValidator
+  validates_with JsonSchemaValidator,
+                 schema: TEMPLATE_PARAMS_SCHEMA,
+                 attribute_resolver: ->(record) { record.additional_attributes }
+
   validates :content_type, presence: true
+  validates :content, length: { maximum: 150_000 }
+  validates :processed_message_content, length: { maximum: 150_000 }
 
   # when you have a temperory id in your frontend and want it echoed back via action cable
   attr_accessor :echo_id
@@ -54,7 +87,8 @@ class Message < ApplicationRecord
     form: 6,
     article: 7,
     incoming_email: 8,
-    input_csat: 9
+    input_csat: 9,
+    integrations: 10
   }
   enum status: { sent: 0, delivered: 1, read: 2, failed: 3 }
   # [:submitted_email, :items, :submitted_values] : Used for bot message types
@@ -62,15 +96,22 @@ class Message < ApplicationRecord
   # [:in_reply_to] : Used to reply to a particular tweet in threads
   # [:deleted] : Used to denote whether the message was deleted by the agent
   # [:external_created_at] : Can specify if the message was created at a different timestamp externally
+  # [:external_error : Can specify if the message creation failed due to an error at external API
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
-                                         :external_created_at], coder: JSON
+                                         :external_created_at, :story_sender, :story_id, :external_error,
+                                         :translations, :in_reply_to_external_id], coder: JSON
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
   # .succ is a hack to avoid https://makandracards.com/makandra/1057-why-two-ruby-time-objects-are-not-equal-although-they-appear-to-be
   scope :unread_since, ->(datetime) { where('EXTRACT(EPOCH FROM created_at) > (?)', datetime.to_i.succ) }
   scope :chat, -> { where.not(message_type: :activity).where(private: false) }
+  scope :non_activity_messages, -> { where.not(message_type: :activity).reorder('id desc') }
   scope :today, -> { where("date_trunc('day', created_at) = ?", Date.current) }
+
+  # TODO: Get rid of default scope
+  # https://stackoverflow.com/a/1834250/939299
+  # if you want to change order, use `reorder`
   default_scope { order(created_at: :asc) }
 
   belongs_to :account
@@ -82,8 +123,9 @@ class Message < ApplicationRecord
   belongs_to :contact, required: false
   belongs_to :sender, polymorphic: true, required: false
 
-  has_many :attachments, dependent: :destroy_async, autosave: true, before_add: :validate_attachments_limit
+  has_many :attachments, dependent: :destroy, autosave: true, before_add: :validate_attachments_limit
   has_one :csat_survey_response, dependent: :destroy_async
+  has_many :notifications, as: :primary_actor, dependent: :destroy_async
 
   after_create_commit :execute_after_create_commit_callbacks
 
@@ -94,15 +136,33 @@ class Message < ApplicationRecord
   end
 
   def push_event_data
-    data = attributes.merge(
+    data = attributes.symbolize_keys.merge(
       created_at: created_at.to_i,
       message_type: message_type_before_type_cast,
       conversation_id: conversation.display_id,
-      conversation: { assignee_id: conversation.assignee_id }
+      conversation: conversation_push_event_data
     )
     data.merge!(echo_id: echo_id) if echo_id.present?
     data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
     merge_sender_attributes(data)
+  end
+
+  def conversation_push_event_data
+    {
+      assignee_id: conversation.assignee_id,
+      unread_count: conversation.unread_incoming_messages.count,
+      last_activity_at: conversation.last_activity_at.to_i,
+      contact_inbox: { source_id: conversation.contact_inbox.source_id }
+    }
+  end
+
+  # TODO: We will be removing this code after instagram_manage_insights is implemented
+  # Better logic is to listen to webhook and remove stories proactively rather than trying
+  # a fetch every time a message is returned
+  def validate_instagram_story
+    inbox.channel.fetch_instagram_story_link(self)
+    # we want to reload the message in case the story has expired and data got removed
+    reload
   end
 
   def merge_sender_attributes(data)
@@ -112,30 +172,71 @@ class Message < ApplicationRecord
   end
 
   def webhook_data
-    {
-      id: id,
-      content: content,
-      created_at: created_at,
-      message_type: message_type,
-      content_type: content_type,
-      private: private,
+    data = {
+      account: account.webhook_data,
+      additional_attributes: additional_attributes,
       content_attributes: content_attributes,
-      source_id: source_id,
-      sender: sender.try(:webhook_data),
-      inbox: inbox.webhook_data,
+      content_type: content_type,
+      content: content,
       conversation: conversation.webhook_data,
-      account: account.webhook_data
+      created_at: created_at,
+      id: id,
+      inbox: inbox.webhook_data,
+      message_type: message_type,
+      private: private,
+      sender: sender.try(:webhook_data),
+      source_id: source_id
     }
+    data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
+    data
   end
 
   def content
     # move this to a presenter
     return self[:content] if !input_csat? || inbox.web_widget?
 
-    I18n.t('conversations.survey.response', link: "#{ENV['FRONTEND_URL']}/survey/responses/#{conversation.uuid}")
+    I18n.t('conversations.survey.response', link: "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{conversation.uuid}")
+  end
+
+  def email_notifiable_message?
+    return false if private?
+    return false if %w[outgoing template].exclude?(message_type)
+    return false if template? && %w[input_csat text].exclude?(content_type)
+
+    true
+  end
+
+  def valid_first_reply?
+    return false unless outgoing? && human_response? && !private?
+    return false if conversation.first_reply_created_at.present?
+    return false if conversation.messages.outgoing
+                                .where.not(sender_type: 'AgentBot')
+                                .where.not(private: true)
+                                .where("(additional_attributes->'campaign_id') is null").count > 1
+
+    true
+  end
+
+  def save_story_info(story_info)
+    self.content_attributes = content_attributes.merge(
+      {
+        story_id: story_info['id'],
+        story_sender: inbox.channel.instagram_id,
+        story_url: story_info['url']
+      }
+    )
+    save!
   end
 
   private
+
+  def ensure_processed_message_content
+    text_content_quoted = content_attributes.dig(:email, :text_content, :quoted)
+    html_content_quoted = content_attributes.dig(:email, :html_content, :quoted)
+
+    message_content = text_content_quoted || html_content_quoted || content
+    self.processed_message_content = message_content&.truncate(150_000)
+  end
 
   def ensure_content_type
     self.content_type ||= Message.content_types[:text]
@@ -146,26 +247,48 @@ class Message < ApplicationRecord
     reopen_conversation
     notify_via_mail
     set_conversation_activity
+    update_message_sentiments
     dispatch_create_events
     send_reply
     execute_message_template_hooks
     update_contact_activity
+    update_waiting_since
   end
 
   def update_contact_activity
     sender.update(last_activity_at: DateTime.now) if sender.is_a?(Contact)
   end
 
-  def dispatch_create_events
-    Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self)
+  def update_waiting_since
+    if human_response? && !private && conversation.waiting_since.present?
+      Rails.configuration.dispatcher.dispatch(
+        REPLY_CREATED, Time.zone.now, waiting_since: conversation.waiting_since, message: self
+      )
+      conversation.update(waiting_since: nil)
+    end
+    conversation.update(waiting_since: Time.now.utc) if incoming? && conversation.waiting_since.blank?
+  end
 
-    if outgoing? && conversation.messages.outgoing.count == 1
-      Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self)
+  def human_response?
+    # if the sender is not a user, it's not a human response
+    # if automation rule id is present, it's not a human response
+    # if campaign id is present, it's not a human response
+    outgoing? &&
+      content_attributes['automation_rule_id'].blank? &&
+      additional_attributes['campaign_id'].blank? &&
+      sender.is_a?(User)
+  end
+
+  def dispatch_create_events
+    Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
+    if valid_first_reply?
+      Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
     end
   end
 
   def dispatch_update_event
-    Rails.configuration.dispatcher.dispatch(MESSAGE_UPDATED, Time.zone.now, message: self)
+    Rails.configuration.dispatcher.dispatch(MESSAGE_UPDATED, Time.zone.now, message: self, performed_by: Current.executed_by,
+                                                                            previous_changes: previous_changes)
   end
 
   def send_reply
@@ -178,23 +301,47 @@ class Message < ApplicationRecord
     return if conversation.muted?
     return unless incoming?
 
-    conversation.open! if conversation.resolved? || conversation.snoozed?
+    conversation.open! if conversation.snoozed?
+
+    reopen_resolved_conversation if conversation.resolved?
+  end
+
+  def reopen_resolved_conversation
+    # mark resolved bot conversation as pending to be reopened by bot processor service
+    if conversation.inbox.active_bot?
+      conversation.pending!
+    elsif conversation.inbox.api?
+      Current.executed_by = sender if reopened_by_contact?
+      conversation.open!
+    else
+      conversation.open!
+    end
+  end
+
+  def reopened_by_contact?
+    incoming? && !private? && Current.user.class != sender.class && sender.instance_of?(Contact)
   end
 
   def execute_message_template_hooks
     ::MessageTemplates::HookExecutionService.new(message: self).perform
   end
 
-  def email_notifiable_message?
-    return false unless outgoing? || input_csat?
-    return false if private?
+  def email_notifiable_webwidget?
+    inbox.web_widget? && inbox.channel.continuity_via_email
+  end
 
-    true
+  def email_notifiable_api_channel?
+    inbox.api? && inbox.account.feature_enabled?('email_continuity_on_api_channel')
+  end
+
+  def email_notifiable_channel?
+    email_notifiable_webwidget? || %w[Email].include?(inbox.inbox_type) || email_notifiable_api_channel?
   end
 
   def can_notify_via_mail?
     return unless email_notifiable_message?
-    return false if conversation.contact.email.blank? || !(%w[Website Email].include? inbox.inbox_type)
+    return unless email_notifiable_channel?
+    return if conversation.contact.email.blank?
 
     true
   end
@@ -222,7 +369,7 @@ class Message < ApplicationRecord
   end
 
   def validate_attachments_limit(_attachment)
-    errors.add(attachments: 'exceeded maximum allowed') if attachments.size >= NUMBER_OF_PERMITTED_ATTACHMENTS
+    errors.add(:attachments, message: 'exceeded maximum allowed') if attachments.size >= NUMBER_OF_PERMITTED_ATTACHMENTS
   end
 
   def set_conversation_activity
@@ -230,4 +377,10 @@ class Message < ApplicationRecord
     conversation.update_columns(last_activity_at: created_at)
     # rubocop:enable Rails/SkipsModelValidations
   end
+
+  def update_message_sentiments
+    # override in the enterprise ::Enterprise::SentimentAnalysisJob.perform_later(self)
+  end
 end
+
+Message.prepend_mod_with('Message')

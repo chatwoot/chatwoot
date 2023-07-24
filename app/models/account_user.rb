@@ -19,11 +19,6 @@
 #  index_account_users_on_user_id     (user_id)
 #  uniq_user_id_per_account_id        (account_id,user_id) UNIQUE
 #
-# Foreign Keys
-#
-#  fk_rails_...  (account_id => accounts.id)
-#  fk_rails_...  (user_id => users.id)
-#
 
 class AccountUser < ApplicationRecord
   include AvailabilityStatusable
@@ -51,7 +46,16 @@ class AccountUser < ApplicationRecord
   end
 
   def remove_user_from_account
-    ::Agents::DestroyService.new(account: account, user: user).perform
+    ::Agents::DestroyJob.perform_later(account, user)
+  end
+
+  def push_event_data
+    {
+      id: id,
+      availability: availability,
+      role: role,
+      user_id: user_id
+    }
   end
 
   private
@@ -68,3 +72,5 @@ class AccountUser < ApplicationRecord
     OnlineStatusTracker.set_status(account.id, user.id, availability)
   end
 end
+
+AccountUser.include_mod_with('Audit::AccountUser')

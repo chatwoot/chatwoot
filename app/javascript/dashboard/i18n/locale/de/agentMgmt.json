@@ -13,7 +13,7 @@
       "TITLE": "Verwalten Sie Agenten in Ihrem Team",
       "DESC": "Sie können Agenten zu / in Ihrem Team hinzufügen / entfernen.",
       "NAME": "Name",
-      "EMAIL": "E-Mail",
+      "EMAIL": "EMAIL",
       "STATUS": "Status",
       "ACTIONS": "Aktionen",
       "VERIFIED": "Verifiziert",
@@ -74,6 +74,11 @@
           "LABEL": "E-Mail-Addresse",
           "PLACEHOLDER": "Bitte geben Sie eine E-Mail-Adresse des Agenten ein"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Verfügbarkeit",
+          "PLACEHOLDER": "Bitte wählen Sie den Online Status",
+          "ERROR": "Verfügbarkeit ist erforderlich"
+        },
         "SUBMIT": "Agent bearbeiten"
       },
       "BUTTON_TEXT": "Bearbeiten",
@@ -105,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "Agenten suchen",
-          "TEAM": "Teams suchen"
+          "TEAM": "Teams suchen",
+          "INPUT": "Nach Agenten suchen"
         }
       }
     }

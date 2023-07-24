@@ -8,12 +8,16 @@ export const INBOX_TYPES = {
   EMAIL: 'Channel::Email',
   TELEGRAM: 'Channel::Telegram',
   LINE: 'Channel::Line',
+  SMS: 'Channel::Sms',
 };
 
 export default {
   computed: {
     channelType() {
       return this.inbox.channel_type;
+    },
+    whatsAppAPIProvider() {
+      return this.inbox.provider || '';
     },
     isAPIInbox() {
       return this.channelType === INBOX_TYPES.API;
@@ -43,9 +47,24 @@ export default {
       const { medium: medium = '' } = this.inbox;
       return this.isATwilioChannel && medium === 'sms';
     },
-    isATwilioWhatsappChannel() {
+    isASmsInbox() {
+      return this.channelType === INBOX_TYPES.SMS || this.isATwilioSMSChannel;
+    },
+    isATwilioWhatsAppChannel() {
       const { medium: medium = '' } = this.inbox;
       return this.isATwilioChannel && medium === 'whatsapp';
+    },
+    isAWhatsAppCloudChannel() {
+      return (
+        this.channelType === INBOX_TYPES.WHATSAPP &&
+        this.whatsAppAPIProvider === 'whatsapp_cloud'
+      );
+    },
+    is360DialogWhatsAppChannel() {
+      return (
+        this.channelType === INBOX_TYPES.WHATSAPP &&
+        this.whatsAppAPIProvider === 'default'
+      );
     },
     chatAdditionalAttributes() {
       const { additional_attributes: additionalAttributes } = this.chat || {};
@@ -71,15 +90,15 @@ export default {
         badgeKey = this.facebookBadge;
       } else if (this.isATwilioChannel) {
         badgeKey = this.twilioBadge;
-      } else if (this.isAWhatsappChannel) {
+      } else if (this.isAWhatsAppChannel) {
         badgeKey = 'whatsapp';
       }
       return badgeKey || this.channelType;
     },
-    isAWhatsappChannel() {
+    isAWhatsAppChannel() {
       return (
         this.channelType === INBOX_TYPES.WHATSAPP ||
-        this.isATwilioWhatsappChannel
+        this.isATwilioWhatsAppChannel
       );
     },
   },

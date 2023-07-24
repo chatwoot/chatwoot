@@ -10,7 +10,7 @@ export default {
         type: 'object',
       },
     },
-    selectedItem: {
+    selectedItems: {
       control: {
         type: 'object',
       },
@@ -63,5 +63,5 @@ MultiselectDropdownItems.args = {
     },
   ],
 
-  selectedItem: { id: '1' },
+  selectedItems: [{ id: '1' }],
 };

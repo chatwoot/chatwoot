@@ -4,18 +4,36 @@ class Twilio::WebhookSetupService
   pattr_initialize [:inbox!]
 
   def perform
+    if channel.messaging_service_sid?
+      update_messaging_service
+    else
+      update_phone_number
+    end
+  rescue Twilio::REST::TwilioError => e
+    Rails.logger.error "TWILIO_FAILURE: #{e.message}"
+  end
+
+  private
+
+  def update_messaging_service
+    twilio_client
+      .messaging.services(channel.messaging_service_sid)
+      .update(
+        inbound_method: 'POST',
+        inbound_request_url: twilio_callback_index_url,
+        use_inbound_webhook_on_number: false
+      )
+  end
+
+  def update_phone_number
     if phone_numbers.empty?
-      Rails.logger.info "TWILIO_PHONE_NUMBER_NOT_FOUND: #{channel.phone_number}"
+      Rails.logger.warn "TWILIO_PHONE_NUMBER_NOT_FOUND: #{channel.phone_number}"
     else
       twilio_client
         .incoming_phone_numbers(phonenumber_sid)
         .update(sms_method: 'POST', sms_url: twilio_callback_index_url)
     end
-  rescue Twilio::REST::TwilioError => e
-    Rails.logger.info "TWILIO_FAILURE: #{e.message}"
   end
-
-  private
 
   def phonenumber_sid
     phone_numbers.first.sid

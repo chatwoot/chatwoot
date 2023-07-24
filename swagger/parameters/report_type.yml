@@ -1,5 +1,5 @@
 in: query
-name: report_type
+name: type
 type: string
 enum:
   - account

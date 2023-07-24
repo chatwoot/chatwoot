@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Platform Users API', type: :request do
-  let!(:user) { create(:user, custom_attributes: { test: 'test' }) }
+  let!(:user) { create(:user, email: 'dev+testing@chatwoot.com', custom_attributes: { test: 'test' }) }
 
   describe 'GET /platform/api/v1/users/{user_id}' do
     context 'when it is an unauthenticated platform app' do
@@ -33,7 +33,7 @@ RSpec.describe 'Platform Users API', type: :request do
             headers: { api_access_token: platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
-        data = JSON.parse(response.body)
+        data = response.parsed_body
         expect(data['email']).to eq(user.email)
         expect(data['custom_attributes']['test']).to eq('test')
       end
@@ -70,8 +70,8 @@ RSpec.describe 'Platform Users API', type: :request do
             headers: { api_access_token: platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
-        data = JSON.parse(response.body)
-        expect(data['url']).to include('sso_auth_token')
+        data = response.parsed_body
+        expect(data['url']).to include('email=dev%2Btesting%40chatwoot.com&sso_auth_token=')
       end
     end
   end
@@ -95,15 +95,31 @@ RSpec.describe 'Platform Users API', type: :request do
       let(:platform_app) { create(:platform_app) }
 
       it 'creates a new user and permissible for the user' do
-        post '/platform/api/v1/users/', params: { name: 'test', email: 'test@test.com', password: 'Password1!',
-                                                  custom_attributes: { test: 'test_create' } },
-                                        headers: { api_access_token: platform_app.access_token.token }, as: :json
+        expect do
+          post '/platform/api/v1/users/', params: { name: 'test', display_name: 'displaytest',
+                                                    email: 'test@test.com', password: 'Password1!',
+                                                    custom_attributes: { test: 'test_create' } },
+                                          headers: { api_access_token: platform_app.access_token.token }, as: :json
+        end.not_to enqueue_mail
 
         expect(response).to have_http_status(:success)
-        data = JSON.parse(response.body)
-        expect(data['email']).to eq('test@test.com')
-        expect(data['custom_attributes']['test']).to eq('test_create')
+        data = response.parsed_body
+        expect(data).to match(
+          hash_including(
+            'name' => 'test',
+            'display_name' => 'displaytest',
+            'email' => 'test@test.com',
+            'custom_attributes' => {
+              'test' => 'test_create'
+            }
+          )
+        )
         expect(platform_app.platform_app_permissibles.first.permissible_id).to eq data['id']
+
+        post '/platform/api/v1/users/', params: { name: 'test', email: 'TesT@test.com', password: 'Password1!' },
+                                        headers: { api_access_token: platform_app.access_token.token }, as: :json
+        data = response.parsed_body
+        expect(data['message']).to eq('Email has already been taken')
       end
 
       it 'fetch existing user and creates permissible for the user' do
@@ -112,7 +128,7 @@ RSpec.describe 'Platform Users API', type: :request do
                                         headers: { api_access_token: platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
-        data = JSON.parse(response.body)
+        data = response.parsed_body
         expect(data['name']).to eq('old test')
         expect(platform_app.platform_app_permissibles.first.permissible_id).to eq data['id']
       end
@@ -143,14 +159,17 @@ RSpec.describe 'Platform Users API', type: :request do
         expect(response).to have_http_status(:unauthorized)
       end
 
-      it 'updates the user' do
+      it 'updates the user attributes' do
         create(:platform_app_permissible, platform_app: platform_app, permissible: user)
-        patch "/platform/api/v1/users/#{user.id}", params: { name: 'test123', custom_attributes: { test: 'test_update' } },
+        patch "/platform/api/v1/users/#{user.id}", params: {
+                                                     name: 'test123', email: 'newtestemail@test.com', custom_attributes: { test: 'test_update' }
+                                                   },
                                                    headers: { api_access_token: platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
-        data = JSON.parse(response.body)
+        data = response.parsed_body
         expect(data['name']).to eq('test123')
+        expect(data['email']).to eq('newtestemail@test.com')
         expect(data['custom_attributes']['test']).to eq('test_update')
       end
     end

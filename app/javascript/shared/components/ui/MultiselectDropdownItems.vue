@@ -1,6 +1,6 @@
 <template>
   <div class="dropdown-wrap">
-    <div class="search-wrap">
+    <div class="mb-2 flex-shrink-0 flex-grow-0 flex-auto max-h-8">
       <input
         ref="searchbar"
         v-model="search"
@@ -10,8 +10,8 @@
         :placeholder="inputPlaceholder"
       />
     </div>
-    <div class="list-scroll-container">
-      <div class="multiselect-dropdown--list">
+    <div class="flex justify-start items-start flex-auto overflow-auto">
+      <div class="w-full max-h-[10rem]">
         <woot-dropdown-menu>
           <woot-dropdown-item
             v-for="option in filteredOptions"
@@ -19,37 +19,39 @@
           >
             <woot-button
               class="multiselect-dropdown--item"
-              variant="clear"
+              :variant="isActive(option) ? 'hollow' : 'clear'"
+              color-scheme="secondary"
               :class="{
-                active: option.id === (selectedItem && selectedItem.id),
+                active: isActive(option),
               }"
               @click="() => onclick(option)"
             >
-              <div class="user-wrap">
+              <div class="flex items-center">
                 <Thumbnail
                   v-if="hasThumbnail"
                   :src="option.thumbnail"
                   size="24px"
                   :username="option.name"
                   :status="option.availability_status"
+                  has-border
                 />
-                <div class="name-wrap">
+                <div class="flex items-center justify-between w-full min-w-0">
                   <span
-                    class="name text-truncate text-block-title"
+                    class="leading-4 my-0 mx-2 overflow-hidden whitespace-nowrap text-ellipsis text-sm"
                     :title="option.name"
                   >
                     {{ option.name }}
                   </span>
-                  <i
-                    v-if="option.id === (selectedItem && selectedItem.id)"
-                    class="icon ion-checkmark-round"
-                  />
+                  <fluent-icon v-if="isActive(option)" icon="checkmark" />
                 </div>
               </div>
             </woot-button>
           </woot-dropdown-item>
         </woot-dropdown-menu>
-        <h4 v-if="noResult" class="no-result text-truncate text-block-title">
+        <h4
+          v-if="noResult"
+          class="w-full justify-center items-center flex text-slate-500 dark:text-slate-300 py-2 px-2.5 overflow-hidden whitespace-nowrap text-ellipsis text-sm"
+        >
           {{ noSearchResult }}
         </h4>
       </div>
@@ -61,6 +63,7 @@
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+
 export default {
   components: {
     WootDropdownItem,
@@ -73,9 +76,9 @@ export default {
       type: Array,
       default: () => [],
     },
-    selectedItem: {
-      type: Object,
-      default: () => ({}),
+    selectedItems: {
+      type: Array,
+      default: () => [],
     },
     hasThumbnail: {
       type: Boolean,
@@ -119,91 +122,35 @@ export default {
     focusInput() {
       this.$refs.searchbar.focus();
     },
+    isActive(option) {
+      return this.selectedItems.some(item => item && option.id === item.id);
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .dropdown-wrap {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  max-height: 16rem;
-}
-
-.search-wrap {
-  margin-bottom: var(--space-small);
-  flex: 0 0 auto;
-  max-height: var(--space-large);
+  @apply w-full flex flex-col max-h-[12.5rem];
 }
 
 .search-input {
-  margin: 0;
-  width: 100%;
-  border: 1px solid transparent;
-  height: var(--space-large);
-  font-size: var(--font-size-small);
-  padding: var(--space-small);
-  background-color: var(--color-background);
-
-  &:focus {
-    border: 1px solid var(--w-500);
-  }
-}
-
-.list-scroll-container {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  flex: 1 1 auto;
-  overflow: auto;
-}
-
-.multiselect-dropdown--list {
-  width: 100%;
-  max-height: 12rem;
+  @apply m-0 w-full border border-solid border-transparent h-8 text-sm text-slate-700 dark:text-slate-100 rounded-md focus:border-woot-500 bg-slate-50 dark:bg-slate-900;
 }
 
 .multiselect-dropdown--item {
-  justify-content: space-between;
-  width: 100%;
+  @apply justify-between w-full;
 
   &.active {
-    background-color: var(--w-50);
-    color: var(--w-900);
-    font-weight: var(--font-weight-bold);
+    @apply bg-slate-25 dark:bg-slate-700 border-slate-50 dark:border-slate-900 font-medium;
   }
 
   &:focus {
-    background-color: var(--color-background);
+    @apply bg-slate-25 dark:bg-slate-700;
   }
-}
 
-.user-wrap {
-  display: flex;
-  align-items: center;
-}
-
-.name-wrap {
-  display: flex;
-  justify-content: space-between;
-  min-width: 0;
-  width: 100%;
-}
-
-.name {
-  line-height: var(--space-normal);
-  margin: 0 var(--space-small);
-}
-
-.icon {
-  margin-left: var(--space-smaller);
-}
-
-.no-result {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  padding: var(--space-small) var(--space-one);
+  &:hover {
+    @apply bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-100;
+  }
 }
 </style>

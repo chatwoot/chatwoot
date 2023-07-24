@@ -6,18 +6,23 @@ module Avatarable
 
   included do
     has_one_attached :avatar
-    validate :acceptable_avatar
+    validate :acceptable_avatar, if: -> { avatar.changed? }
+    after_save :fetch_avatar_from_gravatar
   end
 
   def avatar_url
-    return url_for(avatar.representation(resize: '250x250')) if avatar.attached? && avatar.representable?
-
-    if [User, Contact].include?(self.class) && email.present?
-      hash = Digest::MD5.hexdigest(email)
-      return "https://www.gravatar.com/avatar/#{hash}?d=404"
-    end
+    return url_for(avatar.representation(resize_to_fill: [250, nil])) if avatar.attached? && avatar.representable?
 
     ''
+  end
+
+  def fetch_avatar_from_gravatar
+    return unless saved_changes.key?(:email)
+    return if email.blank?
+
+    # Incase avatar_url is supplied, we don't want to fetch avatar from gravatar
+    # So we will wait for it to be processed
+    Avatar::AvatarFromGravatarJob.set(wait: 30.seconds).perform_later(self, email)
   end
 
   def acceptable_avatar

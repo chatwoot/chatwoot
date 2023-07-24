@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Account::ConversationsResolutionSchedulerJob, type: :job do
+RSpec.describe Account::ConversationsResolutionSchedulerJob do
   subject(:job) { described_class.perform_later }
 
   let!(:account) { create(:account) }

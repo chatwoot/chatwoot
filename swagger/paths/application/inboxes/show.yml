@@ -1,6 +1,6 @@
 get:
   tags:
-    - Inbox
+    - Inboxes
   operationId: GetInbox
   summary: Get an inbox
   description: Get an inbox available in the current account

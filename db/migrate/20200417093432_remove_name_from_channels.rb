@@ -3,7 +3,7 @@ class RemoveNameFromChannels < ActiveRecord::Migration[6.0]
     remove_column :channel_facebook_pages, :name, :string
     remove_column :channel_twitter_profiles, :name, :string
     migrate_web_widget_name_to_inbox
-    remove_column :channel_web_widgets, :website_name, :string # rubocop:disable Rails/BulkChangeTable
+    remove_column :channel_web_widgets, :website_name, :string
 
     add_column :channel_web_widgets, :welcome_title, :string
     add_column :channel_web_widgets, :welcome_tagline, :string

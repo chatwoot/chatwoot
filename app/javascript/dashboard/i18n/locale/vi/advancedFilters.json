@@ -1,0 +1,103 @@
+{
+  "FILTER": {
+    "TITLE": "Lọc hội thoại",
+    "SUBTITLE": "Thêm bộ lọc bên dưới và ấn 'áp dụng bộ lọc' để lọc hội thoại.",
+    "EDIT_CUSTOM_FILTER": "Edit Folder",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
+    "ADD_NEW_FILTER": "Thêm Bộ lọc",
+    "FILTER_DELETE_ERROR": "Bạn nên có ít nhất 1 bộ lọc để lưu",
+    "SUBMIT_BUTTON_LABEL": "Áp dụng bộ lọc",
+    "UPDATE_BUTTON_LABEL": "Update folder",
+    "CANCEL_BUTTON_LABEL": "Huỷ",
+    "CLEAR_BUTTON_LABEL": "Xoá bộ lọc",
+    "EMPTY_VALUE_ERROR": "Giá trị bắt buộc có",
+    "FOLDER_LABEL": "Folder Name",
+    "FOLDER_QUERY_LABEL": "Folder Query",
+    "TOOLTIP_LABEL": "Lọc cuộc hội thoại",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "VÀ",
+      "OR": "HOẶC"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "Bằng",
+      "not_equal_to": "Không bằng",
+      "contains": "Chứa",
+      "does_not_contain": "Không bao gồm",
+      "is_present": "Có",
+      "is_not_present": "Không có",
+      "is_greater_than": "Lớn hơn",
+      "is_less_than": "Nhỏ hơn",
+      "days_before": "Khoảng x ngày trước",
+      "starts_with": "Starts with"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "Đúng",
+      "FALSE": "Sai"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "Trạng thái",
+      "ASSIGNEE_NAME": "Tên người được phân công",
+      "INBOX_NAME": "Tên hộp thư đến",
+      "TEAM_NAME": "Tên Nhóm",
+      "CONVERSATION_IDENTIFIER": "Định danh cuộc hội thoại",
+      "CAMPAIGN_NAME": "Tên Chiến dịch",
+      "LABELS": "Nhãn",
+      "BROWSER_LANGUAGE": "Ngôn ngữ của Trình duyệt",
+      "PRIORITY": "Priority",
+      "COUNTRY_NAME": "Tên Nước",
+      "REFERER_LINK": "Liên kết người giới thiệu",
+      "CUSTOM_ATTRIBUTE_LIST": "Danh sách",
+      "CUSTOM_ATTRIBUTE_TEXT": "Văn bản",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Số",
+      "CUSTOM_ATTRIBUTE_LINK": "Liên kết",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Hộp kiểm",
+      "CREATED_AT": "Tạo vào lúc",
+      "LAST_ACTIVITY": "Hành động cuối cùng"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Bộ lọc tiêu chuẩn",
+      "ADDITIONAL_FILTERS": "Bộ lọc bổ sung",
+      "CUSTOM_ATTRIBUTES": "Thuộc tính tùy chỉnh"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "Bạn có muốn lưu bộ lọc này không?",
+        "LABEL": "Đặt tên bộ lọc này",
+        "PLACEHOLDER": "Nhập tên cho bộ lọc này",
+        "ERROR_MESSAGE": "Cần phải có Tên",
+        "SAVE_BUTTON": "Lưu bộ lọc",
+        "CANCEL_BUTTON": "Huỷ",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Thư mục được tạo thành công",
+          "ERROR_MESSAGE": "Có lỗi xảy ra lúc tạo thư mục"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Phân khúc được tạo thành công",
+          "ERROR_MESSAGE": "Có lỗi xảy ra lúc tạo phân khúc"
+        }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Edit folder"
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "Xoá bộ lọc",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "Xác nhận xoá",
+            "MESSAGE": "Bạn có chắc chắn muốn xoá bộ lọc ",
+            "YES": "Có, Xoá",
+            "NO": "Không, Giữ"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Thư mục bị xoá thành công",
+          "ERROR_MESSAGE": "Có lỗi xảy ra lúc xoá thư mục"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Phân khúc được xoá thành công",
+          "ERROR_MESSAGE": "Có lỗi xảy ra lúc xoá phân khúc"
+        }
+      }
+    }
+  }
+}

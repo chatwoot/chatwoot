@@ -1,0 +1,103 @@
+{
+  "FILTER": {
+    "TITLE": "סינון שיחות",
+    "SUBTITLE": "הוסף מסננים למטה והקש על 'החל מסננים' כדי לסנן שיחות.",
+    "EDIT_CUSTOM_FILTER": "Edit Folder",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
+    "ADD_NEW_FILTER": "הוסף מסנן",
+    "FILTER_DELETE_ERROR": "צריך להיות לפחות מסנן אחד כדי לשמור",
+    "SUBMIT_BUTTON_LABEL": "שמור סננים",
+    "UPDATE_BUTTON_LABEL": "Update folder",
+    "CANCEL_BUTTON_LABEL": "ביטול",
+    "CLEAR_BUTTON_LABEL": "מחק סננים",
+    "EMPTY_VALUE_ERROR": "חובה ערך",
+    "FOLDER_LABEL": "Folder Name",
+    "FOLDER_QUERY_LABEL": "Folder Query",
+    "TOOLTIP_LABEL": "סינון שיחות",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "ו/גם",
+      "OR": "או"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "שווה ל",
+      "not_equal_to": "לא שווה ל",
+      "contains": "מכיל",
+      "does_not_contain": "לא מכיל",
+      "is_present": "נוכח",
+      "is_not_present": "לא נוכח",
+      "is_greater_than": "גדול מ",
+      "is_less_than": "קטן מ",
+      "days_before": "זה x ימים לפני",
+      "starts_with": "מתחיל עם"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "נכון",
+      "FALSE": "לא נכון"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "מצב",
+      "ASSIGNEE_NAME": "משויך ל",
+      "INBOX_NAME": "שם תיבת הדואר הנכנס",
+      "TEAM_NAME": "שם צוות",
+      "CONVERSATION_IDENTIFIER": "מזהה שיחה",
+      "CAMPAIGN_NAME": "שם קמפיין",
+      "LABELS": "תוויות",
+      "BROWSER_LANGUAGE": "שפת דפדפן",
+      "PRIORITY": "Priority",
+      "COUNTRY_NAME": "שם המדינה",
+      "REFERER_LINK": "קישור מפנה",
+      "CUSTOM_ATTRIBUTE_LIST": "רשימה",
+      "CUSTOM_ATTRIBUTE_TEXT": "טקסט",
+      "CUSTOM_ATTRIBUTE_NUMBER": "מספר",
+      "CUSTOM_ATTRIBUTE_LINK": "קישור",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "תיבת סימון",
+      "CREATED_AT": "הוקם ב",
+      "LAST_ACTIVITY": "פעילות אחרונה"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "סננים סטנדרטיים",
+      "ADDITIONAL_FILTERS": "סננים נוספים",
+      "CUSTOM_ATTRIBUTES": "מאפיינים בהתאמה אישית"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "האם אתה רוצה לשמור את המסנן הזה?",
+        "LABEL": "תן שם למסנן הזה",
+        "PLACEHOLDER": "תן שם למסנן הזה",
+        "ERROR_MESSAGE": "שם שדה חובה",
+        "SAVE_BUTTON": "שמור מסנן",
+        "CANCEL_BUTTON": "ביטול",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "התיקיה נשמרה בהצלחה",
+          "ERROR_MESSAGE": "שגיאה או תקלה בהקמת התיקיה"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "הסגמנט נשמר בהצלחה",
+          "ERROR_MESSAGE": "תקלה או שגיאה בהקמת הסגמנט"
+        }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Edit folder"
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "מחק מסנן",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "אשר מחיקה",
+            "MESSAGE": "האם אתה בטוח למחוק הסנן הזה ",
+            "YES": "כן, מחק",
+            "NO": "לא, השאר"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "תיקיה נמחקה בהצלחה",
+          "ERROR_MESSAGE": "שגיאה או תקלה במחיקת תיקיה"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "סגמנט נמחק בהצלחה",
+          "ERROR_MESSAGE": "שגיאה במחיקת הערך"
+        }
+      }
+    }
+  }
+}

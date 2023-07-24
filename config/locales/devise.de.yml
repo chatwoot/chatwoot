@@ -3,8 +3,8 @@ de:
   devise:
     confirmations:
       confirmed: "Ihre E-Mail-Adresse wurde erfolgreich bestätigt."
-      send_instructions: "Sie erhalten in wenigen Minuten eine E-Mail mit Anweisungen, wie Sie Ihre E-Mail-Adresse bestätigen können."
-      send_paranoid_instructions: "Wenn Ihre E-Mail-Adresse in unserer Datenbank existiert, erhalten Sie in wenigen Minuten einen Link zur Passwortwiederherstellung an Ihre E-Mail-Adresse."
+      send_instructions: "Sie erhalten in wenigen Minuten eine E-Mail mit Anweisungen zur Bestätigung Ihrer E-Mail-Adresse."
+      send_paranoid_instructions: "Wenn Ihre E-Mail-Adresse in unserer Datenbank vorhanden ist, erhalten Sie in wenigen Minuten eine E-Mail mit Anweisungen zur Bestätigung Ihrer E-Mail-Adresse."
     failure:
       already_authenticated: "Sie sind bereits angemeldet."
       inactive: "Ihr Konto ist noch nicht aktiviert."
@@ -19,7 +19,7 @@ de:
       confirmation_instructions:
         subject: "Anleitung zur Bestätigung"
       reset_password_instructions:
-        subject: "Anweisungen zum Zurücksetzen Ihres Passworts"
+        subject: "Anweisungen zum Zurücksetzen des Passworts"
       unlock_instructions:
         subject: "Anleitung zur Entsperren"
       password_change:
@@ -28,14 +28,14 @@ de:
       failure: "Sie konnten nicht von %{kind} authentifiziert werden, weil \"%{reason}\"."
       success: "Erfolgreich authentifiziert mit %{kind} Konto."
     passwords:
-      no_token: "Diese Seite kann ausschließlich über den Link in der Mail aufgerufen werden. Falls Sie einen Link aus einer Mail aufgerufen haben, stellen Sie bitte sicher, dass die vollständige URL verwendet wird."
-      send_instructions: "Du wirst in wenigen Minuten eine E-Mail mit Anweisungen zum Zurücksetzen deines Passworts erhalten."
+      no_token: "Sie können nicht auf diese Seite zugreifen, ohne von einer E-Mail zum Zurücksetzen des Passworts zu kommen. Wenn Sie von einer E-Mail zum Zurücksetzen des Passworts kommen, stellen Sie bitte sicher, dass Sie die vollständige angegebene URL verwendet haben."
+      send_instructions: "Sie erhalten in wenigen Minuten eine E-Mail mit Anweisungen zum Zurücksetzen Ihres Passworts."
       send_paranoid_instructions: "Wenn Ihre E-Mail-Adresse in unserer Datenbank existiert, erhalten Sie in wenigen Minuten einen Link zur Passwortwiederherstellung an Ihre E-Mail-Adresse."
       updated: "Ihr Passwort wurde erfolgreich geändert. Sie sind jetzt angemeldet."
       updated_not_active: "Ihr Passwort wurde erfolgreich geändert."
     registrations:
-      destroyed: "Bye! Dein Account wurde erfolgreich gelöscht. Wir hoffen, dich bald wieder zu sehen!"
-      signed_up: "Willkommen! Du hast dich erfolgreich registriert."
+      destroyed: "Wiedersehen! Ihr Konto wurde erfolgreich gekündigt. Wir hoffen, Sie bald wieder zu sehen."
+      signed_up: "Willkommen! Sie haben sich erfolgreich angemeldet."
       signed_up_but_inactive: "Sie haben sich erfolgreich registriert. Wir konnten Sie jedoch nicht anmelden, da Ihr Konto noch nicht aktiviert ist."
       signed_up_but_locked: "Sie haben sich erfolgreich registriert. Wir konnten Sie jedoch nicht anmelden, da Ihr Konto gesperrt ist."
       signed_up_but_unconfirmed: "Eine Nachricht mit einem Bestätigungslink wurde an Ihre E-Mail-Adresse gesendet. Bitte folgen Sie dem Link, um Ihr Konto zu aktivieren."
@@ -48,7 +48,7 @@ de:
     unlocks:
       send_instructions: "Sie erhalten in wenigen Minuten eine E-Mail mit Anweisungen, wie Sie Ihr Konto entsperren können."
       send_paranoid_instructions: "Wenn Ihr Konto existiert, werden Sie in wenigen Minuten eine E-Mail mit Anweisungen erhalten, wie Sie dieses entsperren können."
-      unlocked: "Dein Account wurde erfolgreich entsperrt. Bitte melde dich an, um fortzufahren."
+      unlocked: "Ihr Konto wurde erfolgreich entsperrt. Bitte einloggen, um fortzufahren."
   errors:
     messages:
       already_confirmed: "wurde bereits bestätigt, bitte versuchen Sie sich anzumelden"
@@ -58,4 +58,4 @@ de:
       not_locked: "wurde nicht gesperrt"
       not_saved:
         one: "1 Fehler verhinderte, dass %{resource} gespeichert wurde:"
-        other: "%{count} Fehler haben verhindert, dass %{resource} gespeichert wurde:"
+        other: "%{count} Fehler verhinderten, dass %{resource} gespeichert wurde:"

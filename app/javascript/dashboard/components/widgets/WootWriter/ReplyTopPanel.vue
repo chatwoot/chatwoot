@@ -1,26 +1,27 @@
 <template>
-  <div class="top-box">
-    <div class="mode-wrap button-group">
-      <button
-        class="button clear button--reply"
+  <div class="bg-black-50 flex justify-between dark:bg-slate-800">
+    <div class="button-group">
+      <woot-button
+        variant="clear"
+        class="button--reply"
         :class="replyButtonClass"
         @click="handleReplyClick"
       >
-        <emoji-or-icon icon="" emoji="💬" />
         {{ $t('CONVERSATION.REPLYBOX.REPLY') }}
-      </button>
+      </woot-button>
 
-      <button
-        class="button clear button--note"
+      <woot-button
+        class="button--note"
+        variant="clear"
+        color-scheme="warning"
         :class="noteButtonClass"
         @click="handleNoteClick"
       >
-        <emoji-or-icon icon="" emoji="📝" />
         {{ $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE') }}
-      </button>
+      </woot-button>
     </div>
-    <div class="action-wrap">
-      <div v-if="isMessageLengthReachingThreshold" class="tabs-title">
+    <div class="flex items-center my-0 mx-4">
+      <div v-if="isMessageLengthReachingThreshold" class="text-xs">
         <span :class="charLengthClass">
           {{ characterLengthWarning }}
         </span>
@@ -29,8 +30,7 @@
     <woot-button
       v-if="popoutReplyBox"
       variant="clear"
-      size="large"
-      icon="ion-android-close"
+      icon="dismiss"
       color-scheme="secondary"
       class-names="popout-button"
       @click="$emit('click')"
@@ -38,8 +38,7 @@
     <woot-button
       v-else
       variant="clear"
-      size="large"
-      icon="ion-arrow-resize"
+      icon="resize-large"
       color-scheme="secondary"
       class-names="popout-button"
       @click="$emit('click')"
@@ -49,7 +48,6 @@
 
 <script>
 import { REPLY_EDITOR_MODES, CHAR_LENGTH_WARNING } from './constants';
-import EmojiOrIcon from 'shared/components/EmojiOrIcon';
 import {
   hasPressedAltAndPKey,
   hasPressedAltAndLKey,
@@ -57,9 +55,6 @@ import {
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 export default {
   name: 'ReplyTopPanel',
-  components: {
-    EmojiOrIcon,
-  },
   mixins: [eventListenerMixins],
   props: {
     mode: {
@@ -95,7 +90,7 @@ export default {
       };
     },
     charLengthClass() {
-      return this.charactersRemaining < 0 ? 'message-error' : 'message-length';
+      return this.charactersRemaining < 0 ? 'text-red-600' : 'text-slate-600';
     },
     characterLengthWarning() {
       return this.charactersRemaining < 0
@@ -123,77 +118,34 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.top-box {
-  display: flex;
-  justify-content: space-between;
-
-  background: var(--b-50);
-}
-
 .button-group {
-  border: 0;
-  padding: 0;
-  margin: 0;
+  @apply flex border-0 p-0 m-0;
 
   .button {
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-medium);
-    padding: var(--space-one) var(--space-normal);
-    margin: 0;
-    position: relative;
-    z-index: 1;
-
+    @apply text-sm font-medium py-2.5 px-4 m-0 relative z-10;
     &.is-active {
-      background: white;
+      @apply bg-white dark:bg-slate-900;
     }
   }
-
   .button--reply {
-    border-radius: 0;
-    border-right: 1px solid var(--color-border);
-
-    &:hover {
-      border-right: 1px solid var(--color-border);
+    @apply border-r rounded-none border-b-0 border-l-0 border-t-0 border-slate-50 dark:border-slate-700;
+    &:hover,
+    &:focus {
+      @apply border-r border-slate-50 dark:border-slate-700;
     }
   }
-
   .button--note {
-    border-radius: 0;
-
+    @apply border-l-0 rounded-none;
     &.is-active {
-      border-right: 1px solid var(--color-border);
-      background: var(--y-50);
+      @apply border-r border-b-0 bg-yellow-50 dark:bg-yellow-50 border-t-0 border-slate-50 dark:border-slate-700;
     }
-
     &:hover,
     &:active {
-      color: var(--y-800);
+      @apply text-yellow-700 dark:text-yellow-700;
     }
   }
 }
-
 .button--note {
-  color: var(--y-900);
-}
-
-.action-wrap {
-  display: flex;
-  align-items: center;
-  margin: 0 var(--space-normal);
-  font-size: var(--font-size-mini);
-
-  .message-error {
-    color: var(--r-600);
-  }
-  .message-length {
-    color: var(--s-600);
-  }
-}
-
-.popout-button {
-  display: flex;
-  justify-content: flex-end;
-  height: auto;
-  padding-right: var(--space-normal);
+  @apply text-yellow-600 dark:text-yellow-600;
 }
 </style>

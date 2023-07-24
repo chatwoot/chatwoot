@@ -4,43 +4,15 @@ import ConversationApi from '../../../api/inbox/conversation';
 import MessageApi from '../../../api/inbox/message';
 import { MESSAGE_STATUS, MESSAGE_TYPE } from 'shared/constants/messages';
 import { createPendingMessage } from 'dashboard/helper/commons';
-
-const setPageFilter = ({ dispatch, filter, page, markEndReached }) => {
-  dispatch('conversationPage/setCurrentPage', { filter, page }, { root: true });
-  if (markEndReached) {
-    dispatch('conversationPage/setEndReached', { filter }, { root: true });
-  }
-};
-
-const setContacts = (commit, chatList) => {
-  commit(
-    `contacts/${types.SET_CONTACTS}`,
-    chatList.map(chat => chat.meta.sender)
-  );
-};
-
-const buildConversationList = (
-  context,
-  requestPayload,
-  responseData,
-  filterType
-) => {
-  const { payload: conversationList, meta: metaData } = responseData;
-  context.commit(types.SET_ALL_CONVERSATION, conversationList);
-  context.dispatch('conversationStats/set', metaData);
-  context.dispatch(
-    'conversationLabels/setBulkConversationLabels',
-    conversationList
-  );
-  context.commit(types.CLEAR_LIST_LOADING_STATUS);
-  setContacts(context.commit, conversationList);
-  setPageFilter({
-    dispatch: context.dispatch,
-    filter: filterType,
-    page: requestPayload.page,
-    markEndReached: !conversationList.length,
-  });
-};
+import {
+  buildConversationList,
+  isOnMentionsView,
+  isOnUnattendedView,
+} from './helpers/actionHelpers';
+import messageReadActions from './actions/messageReadActions';
+import AnalyticsHelper from '../../../helper/AnalyticsHelper';
+import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import messageTranslateActions from './actions/messageTranslateActions';
 // actions
 const actions = {
   getConversation: async ({ commit }, conversationId) => {
@@ -106,7 +78,7 @@ const actions = {
         id: data.conversationId,
         data: payload,
       });
-      if (payload.length < 20) {
+      if (!payload.length) {
         commit(types.SET_ALL_MESSAGES_LOADED);
       }
     } catch (error) {
@@ -114,15 +86,91 @@ const actions = {
     }
   },
 
-  async setActiveChat({ commit, dispatch }, data) {
+  fetchAllAttachments: async ({ commit }, conversationId) => {
+    try {
+      const { data } = await ConversationApi.getAllAttachments(conversationId);
+      commit(types.SET_ALL_ATTACHMENTS, {
+        id: conversationId,
+        data: data.payload,
+      });
+    } catch (error) {
+      // Handle error
+    }
+  },
+
+  syncActiveConversationMessages: async (
+    { commit, state, dispatch },
+    { conversationId }
+  ) => {
+    const { allConversations, syncConversationsMessages } = state;
+    const lastMessageId = syncConversationsMessages[conversationId];
+    const selectedChat = allConversations.find(
+      conversation => conversation.id === conversationId
+    );
+    if (!selectedChat) return;
+    try {
+      const { messages } = selectedChat;
+      // Fetch all the messages after the last message id
+      const {
+        data: { meta, payload },
+      } = await MessageApi.getPreviousMessages({
+        conversationId,
+        after: lastMessageId,
+      });
+      commit(`conversationMetadata/${types.SET_CONVERSATION_METADATA}`, {
+        id: conversationId,
+        data: meta,
+      });
+      // Find the messages that are not already present in the store
+      const missingMessages = payload.filter(
+        message => !messages.find(item => item.id === message.id)
+      );
+      selectedChat.messages.push(...missingMessages);
+      // Sort the messages by created_at
+      const sortedMessages = selectedChat.messages.sort((a, b) => {
+        return new Date(a.created_at) - new Date(b.created_at);
+      });
+      commit(types.SET_MISSING_MESSAGES, {
+        id: conversationId,
+        data: sortedMessages,
+      });
+      commit(types.SET_LAST_MESSAGE_ID_IN_SYNC_CONVERSATION, {
+        conversationId,
+        messageId: null,
+      });
+      dispatch('markMessagesRead', { id: conversationId }, { root: true });
+    } catch (error) {
+      // Handle error
+    }
+  },
+
+  setConversationLastMessageId: async (
+    { commit, state },
+    { conversationId }
+  ) => {
+    const { allConversations } = state;
+    const selectedChat = allConversations.find(
+      conversation => conversation.id === conversationId
+    );
+    if (!selectedChat) return;
+    const { messages } = selectedChat;
+    const lastMessage = messages.last();
+    if (!lastMessage) return;
+    commit(types.SET_LAST_MESSAGE_ID_IN_SYNC_CONVERSATION, {
+      conversationId,
+      messageId: lastMessage.id,
+    });
+  },
+
+  async setActiveChat({ commit, dispatch }, { data, after }) {
     commit(types.SET_CURRENT_CHAT_WINDOW, data);
     commit(types.CLEAR_ALL_MESSAGES_LOADED);
-
     if (data.dataFetched === undefined) {
       try {
         await dispatch('fetchPreviousMessages', {
-          conversationId: data.id,
+          after,
           before: data.messages[0].id,
+          conversationId: data.id,
         });
         Vue.set(data, 'dataFetched', true);
       } catch (error) {
@@ -153,14 +201,14 @@ const actions = {
         conversationId,
         teamId,
       });
-      dispatch('setCurrentChatTeam', response.data);
+      dispatch('setCurrentChatTeam', { team: response.data, conversationId });
     } catch (error) {
       // Handle error
     }
   },
 
-  setCurrentChatTeam({ commit }, team) {
-    commit(types.ASSIGN_TEAM, team);
+  setCurrentChatTeam({ commit }, { team, conversationId }) {
+    commit(types.ASSIGN_TEAM, { team, conversationId });
   },
 
   toggleStatus: async (
@@ -190,17 +238,42 @@ const actions = {
     }
   },
 
-  sendMessage: async ({ commit }, data) => {
-    // eslint-disable-next-line no-useless-catch
+  createPendingMessageAndSend: async ({ dispatch }, data) => {
+    const pendingMessage = createPendingMessage(data);
+    dispatch('sendMessageWithData', pendingMessage);
+  },
+
+  sendMessageWithData: async ({ commit }, pendingMessage) => {
     try {
-      const pendingMessage = createPendingMessage(data);
-      commit(types.ADD_MESSAGE, pendingMessage);
+      commit(types.ADD_MESSAGE, {
+        ...pendingMessage,
+        status: MESSAGE_STATUS.PROGRESS,
+      });
       const response = await MessageApi.create(pendingMessage);
+      AnalyticsHelper.track(
+        pendingMessage.private
+          ? CONVERSATION_EVENTS.SENT_PRIVATE_NOTE
+          : CONVERSATION_EVENTS.SENT_MESSAGE
+      );
       commit(types.ADD_MESSAGE, {
         ...response.data,
         status: MESSAGE_STATUS.SENT,
       });
+      commit(types.ADD_CONVERSATION_ATTACHMENTS, {
+        ...response.data,
+        status: MESSAGE_STATUS.SENT,
+      });
     } catch (error) {
+      const errorMessage = error.response
+        ? error.response.data.error
+        : undefined;
+      commit(types.ADD_MESSAGE, {
+        ...pendingMessage,
+        meta: {
+          error: errorMessage,
+        },
+        status: MESSAGE_STATUS.FAILED,
+      });
       throw error;
     }
   },
@@ -212,6 +285,7 @@ const actions = {
         conversationId: message.conversation_id,
         canReply: true,
       });
+      commit(types.ADD_CONVERSATION_ATTACHMENTS, message);
     }
   },
 
@@ -224,27 +298,44 @@ const actions = {
     { conversationId, messageId }
   ) {
     try {
-      const response = await MessageApi.delete(conversationId, messageId);
-      const { data } = response;
-      // The delete message is actually deleting the content.
+      const { data } = await MessageApi.delete(conversationId, messageId);
       commit(types.ADD_MESSAGE, data);
+      commit(types.DELETE_CONVERSATION_ATTACHMENTS, data);
     } catch (error) {
       throw new Error(error);
     }
   },
 
-  addConversation({ commit, state, dispatch }, conversation) {
+  addConversation({ commit, state, dispatch, rootState }, conversation) {
     const { currentInbox, appliedFilters } = state;
     const {
       inbox_id: inboxId,
       meta: { sender },
     } = conversation;
+
     const hasAppliedFilters = !!appliedFilters.length;
     const isMatchingInboxFilter =
       !currentInbox || Number(currentInbox) === inboxId;
-    if (!hasAppliedFilters && isMatchingInboxFilter) {
+    if (
+      !hasAppliedFilters &&
+      !isOnMentionsView(rootState) &&
+      !isOnUnattendedView(rootState) &&
+      isMatchingInboxFilter
+    ) {
       commit(types.ADD_CONVERSATION, conversation);
       dispatch('contacts/setContact', sender);
+    }
+  },
+
+  addMentions({ dispatch, rootState }, conversation) {
+    if (isOnMentionsView(rootState)) {
+      dispatch('updateConversation', conversation);
+    }
+  },
+
+  addUnattended({ dispatch, rootState }, conversation) {
+    if (isOnUnattendedView(rootState)) {
+      dispatch('updateConversation', conversation);
     }
   },
 
@@ -253,22 +344,31 @@ const actions = {
       meta: { sender },
     } = conversation;
     commit(types.UPDATE_CONVERSATION, conversation);
+
+    dispatch('conversationLabels/setConversationLabel', {
+      id: conversation.id,
+      data: conversation.labels,
+    });
+
     dispatch('contacts/setContact', sender);
   },
 
-  markMessagesRead: async ({ commit }, data) => {
-    try {
-      const {
-        data: { id, agent_last_seen_at: lastSeen },
-      } = await ConversationApi.markMessageRead(data);
-      setTimeout(() => commit(types.MARK_MESSAGE_READ, { id, lastSeen }), 4000);
-    } catch (error) {
-      // Handle error
-    }
+  updateConversationLastActivity(
+    { commit },
+    { conversationId, lastActivityAt }
+  ) {
+    commit(types.UPDATE_CONVERSATION_LAST_ACTIVITY, {
+      lastActivityAt,
+      conversationId,
+    });
   },
 
-  setChatFilter({ commit }, data) {
+  setChatStatusFilter({ commit }, data) {
     commit(types.CHANGE_CHAT_STATUS_FILTER, data);
+  },
+
+  setChatSortFilter({ commit }, data) {
+    commit(types.CHANGE_CHAT_SORT_FILTER, data);
   },
 
   updateAssignee({ commit }, data) {
@@ -335,6 +435,29 @@ const actions = {
   clearConversationFilters({ commit }) {
     commit(types.CLEAR_CONVERSATION_FILTERS);
   },
+
+  assignPriority: async ({ dispatch }, { conversationId, priority }) => {
+    try {
+      await ConversationApi.togglePriority({
+        conversationId,
+        priority,
+      });
+
+      dispatch('setCurrentChatPriority', {
+        priority,
+        conversationId,
+      });
+    } catch (error) {
+      // Handle error
+    }
+  },
+
+  setCurrentChatPriority({ commit }, { priority, conversationId }) {
+    commit(types.ASSIGN_PRIORITY, { priority, conversationId });
+  },
+
+  ...messageReadActions,
+  ...messageTranslateActions,
 };
 
 export default actions;

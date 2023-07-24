@@ -1,0 +1,24 @@
+tags:
+  - Custom Attributes
+operationId: get-account-custom-attribute
+summary: List all custom attributes in an account
+parameters:
+    - name: attribute_model
+      in: query
+      type: string
+      enum: ['0', '1']
+      description: conversation_attribute(0)/contact_attribute(1)
+      required: true
+description: Get details of custom attributes in an Account
+security:
+  - userApiKey: []
+responses:
+  200:
+    description: Success
+    schema:
+        type: array
+        description: 'Array of all custom attributes'
+        items:
+          $ref: '#/definitions/custom_attribute'
+  403:
+    description: Access denied

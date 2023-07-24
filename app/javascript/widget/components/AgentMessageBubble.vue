@@ -5,12 +5,23 @@
         !isCards && !isOptions && !isForm && !isArticle && !isCards && !isCSAT
       "
       class="chat-bubble agent"
+      :class="$dm('bg-white', 'dark:bg-slate-700 has-dark-mode')"
     >
-      <div class="message-content" v-html="formatMessage(message, false)"></div>
+      <div
+        v-dompurify-html="formatMessage(message, false)"
+        class="message-content"
+        :class="$dm('text-black-900', 'dark:text-slate-50')"
+      />
       <email-input
         v-if="isTemplateEmail"
         :message-id="messageId"
         :message-content-attributes="messageContentAttributes"
+      />
+
+      <integration-card
+        v-if="isIntegrations"
+        :message-id="messageId"
+        :meeting-data="messageContentAttributes.data"
       />
     </div>
     <div v-if="isOptions">
@@ -19,8 +30,7 @@
         :options="messageContentAttributes.items"
         :hide-fields="!!messageContentAttributes.submitted_values"
         @click="onOptionSelect"
-      >
-      </chat-options>
+      />
     </div>
     <chat-form
       v-if="isForm && !messageContentAttributes.submitted_values"
@@ -28,8 +38,7 @@
       :button-label="messageContentAttributes.button_label"
       :submitted-values="messageContentAttributes.submitted_values"
       @submit="onFormSubmit"
-    >
-    </chat-form>
+    />
     <div v-if="isCards">
       <chat-card
         v-for="item in messageContentAttributes.items"
@@ -38,11 +47,10 @@
         :title="item.title"
         :description="item.description"
         :actions="item.actions"
-      >
-      </chat-card>
+      />
     </div>
     <div v-if="isArticle">
-      <chat-article :items="messageContentAttributes.items"></chat-article>
+      <chat-article :items="messageContentAttributes.items" />
     </div>
     <customer-satisfaction
       v-if="isCSAT"
@@ -60,6 +68,8 @@ import ChatOptions from 'shared/components/ChatOptions';
 import ChatArticle from './template/Article';
 import EmailInput from './template/EmailInput';
 import CustomerSatisfaction from 'shared/components/CustomerSatisfaction';
+import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+import IntegrationCard from './template/IntegrationCard';
 
 export default {
   name: 'AgentMessageBubble',
@@ -70,8 +80,9 @@ export default {
     ChatOptions,
     EmailInput,
     CustomerSatisfaction,
+    IntegrationCard,
   },
-  mixins: [messageFormatterMixin],
+  mixins: [messageFormatterMixin, darkModeMixin],
   props: {
     message: { type: String, default: null },
     contentType: { type: String, default: null },
@@ -104,6 +115,9 @@ export default {
     isCSAT() {
       return this.contentType === 'input_csat';
     },
+    isIntegrations() {
+      return this.contentType === 'integrations';
+    },
   },
   methods: {
     onResponse(messageResponse) {
@@ -128,14 +142,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-@import '~widget/assets/scss/variables.scss';
-
-.chat-bubble .message-content::v-deep pre {
-  background: $color-primary-light;
-  color: $color-body;
-  overflow: scroll;
-  padding: $space-smaller;
-}
-</style>

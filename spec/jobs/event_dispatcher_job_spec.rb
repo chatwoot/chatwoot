@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe EventDispatcherJob, type: :job do
+RSpec.describe EventDispatcherJob do
   subject(:job) { described_class.perform_later(event_name, timestamp, event_data) }
 
   let!(:conversation) { create(:conversation) }
@@ -11,7 +11,7 @@ RSpec.describe EventDispatcherJob, type: :job do
   it 'queues the job' do
     expect { job }.to have_enqueued_job(described_class)
       .with(event_name, timestamp, event_data)
-      .on_queue('events')
+      .on_queue('critical')
   end
 
   it 'publishes event' do

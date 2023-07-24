@@ -6,7 +6,7 @@ export const API = axios.create({
   withCredentials: false,
 });
 
-export const setHeader = (key, value) => {
+export const setHeader = (value, key = 'X-Auth-Token') => {
   API.defaults.headers.common[key] = value;
 };
 

@@ -5,12 +5,16 @@
         <div class="name-wrap">
           <span class="text-block-title">{{ userName }}</span>
           <div>
-            <i v-if="isOutgoingMessage" class="ion-headphone" />
+            <fluent-icon
+              v-if="isOutgoingMessage"
+              icon="arrow-reply"
+              class="icon-outgoing"
+            />
           </div>
         </div>
         <span class="timestamp">{{ readableTime }} </span>
       </div>
-      <p class="message-content" v-html="prepareContent(content)"></p>
+      <p v-dompurify-html="prepareContent(content)" class="message-content" />
     </div>
   </div>
 </template>
@@ -60,10 +64,15 @@ export default {
   methods: {
     prepareContent(content = '') {
       const plainTextContent = this.getPlainText(content);
+      const escapedSearchTerm = this.escapeRegExp(this.searchTerm);
       return plainTextContent.replace(
-        new RegExp(`(${this.searchTerm})`, 'ig'),
+        new RegExp(`(${escapedSearchTerm})`, 'ig'),
         '<span class="searchkey--highlight">$1</span>'
       );
+    },
+    // from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
+    escapeRegExp(string) {
+      return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     },
   },
 };
@@ -84,7 +93,7 @@ export default {
       color: var(--white);
       text-decoration: underline;
     }
-    .ion-headphone {
+    .icon-outgoing {
       color: var(--white);
     }
   }
@@ -109,7 +118,7 @@ export default {
 
 .name-wrap {
   display: flex;
-  max-width: 22rem;
+  max-width: 13.75rem;
 
   .text-block-title {
     font-weight: var(--font-weight-bold);
@@ -119,9 +128,8 @@ export default {
   }
 }
 
-.ion-headphone {
+.icon-outgoing {
   color: var(--w-500);
-  font-size: var(--font-size-mini);
   padding: var(--space-micro);
   padding-right: var(--space-smaller);
 }

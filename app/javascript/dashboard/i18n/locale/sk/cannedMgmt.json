@@ -1,75 +1,75 @@
 {
   "CANNED_MGMT": {
-    "HEADER": "Canned Responses",
-    "HEADER_BTN_TXT": "Add Canned Response",
-    "LOADING": "Fetching Canned Responses",
-    "SEARCH_404": "There are no items matching this query",
-    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation . </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+    "HEADER": "Uložené odpovede",
+    "HEADER_BTN_TXT": "Pridať Uloženú odpoveď",
+    "LOADING": "Uložené odpovede sa načítavajú",
+    "SEARCH_404": "Neexistujú žiadne položky, ktoré by zodpovedali tejto požiadavke",
+    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
     "LIST": {
-      "404": "There are no canned responses available in this account.",
-      "TITLE": "Manage canned responses",
-      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to tickets.",
+      "404": "Žiadne uložené odpovede nie sú k dispozícii pre tento účet.",
+      "TITLE": "Manažuj uložené odpovede",
+      "DESC": "Uložené odpovede sú preddefinované šablóny odpovedí, ktoré možno použiť na rýchle odoslanie odpovedí na tikety.",
       "TABLE_HEADER": [
-        "Short Code",
-        "Content",
-        "Actions"
+        "Krátky kód",
+        "Obsah",
+        "Akcie"
       ]
     },
     "ADD": {
-      "TITLE": "Add Canned Response",
-      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation .",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "TITLE": "Pridať Uloženú odpoveď",
+      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
+      "CANCEL_BUTTON_TEXT": "Zrušiť",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short Code",
-          "PLACEHOLDER": "Please enter a shortcode",
-          "ERROR": "Short Code is required"
+          "LABEL": "Krátky kód",
+          "PLACEHOLDER": "Please enter a short code",
+          "ERROR": "Vyžaduje sa krátky kód"
         },
         "CONTENT": {
-          "LABEL": "Content",
-          "PLACEHOLDER": "Please enter a content",
-          "ERROR": "Content is required"
+          "LABEL": "Obsah",
+          "PLACEHOLDER": "Prosím vložte obsah",
+          "ERROR": "Obsah je vyžadovaný"
         },
-        "SUBMIT": "Submit"
+        "SUBMIT": "Odoslať"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Canned Response added successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "Uložená odpoveď bola úspešne pridaná",
+        "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Woot, skúste to prosím neskôr"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Canned Response",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "TITLE": "Upraviť Uloženú odpoveď",
+      "CANCEL_BUTTON_TEXT": "Zrušiť",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short Code",
-          "PLACEHOLDER": "Please enter a shortcode",
-          "ERROR": "Short Code is required"
+          "LABEL": "Krátky kód",
+          "PLACEHOLDER": "Prosím zadajte krátky kód",
+          "ERROR": "Vyžaduje sa krátky kód"
         },
         "CONTENT": {
-          "LABEL": "Content",
-          "PLACEHOLDER": "Please enter a content",
-          "ERROR": "Content is required"
+          "LABEL": "Obsah",
+          "PLACEHOLDER": "Prosím vložte obsah",
+          "ERROR": "Obsah je vyžadovaný"
         },
-        "SUBMIT": "Submit"
+        "SUBMIT": "Odoslať"
       },
-      "BUTTON_TEXT": "Edit",
+      "BUTTON_TEXT": "Upraviť",
       "API": {
-        "SUCCESS_MESSAGE": "Canned Response updated successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "Uložená odpoveď bola úspešne upravená",
+        "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Woot, skúste to prosím neskôr"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Vymazať",
       "API": {
-        "SUCCESS_MESSAGE": "Canned response deleted successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "Uložená odpoveď bola úspešne vymazaná",
+        "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Woot, skúste to prosím neskôr"
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "Potvrdiť vymazanie",
+        "MESSAGE": "Určite chcete vymazať ",
+        "YES": "Áno, vymazať ",
+        "NO": "Nie, ponechať "
       }
     }
   }

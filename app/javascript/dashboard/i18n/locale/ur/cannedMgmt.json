@@ -1,0 +1,76 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "محفوظ کردہ جوابات",
+    "HEADER_BTN_TXT": "جوابات محفوظ کریں",
+    "LOADING": "محفوظ کردہ جوابات حاصل کئیے جا رہے ہیں",
+    "SEARCH_404": "اس سوال سے مماثل کوئی آئٹمز نہیں ہیں۔",
+    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+    "LIST": {
+      "404": "اس اکاؤنٹ میں کوئی محفوظ کردہ جوابات دستیاب نہیں ہیں۔.",
+      "TITLE": "محفوظ کردہ جوابات کو نظم کریں",
+      "DESC": "محفوظ کردہ جوابات پہلے سے طے شدہ جوابی ٹیمپلیٹس ہیں جنہیں ٹکٹوں کے جوابات فوری بھیجنے کے لیے استعمال کیا جا سکتا ہے۔.",
+      "TABLE_HEADER": [
+        "مختصر کوڈ",
+        "مواد",
+        "عمل"
+      ]
+    },
+    "ADD": {
+      "TITLE": "محفوظ کردہ جوابات شامل کریں",
+      "DESC": "محفوظ کردہ جوابی ٹیمپلیٹس کو محفوظ کیا جاتا ہے جو گفتگو کے جواب کو تیزی سے بھیجنے کے لیے استعمال کیا جا سکتا ہے۔.",
+      "CANCEL_BUTTON_TEXT": "منسوخ کریں۔",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "مختصر کوڈ",
+          "PLACEHOLDER": "براہ کرم مختصر کوڈ درج کریں۔",
+          "ERROR": "مختصر کوڈ درکار ہے۔"
+        },
+        "CONTENT": {
+          "LABEL": "مواد",
+          "PLACEHOLDER": "براہ کرم مواد درج کریں۔",
+          "ERROR": "مواد درکار ہے۔"
+        },
+        "SUBMIT": "جمع کرائیں"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "جواب کامیابی کے ساتھ محفوظ کیا گیا۔",
+        "ERROR_MESSAGE": "ووٹ سرور کے ساتھ رابطہ ممکن نہی ہوسکا ، براہ کرم کچھ دیر بعد کوشش کریں"
+      }
+    },
+    "EDIT": {
+      "TITLE": "محفوظ کردہ جوابات میں ترمیم کریں۔",
+      "CANCEL_BUTTON_TEXT": "منسوخ کریں۔",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "مختصر کوڈ",
+          "PLACEHOLDER": "براہ کرم مختصر کوڈ درج کریں۔",
+          "ERROR": "مختصر کوڈ درکار ہے۔"
+        },
+        "CONTENT": {
+          "LABEL": "مواد",
+          "PLACEHOLDER": "براہ کرم مواد درج کریں۔",
+          "ERROR": "مواد درکار ہے۔"
+        },
+        "SUBMIT": "جمع کرائیں"
+      },
+      "BUTTON_TEXT": "ترمیم",
+      "API": {
+        "SUCCESS_MESSAGE": "محفوظ کردہ جواب کامیابی کے ساتھ اپ ڈیٹ ہو گیا۔",
+        "ERROR_MESSAGE": "ووٹ سرور کے ساتھ رابطہ ممکن نہی ہوسکا ، براہ کرم کچھ دیر بعد کوشش کریں"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "حذف کریں۔",
+      "API": {
+        "SUCCESS_MESSAGE": "محفوظ کردہ جواب کامیابی کے ساتھ حذف کر دیا گیا۔",
+        "ERROR_MESSAGE": "ووٹ سرور کے ساتھ رابطہ ممکن نہی ہوسکا ، براہ کرم کچھ دیر بعد کوشش کریں"
+      },
+      "CONFIRM": {
+        "TITLE": "حذف کرنے کی تصدیق کریں۔",
+        "MESSAGE": "کیا آپ کو یقینی طور پر حذف کرنا ہے۔ ",
+        "YES": "ہاں، حذف کریں۔ ",
+        "NO": "نہیں ، رہنے دیں "
+      }
+    }
+  }
+}

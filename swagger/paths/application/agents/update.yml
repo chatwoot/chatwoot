@@ -1,5 +1,5 @@
 tags:
-  - Agent
+  - Agents
 operationId: update-agent-in-account
 summary: Update Agent in Account
 description: Update an Agent in Account

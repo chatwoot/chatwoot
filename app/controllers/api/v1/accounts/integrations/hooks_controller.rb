@@ -1,5 +1,5 @@
 class Api::V1::Accounts::Integrations::HooksController < Api::V1::Accounts::BaseController
-  before_action :fetch_hook, only: [:update, :destroy]
+  before_action :fetch_hook, except: [:create]
   before_action :check_authorization
 
   def create
@@ -10,8 +10,12 @@ class Api::V1::Accounts::Integrations::HooksController < Api::V1::Accounts::Base
     @hook.update!(permitted_params.slice(:status, :settings))
   end
 
+  def process_event
+    render json: { message: @hook.process_event(params[:event]) }
+  end
+
   def destroy
-    @hook.destroy
+    @hook.destroy!
     head :ok
   end
 

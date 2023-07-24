@@ -36,4 +36,18 @@ describe('#getters', () => {
       isUpdating: false,
     });
   });
+  it('getAppliedContactFilters', () => {
+    const filters = [
+      {
+        attribute_key: 'email',
+        filter_operator: 'contains',
+        values: 'a',
+        query_operator: null,
+      },
+    ];
+    const state = {
+      appliedFilters: filters,
+    };
+    expect(getters.getAppliedContactFilters(state)).toEqual(filters);
+  });
 });

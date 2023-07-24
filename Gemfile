@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
 
-ruby '3.0.2'
+ruby '3.2.2'
 
 ##-- base gems for rails --##
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails'
+gem 'rails', '~> 7.0.5.1'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
@@ -36,11 +36,17 @@ gem 'json_schemer'
 # Rack middleware for blocking & throttling abusive requests
 gem 'rack-attack'
 # a utility tool for streaming, flexible and safe downloading of remote files
-gem 'down', '~> 5.0'
+gem 'down'
+# authentication type to fetch and send mail over oauth2.0
+gem 'gmail_xoauth'
+# Prevent CSV injection
+gem 'csv-safe'
 
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false
-gem 'azure-storage-blob', require: false
+# original gem isn't maintained actively
+# we wanted updated version of faraday which is a dependency for slack-ruby-client
+gem 'azure-storage-blob', git: 'https://github.com/chatwoot/azure-storage-ruby', branch: 'chatwoot', require: false
 gem 'google-cloud-storage', require: false
 gem 'image_processing'
 
@@ -56,50 +62,55 @@ gem 'activerecord-import'
 gem 'dotenv-rails'
 gem 'foreman'
 gem 'puma'
-gem 'webpacker', '~> 5.x'
+gem 'webpacker'
 # metrics on heroku
 gem 'barnes'
 
 ##--- gems for authentication & authorization ---##
 gem 'devise'
-gem 'devise-secure_password', '~> 2.0', git: 'https://github.com/chatwoot/devise-secure_password'
+gem 'devise-secure_password', git: 'https://github.com/chatwoot/devise-secure_password', branch: 'chatwoot'
 gem 'devise_token_auth'
 # authorization
 gem 'jwt'
 gem 'pundit'
 # super admin
-gem 'administrate'
+gem 'administrate', '>= 0.19.0'
+gem 'administrate-field-active_storage'
 
 ##--- gems for pubsub service ---##
 # https://karolgalanciak.com/blog/2019/11/30/from-activerecord-callbacks-to-publish-slash-subscribe-pattern-and-event-driven-design/
 gem 'wisper', '2.0.0'
 
 ##--- gems for channels ---##
-# TODO: bump up gem to 2.0
 gem 'facebook-messenger'
 gem 'line-bot-api'
-gem 'twilio-ruby', '~> 5.32.0'
+gem 'twilio-ruby', '~> 5.66'
 # twitty will handle subscription of twitter account events
 # gem 'twitty', git: 'https://github.com/chatwoot/twitty'
-gem 'twitty'
+gem 'twitty', '~> 0.1.5'
 # facebook client
 gem 'koala'
 # slack client
-gem 'slack-ruby-client'
+gem 'slack-ruby-client', '~> 2.0.0'
 # for dialogflow integrations
-gem 'google-cloud-dialogflow'
-
-##--- gems for debugging and error reporting ---##
-# static analysis
-gem 'brakeman'
+gem 'google-cloud-dialogflow-v2'
+gem 'grpc'
+# Translate integrations
+# 'google-cloud-translate' gem depends on faraday 2.0 version
+# this dependency breaks the slack-ruby-client gem
+gem 'google-cloud-translate-v3'
 
 ##-- apm and error monitoring ---#
-gem 'ddtrace'
-gem 'newrelic_rpm'
-gem 'scout_apm'
-gem 'sentry-rails'
-gem 'sentry-ruby'
-gem 'sentry-sidekiq'
+# loaded only when environment variables are set.
+# ref application.rb
+gem 'ddtrace', require: false
+gem 'elastic-apm', require: false
+gem 'newrelic_rpm', require: false
+gem 'newrelic-sidekiq-metrics', require: false
+gem 'scout_apm', require: false
+gem 'sentry-rails', '>= 5.10.0', require: false
+gem 'sentry-ruby', require: false
+gem 'sentry-sidekiq', '>= 5.10.0', require: false
 
 ##-- background job processing --##
 gem 'sidekiq'
@@ -108,7 +119,7 @@ gem 'sidekiq-cron'
 
 ##-- Push notification service --##
 gem 'fcm'
-gem 'webpush'
+gem 'web-push'
 
 ##-- geocoding / parse location from ip --##
 # http://www.rubygeocoder.com/
@@ -121,7 +132,53 @@ gem 'hairtrigger'
 
 gem 'procore-sift'
 
-group :production, :staging do
+# parse email
+gem 'email_reply_trimmer'
+
+# TODO: we might have to fork this gem since 0.3.1 has hard depency on nokogir 1.10.
+# and this gem hasn't been updated for a while.
+gem 'html2text', git: 'https://github.com/chatwoot/html2text_ruby', branch: 'chatwoot'
+
+# to calculate working hours
+gem 'working_hours'
+
+# full text search for articles
+gem 'pg_search'
+
+# Subscriptions, Billing
+gem 'stripe'
+
+## - helper gems --##
+## to populate db with sample data
+gem 'faker'
+
+# Include logrange conditionally in intializer using env variable
+gem 'lograge', '~> 0.12.0', require: false
+
+# worked with microsoft refresh token
+gem 'omniauth-oauth2'
+
+gem 'audited', '~> 5.3'
+
+# need for google auth
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-rails_csrf_protection', '~> 1.0'
+
+## Gems for reponse bot
+# adds cosine similarity to postgres using vector extension
+gem 'neighbor'
+gem 'pgvector'
+# Convert Website HTML to Markdown
+gem 'reverse_markdown'
+
+# Sentiment analysis
+gem 'informers'
+
+### Gems required only in specific deployment environments ###
+##############################################################
+
+group :production do
   # we dont want request timing out in development while using byebug
   gem 'rack-timeout'
 end
@@ -130,6 +187,7 @@ group :development do
   gem 'annotate'
   gem 'bullet'
   gem 'letter_opener'
+  gem 'scss_lint', require: false
   gem 'web-console'
 
   # used in swagger build
@@ -137,33 +195,38 @@ group :development do
 
   # When we want to squash migrations
   gem 'squasher'
+
+  # profiling
+  gem 'rack-mini-profiler', require: false
+  gem 'stackprof'
 end
 
 group :test do
   # Cypress in rails.
-  gem 'cypress-on-rails', '~> 1.0'
+  gem 'cypress-on-rails'
   # fast cleaning of database
   gem 'database_cleaner'
   # mock http calls
   gem 'webmock'
+  # test profiling
+  gem 'test-prof'
 end
 
 group :development, :test do
-  # TODO: is this needed ?
-  # errors thrown by devise password gem
-  gem 'flay'
-  gem 'rspec'
-  # for error thrown by devise password gem
   gem 'active_record_query_trace'
+  ##--- gems for debugging and error reporting ---##
+  # static analysis
+  gem 'brakeman'
   gem 'bundle-audit', require: false
   gem 'byebug', platform: :mri
   gem 'climate_control'
+  gem 'debug', '~> 1.8'
   gem 'factory_bot_rails'
-  gem 'faker'
   gem 'listen'
   gem 'mock_redis'
   gem 'pry-rails'
-  gem 'rspec-rails', '~> 5.0.0'
+  gem 'rspec_junit_formatter'
+  gem 'rspec-rails'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false

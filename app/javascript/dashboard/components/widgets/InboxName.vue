@@ -1,8 +1,14 @@
 <template>
-  <span class="inbox--name">
-    <i :class="computedInboxClass" />
+  <div
+    class="inbox--name inline-flex items-center py-0.5 px-0 leading-3 font-medium bg-none text-slate-600 dark:text-slate-500 text-xs my-0 mx-2.5"
+  >
+    <fluent-icon
+      class="mr-0.5 rtl:ml-0.5 rtl:mr-0"
+      :icon="computedInboxClass"
+      size="12"
+    />
     {{ inbox.name }}
-  </span>
+  </div>
 </template>
 <script>
 import { getInboxClassByType } from 'dashboard/helper/inbox';
@@ -23,13 +29,3 @@ export default {
   },
 };
 </script>
-<style scoped>
-.inbox--name {
-  padding: var(--space-micro) 0;
-  line-height: var(--space-slab);
-  font-weight: var(--font-weight-medium);
-  background: none;
-  color: var(--s-500);
-  font-size: var(--font-size-mini);
-}
-</style>

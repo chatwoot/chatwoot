@@ -3,9 +3,11 @@
     "NOT_AVAILABLE": "Ikke tilgjengelig",
     "EMAIL_ADDRESS": "E-postadresse",
     "PHONE_NUMBER": "Telefonnummer",
+    "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "Kopiert til utklippstavle",
     "COMPANY": "Firma",
     "LOCATION": "Plassering",
+    "BROWSER_LANGUAGE": "Browser Language",
     "CONVERSATION_TITLE": "Samtaledetaljer",
     "VIEW_PROFILE": "View Profile",
     "BROWSER": "Nettleser",
@@ -13,6 +15,7 @@
     "INITIATED_FROM": "Startet fra",
     "INITIATED_AT": "Started",
     "IP_ADDRESS": "IP Adresse",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "New message",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Det er ingen tidligere samtaler knyttet til denne kontakten.",
@@ -30,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Add Labels",
         "PLACEHOLDER": "Search labels",
-        "NO_RESULT": "No labels found"
+        "NO_RESULT": "No labels found",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Merge contact",
@@ -70,6 +74,21 @@
     "SUCCESS_MESSAGE": "Contacts saved successfully",
     "ERROR_MESSAGE": "Det oppstod en feil. Prøv igjen"
   },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "Det oppstod en feil. Prøv igjen"
+  },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "Bekreft sletting",
+      "MESSAGE": "Are you want sure to delete this note?",
+      "YES": "Yes, Delete it",
+      "NO": "Nei, behold den"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Delete Contact",
     "TITLE": "Delete contact",
@@ -77,9 +96,8 @@
     "CONFIRM": {
       "TITLE": "Bekreft sletting",
       "MESSAGE": "Er du sikker på at du vil slette ",
-      "PLACE_HOLDER": "Please type {contactName} to confirm",
-      "YES": "Ja, slett ",
-      "NO": "Nei, behold "
+      "YES": "Ja, slett",
+      "NO": "Nei, behold"
     },
     "API": {
       "SUCCESS_MESSAGE": "Contact deleted successfully",
@@ -103,13 +121,17 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Skriv inn e-postadressen til kontakten",
-        "LABEL": "E-postadresse"
+        "LABEL": "E-postadresse",
+        "DUPLICATE": "Denne e-postadressen er allerede i bruk av en annen kontakt.",
+        "ERROR": "Vennligst skriv inn en gyldig e-postadresse."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Skriv inn telefonnummeret til kontakten",
         "LABEL": "Telefonnummer",
         "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format"
+        "ERROR": "Phone number should be either empty or of E.164 format",
+        "DIAL_CODE_ERROR": "Please select a dial code from the list",
+        "DUPLICATE": "This phone number is in use for another contact."
       },
       "LOCATION": {
         "PLACEHOLDER": "Angi plasseringen til kontakten",
@@ -118,6 +140,17 @@
       "COMPANY_NAME": {
         "PLACEHOLDER": "Skriv inn firmanavn",
         "LABEL": "Firmaets navn"
+      },
+      "COUNTRY": {
+        "PLACEHOLDER": "Enter the country name",
+        "LABEL": "Country Name",
+        "SELECT_PLACEHOLDER": "Select",
+        "REMOVE": "Fjern",
+        "SELECT_COUNTRY": "Select Country"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Enter the city name",
+        "LABEL": "City Name"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -138,8 +171,13 @@
         }
       }
     },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+      }
+    },
     "SUCCESS_MESSAGE": "Contact saved successfully",
-    "CONTACT_ALREADY_EXIST": "Denne e-postadressen er allerede i bruk av en annen kontakt.",
     "ERROR_MESSAGE": "Det oppstod en feil. Prøv igjen"
   },
   "NEW_CONVERSATION": {
@@ -153,6 +191,7 @@
       },
       "INBOX": {
         "LABEL": "Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Select an inbox"
       },
       "SUBJECT": {
@@ -161,13 +200,14 @@
         "ERROR": "Subject can't be empty"
       },
       "MESSAGE": {
-        "LABEL": "Message",
+        "LABEL": "Melding",
         "PLACEHOLDER": "Write your message here",
         "ERROR": "Message can't be empty"
       },
       "SUBMIT": "Send message",
       "CANCEL": "Avbryt",
       "SUCCESS_MESSAGE": "Message sent!",
+      "GO_TO_CONVERSATION": "Vis",
       "ERROR_MESSAGE": "Couldn't send! try again"
     }
   },
@@ -176,6 +216,10 @@
     "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "Søk",
     "SEARCH_INPUT_PLACEHOLDER": "Søk etter kontakter",
+    "FILTER_CONTACTS": "Filter",
+    "FILTER_CONTACTS_SAVE": "Save filter",
+    "FILTER_CONTACTS_DELETE": "Delete filter",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "Laster inn kontakter...",
       "404": "Ingen kontakter samsvarer med søket ditt 🔍",
@@ -185,6 +229,7 @@
         "PHONE_NUMBER": "Telefonnummer",
         "CONVERSATIONS": "Samtaler",
         "LAST_ACTIVITY": "Last Activity",
+        "CREATED_AT": "Created At",
         "COUNTRY": "Country",
         "CITY": "City",
         "SOCIAL_PROFILES": "Social Profiles",
@@ -279,6 +324,13 @@
         "TITLE": "Add attributes",
         "PLACEHOLDER": "Search attributes",
         "NO_RESULT": "No attributes found"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Select value",
+          "SEARCH_INPUT_PLACEHOLDER": "Search value",
+          "NO_RESULT": "No result found"
+        }
       }
     },
     "VALIDATIONS": {

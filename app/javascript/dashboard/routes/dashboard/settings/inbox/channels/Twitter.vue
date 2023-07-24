@@ -1,9 +1,9 @@
 <template>
-  <div class="wizard-body columns content-box small-9">
-    <div class="login-init full-height text-center">
+  <div class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%]">
+    <div class="login-init h-full text-center">
       <form @submit.prevent="requestAuthorization">
         <woot-submit-button
-          icon-class="ion-social-twitter"
+          icon="brand-twitter"
           button-text="Sign in with Twitter"
           type="submit"
           :loading="isRequestingAuthorization"

@@ -19,7 +19,7 @@ RSpec.describe '/api/v1/widget/inbox_members', type: :request do
         get '/api/v1/widget/inbox_members', params: params
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['payload'].length).to eq 2
       end
     end

@@ -21,27 +21,82 @@ ar:
   messages:
     reset_password_success: تم إرسال طلب إعادة تعيين كلمة المرور. يرجى مراجعة بريدك الإلكتروني للحصول على التعليمات.
     reset_password_failure: أوه! لم نتمكن من العثور على أي مستخدم بعنوان البريد الإلكتروني المحدد.
+    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
+    validations:
+      presence: يجب ألا يكون فارغاً
+    webhook:
+      invalid: أحداث غير صالحة
     signup:
       disposable_email: نحن لا نسمح باسخدام عناوين البريد الإلكتروني المؤقتة
       invalid_email: لقد قمت بإدخال عنوان بريد إلكتروني غير صالح
       email_already_exists: "لقد قمت بالفعل بتسجيل حساب سابقاً بالعنوان %{email}"
       failed: فشلت عملية التسجيل
+    data_import:
+      data_type:
+        invalid: نوع البيانات غير صالح
     contacts:
       import:
-        failed: File is blank
+        failed: الملف فارغ
+      export:
+        success: We will notify you once contacts export file is ready to view.
+      email:
+        invalid: إيميل غير صالح
+      phone_number:
+        invalid: يجب أن يكون بصيغة e164
+    categories:
+      locale:
+        unique: يجب أن تكون فريدة من نوعها في الفئة والبوابة
+    dyte:
+      invalid_message_type: "Invalid message type. Action not permitted"
+    inboxes:
+      imap:
+        socket_error: الرجاء التحقق من اتصال الشبكة، عنوان IMAP وحاول مرة أخرى.
+        no_response_error: الرجاء التحقق من بيانات اعتماد IMAP وحاول مرة أخرى.
+        host_unreachable_error: المضيف لا يمكن الوصول إليه، الرجاء التحقق من عنوان IMAP، منفذ IMAP وحاول مرة أخرى.
+        connection_timed_out_error: انتهت مهلة الاتصال لـ %{address}:%{port}
+        connection_closed_error: تم إغلاق الاتصال.
+      validations:
+        name: لا ينبغي أن تبدأ أو تنتهي بالرموز، ولا ينبغي أن يكون أقل من > / \ أحرف @ .
+    custom_filters:
+      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
   reports:
     period: فترة التبليغ %{since} إلى %{until}
+    utc_warning: The report generated is in UTC timezone
     agent_csv:
-      agent_name: Agent name
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      agent_name: اسم الموظف
+      conversations_count: عدد المحادثات
+      avg_first_response_time: متوسط وقت الرد الأول (الدقائق)
+      avg_resolution_time: متوسط وقت المحادثة (الدقائق)
+    inbox_csv:
+      inbox_name: اسم صندوق الوارد
+      inbox_type: نوع صندوق البريد
+      conversations_count: عدد المحادثات
+      avg_first_response_time: متوسط وقت الرد الأول (الدقائق)
+      avg_resolution_time: متوسط وقت المحادثة (الدقائق)
+    label_csv:
+      label_title: الوسم
+      conversations_count: عدد المحادثات
+      avg_first_response_time: متوسط وقت الرد الأول (الدقائق)
+      avg_resolution_time: متوسط وقت المحادثة (الدقائق)
     team_csv:
       team_name: اسم الفريق
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      conversations_count: عدد المحادثات
+      avg_first_response_time: متوسط وقت الرد الأول (الدقائق)
+      avg_resolution_time: متوسط وقت المحادثة (الدقائق)
+    conversation_traffic_csv:
+      timezone: Timezone
+    default_group_by: اليوم
+    csat:
+      headers:
+        contact_name: اسم جهة الاتصال
+        contact_email_address: عنوان البريد الإلكتروني الخاص بجهة الاتصال
+        contact_phone_number: رقم هاتف جهة الاتصال
+        link_to_the_conversation: رابط إلى المحادثة
+        agent_name: اسم الموظف
+        rating: التقييم
+        feedback: التعليق على الملاحظات
+        recorded_at: تاريخ التسجيل
   notifications:
     notification_title:
       conversation_creation: "[محادثة جديدة] - #%{display_id} تم إنشاؤها في %{inbox_name}"
@@ -50,14 +105,22 @@ ar:
       conversation_mention: "تمت الإشارة إليك في المحادثة [ID - %{display_id}] من قبل %{name}"
   conversations:
     messages:
+      instagram_story_content: "أشار %{story_sender} إليك في القصة: "
+      instagram_deleted_story_content: هذه القصة لم تعد متاحة.
       deleted: تم حذف هذه الرسالة
     activity:
       status:
         resolved: "تم تحديث حالة المحادثة لـ\"مغلقة\" بواسطة %{user_name}"
+        contact_resolved: "تم حل المحادثة بواسطة %{contact_name}"
         open: "تم إعادة فتح المحادثة بواسطة %{user_name}"
-        pending: "Conversation was marked as pending by %{user_name}"
-        snoozed: "Conversation was snoozed by %{user_name}"
+        pending: "تم تحديث حالة المحادثة لـ\"معلقة\" بواسطة %{user_name}"
+        snoozed: "تم تأجيل المحادثة بواسطة %{user_name}"
         auto_resolved: "تم وضع علامة على المحادثة كمحلولة من قبل بالنظام بسبب %{duration} أيام من عدم النشاط"
+        system_auto_open: System reopened the conversation due to a new incoming message.
+      priority:
+        added: '%{user_name} set the priority to %{new_priority}'
+        updated: '%{user_name} changed the priority from %{old_priority} to %{new_priority}'
+        removed: '%{user_name} removed the priority'
       assignee:
         self_assigned: "%{user_name} تم تعيينه تلقائياً لهذه المحادثة"
         assigned: "تم إسنادها إلى %{assignee_name} بواسطة %{user_name}"
@@ -75,16 +138,28 @@ ar:
       greeting_message_body: "%{account_name} يرد عادة خلال بضع ساعات."
       ways_to_reach_you_message_body: "زودنا بوسيلة للتواصل معك."
       email_input_box_message_body: "احصل على الإشعارات في البريد الإلكتروني"
-      csat_input_message_body: "Please rate the conversation"
+      csat_input_message_body: "الرجاء تقييم المحادثة"
     reply:
+      email:
+        header:
+          from_with_name: "%{assignee_name} من %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} من %{inbox_name} <%{reply_email}>"
+      channel_email:
+        header:
+          reply_with_name: "%{assignee_name} من %{inbox_name} <%{from_email}>"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "رسائل جديدة في هذه المحادثة"
       transcript_subject: "نص المحادثة"
     survey:
-      response: "Please rate this conversation, %{link}"
+      response: "الرجاء تقييم هذه المحادثة، %{link}"
   contacts:
     online:
-      delete: "%{contact_name} is Online, please try again later"
+      delete: "%{contact_name} متصل، يرجى المحاولة مرة أخرى لاحقاً"
   integration_apps:
+    dyte:
+      name: "Dyte"
+      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
+      meeting_name: "%{agent_name} has started a meeting"
     slack:
       name: "Slack"
       description: "Slack هي أداة دردشة تجمع كل اتصالاتك معا في مكان واحد. من خلال دمج Slack، يمكنك الحصول على إشعار بجميع المحادثات الجديدة في حسابك مباشرة داخل Slack."
@@ -93,7 +168,33 @@ ar:
       description: "أحداث Webhook توفر لك معلومات في الوقت الحقيقي حول ما يحدث في حساب Chatwoot الخاص بك. يمكنك استخدام خاصية الـ Webhook لإيصال الأحداث إلى تطبيقاتك المفضلة مثل Slack أو Github. انقر على \"تهيئة\" لإعداد الـ Webhooks الخاصة بك."
     dialogflow:
       name: "Dialogflow"
-      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
+      description: "قم ببناء روبوتات الدردشة باستخدام تدفق الاتصال وتوصيلها بالبريد الوارد الخاص بك بسرعة. دع البوتات تتعامل مع الاستفسارات قبل تسليمها إلى وكيل خدمة العملاء."
     fullcontact:
-      name: "Fullcontact"
-      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
+      name: "الاتصال الكامل"
+      description: "التكامل الكامل يساعد على إثراء ملفات تعريف الزوار. تحديد المستخدمين بمجرد مشاركتهم عنوان البريد الإلكتروني الخاص بهم وتقديم خدمة العملاء الخاصة بهم. قم بتوصيل اتصالك الكامل بحسابك عن طريق مشاركة مفتاح API للاتصال الكامل."
+    google_translate:
+      name: "Google Translate"
+      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
+    openai:
+      name: "OpenAI"
+      description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
+  public_portal:
+    search:
+      search_placeholder: Search for article by title or body...
+      empty_placeholder: لم يتم العثور على النتائج.
+      loading_placeholder: يبحث...
+      results_title: Search results
+    toc_header: 'On this page'
+    hero:
+      sub_title: Search for the articles here or browse the categories below.
+    common:
+      home: الرئيسية
+      last_updated_on: Last updated on %{last_updated_on}
+      view_all_articles: View all articles
+      article: article
+      articles: المقالات
+      no_articles: There are no articles here
+    footer:
+      made_with: Made with
+    header:
+      go_to_homepage: Go to the main site

@@ -2,7 +2,6 @@ class MessageTemplates::HookExecutionService
   pattr_initialize [:message!]
 
   def perform
-    return if inbox.agent_bot_inbox&.active?
     return if conversation.campaign.present?
 
     trigger_templates
@@ -46,7 +45,7 @@ class MessageTemplates::HookExecutionService
 
   # TODO: we should be able to reduce this logic once we have a toggle for email collect messages
   def should_send_email_collect?
-    !contact_has_email? && inbox.web_widget? && !inbox.channel.pre_chat_form_enabled? && !email_collect_was_sent?
+    !contact_has_email? && inbox.web_widget? && !email_collect_was_sent?
   end
 
   def contact_has_email?
@@ -71,3 +70,4 @@ class MessageTemplates::HookExecutionService
     true
   end
 end
+MessageTemplates::HookExecutionService.prepend_mod_with('MessageTemplates::HookExecutionService')

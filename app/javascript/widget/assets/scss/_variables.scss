@@ -26,6 +26,9 @@ $space-big: 4rem;
 $space-jumbo: 5rem;
 $space-mega: 6.25rem;
 
+$border-radius-small: 0.1875rem;
+$border-radius-normal: 0.3125rem;
+
 // font-weight
 $font-weight-feather: 100;
 $font-weight-light: 300;
@@ -65,8 +68,8 @@ $spinkit-size: 1.6rem !default;
 $woot-snackbar-bg: #323232;
 $woot-snackbar-button: #ffeb3b;
 
-$swift-ease-out-duration: .4s !default;
-$swift-ease-out-timing-function: cubic-bezier(.25, .8, .25, 1) !default;
+$swift-ease-out-duration: 0.4s !default;
+$swift-ease-out-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1) !default;
 $swift-ease-out: all $swift-ease-out-duration $swift-ease-out-timing-function !default;
 
 $border-radius: 0.1875px;
@@ -78,16 +81,12 @@ $font-family: 'Inter',
 -apple-system,
 system-ui,
 BlinkMacSystemFont,
-"Segoe UI",
+'Segoe UI',
 Roboto,
-"Helvetica Neue",
+'Helvetica Neue',
 Tahoma,
 Arial,
 sans-serif;
 
 // Break points
 $break-point-medium: 667px;
-
-// Timing functions
-
-$ease-in-cubic: cubic-bezier(.17, .67, .83, .67);

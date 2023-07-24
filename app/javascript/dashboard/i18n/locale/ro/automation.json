@@ -1,0 +1,118 @@
+{
+  "AUTOMATION": {
+    "HEADER": "Automatizari",
+    "HEADER_BTN_TXT": "Adaugă Regulă de Automatizare",
+    "LOADING": "Preluarea regulilor de automatizare",
+    "SIDEBAR_TXT": "<p><b>Reguli de automatizare</b> <p>Automatizarea poate înlocui și automatiza procesele existente care necesită efort manual. Puteți face multe lucruri cu automatizarea, inclusiv adăugarea de etichete și atribuirea conversației celui mai bun agent. Astfel, echipa se concentrează pe ceea ce face cel mai bine și petrece mai mult timp pe sarcini manuale.</p>",
+    "ADD": {
+      "TITLE": "Adaugă Regulă de Automatizare",
+      "SUBMIT": "Creeaza",
+      "CANCEL_BUTTON_TEXT": "Renunță",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nume Regulă",
+          "PLACEHOLDER": "Introduceți numele regulii",
+          "ERROR": "Numele este obligatoriu"
+        },
+        "DESC": {
+          "LABEL": "Descriere",
+          "PLACEHOLDER": "Introduceți descrierea regulii",
+          "ERROR": "Descrierea este obligatorie"
+        },
+        "EVENT": {
+          "LABEL": "Eveniment",
+          "PLACEHOLDER": "Vă rugăm să selectaţi un tip",
+          "ERROR": "Evenimentul este necesar"
+        },
+        "CONDITIONS": {
+          "LABEL": "Condiții"
+        },
+        "ACTIONS": {
+          "LABEL": "Actiuni"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Adauga condiţie",
+      "ACTION_BUTTON_LABEL": "Adăugare acțiune",
+      "API": {
+        "SUCCESS_MESSAGE": "Regulă de automatizare adăugată cu succes",
+        "ERROR_MESSAGE": "Nu s-a putut crea o regulă de automatizare, Încercați din nou mai târziu"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Nume",
+        "Descriere",
+        "Activ",
+        "Creat in"
+      ],
+      "404": "Nu s-au găsit reguli de automatizare"
+    },
+    "DELETE": {
+      "TITLE": "Ștergeți regula de automatizare",
+      "SUBMIT": "Şterge",
+      "CANCEL_BUTTON_TEXT": "Renunță",
+      "CONFIRM": {
+        "TITLE": "Confirmă ștergerea",
+        "MESSAGE": "Sigur doriți să ștergeți ",
+        "YES": "Da, șterge ",
+        "NO": "Nu, păstreaza "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Regula de automatizare ștearsă cu succes",
+        "ERROR_MESSAGE": "Nu a putut șterge o regulă de automatizare, Încercați din nou mai târziu"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Editarea regulii de automatizare",
+      "SUBMIT": "Actualizare",
+      "CANCEL_BUTTON_TEXT": "Renunță",
+      "API": {
+        "SUCCESS_MESSAGE": "Regula de automatizare actualizată cu succes",
+        "ERROR_MESSAGE": "Nu s-a putut actualiza regula de automatizare, Încercați din nou mai târziu"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "Clonare",
+      "API": {
+        "SUCCESS_MESSAGE": "Automatizare clonată cu succes",
+        "ERROR_MESSAGE": "Nu s-a putut clona regula de automatizare, Încercați din nou mai târziu"
+      }
+    },
+    "FORM": {
+      "EDIT": "Editare",
+      "CREATE": "Creeaza",
+      "DELETE": "Şterge",
+      "CANCEL": "Renunță",
+      "RESET_MESSAGE": "Modificarea tipului de eveniment va reseta condițiile și evenimentele pe care le-ați adăugat mai jos"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "Trebuie să aveți atleast o condiție pentru a salva",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Atribute de contact personalizate",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Atribute personalizate pentru conversație"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "Trebuie să aveți atleast o acțiune pentru a salva",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Introduceți mesajul aici",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Selectați echipe"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Activați regula de automatizare",
+      "DEACTIVATION_TITLE": "Dezactivați regula de automatizare",
+      "ACTIVATION_DESCRIPTION": "Această acțiune va activa regula de automatizare \"{automationName}\". Sunteți sigur că doriți să continuați?",
+      "DEACTIVATION_DESCRIPTION": "Această acțiune va dezactiva regula de automatizare \"{automationName}\". Sunteți sigur că doriți să continuați?",
+      "ACTIVATION_SUCCESFUL": "Regulă de automatizare activată cu succes",
+      "DEACTIVATION_SUCCESFUL": "Regula de automatizare dezactivată cu succes",
+      "ACTIVATION_ERROR": "Nu s-a putut activa automatizarea, încercați din nou mai târziu",
+      "DEACTIVATION_ERROR": "Nu s-a putut dezactiva automatizarea, încercați din nou mai târziu",
+      "CONFIRMATION_LABEL": "Da",
+      "CANCEL_LABEL": "Nu"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Nu s-a putut încărca atașamentul, încercați din nou",
+      "LABEL_IDLE": "Fişier ataşat",
+      "LABEL_UPLOADING": "Încărcare...",
+      "LABEL_UPLOADED": "Încărcare reușită",
+      "LABEL_UPLOAD_FAILED": "Încărcare eșuată"
+    }
+  }
+}

@@ -11,7 +11,7 @@
         <div class="date-wrap">
           <span class="fw-medium"> {{ noteAuthorName }} </span>
           <span> {{ $t('NOTES.LIST.LABEL') }} </span>
-          <span class="fw-medium"> {{ readableTime }} </span>
+          <span class="fw-medium time-stamp"> {{ readableTime }} </span>
         </div>
       </div>
       <div class="actions">
@@ -19,13 +19,23 @@
           v-tooltip="$t('NOTES.CONTENT_HEADER.DELETE')"
           variant="smooth"
           size="tiny"
-          icon="ion-trash-b"
+          icon="delete"
           color-scheme="secondary"
-          @click="onDelete"
+          @click="toggleDeleteModal"
         />
       </div>
+      <woot-delete-modal
+        v-if="showDeleteModal"
+        :show.sync="showDeleteModal"
+        :on-close="closeDelete"
+        :on-confirm="confirmDeletion"
+        :title="$t('DELETE_NOTE.CONFIRM.TITLE')"
+        :message="$t('DELETE_NOTE.CONFIRM.MESSAGE')"
+        :confirm-text="$t('DELETE_NOTE.CONFIRM.YES')"
+        :reject-text="$t('DELETE_NOTE.CONFIRM.NO')"
+      />
     </div>
-    <p class="note__content" v-html="formatMessage(note || '')" />
+    <p v-dompurify-html="formatMessage(note || '')" class="note__content" />
   </div>
 </template>
 
@@ -59,7 +69,11 @@ export default {
       default: 0,
     },
   },
-
+  data() {
+    return {
+      showDeleteModal: false,
+    };
+  },
   computed: {
     readableTime() {
       return this.dynamicTime(this.createdAt);
@@ -73,14 +87,35 @@ export default {
   },
 
   methods: {
+    toggleDeleteModal() {
+      this.showDeleteModal = !this.showDeleteModal;
+    },
     onDelete() {
       this.$emit('delete', this.id);
+    },
+    confirmDeletion() {
+      this.onDelete();
+      this.closeDelete();
+    },
+    closeDelete() {
+      this.showDeleteModal = false;
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+// For RTL direction view
+.app-rtl--wrapper {
+  .note__content {
+    ::v-deep {
+      p {
+        unicode-bidi: plaintext;
+      }
+    }
+  }
+}
+
 .note__content {
   margin-top: var(--space-normal);
 }
@@ -96,7 +131,7 @@ export default {
     align-items: center;
 
     .date-wrap {
-      margin-left: var(--space-smaller);
+      margin: 0 var(--space-smaller);
       padding: var(--space-micro);
       color: var(--color-body);
     }

@@ -6,7 +6,7 @@ RSpec.describe 'Public Survey Responses API', type: :request do
       conversation = create(:conversation)
       create(:message, conversation: conversation, content_type: 'input_csat')
       get "/public/api/v1/csat_survey/#{conversation.uuid}"
-      data = JSON.parse(response.body)
+      data = response.parsed_body
       expect(response).to have_http_status(:success)
       expect(data['conversation_id']).to eq conversation.id
     end
@@ -30,7 +30,7 @@ RSpec.describe 'Public Survey Responses API', type: :request do
             params: params,
             as: :json
       expect(response).to have_http_status(:success)
-      data = JSON.parse(response.body)
+      data = response.parsed_body
       expect(data['conversation_id']).to eq conversation.id
       expect(data['csat_survey_response']['conversation_id']).to eq conversation.id
       expect(data['csat_survey_response']['feedback_message']).to eq 'amazing experience'

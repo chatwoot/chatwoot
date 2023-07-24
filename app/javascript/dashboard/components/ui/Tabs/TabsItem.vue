@@ -7,15 +7,15 @@
   >
     <a @click="onTabClick">
       {{ name }}
-      <span v-if="showBadge" class="badge">
-        {{ getItemCount }}
-      </span>
+      <div v-if="showBadge" class="badge">
+        <span>
+          {{ getItemCount }}
+        </span>
+      </div>
     </a>
   </li>
 </template>
 <script>
-import TWEEN from 'tween.js';
-
 export default {
   name: 'WootTabsItem',
   props: {
@@ -41,43 +41,16 @@ export default {
     },
   },
 
-  data() {
-    return {
-      animatedNumber: 0,
-    };
-  },
-
   computed: {
     active() {
       return this.index === this.$parent.index;
     },
 
     getItemCount() {
-      return this.animatedNumber || this.count;
+      return this.count;
     },
   },
 
-  watch: {
-    count(newValue, oldValue) {
-      let animationFrame;
-      const animate = time => {
-        TWEEN.update(time);
-        animationFrame = window.requestAnimationFrame(animate);
-      };
-      const tweeningNumber = { value: oldValue };
-      new TWEEN.Tween(tweeningNumber)
-        .easing(TWEEN.Easing.Quadratic.Out)
-        .to({ value: newValue }, 500)
-        .onUpdate(() => {
-          this.animatedNumber = tweeningNumber.value.toFixed(0);
-        })
-        .onComplete(() => {
-          window.cancelAnimationFrame(animationFrame);
-        })
-        .start();
-      animationFrame = window.requestAnimationFrame(animate);
-    },
-  },
   methods: {
     onTabClick(event) {
       event.preventDefault();

@@ -1,70 +1,53 @@
 <template>
-  <div class="view-box fill-height">
-    <div
-      v-if="!currentChat.can_reply && !isAWhatsappChannel"
-      class="banner messenger-policy--banner"
-    >
-      <span>
-        {{ $t('CONVERSATION.CANNOT_REPLY') }}
-        <a
-          :href="facebookReplyPolicy"
-          rel="noopener noreferrer nofollow"
-          target="_blank"
-        >
-          {{ $t('CONVERSATION.24_HOURS_WINDOW') }}
-        </a>
-      </span>
-    </div>
-    <div
-      v-if="!currentChat.can_reply && isAWhatsappChannel"
-      class="banner messenger-policy--banner"
-    >
-      <span>
-        {{ $t('CONVERSATION.TWILIO_WHATSAPP_CAN_REPLY') }}
-        <a
-          :href="twilioWhatsAppReplyPolicy"
-          rel="noopener noreferrer nofollow"
-          target="_blank"
-        >
-          {{ $t('CONVERSATION.TWILIO_WHATSAPP_24_HOURS_WINDOW') }}
-        </a>
-      </span>
-    </div>
+  <div class="m-0 flex flex-col justify-between h-full flex-grow min-w-0">
+    <banner
+      v-if="!currentChat.can_reply"
+      color-scheme="alert"
+      :banner-message="replyWindowBannerMessage"
+      :href-link="replyWindowLink"
+      :href-link-text="replyWindowLinkText"
+    />
 
-    <div v-if="isATweet" class="banner">
-      <span v-if="!selectedTweetId">
-        {{ $t('CONVERSATION.SELECT_A_TWEET_TO_REPLY') }}
-      </span>
-      <span v-else>
-        {{ $t('CONVERSATION.REPLYING_TO') }}
-        {{ selectedTweet.content || '' }}
-      </span>
-      <button
-        v-if="selectedTweetId"
-        class="banner-close-button"
-        @click="removeTweetSelection"
-      >
-        <i v-tooltip="$t('CONVERSATION.REMOVE_SELECTION')" class="ion-close" />
-      </button>
+    <banner
+      v-if="isATweet"
+      color-scheme="gray"
+      :banner-message="tweetBannerText"
+      :has-close-button="hasSelectedTweetId"
+      @close="removeTweetSelection"
+    />
+
+    <div class="flex justify-end">
+      <woot-button
+        variant="smooth"
+        size="tiny"
+        color-scheme="secondary"
+        class="rounded-bl-calc rtl:rotate-180 rounded-tl-calc fixed top-[6.25rem] z-10 bg-white dark:bg-slate-700 border-slate-50 dark:border-slate-600 border-solid border border-r-0 box-border"
+        :icon="isRightOrLeftIcon"
+        @click="onToggleContactPanel"
+      />
     </div>
     <ul class="conversation-panel">
       <transition name="slide-up">
-        <li class="spinner--container">
+        <li class="min-h-[4rem]">
           <span v-if="shouldShowSpinner" class="spinner message" />
         </li>
       </transition>
       <message
         v-for="message in getReadMessages"
         :key="message.id"
-        class="message--read"
+        class="message--read ph-no-capture"
+        data-clarity-mask="True"
         :data="message"
         :is-a-tweet="isATweet"
+        :is-a-whatsapp-channel="isAWhatsAppChannel"
+        :has-instagram-story="hasInstagramStory"
+        :is-web-widget-inbox="isAWebWidgetInbox"
       />
-      <li v-show="getUnreadCount != 0" class="unread--toast">
-        <span class="text-uppercase">
-          {{ getUnreadCount }}
+      <li v-show="unreadMessageCount != 0" class="unread--toast">
+        <span>
+          {{ unreadMessageCount }}
           {{
-            getUnreadCount > 1
+            unreadMessageCount > 1
               ? $t('CONVERSATION.UNREAD_MESSAGES')
               : $t('CONVERSATION.UNREAD_MESSAGE')
           }}
@@ -73,9 +56,19 @@
       <message
         v-for="message in getUnReadMessages"
         :key="message.id"
-        class="message--unread"
+        class="message--unread ph-no-capture"
+        data-clarity-mask="True"
         :data="message"
         :is-a-tweet="isATweet"
+        :is-a-whatsapp-channel="isAWhatsAppChannel"
+        :has-instagram-story="hasInstagramStory"
+        :is-web-widget-inbox="isAWebWidgetInbox"
+      />
+      <conversation-label-suggestion
+        v-if="shouldShowLabelSuggestions"
+        :suggested-labels="labelSuggestions"
+        :chat-labels="currentChat.labels"
+        :conversation-id="currentChat.id"
       />
     </ul>
     <div
@@ -93,39 +86,59 @@
         </div>
       </div>
       <reply-box
-        v-on-clickaway="closePopoutReplyBox"
         :conversation-id="currentChat.id"
         :is-a-tweet="isATweet"
         :selected-tweet="selectedTweet"
-        :popout-reply-box="isPopoutReplyBox"
+        :popout-reply-box.sync="isPopoutReplyBox"
         @click="showPopoutReplyBox"
-        @scrollToMessage="scrollToBottom"
       />
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
+// components
 import ReplyBox from './ReplyBox';
 import Message from './Message';
-import conversationMixin from '../../../mixins/conversations';
-import { getTypingUsersText } from '../../../helper/commons';
-import { BUS_EVENTS } from 'shared/constants/busEvents';
-import { REPLY_POLICY } from 'shared/constants/links';
+import ConversationLabelSuggestion from './conversation/LabelSuggestion';
+import Banner from 'dashboard/components/ui/Banner.vue';
+
+// stores and apis
+import { mapGetters } from 'vuex';
+
+// mixins
+import conversationMixin, {
+  filterDuplicateSourceMessages,
+} from '../../../mixins/conversations';
 import inboxMixin from 'shared/mixins/inboxMixin';
+import configMixin from 'shared/mixins/configMixin';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import aiMixin from 'dashboard/mixins/aiMixin';
+
+// utils
+import { getTypingUsersText } from '../../../helper/commons';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 import { isEscape } from 'shared/helpers/KeyboardHelpers';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
-import { mixin as clickaway } from 'vue-clickaway';
+
+// constants
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { REPLY_POLICY } from 'shared/constants/links';
+import wootConstants from 'dashboard/constants/globals';
 
 export default {
   components: {
     Message,
     ReplyBox,
+    Banner,
+    ConversationLabelSuggestion,
   },
-  mixins: [conversationMixin, inboxMixin, eventListenerMixins, clickaway],
+  mixins: [
+    conversationMixin,
+    inboxMixin,
+    eventListenerMixins,
+    configMixin,
+    aiMixin,
+  ],
   props: {
     isContactPanelOpen: {
       type: Boolean,
@@ -139,7 +152,11 @@ export default {
       heightBeforeLoad: null,
       conversationPanel: null,
       selectedTweetId: null,
+      hasUserScrolled: false,
+      isProgrammaticScroll: false,
       isPopoutReplyBox: false,
+      messageSentSinceOpened: false,
+      labelSuggestions: [],
     };
   },
 
@@ -149,16 +166,37 @@ export default {
       allConversations: 'getAllConversations',
       inboxesList: 'inboxes/getInboxes',
       listLoadingStatus: 'getAllMessagesLoaded',
-      getUnreadCount: 'getUnreadCount',
       loadingChatList: 'getChatListLoadingStatus',
+      appIntegrations: 'integrations/getAppIntegrations',
+      currentAccountId: 'getCurrentAccountId',
     }),
+    isOpen() {
+      return this.currentChat?.status === wootConstants.STATUS_TYPE.OPEN;
+    },
+    shouldShowLabelSuggestions() {
+      return (
+        this.isOpen &&
+        this.isEnterprise &&
+        this.isAIIntegrationEnabled &&
+        !this.messageSentSinceOpened
+      );
+    },
     inboxId() {
       return this.currentChat.inbox_id;
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.inboxId);
     },
-
+    hasSelectedTweetId() {
+      return !!this.selectedTweetId;
+    },
+    tweetBannerText() {
+      return !this.selectedTweetId
+        ? this.$t('CONVERSATION.SELECT_A_TWEET_TO_REPLY')
+        : `
+          ${this.$t('CONVERSATION.REPLYING_TO')}
+          ${this.selectedTweet.content}` || '';
+    },
     typingUsersList() {
       const userList = this.$store.getters[
         'conversationTypingStatus/getUserList'
@@ -179,32 +217,31 @@ export default {
 
       return '';
     },
-
     getMessages() {
-      const [chat] = this.allConversations.filter(
-        c => c.id === this.currentChat.id
-      );
-      return chat;
+      const messages = this.currentChat.messages || [];
+      if (this.isAWhatsAppChannel) {
+        return filterDuplicateSourceMessages(messages);
+      }
+      return messages;
     },
     getReadMessages() {
-      const chat = this.getMessages;
-      return chat === undefined ? null : this.readMessages(chat);
+      return this.readMessages(
+        this.getMessages,
+        this.currentChat.agent_last_seen_at
+      );
     },
     getUnReadMessages() {
-      const chat = this.getMessages;
-      return chat === undefined ? null : this.unReadMessages(chat);
+      return this.unReadMessages(
+        this.getMessages,
+        this.currentChat.agent_last_seen_at
+      );
     },
     shouldShowSpinner() {
       return (
-        (this.getMessages && this.getMessages.dataFetched === undefined) ||
+        (this.currentChat && this.currentChat.dataFetched === undefined) ||
         (!this.listLoadingStatus && this.isLoadingPrevious)
       );
     },
-
-    shouldLoadMoreChats() {
-      return !this.listLoadingStatus && !this.isLoadingPrevious;
-    },
-
     conversationType() {
       const { additional_attributes: additionalAttributes } = this.currentChat;
       const type = additionalAttributes ? additionalAttributes.type : '';
@@ -215,9 +252,13 @@ export default {
       return this.conversationType === 'tweet';
     },
 
+    hasInstagramStory() {
+      return this.conversationType === 'instagram_direct_message';
+    },
+
     selectedTweet() {
       if (this.selectedTweetId) {
-        const { messages = [] } = this.getMessages;
+        const { messages = [] } = this.currentChat;
         const [selectedMessage] = messages.filter(
           message => message.id === this.selectedTweetId
         );
@@ -225,11 +266,53 @@ export default {
       }
       return '';
     },
-    facebookReplyPolicy() {
-      return REPLY_POLICY.FACEBOOK;
+    isRightOrLeftIcon() {
+      if (this.isContactPanelOpen) {
+        return 'arrow-chevron-right';
+      }
+      return 'arrow-chevron-left';
     },
-    twilioWhatsAppReplyPolicy() {
-      return REPLY_POLICY.TWILIO_WHATSAPP;
+    getLastSeenAt() {
+      const { contact_last_seen_at: contactLastSeenAt } = this.currentChat;
+      return contactLastSeenAt;
+    },
+
+    replyWindowBannerMessage() {
+      if (this.isAWhatsAppChannel) {
+        return this.$t('CONVERSATION.TWILIO_WHATSAPP_CAN_REPLY');
+      }
+      if (this.isAPIInbox) {
+        const { additional_attributes: additionalAttributes = {} } = this.inbox;
+        if (additionalAttributes) {
+          const {
+            agent_reply_time_window_message: agentReplyTimeWindowMessage,
+          } = additionalAttributes;
+          return agentReplyTimeWindowMessage;
+        }
+        return '';
+      }
+      return this.$t('CONVERSATION.CANNOT_REPLY');
+    },
+    replyWindowLink() {
+      if (this.isAWhatsAppChannel) {
+        return REPLY_POLICY.FACEBOOK;
+      }
+      if (!this.isAPIInbox) {
+        return REPLY_POLICY.TWILIO_WHATSAPP;
+      }
+      return '';
+    },
+    replyWindowLinkText() {
+      if (this.isAWhatsAppChannel) {
+        return this.$t('CONVERSATION.24_HOURS_WINDOW');
+      }
+      if (!this.isAPIInbox) {
+        return this.$t('CONVERSATION.TWILIO_WHATSAPP_24_HOURS_WINDOW');
+      }
+      return '';
+    },
+    unreadMessageCount() {
+      return this.currentChat.unread_count;
     },
   },
 
@@ -238,17 +321,29 @@ export default {
       if (newChat.id === oldChat.id) {
         return;
       }
+      this.fetchAllAttachmentsFromCurrentChat();
+      this.fetchSuggestions();
+      this.messageSentSinceOpened = false;
       this.selectedTweetId = null;
     },
   },
 
   created() {
     bus.$on(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
+    // when a new message comes in, we refetch the label suggestions
+    bus.$on(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS, this.fetchSuggestions);
     bus.$on(BUS_EVENTS.SET_TWEET_REPLY, this.setSelectedTweet);
+    // when a message is sent we set the flag to true this hides the label suggestions,
+    // until the chat is changed and the flag is reset in the watch for currentChat
+    bus.$on(BUS_EVENTS.MESSAGE_SENT, () => {
+      this.messageSentSinceOpened = true;
+    });
   },
 
   mounted() {
     this.addScrollListener();
+    this.fetchAllAttachmentsFromCurrentChat();
+    this.fetchSuggestions();
   },
 
   beforeDestroy() {
@@ -257,6 +352,52 @@ export default {
   },
 
   methods: {
+    async fetchSuggestions() {
+      // start empty, this ensures that the label suggestions are not shown
+      this.labelSuggestions = [];
+
+      if (this.isLabelSuggestionDismissed()) {
+        return;
+      }
+
+      if (!this.isEnterprise) {
+        return;
+      }
+
+      // method available in mixin, need to ensure that integrations are present
+      await this.fetchIntegrationsIfRequired();
+
+      if (!this.isAIIntegrationEnabled) {
+        return;
+      }
+
+      this.labelSuggestions = await this.fetchLabelSuggestions({
+        conversationId: this.currentChat.id,
+      });
+
+      // once the labels are fetched, we need to scroll to bottom
+      // but we need to wait for the DOM to be updated
+      // so we use the nextTick method
+      this.$nextTick(() => {
+        // this param is added to route, telling the UI to navigate to the message
+        // it is triggered by the SCROLL_TO_MESSAGE method
+        // see setActiveChat on ConversationView.vue for more info
+        const { messageId } = this.$route.query;
+
+        // only trigger the scroll to bottom if the user has not scrolled
+        // and there's no active messageId that is selected in view
+        if (!messageId && !this.hasUserScrolled) {
+          this.scrollToBottom();
+        }
+      });
+    },
+    isLabelSuggestionDismissed() {
+      const dismissed = this.getDismissedConversations(this.currentAccountId);
+      return dismissed[this.currentAccountId].includes(this.conversationId);
+    },
+    fetchAllAttachmentsFromCurrentChat() {
+      this.$store.dispatch('fetchAllAttachments', this.currentChat.id);
+    },
     removeBusListeners() {
       bus.$off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
       bus.$off(BUS_EVENTS.SET_TWEET_REPLY, this.setSelectedTweet);
@@ -264,8 +405,17 @@ export default {
     setSelectedTweet(tweetId) {
       this.selectedTweetId = tweetId;
     },
-    onScrollToMessage() {
-      this.$nextTick(() => this.scrollToBottom());
+    onScrollToMessage({ messageId = '' } = {}) {
+      this.$nextTick(() => {
+        const messageElement = document.getElementById('message' + messageId);
+        if (messageElement) {
+          this.isProgrammaticScroll = true;
+          messageElement.scrollIntoView({ behavior: 'smooth' });
+          this.fetchPreviousMessages();
+        } else {
+          this.scrollToBottom();
+        }
+      });
       this.makeMessagesRead();
     },
     showPopoutReplyBox() {
@@ -290,18 +440,34 @@ export default {
       this.conversationPanel.removeEventListener('scroll', this.handleScroll);
     },
     scrollToBottom() {
+      this.isProgrammaticScroll = true;
       let relevantMessages = [];
-      if (this.getUnreadCount > 0) {
+
+      // label suggestions are not part of the messages list
+      // so we need to handle them separately
+      let labelSuggestions = this.conversationPanel.querySelector(
+        '.label-suggestion'
+      );
+
+      // if there are unread messages, scroll to the first unread message
+      if (this.unreadMessageCount > 0) {
         // capturing only the unread messages
         relevantMessages = this.conversationPanel.querySelectorAll(
           '.message--unread'
         );
+      } else if (labelSuggestions) {
+        // when scrolling to the bottom, the label suggestions is below the last message
+        // so we scroll there if there are no unread messages
+        // Unread messages always take the highest priority
+        relevantMessages = [labelSuggestions];
       } else {
+        // if there are no unread messages or label suggestion, scroll to the last message
         // capturing last message from the messages list
         relevantMessages = Array.from(
           this.conversationPanel.querySelectorAll('.message--read')
         ).slice(-1);
       }
+
       this.conversationPanel.scrollTop = calculateScrollTop(
         this.conversationPanel.scrollHeight,
         this.$el.scrollHeight,
@@ -316,31 +482,47 @@ export default {
       this.scrollTopBeforeLoad = this.conversationPanel.scrollTop;
     },
 
-    handleScroll(e) {
+    async fetchPreviousMessages(scrollTop = 0) {
       this.setScrollParams();
+      const shouldLoadMoreMessages =
+        this.currentChat.dataFetched === true &&
+        !this.listLoadingStatus &&
+        !this.isLoadingPrevious;
 
-      const dataFetchCheck =
-        this.getMessages.dataFetched === true && this.shouldLoadMoreChats;
       if (
-        e.target.scrollTop < 100 &&
+        scrollTop < 100 &&
         !this.isLoadingPrevious &&
-        dataFetchCheck
+        shouldLoadMoreMessages
       ) {
         this.isLoadingPrevious = true;
-        this.$store
-          .dispatch('fetchPreviousMessages', {
+        try {
+          await this.$store.dispatch('fetchPreviousMessages', {
             conversationId: this.currentChat.id,
-            before: this.getMessages.messages[0].id,
-          })
-          .then(() => {
-            const heightDifference =
-              this.conversationPanel.scrollHeight - this.heightBeforeLoad;
-            this.conversationPanel.scrollTop =
-              this.scrollTopBeforeLoad + heightDifference;
-            this.isLoadingPrevious = false;
-            this.setScrollParams();
+            before: this.currentChat.messages[0].id,
           });
+          const heightDifference =
+            this.conversationPanel.scrollHeight - this.heightBeforeLoad;
+          this.conversationPanel.scrollTop =
+            this.scrollTopBeforeLoad + heightDifference;
+          this.setScrollParams();
+        } catch (error) {
+          // Ignore Error
+        } finally {
+          this.isLoadingPrevious = false;
+        }
       }
+    },
+
+    handleScroll(e) {
+      if (this.isProgrammaticScroll) {
+        // Reset the flag
+        this.isProgrammaticScroll = false;
+        this.hasUserScrolled = false;
+      } else {
+        this.hasUserScrolled = true;
+      }
+      bus.$emit(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL);
+      this.fetchPreviousMessages(e.target.scrollTop);
     },
 
     makeMessagesRead() {
@@ -353,73 +535,40 @@ export default {
 };
 </script>
 
+<style scoped>
+@tailwind components;
+@layer components {
+  .rounded-bl-calc {
+    border-bottom-left-radius: calc(1.5rem + 1px);
+  }
+
+  .rounded-tl-calc {
+    border-top-left-radius: calc(1.5rem + 1px);
+  }
+}
+</style>
+
 <style scoped lang="scss">
-.banner {
-  background: var(--b-500);
-  color: var(--white);
-  font-size: var(--font-size-mini);
-  padding: var(--space-slab) var(--space-normal);
-  text-align: center;
-  position: relative;
-
-  a {
-    text-decoration: underline;
-    color: var(--white);
-    font-size: var(--font-size-mini);
-  }
-
-  &.messenger-policy--banner {
-    background: var(--r-400);
-  }
-
-  .banner-close-button {
-    cursor: pointer;
-    margin-left: var(--space--two);
-    color: var(--white);
-  }
-}
-
-.spinner--container {
-  min-height: var(--space-jumbo);
-}
-
-.view-box.fill-height {
-  height: auto;
-  flex-grow: 1;
-  min-width: 0;
-}
-
 .modal-mask {
   &::v-deep {
     .ProseMirror-woot-style {
-      max-height: 40rem;
+      @apply max-h-[25rem];
     }
 
     .reply-box {
-      border: 1px solid var(--color-border);
-      max-width: 120rem;
-      width: 70%;
+      @apply border border-solid border-slate-75 dark:border-slate-600 max-w-[75rem] w-[70%];
     }
 
     .reply-box .reply-box__top {
-      position: relative;
-      min-height: 44rem;
+      @apply relative min-h-[27.5rem];
     }
 
     .reply-box__top .input {
-      min-height: 44rem;
+      @apply min-h-[27.5rem];
     }
 
     .emoji-dialog {
-      position: fixed;
-      left: unset;
-      position: absolute;
-    }
-
-    .emoji-dialog::before {
-      transform: rotate(0deg);
-      left: 5px;
-      bottom: var(--space-minus-slab);
+      @apply absolute left-auto bottom-1;
     }
   }
 }

@@ -1,11 +1,24 @@
 <template>
-  <i class="ion-android-menu hamburger--menu" @click="onMenuItemClick" />
+  <woot-button
+    :size="size"
+    variant="clear"
+    color-scheme="secondary"
+    class="-ml-3 text-black-900 dark:text-slate-300"
+    icon="list"
+    @click="onMenuItemClick"
+  />
 </template>
 
 <script>
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 export default {
+  props: {
+    size: {
+      type: String,
+      default: 'small',
+    },
+  },
   methods: {
     onMenuItemClick() {
       bus.$emit(BUS_EVENTS.TOGGLE_SIDEMENU);
@@ -13,8 +26,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.ion-android-menu {
-  font-size: var(--font-size-big);
-}
-</style>

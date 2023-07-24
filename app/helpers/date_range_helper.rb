@@ -7,7 +7,7 @@ module DateRangeHelper
   def range
     return if params[:since].blank? || params[:until].blank?
 
-    parse_date_time(params[:since])..parse_date_time(params[:until])
+    parse_date_time(params[:since])...parse_date_time(params[:until])
   end
 
   def parse_date_time(datetime)

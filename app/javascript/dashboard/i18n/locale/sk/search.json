@@ -1,0 +1,25 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "Všetko",
+      "CONTACTS": "Kontakty",
+      "CONVERSATIONS": "Rozhovory",
+      "MESSAGES": "Messages"
+    },
+    "SECTION": {
+      "CONTACTS": "Kontakty",
+      "CONVERSATIONS": "Rozhovory",
+      "MESSAGES": "Messages"
+    },
+    "EMPTY_STATE": "No %{item} found for query '%{query}'",
+    "EMPTY_STATE_FULL": "No results found for query '%{query}'",
+    "PLACEHOLDER_KEYBINDING": "/ to focus",
+    "INPUT_PLACEHOLDER": "Type 3 or more characters to search",
+    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results. ",
+    "BOT_LABEL": "Bot",
+    "READ_MORE": "Read more",
+    "WROTE": "wrote:",
+    "FROM": "od",
+    "EMAIL": "e-mail"
+  }
+}

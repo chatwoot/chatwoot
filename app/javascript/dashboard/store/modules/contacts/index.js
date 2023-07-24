@@ -17,6 +17,7 @@ const state = {
     isDeleting: false,
   },
   sortOrder: [],
+  appliedFilters: [],
 };
 
 export default {

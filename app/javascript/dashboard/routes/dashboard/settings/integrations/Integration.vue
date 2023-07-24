@@ -1,13 +1,16 @@
 <template>
-  <div class="row">
-    <div class="integration--image">
-      <img :src="'/dashboard/images/integrations/' + integrationLogo" />
+  <div class="flex">
+    <div class="flex h-[6.25rem] w-[6.25rem]">
+      <img
+        :src="'/dashboard/images/integrations/' + integrationLogo"
+        class="max-w-full p-6"
+      />
     </div>
-    <div class="column">
-      <h3 class="integration--title">
+    <div class="flex flex-col justify-center m-0 mx-4 flex-1">
+      <h3 class="text-xl text-slate-800 dark:text-slate-100">
         {{ integrationName }}
       </h3>
-      <p class="integration--description">
+      <p>
         {{
           useInstallationName(
             integrationDescription,
@@ -16,7 +19,7 @@
         }}
       </p>
     </div>
-    <div class="small-2 column button-wrap">
+    <div class="flex justify-center items-center mb-0 w-[15%]">
       <router-link
         :to="
           frontendURL(
@@ -31,7 +34,7 @@
                 :button-text="
                   $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT')
                 "
-                icon-class="ion-close-circled"
+                icon-class="dismiss-circle"
                 button-class="nice alert"
               />
             </div>
@@ -68,14 +71,17 @@ import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 export default {
   mixins: [alertMixin, globalConfigMixin],
-  props: [
-    'integrationId',
-    'integrationLogo',
-    'integrationName',
-    'integrationDescription',
-    'integrationEnabled',
-    'integrationAction',
-  ],
+  props: {
+    integrationId: {
+      type: [String, Number],
+      required: true,
+    },
+    integrationLogo: { type: String, default: '' },
+    integrationName: { type: String, default: '' },
+    integrationDescription: { type: String, default: '' },
+    integrationEnabled: { type: Boolean, default: false },
+    integrationAction: { type: String, default: '' },
+  },
   data() {
     return {
       showDeleteConfirmationPopup: false,

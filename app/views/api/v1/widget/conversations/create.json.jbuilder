@@ -7,4 +7,5 @@ json.messages do
     json.partial! 'api/v1/models/widget_message', resource: message
   end
 end
+json.custom_attributes @conversation.custom_attributes
 json.contact @conversation.contact

@@ -1,0 +1,25 @@
+{
+    "WHATSAPP_TEMPLATES": {
+        "MODAL": {
+            "TITLE": "Șabloane WhatsApp",
+            "SUBTITLE": "Selectați șablonul WhatsApp pe care doriți să trimiteți",
+            "TEMPLATE_SELECTED_SUBTITLE": "%{templateName} de proces"
+        },
+        "PICKER": {
+            "SEARCH_PLACEHOLDER": "Caută Șabloane",
+            "NO_TEMPLATES_FOUND": "Nu s-au găsit șabloane pentru",
+            "LABELS": {
+                "LANGUAGE": "Limbă",
+                "TEMPLATE_BODY": "Corpul șablonului",
+                "CATEGORY": "Categorie"
+            }
+        },
+        "PARSER": {
+            "VARIABLES_LABEL": "Variabile",
+            "VARIABLE_PLACEHOLDER": "Introducerea %{variable} valoare",
+            "GO_BACK_LABEL": "Înapoi",
+            "SEND_MESSAGE_LABEL": "Trimite mesaj",
+            "FORM_ERROR_MESSAGE": "Vă rugăm să completați toate variabilele înainte de a trimite"
+        }
+    }
+}

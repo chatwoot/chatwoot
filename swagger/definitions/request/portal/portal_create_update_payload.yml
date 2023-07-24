@@ -1,0 +1,36 @@
+type: object
+properties:
+  archived:
+    type: boolean
+    description: Status to check if portal is live
+  color:
+    type: string
+    description: Header color for help-center
+    example: add color HEX string, "#fffff"
+  config:
+    type: object
+    description: Configuration about supporting locales
+    example: { allowed_locales: ['en', 'es'], default_locale: 'en' }
+  custom_domain:
+    type: string
+    description: Custom domain to  display help center.
+    example: https://chatwoot.help/.
+  header_text:
+    type: string
+    description: Help center header
+    example: Handbook
+  homepage_link:
+    type: string
+    description: link to main dashboard
+    example: https://www.chatwoot.com/
+  name:
+    type: string
+    description: Name for the portal
+  slug:
+    type: string
+    description: Slug for the portal to display in link
+  page_title:
+    type: string
+    description: Page title for the portal
+  account_id:
+    type: integer

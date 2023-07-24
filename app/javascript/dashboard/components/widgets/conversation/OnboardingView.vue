@@ -30,7 +30,7 @@
           </p>
         </div>
         <div class="features-item">
-          <h2 class="block-title">
+          <h2 class="block-title text-black-900 dark:text-slate-200">
             <span class="emoji">💬</span>
             <span class="conversation--title">{{
               $t('ONBOARDING.ALL_CONVERSATION.TITLE')
@@ -41,8 +41,9 @@
           </p>
         </div>
         <div class="features-item">
-          <h2 class="block-title">
-            <span class="emoji">👥</span>{{ $t('ONBOARDING.TEAM_MEMBERS.TITLE') }}
+          <h2 class="block-title text-black-900 dark:text-slate-200">
+            <span class="emoji">👥</span>
+            {{ $t('ONBOARDING.TEAM_MEMBERS.TITLE') }}
           </h2>
           <p class="intro-body">
             {{ $t('ONBOARDING.TEAM_MEMBERS.DESCRIPTION') }}
@@ -52,10 +53,10 @@
           </router-link>
         </div>
         <div class="features-item">
-          <h2 class="block-title">
+          <h2 class="block-title text-black-900 dark:text-slate-200">
             <span class="emoji">📥</span>{{ $t('ONBOARDING.INBOXES.TITLE') }}
           </h2>
-          <p class="intro-body ">
+          <p class="intro-body">
             {{ $t('ONBOARDING.INBOXES.DESCRIPTION') }}
           </p>
           <router-link :to="newInboxURL" class="onboarding--link">
@@ -63,10 +64,10 @@
           </router-link>
         </div>
         <div class="features-item">
-          <h2 class="block-title">
-            <span class="emoji">🏷</span>{{ $t('ONBOARDING.LABELS.TITLE') }}
+          <h2 class="block-title text-black-900 dark:text-slate-200">
+            <span class="emoji">🔖</span>{{ $t('ONBOARDING.LABELS.TITLE') }}
           </h2>
-          <p class="intro-body ">
+          <p class="intro-body">
             {{ $t('ONBOARDING.LABELS.DESCRIPTION') }}
           </p>
           <router-link :to="newLabelsURL" class="onboarding--link">
@@ -111,7 +112,7 @@ export default {
 }
 
 .scroll-wrap {
-  padding: var(--space-larger) 13.6rem;
+  padding: var(--space-larger) 8.5rem;
   min-height: 100vh;
   display: flex;
   flex-direction: column;

@@ -13,11 +13,15 @@ module.exports = {
     '^.+\\.(js|jsx)?$': 'babel-jest',
   },
   cacheDirectory: '<rootDir>/.jest-cache',
-  collectCoverage: false,
-  coverageDirectory: 'buildreports',
-  collectCoverageFrom: ['**/app/javascript/**/*.js'],
+  collectCoverage: true,
+  coverageDirectory: 'coverage',
+  coverageReporters: ['text', 'lcov'],
+  collectCoverageFrom: [
+    '**/app/javascript/**/*.js',
+    '!**/*.stories.js',
+    '!**/i18n/locale/**/*.js',
+  ],
   reporters: ['default'],
-  // setupTestFrameworkScriptFile: './tests/setup.ts',
   transformIgnorePatterns: ['node_modules/*'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/app/javascript/$1',
@@ -32,4 +36,5 @@ module.exports = {
   testURL: 'http://localhost/',
   globalSetup: './jest.setup.js',
   testEnvironment: 'jsdom',
+  setupFiles: ['fake-indexeddb/auto'],
 };

@@ -5,6 +5,7 @@
     :no-auto-load-md-icons="true"
     hideBreadcrumbs
     :placeholder="placeholder"
+    @selected="setCommandbarData"
   />
 </template>
 
@@ -62,7 +63,7 @@ export default {
 <style>
 ninja-keys {
   --ninja-accent-color: var(--w-500);
-  --ninja-font-family: 'Inter';
+  --ninja-font-family: 'PlusJakarta';
   z-index: 9999;
 }
 </style>

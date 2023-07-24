@@ -70,7 +70,7 @@ describe('attributeMixin', () => {
         attribute_model: 'conversation_attribute',
         created_at: '2021-09-16T13:06:47.329Z',
         default_value: null,
-        icon: 'ion-calculator',
+        icon: 'fluent-calculator',
         id: 10,
         updated_at: '2021-09-22T10:42:25.873Z',
         value: 2021,
@@ -90,18 +90,6 @@ describe('attributeMixin', () => {
       wrapper.vm.attributeDisplayType('https://www.chatwoot.com/pricing')
     ).toBe('link');
     expect(wrapper.vm.attributeDisplayType(9988)).toBe('number');
-  });
-
-  it('return true if link is passed', () => {
-    const Component = {
-      render() {},
-      title: 'TestComponent',
-      mixins: [attributeMixin],
-    };
-    const wrapper = shallowMount(Component, { store, localVue });
-    expect(wrapper.vm.isAttributeLink('https://www.chatwoot.com/pricing')).toBe(
-      true
-    );
   });
 
   it('return true if number is passed', () => {

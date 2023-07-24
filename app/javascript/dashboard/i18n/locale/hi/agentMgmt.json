@@ -29,9 +29,9 @@
           "PLACEHOLDER": "Please enter a name of the agent"
         },
         "AGENT_TYPE": {
-          "LABEL": "Agent Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Agent type is required"
+          "LABEL": "Role",
+          "PLACEHOLDER": "कृपया एक भूमिका का चयन करें",
+          "ERROR": "Role is required"
         },
         "EMAIL": {
           "LABEL": "Email Address",
@@ -66,13 +66,18 @@
           "PLACEHOLDER": "Please enter a name of the agent"
         },
         "AGENT_TYPE": {
-          "LABEL": "Agent Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Agent type is required"
+          "LABEL": "Role",
+          "PLACEHOLDER": "कृपया एक भूमिका का चयन करें",
+          "ERROR": "Role is required"
         },
         "EMAIL": {
           "LABEL": "Email Address",
           "PLACEHOLDER": "Please enter an email address of the agent"
+        },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Availability",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
         },
         "SUBMIT": "Edit Agent"
       },
@@ -105,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "Search agents",
-          "TEAM": "Search teams"
+          "TEAM": "Search teams",
+          "INPUT": "Search for agents"
         }
       }
     }

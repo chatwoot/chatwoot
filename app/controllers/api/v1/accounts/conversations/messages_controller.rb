@@ -13,9 +13,27 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
 
   def destroy
     ActiveRecord::Base.transaction do
-      message.update!(content: I18n.t('conversations.messages.deleted'), deleted: true)
+      message.update!(content: I18n.t('conversations.messages.deleted'), content_attributes: { deleted: true })
       message.attachments.destroy_all
     end
+  end
+
+  def translate
+    return head :ok if already_translated_content_available?
+
+    translated_content = Integrations::GoogleTranslate::ProcessorService.new(
+      message: message,
+      target_language: permitted_params[:target_language]
+    ).perform
+
+    if translated_content.present?
+      translations = {}
+      translations[permitted_params[:target_language]] = translated_content
+      translations = message.translations.merge!(translations) if message.translations.present?
+      message.update!(translations: translations)
+    end
+
+    render json: { content: translated_content }
   end
 
   private
@@ -29,6 +47,10 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   end
 
   def permitted_params
-    params.permit(:id)
+    params.permit(:id, :target_language)
+  end
+
+  def already_translated_content_available?
+    message.translations.present? && message.translations[permitted_params[:target_language]].present?
   end
 end

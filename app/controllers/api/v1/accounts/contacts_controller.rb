@@ -12,7 +12,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   before_action :check_authorization
   before_action :set_current_page, only: [:index, :active, :search, :filter]
-  before_action :fetch_contact, only: [:show, :update, :destroy, :contactable_inboxes, :destroy_custom_attributes]
+  before_action :fetch_contact, only: [:show, :update, :destroy, :avatar, :contactable_inboxes, :destroy_custom_attributes]
   before_action :set_include_contact_inboxes, only: [:index, :search, :filter]
 
   def index
@@ -25,7 +25,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
     contacts = resolved_contacts.where(
       'name ILIKE :search OR email ILIKE :search OR phone_number ILIKE :search OR contacts.identifier LIKE :search',
-      search: "%#{params[:q]}%"
+      search: "%#{params[:q].strip}%"
     )
     @contacts_count = contacts.count
     @contacts = fetch_contacts_with_conversation_count(contacts)
@@ -40,6 +40,12 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     end
 
     head :ok
+  end
+
+  def export
+    column_names = params['column_names']
+    Account::ContactsExportJob.perform_later(Current.account.id, column_names)
+    head :ok, message: I18n.t('errors.contacts.export.success')
   end
 
   # returns online contacts
@@ -72,20 +78,17 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def create
     ActiveRecord::Base.transaction do
-      @contact = Current.account.contacts.new(contact_params)
+      @contact = Current.account.contacts.new(permitted_params.except(:avatar_url))
       @contact.save!
       @contact_inbox = build_contact_inbox
+      process_avatar
     end
   end
 
   def update
     @contact.assign_attributes(contact_update_params)
     @contact.save!
-  rescue ActiveRecord::RecordInvalid => e
-    render json: {
-      message: e.record.errors.full_messages.join(', '),
-      contact: Current.account.contacts.find_by(email: contact_params[:email])
-    }, status: :unprocessable_entity
+    process_avatar if permitted_params[:avatar].present? || permitted_params[:avatar_url].present?
   end
 
   def destroy
@@ -98,6 +101,11 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
     @contact.destroy!
     head :ok
+  end
+
+  def avatar
+    @contact.avatar.purge if @contact.avatar.attached?
+    @contact
   end
 
   private
@@ -117,11 +125,12 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def fetch_contacts_with_conversation_count(contacts)
-    contacts_with_conversation_count = filtrate(contacts).left_outer_joins(:conversations)
-                                                         .select('contacts.*, COUNT(conversations.id) as conversations_count')
-                                                         .group('contacts.id')
-                                                         .includes([{ avatar_attachment: [:blob] }])
-                                                         .page(@current_page).per(RESULTS_PER_PAGE)
+    conversation_count_sub_query = 'SELECT COUNT(*) FROM "conversations" WHERE "conversations"."contact_id" = "contacts"."id"'
+    contacts_with_conversation_count = filtrate(contacts)
+                                       .select("contacts.*, (#{conversation_count_sub_query}) as conversations_count")
+                                       .group('contacts.id')
+                                       .includes([{ avatar_attachment: [:blob] }])
+                                       .page(@current_page).per(RESULTS_PER_PAGE)
 
     return contacts_with_conversation_count.includes([{ contact_inboxes: [:inbox] }]) if @include_contact_inboxes
 
@@ -132,23 +141,26 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     return if params[:inbox_id].blank?
 
     inbox = Current.account.inboxes.find(params[:inbox_id])
-    source_id = params[:source_id] || SecureRandom.uuid
-    ContactInbox.create(contact: @contact, inbox: inbox, source_id: source_id)
+    ContactInboxBuilder.new(
+      contact: @contact,
+      inbox: inbox,
+      source_id: params[:source_id]
+    ).perform
   end
 
-  def contact_params
-    params.require(:contact).permit(:name, :identifier, :email, :phone_number, additional_attributes: {}, custom_attributes: {})
+  def permitted_params
+    params.permit(:name, :identifier, :email, :phone_number, :avatar, :avatar_url, additional_attributes: {}, custom_attributes: {})
   end
 
   def contact_custom_attributes
-    return @contact.custom_attributes.merge(contact_params[:custom_attributes]) if contact_params[:custom_attributes]
+    return @contact.custom_attributes.merge(permitted_params[:custom_attributes]) if permitted_params[:custom_attributes]
 
     @contact.custom_attributes
   end
 
   def contact_update_params
     # we want the merged custom attributes not the original one
-    contact_params.except(:custom_attributes).merge({ custom_attributes: contact_custom_attributes })
+    permitted_params.except(:custom_attributes, :avatar_url).merge({ custom_attributes: contact_custom_attributes })
   end
 
   def set_include_contact_inboxes
@@ -161,6 +173,10 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def fetch_contact
     @contact = Current.account.contacts.includes(contact_inboxes: [:inbox]).find(params[:id])
+  end
+
+  def process_avatar
+    ::Avatar::AvatarFromUrlJob.perform_later(@contact, params[:avatar_url]) if params[:avatar_url].present?
   end
 
   def render_error(error, error_status)

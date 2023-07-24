@@ -1,8 +1,9 @@
 <template>
   <div class="csat--table-container">
     <ve-table
-      max-height="calc(100vh - 35rem)"
+      max-height="calc(100vh - 21.875rem)"
       :fixed-header="true"
+      :border-around="true"
       :columns="columns"
       :table-data="tableData"
     />
@@ -26,13 +27,14 @@ import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName'
 import { CSAT_RATINGS } from 'shared/constants/messages';
 import { mapGetters } from 'vuex';
 import timeMixin from 'dashboard/mixins/time';
+import rtlMixin from 'shared/mixins/rtlMixin';
 
 export default {
   components: {
     VeTable,
     VePagination,
   },
-  mixins: [timeMixin],
+  mixins: [timeMixin, rtlMixin],
   props: {
     pageIndex: {
       type: Number,
@@ -51,7 +53,7 @@ export default {
           field: 'contact',
           key: 'contact',
           title: this.$t('CSAT_REPORTS.TABLE.HEADER.CONTACT_NAME'),
-          align: 'left',
+          align: this.isRTLView ? 'right' : 'left',
           width: 200,
           renderBodyCell: ({ row }) => {
             if (row.contact) {
@@ -64,7 +66,7 @@ export default {
           field: 'assignedAgent',
           key: 'assignedAgent',
           title: this.$t('CSAT_REPORTS.TABLE.HEADER.AGENT_NAME'),
-          align: 'left',
+          align: this.isRTLView ? 'right' : 'left',
           width: 200,
           renderBodyCell: ({ row }) => {
             if (row.assignedAgent) {
@@ -94,14 +96,14 @@ export default {
           field: 'feedbackText',
           key: 'feedbackText',
           title: this.$t('CSAT_REPORTS.TABLE.HEADER.FEEDBACK_TEXT'),
-          align: 'left',
+          align: this.isRTLView ? 'right' : 'left',
           width: 400,
         },
         {
-          field: 'converstionId',
-          key: 'converstionId',
+          field: 'conversationId',
+          key: 'conversationId',
           title: '',
-          align: 'left',
+          align: this.isRTLView ? 'right' : 'left',
           width: 100,
           renderBodyCell: ({ row }) => {
             const routerParams = {
@@ -148,12 +150,11 @@ export default {
   flex: 1;
 
   .ve-table {
-    background: var(--white);
+    @apply bg-white dark:bg-slate-900;
 
     &::v-deep {
       .ve-table-container {
         border-radius: var(--border-radius-normal);
-        border: 1px solid var(--color-border) !important;
       }
 
       th.ve-table-header-th {
@@ -187,20 +188,18 @@ export default {
 
 .csat--empty-records {
   align-items: center;
-  background-color: var(--white);
-  border: 1px solid var(--color-border);
+  // border: 1px solid var(--color-border);
   border-top: 0;
-  color: var(--b-600);
   display: flex;
   font-size: var(--font-size-small);
-  height: 20rem;
+  height: 12.5rem;
   justify-content: center;
   margin-top: -1px;
   width: 100%;
+  @apply text-slate-600 dark:text-slate-200 bg-white dark:bg-slate-900 border border-t-0 border-solid border-slate-75 dark:border-slate-700;
 }
 
 .csat--timestamp {
-  color: var(--b-400);
-  font-size: var(--font-size-small);
+  @apply text-slate-600 dark:text-slate-200 text-sm;
 }
 </style>

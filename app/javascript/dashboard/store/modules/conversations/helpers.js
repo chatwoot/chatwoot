@@ -5,33 +5,54 @@ export const findPendingMessageIndex = (chat, message) => {
   );
 };
 
-const filterByStatus = (chatStatus, filterStatus) =>
+export const filterByStatus = (chatStatus, filterStatus) =>
   filterStatus === 'all' ? true : chatStatus === filterStatus;
 
+export const filterByInbox = (shouldFilter, inboxId, chatInboxId) => {
+  const isOnInbox = Number(inboxId) === chatInboxId;
+  return inboxId ? isOnInbox && shouldFilter : shouldFilter;
+};
+
+export const filterByTeam = (shouldFilter, teamId, chatTeamId) => {
+  const isOnTeam = Number(teamId) === chatTeamId;
+  return teamId ? isOnTeam && shouldFilter : shouldFilter;
+};
+
+export const filterByLabel = (shouldFilter, labels, chatLabels) => {
+  const isOnLabel = labels.every(label => chatLabels.includes(label));
+  return labels.length ? isOnLabel && shouldFilter : shouldFilter;
+};
+export const filterByUnattended = (
+  shouldFilter,
+  conversationType,
+  firstReplyOn
+) => {
+  return conversationType === 'unattended'
+    ? !firstReplyOn && shouldFilter
+    : shouldFilter;
+};
+
 export const applyPageFilters = (conversation, filters) => {
-  const { inboxId, status, labels = [], teamId } = filters;
+  const { inboxId, status, labels = [], teamId, conversationType } = filters;
   const {
     status: chatStatus,
     inbox_id: chatInboxId,
     labels: chatLabels = [],
     meta = {},
+    first_reply_created_at: firstReplyOn,
   } = conversation;
   const team = meta.team || {};
   const { id: chatTeamId } = team;
 
   let shouldFilter = filterByStatus(chatStatus, status);
-  if (inboxId) {
-    const filterByInbox = Number(inboxId) === chatInboxId;
-    shouldFilter = shouldFilter && filterByInbox;
-  }
-  if (teamId) {
-    const filterByTeam = Number(teamId) === chatTeamId;
-    shouldFilter = shouldFilter && filterByTeam;
-  }
-  if (labels.length) {
-    const filterByLabels = labels.every(label => chatLabels.includes(label));
-    shouldFilter = shouldFilter && filterByLabels;
-  }
+  shouldFilter = filterByInbox(shouldFilter, inboxId, chatInboxId);
+  shouldFilter = filterByTeam(shouldFilter, teamId, chatTeamId);
+  shouldFilter = filterByLabel(shouldFilter, labels, chatLabels);
+  shouldFilter = filterByUnattended(
+    shouldFilter,
+    conversationType,
+    firstReplyOn
+  );
 
   return shouldFilter;
 };

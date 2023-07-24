@@ -10,7 +10,7 @@ class AccessTokenDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     owner: Field::Polymorphic,
     id: Field::Number,
-    token: Field::String,
+    token: SecretField,
     created_at: Field::DateTime,
     updated_at: Field::DateTime
   }.freeze

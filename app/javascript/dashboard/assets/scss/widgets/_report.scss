@@ -1,56 +1,60 @@
 .report-card {
-  @include padding($space-normal $space-small $space-normal $space-two);
-  @include margin($zero);
-  cursor: pointer;
   @include custom-border-top(3px, transparent);
 
+  cursor: pointer;
+  margin: 0;
+  padding: var(--space-normal);
+
   &.active {
-    @include custom-border-top(3px, $color-woot);
+    @include custom-border-top(3px, var(--color-woot));
     @include background-white;
     .heading,
     .metric {
-      color: $color-woot;
+      color: var(--color-woot);
     }
   }
 
   .heading {
-    @include margin($zero);
-    font-size: $font-size-small;
-    font-weight: $font-weight-bold;
-    color: $color-heading;
+    align-items: center;
+    color: var(--color-heading);
+    display: flex;
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-bold);
+    margin: 0;
+  }
+
+  .info-icon {
+    color: var(--b-400);
+    margin-left: var(--space-micro);
+  }
+
+  .metric-wrap {
+    align-items: center;
+    display: flex;
   }
 
   .metric {
-    font-size: $font-size-bigger;
-    font-weight: $font-weight-feather;
+    font-size: var(--font-size-big);
+    font-weight: var(--font-weight-feather);
+    margin-top: var(--space-smaller);
+  }
+
+  .metric-trend {
+    font-size: var(--font-size-small);
+    margin: 0 var(--space-small);
+  }
+
+  .metric-up {
+    color: $success-color;
+  }
+
+  .metric-down {
+    color: $alert-color;
   }
 
   .desc {
-    @include margin($zero);
-    font-size: $font-size-small;
+    font-size: var(--font-size-small);
+    margin: 0;
     text-transform: capitalize;
-  }
-}
-
-.report-bar {
-  @include margin(-1px $zero);
-  @include background-white;
-  @include border-light;
-  @include padding($space-small $space-medium);
-
-  .chart-container {
-    @include flex;
-    flex-direction: column;
-    @include flex-align(center, middle);
-
-    div {
-      width: 100%;
-    }
-
-    .empty-state {
-      @include margin($space-jumbo);
-      font-size: $font-size-default;
-      color: $color-gray;
-    }
   }
 }

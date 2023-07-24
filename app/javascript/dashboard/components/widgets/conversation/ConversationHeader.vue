@@ -1,63 +1,87 @@
 <template>
-  <div class="conv-header">
-    <div class="user">
-      <Thumbnail
-        :src="currentContact.thumbnail"
-        size="40px"
-        :badge="inboxBadge"
-        :username="currentContact.name"
-        :status="currentContact.availability_status"
-      />
-      <div class="user--profile__meta">
-        <h3 class="user--name text-truncate">
-          <span class="margin-right-smaller">{{ currentContact.name }}</span>
-          <i
-            v-if="!isHMACVerified"
-            v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
-            class="ion-android-alert text-y-800 fs-default"
-          />
-        </h3>
-        <div class="conversation--header--actions">
-          <inbox-name :inbox="inbox" class="margin-right-small" />
-          <span
-            v-if="isSnoozed"
-            class="snoozed--display-text margin-right-small"
-          >
-            {{ snoozedDisplayText }}
-          </span>
+  <div
+    class="bg-white dark:bg-slate-900 flex justify-between items-center py-2 px-4 border-b border-slate-50 dark:border-slate-800/50 flex-col md:flex-row"
+  >
+    <div
+      class="flex-1 w-100 flex flex-col md:flex-row items-center justify-center"
+    >
+      <div
+        class="flex justify-center items-center mr-4 rtl:mr-0 rtl:ml-4 min-w-0"
+      >
+        <back-button v-if="showBackButton" :back-url="backButtonUrl" />
+        <Thumbnail
+          :src="currentContact.thumbnail"
+          :badge="inboxBadge"
+          :username="currentContact.name"
+          :status="currentContact.availability_status"
+        />
+        <div class="items-start flex flex-col ml-2 rtl:ml-0 rtl:mr-2 min-w-0">
           <woot-button
-            class="user--profile__button margin-right-small"
-            size="small"
             variant="link"
-            @click="$emit('contact-panel-toggle')"
+            color-scheme="secondary"
+            class="overflow-hidden whitespace-nowrap text-ellipsis"
+            @click.prevent="$emit('contact-panel-toggle')"
           >
-            {{ contactPanelToggleText }}
+            <h3
+              class="text-base inline-block leading-tight capitalize m-0 p-0 text-ellipsis overflow-hidden whitespace-nowrap text-slate-900 dark:text-slate-100"
+            >
+              <span>{{ currentContact.name }}</span>
+              <fluent-icon
+                v-if="!isHMACVerified"
+                v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
+                size="14"
+                class="text-yellow-600 dark:text-yellow-500 my-0 mx-0.5"
+                icon="warning"
+              />
+            </h3>
           </woot-button>
+          <div
+            class="conversation--header--actions items-center flex text-xs gap-2 text-ellipsis overflow-hidden whitespace-nowrap"
+          >
+            <inbox-name v-if="hasMultipleInboxes" :inbox="inbox" />
+            <span
+              v-if="isSnoozed"
+              class="font-medium text-yellow-600 dark:text-yellow-500"
+            >
+              {{ snoozedDisplayText }}
+            </span>
+            <woot-button
+              class="p-0"
+              size="small"
+              variant="link"
+              @click="$emit('contact-panel-toggle')"
+            >
+              {{ contactPanelToggleText }}
+            </woot-button>
+          </div>
         </div>
       </div>
-    </div>
-    <div
-      class="header-actions-wrap"
-      :class="{ 'has-open-sidebar': isContactPanelOpen }"
-    >
-      <more-actions :conversation-id="currentChat.id" />
+      <div
+        class="header-actions-wrap items-center flex flex-row flex-grow justify-end mt-3 lg:mt-0"
+        :class="{ 'justify-end': isContactPanelOpen }"
+      >
+        <more-actions :conversation-id="currentChat.id" />
+      </div>
     </div>
   </div>
 </template>
 <script>
+import { hasPressedAltAndOKey } from 'shared/helpers/KeyboardHelpers';
 import { mapGetters } from 'vuex';
-import MoreActions from './MoreActions';
-import Thumbnail from '../Thumbnail';
 import agentMixin from '../../../mixins/agentMixin.js';
+import BackButton from '../BackButton';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import inboxMixin from 'shared/mixins/inboxMixin';
-import { hasPressedAltAndOKey } from 'shared/helpers/KeyboardHelpers';
-import wootConstants from '../../../constants';
-import differenceInHours from 'date-fns/differenceInHours';
 import InboxName from '../InboxName';
+import MoreActions from './MoreActions';
+import Thumbnail from '../Thumbnail';
+import wootConstants from 'dashboard/constants/globals';
+import { conversationListPageURL } from 'dashboard/helper/URLHelper';
+import { conversationReopenTime } from 'dashboard/helper/snoozeHelpers';
 
 export default {
   components: {
+    BackButton,
     InboxName,
     MoreActions,
     Thumbnail,
@@ -72,6 +96,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    showBackButton: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     ...mapGetters({
@@ -80,6 +108,19 @@ export default {
     }),
     chatMetadata() {
       return this.chat.meta;
+    },
+    backButtonUrl() {
+      const {
+        params: { accountId, inbox_id: inboxId, label, teamId },
+        name,
+      } = this.$route;
+      return conversationListPageURL({
+        accountId,
+        inboxId,
+        label,
+        teamId,
+        conversationType: name === 'conversation_mentions' ? 'mention' : '',
+      });
     },
     isHMACVerified() {
       if (!this.isAWebWidgetInbox) {
@@ -98,17 +139,9 @@ export default {
     snoozedDisplayText() {
       const { snoozed_until: snoozedUntil } = this.currentChat;
       if (snoozedUntil) {
-        // When the snooze is applied, it schedules the unsnooze event to next day/week 9AM.
-        // By that logic if the time difference is less than or equal to 24 + 9 hours we can consider it tomorrow.
-        const MAX_TIME_DIFFERENCE = 33;
-        const isSnoozedUntilTomorrow =
-          differenceInHours(new Date(snoozedUntil), new Date()) <=
-          MAX_TIME_DIFFERENCE;
-        return this.$t(
-          isSnoozedUntilTomorrow
-            ? 'CONVERSATION.HEADER.SNOOZED_UNTIL_TOMORROW'
-            : 'CONVERSATION.HEADER.SNOOZED_UNTIL_NEXT_WEEK'
-        );
+        return `${this.$t(
+          'CONVERSATION.HEADER.SNOOZED_UNTIL'
+        )} ${conversationReopenTime(snoozedUntil)}`;
       }
       return this.$t('CONVERSATION.HEADER.SNOOZED_UNTIL_NEXT_REPLY');
     },
@@ -123,6 +156,9 @@ export default {
       const { inbox_id: inboxId } = this.chat;
       return this.$store.getters['inboxes/getInbox'](inboxId);
     },
+    hasMultipleInboxes() {
+      return this.$store.getters['inboxes/getInboxes'].length > 1;
+    },
   },
 
   methods: {
@@ -136,50 +172,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.text-truncate {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.conv-header {
-  flex: 0 0 var(--space-jumbo);
-}
-
-.option__desc {
-  display: flex;
-  align-items: center;
-}
-
-.option__desc {
-  &::v-deep .status-badge {
-    margin-right: var(--space-small);
-    min-width: 0;
-    flex-shrink: 0;
-  }
-}
-
-.user--name {
-  display: inline-block;
-  font-size: var(--font-size-medium);
-  line-height: 1.3;
-  margin: 0;
-  text-transform: capitalize;
-  width: 100%;
-}
-
 .conversation--header--actions {
-  align-items: center;
-  display: flex;
-  font-size: var(--font-size-mini);
-
-  .user--profile__button {
-    padding: 0;
-  }
-
-  .snoozed--display-text {
-    font-weight: var(--font-weight-medium);
-    color: var(--y-900);
+  ::v-deep .inbox--name {
+    @apply m-0;
   }
 }
 </style>

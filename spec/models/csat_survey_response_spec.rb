@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CsatSurveyResponse, type: :model do
+RSpec.describe CsatSurveyResponse do
   describe 'validations' do
     it { is_expected.to validate_presence_of(:rating) }
     it { is_expected.to validate_presence_of(:account_id) }
@@ -9,7 +9,7 @@ RSpec.describe CsatSurveyResponse, type: :model do
 
     it 'validates that the rating can only be in range 1-5' do
       csat_survey_response = build(:csat_survey_response, rating: 6)
-      expect(csat_survey_response.valid?).to eq false
+      expect(csat_survey_response.valid?).to be false
     end
   end
 
@@ -22,7 +22,7 @@ RSpec.describe CsatSurveyResponse, type: :model do
   describe 'validates_factory' do
     it 'creates valid csat_survey_response object' do
       csat_survey_response = create(:csat_survey_response)
-      expect(csat_survey_response.valid?).to eq true
+      expect(csat_survey_response.valid?).to be true
     end
   end
 end

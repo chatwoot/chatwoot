@@ -15,7 +15,11 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   def update
     if @message.content_type == 'input_email'
       @message.update!(submitted_email: contact_email)
-      update_contact(contact_email)
+      ContactIdentifyAction.new(
+        contact: @contact,
+        params: { email: contact_email, name: contact_name },
+        retain_original_contact_name: true
+      ).perform
     else
       @message.update!(message_update_params[:message])
     end
@@ -29,11 +33,12 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     return if params[:message][:attachments].blank?
 
     params[:message][:attachments].each do |uploaded_attachment|
-      @message.attachments.new(
+      attachment = @message.attachments.new(
         account_id: @message.account_id,
-        file_type: helpers.file_type(uploaded_attachment&.content_type),
         file: uploaded_attachment
       )
+
+      attachment.file_type = helpers.file_type(uploaded_attachment&.content_type) if uploaded_attachment.is_a?(ActionDispatch::Http::UploadedFile)
     end
   end
 
@@ -44,7 +49,8 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   def message_finder_params
     {
       filter_internal_messages: true,
-      before: permitted_params[:before]
+      before: permitted_params[:before],
+      after: permitted_params[:after]
     }
   end
 
@@ -58,7 +64,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
 
   def permitted_params
     # timestamp parameter is used in create conversation method
-    params.permit(:id, :before, :website_token, contact: [:name, :email], message: [:content, :referer_url, :timestamp, :echo_id])
+    params.permit(:id, :before, :after, :website_token, contact: [:name, :email], message: [:content, :referer_url, :timestamp, :echo_id])
   end
 
   def set_message

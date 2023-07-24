@@ -24,13 +24,13 @@
       },
       "CANCEL_BUTTON_TEXT": "Скасувати",
       "API": {
-        "SUCCESS_MESSAGE": "Hook deleted successfully",
+        "SUCCESS_MESSAGE": "Хук успішно видалено",
         "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
       }
     },
     "LIST": {
-      "FETCHING": "Fetching integration hooks",
-      "INBOX": "Inbox",
+      "FETCHING": "Отримання інтеграційних хуків",
+      "INBOX": "Вхідні",
       "DELETE": {
         "BUTTON_TEXT": "Видалити"
       }
@@ -38,14 +38,14 @@
     "ADD": {
       "FORM": {
         "INBOX": {
-          "LABEL": "Select Inbox",
-          "PLACEHOLDER": "Select Inbox"
+          "LABEL": "Вибрати \"Вхідний\" канал",
+          "PLACEHOLDER": "Виділити \"Вхідні\""
         },
         "SUBMIT": "Створити",
         "CANCEL": "Скасувати"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Integration hook added successfully",
+        "SUCCESS_MESSAGE": "Хук інтеграції успішно додано",
         "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
       }
     },
@@ -56,7 +56,7 @@
       "BUTTON_TEXT": "Від'єднатись"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow is a natural language understanding platform that makes it easy to design and integrate a conversational user interface into your mobile app, web application, device, bot, interactive voice response system, and so on. <br /> <br /> Dialogflow integration with %{installationName} allows you to configure a Dialogflow bot with your inboxes which lets the bot handle the queries initially and hand them over to an agent when needed. Dialogflow can be used to qualifying the leads, reduce the workload of agents by providing frequently asked questions etc. <br /> <br /> To add Dialogflow, you need to create a Service Account in your Google project console and share the credentials. Please refer to the Dialogflow docs for more information."
+      "DIALOGFLOW": "Dialogflow - це платформа природного розуміння мови, що дозволяє легко розробляти та інтегрувати розмовний інтерфейс користувача у ваш мобільний додаток, веб-додаток, пристрій, бот, інтерактивна система голосової відповіді тощо. <br /> <br /> Dialogflow інтеграція з %{installationName} дозволяє вам налаштувати бота Dialogflow потоку вашими папками \"Вхідні\", що дозволяє боту обробляти запити спочатку, і передавати їх агенту по необхідності. Dialogflow може бути використаний для кваліфікації лідів, зменшення навантаження агентів, надаючи часті запитання та ін. <br /> <br /> Щоб додати Dialogflow, потрібно створити обліковий запис служби в консолі проекту Google і надати доступ до облікових даних. Будь-ласка, зверніться до документації Dialogflow для отримання додаткової інформації."
     }
   }
 }

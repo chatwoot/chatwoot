@@ -15,7 +15,7 @@ RSpec.describe 'Super Admin platform app API', type: :request do
       let!(:platform_app) { create(:platform_app) }
 
       it 'shows the list of users' do
-        sign_in super_admin
+        sign_in(super_admin, scope: :super_admin)
         get '/super_admin/platform_apps'
         expect(response).to have_http_status(:success)
         expect(response.body).to include(platform_app.name)

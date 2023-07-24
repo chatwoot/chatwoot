@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ::ContactMergeAction do
+describe ContactMergeAction do
   subject(:contact_merge) { described_class.new(account: account, base_contact: base_contact, mergee_contact: mergee_contact).perform }
 
   let!(:account) { create(:account) }
@@ -43,7 +43,7 @@ describe ::ContactMergeAction do
       it 'does not delete contact' do
         mergee_contact = base_contact
         contact_merge
-        expect(mergee_contact.reload).not_to eq nil
+        expect(mergee_contact.reload).not_to be_nil
       end
     end
 

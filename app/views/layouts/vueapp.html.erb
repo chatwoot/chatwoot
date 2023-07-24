@@ -4,7 +4,7 @@
     <title>
       <%= @global_config['INSTALLATION_NAME'] %>
     </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=0"/>
     <% if @global_config['DISPLAY_MANIFEST'] %>
       <meta name="msapplication-TileColor" content="#1f93ff">
       <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
@@ -33,8 +33,13 @@
     <script>
       window.chatwootConfig = {
         hostURL: '<%= ENV.fetch('FRONTEND_URL', '') %>',
+        helpCenterURL: '<%= ENV.fetch('HELPCENTER_URL', '') %>',
         fbAppId: '<%= ENV.fetch('FB_APP_ID', nil) %>',
+        googleOAuthClientId: '<%= ENV.fetch('GOOGLE_OAUTH_CLIENT_ID', nil) %>',
+        googleOAuthCallbackUrl: '<%= ENV.fetch('GOOGLE_OAUTH_CALLBACK_URL', nil) %>',
+        fbApiVersion: '<%= @global_config['FACEBOOK_API_VERSION'] %>',
         signupEnabled: '<%= @global_config['ENABLE_ACCOUNT_SIGNUP'] %>',
+        isEnterprise: '<%= @global_config['IS_ENTERPRISE'] %>',
         <% if @global_config['VAPID_PUBLIC_KEY'] %>
         vapidPublicKey: new Uint8Array(<%= Base64.urlsafe_decode64(@global_config['VAPID_PUBLIC_KEY']).bytes %>),
         <% end %>
@@ -44,20 +49,19 @@
       window.globalConfig = <%= raw @global_config.to_json %>
       window.browserConfig = {
         browser_name: '<%= browser.name %>',
-        is_safari: '<%= browser.safari? %>'
       }
-      window.errorLoggingConfig = '<%= ENV.fetch('SENTRY_DSN', '')%>'
+      window.errorLoggingConfig = '<%= ENV.fetch('SENTRY_DSN', '') %>'
+      window.logRocketProjectId = '<%= ENV.fetch('LOG_ROCKET_PROJECT_ID', '') %>'
     </script>
-    <% if @global_config['ANALYTICS_TOKEN'].present? && @global_config['ANALYTICS_HOST'].present? %>
+    <% if @global_config['ANALYTICS_TOKEN'].present? %>
     <script>
       window.analyticsConfig = {
         token: '<%= @global_config['ANALYTICS_TOKEN'] %>',
-        host: '<%= @global_config['ANALYTICS_HOST'] %>',
       }
     </script>
     <% end %>
-    <%= javascript_pack_tag 'application' %>
-    <%= stylesheet_pack_tag 'application' %>
+    <%= javascript_pack_tag @application_pack %>
+    <%= stylesheet_pack_tag @application_pack %>
   </head>
   <body>
     <div id="app"></div>
@@ -67,7 +71,7 @@
     <script>
       window.chatwootSettings = { hideMessageBubble: true, position: 'left' };
       (function(d,t) {
-        var BASE_URL="https://app.chatwoot.com";
+        var BASE_URL='<%= ENV.fetch('FRONTEND_URL', 'https://app.chatwoot.com') %>';
         var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
         g.src=BASE_URL+"/packs/js/sdk.js"; g.defer=true; g.async=true;
         s.parentNode.insertBefore(g,s);
@@ -79,6 +83,15 @@
         }
       })(document,"script");
     </script>
+    <% end %>
+    <% if ENV.fetch('MS_CLARITY_TOKEN', nil).present? %>
+      <script type="text/javascript">
+          (function(c,l,a,r,i,t,y){
+              c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+              t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;
+              y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+          })(window, document, 'clarity', 'script', '<%= ENV.fetch('MS_CLARITY_TOKEN', '') %>');
+      </script>
     <% end %>
   </body>
 </html>

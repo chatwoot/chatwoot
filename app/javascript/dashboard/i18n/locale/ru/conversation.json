@@ -1,6 +1,11 @@
 {
   "CONVERSATION": {
-    "404": "Пожалуйста, выберите диалог из левой панели",
+    "SELECT_A_CONVERSATION": "Пожалуйста, выберите диалог из левой панели",
+    "CSAT_REPLY_MESSAGE": "Пожалуйста, оцените разговор",
+    "404": "Мы не можем найти разговор. Пожалуйста, попробуйте еще раз",
+    "SWITCH_VIEW_LAYOUT": "Переключить вид",
+    "DASHBOARD_APP_TAB_MESSAGES": "Сообщения",
+    "UNVERIFIED_SESSION": "Подлинность этого пользователя не подтверждена",
     "NO_MESSAGE_1": "Ой! Похоже, сообщений от клиентов нет.",
     "NO_MESSAGE_2": " чтобы отправить сообщение на вашу страницу!",
     "NO_INBOX_1": "Алоха! Похоже, вы еще не добавили ни одного источника.",
@@ -21,18 +26,27 @@
     "LOADING_CONVERSATIONS": "Загрузка диалогов",
     "CANNOT_REPLY": "Вы не можете ответить из-за",
     "24_HOURS_WINDOW": "Ограничение на 24 часа",
+    "NOT_ASSIGNED_TO_YOU": "Этот разговор вам не назначен. Вы хотите назначить этот разговор себе?",
+    "ASSIGN_TO_ME": "Назначить мне",
     "TWILIO_WHATSAPP_CAN_REPLY": "Вы можете ответить в этой беседе только с помощью шаблона сообщения",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Ограничение на 24 часа",
     "SELECT_A_TWEET_TO_REPLY": "Пожалуйста, выберите твит для ответа.",
     "REPLYING_TO": "Вы отвечаете на:",
     "REMOVE_SELECTION": "Удалить выделенное",
     "DOWNLOAD": "Скачать",
+    "UNKNOWN_FILE_TYPE": "Неизвестный файл",
+    "SAVE_CONTACT": "Сохранить",
     "UPLOADING_ATTACHMENTS": "Загрузка вложений...",
+    "REPLIED_TO_STORY": "Ответил на вашу историю",
     "SUCCESS_DELETE_MESSAGE": "Сообщение успешно удалено",
     "FAIL_DELETE_MESSSAGE": "Не удалось удалить сообщение! Попробуйте еще раз",
     "NO_RESPONSE": "Нет ответа",
     "RATING_TITLE": "Оценка",
     "FEEDBACK_TITLE": "Обратная связь",
+    "CARD": {
+      "SHOW_LABELS": "Показать метки",
+      "HIDE_LABELS": "Скрыть метки"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Завершить",
       "REOPEN_ACTION": "Открыть заново",
@@ -40,12 +54,14 @@
       "OPEN": "Открыть",
       "CLOSE": "Закрыть",
       "DETAILS": "подробности",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Отложено до завтра",
       "SNOOZED_UNTIL_NEXT_WEEK": "Отложено до следующей недели",
       "SNOOZED_UNTIL_NEXT_REPLY": "Отложить до следующего ответа"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Отметить как ожидающие",
+      "SNOOZE_UNTIL": "Отложено",
       "SNOOZE": {
         "TITLE": "Отложить до",
         "NEXT_REPLY": "Следующий ответ",
@@ -53,9 +69,66 @@
         "NEXT_WEEK": "На следующей неделе"
       }
     },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Отложить до",
+      "APPLY": "Отложено",
+      "CANCEL": "Отменить"
+    },
+    "PRIORITY": {
+      "TITLE": "Приоритет",
+      "OPTIONS": {
+        "NONE": "Ничего",
+        "URGENT": "Срочность",
+        "HIGH": "Высокая",
+        "MEDIUM": "Средняя",
+        "LOW": "Низкая"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "Ничего",
+        "INPUT_PLACEHOLDER": "Выберите приоритет",
+        "NO_RESULTS": "Результаты не найдены",
+        "SUCCESSFUL": "Изменен приоритет разговора id %{conversationId} на %{priority}",
+        "FAILED": "Не удалось изменить приоритет. Пожалуйста, попробуйте еще раз."
+      }
+    },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "Отметить как ожидающие",
+      "RESOLVED": "Пометить как разрешено",
+      "MARK_AS_UNREAD": "Отметить как непрочитанное",
+      "REOPEN": "Переоткрыть разговор",
+      "SNOOZE": {
+        "TITLE": "Отложено",
+        "NEXT_REPLY": "До следующего ответа",
+        "TOMORROW": "До завтра",
+        "NEXT_WEEK": "До следующей недели"
+      },
+      "ASSIGN_AGENT": "Назначить агента",
+      "ASSIGN_LABEL": "Назначить метки",
+      "AGENTS_LOADING": "Загрузка агентов...",
+      "ASSIGN_TEAM": "Назначить команду",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "SUCCESFUL": "ID разговора %{conversationId} присвоен \"%{agentName}\"",
+          "FAILED": "Не удалось назначить агента. Пожалуйста, попробуйте еще раз."
+        },
+        "LABEL_ASSIGNMENT": {
+          "SUCCESFUL": "Назначена метка #%{labelName} в разговор id %{conversationId}",
+          "FAILED": "Не удалось назначить метку. Пожалуйста, попробуйте еще раз."
+        },
+        "TEAM_ASSIGNMENT": {
+          "SUCCESFUL": "Назначена метка #%{team} в разговор id %{conversationId}",
+          "FAILED": "Не удалось назначить команду. Пожалуйста, попробуйте еще раз."
+        }
+      }
+    },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Подпись сообщения",
+      "ENABLE_SIGN_TOOLTIP": "Включить подпись",
+      "DISABLE_SIGN_TOOLTIP": "Отключить подпись",
       "MSG_INPUT": "Shift + enter чтобы начать новую строку. Начните с '/', чтобы выбрать шаблонный ответ.",
-      "PRIVATE_MSG_INPUT": "Shift + enter для новой строки. Это будет видно только Операторам"
+      "PRIVATE_MSG_INPUT": "Shift + enter для новой строки. Это будет видно только Операторам",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Подпись сообщения не настроена, пожалуйста настройте её в настройках профиля.",
+      "CLICK_HERE": "Нажмите здесь, чтобы обновить"
     },
     "REPLYBOX": {
       "REPLY": "Ответить",
@@ -66,8 +139,13 @@
       "TIP_FORMAT_ICON": "Показать редактор текста",
       "TIP_EMOJI_ICON": "Показать emoji панель",
       "TIP_ATTACH_ICON": "Прикрепить файлы",
-      "ENTER_TO_SEND": "Введите чтобы отправить",
+      "TIP_AUDIORECORDER_ICON": "Записать аудио",
+      "TIP_AUDIORECORDER_PERMISSION": "Разрешить доступ к аудио",
+      "TIP_AUDIORECORDER_ERROR": "Не удалось открыть аудио",
       "DRAG_DROP": "Перетащите сюда, чтобы прикрепить",
+      "START_AUDIO_RECORDING": "Начать запись аудио",
+      "STOP_AUDIO_RECORDING": "Остановить запись аудио",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Добавить bcc",
         "CC": {
@@ -80,15 +158,30 @@
           "PLACEHOLDER": "Письма, разделенные запятыми",
           "ERROR": "Пожалуйста, введите действительный адрес электронной почты"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Неопределенные переменные",
+        "MESSAGE": "У Вас {undefinedVariablesCount} неопределённых переменных в сообщении: {undefinedVariables}. Вы действительно хотите отправить сообщение?",
+        "CONFIRM": {
+          "YES": "Отправить",
+          "CANCEL": "Отменить"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "Приватная заметка: видна только вам и вашей команде",
     "CHANGE_STATUS": "Статус разговора изменен",
+    "CHANGE_STATUS_FAILED": "Не удалось изменить статус диалога",
     "CHANGE_AGENT": "Назначенный оператор изменен",
+    "CHANGE_AGENT_FAILED": "Не удалось изменить назначение",
+    "ASSIGN_LABEL_SUCCESFUL": "Метка успешно назначена",
+    "ASSIGN_LABEL_FAILED": "Назначение метки не удалось",
     "CHANGE_TEAM": "Команда назначенная в беседу изменена",
-    "FILE_SIZE_LIMIT": "Превышен размер загружаемого файла - {MAXIMUM_FILE_UPLOAD_SIZE}",
+    "FILE_SIZE_LIMIT": "Превышен лимит вложений в {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
     "MESSAGE_ERROR": "Не удается отправить это сообщение, повторите попытку позже",
     "SENT_BY": "Отправитель:",
+    "BOT": "Бот",
+    "SEND_FAILED": "Не удалось удалить сообщение! Попробуйте еще раз",
+    "TRY_AGAIN": "повторить",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Выбрать Агента",
       "REMOVE": "Удалить",
@@ -96,7 +189,17 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Копировать",
-      "DELETE": "Удалить"
+      "DELETE": "Удалить",
+      "CREATE_A_CANNED_RESPONSE": "Добавить в шаблонные ответы",
+      "TRANSLATE": "Перевести",
+      "COPY_PERMALINK": "Скопировать ссылку на сообщение",
+      "LINK_COPIED": "Ссылка на сообщение скопирована",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Вы действительно хотите удалить это сообщение?",
+        "MESSAGE": "Вы не можете отменить это действие",
+        "DELETE": "Удалить",
+        "CANCEL": "Отменить"
+      }
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -153,7 +256,8 @@
       "CONVERSATION_LABELS": "Категории Диалога",
       "CONVERSATION_INFO": "Информация о беседе",
       "CONTACT_ATTRIBUTES": "Атрибуты контакта",
-      "PREVIOUS_CONVERSATION": "Предыдущие диалоги"
+      "PREVIOUS_CONVERSATION": "Предыдущие диалоги",
+      "MACROS": "Макросс"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -178,9 +282,34 @@
     }
   },
   "EMAIL_HEADER": {
+    "FROM": "От",
     "TO": "Кому",
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "Тема"
+  },
+  "CONVERSATION_PARTICIPANTS": {
+    "SIDEBAR_MENU_TITLE": "Участвующие",
+    "SIDEBAR_TITLE": "Участники диалога",
+    "NO_RECORDS_FOUND": "Результаты не найдены",
+    "ADD_PARTICIPANTS": "Выберите участников",
+    "REMANING_PARTICIPANTS_TEXT": "+%{count} другие",
+    "REMANING_PARTICIPANT_TEXT": "+%{count} другие",
+    "TOTAL_PARTICIPANTS_TEXT": "%{count} человек участвуют.",
+    "TOTAL_PARTICIPANT_TEXT": "%{count} человек участвуют.",
+    "NO_PARTICIPANTS_TEXT": "Никто не участвует!.",
+    "WATCH_CONVERSATION": "Присоединиться к диалогу",
+    "YOU_ARE_WATCHING": "Вы участвуете",
+    "API": {
+      "ERROR_MESSAGE": "Не удалось обновить, попробуйте снова!",
+      "SUCCESS_MESSAGE": "Участники обновлены!"
+    }
+  },
+  "TRANSLATE_MODAL": {
+    "TITLE": "Просмотреть перевод",
+    "DESC": "Вы можете просмотреть содержимое перевода в каждом языке.",
+    "ORIGINAL_CONTENT": "Оригинальное содержимое",
+    "TRANSLATED_CONTENT": "Перевод",
+    "NO_TRANSLATIONS_AVAILABLE": "Для этого содержимого нет доступных переводов"
   }
 }

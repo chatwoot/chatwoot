@@ -1,0 +1,10 @@
+<!-- The inline styles are intentional, migrate it to classes after upgrading to tailwind v3 -->
+<section class="pt-8 pb-16 md:py-20 w-full bg-woot-50 shadow-inner" style="background: url(/assets/images/hc/grid.svg) color-mix(in srgb, <%= @portal.color %> 10%, white)">
+  <div class="mx-auto max-w-6xl px-8 flex flex-col items-center sm:items-start">
+    <h1 class="text-2xl md:text-4xl text-slate-900 font-semibold leading-normal">
+      <%= portal.header_text %>
+    </h1>
+    <p class="text-slate-600 text-center text-lg leading-normal pt-4 pb-4"><%= I18n.t('public_portal.hero.sub_title') %></p>
+    <div id="search-wrap"></div>
+  </div>
+</section>

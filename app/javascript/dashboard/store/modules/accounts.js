@@ -1,9 +1,8 @@
-/* eslint no-console: 0 */
-/* eslint no-param-reassign: 0 */
-/* eslint no-shadow: 0 */
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import * as types from '../mutation-types';
 import AccountAPI from '../../api/account';
+import EnterpriseAccountAPI from '../../api/enterprise/account';
+import { throwErrorMessage } from '../utils/api';
 
 const state = {
   records: [],
@@ -11,15 +10,30 @@ const state = {
     isFetching: false,
     isFetchingItem: false,
     isUpdating: false,
+    isCheckoutInProcess: false,
   },
 };
 
 export const getters = {
   getAccount: $state => id => {
-    return $state.records.find(record => record.id === Number(id));
+    return $state.records.find(record => record.id === Number(id)) || {};
   },
   getUIFlags($state) {
     return $state.uiFlags;
+  },
+  isFeatureEnabledonAccount: ($state, _, __, rootGetters) => (
+    id,
+    featureName
+  ) => {
+    // If a user is SuperAdmin and has access to the account, then they would see all the available features
+    const isUserASuperAdmin = rootGetters.getCurrentUser?.type === 'SuperAdmin';
+    if (isUserASuperAdmin) {
+      return true;
+    }
+
+    const { features = {} } =
+      $state.records.find(record => record.id === Number(id)) || {};
+    return features[featureName] || false;
   },
 };
 
@@ -60,6 +74,38 @@ export const actions = {
       throw error;
     }
   },
+
+  checkout: async ({ commit }) => {
+    commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: true });
+    try {
+      const response = await EnterpriseAccountAPI.checkout();
+      window.location = response.data.redirect_url;
+    } catch (error) {
+      throwErrorMessage(error);
+    } finally {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: false });
+    }
+  },
+
+  subscription: async ({ commit }) => {
+    commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: true });
+    try {
+      await EnterpriseAccountAPI.subscription();
+    } catch (error) {
+      throwErrorMessage(error);
+    } finally {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: false });
+    }
+  },
+
+  limits: async ({ commit }) => {
+    try {
+      const response = await EnterpriseAccountAPI.getLimits();
+      commit(types.default.SET_ACCOUNT_LIMITS, response.data);
+    } catch (error) {
+      // silent error
+    }
+  },
 };
 
 export const mutations = {
@@ -71,6 +117,7 @@ export const mutations = {
   },
   [types.default.ADD_ACCOUNT]: MutationHelpers.setSingleRecord,
   [types.default.EDIT_ACCOUNT]: MutationHelpers.update,
+  [types.default.SET_ACCOUNT_LIMITS]: MutationHelpers.updateAttributes,
 };
 
 export default {

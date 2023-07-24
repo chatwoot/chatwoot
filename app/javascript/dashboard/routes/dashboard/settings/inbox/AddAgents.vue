@@ -1,14 +1,14 @@
 <template>
-  <div class="wizard-body columns content-box small-9">
-    <form class="row" @submit.prevent="addAgents()">
-      <div class="medium-12 columns">
+  <div class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%]">
+    <form class="mx-0 flex flex-wrap" @submit.prevent="addAgents()">
+      <div class="w-full">
         <page-header
           :header-title="$t('INBOX_MGMT.ADD.AGENTS.TITLE')"
           :header-content="$t('INBOX_MGMT.ADD.AGENTS.DESC')"
         />
       </div>
-      <div class="medium-7 columns">
-        <div class="medium-12 columns">
+      <div class="w-[60%]">
+        <div class="w-full">
           <label :class="{ error: $v.selectedAgents.$error }">
             {{ $t('INBOX_MGMT.ADD.AGENTS.TITLE') }}
             <multiselect
@@ -25,14 +25,13 @@
               :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
               :placeholder="$t('INBOX_MGMT.ADD.AGENTS.PICK_AGENTS')"
               @select="$v.selectedAgents.$touch"
-            >
-            </multiselect>
+            />
             <span v-if="$v.selectedAgents.$error" class="message">
               {{ $t('INBOX_MGMT.ADD.AGENTS.VALIDATION_ERROR') }}
             </span>
           </label>
         </div>
-        <div class="medium-12 columns">
+        <div class="w-full">
           <woot-submit-button
             :button-text="$t('INBOX_MGMT.AGENTS.BUTTON_TEXT')"
             :loading="isCreating"

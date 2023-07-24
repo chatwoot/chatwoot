@@ -74,6 +74,11 @@
           "LABEL": "Adres e-mail",
           "PLACEHOLDER": "Wprowadź adres e-mail agenta"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Dostępność",
+          "PLACEHOLDER": "Wybierz status dostępności",
+          "ERROR": "Wymagana jest dostępność"
+        },
         "SUBMIT": "Edytuj agenta"
       },
       "BUTTON_TEXT": "Edytuj",
@@ -95,17 +100,18 @@
     "MULTI_SELECTOR": {
       "PLACEHOLDER": "Brak",
       "TITLE": {
-        "AGENT": "Select agent",
-        "TEAM": "Select team"
+        "AGENT": "Wybierz konsultanta",
+        "TEAM": "Wybierz zespół"
       },
       "SEARCH": {
         "NO_RESULTS": {
-          "AGENT": "No agents found",
-          "TEAM": "No teams found"
+          "AGENT": "Nie znaleziono żadnych konsultantów",
+          "TEAM": "Nie znaleziono żadnych zespołów"
         },
         "PLACEHOLDER": {
-          "AGENT": "Search agents",
-          "TEAM": "Search teams"
+          "AGENT": "Wyszukaj konsultantów",
+          "TEAM": "Wyszukaj zespoły",
+          "INPUT": "Wyszukiwanie konsultantów"
         }
       }
     }

@@ -18,7 +18,7 @@ const testData = [
       account_id: 1,
       auto_offline: true,
       confirmed: true,
-      email: 'fayazara@gmail.com',
+      email: 'fayaz@test.com',
       available_name: 'Fayaz',
       name: 'Fayaz',
       role: 'agent',
@@ -31,7 +31,7 @@ const testData = [
     attribute_key: 'id',
     filter_operator: 'equal_to',
     values: 'This is a test',
-    query_operator: null,
+    query_operator: 'or',
   },
 ];
 
@@ -53,7 +53,6 @@ const finalResult = {
       attribute_key: 'id',
       filter_operator: 'equal_to',
       values: ['This is a test'],
-      query_operator: null,
     },
   ],
 };

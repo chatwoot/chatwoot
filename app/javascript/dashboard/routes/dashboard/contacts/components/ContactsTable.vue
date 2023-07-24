@@ -1,8 +1,10 @@
 <template>
-  <section class="contacts-table-wrap">
+  <section
+    class="contacts-table-wrap bg-white dark:bg-slate-900 flex-1 h-full overflow-hidden"
+  >
     <ve-table
       :fixed-header="true"
-      max-height="calc(100vh - 11.4rem)"
+      max-height="calc(100vh - 7.125rem)"
       scroll-width="187rem"
       :columns="columns"
       :table-data="tableData"
@@ -18,7 +20,7 @@
       v-else-if="!isLoading && !contacts.length"
       :title="$t('CONTACTS_PAGE.LIST.NO_CONTACTS')"
     />
-    <div v-if="isLoading" class="contacts--loader">
+    <div v-if="isLoading" class="items-center flex text-base justify-center">
       <spinner />
       <span>{{ $t('CONTACTS_PAGE.LIST.LOADING_MESSAGE') }}</span>
     </div>
@@ -28,12 +30,14 @@
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
 import { VeTable } from 'vue-easytable';
-import flag from 'country-code-emoji';
+import { getCountryFlag } from 'dashboard/helper/flag';
 
 import Spinner from 'shared/components/Spinner.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import timeMixin from 'dashboard/mixins/time';
+import rtlMixin from 'shared/mixins/rtlMixin';
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
 
 export default {
   components: {
@@ -41,7 +45,7 @@ export default {
     Spinner,
     VeTable,
   },
-  mixins: [clickaway, timeMixin],
+  mixins: [clickaway, timeMixin, rtlMixin],
   props: {
     contacts: {
       type: Array,
@@ -65,11 +69,11 @@ export default {
     },
     sortParam: {
       type: String,
-      default: 'name',
+      default: 'last_activity_at',
     },
     sortOrder: {
       type: String,
-      default: 'asc',
+      default: 'desc',
     },
   },
   data() {
@@ -91,6 +95,7 @@ export default {
         // as it simplier the sort attribute calculation
         const additional = item.additional_attributes || {};
         const { last_activity_at: lastActivityAt } = item;
+        const { created_at: createdAt } = item;
         return {
           ...item,
           phone_number: item.phone_number || '---',
@@ -103,6 +108,7 @@ export default {
           last_activity_at: lastActivityAt
             ? this.dynamicTime(lastActivityAt)
             : '---',
+          created_at: createdAt ? this.dynamicTime(createdAt) : '---',
         };
       });
     },
@@ -113,7 +119,7 @@ export default {
           key: 'name',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.NAME'),
           fixed: 'left',
-          align: 'left',
+          align: this.isRTLView ? 'right' : 'left',
           sortBy: this.sortConfig.name || '',
           width: 300,
           renderBodyCell: ({ row }) => (
@@ -129,7 +135,7 @@ export default {
                   status={row.availability_status}
                 />
                 <div class="user-block">
-                  <h6 class="sub-block-title text-truncate">
+                  <h6 class="sub-block-title overflow-hidden whitespace-nowrap text-ellipsis">
                     <router-link
                       to={`/app/accounts/${this.$route.params.accountId}/contacts/${row.id}`}
                       class="user-name"
@@ -149,13 +155,13 @@ export default {
           field: 'email',
           key: 'email',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.EMAIL_ADDRESS'),
-          align: 'left',
+          align: this.isRTLView ? 'right' : 'left',
           sortBy: this.sortConfig.email || '',
           width: 240,
           renderBodyCell: ({ row }) => {
             if (row.email)
               return (
-                <div class="text-truncate">
+                <div class="overflow-hidden whitespace-nowrap text-ellipsis text-woot-500 dark:text-woot-500">
                   <a
                     target="_blank"
                     rel="noopener noreferrer nofollow"
@@ -173,33 +179,33 @@ export default {
           key: 'phone_number',
           sortBy: this.sortConfig.phone_number || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.PHONE_NUMBER'),
-          align: 'left',
+          align: this.isRTLView ? 'right' : 'left',
         },
         {
           field: 'company',
           key: 'company',
           sortBy: this.sortConfig.company_name || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.COMPANY'),
-          align: 'left',
+          align: this.isRTLView ? 'right' : 'left',
         },
         {
           field: 'city',
           key: 'city',
           sortBy: this.sortConfig.city || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CITY'),
-          align: 'left',
+          align: this.isRTLView ? 'right' : 'left',
         },
         {
           field: 'country',
           key: 'country',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.COUNTRY'),
-          align: 'left',
+          align: this.isRTLView ? 'right' : 'left',
           sortBy: this.sortConfig.country || '',
           renderBodyCell: ({ row }) => {
             if (row.country) {
               return (
-                <div class="text-truncate">
-                  {`${flag(row.countryCode)} ${row.country}`}
+                <div class="overflow-hidden whitespace-nowrap text-ellipsis">
+                  {`${getCountryFlag(row.countryCode)} ${row.country}`}
                 </div>
               );
             }
@@ -210,7 +216,7 @@ export default {
           field: 'profiles',
           key: 'profiles',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.SOCIAL_PROFILES'),
-          align: 'left',
+          align: this.isRTLView ? 'right' : 'left',
           renderBodyCell: ({ row }) => {
             const { profiles } = row;
 
@@ -228,7 +234,7 @@ export default {
                         rel="noopener noreferrer nofollow"
                         href={`https://${profile}.com/${profiles[profile]}`}
                       >
-                        <i class={`ion-social-${profile}`} />
+                        <FluentIcon icon={`brand-${profile}`} />
                       </a>
                     )
                 )}
@@ -241,14 +247,21 @@ export default {
           key: 'last_activity_at',
           sortBy: this.sortConfig.last_activity_at || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.LAST_ACTIVITY'),
-          align: 'left',
+          align: this.isRTLView ? 'right' : 'left',
+        },
+        {
+          field: 'created_at',
+          key: 'created_at',
+          sortBy: this.sortConfig.created_at || '',
+          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CREATED_AT'),
+          align: this.isRTLView ? 'right' : 'left',
         },
         {
           field: 'conversationsCount',
           key: 'conversationsCount',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CONVERSATIONS'),
           width: 150,
-          align: 'left',
+          align: this.isRTLView ? 'right' : 'left',
         },
       ];
     },
@@ -273,44 +286,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/mixins';
-
-.contacts-table-wrap {
-  flex: 1 1;
-  height: 100%;
-  overflow: hidden;
-}
-
 .contacts-table-wrap::v-deep {
   .ve-table {
-    padding-bottom: var(--space-large);
+    @apply pb-8;
   }
   .row--user-block {
-    align-items: center;
-    display: flex;
-    text-align: left;
+    @apply items-center flex text-left;
 
     .user-block {
-      min-width: 0;
-    }
-
-    .user-thumbnail-box {
-      margin-right: var(--space-small);
+      @apply items-start flex flex-col my-0 mx-2;
     }
 
     .user-name {
-      font-size: var(--font-size-small);
-      font-weight: var(--font-weight-medium);
-      margin: 0;
-      text-transform: capitalize;
+      @apply text-sm font-medium m-0 capitalize;
     }
 
     .view-details--button {
-      color: var(--color-body);
+      @apply text-slate-600 dark:text-slate-200;
     }
 
     .user-email {
-      margin: 0;
+      @apply m-0;
     }
   }
 
@@ -326,25 +322,13 @@ export default {
     font-size: var(--font-size-mini) !important;
   }
   .ve-table-sort {
-    top: -4px;
+    @apply -top-1;
   }
-}
-
-.contacts--loader {
-  align-items: center;
-  display: flex;
-  font-size: var(--font-size-default);
-  justify-content: center;
-  padding: var(--space-big);
 }
 
 .cell--social-profiles {
   a {
-    color: var(--s-300);
-    display: inline-block;
-    font-size: var(--font-size-medium);
-    min-width: var(--space-large);
-    text-align: center;
+    @apply text-slate-300 dark:text-slate-400 text-lg min-w-[2rem] text-center;
   }
 }
 </style>

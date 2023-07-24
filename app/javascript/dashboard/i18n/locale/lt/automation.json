@@ -1,0 +1,118 @@
+{
+  "AUTOMATION": {
+    "HEADER": "Automatika",
+    "HEADER_BTN_TXT": "Pridėti automatizavimo taisyklę",
+    "LOADING": "Gaunamos automatizavimo taisyklės",
+    "SIDEBAR_TXT": "<p><b>Automatizavimo taisyklės</b> <p>Automatizacija gali pakeisti ir automatizuoti esamus procesus, kuriems reikia rankinių pastangų. Automatizuodami galite atlikti daugybę dalykų, įskaitant etikečių pridėjimą ir pokalbio priskyrimą geriausiam agentui. Taigi komanda sutelkia dėmesį į tai, ką moka geriausiai, ir mažiau laiko skiria rankinėms užduotims.</p>",
+    "ADD": {
+      "TITLE": "Pridėti automatizavimo taisyklę",
+      "SUBMIT": "Sukurti",
+      "CANCEL_BUTTON_TEXT": "Atšaukti",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Taisyklės pavadinimas",
+          "PLACEHOLDER": "Įvesti taisyklės pavadinimą",
+          "ERROR": "Yra reikalingas vardas"
+        },
+        "DESC": {
+          "LABEL": "Aprašymas",
+          "PLACEHOLDER": "Įveskite taisyklės aprašymą",
+          "ERROR": "Būtinas aprašymas"
+        },
+        "EVENT": {
+          "LABEL": "Įvykis",
+          "PLACEHOLDER": "Prašau pasirinkti vieną",
+          "ERROR": "Reikalingas įvykis"
+        },
+        "CONDITIONS": {
+          "LABEL": "Sąlygos"
+        },
+        "ACTIONS": {
+          "LABEL": "Veiksmai"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Pridėti Sąlygas",
+      "ACTION_BUTTON_LABEL": "Pridėti Veiksmą",
+      "API": {
+        "SUCCESS_MESSAGE": "Automatizavimo taisyklė sėkmingai pridėta",
+        "ERROR_MESSAGE": "Nepavyko sukurti automatizavimo taisyklės, bandykite dar kartą vėliau"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Vardas",
+        "Aprašymas",
+        "Aktyvus",
+        "Sukurta"
+      ],
+      "404": "Nerasta jokių automatizavimo taisyklių"
+    },
+    "DELETE": {
+      "TITLE": "Trinti automatizavimo taisyklę",
+      "SUBMIT": "Ištrinti",
+      "CANCEL_BUTTON_TEXT": "Atšaukti",
+      "CONFIRM": {
+        "TITLE": "Patvirtinti Ištrynimą",
+        "MESSAGE": "Ar tikrai norite ištrinti ",
+        "YES": "Taip, Trinti ",
+        "NO": "Ne, Išsaugoti "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Automatizavimo taisyklė sėkmingai ištrinta",
+        "ERROR_MESSAGE": "Nepavyko ištrinti automatizavimo taisyklės, bandykite dar kartą vėliau"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Taisyti automatizavimo taisyklę",
+      "SUBMIT": "Atnaujinti",
+      "CANCEL_BUTTON_TEXT": "Atšaukti",
+      "API": {
+        "SUCCESS_MESSAGE": "Automatizavimo taisyklė sėkmingai atnaujinta",
+        "ERROR_MESSAGE": "Nepavyko atnaujinti automatizavimo taisyklės, bandykite dar kartą vėliau"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "Klonuoti",
+      "API": {
+        "SUCCESS_MESSAGE": "Automatizavimo taisyklė sėkmingai klonuota",
+        "ERROR_MESSAGE": "Nepavyko klonuoti automatizavimo taisyklės, bandykite dar kartą vėliau"
+      }
+    },
+    "FORM": {
+      "EDIT": "Redaguoti",
+      "CREATE": "Sukurti",
+      "DELETE": "Ištrinti",
+      "CANCEL": "Atšaukti",
+      "RESET_MESSAGE": "Pakeitus įvykio tipą bus iš naujo nustatytos sąlygos ir įvykiai, kuriuos pridėjote"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "Norėdami išsaugoti, turite išpildyti bent vieną sąlygą",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Kontakto Personalizuoti Požymiai",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Pokalbio Personalizuoti Požymiai"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "Norėdami išsaugoti, turite išpildyti bent vieną veiksmą",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Rašykite pranešimą čia",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Pasirinkite komandas"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Aktyvuoti automatizavimo taisyklę",
+      "DEACTIVATION_TITLE": "Išjungti automatizavimo taisyklę",
+      "ACTIVATION_DESCRIPTION": "Šis veiksmas suaktyvins automatizavimo taisyklę „{automationName}“. Ar tikrai norite tęsti?",
+      "DEACTIVATION_DESCRIPTION": "Šis veiksmas išjungs automatizavimo taisyklę „{automationName}“. Ar tikrai norite tęsti?",
+      "ACTIVATION_SUCCESFUL": "Automatizavimo taisyklė sėkmingai aktyvuota",
+      "DEACTIVATION_SUCCESFUL": "Automatizavimo taisyklė sėkmingai išjungta",
+      "ACTIVATION_ERROR": "Nepavyko aktyvuoti automatizavimo taisyklės, bandykite dar kartą vėliau",
+      "DEACTIVATION_ERROR": "Nepavyko išjungti automatizavimo taisyklės, bandykite dar kartą vėliau",
+      "CONFIRMATION_LABEL": "Taip",
+      "CANCEL_LABEL": "Ne"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Nepavyko įkelti priedo, bandykite dar kartą",
+      "LABEL_IDLE": "Įkelti priedą",
+      "LABEL_UPLOADING": "Įkeliama...",
+      "LABEL_UPLOADED": "Sėkmingai Įkeltas",
+      "LABEL_UPLOAD_FAILED": "Įkelti nepavyko"
+    }
+  }
+}

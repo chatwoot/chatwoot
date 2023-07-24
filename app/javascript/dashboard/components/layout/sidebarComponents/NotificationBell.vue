@@ -1,10 +1,30 @@
 <template>
-  <span class="notifications icon ion-ios-bell" @click.stop="showNotification">
-    <span v-if="unreadCount" class="unread-badge">{{ unreadCount }}</span>
-  </span>
+  <div class="mb-4">
+    <button
+      class="text-slate-600 dark:text-slate-100 w-10 h-10 my-2 flex items-center justify-center rounded-lg hover:bg-slate-25 dark:hover:bg-slate-800 dark:hover:text-slate-100 hover:text-slate-600 relative"
+      :class="{
+        'bg-woot-50 dark:bg-slate-800 text-woot-500 hover:bg-woot-50': isNotificationPanelActive,
+      }"
+      @click="openNotificationPanel"
+    >
+      <fluent-icon
+        icon="alert"
+        :class="{
+          'text-woot-500': isNotificationPanelActive,
+        }"
+      />
+      <span
+        v-if="unreadCount"
+        class="text-black-900 bg-yellow-300 absolute -top-0.5 -right-1 p-1 text-xxs min-w-[1rem] rounded-full"
+      >
+        {{ unreadCount }}
+      </span>
+    </button>
+  </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
+
 export default {
   computed: {
     ...mapGetters({
@@ -13,40 +33,23 @@ export default {
     }),
     unreadCount() {
       if (!this.notificationMetadata.unreadCount) {
-        return 0;
+        return '';
       }
 
       return this.notificationMetadata.unreadCount < 100
-        ? this.notificationMetadata.unreadCount
+        ? `${this.notificationMetadata.unreadCount}`
         : '99+';
+    },
+    isNotificationPanelActive() {
+      return this.$route.name === 'notifications_index';
     },
   },
   methods: {
-    showNotification() {
-      this.$router.push(`/app/accounts/${this.accountId}/notifications`);
+    openNotificationPanel() {
+      if (this.$route.name !== 'notifications_index') {
+        this.$emit('open-notification-panel');
+      }
     },
   },
 };
 </script>
-
-<style scoped lang="scss">
-.notifications {
-  font-size: var(--font-size-big);
-  margin-bottom: auto;
-  margin-left: auto;
-  margin-top: auto;
-  position: relative;
-
-  .unread-badge {
-    background: var(--r-300);
-    border-radius: var(--space-small);
-    color: var(--white);
-    font-size: var(--font-size-micro);
-    font-weight: var(--font-weight-black);
-    left: var(--space-slab);
-    padding: 0 var(--space-smaller);
-    position: absolute;
-    top: var(--space-smaller);
-  }
-}
-</style>

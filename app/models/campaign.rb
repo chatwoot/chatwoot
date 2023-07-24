@@ -28,17 +28,14 @@
 #  index_campaigns_on_inbox_id         (inbox_id)
 #  index_campaigns_on_scheduled_at     (scheduled_at)
 #
-# Foreign Keys
-#
-#  fk_rails_...  (account_id => accounts.id)
-#  fk_rails_...  (inbox_id => inboxes.id)
-#
 class Campaign < ApplicationRecord
+  include UrlHelper
   validates :account_id, presence: true
   validates :inbox_id, presence: true
   validates :title, presence: true
   validates :message, presence: true
   validate :validate_campaign_inbox
+  validate :validate_url
   validate :prevent_completed_campaign_from_update, on: :update
   belongs_to :account
   belongs_to :inbox
@@ -58,6 +55,7 @@ class Campaign < ApplicationRecord
     return if completed?
 
     Twilio::OneoffSmsCampaignService.new(campaign: self).perform if inbox.inbox_type == 'Twilio SMS'
+    Sms::OneoffSmsCampaignService.new(campaign: self).perform if inbox.inbox_type == 'Sms'
   end
 
   private
@@ -69,20 +67,27 @@ class Campaign < ApplicationRecord
   def validate_campaign_inbox
     return unless inbox
 
-    errors.add :inbox, 'Unsupported Inbox type' unless ['Website', 'Twilio SMS'].include? inbox.inbox_type
+    errors.add :inbox, 'Unsupported Inbox type' unless ['Website', 'Twilio SMS', 'Sms'].include? inbox.inbox_type
   end
 
   # TO-DO we clean up with better validations when campaigns evolve into more inboxes
   def ensure_correct_campaign_attributes
     return if inbox.blank?
 
-    if inbox.inbox_type == 'Twilio SMS'
+    if ['Twilio SMS', 'Sms'].include?(inbox.inbox_type)
       self.campaign_type = 'one_off'
       self.scheduled_at ||= Time.now.utc
     else
       self.campaign_type = 'ongoing'
       self.scheduled_at = nil
     end
+  end
+
+  def validate_url
+    return unless trigger_rules['url']
+
+    use_http_protocol = trigger_rules['url'].starts_with?('http://') || trigger_rules['url'].starts_with?('https://')
+    errors.add(:url, 'invalid') if inbox.inbox_type == 'Website' && !use_http_protocol
   end
 
   def prevent_completed_campaign_from_update

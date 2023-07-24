@@ -10,7 +10,19 @@ jest.mock('axios');
 describe('#actions', () => {
   describe('#get', () => {
     it('sends correct actions if API is success', async () => {
-      axios.get.mockResolvedValue({ data: { payload: inboxList } });
+      const mockedGet = jest.fn(url => {
+        if (url === '/api/v1/inboxes') {
+          return Promise.resolve({ data: { payload: inboxList } });
+        }
+        if (url === '/api/v1/accounts//cache_keys') {
+          return Promise.resolve({ data: { cache_keys: { inboxes: 0 } } });
+        }
+        // Return default value or throw an error for unexpected requests
+        return Promise.reject(new Error('Unexpected request: ' + url));
+      });
+
+      axios.get = mockedGet;
+
       await actions.get({ commit });
       expect(commit.mock.calls).toEqual([
         [types.default.SET_INBOXES_UI_FLAG, { isFetching: true }],
@@ -81,12 +93,9 @@ describe('#actions', () => {
         { id: updatedInbox.id, inbox: { enable_auto_assignment: false } }
       );
       expect(commit.mock.calls).toEqual([
-        [types.default.SET_INBOXES_UI_FLAG, { isUpdatingAutoAssignment: true }],
+        [types.default.SET_INBOXES_UI_FLAG, { isUpdating: true }],
         [types.default.EDIT_INBOXES, updatedInbox],
-        [
-          types.default.SET_INBOXES_UI_FLAG,
-          { isUpdatingAutoAssignment: false },
-        ],
+        [types.default.SET_INBOXES_UI_FLAG, { isUpdating: false }],
       ]);
     });
     it('sends correct actions if API is error', async () => {
@@ -98,11 +107,8 @@ describe('#actions', () => {
         )
       ).rejects.toThrow(Error);
       expect(commit.mock.calls).toEqual([
-        [types.default.SET_INBOXES_UI_FLAG, { isUpdatingAutoAssignment: true }],
-        [
-          types.default.SET_INBOXES_UI_FLAG,
-          { isUpdatingAutoAssignment: false },
-        ],
+        [types.default.SET_INBOXES_UI_FLAG, { isUpdating: true }],
+        [types.default.SET_INBOXES_UI_FLAG, { isUpdating: false }],
       ]);
     });
   });

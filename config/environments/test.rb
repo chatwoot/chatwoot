@@ -20,8 +20,8 @@ Rails.application.configure do
   config.public_file_server.headers = {
     'Cache-Control' => "public, max-age=#{1.hour.to_i}"
   }
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
-  Rails.application.routes.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.default_url_options = { host: 'http://localhost:3000' }
+  Rails.application.routes.default_url_options = { host: 'http://localhost:3000' }
 
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
@@ -51,13 +51,4 @@ Rails.application.configure do
   # Raises error for missing translations.
   # config.action_view.raise_on_missing_translations = true
   config.log_level = ENV.fetch('LOG_LEVEL', 'debug').to_sym
-
-  # font cors issue with CDN
-  # Ref: https://stackoverflow.com/questions/56960709/rails-font-cors-policy
-  config.middleware.insert_before 0, Rack::Cors do
-    allow do
-      origins '*'
-      resource '/packs/*', headers: :any, methods: [:get, :options]
-    end
-  end
 end

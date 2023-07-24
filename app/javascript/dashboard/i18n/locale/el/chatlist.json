@@ -7,37 +7,17 @@
       "404": "Δεν υπάρχουν ενεργές συζητήσεις σε αυτήν την ομάδα."
     },
     "TAB_HEADING": "Συζητήσεις",
+    "MENTION_HEADING": "Αναφορές",
+    "UNATTENDED_HEADING": "Χωρίς Παρακολούθηση",
     "SEARCH": {
       "INPUT": "Αναζήτηση Ανθρώπων, συνομιλιών, αποθηκευμένων απαντήσεων .."
     },
     "FILTER_ALL": "Όλες",
-    "STATUS_TABS": [
-      {
-        "NAME": "Ανοιχτές",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Επιλύθηκαν",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Δικές μου",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Χωρίς Αντιστοίχιση",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Όλες",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Δικές μου",
+      "unassigned": "Χωρίς Αντιστοίχιση",
+      "all": "Όλες"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Ανοιχτές"
@@ -50,41 +30,80 @@
       },
       "snoozed": {
         "TEXT": "Αναβολή"
+      },
+      "all": {
+        "TEXT": "Όλες"
+      }
+    },
+    "VIEW_FILTER": "Προβολή",
+    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "CHAT_SORT": {
+      "STATUS": "Κατάσταση",
+      "ORDER_BY": "Order by"
+    },
+    "CHAT_SORT_FILTER_ITEMS": {
+      "latest": {
+        "TEXT": "Last activity"
+      },
+      "sort_on_created_at": {
+        "TEXT": "Δημιουργήθηκε στις"
+      },
+      "sort_on_priority": {
+        "TEXT": "Priority"
+      },
+      "sort_on_waiting_since": {
+        "TEXT": "Pending Response"
       }
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Μήνυμα εικόνας"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Μήνυμα ήχου"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Μήνυμα βίντεο"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Επισυναπτόμενο αρχείο"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Θέση"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "έχει μοιράσει ένα σύνδεσμο"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Sort conversation",
+      "DROPDOWN_TITLE": "Ταξινόμηση κατά",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Last activity at",
+          "LABEL": "Last activity"
+        },
+        "CREATED_AT": {
+          "NAME": "Δημιουργήθηκε στις",
+          "LABEL": "Δημιουργήθηκε στις"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Last user message at",
+          "LABEL": "Last message"
+        }
       }
     },
     "RECEIVED_VIA_EMAIL": "Παραλήφθηκε από email",
     "VIEW_TWEET_IN_TWITTER": "Προβολή του tweet στο Twitter",
     "REPLY_TO_TWEET": "Απάντηση στο tweet",
+    "LINK_TO_STORY": "Μετάβαση στην ιστορία instagram",
     "SENT": "Επιτυχής αποστολή",
+    "READ": "Διαβάστηκε με επιτυχία",
+    "DELIVERED": "Παραδόθηκε με επιτυχία",
     "NO_MESSAGES": "Κανένα Μήνυμα",
     "NO_CONTENT": "Μη διαθέσιμο περιεχόμενο",
     "HIDE_QUOTED_TEXT": "Απόκρυψη Κειμένου Παράθεσης",
-    "SHOW_QUOTED_TEXT": "Απόκρυψη Κειμένου Παράθεσης"
+    "SHOW_QUOTED_TEXT": "Απόκρυψη Κειμένου Παράθεσης",
+    "MESSAGE_READ": "Ανάγνωση"
   }
 }

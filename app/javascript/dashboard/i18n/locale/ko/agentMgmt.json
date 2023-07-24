@@ -74,6 +74,11 @@
           "LABEL": "이메일 주소",
           "PLACEHOLDER": "에이전트의 이메일 주소를 입력하십시오."
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "유용성",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "에이전트 수정"
       },
       "BUTTON_TEXT": "수정",
@@ -95,17 +100,18 @@
     "MULTI_SELECTOR": {
       "PLACEHOLDER": "없음",
       "TITLE": {
-        "AGENT": "Select agent",
-        "TEAM": "Select team"
+        "AGENT": "에이전트 선택",
+        "TEAM": "팀 선택"
       },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "에이전트를 찾을 수 없음",
-          "TEAM": "No teams found"
+          "TEAM": "팀을 찾을 수 없음"
         },
         "PLACEHOLDER": {
-          "AGENT": "Search agents",
-          "TEAM": "Search teams"
+          "AGENT": "에이전트 찾기",
+          "TEAM": "팀 찾기",
+          "INPUT": "Search for agents"
         }
       }
     }

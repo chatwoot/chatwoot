@@ -1,12 +1,12 @@
 <template>
-  <div class="column content-box">
-    <div class="row">
-      <div class="small-12 columns integrations-wrap">
-        <div class="row integrations">
+  <div class="flex-shrink flex-grow overflow-auto p-4">
+    <div class="flex flex-col">
+      <div class="flex flex-col">
+        <div>
           <div
             v-for="item in integrationsList"
             :key="item.id"
-            class="small-12 columns integration"
+            class="bg-white dark:bg-slate-800 border border-solid border-slate-75 dark:border-slate-700/50 rounded-sm mb-4 p-4"
           >
             <integration
               :integration-id="item.id"
@@ -15,6 +15,22 @@
               :integration-description="item.description"
               :integration-enabled="item.enabled"
               :integration-action="item.action"
+            />
+          </div>
+          <div
+            class="bg-white dark:bg-slate-800 border border-solid border-slate-75 dark:border-slate-700/50 rounded-sm mb-4 p-4"
+          >
+            <integration
+              integration-id="dashboard-apps"
+              integration-logo="dashboard-apps.svg"
+              :integration-name="
+                $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.TITLE')
+              "
+              :integration-description="
+                $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.DESCRIPTION')
+              "
+              integration-enabled
+              integration-action="/dashboard-apps"
             />
           </div>
         </div>

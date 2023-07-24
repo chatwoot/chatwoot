@@ -8,7 +8,7 @@
       rel="noopener noreferrer nofollow"
       class="contact--social-icon"
     >
-      <i :class="`ion-social-${profile.icon}`" />
+      <fluent-icon :icon="`brand-${profile.key}`" size="16" />
     </a>
   </div>
 </template>
@@ -28,6 +28,7 @@ export default {
         { key: 'twitter', icon: 'twitter', link: 'https://twitter.com/' },
         { key: 'linkedin', icon: 'linkedin', link: 'https://linkedin.com/' },
         { key: 'github', icon: 'github', link: 'https://github.com/' },
+        { key: 'instagram', icon: 'instagram', link: 'https://instagram.com/' },
       ],
     };
   },
@@ -43,10 +44,12 @@ export default {
 
 <style scoped lang="scss">
 .social--icons {
-  margin-bottom: var(--space-small);
+  align-items: flex-end;
+  display: flex;
+  margin: var(--space-small) 0 var(--space-smaller);
 }
+
 .contact--social-icon {
-  font-size: var(--font-size-medium);
   padding-right: var(--space-slab);
   color: var(--color-body);
 }

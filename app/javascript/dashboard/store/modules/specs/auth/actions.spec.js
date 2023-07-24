@@ -29,7 +29,9 @@ describe('#actions', () => {
       });
       await actions.validityCheck({ commit });
       expect(setUser).toHaveBeenCalledTimes(1);
-      expect(commit.mock.calls).toEqual([[types.default.SET_CURRENT_USER]]);
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_CURRENT_USER, { id: 1, name: 'John' }],
+      ]);
     });
     it('sends correct actions if API is error', async () => {
       axios.get.mockRejectedValue({
@@ -47,8 +49,9 @@ describe('#actions', () => {
         headers: { expiry: 581842904 },
       });
       await actions.updateProfile({ commit }, { name: 'Pranav' });
-      expect(setUser).toHaveBeenCalledTimes(1);
-      expect(commit.mock.calls).toEqual([[types.default.SET_CURRENT_USER]]);
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_CURRENT_USER, { id: 1, name: 'John' }],
+      ]);
     });
   });
 
@@ -57,7 +60,8 @@ describe('#actions', () => {
       axios.post.mockResolvedValue({
         data: {
           id: 1,
-          account_users: [{ account_id: 1, availability_status: 'offline' }],
+          name: 'John',
+          accounts: [{ account_id: 1, availability_status: 'offline' }],
         },
         headers: { expiry: 581842904 },
       });
@@ -65,10 +69,53 @@ describe('#actions', () => {
         { commit, dispatch },
         { availability: 'offline', account_id: 1 }
       );
-      expect(setUser).toHaveBeenCalledTimes(1);
-      expect(commit.mock.calls).toEqual([[types.default.SET_CURRENT_USER]]);
+      expect(commit.mock.calls).toEqual([
+        [
+          types.default.SET_CURRENT_USER,
+          {
+            id: 1,
+            name: 'John',
+            accounts: [{ account_id: 1, availability_status: 'offline' }],
+          },
+        ],
+      ]);
       expect(dispatch.mock.calls).toEqual([
-        ['agents/updatePresence', { 1: 'offline' }],
+        [
+          'agents/updateSingleAgentPresence',
+          { availabilityStatus: 'offline', id: 1 },
+        ],
+      ]);
+    });
+  });
+
+  describe('#updateAutoOffline', () => {
+    it('sends correct actions if API is success', async () => {
+      axios.post.mockResolvedValue({
+        data: {
+          id: 1,
+          name: 'John',
+          accounts: [
+            {
+              account_id: 1,
+              auto_offline: false,
+            },
+          ],
+        },
+        headers: { expiry: 581842904 },
+      });
+      await actions.updateAutoOffline(
+        { commit, dispatch },
+        { autoOffline: false, accountId: 1 }
+      );
+      expect(commit.mock.calls).toEqual([
+        [
+          types.default.SET_CURRENT_USER,
+          {
+            id: 1,
+            name: 'John',
+            accounts: [{ account_id: 1, auto_offline: false }],
+          },
+        ],
       ]);
     });
   });
@@ -88,13 +135,20 @@ describe('#actions', () => {
         { commit, dispatch },
         { uiSettings: { is_contact_sidebar_open: false } }
       );
-      expect(setUser).toHaveBeenCalledTimes(1);
       expect(commit.mock.calls).toEqual([
         [
           types.default.SET_CURRENT_USER_UI_SETTINGS,
           { uiSettings: { is_contact_sidebar_open: false } },
         ],
-        [types.default.SET_CURRENT_USER],
+        [
+          types.default.SET_CURRENT_USER,
+          {
+            id: 1,
+            name: 'John',
+            availability_status: 'offline',
+            ui_settings: { is_contact_sidebar_open: true },
+          },
+        ],
       ]);
     });
   });
@@ -103,14 +157,17 @@ describe('#actions', () => {
     it('sends correct actions if user is logged in', async () => {
       Cookies.getJSON.mockImplementation(() => true);
       actions.setUser({ commit, dispatch });
-      expect(commit.mock.calls).toEqual([[types.default.SET_CURRENT_USER]]);
+      expect(commit.mock.calls).toEqual([]);
       expect(dispatch.mock.calls).toEqual([['validityCheck']]);
     });
 
     it('sends correct actions if user is not logged in', async () => {
       Cookies.getJSON.mockImplementation(() => false);
       actions.setUser({ commit, dispatch });
-      expect(commit.mock.calls).toEqual([[types.default.CLEAR_USER]]);
+      expect(commit.mock.calls).toEqual([
+        [types.default.CLEAR_USER],
+        [types.default.SET_CURRENT_USER_UI_FLAGS, { isFetching: false }],
+      ]);
       expect(dispatch).toHaveBeenCalledTimes(0);
     });
   });
@@ -138,6 +195,17 @@ describe('#actions', () => {
         {}
       );
       expect(commit.mock.calls).toEqual([]);
+    });
+  });
+
+  describe('#setActiveAccount', () => {
+    it('sends correct mutations if account id is available', async () => {
+      actions.setActiveAccount(
+        {
+          commit,
+        },
+        { accountId: 1 }
+      );
     });
   });
 });

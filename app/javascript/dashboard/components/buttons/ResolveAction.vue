@@ -1,11 +1,11 @@
 <template>
-  <div class="resolve-actions">
+  <div class="resolve-actions relative flex items-center justify-end">
     <div class="button-group">
       <woot-button
         v-if="isOpen"
         class-names="resolve"
         color-scheme="success"
-        icon="ion-checkmark"
+        icon="checkmark"
         emoji="✅"
         :is-loading="isLoading"
         @click="onCmdResolveConversation"
@@ -16,7 +16,7 @@
         v-else-if="isResolved"
         class-names="resolve"
         color-scheme="warning"
-        icon="ion-refresh"
+        icon="arrow-redo"
         emoji="👀"
         :is-loading="isLoading"
         @click="onCmdOpenConversation"
@@ -27,7 +27,7 @@
         v-else-if="showOpenButton"
         class-names="resolve"
         color-scheme="primary"
-        icon="ion-person"
+        icon="person"
         :is-loading="isLoading"
         @click="onCmdOpenConversation"
       >
@@ -38,7 +38,7 @@
         ref="arrowDownButton"
         :color-scheme="buttonClass"
         :disabled="isLoading"
-        icon="ion-arrow-down-b"
+        icon="chevron-down"
         emoji="🔽"
         @click="openDropdown"
       />
@@ -52,72 +52,56 @@
         <woot-dropdown-item v-if="!isPending">
           <woot-button
             variant="clear"
+            color-scheme="secondary"
+            size="small"
+            icon="snooze"
+            @click="() => openSnoozeModal()"
+          >
+            {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE_UNTIL') }}
+          </woot-button>
+        </woot-dropdown-item>
+        <woot-dropdown-item v-if="!isPending">
+          <woot-button
+            variant="clear"
+            color-scheme="secondary"
+            size="small"
+            icon="book-clock"
             @click="() => toggleStatus(STATUS_TYPE.PENDING)"
           >
             {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.MARK_PENDING') }}
           </woot-button>
         </woot-dropdown-item>
-
-        <woot-dropdown-sub-menu
-          v-if="isOpen"
-          :title="this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE.TITLE')"
-        >
-          <woot-dropdown-item>
-            <woot-button
-              variant="clear"
-              @click="() => toggleStatus(STATUS_TYPE.SNOOZED, null)"
-            >
-              {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE.NEXT_REPLY') }}
-            </woot-button>
-          </woot-dropdown-item>
-          <woot-dropdown-item>
-            <woot-button
-              variant="clear"
-              @click="
-                () => toggleStatus(STATUS_TYPE.SNOOZED, snoozeTimes.tomorrow)
-              "
-            >
-              {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE.TOMORROW') }}
-            </woot-button>
-          </woot-dropdown-item>
-          <woot-dropdown-item>
-            <woot-button
-              variant="clear"
-              @click="
-                () => toggleStatus(STATUS_TYPE.SNOOZED, snoozeTimes.nextWeek)
-              "
-            >
-              {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE.NEXT_WEEK') }}
-            </woot-button>
-          </woot-dropdown-item>
-        </woot-dropdown-sub-menu>
       </woot-dropdown-menu>
     </div>
+    <woot-modal
+      :show.sync="showCustomSnoozeModal"
+      :on-close="hideCustomSnoozeModal"
+    >
+      <custom-snooze-modal
+        @close="hideCustomSnoozeModal"
+        @choose-time="chooseSnoozeTime"
+      />
+    </woot-modal>
   </div>
 </template>
 
 <script>
+import { getUnixTime } from 'date-fns';
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
+import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import {
   hasPressedAltAndEKey,
   hasPressedCommandPlusAltAndEKey,
   hasPressedAltAndMKey,
 } from 'shared/helpers/KeyboardHelpers';
-
+import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
-import WootDropdownSubMenu from 'shared/components/ui/dropdown/DropdownSubMenu.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
-import wootConstants from '../../constants';
-import {
-  getUnixTime,
-  addHours,
-  addWeeks,
-  startOfTomorrow,
-  startOfWeek,
-} from 'date-fns';
+
+import wootConstants from 'dashboard/constants/globals';
 import {
   CMD_REOPEN_CONVERSATION,
   CMD_RESOLVE_CONVERSATION,
@@ -128,7 +112,7 @@ export default {
   components: {
     WootDropdownItem,
     WootDropdownMenu,
-    WootDropdownSubMenu,
+    CustomSnoozeModal,
   },
   mixins: [clickaway, alertMixin, eventListenerMixins],
   props: { conversationId: { type: [String, Number], required: true } },
@@ -137,6 +121,7 @@ export default {
       isLoading: false,
       showActionsDropdown: false,
       STATUS_TYPE: wootConstants.STATUS_TYPE,
+      showCustomSnoozeModal: false,
     };
   },
   computed: {
@@ -161,16 +146,6 @@ export default {
     },
     showAdditionalActions() {
       return !this.isPending && !this.isSnoozed;
-    },
-    snoozeTimes() {
-      return {
-        // tomorrow  = 9AM next day
-        tomorrow: getUnixTime(addHours(startOfTomorrow(), 9)),
-        // next week = 9AM Monday, next week
-        nextWeek: getUnixTime(
-          addHours(startOfWeek(addWeeks(new Date(), 1), { weekStartsOn: 1 }), 9)
-        ),
-      };
     },
   },
   mounted() {
@@ -218,10 +193,26 @@ export default {
       }
     },
     onCmdSnoozeConversation(snoozeType) {
-      this.toggleStatus(
-        this.STATUS_TYPE.SNOOZED,
-        this.snoozeTimes[snoozeType] || null
-      );
+      if (snoozeType === wootConstants.SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME) {
+        this.showCustomSnoozeModal = true;
+      } else {
+        this.toggleStatus(
+          this.STATUS_TYPE.SNOOZED,
+          findSnoozeTime(snoozeType) || null
+        );
+      }
+    },
+    chooseSnoozeTime(customSnoozeTime) {
+      this.showCustomSnoozeModal = false;
+      if (customSnoozeTime) {
+        this.toggleStatus(
+          this.STATUS_TYPE.SNOOZED,
+          getUnixTime(customSnoozeTime)
+        );
+      }
+    },
+    hideCustomSnoozeModal() {
+      this.showCustomSnoozeModal = false;
     },
     onCmdOpenConversation() {
       this.toggleStatus(this.STATUS_TYPE.OPEN);
@@ -252,22 +243,19 @@ export default {
           this.isLoading = false;
         });
     },
+    openSnoozeModal() {
+      const ninja = document.querySelector('ninja-keys');
+      ninja.open({ parent: 'snooze_conversation' });
+    },
   },
 };
 </script>
 <style lang="scss" scoped>
-.resolve-actions {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-
 .dropdown-pane {
-  left: unset;
-  top: 4.2rem;
-  margin-top: var(--space-micro);
-  right: 0;
-  max-width: 20rem;
+  @apply left-auto top-[2.625rem] mt-0.5 right-0 max-w-[12.5rem] min-w-[9.75rem];
+
+  .dropdown-menu__item {
+    @apply mb-0;
+  }
 }
 </style>

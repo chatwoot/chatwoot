@@ -7,6 +7,8 @@ class SupportMailbox < ApplicationMailbox
                     :decorate_mail
 
   def process
+    # to turn off spam conversation creation
+    return unless @account.active?
     # prevent loop from chatwoot notification emails
     return if notification_email_from_chatwoot?
 
@@ -21,13 +23,15 @@ class SupportMailbox < ApplicationMailbox
   private
 
   def find_channel
-    mail.to.each do |email|
-      @channel = Channel::Email.find_by('lower(email) = ? OR lower(forward_to_email) = ?', email.downcase, email.downcase)
-      break if @channel.present?
-    end
+    find_channel_with_to_mail if @channel.blank?
+
     raise 'Email channel/inbox not found' if @channel.nil?
 
     @channel
+  end
+
+  def find_channel_with_to_mail
+    @channel = EmailChannelFinder.new(mail).perform
   end
 
   def load_account
@@ -70,7 +74,7 @@ class SupportMailbox < ApplicationMailbox
   end
 
   def find_or_create_contact
-    @contact = @inbox.contacts.find_by(email: @processed_mail.original_sender)
+    @contact = @inbox.contacts.find_by(email: @processed_mail.original_sender&.downcase)
     if @contact.present?
       @contact_inbox = ContactInbox.find_by(inbox: @inbox, contact: @contact)
     else
