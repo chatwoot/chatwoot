@@ -1,63 +1,83 @@
 <template>
   <woot-modal :show="show" size="medium" :on-close="() => $emit('close')">
-    <div class="column content-box">
+    <div class="h-auto overflow-auto flex flex-col">
       <woot-modal-header
         :header-title="$t('SIDEBAR_ITEMS.KEYBOARD_SHORTCUTS')"
       />
-      <div class="shortcut__wrap margin-top-3">
-        <div class="title-key__wrap">
-          <h5 class="text-block-title">
+      <div class="grid grid-cols-2 gap-x-5 gap-y-3 pt-0 px-8 pb-8 mt-6">
+        <div class="flex justify-between items-center min-w-[25rem]">
+          <h5 class="text-sm text-slate-800 dark:text-slate-100">
             {{ $t('KEYBOARD_SHORTCUTS.TOGGLE_MODAL') }}
           </h5>
-          <div class="shortcut-key__wrap">
-            <p class="shortcut-key">
+          <div class="flex items-center mb-1 ml-2">
+            <p
+              class="shortcut-key items-center rounded-md mr-2 py-2 px-2.5 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-semibold text-xs"
+            >
               {{ $t('KEYBOARD_SHORTCUTS.KEYS.WINDOWS_KEY_AND_COMMAND_KEY') }}
             </p>
-            <p class="shortcut-key key">
+            <p
+              class="shortcut-key items-center rounded-md mr-2 py-2 px-2.5 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-semibold text-xs flex justify-center min-w-[2rem] rtl:mr-0 rtl:ml-2"
+            >
               {{ $t('KEYBOARD_SHORTCUTS.KEYS.FORWARD_SLASH_KEY') }}
             </p>
           </div>
         </div>
       </div>
 
-      <div class="shortcut__wrap">
-        <div class="title-key__wrap">
-          <h5 class="text-block-title">
+      <div class="grid grid-cols-2 gap-x-5 gap-y-3 pt-0 px-8 pb-8">
+        <div class="flex justify-between items-center min-w-[25rem]">
+          <h5 class="text-sm text-slate-800 dark:text-slate-100">
             {{ $t('KEYBOARD_SHORTCUTS.TITLE.OPEN_CONVERSATION') }}
           </h5>
-          <div class="shortcut-key__wrap">
-            <div class="open-conversation__key">
-              <span class="shortcut-key">
+          <div class="flex items-center mb-1 ml-2">
+            <div class="flex mr-2">
+              <span
+                class="items-center rounded-md mr-2 py-2 px-2.5 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-semibold text-xs"
+              >
                 {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
               </span>
-              <span class="shortcut-key">
+              <span
+                class="items-center rounded-md mr-2 py-2 px-2.5 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-semibold text-xs"
+              >
                 J
               </span>
-              <span class="forward-slash text-block-title">
+              <span
+                class="flex items-center font-semibold text-sm text-slate-800 dark:text-slate-100"
+              >
                 {{ $t('KEYBOARD_SHORTCUTS.KEYS.FORWARD_SLASH_KEY') }}
               </span>
             </div>
-            <span class="shortcut-key">
+            <span
+              class="items-center rounded-md mr-2 py-2 px-2.5 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-semibold text-xs"
+            >
               {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
             </span>
-            <span class="shortcut-key key">
+            <span
+              class="items-center rounded-md mr-2 py-2 px-2.5 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-semibold text-xs flex justify-center min-w-[2rem] rtl:mr-0 rtl:ml-2"
+            >
               K
             </span>
           </div>
         </div>
 
-        <div class="title-key__wrap">
-          <h5 class="text-block-title">
+        <div class="flex justify-between items-center min-w-[25rem]">
+          <h5 class="text-sm text-slate-800 dark:text-slate-100">
             {{ $t('KEYBOARD_SHORTCUTS.TITLE.RESOLVE_AND_NEXT') }}
           </h5>
-          <div class="shortcut-key__wrap">
-            <span class="shortcut-key">
+          <div class="flex items-center mb-1 ml-2">
+            <span
+              class="items-center rounded-md mr-2 py-2 px-2.5 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-semibold text-xs"
+            >
               {{ $t('KEYBOARD_SHORTCUTS.KEYS.WINDOWS_KEY_AND_COMMAND_KEY') }}
             </span>
-            <span class="shortcut-key">
+            <span
+              class="items-center rounded-md mr-2 py-2 px-2.5 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-semibold text-xs"
+            >
               {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
             </span>
-            <span class="shortcut-key key">
+            <span
+              class="items-center rounded-md mr-2 py-2 px-2.5 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-semibold text-xs flex justify-center min-w-[2rem] rtl:mr-0 rtl:ml-2"
+            >
               E
             </span>
           </div>
@@ -65,16 +85,20 @@
         <div
           v-for="shortcutKey in shortcutKeys"
           :key="shortcutKey.id"
-          class="title-key__wrap"
+          class="flex justify-between items-center min-w-[25rem]"
         >
-          <h5 class="text-block-title">
+          <h5 class="text-sm text-slate-800 dark:text-slate-100">
             {{ title(shortcutKey) }}
           </h5>
-          <div class="shortcut-key__wrap">
-            <span class="shortcut-key">
+          <div class="flex items-center mb-1 ml-2">
+            <span
+              class="items-center rounded-md mr-2 py-2 px-2.5 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-semibold text-xs"
+            >
               {{ shortcutKey.firstkey }}
             </span>
-            <span class="shortcut-key key">
+            <span
+              class="items-center rounded-md mr-2 py-2 px-2.5 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-semibold text-xs flex justify-center min-w-[2rem] rtl:mr-0 rtl:ml-2"
+            >
               {{ shortcutKey.secondKey }}
             </span>
           </div>
@@ -108,64 +132,8 @@ export default {
   },
 };
 </script>
-
 <style lang="scss" scoped>
-.title-shortcut-key__wrap {
-  display: flex;
-}
-
-.page-title {
-  font-size: var(--font-size-big);
-  font-weight: var(--font-weight-bold);
-}
-
-.shortcut-key__wrap {
-  display: flex;
-  align-items: center;
-  margin-bottom: var(--space-smaller);
-  margin-left: var(--space-small);
-}
-
-.shortcut__wrap {
-  display: grid;
-  grid-template-columns: repeat(2, 0.5fr);
-  gap: var(--space-smaller) var(--space-large);
-  margin-top: var(--space-small);
-  padding: 0 var(--space-large) var(--space-large);
-}
-
-.title-key__wrap {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  min-width: 25rem;
-}
-
-.forward-slash {
-  display: flex;
-  align-items: center;
-  font-weight: var(--font-weight-bold);
-}
-
 .shortcut-key {
-  background: var(--color-background);
-  padding: var(--space-small) var(--space-one);
-  font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-mini);
-  align-items: center;
-  border-radius: var(--border-radius-normal);
-  margin-right: var(--space-small);
-}
-
-.key {
-  display: flex;
-  justify-content: center;
-  min-width: var(--space-large);
-  margin-right: 0;
-}
-
-.open-conversation__key {
-  display: flex;
-  margin-right: var(--space-small);
+  @apply py-2 px-2.5;
 }
 </style>
