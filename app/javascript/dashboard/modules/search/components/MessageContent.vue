@@ -49,6 +49,10 @@ export default {
     },
   },
   mounted() {
+    this.$watch(() => {
+      return this.$refs.messageContainer;
+    }, this.setOverflow);
+
     this.$nextTick(() => this.setOverflow);
   },
   methods: {
