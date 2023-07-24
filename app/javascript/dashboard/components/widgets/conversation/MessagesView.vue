@@ -119,11 +119,13 @@ import aiMixin from 'dashboard/mixins/aiMixin';
 import { getTypingUsersText } from '../../../helper/commons';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 import { isEscape } from 'shared/helpers/KeyboardHelpers';
+import { LocalStorage } from 'shared/helpers/localStorage';
 
 // constants
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { REPLY_POLICY } from 'shared/constants/links';
 import wootConstants from 'dashboard/constants/globals';
+import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 
 export default {
   components: {
@@ -392,8 +394,11 @@ export default {
       });
     },
     isLabelSuggestionDismissed() {
-      const dismissed = this.getDismissedConversations(this.currentAccountId);
-      return dismissed[this.currentAccountId].includes(this.conversationId);
+      return LocalStorage.getFlag(
+        LOCAL_STORAGE_KEYS.DISMISSED_LABEL_SUGGESTIONS,
+        this.currentAccountId,
+        this.currentChat.id
+      );
     },
     fetchAllAttachmentsFromCurrentChat() {
       this.$store.dispatch('fetchAllAttachments', this.currentChat.id);
