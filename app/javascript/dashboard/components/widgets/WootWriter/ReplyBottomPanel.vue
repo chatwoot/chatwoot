@@ -323,6 +323,9 @@ export default {
 
 <style lang="scss" scoped>
 ::v-deep .file-uploads {
+  label {
+    @apply cursor-pointer;
+  }
   &:hover button {
     @apply dark:bg-slate-800 bg-slate-100 z-10;
   }
