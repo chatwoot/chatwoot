@@ -70,3 +70,4 @@ class MessageTemplates::HookExecutionService
     true
   end
 end
+MessageTemplates::HookExecutionService.prepend_mod_with('MessageTemplates::HookExecutionService')

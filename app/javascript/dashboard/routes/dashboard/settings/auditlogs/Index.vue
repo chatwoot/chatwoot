@@ -1,5 +1,5 @@
 <template>
-  <div class="column content-box audit-log--settings">
+  <div class="flex-1 overflow-auto p-4 flex justify-between flex-col">
     <!-- List Audit Logs -->
     <div>
       <div>
@@ -16,10 +16,10 @@
 
         <table
           v-if="!uiFlags.fetchingList && records.length"
-          class="woot-table width-100"
+          class="woot-table w-full"
         >
           <colgroup>
-            <col class="column-activity" />
+            <col class="w-[60%]" />
             <col />
             <col />
           </colgroup>
@@ -34,10 +34,10 @@
           </thead>
           <tbody>
             <tr v-for="auditLogItem in records" :key="auditLogItem.id">
-              <td class="wrap-break-words">
+              <td class="whitespace-nowrap break-all">
                 {{ generateLogText(auditLogItem) }}
               </td>
-              <td class="wrap-break-words">
+              <td class="whitespace-nowrap break-all">
                 {{
                   messageTimestamp(
                     auditLogItem.created_at,
@@ -45,7 +45,7 @@
                   )
                 }}
               </td>
-              <td class="remote-address">
+              <td class="w-[8.75rem]">
                 {{ auditLogItem.remote_address }}
               </td>
             </tr>
@@ -57,6 +57,7 @@
       :current-page="Number(meta.currentPage)"
       :total-count="meta.totalEntries"
       :page-size="meta.perPage"
+      class="dark:bg-slate-900"
       @page-change="onPageChange"
     />
   </div>
@@ -133,24 +134,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.audit-log--settings {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-
-  .remote-address {
-    width: 8.75rem;
-  }
-
-  .wrap-break-words {
-    word-break: break-all;
-    white-space: normal;
-  }
-
-  .column-activity {
-    width: 60%;
-  }
-}
-</style>

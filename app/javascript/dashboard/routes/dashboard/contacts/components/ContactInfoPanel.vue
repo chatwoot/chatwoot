@@ -1,6 +1,6 @@
 <template>
   <div
-    class="small-12 medium-3 bg-white contact--panel"
+    class="w-[25%] bg-white dark:bg-slate-900 contact--panel"
     :class="{ 'border-left': showAvatar }"
   >
     <contact-info
@@ -148,38 +148,20 @@ export default {
 <style lang="scss" scoped>
 ::v-deep {
   .contact--profile {
-    padding-bottom: var(--space-slab);
-    margin-bottom: var(--space-normal);
+    @apply pb-3 mb-4;
   }
 }
 .contact--panel {
-  height: 100%;
-  font-size: var(--font-size-small);
-  overflow-y: auto;
-  overflow: auto;
-  position: relative;
-  @apply border-r border-slate-50 dark:border-slate-700;
+  @apply border-r border-slate-50 dark:border-slate-700 h-full text-sm overflow-y-auto relative;
 }
 
 .list-group {
   .list-group-item {
-    background-color: var(--white);
+    @apply bg-white dark:bg-slate-900;
   }
 }
 
 .conversation--details {
-  padding: 0 var(--space-normal);
-}
-
-.contact--mute {
-  color: var(--r-400);
-  display: block;
-  text-align: left;
-}
-
-.contact--actions {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  @apply py-0 px-4;
 }
 </style>

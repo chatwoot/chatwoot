@@ -4,7 +4,10 @@
       <emoji-or-icon class="icon-grab" icon="grab-handle" />
       <div class="article-block">
         <router-link :to="articleUrl(id)">
-          <h6 :title="title" class="sub-block-title text-truncate">
+          <h6
+            :title="title"
+            class="text-base text-slate-800 dark:text-slate-100 mb-0 leading-6 h-6 hover:underline overflow-hidden whitespace-nowrap text-ellipsis"
+          >
             {{ title }}
           </h6>
         </router-link>
@@ -21,7 +24,7 @@
       >
         <span
           :title="category.name"
-          class="category-link-content text-ellipsis"
+          class="category-link-content overflow-hidden whitespace-nowrap text-ellipsis"
         >
           {{ category.name }}
         </span>
@@ -133,109 +136,71 @@ export default {
 
 <style lang="scss" scoped>
 .article-container--row {
-  background: var(--white);
-  border-bottom: 1px solid var(--s-50);
-  display: grid;
-  gap: var(--space-normal);
-  grid-template-columns: repeat(8, minmax(0, 1fr));
-  margin: 0 var(--space-minus-normal);
-  padding: 0 var(--space-normal);
+  @apply bg-white dark:bg-slate-900 my-0 -mx-4 py-0 px-4 grid grid-cols-8 gap-4 border-b border-slate-50 dark:border-slate-800;
 
   @media (max-width: 1024px) {
-    grid-template-columns: repeat(7, minmax(0, 1fr));
+    @apply grid-cols-7;
   }
 
   @media (max-width: 768px) {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
+    @apply grid-cols-6;
   }
 
   &.draggable {
     span.article-column.article-title {
-      margin-left: var(--space-minus-small);
+      @apply -ml-2;
 
       .icon-grab {
-        display: block;
-        cursor: move;
-        height: var(--space-normal);
-        margin-top: var(--space-smaller);
-        width: var(--space-normal);
-
-        color: var(--s-100);
+        @apply block cursor-move h-4 mt-1 w-4 text-slate-100 dark:text-slate-700;
 
         &:hover {
-          color: var(--s-300);
+          @apply text-slate-300 dark:text-slate-200;
         }
       }
     }
   }
 
   span.article-column {
-    color: var(--s-700);
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-bold);
-    padding: var(--space-small) 0;
-    text-align: right;
-    text-transform: capitalize;
+    @apply text-slate-700 dark:text-slate-100 text-sm font-semibold py-2 px-0 text-right capitalize;
 
     &.article-title {
-      align-items: start;
-      display: flex;
-      gap: var(--space-small);
-      grid-column: span 4 / span 4;
-      text-align: left;
-      text-align: left;
+      @apply items-start flex gap-2 col-span-4 text-left;
 
       .icon-grab {
-        display: none;
+        @apply hidden;
       }
     }
 
     // for screen sizes smaller than 1024px
     @media (max-width: 63.9375em) {
       &.article-read-count {
-        display: none;
+        @apply hidden;
       }
     }
 
     @media (max-width: 47.9375em) {
       &.article-read-count,
       &.article-last-edited {
-        display: none;
+        @apply hidden;
       }
     }
   }
 
   .article-block {
-    min-width: 0;
-  }
-
-  .sub-block-title {
-    margin-bottom: 0;
-    line-height: var(--space-medium);
-    height: var(--space-medium);
-    &:hover {
-      text-decoration: underline;
-    }
+    @apply min-w-0;
   }
 
   .author {
     .by {
-      font-weight: var(--font-weight-normal);
-      color: var(--s-500);
-      font-size: var(--font-size-small);
+      @apply font-normal text-slate-500 dark:text-slate-200 text-sm;
     }
     .name {
-      font-weight: var(--font-weight-medium);
-      color: var(--s-600);
-      font-size: var(--font-size-small);
+      @apply font-normal text-slate-500 dark:text-slate-200 text-sm;
     }
   }
 }
 
 span {
-  font-weight: var(--font-weight-normal);
-  color: var(--s-700);
-  font-size: var(--font-size-mini);
-  padding-left: 0;
+  @apply font-normal text-slate-700 dark:text-slate-100 text-sm pl-0;
 }
 </style>
