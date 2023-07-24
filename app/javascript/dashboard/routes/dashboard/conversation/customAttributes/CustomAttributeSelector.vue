@@ -63,8 +63,8 @@ export default {
           attribute_display_type,
           default_value,
         } = attribute;
-        const defaultValue =
-          attribute_display_type === 'checkbox' ? false : default_value || null;
+      const isCheckbox = attribute_display_type === 'checkbox';
+      const defaultValue = isCheckbox ? false : default_value || null;
         if (this.attributeType === 'conversation_attribute') {
           await this.$store.dispatch('updateCustomAttributes', {
             conversationId: this.conversationId,
