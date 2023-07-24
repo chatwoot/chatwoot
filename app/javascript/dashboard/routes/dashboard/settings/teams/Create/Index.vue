@@ -1,6 +1,8 @@
 <template>
-  <div class="overflow-auto p-4 max-w-full my-auto flex flex-wrap h-full">
-    <woot-wizard class="small-3 columns" :items="items" />
+  <div
+    class="overflow-auto p-4 max-w-full my-auto flex flex-row flex-nowrap h-full"
+  >
+    <woot-wizard class="hidden md:block w-[25%]" :items="items" />
     <router-view />
   </div>
 </template>

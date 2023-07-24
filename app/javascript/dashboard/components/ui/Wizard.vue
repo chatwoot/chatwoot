@@ -60,3 +60,77 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.wizard-box {
+  .item {
+    @apply cursor-pointer py-4 pr-4 pl-6 relative;
+
+    &::before,
+    &::after {
+      @apply bg-slate-75 dark:bg-slate-600 content-[''] h-full absolute top-5 w-0.5;
+    }
+
+    &::before {
+      @apply h-4 top-0;
+    }
+
+    &:first-child {
+      &::before {
+        @apply h-0;
+      }
+    }
+
+    &:last-child {
+      &::after {
+        @apply h-0;
+      }
+    }
+
+    &.active {
+      h3 {
+        @apply text-woot-500 dark:text-woot-500;
+      }
+
+      .step {
+        @apply bg-woot-500 dark:bg-woot-500;
+      }
+    }
+
+    &.over {
+      &::after {
+        @apply bg-woot-500 dark:bg-woot-500;
+      }
+
+      .step {
+        @apply bg-woot-500 dark:bg-woot-500;
+      }
+
+      & + .item {
+        &::before {
+          @apply bg-woot-500 dark:bg-woot-500;
+        }
+      }
+    }
+
+    h3 {
+      @apply text-slate-800 dark:text-slate-100 text-base pl-6;
+    }
+
+    .completed {
+      @apply text-green-500 dark:text-green-500 ml-1;
+    }
+
+    p {
+      @apply text-slate-600 dark:text-slate-300 text-sm m-0 pl-6;
+    }
+
+    .step {
+      @apply bg-slate-75 dark:bg-slate-600 rounded-2xl font-medium w-4 left-4 leading-4 z-[999] absolute text-center text-white dark:text-white text-xxs top-5;
+
+      i {
+        @apply text-xxs;
+      }
+    }
+  }
+}
+</style>

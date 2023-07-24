@@ -1,5 +1,5 @@
 <template>
-  <div class="settings--content">
+  <div class="my-2 mx-8">
     <div class="widget-builder-container">
       <div class="settings-container w-100 lg:w-[40%]">
         <div class="settings-content">

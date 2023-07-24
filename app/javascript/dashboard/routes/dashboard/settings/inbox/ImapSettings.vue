@@ -1,5 +1,5 @@
 <template>
-  <div class="settings--content">
+  <div class="my-2 mx-8">
     <settings-section
       :title="$t('INBOX_MGMT.IMAP.TITLE')"
       :sub-title="$t('INBOX_MGMT.IMAP.SUBTITLE')"
@@ -15,7 +15,7 @@
           {{ $t('INBOX_MGMT.IMAP.TOGGLE_AVAILABILITY') }}
         </label>
         <p>{{ $t('INBOX_MGMT.IMAP.TOGGLE_HELP') }}</p>
-        <div v-if="isIMAPEnabled" class="imap-details-wrap">
+        <div v-if="isIMAPEnabled" class="mb-6">
           <woot-input
             v-model.trim="address"
             :class="{ error: $v.address.$error }"
@@ -162,8 +162,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.imap-details-wrap {
-  margin-bottom: var(--space-medium);
-}
-</style>

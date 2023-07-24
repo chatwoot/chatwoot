@@ -1,6 +1,6 @@
 <template>
   <div
-    class="settings bg-white dark:bg-slate-800 flex-grow flex-shrink pr-0 pl-0 overflow-auto min-w-0 w-full"
+    class="bg-white dark:bg-slate-800 flex-grow flex-shrink pr-0 pl-0 overflow-auto min-w-0 w-full"
   >
     <setting-intro-banner
       :header-image="inbox.avatarUrl"
@@ -21,7 +21,7 @@
       </woot-tabs>
     </setting-intro-banner>
 
-    <div v-if="selectedTabKey === 'inbox_settings'" class="settings--content">
+    <div v-if="selectedTabKey === 'inbox_settings'" class="my-2 mx-8">
       <settings-section
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_UPDATE_TITLE')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_UPDATE_SUB_TEXT')"
@@ -412,7 +412,7 @@
       <facebook-reauthorize v-if="isAFacebookInbox" :inbox-id="inbox.id" />
     </div>
 
-    <div v-if="selectedTabKey === 'collaborators'" class="settings--content">
+    <div v-if="selectedTabKey === 'collaborators'" class="my-2 mx-8">
       <collaborators-page :inbox="inbox" />
     </div>
     <div v-if="selectedTabKey === 'configuration'">
@@ -770,11 +770,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.settings {
-  .settings--tabs {
-    ::v-deep .tabs {
-      @apply p-0;
-    }
+.settings--tabs {
+  ::v-deep .tabs {
+    @apply p-0;
   }
 }
 </style>

@@ -1,10 +1,10 @@
 <template>
-  <div class="settings--content">
+  <div class="my-2 mx-8">
     <settings-section
       :title="$t('INBOX_MGMT.MICROSOFT.TITLE')"
       :sub-title="$t('INBOX_MGMT.MICROSOFT.SUBTITLE')"
     >
-      <div class="smtp-details-wrap">
+      <div class="mb-6">
         <form @submit.prevent="requestAuthorization">
           <woot-submit-button
             icon="brand-twitter"
@@ -56,8 +56,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.smtp-details-wrap {
-  margin-bottom: var(--space-medium);
-}
-</style>

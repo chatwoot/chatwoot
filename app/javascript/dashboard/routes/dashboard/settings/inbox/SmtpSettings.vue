@@ -1,5 +1,5 @@
 <template>
-  <div class="settings--content">
+  <div class="my-2 mx-8">
     <settings-section
       :title="$t('INBOX_MGMT.SMTP.TITLE')"
       :sub-title="$t('INBOX_MGMT.SMTP.SUBTITLE')"
@@ -14,7 +14,7 @@
           {{ $t('INBOX_MGMT.SMTP.TOGGLE_AVAILABILITY') }}
         </label>
         <p>{{ $t('INBOX_MGMT.SMTP.TOGGLE_HELP') }}</p>
-        <div v-if="isSMTPEnabled" class="smtp-details-wrap">
+        <div v-if="isSMTPEnabled" class="mb-6">
           <woot-input
             v-model.trim="address"
             :class="{ error: $v.address.$error }"
@@ -237,8 +237,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.smtp-details-wrap {
-  margin-bottom: var(--space-medium);
-}
-</style>
