@@ -22,7 +22,7 @@
                 {{ template.name }}
               </p>
               <span
-                class="inline-block py-1 px-2 rounded text-xs leading-none cursor-default bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100"
+                class="inline-block py-1 px-2 rounded-sm text-xs leading-none cursor-default bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100"
               >
                 {{ $t('WHATSAPP_TEMPLATES.PICKER.LABELS.LANGUAGE') }} :
                 {{ template.language }}
