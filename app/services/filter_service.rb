@@ -1,6 +1,6 @@
 require 'json'
 
-class FilterService
+class FilterService # rubocop:disable Metrics/ClassLength
   ATTRIBUTE_MODEL = 'conversation_attribute'.freeze
   ATTRIBUTE_TYPES = {
     date: 'date', text: 'text', number: 'numeric', link: 'text', list: 'text', checkbox: 'boolean'
@@ -21,7 +21,7 @@ class FilterService
     case query_hash[:filter_operator]
     when 'equal_to', 'not_equal_to'
       @filter_values["value_#{current_index}"] = filter_values(query_hash)
-      equals_to_filter_string(query_hash[:filter_operator], current_index)
+      query_hash_label(query_hash, current_index)
     when 'contains', 'does_not_contain'
       @filter_values["value_#{current_index}"] = "%#{string_filter_values(query_hash)}%"
       like_filter_string(query_hash[:filter_operator], current_index)
@@ -153,5 +153,14 @@ class FilterService
     return "LIKE :value_#{current_index}" if %w[contains starts_with].include?(filter_operator)
 
     "NOT LIKE :value_#{current_index}"
+  end
+
+  def query_hash_label(query_hash, current_index)
+    # if filter is on labels we need the nested query to have
+    # IN :value_(index) irrespective of filter_operator and not NOT IN :value_(index)
+    # as NOT IN does not exclude the conversations having the mentioned labels
+    return equals_to_filter_string('equal_to', current_index) if query_hash['attribute_key'] == 'labels'
+
+    equals_to_filter_string(query_hash[:filter_operator], current_index)
   end
 end

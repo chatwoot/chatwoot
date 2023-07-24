@@ -35,6 +35,7 @@ class Conversations::FilterService < FilterService
   def conversation_query_string(current_filter, query_hash, current_index)
     attribute_key = query_hash[:attribute_key]
     query_operator = query_hash[:query_operator]
+    filter_operator = query_hash[:filter_operator]
     filter_operator_value = filter_operation(query_hash, current_index)
 
     return custom_attribute_query(query_hash, 'conversation_attribute', current_index) if current_filter.nil?
@@ -46,7 +47,7 @@ class Conversations::FilterService < FilterService
       " (conversations.#{attribute_key})::#{current_filter['data_type']} #{filter_operator_value}#{current_filter['data_type']} #{query_operator} "
     when 'standard'
       if attribute_key == 'labels'
-        " tags.name #{filter_operator_value} #{query_operator} "
+        labels_query(filter_operator_value, filter_operator, query_operator)
       else
         " conversations.#{attribute_key} #{filter_operator_value} #{query_operator} "
       end
@@ -67,5 +68,20 @@ class Conversations::FilterService < FilterService
     )
 
     @conversations.latest.page(current_page)
+  end
+
+  def labels_query(filter_operator_value, filter_operator, query_operator)
+    tags_query = 'SELECT taggings.taggable_id ' \
+                 'FROM taggings ' \
+                 'LEFT JOIN tags ON tags.id = taggings.tag_id ' \
+                 "WHERE tags.name #{filter_operator_value}"
+
+    if filter_operator == 'equal_to'
+      " conversations.id IN ( #{tags_query} ) #{query_operator} "
+    elsif filter_operator == 'not_equal_to'
+      " conversations.id NOT IN ( #{tags_query} ) #{query_operator} "
+    else
+      " tags.name #{filter_operator_value} #{query_operator} "
+    end
   end
 end
