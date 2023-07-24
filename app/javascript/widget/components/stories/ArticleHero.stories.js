@@ -5,18 +5,17 @@ export default {
   title: 'Components/Widgets/ArticleHero',
   component: ArticleHero,
   argTypes: {
-    search: { action: 'search', description: 'Event for the "Search" input' },
     articles: { control: 'array', description: 'Array of articles' },
-    categoryPath: { control: 'text', description: 'Path to the category' },
   },
 };
 
 const Template = (args, { argTypes }) => ({
   props: Object.keys(argTypes),
   components: { ArticleHero },
-  template: '<article-hero v-bind="$props" @search="search" />',
+  template:
+    '<article-hero v-bind="$props" @view-all-articles="viewAllArticles" />',
   methods: {
-    search: action('search'),
+    viewAllArticles: action('view-all-articles'),
   },
 });
 
@@ -28,5 +27,4 @@ Default.args = {
     { title: 'Article 3', content: 'This is article 3.' },
     { title: 'Article 4', content: 'This is article 4.' },
   ],
-  categoryPath: '/some/path',
 };

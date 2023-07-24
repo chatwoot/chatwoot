@@ -1,27 +1,19 @@
 <template>
   <div>
     <h2 class="text-base font-bold leading-6 text-slate-800 mb-0">
-      Help center
+      {{ $t('PORTAL.POPULAR_ARTICLES') }}
     </h2>
-    <p class="text-sm leading-6 text-slate-600 mb-0 hidden">
-      Read everything about our product.
-    </p>
-    <div class="my-4">
-      <search-article placeholder="Search for answers" @search="onSearch" />
-    </div>
     <category-card
-      title="Most asked question"
       :articles="articles.slice(0, 4)"
-      :category-path="categoryPath"
+      @view-all-articles="$emit('view-all-articles')"
     />
   </div>
 </template>
 
 <script>
 import CategoryCard from './ArticleCategoryCard.vue';
-import SearchArticle from './SearchArticle.vue';
 export default {
-  components: { CategoryCard, SearchArticle },
+  components: { CategoryCard },
   props: {
     articles: {
       type: Array,
@@ -30,11 +22,6 @@ export default {
     categoryPath: {
       type: String,
       default: '',
-    },
-  },
-  methods: {
-    onSearch(query) {
-      this.$emit('search', query);
     },
   },
 };
