@@ -190,12 +190,10 @@ export default {
       }
     },
     dismissSuggestions() {
-      const dismissed = this.getDismissedConversations(this.currentAccountId);
-      dismissed[this.currentAccountId].push(this.conversationId);
-
-      LocalStorage.set(
+      LocalStorage.setFlag(
         LOCAL_STORAGE_KEYS.DISMISSED_LABEL_SUGGESTIONS,
-        dismissed
+        this.currentAccountId,
+        this.conversationId
       );
 
       // dismiss this once the values are set
@@ -203,8 +201,11 @@ export default {
       this.trackLabelEvent(OPEN_AI_EVENTS.DISMISS_LABEL_SUGGESTION);
     },
     isConversationDismissed() {
-      const dismissed = this.getDismissedConversations(this.currentAccountId);
-      return dismissed[this.currentAccountId].includes(this.conversationId);
+      return LocalStorage.getFlag(
+        LOCAL_STORAGE_KEYS.DISMISSED_LABEL_SUGGESTIONS,
+        this.currentAccountId,
+        this.conversationId
+      );
     },
     addAllLabels() {
       let labelsToAdd = this.selectedLabels;
