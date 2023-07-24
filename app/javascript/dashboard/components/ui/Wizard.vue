@@ -13,18 +13,23 @@
     >
       <div class="flex items-center">
         <h3
-          class="overflow-hidden whitespace-nowrap text-ellipsis leading-tight"
+          class="text-slate-800 dark:text-slate-100 text-base pl-6 overflow-hidden whitespace-nowrap text-ellipsis leading-tight"
         >
           {{ item.title }}
         </h3>
-        <span v-if="isOver(item)" class="completed">
+        <span
+          v-if="isOver(item)"
+          class="text-green-500 dark:text-green-500 ml-1"
+        >
           <fluent-icon icon="checkmark" />
         </span>
       </div>
       <span class="step">
         {{ items.indexOf(item) + 1 }}
       </span>
-      <p>{{ item.body }}</p>
+      <p class="text-slate-600 dark:text-slate-300 text-sm m-0 pl-6">
+        {{ item.body }}
+      </p>
     </div>
   </transition-group>
 </template>
@@ -63,28 +68,7 @@ export default {
 <style lang="scss" scoped>
 .wizard-box {
   .item {
-    @apply cursor-pointer py-4 pr-4 pl-6 relative;
-
-    &::before,
-    &::after {
-      @apply bg-slate-75 dark:bg-slate-600 content-[''] h-full absolute top-5 w-0.5;
-    }
-
-    &::before {
-      @apply h-4 top-0;
-    }
-
-    &:first-child {
-      &::before {
-        @apply h-0;
-      }
-    }
-
-    &:last-child {
-      &::after {
-        @apply h-0;
-      }
-    }
+    @apply cursor-pointer after:bg-slate-75 before:bg-slate-75 dark:after:bg-slate-600 dark:before:bg-slate-600 py-4 pr-4 pl-6 relative before:h-4 before:top-0 last:before:h-0 first:before:h-0 last:after:h-0 before:content-[''] before:absolute before:w-0.5 after:content-[''] after:h-full after:absolute after:top-5 after:w-0.5;
 
     &.active {
       h3 {
@@ -110,18 +94,6 @@ export default {
           @apply bg-woot-500 dark:bg-woot-500;
         }
       }
-    }
-
-    h3 {
-      @apply text-slate-800 dark:text-slate-100 text-base pl-6;
-    }
-
-    .completed {
-      @apply text-green-500 dark:text-green-500 ml-1;
-    }
-
-    p {
-      @apply text-slate-600 dark:text-slate-300 text-sm m-0 pl-6;
     }
 
     .step {
