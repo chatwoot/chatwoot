@@ -19,6 +19,7 @@ const state = {
       avg_first_response_time: false,
       avg_resolution_time: false,
       resolutions_count: false,
+      reply_time: false,
     },
     data: {
       conversations_count: [],
@@ -27,6 +28,7 @@ const state = {
       avg_first_response_time: [],
       avg_resolution_time: [],
       resolutions_count: [],
+      reply_time: [],
     },
   },
   accountSummary: {
@@ -35,6 +37,7 @@ const state = {
     conversations_count: 0,
     incoming_messages_count: 0,
     outgoing_messages_count: 0,
+    reply_time: 0,
     resolutions_count: 0,
     previous: {},
   },

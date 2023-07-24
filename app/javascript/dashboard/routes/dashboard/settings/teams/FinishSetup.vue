@@ -1,11 +1,11 @@
 <template>
-  <div class="wizard-body columns content-box small-9">
+  <div class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%]">
     <empty-state
       :title="$t('TEAMS_SETTINGS.FINISH.TITLE')"
       :message="$t('TEAMS_SETTINGS.FINISH.MESSAGE')"
       :button-text="$t('TEAMS_SETTINGS.FINISH.BUTTON_TEXT')"
     >
-      <div class="medium-12 columns text-center">
+      <div class="w-full text-center">
         <router-link
           class="button success nice"
           :to="{
@@ -29,10 +29,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/variables';
-
 .website--code {
-  margin: $space-normal auto;
-  max-width: 70%;
+  @apply my-4 mx-auto max-w-[70%];
 }
 </style>

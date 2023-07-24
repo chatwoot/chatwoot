@@ -7,19 +7,13 @@ export default {
       accountSummary: 'getAccountSummary',
       accountReport: 'getAccountReports',
     }),
-    calculateTrend() {
-      return metric_key => {
-        if (!this.accountSummary.previous[metric_key]) return 0;
-        const diff =
-          this.accountSummary[metric_key] -
-          this.accountSummary.previous[metric_key];
-        return Math.round(
-          (diff / this.accountSummary.previous[metric_key]) * 100
-        );
-      };
-    },
   },
   methods: {
+    calculateTrend(key) {
+      if (!this.accountSummary.previous[key]) return 0;
+      const diff = this.accountSummary[key] - this.accountSummary.previous[key];
+      return Math.round((diff / this.accountSummary.previous[key]) * 100);
+    },
     displayMetric(key) {
       if (this.isAverageMetricType(key)) {
         return formatTime(this.accountSummary[key]);
@@ -39,7 +33,11 @@ export default {
       return '';
     },
     isAverageMetricType(key) {
-      return ['avg_first_response_time', 'avg_resolution_time'].includes(key);
+      return [
+        'avg_first_response_time',
+        'avg_resolution_time',
+        'reply_time',
+      ].includes(key);
     },
   },
 };

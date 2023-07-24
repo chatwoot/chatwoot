@@ -340,7 +340,7 @@
   },
   "MERGE_CONTACTS": {
     "TITLE": "Merge contacts",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’s attributes will take precedence.",
     "PRIMARY": {
       "TITLE": "Primary contact",
       "HELP_LABEL": "To be kept"
