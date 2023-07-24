@@ -556,7 +556,7 @@ export default {
     }
 
     .reply-box {
-      @apply border border-solid border-slate-75 dark:border-slate-600 max-w-[75rem] w-[70%];
+      @apply border border-solid border-slate-75 dark:border-slate-700 max-w-[75rem] w-[70%];
     }
 
     .reply-box .reply-box__top {

@@ -59,11 +59,10 @@ export default {
 </script>
 <style lang="scss" scoped>
 button:disabled {
-  opacity: 1;
-  background-color: var(--w-100);
+  @apply bg-woot-100 dark:bg-woot-500/25 dark:text-slate-500 opacity-100;
 
   &:hover {
-    background-color: var(--w-100);
+    @apply bg-woot-100 dark:bg-woot-500/25;
   }
 }
 </style>

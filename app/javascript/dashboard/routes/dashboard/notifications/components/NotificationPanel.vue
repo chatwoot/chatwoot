@@ -1,5 +1,7 @@
 <template>
-  <div class="modal-mask">
+  <div
+    class="flex items-center justify-center bg-modal dark:bg-modal z-[9990] h-full left-0 fixed top-0 w-full"
+  >
     <div
       v-on-clickaway="closeNotificationPanel"
       class="flex-col h-[90vh] w-[32.5rem] flex justify-between z-10 rounded-md shadow-md absolute bg-white dark:bg-slate-800 left-14 rtl:left-auto rtl:right-14 m-4"

@@ -1,6 +1,6 @@
 <template>
-  <div class="bottom-box" :class="wrapClass">
-    <div class="left-wrap">
+  <div class="flex justify-between py-3 px-4" :class="wrapClass">
+    <div class="items-center flex gap-2">
       <woot-button
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
         :title="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
@@ -100,16 +100,16 @@
       <transition name="modal-fade">
         <div
           v-show="$refs.upload && $refs.upload.dropActive"
-          class="modal-mask"
+          class="items-center flex justify-center z-[9990] h-full left-0 fixed top-0 w-full text-slate-600 dark:text-slate-200 bg-white_transparent dark:bg-black_transparent flex-col gap-1"
         >
-          <fluent-icon icon="cloud-backup" />
+          <fluent-icon icon="cloud-backup" size="48" />
           <h4 class="page-sub-title text-slate-600 dark:text-slate-200">
             {{ $t('CONVERSATION.REPLYBOX.DRAG_DROP') }}
           </h4>
         </div>
       </transition>
     </div>
-    <div class="right-wrap">
+    <div class="flex">
       <woot-button
         size="small"
         :class-names="buttonClass"
@@ -239,7 +239,7 @@ export default {
     },
     wrapClass() {
       return {
-        'is-note-mode': this.isNote,
+        'bg-yellow-50 dark:bg-yellow-50': this.isNote,
       };
     },
     buttonClass() {
@@ -322,36 +322,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.bottom-box {
-  @apply flex justify-between py-3 px-4;
-
-  &.is-note-mode {
-    @apply bg-yellow-50 dark:bg-yellow-50;
-  }
-}
-
-.left-wrap {
-  @apply items-center flex gap-2;
-}
-
-.right-wrap {
-  @apply flex;
-}
-
 ::v-deep .file-uploads {
-  label {
-    @apply cursor-pointer;
+  &:hover button {
+    @apply dark:bg-slate-800 bg-slate-100 z-10;
   }
-  &:hover .button {
-    @apply dark:bg-slate-800 bg-slate-100;
-  }
-}
-
-.modal-mask {
-  @apply text-slate-600 dark:text-slate-200 bg-white_transparent dark:bg-black_transparent flex-col;
-}
-
-.icon {
-  @apply text-[5rem];
 }
 </style>

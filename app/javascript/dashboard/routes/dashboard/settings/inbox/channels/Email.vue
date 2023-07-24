@@ -7,7 +7,7 @@
       :header-title="$t('INBOX_MGMT.ADD.EMAIL_PROVIDER.TITLE')"
       :header-content="$t('INBOX_MGMT.ADD.EMAIL_PROVIDER.DESCRIPTION')"
     />
-    <div class="row channel-list">
+    <div class="mt-6 mx-0 flex flex-wrap">
       <channel-selector
         v-for="emailProvider in emailProviderList"
         :key="emailProvider.key"

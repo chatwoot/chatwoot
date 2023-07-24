@@ -21,12 +21,12 @@
           <span class="w-full">
             <label :for="account.name" class="text-left rtl:text-right">
               <div
-                class="text-slate-700 text-lg dark:text-slate-100 font-medium hover:underline-offset-4 leading-5"
+                class="text-slate-800 text-lg dark:text-slate-100 font-medium hover:underline-offset-4 leading-5"
               >
                 {{ account.name }}
               </div>
               <div
-                class="text-slate-500 text-xs dark:text-slate-500 font-medium hover:underline-offset-4"
+                class="text-slate-600 text-xs dark:text-slate-500 font-medium hover:underline-offset-4"
               >
                 {{ account.role }}
               </div>

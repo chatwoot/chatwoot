@@ -91,26 +91,79 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
+.modal-mask {
+  @apply flex items-center justify-center bg-modal dark:bg-modal z-[9990] h-full left-0 fixed top-0 w-full;
+
+  .modal-container {
+    @apply shadow-md rounded-sm max-h-full overflow-auto relative w-[37.5rem];
+
+    &.medium {
+      @apply max-w-[80%] w-[56.25rem];
+    }
+
+    .content-box {
+      @apply h-auto p-0;
+    }
+
+    .content {
+      @apply p-8;
+    }
+
+    form,
+    .modal-content {
+      @apply pt-6 pb-8 px-8 self-center;
+
+      a {
+        @apply p-4;
+      }
+    }
+
+    .modal-footer {
+      @apply flex justify-end items-center py-2 px-0 gap-2;
+
+      &.justify-content-end {
+        @apply justify-end;
+      }
+    }
+
+    .delete-item {
+      @apply p-8;
+
+      button {
+        @apply m-0;
+      }
+    }
+  }
+}
+
+.modal-big {
+  @apply w-full;
+}
+
+.modal--close {
+  @apply absolute right-2 rtl:right-[unset] rtl:left-2 top-2;
+}
+
 .modal-container--full-width {
-  align-items: center;
-  border-radius: 0;
-  display: flex;
-  height: 100%;
-  justify-content: center;
-  width: 100%;
+  @apply items-center rounded-none flex h-full justify-center w-full;
 }
 
 .modal-mask.right-aligned {
-  justify-content: flex-end;
+  @apply justify-end;
 
   .modal-container {
-    border-radius: 0;
-    height: 100%;
-    width: 30rem;
+    @apply rounded-none h-full w-[30rem];
   }
 }
-.modal-big {
-  width: 60%;
+
+.modal-enter,
+.modal-leave {
+  @apply opacity-0;
+}
+
+.modal-enter .modal-container,
+.modal-leave .modal-container {
+  transform: scale(1.1);
 }
 </style>

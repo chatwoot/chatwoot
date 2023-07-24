@@ -3,14 +3,14 @@
     <img v-if="headerImage" :src="headerImage" alt="No image" />
     <h2
       ref="modalHeaderTitle"
-      class="text-slate-800 text-lg dark:text-slate-100"
+      class="text-slate-800 text-lg dark:text-slate-100 font-semibold"
     >
       {{ headerTitle }}
     </h2>
     <p
       v-if="headerContent"
       ref="modalHeaderContent"
-      class="w-full break-words text-slate-600 mt-2 text-sm dark:text-slate-300"
+      class="w-full break-words text-slate-600 my-0 text-sm dark:text-slate-300 mx-0 p-0"
     >
       {{ headerContent }}
       <span

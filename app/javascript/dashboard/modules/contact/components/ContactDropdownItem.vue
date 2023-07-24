@@ -76,7 +76,7 @@ export default {
   @apply text-slate-800 dark:text-slate-100 font-medium mb-0.5;
 }
 .option__body {
-  @apply text-xs text-slate-700 dark:text-slate-100 mt-1;
+  @apply text-xs text-slate-700 dark:text-slate-100 mt-1 mb-0;
 }
 
 .option__user-data .option__body {

@@ -4,7 +4,7 @@
       :header-title="$t('WHATSAPP_TEMPLATES.MODAL.TITLE')"
       :header-content="modalHeaderContent"
     />
-    <div class="row modal-content">
+    <div class="flex flex-wrap ml-auto mr-auto max-w-full modal-content">
       <templates-picker
         v-if="!selectedWaTemplate"
         :inbox-id="inboxId"
@@ -68,9 +68,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.modal-content {
-  padding: 1.5625rem 2rem;
-}
-</style>

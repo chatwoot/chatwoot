@@ -1,5 +1,7 @@
 <template>
-  <div class="row app-wrapper dark:text-slate-300">
+  <div
+    class="max-w-full ml-auto mr-auto flex flex-wrap app-wrapper dark:text-slate-300"
+  >
     <sidebar
       :route="currentRoute"
       :show-secondary-sidebar="isSidebarOpen"
