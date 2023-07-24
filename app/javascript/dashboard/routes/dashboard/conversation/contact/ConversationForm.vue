@@ -242,7 +242,7 @@ export default {
       get() {
         const inboxList = this.contact.contactableInboxes || [];
         return (
-          inboxList.find(inbox => inbox.inbox.id === this.targetInbox.id) || {
+          inboxList.find(inbox => inbox.inbox?.id === this.targetInbox?.id) || {
             inbox: {},
           }
         );
