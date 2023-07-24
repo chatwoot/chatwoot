@@ -98,10 +98,6 @@ export default {
 
     .step {
       @apply bg-slate-75 dark:bg-slate-600 rounded-2xl font-medium w-4 left-4 leading-4 z-[999] absolute text-center text-white dark:text-white text-xxs top-5;
-
-      i {
-        @apply text-xxs;
-      }
     }
   }
 }
