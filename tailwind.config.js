@@ -18,6 +18,9 @@ module.exports = {
     colors: {
       transparent: 'transparent',
       white: '#fff',
+      white_transparent: 'rgba(255, 255, 255, 0.9)',
+      black_transparent: 'rgba(0, 0, 0, 0.9)',
+      modal: 'rgba(0, 0, 0, 0.4)',
       current: 'currentColor',
       woot: {
         25: '#F5FAFF',
@@ -94,6 +97,18 @@ module.exports = {
         700: '#DE1E27',
         800: '#D11320',
         900: '#C30011',
+      },
+      violet: {
+        50: '#FFFFFF',
+        100: '#F5EBFF',
+        200: '#DDB8FF',
+        300: '#C585FF',
+        400: '#AC52FF',
+        500: '#941FFF',
+        600: '#7B00EB',
+        700: '#6000B8',
+        800: '#450085',
+        900: '#2B0052',
       },
       body: '#2f3b49',
     },

@@ -1,10 +1,10 @@
 <template>
   <blockquote
     ref="messageContainer"
-    class="message border-l-2 border-slate-100"
+    class="message border-l-2 border-slate-100 dark:border-slate-800"
   >
     <p class="header">
-      <strong class="author">
+      <strong class="text-slate-700 dark:text-slate-100">
         {{ author }}
       </strong>
       {{ $t('SEARCH.WROTE') }}
@@ -83,29 +83,22 @@ export default {
 
 <style scoped lang="scss">
 .message {
-  padding: 0 var(--space-small);
-  margin-top: var(--space-small);
+  @apply py-0 px-2 mt-2;
 }
 .message-content::v-deep p,
 .message-content::v-deep li::marker {
-  color: var(--s-700);
-  margin-bottom: var(--space-smaller);
+  @apply text-slate-700 dark:text-slate-100 mb-1;
 }
-.author {
-  color: var(--s-700);
-}
+
 .header {
-  color: var(--s-500);
-  margin-bottom: var(--space-smaller);
+  @apply text-slate-500 dark:text-slate-300 mb-1;
 }
 
 .message-content {
-  overflow-wrap: break-word;
+  @apply break-words text-slate-600 dark:text-slate-200;
 }
 
 .message-content::v-deep .searchkey--highlight {
-  color: var(--w-600);
-  font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-small);
+  @apply text-woot-600 dark:text-woot-500 text-sm font-semibold;
 }
 </style>

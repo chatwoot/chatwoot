@@ -7,8 +7,9 @@
       scroll-width="190rem"
       :table-data="tableData"
       :border-around="true"
+      style="max-width: calc(100vw - 18rem)"
     />
-    <div v-if="isLoading" class="campaign--loader">
+    <div v-if="isLoading" class="items-center flex text-base justify-center">
       <spinner />
       <span>{{ $t('CAMPAIGN.LIST.LOADING_MESSAGE') }}</span>
     </div>
@@ -108,7 +109,9 @@ export default {
           align: this.isRTLView ? 'right' : 'left',
           renderBodyCell: ({ row }) => (
             <div class="row--title-block">
-              <h6 class="sub-block-title title text-truncate">{row.title}</h6>
+              <h6 class="text-sm m-0 capitalize text-slate-900 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis">
+                {row.title}
+              </h6>
             </div>
           ),
         },
@@ -122,7 +125,7 @@ export default {
           renderBodyCell: ({ row }) => {
             if (row.message) {
               return (
-                <div class="text-truncate">
+                <div class="overflow-hidden whitespace-nowrap text-ellipsis">
                   <span
                     domPropsInnerHTML={this.formatMessage(row.message)}
                   ></span>
@@ -174,7 +177,7 @@ export default {
             title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.URL'),
             align: this.isRTLView ? 'right' : 'left',
             renderBodyCell: ({ row }) => (
-              <div class="text-truncate">
+              <div class="overflow-hidden whitespace-nowrap text-ellipsis">
                 <a
                   target="_blank"
                   rel="noopener noreferrer nofollow"
@@ -199,7 +202,7 @@ export default {
             title: '',
             align: this.isRTLView ? 'right' : 'left',
             renderBodyCell: row => (
-              <div class="button-wrapper">
+              <div class="justify-evenly flex flex-row min-w-[12.5rem]">
                 <WootButton
                   variant="clear"
                   icon="edit"
@@ -251,7 +254,7 @@ export default {
           title: '',
           align: this.isRTLView ? 'right' : 'left',
           renderBodyCell: row => (
-            <div class="button-wrapper">
+            <div class="justify-evenly flex flex-row min-w-[12.5rem]">
               <WootButton
                 variant="link"
                 icon="dismiss-circle"
@@ -272,48 +275,25 @@ export default {
 <style lang="scss" scoped>
 .campaigns-table-wrap::v-deep {
   .ve-table {
-    padding-bottom: var(--space-large);
+    @apply pb-12;
+
     thead.ve-table-header .ve-table-header-tr .ve-table-header-th {
-      font-size: var(--font-size-mini);
-      padding: var(--space-small) var(--space-two);
+      @apply text-xs py-2 px-5;
     }
     tbody.ve-table-body .ve-table-body-tr .ve-table-body-td {
-      padding: var(--space-slab) var(--space-two);
+      @apply py-3 px-5;
 
       .inbox--name {
-        margin: 0;
+        @apply m-0;
       }
     }
   }
 
   .row--title-block {
-    align-items: center;
-    display: flex;
-    text-align: left;
-
-    .title {
-      font-size: var(--font-size-small);
-      margin: 0;
-      text-transform: capitalize;
-    }
+    @apply items-center flex text-left;
   }
   .label {
-    padding: var(--space-smaller) var(--space-small);
+    @apply py-1 px-2;
   }
-}
-
-.campaign--loader {
-  align-items: center;
-  display: flex;
-  font-size: var(--font-size-default);
-  justify-content: center;
-  padding: var(--space-big);
-}
-
-.button-wrapper {
-  justify-content: space-evenly;
-  display: flex;
-  flex-direction: row;
-  min-width: 12.5rem;
 }
 </style>

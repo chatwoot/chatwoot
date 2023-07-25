@@ -445,69 +445,61 @@ export default {
 @import '~@chatwoot/prosemirror-schema/src/styles/base.scss';
 
 .ProseMirror-menubar-wrapper {
-  display: flex;
-  flex-direction: column;
-
+  @apply flex flex-col;
   .ProseMirror-menubar {
     min-height: var(--space-two) !important;
-    margin-left: var(--space-minus-one);
-    padding-bottom: 0;
-  }
+    @apply -ml-2.5 pb-0 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-100;
 
+    .ProseMirror-menu-active {
+      @apply bg-slate-75 dark:bg-slate-800;
+    }
+  }
   > .ProseMirror {
-    padding: 0;
-    word-break: break-word;
+    @apply p-0 break-words text-slate-800 dark:text-slate-100;
   }
 }
 
 .editor-root {
-  width: 100%;
-  position: relative;
+  @apply w-full relative;
 }
 
 .ProseMirror-woot-style {
-  min-height: 5rem;
-  max-height: 7.5rem;
-  overflow: auto;
+  @apply overflow-auto min-h-[5rem] max-h-[7.5rem];
 }
 
 .ProseMirror-prompt {
-  z-index: var(--z-index-highest);
-  background: var(--color-background-light);
-  border-radius: var(--border-radius-normal);
-  border: 1px solid var(--color-border);
+  @apply z-50 bg-slate-25 dark:bg-slate-700 rounded-md border border-solid border-slate-75 dark:border-slate-800;
 }
 
 .is-private {
   .prosemirror-mention-node {
-    font-weight: var(--font-weight-medium);
-    background: var(--s-50);
-    color: var(--s-900);
-    padding: 0 var(--space-smaller);
+    @apply font-medium bg-slate-50 dark:bg-slate-200 text-slate-900 dark:text-slate-900 py-0 px-1;
   }
-  .ProseMirror-menubar {
-    background: var(--y-50);
+
+  .ProseMirror-menubar-wrapper {
+    .ProseMirror-menubar {
+      @apply bg-yellow-50 dark:bg-yellow-50 text-slate-700 dark:text-slate-700;
+    }
+
+    > .ProseMirror {
+      @apply text-slate-800 dark:text-slate-800;
+    }
   }
 }
 
 .editor-wrap {
-  margin-bottom: var(--space-normal);
+  @apply mb-4;
 }
 
 .message-editor {
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius-normal);
-  padding: 0 var(--space-slab);
-  margin-bottom: 0;
+  @apply border border-solid border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 rounded-md py-0 px-1 mb-0;
 }
 
 .editor_warning {
-  border: 1px solid var(--r-400);
+  @apply border border-solid border-red-400 dark:border-red-400;
 }
 
 .editor-warning__message {
-  color: var(--r-400);
-  font-weight: var(--font-weight-normal);
-  padding: var(--space-smaller) 0 0 0;
+  @apply text-red-400 dark:text-red-400 font-normal pt-1 pb-0 px-0;
 }
 </style>
