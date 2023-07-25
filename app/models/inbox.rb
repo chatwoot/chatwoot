@@ -50,6 +50,7 @@ class Inbox < ApplicationRecord
                                                        message: I18n.t('errors.inboxes.validations.name') }
   validates :account_id, presence: true
   validates :timezone, inclusion: { in: TZInfo::Timezone.all_identifiers }
+  validates :out_of_office_message, length: { maximum: Limits::OUT_OF_OFFICE_MESSAGE_MAX_LENGTH }
   validate :ensure_valid_max_assignment_limit
 
   belongs_to :account
