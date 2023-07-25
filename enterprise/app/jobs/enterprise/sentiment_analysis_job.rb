@@ -3,7 +3,7 @@ class Enterprise::SentimentAnalysisJob < ApplicationJob
 
   def perform(message)
     return if message.account.locale != 'en'
-    return if invalid_incoming_message?(message)
+    return unless valid_incoming_message?(message)
 
     save_message_sentiment(message)
   rescue StandardError => e
