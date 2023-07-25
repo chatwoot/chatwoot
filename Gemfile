@@ -165,6 +165,13 @@ gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection', '~> 1.0'
 
+## Gems for reponse bot
+# adds cosine similarity to postgres using vector extension
+gem 'neighbor'
+gem 'pgvector'
+# Convert Website HTML to Markdown
+gem 'reverse_markdown'
+
 # Sentiment analysis
 gem 'informers'
 

@@ -128,10 +128,12 @@ export default {
       return { width: statusSize, height: statusSize };
     },
     thumbnailClass() {
-      const classname = this.hasBorder ? 'border' : '';
+      const className = this.hasBorder
+        ? 'border border-solid border-white dark:border-slate-700/50'
+        : '';
       const variant =
         this.variant === 'circle' ? 'thumbnail-rounded' : 'thumbnail-square';
-      return `user-thumbnail ${classname} ${variant}`;
+      return `user-thumbnail ${className} ${variant}`;
     },
     thumbnailBoxClass() {
       const boxClass = this.variant === 'circle' ? 'is-rounded' : '';
@@ -185,14 +187,9 @@ export default {
     box-sizing: border-box;
     object-fit: cover;
     vertical-align: initial;
-
-    &.border {
-      border: 1px solid white;
-    }
   }
 
   .source-badge {
-    background: white;
     border-radius: var(--border-radius-small);
     bottom: var(--space-minus-micro);
     box-shadow: var(--shadow-small);
@@ -201,6 +198,7 @@ export default {
     position: absolute;
     right: 0;
     width: var(--space-slab);
+    @apply bg-white dark:bg-slate-900;
   }
 
   .user-online-status {
@@ -213,15 +211,15 @@ export default {
   }
 
   .user-online-status--online {
-    background: var(--g-400);
+    @apply bg-green-400 dark:bg-green-400;
   }
 
   .user-online-status--busy {
-    background: var(--y-500);
+    @apply bg-yellow-500 dark:bg-yellow-500;
   }
 
   .user-online-status--offline {
-    background: var(--s-500);
+    @apply bg-slate-500 dark:bg-slate-500;
   }
 }
 </style>
