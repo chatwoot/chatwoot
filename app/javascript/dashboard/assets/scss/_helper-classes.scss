@@ -1,3 +1,19 @@
+// conversation card active animation
+@keyframes left-shift-animation {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(1px);
+  }
+}
+
+.conversation-active-animation {
+  animation: left-shift-animation 0.25s cubic-bezier(0.37, 0, 0.63, 1);
+}
+
 .spinner {
   @include color-spinner();
   @apply inline-block h-6 py-0 px-6 relative align-middle w-6;
