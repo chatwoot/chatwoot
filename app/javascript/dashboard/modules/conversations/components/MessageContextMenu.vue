@@ -254,10 +254,6 @@ export default {
         @apply font-medium text-base;
       }
     }
-
-    .modal-footer {
-      @apply pt-4 pb-8 px-8;
-    }
   }
 }
 </style>

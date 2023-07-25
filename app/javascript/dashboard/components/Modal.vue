@@ -12,7 +12,7 @@
           color-scheme="secondary"
           icon="dismiss"
           variant="clear"
-          class="modal--close"
+          class="absolute right-2 rtl:right-[unset] rtl:left-2 top-2"
           @click="close"
         />
         <slot />
@@ -53,9 +53,9 @@ export default {
   computed: {
     modalContainerClassName() {
       let className =
-        'modal-container bg-white dark:bg-slate-800 skip-context-menu';
+        'modal-container rtl:text-right shadow-md rounded-sm max-h-full overflow-auto relative w-[37.5rem] bg-white dark:bg-slate-800 skip-context-menu';
       if (this.fullWidth) {
-        return `${className} modal-container--full-width`;
+        return `${className} items-center rounded-none flex h-full justify-center w-full`;
       }
 
       return `${className} ${this.size}`;
@@ -96,8 +96,6 @@ export default {
   @apply flex items-center justify-center bg-modal dark:bg-modal z-[9990] h-full left-0 fixed top-0 w-full;
 
   .modal-container {
-    @apply shadow-md rounded-sm max-h-full overflow-auto relative w-[37.5rem];
-
     &.medium {
       @apply max-w-[80%] w-[56.25rem];
     }
@@ -118,35 +116,11 @@ export default {
         @apply p-4;
       }
     }
-
-    .modal-footer {
-      @apply flex justify-end items-center py-2 px-0 gap-2;
-
-      &.justify-content-end {
-        @apply justify-end;
-      }
-    }
-
-    .delete-item {
-      @apply p-8;
-
-      button {
-        @apply m-0;
-      }
-    }
   }
 }
 
 .modal-big {
   @apply w-full;
-}
-
-.modal--close {
-  @apply absolute right-2 rtl:right-[unset] rtl:left-2 top-2;
-}
-
-.modal-container--full-width {
-  @apply items-center rounded-none flex h-full justify-center w-full;
 }
 
 .modal-mask.right-aligned {
