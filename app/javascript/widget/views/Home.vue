@@ -8,8 +8,7 @@
           v-if="
             !articleUiFlags.isFetching &&
               !articleUiFlags.isError &&
-              popularArticles.length &&
-              
+              popularArticles.length
           "
           :articles="popularArticles"
           @view="viewArticle"
