@@ -7,7 +7,7 @@
   >
     {{ $t('SIDEBAR.CURRENTLY_VIEWING_ACCOUNT') }}
     <p
-      class="text-ellipsis font-medium mb-0 text-slate-800 dark:text-slate-100"
+      class="text-ellipsis overflow-hidden whitespace-nowrap font-medium mb-0 text-slate-800 dark:text-slate-100"
     >
       {{ account.name }}
     </p>
