@@ -73,7 +73,7 @@
     </ul>
     <div
       class="conversation-footer"
-      :class="{ 'modal-mask': isPopoutReplyBox }"
+      :class="isPopoutReplyBox ? 'modal-mask' : 'flex relative flex-col'"
     >
       <div v-if="isAnyoneTyping" class="typing-indicator-wrap">
         <div class="typing-indicator">
@@ -744,10 +744,6 @@ export default {
   .text-content p {
     @apply mb-0;
   }
-}
-
-.conversation-footer {
-  @apply flex relative flex-col;
 }
 
 .typing-indicator-wrap {
