@@ -140,10 +140,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.content-box {
-  padding: 0;
-  height: 100vh;
-}
-</style>

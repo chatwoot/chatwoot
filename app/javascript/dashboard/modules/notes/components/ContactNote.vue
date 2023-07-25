@@ -9,9 +9,13 @@
           size="20px"
         />
         <div class="date-wrap">
-          <span class="fw-medium"> {{ noteAuthorName }} </span>
+          <span class="font-medium text-slate-800 dark:text-slate-100">
+            {{ noteAuthorName }}
+          </span>
           <span> {{ $t('NOTES.LIST.LABEL') }} </span>
-          <span class="fw-medium time-stamp"> {{ readableTime }} </span>
+          <span class="font-medium text-slate-700 dark:text-slate-100">
+            {{ readableTime }}
+          </span>
         </div>
       </div>
       <div class="actions">

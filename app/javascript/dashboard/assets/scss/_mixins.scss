@@ -119,15 +119,6 @@ $spinner-before-border-color: rgba(255, 255, 255, 0.7);
   @include prefixer(flex, $value, webkit moz ms spec);
 }
 
-// full height
-@mixin full-height() {
-  height: 100%;
-}
-
-@mixin round-corner() {
-  border-radius: 1000px;
-}
-
 @mixin scroll-on-hover() {
   overflow: hidden;
 
@@ -229,12 +220,6 @@ $spinner-before-border-color: rgba(255, 255, 255, 0.7);
     border-bottom: $size solid $color;
     border-left: $size solid transparent;
   }
-}
-
-@mixin text-ellipsis {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 @mixin three-column-grid($column-one-width: 16rem,

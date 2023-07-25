@@ -102,9 +102,9 @@ export default {
       @apply max-w-[80%] w-[56.25rem];
     }
 
-    .content-box {
-      @apply h-auto p-0;
-    }
+    // .content-box {
+    //   @apply h-auto p-0;
+    // }
 
     .content {
       @apply p-8;

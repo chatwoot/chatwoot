@@ -69,7 +69,7 @@
             <fluent-icon
               icon="chevron-left"
               size="16"
-              :class="notificationPanelFooterIconClass"
+              class="rtl:-mr-3 ltr:-ml-3"
             />
           </woot-button>
           <woot-button
@@ -104,7 +104,7 @@
             <fluent-icon
               icon="chevron-right"
               size="16"
-              :class="notificationPanelFooterIconClass"
+              class="rtl:-mr-3 ltr:-ml-3"
             />
           </woot-button>
         </div>
@@ -138,11 +138,6 @@ export default {
       records: 'notifications/getNotifications',
       uiFlags: 'notifications/getUIFlags',
     }),
-    notificationPanelFooterIconClass() {
-      return this.isRTLView
-        ? 'margin-right-minus-slab'
-        : 'margin-left-minus-slab';
-    },
     totalUnreadNotifications() {
       return this.meta.unreadCount;
     },

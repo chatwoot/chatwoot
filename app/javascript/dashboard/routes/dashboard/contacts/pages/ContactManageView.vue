@@ -17,10 +17,7 @@
       />
     </settings-header>
 
-    <div
-      v-if="uiFlags.isFetchingItem"
-      class="text-center p-normal fs-default h-full"
-    >
+    <div v-if="uiFlags.isFetchingItem" class="text-center p-4 text-base h-full">
       <spinner size="" />
       <span>{{ $t('CONTACT_PROFILE.LOADING') }}</span>
     </div>

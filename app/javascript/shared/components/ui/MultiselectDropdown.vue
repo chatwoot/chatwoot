@@ -21,7 +21,7 @@
         <div class="flex justify-between w-full min-w-0 items-center">
           <h4
             v-if="!hasValue"
-            class="mt-0 mb-0 mr-2 ml-0 text-ellipsis text-sm text-slate-800 dark:text-slate-100"
+            class="mt-0 mb-0 mr-2 ml-0 text-ellipsis overflow-hidden whitespace-nowrap text-sm text-slate-800 dark:text-slate-100"
           >
             {{ multiselectorPlaceholder }}
           </h4>

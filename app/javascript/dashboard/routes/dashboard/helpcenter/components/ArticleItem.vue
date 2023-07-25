@@ -19,7 +19,7 @@
     </span>
     <span class="article-column article-category">
       <router-link
-        class="fs-small button clear link secondary"
+        class="text-sm button clear link secondary"
         :to="getCategoryRoute(category.slug)"
       >
         <span
@@ -31,7 +31,7 @@
       </router-link>
     </span>
     <span class="article-column article-read-count">
-      <span class="fs-small" :title="formattedViewCount">
+      <span class="text-sm" :title="formattedViewCount">
         {{ readableViewCount }}
       </span>
     </span>
@@ -46,7 +46,7 @@
       </div>
     </span>
     <span class="article-column article-last-edited">
-      <span class="fs-small">
+      <span class="text-sm">
         {{ lastUpdatedAt }}
       </span>
     </span>

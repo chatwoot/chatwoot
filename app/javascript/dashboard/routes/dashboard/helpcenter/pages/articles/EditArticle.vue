@@ -14,7 +14,7 @@
         @close="closeArticleSettings"
         @show="showArticleInPortal"
       />
-      <div v-if="isFetching" class="text-center p-normal fs-default h-full">
+      <div v-if="isFetching" class="text-center p-4 text-base h-full">
         <spinner size="" />
         <span>{{ $t('HELP_CENTER.EDIT_ARTICLE.LOADING') }}</span>
       </div>

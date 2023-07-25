@@ -15,7 +15,7 @@
         v-if="icon"
         :icon="icon"
         :class="iconClass"
-        class="mr-2 ml-4 rtl:ml-2 rtl:mr-4"
+        class="mr-2 ml-2"
       />
       <slot />
       <span class="text-slate-900 dark:text-slate-100">{{ headerTitle }}</span>
@@ -79,7 +79,7 @@ export default {
       currentUser: 'getCurrentUser',
     }),
     iconClass() {
-      return `icon ${this.icon} header--icon`;
+      return `icon ${this.icon} lg:block hidden my-0 mr-2 ml-1`;
     },
   },
 };
