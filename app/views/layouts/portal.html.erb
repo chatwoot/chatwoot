@@ -30,9 +30,13 @@ By default, it renders:
   <body>
     <div class="antialiased">
       <main class="main-content min-h-screen flex flex-col" role="main">
-        <%= render "public/api/v1/portals/header", portal: @portal %>
+        <% if !@is_plain_layout_enabled %>
+          <%= render "public/api/v1/portals/header", portal: @portal %>
+        <% end %>
         <%= yield %>
-        <%= render "public/api/v1/portals/footer" %>
+        <% if !@is_plain_layout_enabled %>
+          <%= render "public/api/v1/portals/footer" %>
+        <% end %>
       </main>
     </div>
   </body>
@@ -46,6 +50,7 @@ By default, it renders:
         loadingPlaceholder: '<%= I18n.t('public_portal.search.loading_placeholder') %>',
         resultsTitle: '<%= I18n.t('public_portal.search.results_title') %>',
       },
+      isPlainLayoutEnabled: '<%= @is_plain_layout_enabled %>',
       tocHeader: '<%= I18n.t('public_portal.toc_header') %>'
     };
   </script>
