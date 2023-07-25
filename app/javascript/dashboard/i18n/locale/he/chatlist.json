@@ -47,6 +47,12 @@
       },
       "sort_on_created_at": {
         "TEXT": "נוצר בזמן"
+      },
+      "sort_on_priority": {
+        "TEXT": "Priority"
+      },
+      "sort_on_waiting_since": {
+        "TEXT": "Pending Response"
       }
     },
     "ATTACHMENTS": {

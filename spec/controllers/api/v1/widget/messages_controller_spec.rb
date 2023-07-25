@@ -159,7 +159,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
       it 'updates message in conversation and deletes the current contact' do
         message = create(:message, account: account, content_type: 'input_email', inbox: web_widget.inbox, conversation: conversation)
         email = Faker::Internet.email
-        create(:contact, account: account, email: email)
+        existing_contact = create(:contact, account: account, email: email, name: 'John Doe')
         contact_params = { email: email }
         put api_v1_widget_message_url(message.id),
             params: { website_token: web_widget.website_token, contact: contact_params },
@@ -168,6 +168,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
 
         expect(response).to have_http_status(:success)
         message.reload
+        expect(existing_contact.reload.name).to eq('John Doe')
         expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
 

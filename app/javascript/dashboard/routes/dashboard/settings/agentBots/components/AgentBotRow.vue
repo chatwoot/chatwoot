@@ -57,14 +57,12 @@ export default {
 <style scoped lang="scss">
 .agent-bot--link {
   align-items: center;
-  color: var(--s-800);
   display: flex;
   font-weight: var(--font-weight-medium);
   word-break: break-word;
 }
 
 .agent-bot--description {
-  color: var(--s-700);
   font-size: var(--font-size-mini);
 }
 

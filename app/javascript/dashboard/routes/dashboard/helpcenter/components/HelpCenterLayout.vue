@@ -1,5 +1,5 @@
 <template>
-  <div class="row app-wrapper">
+  <div class="h-full flex">
     <sidebar
       :route="currentRoute"
       @toggle-account-modal="toggleAccountModal"
@@ -7,20 +7,18 @@
       @open-key-shortcut-modal="toggleKeyShortcutModal"
       @close-key-shortcut-modal="closeKeyShortcutModal"
     />
-    <div class="secondary-sidebar">
-      <help-center-sidebar
-        v-if="showHelpCenterSidebar"
-        :header-title="headerTitle"
-        :portal-slug="selectedPortalSlug"
-        :locale-slug="selectedLocaleInPortal"
-        :sub-title="localeName(selectedLocaleInPortal)"
-        :accessible-menu-items="accessibleMenuItems"
-        :additional-secondary-menu-items="additionalSecondaryMenuItems"
-        @open-popover="openPortalPopover"
-        @open-modal="onClickOpenAddCategoryModal"
-      />
-    </div>
-    <section class="app-content columns">
+    <help-center-sidebar
+      v-if="showHelpCenterSidebar"
+      :header-title="headerTitle"
+      :portal-slug="selectedPortalSlug"
+      :locale-slug="selectedLocaleInPortal"
+      :sub-title="localeName(selectedLocaleInPortal)"
+      :accessible-menu-items="accessibleMenuItems"
+      :additional-secondary-menu-items="additionalSecondaryMenuItems"
+      @open-popover="openPortalPopover"
+      @open-modal="onClickOpenAddCategoryModal"
+    />
+    <section class="app-content flex-1 px-0 bg-white dark:bg-slate-900">
       <router-view />
       <command-bar />
       <account-selector

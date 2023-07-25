@@ -5,7 +5,7 @@
       delay: { show: 1500, hide: 0 },
       hideOnClick: true,
     }"
-    class="time-ago"
+    class="text-xxs text-slate-500 dark:text-slate-500 leading-4 ml-auto hover:text-slate-900 dark:hover:text-slate-100"
   >
     <span>{{ `${createdAtTime} • ${lastActivityTime}` }}</span>
   </div>
@@ -109,16 +109,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.time-ago {
-  color: var(--b-600);
-  font-size: var(--font-size-micro);
-  font-weight: var(--font-weight-normal);
-  line-height: var(--space-normal);
-  margin-left: auto;
-
-  &:hover {
-    color: var(--b-900);
-  }
-}
-</style>

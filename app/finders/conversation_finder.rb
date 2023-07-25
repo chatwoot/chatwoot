@@ -6,7 +6,8 @@ class ConversationFinder
     latest: 'latest',
     sort_on_created_at: 'sort_on_created_at',
     last_user_message_at: 'last_user_message_at',
-    sort_on_priority: 'sort_on_priority'
+    sort_on_priority: 'sort_on_priority',
+    sort_on_waiting_since: 'sort_on_waiting_since'
   }.with_indifferent_access
 
   # assumptions
@@ -155,9 +156,9 @@ class ConversationFinder
   end
 
   def conversations
-    @conversations = @conversations.includes(:taggings, :inbox,
-                                             { assignee: [{ account_users: [:account] }, { avatar_attachment: [:blob] }] },
-                                             { contact: { avatar_attachment: [:blob] } }, :team, :contact_inbox, :messages)
+    @conversations = @conversations.includes(
+      :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team, :contact_inbox
+    )
     sort_by = SORT_OPTIONS[params[:sort_by]] || SORT_OPTIONS['latest']
     @conversations.send(sort_by).page(current_page)
   end

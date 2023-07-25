@@ -54,18 +54,25 @@
       "OPEN": "بیشتر",
       "CLOSE": "بستن",
       "DETAILS": "جزئیات",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "تا فردا به تعویق افتاد",
       "SNOOZED_UNTIL_NEXT_WEEK": "تا هفته آینده به تعویق افتاد",
       "SNOOZED_UNTIL_NEXT_REPLY": "تا پاسخ بعدی به تعویق افتاد"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "علامت گذاری به عنوان در انتظار",
+      "SNOOZE_UNTIL": "به تعویق انداختن",
       "SNOOZE": {
         "TITLE": "به تعویق انداختن تا",
         "NEXT_REPLY": "پاسخ بعدی",
         "TOMORROW": "فردا",
         "NEXT_WEEK": "هفته بعد"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "به تعویق انداختن تا",
+      "APPLY": "به تعویق انداختن",
+      "CANCEL": "انصراف"
     },
     "PRIORITY": {
       "TITLE": "اولویت",

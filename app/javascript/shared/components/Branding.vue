@@ -7,7 +7,7 @@
       :href="brandRedirectURL"
       rel="noreferrer noopener nofollow"
       target="_blank"
-      class="branding--link justify-center"
+      class="branding--link justify-center items-center leading-3"
     >
       <img
         class="branding--image"

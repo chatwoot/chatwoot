@@ -54,18 +54,25 @@
       "OPEN": "Mer",
       "CLOSE": "Stäng",
       "DETAILS": "detaljer",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Snoozad till imorgon",
       "SNOOZED_UNTIL_NEXT_WEEK": "Snoozad till nästa vecka",
       "SNOOZED_UNTIL_NEXT_REPLY": "Snoozad till nästa svar"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Markera som väntande",
+      "SNOOZE_UNTIL": "Snooze",
       "SNOOZE": {
         "TITLE": "Snooza tills",
         "NEXT_REPLY": "Nästa svar",
         "TOMORROW": "Imorgon",
         "NEXT_WEEK": "Nästa vecka"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Snooza tills",
+      "APPLY": "Snooze",
+      "CANCEL": "Avbryt"
     },
     "PRIORITY": {
       "TITLE": "Priority",

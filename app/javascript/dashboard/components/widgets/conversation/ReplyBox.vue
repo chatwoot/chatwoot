@@ -37,6 +37,7 @@
         v-if="showReplyHead"
         :cc-emails.sync="ccEmails"
         :bcc-emails.sync="bccEmails"
+        :to-emails.sync="toEmails"
       />
       <woot-audio-recorder
         v-if="showAudioRecorderEditor"
@@ -179,8 +180,6 @@ import inboxMixin from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { DirectUpload } from 'activestorage';
 import { frontendURL } from '../../../helper/URLHelper';
-import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
-import { LocalStorage } from 'shared/helpers/localStorage';
 import { trimContent, debounce } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants/globals';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
@@ -240,6 +239,7 @@ export default {
       hasSlashCommand: false,
       bccEmails: '',
       ccEmails: '',
+      toEmails: '',
       doAutoSaveDraft: () => {},
       showWhatsAppTemplatesModal: false,
       updateEditorSelectionWith: '',
@@ -530,7 +530,7 @@ export default {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
       }
 
-      this.setCCEmailFromLastChat();
+      this.setCCAndToEmailsFromLastChat();
     },
     conversationIdByRoute(conversationId, oldConversationId) {
       if (conversationId !== oldConversationId) {
@@ -564,7 +564,7 @@ export default {
     // working even if input/textarea is focussed.
     document.addEventListener('paste', this.onPaste);
     document.addEventListener('keydown', this.handleKeyEvents);
-    this.setCCEmailFromLastChat();
+    this.setCCAndToEmailsFromLastChat();
     this.doAutoSaveDraft = debounce(
       () => {
         this.saveDraft(this.conversationIdByRoute, this.replyType);
@@ -583,30 +583,15 @@ export default {
         display_rich_content_editor: !this.showRichContentEditor,
       });
     },
-    getSavedDraftMessages() {
-      return LocalStorage.get(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES) || {};
-    },
     saveDraft(conversationId, replyType) {
       if (this.message || this.message === '') {
-        const savedDraftMessages = this.getSavedDraftMessages();
         const key = `draft-${conversationId}-${replyType}`;
         const draftToSave = trimContent(this.message || '');
-        const {
-          [key]: currentDraft,
-          ...restOfDraftMessages
-        } = savedDraftMessages;
 
-        const updatedDraftMessages = draftToSave
-          ? {
-              ...restOfDraftMessages,
-              [key]: draftToSave,
-            }
-          : restOfDraftMessages;
-
-        LocalStorage.set(
-          LOCAL_STORAGE_KEYS.DRAFT_MESSAGES,
-          updatedDraftMessages
-        );
+        this.$store.dispatch('draftMessages/set', {
+          key,
+          message: draftToSave,
+        });
       }
     },
     setToDraft(conversationId, replyType) {
@@ -615,24 +600,14 @@ export default {
     },
     getFromDraft() {
       if (this.conversationIdByRoute) {
-        try {
-          const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
-          const savedDraftMessages = this.getSavedDraftMessages();
-          this.message = `${savedDraftMessages[key] || ''}`;
-        } catch (error) {
-          this.message = '';
-        }
+        const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
+        this.message = this.$store.getters['draftMessages/get'](key) || '';
       }
     },
     removeFromDraft() {
       if (this.conversationIdByRoute) {
         const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
-        const draftMessages = this.getSavedDraftMessages();
-        const { [key]: toBeRemoved, ...updatedDraftMessages } = draftMessages;
-        LocalStorage.set(
-          LOCAL_STORAGE_KEYS.DRAFT_MESSAGES,
-          updatedDraftMessages
-        );
+        this.$store.dispatch('draftMessages/delete', { key });
       }
     },
     handleKeyEvents(e) {
@@ -782,6 +757,7 @@ export default {
           messagePayload
         );
         bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
+        bus.$emit(BUS_EVENTS.MESSAGE_SENT);
         this.removeFromDraft();
       } catch (error) {
         const errorMessage =
@@ -808,6 +784,9 @@ export default {
     },
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
       const { can_reply: canReply } = this.currentChat;
+      this.$store.dispatch('draftMessages/setReplyEditorMode', {
+        mode,
+      });
       if (canReply || this.isAWhatsAppChannel) this.replyType = mode;
       if (this.showRichContentEditor) {
         if (this.isRecordingAudio) {
@@ -846,6 +825,7 @@ export default {
     clearEmailField() {
       this.ccEmails = '';
       this.bccEmails = '';
+      this.toEmails = '';
     },
     toggleEmojiPicker() {
       this.showEmojiPicker = !this.showEmojiPicker;
@@ -1056,22 +1036,56 @@ export default {
         messagePayload.bccEmails = this.bccEmails;
       }
 
+      if (this.toEmails && !this.isOnPrivateNote) {
+        messagePayload.toEmails = this.toEmails;
+      }
+
       return messagePayload;
     },
     setCcEmails(value) {
       this.bccEmails = value.bccEmails;
       this.ccEmails = value.ccEmails;
     },
-    setCCEmailFromLastChat() {
-      if (this.lastEmail) {
-        const {
-          content_attributes: { email: emailAttributes = {} },
-        } = this.lastEmail;
-        const cc = emailAttributes.cc || [];
-        const bcc = emailAttributes.bcc || [];
-        this.ccEmails = cc.join(', ');
-        this.bccEmails = bcc.join(', ');
+    setCCAndToEmailsFromLastChat() {
+      if (!this.lastEmail) return;
+
+      const {
+        content_attributes: { email: emailAttributes = {} },
+      } = this.lastEmail;
+
+      // Retrieve the email of the current conversation's sender
+      const conversationContact = this.currentChat?.meta?.sender?.email || '';
+      let cc = emailAttributes.cc ? [...emailAttributes.cc] : [];
+      let to = [];
+
+      // there might be a situation where the current conversation will include a message from a third person,
+      // and the current conversation contact is in CC.
+      // This is an edge-case, reported here: CW-1511 [ONLY FOR INTERNAL REFERENCE]
+      // So we remove the current conversation contact's email from the CC list if present
+      if (cc.includes(conversationContact)) {
+        cc = cc.filter(email => email !== conversationContact);
       }
+
+      // If the last incoming message sender is different from the conversation contact, add them to the "to"
+      // and add the conversation contact to the CC
+      if (!emailAttributes.from.includes(conversationContact)) {
+        to.push(...emailAttributes.from);
+        cc.push(conversationContact);
+      }
+
+      // Remove the conversation contact's email from the BCC list if present
+      let bcc = (emailAttributes.bcc || []).filter(
+        email => email !== conversationContact
+      );
+
+      // Ensure only unique email addresses are in the CC list
+      bcc = [...new Set(bcc)];
+      cc = [...new Set(cc)];
+      to = [...new Set(to)];
+
+      this.ccEmails = cc.join(', ');
+      this.bccEmails = bcc.join(', ');
+      this.toEmails = to.join(', ');
     },
   },
 };
@@ -1079,52 +1093,34 @@ export default {
 
 <style lang="scss" scoped>
 .send-button {
-  margin-bottom: 0;
+  @apply mb-0;
 }
 
 .message-signature-wrap {
-  margin: 0 var(--space-normal);
-  padding: var(--space-small);
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  border: 1px dashed var(--s-100);
-  border-radius: var(--border-radius-small);
-  max-height: 8vh;
-  overflow: auto;
-
-  &:hover {
-    background: var(--s-25);
-  }
+  @apply my-0 mx-4 px-1 flex max-h-[8vh] items-baseline justify-between hover:bg-slate-25 dark:hover:bg-slate-800 border border-dashed border-slate-100 dark:border-slate-700 rounded-sm overflow-auto;
 }
 
 .message-signature {
-  width: fit-content;
-  margin: 0;
+  @apply w-fit m-0;
 }
 
 .attachment-preview-box {
-  padding: 0 var(--space-normal);
-  background: transparent;
+  @apply bg-transparent py-0 px-4;
 }
 
 .reply-box {
-  border-top: 1px solid var(--color-border);
-  background: white;
+  @apply border-t border-slate-50 dark:border-slate-700 bg-white dark:bg-slate-900;
 
   &.is-private {
-    background: var(--y-50);
+    @apply bg-yellow-50 dark:bg-yellow-50;
   }
 }
 .send-button {
-  margin-bottom: 0;
+  @apply mb-0;
 }
 
 .reply-box__top {
-  position: relative;
-  padding: 0 var(--space-normal);
-  border-top: 1px solid var(--color-border);
-  margin-top: -1px;
+  @apply relative py-0 px-4 -mt-px border-t border-solid border-slate-50 dark:border-slate-700;
 }
 
 .emoji-dialog {
@@ -1166,10 +1162,10 @@ export default {
   }
 }
 .message-signature {
-  margin-bottom: 0;
+  @apply mb-0;
 
   ::v-deep p:last-child {
-    margin-bottom: 0;
+    @apply mb-0;
   }
 }
 

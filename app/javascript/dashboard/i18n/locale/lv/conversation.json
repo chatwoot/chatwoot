@@ -54,18 +54,25 @@
       "OPEN": "Papildu",
       "CLOSE": "Aizvērt",
       "DETAILS": "detalizēta informācija",
+      "SNOOZED_UNTIL": "Atlikts līdz",
       "SNOOZED_UNTIL_TOMORROW": "Atlikts līdz rītdienai",
       "SNOOZED_UNTIL_NEXT_WEEK": "Atlikts līdz nākamajai nedēļai",
       "SNOOZED_UNTIL_NEXT_REPLY": "Atlikts līdz nākamajai atbildei"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Atzīmēt kā neapstiprinātu",
+      "SNOOZE_UNTIL": "Atlikt",
       "SNOOZE": {
         "TITLE": "Atlikt līdz",
         "NEXT_REPLY": "Nākamā atbilde",
         "TOMORROW": "Rītdiena",
         "NEXT_WEEK": "Nākamā nedēļa"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Atlikt līdz",
+      "APPLY": "Atlikt",
+      "CANCEL": "Atcelt"
     },
     "PRIORITY": {
       "TITLE": "Prioritāte",

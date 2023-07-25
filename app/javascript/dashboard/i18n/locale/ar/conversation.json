@@ -54,12 +54,14 @@
       "OPEN": "المزيد",
       "CLOSE": "أغلق",
       "DETAILS": "التفاصيل",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "غفوة حتى الغد",
       "SNOOZED_UNTIL_NEXT_WEEK": "غفوة حتى الأسبوع القادم",
       "SNOOZED_UNTIL_NEXT_REPLY": "غفوة حتى الرد التالي"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "تحديد كمعلق",
+      "SNOOZE_UNTIL": "غفوة",
       "SNOOZE": {
         "TITLE": "تأجيل حتى",
         "NEXT_REPLY": "الرد القادم",
@@ -67,8 +69,13 @@
         "NEXT_WEEK": "الأسبوع المقبل"
       }
     },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "تأجيل حتى",
+      "APPLY": "غفوة",
+      "CANCEL": "إلغاء"
+    },
     "PRIORITY": {
-      "TITLE": "Priority",
+      "TITLE": "الأولوية",
       "OPTIONS": {
         "NONE": "لا شيء",
         "URGENT": "Urgent",
