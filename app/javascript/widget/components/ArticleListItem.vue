@@ -14,7 +14,10 @@
   </li>
 </template>
 <script>
+import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+
 export default {
+  components: { FluentIcon },
   props: {
     link: {
       type: String,

@@ -14,8 +14,10 @@
 
 <script>
 import ArticleList from './ArticleList.vue';
+import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+
 export default {
-  components: { ArticleList },
+  components: { FluentIcon, ArticleList },
   props: {
     title: {
       type: String,

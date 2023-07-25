@@ -1,11 +1,11 @@
 <template>
   <div
-    class="w-full h-full flex flex-col"
+    class="w-full h-full flex flex-col relative"
     :class="$dm('bg-slate-50', 'dark:bg-slate-800')"
     @keydown.esc="closeWindow"
   >
     <div
-      class="header-wrap"
+      class="header-wrap sticky top-0 z-40"
       :class="{
         expanded: !isHeaderCollapsed,
         collapsed: isHeaderCollapsed,
@@ -46,7 +46,9 @@
     >
       <router-view />
     </transition>
-    <branding :disable-branding="disableBranding" />
+    <div>
+      <branding :disable-branding="disableBranding" />
+    </div>
   </div>
 </template>
 <script>
@@ -105,7 +107,6 @@ export default {
 .header-wrap {
   flex-shrink: 0;
   transition: max-height 300ms;
-  z-index: 99;
   @include shadow-large;
 
   &.expanded {
