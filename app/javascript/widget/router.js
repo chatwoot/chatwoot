@@ -36,6 +36,12 @@ export default new Router({
           name: 'messages',
           component: () => import('./views/Messages.vue'),
         },
+        {
+          path: '/article',
+          name: 'articleViewer',
+          props: true,
+          component: () => import('./views/ArticleViewer.vue'),
+        },
       ],
     },
   ],

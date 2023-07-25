@@ -32,6 +32,7 @@
           :avatar-url="channelConfig.avatarUrl"
           :show-popout-button="appConfig.showPopoutButton"
           :available-agents="availableAgents"
+          :show-back-button="showBackButtonOnArticlePage"
         />
       </transition>
     </div>
@@ -46,7 +47,7 @@
     >
       <router-view />
     </transition>
-    <div>
+    <div class="sticky bottom-0 bg-slate-75">
       <branding :disable-branding="disableBranding" />
     </div>
   </div>
@@ -90,6 +91,9 @@ export default {
       return (
         this.channelConfig.welcomeTitle || this.channelConfig.welcomeTagline
       );
+    },
+    showBackButtonOnArticlePage() {
+      return this.$route.name === 'articleViewer';
     },
   },
   methods: {

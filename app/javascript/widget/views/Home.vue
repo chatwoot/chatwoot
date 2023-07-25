@@ -1,22 +1,27 @@
 <template>
   <div
-    class="flex flex-1 flex-col justify-end sticky top-4 z-50 rounded-md border border-solid border-slate-100 shadow bg-slate-25 w-full"
+    class="flex flex-1 flex-col justify-end sticky top-4 z-50 rounded-md border border-solid border-slate-50 shadow bg-slate-25 w-full"
   >
     <div class="flex flex-1 overflow-auto w-full">
-      <div class="px-5 pt-4 pb-2 w-full">
+      <div class="px-5 pt-4 pb-8 w-full">
         <article-hero
           v-if="
             !articleUiFlags.isFetching &&
               !articleUiFlags.isError &&
-              popularArticles.length
+              popularArticles.length &&
+              
           "
           :articles="popularArticles"
+          @view="viewArticle"
+          @view-all="viewAllArticles"
         />
         <div
           v-if="articleUiFlags.isFetching"
           class="flex flex-col items-center justify-center py-8"
         >
-          <spinner size="small" class="rounded-lg bg-slate-75" />
+          <div class="inline-block p-4 rounded-lg bg-slate-200">
+            <spinner size="small" />
+          </div>
         </div>
       </div>
     </div>
@@ -73,7 +78,7 @@ export default {
   },
   mounted() {
     const { portal } = window.chatwootWebChannel;
-    if (portal) {
+    if (portal && this.popularArticles.length === 0) {
       this.$store.dispatch('article/fetch', {
         slug: portal.slug,
         locale: 'en',
@@ -86,6 +91,26 @@ export default {
         return this.replaceRoute('prechat-form');
       }
       return this.replaceRoute('messages');
+    },
+    viewArticle(link) {
+      this.$router.push({
+        name: 'articleViewer',
+        params: {
+          link: `${link}?show_plain_layout=true`,
+        },
+      });
+    },
+    viewAllArticles() {
+      const portal = window.chatwootWebChannel.portal.slug;
+      const locale = window.chatwootWebChannel.locale || 'en';
+
+      const link = `/hc/${portal}/${locale}?show_plain_layout=true`;
+      this.$router.push({
+        name: 'articleViewer',
+        params: {
+          link,
+        },
+      });
     },
   },
 };

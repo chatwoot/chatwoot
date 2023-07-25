@@ -3,7 +3,8 @@
     <category-card
       :title="$t('PORTAL.POPULAR_ARTICLES')"
       :articles="articles.slice(0, 4)"
-      @view-all-articles="$emit('view-all-articles')"
+      @view-all="$emit('view-all')"
+      @view="onArticleClick"
     />
   </div>
 </template>
@@ -20,6 +21,11 @@ export default {
     categoryPath: {
       type: String,
       default: '',
+    },
+  },
+  methods: {
+    onArticleClick(link) {
+      this.$emit('view', link);
     },
   },
 };

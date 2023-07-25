@@ -1,6 +1,7 @@
 <template>
   <li
-    class="py-1 flex items-center justify-between  -mx-1 px-1 hover:bg-slate-25"
+    class="py-1 flex items-center justify-between  -mx-1 px-1 hover:bg-slate-75 rounded cursor-pointer"
+    @click="onClick"
   >
     <button
       class="text-slate-700 hover:text-slate-900 underline-offset-2 text-sm leading-6"
