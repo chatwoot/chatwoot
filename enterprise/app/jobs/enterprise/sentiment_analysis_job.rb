@@ -38,8 +38,8 @@ class Enterprise::SentimentAnalysisJob < ApplicationJob
     sentiment[:label] == 'positive' ? 1 : -1
   end
 
-  def invalid_incoming_message?(message)
-    !message.incoming? || message.private? || message.content.blank?
+  def valid_incoming_message?(message)
+    message.incoming? && message.content.present?
   end
 
   # returns the sentiment file from vendor folder else download it to the path from AWS-S3
