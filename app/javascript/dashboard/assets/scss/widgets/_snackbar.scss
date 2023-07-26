@@ -12,7 +12,7 @@
 
 .ui-snackbar {
   @include shadow;
-  background-color: var(--b-900);
+
   border-radius: $space-smaller;
   display: inline-flex;
   margin-bottom: $space-small;
@@ -22,18 +22,29 @@
   padding: $space-slab $space-medium;
   text-align: left;
 
+  &.light {
+    background-color: var(--white);
+  }
+
+  &.dark {
+    background-color: var(--b-900);
+
+    .ui-snackbar-text {
+      color: $color-white;
+    }
+  }
+
+  .ui-snackbar-text {
+    font-size: $font-size-small;
+    font-weight: $font-weight-medium;
+  }
+
   &.wide {
     align-items: center;
     display: flex;
     justify-content: center;
     max-width: 60rem;
   }
-}
-
-.ui-snackbar-text {
-  color: $color-white;
-  font-size: $font-size-small;
-  font-weight: $font-weight-medium;
 }
 
 .ui-snackbar-action {

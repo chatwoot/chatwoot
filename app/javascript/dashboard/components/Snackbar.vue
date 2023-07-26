@@ -4,6 +4,7 @@
       class="ui-snackbar"
       :class="{
         wide: wide,
+        [theme]: true,
       }"
     >
       <div class="ui-snackbar-text" v-html="message" />
@@ -40,6 +41,10 @@ export default {
     wide: {
       type: Boolean,
       default: false,
+    },
+    theme: {
+      type: String,
+      default: 'dark',
     },
   },
   data() {
