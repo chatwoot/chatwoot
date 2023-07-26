@@ -1,5 +1,5 @@
 <template>
-  <div class="column overflow-auto p-4">
+  <div class="flex-1 overflow-auto p-4">
     <report-filter-selector
       :show-agents-filter="true"
       :show-inbox-filter="true"

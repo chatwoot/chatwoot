@@ -18,9 +18,11 @@
     />
     <div
       v-if="metrics.totalResponseCount && !ratingFilterEnabled"
-      class="w-[50%] max-w-[50%] flex-[50%] report-card"
+      class="w-[50%] max-w-[50%] flex-[50%] border-t-[3px] border-solid border-transparent dark:border-transparent cursor-pointer m-0 p-4 report-card"
     >
-      <h3 class="heading text-slate-800 dark:text-slate-100">
+      <h3
+        class="items-center text-slate-800 dark:text-slate-100 flex text-sm font-semibold m-0"
+      >
         <div class="emoji--distribution">
           <div
             v-for="(rating, key, index) in ratingPercentage"

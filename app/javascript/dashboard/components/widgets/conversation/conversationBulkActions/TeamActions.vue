@@ -33,13 +33,15 @@
           <template v-if="filteredTeams.length">
             <li v-for="team in filteredTeams" :key="team.id">
               <div class="team__list-item" @click="assignTeam(team)">
-                <span class="reports-option__title">{{ team.name }}</span>
+                <span class="my-0 mx-2 text-slate-800 dark:text-slate-100">{{
+                  team.name
+                }}</span>
               </div>
             </li>
           </template>
           <li v-else>
             <div class="team__list-item">
-              <span class="reports-option__title">{{
+              <span class="my-0 mx-2 text-slate-800 dark:text-slate-100">{{
                 $t('BULK_ACTION.TEAMS.NO_TEAMS_AVAILABLE')
               }}</span>
             </div>

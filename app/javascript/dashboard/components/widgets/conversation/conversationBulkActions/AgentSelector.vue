@@ -45,7 +45,9 @@
                 :username="agent.name"
                 size="22px"
               />
-              <span class="reports-option__title">{{ agent.name }}</span>
+              <span class="my-0 mx-2 text-slate-800 dark:text-slate-100">{{
+                agent.name
+              }}</span>
             </div>
           </li>
         </ul>

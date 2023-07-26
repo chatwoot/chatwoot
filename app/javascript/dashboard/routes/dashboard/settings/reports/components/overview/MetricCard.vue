@@ -15,7 +15,10 @@
         </div>
       </slot>
     </div>
-    <div v-if="!isLoading" class="card-body row">
+    <div
+      v-if="!isLoading"
+      class="card-body max-w-full w-full ml-auto mr-auto justify-between flex"
+    >
       <slot />
     </div>
     <div v-else-if="isLoading" class="conversation-metric-loader">
