@@ -64,7 +64,7 @@
       @apply bg-slate-75 dark:bg-slate-900 border-slate-100 dark:border-slate-700;
 
       &.secondary {
-        @apply border-slate-100 dark:border-slate-700;
+        @apply border-slate-100 dark:border-slate-700 text-slate-800 dark:text-slate-100;
       }
 
       &.success {
@@ -125,7 +125,7 @@
       @apply hover:bg-woot-50 dark:hover:bg-woot-900/50 hover:text-woot-500 dark:hover:text-woot-100;
 
       &.secondary {
-        @apply hover:bg-slate-50 dark:hover:bg-slate-700;
+        @apply hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-100;
       }
 
       &.success {
