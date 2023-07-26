@@ -2,7 +2,7 @@ class Enterprise::SentimentAnalysisJob < ApplicationJob
   queue_as :low
 
   def perform(message)
-    return if message.account.locale != 'en' || !(valid_incoming_message?(message))
+    return if message.account.locale != 'en' || !valid_incoming_message?(message)
 
     save_message_sentiment(message)
   rescue StandardError => e
