@@ -8,7 +8,7 @@
     <div class="wrap">
       <div class="label-suggestion--container">
         <h6 class="label-suggestion--title">Suggested labels</h6>
-        <div v-if="!fetchingSuggestions" class="label-suggestion--options">
+        <div class="label-suggestion--options">
           <button
             v-for="label in preparedLabels"
             :key="label.title"
@@ -123,7 +123,6 @@ export default {
   data() {
     return {
       isDismissed: false,
-      fetchingSuggestions: false,
       isHovered: false,
       selectedLabels: [],
     };
@@ -160,11 +159,7 @@ export default {
       if (this.isDismissed) return false;
       if (!this.isAIIntegrationEnabled) return false;
 
-      return (
-        !this.fetchingSuggestions &&
-        this.preparedLabels.length &&
-        this.chatLabels.length === 0
-      );
+      return this.preparedLabels.length && this.chatLabels.length === 0;
     },
   },
   watch: {
