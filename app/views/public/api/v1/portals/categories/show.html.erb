@@ -5,26 +5,13 @@
   <% end %>
 <% end %>
 
+<% if !@is_plain_layout_enabled %>
 <div class="bg-woot-50 pt-16 pb-20" style="background: url(/assets/images/hc/grid.svg) color-mix(in srgb, <%= @portal.color %> 10%, white)">
-  <div class="max-w-6xl px-8 mx-auto space-y-2">
-    <a
-      class="text-slate-700 text-sm hover:underline leading-8 font-semibold"
-      href="/hc/<%= @portal.slug %>/<%= @category.locale %>"
-    >
-      <%= I18n.t('public_portal.common.home') %>
-    </a>
-    <span class="text-xs text-slate-600 px-1">/</span>
-    <div class="flex justify-start items-center w-full">
-      <h1 class="text-3xl font-semibold leading-snug md:tracking-normal text-slate-900">
-        <%= @category.name %>
-      </h1>
-      <div class="text-slate-500 px-8 mt-2">
-        <%= render 'public/api/v1/portals/article_count', article_count: @category.articles.published.size %>
-      </div>
-    </div>
-  </div>
+  <%= render 'public/api/v1/portals/categories/category-hero', category: @category, portal: @portal %>
 </div>
-
+<% else %>
+  <%= render 'public/api/v1/portals/categories/category-hero', category: @category, portal: @portal %>
+<% end %>
 <section class="bg-white max-w-6xl w-full mx-auto py-6 px-8 flex flex-col items-center justify-center flex-grow">
   <div class="py-4 w-full mt-2 flex-grow">
     <% if @category.articles.published.size == 0 %>
