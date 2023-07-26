@@ -9,8 +9,8 @@ import billing from './billing/billing.routes';
 import campaigns from './campaigns/campaigns.routes';
 import canned from './canned/canned.routes';
 import inbox from './inbox/inbox.routes';
-// import integrationapps from './integrationapps/integrations.routes';
-// import integrations from './integrations/integrations.routes';
+import integrationapps from './integrationapps/integrations.routes';
+import integrations from './integrations/integrations.routes';
 import labels from './labels/labels.routes';
 import macros from './macros/macros.routes';
 import profile from './profile/profile.routes';
@@ -40,13 +40,13 @@ export default {
     ...billing.routes,
     ...canned.routes,
     ...inbox.routes,
-    // ...integrations.routes,
+    ...integrations.routes,
     ...labels.routes,
     ...macros.routes,
     ...profile.routes,
     ...reports.routes,
     ...teams.routes,
     ...campaigns.routes,
-    // ...integrationapps.routes,
+    ...integrationapps.routes,
   ],
 };

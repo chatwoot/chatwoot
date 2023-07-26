@@ -3,7 +3,7 @@ import AgentReports from './AgentReports';
 import LabelReports from './LabelReports';
 import InboxReports from './InboxReports';
 import TeamReports from './TeamReports';
-// import CsatResponses from './CsatResponses';
+import CsatResponses from './CsatResponses';
 import LiveReports from './LiveReports';
 import SettingsContent from '../Wrapper';
 import { frontendURL } from '../../../../helper/URLHelper';
@@ -56,14 +56,14 @@ export default {
         icon: 'emoji',
         keepAlive: false,
       },
-      // children: [
-      //   {
-      //     path: 'csat',
-      //     name: 'csat_reports',
-      //     roles: ['administrator'],
-      //     component: CsatResponses,
-      //   },
-      // ],
+      children: [
+        {
+          path: 'csat',
+          name: 'csat_reports',
+          roles: ['administrator'],
+          component: CsatResponses,
+        },
+      ],
     },
     {
       path: frontendURL('accounts/:accountId/reports'),
