@@ -36,7 +36,7 @@
       <empty-state v-else :is-on-expanded-layout="isOnExpandedLayout" />
       <div
         v-show="showContactPanel"
-        class="conversation-sidebar-wrap basis-full sm:basis-[17.5rem] md:basis-[18.75rem] lg:basis-[19.375rem] xl:basis-[20.625rem] 2xl:basis-[25rem] rtl:border-r border-slate-50 dark:border-slate-700 h-auto overflow-auto z-10 flex-shrink-0 flex-grow-0"
+        class="conversation-sidebar-wrap basis-full sm:basis-[17.5rem] md:basis-[18.75rem] lg:basis-[19.375rem] xl:basis-[20.625rem] 2xl:basis-[25rem] rtl:border-r border-slate-50 dark:border-slate-900 h-auto overflow-auto z-10 flex-shrink-0 flex-grow-0"
       >
         <contact-panel
           v-if="showContactPanel"
@@ -148,7 +148,7 @@ export default {
   @apply flex flex-col min-w-0 w-full;
 
   &.with-border-right {
-    @apply border-r border-slate-50 dark:border-slate-700;
+    @apply border-r border-slate-50 dark:border-slate-800/50;
   }
 }
 
