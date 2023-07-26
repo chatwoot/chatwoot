@@ -2,7 +2,7 @@
   <transition-group
     name="toast-fade"
     tag="div"
-    class="fixed left-0 right-0 mx-auto overflow-hidden text-center top-6 z-50 max-w-[40rem]"
+    class="fixed left-0 right-0 mx-auto overflow-hidden text-center top-4 z-50 max-w-[40rem]"
   >
     <woot-snackbar
       v-for="snackMessage in snackMessages"

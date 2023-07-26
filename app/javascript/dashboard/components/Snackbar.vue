@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="bg-slate-900 dark:bg-slate-800 rounded-md drop-shadow-md mb-4 max-w-[40rem] inline-flex items-center min-w-[18rem] py-3 px-4"
+      class="bg-slate-900 dark:bg-slate-800 rounded-md shadow-md mb-4 max-w-[40rem] inline-flex items-center min-w-[18rem] py-3 px-4"
       :class="action ? 'justify-between' : 'justify-center'"
     >
       <div class="text-sm font-medium text-white dark:text-white">
