@@ -57,7 +57,7 @@ jobs:
         cache: 'yarn'
 
     - name: yarn
-      run: yarn install
+      run: yarn install --prefer-offline --frozen-lockfile
 
     - name: Strip enterprise code
       run: |
