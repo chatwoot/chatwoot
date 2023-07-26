@@ -49,13 +49,20 @@ export default {
     },
   },
   mounted() {
-    this.$nextTick(() => {
-      const wrap = this.$refs.messageContainer;
-      const message = wrap.querySelector('.message-content');
-      this.isOverflowing = message.offsetHeight > 150;
-    });
+    this.$watch(() => {
+      return this.$refs.messageContainer;
+    }, this.setOverflow);
+
+    this.$nextTick(this.setOverflow);
   },
   methods: {
+    setOverflow() {
+      const wrap = this.$refs.messageContainer;
+      if (wrap) {
+        const message = wrap.querySelector('.message-content');
+        this.isOverflowing = message.offsetHeight > 150;
+      }
+    },
     escapeHtml(html) {
       var text = document.createTextNode(html);
       var p = document.createElement('p');
