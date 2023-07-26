@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="metric-card">
     <div class="card-header">
       <slot name="header">
         <div class="card-header--title-area">
@@ -54,8 +54,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.card {
-  @apply bg-white dark:bg-slate-800 border-slate-75 dark:border-slate-700 min-h-[10rem];
+.metric-card {
+  @apply flex flex-col mb-2 p-4 border border-solid overflow-hidden rounded-md flex-grow shadow-sm text-slate-700 dark:text-slate-100 bg-white dark:bg-slate-800 border-slate-75 dark:border-slate-700 min-h-[10rem];
   margin: var(--space-small) !important;
 
   .card-header--control-area {

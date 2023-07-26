@@ -1,7 +1,7 @@
 <template>
   <mention-box :items="items" @mention-select="handleVariableClick">
     <template slot-scope="{ item }">
-      <span class="text-capitalize variable--list-label">
+      <span class="capitalize variable--list-label">
         {{ item.description }}
       </span>
       ({{ item.label }})
