@@ -4,7 +4,7 @@
     :agent-bot="agentBot"
     @submit="updateBot"
   />
-  <div v-else class="column content-box no-padding">
+  <div v-else class="h-auto overflow-auto flex flex-col no-padding">
     <spinner />
   </div>
 </template>
