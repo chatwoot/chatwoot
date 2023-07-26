@@ -1,6 +1,6 @@
 {
   "name": "@chatwoot/chatwoot",
-  "version": "2.18.0",
+  "version": "3.0.0",
   "license": "MIT",
   "scripts": {
     "eslint": "eslint app/**/*.{js,vue}",
@@ -18,8 +18,7 @@
     "prepare": "husky install",
     "size": "size-limit"
   },
-  "size-limit": [
-    {
+  "size-limit": [{
       "path": "public/packs/js/widget-*.js",
       "limit": "270 KB"
     },
@@ -66,6 +65,7 @@
     "md5": "^2.3.0",
     "ninja-keys": "^1.1.9",
     "opus-recorder": "^8.0.5",
+    "pinia": "^2.1.4",
     "postcss": "^8.4.24",
     "postcss-loader": "^4.2.0",
     "semver": "7.3.5",
@@ -107,6 +107,7 @@
     "@storybook/addon-docs": "^6.5.9",
     "@storybook/addon-essentials": "6.5.9",
     "@storybook/addon-links": "6.5.9",
+    "@storybook/addon-postcss": "^2.0.0",
     "@storybook/addons": "6.5.9",
     "@storybook/vue": "6.5.9",
     "@types/jest": "^29.5.2",

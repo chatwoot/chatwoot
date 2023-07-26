@@ -1,17 +1,26 @@
+const defaultTheme = require('tailwindcss/defaultTheme');
 module.exports = {
   darkMode: 'class',
   content: [
     './app/javascript/widget/**/*.vue',
     './app/javascript/v3/**/*.vue',
+    './app/javascript/dashboard/**/*.vue',
     './app/javascript/portal/**/*.vue',
     './app/javascript/shared/**/*.vue',
     './app/javascript/survey/**/*.vue',
     './app/views/**/*.html.erb',
   ],
   theme: {
+    fontSize: {
+      xxs: '0.625rem',
+      ...defaultTheme.fontSize,
+    },
     colors: {
       transparent: 'transparent',
       white: '#fff',
+      white_transparent: 'rgba(255, 255, 255, 0.9)',
+      black_transparent: 'rgba(0, 0, 0, 0.9)',
+      modal: 'rgba(0, 0, 0, 0.4)',
       current: 'currentColor',
       woot: {
         25: '#F5FAFF',
@@ -89,7 +98,34 @@ module.exports = {
         800: '#D11320',
         900: '#C30011',
       },
+      violet: {
+        50: '#FFFFFF',
+        100: '#F5EBFF',
+        200: '#DDB8FF',
+        300: '#C585FF',
+        400: '#AC52FF',
+        500: '#941FFF',
+        600: '#7B00EB',
+        700: '#6000B8',
+        800: '#450085',
+        900: '#2B0052',
+      },
       body: '#2f3b49',
+    },
+    keyframes: {
+      wiggle: {
+        '0%': { transform: 'translateX(0)' },
+        '15%': { transform: 'translateX(0.375rem)' },
+        '30%': { transform: 'translateX(-0.375rem)' },
+        '45%': { transform: 'translateX(0.375rem)' },
+        '60%': { transform: 'translateX(-0.375rem)' },
+        '75%': { transform: 'translateX(0.375rem)' },
+        '90%': { transform: 'translateX(-0.375rem)' },
+        '100%': { transform: 'translateX(0)' },
+      },
+    },
+    animation: {
+      wiggle: 'wiggle 0.5s ease-in-out',
     },
   },
   plugins: [

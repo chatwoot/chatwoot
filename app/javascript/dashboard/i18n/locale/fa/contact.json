@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "افزودن برچسب‌ها",
         "PLACEHOLDER": "جستجو برچسب‌ها",
-        "NO_RESULT": "هیچ برچسبی یافت نشد"
+        "NO_RESULT": "هیچ برچسبی یافت نشد",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "ادغام مخاطبین",

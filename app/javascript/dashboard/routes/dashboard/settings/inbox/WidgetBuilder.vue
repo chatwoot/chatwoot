@@ -1,7 +1,7 @@
 <template>
   <div class="settings--content">
     <div class="widget-builder-container">
-      <div class="settings-container">
+      <div class="settings-container w-100 lg:w-[40%]">
         <div class="settings-content">
           <form @submit.prevent="updateWidget">
             <woot-avatar-uploader
@@ -123,7 +123,7 @@
           </form>
         </div>
       </div>
-      <div class="widget-container">
+      <div class="widget-container w-100 lg:w-[60%]">
         <input-radio-group
           name="widget-view-options"
           :items="getWidgetViewOptions"
@@ -428,11 +428,6 @@ export default {
 }
 
 .settings-container {
-  width: 40%;
-  @include breakpoint(900px down) {
-    width: 100%;
-  }
-
   .settings-content {
     padding: var(--space-normal) var(--space-zero);
     overflow-y: scroll;
@@ -445,21 +440,15 @@ export default {
 }
 
 .widget-container {
-  width: 60%;
-
-  @include breakpoint(900px down) {
-    width: 100%;
-  }
-
   .widget-preview {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
-    min-height: 65rem;
+    min-height: 40.625rem;
     margin: var(--space-zero) var(--space-two) var(--space-two) var(--space-two);
     padding: var(--space-one) var(--space-one) var(--space-one) var(--space-one);
-    background: var(--s-50);
+    @apply bg-slate-50 dark:bg-slate-700;
 
     @include breakpoint(500px down) {
       background: none;

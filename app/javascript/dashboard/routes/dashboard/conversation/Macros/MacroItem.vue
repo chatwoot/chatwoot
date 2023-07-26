@@ -1,6 +1,8 @@
 <template>
   <div class="macro button secondary clear ">
-    <span class="text-truncate">{{ macro.name }}</span>
+    <span class="overflow-hidden whitespace-nowrap text-ellipsis">{{
+      macro.name
+    }}</span>
     <div class="macros-actions">
       <woot-button
         v-tooltip.left-start="$t('MACROS.EXECUTE.PREVIEW')"
@@ -86,16 +88,10 @@ export default {
 
 <style scoped lang="scss">
 .macro {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  line-height: var(--space-normal);
+  @apply relative flex items-center justify-between leading-4;
 
   .macros-actions {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+    @apply flex items-center justify-end;
   }
 }
 </style>

@@ -3,6 +3,7 @@
     "TITLE": "Impostazioni account",
     "SUBMIT": "Aggiorna le impostazioni",
     "BACK": "Indietro",
+    "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "Impossibile aggiornare le impostazioni, riprova!",
       "SUCCESS": "Impostazioni account aggiornate con successo"

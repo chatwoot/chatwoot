@@ -1,16 +1,16 @@
 <template>
   <div
     v-on-clickaway="onCloseDropdown"
-    class="selector-wrap"
+    class="relative w-full mb-2"
     @keyup.esc="onCloseDropdown"
   >
     <woot-button
       variant="hollow"
       color-scheme="secondary"
-      class="selector-button"
+      class="w-full border border-solid border-slate-200 dark:border-slate-700 px-2.5 hover:border-slate-75 dark:hover:border-slate-600"
       @click="toggleDropdown"
     >
-      <div class="selector-user-wrap">
+      <div class="flex">
         <Thumbnail
           v-if="hasValue && hasThumbnail"
           :src="selectedItem.thumbnail"
@@ -18,16 +18,16 @@
           :status="selectedItem.availability_status"
           :username="selectedItem.name"
         />
-        <div class="selector-name-wrap">
+        <div class="flex justify-between w-full min-w-0 items-center">
           <h4
             v-if="!hasValue"
-            class="not-selected text-ellipsis text-block-title"
+            class="mt-0 mb-0 mr-2 ml-0 text-ellipsis text-sm text-slate-800 dark:text-slate-100"
           >
             {{ multiselectorPlaceholder }}
           </h4>
           <h4
             v-else
-            class="selector-name text-truncate text-block-title"
+            class="items-center leading-tight my-0 mx-2 overflow-hidden whitespace-nowrap text-ellipsis text-sm text-slate-800 dark:text-slate-100"
             :title="selectedItem.name"
           >
             {{ selectedItem.name }}
@@ -41,8 +41,10 @@
       :class="{ 'dropdown-pane--open': showSearchDropdown }"
       class="dropdown-pane"
     >
-      <div class="dropdown__header">
-        <h4 class="text-block-title text-truncate">
+      <div class="flex justify-between items-center mb-1">
+        <h4
+          class="text-sm text-slate-800 dark:text-slate-100 m-0 overflow-hidden whitespace-nowrap text-ellipsis"
+        >
           {{ multiselectorTitle }}
         </h4>
         <woot-button
@@ -135,61 +137,8 @@ export default {
   },
 };
 </script>
-
 <style lang="scss" scoped>
-.selector-wrap {
-  position: relative;
-  width: 100%;
-  margin-bottom: var(--space-small);
-
-  .selector-button {
-    width: 100%;
-    border: 1px solid var(--s-200);
-    padding-left: var(--space-one);
-    padding-right: var(--space-one);
-
-    &:hover {
-      border: 1px solid var(--color-border);
-    }
-  }
-
-  .selector-user-wrap {
-    display: flex;
-  }
-
-  .selector-name-wrap {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    min-width: 0;
-    align-items: center;
-  }
-
-  .not-selected {
-    margin: 0 var(--space-small) 0 0;
-  }
-
-  .selector-name {
-    align-items: center;
-    line-height: 1.2;
-    margin: 0 var(--space-small);
-  }
-
-  .dropdown-pane {
-    box-sizing: border-box;
-    top: 4.2rem;
-    width: 100%;
-  }
-}
-
-.dropdown__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--space-smaller);
-
-  .text-block-title {
-    margin: 0;
-  }
+.dropdown-pane {
+  @apply box-border top-[2.625rem] w-full;
 }
 </style>

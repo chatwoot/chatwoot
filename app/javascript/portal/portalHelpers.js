@@ -57,10 +57,25 @@ export const InitializationHelpers = {
     }
   },
 
+  appendPlainParamToURLs: () => {
+    document.getElementsByTagName('a').forEach(aTagElement => {
+      if (aTagElement.href && aTagElement.href.includes('/hc/')) {
+        aTagElement.setAttribute(
+          'href',
+          aTagElement.href + '?show_plain_layout=true'
+        );
+      }
+    });
+  },
+
   initialize: () => {
-    InitializationHelpers.navigateToLocalePage();
-    InitializationHelpers.initalizeSearch();
-    InitializationHelpers.initializeTableOfContents();
+    if (window.portalConfig.isPlainLayoutEnabled === 'true') {
+      InitializationHelpers.appendPlainParamToURLs();
+    } else {
+      InitializationHelpers.navigateToLocalePage();
+      InitializationHelpers.initalizeSearch();
+      InitializationHelpers.initializeTableOfContents();
+    }
   },
 
   onLoad: () => {

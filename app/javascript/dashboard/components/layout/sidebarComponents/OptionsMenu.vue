@@ -3,11 +3,10 @@
     <div
       v-if="show"
       v-on-clickaway="onClickAway"
-      class="options-menu dropdown-pane"
-      :class="{ 'dropdown-pane--open': show }"
+      class="left-3 rtl:left-auto rtl:right-3 bottom-16 w-64 absolute z-20 rounded-md shadow-xl bg-white dark:bg-slate-800 py-2 px-2 border border-slate-25 dark:border-slate-700"
+      :class="{ 'block visible': show }"
     >
       <availability-status />
-      <li class="divider" />
       <woot-dropdown-menu>
         <woot-dropdown-item v-if="showChangeAccountOption">
           <woot-button
@@ -50,7 +49,7 @@
           >
             <a
               :href="href"
-              class="button small clear secondary"
+              class="button small clear secondary bg-white dark:bg-slate-800 h-8"
               :class="{ 'is-active': isActive }"
               @click="e => handleProfileSettingClick(e, navigate)"
             >
@@ -64,7 +63,7 @@
         <woot-dropdown-item v-if="currentUser.type === 'SuperAdmin'">
           <a
             href="/super_admin"
-            class="button small clear secondary"
+            class="button small clear secondary bg-white dark:bg-slate-800 h-8"
             target="_blank"
             rel="noopener nofollow noreferrer"
             @click="$emit('close')"
@@ -149,12 +148,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.options-menu.dropdown-pane {
-  left: var(--space-slab);
-  bottom: var(--space-larger);
-  min-width: var(--space-giga);
-  top: unset;
-  z-index: var(--z-index-low);
-}
-</style>

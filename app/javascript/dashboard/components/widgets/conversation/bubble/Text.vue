@@ -10,15 +10,15 @@
     <letter v-else class="text-content" :html="message" />
     <button
       v-if="showQuoteToggle"
-      class="quoted-text--button"
+      class="text-slate-300 dark:text-slate-300 cursor-pointer text-xs py-1"
       @click="toggleQuotedContent"
     >
-      <span v-if="showQuotedContent">
-        <fluent-icon icon="chevron-up" class="fluent-icon" size="16" />
+      <span v-if="showQuotedContent" class="flex items-center gap-0.5">
+        <fluent-icon icon="chevron-up" size="16" />
         {{ $t('CHAT_LIST.HIDE_QUOTED_TEXT') }}
       </span>
-      <span v-else>
-        <fluent-icon icon="chevron-down" class="fluent-icon" size="16" />
+      <span v-else class="flex items-center gap-0.5">
+        <fluent-icon icon="chevron-down" size="16" />
         {{ $t('CHAT_LIST.SHOW_QUOTED_TEXT') }}
       </span>
     </button>
@@ -104,25 +104,13 @@ export default {
 
 .show--quoted {
   blockquote {
-    display: block;
+    @apply block;
   }
 }
 
 .hide--quoted {
   blockquote {
-    display: none;
-  }
-}
-
-.quoted-text--button {
-  color: var(--s-400);
-  cursor: pointer;
-  font-size: var(--font-size-mini);
-  padding-bottom: var(--space-small);
-  padding-top: var(--space-small);
-
-  .fluent-icon {
-    margin-bottom: var(--space-minus-smaller);
+    @apply hidden;
   }
 }
 </style>
