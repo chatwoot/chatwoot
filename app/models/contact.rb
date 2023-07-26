@@ -62,6 +62,14 @@ class Contact < ApplicationRecord
       )
     )
   }
+  scope :order_on_created_at, lambda { |direction|
+    order(
+      Arel::Nodes::SqlLiteral.new(
+        sanitize_sql_for_order("\"contacts\".\"created_at\" #{direction}
+          NULLS LAST")
+      )
+    )
+  }
   scope :order_on_company_name, lambda { |direction|
     order(
       Arel::Nodes::SqlLiteral.new(

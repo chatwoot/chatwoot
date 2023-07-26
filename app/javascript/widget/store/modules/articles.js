@@ -16,14 +16,16 @@ export const getters = {
 };
 
 export const actions = {
-  fetch: async ({ commit }, { websiteToken, slug, locale }) => {
+  fetch: async ({ commit }, { slug, locale }) => {
     commit('setIsFetching', true);
     commit('setError', false);
 
     try {
-      const { data } = await getMostReadArticles(websiteToken, slug, locale);
+      const { data } = await getMostReadArticles(slug, locale);
       const { payload = [] } = data;
-      commit('setArticles', payload);
+      if (payload.length) {
+        commit('setArticles', payload);
+      }
     } catch (error) {
       commit('setError', true);
     } finally {
