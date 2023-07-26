@@ -233,7 +233,7 @@ export default {
         return false;
       }
 
-      if (this.isAWebWidgetInbox) {
+      if (this.isAWebWidgetInbox || this.isAPIInbox) {
         const { contact_last_seen_at: contactLastSeenAt } = this.currentChat;
         return contactLastSeenAt >= this.createdAt;
       }
