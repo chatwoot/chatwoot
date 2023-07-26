@@ -72,11 +72,11 @@
       }
 
       &.alert {
-        @apply border-slate-100 dark:border-slate-700;
+        @apply border-slate-100 dark:border-slate-700 text-red-700 dark:text-red-100;
       }
 
       &.warning {
-        @apply border-slate-100 dark:border-slate-700;
+        @apply border-slate-100 dark:border-slate-700 text-yellow-700 dark:text-yellow-700;
       }
     }
   }
@@ -133,11 +133,11 @@
       }
 
       &.alert {
-        @apply hover:bg-red-50 dark:hover:bg-red-800;
+        @apply hover:bg-red-50 dark:hover:bg-red-800 text-red-700 dark:text-red-100;
       }
 
       &.warning {
-        @apply hover:bg-yellow-50 dark:hover:bg-yellow-100;
+        @apply hover:bg-yellow-50 dark:hover:bg-yellow-100 text-yellow-700 dark:text-yellow-700;
       }
     }
 
