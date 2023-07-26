@@ -1,6 +1,6 @@
 .reply-box {
   transition: box-shadow 0.35s $swift-ease-out-function,
-  height 2s $swift-ease-out-function;
+    height 2s $swift-ease-out-function;
 
   &.is-focused {
     box-shadow: var(--shadow);
@@ -8,7 +8,7 @@
 
   .reply-box__top {
     .icon {
-      color: $medium-gray;
+      color: var(--color-medium-gray);
       cursor: pointer;
       font-size: $font-size-medium;
       margin-right: $space-small;
