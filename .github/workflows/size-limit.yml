@@ -16,13 +16,17 @@ jobs:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           fetch-depth: 1
 
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+
       - uses: actions/setup-node@v3
         with:
           node-version: 16
           cache: 'yarn'
 
       - name: yarn
-        run: yarn install
+        run: yarn install --prefer-offline --frozen-lockfile
 
       - name: Strip enterprise code
         run: |
