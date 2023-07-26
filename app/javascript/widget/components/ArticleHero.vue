@@ -1,12 +1,10 @@
 <template>
-  <div>
-    <category-card
-      :title="$t('PORTAL.POPULAR_ARTICLES')"
-      :articles="articles.slice(0, 4)"
-      @view-all="$emit('view-all')"
-      @view="onArticleClick"
-    />
-  </div>
+  <category-card
+    :title="$t('PORTAL.POPULAR_ARTICLES')"
+    :articles="articles.slice(0, 4)"
+    @view-all="$emit('view-all')"
+    @view="onArticleClick"
+  />
 </template>
 
 <script>

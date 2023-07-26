@@ -1,7 +1,7 @@
 <template>
   <div
-    class="w-full h-full flex flex-col relative"
-    :class="$dm('bg-slate-50', 'dark:bg-slate-800')"
+    class="w-full h-full flex flex-col relative bg-slate-50 dark:bg-slate-800"
+    :class="{ 'overflow-auto': isOnHomeView }"
     @keydown.esc="closeWindow"
   >
     <div
@@ -9,6 +9,7 @@
       :class="{
         expanded: !isHeaderCollapsed,
         collapsed: isHeaderCollapsed,
+        'custom-header-shadow': !isOnArticleViewer && !portal,
       }"
     >
       <transition
@@ -32,7 +33,8 @@
           :avatar-url="channelConfig.avatarUrl"
           :show-popout-button="appConfig.showPopoutButton"
           :available-agents="availableAgents"
-          :show-back-button="showBackButtonOnArticlePage"
+          :show-back-button="showBackButton"
+          :show-bg="portal"
         />
       </transition>
     </div>
@@ -47,9 +49,7 @@
     >
       <router-view />
     </transition>
-    <div class="sticky bottom-0 bg-slate-75">
-      <branding :disable-branding="disableBranding" />
-    </div>
+    <branding v-if="!isOnArticleViewer" :disable-branding="disableBranding" />
   </div>
 </template>
 <script>
@@ -81,19 +81,30 @@ export default {
       availableAgents: 'agent/availableAgents',
       appConfig: 'appConfig/getAppConfig',
     }),
+    portal() {
+      return window.chatwootWebChannel.portal;
+    },
     isHeaderCollapsed() {
       if (!this.hasIntroText) {
         return true;
       }
-      return this.$route.name !== 'home';
+      return !this.isOnHomeView;
     },
     hasIntroText() {
       return (
         this.channelConfig.welcomeTitle || this.channelConfig.welcomeTagline
       );
     },
-    showBackButtonOnArticlePage() {
-      return this.$route.name === 'articleViewer';
+    showBackButton() {
+      return ['article-viewer', 'messages', 'prechat-form'].includes(
+        this.$route.name
+      );
+    },
+    isOnArticleViewer() {
+      return ['article-viewer'].includes(this.$route.name);
+    },
+    isOnHomeView() {
+      return ['home'].includes(this.$route.name);
     },
   },
   methods: {
@@ -108,10 +119,13 @@ export default {
 @import '~widget/assets/scss/variables';
 @import '~widget/assets/scss/mixins';
 
+.custom-header-shadow {
+  @include shadow-large;
+}
+
 .header-wrap {
   flex-shrink: 0;
   transition: max-height 300ms;
-  @include shadow-large;
 
   &.expanded {
     max-height: 16rem;

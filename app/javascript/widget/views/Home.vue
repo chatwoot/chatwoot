@@ -1,9 +1,10 @@
 <template>
   <div
-    class="flex flex-1 flex-col justify-end sticky top-4 z-50 rounded-md border border-solid border-slate-50 shadow bg-slate-25 w-full"
+    class="z-50 rounded-md border-t border-slate-50 w-full"
+    :class="!portal ? 'flex flex-1 justify-end' : 'pb-2'"
   >
-    <div class="flex flex-1 overflow-auto w-full">
-      <div class="px-5 pt-4 pb-8 w-full">
+    <div v-if="portal" class="px-4 py-2 w-full">
+      <div class="p-4 rounded-md bg-white dark:bg-slate-700 shadow w-full">
         <article-hero
           v-if="
             !articleUiFlags.isFetching &&
@@ -11,7 +12,7 @@
               popularArticles.length
           "
           :articles="popularArticles"
-          @view="viewArticle"
+          @view="openArticleInArticleViewer"
           @view-all="viewAllArticles"
         />
         <div
@@ -24,9 +25,7 @@
         </div>
       </div>
     </div>
-    <div
-      class="sticky bottom-0 bg-white shadow rounded-md py-4 border border-solid border-slate-50"
-    >
+    <div class="px-4 pt-2">
       <team-availability
         :available-agents="availableAgents"
         :has-conversation="!!conversationSize"
@@ -63,9 +62,6 @@ export default {
       default: false,
     },
   },
-  data() {
-    return {};
-  },
   computed: {
     ...mapGetters({
       availableAgents: 'agent/availableAgents',
@@ -74,12 +70,14 @@ export default {
       popularArticles: 'article/popularArticles',
       articleUiFlags: 'article/uiFlags',
     }),
+    portal() {
+      return window.chatwootWebChannel.portal;
+    },
   },
   mounted() {
-    const { portal } = window.chatwootWebChannel;
-    if (portal && this.popularArticles.length === 0) {
+    if (this.portal && this.popularArticles.length === 0) {
       this.$store.dispatch('article/fetch', {
-        slug: portal.slug,
+        slug: this.portal.slug,
         locale: 'en',
       });
     }
@@ -91,25 +89,18 @@ export default {
       }
       return this.replaceRoute('messages');
     },
-    viewArticle(link) {
+    openArticleInArticleViewer(link) {
       this.$router.push({
-        name: 'articleViewer',
-        params: {
-          link: `${link}?show_plain_layout=true`,
-        },
+        name: 'article-viewer',
+        params: { link: `${link}?show_plain_layout=true` },
       });
     },
     viewAllArticles() {
-      const portal = window.chatwootWebChannel.portal.slug;
-      const locale = window.chatwootWebChannel.locale || 'en';
-
-      const link = `/hc/${portal}/${locale}?show_plain_layout=true`;
-      this.$router.push({
-        name: 'articleViewer',
-        params: {
-          link,
-        },
-      });
+      const {
+        portal: { slug },
+        locale = 'en',
+      } = window.chatwootWebChannel.portal.slug;
+      this.openArticleInArticleViewer(`/hc/${slug}/${locale}`);
     },
   },
 };
