@@ -1,7 +1,9 @@
 <template>
   <div
-    class="w-[25%] bg-white dark:bg-slate-900 contact--panel"
-    :class="{ 'border-left': showAvatar }"
+    class="w-[25%] bg-white dark:bg-slate-900 border-slate-50 dark:border-slate-800/50 contact--panel"
+    :class="
+      showAvatar ? 'ltr:border-l rtl:border-r' : 'ltr:border-r rtl:border-l'
+    "
   >
     <contact-info
       :show-close-button="showCloseButton"
@@ -152,7 +154,7 @@ export default {
   }
 }
 .contact--panel {
-  @apply ltr:border-r rtl:border-l border-slate-50 dark:border-slate-700 h-full text-sm overflow-y-auto relative;
+  @apply h-full text-sm overflow-y-auto relative;
 }
 
 .list-group {
