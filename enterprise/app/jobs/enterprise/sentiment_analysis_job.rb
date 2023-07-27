@@ -38,7 +38,7 @@ class Enterprise::SentimentAnalysisJob < ApplicationJob
   end
 
   def valid_incoming_message?(message)
-    message.incoming? && message.content.present?
+    message.incoming? && message.content.present? && !message.private?
   end
 
   # returns the sentiment file from vendor folder else download it to the path from AWS-S3
