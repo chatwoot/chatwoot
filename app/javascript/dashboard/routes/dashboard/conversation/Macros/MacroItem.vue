@@ -3,14 +3,13 @@
     <span class="overflow-hidden whitespace-nowrap text-ellipsis">{{
       macro.name
     }}</span>
-    <div class="macros-actions">
+    <div class="flex items-center justify-end gap-2">
       <woot-button
         v-tooltip.left-start="$t('MACROS.EXECUTE.PREVIEW')"
         size="tiny"
         variant="smooth"
         color-scheme="secondary"
         icon="info"
-        class="margin-right-smaller"
         @click="toggleMacroPreview(macro)"
       />
       <woot-button
@@ -89,9 +88,5 @@ export default {
 <style scoped lang="scss">
 .macro {
   @apply relative flex items-center justify-between leading-4;
-
-  .macros-actions {
-    @apply flex items-center justify-end;
-  }
 }
 </style>

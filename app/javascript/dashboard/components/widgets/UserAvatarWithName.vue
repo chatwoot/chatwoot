@@ -7,7 +7,7 @@
       :status="user.availability_status"
     />
     <h6
-      class="text-block-title user-name overflow-hidden whitespace-nowrap text-ellipsis text-capitalize"
+      class="text-block-title user-name overflow-hidden whitespace-nowrap text-ellipsis capitalize"
     >
       {{ user.name }}
     </h6>

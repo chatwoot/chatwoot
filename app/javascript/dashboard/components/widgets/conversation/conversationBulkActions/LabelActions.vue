@@ -5,7 +5,7 @@
         <path d="M20 12l-8-8-12 12" fill-rule="evenodd" stroke-width="1px" />
       </svg>
     </div>
-    <div class="header flex-between">
+    <div class="header items-center flex justify-between">
       <span>{{ $t('BULK_ACTION.LABELS.ASSIGN_LABELS') }}</span>
       <woot-button
         size="tiny"
@@ -17,7 +17,7 @@
     </div>
     <div class="labels-list">
       <header class="labels-list__header">
-        <div class="label-list-search flex-between">
+        <div class="label-list-search items-center flex justify-between">
           <fluent-icon icon="search" class="search-icon" size="16" />
           <input
             ref="search"
