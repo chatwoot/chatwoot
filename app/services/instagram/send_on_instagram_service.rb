@@ -90,11 +90,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
 
   def sent_first_outgoing_message_after_24_hours?
     # we can send max 1 message after 24 hour window
-    conversation.messages.outgoing.where('id > ?', last_incoming_message.id).count == 1
-  end
-
-  def last_incoming_message
-    conversation.messages.incoming.last
+    conversation.messages.outgoing.where('id > ?', conversation.last_incoming_message.id).count == 1
   end
 
   def config
