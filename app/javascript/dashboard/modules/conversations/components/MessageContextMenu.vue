@@ -82,16 +82,17 @@
           variant="icon"
           @click="showCannedResponseModal"
         />
-        <hr v-if="enabledOptions['delete']" />
-        <menu-item
-          v-if="enabledOptions['delete']"
-          :option="{
-            icon: 'delete',
-            label: this.$t('CONVERSATION.CONTEXT_MENU.DELETE'),
-          }"
-          variant="icon"
-          @click="openDeleteModal"
-        />
+        <template v-if="canDeleteMessage()">
+          <hr />
+          <menu-item
+            :option="{
+              icon: 'delete',
+              label: this.$t('CONVERSATION.CONTEXT_MENU.DELETE'),
+            }"
+            variant="icon"
+            @click="openDeleteModal"
+          />
+        </template>
       </div>
     </woot-context-menu>
   </div>
@@ -100,6 +101,7 @@
 import alertMixin from 'shared/mixins/alertMixin';
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
+import adminMixin from 'dashboard/mixins/isAdmin';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import AddCannedModal from 'dashboard/routes/dashboard/settings/canned/AddCanned';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
@@ -114,7 +116,7 @@ export default {
     TranslateModal,
     MenuItem,
   },
-  mixins: [alertMixin, clickaway, messageFormatterMixin],
+  mixins: [alertMixin, clickaway, messageFormatterMixin, adminMixin],
   props: {
     message: {
       type: Object,
@@ -144,6 +146,7 @@ export default {
     ...mapGetters({
       getAccount: 'accounts/getAccount',
       currentAccountId: 'getCurrentAccountId',
+      currentChat: 'getSelectedChat',
     }),
     plainTextContent() {
       return this.getPlainText(this.messageContent);
@@ -159,6 +162,12 @@ export default {
     },
     contentAttributes() {
       return this.message.content_attributes;
+    },
+    inboxId() {
+      return this.currentChat.inbox_id;
+    },
+    inbox() {
+      return this.$store.getters['inboxes/getInbox'](this.inboxId);
     },
   },
   methods: {
@@ -228,6 +237,15 @@ export default {
     },
     closeDeleteModal() {
       this.showDeleteModal = false;
+    },
+    canDeleteMessage() {
+      if (this.isAdmin) {
+        return this.enabledOptions.delete;
+      }
+
+      return (
+        this.enabledOptions.delete && this.inbox.allow_agent_to_delete_message
+      );
     },
   },
 };

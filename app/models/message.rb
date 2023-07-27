@@ -223,6 +223,12 @@ class Message < ApplicationRecord
     save!
   end
 
+  def can_delete_message?
+    return false if !inbox.allow_agent_to_delete_message && !Current.user&.administrator?
+
+    true
+  end
+
   private
 
   def ensure_processed_message_content

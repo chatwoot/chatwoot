@@ -73,6 +73,33 @@
         />
       </div>
     </settings-section>
+
+    <settings-section
+      :title="$t('INBOX_MGMT.SETTINGS_POPUP.AGENT_PERMISSIONS')"
+      :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.AGENT_PERMISSIONS_SUB_TEXT')"
+    >
+      <label class="w-[75%] settings-item">
+        <div>
+          <input
+            id="allowAgentToDeleteMessage"
+            v-model="allowAgentToDeleteMessage"
+            type="checkbox"
+            @change="handleAllowAgentToDeleteMessage"
+          />
+          <label for="allowAgentToDeleteMessage">
+            {{ $t('INBOX_MGMT.SETTINGS_POPUP.AGENT_ALLOW_TO_DELETE_MESSAGE') }}
+          </label>
+        </div>
+
+        <p class="text-slate-600 dark:text-slate-400 pb-1 text-sm not-italic">
+          {{
+            $t(
+              'INBOX_MGMT.SETTINGS_POPUP.AGENT_ALLOW_TO_DELETE_MESSAGE_SUB_TEXT'
+            )
+          }}
+        </p>
+      </label>
+    </settings-section>
   </div>
 </template>
 
@@ -99,6 +126,7 @@ export default {
       selectedAgents: [],
       isAgentListUpdating: false,
       enableAutoAssignment: false,
+      allowAgentToDeleteMessage: false,
       maxAssignmentLimit: null,
     };
   },
@@ -128,6 +156,7 @@ export default {
       this.enableAutoAssignment = this.inbox.enable_auto_assignment;
       this.maxAssignmentLimit =
         this.inbox.auto_assignment_config.max_assignment_limit || null;
+      this.allowAgentToDeleteMessage = this.inbox.allow_agent_to_delete_message;
       this.fetchAttachedAgents();
     },
     async fetchAttachedAgents() {
@@ -144,6 +173,9 @@ export default {
       }
     },
     handleEnableAutoAssignment() {
+      this.updateInbox();
+    },
+    handleAllowAgentToDeleteMessage() {
       this.updateInbox();
     },
     async updateAgents() {
@@ -169,6 +201,7 @@ export default {
           auto_assignment_config: {
             max_assignment_limit: this.maxAssignmentLimit,
           },
+          allow_agent_to_delete_message: this.allowAgentToDeleteMessage,
         };
         await this.$store.dispatch('inboxes/updateInbox', payload);
         this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));

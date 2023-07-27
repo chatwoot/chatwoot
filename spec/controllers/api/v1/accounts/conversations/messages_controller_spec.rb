@@ -218,6 +218,57 @@ RSpec.describe 'Conversation Messages API', type: :request do
       end
     end
 
+    context 'when the message is not allowed to be deleted by an agent' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      before do
+        create(:inbox_member, inbox: conversation.inbox, user: agent)
+        conversation.inbox.update(allow_agent_to_delete_message: false)
+      end
+
+      it 'returns bad request error' do
+        delete "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages/#{message.id}",
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:bad_request)
+      end
+    end
+
+    context 'when the message is allowed to be deleted by an agent' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      before do
+        create(:inbox_member, inbox: conversation.inbox, user: agent)
+        conversation.inbox.update(allow_agent_to_delete_message: true)
+      end
+
+      it 'returns success' do
+        delete "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages/#{message.id}",
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
+    context 'when the message is allowed to be deleted by an adminstrator' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+
+      before do
+        create(:inbox_member, inbox: conversation.inbox, user: admin)
+        conversation.inbox.update(allow_agent_to_delete_message: false)
+      end
+
+      it 'returns success' do
+        delete "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages/#{message.id}",
+               headers: admin.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
     context 'when the message id is invalid' do
       let(:agent) { create(:user, account: account, role: :agent) }
 

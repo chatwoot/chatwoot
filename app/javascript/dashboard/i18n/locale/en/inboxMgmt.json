@@ -513,7 +513,11 @@
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Update",
       "WHATSAPP_WEBHOOK_TITLE": "Webhook Verify Token",
       "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings",
+      "AGENT_PERMISSIONS": "Agent Permissions",
+      "AGENT_PERMISSIONS_SUB_TEXT": "Update agent permissions for this inbox",
+      "AGENT_ALLOW_TO_DELETE_MESSAGE": "Allow an agent to delete a message",
+      "AGENT_ALLOW_TO_DELETE_MESSAGE_SUB_TEXT": "Allow an agent to delete a message from a conversation."
     },
     "HELP_CENTER": {
       "LABEL": "Help Center",
