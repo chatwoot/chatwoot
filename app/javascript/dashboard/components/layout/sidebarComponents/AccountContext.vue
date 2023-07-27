@@ -71,7 +71,7 @@ export default {
     background-image: linear-gradient(
       to right,
       rgba(0, 0, 0, 0) 0%,
-      rgb(55, 84, 109) 50%
+      rgb(58, 63, 66) 50%
     );
   }
 
