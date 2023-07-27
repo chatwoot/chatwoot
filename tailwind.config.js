@@ -85,7 +85,7 @@ module.exports = {
         500: slateDark.slate10,
         600: slate.slate11,
         700: slateDark.slate8,
-        800: slateDark.slate7,
+        800: slateDark.slate4,
         900: slateDark.slate1,
       },
       black: {
