@@ -3,6 +3,7 @@ class MessageTemplates::HookExecutionService
 
   def perform
     return if conversation.campaign.present?
+    return if conversation.last_incoming_message.blank?
 
     trigger_templates
   end
