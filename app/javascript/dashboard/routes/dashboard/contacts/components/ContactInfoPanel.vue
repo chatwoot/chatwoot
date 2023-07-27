@@ -154,7 +154,7 @@ export default {
   }
 }
 .contact--panel {
-  @apply h-full text-sm overflow-y-auto relative;
+  @apply border-r border-slate-50 dark:border-slate-800/50 h-full text-sm overflow-y-auto relative;
 }
 
 .list-group {
