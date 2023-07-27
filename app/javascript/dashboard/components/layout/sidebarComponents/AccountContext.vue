@@ -1,18 +1,20 @@
 <template>
   <div
     v-if="showShowCurrentAccountContext"
-    class="rounded-md text-xs py-2 px-2 mt-2 relative border border-slate-50 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer"
+    class="text-slate-700 dark:text-slate-200 rounded-md text-xs py-2 px-2 mt-2 relative border border-slate-50 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer"
     @mouseover="setShowSwitch"
     @mouseleave="resetShowSwitch"
   >
     {{ $t('SIDEBAR.CURRENTLY_VIEWING_ACCOUNT') }}
-    <p class="text-ellipsis font-medium mb-0">
+    <p
+      class="text-ellipsis overflow-hidden whitespace-nowrap font-medium mb-0 text-slate-800 dark:text-slate-100"
+    >
       {{ account.name }}
     </p>
     <transition name="fade">
       <div
         v-if="showSwitchButton"
-        class="bg-gradient-to-r rtl:bg-gradient-to-l from-transparent via-white dark:via-slate-700 to-white dark:to-slate-700 flex items-center h-full justify-end absolute top-0 right-0 w-full"
+        class="ltr:overlay-shadow ltr:dark:overlay-shadow-dark rtl:rtl-overlay-shadow rtl:dark:rtl-overlay-shadow-dark flex items-center h-full justify-end absolute top-0 right-0 w-full"
       >
         <div class="my-0 mx-2">
           <woot-button
@@ -54,7 +56,41 @@ export default {
   },
 };
 </script>
-<style scoped lang="scss">
+<style scoped>
+@tailwind components;
+@layer components {
+  .overlay-shadow {
+    background-image: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 1) 50%
+    );
+  }
+
+  .overlay-shadow-dark {
+    background-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0) 0%,
+      rgb(55, 84, 109) 50%
+    );
+  }
+
+  .rtl-overlay-shadow {
+    background-image: linear-gradient(
+      to left,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 1) 50%
+    );
+  }
+
+  .rtl-overlay-shadow-dark {
+    background-image: linear-gradient(
+      to left,
+      rgba(0, 0, 0, 0) 0%,
+      rgb(55, 84, 109) 50%
+    );
+  }
+}
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 300ms ease;
@@ -62,6 +98,6 @@ export default {
 
 .fade-enter,
 .fade-leave-to {
-  opacity: 0;
+  @apply opacity-0;
 }
 </style>
