@@ -24,7 +24,7 @@
 
         <table
           v-if="!uiFlags.fetchingList && records.length"
-          class="woot-table"
+          class="woot-table w-full"
         >
           <thead>
             <th

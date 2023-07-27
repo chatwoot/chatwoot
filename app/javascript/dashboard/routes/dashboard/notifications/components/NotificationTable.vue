@@ -8,7 +8,7 @@
       @click="onMarkAllDoneClick"
     />
 
-    <table class="woot-table notifications-table">
+    <table class="woot-table w-full notifications-table">
       <tbody v-show="!isLoading">
         <tr
           v-for="notificationItem in notifications"

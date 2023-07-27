@@ -20,7 +20,10 @@
           v-if="uiFlags.isFetching"
           :message="$t('AUTOMATION.LOADING')"
         />
-        <table v-if="!uiFlags.isFetching && records.length" class="woot-table">
+        <table
+          v-if="!uiFlags.isFetching && records.length"
+          class="woot-table w-full"
+        >
           <thead>
             <th
               v-for="thHeader in $t('AUTOMATION.LIST.TABLE_HEADER')"

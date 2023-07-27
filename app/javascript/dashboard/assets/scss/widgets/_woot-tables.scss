@@ -1,8 +1,12 @@
 table {
+  border-collapse: collapse;
+  border-color: inherit;
+  text-indent: 0;
   @apply border-spacing-0 text-sm;
 
   thead {
     th {
+      padding: 0.5rem 0.625rem 0.625rem;
       @apply font-semibold tracking-[1px] text-left uppercase text-slate-900 dark:text-slate-200;
     }
   }

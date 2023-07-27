@@ -20,7 +20,10 @@
           v-if="uiFlags.isFetching"
           :message="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.LOADING')"
         />
-        <table v-if="!uiFlags.isFetching && records.length" class="woot-table">
+        <table
+          v-if="!uiFlags.isFetching && records.length"
+          class="woot-table w-full"
+        >
           <thead>
             <th
               v-for="thHeader in $t(

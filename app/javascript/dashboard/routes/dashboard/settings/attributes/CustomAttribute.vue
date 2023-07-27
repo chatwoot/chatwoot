@@ -23,7 +23,7 @@
         />
         <table
           v-if="!uiFlags.isFetching && attributes.length"
-          class="w-full mt-2 table-fixed woot-table"
+          class="w-full mt-2 table-fixed woot-table w-full"
         >
           <thead>
             <th

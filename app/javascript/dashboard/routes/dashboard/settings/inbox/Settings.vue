@@ -30,7 +30,7 @@
         <woot-avatar-uploader
           :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AVATAR.LABEL')"
           :src="avatarUrl"
-          class="pb-4"
+          class="pb-4 flex flex-row gap-2 items-center"
           delete-avatar
           @change="handleImageUpload"
           @onAvatarDelete="handleAvatarDelete"
@@ -51,7 +51,7 @@
         <label
           v-if="isATwitterInbox"
           for="toggle-business-hours"
-          class="toggle-input-wrap"
+          class="flex flex-row items-center mb-2 gap-2"
         >
           <input
             v-model="tweetsEnabled"
@@ -153,7 +153,10 @@
             }}
           </p>
         </label>
-        <div v-if="greetingEnabled" class="pb-4">
+        <div
+          v-if="greetingEnabled"
+          class="pb-4 flex flex-row gap-2 items-center"
+        >
           <greetings-editor
             v-model.trim="greetingMessage"
             :label="
@@ -299,7 +302,10 @@
         <label v-if="isAWebWidgetInbox">
           {{ $t('INBOX_MGMT.FEATURES.LABEL') }}
         </label>
-        <div v-if="isAWebWidgetInbox" class="pt-2 pb-4">
+        <div
+          v-if="isAWebWidgetInbox"
+          class="pt-2 pb-4 flex flex-row gap-2 items-center"
+        >
           <input
             v-model="selectedFeatureFlags"
             type="checkbox"
@@ -310,7 +316,10 @@
             {{ $t('INBOX_MGMT.FEATURES.DISPLAY_FILE_PICKER') }}
           </label>
         </div>
-        <div v-if="isAWebWidgetInbox" class="pb-4">
+        <div
+          v-if="isAWebWidgetInbox"
+          class="pb-4 flex flex-row gap-2 items-center"
+        >
           <input
             v-model="selectedFeatureFlags"
             type="checkbox"
@@ -321,7 +330,10 @@
             {{ $t('INBOX_MGMT.FEATURES.DISPLAY_EMOJI_PICKER') }}
           </label>
         </div>
-        <div v-if="isAWebWidgetInbox" class="pb-4">
+        <div
+          v-if="isAWebWidgetInbox"
+          class="pb-4 flex flex-row gap-2 items-center"
+        >
           <input
             v-model="selectedFeatureFlags"
             type="checkbox"
@@ -332,7 +344,10 @@
             {{ $t('INBOX_MGMT.FEATURES.ALLOW_END_CONVERSATION') }}
           </label>
         </div>
-        <div v-if="isAWebWidgetInbox" class="pb-4">
+        <div
+          v-if="isAWebWidgetInbox"
+          class="pb-4 flex flex-row gap-2 items-center"
+        >
           <input
             v-model="selectedFeatureFlags"
             type="checkbox"

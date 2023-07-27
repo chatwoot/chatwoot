@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-row gap-4">
     <div class="w-[60%]">
-      <table v-if="hasConnectedHooks" class="woot-table">
+      <table v-if="hasConnectedHooks" class="woot-table w-full">
         <thead>
           <th v-for="hookHeader in hookHeaders" :key="hookHeader">
             {{ hookHeader }}

@@ -1,5 +1,28 @@
+button {
+  font-family: inherit;
+  transition: background-color 0.25s ease-out, color 0.25s ease-out;
+  @apply mb-2 inline-block;
+}
+
+.button-group {
+  @apply mb-0 flex flex-nowrap items-stretch;
+
+  .button {
+    flex: 0 0 auto;
+    @apply m-0 text-sm rounded-none first:rounded-tl-[0.3125rem] first:rounded-bl-[0.3125rem] last:rounded-tr-[0.3125rem] last:rounded-br-[0.3125rem] rtl:space-x-reverse;
+  }
+
+  .button--only-icon {
+    @apply w-10 justify-center pl-0 pr-0;
+  }
+}
+
+.back-button {
+  @apply m-0;
+}
+
 .button {
-  @apply items-center inline-flex h-10 mb-0;
+  @apply items-center h-10 mb-0 text-white flex text-center align-middle cursor-pointer text-sm leading-none mt-0 mx-0 py-1 px-3.5 border border-solid border-transparent dark:border-transparent rounded-[0.3125rem];
 
   .button__content {
     @apply w-full;
@@ -7,6 +30,28 @@
     img,
     svg {
       @apply inline-block;
+    }
+  }
+
+  &:disabled,
+  &.disabled {
+    @apply opacity-40 cursor-not-allowed;
+  }
+
+  &.success {
+    @apply bg-green-400 dark:bg-green-400 text-white dark:text-white;
+  }
+
+  &.primary {
+    @apply bg-woot-500 dark:bg-woot-500 text-white dark:text-white;
+  }
+
+  &.warning {
+    @apply bg-[#ffc532] dark:bg-[#ffc532] text-white dark:text-white;
+
+    &:disabled,
+    &.disabled {
+      @apply opacity-40 cursor-not-allowed;
     }
   }
 
@@ -28,7 +73,7 @@
   }
 
   &.expanded {
-    @apply flex justify-center text-center;
+    @apply flex justify-center text-center w-full;
   }
 
   &.round {
@@ -103,7 +148,7 @@
   }
 
   &.clear {
-    @apply text-woot-500 dark:text-woot-500;
+    @apply text-woot-500 dark:text-woot-500 bg-transparent dark:bg-transparent;
 
     &.secondary {
       @apply text-slate-700 dark:text-slate-100;
@@ -156,7 +201,7 @@
 
   // Sizes
   &.tiny {
-    @apply h-6;
+    @apply h-6 text-xxs;
 
     .icon + .button__content {
       @apply pl-1 rtl:pr-1 rtl:pl-0;
@@ -164,7 +209,7 @@
   }
 
   &.small {
-    @apply h-8 pb-1 pt-1;
+    @apply h-8 pb-1 pt-1 text-xs;
 
     .icon + .button__content {
       @apply pl-1 rtl:pr-1 rtl:pl-0;

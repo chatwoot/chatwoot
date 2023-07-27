@@ -47,7 +47,7 @@ export default {
   },
   computed: {
     computedClass() {
-      return `button nice ${this.buttonClass || ' '}`;
+      return `button nice primary ${this.buttonClass || ' '}`;
     },
   },
   methods: {

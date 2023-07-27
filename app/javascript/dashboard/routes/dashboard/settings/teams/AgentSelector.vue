@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="add-agents__header" />
-    <table class="woot-table">
+    <table class="woot-table w-full">
       <thead>
         <tr>
           <td>

@@ -54,6 +54,7 @@ export default {
   margin-right: var(--space-one);
   .radio-group-item-label {
     display: flex;
+    flex-direction: row;
     align-items: center;
     cursor: pointer;
 

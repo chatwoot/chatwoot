@@ -2,7 +2,7 @@
   <div class="flex-1 overflow-auto p-4">
     <router-link
       :to="addAccountScoping('settings/macros/new')"
-      class="button success button--fixed-top"
+      class="button success button--fixed-top flex gap-2 px-3.5 py-1 rounded-[0.3125rem]"
     >
       <fluent-icon icon="add-circle" />
       <span class="button__content">
@@ -20,7 +20,10 @@
           v-if="uiFlags.isFetching"
           :message="$t('MACROS.LOADING')"
         />
-        <table v-if="!uiFlags.isFetching && records.length" class="woot-table">
+        <table
+          v-if="!uiFlags.isFetching && records.length"
+          class="woot-table w-full"
+        >
           <thead>
             <th
               v-for="thHeader in $t('MACROS.LIST.TABLE_HEADER')"

@@ -23,7 +23,7 @@
     <router-link
       v-if="showNewButton && isAdmin"
       :to="buttonRoute"
-      class="button success button--fixed-top"
+      class="button success button--fixed-top flex gap-2 px-3.5 py-1 rounded-[0.3125rem]"
     >
       <fluent-icon icon="add-circle" />
       <span class="button__content">

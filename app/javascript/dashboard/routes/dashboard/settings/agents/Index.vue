@@ -20,7 +20,7 @@
           <p v-if="!agentList.length">
             {{ $t('AGENT_MGMT.LIST.404') }}
           </p>
-          <table v-else class="woot-table">
+          <table v-else class="woot-table w-full">
             <tbody>
               <tr v-for="(agent, index) in agentList" :key="agent.email">
                 <!-- Gravtar Image -->

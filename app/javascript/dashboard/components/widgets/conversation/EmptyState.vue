@@ -89,7 +89,7 @@ export default {
       ) {
         return 'inbox-empty-state';
       }
-      return 'columns conv-empty-state';
+      return 'flex-1 min-w-0 conv-empty-state';
     },
   },
 };

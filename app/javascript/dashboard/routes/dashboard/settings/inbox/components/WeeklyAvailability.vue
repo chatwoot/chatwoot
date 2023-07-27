@@ -5,7 +5,10 @@
       :sub-title="$t('INBOX_MGMT.BUSINESS_HOURS.SUBTITLE')"
     >
       <form @submit.prevent="updateInbox">
-        <label for="toggle-business-hours" class="toggle-input-wrap">
+        <label
+          for="toggle-business-hours"
+          class="flex flex-row items-center mb-2 gap-2"
+        >
           <input
             v-model="isBusinessHoursEnabled"
             type="checkbox"

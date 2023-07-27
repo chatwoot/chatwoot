@@ -40,7 +40,7 @@
             </div>
           </div>
           <div v-else>
-            <button class="button nice">
+            <button class="button nice primary">
               {{ $t('INTEGRATION_SETTINGS.WEBHOOK.CONFIGURE') }}
             </button>
           </div>

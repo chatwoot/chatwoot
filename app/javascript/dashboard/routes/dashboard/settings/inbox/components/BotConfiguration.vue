@@ -25,7 +25,7 @@
               </option>
             </select>
           </label>
-          <div class="button-container">
+          <div class="flex flex-row items-center gap-3">
             <woot-submit-button
               :button-text="$t('AGENT_BOTS.BOT_CONFIGURATION.SUBMIT')"
               :loading="uiFlags.isSettingAgentBot"

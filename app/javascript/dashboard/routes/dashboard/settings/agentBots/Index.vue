@@ -6,7 +6,7 @@
           v-if="uiFlags.isFetching"
           :message="$t('AGENT_BOTS.LIST.LOADING')"
         />
-        <table v-else-if="agentBots.length" class="woot-table">
+        <table v-else-if="agentBots.length" class="woot-table w-full">
           <tbody>
             <agent-bot-row
               v-for="(agentBot, index) in agentBots"

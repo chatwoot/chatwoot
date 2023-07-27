@@ -1,6 +1,6 @@
 <template>
   <div class="portal-locales">
-    <div class="button-container">
+    <div class="flex flex-row items-center justify-end gap-3">
       <woot-button
         variant="smooth"
         size="small"
@@ -146,9 +146,7 @@ export default {
 <style lang="scss" scoped>
 .portal-locales {
   @apply w-full bg-white dark:bg-slate-900 h-full py-0 pr-0 pl-4;
-  .button-container {
-    @apply flex justify-end;
-  }
+
   .locale-container {
     @apply mt-4;
   }
