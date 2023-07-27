@@ -117,10 +117,6 @@ class Message < ApplicationRecord
   belongs_to :account
   belongs_to :inbox
   belongs_to :conversation, touch: true
-
-  # FIXME: phase out user and contact after 1.4 since the info is there in sender
-  belongs_to :user, required: false
-  belongs_to :contact, required: false
   belongs_to :sender, polymorphic: true, required: false
 
   has_many :attachments, dependent: :destroy, autosave: true, before_add: :validate_attachments_limit
