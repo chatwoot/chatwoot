@@ -7,7 +7,8 @@ namespace :ip_lookup do
     ip_lookup_api_key = ENV.fetch('IP_LOOKUP_API_KEY', nil)
     if ip_lookup_api_key.blank?
       Rails.logger.info '[rake ip_lookup:setup] IP_LOOKUP_API_KEY empty. Skipping geoip database setup'
-    next if ip_lookup_api_key.blank?
+      next
+    end
 
     Rails.logger.info '[rake ip_lookup:setup] Fetch GeoLite2-City database'
 
