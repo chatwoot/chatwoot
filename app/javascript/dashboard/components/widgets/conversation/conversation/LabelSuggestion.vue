@@ -211,7 +211,7 @@ export default {
         conversationId: this.conversationId,
         labels: labelsToAdd,
       });
-      this.trackLabelEvent(OPEN_AI_EVENTS.LABEL_SUGGESTION_APPLIED);
+      this.trackLabelEvent(OPEN_AI_EVENTS.APPLY_LABEL_SUGGESTION);
     },
     trackLabelEvent(event) {
       const payload = {
