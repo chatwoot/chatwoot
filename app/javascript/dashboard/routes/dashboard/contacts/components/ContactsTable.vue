@@ -298,7 +298,7 @@ export default {
     }
 
     .user-name {
-      @apply text-sm font-medium m-0 capitalize;
+      @apply text-sm font-medium m-0 capitalize text-slate-700 dark:text-slate-100;
     }
 
     .view-details--button {
