@@ -41,9 +41,6 @@ export default {
 
 <style scoped lang="scss">
 .current-user {
-  align-items: center;
-  display: flex;
-  border-radius: 50%;
-  border: 2px solid var(--white);
+  @apply items-center flex rounded-full border-2 border-solid border-white dark:border-slate-900;
 }
 </style>
