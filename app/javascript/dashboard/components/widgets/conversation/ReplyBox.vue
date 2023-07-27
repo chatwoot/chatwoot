@@ -1122,41 +1122,29 @@ export default {
 }
 
 .emoji-dialog {
-  top: unset;
-  bottom: -40px;
-  left: -320px;
-  right: unset;
+  @apply top-[unset] -bottom-10 -left-80 right-[unset];
 
   &::before {
-    right: var(--space-minus-normal);
-    bottom: var(--space-small);
     transform: rotate(270deg);
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.08));
+    @apply -right-4 bottom-2 rtl:right-0 rtl:-left-4;
   }
 }
 
 .emoji-dialog--rtl {
-  left: unset;
-  right: -320px;
+  @apply left-[unset] -right-80;
   &::before {
-    left: var(--space-minus-normal);
     transform: rotate(90deg);
-    right: 0;
-    bottom: var(--space-small);
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.08));
   }
 }
 
 .emoji-dialog--expanded {
-  left: unset;
-  bottom: var(--space-jumbo);
-  position: absolute;
-  z-index: var(--z-index-normal);
+  @apply left-[unset] bottom-0 absolute z-[100];
 
   &::before {
     transform: rotate(0deg);
-    left: var(--space-smaller);
-    bottom: var(--space-minus-small);
+    @apply left-1 -bottom-2;
   }
 }
 .message-signature {
