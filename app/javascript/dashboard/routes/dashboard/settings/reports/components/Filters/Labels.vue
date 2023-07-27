@@ -12,30 +12,30 @@
       @input="handleInput"
     >
       <template slot="singleLabel" slot-scope="props">
-        <div class="reports-option__wrap">
+        <div class="flex items-center">
           <div
             :style="{ backgroundColor: props.option.color }"
-            class="reports-option__rounded--item"
+            class="rounded-full h-5 w-5"
           />
           <span class="reports-option__desc">
-            <span class="reports-option__title">
+            <span class="my-0 mx-2 text-slate-800 dark:text-slate-100">
               {{ props.option.title }}
             </span>
           </span>
         </div>
       </template>
       <template slot="option" slot-scope="props">
-        <div class="reports-option__wrap">
+        <div class="flex items-center">
           <div
             :style="{ backgroundColor: props.option.color }"
             class="
-                reports-option__rounded--item
-                reports-option__item
-                reports-option__label--swatch
+                rounded-full h-5 w-5
+                flex-shrink-0
+                border border-solid border-slate-75 dark:border-slate-700
               "
           />
           <span class="reports-option__desc">
-            <span class="reports-option__title">
+            <span class="my-0 mx-2 text-slate-800 dark:text-slate-100">
               {{ props.option.title }}
             </span>
           </span>

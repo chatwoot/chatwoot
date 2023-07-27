@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="metric-card">
     <div class="card-header">
       <slot name="header">
         <div class="card-header--title-area">
@@ -15,12 +15,17 @@
         </div>
       </slot>
     </div>
-    <div v-if="!isLoading" class="card-body row">
+    <div
+      v-if="!isLoading"
+      class="card-body max-w-full w-full ml-auto mr-auto justify-between flex"
+    >
       <slot />
     </div>
     <div v-else-if="isLoading" class="conversation-metric-loader">
       <spinner />
-      <span>{{ loadingMessage }}</span>
+      <span class="text-slate-300 dark:text-slate-200">{{
+        loadingMessage
+      }}</span>
     </div>
   </div>
 </template>
@@ -49,8 +54,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.card {
-  @apply bg-white dark:bg-slate-800 border-slate-75 dark:border-slate-700;
+.metric-card {
+  @apply flex flex-col mb-2 p-4 border border-solid overflow-hidden rounded-md flex-grow shadow-sm text-slate-700 dark:text-slate-100 bg-white dark:bg-slate-800 border-slate-75 dark:border-slate-700 min-h-[10rem];
   margin: var(--space-small) !important;
 
   .card-header--control-area {
@@ -68,7 +73,7 @@ export default {
 .card-header {
   grid-template-columns: repeat(auto-fit, minmax(max-content, 50%));
   gap: var(--space-small) 0px;
-  @apply grid flex-grow w-full mb-6;
+  @apply grid w-full mb-6;
 
   .card-header--title-area {
     @apply flex items-center flex-row;
@@ -105,6 +110,6 @@ export default {
 }
 
 .conversation-metric-loader {
-  @apply items-center flex text-base justify-center p-12;
+  @apply items-center flex text-base justify-center p-4;
 }
 </style>
