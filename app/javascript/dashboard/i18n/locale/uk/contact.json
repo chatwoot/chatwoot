@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Додати мітки",
         "PLACEHOLDER": "Пошук міток",
-        "NO_RESULT": "Міток не знайдено"
+        "NO_RESULT": "Міток не знайдено",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Об'єднати",

@@ -66,7 +66,9 @@
         "LABEL": "Número de Telefone",
         "PLACEHOLDER": "Por favor, digite seu número de telefone",
         "REQUIRED_ERROR": "O número de telefone é obrigatório",
-        "VALID_ERROR": "Número de telefone deve ser do formato E.164, por exemplo: +1415555555"
+        "DIAL_CODE_VALID_ERROR": "Please select a country code",
+        "VALID_ERROR": "Please enter a valid phone number",
+        "DROPDOWN_EMPTY": "Nenhum resultado encontrado"
       },
       "MESSAGE": {
         "LABEL": "Messagem",

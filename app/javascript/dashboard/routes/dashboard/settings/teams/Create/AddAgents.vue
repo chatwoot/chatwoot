@@ -1,14 +1,14 @@
 <template>
-  <div class="wizard-body columns content-box small-9">
-    <form class="row" @submit.prevent="addAgents">
-      <div class="medium-12 columns">
+  <div class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%]">
+    <form class="mx-0 flex flex-wrap" @submit.prevent="addAgents">
+      <div class="w-full">
         <page-header
           :header-title="headerTitle"
           :header-content="$t('TEAMS_SETTINGS.ADD.DESC')"
         />
       </div>
 
-      <div class="medium-12 columns">
+      <div class="w-full">
         <div v-if="$v.selectedAgents.$error">
           <p class="error-message">
             {{ $t('TEAMS_SETTINGS.ADD.AGENT_VALIDATION_ERROR') }}

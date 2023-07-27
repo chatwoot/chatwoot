@@ -1,10 +1,10 @@
 <template>
-  <div class="wizard-body small-9 columns">
+  <div class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%]">
     <page-header
       :header-title="$t('TEAMS_SETTINGS.CREATE_FLOW.CREATE.TITLE')"
       :header-content="$t('TEAMS_SETTINGS.CREATE_FLOW.CREATE.DESC')"
     />
-    <div class="row channels">
+    <div class="flex flex-wrap">
       <team-form
         :on-submit="createTeam"
         :submit-in-progress="false"

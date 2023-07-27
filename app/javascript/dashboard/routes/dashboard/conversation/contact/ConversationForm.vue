@@ -1,13 +1,13 @@
 <template>
-  <form class="conversation--form" @submit.prevent="onFormSubmit">
+  <form class="conversation--form w-full" @submit.prevent="onFormSubmit">
     <div v-if="showNoInboxAlert" class="callout warning">
       <p>
         {{ $t('NEW_CONVERSATION.NO_INBOX') }}
       </p>
     </div>
     <div v-else>
-      <div class="row gutter-small">
-        <div class="columns">
+      <div class="gap-2 flex flex-row">
+        <div class="w-[50%]">
           <label>
             {{ $t('NEW_CONVERSATION.FORM.INBOX.LABEL') }}
           </label>
@@ -50,25 +50,29 @@
             </span>
           </label>
         </div>
-        <div class="columns">
+        <div class="w-[50%]">
           <label>
             {{ $t('NEW_CONVERSATION.FORM.TO.LABEL') }}
-            <div class="contact-input">
+            <div
+              class="flex items-center h-[2.4735rem] rounded-sm py-1 px-2 bg-slate-25 dark:bg-slate-900 border border-solid border-slate-75 dark:border-slate-600"
+            >
               <thumbnail
                 :src="contact.thumbnail"
                 size="24px"
                 :username="contact.name"
                 :status="contact.availability_status"
               />
-              <h4 class="text-block-title contact-name">
+              <h4
+                class="m-0 ml-2 mr-2 text-slate-700 dark:text-slate-100 text-sm"
+              >
                 {{ contact.name }}
               </h4>
             </div>
           </label>
         </div>
       </div>
-      <div v-if="isAnEmailInbox" class="row">
-        <div class="columns">
+      <div v-if="isAnEmailInbox" class="w-full">
+        <div class="w-full">
           <label :class="{ error: $v.subject.$error }">
             {{ $t('NEW_CONVERSATION.FORM.SUBJECT.LABEL') }}
             <input
@@ -83,9 +87,9 @@
           </label>
         </div>
       </div>
-      <div class="row">
-        <div class="columns">
-          <div class="canned-response">
+      <div class="w-full">
+        <div class="w-full">
+          <div class="relative">
             <canned-response
               v-if="showCannedResponseMenu && hasSlashCommand"
               :search-key="cannedResponseSearchKey"
@@ -126,7 +130,7 @@
             {{ $t('NEW_CONVERSATION.FORM.MESSAGE.LABEL') }}
             <textarea
               v-model="message"
-              class="message-input"
+              class="min-h-[5rem]"
               type="text"
               :placeholder="$t('NEW_CONVERSATION.FORM.MESSAGE.PLACEHOLDER')"
               @input="$v.message.$touch"
@@ -138,7 +142,10 @@
         </div>
       </div>
     </div>
-    <div v-if="!hasWhatsappTemplates" class="modal-footer">
+    <div
+      v-if="!hasWhatsappTemplates"
+      class="flex flex-row justify-end gap-2 py-2 px-0 w-full"
+    >
       <button class="button clear" @click.prevent="onCancel">
         {{ $t('NEW_CONVERSATION.FORM.CANCEL') }}
       </button>
@@ -235,7 +242,9 @@ export default {
       get() {
         const inboxList = this.contact.contactableInboxes || [];
         return (
-          inboxList.find(inbox => inbox.inbox.id === this.targetInbox.id) || {
+          inboxList.find(inbox => {
+            return inbox.inbox?.id && inbox.inbox?.id === this.targetInbox?.id;
+          }) || {
             inbox: {},
           }
         );
@@ -367,58 +376,30 @@ export default {
 
 <style scoped lang="scss">
 .conversation--form {
-  padding: var(--space-normal) var(--space-large) var(--space-large);
+  @apply pt-4 px-8 pb-8;
 }
 
-.canned-response {
-  position: relative;
-}
+.message-editor {
+  @apply px-3;
 
-.input-group-label {
-  font-size: var(--font-size-small);
-}
-
-.contact-input {
-  display: flex;
-  align-items: center;
-  height: 3.9rem;
-  background: var(--color-background-light);
-  border: 1px solid var(--color-border);
-  padding: var(--space-smaller) var(--space-small);
-  border-radius: var(--border-radius-small);
-
-  .contact-name {
-    margin: 0;
-    margin-left: var(--space-small);
-    margin-right: var(--space-small);
+  ::v-deep {
+    .ProseMirror-menubar {
+      @apply rounded-tl-[4px];
+    }
   }
-}
-
-.message-input {
-  min-height: 8rem;
-}
-
-.row.gutter-small {
-  gap: var(--space-small);
 }
 
 ::v-deep {
   .mention--box {
-    left: 0;
-    margin: auto;
-    right: 0;
-    top: unset;
-    height: fit-content;
+    @apply left-0 m-auto right-0 top-auto h-fit;
   }
 
   /* TODO: Remove when have standardized a component out of multiselect  */
   .multiselect .multiselect__content .multiselect__option span {
-    display: inline-flex;
-    width: var(--space-medium);
-    color: var(--s-600);
+    @apply inline-flex w-6 text-slate-600 dark:text-slate-400;
   }
   .multiselect .multiselect__content .multiselect__option {
-    padding: var(--space-micro) var(--space-smaller);
+    @apply py-0.5 px-1;
   }
 }
 </style>

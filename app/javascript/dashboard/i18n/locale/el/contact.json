@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Προσθήκη Ετικετών",
         "PLACEHOLDER": "Αναζήτηση ετικετών",
-        "NO_RESULT": "Δεν βρέθηκαν ετικέτες"
+        "NO_RESULT": "Δεν βρέθηκαν ετικέτες",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Συγχώνευση επαφής",

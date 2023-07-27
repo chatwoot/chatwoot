@@ -3,6 +3,7 @@
     "TITLE": "帳戶設定",
     "SUBMIT": "更新設定",
     "BACK": "返回",
+    "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "無法更新設定，請重試！",
       "SUCCESS": "已成功更新帳戶設定"

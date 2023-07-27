@@ -4,6 +4,7 @@
 #
 #  id                    :bigint           not null, primary key
 #  account_sid           :string           not null
+#  api_key_sid           :string
 #  auth_token            :string           not null
 #  medium                :integer          default("sms")
 #  messaging_service_sid :string
@@ -25,6 +26,7 @@ class Channel::TwilioSms < ApplicationRecord
   self.table_name = 'channel_twilio_sms'
 
   validates :account_sid, presence: true
+  # The same parameter is used to store api_key_secret if api_key authentication is opted
   validates :auth_token, presence: true
 
   # Must have _one_ of messaging_service_sid _or_ phone_number, and messaging_service_sid is preferred
@@ -51,7 +53,11 @@ class Channel::TwilioSms < ApplicationRecord
   private
 
   def client
-    ::Twilio::REST::Client.new(account_sid, auth_token)
+    if api_key_sid.present?
+      Twilio::REST::Client.new(api_key_sid, auth_token, account_sid)
+    else
+      Twilio::REST::Client.new(account_sid, auth_token)
+    end
   end
 
   def send_message_from

@@ -173,62 +173,52 @@ export default {
 
 <style lang="scss" scoped>
 .child-contact-wrap {
-  display: flex;
-  width: 100%;
+  @apply flex w-full;
 }
 .child-contact {
-  flex: 1 0 0;
-  min-width: 0;
+  @apply min-w-0 flex-grow flex-shrink-0;
 }
 .child-arrow {
-  width: var(--space-larger);
-  position: relative;
-  font-size: var(--font-size-default);
-  color: var(--color-border-dark);
+  @apply w-8 relative text-base text-slate-100 dark:text-slate-600;
 }
 .multiselect {
-  margin-bottom: var(--space-small);
+  @apply mb-2;
 }
 .child-contact {
-  margin-top: var(--space-smaller);
+  @apply mt-1;
 }
 .child-arrow::after {
-  content: '';
-  height: var(--space-larger);
-  width: 0;
-  left: var(--space-two);
-  position: absolute;
-  border-left: 1px solid var(--color-border-dark);
+  @apply content-[''] h-12 w-0 left-5 absolute border-l border-solid border-slate-100 dark:border-slate-600;
 }
 
 .child-arrow::before {
-  content: '';
-  height: 0;
-  width: var(--space-normal);
-  left: var(--space-two);
-  top: var(--space-larger);
-  position: absolute;
-  border-bottom: 1px solid var(--color-border-dark);
+  @apply content-[''] h-0 w-4 left-5 top-12 absolute border-b border-solid border-slate-100 dark:border-slate-600;
 }
 
 .up {
-  position: absolute;
-  top: var(--space-minus-smaller);
-  left: var(--space-slab);
+  @apply absolute -top-1 left-3;
 }
 
 .footer {
-  margin-top: var(--space-medium);
-  display: flex;
-  justify-content: flex-end;
+  @apply mt-6 flex justify-end;
 }
 
 /* TDOD: Clean errors in forms style */
 .error .message {
-  margin-top: 0;
+  @apply mt-0;
 }
 
 .label--merge-warning {
-  margin-left: var(--space-small);
+  @apply ml-2;
+}
+
+::v-deep {
+  .multiselect {
+    @apply rounded-md;
+  }
+
+  .multiselect__tags {
+    @apply h-[52px];
+  }
 }
 </style>

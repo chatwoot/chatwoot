@@ -3,6 +3,7 @@
     "TITLE": "Nastavení účtu",
     "SUBMIT": "Aktualizovat nastavení",
     "BACK": "Zpět",
+    "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "Nelze aktualizovat nastavení, zkuste to znovu!",
       "SUCCESS": "Nastavení účtu bylo úspěšně aktualizováno"

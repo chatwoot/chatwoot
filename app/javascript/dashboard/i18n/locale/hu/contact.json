@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Címkék hozzáadása",
         "PLACEHOLDER": "Címkék keresése",
-        "NO_RESULT": "Nem találtunk címkét"
+        "NO_RESULT": "Nem találtunk címkét",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Kapcsolattartók összevonása",

@@ -22,43 +22,43 @@ $spinner-before-border-color: rgba(255, 255, 255, 0.7);
 }
 
 @mixin border-normal() {
-  border: 1px solid $color-border;
+  @apply border border-slate-50 dark:border-slate-700;
 }
 
 @mixin border-normal-left() {
-  border-left: 1px solid $color-border;
+  @apply border-l border-slate-50 dark:border-slate-700;
 }
 
 @mixin border-normal-top() {
-  border-top: 1px solid $color-border;
+  @apply border-t border-slate-50 dark:border-slate-700;
 }
 
 @mixin border-normal-right() {
-  border-right: 1px solid $color-border;
+  @apply border-r border-slate-50 dark:border-slate-700;
 }
 
 @mixin border-normal-bottom() {
-  border-bottom: 1px solid $color-border;
+  @apply border-b border-slate-50 dark:border-slate-700;
 }
 
 @mixin border-light() {
-  border: 1px solid $color-border-light;
+  @apply border border-slate-25 dark:border-slate-700;
 }
 
 @mixin border-light-left() {
-  border-left: 1px solid $color-border-light;
+  @apply border-l border-slate-25 dark:border-slate-700;
 }
 
 @mixin border-light-top() {
-  border-top: 1px solid $color-border-light;
+  @apply border-t border-slate-25 dark:border-slate-700;
 }
 
 @mixin border-light-right() {
-  border-right: 1px solid $color-border-light;
+  @apply border-r border-slate-25 dark:border-slate-700;
 }
 
 @mixin border-light-bottom() {
-  border-bottom: 1px solid $color-border-light;
+  @apply border-b border-slate-25 dark:border-slate-700;
 }
 
 // background
@@ -67,11 +67,11 @@ $spinner-before-border-color: rgba(255, 255, 255, 0.7);
 }
 
 @mixin background-light() {
-  background: $color-background-light;
+  @apply bg-slate-50 dark:bg-slate-800;
 }
 
 @mixin background-white() {
-  background: $color-white;
+  @apply bg-white dark:bg-slate-900;
 }
 
 // input form
@@ -237,8 +237,8 @@ $spinner-before-border-color: rgba(255, 255, 255, 0.7);
   white-space: nowrap;
 }
 
-@mixin three-column-grid($column-one-width: 25.6rem,
-  $column-three-width: 25.6rem) {
+@mixin three-column-grid($column-one-width: 16rem,
+  $column-three-width: 16rem) {
   width: 100%;
   height: 100%;
   display: grid;
