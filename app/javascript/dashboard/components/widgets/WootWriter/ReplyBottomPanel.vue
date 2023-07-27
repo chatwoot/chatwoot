@@ -327,7 +327,7 @@ export default {
     @apply cursor-pointer;
   }
   &:hover button {
-    @apply dark:bg-slate-800 bg-slate-100 z-10;
+    @apply dark:bg-slate-800 bg-slate-100;
   }
 }
 </style>
