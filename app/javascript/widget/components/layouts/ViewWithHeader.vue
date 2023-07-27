@@ -2,7 +2,7 @@
   <div
     class="w-full h-full flex flex-col relative bg-slate-50 dark:bg-slate-800"
     :class="{ 'overflow-auto': isOnHomeView }"
-    :style="isOnHomeView ? { backgroundColor: backgroundColor } : {}"
+    :style="portal ? { backgroundColor: backgroundColor } : {}"
     @keydown.esc="closeWindow"
   >
     <div
@@ -97,7 +97,7 @@ export default {
       const r = parseInt(color.slice(0, 2), 16);
       const g = parseInt(color.slice(2, 4), 16);
       const b = parseInt(color.slice(4, 6), 16);
-      return `rgba(${r},${g},${b}, 0.01)`;
+      return `rgba(${r},${g},${b}, 0.02)`;
     },
     hasIntroText() {
       return (

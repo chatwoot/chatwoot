@@ -1,7 +1,7 @@
 <template>
   <div
     class="z-50 rounded-md border-t border-slate-50 w-full"
-    :class="!portal ? 'flex flex-1 justify-end' : 'pb-2'"
+    :class="!portal ? 'flex flex-1 flex-col justify-end' : 'pb-2'"
   >
     <div v-if="portal" class="px-4 py-2 w-full">
       <div class="p-4 rounded-md bg-white dark:bg-slate-700 shadow w-full">
@@ -25,7 +25,7 @@
         </div>
       </div>
     </div>
-    <div class="px-4 pt-2">
+    <div class="px-4 pt-2 w-full">
       <team-availability
         :available-agents="availableAgents"
         :has-conversation="!!conversationSize"
