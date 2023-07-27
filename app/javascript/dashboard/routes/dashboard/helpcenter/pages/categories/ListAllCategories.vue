@@ -1,13 +1,15 @@
 <template>
-  <div class="category-list--container">
-    <header>
-      <div class="header-left--wrap">
-        <label class="sub-block-title header-text">{{
-          $t('HELP_CENTER.PORTAL.EDIT.CATEGORIES.TITLE')
-        }}</label>
+  <div class="w-full pl-4">
+    <header class="flex justify-between items-center mb-4">
+      <div class="flex items-center w-full gap-3">
+        <label
+          class="font-normal mb-0 text-base text-slate-800 dark:text-slate-100"
+        >
+          {{ $t('HELP_CENTER.PORTAL.EDIT.CATEGORIES.TITLE') }}
+        </label>
         <select
           :value="currentLocaleCode"
-          class="row small-2 select-locale"
+          class="w-[15%] select-locale"
           @change="changeCurrentCategory"
         >
           <option
@@ -19,7 +21,7 @@
           </option>
         </select>
       </div>
-      <div class="header-right--wrap">
+      <div class="flex-none items-center">
         <woot-button
           size="small"
           variant="smooth"
@@ -168,38 +170,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.category-list--container {
-  width: 100%;
-  padding-left: var(--space-normal);
-
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: var(--space-normal);
-
-    .header-left--wrap {
-      display: flex;
-      align-items: center;
-      width: 100%;
-
-      .header-text {
-        font-weight: var(--font-weight-normal);
-        margin-right: var(--space-slab);
-        margin-bottom: 0;
-      }
-    }
-
-    .header-right--wrap {
-      flex: none;
-      align-items: center;
-    }
-    .select-locale {
-      height: var(--space-large);
-      margin-bottom: 0;
-      padding-top: var(--space-micro);
-      padding-bottom: var(--space-micro);
-    }
-  }
+.select-locale {
+  @apply h-8 mb-0 py-0.5;
 }
 </style>

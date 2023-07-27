@@ -15,7 +15,9 @@
     />
     <div v-if="shouldShowLoader" class="articles--loader">
       <spinner />
-      <span>{{ $t('HELP_CENTER.TABLE.LOADING_MESSAGE') }}</span>
+      <span class="text-slate-600 dark:text-slate-200">{{
+        $t('HELP_CENTER.TABLE.LOADING_MESSAGE')
+      }}</span>
     </div>
     <empty-state
       v-else-if="shouldShowEmptyState"
