@@ -1,8 +1,8 @@
 <template>
   <modal :show.sync="show" :on-close="cancel">
-    <div class="column content-box">
+    <div class="h-auto overflow-auto flex flex-col">
       <woot-modal-header :header-title="title" :header-content="description" />
-      <div class="modal-footer">
+      <div class="flex flex-row justify-end gap-2 py-4 px-6 w-full">
         <woot-button variant="clear" @click="cancel">
           {{ cancelLabel }}
         </woot-button>

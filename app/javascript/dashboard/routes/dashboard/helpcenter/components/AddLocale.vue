@@ -4,8 +4,8 @@
       :header-title="$t('HELP_CENTER.PORTAL.ADD_LOCALE.TITLE')"
       :header-content="$t('HELP_CENTER.PORTAL.ADD_LOCALE.SUB_TITLE')"
     />
-    <form class="row" @submit.prevent="onCreate">
-      <div class="medium-12 columns">
+    <form class="w-full" @submit.prevent="onCreate">
+      <div class="w-full">
         <label :class="{ error: $v.selectedLocale.$error }">
           {{ $t('HELP_CENTER.PORTAL.ADD_LOCALE.LOCALE.LABEL') }}
           <select v-model="selectedLocale">
@@ -22,8 +22,8 @@
           </span>
         </label>
 
-        <div class="medium-12 columns">
-          <div class="modal-footer justify-content-end w-full">
+        <div class="w-full">
+          <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
             <woot-button class="button clear" @click.prevent="onClose">
               {{ $t('HELP_CENTER.PORTAL.ADD_LOCALE.BUTTONS.CANCEL') }}
             </woot-button>
