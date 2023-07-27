@@ -21,7 +21,9 @@
               <p class="label-title">
                 {{ template.name }}
               </p>
-              <span class="label-lang label">
+              <span
+                class="inline-block py-1 px-2 rounded-sm text-xs leading-none cursor-default bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100"
+              >
                 {{ $t('WHATSAPP_TEMPLATES.PICKER.LABELS.LANGUAGE') }} :
                 {{ template.language }}
               </span>
@@ -114,7 +116,7 @@ export default {
   @apply bg-slate-25 dark:bg-slate-900 rounded-md max-h-[18.75rem] overflow-y-auto p-2.5;
 
   .template__list-item {
-    @apply rounded-lg cursor-pointer block p-2.5 text-left w-full hover:bg-woot-50 dark:hover:bg-slate-600;
+    @apply rounded-lg cursor-pointer block p-2.5 text-left w-full hover:bg-woot-50 dark:hover:bg-slate-800;
 
     .label-title {
       @apply text-sm;
