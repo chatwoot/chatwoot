@@ -5,9 +5,12 @@ namespace :ip_lookup do
     next if File.exist?(GeocoderConfiguration::LOOK_UP_DB)
 
     ip_lookup_api_key = ENV.fetch('IP_LOOKUP_API_KEY', nil)
-    next if ip_lookup_api_key.blank?
+    if ip_lookup_api_key.blank?
+      Rails.logger.info '[rake ip_lookup:setup] IP_LOOKUP_API_KEY empty. Skipping geoip database setup'
+      next
+    end
 
-    puts '[rake ip_lookup:setup] Fetch GeoLite2-City database'
+    Rails.logger.info '[rake ip_lookup:setup] Fetch GeoLite2-City database'
 
     begin
       base_url = 'https://download.maxmind.com/app/geoip_download'
@@ -25,9 +28,9 @@ namespace :ip_lookup do
           f.print entry.read
         end
       end
-      puts '[rake ip_lookup:setup] Fetch complete'
+      Rails.logger.info '[rake ip_lookup:setup] Fetch complete'
     rescue StandardError => e
-      puts "[rake ip_lookup:setup] #{e.message}"
+      Rails.logger.error "[rake ip_lookup:setup] #{e.message}"
     end
   end
 end
