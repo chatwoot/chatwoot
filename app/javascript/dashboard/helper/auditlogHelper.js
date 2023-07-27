@@ -34,6 +34,7 @@ const translationKeys = {
   'inboxmember:update': `AUDIT_LOGS.INBOX_USER.EDIT`,
   'teammember:create': `AUDIT_LOGS.TEAM_MEMBER.ADD`,
   'teammember:update': `AUDIT_LOGS.TEAM_MEMBER.EDIT`,
+  'account:update': `AUDIT_LOGS.ACCOUNT.EDIT`,
 };
 
 function extractAttrChange(attrChange) {

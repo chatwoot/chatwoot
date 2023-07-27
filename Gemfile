@@ -34,7 +34,7 @@ gem 'commonmarker'
 # Validate Data against JSON Schema
 gem 'json_schemer'
 # Rack middleware for blocking & throttling abusive requests
-gem 'rack-attack'
+gem 'rack-attack', '>= 6.7.0'
 # a utility tool for streaming, flexible and safe downloading of remote files
 gem 'down'
 # authentication type to fetch and send mail over oauth2.0
@@ -74,7 +74,7 @@ gem 'devise_token_auth'
 gem 'jwt'
 gem 'pundit'
 # super admin
-gem 'administrate'
+gem 'administrate', '>= 0.19.0'
 gem 'administrate-field-active_storage'
 
 ##--- gems for pubsub service ---##
@@ -108,9 +108,9 @@ gem 'elastic-apm', require: false
 gem 'newrelic_rpm', require: false
 gem 'newrelic-sidekiq-metrics', require: false
 gem 'scout_apm', require: false
-gem 'sentry-rails', require: false
+gem 'sentry-rails', '>= 5.10.0', require: false
 gem 'sentry-ruby', require: false
-gem 'sentry-sidekiq', require: false
+gem 'sentry-sidekiq', '>= 5.10.0', require: false
 
 ##-- background job processing --##
 gem 'sidekiq'
@@ -165,6 +165,13 @@ gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection', '~> 1.0'
 
+## Gems for reponse bot
+# adds cosine similarity to postgres using vector extension
+gem 'neighbor'
+gem 'pgvector'
+# Convert Website HTML to Markdown
+gem 'reverse_markdown'
+
 # Sentiment analysis
 gem 'informers'
 
@@ -213,6 +220,7 @@ group :development, :test do
   gem 'bundle-audit', require: false
   gem 'byebug', platform: :mri
   gem 'climate_control'
+  gem 'debug', '~> 1.8'
   gem 'factory_bot_rails'
   gem 'listen'
   gem 'mock_redis'

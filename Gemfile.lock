@@ -105,7 +105,7 @@ GEM
       activerecord (>= 6.0, < 7.1)
     addressable (2.8.4)
       public_suffix (>= 2.0.2, < 6.0)
-    administrate (0.18.0)
+    administrate (0.19.0)
       actionpack (>= 5.0)
       actionview (>= 5.0)
       activerecord (>= 5.0)
@@ -164,7 +164,7 @@ GEM
     coderay (1.1.3)
     commonmarker (0.23.9)
     concurrent-ruby (1.2.2)
-    connection_pool (2.4.0)
+    connection_pool (2.4.1)
     crack (0.4.5)
       rexml
     crass (1.0.6)
@@ -184,6 +184,9 @@ GEM
       libddwaf (~> 1.8.2.0.0)
       msgpack
     debase-ruby_core_source (3.2.0)
+    debug (1.8.0)
+      irb (>= 1.5.0)
+      reline (>= 0.3.1)
     declarative (0.0.20)
     devise (4.9.2)
       bcrypt (~> 3.0)
@@ -366,11 +369,14 @@ GEM
       blingfire (>= 0.1.7)
       numo-narray
       onnxruntime (>= 0.5.1)
+    io-console (0.6.0)
+    irb (1.7.2)
+      reline (>= 0.3.6)
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
     jmespath (1.6.2)
-    jquery-rails (4.5.1)
+    jquery-rails (4.6.0)
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
@@ -445,7 +451,7 @@ GEM
     mime-types-data (3.2023.0218.1)
     mini_magick (4.12.0)
     mini_mime (1.1.2)
-    mini_portile2 (2.8.2)
+    mini_portile2 (2.8.4)
     minitest (5.18.1)
     mock_redis (0.36.0)
       ruby2_keywords
@@ -453,6 +459,8 @@ GEM
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.3.0)
+    neighbor (0.2.3)
+      activerecord (>= 5.2)
     net-http-persistent (4.0.2)
       connection_pool (~> 2.2)
     net-imap (0.3.6)
@@ -470,14 +478,14 @@ GEM
       sidekiq
     newrelic_rpm (8.16.0)
     nio4r (2.5.9)
-    nokogiri (1.15.2)
+    nokogiri (1.15.3)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    nokogiri (1.15.2-arm64-darwin)
+    nokogiri (1.15.3-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.15.2-x86_64-darwin)
+    nokogiri (1.15.3-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.15.2-x86_64-linux)
+    nokogiri (1.15.3-x86_64-linux)
       racc (~> 1.4)
     numo-narray (0.9.2.1)
     oauth (1.1.0)
@@ -526,6 +534,7 @@ GEM
     pg_search (2.3.6)
       activerecord (>= 5.2)
       activesupport (>= 5.2)
+    pgvector (0.1.1)
     procore-sift (1.0.0)
       activerecord (>= 6.1)
     pry (0.14.2)
@@ -541,8 +550,8 @@ GEM
     raabro (1.4.0)
     racc (1.7.1)
     rack (2.2.7)
-    rack-attack (6.6.1)
-      rack (>= 1.0, < 3)
+    rack-attack (6.7.0)
+      rack (>= 1.0, < 4)
     rack-cors (2.0.1)
       rack (>= 2.0.0)
     rack-mini-profiler (3.1.0)
@@ -568,8 +577,9 @@ GEM
       activesupport (= 7.0.5.1)
       bundler (>= 1.15.0)
       railties (= 7.0.5.1)
-    rails-dom-testing (2.0.3)
-      activesupport (>= 4.2.0)
+    rails-dom-testing (2.1.1)
+      activesupport (>= 5.0.0)
+      minitest
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.6.0)
       loofah (~> 2.21)
@@ -593,6 +603,8 @@ GEM
     redis-namespace (1.10.0)
       redis (>= 4)
     regexp_parser (2.8.0)
+    reline (0.3.6)
+      io-console (~> 0.5)
     representable (3.2.0)
       declarative (< 0.1.0)
       trailblazer-option (>= 0.1.1, < 0.2.0)
@@ -608,6 +620,8 @@ GEM
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
     retriable (3.1.2)
+    reverse_markdown (2.1.1)
+      nokogiri
     rexml (3.2.5)
     rspec-core (3.12.2)
       rspec-support (~> 3.12.0)
@@ -683,18 +697,18 @@ GEM
       activesupport (>= 4)
     selectize-rails (0.12.6)
     semantic_range (3.0.0)
-    sentry-rails (5.9.0)
+    sentry-rails (5.10.0)
       railties (>= 5.0)
-      sentry-ruby (~> 5.9.0)
-    sentry-ruby (5.9.0)
+      sentry-ruby (~> 5.10.0)
+    sentry-ruby (5.10.0)
       concurrent-ruby (~> 1.0, >= 1.0.2)
-    sentry-sidekiq (5.9.0)
-      sentry-ruby (~> 5.9.0)
+    sentry-sidekiq (5.10.0)
+      sentry-ruby (~> 5.10.0)
       sidekiq (>= 3.0)
     sexp_processor (4.17.0)
     shoulda-matchers (5.3.0)
       activesupport (>= 5.2.0)
-    sidekiq (7.1.0)
+    sidekiq (7.1.2)
       concurrent-ruby (< 2)
       connection_pool (>= 2.3.0)
       rack (>= 2.2.4)
@@ -815,7 +829,7 @@ DEPENDENCIES
   active_record_query_trace
   activerecord-import
   acts-as-taggable-on
-  administrate
+  administrate (>= 0.19.0)
   administrate-field-active_storage
   annotate
   attr_extras
@@ -835,6 +849,7 @@ DEPENDENCIES
   cypress-on-rails
   database_cleaner
   ddtrace
+  debug (~> 1.8)
   devise
   devise-secure_password!
   devise_token_auth
@@ -874,6 +889,7 @@ DEPENDENCIES
   lograge (~> 0.12.0)
   maxminddb
   mock_redis
+  neighbor
   newrelic-sidekiq-metrics
   newrelic_rpm
   omniauth
@@ -882,11 +898,12 @@ DEPENDENCIES
   omniauth-rails_csrf_protection (~> 1.0)
   pg
   pg_search
+  pgvector
   procore-sift
   pry-rails
   puma
   pundit
-  rack-attack
+  rack-attack (>= 6.7.0)
   rack-cors
   rack-mini-profiler
   rack-timeout
@@ -895,6 +912,7 @@ DEPENDENCIES
   redis-namespace
   responders
   rest-client
+  reverse_markdown
   rspec-rails
   rspec_junit_formatter
   rubocop
@@ -904,9 +922,9 @@ DEPENDENCIES
   scout_apm
   scss_lint
   seed_dump
-  sentry-rails
+  sentry-rails (>= 5.10.0)
   sentry-ruby
-  sentry-sidekiq
+  sentry-sidekiq (>= 5.10.0)
   shoulda-matchers
   sidekiq
   sidekiq-cron

@@ -63,6 +63,8 @@
   "TEAM_MEMBER": {
     "ADD": "%{agentName} added %{user} to the team(#%{id})",
     "REMOVE": "%{agentName} removed %{user} from the team(#%{id})"
-  }
+  },
+  "ACCOUNT": {
+    "EDIT": "%{agentName} updated the account configuration (#%{id})"
   }
 }

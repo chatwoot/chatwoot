@@ -75,6 +75,8 @@ class Integrations::OpenaiBaseService
     }
 
     response = HTTParty.post(API_URL, headers: headers, body: body)
-    JSON.parse(response.body)['choices'].first['message']['content']
+    choices = JSON.parse(response.body)['choices']
+
+    choices.present? ? choices.first['message']['content'] : nil
   end
 end

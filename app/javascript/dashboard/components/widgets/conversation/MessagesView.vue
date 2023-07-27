@@ -1,5 +1,5 @@
 <template>
-  <div class="view-box fill-height">
+  <div class="m-0 flex flex-col justify-between h-full flex-grow min-w-0">
     <banner
       v-if="!currentChat.can_reply"
       color-scheme="alert"
@@ -16,19 +16,19 @@
       @close="removeTweetSelection"
     />
 
-    <div class="sidebar-toggle__wrap">
+    <div class="flex justify-end">
       <woot-button
         variant="smooth"
         size="tiny"
         color-scheme="secondary"
-        class="sidebar-toggle--button"
+        class="rounded-bl-calc rtl:rotate-180 rounded-tl-calc fixed top-[6.25rem] z-10 bg-white dark:bg-slate-700 border-slate-50 dark:border-slate-600 border-solid border border-r-0 box-border"
         :icon="isRightOrLeftIcon"
         @click="onToggleContactPanel"
       />
     </div>
     <ul class="conversation-panel">
       <transition name="slide-up">
-        <li class="spinner--container">
+        <li class="min-h-[4rem]">
           <span v-if="shouldShowSpinner" class="spinner message" />
         </li>
       </transition>
@@ -44,7 +44,7 @@
         :is-web-widget-inbox="isAWebWidgetInbox"
       />
       <li v-show="unreadMessageCount != 0" class="unread--toast">
-        <span class="text-uppercase">
+        <span>
           {{ unreadMessageCount }}
           {{
             unreadMessageCount > 1
@@ -65,7 +65,7 @@
         :is-web-widget-inbox="isAWebWidgetInbox"
       />
       <conversation-label-suggestion
-        v-if="isEnterprise && isAIIntegrationEnabled"
+        v-if="shouldShowLabelSuggestions"
         :suggested-labels="labelSuggestions"
         :chat-labels="currentChat.labels"
         :conversation-id="currentChat.id"
@@ -119,10 +119,13 @@ import aiMixin from 'dashboard/mixins/aiMixin';
 import { getTypingUsersText } from '../../../helper/commons';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 import { isEscape } from 'shared/helpers/KeyboardHelpers';
+import { LocalStorage } from 'shared/helpers/localStorage';
 
 // constants
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { REPLY_POLICY } from 'shared/constants/links';
+import wootConstants from 'dashboard/constants/globals';
+import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 
 export default {
   components: {
@@ -154,6 +157,7 @@ export default {
       hasUserScrolled: false,
       isProgrammaticScroll: false,
       isPopoutReplyBox: false,
+      messageSentSinceOpened: false,
       labelSuggestions: [],
     };
   },
@@ -168,6 +172,17 @@ export default {
       appIntegrations: 'integrations/getAppIntegrations',
       currentAccountId: 'getCurrentAccountId',
     }),
+    isOpen() {
+      return this.currentChat?.status === wootConstants.STATUS_TYPE.OPEN;
+    },
+    shouldShowLabelSuggestions() {
+      return (
+        this.isOpen &&
+        this.isEnterprise &&
+        this.isAIIntegrationEnabled &&
+        !this.messageSentSinceOpened
+      );
+    },
     inboxId() {
       return this.currentChat.inbox_id;
     },
@@ -310,6 +325,7 @@ export default {
       }
       this.fetchAllAttachmentsFromCurrentChat();
       this.fetchSuggestions();
+      this.messageSentSinceOpened = false;
       this.selectedTweetId = null;
     },
   },
@@ -319,6 +335,11 @@ export default {
     // when a new message comes in, we refetch the label suggestions
     bus.$on(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS, this.fetchSuggestions);
     bus.$on(BUS_EVENTS.SET_TWEET_REPLY, this.setSelectedTweet);
+    // when a message is sent we set the flag to true this hides the label suggestions,
+    // until the chat is changed and the flag is reset in the watch for currentChat
+    bus.$on(BUS_EVENTS.MESSAGE_SENT, () => {
+      this.messageSentSinceOpened = true;
+    });
   },
 
   mounted() {
@@ -373,8 +394,11 @@ export default {
       });
     },
     isLabelSuggestionDismissed() {
-      const dismissed = this.getDismissedConversations(this.currentAccountId);
-      return dismissed[this.currentAccountId].includes(this.conversationId);
+      return LocalStorage.getFlag(
+        LOCAL_STORAGE_KEYS.DISMISSED_LABEL_SUGGESTIONS,
+        this.currentAccountId,
+        this.currentChat.id
+      );
     },
     fetchAllAttachmentsFromCurrentChat() {
       this.$store.dispatch('fetchAllAttachments', this.currentChat.id);
@@ -516,68 +540,41 @@ export default {
 };
 </script>
 
+<style scoped>
+@tailwind components;
+@layer components {
+  .rounded-bl-calc {
+    border-bottom-left-radius: calc(1.5rem + 1px);
+  }
+
+  .rounded-tl-calc {
+    border-top-left-radius: calc(1.5rem + 1px);
+  }
+}
+</style>
+
 <style scoped lang="scss">
-.spinner--container {
-  min-height: var(--space-jumbo);
-}
-
-.view-box.fill-height {
-  height: auto;
-  flex-grow: 1;
-  min-width: 0;
-}
-
 .modal-mask {
   &::v-deep {
     .ProseMirror-woot-style {
-      max-height: 25rem;
+      @apply max-h-[25rem];
     }
 
     .reply-box {
-      border: 1px solid var(--color-border);
-      max-width: 75rem;
-      width: 70%;
+      @apply border border-solid border-slate-75 dark:border-slate-600 max-w-[75rem] w-[70%];
     }
 
     .reply-box .reply-box__top {
-      position: relative;
-      min-height: 27.5rem;
+      @apply relative min-h-[27.5rem];
     }
 
     .reply-box__top .input {
-      min-height: 27.5rem;
+      @apply min-h-[27.5rem];
     }
 
     .emoji-dialog {
-      position: fixed;
-      left: unset;
-      position: absolute;
-      bottom: var(--space-smaller);
+      @apply absolute left-auto bottom-1;
     }
-  }
-}
-.sidebar-toggle__wrap {
-  display: flex;
-  justify-content: flex-end;
-
-  .sidebar-toggle--button {
-    position: fixed;
-
-    top: var(--space-mega);
-    z-index: var(--z-index-low);
-
-    background: var(--white);
-
-    padding: inherit 0;
-    border-top-left-radius: calc(
-      var(--space-medium) + 1px
-    ); /* 100px of height + 10px of border */
-    border-bottom-left-radius: calc(
-      var(--space-medium) + 1px
-    ); /* 100px of height + 10px of border */
-    border: 1px solid var(--color-border-light);
-    border-right: 0;
-    box-sizing: border-box;
   }
 }
 </style>
