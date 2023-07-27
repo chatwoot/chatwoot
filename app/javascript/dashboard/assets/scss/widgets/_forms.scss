@@ -14,68 +14,48 @@
 [type='url'],
 [type='color'],
 textarea {
-  background-color: var(--white);
-  border: 1px solid var(--s-200);
-  border-radius: var(--border-radius-normal);
-  box-shadow: 0;
-  box-sizing: border-box;
-  color: var(--color-body);
-  display: block;
   font-family: inherit;
-  font-size: 1rem;
-  font-weight: normal;
-  height: 2.4375rem;
-  line-height: 1.5;
-  margin: 0 0 0.8rem;
-  padding: 0.5rem;
   transition: border-color 0.25s ease-in-out;
-  width: 100%;
-}
-
-textarea {
-  min-height: 50px;
+  @apply bg-white border border-solid dark:bg-slate-900 focus:bg-white focus:dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-600 rounded-[0.3125rem] shadow-none box-border block text-base font-normal h-[2.4375rem] mt-0 mx-0 mb-3 p-2 w-full;
 }
 
 textarea[rows] {
-  height: auto;
+  @apply h-auto;
 }
 
-// scss-lint:disable MergeableSelector
-label {
-  color: var(--color-body);
-  // display: block;
-  font-size: 0.875rem;
-  font-weight: 500;
-  line-height: 1.8;
-  margin: 0;
-  @apply flex flex-col;
+textarea {
+  @apply min-h-[50px] bg-white dark:bg-slate-900 focus:bg-white focus:dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-600;
 }
-// scss-lint:disable MergeableSelector
-select {
-  appearance: none;
-  background-color: var(--white);
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='32' height='24' viewBox='0 0 32 24'><polygon points='0,0 32,0 16,24' style='fill: rgb(110, 111, 115)'></polygon></svg>");
-  background-origin: content-box;
-  background-position: right -1rem center;
-  background-repeat: no-repeat;
-  background-size: 9px 6px;
-  border: 1px solid var(--s-200);
-  border-radius: var(--border-radius-normal);
-  color: var(--color-body);
-  font-family: inherit;
-  font-size: 1rem;
-  font-weight: normal;
-  line-height: 1.5;
-  margin: 0 0 0.8rem;
-  padding: 0.5rem;
-  padding-right: 1.5rem;
-  transition: border-color 0.25s ease-in-out;
-  width: 100%;
+
+input {
+  @apply bg-white dark:bg-slate-900 focus:bg-white focus:dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-600;
+
+  &[disabled] {
+    @apply bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-400 border-slate-200 dark:border-slate-600;
+  }
+}
+
+input[type='file'] {
+  @apply bg-white dark:bg-slate-800 mb-3;
+}
+
+label {
+  @apply text-slate-800 dark:text-slate-200 flex flex-col text-sm font-medium leading-[1.8] m-0;
 }
 
 label input[type='checkbox'],
 label input[type='radio'] {
   margin: 0;
+}
+
+select {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='32' height='24' viewBox='0 0 32 24'><polygon points='0,0 32,0 16,24' style='fill: rgb(110, 111, 115)'></polygon></svg>");
+  background-position: right -1rem center;
+  background-repeat: no-repeat;
+  background-size: 9px 6px;
+  font-family: inherit;
+  transition: border-color 0.25s ease-in-out;
+  @apply rounded-[0.3125rem] bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-600 appearance-none bg-origin-content text-base font-normal leading-normal mt-0 mb-3 mx-0 p-2 w-full;
 }
 
 p {
@@ -131,30 +111,6 @@ th,
 td {
   margin: 0;
   padding: 0;
-}
-
-label {
-  @apply text-slate-800 dark:text-slate-200;
-}
-
-textarea {
-  @apply bg-white dark:bg-slate-900 focus:bg-white focus:dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-600;
-}
-
-input {
-  @apply bg-white dark:bg-slate-900 focus:bg-white focus:dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-600;
-
-  &[disabled] {
-    @apply bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-400 border-slate-200 dark:border-slate-600;
-  }
-}
-
-input[type='file'] {
-  @apply bg-white dark:bg-slate-800 mb-3;
-}
-
-select {
-  @apply bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-600;
 }
 
 .error {
