@@ -2,8 +2,7 @@ class Enterprise::SentimentAnalysisJob < ApplicationJob
   queue_as :low
 
   def perform(message)
-    return if message.account.locale != 'en'
-    return if valid_incoming_message?(message)
+    return if message.account.locale != 'en' || !valid_incoming_message?(message)
 
     save_message_sentiment(message)
   rescue StandardError => e
@@ -39,7 +38,7 @@ class Enterprise::SentimentAnalysisJob < ApplicationJob
   end
 
   def valid_incoming_message?(message)
-    !message.incoming? || message.private?
+    message.incoming? && message.content.present? && !message.private?
   end
 
   # returns the sentiment file from vendor folder else download it to the path from AWS-S3
