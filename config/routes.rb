@@ -337,6 +337,11 @@ Rails.application.routes.draw do
           scope module: :inboxes do
             resources :contacts, only: [:create, :show, :update] do
               resources :conversations, only: [:index, :create] do
+                member do
+                  post :toggle_typing
+                  post :update_last_seen
+                end
+
                 resources :messages, only: [:index, :create, :update]
               end
             end
