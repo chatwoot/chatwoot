@@ -2,6 +2,7 @@
   <div
     class="w-full h-full flex flex-col relative bg-slate-50 dark:bg-slate-800"
     :class="{ 'overflow-auto': isOnHomeView }"
+    :style="isOnHomeView ? { backgroundColor: backgroundColor } : {}"
     @keydown.esc="closeWindow"
   >
     <div
@@ -9,7 +10,7 @@
       :class="{
         expanded: !isHeaderCollapsed,
         collapsed: isHeaderCollapsed,
-        'custom-header-shadow': !isOnArticleViewer && !portal,
+        'custom-header-shadow': (isOnHomeView && !portal) || !isOnArticleViewer,
       }"
     >
       <transition
@@ -26,6 +27,7 @@
           :intro-body="channelConfig.welcomeTagline"
           :avatar-url="channelConfig.avatarUrl"
           :show-popout-button="appConfig.showPopoutButton"
+          :show-bg="!!portal"
         />
         <chat-header
           v-if="isHeaderCollapsed"
@@ -34,7 +36,6 @@
           :show-popout-button="appConfig.showPopoutButton"
           :available-agents="availableAgents"
           :show-back-button="showBackButton"
-          :show-bg="portal"
         />
       </transition>
     </div>
@@ -78,8 +79,9 @@ export default {
   },
   computed: {
     ...mapGetters({
-      availableAgents: 'agent/availableAgents',
       appConfig: 'appConfig/getAppConfig',
+      availableAgents: 'agent/availableAgents',
+      widgetColor: 'appConfig/getWidgetColor',
     }),
     portal() {
       return window.chatwootWebChannel.portal;
@@ -89,6 +91,13 @@ export default {
         return true;
       }
       return !this.isOnHomeView;
+    },
+    backgroundColor() {
+      const color = this.widgetColor.replace('#', '');
+      const r = parseInt(color.slice(0, 2), 16);
+      const g = parseInt(color.slice(2, 4), 16);
+      const b = parseInt(color.slice(4, 6), 16);
+      return `rgba(${r},${g},${b}, 0.01)`;
     },
     hasIntroText() {
       return (

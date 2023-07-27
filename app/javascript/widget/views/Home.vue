@@ -99,7 +99,7 @@ export default {
       const {
         portal: { slug },
         locale = 'en',
-      } = window.chatwootWebChannel.portal.slug;
+      } = window.chatwootWebChannel;
       this.openArticleInArticleViewer(`/hc/${slug}/${locale}`);
     },
   },
