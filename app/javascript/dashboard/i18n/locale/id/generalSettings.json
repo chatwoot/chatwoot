@@ -3,6 +3,7 @@
     "TITLE": "Pengaturan akun",
     "SUBMIT": "Ubah pengaturan",
     "BACK": "Kembali",
+    "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "Tidak dapat memperbarui pengaturan, coba lagi!",
       "SUCCESS": "Pengaturan akun berhasil diperbarui"

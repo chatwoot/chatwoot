@@ -3,6 +3,7 @@
     "TITLE": "Ustawienia konta",
     "SUBMIT": "Aktualizuj ustawienia",
     "BACK": "Powrót",
+    "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "Nie można zaktualizować ustawień, spróbuj ponownie!",
       "SUCCESS": "Pomyślnie zaktualizowano ustawienia konta"

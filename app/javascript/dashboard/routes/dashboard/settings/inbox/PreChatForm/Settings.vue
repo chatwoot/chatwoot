@@ -1,10 +1,10 @@
 <template>
-  <div class="settings--content">
-    <div class="pre-chat--title">
+  <div class="my-2 mx-8 text-base">
+    <div class="mt-6 mx-0 mb-3">
       {{ $t('INBOX_MGMT.PRE_CHAT_FORM.DESCRIPTION') }}
     </div>
-    <form @submit.prevent="updateInbox">
-      <label class="medium-3 columns">
+    <form class="flex flex-col" @submit.prevent="updateInbox">
+      <label class="w-[25%]">
         {{ $t('INBOX_MGMT.PRE_CHAT_FORM.ENABLE.LABEL') }}
         <select v-model="preChatFormEnabled">
           <option :value="true">
@@ -16,7 +16,7 @@
         </select>
       </label>
       <div v-if="preChatFormEnabled">
-        <label class="columns medium-8  large-8">
+        <label class="w-[70%]">
           <label>
             {{ $t('INBOX_MGMT.PRE_CHAT_FORM.PRE_CHAT_MESSAGE.LABEL') }}
           </label>
@@ -28,7 +28,7 @@
             "
           />
         </label>
-        <div class="columns medium-8  large-8 pre-chat-fields">
+        <div class="w-[70%] mt-4">
           <label>{{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS') }}</label>
           <table class="table table-striped w-full">
             <thead class="thead-dark">
@@ -66,13 +66,14 @@
           </table>
         </div>
       </div>
-      <woot-submit-button
-        class="submit-button"
-        :button-text="
-          $t('INBOX_MGMT.SETTINGS_POPUP.UPDATE_PRE_CHAT_FORM_SETTINGS')
-        "
-        :loading="uiFlags.isUpdating"
-      />
+      <div class="my-4 w-auto">
+        <woot-submit-button
+          :button-text="
+            $t('INBOX_MGMT.SETTINGS_POPUP.UPDATE_PRE_CHAT_FORM_SETTINGS')
+          "
+          :loading="uiFlags.isUpdating"
+        />
+      </div>
     </form>
   </div>
 </template>
@@ -171,17 +172,13 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.settings--content {
-  font-size: var(--font-size-default);
-}
-.pre-chat--title {
-  margin: var(--space-medium) 0 var(--space-slab);
-}
+.message-editor {
+  @apply px-3;
 
-.submit-button {
-  margin-top: var(--space-normal);
-}
-.pre-chat-fields {
-  margin-top: var(--space-normal);
+  ::v-deep {
+    .ProseMirror-menubar {
+      @apply rounded-tl-[4px];
+    }
+  }
 }
 </style>

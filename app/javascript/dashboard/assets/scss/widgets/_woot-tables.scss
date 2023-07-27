@@ -1,22 +1,19 @@
 table {
-  border-spacing: 0;
-  font-size: var(--font-size-small);
+  @apply border-spacing-0 text-sm;
 
   thead {
     th {
-      font-weight: var(--font-weight-bold);
-      text-align: left;
-      text-transform: uppercase;
+      @apply font-semibold tracking-[1px] text-left uppercase text-slate-900 dark:text-slate-200;
     }
   }
 
   tbody {
     tr {
-      border-bottom: 1px solid var(--color-border-light);
+      @apply border-b border-slate-50 dark:border-slate-800/30;
     }
 
     td {
-      padding: var(--space-small);
+      @apply p-2.5 text-slate-700 dark:text-slate-100;
     }
   }
 }
@@ -24,37 +21,68 @@ table {
 .woot-table {
   tr {
     .show-if-hover {
-      opacity: 0;
       transition: opacity 0.2s $swift-ease-out-function;
+      @apply opacity-0;
     }
 
     &:hover {
       .show-if-hover {
-        opacity: 1;
+        @apply opacity-100;
       }
     }
   }
 
   .agent-name {
-    display: block;
-    font-weight: var(--font-weight-medium);
-    text-transform: capitalize;
+    @apply block font-medium capitalize;
   }
 
   .woot-thumbnail {
-    border-radius: 50%;
-    height: 5rem;
-    width: 5rem;
+    @apply rounded-full h-[3.125rem] w-[3.125rem];
   }
 
   .button-wrapper {
-    @include flex-align(left, null);
-    @include flex;
-    flex-direction: row;
-    min-width: 20rem;
+    @apply flex justify-start flex-row min-w-[12.5rem] gap-1;
   }
 
   .button {
     margin: 0;
+  }
+}
+
+.ve-table {
+  .ve-table-container.ve-table-border-around {
+    @apply border-slate-200 dark:border-slate-700;
+  }
+
+  .ve-table-content {
+    .ve-table-header .ve-table-header-tr .ve-table-header-th {
+      @apply bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-100 border-slate-100 dark:border-slate-700/50;
+    }
+
+    .ve-table-body .ve-table-body-tr .ve-table-body-td {
+      @apply bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-75 dark:border-slate-800;
+    }
+
+    .ve-table-body.ve-table-row-hover .ve-table-body-tr:hover td {
+      @apply bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100;
+    }
+  }
+}
+
+.table-pagination {
+  .ve-pagination-total {
+    @apply text-slate-600 dark:text-slate-200;
+  }
+
+  .ve-pagination-goto {
+    @apply text-slate-600 dark:text-slate-200;
+  }
+
+  .ve-pagination-li {
+    @apply bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-200 border-slate-75 dark:border-slate-700;
+  }
+
+  .ve-pagination-goto-input {
+    @apply bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-200;
   }
 }

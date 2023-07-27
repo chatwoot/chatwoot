@@ -1,5 +1,5 @@
 <template>
-  <div class="column content-box">
+  <div class="flex-1 overflow-auto p-4">
     <woot-button
       color-scheme="success"
       class-names="button--fixed-top"
@@ -10,8 +10,8 @@
     </woot-button>
 
     <!-- List Canned Response -->
-    <div class="row">
-      <div class="small-8 columns with-right-space ">
+    <div class="flex flex-row gap-4">
+      <div class="w-[60%]">
         <p
           v-if="!uiFlags.fetchingList && !records.length"
           class="no-items-error-message"
@@ -42,11 +42,13 @@
               :key="cannedItem.short_code"
             >
               <!-- Short Code  -->
-              <td class="short-code">
+              <td class="w-[8.75rem]">
                 {{ cannedItem.short_code }}
               </td>
               <!-- Content -->
-              <td class="wrap-break-words">{{ cannedItem.content }}</td>
+              <td class="break-all whitespace-normal">
+                {{ cannedItem.content }}
+              </td>
               <!-- Action Buttons -->
               <td class="button-wrapper">
                 <woot-button
@@ -73,7 +75,7 @@
         </table>
       </div>
 
-      <div class="small-4 columns">
+      <div class="w-[34%]">
         <span v-dompurify-html="$t('CANNED_MGMT.SIDEBAR_TXT')" />
       </div>
     </div>
@@ -207,12 +209,3 @@ export default {
   },
 };
 </script>
-<style scoped>
-.short-code {
-  width: 14rem;
-}
-.wrap-break-words {
-  word-break: break-all;
-  white-space: normal;
-}
-</style>
