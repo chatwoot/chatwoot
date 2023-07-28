@@ -164,10 +164,12 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       Cookies.remove(getUserCookieName());
 
       const iframe = IFrameHelper.getAppFrame();
-      iframe.src = IFrameHelper.getUrl({
-        baseUrl: window.$chatwoot.baseUrl,
-        websiteToken: window.$chatwoot.websiteToken,
-      });
+      iframe.contentWindow.location.replace(
+        IFrameHelper.getUrl({
+          baseUrl: window.$hoory.baseUrl,
+          websiteToken: window.$hoory.websiteToken,
+        })
+      );
 
       window.$chatwoot.resetTriggered = true;
     },
