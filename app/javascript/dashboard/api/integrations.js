@@ -12,7 +12,7 @@ class IntegrationsAPI extends ApiClient {
   }
 
   updateSlack({ referenceId }) {
-    return axios.put(`${this.baseUrl()}/integrations/slack`, {
+    return axios.patch(`${this.baseUrl()}/integrations/slack`, {
       reference_id: referenceId,
     });
   }
