@@ -11,7 +11,7 @@
       class="item"
       :class="{ active: isActive(item), over: isOver(item) }"
     >
-      <div class="flex-align-center">
+      <div class="flex items-center">
         <h3
           class="overflow-hidden whitespace-nowrap text-ellipsis leading-tight"
         >
@@ -44,7 +44,7 @@ export default {
   },
   computed: {
     classObject() {
-      return 'full-width';
+      return 'w-full';
     },
     activeIndex() {
       return this.items.findIndex(i => i.route === this.$route.name);

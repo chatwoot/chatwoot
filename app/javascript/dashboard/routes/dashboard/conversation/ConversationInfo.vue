@@ -145,10 +145,10 @@ export default {
 </script>
 <style scoped lang="scss">
 .conversation--attribute {
-  border-bottom: 1px solid var(--color-border-light);
+  @apply border-slate-50 dark:border-slate-700 border-b border-solid;
 
   &:nth-child(2n) {
-    background: var(--s-25);
+    @apply bg-slate-25 dark:bg-slate-800;
   }
 }
 </style>

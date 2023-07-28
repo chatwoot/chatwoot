@@ -1091,96 +1091,67 @@ export default {
 
 <style lang="scss" scoped>
 .send-button {
-  margin-bottom: 0;
+  @apply mb-0;
 }
 
 .message-signature-wrap {
-  margin: 0 var(--space-normal);
-  padding: var(--space-small);
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  border: 1px dashed var(--s-100);
-  border-radius: var(--border-radius-small);
-  max-height: 8vh;
-  overflow: auto;
-
-  &:hover {
-    background: var(--s-25);
-  }
+  @apply my-0 mx-4 px-1 flex max-h-[8vh] items-baseline justify-between hover:bg-slate-25 dark:hover:bg-slate-800 border border-dashed border-slate-100 dark:border-slate-700 rounded-sm overflow-auto;
 }
 
 .message-signature {
-  width: fit-content;
-  margin: 0;
+  @apply w-fit m-0;
 }
 
 .attachment-preview-box {
-  padding: 0 var(--space-normal);
-  background: transparent;
+  @apply bg-transparent py-0 px-4;
 }
 
 .reply-box {
-  @apply border-r border-slate-50 dark:border-slate-700 bg-white dark:bg-slate-900;
+  @apply border-t border-slate-50 dark:border-slate-700 bg-white dark:bg-slate-900;
 
   &.is-private {
-    background: var(--y-50);
+    @apply bg-yellow-50 dark:bg-yellow-50;
   }
 }
 .send-button {
-  margin-bottom: 0;
+  @apply mb-0;
 }
 
 .reply-box__top {
-  position: relative;
-  padding: 0 var(--space-normal);
-  border-top: 1px solid var(--color-border);
-  margin-top: -1px;
+  @apply relative py-0 px-4 -mt-px border-t border-solid border-slate-50 dark:border-slate-700;
 }
 
 .emoji-dialog {
-  top: unset;
-  bottom: -40px;
-  left: -320px;
-  right: unset;
+  @apply top-[unset] -bottom-10 -left-80 right-[unset];
 
   &::before {
-    right: var(--space-minus-normal);
-    bottom: var(--space-small);
     transform: rotate(270deg);
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.08));
+    @apply -right-4 bottom-2 rtl:right-0 rtl:-left-4;
   }
 }
 
 .emoji-dialog--rtl {
-  left: unset;
-  right: -320px;
+  @apply left-[unset] -right-80;
   &::before {
-    left: var(--space-minus-normal);
     transform: rotate(90deg);
-    right: 0;
-    bottom: var(--space-small);
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.08));
   }
 }
 
 .emoji-dialog--expanded {
-  left: unset;
-  bottom: var(--space-jumbo);
-  position: absolute;
-  z-index: var(--z-index-normal);
+  @apply left-[unset] bottom-0 absolute z-[100];
 
   &::before {
     transform: rotate(0deg);
-    left: var(--space-smaller);
-    bottom: var(--space-minus-small);
+    @apply left-1 -bottom-2;
   }
 }
 .message-signature {
-  margin-bottom: 0;
+  @apply mb-0;
 
   ::v-deep p:last-child {
-    margin-bottom: 0;
+    @apply mb-0;
   }
 }
 

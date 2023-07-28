@@ -550,8 +550,8 @@ GEM
     raabro (1.4.0)
     racc (1.7.1)
     rack (2.2.7)
-    rack-attack (6.6.1)
-      rack (>= 1.0, < 3)
+    rack-attack (6.7.0)
+      rack (>= 1.0, < 4)
     rack-cors (2.0.1)
       rack (>= 2.0.0)
     rack-mini-profiler (3.1.0)
@@ -903,7 +903,7 @@ DEPENDENCIES
   pry-rails
   puma
   pundit
-  rack-attack
+  rack-attack (>= 6.7.0)
   rack-cors
   rack-mini-profiler
   rack-timeout

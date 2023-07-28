@@ -1,6 +1,6 @@
 <template>
   <modal :show.sync="show" :on-close="onClose">
-    <div class="column content-box">
+    <div class="h-auto overflow-auto flex flex-col">
       <woot-modal-header :header-title="$t('IMPORT_CONTACTS.TITLE')">
         <p>
           {{ $t('IMPORT_CONTACTS.DESC') }}
@@ -9,8 +9,8 @@
           }}</a>
         </p>
       </woot-modal-header>
-      <div class="row modal-content">
-        <div class="medium-12 columns">
+      <div class="flex flex-col p-8">
+        <div class="w-full">
           <label>
             <span>{{ $t('IMPORT_CONTACTS.FORM.LABEL') }}</span>
             <input
@@ -22,8 +22,8 @@
             />
           </label>
         </div>
-        <div class="modal-footer">
-          <div class="medium-12 columns">
+        <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+          <div class="w-full">
             <woot-button
               :disabled="uiFlags.isCreating || !file"
               :loading="uiFlags.isCreating"
