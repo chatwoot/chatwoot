@@ -3,6 +3,7 @@ import Vue from 'vue';
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import * as types from '../mutation-types';
 import IntegrationsAPI from '../../api/integrations';
+import { throwErrorMessage } from 'dashboard/store/utils/api';
 
 const state = {
   records: [],
@@ -59,10 +60,9 @@ export const actions = {
     try {
       const response = await IntegrationsAPI.connectSlack(code);
       commit(types.default.ADD_INTEGRATION, response.data);
-      commit(types.default.SET_INTEGRATIONS_UI_FLAG, {
-        isCreatingSlack: false,
-      });
     } catch (error) {
+      throwErrorMessage(error);
+    } finally {
       commit(types.default.SET_INTEGRATIONS_UI_FLAG, {
         isCreatingSlack: false,
       });
@@ -73,10 +73,9 @@ export const actions = {
     try {
       const response = await IntegrationsAPI.updateSlack(slackObj);
       commit(types.default.ADD_INTEGRATION, response.data);
-      commit(types.default.SET_INTEGRATIONS_UI_FLAG, {
-        isUpdatingSlack: false,
-      });
     } catch (error) {
+      throwErrorMessage(error);
+    } finally {
       commit(types.default.SET_INTEGRATIONS_UI_FLAG, {
         isUpdatingSlack: false,
       });

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="conversations-list-wrap flex-shrink-0 flex-basis-custom overflow-hidden flex flex-col border-r rtl:border-r-0 rtl:border-l border-slate-50 dark:border-slate-800/50"
+    class="conversations-list-wrap flex-basis-clamp flex-shrink-0 flex-basis-custom overflow-hidden flex flex-col border-r rtl:border-r-0 rtl:border-l border-slate-50 dark:border-slate-800/50"
     :class="{
       hide: !showConversationList,
       'list--full-width': isOnExpandedLayout,
@@ -964,10 +964,6 @@ export default {
   .flex-basis-clamp {
     flex-basis: clamp(20rem, 4vw + 21.25rem, 27.5rem);
   }
-}
-
-.conversations-list-wrap {
-  @apply flex-basis-clamp;
 }
 </style>
 
