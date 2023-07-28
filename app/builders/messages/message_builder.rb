@@ -53,7 +53,6 @@ class Messages::MessageBuilder
     to_emails = process_email_string(@params[:to_emails])
     forward_to_emails = process_email_string(@params[:forward_to_emails])
 
-
     all_email_addresses = cc_emails + bcc_emails + to_emails + forward_to_emails
     validate_email_addresses(all_email_addresses)
 
