@@ -192,7 +192,7 @@ class ConversationReplyMailer < ApplicationMailer
   def to_emails
     # if there is no to_emails from content_attributes, send it to @contact&.email
     # check if there is forward-to email address present then that acts as to email address
-    forward_to_emails || to_emails_from_content_attributes.presence || [@contact&.email]
+    forward_to_emails.presence || to_emails_from_content_attributes.presence || [@contact&.email]
   end
 
   def inbound_email_enabled?
