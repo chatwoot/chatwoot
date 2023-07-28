@@ -114,10 +114,7 @@
           @click="removeFilter"
         />
       </div>
-      <p
-        v-if="v.values.$dirty && v.values.$error"
-        class="text-red-500 dark:text-red-600 block my-1 mx-0"
-      >
+      <p v-if="v.values.$dirty && v.values.$error" class="filter-error">
         {{ $t('FILTER.EMPTY_VALUE_ERROR') }}
       </p>
     </div>
@@ -127,7 +124,7 @@
       class="flex items-center justify-center relative my-2.5 mx-0"
     >
       <hr
-        class="w-full absolute border-b border-solid border-slate-75 dark:border-slate-600"
+        class="w-full absolute border-b border-solid border-slate-75 dark:border-slate-800"
       />
       <select
         v-model="query_operator"
@@ -273,8 +270,8 @@ export default {
     },
     getInputErrorClass(isDirty, hasError) {
       return isDirty && hasError
-        ? 'bg-red-50 dark:bg-red-200 border-red-100 dark:border-red-300 '
-        : 'bg-slate-50 dark:bg-slate-800 border-slate-75 dark:border-slate-600 ';
+        ? 'bg-red-50 dark:bg-red-800/50 border-red-100 dark:border-red-700/50'
+        : 'bg-slate-50 dark:bg-slate-800 border-slate-75 dark:border-slate-700/50';
     },
   },
 };
@@ -284,6 +281,10 @@ export default {
   input {
     @apply bg-white dark:bg-slate-900 mb-0 text-slate-800 dark:text-slate-100 border-slate-75 dark:border-slate-600;
   }
+}
+
+.filter-error {
+  @apply text-red-500 dark:text-red-200 block my-1 mx-0;
 }
 
 .multiselect {
