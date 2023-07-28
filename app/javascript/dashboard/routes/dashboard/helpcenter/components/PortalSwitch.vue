@@ -2,10 +2,12 @@
   <div class="portal" :class="{ active }">
     <thumbnail :username="portal.name" variant="square" />
     <div class="actions-container">
-      <header>
+      <header class="flex items-center justify-between mb-2.5">
         <div>
-          <h3 class="sub-block-title portal-title">{{ portal.name }}</h3>
-          <p class="portal-count">
+          <h3 class="text-sm mb-0.5 text-slate-700 dark:text-slate-100">
+            {{ portal.name }}
+          </h3>
+          <p class="text-slate-600 dark:text-slate-200 mb-0 text-xs">
             {{ articlesCount }}
             {{ $t('HELP_CENTER.PORTAL.ARTICLES_LABEL') }}
           </p>
@@ -19,7 +21,7 @@
         />
       </header>
       <div class="portal-locales">
-        <h5 class="locale-title sub-block-title">
+        <h5 class="text-base text-slate-700 dark:text-slate-100">
           {{ $t('HELP_CENTER.PORTAL.CHOOSE_LOCALE_LABEL') }}
         </h5>
         <ul>
@@ -36,21 +38,23 @@
               color-scheme="secondary"
               @click="event => onClick(event, locale.code, portal)"
             >
-              <div class="locale-content">
+              <div class="flex items-center justify-between w-full">
                 <div class="meta">
-                  <h6 class="text-block-title text-left locale-name">
-                    <span>
+                  <h6 class="text-sm text-left mb-0.5">
+                    <span class="text-slate-700 dark:text-slate-100">
                       {{ localeName(locale.code) }}
                     </span>
                     <span
                       v-if="isLocaleDefault(locale.code)"
-                      class="fs-small text-muted"
+                      class="fs-small text-slate-300 dark:text-slate-200"
                     >
                       {{ `(${$t('HELP_CENTER.PORTAL.DEFAULT')})` }}
                     </span>
                   </h6>
 
-                  <span class="locale-meta">
+                  <span
+                    class="flex text-slate-600 dark:text-slate-200 text-sm text-left leading-4 w-full"
+                  >
                     {{ locale.articles_count }}
                     {{ $t('HELP_CENTER.PORTAL.ARTICLES_LABEL') }} -
                     {{ locale.code }}
@@ -141,97 +145,31 @@ export default {
 
 <style lang="scss" scoped>
 .portal {
-  background-color: var(--white);
-  padding: var(--space-normal);
-  border: 1px solid var(--color-border-dark);
-  border-radius: var(--border-radius-medium);
-  position: relative;
-  display: flex;
-  margin-bottom: var(--space-normal);
+  @apply bg-white dark:bg-slate-800 rounded-md p-4 relative flex mb-4 border border-solid border-slate-100 dark:border-slate-600;
 
   &.active {
-    border: 1px solid var(--w-400);
-    background: var(---25);
+    @apply bg-white dark:bg-slate-800 border border-solid border-woot-400 dark:border-woot-500;
   }
 
   .actions-container {
-    margin-left: var(--space-one);
-    flex-grow: 1;
-
-    header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      margin-bottom: var(--space-one);
-
-      .badge {
-        font-size: var(--font-size-mini);
-        background-color: var(--w-100);
-        color: var(--w-600);
-        padding: var(--space-smaller) var(--space-small);
-      }
-
-      .portal-title {
-        margin-bottom: var(--space-micro);
-      }
-
-      .portal-count {
-        font-size: var(--font-size-mini);
-        margin-bottom: 0;
-        color: var(--s-600);
-      }
-    }
+    @apply ml-2.5 rtl:ml-0 rtl:mr-2.5 flex-grow;
 
     .portal-locales {
-      .locale-name {
-        margin-bottom: var(--space-micro);
-      }
-
-      .locale-content {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-      }
-
       ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
+        @apply list-none p-0 m-0;
       }
 
       .locale__radio {
-        width: var(--space-large);
-        margin-top: var(--space-tiny);
-        color: var(--g-600);
-      }
-
-      .add-locale-wrap {
-        margin-top: var(--spacing-small);
+        @apply w-8 text-green-600 dark:text-green-600;
       }
     }
   }
 
   .locale-item {
-    display: flex;
-    align-items: flex-start;
-    padding: var(--space-smaller) var(--space-normal);
-    border-radius: var(--border-radius-normal);
-    width: 100%;
-    margin-bottom: var(--space-small);
+    @apply flex items-start py-1 px-4 rounded-md w-full mb-2;
 
     p {
-      margin-bottom: 0;
-      text-align: left;
-    }
-
-    .locale-meta {
-      display: flex;
-      color: var(--s-600);
-      font-size: var(--font-size-small);
-      text-align: left;
-      line-height: var(--space-normal);
-      width: 100%;
+      @apply mb-0 text-left;
     }
   }
 }

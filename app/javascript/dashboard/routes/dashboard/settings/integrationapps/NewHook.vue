@@ -1,5 +1,5 @@
 <template>
-  <div class="column content-box">
+  <div class="h-auto overflow-auto flex flex-col">
     <woot-modal-header
       :header-title="integration.name"
       :header-content="integration.description"
@@ -7,6 +7,7 @@
     <formulate-form
       #default="{ hasErrors }"
       v-model="values"
+      class="w-full"
       @submit="submitForm"
     >
       <formulate-input
@@ -24,7 +25,7 @@
         validation="required"
         validation-name="Inbox"
       />
-      <div class="modal-footer">
+      <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
         <woot-button :disabled="hasErrors" :loading="uiFlags.isCreatingHook">
           {{ $t('INTEGRATION_APPS.ADD.FORM.SUBMIT') }}
         </woot-button>

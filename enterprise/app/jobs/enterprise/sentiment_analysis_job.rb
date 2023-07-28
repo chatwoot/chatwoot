@@ -1,9 +1,8 @@
 class Enterprise::SentimentAnalysisJob < ApplicationJob
-  queue_as :default
+  queue_as :low
 
   def perform(message)
-    return if message.account.locale != 'en'
-    return if valid_incoming_message?(message)
+    return if message.account.locale != 'en' || !valid_incoming_message?(message)
 
     save_message_sentiment(message)
   rescue StandardError => e
@@ -27,11 +26,11 @@ class Enterprise::SentimentAnalysisJob < ApplicationJob
 
   # Model initializes OnnxRuntime::Model, with given file for inference session and to create the tensor
   def model
-    model = save_and_open_sentiment_file
+    model_file = save_and_open_sentiment_file
 
-    return if File.empty?(model)
+    return if File.empty?(model_file)
 
-    Informers::SentimentAnalysis.new(model)
+    Informers::SentimentAnalysis.new(model_file)
   end
 
   def label_val(sentiment)
@@ -39,7 +38,7 @@ class Enterprise::SentimentAnalysisJob < ApplicationJob
   end
 
   def valid_incoming_message?(message)
-    !message.incoming? || message.private?
+    message.incoming? && message.content.present? && !message.private?
   end
 
   # returns the sentiment file from vendor folder else download it to the path from AWS-S3
