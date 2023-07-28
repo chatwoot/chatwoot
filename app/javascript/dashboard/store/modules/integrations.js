@@ -55,16 +55,16 @@ export const actions = {
   },
 
   connectSlack: async ({ commit }, code) => {
-    commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isConnectingSlack: true });
+    commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isCreatingSlack: true });
     try {
       const response = await IntegrationsAPI.connectSlack(code);
       commit(types.default.ADD_INTEGRATION, response.data);
       commit(types.default.SET_INTEGRATIONS_UI_FLAG, {
-        isConnectingSlack: false,
+        isCreatingSlack: false,
       });
     } catch (error) {
       commit(types.default.SET_INTEGRATIONS_UI_FLAG, {
-        isConnectingSlack: false,
+        isCreatingSlack: false,
       });
     }
   },
