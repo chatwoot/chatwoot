@@ -107,8 +107,9 @@ export default {
         });
         this.showAlert(this.$t('INTEGRATION_SETTINGS.SLACK.UPDATE_SUCCESS'));
       } catch (error) {
-        this.$t('INTEGRATION_SETTINGS.SLACK.UPDATE_ERROR');
-        // Ignore error
+        this.showAlert(
+          error.message || 'INTEGRATION_SETTINGS.SLACK.UPDATE_ERROR'
+        );
       }
     },
   },
