@@ -73,7 +73,10 @@
       </span>
     </div>
     <div v-if="showForwardTo" class="input-group-wrap">
-      <div class="input-group small" :class="{ error: $v.forwardToEmailsVal.$error }">
+      <div
+        class="input-group small"
+        :class="{ error: $v.forwardToEmailsVal.$error }"
+      >
         <label class="input-group-label">
           {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.FORWARD_TO.LABEL') }}
         </label>
@@ -176,7 +179,7 @@ export default {
       hasValidEmails(value) {
         return validEmailsByComma(value);
       },
-    }
+    },
   },
   methods: {
     handleAddBcc() {
