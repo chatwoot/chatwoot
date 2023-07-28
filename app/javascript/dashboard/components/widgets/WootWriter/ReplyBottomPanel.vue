@@ -342,7 +342,7 @@ export default {
   label {
     @apply cursor-pointer;
   }
-  &:hover .button {
+  &:hover button {
     @apply dark:bg-slate-800 bg-slate-100;
   }
 }
