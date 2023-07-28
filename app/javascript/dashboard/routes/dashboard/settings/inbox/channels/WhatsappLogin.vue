@@ -1,6 +1,6 @@
 <template>
-  <div class="wizard-body columns content-box small-9">
-    <div v-if="!hasLoginStarted" class="login-init full-height">
+  <div class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%]">
+    <div v-if="!hasLoginStarted" class="login-init h-full">
       <a href="#" @click="startLogin()">
         <img
           src="~dashboard/assets/images/channels/facebook_login.png"

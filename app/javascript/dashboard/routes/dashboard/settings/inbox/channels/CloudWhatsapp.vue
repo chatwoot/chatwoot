@@ -67,7 +67,7 @@
         </span>
       </label>
     </div>
-    
+
     <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
       <label :class="{ error: $v.appId.$error }">
         <span>
