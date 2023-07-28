@@ -429,7 +429,7 @@ GEM
     llhttp-ffi (0.4.0)
       ffi-compiler (~> 1.0)
       rake (~> 13.0)
-    lograge (0.12.0)
+    lograge (0.13.0)
       actionpack (>= 4)
       activesupport (>= 4)
       railties (>= 4)
@@ -452,7 +452,7 @@ GEM
     mini_magick (4.12.0)
     mini_mime (1.1.2)
     mini_portile2 (2.8.4)
-    minitest (5.18.1)
+    minitest (5.19.0)
     mock_redis (0.36.0)
       ruby2_keywords
     msgpack (1.7.0)
@@ -812,7 +812,7 @@ GEM
     working_hours (1.4.1)
       activesupport (>= 3.2)
       tzinfo
-    zeitwerk (2.6.8)
+    zeitwerk (2.6.9)
 
 PLATFORMS
   arm64-darwin-20
@@ -886,7 +886,7 @@ DEPENDENCIES
   line-bot-api
   liquid
   listen
-  lograge (~> 0.12.0)
+  lograge (~> 0.13.0)
   maxminddb
   mock_redis
   neighbor
