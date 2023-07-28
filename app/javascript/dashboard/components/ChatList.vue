@@ -965,12 +965,14 @@ export default {
     flex-basis: clamp(20rem, 4vw + 21.25rem, 27.5rem);
   }
 }
+
+.conversations-list-wrap {
+  @apply flex-basis-clamp;
+}
 </style>
 
 <style scoped lang="scss">
 .conversations-list-wrap {
-  @apply flex-basis-clamp;
-
   &.hide {
     @apply hidden;
   }

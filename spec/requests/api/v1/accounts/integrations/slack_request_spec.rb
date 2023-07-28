@@ -32,48 +32,48 @@ RSpec.describe 'Api::V1::Accounts::Integrations::Slacks' do
         expect(json_response['id']).to eql('slack')
       end
     end
+  end
 
-    describe 'PUT /api/v1/accounts/{account.id}/integrations/slack/' do
-      context 'when it is an unauthenticated user' do
-        it 'returns unauthorized' do
-          put "/api/v1/accounts/#{account.id}/integrations/slack/", params: {}
-          expect(response).to have_http_status(:unauthorized)
-        end
-      end
-
-      context 'when it is an authenticated user' do
-        it 'updates hook' do
-          channel_builder = Integrations::Slack::ChannelBuilder.new(hook: hook, channel: 'channel')
-          expect(channel_builder).to receive(:perform)
-
-          expect(Integrations::Slack::ChannelBuilder).to receive(:new).and_return(channel_builder)
-
-          put "/api/v1/accounts/#{account.id}/integrations/slack",
-              params: { channel: SecureRandom.hex },
-              headers: agent.create_new_auth_token
-
-          expect(response).to have_http_status(:success)
-          json_response = response.parsed_body
-          expect(json_response['app_id']).to eql('slack')
-        end
+  describe 'PUT /api/v1/accounts/{account.id}/integrations/slack/' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        put "/api/v1/accounts/#{account.id}/integrations/slack/", params: {}
+        expect(response).to have_http_status(:unauthorized)
       end
     end
 
-    describe 'DELETE /api/v1/accounts/{account.id}/integrations/slack' do
-      context 'when it is an unauthenticated user' do
-        it 'returns unauthorized' do
-          delete "/api/v1/accounts/#{account.id}/integrations/slack", params: {}
-          expect(response).to have_http_status(:unauthorized)
-        end
-      end
+    context 'when it is an authenticated user' do
+      it 'updates hook' do
+        channel_builder = Integrations::Slack::ChannelBuilder.new(hook: hook, channel: 'channel')
+        expect(channel_builder).to receive(:perform)
 
-      context 'when it is an authenticated user' do
-        it 'deletes hook' do
-          delete "/api/v1/accounts/#{account.id}/integrations/slack",
-                 headers: agent.create_new_auth_token
-          expect(response).to have_http_status(:success)
-          expect(Integrations::Hook.find_by(id: hook.id)).to be_nil
-        end
+        expect(Integrations::Slack::ChannelBuilder).to receive(:new).and_return(channel_builder)
+
+        put "/api/v1/accounts/#{account.id}/integrations/slack",
+            params: { channel: SecureRandom.hex },
+            headers: agent.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+        expect(json_response['app_id']).to eql('slack')
+      end
+    end
+  end
+
+  describe 'DELETE /api/v1/accounts/{account.id}/integrations/slack' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        delete "/api/v1/accounts/#{account.id}/integrations/slack", params: {}
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      it 'deletes hook' do
+        delete "/api/v1/accounts/#{account.id}/integrations/slack",
+               headers: agent.create_new_auth_token
+        expect(response).to have_http_status(:success)
+        expect(Integrations::Hook.find_by(id: hook.id)).to be_nil
       end
     end
   end
