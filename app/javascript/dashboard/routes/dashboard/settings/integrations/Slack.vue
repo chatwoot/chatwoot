@@ -97,7 +97,8 @@ export default {
       await this.$store.dispatch('integrations/get', 'slack');
       if (this.code) {
         await this.$store.dispatch('integrations/connectSlack', this.code);
-        // we are clearing code from the path as subsequent request would throw error
+        // Clear the query param `code` from the URL as the
+        // subsequent reloads would result in an error
         this.$router.replace(this.$route.path);
       }
       this.integrationLoaded = true;
