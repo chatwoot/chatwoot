@@ -38,14 +38,6 @@
         >
           {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.ADD_BCC') }}
         </woot-button>
-        <woot-button
-          v-if="!showForwardTo"
-          variant="clear"
-          size="small"
-          @click="handleAddForwardTo"
-        >
-          {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.ADD_FORWARD') }}
-        </woot-button>
       </div>
       <span v-if="$v.ccEmailsVal.$error" class="message">
         {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.ERROR') }}

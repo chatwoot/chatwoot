@@ -239,6 +239,7 @@ export default {
       bccEmails: '',
       ccEmails: '',
       toEmails: '',
+      forwardToEmails: '',
       doAutoSaveDraft: () => {},
       showWhatsAppTemplatesModal: false,
       updateEditorSelectionWith: '',
@@ -1086,12 +1087,10 @@ export default {
       bcc = [...new Set(bcc)];
       cc = [...new Set(cc)];
       to = [...new Set(to)];
-      forward_to = [...new Set(forward_to)];
 
       this.ccEmails = cc.join(', ');
       this.bccEmails = bcc.join(', ');
       this.toEmails = to.join(', ');
-      this.forwardToEmails = forwardToEmails.join(', ');
     },
   },
 };
