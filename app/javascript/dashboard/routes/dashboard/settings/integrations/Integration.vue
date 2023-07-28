@@ -1,23 +1,23 @@
 <template>
-  <div class="flex">
-    <div class="flex h-[6.25rem] w-[6.25rem]">
+  <div class="flex flex-col md:flex-row items-start md:items-center">
+    <div class="flex items-center justify-center m-0 mx-4 flex-1">
       <img
         :src="'/dashboard/images/integrations/' + integrationLogo"
-        class="max-w-full p-6"
+        class="p-2 h-16 w-16 mr-4"
       />
-    </div>
-    <div class="flex flex-col justify-center m-0 mx-4 flex-1">
-      <h3 class="text-xl text-slate-800 dark:text-slate-100">
-        {{ integrationName }}
-      </h3>
-      <p>
-        {{
-          useInstallationName(
-            integrationDescription,
-            globalConfig.installationName
-          )
-        }}
-      </p>
+      <div>
+        <h3 class="text-xl text-slate-800 dark:text-slate-100">
+          {{ integrationName }}
+        </h3>
+        <p>
+          {{
+            useInstallationName(
+              integrationDescription,
+              globalConfig.installationName
+            )
+          }}
+        </p>
+      </div>
     </div>
     <div class="flex justify-center items-center mb-0 w-[15%]">
       <router-link
@@ -29,13 +29,13 @@
       >
         <div v-if="integrationEnabled">
           <div v-if="integrationAction === 'disconnect'">
-            <div @click="openDeletePopup()">
+            <div @click="openDeletePopup">
               <woot-submit-button
                 :button-text="
-                  $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT')
+                  actionButtonText ||
+                    $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT')
                 "
-                icon-class="dismiss-circle"
-                button-class="nice alert"
+                button-class="smooth alert"
               />
             </div>
           </div>
@@ -56,8 +56,14 @@
       :show.sync="showDeleteConfirmationPopup"
       :on-close="closeDeletePopup"
       :on-confirm="confirmDeletion"
-      :title="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.TITLE')"
-      :message="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.MESSAGE')"
+      :title="
+        deleteConfirmationText.title ||
+          $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.TITLE')
+      "
+      :message="
+        deleteConfirmationText.message ||
+          $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.MESSAGE')
+      "
       :confirm-text="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.YES')"
       :reject-text="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.NO')"
     />
@@ -81,6 +87,8 @@ export default {
     integrationDescription: { type: String, default: '' },
     integrationEnabled: { type: Boolean, default: false },
     integrationAction: { type: String, default: '' },
+    actionButtonText: { type: String, default: '' },
+    deleteConfirmationText: { type: Object, default: () => ({}) },
   },
   data() {
     return {
