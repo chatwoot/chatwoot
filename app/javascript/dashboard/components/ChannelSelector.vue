@@ -37,7 +37,7 @@ export default {
 }
 
 .channel {
-  @apply bg-white dark:bg-slate-900 cursor-pointer flex flex-col transition-all duration-200 ease-in -m-px py-4 px-0 items-center border border-solid border-slate-25 dark:border-slate-800;
+  @apply bg-white dark:bg-slate-900 cursor-pointer flex flex-col transition-all duration-200 ease-in -m-px py-4 px-0 items-center justify-center border border-solid border-slate-25 dark:border-slate-800;
 
   &:hover {
     @apply border-woot-500 dark:border-woot-500 shadow-md z-50;
@@ -48,7 +48,7 @@ export default {
   }
 
   img {
-    @apply w-[50%] my-4 mx-auto;
+    @apply w-[50%] my-4 mx-auto min-h-[152px] object-contain;
   }
 
   .channel__title {
