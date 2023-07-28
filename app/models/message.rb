@@ -103,8 +103,7 @@ class Message < ApplicationRecord
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
-  # .succ is a hack to avoid https://makandracards.com/makandra/1057-why-two-ruby-time-objects-are-not-equal-although-they-appear-to-be
-  scope :unread_since, ->(datetime) { where('EXTRACT(EPOCH FROM created_at) > (?)', datetime.to_i.succ) }
+  scope :created_since, ->(datetime) { where('created_at > ?', datetime) }
   scope :chat, -> { where.not(message_type: :activity).where(private: false) }
   scope :non_activity_messages, -> { where.not(message_type: :activity).reorder('id desc') }
   scope :today, -> { where("date_trunc('day', created_at) = ?", Date.current) }
