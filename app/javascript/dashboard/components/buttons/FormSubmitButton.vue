@@ -8,7 +8,7 @@
   >
     <fluent-icon v-if="!!iconClass" :icon="iconClass" class="icon" />
     <span>{{ buttonText }}</span>
-    <spinner v-if="loading" />
+    <spinner v-if="loading" class="ml-2" :color-scheme="spinnerClass" />
   </button>
 </template>
 
@@ -37,6 +37,10 @@ export default {
       default: '',
     },
     iconClass: {
+      type: String,
+      default: '',
+    },
+    spinnerClass: {
       type: String,
       default: '',
     },
