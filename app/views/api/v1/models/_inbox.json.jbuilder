@@ -105,3 +105,5 @@ if resource.whatsapp?
   json.message_templates resource.channel.try(:message_templates)
   json.provider_config resource.channel.try(:provider_config) if Current.account_user&.administrator?
 end
+
+json.is_inbox_member Current.user.assigned_inboxes.include?(resource)
