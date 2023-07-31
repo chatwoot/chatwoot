@@ -30,6 +30,7 @@ const settings = accountId => ({
     'settings_inboxes_page_whatsapp_fb_login',
     'settings_integrations_dashboard_apps',
     'settings_integrations_integration',
+    'settings_integrations_slack',
     'settings_integrations_webhook',
     'settings_integrations',
     'settings_teams_add_agents',
