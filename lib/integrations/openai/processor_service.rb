@@ -46,8 +46,9 @@ class Integrations::Openai::ProcessorService < Integrations::OpenaiBaseService
 
   private
 
-  def prompts_from_file(file_name)
-    Rails.root.join('lib/integrations/openai/openai_prompts', "#{file_name}.txt").read
+  def prompt_from_file(file_name, enterprise: false)
+    path = enterprise ? 'enterprise/lib/enterprise/integrations/openai_prompts' : 'lib/integrations/openai/openai_prompts'
+    Rails.root.join(path, "#{file_name}.txt").read
   end
 
   def build_api_call_body(system_content, user_content = event['data']['content'])
@@ -117,7 +118,7 @@ class Integrations::Openai::ProcessorService < Integrations::OpenaiBaseService
       model: GPT_MODEL,
       messages: [
         { role: 'system',
-          content: prompts_from_file('summary') },
+          content: prompt_from_file('summary', enterprise: false) },
         { role: 'user', content: conversation_messages }
       ]
     }.to_json
@@ -128,7 +129,7 @@ class Integrations::Openai::ProcessorService < Integrations::OpenaiBaseService
       model: GPT_MODEL,
       messages: [
         { role: 'system',
-          content: prompts_from_file('reply') }
+          content: prompt_from_file('reply', enterprise: false) }
       ].concat(conversation_messages(in_array_format: true))
     }.to_json
   end
