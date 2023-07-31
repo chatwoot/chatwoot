@@ -226,7 +226,10 @@ export default {
       };
     },
     additionalSecondaryMenuItems() {
-      let conversationMenuItems = [this.inboxSection, this.labelSection];
+      let conversationMenuItems = [this.labelSection];
+      if (this.inboxes.length) {
+        conversationMenuItems = [this.inboxSection, ...conversationMenuItems];
+      }
       let contactMenuItems = [this.contactLabelSection];
       if (this.teams.length) {
         conversationMenuItems = [this.teamSection, ...conversationMenuItems];

@@ -47,7 +47,7 @@ export const state = {
 
 export const getters = {
   getInboxes($state) {
-    return $state.records;
+    return $state.records.filter(record => record.is_inbox_member);
   },
   getWhatsAppTemplates: $state => inboxId => {
     const [inbox] = $state.records.filter(
