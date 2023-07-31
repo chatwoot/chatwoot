@@ -98,6 +98,9 @@ export default {
       }
     },
     hideAIAssistanceModal() {
+      this.recordAnalytics('DISMISS_AI_SUGGESTION', {
+        aiOption: this.aiOption,
+      });
       this.showAIAssistanceModal = false;
     },
     openAIAssist() {
