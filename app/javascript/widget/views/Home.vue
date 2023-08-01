@@ -1,9 +1,9 @@
 <template>
   <div
-    class="z-50 rounded-md border-t border-slate-50 w-full"
-    :class="!portal ? 'flex flex-1 flex-col justify-end' : 'pb-2'"
+    class="z-50 rounded-md border-t border-slate-50 w-full flex flex-1 flex-col justify-end"
+    :class="{ 'pb-2': showArticles }"
   >
-    <div v-if="portal" class="px-4 py-2 w-full">
+    <div v-if="showArticles" class="px-4 py-2 w-full">
       <div class="p-4 rounded-md bg-white dark:bg-slate-700 shadow w-full">
         <article-hero
           v-if="
@@ -72,6 +72,12 @@ export default {
     }),
     portal() {
       return window.chatwootWebChannel.portal;
+    },
+    showArticles() {
+      return (
+        this.portal &&
+        (this.articleUiFlags.isFetching || this.popularArticles.length)
+      );
     },
   },
   mounted() {
