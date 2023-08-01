@@ -3,7 +3,7 @@
     class="z-50 rounded-md border-t border-slate-50 w-full flex flex-1 flex-col justify-end"
     :class="{ 'pb-2': showArticles }"
   >
-    <div v-if="showArticles" class="px-4 py-2 w-full">
+    <div v-if="false" class="px-4 py-2 w-full">
       <div class="p-4 rounded-md bg-white dark:bg-slate-700 shadow w-full">
         <article-hero
           v-if="
@@ -25,7 +25,7 @@
         </div>
       </div>
     </div>
-    <div class="px-4 pt-2 w-full">
+    <div class="px-4 pt-2 w-full sticky bottom-4">
       <team-availability
         :available-agents="availableAgents"
         :has-conversation="!!conversationSize"
