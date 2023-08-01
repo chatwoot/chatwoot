@@ -2,7 +2,7 @@
   <div
     class="w-full h-full flex flex-col relative bg-slate-50 dark:bg-slate-800"
     :class="{ 'overflow-auto': isOnHomeView }"
-    :style="portal ? { backgroundColor: backgroundColor } : {}"
+    :style="viewBackgroundStyles"
     @keydown.esc="closeWindow"
   >
     <div
@@ -10,7 +10,7 @@
       :class="{
         expanded: !isHeaderCollapsed,
         collapsed: isHeaderCollapsed,
-        'custom-header-shadow': (isOnHomeView && !portal) || !isOnArticleViewer,
+        'custom-header-shadow': shouldRenderCustomShadow,
       }"
     >
       <transition
@@ -92,6 +92,12 @@ export default {
       }
       return !this.isOnHomeView;
     },
+    viewBackgroundStyles() {
+      if (this.prefersDarkMode || !this.portal) {
+        return {};
+      }
+      return { backgroundColor: this.backgroundColor };
+    },
     backgroundColor() {
       const color = this.widgetColor.replace('#', '');
       const r = parseInt(color.slice(0, 2), 16);
@@ -114,6 +120,13 @@ export default {
     },
     isOnHomeView() {
       return ['home'].includes(this.$route.name);
+    },
+    shouldRenderCustomShadow() {
+      if (this.isOnHomeView) {
+        return !this.portal;
+      }
+
+      return !this.isOnArticleViewer;
     },
   },
   methods: {

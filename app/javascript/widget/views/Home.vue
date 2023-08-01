@@ -3,7 +3,7 @@
     class="z-50 rounded-md border-t border-slate-50 w-full flex flex-1 flex-col justify-end"
     :class="{ 'pb-2': showArticles }"
   >
-    <div v-if="false" class="px-4 py-2 w-full">
+    <div v-if="showArticles" class="px-4 py-2 w-full">
       <div class="p-4 rounded-md bg-white dark:bg-slate-700 shadow w-full">
         <article-hero
           v-if="
@@ -15,17 +15,9 @@
           @view="openArticleInArticleViewer"
           @view-all="viewAllArticles"
         />
-        <div
-          v-if="articleUiFlags.isFetching"
-          class="flex flex-col items-center justify-center py-8"
-        >
-          <div class="inline-block p-4 rounded-lg bg-slate-200">
-            <spinner size="small" />
-          </div>
-        </div>
       </div>
     </div>
-    <div class="px-4 pt-2 w-full sticky bottom-4">
+    <div class="px-4 pt-2 w-full">
       <team-availability
         :available-agents="availableAgents"
         :has-conversation="!!conversationSize"
@@ -38,7 +30,6 @@
 <script>
 import TeamAvailability from 'widget/components/TeamAvailability';
 import ArticleHero from 'widget/components/ArticleHero';
-import Spinner from 'shared/components/Spinner.vue';
 
 import { mapGetters } from 'vuex';
 import routerMixin from 'widget/mixins/routerMixin';
@@ -47,7 +38,6 @@ import configMixin from 'widget/mixins/configMixin';
 export default {
   name: 'Home',
   components: {
-    Spinner,
     ArticleHero,
     TeamAvailability,
   },
@@ -76,7 +66,8 @@ export default {
     showArticles() {
       return (
         this.portal &&
-        (this.articleUiFlags.isFetching || this.popularArticles.length)
+        !this.articleUiFlags.isFetching &&
+        this.popularArticles.length
       );
     },
   },
