@@ -12,6 +12,6 @@ class UpdateDefaultStatusInHooks < ActiveRecord::Migration[7.0]
   private
 
   def update_default_status
-    Integrations::Hook.where(app_id: %w[dialogflow google_translate dyte]).all
+    Integrations::Hook.all.update(status: 'enabled')
   end
 end
