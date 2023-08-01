@@ -65,7 +65,7 @@ export default {
     }),
   },
   mounted() {
-    this.intializeSlackIntegration();
+    this.fetchIntegrations();
   },
   methods: {
     integrationAction() {
@@ -74,13 +74,8 @@ export default {
       }
       return this.integration.action;
     },
-    async intializeSlackIntegration() {
+    async fetchIntegrations() {
       await this.$store.dispatch('integrations/get', this.integrationId);
-      if (this.code) {
-        await this.$store.dispatch('integrations/connectSlack', this.code);
-        // we are clearing code from the path as subsequent request would throw error
-        this.$router.replace(this.$route.path);
-      }
       this.integrationLoaded = true;
     },
   },
