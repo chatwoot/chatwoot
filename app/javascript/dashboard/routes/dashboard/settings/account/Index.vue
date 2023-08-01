@@ -2,7 +2,7 @@
   <div class="flex-grow flex-shrink min-w-0 p-6 overflow-auto">
     <form v-if="!uiFlags.isFetchingItem" @submit.prevent="updateAccount">
       <div
-        class="flex flex-row p-4 border-b border-slate-25 dark:border-slate-700"
+        class="flex flex-row p-4 border-b border-slate-25 dark:border-slate-800"
       >
         <div
           class="flex-grow-0 flex-shrink-0 flex-[25%] min-w-0 py-4 pr-6 pl-0"
