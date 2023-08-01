@@ -15,6 +15,20 @@ RSpec.describe HookJob do
       .on_queue('medium')
   end
 
+  context 'when the hook is disabled' do
+    it 'does not execute the job' do
+      hook = create(:integrations_hook, status: 'disabled', account: account)
+      allow(SendOnSlackJob).to receive(:perform_later)
+      allow(Integrations::Dialogflow::ProcessorService).to receive(:new)
+      allow(Integrations::GoogleTranslate::DetectLanguageService).to receive(:new)
+
+      expect(SendOnSlackJob).not_to receive(:perform_later)
+      expect(Integrations::GoogleTranslate::DetectLanguageService).not_to receive(:new)
+      expect(Integrations::Dialogflow::ProcessorService).not_to receive(:new)
+      described_class.perform_now(hook, event_name, event_data)
+    end
+  end
+
   context 'when handleable events like message.created' do
     let(:process_service) { double }
 
