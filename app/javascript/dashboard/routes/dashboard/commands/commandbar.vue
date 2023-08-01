@@ -60,10 +60,21 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 ninja-keys {
   --ninja-accent-color: var(--w-500);
   --ninja-font-family: 'PlusJakarta';
   z-index: 9999;
+
+  @media (prefers-color-scheme: dark) {
+    --ninja-overflow-background: rgba(26, 29, 30, 0.5);
+    --ninja-modal-background: #151718;
+    --ninja-secondary-background-color: #26292b;
+    --ninja-selected-background: #26292b;
+    --ninja-footer-background: #2b2f31;
+    --ninja-text-color: #f8faf9;
+    --ninja-icon-color: #f8faf9;
+    --ninja-secondary-text-color: #c2c9c6;
+  }
 }
 </style>

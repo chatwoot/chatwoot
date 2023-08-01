@@ -22,7 +22,7 @@
           class="inline-flex items-center justify-center w-4 rounded-sm bg-slate-100 dark:bg-slate-700 p-0.5 mr-1.5 rtl:mr-0 rtl:ml-1.5"
         >
           <fluent-icon
-            class="text-xxs text-slate-600 dark:text-slate-200"
+            class="text-xxs text-slate-700 dark:text-slate-200"
             :class="{
               'text-woot-500 dark:text-woot-500': isActive,
             }"
@@ -41,7 +41,7 @@
         >
           <span
             :title="menuTitle"
-            class="text-sm text-slate-600 dark:text-slate-100"
+            class="text-sm text-slate-700 dark:text-slate-100"
             :class="{
               'text-woot-500 dark:text-woot-500': isActive,
               'text-ellipsis overflow-hidden whitespace-nowrap max-w-full': shouldTruncate,
@@ -54,8 +54,8 @@
             class="bg-slate-50 dark:bg-slate-700 rounded text-xxs font-medium mx-1 py-0 px-1"
             :class="
               isCountZero
-                ? `text-slate-300 dark:text-slate-600`
-                : `text-slate-600 dark:text-slate-50`
+                ? `text-slate-300 dark:text-slate-700`
+                : `text-slate-700 dark:text-slate-50`
             "
           >
             {{ childItemCount }}
