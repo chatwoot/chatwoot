@@ -456,6 +456,10 @@ export default {
   }
   > .ProseMirror {
     @apply p-0 break-words text-slate-800 dark:text-slate-100;
+
+    ol li {
+      @apply list-item list-decimal;
+    }
   }
 }
 
