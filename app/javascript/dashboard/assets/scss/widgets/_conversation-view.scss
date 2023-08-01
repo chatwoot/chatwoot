@@ -129,7 +129,7 @@
       @apply ml-auto break-words rounded-l-lg rounded-r;
 
       &.is-private {
-        @apply text-black-900 dark:text-black-900 relative border border-solid bg-[#fff3d5] border-[#ffd97a] dark:bg-[#fff3d5] dark:border-[#ffd97a];
+        @apply text-black-900 dark:text-black-900 relative border border-solid bg-yellow-100 border-yellow-200 dark:bg-yellow-300/70 dark:border-0;
       }
 
       &.is-image {
