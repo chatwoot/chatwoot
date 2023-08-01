@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="showShowCurrentAccountContext"
-    class="text-slate-700 dark:text-slate-200 rounded-md text-xs py-2 px-2 mt-2 relative border border-slate-50 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer"
+    class="text-slate-700 dark:text-slate-200 rounded-md text-xs py-2 px-2 mt-2 relative border border-slate-50 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer"
     @mouseover="setShowSwitch"
     @mouseleave="resetShowSwitch"
   >
@@ -14,7 +14,7 @@
     <transition name="fade">
       <div
         v-if="showSwitchButton"
-        class="ltr:overlay-shadow ltr:dark:overlay-shadow-dark rtl:rtl-overlay-shadow rtl:dark:rtl-overlay-shadow-dark flex items-center h-full justify-end absolute top-0 right-0 w-full"
+        class="ltr:overlay-shadow ltr:dark:overlay-shadow-dark rtl:rtl-overlay-shadow rtl:dark:rtl-overlay-shadow-dark flex items-center h-full rounded-md justify-end absolute top-0 right-0 w-full"
       >
         <div class="my-0 mx-2">
           <woot-button
@@ -71,7 +71,7 @@ export default {
     background-image: linear-gradient(
       to right,
       rgba(0, 0, 0, 0) 0%,
-      rgb(55, 84, 109) 50%
+      rgb(21, 23, 24) 50%
     );
   }
 
@@ -87,7 +87,7 @@ export default {
     background-image: linear-gradient(
       to left,
       rgba(0, 0, 0, 0) 0%,
-      rgb(55, 84, 109) 50%
+      rgb(21, 23, 24) 50%
     );
   }
 }

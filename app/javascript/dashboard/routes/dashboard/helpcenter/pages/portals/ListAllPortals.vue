@@ -1,5 +1,5 @@
 <template>
-  <div class="container py-2 px-4 w-full">
+  <div class="py-2 px-4 w-full max-w-full">
     <div class="flex justify-between items-center mt-0 mb-2 mx-0 h-12">
       <div class="flex items-center">
         <woot-sidemenu-icon />
