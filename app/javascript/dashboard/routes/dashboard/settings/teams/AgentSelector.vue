@@ -42,7 +42,7 @@
                 :username="agent.name"
                 :status="agent.availability_status"
               />
-              <h4 class="sub-block-title user-name">
+              <h4 class="sub-block-title user-name dark:text-slate-100">
                 {{ agent.name }}
               </h4>
             </div>
