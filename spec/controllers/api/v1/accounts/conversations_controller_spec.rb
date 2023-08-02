@@ -202,6 +202,18 @@ RSpec.describe 'Conversations API', type: :request do
         expect(response).to have_http_status(:success)
         expect(JSON.parse(response.body, symbolize_names: true)[:id]).to eq(conversation.display_id)
       end
+
+      it 'shows the conversation if you are an agent with access to conversation team' do
+        team = create(:team, account: account)
+        create(:team_member, user: agent, team: team)
+        conversation.update!(team: team)
+        get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(JSON.parse(response.body, symbolize_names: true)[:id]).to eq(conversation.display_id)
+      end
     end
   end
 
