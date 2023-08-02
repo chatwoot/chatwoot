@@ -5,7 +5,7 @@
     :no-auto-load-md-icons="true"
     hideBreadcrumbs
     :placeholder="placeholder"
-    @selected="setCommandbarData"
+    @selected="onSelected"
   />
 </template>
 
@@ -17,6 +17,7 @@ import agentMixin from 'dashboard/mixins/agentMixin';
 import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
 import conversationTeamMixin from 'dashboard/mixins/conversation/teamMixin';
 import adminMixin from 'dashboard/mixins/isAdmin';
+import { GENERAL_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
 export default {
   mixins: [
@@ -55,6 +56,16 @@ export default {
   methods: {
     setCommandbarData() {
       this.$refs.ninjakeys.data = this.hotKeys;
+    },
+    onSelected(item) {
+      const {
+        detail: { action: { title = null, section = null } = {} } = {},
+      } = item;
+      this.$track(GENERAL_EVENTS.COMMAND_BAR, {
+        section,
+        action: title,
+      });
+      this.setCommandbarData();
     },
   },
 };
