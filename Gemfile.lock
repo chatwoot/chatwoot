@@ -549,12 +549,12 @@ GEM
       activesupport (>= 3.0.0)
     raabro (1.4.0)
     racc (1.7.1)
-    rack (2.2.7)
+    rack (2.2.8)
     rack-attack (6.7.0)
       rack (>= 1.0, < 4)
     rack-cors (2.0.1)
       rack (>= 2.0.0)
-    rack-mini-profiler (3.1.0)
+    rack-mini-profiler (3.1.1)
       rack (>= 1.2.0)
     rack-protection (3.0.6)
       rack
@@ -905,7 +905,7 @@ DEPENDENCIES
   pundit
   rack-attack (>= 6.7.0)
   rack-cors
-  rack-mini-profiler
+  rack-mini-profiler (>= 3.1.1)
   rack-timeout
   rails (~> 7.0.5.1)
   redis
