@@ -51,6 +51,16 @@ describe ConversationFinder do
         expect(result[:conversations].map(&:id)).to include(restricted_conversation.id)
       end
 
+      it 'returns conversation if agent is a member of assigned team' do
+        params = { inbox_id: restricted_inbox.id }
+        restricted_conversation.update(team: create(:team, account: account))
+        create(:team_member, user: user_1, team: restricted_conversation.team)
+
+        result = described_class.new(user_1, params).perform
+
+        expect(result[:conversations].map(&:id)).to include(restricted_conversation.id)
+      end
+
       it 'does not return conversations from inboxes where agent is not a member' do
         params = { inbox_id: restricted_inbox.id }
         result = described_class.new(user_1, params).perform
