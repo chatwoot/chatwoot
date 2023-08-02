@@ -332,11 +332,11 @@ export default {
     @apply items-center;
 
     .time {
-      @apply text-slate-400 dark:text-slate-600;
+      @apply text-slate-400 dark:text-slate-400;
     }
 
     .icon {
-      @apply text-slate-400 dark:text-slate-600;
+      @apply text-slate-400 dark:text-slate-400;
     }
   }
 

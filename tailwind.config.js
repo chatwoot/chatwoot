@@ -70,9 +70,9 @@ module.exports = {
         400: yellowDark.yellow9,
         500: yellowDark.yellow11,
         600: yellow.yellow8,
-        700: yellow.yellow11,
-        800: yellowDark.yellow8,
-        900: yellowDark.yellow7,
+        700: yellowDark.yellow7,
+        800: yellowDark.yellow2,
+        900: yellowDark.yellow1,
       },
       slate: {
         25: slate.slate2,
