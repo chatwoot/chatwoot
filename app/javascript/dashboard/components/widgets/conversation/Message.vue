@@ -555,7 +555,7 @@ export default {
       @apply text-woot-700 dark:text-woot-700;
     }
     &.is-private.is-text > .message-text__wrap .prosemirror-mention-node {
-      @apply font-bold bg-none rounded-sm p-0 bg-yellow-50 dark:bg-yellow-700 text-slate-700 dark:text-slate-25 underline;
+      @apply font-bold bg-none rounded-sm p-0 bg-yellow-100 dark:bg-yellow-700 text-slate-700 dark:text-slate-25 underline;
     }
 
     &.is-from-bot {

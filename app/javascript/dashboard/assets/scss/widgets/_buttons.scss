@@ -118,7 +118,7 @@
     }
 
     &.warning {
-      @apply text-yellow-700 dark:text-yellow-500;
+      @apply text-yellow-700 dark:text-yellow-600;
     }
 
     &:hover {
@@ -137,7 +137,7 @@
       }
 
       &.warning {
-        @apply hover:bg-yellow-50 dark:hover:bg-yellow-700 hover:text-yellow-700 dark:hover:text-yellow-100;
+        @apply hover:bg-yellow-100 dark:hover:bg-yellow-800 hover:text-yellow-700 dark:hover:text-yellow-600;
       }
     }
 

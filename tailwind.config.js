@@ -64,7 +64,7 @@ module.exports = {
       },
       yellow: {
         50: yellow.yellow2,
-        100: yellow.yellow4,
+        100: yellow.yellow3,
         200: yellow.yellow5,
         300: yellowDark.yellow10,
         400: yellowDark.yellow9,

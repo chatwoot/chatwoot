@@ -47,13 +47,13 @@
   }
 
   &.is-private {
-    @apply bg-yellow-50 dark:bg-yellow-800;
+    @apply bg-yellow-100 dark:bg-yellow-800;
 
     .reply-box__top {
-      @apply bg-yellow-50 dark:bg-yellow-800;
+      @apply bg-yellow-100 dark:bg-yellow-800;
 
       > input {
-        @apply bg-yellow-50 dark:bg-yellow-800;
+        @apply bg-yellow-100 dark:bg-yellow-800;
       }
     }
   }
