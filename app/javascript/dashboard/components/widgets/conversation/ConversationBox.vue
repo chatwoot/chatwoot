@@ -113,10 +113,11 @@ export default {
     },
   },
   watch: {
-    'currentChat.inbox_id'(inboxId) {
-      if (inboxId) {
-        this.$store.dispatch('inboxAssignableAgents/fetch', [inboxId]);
-      }
+    'currentChat.inbox_id'() {
+      this.fetchAssignableAgents();
+    },
+    'currentChat.team_id'() {
+      this.fetchAssignableAgents();
     },
     'currentChat.id'() {
       this.fetchLabels();
@@ -128,6 +129,16 @@ export default {
     this.$store.dispatch('dashboardApps/get');
   },
   methods: {
+    fetchAssignableAgents() {
+      if (!this.currentChat.id) {
+        return;
+      }
+      const { inbox_id: inboxId } = this.currentChat;
+      this.$store.dispatch('inboxAssignableAgents/fetch', {
+        inboxIds: [inboxId],
+        conversationIds: [this.currentChat.id],
+      });
+    },
     fetchLabels() {
       if (!this.currentChat.id) {
         return;

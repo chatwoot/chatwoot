@@ -110,9 +110,9 @@ export default {
       type: Array,
       default: () => [],
     },
-    conversationCount: {
+    selectedConversations: {
       type: Number,
-      default: 0,
+      default: () => [],
     },
   },
   data() {
@@ -146,10 +146,14 @@ export default {
         ...this.assignableAgents,
       ];
     },
+    conversationCount() {
+      return this.conversations.length;
+    },
     assignableAgents() {
-      return this.$store.getters['inboxAssignableAgents/getAssignableAgents'](
-        this.selectedInboxes.join(',')
-      );
+      return this.$store.getters['inboxAssignableAgents/getAssignableAgents']({
+        conversationIds: [this.selectedConversations.join(',')],
+        inboxIds: [this.selectedInboxes.join(',')],
+      });
     },
     conversationLabel() {
       return this.conversationCount > 1 ? 'conversations' : 'conversation';

@@ -14,6 +14,12 @@ export const types = {
   SET_INBOX_ASSIGNABLE_AGENTS: 'SET_INBOX_ASSIGNABLE_AGENTS',
 };
 
+const getUniqueRecordId = ({ inboxIds = [], conversationIds = [] }) => {
+  const sortedInboxIds = inboxIds.sort((i1, i2) => i1 - i2);
+  const sortedConversationIds = conversationIds.sort((i1, i2) => i1 - i2);
+  return sortedInboxIds.join('') + sortedConversationIds.join('');
+};
+
 export const getters = {
   getAssignableAgents: $state => inboxId => {
     const allAgents = $state.records[inboxId] || [];
@@ -26,14 +32,14 @@ export const getters = {
 };
 
 export const actions = {
-  async fetch({ commit }, inboxIds) {
+  async fetch({ commit }, { conversationIds = [], inboxIds = [] }) {
     commit(types.SET_INBOX_ASSIGNABLE_AGENTS_UI_FLAG, { isFetching: true });
     try {
       const {
         data: { payload },
-      } = await AssignableAgentsAPI.get(inboxIds);
+      } = await AssignableAgentsAPI.get({ conversationIds, inboxIds });
       commit(types.SET_INBOX_ASSIGNABLE_AGENTS, {
-        inboxId: inboxIds.join(','),
+        inboxId: getUniqueRecordId({ conversationIds, inboxIds }),
         members: payload,
       });
     } catch (error) {

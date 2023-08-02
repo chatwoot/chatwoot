@@ -98,11 +98,15 @@ export default {
     },
     inboxId: {
       type: Number,
-      default: null,
+      required: true,
     },
     priority: {
       type: String,
       default: null,
+    },
+    conversationId: {
+      type: [Number, String],
+      required: true,
     },
   },
   data() {
@@ -187,7 +191,10 @@ export default {
     filteredAgentOnAvailability() {
       const agents = this.$store.getters[
         'inboxAssignableAgents/getAssignableAgents'
-      ](this.inboxId);
+      ]({
+        conversationIds: [this.conversationId],
+        inboxIds: [this.inboxId],
+      });
       const agentsByUpdatedPresence = this.getAgentsByUpdatedPresence(agents);
       const filteredAgents = this.sortedAgentsByAvailability(
         agentsByUpdatedPresence
@@ -209,7 +216,10 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('inboxAssignableAgents/fetch', [this.inboxId]);
+    this.$store.dispatch('inboxAssignableAgents/fetch', {
+      conversationIds: [this.conversationId],
+      inboxIds: [this.inboxId],
+    });
   },
   methods: {
     toggleStatus(status, snoozedUntil) {

@@ -133,6 +133,7 @@
         :inbox-id="inbox.id"
         :priority="chat.priority"
         :has-unread-messages="hasUnread"
+        :conversation-id="chat.id"
         @update-conversation="onUpdateConversation"
         @assign-agent="onAssignAgent"
         @assign-label="onAssignLabel"
