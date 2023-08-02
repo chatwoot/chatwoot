@@ -28,7 +28,12 @@
     }
 
     &::before {
-      @apply bg-gradient-to-t from-transparent via-transparent to-slate-800 bg-repeat bg-clip-border bottom-0 h-[20%] content-[''] left-0 absolute w-full opacity-80;
+      background-image: linear-gradient(
+        -180deg,
+        transparent 3%,
+        rgb(76 81 85) 130%
+      );
+      @apply bottom-0 h-[20%] content-[''] left-0 absolute w-full opacity-80;
     }
   }
 }
@@ -129,7 +134,7 @@
       @apply ml-auto break-words rounded-l-lg rounded-r;
 
       &.is-private {
-        @apply text-black-900 dark:text-black-900 relative border border-solid bg-yellow-100 border-yellow-200 dark:bg-yellow-300/70 dark:border-0;
+        @apply text-black-900 dark:text-black-900 relative border border-solid bg-yellow-50 dark:bg-yellow-200 border-yellow-100 dark:border-yellow-300/50;
       }
 
       &.is-image {
