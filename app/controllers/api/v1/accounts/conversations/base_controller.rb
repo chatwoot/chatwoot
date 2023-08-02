@@ -3,6 +3,7 @@ class Api::V1::Accounts::Conversations::BaseController < Api::V1::Accounts::Base
 
   private
 
+  # Spec verifying this is written in spec/controllers/api/v1/accounts/conversations/base_controller_spec.rb
   def conversation
     @conversation ||= find_conversation
     authorize @conversation.inbox, :show? unless member_of_conversation_team?
