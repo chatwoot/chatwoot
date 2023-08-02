@@ -12,6 +12,9 @@ import message from 'widget/store/modules/message';
 import campaign from 'widget/store/modules/campaign';
 import article from 'widget/store/modules/articles';
 
+import conversationV3 from 'widget/store/modules/conversationV3';
+import messageV3 from 'widget/store/modules/messageV3';
+
 Vue.use(Vuex);
 export default new Vuex.Store({
   modules: {
@@ -26,5 +29,7 @@ export default new Vuex.Store({
     message,
     campaign,
     article,
+    conversationV3,
+    messageV3,
   },
 });
