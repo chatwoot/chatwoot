@@ -59,13 +59,10 @@ export default {
     },
     onSelected(item) {
       const {
-        detail: {
-          action: { title, section, id },
-        },
+        detail: { action: { title = null, section = null } = {} } = {},
       } = item;
       this.$track(GENERAL_EVENTS.COMMAND_BAR, {
         section,
-        id,
         action: title,
       });
       this.setCommandbarData();
