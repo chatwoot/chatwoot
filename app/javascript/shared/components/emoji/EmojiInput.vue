@@ -173,7 +173,7 @@ export default {
   }
 
   .box-shadow-blue-dark {
-    box-shadow: 0 0 0 1px #1f93ff, 0 0 2px 3px #37546d;
+    box-shadow: 0 0 0 1px #1f93ff, 0 0 2px 3px #4c5155;
   }
 }
 </style>
@@ -185,7 +185,7 @@ export default {
     $space-slab: 12px;
 
     @media (prefers-color-scheme: dark) {
-      $color-bg-dark: #293f51;
+      $color-bg-dark: #26292b;
       @include arrow(bottom, $color-bg-dark, $space-slab);
     }
     @media (prefers-color-scheme: light) {
