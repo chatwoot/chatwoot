@@ -20,6 +20,11 @@ describe('agentMixin', () => {
           },
         ],
       }),
+      getSelectedChat() {
+        return {
+          meta: { assignee: { name: 'John' } },
+        };
+      },
       getCurrentAccountId: () => 1,
     };
     store = new Vuex.Store({ getters });
@@ -31,10 +36,7 @@ describe('agentMixin', () => {
       title: 'TestComponent',
       mixins: [agentMixin],
       data() {
-        return {
-          inboxId: 1,
-          currentChat: { meta: { assignee: { name: 'John' } } },
-        };
+        return { inboxId: 1 };
       },
       computed: {
         assignableAgents() {
@@ -60,10 +62,7 @@ describe('agentMixin', () => {
       title: 'TestComponent',
       mixins: [agentMixin],
       data() {
-        return {
-          inboxId: 1,
-          currentChat: { meta: { assignee: { name: 'John' } } },
-        };
+        return { inboxId: 1 };
       },
       computed: {
         assignableAgents() {
@@ -83,10 +82,7 @@ describe('agentMixin', () => {
       title: 'TestComponent',
       mixins: [agentMixin],
       data() {
-        return {
-          inboxId: 1,
-          currentChat: { meta: { assignee: { name: 'John' } } },
-        };
+        return { inboxId: 1 };
       },
       computed: {
         assignableAgents() {
@@ -104,10 +100,7 @@ describe('agentMixin', () => {
       title: 'TestComponent',
       mixins: [agentMixin],
       data() {
-        return {
-          inboxId: 1,
-          currentChat: { meta: { assignee: { name: 'John' } } },
-        };
+        return { inboxId: 1 };
       },
       computed: {
         currentUser() {

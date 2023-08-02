@@ -7,6 +7,7 @@ export default [
     avatar_url: 'random_image.png',
     page_id: '12345',
     widget_color: null,
+    is_inbox_member: true,
     website_token: null,
     enable_auto_assignment: true,
   },
