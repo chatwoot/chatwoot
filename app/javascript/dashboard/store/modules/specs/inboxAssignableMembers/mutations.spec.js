@@ -7,10 +7,10 @@ describe('#mutations', () => {
       const state = { records: {} };
       mutations[types.SET_INBOX_ASSIGNABLE_AGENTS](state, {
         members: [...agentsData],
-        inboxId: 1,
+        uniqueRecordId: 'i-1-c-1',
       });
 
-      expect(state.records).toEqual({ 1: agentsData });
+      expect(state.records).toEqual({ 'i-1-c-1': agentsData });
     });
   });
 });

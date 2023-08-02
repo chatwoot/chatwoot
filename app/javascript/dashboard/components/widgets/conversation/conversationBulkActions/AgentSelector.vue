@@ -160,7 +160,10 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('inboxAssignableAgents/fetch', this.selectedInboxes);
+    this.$store.dispatch('inboxAssignableAgents/fetch', {
+      conversationIds: [this.selectedConversations.join(',')],
+      inboxIds: [this.selectedInboxes.join(',')],
+    });
   },
   methods: {
     submit() {

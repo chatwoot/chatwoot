@@ -167,7 +167,6 @@ export default {
       set(team) {
         const conversationId = this.currentChat.id;
         const teamId = team ? team.id : 0;
-        this.$store.dispatch('setCurrentChatTeam', { team, conversationId });
         this.$store
           .dispatch('assignTeam', { conversationId, teamId })
           .then(() => {

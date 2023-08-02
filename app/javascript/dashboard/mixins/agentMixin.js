@@ -4,12 +4,18 @@ export default {
   computed: {
     ...mapGetters({
       currentUser: 'getCurrentUser',
+      currentChat: 'getSelectedChat',
       currentAccountId: 'getCurrentAccountId',
     }),
     assignableAgents() {
-      return this.$store.getters['inboxAssignableAgents/getAssignableAgents'](
-        this.inboxId
-      );
+      if (!this.currentChat.id) {
+        return [];
+      }
+      const { id, inbox_id: inboxId } = this.currentChat;
+      return this.$store.getters['inboxAssignableAgents/getAssignableAgents']({
+        inboxIds: [inboxId],
+        conversationIds: [id],
+      });
     },
     isAgentSelected() {
       return this.currentChat?.meta?.assignee;

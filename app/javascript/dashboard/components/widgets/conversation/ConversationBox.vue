@@ -113,11 +113,15 @@ export default {
     },
   },
   watch: {
-    'currentChat.inbox_id'() {
-      this.fetchAssignableAgents();
-    },
-    'currentChat.team_id'() {
-      this.fetchAssignableAgents();
+    currentChat(newChat, oldChat) {
+      if (!newChat.id) {
+        return;
+      }
+      const { meta: newMeta = {} } = newChat;
+      const { meta: oldMeta = {} } = oldChat;
+      if (newMeta.team?.id !== oldMeta.team?.id || newChat.id !== oldChat.id) {
+        this.fetchAssignableAgents();
+      }
     },
     'currentChat.id'() {
       this.fetchLabels();
@@ -130,9 +134,6 @@ export default {
   },
   methods: {
     fetchAssignableAgents() {
-      if (!this.currentChat.id) {
-        return;
-      }
       const { inbox_id: inboxId } = this.currentChat;
       this.$store.dispatch('inboxAssignableAgents/fetch', {
         inboxIds: [inboxId],
