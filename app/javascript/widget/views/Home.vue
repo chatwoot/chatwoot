@@ -17,6 +17,11 @@
         />
       </div>
     </div>
+    <div v-if="articleUiFlags.isFetching" class="px-4 py-2 w-full">
+      <div class="p-4 rounded-md bg-white dark:bg-slate-700 shadow w-full">
+        <article-card-skeleton-loader />
+      </div>
+    </div>
     <div class="px-4 pt-2 w-full">
       <team-availability
         :available-agents="availableAgents"
@@ -30,6 +35,7 @@
 <script>
 import TeamAvailability from 'widget/components/TeamAvailability';
 import ArticleHero from 'widget/components/ArticleHero';
+import ArticleCardSkeletonLoader from 'widget/components/ArticleCardSkeletonLoader';
 
 import { mapGetters } from 'vuex';
 import routerMixin from 'widget/mixins/routerMixin';
@@ -40,6 +46,7 @@ export default {
   components: {
     ArticleHero,
     TeamAvailability,
+    ArticleCardSkeletonLoader,
   },
   mixins: [configMixin, routerMixin],
   props: {
