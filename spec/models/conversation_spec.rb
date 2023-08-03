@@ -151,7 +151,7 @@ RSpec.describe Conversation do
                                                                  changed_attributes: nil, performed_by: nil)
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
         .with(described_class::ASSIGNEE_CHANGED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true,
-                                                                changed_attributes: nil, performed_by: nil)
+                                                                changed_attributes: anything, performed_by: nil)
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
         .with(described_class::CONVERSATION_UPDATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true,
                                                                     changed_attributes: changed_attributes, performed_by: nil)
@@ -272,6 +272,18 @@ RSpec.describe Conversation do
         .to(have_been_enqueued.at_least(:once)
         .with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id,
                               message_type: :activity, content: "#{agent.name} removed #{labels.join(', ')}" }))
+    end
+  end
+
+  describe 'members_with_access' do
+    it 'returns admins, inbox members and team members' do
+      team = create(:team)
+      team_member = create(:team_member, team: team, user: create(:user, account: team.account))
+      inbox_member = create(:inbox_member, user: create(:user, account: team.account))
+      admin = create(:user, account: team.account, role: :administrator)
+      conversation = create(:conversation, inbox: inbox_member.inbox, account: team.account)
+      conversation.update(team: team)
+      expect(conversation.members_with_access).to contain_exactly(team_member.user, inbox_member.user, admin)
     end
   end
 

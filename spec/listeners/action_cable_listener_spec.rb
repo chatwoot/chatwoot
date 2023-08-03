@@ -141,7 +141,22 @@ describe ActionCableListener do
       expect(conversation.inbox.reload.inbox_members.count).to eq(1)
 
       expect(ActionCableBroadcastJob).to receive(:perform_later).with(
-        [agent.pubsub_token, admin.pubsub_token, conversation.contact_inbox.pubsub_token],
+        a_collection_containing_exactly(agent.pubsub_token, admin.pubsub_token, conversation.contact_inbox.pubsub_token),
+        'conversation.updated',
+        conversation.push_event_data.merge(account_id: account.id)
+      )
+      listener.conversation_updated(event)
+    end
+
+    it 'sends update to all conversation team members' do
+      team = create(:team, account: account)
+      team_member = create(:team_member, team: team, user: create(:user, account: account))
+      conversation.update(team: team)
+      conversation.reload
+
+      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+        a_collection_containing_exactly(agent.pubsub_token, admin.pubsub_token, conversation.contact_inbox.pubsub_token,
+                                        team_member.user.pubsub_token),
         'conversation.updated',
         conversation.push_event_data.merge(account_id: account.id)
       )
@@ -152,11 +167,32 @@ describe ActionCableListener do
       expect(conversation.reload.push_event_data[:labels]).to eq(conversation.labels.pluck(:name))
 
       expect(ActionCableBroadcastJob).to receive(:perform_later).with(
-        [agent.pubsub_token, admin.pubsub_token, conversation.contact_inbox.pubsub_token],
+        a_collection_containing_exactly(agent.pubsub_token, admin.pubsub_token, conversation.contact_inbox.pubsub_token),
         'conversation.updated',
         conversation.push_event_data.merge(account_id: account.id)
       )
       listener.conversation_updated(event)
+    end
+  end
+
+  describe '#team_changed' do
+    let(:event_name) { :'team.changed' }
+    let(:previous_team) { create(:team, account: conversation.account) }
+    let(:previous_team_member) { create(:team_member, team: previous_team, user: create(:user, account: account)) }
+    let!(:event) do
+      Events::Base.new(event_name, Time.zone.now, conversation: conversation, user: agent,
+                                                  changed_attributes: { 'team_id' => [previous_team.id, nil] })
+    end
+
+    it 'sends update to the conversations previous team members' do
+      expect(conversation.inbox.reload.inbox_members.count).to eq(1)
+
+      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+        a_collection_containing_exactly(agent.pubsub_token, admin.pubsub_token, previous_team_member.user.pubsub_token),
+        'team.changed',
+        conversation.push_event_data.merge(account_id: account.id)
+      )
+      listener.team_changed(event)
     end
   end
 end

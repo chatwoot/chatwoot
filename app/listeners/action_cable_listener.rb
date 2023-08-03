@@ -109,7 +109,9 @@ class ActionCableListener < BaseListener
 
   def team_changed(event)
     conversation, account = extract_conversation_and_account(event)
-    tokens = user_tokens(account, conversation.members_with_access)
+    previous_team_id = event.data.dig(:changed_attributes, 'team_id')&.first
+    previous_team = account.teams.find_by(id: previous_team_id) if previous_team_id.present?
+    tokens = user_tokens(account, conversation.members_with_access + previous_team&.members.to_a)
 
     broadcast(account, tokens, TEAM_CHANGED, conversation.push_event_data)
   end
