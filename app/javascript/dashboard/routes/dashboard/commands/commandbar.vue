@@ -13,6 +13,7 @@
 import 'ninja-keys';
 import conversationHotKeysMixin from './conversationHotKeys';
 import goToCommandHotKeys from './goToCommandHotKeys';
+import appearanceHotKeys from './appearanceHotKeys';
 import agentMixin from 'dashboard/mixins/agentMixin';
 import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
 import conversationTeamMixin from 'dashboard/mixins/conversation/teamMixin';
@@ -26,6 +27,7 @@ export default {
     conversationHotKeysMixin,
     conversationLabelMixin,
     conversationTeamMixin,
+    appearanceHotKeys,
     goToCommandHotKeys,
   ],
 
@@ -42,7 +44,11 @@ export default {
       return this.$route.name;
     },
     hotKeys() {
-      return [...this.conversationHotKeys, ...this.goToCommandHotKeys];
+      return [
+        ...this.conversationHotKeys,
+        ...this.goToCommandHotKeys,
+        ...this.goToAppearanceHotKeys,
+      ];
     },
   },
   watch: {
