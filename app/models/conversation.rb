@@ -148,6 +148,10 @@ class Conversation < ApplicationRecord
     update!(assignee: agent)
   end
 
+  def members_with_access
+    (account.administrators + inbox.members + team&.members.to_a).uniq.compact
+  end
+
   def toggle_status
     # FIXME: implement state machine with aasm
     self.status = open? ? :resolved : :open
