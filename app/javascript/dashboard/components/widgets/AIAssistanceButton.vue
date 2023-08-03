@@ -63,8 +63,7 @@ export default {
       currentChat: 'getSelectedChat',
     }),
     isAICTAModalDismissed() {
-      // return this.uiSettings.is_open_ai_cta_modal_dismissed;
-      return false;
+      return this.uiSettings.is_open_ai_cta_modal_dismissed;
     },
     // Display a AI CTA button for admins if the AI integration has not been added yet and the AI assistance modal has not been dismissed.
     shouldShowAIAssistCTAButtonForAdmin() {
