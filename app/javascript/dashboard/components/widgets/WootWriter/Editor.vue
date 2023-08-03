@@ -456,6 +456,31 @@ export default {
   }
   > .ProseMirror {
     @apply p-0 break-words text-slate-800 dark:text-slate-100;
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      @apply text-slate-800 dark:text-slate-100;
+    }
+
+    p {
+      @apply text-slate-800 dark:text-slate-100;
+    }
+
+    blockquote {
+      @apply border-slate-400 dark:border-slate-500;
+
+      p {
+        @apply text-slate-600 dark:text-slate-400;
+      }
+    }
+
+    ol li {
+      @apply list-item list-decimal;
+    }
   }
 }
 

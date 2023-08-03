@@ -93,3 +93,7 @@ export const OPEN_AI_EVENTS = Object.freeze({
     'OpenAI: Added AI integration via CTA button',
   DISMISS_AI_SUGGESTION: 'OpenAI: Dismiss AI suggestions',
 });
+
+export const GENERAL_EVENTS = Object.freeze({
+  COMMAND_BAR: 'Used commandbar',
+});

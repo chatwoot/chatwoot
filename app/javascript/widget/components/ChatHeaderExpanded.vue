@@ -1,7 +1,7 @@
 <template>
   <header
     class="header-expanded py-6 px-5 relative box-border w-full"
-    :class="$dm('bg-white', 'dark:bg-slate-900')"
+    :class="showBg ? 'bg-transparent' : 'bg-white dark:bg-slate-900'"
   >
     <div
       class="flex items-start"
@@ -13,23 +13,25 @@
         :src="avatarUrl"
         alt="Avatar"
       />
-      <header-actions :show-popout-button="showPopoutButton" />
+      <header-actions
+        :show-popout-button="showPopoutButton"
+        :show-end-conversation-button="false"
+      />
     </div>
     <h2
       v-dompurify-html="introHeading"
-      class="mt-5 text-3xl mb-3 leading-8 font-normal"
+      class="mt-4 text-2xl mb-2 font-normal"
       :class="$dm('text-slate-900', 'dark:text-slate-50')"
     />
     <p
       v-dompurify-html="introBody"
-      class="text-lg leading-normal"
+      class="text-base leading-normal"
       :class="$dm('text-slate-700', 'dark:text-slate-200')"
     />
   </header>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import HeaderActions from './HeaderActions';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 
@@ -56,11 +58,10 @@ export default {
       type: Boolean,
       default: false,
     },
-  },
-  computed: {
-    ...mapGetters({
-      widgetColor: 'appConfig/getWidgetColor',
-    }),
+    showBg: {
+      type: Boolean,
+      default: true,
+    },
   },
 };
 </script>
