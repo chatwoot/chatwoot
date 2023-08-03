@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1 overflow-auto p-4">
+  <div class="flex-1 overflow-auto">
     <campaigns-table
       :campaigns="campaigns"
       :show-empty-result="showEmptyResult"
@@ -65,17 +65,16 @@ export default {
     },
   },
   methods: {
-    openEditPopup(response) {
-      const { row: campaign } = response;
+    openEditPopup(campaign) {
       this.selectedCampaign = campaign;
       this.showEditPopup = true;
     },
     hideEditPopup() {
       this.showEditPopup = false;
     },
-    openDeletePopup(response) {
+    openDeletePopup(campaign) {
       this.showDeleteConfirmationPopup = true;
-      this.selectedCampaign = response;
+      this.selectedCampaign = campaign;
     },
     closeDeletePopup() {
       this.showDeleteConfirmationPopup = false;
