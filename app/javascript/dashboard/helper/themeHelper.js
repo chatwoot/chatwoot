@@ -3,7 +3,7 @@ import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 
 export const setColorTheme = isOSOnDarkMode => {
   const selectedColorScheme =
-    LocalStorage.get(LOCAL_STORAGE_KEYS.COLOR_SCHEME) || 'light';
+    LocalStorage.get(LOCAL_STORAGE_KEYS.COLOR_SCHEME) || 'auto';
   if (
     (selectedColorScheme === 'auto' && isOSOnDarkMode) ||
     selectedColorScheme === 'dark'
