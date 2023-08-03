@@ -97,7 +97,6 @@
         <woot-button
           v-tooltip="$t('CONTACT_PANEL.NEW_MESSAGE')"
           title="$t('CONTACT_PANEL.NEW_MESSAGE')"
-          class="mr-2 rtl:ml-2 rtl:mr-0"
           icon="chat"
           size="small"
           @click="toggleConversationModal"
@@ -105,7 +104,6 @@
         <woot-button
           v-tooltip="$t('EDIT_CONTACT.BUTTON_LABEL')"
           title="$t('EDIT_CONTACT.BUTTON_LABEL')"
-          class="mr-2 rtl:ml-2 rtl:mr-0"
           icon="edit"
           variant="smooth"
           size="small"
@@ -114,7 +112,6 @@
         <woot-button
           v-tooltip="$t('CONTACT_PANEL.MERGE_CONTACT')"
           title="$t('CONTACT_PANEL.MERGE_CONTACT')"
-          class="mr-2 rtl:ml-2 rtl:mr-0"
           icon="merge"
           variant="smooth"
           size="small"
@@ -126,7 +123,6 @@
           v-if="isAdmin"
           v-tooltip="$t('DELETE_CONTACT.BUTTON_LABEL')"
           title="$t('DELETE_CONTACT.BUTTON_LABEL')"
-          class="mr-2 rtl:ml-2 rtl:mr-0"
           icon="delete"
           variant="smooth"
           size="small"
