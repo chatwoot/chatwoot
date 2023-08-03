@@ -1,6 +1,6 @@
 <template>
   <div v-if="!isFetchingAppIntegrations">
-    <div v-if="isAIIntegrationEnabled" class="position-relative">
+    <div v-if="isAIIntegrationEnabled" class="relative">
       <AIAssistanceCTAButton
         v-if="shouldShowAIAssistCTAButton"
         @click="openAIAssist"
@@ -25,10 +25,7 @@
         />
       </woot-modal>
     </div>
-    <div
-      v-else-if="shouldShowAIAssistCTAButtonForAdmin"
-      class="position-relative"
-    >
+    <div v-else-if="shouldShowAIAssistCTAButtonForAdmin" class="relative">
       <AIAssistanceCTAButton @click="openAICta" />
       <woot-modal :show.sync="showAICtaModal" :on-close="hideAICtaModal">
         <AICTAModal @close="hideAICtaModal" />
@@ -66,7 +63,8 @@ export default {
       currentChat: 'getSelectedChat',
     }),
     isAICTAModalDismissed() {
-      return this.uiSettings.is_open_ai_cta_modal_dismissed;
+      // return this.uiSettings.is_open_ai_cta_modal_dismissed;
+      return false;
     },
     // Display a AI CTA button for admins if the AI integration has not been added yet and the AI assistance modal has not been dismissed.
     shouldShowAIAssistCTAButtonForAdmin() {

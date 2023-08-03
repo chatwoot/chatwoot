@@ -1,11 +1,14 @@
 <template>
-  <div class="column">
+  <div class="px-0 min-w-0 flex-1">
     <woot-modal-header
       :header-title="$t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.TITLE')"
       :header-content="$t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.DESC')"
     />
-    <form class="row modal-content" @submit.prevent="finishOpenAI">
-      <div class="margin-top-1  w-full">
+    <form
+      class="flex flex-wrap flex-col modal-content"
+      @submit.prevent="finishOpenAI"
+    >
+      <div class="mt-2 w-full">
         <woot-input
           v-model="value"
           type="text"
@@ -16,21 +19,18 @@
           @blur="$v.value.$touch"
         />
       </div>
-      <div class="modal-footer justify-content-end w-full">
-        <woot-button
-          variant="link"
-          class="margin-left-0"
-          @click.prevent="openOpenAIDoc"
-        >
+      <div class="flex flex-row justify-between gap-2 py-2 px-0 w-full">
+        <woot-button variant="link" @click.prevent="openOpenAIDoc">
           {{ $t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.BUTTONS.NEED_HELP') }}
         </woot-button>
-        <div class="spacer" />
-        <woot-button variant="clear" @click.prevent="onDismiss">
-          {{ $t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.BUTTONS.DISMISS') }}
-        </woot-button>
-        <woot-button :is-disabled="$v.value.$invalid">
-          {{ $t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.BUTTONS.FINISH') }}
-        </woot-button>
+        <div class="flex items-center gap-1">
+          <woot-button variant="clear" @click.prevent="onDismiss">
+            {{ $t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.BUTTONS.DISMISS') }}
+          </woot-button>
+          <woot-button :is-disabled="$v.value.$invalid">
+            {{ $t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.BUTTONS.FINISH') }}
+          </woot-button>
+        </div>
       </div>
     </form>
   </div>
@@ -106,15 +106,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.modal-content {
-  padding-top: var(--space-small);
-}
-.container {
-  width: 100%;
-}
-.spacer {
-  flex-grow: 1;
-}
-</style>
