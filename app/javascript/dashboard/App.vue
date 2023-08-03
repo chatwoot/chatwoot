@@ -112,9 +112,11 @@ export default {
       ) {
         this.theme = 'dark';
         document.body.classList.add('dark');
+        document.documentElement.setAttribute('style', 'color-scheme: dark;');
       } else {
         this.theme = 'light ';
         document.body.classList.remove('dark');
+        document.documentElement.setAttribute('style', 'color-scheme: light;');
       }
     },
     listenToThemeChanges() {
