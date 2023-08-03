@@ -91,3 +91,7 @@ export const OPEN_AI_EVENTS = Object.freeze({
   DISMISS_LABEL_SUGGESTION: 'OpenAI: Dismiss label suggestions',
   DISMISS_AI_SUGGESTION: 'OpenAI: Dismiss AI suggestions',
 });
+
+export const GENERAL_EVENTS = Object.freeze({
+  COMMAND_BAR: 'Used commandbar',
+});
