@@ -3,7 +3,7 @@
     v-if="!authUIFlags.isFetching"
     id="app"
     class="app-wrapper app-root"
-    :class="{ 'app-rtl--wrapper': isRTLView, dark: theme === 'dark' }"
+    :class="{ 'app-rtl--wrapper': isRTLView }"
     :dir="isRTLView ? 'rtl' : 'ltr'"
   >
     <update-banner :latest-chatwoot-version="latestChatwootVersion" />
@@ -35,12 +35,11 @@ import PaymentPendingBanner from './components/app/PaymentPendingBanner.vue';
 import vueActionCable from './helper/actionCable';
 import WootSnackbarBox from './components/SnackbarContainer';
 import rtlMixin from 'shared/mixins/rtlMixin';
-import { LocalStorage } from 'shared/helpers/localStorage';
+import { setColorTheme } from './helper/themeHelper';
 import {
   registerSubscription,
   verifyServiceWorkerExistence,
 } from './helper/pushHelper';
-import { LOCAL_STORAGE_KEYS } from './constants/localStorage';
 
 export default {
   name: 'App',
@@ -61,7 +60,6 @@ export default {
     return {
       showAddAccountModal: false,
       latestChatwootVersion: null,
-      theme: 'light',
     };
   },
 
@@ -99,29 +97,11 @@ export default {
   },
   methods: {
     initializeColorTheme() {
-      this.setColorTheme(
-        window.matchMedia('(prefers-color-scheme: dark)').matches
-      );
-    },
-    setColorTheme(isOSOnDarkMode) {
-      const selectedColorScheme =
-        LocalStorage.get(LOCAL_STORAGE_KEYS.COLOR_SCHEME) || 'light';
-      if (
-        (selectedColorScheme === 'auto' && isOSOnDarkMode) ||
-        selectedColorScheme === 'dark'
-      ) {
-        this.theme = 'dark';
-        document.body.classList.add('dark');
-        document.documentElement.setAttribute('style', 'color-scheme: dark;');
-      } else {
-        this.theme = 'light ';
-        document.body.classList.remove('dark');
-        document.documentElement.setAttribute('style', 'color-scheme: light;');
-      }
+      setColorTheme(window.matchMedia('(prefers-color-scheme: dark)').matches);
     },
     listenToThemeChanges() {
       const mql = window.matchMedia('(prefers-color-scheme: dark)');
-      mql.onchange = e => this.setColorTheme(e.matches);
+      mql.onchange = e => setColorTheme(e.matches);
     },
     setLocale(locale) {
       this.$root.$i18n.locale = locale;
