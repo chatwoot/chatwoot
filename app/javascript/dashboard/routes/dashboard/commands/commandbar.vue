@@ -88,16 +88,14 @@ ninja-keys {
 // If OS is in dark theme and app is in light mode, It will prevent showing dark theme in command bar
 body.dark {
   ninja-keys {
-    @media (prefers-color-scheme: dark) {
-      --ninja-overflow-background: rgba(26, 29, 30, 0.5);
-      --ninja-modal-background: #151718;
-      --ninja-secondary-background-color: #26292b;
-      --ninja-selected-background: #26292b;
-      --ninja-footer-background: #2b2f31;
-      --ninja-text-color: #f8faf9;
-      --ninja-icon-color: #f8faf9;
-      --ninja-secondary-text-color: #c2c9c6;
-    }
+    --ninja-overflow-background: rgba(26, 29, 30, 0.5);
+    --ninja-modal-background: #151718;
+    --ninja-secondary-background-color: #26292b;
+    --ninja-selected-background: #26292b;
+    --ninja-footer-background: #2b2f31;
+    --ninja-text-color: #f8faf9;
+    --ninja-icon-color: #f8faf9;
+    --ninja-secondary-text-color: #c2c9c6;
   }
 }
 </style>
