@@ -1,5 +1,5 @@
 <template>
-  <div class="relative assistance-button">
+  <div class="relative">
     <woot-button
       icon="wand"
       color-scheme="secondary"
