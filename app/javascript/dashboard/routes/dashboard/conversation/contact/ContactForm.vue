@@ -1,7 +1,10 @@
 <template>
-  <form class="contact--form" @submit.prevent="handleSubmit">
-    <div class="row">
-      <div class="columns">
+  <form
+    class="contact--form w-full pt-6 px-8 pb-8"
+    @submit.prevent="handleSubmit"
+  >
+    <div>
+      <div class="w-full">
         <woot-avatar-uploader
           :label="$t('CONTACT_FORM.FORM.AVATAR.LABEL')"
           :src="avatarUrl"
@@ -13,8 +16,8 @@
         />
       </div>
     </div>
-    <div class="row">
-      <div class="columns">
+    <div>
+      <div class="w-full">
         <label :class="{ error: $v.name.$error }">
           {{ $t('CONTACT_FORM.FORM.NAME.LABEL') }}
           <input
@@ -39,7 +42,7 @@
         </label>
       </div>
     </div>
-    <div class="medium-12 columns">
+    <div class="w-full">
       <label :class="{ error: $v.description.$error }">
         {{ $t('CONTACT_FORM.FORM.BIO.LABEL') }}
         <textarea
@@ -50,8 +53,8 @@
         />
       </label>
     </div>
-    <div class="row">
-      <div class="medium-12 columns">
+    <div>
+      <div class="w-full">
         <label
           :class="{
             error: isPhoneNumberNotValid,
@@ -73,7 +76,7 @@
         </label>
         <div
           v-if="isPhoneNumberNotValid || !phoneNumber"
-          class="callout small warning"
+          class="callout small warning text-sm dark:bg-yellow-200/20 dark:text-yellow-400"
         >
           {{ $t('CONTACT_FORM.FORM.PHONE_NUMBER.HELP') }}
         </div>
@@ -81,12 +84,12 @@
     </div>
     <woot-input
       v-model.trim="companyName"
-      class="columns"
+      class="w-full"
       :label="$t('CONTACT_FORM.FORM.COMPANY_NAME.LABEL')"
       :placeholder="$t('CONTACT_FORM.FORM.COMPANY_NAME.PLACEHOLDER')"
     />
-    <div class="row">
-      <div class="medium-12 columns">
+    <div>
+      <div class="w-full">
         <label>
           {{ $t('CONTACT_FORM.FORM.COUNTRY.LABEL') }}
         </label>
@@ -108,12 +111,12 @@
     </div>
     <woot-input
       v-model="city"
-      class="columns"
+      class="w-full"
       :label="$t('CONTACT_FORM.FORM.CITY.LABEL')"
       :placeholder="$t('CONTACT_FORM.FORM.CITY.PLACEHOLDER')"
     />
 
-    <div class="medium-12 columns">
+    <div class="w-full">
       <label>
         Social Profiles
       </label>
@@ -130,8 +133,8 @@
         />
       </div>
     </div>
-    <div class="modal-footer">
-      <div class="medium-12 columns">
+    <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+      <div class="w-full">
         <woot-submit-button
           :loading="inProgress"
           :button-text="$t('CONTACT_FORM.FORM.SUBMIT')"
@@ -415,21 +418,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.contact--form {
-  padding: var(--space-normal) var(--space-large) var(--space-large);
-
-  .columns {
-    padding: 0 var(--space-smaller);
-  }
-}
-
 .input-group-label {
-  font-size: var(--font-size-small);
+  @apply text-sm bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 border-slate-200 dark:border-slate-600;
 }
 
 ::v-deep {
   .multiselect .multiselect__tags .multiselect__single {
-    padding-left: 0;
+    @apply pl-0;
   }
 }
 </style>

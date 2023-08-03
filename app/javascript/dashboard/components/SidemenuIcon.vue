@@ -1,6 +1,6 @@
 <template>
   <woot-button
-    size="small"
+    :size="size"
     variant="clear"
     color-scheme="secondary"
     class="-ml-3 text-black-900 dark:text-slate-300"
@@ -13,6 +13,12 @@
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 export default {
+  props: {
+    size: {
+      type: String,
+      default: 'small',
+    },
+  },
   methods: {
     onMenuItemClick() {
       bus.$emit(BUS_EVENTS.TOGGLE_SIDEMENU);

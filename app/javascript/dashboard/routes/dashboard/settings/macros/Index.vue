@@ -1,20 +1,17 @@
 <template>
-  <div class="column content-box">
+  <div class="flex-1 overflow-auto p-4">
     <router-link
       :to="addAccountScoping('settings/macros/new')"
-      class="button success button--fixed-top"
+      class="button success button--fixed-top flex gap-1"
     >
       <fluent-icon icon="add-circle" />
       <span class="button__content">
         {{ $t('MACROS.HEADER_BTN_TXT') }}
       </span>
     </router-link>
-    <div class="row">
-      <div class="small-8 columns with-right-space">
-        <div
-          v-if="!uiFlags.isFetching && !records.length"
-          class="macros__empty-state"
-        >
+    <div class="flex flex-row gap-4">
+      <div class="w-[60%]">
+        <div v-if="!uiFlags.isFetching && !records.length" class="p-3">
           <p class="no-items-error-message">
             {{ $t('MACROS.LIST.404') }}
           </p>
@@ -42,7 +39,7 @@
           </tbody>
         </table>
       </div>
-      <div class="small-4 columns">
+      <div class="w-[34%]">
         <span v-dompurify-html="$t('MACROS.SIDEBAR_TXT')" />
       </div>
     </div>
@@ -113,9 +110,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.macros__empty-state {
-  padding: var(--space-slab);
-}
-</style>
