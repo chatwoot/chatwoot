@@ -36,6 +36,10 @@ export const getValuesName = (values, list, idKey, nameKey) => {
   };
 };
 
+export const getValuesForStatus = values => {
+  return values.map(value => ({ id: value, name: value }));
+};
+
 const getValuesForLabels = (values, labels) => {
   const selectedLabels = labels.filter(label => values.includes(label.title));
   return selectedLabels.map(({ title }) => ({
@@ -76,6 +80,8 @@ export const getValuesForFilter = (filter, params) => {
     labels,
   } = params;
   switch (attribute_key) {
+    case 'status':
+      return getValuesForStatus(values);
     case 'assignee_id':
       return getValuesName(values, agents, 'id', 'name');
     case 'inbox_id':
