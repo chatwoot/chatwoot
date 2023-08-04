@@ -49,7 +49,7 @@
     }
 
     &.success {
-      @apply text-green-700 dark:text-green-100 hover:bg-green-50 dark:hover:bg-green-800 ;
+      @apply text-green-700 dark:text-green-100 hover:bg-green-50 dark:hover:bg-green-800;
     }
 
     &.alert {
@@ -110,7 +110,7 @@
     }
 
     &.success {
-      @apply text-green-700 dark:text-green-100 ;
+      @apply text-green-700 dark:text-green-100;
     }
 
     &.alert {
@@ -118,26 +118,26 @@
     }
 
     &.warning {
-      @apply text-yellow-700 dark:text-yellow-700;
+      @apply text-yellow-700 dark:text-yellow-600;
     }
 
     &:hover {
       @apply hover:bg-woot-50 dark:hover:bg-woot-900/50 hover:text-woot-500 dark:hover:text-woot-100;
 
       &.secondary {
-        @apply hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-100;
+        @apply hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-800 dark:hover:text-slate-100;
       }
 
       &.success {
-        @apply hover:bg-green-50 dark:hover:bg-green-800 text-green-800 dark:text-green-100;
+        @apply hover:bg-green-50 dark:hover:bg-green-800 hover:text-green-800 dark:hover:text-green-100;
       }
 
       &.alert {
-        @apply hover:bg-red-50 dark:hover:bg-red-800 text-red-700 dark:text-red-100;
+        @apply hover:bg-red-50 dark:hover:bg-red-800 hover:text-red-700 dark:hover:text-red-100;
       }
 
       &.warning {
-        @apply hover:bg-yellow-50 dark:hover:bg-yellow-100 text-yellow-700 dark:text-yellow-700;
+        @apply hover:bg-yellow-100 dark:hover:bg-yellow-800 hover:text-yellow-700 dark:hover:text-yellow-600;
       }
     }
 
