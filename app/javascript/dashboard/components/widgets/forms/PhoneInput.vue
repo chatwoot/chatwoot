@@ -2,7 +2,7 @@
   <div class="phone-input--wrap relative">
     <div class="phone-input" :class="{ 'has-error': error }">
       <div
-        class="cursor-pointer py-2 pr-1 pl-2 rounded-tl-md rounded-bl-md flex items-center justify-center gap-2 bg-slate-25 dark:bg-slate-700 h-10 w-[3.25rem]"
+        class="cursor-pointer py-2 pr-1.5 pl-2 rounded-tl-md rounded-bl-md flex items-center justify-center gap-1.5 bg-slate-25 dark:bg-slate-700 h-10 w-14"
         @click="toggleCountryDropdown"
       >
         <h5 v-if="activeCountry.emoji" class="mb-0">

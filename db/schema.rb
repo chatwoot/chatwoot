@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_27_065605) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_01_180936) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -604,7 +604,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_27_065605) do
   end
 
   create_table "integrations_hooks", force: :cascade do |t|
-    t.integer "status", default: 0
+    t.integer "status", default: 1
     t.integer "inbox_id"
     t.integer "account_id"
     t.string "app_id"

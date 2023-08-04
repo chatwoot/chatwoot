@@ -1,14 +1,16 @@
 <template>
   <div
-    class="w-full h-full flex flex-col"
-    :class="$dm('bg-slate-50', 'dark:bg-slate-800')"
+    class="w-full h-full flex flex-col relative bg-slate-50 dark:bg-slate-800"
+    :class="{ 'overflow-auto': isOnHomeView }"
+    :style="portal ? { backgroundColor: backgroundColor } : {}"
     @keydown.esc="closeWindow"
   >
     <div
-      class="header-wrap"
+      class="header-wrap sticky top-0 z-40"
       :class="{
         expanded: !isHeaderCollapsed,
         collapsed: isHeaderCollapsed,
+        'custom-header-shadow': (isOnHomeView && !portal) || !isOnArticleViewer,
       }"
     >
       <transition
@@ -25,6 +27,7 @@
           :intro-body="channelConfig.welcomeTagline"
           :avatar-url="channelConfig.avatarUrl"
           :show-popout-button="appConfig.showPopoutButton"
+          :show-bg="!!portal"
         />
         <chat-header
           v-if="isHeaderCollapsed"
@@ -32,6 +35,7 @@
           :avatar-url="channelConfig.avatarUrl"
           :show-popout-button="appConfig.showPopoutButton"
           :available-agents="availableAgents"
+          :show-back-button="showBackButton"
         />
       </transition>
     </div>
@@ -46,7 +50,7 @@
     >
       <router-view />
     </transition>
-    <branding :disable-branding="disableBranding" />
+    <branding v-if="!isOnArticleViewer" :disable-branding="disableBranding" />
   </div>
 </template>
 <script>
@@ -75,19 +79,41 @@ export default {
   },
   computed: {
     ...mapGetters({
-      availableAgents: 'agent/availableAgents',
       appConfig: 'appConfig/getAppConfig',
+      availableAgents: 'agent/availableAgents',
+      widgetColor: 'appConfig/getWidgetColor',
     }),
+    portal() {
+      return window.chatwootWebChannel.portal;
+    },
     isHeaderCollapsed() {
       if (!this.hasIntroText) {
         return true;
       }
-      return this.$route.name !== 'home';
+      return !this.isOnHomeView;
+    },
+    backgroundColor() {
+      const color = this.widgetColor.replace('#', '');
+      const r = parseInt(color.slice(0, 2), 16);
+      const g = parseInt(color.slice(2, 4), 16);
+      const b = parseInt(color.slice(4, 6), 16);
+      return `rgba(${r},${g},${b}, 0.02)`;
     },
     hasIntroText() {
       return (
         this.channelConfig.welcomeTitle || this.channelConfig.welcomeTagline
       );
+    },
+    showBackButton() {
+      return ['article-viewer', 'messages', 'prechat-form'].includes(
+        this.$route.name
+      );
+    },
+    isOnArticleViewer() {
+      return ['article-viewer'].includes(this.$route.name);
+    },
+    isOnHomeView() {
+      return ['home'].includes(this.$route.name);
     },
   },
   methods: {
@@ -102,11 +128,13 @@ export default {
 @import '~widget/assets/scss/variables';
 @import '~widget/assets/scss/mixins';
 
+.custom-header-shadow {
+  @include shadow-large;
+}
+
 .header-wrap {
   flex-shrink: 0;
   transition: max-height 300ms;
-  z-index: 99;
-  @include shadow-large;
 
   &.expanded {
     max-height: 16rem;
