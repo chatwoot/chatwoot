@@ -54,7 +54,10 @@
       >
         {{ campaign.trigger_rules.url }}
       </div>
-      <div v-if="campaign.scheduled_at" class="text-xs text-slate-700 dark:text-slate-500 mb-1">
+      <div
+        v-if="campaign.scheduled_at"
+        class="text-xs text-slate-700 dark:text-slate-500 mb-1"
+      >
         {{ messageStamp(new Date(campaign.scheduled_at), 'LLL d, h:mm a') }}
       </div>
     </div>
