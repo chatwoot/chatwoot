@@ -5,8 +5,8 @@
       :show-empty-result="showEmptyResult"
       :is-loading="uiFlags.isFetching"
       :campaign-type="type"
-      @on-edit-click="openEditPopup"
-      @on-delete-click="openDeletePopup"
+      @edit="openEditPopup"
+      @delete="openDeletePopup"
     />
     <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
       <edit-campaign
@@ -81,9 +81,7 @@ export default {
     },
     confirmDeletion() {
       this.closeDeletePopup();
-      const {
-        row: { id },
-      } = this.selectedCampaign;
+      const { id } = this.selectedCampaign;
       this.deleteCampaign(id);
     },
     async deleteCampaign(id) {
