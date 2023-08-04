@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "라벨 추가하기",
         "PLACEHOLDER": "라벨 찾기",
-        "NO_RESULT": "라벨을 찾을 수 없습니다"
+        "NO_RESULT": "라벨을 찾을 수 없습니다",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "연락처 합치기",

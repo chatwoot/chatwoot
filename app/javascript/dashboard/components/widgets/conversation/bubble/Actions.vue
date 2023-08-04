@@ -233,7 +233,7 @@ export default {
         return false;
       }
 
-      if (this.isAWebWidgetInbox) {
+      if (this.isAWebWidgetInbox || this.isAPIInbox) {
         const { contact_last_seen_at: contactLastSeenAt } = this.currentChat;
         return contactLastSeenAt >= this.createdAt;
       }
@@ -254,29 +254,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/woot';
-
 .right {
   .message-text--metadata {
-    align-items: center;
+    @apply items-center;
     .time {
-      color: var(--w-100);
+      @apply text-woot-100 dark:text-woot-100;
     }
 
     .action--icon {
-      color: var(--white);
+      @apply text-white dark:text-white;
 
       &.read-tick {
-        color: var(--v-100);
+        @apply text-violet-100 dark:text-violet-100;
       }
 
       &.read-indicator {
-        color: var(--g-200);
+        @apply text-green-200 dark:text-green-200;
       }
     }
 
     .lock--icon--private {
-      color: var(--s-400);
+      @apply text-slate-400 dark:text-slate-400;
     }
   }
 }
@@ -284,45 +282,31 @@ export default {
 .left {
   .message-text--metadata {
     .time {
-      color: var(--s-400);
+      @apply text-slate-400 dark:text-slate-200;
     }
   }
 }
 
 .message-text--metadata {
-  align-items: flex-start;
-  display: flex;
+  @apply items-start flex;
 
   .time {
-    margin-right: var(--space-small);
-    display: block;
-    font-size: var(--font-size-micro);
-    line-height: 1.8;
+    @apply mr-2 block text-xxs leading-[1.8];
   }
 
   .action--icon {
-    margin-right: var(--space-small);
-    margin-left: var(--space-small);
-    color: var(--s-900);
+    @apply mr-2 ml-2 text-slate-900 dark:text-slate-100;
   }
 
   a {
-    color: var(--s-900);
+    @apply text-slate-900 dark:text-slate-100;
   }
 }
 
 .activity-wrap {
   .message-text--metadata {
     .time {
-      color: var(--s-300);
-      display: flex;
-      text-align: center;
-      font-size: var(--font-size-micro);
-      margin-left: 0;
-
-      @include breakpoint(xlarge up) {
-        margin-left: var(--space-small);
-      }
+      @apply ml-2 rtl:mr-2 rtl:ml-0 flex text-center text-xxs text-slate-300 dark:text-slate-200;
     }
   }
 }
@@ -331,35 +315,28 @@ export default {
 .is-video {
   .message-text--metadata {
     .time {
-      bottom: var(--space-smaller);
-      color: var(--white);
-      position: absolute;
-      right: var(--space-small);
-      white-space: nowrap;
+      @apply bottom-1 text-white dark:text-slate-50 absolute right-2 whitespace-nowrap;
 
       &.has-status-icon {
-        right: var(--space-large);
-        line-height: 2;
+        @apply right-8 leading-loose;
       }
     }
     .read-tick {
-      position: absolute;
-      bottom: var(--space-small);
-      right: var(--space-small);
+      @apply absolute bottom-2 right-2;
     }
   }
 }
 
 .is-private {
   .message-text--metadata {
-    align-items: center;
+    @apply items-center;
 
     .time {
-      color: var(--s-400);
+      @apply text-slate-400 dark:text-slate-400;
     }
 
     .icon {
-      color: var(--s-400);
+      @apply text-slate-400 dark:text-slate-400;
     }
   }
 
@@ -367,18 +344,16 @@ export default {
   &.is-video {
     .time {
       position: inherit;
-      padding-left: var(--space-one);
+      @apply pl-2.5;
     }
   }
 }
 
 .delivered-icon {
-  margin-left: -var(--space-normal);
+  @apply ml-4;
 }
 
 .read-indicator-wrap {
-  line-height: 1;
-  display: flex;
-  align-items: center;
+  @apply leading-none flex items-center;
 }
 </style>

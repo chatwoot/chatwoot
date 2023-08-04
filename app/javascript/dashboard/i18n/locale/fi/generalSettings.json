@@ -3,6 +3,7 @@
     "TITLE": "Tilin asetukset",
     "SUBMIT": "Päivitä asetukset",
     "BACK": "Takaisin",
+    "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "Asetuksia ei voitu päivittää, yritä uudelleen",
       "SUCCESS": "Tilin asetukset päivitetty onnistuneesti"

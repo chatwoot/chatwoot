@@ -1,11 +1,14 @@
 <template>
-  <div class="primary--sidebar">
-    <logo
-      :source="logoSource"
-      :name="installationName"
-      :account-id="accountId"
-    />
-    <nav class="menu vertical">
+  <div
+    class="h-full w-16 bg-white dark:bg-slate-900 border-r border-slate-50 dark:border-slate-800/50 rtl:border-l rtl:border-r-0 flex justify-between flex-col"
+  >
+    <div class="flex flex-col items-center">
+      <logo
+        :source="logoSource"
+        :name="installationName"
+        :account-id="accountId"
+        class="m-4 mb-10"
+      />
       <primary-nav-item
         v-for="menuItem in menuItems"
         :key="menuItem.toState"
@@ -14,8 +17,8 @@
         :to="menuItem.toState"
         :is-child-menu-active="menuItem.key === activeMenuItem"
       />
-    </nav>
-    <div class="menu vertical user-menu">
+    </div>
+    <div class="flex flex-col items-center justify-end pb-6">
       <primary-nav-item
         v-if="!isACustomBrandedInstance"
         icon="book-open-globe"
@@ -101,27 +104,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.primary--sidebar {
-  display: flex;
-  flex-direction: column;
-  width: var(--space-jumbo);
-  border-right: 1px solid var(--s-50);
-  box-sizing: content-box;
-  height: 100%;
-  flex-shrink: 0;
-}
-
-.menu {
-  align-items: center;
-  margin-top: var(--space-medium);
-}
-
-.user-menu {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  justify-content: flex-end;
-  margin-bottom: var(--space-normal);
-}
-</style>

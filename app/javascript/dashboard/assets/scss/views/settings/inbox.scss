@@ -1,173 +1,112 @@
 .settings {
-  overflow: auto;
-}
-
-// Conversation header - Light BG
-.settings-header {
-  @include background-white;
-  @include flex;
-  @include flex-align($x: justify, $y: middle);
-  border-bottom: 1px solid var(--s-50);
-  height: $header-height;
-  min-height: $header-height;
-  padding: $space-small $space-normal;
-
-  // Resolve Button
-  .button {
-    margin: 0;
-  }
-
-  // User thumbnail and text
-  .page-title {
-    @include flex;
-    @include flex-align($x: center, $y: middle);
-    margin: 0;
-  }
+  @apply overflow-auto;
 }
 
 .wizard-box {
   .item {
-    @include background-light;
-
-    cursor: pointer;
-    padding: $space-normal $space-normal $space-normal $space-medium;
-    position: relative;
+    @apply cursor-pointer py-4 pr-4 pl-6 relative;
 
     &::before,
     &::after {
-      background: $color-border;
-      content: '';
-      height: 100%;
-      position: absolute;
-      top: $space-normal;
-      width: 2px;
+      @apply bg-slate-75 dark:bg-slate-600 content-[''] h-full absolute top-5 w-0.5;
     }
 
     &::before {
-      height: $space-normal;
-      top: $zero;
+      @apply h-4 top-0;
     }
 
     &:first-child {
       &::before {
-        height: 0;
+        @apply h-0;
       }
     }
 
     &:last-child {
       &::after {
-        height: $zero;
+        @apply h-0;
       }
     }
 
     &.active {
       h3 {
-        color: $color-woot;
+        @apply text-woot-500 dark:text-woot-500;
       }
 
       .step {
-        background: $color-woot;
+        @apply bg-woot-500 dark:bg-woot-500;
       }
     }
 
     &.over {
       &::after {
-        background: $color-woot;
+        @apply bg-woot-500 dark:bg-woot-500;
       }
 
       .step {
-        background: $color-woot;
+        @apply bg-woot-500 dark:bg-woot-500;
       }
 
       & + .item {
         &::before {
-          background: $color-woot;
+          @apply bg-woot-500 dark:bg-woot-500;
         }
       }
     }
 
     h3 {
-      color: $color-body;
-      font-size: $font-size-default;
-      line-height: 1;
-      padding-left: $space-medium;
+      @apply text-slate-800 dark:text-slate-100 text-base pl-6;
     }
 
     .completed {
-      color: $success-color;
-      margin-left: $space-smaller;
+      @apply text-green-500 dark:text-green-500 ml-1;
     }
 
     p {
-      color: $color-light-gray;
-      font-size: $font-size-small;
-      margin: 0;
-      padding-left: $space-medium;
+      @apply text-slate-600 dark:text-slate-300 text-sm m-0 pl-6;
     }
 
     .step {
-      background: $color-border;
-      border-radius: 20px;
-      color: $color-white;
-      font-size: $font-size-micro;
-      font-weight: $font-weight-medium;
-      height: $space-normal;
-      left: $space-normal;
-      line-height: $space-normal;
-      position: absolute;
-      text-align: center;
-      top: $space-normal;
-      width: $space-normal;
-      z-index: 999;
+      @apply bg-slate-75 dark:bg-slate-600 rounded-2xl font-medium w-4 left-4 leading-4 z-[999] absolute text-center text-white dark:text-white text-xxs top-5;
 
       i {
-        font-size: $font-size-micro;
+        @apply text-xxs;
       }
     }
   }
 }
 
 .wizard-body {
-  @include background-white;
-  @include border-light;
-  @include full-height();
-  padding: $space-medium;
+  @apply border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6;
 
   &.height-auto {
-    height: auto;
+    @apply h-auto;
   }
 }
 
 .settings--content {
-  margin: $space-small $space-large;
+  @apply my-2 mx-8;
 
   .title {
-    font-weight: $font-weight-medium;
+    @apply font-medium;
   }
 
   .code {
-    background: $color-background;
-    max-height: $space-mega;
-    overflow: auto;
-    padding: $space-one;
-    white-space: nowrap;
+    @apply bg-slate-50 dark:bg-slate-800 overflow-auto p-2.5 whitespace-nowrap;
 
     code {
-      background: transparent;
-      border: 0;
+      @apply bg-transparent border-0;
     }
   }
 }
 
 .login-init {
-  padding-top: 30%;
-  text-align: center;
+  @apply pt-[30%] text-center;
 
   p {
-    padding: $space-medium;
+    @apply p-6;
   }
 
   > a > img {
-    width: $space-larger * 5;
+    @apply w-60;
   }
 }

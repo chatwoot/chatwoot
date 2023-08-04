@@ -18,6 +18,8 @@
     "EMPTY_STATE_DEFAULT": "Norėdami gauti geresnių paieškos rezultatų, ieškokite pagal pokalbio ID, el. pašto adresą, telefono numerį, žinutes.",
     "BOT_LABEL": "Botas",
     "READ_MORE": "Skaityti daugiau",
-    "WROTE": "parašei:"
+    "WROTE": "parašei:",
+    "FROM": "nuo",
+    "EMAIL": "el. paštas"
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="column content-box">
+  <div class="flex-1 overflow-auto p-4">
     <woot-button
       color-scheme="success"
       class-names="button--fixed-top"
@@ -8,8 +8,8 @@
     >
       {{ $t('AUTOMATION.HEADER_BTN_TXT') }}
     </woot-button>
-    <div class="row">
-      <div class="small-8 columns with-right-space">
+    <div class="flex flex-row gap-4">
+      <div class="w-[60%]">
         <p
           v-if="!uiFlags.isFetching && !records.length"
           class="no-items-error-message"
@@ -77,7 +77,7 @@
         </table>
       </div>
 
-      <div class="small-4 columns">
+      <div class="w-[34%]">
         <span v-dompurify-html="$t('AUTOMATION.SIDEBAR_TXT')" />
       </div>
     </div>
@@ -277,9 +277,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.automation__status-checkbox {
-  margin: 0;
-}
-</style>

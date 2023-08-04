@@ -3,6 +3,7 @@
     "TITLE": "Kontoinställningar",
     "SUBMIT": "Uppdatera inställningar",
     "BACK": "Tillbaka",
+    "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "Kunde inte uppdatera inställningar, försök igen!",
       "SUCCESS": "Uppdaterade kontoinställningar"
