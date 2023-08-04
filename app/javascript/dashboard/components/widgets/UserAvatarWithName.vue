@@ -7,7 +7,8 @@
       :status="user.availability_status"
     />
     <h6
-      class="text-xs my-0 mx-2 text-slate-600 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis text-capitalize"
+      class="my-0 mx-2 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis text-capitalize"
+      :class="textClass"
     >
       {{ user.name }}
     </h6>
@@ -28,6 +29,10 @@ export default {
     size: {
       type: String,
       default: '20px',
+    },
+    textClass: {
+      type: String,
+      default: 'text-xs text-slate-600',
     },
   },
 };
