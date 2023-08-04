@@ -1,14 +1,10 @@
 <template>
-  <div
-    class="options-message chat-bubble agent"
-    :class="$dm('bg-white', 'dark:bg-slate-700')"
-  >
+  <div class="options-message chat-bubble agent bg-white dark:bg-slate-700">
     <div class="card-body">
-      <h4 class="title" :class="$dm('text-black-900', 'dark:text-slate-50')">
+      <h4 class="title text-black-900 dark:text-slate-50">
         <div
           v-dompurify-html="formatMessage(title, false)"
-          class="message-content"
-          :class="$dm('text-black-900', 'dark:text-slate-50')"
+          class="message-content text-black-900 dark:text-slate-50"
         />
       </h4>
       <ul
@@ -30,14 +26,13 @@
 
 <script>
 import ChatOption from 'shared/components/ChatOption';
-import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 
 export default {
   components: {
     ChatOption,
   },
-  mixins: [darkModeMixin,messageFormatterMixin],
+  mixins: [messageFormatterMixin],
   props: {
     title: {
       type: String,
