@@ -326,7 +326,7 @@ export default {
   @apply flex justify-between py-3 px-4;
 
   &.is-note-mode {
-    @apply bg-yellow-50 dark:bg-yellow-50;
+    @apply bg-yellow-100 dark:bg-yellow-800;
   }
 }
 

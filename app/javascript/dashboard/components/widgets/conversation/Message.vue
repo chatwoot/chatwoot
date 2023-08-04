@@ -555,7 +555,7 @@ export default {
       @apply text-woot-700 dark:text-woot-700;
     }
     &.is-private.is-text > .message-text__wrap .prosemirror-mention-node {
-      @apply font-bold bg-none rounded-sm p-0 text-slate-700 dark:text-slate-700 underline;
+      @apply font-bold bg-none rounded-sm p-0 bg-yellow-100 dark:bg-yellow-700 text-slate-700 dark:text-slate-25 underline;
     }
 
     &.is-from-bot {
@@ -651,6 +651,10 @@ li.right {
     @apply bg-slate-75 dark:bg-slate-700 inline-block leading-none rounded-sm p-1;
   }
 
+  ol li {
+    @apply list-item list-decimal;
+  }
+
   pre {
     @apply bg-slate-75 dark:bg-slate-700 block border-slate-75 dark:border-slate-700 text-slate-800 dark:text-slate-100 rounded-md p-2 mt-1 mb-2 leading-relaxed whitespace-pre-wrap;
 
@@ -660,7 +664,11 @@ li.right {
   }
 
   blockquote {
-    @apply border-l-4 mx-0 my-1 pt-2 pr-2 pb-0 pl-4 border-slate-75 border-solid dark:border-slate-700 text-slate-800 dark:text-slate-100;
+    @apply border-l-4 mx-0 my-1 pt-2 pr-2 pb-0 pl-4 border-slate-75 border-solid dark:border-slate-600 text-slate-800 dark:text-slate-100;
+
+    p {
+      @apply text-slate-800 dark:text-slate-300;
+    }
   }
 }
 
