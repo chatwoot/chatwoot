@@ -86,7 +86,10 @@ class AccountDashboard < Administrate::BaseDashboard
     "##{account.id} #{account.name}"
   end
 
-  def permitted_attributes
+  # We do not use the action parameter but we still need to define it
+  # to prevent an error from being raised (wrong number of arguments)
+  # Reference: https://github.com/thoughtbot/administrate/pull/2356/files#diff-4e220b661b88f9a19ac527c50d6f1577ef6ab7b0bed2bfdf048e22e6bfa74a05R204
+  def permitted_attributes(action)
     super + [limits: {}]
   end
 end

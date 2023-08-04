@@ -21,13 +21,16 @@
         </div>
       </div>
       <div class="user-details">
-        <h5 v-if="name" class="text-block-title name">
+        <h5
+          v-if="name"
+          class="text-block-title name text-slate-800 dark:text-slate-100"
+        >
           <span class="pre-text"> {{ $t('SEARCH.FROM') }}: </span>
           {{ name }}
         </h5>
         <h5
           v-if="email"
-          class="text-block-title email overflow-hidden whitespace-nowrap text-ellipsis"
+          class="text-block-title email text-slate-700 dark:text-slate-200 overflow-hidden whitespace-nowrap text-ellipsis"
         >
           <span class="pre-text">{{ $t('SEARCH.EMAIL') }}:</span>
           {{ email }}
