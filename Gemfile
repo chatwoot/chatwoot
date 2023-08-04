@@ -153,7 +153,7 @@ gem 'stripe'
 gem 'faker'
 
 # Include logrange conditionally in intializer using env variable
-gem 'lograge', '~> 0.12.0', require: false
+gem 'lograge', '~> 0.13.0', require: false
 
 # worked with microsoft refresh token
 gem 'omniauth-oauth2'
