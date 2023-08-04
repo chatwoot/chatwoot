@@ -19,6 +19,14 @@ export default {
         return 'before:!border-t-woot-500';
       }
 
+      if (this.colorScheme === 'warning') {
+        return 'before:!border-t-yellow-500';
+      }
+
+      if (this.colorScheme === 'success') {
+        return 'before:!border-t-success-500';
+      }
+
       return this.colorScheme;
     },
   },

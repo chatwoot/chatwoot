@@ -1,5 +1,5 @@
 <template>
-  <section class="conversation-page">
+  <section class="conversation-page bg-white dark:bg-slate-900">
     <chat-list
       :show-conversation-list="showConversationList"
       :conversation-inbox="inboxId"

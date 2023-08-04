@@ -1,14 +1,17 @@
 <template>
   <div
-    class="menu-with-submenu flex-between"
-    :class="{ disabled: !subMenuAvailable }"
+    class="menu-with-submenu min-width-calc w-full p-1 flex items-center h-7 rounded-md relative bg-white dark:bg-slate-700 justify-between hover:bg-woot-75 cursor-pointer dark:hover:bg-slate-800"
+    :class="!subMenuAvailable ? 'opacity-50 cursor-not-allowed' : ''"
   >
-    <div class="menu-left">
+    <div class="flex items-center">
       <fluent-icon :icon="option.icon" size="14" class="menu-icon" />
-      <p class="menu-label">{{ option.label }}</p>
+      <p class="my-0 mx-2 text-xs">{{ option.label }}</p>
     </div>
     <fluent-icon icon="chevron-right" size="12" />
-    <div v-if="subMenuAvailable" class="submenu">
+    <div
+      v-if="subMenuAvailable"
+      class="submenu bg-white dark:bg-slate-700 p-1 shadow-lg rounded-md absolute left-full top-0 hidden min-h-min max-h-[15rem] overflow-y-auto overflow-x-hidden cursor-pointer"
+    >
       <slot />
     </div>
   </div>
@@ -31,61 +34,12 @@ export default {
 
 <style scoped lang="scss">
 .menu-with-submenu {
-  width: 100%;
-  padding: var(--space-smaller);
-  border-radius: var(--border-radius-small);
-  position: relative;
-  min-width: calc(var(--space-mega) * 2);
-  background-color: var(--white);
-
-  .menu-left {
-    display: flex;
-    align-items: center;
-
-    .menu-label {
-      margin: 0 var(--space-small);
-      font-size: var(--font-size-mini);
-    }
-  }
-
-  .submenu {
-    padding: var(--space-smaller);
-    background-color: var(--white);
-    box-shadow: var(--shadow-context-menu);
-    border-radius: var(--border-radius-normal);
-    position: absolute;
-    position: absolute;
-    left: 100%;
-    top: 0;
-    display: none;
-    min-height: min-content;
-    max-height: var(--space-giga);
-    overflow-y: auto;
-    // Need this because Firefox adds a horizontal scrollbar, if a text is truncated inside.
-    overflow-x: hidden;
-  }
+  min-width: calc(6.25rem * 2);
 
   &:hover {
-    background-color: var(--w-75);
-
     .submenu {
-      display: block;
+      @apply block;
     }
-    &:before {
-      content: '';
-      position: absolute;
-      z-index: var(--z-index-highest);
-      bottom: -65%;
-      height: 75%;
-      right: 0%;
-      width: 50%;
-      clip-path: polygon(100% 0, 0% 0%, 100% 100%);
-    }
-  }
-
-  &.disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
   }
 }
 </style>

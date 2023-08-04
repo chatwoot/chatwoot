@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="flex-1">
     <settings-header
       button-route="new"
       :header-title="portalHeaderText"
@@ -9,9 +9,11 @@
       "
       :show-new-button="false"
     />
-    <div class="row content-box full-height">
+    <div
+      class="flex flex-row overflow-auto py-4 pl-4 rtl:pl-0 rtl:pr-4 h-full bg-slate-50 dark:bg-slate-800"
+    >
       <woot-wizard
-        class="hide-for-small-only medium-3 columns"
+        class="hide-for-small-only w-[25%]"
         :global-config="globalConfig"
         :items="items"
       />
@@ -62,18 +64,3 @@ export default {
   },
 };
 </script>
-<style scoped lang="scss">
-.wrapper {
-  flex: 1;
-}
-.container {
-  display: flex;
-  flex: 1;
-}
-.wizard-box {
-  border-right: 1px solid var(--s-25);
-  ::v-deep .item {
-    background: var(--white);
-  }
-}
-</style>

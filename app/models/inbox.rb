@@ -7,6 +7,7 @@
 #  id                            :integer          not null, primary key
 #  allow_messages_after_resolved :boolean          default(TRUE)
 #  auto_assignment_config        :jsonb
+#  business_name                 :string
 #  channel_type                  :string
 #  csat_survey_enabled           :boolean          default(FALSE)
 #  email_address                 :string
@@ -17,6 +18,7 @@
 #  lock_to_single_conversation   :boolean          default(FALSE), not null
 #  name                          :string           not null
 #  out_of_office_message         :string
+#  sender_name_type              :integer          default("friendly"), not null
 #  timezone                      :string           default("UTC")
 #  working_hours_enabled         :boolean          default(FALSE)
 #  created_at                    :datetime         not null
@@ -48,6 +50,7 @@ class Inbox < ApplicationRecord
                                                        message: I18n.t('errors.inboxes.validations.name') }
   validates :account_id, presence: true
   validates :timezone, inclusion: { in: TZInfo::Timezone.all_identifiers }
+  validates :out_of_office_message, length: { maximum: Limits::OUT_OF_OFFICE_MESSAGE_MAX_LENGTH }
   validate :ensure_valid_max_assignment_limit
 
   belongs_to :account
@@ -68,6 +71,8 @@ class Inbox < ApplicationRecord
   has_one :agent_bot, through: :agent_bot_inbox
   has_many :webhooks, dependent: :destroy_async
   has_many :hooks, dependent: :destroy_async, class_name: 'Integrations::Hook'
+
+  enum sender_name_type: { friendly: 0, professional: 1 }
 
   after_destroy :delete_round_robin_agents
 
@@ -168,3 +173,4 @@ end
 
 Inbox.prepend_mod_with('Inbox')
 Inbox.include_mod_with('Audit::Inbox')
+Inbox.include_mod_with('Concerns::Inbox')
