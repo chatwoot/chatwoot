@@ -1,57 +1,14 @@
-import ConversationAPI from 'widget/api/conversationPublic';
-import MessageAPI from 'widget/api/messagePublic';
-import { getNonDeletedMessages } from './helpers';
+import ConversationsV3API from 'widget/api/conversationV3';
+
+// import { getNonDeletedMessages } from './helpers';
 
 export const actions = {
   fetchAllConversations: async ({ commit }) => {
     try {
       commit('setUIFlag', { isFetching: true });
-      const { data } = await ConversationAPI.get();
+      const { data } = await ConversationsV3API.get();
 
-      const conv = {
-        ...data,
-        messages: [
-          {
-            id: 25170501,
-            content: 'Ingonre',
-            message_type: 0,
-            content_type: 'text',
-            content_attributes: {},
-            created_at: 1690799086,
-            conversation_id: 26453,
-            sender: {
-              additional_attributes: {
-                city: 'Bengaluru',
-                country: 'India',
-                source_id:
-                  'email:01000184cceb6518-6cc32623-0a31-4883-8e9b-5ffbc37ca4e8-000000@email.amazonses.com',
-                country_code: 'IN',
-                created_at_ip: '122.179.4.26',
-              },
-              custom_attributes: {},
-              email: 'finance@chatwoot.com',
-              id: 32709310,
-              identifier: null,
-              name: 'Chatwoot Inc',
-              phone_number: null,
-              thumbnail: '',
-              type: 'contact',
-            },
-          },
-          {
-            id: 25170502,
-            content:
-              'Thanks for reaching out to us. We are unavailable at the moment. We will respond back to you as soon as possible.',
-            message_type: 3,
-            content_type: 'text',
-            content_attributes: {},
-            created_at: 1690799086,
-            conversation_id: 26453,
-          },
-        ],
-      };
-      const fakeData = [conv, conv];
-      fakeData.forEach(conversation => {
+      data.forEach(conversation => {
         const { id: conversationId, messages } = conversation;
         const { contact_last_seen_at: userLastSeenAt, status } = conversation;
         const lastMessage = messages[messages.length - 1];
@@ -90,17 +47,24 @@ export const actions = {
         uiFlags: { isFetching: true },
         conversationId,
       });
-      const { data } = await MessageAPI.get(conversationId, beforeId);
-      const messages = getNonDeletedMessages({ messages: data });
+      const { data } = await ConversationsV3API.getMessages({
+        before: beforeId,
+      });
+      // const { data } = await ConversationsV3API.getMessagesIn({
+      //   id: conversationId,
+      //   before: beforeId,
+      // });
+      // Filter them in getters
+      // const messages = getNonDeletedMessages({ messages: data });
 
       commit(
         'messageV3/addMessagesEntry',
-        { conversationId, messages },
+        { conversationId, messages: data },
         { root: true }
       );
       commit('prependMessageIdsToConversation', {
         conversationId,
-        messages,
+        messages: data,
       });
 
       if (data.length < 20) {
@@ -146,13 +110,10 @@ export const actions = {
   },
 
   createConversationWithMessage: async ({ commit }, params) => {
-    const { content, contact } = params;
+    const { content } = params;
     commit('setUIFlag', { isCreating: true });
     try {
-      const { data } = await ConversationAPI.createWithMessage(
-        content,
-        contact
-      );
+      const { data } = await ConversationsV3API.create(content);
       const { id: conversationId, messages } = data;
       const { contact_last_seen_at: userLastSeenAt } = data;
 
@@ -195,7 +156,7 @@ export const actions = {
 
   toggleUserTypingIn: async ({ commit }, data) => {
     try {
-      await ConversationAPI.toggleTypingIn(data);
+      await ConversationsV3API.toggleTyping(data);
     } catch (error) {
       throw new Error(error);
     } finally {
@@ -208,7 +169,7 @@ export const actions = {
 
   sendEmailTranscriptIn: async (_, data) => {
     try {
-      await ConversationAPI.sendEmailTranscriptIn(data);
+      await ConversationsV3API.emailTranscript(data);
     } catch (error) {
       // IgnoreError
     }
@@ -226,9 +187,8 @@ export const actions = {
         meta: { userLastSeenAt },
         conversationId,
       });
-      await ConversationAPI.setUserLastSeenIn({
+      await ConversationsV3API.setUserLastSeen({
         lastSeen: userLastSeenAt,
-        conversationId,
       });
     } catch (error) {
       // IgnoreError

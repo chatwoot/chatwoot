@@ -9,6 +9,9 @@ export const mockConversations = [
       {
         id: 102,
         content: 'I need help with my order.',
+        content_attributes: {
+          deleted: true,
+        },
       },
     ],
     status: 'open',

@@ -22,22 +22,21 @@ export const getters = {
     };
   },
   isAllMessagesFetchedIn: (...getterArguments) => conversationId => {
-    const [, _getters] = getterArguments;
-    const uiFlags = _getters.uiFlagsIn(conversationId);
+    const [_state, _getters] = getterArguments;
+    const uiFlags = _getters.uiFlagsIn(_state)(conversationId);
 
     if (uiFlags) return uiFlags.allFetched;
     return false;
   },
-  isCreating: _state => _state.conversations.uiFlags.isCreating,
+  isCreating: _state => _state.uiFlags.isCreating,
   isAgentTypingIn: (...getterArguments) => conversationId => {
-    const [, _getters] = getterArguments;
-    const uiFlags = _getters.uiFlagsIn(conversationId);
+    const [_state, _getters] = getterArguments;
+    const uiFlags = _getters.uiFlagsIn(_state)(conversationId);
 
     if (uiFlags) return uiFlags.isAgentTyping;
     return false;
   },
-  isFetchingConversationsList: _state =>
-    _state.conversations.uiFlags.isFetching,
+  isFetchingConversationsList: _state => _state.uiFlags.isFetching,
   allConversations: (...getterArguments) => {
     const [_state, , , _rootGetters] = getterArguments;
     const conversations = _state.conversations.allIds.map(id => {
@@ -56,7 +55,8 @@ export const getters = {
   allActiveConversations: (...getterArguments) => {
     const [, _getters] = getterArguments;
 
-    const conversations = _getters.allConversations
+    const conversations = _getters
+      .allConversations(...getterArguments)
       .filter(conversation => conversation.status === 'open')
       .sort((a, b) => {
         const lastMessageOnA = a.messages[a.messages.length - 1];
@@ -129,8 +129,12 @@ export const getters = {
   },
   unreadTextMessagesIn: (...getterArguments) => conversationId => {
     const [, _getters] = getterArguments;
-    const messagesInConversation = _getters.allMessagesIn(conversationId);
-    const { userLastSeenAt } = _getters.metaIn(conversationId);
+    const messagesInConversation = _getters.allMessagesIn(...getterArguments)(
+      conversationId
+    );
+    const { userLastSeenAt } = _getters.metaIn(...getterArguments)(
+      conversationId
+    );
 
     const messages = messagesInConversation.filter(message => {
       const { created_at: createdAt, message_type: messageType } = message;
@@ -150,7 +154,7 @@ export const getters = {
   },
   lastActiveConversationId: (...getterArguments) => {
     const [, _getters] = getterArguments;
-    const conversations = _getters.allActiveConversations;
+    const conversations = _getters.allActiveConversations(...getterArguments);
     const conversation = conversations[0];
 
     if (conversation) {
