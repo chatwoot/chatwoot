@@ -166,7 +166,7 @@ class Conversation < ApplicationRecord
   end
 
   def unread_messages
-    agent_last_seen_at ? messages.created_since(agent_last_seen_at) : messages
+    agent_last_seen_at.present? ? messages.created_since(agent_last_seen_at) : messages
   end
 
   def unread_incoming_messages
