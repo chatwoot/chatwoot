@@ -13,6 +13,7 @@
 import 'ninja-keys';
 import conversationHotKeysMixin from './conversationHotKeys';
 import goToCommandHotKeys from './goToCommandHotKeys';
+import appearanceHotKeys from './appearanceHotKeys';
 import agentMixin from 'dashboard/mixins/agentMixin';
 import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
 import conversationTeamMixin from 'dashboard/mixins/conversation/teamMixin';
@@ -26,6 +27,7 @@ export default {
     conversationHotKeysMixin,
     conversationLabelMixin,
     conversationTeamMixin,
+    appearanceHotKeys,
     goToCommandHotKeys,
   ],
 
@@ -42,7 +44,11 @@ export default {
       return this.$route.name;
     },
     hotKeys() {
-      return [...this.conversationHotKeys, ...this.goToCommandHotKeys];
+      return [
+        ...this.conversationHotKeys,
+        ...this.goToCommandHotKeys,
+        ...this.goToAppearanceHotKeys,
+      ];
     },
   },
   watch: {
@@ -76,8 +82,12 @@ ninja-keys {
   --ninja-accent-color: var(--w-500);
   --ninja-font-family: 'PlusJakarta';
   z-index: 9999;
+}
 
-  @media (prefers-color-scheme: dark) {
+// Wrapped with body.dark to avoid overriding the default theme
+// If OS is in dark theme and app is in light mode, It will prevent showing dark theme in command bar
+body.dark {
+  ninja-keys {
     --ninja-overflow-background: rgba(26, 29, 30, 0.5);
     --ninja-modal-background: #151718;
     --ninja-secondary-background-color: #26292b;
