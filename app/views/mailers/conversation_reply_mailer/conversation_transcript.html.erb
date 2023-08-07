@@ -2,11 +2,11 @@
   <tr>
     <td>
       <% if @inbox.email? %>
-        <b>From:</b> <%= message.sender.try(:available_name) || message.sender&.name || '' %> <%= "<#{message.sender&.email}>" %><br>
+        <b>From:</b> <%= message.sender_name %> <%= "<#{message.sender&.email}>" %><br>
         <b>Date:</b> <%= message.created_at.strftime('%a, %b %e, %Y at %l:%M %p')%><br>
         <b>Subject:</b> <%= message.conversation.additional_attributes&.dig('mail_subject') %><br>
       <% else %>
-        <b><%= message.sender.try(:available_name) || message.sender&.name || '' %></b>
+        <b><%= message.sender_name %></b>
       <% end %>
     </td>
   </tr>
