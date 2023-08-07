@@ -1,7 +1,7 @@
 <% if @message.content %>
   <%= ChatwootMarkdownRenderer.new(@message.content).render_message %>
 <% end %>
-<% if @inbox.append_original_message? && @previous_message %>
+<% if @message.can_append_original_message? && @previous_message %>
   <%= content_tag :div  do %>
     <%= content_tag :div do %>
       On <%= @previous_message.created_at.strftime('%a, %b %e, %Y at %l:%M %p') %>

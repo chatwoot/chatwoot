@@ -156,10 +156,6 @@ class Inbox < ApplicationRecord
   def member_ids_with_assignment_capacity
     members.ids
   end
-  
-  def append_original_message?
-    email? && enable_reply_with_original_message
-  end
 
   private
 

@@ -223,6 +223,10 @@ class Message < ApplicationRecord
     save!
   end
 
+  def can_append_original_message?
+    inbox.email? && inbox.enable_reply_with_original_message
+  end
+
   private
 
   def ensure_processed_message_content
