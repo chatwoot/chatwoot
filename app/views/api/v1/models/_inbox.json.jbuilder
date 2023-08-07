@@ -7,6 +7,7 @@ json.greeting_enabled resource.greeting_enabled
 json.greeting_message resource.greeting_message
 json.working_hours_enabled resource.working_hours_enabled
 json.enable_email_collect resource.enable_email_collect
+json.enable_reply_with_original_message resource.enable_reply_with_original_message
 json.csat_survey_enabled resource.csat_survey_enabled
 json.enable_auto_assignment resource.enable_auto_assignment
 json.auto_assignment_config resource.auto_assignment_config

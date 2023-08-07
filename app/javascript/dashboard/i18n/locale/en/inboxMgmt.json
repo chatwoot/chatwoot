@@ -290,6 +290,12 @@
           "SUBTITLE": "Provide the email address where your customers send support requests.",
           "PLACEHOLDER": "Email"
         },
+        "REPLY_WITH_ORIGINAL_MESSAGE_TOGGLE": {
+          "LABEL": "Show sender their original message when replying",
+          "HELP_TEXT": "This setting will copy their previous message when replying so that sender can see what the agent is replying to",
+          "ENABLED": "Enabled",
+          "DISABLED": "Disabled"
+        },
         "SUBMIT_BUTTON": "Create Email Channel",
         "API": {
           "ERROR_MESSAGE": "We were not able to save the email channel"
