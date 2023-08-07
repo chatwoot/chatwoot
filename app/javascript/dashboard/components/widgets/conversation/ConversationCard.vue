@@ -84,7 +84,7 @@
           <fluent-icon
             v-if="attachmentIcon"
             size="16"
-            class="-mt-0.5 align-middle inline-block"
+            class="-mt-0.5 align-middle inline-block text-slate-600 dark:text-slate-300"
             :icon="attachmentIcon"
           />
           {{ this.$t(`${attachmentMessageContent}`) }}
@@ -99,8 +99,8 @@
       >
         <fluent-icon
           size="16"
-          class="-mt-0.5 align-middle"
-          icon="info inline-block"
+          class="-mt-0.5 align-middle inline-block text-slate-600 dark:text-slate-300"
+          icon="info"
         />
         <span>
           {{ this.$t(`CHAT_LIST.NO_MESSAGES`) }}
