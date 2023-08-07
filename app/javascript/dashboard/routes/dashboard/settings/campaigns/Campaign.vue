@@ -1,12 +1,12 @@
 <template>
-  <div class="flex-1 overflow-auto p-4">
+  <div class="flex-1 overflow-auto">
     <campaigns-table
       :campaigns="campaigns"
       :show-empty-result="showEmptyResult"
       :is-loading="uiFlags.isFetching"
       :campaign-type="type"
-      @on-edit-click="openEditPopup"
-      @on-delete-click="openDeletePopup"
+      @edit="openEditPopup"
+      @delete="openDeletePopup"
     />
     <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
       <edit-campaign
@@ -65,26 +65,23 @@ export default {
     },
   },
   methods: {
-    openEditPopup(response) {
-      const { row: campaign } = response;
+    openEditPopup(campaign) {
       this.selectedCampaign = campaign;
       this.showEditPopup = true;
     },
     hideEditPopup() {
       this.showEditPopup = false;
     },
-    openDeletePopup(response) {
+    openDeletePopup(campaign) {
       this.showDeleteConfirmationPopup = true;
-      this.selectedCampaign = response;
+      this.selectedCampaign = campaign;
     },
     closeDeletePopup() {
       this.showDeleteConfirmationPopup = false;
     },
     confirmDeletion() {
       this.closeDeletePopup();
-      const {
-        row: { id },
-      } = this.selectedCampaign;
+      const { id } = this.selectedCampaign;
       this.deleteCampaign(id);
     },
     async deleteCampaign(id) {
