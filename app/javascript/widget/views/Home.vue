@@ -22,7 +22,7 @@
         <article-card-skeleton-loader />
       </div>
     </div>
-    <div class="px-4 pt-2 w-full">
+    <div class="px-4 pt-2 w-full sticky bottom-4">
       <team-availability
         :available-agents="availableAgents"
         :has-conversation="!!conversationSize"

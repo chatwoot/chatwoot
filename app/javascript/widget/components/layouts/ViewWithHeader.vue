@@ -1,56 +1,57 @@
 <template>
   <div
-    class="w-full h-full flex flex-col relative bg-slate-50 dark:bg-slate-800"
+    class="w-full h-full bg-white dark:bg-slate-900"
     :class="{ 'overflow-auto': isOnHomeView }"
-    :style="viewBackgroundStyles"
     @keydown.esc="closeWindow"
   >
-    <div
-      class="header-wrap sticky top-0 z-40"
-      :class="{
-        expanded: !isHeaderCollapsed,
-        collapsed: isHeaderCollapsed,
-        'custom-header-shadow': shouldRenderCustomShadow,
-      }"
-    >
+    <div class="flex flex-col h-full relative" :style="viewBackgroundStyles">
+      <div
+        class="header-wrap sticky top-0 z-40"
+        :class="{
+          expanded: !isHeaderCollapsed,
+          collapsed: isHeaderCollapsed,
+          'custom-header-shadow': shouldRenderCustomShadow,
+        }"
+      >
+        <transition
+          enter-active-class="transition-all delay-200 duration-300 ease-in"
+          leave-active-class="transition-all duration-200 ease-out"
+          enter-class="opacity-0"
+          enter-to-class="opacity-100"
+          leave-class="opacity-100"
+          leave-to-class="opacity-0"
+        >
+          <chat-header-expanded
+            v-if="!isHeaderCollapsed"
+            :intro-heading="channelConfig.welcomeTitle"
+            :intro-body="channelConfig.welcomeTagline"
+            :avatar-url="channelConfig.avatarUrl"
+            :show-popout-button="appConfig.showPopoutButton"
+            :show-bg="!!portal"
+          />
+          <chat-header
+            v-if="isHeaderCollapsed"
+            :title="channelConfig.websiteName"
+            :avatar-url="channelConfig.avatarUrl"
+            :show-popout-button="appConfig.showPopoutButton"
+            :available-agents="availableAgents"
+            :show-back-button="showBackButton"
+          />
+        </transition>
+      </div>
+      <banner />
       <transition
-        enter-active-class="transition-all delay-200 duration-300 ease-in"
+        enter-active-class="transition-all delay-300 duration-300 ease-in"
         leave-active-class="transition-all duration-200 ease-out"
         enter-class="opacity-0"
         enter-to-class="opacity-100"
         leave-class="opacity-100"
         leave-to-class="opacity-0"
       >
-        <chat-header-expanded
-          v-if="!isHeaderCollapsed"
-          :intro-heading="channelConfig.welcomeTitle"
-          :intro-body="channelConfig.welcomeTagline"
-          :avatar-url="channelConfig.avatarUrl"
-          :show-popout-button="appConfig.showPopoutButton"
-          :show-bg="!!portal"
-        />
-        <chat-header
-          v-if="isHeaderCollapsed"
-          :title="channelConfig.websiteName"
-          :avatar-url="channelConfig.avatarUrl"
-          :show-popout-button="appConfig.showPopoutButton"
-          :available-agents="availableAgents"
-          :show-back-button="showBackButton"
-        />
+        <router-view />
       </transition>
+      <branding v-if="!isOnArticleViewer" :disable-branding="disableBranding" />
     </div>
-    <banner />
-    <transition
-      enter-active-class="transition-all delay-300 duration-300 ease-in"
-      leave-active-class="transition-all duration-200 ease-out"
-      enter-class="opacity-0"
-      enter-to-class="opacity-100"
-      leave-class="opacity-100"
-      leave-to-class="opacity-0"
-    >
-      <router-view />
-    </transition>
-    <branding v-if="!isOnArticleViewer" :disable-branding="disableBranding" />
   </div>
 </template>
 <script>

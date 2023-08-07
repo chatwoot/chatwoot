@@ -8,7 +8,7 @@
   </div>
   <div
     v-else
-    class="flex flex-col justify-end h-full bg-white"
+    class="flex flex-col justify-end h-full"
     :class="{
       'is-mobile': isMobile,
       'is-widget-right': isRightAligned,
