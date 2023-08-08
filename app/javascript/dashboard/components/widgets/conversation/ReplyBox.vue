@@ -2,8 +2,9 @@
   <div class="reply-box" :class="replyBoxClass">
     <banner
       v-if="showSelfAssignBanner"
-      action-button-variant="link"
+      action-button-variant="clear"
       color-scheme="secondary"
+      class="banner--self-assign"
       :banner-message="$t('CONVERSATION.NOT_ASSIGNED_TO_YOU')"
       :has-action-button="true"
       :action-button-label="$t('CONVERSATION.ASSIGN_TO_ME')"
@@ -1094,6 +1095,10 @@ export default {
   @apply mb-0;
 }
 
+.banner--self-assign {
+  @apply py-2;
+}
+
 .message-signature-wrap {
   @apply my-0 mx-4 px-1 flex max-h-[8vh] items-baseline justify-between hover:bg-slate-25 dark:hover:bg-slate-800 border border-dashed border-slate-100 dark:border-slate-700 rounded-sm overflow-auto;
 }
@@ -1110,7 +1115,7 @@ export default {
   @apply border-t border-slate-50 dark:border-slate-700 bg-white dark:bg-slate-900;
 
   &.is-private {
-    @apply bg-yellow-50 dark:bg-yellow-50;
+    @apply bg-yellow-50 dark:bg-yellow-200;
   }
 }
 .send-button {
