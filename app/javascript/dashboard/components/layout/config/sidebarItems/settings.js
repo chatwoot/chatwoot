@@ -93,7 +93,6 @@ const settings = accountId => ({
     {
       icon: 'automation',
       label: 'AUTOMATION',
-      beta: true,
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/automation/list`),
       toStateName: 'automation_list',
@@ -102,7 +101,6 @@ const settings = accountId => ({
     {
       icon: 'bot',
       label: 'AGENT_BOTS',
-      beta: true,
       hasSubMenu: false,
       globalConfigFlag: 'csmlEditorHost',
       toState: frontendURL(`accounts/${accountId}/settings/agent-bots`),
@@ -115,7 +113,6 @@ const settings = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/macros`),
       toStateName: 'macros_wrapper',
-      beta: true,
       featureFlag: FEATURE_FLAGS.MACROS,
     },
     {

@@ -85,8 +85,8 @@ import {
 } from '../helpers/businessHour';
 
 const DEFAULT_TIMEZONE = {
-  label: 'America/Los_Angeles',
-  key: 'America/Los_Angeles',
+  label: 'Pacific Time (US & Canada) (GMT-07:00)',
+  value: 'America/Los_Angeles',
 };
 
 export default {
