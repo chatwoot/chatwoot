@@ -25,7 +25,7 @@ jobs:
           INSUFFICIENT_LOGS=0
 
           for file in $CHANGED_FILES; do
-            if [[ $file =~ \.rb$ ]]; then
+            if [[ $file =~ \.rb$ && ! $file =~ _spec\.rb$ ]]; then
               # Count the total number of lines in the file
               total_lines=$(wc -l < "$file")
 
@@ -53,4 +53,3 @@ jobs:
           if [ "$INSUFFICIENT_LOGS" -eq 1 ]; then
             exit 1
           fi
-
