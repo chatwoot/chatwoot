@@ -78,6 +78,8 @@ export default {
     enableVariables: { type: Boolean, default: false },
     enableCannedResponses: { type: Boolean, default: true },
     variables: { type: Object, default: () => ({}) },
+    messageSignature: { type: String, default: '' },
+    isDraftMessageEmpty: { type: Boolean, default: true },
   },
   data() {
     return {
@@ -87,6 +89,7 @@ export default {
       mentionSearchKey: '',
       cannedSearchTerm: '',
       variableSearchTerm: '',
+      editorMessageSignature: this.messageSignature,
       editorView: null,
       range: null,
       state: undefined,
@@ -244,12 +247,36 @@ export default {
     this.createEditorView();
     this.editorView.updateState(this.state);
     this.focusEditorInputField();
+    this.appendMessageSignature();
   },
   methods: {
     reloadState() {
       this.state = createState(this.value, this.placeholder, this.plugins);
       this.editorView.updateState(this.state);
       this.focusEditorInputField();
+      this.appendMessageSignature();
+    },
+    appendMessageSignature() {
+      if (
+        !this.editorView ||
+        !this.isDraftMessageEmpty ||
+        this.isPrivate ||
+        !this.messageSignature
+      ) {
+        return null;
+      }
+      const node = this.editorView.state.schema.nodes.paragraph.createAndFill(
+        {},
+        this.editorView.state.schema.text('\n' + this.messageSignature)
+      );
+
+      const tr = this.editorView.state.tr.insert(
+        this.editorView.state.doc.content.size,
+        node
+      );
+      this.state = this.editorView.state.apply(tr);
+      this.emitOnChange();
+      return null;
     },
     createEditorView() {
       this.editorView = new EditorView(this.$refs.editor, {

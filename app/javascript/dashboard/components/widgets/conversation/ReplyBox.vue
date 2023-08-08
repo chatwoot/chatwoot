@@ -69,6 +69,8 @@
         :min-height="4"
         :enable-variables="true"
         :variables="messageVariables"
+        :message-signature="messageSignature"
+        :is-draft-message-empty="isDraftMessageEmpty"
         @typing-off="onTypingOff"
         @typing-on="onTypingOn"
         @focus="onFocus"
@@ -513,6 +515,11 @@ export default {
         conversation: this.currentChat,
       });
       return variables;
+    },
+    isDraftMessageEmpty() {
+      const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
+      const message = this.$store.getters['draftMessages/get'](key) || '';
+      return !message.trim().replace(/\n/g, '').length;
     },
   },
   watch: {
