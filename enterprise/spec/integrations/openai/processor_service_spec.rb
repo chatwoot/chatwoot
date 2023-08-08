@@ -35,7 +35,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
     context 'when event name is label_suggestion with labels with >3 messages' do
       let(:event) { { 'name' => 'label_suggestion', 'data' => { 'conversation_display_id' => conversation.display_id } } }
 
-      it 'returns the label suggestions' do
+      before do
         create(:message, account: account, conversation: conversation, message_type: :incoming, content: 'hello agent')
         create(:message, account: account, conversation: conversation, message_type: :outgoing, content: 'hello customer')
         create(:message, account: account, conversation: conversation, message_type: :incoming, content: 'hello agent 2')
@@ -44,13 +44,24 @@ RSpec.describe Integrations::Openai::ProcessorService do
 
         create(:label, account: account)
         create(:label, account: account)
+      end
 
+      it 'returns the label suggestions' do
         stub_request(:post, 'https://api.openai.com/v1/chat/completions')
           .with(body: anything, headers: expected_headers)
           .to_return(status: 200, body: openai_response, headers: {})
 
         result = subject.perform
         expect(result).to eq('This is a reply from openai.')
+      end
+
+      it 'returns empty string if openai response is blank' do
+        stub_request(:post, 'https://api.openai.com/v1/chat/completions')
+          .with(body: anything, headers: expected_headers)
+          .to_return(status: 200, body: '{}', headers: {})
+
+        result = subject.perform
+        expect(result).to eq('')
       end
     end
 
