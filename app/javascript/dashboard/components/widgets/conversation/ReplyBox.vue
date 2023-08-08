@@ -519,7 +519,7 @@ export default {
     isDraftMessageEmpty() {
       const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
       const message = this.$store.getters['draftMessages/get'](key) || '';
-      return !message.trim().replace(/\n/g, '').length;
+      return !message.length;
     },
   },
   watch: {
