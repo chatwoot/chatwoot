@@ -140,6 +140,14 @@
 
       &.is-private {
         @apply text-black-900 dark:text-white relative border border-solid bg-yellow-100 dark:bg-yellow-700 border-yellow-200 dark:border-yellow-600/25;
+
+        blockquote {
+          @apply border-slate-400 dark:border-slate-400 text-slate-800 dark:text-slate-300;
+
+          p {
+            @apply text-slate-600 dark:text-slate-300;
+          }
+        }
       }
 
       &.is-image {
