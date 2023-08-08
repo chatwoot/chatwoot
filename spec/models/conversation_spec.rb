@@ -497,6 +497,12 @@ RSpec.describe Conversation do
     it 'returns unread incoming messages' do
       expect(unread_incoming_messages).to contain_exactly(message)
     end
+
+    it 'returns unread incoming messages even if the agent has not seen the conversation' do
+      conversation.update!(agent_last_seen_at: nil)
+
+      expect(unread_incoming_messages).to contain_exactly(message)
+    end
   end
 
   describe '#push_event_data' do
