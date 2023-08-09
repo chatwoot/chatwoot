@@ -2,7 +2,7 @@ import { getters } from './getters';
 import { actions } from './actions';
 import { mutations } from './mutations';
 
-const state = {
+export const state = {
   conversations: {
     byId: {},
     allIds: [],
@@ -20,7 +20,7 @@ const state = {
   uiFlags: {
     allFetched: false,
     isFetching: false,
-    isCreating: true,
+    isCreating: false,
   },
 };
 

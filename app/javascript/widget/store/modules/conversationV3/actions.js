@@ -1,3 +1,4 @@
+import { isEmptyObject } from 'widget/helpers/utils';
 import ConversationsV3API from 'widget/api/conversationV3';
 
 // import { getNonDeletedMessages } from './helpers';
@@ -8,7 +9,9 @@ export const actions = {
       commit('setUIFlag', { isFetching: true });
       const { data } = await ConversationsV3API.get();
 
-      data.forEach(conversation => {
+      if (isEmptyObject(data)) return;
+
+      [data].forEach(conversation => {
         const { id: conversationId, messages } = conversation;
         const { contact_last_seen_at: userLastSeenAt, status } = conversation;
         const lastMessage = messages[messages.length - 1];
@@ -56,15 +59,15 @@ export const actions = {
       // });
       // Filter them in getters
       // const messages = getNonDeletedMessages({ messages: data });
-
+      const { payload: messages = [] } = data;
       commit(
         'messageV3/addMessagesEntry',
-        { conversationId, messages: data },
+        { conversationId, messages },
         { root: true }
       );
       commit('prependMessageIdsToConversation', {
         conversationId,
-        messages: data,
+        messages,
       });
 
       if (data.length < 20) {
@@ -110,10 +113,9 @@ export const actions = {
   },
 
   createConversationWithMessage: async ({ commit }, params) => {
-    const { content } = params;
     commit('setUIFlag', { isCreating: true });
     try {
-      const { data } = await ConversationsV3API.create(content);
+      const { data } = await ConversationsV3API.create(params);
       const { id: conversationId, messages } = data;
       const { contact_last_seen_at: userLastSeenAt } = data;
 
@@ -155,14 +157,15 @@ export const actions = {
   },
 
   toggleUserTypingIn: async ({ commit }, data) => {
+    const { lastSeen, conversationId } = data;
     try {
-      await ConversationsV3API.toggleTyping(data);
+      await ConversationsV3API.toggleTyping({ lastSeen });
     } catch (error) {
       throw new Error(error);
     } finally {
       commit('setConversationUIFlag', {
         uiFlags: { isUserTyping: false },
-        conversationId: undefined,
+        conversationId,
       });
     }
   },
@@ -202,5 +205,9 @@ export const actions = {
       meta: { status },
       conversationId,
     });
+  },
+
+  clearConversations: ({ commit }) => {
+    commit('clearConversations');
   },
 };

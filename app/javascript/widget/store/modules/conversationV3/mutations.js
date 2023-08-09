@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import { state as defaultState } from './index';
 
 export const mutations = {
   setUIFlag($state, uiFlags) {
@@ -119,5 +120,10 @@ export const mutations = {
     if (!conversationById) return;
 
     Vue.set(conversationById.meta, 'userLastSeenAt', lastSeen);
+  },
+
+  clearConversations($state) {
+    Vue.set($state, 'conversations', defaultState.conversations);
+    Vue.set($state, 'uiFlags', defaultState.uiFlags);
   },
 };

@@ -22,16 +22,16 @@ export const getters = {
     };
   },
   isAllMessagesFetchedIn: (...getterArguments) => conversationId => {
-    const [_state, _getters] = getterArguments;
-    const uiFlags = _getters.uiFlagsIn(_state)(conversationId);
+    const [, _getters] = getterArguments;
+    const uiFlags = _getters.uiFlagsIn(conversationId);
 
     if (uiFlags) return uiFlags.allFetched;
     return false;
   },
   isCreating: _state => _state.uiFlags.isCreating,
   isAgentTypingIn: (...getterArguments) => conversationId => {
-    const [_state, _getters] = getterArguments;
-    const uiFlags = _getters.uiFlagsIn(_state)(conversationId);
+    const [, _getters] = getterArguments;
+    const uiFlags = _getters.uiFlagsIn(conversationId);
 
     if (uiFlags) return uiFlags.isAgentTyping;
     return false;
@@ -55,8 +55,7 @@ export const getters = {
   allActiveConversations: (...getterArguments) => {
     const [, _getters] = getterArguments;
 
-    const conversations = _getters
-      .allConversations(...getterArguments)
+    const conversations = _getters.allConversations
       .filter(conversation => conversation.status === 'open')
       .sort((a, b) => {
         const lastMessageOnA = a.messages[a.messages.length - 1];
@@ -129,12 +128,8 @@ export const getters = {
   },
   unreadTextMessagesIn: (...getterArguments) => conversationId => {
     const [, _getters] = getterArguments;
-    const messagesInConversation = _getters.allMessagesIn(...getterArguments)(
-      conversationId
-    );
-    const { userLastSeenAt } = _getters.metaIn(...getterArguments)(
-      conversationId
-    );
+    const messagesInConversation = _getters.allMessagesIn(conversationId);
+    const { userLastSeenAt } = _getters.metaIn(conversationId);
 
     const messages = messagesInConversation.filter(message => {
       const { created_at: createdAt, message_type: messageType } = message;
@@ -154,7 +149,7 @@ export const getters = {
   },
   lastActiveConversationId: (...getterArguments) => {
     const [, _getters] = getterArguments;
-    const conversations = _getters.allActiveConversations(...getterArguments);
+    const conversations = _getters.allActiveConversations;
     const conversation = conversations[0];
 
     if (conversation) {

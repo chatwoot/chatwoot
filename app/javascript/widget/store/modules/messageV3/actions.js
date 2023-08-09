@@ -1,4 +1,5 @@
-import MessagePublicAPI from 'widget/api/messagePublic';
+import MessageAPI from 'widget/api/message';
+import { sendMessageAPI, sendAttachmentAPI } from 'widget/api/conversationV3';
 // import { refreshActionCableConnector } from 'widget/helpers/actionCable';
 import {
   createTemporaryMessage,
@@ -35,7 +36,7 @@ export const actions = {
       { root: true }
     );
   },
-  sendMessage: async ({ commit, dispatch }, params) => {
+  sendMessageIn: async ({ commit, dispatch }, params) => {
     const { content, conversationId } = params;
     try {
       commit(
@@ -54,11 +55,13 @@ export const actions = {
         { conversationId, messages },
         { root: true }
       );
-      const { data: newMessage } = await MessagePublicAPI.create(
-        conversationId,
-        content,
-        echoId
-      );
+      // const { data: newMessage } = await MessagePublicAPI.create(
+      //   conversationId,
+      //   content,
+      //   echoId
+      // );
+
+      const { data: newMessage } = await sendMessageAPI(content, echoId);
 
       dispatch('addOrUpdate', {
         ...newMessage,
@@ -75,7 +78,7 @@ export const actions = {
     }
   },
 
-  sendAttachment: async ({ commit, dispatch }, params) => {
+  sendAttachmentIn: async ({ commit, dispatch }, params) => {
     const {
       attachment: { thumbUrl, fileType },
       conversationId,
@@ -104,10 +107,11 @@ export const actions = {
         { root: true }
       );
 
-      const { data } = await MessagePublicAPI.createAttachment(
-        conversationId,
-        attachmentParams
-      );
+      // const { data } = await MessagePublicAPI.createAttachment(
+      //   conversationId,
+      //   attachmentParams
+      // );
+      const { data } = await sendAttachmentAPI(attachmentParams);
       dispatch('addOrUpdate', { ...data, echo_id: echoId });
     } catch (error) {
       throw new Error(error);
@@ -120,7 +124,7 @@ export const actions = {
     }
   },
 
-  update: async ({ commit, getters, dispatch }, params) => {
+  update: async ({ commit, dispatch }, params) => {
     const { email, messageId, submittedValues } = params;
     try {
       commit('setMessageUIFlag', {
@@ -128,17 +132,13 @@ export const actions = {
         uiFlags: { isUpdating: true },
       });
 
-      const { conversation_id: conversationId } = getters.messageById(
-        messageId
-      );
       const {
         data: { contact: { pubsub_token: pubsubToken } = {} },
-      } = await MessagePublicAPI.update(conversationId, {
+      } = await MessageAPI.update({
         email,
-        id: messageId,
-        submitted_values: submittedValues,
+        messageId,
+        values: submittedValues,
       });
-
       commit('updateMessageEntry', {
         id: messageId,
         content_attributes: {

@@ -71,6 +71,6 @@ export const sendMessageAPI = async content => {
 };
 
 export const sendAttachmentAPI = async attachment => {
-  const urlData = endPoints.sendAttachment(attachment);
+  const urlData = endPoints.sendAttachment({ attachment });
   return API.post(urlData.url, urlData.params);
 };
