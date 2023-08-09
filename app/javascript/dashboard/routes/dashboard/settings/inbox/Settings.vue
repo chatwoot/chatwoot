@@ -214,7 +214,7 @@
               'INBOX_MGMT.ADD.EMAIL_CHANNEL.REPLY_WITH_ORIGINAL_MESSAGE_TOGGLE.LABEL'
             )
           }}
-          <select v-model="replyWithOriginalMessageEnabled">
+          <select v-model="replyWithOrigMsgEnabled">
             <option :value="true">
               {{
                 $t(
@@ -504,7 +504,7 @@ export default {
       tweetsEnabled: true,
       greetingMessage: '',
       emailCollectEnabled: false,
-      replyWithOriginalMessageEnabled: false,
+      replyWithOrigMsgEnabled: false,
       csatSurveyEnabled: false,
       senderNameType: 'friendly',
       businessName: '',
@@ -700,7 +700,7 @@ export default {
         this.tweetsEnabled = this.inbox.tweets_enabled || false;
         this.greetingMessage = this.inbox.greeting_message || '';
         this.emailCollectEnabled = this.inbox.enable_email_collect;
-        this.replyWithOriginalMessageEnabled = this.inbox.enable_reply_with_original_message;
+        this.replyWithOrigMsgEnabled = this.inbox.enable_reply_with_original_message;
         this.csatSurveyEnabled = this.inbox.csat_survey_enabled;
         this.senderNameType = this.inbox.sender_name_type;
         this.businessName = this.inbox.business_name;
@@ -723,7 +723,7 @@ export default {
           id: this.currentInboxId,
           name: this.selectedInboxName,
           enable_email_collect: this.emailCollectEnabled,
-          enable_reply_with_original_message: this.replyWithOriginalMessageEnabled,
+          enable_reply_with_original_message: this.replyWithOrigMsgEnabled,
           csat_survey_enabled: this.csatSurveyEnabled,
           allow_messages_after_resolved: this.allowMessagesAfterResolved,
           greeting_enabled: this.greetingEnabled,
