@@ -18,7 +18,17 @@
       </div>
       <available-agents v-if="isOnline" :agents="availableAgents" />
     </div>
+    <continue-chat-button
+      v-if="hasConversation || unreadCount > 0"
+      :title="$t('CONTINUE_CONVERSATION')"
+      :content="
+        unreadCount > 0 ? $t('VIEW_UNREAD_MESSAGES') : lastMessageContent
+      "
+      :unread-count="unreadCount"
+      @continue="startConversation"
+    />
     <custom-button
+      v-else
       class="font-medium"
       block
       :bg-color="widgetColor"
@@ -41,12 +51,14 @@ import CustomButton from 'shared/components/Button';
 import configMixin from 'widget/mixins/configMixin';
 import availabilityMixin from 'widget/mixins/availability';
 import darkMixin from 'widget/mixins/darkModeMixin.js';
+import ContinueChatButton from './ContinueChatButton.vue';
 
 export default {
   name: 'TeamAvailability',
   components: {
     AvailableAgents,
     CustomButton,
+    ContinueChatButton,
   },
   mixins: [configMixin, nextAvailabilityTime, availabilityMixin, darkMixin],
   props: {
@@ -57,6 +69,14 @@ export default {
     hasConversation: {
       type: Boolean,
       default: false,
+    },
+    unreadCount: {
+      type: Number,
+      default: 0,
+    },
+    lastMessageContent: {
+      type: String,
+      default: '',
     },
   },
 

@@ -5,7 +5,7 @@
     </h3>
     <article-list :articles="articles" @click="onArticleClick" />
     <button
-      class="inline-flex text-sm font-medium rounded-md px-2 py-1 -ml-2 leading-6 text-slate-800 dark:text-slate-50 justify-between items-center hover:bg-slate-25 see-articles"
+      class="inline-flex text-sm font-medium rounded-md px-2 py-1 -ml-2 leading-6 text-slate-800 dark:text-slate-50 justify-between items-center hover:bg-slate-25 dark:hover:bg-slate-800 see-articles"
       :style="{ color: widgetColor }"
       @click="$emit('view-all')"
     >

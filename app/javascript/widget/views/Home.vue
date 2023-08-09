@@ -26,6 +26,8 @@
       <team-availability
         :available-agents="availableAgents"
         :has-conversation="!!conversationSize"
+        :unread-count="unreadMessageCount"
+        :last-message-content="lastMessageContent"
         @start-conversation="startConversation"
       />
     </div>
@@ -64,6 +66,8 @@ export default {
       availableAgents: 'agent/availableAgents',
       activeCampaign: 'campaign/getActiveCampaign',
       conversationSize: 'conversation/getConversationSize',
+      lastMessage: 'conversation/getLastMessage',
+      unreadMessageCount: 'conversation/getUnreadMessageCount',
       popularArticles: 'article/popularArticles',
       articleUiFlags: 'article/uiFlags',
     }),
@@ -76,6 +80,9 @@ export default {
         !this.articleUiFlags.isFetching &&
         this.popularArticles.length
       );
+    },
+    lastMessageContent() {
+      return this.lastMessage.content;
     },
   },
   mounted() {
