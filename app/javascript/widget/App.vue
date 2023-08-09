@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="!conversationSize && isFetchingList"
+    v-if="!messageCount && isFetchingList"
     class="flex flex-1 items-center h-full bg-black-25 justify-center"
     :class="{ dark: prefersDarkMode }"
   >
@@ -58,18 +58,19 @@ export default {
   },
   computed: {
     ...mapGetters({
+      messageCountIn: 'conversationV3/allMessagesCountIn',
+      unreadMessageCountIn: 'conversationV3/unreadTextMessagesCountIn',
+      isFetchingListIn: 'conversationV3/isFetchingMessagesIn',
+      activeConversationId: 'conversationV3/lastActiveConversationId',
+
       activeCampaign: 'campaign/getActiveCampaign',
       campaigns: 'campaign/getCampaigns',
-      conversationSize: 'conversation/getConversationSize',
       currentUser: 'contacts/getCurrentUser',
       hasFetched: 'agent/getHasFetched',
       hideMessageBubble: 'appConfig/getHideMessageBubble',
-      isFetchingList: 'conversation/getIsFetchingList',
       isRightAligned: 'appConfig/isRightAligned',
       isWidgetOpen: 'appConfig/getIsWidgetOpen',
       darkMode: 'appConfig/darkMode',
-      messageCount: 'conversation/getMessageCount',
-      unreadMessageCount: 'conversation/getUnreadMessageCount',
       isWidgetStyleFlat: 'appConfig/isWidgetStyleFlat',
     }),
     isIFrame() {
@@ -84,6 +85,15 @@ export default {
         window.matchMedia('(prefers-color-scheme: dark)').matches;
       return isOSOnDarkMode || this.darkMode === 'dark';
     },
+    messageCount() {
+      return this.messageCountIn(this.activeConversationId);
+    },
+    unreadMessageCount() {
+      return this.unreadMessageCountIn(this.activeConversationId);
+    },
+    isFetchingList() {
+      return this.isFetchingListIn(this.activeConversationId);
+    },
   },
   watch: {
     activeCampaign() {
@@ -95,11 +105,18 @@ export default {
     this.setLocale(locale);
     this.setWidgetColor(widgetColor);
     setHeader(window.authToken);
+
+    this.fetchAllConversations().then(() => {
+      if (this.activeConversationId) {
+        this.fetchOldMessagesIn({
+          conversationId: this.activeConversationId,
+        });
+      }
+    });
     if (this.isIFrame) {
       this.registerListeners();
       this.sendLoadedEvent();
     } else {
-      this.fetchOldConversations();
       this.fetchAvailableAgents(websiteToken);
       this.setLocale(getLocale(window.location.search));
     }
@@ -107,7 +124,7 @@ export default {
       this.registerListeners();
       this.sendRNWebViewLoadedEvent();
     }
-    this.$store.dispatch('conversationAttributes/getAttributes');
+    // this.$store.dispatch('conversationAttributes/getAttributes');
     this.registerUnreadEvents();
     this.registerCampaignEvents();
   },
@@ -119,7 +136,11 @@ export default {
       'setBubbleVisibility',
       'setColorScheme',
     ]),
-    ...mapActions('conversation', ['fetchOldConversations', 'setUserLastSeen']),
+    ...mapActions('conversationV3', [
+      'fetchAllConversations',
+      'fetchOldMessagesIn',
+      'setUserLastSeenIn',
+    ]),
     ...mapActions('campaign', [
       'initCampaigns',
       'executeCampaign',
@@ -167,7 +188,12 @@ export default {
       bus.$on(ON_AGENT_MESSAGE_RECEIVED, () => {
         const { name: routeName } = this.$route;
         if ((this.isWidgetOpen || !this.isIFrame) && routeName === 'messages') {
-          this.$store.dispatch('conversation/setUserLastSeen');
+          // this.$store.dispatch('conversation/setUserLastSeen');
+          if (this.activeConversationId) {
+            this.setUserLastSeenIn({
+              conversationId: this.activeConversationId,
+            });
+          }
         }
         this.setUnreadView();
       });
@@ -259,7 +285,11 @@ export default {
         if (message.event === 'config-set') {
           this.setLocale(message.locale);
           this.setBubbleLabel();
-          this.fetchOldConversations().then(() => this.setUnreadView());
+          // this.fetchOldConversations().then(() => this.setUnreadView());
+          if (this.activeConversationId)
+            this.fetchOldMessagesIn({
+              conversationId: this.activeConversationId,
+            }).then(() => this.setUnreadView());
           this.fetchAvailableAgents(websiteToken);
           this.setAppConfig(message);
           this.$store.dispatch('contacts/get');
@@ -325,7 +355,12 @@ export default {
             this.replaceRoute('messages');
           }
           if (shouldShowHomeView) {
-            this.$store.dispatch('conversation/setUserLastSeen');
+            // this.$store.dispatch('conversation/setUserLastSeen');
+            if (this.activeConversationId) {
+              this.setUserLastSeenIn({
+                conversationId: this.activeConversationId,
+              });
+            }
             this.unsetUnreadView();
             this.replaceRoute('home');
           }

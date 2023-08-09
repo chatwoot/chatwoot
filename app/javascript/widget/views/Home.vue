@@ -66,7 +66,10 @@ export default {
     ...mapGetters({
       availableAgents: 'agent/availableAgents',
       activeCampaign: 'campaign/getActiveCampaign',
-      conversationSize: 'conversation/getConversationSize',
+      // conversationSize: 'conversation/getConversationSize',
+      messageCountIn: 'conversationV3/allMessagesCountIn',
+      activeConversationId: 'conversationV3/lastActiveConversationId',
+
       popularArticles: 'article/popularArticles',
       articleUiFlags: 'article/uiFlags',
     }),
@@ -78,6 +81,9 @@ export default {
         this.portal &&
         (this.articleUiFlags.isFetching || this.popularArticles.length)
       );
+    },
+    conversationSize() {
+      return this.messageCountIn(this.activeConversationId);
     },
   },
   mounted() {

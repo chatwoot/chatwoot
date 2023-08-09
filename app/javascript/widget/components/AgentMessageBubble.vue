@@ -121,7 +121,7 @@ export default {
   },
   methods: {
     onResponse(messageResponse) {
-      this.$store.dispatch('message/update', messageResponse);
+      this.$store.dispatch('messageV3/update', messageResponse);
     },
     onOptionSelect(selectedOption) {
       this.onResponse({

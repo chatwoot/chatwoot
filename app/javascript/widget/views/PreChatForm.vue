@@ -17,8 +17,12 @@ export default {
   mixins: [configMixin, routerMixin],
   computed: {
     ...mapGetters({
-      conversationSize: 'conversation/getConversationSize',
+      activeConversationId: 'conversationV3/lastActiveConversationId',
+      messageCountIn: 'conversationV3/allMessagesCountIn',
     }),
+    conversationSize() {
+      return this.messageCountIn(this.activeConversationId);
+    },
   },
   watch: {
     conversationSize(newSize, oldSize) {
@@ -50,7 +54,7 @@ export default {
           },
         });
       } else {
-        this.$store.dispatch('conversation/createConversation', {
+        this.$store.dispatch('conversationV3/createConversationWithMessage', {
           fullName: fullName,
           emailAddress: emailAddress,
           message: message,

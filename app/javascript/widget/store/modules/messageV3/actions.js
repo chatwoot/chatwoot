@@ -60,7 +60,6 @@ export const actions = {
       //   content,
       //   echoId
       // );
-
       const { data: newMessage } = await sendMessageAPI(content, echoId);
 
       dispatch('addOrUpdate', {
