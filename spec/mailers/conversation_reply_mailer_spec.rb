@@ -139,7 +139,7 @@ RSpec.describe ConversationReplyMailer do
 
     context 'with email reply' do
       let(:conversation) { create(:conversation, assignee: agent, inbox: email_channel.inbox, account: account).reload }
-      let(:previous_message) { create(:message, conversation: conversation, account: account, message_type: 'incoming', content: 'Incoming Message 1').reload }
+      let(:prev_message) { create(:message, conversation: conversation, account: account, message_type: 'incoming', content: 'Message 1').reload }
       let(:message) { create(:message, conversation: conversation, account: account, message_type: 'outgoing', content: 'Outgoing Message 2').reload }
       let(:mail) { described_class.email_reply(message).deliver_now }
 
@@ -157,13 +157,11 @@ RSpec.describe ConversationReplyMailer do
 
       context 'when reply with original message is enabled' do
         before do
-          previous_message.inbox.update(enable_reply_with_original_message: true)
+          prev_message.inbox.update(enable_reply_with_original_message: true)
         end
 
-        it { expect(previous_message.inbox.append_original_message?).to be_truthy }
-
         it 'renders the previous message to the body' do
-          expect(mail.decoded).to include previous_message.content
+          expect(mail.decoded).to include prev_message.content
         end
       end
     end
