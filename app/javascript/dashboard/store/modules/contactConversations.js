@@ -3,16 +3,8 @@ import * as types from '../mutation-types';
 import ContactAPI from '../../api/contacts';
 import ConversationApi from '../../api/conversations';
 
-const createConversationPayload = params => {
-  const {
-    inboxId,
-    message,
-    contactId,
-    sourceId,
-    mailSubject,
-    files,
-    assigneeId,
-  } = params;
+const createConversationPayload = ({ params, contactId, files }) => {
+  const { inboxId, message, sourceId, mailSubject, assigneeId } = params;
 
   const payload = new FormData();
 
@@ -63,10 +55,10 @@ export const actions = {
     commit(types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, {
       isCreating: true,
     });
-    const { contactId } = params;
+    const { contactId, files } = params;
 
     try {
-      const payload = createConversationPayload(params);
+      const payload = createConversationPayload({ params, contactId, files });
 
       const { data } = await ConversationApi.create(payload);
       commit(types.default.ADD_CONTACT_CONVERSATION, {
