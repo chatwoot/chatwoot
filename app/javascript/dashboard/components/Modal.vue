@@ -12,7 +12,7 @@
           color-scheme="secondary"
           icon="dismiss"
           variant="clear"
-          class="modal--close"
+          class="modal--close z-10"
           @click="close"
         />
         <slot />

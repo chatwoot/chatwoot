@@ -81,6 +81,7 @@
     </div>
     <div v-if="hasAttachments" class="attachment-preview-box" @paste="onPaste">
       <attachment-preview
+        class="mt-4 flex-col"
         :attachments="attachedFiles"
         :remove-attachment="removeAttachment"
       />
@@ -124,6 +125,7 @@
       :toggle-audio-recorder="toggleAudioRecorder"
       :toggle-emoji-picker="toggleEmojiPicker"
       :message="message"
+      :new-conversation-modal-active="newConversationModalActive"
       @selectWhatsappTemplate="openWhatsappTemplateModal"
       @toggle-editor="toggleRichContentEditor"
       @replace-text="replaceText"
@@ -247,6 +249,7 @@ export default {
       showUserMentions: false,
       showCannedMenu: false,
       showVariablesMenu: false,
+      newConversationModalActive: false,
     };
   },
   computed: {
@@ -571,10 +574,20 @@ export default {
       500,
       true
     );
+    bus.$on(
+      BUS_EVENTS.NEW_CONVERSATION_MODAL,
+      this.onNewConversationModalActive
+    );
   },
   destroyed() {
     document.removeEventListener('paste', this.onPaste);
     document.removeEventListener('keydown', this.handleKeyEvents);
+  },
+  beforeDestroy() {
+    bus.$off(
+      BUS_EVENTS.NEW_CONVERSATION_MODAL,
+      this.onNewConversationModalActive
+    );
   },
   methods: {
     toggleRichContentEditor() {
@@ -1085,6 +1098,14 @@ export default {
       this.ccEmails = cc.join(', ');
       this.bccEmails = bcc.join(', ');
       this.toEmails = to.join(', ');
+    },
+    onNewConversationModalActive(isActive) {
+      // Issue is if the new conversation modal is open and we drag and drop the file
+      // then the file is not getting attached to the new conversation modal
+      // and it is getting attached to the current conversation reply box
+      // so to fix this we are removing the drag and drop event listener from the current conversation reply box
+      // When new conversation modal is open
+      this.newConversationModalActive = isActive;
     },
   },
 };

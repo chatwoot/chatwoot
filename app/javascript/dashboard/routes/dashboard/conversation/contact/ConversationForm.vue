@@ -11,7 +11,10 @@
           <label>
             {{ $t('NEW_CONVERSATION.FORM.INBOX.LABEL') }}
           </label>
-          <div class="multiselect-wrap--small">
+          <div
+            class="multiselect-wrap--small"
+            :class="{ 'has-multi-select-error': $v.targetInbox.$error }"
+          >
             <multiselect
               v-model="targetInbox"
               track-by="id"
@@ -139,9 +142,51 @@
               {{ $t('NEW_CONVERSATION.FORM.MESSAGE.ERROR') }}
             </span>
           </label>
+          <file-upload
+            ref="uploadAttachment"
+            input-id="newConversationAttachment"
+            :size="4096 * 4096"
+            :accept="allowedFileTypes"
+            :multiple="enableMultipleFileUpload"
+            :drop="true"
+            :drop-directory="false"
+            :data="{
+              direct_upload_url: '/rails/active_storage/direct_uploads',
+              direct_upload: true,
+            }"
+            @input-file="onFileUploadForNewConversation"
+          >
+            <woot-button
+              v-if="showAttachmentButton"
+              class-names="button--upload"
+              icon="attach"
+              emoji="📎"
+              color-scheme="secondary"
+              variant="smooth"
+              size="small"
+            >
+              {{ $t('NEW_CONVERSATION.FORM.ATTACHMENTS.SELECT') }}
+            </woot-button>
+            <span
+              class="text-slate-500 ltr:ml-1 rtl:mr-1 font-medium text-xs dark:text-slate-400"
+            >
+              {{ $t('NEW_CONVERSATION.FORM.ATTACHMENTS.HELP_TEXT') }}
+            </span>
+          </file-upload>
+          <div
+            v-if="hasAttachments"
+            class="max-h-20 overflow-y-auto mb-4 mt-1.5"
+          >
+            <attachment-preview
+              class="[&>.preview-item]:dark:bg-slate-700 flex-row flex-wrap gap-x-3 gap-y-1"
+              :attachments="attachedFiles"
+              :remove-attachment="removeAttachment"
+            />
+          </div>
         </div>
       </div>
     </div>
+
     <div
       v-if="!hasWhatsappTemplates"
       class="flex flex-row justify-end gap-2 py-2 px-0 w-full"
@@ -153,6 +198,18 @@
         {{ $t('NEW_CONVERSATION.FORM.SUBMIT') }}
       </woot-button>
     </div>
+
+    <transition name="modal-fade">
+      <div
+        v-show="$refs.uploadAttachment && $refs.uploadAttachment.dropActive"
+        class="flex top-0 bottom-0 z-30 gap-2 right-0 left-0 items-center justify-center flex-col absolute w-full h-full bg-white/80 dark:bg-slate-700/80"
+      >
+        <fluent-icon icon="cloud-backup" size="40" />
+        <h4 class="page-sub-title text-slate-600 dark:text-slate-200">
+          {{ $t('CONVERSATION.REPLYBOX.DRAG_DROP') }}
+        </h4>
+      </div>
+    </transition>
   </form>
 </template>
 
@@ -169,6 +226,17 @@ import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 import { getInboxSource } from 'dashboard/helper/inbox';
 import { required, requiredIf } from 'vuelidate/lib/validators';
+import inboxMixin from 'shared/mixins/inboxMixin';
+import FileUpload from 'vue-upload-component';
+import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
+import { DirectUpload } from 'activestorage';
+import {
+  ALLOWED_FILE_TYPES,
+  ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP,
+  MAXIMUM_FILE_UPLOAD_SIZE,
+  MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL,
+} from 'shared/constants/messages';
+import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 
 export default {
   components: {
@@ -178,8 +246,10 @@ export default {
     CannedResponse,
     WhatsappTemplates,
     InboxDropdownItem,
+    FileUpload,
+    AttachmentPreview,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, inboxMixin],
   props: {
     contact: {
       type: Object,
@@ -188,6 +258,10 @@ export default {
     onSubmit: {
       type: Function,
       default: () => {},
+    },
+    enableMultipleFileUpload: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -201,6 +275,7 @@ export default {
       ccEmails: '',
       targetInbox: {},
       whatsappTemplateSelected: false,
+      attachedFiles: [],
     };
   },
   validations: {
@@ -219,8 +294,9 @@ export default {
       uiFlags: 'contacts/getUIFlags',
       conversationsUiFlags: 'contactConversations/getUIFlags',
       currentUser: 'getCurrentUser',
+      globalConfig: 'globalConfig/get',
     }),
-    emailMessagePayload() {
+    newMessagePayload() {
       const payload = {
         inboxId: this.targetInbox.id,
         sourceId: this.targetInbox.sourceId,
@@ -229,6 +305,18 @@ export default {
         mailSubject: this.subject,
         assigneeId: this.currentUser.id,
       };
+
+      if (this.attachedFiles && this.attachedFiles.length) {
+        payload.files = [];
+        this.attachedFiles.forEach(attachment => {
+          if (this.globalConfig.directUploadsEnabled) {
+            payload.files.push(attachment.blobSignedId);
+          } else {
+            payload.files.push(attachment.resource.file);
+          }
+        });
+      }
+
       if (this.ccEmails) {
         payload.message.cc_emails = this.ccEmails;
       }
@@ -284,6 +372,25 @@ export default {
     hasWhatsappTemplates() {
       return !!this.selectedInbox.inbox?.message_templates;
     },
+    hasAttachments() {
+      return this.attachedFiles.length;
+    },
+    showAttachmentButton() {
+      return (
+        !this.isAWhatsAppCloudChannel &&
+        !this.isATwilioWhatsAppChannel &&
+        !this.is360DialogWhatsAppChannel
+      );
+    },
+    inbox() {
+      return this.targetInbox;
+    },
+    allowedFileTypes() {
+      if (this.isATwilioWhatsAppChannel) {
+        return ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP;
+      }
+      return ALLOWED_FILE_TYPES;
+    },
   },
   watch: {
     message(value) {
@@ -300,6 +407,85 @@ export default {
     },
   },
   methods: {
+    onFileUploadForNewConversation(file) {
+      if (this.globalConfig.directUploadsEnabled) {
+        this.onDirectFileUpload(file);
+      } else {
+        this.onIndirectFileUpload(file);
+      }
+    },
+    onDirectFileUpload(file) {
+      const MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE = this.isATwilioSMSChannel
+        ? MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL
+        : MAXIMUM_FILE_UPLOAD_SIZE;
+
+      if (!file) {
+        return;
+      }
+      if (checkFileSizeLimit(file, MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE)) {
+        const upload = new DirectUpload(
+          file.file,
+          `/api/v1/accounts/${this.accountId}/conversations/${this.currentChat.id}/direct_uploads`,
+          {
+            directUploadWillCreateBlobWithXHR: xhr => {
+              xhr.setRequestHeader(
+                'api_access_token',
+                this.currentUser.access_token
+              );
+            },
+          }
+        );
+
+        upload.create((error, blob) => {
+          if (error) {
+            this.showAlert(error);
+          } else {
+            this.attachFile({ file, blob });
+          }
+        });
+      } else {
+        this.showAlert(
+          this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
+            MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE,
+          })
+        );
+      }
+    },
+    onIndirectFileUpload(file) {
+      const MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE = this.isATwilioSMSChannel
+        ? MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL
+        : MAXIMUM_FILE_UPLOAD_SIZE;
+      if (!file) {
+        return;
+      }
+      if (checkFileSizeLimit(file, MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE)) {
+        this.attachFile({ file });
+      } else {
+        this.showAlert(
+          this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
+            MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE,
+          })
+        );
+      }
+    },
+    attachFile({ blob, file }) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file.file);
+      reader.onloadend = () => {
+        this.attachedFiles.push({
+          currentChatId: this.contact.id,
+          resource: blob || file,
+          isPrivate: this.isPrivate,
+          thumb: reader.result,
+          blobSignedId: blob ? blob.signed_id : undefined,
+        });
+      };
+    },
+    removeAttachment(itemIndex) {
+      this.attachedFiles = this.attachedFiles.filter(
+        (item, index) => itemIndex !== index
+      );
+    },
     onCancel() {
       this.$emit('cancel');
     },
@@ -327,7 +513,7 @@ export default {
       if (this.$v.$invalid) {
         return;
       }
-      this.createConversation(this.emailMessagePayload);
+      this.createConversation(this.newMessagePayload);
     },
     async createConversation(payload) {
       try {
@@ -385,6 +571,14 @@ export default {
   ::v-deep {
     .ProseMirror-menubar {
       @apply rounded-tl-[4px];
+    }
+  }
+}
+
+.multiselect-wrap--small.has-multi-select-error {
+  ::v-deep {
+    .multiselect__tags {
+      @apply border-red-500;
     }
   }
 }

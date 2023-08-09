@@ -30,10 +30,12 @@ export const actions = {
       contactId,
       sourceId,
       mailSubject,
+      files,
       assigneeId,
     } = params;
-    try {
-      const { data } = await ConversationApi.create({
+    let payload;
+    if (!files && files.length === 0) {
+      payload = {
         inbox_id: inboxId,
         contact_id: contactId,
         source_id: sourceId,
@@ -42,7 +44,31 @@ export const actions = {
         },
         message,
         assignee_id: assigneeId,
+      };
+    } else {
+      payload = new FormData();
+      if (message) {
+        const { content, cc_emails, bcc_emails } = message;
+        payload.append('message[content]', content);
+        if (cc_emails) {
+          payload.append('message[cc_emails]', cc_emails);
+        }
+        if (bcc_emails) {
+          payload.append('message[bcc_emails]', bcc_emails);
+        }
+      }
+      files.forEach(file => {
+        payload.append('message[attachments][]', file);
       });
+      payload.append('inbox_id', inboxId);
+      payload.append('contact_id', contactId);
+      payload.append('source_id', sourceId);
+      payload.append('additional_attributes[mail_subject]', mailSubject);
+      payload.append('assignee_id', assigneeId);
+    }
+
+    try {
+      const { data } = await ConversationApi.create(payload);
       commit(types.default.ADD_CONTACT_CONVERSATION, {
         id: contactId,
         data,
