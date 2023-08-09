@@ -49,6 +49,35 @@ describe('#actions', () => {
           contactId: 4,
           sourceId: 5,
           mailSubject: 'Mail Subject',
+          assigneeId: 6,
+          files: [],
+        }
+      );
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, { isCreating: true }],
+
+        [
+          types.default.ADD_CONTACT_CONVERSATION,
+          { id: 4, data: conversationList[0] },
+        ],
+        [
+          types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG,
+          { isCreating: false },
+        ],
+      ]);
+    });
+    it('sends correct actions with files if API is success', async () => {
+      axios.post.mockResolvedValue({ data: conversationList[0] });
+      await actions.create(
+        { commit },
+        {
+          inboxId: 1,
+          message: { content: 'hi' },
+          contactId: 4,
+          sourceId: 5,
+          assigneeId: 6,
+          mailSubject: 'Mail Subject',
+          files: [new File([], 'file1')],
         }
       );
       expect(commit.mock.calls).toEqual([
@@ -74,8 +103,34 @@ describe('#actions', () => {
             inboxId: 1,
             message: { content: 'hi' },
             contactId: 4,
+            assigneeId: 6,
             sourceId: 5,
             mailSubject: 'Mail Subject',
+          }
+        )
+      ).rejects.toThrow(Error);
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, { isCreating: true }],
+        [
+          types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG,
+          { isCreating: false },
+        ],
+      ]);
+    });
+    it('sends correct actions with files if API is error', async () => {
+      axios.post.mockRejectedValue({ message: 'Incorrect header' });
+
+      await expect(
+        actions.create(
+          { commit },
+          {
+            inboxId: 1,
+            message: { content: 'hi' },
+            contactId: 4,
+            assigneeId: 6,
+            sourceId: 5,
+            mailSubject: 'Mail Subject',
+            files: [new File([], 'file1')],
           }
         )
       ).rejects.toThrow(Error);

@@ -147,7 +147,7 @@
             input-id="newConversationAttachment"
             :size="4096 * 4096"
             :accept="allowedFileTypes"
-            :multiple="enableMultipleFileUpload"
+            :multiple="true"
             :drop="true"
             :drop-directory="false"
             :data="{
@@ -232,7 +232,6 @@ import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
 import { DirectUpload } from 'activestorage';
 import {
   ALLOWED_FILE_TYPES,
-  ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP,
   MAXIMUM_FILE_UPLOAD_SIZE,
   MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL,
 } from 'shared/constants/messages';
@@ -258,10 +257,6 @@ export default {
     onSubmit: {
       type: Function,
       default: () => {},
-    },
-    enableMultipleFileUpload: {
-      type: Boolean,
-      default: false,
     },
   },
   data() {
@@ -386,9 +381,6 @@ export default {
       return this.targetInbox;
     },
     allowedFileTypes() {
-      if (this.isATwilioWhatsAppChannel) {
-        return ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP;
-      }
       return ALLOWED_FILE_TYPES;
     },
   },
