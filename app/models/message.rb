@@ -223,10 +223,6 @@ class Message < ApplicationRecord
     save!
   end
 
-  def sender_name
-    (sender.try(:available_name) || sender&.name).to_s
-  end
-
   private
 
   def ensure_processed_message_content
