@@ -210,23 +210,31 @@
         </label>
         <label class="medium-9 columns settings-item">
           {{
-            $t('INBOX_MGMT.ADD.EMAIL_CHANNEL.REPLY_WITH_ORIGINAL_MESSAGE_TOGGLE.LABEL')
+            $t(
+              'INBOX_MGMT.ADD.EMAIL_CHANNEL.REPLY_WITH_ORIGINAL_MESSAGE_TOGGLE.LABEL'
+            )
           }}
           <select v-model="replyWithOriginalMessageEnabled">
             <option :value="true">
               {{
-                $t('INBOX_MGMT.ADD.EMAIL_CHANNEL.REPLY_WITH_ORIGINAL_MESSAGE_TOGGLE.ENABLED')
+                $t(
+                  'INBOX_MGMT.ADD.EMAIL_CHANNEL.REPLY_WITH_ORIGINAL_MESSAGE_TOGGLE.ENABLED'
+                )
               }}
             </option>
             <option :value="false">
               {{
-                $t('INBOX_MGMT.ADD.EMAIL_CHANNEL.REPLY_WITH_ORIGINAL_MESSAGE_TOGGLE.DISABLED')
+                $t(
+                  'INBOX_MGMT.ADD.EMAIL_CHANNEL.REPLY_WITH_ORIGINAL_MESSAGE_TOGGLE.DISABLED'
+                )
               }}
             </option>
           </select>
           <p class="text-slate-600 dark:text-slate-400 pb-1 text-sm not-italic">
             {{
-              $t('INBOX_MGMT.ADD.EMAIL_CHANNEL.REPLY_WITH_ORIGINAL_MESSAGE_TOGGLE.HELP_TEXT')
+              $t(
+                'INBOX_MGMT.ADD.EMAIL_CHANNEL.REPLY_WITH_ORIGINAL_MESSAGE_TOGGLE.HELP_TEXT'
+              )
             }}
           </p>
         </label>
