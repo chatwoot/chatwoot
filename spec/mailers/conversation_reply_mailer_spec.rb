@@ -160,7 +160,7 @@ RSpec.describe ConversationReplyMailer do
           previous_message.inbox.update(enable_reply_with_original_message: true)
         end
 
-        it { expect(message.append_original_message?).to be_truthy }
+        it { expect(previous_message.inbox.append_original_message?).to be_truthy }
 
         it 'renders the previous message to the body' do
           expect(mail.decoded).to include previous_message.content

@@ -157,6 +157,10 @@ class Inbox < ApplicationRecord
     members.ids
   end
 
+  def append_original_message?
+    email? && enable_reply_with_original_message
+  end
+
   private
 
   def ensure_valid_max_assignment_limit
