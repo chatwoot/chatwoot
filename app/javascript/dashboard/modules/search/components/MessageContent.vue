@@ -1,7 +1,7 @@
 <template>
   <blockquote
     ref="messageContainer"
-    class="message border-l-2 border-slate-100 dark:border-slate-800"
+    class="message border-l-2 border-slate-100 dark:border-slate-700"
   >
     <p class="header">
       <strong class="text-slate-700 dark:text-slate-100">
