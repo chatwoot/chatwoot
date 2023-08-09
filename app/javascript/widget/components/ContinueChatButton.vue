@@ -9,25 +9,27 @@
     >
       💬
     </div>
-    <div class="text-left flex flex-col justify-start flex-grow mx-2">
-      <h5 class="font-medium text-slate-900 text-brand-link dark:text-white">
+    <div
+      class="text-left flex flex-col justify-start flex-grow max-w-[calc(100%-80px)] mx-2"
+    >
+      <h5 class="font-medium text-slate-900 dark:text-white">
         {{ title }}
       </h5>
-      <p class="h-4 leading-4">
+      <p class="h-4 leading-4 flex items-center gap-1">
         <span
           v-if="unreadCount > 0"
-          class="inline-flex items-center rounded-full bg-green-200 px-1 min-w-[16px] leading-4 text-xs font-medium text-green-700 mr-0.5"
+          class="inline-flex items-center justify-center rounded-full bg-green-200 px-1 min-w-[16px] leading-4 text-xs font-medium text-green-700 mr-0.5"
         >
           {{ unreadCount }}
         </span>
         <span
           v-dompurify-html="content"
-          class="leading-4 h-4 text-ellipsis overflow-hidden dark:text-slate-25"
+          class="leading-4 h-4 text-ellipsis overflow-hidden whitespace-nowrap dark:text-slate-25"
         />
       </p>
     </div>
     <div class="w-8 h-10 flex items-center justify-center">
-      <fluent-icon icon="chevron-right" class="text-brand-link" />
+      <fluent-icon icon="chevron-right" />
     </div>
   </button>
 </template>
