@@ -5,24 +5,17 @@ import ConversationApi from '../../api/conversations';
 
 const createConversationPayload = ({ params, contactId, files }) => {
   const { inboxId, message, sourceId, mailSubject, assigneeId } = params;
-
   const payload = new FormData();
 
   if (message) {
     const { content, cc_emails, bcc_emails } = message;
     payload.append('message[content]', content);
-    if (cc_emails) {
-      payload.append('message[cc_emails]', cc_emails);
-    }
-    if (bcc_emails) {
-      payload.append('message[bcc_emails]', bcc_emails);
-    }
+    if (cc_emails) payload.append('message[cc_emails]', cc_emails);
+    if (bcc_emails) payload.append('message[bcc_emails]', bcc_emails);
   }
 
   if (files && files.length > 0) {
-    files.forEach(file => {
-      payload.append('message[attachments][]', file);
-    });
+    files.forEach(file => payload.append('message[attachments][]', file));
   }
 
   payload.append('inbox_id', inboxId);
