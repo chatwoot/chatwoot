@@ -51,7 +51,16 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def conversation
-    @conversation ||= Conversation.find_by(conversation_params) || build_conversation
+    @conversation ||= begin
+      conv = Conversation.find_by(conversation_params)
+      if conv
+        conv
+      else
+        # Double-check just before insertion
+        conv = Conversation.find_by(conversation_params)
+        conv || build_conversation
+      end
+    end
   end
 
   def build_conversation
