@@ -82,7 +82,7 @@ export default {
       );
     },
     lastMessageFileType() {
-      const [{ file_type: fileType } = {}] = this.lastMessage.attachments;
+      const [{ file_type: fileType } = {}] = this.lastMessage.attachments || [];
       return fileType;
     },
 
