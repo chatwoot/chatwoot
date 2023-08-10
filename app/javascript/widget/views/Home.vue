@@ -87,6 +87,7 @@ export default {
     },
 
     attachmentMessageContent() {
+      if (!this.lastMessageFileType) return '';
       return this.$t(`ATTACHMENTS.${this.lastMessageFileType}.CONTENT`);
     },
 
