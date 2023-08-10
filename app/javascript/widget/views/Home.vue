@@ -81,8 +81,17 @@ export default {
         this.popularArticles.length
       );
     },
+    lastMessageFileType() {
+      const [{ file_type: fileType } = {}] = this.lastMessage.attachments;
+      return fileType;
+    },
+
+    attachmentMessageContent() {
+      return this.$t(`ATTACHMENTS.${this.lastMessageFileType}.CONTENT`);
+    },
+
     lastMessageContent() {
-      return this.lastMessage.content;
+      return this.lastMessage.content || this.attachmentMessageContent;
     },
   },
   mounted() {
