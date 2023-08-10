@@ -1,0 +1,35 @@
+name: Deploy to Staging
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    types: [closed]
+    branches:
+      - develop
+
+jobs:
+  build:
+    name: "Fetching changes"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Execute commands via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: 20.204.77.247
+          username: "azureuser"
+          key: ${{ secrets.AZURE_VM_SSH_PRIVATE_KEY }}
+          script: |
+            echo "Deploying to Azure VM"
+            sudo -i -u chatwoot << EOF
+            cd /home/chatwoot/chatwoot
+            git pull origin develop
+            bundle install
+            yarn install
+            rake assets:precompile RAILS_ENV=production
+            RAILS_ENV=production bundle exec rake db:migrate
+            sudo systemctl restart chatwoot.target
+            exit
+            EOF
