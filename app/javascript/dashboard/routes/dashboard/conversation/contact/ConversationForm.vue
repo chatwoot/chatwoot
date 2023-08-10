@@ -143,6 +143,7 @@
             </span>
           </label>
           <file-upload
+            v-if="isNotWhatsappInbox"
             ref="uploadAttachment"
             input-id="newConversationAttachment"
             :size="4096 * 4096"
@@ -157,7 +158,7 @@
             @input-file="onFileUploadForNewConversation"
           >
             <woot-button
-              v-if="showAttachmentButton"
+              v-if="isNotWhatsappInbox"
               class-names="button--upload"
               icon="attach"
               emoji="📎"
@@ -201,6 +202,7 @@
 
     <transition name="modal-fade">
       <div
+        v-if="isNotWhatsappInbox"
         v-show="$refs.uploadAttachment && $refs.uploadAttachment.dropActive"
         class="flex top-0 bottom-0 z-30 gap-2 right-0 left-0 items-center justify-center flex-col absolute w-full h-full bg-white/80 dark:bg-slate-700/80"
       >
@@ -370,7 +372,7 @@ export default {
     hasAttachments() {
       return this.attachedFiles.length;
     },
-    showAttachmentButton() {
+    isNotWhatsappInbox() {
       return (
         !this.isAWhatsAppCloudChannel &&
         !this.isATwilioWhatsAppChannel &&
@@ -461,17 +463,19 @@ export default {
       }
     },
     attachFile({ blob, file }) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file.file);
-      reader.onloadend = () => {
-        this.attachedFiles.push({
-          currentChatId: this.contact.id,
-          resource: blob || file,
-          isPrivate: this.isPrivate,
-          thumb: reader.result,
-          blobSignedId: blob ? blob.signed_id : undefined,
-        });
-      };
+      if (this.isNotWhatsappInbox) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.file);
+        reader.onloadend = () => {
+          this.attachedFiles.push({
+            currentChatId: this.contact.id,
+            resource: blob || file,
+            isPrivate: this.isPrivate,
+            thumb: reader.result,
+            blobSignedId: blob ? blob.signed_id : undefined,
+          });
+        };
+      }
     },
     removeAttachment(itemIndex) {
       this.attachedFiles = this.attachedFiles.filter(
