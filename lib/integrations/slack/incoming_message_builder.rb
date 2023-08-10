@@ -36,7 +36,7 @@ class Integrations::Slack::IncomingMessageBuilder
   def should_process_event?
     return true if params[:type] != 'event_callback'
 
-    params[:event][:user].present? && params[:event][:subtype].blank?
+    params[:event][:user].present? && (params[:event][:subtype].blank? || params[:event][:subtype] == 'file_share')
   end
 
   def supported_event?
