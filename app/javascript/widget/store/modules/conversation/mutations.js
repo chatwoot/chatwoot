@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
-import { findUndeliveredMessage } from './helpers';
+import { findUndeliveredMessage } from 'widget/store/modules/conversationV3/helpers';
 
 export const mutations = {
   clearConversations($state) {

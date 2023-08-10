@@ -1,8 +1,8 @@
 import {
   findUndeliveredMessage,
-  createTemporaryMessage,
   getNonDeletedMessages,
 } from '../../conversation/helpers';
+import { createTemporaryMessage } from 'widget/store/modules/messageV3/helpers';
 
 describe('#findUndeliveredMessage', () => {
   it('returns message objects if exist', () => {
