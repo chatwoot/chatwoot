@@ -128,7 +128,8 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def update_reference_id
-    return if conversation.identifier
+    # If the conversation identifier is present and conversation identifier is not equal to slack message ts, then do nothing
+    return if conversation.identifier && conversation.identifier == @slack_message['ts']
 
     conversation.update!(identifier: @slack_message['ts'])
   end

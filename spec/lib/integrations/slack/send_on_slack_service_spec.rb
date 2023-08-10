@@ -97,6 +97,43 @@ describe Integrations::Slack::SendOnSlackService do
         expect(message.external_source_id_slack).to eq 'cw-origin-6789.12345'
       end
 
+      it 'send a message to a previously non-existent slack thread' do
+        allow(slack_message).to receive(:[]).with('ts').and_return('1245.6789')
+
+        expect(slack_client).to receive(:chat_postMessage).with(
+          channel: hook.reference_id,
+          text: message.content,
+          username: "#{message.sender.name} (Contact)",
+          thread_ts: conversation.identifier,
+          icon_url: anything,
+          unfurl_links: true
+        ).and_return(slack_message)
+
+        builder.perform
+
+        expect(conversation.identifier).to eq '1245.6789'
+      end
+
+      it 'send a message to a differnt channel in slack' do
+        allow(slack_message).to receive(:[]).with('ts').and_return('1691652432.896169')
+
+        hook.update!(reference_id: 'C12345')
+
+        expect(slack_client).to receive(:chat_postMessage).with(
+          channel: 'C12345',
+          text: message.content,
+          username: "#{message.sender.name} (Contact)",
+          thread_ts: conversation.identifier,
+          icon_url: anything,
+          unfurl_links: true
+        ).and_return(slack_message)
+
+        builder.perform
+
+        expect(hook.reload.reference_id).to eq 'C12345'
+        expect(conversation.identifier).to eq '1691652432.896169'
+      end
+
       it 'sent attachment on slack' do
         expect(slack_client).to receive(:chat_postMessage).with(
           channel: hook.reference_id,
