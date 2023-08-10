@@ -30,5 +30,3 @@ jobs:
             rake assets:precompile RAILS_ENV=production
             RAILS_ENV=production bundle exec rake db:migrate
             sudo systemctl restart chatwoot.target
-            exit
-            EOF
