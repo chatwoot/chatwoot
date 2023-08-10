@@ -102,28 +102,30 @@ describe V2::ReportBuilder do
       end
 
       it 'return resolutions count' do
-        params = {
-          metric: 'resolutions_count',
-          type: :account,
-          since: (Time.zone.today - 3.days).to_time.to_i.to_s,
-          until: Time.zone.today.end_of_day.to_time.to_i.to_s
-        }
+        travel_to(Time.zone.today) do
+          params = {
+            metric: 'resolutions_count',
+            type: :account,
+            since: (Time.zone.today - 3.days).to_time.to_i.to_s,
+            until: Time.zone.today.end_of_day.to_time.to_i.to_s
+          }
 
-        conversations = account.conversations.where('created_at < ?', 1.day.ago)
-        perform_enqueued_jobs do
-          # Resolve all 5 conversations
-          conversations.each(&:resolved!)
+          conversations = account.conversations.where('created_at < ?', 1.day.ago)
+          perform_enqueued_jobs do
+            # Resolve all 5 conversations
+            conversations.each(&:resolved!)
 
-          # Reopen 1 conversation
-          conversations.first.open!
+            # Reopen 1 conversation
+            conversations.first.open!
+          end
+
+          builder = described_class.new(account, params)
+          metrics = builder.timeseries
+
+          # 4 conversations are resolved
+          expect(metrics[Time.zone.today]).to be 4
+          expect(metrics[Time.zone.today - 2.days]).to be 0
         end
-
-        builder = described_class.new(account, params)
-        metrics = builder.timeseries
-
-        # 4 conversations are resolved
-        expect(metrics[Time.zone.today]).to be 4
-        expect(metrics[Time.zone.today - 2.days]).to be 0
       end
 
       it 'returns average first response time' do
@@ -220,30 +222,32 @@ describe V2::ReportBuilder do
       end
 
       it 'return resolutions count' do
-        params = {
-          metric: 'resolutions_count',
-          type: :label,
-          id: label_2.id,
-          since: (Time.zone.today - 3.days).to_time.to_i.to_s,
-          until: (Time.zone.today + 1.day).to_time.to_i.to_s
-        }
+        travel_to(Time.zone.today) do
+          params = {
+            metric: 'resolutions_count',
+            type: :label,
+            id: label_2.id,
+            since: (Time.zone.today - 3.days).to_time.to_i.to_s,
+            until: (Time.zone.today + 1.day).to_time.to_i.to_s
+          }
 
-        conversations = account.conversations.where('created_at < ?', 1.day.ago)
+          conversations = account.conversations.where('created_at < ?', 1.day.ago)
 
-        perform_enqueued_jobs do
-          # ensure 5 reporting events are created
-          conversations.each(&:resolved!)
+          perform_enqueued_jobs do
+            # ensure 5 reporting events are created
+            conversations.each(&:resolved!)
 
-          # open one of the conversations to check if it is not counted
-          conversations.last.open!
+            # open one of the conversations to check if it is not counted
+            conversations.last.open!
+          end
+
+          builder = described_class.new(account, params)
+          metrics = builder.timeseries
+
+          # this should count only 4 since the last conversation was reopened
+          expect(metrics[Time.zone.today]).to be 4
+          expect(metrics[Time.zone.today - 2.days]).to be 0
         end
-
-        builder = described_class.new(account, params)
-        metrics = builder.timeseries
-
-        # this should count only 4 since the last conversation was reopened
-        expect(metrics[Time.zone.today]).to be 4
-        expect(metrics[Time.zone.today - 2.days]).to be 0
       end
 
       it 'returns average first response time' do
