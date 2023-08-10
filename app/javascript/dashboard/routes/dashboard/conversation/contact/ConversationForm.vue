@@ -91,7 +91,10 @@
         </div>
       </div>
       <div class="w-full">
-        <div class="w-full">
+        <div
+          class="w-full"
+          :class="{ 'flex flex-col-reverse gap-3': hasWhatsappTemplates }"
+        >
           <div class="relative">
             <canned-response
               v-if="showCannedResponseMenu && hasSlashCommand"
@@ -142,47 +145,47 @@
               {{ $t('NEW_CONVERSATION.FORM.MESSAGE.ERROR') }}
             </span>
           </label>
-          <file-upload
-            v-if="isNotWhatsappInbox"
-            ref="uploadAttachment"
-            input-id="newConversationAttachment"
-            :size="4096 * 4096"
-            :accept="allowedFileTypes"
-            :multiple="true"
-            :drop="true"
-            :drop-directory="false"
-            :data="{
-              direct_upload_url: '/rails/active_storage/direct_uploads',
-              direct_upload: true,
-            }"
-            @input-file="onFileUploadForNewConversation"
-          >
-            <woot-button
-              v-if="isNotWhatsappInbox"
-              class-names="button--upload"
-              icon="attach"
-              emoji="📎"
-              color-scheme="secondary"
-              variant="smooth"
-              size="small"
+          <div class="flex flex-col">
+            <file-upload
+              ref="uploadAttachment"
+              input-id="newConversationAttachment"
+              :size="4096 * 4096"
+              :accept="allowedFileTypes"
+              :multiple="true"
+              :drop="true"
+              :drop-directory="false"
+              :data="{
+                direct_upload_url: '/rails/active_storage/direct_uploads',
+                direct_upload: true,
+              }"
+              @input-file="onFileUploadForNewConversation"
             >
-              {{ $t('NEW_CONVERSATION.FORM.ATTACHMENTS.SELECT') }}
-            </woot-button>
-            <span
-              class="text-slate-500 ltr:ml-1 rtl:mr-1 font-medium text-xs dark:text-slate-400"
+              <woot-button
+                class-names="button--upload"
+                icon="attach"
+                emoji="📎"
+                color-scheme="secondary"
+                variant="smooth"
+                size="small"
+              >
+                {{ $t('NEW_CONVERSATION.FORM.ATTACHMENTS.SELECT') }}
+              </woot-button>
+              <span
+                class="text-slate-500 ltr:ml-1 rtl:mr-1 font-medium text-xs dark:text-slate-400"
+              >
+                {{ $t('NEW_CONVERSATION.FORM.ATTACHMENTS.HELP_TEXT') }}
+              </span>
+            </file-upload>
+            <div
+              v-if="hasAttachments"
+              class="max-h-20 overflow-y-auto mb-4 mt-1.5"
             >
-              {{ $t('NEW_CONVERSATION.FORM.ATTACHMENTS.HELP_TEXT') }}
-            </span>
-          </file-upload>
-          <div
-            v-if="hasAttachments"
-            class="max-h-20 overflow-y-auto mb-4 mt-1.5"
-          >
-            <attachment-preview
-              class="[&>.preview-item]:dark:bg-slate-700 flex-row flex-wrap gap-x-3 gap-y-1"
-              :attachments="attachedFiles"
-              :remove-attachment="removeAttachment"
-            />
+              <attachment-preview
+                class="[&>.preview-item]:dark:bg-slate-700 flex-row flex-wrap gap-x-3 gap-y-1"
+                :attachments="attachedFiles"
+                :remove-attachment="removeAttachment"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -202,7 +205,6 @@
 
     <transition name="modal-fade">
       <div
-        v-if="isNotWhatsappInbox"
         v-show="$refs.uploadAttachment && $refs.uploadAttachment.dropActive"
         class="flex top-0 bottom-0 z-30 gap-2 right-0 left-0 items-center justify-center flex-col absolute w-full h-full bg-white/80 dark:bg-slate-700/80"
       >
@@ -372,13 +374,6 @@ export default {
     hasAttachments() {
       return this.attachedFiles.length;
     },
-    isNotWhatsappInbox() {
-      return (
-        !this.isAWhatsAppCloudChannel &&
-        !this.isATwilioWhatsAppChannel &&
-        !this.is360DialogWhatsAppChannel
-      );
-    },
     inbox() {
       return this.targetInbox;
     },
@@ -463,19 +458,17 @@ export default {
       }
     },
     attachFile({ blob, file }) {
-      if (this.isNotWhatsappInbox) {
-        const reader = new FileReader();
-        reader.readAsDataURL(file.file);
-        reader.onloadend = () => {
-          this.attachedFiles.push({
-            currentChatId: this.contact.id,
-            resource: blob || file,
-            isPrivate: this.isPrivate,
-            thumb: reader.result,
-            blobSignedId: blob ? blob.signed_id : undefined,
-          });
-        };
-      }
+      const reader = new FileReader();
+      reader.readAsDataURL(file.file);
+      reader.onloadend = () => {
+        this.attachedFiles.push({
+          currentChatId: this.contact.id,
+          resource: blob || file,
+          isPrivate: this.isPrivate,
+          thumb: reader.result,
+          blobSignedId: blob ? blob.signed_id : undefined,
+        });
+      };
     },
     removeAttachment(itemIndex) {
       this.attachedFiles = this.attachedFiles.filter(
@@ -502,6 +495,16 @@ export default {
         message: { content, template_params: templateParams },
         assigneeId: this.currentUser.id,
       };
+      if (this.attachedFiles && this.attachedFiles.length) {
+        payload.files = [];
+        this.attachedFiles.forEach(attachment => {
+          if (this.globalConfig.directUploadsEnabled) {
+            payload.files.push(attachment.blobSignedId);
+          } else {
+            payload.files.push(attachment.resource.file);
+          }
+        });
+      }
       return payload;
     },
     onFormSubmit() {
@@ -569,6 +572,10 @@ export default {
       @apply rounded-tl-[4px];
     }
   }
+}
+
+.file-uploads {
+  @apply text-start;
 }
 
 .multiselect-wrap--small.has-multi-select-error {
