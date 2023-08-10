@@ -93,7 +93,10 @@
       <div class="w-full">
         <div
           class="w-full"
-          :class="{ 'flex flex-col-reverse gap-3': hasWhatsappTemplates }"
+          :class="{
+            'flex flex-col-reverse': hasWhatsappTemplates,
+            'gap-3': hasWhatsappTemplates && !hasAttachments,
+          }"
         >
           <div class="relative">
             <canned-response
@@ -307,13 +310,7 @@ export default {
 
       if (this.attachedFiles && this.attachedFiles.length) {
         payload.files = [];
-        this.attachedFiles.forEach(attachment => {
-          if (this.globalConfig.directUploadsEnabled) {
-            payload.files.push(attachment.blobSignedId);
-          } else {
-            payload.files.push(attachment.resource.file);
-          }
-        });
+        this.setAttachmentPayload(payload);
       }
 
       if (this.ccEmails) {
@@ -396,6 +393,15 @@ export default {
     },
   },
   methods: {
+    setAttachmentPayload(payload) {
+      this.attachedFiles.forEach(attachment => {
+        if (this.globalConfig.directUploadsEnabled) {
+          payload.files.push(attachment.blobSignedId);
+        } else {
+          payload.files.push(attachment.resource.file);
+        }
+      });
+    },
     onFileUploadForNewConversation(file) {
       if (this.globalConfig.directUploadsEnabled) {
         this.onDirectFileUpload(file);
@@ -497,13 +503,7 @@ export default {
       };
       if (this.attachedFiles && this.attachedFiles.length) {
         payload.files = [];
-        this.attachedFiles.forEach(attachment => {
-          if (this.globalConfig.directUploadsEnabled) {
-            payload.files.push(attachment.blobSignedId);
-          } else {
-            payload.files.push(attachment.resource.file);
-          }
-        });
+        this.setAttachmentPayload(payload);
       }
       return payload;
     },
