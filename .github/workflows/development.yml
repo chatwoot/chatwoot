@@ -19,11 +19,10 @@ jobs:
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: 15.206.194.241
-          username: "ubuntu"
+          username: "chatwoot"
           key: ${{ secrets.ONECHAT_STAGING_PRIVATE_KEY }}
           script: |
-            echo "Deploying to AWS"
-            sudo -i -u chatwoot << EOF
+            echo "Deploying to EC2"
             cd /home/chatwoot/onehash-chat
             git pull origin development
             bundle install
