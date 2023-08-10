@@ -116,7 +116,7 @@ export default {
 
     &.has-error {
       animation: shake 0.3s ease-in-out 0s 2;
-      @apply bg-red-50 dark:bg-red-100;
+      @apply bg-red-50 dark:bg-red-800;
     }
   }
 }

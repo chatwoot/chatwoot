@@ -15,7 +15,7 @@
         <label class="editor-wrap">
           {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.LABEL') }}
           <woot-message-editor
-            v-model.trim="message"
+            v-model="message"
             class="message-editor"
             :is-format-mode="true"
             :class="{ editor_warning: $v.message.$error }"
