@@ -53,11 +53,8 @@ export const actions = {
       const { data } = await ConversationsV3API.getMessages({
         before: beforeId,
       });
-      // const { data } = await ConversationsV3API.getMessagesIn({
-      //   id: conversationId,
-      //   before: beforeId,
-      // });
-      // Filter them in getters
+
+      // TODO: Filter them in getters
       // const messages = getNonDeletedMessages({ messages: data });
       const { payload: messages = [] } = data;
       commit(
@@ -70,7 +67,7 @@ export const actions = {
         messages,
       });
 
-      if (data.length < 20) {
+      if (messages.length < 20) {
         commit('setConversationUIFlag', {
           conversationId,
           uiFlags: { allFetched: true },
