@@ -18,14 +18,14 @@ jobs:
       - name: Execute commands via SSH
         uses: appleboy/ssh-action@v1.0.0
         with:
-          host: 20.204.77.247
-          username: "azureuser"
-          key: ${{ secrets.AZURE_VM_SSH_PRIVATE_KEY }}
+          host: 15.206.194.241
+          username: "ubuntu"
+          key: ${{ secrets.ONECHAT_STAGING_PRIVATE_KEY }}
           script: |
-            echo "Deploying to Azure VM"
+            echo "Deploying to AWS"
             sudo -i -u chatwoot << EOF
-            cd /home/chatwoot/chatwoot
-            git pull origin develop
+            cd /home/chatwoot/onehash-chat
+            git pull origin development
             bundle install
             yarn install
             rake assets:precompile RAILS_ENV=production
