@@ -1,5 +1,5 @@
 <template>
-  <kbd class="hotkey" :class="customClass">
+  <kbd class="hotkey p-0.5 min-w-[1rem] uppercase" :class="customClass">
     <slot />
   </kbd>
 </template>
@@ -16,6 +16,6 @@ export default {
 
 <style lang="scss">
 kbd.hotkey {
-  @apply inline-flex p-0.5 leading-[0.625rem] min-w-[1rem] rounded tracking-wide uppercase flex-shrink-0 items-center select-none justify-center;
+  @apply inline-flex leading-[0.625rem] rounded tracking-wide flex-shrink-0 items-center select-none justify-center;
 }
 </style>
