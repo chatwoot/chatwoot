@@ -1,6 +1,6 @@
 import MessageAPI from 'widget/api/message';
 import { sendMessageAPI, sendAttachmentAPI } from 'widget/api/conversationV3';
-// import { refreshActionCableConnector } from 'widget/helpers/actionCable';
+
 import {
   createTemporaryMessage,
   createTemporaryAttachmentMessage,
@@ -55,11 +55,6 @@ export const actions = {
         { conversationId, messages },
         { root: true }
       );
-      // const { data: newMessage } = await MessagePublicAPI.create(
-      //   conversationId,
-      //   content,
-      //   echoId
-      // );
 
       const { data: newMessage } = await sendMessageAPI(content, echoId);
 
@@ -107,10 +102,6 @@ export const actions = {
         { root: true }
       );
 
-      // const { data } = await MessagePublicAPI.createAttachment(
-      //   conversationId,
-      //   attachmentParams
-      // );
       const { data } = await sendAttachmentAPI(attachmentParams);
       dispatch('addOrUpdate', { ...data, echo_id: echoId });
     } catch (error) {
@@ -132,9 +123,7 @@ export const actions = {
         uiFlags: { isUpdating: true },
       });
 
-      const {
-        data: { contact: { pubsub_token: pubsubToken } = {} },
-      } = await MessageAPI.update({
+      await MessageAPI.update({
         email,
         messageId,
         values: submittedValues,
@@ -147,9 +136,6 @@ export const actions = {
         },
       });
       dispatch('contact/get', {}, { root: true });
-      // eslint-disable-next-line no-console
-      console.log('pubsubToken', pubsubToken);
-      // refreshActionCableConnector(pubsubToken);
     } catch (error) {
       throw new Error(error);
     } finally {

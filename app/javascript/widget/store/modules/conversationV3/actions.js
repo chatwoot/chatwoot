@@ -1,8 +1,6 @@
 import { isEmptyObject } from 'widget/helpers/utils';
 import ConversationsV3API from 'widget/api/conversationV3';
 
-// import { getNonDeletedMessages } from './helpers';
-
 export const actions = {
   fetchAllConversations: async ({ commit }) => {
     try {
