@@ -8,11 +8,19 @@
       <div class="h-5 bg-slate-100 rounded" />
       <div class="h-5 bg-slate-100 rounded" />
       <div class="h-5 bg-slate-100 rounded" />
+      <div class="h-5 bg-slate-100 rounded  w-4/5" />
     </div>
     <div class="space-y-2 animate-pulse ">
       <div class="h-5 bg-slate-100 rounded" />
       <div class="h-5 bg-slate-100 rounded" />
-      <div class="h-5 bg-slate-100 rounded w-7/10" />
+      <div class="h-5 bg-slate-100 rounded w-3/5" />
+      <div class="h-5 bg-slate-100 rounded" />
+    </div>
+    <div class="space-y-2 animate-pulse ">
+      <div class="h-5 bg-slate-100 rounded" />
+      <div class="h-5 bg-slate-100 rounded" />
+      <div class="h-5 bg-slate-100 rounded" />
+      <div class="h-5 bg-slate-100 rounded w-3/5" />
     </div>
   </div>
 </template>
