@@ -425,7 +425,7 @@ export default {
             });
           },
           message: this.$t('LABEL_MGMT.SUGGESTIONS.ADD_ALL_LABELS'),
-          duration: 6000,
+          duration: 9000,
         },
         {
           wide: true,
