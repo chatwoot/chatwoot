@@ -108,6 +108,8 @@ import {
   CMD_SNOOZE_CONVERSATION,
 } from '../../routes/dashboard/commands/commandBarBusEvents';
 
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+
 export default {
   components: {
     WootDropdownItem,
@@ -240,6 +242,7 @@ export default {
         })
         .then(() => {
           this.showAlert(this.$t('CONVERSATION.CHANGE_STATUS'));
+          bus.$emit(BUS_EVENTS.CONVERSATION_RESOLVED);
           this.isLoading = false;
         });
     },
