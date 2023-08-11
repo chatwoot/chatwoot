@@ -1,7 +1,7 @@
 <template>
   <blockquote
     ref="messageContainer"
-    class="message border-l-2 border-slate-100 dark:border-slate-800"
+    class="message border-l-2 border-slate-100 dark:border-slate-700"
   >
     <p class="header">
       <strong class="text-slate-700 dark:text-slate-100">
@@ -49,13 +49,20 @@ export default {
     },
   },
   mounted() {
-    this.$nextTick(() => {
-      const wrap = this.$refs.messageContainer;
-      const message = wrap.querySelector('.message-content');
-      this.isOverflowing = message.offsetHeight > 150;
-    });
+    this.$watch(() => {
+      return this.$refs.messageContainer;
+    }, this.setOverflow);
+
+    this.$nextTick(this.setOverflow);
   },
   methods: {
+    setOverflow() {
+      const wrap = this.$refs.messageContainer;
+      if (wrap) {
+        const message = wrap.querySelector('.message-content');
+        this.isOverflowing = message.offsetHeight > 150;
+      }
+    },
     escapeHtml(html) {
       var text = document.createTextNode(html);
       var p = document.createElement('p');

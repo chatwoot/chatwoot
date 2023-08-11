@@ -456,6 +456,28 @@ export default {
   }
   > .ProseMirror {
     @apply p-0 break-words text-slate-800 dark:text-slate-100;
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p {
+      @apply text-slate-800 dark:text-slate-100;
+    }
+
+    blockquote {
+      @apply border-slate-400 dark:border-slate-500;
+
+      p {
+        @apply text-slate-600 dark:text-slate-400;
+      }
+    }
+
+    ol li {
+      @apply list-item list-decimal;
+    }
   }
 }
 
@@ -473,16 +495,20 @@ export default {
 
 .is-private {
   .prosemirror-mention-node {
-    @apply font-medium bg-slate-50 dark:bg-slate-200 text-slate-900 dark:text-slate-900 py-0 px-1;
+    @apply font-medium bg-yellow-100 dark:bg-yellow-800 text-slate-900 dark:text-slate-25 py-0 px-1;
   }
 
   .ProseMirror-menubar-wrapper {
     .ProseMirror-menubar {
-      @apply bg-yellow-50 dark:bg-yellow-50 text-slate-700 dark:text-slate-700;
+      @apply bg-yellow-100 dark:bg-yellow-800 text-slate-700 dark:text-slate-25;
     }
 
     > .ProseMirror {
-      @apply text-slate-800 dark:text-slate-800;
+      @apply text-slate-800 dark:text-slate-25;
+
+      p {
+        @apply text-slate-800 dark:text-slate-25;
+      }
     }
   }
 }

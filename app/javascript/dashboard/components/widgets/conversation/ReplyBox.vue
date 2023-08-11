@@ -2,8 +2,9 @@
   <div class="reply-box" :class="replyBoxClass">
     <banner
       v-if="showSelfAssignBanner"
-      action-button-variant="link"
+      action-button-variant="clear"
       color-scheme="secondary"
+      class="banner--self-assign"
       :banner-message="$t('CONVERSATION.NOT_ASSIGNED_TO_YOU')"
       :has-action-button="true"
       :action-button-label="$t('CONVERSATION.ASSIGN_TO_ME')"
@@ -1096,6 +1097,10 @@ export default {
   @apply mb-0;
 }
 
+.banner--self-assign {
+  @apply py-2;
+}
+
 .message-signature-wrap {
   @apply my-0 mx-4 px-1 flex max-h-[8vh] items-baseline justify-between hover:bg-slate-25 dark:hover:bg-slate-800 border border-dashed border-slate-100 dark:border-slate-700 rounded-sm overflow-auto;
 }
@@ -1112,7 +1117,7 @@ export default {
   @apply border-t border-slate-50 dark:border-slate-700 bg-white dark:bg-slate-900;
 
   &.is-private {
-    @apply bg-yellow-50 dark:bg-yellow-50;
+    @apply bg-yellow-50 dark:bg-yellow-200;
   }
 }
 .send-button {
@@ -1124,41 +1129,29 @@ export default {
 }
 
 .emoji-dialog {
-  top: unset;
-  bottom: -40px;
-  left: -320px;
-  right: unset;
+  @apply top-[unset] -bottom-10 -left-80 right-[unset];
 
   &::before {
-    right: var(--space-minus-normal);
-    bottom: var(--space-small);
     transform: rotate(270deg);
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.08));
+    @apply -right-4 bottom-2 rtl:right-0 rtl:-left-4;
   }
 }
 
 .emoji-dialog--rtl {
-  left: unset;
-  right: -320px;
+  @apply left-[unset] -right-80;
   &::before {
-    left: var(--space-minus-normal);
     transform: rotate(90deg);
-    right: 0;
-    bottom: var(--space-small);
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.08));
   }
 }
 
 .emoji-dialog--expanded {
-  left: unset;
-  bottom: var(--space-jumbo);
-  position: absolute;
-  z-index: var(--z-index-normal);
+  @apply left-[unset] bottom-0 absolute z-[100];
 
   &::before {
     transform: rotate(0deg);
-    left: var(--space-smaller);
-    bottom: var(--space-minus-small);
+    @apply left-1 -bottom-2;
   }
 }
 .message-signature {

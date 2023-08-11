@@ -162,7 +162,7 @@ GEM
     byebug (11.1.3)
     climate_control (1.2.0)
     coderay (1.1.3)
-    commonmarker (0.23.9)
+    commonmarker (0.23.10)
     concurrent-ruby (1.2.2)
     connection_pool (2.4.1)
     crack (0.4.5)
@@ -429,7 +429,7 @@ GEM
     llhttp-ffi (0.4.0)
       ffi-compiler (~> 1.0)
       rake (~> 13.0)
-    lograge (0.12.0)
+    lograge (0.13.0)
       actionpack (>= 4)
       activesupport (>= 4)
       railties (>= 4)
@@ -452,7 +452,7 @@ GEM
     mini_magick (4.12.0)
     mini_mime (1.1.2)
     mini_portile2 (2.8.4)
-    minitest (5.18.1)
+    minitest (5.19.0)
     mock_redis (0.36.0)
       ruby2_keywords
     msgpack (1.7.0)
@@ -549,12 +549,12 @@ GEM
       activesupport (>= 3.0.0)
     raabro (1.4.0)
     racc (1.7.1)
-    rack (2.2.7)
-    rack-attack (6.6.1)
-      rack (>= 1.0, < 3)
+    rack (2.2.8)
+    rack-attack (6.7.0)
+      rack (>= 1.0, < 4)
     rack-cors (2.0.1)
       rack (>= 2.0.0)
-    rack-mini-profiler (3.1.0)
+    rack-mini-profiler (3.1.1)
       rack (>= 1.2.0)
     rack-protection (3.0.6)
       rack
@@ -812,7 +812,7 @@ GEM
     working_hours (1.4.1)
       activesupport (>= 3.2)
       tzinfo
-    zeitwerk (2.6.8)
+    zeitwerk (2.6.9)
 
 PLATFORMS
   arm64-darwin-20
@@ -886,7 +886,7 @@ DEPENDENCIES
   line-bot-api
   liquid
   listen
-  lograge (~> 0.12.0)
+  lograge (~> 0.13.0)
   maxminddb
   mock_redis
   neighbor
@@ -903,9 +903,9 @@ DEPENDENCIES
   pry-rails
   puma
   pundit
-  rack-attack
+  rack-attack (>= 6.7.0)
   rack-cors
-  rack-mini-profiler
+  rack-mini-profiler (>= 3.1.1)
   rack-timeout
   rails (~> 7.0.5.1)
   redis
