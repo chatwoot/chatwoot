@@ -18,7 +18,7 @@
       <p class="h-4 leading-4 flex items-center gap-1">
         <span
           v-if="unreadCount > 0"
-          class="inline-flex items-center justify-center rounded-full bg-green-200 px-1 min-w-[16px] leading-4 text-xs font-medium text-green-700 mr-0.5"
+          class="inline-flex items-center justify-center rounded-full bg-green-200 px-1 min-w-[16px] leading-4 text-xxs font-medium text-green-700 mr-0.5"
         >
           {{ unreadCount }}
         </span>

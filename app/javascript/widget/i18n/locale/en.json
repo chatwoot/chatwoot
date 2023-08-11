@@ -35,7 +35,7 @@
   "END_CONVERSATION": "End Conversation",
   "CONTINUE_CONVERSATION": "Continue conversation",
   "START_NEW_CONVERSATION": "Start a new conversation",
-  "VIEW_UNREAD_MESSAGES": "View unread messages",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "See new messages",
     "CLOSE_MESSAGES_BUTTON": "Close",
