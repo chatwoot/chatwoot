@@ -337,6 +337,7 @@ export default {
     bus.$on(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
     // when a new message comes in, we refetch the label suggestions
     bus.$on(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS, this.fetchSuggestions);
+    bus.$on(BUS_EVENTS.CONVERSATION_RESOLVED, this.showLabelAlert);
     bus.$on(BUS_EVENTS.SET_TWEET_REPLY, this.setSelectedTweet);
     // when a message is sent we set the flag to true this hides the label suggestions,
     // until the chat is changed and the flag is reset in the watch for currentChat
@@ -397,7 +398,7 @@ export default {
       if (this.isLabelSuggestionDismissed()) return;
       if (!this.isEnterprise) return;
       if (this.currentChat.labels.length > 0) return;
-      if (this.labelSuggestions.length < 1) return;
+      if (!this.labelSuggestions.length) return;
 
       const labelsString = this.labelSuggestions
         .map(
@@ -406,8 +407,13 @@ export default {
         )
         .join(' ');
 
+      const alertMessage =
+        this.labelSuggestions.length === 1
+          ? 'ALERT_SINGULAR'
+          : 'ALERT_MULTIPLE';
+
       this.showAlert(
-        this.$t('LABEL_MGMT.SUGGESTIONS.ALERT', {
+        this.$t(`LABEL_MGMT.SUGGESTIONS.${alertMessage}`, {
           labels: labelsString,
         }),
         {
@@ -440,6 +446,7 @@ export default {
     },
     removeBusListeners() {
       bus.$off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
+      bus.$off(BUS_EVENTS.CONVERSATION_RESOLVED, this.showLabelAlert);
       bus.$off(BUS_EVENTS.SET_TWEET_REPLY, this.setSelectedTweet);
     },
     setSelectedTweet(tweetId) {
