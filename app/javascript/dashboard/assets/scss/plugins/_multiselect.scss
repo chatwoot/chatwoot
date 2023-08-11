@@ -18,7 +18,15 @@
   }
 
   &.multiselect--disabled {
-    @apply opacity-80;
+    @apply opacity-50 border border-slate-200 dark:border-slate-600 rounded-md cursor-not-allowed;
+
+    .multiselect__select {
+      @apply cursor-not-allowed bg-white dark:bg-slate-900 rounded-md;
+    }
+
+    .multiselect__tags {
+      @apply border-0;
+    }
   }
 
   .multiselect--active {
@@ -36,7 +44,7 @@
   }
 
   .multiselect__content-wrapper {
-    @apply bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-600 text-slate-800 dark:text-slate-100;
+    @apply bg-white dark:bg-slate-900 border border-solid border-slate-200 dark:border-slate-600 text-slate-800 dark:text-slate-100;
   }
 
   .multiselect__content {

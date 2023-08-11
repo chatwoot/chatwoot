@@ -166,11 +166,11 @@ class Conversation < ApplicationRecord
   end
 
   def unread_messages
-    messages.created_since(agent_last_seen_at)
+    agent_last_seen_at.present? ? messages.created_since(agent_last_seen_at) : messages
   end
 
   def unread_incoming_messages
-    messages.incoming.created_since(agent_last_seen_at)
+    unread_messages.where(account_id: account_id).incoming.last(10)
   end
 
   def push_event_data
