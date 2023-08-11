@@ -221,6 +221,7 @@ export default {
     },
     onCmdResolveConversation() {
       this.toggleStatus(this.STATUS_TYPE.RESOLVED);
+      bus.$emit(BUS_EVENTS.CONVERSATION_RESOLVED);
     },
     showOpenButton() {
       return this.isResolved || this.isSnoozed;
@@ -242,7 +243,6 @@ export default {
         })
         .then(() => {
           this.showAlert(this.$t('CONVERSATION.CHANGE_STATUS'));
-          bus.$emit(BUS_EVENTS.CONVERSATION_RESOLVED);
           this.isLoading = false;
         });
     },
