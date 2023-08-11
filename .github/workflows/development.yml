@@ -24,10 +24,4 @@ jobs:
           script: |
             echo "Deploying to EC2"
             sudo -i -u chatwoot
-            cd /home/chatwoot/onehash-chat
-            git pull origin development
-            bundle install
-            yarn install
-            rake assets:precompile RAILS_ENV=production
-            RAILS_ENV=production bundle exec rake db:migrate
-            sudo systemctl restart chatwoot.target
+            echo "inside"
