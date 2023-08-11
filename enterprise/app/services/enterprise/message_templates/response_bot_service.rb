@@ -61,9 +61,8 @@ class Enterprise::MessageTemplates::ResponseBotService
   end
 
   def create_messages(response, conversation)
-    response, article_ids = process_response_content(response)
+    response = process_response_content(response)
     create_outgoing_message(response, conversation)
-    create_outgoing_message_with_cards(article_ids, conversation) if article_ids.present?
   end
 
   def process_response_content(response)
