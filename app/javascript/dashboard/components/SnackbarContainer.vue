@@ -35,11 +35,12 @@ export default {
     bus.$off('newToastMessage', this.onNewToastMessage);
   },
   methods: {
-    onNewToastMessage(message, action) {
+    onNewToastMessage(message, action, options = {}) {
       this.snackMessages.push({
         key: new Date().getTime(),
         message,
         action,
+        ...options,
       });
       window.setTimeout(() => {
         this.snackMessages.splice(0, 1);
