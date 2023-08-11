@@ -23,9 +23,9 @@ jobs:
           key: ${{ secrets.ONECHAT_STAGING_PRIVATE_KEY }}
           script: |
             echo "Deploying to EC2"
-            sudo -i -u chatwoot
-            cd chatwoot
+            sudo -i -u chatwoot <<EOF
+            cd chatwoot 
             git pull origin development
-            bundle
-            yarn 
             echo "inside"
+            EOF
+            echo "Deployment complete"
