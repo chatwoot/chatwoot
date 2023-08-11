@@ -170,7 +170,7 @@ class Conversation < ApplicationRecord
   end
 
   def unread_incoming_messages
-    unread_messages.incoming
+    unread_messages.incoming.last(10)
   end
 
   def push_event_data
