@@ -419,11 +419,9 @@ export default {
         {
           type: 'function',
           handler: () => {
-            // return a promise that waits for a second
-            return new Promise(resolve => {
-              setTimeout(() => {
-                resolve();
-              }, 1000);
+            return this.$store.dispatch('conversationLabels/update', {
+              conversationId: this.currentChat.id,
+              labels: this.labelSuggestions,
             });
           },
           message: this.$t('LABEL_MGMT.SUGGESTIONS.ADD_ALL_LABELS'),
