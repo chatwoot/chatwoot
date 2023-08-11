@@ -26,8 +26,8 @@ module.exports = {
   ],
   theme: {
     fontSize: {
-      ...defaultTheme.fontSize,
       xxs: '0.625rem',
+      ...defaultTheme.fontSize,
     },
     colors: {
       transparent: 'transparent',
@@ -64,15 +64,15 @@ module.exports = {
       },
       yellow: {
         50: yellow.yellow2,
-        100: yellow.yellow4,
+        100: yellow.yellow3,
         200: yellow.yellow5,
         300: yellowDark.yellow10,
         400: yellowDark.yellow9,
         500: yellowDark.yellow11,
         600: yellow.yellow8,
-        700: yellow.yellow11,
-        800: yellowDark.yellow8,
-        900: yellowDark.yellow7,
+        700: yellowDark.yellow7,
+        800: yellowDark.yellow2,
+        900: yellowDark.yellow1,
       },
       slate: {
         25: slate.slate2,
@@ -127,7 +127,6 @@ module.exports = {
       body: slateDark.slate7,
     },
     keyframes: {
-      ...defaultTheme.keyframes,
       wiggle: {
         '0%': { transform: 'translateX(0)' },
         '15%': { transform: 'translateX(0.375rem)' },
@@ -140,7 +139,6 @@ module.exports = {
       },
     },
     animation: {
-      ...defaultTheme.animation,
       wiggle: 'wiggle 0.5s ease-in-out',
     },
   },

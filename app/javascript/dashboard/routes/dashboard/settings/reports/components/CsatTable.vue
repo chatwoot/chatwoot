@@ -57,7 +57,13 @@ export default {
           width: 200,
           renderBodyCell: ({ row }) => {
             if (row.contact) {
-              return <UserAvatarWithName size="24px" user={row.contact} />;
+              return (
+                <UserAvatarWithName
+                  textClass="text-sm !pl-2 text-slate-800"
+                  size="24px"
+                  user={row.contact}
+                />
+              );
             }
             return '---';
           },
