@@ -17,7 +17,7 @@ json.meta do
 end
 
 json.id conversation.display_id
-if conversation.messages.first.blank?
+if conversation.messages.where(account_id: conversation.account_id).first.blank?
   json.messages []
 else
   json.messages [
