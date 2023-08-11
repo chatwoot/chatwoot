@@ -25,7 +25,6 @@ RSpec.describe Integrations::Openai::ProcessorService do
       'Please summarize the key points from the following conversation between support agents and customer as bullet points for the next ' \
         "support agent looking into the conversation. Reply in the user's language."
     else
-
       Rails.root.join('enterprise/lib/enterprise/integrations/openai_prompts/summary.txt').read
     end
   end
