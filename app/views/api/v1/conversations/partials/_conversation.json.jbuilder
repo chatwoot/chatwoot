@@ -19,10 +19,8 @@ end
 json.id conversation.display_id
 if conversation.messages.first.blank?
   json.messages []
-elsif conversation.unread_incoming_messages.count.zero?
-  json.messages [conversation.messages.includes([{ attachments: [{ file_attachment: [:blob] }] }]).last.try(:push_event_data)]
 else
-  json.messages conversation.unread_messages.includes([{ attachments: [{ file_attachment: [:blob] }] }]).last(10).map(&:push_event_data)
+  json.messages [conversation.messages.includes([{ attachments: [{ file_attachment: [:blob] }] }]).last.try(:push_event_data)]
 end
 
 json.account_id conversation.account_id
