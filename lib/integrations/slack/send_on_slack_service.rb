@@ -128,8 +128,7 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def update_reference_id
-    # If the conversation identifier is present and conversation identifier is not equal to slack message ts, then do nothing
-    return if conversation.identifier && conversation.identifier == @slack_message['ts']
+    return unless should_update_reference_id?
 
     conversation.update!(identifier: @slack_message['ts'])
   end
@@ -146,5 +145,13 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
 
   def link_to_conversation
     "<#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{conversation.account_id}/conversations/#{conversation.display_id}|Click here>"
+  end
+
+  # Determines whether the conversation identifier should be updated with the ts value.
+  # The identifier should be updated in the following cases:
+  # - If the conversation identifier is blank, it means a new conversation is being created.
+  # - If the thread_ts is blank, it means that the conversation was previously connected in a different channel.
+  def should_update_reference_id?
+    conversation.identifier.blank? || @slack_message['message']['thread_ts'].blank?
   end
 end
