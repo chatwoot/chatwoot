@@ -21,11 +21,12 @@ RSpec.describe Integrations::Openai::ProcessorService do
   let!(:customer_message) { create(:message, account: account, conversation: conversation, message_type: :incoming, content: 'hello agent') }
   let!(:agent_message) { create(:message, account: account, conversation: conversation, message_type: :outgoing, content: 'hello customer') }
   let!(:summary_prompt) do
-    if Dir.exist?('enterprise')
-      Rails.root.join('enterprise/lib/enterprise/integrations/openai_prompts/summary.txt').read
-    else
+    if ENV.fetch('DISABLE_ENTERPRISE') == 'true' || Dir.not_exists?('enterprise')
       'Please summarize the key points from the following conversation between support agents and customer as bullet points for the next ' \
         "support agent looking into the conversation. Reply in the user's language."
+    else
+
+      Rails.root.join('enterprise/lib/enterprise/integrations/openai_prompts/summary.txt').read
     end
   end
 
