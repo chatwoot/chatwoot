@@ -173,6 +173,7 @@ export default {
       loadingChatList: 'getChatListLoadingStatus',
       appIntegrations: 'integrations/getAppIntegrations',
       currentAccountId: 'getCurrentAccountId',
+      allLabels: 'labels/getLabels',
     }),
     isOpen() {
       return this.currentChat?.status === wootConstants.STATUS_TYPE.OPEN;
@@ -368,8 +369,12 @@ export default {
 
       if (!this.isAIIntegrationEnabled) return;
 
-      this.labelSuggestions = await this.fetchLabelSuggestions({
+      const suggestions = await this.fetchLabelSuggestions({
         conversationId: this.currentChat.id,
+      });
+
+      this.labelSuggestions = suggestions.filter(suggestion => {
+        return this.allLabels.some(label => label.title === suggestion);
       });
 
       // once the labels are fetched, we need to scroll to bottom
