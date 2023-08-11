@@ -1,18 +1,18 @@
 <template>
-  <div class="p-4 shadow rounded-md bg-white dark:bg-slate-700">
+  <div class="px-5">
     <div class="flex items-center justify-between mb-4">
       <div
         class="max-w-xs"
-        :class="$dm('text-slate-700', 'dark:text-slate-50')"
+        :class="$dm('text-black-700', 'dark:text-slate-50')"
       >
-        <div class="text-sm font-medium mb-1">
+        <div class="text-base leading-5 font-medium mb-1">
           {{
             isOnline
               ? $t('TEAM_AVAILABILITY.ONLINE')
               : $t('TEAM_AVAILABILITY.OFFLINE')
           }}
         </div>
-        <div class="text-xs mt-1">
+        <div class="text-xs leading-3 mt-1">
           {{ replyWaitMessage }}
         </div>
       </div>
