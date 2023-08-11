@@ -112,6 +112,7 @@ import conversationMixin, {
 } from '../../../mixins/conversations';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import configMixin from 'shared/mixins/configMixin';
+import alertMixin from 'shared/mixins/configMixin';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import aiMixin from 'dashboard/mixins/aiMixin';
 
@@ -140,6 +141,7 @@ export default {
     eventListenerMixins,
     configMixin,
     aiMixin,
+    alertMixin,
   ],
   props: {
     isContactPanelOpen: {
@@ -358,20 +360,13 @@ export default {
       // start empty, this ensures that the label suggestions are not shown
       this.labelSuggestions = [];
 
-      if (this.isLabelSuggestionDismissed()) {
-        return;
-      }
-
-      if (!this.isEnterprise) {
-        return;
-      }
+      if (this.isLabelSuggestionDismissed()) return;
+      if (!this.isEnterprise) return;
 
       // method available in mixin, need to ensure that integrations are present
       await this.fetchIntegrationsIfRequired();
 
-      if (!this.isAIIntegrationEnabled) {
-        return;
-      }
+      if (!this.isAIIntegrationEnabled) return;
 
       this.labelSuggestions = await this.fetchLabelSuggestions({
         conversationId: this.currentChat.id,
@@ -392,6 +387,41 @@ export default {
           this.scrollToBottom();
         }
       });
+    },
+    showLabelAlert() {
+      if (this.isLabelSuggestionDismissed()) return;
+      if (!this.isEnterprise) return;
+      if (this.currentChat.labels.length > 0) return;
+      if (this.labelSuggestions.length < 1) return;
+
+      const labelsString = this.labelSuggestions
+        .map(
+          label =>
+            `<span class="border rounded-md border-slate-700 small bg-slate-800 px-1 py-0.5">${label}</span>`
+        )
+        .join(' ');
+
+      this.showAlert(
+        this.$t('LABEL_MGMT.SUGGESTIONS.ALERT', {
+          labels: labelsString,
+        }),
+        {
+          type: 'function',
+          handler: () => {
+            // return a promise that waits for a second
+            return new Promise(resolve => {
+              setTimeout(() => {
+                resolve();
+              }, 1000);
+            });
+          },
+          message: this.$t('LABEL_MGMT.SUGGESTIONS.ADD_ALL_LABELS'),
+          duration: 6000,
+        },
+        {
+          wide: true,
+        }
+      );
     },
     isLabelSuggestionDismissed() {
       return LocalStorage.getFlag(
