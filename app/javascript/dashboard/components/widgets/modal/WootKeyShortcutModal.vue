@@ -27,7 +27,7 @@
           </h5>
           <div class="flex items-center mb-1 ml-2 gap-2">
             <div class="flex gap-2">
-              <hotkey custom-class="min-h-[28px] min-w-[60px] key">
+              <hotkey custom-class="min-h-[28px] min-w-[60px] normal-case key">
                 {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
               </hotkey>
               <hotkey custom-class="min-h-[28px] w-9 key">
@@ -39,7 +39,7 @@
                 {{ $t('KEYBOARD_SHORTCUTS.KEYS.FORWARD_SLASH_KEY') }}
               </span>
             </div>
-            <hotkey custom-class="min-h-[28px] min-w-[60px] key">
+            <hotkey custom-class="min-h-[28px] min-w-[60px] normal-case key">
               {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
             </hotkey>
             <hotkey custom-class="w-9 key">
@@ -53,10 +53,10 @@
             {{ $t('KEYBOARD_SHORTCUTS.TITLE.RESOLVE_AND_NEXT') }}
           </h5>
           <div class="flex items-center mb-1 ml-2 gap-2">
-            <hotkey custom-class="min-h-[28px] min-w-[60px] key">
+            <hotkey custom-class="min-h-[28px] min-w-[60px] normal-case key">
               {{ $t('KEYBOARD_SHORTCUTS.KEYS.WINDOWS_KEY_AND_COMMAND_KEY') }}
             </hotkey>
-            <hotkey custom-class="min-h-[28px] min-w-[60px] key">
+            <hotkey custom-class="min-h-[28px] min-w-[60px] normal-case key">
               {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
             </hotkey>
             <hotkey custom-class="w-9 key">
