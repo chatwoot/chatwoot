@@ -36,7 +36,7 @@
         class="flex flex-col items-center justify-center h-full"
       >
         <img
-          class="m-4 w-[6.25rem]"
+          class="m-4 w-28"
           src="~dashboard/assets/images/no-chat.svg"
           alt="No Chat"
         />
