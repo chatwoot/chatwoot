@@ -61,7 +61,7 @@ class Enterprise::MessageTemplates::ResponseBotService
   end
 
   def create_messages(response, conversation)
-    response = process_response_content(response)
+    response = process_response_content(response).first
     create_outgoing_message(response, conversation)
   end
 
