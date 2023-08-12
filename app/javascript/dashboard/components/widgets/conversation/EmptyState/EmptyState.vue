@@ -37,7 +37,7 @@
       >
         <img
           class="m-4 w-[6.25rem]"
-          src="~dashboard/assets/images/chat.svg"
+          src="~dashboard/assets/images/no-chat.svg"
           alt="No Chat"
         />
         <span
@@ -46,6 +46,8 @@
           {{ $t('CONVERSATION.NO_MESSAGE_1') }}
           <br />
         </span>
+        <!-- Cmd bar, keyboard shortcuts placeholder -->
+        <feature-placeholder />
       </div>
       <!-- No conversation selected -->
       <div
@@ -62,47 +64,23 @@
         >
           {{ conversationMissingMessage }}
         </span>
-        <!-- Cmd bar, keyboard shortcuts, and more -->
-        <div class="flex flex-col gap-2 mt-9">
-          <div
-            v-for="keyShortcut in keyShortcuts"
-            :key="keyShortcut.key"
-            class="flex gap-2 items-center"
-          >
-            <div class="flex gap-2 items-center">
-              <hotkey
-                custom-class="h-6 w-8 text-sm font-medium text-slate-700 dark:text-slate-100 bg-slate-100 dark:bg-slate-700 border-b-2 border-slate-300 dark:border-slate-500"
-              >
-                ⌘
-              </hotkey>
-              <hotkey
-                custom-class="h-6 w-8 text-sm font-medium text-slate-700 dark:text-slate-100 bg-slate-100 dark:bg-slate-700 border-b-2 border-slate-300 dark:border-slate-500"
-              >
-                {{ keyShortcut.key }}
-              </hotkey>
-            </div>
-            <span
-              class="text-sm text-slate-700 dark:text-slate-300 font-medium text-center"
-            >
-              {{ keyShortcut.description }}
-            </span>
-          </div>
-        </div>
+        <!-- Cmd bar, keyboard shortcuts placeholder -->
+        <feature-placeholder />
       </div>
     </div>
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import adminMixin from '../../../mixins/isAdmin';
-import accountMixin from '../../../mixins/account';
-import OnboardingView from './OnboardingView';
-import Hotkey from 'dashboard/components/base/Hotkey';
+import adminMixin from 'dashboard/mixins/isAdmin';
+import accountMixin from 'dashboard/mixins/account';
+import OnboardingView from '../OnboardingView';
+import FeaturePlaceholder from './FeaturePlaceholder';
 
 export default {
   components: {
     OnboardingView,
-    Hotkey,
+    FeaturePlaceholder,
   },
   mixins: [accountMixin, adminMixin],
   props: {
@@ -110,20 +88,6 @@ export default {
       type: Boolean,
       default: false,
     },
-  },
-  data() {
-    return {
-      keyShortcuts: [
-        {
-          key: 'K',
-          description: this.$t('CONVERSATION.EMPTY_STATE.CMD_BAR'),
-        },
-        {
-          key: '/',
-          description: this.$t('CONVERSATION.EMPTY_STATE.KEYBOARD_SHORTCUTS'),
-        },
-      ],
-    };
   },
   computed: {
     ...mapGetters({

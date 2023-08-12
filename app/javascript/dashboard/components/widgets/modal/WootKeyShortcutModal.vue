@@ -10,14 +10,10 @@
             {{ $t('KEYBOARD_SHORTCUTS.TOGGLE_MODAL') }}
           </h5>
           <div class="flex items-center mb-1 ml-2 gap-2">
-            <hotkey
-              custom-class="min-h-[28px] min-w-[60px] py-2 px-2.5 normal-case font-semibold text-xs text-slate-700 dark:text-slate-100 bg-slate-75 dark:bg-slate-900 border-b-2 border-slate-200 dark:border-slate-700"
-            >
+            <hotkey custom-class="min-h-[28px] min-w-[60px] normal-case key">
               {{ $t('KEYBOARD_SHORTCUTS.KEYS.WINDOWS_KEY_AND_COMMAND_KEY') }}
             </hotkey>
-            <hotkey
-              custom-class="min-h-[28px] min-w-[36px] py-2 px-2.5 font-semibold text-xs text-slate-700 dark:text-slate-100 bg-slate-75 dark:bg-slate-900 border-b-2 border-slate-200 dark:border-slate-700"
-            >
+            <hotkey custom-class="min-h-[28px] min-w-[36px] key">
               {{ $t('KEYBOARD_SHORTCUTS.KEYS.FORWARD_SLASH_KEY') }}
             </hotkey>
           </div>
@@ -31,14 +27,10 @@
           </h5>
           <div class="flex items-center mb-1 ml-2 gap-2">
             <div class="flex gap-2">
-              <hotkey
-                custom-class="min-h-[28px] min-w-[60px] py-2 px-2.5 font-semibold text-xs text-slate-700 dark:text-slate-100 bg-slate-75 dark:bg-slate-900 border-b-2 border-slate-200 dark:border-slate-700"
-              >
+              <hotkey custom-class="min-h-[28px] min-w-[60px] key">
                 {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
               </hotkey>
-              <hotkey
-                custom-class="min-h-[28px] w-9 py-2 px-2.5 font-semibold text-xs text-slate-700 dark:text-slate-100 bg-slate-75 dark:bg-slate-900 border-b-2 border-slate-200 dark:border-slate-700"
-              >
+              <hotkey custom-class="min-h-[28px] w-9 key">
                 J
               </hotkey>
               <span
@@ -47,14 +39,10 @@
                 {{ $t('KEYBOARD_SHORTCUTS.KEYS.FORWARD_SLASH_KEY') }}
               </span>
             </div>
-            <hotkey
-              custom-class="min-h-[28px] min-w-[60px] py-2 px-2.5 font-semibold text-xs text-slate-700 dark:text-slate-100 bg-slate-75 dark:bg-slate-900 border-b-2 border-slate-200 dark:border-slate-700"
-            >
+            <hotkey custom-class="min-h-[28px] min-w-[60px] key">
               {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
             </hotkey>
-            <hotkey
-              custom-class="w-9 py-2 px-2.5 font-semibold text-xs text-slate-700 dark:text-slate-100 bg-slate-75 dark:bg-slate-900 border-b-2 border-slate-200 dark:border-slate-700"
-            >
+            <hotkey custom-class="w-9 key">
               K
             </hotkey>
           </div>
@@ -65,19 +53,13 @@
             {{ $t('KEYBOARD_SHORTCUTS.TITLE.RESOLVE_AND_NEXT') }}
           </h5>
           <div class="flex items-center mb-1 ml-2 gap-2">
-            <hotkey
-              custom-class="min-h-[28px] min-w-[60px] py-2 px-2.5 font-semibold text-xs text-slate-700 dark:text-slate-100 bg-slate-75 dark:bg-slate-900 border-b-2 border-slate-200 dark:border-slate-700"
-            >
+            <hotkey custom-class="min-h-[28px] min-w-[60px] key">
               {{ $t('KEYBOARD_SHORTCUTS.KEYS.WINDOWS_KEY_AND_COMMAND_KEY') }}
             </hotkey>
-            <hotkey
-              custom-class="min-h-[28px] min-w-[60px] py-2 px-2.5 font-semibold text-xs text-slate-700 dark:text-slate-100 bg-slate-75 dark:bg-slate-900 border-b-2 border-slate-200 dark:border-slate-700"
-            >
+            <hotkey custom-class="min-h-[28px] min-w-[60px] key">
               {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
             </hotkey>
-            <hotkey
-              custom-class="w-9 py-2 px-2.5 font-semibold text-xs text-slate-700 dark:text-slate-100 bg-slate-75 dark:bg-slate-900 border-b-2 border-slate-200 dark:border-slate-700"
-            >
+            <hotkey custom-class="w-9 key">
               E
             </hotkey>
           </div>
@@ -93,13 +75,13 @@
           <div class="flex items-center mb-1 ml-2 gap-2">
             <hotkey
               :class="{ 'min-w-[60px]': shortcutKey.firstKey !== 'Up' }"
-              custom-class="min-h-[28px] normal-case py-2 px-2.5 font-semibold text-xs text-slate-700 dark:text-slate-100 bg-slate-75 dark:bg-slate-900 border-b-2 border-slate-200 dark:border-slate-700"
+              custom-class="min-h-[28px] normal-case key"
             >
               {{ shortcutKey.firstKey }}
             </hotkey>
             <hotkey
               :class="{ 'normal-case': shortcutKey.secondKey === 'Down' }"
-              custom-class="min-h-[28px] min-w-[36px] py-2 px-2.5 font-semibold text-xs text-slate-700 dark:text-slate-100 bg-slate-75 dark:bg-slate-900 border-b-2 border-slate-200 dark:border-slate-700"
+              custom-class="min-h-[28px] min-w-[36px] key"
             >
               {{ shortcutKey.secondKey }}
             </hotkey>
@@ -138,3 +120,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.key {
+  @apply py-2 px-2.5 font-semibold text-xs text-slate-700 dark:text-slate-100 bg-slate-75 dark:bg-slate-900 border-b-2 border-slate-200 dark:border-slate-700;
+}
+</style>
