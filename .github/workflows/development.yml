@@ -26,6 +26,7 @@ jobs:
             sudo -i -u chatwoot <<EOF
             cd chatwoot 
             git pull origin development
-            echo "inside"
+            bundle install
+            yarn install
             EOF
             echo "Deployment complete"
