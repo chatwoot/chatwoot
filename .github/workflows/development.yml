@@ -28,5 +28,8 @@ jobs:
             git pull origin development
             bundle install
             yarn install
+            rake assets:precompile RAILS_ENV=production
+            RAILS_ENV=production bundle exec rake db:migrate  
+            systemctl restart chatwoot.target
             EOF
             echo "Deployment complete"
