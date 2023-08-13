@@ -19,5 +19,5 @@ jobs:
 
     - name: Build the Codespace Base Image
       run: |
-        docker build . -t ghcr.io/chatwoot/chatwoot_codespace:latest -f .devcontainer/Dockerfile.base 
-        docker push ghcr.io/chatwoot/chatwoot_codespace:latest
+        docker build . -t ghcr.io/mondaydotvn/mondaychat_codespace:latest -f .devcontainer/Dockerfile.base 
+        docker push ghcr.io/mondaydotvn/mondaychat_codespace:latest
