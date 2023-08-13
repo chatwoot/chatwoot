@@ -30,6 +30,6 @@ jobs:
             yarn install
             rake assets:precompile RAILS_ENV=production
             RAILS_ENV=production bundle exec rake db:migrate  
-            systemctl restart chatwoot.target
+            sudo systemctl restart chatwoot.target
             EOF
             echo "Deployment complete"
