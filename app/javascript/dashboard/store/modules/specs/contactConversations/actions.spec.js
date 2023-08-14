@@ -1,5 +1,9 @@
 import axios from 'axios';
-import { actions } from '../../contactConversations';
+import {
+  actions,
+  createMessagePayload,
+  createConversationPayload,
+} from '../../contactConversations';
 import * as types from '../../../mutation-types';
 import conversationList from './fixtures';
 
@@ -142,5 +146,96 @@ describe('#actions', () => {
         ],
       ]);
     });
+  });
+});
+
+describe('createMessagePayload', () => {
+  it('creates message payload with cc and bcc emails', () => {
+    const payload = new FormData();
+    const message = {
+      content: 'Test message content',
+      cc_emails: 'cc@example.com',
+      bcc_emails: 'bcc@example.com',
+    };
+
+    createMessagePayload(payload, message);
+
+    expect(payload.get('message[content]')).toBe(message.content);
+    expect(payload.get('message[cc_emails]')).toBe(message.cc_emails);
+    expect(payload.get('message[bcc_emails]')).toBe(message.bcc_emails);
+  });
+
+  it('creates message payload without cc and bcc emails', () => {
+    const payload = new FormData();
+    const message = {
+      content: 'Test message content',
+    };
+
+    createMessagePayload(payload, message);
+
+    expect(payload.get('message[content]')).toBe(message.content);
+    expect(payload.get('message[cc_emails]')).toBeNull();
+    expect(payload.get('message[bcc_emails]')).toBeNull();
+  });
+});
+
+describe('createConversationPayload', () => {
+  it('creates conversation payload with message and attachments', () => {
+    const options = {
+      params: {
+        inboxId: '1',
+        message: {
+          content: 'Test message content',
+        },
+        sourceId: '12',
+        mailSubject: 'Test Subject',
+        assigneeId: '123',
+      },
+      contactId: '23',
+      files: ['file1.pdf', 'file2.jpg'],
+    };
+
+    const payload = createConversationPayload(options);
+
+    expect(payload.get('message[content]')).toBe(
+      options.params.message.content
+    );
+    expect(payload.get('inbox_id')).toBe(options.params.inboxId);
+    expect(payload.get('contact_id')).toBe(options.contactId);
+    expect(payload.get('source_id')).toBe(options.params.sourceId);
+    expect(payload.get('additional_attributes[mail_subject]')).toBe(
+      options.params.mailSubject
+    );
+    expect(payload.get('assignee_id')).toBe(options.params.assigneeId);
+    expect(payload.getAll('message[attachments][]')).toEqual(options.files);
+  });
+
+  it('creates conversation payload with message and without attachments', () => {
+    const options = {
+      params: {
+        inboxId: '1',
+        message: {
+          content: 'Test message content',
+        },
+        sourceId: '12',
+        mailSubject: 'Test Subject',
+        assigneeId: '123',
+      },
+      contactId: '23',
+    };
+
+    const payload = createConversationPayload(options);
+
+    expect(payload.get('message[content]')).toBe(
+      options.params.message.content
+    );
+    expect(payload.get('inbox_id')).toBe(options.params.inboxId);
+    expect(payload.get('contact_id')).toBe(options.contactId);
+    expect(payload.get('source_id')).toBe(options.params.sourceId);
+    expect(payload.get('additional_attributes[mail_subject]')).toBe(
+      options.params.mailSubject
+    );
+    expect(payload.get('assignee_id')).toBe(options.params.assigneeId);
+    expect(payload.getAll('message[attachments][]')).toEqual([]);
   });
 });
