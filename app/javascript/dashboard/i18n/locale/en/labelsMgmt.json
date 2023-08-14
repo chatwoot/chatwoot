@@ -46,8 +46,7 @@
       "ADD_SELECTED_LABELS": "Add selected labels",
       "ADD_SELECTED_LABEL": "Add selected label",
       "ADD_ALL_LABELS": "Add all labels",
-      "ALERT_SINGULAR": "Forgot adding a label? Consider adding %{labels}",
-      "ALERT_MULTIPLE": "Forgot adding a label? Consider these suggestions: %{labels}"
+      "ALERT": "Forgot these labels? %{labels}"
     },
     "ADD": {
       "TITLE": "Add label",

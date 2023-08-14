@@ -407,13 +407,8 @@ export default {
         )
         .join(' ');
 
-      const alertMessage =
-        this.labelSuggestions.length === 1
-          ? 'ALERT_SINGULAR'
-          : 'ALERT_MULTIPLE';
-
       this.showAlert(
-        this.$t(`LABEL_MGMT.SUGGESTIONS.${alertMessage}`, {
+        this.$t(`LABEL_MGMT.SUGGESTIONS.ALERT`, {
           labels: labelsString,
         }),
         {
