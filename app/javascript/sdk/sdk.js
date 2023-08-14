@@ -280,7 +280,7 @@ export const SDK_CSS = `
   .woot-widget-holder {
     border-radius: 16px;
     bottom: 104px;
-    height: calc(90% - 64px - 20px);
+    height: calc(85% - 64px - 20px);
     max-height: 590px !important;
     min-height: 250px !important;
     width: 400px !important;
