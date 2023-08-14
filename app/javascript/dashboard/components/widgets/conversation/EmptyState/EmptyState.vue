@@ -55,7 +55,12 @@
         class="flex flex-col items-center justify-center h-full"
       >
         <img
-          class="m-4 w-28"
+          class="m-4 w-28 hidden dark:block"
+          src="~dashboard/assets/images/no-chat-dark.svg"
+          alt="No Chat dark"
+        />
+        <img
+          class="m-4 w-28 block dark:hidden"
           src="~dashboard/assets/images/no-chat.svg"
           alt="No Chat"
         />
