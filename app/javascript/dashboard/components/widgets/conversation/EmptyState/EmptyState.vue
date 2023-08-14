@@ -35,11 +35,7 @@
         v-if="!allConversations.length"
         class="flex flex-col items-center justify-center h-full"
       >
-        <img
-          class="m-4 w-28"
-          src="~dashboard/assets/images/no-chat.svg"
-          alt="No Chat"
-        />
+        <no-chat-placeholder-image />
         <span
           class="text-sm text-slate-800 dark:text-slate-200 font-medium text-center"
         >
@@ -54,16 +50,7 @@
         v-else-if="allConversations.length && !currentChat.id"
         class="flex flex-col items-center justify-center h-full"
       >
-        <img
-          class="m-4 w-28 hidden dark:block"
-          src="~dashboard/assets/images/no-chat-dark.svg"
-          alt="No Chat dark"
-        />
-        <img
-          class="m-4 w-28 block dark:hidden"
-          src="~dashboard/assets/images/no-chat.svg"
-          alt="No Chat"
-        />
+        <no-chat-placeholder-image />
         <span
           class="text-sm text-slate-800 dark:text-slate-200 font-medium text-center"
         >
@@ -81,11 +68,13 @@ import adminMixin from 'dashboard/mixins/isAdmin';
 import accountMixin from 'dashboard/mixins/account';
 import OnboardingView from '../OnboardingView';
 import FeaturePlaceholder from './FeaturePlaceholder';
+import NoChatPlaceholderImage from './NoChatPlaceholderImage';
 
 export default {
   components: {
     OnboardingView,
     FeaturePlaceholder,
+    NoChatPlaceholderImage,
   },
   mixins: [accountMixin, adminMixin],
   props: {
