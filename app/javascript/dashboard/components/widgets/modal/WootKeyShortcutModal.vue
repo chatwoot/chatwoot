@@ -122,6 +122,6 @@ export default {
 </script>
 <style scoped>
 .key {
-  @apply py-2 px-2.5 font-semibold text-xs text-slate-700 dark:text-slate-100 bg-slate-75 dark:bg-slate-900 border-b-2 border-slate-200 dark:border-slate-700;
+  @apply py-2 px-2.5 font-semibold text-xs text-slate-700 dark:text-slate-100 bg-slate-75 dark:bg-slate-900 shadow border-b-2 rtl:border-l-2 ltr:border-r-2 border-slate-200 dark:border-slate-700;
 }
 </style>
