@@ -570,6 +570,10 @@ export default {
       500,
       true
     );
+
+    // A hacky fix to solve the drag and drop
+    // Is showing on top of new conversation modal drag and drop
+    // TODO need to find a better solution
     bus.$on(
       BUS_EVENTS.NEW_CONVERSATION_MODAL,
       this.onNewConversationModalActive
