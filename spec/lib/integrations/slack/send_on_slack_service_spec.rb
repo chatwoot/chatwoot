@@ -27,6 +27,7 @@ describe Integrations::Slack::SendOnSlackService do
     allow(slack_message).to receive(:[]).with('ts').and_return('12345.6789')
     allow(slack_message).to receive(:[]).with('message').and_return(slack_message_content)
     allow(slack_message_content).to receive(:[]).with('ts').and_return('6789.12345')
+    allow(slack_message_content).to receive(:[]).with('thread_ts').and_return('12345.6789')
   end
 
   describe '#perform' do
@@ -95,6 +96,43 @@ describe Integrations::Slack::SendOnSlackService do
         builder.perform
 
         expect(message.external_source_id_slack).to eq 'cw-origin-6789.12345'
+      end
+
+      it 'sent message will send to the the previous thread if the slack disconnects and connects to a same channel.' do
+        allow(slack_message).to receive(:[]).with('message').and_return({ 'thread_ts' => conversation.identifier })
+        expect(slack_client).to receive(:chat_postMessage).with(
+          channel: hook.reference_id,
+          text: message.content,
+          username: "#{message.sender.name} (Contact)",
+          thread_ts: conversation.identifier,
+          icon_url: anything,
+          unfurl_links: true
+        ).and_return(slack_message)
+
+        builder.perform
+
+        expect(conversation.identifier).to eq 'random_slack_thread_ts'
+      end
+
+      it 'sent message will create a new thread if the slack disconnects and connects to a different channel' do
+        allow(slack_message).to receive(:[]).with('message').and_return({ 'thread_ts' => nil })
+        allow(slack_message).to receive(:[]).with('ts').and_return('1691652432.896169')
+
+        hook.update!(reference_id: 'C12345')
+
+        expect(slack_client).to receive(:chat_postMessage).with(
+          channel: 'C12345',
+          text: message.content,
+          username: "#{message.sender.name} (Contact)",
+          thread_ts: conversation.identifier,
+          icon_url: anything,
+          unfurl_links: true
+        ).and_return(slack_message)
+
+        builder.perform
+
+        expect(hook.reload.reference_id).to eq 'C12345'
+        expect(conversation.identifier).to eq '1691652432.896169'
       end
 
       it 'sent attachment on slack' do

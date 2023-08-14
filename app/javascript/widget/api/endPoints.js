@@ -97,7 +97,6 @@ const getMostReadArticles = (slug, locale) => ({
   url: `/hc/${slug}/${locale}/articles.json`,
   params: {
     page: 1,
-    sort: 'views',
   },
 });
 
