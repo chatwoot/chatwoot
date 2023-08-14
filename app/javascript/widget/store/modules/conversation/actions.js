@@ -10,7 +10,8 @@ import {
   deleteCustomAttribute,
 } from 'widget/api/conversation';
 
-import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
+import { getNonDeletedMessages } from './helpers';
+import { createTemporaryMessage } from 'widget/store/modules/messageV3/helpers';
 
 export const actions = {
   createConversation: async ({ commit, dispatch }, params) => {

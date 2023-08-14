@@ -6,6 +6,7 @@ import Vuex from 'vuex';
 jest.mock('widget/helpers/axios');
 
 const commit = jest.fn();
+window.WOOT_WIDGET = { $root: { $i18n: { locale: 'en' } } };
 
 import { mockConversations } from './fixtures';
 
@@ -16,7 +17,7 @@ describe('actions', () => {
   describe('fetchAllConversations', () => {
     it('fetches all conversations successfully', async () => {
       API.get.mockResolvedValue({
-        data: [mockConversations[0]],
+        data: mockConversations[0],
       });
 
       await actions.fetchAllConversations({ commit }, {});
@@ -60,7 +61,7 @@ describe('actions', () => {
   describe('fetchOldMessagesIn', () => {
     it('fetches old messages in a conversation successfully', async () => {
       API.get.mockResolvedValue({
-        data: [mockConversations[0].messages[0]],
+        data: { payload: [mockConversations[0].messages[0]] },
       });
 
       const params = { conversationId: 1, beforeId: 2 };
@@ -90,16 +91,16 @@ describe('actions', () => {
         [
           'setConversationUIFlag',
           {
-            uiFlags: { isFetching: false },
             conversationId: 1,
+            uiFlags: { isFetching: false },
           },
         ],
       ]);
     });
 
-    it('fetches old messages with fewer than 20 messages', async () => {
-      const messages = Array(15).fill(mockConversations[0].messages[0]);
-      API.get.mockResolvedValue({ data: messages });
+    it('fetches old messages with more than 20 messages', async () => {
+      const messages = Array(21).fill(mockConversations[0].messages[0]);
+      API.get.mockResolvedValue({ data: { payload: messages } });
 
       const params = { conversationId: 1, beforeId: 2 };
 
@@ -115,10 +116,6 @@ describe('actions', () => {
           { root: true },
         ],
         ['prependMessageIdsToConversation', { conversationId: 1, messages }],
-        [
-          'setConversationUIFlag',
-          { conversationId: 1, uiFlags: { allFetched: true } },
-        ],
         [
           'setConversationUIFlag',
           { uiFlags: { isFetching: false }, conversationId: 1 },
@@ -156,118 +153,118 @@ describe('actions', () => {
         mockConversationData
       );
 
-      // expect(commit.mock.calls).toEqual([
-      //   ['addConversationEntry', mockConversationData],
-      //   ['addConversationId', mockConversationData.id],
-      //   [
-      //     'setConversationUIFlag',
-      //     {
-      //       uiFlags: { isAgentTyping: false },
-      //       conversationId: mockConversationData.id,
-      //     },
-      //   ],
-      //   [
-      //     'setConversationMeta',
-      //     {
-      //       meta: { userLastSeenAt: mockConversationData.contact_last_seen_at },
-      //       conversationId: mockConversationData.id,
-      //     },
-      //   ],
-      //   [
-      //     'messageV3/addMessagesEntry',
-      //     {
-      //       conversationId: mockConversationData.id,
-      //       messages: mockConversationData.messages,
-      //     },
-      //     { root: true },
-      //   ],
-      //   [
-      //     'addMessageIdsToConversation',
-      //     {
-      //       conversationId: mockConversationData.id,
-      //       messages: mockConversationData.messages,
-      //     },
-      //   ],
-      // ]);
+      expect(commit.mock.calls).toEqual([
+        ['addConversationEntry', mockConversationData],
+        ['addConversationId', mockConversationData.id],
+        [
+          'setConversationUIFlag',
+          {
+            uiFlags: { isAgentTyping: false },
+            conversationId: mockConversationData.id,
+          },
+        ],
+        [
+          'setConversationMeta',
+          {
+            meta: { userLastSeenAt: mockConversationData.contact_last_seen_at },
+            conversationId: mockConversationData.id,
+          },
+        ],
+        [
+          'messageV3/addMessagesEntry',
+          {
+            conversationId: mockConversationData.id,
+            messages: mockConversationData.messages,
+          },
+          { root: true },
+        ],
+        [
+          'addMessageIdsToConversation',
+          {
+            conversationId: mockConversationData.id,
+            messages: mockConversationData.messages,
+          },
+        ],
+      ]);
 
       expect(returnedConversationId).toEqual(mockConversationData.id);
     });
   });
 
-  // describe('createConversationWithMessage', () => {
-  //   it('creates a new conversation with message successfully', async () => {
-  //     const mockConversationParams = {
-  //       content: 'Test message',
-  //       contact: 'test@test.com',
-  //     };
+  describe('createConversationWithMessage', () => {
+    it('creates a new conversation with message successfully', async () => {
+      const mockConversationParams = {
+        content: 'Test message',
+        contact: 'test@test.com',
+      };
 
-  //     const mockConversationData = mockConversations[0];
+      const mockConversationData = mockConversations[0];
 
-  //     API.post.mockResolvedValue({
-  //       data: mockConversationData,
-  //     });
+      API.post.mockResolvedValue({
+        data: mockConversationData,
+      });
 
-  //     const returnedConversationId = await actions.createConversationWithMessage(
-  //       { commit },
-  //       mockConversationParams
-  //     );
+      const returnedConversationId = await actions.createConversationWithMessage(
+        { commit },
+        mockConversationParams
+      );
 
-  //     expect(commit.mock.calls).toEqual([
-  //       ['setUIFlag', { isCreating: true }],
-  //       ['addConversationEntry', mockConversationData],
-  //       ['addConversationId', mockConversationData.id],
-  //       [
-  //         'setConversationUIFlag',
-  //         {
-  //           uiFlags: { isAgentTyping: false },
-  //           conversationId: mockConversationData.id,
-  //         },
-  //       ],
-  //       [
-  //         'setConversationMeta',
-  //         {
-  //           meta: { userLastSeenAt: mockConversationData.contact_last_seen_at },
-  //           conversationId: mockConversationData.id,
-  //         },
-  //       ],
-  //       [
-  //         'messageV3/addMessagesEntry',
-  //         {
-  //           conversationId: mockConversationData.id,
-  //           messages: mockConversationData.messages,
-  //         },
-  //         { root: true },
-  //       ],
-  //       [
-  //         'addMessageIdsToConversation',
-  //         {
-  //           conversationId: mockConversationData.id,
-  //           messages: mockConversationData.messages,
-  //         },
-  //       ],
-  //       ['setUIFlag', { isCreating: false }],
-  //     ]);
-  //     expect(returnedConversationId).toEqual(mockConversationData.id);
-  //   });
+      expect(commit.mock.calls).toEqual([
+        ['setUIFlag', { isCreating: true }],
+        ['addConversationEntry', mockConversationData],
+        ['addConversationId', mockConversationData.id],
+        [
+          'setConversationUIFlag',
+          {
+            uiFlags: { isAgentTyping: false },
+            conversationId: mockConversationData.id,
+          },
+        ],
+        [
+          'setConversationMeta',
+          {
+            meta: { userLastSeenAt: mockConversationData.contact_last_seen_at },
+            conversationId: mockConversationData.id,
+          },
+        ],
+        [
+          'messageV3/addMessagesEntry',
+          {
+            conversationId: mockConversationData.id,
+            messages: mockConversationData.messages,
+          },
+          { root: true },
+        ],
+        [
+          'addMessageIdsToConversation',
+          {
+            conversationId: mockConversationData.id,
+            messages: mockConversationData.messages,
+          },
+        ],
+        ['setUIFlag', { isCreating: false }],
+      ]);
+      expect(returnedConversationId).toEqual(mockConversationData.id);
+    });
 
-  //   it('handles errors when creating a new conversation with message', async () => {
-  //     const mockConversationParams = {
-  //       content: 'Test message',
-  //       contact: 'test@test.com',
-  //     };
+    it('handles errors when creating a new conversation with message', async () => {
+      const mockConversationParams = {
+        content: 'Test message',
+        contact: 'test@test.com',
+      };
 
-  //     API.post.mockRejectedValue(new Error('API Error'));
+      API.post.mockRejectedValue(new Error('API Error'));
 
-  //     await expect(
-  //       actions.createConversationWithMessage(
-  //         { commit },
-  //         mockConversationParams
-  //       )
-  //     ).rejects.toThrow('API Error');
-  //     expect(commit.mock.calls).toEqual([
-  //       ['setUIFlag', { isCreating: true }],
-  //       ['setUIFlag', { isCreating: false }],
-  //     ]);
-  //   });
-  // });
+      await expect(
+        actions.createConversationWithMessage(
+          { commit },
+          mockConversationParams
+        )
+      ).rejects.toThrow('API Error');
+      expect(commit.mock.calls).toEqual([
+        ['setUIFlag', { isCreating: true }],
+        ['setUIFlag', { isCreating: false }],
+      ]);
+    });
+  });
 });

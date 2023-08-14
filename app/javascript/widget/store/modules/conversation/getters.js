@@ -1,6 +1,6 @@
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import { groupBy } from 'widget/helpers/utils';
-import { groupConversationBySender } from './helpers';
+import { groupConversationBySender } from 'widget/store/modules/conversationV3/helpers';
 import { formatUnixDate } from 'shared/helpers/DateHelper';
 
 export const getters = {
@@ -13,6 +13,13 @@ export const getters = {
     const conversation = Object.values(_state.conversations);
     if (conversation.length) {
       return conversation[0];
+    }
+    return {};
+  },
+  getLastMessage: _state => {
+    const conversation = Object.values(_state.conversations);
+    if (conversation.length) {
+      return conversation[conversation.length - 1];
     }
     return {};
   },

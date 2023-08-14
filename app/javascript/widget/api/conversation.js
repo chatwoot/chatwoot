@@ -1,4 +1,5 @@
 import endPoints from 'widget/api/endPoints';
+import ConversationV3API from 'widget/api/conversationV3';
 import { API } from 'widget/helpers/axios';
 
 const createConversationAPI = async content => {
@@ -16,10 +17,7 @@ const sendAttachmentAPI = async attachment => {
   return API.post(urlData.url, urlData.params);
 };
 
-const getMessagesAPI = async ({ before, after }) => {
-  const urlData = endPoints.getConversation({ before, after });
-  return API.get(urlData.url, { params: urlData.params });
-};
+const getMessagesAPI = ConversationV3API.getMessages;
 
 const getConversationAPI = async () => {
   return API.get(`/api/v1/widget/conversations${window.location.search}`);
