@@ -162,12 +162,7 @@ import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/cons
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import WootAudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
-import {
-  MAXIMUM_FILE_UPLOAD_SIZE,
-  MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL,
-  AUDIO_FORMATS,
-} from 'shared/constants/messages';
+import { AUDIO_FORMATS } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import {
   getMessageVariables,
@@ -179,13 +174,13 @@ import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
-import { DirectUpload } from 'activestorage';
 import { frontendURL } from '../../../helper/URLHelper';
 import { trimContent, debounce } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants/globals';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import rtlMixin from 'shared/mixins/rtlMixin';
+import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
 
 const EmojiInput = () => import('shared/components/emoji/EmojiInput');
 
@@ -210,6 +205,7 @@ export default {
     alertMixin,
     messageFormatterMixin,
     rtlMixin,
+    fileUploadMixin,
   ],
   props: {
     selectedTweet: {
@@ -906,67 +902,6 @@ export default {
         conversationId,
         isPrivate,
       });
-    },
-    onFileUpload(file) {
-      if (this.globalConfig.directUploadsEnabled) {
-        this.onDirectFileUpload(file);
-      } else {
-        this.onIndirectFileUpload(file);
-      }
-    },
-    onDirectFileUpload(file) {
-      const MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE = this.isATwilioSMSChannel
-        ? MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL
-        : MAXIMUM_FILE_UPLOAD_SIZE;
-
-      if (!file) {
-        return;
-      }
-      if (checkFileSizeLimit(file, MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE)) {
-        const upload = new DirectUpload(
-          file.file,
-          `/api/v1/accounts/${this.accountId}/conversations/${this.currentChat.id}/direct_uploads`,
-          {
-            directUploadWillCreateBlobWithXHR: xhr => {
-              xhr.setRequestHeader(
-                'api_access_token',
-                this.currentUser.access_token
-              );
-            },
-          }
-        );
-
-        upload.create((error, blob) => {
-          if (error) {
-            this.showAlert(error);
-          } else {
-            this.attachFile({ file, blob });
-          }
-        });
-      } else {
-        this.showAlert(
-          this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
-            MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE,
-          })
-        );
-      }
-    },
-    onIndirectFileUpload(file) {
-      const MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE = this.isATwilioSMSChannel
-        ? MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL
-        : MAXIMUM_FILE_UPLOAD_SIZE;
-      if (!file) {
-        return;
-      }
-      if (checkFileSizeLimit(file, MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE)) {
-        this.attachFile({ file });
-      } else {
-        this.showAlert(
-          this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
-            MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE,
-          })
-        );
-      }
     },
     attachFile({ blob, file }) {
       const reader = new FileReader();

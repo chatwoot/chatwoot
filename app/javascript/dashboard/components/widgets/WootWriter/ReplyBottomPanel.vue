@@ -14,6 +14,7 @@
       <file-upload
         ref="upload"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
+        input-id="conversationAttachment"
         :size="4096 * 4096"
         :accept="allowedFileTypes"
         :multiple="enableMultipleFileUpload"
