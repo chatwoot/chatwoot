@@ -4,6 +4,8 @@ RSpec.describe MailPresenter do
 
   describe 'parsed mail decorator' do
     let(:mail) { create_inbound_email_from_fixture('welcome.eml').mail }
+    let(:multiple_in_reply_to_mail) { create_inbound_email_from_fixture('multiple_in_reply_to.eml').mail }
+    let(:mail_without_in_reply_to) { create_inbound_email_from_fixture('reply_cc.eml').mail }
     let(:html_mail) { create_inbound_email_from_fixture('welcome_html.eml').mail }
     let(:ascii_mail) { create_inbound_email_from_fixture('non_utf_encoded_mail.eml').mail }
     let(:decorated_mail) { described_class.new(mail) }
@@ -73,6 +75,29 @@ RSpec.describe MailPresenter do
       expect(decorated_html_mail.text_content[:reply][0..70]).to eq(
         'أنظروا، أنا أحتاجها فقط لتقوم بالتدقيق في مقالتي الشخصية'
       )
+    end
+
+    describe '#in_reply_to' do
+      context 'when "in_reply_to" is an array' do
+        it 'returns the first value from the array' do
+          mail_presenter = described_class.new(multiple_in_reply_to_mail)
+          expect(mail_presenter.in_reply_to).to eq('4e6e35f5a38b4_479f13bb90078171@small-app-01.mail')
+        end
+      end
+
+      context 'when "in_reply_to" is not an array' do
+        it 'returns the value as is' do
+          mail_presenter = described_class.new(mail)
+          expect(mail_presenter.in_reply_to).to eq('4e6e35f5a38b4_479f13bb90078178@small-app-01.mail')
+        end
+      end
+
+      context 'when "in_reply_to" is blank' do
+        it 'returns nil' do
+          mail_presenter = described_class.new(mail_without_in_reply_to)
+          expect(mail_presenter.in_reply_to).to be_nil
+        end
+      end
     end
   end
 end
