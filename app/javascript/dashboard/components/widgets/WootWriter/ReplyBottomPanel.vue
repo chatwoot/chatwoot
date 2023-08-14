@@ -354,8 +354,4 @@ export default {
     @apply dark:bg-slate-800 bg-slate-100;
   }
 }
-
-.icon {
-  @apply text-[5rem];
-}
 </style>
