@@ -166,11 +166,11 @@ class Conversation < ApplicationRecord
   end
 
   def unread_messages
-    messages.unread_since(agent_last_seen_at)
+    agent_last_seen_at.present? ? messages.created_since(agent_last_seen_at) : messages
   end
 
   def unread_incoming_messages
-    messages.incoming.unread_since(agent_last_seen_at)
+    unread_messages.where(account_id: account_id).incoming.last(10)
   end
 
   def push_event_data
@@ -304,3 +304,4 @@ class Conversation < ApplicationRecord
 end
 
 Conversation.include_mod_with('EnterpriseConversationConcern')
+Conversation.include_mod_with('SentimentAnalysisHelper')

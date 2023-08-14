@@ -6,6 +6,16 @@
       >
         {{ $t(`SIDEBAR.${menuItem.label}`) }}
       </span>
+      <div v-if="menuItem.showNewButton" class="flex items-center">
+        <woot-button
+          size="tiny"
+          variant="clear"
+          color-scheme="secondary"
+          icon="add"
+          class="p-0 ml-2"
+          @click="onClickOpen"
+        />
+      </div>
     </div>
     <router-link
       v-else
@@ -15,13 +25,19 @@
     >
       <fluent-icon
         :icon="menuItem.icon"
-        class="min-w-[1rem] mr-2 rtl:mr-0 rtl:ml-2"
+        class="min-w-[1rem] mr-1.5 rtl:mr-0 rtl:ml-1.5"
         size="14"
       />
       {{ $t(`SIDEBAR.${menuItem.label}`) }}
       <span
         v-if="showChildCount(menuItem.count)"
-        class="rounded-xl text-xxs font-medium mx-1 py-0 px-1"
+        class="rounded-md text-xxs font-medium mx-1 py-0 px-1"
+        :class="{
+          'text-slate-300 dark:text-slate-600': isCountZero && !isActiveView,
+          'text-slate-600 dark:text-slate-50': !isCountZero && !isActiveView,
+          'bg-woot-75 dark:bg-woot-200 text-woot-600 dark:text-woot-600': isActiveView,
+          'bg-slate-50 dark:bg-slate-700': !isActiveView,
+        }"
       >
         {{ `${menuItem.count}` }}
       </span>
@@ -103,6 +119,12 @@ export default {
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       globalConfig: 'globalConfig/get',
     }),
+    isCountZero() {
+      return this.menuItem.count === 0;
+    },
+    isActiveView() {
+      return this.computedClass.includes('active-view');
+    },
     hasSubMenu() {
       return !!this.menuItem.children;
     },
@@ -173,7 +195,7 @@ export default {
         this.isUnattended ||
         this.isCurrentRoute
       ) {
-        return 'bg-woot-25 dark:bg-slate-800 text-woot-500 dark:text-woot-500 hover:text-woot-500 dark:hover:text-woot-500';
+        return 'bg-woot-25 dark:bg-slate-800 text-woot-500 dark:text-woot-500 hover:text-woot-500 dark:hover:text-woot-500 active-view';
       }
       if (this.hasSubMenu) {
         if (
@@ -182,7 +204,7 @@ export default {
           this.isIntegrationsSettings ||
           this.isApplicationsSettings
         ) {
-          return 'bg-woot-25 dark:bg-slate-800 text-woot-500 dark:text-woot-500 hover:text-woot-500 dark:hover:text-woot-500';
+          return 'bg-woot-25 dark:bg-slate-800 text-woot-500 dark:text-woot-500 hover:text-woot-500 dark:hover:text-woot-500 active-view';
         }
         return 'hover:text-slate-700 dark:hover:text-slate-100';
       }

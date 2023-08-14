@@ -4,11 +4,7 @@ import GoogleOAuthButton from './Button.vue';
 function getWrapper(showSeparator) {
   return shallowMount(GoogleOAuthButton, {
     propsData: { showSeparator: showSeparator },
-    methods: {
-      $t(text) {
-        return text;
-      },
-    },
+    mocks: { $t: text => text },
   });
 }
 

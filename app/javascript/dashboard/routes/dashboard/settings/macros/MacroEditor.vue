@@ -1,5 +1,5 @@
 <template>
-  <div class="column content-box">
+  <div class="h-auto overflow-auto flex-1 flex flex-col">
     <woot-loading-state
       v-if="uiFlags.isFetchingItem"
       :message="$t('MACROS.EDITOR.LOADING')"

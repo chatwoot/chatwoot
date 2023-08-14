@@ -16,10 +16,6 @@ select {
   padding: var(--space-normal);
 }
 
-.button-wrapper .button.grey-btn {
-  margin-left: var(--space-normal);
-}
-
 code {
   border: 0;
   font-family: 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas',
@@ -30,6 +26,7 @@ code {
     background: $color-background;
     border-radius: var(--border-radius-large);
     padding: $space-two;
+    @apply bg-slate-50 dark:bg-slate-600 text-slate-800 dark:text-slate-100;
   }
 }
 

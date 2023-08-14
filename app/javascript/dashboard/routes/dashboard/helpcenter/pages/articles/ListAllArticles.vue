@@ -1,5 +1,5 @@
 <template>
-  <div class="container overflow-auto">
+  <div class="py-0 px-4 w-full max-w-full overflow-auto">
     <article-header
       :header-title="headerTitle"
       :count="meta.count"
@@ -13,9 +13,14 @@
       @page-change="onPageChange"
       @reorder="onReorder"
     />
-    <div v-if="shouldShowLoader" class="articles--loader">
+    <div
+      v-if="shouldShowLoader"
+      class="items-center flex text-base justify-center py-6 px-4 text-slate-600 dark:text-slate-200"
+    >
       <spinner />
-      <span>{{ $t('HELP_CENTER.TABLE.LOADING_MESSAGE') }}</span>
+      <span class="text-slate-600 dark:text-slate-200">{{
+        $t('HELP_CENTER.TABLE.LOADING_MESSAGE')
+      }}</span>
     </div>
     <empty-state
       v-else-if="shouldShowEmptyState"
@@ -148,18 +153,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.container {
-  padding: 0 var(--space-normal);
-  width: 100%;
-  overflow: auto;
-  .articles--loader {
-    align-items: center;
-    display: flex;
-    font-size: var(--font-size-default);
-    justify-content: center;
-    padding: var(--space-big);
-  }
-}
-</style>

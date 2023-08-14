@@ -1,7 +1,7 @@
 <!-- Deprecated in favour of separate files for SMS and Whatsapp and also to implement new providers for each platform in the future-->
 <template>
-  <form class="row" @submit.prevent="createChannel()">
-    <div class="medium-8 columns">
+  <form class="mx-0 flex flex-wrap" @submit.prevent="createChannel()">
+    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
       <label :class="{ error: $v.channelName.$error }">
         {{ $t('INBOX_MGMT.ADD.TWILIO.CHANNEL_NAME.LABEL') }}
         <input
@@ -16,7 +16,7 @@
       </label>
     </div>
 
-    <div class="medium-8 columns">
+    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
       <label
         v-if="useMessagingService"
         :class="{ error: $v.messagingServiceSID.$error }"
@@ -36,7 +36,10 @@
       </label>
     </div>
 
-    <div v-if="!useMessagingService" class="medium-8 columns">
+    <div
+      v-if="!useMessagingService"
+      class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]"
+    >
       <label :class="{ error: $v.phoneNumber.$error }">
         {{ $t('INBOX_MGMT.ADD.TWILIO.PHONE_NUMBER.LABEL') }}
         <input
@@ -67,7 +70,7 @@
       </label>
     </div>
 
-    <div class="medium-8 columns">
+    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
       <label :class="{ error: $v.accountSID.$error }">
         {{ $t('INBOX_MGMT.ADD.TWILIO.ACCOUNT_SID.LABEL') }}
         <input
@@ -81,22 +84,49 @@
         }}</span>
       </label>
     </div>
-    <div class="medium-8 columns">
-      <label :class="{ error: $v.authToken.$error }">
-        {{ $t('INBOX_MGMT.ADD.TWILIO.AUTH_TOKEN.LABEL') }}
+    <div class="medium-8 columns messagingServiceHelptext">
+      <label for="useAPIKey">
         <input
-          v-model.trim="authToken"
-          type="text"
-          :placeholder="$t('INBOX_MGMT.ADD.TWILIO.AUTH_TOKEN.PLACEHOLDER')"
-          @blur="$v.authToken.$touch"
+          id="useAPIKey"
+          v-model="useAPIKey"
+          type="checkbox"
+          class="checkbox"
         />
-        <span v-if="$v.authToken.$error" class="message">{{
-          $t('INBOX_MGMT.ADD.TWILIO.AUTH_TOKEN.ERROR')
+        {{ $t('INBOX_MGMT.ADD.TWILIO.API_KEY.USE_API_KEY') }}
+      </label>
+    </div>
+    <div v-if="useAPIKey" class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+      <label :class="{ error: $v.apiKeySID.$error }">
+        {{ $t('INBOX_MGMT.ADD.TWILIO.API_KEY.LABEL') }}
+        <input
+          v-model.trim="apiKeySID"
+          type="text"
+          :placeholder="$t('INBOX_MGMT.ADD.TWILIO.API_KEY.PLACEHOLDER')"
+          @blur="$v.apiKeySID.$touch"
+        />
+        <span v-if="$v.apiKeySID.$error" class="message">{{
+          $t('INBOX_MGMT.ADD.TWILIO.API_KEY.ERROR')
         }}</span>
       </label>
     </div>
+    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+      <label :class="{ error: $v.authToken.$error }">
+        {{ $t(`INBOX_MGMT.ADD.TWILIO.${authTokeni18nKey}.LABEL`) }}
+        <input
+          v-model.trim="authToken"
+          type="text"
+          :placeholder="
+            $t(`INBOX_MGMT.ADD.TWILIO.${authTokeni18nKey}.PLACEHOLDER`)
+          "
+          @blur="$v.authToken.$touch"
+        />
+        <span v-if="$v.authToken.$error" class="message">
+          {{ $t(`INBOX_MGMT.ADD.TWILIO.${authTokeni18nKey}.ERROR`) }}
+        </span>
+      </label>
+    </div>
 
-    <div class="medium-12 columns">
+    <div class="w-full">
       <woot-submit-button
         :loading="uiFlags.isCreating"
         :button-text="$t('INBOX_MGMT.ADD.TWILIO.SUBMIT_BUTTON')"
@@ -123,11 +153,13 @@ export default {
   data() {
     return {
       accountSID: '',
+      apiKeySID: '',
       authToken: '',
       medium: this.type,
       channelName: '',
       messagingServiceSID: '',
       useMessagingService: false,
+      useAPIKey: false,
       phoneNumber: '',
     };
   },
@@ -135,26 +167,39 @@ export default {
     ...mapGetters({
       uiFlags: 'inboxes/getUIFlags',
     }),
+    authTokeni18nKey() {
+      return this.useAPIKey ? 'API_KEY_SECRET' : 'AUTH_TOKEN';
+    },
   },
   validations() {
-    if (this.phoneNumber) {
-      return {
-        channelName: { required },
-        messagingServiceSID: {},
-        phoneNumber: { required, isPhoneE164OrEmpty },
-        authToken: { required },
-        accountSID: { required },
-        medium: { required },
-      };
-    }
-    return {
+    let validations = {
       channelName: { required },
-      messagingServiceSID: { required },
-      phoneNumber: {},
+
       authToken: { required },
       accountSID: { required },
       medium: { required },
     };
+    if (this.phoneNumber) {
+      validations = {
+        ...validations,
+        phoneNumber: { required, isPhoneE164OrEmpty },
+        messagingServiceSID: {},
+      };
+    } else {
+      validations = {
+        ...validations,
+        messagingServiceSID: { required },
+        phoneNumber: {},
+      };
+    }
+
+    if (this.useAPIKey) {
+      validations = {
+        ...validations,
+        apiKeySID: { required },
+      };
+    }
+    return validations;
   },
   methods: {
     async createChannel() {
@@ -171,6 +216,7 @@ export default {
               name: this.channelName,
               medium: this.medium,
               account_sid: this.accountSID,
+              api_key_sid: this.apiKeySID,
               auth_token: this.authToken,
               messaging_service_sid: this.messagingServiceSID,
               phone_number: this.messagingServiceSID
