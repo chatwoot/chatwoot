@@ -38,6 +38,7 @@ Style/GlobalVars:
     - 'config/initializers/01_redis.rb'
     - 'config/initializers/rack_attack.rb'
     - 'lib/redis/alfred.rb'
+    - 'lib/redis/lock_manager.rb'
     - 'lib/global_config.rb'
 Style/ClassVars:
   Exclude:
@@ -73,7 +74,7 @@ Rails/ApplicationController:
     - 'app/controllers/survey/responses_controller.rb'
 Rails/FindEach:
   Enabled: true
-  Include: 
+  Include:
     - 'app/**/*.rb'
 Rails/CompactBlank:
   Enabled: false
@@ -188,7 +189,6 @@ RSpec/IndexedLet:
   Enabled: false
 RSpec/NamedSubject:
   Enabled: false
-
 
 # we should bring this down
 RSpec/MultipleMemoizedHelpers:

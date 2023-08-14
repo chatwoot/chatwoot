@@ -12,3 +12,10 @@ $velma = ConnectionPool.new(size: 5, timeout: 1) do
   config = Rails.env.test? ? MockRedis.new : Redis.new(Redis::Config.app)
   Redis::Namespace.new('velma', redis: config, warning: true)
 end
+
+# Sherlock: Key solver
+# Used for Redis-backed locks
+$sherlock = ConnectionPool.new(size: 5, timeout: 1) do
+  config = Rails.env.test? ? MockRedis.new : Redis.new(Redis::Config.app)
+  Redis::Namespace.new('sherlock', redis: config, warning: true)
+end
