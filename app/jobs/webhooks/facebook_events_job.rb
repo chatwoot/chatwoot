@@ -18,4 +18,9 @@ class Webhooks::FacebookEventsJob < ApplicationJob
       lock_manager.unlock(lock_key)
     end
   end
+
+  rescue_from(LockAcquisitionError) do |exception|
+    # Logic for handling the exception, such as logging or notifications
+    Rails.logger.error "Failed to acquire lock: #{exception.message}"
+  end
 end
