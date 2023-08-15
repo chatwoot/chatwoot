@@ -13,14 +13,10 @@ module Enterprise::Integrations::OpenaiProcessorService
     # To what you ask? Sometimes, the response includes
     # "Labels:" in it's response in some format. This is a hacky way to remove it
     # TODO: Fix with with a better prompt
-    response.gsub(/^(label|labels):/i, '')
+    response.present? ? response.gsub(/^(label|labels):/i, '') : ''
   end
 
   private
-
-  def prompt_from_file(file_name)
-    Rails.root.join('enterprise/lib/enterprise/integrations/openai_prompts', "#{file_name}.txt").read
-  end
 
   def labels_with_messages
     conversation = find_conversation
@@ -47,7 +43,7 @@ module Enterprise::Integrations::OpenaiProcessorService
       model: self.class::GPT_MODEL,
       messages: [
         { role: 'system',
-          content: prompt_from_file('summary') },
+          content: prompt_from_file('summary', enterprise: true) },
         { role: 'user', content: conversation_messages }
       ]
     }.to_json
@@ -62,7 +58,7 @@ module Enterprise::Integrations::OpenaiProcessorService
       messages: [
         {
           role: 'system',
-          content: prompt_from_file('label_suggestion')
+          content: prompt_from_file('label_suggestion', enterprise: true)
         },
         { role: 'user', content: content }
       ]

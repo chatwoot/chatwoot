@@ -60,6 +60,17 @@
             </a>
           </router-link>
         </woot-dropdown-item>
+        <woot-dropdown-item>
+          <woot-button
+            variant="clear"
+            color-scheme="secondary"
+            size="small"
+            icon="appearance"
+            @click="openAppearanceOptions"
+          >
+            {{ $t('SIDEBAR_ITEMS.APPEARANCE') }}
+          </woot-button>
+        </woot-dropdown-item>
         <woot-dropdown-item v-if="currentUser.type === 'SuperAdmin'">
           <a
             href="/super_admin"
@@ -144,6 +155,10 @@ export default {
     },
     onClickAway() {
       if (this.show) this.$emit('close');
+    },
+    openAppearanceOptions() {
+      const ninja = document.querySelector('ninja-keys');
+      ninja.open({ parent: 'appearance_settings' });
     },
   },
 };

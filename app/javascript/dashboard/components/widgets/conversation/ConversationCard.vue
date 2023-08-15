@@ -1,8 +1,8 @@
 <template>
   <div
-    class="conversation flex flex-shrink-0 flex-grow-0 w-auto max-w-full cursor-pointer relative py-0 px-4 border-transparent border-l-2 border-t-0 border-b-0 border-r-0 border-solid items-start hover:bg-slate-50 dark:hover:bg-slate-800 group"
+    class="conversation flex flex-shrink-0 flex-grow-0 w-auto max-w-full cursor-pointer relative py-0 px-4 border-transparent border-l-2 border-t-0 border-b-0 border-r-0 border-solid items-start hover:bg-slate-25 dark:hover:bg-slate-800 group"
     :class="{
-      'active bg-slate-50 dark:bg-slate-800 border-woot-500': isActiveChat,
+      'active bg-slate-25 dark:bg-slate-800 border-woot-500': isActiveChat,
       'unread-chat': hasUnread,
       'has-inbox-name': showInboxName,
       'conversation-selected': selected,
@@ -84,7 +84,7 @@
           <fluent-icon
             v-if="attachmentIcon"
             size="16"
-            class="-mt-0.5 align-middle inline-block"
+            class="-mt-0.5 align-middle inline-block text-slate-600 dark:text-slate-300"
             :icon="attachmentIcon"
           />
           {{ this.$t(`${attachmentMessageContent}`) }}
@@ -99,8 +99,8 @@
       >
         <fluent-icon
           size="16"
-          class="-mt-0.5 align-middle"
-          icon="info inline-block"
+          class="-mt-0.5 align-middle inline-block text-slate-600 dark:text-slate-300"
+          icon="info"
         />
         <span>
           {{ this.$t(`CHAT_LIST.NO_MESSAGES`) }}
