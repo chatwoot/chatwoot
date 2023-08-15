@@ -12,6 +12,10 @@
     "NO_INBOX_2": " 始めましょう",
     "NO_INBOX_AGENT": "あなたに受信トレイが設定されていないようです。管理者に問い合わせてください。",
     "SEARCH_MESSAGES": "会話中のメッセージの検索",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "メッセージを検索",
       "RESULT_TITLE": "検索結果",
@@ -147,6 +151,7 @@
       "STOP_AUDIO_RECORDING": "Stop audio recording",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Add bcc",
         "CC": {
           "LABEL": "CC",
