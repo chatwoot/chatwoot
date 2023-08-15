@@ -34,6 +34,10 @@
       "RESOLUTION_COUNT": {
         "NAME": "Atrisināšanas Skaits",
         "DESC": "( Kopā )"
+      },
+      "REPLY_TIME": {
+        "NAME": "Customer waiting time",
+        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} conversations)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -124,10 +128,6 @@
       {
         "id": 3,
         "groupBy": "Mēnesis"
-      },
-      {
-        "id": 4,
-        "groupBy": "Gads"
       }
     ],
     "BUSINESS_HOURS": "Darba Laiks"
