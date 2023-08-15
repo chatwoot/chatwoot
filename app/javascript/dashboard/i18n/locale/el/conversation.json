@@ -12,6 +12,10 @@
     "NO_INBOX_2": " για να ξεκινήσετε",
     "NO_INBOX_AGENT": "Ω όχι! Φαίνεται ότι δεν είστε μέλος κάποιου κιβωτίου εισερχμένων. Απευθυνθείτε στον διαχειριστή",
     "SEARCH_MESSAGES": "Αναζήτηση μηνυμάτων στις συνομιλίες",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "Αναζήτηση μηνυμάτων",
       "RESULT_TITLE": "Αποτελέσματα Αναζήτησης",
@@ -147,6 +151,7 @@
       "STOP_AUDIO_RECORDING": "Διακοπή ηχογράφησης",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Προσθήκη bcc",
         "CC": {
           "LABEL": "CC",
