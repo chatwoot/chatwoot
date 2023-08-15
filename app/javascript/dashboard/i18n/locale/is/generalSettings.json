@@ -110,7 +110,9 @@
       "SNOOZE_CONVERSATION": "Fresta Samtali",
       "ADD_LABEL": "Merkja samtalið",
       "REMOVE_LABEL": "Fjarlægja merki af samtali",
-      "SETTINGS": "Stillingar"
+      "SETTINGS": "Stillingar",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Opna Stjórnborð Samtals",
@@ -132,6 +134,7 @@
       "GO_TO_NOTIFICATIONS": "Opna Tilkynningar",
       "ADD_LABELS_TO_CONVERSATION": "Merkja samtalið",
       "ASSIGN_AN_AGENT": "Úthluta á þjónustufulltrúa",
+      "AI_ASSIST": "AI Assist",
       "ASSIGN_PRIORITY": "Assign priority",
       "ASSIGN_A_TEAM": "Úthluta á teymi",
       "MUTE_CONVERSATION": "Þagga samtal",
@@ -146,10 +149,18 @@
       "UNTIL_TOMORROW": "Þar til á morgun",
       "UNTIL_NEXT_MONTH": "Until next month",
       "AN_HOUR_FROM_NOW": "Until an hour from now",
-      "CUSTOM": "Custom..."
+      "CUSTOM": "Custom...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "System"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "Hleð Stjórnborði..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "smelltu hér"
   }
 }
