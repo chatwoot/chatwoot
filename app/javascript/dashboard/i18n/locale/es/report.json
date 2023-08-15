@@ -5,7 +5,7 @@
     "NO_ENOUGH_DATA": "No hemos recibido suficientes puntos de datos para generar el informe. Inténtalo de nuevo más tarde.",
     "DOWNLOAD_AGENT_REPORTS": "Descargar reportes de agente",
     "DATA_FETCHING_FAILED": "Error al obtener datos, por favor intente nuevamente.",
-    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
+    "SUMMARY_FETCHING_FAILED": "No se pudo obtener el resumen, por favor inténtalo de nuevo más tarde.",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversaciones",
@@ -34,6 +34,10 @@
       "RESOLUTION_COUNT": {
         "NAME": "Número de resoluciones",
         "DESC": "( Total )"
+      },
+      "REPLY_TIME": {
+        "NAME": "Customer waiting time",
+        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} conversations)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -124,10 +128,6 @@
       {
         "id": 3,
         "groupBy": "Mes"
-      },
-      {
-        "id": 4,
-        "groupBy": "Año"
       }
     ],
     "BUSINESS_HOURS": "Horarios"

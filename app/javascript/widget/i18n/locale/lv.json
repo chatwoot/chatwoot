@@ -105,5 +105,9 @@
       "CLICK_HERE_TO_JOIN": "Noklikšķiniet šeit, lai pievienotos",
       "LEAVE_THE_ROOM": "Beigt zvanu"
     }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "Skatīt visus rakstus"
   }
 }

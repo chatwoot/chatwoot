@@ -25,6 +25,13 @@
       "EDIT": "%{agentName} updated an automation rule (#%{id})",
       "DELETE": "%{agentName} deleted an automation rule (#%{id})"
     },
+    "ACCOUNT_USER": {
+      "ADD": "%{agentName} convidou %{invitee} para sua conta como %{role}",
+      "EDIT": {
+        "SELF": "%{agentName} changed their %{attributes} to %{values}",
+        "OTHER": "%{agentName} changed %{attributes} of %{user} to %{values}"
+      }
+    },
     "INBOX": {
       "ADD": "%{agentName} created a new inbox (#%{id})",
       "EDIT": "%{agentName} updated an inbox (#%{id})",
@@ -48,6 +55,9 @@
       "ADD": "%{agentName} created a new macro (#%{id})",
       "EDIT": "%{agentName} updated a macro (#%{id})",
       "DELETE": "%{agentName} deleted a macro (#%{id})"
+    },
+    "ACCOUNT": {
+      "EDIT": "%{agentName} updated the account configuration (#%{id})"
     }
   }
 }
