@@ -1,6 +1,6 @@
 # Redis::LockManager provides a simple mechanism to handle distributed locks using Redis.
 # This class ensures that only one instance of a given operation runs at a given time across all processes/nodes.
-# It uses the $sherlock Redis namespace for all its operations.
+# It uses the $alfred Redis namespace for all its operations.
 #
 # Example Usage:
 #
@@ -69,13 +69,13 @@ class Redis::LockManager
 
   private
 
-  # Obtains a Redis connection from the $sherlock pool and yields it to the block.
+  # Obtains a Redis connection from the $alfred pool and yields it to the block.
   # This method ensures that Redis operations are executed using a connection
   # from the connection pool, which is properly returned back to the pool after the operation.
   #
   # === Yields
   # * +conn+ - Yields the Redis connection to the block.
   def with_redis(&)
-    $sherlock.with(&)
+    $alfred.with(&)
   end
 end
