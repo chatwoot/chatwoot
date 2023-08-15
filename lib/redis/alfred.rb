@@ -7,8 +7,8 @@ module Redis::Alfred
     # key operations
 
     # set a value in redis
-    def set(key, value, not_exists: false, expiry: false)
-      $alfred.with { |conn| conn.set(key, value, nx: not_exists, ex: expiry) }
+    def set(key, value, nx: false, ex: false) # rubocop:disable Naming/MethodParameterName
+      $alfred.with { |conn| conn.set(key, value, nx: nx, ex: ex) }
     end
 
     # set a key with expiry period
