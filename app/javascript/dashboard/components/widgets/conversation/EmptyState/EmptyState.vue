@@ -10,55 +10,26 @@
       class="clearfix"
     >
       <onboarding-view v-if="isAdmin" />
-      <div v-else class="flex flex-col items-center justify-center h-full">
-        <div class="flex flex-col items-center justify-center h-full">
-          <img
-            class="m-4 w-[6.25rem]"
-            src="~dashboard/assets/images/inboxes.svg"
-            alt="No Inboxes"
-          />
-          <span
-            class="text-sm text-slate-800 dark:text-slate-200 font-medium text-center"
-          >
-            {{ $t('CONVERSATION.NO_INBOX_AGENT') }}
-          </span>
-        </div>
-      </div>
+      <empty-state-message
+        v-else
+        :message="$t('CONVERSATION.NO_INBOX_AGENT')"
+      />
     </div>
     <!-- Show empty state images if not loading -->
+
     <div
       v-else-if="!uiFlags.isFetching && !loadingChatList"
       class="flex flex-col items-center justify-center h-full"
     >
       <!-- No conversations available -->
-      <div
+      <empty-state-message
         v-if="!allConversations.length"
-        class="flex flex-col items-center justify-center h-full"
-      >
-        <no-chat-placeholder-image />
-        <span
-          class="text-sm text-slate-800 dark:text-slate-200 font-medium text-center"
-        >
-          {{ $t('CONVERSATION.NO_MESSAGE_1') }}
-          <br />
-        </span>
-        <!-- Cmd bar, keyboard shortcuts placeholder -->
-        <feature-placeholder />
-      </div>
-      <!-- No conversation selected -->
-      <div
+        :message="$t('CONVERSATION.NO_MESSAGE_1')"
+      />
+      <empty-state-message
         v-else-if="allConversations.length && !currentChat.id"
-        class="flex flex-col items-center justify-center h-full"
-      >
-        <no-chat-placeholder-image />
-        <span
-          class="text-sm text-slate-800 dark:text-slate-200 font-medium text-center"
-        >
-          {{ conversationMissingMessage }}
-        </span>
-        <!-- Cmd bar, keyboard shortcuts placeholder -->
-        <feature-placeholder />
-      </div>
+        :message="conversationMissingMessage"
+      />
     </div>
   </div>
 </template>
@@ -67,14 +38,12 @@ import { mapGetters } from 'vuex';
 import adminMixin from 'dashboard/mixins/isAdmin';
 import accountMixin from 'dashboard/mixins/account';
 import OnboardingView from '../OnboardingView';
-import FeaturePlaceholder from './FeaturePlaceholder';
-import NoChatPlaceholderImage from './NoChatPlaceholderImage';
+import EmptyStateMessage from './EmptyStateMessage';
 
 export default {
   components: {
     OnboardingView,
-    FeaturePlaceholder,
-    NoChatPlaceholderImage,
+    EmptyStateMessage,
   },
   mixins: [accountMixin, adminMixin],
   props: {
