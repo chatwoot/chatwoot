@@ -4,7 +4,7 @@
     "LOADING_CHART": "Carregando dados do gráfico...",
     "NO_ENOUGH_DATA": "Não existem dados suficientes para gerar o relatório. Tente novamente mais tarde.",
     "DOWNLOAD_AGENT_REPORTS": "Baixar relatórios de agentes",
-    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
+    "DATA_FETCHING_FAILED": "Falha ao buscar dados, tente novamente mais tarde.",
     "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
       "CONVERSATIONS": {
@@ -34,6 +34,10 @@
       "RESOLUTION_COUNT": {
         "NAME": "Contagem de Resolução",
         "DESC": "( Total )"
+      },
+      "REPLY_TIME": {
+        "NAME": "Customer waiting time",
+        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} conversations)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -124,10 +128,6 @@
       {
         "id": 3,
         "groupBy": "Mês"
-      },
-      {
-        "id": 4,
-        "groupBy": "Ano"
       }
     ],
     "BUSINESS_HOURS": "Horários de funcionamento"
