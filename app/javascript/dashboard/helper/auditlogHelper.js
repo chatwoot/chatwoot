@@ -31,9 +31,9 @@ const translationKeys = {
   'accountuser:update:self': `AUDIT_LOGS.ACCOUNT_USER.EDIT.SELF`,
   'accountuser:update:other': `AUDIT_LOGS.ACCOUNT_USER.EDIT.OTHER`,
   'inboxmember:create': `AUDIT_LOGS.INBOX_USER.ADD`,
-  'inboxmember:update': `AUDIT_LOGS.INBOX_USER.EDIT`,
+  'inboxmember:destroy': `AUDIT_LOGS.INBOX_USER.REMOVE`,
   'teammember:create': `AUDIT_LOGS.TEAM_MEMBER.ADD`,
-  'teammember:update': `AUDIT_LOGS.TEAM_MEMBER.EDIT`,
+  'teammember:destroy': `AUDIT_LOGS.TEAM_MEMBER.REMOVE`,
   'account:update': `AUDIT_LOGS.ACCOUNT.EDIT`,
 };
 
@@ -106,6 +106,16 @@ function handleAccountUserUpdate(auditLogItem, translationPayload, agentList) {
   return translationPayload;
 }
 
+function handleTeamMember(auditLogItem, translationPayload, agentList) {
+  if (auditLogItem.audited_changes) {
+    const userIdChange = auditLogItem.audited_changes.user_id;
+    if (userIdChange && userIdChange !== undefined) {
+      translationPayload.user = getAgentName(userIdChange, agentList);
+    }
+  }
+  return translationPayload;
+}
+
 export function generateTranslationPayload(auditLogItem, agentList) {
   let translationPayload = {
     agentName: getAgentName(auditLogItem.user_id, agentList),
@@ -131,6 +141,14 @@ export function generateTranslationPayload(auditLogItem, agentList) {
         agentList
       );
     }
+  }
+
+  if (auditableType === 'teammember') {
+    translationPayload = handleTeamMember(
+      auditLogItem,
+      translationPayload,
+      agentList
+    );
   }
 
   return translationPayload;
