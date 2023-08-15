@@ -102,10 +102,10 @@ RSpec.describe Message do
       expect(conversation.first_reply_created_at).to be_nil
       expect(conversation.waiting_since).to eq conversation.created_at
 
-      create(:message, message_type: :outgoing, conversation: conversation)
+      outgoing_message = create(:message, message_type: :outgoing, conversation: conversation)
 
-      expect(outgoing_message.conversation.first_reply_created_at).to eq outgoing_message.created_at
-      expect(outgoing_message.conversation.waiting_since).to be_nil
+      expect(conversation.first_reply_created_at).to eq outgoing_message.created_at
+      expect(conversation.waiting_since).to be_nil
     end
 
     it 'does not update the conversation first reply created at if the message is incoming' do
