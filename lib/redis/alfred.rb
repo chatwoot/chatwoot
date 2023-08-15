@@ -30,6 +30,10 @@ module Redis::Alfred
       $alfred.with { |conn| conn.incr(key) }
     end
 
+    def exists?(key)
+      $alfred.with { |conn| conn.exists?(key) }
+    end
+
     # list operations
 
     def llen(key)
