@@ -49,6 +49,8 @@ tr:
         unique: kategori ve portalde tekil olmalı
     dyte:
       invalid_message_type: "Invalid message type. Action not permitted"
+    slack:
+      invalid_channel_id: "Invalid slack channel. Please try again"
     inboxes:
       imap:
         socket_error: Lütfen ağ bağlantınızı, IMAP adresini kontrol edin ve tekrar deneyin.
@@ -144,6 +146,8 @@ tr:
         header:
           from_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
           reply_with_name: "%{assignee_name} from %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} from %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"

@@ -12,6 +12,10 @@
     "NO_INBOX_2": " для початку",
     "NO_INBOX_AGENT": "Ой! Схоже, ви не маєте доступу до скриньки \"Вхідні\". Будь ласка, зверніться до адміністратора",
     "SEARCH_MESSAGES": "Пошук повідомлень у розмовах",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "Пошук повідомлень",
       "RESULT_TITLE": "Результати пошуку",
@@ -147,6 +151,7 @@
       "STOP_AUDIO_RECORDING": "Зупинити аудіозапис",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Додати bcc",
         "CC": {
           "LABEL": "CC",
