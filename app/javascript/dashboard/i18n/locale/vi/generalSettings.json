@@ -110,7 +110,9 @@
       "SNOOZE_CONVERSATION": "Tạm dừng \bhội thoại",
       "ADD_LABEL": "Thêm nhãn vào hội thoại",
       "REMOVE_LABEL": "Xoá nhãn khỏi hội thoại",
-      "SETTINGS": "Cài đặt"
+      "SETTINGS": "Cài đặt",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Đi tới Trang tổng quan hội thoại",
@@ -132,6 +134,7 @@
       "GO_TO_NOTIFICATIONS": "Đi đến Thông báo",
       "ADD_LABELS_TO_CONVERSATION": "Thêm nhãn vào hội thoại",
       "ASSIGN_AN_AGENT": "Gán cho tổng đài viên",
+      "AI_ASSIST": "AI Assist",
       "ASSIGN_PRIORITY": "Assign priority",
       "ASSIGN_A_TEAM": "Phân công một nhóm",
       "MUTE_CONVERSATION": "Tắt tiếng hội thoại",
@@ -146,10 +149,18 @@
       "UNTIL_TOMORROW": "Cho đến ngày mai",
       "UNTIL_NEXT_MONTH": "Until next month",
       "AN_HOUR_FROM_NOW": "Until an hour from now",
-      "CUSTOM": "Custom..."
+      "CUSTOM": "Custom...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "System"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "Đang tải dữ liệu..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "click vào đây"
   }
 }
