@@ -31,10 +31,8 @@ class Redis::LockManager
   # * +false+ if the lock was not acquired.
   def lock(key, timeout = LOCK_TIMEOUT)
     value = Time.now.to_f.to_s
-    with_redis do |conn|
-      # nx: true means set the key only if it does not exist
-      conn.set(key, value, nx: true, ex: timeout) ? true : false
-    end
+    # nx: true means set the key only if it does not exist
+    Redis::Alfred.set(key, value, nx: true, ex: timeout) ? true : false
   end
 
   # Releases a lock for the given key.
@@ -47,9 +45,7 @@ class Redis::LockManager
   #
   # Note: If the key wasn't locked, this operation will have no effect.
   def unlock(key)
-    with_redis do |conn|
-      conn.del(key)
-    end
+    Redis::Alfred.delete(key)
     true
   end
 
@@ -62,20 +58,6 @@ class Redis::LockManager
   # * +true+ if the key is locked.
   # * +false+ otherwise.
   def locked?(key)
-    with_redis do |conn|
-      conn.exists?(key)
-    end
-  end
-
-  private
-
-  # Obtains a Redis connection from the $alfred pool and yields it to the block.
-  # This method ensures that Redis operations are executed using a connection
-  # from the connection pool, which is properly returned back to the pool after the operation.
-  #
-  # === Yields
-  # * +conn+ - Yields the Redis connection to the block.
-  def with_redis(&)
-    $alfred.with(&)
+    Redis::Alfred.exists?(key)
   end
 end
