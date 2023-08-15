@@ -59,18 +59,18 @@ export default {
     async addAttribute(attribute) {
       try {
         const {
-          attribute_key,
-          attribute_display_type,
-          default_value,
+          attribute_key: attributeKey,
+          attribute_display_type: attributeDisplayType,
+          default_value: attributeDefaultValue,
         } = attribute;
-        const isCheckbox = attribute_display_type === 'checkbox';
-        const defaultValue = isCheckbox ? false : default_value || null;
+        const isCheckbox = attributeDisplayType === 'checkbox';
+        const defaultValue = isCheckbox ? false : attributeDefaultValue || null;
         if (this.attributeType === 'conversation_attribute') {
           await this.$store.dispatch('updateCustomAttributes', {
             conversationId: this.conversationId,
             customAttributes: {
               ...this.customAttributes,
-              [attribute_key]: defaultValue,
+              [attributeKey]: defaultValue,
             },
           });
         } else {
@@ -78,11 +78,11 @@ export default {
             id: this.contactId,
             custom_attributes: {
               ...this.customAttributes,
-              [attribute_key]: defaultValue,
+              [attributeKey]: defaultValue,
             },
           });
         }
-        bus.$emit(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, attribute_key);
+        bus.$emit(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, attributeKey);
         this.showAlert(this.$t('CUSTOM_ATTRIBUTES.FORM.ADD.SUCCESS'));
       } catch (error) {
         const errorMessage =
