@@ -52,7 +52,7 @@
         "TEXT": "Prioridad"
       },
       "sort_on_waiting_since": {
-        "TEXT": "Pending Response"
+        "TEXT": "Respuesta pendiente"
       }
     },
     "ATTACHMENTS": {

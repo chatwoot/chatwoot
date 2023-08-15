@@ -12,6 +12,10 @@
     "NO_INBOX_2": " להתחיל",
     "NO_INBOX_AGENT": "או - או! נראה שאתה לא חלק מתיבת דואר נכנס כלשהי. אנא פנה למנהל המערכת שלך",
     "SEARCH_MESSAGES": "חפש הודעות בשיחות",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "חפש הודעות",
       "RESULT_TITLE": "תוצאות חיפוש",
@@ -147,6 +151,7 @@
       "STOP_AUDIO_RECORDING": "עצור הקלטת אודיו",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "הוסף bcc",
         "CC": {
           "LABEL": "CC",
