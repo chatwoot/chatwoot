@@ -106,7 +106,7 @@
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "No se encontraron agentes",
-          "TEAM": "No se encontro equipo"
+          "TEAM": "No se encontraron equipos"
         },
         "PLACEHOLDER": {
           "AGENT": "Buscar agentes",

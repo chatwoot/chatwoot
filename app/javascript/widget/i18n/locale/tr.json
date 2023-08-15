@@ -105,5 +105,9 @@
       "CLICK_HERE_TO_JOIN": "Görüşmeye katılmak için tıklayın",
       "LEAVE_THE_ROOM": "Görüşmeden ayrıl"
     }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles"
   }
 }

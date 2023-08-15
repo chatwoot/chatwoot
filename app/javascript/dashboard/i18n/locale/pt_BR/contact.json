@@ -34,7 +34,7 @@
         "TITLE": "Adicionar marcador",
         "PLACEHOLDER": "Pesquisar marcador ",
         "NO_RESULT": "Nenhum rótulo encontrado",
-        "CREATE_LABEL": "Create new label"
+        "CREATE_LABEL": "Criar etiqueta"
       }
     },
     "MERGE_CONTACT": "Mesclar contatos",
@@ -75,9 +75,9 @@
     "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
   },
   "EXPORT_CONTACTS": {
-    "BUTTON_LABEL": "Export",
-    "TITLE": "Export Contacts",
-    "DESC": "Export contacts to a CSV file.",
+    "BUTTON_LABEL": "Exportar",
+    "TITLE": "Exportar contatos",
+    "DESC": "Exportar contatos para arquivo CSV.",
     "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
     "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
   },
@@ -219,7 +219,7 @@
     "FILTER_CONTACTS": "Filtro",
     "FILTER_CONTACTS_SAVE": "Salvar filtro",
     "FILTER_CONTACTS_DELETE": "Excluir filtro",
-    "FILTER_CONTACTS_EDIT": "Edit segment",
+    "FILTER_CONTACTS_EDIT": "Editar segmento",
     "LIST": {
       "LOADING_MESSAGE": "Carregando contatos...",
       "404": "Nenhum contato corresponde à sua pesquisa 🔍",

@@ -25,10 +25,11 @@ export const filterByLabel = (shouldFilter, labels, chatLabels) => {
 export const filterByUnattended = (
   shouldFilter,
   conversationType,
-  firstReplyOn
+  firstReplyOn,
+  waitingSince
 ) => {
   return conversationType === 'unattended'
-    ? !firstReplyOn && shouldFilter
+    ? (!firstReplyOn || !!waitingSince) && shouldFilter
     : shouldFilter;
 };
 
@@ -40,6 +41,7 @@ export const applyPageFilters = (conversation, filters) => {
     labels: chatLabels = [],
     meta = {},
     first_reply_created_at: firstReplyOn,
+    waiting_since: waitingSince,
   } = conversation;
   const team = meta.team || {};
   const { id: chatTeamId } = team;
@@ -51,7 +53,8 @@ export const applyPageFilters = (conversation, filters) => {
   shouldFilter = filterByUnattended(
     shouldFilter,
     conversationType,
-    firstReplyOn
+    firstReplyOn,
+    waitingSince
   );
 
   return shouldFilter;
