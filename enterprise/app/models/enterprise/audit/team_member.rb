@@ -22,7 +22,7 @@ module Enterprise::Audit::TeamMember
 
     auditable_id = team_id
 
-    account_id = Team.find_by(id: auditable_id).account_id
+    account_id = find_account_id(auditable_id)
     auditable_type = 'TeamMember'
 
     audited_changes = attributes.except('updated_at', 'created_at')

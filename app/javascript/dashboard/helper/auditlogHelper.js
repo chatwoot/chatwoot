@@ -106,7 +106,7 @@ function handleAccountUserUpdate(auditLogItem, translationPayload, agentList) {
   return translationPayload;
 }
 
-function handleTeamMember(auditLogItem, translationPayload, agentList) {
+function handleInboxTeamMember(auditLogItem, translationPayload, agentList) {
   if (auditLogItem.audited_changes) {
     const userIdChange = auditLogItem.audited_changes.user_id;
     if (userIdChange && userIdChange !== undefined) {
@@ -143,8 +143,8 @@ export function generateTranslationPayload(auditLogItem, agentList) {
     }
   }
 
-  if (auditableType === 'teammember') {
-    translationPayload = handleTeamMember(
+  if (auditableType === 'inboxmember' || auditableType === 'teammember') {
+    translationPayload = handleInboxTeamMember(
       auditLogItem,
       translationPayload,
       agentList
