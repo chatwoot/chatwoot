@@ -8,7 +8,7 @@ class Webhooks::FacebookEventsJob < ApplicationJob
   def perform(message)
     response = ::Integrations::Facebook::MessageParser.new(message)
 
-    lock_key = "#{response.sender_id}_#{response.recipient_id}"
+    lock_key = format(::Redis::Alfred::FACEBOOK_MESSAGE_CREATE_LOCK, sender_id: response.sender_id, recipient_id: response.recipient_id)
     lock_manager = Redis::LockManager.new
 
     if lock_manager.locked?(lock_key)
