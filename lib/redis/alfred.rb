@@ -7,8 +7,8 @@ module Redis::Alfred
     # key operations
 
     # set a value in redis
-    def set(key, value)
-      $alfred.with { |conn| conn.set(key, value) }
+    def set(key, value, not_exists: false, expiry: false)
+      $alfred.with { |conn| conn.set(key, value, nx: not_exists, ex: expiry) }
     end
 
     # set a key with expiry period
