@@ -22,7 +22,9 @@
 </template>
 
 <script>
+import FeaturePlaceholder from './FeaturePlaceholder.vue';
 export default {
+  components: { FeaturePlaceholder },
   props: {
     message: {
       type: String,

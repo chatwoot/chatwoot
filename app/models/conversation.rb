@@ -218,7 +218,7 @@ class Conversation < ApplicationRecord
   end
 
   def ensure_waiting_since
-    self.waiting_since = Time.now.utc
+    self.waiting_since = created_at
   end
 
   def validate_additional_attributes
