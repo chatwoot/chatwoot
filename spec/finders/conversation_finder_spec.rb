@@ -161,11 +161,9 @@ describe ConversationFinder do
 
       it 'returns unattended conversations' do
         create(:conversation, account: account, first_reply_created_at: Time.now.utc, assignee: user_1) # attended_conversation
-        # to ensure that waiting since value is populated
-        # create(:message, message_type: :outgoing, conversation: attended_conversation, account: account)
-
         create(:conversation, account: account, first_reply_created_at: nil, assignee: user_1) # unattended_conversation_no_first_reply
-        create(:conversation, account: account, first_reply_created_at: Time.now.utc, assignee: user_1) # unattended_conversation_waiting_since
+        create(:conversation, account: account, first_reply_created_at: Time.now.utc,
+                              assignee: user_1, waiting_since: Time.now.utc) # unattended_conversation_waiting_since
 
         result = conversation_finder.perform
         expect(result[:conversations].length).to be 2
