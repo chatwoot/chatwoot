@@ -12,6 +12,10 @@
     "NO_INBOX_2": " pentru a începe",
     "NO_INBOX_AGENT": "Uh Oh! Se pare că nu faci parte din nici o căsuță de e-mail. Te rugăm să contactezi administratorul",
     "SEARCH_MESSAGES": "Caută mesaje în conversații",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "Caută mesaje",
       "RESULT_TITLE": "Rezultate căutare",
@@ -147,6 +151,7 @@
       "STOP_AUDIO_RECORDING": "Mesaj audio",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Adaugă bcc",
         "CC": {
           "LABEL": "CC",

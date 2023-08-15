@@ -105,5 +105,9 @@
       "CLICK_HERE_TO_JOIN": "Нажмите, чтобы присоединиться",
       "LEAVE_THE_ROOM": "Закончить разговор"
     }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "Показать все статьи"
   }
 }

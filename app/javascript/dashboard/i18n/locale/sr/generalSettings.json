@@ -110,7 +110,9 @@
       "SNOOZE_CONVERSATION": "Odloži razgovor",
       "ADD_LABEL": "Dodaj oznaku razgovoru",
       "REMOVE_LABEL": "Ukloni oznaku sa razgovora",
-      "SETTINGS": "Podešavanja"
+      "SETTINGS": "Podešavanja",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Idi na radnu tablu razgovora",
@@ -132,6 +134,7 @@
       "GO_TO_NOTIFICATIONS": "Idi na obaveštenja",
       "ADD_LABELS_TO_CONVERSATION": "Dodaj oznaku razgovoru",
       "ASSIGN_AN_AGENT": "Dodeli agenta",
+      "AI_ASSIST": "AI Assist",
       "ASSIGN_PRIORITY": "Assign priority",
       "ASSIGN_A_TEAM": "Dodeli tim",
       "MUTE_CONVERSATION": "Utišaj razgovor",
@@ -146,10 +149,18 @@
       "UNTIL_TOMORROW": "Do sutra",
       "UNTIL_NEXT_MONTH": "Until next month",
       "AN_HOUR_FROM_NOW": "Until an hour from now",
-      "CUSTOM": "Custom..."
+      "CUSTOM": "Custom...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "System"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "Loading Dashboard App..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "kliknite ovde"
   }
 }

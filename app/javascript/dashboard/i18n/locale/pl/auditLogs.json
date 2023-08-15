@@ -8,7 +8,7 @@
     "LIST": {
       "404": "Brak dostępnych dzienników audytowych w tym koncie.",
       "TITLE": "Zarządzaj dziennikami audytowymi",
-      "DESC": "Dzienniki audytowe to ślady zdarzeń i działań w systemie Chatwoot.",
+      "DESC": "Dziennik audytu zawiera ślady zdarzeń i akcji w systemie Chatwoot.",
       "TABLE_HEADER": [
         "Użytkownik",
         "Akcja",
@@ -17,13 +17,20 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Pomyślnie pobrano dzienniki audytowe",
-      "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot, spróbuj ponownie później"
+      "ERROR_MESSAGE": "Nie udało się połączyć z serwerem Woot, spróbuj ponownie później"
     },
     "DEFAULT_USER": "System",
     "AUTOMATION_RULE": {
       "ADD": "%{agentName} utworzył nową regułę automatyzacji (#%{id})",
       "EDIT": "%{agentName} zaktualizował regułę automatyzacji (#%{id})",
       "DELETE": "%{agentName} usunął regułę automatyzacji (#%{id})"
+    },
+    "ACCOUNT_USER": {
+      "ADD": "%{agentName} zaprosił %{invitee} do konta jako %{role}",
+      "EDIT": {
+        "SELF": "%{agentName} zmienił swoje %{attributes} na %{values}",
+        "OTHER": "%{agentName} zmienił %{attributes} użytkownika %{user} na %{values}"
+      }
     },
     "INBOX": {
       "ADD": "%{agentName} utworzył nową skrzynkę odbiorczą (#%{id})",
@@ -48,6 +55,9 @@
       "ADD": "%{agentName} utworzył nową makro (#%{id})",
       "EDIT": "%{agentName} zaktualizował makro (#%{id})",
       "DELETE": "%{agentName} usunął makro (#%{id})"
+    },
+    "ACCOUNT": {
+      "EDIT": "%{agentName} updated the account configuration (#%{id})"
     }
   }
 }
