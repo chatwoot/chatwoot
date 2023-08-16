@@ -39,6 +39,10 @@ class Integrations::Slack::IncomingMessageBuilder
     params[:event][:user].present? && params[:event][:subtype].blank?
   end
 
+  def valid_event_subtype?
+    params[:event][:subtype].blank? || params[:event][:subtype] == 'file_share'
+  end
+
   def supported_event?
     hook_verification? || SUPPORTED_EVENTS.include?(params[:event][:type])
   end
