@@ -112,7 +112,7 @@
           "ERROR": "Šis lauks ir nepieciešams"
         },
         "API_KEY": {
-          "USE_API_KEY": "Use API Key Authentication",
+          "USE_API_KEY": "Izmantot API Atslēgas Autentifikāciju",
           "LABEL": "API Key SID",
           "PLACEHOLDER": "Please enter your API Key SID",
           "ERROR": "Šis lauks ir nepieciešams"
