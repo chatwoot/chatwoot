@@ -106,18 +106,37 @@ function handleAccountUserUpdate(auditLogItem, translationPayload, agentList) {
   return translationPayload;
 }
 
+function setUserInPayload(auditLogItem, translationPayload, agentList) {
+  const userIdChange = auditLogItem.audited_changes.user_id;
+  if (userIdChange && userIdChange !== undefined) {
+    translationPayload.user = getAgentName(userIdChange, agentList);
+  }
+  return translationPayload;
+}
+
+function setTeamIdInPayload(auditLogItem, translationPayload) {
+  if (auditLogItem.audited_changes.team_id) {
+    translationPayload.team_id = auditLogItem.audited_changes.team_id;
+  }
+  return translationPayload;
+}
+
+function setInboxIdInPayload(auditLogItem, translationPayload) {
+  if (auditLogItem.audited_changes.inbox_id) {
+    translationPayload.inbox_id = auditLogItem.audited_changes.inbox_id;
+  }
+  return translationPayload;
+}
+
 function handleInboxTeamMember(auditLogItem, translationPayload, agentList) {
   if (auditLogItem.audited_changes) {
-    const userIdChange = auditLogItem.audited_changes.user_id;
-    if (userIdChange && userIdChange !== undefined) {
-      translationPayload.user = getAgentName(userIdChange, agentList);
-    }
-    if (auditLogItem.audited_changes.team_id) {
-      translationPayload.team_id = auditLogItem.audited_changes.team_id;
-    }
-    if (auditLogItem.audited_changes.inbox_id) {
-      translationPayload.inbox_id = auditLogItem.audited_changes.inbox_id;
-    }
+    translationPayload = setUserInPayload(
+      auditLogItem,
+      translationPayload,
+      agentList
+    );
+    translationPayload = setTeamIdInPayload(auditLogItem, translationPayload);
+    translationPayload = setInboxIdInPayload(auditLogItem, translationPayload);
   }
   return translationPayload;
 }
