@@ -1,13 +1,18 @@
 {
   "FILTER": {
-    "TITLE": "Filtrar Conversas",
+    "TITLE": "Filtrar conversas",
     "SUBTITLE": "Adicione filtros abaixo e clique em 'Enviar' para filtrar conversas.",
+    "EDIT_CUSTOM_FILTER": "Editar Pasta",
+    "CUSTOM_VIEWS_SUBTITLE": "Adicione ou remova filtros e atualize sua pasta.",
     "ADD_NEW_FILTER": "Adicionar filtro",
     "FILTER_DELETE_ERROR": "Você deve ter pelo menos um filtro para salvar",
     "SUBMIT_BUTTON_LABEL": "Aplicar filtros",
+    "UPDATE_BUTTON_LABEL": "Pasta de atualização",
     "CANCEL_BUTTON_LABEL": "Cancelar",
     "CLEAR_BUTTON_LABEL": "Limpar filtros",
     "EMPTY_VALUE_ERROR": "Valor obrigatório",
+    "FOLDER_LABEL": "Nome da pasta",
+    "FOLDER_QUERY_LABEL": "Consulta de Pasta",
     "TOOLTIP_LABEL": "Filtrar conversas",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "E",
@@ -70,6 +75,9 @@
           "SUCCESS_MESSAGE": "Segmento criado com sucesso",
           "ERROR_MESSAGE": "Erro ao criar segmento"
         }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Editar Pasta"
       },
       "DELETE": {
         "DELETE_BUTTON": "Excluir filtro",

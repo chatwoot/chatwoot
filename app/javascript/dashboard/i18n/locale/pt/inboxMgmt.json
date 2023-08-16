@@ -111,6 +111,17 @@
           "PLACEHOLDER": "Por favor, insira sua Conta Twilio SID",
           "ERROR": "Este campo é obrigatório"
         },
+        "API_KEY": {
+          "USE_API_KEY": "Use API Key Authentication",
+          "LABEL": "API Key SID",
+          "PLACEHOLDER": "Please enter your API Key SID",
+          "ERROR": "Este campo é obrigatório"
+        },
+        "API_KEY_SECRET": {
+          "LABEL": "API Key Secret",
+          "PLACEHOLDER": "Please enter your API Key Secret",
+          "ERROR": "Este campo é obrigatório"
+        },
         "MESSAGING_SERVICE_SID": {
           "LABEL": "SID do Serviço de Mensagens",
           "PLACEHOLDER": "Por favor, insira o seu SID do Serviço de Mensagens da Twilio",
@@ -151,7 +162,7 @@
         "PROVIDERS": {
           "LABEL": "API Provider",
           "TWILIO": "Twilio",
-          "BANDWIDTH": "Banda"
+          "BANDWIDTH": "Bandwidth"
         },
         "API": {
           "ERROR_MESSAGE": "Não conseguimos salvar o canal de SMS"
@@ -159,22 +170,22 @@
         "BANDWIDTH": {
           "ACCOUNT_ID": {
             "LABEL": "Conta ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "PLACEHOLDER": "Por favor insira a ID da sua conta Bandwidth",
             "ERROR": "Este campo é obrigatório"
           },
           "API_KEY": {
             "LABEL": "Chave da API",
-            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "PLACEHOLDER": "Por favor insira a palavra passe da API Bandwidth",
             "ERROR": "Este campo é obrigatório"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "PLACEHOLDER": "Por favor insira a palavra passe da API Bandwidth",
             "ERROR": "Este campo é obrigatório"
           },
           "APPLICATION_ID": {
             "LABEL": "Aplicação ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "PLACEHOLDER": "Por favor insira a ID da Aplicação Bandwidth",
             "ERROR": "Este campo é obrigatório"
           },
           "INBOX_NAME": {
@@ -187,13 +198,13 @@
             "PLACEHOLDER": "Por favor, insira o número de telefone do qual a mensagem será enviada.",
             "ERROR": "Por favor, forneça um número de telefone válido que começa com o sinal de `+` e que não contenha quaisquer espaços."
           },
-          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "SUBMIT_BUTTON": "Criar canal Bandwidth",
           "API": {
-            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+            "ERROR_MESSAGE": "Não foi possível autenticar as credênciais Bandwidth, por favor tente novamente"
           },
           "API_CALLBACK": {
             "TITLE": "Link de retorno de ligação",
-            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+            "SUBTITLE": "Tem de configurar o URL de retorno de mensagem na Bandwidth, com o URL mencionado aqui."
           }
         }
       },
@@ -218,17 +229,17 @@
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "ID do número de telefone",
-          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
+          "PLACEHOLDER": "Por favor, insira o ID do número de telefone obtido do painel do desenvolvedor do Facebook.",
           "ERROR": "Por favor, insira um valor válido."
         },
         "BUSINESS_ACCOUNT_ID": {
           "LABEL": "ID da Conta de Empresa",
-          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
+          "PLACEHOLDER": "Por favor, insira o ID da Conta Business obtido do painel do desenvolvedor do Facebook.",
           "ERROR": "Por favor, insira um valor válido."
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook de Verificação de Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
+          "PLACEHOLDER": "Digite um token de verificação que deseja configurar para webhooks do Facebook.",
           "ERROR": "Por favor, insira um valor válido."
         },
         "API_KEY": {
@@ -239,9 +250,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "Link de retorno de ligação",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "SUBTITLE": "Deve configurar a URL do webhook e o token de verificação no portal do desenvolvedor do Facebook com os valores mostrados abaixo.",
           "WEBHOOK_URL": "URL do Webhook",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook de Verificação do Token"
         },
         "SUBMIT_BUTTON": "Criar Canal do WhatsApp",
         "API": {
@@ -346,15 +357,15 @@
         "DESC": "Você terminou com sucesso de integrar sua página do Facebook ao Chatwoot. Da próxima vez que um cliente enviar mensagens para sua página, a conversa aparecerá automaticamente na sua caixa de entrada.<br>Também estamos fornecendo a você um script de widget que você pode facilmente adicionar ao seu site. Uma vez que isto estiver ao vivo no seu site, clientes podem enviar mensagens a partir do seu site sem a ajuda de qualquer ferramenta externa e a conversa aparecerá aqui, no Chatwoot.<br>Legal, né? Bem, nós certamente tentamos ser :)"
       },
       "EMAIL_PROVIDER": {
-        "TITLE": "Select your email provider",
-        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+        "TITLE": "Selecione o seu fornecedor de email",
+        "DESCRIPTION": "Selecione um fornecedor de e-mail da lista abaixo. Se não vir o seu fornecedor de e-mail na lista, pode selecionar a opção outro fornecedor e colocar as credenciais IMAP e SMTP."
       },
       "MICROSOFT": {
         "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+        "DESCRIPTION": "Para começar, clique no botão Entrar com a Microsoft. Será redirecionado para o e-mail que entrar na página. Depois de aceitar as permissões solicitadas, será redirecionado novamente para a etapa de criação da caixa de entrada.",
+        "EMAIL_PLACEHOLDER": "Insira endereço de email",
+        "HELP": "Para adicionar a sua conta da Microsoft como um canal, é necessário autenticar a sua conta da Microsoft clicando em 'Entrar com Microsoft' ",
+        "ERROR_MESSAGE": "Ocorreu um erro ao ligar à Microsoft, por favor tente novamente"
       }
     },
     "DETAILS": {
@@ -381,7 +392,7 @@
       "API": {
         "SUCCESS_MESSAGE": "Configurações da caixa de entrada atualizadas com sucesso",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Atribuição automática atualizada com sucesso",
-        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
+        "ERROR_MESSAGE": "Não foi possível atualizar as configurações da caixa de entrada. Por favor, tente novamente mais tarde."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Ativado",
@@ -390,6 +401,25 @@
       "ENABLE_CSAT": {
         "ENABLED": "Ativado",
         "DISABLED": "Desabilitado"
+      },
+      "SENDER_NAME_SECTION": {
+        "TITLE": "Sender name",
+        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
+        "FOR_EG": "For eg:",
+        "FRIENDLY": {
+          "TITLE": "Amigável",
+          "FROM": "de",
+          "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
+        },
+        "PROFESSIONAL": {
+          "TITLE": "Profissional",
+          "SUBTITLE": "Use only the configured business name as the sender name in the email header."
+        },
+        "BUSINESS_NAME": {
+          "BUTTON_TEXT": "+ Configure your business name",
+          "PLACEHOLDER": "Enter your business name",
+          "SAVE_BUTTON_TEXT": "Salvar"
+        }
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
         "ENABLED": "Ativado",
@@ -431,69 +461,71 @@
       "CAMPAIGN": "Campanhas",
       "PRE_CHAT_FORM": "Formulário pré-chat",
       "BUSINESS_HOURS": "Horário comercial",
-      "WIDGET_BUILDER": "Widget Builder",
-      "BOT_CONFIGURATION": "Bot Configuration"
+      "WIDGET_BUILDER": "Construtor de Widgets",
+      "BOT_CONFIGURATION": "Configuração do bot"
     },
     "SETTINGS": "Confirgurações",
     "FEATURES": {
       "LABEL": "Características",
       "DISPLAY_FILE_PICKER": "Mostrar o selecionador de ficheiros no widget",
       "DISPLAY_EMOJI_PICKER": "Mostrar seletor de emojis no widget",
-      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
-      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
+      "ALLOW_END_CONVERSATION": "Permitir que os utilizadores terminem a conversa a partir da widget",
+      "USE_INBOX_AVATAR_FOR_BOT": "Use o nome da caixa de entrada e o avatar do bot"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Script do Messenger",
       "MESSENGER_SUB_HEAD": "Coloque esse botão dentro da sua tag corporal",
       "INBOX_AGENTS": "agentes",
       "INBOX_AGENTS_SUB_TEXT": "Adicionar ou remover agentes dessa caixa de entrada",
-      "AGENT_ASSIGNMENT": "Conversation Assignment",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
+      "AGENT_ASSIGNMENT": "Atribuição da conversa",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Atualizar configurações de atribuição de conversa",
       "UPDATE": "Atualização",
       "ENABLE_EMAIL_COLLECT_BOX": "Ativar caixa de receção de email",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Ativar ou desativar caixa de receção de emails para as novas conversas",
       "AUTO_ASSIGNMENT": "Habilitar atribuição automática",
       "ENABLE_CSAT": "Ativar CSAT",
+      "SENDER_NAME_SECTION": "Enable Agent Name in Email",
       "ENABLE_CSAT_SUB_TEXT": "Ativar/Desativar avaliação CSAT (satisfação do cliente) depois de resolver uma conversa",
+      "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Habilitar continuidade das conversas por e-mail",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversas irão continuar por email se o endereço de email do contacto estiver disponível.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
+      "LOCK_TO_SINGLE_CONVERSATION": "Bloquear a conversa única",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Ativar ou desativar múltiplas conversas para o mesmo contato nesta caixa de entrada",
       "INBOX_UPDATE_TITLE": "Configurações da Caixa de Entrada",
       "INBOX_UPDATE_SUB_TEXT": "Atualize suas configurações da caixa de entrada",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Ativar ou desativar a atribuição automática de novas conversas aos agentes adicionados a essa caixa de entrada.",
       "HMAC_VERIFICATION": "Validação da identidade do utilizador",
       "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
-      "HMAC_LINK_TO_DOCS": "You can read more here.",
-      "HMAC_MANDATORY_VERIFICATION": "Forçar Validação de Identidade do Usuário",
+      "HMAC_LINK_TO_DOCS": "Pode obter mais informação aqui.",
+      "HMAC_MANDATORY_VERIFICATION": "Forçar Validação de Identidade do Utilizador",
       "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
       "INBOX_IDENTIFIER": "Identificador da Caixa de Entrada",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Use o token 'inbox_identifier' mostrado aqui para autenticar os seus clientes API.",
       "FORWARD_EMAIL_TITLE": "Encaminhar para Email",
       "FORWARD_EMAIL_SUB_TEXT": "Comece a encaminhar as suas mensagens de email para o seguinte endereço.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
-      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Permitir mensagens após a resolução da conversa",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Permite que os utilizadores finais enviem mensagens após a conversa estar resolvida.",
+      "WHATSAPP_SECTION_SUBHEADER": "Esta chave de API é usada para a integração com as APIs do WhatsApp.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Escreva a chave atualizada a ser usada para a integração com as APIs do WhatsApp.",
       "WHATSAPP_SECTION_TITLE": "Chave da API",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Atualizar Chave de API",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Digite a nova chave da API aqui",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Atualização",
       "WHATSAPP_WEBHOOK_TITLE": "Webhook de Verificação de Token",
-      "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "Este token é usado para verificar a autenticidade do endpoint do webhook.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Atualizar configurações do Formulário Pre Chat"
     },
     "HELP_CENTER": {
-      "LABEL": "Help Center",
-      "PLACEHOLDER": "Select Help Center",
-      "SELECT_PLACEHOLDER": "Select Help Center",
-      "REMOVE": "Remove Help Center",
-      "SUB_TEXT": "Attach a Help Center with the inbox"
+      "LABEL": "Centro de Suporte",
+      "PLACEHOLDER": "Selecione Centro de Suporte",
+      "SELECT_PLACEHOLDER": "Selecione Centro de Suporte",
+      "REMOVE": "Remover Centro de Suporte",
+      "SUB_TEXT": "Associe um Centro de Ajuda com a caixa de entrada"
     },
     "AUTO_ASSIGNMENT": {
-      "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
+      "MAX_ASSIGNMENT_LIMIT": "Limite de atribuição automática",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Por favor, insira um valor maior que 0",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limitar o número máximo de conversas desta caixa de entrada que pode ser atribuído automaticamente a um agente"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reautorizar",
@@ -503,14 +535,14 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "O formulário de Pré-Chat permite-lhe capturar informações do utilizador antes de iniciar uma conversa.",
-      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS": "Campos do formulário de pré chat",
       "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
-        "LABEL": "Label",
+        "FIELDS": "Campos",
+        "LABEL": "Etiqueta",
         "PLACE_HOLDER": "Placeholder",
         "KEY": "Chave",
         "TYPE": "Tipo",
-        "REQUIRED": "Required"
+        "REQUIRED": "Obrigatório"
       },
       "ENABLE": {
         "LABEL": "Ativar formulário de Pré-chat",
@@ -520,7 +552,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre chat message",
+        "LABEL": "Mensagem pré chat",
         "PLACEHOLDER": "Esta mensagem estará visível aos utilizadores juntamente com o formulário"
       },
       "REQUIRE_EMAIL": {
@@ -534,8 +566,7 @@
       "TIMEZONE_LABEL": "Selecionar o fuso horário",
       "UPDATE": "Atualizar as configurações do horário comercial",
       "TOGGLE_AVAILABILITY": "Definir a disponibilidade para essa caixa de entrada",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "De momento estamos indisponíveis. Deixe por favor uma mensagem. Será respondida o mais rápido possível.",
+      "UNAVAILABLE_MESSAGE_LABEL": "Mensagem indisponível para os visitantes",
       "TOGGLE_HELP": "Está opção mostrará as horas de disponibilidade no widget da conversa, mesmo que todos os agentes estejam offline. Os visitantes serão avisados dos horários disponíveis através de uma mensagem no formulário de pré-chat.",
       "DAY": {
         "ENABLE": "Permitir a disponibilidade para este dia",
@@ -549,10 +580,10 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Defina os seus dados IMAP",
-      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
+      "NOTE_TEXT": "Para ativar o SMTP, por favor configure o IMAP.",
       "UPDATE": "Atualizar configurações IMAP",
       "TOGGLE_AVAILABILITY": "Ativar a configuração IMAP para esta caixa de entrada",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "TOGGLE_HELP": "Habilitar o IMAP ajudará o utilizador a receber o email",
       "EDIT": {
         "SUCCESS_MESSAGE": "Configurações IMAP atualizadas com sucesso",
         "ERROR_MESSAGE": "Não foi possível atualizar as configurações do IMAP"
@@ -577,14 +608,14 @@
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",
-      "SUBTITLE": "Autorizar novamente sua conta MICROSOFT"
+      "SUBTITLE": "Autorizar novamente a sua conta MICROSOFT"
     },
     "SMTP": {
       "TITLE": "SMTP",
       "SUBTITLE": "Defina os seus dados IMAP",
       "UPDATE": "Atualizar configurações de SMTP",
       "TOGGLE_AVAILABILITY": "Habilitar configuração SMTP para esta caixa de entrada",
-      "TOGGLE_HELP": "Habilitar o SMTP irá ajudar o usuário a enviar e-mail",
+      "TOGGLE_HELP": "Habilitar o SMTP irá ajudar o utilizador a enviar e-mail",
       "EDIT": {
         "SUCCESS_MESSAGE": "Configurações de SMTP atualizadas com sucesso",
         "ERROR_MESSAGE": "Não é possível atualizar configurações de SMTP"
@@ -700,7 +731,7 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
-      "OTHER_PROVIDERS": "Outros Provedores"
+      "OTHER_PROVIDERS": "Outros Fornecedores"
     }
   }
 }

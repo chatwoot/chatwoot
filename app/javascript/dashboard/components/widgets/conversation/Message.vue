@@ -52,7 +52,7 @@
           {{ $t('CONVERSATION.UPLOADING_ATTACHMENTS') }}
         </span>
         <div v-if="!isPending && hasAttachments">
-          <div v-for="attachment in data.attachments" :key="attachment.id">
+          <div v-for="attachment in attachments" :key="attachment.id">
             <bubble-image-audio-video
               v-if="isAttachmentImageVideoAudio(attachment.file_type)"
               :attachment="attachment"
@@ -199,6 +199,14 @@ export default {
     };
   },
   computed: {
+    attachments() {
+      // Here it is used to get sender and created_at for each attachment
+      return this.data?.attachments.map(attachment => ({
+        ...attachment,
+        sender: this.data.sender || {},
+        created_at: this.data.created_at || '',
+      }));
+    },
     shouldRenderMessage() {
       return (
         this.hasAttachments ||
@@ -503,94 +511,82 @@ export default {
 <style lang="scss">
 .wrap {
   > .bubble {
-    min-width: 128px;
+    @apply min-w-[128px];
 
     &.is-image,
     &.is-video {
-      padding: 0;
-      overflow: hidden;
+      @apply p-0 overflow-hidden;
 
       .image,
       .video {
-        max-width: 32rem;
-        padding: var(--space-micro);
+        @apply max-w-[20rem] p-0.5;
 
         > img,
         > video {
-          border-radius: var(--border-radius-medium);
+          @apply rounded-lg;
         }
         > video {
-          height: 100%;
-          object-fit: cover;
-          width: 100%;
+          @apply h-full w-full object-cover;
         }
       }
       .video {
-        height: 18rem;
+        @apply h-[11.25rem];
       }
     }
 
     &.is-image.is-text > .message-text__wrap,
     &.is-video.is-text > .message-text__wrap {
-      max-width: 32rem;
-      padding: var(--space-small) var(--space-normal);
+      @apply max-w-[20rem] py-2 px-4;
     }
 
     &.is-private .file.message-text__wrap {
       .file--icon {
-        color: var(--w-400);
+        @apply text-woot-400 dark:text-woot-400;
       }
       .text-block-title {
-        color: #3c4858;
+        @apply text-slate-700 dark:text-slate-700;
       }
       .download.button {
-        color: var(--w-400);
+        @apply text-woot-400 dark:text-woot-400;
       }
     }
 
     &.is-private.is-text > .message-text__wrap .link {
-      color: var(--w-700);
+      @apply text-woot-600 dark:text-woot-200;
     }
     &.is-private.is-text > .message-text__wrap .prosemirror-mention-node {
-      font-weight: var(--font-weight-black);
-      background: none;
-      border-radius: var(--border-radius-small);
-      padding: 0;
-      color: var(--color-body);
-      text-decoration: underline;
+      @apply font-bold bg-none rounded-sm p-0 bg-yellow-100 dark:bg-yellow-700 text-slate-700 dark:text-slate-25 underline;
     }
 
     &.is-from-bot {
-      background: var(--v-400);
+      @apply bg-violet-400 dark:bg-violet-400;
+
       .message-text--metadata .time {
-        color: var(--v-50);
+        @apply text-violet-50 dark:text-violet-50;
       }
       &.is-private .message-text--metadata .time {
-        color: var(--s-400);
+        @apply text-slate-400 dark:text-slate-400;
       }
     }
 
     &.is-failed {
-      background: var(--r-200);
+      @apply bg-red-200 dark:bg-red-200;
 
       .message-text--metadata .time {
-        color: var(--r-50);
+        @apply text-red-50 dark:text-red-50;
       }
     }
   }
 
   &.is-pending {
-    position: relative;
-    opacity: 0.8;
+    @apply relative opacity-80;
 
     .spinner {
-      position: absolute;
-      bottom: var(--space-smaller);
-      right: var(--space-smaller);
+      @apply absolute bottom-1 right-1;
     }
 
     > .is-image.is-text.bubble > .message-text__wrap {
-      padding: 0;
+      @apply p-0;
     }
   }
 }
@@ -600,135 +596,105 @@ export default {
 }
 
 .sender--info {
-  align-items: center;
-  color: var(--b-700);
-  display: inline-flex;
-  padding: var(--space-smaller) 0;
+  @apply items-center text-black-700 dark:text-black-100 inline-flex py-1 px-0;
 
   .sender--available-name {
-    font-size: var(--font-size-mini);
-    margin-left: var(--space-smaller);
+    @apply text-xs ml-1;
   }
 }
 
 .message-failed--alert {
-  color: var(--r-900);
-  flex-grow: 1;
-  text-align: right;
-  margin-top: var(--space-smaller) var(--space-smaller) 0 0;
+  @apply text-red-900 dark:text-red-900 flex-grow text-right mt-1 mr-1 mb-0 ml-0;
 }
 
 li.left,
 li.right {
-  display: flex;
-  align-items: flex-end;
+  @apply flex items-end;
 }
 
 li.left.has-tweet-menu .context-menu {
-  margin-bottom: var(--space-medium);
+  @apply mb-6;
 }
 
 li.has-bg {
-  background: var(--w-75);
+  @apply bg-woot-75 dark:bg-woot-600;
 }
 
 li.right .context-menu-wrap {
-  margin-left: auto;
+  @apply ml-auto;
 }
 
 li.right {
-  flex-direction: row-reverse;
-  justify-content: flex-end;
+  @apply flex-row-reverse justify-end;
 
   .wrap.is-pending {
-    margin-left: auto;
+    @apply ml-auto;
   }
 
   .wrap.is-failed {
-    display: flex;
-    align-items: flex-end;
-    margin-left: auto;
+    @apply flex items-end ml-auto;
   }
 }
 
 .has-context-menu {
-  background: var(--color-background);
+  @apply bg-slate-50 dark:bg-slate-700;
 }
 
 .context-menu {
-  position: relative;
+  @apply relative;
 }
 
 /* Markdown styling */
 
 .bubble .text-content {
   p code {
-    background-color: var(--s-75);
-    display: inline-block;
-    line-height: 1;
+    @apply bg-slate-75 dark:bg-slate-700 inline-block leading-none rounded-sm p-1;
+  }
 
-    border-radius: var(--border-radius-small);
-    padding: var(--space-smaller);
+  ol li {
+    @apply list-item list-decimal;
   }
 
   pre {
-    background-color: var(--s-75);
-    border-color: var(--s-75);
-    color: var(--s-800);
-    border-radius: var(--border-radius-normal);
-    padding: var(--space-small);
-    margin-top: var(--space-smaller);
-    margin-bottom: var(--space-small);
-    display: block;
-    line-height: 1.7;
-    white-space: pre-wrap;
+    @apply bg-slate-75 dark:bg-slate-700 block border-slate-75 dark:border-slate-700 text-slate-800 dark:text-slate-100 rounded-md p-2 mt-1 mb-2 leading-relaxed whitespace-pre-wrap;
 
     code {
-      background-color: transparent;
-      color: var(--s-800);
-      padding: 0;
+      @apply bg-transparent text-slate-800 dark:text-slate-100 p-0;
     }
   }
 
   blockquote {
-    border-left: var(--space-micro) solid var(--s-75);
-    color: var(--s-800);
-    margin: var(--space-smaller) 0;
-    padding: var(--space-small) var(--space-small) 0 var(--space-normal);
+    @apply border-l-4 mx-0 my-1 pt-2 pr-2 pb-0 pl-4 border-slate-75 border-solid dark:border-slate-600 text-slate-800 dark:text-slate-100;
+
+    p {
+      @apply text-slate-800 dark:text-slate-300;
+    }
   }
 }
 
 .right .bubble .text-content {
   p code {
-    background-color: var(--w-600);
-    color: var(--white);
+    @apply bg-woot-600 dark:bg-woot-600 text-white dark:text-white;
   }
 
   pre {
-    background-color: var(--w-800);
-    border-color: var(--w-700);
-    color: var(--white);
+    @apply bg-woot-800 dark:bg-woot-800 border-woot-700 dark:border-woot-700 text-white dark:text-white;
 
     code {
-      background-color: transparent;
-      color: var(--white);
+      @apply bg-transparent text-white dark:text-white;
     }
   }
 
   blockquote {
-    border-left: var(--space-micro) solid var(--w-400);
-    color: var(--white);
+    @apply border-l-4 border-solid border-woot-400 dark:border-woot-400 text-white dark:text-white;
 
     p {
-      color: var(--w-75);
+      @apply text-woot-75 dark:text-woot-75;
     }
   }
 }
 
 .story-reply-quote {
-  border-left: var(--space-micro) solid var(--s-75);
-  color: var(--s-600);
-  margin: var(--space-small) var(--space-normal) 0;
-  padding: var(--space-small) var(--space-small) 0 var(--space-small);
+  @apply mt-2 mx-4 mb-0 px-2 pb-0 pt-2 border-l-4 border-solid border-slate-75 dark:border-slate-600 text-slate-600 dark:text-slate-200;
 }
 </style>

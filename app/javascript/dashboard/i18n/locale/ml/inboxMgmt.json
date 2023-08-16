@@ -111,6 +111,17 @@
           "PLACEHOLDER": "ദയവായി നിങ്ങളുടെ ട്വിലിയോ അക്കൗണ്ട് എസ്ഐഡി നൽകുക",
           "ERROR": "ഈ ഫീൽഡ് ആവശ്യമാണ്"
         },
+        "API_KEY": {
+          "USE_API_KEY": "Use API Key Authentication",
+          "LABEL": "API Key SID",
+          "PLACEHOLDER": "Please enter your API Key SID",
+          "ERROR": "ഈ ഫീൽഡ് ആവശ്യമാണ്"
+        },
+        "API_KEY_SECRET": {
+          "LABEL": "API Key Secret",
+          "PLACEHOLDER": "Please enter your API Key Secret",
+          "ERROR": "ഈ ഫീൽഡ് ആവശ്യമാണ്"
+        },
         "MESSAGING_SERVICE_SID": {
           "LABEL": "Messaging Service SID",
           "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
@@ -391,6 +402,25 @@
         "ENABLED": "പ്രവർത്തനക്ഷമമാക്കി",
         "DISABLED": "പ്രവർത്തനരഹിതമാക്കി"
       },
+      "SENDER_NAME_SECTION": {
+        "TITLE": "Sender name",
+        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
+        "FOR_EG": "For eg:",
+        "FRIENDLY": {
+          "TITLE": "Friendly",
+          "FROM": "നിന്ന്",
+          "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
+        },
+        "PROFESSIONAL": {
+          "TITLE": "Professional",
+          "SUBTITLE": "Use only the configured business name as the sender name in the email header."
+        },
+        "BUSINESS_NAME": {
+          "BUTTON_TEXT": "+ Configure your business name",
+          "PLACEHOLDER": "Enter your business name",
+          "SAVE_BUTTON_TEXT": "Save"
+        }
+      },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
         "ENABLED": "പ്രവർത്തനക്ഷമമാക്കി",
         "DISABLED": "പ്രവർത്തനരഹിതമാക്കി"
@@ -454,7 +484,9 @@
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "ഓട്ടോ അസൈൻമെന്റ് പ്രവർത്തനക്ഷമമാക്കുക",
       "ENABLE_CSAT": "Enable CSAT",
+      "SENDER_NAME_SECTION": "Enable Agent Name in Email",
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
+      "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "ഇമെയിൽ വഴി സംഭാഷണ തുടർച്ച പ്രവർത്തനക്ഷമമാക്കുക",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "ബന്ധപ്പെടാനുള്ള ഇമെയിൽ വിലാസം ലഭ്യമാണെങ്കിൽ സംഭാഷണങ്ങൾ ഇമെയിൽ വഴി തുടരും.",
       "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
@@ -535,7 +567,6 @@
       "UPDATE": "Update business hours settings",
       "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
       "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "We are unavailable at the moment. Leave a message we will respond once we are back.",
       "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "Enable availability for this day",

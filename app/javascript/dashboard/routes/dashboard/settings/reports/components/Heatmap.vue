@@ -160,7 +160,7 @@ $heatmap-hover-border-color: (
   level-6: var(--w-700),
 );
 
-$tile-height: 3rem;
+$tile-height: 1.875rem;
 $tile-gap: var(--space-smaller);
 $container-gap-row: var(--space-one);
 $container-gap-column: var(--space-two);
@@ -223,10 +223,12 @@ $marker-height: var(--space-two);
     flex-direction: column;
     align-items: end;
     justify-content: center;
+    @apply text-slate-800 dark:text-slate-200;
 
     time {
       font-size: var(--font-size-micro);
       font-weight: var(--font-weight-normal);
+      @apply text-slate-700 dark:text-slate-200;
     }
   }
 }
@@ -297,6 +299,7 @@ $marker-height: var(--space-two);
   font-weight: var(--font-weight-bold);
   height: $marker-height;
   color: var(--color-body);
+  @apply text-slate-800 dark:text-slate-200;
 
   div {
     display: flex;

@@ -38,6 +38,8 @@ lv:
     contacts:
       import:
         failed: Fails ir tukšs
+      export:
+        success: Mēs jūs informēsim, kad kontaktpersonu eksporta fails būs gatavs apskatei.
       email:
         invalid: Nederīga e-pasta adrese
       phone_number:
@@ -47,6 +49,8 @@ lv:
         unique: vajadzētu būt unikālai, kategorijā un portālā 
     dyte:
       invalid_message_type: "Nederīgs ziņojuma veids. Darbība nav atļauta"
+    slack:
+      invalid_channel_id: "Invalid slack channel. Please try again"
     inboxes:
       imap:
         socket_error: Lūdzu, pārbaudiet tīkla savienojumu, IMAP adresi un mēģiniet vēlreiz.
@@ -56,6 +60,8 @@ lv:
         connection_closed_error: Savienojums slēgts.
       validations:
         name: nevajadzētu sākties vai beigties ar simboliem, un nevajadzētu saturēt <> / \ @ rakstzīmes.
+    custom_filters:
+      number_of_records: Sasniegts limits. Maksimālais atļauto pielāgoto filtru skaits vienam lietotājam ir 50.
   reports:
     period: Ziņošanas periods %{since} līdz %{until}
     utc_warning: Izveidotais pārskats atbilst UTC laika joslai
@@ -140,6 +146,8 @@ lv:
         header:
           from_with_name: "%{assignee_name} no %{inbox_name} <%{from_email}>"
           reply_with_name: "%{assignee_name} no %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} no %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} no %{inbox_name} <%{from_email}>"
@@ -180,6 +188,7 @@ lv:
       empty_placeholder: Nav atrasts.
       loading_placeholder: Meklēšana...
       results_title: Meklēšanas rezultāti
+    toc_header: 'Šajā lapā'
     hero:
       sub_title: Meklējiet rakstus šeit, vai pārlūkojiet tālāk norādītās kategorijas.
     common:

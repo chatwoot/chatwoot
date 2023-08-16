@@ -12,6 +12,10 @@
     "NO_INBOX_2": " للبدء",
     "NO_INBOX_AGENT": "يبدو أنه لم يتم إسنادك لأي قنوات تواصل بعد. الرجاء التواصل مع المدير لإضافتك لصناديق الوارد الخاصة بقنوات التواصل",
     "SEARCH_MESSAGES": "البحث عن رسائل في المحادثات",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "البحث في الرسائل",
       "RESULT_TITLE": "نتائج البحث",
@@ -54,12 +58,14 @@
       "OPEN": "المزيد",
       "CLOSE": "أغلق",
       "DETAILS": "التفاصيل",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "غفوة حتى الغد",
       "SNOOZED_UNTIL_NEXT_WEEK": "غفوة حتى الأسبوع القادم",
       "SNOOZED_UNTIL_NEXT_REPLY": "غفوة حتى الرد التالي"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "تحديد كمعلق",
+      "SNOOZE_UNTIL": "غفوة",
       "SNOOZE": {
         "TITLE": "تأجيل حتى",
         "NEXT_REPLY": "الرد القادم",
@@ -67,8 +73,13 @@
         "NEXT_WEEK": "الأسبوع المقبل"
       }
     },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "تأجيل حتى",
+      "APPLY": "غفوة",
+      "CANCEL": "إلغاء"
+    },
     "PRIORITY": {
-      "TITLE": "Priority",
+      "TITLE": "الأولوية",
       "OPTIONS": {
         "NONE": "لا شيء",
         "URGENT": "Urgent",
@@ -140,6 +151,7 @@
       "STOP_AUDIO_RECORDING": "إيقاف التسجيل الصوتي",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "إضافة bcc",
         "CC": {
           "LABEL": "CC",

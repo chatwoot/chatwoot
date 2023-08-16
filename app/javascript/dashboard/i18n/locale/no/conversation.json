@@ -12,6 +12,10 @@
     "NO_INBOX_2": " for å komme i gang",
     "NO_INBOX_AGENT": "Uff da! Det ser ut til at du ikke er en del av innboksen. Kontakt systemansvarlig",
     "SEARCH_MESSAGES": "Søk etter meldinger i samtaler",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "Søk i meldinger",
       "RESULT_TITLE": "Search Results",
@@ -54,18 +58,25 @@
       "OPEN": "Mer",
       "CLOSE": "Lukk",
       "DETAILS": "detaljer",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
       "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
       "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Mark as pending",
+      "SNOOZE_UNTIL": "Snooze",
       "SNOOZE": {
         "TITLE": "Snooze until",
         "NEXT_REPLY": "Next reply",
         "TOMORROW": "Tomorrow",
         "NEXT_WEEK": "Next week"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Snooze until",
+      "APPLY": "Snooze",
+      "CANCEL": "Avbryt"
     },
     "PRIORITY": {
       "TITLE": "Priority",
@@ -140,6 +151,7 @@
       "STOP_AUDIO_RECORDING": "Stop audio recording",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Add bcc",
         "CC": {
           "LABEL": "CC",

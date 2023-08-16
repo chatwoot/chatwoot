@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Adaugă etichete",
         "PLACEHOLDER": "Căutare etichete",
-        "NO_RESULT": "Nu s-au găsit etichete"
+        "NO_RESULT": "Nu s-au găsit etichete",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Îmbinare contact",
@@ -71,6 +72,13 @@
       "CANCEL": "Renunță"
     },
     "SUCCESS_MESSAGE": "Contacte salvate cu succes",
+    "ERROR_MESSAGE": "A apărut o eroare, încercați din nou"
+  },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Exportă",
+    "TITLE": "Exportă contacte",
+    "DESC": "Exportă contactele într-un fișier CSV.",
+    "SUCCESS_MESSAGE": "Exportul este în desfășurare, veți fi notificat prin e-mail când fișierul de export este gata de descărcare.",
     "ERROR_MESSAGE": "A apărut o eroare, încercați din nou"
   },
   "DELETE_NOTE": {
@@ -211,6 +219,7 @@
     "FILTER_CONTACTS": "Filtru",
     "FILTER_CONTACTS_SAVE": "Salvare filtru",
     "FILTER_CONTACTS_DELETE": "Ștergere filtru",
+    "FILTER_CONTACTS_EDIT": "Modifică segment",
     "LIST": {
       "LOADING_MESSAGE": "Se încarcă contactele...",
       "404": "Niciun contact nu se potrivește cu căutarea ta 🔍",

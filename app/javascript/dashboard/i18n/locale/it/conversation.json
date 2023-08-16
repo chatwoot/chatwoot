@@ -12,6 +12,10 @@
     "NO_INBOX_2": " per iniziare",
     "NO_INBOX_AGENT": "Uh Oh! Sembra che tu non faccia parte di nessuna casella. Per favore contatta il tuo amministratore",
     "SEARCH_MESSAGES": "Cerca messaggi nelle conversazioni",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "Cerca messaggi",
       "RESULT_TITLE": "Risultati della ricerca",
@@ -54,18 +58,25 @@
       "OPEN": "Altro",
       "CLOSE": "Chiudi",
       "DETAILS": "Dettagli",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Posticipato fino a domani",
       "SNOOZED_UNTIL_NEXT_WEEK": "Posticipato fino alla prossima settimana",
       "SNOOZED_UNTIL_NEXT_REPLY": "Posticipato fino alla prossima risposta"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Segna come in sospeso",
+      "SNOOZE_UNTIL": "Posticipa",
       "SNOOZE": {
         "TITLE": "Posticipa fino a",
         "NEXT_REPLY": "Risposta successiva",
         "TOMORROW": "Domani",
         "NEXT_WEEK": "Prossima settimana"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Posticipa fino a",
+      "APPLY": "Posticipa",
+      "CANCEL": "annulla"
     },
     "PRIORITY": {
       "TITLE": "Priorità",
@@ -140,6 +151,7 @@
       "STOP_AUDIO_RECORDING": "Interrompi registrazione audio",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Aggiungi bcc",
         "CC": {
           "LABEL": "CC",

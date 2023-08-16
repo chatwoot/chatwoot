@@ -3,6 +3,7 @@
     "TITLE": "Setări cont",
     "SUBMIT": "Actualizați setările",
     "BACK": "Înapoi",
+    "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "Nu s-au putut actualiza setările, încercați din nou!",
       "SUCCESS": "Setările contului actualizate cu succes"
@@ -48,7 +49,10 @@
       }
     },
     "UPDATE_CHATWOOT": "Este disponibilă o actualizare %{latestChatwootVersion} pentru Chatwoot. Vă rugăm să actualizați instanța.",
-    "LEARN_MORE": "Află mai mult"
+    "LEARN_MORE": "Află mai mult",
+    "PAYMENT_PENDING": "Plata dvs. este în așteptare. Vă rugăm să actualizați informațiile de plată pentru a continua să utilizați Chatwoot",
+    "LIMITS_UPGRADE": "Contul dvs. a depășit limitele de utilizare, vă rugăm să vă actualizați planul pentru a continua să utilizați Chatwoot",
+    "OPEN_BILLING": "Deschide facturarea"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -83,7 +87,7 @@
       "conversation_assignment": "Conversație atribuită",
       "assigned_conversation_new_message": "Trimite mesaj nou",
       "participating_conversation_new_message": "Trimite mesaj nou",
-      "conversation_mention": "a menţiona"
+      "conversation_mention": "Menţiune"
     }
   },
   "NETWORK": {
@@ -101,11 +105,14 @@
       "REPORTS": "Rapoarte",
       "CONVERSATION": "Conversație",
       "CHANGE_ASSIGNEE": "Modificarea cesionarului",
-      "CHANGE_PRIORITY": "Change Priority",
+      "CHANGE_PRIORITY": "Modificarea priorității",
       "CHANGE_TEAM": "Schimbarea echipei",
+      "SNOOZE_CONVERSATION": "Snooze conversație",
       "ADD_LABEL": "Adăugarea etichetei la conversație",
       "REMOVE_LABEL": "Eliminarea etichetei din conversație",
-      "SETTINGS": "Setări"
+      "SETTINGS": "Setări",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Accesați Tabloul de bord conversație",
@@ -127,7 +134,8 @@
       "GO_TO_NOTIFICATIONS": "Accesați Notificări",
       "ADD_LABELS_TO_CONVERSATION": "Adăugarea etichetei la conversație",
       "ASSIGN_AN_AGENT": "Atribuirea unui agent",
-      "ASSIGN_PRIORITY": "Assign priority",
+      "AI_ASSIST": "AI Assist",
+      "ASSIGN_PRIORITY": "Atribuirea priorității",
       "ASSIGN_A_TEAM": "Atribuirea unei echipe",
       "MUTE_CONVERSATION": "Silențios conversația",
       "UNMUTE_CONVERSATION": "Sunet conversația",
@@ -138,10 +146,21 @@
       "SNOOZE_CONVERSATION": "Snooze conversație",
       "UNTIL_NEXT_REPLY": "Până la următorul răspuns",
       "UNTIL_NEXT_WEEK": "Până săptămâna viitoare",
-      "UNTIL_TOMORROW": "Până mâine"
+      "UNTIL_TOMORROW": "Până mâine",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "Sistem"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "Se încarcă aplicația Dashboard..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "click aici"
   }
 }

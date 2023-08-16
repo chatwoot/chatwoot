@@ -1,22 +1,20 @@
 <template>
-  <form class="row" @submit.prevent="onSubmit">
-    <div class="medium-12 columns">
+  <form class="flex flex-col w-full" @submit.prevent="onSubmit">
+    <div class="w-full">
       <label :class="{ error: $v.url.$error }">
         {{ $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.END_POINT.LABEL') }}
         <input
           v-model.trim="url"
           type="text"
           name="url"
-          :placeholder="
-            $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.END_POINT.PLACEHOLDER')
-          "
+          :placeholder="webhookURLInputPlaceholder"
           @input="$v.url.$touch"
         />
         <span v-if="$v.url.$error" class="message">
           {{ $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.END_POINT.ERROR') }}
         </span>
       </label>
-      <label :class="{ error: $v.url.$error }" class="margin-bottom-small">
+      <label :class="{ error: $v.url.$error }" class="mb-2">
         {{ $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.SUBSCRIPTIONS.LABEL') }}
       </label>
       <div v-for="event in supportedWebhookEvents" :key="event">
@@ -26,16 +24,16 @@
           type="checkbox"
           :value="event"
           name="subscriptions"
-          class="margin-right-1"
+          class="checkbox"
         />
-        <span class="fs-small">
+        <span class="text-sm">
           {{ `${getEventLabel(event)} (${event})` }}
         </span>
       </div>
     </div>
 
-    <div class="modal-footer">
-      <div class="medium-12 columns">
+    <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+      <div class="w-full">
         <woot-button
           :disabled="$v.$invalid || isSubmitting"
           :is-loading="isSubmitting"
@@ -53,6 +51,9 @@
 <script>
 import { required, url, minLength } from 'vuelidate/lib/validators';
 import webhookMixin from './webhookMixin';
+import wootConstants from 'dashboard/constants/globals';
+
+const { EXAMPLE_WEBHOOK_URL } = wootConstants;
 
 const SUPPORTED_WEBHOOK_EVENTS = [
   'conversation_created',
@@ -98,6 +99,16 @@ export default {
       supportedWebhookEvents: SUPPORTED_WEBHOOK_EVENTS,
     };
   },
+  computed: {
+    webhookURLInputPlaceholder() {
+      return this.$t(
+        'INTEGRATION_SETTINGS.WEBHOOK.FORM.END_POINT.PLACEHOLDER',
+        {
+          webhookExampleURL: EXAMPLE_WEBHOOK_URL,
+        }
+      );
+    },
+  },
   methods: {
     onSubmit() {
       this.$emit('submit', {
@@ -108,3 +119,8 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.checkbox {
+  @apply mr-2;
+}
+</style>

@@ -1,12 +1,12 @@
 <template>
   <modal :show.sync="show" :on-close="onClose">
-    <div class="column content-box">
+    <div class="h-auto overflow-auto flex flex-col">
       <woot-modal-header
         :header-title="$t('CANNED_MGMT.ADD.TITLE')"
         :header-content="$t('CANNED_MGMT.ADD.DESC')"
       />
-      <form class="row" @submit.prevent="addCannedResponse()">
-        <div class="medium-12 columns">
+      <form class="flex flex-col w-full" @submit.prevent="addCannedResponse()">
+        <div class="w-full">
           <label :class="{ error: $v.shortCode.$error }">
             {{ $t('CANNED_MGMT.ADD.FORM.SHORT_CODE.LABEL') }}
             <input
@@ -18,7 +18,7 @@
           </label>
         </div>
 
-        <div class="medium-12 columns">
+        <div class="w-full">
           <label :class="{ error: $v.content.$error }">
             {{ $t('CANNED_MGMT.ADD.FORM.CONTENT.LABEL') }}
           </label>
@@ -34,21 +34,19 @@
             />
           </div>
         </div>
-        <div class="modal-footer">
-          <div class="medium-12 columns">
-            <woot-submit-button
-              :disabled="
-                $v.content.$invalid ||
-                  $v.shortCode.$invalid ||
-                  addCanned.showLoading
-              "
-              :button-text="$t('CANNED_MGMT.ADD.FORM.SUBMIT')"
-              :loading="addCanned.showLoading"
-            />
-            <button class="button clear" @click.prevent="onClose">
-              {{ $t('CANNED_MGMT.ADD.CANCEL_BUTTON_TEXT') }}
-            </button>
-          </div>
+        <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+          <woot-submit-button
+            :disabled="
+              $v.content.$invalid ||
+                $v.shortCode.$invalid ||
+                addCanned.showLoading
+            "
+            :button-text="$t('CANNED_MGMT.ADD.FORM.SUBMIT')"
+            :loading="addCanned.showLoading"
+          />
+          <button class="button clear" @click.prevent="onClose">
+            {{ $t('CANNED_MGMT.ADD.CANCEL_BUTTON_TEXT') }}
+          </button>
         </div>
       </form>
     </div>
@@ -137,19 +135,15 @@ export default {
 <style scoped lang="scss">
 ::v-deep {
   .ProseMirror-menubar {
-    display: none;
+    @apply hidden;
   }
 
   .ProseMirror-woot-style {
-    min-height: 20rem;
+    @apply min-h-[12.5rem];
 
     p {
-      font-size: var(--font-size-default);
+      @apply text-base;
     }
-  }
-
-  .message-editor {
-    border: 1px solid var(--s-200);
   }
 }
 </style>

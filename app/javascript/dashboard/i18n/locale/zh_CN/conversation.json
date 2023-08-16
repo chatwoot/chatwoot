@@ -12,6 +12,10 @@
     "NO_INBOX_2": " 开始吧",
     "NO_INBOX_AGENT": "看起来您还没有分配到收件箱。请联系您的管理员",
     "SEARCH_MESSAGES": "搜索对话中的消息",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "搜索消息",
       "RESULT_TITLE": "搜索结果",
@@ -54,18 +58,25 @@
       "OPEN": "详细信息",
       "CLOSE": "关闭",
       "DETAILS": "详情",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "推迟到明天",
       "SNOOZED_UNTIL_NEXT_WEEK": "推迟到下周",
       "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "标记为待处理",
+      "SNOOZE_UNTIL": "推迟",
       "SNOOZE": {
         "TITLE": "推迟到",
         "NEXT_REPLY": "下一个回复",
         "TOMORROW": "明天",
         "NEXT_WEEK": "下周"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "推迟到",
+      "APPLY": "推迟",
+      "CANCEL": "取消"
     },
     "PRIORITY": {
       "TITLE": "Priority",
@@ -140,6 +151,7 @@
       "STOP_AUDIO_RECORDING": "停止录音",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Add bcc",
         "CC": {
           "LABEL": "抄送",
@@ -250,7 +262,7 @@
       "CONVERSATION_INFO": "对话信息",
       "CONTACT_ATTRIBUTES": "联系人属性",
       "PREVIOUS_CONVERSATION": "上一次对话",
-      "MACROS": "Macros"
+      "MACROS": "宏"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

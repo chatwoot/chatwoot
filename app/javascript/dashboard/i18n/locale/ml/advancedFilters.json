@@ -2,12 +2,17 @@
   "FILTER": {
     "TITLE": "സംഭാഷണങ്ങൾ തരം തിരിക്കുക",
     "SUBTITLE": "സംഭാഷണങ്ങൾ ഫിൽട്ടർ ചെയ്യുന്നതിന് ചുവടെ ഫിൽട്ടറുകൾ ചേർക്കുക, 'ഫിൽട്ടറുകൾ പ്രയോഗിക്കുക' അമർത്തുക.",
+    "EDIT_CUSTOM_FILTER": "Edit Folder",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
     "ADD_NEW_FILTER": "ഫിൽട്ടർ ചേർക്കുക",
     "FILTER_DELETE_ERROR": "സേവ് ചെയ്യാൻ നിങ്ങൾക്ക് ഒരു ഫിൽട്ടറെങ്കിലും ഉണ്ടായിരിക്കണം",
     "SUBMIT_BUTTON_LABEL": "ഫിൽട്ടറുകൾ പ്രയോഗിക്കുക",
+    "UPDATE_BUTTON_LABEL": "Update folder",
     "CANCEL_BUTTON_LABEL": "റദ്ദാക്കുക",
     "CLEAR_BUTTON_LABEL": "ഫിൽട്ടറുകൾ മായ്ക്കുക",
     "EMPTY_VALUE_ERROR": "Value is required",
+    "FOLDER_LABEL": "Folder Name",
+    "FOLDER_QUERY_LABEL": "Folder Query",
     "TOOLTIP_LABEL": "സംഭാഷണങ്ങൾ തരം തിരിക്കുക",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "ഒപ്പം",
@@ -70,6 +75,9 @@
           "SUCCESS_MESSAGE": "സെഗ്മെന്റ് വിജയകരമായി സൃഷ്ടിച്ചു",
           "ERROR_MESSAGE": "Error while creating segment"
         }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Edit folder"
       },
       "DELETE": {
         "DELETE_BUTTON": "ഫിൽട്ടർ ഇല്ലാതാക്കുക",

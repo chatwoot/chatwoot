@@ -73,10 +73,26 @@
       }
     },
     "SLACK": {
+      "DELETE": "Видалити",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Delete the integration",
+        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+      },
       "HELP_TEXT": {
         "TITLE": "Використання Slack інтеграцію",
-        "BODY": "<br/><p>Chatwoot тепер синхронізує всі вхідні розмови на <b><i>customer-conversations</i></b> каналу всередині вашого slack workplace.</p><p>Відповідь на тему розмови в <b><i>customer-conversations</i></b> slack канал створить відповідь покупцю через chatwoot.</p><p>Розпочніть відповіді з <b><i>нотатки:</i></b> для створення приватних нотаток замість відповідей.</p><p>Якщо автор на slack має профіль агента в chatwoot під тим самим повідомленням, відповіді будуть надані відповідно.</p><p>, коли користувач не має пов'язаного агента, відповідь буде виконана з профілю бота.</p>"
-      }
+        "BODY": "<br/><p>Chatwoot тепер синхронізує всі вхідні розмови на <b><i>customer-conversations</i></b> каналу всередині вашого slack workplace.</p><p>Відповідь на тему розмови в <b><i>customer-conversations</i></b> slack канал створить відповідь покупцю через chatwoot.</p><p>Розпочніть відповіді з <b><i>нотатки:</i></b> для створення приватних нотаток замість відповідей.</p><p>Якщо автор на slack має профіль агента в chatwoot під тим самим повідомленням, відповіді будуть надані відповідно.</p><p>, коли користувач не має пов'язаного агента, відповідь буде виконана з профілю бота.</p>",
+        "SELECTED": "selected"
+      },
+      "SELECT_CHANNEL": {
+        "OPTION_LABEL": "Select a channel",
+        "UPDATE": "Оновити",
+        "BUTTON_TEXT": "Connect channel",
+        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
+        "ATTENTION_REQUIRED": "Attention required"
+      },
+      "UPDATE_ERROR": "There was an error updating the integration, please try again",
+      "UPDATE_SUCCESS": "The channel is connected successfully",
+      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
     },
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Натисніть тут, щоб приєднатися",
@@ -86,7 +102,31 @@
       "CREATE_ERROR": "Помилка при створенні посилання на зустріч, будь ласка, спробуйте знову"
     },
     "OPEN_AI": {
+      "AI_ASSIST": "AI Assist",
+      "WITH_AI": " %{option} with AI ",
+      "OPTIONS": {
+        "REPLY_SUGGESTION": "Reply Suggestion",
+        "SUMMARIZE": "Summarize",
+        "REPHRASE": "Improve Writing",
+        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
+        "SHORTEN": "Shorten",
+        "EXPAND": "Expand",
+        "MAKE_FRIENDLY": "Change message tone to friendly",
+        "MAKE_FORMAL": "Use formal tone",
+        "SIMPLIFY": "Simplify"
+      },
+      "ASSISTANCE_MODAL": {
+        "DRAFT_TITLE": "Draft content",
+        "GENERATED_TITLE": "Generated content",
+        "AI_WRITING": "AI is writing",
+        "BUTTONS": {
+          "APPLY": "Use this suggestion",
+          "CANCEL": "Скасувати"
+        }
+      },
       "TITLE": "Покращити з ШІ",
+      "SUMMARY_TITLE": "Резюме ШІ",
+      "REPLY_TITLE": "Пропозиції відповіді від ШІ",
       "SUBTITLE": "Поліпшена відповідь буде згенерована за допомогою AI, основана на вашій чернетці.",
       "TONE": {
         "TITLE": "Тон",

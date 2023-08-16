@@ -8,8 +8,8 @@
       "SUBMIT": "Kirim"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "RETRY": "Kirim pesan lagi",
+      "ERROR_MESSAGE": "Tidak dapat mengirim, coba lagi"
     }
   },
   "TEAM_AVAILABILITY": {
@@ -19,8 +19,18 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Biasanya membalas dalam beberapa menit",
     "IN_A_FEW_HOURS": "Biasanya membalas dalam beberapa jam",
-    "IN_A_DAY": "Biasanya membalas dalam sehari"
+    "IN_A_DAY": "Biasanya membalas dalam sehari",
+    "BACK_IN": "Kami akan kembali online"
   },
+  "DAY_NAMES": [
+    "Minggu",
+    "Senin",
+    "Selasa",
+    "Rabu",
+    "Kamis",
+    "Jumat",
+    "Sabtu"
+  ],
   "START_CONVERSATION": "Mulai Percakapan",
   "END_CONVERSATION": "Akhiri Percakapan",
   "CONTINUE_CONVERSATION": "Lanjutkan Percakapan",
@@ -56,7 +66,9 @@
         "LABEL": "Nomor Telpon",
         "PLACEHOLDER": "Masukan Nomor Telepon",
         "REQUIRED_ERROR": "Nomor Telepon Dibutuhkan",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "DIAL_CODE_VALID_ERROR": "Silakan pilih kode negara",
+        "VALID_ERROR": "Mohon berikan nomor telepon yang valid",
+        "DROPDOWN_EMPTY": "Tidak ada hasil ditemukan"
       },
       "MESSAGE": {
         "LABEL": "Pesan",
@@ -64,34 +76,38 @@
         "ERROR": "Pesan terlalu pendek"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
-    "IS_REQUIRED": "is required",
-    "REQUIRED": "Required"
+    "CAMPAIGN_HEADER": "Silahkan input nama dan email anda sebelum memulai percakapan",
+    "IS_REQUIRED": "dibutuhkan",
+    "REQUIRED": "Diperlukan"
   },
   "FILE_SIZE_LIMIT": "File melebihi batas {MAXIMUM_FILE_UPLOAD_SIZE} lampiran",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Invalid field"
+      "FIELD": "Kolom tidak valid"
     }
   },
   "EMOJI": {
-    "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+    "PLACEHOLDER": "Cari emoji",
+    "NOT_FOUND": "Tidak ada emoji yang cocok dengan penelusuran anda"
   },
   "CSAT": {
-    "TITLE": "Rate your conversation",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+    "TITLE": "Nilai percakapan anda",
+    "SUBMITTED_TITLE": "Terima kasih telah mengirimkan penilaian",
+    "PLACEHOLDER": "Beritahu kami lebih lanjut..."
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
+    "BUTTON_TEXT": "Minta transkrip percakapan",
     "SEND_EMAIL_SUCCESS": "Transkrip percakapan berhasil terkirim",
     "SEND_EMAIL_ERROR": "Terjadi kesalahan, harap coba lagi"
   },
   "INTEGRATIONS": {
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
+      "CLICK_HERE_TO_JOIN": "Klik disini untuk join",
+      "LEAVE_THE_ROOM": "Tinggalkan panggilan"
     }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "Lihat semua artikel"
   }
 }

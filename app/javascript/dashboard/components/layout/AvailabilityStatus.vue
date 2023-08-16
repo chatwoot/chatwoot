@@ -4,7 +4,7 @@
     <woot-dropdown-item
       v-for="status in availabilityStatuses"
       :key="status.value"
-      class="status-items"
+      class="flex items-baseline"
     >
       <woot-button
         size="small"
@@ -18,23 +18,25 @@
       </woot-button>
     </woot-dropdown-item>
     <woot-dropdown-divider />
-    <woot-dropdown-item class="auto-offline--toggle">
-      <div class="info-wrap">
+    <woot-dropdown-item class="m-0 flex items-center justify-between p-2">
+      <div class="flex items-center">
         <fluent-icon
           v-tooltip.right-start="$t('SIDEBAR.SET_AUTO_OFFLINE.INFO_TEXT')"
           icon="info"
           size="14"
-          class="info-icon"
+          class="mt-px"
         />
 
-        <span class="auto-offline--text">
+        <span
+          class="my-0 mx-1 text-xs font-medium text-slate-600 dark:text-slate-100"
+        >
           {{ $t('SIDEBAR.SET_AUTO_OFFLINE.TEXT') }}
         </span>
       </div>
 
       <woot-switch
         size="small"
-        class="auto-offline--switch"
+        class="mt-px mx-1 mb-0"
         :value="currentUserAutoOffline"
         @input="updateAutoOffline"
       />
@@ -138,71 +140,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-@import '~dashboard/assets/scss/variables';
-
-.status {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--space-micro) var(--space-smaller);
-}
-
-.status-view {
-  display: flex;
-  align-items: baseline;
-
-  & &--title {
-    color: var(--b-600);
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-medium);
-    margin-left: var(--space-small);
-
-    &:first-letter {
-      text-transform: capitalize;
-    }
-  }
-}
-
-.status-change {
-  .dropdown-pane {
-    top: -132px;
-    right: var(--space-normal);
-  }
-
-  .status-items {
-    display: flex;
-    align-items: baseline;
-  }
-}
-
-.auto-offline--toggle {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-  padding: var(--space-smaller);
-  margin: 0;
-
-  .info-wrap {
-    display: flex;
-    align-items: center;
-  }
-
-  .info-icon {
-    margin-top: -1px;
-  }
-
-  .auto-offline--switch {
-    margin: -1px var(--space-micro) 0;
-  }
-
-  .auto-offline--text {
-    margin: 0 var(--space-smaller);
-    font-size: var(--font-size-mini);
-    font-weight: var(--font-weight-medium);
-    color: var(--s-700);
-  }
-}
-</style>

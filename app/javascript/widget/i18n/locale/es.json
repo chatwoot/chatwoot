@@ -19,8 +19,18 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Normalmente responde en unos minutos",
     "IN_A_FEW_HOURS": "Normalmente responde en unas pocas horas",
-    "IN_A_DAY": "Normalmente responde en un día"
+    "IN_A_DAY": "Normalmente responde en un día",
+    "BACK_IN": "Volveremos a estar en línea"
   },
+  "DAY_NAMES": [
+    "Domingo",
+    "Lunes",
+    "Martes",
+    "Miércoles",
+    "Jueves",
+    "Viernes",
+    "Sábado"
+  ],
   "START_CONVERSATION": "Iniciar conversación",
   "END_CONVERSATION": "Finalizar conversación",
   "CONTINUE_CONVERSATION": "Continuar conversación",
@@ -56,7 +66,9 @@
         "LABEL": "Número telefónico",
         "PLACEHOLDER": "Por favor ingrese su número de teléfono",
         "REQUIRED_ERROR": "El número de teléfono es obligatorio",
-        "VALID_ERROR": "El número de teléfono debe ser de formato E.164 por ejemplo: +5493995777777"
+        "DIAL_CODE_VALID_ERROR": "Por favor seleccione un código de país",
+        "VALID_ERROR": "Por favor ingrese un número de teléfono válido",
+        "DROPDOWN_EMPTY": "No se encontraron resultados"
       },
       "MESSAGE": {
         "LABEL": "Mensaje",
@@ -93,5 +105,9 @@
       "CLICK_HERE_TO_JOIN": "Haga clic aquí para unirse",
       "LEAVE_THE_ROOM": "Salir de la llamada"
     }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "Ver todos los artículos"
   }
 }

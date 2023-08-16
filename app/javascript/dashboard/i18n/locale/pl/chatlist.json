@@ -8,7 +8,7 @@
     },
     "TAB_HEADING": "Rozmowy",
     "MENTION_HEADING": "Wzmianki",
-    "UNATTENDED_HEADING": "Unattended",
+    "UNATTENDED_HEADING": "Nieobsługiwane",
     "SEARCH": {
       "INPUT": "Szukaj ludzi, czatów, zapisanych odpowiedzi .."
     },
@@ -29,32 +29,38 @@
         "TEXT": "Oczekujące"
       },
       "snoozed": {
-        "TEXT": "Uśpione"
+        "TEXT": "Uśpij"
       },
       "all": {
         "TEXT": "Wszystkie"
       }
     },
     "VIEW_FILTER": "Widok",
-    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "SORT_TOOLTIP_LABEL": "Sortuj rozmowy",
     "CHAT_SORT": {
       "STATUS": "Status",
-      "ORDER_BY": "Order by"
+      "ORDER_BY": "Sortuj według"
     },
     "CHAT_SORT_FILTER_ITEMS": {
       "latest": {
-        "TEXT": "Last activity"
+        "TEXT": "Ostatnia aktywność"
       },
       "sort_on_created_at": {
-        "TEXT": "Utworzono"
+        "TEXT": "Data utworzenia"
+      },
+      "sort_on_priority": {
+        "TEXT": "Priorytet"
+      },
+      "sort_on_waiting_since": {
+        "TEXT": "Oczekiwanie na odpowiedź"
       }
     },
     "ATTACHMENTS": {
       "image": {
-        "CONTENT": "Wiadomość obrazkowa"
+        "CONTENT": "Wiadomość z obrazkiem"
       },
       "audio": {
-        "CONTENT": "Wiadomość audio"
+        "CONTENT": "Wiadomość dźwiękowa"
       },
       "video": {
         "CONTENT": "Wiadomość wideo"
@@ -66,38 +72,38 @@
         "CONTENT": "Lokalizacja"
       },
       "fallback": {
-        "CONTENT": "udostępnił adres url"
+        "CONTENT": "udostępnił adres URL"
       }
     },
     "CHAT_SORT_BY_FILTER": {
-      "TITLE": "Sort conversation",
-      "DROPDOWN_TITLE": "Sort by",
+      "TITLE": "Sortuj rozmowy",
+      "DROPDOWN_TITLE": "Sortuj według",
       "ITEMS": {
         "LATEST": {
-          "NAME": "Last activity at",
-          "LABEL": "Last activity"
+          "NAME": "Ostatnia aktywność o",
+          "LABEL": "Ostatnia aktywność"
         },
         "CREATED_AT": {
-          "NAME": "Utworzono",
-          "LABEL": "Utworzono"
+          "NAME": "Data utworzenia",
+          "LABEL": "Data utworzenia"
         },
         "LAST_USER_MESSAGE_AT": {
-          "NAME": "Last user message at",
-          "LABEL": "Last message"
+          "NAME": "Ostatnia wiadomość użytkownika o",
+          "LABEL": "Ostatnia wiadomość"
         }
       }
     },
     "RECEIVED_VIA_EMAIL": "Otrzymano przez e-mail",
-    "VIEW_TWEET_IN_TWITTER": "Zobacz tweet na Twitterze",
-    "REPLY_TO_TWEET": "Odpowiedz na ten tweet",
-    "LINK_TO_STORY": "Przejdź do opowieści na Instagramie",
+    "VIEW_TWEET_IN_TWITTER": "Zobacz tweeta na Twitterze",
+    "REPLY_TO_TWEET": "Odpowiedz na tweeta",
+    "LINK_TO_STORY": "Przejdź do historii na Instagramie",
     "SENT": "Wysłano pomyślnie",
-    "READ": "Read successfully",
-    "DELIVERED": "Delivered successfully",
+    "READ": "Przeczytano pomyślnie",
+    "DELIVERED": "Dostarczono pomyślnie",
     "NO_MESSAGES": "Brak wiadomości",
     "NO_CONTENT": "Brak treści",
     "HIDE_QUOTED_TEXT": "Ukryj cytat",
     "SHOW_QUOTED_TEXT": "Pokaż cytat",
-    "MESSAGE_READ": "Przeczytaj"
+    "MESSAGE_READ": "Przeczytane"
   }
 }

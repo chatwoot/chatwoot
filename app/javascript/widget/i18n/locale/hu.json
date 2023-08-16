@@ -19,11 +19,21 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Néhány percen belül válaszol",
     "IN_A_FEW_HOURS": "Néhány órán belül válaszol",
-    "IN_A_DAY": "Általánban egy napon belül válaszol"
+    "IN_A_DAY": "Általánban egy napon belül válaszol",
+    "BACK_IN": "Legközelebb online leszünk ekkor:"
   },
+  "DAY_NAMES": [
+    "vasárnap",
+    "hétfő",
+    "kedd",
+    "szerda",
+    "csütörtök",
+    "péntek",
+    "szombat"
+  ],
   "START_CONVERSATION": "Beszélgetés megkezdése",
-  "END_CONVERSATION": "End Conversation",
-  "CONTINUE_CONVERSATION": "Continue conversation",
+  "END_CONVERSATION": "Beszélgetés befejezése",
+  "CONTINUE_CONVERSATION": "Beszélgetés folytatása",
   "START_NEW_CONVERSATION": "Új beszélgetés megkezdése",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Új üzenetek",
@@ -49,14 +59,16 @@
       "EMAIL_ADDRESS": {
         "LABEL": "Email cím",
         "PLACEHOLDER": "Kérjük helyes e-mailcímet adj meg",
-        "REQUIRED_ERROR": "Email Address is required",
+        "REQUIRED_ERROR": "Email cím megadása kötelező",
         "VALID_ERROR": "Kérjük helyes e-mailcímet adj meg"
       },
       "PHONE_NUMBER": {
         "LABEL": "Telefonszám",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "PLACEHOLDER": "Kérlek add meg a telefonszámod",
+        "REQUIRED_ERROR": "Telefonszám megadása kötelező",
+        "DIAL_CODE_VALID_ERROR": "Kérlek válassz országot",
+        "VALID_ERROR": "Kérlek egy valós telefonszámot adj meg",
+        "DROPDOWN_EMPTY": "Nincs találat"
       },
       "MESSAGE": {
         "LABEL": "Üzenet",
@@ -65,8 +77,8 @@
       }
     },
     "CAMPAIGN_HEADER": "Kérjük a beszélgetés megkezdése előtt add meg neved és e-mail címed",
-    "IS_REQUIRED": "is required",
-    "REQUIRED": "Required"
+    "IS_REQUIRED": "kötelező",
+    "REQUIRED": "Kötelező"
   },
   "FILE_SIZE_LIMIT": "A file mérete meghaladja a {MAXIMUM_FILE_UPLOAD_SIZE} limitet",
   "CHAT_FORM": {
@@ -75,8 +87,8 @@
     }
   },
   "EMOJI": {
-    "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+    "PLACEHOLDER": "Emoji keresése",
+    "NOT_FOUND": "Nem található emoji"
   },
   "CSAT": {
     "TITLE": "Értékeld a beszélgetést",
@@ -90,8 +102,12 @@
   },
   "INTEGRATIONS": {
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
+      "CLICK_HERE_TO_JOIN": "Kattints ide a csatlakozáshoz",
+      "LEAVE_THE_ROOM": "Hívás elhagyása"
     }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "Mutasd az összes bejegyzést"
   }
 }

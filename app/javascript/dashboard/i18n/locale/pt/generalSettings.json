@@ -3,6 +3,7 @@
     "TITLE": "Configurações da conta",
     "SUBMIT": "Atualizar configurações",
     "BACK": "Voltar",
+    "DISMISS": "Descartar",
     "UPDATE": {
       "ERROR": "Não foi possível atualizar as configurações, tente novamente!",
       "SUCCESS": "Configurações de conta atualizadas com sucesso"
@@ -15,7 +16,7 @@
       },
       "ACCOUNT_ID": {
         "TITLE": "Conta ID",
-        "NOTE": "Este ID é necessário se você está construindo uma integração baseada em API"
+        "NOTE": "Este ID é necessário para integrações via API"
       },
       "NAME": {
         "LABEL": "Nome da Conta",
@@ -48,7 +49,10 @@
       }
     },
     "UPDATE_CHATWOOT": "Está disponível uma nova atualização %{latestChatwootVersion} para o ChatWoot. Por favor, atualize a sua versão.",
-    "LEARN_MORE": "Saiba mais"
+    "LEARN_MORE": "Saiba mais",
+    "PAYMENT_PENDING": "O seu pagamento está pendente. Por favor atualize as suas informações de pagamento para continuar a usar o Chatwoot",
+    "LIMITS_UPGRADE": "A sua conta excedeu os limites de utilização. Por favor faça um upgrade ao seu plano para continuar a utilizar o Chatwoot",
+    "OPEN_BILLING": "Abrir faturamento"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -101,11 +105,14 @@
       "REPORTS": "relatórios",
       "CONVERSATION": "Conversa",
       "CHANGE_ASSIGNEE": "Alterar Responsável",
-      "CHANGE_PRIORITY": "Change Priority",
+      "CHANGE_PRIORITY": "Alterar Prioridade",
       "CHANGE_TEAM": "Alterar Equipa",
+      "SNOOZE_CONVERSATION": "Adiar Conversa",
       "ADD_LABEL": "Adicionar etiqueta à conversa",
       "REMOVE_LABEL": "Remover etiqueta da conversa",
-      "SETTINGS": "Confirgurações"
+      "SETTINGS": "Confirgurações",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Ir para o painel de conversação",
@@ -127,7 +134,8 @@
       "GO_TO_NOTIFICATIONS": "Ir para Notificações",
       "ADD_LABELS_TO_CONVERSATION": "Adicionar etiqueta à conversa",
       "ASSIGN_AN_AGENT": "Atribuir um agente",
-      "ASSIGN_PRIORITY": "Assign priority",
+      "AI_ASSIST": "AI Assist",
+      "ASSIGN_PRIORITY": "Atribuir prioridade",
       "ASSIGN_A_TEAM": "Atribuir uma equipa",
       "MUTE_CONVERSATION": "Silenciar Conversa",
       "UNMUTE_CONVERSATION": "Reativar conversa",
@@ -138,10 +146,21 @@
       "SNOOZE_CONVERSATION": "Adiar Conversa",
       "UNTIL_NEXT_REPLY": "Até à próxima resposta",
       "UNTIL_NEXT_WEEK": "Até à próxima semana",
-      "UNTIL_TOMORROW": "Até amanhã"
+      "UNTIL_TOMORROW": "Até amanhã",
+      "UNTIL_NEXT_MONTH": "Até ao mês seguinte",
+      "AN_HOUR_FROM_NOW": "Até daqui a uma hora",
+      "CUSTOM": "Personalizar...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "Sistema"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "Carregando App da Dashboard..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "clique aqui"
   }
 }

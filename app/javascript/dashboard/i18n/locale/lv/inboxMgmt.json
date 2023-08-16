@@ -111,6 +111,17 @@
           "PLACEHOLDER": "Lūdzu, ievadiet sava Twilio konta SID",
           "ERROR": "Šis lauks ir nepieciešams"
         },
+        "API_KEY": {
+          "USE_API_KEY": "Use API Key Authentication",
+          "LABEL": "API Key SID",
+          "PLACEHOLDER": "Please enter your API Key SID",
+          "ERROR": "Šis lauks ir nepieciešams"
+        },
+        "API_KEY_SECRET": {
+          "LABEL": "API Key Secret",
+          "PLACEHOLDER": "Please enter your API Key Secret",
+          "ERROR": "Šis lauks ir nepieciešams"
+        },
         "MESSAGING_SERVICE_SID": {
           "LABEL": "Ziņapmaiņas Pakalpojuma SID",
           "PLACEHOLDER": "Lūdzu, ievadiet savu Twilio ziņojumapmaiņas pakalpojuma SID",
@@ -391,6 +402,25 @@
         "ENABLED": "Iespējots",
         "DISABLED": "Atspējots"
       },
+      "SENDER_NAME_SECTION": {
+        "TITLE": "Sender name",
+        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
+        "FOR_EG": "For eg:",
+        "FRIENDLY": {
+          "TITLE": "Draudzīgs",
+          "FROM": "no",
+          "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
+        },
+        "PROFESSIONAL": {
+          "TITLE": "Profesionāls",
+          "SUBTITLE": "Use only the configured business name as the sender name in the email header."
+        },
+        "BUSINESS_NAME": {
+          "BUTTON_TEXT": "+ Configure your business name",
+          "PLACEHOLDER": "Enter your business name",
+          "SAVE_BUTTON_TEXT": "Saglabāt"
+        }
+      },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
         "ENABLED": "Iespējots",
         "DISABLED": "Atspējots"
@@ -454,7 +484,9 @@
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Iespējot vai atspējot e-pasta iegūšanas lodziņu jaunai sarunai",
       "AUTO_ASSIGNMENT": "Iespējot automātisko piešķiršanu",
       "ENABLE_CSAT": "Iespējot CSAT",
+      "SENDER_NAME_SECTION": "Enable Agent Name in Email",
       "ENABLE_CSAT_SUB_TEXT": "Iespējot/Atspējot CSAT (klientu apmierinātības) aptauju pēc sarunas atrisināšanas",
+      "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Iespējot sarunas nepārtrauktību, izmantojot e-pastu",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Sarunas turpināsies pa e-pastu, ja saziņas e-pasta adrese ir pieejama.",
       "LOCK_TO_SINGLE_CONVERSATION": "Pieturēties pie vienas sarunas",
@@ -535,7 +567,6 @@
       "UPDATE": "Atjaunināt darba laika iestatījumus",
       "TOGGLE_AVAILABILITY": "Iespējot biznesa pieejamību šai iesūtnei",
       "UNAVAILABLE_MESSAGE_LABEL": "Ziņojums nav pieejams priekš apmeklētājiem",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "Šobrīd neesam pieejami. Lūdzu atstājiet ziņojumu, mēs atbildēsim, kad būsim atpakaļ.",
       "TOGGLE_HELP": "Iespējojot biznesa pieejamību, tiešraides tērzēšanas logrīkā tiks rādīts pieejamais laiks, pat ja visi aģenti būs bezsaistē. Ārpus pieejamā laika, apmeklētājus var brīdināt ar ziņojumu un pirms tērzēšanas veidlapu.",
       "DAY": {
         "ENABLE": "Iespējot pieejamību šai dienai",

@@ -1,15 +1,19 @@
 import { Bar } from 'vue-chartjs';
 
 const fontFamily =
-  '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+  'PlusJakarta,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 
 const defaultChartOptions = {
   responsive: true,
   maintainAspectRatio: false,
   legend: {
+    display: false,
     labels: {
       fontFamily,
     },
+  },
+  animation: {
+    duration: 0,
   },
   datasets: {
     bar: {
@@ -46,11 +50,11 @@ export default {
   props: {
     collection: {
       type: Object,
-      default: () => {},
+      default: () => ({}),
     },
     chartOptions: {
       type: Object,
-      default: () => {},
+      default: () => ({}),
     },
   },
   mounted() {

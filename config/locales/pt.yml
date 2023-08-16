@@ -26,7 +26,7 @@ pt:
     validations:
       presence: não pode estar vazio
     webhook:
-      invalid: Invalid events
+      invalid: Eventos inválidos
     signup:
       disposable_email: Não permitimos e-mails descartáveis
       invalid_email: Você digitou um email inválido
@@ -38,6 +38,8 @@ pt:
     contacts:
       import:
         failed: Arquivo está vazio
+      export:
+        success: Será notificado assim que a exportação de arquivos estiver pronta para ser exibida.
       email:
         invalid: Email inválido
       phone_number:
@@ -46,16 +48,20 @@ pt:
       locale:
         unique: deve ser único na categoria e no portal
     dyte:
-      invalid_message_type: "Invalid message type. Action not permitted"
+      invalid_message_type: "Tipo de mensagem inválido. Ação não permitida"
+    slack:
+      invalid_channel_id: "Invalid slack channel. Please try again"
     inboxes:
       imap:
-        socket_error: Please check the network connection, IMAP address and try again.
-        no_response_error: Please check the IMAP credentials and try again.
-        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
-        connection_timed_out_error: Connection timed out for %{address}:%{port}
-        connection_closed_error: Connection closed.
+        socket_error: Por favor, verifique a ligação à rede, endereço IMAP e tente novamente.
+        no_response_error: Por favor, verifique as credenciais do IMAP e tente novamente.
+        host_unreachable_error: Host inacessível. Por favor, verifique o endereço IMAP, porta IMAP e tente novamente.
+        connection_timed_out_error: A ligação para %{address}:%{port} expirou
+        connection_closed_error: Ligação encerrada.
       validations:
-        name: should not start or end with symbols, and it should not have < > / \ @ characters.
+        name: não deve iniciar ou terminar com símbolos, nem deve ter < > / \ @ caracteres.
+    custom_filters:
+      number_of_records: Limite atingido. O número máximo de filtros personalizados permitidos para um utilizador por conta é de 50.
   reports:
     period: Período do relatório de %{since} a %{until}
     utc_warning: O relatório gerado está no fuso horário UTC
@@ -65,14 +71,14 @@ pt:
       avg_first_response_time: Média do tempo de resposta (minutos)
       avg_resolution_time: Média do tempo de resolução (minutos)
     inbox_csv:
-      inbox_name: Inbox name
-      inbox_type: Inbox type
-      conversations_count: No. of conversations
+      inbox_name: Nome da caixa de entrada
+      inbox_type: Tipo de caixa de entrada
+      conversations_count: Num de conversas
       avg_first_response_time: Média do tempo de resposta (minutos)
       avg_resolution_time: Média do tempo de resolução (minutos)
     label_csv:
-      label_title: Label
-      conversations_count: No. of conversations
+      label_title: Etiqueta
+      conversations_count: Num de conversas
       avg_first_response_time: Média do tempo de resposta (minutos)
       avg_resolution_time: Média do tempo de resolução (minutos)
     team_csv:
@@ -81,18 +87,18 @@ pt:
       avg_first_response_time: Média do tempo de resposta (minutos)
       avg_resolution_time: Média do tempo de resolução (minutos)
     conversation_traffic_csv:
-      timezone: Timezone
+      timezone: Fuso Horário
     default_group_by: dia
     csat:
       headers:
-        contact_name: Contact Name
-        contact_email_address: Contact Email Address
-        contact_phone_number: Contact Phone Number
-        link_to_the_conversation: Link to the conversation
+        contact_name: Nome do Contato
+        contact_email_address: Email do contato
+        contact_phone_number: Número de telefone do contato
+        link_to_the_conversation: Link para a conversa
         agent_name: Nome do Representante
         rating: Avaliar
-        feedback: Feedback Comment
-        recorded_at: Recorded date
+        feedback: Comentário de Feedback
+        recorded_at: Data de gravação
   notifications:
     notification_title:
       conversation_creation: "[Nova conversa] - #%{display_id} foi criada em %{inbox_name}"
@@ -102,7 +108,7 @@ pt:
   conversations:
     messages:
       instagram_story_content: "%{story_sender} mencionou você na história: "
-      instagram_deleted_story_content: This story is no longer available.
+      instagram_deleted_story_content: Esta história já não está disponível.
       deleted: Esta mensagem foi apagada
     activity:
       status:
@@ -112,11 +118,11 @@ pt:
         pending: "Conversa marcada como pendente por %{user_name}"
         snoozed: "Conversa adiada por %{user_name}"
         auto_resolved: "Conversa auto-resolvida pelo sistema por causa dos %{duration} dias sem inatividade"
-        system_auto_open: System reopened the conversation due to a new incoming message.
+        system_auto_open: O sistema reabriu a conversa por ter sido recebida uma nova mensagem.
       priority:
-        added: '%{user_name} set the priority to %{new_priority}'
-        updated: '%{user_name} changed the priority from %{old_priority} to %{new_priority}'
-        removed: '%{user_name} removed the priority'
+        added: '%{user_name} definiu a prioridade para %{new_priority}'
+        updated: '%{user_name} mudou a prioridade de %{old_priority} para %{new_priority}'
+        removed: '%{user_name} removeu a prioridade'
       assignee:
         self_assigned: "%{user_name} auto-atribuída esta conversa"
         assigned: "Atribuído a %{assignee_name} por %{user_name}"
@@ -140,6 +146,8 @@ pt:
         header:
           from_with_name: "%{assignee_name} de %{inbox_name} <%{from_email}>"
           reply_with_name: "%{assignee_name} de %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} de %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} de %{inbox_name} <%{from_email}>"
@@ -154,8 +162,8 @@ pt:
   integration_apps:
     dyte:
       name: "Dyte"
-      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
-      meeting_name: "%{agent_name} has started a meeting"
+      description: "Dyte é uma ferramenta que ajuda a adicionar áudio e vídeo ao vivo à sua aplicação com apenas algumas linhas de código. Essa integração permite fornecer uma opção aos agentes para ter chamadas de vídeo ou voz com os seus clientes sem sair do Chatwoot."
+      meeting_name: "%{agent_name} iniciou uma reunião"
     slack:
       name: "Slack"
       description: "Slack é uma ferramenta de chat que junta num só lugar todas as suas comunicações. Ao integrar o Slack com a sua conta, pode ser notificado de todas as novas conversas diretamente no seu Slack."
@@ -169,19 +177,20 @@ pt:
       name: "Fullcontact"
       description: "A integração com o FullContact ajuda a enriquecer os perfis dos seus visitantes. Identifica os utilizadores assim que eles partilham o seu endereço de e-mail e ofereça um atendimento ao cliente mais personalizado. Ligue a sua conta ao FullContact utilizando apenas a sua chave API."
     google_translate:
-      name: "Google Translate"
-      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
+      name: "Google Tradutor"
+      description: "Torne a tradução de mensagens mais fácil paraos agentes adicionando uma integração do Google Tradutor. O Google Tradutor ajuda a identificar automaticamente o idioma e a convertê-lo para o idioma escolhido pelo agente/administrador de conte."
     openai:
       name: "OpenAI"
-      description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
+      description: "Integre os poderosos recursos de IA com o Chatwoot utilizando os modelos GPT do OpenAI."
   public_portal:
     search:
-      search_placeholder: Search for article by title or body...
+      search_placeholder: Pesquisar artigo por título ou corpo...
       empty_placeholder: Nenhum resultado encontrado.
-      loading_placeholder: Searching...
-      results_title: Search results
+      loading_placeholder: A pesquisar...
+      results_title: Resultados da pesquisa
+    toc_header: 'Nesta página'
     hero:
-      sub_title: Search for the articles here or browse the categories below.
+      sub_title: Pesquise aqui os artigos ou procure as categorias abaixo.
     common:
       home: Principal
       last_updated_on: Última atualização em %{last_updated_on}

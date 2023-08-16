@@ -12,6 +12,10 @@
     "NO_INBOX_2": " để bắt đầu",
     "NO_INBOX_AGENT": "Uh Oh! Có vẻ như bạn không thuộc bất kỳ hộp thư đến nào. Vui lòng liên hệ với quản trị viên của bạn",
     "SEARCH_MESSAGES": "Tìm kiếm tin nhắn trong các hội thoại",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "Tìm kiếm tin nhắn",
       "RESULT_TITLE": "Các kết quả tìm kiếm",
@@ -54,18 +58,25 @@
       "OPEN": "Nhiều",
       "CLOSE": "Đóng",
       "DETAILS": "chi tiết",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Tạm dừng đến ngày mai",
       "SNOOZED_UNTIL_NEXT_WEEK": "Tạm dừng đến tuần sau",
       "SNOOZED_UNTIL_NEXT_REPLY": "Tạm dừng đến khi có phản hồi"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Đánh dấu chưa giải quyết",
+      "SNOOZE_UNTIL": "Báo lại",
       "SNOOZE": {
         "TITLE": "Tạm dừng đến khi",
         "NEXT_REPLY": "Phản hồi kế tiếp",
         "TOMORROW": "Ngày mai",
         "NEXT_WEEK": "Tuần sau"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Tạm dừng đến khi",
+      "APPLY": "Báo lại",
+      "CANCEL": "Huỷ"
     },
     "PRIORITY": {
       "TITLE": "Priority",
@@ -140,6 +151,7 @@
       "STOP_AUDIO_RECORDING": "Dừng ghi âm",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Thêm bcc",
         "CC": {
           "LABEL": "CC",

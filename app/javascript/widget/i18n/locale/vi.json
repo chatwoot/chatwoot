@@ -19,8 +19,18 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Thường trả lời sau vài phút",
     "IN_A_FEW_HOURS": "Thường trả lời sau vài giờ",
-    "IN_A_DAY": "Thường trả lời trong một ngày"
+    "IN_A_DAY": "Thường trả lời trong một ngày",
+    "BACK_IN": "Chúng tôi sẽ quay lại"
   },
+  "DAY_NAMES": [
+    "Chủ Nhật",
+    "Thứ Hai",
+    "Thứ Ba",
+    "Thứ Tư",
+    "Thứ Năm",
+    "Thứ Sáu",
+    "Thứ Bảy"
+  ],
   "START_CONVERSATION": "Bắt đầu một cuộc trò chuyện",
   "END_CONVERSATION": "Kết thúc hội thoại",
   "CONTINUE_CONVERSATION": "Tiếp tục hội thoại",
@@ -56,7 +66,9 @@
         "LABEL": "Số điện thoại",
         "PLACEHOLDER": "\u001dVui lòng nhập số điện thoại của bạn",
         "REQUIRED_ERROR": "Cần phải nhập số điện thoại",
-        "VALID_ERROR": "Số điện thoại nên theo định dạng E.164, ví dụ: +1415555555"
+        "DIAL_CODE_VALID_ERROR": "Vui lòng chọn quốc gia",
+        "VALID_ERROR": "Vui lòng nhập số điện thoại đúng",
+        "DROPDOWN_EMPTY": "Không tìm thấy kết quả"
       },
       "MESSAGE": {
         "LABEL": "Tin nhắn",
@@ -90,8 +102,12 @@
   },
   "INTEGRATIONS": {
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
+      "CLICK_HERE_TO_JOIN": "Bấm vào đây để tham gia",
+      "LEAVE_THE_ROOM": "Rời cuộc gọi"
     }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "Xem tất cả bài viết"
   }
 }

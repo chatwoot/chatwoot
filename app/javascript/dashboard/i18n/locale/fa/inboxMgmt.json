@@ -111,6 +111,17 @@
           "PLACEHOLDER": "لطفا شناسه SID حساب Twilio خود را وارد کنید",
           "ERROR": "پر کردن این فیلد ضروری است"
         },
+        "API_KEY": {
+          "USE_API_KEY": "Use API Key Authentication",
+          "LABEL": "API Key SID",
+          "PLACEHOLDER": "Please enter your API Key SID",
+          "ERROR": "پر کردن این فیلد ضروری است"
+        },
+        "API_KEY_SECRET": {
+          "LABEL": "API Key Secret",
+          "PLACEHOLDER": "Please enter your API Key Secret",
+          "ERROR": "پر کردن این فیلد ضروری است"
+        },
         "MESSAGING_SERVICE_SID": {
           "LABEL": "SID سرویس پیام رسانی",
           "PLACEHOLDER": "لطفاً SID سرویس پیام رسانی Twilio خود را وارد کنید",
@@ -391,6 +402,25 @@
         "ENABLED": "فعال",
         "DISABLED": "غیرفعال"
       },
+      "SENDER_NAME_SECTION": {
+        "TITLE": "Sender name",
+        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
+        "FOR_EG": "For eg:",
+        "FRIENDLY": {
+          "TITLE": "Friendly",
+          "FROM": "از",
+          "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
+        },
+        "PROFESSIONAL": {
+          "TITLE": "Professional",
+          "SUBTITLE": "Use only the configured business name as the sender name in the email header."
+        },
+        "BUSINESS_NAME": {
+          "BUTTON_TEXT": "+ Configure your business name",
+          "PLACEHOLDER": "Enter your business name",
+          "SAVE_BUTTON_TEXT": "ذخیره"
+        }
+      },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
         "ENABLED": "فعال",
         "DISABLED": "غیرفعال"
@@ -454,7 +484,9 @@
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "فعال یا غیرفعال کردن فرم دریافت ایمیل از کاربر",
       "AUTO_ASSIGNMENT": "فعال کردن واگذاری خودکار گفتگو به ایجنت ها",
       "ENABLE_CSAT": "فعال کردن رضایت مشتری",
+      "SENDER_NAME_SECTION": "Enable Agent Name in Email",
       "ENABLE_CSAT_SUB_TEXT": "پس از پایان گفتگو ، نظرسنجی CSAT (رضایت مشتری) را فعال/غیرفعال کنید",
+      "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "ادامه مکالمه را از طریق ایمیل فعال کنید",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "اگر آدرس ایمیل تماس در دسترس باشد، مکالمات از طریق ایمیل ادامه خواهد یافت.",
       "LOCK_TO_SINGLE_CONVERSATION": "قفل کردن مکالمه تکی",
@@ -535,7 +567,6 @@
       "UPDATE": "تنظیمات ساعات کاری را به روز کنید",
       "TOGGLE_AVAILABILITY": "دسترس بودن کسب و کار را برای این صندوق فعال کردن",
       "UNAVAILABLE_MESSAGE_LABEL": "پیامی برای بازدیدکنندگان در دسترس نیست",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "متاسفانه در حال حاضر در دسترس نیستیم. لطفا پیامی بگذارید که پس از بازگشت به شما پاسخ دهیم.",
       "TOGGLE_HELP": "فعال کردن در دسترس بودن کسب کار ، ساعات موجود در ویجت چت زنده را نشان می دهد حتی اگر همه ایجنت ها آفلاین باشند. خارج از ساعات موجود می توان با پیام و فرم قبل از چت ، به کاربران هشدار داد.",
       "DAY": {
         "ENABLE": "در دسترس بودن را برای این روز فعال کنید",

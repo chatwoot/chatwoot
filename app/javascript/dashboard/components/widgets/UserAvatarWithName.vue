@@ -1,12 +1,15 @@
 <template>
-  <div class="row--user-block">
+  <div class="flex items-center text-left">
     <thumbnail
       :src="user.thumbnail"
       :size="size"
       :username="user.name"
       :status="user.availability_status"
     />
-    <h6 class="text-block-title user-name text-truncate text-capitalize">
+    <h6
+      class="my-0 mx-2 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis text-capitalize"
+      :class="textClass"
+    >
       {{ user.name }}
     </h6>
   </div>
@@ -27,18 +30,10 @@ export default {
       type: String,
       default: '20px',
     },
+    textClass: {
+      type: String,
+      default: 'text-xs text-slate-600',
+    },
   },
 };
 </script>
-
-<style scoped lang="scss">
-.row--user-block {
-  align-items: center;
-  display: flex;
-  text-align: left;
-
-  .user-name {
-    margin: 0 var(--space-small);
-  }
-}
-</style>

@@ -12,13 +12,52 @@
       "TABLE_HEADER": [
         "Пользователь",
         "Действия",
-        "IP адрес",
-        "Время"
+        "IP адрес"
       ]
     },
     "API": {
       "SUCCESS_MESSAGE": "Журналы успешно загружены",
       "ERROR_MESSAGE": "Не удается соединиться с сервером Woot, попробуйте позже"
+    },
+    "DEFAULT_USER": "Система",
+    "AUTOMATION_RULE": {
+      "ADD": "%{agentName} создал новое правило автоматизации (#%{id})",
+      "EDIT": "%{agentName} обновил правило автоматизации (#%{id})",
+      "DELETE": "%{agentName} удалил правило автоматизации (#%{id})"
+    },
+    "ACCOUNT_USER": {
+      "ADD": "%{agentName} Пригашен %{invitee} права аккаунта %{role}",
+      "EDIT": {
+        "SELF": "%{agentName} изменить %{attributes} на %{values}",
+        "OTHER": "%{agentName} изменить %{attributes} на %{values}"
+      }
+    },
+    "INBOX": {
+      "ADD": "%{agentName} создал новый почтовый ящик (#%{id})",
+      "EDIT": "%{agentName} обновил почтовый ящик (#%{id})",
+      "DELETE": "%{agentName} удалил ящик (#%{id})"
+    },
+    "WEBHOOK": {
+      "ADD": "%{agentName} создал новый вебхук (#%{id})",
+      "EDIT": "%{agentName} обновил вебхук (#%{id})",
+      "DELETE": "%{agentName} удалил вебхук (#%{id})"
+    },
+    "USER_ACTION": {
+      "SIGN_IN": "%{agentName} вошел в систему",
+      "SIGN_OUT": "%{agentName} вышел из системы"
+    },
+    "TEAM": {
+      "ADD": "%{agentName} создал новую команду (#%{id})",
+      "EDIT": "%{agentName} updated a team (#%{id})",
+      "DELETE": "%{agentName} deleted a team (#%{id})"
+    },
+    "MACRO": {
+      "ADD": "%{agentName} created a new macro (#%{id})",
+      "EDIT": "%{agentName} updated a macro (#%{id})",
+      "DELETE": "%{agentName} deleted a macro (#%{id})"
+    },
+    "ACCOUNT": {
+      "EDIT": "%{agentName} updated the account configuration (#%{id})"
     }
   }
 }

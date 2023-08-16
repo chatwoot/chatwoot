@@ -111,6 +111,17 @@
           "PLACEHOLDER": "Παρακαλώ εισάγετε το SID του Λογαριασμού Twilio",
           "ERROR": "Το πεδίο είναι απαραίτητο"
         },
+        "API_KEY": {
+          "USE_API_KEY": "Use API Key Authentication",
+          "LABEL": "API Key SID",
+          "PLACEHOLDER": "Please enter your API Key SID",
+          "ERROR": "Το πεδίο είναι απαραίτητο"
+        },
+        "API_KEY_SECRET": {
+          "LABEL": "API Key Secret",
+          "PLACEHOLDER": "Please enter your API Key Secret",
+          "ERROR": "Το πεδίο είναι απαραίτητο"
+        },
         "MESSAGING_SERVICE_SID": {
           "LABEL": "SID Υπηρεσίας Μηνυμάτων",
           "PLACEHOLDER": "Παρακαλώ εισάγετε το Twilio Messaging Service SID σας",
@@ -391,6 +402,25 @@
         "ENABLED": "Ενεργό",
         "DISABLED": "Ανενεργό"
       },
+      "SENDER_NAME_SECTION": {
+        "TITLE": "Sender name",
+        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
+        "FOR_EG": "For eg:",
+        "FRIENDLY": {
+          "TITLE": "Friendly",
+          "FROM": "από",
+          "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
+        },
+        "PROFESSIONAL": {
+          "TITLE": "Professional",
+          "SUBTITLE": "Use only the configured business name as the sender name in the email header."
+        },
+        "BUSINESS_NAME": {
+          "BUTTON_TEXT": "+ Configure your business name",
+          "PLACEHOLDER": "Enter your business name",
+          "SAVE_BUTTON_TEXT": "Save"
+        }
+      },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
         "ENABLED": "Ενεργό",
         "DISABLED": "Ανενεργό"
@@ -454,7 +484,9 @@
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Ενεργοποίηση ή απενεργοποίηση του πλαισίου συλλογής μηνυμάτων ηλεκτρονικού ταχυδρομείου στη νέα συνομιλία",
       "AUTO_ASSIGNMENT": "Επιτρέπεται η αυτόματη αντιστοίχιση",
       "ENABLE_CSAT": "Ενεργοποίηση CSAT",
+      "SENDER_NAME_SECTION": "Enable Agent Name in Email",
       "ENABLE_CSAT_SUB_TEXT": "Ενεργοποίηση/Απενεργοποίηση της έρευνας CSAT (ικανοποίηση πελατών) μετά την επίλυση μιας συνομιλίας",
+      "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Ενεργοποίηση της συνέχειας συνομιλίας μέσω email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Οι συζητήσεις θα συνεχίσουν μέσω email αν η διεύθυνση ηλεκτρονικού ταχυδρομείου επαφής είναι διαθέσιμη.",
       "LOCK_TO_SINGLE_CONVERSATION": "Κλείδωμα σε μία μόνο συζήτηση",
@@ -535,7 +567,6 @@
       "UPDATE": "Ενημέρωση ρυθμίσεων ωραρίου",
       "TOGGLE_AVAILABILITY": "Ενεργοποίηση διαθεσιμότητας ωραρίου για αυτό το κιβώτιο εισερχομένων",
       "UNAVAILABLE_MESSAGE_LABEL": "Μήνυμα μη διαθεσιμότητας για τους επισκέπτες",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "Δεν είμαστε διαθέσιμοι αυτή τη στιγμή. Αφήστε ένα μήνυμα που θα απαντήσουμε όταν επιστρέψουμε.",
       "TOGGLE_HELP": "Η ενεργοποίηση της διαθεσιμότητας ωραρίου θα δείξει τις διαθέσιμες ώρες στο widget συνομιλίας ακόμα και αν όλοι οι πράκτορες είναι εκτός σύνδεσης. Εκτός των διαθέσιμων ωρών οι επισκέπτες μπορούν να προειδοποιηθούν με ένα μήνυμα και μια φόρμα προ-συνομιλίας.",
       "DAY": {
         "ENABLE": "Ενεργοποιήσετε τη διαθεσιμότητα για αυτήν την ημέρα",

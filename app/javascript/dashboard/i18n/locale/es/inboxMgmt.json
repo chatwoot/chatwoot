@@ -111,6 +111,17 @@
           "PLACEHOLDER": "Introduce tu SID de cuenta de Twilio",
           "ERROR": "Este campo es obligatorio"
         },
+        "API_KEY": {
+          "USE_API_KEY": "Use API Key Authentication",
+          "LABEL": "API Key SID",
+          "PLACEHOLDER": "Please enter your API Key SID",
+          "ERROR": "Este campo es obligatorio"
+        },
+        "API_KEY_SECRET": {
+          "LABEL": "API Key Secret",
+          "PLACEHOLDER": "Please enter your API Key Secret",
+          "ERROR": "Este campo es obligatorio"
+        },
         "MESSAGING_SERVICE_SID": {
           "LABEL": "Servicio de Mensajes SID",
           "PLACEHOLDER": "Por favor, introduzca su SID de Servicio de Mensajes de Twilio",
@@ -391,6 +402,25 @@
         "ENABLED": "Activado",
         "DISABLED": "Deshabilitado"
       },
+      "SENDER_NAME_SECTION": {
+        "TITLE": "Sender name",
+        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
+        "FOR_EG": "For eg:",
+        "FRIENDLY": {
+          "TITLE": "Amigable",
+          "FROM": "De",
+          "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
+        },
+        "PROFESSIONAL": {
+          "TITLE": "Profesional",
+          "SUBTITLE": "Use only the configured business name as the sender name in the email header."
+        },
+        "BUSINESS_NAME": {
+          "BUTTON_TEXT": "+ Configure your business name",
+          "PLACEHOLDER": "Enter your business name",
+          "SAVE_BUTTON_TEXT": "Guardar"
+        }
+      },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
         "ENABLED": "Activado",
         "DISABLED": "Deshabilitado"
@@ -440,7 +470,7 @@
       "DISPLAY_FILE_PICKER": "Mostrar el selector de archivos en el widget",
       "DISPLAY_EMOJI_PICKER": "Mostrar el selector de emoji en el widget",
       "ALLOW_END_CONVERSATION": "Permitir a los usuarios finalizar conversaciones desde el widget",
-      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
+      "USE_INBOX_AVATAR_FOR_BOT": "Usar nombre de bandeja de entrada y avatar para el bot"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Script de Messenger",
@@ -454,7 +484,9 @@
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Activar o desactivar la caja de recolección de correo electrónico",
       "AUTO_ASSIGNMENT": "Activar asignación automática",
       "ENABLE_CSAT": "Habilitar Encuesta de Satisfacción",
+      "SENDER_NAME_SECTION": "Enable Agent Name in Email",
       "ENABLE_CSAT_SUB_TEXT": "Habilitar/deshabilitar encuesta CSAT(satisfacción del cliente) después de resolver una conversación",
+      "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Habilitar continuidad de conversación por correo electrónico",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Las conversaciones continuarán por correo electrónico si la dirección de correo electrónico de contacto está disponible.",
       "LOCK_TO_SINGLE_CONVERSATION": "Bloquear a una sola conversación",
@@ -464,7 +496,7 @@
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activar o desactivar la asignación automática de nuevas conversaciones a los agentes añadidos a esta bandeja de entrada.",
       "HMAC_VERIFICATION": "Validación de identidad de usuario",
       "HMAC_DESCRIPTION": "Para validar la identidad del usuario, puede pasar un `identifier_hash` para cada usuario. Puedes generar un hash HMAC sha256 usando el `identifier` con la clave que se muestra aquí.",
-      "HMAC_LINK_TO_DOCS": "You can read more here.",
+      "HMAC_LINK_TO_DOCS": "Puedes leer más aquí.",
       "HMAC_MANDATORY_VERIFICATION": "Forzar validación de identidad de usuario",
       "HMAC_MANDATORY_DESCRIPTION": "Si está activado, las peticiones que no tengan el `identifier_hash` serán rechazadas.",
       "INBOX_IDENTIFIER": "Identificador de bandeja de entrada",
@@ -480,15 +512,15 @@
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Introduzca aquí la nueva Clave API",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Actualizar",
       "WHATSAPP_WEBHOOK_TITLE": "Token de verificación del Webhook",
-      "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "Este token se utiliza para verificar la autenticidad del extremo del webhook.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Actualizar configuración de Formulario de Chat"
     },
     "HELP_CENTER": {
-      "LABEL": "Help Center",
-      "PLACEHOLDER": "Select Help Center",
-      "SELECT_PLACEHOLDER": "Select Help Center",
-      "REMOVE": "Remove Help Center",
-      "SUB_TEXT": "Attach a Help Center with the inbox"
+      "LABEL": "Centro de ayuda",
+      "PLACEHOLDER": "Seleccione Centro de Ayuda",
+      "SELECT_PLACEHOLDER": "Seleccione Centro de Ayuda",
+      "REMOVE": "Eliminar Centro de Ayuda",
+      "SUB_TEXT": "Adjuntar un Centro de Ayuda con la bandeja de entrada"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Límite de asignación automática",
@@ -535,7 +567,6 @@
       "UPDATE": "Actualice las horas de atención",
       "TOGGLE_AVAILABILITY": "Habilite la disponibilidad de atención para esta bandeja de entrada",
       "UNAVAILABLE_MESSAGE_LABEL": "Mensaje no disponible para visitantes",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "No estamos disponibles en este momento. Déjenos un mensaje y le responderemos tan pronto estemos de regreso.",
       "TOGGLE_HELP": "Al habilitar el horario de atención se mostraran las horas disponibles en el \"widget\" del chat en vivo si todos los agentes están fuera de línea. Fuera de las horas disponibles los visitantes pueden ser notificado con un mensaje y una forma PreChat.",
       "DAY": {
         "ENABLE": "Activar la disponibilidad para este día",

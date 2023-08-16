@@ -1,5 +1,7 @@
 <template>
-  <div class="view-box columns bg-white">
+  <div
+    class="flex justify-between flex-col h-full m-0 flex-1 bg-white dark:bg-slate-900"
+  >
     <settings-header
       button-route="new"
       :header-title="contact.name"
@@ -13,28 +15,22 @@
         :src="contact.thumbnail"
         :username="contact.name"
         size="32px"
-        class="margin-right-1"
+        class="mr-2 rtl:mr-0 rtl:ml-2"
       />
     </settings-header>
 
-    <div
-      v-if="uiFlags.isFetchingItem"
-      class="text-center p-normal fs-default h-full"
-    >
+    <div v-if="uiFlags.isFetchingItem" class="text-center p-4 text-base h-full">
       <spinner size="" />
       <span>{{ $t('CONTACT_PROFILE.LOADING') }}</span>
     </div>
-    <div
-      v-else-if="contact.id"
-      class="overflow-hidden column contact--dashboard-content"
-    >
-      <div class="row h-full">
+    <div v-else-if="contact.id" class="overflow-hidden flex-1 min-w-0">
+      <div class="flex flex-wrap ml-auto mr-auto max-w-full h-full">
         <contact-info-panel
           :show-close-button="false"
           :show-avatar="false"
           :contact="contact"
         />
-        <div class="small-12 medium-9 h-full">
+        <div class="w-[75%] h-full">
           <woot-tabs :index="selectedTabIndex" @change="onClickTabChange">
             <woot-tabs-item
               v-for="tab in tabs"
@@ -43,7 +39,9 @@
               :show-badge="false"
             />
           </woot-tabs>
-          <div class="tab-content overflow-auto">
+          <div
+            class="bg-slate-25 dark:bg-slate-800 h-[calc(100%-40px)] p-4 overflow-auto"
+          >
             <contact-notes
               v-if="selectedTabIndex === 0"
               :contact-id="Number(contactId)"
@@ -119,22 +117,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-@import '~dashboard/assets/scss/mixins';
-
-.left {
-  border-right: 1px solid var(--color-border);
-  overflow: auto;
-}
-
-.right {
-  padding: var(--space-normal);
-}
-
-.tab-content {
-  background: var(--color-background-light);
-  height: calc(100% - 40px);
-  padding: var(--space-normal);
-}
-</style>

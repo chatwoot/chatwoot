@@ -3,6 +3,7 @@
     "TITLE": "Fiókbeállítások",
     "SUBMIT": "Beállítások frissítése",
     "BACK": "Vissza",
+    "DISMISS": "Elutasítás",
     "UPDATE": {
       "ERROR": "Beállítás frissítés sikertelen, kérjük próbáld később!",
       "SUCCESS": "Fiókbeállítások frissítve"
@@ -14,8 +15,8 @@
         "NOTE": ""
       },
       "ACCOUNT_ID": {
-        "TITLE": "Account ID",
-        "NOTE": "This ID is required if you are building an API based integration"
+        "TITLE": "Fiók Azonosító",
+        "NOTE": "Ez a személyazonosság akkor használható, ha API-alapú integrációt építesz"
       },
       "NAME": {
         "LABEL": "Fióknév",
@@ -23,7 +24,7 @@
         "ERROR": "Kérjük helyes fióknevet adj meg"
       },
       "LANGUAGE": {
-        "LABEL": "Site language",
+        "LABEL": "Oldal nyelve",
         "PLACEHOLDER": "A fiókneved",
         "ERROR": ""
       },
@@ -40,7 +41,7 @@
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "A napok száma, mely után a ticketek automatikusan megoldódnak, ha nincs aktivitás",
         "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
+        "ERROR": "Kérjük helyes auto feloldási időszakot adj meg (minimum 1 nap, maximum 999 nap)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "A beszélgetésfolytonosság e-maillel már elérhető a fiókodban.",
@@ -48,25 +49,28 @@
       }
     },
     "UPDATE_CHATWOOT": "Egy frissítés elérhető a Chatwoothoz %{latestChatwootVersion}. Kérjük frissítsd a telepítésed.",
-    "LEARN_MORE": "Learn more"
+    "LEARN_MORE": "Tudj meg többet",
+    "PAYMENT_PENDING": "A fizetésed folyamatban van. Kérlek, frissítsd fizetési adataitat a Chatwoot használatának folytatásához",
+    "LIMITS_UPGRADE": "A fiókod túllépte a használati korlátokat. Kérjük, frissítsd tervedet a Chatwoot használatának folytatásához",
+    "OPEN_BILLING": "Számlázási beállítások megnyitása"
   },
   "FORMS": {
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Enter-rel válaszd ki",
       "ENTER_TO_REMOVE": "Enter-rel távolítsd el",
       "SELECT_ONE": "Válassz egyet",
-      "SELECT": "Select"
+      "SELECT": "Kiválasztás"
     }
   },
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Értesítések",
     "MARK_ALL_DONE": "Mind kész",
-    "DELETE_TITLE": "deleted",
+    "DELETE_TITLE": "törölve",
     "UNREAD_NOTIFICATION": {
-      "TITLE": "Unread Notifications",
-      "ALL_NOTIFICATIONS": "View all notifications",
-      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
-      "EMPTY_MESSAGE": "You have no unread notifications"
+      "TITLE": "Olvasatlan értesítések",
+      "ALL_NOTIFICATIONS": "Összes értesítés nézete",
+      "LOADING_UNREAD_MESSAGE": "Olvasatlan értesítések betöltése...",
+      "EMPTY_MESSAGE": "Nincs olvasatlan értesítésed"
     },
     "LIST": {
       "LOADING_MESSAGE": "Értesítések betöltése...",
@@ -88,60 +92,75 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Disconnected from Chatwoot"
+      "TEXT": "Lecsatlakozva a Chatwootról"
     },
     "BUTTON": {
-      "REFRESH": "Refresh"
+      "REFRESH": "Frissítés"
     }
   },
   "COMMAND_BAR": {
-    "SEARCH_PLACEHOLDER": "Search or jump to",
+    "SEARCH_PLACEHOLDER": "Keresés vagy ugrás ide:",
     "SECTIONS": {
-      "GENERAL": "General",
+      "GENERAL": "Általános",
       "REPORTS": "Jelentések",
-      "CONVERSATION": "Conversation",
-      "CHANGE_ASSIGNEE": "Change Assignee",
-      "CHANGE_PRIORITY": "Change Priority",
-      "CHANGE_TEAM": "Change Team",
-      "ADD_LABEL": "Add label to the conversation",
-      "REMOVE_LABEL": "Remove label from the conversation",
-      "SETTINGS": "Beállítások"
+      "CONVERSATION": "Beszélgetés",
+      "CHANGE_ASSIGNEE": "Felelős megváltoztatása",
+      "CHANGE_PRIORITY": "Prioritás megváltoztatása",
+      "CHANGE_TEAM": "Csapat megváltoztatása",
+      "SNOOZE_CONVERSATION": "Beszélgetés alvómódba",
+      "ADD_LABEL": "Címke hozzáadása a beszélgetéshez",
+      "REMOVE_LABEL": "Címke eltávolítása a beszélgetésről",
+      "SETTINGS": "Beállítások",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance"
     },
     "COMMANDS": {
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "GO_TO_REPORTS_OVERVIEW": "Go to Reports Overview",
-      "GO_TO_CONVERSATION_REPORTS": "Go to Conversation Reports",
-      "GO_TO_AGENT_REPORTS": "Go to Agent Reports",
-      "GO_TO_LABEL_REPORTS": "Go to Label Reports",
-      "GO_TO_INBOX_REPORTS": "Go to Inbox Reports",
-      "GO_TO_TEAM_REPORTS": "Go to Team Reports",
-      "GO_TO_SETTINGS_AGENTS": "Go to Agent Settings",
-      "GO_TO_SETTINGS_TEAMS": "Go to Team Settings",
-      "GO_TO_SETTINGS_INBOXES": "Go to Inbox Settings",
-      "GO_TO_SETTINGS_LABELS": "Go to Label Settings",
-      "GO_TO_SETTINGS_CANNED_RESPONSES": "Go to Canned Response Settings",
-      "GO_TO_SETTINGS_APPLICATIONS": "Go to Application Settings",
-      "GO_TO_SETTINGS_ACCOUNT": "Go to Account Settings",
-      "GO_TO_SETTINGS_PROFILE": "Go to Profile Settings",
-      "GO_TO_NOTIFICATIONS": "Go to Notifications",
-      "ADD_LABELS_TO_CONVERSATION": "Add label to the conversation",
-      "ASSIGN_AN_AGENT": "Assign an agent",
-      "ASSIGN_PRIORITY": "Assign priority",
-      "ASSIGN_A_TEAM": "Assign a team",
-      "MUTE_CONVERSATION": "Mute conversation",
-      "UNMUTE_CONVERSATION": "Unmute conversation",
-      "REMOVE_LABEL_FROM_CONVERSATION": "Remove label from the conversation",
+      "GO_TO_CONVERSATION_DASHBOARD": "Ugrás a beszélgetések kezdőoldalára",
+      "GO_TO_CONTACTS_DASHBOARD": "Ugrás a kapcsolatok kezdőoldalára",
+      "GO_TO_REPORTS_OVERVIEW": "Ugrás a jelentések áttekintésére",
+      "GO_TO_CONVERSATION_REPORTS": "Ugrás a beszélgetések kezdőoldalára",
+      "GO_TO_AGENT_REPORTS": "Ugrás ügynök jelentésére",
+      "GO_TO_LABEL_REPORTS": "Ugrás címke jelentésére",
+      "GO_TO_INBOX_REPORTS": "Ugrás beérkező levelek jelentésére",
+      "GO_TO_TEAM_REPORTS": "Ugrás csapat jelentésére",
+      "GO_TO_SETTINGS_AGENTS": "Ugrás az ügynük beállításaira",
+      "GO_TO_SETTINGS_TEAMS": "Csapat beállítások megnyitása",
+      "GO_TO_SETTINGS_INBOXES": "Fiók beállítások megnyitása",
+      "GO_TO_SETTINGS_LABELS": "Cimke beállítások megnyitása",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Sablonválasz beállítások megnyitása",
+      "GO_TO_SETTINGS_APPLICATIONS": "Alkalmazás beállítások megnyitása",
+      "GO_TO_SETTINGS_ACCOUNT": "Fiók szintű beállítások megnyitása",
+      "GO_TO_SETTINGS_PROFILE": "Profil beállítások megnyitása",
+      "GO_TO_NOTIFICATIONS": "Értesítések megnyitása",
+      "ADD_LABELS_TO_CONVERSATION": "Cimke hozzáadása a beszélgetéshez",
+      "ASSIGN_AN_AGENT": "Ügynök hozzárendelése",
+      "AI_ASSIST": "AI Assist",
+      "ASSIGN_PRIORITY": "Prioritás beállítása",
+      "ASSIGN_A_TEAM": "Csapat hozzárendelése",
+      "MUTE_CONVERSATION": "Beszélgetés némítása",
+      "UNMUTE_CONVERSATION": "Beszélgetés némításának feloldása",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Cimke eltávolítása a beszélgetésről",
       "REOPEN_CONVERSATION": "Beszélgetés újranyitása",
       "RESOLVE_CONVERSATION": "Beszélgetés megoldása",
-      "SEND_TRANSCRIPT": "Send an email transcript",
-      "SNOOZE_CONVERSATION": "Snooze Conversation",
-      "UNTIL_NEXT_REPLY": "Until next reply",
-      "UNTIL_NEXT_WEEK": "Until next week",
-      "UNTIL_TOMORROW": "Until tomorrow"
+      "SEND_TRANSCRIPT": "E-mail átirat küldése",
+      "SNOOZE_CONVERSATION": "Beszélgetés alvómódba",
+      "UNTIL_NEXT_REPLY": "Következő válaszig",
+      "UNTIL_NEXT_WEEK": "Jövő hétig",
+      "UNTIL_TOMORROW": "Holnapig",
+      "UNTIL_NEXT_MONTH": "Következő hónapig",
+      "AN_HOUR_FROM_NOW": "Mostantól egy óráig",
+      "CUSTOM": "Speciális...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "Rendszer"
     }
   },
   "DASHBOARD_APPS": {
-    "LOADING_MESSAGE": "Loading Dashboard App..."
+    "LOADING_MESSAGE": "Kezelőoldal App betöltése..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "kattints ide"
   }
 }

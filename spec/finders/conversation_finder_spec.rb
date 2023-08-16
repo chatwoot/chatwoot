@@ -160,9 +160,13 @@ describe ConversationFinder do
       let(:params) { { status: 'open', assignee_type: 'me', conversation_type: 'unattended' } }
 
       it 'returns unattended conversations' do
-        create_list(:conversation, 25, account: account, inbox: inbox, assignee: user_1)
+        create(:conversation, account: account, first_reply_created_at: Time.now.utc, assignee: user_1) # attended_conversation
+        create(:conversation, account: account, first_reply_created_at: nil, assignee: user_1) # unattended_conversation_no_first_reply
+        create(:conversation, account: account, first_reply_created_at: Time.now.utc,
+                              assignee: user_1, waiting_since: Time.now.utc) # unattended_conversation_waiting_since
+
         result = conversation_finder.perform
-        expect(result[:conversations].length).to be 25
+        expect(result[:conversations].length).to be 2
       end
     end
   end

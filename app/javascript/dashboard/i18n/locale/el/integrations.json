@@ -73,10 +73,26 @@
       }
     },
     "SLACK": {
+      "DELETE": "Διαγραφή",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Delete the integration",
+        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+      },
       "HELP_TEXT": {
         "TITLE": "Χρήση Slack Integration",
-        "BODY": "<br/><p>Το Chatwoot θα συγχρονίσει τώρα όλες τις εισερχόμενες συνομιλίες στο κανάλι <b><i>πελατών-συνομιλιών</i></b> μέσα στο slack χώρο εργασίας σας.</p><p>Απάντηση σε μια συνομιλία από <b><i>συνομιλίες πελατών</i></b> το κανάλι slack θα δημιουργήσει μια απάντηση για στον πελάτη μέσω chatwoot.</p><p>Ξεκινήστε τις απαντήσεις με το <b><i>note:</i></b> για να δημιουργήσετε ιδιωτικές σημειώσεις αντί για απαντήσεις.</p><p>Αν ο χρήστης στο slack έχει προφίλ πράκτορα στο chatwoot με το ίδιο email, οι απαντήσεις θα συσχετιστούν ανάλογα.</p><p>Εφόσον δεν έχει προφίλ συνδεδεμένου πράκτορα, οι απαντήσεις θα γίνουν από το προφίλ bot.</p>"
-      }
+        "BODY": "<br/><p>Το Chatwoot θα συγχρονίσει τώρα όλες τις εισερχόμενες συνομιλίες στο κανάλι <b><i>πελατών-συνομιλιών</i></b> μέσα στο slack χώρο εργασίας σας.</p><p>Απάντηση σε μια συνομιλία από <b><i>συνομιλίες πελατών</i></b> το κανάλι slack θα δημιουργήσει μια απάντηση για στον πελάτη μέσω chatwoot.</p><p>Ξεκινήστε τις απαντήσεις με το <b><i>note:</i></b> για να δημιουργήσετε ιδιωτικές σημειώσεις αντί για απαντήσεις.</p><p>Αν ο χρήστης στο slack έχει προφίλ πράκτορα στο chatwoot με το ίδιο email, οι απαντήσεις θα συσχετιστούν ανάλογα.</p><p>Εφόσον δεν έχει προφίλ συνδεδεμένου πράκτορα, οι απαντήσεις θα γίνουν από το προφίλ bot.</p>",
+        "SELECTED": "selected"
+      },
+      "SELECT_CHANNEL": {
+        "OPTION_LABEL": "Select a channel",
+        "UPDATE": "Ενημέρωση",
+        "BUTTON_TEXT": "Connect channel",
+        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
+        "ATTENTION_REQUIRED": "Attention required"
+      },
+      "UPDATE_ERROR": "There was an error updating the integration, please try again",
+      "UPDATE_SUCCESS": "The channel is connected successfully",
+      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
     },
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Κάντε κλικ εδώ για να συμμετάσχετε",
@@ -86,7 +102,31 @@
       "CREATE_ERROR": "Παρουσιάστηκε σφάλμα κατά τη δημιουργία ενός συνδέσμου συνάντησης, παρακαλώ προσπαθήστε ξανά"
     },
     "OPEN_AI": {
+      "AI_ASSIST": "AI Assist",
+      "WITH_AI": " %{option} with AI ",
+      "OPTIONS": {
+        "REPLY_SUGGESTION": "Reply Suggestion",
+        "SUMMARIZE": "Summarize",
+        "REPHRASE": "Improve Writing",
+        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
+        "SHORTEN": "Shorten",
+        "EXPAND": "Expand",
+        "MAKE_FRIENDLY": "Change message tone to friendly",
+        "MAKE_FORMAL": "Use formal tone",
+        "SIMPLIFY": "Simplify"
+      },
+      "ASSISTANCE_MODAL": {
+        "DRAFT_TITLE": "Draft content",
+        "GENERATED_TITLE": "Generated content",
+        "AI_WRITING": "AI is writing",
+        "BUTTONS": {
+          "APPLY": "Use this suggestion",
+          "CANCEL": "Άκυρο"
+        }
+      },
       "TITLE": "Improve With AI",
+      "SUMMARY_TITLE": "Summary with AI",
+      "REPLY_TITLE": "Reply suggestion with AI",
       "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
       "TONE": {
         "TITLE": "Tone",

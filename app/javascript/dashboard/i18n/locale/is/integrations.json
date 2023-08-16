@@ -73,10 +73,26 @@
       }
     },
     "SLACK": {
+      "DELETE": "Eyða",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Delete the integration",
+        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+      },
       "HELP_TEXT": {
         "TITLE": "Using Slack Integration",
-        "BODY": "<br/><p>Chatwoot mun nú samstilla öll innkomin samtöl inn á <b><i>customer-conversations</i></b> á Slack vinnusvæðinu þínu.</p><p>Að svara samtalsþræði í <b><i>customer-conversations</i></b> Slack rás mun senda svar til viðskiptavinar í gegnum chatwoot.</p><p>Byrjaðu svörin með <b><i> note:</i></b> til að búa til einkaglósur í stað svara.</p><p>Ef svarandinn á Slack er með skráðann þjónustufulltrúa í chatwoot undir sama netfangi verða svörin tengd í samræmi við það.</p><p>Þegar svarandinn er ekki með tengdan þjónustufulltrúa verða svörin gerð úr spjallmanna prófílnum.</p>"
-      }
+        "BODY": "<br/><p>Chatwoot mun nú samstilla öll innkomin samtöl inn á <b><i>customer-conversations</i></b> á Slack vinnusvæðinu þínu.</p><p>Að svara samtalsþræði í <b><i>customer-conversations</i></b> Slack rás mun senda svar til viðskiptavinar í gegnum chatwoot.</p><p>Byrjaðu svörin með <b><i> note:</i></b> til að búa til einkaglósur í stað svara.</p><p>Ef svarandinn á Slack er með skráðann þjónustufulltrúa í chatwoot undir sama netfangi verða svörin tengd í samræmi við það.</p><p>Þegar svarandinn er ekki með tengdan þjónustufulltrúa verða svörin gerð úr spjallmanna prófílnum.</p>",
+        "SELECTED": "selected"
+      },
+      "SELECT_CHANNEL": {
+        "OPTION_LABEL": "Select a channel",
+        "UPDATE": "Uppfæra",
+        "BUTTON_TEXT": "Connect channel",
+        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
+        "ATTENTION_REQUIRED": "Attention required"
+      },
+      "UPDATE_ERROR": "There was an error updating the integration, please try again",
+      "UPDATE_SUCCESS": "The channel is connected successfully",
+      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
     },
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Click here to join",
@@ -86,7 +102,31 @@
       "CREATE_ERROR": "There was an error creating a meeting link, please try again"
     },
     "OPEN_AI": {
+      "AI_ASSIST": "AI Assist",
+      "WITH_AI": " %{option} with AI ",
+      "OPTIONS": {
+        "REPLY_SUGGESTION": "Reply Suggestion",
+        "SUMMARIZE": "Summarize",
+        "REPHRASE": "Improve Writing",
+        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
+        "SHORTEN": "Shorten",
+        "EXPAND": "Expand",
+        "MAKE_FRIENDLY": "Change message tone to friendly",
+        "MAKE_FORMAL": "Use formal tone",
+        "SIMPLIFY": "Simplify"
+      },
+      "ASSISTANCE_MODAL": {
+        "DRAFT_TITLE": "Draft content",
+        "GENERATED_TITLE": "Generated content",
+        "AI_WRITING": "AI is writing",
+        "BUTTONS": {
+          "APPLY": "Use this suggestion",
+          "CANCEL": "Hætta við"
+        }
+      },
       "TITLE": "Improve With AI",
+      "SUMMARY_TITLE": "Summary with AI",
+      "REPLY_TITLE": "Reply suggestion with AI",
       "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
       "TONE": {
         "TITLE": "Tone",

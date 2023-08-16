@@ -3,6 +3,7 @@
     "TITLE": "ตั้งค่าบัญชี",
     "SUBMIT": "อัพเดทการตั้งค่า",
     "BACK": "ย้อนกลับ",
+    "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "ไม่สามารถอัพเดทการตั้งค่าได้ ลองอีกครั้งสิ",
       "SUCCESS": "อัพเดทการตั้งค่าบัญชีเเล้ว"
@@ -48,7 +49,10 @@
       }
     },
     "UPDATE_CHATWOOT": "Chatwoot เวอร์ชั่น %{latestChatwootVersion} พร้อมสำหรับการอัปเดต กรุณาอัปเดตเวอร์ชั่นของคุณ",
-    "LEARN_MORE": "เรียนรู้เพิ่มเติม"
+    "LEARN_MORE": "เรียนรู้เพิ่มเติม",
+    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
+    "OPEN_BILLING": "Open billing"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -103,9 +107,12 @@
       "CHANGE_ASSIGNEE": "เปลี่ยนผู้รับมอบหมาย",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "เปลี่ยนทีม",
+      "SNOOZE_CONVERSATION": "พักการสนทนา",
       "ADD_LABEL": "เพิ่มป้ายกำกับให้การสนทนา",
       "REMOVE_LABEL": "ลบป้ายกำกับออกจากการสนทนา",
-      "SETTINGS": "ตั้งค่า"
+      "SETTINGS": "ตั้งค่า",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "ไปยังแดชบอร์ดการสนทนา",
@@ -127,6 +134,7 @@
       "GO_TO_NOTIFICATIONS": "ไปที่หน้าการแจ้งเตือน",
       "ADD_LABELS_TO_CONVERSATION": "เพิ่มป้ายกำกับให้บทสนทนา",
       "ASSIGN_AN_AGENT": "กำหนดพนักงาน",
+      "AI_ASSIST": "AI Assist",
       "ASSIGN_PRIORITY": "Assign priority",
       "ASSIGN_A_TEAM": "กำหนดทีม",
       "MUTE_CONVERSATION": "ปิดการแจ้งเตือน",
@@ -138,10 +146,21 @@
       "SNOOZE_CONVERSATION": "พักการสนทนา",
       "UNTIL_NEXT_REPLY": "จนกว่าการตอบกลับถัดไป",
       "UNTIL_NEXT_WEEK": "จนกว่าสัปดาห์หน้า",
-      "UNTIL_TOMORROW": "จนกว่าพรุ่งนี้"
+      "UNTIL_TOMORROW": "จนกว่าพรุ่งนี้",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "System"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "Loading Dashboard App..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "กดที่นี้"
   }
 }

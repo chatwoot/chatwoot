@@ -12,6 +12,10 @@
     "NO_INBOX_2": " για να ξεκινήσετε",
     "NO_INBOX_AGENT": "Ω όχι! Φαίνεται ότι δεν είστε μέλος κάποιου κιβωτίου εισερχμένων. Απευθυνθείτε στον διαχειριστή",
     "SEARCH_MESSAGES": "Αναζήτηση μηνυμάτων στις συνομιλίες",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "Αναζήτηση μηνυμάτων",
       "RESULT_TITLE": "Αποτελέσματα Αναζήτησης",
@@ -54,18 +58,25 @@
       "OPEN": "Περισσότερα",
       "CLOSE": "Κλείσιμο",
       "DETAILS": "Λεπτομέρειες",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Αναβλήθηκε μέχρι αύριο",
       "SNOOZED_UNTIL_NEXT_WEEK": "Αναβολή έως την επόμενη εβδομάδα",
       "SNOOZED_UNTIL_NEXT_REPLY": "Αναβολή έως την επόμενη απάντηση"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Σήμανση ως εκκρεμής",
+      "SNOOZE_UNTIL": "Αναβολή",
       "SNOOZE": {
         "TITLE": "Αναβολή έως",
         "NEXT_REPLY": "Επόμενη απάντηση",
         "TOMORROW": "Αύριο",
         "NEXT_WEEK": "Επόμενη εβδομάδα"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Αναβολή έως",
+      "APPLY": "Αναβολή",
+      "CANCEL": "Άκυρο"
     },
     "PRIORITY": {
       "TITLE": "Priority",
@@ -140,6 +151,7 @@
       "STOP_AUDIO_RECORDING": "Διακοπή ηχογράφησης",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Προσθήκη bcc",
         "CC": {
           "LABEL": "CC",

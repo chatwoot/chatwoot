@@ -12,6 +12,10 @@
     "NO_INBOX_2": " for at komme i gang",
     "NO_INBOX_AGENT": "Åh Åh! Det ser ud til, at du ikke er en del af en indbakke. Kontakt venligst din administrator",
     "SEARCH_MESSAGES": "Søg efter beskeder i samtaler",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "Søg efter beskeder",
       "RESULT_TITLE": "Søgeresultater",
@@ -54,18 +58,25 @@
       "OPEN": "Mere",
       "CLOSE": "Luk",
       "DETAILS": "detaljer",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Udsat til i morgen",
       "SNOOZED_UNTIL_NEXT_WEEK": "Udsat indtil næste uge",
       "SNOOZED_UNTIL_NEXT_REPLY": "Udsat indtil næste svar"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Markér som afventende",
+      "SNOOZE_UNTIL": "Udsæt",
       "SNOOZE": {
         "TITLE": "Udsæt til",
         "NEXT_REPLY": "Næste svar",
         "TOMORROW": "I Morgen",
         "NEXT_WEEK": "Næste uge"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Udsæt til",
+      "APPLY": "Udsæt",
+      "CANCEL": "Annuller"
     },
     "PRIORITY": {
       "TITLE": "Priority",
@@ -140,6 +151,7 @@
       "STOP_AUDIO_RECORDING": "Stop lydoptagelse",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Tilføj bcc",
         "CC": {
           "LABEL": "CC",

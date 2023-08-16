@@ -21,12 +21,12 @@ pl:
   messages:
     reset_password_success: Woot! Prośba o zresetowanie hasła zakończona pomyślnie. Sprawdź swoją pocztę, aby uzyskać instrukcje.
     reset_password_failure: Ups! Nie mogliśmy znaleźć żadnego użytkownika z podanym adresem e-mail.
-    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
+    inbox_deletetion_response: Żądanie usunięcia skrzynki odbiorczej zostanie rozpatrzone za jakiś czas.
   errors:
     validations:
-      presence: must not be blank
+      presence: nie może być puste
     webhook:
-      invalid: Invalid events
+      invalid: Nieprawidłowe zdarzenia
     signup:
       disposable_email: Nie zezwalamy na jednorazowe konta e-mail
       invalid_email: Wprowadzono nieprawidłowy adres e-mail
@@ -34,31 +34,37 @@ pl:
       failed: Rejestracja nie powiodła się
     data_import:
       data_type:
-        invalid: Invalid data type
+        invalid: Nieprawidłowy typ danych
     contacts:
       import:
         failed: Plik jest pusty
+      export:
+        success: Powiadomimy Cię, gdy plik eksportu kontaktów będzie gotowy do wyświetlenia.
       email:
-        invalid: Invalid email
+        invalid: Nieprawidłowy adres e-mail
       phone_number:
-        invalid: should be in e164 format
+        invalid: powinno być w formacie e164
     categories:
       locale:
-        unique: should be unique in the category and portal
+        unique: powinno być unikalne w kategorii i portalu
     dyte:
-      invalid_message_type: "Invalid message type. Action not permitted"
+      invalid_message_type: "Nieprawidłowy typ wiadomości. Niedozwolone działanie."
+    slack:
+      invalid_channel_id: "Invalid slack channel. Please try again"
     inboxes:
       imap:
-        socket_error: Please check the network connection, IMAP address and try again.
-        no_response_error: Please check the IMAP credentials and try again.
-        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
-        connection_timed_out_error: Connection timed out for %{address}:%{port}
-        connection_closed_error: Connection closed.
+        socket_error: Sprawdź połączenie sieciowe, adres IMAP i spróbuj ponownie.
+        no_response_error: Sprawdź poświadczenia IMAP i spróbuj ponownie.
+        host_unreachable_error: Host nieosiągalny, sprawdź adres IMAP, port IMAP i spróbuj ponownie.
+        connection_timed_out_error: Limit czasu połączenia dla %{address}:%{port}
+        connection_closed_error: Połączenie zakończone.
       validations:
-        name: should not start or end with symbols, and it should not have < > / \ @ characters.
+        name: nie powinno zaczynać się ani kończyć symbolami i nie powinno zawierać znaków < > / \ @.
+    custom_filters:
+      number_of_records: Osiągnięto limit. Maksymalna liczba dozwolonych filtrów niestandardowych dla użytkownika na konto wynosi 50.
   reports:
     period: Okres raportowania od %{since} do %{until}
-    utc_warning: The report generated is in UTC timezone
+    utc_warning: Generowany raport jest w strefie czasowej UTC
     agent_csv:
       agent_name: Nazwa agenta
       conversations_count: Liczba rozmów
@@ -81,7 +87,7 @@ pl:
       avg_first_response_time: Średni czas pierwszej odpowiedzi (minuty)
       avg_resolution_time: Średni czas do rozwiązania problemu (minuty)
     conversation_traffic_csv:
-      timezone: Timezone
+      timezone: Strefa czasowa
     default_group_by: dnia
     csat:
       headers:
@@ -102,21 +108,21 @@ pl:
   conversations:
     messages:
       instagram_story_content: "%{story_sender} wspomniał o Tobie w historii: "
-      instagram_deleted_story_content: This story is no longer available.
+      instagram_deleted_story_content: Ta historia już nie jest dostępna.
       deleted: Ta wiadomość została usunięta
     activity:
       status:
         resolved: "Rozmowa została oznaczona przez %{user_name}"
-        contact_resolved: "Conversation was resolved by %{contact_name}"
+        contact_resolved: "Rozmowa została rozwiązana przez %{contact_name}"
         open: "Rozmowa została ponownie otwarta przez %{user_name}"
         pending: "Rozmowa została oznaczona jako oczekująca przez %{user_name}"
         snoozed: "Rozmowa została uśpiona przez %{user_name}"
         auto_resolved: "Rozmowa została oznaczona przez system jako rozwiązana z powodu %{duration} dni bezczynności"
-        system_auto_open: System reopened the conversation due to a new incoming message.
+        system_auto_open: System otworzył ponownie rozmowę z powodu nowej wiadomości przychodzącej.
       priority:
-        added: '%{user_name} set the priority to %{new_priority}'
-        updated: '%{user_name} changed the priority from %{old_priority} to %{new_priority}'
-        removed: '%{user_name} removed the priority'
+        added: '%{user_name} ustawił priorytet na %{new_priority}'
+        updated: '%{user_name} zmienił priorytet z %{old_priority} na %{new_priority}'
+        removed: '%{user_name} usunął priorytet'
       assignee:
         self_assigned: "%{user_name} przypisał się do tej rozmowy"
         assigned: "Przypisane do %{assignee_name} przez %{user_name}"
@@ -140,6 +146,8 @@ pl:
         header:
           from_with_name: "%{assignee_name} z %{inbox_name} <%{from_email}>"
           reply_with_name: "%{assignee_name} z %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} z %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} z %{inbox_name} <%{from_email}>"
@@ -154,8 +162,8 @@ pl:
   integration_apps:
     dyte:
       name: "Dyte"
-      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
-      meeting_name: "%{agent_name} has started a meeting"
+      description: "Dyte to narzędzie, które pomaga dodać dźwięk i wideo na żywo do aplikacji za pomocą zaledwie kilku linijek kodu. Ta integracja pozwala dać agentom możliwość prowadzenia rozmów wideo lub głosowych z klientami bez opuszczania Chatwoot."
+      meeting_name: "%{agent_name} rozpoczął spotkanie"
     slack:
       name: "Slack"
       description: "Slack to narzędzie czatu, które łączy całą Twoją komunikację w jednym miejscu. Integrując Slack, możesz otrzymywać powiadomienia o wszystkich nowych rozmowach na swoim koncie bezpośrednio wewnątrz Slack."
@@ -163,33 +171,34 @@ pl:
       name: "Webhooki"
       description: "Webhooki dostarczają informacji o tym, co dzieje się na Twoim koncie do usług zewnętrznych. Możesz wykorzystać webhooki do przekazywania wydarzeń do ulubionych aplikacji, takich jak Slack lub Github. Kliknij na Konfiguruj, aby skonfigurować webhooki."
     dialogflow:
-      name: "Przepływ Dialogu"
-      description: "Zbuduj czatboty używając Dialogflow i szybko podłącz je do skrzynki odbiorczej. Pozwól botom na obsługę zapytań przed oddaniem ich agentowi obsługi klienta."
+      name: "Dialogflow"
+      description: "Twórz czatboty za pomocą Dialogflow i szybko łącz je ze swoją skrzynką odbiorczą. Pozwól botom obsługiwać zapytania, zanim przekażesz je agentowi obsługi klienta."
     fullcontact:
       name: "Pełny kontakt"
-      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
+      description: "Integracja FullContact pomaga wzbogacić profile odwiedzających. Zidentyfikuj użytkowników, gdy tylko udostępnią swój adres e-mail i zaoferuj im dostosowaną obsługę klienta. Połącz FullContact ze swoim kontem, udostępniając klucz API FullContact."
     google_translate:
-      name: "Google Translate"
-      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
+      name: "Tłumacz Google"
+      description: "Ułatw agentom tłumaczenie wiadomości, dodając integrację z Tłumaczem Google. Tłumacz Google pomaga automatycznie zidentyfikować język i przekonwertować go na język wybrany przez agenta / administratora konta."
     openai:
       name: "OpenAI"
-      description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
+      description: "Zintegruj potężne funkcje AI z Chatwoot, wykorzystując modele GPT od OpenAI."
   public_portal:
     search:
-      search_placeholder: Search for article by title or body...
+      search_placeholder: Wyszukaj artykuł według tytułu lub treści...
       empty_placeholder: Brak wyników.
-      loading_placeholder: Searching...
-      results_title: Search results
+      loading_placeholder: Wyszukiwanie...
+      results_title: Wyniki wyszukiwania
+    toc_header: 'Na tej stronie'
     hero:
-      sub_title: Search for the articles here or browse the categories below.
+      sub_title: Szukaj artykułów tutaj lub przeglądaj kategorie poniżej.
     common:
-      home: Home
-      last_updated_on: Last updated on %{last_updated_on}
-      view_all_articles: View all articles
-      article: article
-      articles: articles
-      no_articles: There are no articles here
+      home: Strona główna
+      last_updated_on: Ostatnia aktualizacja %{last_updated_on}
+      view_all_articles: Zobacz wszystkie artykuły
+      article: artykuł
+      articles: artykuły
+      no_articles: Nie ma tu żadnych artykułów
     footer:
-      made_with: Made with
+      made_with: Wykonane z
     header:
-      go_to_homepage: Go to the main site
+      go_to_homepage: Przejdź do strony głównej

@@ -1,5 +1,5 @@
 <template>
-  <div class="column content-box">
+  <div class="flex-1 overflow-auto p-4">
     <woot-button
       color-scheme="success"
       class-names="button--fixed-top"
@@ -8,8 +8,8 @@
     >
       {{ $t('LABEL_MGMT.HEADER_BTN_TXT') }}
     </woot-button>
-    <div class="row">
-      <div class="small-8 columns with-right-space">
+    <div class="flex flex-row gap-4">
+      <div class="w-[60%]">
         <p
           v-if="!uiFlags.isFetching && !records.length"
           class="no-items-error-message"
@@ -32,7 +32,9 @@
           <tbody>
             <tr v-for="(label, index) in records" :key="label.title">
               <td class="label-title">
-                <span class="text-truncate">{{ label.title }}</span>
+                <span class="overflow-hidden whitespace-nowrap text-ellipsis">{{
+                  label.title
+                }}</span>
               </td>
               <td>{{ label.description }}</td>
               <td>
@@ -71,7 +73,7 @@
         </table>
       </div>
 
-      <div class="small-4 columns">
+      <div class="w-[34%]">
         <span v-dompurify-html="$t('LABEL_MGMT.SIDEBAR_TXT')" />
       </div>
     </div>
@@ -127,14 +129,10 @@ export default {
     }),
     // Delete Modal
     deleteConfirmText() {
-      return `${this.$t('LABEL_MGMT.DELETE.CONFIRM.YES')} ${
-        this.selectedResponse.title
-      }`;
+      return this.$t('LABEL_MGMT.DELETE.CONFIRM.YES');
     },
     deleteRejectText() {
-      return `${this.$t('LABEL_MGMT.DELETE.CONFIRM.NO')} ${
-        this.selectedResponse.title
-      }`;
+      return this.$t('LABEL_MGMT.DELETE.CONFIRM.NO');
     },
     deleteMessage() {
       return ` ${this.selectedResponse.title}?`;
@@ -193,21 +191,15 @@ export default {
 @import '~dashboard/assets/scss/variables';
 
 .label-color--container {
-  display: flex;
-  align-items: center;
+  @apply flex items-center;
 }
 
 .label-color--display {
-  border-radius: $space-smaller;
-  height: $space-normal;
-  margin-right: $space-smaller;
-  width: $space-normal;
-  border: 1px solid var(--color-border-light);
+  @apply rounded h-4 w-4 mr-1 rtl:mr-0 rtl:ml-1 border border-solid border-slate-50 dark:border-slate-700;
 }
 .label-title {
   span {
-    width: var(--space-giga);
-    display: inline-block;
+    @apply w-60 inline-block;
   }
 }
 </style>
