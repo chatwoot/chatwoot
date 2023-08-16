@@ -57,15 +57,15 @@
       "DELETE": "%{agentName} izdzēsa makro (#%{id})"
     },
     "INBOX_MEMBER": {
-      "ADD": "%{agentName} added %{user} to the inbox(#%{inbox_id})",
-      "REMOVE": "%{agentName} removed %{user} from the inbox(#%{inbox_id})"
+      "ADD": "%{agentName} pievienoja %{user} iesūtnei(#%{inbox_id})",
+      "REMOVE": "%{agentName} noņēma %{user} no iesūtnes(#%{inbox_id})"
     },
     "TEAM_MEMBER": {
-      "ADD": "%{agentName} added %{user} to the team(#%{team_id})",
-      "REMOVE": "%{agentName} removed %{user} from the team(#%{team_id})"
+      "ADD": "%{agentName} pievienoja %{user} komandai(#%{team_id})",
+      "REMOVE": "%{agentName} noņēma %{user} no komandas(#%{team_id})"
     },
     "ACCOUNT": {
-      "EDIT": "%{agentName} atjaunināja konta konfigurāciju (#%{id})"
+      "EDIT": "%{agentName} atjaunināja (#%{id}) konta konfigurāciju "
     }
   }
 }
