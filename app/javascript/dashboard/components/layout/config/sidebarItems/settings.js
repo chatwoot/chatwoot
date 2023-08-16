@@ -158,6 +158,13 @@ const settings = accountId => ({
       featureFlag: FEATURE_FLAGS.AUDIT_LOGS,
       beta: true,
     },
+    {
+      icon: 'credit-card-person',
+      label: 'BILLING',
+      hasSubMenu: false,
+      toState: frontendURL(`accounts/${accountId}/settings/billing`),
+      toStateName: 'billing_settings_index',
+    },
   ],
 });
 

@@ -5,7 +5,7 @@
         class="flex-1 min-h-[640px] inline-flex items-center h-full justify-center overflow-auto py-6"
       >
         <div class="px-8 max-w-[560px] w-full overflow-auto">
-          <div class="mb-4 flex flex-col  items-center justify-center">
+          <div class="mb-4 flex flex-col items-center justify-center">
             <img
               :src="globalConfig.logo"
               :alt="globalConfig.installationName"
