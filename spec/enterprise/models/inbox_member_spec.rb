@@ -4,7 +4,8 @@ require 'rails_helper'
 
 RSpec.describe InboxMember, type: :model do
   let(:user) { create(:user) }
-  let!(:inbox_member) { create(:inbox_member, user: user) }
+  let(:inbox) { create(:inbox) }
+  let!(:inbox_member) { create(:inbox_member, inbox: inbox, user: user) }
 
   describe 'audit log' do
     context 'when inbox member is created' do
