@@ -21,7 +21,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
   let!(:customer_message) { create(:message, account: account, conversation: conversation, message_type: :incoming, content: 'hello agent') }
   let!(:agent_message) { create(:message, account: account, conversation: conversation, message_type: :outgoing, content: 'hello customer') }
   let!(:summary_prompt) do
-    if ENV.fetch('DISABLE_ENTERPRISE', nil) || !Dir.exist?('enterprise')
+    if ChatwootApp.enterprise?
       'Please summarize the key points from the following conversation between support agents and customer as bullet points for the next ' \
         "support agent looking into the conversation. Reply in the user's language."
     else
