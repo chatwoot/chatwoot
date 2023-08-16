@@ -38,7 +38,6 @@ Style/GlobalVars:
     - 'config/initializers/01_redis.rb'
     - 'config/initializers/rack_attack.rb'
     - 'lib/redis/alfred.rb'
-    - 'lib/redis/lock_manager.rb'
     - 'lib/global_config.rb'
 Style/ClassVars:
   Exclude:
