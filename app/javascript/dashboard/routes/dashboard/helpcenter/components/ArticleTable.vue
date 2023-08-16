@@ -1,7 +1,7 @@
 <template>
   <div class="article-container">
     <div
-      class="article-container--header"
+      class="article-container--header sticky top-16 bg-white dark:bg-slate-900"
       :class="{ draggable: onCategoryPage }"
     >
       <div class="heading-item heading-title">
@@ -22,7 +22,7 @@
     </div>
     <draggable
       tag="div"
-      class="border-t-0"
+      class="border-t-0 px-4"
       :disabled="!dragEnabled"
       :list="localArticles"
       ghost-class="article-ghost-class"
@@ -44,11 +44,11 @@
     </draggable>
 
     <table-footer
-      v-if="articles.length"
+      v-if="showArticleFooter"
       :current-page="currentPage"
       :total-count="totalCount"
       :page-size="pageSize"
-      class="dark:bg-slate-900 border-t-0 pl-0 pr-0"
+      class="dark:bg-slate-900 sticky bottom-0 border-t-0 px-4"
       @page-change="onPageChange"
     />
   </div>
@@ -98,6 +98,12 @@ export default {
     onCategoryPage() {
       return this.$route.name === 'show_category';
     },
+    showArticleFooter() {
+      if (this.currentPage === 1) {
+        return this.totalCount > 25;
+      }
+      return this.articles.length;
+    },
   },
   watch: {
     articles() {
@@ -144,7 +150,7 @@ export default {
   @apply w-full;
 
   .article-container--header {
-    @apply my-0 -mx-4 py-0 px-4 grid grid-cols-8 gap-4 border-b border-slate-100 dark:border-slate-700;
+    @apply my-0 py-0 px-4 grid grid-cols-8 gap-4 border-b border-slate-100 dark:border-slate-700;
 
     @media (max-width: 1024px) {
       @apply grid-cols-7;
@@ -154,17 +160,11 @@ export default {
       @apply grid-cols-6;
     }
 
-    &.draggable {
-      div.heading-item.heading-title {
-        @apply py-2 px-3.5;
-      }
-    }
-
     div.heading-item {
       @apply font-semibold capitalize text-sm text-right py-2 px-0 text-slate-700 dark:text-slate-100;
 
       &.heading-title {
-        @apply text-left col-span-4;
+        @apply ltr:text-left rtl:text-right col-span-4;
       }
 
       @media (max-width: 1024px) {
