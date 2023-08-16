@@ -116,6 +116,23 @@ function handleInboxTeamMember(auditLogItem, translationPayload, agentList) {
   return translationPayload;
 }
 
+function handleAccountUser(
+  auditLogItem,
+  translationPayload,
+  agentList,
+  action
+) {
+  if (action === 'create') {
+    return handleAccountUserCreate(auditLogItem, translationPayload, agentList);
+  }
+
+  if (action === 'update') {
+    return handleAccountUserUpdate(auditLogItem, translationPayload, agentList);
+  }
+
+  return translationPayload;
+}
+
 export function generateTranslationPayload(auditLogItem, agentList) {
   let translationPayload = {
     agentName: getAgentName(auditLogItem.user_id, agentList),
@@ -126,21 +143,12 @@ export function generateTranslationPayload(auditLogItem, agentList) {
   const action = auditLogItem.action.toLowerCase();
 
   if (auditableType === 'accountuser') {
-    if (action === 'create') {
-      translationPayload = handleAccountUserCreate(
-        auditLogItem,
-        translationPayload,
-        agentList
-      );
-    }
-
-    if (action === 'update') {
-      translationPayload = handleAccountUserUpdate(
-        auditLogItem,
-        translationPayload,
-        agentList
-      );
-    }
+    translationPayload = handleAccountUser(
+      auditLogItem,
+      translationPayload,
+      agentList,
+      action
+    );
   }
 
   if (auditableType === 'inboxmember' || auditableType === 'teammember') {
