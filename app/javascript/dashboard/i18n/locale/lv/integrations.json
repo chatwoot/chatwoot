@@ -125,16 +125,16 @@
         }
       },
       "CTA_MODAL": {
-        "TITLE": "Integrate with OpenAI",
-        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
-        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "TITLE": "Integrēt ar OpenAI",
+        "DESC": "Ievietot uzlabotās AI funkcijas savā informācijas panelī, izmantojot OpenAI GPT modeļus. Lai sāktu, ievadiet sava OpenAI konta API atslēgu.",
+        "KEY_PLACEHOLDER": "Ievadiet savu OpenAI API atslēgu",
         "BUTTONS": {
           "NEED_HELP": "Nepieciešama palīdzība?",
           "DISMISS": "Atcelt",
-          "FINISH": "Finish Setup"
+          "FINISH": "Pabeigt Iestatīšanu"
         },
-        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
-        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
+        "DISMISS_MESSAGE": "OpenAI integrāciju varat iestatīt vēlāk, kad vien vēlaties.",
+        "SUCCESS_MESSAGE": "OpenAI integrācija iestatīta veiksmīgi"
       },
       "TITLE": "Uzlabot ar AI",
       "SUMMARY_TITLE": "Kopsavilkums ar AI",
