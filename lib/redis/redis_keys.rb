@@ -35,5 +35,6 @@ module Redis::RedisKeys
   OPENAI_CONVERSATION_KEY = 'OPEN_AI_CONVERSATION_KEY::%<event_name>s::%<conversation_id>d::%<updated_at>d'.freeze
 
   ## Sempahores / Locks
-  FACEBOOK_MESSAGE_CREATE_LOCK = 'FB_MESSAGE_CREATE_LOCK::%<sender_id>s::%<recipient_id>s'.freeze
+  # We don't want to process messages from the same sender concurrently to prevent creating double conversations
+  FACEBOOK_MESSAGE_MUTEX = 'FB_MESSAGE_CREATE_LOCK::%<sender_id>s::%<recipient_id>s'.freeze
 end
