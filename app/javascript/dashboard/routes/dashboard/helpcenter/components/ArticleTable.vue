@@ -99,10 +99,9 @@ export default {
       return this.$route.name === 'show_category';
     },
     showArticleFooter() {
-      if (this.currentPage === 1) {
-        return this.totalCount > 25;
-      }
-      return this.articles.length;
+      return this.currentPage === 1
+        ? this.totalCount > 25
+        : this.articles.length > 0;
     },
   },
   watch: {
