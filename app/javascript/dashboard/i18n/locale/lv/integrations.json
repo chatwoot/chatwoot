@@ -102,7 +102,7 @@
       "CREATE_ERROR": "Veidojot sapulces saiti, radās kļūda. Lūdzu, mēģiniet vēlreiz"
     },
     "OPEN_AI": {
-      "AI_ASSIST": "AI Assist",
+      "AI_ASSIST": "AI Palīgs",
       "WITH_AI": " %{option} with AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Reply Suggestion",
