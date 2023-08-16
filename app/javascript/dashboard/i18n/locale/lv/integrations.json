@@ -124,6 +124,18 @@
           "CANCEL": "Atcelt"
         }
       },
+      "CTA_MODAL": {
+        "TITLE": "Integrate with OpenAI",
+        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
+        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "BUTTONS": {
+          "NEED_HELP": "Nepieciešama palīdzība?",
+          "DISMISS": "Atcelt",
+          "FINISH": "Finish Setup"
+        },
+        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
+        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
+      },
       "TITLE": "Uzlabot ar AI",
       "SUMMARY_TITLE": "Kopsavilkums ar AI",
       "REPLY_TITLE": "Atbildes rekomendācija ar AI",
