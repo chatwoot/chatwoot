@@ -12,6 +12,7 @@ module Redis::Alfred
     end
 
     # set a key with expiry period
+    # TODO: Deprecate this method, use set with ex: 1.day instead
     def setex(key, value, expiry = 1.day)
       $alfred.with { |conn| conn.setex(key, expiry, value) }
     end
