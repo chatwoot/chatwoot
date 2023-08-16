@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_01_180936) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_15_225936) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -54,6 +54,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_01_180936) do
     t.jsonb "limits", default: {}
     t.jsonb "custom_attributes", default: {}
     t.integer "status", default: 0
+    t.datetime "email_sent_at"
+    t.integer "deletion_email_reminder"
     t.index ["status"], name: "index_accounts_on_status"
   end
 
@@ -263,7 +265,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_01_180936) do
     t.string "imap_login", default: ""
     t.string "imap_password", default: ""
     t.boolean "imap_enable_ssl", default: true
-    t.datetime "imap_inbox_synced_at", precision: nil
+    t.datetime "imap_inbox_synced_at"
     t.boolean "smtp_enabled", default: false
     t.string "smtp_address", default: ""
     t.integer "smtp_port", default: 0
@@ -375,7 +377,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_01_180936) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.jsonb "message_templates", default: {}
-    t.datetime "message_templates_last_updated", precision: nil
+    t.datetime "message_templates_last_updated"
     t.index ["phone_number"], name: "index_channel_whatsapp_on_phone_number", unique: true
   end
 
@@ -500,7 +502,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_01_180936) do
     t.text "attribute_description"
     t.jsonb "attribute_values", default: []
     t.index ["account_id"], name: "index_custom_attribute_definitions_on_account_id"
-    t.index ["attribute_key", "attribute_model", "account_id"], name: "attribute_key_model_index", unique: true
+    t.index ["attribute_key", "attribute_model"], name: "attribute_key_model_index", unique: true
   end
 
   create_table "custom_filters", force: :cascade do |t|
@@ -536,6 +538,44 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_01_180936) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_data_imports_on_account_id"
+  end
+
+  create_table "ee_account_billing_subscriptions", force: :cascade do |t|
+    t.string "subscription_stripe_id"
+    t.bigint "account_id", null: false
+    t.bigint "billing_product_price_id", null: false
+    t.string "status", default: "true", null: false
+    t.datetime "current_period_end"
+    t.datetime "cancelled_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_ee_account_billing_subscriptions_on_account_id"
+    t.index ["billing_product_price_id"], name: "billing_product_price_index"
+    t.index ["subscription_stripe_id"], name: "subscription_stripe_id_index", unique: true
+  end
+
+  create_table "ee_billing_product_prices", force: :cascade do |t|
+    t.string "price_stripe_id"
+    t.bigint "billing_product_id"
+    t.boolean "active", default: false
+    t.string "stripe_nickname"
+    t.integer "unit_amount"
+    t.integer "features", default: 0, null: false
+    t.jsonb "limits", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["billing_product_id"], name: "index_ee_billing_product_prices_on_billing_product_id"
+    t.index ["price_stripe_id"], name: "index_ee_billing_product_prices_on_price_stripe_id", unique: true
+  end
+
+  create_table "ee_billing_products", force: :cascade do |t|
+    t.string "product_stripe_id"
+    t.string "product_name"
+    t.string "product_description"
+    t.boolean "active", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_stripe_id"], name: "index_ee_billing_products_on_product_stripe_id", unique: true
   end
 
   create_table "email_templates", force: :cascade do |t|
@@ -804,8 +844,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_01_180936) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.float "value_in_business_hours"
-    t.datetime "event_start_time", precision: nil
-    t.datetime "event_end_time", precision: nil
+    t.datetime "event_start_time"
+    t.datetime "event_end_time"
     t.index ["account_id", "name", "created_at"], name: "reporting_events__account_id__name__created_at"
     t.index ["account_id"], name: "index_reporting_events_on_account_id"
     t.index ["conversation_id"], name: "index_reporting_events_on_conversation_id"
@@ -840,9 +880,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_01_180936) do
     t.index ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context"
     t.index ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy"
     t.index ["taggable_id"], name: "index_taggings_on_taggable_id"
+    t.index ["taggable_type", "taggable_id"], name: "index_taggings_on_taggable_type_and_taggable_id"
     t.index ["taggable_type"], name: "index_taggings_on_taggable_type"
     t.index ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type"
     t.index ["tagger_id"], name: "index_taggings_on_tagger_id"
+    t.index ["tagger_type", "tagger_id"], name: "index_taggings_on_tagger_type_and_tagger_id"
   end
 
   create_table "tags", id: :serial, force: :cascade do |t|
@@ -909,6 +951,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_01_180936) do
     t.jsonb "custom_attributes", default: {}
     t.string "type"
     t.text "message_signature"
+    t.boolean "is_deleted", default: false
     t.index ["email"], name: "index_users_on_email"
     t.index ["pubsub_token"], name: "index_users_on_pubsub_token", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
