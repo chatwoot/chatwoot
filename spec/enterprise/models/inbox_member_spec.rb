@@ -9,11 +9,11 @@ RSpec.describe InboxMember, type: :model do
   describe 'audit log' do
     context 'when inbox member is created' do
       it 'has associated audit log created' do
-        expect(Audited::Audit.where(auditable_type: 'InboxMember', action: 'create').count).to eq(2)
+        expect(Audited::Audit.where(auditable: inbox_member, action: 'create').count).to eq(1)
       end
 
       it 'has user_id in audited_changes matching user.id' do
-        audit_log = Audited::Audit.find_by(auditable_type: 'InboxMember', action: 'create')
+        audit_log = Audited::Audit.find_by(auditable: inbox_member, action: 'create')
         expect(audit_log.audited_changes['user_id']).to eq(user.id)
       end
     end
@@ -21,7 +21,9 @@ RSpec.describe InboxMember, type: :model do
     context 'when inbox member is destroyed' do
       it 'has associated audit log created' do
         inbox_member.destroy
-        expect(Audited::Audit.where(auditable_type: 'InboxMember', action: 'destroy').count).to eq(1)
+        audit_log = Audited::Audit.find_by(auditable: inbox_member, action: 'destroy')
+        expect(audit_log).to be_present
+        expect(audit_log.audited_changes['inbox_id']).to eq(inbox.id)
       end
     end
   end

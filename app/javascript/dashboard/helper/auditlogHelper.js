@@ -30,8 +30,8 @@ const translationKeys = {
   'accountuser:create': `AUDIT_LOGS.ACCOUNT_USER.ADD`,
   'accountuser:update:self': `AUDIT_LOGS.ACCOUNT_USER.EDIT.SELF`,
   'accountuser:update:other': `AUDIT_LOGS.ACCOUNT_USER.EDIT.OTHER`,
-  'inboxmember:create': `AUDIT_LOGS.INBOX_USER.ADD`,
-  'inboxmember:destroy': `AUDIT_LOGS.INBOX_USER.REMOVE`,
+  'inboxmember:create': `AUDIT_LOGS.INBOX_MEMBER.ADD`,
+  'inboxmember:destroy': `AUDIT_LOGS.INBOX_MEMBER.REMOVE`,
   'teammember:create': `AUDIT_LOGS.TEAM_MEMBER.ADD`,
   'teammember:destroy': `AUDIT_LOGS.TEAM_MEMBER.REMOVE`,
   'account:update': `AUDIT_LOGS.ACCOUNT.EDIT`,
@@ -111,6 +111,12 @@ function handleInboxTeamMember(auditLogItem, translationPayload, agentList) {
     const userIdChange = auditLogItem.audited_changes.user_id;
     if (userIdChange && userIdChange !== undefined) {
       translationPayload.user = getAgentName(userIdChange, agentList);
+    }
+    if (auditLogItem.audited_changes.team_id) {
+      translationPayload.team_id = auditLogItem.audited_changes.team_id;
+    }
+    if (auditLogItem.audited_changes.inbox_id) {
+      translationPayload.inbox_id = auditLogItem.audited_changes.inbox_id;
     }
   }
   return translationPayload;
