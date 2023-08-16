@@ -149,6 +149,7 @@
     "SELECTOR_SUBTITLE": "Выберите аккаунт из списка",
     "PROFILE_SETTINGS": "Настройки профиля",
     "KEYBOARD_SHORTCUTS": "Клавиши быстрого доступа",
+    "APPEARANCE": "Change Appearance",
     "SUPER_ADMIN_CONSOLE": "Консоль супер администратора",
     "LOGOUT": "Выйти"
   },
@@ -227,8 +228,8 @@
     "REPORTS_CONVERSATION": "Диалоги",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Кампании",
-    "ONGOING": "Активные",
-    "ONE_OFF": "Один выключен",
+    "ONGOING": "Повторяющиеся",
+    "ONE_OFF": "Единоразовые",
     "REPORTS_AGENT": "Операторы",
     "REPORTS_LABEL": "Категории",
     "REPORTS_INBOX": "Электронная почта",

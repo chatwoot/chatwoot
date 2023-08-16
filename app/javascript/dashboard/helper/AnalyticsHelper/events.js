@@ -89,6 +89,8 @@ export const OPEN_AI_EVENTS = Object.freeze({
   SIMPLIFY: 'OpenAI: Used simplify',
   APPLY_LABEL_SUGGESTION: 'OpenAI: Apply label from suggestion',
   DISMISS_LABEL_SUGGESTION: 'OpenAI: Dismiss label suggestions',
+  ADDED_AI_INTEGRATION_VIA_CTA_BUTTON:
+    'OpenAI: Added AI integration via CTA button',
   DISMISS_AI_SUGGESTION: 'OpenAI: Dismiss AI suggestions',
 });
 

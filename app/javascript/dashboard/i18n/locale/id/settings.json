@@ -2,16 +2,16 @@
   "PROFILE_SETTINGS": {
     "LINK": "Pengaturan Profil",
     "TITLE": "Pengaturan Profil",
-    "BTN_TEXT": "Memperbaharui Profil",
+    "BTN_TEXT": "Perbarui Profil",
     "DELETE_AVATAR": "Hapus Avatar",
-    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
-    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
+    "AVATAR_DELETE_SUCCESS": "Avatar berhasil dihapus",
+    "AVATAR_DELETE_FAILED": "Terjadi kesalahan saat menghapus avatar, silakan coba lagi",
     "UPDATE_SUCCESS": "Profil Anda berhasil diperbarui",
     "PASSWORD_UPDATE_SUCCESS": "Kata sandi Anda berhasil diubah",
     "AFTER_EMAIL_CHANGED": "Profil Anda telah berhasil diperbarui, silakan masuk lagi dengan data akun yang baru diubah",
     "FORM": {
       "AVATAR": "Foto Profil",
-      "ERROR": "Harap perbaiki kesalahan formulir",
+      "ERROR": "Perbaiki kesalahan formulir",
       "REMOVE_IMAGE": "Hapus",
       "UPLOAD_IMAGE": "Unggah Gambar",
       "UPDATE_IMAGE": "Perbarui Gambar",
@@ -20,82 +20,82 @@
         "NOTE": "Alamat email Anda adalah identitas Anda dan digunakan untuk masuk."
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "TITLE": "Pintasan keyboard untuk mengirim pesan",
+        "NOTE": "Anda dapat memilih pintasan keyboard (baik Enter atau Cmd/Ctrl+Enter) berdasarkan preferensi Anda dalam menulis.",
+        "UPDATE_SUCCESS": "Pengaturan Anda berhasil diperbarui",
         "CARD": {
           "ENTER_KEY": {
             "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "CONTENT": "Kirim pesan dengan menekan tombol Enter daripada mengklik tombol kirim."
           },
           "CMD_ENTER_KEY": {
             "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "CONTENT": "Kirim pesan dengan menekan tombol Cmd/Ctrl + Enter daripada mengklik tombol kirim."
           }
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully"
+        "TITLE": "Tanda tangan pesan pribadi",
+        "NOTE": "Buat tanda tangan pesan pribadi yang akan ditambahkan ke semua pesan yang Anda kirim dari kotak masuk email Anda. Gunakan editor konten kaya untuk membuat tanda tangan yang sangat personal.",
+        "BTN_TEXT": "Simpan tanda tangan pesan",
+        "API_ERROR": "Tidak dapat menyimpan tanda tangan! Coba lagi",
+        "API_SUCCESS": "Tanda tangan berhasil disimpan"
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "LABEL": "Tanda Tangan Pesan",
+        "ERROR": "Tanda Tangan Pesan tidak boleh kosong",
+        "PLACEHOLDER": "Masukkan tanda tangan pesan pribadi Anda di sini."
       },
       "PASSWORD_SECTION": {
         "TITLE": "Kata Sandi",
         "NOTE": "Memperbarui kata sandi Anda akan mengatur ulang login Anda di beberapa perangkat.",
-        "BTN_TEXT": "Ubah kata sandi"
+        "BTN_TEXT": "Ubah Kata Sandi"
       },
       "ACCESS_TOKEN": {
-        "TITLE": "Access Token",
+        "TITLE": "Token Akses",
         "NOTE": "Token ini dapat digunakan jika Anda sedang membangun integrasi berbasis API"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Pemberitahuan Audio",
-        "NOTE": "Aktifkan notifikasi audio di dasbor untuk pesan dan percakapan baru.",
+        "NOTE": "Aktifkan pemberitahuan audio di dashboard untuk pesan dan percakapan baru.",
         "ALERT_TYPE": {
-          "TITLE": "Alert events:",
+          "TITLE": "Jenis pemberitahuan:",
           "NONE": "Tidak ada",
           "ASSIGNED": "Percakapan yang ditetapkan",
           "ALL_CONVERSATIONS": "Semua Percakapan"
         },
         "DEFAULT_TONE": {
-          "TITLE": "Alert tone:"
+          "TITLE": "Nada pemberitahuan:"
         },
         "CONDITIONS": {
-          "TITLE": "Alert conditions:",
-          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
-          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+          "TITLE": "Kondisi pemberitahuan:",
+          "CONDITION_ONE": "Kirim pemberitahuan audio hanya jika jendela browser tidak aktif",
+          "CONDITION_TWO": "Kirim pemberitahuan setiap 30 detik hingga semua percakapan yang ditetapkan dibaca"
         }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notifikasi Email",
-        "NOTE": "Perbarui preferensi pemberitahuan email Anda di sini",
-        "CONVERSATION_ASSIGNMENT": "Kirim pemberitahuan email saat percakapan ditugaskan kepada saya",
-        "CONVERSATION_CREATION": "Kirim pemberitahuan email ketika percakapan baru dibuat",
-        "CONVERSATION_MENTION": "Kirim pemberitahuan email saat Anda disebut dalam percakapan",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Kirim pemberitahuan email ketika pesan baru dibuat dalam percakapan yang telah ditugaskan",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
+        "NOTE": "Perbarui preferensi notifikasi email Anda di sini",
+        "CONVERSATION_ASSIGNMENT": "Kirim notifikasi email saat percakapan ditugaskan kepada saya",
+        "CONVERSATION_CREATION": "Kirim notifikasi email ketika percakapan baru dibuat",
+        "CONVERSATION_MENTION": "Kirim notifikasi email saat Anda disebut dalam percakapan",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Kirim notifikasi email ketika pesan baru dibuat dalam percakapan yang telah ditugaskan",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Kirim notifikasi email ketika pesan baru dibuat dalam percakapan yang Anda ikuti"
       },
       "API": {
-        "UPDATE_SUCCESS": "Preferensi pemberitahuan Anda berhasil diperbarui",
-        "UPDATE_ERROR": "Terjadi kesalahan saat memperbarui preferensi, silahkan coba lagi"
+        "UPDATE_SUCCESS": "Preferensi notifikasi Anda berhasil diperbarui",
+        "UPDATE_ERROR": "Terjadi kesalahan saat memperbarui preferensi, silakan coba lagi"
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Push Notifications",
-        "NOTE": "Perbarui preferensi push notification Anda di sini",
-        "CONVERSATION_ASSIGNMENT": "Kirim pemberitahuan push ketika percakapan ditugaskan kepada saya",
-        "CONVERSATION_CREATION": "Kirim push notification ketika percakapan baru dibuat",
-        "CONVERSATION_MENTION": "Kirim push notification ketika Anda disebut dalam percakapan",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Kirim push notification ketika pesan baru dibuat dalam percakapan yang telah ditugaskan",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
-        "HAS_ENABLED_PUSH": "Anda telah mengaktifkan push notification untuk browser ini.",
-        "REQUEST_PUSH": "Aktifkan push notifications"
+        "TITLE": "Notifikasi Push",
+        "NOTE": "Perbarui preferensi notifikasi push Anda di sini",
+        "CONVERSATION_ASSIGNMENT": "Kirim notifikasi push ketika percakapan ditugaskan kepada saya",
+        "CONVERSATION_CREATION": "Kirim notifikasi push ketika percakapan baru dibuat",
+        "CONVERSATION_MENTION": "Kirim notifikasi push ketika Anda disebut dalam percakapan",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Kirim notifikasi push ketika pesan baru dibuat dalam percakapan yang telah ditugaskan",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Kirim notifikasi push ketika pesan baru dibuat dalam percakapan yang Anda ikuti",
+        "HAS_ENABLED_PUSH": "Anda telah mengaktifkan notifikasi push untuk browser ini.",
+        "REQUEST_PUSH": "Aktifkan notifikasi push"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Foto Profil"
@@ -103,7 +103,7 @@
       "NAME": {
         "LABEL": "Nama lengkap Anda",
         "ERROR": "Harap masukkan nama lengkap yang valid",
-        "PLACEHOLDER": "Harap masukkan nama lengkap anda yang valid"
+        "PLACEHOLDER": "Harap masukkan nama lengkap Anda yang valid"
       },
       "DISPLAY_NAME": {
         "LABEL": "Nama tampilan",
@@ -117,8 +117,8 @@
           "Sibuk",
           "Offline"
         ],
-        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
+        "SET_AVAILABILITY_SUCCESS": "Ketersediaan berhasil diatur",
+        "SET_AVAILABILITY_ERROR": "Tidak dapat mengatur ketersediaan, silakan coba lagi"
       },
       "EMAIL": {
         "LABEL": "Alamat email Anda",
@@ -131,53 +131,54 @@
         "PLACEHOLDER": "Silakan masukkan kata sandi saat ini"
       },
       "PASSWORD": {
-        "LABEL": "New password",
-        "ERROR": "Silakan masukkan sandi dengan panjang 6 karakter atau lebih",
-        "PLACEHOLDER": "Silakan masukkan kata sandi baru"
+        "LABEL": "Kata Sandi Baru",
+        "ERROR": "Silakan masukkan kata sandi dengan panjang minimal 6 karakter",
+        "PLACEHOLDER": "Silakan masukkan kata sandi baru Anda"
       },
       "PASSWORD_CONFIRMATION": {
-        "LABEL": "Konfirmasi kata sandi baru",
+        "LABEL": "Konfirmasi Kata Sandi Baru",
         "ERROR": "Konfirmasi kata sandi harus sama dengan kata sandi",
-        "PLACEHOLDER": "Please re-enter your new password"
+        "PLACEHOLDER": "Silakan masukkan ulang kata sandi baru Anda"
       }
     }
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Ubah",
     "CHANGE_ACCOUNTS": "Ganti Akun",
-    "CONTACT_SUPPORT": "Contact Support",
+    "CONTACT_SUPPORT": "Hubungi Dukungan",
     "SELECTOR_SUBTITLE": "Pilih akun dari daftar berikut",
     "PROFILE_SETTINGS": "Pengaturan Profil",
-    "KEYBOARD_SHORTCUTS": "Shortcut Keyboard",
-    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
+    "KEYBOARD_SHORTCUTS": "Pintasan Keyboard",
+    "APPEARANCE": "Change Appearance",
+    "SUPER_ADMIN_CONSOLE": "Konsol Super Admin",
     "LOGOUT": "Keluar"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "hari percobaan tersisa.",
     "TRAIL_BUTTON": "Beli Sekarang",
-    "DELETED_USER": "Deleted User",
+    "DELETED_USER": "Pengguna Dihapus",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "Akun Ditangguhkan",
+      "MESSAGE": "Akun Anda ditangguhkan. Silakan hubungi tim dukungan untuk informasi lebih lanjut."
     }
   },
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Salin",
-      "CODEPEN": "Open in CodePen",
+      "CODEPEN": "Buka di CodePen",
       "COPY_SUCCESSFUL": "Kode berhasil disalin ke clipboard"
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
-      "SHOW_LESS": "Show Less"
+      "SHOW_MORE": "Tampilkan Lebih Banyak",
+      "SHOW_LESS": "Tampilkan Lebih Sedikit"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Unduh",
       "UPLOADING": "Mengunggah...",
-      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
+      "INSTAGRAM_STORY_UNAVAILABLE": "Cerita ini tidak lagi tersedia."
     },
     "LOCATION_BUBBLE": {
-      "SEE_ON_MAP": "See on map"
+      "SEE_ON_MAP": "Lihat di peta"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Kirim"
@@ -190,23 +191,23 @@
     }
   },
   "SIDEBAR": {
-    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
-    "SWITCH": "Switch",
+    "CURRENTLY_VIEWING_ACCOUNT": "Saat ini dilihat:",
+    "SWITCH": "Ganti",
     "CONVERSATIONS": "Percakapan",
     "ALL_CONVERSATIONS": "Semua Percakapan",
-    "MENTIONED_CONVERSATIONS": "Sebutkan",
-    "PARTICIPATING_CONVERSATIONS": "Participating",
-    "UNATTENDED_CONVERSATIONS": "Unattended",
+    "MENTIONED_CONVERSATIONS": "Disebutkan",
+    "PARTICIPATING_CONVERSATIONS": "Berpartisipasi",
+    "UNATTENDED_CONVERSATIONS": "Belum Ditangani",
     "REPORTS": "Laporan",
     "SETTINGS": "Pengaturan",
     "CONTACTS": "Kontak",
-    "HOME": "Home",
+    "HOME": "Beranda",
     "AGENTS": "Agen",
-    "AGENT_BOTS": "Bots",
-    "AUDIT_LOGS": "Audit Logs",
-    "INBOXES": "Kotak masuk",
+    "AGENT_BOTS": "Bot Agen",
+    "AUDIT_LOGS": "Log Audit",
+    "INBOXES": "Kotak Masuk",
     "NOTIFICATIONS": "Notifikasi",
-    "CANNED_RESPONSES": "Canned Responses",
+    "CANNED_RESPONSES": "Jawaban Cepat",
     "INTEGRATIONS": "Integrasi",
     "PROFILE_SETTINGS": "Pengaturan Profil",
     "ACCOUNT_SETTINGS": "Pengaturan Akun",
@@ -214,71 +215,71 @@
     "LABELS": "Label",
     "CUSTOM_ATTRIBUTES": "Atribut Kustom",
     "AUTOMATION": "Otomatisasi",
-    "MACROS": "Macros",
+    "MACROS": "Makro",
     "TEAMS": "Tim",
-    "BILLING": "Billing",
-    "CUSTOM_VIEWS_FOLDER": "Folders",
-    "CUSTOM_VIEWS_SEGMENTS": "Segments",
+    "BILLING": "Pembayaran",
+    "CUSTOM_VIEWS_FOLDER": "Folder",
+    "CUSTOM_VIEWS_SEGMENTS": "Segmen",
     "ALL_CONTACTS": "Semua Kontak",
     "TAGGED_WITH": "Tandai dengan",
-    "NEW_LABEL": "Label baru",
-    "NEW_TEAM": "Tim baru",
-    "NEW_INBOX": "Katak masuk baru",
+    "NEW_LABEL": "Label Baru",
+    "NEW_TEAM": "Tim Baru",
+    "NEW_INBOX": "Kotak Masuk Baru",
     "REPORTS_CONVERSATION": "Percakapan",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Kampanye",
-    "ONGOING": "Sedang berlangsung",
-    "ONE_OFF": "One off",
+    "ONGOING": "Berlangsung",
+    "ONE_OFF": "Sekali",
     "REPORTS_AGENT": "Agen",
     "REPORTS_LABEL": "Label",
-    "REPORTS_INBOX": "Kotak masuk",
+    "REPORTS_INBOX": "Kotak Masuk",
     "REPORTS_TEAM": "Tim",
-    "SET_AVAILABILITY_TITLE": "Set yourself as",
+    "SET_AVAILABILITY_TITLE": "Atur diri anda sebagai",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Gambaran",
     "FACEBOOK_REAUTHORIZE": "Koneksi Facebook Anda telah kedaluwarsa, hubungkan kembali halaman Facebook Anda untuk melanjutkan layanan",
     "HELP_CENTER": {
-      "TITLE": "Help Center (Beta)",
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
-      "CATEGORY": "Category",
+      "TITLE": "Pusat Bantuan (Beta)",
+      "ALL_ARTICLES": "Semua Artikel",
+      "MY_ARTICLES": "Artikel Saya",
+      "DRAFT": "Konsep",
+      "ARCHIVED": "Arsip",
+      "CATEGORY": "Kategori",
       "SETTINGS": "Pengaturan",
-      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+      "CATEGORY_EMPTY_MESSAGE": "Tidak ada kategori ditemukan"
     },
     "SET_AUTO_OFFLINE": {
-      "TEXT": "Mark offline automatically",
-      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+      "TEXT": "Tandai offline secara otomatis",
+      "INFO_TEXT": "Biarkan sistem secara otomatis menandai Anda offline saat Anda tidak menggunakan aplikasi atau dasbor."
     },
-    "DOCS": "Read docs"
+    "DOCS": "Baca dokumen"
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
+    "TITLE": "Pembayaran",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "TITLE": "Paket Saat Ini",
+      "PLAN_NOTE": "Anda saat ini berlangganan paket **%{plan}** dengan **%{quantity}** lisensi"
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "Kelola langganan Anda",
+      "DESCRIPTION": "Lihat faktur sebelumnya, edit rincian pembayaran, atau batalkan langganan Anda.",
+      "BUTTON_TXT": "Buka portal pembayaran"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "TITLE": "Butuh bantuan?",
+      "DESCRIPTION": "Mengalami masalah dalam pembayaran? Kami di sini untuk membantu.",
       "BUTTON_TXT": "Chat dengan kami"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "Akun pembayaran Anda sedang dikonfigurasi. Silakan segarkan halaman dan coba lagi."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NO_ACCOUNT_WARNING": "Uh oh! Kami tidak dapat menemukan akun Chatwoot apa pun. Harap buat akun baru untuk melanjutkan.",
     "NEW_ACCOUNT": "Akun Baru",
-    "SELECTOR_SUBTITLE": "Buat sebuah akun baru",
+    "SELECTOR_SUBTITLE": "Buat akun baru",
     "API": {
       "SUCCESS_MESSAGE": "Akun berhasil dibuat",
       "EXIST_MESSAGE": "Akun sudah ada",
-      "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+      "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silakan coba lagi nanti"
     },
     "FORM": {
       "NAME": {
@@ -289,23 +290,23 @@
     }
   },
   "KEYBOARD_SHORTCUTS": {
-    "TOGGLE_MODAL": "View all shortcuts",
+    "TOGGLE_MODAL": "Lihat semua pintasan",
     "TITLE": {
       "OPEN_CONVERSATION": "Buka percakapan",
-      "RESOLVE_AND_NEXT": "Resolve and move to next",
-      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "GO_TO_CONVERSATION_DASHBOARD": "Menuju ke Dasbor Percakapan",
+      "RESOLVE_AND_NEXT": "Selesaikan dan pindah ke berikutnya",
+      "NAVIGATE_DROPDOWN": "Navigasi item dropdown",
+      "RESOLVE_CONVERSATION": "Selesaikan Percakapan",
+      "GO_TO_CONVERSATION_DASHBOARD": "Buka Dasbor Percakapan",
       "ADD_ATTACHMENT": "Tambahkan Lampiran",
-      "GO_TO_CONTACTS_DASHBOARD": "Menuju ke Dasbor Kontak",
-      "TOGGLE_SIDEBAR": "Toggle Sidebar",
-      "GO_TO_REPORTS_SIDEBAR": "Menuju ke sidebar Laporan",
-      "MOVE_TO_NEXT_TAB": "Menuju ke tab berikutnya dalam daftar percakapan",
-      "GO_TO_SETTINGS": "Menuju ke Settings",
-      "SWITCH_CONVERSATION_STATUS": "Beralih ke status percakapan selanjutnya",
+      "GO_TO_CONTACTS_DASHBOARD": "Buka Dasbor Kontak",
+      "TOGGLE_SIDEBAR": "Buka/Tutup Sidebar",
+      "GO_TO_REPORTS_SIDEBAR": "Buka sidebar Laporan",
+      "MOVE_TO_NEXT_TAB": "Pindah ke tab berikutnya dalam daftar percakapan",
+      "GO_TO_SETTINGS": "Buka Pengaturan",
+      "SWITCH_CONVERSATION_STATUS": "Beralih ke status percakapan berikutnya",
       "SWITCH_TO_PRIVATE_NOTE": "Beralih ke Catatan Pribadi",
-      "SWITCH_TO_REPLY": "Ganti ke Balasan",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "SWITCH_TO_REPLY": "Beralih ke Balasan",
+      "TOGGLE_SNOOZE_DROPDOWN": "Buka/Tutup dropdown penundaan"
     },
     "KEYS": {
       "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",

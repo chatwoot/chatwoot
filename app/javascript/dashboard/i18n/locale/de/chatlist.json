@@ -35,7 +35,7 @@
         "TEXT": "Alle"
       }
     },
-    "VIEW_FILTER": "Aussicht",
+    "VIEW_FILTER": "Anzeigen",
     "SORT_TOOLTIP_LABEL": "Konversationen sortieren",
     "CHAT_SORT": {
       "STATUS": "Status",
@@ -52,7 +52,7 @@
         "TEXT": "Priorität"
       },
       "sort_on_waiting_since": {
-        "TEXT": "Pending Response"
+        "TEXT": "Ausstehende Antwort"
       }
     },
     "ATTACHMENTS": {
