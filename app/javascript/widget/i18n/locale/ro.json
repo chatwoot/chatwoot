@@ -105,5 +105,9 @@
       "CLICK_HERE_TO_JOIN": "Apasă aici pentru a te alătura",
       "LEAVE_THE_ROOM": "Părăsiți apelul"
     }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "Vezi toate articolele"
   }
 }
