@@ -65,7 +65,7 @@
       "REMOVE": "%{agentName} removed %{user} from the team(#%{team_id})"
     },
     "ACCOUNT": {
-      "EDIT": "%{agentName} updated the account configuration (#%{id})"
+      "EDIT": "%{agentName} atjaunināja konta konfigurāciju (#%{id})"
     }
   }
 }
