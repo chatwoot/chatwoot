@@ -20,31 +20,31 @@
         "NOTE": "Seu endereço de e-mail é sua identidade e é usado para entrar."
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "TITLE": "Tecla de atalho para enviar mensagens",
+        "NOTE": "É possível selecionar uma tecla de atalho (Enter ou Cmd/Ctrl+Enter) com base na sua preferência de escrita.",
+        "UPDATE_SUCCESS": "As suas configurações foram atualizadas com sucesso",
         "CARD": {
           "ENTER_KEY": {
             "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "CONTENT": "Enviar mensagens pressionando a tecla Enter em vez de clicar no botão enviar."
           },
           "CMD_ENTER_KEY": {
             "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "CONTENT": "Enviar mensagens com as teclas Cmd/Ctrl + Enter em vez de clicar no botão enviar."
           }
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Assinatura de mensagem pessoal",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
+        "NOTE": "Crie uma assinatura de email personalizada que será adicionada a todas as mensagens de email enviadas. Use o editor de conteúdo para criar uma assinatura mais personalizada.",
         "BTN_TEXT": "Salvar assinatura da mensagem",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully"
+        "API_ERROR": "Não foi possível salvar a assinatura! Tente novamente",
+        "API_SUCCESS": "Assinatura salva com sucesso"
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "LABEL": "Assinatura da mensagem",
+        "ERROR": "Assinatura da mensagem não pode estar vazia",
+        "PLACEHOLDER": "Escreva aqui a sua assinatura de mensagem pessoal."
       },
       "PASSWORD_SECTION": {
         "TITLE": "Palavra-passe",
@@ -69,8 +69,8 @@
         },
         "CONDITIONS": {
           "TITLE": "Condições de alerta:",
-          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
-          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+          "CONDITION_ONE": "Enviar alertas de áudio apenas quando a janela do navegador não estiver ativa",
+          "CONDITION_TWO": "Enviar alertas a cada 30 segundos até que todas as conversas atribuídas sejam lidas"
         }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
@@ -80,7 +80,7 @@
         "CONVERSATION_CREATION": "Enviar notificações por email quando uma nova conversa é criada",
         "CONVERSATION_MENTION": "Enviar notificações por email quando for mencionado numa conversa",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Enviar mensagem de email quando criada uma mensagem ou atribuída uma conversa",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Enviar notificações por email quando uma nova mensagem é criada numa conversa em que está a participar"
       },
       "API": {
         "UPDATE_SUCCESS": "As suas preferências de notificação foram atualizadas com sucesso",
@@ -93,7 +93,7 @@
         "CONVERSATION_CREATION": "Enviar uma notificação Push quando uma conversa é criada",
         "CONVERSATION_MENTION": "Enviar uma notificação Push quando for mencionado numa conversa",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Enviar uma notificação Push quando uma mensagem é criada numa conversa atribuída",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Enviar notificações push quando uma nova mensagem é criada numa conversa em que está a participar",
         "HAS_ENABLED_PUSH": "Ativou notificações Push neste navegador.",
         "REQUEST_PUSH": "Ativar notificações Push"
       },
@@ -117,8 +117,8 @@
           "Ocupado",
           "Ausente"
         ],
-        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
+        "SET_AVAILABILITY_SUCCESS": "Disponibilidade foi definida com sucesso",
+        "SET_AVAILABILITY_ERROR": "Não foi possível definir a disponibilidade, por favor tente novamente"
       },
       "EMAIL": {
         "LABEL": "Seu endereço de e-mail",
@@ -149,22 +149,23 @@
     "SELECTOR_SUBTITLE": "Escolha uma conta da lista a seguir",
     "PROFILE_SETTINGS": "Configurações do perfil",
     "KEYBOARD_SHORTCUTS": "Atalhos do teclado",
-    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
+    "APPEARANCE": "Change Appearance",
+    "SUPER_ADMIN_CONSOLE": "Área de Super Administrador",
     "LOGOUT": "Desconectar"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "dias de teste restantes.",
     "TRAIL_BUTTON": "Comprar agora",
-    "DELETED_USER": "Usuário Excluído",
+    "DELETED_USER": "Utilizador Excluído",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "Conta Suspensa",
+      "MESSAGE": "A sua conta está suspensa. Entre em contato com a equipa de suporte para obter mais informações."
     }
   },
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Copiar",
-      "CODEPEN": "Open in CodePen",
+      "CODEPEN": "Abrir em CodePen",
       "COPY_SUCCESSFUL": "Código copiado com sucesso para área de transferência"
     },
     "SHOW_MORE_BLOCK": {
@@ -174,7 +175,7 @@
     "FILE_BUBBLE": {
       "DOWNLOAD": "BAIXAR",
       "UPLOADING": "A carregar...",
-      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
+      "INSTAGRAM_STORY_UNAVAILABLE": "Esta história já não está disponível."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "Veja no mapa"
@@ -196,14 +197,14 @@
     "ALL_CONVERSATIONS": "Todas as conversas",
     "MENTIONED_CONVERSATIONS": "Menções",
     "PARTICIPATING_CONVERSATIONS": "Participando",
-    "UNATTENDED_CONVERSATIONS": "Unattended",
+    "UNATTENDED_CONVERSATIONS": "Por tratar",
     "REPORTS": "relatórios",
     "SETTINGS": "Confirgurações",
     "CONTACTS": "Contactos",
     "HOME": "Principal",
     "AGENTS": "agentes",
     "AGENT_BOTS": "Bots",
-    "AUDIT_LOGS": "Audit Logs",
+    "AUDIT_LOGS": "Logs de auditoria",
     "INBOXES": "Caixas de Entrada",
     "NOTIFICATIONS": "Notificaçoes",
     "CANNED_RESPONSES": "Respostas Prontas",
@@ -244,32 +245,32 @@
       "DRAFT": "Rascunho",
       "ARCHIVED": "Arquivado",
       "CATEGORY": "Categoria",
-      "SETTINGS": "Confirgurações",
+      "SETTINGS": "Configurações",
       "CATEGORY_EMPTY_MESSAGE": "Nenhuma categoria encontrada"
     },
     "SET_AUTO_OFFLINE": {
       "TEXT": "Marcar offline automaticamente",
-      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+      "INFO_TEXT": "Deixar o sistema alterar automaticamente o seu estado para offline quando não estiver a usar a app ou o painel."
     },
-    "DOCS": "Read docs"
+    "DOCS": "Ler documentos"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Cobrança",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "TITLE": "Plano atual",
+      "PLAN_NOTE": "Atualmente tem o **%{plan}* subscrito com **%{quantity}** licenças"
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "Administrar o seu serviço",
+      "DESCRIPTION": "Visualize as suas faturas anteriores, edite os seus dados de pagamento, ou cancele o seu serviço.",
+      "BUTTON_TXT": "Ir para a área de faturação"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "TITLE": "Precisa de ajuda?",
+      "DESCRIPTION": "Está com dificuldade em efetuar o seu pagamento? Estamos aqui para ajudar.",
       "BUTTON_TXT": "Fale connosco"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "Os seus dados de pagamento estão a ser configurados. Atualize a página e tente novamente."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Não conseguimos encontrar nenhuma conta do Chatwoot. Por favor, crie uma nova conta para continuar.",
@@ -289,7 +290,7 @@
     }
   },
   "KEYBOARD_SHORTCUTS": {
-    "TOGGLE_MODAL": "View all shortcuts",
+    "TOGGLE_MODAL": "Ver todos os atalhos",
     "TITLE": {
       "OPEN_CONVERSATION": "Abrir conversa",
       "RESOLVE_AND_NEXT": "Resolver e passar para a próxima",

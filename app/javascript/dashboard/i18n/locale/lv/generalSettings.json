@@ -110,7 +110,9 @@
       "SNOOZE_CONVERSATION": "Atlikt Sarunu",
       "ADD_LABEL": "Pievienot sarunai etiķeti",
       "REMOVE_LABEL": "Noņemt etiķeti no sarunas",
-      "SETTINGS": "Iestatījumi"
+      "SETTINGS": "Iestatījumi",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Doties uz Sarunu Informācijas Paneli",
@@ -132,6 +134,7 @@
       "GO_TO_NOTIFICATIONS": "Doties uz Paziņojumiem",
       "ADD_LABELS_TO_CONVERSATION": "Pievienot sarunai etiķeti",
       "ASSIGN_AN_AGENT": "Piešķirt aģentu",
+      "AI_ASSIST": "AI Assist",
       "ASSIGN_PRIORITY": "Piešķirt prioritāti",
       "ASSIGN_A_TEAM": "Piešķirt komandu",
       "MUTE_CONVERSATION": "Izslēgt sarunu",
@@ -146,10 +149,18 @@
       "UNTIL_TOMORROW": "Līdz rītdienai",
       "UNTIL_NEXT_MONTH": "Līdz nākamajam mēnesim",
       "AN_HOUR_FROM_NOW": "Līdz stundai, no šī brīža",
-      "CUSTOM": "Pielāgot..."
+      "CUSTOM": "Pielāgot...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "Sistēma"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "Notiek informācijas paneļa lietotnes ielāde..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "noklikšķiniet šeit"
   }
 }

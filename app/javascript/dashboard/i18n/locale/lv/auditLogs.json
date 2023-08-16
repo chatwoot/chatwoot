@@ -25,6 +25,13 @@
       "EDIT": "%{agentName} atjaunināja automatizācijas noteikumu (#%{id})",
       "DELETE": "%{agentName} izdzēsa automatizācijas noteikumu (#%{id})"
     },
+    "ACCOUNT_USER": {
+      "ADD": "%{agentName} uzaicināja %{invitee} kontā kā %{role}",
+      "EDIT": {
+        "SELF": "%{agentName} mainīja savu %{attributes} uz %{values}",
+        "OTHER": "%{agentName} mainīja %{user} %{attributes} uz %{values}"
+      }
+    },
     "INBOX": {
       "ADD": "%{agentName} izveidoja jaunu iesūtni (#%{id})",
       "EDIT": "%{agentName} atjaunināja iesūtni (#%{id})",
@@ -48,6 +55,9 @@
       "ADD": "%{agentName} izveidoja jaunu makro (#%{id})",
       "EDIT": "%{agentName} atjaunināja makro (#%{id})",
       "DELETE": "%{agentName} izdzēsa makro (#%{id})"
+    },
+    "ACCOUNT": {
+      "EDIT": "%{agentName} updated the account configuration (#%{id})"
     }
   }
 }

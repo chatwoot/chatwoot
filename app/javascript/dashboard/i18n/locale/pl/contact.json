@@ -173,8 +173,8 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Avatar kontaktu został pomyślnie usunięty",
-        "ERROR_MESSAGE": "Nie można usunąć avatara kontaktu. Spróbuj ponownie później."
+        "SUCCESS_MESSAGE": "Awatar kontaktu został pomyślnie usunięty",
+        "ERROR_MESSAGE": "Nie można usunąć awatara kontaktu. Spróbuj ponownie później."
       }
     },
     "SUCCESS_MESSAGE": "Kontakt został pomyślnie zapisany",

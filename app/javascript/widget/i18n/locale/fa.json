@@ -105,5 +105,9 @@
       "CLICK_HERE_TO_JOIN": "برای عضویت اینجا را کلیک کنید",
       "LEAVE_THE_ROOM": "تماس را ترک کنید"
     }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "مشاهده همه مقالات"
   }
 }
