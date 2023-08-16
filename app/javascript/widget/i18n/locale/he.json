@@ -105,5 +105,9 @@
       "CLICK_HERE_TO_JOIN": "לחץ כאן בשביל להצטרף",
       "LEAVE_THE_ROOM": "עזוב את השיחה"
     }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles"
   }
 }
