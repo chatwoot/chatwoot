@@ -1,20 +1,26 @@
 <template>
-  <div class="sidebar-header--wrap">
-    <div class="header-left--side">
+  <div
+    class="flex h-16 items-center justify-between py-4 px-0 mb-1/4 border-b border-slate-50 dark:border-slate-700"
+  >
+    <div class="flex items-center">
       <thumbnail
         size="32px"
         :src="thumbnailSrc"
         :username="headerTitle"
         variant="square"
       />
-      <div class="header-title--wrap">
-        <h4 class="text-block-title title-view text-truncate">
+      <div class="flex items-start flex-col ml-2 rtl:ml-0 rtl:mr-2">
+        <h4
+          class="text-sm w-28 h-4 mb-0 leading-4 overflow-hidden whitespace-nowrap text-ellipsis text-slate-800 dark:text-slate-100"
+        >
           {{ headerTitle }}
         </h4>
-        <span class="sub-title--view">{{ subTitle }}</span>
+        <span class="h-4 leading-4 text-slate-600 dark:text-slate-200 text-xs">
+          {{ subTitle }}
+        </span>
       </div>
     </div>
-    <div class="header-right--side">
+    <div class="flex items-end">
       <woot-button
         variant="clear"
         color-scheme="secondary"
@@ -67,47 +73,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.sidebar-header--wrap {
-  display: flex;
-  height: var(--space-jumbo);
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--space-normal);
-  margin: var(--space-minus-small);
-  margin-bottom: var(--space-smaller);
-  border-bottom: 1px solid var(--color-border-light);
-}
-
-.header-title--wrap {
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-  margin-left: var(--space-small);
-}
-
-.title-view {
-  width: var(--space-mega);
-  margin-bottom: var(--space-zero);
-  height: var(--space-normal);
-  line-height: var(--space-normal);
-}
-
-.sub-title--view {
-  font-size: var(--font-size-mini);
-  color: var(--s-600);
-  height: var(--space-normal);
-  line-height: var(--space-normal);
-}
-
-.header-left--side {
-  display: flex;
-  align-items: center;
-}
-
-.header-right--side {
-  display: flex;
-  align-items: flex-end;
-}
-</style>

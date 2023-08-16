@@ -149,6 +149,7 @@
     "SELECTOR_SUBTITLE": "Seleccione una cuenta de la siguiente lista",
     "PROFILE_SETTINGS": "Ajustes del perfil",
     "KEYBOARD_SHORTCUTS": "Atajos de teclado",
+    "APPEARANCE": "Change Appearance",
     "SUPER_ADMIN_CONSOLE": "Consola de Super Admin",
     "LOGOUT": "Cerrar sesión"
   },
@@ -164,7 +165,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Copiar",
-      "CODEPEN": "Open in CodePen",
+      "CODEPEN": "Abrir en Code Pen",
       "COPY_SUCCESSFUL": "Código copiado al portapapeles con éxito"
     },
     "SHOW_MORE_BLOCK": {
@@ -203,7 +204,7 @@
     "HOME": "Inicio",
     "AGENTS": "Agentes",
     "AGENT_BOTS": "Bots",
-    "AUDIT_LOGS": "Audit Logs",
+    "AUDIT_LOGS": "Auditoría de registros",
     "INBOXES": "Entradas",
     "NOTIFICATIONS": "Notificaciones",
     "CANNED_RESPONSES": "Respuestas predefinidas",

@@ -38,6 +38,8 @@ ro:
     contacts:
       import:
         failed: Fișierul este necompletat
+      export:
+        success: Vă vom anunța imediat ce fișierul de export al contactelor este gata de vizualizare.
       email:
         invalid: E-mail invalid
       phone_number:
@@ -47,6 +49,8 @@ ro:
         unique: ar trebui să fie unic în categorie și portal
     dyte:
       invalid_message_type: "Tip de mesaj nevalid. Acțiune nepermisă"
+    slack:
+      invalid_channel_id: "Invalid slack channel. Please try again"
     inboxes:
       imap:
         socket_error: Verificați conexiunea la rețea, adresa IMAP și încercați din nou.
@@ -56,6 +60,8 @@ ro:
         connection_closed_error: Conexiune închisă.
       validations:
         name: nu ar trebui să înceapă sau să se termine cu simboluri și nu ar trebui să aibă < > / \ @ caractere.
+    custom_filters:
+      number_of_records: Limita atinsă. Numărul maxim de filtre personalizate permise pentru un utilizator per cont este de 50.
   reports:
     period: Perioada de raportare %{since}-%{until}
     utc_warning: Raportul generat este în fusul orar UTC
@@ -140,6 +146,8 @@ ro:
         header:
           from_with_name: "%{assignee_name} din %{inbox_name} <%{from_email}>"
           reply_with_name: "%{assignee_name} din %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} din %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} din %{inbox_name} <%{from_email}>"
@@ -173,18 +181,19 @@ ro:
       description: "Simplificați traducerea mesajelor de către agenți prin adăugarea unei integrări Google Translate. Google translate ajută la identificarea automată a limbii și la conversia acesteia în limba aleasă de agent/administratorul contului."
     openai:
       name: "OpenAI"
-      description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
+      description: "Integrați funcții AI puternice în Chatwoot folosind modelele GPT de la OpenAI."
   public_portal:
     search:
       search_placeholder: Căutați articol după titlu sau corp...
       empty_placeholder: Niciun rezultat găsit.
       loading_placeholder: In căutare...
       results_title: Rezultate căutare pentru
+    toc_header: 'Pe această pagină'
     hero:
       sub_title: Căutați articolele aici sau răsfoiți categoriile de mai jos.
     common:
       home: Acasa
-      last_updated_on: Participanții au actualizat!
+      last_updated_on: Ultima actualizare pe %{last_updated_on}
       view_all_articles: Vezi toate articolele
       article: articol
       articles: articole

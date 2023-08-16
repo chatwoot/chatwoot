@@ -38,6 +38,8 @@ is:
     contacts:
       import:
         failed: File is blank
+      export:
+        success: We will notify you once contacts export file is ready to view.
       email:
         invalid: Invalid email
       phone_number:
@@ -47,6 +49,8 @@ is:
         unique: ætti að vera einstakt í flokki og gátt
     dyte:
       invalid_message_type: "Invalid message type. Action not permitted"
+    slack:
+      invalid_channel_id: "Invalid slack channel. Please try again"
     inboxes:
       imap:
         socket_error: Athugaðu nettenginguna, IMAP vistfangið og reyndu aftur.
@@ -56,6 +60,8 @@ is:
         connection_closed_error: Connection closed.
       validations:
         name: ætti ekki að byrja eða enda á táknum, og það ætti ekki að hafa < > / \ @ táknin.
+    custom_filters:
+      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
   reports:
     period: Reporting period %{since} to %{until}
     utc_warning: The report generated is in UTC timezone
@@ -140,6 +146,8 @@ is:
         header:
           from_with_name: "%{assignee_name} frá %{inbox_name} <%{from_email}>"
           reply_with_name: "%{assignee_name} frá %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} frá %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} frá %{inbox_name} <%{from_email}>"
@@ -180,6 +188,7 @@ is:
       empty_placeholder: Engar niðurstöður fundust.
       loading_placeholder: Searching...
       results_title: Search results
+    toc_header: 'On this page'
     hero:
       sub_title: Leitaðu að greinunum hér eða skoðaðu flokkana hér að neðan.
     common:

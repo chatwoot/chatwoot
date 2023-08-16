@@ -3,21 +3,22 @@
     "TITLE": "Zaloguj się do Chatwoot",
     "EMAIL": {
       "LABEL": "E-mail",
-      "PLACEHOLDER": "example@companyname.com"
+      "PLACEHOLDER": "przyklad@nazwafirmy.com",
+      "ERROR": "Wprowadź poprawny adres e-mail"
     },
     "PASSWORD": {
       "LABEL": "Hasło",
       "PLACEHOLDER": "Hasło"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Login successful",
-      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again.",
-      "UNAUTH": "Username or password is incorrect. Please try again."
+      "SUCCESS_MESSAGE": "Logowanie udane",
+      "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot. Spróbuj ponownie.",
+      "UNAUTH": "Nazwa użytkownika lub hasło jest nieprawidłowe. Spróbuj ponownie."
     },
     "OAUTH": {
-      "GOOGLE_LOGIN": "Login with Google",
-      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
-      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+      "GOOGLE_LOGIN": "Zaloguj się przez Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Prosimy użyć adresu e-mail firmowego do logowania",
+      "NO_ACCOUNT_FOUND": "Nie znaleźliśmy konta dla podanego adresu e-mail."
     },
     "FORGOT_PASSWORD": "Zapomniałeś hasła?",
     "CREATE_NEW_ACCOUNT": "Utwórz nowe konto",

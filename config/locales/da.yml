@@ -38,6 +38,8 @@ da:
     contacts:
       import:
         failed: Filen er tom
+      export:
+        success: We will notify you once contacts export file is ready to view.
       email:
         invalid: Invalid email
       phone_number:
@@ -47,6 +49,8 @@ da:
         unique: bør være unik i kategorien og portalen
     dyte:
       invalid_message_type: "Invalid message type. Action not permitted"
+    slack:
+      invalid_channel_id: "Invalid slack channel. Please try again"
     inboxes:
       imap:
         socket_error: Tjek venligst netværksforbindelsen, IMAP-adressen og prøv igen.
@@ -56,6 +60,8 @@ da:
         connection_closed_error: Forbindelsen er lukket.
       validations:
         name: bør ikke starte eller slutte med symboler, og det skal ikke have < > / \ @ tegn.
+    custom_filters:
+      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
   reports:
     period: Rapporteringsperiode %{since} til %{until}
     utc_warning: The report generated is in UTC timezone
@@ -140,6 +146,8 @@ da:
         header:
           from_with_name: "%{assignee_name} fra %{inbox_name} <%{from_email}>"
           reply_with_name: "%{assignee_name} fra %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} fra %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} fra %{inbox_name} <%{from_email}>"
@@ -180,6 +188,7 @@ da:
       empty_placeholder: Ingen resultater fundet.
       loading_placeholder: Søger...
       results_title: Søgeresultater
+    toc_header: 'On this page'
     hero:
       sub_title: Søg efter artiklerne her eller gennemse kategorierne nedenfor.
     common:

@@ -3,6 +3,7 @@
     "TITLE": "Kontoeinstellungen",
     "SUBMIT": "Einstellungen aktualisieren",
     "BACK": "Zurück",
+    "DISMISS": "Verwerfen",
     "UPDATE": {
       "ERROR": "Einstellungen konnten nicht aktualisiert werden, versuchen Sie es erneut!",
       "SUCCESS": "Kontoeinstellungen erfolgreich aktualisiert"
@@ -48,7 +49,10 @@
       }
     },
     "UPDATE_CHATWOOT": "Ein Update %{latestChatwootVersion} für Chatwoot ist verfügbar. Bitte aktualisieren Sie Ihre Instanz.",
-    "LEARN_MORE": "Mehr erfahren"
+    "LEARN_MORE": "Mehr erfahren",
+    "PAYMENT_PENDING": "Ihre Zahlung steht noch aus. Um Chatwoot weiter zu verwenden, aktualisieren Sie Bitte Ihre Zahlungsinformationen",
+    "LIMITS_UPGRADE": "Ihr Konto hat die Nutzungsbeschränkungen überschritten. Um Chatwoot weiter nutzen zu können aktualisieren Sie bitte Ihren Tarif",
+    "OPEN_BILLING": "Rechnung öffnen"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -101,11 +105,14 @@
       "REPORTS": "Berichte",
       "CONVERSATION": "Konversation",
       "CHANGE_ASSIGNEE": "Beauftragten ändern",
-      "CHANGE_PRIORITY": "Change Priority",
+      "CHANGE_PRIORITY": "Priorität ändern",
       "CHANGE_TEAM": "Team wechseln",
+      "SNOOZE_CONVERSATION": "Konversation stummschalten",
       "ADD_LABEL": "Label zur Konversation hinzufügen",
       "REMOVE_LABEL": "Label aus der Konversation entfernen",
-      "SETTINGS": "Einstellungen"
+      "SETTINGS": "Einstellungen",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Zur Konversationsübersicht",
@@ -127,7 +134,8 @@
       "GO_TO_NOTIFICATIONS": "Zu Benachrichtigungen",
       "ADD_LABELS_TO_CONVERSATION": "Label zur Konversation hinzufügen",
       "ASSIGN_AN_AGENT": "Einen Agent zuweisen",
-      "ASSIGN_PRIORITY": "Assign priority",
+      "AI_ASSIST": "AI Assist",
+      "ASSIGN_PRIORITY": "Priorität zuweisen",
       "ASSIGN_A_TEAM": "Ein Team zuweisen",
       "MUTE_CONVERSATION": "Konversation stummschalten",
       "UNMUTE_CONVERSATION": "Konversation entstummen",
@@ -138,10 +146,21 @@
       "SNOOZE_CONVERSATION": "Snooze-Konversation",
       "UNTIL_NEXT_REPLY": "Bis zur nächsten Antwort",
       "UNTIL_NEXT_WEEK": "Bis nächste Woche",
-      "UNTIL_TOMORROW": "Bis morgen"
+      "UNTIL_TOMORROW": "Bis morgen",
+      "UNTIL_NEXT_MONTH": "bis zum nächsten Monat",
+      "AN_HOUR_FROM_NOW": "bis in einer Stunde von jetzt an",
+      "CUSTOM": "individuell",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "System"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "Dashboard-App wird geladen..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "hier klicken"
   }
 }

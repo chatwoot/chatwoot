@@ -73,10 +73,26 @@
       }
     },
     "SLACK": {
+      "DELETE": "Xoá",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Delete the integration",
+        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+      },
       "HELP_TEXT": {
         "TITLE": "Dùng tích hợp Slack",
-        "BODY": "<br/><p>Chatwoot giờ đây sẽ đồng bộ hóa tất cả các cuộc trò chuyện đến vào kênh <b><i>cuộc trò chuyện với khách hàng</i></b> bên trong nơi làm việc Slack của bạn.</p><p>Trả lời chuỗi hội thoại trong kênh Slack <b><i>cuộc trò chuyện với khách hàng</i></b> sẽ tạo phản hồi lại cho khách hàng thông qua chatwoot. </p><p>Bắt đầu câu trả lời bằng <b><i>ghi chú:</i></b> để tạo ghi chú riêng tư thay vì trả lời.</p><p>Nếu người trả lời trên slack có hồ sơ đại lý trong chatwoot dưới cùng một email, thì các câu trả lời sẽ được liên kết theo đó.</p><p>Khi người trả lời không có hồ sơ đại lý được liên kết, các câu trả lời sẽ được thực hiện từ hồ sơ bot.</p>"
-      }
+        "BODY": "<br/><p>Chatwoot giờ đây sẽ đồng bộ hóa tất cả các cuộc trò chuyện đến vào kênh <b><i>cuộc trò chuyện với khách hàng</i></b> bên trong nơi làm việc Slack của bạn.</p><p>Trả lời chuỗi hội thoại trong kênh Slack <b><i>cuộc trò chuyện với khách hàng</i></b> sẽ tạo phản hồi lại cho khách hàng thông qua chatwoot. </p><p>Bắt đầu câu trả lời bằng <b><i>ghi chú:</i></b> để tạo ghi chú riêng tư thay vì trả lời.</p><p>Nếu người trả lời trên slack có hồ sơ đại lý trong chatwoot dưới cùng một email, thì các câu trả lời sẽ được liên kết theo đó.</p><p>Khi người trả lời không có hồ sơ đại lý được liên kết, các câu trả lời sẽ được thực hiện từ hồ sơ bot.</p>",
+        "SELECTED": "selected"
+      },
+      "SELECT_CHANNEL": {
+        "OPTION_LABEL": "Select a channel",
+        "UPDATE": "Cập nhật",
+        "BUTTON_TEXT": "Connect channel",
+        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
+        "ATTENTION_REQUIRED": "Attention required"
+      },
+      "UPDATE_ERROR": "There was an error updating the integration, please try again",
+      "UPDATE_SUCCESS": "The channel is connected successfully",
+      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
     },
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Click here to join",
@@ -86,7 +102,31 @@
       "CREATE_ERROR": "There was an error creating a meeting link, please try again"
     },
     "OPEN_AI": {
+      "AI_ASSIST": "AI Assist",
+      "WITH_AI": " %{option} with AI ",
+      "OPTIONS": {
+        "REPLY_SUGGESTION": "Reply Suggestion",
+        "SUMMARIZE": "Summarize",
+        "REPHRASE": "Improve Writing",
+        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
+        "SHORTEN": "Shorten",
+        "EXPAND": "Expand",
+        "MAKE_FRIENDLY": "Change message tone to friendly",
+        "MAKE_FORMAL": "Use formal tone",
+        "SIMPLIFY": "Simplify"
+      },
+      "ASSISTANCE_MODAL": {
+        "DRAFT_TITLE": "Draft content",
+        "GENERATED_TITLE": "Generated content",
+        "AI_WRITING": "AI is writing",
+        "BUTTONS": {
+          "APPLY": "Use this suggestion",
+          "CANCEL": "Huỷ"
+        }
+      },
       "TITLE": "Improve With AI",
+      "SUMMARY_TITLE": "Summary with AI",
+      "REPLY_TITLE": "Reply suggestion with AI",
       "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
       "TONE": {
         "TITLE": "Tone",

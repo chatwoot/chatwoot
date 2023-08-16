@@ -12,6 +12,10 @@
     "NO_INBOX_2": " شروع کرنے کے لیے",
     "NO_INBOX_AGENT": "اوہ! ایسا لگتا ہے کہ آپ کسی ان باکس کا حصہ نہیں ہیں۔ براہ کرم اپنے منتظم سے رابطہ کریں۔",
     "SEARCH_MESSAGES": "مکالمات میں پیغامات تلاش کریں۔",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "پیغامات تلاش کریں۔",
       "RESULT_TITLE": "تلاش کے نتائج",
@@ -54,18 +58,25 @@
       "OPEN": "مزید",
       "CLOSE": "Close",
       "DETAILS": "details",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
       "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
       "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Mark as pending",
+      "SNOOZE_UNTIL": "Snooze",
       "SNOOZE": {
         "TITLE": "Snooze until",
         "NEXT_REPLY": "Next reply",
         "TOMORROW": "Tomorrow",
         "NEXT_WEEK": "Next week"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Snooze until",
+      "APPLY": "Snooze",
+      "CANCEL": "منسوخ کریں۔"
     },
     "PRIORITY": {
       "TITLE": "Priority",
@@ -140,6 +151,7 @@
       "STOP_AUDIO_RECORDING": "Stop audio recording",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Add bcc",
         "CC": {
           "LABEL": "CC",

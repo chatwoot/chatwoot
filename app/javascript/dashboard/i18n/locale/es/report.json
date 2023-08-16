@@ -4,6 +4,8 @@
     "LOADING_CHART": "Cargando datos del gráfico...",
     "NO_ENOUGH_DATA": "No hemos recibido suficientes puntos de datos para generar el informe. Inténtalo de nuevo más tarde.",
     "DOWNLOAD_AGENT_REPORTS": "Descargar reportes de agente",
+    "DATA_FETCHING_FAILED": "Error al obtener datos, por favor intente nuevamente.",
+    "SUMMARY_FETCHING_FAILED": "No se pudo obtener el resumen, por favor inténtalo de nuevo más tarde.",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversaciones",
@@ -32,7 +34,19 @@
       "RESOLUTION_COUNT": {
         "NAME": "Número de resoluciones",
         "DESC": "( Total )"
+      },
+      "REPLY_TIME": {
+        "NAME": "Customer waiting time",
+        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} conversations)"
       }
+    },
+    "DATE_RANGE_OPTIONS": {
+      "LAST_7_DAYS": "Últimos 7 días",
+      "LAST_30_DAYS": "Últimos 30 días",
+      "LAST_3_MONTHS": "Últimos 3 meses",
+      "LAST_6_MONTHS": "Últimos 6 meses",
+      "LAST_YEAR": "Último año",
+      "CUSTOM_DATE_RANGE": "Rango de fechas personalizado"
     },
     "DATE_RANGE": [
       {
@@ -66,6 +80,12 @@
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Agrupar por",
     "DURATION_FILTER_LABEL": "Duración",
+    "GROUPING_OPTIONS": {
+      "DAY": "Día",
+      "WEEK": "Semana",
+      "MONTH": "Mes",
+      "YEAR": "Año"
+    },
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
@@ -108,10 +128,6 @@
       {
         "id": 3,
         "groupBy": "Mes"
-      },
-      {
-        "id": 4,
-        "groupBy": "Año"
       }
     ],
     "BUSINESS_HOURS": "Horarios"
@@ -388,6 +404,7 @@
     "HEADER": "Reporte de encuestas de satisfacción",
     "NO_RECORDS": "No hay respuestas de encuestas de satisfacción disponibles.",
     "DOWNLOAD": "Descargar reportes CSAT",
+    "DOWNLOAD_FAILED": "Error al descargar los informes CSAT",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Elegir agentes"

@@ -3,6 +3,7 @@
     "TITLE": "Configuración de la cuenta",
     "SUBMIT": "Actualizar ajustes",
     "BACK": "Atrás",
+    "DISMISS": "Descartar",
     "UPDATE": {
       "ERROR": "No se pudo actualizar la configuración, ¡inténtalo de nuevo!",
       "SUCCESS": "Configuración de cuenta actualizada correctamente"
@@ -48,7 +49,10 @@
       }
     },
     "UPDATE_CHATWOOT": "Hay una actualización %{latestChatwootVersion} para Chatwoot disponible. Por favor, actualiza tu instancia.",
-    "LEARN_MORE": "Más información"
+    "LEARN_MORE": "Más información",
+    "PAYMENT_PENDING": "Tu pago está pendiente. Por favor actualiza tu información de pago para seguir usando Chatwoot",
+    "LIMITS_UPGRADE": "Su cuenta ha excedido los límites de uso, por favor actualice su plan para seguir usando Chatwoot",
+    "OPEN_BILLING": "Abrir facturación"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -101,11 +105,14 @@
       "REPORTS": "Informes",
       "CONVERSATION": "Conversación",
       "CHANGE_ASSIGNEE": "Cambiar Asignado",
-      "CHANGE_PRIORITY": "Change Priority",
+      "CHANGE_PRIORITY": "Cambiar prioridad",
       "CHANGE_TEAM": "Cambiar equipo",
+      "SNOOZE_CONVERSATION": "Posponer conversación",
       "ADD_LABEL": "Añadir etiqueta a la conversación",
       "REMOVE_LABEL": "Eliminar etiqueta de la conversación",
-      "SETTINGS": "Ajustes"
+      "SETTINGS": "Ajustes",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Ir al panel de conversaciones",
@@ -127,7 +134,8 @@
       "GO_TO_NOTIFICATIONS": "Ir a Notificaciones",
       "ADD_LABELS_TO_CONVERSATION": "Añadir etiqueta a la conversación",
       "ASSIGN_AN_AGENT": "Asignar un agente",
-      "ASSIGN_PRIORITY": "Assign priority",
+      "AI_ASSIST": "AI Assist",
+      "ASSIGN_PRIORITY": "Asignar prioridad",
       "ASSIGN_A_TEAM": "Asignar un equipo",
       "MUTE_CONVERSATION": "Silenciar conversación",
       "UNMUTE_CONVERSATION": "Quitar silencio de conversación",
@@ -138,10 +146,21 @@
       "SNOOZE_CONVERSATION": "Posponer conversación",
       "UNTIL_NEXT_REPLY": "Hasta la siguiente respuesta",
       "UNTIL_NEXT_WEEK": "Hasta la próxima semana",
-      "UNTIL_TOMORROW": "Hasta mañana"
+      "UNTIL_TOMORROW": "Hasta mañana",
+      "UNTIL_NEXT_MONTH": "Hasta el mes próximo",
+      "AN_HOUR_FROM_NOW": "Hasta una hora a partir de ahora",
+      "CUSTOM": "Personalizar...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "Sistema"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "Cargando aplicación del tablero..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "haz clic aquí"
   }
 }

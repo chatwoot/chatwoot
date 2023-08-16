@@ -81,4 +81,19 @@ export const OPEN_AI_EVENTS = Object.freeze({
   SUMMARIZE: 'OpenAI: Used summarize',
   REPLY_SUGGESTION: 'OpenAI: Used reply suggestion',
   REPHRASE: 'OpenAI: Used rephrase',
+  FIX_SPELLING_AND_GRAMMAR: 'OpenAI: Used fix spelling and grammar',
+  SHORTEN: 'OpenAI: Used shorten',
+  EXPAND: 'OpenAI: Used expand',
+  MAKE_FRIENDLY: 'OpenAI: Used make friendly',
+  MAKE_FORMAL: 'OpenAI: Used make formal',
+  SIMPLIFY: 'OpenAI: Used simplify',
+  APPLY_LABEL_SUGGESTION: 'OpenAI: Apply label from suggestion',
+  DISMISS_LABEL_SUGGESTION: 'OpenAI: Dismiss label suggestions',
+  ADDED_AI_INTEGRATION_VIA_CTA_BUTTON:
+    'OpenAI: Added AI integration via CTA button',
+  DISMISS_AI_SUGGESTION: 'OpenAI: Dismiss AI suggestions',
+});
+
+export const GENERAL_EVENTS = Object.freeze({
+  COMMAND_BAR: 'Used commandbar',
 });

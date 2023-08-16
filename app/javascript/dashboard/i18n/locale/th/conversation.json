@@ -12,6 +12,10 @@
     "NO_INBOX_2": " ที่จะเริ่มต้น",
     "NO_INBOX_AGENT": "เอ่อโอ้! ดูเหมือนว่าคุณไม่ได้เป็นส่วนหนึ่งของกล่องจดหมายใด ๆ โปรดติดต่อผู้ดูแลระบบของคุณ",
     "SEARCH_MESSAGES": "ค้นหาข้อความในการสนทนา",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "ค้นหาข้อความ",
       "RESULT_TITLE": "ผลการค้นหา",
@@ -54,18 +58,25 @@
       "OPEN": "เพิ่มเติม",
       "CLOSE": "ปิด",
       "DETAILS": "รายละเอียด",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "พักการสนทนาจนถึงพรุ่งนี้",
       "SNOOZED_UNTIL_NEXT_WEEK": "พักการสนทนาจนถึงสัปดาห์หน้า",
       "SNOOZED_UNTIL_NEXT_REPLY": "พักการสนทนาจนกว่าจะมีการตอบกลับถัดไป"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "ทำเครื่องหมายว่าอยู่ระหว่างดำเนินการ",
+      "SNOOZE_UNTIL": "Snooze",
       "SNOOZE": {
         "TITLE": "พักการสนทนาจนถึง",
         "NEXT_REPLY": "การตอบกลับถัดไป",
         "TOMORROW": "พรุ่งนี้",
         "NEXT_WEEK": "สัปดาห์หน้า"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "พักการสนทนาจนถึง",
+      "APPLY": "Snooze",
+      "CANCEL": "ยกเลิก"
     },
     "PRIORITY": {
       "TITLE": "Priority",
@@ -140,6 +151,7 @@
       "STOP_AUDIO_RECORDING": "หยุดบันทึกเสียง",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "เพิ่ม BCC",
         "CC": {
           "LABEL": "CC",

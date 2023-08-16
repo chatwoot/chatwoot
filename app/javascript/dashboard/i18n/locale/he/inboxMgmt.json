@@ -111,6 +111,17 @@
           "PLACEHOLDER": "אנא הזן את SID חשבון Twilio שלך",
           "ERROR": "שדה חובה"
         },
+        "API_KEY": {
+          "USE_API_KEY": "Use API Key Authentication",
+          "LABEL": "API Key SID",
+          "PLACEHOLDER": "Please enter your API Key SID",
+          "ERROR": "שדה חובה"
+        },
+        "API_KEY_SECRET": {
+          "LABEL": "API Key Secret",
+          "PLACEHOLDER": "Please enter your API Key Secret",
+          "ERROR": "שדה חובה"
+        },
         "MESSAGING_SERVICE_SID": {
           "LABEL": "ערוץ הודעות SID",
           "PLACEHOLDER": "נא הכנס מזהה Twilio Messaging Service SID",
@@ -391,6 +402,25 @@
         "ENABLED": "מופעל",
         "DISABLED": "כבוי"
       },
+      "SENDER_NAME_SECTION": {
+        "TITLE": "Sender name",
+        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
+        "FOR_EG": "For eg:",
+        "FRIENDLY": {
+          "TITLE": "Friendly",
+          "FROM": "מ",
+          "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
+        },
+        "PROFESSIONAL": {
+          "TITLE": "Professional",
+          "SUBTITLE": "Use only the configured business name as the sender name in the email header."
+        },
+        "BUSINESS_NAME": {
+          "BUTTON_TEXT": "+ Configure your business name",
+          "PLACEHOLDER": "Enter your business name",
+          "SAVE_BUTTON_TEXT": "שמור"
+        }
+      },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
         "ENABLED": "מופעל",
         "DISABLED": "כבוי"
@@ -454,7 +484,9 @@
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "הפעל או השבת את תיבת איסוף הדוא\"ל בשיחה חדשה",
       "AUTO_ASSIGNMENT": "אפשר הקצאה אוטומטית",
       "ENABLE_CSAT": "אפשר CSAT",
+      "SENDER_NAME_SECTION": "Enable Agent Name in Email",
       "ENABLE_CSAT_SUB_TEXT": "הפעל/השבת סקר CSAT (שביעות רצון לקוחות) לאחר פתרון שיחה",
+      "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "אפשר המשך שיחה באמצעות הדוא\"ל",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "שיחות ימשיכו באמצעות הדוא\"ל אם לאיש הקשר קיימת כתובת דוא\"ל תקנית.",
       "LOCK_TO_SINGLE_CONVERSATION": "נעל לשיחה בודדת",
@@ -535,7 +567,6 @@
       "UPDATE": "עדכן את הגדרות שעות הפעילות",
       "TOGGLE_AVAILABILITY": "הפעל זמינות עסקית עבור תיבת הדואר הנכנס הזו",
       "UNAVAILABLE_MESSAGE_LABEL": "הודעה לא זמינה למבקרים",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "אנחנו לא זמינים כרגע. השאירו הודעה נשיב ברגע שנחזור.",
       "TOGGLE_HELP": "הפעלת זמינות עסקית תציג את השעות הזמינות בווידג'ט צ'אט חי גם אם כל הסוכנים אינם מקוונים. מחוץ לשעות הזמינות ניתן להזהיר מבקרים באמצעות הודעה וטופס צ'אט מראש.",
       "DAY": {
         "ENABLE": "אפשר זמינות ליום זה",

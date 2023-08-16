@@ -12,6 +12,10 @@
     "NO_INBOX_2": " தொடங்குவதற்கு",
     "NO_INBOX_AGENT": "அட டா! நீங்கள் எந்த இன்பாக்ஸின் பகுதியும் இல்லை என்று தெரிகிறது. உங்கள் நிர்வாகியைத் தொடர்பு கொள்ளவும்",
     "SEARCH_MESSAGES": "Search for messages in conversations",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "Search messages",
       "RESULT_TITLE": "Search Results",
@@ -54,18 +58,25 @@
       "OPEN": "மேலும்",
       "CLOSE": "மூடு",
       "DETAILS": "விவரங்கள்",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
       "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
       "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Mark as pending",
+      "SNOOZE_UNTIL": "Snooze",
       "SNOOZE": {
         "TITLE": "Snooze until",
         "NEXT_REPLY": "Next reply",
         "TOMORROW": "Tomorrow",
         "NEXT_WEEK": "Next week"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Snooze until",
+      "APPLY": "Snooze",
+      "CANCEL": "ரத்துசெய்"
     },
     "PRIORITY": {
       "TITLE": "Priority",
@@ -140,6 +151,7 @@
       "STOP_AUDIO_RECORDING": "Stop audio recording",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Add bcc",
         "CC": {
           "LABEL": "CC",

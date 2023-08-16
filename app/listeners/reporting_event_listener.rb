@@ -38,8 +38,26 @@ class ReportingEventListener < BaseListener
       event_end_time: message.created_at
     )
 
-    conversation.update(first_reply_created_at: message.created_at)
+    reporting_event.save!
+  end
 
+  def reply_created(event)
+    message = extract_message_and_account(event)[0]
+    conversation = message.conversation
+    waiting_since = event.data[:waiting_since]
+    reply_time = message.created_at.to_i - waiting_since.to_i
+
+    reporting_event = ReportingEvent.new(
+      name: 'reply_time',
+      value: reply_time,
+      value_in_business_hours: business_hours(conversation.inbox, waiting_since, message.created_at),
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      user_id: conversation.assignee_id,
+      conversation_id: conversation.id,
+      event_start_time: waiting_since,
+      event_end_time: message.created_at
+    )
     reporting_event.save!
   end
 

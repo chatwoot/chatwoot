@@ -12,6 +12,10 @@
     "NO_INBOX_2": "başlamak",
     "NO_INBOX_AGENT": "Görünüşe göre herhangi bir gelen kutusunun parçası değilsiniz. Lütfen yöneticinizle iletişime geçin",
     "SEARCH_MESSAGES": "Sohbetlerde ara",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "Mesajları ara",
       "RESULT_TITLE": "Arama Sonucu",
@@ -54,18 +58,25 @@
       "OPEN": "Devamı",
       "CLOSE": "Kapat",
       "DETAILS": "detaylar",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "yarına ertelendi",
       "SNOOZED_UNTIL_NEXT_WEEK": "Önümüzdeki haftaya ertelendi",
       "SNOOZED_UNTIL_NEXT_REPLY": "Bir sonraki yanıta kadar ertelendi"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Beklemede olarak işaretle",
+      "SNOOZE_UNTIL": "Sustur",
       "SNOOZE": {
         "TITLE": "Şu tarihe kadar ertele",
         "NEXT_REPLY": "Sonraki yanıt",
         "TOMORROW": "Yarın",
         "NEXT_WEEK": "Sonraki hafta"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Şu tarihe kadar ertele",
+      "APPLY": "Sustur",
+      "CANCEL": "İptal Et"
     },
     "PRIORITY": {
       "TITLE": "Priority",
@@ -140,6 +151,7 @@
       "STOP_AUDIO_RECORDING": "Ses kaydetmeyi durdur",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Bcc ekle",
         "CC": {
           "LABEL": "CC",

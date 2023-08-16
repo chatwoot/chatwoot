@@ -12,6 +12,10 @@
     "NO_INBOX_2": " til að byrja",
     "NO_INBOX_AGENT": "Uh Ó! Þú virðist ekki vera hluti af neinu innhólfi. Vinsamlegast hafðu samband við kerfisstjóra",
     "SEARCH_MESSAGES": "Leita að skilaboðum í samtölum",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "Leita í skilaboðum",
       "RESULT_TITLE": "Leitarniðurstöður",
@@ -54,18 +58,25 @@
       "OPEN": "More",
       "CLOSE": "Close",
       "DETAILS": "details",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
       "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
       "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Mark as pending",
+      "SNOOZE_UNTIL": "Snooze",
       "SNOOZE": {
         "TITLE": "Snooze until",
         "NEXT_REPLY": "Next reply",
         "TOMORROW": "Tomorrow",
         "NEXT_WEEK": "Next week"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Snooze until",
+      "APPLY": "Snooze",
+      "CANCEL": "Hætta við"
     },
     "PRIORITY": {
       "TITLE": "Priority",
@@ -140,6 +151,7 @@
       "STOP_AUDIO_RECORDING": "Stoppa hljóðupptöku",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Bæta við bcc",
         "CC": {
           "LABEL": "CC",

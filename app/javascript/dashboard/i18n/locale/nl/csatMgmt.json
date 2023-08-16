@@ -1,6 +1,13 @@
 {
   "CSAT": {
     "TITLE": "Beoordeel uw gesprek",
-    "PLACEHOLDER": "Vertel ons meer..."
+    "PLACEHOLDER": "Vertel ons meer...",
+    "RATINGS": {
+      "POOR": "😞 Poor",
+      "FAIR": "😑 Fair",
+      "AVERAGE": "😐 Average",
+      "GOOD": "😀 Good",
+      "EXCELLENT": "😍 Excellent"
+    }
   }
 }

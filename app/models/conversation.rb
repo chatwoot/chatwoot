@@ -15,6 +15,7 @@
 #  snoozed_until          :datetime
 #  status                 :integer          default("open"), not null
 #  uuid                   :uuid             not null
+#  waiting_since          :datetime
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  account_id             :integer          not null
@@ -24,6 +25,7 @@
 #  contact_inbox_id       :bigint
 #  display_id             :integer          not null
 #  inbox_id               :integer          not null
+#  sla_policy_id          :bigint
 #  team_id                :bigint
 #
 # Indexes
@@ -44,6 +46,7 @@
 #  index_conversations_on_status_and_priority         (status,priority)
 #  index_conversations_on_team_id                     (team_id)
 #  index_conversations_on_uuid                        (uuid) UNIQUE
+#  index_conversations_on_waiting_since               (waiting_since)
 #
 
 class Conversation < ApplicationRecord
@@ -69,7 +72,7 @@ class Conversation < ApplicationRecord
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned, -> { where.not(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
-  scope :unattended, -> { where(first_reply_created_at: nil) }
+  scope :unattended, -> { where(first_reply_created_at: nil).or(where.not(waiting_since: nil)) }
   scope :resolvable, lambda { |auto_resolve_duration|
     return none if auto_resolve_duration.to_i.zero?
 
@@ -100,6 +103,7 @@ class Conversation < ApplicationRecord
 
   before_save :ensure_snooze_until_reset
   before_create :mark_conversation_pending_if_bot
+  before_create :ensure_waiting_since
 
   after_update_commit :execute_after_update_commit_callbacks
   after_create_commit :notify_conversation_creation
@@ -162,11 +166,11 @@ class Conversation < ApplicationRecord
   end
 
   def unread_messages
-    messages.unread_since(agent_last_seen_at)
+    agent_last_seen_at.present? ? messages.created_since(agent_last_seen_at) : messages
   end
 
   def unread_incoming_messages
-    messages.incoming.unread_since(agent_last_seen_at)
+    unread_messages.where(account_id: account_id).incoming.last(10)
   end
 
   def push_event_data
@@ -213,6 +217,10 @@ class Conversation < ApplicationRecord
     self.snoozed_until = nil unless snoozed?
   end
 
+  def ensure_waiting_since
+    self.waiting_since = created_at
+  end
+
   def validate_additional_attributes
     self.additional_attributes = {} unless additional_attributes.is_a?(Hash)
   end
@@ -234,7 +242,8 @@ class Conversation < ApplicationRecord
 
   def allowed_keys?
     (
-      previous_changes.keys.intersect?(%w[team_id assignee_id status snoozed_until custom_attributes label_list first_reply_created_at priority]) ||
+      previous_changes.keys.intersect?(%w[team_id assignee_id status snoozed_until custom_attributes label_list waiting_since first_reply_created_at
+                                          priority]) ||
       (previous_changes['additional_attributes'].present? && previous_changes['additional_attributes'][1].keys.intersect?(%w[conversation_language]))
     )
   end
@@ -294,3 +303,6 @@ class Conversation < ApplicationRecord
     "NEW.display_id := nextval('conv_dpid_seq_' || NEW.account_id);"
   end
 end
+
+Conversation.include_mod_with('EnterpriseConversationConcern')
+Conversation.include_mod_with('SentimentAnalysisHelper')

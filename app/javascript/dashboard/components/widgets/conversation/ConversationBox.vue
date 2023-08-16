@@ -1,6 +1,6 @@
 <template>
   <div
-    class="conversation-details-wrap"
+    class="conversation-details-wrap bg-slate-25 dark:bg-slate-800"
     :class="{ 'with-border-right': !isOnExpandedLayout }"
   >
     <conversation-header
@@ -13,7 +13,7 @@
     <woot-tabs
       v-if="dashboardApps.length && currentChat.id"
       :index="activeIndex"
-      class="dashboard-app--tabs"
+      class="dashboard-app--tabs bg-white dark:bg-slate-900 -mt-px"
       @change="onDashboardAppTabChange"
     >
       <woot-tabs-item
@@ -23,7 +23,10 @@
         :show-badge="false"
       />
     </woot-tabs>
-    <div v-show="!activeIndex" class="messages-and-sidebar">
+    <div
+      v-show="!activeIndex"
+      class="flex bg-slate-25 dark:bg-slate-800 m-0 h-full min-h-0"
+    >
       <messages-view
         v-if="currentChat.id"
         :inbox-id="inboxId"
@@ -31,7 +34,10 @@
         @contact-panel-toggle="onToggleContactPanel"
       />
       <empty-state v-else :is-on-expanded-layout="isOnExpandedLayout" />
-      <div v-show="showContactPanel" class="conversation-sidebar-wrap">
+      <div
+        v-show="showContactPanel"
+        class="conversation-sidebar-wrap basis-full sm:basis-[17.5rem] md:basis-[18.75rem] lg:basis-[19.375rem] xl:basis-[20.625rem] 2xl:basis-[25rem] rtl:border-r border-slate-50 dark:border-slate-700 h-auto overflow-auto z-10 flex-shrink-0 flex-grow-0"
+      >
         <contact-panel
           v-if="showContactPanel"
           :conversation-id="currentChat.id"
@@ -55,7 +61,7 @@ import { mapGetters } from 'vuex';
 import ContactPanel from 'dashboard/routes/dashboard/conversation/ContactPanel';
 import ConversationHeader from './ConversationHeader';
 import DashboardAppFrame from '../DashboardApp/Frame.vue';
-import EmptyState from './EmptyState';
+import EmptyState from './EmptyState/EmptyState';
 import MessagesView from './MessagesView';
 
 export default {
@@ -138,67 +144,27 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/woot';
-
 .conversation-details-wrap {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  width: 100%;
-  background: var(--color-background-light);
+  @apply flex flex-col min-w-0 w-full;
 
   &.with-border-right {
-    border-right: 1px solid var(--color-border);
+    @apply border-r border-slate-50 dark:border-slate-700;
   }
 }
 
 .dashboard-app--tabs {
-  background: var(--white);
-  margin-top: -1px;
-  min-height: var(--dashboard-app-tabs-height);
-}
-
-.messages-and-sidebar {
-  display: flex;
-  background: var(--color-background-light);
-  margin: 0;
-  height: 100%;
-  min-height: 0;
+  ::v-deep {
+    .tabs-title {
+      a {
+        @apply pb-2 pt-1;
+      }
+    }
+  }
 }
 
 .conversation-sidebar-wrap {
-  border-right: 1px solid var(--color-border);
-  height: auto;
-  flex: 0 0;
-  z-index: var(--z-index-low);
-  overflow: auto;
-  background: white;
-  flex-basis: 100%;
-
-  @include breakpoint(medium up) {
-    flex-basis: 28rem;
-  }
-
-  @include breakpoint(large up) {
-    flex-basis: 30em;
-  }
-
-  @include breakpoint(xlarge up) {
-    flex-basis: 31em;
-  }
-
-  @include breakpoint(xxlarge up) {
-    flex-basis: 33rem;
-  }
-
-  @include breakpoint(xxxlarge up) {
-    flex-basis: 40rem;
-  }
-
   &::v-deep .contact--panel {
-    width: 100%;
-    height: 100%;
-    max-width: 100%;
+    @apply w-full h-full max-w-full;
   }
 }
 </style>

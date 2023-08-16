@@ -73,10 +73,26 @@
       }
     },
     "SLACK": {
+      "DELETE": "ลบ",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Delete the integration",
+        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+      },
       "HELP_TEXT": {
         "TITLE": "เชื่อมต่อกับ Slack",
-        "BODY": "<br/><p>Chatwoot จะเชื่อมข้อความทั้งหมดไว้ที่ช่อง <b><i>การสนทนากับลูกค้า</i></b> บน slack ของคุณ หากตอบกลับเธรดบน slack ในช่อง <b><i>การสนทนากับลูกค้า</i></b> จะมีสร้างการตอบกลับลูกค้าใน Chatwoot ด้วยเช่นเดียวกัน </p><p>การตอบกลับด้วย<b><i>โน๊ต</i></b>จะสร้างโน๊ตส่วนตัวแทนการตอบกลับเป็นข้อความ และหากผู้ตอบกลับบน slack มีโปรไฟล์พนักงานบน Chatwoot ซึ่งใช้อีเมลเดียวกัน การตอบกลับของเขาจะถูกส่งจากโปรไฟล์ที่เชื่อมไว้ใน Chatwoot </p><p>แต่หากผู้ตอบกลับไม่ได้มีโปรไฟล์พนักงานที่เชื่อมกัน การตอบกลับบน slack จะแสดงผลเป็นการตอบกลับที่มาจากโปรไฟล์บอทใน Chatwoot แทน</p>"
-      }
+        "BODY": "<br/><p>Chatwoot จะเชื่อมข้อความทั้งหมดไว้ที่ช่อง <b><i>การสนทนากับลูกค้า</i></b> บน slack ของคุณ หากตอบกลับเธรดบน slack ในช่อง <b><i>การสนทนากับลูกค้า</i></b> จะมีสร้างการตอบกลับลูกค้าใน Chatwoot ด้วยเช่นเดียวกัน </p><p>การตอบกลับด้วย<b><i>โน๊ต</i></b>จะสร้างโน๊ตส่วนตัวแทนการตอบกลับเป็นข้อความ และหากผู้ตอบกลับบน slack มีโปรไฟล์พนักงานบน Chatwoot ซึ่งใช้อีเมลเดียวกัน การตอบกลับของเขาจะถูกส่งจากโปรไฟล์ที่เชื่อมไว้ใน Chatwoot </p><p>แต่หากผู้ตอบกลับไม่ได้มีโปรไฟล์พนักงานที่เชื่อมกัน การตอบกลับบน slack จะแสดงผลเป็นการตอบกลับที่มาจากโปรไฟล์บอทใน Chatwoot แทน</p>",
+        "SELECTED": "selected"
+      },
+      "SELECT_CHANNEL": {
+        "OPTION_LABEL": "Select a channel",
+        "UPDATE": "อัพเดท",
+        "BUTTON_TEXT": "Connect channel",
+        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
+        "ATTENTION_REQUIRED": "Attention required"
+      },
+      "UPDATE_ERROR": "There was an error updating the integration, please try again",
+      "UPDATE_SUCCESS": "The channel is connected successfully",
+      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
     },
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Click here to join",
@@ -86,7 +102,31 @@
       "CREATE_ERROR": "There was an error creating a meeting link, please try again"
     },
     "OPEN_AI": {
+      "AI_ASSIST": "AI Assist",
+      "WITH_AI": " %{option} with AI ",
+      "OPTIONS": {
+        "REPLY_SUGGESTION": "Reply Suggestion",
+        "SUMMARIZE": "Summarize",
+        "REPHRASE": "Improve Writing",
+        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
+        "SHORTEN": "Shorten",
+        "EXPAND": "Expand",
+        "MAKE_FRIENDLY": "Change message tone to friendly",
+        "MAKE_FORMAL": "Use formal tone",
+        "SIMPLIFY": "Simplify"
+      },
+      "ASSISTANCE_MODAL": {
+        "DRAFT_TITLE": "Draft content",
+        "GENERATED_TITLE": "Generated content",
+        "AI_WRITING": "AI is writing",
+        "BUTTONS": {
+          "APPLY": "Use this suggestion",
+          "CANCEL": "ยกเลิก"
+        }
+      },
       "TITLE": "Improve With AI",
+      "SUMMARY_TITLE": "Summary with AI",
+      "REPLY_TITLE": "Reply suggestion with AI",
       "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
       "TONE": {
         "TITLE": "Tone",

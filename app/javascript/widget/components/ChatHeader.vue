@@ -19,19 +19,19 @@
       />
       <div>
         <div
-          class="font-medium text-base flex items-center"
+          class="font-medium text-base leading-4 flex items-center"
           :class="$dm('text-black-900', 'dark:text-slate-50')"
         >
           <span v-dompurify-html="title" class="mr-1" />
           <div
             :class="
-              `h-2 w-2 rounded-full leading-4
+              `h-2 w-2 rounded-full
               ${isOnline ? 'bg-green-500' : 'hidden'}`
             "
           />
         </div>
         <div
-          class="text-xs mt-1"
+          class="text-xs mt-1 leading-3"
           :class="$dm('text-black-700', 'dark:text-slate-400')"
         >
           {{ replyWaitMessage }}

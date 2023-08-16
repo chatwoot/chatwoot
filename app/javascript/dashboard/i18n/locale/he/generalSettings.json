@@ -3,6 +3,7 @@
     "TITLE": "הגדרות חשבון",
     "SUBMIT": "עדכן הגדרות",
     "BACK": "חזור",
+    "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "לא ניתן היה לעדכן את ההגדרות, נסה שוב!",
       "SUCCESS": "הגדרות החשבון עודכנו בהצלחה"
@@ -48,7 +49,10 @@
       }
     },
     "UPDATE_CHATWOOT": "עדכון %{latestChatwootVersion} עבור Chatwoot זמין. אנא עדכן את המופע שלך.",
-    "LEARN_MORE": "למד עוד"
+    "LEARN_MORE": "למד עוד",
+    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
+    "OPEN_BILLING": "Open billing"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -103,9 +107,12 @@
       "CHANGE_ASSIGNEE": "שנה מוקצה",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "להחליף קבוצה",
+      "SNOOZE_CONVERSATION": "נודניק שיחה",
       "ADD_LABEL": "הוסף תווית לשיחה",
       "REMOVE_LABEL": "הסר תווית מהשיחה",
-      "SETTINGS": "הגדרות"
+      "SETTINGS": "הגדרות",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "עבור ללוח המחוונים לשיחה",
@@ -127,6 +134,7 @@
       "GO_TO_NOTIFICATIONS": "עבור להודעות",
       "ADD_LABELS_TO_CONVERSATION": "הוסף תווית לשיחה",
       "ASSIGN_AN_AGENT": "הקצה סוכן",
+      "AI_ASSIST": "AI Assist",
       "ASSIGN_PRIORITY": "Assign priority",
       "ASSIGN_A_TEAM": "הקצה צוות",
       "MUTE_CONVERSATION": "שיחה אילמת",
@@ -138,10 +146,21 @@
       "SNOOZE_CONVERSATION": "נודניק שיחה",
       "UNTIL_NEXT_REPLY": "עד לתשובה הבאה",
       "UNTIL_NEXT_WEEK": "עד שבוע הבא",
-      "UNTIL_TOMORROW": "עד מחר"
+      "UNTIL_TOMORROW": "עד מחר",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "System"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "טוען אפליקציית Dashboard..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "לחץ כאן"
   }
 }

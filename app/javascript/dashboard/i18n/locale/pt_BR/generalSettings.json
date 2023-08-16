@@ -3,6 +3,7 @@
     "TITLE": "Configurações da conta",
     "SUBMIT": "Atualizar configurações",
     "BACK": "Anterior",
+    "DISMISS": "Recusar",
     "UPDATE": {
       "ERROR": "Não foi possível atualizar as configurações, tente novamente!",
       "SUCCESS": "Configurações de conta atualizadas com sucesso"
@@ -48,7 +49,10 @@
       }
     },
     "UPDATE_CHATWOOT": "Uma atualização %{latestChatwootVersion} para o Chatwoot está disponível. Por favor, atualize sua instância.",
-    "LEARN_MORE": "Saiba mais"
+    "LEARN_MORE": "Saiba mais",
+    "PAYMENT_PENDING": "Seu pagamento está pendente. Por favor, atualize suas informações de pagamento para continuar usando o Chatwoot",
+    "LIMITS_UPGRADE": "Sua conta excedeu os limites de uso. Por favor, faça um upgrade do seu plano para continuar usando o Chatwoot",
+    "OPEN_BILLING": "Abrir faturamento"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -103,9 +107,12 @@
       "CHANGE_ASSIGNEE": "Alterar Responsável",
       "CHANGE_PRIORITY": "Alterar Prioridade",
       "CHANGE_TEAM": "Alterar a Equipe",
+      "SNOOZE_CONVERSATION": "Adiar conversa",
       "ADD_LABEL": "Adicionar etiqueta à conversa",
       "REMOVE_LABEL": "Remover etiqueta da conversa",
-      "SETTINGS": "Confirgurações"
+      "SETTINGS": "Confirgurações",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Ir para Painel de Conversação",
@@ -127,6 +134,7 @@
       "GO_TO_NOTIFICATIONS": "Ir para Notificações",
       "ADD_LABELS_TO_CONVERSATION": "Adicionar etiqueta à conversa",
       "ASSIGN_AN_AGENT": "Atribuir um agente",
+      "AI_ASSIST": "AI Assist",
       "ASSIGN_PRIORITY": "Atribuir prioridade",
       "ASSIGN_A_TEAM": "Atribuir uma equipe",
       "MUTE_CONVERSATION": "Silenciar conversa",
@@ -138,10 +146,21 @@
       "SNOOZE_CONVERSATION": "Adiar conversa",
       "UNTIL_NEXT_REPLY": "Até a próxima resposta",
       "UNTIL_NEXT_WEEK": "Até a próxima semana",
-      "UNTIL_TOMORROW": "Até amanhã"
+      "UNTIL_TOMORROW": "Até amanhã",
+      "UNTIL_NEXT_MONTH": "Até o próximo mês",
+      "AN_HOUR_FROM_NOW": "Até daqui a uma hora",
+      "CUSTOM": "Personalizar...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "System"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "Carregando Dashboard App..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "clique aqui"
   }
 }

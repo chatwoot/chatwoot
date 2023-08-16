@@ -15,8 +15,8 @@
             "MESSAGE_CREATED": "Nachricht erstellt",
             "MESSAGE_UPDATED": "Nachricht aktualisiert",
             "WEBWIDGET_TRIGGERED": "Vom Benutzer geöffnetes Live-Chat-Widget",
-            "CONTACT_CREATED": "Contact created",
-            "CONTACT_UPDATED": "Contact updated"
+            "CONTACT_CREATED": "Kontakt erstellt",
+            "CONTACT_UPDATED": "Kontakt aktualisiert"
           }
         },
         "END_POINT": {
@@ -73,34 +73,74 @@
       }
     },
     "SLACK": {
+      "DELETE": "Löschen",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Delete the integration",
+        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+      },
       "HELP_TEXT": {
         "TITLE": "Slack-Integration verwenden",
-        "BODY": "<br/><p>Chatwoot wird nun alle eingehenden Konversationen in den <b><i>Kundengespräche</i></b> Channel innerhalb Ihres Slack Arbeitsplatzes synchronisieren.</p><p>Wenn Sie in <b><i>Kunden-Konversationen</i></b> antworten, wird der Slack Kanal eine Antwort an den Kunden durch Chat erzeugen.</p><p>Starten Sie die Antworten mit <b><i>Notiz:</i></b> um private Notizen anstatt Antworten zu erstellen.</p><p>Wenn der Replier auf Slack ein Agentenprofil im Chatwoot unter der gleichen E-Mail hat, werden die Antworten entsprechend assoziiert.</p><p>Wenn der Replier kein Agentenprofil hat, werden die Antworten aus dem Bot-Profil getätigt.</p>"
-      }
+        "BODY": "<br/><p>Chatwoot wird nun alle eingehenden Konversationen in den <b><i>Kundengespräche</i></b> Channel innerhalb Ihres Slack Arbeitsplatzes synchronisieren.</p><p>Wenn Sie in <b><i>Kunden-Konversationen</i></b> antworten, wird der Slack Kanal eine Antwort an den Kunden durch Chat erzeugen.</p><p>Starten Sie die Antworten mit <b><i>Notiz:</i></b> um private Notizen anstatt Antworten zu erstellen.</p><p>Wenn der Replier auf Slack ein Agentenprofil im Chatwoot unter der gleichen E-Mail hat, werden die Antworten entsprechend assoziiert.</p><p>Wenn der Replier kein Agentenprofil hat, werden die Antworten aus dem Bot-Profil getätigt.</p>",
+        "SELECTED": "selected"
+      },
+      "SELECT_CHANNEL": {
+        "OPTION_LABEL": "Select a channel",
+        "UPDATE": "Aktualisieren",
+        "BUTTON_TEXT": "Connect channel",
+        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
+        "ATTENTION_REQUIRED": "Attention required"
+      },
+      "UPDATE_ERROR": "There was an error updating the integration, please try again",
+      "UPDATE_SUCCESS": "The channel is connected successfully",
+      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
     },
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Klicke hier, um beizutreten",
+      "CLICK_HERE_TO_JOIN": "Klicken Sie hier, um beizutreten",
       "LEAVE_THE_ROOM": "Raum verlassen",
       "START_VIDEO_CALL_HELP_TEXT": "Einen neuen Videoanruf mit dem Kunden starten",
       "JOIN_ERROR": "Beim Verbinden des Anrufs ist ein Fehler aufgetreten, bitte versuche es erneut",
       "CREATE_ERROR": "Beim Erstellen eines Meeting-Links ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
     },
     "OPEN_AI": {
-      "TITLE": "Improve With AI",
-      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "AI_ASSIST": "AI Assist",
+      "WITH_AI": " %{option} with AI ",
+      "OPTIONS": {
+        "REPLY_SUGGESTION": "Reply Suggestion",
+        "SUMMARIZE": "Summarize",
+        "REPHRASE": "Improve Writing",
+        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
+        "SHORTEN": "Shorten",
+        "EXPAND": "Expand",
+        "MAKE_FRIENDLY": "Change message tone to friendly",
+        "MAKE_FORMAL": "Use formal tone",
+        "SIMPLIFY": "Simplify"
+      },
+      "ASSISTANCE_MODAL": {
+        "DRAFT_TITLE": "Draft content",
+        "GENERATED_TITLE": "Generated content",
+        "AI_WRITING": "AI is writing",
+        "BUTTONS": {
+          "APPLY": "Use this suggestion",
+          "CANCEL": "Stornieren"
+        }
+      },
+      "TITLE": "Mit KI verbessern",
+      "SUMMARY_TITLE": "Zusammenfassung mit KI",
+      "REPLY_TITLE": "Vorschlag mit KI beantworten",
+      "SUBTITLE": "Eine verbesserte Antwort wird mithilfe der KI generiert, basierend auf Ihrem aktuellen Entwurf.",
       "TONE": {
-        "TITLE": "Tone",
+        "TITLE": "Ton",
         "OPTIONS": {
-          "PROFESSIONAL": "Professional",
-          "FRIENDLY": "Friendly"
+          "PROFESSIONAL": "Professionell",
+          "FRIENDLY": "Freundlich"
         }
       },
       "BUTTONS": {
-        "GENERATE": "Generate",
-        "GENERATING": "Generating...",
-        "CANCEL": "Stornieren"
+        "GENERATE": "Generieren",
+        "GENERATING": "Generieren...",
+        "CANCEL": "Abbrechen"
       },
-      "GENERATE_ERROR": "There was an error processing the content, please try again"
+      "GENERATE_ERROR": "Beim Verarbeiten des Inhalts ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
     },
     "DELETE": {
       "BUTTON_TEXT": "Löschen",

@@ -19,8 +19,18 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "זמן מענה טיפוסי תוך כמה דקות",
     "IN_A_FEW_HOURS": "מענה ממוצע תוך כמה שעות",
-    "IN_A_DAY": "מענה ממוצע לאחר יום"
+    "IN_A_DAY": "מענה ממוצע לאחר יום",
+    "BACK_IN": "We will be back online"
   },
+  "DAY_NAMES": [
+    "יום ראשון",
+    "יום שני",
+    "יום שלישי",
+    "יום רביעי",
+    "יום חמישי",
+    "שישי",
+    "יום שבת"
+  ],
   "START_CONVERSATION": "התחל שיחה",
   "END_CONVERSATION": "סיים שיחה",
   "CONTINUE_CONVERSATION": "המשך שיחה",
@@ -56,7 +66,9 @@
         "LABEL": "מספר טלפון",
         "PLACEHOLDER": "אנא הזן את מספר הטלפון שלך",
         "REQUIRED_ERROR": "נדרש מספר טלפון",
-        "VALID_ERROR": "מספר הטלפון צריך להיות בפורמט E.164, למשל: +1415555555"
+        "DIAL_CODE_VALID_ERROR": "Please select a country code",
+        "VALID_ERROR": "Please enter a valid phone number",
+        "DROPDOWN_EMPTY": "לא נמצאו תוצאות"
       },
       "MESSAGE": {
         "LABEL": "הודעה",
@@ -93,5 +105,9 @@
       "CLICK_HERE_TO_JOIN": "לחץ כאן בשביל להצטרף",
       "LEAVE_THE_ROOM": "עזוב את השיחה"
     }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles"
   }
 }

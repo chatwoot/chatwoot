@@ -38,6 +38,8 @@ it:
     contacts:
       import:
         failed: Il file è vuoto
+      export:
+        success: We will notify you once contacts export file is ready to view.
       email:
         invalid: Email non valida
       phone_number:
@@ -47,6 +49,8 @@ it:
         unique: dovrebbe essere unico nella categoria e nel portale
     dyte:
       invalid_message_type: "Invalid message type. Action not permitted"
+    slack:
+      invalid_channel_id: "Invalid slack channel. Please try again"
     inboxes:
       imap:
         socket_error: Controlla la connessione di rete, l'indirizzo IMAP e riprova.
@@ -56,6 +60,8 @@ it:
         connection_closed_error: Connessione chiusa.
       validations:
         name: non dovrebbe iniziare o terminare con i simboli, e non dovrebbe avere < > / \ @ caratteri.
+    custom_filters:
+      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
   reports:
     period: Periodo di segnalazione da %{since} a %{until}
     utc_warning: The report generated is in UTC timezone
@@ -140,6 +146,8 @@ it:
         header:
           from_with_name: "%{assignee_name} da %{inbox_name} <%{from_email}>"
           reply_with_name: "%{assignee_name} da %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} da %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} da %{inbox_name} <%{from_email}>"
@@ -180,6 +188,7 @@ it:
       empty_placeholder: Nessun risultato trovato.
       loading_placeholder: Searching...
       results_title: Search results
+    toc_header: 'On this page'
     hero:
       sub_title: Search for the articles here or browse the categories below.
     common:

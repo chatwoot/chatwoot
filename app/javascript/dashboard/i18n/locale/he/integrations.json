@@ -73,10 +73,26 @@
       }
     },
     "SLACK": {
+      "DELETE": "מחק",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Delete the integration",
+        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+      },
       "HELP_TEXT": {
         "TITLE": "שימוש ב-Slack Integration",
-        "BODY": "<br/><p>Chatwoot תסנכרן כעת את כל השיחות הנכנסות לערוץ <b><i>שיחות-לקוח</i></b> בתוך מקום העבודה הרפוי שלך.</p><p>משיב ל- שרשור שיחה ב<b><i>שיחות לקוח</i></b> ערוץ רפוי ייצור תגובה חזרה ללקוח באמצעות chatwoot.</p><p>התחל את התשובות עם <b><i> הערה:</i></b> כדי ליצור הערות פרטיות במקום תשובות.</p><p>אם למשיב ב-slack יש פרופיל סוכן ב-chatwoot תחת אותו דוא\"ל, התשובות ישויכו בהתאם.</b> p><p>כאשר למשיב אין פרופיל סוכן משויך, התשובות ייעשו מפרופיל הבוט.</p>"
-      }
+        "BODY": "<br/><p>Chatwoot תסנכרן כעת את כל השיחות הנכנסות לערוץ <b><i>שיחות-לקוח</i></b> בתוך מקום העבודה הרפוי שלך.</p><p>משיב ל- שרשור שיחה ב<b><i>שיחות לקוח</i></b> ערוץ רפוי ייצור תגובה חזרה ללקוח באמצעות chatwoot.</p><p>התחל את התשובות עם <b><i> הערה:</i></b> כדי ליצור הערות פרטיות במקום תשובות.</p><p>אם למשיב ב-slack יש פרופיל סוכן ב-chatwoot תחת אותו דוא\"ל, התשובות ישויכו בהתאם.</b> p><p>כאשר למשיב אין פרופיל סוכן משויך, התשובות ייעשו מפרופיל הבוט.</p>",
+        "SELECTED": "selected"
+      },
+      "SELECT_CHANNEL": {
+        "OPTION_LABEL": "Select a channel",
+        "UPDATE": "עדכן",
+        "BUTTON_TEXT": "Connect channel",
+        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
+        "ATTENTION_REQUIRED": "Attention required"
+      },
+      "UPDATE_ERROR": "There was an error updating the integration, please try again",
+      "UPDATE_SUCCESS": "The channel is connected successfully",
+      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
     },
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "לחץ כאן בשביל להצטרף",
@@ -86,7 +102,31 @@
       "CREATE_ERROR": "אירעה שגיאה ביצירת קישור לפגישה, אנא נסה שוב"
     },
     "OPEN_AI": {
+      "AI_ASSIST": "AI Assist",
+      "WITH_AI": " %{option} with AI ",
+      "OPTIONS": {
+        "REPLY_SUGGESTION": "Reply Suggestion",
+        "SUMMARIZE": "Summarize",
+        "REPHRASE": "Improve Writing",
+        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
+        "SHORTEN": "Shorten",
+        "EXPAND": "Expand",
+        "MAKE_FRIENDLY": "Change message tone to friendly",
+        "MAKE_FORMAL": "Use formal tone",
+        "SIMPLIFY": "Simplify"
+      },
+      "ASSISTANCE_MODAL": {
+        "DRAFT_TITLE": "Draft content",
+        "GENERATED_TITLE": "Generated content",
+        "AI_WRITING": "AI is writing",
+        "BUTTONS": {
+          "APPLY": "Use this suggestion",
+          "CANCEL": "ביטול"
+        }
+      },
       "TITLE": "Improve With AI",
+      "SUMMARY_TITLE": "Summary with AI",
+      "REPLY_TITLE": "Reply suggestion with AI",
       "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
       "TONE": {
         "TITLE": "Tone",

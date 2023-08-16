@@ -19,8 +19,18 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "عادة نقوم بالرد خلال بضع دقائق",
     "IN_A_FEW_HOURS": "عادة نقوم بالرد خلال بضع ساعات",
-    "IN_A_DAY": "عادة نقوم بالرد خلال يوم واحد"
+    "IN_A_DAY": "عادة نقوم بالرد خلال يوم واحد",
+    "BACK_IN": "We will be back online"
   },
+  "DAY_NAMES": [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ],
   "START_CONVERSATION": "ابدأ المحادثة",
   "END_CONVERSATION": "إنهاء المحادثة",
   "CONTINUE_CONVERSATION": "متابعة المحادثة",
@@ -56,7 +66,9 @@
         "LABEL": "رقم الهاتف",
         "PLACEHOLDER": "الرجاء إدخال رقم الهاتف الخاص بك",
         "REQUIRED_ERROR": "رقم الهاتف مطلوب",
-        "VALID_ERROR": "يجب أن يكون رقم الهاتف من E.164 مثال: +1415555555"
+        "DIAL_CODE_VALID_ERROR": "Please select a country code",
+        "VALID_ERROR": "Please enter a valid phone number",
+        "DROPDOWN_EMPTY": "لم يتم العثور على النتائج"
       },
       "MESSAGE": {
         "LABEL": "رسالة",
@@ -93,5 +105,9 @@
       "CLICK_HERE_TO_JOIN": "Click here to join",
       "LEAVE_THE_ROOM": "Leave the call"
     }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles"
   }
 }

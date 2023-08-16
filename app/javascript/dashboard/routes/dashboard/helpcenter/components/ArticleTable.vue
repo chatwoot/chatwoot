@@ -22,7 +22,7 @@
     </div>
     <draggable
       tag="div"
-      class="article-container--border"
+      class="border-t-0"
       :disabled="!dragEnabled"
       :list="localArticles"
       ghost-class="article-ghost-class"
@@ -48,6 +48,7 @@
       :current-page="currentPage"
       :total-count="totalCount"
       :page-size="pageSize"
+      class="dark:bg-slate-900 border-t-0 pl-0 pr-0"
       @page-change="onPageChange"
     />
   </div>
@@ -140,71 +141,53 @@ export default {
 </script>
 <style lang="scss" scoped>
 .article-container {
-  width: 100%;
-
-  & > :not([hidden]) ~ :not([hidden]) {
-    border-top-width: 1px;
-    border-bottom-width: 0px;
-  }
+  @apply w-full;
 
   .article-container--header {
-    margin: 0 var(--space-minus-normal);
-    padding: 0 var(--space-normal);
-    display: grid;
-    gap: var(--space-normal);
-    border-bottom: 1px solid var(--s-100);
-    grid-template-columns: repeat(8, minmax(0, 1fr));
+    @apply my-0 -mx-4 py-0 px-4 grid grid-cols-8 gap-4 border-b border-slate-100 dark:border-slate-700;
 
     @media (max-width: 1024px) {
-      grid-template-columns: repeat(7, minmax(0, 1fr));
+      @apply grid-cols-7;
     }
 
     @media (max-width: 768px) {
-      grid-template-columns: repeat(6, minmax(0, 1fr));
+      @apply grid-cols-6;
     }
 
     &.draggable {
       div.heading-item.heading-title {
-        padding: var(--space-small) var(--space-snug);
+        @apply py-2 px-3.5;
       }
     }
 
     div.heading-item {
-      font-weight: var(--font-weight-bold);
-      text-transform: capitalize;
-      color: var(--s-700);
-      font-size: var(--font-size-small);
-      text-align: right;
-      padding: var(--space-small) 0;
+      @apply font-semibold capitalize text-sm text-right py-2 px-0 text-slate-700 dark:text-slate-100;
 
       &.heading-title {
-        text-align: left;
-        grid-column: span 4 / span 4;
+        @apply text-left col-span-4;
       }
 
       @media (max-width: 1024px) {
         &.heading-read-count {
-          display: none;
+          @apply hidden;
         }
       }
 
       @media (max-width: 768px) {
         &.heading-read-count,
         &.heading-last-edited {
-          display: none;
+          @apply hidden;
         }
       }
     }
   }
 
   .footer {
-    padding: 0;
-    border: 0;
+    @apply p-0 border-0;
   }
 }
 
 .article-ghost-class {
-  opacity: 0.5;
-  background-color: var(--s-50);
+  @apply opacity-50 bg-slate-50 dark:bg-slate-800;
 }
 </style>

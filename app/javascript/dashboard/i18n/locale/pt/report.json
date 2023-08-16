@@ -4,6 +4,8 @@
     "LOADING_CHART": "Carregando dados da carta...",
     "NO_ENOUGH_DATA": "Não recebemos pontos de dados suficientes para gerar o relatório. Por favor, tente novamente mais tarde.",
     "DOWNLOAD_AGENT_REPORTS": "Descarregar relatórios de agentes",
+    "DATA_FETCHING_FAILED": "Não foi possível obter dados, por favor, tente mais tarde.",
+    "SUMMARY_FETCHING_FAILED": "Não foi possível obter o resumo. Por favor, tente mais tarde.",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversas",
@@ -32,7 +34,19 @@
       "RESOLUTION_COUNT": {
         "NAME": "Contagem de resolução",
         "DESC": "( Total )"
+      },
+      "REPLY_TIME": {
+        "NAME": "Customer waiting time",
+        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} conversations)"
       }
+    },
+    "DATE_RANGE_OPTIONS": {
+      "LAST_7_DAYS": "Últimos 7 Dias",
+      "LAST_30_DAYS": "Últimos 30 Dias",
+      "LAST_3_MONTHS": "Últimos 3 meses",
+      "LAST_6_MONTHS": "Últimos 6 meses",
+      "LAST_YEAR": "Último ano",
+      "CUSTOM_DATE_RANGE": "Intervalo de tempo personalizado"
     },
     "DATE_RANGE": [
       {
@@ -66,6 +80,12 @@
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Agrupar Por",
     "DURATION_FILTER_LABEL": "Duração",
+    "GROUPING_OPTIONS": {
+      "DAY": "Dia",
+      "WEEK": "Semana",
+      "MONTH": "Mês",
+      "YEAR": "Ano"
+    },
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
@@ -108,10 +128,6 @@
       {
         "id": 3,
         "groupBy": "Mês"
-      },
-      {
-        "id": 4,
-        "groupBy": "Ano"
       }
     ],
     "BUSINESS_HOURS": "Horário comercial"
@@ -387,7 +403,8 @@
   "CSAT_REPORTS": {
     "HEADER": "Relatórios CSAT",
     "NO_RECORDS": "Sem dados CSAT disponíveis para reposta.",
-    "DOWNLOAD": "Download CSAT Reports",
+    "DOWNLOAD": "Descarregar Relatórios de CSAT",
+    "DOWNLOAD_FAILED": "Falha ao descarregar os relatórios CSAT",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Escolher Agentes"
@@ -418,28 +435,28 @@
   },
   "OVERVIEW_REPORTS": {
     "HEADER": "Visão geral",
-    "LIVE": "Live",
+    "LIVE": "Disponível",
     "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Open Conversations",
-      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "HEADER": "Conversas Abertas",
+      "LOADING_MESSAGE": "A importar métricas de conversa...",
       "OPEN": "Abertas",
-      "UNATTENDED": "Unattended",
+      "UNATTENDED": "Por tratar",
       "UNASSIGNED": "Não atribuído"
     },
     "CONVERSATION_HEATMAP": {
-      "HEADER": "Conversation Traffic",
-      "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "%{count} conversation",
-      "CONVERSATIONS": "%{count} conversations"
+      "HEADER": "Tráfego de conversa",
+      "NO_CONVERSATIONS": "Não existem conversas",
+      "CONVERSATION": "%{count} conversa",
+      "CONVERSATIONS": "%{count} conversas"
     },
     "AGENT_CONVERSATIONS": {
-      "HEADER": "Conversations by agents",
-      "LOADING_MESSAGE": "Loading agent metrics...",
-      "NO_AGENTS": "There are no conversations by agents",
+      "HEADER": "Conversas por agentes",
+      "LOADING_MESSAGE": "A gerar métricas dos agentes...",
+      "NO_AGENTS": "Não existem conversas por agentes",
       "TABLE_HEADER": {
         "AGENT": "Representante",
         "OPEN": "ABRIR",
-        "UNATTENDED": "Unattended",
+        "UNATTENDED": "Por tratar",
         "STATUS": "SItuação"
       }
     },
@@ -451,12 +468,12 @@
     }
   },
   "DAYS_OF_WEEK": {
-    "SUNDAY": "Sunday",
-    "MONDAY": "Monday",
-    "TUESDAY": "Tuesday",
-    "WEDNESDAY": "Wednesday",
-    "THURSDAY": "Thursday",
-    "FRIDAY": "Friday",
-    "SATURDAY": "Saturday"
+    "SUNDAY": "Domingo",
+    "MONDAY": "Segunda-feira",
+    "TUESDAY": "Terça-feira",
+    "WEDNESDAY": "Quarta-feira",
+    "THURSDAY": "Quinta-feira",
+    "FRIDAY": "Sexta-feira",
+    "SATURDAY": "Sábado"
   }
 }

@@ -1,5 +1,29 @@
 // scss-lint:disable QualifyingElement
 
+label {
+  @apply text-slate-800 dark:text-slate-200;
+}
+
+textarea {
+  @apply bg-white dark:bg-slate-900 focus:bg-white focus:dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-600;
+}
+
+input {
+  @apply bg-white dark:bg-slate-900 focus:bg-white focus:dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-600;
+
+  &[disabled] {
+    @apply bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-400 border-slate-200 dark:border-slate-600;
+  }
+}
+
+input[type='file'] {
+  @apply bg-white dark:bg-slate-800;
+}
+
+select {
+  @apply bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-600;
+}
+
 .error {
   input[type='color'],
   input[type='date'],
@@ -19,17 +43,11 @@
   textarea,
   select,
   .multiselect > .multiselect__tags {
-    @include thin-border(var(--r-400));
+    @apply border border-solid border-red-400 dark:border-red-400;
   }
 
   .message {
-    color: var(--r-400);
-    display: block;
-    font-size: var(--font-size-small);
-    font-weight: $font-weight-normal;
-    margin-bottom: $space-one;
-    margin-top: -$space-normal;
-    width: 100%;
+    @apply text-red-400 dark:text-red-400 block text-sm mb-2.5 w-full;
   }
 }
 
@@ -42,22 +60,19 @@ input {
 }
 
 .input-wrap {
-  color: $color-heading;
-  font-size: $font-size-small;
-  font-weight: $font-weight-medium;
+  @apply text-slate-800 dark:text-slate-100 text-sm font-medium;
 }
 
 .help-text {
-  font-weight: $font-weight-normal;
+  @apply font-normal text-slate-600 dark:text-slate-400;
 }
 
 .input-group.small {
   input {
-    font-size: var(--font-size-small);
-    height: var(--space-large);
+    @apply text-sm h-8;
   }
 
   .error {
-    border-color: var(--r-400);
+    @apply border-red-400 dark:border-red-400;
   }
 }
