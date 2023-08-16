@@ -12,6 +12,10 @@
     "NO_INBOX_2": " להתחיל",
     "NO_INBOX_AGENT": "או - או! נראה שאתה לא חלק מתיבת דואר נכנס כלשהי. אנא פנה למנהל המערכת שלך",
     "SEARCH_MESSAGES": "חפש הודעות בשיחות",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "חפש הודעות",
       "RESULT_TITLE": "תוצאות חיפוש",
@@ -54,18 +58,25 @@
       "OPEN": "עוד",
       "CLOSE": "סגור",
       "DETAILS": "פרטים",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "נמנם עד מחר",
       "SNOOZED_UNTIL_NEXT_WEEK": "נמנם עד שבוע הבא",
       "SNOOZED_UNTIL_NEXT_REPLY": "נמנם עד תגובה הבאה"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "סמן כממתין",
+      "SNOOZE_UNTIL": "נודניק",
       "SNOOZE": {
         "TITLE": "השהה עד",
         "NEXT_REPLY": "תגובה הבאה",
         "TOMORROW": "מחר",
         "NEXT_WEEK": "שבוע הבא"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "השהה עד",
+      "APPLY": "נודניק",
+      "CANCEL": "ביטול"
     },
     "PRIORITY": {
       "TITLE": "Priority",
@@ -140,6 +151,7 @@
       "STOP_AUDIO_RECORDING": "עצור הקלטת אודיו",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "הוסף bcc",
         "CC": {
           "LABEL": "CC",

@@ -19,8 +19,18 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Зазвичай, відповідаємо за декілька хвилин",
     "IN_A_FEW_HOURS": "Зазвичай, відповідаємо за декілька годин",
-    "IN_A_DAY": "Зазвичай, відповідаємо протягом доби"
+    "IN_A_DAY": "Зазвичай, відповідаємо протягом доби",
+    "BACK_IN": "We will be back online"
   },
+  "DAY_NAMES": [
+    "Неділя",
+    "Понеділок",
+    "Вівторок",
+    "Середа",
+    "Четвер",
+    "П'ятниця",
+    "Субота"
+  ],
   "START_CONVERSATION": "Розпочати розмову",
   "END_CONVERSATION": "Закінчити спілкування",
   "CONTINUE_CONVERSATION": "Продовжити спілкування",
@@ -56,7 +66,9 @@
         "LABEL": "Номер телефону",
         "PLACEHOLDER": "Будь ласка, введіть номер телефону",
         "REQUIRED_ERROR": "Номер телефону є обов'язковим",
-        "VALID_ERROR": "Номер телефону має бути в форматі E.164; наприклад: + 1415555555"
+        "DIAL_CODE_VALID_ERROR": "Please select a country code",
+        "VALID_ERROR": "Please enter a valid phone number",
+        "DROPDOWN_EMPTY": "Результатів не знайдено"
       },
       "MESSAGE": {
         "LABEL": "Текст повідомлення",
@@ -93,5 +105,9 @@
       "CLICK_HERE_TO_JOIN": "Натисніть тут, щоб приєднатися",
       "LEAVE_THE_ROOM": "Залишити дзвінок"
     }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "Переглянути всі статті"
   }
 }

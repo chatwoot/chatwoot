@@ -18,4 +18,6 @@
 class SlaPolicy < ApplicationRecord
   belongs_to :account
   validates :name, presence: true
+
+  has_many :conversations, dependent: :nullify
 end

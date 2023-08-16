@@ -103,7 +103,7 @@
           class="modal-mask"
         >
           <fluent-icon icon="cloud-backup" />
-          <h4 class="page-sub-title">
+          <h4 class="page-sub-title text-slate-600 dark:text-slate-200">
             {{ $t('CONVERSATION.REPLYBOX.DRAG_DROP') }}
           </h4>
         </div>
@@ -323,48 +323,35 @@ export default {
 
 <style lang="scss" scoped>
 .bottom-box {
-  display: flex;
-  justify-content: space-between;
-  padding: var(--space-slab) var(--space-normal);
+  @apply flex justify-between py-3 px-4;
 
   &.is-note-mode {
-    background: var(--y-50);
+    @apply bg-yellow-100 dark:bg-yellow-800;
   }
 }
 
-.left-wrap .button {
-  margin-right: var(--space-small);
-}
-
 .left-wrap {
-  align-items: center;
-  display: flex;
+  @apply items-center flex gap-2;
 }
 
 .right-wrap {
-  display: flex;
+  @apply flex;
 }
 
 ::v-deep .file-uploads {
   label {
-    cursor: pointer;
+    @apply cursor-pointer;
   }
-  &:hover .button {
-    background: var(--s-100);
+  &:hover button {
+    @apply dark:bg-slate-800 bg-slate-100;
   }
 }
 
 .modal-mask {
-  color: var(--s-600);
-  background: var(--white-transparent);
-  flex-direction: column;
-}
-
-.page-sub-title {
-  color: var(--s-600);
+  @apply text-slate-600 dark:text-slate-200 bg-white_transparent dark:bg-black_transparent flex-col;
 }
 
 .icon {
-  font-size: 8rem;
+  @apply text-[5rem];
 }
 </style>

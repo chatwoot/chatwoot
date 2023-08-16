@@ -8,7 +8,7 @@
     },
     "TAB_HEADING": "Beszélgetések",
     "MENTION_HEADING": "Megemlítések",
-    "UNATTENDED_HEADING": "Unattended",
+    "UNATTENDED_HEADING": "Figyelmen kívül hagyott",
     "SEARCH": {
       "INPUT": "Keresés: emberek, beszélgetése, mentett válaszok .."
     },
@@ -36,17 +36,23 @@
       }
     },
     "VIEW_FILTER": "Megtekintés",
-    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "SORT_TOOLTIP_LABEL": "Beszélgetések rendezése",
     "CHAT_SORT": {
       "STATUS": "Státusz",
-      "ORDER_BY": "Order by"
+      "ORDER_BY": "Rendezés"
     },
     "CHAT_SORT_FILTER_ITEMS": {
       "latest": {
-        "TEXT": "Last activity"
+        "TEXT": "Utolsó aktivitás"
       },
       "sort_on_created_at": {
-        "TEXT": "Created at"
+        "TEXT": "Létrehozva"
+      },
+      "sort_on_priority": {
+        "TEXT": "Prioritás"
+      },
+      "sort_on_waiting_since": {
+        "TEXT": "Függőben lévő válasz"
       }
     },
     "ATTACHMENTS": {
@@ -70,34 +76,34 @@
       }
     },
     "CHAT_SORT_BY_FILTER": {
-      "TITLE": "Sort conversation",
-      "DROPDOWN_TITLE": "Sort by",
+      "TITLE": "Beszélgetés rendezése",
+      "DROPDOWN_TITLE": "Rendezés",
       "ITEMS": {
         "LATEST": {
-          "NAME": "Last activity at",
-          "LABEL": "Last activity"
+          "NAME": "Utolsó aktivitás",
+          "LABEL": "Utolsó aktivitás"
         },
         "CREATED_AT": {
-          "NAME": "Created at",
-          "LABEL": "Created at"
+          "NAME": "Létrehozva",
+          "LABEL": "Létrehozva"
         },
         "LAST_USER_MESSAGE_AT": {
-          "NAME": "Last user message at",
-          "LABEL": "Last message"
+          "NAME": "Utolsó felhasználói üzenet",
+          "LABEL": "Utolsó üzenet"
         }
       }
     },
     "RECEIVED_VIA_EMAIL": "E-mailen keresztül érkezett",
     "VIEW_TWEET_IN_TWITTER": "Üzenet megtekintése Twitteren",
     "REPLY_TO_TWEET": "Válasz",
-    "LINK_TO_STORY": "Go to instagram story",
+    "LINK_TO_STORY": "Instagram story megnyitása",
     "SENT": "Sikeresen elküldve",
-    "READ": "Read successfully",
-    "DELIVERED": "Delivered successfully",
+    "READ": "Olvasott",
+    "DELIVERED": "Elküldve",
     "NO_MESSAGES": "Nincs üzenet",
     "NO_CONTENT": "Nincs elérhető tartalom",
     "HIDE_QUOTED_TEXT": "Idézett szöveg eltűntetése",
     "SHOW_QUOTED_TEXT": "Idézett szöveg megjelenítése",
-    "MESSAGE_READ": "Read"
+    "MESSAGE_READ": "Olvasott"
   }
 }

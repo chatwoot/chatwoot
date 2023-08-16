@@ -9,21 +9,28 @@
       :id="`mention-item-${index}`"
       :key="agent.id"
       :class="{ active: index === selectedIndex }"
+      class="last:mb-2 items-center rounded-md flex p-2"
       @click="onAgentSelect(index)"
       @mouseover="onHover(index)"
     >
-      <div class="mention--thumbnail">
+      <div class="mr-2">
         <woot-thumbnail
           :src="agent.thumbnail"
           :username="agent.name"
           size="32px"
         />
       </div>
-      <div class="mention--metadata text-truncate">
-        <h5 class="text-block-title mention--user-name text-truncate">
+      <div
+        class="flex-1 max-w-full overflow-hidden whitespace-nowrap text-ellipsis"
+      >
+        <h5
+          class="mention--user-name mb-0 text-sm text-slate-900 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis"
+        >
           {{ agent.name }}
         </h5>
-        <div class="text-truncate mention--email text-truncate">
+        <div
+          class="mention--email overflow-hidden whitespace-nowrap text-ellipsis text-slate-700 dark:text-slate-300 text-xs"
+        >
           {{ agent.email }}
         </div>
       </div>
@@ -88,69 +95,29 @@ export default {
 
 <style scoped lang="scss">
 .mention--box {
-  background: var(--white);
-  border-radius: var(--border-radius-normal);
-  border-top: 1px solid var(--color-border);
-  box-shadow: var(--shadow-medium);
-  font-size: var(--font-size-small);
-  left: 0;
-  bottom: 100%;
-  line-height: 1.2;
-  max-height: 20rem;
-  overflow: auto;
-  padding: var(--space-small) var(--space-small) 0 var(--space-small);
-  position: absolute;
-  width: 100%;
-  z-index: 100;
+  @apply bg-white text-sm dark:bg-slate-700 rounded-md overflow-auto absolute w-full z-[100] pt-2 px-2 pb-0 shadow-md left-0 leading-[1.2] bottom-full max-h-[12.5rem] border-t border-solid border-slate-75 dark:border-slate-800;
 
   &.with-bottom-border {
-    border-bottom: var(--space-small) solid var(--white);
+    @apply border-b-[0.5rem] border-solid border-white dark:border-slate-600;
 
     li {
       &:last-child {
-        margin-bottom: 0;
+        @apply mb-0;
       }
     }
   }
 
   li {
-    align-items: center;
-    border-radius: var(--border-radius-normal);
-    display: flex;
-    padding: var(--space-small);
-
     &.active {
-      background: var(--s-50);
+      @apply bg-slate-50 dark:bg-slate-800;
 
       .mention--user-name {
-        color: var(--s-900);
+        @apply text-slate-900 dark:text-slate-100;
       }
       .mention--email {
-        color: var(--s-800);
+        @apply text-slate-800 dark:text-slate-200;
       }
     }
-
-    &:last-child {
-      margin-bottom: var(--space-small);
-    }
   }
-}
-
-.mention--thumbnail {
-  margin-right: var(--space-small);
-}
-
-.mention--user-name {
-  margin-bottom: 0;
-}
-
-.mention--email {
-  color: var(--s-700);
-  font-size: var(--font-size-mini);
-}
-
-.mention--metadata {
-  flex: 1;
-  max-width: 100%;
 }
 </style>

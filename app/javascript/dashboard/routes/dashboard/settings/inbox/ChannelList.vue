@@ -1,5 +1,5 @@
 <template>
-  <div class="wizard-body small-12 medium-9 columns height-auto">
+  <div class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%] h-auto">
     <page-header
       :header-title="$t('INBOX_MGMT.ADD.AUTH.TITLE')"
       :header-content="
@@ -9,7 +9,7 @@
         )
       "
     />
-    <div class="row channel-list">
+    <div class="mt-6 mx-0 flex flex-wrap">
       <channel-item
         v-for="channel in channelList"
         :key="channel.key"
@@ -48,7 +48,6 @@ export default {
       return [
         { key: 'website', name: 'Website' },
         { key: 'facebook', name: 'Messenger' },
-        { key: 'twitter', name: 'Twitter' },
         { key: 'whatsapp', name: 'WhatsApp' },
         { key: 'sms', name: 'SMS' },
         { key: 'email', name: 'Email' },

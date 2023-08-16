@@ -2,21 +2,21 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integrasi",
     "WEBHOOK": {
-      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "SUBSCRIBED_EVENTS": "Acara Berlangganan",
       "FORM": {
         "CANCEL": "Batalkan",
         "DESC": "Acara Webhook memberi Anda informasi realtime tentang apa yang terjadi di akun Chatwoot Anda. Harap masukkan URL yang valid untuk mengkonfigurasi callback.",
         "SUBSCRIPTIONS": {
-          "LABEL": "Events",
+          "LABEL": "Acara",
           "EVENTS": {
-            "CONVERSATION_CREATED": "Conversation Created",
-            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
-            "CONVERSATION_UPDATED": "Conversation Updated",
-            "MESSAGE_CREATED": "Message created",
-            "MESSAGE_UPDATED": "Message updated",
-            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user",
-            "CONTACT_CREATED": "Contact created",
-            "CONTACT_UPDATED": "Contact updated"
+            "CONVERSATION_CREATED": "Percakapan Dibuat",
+            "CONVERSATION_STATUS_CHANGED": "Perubahan Status Percakapan",
+            "CONVERSATION_UPDATED": "Percakapan Diperbarui",
+            "MESSAGE_CREATED": "Pesan dibuat",
+            "MESSAGE_UPDATED": "Pesan diperbarui",
+            "WEBWIDGET_TRIGGERED": "Widget obrolan langsung dibuka oleh pengguna",
+            "CONTACT_CREATED": "Kontak dibuat",
+            "CONTACT_UPDATED": "Kontak diperbarui"
           }
         },
         "END_POINT": {
@@ -24,7 +24,7 @@
           "PLACEHOLDER": "Contoh: https://example/api/webhook",
           "ERROR": "Harap masukkan URL yang valid"
         },
-        "EDIT_SUBMIT": "Update webhook",
+        "EDIT_SUBMIT": "Perbarui webhook",
         "ADD_SUBMIT": "Tambah Webhook"
       },
       "TITLE": "Webhook",
@@ -33,7 +33,7 @@
       "HEADER_BTN_TXT": "Tambah webhook baru",
       "LOADING": "Mengambil webhook terlampir",
       "SEARCH_404": "Tidak ada item yang cocok dengan kueri ini",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhook adalah callback HTTP yang dapat ditentukan untuk setiap akun. Mereka dipicu oleh peristiwa seperti pembuatan pesan di Chatwoot. Anda dapat menambah lebih dari satu webhook untuk akun ini. <br /><br /> Untuk menambahkan <b>webhook</b>, klik tombol <b>Tambahkan webhook baru</b>. Anda juga dapat menghapus webhook yang ada dengan mengklik tombol Hapus.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhook</b> </p> <p>Webhook adalah callback HTTP yang dapat ditentukan untuk setiap akun. Mereka dipicu oleh peristiwa seperti pembuatan pesan di Chatwoot. Anda dapat menambah lebih dari satu webhook untuk akun ini. <br /><br /> Untuk menambahkan <b>webhook</b>, klik tombol <b>Tambahkan webhook baru</b>. Anda juga dapat menghapus webhook yang ada dengan mengklik tombol Hapus.</p>",
       "LIST": {
         "404": "Tidak ada webhook yang dikonfigurasi untuk akun ini.",
         "TITLE": "Kelola webhook",
@@ -44,9 +44,9 @@
       },
       "EDIT": {
         "BUTTON_TEXT": "Edit",
-        "TITLE": "Edit webhook",
+        "TITLE": "Sunting webhook",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
+          "SUCCESS_MESSAGE": "Konfigurasi webhook berhasil diperbarui",
           "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
         }
       },
@@ -54,7 +54,7 @@
         "CANCEL": "Batalkan",
         "TITLE": "Tambah webhook baru",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
+          "SUCCESS_MESSAGE": "Konfigurasi webhook berhasil ditambahkan",
           "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
         }
       },
@@ -66,38 +66,78 @@
         },
         "CONFIRM": {
           "TITLE": "Konfirmasi Penghapusan",
-          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
+          "MESSAGE": "Apakah Anda yakin ingin menghapus webhook? (%{webhookURL})",
           "YES": "Ya, Hapus ",
           "NO": "Tidak, Simpan"
         }
       }
     },
     "SLACK": {
+      "DELETE": "Hapus",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Delete the integration",
+        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+      },
       "HELP_TEXT": {
         "TITLE": "Using Slack Integration",
-        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>"
-      }
+        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>",
+        "SELECTED": "selected"
+      },
+      "SELECT_CHANNEL": {
+        "OPTION_LABEL": "Select a channel",
+        "UPDATE": "Perbarui",
+        "BUTTON_TEXT": "Connect channel",
+        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
+        "ATTENTION_REQUIRED": "Attention required"
+      },
+      "UPDATE_ERROR": "There was an error updating the integration, please try again",
+      "UPDATE_SUCCESS": "The channel is connected successfully",
+      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
     },
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the room",
-      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
-      "JOIN_ERROR": "There was an error joining the call, please try again",
-      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+      "CLICK_HERE_TO_JOIN": "Klik di sini untuk bergabung",
+      "LEAVE_THE_ROOM": "Tinggalkan ruangan",
+      "START_VIDEO_CALL_HELP_TEXT": "Mulai panggilan video baru dengan pelanggan",
+      "JOIN_ERROR": "Terjadi kesalahan saat bergabung dengan panggilan, harap coba lagi",
+      "CREATE_ERROR": "Terjadi kesalahan saat membuat tautan pertemuan, harap coba lagi"
     },
     "OPEN_AI": {
-      "TITLE": "Improve With AI",
-      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "AI_ASSIST": "AI Assist",
+      "WITH_AI": " %{option} with AI ",
+      "OPTIONS": {
+        "REPLY_SUGGESTION": "Reply Suggestion",
+        "SUMMARIZE": "Summarize",
+        "REPHRASE": "Improve Writing",
+        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
+        "SHORTEN": "Shorten",
+        "EXPAND": "Expand",
+        "MAKE_FRIENDLY": "Change message tone to friendly",
+        "MAKE_FORMAL": "Use formal tone",
+        "SIMPLIFY": "Simplify"
+      },
+      "ASSISTANCE_MODAL": {
+        "DRAFT_TITLE": "Draft content",
+        "GENERATED_TITLE": "Generated content",
+        "AI_WRITING": "AI is writing",
+        "BUTTONS": {
+          "APPLY": "Use this suggestion",
+          "CANCEL": "Batalkan"
+        }
+      },
+      "TITLE": "Perbaiki dengan AI",
+      "SUMMARY_TITLE": "Ringkasan dengan AI",
+      "REPLY_TITLE": "Saran balasan dengan AI",
+      "SUBTITLE": "Balasan yang ditingkatkan akan dihasilkan menggunakan AI, berdasarkan draf saat ini.",
       "TONE": {
-        "TITLE": "Tone",
+        "TITLE": "Nada",
         "OPTIONS": {
-          "PROFESSIONAL": "Professional",
-          "FRIENDLY": "Friendly"
+          "PROFESSIONAL": "Profesional",
+          "FRIENDLY": "Ramah"
         }
       },
       "BUTTONS": {
-        "GENERATE": "Generate",
-        "GENERATING": "Generating...",
+        "GENERATE": "Hasilkan",
+        "GENERATING": "Menghasilkan...",
         "CANCEL": "Batalkan"
       },
       "GENERATE_ERROR": "There was an error processing the content, please try again"
@@ -109,52 +149,52 @@
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "Sambungkan"
     },
     "DASHBOARD_APPS": {
-      "TITLE": "Dashboard Apps",
-      "HEADER_BTN_TXT": "Add a new dashboard app",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
-      "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
+      "TITLE": "Aplikasi Dasbor",
+      "HEADER_BTN_TXT": "Tambahkan aplikasi dasbor baru",
+      "SIDEBAR_TXT": "<p><b>Aplikasi Dasbor</b></p><p>Aplikasi Dasbor memungkinkan organisasi untuk menyematkan aplikasi di dalam dasbor Chatwoot untuk menyediakan konteks bagi agen dukungan pelanggan. Fitur ini memungkinkan Anda membuat aplikasi secara independen dan menyematkannya di dalam dasbor untuk menyediakan informasi pengguna, pesanan, atau riwayat pembayaran sebelumnya.</p><p>Ketika Anda menyematkan aplikasi Anda menggunakan dasbor di Chatwoot, aplikasi Anda akan mendapatkan konteks percakapan dan kontak sebagai acara window. Implementasikan penerima untuk acara pesan di halaman Anda untuk menerima konteks.</p><p>Untuk menambahkan aplikasi dasbor baru, klik tombol 'Tambahkan aplikasi dasbor baru'.</p>",
+      "DESCRIPTION": "Aplikasi Dasbor memungkinkan organisasi untuk menyematkan aplikasi di dalam dasbor untuk menyediakan konteks bagi agen dukungan pelanggan. Fitur ini memungkinkan Anda membuat aplikasi secara independen dan menyematkannya untuk menyediakan informasi pengguna, pesanan, atau riwayat pembayaran sebelumnya.",
       "LIST": {
-        "404": "There are no dashboard apps configured on this account yet",
-        "LOADING": "Fetching dashboard apps...",
+        "404": "Belum ada aplikasi dasbor yang dikonfigurasi untuk akun ini",
+        "LOADING": "Mengambil aplikasi dasbor...",
         "TABLE_HEADER": [
           "Nama",
-          "Endpoint"
+          "Titik akhir"
         ],
-        "EDIT_TOOLTIP": "Edit app",
-        "DELETE_TOOLTIP": "Delete app"
+        "EDIT_TOOLTIP": "Edit aplikasi",
+        "DELETE_TOOLTIP": "Hapus aplikasi"
       },
       "FORM": {
         "TITLE_LABEL": "Nama",
-        "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
-        "TITLE_ERROR": "A name for the dashboard app is required",
-        "URL_LABEL": "Endpoint",
-        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
-        "URL_ERROR": "A valid URL is required"
+        "TITLE_PLACEHOLDER": "Masukkan nama aplikasi dasbor Anda",
+        "TITLE_ERROR": "Nama untuk aplikasi dasbor diperlukan",
+        "URL_LABEL": "Titik akhir",
+        "URL_PLACEHOLDER": "Masukkan URL endpoint tempat aplikasi Anda dihosting",
+        "URL_ERROR": "URL valid diperlukan"
       },
       "CREATE": {
-        "HEADER": "Add a new dashboard app",
+        "HEADER": "Tambahkan aplikasi dasbor baru",
         "FORM_SUBMIT": "Kirim",
         "FORM_CANCEL": "Batalkan",
-        "API_SUCCESS": "Dashboard app configured successfully",
-        "API_ERROR": "We couldn't create an app. Please try again later"
+        "API_SUCCESS": "Aplikasi dasbor berhasil dikonfigurasi",
+        "API_ERROR": "Kami tidak dapat membuat aplikasi. Harap coba lagi nanti"
       },
       "UPDATE": {
-        "HEADER": "Edit dashboard app",
+        "HEADER": "Edit aplikasi dasbor",
         "FORM_SUBMIT": "Perbarui",
         "FORM_CANCEL": "Batalkan",
-        "API_SUCCESS": "Dashboard app updated successfully",
-        "API_ERROR": "We couldn't update the app. Please try again later"
+        "API_SUCCESS": "Aplikasi dasbor berhasil diperbarui",
+        "API_ERROR": "Kami tidak dapat memperbarui aplikasi. Harap coba lagi nanti"
       },
       "DELETE": {
-        "CONFIRM_YES": "Yes, delete it",
-        "CONFIRM_NO": "No, keep it",
-        "TITLE": "Confirm deletion",
-        "MESSAGE": "Are you sure to delete the app - %{appName}?",
-        "API_SUCCESS": "Dashboard app deleted successfully",
-        "API_ERROR": "We couldn't delete the app. Please try again later"
+        "CONFIRM_YES": "Ya, hapus",
+        "CONFIRM_NO": "Tidak, simpan",
+        "TITLE": "Konfirmasi Penghapusan",
+        "MESSAGE": "Apakah Anda yakin ingin menghapus aplikasi - %{appName}?",
+        "API_SUCCESS": "Aplikasi dasbor berhasil dihapus",
+        "API_ERROR": "Kami tidak dapat menghapus aplikasi. Harap coba lagi nanti"
       }
     }
   }

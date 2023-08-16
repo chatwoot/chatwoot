@@ -3,6 +3,7 @@
     "TITLE": "Настройки аккаунта",
     "SUBMIT": "Изменить настройки",
     "BACK": "Назад",
+    "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "Не удалось обновить настройки, попробуйте снова!",
       "SUCCESS": "Настройки аккаунта обновлены"
@@ -48,7 +49,10 @@
       }
     },
     "UPDATE_CHATWOOT": "Доступно обновление %{latestChatwootVersion} для Chatwoot. Пожалуйста, обновите свою версию.",
-    "LEARN_MORE": "Узнайте больше"
+    "LEARN_MORE": "Узнайте больше",
+    "PAYMENT_PENDING": "Ваш платеж в ожидании. Пожалуйста, обновите платежную информацию, чтобы продолжить использовать Chatwoot",
+    "LIMITS_UPGRADE": "Превышен лимит использования вашего тарифного плана, пожалуйста, обновите тарифный план, чтобы продолжить использовать Chatwoot",
+    "OPEN_BILLING": "Открыть платеж"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -103,9 +107,12 @@
       "CHANGE_ASSIGNEE": "Изменить Назначенного",
       "CHANGE_PRIORITY": "Изменить приоритет",
       "CHANGE_TEAM": "Изменить команду",
+      "SNOOZE_CONVERSATION": "Включить звук диалога",
       "ADD_LABEL": "Добавить метку в разговор",
       "REMOVE_LABEL": "Удалить метку из разговора",
-      "SETTINGS": "Настройки"
+      "SETTINGS": "Настройки",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Перейти к панели разговоров",
@@ -127,6 +134,7 @@
       "GO_TO_NOTIFICATIONS": "Перейти к уведомлениям",
       "ADD_LABELS_TO_CONVERSATION": "Добавить метку в разговор",
       "ASSIGN_AN_AGENT": "Назначить сотрудника",
+      "AI_ASSIST": "AI Assist",
       "ASSIGN_PRIORITY": "Назначить приоритет",
       "ASSIGN_A_TEAM": "Назначить команду",
       "MUTE_CONVERSATION": "Заглушить диалог",
@@ -138,10 +146,21 @@
       "SNOOZE_CONVERSATION": "Включить звук диалога",
       "UNTIL_NEXT_REPLY": "До следующего ответа",
       "UNTIL_NEXT_WEEK": "До следующей недели",
-      "UNTIL_TOMORROW": "До завтра"
+      "UNTIL_TOMORROW": "До завтра",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "Система"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "Загрузка приложения панели управления..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "нажмите здесь"
   }
 }

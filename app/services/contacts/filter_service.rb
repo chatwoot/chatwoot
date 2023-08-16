@@ -54,7 +54,7 @@ class Contacts::FilterService < FilterService
   end
 
   def base_relation
-    Current.account.contacts.left_outer_joins(:labels)
+    Current.account.contacts.distinct(:id).left_outer_joins(:labels)
   end
 
   private

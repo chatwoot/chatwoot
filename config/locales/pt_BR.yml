@@ -38,6 +38,8 @@ pt_BR:
     contacts:
       import:
         failed: Arquivo vazio
+      export:
+        success: Avisaremos você assim que a exportação de arquivos estiver pronta para ser exibida.
       email:
         invalid: E-mail inválido
       phone_number:
@@ -47,6 +49,8 @@ pt_BR:
         unique: deve ser único na categoria e no portal
     dyte:
       invalid_message_type: "Tipo de mensagem inválido. Ação não permitida"
+    slack:
+      invalid_channel_id: "Invalid slack channel. Please try again"
     inboxes:
       imap:
         socket_error: Por favor, verifique a conexão de rede, endereço IMAP e tente novamente.
@@ -56,6 +60,8 @@ pt_BR:
         connection_closed_error: Conexão fechada.
       validations:
         name: 'não deve iniciar ou terminar com símbolos e não deve ter os caracteres: < > / \ @.'
+    custom_filters:
+      number_of_records: Limite atingido. O número máximo de filtros personalizados permitidos para um usuário por conta é de 50.
   reports:
     period: Reportando o período %{since} a %{until}
     utc_warning: O relatório gerado está em fuso horário UTC
@@ -140,6 +146,8 @@ pt_BR:
         header:
           from_with_name: "%{assignee_name} de %{inbox_name} <reply+%{from_email}>"
           reply_with_name: "%{assignee_name} de %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} de %{business_name} <reply+%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} de %{inbox_name} <reply+%{from_email}>"
@@ -180,6 +188,7 @@ pt_BR:
       empty_placeholder: Nenhum resultado encontrado.
       loading_placeholder: Procurando...
       results_title: Resultados de pesquisa
+    toc_header: 'Nesta página'
     hero:
       sub_title: Pesquise os artigos aqui ou navegue pelas categorias abaixo.
     common:

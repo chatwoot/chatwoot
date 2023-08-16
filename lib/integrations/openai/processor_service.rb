@@ -1,36 +1,62 @@
-class Integrations::Openai::ProcessorService
-  # 3.5 support 4,096 tokens
-  # 1 token is approx 4 characters
-  # 4,096 * 4 = 16,384 characters, sticking to 15,000 to be safe
-  TOKEN_LIMIT = 15_000
-  API_URL = 'https://api.openai.com/v1/chat/completions'.freeze
-  GPT_MODEL = 'gpt-3.5-turbo'.freeze
+class Integrations::Openai::ProcessorService < Integrations::OpenaiBaseService
+  AGENT_INSTRUCTION = 'You are a helpful support agent.'.freeze
+  LANGUAGE_INSTRUCTION = 'Ensure that the reply should be in user language.'.freeze
+  def reply_suggestion_message
+    make_api_call(reply_suggestion_body)
+  end
 
-  ALLOWED_EVENT_NAMES = %w[rephrase summarize reply_suggestion].freeze
+  def summarize_message
+    make_api_call(summarize_body)
+  end
 
-  pattr_initialize [:hook!, :event!]
+  def rephrase_message
+    make_api_call(build_api_call_body("#{AGENT_INSTRUCTION} Please rephrase the following response. " \
+                                      "#{LANGUAGE_INSTRUCTION}"))
+  end
 
-  def perform
-    event_name = event['name']
-    return nil unless valid_event_name?(event_name)
+  def fix_spelling_grammar_message
+    make_api_call(build_api_call_body("#{AGENT_INSTRUCTION} Please fix the spelling and grammar of the following response. " \
+                                      "#{LANGUAGE_INSTRUCTION}"))
+  end
 
-    send("#{event_name}_message")
+  def shorten_message
+    make_api_call(build_api_call_body("#{AGENT_INSTRUCTION} Please shorten the following response. " \
+                                      "#{LANGUAGE_INSTRUCTION}"))
+  end
+
+  def expand_message
+    make_api_call(build_api_call_body("#{AGENT_INSTRUCTION} Please expand the following response. " \
+                                      "#{LANGUAGE_INSTRUCTION}"))
+  end
+
+  def make_friendly_message
+    make_api_call(build_api_call_body("#{AGENT_INSTRUCTION} Please make the following response more friendly. " \
+                                      "#{LANGUAGE_INSTRUCTION}"))
+  end
+
+  def make_formal_message
+    make_api_call(build_api_call_body("#{AGENT_INSTRUCTION} Please make the following response more formal. " \
+                                      "#{LANGUAGE_INSTRUCTION}"))
+  end
+
+  def simplify_message
+    make_api_call(build_api_call_body("#{AGENT_INSTRUCTION} Please simplify the following response. " \
+                                      "#{LANGUAGE_INSTRUCTION}"))
   end
 
   private
 
-  def valid_event_name?(event_name)
-    ALLOWED_EVENT_NAMES.include?(event_name)
+  def prompt_from_file(file_name, enterprise: false)
+    path = enterprise ? 'enterprise/lib/enterprise/integrations/openai_prompts' : 'lib/integrations/openai/openai_prompts'
+    Rails.root.join(path, "#{file_name}.txt").read
   end
 
-  def rephrase_body
+  def build_api_call_body(system_content, user_content = event['data']['content'])
     {
       model: GPT_MODEL,
       messages: [
-        { role: 'system',
-          content: "You are a helpful support agent. Please rephrase the following response to a more #{event['data']['tone']} tone. " \
-                   "Reply in the user's language." },
-        { role: 'user', content: event['data']['content'] }
+        { role: 'system', content: system_content },
+        { role: 'user', content: user_content }
       ]
     }.to_json
   end
@@ -42,12 +68,8 @@ class Integrations::Openai::ProcessorService
     add_messages_until_token_limit(conversation, messages, in_array_format)
   end
 
-  def find_conversation
-    hook.account.conversations.find_by(display_id: event['data']['conversation_display_id'])
-  end
-
-  def add_messages_until_token_limit(conversation, messages, in_array_format)
-    character_count = 0
+  def add_messages_until_token_limit(conversation, messages, in_array_format, start_from = 0)
+    character_count = start_from
     conversation.messages.chat.reorder('id desc').each do |message|
       character_count, message_added = add_message_if_within_limit(character_count, message, messages, in_array_format)
       break unless message_added
@@ -96,8 +118,7 @@ class Integrations::Openai::ProcessorService
       model: GPT_MODEL,
       messages: [
         { role: 'system',
-          content: 'Please summarize the key points from the following conversation between support agents and ' \
-                   'customer as bullet points for the next support agent looking into the conversation. Reply in the user\'s language.' },
+          content: prompt_from_file('summary', enterprise: false) },
         { role: 'user', content: conversation_messages }
       ]
     }.to_json
@@ -108,30 +129,10 @@ class Integrations::Openai::ProcessorService
       model: GPT_MODEL,
       messages: [
         { role: 'system',
-          content: 'Please suggest a reply to the following conversation between support agents and customer. Reply in the user\'s language.' }
+          content: prompt_from_file('reply', enterprise: false) }
       ].concat(conversation_messages(in_array_format: true))
     }.to_json
   end
-
-  def reply_suggestion_message
-    make_api_call(reply_suggestion_body)
-  end
-
-  def summarize_message
-    make_api_call(summarize_body)
-  end
-
-  def rephrase_message
-    make_api_call(rephrase_body)
-  end
-
-  def make_api_call(body)
-    headers = {
-      'Content-Type' => 'application/json',
-      'Authorization' => "Bearer #{hook.settings['api_key']}"
-    }
-
-    response = HTTParty.post(API_URL, headers: headers, body: body)
-    JSON.parse(response.body)['choices'].first['message']['content']
-  end
 end
+
+Integrations::Openai::ProcessorService.prepend_mod_with('Integrations::OpenaiProcessorService')

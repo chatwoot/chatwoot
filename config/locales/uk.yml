@@ -38,6 +38,8 @@ uk:
     contacts:
       import:
         failed: Файл порожній
+      export:
+        success: We will notify you once contacts export file is ready to view.
       email:
         invalid: Невірний email
       phone_number:
@@ -47,6 +49,8 @@ uk:
         unique: має бути унікальним на категорії і порталі
     dyte:
       invalid_message_type: "Невірний тип повідомлення. Дію не дозволено"
+    slack:
+      invalid_channel_id: "Invalid slack channel. Please try again"
     inboxes:
       imap:
         socket_error: Перевірте підключення до мережі, адреса IMAP і повторіть спробу.
@@ -56,6 +60,8 @@ uk:
         connection_closed_error: З'єднання закрито.
       validations:
         name: не повинно починатись або закінчуватися символами, і він не повинен мати < > / \ @ символів.
+    custom_filters:
+      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
   reports:
     period: Період звіту %{since} до %{until}
     utc_warning: Звіт створено в часовій зоні UTC
@@ -140,6 +146,8 @@ uk:
         header:
           from_with_name: "%{assignee_name} з %{inbox_name} <%{from_email}>"
           reply_with_name: "%{assignee_name} від %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} з %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} з %{inbox_name} <%{from_email}>"
@@ -180,6 +188,7 @@ uk:
       empty_placeholder: Результатів не знайдено.
       loading_placeholder: Шукаємо...
       results_title: Результати пошуку
+    toc_header: 'On this page'
     hero:
       sub_title: Шукайте тут або перегляньте категорії нижче.
     common:

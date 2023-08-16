@@ -75,8 +75,8 @@ export default {
     },
     agentName() {
       if (this.isSenderExist(this.sender)) {
-        const { available_name: availableName, name } = this.sender;
-        return availableName || name;
+        const { available_name: availableName } = this.sender;
+        return availableName;
       }
       if (this.useInboxAvatarForBot) {
         return this.channelConfig.websiteName;

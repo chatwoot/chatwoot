@@ -19,8 +19,18 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Normalmente respondemos em poucos minutos",
     "IN_A_FEW_HOURS": "Normalmente respondemos em poucas horas",
-    "IN_A_DAY": "Normalmente respondemos num dia"
+    "IN_A_DAY": "Normalmente respondemos num dia",
+    "BACK_IN": "Voltaremos online"
   },
+  "DAY_NAMES": [
+    "Domingo",
+    "Segunda-feira",
+    "Terça-feira",
+    "Quarta-feira",
+    "Quinta-feira",
+    "Sexta-feira",
+    "Sábado"
+  ],
   "START_CONVERSATION": "Iniciar Conversa",
   "END_CONVERSATION": "Terminar Conversa",
   "CONTINUE_CONVERSATION": "Continuar conversa",
@@ -49,14 +59,16 @@
       "EMAIL_ADDRESS": {
         "LABEL": "Endereço de e-mail",
         "PLACEHOLDER": "Por favor, insira um endereço de email válido",
-        "REQUIRED_ERROR": "Email Address is required",
+        "REQUIRED_ERROR": "O endereço de email é obrigatório",
         "VALID_ERROR": "Por favor, insira um endereço de e-mail válido"
       },
       "PHONE_NUMBER": {
         "LABEL": "Número de telefone",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "PLACEHOLDER": "Por favor insira o seu número de telefone",
+        "REQUIRED_ERROR": "O número de telefone é obrigatório",
+        "DIAL_CODE_VALID_ERROR": "Por favor, selecione um código de país",
+        "VALID_ERROR": "Por favor, insira um número de telefone válido",
+        "DROPDOWN_EMPTY": "Nenhum resultado encontrado"
       },
       "MESSAGE": {
         "LABEL": "Messagem",
@@ -65,7 +77,7 @@
       }
     },
     "CAMPAIGN_HEADER": "Por favor, forneça seu nome e e-mail antes de iniciar a conversa",
-    "IS_REQUIRED": "is required",
+    "IS_REQUIRED": "é obrigatório",
     "REQUIRED": "Obrigatório"
   },
   "FILE_SIZE_LIMIT": "O ficheiro ultrapassa o tamanho limite {MAXIMUM_FILE_UPLOAD_SIZE}",
@@ -75,8 +87,8 @@
     }
   },
   "EMOJI": {
-    "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+    "PLACEHOLDER": "Pesquisar emojis",
+    "NOT_FOUND": "Nenhum emoji corresponde à sua pesquisa"
   },
   "CSAT": {
     "TITLE": "Avalie a sua conversa",
@@ -91,7 +103,11 @@
   "INTEGRATIONS": {
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Clique aqui para participar",
-      "LEAVE_THE_ROOM": "Leave the call"
+      "LEAVE_THE_ROOM": "Sair da chamada"
     }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "Ver todos os artigos"
   }
 }

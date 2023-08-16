@@ -1,6 +1,6 @@
 <template>
-  <div class="row table-wrap">
-    <div class="column">
+  <div class="flex flex-row gap-4 pl-2">
+    <div class="w-[60%]">
       <woot-tabs :index="selectedTabIndex" @change="onClickTabChange">
         <woot-tabs-item
           v-for="tab in tabs"
@@ -10,10 +10,10 @@
         />
       </woot-tabs>
 
-      <div class="columns with-right-space">
+      <div class="w-full">
         <p
           v-if="!uiFlags.isFetching && !attributes.length"
-          class="no-items-error-message"
+          class="mt-12 flex items-center justify-center"
         >
           {{ $t('ATTRIBUTES_MGMT.LIST.EMPTY_RESULT.404') }}
         </p>
@@ -23,29 +23,37 @@
         />
         <table
           v-if="!uiFlags.isFetching && attributes.length"
-          class="woot-table"
+          class="w-full mt-2 table-fixed woot-table"
         >
           <thead>
             <th
               v-for="tableHeader in $t('ATTRIBUTES_MGMT.LIST.TABLE_HEADER')"
               :key="tableHeader"
-              class="item"
+              class="pl-0 max-w-[6.25rem] min-w-[5rem]"
             >
               {{ tableHeader }}
             </th>
           </thead>
           <tbody>
             <tr v-for="attribute in attributes" :key="attribute.attribute_key">
-              <td class="item text-truncate">
+              <td
+                class="pl-0 max-w-[6.25rem] min-w-[5rem] overflow-hidden whitespace-nowrap text-ellipsis"
+              >
                 {{ attribute.attribute_display_name }}
               </td>
-              <td class="item-description text-truncate">
+              <td
+                class="pl-0 max-w-[10rem] min-w-[6.25rem] overflow-hidden whitespace-nowrap text-ellipsis"
+              >
                 {{ attribute.attribute_description }}
               </td>
-              <td class="item text-truncatee">
+              <td
+                class="pl-0 max-w-[6.25rem] min-w-[5rem] overflow-hidden whitespace-nowrap text-ellipsis"
+              >
                 {{ attribute.attribute_display_type }}
               </td>
-              <td class="item key text-truncate">
+              <td
+                class="attribute-key pl-0 max-w-[6.25rem] min-w-[5rem] overflow-hidden whitespace-nowrap text-ellipsis"
+              >
                 {{ attribute.attribute_key }}
               </td>
               <td class="button-wrapper">
@@ -73,7 +81,7 @@
         </table>
       </div>
     </div>
-    <div class="small-4 columns">
+    <div class="w-[34%]">
       <span v-dompurify-html="$t('ATTRIBUTES_MGMT.SIDEBAR_TXT')" />
     </div>
     <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
@@ -206,43 +214,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.table-wrap {
-  padding-left: var(--space-small);
-}
-
-.woot-table {
-  width: 100%;
-  margin-top: var(--space-small);
-  table-layout: fixed;
-}
-
-.no-items-error-message {
-  margin-top: var(--space-larger);
-}
-
-.tabs {
-  padding-left: 0;
-  margin-right: var(--space-medium);
-  user-select: none;
-}
-
-.item {
-  padding-left: 0;
-  max-width: 10rem;
-  min-width: 8rem;
-}
-
-.item-description {
-  padding-left: 0;
-  max-width: 16rem;
-  min-width: 10rem;
-}
-
-.key {
+.attribute-key {
   font-family: monospace;
 }
 
 ::v-deep {
+  .tabs--container {
+    .tabs {
+      @apply p-0;
+    }
+  }
   .tabs-title a {
     font-weight: var(--font-weight-medium);
     padding-top: 0;

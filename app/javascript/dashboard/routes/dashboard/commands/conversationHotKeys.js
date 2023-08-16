@@ -1,106 +1,34 @@
 import { mapGetters } from 'vuex';
 import wootConstants from 'dashboard/constants/globals';
-import {
-  CMD_MUTE_CONVERSATION,
-  CMD_REOPEN_CONVERSATION,
-  CMD_RESOLVE_CONVERSATION,
-  CMD_SEND_TRANSCRIPT,
-  CMD_SNOOZE_CONVERSATION,
-  CMD_UNMUTE_CONVERSATION,
-} from './commandBarBusEvents';
 
+import { CMD_AI_ASSIST } from './commandBarBusEvents';
+import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import {
   ICON_ADD_LABEL,
   ICON_ASSIGN_AGENT,
   ICON_ASSIGN_PRIORITY,
   ICON_ASSIGN_TEAM,
-  ICON_MUTE_CONVERSATION,
   ICON_REMOVE_LABEL,
-  ICON_REOPEN_CONVERSATION,
-  ICON_RESOLVE_CONVERSATION,
-  ICON_SEND_TRANSCRIPT,
-  ICON_SNOOZE_CONVERSATION,
-  ICON_SNOOZE_UNTIL_NEXT_REPLY,
-  ICON_SNOOZE_UNTIL_NEXT_WEEK,
-  ICON_SNOOZE_UNTIL_TOMORRROW,
-  ICON_UNMUTE_CONVERSATION,
   ICON_PRIORITY_URGENT,
   ICON_PRIORITY_HIGH,
   ICON_PRIORITY_LOW,
   ICON_PRIORITY_MEDIUM,
   ICON_PRIORITY_NONE,
+  ICON_AI_ASSIST,
+  ICON_AI_SUMMARY,
+  ICON_AI_SHORTEN,
+  ICON_AI_EXPAND,
+  ICON_AI_GRAMMAR,
 } from './CommandBarIcons';
 
-const OPEN_CONVERSATION_ACTIONS = [
-  {
-    id: 'resolve_conversation',
-    title: 'COMMAND_BAR.COMMANDS.RESOLVE_CONVERSATION',
-    section: 'COMMAND_BAR.SECTIONS.CONVERSATION',
-    icon: ICON_RESOLVE_CONVERSATION,
-    handler: () => bus.$emit(CMD_RESOLVE_CONVERSATION),
-  },
-  {
-    id: 'snooze_conversation',
-    title: 'COMMAND_BAR.COMMANDS.SNOOZE_CONVERSATION',
-    icon: ICON_SNOOZE_CONVERSATION,
-    children: ['until_next_reply', 'until_tomorrow', 'until_next_week'],
-  },
-  {
-    id: 'until_next_reply',
-    title: 'COMMAND_BAR.COMMANDS.UNTIL_NEXT_REPLY',
-    parent: 'snooze_conversation',
-    icon: ICON_SNOOZE_UNTIL_NEXT_REPLY,
-    handler: () => bus.$emit(CMD_SNOOZE_CONVERSATION, 'nextReply'),
-  },
-  {
-    id: 'until_tomorrow',
-    title: 'COMMAND_BAR.COMMANDS.UNTIL_TOMORROW',
-    parent: 'snooze_conversation',
-    icon: ICON_SNOOZE_UNTIL_TOMORRROW,
-    handler: () => bus.$emit(CMD_SNOOZE_CONVERSATION, 'tomorrow'),
-  },
-  {
-    id: 'until_next_week',
-    title: 'COMMAND_BAR.COMMANDS.UNTIL_NEXT_WEEK',
-    parent: 'snooze_conversation',
-    icon: ICON_SNOOZE_UNTIL_NEXT_WEEK,
-    handler: () => bus.$emit(CMD_SNOOZE_CONVERSATION, 'nextWeek'),
-  },
-];
-
-const RESOLVED_CONVERSATION_ACTIONS = [
-  {
-    id: 'reopen_conversation',
-    title: 'COMMAND_BAR.COMMANDS.REOPEN_CONVERSATION',
-    section: 'COMMAND_BAR.SECTIONS.CONVERSATION',
-    icon: ICON_REOPEN_CONVERSATION,
-    handler: () => bus.$emit(CMD_REOPEN_CONVERSATION),
-  },
-];
-
-const SEND_TRANSCRIPT_ACTION = {
-  id: 'send_transcript',
-  title: 'COMMAND_BAR.COMMANDS.SEND_TRANSCRIPT',
-  section: 'COMMAND_BAR.SECTIONS.CONVERSATION',
-  icon: ICON_SEND_TRANSCRIPT,
-  handler: () => bus.$emit(CMD_SEND_TRANSCRIPT),
-};
-
-const UNMUTE_ACTION = {
-  id: 'unmute_conversation',
-  title: 'COMMAND_BAR.COMMANDS.UNMUTE_CONVERSATION',
-  section: 'COMMAND_BAR.SECTIONS.CONVERSATION',
-  icon: ICON_UNMUTE_CONVERSATION,
-  handler: () => bus.$emit(CMD_UNMUTE_CONVERSATION),
-};
-
-const MUTE_ACTION = {
-  id: 'mute_conversation',
-  title: 'COMMAND_BAR.COMMANDS.MUTE_CONVERSATION',
-  section: 'COMMAND_BAR.SECTIONS.CONVERSATION',
-  icon: ICON_MUTE_CONVERSATION,
-  handler: () => bus.$emit(CMD_MUTE_CONVERSATION),
-};
+import {
+  OPEN_CONVERSATION_ACTIONS,
+  SNOOZE_CONVERSATION_ACTIONS,
+  RESOLVED_CONVERSATION_ACTIONS,
+  SEND_TRANSCRIPT_ACTION,
+  UNMUTE_ACTION,
+  MUTE_ACTION,
+} from './commandBarActions';
 
 export const isAConversationRoute = routeName =>
   [
@@ -110,6 +38,9 @@ export const isAConversationRoute = routeName =>
     'conversation_through_inbox',
     'conversations_through_label',
     'conversations_through_team',
+    'conversations_through_folders',
+    'conversation_through_unattended',
+    'conversation_through_participating',
   ].includes(routeName);
 
 export default {
@@ -126,15 +57,31 @@ export default {
     activeLabels() {
       this.setCommandbarData();
     },
+    draftMessage() {
+      this.setCommandbarData();
+    },
+    replyMode() {
+      this.setCommandbarData();
+    },
   },
   computed: {
-    ...mapGetters({ currentChat: 'getSelectedChat' }),
+    ...mapGetters({
+      currentChat: 'getSelectedChat',
+      replyMode: 'draftMessages/getReplyEditorMode',
+    }),
+    draftMessage() {
+      return this.$store.getters['draftMessages/get'](this.draftKey);
+    },
+    draftKey() {
+      return `draft-${this.conversationId}-${this.replyMode}`;
+    },
     inboxId() {
       return this.currentChat?.inbox_id;
     },
     conversationId() {
       return this.currentChat?.id;
     },
+
     statusActions() {
       const isOpen =
         this.currentChat?.status === wootConstants.STATUS_TYPE.OPEN;
@@ -145,7 +92,10 @@ export default {
 
       let actions = [];
       if (isOpen) {
-        actions = OPEN_CONVERSATION_ACTIONS;
+        actions = [
+          ...OPEN_CONVERSATION_ACTIONS,
+          ...SNOOZE_CONVERSATION_ACTIONS,
+        ];
       } else if (isResolved || isSnoozed) {
         actions = RESOLVED_CONVERSATION_ACTIONS;
       }
@@ -296,6 +246,95 @@ export default {
         SEND_TRANSCRIPT_ACTION,
       ]);
     },
+
+    nonDraftMessageAIAssistActions() {
+      if (this.replyMode === REPLY_EDITOR_MODES.REPLY) {
+        return [
+          {
+            label: this.$t(
+              'INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.REPLY_SUGGESTION'
+            ),
+            key: 'reply_suggestion',
+            icon: ICON_AI_ASSIST,
+          },
+        ];
+      }
+      return [
+        {
+          label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.SUMMARIZE'),
+          key: 'summarize',
+          icon: ICON_AI_SUMMARY,
+        },
+      ];
+    },
+
+    draftMessageAIAssistActions() {
+      return [
+        {
+          label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.REPHRASE'),
+          key: 'rephrase',
+          icon: ICON_AI_ASSIST,
+        },
+        {
+          label: this.$t(
+            'INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.FIX_SPELLING_GRAMMAR'
+          ),
+          key: 'fix_spelling_grammar',
+          icon: ICON_AI_GRAMMAR,
+        },
+        {
+          label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.EXPAND'),
+          key: 'expand',
+          icon: ICON_AI_EXPAND,
+        },
+        {
+          label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.SHORTEN'),
+          key: 'shorten',
+          icon: ICON_AI_SHORTEN,
+        },
+        {
+          label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.MAKE_FRIENDLY'),
+          key: 'make_friendly',
+          icon: ICON_AI_ASSIST,
+        },
+        {
+          label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.MAKE_FORMAL'),
+          key: 'make_formal',
+          icon: ICON_AI_ASSIST,
+        },
+        {
+          label: this.$t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.SIMPLIFY'),
+          key: 'simplify',
+          icon: ICON_AI_ASSIST,
+        },
+      ];
+    },
+
+    AIAssistActions() {
+      const aiOptions = this.draftMessage
+        ? this.draftMessageAIAssistActions
+        : this.nonDraftMessageAIAssistActions;
+      const options = aiOptions.map(item => ({
+        id: `ai-assist-${item.key}`,
+        title: item.label,
+        parent: 'ai_assist',
+        section: this.$t('COMMAND_BAR.SECTIONS.AI_ASSIST'),
+        priority: item,
+        icon: item.icon,
+        handler: () => bus.$emit(CMD_AI_ASSIST, item.key),
+      }));
+      return [
+        {
+          id: 'ai_assist',
+          title: this.$t('COMMAND_BAR.COMMANDS.AI_ASSIST'),
+          section: this.$t('COMMAND_BAR.SECTIONS.AI_ASSIST'),
+          icon: ICON_AI_ASSIST,
+          children: options.map(option => option.id),
+        },
+        ...options,
+      ];
+    },
+
     conversationHotKeys() {
       if (isAConversationRoute(this.$route.name)) {
         return [
@@ -305,6 +344,7 @@ export default {
           ...this.assignTeamActions,
           ...this.labelActions,
           ...this.assignPriorityActions,
+          ...this.AIAssistActions,
         ];
       }
 

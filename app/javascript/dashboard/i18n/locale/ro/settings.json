@@ -118,7 +118,7 @@
           "Deconectat"
         ],
         "SET_AVAILABILITY_SUCCESS": "Avatar a fost șters cu succes",
-        "SET_AVAILABILITY_ERROR": "Nu s-a putut atribui agentul. Vă rugăm încercați din nou."
+        "SET_AVAILABILITY_ERROR": "Nu s-a putut seta disponibilitatea, vă rugăm să încercați din nou"
       },
       "EMAIL": {
         "LABEL": "Adresa ta de email",
@@ -149,6 +149,7 @@
     "SELECTOR_SUBTITLE": "Selectaţi un cont din următoarea listă",
     "PROFILE_SETTINGS": "Setări profil",
     "KEYBOARD_SHORTCUTS": "Scurtături Tastatură",
+    "APPEARANCE": "Change Appearance",
     "SUPER_ADMIN_CONSOLE": "Super Admin Consola",
     "LOGOUT": "Deconectare"
   },

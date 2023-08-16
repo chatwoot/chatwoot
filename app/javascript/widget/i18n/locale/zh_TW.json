@@ -19,8 +19,18 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "通常在幾分鐘內回覆",
     "IN_A_FEW_HOURS": "通常在幾小時內回覆",
-    "IN_A_DAY": "通常在一天內回覆"
+    "IN_A_DAY": "通常在一天內回覆",
+    "BACK_IN": "We will be back online"
   },
+  "DAY_NAMES": [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ],
   "START_CONVERSATION": "開始對話",
   "END_CONVERSATION": "結束對話",
   "CONTINUE_CONVERSATION": "繼續對話",
@@ -56,7 +66,9 @@
         "LABEL": "聯絡人電話",
         "PLACEHOLDER": "請輸入您的電話號碼",
         "REQUIRED_ERROR": "電話號碼為必填",
-        "VALID_ERROR": "電話號碼應為 E.164  格式，如：+1415555555"
+        "DIAL_CODE_VALID_ERROR": "Please select a country code",
+        "VALID_ERROR": "Please enter a valid phone number",
+        "DROPDOWN_EMPTY": "No results found"
       },
       "MESSAGE": {
         "LABEL": "訊息",
@@ -93,5 +105,9 @@
       "CLICK_HERE_TO_JOIN": "點擊這裡加入",
       "LEAVE_THE_ROOM": "Leave the call"
     }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles"
   }
 }

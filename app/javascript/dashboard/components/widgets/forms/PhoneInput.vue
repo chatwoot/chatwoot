@@ -1,12 +1,20 @@
 <template>
-  <div class="phone-input--wrap">
+  <div class="phone-input--wrap relative">
     <div class="phone-input" :class="{ 'has-error': error }">
-      <div class="country-emoji--wrap" @click="toggleCountryDropdown">
-        <h5 v-if="activeCountry.emoji">{{ activeCountry.emoji }}</h5>
+      <div
+        class="cursor-pointer py-2 pr-1.5 pl-2 rounded-tl-md rounded-bl-md flex items-center justify-center gap-1.5 bg-slate-25 dark:bg-slate-700 h-10 w-14"
+        @click="toggleCountryDropdown"
+      >
+        <h5 v-if="activeCountry.emoji" class="mb-0">
+          {{ activeCountry.emoji }}
+        </h5>
         <fluent-icon v-else icon="globe" class="fluent-icon" size="16" />
         <fluent-icon icon="chevron-down" class="fluent-icon" size="12" />
       </div>
-      <span v-if="activeDialCode" class="country-dial--code">
+      <span
+        v-if="activeDialCode"
+        class="flex bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-normal text-base leading-normal py-2 pl-2 pr-0"
+      >
         {{ activeDialCode }}
       </span>
       <input
@@ -41,15 +49,22 @@
         }"
         @click="onSelectCountry(country)"
       >
-        <span class="country-emoji">{{ country.emoji }}</span>
+        <span class="text-base mr-1">{{ country.emoji }}</span>
 
-        <span class="country-name">
+        <span
+          class="max-w-[7.5rem] overflow-hidden text-ellipsis whitespace-nowrap"
+        >
           {{ country.name }}
         </span>
-        <span class="country-dial-code">{{ country.dial_code }}</span>
+        <span class="ml-1 text-slate-300 dark:text-slate-300 text-xs">{{
+          country.dial_code
+        }}</span>
       </div>
       <div v-if="filteredCountriesBySearch.length === 0">
-        <span class="no-results">No results found</span>
+        <span
+          class="flex items-center justify-center text-sm text-slate-500 dark:text-slate-300 mt-4"
+          >No results found</span
+        >
       </div>
     </div>
   </div>
@@ -237,124 +252,39 @@ export default {
 </script>
 <style scoped lang="scss">
 .phone-input--wrap {
-  position: relative;
-
   .phone-input {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    margin-bottom: var(--space-normal);
-    border: 1px solid var(--s-200);
-    border-radius: var(--border-radius-normal);
+    @apply flex items-center justify-start mb-4 rounded-md border border-solid border-slate-200 dark:border-slate-600;
 
     &.has-error {
-      border: 1px solid var(--r-400);
+      @apply border border-solid border-red-400 dark:border-red-400;
     }
-  }
-
-  .country-emoji--wrap {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-small);
-    background: var(--s-25);
-    height: 4rem;
-    width: 5.2rem;
-    border-radius: var(--border-radius-normal) 0 0 var(--border-radius-normal);
-    padding: var(--space-small) var(--space-smaller) var(--space-small)
-      var(--space-small);
-
-    h5 {
-      margin-bottom: 0;
-    }
-  }
-
-  .country-dial--code {
-    display: flex;
-    color: var(--s-300);
-    font-size: var(--space-normal);
-    font-weight: normal;
-    line-height: 1.5;
-    padding: var(--space-small) 0 var(--space-small) var(--space-small);
   }
 
   .phone-input--field {
-    margin-bottom: 0;
-    border: 0;
+    @apply mb-0 rounded-tl-none rounded-bl-none border-0;
   }
 
   .country-dropdown {
-    z-index: var(--z-index-low);
-    position: absolute;
-    height: var(--space-giga);
-    width: 20rem;
-    overflow-y: auto;
-    top: 4rem;
-    border-radius: var(--border-radius-default);
-    padding: 0 0 var(--space-smaller) 0;
-    background-color: var(--white);
-    box-shadow: var(--shadow-context-menu);
-    border-radius: var(--border-radius-normal);
+    @apply z-10 absolute h-60 w-[12.5rem] shadow-md overflow-y-auto top-10 rounded px-0 pt-0 pb-1 bg-white dark:bg-slate-900;
 
     .dropdown-search--wrap {
-      top: 0;
-      position: sticky;
-      background-color: var(--white);
-      padding: var(--space-smaller);
+      @apply top-0 sticky bg-white dark:bg-slate-900 p-1;
 
       .dropdown-search {
-        height: var(--space-large);
-        margin-bottom: 0;
-        font-size: var(--font-size-small);
-        border: 1px solid var(--s-200) !important;
+        @apply h-8 mb-0 text-sm border border-solid border-slate-200 dark:border-slate-600;
       }
     }
 
     .country-dropdown--item {
-      display: flex;
-      align-items: center;
-      height: 2.8rem;
-      padding: 0 var(--space-smaller);
-      cursor: pointer;
+      @apply flex items-center h-7 py-0 px-1 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700;
 
       &.active {
-        background-color: var(--s-50);
+        @apply bg-slate-50 dark:bg-slate-700;
       }
 
       &.focus {
-        background-color: var(--s-25);
+        @apply bg-slate-25 dark:bg-slate-800;
       }
-
-      &:hover {
-        background-color: var(--s-50);
-      }
-
-      .country-emoji {
-        font-size: var(--font-size-default);
-        margin-right: var(--space-smaller);
-      }
-
-      .country-name {
-        max-width: 12rem;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-
-      .country-dial-code {
-        margin-left: var(--space-smaller);
-        color: var(--s-300);
-        font-size: var(--font-size-mini);
-      }
-    }
-
-    .no-results {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--s-500);
-      margin-top: var(--space-normal);
     }
   }
 }

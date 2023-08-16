@@ -38,6 +38,8 @@ ar:
     contacts:
       import:
         failed: الملف فارغ
+      export:
+        success: We will notify you once contacts export file is ready to view.
       email:
         invalid: إيميل غير صالح
       phone_number:
@@ -47,6 +49,8 @@ ar:
         unique: يجب أن تكون فريدة من نوعها في الفئة والبوابة
     dyte:
       invalid_message_type: "Invalid message type. Action not permitted"
+    slack:
+      invalid_channel_id: "Invalid slack channel. Please try again"
     inboxes:
       imap:
         socket_error: الرجاء التحقق من اتصال الشبكة، عنوان IMAP وحاول مرة أخرى.
@@ -56,6 +60,8 @@ ar:
         connection_closed_error: تم إغلاق الاتصال.
       validations:
         name: لا ينبغي أن تبدأ أو تنتهي بالرموز، ولا ينبغي أن يكون أقل من > / \ أحرف @ .
+    custom_filters:
+      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
   reports:
     period: فترة التبليغ %{since} إلى %{until}
     utc_warning: The report generated is in UTC timezone
@@ -140,6 +146,8 @@ ar:
         header:
           from_with_name: "%{assignee_name} من %{inbox_name} <%{from_email}>"
           reply_with_name: "%{assignee_name} من %{inbox_name} <%{reply_email}>"
+          friendly_name: "%{sender_name} من %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} من %{inbox_name} <%{from_email}>"
@@ -180,6 +188,7 @@ ar:
       empty_placeholder: لم يتم العثور على النتائج.
       loading_placeholder: يبحث...
       results_title: Search results
+    toc_header: 'On this page'
     hero:
       sub_title: Search for the articles here or browse the categories below.
     common:

@@ -3,6 +3,7 @@
     "TITLE": "Kontoindstillinger",
     "SUBMIT": "Opdater indstillinger",
     "BACK": "Tilbage",
+    "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "Kunne ikke opdatere indstillinger, prøv igen!",
       "SUCCESS": "Kontoindstillinger blev opdateret"
@@ -48,7 +49,10 @@
       }
     },
     "UPDATE_CHATWOOT": "En opdatering %{latestChatwootVersion} til Chatwoot er tilgængelig. Opdater venligst din instans.",
-    "LEARN_MORE": "Lær mere"
+    "LEARN_MORE": "Lær mere",
+    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
+    "OPEN_BILLING": "Open billing"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -103,9 +107,12 @@
       "CHANGE_ASSIGNEE": "Skift Modtager",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Skift Team",
+      "SNOOZE_CONVERSATION": "Udsæt Samtale",
       "ADD_LABEL": "Tilføj etiket til samtalen",
       "REMOVE_LABEL": "Fjern etiket fra samtalen",
-      "SETTINGS": "Indstillinger"
+      "SETTINGS": "Indstillinger",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Gå til Konversationspanel",
@@ -127,6 +134,7 @@
       "GO_TO_NOTIFICATIONS": "Gå til Notifikationer",
       "ADD_LABELS_TO_CONVERSATION": "Tilføj etiket til samtalen",
       "ASSIGN_AN_AGENT": "Tildel en agent",
+      "AI_ASSIST": "AI Assist",
       "ASSIGN_PRIORITY": "Assign priority",
       "ASSIGN_A_TEAM": "Tildel et team",
       "MUTE_CONVERSATION": "Gør samtale lydløs",
@@ -138,10 +146,21 @@
       "SNOOZE_CONVERSATION": "Udsæt Samtale",
       "UNTIL_NEXT_REPLY": "Indtil næste svar",
       "UNTIL_NEXT_WEEK": "Indtil næste uge",
-      "UNTIL_TOMORROW": "Indtil i morgen"
+      "UNTIL_TOMORROW": "Indtil i morgen",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "System"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "Indlæser Dashboard App..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "klik her"
   }
 }

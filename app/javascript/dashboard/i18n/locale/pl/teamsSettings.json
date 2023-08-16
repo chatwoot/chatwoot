@@ -2,7 +2,7 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Utwórz nowy zespół",
     "HEADER": "Zespoły",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> An agent can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "SIDEBAR_TXT": "<p><b>Zespoły</b></p> <p>Zespoły pozwalają zorganizować agentów w grupy na podstawie ich odpowiedzialności. <br /> Agent może być częścią wielu zespołów. Możesz przypisywać rozmowy do zespołu, gdy pracujesz w trybie współpracy. </p>",
     "LIST": {
       "404": "Na tym koncie nie ma żadnych zespołów.",
       "EDIT_TEAM": "Edytuj zespół"
@@ -19,9 +19,9 @@
       },
       "WIZARD": [
         {
-          "title": "Stwórz",
+          "title": "Utwórz",
           "route": "settings_teams_new",
-          "body": "Stwórz nowy zespół agentów."
+          "body": "Utwórz nowy zespół agentów."
         },
         {
           "title": "Dodaj agentów",
@@ -65,7 +65,7 @@
       ]
     },
     "TEAM_FORM": {
-      "ERROR_MESSAGE": "Couldn't save the team details. Try again."
+      "ERROR_MESSAGE": "Nie udało się zapisać szczegółów zespołu. Spróbuj ponownie."
     },
     "AGENTS": {
       "AGENT": "AGENT",
@@ -74,32 +74,32 @@
       "ADD_AGENTS": "Dodaj agenta do swojego zespołu...",
       "SELECT": "wybierz",
       "SELECT_ALL": "zaznacz wszystkich agentów",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
+      "SELECTED_COUNT": "%{selected} z %{total} agentów wybranych."
     },
     "ADD": {
       "TITLE": "Dodaj agentów do zespołu - %{teamName}",
       "DESC": "Dodaj agentów do swojego nowo utworzonego zespołu. Dzięki temu możesz współpracować jako zespół w rozmowach oraz otrzymywać powiadomienia o nowych wydarzeniach w tej samej rozmowie.",
       "SELECT": "wybierz",
       "SELECT_ALL": "zaznacz wszystkich agentów",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
+      "SELECTED_COUNT": "%{selected} z %{total} agentów wybranych.",
       "BUTTON_TEXT": "Dodaj agentów",
-      "AGENT_VALIDATION_ERROR": "Select at least one agent."
+      "AGENT_VALIDATION_ERROR": "Wybierz co najmniej jednego agenta."
     },
     "FINISH": {
       "TITLE": "Twój zespół jest gotowy!",
-      "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
+      "MESSAGE": "Możesz teraz współpracować jako zespół w rozmowach. Powodzenia w obsłudze klientów.",
       "BUTTON_TEXT": "Zakończ"
     },
     "DELETE": {
       "BUTTON_TEXT": "Usuń",
       "API": {
-        "SUCCESS_MESSAGE": "Zespół został usunięty pomyślnie.",
-        "ERROR_MESSAGE": "Couldn't delete the team. Try again."
+        "SUCCESS_MESSAGE": "Zespół został pomyślnie usunięty.",
+        "ERROR_MESSAGE": "Nie można usunąć zespołu. Spróbuj ponownie."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{teamName}",
-        "PLACE_HOLDER": "Please type {teamName} to confirm",
-        "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
+        "TITLE": "Czy na pewno chcesz usunąć - %{teamName}",
+        "PLACE_HOLDER": "Wpisz {teamName}, aby potwierdzić",
+        "MESSAGE": "Usuwanie zespołu spowoduje usunięcie przypisania zespołu z rozmów przypisanych do tego zespołu.",
         "YES": "Usuń ",
         "NO": "Anuluj"
       }
@@ -109,15 +109,15 @@
       "UPDATE": "Aktualizuj zespół",
       "CREATE": "Utwórz zespół",
       "NAME": {
-        "LABEL": "Team name",
-        "PLACEHOLDER": "Example: Sales, Customer Support"
+        "LABEL": "Nazwa zespołu",
+        "PLACEHOLDER": "Przykład: Sprzedaż, Obsługa klienta"
       },
       "DESCRIPTION": {
-        "LABEL": "Team Description",
-        "PLACEHOLDER": "Short description about this team."
+        "LABEL": "Opis zespołu",
+        "PLACEHOLDER": "Krótki opis tego zespołu."
       },
       "AUTO_ASSIGN": {
-        "LABEL": "Zezwalaj na automatyczne przypisywanie dla tego zespołu."
+        "LABEL": "Włącz automatyczne przypisywanie dla tego zespołu."
       },
       "SUBMIT_CREATE": "Utwórz zespół"
     }

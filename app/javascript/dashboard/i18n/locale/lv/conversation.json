@@ -12,6 +12,10 @@
     "NO_INBOX_2": " lai sāktu",
     "NO_INBOX_AGENT": "Ak, vai! Izskatās, ka Jūs neesat nevienas iesūtnes dalībnieks. Lūdzu, sazinieties ar savu administratoru",
     "SEARCH_MESSAGES": "Meklēt ziņojumus sarunās",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "Meklēt ziņojumus",
       "RESULT_TITLE": "Meklēšanas Rezultāti",
@@ -54,18 +58,25 @@
       "OPEN": "Papildu",
       "CLOSE": "Aizvērt",
       "DETAILS": "detalizēta informācija",
+      "SNOOZED_UNTIL": "Atlikts līdz",
       "SNOOZED_UNTIL_TOMORROW": "Atlikts līdz rītdienai",
       "SNOOZED_UNTIL_NEXT_WEEK": "Atlikts līdz nākamajai nedēļai",
       "SNOOZED_UNTIL_NEXT_REPLY": "Atlikts līdz nākamajai atbildei"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Atzīmēt kā neapstiprinātu",
+      "SNOOZE_UNTIL": "Atlikt",
       "SNOOZE": {
         "TITLE": "Atlikt līdz",
         "NEXT_REPLY": "Nākamā atbilde",
         "TOMORROW": "Rītdiena",
         "NEXT_WEEK": "Nākamā nedēļa"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Atlikt līdz",
+      "APPLY": "Atlikt",
+      "CANCEL": "Atcelt"
     },
     "PRIORITY": {
       "TITLE": "Prioritāte",
@@ -140,6 +151,7 @@
       "STOP_AUDIO_RECORDING": "Apturēt audio ierakstīšanu",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "KAM",
         "ADD_BCC": "Pievienot bcc",
         "CC": {
           "LABEL": "CC",

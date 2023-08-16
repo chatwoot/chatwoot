@@ -38,6 +38,8 @@ sr-Latn:
     contacts:
       import:
         failed: Datoteka je prazna
+      export:
+        success: We will notify you once contacts export file is ready to view.
       email:
         invalid: Neispravna e-pošta
       phone_number:
@@ -47,6 +49,8 @@ sr-Latn:
         unique: treba biti jedinstvena u kategoriji i portalu
     dyte:
       invalid_message_type: "Invalid message type. Action not permitted"
+    slack:
+      invalid_channel_id: "Invalid slack channel. Please try again"
     inboxes:
       imap:
         socket_error: Molim vas proverite vezu sa mrežom, IMAP adresu i pokušajte ponovo.
@@ -56,6 +60,8 @@ sr-Latn:
         connection_closed_error: Povezivanje je prekinuto.
       validations:
         name: ne treba početi ili se završiti sa simbolima i ne treba da sadrži < > / \ @ karaktere.
+    custom_filters:
+      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
   reports:
     period: Period izveštaja %{since} do %{until}
     utc_warning: Generisani izveštaj je u UTC vremenskoj zoni
@@ -140,6 +146,8 @@ sr-Latn:
         header:
           from_with_name: "%{assignee_name} iz %{inbox_name} <%{from_email}>"
           reply_with_name: "%{assignee_name} iz %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} iz %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} iz %{inbox_name} <%{from_email}>"
@@ -180,6 +188,7 @@ sr-Latn:
       empty_placeholder: Ništa nije pronađeno.
       loading_placeholder: Searching...
       results_title: Search results
+    toc_header: 'On this page'
     hero:
       sub_title: Search for the articles here or browse the categories below.
     common:

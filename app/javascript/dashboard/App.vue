@@ -4,8 +4,13 @@
     id="app"
     class="app-wrapper app-root"
     :class="{ 'app-rtl--wrapper': isRTLView }"
+    :dir="isRTLView ? 'rtl' : 'ltr'"
   >
     <update-banner :latest-chatwoot-version="latestChatwootVersion" />
+    <template v-if="!accountUIFlags.isFetchingItem && currentAccountId">
+      <payment-pending-banner />
+      <upgrade-banner />
+    </template>
     <transition name="fade" mode="out-in">
       <router-view />
     </transition>
@@ -25,9 +30,12 @@ import AddAccountModal from '../dashboard/components/layout/sidebarComponents/Ad
 import LoadingState from './components/widgets/LoadingState.vue';
 import NetworkNotification from './components/NetworkNotification';
 import UpdateBanner from './components/app/UpdateBanner.vue';
+import UpgradeBanner from './components/app/UpgradeBanner.vue';
+import PaymentPendingBanner from './components/app/PaymentPendingBanner.vue';
 import vueActionCable from './helper/actionCable';
 import WootSnackbarBox from './components/SnackbarContainer';
 import rtlMixin from 'shared/mixins/rtlMixin';
+import { setColorTheme } from './helper/themeHelper';
 import {
   registerSubscription,
   verifyServiceWorkerExistence,
@@ -41,7 +49,9 @@ export default {
     LoadingState,
     NetworkNotification,
     UpdateBanner,
+    PaymentPendingBanner,
     WootSnackbarBox,
+    UpgradeBanner,
   },
 
   mixins: [rtlMixin],
@@ -59,6 +69,7 @@ export default {
       currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
       authUIFlags: 'getAuthUIFlags',
+      accountUIFlags: 'accounts/getUIFlags',
       currentAccountId: 'getCurrentAccountId',
     }),
     hasAccounts() {
@@ -80,9 +91,18 @@ export default {
     },
   },
   mounted() {
+    this.initializeColorTheme();
+    this.listenToThemeChanges();
     this.setLocale(window.chatwootConfig.selectedLocale);
   },
   methods: {
+    initializeColorTheme() {
+      setColorTheme(window.matchMedia('(prefers-color-scheme: dark)').matches);
+    },
+    listenToThemeChanges() {
+      const mql = window.matchMedia('(prefers-color-scheme: dark)');
+      mql.onchange = e => setColorTheme(e.matches);
+    },
     setLocale(locale) {
       this.$root.$i18n.locale = locale;
     },

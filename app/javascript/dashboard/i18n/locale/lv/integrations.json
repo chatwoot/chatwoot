@@ -73,10 +73,26 @@
       }
     },
     "SLACK": {
+      "DELETE": "Dzēst",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Delete the integration",
+        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+      },
       "HELP_TEXT": {
         "TITLE": "Izmantojot Slack Integrāciju",
-        "BODY": "<br/><p>Chatwoot tagad sinhronizēs visas ienākošās <b><i>customer-conversations</i></b> kanāla sarunas, kas atrodas Jūsu slack workplace.</p><p>Atbildot uz sarunas vītni, <b><i>customer-conversations</i></b> slack kanālā tiks izveidota atbilde klientam, izmantojot chatwoot.</p><p>Sāciet atbildes ar <b><i>note:</i></b> lai izveidotu individuālas piezīmes, nevis atbildes.</p><p>Ja slack atbildētājam ir aģenta profils pakalpojumā chatwoot, ar tādu pašu e-pasta adresi, atbildes tiks attiecīgi sasaistītas.</p><p>Kad atbildētājam nebūs piesaistīts aģenta profils, atbildes tiks sniegtas no robotprogrammatūras profila.</p>"
-      }
+        "BODY": "<br/><p>Chatwoot tagad sinhronizēs visas ienākošās <b><i>customer-conversations</i></b> kanāla sarunas, kas atrodas Jūsu slack workplace.</p><p>Atbildot uz sarunas vītni, <b><i>customer-conversations</i></b> slack kanālā tiks izveidota atbilde klientam, izmantojot chatwoot.</p><p>Sāciet atbildes ar <b><i>note:</i></b> lai izveidotu individuālas piezīmes, nevis atbildes.</p><p>Ja slack atbildētājam ir aģenta profils pakalpojumā chatwoot, ar tādu pašu e-pasta adresi, atbildes tiks attiecīgi sasaistītas.</p><p>Kad atbildētājam nebūs piesaistīts aģenta profils, atbildes tiks sniegtas no robotprogrammatūras profila.</p>",
+        "SELECTED": "selected"
+      },
+      "SELECT_CHANNEL": {
+        "OPTION_LABEL": "Select a channel",
+        "UPDATE": "Atjaunināt",
+        "BUTTON_TEXT": "Connect channel",
+        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
+        "ATTENTION_REQUIRED": "Attention required"
+      },
+      "UPDATE_ERROR": "There was an error updating the integration, please try again",
+      "UPDATE_SUCCESS": "The channel is connected successfully",
+      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
     },
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Noklikšķiniet šeit, lai pievienotos",
@@ -86,7 +102,31 @@
       "CREATE_ERROR": "Veidojot sapulces saiti, radās kļūda. Lūdzu, mēģiniet vēlreiz"
     },
     "OPEN_AI": {
+      "AI_ASSIST": "AI Assist",
+      "WITH_AI": " %{option} with AI ",
+      "OPTIONS": {
+        "REPLY_SUGGESTION": "Reply Suggestion",
+        "SUMMARIZE": "Summarize",
+        "REPHRASE": "Improve Writing",
+        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
+        "SHORTEN": "Shorten",
+        "EXPAND": "Expand",
+        "MAKE_FRIENDLY": "Change message tone to friendly",
+        "MAKE_FORMAL": "Use formal tone",
+        "SIMPLIFY": "Simplify"
+      },
+      "ASSISTANCE_MODAL": {
+        "DRAFT_TITLE": "Draft content",
+        "GENERATED_TITLE": "Generated content",
+        "AI_WRITING": "AI is writing",
+        "BUTTONS": {
+          "APPLY": "Use this suggestion",
+          "CANCEL": "Atcelt"
+        }
+      },
       "TITLE": "Uzlabot ar AI",
+      "SUMMARY_TITLE": "Kopsavilkums ar AI",
+      "REPLY_TITLE": "Atbildes rekomendācija ar AI",
       "SUBTITLE": "Izmantojot AI, tiks ģenerēta uzlabota atbilde, pamatojoties uz jūsu pašreizējo melnrakstu.",
       "TONE": {
         "TITLE": "Tonis",

@@ -38,6 +38,8 @@ zh_CN:
     contacts:
       import:
         failed: File is blank
+      export:
+        success: We will notify you once contacts export file is ready to view.
       email:
         invalid: Invalid email
       phone_number:
@@ -47,15 +49,19 @@ zh_CN:
         unique: should be unique in the category and portal
     dyte:
       invalid_message_type: "Invalid message type. Action not permitted"
+    slack:
+      invalid_channel_id: "Invalid slack channel. Please try again"
     inboxes:
       imap:
         socket_error: Please check the network connection, IMAP address and try again.
         no_response_error: Please check the IMAP credentials and try again.
         host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
         connection_timed_out_error: Connection timed out for %{address}:%{port}
-        connection_closed_error: Connection closed.
+        connection_closed_error: 连接已关闭。
       validations:
         name: should not start or end with symbols, and it should not have < > / \ @ characters.
+    custom_filters:
+      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
   reports:
     period: Reporting period %{since} to %{until}
     utc_warning: The report generated is in UTC timezone
@@ -65,34 +71,34 @@ zh_CN:
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
     inbox_csv:
-      inbox_name: Inbox name
-      inbox_type: Inbox type
+      inbox_name: 收件箱名称
+      inbox_type: 收件箱类型
       conversations_count: No. of conversations
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
     label_csv:
-      label_title: Label
+      label_title: 标签
       conversations_count: No. of conversations
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
     team_csv:
-      team_name: Team name
-      conversations_count: Conversations count
+      team_name: 团队名称
+      conversations_count: 对话数量
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
     conversation_traffic_csv:
-      timezone: Timezone
-    default_group_by: day
+      timezone: 时区
+    default_group_by: 天
     csat:
       headers:
-        contact_name: Contact Name
-        contact_email_address: Contact Email Address
-        contact_phone_number: Contact Phone Number
+        contact_name: 联系人名称
+        contact_email_address: 联系人邮箱地址
+        contact_phone_number: 联系人电话号码
         link_to_the_conversation: Link to the conversation
         agent_name: 客服名称
         rating: 评分
-        feedback: Feedback Comment
-        recorded_at: Recorded date
+        feedback: 意见反馈
+        recorded_at: 录制日期
   notifications:
     notification_title:
       conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
@@ -140,6 +146,8 @@ zh_CN:
         header:
           from_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
           reply_with_name: "%{assignee_name} from %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} from %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
@@ -180,6 +188,7 @@ zh_CN:
       empty_placeholder: 未找到结果。
       loading_placeholder: Searching...
       results_title: Search results
+    toc_header: 'On this page'
     hero:
       sub_title: Search for the articles here or browse the categories below.
     common:

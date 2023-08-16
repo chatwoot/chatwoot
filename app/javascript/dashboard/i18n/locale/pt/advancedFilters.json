@@ -2,12 +2,17 @@
   "FILTER": {
     "TITLE": "Filtrar Conversas",
     "SUBTITLE": "Adicione filtros abaixo e pressione 'Aplicar filtros' para filtrar conversas.",
+    "EDIT_CUSTOM_FILTER": "Editar Pasta",
+    "CUSTOM_VIEWS_SUBTITLE": "Adicione ou remova filtros e atualize sua pasta.",
     "ADD_NEW_FILTER": "Adicionar Filtro",
     "FILTER_DELETE_ERROR": "Você deve ter pelo menos um filtro para guardar",
     "SUBMIT_BUTTON_LABEL": "Aplicar filtros",
+    "UPDATE_BUTTON_LABEL": "Atualizar pasta",
     "CANCEL_BUTTON_LABEL": "cancelar",
     "CLEAR_BUTTON_LABEL": "Limpar Filtros",
     "EMPTY_VALUE_ERROR": "Valor obrigatório",
+    "FOLDER_LABEL": "Nome da pasta",
+    "FOLDER_QUERY_LABEL": "Consulta de Pasta",
     "TOOLTIP_LABEL": "Filtrar Conversas",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "E",
@@ -23,7 +28,7 @@
       "is_greater_than": "É maior do que",
       "is_less_than": "É menor do que",
       "days_before": "É x dias antes",
-      "starts_with": "Starts with"
+      "starts_with": "Começa com"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Verdadeiro",
@@ -38,7 +43,7 @@
       "CAMPAIGN_NAME": "Nome da Campanha",
       "LABELS": "Etiquetas",
       "BROWSER_LANGUAGE": "Idioma do Navegador",
-      "PRIORITY": "Priority",
+      "PRIORITY": "Prioridade",
       "COUNTRY_NAME": "Nome do País",
       "REFERER_LINK": "Link de referência",
       "CUSTOM_ATTRIBUTE_LIST": "Lista",
@@ -70,6 +75,9 @@
           "SUCCESS_MESSAGE": "Segmento criado com sucesso",
           "ERROR_MESSAGE": "Erro ao criar segmento"
         }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Editar Pasta"
       },
       "DELETE": {
         "DELETE_BUTTON": "Apagar filtro",

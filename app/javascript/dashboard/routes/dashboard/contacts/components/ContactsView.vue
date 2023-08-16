@@ -1,17 +1,17 @@
 <template>
-  <div class="contacts-page row">
-    <div class="left-wrap" :class="wrapClass">
+  <div class="w-full flex flex-row">
+    <div class="flex flex-col h-full" :class="wrapClass">
       <contacts-header
         :search-query="searchQuery"
-        :segments-id="segmentsId"
-        :on-search-submit="onSearchSubmit"
-        :on-export-submit="onExportSubmit"
-        this-selected-contact-id=""
-        :on-input-search="onInputSearch"
-        :on-toggle-create="onToggleCreate"
-        :on-toggle-import="onToggleImport"
-        :on-toggle-filter="onToggleFilters"
         :header-title="pageTitle"
+        :segments-id="segmentsId"
+        this-selected-contact-id=""
+        @on-input-search="onInputSearch"
+        @on-toggle-create="onToggleCreate"
+        @on-toggle-filter="onToggleFilters"
+        @on-search-submit="onSearchSubmit"
+        @on-toggle-import="onToggleImport"
+        @on-export-submit="onExportSubmit"
         @on-toggle-save-filter="onToggleSaveFilters"
         @on-toggle-delete-filter="onToggleDeleteFilters"
         @on-toggle-edit-filter="onToggleFilters"
@@ -187,7 +187,7 @@ export default {
       return this.selectedContactId !== '';
     },
     wrapClass() {
-      return this.showContactViewPane ? 'medium-9' : 'medium-12';
+      return this.showContactViewPane ? 'w-[75%]' : 'w-full';
     },
     pageParameter() {
       const selectedPageNumber = Number(this.$route.query?.page);
@@ -458,15 +458,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.contacts-page {
-  width: 100%;
-}
-
-.left-wrap {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-</style>

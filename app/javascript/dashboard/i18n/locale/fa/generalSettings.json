@@ -3,6 +3,7 @@
     "TITLE": "تنظیمات حساب",
     "SUBMIT": "به‌روزرسانی تنظیمات",
     "BACK": "بازگشت",
+    "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "تنظیمات به‌روزرسانی نشد، دوباره امتحان کنید!",
       "SUCCESS": "تنظیمات با موفقیت اعمال شد"
@@ -48,7 +49,10 @@
       }
     },
     "UPDATE_CHATWOOT": "به روزرسانی%{latestChatwootVersion} برای Chatwoot در دسترس است. لطفا نمونه خود را به روز کنید.",
-    "LEARN_MORE": "بیشتر بدانید"
+    "LEARN_MORE": "بیشتر بدانید",
+    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
+    "OPEN_BILLING": "Open billing"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -103,9 +107,12 @@
       "CHANGE_ASSIGNEE": "نماینده را تغییر دهید",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "تیم را تغییر دهید",
+      "SNOOZE_CONVERSATION": "به تعویق انداختن مکالمه",
       "ADD_LABEL": "برچسب را به مکالمه اضافه کنید",
       "REMOVE_LABEL": "برچسب را از مکالمه حذف کنید",
-      "SETTINGS": "تنظیمات"
+      "SETTINGS": "تنظیمات",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "به داشبورد مکالمه بروید",
@@ -127,6 +134,7 @@
       "GO_TO_NOTIFICATIONS": "به اعلان ها بروید",
       "ADD_LABELS_TO_CONVERSATION": "برچسب را به مکالمه اضافه کنید",
       "ASSIGN_AN_AGENT": "یک ایجنت تعیین کنید",
+      "AI_ASSIST": "AI Assist",
       "ASSIGN_PRIORITY": "Assign priority",
       "ASSIGN_A_TEAM": "یک تیم را تعیین کنید",
       "MUTE_CONVERSATION": "صدای گفتگو را قطع کن",
@@ -138,10 +146,21 @@
       "SNOOZE_CONVERSATION": "به تعویق انداختن مکالمه",
       "UNTIL_NEXT_REPLY": "تا پاسخ بعدی",
       "UNTIL_NEXT_WEEK": "تا هفته بعد",
-      "UNTIL_TOMORROW": "تا فردا"
+      "UNTIL_TOMORROW": "تا فردا",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "System"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "در حال بارگیری برنامه پیشخوان..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "اینجا کلیک کنید"
   }
 }

@@ -1,93 +1,101 @@
 {
   "FILTER": {
-    "TITLE": "Filter Conversations",
-    "SUBTITLE": "Add filters below and hit 'Apply filters' to filter conversations.",
-    "ADD_NEW_FILTER": "Add Filter",
-    "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
-    "SUBMIT_BUTTON_LABEL": "Apply filters",
+    "TITLE": "Beszélgetések szűrése",
+    "SUBTITLE": "Adj meg szűrőket alább, majd kattints a \"Szűrők alkalmazása\" gombra a szűréshez.",
+    "EDIT_CUSTOM_FILTER": "Mappa szerkesztése",
+    "CUSTOM_VIEWS_SUBTITLE": "Adj hozzá vagy törölj szűrőket, és frissítsd a mappát.",
+    "ADD_NEW_FILTER": "Szűrő hozzáadása",
+    "FILTER_DELETE_ERROR": "Kötelező legalább egy szűrőt megadni a mentéshez",
+    "SUBMIT_BUTTON_LABEL": "Szűrők alkalmazása",
+    "UPDATE_BUTTON_LABEL": "Mappa frissítése",
     "CANCEL_BUTTON_LABEL": "Mégse",
-    "CLEAR_BUTTON_LABEL": "Clear Filters",
-    "EMPTY_VALUE_ERROR": "Value is required",
-    "TOOLTIP_LABEL": "Filter conversations",
+    "CLEAR_BUTTON_LABEL": "Szűrők törlése",
+    "EMPTY_VALUE_ERROR": "Kötelező megadni",
+    "FOLDER_LABEL": "Mappa neve",
+    "FOLDER_QUERY_LABEL": "Mappa lekérdezés",
+    "TOOLTIP_LABEL": "Beszélgetések szűrése",
     "QUERY_DROPDOWN_LABELS": {
-      "AND": "AND",
-      "OR": "OR"
+      "AND": "ÉS",
+      "OR": "VAGY"
     },
     "OPERATOR_LABELS": {
-      "equal_to": "Equal to",
-      "not_equal_to": "Not equal to",
-      "contains": "Contains",
-      "does_not_contain": "Does not contain",
-      "is_present": "Is present",
-      "is_not_present": "Is not present",
-      "is_greater_than": "Is greater than",
-      "is_less_than": "Is lesser than",
-      "days_before": "Is x days before",
-      "starts_with": "Starts with"
+      "equal_to": "Egyenlő",
+      "not_equal_to": "Nem egyenlő",
+      "contains": "Tartalmaz",
+      "does_not_contain": "Nem tartalmaz",
+      "is_present": "Jelen van",
+      "is_not_present": "Nincs jelen",
+      "is_greater_than": "Nagyobb",
+      "is_less_than": "Kisebb",
+      "days_before": "x nappal előtte",
+      "starts_with": "Ezzel kezdődik"
     },
     "ATTRIBUTE_LABELS": {
-      "TRUE": "True",
-      "FALSE": "False"
+      "TRUE": "Igaz",
+      "FALSE": "Hamis"
     },
     "ATTRIBUTES": {
       "STATUS": "Státusz",
-      "ASSIGNEE_NAME": "Assignee Name",
+      "ASSIGNEE_NAME": "Felelős neve",
       "INBOX_NAME": "Fiók név",
-      "TEAM_NAME": "Team Name",
-      "CONVERSATION_IDENTIFIER": "Conversation Identifier",
-      "CAMPAIGN_NAME": "Campaign Name",
+      "TEAM_NAME": "Csapat neve",
+      "CONVERSATION_IDENTIFIER": "Beszélgetés azonosító",
+      "CAMPAIGN_NAME": "Kampány neve",
       "LABELS": "Cimkék",
-      "BROWSER_LANGUAGE": "Browser Language",
-      "PRIORITY": "Priority",
-      "COUNTRY_NAME": "Country Name",
-      "REFERER_LINK": "Referer link",
-      "CUSTOM_ATTRIBUTE_LIST": "List",
-      "CUSTOM_ATTRIBUTE_TEXT": "Text",
-      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
+      "BROWSER_LANGUAGE": "Böngésző nyelve",
+      "PRIORITY": "Prioritás",
+      "COUNTRY_NAME": "Ország neve",
+      "REFERER_LINK": "Hivatkozás link",
+      "CUSTOM_ATTRIBUTE_LIST": "Lista",
+      "CUSTOM_ATTRIBUTE_TEXT": "Szöveg",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Szám",
       "CUSTOM_ATTRIBUTE_LINK": "Link",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-      "CREATED_AT": "Created At",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Jelölőnégyzet",
+      "CREATED_AT": "Létrehozva",
       "LAST_ACTIVITY": "Utolsó aktivitás"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standard Filters",
-      "ADDITIONAL_FILTERS": "Additional Filters",
+      "STANDARD_FILTERS": "Alap szűrők",
+      "ADDITIONAL_FILTERS": "Extra szűrők",
       "CUSTOM_ATTRIBUTES": "Egyedi atribútumok"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
-        "TITLE": "Do you want to save this filter?",
-        "LABEL": "Name this filter",
-        "PLACEHOLDER": "Enter a name for this filter",
-        "ERROR_MESSAGE": "Name is required",
-        "SAVE_BUTTON": "Save filter",
+        "TITLE": "El akarod menteni ezt a szűrőt?",
+        "LABEL": "Nevezd el a szűrőt",
+        "PLACEHOLDER": "Adj nevet a szűrőnek",
+        "ERROR_MESSAGE": "Név kötelező",
+        "SAVE_BUTTON": "Szűrő mentése",
         "CANCEL_BUTTON": "Mégse",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder created successfully",
-          "ERROR_MESSAGE": "Error while creating folder"
+          "SUCCESS_MESSAGE": "Mappa sikeresen létrehozva",
+          "ERROR_MESSAGE": "Hiba történt a mappa létrehozása során"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment created successfully",
-          "ERROR_MESSAGE": "Error while creating segment"
+          "SUCCESS_MESSAGE": "Szegmens sikeresen létrehozva",
+          "ERROR_MESSAGE": "Hiba történt a szegmens törlésekor"
         }
       },
+      "EDIT": {
+        "EDIT_BUTTON": "Mappa szerkesztése"
+      },
       "DELETE": {
-        "DELETE_BUTTON": "Delete filter",
+        "DELETE_BUTTON": "Szűrő törlése",
         "MODAL": {
           "CONFIRM": {
             "TITLE": "Törlés megerősítése",
-            "MESSAGE": "Are you sure to delete the filter ",
+            "MESSAGE": "Biztosan törölni akarod a szűrőt ",
             "YES": "Igen, Törlés",
             "NO": "Nem, tartsa meg"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting folder"
+          "SUCCESS_MESSAGE": "Mappa sikeresen törölve",
+          "ERROR_MESSAGE": "Hiba történt a mappa törlése során"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting segment"
+          "SUCCESS_MESSAGE": "Szegmens törölve",
+          "ERROR_MESSAGE": "Hiba történt a szegmens törlése során"
         }
       }
     }

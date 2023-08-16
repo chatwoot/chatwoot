@@ -1,5 +1,21 @@
 <template>
   <div>
+    <div v-if="toEmails">
+      <div class="input-group small" :class="{ error: $v.toEmailsVal.$error }">
+        <label class="input-group-label">
+          {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.TO') }}
+        </label>
+        <div class="input-group-field">
+          <woot-input
+            v-model.trim="$v.toEmailsVal.$model"
+            type="text"
+            :class="{ error: $v.toEmailsVal.$error }"
+            :placeholder="$t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.PLACEHOLDER')"
+            @blur="onBlur"
+          />
+        </div>
+      </div>
+    </div>
     <div class="input-group-wrap">
       <div class="input-group small" :class="{ error: $v.ccEmailsVal.$error }">
         <label class="input-group-label">
@@ -53,6 +69,7 @@
 
 <script>
 import { validEmailsByComma } from './helpers/emailHeadHelper';
+
 export default {
   props: {
     ccEmails: {
@@ -63,12 +80,17 @@ export default {
       type: String,
       default: '',
     },
+    toEmails: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
       showBcc: false,
       ccEmailsVal: '',
       bccEmailsVal: '',
+      toEmailsVal: '',
     };
   },
   watch: {
@@ -82,10 +104,16 @@ export default {
         this.ccEmailsVal = newVal;
       }
     },
+    toEmails(newVal) {
+      if (newVal !== this.toEmailsVal) {
+        this.toEmailsVal = newVal;
+      }
+    },
   },
   mounted() {
     this.ccEmailsVal = this.ccEmails;
     this.bccEmailsVal = this.bccEmails;
+    this.toEmailsVal = this.toEmails;
   },
   validations: {
     ccEmailsVal: {
@@ -94,6 +122,11 @@ export default {
       },
     },
     bccEmailsVal: {
+      hasValidEmails(value) {
+        return validEmailsByComma(value);
+      },
+    },
+    toEmailsVal: {
       hasValidEmails(value) {
         return validEmailsByComma(value);
       },
@@ -107,37 +140,30 @@ export default {
       this.$v.$touch();
       this.$emit('update:bccEmails', this.bccEmailsVal);
       this.$emit('update:ccEmails', this.ccEmailsVal);
+      this.$emit('update:toEmails', this.toEmailsVal);
     },
   },
 };
 </script>
 <style lang="scss" scoped>
 .input-group-wrap .message {
-  font-size: var(--font-size-small);
-  color: var(--r-500);
+  @apply text-sm text-red-500 dark:text-red-500;
 }
 .input-group {
-  border-bottom: 1px solid var(--color-border);
-  margin-bottom: var(--space-smaller);
-  margin-top: var(--space-smaller);
+  @apply border-b border-solid border-slate-75 dark:border-slate-700 my-1;
 
   .input-group-label {
-    border-color: transparent;
-    background: transparent;
-    font-size: var(--font-size-mini);
-    font-weight: var(--font-weight-bold);
-    padding-left: 0;
+    @apply border-transparent bg-transparent text-xs font-semibold pl-0;
   }
   .input-group-field::v-deep input {
-    margin-bottom: 0;
-    border-color: transparent;
+    @apply mb-0 border-transparent;
   }
 }
 
 .input-group.error {
-  border-bottom-color: var(--r-500);
+  @apply border-b-red-500 dark:border-b-red-500;
   .input-group-label {
-    color: var(--r-500);
+    @apply text-red-500 dark:text-red-500;
   }
 }
 </style>

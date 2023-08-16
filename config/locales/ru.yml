@@ -38,6 +38,8 @@ ru:
     contacts:
       import:
         failed: Пустой файл
+      export:
+        success: Мы сообщим вам, как только файл для экспорта контактов будет готов к просмотру.
       email:
         invalid: Не верный email
       phone_number:
@@ -47,6 +49,8 @@ ru:
         unique: Должны быть уникальными в категории и портале
     dyte:
       invalid_message_type: "Недопустимый тип сообщения. Действие запрещено"
+    slack:
+      invalid_channel_id: "Invalid slack channel. Please try again"
     inboxes:
       imap:
         socket_error: Пожалуйста, проверьте сетевое подключение, адрес IMAP и повторите попытку.
@@ -56,6 +60,8 @@ ru:
         connection_closed_error: Соединение закрыто.
       validations:
         name: Не должен начинаться или заканчиваться символами, и у него Не должно быть < > / \ @ символов.
+    custom_filters:
+      number_of_records: Достигнут лимит. Максимальное количество разрешенных пользовательских фильтров для каждого пользователя - 50.
   reports:
     period: Отчётный период с %{since} по %{until}
     utc_warning: Отчёт создан в часовом поясе UTC
@@ -140,6 +146,8 @@ ru:
         header:
           from_with_name: "%{assignee_name} от %{inbox_name} <%{from_email}>"
           reply_with_name: "%{assignee_name} от %{inbox_name} <%{reply_email}>"
+          friendly_name: "%{sender_name} из %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} из %{inbox_name} <%{from_email}>"
@@ -180,6 +188,7 @@ ru:
       empty_placeholder: Результаты не найдены.
       loading_placeholder: Идёт поиск...
       results_title: Результаты поиска
+    toc_header: 'На этой странице'
     hero:
       sub_title: Ищите здесь статьи или выберите категории, указанные ниже.
     common:

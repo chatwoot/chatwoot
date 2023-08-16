@@ -38,6 +38,8 @@ fa:
     contacts:
       import:
         failed: پرونده خالی است
+      export:
+        success: We will notify you once contacts export file is ready to view.
       email:
         invalid: ایمیل نامعتبر است
       phone_number:
@@ -47,6 +49,8 @@ fa:
         unique: باید منحصر به فرد در دسته‌بندی و پورتال باشد
     dyte:
       invalid_message_type: "نوع پیام نامعتبر است. اقدام مجاز نیست"
+    slack:
+      invalid_channel_id: "Invalid slack channel. Please try again"
     inboxes:
       imap:
         socket_error: لطفا اتصال شبکه، آدرس IMAP را بررسی کنید و دوباره امتحان کنید.
@@ -56,6 +60,8 @@ fa:
         connection_closed_error: اتصال بسته شد.
       validations:
         name: نباید با نمادها شروع یا ختم شود و نباید دارای کاراکترهای < > / \ @ باشد.
+    custom_filters:
+      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
   reports:
     period: زمان گزارش از %{since} تا %{until}
     utc_warning: گزارش تولید شده در منطقه زمانی UTC است
@@ -140,6 +146,8 @@ fa:
         header:
           from_with_name: "%{assignee_name} از %{inbox_name} «%{from_email}»"
           reply_with_name: "%{assignee_name} از %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} از %{business_name} «%{from_email}»"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} از %{inbox_name} «%{from_email}»"
@@ -180,6 +188,7 @@ fa:
       empty_placeholder: نتیجه‌ای یافت نشد.
       loading_placeholder: در حال جستجو...
       results_title: نتایج جستجو
+    toc_header: 'On this page'
     hero:
       sub_title: مقالات را در اینجا جستجو کنید یا دسته‌بندی‌های زیر را مرور کنید.
     common:

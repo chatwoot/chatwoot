@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Adicionar Etiquetas",
         "PLACEHOLDER": "Procurar Etiquetas",
-        "NO_RESULT": "Nenhuma Etiqueta encontrada"
+        "NO_RESULT": "Nenhuma Etiqueta encontrada",
+        "CREATE_LABEL": "Criar nova etiqueta"
       }
     },
     "MERGE_CONTACT": "Unir contacto",
@@ -71,6 +72,13 @@
       "CANCEL": "cancelar"
     },
     "SUCCESS_MESSAGE": "Contactos guardados com sucesso",
+    "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
+  },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Exportar",
+    "TITLE": "Exportar contactos",
+    "DESC": "Exportar contactos para um ficheiro CSV.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
     "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
   },
   "DELETE_NOTE": {
@@ -122,7 +130,7 @@
         "LABEL": "Número de Telefone",
         "HELP": "O número de telefone deve ter o formato E.164, por exemplo: +1415555555 [+][código do país][código de área] [número de telefone local]",
         "ERROR": "O número de telefone deve estar vazio ou no formato E.164",
-        "DIAL_CODE_ERROR": "Please select a dial code from the list",
+        "DIAL_CODE_ERROR": "Por favor, selecione um código de discagem da lista",
         "DUPLICATE": "Este número está a ser usado por outro contacto."
       },
       "LOCATION": {
@@ -134,15 +142,15 @@
         "LABEL": "Nome da empresa"
       },
       "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
+        "PLACEHOLDER": "Insira o nome do país",
         "LABEL": "Nome do País",
         "SELECT_PLACEHOLDER": "Selecionar",
         "REMOVE": "Excluir",
-        "SELECT_COUNTRY": "Select Country"
+        "SELECT_COUNTRY": "Selecione o país"
       },
       "CITY": {
-        "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
+        "PLACEHOLDER": "Escreva o nome da cidade",
+        "LABEL": "Cidade"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -183,7 +191,7 @@
       },
       "INBOX": {
         "LABEL": "Caixa de Entrada",
-        "PLACEHOLDER": "Choose source inbox",
+        "PLACEHOLDER": "Selecionar caixa de entrada",
         "ERROR": "Selecione uma caixa de entrada"
       },
       "SUBJECT": {
@@ -211,6 +219,7 @@
     "FILTER_CONTACTS": "Filtro",
     "FILTER_CONTACTS_SAVE": "Guardar filtro",
     "FILTER_CONTACTS_DELETE": "Apagar filtro",
+    "FILTER_CONTACTS_EDIT": "Editar segmento",
     "LIST": {
       "LOADING_MESSAGE": "A carregar contactos...",
       "404": "Nenhum contacto corresponde à sua pesquisa 🔍",

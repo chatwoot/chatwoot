@@ -21,7 +21,7 @@ vi:
   messages:
     reset_password_success: Chà! Yêu cầu đặt lại mật khẩu thành công. Kiểm tra thư của bạn để biết hướng dẫn.
     reset_password_failure: Uh ho! Chúng tôi không thể tìm thấy bất kỳ người dùng nào có email được chỉ định.
-    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
+    inbox_deletetion_response: Yêu cầu xoá hộp thư của bạn sẽ được xử lý.
   errors:
     validations:
       presence: không được để trống
@@ -38,6 +38,8 @@ vi:
     contacts:
       import:
         failed: Chưa chọn tệp
+      export:
+        success: Chúng tôi sẽ thông báo khi tệp xuất danh sách liên hệ đã sẵn sàng.
       email:
         invalid: Email không hợp lệ
       phone_number:
@@ -46,7 +48,9 @@ vi:
       locale:
         unique: phải là duy nhất trong danh mục và cổng thông tin
     dyte:
-      invalid_message_type: "Invalid message type. Action not permitted"
+      invalid_message_type: "Loại tin nhắn không hợp lệ. Hành động không được phép"
+    slack:
+      invalid_channel_id: "Invalid slack channel. Please try again"
     inboxes:
       imap:
         socket_error: Vui lòng kiểm tra kết nối mạng, địa chỉ IMAP và thử lại.
@@ -56,9 +60,11 @@ vi:
         connection_closed_error: Kêt nối bị đóng.
       validations:
         name: không nên bắt đầu hoặc kết thúc bằng các ký hiệu và không nên có kí tự < > / \ @.
+    custom_filters:
+      number_of_records: Đã đạt giới hạn. Số lượng tuỳ chọn lọc tối đa cho mỗi mỗi người dùng mỗi tài khoản là 50.
   reports:
     period: Thời gian báo cáo từ %{since} đến %{until}
-    utc_warning: The report generated is in UTC timezone
+    utc_warning: Báo cáo đã được tạo với múi giờ UTC
     agent_csv:
       agent_name: Tên tổng đài viên
       conversations_count: Số hội thoại
@@ -81,7 +87,7 @@ vi:
       avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
       avg_resolution_time: Thời gian giải quyết trung bình (phút)
     conversation_traffic_csv:
-      timezone: Timezone
+      timezone: Múi giờ
     default_group_by: ngày
     csat:
       headers:
@@ -112,11 +118,11 @@ vi:
         pending: "Hội thoại được đánh dấu là chưa giải quyết bởi %{user_name}"
         snoozed: "Hội thoại đã được tạm dừng lại bởi %{user_name}"
         auto_resolved: "Hội thoại được đánh dấu là đã giải quyết bởi hệ thống vì %{duration} ngày không hoạt động"
-        system_auto_open: System reopened the conversation due to a new incoming message.
+        system_auto_open: Hệ thống mở lại hội thoại do có tin nhắn mới.
       priority:
-        added: '%{user_name} set the priority to %{new_priority}'
-        updated: '%{user_name} changed the priority from %{old_priority} to %{new_priority}'
-        removed: '%{user_name} removed the priority'
+        added: '%{user_name} thiết lập độ ưu tiên thành %{new_priority}'
+        updated: '%{user_name} thay đổi mức độ ưu tiên từ %{old_priority} thành %{new_priority}'
+        removed: '%{user_name} bỏ mức độ ưu tiên'
       assignee:
         self_assigned: "%{user_name} phân công chính mình vào hội thoại này"
         assigned: "Chỉ định %{assignee_name} bởi %{user_name}"
@@ -140,6 +146,8 @@ vi:
         header:
           from_with_name: "%{assignee_name} từ %{inbox_name} <%{from_email}>"
           reply_with_name: "%{assignee_name} từ %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} từ %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} từ %{inbox_name} <%{from_email}>"
@@ -154,8 +162,8 @@ vi:
   integration_apps:
     dyte:
       name: "Dyte"
-      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
-      meeting_name: "%{agent_name} has started a meeting"
+      description: "Dyte là công cụ giúp bạn thêm âm thanh và video trực tiếp vào ứng dụng của mình chỉ bằng một vài dòng mã. Sự tích hợp này cho phép bạn cung cấp tùy chọn cho các đại lý của mình để thực hiện cuộc gọi thoại hoặc video với khách hàng mà không cần rời khỏi Chatwoot."
+      meeting_name: "%{agent_name} đã bắt đầu một cuộc họp"
     slack:
       name: "Slack"
       description: "Slack là một công cụ trò chuyện giúp mang tất cả các cuộc giao tiếp của bạn lại với nhau ở một nơi. Bằng cách tích hợp Slack, bạn có thể nhận được thông báo về tất cả các cuộc trò chuyện mới trong tài khoản của mình ngay bên trong Slack."
@@ -170,26 +178,27 @@ vi:
       description: "Tích hợp FullContact giúp làm phong phú hồ sơ khách truy cập. Xác định người dùng ngay khi họ chia sẻ địa chỉ email và cung cấp cho họ dịch vụ khách hàng phù hợp. Kết nối FullContact với tài khoản của bạn bằng cách chia sẻ Khóa API FullContact."
     google_translate:
       name: "Google Translate"
-      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
+      description: "Giúp các đại lý dịch tin nhắn dễ dàng hơn bằng cách thêm Tích hợp Google Dịch. Google dịch giúp tự động xác định ngôn ngữ và chuyển đổi ngôn ngữ đó sang ngôn ngữ do quản trị viên đại lý/tài khoản chọn."
     openai:
       name: "OpenAI"
-      description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
+      description: "Tích hợp các tính năng AI mạnh mẽ vào Chatwoot bằng cách tận dụng các mô hình GPT từ OpenAI."
   public_portal:
     search:
       search_placeholder: Tìm bài viết theo tiêu đề hoặc nội dung...
       empty_placeholder: Không tìm thấy kết quả.
       loading_placeholder: Đang tìm kiếm...
       results_title: Các kết quả tìm kiếm
+    toc_header: 'Trên trang này'
     hero:
       sub_title: Tìm trong bài viết hoặc xem danh mục dưới đây.
     common:
       home: Trang Chủ
-      last_updated_on: Last updated on %{last_updated_on}
-      view_all_articles: View all articles
-      article: article
-      articles: các bài
-      no_articles: There are no articles here
+      last_updated_on: 'Cập nhật lần cuối: %{last_updated_on}'
+      view_all_articles: Xem tất cả bài viết
+      article: bài viết
+      articles: bài viết
+      no_articles: Không tìm thấy bài viết
     footer:
-      made_with: Made with
+      made_with: Tạo bởi
     header:
-      go_to_homepage: Go to the main site
+      go_to_homepage: Trở về ứng dụng
