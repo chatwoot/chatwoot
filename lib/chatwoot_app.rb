@@ -30,4 +30,8 @@ module ChatwootApp
       %w[]
     end
   end
+
+  def self.trial_plan_ending_time
+    15.days.from_now
+  end
 end

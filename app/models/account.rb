@@ -2,18 +2,20 @@
 #
 # Table name: accounts
 #
-#  id                    :integer          not null, primary key
-#  auto_resolve_duration :integer
-#  custom_attributes     :jsonb
-#  domain                :string(100)
-#  feature_flags         :integer          default(0), not null
-#  limits                :jsonb
-#  locale                :integer          default("en")
-#  name                  :string           not null
-#  status                :integer          default("active")
-#  support_email         :string(100)
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
+#  id                      :integer          not null, primary key
+#  auto_resolve_duration   :integer
+#  custom_attributes       :jsonb
+#  deletion_email_reminder :integer
+#  domain                  :string(100)
+#  email_sent_at           :datetime
+#  feature_flags           :integer          default(0), not null
+#  limits                  :jsonb
+#  locale                  :integer          default("en")
+#  name                    :string           not null
+#  status                  :integer          default("active")
+#  support_email           :string(100)
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
 #
 # Indexes
 #
@@ -76,14 +78,18 @@ class Account < ApplicationRecord
   has_many :webhooks, dependent: :destroy_async
   has_many :whatsapp_channels, dependent: :destroy_async, class_name: '::Channel::Whatsapp'
   has_many :working_hours, dependent: :destroy_async
+  has_many :account_billing_subscriptions, dependent: :destroy_async, class_name: '::Enterprise::AccountBillingSubscription'
 
   has_one_attached :contacts_export
 
   enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h
+  enum deletion_email_reminder: { initial_reminder: 0, second_reminder: 1, deletion_pending: 2 }
   enum status: { active: 0, suspended: 1 }
 
   before_validation :validate_limit_keys
   after_create_commit :notify_creation
+  # after signup subscribe_for_plan
+  after_create :subscribe_for_plan
   after_destroy :remove_account_sequences
 
   def agents
@@ -122,8 +128,31 @@ class Account < ApplicationRecord
   def usage_limits
     {
       agents: ChatwootApp.max_limit.to_i,
-      inboxes: ChatwootApp.max_limit.to_i
+      inboxes: ChatwootApp.max_limit.to_i,
+      history: ChatwootApp.max_limit.to_i
     }
+  end
+
+  # For first-time signup
+  def subscribe_for_plan(name = 'Trail', end_time = ChatwootApp.trial_plan_ending_time)
+    return if current_super_admin
+
+    _plan = Enterprise::BillingProduct.find_by(product_name: name)
+    return unless _plan.present?
+
+    plan_price = _plan.billing_product_prices.last
+    account_billing_subscriptions.create!(billing_product_price: plan_price, current_period_end: end_time)
+  end
+
+  # Set limits for the account
+  def set_limits_for_account(plan_price)
+    begin
+      update_columns(limits: plan_price.limits)
+      puts 'Account updated successfully!'
+    rescue StandardError => e
+      puts "Error updating account: #{e.message}"
+    end
+    Account::UpdateUserAccountsBasedOnLimitsJob.perform_later(id)
   end
 
   private
