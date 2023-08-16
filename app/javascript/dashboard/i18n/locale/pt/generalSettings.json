@@ -151,8 +151,8 @@
       "AN_HOUR_FROM_NOW": "Até daqui a uma hora",
       "CUSTOM": "Personalizar...",
       "CHANGE_APPEARANCE": "Change Appearance",
-      "LIGHT_MODE": "Light",
-      "DARK_MODE": "Dark",
+      "LIGHT_MODE": "Claro",
+      "DARK_MODE": "Escuro",
       "SYSTEM_MODE": "Sistema"
     }
   },
@@ -160,7 +160,7 @@
     "LOADING_MESSAGE": "Carregando App da Dashboard..."
   },
   "COMMON": {
-    "OR": "Or",
+    "OR": "Ou",
     "CLICK_HERE": "clique aqui"
   }
 }
