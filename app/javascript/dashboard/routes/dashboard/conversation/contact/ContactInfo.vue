@@ -290,15 +290,36 @@ export default {
         await this.$store.dispatch('contacts/delete', id);
         this.$emit('panel-close');
         this.showAlert(this.$t('DELETE_CONTACT.API.SUCCESS_MESSAGE'));
-        if (this.$route.name === 'conversation_through_inbox') {
+
+        let routeName = null;
+
+        switch (this.$route.name) {
+          case 'conversation_through_inbox':
+            routeName = 'inbox_dashboard';
+            break;
+          case 'conversations_through_team':
+            routeName = 'team_conversations';
+            break;
+          case 'conversations_through_folders':
+            routeName = 'folder_conversations';
+            break;
+          case 'conversation_through_unattended':
+          case 'conversation_through_mentions':
+          case 'conversation_through_participating':
+            // Stripping 'through_' from the route name to get the actual route name
+            routeName = this.$route.name.replace('through_', '');
+            break;
+          default:
+            if (this.$route.name !== 'contacts_dashboard') {
+              routeName = 'contacts_dashboard';
+            }
+            break;
+        }
+
+        if (routeName) {
           this.$router.push({
-            name: 'inbox_dashboard',
-            params: {
-              inboxId: this.$route.params.inbox_id,
-            },
+            name: routeName,
           });
-        } else if (this.$route.name !== 'contacts_dashboard') {
-          this.$router.push({ name: 'contacts_dashboard' });
         }
       } catch (error) {
         this.showAlert(
