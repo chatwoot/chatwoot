@@ -1,5 +1,5 @@
 <template>
-  <div class="app-wrapper h-full flex">
+  <div class="app-wrapper flex h-full flex-grow-0 min-h-0 w-full">
     <sidebar
       :route="currentRoute"
       @toggle-account-modal="toggleAccountModal"

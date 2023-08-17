@@ -1,6 +1,6 @@
 <template>
   <div
-    class="app-wrapper max-w-full ml-auto mr-auto flex flex-wrap dark:text-slate-300"
+    class="app-wrapper h-full flex-grow-0 min-h-0 w-full max-w-full ml-auto mr-auto flex flex-wrap dark:text-slate-300"
   >
     <sidebar
       :route="currentRoute"
