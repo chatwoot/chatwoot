@@ -88,7 +88,8 @@
         "UPDATE": "Atjaunināt",
         "BUTTON_TEXT": "Pievienot kanālu",
         "DESCRIPTION": "Jūsu Slack workspace tagad ir saistīta ar Chatwoot, taču integrācija pašlaik ir neaktīva. Lai aktivizētu integrāciju un savienotu kanālu ar Chatwoot, lūdzu, noklikšķiniet uz tālāk esošās pogas.\n\n**Piezīme:** Ja mēģinat izveidot savienojumu ar privātu kanālu, pirms turpināt šo darbību, pievienojiet lietotni Chatwoot Slack kanālam.",
-        "ATTENTION_REQUIRED": "Nepieciešama uzmanība"
+        "ATTENTION_REQUIRED": "Nepieciešama uzmanība",
+        "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
       },
       "UPDATE_ERROR": "Atjauninot integrāciju radās kļūda. Lūdzu, mēģiniet vēlreiz",
       "UPDATE_SUCCESS": "Kanāls ir veiksmīgi pievienots",
