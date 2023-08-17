@@ -78,7 +78,7 @@
     "BUTTON_LABEL": "Eksportuoti",
     "TITLE": "Eksportuoti Kontaktus",
     "DESC": "Eksportuoti kontaktus į CSV failą.",
-    "SUCCESS_MESSAGE": "Vykdomas eksportavimas, jums bus pranešta el. paštu, kai eksporto failas bus paruoštas įkelti.",
+    "SUCCESS_MESSAGE": "Vykdomas eksportavimas. Jums bus pranešta el. paštu, kai eksporto failas bus paruoštas įkelti.",
     "ERROR_MESSAGE": "Įvyko klaida, prašau pabandykite dar kartą"
   },
   "DELETE_NOTE": {
