@@ -46,13 +46,16 @@ export default {
       this.$store.dispatch('notifications/get', { page });
     },
     openConversation(notification) {
-      this.$track(ACCOUNT_EVENTS.OPEN_CONVERSATION_VIA_NOTIFICATION);
       const {
         primary_actor_id: primaryActorId,
         primary_actor_type: primaryActorType,
         primary_actor: { id: conversationId },
+        notification_type: notificationType,
       } = notification;
 
+      this.$track(ACCOUNT_EVENTS.OPEN_CONVERSATION_VIA_NOTIFICATION, {
+        notificationType,
+      });
       this.$store.dispatch('notifications/read', {
         primaryActorId,
         primaryActorType,
