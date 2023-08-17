@@ -1,5 +1,7 @@
 <template>
-  <div class="py-0 px-4 w-full max-w-full overflow-auto">
+  <div
+    class="py-0 px-0 w-full max-w-full overflow-auto bg-white dark:bg-slate-900"
+  >
     <article-header
       :header-title="headerTitle"
       :count="meta.count"
