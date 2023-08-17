@@ -156,20 +156,24 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     },
 
     reset() {
-      if (window.$chatwoot.isOpen) {
-        IFrameHelper.events.toggleBubble();
-      }
+      return new Promise(resolve => {
+        if (window.$chatwoot.isOpen) {
+          IFrameHelper.events.toggleBubble();
+        }
 
-      Cookies.remove('cw_conversation');
-      Cookies.remove(getUserCookieName());
+        Cookies.remove('cw_conversation');
+        Cookies.remove(getUserCookieName());
 
-      const iframe = IFrameHelper.getAppFrame();
-      iframe.src = IFrameHelper.getUrl({
-        baseUrl: window.$chatwoot.baseUrl,
-        websiteToken: window.$chatwoot.websiteToken,
+        const iframe = IFrameHelper.getAppFrame();
+        iframe.onload = () => {
+          window.$chatwoot.resetTriggered = true;
+          resolve();
+        };
+        iframe.src = IFrameHelper.getUrl({
+          baseUrl: window.$chatwoot.baseUrl,
+          websiteToken: window.$chatwoot.websiteToken,
+        });
       });
-
-      window.$chatwoot.resetTriggered = true;
     },
   };
 
