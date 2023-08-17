@@ -417,7 +417,7 @@
         },
         "BUSINESS_NAME": {
           "BUTTON_TEXT": "+ Configure your business name",
-          "PLACEHOLDER": "Enter your business name",
+          "PLACEHOLDER": "Insira o nome de sua empresa",
           "SAVE_BUTTON_TEXT": "Salvar"
         }
       },
