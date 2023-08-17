@@ -23,7 +23,7 @@
             v-dompurify-html="
               formatMessage(
                 useInstallationName(
-                  $t('INTEGRATION_SETTINGS.SLACK.SELECT_CHANNEL.DESCRIPTION'),
+                  errorDescription,
                   globalConfig.installationName
                 ),
                 false
@@ -33,7 +33,7 @@
         </div>
       </div>
     </div>
-    <div class="ml-8 mt-2">
+    <div v-if="!hasConnectedAChannel" class="ml-8 mt-2">
       <woot-submit-button
         v-if="!availableChannels.length"
         button-class="smooth small warning"
@@ -79,6 +79,12 @@ import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   mixins: [alertMixin, globalConfigMixin, messageFormatterMixin],
+  props: {
+    hasConnectedAChannel: {
+      type: Boolean,
+      default: true,
+    },
+  },
   data() {
     return { selectedChannelId: '', availableChannels: [] };
   },
@@ -87,6 +93,11 @@ export default {
       globalConfig: 'globalConfig/get',
       uiFlags: 'integrations/getUIFlags',
     }),
+    errorDescription() {
+      return !this.hasConnectedAChannel
+        ? this.$t('INTEGRATION_SETTINGS.SLACK.SELECT_CHANNEL.DESCRIPTION')
+        : this.$t('INTEGRATION_SETTINGS.SLACK.SELECT_CHANNEL.EXPIRED');
+    },
   },
   methods: {
     async fetchChannels() {
