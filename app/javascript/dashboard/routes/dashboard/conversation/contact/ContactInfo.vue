@@ -290,18 +290,15 @@ export default {
         await this.$store.dispatch('contacts/delete', id);
         this.$emit('panel-close');
         this.showAlert(this.$t('DELETE_CONTACT.API.SUCCESS_MESSAGE'));
-        if (this.$route.name !== 'contacts_dashboard') {
-          if (this.$route.name === 'conversation_through_inbox') {
-            // We want to stay on the inbox dashboard if we are deleting a contact from the inbox conversation
-            this.$router.push({
+        if (this.$route.name === 'conversation_through_inbox') {
+             this.$router.push({
               name: 'inbox_dashboard',
               params: {
                 inboxId: this.$route.params.inbox_id,
               },
             });
-          } else {
+        } else if (this.$route.name !== 'contacts_dashboard') {
             this.$router.push({ name: 'contacts_dashboard' });
-          }
         }
       } catch (error) {
         this.showAlert(
