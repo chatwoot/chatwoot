@@ -194,11 +194,28 @@ describe Integrations::Slack::SendOnSlackService do
           unfurl_links: true
         ).and_raise(Slack::Web::Api::Errors::AccountInactive.new('Account disconnected'))
 
-        allow(hook).to receive(:authorization_error!)
+        allow(hook).to receive(:prompt_reauthorization!)
 
         builder.perform
         expect(hook).to be_disabled
-        expect(hook).to have_received(:authorization_error!)
+        expect(hook).to have_received(:prompt_reauthorization!)
+      end
+
+      it 'disables hook on Slack MissingScope error' do
+        expect(slack_client).to receive(:chat_postMessage).with(
+          channel: hook.reference_id,
+          text: message.content,
+          username: "#{message.sender.name} (Contact)",
+          thread_ts: conversation.identifier,
+          icon_url: anything,
+          unfurl_links: true
+        ).and_raise(Slack::Web::Api::Errors::MissingScope.new('Account disconnected'))
+
+        allow(hook).to receive(:prompt_reauthorization!)
+
+        builder.perform
+        expect(hook).to be_disabled
+        expect(hook).to have_received(:prompt_reauthorization!)
       end
     end
 
