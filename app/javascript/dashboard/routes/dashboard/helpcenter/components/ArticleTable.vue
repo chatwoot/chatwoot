@@ -5,20 +5,28 @@
       :class="{ draggable: onCategoryPage }"
     >
       <div
-        class="article-list-header-item ltr:text-left rtl:text-right col-span-4"
+        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 ltr:text-left rtl:text-right col-span-4"
       >
         {{ $t('HELP_CENTER.TABLE.HEADERS.TITLE') }}
       </div>
-      <div class="article-list-header-item text-right">
+      <div
+        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-right"
+      >
         {{ $t('HELP_CENTER.TABLE.HEADERS.CATEGORY') }}
       </div>
-      <div class="article-list-header-item text-right hidden lg:block">
+      <div
+        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-right hidden lg:block"
+      >
         {{ $t('HELP_CENTER.TABLE.HEADERS.READ_COUNT') }}
       </div>
-      <div class="article-list-header-item text-right">
+      <div
+        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-right"
+      >
         {{ $t('HELP_CENTER.TABLE.HEADERS.STATUS') }}
       </div>
-      <div class="article-list-header-item text-right hidden md:block">
+      <div
+        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-right hidden md:block"
+      >
         {{ $t('HELP_CENTER.TABLE.HEADERS.LAST_EDITED') }}
       </div>
     </div>
@@ -147,10 +155,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.article-list-header-item {
-  @apply font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100;
-}
-
 .article-ghost-class {
   @apply opacity-50 bg-slate-50 dark:bg-slate-800;
 }
