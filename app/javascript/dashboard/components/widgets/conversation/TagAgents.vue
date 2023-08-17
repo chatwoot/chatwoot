@@ -95,7 +95,7 @@ export default {
 
 <style scoped lang="scss">
 .mention--box {
-  @apply bg-white text-sm dark:bg-slate-700 rounded-md overflow-auto absolute w-full z-[100] pt-2 px-2 pb-0 shadow-md left-0 leading-[1.2] bottom-full max-h-[12.5rem] border-t border-solid border-slate-75 dark:border-slate-800;
+  @apply bg-white text-sm dark:bg-slate-700 rounded-md overflow-auto absolute w-full z-20 pt-2 px-2 pb-0 shadow-md left-0 leading-[1.2] bottom-full max-h-[12.5rem] border-t border-solid border-slate-75 dark:border-slate-800;
 
   &.with-bottom-border {
     @apply border-b-[0.5rem] border-solid border-white dark:border-slate-600;
