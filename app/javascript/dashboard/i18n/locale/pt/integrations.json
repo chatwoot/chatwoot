@@ -88,7 +88,8 @@
         "UPDATE": "Atualização",
         "BUTTON_TEXT": "Ligar canal",
         "DESCRIPTION": "O seu espaço de trabalho Slack está agora ligado com o Chatwoot. No entanto, a integração está, de momento, inativa. Para ativar a integração e ligar um canal ao Chatwoot, por favor, clique no botão abaixo.\n\n**Nota:** Se está a tentar ligar-se a um canal privado, adicione o aplicativo Chatwoot ao canal do Slack antes de prosseguir com esta etapa.",
-        "ATTENTION_REQUIRED": "Atenção necessária"
+        "ATTENTION_REQUIRED": "Atenção necessária",
+        "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
       },
       "UPDATE_ERROR": "Ocorreu um erro ao atualizar a integração, por favor, tente novamente",
       "UPDATE_SUCCESS": "O canal estabelecido corretamente",
