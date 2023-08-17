@@ -1,5 +1,5 @@
 <template>
-  <div class="h-auto overflow-auto flex-1 flex flex-col">
+  <div class="h-full overflow-auto flex-1 flex flex-col">
     <woot-loading-state
       v-if="uiFlags.isFetchingItem"
       :message="$t('MACROS.EDITOR.LOADING')"
@@ -141,9 +141,9 @@ export default {
 };
 </script>
 
-<style scoped>
+<!-- <style scoped>
 .content-box {
   padding: 0;
   height: 100vh;
 }
-</style>
+</style> -->

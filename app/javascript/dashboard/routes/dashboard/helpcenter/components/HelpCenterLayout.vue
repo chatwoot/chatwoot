@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full flex">
+  <div class="app-wrapper h-full flex">
     <sidebar
       :route="currentRoute"
       @toggle-account-modal="toggleAccountModal"
@@ -18,7 +18,9 @@
       @open-popover="openPortalPopover"
       @open-modal="onClickOpenAddCategoryModal"
     />
-    <section class="app-content flex-1 px-0 bg-white dark:bg-slate-900">
+    <section
+      class="flex h-full min-h-0 overflow-hidden flex-1 px-0 bg-white dark:bg-slate-900"
+    >
       <router-view />
       <command-bar />
       <account-selector

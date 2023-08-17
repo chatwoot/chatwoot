@@ -96,7 +96,7 @@ export default {
 
 <style lang="scss" scoped>
 .banner {
-  @apply flex items-center gap-4 text-white dark:text-white text-xs py-3 px-4 justify-center;
+  @apply flex items-center h-12 gap-4 text-white dark:text-white text-xs py-3 px-4 justify-center;
 
   &.primary {
     @apply bg-woot-500 dark:bg-woot-500;
