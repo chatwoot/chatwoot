@@ -22,6 +22,8 @@ import { mapGetters } from 'vuex';
 import TableFooter from 'dashboard/components/widgets/TableFooter';
 
 import NotificationTable from './NotificationTable';
+
+import { ACCOUNT_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 export default {
   components: {
     NotificationTable,
@@ -44,6 +46,7 @@ export default {
       this.$store.dispatch('notifications/get', { page });
     },
     openConversation(notification) {
+      this.$track(ACCOUNT_EVENTS.OPEN_CONVERSATION_VIA_NOTIFICATION);
       const {
         primary_actor_id: primaryActorId,
         primary_actor_type: primaryActorType,
@@ -61,6 +64,7 @@ export default {
       );
     },
     onMarkAllDoneClick() {
+      this.$track(ACCOUNT_EVENTS.MARK_AS_READ_NOTIFICATIONS);
       this.$store.dispatch('notifications/readAll');
     },
   },
