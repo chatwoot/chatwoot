@@ -7,15 +7,15 @@ namespace :db do
     file_path = '/home/chatwoot/chatwoot/tmp/backup/'
 
     # process backup
-    `pg_dump #{ENV['POSTGRES_DATABASE']}  > #{file_path}#{backup_filename}`
+    `pg_dump #{ENV.fetch('POSTGRES_DATABASE', nil)}  > #{file_path}#{backup_filename}`
     `gzip -9 #{file_path}#{backup_filename}`
     puts "Created backup: #{file_path}#{backup_filename}"
 
     # save to aws-s3
-    bucket_name = ENV['S3_BUCKET_NAME']
-    s3 = Aws::S3::Client.new(access_key_id: ENV['AWS_ACCESS_KEY_ID'],
-                             secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
-                             region: ENV['AWS_REGION'])
+    bucket_name = ENV.fetch('S3_BUCKET_NAME', nil)
+    s3 = Aws::S3::Client.new(access_key_id: ENV.fetch('AWS_ACCESS_KEY_ID', nil),
+                             secret_access_key: ENV.fetch('AWS_SECRET_ACCESS_KEY', nil),
+                             region: ENV.fetch('AWS_REGION', nil))
 
     # complete_file_path = "#{file_path}#{backup_filename
     complete_file_path = "#{file_path}#{backup_filename}.gz"
