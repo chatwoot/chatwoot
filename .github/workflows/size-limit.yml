@@ -5,6 +5,10 @@ on:
     branches:
       - develop
 
+env:
+  NODE_OPTIONS: --openssl-legacy-provider
+  RAILS_ENV: production
+
 jobs:
   test:
     runs-on: ubuntu-20.04
