@@ -517,8 +517,8 @@ export default {
     sendMessageAnalyticsData() {
       // Analytics data for message signature is enabled or not in channels
       return {
-        channel_type: this.channelType,
-        signature_enabled: this.sendWithSignature,
+        channelType: this.channelType,
+        signatureEnabled: this.sendWithSignature,
       };
     },
   },
