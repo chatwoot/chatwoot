@@ -6,6 +6,7 @@
 #  active_at    :datetime
 #  auto_offline :boolean          default(TRUE), not null
 #  availability :integer          default("online"), not null
+#  is_deleted   :boolean          default(FALSE)
 #  role         :integer          default("agent")
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
@@ -26,7 +27,8 @@ class AccountUser < ApplicationRecord
   belongs_to :account
   belongs_to :user
   belongs_to :inviter, class_name: 'User', optional: true
-
+  # added
+  default_scope { where(is_deleted: false) }
   enum role: { agent: 0, administrator: 1 }
   enum availability: { online: 0, offline: 1, busy: 2 }
 
