@@ -3,11 +3,11 @@ name: Deploy to Staging
 on:
   push:
     branches:
-      - development
+      - main
   pull_request:
     types: [closed]
     branches:
-      - development
+      - main
 
 jobs:
   build:
@@ -20,7 +20,7 @@ jobs:
         with:
           host: 3.109.77.210
           username: "ubuntu"
-          key: ${{ secrets.ONECHAT_STAGING_PRIVATE_KEY }}
+          key: ${{ secrets.ONEHASH_CHAT_PROD_PRIVATE_KEY }}
           script: |
             echo "Deploying to EC2"
             sudo -i -u chatwoot <<EOF
