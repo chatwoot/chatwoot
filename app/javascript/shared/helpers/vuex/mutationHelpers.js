@@ -33,6 +33,18 @@ export const updateAttributes = (state, data) => {
     }
   });
 };
+//added
+export const updatedAttributes = (state, data) => {
+  const recordIndex = state.records.findIndex(record => record.id === data.id);
+  if (recordIndex > -1) {
+    Vue.set(state.records, recordIndex, {
+      ...state.records[recordIndex],
+      ...data,
+    });
+  } else {
+    create(state, data);
+  }
+};
 
 export const updatePresence = (state, data) => {
   state.records.forEach((element, index) => {

@@ -26,4 +26,12 @@ class AccountPolicy < ApplicationPolicy
   def checkout?
     @account_user.administrator?
   end
+
+  def billing_subscription?
+    account_user.administrator?
+  end
+
+  def change_plan?
+    account_user.administrator?
+  end
 end

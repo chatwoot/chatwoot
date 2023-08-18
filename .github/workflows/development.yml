@@ -1,0 +1,34 @@
+name: Deploy to Staging
+
+on:
+  push:
+    branches:
+      - development
+  pull_request:
+    types: [closed]
+    branches:
+      - development
+
+jobs:
+  build:
+    name: "Fetching changes"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Execute commands via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: 3.109.77.210
+          username: "ubuntu"
+          key: ${{ secrets.ONECHAT_STAGING_PRIVATE_KEY }}
+          script: |
+            echo "Deploying to EC2"
+            sudo -i -u chatwoot <<EOF
+            cd chatwoot 
+            git pull origin development
+            bundle install
+            yarn install
+            RAILS_ENV=production bundle exec rake db:migrate
+            sudo systemctl restart chatwoot.target
+            EOF
+            echo "Deployment complete"
