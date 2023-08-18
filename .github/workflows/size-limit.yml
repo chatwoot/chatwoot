@@ -36,7 +36,6 @@ jobs:
         run: bundle exec rake assets:precompile
         env:
           NODE_OPTIONS: --openssl-legacy-provider
-          RAILS_ENV: production
 
       - name: Size Check
         run: yarn run size
