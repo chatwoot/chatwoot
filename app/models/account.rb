@@ -92,7 +92,6 @@ class Account < ApplicationRecord
   after_create :subscribe_for_plan
   after_destroy :remove_account_sequences
 
-
   def agents
     users.where(account_users: { role: :agent })
   end

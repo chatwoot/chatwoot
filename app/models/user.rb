@@ -164,7 +164,7 @@ class User < ApplicationRecord
 
   # added
 
-   def current_account_user
+  def current_account_user
     # We want to avoid subsequent queries in case where the association is preloaded.
     # using where here will trigger n+1 queries.
     account_users.find { |ac_usr| ac_usr.account_id == Current.account.id } if Current.account
