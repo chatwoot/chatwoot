@@ -106,6 +106,22 @@ export const actions = {
       // silent error
     }
   },
+
+  getBillingSubscription: async ({ commit }) => {
+    commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetchingItem: true });
+    try {
+      const response = await AccountAPI.getBillingSubscription();
+      // console.log(response.data)
+      commit(types.default.UPDATE_ACCOUNT, response.data);
+      commit(types.default.SET_ACCOUNT_UI_FLAG, {
+        isFetchingItem: false,
+      });
+    } catch (error) {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, {
+        isFetchingItem: false,
+      });
+    }
+  }
 };
 
 export const mutations = {
@@ -118,6 +134,8 @@ export const mutations = {
   [types.default.ADD_ACCOUNT]: MutationHelpers.setSingleRecord,
   [types.default.EDIT_ACCOUNT]: MutationHelpers.update,
   [types.default.SET_ACCOUNT_LIMITS]: MutationHelpers.updateAttributes,
+   //added
+  [types.default.UPDATE_ACCOUNT]: MutationHelpers.updatedAttributes
 };
 
 export default {

@@ -1,119 +1,172 @@
 <template>
-  <div class="overflow-auto flex-1 p-6 dark:bg-slate-900">
-    <woot-loading-state v-if="uiFlags.isFetchingItem" />
-    <div v-else-if="!hasABillingPlan">
-      <p>{{ $t('BILLING_SETTINGS.NO_BILLING_USER') }}</p>
-    </div>
-    <div v-else class="w-full">
-      <div class="current-plan--details">
-        <h6>{{ $t('BILLING_SETTINGS.CURRENT_PLAN.TITLE') }}</h6>
-        <div
-          v-dompurify-html="
-            formatMessage(
-              $t('BILLING_SETTINGS.CURRENT_PLAN.PLAN_NOTE', {
-                plan: planName,
-                quantity: subscribedQuantity,
-              })
-            )
-          "
-        />
+  <div class="columns profile--settings">
+    <div v-if="!uiFlags.isFetchingItem">
+      <div class="small-12 row profile--settings--row">
+        <div class="columns small-3">
+          <h4 class="block-title">
+            {{ $t('BILLING_SETTINGS.FORM.CURRENT_PLAN.TITLE') }}
+          </h4>
+        </div>
+        <div class="columns small-9 medium-5">
+          <label>{{
+            $t('BILLING_SETTINGS.FORM.CURRENT_PLAN.PLAN_NOTE', {
+              plan:planName
+            })
+          }}</label>
+        </div>
       </div>
-      <billing-item
-        :title="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.TITLE')"
-        :description="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.DESCRIPTION')"
-        :button-label="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.BUTTON_TXT')"
-        @click="onClickBillingPortal"
-      />
-      <billing-item
-        :title="$t('BILLING_SETTINGS.CHAT_WITH_US.TITLE')"
-        :description="$t('BILLING_SETTINGS.CHAT_WITH_US.DESCRIPTION')"
-        :button-label="$t('BILLING_SETTINGS.CHAT_WITH_US.BUTTON_TXT')"
-        button-icon="chat-multiple"
-        @click="onToggleChatWindow"
-      />
+      <div class="small-12 row profile--settings--row">
+        <div class="columns small-3">
+          <h4 class="block-title">
+            {{ $t('BILLING_SETTINGS.FORM.EXPIRY.TITLE') }}
+          </h4>
+        </div>
+        <div class="columns small-9 medium-5">
+          <label>{{
+            $t('BILLING_SETTINGS.FORM.EXPIRY.PLAN_NOTE', {
+              expiry_date:plan_expiry_date
+            })
+          }}</label>
+        </div>
+      </div>
+      <div class="small-12 row profile--settings--row">
+        <div class="columns small-3">
+          <h4 class="block-title">
+            {{ $t('BILLING_SETTINGS.FORM.CHANGE_PLAN.TITLE') }}
+          </h4>
+        </div>
+        <div class="columns small-9 medium-5">
+          <label>
+            <woot-button title="Change the Plan" @click="openPlanModal">
+              {{ $t('BILLING_SETTINGS.FORM.CHANGE_PLAN.SELECT_PLAN') }}
+            </woot-button>
+          </label>
+        </div>
+      </div>
     </div>
+
+    <woot-loading-state v-if="uiFlags.isFetchingItem" />
   </div>
 </template>
 
 <script>
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
+import configMixin from 'shared/mixins/configMixin';
 import accountMixin from '../../../../mixins/account';
-import BillingItem from './components/BillingItem.vue';
-// sdds
+import AccountAPI from '../../../../api/account';
+import Cookies from 'js-cookie';
+import WootButton from '../../../../components/ui/WootButton';
+import { BUS_EVENTS } from '../../../../../shared/constants/busEvents';
 export default {
-  components: { BillingItem },
-  mixins: [accountMixin, alertMixin, messageFormatterMixin],
+  components: { WootButton },
+  mixins: [accountMixin, alertMixin, configMixin],
+  data() {
+    return {
+      planName: '',
+      agentCount: 0,
+      selectedProductPrice: '',
+      availableProductPrices: [],
+      showStatus: true,
+      plan_expiry_date:''
+    };
+  },
+  validations: {},
   computed: {
     ...mapGetters({
+      globalConfig: 'globalConfig/get',
       getAccount: 'accounts/getAccount',
       uiFlags: 'accounts/getUIFlags',
     }),
-    currentAccount() {
-      return this.getAccount(this.accountId) || {};
-    },
-    customAttributes() {
-      return this.currentAccount.custom_attributes || {};
-    },
-    hasABillingPlan() {
-      return !!this.planName;
-    },
-    planName() {
-      return this.customAttributes.plan_name || '';
-    },
-    subscribedQuantity() {
-      return this.customAttributes.subscribed_quantity || 0;
+    isUpdating() {
+      return this.uiFlags.isUpdating;
     },
   },
   mounted() {
-    this.fetchAccountDetails();
+    this.initializeAccountBillingSubscription();
+  },
+  updated() {
+    this.$nextTick(this.checkStatusOfSubscription());
   },
   methods: {
-    async fetchAccountDetails() {
-      await this.$store.dispatch('accounts/get');
-
-      if (!this.hasABillingPlan) {
-        this.$store.dispatch('accounts/subscription');
+    checkStatusOfSubscription() {
+      const status = this.$route.query.subscription_status;
+      if (this.showStatus) {
+        this.showStatus = false;
+        if (status === 'success') {
+          this.showAlert(this.$t('BILLING_SETTINGS.SUCCESS.MESSAGE'));
+          Cookies.remove('subscription');
+        } else if (status === 'cancel') {
+          console.log('cancelled');
+          this.showAlert(this.$t('BILLING_SETTINGS.CANCEL.MESSAGE'));
+        } else if (status === 'error') {
+          console.log('error');
+          this.showAlert(this.$t('BILLING_SETTINGS.ERROR.MESSAGE'));
+        }
       }
     },
-    onClickBillingPortal() {
-      this.$store.dispatch('accounts/checkout');
-    },
-    onToggleChatWindow() {
-      if (window.$chatwoot) {
-        window.$chatwoot.toggle();
+    checkStatus(product) {
+      // eslint-disable-next-line eqeqeq
+      if (product.unit == 0 && product.name == 'Free') {
+        return true;
       }
+      return false;
+    },
+    openPlanModal() {
+      bus.$emit(BUS_EVENTS.SHOW_PLAN_MODAL);
+    },
+    async initializeAccountBillingSubscription() {
+      try {
+        await this.$store.dispatch('accounts/getBillingSubscription');
+        const {
+          available_product_prices,
+          plan_name,
+          plan_id,
+          agent_count,
+          plan_expiry_date
+        } = this.getAccount(this.accountId);
+        this.planName = plan_name
+        this.selectedProductPrice = plan_id;
+        this.agentCount = agent_count;
+        this.availableProductPrices = available_product_prices;
+        const dateObject = new Date(plan_expiry_date)
+        const year = dateObject.getFullYear();
+        const month = dateObject.getMonth() + 1;
+        const day = dateObject.getDate();
+        this.plan_expiry_date = `${day}-${month}-${year}`
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    submitSubscription(event) {
+      const payload = { product_price: event.target.value };
+      AccountAPI.startBillingSubscription(payload)
+        .then(response => {
+          window.location.href = response.data.url;
+        })
+        .catch(error => {
+          console.log(error, 'error');
+        });
     },
   },
 };
 </script>
 
 <style lang="scss">
-.manage-subscription {
-  @apply bg-white dark:bg-slate-800 flex justify-between mb-2 py-6 px-4 items-center rounded-md border border-solid border-slate-75 dark:border-slate-700;
+@import '~dashboard/assets/scss/variables.scss';
+@import '~dashboard/assets/scss/mixins.scss';
+.profile--settings {
+  padding: 24px;
+  overflow: auto;
 }
-
-.current-plan--details {
-  @apply border-b border-solid border-slate-75 dark:border-slate-800 mb-4 pb-4;
-
-  h6 {
-    @apply text-slate-800 dark:text-slate-100;
+.profile--settings--row {
+  @include border-normal-bottom;
+  padding: $space-normal;
+  .small-3 {
+    padding: $space-normal $space-medium $space-normal 0;
   }
-
-  p {
-    @apply text-slate-600 dark:text-slate-200;
-  }
-}
-
-.manage-subscription {
-  .manage-subscription--description {
-    @apply mb-0 text-slate-600 dark:text-slate-200;
-  }
-
-  h6 {
-    @apply text-slate-800 dark:text-slate-100;
+  .small-9 {
+    padding: $space-normal;
   }
 }
 </style>

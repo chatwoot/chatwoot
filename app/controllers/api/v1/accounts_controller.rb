@@ -51,6 +51,27 @@ class Api::V1::AccountsController < Api::BaseController
     head :ok
   end
 
+  def billing_subscription
+    @billing_subscription = @account.account_billing_subscriptions.last
+    @available_product_prices = Enterprise::BillingProductPrice.includes(:billing_product)
+    render 'api/v1/accounts/billing_subscription', format: :json,
+                                                   resource: { billing_subscription: @billing_subscription, available_product_prices: @available_product_prices }
+  end
+
+  def change_plan
+    Stripe.api_key = ENV.fetch('STRIPE_SECRET_KEY', nil)
+    @billing_subscription = Enterprise::BillingProductPrice.find(params[:product_price])
+    active_subscription = @account.account_billing_subscriptions.where.not(subscription_stripe_id: nil)&.last
+    subscription = Stripe::Subscription.retrieve(active_subscription.subscription_stripe_id) if active_subscription
+    url = "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{@account.id}/settings/billing?subscription_status=success"
+    if subscription.present?
+      update_subscription(subscription)
+    else
+      url = @account.create_checkout_link(@billing_subscription)
+    end
+    render json: { url: url }
+  end
+
   private
 
   def get_cache_keys
@@ -84,5 +105,21 @@ class Api::V1::AccountsController < Api::BaseController
       account: @account,
       account_user: @current_account_user
     }
+  end
+
+  def update_subscription(subscription)
+    Stripe::Subscription.update(
+      subscription.id,
+      {
+        cancel_at_period_end: false,
+        proration_behavior: 'always_invoice',
+        items: [
+          {
+            id: subscription.items.data[0].id,
+            price: @billing_subscription.price_stripe_id
+          }
+        ]
+      }
+    )
   end
 end

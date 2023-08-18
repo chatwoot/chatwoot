@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
-    <title>woot-log</title>
-    <desc>Created with Sketch.</desc>
-    <g id="Logo" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="woot-log" fill-rule="nonzero">
-            <circle id="Oval" fill="#47A7F6" cx="256" cy="256" r="256"></circle>
-            <path d="M362.807947,368.807947 L244.122956,368.807947 C178.699407,368.807947 125.456954,315.561812 125.456954,250.12177 C125.456954,184.703089 178.699407,131.456954 244.124143,131.456954 C309.565494,131.456954 362.807947,184.703089 362.807947,250.12177 L362.807947,368.807947 Z" id="Fill-1" stroke="#FFFFFF" stroke-width="6" fill="#FFFFFF"></path>
-        </g>
-    </g>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="55px" height="55px" viewBox="0 0 55 55" version="1.1">
+<g id="surface1">
+<path style=" stroke:none;fill-rule:nonzero;fill:rgb(97.647059%,64.313725%,0%);fill-opacity:1;" d="M 47.042969 32.988281 L 41.871094 32.988281 C 41.871094 25.199219 35.554688 18.863281 27.789062 18.863281 L 27.789062 13.671875 C 38.40625 13.671875 47.042969 22.339844 47.042969 32.988281 Z M 47.042969 32.988281 "/>
+<path style=" stroke:none;fill-rule:nonzero;fill:rgb(97.647059%,64.313725%,0%);fill-opacity:1;" d="M 47.042969 32.988281 L 41.871094 32.988281 C 41.871094 25.199219 35.554688 18.863281 27.789062 18.863281 L 27.789062 13.671875 C 38.40625 13.671875 47.042969 22.339844 47.042969 32.988281 Z M 47.042969 32.988281 "/>
+<path style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,49.411765%,89.803922%);fill-opacity:1;" d="M 27.789062 52.304688 C 17.171875 52.304688 8.539062 43.640625 8.539062 32.988281 L 13.710938 32.988281 C 13.710938 40.777344 20.027344 47.117188 27.789062 47.117188 Z M 27.789062 52.304688 "/>
+<path style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,54.901961%,26.666667%);fill-opacity:1;" d="M 27.789062 52.304688 L 27.789062 47.117188 C 35.554688 47.117188 41.871094 40.777344 41.871094 32.988281 L 47.042969 32.988281 C 47.042969 43.640625 38.40625 52.304688 27.789062 52.304688 Z M 27.789062 52.304688 "/>
+<path style=" stroke:none;fill-rule:nonzero;fill:rgb(94.509804%,20.784314%,17.254902%);fill-opacity:1;" d="M 13.710938 32.988281 L 8.539062 32.988281 C 8.539062 22.339844 17.171875 13.671875 27.789062 13.671875 L 27.789062 18.863281 C 20.027344 18.863281 13.710938 25.199219 13.710938 32.988281 Z M 13.710938 32.988281 "/>
+</g>
 </svg>
