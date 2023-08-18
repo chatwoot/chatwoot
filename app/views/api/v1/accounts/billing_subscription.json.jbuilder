@@ -8,7 +8,9 @@ if @billing_subscription&.billing_product_price.present?
 
 end
 json.available_product_prices do
-  non_free_product_prices = @available_product_prices.reject { |billing_product_price| billing_product_price.price_stripe_id.nil? || billing_product_price.price_stripe_id.empty? }
+  non_free_product_prices = @available_product_prices.reject do |billing_product_price|
+    billing_product_price.price_stripe_id.nil? || billing_product_price.price_stripe_id.empty?
+  end
   json.array! non_free_product_prices do |billing_product_price|
     json.id billing_product_price.id
     json.name billing_product_price.billing_product.product_name
