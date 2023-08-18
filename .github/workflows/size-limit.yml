@@ -31,12 +31,12 @@ jobs:
         run: |
           rm -rf enterprise
           rm -rf spec/enterprise
+          
+      - name: Run asset compile
+        run: bundle exec rake assets:precompile
         env:
           NODE_OPTIONS: --openssl-legacy-provider
           RAILS_ENV: production
-
-      - name: Run asset compile
-        run: bundle exec rake assets:precompile
 
       - name: Size Check
         run: yarn run size
