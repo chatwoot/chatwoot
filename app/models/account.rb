@@ -134,9 +134,7 @@ class Account < ApplicationRecord
   end
 
   # For first-time signup
-  def subscribe_for_plan(name = 'Trail', end_time = ChatwootApp.trial_plan_ending_time)
-    return if current_super_admin
-
+  def subscribe_for_plan(name = 'OneHash Trail', end_time = ChatwootApp.trial_plan_ending_time)
     _plan = Enterprise::BillingProduct.find_by(product_name: name)
     return unless _plan.present?
 
