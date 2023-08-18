@@ -190,12 +190,16 @@ Rails.application.routes.draw do
           resources :webhooks, only: [:index, :create, :update, :destroy]
           namespace :integrations do
             resources :apps, only: [:index, :show]
-            resources :hooks, only: [:create, :update, :destroy] do
+            resources :hooks, only: [:show, :create, :update, :destroy] do
               member do
                 post :process_event
               end
             end
-            resource :slack, only: [:create, :update, :destroy], controller: 'slack'
+            resource :slack, only: [:create, :update, :destroy], controller: 'slack' do
+              member do
+                get :list_all_channels
+              end
+            end
             resource :dyte, controller: 'dyte', only: [] do
               collection do
                 post :create_a_meeting
@@ -337,6 +341,11 @@ Rails.application.routes.draw do
           scope module: :inboxes do
             resources :contacts, only: [:create, :show, :update] do
               resources :conversations, only: [:index, :create] do
+                member do
+                  post :toggle_typing
+                  post :update_last_seen
+                end
+
                 resources :messages, only: [:index, :create, :update]
               end
             end

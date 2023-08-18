@@ -12,6 +12,10 @@
     "NO_INBOX_2": " для начала",
     "NO_INBOX_AGENT": "Ой! Похоже, вы не добавлены ни к одному источнику сообщений. Обратитесь к администратору",
     "SEARCH_MESSAGES": "Поиск по сообщениям в диалогах",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "Поиск сообщений",
       "RESULT_TITLE": "Результаты поиска",
@@ -147,6 +151,7 @@
       "STOP_AUDIO_RECORDING": "Остановить запись аудио",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Добавить bcc",
         "CC": {
           "LABEL": "CC",

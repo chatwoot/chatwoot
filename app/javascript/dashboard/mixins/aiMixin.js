@@ -1,23 +1,27 @@
 import { mapGetters } from 'vuex';
 import { OPEN_AI_EVENTS } from '../helper/AnalyticsHelper/events';
-import { LOCAL_STORAGE_KEYS } from '../constants/localStorage';
-import { LocalStorage } from '../../shared/helpers/localStorage';
 import OpenAPI from '../api/integrations/openapi';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
+  mixins: [alertMixin],
   mounted() {
     this.fetchIntegrationsIfRequired();
   },
   computed: {
     ...mapGetters({
+      uiFlags: 'integrations/getUIFlags',
       appIntegrations: 'integrations/getAppIntegrations',
       currentChat: 'getSelectedChat',
       replyMode: 'draftMessages/getReplyEditorMode',
     }),
     isAIIntegrationEnabled() {
-      return this.appIntegrations.find(
+      return !!this.appIntegrations.find(
         integration => integration.id === 'openai' && !!integration.hooks.length
       );
+    },
+    isFetchingAppIntegrations() {
+      return this.uiFlags.isFetching;
     },
     hookId() {
       return this.appIntegrations.find(
@@ -50,6 +54,8 @@ export default {
       }
     },
     async fetchLabelSuggestions({ conversationId }) {
+      if (!conversationId) return [];
+
       try {
         const result = await OpenAPI.processEvent({
           type: 'label_suggestion',
@@ -65,29 +71,6 @@ export default {
       } catch (error) {
         return [];
       }
-    },
-    getDismissedConversations(accountId) {
-      const suggestionKey = LOCAL_STORAGE_KEYS.DISMISSED_LABEL_SUGGESTIONS;
-
-      // fetch the value from Storage
-      const valueFromStorage = LocalStorage.get(suggestionKey);
-
-      // Case 1: the key is not initialized
-      if (!valueFromStorage) {
-        LocalStorage.set(suggestionKey, {
-          [accountId]: [],
-        });
-        return LocalStorage.get(suggestionKey);
-      }
-
-      // Case 2: the key is initialized, but account ID is not present
-      if (!valueFromStorage[accountId]) {
-        valueFromStorage[accountId] = [];
-        LocalStorage.set(suggestionKey, valueFromStorage);
-        return LocalStorage.get(suggestionKey);
-      }
-
-      return valueFromStorage;
     },
     cleanLabels(labels) {
       return labels

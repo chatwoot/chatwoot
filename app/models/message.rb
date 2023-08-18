@@ -103,8 +103,7 @@ class Message < ApplicationRecord
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
-  # .succ is a hack to avoid https://makandracards.com/makandra/1057-why-two-ruby-time-objects-are-not-equal-although-they-appear-to-be
-  scope :unread_since, ->(datetime) { where('EXTRACT(EPOCH FROM created_at) > (?)', datetime.to_i.succ) }
+  scope :created_since, ->(datetime) { where('created_at > ?', datetime) }
   scope :chat, -> { where.not(message_type: :activity).where(private: false) }
   scope :non_activity_messages, -> { where.not(message_type: :activity).reorder('id desc') }
   scope :today, -> { where("date_trunc('day', created_at) = ?", Date.current) }
@@ -117,10 +116,6 @@ class Message < ApplicationRecord
   belongs_to :account
   belongs_to :inbox
   belongs_to :conversation, touch: true
-
-  # FIXME: phase out user and contact after 1.4 since the info is there in sender
-  belongs_to :user, required: false
-  belongs_to :contact, required: false
   belongs_to :sender, polymorphic: true, required: false
 
   has_many :attachments, dependent: :destroy, autosave: true, before_add: :validate_attachments_limit
@@ -252,7 +247,6 @@ class Message < ApplicationRecord
     send_reply
     execute_message_template_hooks
     update_contact_activity
-    update_waiting_since
   end
 
   def update_contact_activity
@@ -266,7 +260,7 @@ class Message < ApplicationRecord
       )
       conversation.update(waiting_since: nil)
     end
-    conversation.update(waiting_since: Time.now.utc) if incoming? && conversation.waiting_since.blank?
+    conversation.update(waiting_since: created_at) if incoming? && conversation.waiting_since.blank?
   end
 
   def human_response?
@@ -281,8 +275,12 @@ class Message < ApplicationRecord
 
   def dispatch_create_events
     Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
+
     if valid_first_reply?
       Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
+      conversation.update(first_reply_created_at: created_at, waiting_since: nil)
+    else
+      update_waiting_since
     end
   end
 

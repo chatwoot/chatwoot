@@ -3,7 +3,7 @@
     <div
       v-if="show"
       v-on-clickaway="onClickAway"
-      class="left-3 rtl:left-auto rtl:right-3 bottom-16 w-64 absolute z-10 rounded-md shadow-xl bg-white dark:bg-slate-800 py-2 px-2 border border-slate-25 dark:border-slate-700"
+      class="left-3 rtl:left-auto rtl:right-3 bottom-16 w-64 absolute z-20 rounded-md shadow-xl bg-white dark:bg-slate-800 py-2 px-2 border border-slate-25 dark:border-slate-700"
       :class="{ 'block visible': show }"
     >
       <availability-status />
@@ -59,6 +59,17 @@
               </span>
             </a>
           </router-link>
+        </woot-dropdown-item>
+        <woot-dropdown-item>
+          <woot-button
+            variant="clear"
+            color-scheme="secondary"
+            size="small"
+            icon="appearance"
+            @click="openAppearanceOptions"
+          >
+            {{ $t('SIDEBAR_ITEMS.APPEARANCE') }}
+          </woot-button>
         </woot-dropdown-item>
         <woot-dropdown-item v-if="currentUser.type === 'SuperAdmin'">
           <a
@@ -144,6 +155,10 @@ export default {
     },
     onClickAway() {
       if (this.show) this.$emit('close');
+    },
+    openAppearanceOptions() {
+      const ninja = document.querySelector('ninja-keys');
+      ninja.open({ parent: 'appearance_settings' });
     },
   },
 };

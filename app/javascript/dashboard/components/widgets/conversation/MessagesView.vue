@@ -45,7 +45,7 @@
       />
       <li v-show="unreadMessageCount != 0" class="unread--toast">
         <span>
-          {{ unreadMessageCount }}
+          {{ unreadMessageCount > 9 ? '9+' : unreadMessageCount }}
           {{
             unreadMessageCount > 1
               ? $t('CONVERSATION.UNREAD_MESSAGES')
@@ -119,11 +119,13 @@ import aiMixin from 'dashboard/mixins/aiMixin';
 import { getTypingUsersText } from '../../../helper/commons';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 import { isEscape } from 'shared/helpers/KeyboardHelpers';
+import { LocalStorage } from 'shared/helpers/localStorage';
 
 // constants
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { REPLY_POLICY } from 'shared/constants/links';
 import wootConstants from 'dashboard/constants/globals';
+import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 
 export default {
   components: {
@@ -312,7 +314,7 @@ export default {
       return '';
     },
     unreadMessageCount() {
-      return this.currentChat.unread_count;
+      return this.currentChat.unread_count || 0;
     },
   },
 
@@ -392,8 +394,11 @@ export default {
       });
     },
     isLabelSuggestionDismissed() {
-      const dismissed = this.getDismissedConversations(this.currentAccountId);
-      return dismissed[this.currentAccountId].includes(this.conversationId);
+      return LocalStorage.getFlag(
+        LOCAL_STORAGE_KEYS.DISMISSED_LABEL_SUGGESTIONS,
+        this.currentAccountId,
+        this.currentChat.id
+      );
     },
     fetchAllAttachmentsFromCurrentChat() {
       this.$store.dispatch('fetchAllAttachments', this.currentChat.id);

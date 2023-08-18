@@ -1,6 +1,6 @@
 .reply-box {
   transition: box-shadow 0.35s $swift-ease-out-function,
-  height 2s $swift-ease-out-function;
+    height 2s $swift-ease-out-function;
 
   &.is-focused {
     box-shadow: var(--shadow);
@@ -47,13 +47,13 @@
   }
 
   &.is-private {
-    background: var(--y-50);
+    @apply bg-yellow-100 dark:bg-yellow-800;
 
     .reply-box__top {
-      background: var(--y-50);
+      @apply bg-yellow-100 dark:bg-yellow-800;
 
       > input {
-        background: var(--y-50);
+        @apply bg-yellow-100 dark:bg-yellow-800;
       }
     }
   }

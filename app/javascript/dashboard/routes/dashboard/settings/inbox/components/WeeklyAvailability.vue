@@ -85,8 +85,8 @@ import {
 } from '../helpers/businessHour';
 
 const DEFAULT_TIMEZONE = {
-  label: 'America/Los_Angeles',
-  key: 'America/Los_Angeles',
+  label: 'Pacific Time (US & Canada) (GMT-07:00)',
+  value: 'America/Los_Angeles',
 };
 
 export default {
@@ -183,7 +183,9 @@ export default {
         await this.$store.dispatch('inboxes/updateInbox', payload);
         this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
-        this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+        this.showAlert(
+          error.message || this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE')
+        );
       }
     },
   },

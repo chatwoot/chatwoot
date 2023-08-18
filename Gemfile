@@ -34,7 +34,7 @@ gem 'commonmarker'
 # Validate Data against JSON Schema
 gem 'json_schemer'
 # Rack middleware for blocking & throttling abusive requests
-gem 'rack-attack'
+gem 'rack-attack', '>= 6.7.0'
 # a utility tool for streaming, flexible and safe downloading of remote files
 gem 'down'
 # authentication type to fetch and send mail over oauth2.0
@@ -153,7 +153,7 @@ gem 'stripe'
 gem 'faker'
 
 # Include logrange conditionally in intializer using env variable
-gem 'lograge', '~> 0.12.0', require: false
+gem 'lograge', '~> 0.13.0', require: false
 
 # worked with microsoft refresh token
 gem 'omniauth-oauth2'
@@ -197,7 +197,7 @@ group :development do
   gem 'squasher'
 
   # profiling
-  gem 'rack-mini-profiler', require: false
+  gem 'rack-mini-profiler', '>= 3.1.1', require: false
   gem 'stackprof'
 end
 

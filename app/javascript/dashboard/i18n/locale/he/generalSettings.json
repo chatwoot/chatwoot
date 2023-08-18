@@ -110,7 +110,9 @@
       "SNOOZE_CONVERSATION": "נודניק שיחה",
       "ADD_LABEL": "הוסף תווית לשיחה",
       "REMOVE_LABEL": "הסר תווית מהשיחה",
-      "SETTINGS": "הגדרות"
+      "SETTINGS": "הגדרות",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "עבור ללוח המחוונים לשיחה",
@@ -132,6 +134,7 @@
       "GO_TO_NOTIFICATIONS": "עבור להודעות",
       "ADD_LABELS_TO_CONVERSATION": "הוסף תווית לשיחה",
       "ASSIGN_AN_AGENT": "הקצה סוכן",
+      "AI_ASSIST": "AI Assist",
       "ASSIGN_PRIORITY": "Assign priority",
       "ASSIGN_A_TEAM": "הקצה צוות",
       "MUTE_CONVERSATION": "שיחה אילמת",
@@ -146,10 +149,18 @@
       "UNTIL_TOMORROW": "עד מחר",
       "UNTIL_NEXT_MONTH": "Until next month",
       "AN_HOUR_FROM_NOW": "Until an hour from now",
-      "CUSTOM": "Custom..."
+      "CUSTOM": "Custom...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "System"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "טוען אפליקציית Dashboard..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "לחץ כאן"
   }
 }

@@ -105,5 +105,9 @@
       "CLICK_HERE_TO_JOIN": "Smelltu hér til að taka þátt",
       "LEAVE_THE_ROOM": "Yfirgefa símtalið"
     }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles"
   }
 }
