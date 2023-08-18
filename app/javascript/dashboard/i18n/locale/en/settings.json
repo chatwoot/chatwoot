@@ -300,7 +300,7 @@
       "CURRENT_PLAN": {
         "TITLE": "Current Plan",
         "NOTE": "Your current OneChat Subscription Plan",
-        "PLAN_NOTE": "You are currently under the OneHash Chat {plan} Plan"
+        "PLAN_NOTE": "You are currently under the {plan} Plan"
       },
       "EXPIRY": {
         "TITLE": "Expiry Date",
