@@ -81,12 +81,12 @@
       "HELP_TEXT": {
         "TITLE": "Utilizar a integração Slack",
         "BODY": "<br/><p>Chatwoot irá agora sincronizar todas as mensagens recebidas através do canal de <b><i>conversas com clientes</i></b> dentro do seu local de trabalho do Slack.</p><p>A resposta a uma mensagem nas <b><i>conversas com o cliente</i></b> no seu canal de slack irá criar uma resposta para o cliente através do Chatwoot.</p><p> Comece as respostas com <b><i>nota:</i></b> para criar notas privadas em vez de respostas.</p><p>Se o remetente do slack tiver um perfil de agente no Chatwoot com o mesmo e-mail, as respostas serão associadas de acordo com isso.</p><p>Quando a pessoa que responde não tiver um perfil de agente associado, as respostas serão dadas a partir do perfil do bot.</p>",
-        "SELECTED": "selected"
+        "SELECTED": "selecionado"
       },
       "SELECT_CHANNEL": {
-        "OPTION_LABEL": "Select a channel",
+        "OPTION_LABEL": "Escolher um canal",
         "UPDATE": "Atualização",
-        "BUTTON_TEXT": "Connect channel",
+        "BUTTON_TEXT": "Ligar canal",
         "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
         "ATTENTION_REQUIRED": "Attention required"
       },
@@ -123,6 +123,18 @@
           "APPLY": "Use this suggestion",
           "CANCEL": "cancelar"
         }
+      },
+      "CTA_MODAL": {
+        "TITLE": "Integrate with OpenAI",
+        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
+        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "BUTTONS": {
+          "NEED_HELP": "Precisa de ajuda?",
+          "DISMISS": "Descartar",
+          "FINISH": "Finish Setup"
+        },
+        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
+        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
       },
       "TITLE": "Melhore com IA",
       "SUMMARY_TITLE": "Resumo com AI",

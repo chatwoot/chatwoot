@@ -23,7 +23,7 @@ class AgentBot < ApplicationRecord
 
   has_many :agent_bot_inboxes, dependent: :destroy_async
   has_many :inboxes, through: :agent_bot_inboxes
-  has_many :messages, as: :sender, dependent: :restrict_with_exception
+  has_many :messages, as: :sender, dependent: :nullify
   belongs_to :account, optional: true
   enum bot_type: { webhook: 0, csml: 1 }
 
