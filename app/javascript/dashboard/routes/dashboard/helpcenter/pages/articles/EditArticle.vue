@@ -13,6 +13,7 @@
         @open="openArticleSettings"
         @close="closeArticleSettings"
         @show="showArticleInPortal"
+        @update-meta="updateMeta"
       />
       <div v-if="isFetching" class="text-center p-normal fs-default h-full">
         <spinner size="" />
@@ -31,6 +32,7 @@
       @save-article="saveArticle"
       @delete-article="openDeletePopup"
       @archive-article="archiveArticle"
+      @update-meta="updateMeta"
     />
     <woot-delete-modal
       :show.sync="showDeleteConfirmationPopup"
@@ -86,6 +88,9 @@ export default {
     },
     selectedPortalSlug() {
       return this.$route.params.portalSlug;
+    },
+    selectedLocale() {
+      return this.$route.params.locale;
     },
     portalLink() {
       const slug = this.$route.params.portalSlug;
@@ -182,6 +187,13 @@ export default {
       } finally {
         this.showAlert(this.alertMessage);
       }
+    },
+    updateMeta() {
+      const selectedPortalParam = {
+        portalSlug: this.selectedPortalSlug,
+        locale: this.selectedLocale,
+      };
+      return this.$store.dispatch('portals/show', selectedPortalParam);
     },
     openArticleSettings() {
       this.showArticleSettings = true;
