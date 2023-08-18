@@ -80,10 +80,10 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   def send_message
     post_message if message_content.present?
     upload_file if message.attachments.any?
-  rescue Slack::Web::Api::Errors::AccountInactive => e
+  rescue Slack::Web::Api::Errors::AccountInactive, Slack::Web::Api::Errors::MissingScope => e
     Rails.logger.error e
-    hook.authorization_error!
-    hook.disable if hook.enabled?
+    hook.prompt_reauthorization!
+    hook.disable
   end
 
   def post_message
