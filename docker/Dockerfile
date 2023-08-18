@@ -13,18 +13,21 @@ ENV RAILS_SERVE_STATIC_FILES ${RAILS_SERVE_STATIC_FILES}
 ARG RAILS_ENV=production
 ENV RAILS_ENV ${RAILS_ENV}
 
+ARG NODE_OPTIONS="--openssl-legacy-provider"
+ENV NODE_OPTIONS ${NODE_OPTIONS}
+
 ENV BUNDLE_PATH="/gems"
 
 RUN apk update && apk add --no-cache \
-    openssl \
-    tar \
-    build-base \
-    tzdata \
-    postgresql-dev \
-    postgresql-client \
-    nodejs \
-    yarn \
-    git \
+  openssl \
+  tar \
+  build-base \
+  tzdata \
+  postgresql-dev \
+  postgresql-client \
+  nodejs \
+  yarn \
+  git \
   && mkdir -p /var/app \
   && gem install bundler
 
@@ -92,12 +95,12 @@ ENV BUNDLE_PATH="/gems"
 
 RUN apk update && apk add --no-cache \
   build-base \
-    openssl \
-    tzdata \
-    postgresql-client \
-    imagemagick \
-    git \
-    vips \
+  openssl \
+  tzdata \
+  postgresql-client \
+  imagemagick \
+  git \
+  vips \
   && gem install bundler
 
 RUN if [ "$RAILS_ENV" != "production" ]; then \
