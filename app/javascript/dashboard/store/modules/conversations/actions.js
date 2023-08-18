@@ -238,12 +238,20 @@ const actions = {
     }
   },
 
-  createPendingMessageAndSend: async ({ dispatch }, data) => {
-    const pendingMessage = createPendingMessage(data);
-    dispatch('sendMessageWithData', pendingMessage);
+  createPendingMessageAndSend: async ({ dispatch }, params) => {
+    const { data: messageData, analytics: sendMessageAnalyticsData } = params;
+    const pendingMessage = createPendingMessage(messageData);
+    dispatch('sendMessageWithData', {
+      data: pendingMessage,
+      analytics: sendMessageAnalyticsData,
+    });
   },
 
-  sendMessageWithData: async ({ commit }, pendingMessage) => {
+  sendMessageWithData: async ({ commit }, params) => {
+    const {
+      data: pendingMessage,
+      analytics: sendMessageAnalyticsData,
+    } = params;
     try {
       commit(types.ADD_MESSAGE, {
         ...pendingMessage,
@@ -253,7 +261,10 @@ const actions = {
       AnalyticsHelper.track(
         pendingMessage.private
           ? CONVERSATION_EVENTS.SENT_PRIVATE_NOTE
-          : CONVERSATION_EVENTS.SENT_MESSAGE
+          : CONVERSATION_EVENTS.SENT_MESSAGE,
+        {
+          ...sendMessageAnalyticsData,
+        }
       );
       commit(types.ADD_MESSAGE, {
         ...response.data,

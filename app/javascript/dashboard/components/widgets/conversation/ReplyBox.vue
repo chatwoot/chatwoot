@@ -514,6 +514,13 @@ export default {
       });
       return variables;
     },
+    sendMessageAnalyticsData() {
+      // Analytics data for message signature is enabled or not in channels
+      return {
+        channel_type: this.channelType,
+        signature_enabled: this.sendWithSignature,
+      };
+    },
   },
   watch: {
     currentChat(conversation) {
@@ -751,10 +758,10 @@ export default {
     },
     async sendMessage(messagePayload) {
       try {
-        await this.$store.dispatch(
-          'createPendingMessageAndSend',
-          messagePayload
-        );
+        await this.$store.dispatch('createPendingMessageAndSend', {
+          data: messagePayload,
+          analytics: this.sendMessageAnalyticsData,
+        });
         bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
         bus.$emit(BUS_EVENTS.MESSAGE_SENT);
         this.removeFromDraft();
