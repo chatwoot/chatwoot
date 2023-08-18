@@ -76,6 +76,8 @@ jobs:
     - name: Run backend tests
       run: |
         bundle exec rspec --profile=10 --format documentation
+      env: 
+        NODE_OPTIONS: --openssl-legacy-provider
 
     - name: Upload rails log folder
       uses: actions/upload-artifact@v3
