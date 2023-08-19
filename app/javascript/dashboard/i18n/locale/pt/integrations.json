@@ -75,8 +75,8 @@
     "SLACK": {
       "DELETE": "excluir",
       "DELETE_CONFIRMATION": {
-        "TITLE": "Delete the integration",
-        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+        "TITLE": "Apagar a integração",
+        "MESSAGE": "Tem certeza que pretende excluir a integração? Isso resultará na perda de acesso a conversas no seu espaço de trabalho Slack."
       },
       "HELP_TEXT": {
         "TITLE": "Utilizar a integração Slack",
@@ -87,12 +87,13 @@
         "OPTION_LABEL": "Escolher um canal",
         "UPDATE": "Atualização",
         "BUTTON_TEXT": "Ligar canal",
-        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
-        "ATTENTION_REQUIRED": "Attention required"
+        "DESCRIPTION": "O seu espaço de trabalho Slack está agora ligado com o Chatwoot. No entanto, a integração está, de momento, inativa. Para ativar a integração e ligar um canal ao Chatwoot, por favor, clique no botão abaixo.\n\n**Nota:** Se está a tentar ligar-se a um canal privado, adicione o aplicativo Chatwoot ao canal do Slack antes de prosseguir com esta etapa.",
+        "ATTENTION_REQUIRED": "Atenção necessária",
+        "EXPIRED": "A sua integração com o Slack expirou. Para continuar a receber mensagens no Slack, elimine a integração e faça a ligação ao seu espaço de trabalho novamente."
       },
-      "UPDATE_ERROR": "There was an error updating the integration, please try again",
-      "UPDATE_SUCCESS": "The channel is connected successfully",
-      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
+      "UPDATE_ERROR": "Ocorreu um erro ao atualizar a integração, por favor, tente novamente",
+      "UPDATE_SUCCESS": "O canal estabelecido corretamente",
+      "FAILED_TO_FETCH_CHANNELS": "Ocorreu um erro ao obter os canais do Slack, por favor, tente novamente"
     },
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Clique aqui para participar",
@@ -102,39 +103,39 @@
       "CREATE_ERROR": "Ocorreu um erro ao criar o link da reunião, por favor tente novamente"
     },
     "OPEN_AI": {
-      "AI_ASSIST": "AI Assist",
-      "WITH_AI": " %{option} with AI ",
+      "AI_ASSIST": "Assistente IA",
+      "WITH_AI": " %{option} com IA ",
       "OPTIONS": {
-        "REPLY_SUGGESTION": "Reply Suggestion",
-        "SUMMARIZE": "Summarize",
-        "REPHRASE": "Improve Writing",
-        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
-        "SHORTEN": "Shorten",
-        "EXPAND": "Expand",
-        "MAKE_FRIENDLY": "Change message tone to friendly",
-        "MAKE_FORMAL": "Use formal tone",
-        "SIMPLIFY": "Simplify"
+        "REPLY_SUGGESTION": "Sugestão de Resposta",
+        "SUMMARIZE": "Sumário",
+        "REPHRASE": "Melhorar Escrita",
+        "FIX_SPELLING_GRAMMAR": "Corrigir Ortografia e Gramática",
+        "SHORTEN": "Encurtar",
+        "EXPAND": "Expandir",
+        "MAKE_FRIENDLY": "Altere o tom de mensagem para amigável",
+        "MAKE_FORMAL": "Usar tom formal",
+        "SIMPLIFY": "Simplificar"
       },
       "ASSISTANCE_MODAL": {
-        "DRAFT_TITLE": "Draft content",
-        "GENERATED_TITLE": "Generated content",
-        "AI_WRITING": "AI is writing",
+        "DRAFT_TITLE": "Conteúdo do rascunho",
+        "GENERATED_TITLE": "Conteúdo gerado",
+        "AI_WRITING": "AI está a escrever",
         "BUTTONS": {
-          "APPLY": "Use this suggestion",
+          "APPLY": "Utilizar esta sugestão",
           "CANCEL": "cancelar"
         }
       },
       "CTA_MODAL": {
-        "TITLE": "Integrate with OpenAI",
-        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
-        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "TITLE": "Integrar com OpenAI",
+        "DESC": "Incorporar recursos IA avançados no seu painel utilizando modelos GPT do OpenAI. Para começar, insira a chave de API da sua conta OpenAI.",
+        "KEY_PLACEHOLDER": "Insira a chave de API da sua conta OpenAI",
         "BUTTONS": {
           "NEED_HELP": "Precisa de ajuda?",
           "DISMISS": "Descartar",
-          "FINISH": "Finish Setup"
+          "FINISH": "Concluir a Configuração"
         },
-        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
-        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
+        "DISMISS_MESSAGE": "Pode configurar a integração do OpenAI mais tarde, quando lhe for conveniente.",
+        "SUCCESS_MESSAGE": "Integração OpenAI configurada com sucesso"
       },
       "TITLE": "Melhore com IA",
       "SUMMARY_TITLE": "Resumo com AI",
