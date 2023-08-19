@@ -1,5 +1,5 @@
 # pre-build stage
-FROM ruby:3.2.2-alpine3.16 AS pre-builder
+FROM ruby:3.2.2-alpine3.17 AS pre-builder
 
 # ARG default to production settings
 # For development docker-compose file overrides ARGS
@@ -73,7 +73,7 @@ RUN rm -rf /gems/ruby/3.2.0/cache/*.gem \
   && rm .gitignore
 
 # final build stage
-FROM ruby:3.2.2-alpine3.16
+FROM ruby:3.2.2-alpine3.17
 
 
 ARG BUNDLE_WITHOUT="development:test"
