@@ -119,7 +119,7 @@
         },
         "API_KEY_SECRET": {
           "LABEL": "API Key Secret",
-          "PLACEHOLDER": "Please enter your API Key Secret",
+          "PLACEHOLDER": "Por favor, use sua API Key Secret",
           "ERROR": "Este campo é obrigatório"
         },
         "MESSAGING_SERVICE_SID": {
@@ -403,8 +403,8 @@
         "DISABLED": "Desativado"
       },
       "SENDER_NAME_SECTION": {
-        "TITLE": "Sender name",
-        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
+        "TITLE": "Nome do remetente",
+        "SUB_TEXT": "Selecione o nome a ser exibido para o seu cliente quando ele receber e-mails de seus agentes.",
         "FOR_EG": "For eg:",
         "FRIENDLY": {
           "TITLE": "Amigável",
@@ -417,7 +417,7 @@
         },
         "BUSINESS_NAME": {
           "BUTTON_TEXT": "+ Configure your business name",
-          "PLACEHOLDER": "Enter your business name",
+          "PLACEHOLDER": "Insira o nome de sua empresa",
           "SAVE_BUTTON_TEXT": "Salvar"
         }
       },
