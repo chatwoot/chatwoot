@@ -88,7 +88,8 @@
         "UPDATE": "Atnaujinti",
         "BUTTON_TEXT": "Prijunkite kanalą",
         "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
-        "ATTENTION_REQUIRED": "Reikalingas dėmesys"
+        "ATTENTION_REQUIRED": "Reikalingas dėmesys",
+        "EXPIRED": "Jūsų Slack integracijos galiojimo laikas baigėsi. Norėdami ir toliau gauti pranešimus Slack, ištrinkite integraciją ir vėl prijunkite savo darbo erdvę."
       },
       "UPDATE_ERROR": "Atnaujinant integraciją įvyko klaida, bandykite dar kartą",
       "UPDATE_SUCCESS": "Kanalas sėkmingai prijungtas",
