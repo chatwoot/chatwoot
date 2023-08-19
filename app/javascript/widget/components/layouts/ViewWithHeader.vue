@@ -4,7 +4,10 @@
     :class="{ 'overflow-auto': isOnHomeView }"
     @keydown.esc="closeWindow"
   >
-    <div class="flex flex-col h-full relative" :style="viewBackgroundStyles">
+    <div
+      class="flex flex-col h-full relative"
+      :class="$dm('bg-slate-25', 'dark:bg-slate-800')"
+    >
       <div
         class="header-wrap sticky top-0 z-40"
         :class="{

@@ -1,7 +1,7 @@
 <template>
   <div
-    class="z-50 rounded-md border-t border-slate-50 w-full flex flex-1 flex-col justify-end"
-    :class="{ 'pb-2': showArticles }"
+    class="z-50 rounded-md border-t border-slate-50 w-full flex flex-1 flex-col justify-end  dark:bg-slate-800"
+    :class="[$dm('bg-slate-25', 'dark:bg-slate-800'), { 'pb-2': showArticles }]"
   >
     <div v-if="showArticles" class="px-4 py-2 w-full">
       <div class="p-4 rounded-md bg-white dark:bg-slate-700 shadow w-full">
@@ -42,6 +42,7 @@ import ArticleCardSkeletonLoader from 'widget/components/ArticleCardSkeletonLoad
 import { mapGetters } from 'vuex';
 import routerMixin from 'widget/mixins/routerMixin';
 import configMixin from 'widget/mixins/configMixin';
+import darkModeMixin from 'widget/mixins/darkModeMixin';
 
 export default {
   name: 'Home',
@@ -50,7 +51,7 @@ export default {
     TeamAvailability,
     ArticleCardSkeletonLoader,
   },
-  mixins: [configMixin, routerMixin],
+  mixins: [configMixin, routerMixin, darkModeMixin],
   props: {
     hasFetched: {
       type: Boolean,

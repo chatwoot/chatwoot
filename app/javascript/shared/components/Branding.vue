@@ -2,6 +2,7 @@
   <div
     v-if="globalConfig.brandName && !disableBranding"
     class="px-0 py-3 flex justify-center"
+    :class="$dm('bg-slate-25', 'dark:bg-slate-800')"
   >
     <a
       :href="brandRedirectURL"
@@ -24,6 +25,7 @@
 
 <script>
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import darkModeMixin from 'widget/mixins/darkModeMixin';
 
 const {
   LOGO_THUMBNAIL: logoThumbnail,
@@ -32,7 +34,7 @@ const {
 } = window.globalConfig || {};
 
 export default {
-  mixins: [globalConfigMixin],
+  mixins: [globalConfigMixin, darkModeMixin],
   props: {
     disableBranding: {
       type: Boolean,
