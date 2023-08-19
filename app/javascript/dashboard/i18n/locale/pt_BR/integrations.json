@@ -76,7 +76,7 @@
       "DELETE": "Excluir",
       "DELETE_CONFIRMATION": {
         "TITLE": "Excluir integração",
-        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+        "MESSAGE": "Tem certeza que deseja excluir a integração? Isso resultará na perda de acesso a conversas no seu espaço de trabalho Slack."
       },
       "HELP_TEXT": {
         "TITLE": "Usando a integração com Slack",
@@ -87,13 +87,13 @@
         "OPTION_LABEL": "Selecione um canal",
         "UPDATE": "Atualizar",
         "BUTTON_TEXT": "Conectar canal",
-        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
-        "ATTENTION_REQUIRED": "Attention required",
+        "DESCRIPTION": "Seu espaço de trabalho Slack agora está ligado com o Chatwoot. No entanto, a integração está inativa no momento. Para ativar a integração e conectar um canal ao Chatwoot, por favor, clique no botão abaixo.\n\n**Nota:** Se você está tentando conectar-se a um canal privado, adicione o aplicativo Chatwoot no canal do Slack antes de prosseguir com esta etapa.",
+        "ATTENTION_REQUIRED": "Atenção necessária",
         "EXPIRED": "Sua integração com o Slack expirou. Para continuar recebendo mensagens no Slack, exclua a integração e conecte seu espaço de trabalho novamente."
       },
-      "UPDATE_ERROR": "There was an error updating the integration, please try again",
-      "UPDATE_SUCCESS": "The channel is connected successfully",
-      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
+      "UPDATE_ERROR": "Ocorreu um erro ao atualizar a integração, por favor, tente novamente",
+      "UPDATE_SUCCESS": "O canal foi conectado com sucesso",
+      "FAILED_TO_FETCH_CHANNELS": "Ocorreu um erro ao obter os canais do Slack, por favor, tente novamente"
     },
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Clique aqui para entrar",
@@ -104,21 +104,21 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "Assistente Open AI",
-      "WITH_AI": " %{option} with AI ",
+      "WITH_AI": " %{option} com IA ",
       "OPTIONS": {
-        "REPLY_SUGGESTION": "Reply Suggestion",
-        "SUMMARIZE": "Summarize",
-        "REPHRASE": "Improve Writing",
-        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
-        "SHORTEN": "Shorten",
-        "EXPAND": "Expand",
-        "MAKE_FRIENDLY": "Change message tone to friendly",
-        "MAKE_FORMAL": "Use formal tone",
-        "SIMPLIFY": "Simplify"
+        "REPLY_SUGGESTION": "Sugestão de resposta",
+        "SUMMARIZE": "Resumir",
+        "REPHRASE": "Melhorar Escrita",
+        "FIX_SPELLING_GRAMMAR": "Corrigir Ortografia e Gramática",
+        "SHORTEN": "Encurtar",
+        "EXPAND": "Expandir",
+        "MAKE_FRIENDLY": "Alterar o tom de mensagem para amigável",
+        "MAKE_FORMAL": "Usar tom formal",
+        "SIMPLIFY": "Simplificar"
       },
       "ASSISTANCE_MODAL": {
-        "DRAFT_TITLE": "Draft content",
-        "GENERATED_TITLE": "Generated content",
+        "DRAFT_TITLE": "Conteúdo do rascunho",
+        "GENERATED_TITLE": "Conteúdo gerado",
         "AI_WRITING": "A IA está escrevendo",
         "BUTTONS": {
           "APPLY": "Use esta sugestão",
