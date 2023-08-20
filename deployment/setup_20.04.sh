@@ -722,7 +722,30 @@ EOF
 #   None
 ##############################################################################
 function upgrade_redis() {
+
+  echo "Checking Redis availability..."
+
+  # Check if Redis is installed
+  if ! command -v redis-server &> /dev/null; then
+    echo "Redis is not installed. Skipping Redis upgrade."
+    return
+  fi
+
+  echo "Checking Redis version..."
+
+  # Get current Redis version
+  current_version=$(redis-server --version | awk '{print $3}')
+
+  # Parse major version number
+  major_version=$(echo "$current_version" | cut -d. -f1)
+
+  if [ "$major_version" -ge 7 ]; then
+    echo "Redis is already version $current_version (>= 7). Skipping Redis upgrade."
+    return
+  fi
+
   echo "Upgrading Redis to v7+ for Rails 7 support(Chatwoot v2.17+)"
+
   curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
   echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
   apt update -y
@@ -730,6 +753,11 @@ function upgrade_redis() {
   apt install libvips -y
 }
 
+function upgrade_node() {
+  echo "Upgrading nodejs version"
+  curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
+  apt install -y nodejs
+}
 
 ##############################################################################
 # Upgrade an existing installation to latest stable version(-u/--upgrade)
@@ -746,6 +774,7 @@ function upgrade() {
   sleep 3
   upgrade_prereq
   upgrade_redis
+  upgrade_node
   sudo -i -u chatwoot << "EOF"
 
   # Navigate to the Chatwoot directory
