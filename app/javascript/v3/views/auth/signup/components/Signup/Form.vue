@@ -68,7 +68,7 @@
         icon-class="arrow-chevron-right"
       />
     </form>
-    <GoogleOAuthButton v-if="showGoogleOAuth" class="flex-col-reverse">
+    <GoogleOAuthButton v-if="showGoogleOAuth">
       {{ $t('REGISTER.OAUTH.GOOGLE_SIGNUP') }}
     </GoogleOAuthButton>
     <p
@@ -91,6 +91,7 @@ import { isValidPassword } from 'shared/helpers/Validators';
 import GoogleOAuthButton from '../../../../../components/GoogleOauth/Button.vue';
 import { register } from '../../../../../api/auth';
 var CompanyEmailValidator = require('company-email-validator');
+import {isEmail} from 'validator';
 
 export default {
   components: {
@@ -127,8 +128,11 @@ export default {
       email: {
         required,
         email,
+        // businessEmailValidator(value) {
+        //   return CompanyEmailValidator.isCompanyEmail(value);
+        // },
         businessEmailValidator(value) {
-          return CompanyEmailValidator.isCompanyEmail(value);
+          return isEmail(value);
         },
       },
       password: {
@@ -142,9 +146,9 @@ export default {
     ...mapGetters({ globalConfig: 'globalConfig/get' }),
     termsLink() {
       return this.$t('REGISTER.TERMS_ACCEPT')
-        .replace('https://www.chatwoot.com/terms', this.globalConfig.termsURL)
+        .replace('https://www.onehash.ai/legal/terms-of-services', this.globalConfig.termsURL)
         .replace(
-          'https://www.chatwoot.com/privacy-policy',
+          'https://www.onehash.ai/legal/privacy-policy',
           this.globalConfig.privacyURL
         );
     },
