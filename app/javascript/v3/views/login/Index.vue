@@ -39,7 +39,6 @@
       }"
     >
       <div v-if="!email">
-        <GoogleOAuthButton v-if="showGoogleOAuth" />
         <form class="space-y-5" @submit.prevent="submitLogin">
           <form-input
             v-model.trim="credentials.email"
@@ -75,6 +74,7 @@
             :loading="loginApi.showLoading"
           />
         </form>
+        <GoogleOAuthButton v-if="showGoogleOAuth" />
       </div>
       <div v-else class="flex items-center justify-center">
         <spinner color-scheme="primary" size="" />

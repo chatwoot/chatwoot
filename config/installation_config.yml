@@ -13,9 +13,9 @@
 - name: BRAND_NAME
   value: 'Chatwoot'
 - name: TERMS_URL
-  value: 'https://www.chatwoot.com/terms-of-service'
+  value: 'https://www.onehash.ai/legal/terms-of-services'
 - name: PRIVACY_URL
-  value: 'https://www.chatwoot.com/privacy-policy'
+  value: 'https://www.onehash.ai/legal/privacy-policy'
 - name: DISPLAY_MANIFEST
   value: true
 - name: MAILER_INBOUND_EMAIL_DOMAIN
