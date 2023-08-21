@@ -10,8 +10,6 @@ import {
   isOnUnattendedView,
 } from './helpers/actionHelpers';
 import messageReadActions from './actions/messageReadActions';
-import AnalyticsHelper from '../../../helper/AnalyticsHelper';
-import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import messageTranslateActions from './actions/messageTranslateActions';
 // actions
 const actions = {
@@ -238,34 +236,18 @@ const actions = {
     }
   },
 
-  createPendingMessageAndSend: async ({ dispatch }, params) => {
-    const { data: messageData, analytics: sendMessageAnalyticsData } = params;
-    const pendingMessage = createPendingMessage(messageData);
-    dispatch('sendMessageWithData', {
-      data: pendingMessage,
-      analytics: sendMessageAnalyticsData,
-    });
+  createPendingMessageAndSend: async ({ dispatch }, data) => {
+    const pendingMessage = createPendingMessage(data);
+    dispatch('sendMessageWithData', pendingMessage);
   },
 
-  sendMessageWithData: async ({ commit }, params) => {
-    const {
-      data: pendingMessage,
-      analytics: sendMessageAnalyticsData,
-    } = params;
+  sendMessageWithData: async ({ commit }, pendingMessage) => {
     try {
       commit(types.ADD_MESSAGE, {
         ...pendingMessage,
         status: MESSAGE_STATUS.PROGRESS,
       });
       const response = await MessageApi.create(pendingMessage);
-      AnalyticsHelper.track(
-        pendingMessage.private
-          ? CONVERSATION_EVENTS.SENT_PRIVATE_NOTE
-          : CONVERSATION_EVENTS.SENT_MESSAGE,
-        {
-          ...sendMessageAnalyticsData,
-        }
-      );
       commit(types.ADD_MESSAGE, {
         ...response.data,
         status: MESSAGE_STATUS.SENT,
