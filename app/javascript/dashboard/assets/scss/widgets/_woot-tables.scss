@@ -76,13 +76,13 @@ table {
 
   .ve-pagination-goto {
     @apply text-slate-600 dark:text-slate-200;
+
+    .ve-pagination-goto-input {
+      @apply bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-200;
+    }
   }
 
   .ve-pagination-li {
     @apply bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-200 border-slate-75 dark:border-slate-700;
-  }
-
-  .ve-pagination-goto-input {
-    @apply bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-200;
   }
 }

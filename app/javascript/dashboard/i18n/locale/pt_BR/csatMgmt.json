@@ -4,10 +4,10 @@
     "PLACEHOLDER": "Conte-nos mais...",
     "RATINGS": {
       "POOR": "😞Ruim",
-      "FAIR": "😑 Fair",
-      "AVERAGE": "😐 Average",
-      "GOOD": "😀 Good",
-      "EXCELLENT": "😍 Excellent"
+      "FAIR": "😑 Neutro",
+      "AVERAGE": "😐 Mediano",
+      "GOOD": "😛 Bom",
+      "EXCELLENT": "😍 Excelente"
     }
   }
 }
