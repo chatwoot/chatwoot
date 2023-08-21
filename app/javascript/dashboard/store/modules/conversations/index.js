@@ -186,11 +186,15 @@ export const mutations = {
   },
 
   [types.ADD_CONVERSATION](_state, conversation) {
-    _state.allConversations.push(conversation);
+    const { appliedFilters } = _state;
+
+    if (appliedFilters.length === 0) {
+      _state.allConversations.push(conversation);
+    }
   },
 
   [types.UPDATE_CONVERSATION](_state, conversation) {
-    const { allConversations } = _state;
+    const { allConversations, appliedFilters } = _state;
     const currentConversationIndex = allConversations.findIndex(
       c => c.id === conversation.id
     );
@@ -205,7 +209,7 @@ export const mutations = {
         window.bus.$emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
         window.bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
       }
-    } else {
+    } else if (appliedFilters.length === 0) {
       _state.allConversations.push(conversation);
     }
   },
