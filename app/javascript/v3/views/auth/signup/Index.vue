@@ -9,22 +9,22 @@
             <img
               :src="globalConfig.logo"
               :alt="globalConfig.installationName"
-              class="h-8 w-auto block dark:hidden"
+              class="h-14 w-auto block dark:hidden"
             />
             <img
               v-if="globalConfig.logoDark"
               :src="globalConfig.logoDark"
               :alt="globalConfig.installationName"
-              class="h-8 w-auto hidden dark:block"
+              class="h-14 w-auto hidden dark:block"
             />
             <h2
-              class="mb-7 mt-6 text-left text-3xl font-medium text-slate-900 dark:text-woot-50"
+              class="mb-7 mt-2 text-left text-3xl font-medium text-slate-900 dark:text-woot-50"
             >
               {{ $t('REGISTER.TRY_WOOT') }}
             </h2>
           </div>
           <signup-form />
-          <div class="text-sm text-slate-800 dark:text-woot-50 px-1">
+          <div class="text-sm text-slate-800 dark:text-woot-50 px-1 flex justify-center items-center">
             <span>{{ $t('REGISTER.HAVE_AN_ACCOUNT') }}</span>
             <router-link class="text-link" to="/app/login">
               {{
