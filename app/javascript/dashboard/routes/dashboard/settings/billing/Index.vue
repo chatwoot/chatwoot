@@ -10,7 +10,7 @@
         <div class="columns small-9 medium-5">
           <label>{{
             $t('BILLING_SETTINGS.FORM.CURRENT_PLAN.PLAN_NOTE', {
-              plan:planName
+              plan: planName
             })
           }}</label>
         </div>
@@ -24,7 +24,7 @@
         <div class="columns small-9 medium-5">
           <label>{{
             $t('BILLING_SETTINGS.FORM.EXPIRY.PLAN_NOTE', {
-              expiry_date:plan_expiry_date
+              expiry_date: plan_expiry_date
             })
           }}</label>
         </div>
@@ -68,7 +68,7 @@ export default {
       selectedProductPrice: '',
       availableProductPrices: [],
       showStatus: true,
-      plan_expiry_date:''
+      plan_expiry_date: ''
     };
   },
   validations: {},
@@ -129,11 +129,18 @@ export default {
         this.selectedProductPrice = plan_id;
         this.agentCount = agent_count;
         this.availableProductPrices = available_product_prices;
-        const dateObject = new Date(plan_expiry_date)
+        const dateObject = new Date(plan_expiry_date);
+        const day = String(dateObject.getDate()).padStart(2, '0');
+        const monthIndex = dateObject.getMonth();
         const year = dateObject.getFullYear();
-        const month = dateObject.getMonth() + 1;
-        const day = dateObject.getDate();
-        this.plan_expiry_date = `${day}-${month}-${year}`
+
+        const monthNames = [
+          'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+          'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+        ];
+
+        const formattedDate = `${day} ${monthNames[monthIndex]} ${year}`;
+        this.plan_expiry_date = formattedDate;
       } catch (error) {
         console.log(error);
       }
@@ -155,18 +162,21 @@ export default {
 <style lang="scss">
 @import '~dashboard/assets/scss/variables.scss';
 @import '~dashboard/assets/scss/mixins.scss';
+
 .profile--settings {
   padding: 24px;
   overflow: auto;
 }
+
 .profile--settings--row {
   @include border-normal-bottom;
   padding: $space-normal;
+
   .small-3 {
     padding: $space-normal $space-medium $space-normal 0;
   }
+
   .small-9 {
     padding: $space-normal;
   }
-}
-</style>
+}</style>

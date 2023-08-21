@@ -1,9 +1,5 @@
 <template>
-  <div
-    v-if="isSubscriptionValid && responseForPlans"
-    transition="modal"
-    class="skip-context-menu modal-mask "
-  >
+  <div v-if="isSubscriptionValid && responseForPlans" transition="modal" class="skip-context-menu modal-mask ">
     <div class="modal-container bg-white dark:bg-slate-800 skip-context-menu ">
       <div class="plan-modal-header">
         <h4 class="text-center">
@@ -16,9 +12,6 @@
           <h4 class="">
             {{ availableProductPrice.name }}
           </h4>
-          <div class="description">
-            Auto Renewable subscription
-          </div>
           <div class="solution--price">
             <div class="price mb-0 mt-2">
               $
@@ -26,27 +19,18 @@
             <div class="h2 display-2 mb-0">
               {{ availableProductPrice.unit_amount }}
             </div>
-            <div class="price mb-0 mt-2">/month</div>
+            <div v-if="availableProductPrice.name === 'Starter' || availableProductPrice.name === 'Plus'"
+              class="price mb-0 mt-2">/month</div>
+            <div v-else class="price mb-0 mt-2">/year</div>
           </div>
-
-          <div
-            class="solution-description"
-            v-html="availableProductPrice.description"
-          />
-          <woot-button
-            v-if="planId !== availableProductPrice.id"
-            title="Select this Plan"
-            :disabled="isPlanClicked === true"
-            @click="() => submitSubscription(availableProductPrice.id)"
-          >
+          <div class="solution-description" v-html="availableProductPrice.description" />
+          <woot-button v-if="planId !== availableProductPrice.id" title="Select this Plan"
+            :disabled="isPlanClicked === true" @click="() => submitSubscription(availableProductPrice.id)">
             Select this plan
             <woot-spinner v-if="clickedPlan === availableProductPrice.id"></woot-spinner>
           </woot-button>
-          <woot-button
-            v-if="planId == availableProductPrice.id"
-            title="Current Plan"
-            style="opacity: 0.5; cursor: not-allowed"
-          >
+          <woot-button v-if="planId == availableProductPrice.id" title="Current Plan"
+            style="opacity: 0.5; cursor: not-allowed">
             Current Plan
           </woot-button>
         </div>
@@ -88,7 +72,7 @@ export default {
     },
     availableProductPrices: {
       type: Array,
-      default: () => {},
+      default: () => { },
     },
     responseForPlans: {
       type: Boolean,
@@ -100,7 +84,7 @@ export default {
       error: '',
       products: '',
       isPlanClicked: false,
-      clickedPlan:null
+      clickedPlan: null
     };
   },
 
@@ -135,24 +119,29 @@ export default {
 .alert-wrap {
   font-size: var(--font-size-small);
   margin: var(--space-medium) var(--space-large) var(--space-zero);
+
   .callout {
     align-items: center;
     border-radius: var(--border-radius-normal);
     display: flex;
   }
 }
+
 .account-selector--modal .modal-container {
   width: 880px !important;
 }
+
 .icon-wrap {
   margin-left: var(--space-smaller);
   margin-right: var(--space-slab);
 }
+
 .solution--price {
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .plan-modal-container {
   max-width: 75vw;
   margin: auto;
@@ -162,23 +151,28 @@ export default {
   max-height: 100%;
   overflow-y: auto;
 }
+
 .solution-description {
   color: #869ab8 !important;
   font-size: 17px;
   margin-bottom: 1.3em;
 }
+
 .plan-column {
   max-width: 280px;
   width: 23%;
   margin-top: 50px;
   box-shadow: 0 1.5rem 4rem rgba(22, 28, 45, 0.1) !important;
+
   &:first-child {
     margin-right: 0;
   }
 }
+
 .plan-modal-container {
   padding: 24px;
 }
+
 .badge-pill {
   background-color: rgba(31, 147, 255, 0.1);
   color: #1f93ff;
@@ -194,6 +188,7 @@ export default {
 .justify-content-center {
   justify-content: center;
 }
+
 .description {
   height: 30px;
 }
