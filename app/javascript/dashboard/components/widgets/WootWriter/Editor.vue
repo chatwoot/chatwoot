@@ -204,18 +204,18 @@ export default {
     showVariables(updatedValue) {
       this.$emit('toggle-variables-menu', !this.isPrivate && updatedValue);
     },
-    value(newValue = '') {
-      if (newValue !== this.contentFromEditor) {
-        this.reloadState();
+    value(newVal = '') {
+      if (newVal !== this.contentFromEditor) {
+        this.reloadState(newVal);
       }
     },
     editorId() {
       this.showCannedMenu = false;
       this.cannedSearchTerm = '';
-      this.reloadState();
+      this.reloadState(this.value);
     },
     isPrivate() {
-      this.reloadState();
+      this.reloadState(this.value);
     },
 
     updateSelectionWith(newValue, oldValue) {
@@ -246,8 +246,8 @@ export default {
     this.focusEditorInputField();
   },
   methods: {
-    reloadState() {
-      this.state = createState(this.value, this.placeholder, this.plugins);
+    reloadState(content) {
+      this.state = createState(content, this.placeholder, this.plugins);
       this.editorView.updateState(this.state);
       this.focusEditorInputField();
     },
