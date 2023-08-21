@@ -299,8 +299,8 @@
     "FORM": {
       "CURRENT_PLAN": {
         "TITLE": "Current Plan",
-        "NOTE": "Your current OneChat Subscription Plan",
-        "PLAN_NOTE": "You are currently under the {plan} Plan"
+        "NOTE": "Your current OneHash Chat Subscription Plan",
+        "PLAN_NOTE": "You are currently under the OneHash Chat {plan} Plan"
       },
       "EXPIRY": {
         "TITLE": "Expiry Date",
