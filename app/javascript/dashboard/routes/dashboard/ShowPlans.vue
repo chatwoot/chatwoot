@@ -7,7 +7,7 @@
         </h4>
       </div>
       <button class="button modal--close clear button--only-icon secondary" @click="hidePlanModal">x</button>
-      <div class="row flex justify-center items-center gap-2">
+      <div class="row flex justify-center items-center ">
         <div v-for="availableProductPrice in availableProductPrices" class="card plan-column">
           <h4 class="">
             {{ availableProductPrice.name }}
@@ -128,7 +128,8 @@ export default {
 }
 
 .account-selector--modal .modal-container {
-  width: 880px !important;
+  // width: 880px !important;
+  max-width: 100%;
 }
 
 .icon-wrap {
@@ -160,11 +161,16 @@ export default {
 
 .plan-column {
   max-width: 280px;
-  width: 23%;
+  width: 28%;
   margin-top: 50px;
+  margin-left: 20px;
+  margin-right: 20px;
   box-shadow: 0 1.5rem 4rem rgba(22, 28, 45, 0.1) !important;
 
   &:first-child {
+    margin-right: 0;
+  }
+  &:nth-child(2) {
     margin-right: 0;
   }
 }
