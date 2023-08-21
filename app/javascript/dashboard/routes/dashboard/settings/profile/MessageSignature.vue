@@ -20,6 +20,7 @@
             :placeholder="
               $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE.PLACEHOLDER')
             "
+            :custom-editor-menu-list="customEditorMenuList"
             @blur="$v.messageSignature.$touch"
           />
         </div>
@@ -53,6 +54,13 @@ export default {
       enableMessageSignature: false,
       isUpdating: false,
       errorMessage: '',
+      customEditorMenuList: [
+        'toggleStrong',
+        'toggleEm',
+        'toggleLink',
+        'undoItem',
+        'redoItem',
+      ],
     };
   },
   validations: {
