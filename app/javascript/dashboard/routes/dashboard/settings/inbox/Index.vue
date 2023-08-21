@@ -3,7 +3,10 @@
     <!-- List Canned Response -->
     <div class="flex flex-row gap-4">
       <div class="w-[60%]">
-        <p v-if="!inboxesList.length" class="no-items-error-message">
+        <p
+          v-if="!inboxesList.length"
+          class="flex h-full items-center flex-col justify-center"
+        >
           {{ $t('INBOX_MGMT.LIST.404') }}
           <router-link
             v-if="isAdmin"
