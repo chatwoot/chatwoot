@@ -1,11 +1,6 @@
 <template>
   <div v-if="isSubscriptionValid && responseForPlans" transition="modal" class="skip-context-menu modal-mask ">
     <div class="modal-container bg-white dark:bg-slate-800 skip-context-menu ">
-      <div class="plan-modal-header">
-        <h4 class="text-center">
-          {{ error }}
-        </h4>
-      </div>
       <button class="button modal--close clear button--only-icon secondary" @click="hidePlanModal">x</button>
       <div class="row flex justify-center items-center ">
         <div v-for="availableProductPrice in availableProductPrices" class="card plan-column">
@@ -128,8 +123,7 @@ export default {
 }
 
 .account-selector--modal .modal-container {
-  // width: 880px !important;
-  max-width: 100%;
+  width: 880px !important;
 }
 
 .icon-wrap {
