@@ -85,7 +85,8 @@
         "UPDATE": "Update",
         "BUTTON_TEXT": "Connect channel",
         "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
-        "ATTENTION_REQUIRED": "Attention required"
+        "ATTENTION_REQUIRED": "Attention required",
+        "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
       },
       "UPDATE_ERROR": "There was an error updating the integration, please try again",
       "UPDATE_SUCCESS": "The channel is connected successfully",
@@ -120,6 +121,18 @@
           "APPLY": "Use this suggestion",
           "CANCEL": "Cancel"
         }
+      },
+      "CTA_MODAL": {
+        "TITLE": "Integrate with OpenAI",
+        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
+        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "BUTTONS": {
+          "NEED_HELP": "Need help?",
+          "DISMISS": "Dismiss",
+          "FINISH": "Finish Setup"
+        },
+        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
+        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
       },
       "TITLE": "Improve With AI",
       "SUMMARY_TITLE": "Summary with AI",

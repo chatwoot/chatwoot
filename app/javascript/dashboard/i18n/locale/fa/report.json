@@ -34,6 +34,10 @@
       "RESOLUTION_COUNT": {
         "NAME": "تعداد مسائل حل شده",
         "DESC": "( جمع کل )"
+      },
+      "REPLY_TIME": {
+        "NAME": "Customer waiting time",
+        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} conversations)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -124,10 +128,6 @@
       {
         "id": 0,
         "groupBy": "ماه"
-      },
-      {
-        "id": 0,
-        "groupBy": "سال"
       }
     ],
     "BUSINESS_HOURS": "ساعت کاری"
