@@ -1,5 +1,7 @@
 <template>
-  <div class="row app-wrapper dark:text-slate-300">
+  <div
+    class="app-wrapper h-full flex-grow-0 min-h-0 w-full max-w-full ml-auto mr-auto flex flex-wrap dark:text-slate-300"
+  >
     <sidebar
       :route="currentRoute"
       :show-secondary-sidebar="isSidebarOpen"
@@ -9,7 +11,7 @@
       @close-key-shortcut-modal="closeKeyShortcutModal"
       @show-add-label-popup="showAddLabelPopup"
     />
-    <section class="app-content flex-1 px-0">
+    <section class="flex h-full min-h-0 overflow-hidden flex-1 px-0">
       <router-view />
       <command-bar />
       <account-selector
