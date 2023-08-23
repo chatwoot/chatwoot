@@ -1,4 +1,4 @@
-class Webhooks::FacebookEventsJob < ApplicationJob
+class Webhooks::FacebookEventsJob < MutexApplicationJob
   class LockAcquisitionError < StandardError; end
 
   queue_as :default
