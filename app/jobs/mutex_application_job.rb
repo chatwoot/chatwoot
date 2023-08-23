@@ -25,7 +25,7 @@ class MutexApplicationJob < ApplicationJob
 
     begin
       lock_manager.lock(lock_key)
-      Rails.logger.info "[#{self.class.name}] Acquired lock for: #{lock_key}"
+      Rails.logger.info "[#{self.class.name}] Acquired lock for: #{lock_key} on attempt #{executions}"
       yield
     ensure
       # Ensure that the lock is released even if there's an error in processing
