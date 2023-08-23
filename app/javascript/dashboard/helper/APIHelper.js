@@ -11,7 +11,7 @@ const parseErrorCode = error => {
         'Account limit exceeded.Please upgrade to a higher plan\n'
       );
     }
-    // bus.$emit(BUS_EVENTS.SHOW_PLAN_MODAL);
+    bus.$emit(BUS_EVENTS.SHOW_PLAN_MODAL);
   }
   return Promise.reject(error);
 };

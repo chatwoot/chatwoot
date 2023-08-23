@@ -43,3 +43,9 @@ backup_job:
   cron: '0 3 * * *'
   class: 'BackupJob'
   queue: scheduled_jobs
+
+#executed every day..
+check_account_subscription_job:
+  cron: '0 0 * * *'
+  class: 'Account::CheckAccountSubscriptionJob'
+  queue: scheduled_jobs
