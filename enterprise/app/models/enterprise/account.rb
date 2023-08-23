@@ -26,7 +26,8 @@ module Enterprise::Account
                                                         mode: 'subscription',
                                                         allow_promotion_codes: true,
                                                         payment_method_types: ['card'],
-                                                        subscription_data: { 'metadata': { id: product_price.id,account_id: id ,website: 'OneHash_Chat' } },
+                                                        subscription_data: { 'metadata': { id: product_price.id, account_id: id,
+                                                                                           website: 'OneHash_Chat' } },
                                                         success_url: "#{billing_url}?subscription_status=success",
                                                         cancel_url: "#{billing_url}?subscription_status=cancel"
                                                       })

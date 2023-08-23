@@ -15,7 +15,7 @@ class Enterprise::BillingProductPriceDashboard < Administrate::BaseDashboard
     stripe_nickname: Field::String,
     unit_amount: Field::Number,
     features: Field::Number,
-    limits: Enterprise::AccountLimitsField, 
+    limits: Enterprise::AccountLimitsField,
     created_at: Field::DateTime,
     updated_at: Field::DateTime
   }.freeze
@@ -44,8 +44,6 @@ class Enterprise::BillingProductPriceDashboard < Administrate::BaseDashboard
     updated_at
     limits
   ].freeze
-
-  
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
@@ -80,6 +78,6 @@ class Enterprise::BillingProductPriceDashboard < Administrate::BaseDashboard
   end
 
   def limits_display(resource)
-    resource.limits.map { |key, value| "#{key}: #{value}" }.join(", ")
+    resource.limits.map { |key, value| "#{key}: #{value}" }.join(', ')
   end
 end
