@@ -31,7 +31,6 @@ class Enterprise::AccountBillingSubscriptionDashboard < Administrate::BaseDashbo
   COLLECTION_ATTRIBUTES = %i[
     id
     account
-    billing_product_price
     subscription_stripe_id
   ].freeze
 
