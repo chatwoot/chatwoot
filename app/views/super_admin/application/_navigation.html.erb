@@ -13,6 +13,9 @@ as defined by the routes in the `admin/` namespace
 <%
   sidebar_icons = {
     accounts: 'ion ion-briefcase',
+    'enterprise/account_billing_subscriptions': 'ion ion-card',
+    'enterprise/billing_product_prices': 'ion ion-cash',
+    'enterprise/billing_products': 'ion ion-cube',
     users: 'ion ion-person-stalker',
     super_admins: 'ion ion-unlocked',
     access_tokens: 'ion-key',
@@ -39,8 +42,9 @@ as defined by the routes in the `admin/` namespace
       <%= link_to "App Config", super_admin_app_config_url %>
     </li>
 
-    <% Administrate::Namespace.new(namespace).resources.each do |resource| %>
-      <% next if ["account_users", "dashboard", "devise/sessions", "app_configs", "instance_statuses" ].include?  resource.resource %>
+      
+  <% Administrate::Namespace.new(namespace).resources.each do |resource| %>
+      <% next if ["account_users", "dashboard", "devise/sessions", "app_configs", "instance_statuses"].include?(resource.resource) %>
       <li class="navigation__link navigation__link--<%= nav_link_state(resource) %>">
         <i class="<%= sidebar_icons[resource.resource.to_sym] %>"></i>
         <%= link_to(
