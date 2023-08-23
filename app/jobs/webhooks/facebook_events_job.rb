@@ -12,7 +12,7 @@ class Webhooks::FacebookEventsJob < ApplicationJob
     lock_manager = Redis::LockManager.new
 
     if lock_manager.locked?(lock_key)
-      Rails.logger.error "[Facebook::MessageCreator] Failed to acquire lock on attempt #{executions + 1}: #{lock_key}"
+      Rails.logger.error "[Facebook::MessageCreator] Failed to acquire lock on attempt #{executions}: #{lock_key}"
       raise LockAcquisitionError, "Failed to acquire lock for key: #{lock_key}"
     end
 
