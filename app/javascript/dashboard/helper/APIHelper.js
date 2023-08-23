@@ -1,4 +1,6 @@
 import Auth from '../api/auth';
+import Cookies from 'js-cookie';
+import { BUS_EVENTS } from '../../shared/constants/busEvents';
 
 const parseErrorCode = error => {
   // eslint-disable-next-line eqeqeq
@@ -8,10 +10,10 @@ const parseErrorCode = error => {
     } else {
       Cookies.set(
         'subscription',
-        'Account limit exceeded.Please upgrade to a higher plan\n'
+        'Account limit exceeded. Upgrade to a higher plan\n'
       );
     }
-    bus.$emit(BUS_EVENTS.SHOW_PLAN_MODAL);
+    // bus.$emit(BUS_EVENTS.SHOW_PLAN_MODAL);
   }
   return Promise.reject(error);
 };
