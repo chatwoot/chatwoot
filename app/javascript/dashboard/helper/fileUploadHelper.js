@@ -8,10 +8,10 @@ import { DirectUpload } from 'activestorage';
 export const onDirectFileUpload = (
   file,
   isATwilioSMSChannel,
-  accountID,
-  currentChatID,
   attachFile,
-  showAlert
+  showAlert,
+  accountID,
+  currentChatID
 ) => {
   const MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE = isATwilioSMSChannel
     ? MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL
