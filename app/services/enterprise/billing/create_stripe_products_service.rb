@@ -1,16 +1,16 @@
 class Enterprise::Billing::CreateStripeProductsService
   PRODUCTS = [
     {
-      name: 'Trial',
+      name: 'Starter',
       prices: [{ unit_amount: 0, currency: 'usd', recurring: { interval: 'month', usage_type: 'licensed' }, billing_scheme: 'per_unit' }]
     },
     {
-      name: 'Starter',
-      prices: [{ unit_amount: 299, currency: 'usd', recurring: { interval: 'month', usage_type: 'licensed' }, billing_scheme: 'per_unit' }]
+      name: 'Plus',
+      prices: [{ unit_amount: 27, currency: 'usd', recurring: { interval: 'month', usage_type: 'licensed' }, billing_scheme: 'per_unit' }]
     },
     {
       name: 'Pro',
-      prices: [{ unit_amount: 799, currency: 'usd', recurring: { interval: 'year', usage_type: 'licensed' }, billing_scheme: 'per_unit' }]
+      prices: [{ unit_amount: 270, currency: 'usd', recurring: { interval: 'year', usage_type: 'licensed' }, billing_scheme: 'per_unit' }]
     }
   ].freeze
 

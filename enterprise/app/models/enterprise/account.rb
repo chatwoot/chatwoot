@@ -15,6 +15,7 @@ module Enterprise::Account
   end
 
   def create_checkout_link(product_price)
+    puts product_price
     Stripe.api_key = ENV.fetch('STRIPE_SECRET_KEY', nil)
     billing_url = "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{id}/settings/billing"
     stripe_session = Stripe::Checkout::Session.create({
@@ -25,7 +26,7 @@ module Enterprise::Account
                                                         mode: 'subscription',
                                                         allow_promotion_codes: true,
                                                         payment_method_types: ['card'],
-                                                        subscription_data: { 'metadata': { id: product_price.id, website: 'OneHash_Chat' } },
+                                                        subscription_data: { 'metadata': { id: product_price.id,account_id: id ,website: 'OneHash_Chat' } },
                                                         success_url: "#{billing_url}?subscription_status=success",
                                                         cancel_url: "#{billing_url}?subscription_status=cancel"
                                                       })
