@@ -237,7 +237,10 @@ import inboxMixin from 'shared/mixins/inboxMixin';
 import FileUpload from 'vue-upload-component';
 import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
-import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
+import {
+  onDirectFileUpload,
+  onIndirectFileUpload,
+} from 'dashboard/helper/fileUploadHelper';
 
 export default {
   components: {
@@ -250,7 +253,7 @@ export default {
     FileUpload,
     AttachmentPreview,
   },
-  mixins: [alertMixin, inboxMixin, fileUploadMixin],
+  mixins: [alertMixin, inboxMixin],
   props: {
     contact: {
       type: Object,
@@ -396,6 +399,35 @@ export default {
           payload.files.push(attachment.resource.file);
         }
       });
+    },
+    onFileUpload(file) {
+      const fileUpload = this.globalConfig.directUploadsEnabled
+        ? onDirectFileUpload
+        : onIndirectFileUpload;
+      const commonParams = [
+        file,
+        this.isATwilioSMSChannel,
+        this.attachFile,
+        this.fileUploadError,
+      ];
+
+      if (this.globalConfig.directUploadsEnabled) {
+        fileUpload(...commonParams, this.accountId, this.currentChat.id);
+      } else {
+        fileUpload(...commonParams);
+      }
+    },
+    fileUploadError({ error, maxSize }) {
+      if (maxSize) {
+        const MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE = maxSize;
+        this.showAlert(
+          this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
+            MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE,
+          })
+        );
+      } else {
+        this.showAlert(error);
+      }
     },
     attachFile({ blob, file }) {
       const reader = new FileReader();

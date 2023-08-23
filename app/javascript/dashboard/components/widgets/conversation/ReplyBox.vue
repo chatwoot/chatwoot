@@ -180,7 +180,10 @@ import wootConstants from 'dashboard/constants/globals';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import rtlMixin from 'shared/mixins/rtlMixin';
-import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
+import {
+  onDirectFileUpload,
+  onIndirectFileUpload,
+} from 'dashboard/helper/fileUploadHelper';
 
 const EmojiInput = () => import('shared/components/emoji/EmojiInput');
 
@@ -205,7 +208,6 @@ export default {
     alertMixin,
     messageFormatterMixin,
     rtlMixin,
-    fileUploadMixin,
   ],
   props: {
     selectedTweet: {
@@ -916,6 +918,35 @@ export default {
         conversationId,
         isPrivate,
       });
+    },
+    onFileUpload(file) {
+      const fileUpload = this.globalConfig.directUploadsEnabled
+        ? onDirectFileUpload
+        : onIndirectFileUpload;
+      const commonParams = [
+        file,
+        this.isATwilioSMSChannel,
+        this.attachFile,
+        this.fileUploadError,
+      ];
+
+      if (this.globalConfig.directUploadsEnabled) {
+        fileUpload(...commonParams, this.accountId, this.currentChat.id);
+      } else {
+        fileUpload(...commonParams);
+      }
+    },
+    fileUploadError({ error, maxSize }) {
+      if (maxSize) {
+        const MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE = maxSize;
+        this.showAlert(
+          this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
+            MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE,
+          })
+        );
+      } else {
+        this.showAlert(error);
+      }
     },
     attachFile({ blob, file }) {
       const reader = new FileReader();
