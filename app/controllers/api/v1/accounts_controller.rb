@@ -9,6 +9,11 @@ class Api::V1::AccountsController < Api::BaseController
   before_action :fetch_account, except: [:create]
   before_action :check_authorization, except: [:create]
 
+  skip_before_action :verify_subscription,
+                     only: [:billing_subscription, :show, :change_plan], raise: false
+  before_action :fetch_account, except: [:create]
+  before_action :check_authorization, except: [:create]
+
   rescue_from CustomExceptions::Account::InvalidEmail,
               CustomExceptions::Account::UserExists,
               CustomExceptions::Account::UserErrors,
