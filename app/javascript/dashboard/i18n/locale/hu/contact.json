@@ -71,7 +71,7 @@
       "SUBMIT": "Importálás",
       "CANCEL": "Mégse"
     },
-    "SUCCESS_MESSAGE": "Kontaktok sikeresen elmentve",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra"
   },
   "EXPORT_CONTACTS": {
