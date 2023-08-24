@@ -25,7 +25,10 @@ class DataImportJob < ApplicationJob
   def parse_csv_and_build_contacts
     contacts = []
     rejected_contacts = []
-    csv = CSV.parse(@data_import.import_file.download, headers: true)
+    # Ensuring that importing non utf-8 characters will not throw error
+    data = @data_import.import_file.download
+    clean_data = data.encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
+    csv = CSV.parse(clean_data, headers: true)
 
     csv.each do |row|
       current_contact = @contact_manager.build_contact(row.to_h.with_indifferent_access)

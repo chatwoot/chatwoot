@@ -47,6 +47,20 @@ RSpec.describe DataImportJob do
         expect(invalid_data_import.reload.total_records).to eq(csv_length)
         expect(invalid_data_import.reload.processed_records).to eq(csv_length)
       end
+
+      it 'will not throw error for non utf-8 characters' do
+        invalid_data_import = create(:data_import,
+                                     import_file: Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/data_import/invalid_bytes.csv'),
+                                                                               'text/csv'))
+        csv_data = CSV.parse(invalid_data_import.import_file.download, headers: true)
+        csv_length = csv_data.length
+
+        described_class.perform_now(invalid_data_import)
+        expect(invalid_data_import.account.contacts.count).to eq(csv_length)
+
+        expect(invalid_data_import.account.contacts.first.name).to eq(csv_data[0]['name'].encode('UTF-8', 'binary', invalid: :replace,
+                                                                                                                    undef: :replace, replace: ''))
+      end
     end
 
     context 'when the data contains existing records' do
