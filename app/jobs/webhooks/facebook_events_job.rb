@@ -3,7 +3,7 @@ class Webhooks::FacebookEventsJob < ApplicationJob
 
   queue_as :default
   # https://edgeapi.rubyonrails.org/classes/ActiveJob/Exceptions/ClassMethods.html#method-i-retry_on
-  retry_on LockAcquisitionError, wait: 2.seconds, attempts: 5
+  retry_on LockAcquisitionError, wait: 1.second, attempts: 6
 
   def perform(message)
     response = ::Integrations::Facebook::MessageParser.new(message)
@@ -12,7 +12,7 @@ class Webhooks::FacebookEventsJob < ApplicationJob
     lock_manager = Redis::LockManager.new
 
     if lock_manager.locked?(lock_key)
-      Rails.logger.error "[Facebook::MessageCreator] Failed to acquire lock on attempt #{executions + 1}: #{lock_key}"
+      Rails.logger.error "[Facebook::MessageCreator] Failed to acquire lock on attempt #{executions}: #{lock_key}"
       raise LockAcquisitionError, "Failed to acquire lock for key: #{lock_key}"
     end
 
