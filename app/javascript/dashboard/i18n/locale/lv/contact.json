@@ -71,7 +71,7 @@
       "SUBMIT": "Importēt",
       "CANCEL": "Atcelt"
     },
-    "SUCCESS_MESSAGE": "Kontaktpersonas ir veiksmīgi saglabātas",
+    "SUCCESS_MESSAGE": "Kad importēšana būs pabeigta, jūs saņemsiet paziņojumu pa e-pastu.",
     "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
   },
   "EXPORT_CONTACTS": {

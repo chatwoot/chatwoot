@@ -71,7 +71,7 @@
       "SUBMIT": "وارد كردن",
       "CANCEL": "انصراف"
     },
-    "SUCCESS_MESSAGE": "مخاطبین با موفقیت ذخیره شدند",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
   },
   "EXPORT_CONTACTS": {
