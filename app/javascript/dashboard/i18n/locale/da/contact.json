@@ -71,7 +71,7 @@
       "SUBMIT": "Importer",
       "CANCEL": "Annuller"
     },
-    "SUCCESS_MESSAGE": "Kontakter gemt",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen"
   },
   "EXPORT_CONTACTS": {
