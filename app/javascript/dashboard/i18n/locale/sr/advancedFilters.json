@@ -2,8 +2,8 @@
   "FILTER": {
     "TITLE": "Filtrirajte razgovore",
     "SUBTITLE": "Dodajte filtere ispod i kliknite na 'Primeni filtere' da bi ste flitrirali razgovore.",
-    "EDIT_CUSTOM_FILTER": "Edit Folder",
-    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
+    "EDIT_CUSTOM_FILTER": "Izmeni folder",
+    "CUSTOM_VIEWS_SUBTITLE": "Dodajte ili uklonite filtere i izmenite vaš folder.",
     "ADD_NEW_FILTER": "Dodajte filter",
     "FILTER_DELETE_ERROR": "Trebali bi da imate barem jedan filter da bi ste ga sačuvali",
     "SUBMIT_BUTTON_LABEL": "Primenite filtere",
@@ -11,8 +11,8 @@
     "CANCEL_BUTTON_LABEL": "Otkaži",
     "CLEAR_BUTTON_LABEL": "Poništite filtere",
     "EMPTY_VALUE_ERROR": "Vrednost je neophodna",
-    "FOLDER_LABEL": "Folder Name",
-    "FOLDER_QUERY_LABEL": "Folder Query",
+    "FOLDER_LABEL": "Naziv foldera",
+    "FOLDER_QUERY_LABEL": "Upit za folder",
     "TOOLTIP_LABEL": "Filtrirajte razgovore",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "I",
@@ -68,7 +68,7 @@
         "SAVE_BUTTON": "Sačuvaj filter",
         "CANCEL_BUTTON": "Otkaži",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder je uspešno kreirana",
+          "SUCCESS_MESSAGE": "Folder je uspešno kreiran",
           "ERROR_MESSAGE": "Greška pri kreiranju foldera"
         },
         "API_SEGMENTS": {
@@ -77,7 +77,7 @@
         }
       },
       "EDIT": {
-        "EDIT_BUTTON": "Edit folder"
+        "EDIT_BUTTON": "Izmeni folder"
       },
       "DELETE": {
         "DELETE_BUTTON": "Ukloni filter",
