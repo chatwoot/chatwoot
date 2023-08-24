@@ -171,5 +171,14 @@ RSpec.describe Imap::ImapMailbox do
         expect(references_email.mail.references).to include('test-reference-id-2')
       end
     end
+
+    context 'when a reply for a conversation has multiple in_reply_to' do
+      let(:multiple_in_reply_to_mail) { create_inbound_email_from_fixture('multiple_in_reply_to.eml').mail }
+
+      it 'creates conversation taking the first in_reply_to email' do
+        class_instance.process(multiple_in_reply_to_mail, channel)
+        expect(conversation.additional_attributes['in_reply_to']).to eq(multiple_in_reply_to_mail.in_reply_to.first)
+      end
+    end
   end
 end
