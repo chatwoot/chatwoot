@@ -1,6 +1,6 @@
 class SendOnSlackJob < MutexApplicationJob
   queue_as :medium
-  retry_on LockAcquisitionError, wait: 3.seconds, attempts: 5
+  retry_on LockAcquisitionError, wait: 1.second, attempts: 6
 
   def perform(message, hook)
     with_lock(::Redis::Alfred::SLACK_MESSAGE_MUTEX, sender_id: message.sender_id, reference_id: hook.reference_id) do
