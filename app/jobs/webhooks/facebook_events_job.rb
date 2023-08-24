@@ -3,7 +3,7 @@ class Webhooks::FacebookEventsJob < ApplicationJob
 
   queue_as :default
   # https://edgeapi.rubyonrails.org/classes/ActiveJob/Exceptions/ClassMethods.html#method-i-retry_on
-  retry_on LockAcquisitionError, wait: proc { |attempt| 2**attempt }, attempts: 5
+  retry_on LockAcquisitionError, wait: 1.seconds, attempts: 6
 
   def perform(message)
     response = ::Integrations::Facebook::MessageParser.new(message)
