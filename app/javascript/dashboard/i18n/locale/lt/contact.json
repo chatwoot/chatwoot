@@ -71,7 +71,7 @@
       "SUBMIT": "Importuoti",
       "CANCEL": "Atšaukti"
     },
-    "SUCCESS_MESSAGE": "Kontaktas išsaugotas sėkmingai",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "Įvyko klaida, prašau pabandykite dar kartą"
   },
   "EXPORT_CONTACTS": {
