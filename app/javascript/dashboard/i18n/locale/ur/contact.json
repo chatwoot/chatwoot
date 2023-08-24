@@ -71,7 +71,7 @@
       "SUBMIT": "درآمد کریں۔",
       "CANCEL": "منسوخ کریں۔"
     },
-    "SUCCESS_MESSAGE": "کانٹیکٹ کامیابی سے محفوظ ہو گیا۔",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "ایک خامی تھی، براہ کرم دوبارہ کوشش کریں۔"
   },
   "EXPORT_CONTACTS": {
