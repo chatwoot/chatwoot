@@ -27,7 +27,11 @@ class DataImportJob < ApplicationJob
     rejected_contacts = []
     # Ensuring that importing non utf-8 characters will not throw error
     data = @data_import.import_file.download
-    clean_data = data.encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
+    utf8_data = data.force_encoding('UTF-8')
+
+    # Ensure that the data is valid UTF-8, preserving valid characters
+    clean_data = utf8_data.valid_encoding? ? utf8_data : utf8_data.encode('UTF-16le', invalid: :replace, replace: '').encode('UTF-8')
+
     csv = CSV.parse(clean_data, headers: true)
 
     csv.each do |row|

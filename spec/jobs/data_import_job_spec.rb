@@ -48,6 +48,19 @@ RSpec.describe DataImportJob do
         expect(invalid_data_import.reload.processed_records).to eq(csv_length)
       end
 
+      it 'will preserve emojis' do
+        data_import = create(:data_import,
+                             import_file: Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/data_import/with_emoji.csv'),
+                                                                       'text/csv'))
+        csv_data = CSV.parse(data_import.import_file.download, headers: true)
+        csv_length = csv_data.length
+
+        described_class.perform_now(data_import)
+        expect(data_import.account.contacts.count).to eq(csv_length)
+
+        expect(data_import.account.contacts.first.name).to eq('T 🏠 🔥 Test')
+      end
+
       it 'will not throw error for non utf-8 characters' do
         invalid_data_import = create(:data_import,
                                      import_file: Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/data_import/invalid_bytes.csv'),
