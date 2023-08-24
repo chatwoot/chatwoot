@@ -59,7 +59,7 @@ class DataImportJob < ApplicationJob
 
     @data_import.failed_records.attach(io: StringIO.new(csv_data), filename: "#{Time.zone.today.strftime('%Y%m%d')}_contacts.csv",
                                        content_type: 'text/csv')
-    send_failed_records_to_admin
+    send_import_notification_to_admin
   end
 
   def generate_csv_data(rejected_contacts)
