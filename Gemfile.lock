@@ -598,7 +598,7 @@ GEM
       ffi (~> 1.0)
     redis (5.0.6)
       redis-client (>= 0.9.0)
-    redis-client (0.14.1)
+    redis-client (0.16.0)
       connection_pool
     redis-namespace (1.10.0)
       redis (>= 4)
@@ -713,7 +713,7 @@ GEM
       connection_pool (>= 2.3.0)
       rack (>= 2.2.4)
       redis-client (>= 0.14.0)
-    sidekiq-cron (1.10.0)
+    sidekiq-cron (1.10.1)
       fugit (~> 1.8)
       globalid (>= 1.0.1)
       sidekiq (>= 6)
