@@ -1,8 +1,6 @@
 class Webhooks::FacebookEventsJob < MutexApplicationJob
-  class LockAcquisitionError < StandardError; end
-
   queue_as :default
-  retry_on LockAcquisitionError, wait: 2.seconds, attempts: 5
+  retry_on LockAcquisitionError, wait: 1.second, attempts: 6
 
   def perform(message)
     response = ::Integrations::Facebook::MessageParser.new(message)

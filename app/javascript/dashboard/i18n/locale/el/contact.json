@@ -71,7 +71,7 @@
       "SUBMIT": "Εισαγωγή",
       "CANCEL": "Άκυρο"
     },
-    "SUCCESS_MESSAGE": "Οι επαφές αποθηκεύτηκαν με επιτυχία",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά"
   },
   "EXPORT_CONTACTS": {
