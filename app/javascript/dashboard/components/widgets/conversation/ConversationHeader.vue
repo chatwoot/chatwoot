@@ -8,7 +8,11 @@
       <div
         class="flex justify-center items-center mr-4 rtl:mr-0 rtl:ml-4 min-w-0"
       >
-        <back-button v-if="showBackButton" :back-url="backButtonUrl" />
+        <back-button
+          v-if="showBackButton"
+          :back-url="backButtonUrl"
+          class="ltr:ml-0 rtl:mr-0 rtl:ml-4"
+        />
         <Thumbnail
           :src="currentContact.thumbnail"
           :badge="inboxBadge"

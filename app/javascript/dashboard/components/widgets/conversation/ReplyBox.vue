@@ -725,6 +725,15 @@ export default {
         this.sendMessage(messagePayload);
       });
     },
+    sendMessageAnalyticsData(isPrivate) {
+      // Analytics data for message signature is enabled or not in channels
+      return isPrivate
+        ? this.$track(CONVERSATION_EVENTS.SENT_PRIVATE_NOTE)
+        : this.$track(CONVERSATION_EVENTS.SENT_MESSAGE, {
+            channelType: this.channelType,
+            signatureEnabled: this.sendWithSignature,
+          });
+    },
     async onSendReply() {
       const undefinedVariables = getUndefinedVariablesInMessage({
         message: this.message,
@@ -758,6 +767,7 @@ export default {
         bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
         bus.$emit(BUS_EVENTS.MESSAGE_SENT);
         this.removeFromDraft();
+        this.sendMessageAnalyticsData(messagePayload.private);
       } catch (error) {
         const errorMessage =
           error?.response?.data?.error || this.$t('CONVERSATION.MESSAGE_ERROR');

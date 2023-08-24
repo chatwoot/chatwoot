@@ -72,7 +72,7 @@ class Conversation < ApplicationRecord
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned, -> { where.not(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
-  scope :unattended, -> { where(first_reply_created_at: nil) }
+  scope :unattended, -> { where(first_reply_created_at: nil).or(where.not(waiting_since: nil)) }
   scope :resolvable, lambda { |auto_resolve_duration|
     return none if auto_resolve_duration.to_i.zero?
 
@@ -170,7 +170,7 @@ class Conversation < ApplicationRecord
   end
 
   def unread_incoming_messages
-    unread_messages.incoming
+    unread_messages.where(account_id: account_id).incoming.last(10)
   end
 
   def push_event_data
@@ -218,7 +218,7 @@ class Conversation < ApplicationRecord
   end
 
   def ensure_waiting_since
-    self.waiting_since = Time.now.utc
+    self.waiting_since = created_at
   end
 
   def validate_additional_attributes
@@ -242,7 +242,8 @@ class Conversation < ApplicationRecord
 
   def allowed_keys?
     (
-      previous_changes.keys.intersect?(%w[team_id assignee_id status snoozed_until custom_attributes label_list first_reply_created_at priority]) ||
+      previous_changes.keys.intersect?(%w[team_id assignee_id status snoozed_until custom_attributes label_list waiting_since first_reply_created_at
+                                          priority]) ||
       (previous_changes['additional_attributes'].present? && previous_changes['additional_attributes'][1].keys.intersect?(%w[conversation_language]))
     )
   end
