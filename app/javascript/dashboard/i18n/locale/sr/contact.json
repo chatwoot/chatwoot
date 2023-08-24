@@ -71,7 +71,7 @@
       "SUBMIT": "Uvoz",
       "CANCEL": "Otkaži"
     },
-    "SUCCESS_MESSAGE": "Kontakti su uspešno sačuvani",
+    "SUCCESS_MESSAGE": "Bićete obavešteni putem e-poruke kada se uvoz završi.",
     "ERROR_MESSAGE": "Pojavila se greška, molim vas pokušajte ponovo"
   },
   "EXPORT_CONTACTS": {
