@@ -71,7 +71,7 @@
       "SUBMIT": "Εισαγωγή",
       "CANCEL": "Άκυρο"
     },
-    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+    "SUCCESS_MESSAGE": "Θα ειδοποιηθείτε μέσω email όταν ολοκληρωθεί η εισαγωγή.",
     "ERROR_MESSAGE": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά"
   },
   "EXPORT_CONTACTS": {
