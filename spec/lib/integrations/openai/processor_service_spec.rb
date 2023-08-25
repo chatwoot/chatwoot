@@ -64,7 +64,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
           'model' => 'gpt-3.5-turbo',
           'messages' => [
             { role: 'system',
-              content: Rails.root.join('lib/integrations/openai/openai_prompts/reply.txt').read },
+              content: Rails.root.join('app/services/integrations/openai/openai_prompts/reply.txt').read },
             { role: 'user', content: customer_message.content },
             { role: 'assistant', content: agent_message.content }
           ]

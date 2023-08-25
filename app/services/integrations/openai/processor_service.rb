@@ -47,7 +47,7 @@ class Integrations::Openai::ProcessorService < Integrations::OpenaiBaseService
   private
 
   def prompt_from_file(file_name, enterprise: false)
-    path = enterprise ? 'enterprise/lib/enterprise/integrations/openai_prompts' : 'lib/integrations/openai/openai_prompts'
+    path = enterprise ? 'enterprise/lib/enterprise/integrations/openai_prompts' : 'app/services/integrations/openai/openai_prompts'
     Rails.root.join(path, "#{file_name}.txt").read
   end
 
