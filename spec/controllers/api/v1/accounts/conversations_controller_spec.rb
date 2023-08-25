@@ -333,6 +333,40 @@ RSpec.describe 'Conversations API', type: :request do
     end
   end
 
+  describe 'GET /api/v1/accounts/{account.id}/conversations/:id/assignable_agents' do
+    let(:conversation) { create(:conversation, account: account) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/assignable_agents"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+      let!(:administrator) { create(:user, account: account, role: :administrator) }
+      let!(:team) { create(:team, account: account) }
+
+      before do
+        create(:inbox_member, user: agent, inbox: conversation.inbox)
+        create(:team_member, team: team)
+        conversation.update!(team: team)
+      end
+
+      it 'returns the assignable agents' do
+        get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/assignable_agents",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_data = JSON.parse(response.body, symbolize_names: true)[:payload]
+        expect(response_data.pluck(:id)).to contain_exactly(agent.id, administrator.id, team.members.first.id)
+      end
+    end
+  end
+
   describe 'POST /api/v1/accounts/{account.id}/conversations/:id/toggle_status' do
     let(:conversation) { create(:conversation, account: account) }
 
@@ -384,7 +418,7 @@ RSpec.describe 'Conversations API', type: :request do
         expect(conversation.reload.assignee_id).to eq(agent.id)
       end
 
-      it 'disbale self assign if admin changes the conversation status to open' do
+      it 'disable self assign if admin changes the conversation status to open' do
         conversation.update!(status: 'pending')
         conversation.update!(assignee_id: nil)
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
@@ -419,21 +453,6 @@ RSpec.describe 'Conversations API', type: :request do
         expect(conversation.reload.status).to eq('snoozed')
         expect(conversation.reload.snoozed_until.to_i).to eq(snoozed_until)
       end
-
-      # TODO: remove this spec when we remove the condition check in controller
-      # Added for backwards compatibility for bot status
-      # remove in next release
-      # it 'toggles the conversation status to pending status when parameter bot is passed' do
-      #   expect(conversation.status).to eq('open')
-
-      #   post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
-      #        headers: agent.create_new_auth_token,
-      #        params: { status: 'bot' },
-      #        as: :json
-
-      #   expect(response).to have_http_status(:success)
-      #   expect(conversation.reload.status).to eq('pending')
-      # end
     end
   end
 

@@ -98,6 +98,7 @@ Rails.application.routes.draw do
               post :unread
               post :custom_attributes
               get :attachments
+              get :assignable_agents
             end
           end
 
