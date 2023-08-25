@@ -1,5 +1,7 @@
 <template>
-  <div class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%]">
+  <div
+    class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%] overflow-y-auto"
+  >
     <form class="mx-0 flex flex-wrap" @submit.prevent="addAgents">
       <div class="w-full">
         <page-header
