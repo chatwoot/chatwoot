@@ -15,7 +15,11 @@ RSpec.describe 'Api::V1::UploadController', type: :request do
       expect(response).to have_http_status(:success)
       blob = response.parsed_body
 
+      expect(blob['errors']).to be_nil
+
       expect(blob['file_url']).to be_present
+      expect(blob['blob_key']).to be_present
+      expect(blob['blob_id']).to be_present
     end
 
     it 'does not upload when un-authorized' do
@@ -29,7 +33,10 @@ RSpec.describe 'Api::V1::UploadController', type: :request do
       blob = response.parsed_body
 
       expect(blob['errors']).to be_present
+
       expect(blob['file_url']).to be_nil
+      expect(blob['blob_key']).to be_nil
+      expect(blob['blob_id']).to be_nil
     end
   end
 end
