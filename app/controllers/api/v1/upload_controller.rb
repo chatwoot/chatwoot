@@ -1,4 +1,4 @@
-class Api::V1::UploadsController < ApplicationController
+class Api::V1::UploadController < ApplicationController
   def create
     file_blob = ActiveStorage::Blob.create_and_upload!(
       key: nil,
