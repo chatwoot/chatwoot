@@ -5,7 +5,7 @@ RSpec.describe 'Api::V1::UploadController', type: :request do
     let(:account) { create(:account) }
     let(:user) { create(:user, account: account) }
 
-    it 'uploads the image' do
+    it 'uploads the image when authorized' do
       file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
 
       post '/api/v1/upload/',
@@ -16,6 +16,20 @@ RSpec.describe 'Api::V1::UploadController', type: :request do
       blob = response.parsed_body
 
       expect(blob['file_url']).to be_present
+    end
+
+    it 'does not upload when un-authorized' do
+      file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+
+      post '/api/v1/upload/',
+           headers: {},
+           params: { attachment: file }
+
+      expect(response).to have_http_status(:unauthorized)
+      blob = response.parsed_body
+
+      expect(blob['errors']).to be_present
+      expect(blob['file_url']).to be_nil
     end
   end
 end
