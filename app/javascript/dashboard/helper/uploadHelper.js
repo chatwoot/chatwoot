@@ -29,7 +29,7 @@ export async function uploadFile(file) {
   formData.append('attachment', file);
 
   // Use axios to send a POST request to the upload endpoint.
-  return axios.post(`/api/${API_VERSION}/uploads`, formData, {
+  return axios.post(`/api/${API_VERSION}/upload`, formData, {
     headers: HEADERS,
   });
 }
