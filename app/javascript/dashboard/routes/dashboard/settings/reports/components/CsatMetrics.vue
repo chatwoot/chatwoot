@@ -20,12 +20,10 @@
     />
     <div
       v-if="metrics.totalResponseCount && !ratingFilterEnabled"
-      class="w-[50%] max-w-[50%] flex-[50%] report-card"
+      class="w-[50%] max-w-[50%] flex-[50%] report-card rtl:[direction:initial]"
     >
-      <h3
-        class="heading text-slate-800 dark:text-slate-100 rtl:[direction:initial]"
-      >
-        <div class="flex justify-end">
+      <h3 class="heading text-slate-800 dark:text-slate-100">
+        <div class="flex justify-end flex-row-reverse">
           <div
             v-for="(rating, key, index) in ratingPercentage"
             :key="rating + key + index"
@@ -73,7 +71,7 @@ export default {
       return Boolean(this.filters.rating);
     },
     chartData() {
-      const sortedRatings = [...CSAT_RATINGS].sort((a, b) => a.value - b.value);
+      const sortedRatings = [...CSAT_RATINGS].sort((a, b) => b.value - a.value);
       return {
         labels: ['Rating'],
         datasets: sortedRatings.map(rating => ({
