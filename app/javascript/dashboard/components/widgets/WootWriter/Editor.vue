@@ -22,7 +22,7 @@
 <script>
 import {
   messageSchema,
-  wootMessageWriterSetup,
+  buildEditor,
   EditorView,
   MessageMarkdownTransformer,
   MessageMarkdownSerializer,
@@ -52,14 +52,19 @@ import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
 import { replaceVariablesInMessage } from '@chatwoot/utils';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
-const createState = (content, placeholder, plugins = [], customMenuList) => {
+const createState = (
+  content,
+  placeholder,
+  plugins = [],
+  enabledMenuOptions
+) => {
   return EditorState.create({
     doc: new MessageMarkdownTransformer(messageSchema).parse(content),
-    plugins: wootMessageWriterSetup({
+    plugins: buildEditor({
       schema: messageSchema,
       placeholder,
       plugins,
-      customMenuList,
+      enabledMenuOptions,
     }),
   });
 };
@@ -79,7 +84,7 @@ export default {
     enableVariables: { type: Boolean, default: false },
     enableCannedResponses: { type: Boolean, default: true },
     variables: { type: Object, default: () => ({}) },
-    customEditorMenuList: { type: Array, default: () => [] },
+    enabledMenuOptions: { type: Array, default: () => [] },
   },
   data() {
     return {
@@ -244,7 +249,7 @@ export default {
       this.value,
       this.placeholder,
       this.plugins,
-      this.customEditorMenuList
+      this.enabledMenuOptions
     );
   },
   mounted() {
@@ -258,7 +263,7 @@ export default {
         this.value,
         this.placeholder,
         this.plugins,
-        this.customEditorMenuList
+        this.enabledMenuOptions
       );
       this.editorView.updateState(this.state);
       this.focusEditorInputField();

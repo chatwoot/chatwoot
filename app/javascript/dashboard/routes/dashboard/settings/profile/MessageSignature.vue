@@ -20,7 +20,7 @@
             :placeholder="
               $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE.PLACEHOLDER')
             "
-            :custom-editor-menu-list="customEditorMenuList"
+            :enabled-menu-options="customEditorMenuList"
             @blur="$v.messageSignature.$touch"
           />
         </div>
@@ -42,6 +42,7 @@ import { mapGetters } from 'vuex';
 
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import alertMixin from 'shared/mixins/alertMixin';
+import { MESSAGE_SIGNATURE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 
 export default {
   components: {
@@ -54,13 +55,7 @@ export default {
       enableMessageSignature: false,
       isUpdating: false,
       errorMessage: '',
-      customEditorMenuList: [
-        'toggleStrong',
-        'toggleEm',
-        'toggleLink',
-        'undoItem',
-        'redoItem',
-      ],
+      customEditorMenuList: MESSAGE_SIGNATURE_EDITOR_MENU_OPTIONS,
     };
   },
   validations: {
