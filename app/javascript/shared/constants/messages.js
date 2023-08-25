@@ -58,19 +58,20 @@ export const ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP =
 
 export const CSAT_RATINGS = [
   {
-    key: 'disappointed',
-    translationKey: 'CSAT.RATINGS.POOR',
-    emoji: '😞',
+    key: 'smiling',
+    emoji: '😍',
+    translationKey: 'CSAT.RATINGS.EXCELLENT',
     value: 1,
-    color: '#FDAD2A',
+    color: '#44CE4B',
   },
   {
-    key: 'expressionless',
-    translationKey: 'CSAT.RATINGS.FAIR',
-    emoji: '😑',
+    key: 'grinning',
+    translationKey: 'CSAT.RATINGS.GOOD',
+    emoji: '😀',
     value: 2,
-    color: '#FFC532',
+    color: '#6FD86F',
   },
+
   {
     key: 'neutral',
     translationKey: 'CSAT.RATINGS.AVERAGE',
@@ -78,19 +79,20 @@ export const CSAT_RATINGS = [
     value: 3,
     color: '#FCEC56',
   },
+
   {
-    key: 'grinning',
-    translationKey: 'CSAT.RATINGS.GOOD',
-    emoji: '😀',
+    key: 'expressionless',
+    translationKey: 'CSAT.RATINGS.FAIR',
+    emoji: '😑',
     value: 4,
-    color: '#6FD86F',
+    color: '#FFC532',
   },
   {
-    key: 'smiling',
-    emoji: '😍',
-    translationKey: 'CSAT.RATINGS.EXCELLENT',
+    key: 'disappointed',
+    translationKey: 'CSAT.RATINGS.POOR',
+    emoji: '😞',
     value: 5,
-    color: '#44CE4B',
+    color: '#FDAD2A',
   },
 ];
 
