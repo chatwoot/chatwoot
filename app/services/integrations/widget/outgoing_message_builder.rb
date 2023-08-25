@@ -16,7 +16,7 @@ class Integrations::Widget::OutgoingMessageBuilder
 
   def perform
     ActiveRecord::Base.transaction do
-      build_conversation
+      conversation
       build_message
     end
   end
@@ -31,7 +31,7 @@ class Integrations::Widget::OutgoingMessageBuilder
     @user ||= Contact.find(options[:user_id])
   end
 
-  def build_conversation
+  def conversation
     @conversation ||= Conversation.find(options[:conversation_id])
   end
 
