@@ -36,7 +36,11 @@ class Integrations::Slack::IncomingMessageBuilder
   def should_process_event?
     return true if params[:type] != 'event_callback'
 
-    params[:event][:user].present? && params[:event][:subtype].blank?
+    params[:event][:user].present? && valid_event_subtype?
+  end
+
+  def valid_event_subtype?
+    params[:event][:subtype].blank? || params[:event][:subtype] == 'file_share'
   end
 
   def supported_event?
@@ -93,7 +97,14 @@ class Integrations::Slack::IncomingMessageBuilder
   def create_message
     return unless conversation
 
-    @message = conversation.messages.create!(
+    build_message
+    process_attachments(params[:event][:files]) if params[:event][:files].present?
+    @message.save!
+    { status: 'success' }
+  end
+
+  def build_message
+    @message = conversation.messages.build(
       message_type: :outgoing,
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
@@ -102,10 +113,6 @@ class Integrations::Slack::IncomingMessageBuilder
       private: private_note?,
       sender: sender
     )
-
-    process_attachments(params[:event][:files]) if params[:event][:files].present?
-
-    { status: 'success' }
   end
 
   def slack_client
@@ -131,7 +138,6 @@ class Integrations::Slack::IncomingMessageBuilder
 
       attachment_obj = @message.attachments.new(attachment_params)
       attachment_obj.file.content_type = attachment[:mimetype]
-      attachment_obj.save!
     end
   end
 
