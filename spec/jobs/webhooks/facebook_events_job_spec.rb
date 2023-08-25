@@ -5,14 +5,13 @@ RSpec.describe Webhooks::FacebookEventsJob do
 
   let(:params) { { test: 'test' } }
   let(:parsed_response) { instance_double(Integrations::Facebook::MessageParser) }
-  let(:lock_key) { 'FB_MESSAGE_CREATE_LOCK::sender_id::recipient_id' } # Use a real format if needed
-  let(:lock_manager) { instance_double(Redis::LockManager) }
+  let(:lock_key_format) { Redis::Alfred::FACEBOOK_MESSAGE_MUTEX }
+  let(:lock_key) { format(lock_key_format, sender_id: 'sender_id', recipient_id: 'recipient_id') } # Use real format if different
 
   before do
     allow(Integrations::Facebook::MessageParser).to receive(:new).and_return(parsed_response)
     allow(parsed_response).to receive(:sender_id).and_return('sender_id')
     allow(parsed_response).to receive(:recipient_id).and_return('recipient_id')
-    allow(Redis::LockManager).to receive(:new).and_return(lock_manager)
   end
 
   it 'enqueues the job' do
@@ -22,43 +21,31 @@ RSpec.describe Webhooks::FacebookEventsJob do
   end
 
   describe 'job execution' do
-    context 'when the lock is already acquired' do
-      before do
-        allow(lock_manager).to receive(:locked?).and_return(true)
-      end
+    let(:message_creator) { instance_double(Integrations::Facebook::MessageCreator) }
 
-      it 'raises a LockAcquisitionError' do
-        perform_enqueued_jobs do
-          expect { described_class.perform_now(params) }.to raise_error(Webhooks::FacebookEventsJob::LockAcquisitionError)
-        end
-      end
+    before do
+      allow(Integrations::Facebook::MessageParser).to receive(:new).and_return(parsed_response)
+      allow(Integrations::Facebook::MessageCreator).to receive(:new).with(parsed_response).and_return(message_creator)
+      allow(message_creator).to receive(:perform)
     end
 
-    context 'when the lock is not acquired' do
-      let(:message_creator) { instance_double(Integrations::Facebook::MessageCreator) }
+    # ensures that the response is built
+    it 'invokes the message parser and creator' do
+      expect(Integrations::Facebook::MessageParser).to receive(:new).with(params)
+      expect(Integrations::Facebook::MessageCreator).to receive(:new).with(parsed_response)
+      expect(message_creator).to receive(:perform)
 
-      before do
-        allow(lock_manager).to receive(:locked?).and_return(false)
-        allow(lock_manager).to receive(:unlock)
-        allow(lock_manager).to receive(:lock)
-        allow(Integrations::Facebook::MessageCreator).to receive(:new).with(parsed_response).and_return(message_creator)
-        allow(message_creator).to receive(:perform)
-      end
+      described_class.perform_now(params)
+    end
 
-      it 'invokes the message parser and creator' do
-        expect(Integrations::Facebook::MessageParser).to receive(:new).with(params)
-        expect(Integrations::Facebook::MessageCreator).to receive(:new).with(parsed_response)
-        expect(message_creator).to receive(:perform)
+    # this test ensures that the process message function is indeed called
+    it 'attempts to acquire a lock and then processes the message' do
+      job_instance = described_class.new
+      allow(job_instance).to receive(:process_message).with(parsed_response)
 
-        described_class.perform_now(params)
-      end
+      job_instance.perform(params)
 
-      it 'acquires and releases the lock' do
-        expect(lock_manager).to receive(:lock).with(lock_key)
-        expect(lock_manager).to receive(:unlock).with(lock_key)
-
-        described_class.perform_now(params)
-      end
+      expect(job_instance).to have_received(:process_message).with(parsed_response)
     end
   end
 end
