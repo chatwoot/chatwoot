@@ -67,8 +67,4 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     @agent = Current.account.users.find(current_user.id)
     @conversation.update_assignee(@agent)
   end
-
-  def assignee?
-    @conversation.assignee_id? && Current.user == @conversation.assignee
-  end
 end

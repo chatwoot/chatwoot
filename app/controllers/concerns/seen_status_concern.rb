@@ -19,4 +19,8 @@ module SeenStatusConcern
     @conversation.update_column(:assignee_last_seen_at, last_seen_at) if update_assignee.present?
     # rubocop:enable Rails/SkipsModelValidations
   end
+
+  def assignee?
+    @conversation.assignee_id? && Current.user == @conversation.assignee
+  end
 end
