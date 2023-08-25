@@ -1,7 +1,9 @@
+import Message from 'widget/models/Message';
+
 export const getters = {
   uIFlags: $state => $state.uiFlags,
-  messageById: _state => messageId => {
-    const message = _state.messages.byId[messageId];
+  messageById: () => messageId => {
+    const message = Message.find(messageId);
     return message;
   },
 };

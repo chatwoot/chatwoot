@@ -43,6 +43,8 @@
     "@sentry/vue": "^6.19.7",
     "@sindresorhus/slugify": "1.1.0",
     "@tailwindcss/typography": "^0.5.9",
+    "@vuex-orm/core": "^0.36.4",
+    "@vuex-orm/plugin-axios": "^0.9.4",
     "activestorage": "^5.2.6",
     "autoprefixer": "^10.4.14",
     "axios": "^0.21.2",

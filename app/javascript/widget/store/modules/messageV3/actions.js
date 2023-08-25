@@ -1,5 +1,8 @@
 import MessageAPI from 'widget/api/message';
 import { sendMessageAPI, sendAttachmentAPI } from 'widget/api/conversationV3';
+import ConversationMeta from 'widget/models/ConversationMeta';
+import MessageMeta from 'widget/models/MessageMeta';
+import Message from 'widget/models/Message';
 
 import {
   createTemporaryMessage,
@@ -8,140 +11,146 @@ import {
 } from './helpers';
 
 export const actions = {
-  addOrUpdate: async ({ commit, getters }, message) => {
-    const {
-      conversation_id: conversationId,
-      id: messageId,
-      echo_id: echoId,
-    } = message;
+  addOrUpdate: async (store, message) => {
+    const { id: messageId, echo_id: echoId } = message;
 
     const messageIdInStore = echoId || messageId;
-    const doesMessageExist = getters.messageById(messageIdInStore);
+    const doesMessageExist = Message.find(messageIdInStore);
 
     if (doesMessageExist) {
-      commit(
-        'conversationV3/removeMessageIdFromConversation',
-        { conversationId, messageId: echoId },
-        { root: true }
-      );
-      commit('removeMessageEntry', echoId);
-      commit('removeMessageId', echoId);
+      Message.update({
+        where: messageIdInStore,
+        data: {
+          ...message,
+          id: messageId,
+        },
+      });
+    } else {
+      Message.insert({
+        data: {
+          ...message,
+          id: messageId,
+        },
+      });
     }
-    const messages = [message];
-    commit('addMessagesEntry', { conversationId, messages });
-    commit('addMessageIds', { messages });
-    commit(
-      'conversationV3/appendMessageIdsToConversation',
-      { conversationId, messages },
-      { root: true }
-    );
   },
-  sendMessageIn: async ({ commit, dispatch }, params) => {
+  sendMessageIn: async (store, params) => {
     const { content, conversationId } = params;
     try {
-      commit(
-        'conversationV3/setConversationUIFlag',
-        { uiFlags: { isCreating: true }, conversationId },
-        { root: true }
-      );
+      ConversationMeta.insertOrUpdate({
+        data: {
+          id: conversationId,
+          isCreating: true,
+        },
+      });
 
-      const message = createTemporaryMessage({ content });
+      const message = createTemporaryMessage({ content, conversationId });
+      Message.insert({
+        data: {
+          ...message,
+        },
+      });
       const { id: echoId } = message;
-      const messages = [message];
-      commit('addMessagesEntry', { messages });
-      commit('addMessageIds', { messages });
-      commit(
-        'conversationV3/appendMessageIdsToConversation',
-        { conversationId, messages },
-        { root: true }
-      );
-
       const { data: newMessage } = await sendMessageAPI(content, echoId);
 
-      dispatch('addOrUpdate', {
-        ...newMessage,
-        echo_id: echoId,
+      Message.update({
+        where: echoId,
+        data: {
+          ...newMessage,
+        },
       });
     } catch (error) {
       throw new Error(error);
     } finally {
-      commit(
-        'conversationV3/setConversationUIFlag',
-        { uiFlags: { isCreating: false }, conversationId },
-        { root: true }
-      );
+      ConversationMeta.insertOrUpdate({
+        data: {
+          id: conversationId,
+          isCreating: false,
+        },
+      });
     }
   },
 
-  sendAttachmentIn: async ({ commit, dispatch }, params) => {
+  sendAttachmentIn: async (store, params) => {
     const {
       attachment: { thumbUrl, fileType },
       conversationId,
     } = params;
     try {
-      commit(
-        'conversationV3/setConversationUIFlag',
-        { uiFlags: { isCreating: true }, conversationId },
-        { root: true }
-      );
-
+      ConversationMeta.insertOrUpdate({
+        data: {
+          id: conversationId,
+          isCreating: true,
+        },
+      });
       const tempMessage = createTemporaryAttachmentMessage({
         thumbUrl,
         fileType,
+        conversationId,
       });
 
       const { id: echoId } = tempMessage;
-      const messages = [tempMessage];
       const attachmentParams = createAttachmentParams(params);
 
-      commit('addMessagesEntry', { conversationId, messages });
-      commit('addMessageIds', { conversationId, messages });
-      commit(
-        'conversationV3/appendMessageIdsToConversation',
-        { conversationId, messages },
-        { root: true }
-      );
+      Message.insert({
+        data: {
+          ...tempMessage,
+        },
+      });
 
       const { data } = await sendAttachmentAPI(attachmentParams);
-      dispatch('addOrUpdate', { ...data, echo_id: echoId });
+
+      Message.update({
+        where: echoId,
+        data: {
+          ...data,
+        },
+      });
     } catch (error) {
       throw new Error(error);
     } finally {
-      commit(
-        'conversationV3/setConversationUIFlag',
-        { uiFlags: { isCreating: false }, conversationId },
-        { root: true }
-      );
+      ConversationMeta.insertOrUpdate({
+        data: {
+          id: conversationId,
+          isCreating: false,
+        },
+      });
     }
   },
 
-  update: async ({ commit, dispatch }, params) => {
+  update: async ({ dispatch }, params) => {
     const { email, messageId, submittedValues } = params;
     try {
-      commit('setMessageUIFlag', {
-        messageId,
-        uiFlags: { isUpdating: true },
+      MessageMeta.insertOrUpdate({
+        data: {
+          id: messageId,
+          isUpdating: true,
+        },
       });
-
       await MessageAPI.update({
         email,
         messageId,
         values: submittedValues,
       });
-      commit('updateMessageEntry', {
-        id: messageId,
-        content_attributes: {
-          submitted_email: email,
-          submitted_values: email ? null : submittedValues,
+      Message.update({
+        where: messageId,
+        data: {
+          content_attributes: {
+            submitted_email: email,
+            submitted_values: email ? null : submittedValues,
+          },
         },
       });
+
       dispatch('contact/get', {}, { root: true });
     } catch (error) {
       throw new Error(error);
     } finally {
-      commit('setMessageUIFlag', {
-        messageId,
-        uiFlags: { isUpdating: false },
+      MessageMeta.insertOrUpdate({
+        data: {
+          id: messageId,
+          isUpdating: false,
+        },
       });
     }
   },

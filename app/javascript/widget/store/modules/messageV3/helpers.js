@@ -1,7 +1,11 @@
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import getUuid from '../../../helpers/uuid';
 
-export const createTemporaryMessage = ({ attachments, content }) => {
+export const createTemporaryMessage = ({
+  attachments,
+  content,
+  conversationId,
+}) => {
   const timestamp = new Date().getTime() / 1000;
   return {
     id: getUuid(),
@@ -9,6 +13,7 @@ export const createTemporaryMessage = ({ attachments, content }) => {
     attachments,
     status: 'in_progress',
     created_at: timestamp,
+    conversation_id: conversationId,
     message_type: MESSAGE_TYPE.INCOMING,
   };
 };
@@ -17,6 +22,7 @@ export const createTemporaryAttachmentMessage = ({
   thumbUrl,
   fileType,
   content,
+  conversationId,
 }) => {
   const attachment = {
     thumb_url: thumbUrl,
@@ -27,6 +33,7 @@ export const createTemporaryAttachmentMessage = ({
   const message = createTemporaryMessage({
     attachments: [attachment],
     content,
+    conversationId,
   });
   return message;
 };
