@@ -69,6 +69,7 @@
         :min-height="4"
         :enable-variables="true"
         :variables="messageVariables"
+        :enabled-menu-options="customEditorMenuOptions"
         @typing-off="onTypingOff"
         @typing-on="onTypingOn"
         @focus="onFocus"
@@ -184,6 +185,7 @@ import wootConstants from 'dashboard/constants/globals';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import rtlMixin from 'shared/mixins/rtlMixin';
+import { MESSAGE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 
 const EmojiInput = () => import('shared/components/emoji/EmojiInput');
 
@@ -226,6 +228,7 @@ export default {
   data() {
     return {
       message: '',
+      customEditorMenuOptions: MESSAGE_EDITOR_MENU_OPTIONS,
       isFocused: false,
       showEmojiPicker: false,
       attachedFiles: [],
