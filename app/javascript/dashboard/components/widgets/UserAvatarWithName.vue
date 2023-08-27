@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center text-left">
+  <div class="flex items-center gap-1.5 text-left">
     <thumbnail
       :src="user.thumbnail"
       :size="size"
@@ -7,7 +7,7 @@
       :status="user.availability_status"
     />
     <h6
-      class="my-0 mx-2 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis text-capitalize"
+      class="my-0 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis text-capitalize"
       :class="textClass"
     >
       {{ user.name }}
