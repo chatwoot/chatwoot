@@ -7,7 +7,7 @@
       :status="user.availability_status"
     />
     <h6
-      class="dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis text-capitalize"
+      class="my-0 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis text-capitalize"
       :class="textClass"
     >
       {{ user.name }}
