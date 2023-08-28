@@ -14,6 +14,7 @@ defaults: &defaults
     # documented at https://circleci.com/docs/2.0/circleci-images/
     - image: cimg/postgres:15.3
     - image: cimg/redis:6.2.6
+    - image: cimg/node:20.5.1
   environment:
     - RAILS_LOG_TO_STDOUT: false
     - COVERAGE: true
@@ -37,18 +38,6 @@ jobs:
       - run:
           name: Which bundler?
           command: bundle -v
-
-      - run:
-          name: Swap node versions
-          command: |
-            set +e
-            wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-            nvm install v20
-            echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
-            echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
 
       # Run bundler
       # Load installed gems from cache if possible, bundle install then save cache
