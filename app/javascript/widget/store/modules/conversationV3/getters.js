@@ -3,9 +3,9 @@ import { groupBy } from 'widget/helpers/utils';
 import { groupConversationBySender } from 'widget/store/modules/conversationV3/helpers';
 import { formatUnixDate } from 'shared/helpers/DateHelper';
 
-import Conversation from 'widget/models/Conversation';
-import ConversationMeta from 'widget/models/ConversationMeta';
-import Message from 'widget/models/Message';
+import Conversation from 'widget/store/modules/models/Conversation';
+import ConversationMeta from 'widget/store/modules/models/ConversationMeta';
+import Message from 'widget/store/modules/models/Message';
 
 export const getters = {
   uiFlagsIn: () => conversationId => {

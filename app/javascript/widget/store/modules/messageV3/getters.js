@@ -1,4 +1,4 @@
-import Message from 'widget/models/Message';
+import Message from 'widget/store/modules/models/Message';
 
 export const getters = {
   uIFlags: $state => $state.uiFlags,

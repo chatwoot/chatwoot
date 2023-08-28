@@ -1,9 +1,9 @@
 import endPoints from 'widget/api/endPoints';
 
 import ConversationsV3API from 'widget/api/conversationV3';
-import Conversation from 'widget/models/Conversation';
-import ConversationMeta from 'widget/models/ConversationMeta';
-import Message from 'widget/models/Message';
+import Conversation from 'widget/store/modules/models/Conversation';
+import ConversationMeta from 'widget/store/modules/models/ConversationMeta';
+import Message from 'widget/store/modules/models/Message';
 
 export const actions = {
   fetchAllConversations: async ({ commit }) => {

@@ -1,8 +1,8 @@
 import MessageAPI from 'widget/api/message';
 import { sendMessageAPI, sendAttachmentAPI } from 'widget/api/conversationV3';
-import ConversationMeta from 'widget/models/ConversationMeta';
-import MessageMeta from 'widget/models/MessageMeta';
-import Message from 'widget/models/Message';
+import ConversationMeta from 'widget/store/modules/models/ConversationMeta';
+import MessageMeta from 'widget/store/modules/models/MessageMeta';
+import Message from 'widget/store/modules/models/Message';
 
 import {
   createTemporaryMessage,
