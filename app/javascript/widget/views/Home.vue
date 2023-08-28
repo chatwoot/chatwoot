@@ -39,33 +39,8 @@ export default {
     ...mapGetters({
       availableAgents: 'agent/availableAgents',
       activeCampaign: 'campaign/getActiveCampaign',
-      // conversationSize: 'conversation/getConversationSize',
-      messageCountIn: 'conversationV3/allMessagesCountIn',
-      activeConversationId: 'conversationV3/lastActiveConversationId',
-
-      popularArticles: 'article/popularArticles',
-      articleUiFlags: 'article/uiFlags',
+      conversationSize: 'conversation/getConversationSize',
     }),
-    portal() {
-      return window.chatwootWebChannel.portal;
-    },
-    showArticles() {
-      return (
-        this.portal &&
-        (this.articleUiFlags.isFetching || this.popularArticles.length)
-      );
-    },
-    conversationSize() {
-      return this.messageCountIn(this.activeConversationId);
-    },
-  },
-  mounted() {
-    if (this.portal && this.popularArticles.length === 0) {
-      this.$store.dispatch('article/fetch', {
-        slug: this.portal.slug,
-        locale: 'en',
-      });
-    }
   },
   methods: {
     startConversation() {

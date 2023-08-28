@@ -52,17 +52,12 @@ export default {
   },
   computed: {
     ...mapGetters({
-      activeConversationId: 'conversationV3/lastActiveConversationId',
-      messageCountIn: 'conversationV3/allMessagesCountIn',
-      metaIn: 'conversationV3/metaIn',
-
+      conversationAttributes: 'conversationAttributes/getConversationParams',
       widgetColor: 'appConfig/getWidgetColor',
+      conversationSize: 'conversation/getConversationSize',
       currentUser: 'contacts/getCurrentUser',
       isWidgetStyleFlat: 'appConfig/isWidgetStyleFlat',
     }),
-    conversationAttributes() {
-      return this.metaIn(this.activeConversationId);
-    },
     textColor() {
       return getContrastingTextColor(this.widgetColor);
     },
@@ -74,37 +69,32 @@ export default {
     showEmailTranscriptButton() {
       return this.currentUser && this.currentUser.email;
     },
-    conversationSize() {
-      return this.messageCountIn(this.activeConversationId);
-    },
   },
   methods: {
-    ...mapActions('messageV3', ['sendMessageIn', 'sendAttachmentIn']),
-    ...mapActions('conversationV3', ['clearConversations']),
+    ...mapActions('conversation', [
+      'sendMessage',
+      'sendAttachment',
+      'clearConversations',
+    ]),
     ...mapActions('conversationAttributes', [
       'getAttributes',
       'clearConversationAttributes',
     ]),
     async handleSendMessage(content) {
-      await this.sendMessageIn({
+      await this.sendMessage({
         content,
-        conversationId: this.activeConversationId,
       });
       // Update conversation attributes on new conversation
-      // @TODO
-      // Ask what's this step for
       if (this.conversationSize === 0) {
         this.getAttributes();
       }
     },
     handleSendAttachment(attachment) {
-      this.sendAttachmentIn({
-        attachment,
-        conversationId: this.activeConversationId,
-      });
+      this.sendAttachment({ attachment });
     },
     startNewConversation() {
       this.clearConversations();
+      this.clearConversationAttributes();
       this.replaceRoute('prechat-form');
     },
     async sendTranscript() {

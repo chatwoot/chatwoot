@@ -97,7 +97,7 @@ export default {
   computed: {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
-      isCreating: 'conversationV3/isCreating',
+      isCreating: 'conversation/getIsCreating',
       activeCampaign: 'campaign/getActiveCampaign',
       currentUser: 'contacts/getCurrentUser',
     }),

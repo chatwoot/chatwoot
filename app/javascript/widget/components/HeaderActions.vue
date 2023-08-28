@@ -107,10 +107,7 @@ export default {
       }
     },
     resolveConversation() {
-      this.$store.dispatch('conversationV3/setConversationStatusIn', {
-        conversationId: this.conversationId,
-        status: CONVERSATION_STATUS.RESOLVED,
-      });
+      this.$store.dispatch('conversation/resolveConversation');
     },
   },
 };

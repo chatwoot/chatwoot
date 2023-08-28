@@ -55,7 +55,7 @@ class ActionCableConnector extends BaseActionCableConnector {
     }
 
     this.app.$store
-      .dispatch('messageV3/addOrUpdate', data)
+      .dispatch('conversation/addOrUpdateMessage', data)
       .then(() => window.bus.$emit(ON_AGENT_MESSAGE_RECEIVED));
 
     IFrameHelper.sendMessage({ event: 'onMessage', data });
@@ -73,7 +73,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       IFrameHelper.sendMessage({ event: 'onMessage', data });
     }
 
-    this.app.$store.dispatch('messageV3/addOrUpdate', data);
+    this.app.$store.dispatch('conversation/addOrUpdateMessage', data);
   };
 
   onConversationCreated = () => {
@@ -91,8 +91,8 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onTypingOn = data => {
     const activeConversationId = this.app.$store.getters[
-      'conversationV3/lastActiveConversationId'
-    ];
+      'conversationAttributes/getConversationParams'
+    ].id;
     const isUserTypingOnAnotherConversation =
       data.conversation && data.conversation.id !== activeConversationId;
 
@@ -100,18 +100,16 @@ class ActionCableConnector extends BaseActionCableConnector {
       return;
     }
     this.clearTimer();
-    this.app.$store.dispatch('conversationV3/toggleAgentTypingIn', {
+    this.app.$store.dispatch('conversation/toggleAgentTyping', {
       status: 'on',
-      conversationId: data.conversation.id,
     });
     this.initTimer();
   };
 
-  onTypingOff = data => {
+  onTypingOff = () => {
     this.clearTimer();
-    this.app.$store.dispatch('conversationV3/toggleAgentTypingIn', {
+    this.app.$store.dispatch('conversation/toggleAgentTyping', {
       status: 'off',
-      conversationId: data.conversation.id,
     });
   };
 
