@@ -101,6 +101,10 @@ class Integrations::Slack::IncomingMessageBuilder
     process_attachments(params[:event][:files]) if params[:event][:files].present?
     @message.save!
     { status: 'success' }
+  rescue Slack::Web::Api::Errors::MissingScope => e
+    Rails.logger.error e
+    integration_hook.prompt_reauthorization!
+    integration_hook.disable
   end
 
   def build_message
