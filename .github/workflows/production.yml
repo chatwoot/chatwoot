@@ -18,7 +18,7 @@ jobs:
       - name: Execute commands via SSH
         uses: appleboy/ssh-action@v1.0.0
         with:
-          host: 3.109.77.210
+          host: 13.127.190.229 
           username: "ubuntu"
           key: ${{ secrets.CHAT_V2_PROD_PRIVATE_KEY }}
           script: |
