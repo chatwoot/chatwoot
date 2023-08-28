@@ -3,11 +3,11 @@ name: Deploy to Staging
 on:
   push:
     branches:
-      - development
+      - develop
   pull_request:
     types: [closed]
     branches:
-      - development
+      - develop
 
 jobs:
   build:
