@@ -103,7 +103,7 @@
       "CREATE_ERROR": "Hubo un error al crear un enlace de reunión, por favor inténtelo de nuevo"
     },
     "OPEN_AI": {
-      "AI_ASSIST": "AI Assist",
+      "AI_ASSIST": "Asistencia AI",
       "WITH_AI": " %{option} with AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Reply Suggestion",
