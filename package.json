@@ -18,7 +18,8 @@
     "prepare": "husky install",
     "size": "size-limit"
   },
-  "size-limit": [{
+  "size-limit": [
+    {
       "path": "public/packs/js/widget-*.js",
       "limit": "270 KB"
     },
@@ -146,9 +147,9 @@
     "webpack-dev-server": "^3"
   },
   "engines": {
-    "node": ">=10.x",
+    "node": "20.x",
     "npm": ">=6.x",
-    "yarn": ">=1.x"
+    "yarn": "1.22.x"
   },
   "husky": {
     "hooks": {
