@@ -20,7 +20,7 @@ jobs:
         with:
           host: 15.206.128.48
           username: "ubuntu"
-          key: ${{ secrets.ONECHAT_STAGING_PRIVATE_KEY }}
+          key: ${{ secrets.CHAT_V2_STAG_PRIVATE_KEY }}
           script: |
             echo "Deploying to EC2"
             sudo -i -u chatwoot <<EOF
