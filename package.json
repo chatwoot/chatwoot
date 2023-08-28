@@ -18,8 +18,7 @@
     "prepare": "husky install",
     "size": "size-limit"
   },
-  "size-limit": [
-    {
+  "size-limit": [{
       "path": "public/packs/js/widget-*.js",
       "limit": "270 KB"
     },
