@@ -92,6 +92,7 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
       isWidgetOpen: 'appConfig/getIsWidgetOpen',
+      activeConversationId: 'conversationV3/lastActiveConversationId',
     }),
     showAttachment() {
       return this.hasAttachmentsEnabled && this.userInput.length === 0;
@@ -165,7 +166,10 @@ export default {
       this.toggleTyping('on');
     },
     toggleTyping(typingStatus) {
-      this.$store.dispatch('conversation/toggleUserTyping', { typingStatus });
+      this.$store.dispatch('conversationV3/toggleUserTypingIn', {
+        typingStatus,
+        conversationId: this.activeConversationId,
+      });
     },
     focusInput() {
       this.$refs.chatInput.focus();

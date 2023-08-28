@@ -118,10 +118,7 @@ export default {
   },
   methods: {
     async retrySendMessage() {
-      await this.$store.dispatch(
-        'conversation/sendMessageWithData',
-        this.message
-      );
+      await this.$store.dispatch('messageV3/addOrUpdate', this.message);
     },
     onImageLoadError() {
       this.hasImageError = true;

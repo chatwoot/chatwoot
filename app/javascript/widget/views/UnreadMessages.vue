@@ -14,8 +14,12 @@ export default {
   },
   computed: {
     ...mapGetters({
-      messages: 'conversation/getUnreadTextMessages',
+      activeConversationId: 'conversationV3/lastActiveConversationId',
+      messagesIn: 'conversationV3/unreadTextMessagesIn',
     }),
+    messages() {
+      return this.messagesIn(this.activeConversationId);
+    },
   },
   methods: {
     closeFullView() {
