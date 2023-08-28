@@ -2,7 +2,9 @@
 # https://github.com/rails/rails/issues/43906#issuecomment-1099992310
 task before_assets_precompile: :environment do
   # run a command which starts your packaging
+  system('export NODE_OPTIONS=--openssl-legacy-provider')
   system('yarn')
+  # set NODE_OPTIONS=--openssl-legacy-provider
 end
 
 # every time you execute 'rake assets:precompile'
