@@ -112,13 +112,13 @@
           "ERROR": "Este campo é obrigatório"
         },
         "API_KEY": {
-          "USE_API_KEY": "Use API Key Authentication",
-          "LABEL": "API Key SID",
-          "PLACEHOLDER": "Please enter your API Key SID",
+          "USE_API_KEY": "Usar autenticação de chave API",
+          "LABEL": "Chave da API SID",
+          "PLACEHOLDER": "Por favor, insira sua chave de API SID",
           "ERROR": "Este campo é obrigatório"
         },
         "API_KEY_SECRET": {
-          "LABEL": "API Key Secret",
+          "LABEL": "Segredo da Chave API",
           "PLACEHOLDER": "Por favor, use sua API Key Secret",
           "ERROR": "Este campo é obrigatório"
         },
@@ -405,18 +405,18 @@
       "SENDER_NAME_SECTION": {
         "TITLE": "Nome do remetente",
         "SUB_TEXT": "Selecione o nome a ser exibido para o seu cliente quando ele receber e-mails de seus agentes.",
-        "FOR_EG": "For eg:",
+        "FOR_EG": "Por ex:",
         "FRIENDLY": {
           "TITLE": "Amigável",
           "FROM": "De",
-          "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
+          "SUBTITLE": "Adicione o nome do agente que enviou a resposta ao nome do remetente para torná-la amigável."
         },
         "PROFESSIONAL": {
           "TITLE": "Profissional",
-          "SUBTITLE": "Use only the configured business name as the sender name in the email header."
+          "SUBTITLE": "Utilize apenas o nome da empresa configurada como nome do remetente no cabeçalho do e-mail."
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "+ Configure your business name",
+          "BUTTON_TEXT": "Configure o nome da sua empresa",
           "PLACEHOLDER": "Insira o nome de sua empresa",
           "SAVE_BUTTON_TEXT": "Salvar"
         }
@@ -484,9 +484,9 @@
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Ativar ou desativar caixa de coleta de e-mails em novas conversas",
       "AUTO_ASSIGNMENT": "Habilitar atribuição automática",
       "ENABLE_CSAT": "Habilitar CSAT",
-      "SENDER_NAME_SECTION": "Enable Agent Name in Email",
+      "SENDER_NAME_SECTION": "Habilitar o Nome do Agente no E-mail",
       "ENABLE_CSAT_SUB_TEXT": "Ativar/Desativar pesquisa CSAT(satisfação do cliente) após resolver uma conversa",
-      "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
+      "SENDER_NAME_SECTION_TEXT": "Ativar/Desativar exibição do nome do agente no e-mail, se estiver desativado, exibirá o nome da empresa",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Habilitar continuidade das conversas por e-mail",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "As conversas continuarão sobre o e-mail se o endereço de e-mail de contato estiver disponível.",
       "LOCK_TO_SINGLE_CONVERSATION": "Bloquear para conversa única",
