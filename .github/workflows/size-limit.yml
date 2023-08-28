@@ -21,7 +21,8 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
+          cache: 'yarn'
 
       - name: yarn
         run: yarn install
@@ -30,9 +31,11 @@ jobs:
         run: |
           rm -rf enterprise
           rm -rf spec/enterprise
-
+          
       - name: Run asset compile
         run: bundle exec rake assets:precompile
+        env:
+          NODE_OPTIONS: --openssl-legacy-provider
 
       - name: Size Check
         run: yarn run size
