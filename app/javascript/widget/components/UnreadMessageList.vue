@@ -67,7 +67,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      unreadMessageCount: 'conversation/getUnreadMessageCount',
+      activeConversationId: 'conversationV3/lastActiveConversationId',
+      unreadTextMessagesCountIn: 'conversationV3/unreadTextMessagesCountIn',
       widgetColor: 'appConfig/getWidgetColor',
     }),
     sender() {
@@ -76,6 +77,9 @@ export default {
     },
     isBackgroundLighter() {
       return isWidgetColorLighter(this.widgetColor);
+    },
+    unreadMessageCount() {
+      return this.unreadTextMessagesCountIn(this.activeConversationId);
     },
   },
   methods: {

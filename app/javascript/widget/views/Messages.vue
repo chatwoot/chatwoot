@@ -9,7 +9,7 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import ChatFooter from '../components/ChatFooter.vue';
 import ConversationWrap from '../components/ConversationWrap.vue';
 
@@ -17,11 +17,20 @@ export default {
   components: { ChatFooter, ConversationWrap },
   computed: {
     ...mapGetters({
-      groupedMessages: 'conversation/getGroupedConversation',
+      activeConversationId: 'conversationV3/lastActiveConversationId',
+      groupedMessagesIn: 'conversationV3/groupByMessagesIn',
     }),
+    groupedMessages() {
+      return this.groupedMessagesIn(this.activeConversationId);
+    },
   },
   mounted() {
-    this.$store.dispatch('conversation/setUserLastSeen');
+    this.setUserLastSeenIn({ conversationId: this.activeConversationId });
+  },
+  methods: {
+    ...mapActions({
+      setUserLastSeenIn: 'conversationV3/setUserLastSeenIn',
+    }),
   },
 };
 </script>
