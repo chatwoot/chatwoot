@@ -33,5 +33,9 @@ export async function uploadFile(file) {
     headers: HEADERS,
   });
 
-  return data.file_url;
+  return {
+    fileUrl: data.file_url,
+    blobKey: data.blob_key,
+    blobId: data.blob_id,
+  };
 }

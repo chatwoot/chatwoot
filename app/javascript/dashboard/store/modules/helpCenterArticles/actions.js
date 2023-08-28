@@ -128,7 +128,8 @@ export const actions = {
   },
 
   attachImage: async (_, { file }) => {
-    return uploadFile(file);
+    const { fileUrl } = await uploadFile(file);
+    return fileUrl;
   },
 
   reorder: async (_, { portalSlug, categorySlug, reorderedGroup }) => {
