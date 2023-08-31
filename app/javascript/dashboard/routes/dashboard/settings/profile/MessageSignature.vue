@@ -21,6 +21,7 @@
               $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE.PLACEHOLDER')
             "
             :enabled-menu-options="customEditorMenuList"
+            :enable-suggestions="false"
             @blur="$v.messageSignature.$touch"
           />
         </div>
