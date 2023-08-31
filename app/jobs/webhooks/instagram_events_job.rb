@@ -18,7 +18,9 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   end
 
   # @see https://developers.facebook.com/docs/messenger-platform/instagram/features/webhook
-  def process_entries
+  def process_entries(entries)
+    @entries = entries
+
     @entries.each do |entry|
       entry = entry.with_indifferent_access
       messages(entry).each do |messaging|
