@@ -193,7 +193,7 @@ tr:
       sub_title: Makalelerde arayın veya aşağıdaki kategorilere göz atın.
     common:
       home: Anasayfa
-      last_updated_on: Son güncelleme: %{last_updated_on}
+      last_updated_on: "Son güncelleme: %{last_updated_on}"
       view_all_articles: Tüm makaleleri görüntüle
       article: makale
       articles: makale
