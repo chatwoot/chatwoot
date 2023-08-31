@@ -217,7 +217,6 @@ Rails.application.routes.draw do
             post :attach_file, on: :collection
             resources :categories
             resources :articles do
-              post :attach_file, on: :collection
               post :reorder, on: :collection
             end
           end
