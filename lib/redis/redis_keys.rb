@@ -38,5 +38,5 @@ module Redis::RedisKeys
   # We don't want to process messages from the same sender concurrently to prevent creating double conversations
   FACEBOOK_MESSAGE_MUTEX = 'FB_MESSAGE_CREATE_LOCK::%<sender_id>s::%<recipient_id>s'.freeze
   IG_MESSAGE_MUTEX = 'IG_MESSAGE_CREATE_LOCK::%<ig_account_id>s'.freeze
-  SLACK_MESSAGE_MUTEX = 'SLACK_MESSAGE_LOCK::%<sender_id>s::%<reference_id>s'.freeze
+  SLACK_MESSAGE_MUTEX = 'SLACK_MESSAGE_LOCK::%<conversation_id>s::%<reference_id>s'.freeze
 end
