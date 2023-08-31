@@ -69,11 +69,6 @@ export default {
       currentUserId: 'getCurrentUserID',
     }),
   },
-  watch: {
-    currentUser() {
-      this.initValues();
-    },
-  },
   mounted() {
     this.initValues();
   },
@@ -105,6 +100,7 @@ export default {
         }
       } finally {
         this.isUpdating = false;
+        this.initValues();
         this.showAlert(this.errorMessage);
       }
     },

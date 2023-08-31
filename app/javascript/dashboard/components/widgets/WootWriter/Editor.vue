@@ -447,22 +447,26 @@ export default {
     },
     onImageInsertInEditor(fileUrl) {
       const { selection, schema, tr } = this.editorView.state;
-      const imageNode = schema.nodes.image.create({ src: fileUrl });
+      const { nodes } = schema;
+      const currentNode = selection.$from.node();
+      const {
+        type: { name: typeName },
+        content: { size, content },
+      } = currentNode;
 
-      // Check if the current node is 'image_paragraph'
+      const imageNode = nodes.image.create({ src: fileUrl });
       if (imageNode) {
-        const currentNode = selection.$from.node();
-        const isInImageParagraph = currentNode.type.name === 'image_paragraph';
-
-        const nodeToInsert = isInImageParagraph
+        const isInParagraph = typeName === 'paragraph';
+        const needsNewLine =
+          !content.some(n => n.type.name === 'image') && size !== 0 ? 1 : 0;
+        const nodeToInsert = isInParagraph
           ? imageNode
-          : schema.nodes.image_paragraph.create(
-              { class: 'image-wrapper' },
-              imageNode
-            );
+          : nodes.paragraph.create({}, imageNode);
 
         this.editorView.dispatch(
-          tr.insert(selection.from, nodeToInsert).scrollIntoView()
+          tr
+            .insert(selection.from + needsNewLine, nodeToInsert)
+            .scrollIntoView()
         );
         this.focusEditorInputField();
       }
