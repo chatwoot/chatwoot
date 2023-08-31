@@ -226,6 +226,8 @@ Rails.application.routes.draw do
       # end of account scoped api routes
       # ----------------------------------
 
+      resources :upload, only: [:create]
+
       namespace :integrations do
         resources :webhooks, only: [:create]
       end
