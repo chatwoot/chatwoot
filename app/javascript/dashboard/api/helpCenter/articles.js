@@ -47,20 +47,6 @@ class ArticlesAPI extends PortalsAPI {
     return axios.delete(`${this.url}/${portalSlug}/articles/${articleId}`);
   }
 
-  uploadImage({ portalSlug, file }) {
-    let formData = new FormData();
-    formData.append('background_image', file);
-    return axios.post(
-      `${this.url}/${portalSlug}/articles/attach_file`,
-      formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      }
-    );
-  }
-
   reorderArticles({ portalSlug, reorderedGroup, categorySlug }) {
     return axios.post(`${this.url}/${portalSlug}/articles/reorder`, {
       positions_hash: reorderedGroup,
