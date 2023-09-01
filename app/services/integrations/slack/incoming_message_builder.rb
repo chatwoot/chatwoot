@@ -15,6 +15,8 @@ class Integrations::Slack::IncomingMessageBuilder
     if hook_verification?
       verify_hook
     elsif create_message?
+      return unless conversation
+
       create_message
     end
   end
@@ -95,8 +97,6 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   def create_message
-    return unless conversation
-
     build_message
     process_attachments(params[:event][:files]) if params[:event][:files].present?
     @message.save!
