@@ -15,8 +15,6 @@ class Integrations::Slack::IncomingMessageBuilder
     if hook_verification?
       verify_hook
     elsif create_message?
-      return unless conversation
-
       create_message
     end
   end
@@ -97,12 +95,17 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   def create_message
+    return unless conversation
+
     build_message
     process_attachments(params[:event][:files]) if params[:event][:files].present?
     @message.save!
     { status: 'success' }
   rescue Slack::Web::Api::Errors::MissingScope => e
-    Rails.logger.error e
+    handle_missing_scope_error(e)
+  end
+
+  def handle_missing_scope_error(_error)
     integration_hook.prompt_reauthorization!
     integration_hook.disable
   end
