@@ -50,7 +50,7 @@ es:
     dyte:
       invalid_message_type: "Tipo de mensaje inválido. Acción no permitida"
     slack:
-      invalid_channel_id: "Invalid slack channel. Please try again"
+      invalid_channel_id: "Canal de slack inválido. Por favor, inténtalo de nuevo"
     inboxes:
       imap:
         socket_error: Verifique la conexión de red, la dirección IMAP y vuelva a intentarlo.
