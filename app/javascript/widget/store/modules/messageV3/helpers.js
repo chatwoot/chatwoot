@@ -7,13 +7,15 @@ export const createTemporaryMessage = ({
   conversationId,
 }) => {
   const timestamp = new Date().getTime() / 1000;
+  const id = getUuid();
   return {
-    id: getUuid(),
+    id,
     content,
     attachments,
     status: 'in_progress',
     created_at: timestamp,
     conversation_id: conversationId,
+    echo_id: id,
     message_type: MESSAGE_TYPE.INCOMING,
   };
 };

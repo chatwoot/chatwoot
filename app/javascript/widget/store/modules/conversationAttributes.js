@@ -4,6 +4,7 @@ import {
   CLEAR_CONVERSATION_ATTRIBUTES,
 } from '../types';
 import { getConversationAPI } from '../../api/conversation';
+import Conversation from './models/Conversation';
 
 const state = {
   id: '',
@@ -18,9 +19,15 @@ export const actions = {
   getAttributes: async ({ commit }) => {
     try {
       const { data } = await getConversationAPI();
-      const { contact_last_seen_at: lastSeen } = data;
+      const { contact_last_seen_at: lastSeen, id } = data;
       commit(SET_CONVERSATION_ATTRIBUTES, data);
-      commit('conversation/setMetaUserLastSeenAt', lastSeen, { root: true });
+
+      Conversation.update({
+        where: id,
+        data: {
+          contact_last_seen_at: lastSeen,
+        },
+      });
     } catch (error) {
       // Ignore error
     }

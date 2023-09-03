@@ -44,6 +44,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    conversationId: {
+      type: Number,
+      default: undefined,
+    },
   },
   data() {
     return {
@@ -53,14 +57,32 @@ export default {
   },
   computed: {
     ...mapGetters({
-      earliestMessage: 'conversation/getEarliestMessage',
-      lastMessage: 'conversation/getLastMessage',
-      allMessagesLoaded: 'conversation/getAllMessagesLoaded',
-      isFetchingList: 'conversation/getIsFetchingList',
-      conversationSize: 'conversation/getConversationSize',
-      isAgentTyping: 'conversation/getIsAgentTyping',
+      firstMessageIn: 'conversationV3/firstMessageIn',
+      lastMessageIn: 'conversationV3/lastMessageIn',
+      isAllMessagesFetchedIn: 'conversationV3/isAllMessagesFetchedIn',
+      isFetchingMessagesIn: 'conversationV3/isFetchingMessagesIn',
+      allMessagesCountIn: 'conversationV3/allMessagesCountIn',
+      isAgentTypingIn: 'conversationV3/isAgentTypingIn',
       conversationAttributes: 'conversationAttributes/getConversationParams',
     }),
+    earliestMessage() {
+      return this.firstMessageIn(this.conversationId);
+    },
+    lastMessage() {
+      return this.lastMessageIn(this.conversationId);
+    },
+    allMessagesLoaded() {
+      return this.isAllMessagesFetchedIn(this.conversationId);
+    },
+    isFetchingList() {
+      return this.isFetchingMessagesIn(this.conversationId);
+    },
+    isAgentTyping() {
+      return this.isAgentTypingIn(this.conversationId);
+    },
+    conversationSize() {
+      return this.allMessagesCountIn(this.conversationId);
+    },
     colorSchemeClass() {
       return `${this.darkMode === 'dark' ? 'dark-scheme' : 'light-scheme'}`;
     },

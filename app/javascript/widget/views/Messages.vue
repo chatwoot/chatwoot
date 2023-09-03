@@ -1,7 +1,10 @@
 <template>
   <div class="flex flex-col flex-1 overflow-hidden">
     <div class="flex flex-1 overflow-auto">
-      <conversation-wrap :grouped-messages="groupedMessages" />
+      <conversation-wrap
+        :grouped-messages="groupedMessages"
+        :conversation-id="activeConversationId"
+      />
     </div>
     <div class="px-5">
       <chat-footer />
@@ -11,7 +14,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import ChatFooter from '../components/ChatFooter.vue';
-import ConversationWrap from '../components/ConversationWrap.vue';
+import ConversationWrap from '../components/ConversationWrap';
 
 export default {
   components: { ChatFooter, ConversationWrap },

@@ -49,9 +49,17 @@ export const getters = {
     }
     return undefined;
   },
+  lastMessageIn: () => conversationId => {
+    const message = Message.query()
+      .where('conversation_id', conversationId)
+      .last();
+
+    return message;
+  },
   groupByMessagesIn: () => conversationId => {
     const messages = Message.query()
       .where('conversation_id', conversationId)
+      .where(message => message.message_type !== MESSAGE_TYPE.ACTIVITY)
       .get();
 
     const messagesGroupedByDate = groupBy(messages, message =>
@@ -80,9 +88,9 @@ export const getters = {
       .get();
   },
   unreadTextMessagesIn: () => conversationId => {
-    const { contact_last_seen_at: userLastSeenAt } = Conversation.find(
-      conversationId
-    );
+    const conversation = Conversation.find(conversationId);
+    if (!conversation) return [];
+    const { contact_last_seen_at: userLastSeenAt } = conversation;
     return Message.query()
       .where(message => {
         const { created_at: createdAt, message_type: messageType } = message;

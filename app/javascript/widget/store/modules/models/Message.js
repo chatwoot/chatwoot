@@ -8,6 +8,7 @@ export default class Message extends ApiModel {
   static fields() {
     return {
       id: this.attr(null),
+      echo_id: this.attr(null),
       content: this.attr(''),
       content_type: this.attr(''),
       conversation_id: this.attr(null),

@@ -65,8 +65,8 @@ export class ConversationsV3API {
 
 export default new ConversationsV3API();
 
-export const sendMessageAPI = async content => {
-  const urlData = endPoints.sendMessage(content);
+export const sendMessageAPI = async (content, echoId) => {
+  const urlData = endPoints.sendMessage(content, echoId);
   return API.post(urlData.url, urlData.params);
 };
 

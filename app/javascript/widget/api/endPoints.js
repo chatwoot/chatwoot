@@ -22,7 +22,7 @@ const createConversation = params => {
   };
 };
 
-const sendMessage = content => {
+const sendMessage = (content, echoId) => {
   const referrerURL = window.referrerURL || '';
   const search = buildSearchParamsWithLocale(window.location.search);
   return {
@@ -32,6 +32,7 @@ const sendMessage = content => {
         content,
         timestamp: new Date().toString(),
         referer_url: referrerURL,
+        echo_id: echoId,
       },
     },
   };

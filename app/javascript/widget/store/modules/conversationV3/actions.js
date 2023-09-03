@@ -1,17 +1,17 @@
-import endPoints from 'widget/api/endPoints';
+import { isEmptyObject } from 'widget/helpers/utils';
 
 import ConversationsV3API from 'widget/api/conversationV3';
 import Conversation from 'widget/store/modules/models/Conversation';
 import ConversationMeta from 'widget/store/modules/models/ConversationMeta';
-import Message from 'widget/store/modules/models/Message';
 
 export const actions = {
   fetchAllConversations: async ({ commit }) => {
     try {
       commit('setUIFlag', { isFetching: true });
-      Conversation.api().get(
-        `/api/v1/widget/conversations${window.location.search}`
-      );
+      const { data } = await ConversationsV3API.get();
+      Conversation.insertOrUpdate({ data });
+
+      if (isEmptyObject(data)) return;
     } catch (error) {
       throw new Error(error);
     } finally {
@@ -29,11 +29,19 @@ export const actions = {
           isFetching: true,
         },
       });
-      const result = await Message.api().get(
-        `/api/v1/widget/messages${window.location.search}&before=${beforeId}`
-      );
+      const { data } = await ConversationsV3API.getMessages({
+        before: beforeId,
+      });
 
-      if (result.entities.messages.length < 20) {
+      const { payload: messages = [] } = data;
+      Conversation.update({
+        where: conversationId,
+        data: {
+          messages,
+        },
+      });
+
+      if (messages.length < 20) {
         ConversationMeta.update({
           where: conversationId,
           data: {
@@ -63,9 +71,8 @@ export const actions = {
   createConversationWithMessage: async ({ commit }, params) => {
     commit('setUIFlag', { isCreating: true });
     try {
-      const { content } = params;
-      const urlData = endPoints.createConversation(content);
-      Conversation.api().post(urlData.url, urlData.params);
+      const { data } = await ConversationsV3API.create(params);
+      Conversation.insert({ data });
     } catch (error) {
       throw new Error(error);
     } finally {

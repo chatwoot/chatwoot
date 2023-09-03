@@ -5,6 +5,17 @@ import ConversationMeta from './ConversationMeta';
 export default class Conversation extends ApiModel {
   static entity = 'conversations';
 
+  static state() {
+    return {
+      uiFlags: {
+        isCreating: false,
+        isFetching: false,
+        isFetchingMore: false,
+        isAgentTyping: false,
+      },
+    };
+  }
+
   static fields() {
     return {
       id: this.attr(null),

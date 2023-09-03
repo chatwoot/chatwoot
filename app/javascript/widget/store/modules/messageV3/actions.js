@@ -14,12 +14,13 @@ export const actions = {
   addOrUpdate: async (store, message) => {
     const { id: messageId, echo_id: echoId } = message;
 
-    const messageIdInStore = echoId || messageId;
-    const doesMessageExist = Message.find(messageIdInStore);
+    const echoMessage = Message.query()
+      .where('echo_id', echoId)
+      .first();
 
-    if (doesMessageExist) {
+    if (echoMessage) {
       Message.update({
-        where: messageIdInStore,
+        where: echo => echo.echo_id === echoId,
         data: {
           ...message,
           id: messageId,
@@ -27,10 +28,12 @@ export const actions = {
       });
     } else {
       Message.insert({
-        data: {
-          ...message,
-          id: messageId,
-        },
+        data: [
+          {
+            ...message,
+            id: messageId,
+          },
+        ],
       });
     }
   },
@@ -50,14 +53,17 @@ export const actions = {
           ...message,
         },
       });
-      const { id: echoId } = message;
+      const { echo_id: echoId } = message;
       const { data: newMessage } = await sendMessageAPI(content, echoId);
 
-      Message.update({
-        where: echoId,
-        data: {
-          ...newMessage,
-        },
+      Message.delete(echoId);
+      Message.insert({
+        data: [
+          {
+            ...newMessage,
+            echo_id: undefined,
+          },
+        ],
       });
     } catch (error) {
       throw new Error(error);
