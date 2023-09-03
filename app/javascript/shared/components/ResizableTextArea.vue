@@ -46,6 +46,7 @@ export default {
   },
   methods: {
     resizeTextarea() {
+      this.$el.style.height = 'inherit';
       if (!this.value) {
         this.$el.style.height = `${this.minHeight}rem`;
       } else {
