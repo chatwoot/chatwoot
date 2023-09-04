@@ -205,7 +205,7 @@ export default {
       if (this.$v.editedValue.url) {
         return this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.INVALID_URL');
       }
-      if (!this.$v.editedValue.customValidation) {
+      if (!this.$v.editedValue.regexValidation) {
         return this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.INVALID_INPUT');
       }
       return this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.REQUIRED');
@@ -227,7 +227,7 @@ export default {
     return {
       editedValue: {
         required,
-        customValidation: value => {
+        regexValidation: value => {
           let lastSlash = this.attributeRegex.lastIndexOf('/');
           let restoredRegex = new RegExp(
             this.attributeRegex.slice(1, lastSlash),

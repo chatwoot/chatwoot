@@ -227,7 +227,7 @@ export default {
           attribute_display_type: this.attributeType,
           attribute_key: this.attributeKey,
           attribute_values: this.attributeListValues,
-          regex_pattern: new RegExp(this.regexPattern.toString()),
+          regex_pattern: new RegExp(this.regexPattern).toString(),
         });
         this.alertMessage = this.$t('ATTRIBUTES_MGMT.ADD.API.SUCCESS_MESSAGE');
         this.onClose();
