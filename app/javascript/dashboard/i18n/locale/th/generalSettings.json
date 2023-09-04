@@ -110,7 +110,9 @@
       "SNOOZE_CONVERSATION": "พักการสนทนา",
       "ADD_LABEL": "เพิ่มป้ายกำกับให้การสนทนา",
       "REMOVE_LABEL": "ลบป้ายกำกับออกจากการสนทนา",
-      "SETTINGS": "ตั้งค่า"
+      "SETTINGS": "ตั้งค่า",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "ไปยังแดชบอร์ดการสนทนา",
@@ -132,6 +134,7 @@
       "GO_TO_NOTIFICATIONS": "ไปที่หน้าการแจ้งเตือน",
       "ADD_LABELS_TO_CONVERSATION": "เพิ่มป้ายกำกับให้บทสนทนา",
       "ASSIGN_AN_AGENT": "กำหนดพนักงาน",
+      "AI_ASSIST": "AI Assist",
       "ASSIGN_PRIORITY": "Assign priority",
       "ASSIGN_A_TEAM": "กำหนดทีม",
       "MUTE_CONVERSATION": "ปิดการแจ้งเตือน",
@@ -146,10 +149,18 @@
       "UNTIL_TOMORROW": "จนกว่าพรุ่งนี้",
       "UNTIL_NEXT_MONTH": "Until next month",
       "AN_HOUR_FROM_NOW": "Until an hour from now",
-      "CUSTOM": "Custom..."
+      "CUSTOM": "Custom...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "System"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "Loading Dashboard App..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "กดที่นี้"
   }
 }

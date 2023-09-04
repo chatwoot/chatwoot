@@ -61,11 +61,9 @@ export default {
       this.label = this.$t('AUTOMATION.ATTACHMENT.LABEL_UPLOADING');
       try {
         const file = event.target.files[0];
-        const formData = new FormData();
-        formData.append('attachment', file, file.name);
         const id = await this.$store.dispatch(
           'automations/uploadAttachment',
-          formData
+          file
         );
         this.$emit('input', [id]);
         this.uploadState = 'uploaded';

@@ -1,8 +1,8 @@
 {
   "TEAMS_SETTINGS": {
-    "NEW_TEAM": "Create new team",
+    "NEW_TEAM": "Buat tim baru",
     "HEADER": "Tim",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> An agent can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "SIDEBAR_TXT": "<p><b>Tim</b></p> <p>Tim memungkinkan Anda mengorganisir agen-agen Anda ke dalam kelompok berdasarkan tanggung jawab mereka. <br /> Seorang agen dapat menjadi bagian dari beberapa tim. Anda dapat mengalokasikan percakapan kepada sebuah tim saat bekerja secara kolaboratif. </p>",
     "LIST": {
       "404": "Belum ada tim yang dibuat pada akun ini.",
       "EDIT_TEAM": "Edit Tim"
@@ -20,18 +20,18 @@
       "WIZARD": [
         {
           "title": "Buat",
-          "route": "settings_teams_new",
-          "body": "Create a new team of agents."
+          "route": "pengaturan_tim_baru",
+          "body": "Buat tim baru dari agen-agen."
         },
         {
           "title": "Tambahkan Agen",
-          "route": "settings_teams_add_agents",
-          "body": "Tambahkan agen ke tim."
+          "route": "pengaturan_tim_tambahkan_agen",
+          "body": "Tambahkan agen-agen ke dalam tim."
         },
         {
           "title": "Selesai",
-          "route": "settings_teams_finish",
-          "body": "Kotak masuk Anda sudah siap!"
+          "route": "pengaturan_tim_selesai",
+          "body": "Sekarang kotak masuk Anda sudah siap!"
         }
       ]
     },
@@ -44,28 +44,28 @@
       "AGENTS": {
         "BUTTON_TEXT": "Update agen dalam tim",
         "TITLE": "Tambahkan agen ke tim - %{teamName}",
-        "DESC": "Tambahkan agen pada tim baru anda. Semua agen yang telah ditambahkan akan mendapat notifikasi ketika sebuah percakapan dialokasikan pada tim ini."
+        "DESC": "Tambahkan agen-agen pada tim baru Anda. Semua agen yang telah ditambahkan akan mendapatkan notifikasi ketika sebuah percakapan dialokasikan pada tim ini."
       },
       "WIZARD": [
         {
           "title": "Detil tim",
-          "route": "settings_teams_edit",
-          "body": "Ubah nama, deskripsi dan detil lainnya."
+          "route": "pengaturan_tim_edit",
+          "body": "Ubah nama, deskripsi, dan detil lainnya."
         },
         {
           "title": "Edit Agen",
-          "route": "settings_teams_edit_members",
-          "body": "Edit agen dalam tim Anda."
+          "route": "pengaturan_tim_edit_anggota",
+          "body": "Edit agen-agen dalam tim Anda."
         },
         {
           "title": "Selesai",
-          "route": "settings_teams_edit_finish",
-          "body": "Kotak masuk Anda sudah siap!"
+          "route": "pengaturan_tim_edit_selesai",
+          "body": "Sekarang kotak masuk Anda sudah siap!"
         }
       ]
     },
     "TEAM_FORM": {
-      "ERROR_MESSAGE": "Tidak bisa menyimpan detil tim. Coba lagi."
+      "ERROR_MESSAGE": "Tidak dapat menyimpan detil tim. Coba lagi."
     },
     "AGENTS": {
       "AGENT": "Agen",
@@ -74,16 +74,16 @@
       "ADD_AGENTS": "Menambahkan Agen ke Tim Anda...",
       "SELECT": "pilih",
       "SELECT_ALL": "pilih semua agen",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
+      "SELECTED_COUNT": "%{selected} dari %{total} agen terpilih."
     },
     "ADD": {
       "TITLE": "Tambahkan agen ke tim - %{teamName}",
-      "DESC": "Tambahkan agen pada tim baru Anda. Ini memungkinkan Anda berkolaborasi sebagai sebuah tim pada percakapan, mendapatkan notifikasi atas peristiwa baru dalam percakapan yang sama.",
+      "DESC": "Tambahkan agen-agen pada tim baru Anda. Ini memungkinkan Anda berkolaborasi sebagai sebuah tim pada percakapan, mendapatkan notifikasi atas peristiwa baru dalam percakapan yang sama.",
       "SELECT": "pilih",
       "SELECT_ALL": "pilih semua agen",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
+      "SELECTED_COUNT": "%{selected} dari %{total} agen terpilih.",
       "BUTTON_TEXT": "Tambahkan Agen",
-      "AGENT_VALIDATION_ERROR": "Select at least one agent."
+      "AGENT_VALIDATION_ERROR": "Pilih setidaknya satu agen."
     },
     "FINISH": {
       "TITLE": "Tim Anda siap!",
@@ -93,13 +93,13 @@
     "DELETE": {
       "BUTTON_TEXT": "Hapus",
       "API": {
-        "SUCCESS_MESSAGE": "Tim telah berhasil dihapus.",
-        "ERROR_MESSAGE": "Tidak bisa menghapus tim. Coba lagi."
+        "SUCCESS_MESSAGE": "Tim berhasil dihapus.",
+        "ERROR_MESSAGE": "Tidak dapat menghapus tim. Coba lagi."
       },
       "CONFIRM": {
         "TITLE": "Anda yakin akan menghapus - %{teamName}",
-        "PLACE_HOLDER": "Silakan ketikkan {teamName} untuk konfirmasi",
-        "MESSAGE": "Menghapus tim akan menghilangkan alokasi tim dari percakapan yang telah ditetapkan terhadapa tim ini.",
+        "PLACE_HOLDER": "Silakan ketik %{teamName} untuk konfirmasi",
+        "MESSAGE": "Menghapus tim akan menghilangkan alokasi tim dari percakapan yang telah ditetapkan terhadap tim ini.",
         "YES": "Hapus ",
         "NO": "Batalkan"
       }
@@ -107,19 +107,19 @@
     "SETTINGS": "Pengaturan",
     "FORM": {
       "UPDATE": "Update tim",
-      "CREATE": "Create team",
+      "CREATE": "Buat tim",
       "NAME": {
-        "LABEL": "Team name",
-        "PLACEHOLDER": "Example: Sales, Customer Support"
+        "LABEL": "Nama Tim",
+        "PLACEHOLDER": "Contoh: Sales, Customer Support"
       },
       "DESCRIPTION": {
-        "LABEL": "Team Description",
-        "PLACEHOLDER": "Short description about this team."
+        "LABEL": "Deskripsi Tim",
+        "PLACEHOLDER": "Deskripsi singkat tentang tim ini."
       },
       "AUTO_ASSIGN": {
-        "LABEL": "Allow auto assign for this team."
+        "LABEL": "Izinkan penugasan otomatis untuk tim ini."
       },
-      "SUBMIT_CREATE": "Create team"
+      "SUBMIT_CREATE": "Buat tim"
     }
   }
 }

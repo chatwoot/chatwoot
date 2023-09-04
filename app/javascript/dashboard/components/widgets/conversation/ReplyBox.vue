@@ -69,6 +69,7 @@
         :min-height="4"
         :enable-variables="true"
         :variables="messageVariables"
+        :enabled-menu-options="customEditorMenuOptions"
         @typing-off="onTypingOff"
         @typing-on="onTypingOn"
         @focus="onFocus"
@@ -184,6 +185,7 @@ import wootConstants from 'dashboard/constants/globals';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import rtlMixin from 'shared/mixins/rtlMixin';
+import { MESSAGE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 
 const EmojiInput = () => import('shared/components/emoji/EmojiInput');
 
@@ -226,6 +228,7 @@ export default {
   data() {
     return {
       message: '',
+      customEditorMenuOptions: MESSAGE_EDITOR_MENU_OPTIONS,
       isFocused: false,
       showEmojiPicker: false,
       attachedFiles: [],
@@ -725,6 +728,15 @@ export default {
         this.sendMessage(messagePayload);
       });
     },
+    sendMessageAnalyticsData(isPrivate) {
+      // Analytics data for message signature is enabled or not in channels
+      return isPrivate
+        ? this.$track(CONVERSATION_EVENTS.SENT_PRIVATE_NOTE)
+        : this.$track(CONVERSATION_EVENTS.SENT_MESSAGE, {
+            channelType: this.channelType,
+            signatureEnabled: this.sendWithSignature,
+          });
+    },
     async onSendReply() {
       const undefinedVariables = getUndefinedVariablesInMessage({
         message: this.message,
@@ -758,6 +770,7 @@ export default {
         bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
         bus.$emit(BUS_EVENTS.MESSAGE_SENT);
         this.removeFromDraft();
+        this.sendMessageAnalyticsData(messagePayload.private);
       } catch (error) {
         const errorMessage =
           error?.response?.data?.error || this.$t('CONVERSATION.MESSAGE_ERROR');

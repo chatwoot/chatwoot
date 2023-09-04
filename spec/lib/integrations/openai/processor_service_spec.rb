@@ -21,7 +21,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
   let!(:customer_message) { create(:message, account: account, conversation: conversation, message_type: :incoming, content: 'hello agent') }
   let!(:agent_message) { create(:message, account: account, conversation: conversation, message_type: :outgoing, content: 'hello customer') }
   let!(:summary_prompt) do
-    if Dir.exist?('enterprise')
+    if ChatwootApp.enterprise?
       Rails.root.join('enterprise/lib/enterprise/integrations/openai_prompts/summary.txt').read
     else
       'Please summarize the key points from the following conversation between support agents and customer as bullet points for the next ' \
@@ -64,7 +64,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
           'model' => 'gpt-3.5-turbo',
           'messages' => [
             { role: 'system',
-              content: 'Please suggest a reply to the following conversation between support agents and customer. Reply in the user\'s language.' },
+              content: Rails.root.join('lib/integrations/openai/openai_prompts/reply.txt').read },
             { role: 'user', content: customer_message.content },
             { role: 'assistant', content: agent_message.content }
           ]

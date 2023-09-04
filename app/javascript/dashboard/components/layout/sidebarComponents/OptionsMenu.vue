@@ -3,7 +3,7 @@
     <div
       v-if="show"
       v-on-clickaway="onClickAway"
-      class="left-3 rtl:left-auto rtl:right-3 bottom-16 w-64 absolute z-20 rounded-md shadow-xl bg-white dark:bg-slate-800 py-2 px-2 border border-slate-25 dark:border-slate-700"
+      class="left-3 rtl:left-auto rtl:right-3 bottom-16 w-64 absolute z-30 rounded-md shadow-xl bg-white dark:bg-slate-800 py-2 px-2 border border-slate-25 dark:border-slate-700"
       :class="{ 'block visible': show }"
     >
       <availability-status />

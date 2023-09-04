@@ -27,4 +27,16 @@ RSpec.describe AgentBot do
       expect(agent_bot.errors[:outgoing_url]).to include("is too long (maximum is #{Limits::URL_LENGTH_LIMIT} characters)")
     end
   end
+
+  context 'when agent bot is deleted' do
+    let(:agent_bot) { create(:agent_bot) }
+    let(:message) { create(:message, sender: agent_bot) }
+
+    it 'nullifies the message sender key' do
+      expect(message.sender).to eq agent_bot
+      agent_bot.destroy!
+
+      expect(message.reload.sender).to be_nil
+    end
+  end
 end

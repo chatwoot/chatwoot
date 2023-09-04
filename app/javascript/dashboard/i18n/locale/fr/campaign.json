@@ -3,7 +3,7 @@
     "HEADER": "Campagnes",
     "SIDEBAR_TXT": "Les messages proactifs permettent au client d'envoyer des messages sortants à ses contacts, qui déclenchent plus de conversations. Cliquer sur <b>Ajouter une campagne</b> pour créer une nouvelle campagne. Vous pouvez également modifier ou supprimer une campagne existante en cliquant sur le bouton Éditer ou Supprimer.",
     "HEADER_BTN_TXT": {
-      "ONE_OFF": "Create a one off campaign",
+      "ONE_OFF": "Créer une campagne hors ligne",
       "ONGOING": "Créer une campagne en cours"
     },
     "ADD": {
@@ -26,7 +26,7 @@
         "AUDIENCE": {
           "LABEL": "Audience",
           "PLACEHOLDER": "Sélectionnez les étiquettes des clients",
-          "ERROR": "Audience is required"
+          "ERROR": "L'auditoire est requis"
         },
         "INBOX": {
           "LABEL": "Sélectionner la boîte de réception",
