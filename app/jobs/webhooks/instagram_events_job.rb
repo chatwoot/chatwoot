@@ -30,14 +30,11 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   private
 
   def ig_account_id
-    @entries.first[:id]
+    @entries&.first&.dig(:id)
   end
 
   def sender_id
-    return unless @entries.first[:messaging].presence
-
-    messaging = @entries.first[:messaging]
-    messaging.first[:sender][:id]
+    @entries&.dig(0, :messaging, 0, :sender, :id)
   end
 
   def event_name(messaging)
