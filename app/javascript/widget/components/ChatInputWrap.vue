@@ -180,11 +180,7 @@ export default {
 @import '~widget/assets/scss/mixins.scss';
 
 .chat-message--input {
-  display: flex;
-  padding: 0 $space-small 0 $space-slab;
-  border-radius: 7px;
-  min-height: $space-larger;
-  position: relative;
+  @apply flex min-h-[3rem] relative pl-3 pr-2 py-0 rounded-md;
 
   &.is-focused {
     box-shadow: 0 0 0 1px $color-woot, 0 0 2px 3px $color-primary-light;
@@ -208,19 +204,7 @@ export default {
 }
 
 .user-message-input {
-  border: 0;
-  max-height: 2.4 * $space-mega;
-  min-height: $space-large;
-  position: relative;
-  height: $space-large;
-  resize: none;
-  padding: 0;
-  display: flex;
-  box-sizing: content-box;
-  position: relative;
-  padding-top: $space-small;
-  top: $space-smaller;
-  align-self: flex-start;
+  @apply max-h-60 min-h-[2rem] h-8 resize-none flex box-content relative self-start p-0 pt-2 border-0 top-1;
   background: transparent;
 }
 </style>

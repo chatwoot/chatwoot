@@ -40,11 +40,6 @@ export default {
       });
     },
   },
-  mounted() {
-    this.$nextTick(() => {
-      this.resizeTextarea();
-    });
-  },
   methods: {
     resizeTextarea() {
       this.$el.style.height = 'inherit';
