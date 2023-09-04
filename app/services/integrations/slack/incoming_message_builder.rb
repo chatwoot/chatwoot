@@ -1,4 +1,5 @@
 class Integrations::Slack::IncomingMessageBuilder
+  include SlackMessageCreation
   attr_reader :params
 
   SUPPORTED_EVENT_TYPES = %w[event_callback url_verification].freeze
@@ -94,69 +95,8 @@ class Integrations::Slack::IncomingMessageBuilder
     params[:event][:text].strip.downcase.starts_with?('note:', 'private:')
   end
 
-  def create_message
-    return unless conversation
-
-    build_message
-    process_attachments(params[:event][:files]) if params[:event][:files].present?
-    @message.save!
-    { status: 'success' }
-  rescue Slack::Web::Api::Errors::MissingScope => e
-    handle_missing_scope_error(e)
-  end
-
-  def handle_missing_scope_error(_error)
-    integration_hook.prompt_reauthorization!
-    integration_hook.disable
-  end
-
-  def build_message
-    @message = conversation.messages.build(
-      message_type: :outgoing,
-      account_id: conversation.account_id,
-      inbox_id: conversation.inbox_id,
-      content: Slack::Messages::Formatting.unescape(params[:event][:text] || ''),
-      external_source_id_slack: params[:event][:ts],
-      private: private_note?,
-      sender: sender
-    )
-  end
-
   def slack_client
     @slack_client ||= Slack::Web::Client.new(token: @integration_hook.access_token)
-  end
-
-  # TODO: move process attachment for facebook instagram and slack in one place
-  # https://api.slack.com/messaging/files
-  def process_attachments(attachments)
-    attachments.each do |attachment|
-      tempfile = Down::NetHttp.download(attachment[:url_private], headers: { 'Authorization' => "Bearer #{integration_hook.access_token}" })
-
-      attachment_params = {
-        file_type: file_type(attachment),
-        account_id: @message.account_id,
-        external_url: attachment[:url_private],
-        file: {
-          io: tempfile,
-          filename: tempfile.original_filename,
-          content_type: tempfile.content_type
-        }
-      }
-
-      attachment_obj = @message.attachments.new(attachment_params)
-      attachment_obj.file.content_type = attachment[:mimetype]
-    end
-  end
-
-  def file_type(attachment)
-    return if attachment[:mimetype] == 'text/plain'
-
-    case attachment[:filetype]
-    when 'png', 'jpeg', 'gif', 'bmp', 'tiff', 'jpg'
-      :image
-    when 'pdf'
-      :file
-    end
   end
 
   # Ignoring the changes added here https://github.com/chatwoot/chatwoot/blob/5b5a6d89c0cf7f3148a1439d6fcd847784a79b94/lib/integrations/slack/send_on_slack_service.rb#L69
