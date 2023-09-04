@@ -59,7 +59,7 @@ export default {
             if (row.contact) {
               return (
                 <UserAvatarWithName
-                  textClass="text-sm !pl-2 text-slate-800"
+                  textClass="text-sm text-slate-800"
                   size="24px"
                   user={row.contact}
                 />

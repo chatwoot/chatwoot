@@ -71,7 +71,7 @@
       "SUBMIT": "Importer",
       "CANCEL": "Annuler"
     },
-    "SUCCESS_MESSAGE": "Contacts enregistrés avec succès",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer"
   },
   "EXPORT_CONTACTS": {
