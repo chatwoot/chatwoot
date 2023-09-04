@@ -10,18 +10,16 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   SUPPORTED_EVENTS = [:message].freeze
 
   def perform(entries)
-    ig_account_id = entries.first[:id]
+    @entries = entries
 
-    with_lock(::Redis::Alfred::IG_MESSAGE_MUTEX, ig_account_id: ig_account_id) do
+    with_lock(::Redis::Alfred::IG_MESSAGE_MUTEX, sender_id: sender_id, ig_account_id: ig_account_id) do
       process_entries(entries)
     end
   end
 
   # @see https://developers.facebook.com/docs/messenger-platform/instagram/features/webhook
   def process_entries(entries)
-    @entries = entries
-
-    @entries.each do |entry|
+    entries.each do |entry|
       entry = entry.with_indifferent_access
       messages(entry).each do |messaging|
         send(@event_name, messaging) if event_name(messaging)
@@ -30,6 +28,17 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   end
 
   private
+
+  def ig_account_id
+    @entries.first[:id]
+  end
+
+  def sender_id
+    return unless @entries.first[:messaging].presence
+
+    messaging = @entries.first[:messaging]
+    messaging.first[:sender][:id]
+  end
 
   def event_name(messaging)
     @event_name ||= SUPPORTED_EVENTS.find { |key| messaging.key?(key) }
