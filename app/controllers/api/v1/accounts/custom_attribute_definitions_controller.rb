@@ -39,6 +39,7 @@ class Api::V1::Accounts::CustomAttributeDefinitionsController < Api::V1::Account
       :attribute_display_type,
       :attribute_key,
       :attribute_model,
+      :regex_pattern,
       attribute_values: []
     )
   end
