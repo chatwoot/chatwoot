@@ -19,13 +19,13 @@
       />
     </div>
     <div class="flex flex-col items-center justify-end pb-6">
-      <primary-nav-item
+      <!-- <primary-nav-item
         v-if="!isACustomBrandedInstance"
         icon="book-open-globe"
         name="DOCS"
         :open-in-new-page="true"
         :to="helpDocsURL"
-      />
+      /> -->
       <notification-bell @open-notification-panel="openNotificationPanel" />
       <agent-details @toggle-menu="toggleOptions" />
       <options-menu
