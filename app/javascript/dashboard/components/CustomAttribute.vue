@@ -138,6 +138,10 @@ export default {
     value: { type: [String, Number, Boolean], default: '' },
     showActions: { type: Boolean, default: false },
     attributeType: { type: String, default: 'text' },
+    attributeRegex: {
+      type: String,
+      default: null,
+    },
     attributeKey: { type: String, required: true },
     contactId: { type: Number, default: null },
   },
@@ -201,6 +205,9 @@ export default {
       if (this.$v.editedValue.url) {
         return this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.INVALID_URL');
       }
+      if (!this.$v.editedValue.customValidation) {
+        return this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.INVALID_INPUT');
+      }
       return this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.REQUIRED');
     },
   },
@@ -218,7 +225,17 @@ export default {
       };
     }
     return {
-      editedValue: { required },
+      editedValue: {
+        required,
+        customValidation: value => {
+          let lastSlash = this.attributeRegex.lastIndexOf('/');
+          let restoredRegex = new RegExp(
+            this.attributeRegex.slice(1, lastSlash),
+            this.attributeRegex.slice(lastSlash + 1)
+          );
+          return !(this.attributeRegex && !restoredRegex.test(value));
+        },
+      },
     };
   },
   mounted() {

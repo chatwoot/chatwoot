@@ -26,6 +26,15 @@
           readonly
           @blur="$v.attributeKey.$touch"
         />
+        <woot-input
+          v-if="isAttributeTypeText"
+          v-model="regexPattern"
+          :label="$t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_PATTERN.LABEL')"
+          type="text"
+          :placeholder="
+            $t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_PATTERN.PLACEHOLDER')
+          "
+        />
         <label :class="{ error: $v.description.$error }">
           {{ $t('ATTRIBUTES_MGMT.ADD.FORM.DESC.LABEL') }}
           <textarea
@@ -106,6 +115,7 @@ export default {
       displayName: '',
       description: '',
       attributeType: 0,
+      regexPattern: null,
       types: ATTRIBUTE_TYPES,
       show: true,
       attributeKey: '',
@@ -152,6 +162,7 @@ export default {
         this.isAttributeTypeList && this.isTouched && this.values.length === 0
       );
     },
+
     pageTitle() {
       return `${this.$t('ATTRIBUTES_MGMT.EDIT.TITLE')} - ${
         this.selectedAttribute.attribute_display_name
@@ -173,6 +184,9 @@ export default {
     isAttributeTypeList() {
       return this.attributeType === 6;
     },
+    isAttributeTypeText() {
+      return this.attributeType === 0;
+    },
   },
   mounted() {
     this.setFormValues();
@@ -193,6 +207,7 @@ export default {
       this.description = this.selectedAttribute.attribute_description;
       this.attributeType = this.selectedAttributeType;
       this.attributeKey = this.selectedAttribute.attribute_key;
+      this.regexPattern = this.selectedAttribute.regex_pattern;
       this.values = this.setAttributeListValue;
     },
     async editAttributes() {
@@ -206,8 +221,8 @@ export default {
           attribute_description: this.description,
           attribute_display_name: this.displayName,
           attribute_values: this.updatedAttributeListValues,
+          regex_pattern: new RegExp(this.regexPattern.toString()),
         });
-
         this.alertMessage = this.$t('ATTRIBUTES_MGMT.EDIT.API.SUCCESS_MESSAGE');
         this.onClose();
       } catch (error) {
