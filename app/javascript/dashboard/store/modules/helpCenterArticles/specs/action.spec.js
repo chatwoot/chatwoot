@@ -1,6 +1,10 @@
 import axios from 'axios';
 import { actions } from '../actions';
 import * as types from '../../../mutation-types';
+import { uploadFile } from 'dashboard/helper/uploadHelper';
+
+jest.mock('dashboard/helper/uploadHelper');
+
 const articleList = [
   {
     id: 1,
@@ -178,6 +182,38 @@ describe('#actions', () => {
           { uiFlags: { isDeleting: false }, articleId: 1 },
         ],
       ]);
+    });
+  });
+
+  describe('attachImage', () => {
+    it('should upload the file and return the fileUrl', async () => {
+      // Given
+      const mockFile = new Blob(['test'], { type: 'image/png' });
+      mockFile.name = 'test.png';
+
+      const mockFileUrl = 'https://test.com/test.png';
+      uploadFile.mockResolvedValueOnce({ fileUrl: mockFileUrl });
+
+      // When
+      const result = await actions.attachImage({}, { file: mockFile });
+
+      // Then
+      expect(uploadFile).toHaveBeenCalledWith(mockFile);
+      expect(result).toBe(mockFileUrl);
+    });
+
+    it('should throw an error if the upload fails', async () => {
+      // Given
+      const mockFile = new Blob(['test'], { type: 'image/png' });
+      mockFile.name = 'test.png';
+
+      const mockError = new Error('Upload failed');
+      uploadFile.mockRejectedValueOnce(mockError);
+
+      // When & Then
+      await expect(actions.attachImage({}, { file: mockFile })).rejects.toThrow(
+        'Upload failed'
+      );
     });
   });
 });
