@@ -3,6 +3,7 @@
     ref="textarea"
     :placeholder="placeholder"
     :value="value"
+    rows="1"
     @input="onInput"
     @focus="onFocus"
     @keyup="onKeyup"
@@ -34,14 +35,14 @@ export default {
   },
   watch: {
     value() {
-      this.resizeTextarea();
+      this.$nextTick(() => {
+        this.resizeTextarea();
+      });
     },
   },
   mounted() {
     this.$nextTick(() => {
-      if (this.value) {
-        this.resizeTextarea();
-      }
+      this.resizeTextarea();
     });
   },
   methods: {

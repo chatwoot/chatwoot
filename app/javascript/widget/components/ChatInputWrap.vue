@@ -12,6 +12,7 @@
       :placeholder="$t('CHAT_PLACEHOLDER')"
       class="form-input user-message-input is-focused"
       :class="inputColor"
+      :min-height="1"
       @typing-off="onTypingOff"
       @typing-on="onTypingOn"
       @focus="onFocus"
@@ -179,10 +180,11 @@ export default {
 @import '~widget/assets/scss/mixins.scss';
 
 .chat-message--input {
-  align-items: center;
   display: flex;
   padding: 0 $space-small 0 $space-slab;
   border-radius: 7px;
+  min-height: $space-larger;
+  position: relative;
 
   &.is-focused {
     box-shadow: 0 0 0 1px $color-woot, 0 0 2px 3px $color-primary-light;
@@ -207,12 +209,18 @@ export default {
 
 .user-message-input {
   border: 0;
-  height: $space-large;
-  min-height: $space-large;
   max-height: 2.4 * $space-mega;
+  min-height: $space-large;
+  position: relative;
+  height: $space-large;
   resize: none;
-  padding: $space-smaller 0;
-  margin-top: $space-small;
-  margin-bottom: $space-small;
+  padding: 0;
+  display: flex;
+  box-sizing: content-box;
+  position: relative;
+  padding-top: $space-small;
+  top: $space-smaller;
+  align-self: flex-start;
+  background: transparent;
 }
 </style>
