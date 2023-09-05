@@ -35,6 +35,13 @@
             $t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_PATTERN.PLACEHOLDER')
           "
         />
+        <woot-input
+          v-if="isAttributeTypeText"
+          v-model="regexCue"
+          :label="$t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_CUE.LABEL')"
+          type="text"
+          :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_CUE.PLACEHOLDER')"
+        />
         <label :class="{ error: $v.description.$error }">
           {{ $t('ATTRIBUTES_MGMT.ADD.FORM.DESC.LABEL') }}
           <textarea
@@ -97,9 +104,10 @@ import { mapGetters } from 'vuex';
 import { required, minLength } from 'vuelidate/lib/validators';
 import { ATTRIBUTE_TYPES } from './constants';
 import alertMixin from 'shared/mixins/alertMixin';
+import customAttributeMixin from '../../../../mixins/customAttributeMixin';
 export default {
   components: {},
-  mixins: [alertMixin],
+  mixins: [alertMixin, customAttributeMixin],
   props: {
     selectedAttribute: {
       type: Object,
@@ -116,6 +124,7 @@ export default {
       description: '',
       attributeType: 0,
       regexPattern: null,
+      regexCue: null,
       types: ATTRIBUTE_TYPES,
       show: true,
       attributeKey: '',
@@ -203,11 +212,15 @@ export default {
       this.$refs.tagInput.$el.focus();
     },
     setFormValues() {
+      const regexPattern = this.selectedAttribute.regex_pattern
+        ? this.getRegexp(this.selectedAttribute.regex_pattern).source
+        : null;
       this.displayName = this.selectedAttribute.attribute_display_name;
       this.description = this.selectedAttribute.attribute_description;
       this.attributeType = this.selectedAttributeType;
       this.attributeKey = this.selectedAttribute.attribute_key;
-      this.regexPattern = this.selectedAttribute.regex_pattern;
+      this.regexPattern = regexPattern;
+      this.regexCue = this.selectedAttribute.regex_cue;
       this.values = this.setAttributeListValue;
     },
     async editAttributes() {
@@ -222,6 +235,7 @@ export default {
           attribute_display_name: this.displayName,
           attribute_values: this.updatedAttributeListValues,
           regex_pattern: new RegExp(this.regexPattern).toString(),
+          regex_cue: this.regexCue,
         });
         this.alertMessage = this.$t('ATTRIBUTES_MGMT.EDIT.API.SUCCESS_MESSAGE');
         this.onClose();

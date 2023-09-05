@@ -41,8 +41,12 @@
           "IN_VALID": "Invalid key"
         },
         "REGEX_PATTERN": {
-          "LABEL": "Regex pattern",
-          "PLACEHOLDER": "Enter custom attribute regex pattern"
+          "LABEL": "Regex Pattern",
+          "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+        },
+        "REGEX_CUE": {
+          "LABEL": "Regex Cue",
+          "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
         }
       },
       "API": {
@@ -94,8 +98,12 @@
         "NOT_FOUND": "There are no custom attributes configured"
       },
       "REGEX_PATTERN": {
-        "LABEL": "Regex pattern",
-        "PLACEHOLDER": "Enter custom attribute regex pattern"
+        "LABEL": "Regex Pattern",
+        "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+      },
+      "REGEX_CUE": {
+        "LABEL": "Regex Cue",
+        "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
       }
     }
   }

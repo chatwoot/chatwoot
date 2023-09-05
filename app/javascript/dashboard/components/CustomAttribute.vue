@@ -126,12 +126,14 @@ import { required, url } from 'vuelidate/lib/validators';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import { isValidURL } from '../helper/URLHelper';
+import customAttributeMixin from '../mixins/customAttributeMixin';
 const DATE_FORMAT = 'yyyy-MM-dd';
 
 export default {
   components: {
     MultiselectDropdown,
   },
+  mixins: [customAttributeMixin],
   props: {
     label: { type: String, required: true },
     values: { type: Array, default: () => [] },
@@ -142,6 +144,7 @@ export default {
       type: String,
       default: null,
     },
+    regexCue: { type: String, default: null },
     attributeKey: { type: String, required: true },
     contactId: { type: Number, default: null },
   },
@@ -206,7 +209,9 @@ export default {
         return this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.INVALID_URL');
       }
       if (!this.$v.editedValue.regexValidation) {
-        return this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.INVALID_INPUT');
+        return this.regexCue
+          ? this.regexCue
+          : this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.INVALID_INPUT');
       }
       return this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.REQUIRED');
     },
@@ -228,12 +233,10 @@ export default {
       editedValue: {
         required,
         regexValidation: value => {
-          let lastSlash = this.attributeRegex.lastIndexOf('/');
-          let restoredRegex = new RegExp(
-            this.attributeRegex.slice(1, lastSlash),
-            this.attributeRegex.slice(lastSlash + 1)
+          return !(
+            this.attributeRegex &&
+            !this.getRegexp(this.attributeRegex).test(value)
           );
-          return !(this.attributeRegex && !restoredRegex.test(value));
         },
       },
     };

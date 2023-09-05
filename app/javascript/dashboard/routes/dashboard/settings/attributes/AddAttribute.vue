@@ -48,6 +48,13 @@
               $t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_PATTERN.PLACEHOLDER')
             "
           />
+          <woot-input
+            v-if="isAttributeTypeText"
+            v-model="regexCue"
+            :label="$t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_CUE.LABEL')"
+            type="text"
+            :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_CUE.PLACEHOLDER')"
+          />
           <label :class="{ error: $v.description.$error }">
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.DESC.LABEL') }}
             <textarea
@@ -134,6 +141,7 @@ export default {
       attributeType: 0,
       attributeKey: '',
       regexPattern: null,
+      regexCue: null,
       models: ATTRIBUTE_MODELS,
       types: ATTRIBUTE_TYPES,
       values: [],
@@ -228,6 +236,7 @@ export default {
           attribute_key: this.attributeKey,
           attribute_values: this.attributeListValues,
           regex_pattern: new RegExp(this.regexPattern).toString(),
+          regex_cue: this.regexCue,
         });
         this.alertMessage = this.$t('ATTRIBUTES_MGMT.ADD.API.SUCCESS_MESSAGE');
         this.onClose();
