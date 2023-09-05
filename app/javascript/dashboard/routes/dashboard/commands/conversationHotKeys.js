@@ -29,19 +29,7 @@ import {
   UNMUTE_ACTION,
   MUTE_ACTION,
 } from './commandBarActions';
-
-export const isAConversationRoute = routeName =>
-  [
-    'inbox_conversation',
-    'conversation_through_mentions',
-    'conversation_through_unattended',
-    'conversation_through_inbox',
-    'conversations_through_label',
-    'conversations_through_team',
-    'conversations_through_folders',
-    'conversation_through_unattended',
-    'conversation_through_participating',
-  ].includes(routeName);
+import { isAConversationRoute } from '../../../helper/routeHelpers';
 
 export default {
   watch: {
