@@ -10,11 +10,11 @@ module SlackMessageCreation
     @message.save!
     { status: 'success' }
   rescue Slack::Web::Api::Errors::MissingScope => e
-    handle_missing_scope_error(e)
+    ChatwootExceptionTracker.new(e, account: conversation.account).capture_exception
+    disable_and_reauthorize
   end
 
-  def handle_missing_scope_error(_error)
-    Rails.logger.error e
+  def disable_and_reauthorize
     integration_hook.prompt_reauthorization!
     integration_hook.disable
   end
