@@ -62,6 +62,7 @@ import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { uploadFile } from 'dashboard/helper/uploadHelper';
 import alertMixin from 'shared/mixins/alertMixin';
+import { findNodeToInsertImage } from 'dashboard/helper/messageEditorHelper';
 
 const createState = (
   content,
@@ -446,27 +447,13 @@ export default {
       }
     },
     onImageInsertInEditor(fileUrl) {
-      const { selection, schema, tr } = this.editorView.state;
-      const { nodes } = schema;
-      const currentNode = selection.$from.node();
-      const {
-        type: { name: typeName },
-        content: { size, content },
-      } = currentNode;
+      const { tr } = this.editorView.state;
 
-      const imageNode = nodes.image.create({ src: fileUrl });
-      if (imageNode) {
-        const isInParagraph = typeName === 'paragraph';
-        const needsNewLine =
-          !content.some(n => n.type.name === 'image') && size !== 0 ? 1 : 0;
-        const nodeToInsert = isInParagraph
-          ? imageNode
-          : nodes.paragraph.create({}, imageNode);
+      const insertData = findNodeToInsertImage(this.editorView.state, fileUrl);
 
+      if (insertData) {
         this.editorView.dispatch(
-          tr
-            .insert(selection.from + needsNewLine, nodeToInsert)
-            .scrollIntoView()
+          tr.insert(insertData.pos, insertData.node).scrollIntoView()
         );
         this.focusEditorInputField();
       }
