@@ -58,11 +58,9 @@ Rails.application.routes.draw do
           resources :canned_responses, only: [:index, :create, :update, :destroy]
           resources :automation_rules, only: [:index, :create, :show, :update, :destroy] do
             post :clone
-            post :attach_file, on: :collection
           end
           resources :macros, only: [:index, :create, :show, :update, :destroy] do
             post :execute, on: :member
-            post :attach_file, on: :collection
           end
           resources :sla_policies, only: [:index, :create, :show, :update, :destroy]
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
@@ -215,10 +213,8 @@ Rails.application.routes.draw do
               patch :archive
               put :add_members
             end
-            post :attach_file, on: :collection
             resources :categories
             resources :articles do
-              post :attach_file, on: :collection
               post :reorder, on: :collection
             end
           end
@@ -226,6 +222,8 @@ Rails.application.routes.draw do
       end
       # end of account scoped api routes
       # ----------------------------------
+
+      resources :upload, only: [:create]
 
       namespace :integrations do
         resources :webhooks, only: [:create]
