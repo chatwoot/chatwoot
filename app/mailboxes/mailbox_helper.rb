@@ -35,10 +35,6 @@ module MailboxHelper
     @message.save!
   end
 
-  def inline_attachment?(mail_attachment)
-    mail_attachment[:original].inline?
-  end
-
   def process_regular_attachments(attachments)
     attachments.each do |mail_attachment|
       attachment = @message.attachments.new(
