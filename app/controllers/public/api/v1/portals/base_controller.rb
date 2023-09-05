@@ -1,6 +1,7 @@
 class Public::Api::V1::Portals::BaseController < PublicController
   before_action :show_plain_layout
   around_action :set_locale
+  after_action :allow_iframe_requests
 
   private
 
@@ -38,5 +39,9 @@ class Public::Api::V1::Portals::BaseController < PublicController
               end
 
     I18n.with_locale(@locale, &)
+  end
+
+  def allow_iframe_requests
+    response.headers.delete('X-Frame-Options') if @is_plain_layout_enabled
   end
 end
