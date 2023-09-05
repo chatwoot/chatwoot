@@ -4,9 +4,10 @@
  * Based on the current editor state and the provided image URL, this function finds out the correct node (either
  * a standalone image node or an image wrapped in a paragraph) and its respective position in the editor.
  *
- * 1. If the current node is a paragraph and doesn't contain an image, the image is inserted directly into it.
- * 2. If the current node isn't a paragraph or it's a paragraph containing other images, the image will be wrapped
+ * 1. If the current node is a paragraph and doesn't contain an image or text, the image is inserted directly into it.
+ * 2. If the current node isn't a paragraph or it's a paragraph containing text, the image will be wrapped
  *    in a new paragraph and then inserted.
+ * 3. If the current node is a paragraph containing an image, the new image will be inserted directly into it.
  *
  * @param {Object} editorState - The current state of the editor. It provides necessary details like selection, schema, etc.
  * @param {string} fileUrl - The URL of the image to be inserted into the editor.
