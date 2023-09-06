@@ -34,7 +34,7 @@ const {
 } = window.globalConfig || {};
 
 export default {
-  mixins: [globalConfigMixin, darkModeMixin],
+  mixins: [globalConfigMixin],
   props: {
     disableBranding: {
       type: Boolean,
