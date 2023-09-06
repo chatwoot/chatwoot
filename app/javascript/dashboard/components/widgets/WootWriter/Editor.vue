@@ -612,10 +612,4 @@ export default {
 .editor-warning__message {
   @apply text-red-400 dark:text-red-400 font-normal pt-1 pb-0 px-0;
 }
-
-p {
-  img {
-    @apply max-w-full max-h-8;
-  }
-}
 </style>
