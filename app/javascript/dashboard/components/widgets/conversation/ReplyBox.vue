@@ -501,10 +501,10 @@ export default {
       return `draft-${this.conversationIdByRoute}-${this.replyType}`;
     },
     audioRecordFormat() {
-      if (this.isAWebWidgetInbox || this.isAFacebookInbox) {
-        return AUDIO_FORMATS.WEBM;
+      if (this.isAWhatsAppChannel) {
+        return AUDIO_FORMATS.OGG;
       }
-      return AUDIO_FORMATS.OGG;
+      return AUDIO_FORMATS.WEBM;
     },
     messageVariables() {
       const variables = getMessageVariables({
