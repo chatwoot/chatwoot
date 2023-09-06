@@ -1,8 +1,7 @@
 <template>
   <div
     v-if="globalConfig.brandName && !disableBranding"
-    class="px-0 py-3 flex justify-center"
-    :class="$dm('bg-slate-25', 'dark:bg-slate-800')"
+    class="px-0 py-3 flex justify-center bg-slate-25 dark:bg-slate-800"
   >
     <a
       :href="brandRedirectURL"
