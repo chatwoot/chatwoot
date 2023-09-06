@@ -86,6 +86,9 @@ RSpec.describe ReplyMailbox do
 
         html_full_content = conversation.messages.last.content_attributes[:email][:html_content][:full]
         expect(html_full_content).to include('img')
+        expect(html_full_content).not_to include('cid:ii_lm7fuura0')
+        expect(html_full_content).not_to include('cid:ii_lm7fuuvm1')
+        expect(html_full_content).not_to include('cid:ii_lm7fuuwn2')
       end
     end
 
