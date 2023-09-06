@@ -478,14 +478,14 @@ GEM
       sidekiq
     newrelic_rpm (8.16.0)
     nio4r (2.5.9)
-    nokogiri (1.15.3)
+    nokogiri (1.15.4)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    nokogiri (1.15.3-arm64-darwin)
+    nokogiri (1.15.4-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.15.3-x86_64-darwin)
+    nokogiri (1.15.4-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.15.3-x86_64-linux)
+    nokogiri (1.15.4-x86_64-linux)
       racc (~> 1.4)
     numo-narray (0.9.2.1)
     oauth (1.1.0)
@@ -577,7 +577,7 @@ GEM
       activesupport (= 7.0.7.2)
       bundler (>= 1.15.0)
       railties (= 7.0.7.2)
-    rails-dom-testing (2.1.1)
+    rails-dom-testing (2.2.0)
       activesupport (>= 5.0.0)
       minitest
       nokogiri (>= 1.6)
@@ -786,7 +786,7 @@ GEM
     version_gem (1.1.2)
     warden (1.2.9)
       rack (>= 2.0.9)
-    web-console (4.2.0)
+    web-console (4.2.1)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
@@ -812,7 +812,7 @@ GEM
     working_hours (1.4.1)
       activesupport (>= 3.2)
       tzinfo
-    zeitwerk (2.6.9)
+    zeitwerk (2.6.11)
 
 PLATFORMS
   arm64-darwin-20
@@ -943,7 +943,7 @@ DEPENDENCIES
   tzinfo-data
   uglifier
   valid_email2
-  web-console
+  web-console (>= 4.2.1)
   web-push
   webmock
   webpacker
