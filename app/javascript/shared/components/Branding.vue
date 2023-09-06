@@ -25,7 +25,6 @@
 
 <script>
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import darkModeMixin from 'widget/mixins/darkModeMixin';
 
 const {
   LOGO_THUMBNAIL: logoThumbnail,
