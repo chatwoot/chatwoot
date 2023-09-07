@@ -20,16 +20,16 @@
     "IN_A_FEW_MINUTES": "Répond généralement en quelques minutes",
     "IN_A_FEW_HOURS": "Répond généralement en quelques heures",
     "IN_A_DAY": "Répond généralement dans la journée",
-    "BACK_IN": "We will be back online"
+    "BACK_IN": "Nous serons de retour en ligne"
   },
   "DAY_NAMES": [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday"
+    "Dimanche",
+    "Lundi",
+    "Mardi",
+    "Mercredi",
+    "Jeudi",
+    "Vendredi",
+    "Samedi"
   ],
   "START_CONVERSATION": "Démarrer la conversation",
   "END_CONVERSATION": "Clôturer la conversation",
@@ -66,7 +66,9 @@
         "LABEL": "Numéro de téléphone",
         "PLACEHOLDER": "Veuillez saisir votre numéro de téléphone",
         "REQUIRED_ERROR": "Le numéro de téléphone est obligatoire",
-        "VALID_ERROR": "Le numéro de téléphone doit être au format E.164. Ex : +1415555555"
+        "DIAL_CODE_VALID_ERROR": "Veuillez sélectionner un code pays",
+        "VALID_ERROR": "Veuillez saisir un numéro de téléphone valide",
+        "DROPDOWN_EMPTY": "Aucun résultat trouvé"
       },
       "MESSAGE": {
         "LABEL": "Message",
@@ -103,5 +105,9 @@
       "CLICK_HERE_TO_JOIN": "Cliquez ici pour rejoindre",
       "LEAVE_THE_ROOM": "Quitter l'appel"
     }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "Voir tous les articles"
   }
 }

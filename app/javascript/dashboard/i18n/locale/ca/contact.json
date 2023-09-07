@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Afegir etiquetes",
         "PLACEHOLDER": "Cerca etiquetes",
-        "NO_RESULT": "No s'han trobat etiquetes"
+        "NO_RESULT": "No s'han trobat etiquetes",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Reagrupa contacte",
@@ -70,7 +71,7 @@
       "SUBMIT": "Importa",
       "CANCEL": "Cancel·la"
     },
-    "SUCCESS_MESSAGE": "Contactes desat correctament",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "S'ha produït un error; tornau-ho a provar"
   },
   "EXPORT_CONTACTS": {

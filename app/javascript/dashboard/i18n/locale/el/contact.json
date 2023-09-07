@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Προσθήκη Ετικετών",
         "PLACEHOLDER": "Αναζήτηση ετικετών",
-        "NO_RESULT": "Δεν βρέθηκαν ετικέτες"
+        "NO_RESULT": "Δεν βρέθηκαν ετικέτες",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Συγχώνευση επαφής",
@@ -70,7 +71,7 @@
       "SUBMIT": "Εισαγωγή",
       "CANCEL": "Άκυρο"
     },
-    "SUCCESS_MESSAGE": "Οι επαφές αποθηκεύτηκαν με επιτυχία",
+    "SUCCESS_MESSAGE": "Θα ειδοποιηθείτε μέσω email όταν ολοκληρωθεί η εισαγωγή.",
     "ERROR_MESSAGE": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά"
   },
   "EXPORT_CONTACTS": {

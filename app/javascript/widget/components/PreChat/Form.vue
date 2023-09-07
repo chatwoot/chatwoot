@@ -46,7 +46,7 @@
     />
 
     <custom-button
-      class="font-medium my-5"
+      class="font-medium mt-2 mb-5"
       block
       :bg-color="widgetColor"
       :text-color="textColor"
@@ -180,7 +180,7 @@ export default {
       return contactAttributes;
     },
     inputStyles() {
-      return `mt-2 border rounded w-full py-2 px-3 text-slate-700 outline-none`;
+      return `mt-1 border rounded w-full py-2 px-3 text-slate-700 outline-none`;
     },
     isInputDarkOrLightMode() {
       return `${this.$dm('bg-white', 'dark:bg-slate-600')} ${this.$dm(
@@ -306,6 +306,7 @@ export default {
     .formulate-input-wrapper {
       display: flex;
       align-items: center;
+      line-height: $space-normal;
 
       label {
         margin-left: 0.2rem;

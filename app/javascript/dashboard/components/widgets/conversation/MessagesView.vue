@@ -1,5 +1,5 @@
 <template>
-  <div class="view-box fill-height">
+  <div class="m-0 flex flex-col justify-between h-full flex-grow min-w-0">
     <banner
       v-if="!currentChat.can_reply"
       color-scheme="alert"
@@ -16,19 +16,19 @@
       @close="removeTweetSelection"
     />
 
-    <div class="sidebar-toggle__wrap">
+    <div class="flex justify-end">
       <woot-button
         variant="smooth"
         size="tiny"
         color-scheme="secondary"
-        class="sidebar-toggle--button"
+        class="rounded-bl-calc rtl:rotate-180 rounded-tl-calc fixed top-[6.25rem] z-10 bg-white dark:bg-slate-700 border-slate-50 dark:border-slate-600 border-solid border border-r-0 box-border"
         :icon="isRightOrLeftIcon"
         @click="onToggleContactPanel"
       />
     </div>
     <ul class="conversation-panel">
       <transition name="slide-up">
-        <li class="spinner--container">
+        <li class="min-h-[4rem]">
           <span v-if="shouldShowSpinner" class="spinner message" />
         </li>
       </transition>
@@ -44,8 +44,8 @@
         :is-web-widget-inbox="isAWebWidgetInbox"
       />
       <li v-show="unreadMessageCount != 0" class="unread--toast">
-        <span class="text-uppercase">
-          {{ unreadMessageCount }}
+        <span>
+          {{ unreadMessageCount > 9 ? '9+' : unreadMessageCount }}
           {{
             unreadMessageCount > 1
               ? $t('CONVERSATION.UNREAD_MESSAGES')
@@ -63,6 +63,12 @@
         :is-a-whatsapp-channel="isAWhatsAppChannel"
         :has-instagram-story="hasInstagramStory"
         :is-web-widget-inbox="isAWebWidgetInbox"
+      />
+      <conversation-label-suggestion
+        v-if="shouldShowLabelSuggestions"
+        :suggested-labels="labelSuggestions"
+        :chat-labels="currentChat.labels"
+        :conversation-id="currentChat.id"
       />
     </ul>
     <div
@@ -91,29 +97,50 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
+// components
 import ReplyBox from './ReplyBox';
 import Message from './Message';
+import ConversationLabelSuggestion from './conversation/LabelSuggestion';
+import Banner from 'dashboard/components/ui/Banner.vue';
+
+// stores and apis
+import { mapGetters } from 'vuex';
+
+// mixins
 import conversationMixin, {
   filterDuplicateSourceMessages,
 } from '../../../mixins/conversations';
-import Banner from 'dashboard/components/ui/Banner.vue';
-import { getTypingUsersText } from '../../../helper/commons';
-import { BUS_EVENTS } from 'shared/constants/busEvents';
-import { REPLY_POLICY } from 'shared/constants/links';
 import inboxMixin from 'shared/mixins/inboxMixin';
+import configMixin from 'shared/mixins/configMixin';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import aiMixin from 'dashboard/mixins/aiMixin';
+
+// utils
+import { getTypingUsersText } from '../../../helper/commons';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 import { isEscape } from 'shared/helpers/KeyboardHelpers';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import { LocalStorage } from 'shared/helpers/localStorage';
+
+// constants
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { REPLY_POLICY } from 'shared/constants/links';
+import wootConstants from 'dashboard/constants/globals';
+import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 
 export default {
   components: {
     Message,
     ReplyBox,
     Banner,
+    ConversationLabelSuggestion,
   },
-  mixins: [conversationMixin, inboxMixin, eventListenerMixins],
+  mixins: [
+    conversationMixin,
+    inboxMixin,
+    eventListenerMixins,
+    configMixin,
+    aiMixin,
+  ],
   props: {
     isContactPanelOpen: {
       type: Boolean,
@@ -127,7 +154,11 @@ export default {
       heightBeforeLoad: null,
       conversationPanel: null,
       selectedTweetId: null,
+      hasUserScrolled: false,
+      isProgrammaticScroll: false,
       isPopoutReplyBox: false,
+      messageSentSinceOpened: false,
+      labelSuggestions: [],
     };
   },
 
@@ -138,7 +169,20 @@ export default {
       inboxesList: 'inboxes/getInboxes',
       listLoadingStatus: 'getAllMessagesLoaded',
       loadingChatList: 'getChatListLoadingStatus',
+      appIntegrations: 'integrations/getAppIntegrations',
+      currentAccountId: 'getCurrentAccountId',
     }),
+    isOpen() {
+      return this.currentChat?.status === wootConstants.STATUS_TYPE.OPEN;
+    },
+    shouldShowLabelSuggestions() {
+      return (
+        this.isOpen &&
+        this.isEnterprise &&
+        this.isAIIntegrationEnabled &&
+        !this.messageSentSinceOpened
+      );
+    },
     inboxId() {
       return this.currentChat.inbox_id;
     },
@@ -270,7 +314,7 @@ export default {
       return '';
     },
     unreadMessageCount() {
-      return this.currentChat.unread_count;
+      return this.currentChat.unread_count || 0;
     },
   },
 
@@ -280,18 +324,28 @@ export default {
         return;
       }
       this.fetchAllAttachmentsFromCurrentChat();
+      this.fetchSuggestions();
+      this.messageSentSinceOpened = false;
       this.selectedTweetId = null;
     },
   },
 
   created() {
     bus.$on(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
+    // when a new message comes in, we refetch the label suggestions
+    bus.$on(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS, this.fetchSuggestions);
     bus.$on(BUS_EVENTS.SET_TWEET_REPLY, this.setSelectedTweet);
+    // when a message is sent we set the flag to true this hides the label suggestions,
+    // until the chat is changed and the flag is reset in the watch for currentChat
+    bus.$on(BUS_EVENTS.MESSAGE_SENT, () => {
+      this.messageSentSinceOpened = true;
+    });
   },
 
   mounted() {
     this.addScrollListener();
     this.fetchAllAttachmentsFromCurrentChat();
+    this.fetchSuggestions();
   },
 
   beforeDestroy() {
@@ -300,6 +354,52 @@ export default {
   },
 
   methods: {
+    async fetchSuggestions() {
+      // start empty, this ensures that the label suggestions are not shown
+      this.labelSuggestions = [];
+
+      if (this.isLabelSuggestionDismissed()) {
+        return;
+      }
+
+      if (!this.isEnterprise) {
+        return;
+      }
+
+      // method available in mixin, need to ensure that integrations are present
+      await this.fetchIntegrationsIfRequired();
+
+      if (!this.isAIIntegrationEnabled) {
+        return;
+      }
+
+      this.labelSuggestions = await this.fetchLabelSuggestions({
+        conversationId: this.currentChat.id,
+      });
+
+      // once the labels are fetched, we need to scroll to bottom
+      // but we need to wait for the DOM to be updated
+      // so we use the nextTick method
+      this.$nextTick(() => {
+        // this param is added to route, telling the UI to navigate to the message
+        // it is triggered by the SCROLL_TO_MESSAGE method
+        // see setActiveChat on ConversationView.vue for more info
+        const { messageId } = this.$route.query;
+
+        // only trigger the scroll to bottom if the user has not scrolled
+        // and there's no active messageId that is selected in view
+        if (!messageId && !this.hasUserScrolled) {
+          this.scrollToBottom();
+        }
+      });
+    },
+    isLabelSuggestionDismissed() {
+      return LocalStorage.getFlag(
+        LOCAL_STORAGE_KEYS.DISMISSED_LABEL_SUGGESTIONS,
+        this.currentAccountId,
+        this.currentChat.id
+      );
+    },
     fetchAllAttachmentsFromCurrentChat() {
       this.$store.dispatch('fetchAllAttachments', this.currentChat.id);
     },
@@ -314,6 +414,7 @@ export default {
       this.$nextTick(() => {
         const messageElement = document.getElementById('message' + messageId);
         if (messageElement) {
+          this.isProgrammaticScroll = true;
           messageElement.scrollIntoView({ behavior: 'smooth' });
           this.fetchPreviousMessages();
         } else {
@@ -344,18 +445,34 @@ export default {
       this.conversationPanel.removeEventListener('scroll', this.handleScroll);
     },
     scrollToBottom() {
+      this.isProgrammaticScroll = true;
       let relevantMessages = [];
+
+      // label suggestions are not part of the messages list
+      // so we need to handle them separately
+      let labelSuggestions = this.conversationPanel.querySelector(
+        '.label-suggestion'
+      );
+
+      // if there are unread messages, scroll to the first unread message
       if (this.unreadMessageCount > 0) {
         // capturing only the unread messages
         relevantMessages = this.conversationPanel.querySelectorAll(
           '.message--unread'
         );
+      } else if (labelSuggestions) {
+        // when scrolling to the bottom, the label suggestions is below the last message
+        // so we scroll there if there are no unread messages
+        // Unread messages always take the highest priority
+        relevantMessages = [labelSuggestions];
       } else {
+        // if there are no unread messages or label suggestion, scroll to the last message
         // capturing last message from the messages list
         relevantMessages = Array.from(
           this.conversationPanel.querySelectorAll('.message--read')
         ).slice(-1);
       }
+
       this.conversationPanel.scrollTop = calculateScrollTop(
         this.conversationPanel.scrollHeight,
         this.$el.scrollHeight,
@@ -402,6 +519,13 @@ export default {
     },
 
     handleScroll(e) {
+      if (this.isProgrammaticScroll) {
+        // Reset the flag
+        this.isProgrammaticScroll = false;
+        this.hasUserScrolled = false;
+      } else {
+        this.hasUserScrolled = true;
+      }
       bus.$emit(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL);
       this.fetchPreviousMessages(e.target.scrollTop);
     },
@@ -416,68 +540,41 @@ export default {
 };
 </script>
 
+<style scoped>
+@tailwind components;
+@layer components {
+  .rounded-bl-calc {
+    border-bottom-left-radius: calc(1.5rem + 1px);
+  }
+
+  .rounded-tl-calc {
+    border-top-left-radius: calc(1.5rem + 1px);
+  }
+}
+</style>
+
 <style scoped lang="scss">
-.spinner--container {
-  min-height: var(--space-jumbo);
-}
-
-.view-box.fill-height {
-  height: auto;
-  flex-grow: 1;
-  min-width: 0;
-}
-
 .modal-mask {
   &::v-deep {
     .ProseMirror-woot-style {
-      max-height: 40rem;
+      @apply max-h-[25rem];
     }
 
     .reply-box {
-      border: 1px solid var(--color-border);
-      max-width: 120rem;
-      width: 70%;
+      @apply border border-solid border-slate-75 dark:border-slate-600 max-w-[75rem] w-[70%];
     }
 
     .reply-box .reply-box__top {
-      position: relative;
-      min-height: 44rem;
+      @apply relative min-h-[27.5rem];
     }
 
     .reply-box__top .input {
-      min-height: 44rem;
+      @apply min-h-[27.5rem];
     }
 
     .emoji-dialog {
-      position: fixed;
-      left: unset;
-      position: absolute;
-      bottom: var(--space-smaller);
+      @apply absolute left-auto bottom-1;
     }
-  }
-}
-.sidebar-toggle__wrap {
-  display: flex;
-  justify-content: flex-end;
-
-  .sidebar-toggle--button {
-    position: fixed;
-
-    top: var(--space-mega);
-    z-index: var(--z-index-low);
-
-    background: var(--white);
-
-    padding: inherit 0;
-    border-top-left-radius: calc(
-      var(--space-medium) + 1px
-    ); /* 100px of height + 10px of border */
-    border-bottom-left-radius: calc(
-      var(--space-medium) + 1px
-    ); /* 100px of height + 10px of border */
-    border: 1px solid var(--color-border-light);
-    border-right: 0;
-    box-sizing: border-box;
   }
 }
 </style>

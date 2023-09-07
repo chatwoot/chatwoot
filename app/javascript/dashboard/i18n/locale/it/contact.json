@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Aggiungi etichette",
         "PLACEHOLDER": "Cerca etichette",
-        "NO_RESULT": "Nessuna etichetta trovata"
+        "NO_RESULT": "Nessuna etichetta trovata",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Unisci contatto",
@@ -70,7 +71,7 @@
       "SUBMIT": "Importa",
       "CANCEL": "Annulla"
     },
-    "SUCCESS_MESSAGE": "Contatti salvati con successo",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "Si è verificato un errore, riprova"
   },
   "EXPORT_CONTACTS": {

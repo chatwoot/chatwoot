@@ -1,4 +1,4 @@
 backend: bin/rails s -p 3000
-frontend: bin/webpack-dev-server
+frontend: export NODE_OPTIONS=--openssl-legacy-provider && bin/webpack-dev-server
 # https://github.com/mperham/sidekiq/issues/3090#issuecomment-389748695
 worker: dotenv bundle exec sidekiq -C config/sidekiq.yml

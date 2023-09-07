@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "라벨 추가하기",
         "PLACEHOLDER": "라벨 찾기",
-        "NO_RESULT": "라벨을 찾을 수 없습니다"
+        "NO_RESULT": "라벨을 찾을 수 없습니다",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "연락처 합치기",
@@ -70,7 +71,7 @@
       "SUBMIT": "가져오기",
       "CANCEL": "취소"
     },
-    "SUCCESS_MESSAGE": "연락처가 성공적으로 저장되었습니다",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
   },
   "EXPORT_CONTACTS": {

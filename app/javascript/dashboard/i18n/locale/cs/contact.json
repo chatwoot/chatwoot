@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Add Labels",
         "PLACEHOLDER": "Search labels",
-        "NO_RESULT": "No labels found"
+        "NO_RESULT": "No labels found",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Merge contact",
@@ -70,7 +71,7 @@
       "SUBMIT": "Import",
       "CANCEL": "Zrušit"
     },
-    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "Došlo k chybě, zkuste to prosím znovu"
   },
   "EXPORT_CONTACTS": {

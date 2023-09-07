@@ -66,7 +66,9 @@
         "LABEL": "Номер телефону",
         "PLACEHOLDER": "Будь ласка, введіть номер телефону",
         "REQUIRED_ERROR": "Номер телефону є обов'язковим",
-        "VALID_ERROR": "Номер телефону має бути в форматі E.164; наприклад: + 1415555555"
+        "DIAL_CODE_VALID_ERROR": "Please select a country code",
+        "VALID_ERROR": "Please enter a valid phone number",
+        "DROPDOWN_EMPTY": "Результатів не знайдено"
       },
       "MESSAGE": {
         "LABEL": "Текст повідомлення",
@@ -103,5 +105,9 @@
       "CLICK_HERE_TO_JOIN": "Натисніть тут, щоб приєднатися",
       "LEAVE_THE_ROOM": "Залишити дзвінок"
     }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "Переглянути всі статті"
   }
 }

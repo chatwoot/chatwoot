@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Pievienot Etiķetes",
         "PLACEHOLDER": "Meklēt etiķetes",
-        "NO_RESULT": "Etiķetes nav atrastas"
+        "NO_RESULT": "Etiķetes nav atrastas",
+        "CREATE_LABEL": "Izveidot jaunu etiķeti"
       }
     },
     "MERGE_CONTACT": "Apvienot kontaktu",
@@ -70,7 +71,7 @@
       "SUBMIT": "Importēt",
       "CANCEL": "Atcelt"
     },
-    "SUCCESS_MESSAGE": "Kontaktpersonas ir veiksmīgi saglabātas",
+    "SUCCESS_MESSAGE": "Kad importēšana būs pabeigta, jūs saņemsiet paziņojumu pa e-pastu.",
     "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
   },
   "EXPORT_CONTACTS": {
@@ -145,7 +146,7 @@
         "LABEL": "Valsts Nosaukums",
         "SELECT_PLACEHOLDER": "Izvēlieties",
         "REMOVE": "Noņemt",
-        "SELECT_COUNTRY": "Izvēlies valsti"
+        "SELECT_COUNTRY": "Izvēlieties valsti"
       },
       "CITY": {
         "PLACEHOLDER": "Ievadiet pilsētas nosaukumu",

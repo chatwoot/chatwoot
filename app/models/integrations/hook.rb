@@ -6,7 +6,7 @@
 #  access_token :string
 #  hook_type    :integer          default("account")
 #  settings     :jsonb
-#  status       :integer          default("disabled")
+#  status       :integer          default("enabled")
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  account_id   :integer

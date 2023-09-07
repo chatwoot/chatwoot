@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Pridaj označenia",
         "PLACEHOLDER": "Hľadaj označenia",
-        "NO_RESULT": "Žiadne označenia neboli nájdené"
+        "NO_RESULT": "Žiadne označenia neboli nájdené",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Zlúčiť kontakt",
@@ -70,7 +71,7 @@
       "SUBMIT": "Importovať",
       "CANCEL": "Zrušiť"
     },
-    "SUCCESS_MESSAGE": "Kontakty boli úspešne uložené",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "Vyskytla sa chyba, skúste to prosím znova"
   },
   "EXPORT_CONTACTS": {

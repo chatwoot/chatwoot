@@ -1,7 +1,7 @@
 <template>
-  <div class="custom-attribute">
-    <div class="title-wrap">
-      <h4 class="text-block-title title error">
+  <div class="py-3 px-4">
+    <div class="flex items-center mb-1">
+      <h4 class="text-block-title flex items-center m-0 w-full error">
         <div v-if="isAttributeTypeCheckbox" class="checkbox-wrap">
           <input
             v-model="editedValue"
@@ -10,7 +10,7 @@
             @change="onUpdate"
           />
         </div>
-        <div class="name-button__wrap">
+        <div class="flex items-center justify-between w-full">
           <span
             class="attribute-name"
             :class="{ error: $v.editedValue.$error }"
@@ -24,7 +24,7 @@
             size="medium"
             color-scheme="secondary"
             icon="delete"
-            class-names="delete-button"
+            class-names="flex justify-end w-4"
             @click="onDelete"
           />
         </div>
@@ -47,7 +47,10 @@
             <woot-button size="small" icon="checkmark" @click="onUpdate" />
           </div>
         </div>
-        <span v-if="shouldShowErrorMessage" class="error-message">
+        <span
+          v-if="shouldShowErrorMessage"
+          class="text-red-400 dark:text-red-500 text-sm block font-normal -mt-px w-full"
+        >
           {{ errorMessage }}
         </span>
       </div>
@@ -58,17 +61,20 @@
       >
         <a
           v-if="isAttributeTypeLink"
-          :href="value"
+          :href="hrefURL"
           target="_blank"
           rel="noopener noreferrer"
-          class="value"
+          class="value inline-block rounded-sm mb-0 break-all py-0.5 px-1"
         >
           {{ urlValue }}
         </a>
-        <p v-else class="value">
+        <p
+          v-else
+          class="value inline-block rounded-sm mb-0 break-all py-0.5 px-1"
+        >
           {{ displayValue || '---' }}
         </p>
-        <div class="action-buttons__wrap">
+        <div class="flex max-w-[2rem] gap-1 ml-1 rtl:mr-1 rtl:ml-0">
           <woot-button
             v-if="showActions"
             v-tooltip="$t('CUSTOM_ATTRIBUTES.ACTIONS.COPY')"
@@ -182,6 +188,9 @@ export default {
     urlValue() {
       return isValidURL(this.value) ? this.value : '---';
     },
+    hrefURL() {
+      return isValidURL(this.value) ? this.value : '';
+    },
     notAttributeTypeCheckboxAndList() {
       return !this.isAttributeTypeCheckbox && !this.isAttributeTypeList;
     },
@@ -269,98 +278,45 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.custom-attribute {
-  padding: var(--space-slab) var(--space-normal);
-}
-
-.title-wrap {
-  display: flex;
-  align-items: center;
-  margin-bottom: var(--space-mini);
-}
-.title {
-  display: flex;
-  align-items: center;
-  margin: 0;
-  width: 100%;
-}
 .checkbox-wrap {
-  display: flex;
-  align-items: center;
+  @apply flex items-center;
 }
 .checkbox {
-  margin: 0 var(--space-small) 0 0;
-}
-.name-button__wrap {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
+  @apply my-0 mr-2 ml-0;
 }
 .attribute-name {
-  width: 100%;
+  @apply w-full text-slate-800 dark:text-slate-100;
   &.error {
-    color: var(--r-400);
+    @apply text-red-400 dark:text-red-500;
   }
 }
-.title--icon {
-  width: var(--space-two);
-}
+
 .edit-button {
-  display: none;
+  @apply hidden;
 }
-.delete-button {
-  display: flex;
-  justify-content: flex-end;
-  width: var(--space-normal);
-}
+
 .value--view {
-  display: flex;
+  @apply flex;
 
   &.is-editable:hover {
     .value {
-      background: var(--color-background);
-      margin-bottom: 0;
+      @apply bg-slate-50 dark:bg-slate-700 mb-0;
     }
     .edit-button {
-      display: block;
+      @apply block;
     }
   }
-
-  .action-buttons__wrap {
-    display: flex;
-    max-width: var(--space-larger);
-  }
-}
-.value {
-  display: inline-block;
-  min-width: var(--space-mega);
-  border-radius: var(--border-radius-small);
-  margin-bottom: 0;
-  word-break: break-all;
-  padding: var(--space-micro) var(--space-smaller);
-}
-.error-message {
-  color: var(--r-400);
-  display: block;
-  font-size: 1.4rem;
-  font-size: var(--font-size-small);
-  font-weight: 400;
-  margin-bottom: 1rem;
-  margin-top: -1.6rem;
-  width: 100%;
 }
 
 ::v-deep {
   .selector-wrap {
-    margin: 0;
-    top: var(--space-smaller);
+    @apply m-0 top-1;
     .selector-name {
-      margin-left: 0;
+      @apply ml-0;
     }
   }
   .name {
-    margin-left: 0;
+    @apply ml-0;
   }
 }
 </style>

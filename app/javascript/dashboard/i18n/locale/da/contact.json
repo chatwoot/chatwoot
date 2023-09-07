@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Tilføj Labels",
         "PLACEHOLDER": "Søg efter labels",
-        "NO_RESULT": "Ingen labels fundet"
+        "NO_RESULT": "Ingen labels fundet",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Sammenflet kontakt",
@@ -70,7 +71,7 @@
       "SUBMIT": "Importer",
       "CANCEL": "Annuller"
     },
-    "SUCCESS_MESSAGE": "Kontakter gemt",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen"
   },
   "EXPORT_CONTACTS": {

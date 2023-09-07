@@ -66,7 +66,9 @@
         "LABEL": "Nomor Telpon",
         "PLACEHOLDER": "Masukan Nomor Telepon",
         "REQUIRED_ERROR": "Nomor Telepon Dibutuhkan",
-        "VALID_ERROR": "Nomor telepon harus dalam format E.164 misalnya: +1415555555"
+        "DIAL_CODE_VALID_ERROR": "Silakan pilih kode negara",
+        "VALID_ERROR": "Mohon berikan nomor telepon yang valid",
+        "DROPDOWN_EMPTY": "Tidak ada hasil ditemukan"
       },
       "MESSAGE": {
         "LABEL": "Pesan",
@@ -103,5 +105,9 @@
       "CLICK_HERE_TO_JOIN": "Klik disini untuk join",
       "LEAVE_THE_ROOM": "Tinggalkan panggilan"
     }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "Lihat semua artikel"
   }
 }

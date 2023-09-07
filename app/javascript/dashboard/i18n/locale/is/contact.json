@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Bæta við Merkingum",
         "PLACEHOLDER": "Leita að merkingum",
-        "NO_RESULT": "Engar merkingar fundust"
+        "NO_RESULT": "Engar merkingar fundust",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Sameina tengilið",
@@ -70,7 +71,7 @@
       "SUBMIT": "Hlaða inn",
       "CANCEL": "Hætta við"
     },
-    "SUCCESS_MESSAGE": "Tókst að hlaða inn tengiliðum",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "Það kom upp villa, vinsamlegast reyndur aftur"
   },
   "EXPORT_CONTACTS": {

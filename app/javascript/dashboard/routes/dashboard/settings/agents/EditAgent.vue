@@ -1,9 +1,9 @@
 <template>
   <modal :show.sync="show" :on-close="onClose">
-    <div class="column content-box">
+    <div class="h-auto overflow-auto flex flex-col">
       <woot-modal-header :header-title="pageTitle" />
-      <form class="row medium-8" @submit.prevent="editAgent()">
-        <div class="medium-12 columns">
+      <form class="w-full" @submit.prevent="editAgent()">
+        <div class="w-full">
           <label :class="{ error: $v.agentName.$error }">
             {{ $t('AGENT_MGMT.EDIT.FORM.NAME.LABEL') }}
             <input
@@ -15,7 +15,7 @@
           </label>
         </div>
 
-        <div class="medium-12 columns">
+        <div class="w-full">
           <label :class="{ error: $v.agentType.$error }">
             {{ $t('AGENT_MGMT.EDIT.FORM.AGENT_TYPE.LABEL') }}
             <select v-model="agentType">
@@ -29,7 +29,7 @@
           </label>
         </div>
 
-        <div class="medium-12 columns">
+        <div class="w-full">
           <label :class="{ error: $v.agentAvailability.$error }">
             {{ $t('PROFILE_SETTINGS.FORM.AVAILABILITY.LABEL') }}
             <select v-model="agentAvailability">
@@ -46,8 +46,8 @@
             </span>
           </label>
         </div>
-        <div class="medium-12 modal-footer">
-          <div class="medium-6 columns">
+        <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+          <div class="w-[50%]">
             <woot-submit-button
               :disabled="
                 $v.agentType.$invalid ||
@@ -61,7 +61,7 @@
               {{ $t('AGENT_MGMT.EDIT.CANCEL_BUTTON_TEXT') }}
             </button>
           </div>
-          <div class="medium-6 columns text-right">
+          <div class="w-[50%] text-right">
             <woot-button
               icon="lock-closed"
               variant="clear"

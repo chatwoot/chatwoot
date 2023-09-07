@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Додати мітки",
         "PLACEHOLDER": "Пошук міток",
-        "NO_RESULT": "Міток не знайдено"
+        "NO_RESULT": "Міток не знайдено",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Об'єднати",
@@ -70,7 +71,7 @@
       "SUBMIT": "Імпорт",
       "CANCEL": "Скасувати"
     },
-    "SUCCESS_MESSAGE": "Контакт успішно збережено",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "Сталася помилка, будь ласка, спробуйте ще раз"
   },
   "EXPORT_CONTACTS": {

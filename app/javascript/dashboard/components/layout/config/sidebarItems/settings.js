@@ -29,6 +29,7 @@ const settings = accountId => ({
     'settings_inboxes_page_channel',
     'settings_integrations_dashboard_apps',
     'settings_integrations_integration',
+    'settings_integrations_slack',
     'settings_integrations_webhook',
     'settings_integrations',
     'settings_teams_add_agents',
@@ -92,7 +93,6 @@ const settings = accountId => ({
     {
       icon: 'automation',
       label: 'AUTOMATION',
-      beta: true,
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/automation/list`),
       toStateName: 'automation_list',
@@ -101,7 +101,6 @@ const settings = accountId => ({
     {
       icon: 'bot',
       label: 'AGENT_BOTS',
-      beta: true,
       hasSubMenu: false,
       globalConfigFlag: 'csmlEditorHost',
       toState: frontendURL(`accounts/${accountId}/settings/agent-bots`),
@@ -114,7 +113,6 @@ const settings = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/macros`),
       toStateName: 'macros_wrapper',
-      beta: true,
       featureFlag: FEATURE_FLAGS.MACROS,
     },
     {

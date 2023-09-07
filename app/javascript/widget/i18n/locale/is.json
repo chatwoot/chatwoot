@@ -66,7 +66,9 @@
         "LABEL": "Símanúmer",
         "PLACEHOLDER": "Vinsamlegast sláðu inn símanúmerið þitt",
         "REQUIRED_ERROR": "Það verður að skrifa símanúmer",
-        "VALID_ERROR": "Símanúmerið þarf að vera á E.164 sniðmáti, t.d. +3547776666"
+        "DIAL_CODE_VALID_ERROR": "Please select a country code",
+        "VALID_ERROR": "Please enter a valid phone number",
+        "DROPDOWN_EMPTY": "Engar niðurstöður fundust"
       },
       "MESSAGE": {
         "LABEL": "Skilaboð",
@@ -103,5 +105,9 @@
       "CLICK_HERE_TO_JOIN": "Smelltu hér til að taka þátt",
       "LEAVE_THE_ROOM": "Yfirgefa símtalið"
     }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles"
   }
 }

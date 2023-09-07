@@ -1,20 +1,28 @@
 <template>
-  <div class="row settings--section">
-    <div class="medium-4 small-12 title--section">
-      <p class="sub-block-title">
+  <div
+    class="ml-0 mr-0 flex pt-0 pr-4 pb-4 pl-0"
+    :class="{
+      'pt-4 border-b border-solid border-slate-50 dark:border-slate-700/30': showBorder,
+    }"
+  >
+    <div class="w-[30%] min-w-0 max-w-[30%] pr-12">
+      <p
+        v-if="title"
+        class="text-base text-woot-500 dark:text-woot-500 mb-0 font-medium"
+      >
         {{ title }}
       </p>
-      <p class="sub-head">
-        <slot name="subTitle">
+      <p class="text-sm mb-2">
+        <slot v-if="subTitle" name="subTitle">
           {{ subTitle }}
         </slot>
       </p>
       <p v-if="note">
-        <span class="note">{{ $t('INBOX_MGMT.NOTE') }}</span>
+        <span class="font-semibold">{{ $t('INBOX_MGMT.NOTE') }}</span>
         {{ note }}
       </p>
     </div>
-    <div class="medium-6 small-12">
+    <div class="w-[50%] min-w-0 max-w-[50%]">
       <slot />
     </div>
   </div>
@@ -25,11 +33,15 @@ export default {
   props: {
     title: {
       type: String,
-      required: true,
+      default: '',
     },
     subTitle: {
       type: String,
-      required: true,
+      default: '',
+    },
+    showBorder: {
+      type: Boolean,
+      default: true,
     },
     note: {
       type: String,
@@ -38,27 +50,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-@import '~dashboard/assets/scss/variables';
-
-.settings--section {
-  border-bottom: 1px solid $color-border;
-  display: flex;
-  padding: $space-normal $space-normal $space-normal 0;
-
-  .sub-block-title {
-    color: $color-woot;
-    font-weight: $font-weight-medium;
-    margin-bottom: 0;
-  }
-
-  .title--section {
-    padding-right: var(--space-large);
-  }
-
-  .note {
-    font-weight: var(--font-weight-bold);
-  }
-}
-</style>

@@ -3,11 +3,11 @@
     "TITLE": "Califica tu conversación",
     "PLACEHOLDER": "Cuéntanos más...",
     "RATINGS": {
-      "POOR": "😞 Poor",
-      "FAIR": "😑 Fair",
-      "AVERAGE": "😐 Average",
-      "GOOD": "😀 Good",
-      "EXCELLENT": "😍 Excellent"
+      "POOR": "😞 Pobre",
+      "FAIR": "😑 Justo",
+      "AVERAGE": "😐 Promedio",
+      "GOOD": "😀 Bueno",
+      "EXCELLENT": "😍 Excelente"
     }
   }
 }

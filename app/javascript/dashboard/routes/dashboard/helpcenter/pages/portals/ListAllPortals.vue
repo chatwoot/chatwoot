@@ -1,9 +1,11 @@
 <template>
-  <div class="container">
-    <div class="header-wrap">
-      <div class="header-left-wrap">
+  <div class="py-2 px-4 w-full max-w-full">
+    <div class="flex justify-between items-center mt-0 mb-2 mx-0 h-12">
+      <div class="flex items-center">
         <woot-sidemenu-icon />
-        <h1 class="page-title">{{ $t('HELP_CENTER.PORTAL.HEADER') }}</h1>
+        <h1 class="my-0 mx-2 text-2xl text-slate-800 dark:text-slate-100">
+          {{ $t('HELP_CENTER.PORTAL.HEADER') }}
+        </h1>
       </div>
       <woot-button
         color-scheme="primary"
@@ -14,7 +16,7 @@
         {{ $t('HELP_CENTER.PORTAL.NEW_BUTTON') }}
       </woot-button>
     </div>
-    <div class="portal-container">
+    <div class="h-[90vh] overflow-y-scroll">
       <portal-list-item
         v-for="portal in portals"
         :key="portal.id"
@@ -23,7 +25,10 @@
         @add-locale="addLocale"
         @open-site="openPortal"
       />
-      <div v-if="isFetching" class="portals--loader">
+      <div
+        v-if="isFetching"
+        class="items-center flex text-base justify-center p-40"
+      >
         <spinner />
         <span>{{ $t('HELP_CENTER.PORTAL.LOADING_MESSAGE') }}</span>
       </div>
@@ -99,36 +104,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.container {
-  padding: var(--space-small) var(--space-normal);
-  width: 100%;
-  .portals--loader {
-    align-items: center;
-    display: flex;
-    font-size: var(--font-size-default);
-    justify-content: center;
-    padding: var(--space-big);
-  }
-  .header-wrap {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0 0 var(--space-small) 0;
-    height: var(--space-larger);
-
-    .header-left-wrap {
-      display: flex;
-      align-items: center;
-      .page-title {
-        margin: 0 var(--space-small) 0;
-      }
-    }
-  }
-  .portal-container {
-    height: 90vh;
-    overflow-y: scroll;
-  }
-}
-</style>

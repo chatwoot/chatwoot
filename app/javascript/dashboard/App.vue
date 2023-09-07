@@ -2,8 +2,9 @@
   <div
     v-if="!authUIFlags.isFetching"
     id="app"
-    class="app-wrapper app-root"
+    class="app-wrapper h-full flex-grow-0 min-h-0 w-full"
     :class="{ 'app-rtl--wrapper': isRTLView }"
+    :dir="isRTLView ? 'rtl' : 'ltr'"
   >
     <update-banner :latest-chatwoot-version="latestChatwootVersion" />
     <template v-if="!accountUIFlags.isFetchingItem && currentAccountId">
@@ -34,6 +35,7 @@ import PaymentPendingBanner from './components/app/PaymentPendingBanner.vue';
 import vueActionCable from './helper/actionCable';
 import WootSnackbarBox from './components/SnackbarContainer';
 import rtlMixin from 'shared/mixins/rtlMixin';
+import { setColorTheme } from './helper/themeHelper';
 import {
   registerSubscription,
   verifyServiceWorkerExistence,
@@ -89,9 +91,18 @@ export default {
     },
   },
   mounted() {
+    this.initializeColorTheme();
+    this.listenToThemeChanges();
     this.setLocale(window.chatwootConfig.selectedLocale);
   },
   methods: {
+    initializeColorTheme() {
+      setColorTheme(window.matchMedia('(prefers-color-scheme: dark)').matches);
+    },
+    listenToThemeChanges() {
+      const mql = window.matchMedia('(prefers-color-scheme: dark)');
+      mql.onchange = e => setColorTheme(e.matches);
+    },
     setLocale(locale) {
       this.$root.$i18n.locale = locale;
     },

@@ -2,6 +2,8 @@ class HookJob < ApplicationJob
   queue_as :medium
 
   def perform(hook, event_name, event_data = {})
+    return if hook.disabled?
+
     case hook.app_id
     when 'slack'
       process_slack_integration(hook, event_name, event_data)

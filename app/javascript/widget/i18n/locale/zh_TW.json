@@ -66,7 +66,9 @@
         "LABEL": "聯絡人電話",
         "PLACEHOLDER": "請輸入您的電話號碼",
         "REQUIRED_ERROR": "電話號碼為必填",
-        "VALID_ERROR": "電話號碼應為 E.164  格式，如：+1415555555"
+        "DIAL_CODE_VALID_ERROR": "Please select a country code",
+        "VALID_ERROR": "Please enter a valid phone number",
+        "DROPDOWN_EMPTY": "No results found"
       },
       "MESSAGE": {
         "LABEL": "訊息",
@@ -103,5 +105,9 @@
       "CLICK_HERE_TO_JOIN": "點擊這裡加入",
       "LEAVE_THE_ROOM": "Leave the call"
     }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles"
   }
 }

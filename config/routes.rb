@@ -58,11 +58,9 @@ Rails.application.routes.draw do
           resources :canned_responses, only: [:index, :create, :update, :destroy]
           resources :automation_rules, only: [:index, :create, :show, :update, :destroy] do
             post :clone
-            post :attach_file, on: :collection
           end
           resources :macros, only: [:index, :create, :show, :update, :destroy] do
             post :execute, on: :member
-            post :attach_file, on: :collection
           end
           resources :sla_policies, only: [:index, :create, :show, :update, :destroy]
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
@@ -140,6 +138,7 @@ Rails.application.routes.draw do
           resources :inboxes, only: [:index, :show, :create, :update, :destroy] do
             get :assignable_agents, on: :member
             get :campaigns, on: :member
+            get :response_sources, on: :member
             get :agent_bot, on: :member
             post :set_agent_bot, on: :member
             delete :avatar, on: :member
@@ -151,6 +150,15 @@ Rails.application.routes.draw do
             end
           end
           resources :labels, only: [:index, :show, :create, :update, :destroy]
+          resources :response_sources, only: [:create] do
+            collection do
+              post :parse
+            end
+            member do
+              post :add_document
+              post :remove_document
+            end
+          end
 
           resources :notifications, only: [:index, :update] do
             collection do
@@ -180,12 +188,16 @@ Rails.application.routes.draw do
           resources :webhooks, only: [:index, :create, :update, :destroy]
           namespace :integrations do
             resources :apps, only: [:index, :show]
-            resources :hooks, only: [:create, :update, :destroy] do
+            resources :hooks, only: [:show, :create, :update, :destroy] do
               member do
                 post :process_event
               end
             end
-            resource :slack, only: [:create, :update, :destroy], controller: 'slack'
+            resource :slack, only: [:create, :update, :destroy], controller: 'slack' do
+              member do
+                get :list_all_channels
+              end
+            end
             resource :dyte, controller: 'dyte', only: [] do
               collection do
                 post :create_a_meeting
@@ -200,10 +212,8 @@ Rails.application.routes.draw do
               patch :archive
               put :add_members
             end
-            post :attach_file, on: :collection
             resources :categories
             resources :articles do
-              post :attach_file, on: :collection
               post :reorder, on: :collection
             end
           end
@@ -211,6 +221,8 @@ Rails.application.routes.draw do
       end
       # end of account scoped api routes
       # ----------------------------------
+
+      resources :upload, only: [:create]
 
       namespace :integrations do
         resources :webhooks, only: [:create]
@@ -327,6 +339,11 @@ Rails.application.routes.draw do
           scope module: :inboxes do
             resources :contacts, only: [:create, :show, :update] do
               resources :conversations, only: [:index, :create] do
+                member do
+                  post :toggle_typing
+                  post :update_last_seen
+                end
+
                 resources :messages, only: [:index, :create, :update]
               end
             end

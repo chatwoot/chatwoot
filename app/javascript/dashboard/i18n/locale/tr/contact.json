@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Etiketler ekleyin",
         "PLACEHOLDER": "Etiketleri ara",
-        "NO_RESULT": "Etiket bulunamadı"
+        "NO_RESULT": "Etiket bulunamadı",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Kişileri birleştir",
@@ -70,7 +71,7 @@
       "SUBMIT": "İçe Aktar",
       "CANCEL": "İptal Et"
     },
-    "SUCCESS_MESSAGE": "Kişiler başarıyla kaydedildi",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
   },
   "EXPORT_CONTACTS": {

@@ -1,6 +1,6 @@
 <template>
   <woot-modal :show.sync="show" :on-close="onCancel">
-    <div class="column content-box">
+    <div class="h-auto overflow-auto flex flex-col">
       <woot-modal-header
         :header-title="$t('NEW_CONVERSATION.TITLE')"
         :header-content="$t('NEW_CONVERSATION.DESC')"

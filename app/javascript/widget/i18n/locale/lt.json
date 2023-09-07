@@ -66,7 +66,9 @@
         "LABEL": "Telefono numeris",
         "PLACEHOLDER": "Prašau įveskite jūsų telefono numerį",
         "REQUIRED_ERROR": "Telefono Numeris yra reikalingas",
-        "VALID_ERROR": "Telefono numeris turi būti E.164 formato pvz: +3705555555"
+        "DIAL_CODE_VALID_ERROR": "Prašome pasirinkti šalies kodą",
+        "VALID_ERROR": "Prašau įveskite teisingą telefono numerį",
+        "DROPDOWN_EMPTY": "Nieko nerasta"
       },
       "MESSAGE": {
         "LABEL": "Žinutė",
@@ -103,5 +105,9 @@
       "CLICK_HERE_TO_JOIN": "Spausti čia kad prisijungti",
       "LEAVE_THE_ROOM": "Išeiti iš skambučio"
     }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "Žiūrėti visus straipsnius"
   }
 }

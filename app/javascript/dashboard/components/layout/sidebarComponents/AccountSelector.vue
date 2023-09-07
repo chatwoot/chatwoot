@@ -2,31 +2,39 @@
   <woot-modal
     :show="showAccountModal"
     :on-close="() => $emit('close-account-modal')"
-    class="account-selector--modal"
   >
     <woot-modal-header
       :header-title="$t('SIDEBAR_ITEMS.CHANGE_ACCOUNTS')"
       :header-content="$t('SIDEBAR_ITEMS.SELECTOR_SUBTITLE')"
     />
-    <div class="account-selector--wrap">
+    <div class="px-8 pt-4 pb-8">
       <div
         v-for="account in currentUser.accounts"
+        :id="`account-${account.id}`"
         :key="account.id"
-        class="account-selector"
+        class="pt-0 pb-0"
       >
         <button
-          class="button expanded clear link"
+          class="flex justify-between items-center expanded clear link cursor-pointer px-4 py-3 w-full rounded-lg hover:underline hover:bg-slate-25 dark:hover:bg-slate-900"
           @click="onChangeAccount(account.id)"
         >
-          <span class="button__content">
-            <label :for="account.name" class="account-details--wrap">
-              <div class="account--name">{{ account.name }}</div>
-              <div class="account--role">{{ account.role }}</div>
+          <span class="w-full">
+            <label :for="account.name" class="text-left rtl:text-right">
+              <div
+                class="text-slate-700 text-lg dark:text-slate-100 font-medium hover:underline-offset-4 leading-5"
+              >
+                {{ account.name }}
+              </div>
+              <div
+                class="text-slate-500 text-xs dark:text-slate-500 font-medium hover:underline-offset-4"
+              >
+                {{ account.role }}
+              </div>
             </label>
           </span>
           <fluent-icon
             v-show="account.id === accountId"
-            class="selected--account"
+            class="text-slate-800 dark:text-slate-100"
             icon="checkmark-circle"
             type="solid"
             size="24"
@@ -74,32 +82,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.account-selector--wrap {
-  margin-top: var(--space-normal);
-}
-.account-selector {
-  padding-top: 0;
-  padding-bottom: 0;
-  .button {
-    display: flex;
-    justify-content: space-between;
-    padding: var(--space-one) var(--space-normal);
-    .account-details--wrap {
-      text-align: left;
-      .account--name {
-        cursor: pointer;
-        font-size: var(--font-size-medium);
-        font-weight: var(--font-weight-medium);
-        line-height: 1;
-      }
-
-      .account--role {
-        cursor: pointer;
-        font-size: var(--font-size-mini);
-        text-transform: capitalize;
-      }
-    }
-  }
-}
-</style>

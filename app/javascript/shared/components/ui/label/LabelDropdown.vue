@@ -1,12 +1,18 @@
 <template>
-  <div class="dropdown-search-wrap">
-    <div class="dropdown-title-container">
-      <h4 class="text-block-title">
+  <div class="flex flex-col w-full max-h-[12.5rem]">
+    <div class="flex items-center justify-center mb-1">
+      <h4
+        class="text-sm text-slate-800 dark:text-slate-100 m-0 overflow-hidden whitespace-nowrap text-ellipsis flex-grow"
+      >
         {{ $t('CONTACT_PANEL.LABELS.LABEL_SELECT.TITLE') }}
       </h4>
-      <hotkey>L</hotkey>
+      <hotkey
+        custom-class="text-slate-800 dark:text-slate-100 bg-slate-50 dark:bg-slate-600 text-xxs border border-solid border-slate-75 dark:border-slate-600"
+      >
+        L
+      </hotkey>
     </div>
-    <div class="search-wrap">
+    <div class="mb-2 flex-shrink-0 flex-grow-0 flex-auto max-h-8">
       <input
         ref="searchbar"
         v-model="search"
@@ -16,8 +22,10 @@
         :placeholder="$t('CONTACT_PANEL.LABELS.LABEL_SELECT.PLACEHOLDER')"
       />
     </div>
-    <div class="list-wrap">
-      <div class="list">
+    <div
+      class="flex justify-start items-start flex-grow flex-shrink flex-auto overflow-auto"
+    >
+      <div class="w-full">
         <woot-dropdown-menu>
           <label-dropdown-item
             v-for="label in filteredActiveLabels"
@@ -28,10 +36,16 @@
             @click="onAddRemove(label)"
           />
         </woot-dropdown-menu>
-        <div v-if="noResult" class="no-result">
+        <div
+          v-if="noResult"
+          class="flex justify-center py-4 px-2.5 font-medium text-xs text-slate-700 dark:text-slate-200"
+        >
           {{ $t('CONTACT_PANEL.LABELS.LABEL_SELECT.NO_RESULT') }}
         </div>
-        <div v-if="allowCreation && shouldShowCreate" class="new-label">
+        <div
+          v-if="allowCreation && shouldShowCreate"
+          class="flex pt-1 border-t border-solid border-slate-100 dark:border-slate-900"
+        >
           <woot-button
             size="small"
             variant="clear"
@@ -171,88 +185,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.dropdown-title-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--space-smaller);
-
-  .text-block-title {
-    flex-grow: 1;
-    margin: 0;
-  }
-
-  .hotkey {
-    flex-shrink: 0;
-  }
+.hotkey {
+  @apply flex-shrink-0;
 }
 
-.dropdown-search-wrap {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-height: 20rem;
+.search-input {
+  @apply m-0 w-full border border-solid border-transparent h-8 text-sm text-slate-700 dark:text-slate-100 rounded-md focus:border-woot-500 bg-slate-50 dark:bg-slate-900;
+}
 
-  .search-wrap {
-    margin-bottom: var(--space-small);
-    flex: 0 0 auto;
-    max-height: var(--space-large);
+.button-new-label {
+  @apply whitespace-nowrap text-ellipsis overflow-hidden items-center;
 
-    .search-input {
-      margin: 0;
-      width: 100%;
-      border: 1px solid transparent;
-      height: var(--space-large);
-      font-size: var(--font-size-small);
-      padding: var(--space-small);
-      background-color: var(--color-background);
-    }
-
-    input:focus {
-      outline: 1px solid var(--color-border-dark);
-    }
-  }
-
-  .list-wrap {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    flex: 1 1 auto;
-    overflow: auto;
-
-    .list {
-      width: 100%;
-    }
-
-    .no-result {
-      display: flex;
-      justify-content: center;
-      color: var(--s-700);
-      padding: var(--space-normal) var(--space-one);
-      font-weight: var(--font-weight-medium);
-      font-size: var(--font-size-mini);
-    }
-
-    .new-label {
-      display: flex;
-      padding-top: var(--space-smaller);
-      border-top: 1px solid var(--s-100);
-
-      .button-new-label {
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        align-items: center;
-
-        .icon {
-          min-width: 0;
-        }
-      }
-
-      .search-term {
-        color: var(--s-700);
-      }
-    }
+  .icon {
+    @apply min-w-0;
   }
 }
 </style>

@@ -1,9 +1,12 @@
 <template>
-  <div class="column content-box">
+  <div class="flex-1 overflow-auto p-4">
     <!-- List Canned Response -->
-    <div class="row">
-      <div class="small-8 columns with-right-space">
-        <p v-if="!inboxesList.length" class="no-items-error-message">
+    <div class="flex flex-row gap-4">
+      <div class="w-[60%]">
+        <p
+          v-if="!inboxesList.length"
+          class="flex h-full items-center flex-col justify-center"
+        >
           {{ $t('INBOX_MGMT.LIST.404') }}
           <router-link
             v-if="isAdmin"
@@ -98,7 +101,7 @@
         </table>
       </div>
 
-      <div class="small-4 columns">
+      <div class="w-[34%]">
         <span
           v-dompurify-html="
             useInstallationName(
@@ -169,7 +172,7 @@ export default {
     confirmDeleteMessage() {
       return `${this.$t('INBOX_MGMT.DELETE.CONFIRM.MESSAGE')} ${
         this.selectedInbox.name
-      } ?`;
+      }?`;
     },
     confirmPlaceHolderText() {
       return `${this.$t('INBOX_MGMT.DELETE.CONFIRM.PLACE_HOLDER', {

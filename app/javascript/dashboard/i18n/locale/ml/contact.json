@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "ലേബലുകൾ ചേർക്കുക",
         "PLACEHOLDER": "ലേബലുകൾ തിരയുക",
-        "NO_RESULT": "ലേബലുകളൊന്നും കണ്ടെത്തിയില്ല"
+        "NO_RESULT": "ലേബലുകളൊന്നും കണ്ടെത്തിയില്ല",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "കോൺടാക്റ്റ് ലയിപ്പിക്കുക",
@@ -70,7 +71,7 @@
       "SUBMIT": "Import",
       "CANCEL": "റദ്ദാക്കുക"
     },
-    "SUCCESS_MESSAGE": "കോൺടാക്റ്റുകൾ വിജയകരമായി സേവ് ചെയ്തിരിക്കുന്നു",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക"
   },
   "EXPORT_CONTACTS": {

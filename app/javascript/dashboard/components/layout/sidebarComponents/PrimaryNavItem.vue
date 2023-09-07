@@ -3,15 +3,28 @@
     <a
       v-tooltip.right="$t(`SIDEBAR.${name}`)"
       :href="href"
-      class="button clear button--only-icon menu-item"
-      :class="{ 'is-active': isActive || isChildMenuActive }"
+      class="text-slate-700 dark:text-slate-100 w-10 h-10 my-2 flex items-center justify-center rounded-lg hover:bg-slate-25 dark:hover:bg-slate-700 dark:hover:text-slate-100 hover:text-slate-600 relative"
+      :class="{
+        'bg-woot-50 dark:bg-slate-800 text-woot-500 hover:bg-woot-50':
+          isActive || isChildMenuActive,
+      }"
       :rel="openInNewPage ? 'noopener noreferrer nofollow' : undefined"
       :target="openInNewPage ? '_blank' : undefined"
       @click="navigate"
     >
-      <fluent-icon :icon="icon" />
-      <span class="show-for-sr">{{ name }}</span>
-      <span v-if="count" class="badge warning">{{ count }}</span>
+      <fluent-icon
+        :icon="icon"
+        :class="{
+          'text-woot-500': isActive || isChildMenuActive,
+        }"
+      />
+      <span class="sr-only">{{ name }}</span>
+      <span
+        v-if="count"
+        class="text-black-900 bg-yellow-500 absolute -top-1 -right-1"
+      >
+        {{ count }}
+      </span>
     </a>
   </router-link>
 </template>
@@ -45,40 +58,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.button {
-  margin: var(--space-small) 0;
-}
-
-.menu-item {
-  display: inline-flex;
-  position: relative;
-  border-radius: var(--border-radius-large);
-  border: 1px solid transparent;
-  color: var(--s-600);
-
-  &:hover {
-    background: var(--w-25);
-    color: var(--s-600);
-  }
-
-  &:focus {
-    border-color: var(--w-500);
-  }
-
-  &.is-active {
-    background: var(--w-50);
-    color: var(--w-500);
-  }
-}
-
-.icon {
-  font-size: var(--font-size-default);
-}
-
-.badge {
-  position: absolute;
-  right: var(--space-minus-smaller);
-  top: var(--space-minus-smaller);
-}
-</style>

@@ -12,6 +12,10 @@
     "NO_INBOX_2": " para empezar",
     "NO_INBOX_AGENT": "¡Uh Oh! Parece que no eres parte de ninguna bandeja de entrada. Por favor, contacta con tu administrador",
     "SEARCH_MESSAGES": "Buscar mensajes en conversaciones",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "Buscar mensajes",
       "RESULT_TITLE": "Buscar resultados",
@@ -54,7 +58,7 @@
       "OPEN": "Más",
       "CLOSE": "Cerrar",
       "DETAILS": "detalles",
-      "SNOOZED_UNTIL": "Snoozed until",
+      "SNOOZED_UNTIL": "Posponer hasta",
       "SNOOZED_UNTIL_TOMORROW": "Pospuesto hasta mañana",
       "SNOOZED_UNTIL_NEXT_WEEK": "Pospuesto hasta la próxima semana",
       "SNOOZED_UNTIL_NEXT_REPLY": "Posponer hasta la siguiente respuesta"
@@ -147,6 +151,7 @@
       "STOP_AUDIO_RECORDING": "Detener grabación de audio",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "A",
         "ADD_BCC": "Añadir bcc",
         "CC": {
           "LABEL": "CC",

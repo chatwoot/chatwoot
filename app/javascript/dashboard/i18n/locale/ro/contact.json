@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Adaugă etichete",
         "PLACEHOLDER": "Căutare etichete",
-        "NO_RESULT": "Nu s-au găsit etichete"
+        "NO_RESULT": "Nu s-au găsit etichete",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Îmbinare contact",
@@ -70,7 +71,7 @@
       "SUBMIT": "Importă",
       "CANCEL": "Renunță"
     },
-    "SUCCESS_MESSAGE": "Contacte salvate cu succes",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "A apărut o eroare, încercați din nou"
   },
   "EXPORT_CONTACTS": {

@@ -66,7 +66,9 @@
         "LABEL": "Telefona numurs",
         "PLACEHOLDER": "Lūdzu, ievadiet savu tālruņa numuru",
         "REQUIRED_ERROR": "Nepieciešams tālruņa numurs",
-        "VALID_ERROR": "Tālruņa numuram ir jābūt E.164 formātā, piemēram: +37155555555"
+        "DIAL_CODE_VALID_ERROR": "Lūdzu, izvēlieties valsts kodu",
+        "VALID_ERROR": "Lūdzu ievadiet derīgu telefona numuru",
+        "DROPDOWN_EMPTY": "Nav atrasts"
       },
       "MESSAGE": {
         "LABEL": "Ziņojums",
@@ -103,5 +105,9 @@
       "CLICK_HERE_TO_JOIN": "Noklikšķiniet šeit, lai pievienotos",
       "LEAVE_THE_ROOM": "Beigt zvanu"
     }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Populāri Raksti",
+    "VIEW_ALL_ARTICLES": "Skatīt visus rakstus"
   }
 }

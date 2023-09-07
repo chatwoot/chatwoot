@@ -1,15 +1,24 @@
 <template>
-  <div class="settings-header">
-    <h1 class="page-title">
+  <div
+    class="flex justify-between items-center h-14 min-h-[3.5rem] px-4 py-2 bg-white dark:bg-slate-900 border-b border-slate-50 dark:border-slate-800/50"
+  >
+    <h1
+      class="text-2xl mb-0 flex items-center text-slate-900 dark:text-slate-100"
+    >
       <woot-sidemenu-icon v-if="showSidemenuIcon" />
       <back-button
         v-if="showBackButton"
         :button-label="backButtonLabel"
         :back-url="backUrl"
       />
-      <fluent-icon v-if="icon" :icon="icon" :class="iconClass" />
+      <fluent-icon
+        v-if="icon"
+        :icon="icon"
+        :class="iconClass"
+        class="mr-2 ml-4 rtl:ml-2 rtl:mr-4"
+      />
       <slot />
-      <span>{{ headerTitle }}</span>
+      <span class="text-slate-900 dark:text-slate-100">{{ headerTitle }}</span>
     </h1>
     <router-link
       v-if="showNewButton && isAdmin"

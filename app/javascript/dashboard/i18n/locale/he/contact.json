@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "הוסף תוויות",
         "PLACEHOLDER": "חפש תוויות",
-        "NO_RESULT": "לא נמצאו תוויות"
+        "NO_RESULT": "לא נמצאו תוויות",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "מזג אנשי קשר",
@@ -70,7 +71,7 @@
       "SUBMIT": "ייבוא",
       "CANCEL": "ביטול"
     },
-    "SUCCESS_MESSAGE": "אנשי הקשר נשמרו בהצלחה",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
   },
   "EXPORT_CONTACTS": {

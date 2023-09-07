@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Lägg till etiketter",
         "PLACEHOLDER": "Sök etiketter",
-        "NO_RESULT": "Inga etiketter hittades"
+        "NO_RESULT": "Inga etiketter hittades",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Slå samman kontakt",
@@ -70,7 +71,7 @@
       "SUBMIT": "Importera",
       "CANCEL": "Avbryt"
     },
-    "SUCCESS_MESSAGE": "Kontakter har sparats",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "Ett fel uppstod, vänligen försök igen"
   },
   "EXPORT_CONTACTS": {

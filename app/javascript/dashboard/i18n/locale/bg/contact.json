@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Добавете етикети",
         "PLACEHOLDER": "Търсене на етикети",
-        "NO_RESULT": "Няма намерени етикети"
+        "NO_RESULT": "Няма намерени етикети",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Обединяване на контакти",
@@ -70,7 +71,7 @@
       "SUBMIT": "Внасяне",
       "CANCEL": "Отмени"
     },
-    "SUCCESS_MESSAGE": "Успешно запазване на контактите",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "Възникна грешка, моля опитайте отново"
   },
   "EXPORT_CONTACTS": {

@@ -1,5 +1,5 @@
 <template>
-  <div class="position-relative">
+  <div class="relative flex">
     <woot-button
       v-tooltip.right="$t('CHAT_LIST.SORT_TOOLTIP_LABEL')"
       variant="smooth"
@@ -12,10 +12,12 @@
     <div
       v-if="showActionsDropdown"
       v-on-clickaway="closeDropdown"
-      class="dropdown-pane dropdown-pane--open basic-filter"
+      class="dropdown-pane dropdown-pane--open mt-1 right-0 basic-filter"
     >
-      <div class="filter__item">
-        <span>{{ this.$t('CHAT_LIST.CHAT_SORT.STATUS') }}</span>
+      <div class="items-center flex justify-between last:mt-4">
+        <span class="text-slate-800 dark:text-slate-100 text-xs font-medium">{{
+          this.$t('CHAT_LIST.CHAT_SORT.STATUS')
+        }}</span>
         <filter-item
           type="status"
           :selected-value="chatStatus"
@@ -24,8 +26,10 @@
           @onChangeFilter="onChangeFilter"
         />
       </div>
-      <div class="filter__item">
-        <span>{{ this.$t('CHAT_LIST.CHAT_SORT.ORDER_BY') }}</span>
+      <div class="items-center flex justify-between last:mt-4">
+        <span class="text-slate-800 dark:text-slate-100 text-xs font-medium">{{
+          this.$t('CHAT_LIST.CHAT_SORT.ORDER_BY')
+        }}</span>
         <filter-item
           type="sort"
           :selected-value="chatSortFilter"
@@ -87,36 +91,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .basic-filter {
-  margin-top: var(--space-smaller);
-  padding: var(--space-normal);
-  right: 0;
-  width: 21rem;
-
-  span {
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-medium);
-  }
-
-  .filter__item {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-
-    &:last-child {
-      margin-top: var(--space-normal);
-    }
-
-    span {
-      font-size: var(--font-size-mini);
-    }
-  }
-}
-
-.icon {
-  margin-right: var(--space-smaller);
-}
-
-.dropdown-icon {
-  margin-left: var(--space-smaller);
+  @apply w-52 p-4 top-6;
 }
 </style>

@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "اضافة تصنيف جديد",
         "PLACEHOLDER": "ابحث عن تصنيفات",
-        "NO_RESULT": "لم يتم العثور على تصنيفات"
+        "NO_RESULT": "لم يتم العثور على تصنيفات",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "دمج جهة الاتصال",
@@ -70,7 +71,7 @@
       "SUBMIT": "استيراد",
       "CANCEL": "إلغاء"
     },
-    "SUCCESS_MESSAGE": "تم حفظ جهة الاتصال بنجاح",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "حدث خطأ، الرجاء المحاولة مرة أخرى"
   },
   "EXPORT_CONTACTS": {

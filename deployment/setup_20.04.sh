@@ -172,7 +172,7 @@ EOF
 function install_dependencies() {
   apt update && apt upgrade -y
   apt install -y curl
-  curl -sL https://deb.nodesource.com/setup_16.x | bash -
+  curl -sL https://deb.nodesource.com/setup_20.x | bash -
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
   echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
   curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
@@ -349,7 +349,7 @@ function setup_chatwoot() {
   sed -i -e '/RAILS_ENV/ s/=.*/=$RAILS_ENV/' .env
   echo -en "\nINSTALLATION_ENV=linux_script" >> ".env"
 
-  rake assets:precompile RAILS_ENV=production
+  rake assets:precompile RAILS_ENV=production NODE_OPTIONS=--openssl-legacy-provider
 EOF
 }
 

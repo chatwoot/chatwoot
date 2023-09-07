@@ -1,13 +1,13 @@
 <template>
   <form @submit.prevent="updateSignature()">
-    <div class="profile--settings--row row">
-      <div class="columns small-3">
-        <h4 class="block-title">
+    <div class="profile--settings--row text-black-900 dark:text-slate-300 row">
+      <div class="w-[25%] py-4 pr-6 ml-0">
+        <h4 class="block-title text-black-900 dark:text-slate-200">
           {{ $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.TITLE') }}
         </h4>
         <p>{{ $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.NOTE') }}</p>
       </div>
-      <div class="columns small-9 medium-5">
+      <div class="p-4 w-[45%]">
         <div>
           <label for="message-signature-input">{{
             $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE.LABEL')
@@ -20,6 +20,8 @@
             :placeholder="
               $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE.PLACEHOLDER')
             "
+            :enabled-menu-options="customEditorMenuList"
+            :enable-suggestions="false"
             @blur="$v.messageSignature.$touch"
           />
         </div>
@@ -41,6 +43,7 @@ import { mapGetters } from 'vuex';
 
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import alertMixin from 'shared/mixins/alertMixin';
+import { MESSAGE_SIGNATURE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 
 export default {
   components: {
@@ -53,6 +56,7 @@ export default {
       enableMessageSignature: false,
       isUpdating: false,
       errorMessage: '',
+      customEditorMenuList: MESSAGE_SIGNATURE_EDITOR_MENU_OPTIONS,
     };
   },
   validations: {
@@ -65,11 +69,6 @@ export default {
       currentUser: 'getCurrentUser',
       currentUserId: 'getCurrentUserID',
     }),
-  },
-  watch: {
-    currentUser() {
-      this.initValues();
-    },
   },
   mounted() {
     this.initValues();
@@ -109,15 +108,20 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .profile--settings--row {
   .ProseMirror-woot-style {
-    height: 8rem;
+    @apply h-20;
   }
+}
 
-  .editor-root {
-    background: var(--white);
-    margin-bottom: var(--space-normal);
+.message-editor {
+  @apply px-3 mb-4;
+
+  ::v-deep {
+    .ProseMirror-menubar {
+      @apply left-2;
+    }
   }
 }
 </style>
