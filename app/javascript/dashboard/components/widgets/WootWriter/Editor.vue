@@ -51,6 +51,7 @@ import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
 import { replaceVariablesInMessage } from '@chatwoot/utils';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import { MESSAGE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 
 const createState = (
   content,
@@ -110,6 +111,11 @@ export default {
       return (
         this.enableCannedResponses && this.showCannedMenu && !this.isPrivate
       );
+    },
+    editorMenuOptions() {
+      return this.enabledMenuOptions.length
+        ? this.enabledMenuOptions
+        : MESSAGE_EDITOR_MENU_OPTIONS;
     },
     plugins() {
       if (!this.enableSuggestions) {
@@ -249,7 +255,7 @@ export default {
       this.value,
       this.placeholder,
       this.plugins,
-      this.enabledMenuOptions
+      this.editorMenuOptions
     );
   },
   mounted() {
@@ -263,7 +269,7 @@ export default {
         content,
         this.placeholder,
         this.plugins,
-        this.enabledMenuOptions
+        this.editorMenuOptions
       );
       this.editorView.updateState(this.state);
       this.focusEditorInputField();
