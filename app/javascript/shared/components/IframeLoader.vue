@@ -24,7 +24,7 @@
 import ArticleSkeletonLoader from 'shared/components/ArticleSkeletonLoader';
 
 export default {
-  name: 'IframeRenderer',
+  name: 'IframeLoader',
   components: {
     ArticleSkeletonLoader,
   },

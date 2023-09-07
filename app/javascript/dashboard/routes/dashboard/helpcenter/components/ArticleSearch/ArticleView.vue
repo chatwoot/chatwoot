@@ -2,7 +2,7 @@
   <div class="chatwoot-search">
     <search-header title="Insert article" @close="onClose" @search="onSearch" />
     <div class="padding-1">
-      <iframe-renderer :url="url" />
+      <iframe-loader :url="url" />
     </div>
     <div class="footer">
       <woot-button
@@ -28,13 +28,13 @@
 
 <script>
 import SearchHeader from './Header';
-import IframeRenderer from './IframeRenderer';
+import IframeLoader from 'shared/components/IframeLoader.vue';
 
 export default {
   name: 'ChatwootSearch',
   components: {
     SearchHeader,
-    IframeRenderer,
+    IframeLoader,
   },
   props: {
     url: {
