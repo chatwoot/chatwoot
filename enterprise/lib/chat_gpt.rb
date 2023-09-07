@@ -32,7 +32,7 @@ class ChatGpt
 
       ```
       {
-       response: '' ,#{' '}
+       response: '' ,
       context_ids: [ids],
       }
       ```
