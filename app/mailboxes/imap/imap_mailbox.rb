@@ -56,7 +56,7 @@ class Imap::ImapMailbox
   end
 
   def in_reply_to
-    @inbound_mail.in_reply_to
+    @processed_mail.in_reply_to
   end
 
   def find_message_by_references

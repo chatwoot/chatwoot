@@ -49,6 +49,8 @@ tr:
         unique: kategori ve portalde tekil olmalı
     dyte:
       invalid_message_type: "Invalid message type. Action not permitted"
+    slack:
+      invalid_channel_id: "Invalid slack channel. Please try again"
     inboxes:
       imap:
         socket_error: Lütfen ağ bağlantınızı, IMAP adresini kontrol edin ve tekrar deneyin.
@@ -144,6 +146,8 @@ tr:
         header:
           from_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
           reply_with_name: "%{assignee_name} from %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} from %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
@@ -180,21 +184,21 @@ tr:
       description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
   public_portal:
     search:
-      search_placeholder: Search for article by title or body...
+      search_placeholder: Başlığa veya içeriğe göre arama yapın...
       empty_placeholder: Sonuç bulunamadı.
-      loading_placeholder: Searching...
-      results_title: Search results
-    toc_header: 'On this page'
+      loading_placeholder: Aranıyor...
+      results_title: Arama sonuçları
+    toc_header: 'Bu sayfadakiler'
     hero:
-      sub_title: Search for the articles here or browse the categories below.
+      sub_title: Makalelerde arayın veya aşağıdaki kategorilere göz atın.
     common:
       home: Anasayfa
-      last_updated_on: Last updated on %{last_updated_on}
-      view_all_articles: View all articles
-      article: article
-      articles: articles
-      no_articles: There are no articles here
+      last_updated_on: "Son güncelleme: %{last_updated_on}"
+      view_all_articles: Tüm makaleleri görüntüle
+      article: makale
+      articles: makale
+      no_articles: Burada hiç makale yok.
     footer:
       made_with: Made with
     header:
-      go_to_homepage: Go to the main site
+      go_to_homepage: Ana siteye git

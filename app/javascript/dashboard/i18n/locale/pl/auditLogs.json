@@ -2,13 +2,13 @@
   "AUDIT_LOGS": {
     "HEADER": "Dzienniki audytowe",
     "HEADER_BTN_TXT": "Dodaj dziennik audytowy",
-    "LOADING": "Pobieranie dzienników audytowych",
+    "LOADING": "Pobieranie dzienników audytowych...",
     "SEARCH_404": "Brak elementów pasujących do tego zapytania",
-    "SIDEBAR_TXT": "<p><b>Dzienniki audytowe</b> </p><p>Dzienniki audytowe to ślady zdarzeń i działań w systemie Chatwoot.</p>",
+    "SIDEBAR_TXT": "<p><b>Dzienniki audytowe</b> </p><p>Dzienniki audytowe śledzą zdarzenia i działania w systemie Chatwoot.</p>",
     "LIST": {
-      "404": "Brak dostępnych dzienników audytowych w tym koncie.",
+      "404": "Nie ma dostępnych dzienników audytowych dla tego konta.",
       "TITLE": "Zarządzaj dziennikami audytowymi",
-      "DESC": "Dzienniki audytowe to ślady zdarzeń i działań w systemie Chatwoot.",
+      "DESC": "Dziennik audytu śledzi zdarzenia i działania w systemie Chatwoot.",
       "TABLE_HEADER": [
         "Użytkownik",
         "Akcja",
@@ -16,22 +16,29 @@
       ]
     },
     "API": {
-      "SUCCESS_MESSAGE": "Pomyślnie pobrano dzienniki audytowe",
-      "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot, spróbuj ponownie później"
+      "SUCCESS_MESSAGE": "Dzienniki audytowe pomyślnie pobrane.",
+      "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot. Spróbuj ponownie później."
     },
     "DEFAULT_USER": "System",
     "AUTOMATION_RULE": {
-      "ADD": "%{agentName} utworzył nową regułę automatyzacji (#%{id})",
+      "ADD": "%{agentName} dodał nową regułę automatyzacji (#%{id})",
       "EDIT": "%{agentName} zaktualizował regułę automatyzacji (#%{id})",
       "DELETE": "%{agentName} usunął regułę automatyzacji (#%{id})"
     },
+    "ACCOUNT_USER": {
+      "ADD": "%{agentName} zaprosił %{invitee} do konta jako %{role}",
+      "EDIT": {
+        "SELF": "%{agentName} zmienił swoje %{attributes} na %{values}",
+        "OTHER": "%{agentName} zmienił %{attributes} użytkownika %{user} na %{values}"
+      }
+    },
     "INBOX": {
-      "ADD": "%{agentName} utworzył nową skrzynkę odbiorczą (#%{id})",
+      "ADD": "%{agentName} dodał nową skrzynkę odbiorczą (#%{id})",
       "EDIT": "%{agentName} zaktualizował skrzynkę odbiorczą (#%{id})",
       "DELETE": "%{agentName} usunął skrzynkę odbiorczą (#%{id})"
     },
     "WEBHOOK": {
-      "ADD": "%{agentName} utworzył nowy webhook (#%{id})",
+      "ADD": "%{agentName} dodał nowy webhook (#%{id})",
       "EDIT": "%{agentName} zaktualizował webhook (#%{id})",
       "DELETE": "%{agentName} usunął webhook (#%{id})"
     },
@@ -40,14 +47,25 @@
       "SIGN_OUT": "%{agentName} wylogował się"
     },
     "TEAM": {
-      "ADD": "%{agentName} utworzył nowy zespół (#%{id})",
+      "ADD": "%{agentName} dodał nowy zespół (#%{id})",
       "EDIT": "%{agentName} zaktualizował zespół (#%{id})",
       "DELETE": "%{agentName} usunął zespół (#%{id})"
     },
     "MACRO": {
-      "ADD": "%{agentName} utworzył nową makro (#%{id})",
-      "EDIT": "%{agentName} zaktualizował makro (#%{id})",
-      "DELETE": "%{agentName} usunął makro (#%{id})"
+      "ADD": "%{agentName} dodał nową makroinstrukcję (#%{id})",
+      "EDIT": "%{agentName} zaktualizował makroinstrukcję (#%{id})",
+      "DELETE": "%{agentName} usunął makroinstrukcję (#%{id})"
+    },
+    "INBOX_MEMBER": {
+      "ADD": "%{agentName} dodał %{user} do skrzynki odbiorczej (#%{inbox_id})",
+      "REMOVE": "%{agentName} usunął %{user} ze skrzynki odbiorczej (#%{inbox_id})"
+    },
+    "TEAM_MEMBER": {
+      "ADD": "%{agentName} dodał %{user} do zespołu (#%{team_id})",
+      "REMOVE": "%{agentName} usunął %{user} z zespołu (#%{team_id})"
+    },
+    "ACCOUNT": {
+      "EDIT": "%{agentName} zaktualizował konfigurację konta (#%{id})"
     }
   }
 }

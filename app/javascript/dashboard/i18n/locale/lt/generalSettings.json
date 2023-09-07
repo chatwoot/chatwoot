@@ -110,7 +110,9 @@
       "SNOOZE_CONVERSATION": "Atidėti Pokalbį",
       "ADD_LABEL": "Pridėti etiketę pokalbiui",
       "REMOVE_LABEL": "Pašalinti pokalbio etiketę",
-      "SETTINGS": "Nustatymai"
+      "SETTINGS": "Nustatymai",
+      "AI_ASSIST": "AI pagalba",
+      "APPEARANCE": "Išvaizda"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Eikite į Pokalbio informacijos skydelį",
@@ -132,6 +134,7 @@
       "GO_TO_NOTIFICATIONS": "Eikite į Perspėjimus",
       "ADD_LABELS_TO_CONVERSATION": "Pridėti etiketę pokalbiui",
       "ASSIGN_AN_AGENT": "Priskirti Agentą",
+      "AI_ASSIST": "AI pagalba",
       "ASSIGN_PRIORITY": "Nustatyti prioritetą",
       "ASSIGN_A_TEAM": "Priskirti komandą",
       "MUTE_CONVERSATION": "Tildyti pokalbį",
@@ -146,10 +149,18 @@
       "UNTIL_TOMORROW": "Iki rytojaus",
       "UNTIL_NEXT_MONTH": "Iki kito mėnesio",
       "AN_HOUR_FROM_NOW": "Iki valandos nuo dabar",
-      "CUSTOM": "Personalizuotas..."
+      "CUSTOM": "Personalizuotas...",
+      "CHANGE_APPEARANCE": "Keisti išvaizdą",
+      "LIGHT_MODE": "Šviesus",
+      "DARK_MODE": "Tamsus",
+      "SYSTEM_MODE": "Sistema"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "Paleidžiama informacijos suvestinės programa..."
+  },
+  "COMMON": {
+    "OR": "Ar",
+    "CLICK_HERE": "paspausti čia"
   }
 }

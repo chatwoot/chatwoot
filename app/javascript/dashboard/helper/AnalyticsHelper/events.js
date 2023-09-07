@@ -15,6 +15,9 @@ export const ACCOUNT_EVENTS = Object.freeze({
   ADDED_A_CUSTOM_ATTRIBUTE: 'Added a custom attribute',
   ADDED_AN_INBOX: 'Added an inbox',
   OPEN_MESSAGE_CONTEXT_MENU: 'Opened message context menu',
+  OPENED_NOTIFICATIONS: 'Opened notifications',
+  MARK_AS_READ_NOTIFICATIONS: 'Marked notifications as read',
+  OPEN_CONVERSATION_VIA_NOTIFICATION: 'Opened conversation via notification',
 });
 
 export const LABEL_EVENTS = Object.freeze({
@@ -89,6 +92,8 @@ export const OPEN_AI_EVENTS = Object.freeze({
   SIMPLIFY: 'OpenAI: Used simplify',
   APPLY_LABEL_SUGGESTION: 'OpenAI: Apply label from suggestion',
   DISMISS_LABEL_SUGGESTION: 'OpenAI: Dismiss label suggestions',
+  ADDED_AI_INTEGRATION_VIA_CTA_BUTTON:
+    'OpenAI: Added AI integration via CTA button',
   DISMISS_AI_SUGGESTION: 'OpenAI: Dismiss AI suggestions',
 });
 

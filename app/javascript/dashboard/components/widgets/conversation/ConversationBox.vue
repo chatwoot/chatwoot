@@ -61,7 +61,7 @@ import { mapGetters } from 'vuex';
 import ContactPanel from 'dashboard/routes/dashboard/conversation/ContactPanel';
 import ConversationHeader from './ConversationHeader';
 import DashboardAppFrame from '../DashboardApp/Frame.vue';
-import EmptyState from './EmptyState';
+import EmptyState from './EmptyState/EmptyState';
 import MessagesView from './MessagesView';
 
 export default {

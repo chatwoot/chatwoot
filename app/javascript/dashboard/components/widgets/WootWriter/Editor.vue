@@ -22,7 +22,7 @@
 <script>
 import {
   messageSchema,
-  wootMessageWriterSetup,
+  buildEditor,
   EditorView,
   MessageMarkdownTransformer,
   MessageMarkdownSerializer,
@@ -51,14 +51,21 @@ import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
 import { replaceVariablesInMessage } from '@chatwoot/utils';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import { MESSAGE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 
-const createState = (content, placeholder, plugins = []) => {
+const createState = (
+  content,
+  placeholder,
+  plugins = [],
+  enabledMenuOptions
+) => {
   return EditorState.create({
     doc: new MessageMarkdownTransformer(messageSchema).parse(content),
-    plugins: wootMessageWriterSetup({
+    plugins: buildEditor({
       schema: messageSchema,
       placeholder,
       plugins,
+      enabledMenuOptions,
     }),
   });
 };
@@ -78,6 +85,7 @@ export default {
     enableVariables: { type: Boolean, default: false },
     enableCannedResponses: { type: Boolean, default: true },
     variables: { type: Object, default: () => ({}) },
+    enabledMenuOptions: { type: Array, default: () => [] },
   },
   data() {
     return {
@@ -103,6 +111,11 @@ export default {
       return (
         this.enableCannedResponses && this.showCannedMenu && !this.isPrivate
       );
+    },
+    editorMenuOptions() {
+      return this.enabledMenuOptions.length
+        ? this.enabledMenuOptions
+        : MESSAGE_EDITOR_MENU_OPTIONS;
     },
     plugins() {
       if (!this.enableSuggestions) {
@@ -204,18 +217,18 @@ export default {
     showVariables(updatedValue) {
       this.$emit('toggle-variables-menu', !this.isPrivate && updatedValue);
     },
-    value(newValue = '') {
-      if (newValue !== this.contentFromEditor) {
-        this.reloadState();
+    value(newVal = '') {
+      if (newVal !== this.contentFromEditor) {
+        this.reloadState(newVal);
       }
     },
     editorId() {
       this.showCannedMenu = false;
       this.cannedSearchTerm = '';
-      this.reloadState();
+      this.reloadState(this.value);
     },
     isPrivate() {
-      this.reloadState();
+      this.reloadState(this.value);
     },
 
     updateSelectionWith(newValue, oldValue) {
@@ -238,7 +251,12 @@ export default {
     },
   },
   created() {
-    this.state = createState(this.value, this.placeholder, this.plugins);
+    this.state = createState(
+      this.value,
+      this.placeholder,
+      this.plugins,
+      this.editorMenuOptions
+    );
   },
   mounted() {
     this.createEditorView();
@@ -246,8 +264,13 @@ export default {
     this.focusEditorInputField();
   },
   methods: {
-    reloadState() {
-      this.state = createState(this.value, this.placeholder, this.plugins);
+    reloadState(content = this.value) {
+      this.state = createState(
+        content,
+        this.placeholder,
+        this.plugins,
+        this.editorMenuOptions
+      );
       this.editorView.updateState(this.state);
       this.focusEditorInputField();
     },

@@ -25,6 +25,13 @@
       "EDIT": "%{agentName} обновил правило автоматизации (#%{id})",
       "DELETE": "%{agentName} удалил правило автоматизации (#%{id})"
     },
+    "ACCOUNT_USER": {
+      "ADD": "%{agentName} Пригашен %{invitee} права аккаунта %{role}",
+      "EDIT": {
+        "SELF": "%{agentName} изменить %{attributes} на %{values}",
+        "OTHER": "%{agentName} изменить %{attributes} на %{values}"
+      }
+    },
     "INBOX": {
       "ADD": "%{agentName} создал новый почтовый ящик (#%{id})",
       "EDIT": "%{agentName} обновил почтовый ящик (#%{id})",
@@ -48,6 +55,17 @@
       "ADD": "%{agentName} created a new macro (#%{id})",
       "EDIT": "%{agentName} updated a macro (#%{id})",
       "DELETE": "%{agentName} deleted a macro (#%{id})"
+    },
+    "INBOX_MEMBER": {
+      "ADD": "%{agentName} added %{user} to the inbox(#%{inbox_id})",
+      "REMOVE": "%{agentName} removed %{user} from the inbox(#%{inbox_id})"
+    },
+    "TEAM_MEMBER": {
+      "ADD": "%{agentName} added %{user} to the team(#%{team_id})",
+      "REMOVE": "%{agentName} removed %{user} from the team(#%{team_id})"
+    },
+    "ACCOUNT": {
+      "EDIT": "%{agentName} updated the account configuration (#%{id})"
     }
   }
 }

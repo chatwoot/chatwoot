@@ -12,6 +12,10 @@
     "NO_INBOX_2": " för att komma igång",
     "NO_INBOX_AGENT": "Oj då! Ser ut som om du inte är del av någon inkorg. Kontakta administratören",
     "SEARCH_MESSAGES": "Sök meddelanden i konversationer",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "Sök meddelanden",
       "RESULT_TITLE": "Sökresultat",
@@ -147,6 +151,7 @@
       "STOP_AUDIO_RECORDING": "Stop audio recording",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Lägg till bcc",
         "CC": {
           "LABEL": "CC",

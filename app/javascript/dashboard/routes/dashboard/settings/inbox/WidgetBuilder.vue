@@ -455,9 +455,7 @@ export default {
     }
   }
   .widget-script {
-    margin: 0 var(--space-two);
-    padding: var(--space-one);
-    background: var(--s-50);
+    @apply mx-5 p-2.5 bg-slate-50 dark:bg-slate-700;
   }
 }
 </style>
