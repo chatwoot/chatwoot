@@ -1,6 +1,6 @@
 <template>
   <div class="chatwoot-search">
-    <search-header title="Insert article" @close="onClose" @search="onSearch" />
+    <search-header @close="onClose" @search="onSearch" />
     <div class="padding-1">
       <iframe-loader :url="url" />
     </div>

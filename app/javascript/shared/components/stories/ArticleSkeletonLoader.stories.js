@@ -1,4 +1,4 @@
-import ArticleSkeletonLoader from '../ArticleSearch/ArticleSkeletonLoader.vue';
+import ArticleSkeletonLoader from '../ArticleSkeletonLoader.vue';
 
 export default {
   title: 'Components/Help Center/ArticleSearch/ArticleSkeletonLoader',
