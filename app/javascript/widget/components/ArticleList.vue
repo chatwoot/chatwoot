@@ -2,13 +2,14 @@
   <ul role="list" class="py-2">
     <article-list-item
       v-for="article in articles"
-      :key="article.id"
+      :key="article.slug"
       :link="article.link"
       :title="article.title"
       @click="onClick"
     />
   </ul>
 </template>
+
 <script>
 import ArticleListItem from './ArticleListItem';
 
