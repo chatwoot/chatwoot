@@ -70,6 +70,8 @@
         :enable-variables="true"
         :variables="messageVariables"
         :enabled-menu-options="customEditorMenuOptions"
+        :signature="messageSignature"
+        :signature-enabled="isSignatureEnabledForInbox"
         @typing-off="onTypingOff"
         @typing-on="onTypingOn"
         @focus="onFocus"
@@ -86,11 +88,12 @@
         :remove-attachment="removeAttachment"
       />
     </div>
-    <div
+    <!-- <div
       v-if="isSignatureEnabledForInbox"
       v-tooltip="$t('CONVERSATION.FOOTER.MESSAGE_SIGN_TOOLTIP')"
       class="message-signature-wrap"
     >
+      {{ messageSignature }}
       <p
         v-if="isSignatureAvailable"
         v-dompurify-html="formatMessage(messageSignature)"
@@ -102,7 +105,7 @@
           {{ $t('CONVERSATION.FOOTER.CLICK_HERE') }}
         </router-link>
       </p>
-    </div>
+    </div> -->
     <reply-bottom-panel
       :conversation-id="conversationId"
       :enable-multiple-file-upload="enableMultipleFileUpload"

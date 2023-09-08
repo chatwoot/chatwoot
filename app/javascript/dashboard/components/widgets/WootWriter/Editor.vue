@@ -37,6 +37,10 @@ import {
 import TagAgents from '../conversation/TagAgents';
 import CannedResponse from '../conversation/CannedResponse';
 import VariableList from '../conversation/VariableList';
+import {
+  appendSignature,
+  removeSignature,
+} from 'dashboard/helper/editorHelper';
 
 const TYPING_INDICATOR_IDLE_TIME = 4000;
 
@@ -85,6 +89,8 @@ export default {
     enableCannedResponses: { type: Boolean, default: true },
     variables: { type: Object, default: () => ({}) },
     enabledMenuOptions: { type: Array, default: () => [] },
+    signature: { type: String, default: '' },
+    signatureEnabled: { type: Boolean, default: false },
   },
   data() {
     return {
@@ -224,7 +230,6 @@ export default {
     isPrivate() {
       this.reloadState(this.value);
     },
-
     updateSelectionWith(newValue, oldValue) {
       if (!this.editorView) {
         return null;
@@ -242,6 +247,9 @@ export default {
         }
       }
       return null;
+    },
+    signatureEnabled(value) {
+      this.toggleSignature(value);
     },
   },
   created() {
@@ -267,6 +275,16 @@ export default {
       );
       this.editorView.updateState(this.state);
       this.focusEditorInputField();
+    },
+    toggleSignature(enabled) {
+      let content = this.value;
+
+      if (enabled) {
+        content = removeSignature(this.value, this.signature);
+      } else {
+        content = appendSignature(this.value, this.signature);
+      }
+      this.reloadState(content);
     },
     createEditorView() {
       this.editorView = new EditorView(this.$refs.editor, {
