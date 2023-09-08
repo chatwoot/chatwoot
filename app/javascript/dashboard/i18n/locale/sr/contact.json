@@ -204,6 +204,10 @@
         "PLACEHOLDER": "Unesite Vašu poruku ovde",
         "ERROR": "Poruka ne može biti prazna"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Izaberite datoteke",
+        "HELP_TEXT": "Prevucite i pustite ovde datoteke ili izaberite datoteke koje želite da priložite"
+      },
       "SUBMIT": "Pošalji poruku",
       "CANCEL": "Otkaži",
       "SUCCESS_MESSAGE": "Poruka je poslata!",
