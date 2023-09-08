@@ -204,6 +204,10 @@
         "PLACEHOLDER": "اپنا پیغام یہاں لکھیں۔",
         "ERROR": "پیغام خالی نہیں ہو سکتا"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "پیغام بھیجیں",
       "CANCEL": "منسوخ کریں۔",
       "SUCCESS_MESSAGE": "پیغام چلا گیا!",
