@@ -204,6 +204,10 @@
         "PLACEHOLDER": "כתוב את הודעתך כאן",
         "ERROR": "ההודעה לא יכולה להיות ריקה"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "שלח הודעה",
       "CANCEL": "ביטול",
       "SUCCESS_MESSAGE": "הודעה נשלחה!",
