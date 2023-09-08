@@ -51,6 +51,7 @@ import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
 import { replaceVariablesInMessage } from '@chatwoot/utils';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import { MESSAGE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 
 const createState = (
   content,
@@ -110,6 +111,11 @@ export default {
       return (
         this.enableCannedResponses && this.showCannedMenu && !this.isPrivate
       );
+    },
+    editorMenuOptions() {
+      return this.enabledMenuOptions.length
+        ? this.enabledMenuOptions
+        : MESSAGE_EDITOR_MENU_OPTIONS;
     },
     plugins() {
       if (!this.enableSuggestions) {
@@ -211,18 +217,18 @@ export default {
     showVariables(updatedValue) {
       this.$emit('toggle-variables-menu', !this.isPrivate && updatedValue);
     },
-    value(newValue = '') {
-      if (newValue !== this.contentFromEditor) {
-        this.reloadState();
+    value(newVal = '') {
+      if (newVal !== this.contentFromEditor) {
+        this.reloadState(newVal);
       }
     },
     editorId() {
       this.showCannedMenu = false;
       this.cannedSearchTerm = '';
-      this.reloadState();
+      this.reloadState(this.value);
     },
     isPrivate() {
-      this.reloadState();
+      this.reloadState(this.value);
     },
 
     updateSelectionWith(newValue, oldValue) {
@@ -249,7 +255,7 @@ export default {
       this.value,
       this.placeholder,
       this.plugins,
-      this.enabledMenuOptions
+      this.editorMenuOptions
     );
   },
   mounted() {
@@ -258,12 +264,12 @@ export default {
     this.focusEditorInputField();
   },
   methods: {
-    reloadState() {
+    reloadState(content = this.value) {
       this.state = createState(
-        this.value,
+        content,
         this.placeholder,
         this.plugins,
-        this.enabledMenuOptions
+        this.editorMenuOptions
       );
       this.editorView.updateState(this.state);
       this.focusEditorInputField();

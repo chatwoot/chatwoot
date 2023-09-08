@@ -108,9 +108,9 @@ gem 'elastic-apm', require: false
 gem 'newrelic_rpm', require: false
 gem 'newrelic-sidekiq-metrics', require: false
 gem 'scout_apm', require: false
-gem 'sentry-rails', '>= 5.10.0', require: false
+gem 'sentry-rails', '>= 5.11.0', require: false
 gem 'sentry-ruby', require: false
-gem 'sentry-sidekiq', '>= 5.10.0', require: false
+gem 'sentry-sidekiq', '>= 5.11.0', require: false
 
 ##-- background job processing --##
 gem 'sidekiq'
@@ -188,7 +188,7 @@ group :development do
   gem 'bullet'
   gem 'letter_opener'
   gem 'scss_lint', require: false
-  gem 'web-console'
+  gem 'web-console', '>= 4.2.1'
 
   # used in swagger build
   gem 'json_refs'

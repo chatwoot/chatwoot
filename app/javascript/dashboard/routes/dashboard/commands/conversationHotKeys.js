@@ -3,6 +3,7 @@ import wootConstants from 'dashboard/constants/globals';
 
 import { CMD_AI_ASSIST } from './commandBarBusEvents';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
+import aiMixin from 'dashboard/mixins/aiMixin';
 import {
   ICON_ADD_LABEL,
   ICON_ASSIGN_AGENT,
@@ -29,21 +30,9 @@ import {
   UNMUTE_ACTION,
   MUTE_ACTION,
 } from './commandBarActions';
-
-export const isAConversationRoute = routeName =>
-  [
-    'inbox_conversation',
-    'conversation_through_mentions',
-    'conversation_through_unattended',
-    'conversation_through_inbox',
-    'conversations_through_label',
-    'conversations_through_team',
-    'conversations_through_folders',
-    'conversation_through_unattended',
-    'conversation_through_participating',
-  ].includes(routeName);
-
+import { isAConversationRoute } from '../../../helper/routeHelpers';
 export default {
+  mixins: [aiMixin],
   watch: {
     assignableAgents() {
       this.setCommandbarData();
@@ -337,15 +326,18 @@ export default {
 
     conversationHotKeys() {
       if (isAConversationRoute(this.$route.name)) {
-        return [
+        const defaultConversationHotKeys = [
           ...this.statusActions,
           ...this.conversationAdditionalActions,
           ...this.assignAgentActions,
           ...this.assignTeamActions,
           ...this.labelActions,
           ...this.assignPriorityActions,
-          ...this.AIAssistActions,
         ];
+        if (this.isAIIntegrationEnabled) {
+          return [...defaultConversationHotKeys, ...this.AIAssistActions];
+        }
+        return defaultConversationHotKeys;
       }
 
       return [];
