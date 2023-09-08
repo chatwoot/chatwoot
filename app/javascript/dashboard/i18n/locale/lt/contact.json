@@ -204,6 +204,10 @@
         "PLACEHOLDER": "Rašykite pranešimą čia",
         "ERROR": "Pranešimas negali būti tuščias"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Pasirink failus",
+        "HELP_TEXT": "Nuvilkite failus čia arba pasirinkite failus, kuriuos norite pridėti"
+      },
       "SUBMIT": "Išsiųsti pranešimą",
       "CANCEL": "Atšaukti",
       "SUCCESS_MESSAGE": "Pranešimas įšsiųstas!",
