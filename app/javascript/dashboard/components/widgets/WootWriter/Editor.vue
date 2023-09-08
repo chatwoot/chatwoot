@@ -63,6 +63,7 @@ import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { uploadFile } from 'dashboard/helper/uploadHelper';
 import alertMixin from 'shared/mixins/alertMixin';
 import { findNodeToInsertImage } from 'dashboard/helper/messageEditorHelper';
+import { MESSAGE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 
 const createState = (
   content,
@@ -124,6 +125,11 @@ export default {
       return (
         this.enableCannedResponses && this.showCannedMenu && !this.isPrivate
       );
+    },
+    editorMenuOptions() {
+      return this.enabledMenuOptions.length
+        ? this.enabledMenuOptions
+        : MESSAGE_EDITOR_MENU_OPTIONS;
     },
     plugins() {
       if (!this.enableSuggestions) {
@@ -264,7 +270,7 @@ export default {
       this.placeholder,
       this.plugins,
       { onImageUpload: this.openFileBrowser },
-      this.enabledMenuOptions
+      this.editorMenuOptions
     );
   },
   mounted() {
@@ -279,7 +285,7 @@ export default {
         this.placeholder,
         this.plugins,
         { onImageUpload: this.openFileBrowser },
-        this.enabledMenuOptions
+        this.editorMenuOptions
       );
       this.editorView.updateState(this.state);
       this.focusEditorInputField();
