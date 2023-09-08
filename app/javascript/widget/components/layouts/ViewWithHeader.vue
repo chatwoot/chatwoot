@@ -46,7 +46,10 @@
     >
       <router-view />
     </transition>
-    <branding :disable-branding="disableBranding" />
+    <branding
+      class="bg-slate-25 dark:bg-slate-800"
+      :disable-branding="disableBranding"
+    />
   </div>
 </template>
 <script>
