@@ -108,26 +108,43 @@
           <div v-if="isEmailOrWebWidgetInbox">
             <label>
               {{ $t('NEW_CONVERSATION.FORM.MESSAGE.LABEL') }}
-              <reply-email-head
-                v-if="isAnEmailInbox"
-                :cc-emails.sync="ccEmails"
-                :bcc-emails.sync="bccEmails"
-              />
-              <label class="editor-wrap">
-                <woot-message-editor
-                  v-model="message"
-                  class="message-editor"
-                  :class="{ editor_warning: $v.message.$error }"
-                  :enable-variables="true"
-                  :placeholder="$t('NEW_CONVERSATION.FORM.MESSAGE.PLACEHOLDER')"
-                  @toggle-canned-menu="toggleCannedMenu"
-                  @blur="$v.message.$touch"
-                />
-                <span v-if="$v.message.$error" class="editor-warning__message">
-                  {{ $t('NEW_CONVERSATION.FORM.MESSAGE.ERROR') }}
-                </span>
-              </label>
             </label>
+            <reply-email-head
+              v-if="isAnEmailInbox"
+              :cc-emails.sync="ccEmails"
+              :bcc-emails.sync="bccEmails"
+            />
+            <div class="editor-wrap">
+              <woot-message-editor
+                v-model="message"
+                class="message-editor"
+                :class="{ editor_warning: $v.message.$error }"
+                :enable-variables="true"
+                :placeholder="$t('NEW_CONVERSATION.FORM.MESSAGE.PLACEHOLDER')"
+                @toggle-canned-menu="toggleCannedMenu"
+                @blur="$v.message.$touch"
+              >
+                <message-signature-view
+                  v-if="isSignatureEnabledForInbox"
+                  :message-signature="messageSignature"
+                  class="!mx-0 !mb-2"
+                />
+                <div v-if="isAnEmailInbox" class="mb-3 mt-px">
+                  <woot-button
+                    v-tooltip.top-end="signatureToggleTooltip"
+                    icon="signature"
+                    color-scheme="secondary"
+                    variant="smooth"
+                    size="small"
+                    :title="signatureToggleTooltip"
+                    @click.prevent="toggleMessageSignature"
+                  />
+                </div>
+              </woot-message-editor>
+              <span v-if="$v.message.$error" class="editor-warning__message">
+                {{ $t('NEW_CONVERSATION.FORM.MESSAGE.ERROR') }}
+              </span>
+            </div>
           </div>
           <whatsapp-templates
             v-else-if="hasWhatsappTemplates"
@@ -228,6 +245,7 @@ import ReplyEmailHead from 'dashboard/components/widgets/conversation/ReplyEmail
 import CannedResponse from 'dashboard/components/widgets/conversation/CannedResponse.vue';
 import InboxDropdownItem from 'dashboard/components/widgets/InboxDropdownItem';
 import WhatsappTemplates from './WhatsappTemplates.vue';
+import MessageSignatureView from 'dashboard/components/widgets/conversation/MessageSignature';
 import alertMixin from 'shared/mixins/alertMixin';
 import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
@@ -238,6 +256,7 @@ import FileUpload from 'vue-upload-component';
 import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
 export default {
   components: {
@@ -249,8 +268,9 @@ export default {
     InboxDropdownItem,
     FileUpload,
     AttachmentPreview,
+    MessageSignatureView,
   },
-  mixins: [alertMixin, inboxMixin, fileUploadMixin],
+  mixins: [alertMixin, inboxMixin, fileUploadMixin, uiSettingsMixin],
   props: {
     contact: {
       type: Object,
@@ -273,6 +293,7 @@ export default {
       targetInbox: {},
       whatsappTemplateSelected: false,
       attachedFiles: [],
+      sendWithSignature: false,
     };
   },
   validations: {
@@ -292,13 +313,18 @@ export default {
       conversationsUiFlags: 'contactConversations/getUIFlags',
       currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
+      messageSignature: 'getMessageSignature',
     }),
     newMessagePayload() {
+      let newMessage = this.message;
+      if (this.isSignatureEnabledForInbox && this.messageSignature) {
+        newMessage += '\n\n' + this.messageSignature;
+      }
       const payload = {
         inboxId: this.targetInbox.id,
         sourceId: this.targetInbox.sourceId,
         contactId: this.contact.id,
-        message: { content: this.message },
+        message: { content: newMessage },
         mailSubject: this.subject,
         assigneeId: this.currentUser.id,
       };
@@ -337,6 +363,14 @@ export default {
         return false;
       }
       return this.inboxes.length === 0 && !this.uiFlags.isFetchingInboxes;
+    },
+    isSignatureEnabledForInbox() {
+      return this.isAnEmailInbox && this.sendWithSignature;
+    },
+    signatureToggleTooltip() {
+      return this.sendWithSignature
+        ? this.$t('CONVERSATION.FOOTER.DISABLE_SIGN_TOOLTIP')
+        : this.$t('CONVERSATION.FOOTER.ENABLE_SIGN_TOOLTIP');
     },
     inboxes() {
       const inboxList = this.contact.contactableInboxes || [];
@@ -488,6 +522,9 @@ export default {
         inbox
       );
       return classByType;
+    },
+    toggleMessageSignature() {
+      this.sendWithSignature = !this.sendWithSignature;
     },
   },
 };

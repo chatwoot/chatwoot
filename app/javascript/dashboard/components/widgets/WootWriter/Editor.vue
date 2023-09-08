@@ -16,6 +16,7 @@
       @click="insertVariable"
     />
     <div ref="editor" />
+    <slot />
   </div>
 </template>
 
@@ -549,6 +550,6 @@ export default {
 }
 
 .editor-warning__message {
-  @apply text-red-400 dark:text-red-400 font-normal pt-1 pb-0 px-0;
+  @apply text-red-400 dark:text-red-400 text-sm font-normal pt-1 pb-0 px-0;
 }
 </style>
