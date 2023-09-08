@@ -204,6 +204,10 @@
         "PLACEHOLDER": "เขียนข้อความของคุณที่นี่",
         "ERROR": "ไม่สามารถปล่อยให่ข้อความว่างได้"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "ส่วข้อความ",
       "CANCEL": "ยกเลิก",
       "SUCCESS_MESSAGE": "ส่งข้อความเเล้ว",
