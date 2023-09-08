@@ -204,6 +204,10 @@
         "PLACEHOLDER": "Напишете съобщението си тук",
         "ERROR": "Съобщението не може да е празно"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "Изпрати съобщение",
       "CANCEL": "Отмени",
       "SUCCESS_MESSAGE": "Съобщението е изпратено!",
