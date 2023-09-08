@@ -204,6 +204,10 @@
         "PLACEHOLDER": "Tulis pesan Anda di sini",
         "ERROR": "Pesan tidak boleh kosong"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "Kirim Pesan",
       "CANCEL": "Batalkan",
       "SUCCESS_MESSAGE": "Pesan terkirim!",
