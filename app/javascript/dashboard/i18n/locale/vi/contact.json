@@ -204,6 +204,10 @@
         "PLACEHOLDER": "Viết tin nhắn ở đây",
         "ERROR": "Tin nhắn không được rỗng"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "Gửi tin nhắn",
       "CANCEL": "Huỷ",
       "SUCCESS_MESSAGE": "Tin nhắn đã được gửi!",
