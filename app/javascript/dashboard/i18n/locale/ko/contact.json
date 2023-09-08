@@ -204,6 +204,10 @@
         "PLACEHOLDER": "메시지를 여기에 작성해주세요",
         "ERROR": "메시지는 비어 있을 수 없습니다"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "메시지 보내기",
       "CANCEL": "취소",
       "SUCCESS_MESSAGE": "메시지가 보내졌습니다!",
