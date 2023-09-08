@@ -205,7 +205,6 @@ export default {
             values: condition.values.join(','),
           };
         }
-
         return {
           ...condition,
           query_operator: condition.query_operator || 'and',
