@@ -204,6 +204,10 @@
         "PLACEHOLDER": "നിങ്ങളുടെ സന്ദേശം ഇവിടെ എഴുതുക",
         "ERROR": "സന്ദേശം ശൂന്യമാക്കാൻ കഴിയില്ല"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "സന്ദേശം അയയ്ക്കുക",
       "CANCEL": "റദ്ദാക്കുക",
       "SUCCESS_MESSAGE": "സന്ദേശം അയച്ചു!",
