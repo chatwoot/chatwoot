@@ -204,6 +204,10 @@
         "PLACEHOLDER": "Schreiben Sie Ihre Nachricht hier",
         "ERROR": "Nachricht darf nicht leer sein"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "Nachricht senden",
       "CANCEL": "Abbrechen",
       "SUCCESS_MESSAGE": "Nachricht gesendet!",
