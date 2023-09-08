@@ -152,6 +152,10 @@
 
       &.is-image {
         @apply rounded-lg;
+
+        .message__mail-head {
+          @apply px-4 py-2;
+        }
       }
     }
 
