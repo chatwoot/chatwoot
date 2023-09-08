@@ -204,6 +204,10 @@
         "PLACEHOLDER": "Напишите здесь ваше сообщение",
         "ERROR": "Сообщение не может быть пустым"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "Отправить сообщение",
       "CANCEL": "Отменить",
       "SUCCESS_MESSAGE": "Сообщение отправлено!",
