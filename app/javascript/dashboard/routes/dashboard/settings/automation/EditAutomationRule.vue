@@ -52,7 +52,7 @@
             {{ $t('AUTOMATION.ADD.FORM.CONDITIONS.LABEL') }}
           </label>
           <div
-            class="w-full w-full p-4 bg-slate-25 dark:bg-slate-700 rounded-lg border border-solid border-slate-50 dark:border-slate-700 mb-4"
+            class="w-full p-4 bg-slate-25 dark:bg-slate-700 rounded-lg border border-solid border-slate-50 dark:border-slate-700 mb-4"
           >
             <filter-input-box
               v-for="(condition, i) in automation.conditions"
@@ -94,7 +94,7 @@
             {{ $t('AUTOMATION.ADD.FORM.ACTIONS.LABEL') }}
           </label>
           <div
-            class="w-full w-full p-4 bg-slate-25 dark:bg-slate-700 rounded-lg border border-solid border-slate-50 dark:border-slate-700 mb-4"
+            class="w-full p-4 bg-slate-25 dark:bg-slate-700 rounded-lg border border-solid border-slate-50 dark:border-slate-700 mb-4"
           >
             <automation-action-input
               v-for="(action, i) in automation.actions"
