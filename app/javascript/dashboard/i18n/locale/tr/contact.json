@@ -204,6 +204,10 @@
         "PLACEHOLDER": "Mesajınızı buraya yazınız",
         "ERROR": "Mesaj boş olamaz"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "Mesaj yolla",
       "CANCEL": "İptal Et",
       "SUCCESS_MESSAGE": "Mesaj yollandı!",
