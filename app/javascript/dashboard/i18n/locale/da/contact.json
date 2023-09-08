@@ -204,6 +204,10 @@
         "PLACEHOLDER": "Skriv din besked her",
         "ERROR": "Beskeden må ikke være tom"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "Send besked",
       "CANCEL": "Annuller",
       "SUCCESS_MESSAGE": "Besked sendt!",
