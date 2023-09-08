@@ -204,6 +204,10 @@
         "PLACEHOLDER": "اكتب رسالتك هنا",
         "ERROR": "لا يمكن أن تكون الرسالة فارغة"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "إرسال الرسالة",
       "CANCEL": "إلغاء",
       "SUCCESS_MESSAGE": "تم إرسال الرسالة!",
