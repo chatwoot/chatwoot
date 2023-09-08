@@ -204,6 +204,10 @@
         "PLACEHOLDER": "在此填寫你的訊息",
         "ERROR": "訊息不得為空"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "傳送訊息",
       "CANCEL": "取消",
       "SUCCESS_MESSAGE": "訊息已傳送",
