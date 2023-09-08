@@ -204,6 +204,10 @@
         "PLACEHOLDER": "Γράψτε το μήνυμά σας εδώ",
         "ERROR": "Το μήνυμα δεν μπορεί να είναι άδειο"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "Αποστολή μηνύματος",
       "CANCEL": "Άκυρο",
       "SUCCESS_MESSAGE": "Το μήνυμα στάλθηκε!",
