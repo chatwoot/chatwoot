@@ -204,6 +204,10 @@
         "PLACEHOLDER": "Skrifaðu skilaboðin þín hér",
         "ERROR": "Skilaboð mega ekki vera tóm"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "Senda skilaboð",
       "CANCEL": "Hætta við",
       "SUCCESS_MESSAGE": "Skilaboð send!",
