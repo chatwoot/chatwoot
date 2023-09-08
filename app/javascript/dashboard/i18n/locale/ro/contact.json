@@ -204,6 +204,10 @@
         "PLACEHOLDER": "Scrie mesajul aici",
         "ERROR": "Mesajul nu poate fi gol"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "Trimite mesaj",
       "CANCEL": "Renunță",
       "SUCCESS_MESSAGE": "Mesaj trimis!",
