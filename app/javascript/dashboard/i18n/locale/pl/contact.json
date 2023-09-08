@@ -204,6 +204,10 @@
         "PLACEHOLDER": "Wpisz swoją wiadomość tutaj",
         "ERROR": "Wiadomość nie może być pusta"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "Wyślij wiadomość",
       "CANCEL": "Anuluj",
       "SUCCESS_MESSAGE": "Wiadomość została wysłana!",
