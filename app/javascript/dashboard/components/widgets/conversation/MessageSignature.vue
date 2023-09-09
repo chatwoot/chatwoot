@@ -23,10 +23,8 @@
 
 <script>
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import WootButton from '../../ui/WootButton.vue';
 
 export default {
-  components: { WootButton },
   mixins: [messageFormatterMixin],
   props: {
     messageSignature: {
