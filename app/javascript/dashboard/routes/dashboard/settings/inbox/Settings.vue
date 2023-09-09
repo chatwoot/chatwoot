@@ -208,6 +208,7 @@
             }}
           </p>
         </label>
+
         <label class="w-[75%] pb-4">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CSAT') }}
           <select v-model="csatSurveyEnabled">
