@@ -1,10 +1,18 @@
 <% @messages.each do |message| %>
   <tr>
     <td>
-      <% sender_name = sender.try(:available_name) || sender&.name || ''%>
+      <% sender_name = message.sender&.try(:available_name) || message.sender&.name %>
       <% if @inbox.email? %>
-        <b>From:</b> <%= sender_name %> <%= "<#{message.sender&.email}>" %><br>
-        <b>Subject:</b> <%= message.conversation.additional_attributes&.dig('mail_subject') %><br>
+        <% if sender_name.present? %>
+          <b>From:</b>
+          <%= sender_name %> <%= "<#{message.sender&.email}>" %>
+          <br>
+        <% end %>
+        <% if @conversation_subject.present? %>
+          <b>Subject:</b>
+          <%= @conversation_subject %>
+          <br>
+        <% end %>
       <% else %>
         <b><%= sender_name %></b>
       <% end %>
