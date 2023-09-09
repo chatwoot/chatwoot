@@ -155,11 +155,7 @@ RSpec.describe ConversationReplyMailer do
         expect(mail.message_id).to eq message.source_id
       end
 
-      context 'when reply with original message is enabled' do
-        before do
-          prev_message.inbox.update(enable_reply_with_original_message: true)
-        end
-
+      context 'reply with previous messages ' do
         it 'renders the previous message to the body' do
           expect(mail.decoded).to include prev_message.content
         end
