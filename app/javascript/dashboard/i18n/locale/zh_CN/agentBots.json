@@ -6,7 +6,7 @@
     "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent bots allows you to automate the conversations</p>",
     "CSML_BOT_EDITOR": {
       "NAME": {
-        "LABEL": "Bot Name",
+        "LABEL": "机器人名称",
         "PLACEHOLDER": "Give your bot a name",
         "ERROR": "Bot name is required"
       },
@@ -29,7 +29,7 @@
       "DISCONNECTED_SUCCESS_MESSAGE": "Successfully disconnected the agent bot",
       "ERROR_MESSAGE": "Could not update the agent bot, please try again later",
       "DISCONNECTED_ERROR_MESSAGE": "Could not disconnect the agent bot, please try again later",
-      "SELECT_PLACEHOLDER": "Select Bot"
+      "SELECT_PLACEHOLDER": "选择机器人"
     },
     "ADD": {
       "TITLE": "Configure new bot",

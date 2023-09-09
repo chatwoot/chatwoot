@@ -80,10 +80,10 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   def send_message
     post_message if message_content.present?
     upload_file if message.attachments.any?
-  rescue Slack::Web::Api::Errors::AccountInactive => e
+  rescue Slack::Web::Api::Errors::AccountInactive, Slack::Web::Api::Errors::MissingScope, Slack::Web::Api::Errors::InvalidAuth => e
     Rails.logger.error e
-    hook.authorization_error!
-    hook.disable if hook.enabled?
+    hook.prompt_reauthorization!
+    hook.disable
   end
 
   def post_message
@@ -128,7 +128,7 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def update_reference_id
-    return if conversation.identifier
+    return unless should_update_reference_id?
 
     conversation.update!(identifier: @slack_message['ts'])
   end
@@ -145,5 +145,13 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
 
   def link_to_conversation
     "<#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{conversation.account_id}/conversations/#{conversation.display_id}|Click here>"
+  end
+
+  # Determines whether the conversation identifier should be updated with the ts value.
+  # The identifier should be updated in the following cases:
+  # - If the conversation identifier is blank, it means a new conversation is being created.
+  # - If the thread_ts is blank, it means that the conversation was previously connected in a different channel.
+  def should_update_reference_id?
+    conversation.identifier.blank? || @slack_message['message']['thread_ts'].blank?
   end
 end

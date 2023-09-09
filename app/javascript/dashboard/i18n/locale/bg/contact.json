@@ -71,7 +71,7 @@
       "SUBMIT": "Внасяне",
       "CANCEL": "Отмени"
     },
-    "SUCCESS_MESSAGE": "Успешно запазване на контактите",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "Възникна грешка, моля опитайте отново"
   },
   "EXPORT_CONTACTS": {

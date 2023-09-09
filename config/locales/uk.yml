@@ -49,6 +49,8 @@ uk:
         unique: має бути унікальним на категорії і порталі
     dyte:
       invalid_message_type: "Невірний тип повідомлення. Дію не дозволено"
+    slack:
+      invalid_channel_id: "Invalid slack channel. Please try again"
     inboxes:
       imap:
         socket_error: Перевірте підключення до мережі, адреса IMAP і повторіть спробу.
@@ -144,6 +146,8 @@ uk:
         header:
           from_with_name: "%{assignee_name} з %{inbox_name} <%{from_email}>"
           reply_with_name: "%{assignee_name} від %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} з %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} з %{inbox_name} <%{from_email}>"

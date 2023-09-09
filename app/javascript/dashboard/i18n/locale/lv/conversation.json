@@ -12,6 +12,10 @@
     "NO_INBOX_2": " lai sāktu",
     "NO_INBOX_AGENT": "Ak, vai! Izskatās, ka Jūs neesat nevienas iesūtnes dalībnieks. Lūdzu, sazinieties ar savu administratoru",
     "SEARCH_MESSAGES": "Meklēt ziņojumus sarunās",
+    "EMPTY_STATE": {
+      "CMD_BAR": "lai atvērtu komandu izvēlni",
+      "KEYBOARD_SHORTCUTS": "lai skatītu klaviatūras īsinājumtaustiņus"
+    },
     "SEARCH": {
       "TITLE": "Meklēt ziņojumus",
       "RESULT_TITLE": "Meklēšanas Rezultāti",
@@ -147,6 +151,7 @@
       "STOP_AUDIO_RECORDING": "Apturēt audio ierakstīšanu",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "KAM",
         "ADD_BCC": "Pievienot bcc",
         "CC": {
           "LABEL": "CC",

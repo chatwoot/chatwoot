@@ -105,5 +105,9 @@
       "CLICK_HERE_TO_JOIN": "Натисніть тут, щоб приєднатися",
       "LEAVE_THE_ROOM": "Залишити дзвінок"
     }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "Переглянути всі статті"
   }
 }

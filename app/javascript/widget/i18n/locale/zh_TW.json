@@ -105,5 +105,9 @@
       "CLICK_HERE_TO_JOIN": "點擊這裡加入",
       "LEAVE_THE_ROOM": "Leave the call"
     }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles"
   }
 }

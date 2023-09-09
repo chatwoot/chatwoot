@@ -1,25 +1,25 @@
 {
     "WHATSAPP_TEMPLATES": {
         "MODAL": {
-            "TITLE": "Whatsapp Templates",
-            "SUBTITLE": "Select the whatsapp template you want to send",
-            "TEMPLATE_SELECTED_SUBTITLE": "Process %{templateName}"
+            "TITLE": "Whatsapp sablonok",
+            "SUBTITLE": "Válaszd ki a Whatsapp sablont",
+            "TEMPLATE_SELECTED_SUBTITLE": "Feldolgozás: %{templateName}"
         },
         "PICKER": {
-            "SEARCH_PLACEHOLDER": "Search Templates",
-            "NO_TEMPLATES_FOUND": "No templates found for",
+            "SEARCH_PLACEHOLDER": "Sablon keresése",
+            "NO_TEMPLATES_FOUND": "Nem található sablon erre:",
             "LABELS": {
-                "LANGUAGE": "Language",
-                "TEMPLATE_BODY": "Template Body",
-                "CATEGORY": "Category"
+                "LANGUAGE": "Nyelv",
+                "TEMPLATE_BODY": "Sablon törzse",
+                "CATEGORY": "Kategória"
             }
         },
         "PARSER": {
-            "VARIABLES_LABEL": "Variables",
-            "VARIABLE_PLACEHOLDER": "Enter %{variable} value",
-            "GO_BACK_LABEL": "Go Back",
-            "SEND_MESSAGE_LABEL": "Send Message",
-            "FORM_ERROR_MESSAGE": "Please fill all variables before sending"
+            "VARIABLES_LABEL": "Változók",
+            "VARIABLE_PLACEHOLDER": "Add meg a %{variable} értékét",
+            "GO_BACK_LABEL": "Vissza",
+            "SEND_MESSAGE_LABEL": "Üzenet küldése",
+            "FORM_ERROR_MESSAGE": "Kérlek add meg az összes változó értékét küldés előtt"
         }
     }
 }

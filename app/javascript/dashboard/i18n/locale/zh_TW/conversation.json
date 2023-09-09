@@ -12,6 +12,10 @@
     "NO_INBOX_2": " 開始吧",
     "NO_INBOX_AGENT": "看起來你還沒有分配到收件匣。請聯絡你的管理員",
     "SEARCH_MESSAGES": "在對話中搜尋訊息",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "搜尋訊息",
       "RESULT_TITLE": "搜尋結果",
@@ -147,6 +151,7 @@
       "STOP_AUDIO_RECORDING": "Stop audio recording",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "密件副本",
         "CC": {
           "LABEL": "副本",

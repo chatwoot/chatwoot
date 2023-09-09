@@ -2,7 +2,7 @@
   <ul role="list" class="py-2">
     <article-list-item
       v-for="article in articles"
-      :key="article.slug"
+      :key="article.id"
       :link="article.link"
       :title="article.title"
       @click="onClick"

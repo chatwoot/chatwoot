@@ -12,6 +12,10 @@
     "NO_INBOX_2": " per iniziare",
     "NO_INBOX_AGENT": "Uh Oh! Sembra che tu non faccia parte di nessuna casella. Per favore contatta il tuo amministratore",
     "SEARCH_MESSAGES": "Cerca messaggi nelle conversazioni",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "Cerca messaggi",
       "RESULT_TITLE": "Risultati della ricerca",
@@ -147,6 +151,7 @@
       "STOP_AUDIO_RECORDING": "Interrompi registrazione audio",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Aggiungi bcc",
         "CC": {
           "LABEL": "CC",

@@ -23,6 +23,7 @@ export const actions = {
     try {
       const { data } = await getMostReadArticles(slug, locale);
       const { payload = [] } = data;
+
       if (payload.length) {
         commit('setArticles', payload);
       }

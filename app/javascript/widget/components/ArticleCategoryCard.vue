@@ -1,27 +1,21 @@
 <template>
-  <div>
-    <h3 class="text-base font-medium text-slate-900 dark:text-slate-50 mb-0">
-      {{ title }}
-    </h3>
-    <article-list :articles="articles" @click="onArticleClick" />
+  <div class="py-2">
+    <h3 class="text-sm font-semibold text-slate-900 mb-0">{{ title }}</h3>
+    <article-list :articles="articles" />
     <button
-      class="inline-flex text-sm font-medium rounded-md px-2 py-1 -ml-2 leading-6 text-slate-800 dark:text-slate-50 justify-between items-center hover:bg-slate-25 see-articles"
-      :style="{ color: widgetColor }"
-      @click="$emit('view-all')"
+      class="inline-flex text-sm font-medium rounded-md px-2 py-1 -ml-2 leading-6 text-slate-800 justify-between items-center hover:bg-slate-25 see-articles"
+      @click="$emit('view-all-articles')"
     >
-      <span class="pr-2 text-sm">{{ $t('PORTAL.VIEW_ALL_ARTICLES') }}</span>
+      <span class="pr-2">{{ $t('PORTAL.VIEW_ALL_ARTICLES') }}</span>
       <fluent-icon icon="arrow-right" size="14" />
     </button>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import ArticleList from './ArticleList.vue';
-import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-
 export default {
-  components: { FluentIcon, ArticleList },
+  components: { ArticleList },
   props: {
     title: {
       type: String,
@@ -31,13 +25,9 @@ export default {
       type: Array,
       default: () => [],
     },
-  },
-  computed: {
-    ...mapGetters({ widgetColor: 'appConfig/getWidgetColor' }),
-  },
-  methods: {
-    onArticleClick(link) {
-      this.$emit('view', link);
+    categoryPath: {
+      type: String,
+      default: '',
     },
   },
 };

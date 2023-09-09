@@ -49,6 +49,8 @@ lv:
         unique: vajadzētu būt unikālai, kategorijā un portālā 
     dyte:
       invalid_message_type: "Nederīgs ziņojuma veids. Darbība nav atļauta"
+    slack:
+      invalid_channel_id: "Nepareizs Slack kanāls. Lūdzu, mēģiniet vēlreiz"
     inboxes:
       imap:
         socket_error: Lūdzu, pārbaudiet tīkla savienojumu, IMAP adresi un mēģiniet vēlreiz.
@@ -144,6 +146,8 @@ lv:
         header:
           from_with_name: "%{assignee_name} no %{inbox_name} <%{from_email}>"
           reply_with_name: "%{assignee_name} no %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} no %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} no %{inbox_name} <%{from_email}>"

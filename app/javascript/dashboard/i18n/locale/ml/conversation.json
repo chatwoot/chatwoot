@@ -12,6 +12,10 @@
     "NO_INBOX_2": " ആരംഭിക്കുന്നതിന്",
     "NO_INBOX_AGENT": "നിങ്ങൾ ഏതെങ്കിലും ഇൻ‌ബോക്സിന്റെ ഭാഗമല്ലെന്ന് തോന്നുന്നു. നിങ്ങളുടെ അഡ്മിനിസ്ട്രേറ്ററുമായി ബന്ധപ്പെടുക",
     "SEARCH_MESSAGES": "സംഭാഷണങ്ങളിൽ സന്ദേശങ്ങൾക്കായി തിരയുക",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "സന്ദേശങ്ങൾ തിരയുക",
       "RESULT_TITLE": "Search Results",
@@ -147,6 +151,7 @@
       "STOP_AUDIO_RECORDING": "Stop audio recording",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Add bcc",
         "CC": {
           "LABEL": "CC",

@@ -105,5 +105,9 @@
       "CLICK_HERE_TO_JOIN": "Spausti čia kad prisijungti",
       "LEAVE_THE_ROOM": "Išeiti iš skambučio"
     }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "Žiūrėti visus straipsnius"
   }
 }

@@ -3,7 +3,8 @@
     "TITLE": "Chatwoot belépés",
     "EMAIL": {
       "LABEL": "E-mail",
-      "PLACEHOLDER": "E-mail pl.: valaki@példa.hu"
+      "PLACEHOLDER": "E-mail pl.: valaki@példa.hu",
+      "ERROR": "Kérjük helyes e-mailcímet adj meg"
     },
     "PASSWORD": {
       "LABEL": "Jelszó",
@@ -15,9 +16,9 @@
       "UNAUTH": "A felhasználó / jelszó helytelen. Kérjük próbálja újra"
     },
     "OAUTH": {
-      "GOOGLE_LOGIN": "Login with Google",
-      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
-      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+      "GOOGLE_LOGIN": "Bejelentkezés Google-el",
+      "BUSINESS_ACCOUNTS_ONLY": "Kérlek a céges email címed használd bejelentkezéshez",
+      "NO_ACCOUNT_FOUND": "Nem található fiók az email címedhez."
     },
     "FORGOT_PASSWORD": "Elfelejtetted a jelszavad?",
     "CREATE_NEW_ACCOUNT": "Új fiók létrehozása",

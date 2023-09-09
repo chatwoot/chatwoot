@@ -149,6 +149,7 @@
     "SELECTOR_SUBTITLE": "从以下列表中选择一个账户",
     "PROFILE_SETTINGS": "个人资料设置",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
+    "APPEARANCE": "Change Appearance",
     "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "退出登录"
   },
@@ -214,7 +215,7 @@
     "LABELS": "标签",
     "CUSTOM_ATTRIBUTES": "自定义属性",
     "AUTOMATION": "Automation",
-    "MACROS": "Macros",
+    "MACROS": "宏",
     "TEAMS": "Teams",
     "BILLING": "Billing",
     "CUSTOM_VIEWS_FOLDER": "Folders",

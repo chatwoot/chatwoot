@@ -12,6 +12,10 @@
     "NO_INBOX_2": " norint pradėti",
     "NO_INBOX_AGENT": "Oi! Atrodo, kad nesate jokio gautų laiškų aplanko dalis. Susisiekite su administratoriumi",
     "SEARCH_MESSAGES": "Ieškokite pranešimų pokalbiuose",
+    "EMPTY_STATE": {
+      "CMD_BAR": "norėdami atidaryti komandų meniu",
+      "KEYBOARD_SHORTCUTS": "norėdami peržiūrėti sparčiuosius klavišus"
+    },
     "SEARCH": {
       "TITLE": "Ieškoti pranešimų",
       "RESULT_TITLE": "Rezultatų Paieška",
@@ -147,6 +151,7 @@
       "STOP_AUDIO_RECORDING": "Baigti audio įrašymą",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "Kam",
         "ADD_BCC": "Pridėti bcc",
         "CC": {
           "LABEL": "CC",

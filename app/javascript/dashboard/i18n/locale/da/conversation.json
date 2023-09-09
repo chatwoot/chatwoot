@@ -12,6 +12,10 @@
     "NO_INBOX_2": " for at komme i gang",
     "NO_INBOX_AGENT": "Åh Åh! Det ser ud til, at du ikke er en del af en indbakke. Kontakt venligst din administrator",
     "SEARCH_MESSAGES": "Søg efter beskeder i samtaler",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "Søg efter beskeder",
       "RESULT_TITLE": "Søgeresultater",
@@ -147,6 +151,7 @@
       "STOP_AUDIO_RECORDING": "Stop lydoptagelse",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Tilføj bcc",
         "CC": {
           "LABEL": "CC",

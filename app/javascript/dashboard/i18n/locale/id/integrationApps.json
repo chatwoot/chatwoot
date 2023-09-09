@@ -1,35 +1,35 @@
 {
   "INTEGRATION_APPS": {
-    "FETCHING": "Fetching Integrations",
-    "NO_HOOK_CONFIGURED": "There are no %{integrationId} integrations configured in this account.",
-    "HEADER": "Applications",
+    "FETCHING": "Mengambil Integrasi",
+    "NO_HOOK_CONFIGURED": "Tidak ada integrasi %{integrationId} yang dikonfigurasi di akun ini.",
+    "HEADER": "Aplikasi",
     "STATUS": {
       "ENABLED": "Diaktifkan",
       "DISABLED": "Nonaktif"
     },
     "CONFIGURE": "Konfigurasi",
-    "ADD_BUTTON": "Add a new hook",
+    "ADD_BUTTON": "Tambahkan hook baru",
     "DELETE": {
       "TITLE": {
-        "INBOX": "Confirm deletion",
-        "ACCOUNT": "Disconnect"
+        "INBOX": "Konfirmasi penghapusan",
+        "ACCOUNT": "Putuskan koneksi"
       },
       "MESSAGE": {
-        "INBOX": "Apakah Anda yakin untuk menghapus?",
-        "ACCOUNT": "Are you sure to disconnect?"
+        "INBOX": "Apakah Anda yakin ingin menghapus?",
+        "ACCOUNT": "Apakah Anda yakin ingin memutuskan koneksi?"
       },
       "CONFIRM_BUTTON_TEXT": {
         "INBOX": "Ya, Hapus",
-        "ACCOUNT": "Yes, Disconnect"
+        "ACCOUNT": "Ya, Putuskan Koneksi"
       },
       "CANCEL_BUTTON_TEXT": "Batalkan",
       "API": {
-        "SUCCESS_MESSAGE": "Hook deleted successfully",
+        "SUCCESS_MESSAGE": "Hook berhasil dihapus",
         "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
       }
     },
     "LIST": {
-      "FETCHING": "Fetching integration hooks",
+      "FETCHING": "Mengambil hook integrasi",
       "INBOX": "Kotak masuk",
       "DELETE": {
         "BUTTON_TEXT": "Hapus"
@@ -38,25 +38,25 @@
     "ADD": {
       "FORM": {
         "INBOX": {
-          "LABEL": "Select Inbox",
-          "PLACEHOLDER": "Select Inbox"
+          "LABEL": "Pilih Kotak Masuk",
+          "PLACEHOLDER": "Pilih Kotak Masuk"
         },
         "SUBMIT": "Buat",
         "CANCEL": "Batalkan"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Integration hook added successfully",
+        "SUCCESS_MESSAGE": "Hook integrasi berhasil ditambahkan",
         "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "Sambungkan"
     },
     "DISCONNECT": {
-      "BUTTON_TEXT": "Disconnect"
+      "BUTTON_TEXT": "Putuskan"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow is a natural language understanding platform that makes it easy to design and integrate a conversational user interface into your mobile app, web application, device, bot, interactive voice response system, and so on. <br /> <br /> Dialogflow integration with %{installationName} allows you to configure a Dialogflow bot with your inboxes which lets the bot handle the queries initially and hand them over to an agent when needed. Dialogflow can be used to qualifying the leads, reduce the workload of agents by providing frequently asked questions etc. <br /> <br /> To add Dialogflow, you need to create a Service Account in your Google project console and share the credentials. Please refer to the Dialogflow docs for more information."
+      "DIALOGFLOW": "Dialogflow adalah platform pemahaman bahasa alami yang memungkinkan Anda merancang dan mengintegrasikan antarmuka pengguna percakapan ke aplikasi seluler, aplikasi web, perangkat, bot, sistem respons suara interaktif, dan lain-lain. <br /> <br /> Integrasi Dialogflow dengan %{installationName} memungkinkan Anda mengkonfigurasi bot Dialogflow dengan kotak masuk Anda, sehingga bot menangani pertanyaan awal dan menyerahkannya ke agen jika diperlukan. Dialogflow dapat digunakan untuk memfilter prospek, mengurangi beban kerja agen dengan memberikan pertanyaan yang sering diajukan, dan sebagainya. <br /> <br /> Untuk menambahkan Dialogflow, Anda perlu membuat Akun Layanan di konsol proyek Google Anda dan berbagi kredensialnya. Silakan lihat dokumen Dialogflow untuk informasi lebih lanjut."
     }
   }
 }

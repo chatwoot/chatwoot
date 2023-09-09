@@ -28,7 +28,7 @@ class Integrations::Slack::ChannelBuilder
     channel_list = conversations_list.channels
     while conversations_list.response_metadata.next_cursor.present?
       conversations_list = slack_client.conversations_list(cursor: conversations_list.response_metadata.next_cursor)
-      channel_list.concat(conversations_list.channel_list)
+      channel_list.concat(conversations_list.channels)
     end
     channel_list
   end

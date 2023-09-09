@@ -36,7 +36,7 @@
           </tr>
         </tbody>
       </table>
-      <p v-else class="no-items-error-message">
+      <p v-else class="flex h-full items-center flex-col justify-center">
         {{
           $t('INTEGRATION_APPS.NO_HOOK_CONFIGURED', {
             integrationId: integration.id,

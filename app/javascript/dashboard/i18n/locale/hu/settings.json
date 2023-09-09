@@ -20,31 +20,31 @@
         "NOTE": "Az e-mailcímed az identitásod és a belépésre használhatod."
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "TITLE": "Üzenet küldése gyorsbillentyűvel",
+        "NOTE": "Kiválaszthatod a gyorsbillentyű kombinációdat a preferenciáid alapján.",
+        "UPDATE_SUCCESS": "A beállításaid sikeresen frissültek.",
         "CARD": {
           "ENTER_KEY": {
             "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "CONTENT": "Küldj üzenetet az Enter gomb megnyomásával a \"Küldés gomb\" használata helyett"
           },
           "CMD_ENTER_KEY": {
             "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "CONTENT": "Küldj üzenetet az Cmd/Ctrl + enter billentyűkombinációval a \"Küldés gomb\" használata helyett"
           }
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully"
+        "TITLE": "Személyes üzenet aláírás",
+        "NOTE": "Hozz létre egy személyes üzenetaláírást, amelyet az e-mail postafiókodból küldött összes üzenethez hozzáadhatsz. A sokszínű tartalomszerkesztő segítségével személyre szabott aláírást hozhatsz létre.",
+        "BTN_TEXT": "Üzenet aláírás mentése",
+        "API_ERROR": "Nem sikerült menteni az aláírást! Próbáld újra",
+        "API_SUCCESS": "Aláírás sikeresen mentve"
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "LABEL": "Üzenet aláírás",
+        "ERROR": "Az üzenet aláírása nem maradhat üres",
+        "PLACEHOLDER": "Ide írd a személyes üzeneteid aláírását."
       },
       "PASSWORD_SECTION": {
         "TITLE": "Jelszó",
@@ -59,18 +59,18 @@
         "TITLE": "Hangüzenetek",
         "NOTE": "Hangüzenetek engedélyezése a vezérlőpulton új üzenetek és beszélgetések esetén.",
         "ALERT_TYPE": {
-          "TITLE": "Alert events:",
+          "TITLE": "Esemény figyelmeztetés:",
           "NONE": "Nincs",
           "ASSIGNED": "Hozzárendelt Beszélgetések",
           "ALL_CONVERSATIONS": "Beszélgetések"
         },
         "DEFAULT_TONE": {
-          "TITLE": "Alert tone:"
+          "TITLE": "Hang figyelmeztetés:"
         },
         "CONDITIONS": {
-          "TITLE": "Alert conditions:",
-          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
-          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+          "TITLE": "Figyelmeztető feltételek:",
+          "CONDITION_ONE": "Csak akkor küldjön hangjelzést, ha a böngészőablak nem aktív",
+          "CONDITION_TWO": "Figyelmeztetések küldése 30 másodpercenként, amíg az összes hozzárendelt beszélgetést elolvasta"
         }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
@@ -80,7 +80,7 @@
         "CONVERSATION_CREATION": "Küldj e-mail értesítéseket, amikor egy új beszélgetés létrejön",
         "CONVERSATION_MENTION": "Küldj e-mail értesítéseket, amikor egy beszélgetésben megemlítenek",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Küldj e-mail értesítéseket, amikor egy hozzám rendelt beszélgetésben új üzenet érkezik",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Kapj e-mailt amikor egy üzenet létrejön egy hozzád rendelt beszélgetésben"
       },
       "API": {
         "UPDATE_SUCCESS": "Az értesítési beállításaid sikeresen frissítve",
@@ -93,7 +93,7 @@
         "CONVERSATION_CREATION": "Küldj push üzeneteket, amikor egy új beszélgetés létrejön",
         "CONVERSATION_MENTION": "Küldj push üzeneteket, amikor egy beszélgetésben megemlítenek",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Küldj push üzeneteket, amikor egy hozzám rendelt beszélgetésben új üzenet érkezik",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Kapj push értesítést amikor egy üzenet létrejön egy hozzád rendelt beszélgetésben",
         "HAS_ENABLED_PUSH": "Engedélyezted a push üzeneteket ezen a böngészőn.",
         "REQUEST_PUSH": "Push üznetek engedélyezése"
       },
@@ -117,8 +117,8 @@
           "Foglalt",
           "Offline"
         ],
-        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
+        "SET_AVAILABILITY_SUCCESS": "Elérhetőség beállítása sikeres",
+        "SET_AVAILABILITY_ERROR": "Nem sikerült beállítani az elérhetőséget, kérlek, próbáld újra"
       },
       "EMAIL": {
         "LABEL": "Az e-mailcímed",
@@ -145,39 +145,40 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Megváltoztatás",
     "CHANGE_ACCOUNTS": "Fiókváltás",
-    "CONTACT_SUPPORT": "Contact Support",
+    "CONTACT_SUPPORT": "Lépj kapcsolatba az ügfyélszolgálattal!",
     "SELECTOR_SUBTITLE": "Fiók kiválasztása az alábbi listából",
     "PROFILE_SETTINGS": "Profilbeállítások",
-    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
-    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
+    "KEYBOARD_SHORTCUTS": "Rövid billentyűparancsok",
+    "APPEARANCE": "Change Appearance",
+    "SUPER_ADMIN_CONSOLE": "Szuper felügyeleti konzol",
     "LOGOUT": "Kilépés"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "nap van hátra a próbaidőszakból.",
     "TRAIL_BUTTON": "Előfizetés",
-    "DELETED_USER": "Deleted User",
+    "DELETED_USER": "Törölt Felhasználó",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "Felfüggesztett Fiók",
+      "MESSAGE": "A fiókod felfüggesztés alatt van. Bővebb információkért, kérlek, lépj kapcsolatba az ügfyélszolgálattal."
     }
   },
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Másolás",
-      "CODEPEN": "Open in CodePen",
+      "CODEPEN": "Megnyitás CodePen-ben",
       "COPY_SUCCESSFUL": "Vágólapra másolva"
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
-      "SHOW_LESS": "Show Less"
+      "SHOW_MORE": "Mutass többet",
+      "SHOW_LESS": "Mutass kevesebbet"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Letöltés",
       "UPLOADING": "Feltöltés...",
-      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
+      "INSTAGRAM_STORY_UNAVAILABLE": "Ez a story már nem érhető el."
     },
     "LOCATION_BUBBLE": {
-      "SEE_ON_MAP": "See on map"
+      "SEE_ON_MAP": "Mutasd térképen"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Elküldés"
@@ -190,89 +191,89 @@
     }
   },
   "SIDEBAR": {
-    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
-    "SWITCH": "Switch",
+    "CURRENTLY_VIEWING_ACCOUNT": "Jelenleg nézi:",
+    "SWITCH": "Váltás",
     "CONVERSATIONS": "Beszélgetések",
     "ALL_CONVERSATIONS": "Beszélgetések",
     "MENTIONED_CONVERSATIONS": "Megemlítések",
-    "PARTICIPATING_CONVERSATIONS": "Participating",
-    "UNATTENDED_CONVERSATIONS": "Unattended",
+    "PARTICIPATING_CONVERSATIONS": "Részvétel",
+    "UNATTENDED_CONVERSATIONS": "Figyelmen kívül hagyott",
     "REPORTS": "Jelentések",
     "SETTINGS": "Beállítások",
     "CONTACTS": "Kontaktok",
     "HOME": "Nyitólap",
     "AGENTS": "Ügynökök",
-    "AGENT_BOTS": "Bots",
-    "AUDIT_LOGS": "Audit Logs",
+    "AGENT_BOTS": "Botok",
+    "AUDIT_LOGS": "Audit logok",
     "INBOXES": "Bejövők",
     "NOTIFICATIONS": "Értesítések",
     "CANNED_RESPONSES": "Mentett válaszok",
     "INTEGRATIONS": "Integrációk",
     "PROFILE_SETTINGS": "Profilbeállítások",
     "ACCOUNT_SETTINGS": "Fiókbeállítások",
-    "APPLICATIONS": "Applications",
+    "APPLICATIONS": "Alkalmazások",
     "LABELS": "Cimkék",
     "CUSTOM_ATTRIBUTES": "Egyedi atribútumok",
-    "AUTOMATION": "Automation",
-    "MACROS": "Macros",
+    "AUTOMATION": "Automatizáció",
+    "MACROS": "Makrók",
     "TEAMS": "Csapatok",
-    "BILLING": "Billing",
-    "CUSTOM_VIEWS_FOLDER": "Folders",
-    "CUSTOM_VIEWS_SEGMENTS": "Segments",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
+    "BILLING": "Számlázás",
+    "CUSTOM_VIEWS_FOLDER": "Mappák",
+    "CUSTOM_VIEWS_SEGMENTS": "Szegmensek",
+    "ALL_CONTACTS": "Összes kontakt",
+    "TAGGED_WITH": "Megjelölés",
+    "NEW_LABEL": "Új cimke",
+    "NEW_TEAM": "Új csapat",
+    "NEW_INBOX": "Új fiók",
     "REPORTS_CONVERSATION": "Beszélgetések",
     "CSAT": "CSAT",
-    "CAMPAIGNS": "Campaigns",
-    "ONGOING": "Ongoing",
-    "ONE_OFF": "One off",
+    "CAMPAIGNS": "Kampányok",
+    "ONGOING": "Folyamatban",
+    "ONE_OFF": "Egyszeri",
     "REPORTS_AGENT": "Ügynökök",
     "REPORTS_LABEL": "Cimkék",
     "REPORTS_INBOX": "Fiók",
-    "REPORTS_TEAM": "Team",
-    "SET_AVAILABILITY_TITLE": "Set yourself as",
-    "BETA": "Beta",
-    "REPORTS_OVERVIEW": "Overview",
+    "REPORTS_TEAM": "Csapat",
+    "SET_AVAILABILITY_TITLE": "Ugrás a Beszélgetések Irányítópultjához",
+    "BETA": "Béta",
+    "REPORTS_OVERVIEW": "Áttekintés",
     "FACEBOOK_REAUTHORIZE": "A Facebook kapcsolatod lejárt, kérjük kapcsold össze oldalad újra a szolgáltatás folytatásához",
     "HELP_CENTER": {
-      "TITLE": "Help Center (Beta)",
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
-      "CATEGORY": "Category",
+      "TITLE": "Sugó",
+      "ALL_ARTICLES": "Minden bejegyzés",
+      "MY_ARTICLES": "Saját bejegyzések",
+      "DRAFT": "Vázlat",
+      "ARCHIVED": "Archivált",
+      "CATEGORY": "Kategória",
       "SETTINGS": "Beállítások",
-      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+      "CATEGORY_EMPTY_MESSAGE": "Kategóriák nem találhatók "
     },
     "SET_AUTO_OFFLINE": {
-      "TEXT": "Mark offline automatically",
-      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+      "TEXT": "Offline állapot automatikusan",
+      "INFO_TEXT": "Hagyd, hogy a rendszer automatikusan offline módban jelöljön meg, amikor nem használod az alkalmazást vagy az irányítópultot."
     },
-    "DOCS": "Read docs"
+    "DOCS": "Dokumentum olvasása"
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
+    "TITLE": "Számlázás",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "TITLE": "Aktuális előfizetés",
+      "PLAN_NOTE": "Jelenleg előfizetett a **%{plan}** csomagra **%{quantity}** licensszel"
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "Előfizetés kezelése",
+      "DESCRIPTION": "Korábbi számlák nézete, fizetési részletek szerkesztése, vagy az előfizetés törlése",
+      "BUTTON_TXT": "Ugrás a számlázási felületre"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "TITLE": "Kell segítség?",
+      "DESCRIPTION": "Számlázási problémád akadt? Azért vagyunk itt, hogy segítsünk.",
       "BUTTON_TXT": "Chatelj velünk"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "Számlázási fiókod konfigurálás alatt áll. Kérjük, frissítsd az oldalt, és próbáld újra."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NO_ACCOUNT_WARNING": "Uppsz! Nem találtunk egyetlen Chatwoot-fiókot sem. A folytatáshoz kérlek hozz létre egy új fiókot.",
     "NEW_ACCOUNT": "Új fiók",
     "SELECTOR_SUBTITLE": "Új fiók létrehozása",
     "API": {
@@ -289,28 +290,28 @@
     }
   },
   "KEYBOARD_SHORTCUTS": {
-    "TOGGLE_MODAL": "View all shortcuts",
+    "TOGGLE_MODAL": "Összes parancsikon nézete",
     "TITLE": {
-      "OPEN_CONVERSATION": "Open conversation",
-      "RESOLVE_AND_NEXT": "Resolve and move to next",
-      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "ADD_ATTACHMENT": "Add Attachment",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "TOGGLE_SIDEBAR": "Toggle Sidebar",
-      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "OPEN_CONVERSATION": "Beszélgetés megnyitása",
+      "RESOLVE_AND_NEXT": "Feloldás és ugrás a következőre",
+      "NAVIGATE_DROPDOWN": "Ugrás a legördülő elemekhez",
+      "RESOLVE_CONVERSATION": "Beszélgetés megoldása",
+      "GO_TO_CONVERSATION_DASHBOARD": "Ugrás a beszélgetések kezdőoldalára",
+      "ADD_ATTACHMENT": "Csatolmány hozzáadása",
+      "GO_TO_CONTACTS_DASHBOARD": "Ugrás a kapcsolatok kezdőoldalára",
+      "TOGGLE_SIDEBAR": "Oldalsáv bekapcsolása",
+      "GO_TO_REPORTS_SIDEBAR": "Ugrás a jelentések oldalsávra",
+      "MOVE_TO_NEXT_TAB": "Ugrás a beszélgetéslista következő lapjára",
+      "GO_TO_SETTINGS": "Beállítások megnyitása",
+      "SWITCH_CONVERSATION_STATUS": "Váltás a következő beszélgetés állapotára",
+      "SWITCH_TO_PRIVATE_NOTE": "Válts privát jegyzetre",
+      "SWITCH_TO_REPLY": "Válts a válasz fülre",
+      "TOGGLE_SNOOZE_DROPDOWN": "Alvómód bekapcsolása a legördülő menüben"
     },
     "KEYS": {
       "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
       "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
+      "FORWARD_SLASH_KEY": "/\n"
     }
   }
 }

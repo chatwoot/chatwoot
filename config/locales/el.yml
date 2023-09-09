@@ -49,6 +49,8 @@ el:
         unique: πρέπει να είναι μοναδικό στην κατηγορία και την πύλη
     dyte:
       invalid_message_type: "Μη έγκυρος τύπος μηνύματος. Δεν επιτρέπεται η ενέργεια"
+    slack:
+      invalid_channel_id: "Invalid slack channel. Please try again"
     inboxes:
       imap:
         socket_error: Παρακαλώ ελέγξτε τη σύνδεση δικτύου, τη διεύθυνση IMAP και προσπαθήστε ξανά.
@@ -144,6 +146,8 @@ el:
         header:
           from_with_name: "%{assignee_name} από %{inbox_name} <%{from_email}>"
           reply_with_name: "%{assignee_name} από %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} από %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} από %{inbox_name} <%{from_email}>"

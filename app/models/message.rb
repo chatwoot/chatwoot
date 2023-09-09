@@ -247,7 +247,6 @@ class Message < ApplicationRecord
     send_reply
     execute_message_template_hooks
     update_contact_activity
-    update_waiting_since
   end
 
   def update_contact_activity
@@ -261,7 +260,7 @@ class Message < ApplicationRecord
       )
       conversation.update(waiting_since: nil)
     end
-    conversation.update(waiting_since: Time.now.utc) if incoming? && conversation.waiting_since.blank?
+    conversation.update(waiting_since: created_at) if incoming? && conversation.waiting_since.blank?
   end
 
   def human_response?
@@ -276,8 +275,12 @@ class Message < ApplicationRecord
 
   def dispatch_create_events
     Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
+
     if valid_first_reply?
       Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
+      conversation.update(first_reply_created_at: created_at, waiting_since: nil)
+    else
+      update_waiting_since
     end
   end
 

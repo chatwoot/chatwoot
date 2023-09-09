@@ -12,6 +12,10 @@
     "NO_INBOX_2": " للبدء",
     "NO_INBOX_AGENT": "يبدو أنه لم يتم إسنادك لأي قنوات تواصل بعد. الرجاء التواصل مع المدير لإضافتك لصناديق الوارد الخاصة بقنوات التواصل",
     "SEARCH_MESSAGES": "البحث عن رسائل في المحادثات",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "البحث في الرسائل",
       "RESULT_TITLE": "نتائج البحث",
@@ -147,6 +151,7 @@
       "STOP_AUDIO_RECORDING": "إيقاف التسجيل الصوتي",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "إضافة bcc",
         "CC": {
           "LABEL": "CC",

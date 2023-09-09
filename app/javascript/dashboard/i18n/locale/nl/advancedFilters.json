@@ -2,7 +2,7 @@
   "FILTER": {
     "TITLE": "Conversaties filteren",
     "SUBTITLE": "Voeg hieronder filters toe en druk op 'Filters toepassen' om te filteren.",
-    "EDIT_CUSTOM_FILTER": "Edit Folder",
+    "EDIT_CUSTOM_FILTER": "Map bewerken",
     "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
     "ADD_NEW_FILTER": "Filter toevoegen",
     "FILTER_DELETE_ERROR": "U moet minstens één filter hebben om op te slaan",

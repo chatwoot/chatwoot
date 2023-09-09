@@ -45,7 +45,7 @@
       />
       <li v-show="unreadMessageCount != 0" class="unread--toast">
         <span>
-          {{ unreadMessageCount }}
+          {{ unreadMessageCount > 9 ? '9+' : unreadMessageCount }}
           {{
             unreadMessageCount > 1
               ? $t('CONVERSATION.UNREAD_MESSAGES')
@@ -314,7 +314,7 @@ export default {
       return '';
     },
     unreadMessageCount() {
-      return this.currentChat.unread_count;
+      return this.currentChat.unread_count || 0;
     },
   },
 

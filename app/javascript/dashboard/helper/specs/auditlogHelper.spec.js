@@ -98,6 +98,48 @@ describe('Helper functions', () => {
       });
     });
 
+    it('should handle InboxMember or TeamMember', () => {
+      const auditLogItemInboxMember = {
+        auditable_type: 'InboxMember',
+        action: 'create',
+        audited_changes: {
+          user_id: 2,
+        },
+        user_id: 1,
+        auditable_id: 789,
+      };
+
+      const payloadInboxMember = generateTranslationPayload(
+        auditLogItemInboxMember,
+        agentList
+      );
+      expect(payloadInboxMember).toEqual({
+        agentName: 'Agent 1',
+        id: 789,
+        user: 'Agent 2',
+      });
+
+      const auditLogItemTeamMember = {
+        auditable_type: 'TeamMember',
+        action: 'create',
+        audited_changes: {
+          user_id: 3,
+        },
+        user_id: 1,
+        auditable_id: 789,
+      };
+
+      const payloadTeamMember = generateTranslationPayload(
+        auditLogItemTeamMember,
+        agentList
+      );
+      expect(payloadTeamMember).toEqual({
+        agentName: 'Agent 1',
+        id: 789,
+        user: 'Agent 3',
+      });
+    });
+
     it('should handle generic case like Team create', () => {
       const auditLogItem = {
         auditable_type: 'Team',

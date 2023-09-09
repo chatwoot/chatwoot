@@ -105,5 +105,9 @@
       "CLICK_HERE_TO_JOIN": "Κάντε κλικ εδώ για να συμμετάσχετε",
       "LEAVE_THE_ROOM": "Έξοδος από την κλήση"
     }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles"
   }
 }

@@ -71,7 +71,7 @@
       "SUBMIT": "استيراد",
       "CANCEL": "إلغاء"
     },
-    "SUCCESS_MESSAGE": "تم حفظ جهة الاتصال بنجاح",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "حدث خطأ، الرجاء المحاولة مرة أخرى"
   },
   "EXPORT_CONTACTS": {

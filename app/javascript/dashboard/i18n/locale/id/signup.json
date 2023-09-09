@@ -1,33 +1,33 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Create an account",
+    "TRY_WOOT": "Buat akun",
     "TITLE": "Daftar",
-    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
-    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
-    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "TESTIMONIAL_HEADER": "Hanya butuh satu langkah untuk maju",
+    "TESTIMONIAL_CONTENT": "Anda hanya tinggal selangkah lagi untuk berinteraksi dengan pelanggan Anda, mempertahankan mereka, dan menemukan yang baru.",
+    "TERMS_ACCEPT": "Dengan membuat akun, Anda menyetujui <a href=\"https://www.chatwoot.com/terms\">Syarat & Ketentuan</a> dan <a href=\"https://www.chatwoot.com/privacy-policy\">Kebijakan Privasi</a> kami.",
     "OAUTH": {
-      "GOOGLE_SIGNUP": "Sign up with Google"
+      "GOOGLE_SIGNUP": "Daftar dengan Google"
     },
     "COMPANY_NAME": {
-      "LABEL": "Company name",
-      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
-      "ERROR": "Company name is too short"
+      "LABEL": "Nama Perusahaan",
+      "PLACEHOLDER": "Masukkan nama perusahaan Anda. contoh: Wayne Enterprises",
+      "ERROR": "Nama perusahaan terlalu pendek"
     },
     "FULL_NAME": {
       "LABEL": "Nama Lengkap",
-      "PLACEHOLDER": "Masukkan nama lengkap Anda. cth: Bruce Wayne",
+      "PLACEHOLDER": "Masukkan nama lengkap Anda. contoh: Bruce Wayne",
       "ERROR": "Nama lengkap terlalu pendek"
     },
     "EMAIL": {
       "LABEL": "Email kantor",
-      "PLACEHOLDER": "Masukkan alamat email kantor Anda. cth: bruce@wayne.enterprises",
-      "ERROR": "Please enter a valid work email address"
+      "PLACEHOLDER": "Masukkan alamat email kantor Anda. contoh: bruce@wayne.enterprises",
+      "ERROR": "Harap masukkan alamat email kantor yang valid"
     },
     "PASSWORD": {
       "LABEL": "Kata Sandi",
       "PLACEHOLDER": "Kata Sandi",
       "ERROR": "Kata sandi terlalu pendek",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "IS_INVALID_PASSWORD": "Kata sandi harus mengandung setidaknya 1 huruf kapital, 1 huruf kecil, 1 angka, dan 1 karakter khusus"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Konfirmasi Kata Sandi",
@@ -38,7 +38,7 @@
       "SUCCESS_MESSAGE": "Pendaftaran Berhasil",
       "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
     },
-    "SUBMIT": "Create account",
+    "SUBMIT": "Buat akun",
     "HAVE_AN_ACCOUNT": "Sudah punya akun?"
   }
 }

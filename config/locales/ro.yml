@@ -49,6 +49,8 @@ ro:
         unique: ar trebui să fie unic în categorie și portal
     dyte:
       invalid_message_type: "Tip de mesaj nevalid. Acțiune nepermisă"
+    slack:
+      invalid_channel_id: "Invalid slack channel. Please try again"
     inboxes:
       imap:
         socket_error: Verificați conexiunea la rețea, adresa IMAP și încercați din nou.
@@ -144,6 +146,8 @@ ro:
         header:
           from_with_name: "%{assignee_name} din %{inbox_name} <%{from_email}>"
           reply_with_name: "%{assignee_name} din %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} din %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} din %{inbox_name} <%{from_email}>"
