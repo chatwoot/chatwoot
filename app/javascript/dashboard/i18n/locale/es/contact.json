@@ -205,8 +205,8 @@
         "ERROR": "El mensaje no puede estar vacío"
       },
       "ATTACHMENTS": {
-        "SELECT": "Choose files",
-        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+        "SELECT": "Seleccionar archivos",
+        "HELP_TEXT": "Arrastre y suelte los archivos aquí o elige archivos para adjuntar"
       },
       "SUBMIT": "Enviar mensaje",
       "CANCEL": "Cancelar",
