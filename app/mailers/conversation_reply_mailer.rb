@@ -44,7 +44,7 @@ class ConversationReplyMailer < ApplicationMailer
     init_conversation_attributes(conversation)
 
     @messages = @conversation.messages.chat.select(&:conversation_transcriptable?)
-    @conversation_subject = @conversation.additional_attributes&.dig('mail_subject')
+
     mail({
            to: to_email,
            from: from_email_with_name,

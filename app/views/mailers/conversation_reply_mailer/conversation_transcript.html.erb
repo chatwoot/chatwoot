@@ -4,13 +4,12 @@
       <% sender_name = message.sender&.try(:available_name) || message.sender&.name %>
       <% if @inbox.email? %>
         <% if sender_name.present? %>
-          <b>From:</b>
-          <%= sender_name %> <%= "<#{message.sender&.email}>" %>
+          <b>From:</b> <%= sender_name %> <%= "<#{message.sender&.email}>" %>
           <br>
         <% end %>
-        <% if @conversation_subject.present? %>
-          <b>Subject:</b>
-          <%= @conversation_subject %>
+        <% subject = message.conversation&.additional_attributes&.dig('mail_subject')%>
+        <% if subject.present? %>
+          <b>Subject:</b> <%= subject %>
           <br>
         <% end %>
       <% else %>
