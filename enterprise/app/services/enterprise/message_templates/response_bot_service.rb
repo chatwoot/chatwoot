@@ -4,11 +4,20 @@ class Enterprise::MessageTemplates::ResponseBotService
   def perform
     ActiveRecord::Base.transaction do
       response = get_response(conversation.messages.last.content)
-      process_response(conversation.messages.last, response)
+      process_response(conversation.messages.last, response['response'])
     end
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: conversation.account).capture_exception
     true
+  end
+
+  def response_sections(content)
+    sections = ''
+
+    inbox.get_responses(content).each do |response|
+      sections += "{context_id: #{response.id}, context: #{response.question} ? #{response.answer}},"
+    end
+    sections
   end
 
   private
@@ -32,15 +41,6 @@ class Enterprise::MessageTemplates::ResponseBotService
 
   def determine_role(message)
     message.message_type == 'incoming' ? 'user' : 'system'
-  end
-
-  def response_sections(content)
-    sections = ''
-
-    inbox.get_responses(content).each do |response|
-      sections += "{context_id: #{response.id}, context: #{response.question} ? #{response.answer}}"
-    end
-    sections
   end
 
   def process_response(message, response)
