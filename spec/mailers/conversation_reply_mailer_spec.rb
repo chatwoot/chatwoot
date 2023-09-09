@@ -139,7 +139,7 @@ RSpec.describe ConversationReplyMailer do
 
     context 'with email reply' do
       let(:conversation) { create(:conversation, assignee: agent, inbox: email_channel.inbox, account: account).reload }
-      let(:message) { create(:message, conversation: conversation, account: account, message_type: 'outgoing', content: 'Outgoing Message 2').reload }
+      let(:message) { create(:message, conversation: conversation, account: account, message_type: 'outgoing', content: 'Outgoing Message 2') }
       let(:mail) { described_class.email_reply(message).deliver_now }
 
       it 'renders the subject' do
@@ -154,10 +154,10 @@ RSpec.describe ConversationReplyMailer do
         expect(mail.message_id).to eq message.source_id
       end
 
-      context 'reply with previous messages ' do
-        let!(:prev_message) { create(:message, conversation: conversation, account: account, message_type: 'incoming', content: 'Message 1') }
-        
-        it{ expect(mail.decoded).to include prev_message.content }
+      context 'with previous message' do
+        let!(:prev_message) { create(:message, conversation: conversation, account: account, message_type: 'incoming', content: 'Prev Message') }
+
+        it { expect(mail.decoded).to include prev_message.content }
       end
     end
 
