@@ -3,6 +3,7 @@ import wootConstants from 'dashboard/constants/globals';
 
 import { CMD_AI_ASSIST } from './commandBarBusEvents';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
+import aiMixin from 'dashboard/mixins/aiMixin';
 import {
   ICON_ADD_LABEL,
   ICON_ASSIGN_AGENT,
@@ -30,8 +31,8 @@ import {
   MUTE_ACTION,
 } from './commandBarActions';
 import { isAConversationRoute } from '../../../helper/routeHelpers';
-
 export default {
+  mixins: [aiMixin],
   watch: {
     assignableAgents() {
       this.setCommandbarData();
@@ -325,15 +326,18 @@ export default {
 
     conversationHotKeys() {
       if (isAConversationRoute(this.$route.name)) {
-        return [
+        const defaultConversationHotKeys = [
           ...this.statusActions,
           ...this.conversationAdditionalActions,
           ...this.assignAgentActions,
           ...this.assignTeamActions,
           ...this.labelActions,
           ...this.assignPriorityActions,
-          ...this.AIAssistActions,
         ];
+        if (this.isAIIntegrationEnabled) {
+          return [...defaultConversationHotKeys, ...this.AIAssistActions];
+        }
+        return defaultConversationHotKeys;
       }
 
       return [];
