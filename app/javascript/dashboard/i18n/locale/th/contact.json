@@ -71,7 +71,7 @@
       "SUBMIT": "นำเข้า",
       "CANCEL": "ยกเลิก"
     },
-    "SUCCESS_MESSAGE": "บันทึกผู้ติดต่อเรียบร้อยแล้ว",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง"
   },
   "EXPORT_CONTACTS": {
