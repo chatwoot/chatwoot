@@ -88,24 +88,18 @@
         :remove-attachment="removeAttachment"
       />
     </div>
-    <!-- <div
+    <div
       v-if="isSignatureEnabledForInbox"
       v-tooltip="$t('CONVERSATION.FOOTER.MESSAGE_SIGN_TOOLTIP')"
       class="message-signature-wrap"
     >
-      {{ messageSignature }}
-      <p
-        v-if="isSignatureAvailable"
-        v-dompurify-html="formatMessage(messageSignature)"
-        class="message-signature"
-      />
-      <p v-else class="message-signature">
+      <p v-if="!isSignatureAvailable" class="message-signature">
         {{ $t('CONVERSATION.FOOTER.MESSAGE_SIGNATURE_NOT_CONFIGURED') }}
         <router-link :to="profilePath">
           {{ $t('CONVERSATION.FOOTER.CLICK_HERE') }}
         </router-link>
       </p>
-    </div> -->
+    </div>
     <reply-bottom-panel
       :conversation-id="conversationId"
       :enable-multiple-file-upload="enableMultipleFileUpload"
