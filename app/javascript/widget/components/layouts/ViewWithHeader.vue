@@ -53,7 +53,11 @@
       >
         <router-view />
       </transition>
-      <branding v-if="!isOnArticleViewer" :disable-branding="disableBranding" />
+      <branding
+        v-if="!isOnArticleViewer"
+        class="bg-slate-25 dark:bg-slate-800"
+        :disable-branding="disableBranding"
+      />
     </div>
   </div>
 </template>

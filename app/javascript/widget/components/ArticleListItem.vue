@@ -9,11 +9,12 @@
     >
       {{ title }}
     </button>
-    <span class="pl-1 first-letter arrow">
+    <span class="pl-1 arrow">
       <fluent-icon icon="arrow-right" size="14" />
     </span>
   </li>
 </template>
+
 <script>
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 

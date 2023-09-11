@@ -9,6 +9,7 @@
     />
   </ul>
 </template>
+
 <script>
 import ArticleListItem from './ArticleListItem';
 

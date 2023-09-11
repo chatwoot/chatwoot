@@ -9,8 +9,7 @@
     >
       <div
         v-dompurify-html="formatMessage(message, false)"
-        class="message-content"
-        :class="$dm('text-slate-900', 'dark:text-slate-50')"
+        class="message-content text-slate-900 dark:text-slate-50"
       />
       <email-input
         v-if="isTemplateEmail"
