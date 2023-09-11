@@ -69,7 +69,6 @@
         :min-height="4"
         :enable-variables="true"
         :variables="messageVariables"
-        :enabled-menu-options="customEditorMenuOptions"
         :signature="messageSignature"
         :signature-enabled="isSignatureEnabledForInbox"
         @typing-off="onTypingOff"
