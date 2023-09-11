@@ -89,11 +89,10 @@
       />
     </div>
     <div
-      v-if="isSignatureEnabledForInbox"
-      v-tooltip="$t('CONVERSATION.FOOTER.MESSAGE_SIGN_TOOLTIP')"
+      v-if="isSignatureEnabledForInbox && !isSignatureAvailable"
       class="message-signature-wrap"
     >
-      <p v-if="!isSignatureAvailable" class="message-signature">
+      <p class="message-signature">
         {{ $t('CONVERSATION.FOOTER.MESSAGE_SIGNATURE_NOT_CONFIGURED') }}
         <router-link :to="profilePath">
           {{ $t('CONVERSATION.FOOTER.CLICK_HERE') }}
