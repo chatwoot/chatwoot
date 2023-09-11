@@ -105,7 +105,6 @@ export default {
     variables: { type: Object, default: () => ({}) },
     enabledMenuOptions: { type: Array, default: () => [] },
     signature: { type: String, default: '' },
-    signatureEnabled: { type: Boolean, default: false },
   },
   data() {
     return {
@@ -226,6 +225,10 @@ export default {
         }),
       ];
     },
+    sendWithSignature() {
+      const { send_with_signature: isEnabled } = this.uiSettings;
+      return isEnabled;
+    },
   },
   watch: {
     showUserMentions(updatedValue) {
@@ -268,8 +271,8 @@ export default {
       }
       return null;
     },
-    signatureEnabled(value) {
-      this.toggleSignature(value);
+    sendWithSignature(value) {
+      this.toggleSignatureInEditor(value);
     },
   },
   created() {
@@ -298,7 +301,7 @@ export default {
       this.editorView.updateState(this.state);
       this.focusEditorInputField();
     },
-    toggleSignature(enabled) {
+    toggleSignatureInEditor(enabled) {
       let content = this.value;
 
       if (enabled) {

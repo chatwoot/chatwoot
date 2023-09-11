@@ -185,6 +185,7 @@ import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import rtlMixin from 'shared/mixins/rtlMixin';
 import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
+import { findSignatureInBody } from 'dashboard/helper/editorHelper';
 
 const EmojiInput = () => import('shared/components/emoji/EmojiInput');
 
@@ -618,6 +619,14 @@ export default {
       if (this.conversationIdByRoute) {
         const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
         this.message = this.$store.getters['draftMessages/get'](key) || '';
+
+        if (this.messageSignature) {
+          this.updateUISettings({
+            send_with_signature: Boolean(
+              findSignatureInBody(this.message, this.messageSignature)
+            ),
+          });
+        }
       }
     },
     removeFromDraft() {
