@@ -713,19 +713,14 @@ export default {
         return;
       }
       if (!this.showMentions) {
-        let newMessage = this.message;
-        if (this.isSignatureEnabledForInbox && this.messageSignature) {
-          newMessage += '\n\n' + this.messageSignature;
-        }
-
         const isOnWhatsApp =
           this.isATwilioWhatsAppChannel ||
           this.isAWhatsAppCloudChannel ||
           this.is360DialogWhatsAppChannel;
         if (isOnWhatsApp && !this.isPrivate) {
-          this.sendMessageAsMultipleMessages(newMessage);
+          this.sendMessageAsMultipleMessages(this.message);
         } else {
-          const messagePayload = this.getMessagePayload(newMessage);
+          const messagePayload = this.getMessagePayload(this.message);
           this.sendMessage(messagePayload);
         }
 
