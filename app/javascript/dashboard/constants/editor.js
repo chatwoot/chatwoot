@@ -15,6 +15,7 @@ export const MESSAGE_SIGNATURE_EDITOR_MENU_OPTIONS = [
   'link',
   'undo',
   'redo',
+  'imageUpload',
 ];
 
 export const ARTICLE_EDITOR_MENU_OPTIONS = [
