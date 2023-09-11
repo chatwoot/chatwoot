@@ -60,13 +60,11 @@ export default {
   border: 1px solid $color-woot;
   margin: $space-smaller;
   max-width: 100%;
+  transform: translateY(0px);
 
   &:hover {
     @include normal-shadow;
-
-    span {
-      font-weight: $font-weight-bold;
-    }
+    transform: translateY(-2px);
   }
 
   .option-button {
