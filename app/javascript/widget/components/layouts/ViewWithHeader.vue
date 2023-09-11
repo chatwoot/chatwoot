@@ -4,10 +4,7 @@
     :class="{ 'overflow-auto': isOnHomeView }"
     @keydown.esc="closeWindow"
   >
-    <div
-      class="flex flex-col h-full relative"
-      :class="$dm('bg-slate-25', 'dark:bg-slate-800')"
-    >
+    <div class="flex flex-col h-full relative bg-slate-25 dark:bg-slate-800">
       <div
         class="header-wrap sticky top-0 z-40"
         :class="{
@@ -67,7 +64,6 @@ import Branding from 'shared/components/Branding.vue';
 import ChatHeader from '../ChatHeader.vue';
 import ChatHeaderExpanded from '../ChatHeaderExpanded.vue';
 import configMixin from '../../mixins/configMixin';
-import darkModeMixin from 'widget/mixins/darkModeMixin';
 import { mapGetters } from 'vuex';
 import { IFrameHelper } from 'widget/helpers/utils';
 
@@ -78,7 +74,7 @@ export default {
     ChatHeader,
     ChatHeaderExpanded,
   },
-  mixins: [configMixin, darkModeMixin],
+  mixins: [configMixin],
   data() {
     return {
       showPopoutButton: false,
@@ -99,19 +95,6 @@ export default {
         return true;
       }
       return !this.isOnHomeView;
-    },
-    viewBackgroundStyles() {
-      if (this.prefersDarkMode || !this.portal) {
-        return {};
-      }
-      return { backgroundColor: this.backgroundColor };
-    },
-    backgroundColor() {
-      const color = this.widgetColor.replace('#', '');
-      const r = parseInt(color.slice(0, 2), 16);
-      const g = parseInt(color.slice(2, 4), 16);
-      const b = parseInt(color.slice(4, 6), 16);
-      return `rgba(${r},${g},${b}, 0.02)`;
     },
     hasIntroText() {
       return (

@@ -1,10 +1,7 @@
 <template>
   <div class="p-4 shadow rounded-md bg-white dark:bg-slate-700">
     <div class="flex items-center justify-between mb-4">
-      <div
-        class="max-w-xs"
-        :class="$dm('text-slate-700', 'dark:text-slate-50')"
-      >
+      <div class="max-w-xs text-slate-700 dark:text-slate-50">
         <div class="text-sm font-medium mb-1">
           {{
             isOnline
@@ -50,7 +47,6 @@ import AvailableAgents from 'widget/components/AvailableAgents.vue';
 import CustomButton from 'shared/components/Button';
 import configMixin from 'widget/mixins/configMixin';
 import availabilityMixin from 'widget/mixins/availability';
-import darkMixin from 'widget/mixins/darkModeMixin.js';
 import ContinueChatButton from './ContinueChatButton.vue';
 
 export default {
@@ -60,7 +56,7 @@ export default {
     CustomButton,
     ContinueChatButton,
   },
-  mixins: [configMixin, nextAvailabilityTime, availabilityMixin, darkMixin],
+  mixins: [configMixin, nextAvailabilityTime, availabilityMixin],
   props: {
     availableAgents: {
       type: Array,
