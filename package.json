@@ -30,7 +30,7 @@
   ],
   "dependencies": {
     "@braid/vue-formulate": "^2.5.2",
-    "@chatwoot/prosemirror-schema": "https://github.com/chatwoot/prosemirror-schema.git#5f6ec0888948e7b16f64c1f2779114162e8fa449",
+    "@chatwoot/prosemirror-schema": "https://github.com/chatwoot/prosemirror-schema.git#825755b53f1ef4ae14fac2393b53a02e14ce21e0",
     "@chatwoot/utils": "^0.0.16",
     "@hcaptcha/vue-hcaptcha": "^0.3.2",
     "@june-so/analytics-next": "^1.36.5",
