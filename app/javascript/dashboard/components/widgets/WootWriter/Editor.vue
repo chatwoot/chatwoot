@@ -271,8 +271,8 @@ export default {
       }
       return null;
     },
-    sendWithSignature() {
-      this.toggleSignatureInEditor();
+    sendWithSignature(newValue) {
+      this.toggleSignatureInEditor(newValue);
     },
   },
   created() {
@@ -301,21 +301,24 @@ export default {
       this.editorView.updateState(this.state);
       this.focusEditorInputField();
     },
-    toggleSignatureInEditor() {
-      if (this.sendWithSignature) {
-        this.removeSignature();
-      } else {
+    toggleSignatureInEditor(signatureEnabled) {
+      // The toggleSignatureInEditor gets the new value from the
+      // watcher, this means that if the value is true, the signature
+      // is supposed to be added, else we remove it.
+      if (signatureEnabled) {
         this.addSignature();
+      } else {
+        this.removeSignature();
       }
     },
     addSignature() {
       let content = this.value;
-      content = appendSignature(this.value, this.signature);
+      content = appendSignature(content, this.signature);
       this.reloadState(content);
     },
     removeSignature() {
       let content = this.value;
-      content = removeSignature(this.value, this.signature);
+      content = removeSignature(content, this.signature);
       this.reloadState(content);
     },
     createEditorView() {
