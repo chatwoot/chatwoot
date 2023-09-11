@@ -37,7 +37,7 @@ export function findSignatureInBody(body, signature) {
 
   // check if body ends with signature
   if (trimmedBody.endsWith(cleanedSignature)) {
-    return body.lastIndexOf(signature);
+    return body.lastIndexOf(cleanedSignature);
   }
 
   return -1;
