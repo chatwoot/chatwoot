@@ -34,10 +34,12 @@ export default {
     };
   },
   watch: {
-    value() {
-      this.$nextTick(() => {
-        this.resizeTextarea();
-      });
+    value(value, oldValue) {
+      if (value !== oldValue) {
+        this.$nextTick(() => {
+          this.resizeTextarea();
+        });
+      }
     },
   },
   methods: {
@@ -51,7 +53,6 @@ export default {
     },
     onInput(event) {
       this.$emit('input', event.target.value);
-      this.resizeTextarea();
     },
     resetTyping() {
       this.$emit('typing-off');
