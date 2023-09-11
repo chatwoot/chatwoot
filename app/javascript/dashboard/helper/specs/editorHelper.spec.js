@@ -3,6 +3,7 @@ import {
   appendSignature,
   removeSignature,
   replaceSignature,
+  extractTextFromMarkdown,
 } from '../editorHelper';
 
 const NEW_SIGNATURE = 'This is a new signature';
@@ -126,5 +127,31 @@ describe('replaceSignature', () => {
     expect(replaceSignature(body, signature, NEW_SIGNATURE)).toBe(
       `\n\n--\n\n${NEW_SIGNATURE}`
     );
+  });
+});
+
+describe('extractTextFromMarkdown', () => {
+  it('should extract text from markdown and remove all images, code blocks, links, headers, bold, italic, lists etc.', () => {
+    const markdown = `
+      # Hello World
+
+      This is a **bold** text with a [link](https://example.com).
+
+      \`\`\`javascript
+      const foo = 'bar';
+      console.log(foo);
+      \`\`\`
+
+      Here's an image: ![alt text](https://example.com/image.png)
+
+      - List item 1
+      - List item 2
+
+      *Italic text*
+      `;
+
+    const expected =
+      "Hello World\nThis is a bold text with a link.\nHere's an image:\nList item 1\nList item 2\nItalic text";
+    expect(extractTextFromMarkdown(markdown)).toEqual(expected);
   });
 });

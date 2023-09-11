@@ -111,3 +111,25 @@ export function replaceSignature(body, oldSignature, newSignature) {
   const withoutSignature = removeSignature(body, oldSignature);
   return appendSignature(withoutSignature, newSignature);
 }
+
+/**
+ * Extract text from markdown, and remove all images, code blocks, links, headers, bold, italic, lists etc.
+ * Links will be converted to text, and not removed.
+ *
+ * @param {string} markdown - markdown text to be extracted
+ * @returns
+ */
+export function extractTextFromMarkdown(markdown) {
+  return markdown
+    .replace(/```[\s\S]*?```/g, '') // Remove code blocks
+    .replace(/`.*?`/g, '') // Remove inline code
+    .replace(/!\[.*?\]\(.*?\)/g, '') // Remove images before removing links
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // Remove links but keep the text
+    .replace(/#+\s*|[*_-]{1,3}/g, '') // Remove headers, bold, italic, lists etc.
+    .split('\n')
+    .map(line => line.trim())
+    .filter(Boolean)
+    .join('\n') // Trim each line & remove any lines only having spaces
+    .replace(/\n{2,}/g, '\n') // Remove multiple consecutive newlines (blank lines)
+    .trim(); // Trim any extra space
+}
