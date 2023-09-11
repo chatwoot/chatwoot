@@ -37,13 +37,13 @@
   </div>
 </div>
 <% else %>
-<div class="max-w-6xl p-8 mx-auto space-y-4 w-full">
+<div class="max-w-6xl p-8 mx-auto space-y-4 w-full <%= @is_plain_layout_enabled ? 'px-8 py-4' : 'p-8' %>">
   <%= render "public/api/v1/portals/articles/article_header", article: @article %>
 </div>
 <% end %>
 
 <div class="flex max-w-6xl w-full px-8 mx-auto">
-  <article id="cw-article-content" class="flex-grow flex-2 py-12 mx-auto text-slate-800 text-lg max-w-3xl prose break-words">
+  <article id="cw-article-content" class="flex-grow flex-2 mx-auto text-slate-800 text-lg max-w-3xl prose break-words w-full <%= @is_plain_layout_enabled ? 'py-4' : 'py-12' %>">
     <%= @parsed_content %>
   </article>
   <div class="flex-1" id="cw-hc-toc"></div>
