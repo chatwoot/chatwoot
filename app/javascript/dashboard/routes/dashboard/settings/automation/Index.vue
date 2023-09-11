@@ -12,7 +12,7 @@
       <div class="w-[60%]">
         <p
           v-if="!uiFlags.isFetching && !records.length"
-          class="no-items-error-message"
+          class="flex h-full items-center flex-col justify-center"
         >
           {{ $t('AUTOMATION.LIST.404') }}
         </p>

@@ -325,6 +325,7 @@ export default {
         applied_filters: this.appliedFilters.map(filter => ({
           key: filter.attribute_key,
           operator: filter.filter_operator,
+          query_operator: filter.query_operator,
         })),
       });
     },

@@ -1,6 +1,9 @@
 require 'rails_helper'
+require Rails.root.join 'spec/models/concerns/reauthorizable_shared.rb'
 
 RSpec.describe Integrations::Hook do
+  it_behaves_like 'reauthorizable'
+
   context 'with validations' do
     it { is_expected.to validate_presence_of(:app_id) }
     it { is_expected.to validate_presence_of(:account_id) }

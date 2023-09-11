@@ -1,7 +1,7 @@
 class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   before_action :portal
   before_action :check_authorization
-  before_action :fetch_article, except: [:index, :create, :attach_file, :reorder]
+  before_action :fetch_article, except: [:index, :create, :reorder]
   before_action :set_current_page, only: [:index]
 
   def index
@@ -34,17 +34,6 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   def destroy
     @article.destroy!
     head :ok
-  end
-
-  def attach_file
-    file_blob = ActiveStorage::Blob.create_and_upload!(
-      key: nil,
-      io: params[:background_image].tempfile,
-      filename: params[:background_image].original_filename,
-      content_type: params[:background_image].content_type
-    )
-    file_blob.save!
-    render json: { file_url: url_for(file_blob) }
   end
 
   def reorder

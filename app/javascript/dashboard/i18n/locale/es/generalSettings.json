@@ -111,8 +111,8 @@
       "ADD_LABEL": "Añadir etiqueta a la conversación",
       "REMOVE_LABEL": "Eliminar etiqueta de la conversación",
       "SETTINGS": "Ajustes",
-      "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance"
+      "AI_ASSIST": "Asistencia AI",
+      "APPEARANCE": "Apariencia"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Ir al panel de conversaciones",
@@ -150,9 +150,9 @@
       "UNTIL_NEXT_MONTH": "Hasta el mes próximo",
       "AN_HOUR_FROM_NOW": "Hasta una hora a partir de ahora",
       "CUSTOM": "Personalizar...",
-      "CHANGE_APPEARANCE": "Change Appearance",
-      "LIGHT_MODE": "Light",
-      "DARK_MODE": "Dark",
+      "CHANGE_APPEARANCE": "Cambiar apariencia",
+      "LIGHT_MODE": "Claro",
+      "DARK_MODE": "Oscuro",
       "SYSTEM_MODE": "Sistema"
     }
   },

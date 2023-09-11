@@ -225,7 +225,7 @@ export default {
             if (!items.length) return '---';
 
             return (
-              <div class="cell--social-profiles">
+              <div class="cell--social-profiles flex gap-0.5 items-center">
                 {items.map(
                   profile =>
                     profiles[profile] && (

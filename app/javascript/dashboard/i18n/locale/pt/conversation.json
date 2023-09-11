@@ -13,8 +13,8 @@
     "NO_INBOX_AGENT": "Uh Oh! Parece que você não faz parte de nenhuma caixa de entrada. Por favor, contate seu administrador",
     "SEARCH_MESSAGES": "Procurar mensagens em conversas",
     "EMPTY_STATE": {
-      "CMD_BAR": "to open command menu",
-      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+      "CMD_BAR": "para abrir o menu de comandos",
+      "KEYBOARD_SHORTCUTS": "para ver atalhos de teclado"
     },
     "SEARCH": {
       "TITLE": "Procurar mensagens",
