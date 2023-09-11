@@ -621,9 +621,8 @@ export default {
 
         if (this.messageSignature) {
           this.updateUISettings({
-            send_with_signature: Boolean(
-              findSignatureInBody(this.message, this.messageSignature)
-            ),
+            send_with_signature:
+              findSignatureInBody(this.message, this.messageSignature) > -1,
           });
         }
       }
