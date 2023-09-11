@@ -5,13 +5,22 @@
 export const SIGNATURE_DELIMITER = '--';
 
 /**
+ * Trim the signature and remove all " \r" from the signature
+ * 1. Trim any extra lines or spaces at the start or end of the string
+ * 2. Converts all \r or \r\n to \f
+ */
+export function cleanSignature(signature) {
+  return signature.trim().replace(/\r\n?/g, '\n');
+}
+
+/**
  * Adds the signature delimiter to the beginning of the signature.
  *
  * @param {string} signature - The signature to add the delimiter to.
  * @returns {string} - The signature with the delimiter added.
  */
-function signatureWithDelimiter(signature) {
-  return `${SIGNATURE_DELIMITER}\n\n${signature}`;
+function appendDelimiter(signature) {
+  return `${SIGNATURE_DELIMITER}\n\n${cleanSignature(signature)}`;
 }
 
 /**
@@ -24,10 +33,10 @@ function signatureWithDelimiter(signature) {
  */
 export function findSignatureInBody(body, signature) {
   const trimmedBody = body.trimEnd();
-  const trimmedSignature = signature.trim();
+  const cleanedSignature = cleanSignature(signature);
 
   // check if body ends with signature
-  if (trimmedBody.endsWith(trimmedSignature)) {
+  if (trimmedBody.endsWith(cleanedSignature)) {
     return body.lastIndexOf(signature);
   }
 
@@ -42,12 +51,13 @@ export function findSignatureInBody(body, signature) {
  * @returns {string} - The body with the signature appended.
  */
 export function appendSignature(body, signature) {
+  const cleanedSignature = cleanSignature(signature);
   // if signature is already present, return body
-  if (findSignatureInBody(body, signature) > -1) {
+  if (findSignatureInBody(body, cleanedSignature) > -1) {
     return body;
   }
 
-  return `${body.trimEnd()}\n\n${signatureWithDelimiter(signature)}`;
+  return `${body.trimEnd()}\n\n${appendDelimiter(cleanedSignature)}`;
 }
 
 /**
@@ -60,7 +70,8 @@ export function appendSignature(body, signature) {
 export function removeSignature(body, signature) {
   // this will find the index of the signature if it exists
   // Regardless of extra spaces or new lines after the signature, the index will be the same if present
-  const signatureIndex = findSignatureInBody(body, signature);
+  const cleanedSignature = cleanSignature(signature);
+  const signatureIndex = findSignatureInBody(body, cleanedSignature);
 
   // no need to trim the ends here, because it will simply be removed in the next method
   let newBody = body;
