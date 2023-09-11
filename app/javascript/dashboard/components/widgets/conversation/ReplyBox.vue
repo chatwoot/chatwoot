@@ -470,7 +470,7 @@ export default {
       );
     },
     isSignatureEnabledForInbox() {
-      return !this.isPrivate && this.isAnEmailChannel && this.sendWithSignature;
+      return !this.isPrivate && this.sendWithSignature;
     },
     isSignatureAvailable() {
       return !!this.messageSignature;
