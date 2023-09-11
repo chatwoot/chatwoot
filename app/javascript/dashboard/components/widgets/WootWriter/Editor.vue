@@ -271,8 +271,8 @@ export default {
       }
       return null;
     },
-    sendWithSignature(value) {
-      this.toggleSignatureInEditor(value);
+    sendWithSignature() {
+      this.toggleSignatureInEditor();
     },
   },
   created() {
@@ -301,14 +301,21 @@ export default {
       this.editorView.updateState(this.state);
       this.focusEditorInputField();
     },
-    toggleSignatureInEditor(enabled) {
-      let content = this.value;
-
-      if (enabled) {
-        content = removeSignature(this.value, this.signature);
+    toggleSignatureInEditor() {
+      if (this.sendWithSignature) {
+        this.removeSignature();
       } else {
-        content = appendSignature(this.value, this.signature);
+        this.addSignature();
       }
+    },
+    addSignature() {
+      let content = this.value;
+      content = appendSignature(this.value, this.signature);
+      this.reloadState(content);
+    },
+    removeSignature() {
+      let content = this.value;
+      content = removeSignature(this.value, this.signature);
       this.reloadState(content);
     },
     createEditorView() {
