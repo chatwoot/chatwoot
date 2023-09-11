@@ -33,6 +33,9 @@
 - name: CHATWOOT_INBOX_TOKEN
   value:
   locked: false
+- name: CHATWOOT_INBOX_DOMAIN
+  value:
+  locked: false
 - name: CHATWOOT_INBOX_HMAC_KEY
   value:
   locked: false

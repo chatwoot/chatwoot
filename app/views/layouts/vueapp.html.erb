@@ -69,7 +69,7 @@
     <%= yield %>
     <% if @global_config['CHATWOOT_INBOX_TOKEN'].present? %>
     <script>
-      window.chatwootSettings = { hideMessageBubble: true, position: 'left' };
+      window.chatwootSettings = { hideMessageBubble: true, position: 'left', baseDomain:  '<%= @global_config['CHATWOOT_INBOX_DOMAIN'] %>' };
       (function(d,t) {
         var BASE_URL='<%= ENV.fetch('FRONTEND_URL', 'https://app.chatwoot.com') %>';
         var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
