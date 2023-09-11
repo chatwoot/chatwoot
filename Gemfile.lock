@@ -452,7 +452,7 @@ GEM
     mini_magick (4.12.0)
     mini_mime (1.1.2)
     mini_portile2 (2.8.4)
-    minitest (5.19.0)
+    minitest (5.20.0)
     mock_redis (0.36.0)
       ruby2_keywords
     msgpack (1.7.0)
@@ -598,7 +598,7 @@ GEM
       ffi (~> 1.0)
     redis (5.0.6)
       redis-client (>= 0.9.0)
-    redis-client (0.14.1)
+    redis-client (0.17.0)
       connection_pool
     redis-namespace (1.10.0)
       redis (>= 4)
@@ -697,13 +697,13 @@ GEM
       activesupport (>= 4)
     selectize-rails (0.12.6)
     semantic_range (3.0.0)
-    sentry-rails (5.10.0)
+    sentry-rails (5.11.0)
       railties (>= 5.0)
-      sentry-ruby (~> 5.10.0)
-    sentry-ruby (5.10.0)
+      sentry-ruby (~> 5.11.0)
+    sentry-ruby (5.11.0)
       concurrent-ruby (~> 1.0, >= 1.0.2)
-    sentry-sidekiq (5.10.0)
-      sentry-ruby (~> 5.10.0)
+    sentry-sidekiq (5.11.0)
+      sentry-ruby (~> 5.11.0)
       sidekiq (>= 3.0)
     sexp_processor (4.17.0)
     shoulda-matchers (5.3.0)
@@ -922,9 +922,9 @@ DEPENDENCIES
   scout_apm
   scss_lint
   seed_dump
-  sentry-rails (>= 5.10.0)
+  sentry-rails (>= 5.11.0)
   sentry-ruby
-  sentry-sidekiq (>= 5.10.0)
+  sentry-sidekiq (>= 5.11.0)
   shoulda-matchers
   sidekiq
   sidekiq-cron

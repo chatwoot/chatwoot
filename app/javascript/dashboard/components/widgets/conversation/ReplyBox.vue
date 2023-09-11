@@ -84,6 +84,7 @@
     </div>
     <div v-if="hasAttachments" class="attachment-preview-box" @paste="onPaste">
       <attachment-preview
+        class="mt-4 flex-col"
         :attachments="attachedFiles"
         :remove-attachment="removeAttachment"
       />
@@ -128,6 +129,7 @@
       :toggle-audio-recorder="toggleAudioRecorder"
       :toggle-emoji-picker="toggleEmojiPicker"
       :message="message"
+      :new-conversation-modal-active="newConversationModalActive"
       @selectWhatsappTemplate="openWhatsappTemplateModal"
       @toggle-editor="toggleRichContentEditor"
       @replace-text="replaceText"
@@ -164,12 +166,7 @@ import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/cons
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import WootAudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
-import {
-  MAXIMUM_FILE_UPLOAD_SIZE,
-  MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL,
-  AUDIO_FORMATS,
-} from 'shared/constants/messages';
+import { AUDIO_FORMATS } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import {
   getMessageVariables,
@@ -181,14 +178,13 @@ import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
-import { DirectUpload } from 'activestorage';
 import { frontendURL } from '../../../helper/URLHelper';
 import { trimContent, debounce } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants/globals';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import rtlMixin from 'shared/mixins/rtlMixin';
-import { MESSAGE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
+import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
 
 const EmojiInput = () => import('shared/components/emoji/EmojiInput');
 
@@ -213,6 +209,7 @@ export default {
     alertMixin,
     messageFormatterMixin,
     rtlMixin,
+    fileUploadMixin,
   ],
   props: {
     selectedTweet: {
@@ -231,7 +228,6 @@ export default {
   data() {
     return {
       message: '',
-      customEditorMenuOptions: MESSAGE_EDITOR_MENU_OPTIONS,
       isFocused: false,
       showEmojiPicker: false,
       attachedFiles: [],
@@ -253,6 +249,7 @@ export default {
       showUserMentions: false,
       showCannedMenu: false,
       showVariablesMenu: false,
+      newConversationModalActive: false,
     };
   },
   computed: {
@@ -577,10 +574,24 @@ export default {
       500,
       true
     );
+
+    // A hacky fix to solve the drag and drop
+    // Is showing on top of new conversation modal drag and drop
+    // TODO need to find a better solution
+    bus.$on(
+      BUS_EVENTS.NEW_CONVERSATION_MODAL,
+      this.onNewConversationModalActive
+    );
   },
   destroyed() {
     document.removeEventListener('paste', this.onPaste);
     document.removeEventListener('keydown', this.handleKeyEvents);
+  },
+  beforeDestroy() {
+    bus.$off(
+      BUS_EVENTS.NEW_CONVERSATION_MODAL,
+      this.onNewConversationModalActive
+    );
   },
   methods: {
     toggleRichContentEditor() {
@@ -910,67 +921,6 @@ export default {
         isPrivate,
       });
     },
-    onFileUpload(file) {
-      if (this.globalConfig.directUploadsEnabled) {
-        this.onDirectFileUpload(file);
-      } else {
-        this.onIndirectFileUpload(file);
-      }
-    },
-    onDirectFileUpload(file) {
-      const MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE = this.isATwilioSMSChannel
-        ? MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL
-        : MAXIMUM_FILE_UPLOAD_SIZE;
-
-      if (!file) {
-        return;
-      }
-      if (checkFileSizeLimit(file, MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE)) {
-        const upload = new DirectUpload(
-          file.file,
-          `/api/v1/accounts/${this.accountId}/conversations/${this.currentChat.id}/direct_uploads`,
-          {
-            directUploadWillCreateBlobWithXHR: xhr => {
-              xhr.setRequestHeader(
-                'api_access_token',
-                this.currentUser.access_token
-              );
-            },
-          }
-        );
-
-        upload.create((error, blob) => {
-          if (error) {
-            this.showAlert(error);
-          } else {
-            this.attachFile({ file, blob });
-          }
-        });
-      } else {
-        this.showAlert(
-          this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
-            MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE,
-          })
-        );
-      }
-    },
-    onIndirectFileUpload(file) {
-      const MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE = this.isATwilioSMSChannel
-        ? MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL
-        : MAXIMUM_FILE_UPLOAD_SIZE;
-      if (!file) {
-        return;
-      }
-      if (checkFileSizeLimit(file, MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE)) {
-        this.attachFile({ file });
-      } else {
-        this.showAlert(
-          this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
-            MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE,
-          })
-        );
-      }
-    },
     attachFile({ blob, file }) {
       const reader = new FileReader();
       reader.readAsDataURL(file.file);
@@ -1101,6 +1051,14 @@ export default {
       this.ccEmails = cc.join(', ');
       this.bccEmails = bcc.join(', ');
       this.toEmails = to.join(', ');
+    },
+    onNewConversationModalActive(isActive) {
+      // Issue is if the new conversation modal is open and we drag and drop the file
+      // then the file is not getting attached to the new conversation modal
+      // and it is getting attached to the current conversation reply box
+      // so to fix this we are removing the drag and drop event listener from the current conversation reply box
+      // When new conversation modal is open
+      this.newConversationModalActive = isActive;
     },
   },
 };
