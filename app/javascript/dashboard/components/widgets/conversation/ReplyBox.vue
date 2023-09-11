@@ -842,6 +842,9 @@ export default {
     },
     clearMessage() {
       this.message = '';
+      if (this.sendWithSignature) {
+        this.message = appendSignature(this.message, this.messageSignature);
+      }
       this.attachedFiles = [];
       this.isRecordingAudio = false;
     },
