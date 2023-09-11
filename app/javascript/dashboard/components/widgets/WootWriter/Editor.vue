@@ -15,6 +15,13 @@
       :search-key="variableSearchTerm"
       @click="insertVariable"
     />
+    <input
+      ref="imageUpload"
+      type="file"
+      accept="image/png, image/jpeg, image/jpg, image/gif, image/webp"
+      hidden
+      @change="onFileChange"
+    />
     <div ref="editor" />
   </div>
 </template>
@@ -39,6 +46,7 @@ import CannedResponse from '../conversation/CannedResponse';
 import VariableList from '../conversation/VariableList';
 
 const TYPING_INDICATOR_IDLE_TIME = 4000;
+const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 
 import {
   hasPressedEnterAndNotCmdOrShift,
@@ -51,12 +59,17 @@ import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
 import { replaceVariablesInMessage } from '@chatwoot/utils';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
+import { uploadFile } from 'dashboard/helper/uploadHelper';
+import alertMixin from 'shared/mixins/alertMixin';
+import { findNodeToInsertImage } from 'dashboard/helper/messageEditorHelper';
 import { MESSAGE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 
 const createState = (
   content,
   placeholder,
   plugins = [],
+  methods = {},
   enabledMenuOptions
 ) => {
   return EditorState.create({
@@ -64,6 +77,7 @@ const createState = (
     plugins: buildEditor({
       schema: messageSchema,
       placeholder,
+      methods,
       plugins,
       enabledMenuOptions,
     }),
@@ -73,7 +87,7 @@ const createState = (
 export default {
   name: 'WootMessageEditor',
   components: { TagAgents, CannedResponse, VariableList },
-  mixins: [eventListenerMixins, uiSettingsMixin],
+  mixins: [eventListenerMixins, uiSettingsMixin, alertMixin],
   props: {
     value: { type: String, default: '' },
     editorId: { type: String, default: '' },
@@ -255,6 +269,7 @@ export default {
       this.value,
       this.placeholder,
       this.plugins,
+      { onImageUpload: this.openFileBrowser },
       this.editorMenuOptions
     );
   },
@@ -269,6 +284,7 @@ export default {
         content,
         this.placeholder,
         this.plugins,
+        { onImageUpload: this.openFileBrowser },
         this.editorMenuOptions
       );
       this.editorView.updateState(this.state);
@@ -396,6 +412,57 @@ export default {
       this.$track(CONVERSATION_EVENTS.INSERTED_A_VARIABLE);
       tr.scrollIntoView();
       return false;
+    },
+    openFileBrowser() {
+      this.$refs.imageUpload.click();
+    },
+    onFileChange() {
+      const file = this.$refs.imageUpload.files[0];
+      if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
+        this.uploadImageToStorage(file);
+      } else {
+        this.showAlert(
+          this.$t(
+            'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.IMAGE_UPLOAD_SIZE_ERROR',
+            {
+              size: MAXIMUM_FILE_UPLOAD_SIZE,
+            }
+          )
+        );
+      }
+
+      this.$refs.imageUpload.value = '';
+    },
+    async uploadImageToStorage(file) {
+      try {
+        const { fileUrl } = await uploadFile(file);
+        if (fileUrl) {
+          this.onImageInsertInEditor(fileUrl);
+        }
+        this.showAlert(
+          this.$t(
+            'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.IMAGE_UPLOAD_SUCCESS'
+          )
+        );
+      } catch (error) {
+        this.showAlert(
+          this.$t(
+            'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.IMAGE_UPLOAD_ERROR'
+          )
+        );
+      }
+    },
+    onImageInsertInEditor(fileUrl) {
+      const { tr } = this.editorView.state;
+
+      const insertData = findNodeToInsertImage(this.editorView.state, fileUrl);
+
+      if (insertData) {
+        this.editorView.dispatch(
+          tr.insert(insertData.pos, insertData.node).scrollIntoView()
+        );
+        this.focusEditorInputField();
+      }
     },
 
     emitOnChange() {

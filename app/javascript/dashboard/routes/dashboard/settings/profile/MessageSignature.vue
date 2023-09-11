@@ -101,6 +101,7 @@ export default {
         }
       } finally {
         this.isUpdating = false;
+        this.initValues();
         this.showAlert(this.errorMessage);
       }
     },
