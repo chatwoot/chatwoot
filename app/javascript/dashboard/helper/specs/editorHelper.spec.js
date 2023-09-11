@@ -16,6 +16,11 @@ const DOES_NOT_HAVE_SIGNATURE = {
     body: 'This is a test\n\n--\n\nThis is a signature\n\nThis is more text',
     signature: 'This is a signature',
   },
+  signature_has_images: {
+    body: 'This is a test',
+    signature:
+      'Testing \n![](http://localhost:3000/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBam9UIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--8dfc441ad90edefb41b82bb451b338d588ff8ce7/facebook.png)',
+  },
 };
 
 const HAS_SIGNATURE = {
