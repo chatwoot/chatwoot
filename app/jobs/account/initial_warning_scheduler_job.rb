@@ -12,7 +12,7 @@ class Account::InitialWarningSchedulerJob < ApplicationJob
       next unless subscription.blank? || subscription.billing_product_price&.unit_amount&.zero?
 
       users = account.users.where('last_sign_in_at > ? ', no_days.days.ago)
-      # check if account is not used in 30 days
+      # check if account is not used in 28 days
       if users.present?
         account.update(deletion_email_reminder: nil, email_sent_at: nil)
       else
