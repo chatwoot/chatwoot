@@ -21,6 +21,7 @@
               $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE.PLACEHOLDER')
             "
             :enabled-menu-options="customEditorMenuList"
+            :enable-suggestions="false"
             @blur="$v.messageSignature.$touch"
           />
         </div>
@@ -69,11 +70,6 @@ export default {
       currentUserId: 'getCurrentUserID',
     }),
   },
-  watch: {
-    currentUser() {
-      this.initValues();
-    },
-  },
   mounted() {
     this.initValues();
   },
@@ -105,6 +101,7 @@ export default {
         }
       } finally {
         this.isUpdating = false;
+        this.initValues();
         this.showAlert(this.errorMessage);
       }
     },

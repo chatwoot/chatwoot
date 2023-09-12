@@ -1,6 +1,8 @@
 <template>
-  <div class="flex flex-col md:flex-row items-start md:items-center">
-    <div class="flex items-center justify-center m-0 mx-4 flex-1">
+  <div
+    class="flex flex-col md:flex-row  justify-between items-start md:items-center"
+  >
+    <div class="flex items-center justify-start m-0 mx-4 flex-1">
       <img
         :src="'/dashboard/images/integrations/' + integrationLogo"
         class="p-2 h-16 w-16 mr-4"
