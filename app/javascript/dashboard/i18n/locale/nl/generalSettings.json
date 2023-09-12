@@ -103,7 +103,7 @@
     "SECTIONS": {
       "GENERAL": "General",
       "REPORTS": "Rapporten",
-      "CONVERSATION": "Conversation",
+      "CONVERSATION": "Gesprek",
       "CHANGE_ASSIGNEE": "Change Assignee",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Change Team",
@@ -153,7 +153,7 @@
       "CHANGE_APPEARANCE": "Change Appearance",
       "LIGHT_MODE": "Light",
       "DARK_MODE": "Dark",
-      "SYSTEM_MODE": "System"
+      "SYSTEM_MODE": "Systeem"
     }
   },
   "DASHBOARD_APPS": {
