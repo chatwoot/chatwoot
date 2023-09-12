@@ -3,7 +3,7 @@ class Integrations::Slack::IncomingMessageBuilder
   attr_reader :params
 
   SUPPORTED_EVENT_TYPES = %w[event_callback url_verification].freeze
-  SUPPORTED_EVENTS = %w[message].freeze
+  SUPPORTED_EVENTS = %w[message link_shared].freeze
   SUPPORTED_MESSAGE_TYPES = %w[rich_text].freeze
 
   def initialize(params)
@@ -17,6 +17,8 @@ class Integrations::Slack::IncomingMessageBuilder
       verify_hook
     elsif create_message?
       create_message
+    elsif link_shared?
+      create_link_shared_message
     end
   end
 
@@ -66,6 +68,25 @@ class Integrations::Slack::IncomingMessageBuilder
 
   def create_message?
     thread_timestamp_available? && supported_message? && integration_hook
+  end
+
+  def link_shared?
+    params[:event][:type] == 'link_shared' && integration_hook
+  end
+
+  def create_link_shared_message
+    # byebug
+    # Integrations::Slack::SendOnSlackService.new(message: message, hook: hook).perform
+    @slack_client ||= Slack::Web::Client.new(token: 'xoxb-260754243843-4659984567445-l4idDPOVuXiPtxzpxt5SPTnE')
+
+    unfurls = { params[:event][:links][0][:url] => { 'blocks' => [{ 'type' => 'section',
+                                                                    'text' => { 'type' => 'mrkdwn', 'text' => 'Hoooyyyy....!!Take a look at this carafe, just another cousin of glass' }, 'accessory' => { 'type' => 'image', 'image_url' => 'https://avatars.githubusercontent.com/u/23416667', 'alt_text' => "Stein's wine carafe" } }] } }
+
+    slack_client.chat_unfurl(
+      channel: params[:event][:channel],
+      ts: params[:event][:message_ts],
+      unfurls: JSON.generate(unfurls)
+    )
   end
 
   def message
