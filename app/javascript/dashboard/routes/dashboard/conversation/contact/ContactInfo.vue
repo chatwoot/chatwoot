@@ -268,7 +268,6 @@ export default {
     },
     toggleConversationModal() {
       this.showConversationModal = !this.showConversationModal;
-      bus.$emit('newConversationModal', this.showConversationModal);
     },
     toggleDeleteModal() {
       this.showDeleteModal = !this.showDeleteModal;
