@@ -71,7 +71,7 @@
       "SUBMIT": "İçe Aktar",
       "CANCEL": "İptal Et"
     },
-    "SUCCESS_MESSAGE": "Kişiler başarıyla kaydedildi",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
   },
   "EXPORT_CONTACTS": {
