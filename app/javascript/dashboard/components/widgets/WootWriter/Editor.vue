@@ -313,8 +313,17 @@ export default {
     },
     addSignature() {
       let content = this.value;
+      const contentWasEmpty = content.trim().length === 0;
       content = appendSignature(content, this.signature);
       this.reloadState(content);
+
+      if (contentWasEmpty) {
+        const paragraph = this.state.schema.nodes.paragraph.create();
+        const paragraphTransaction = this.state.tr.insert(0, paragraph);
+        this.editorView.dispatch(paragraphTransaction);
+
+        this.focusEditorInputField();
+      }
     },
     removeSignature() {
       let content = this.value;
