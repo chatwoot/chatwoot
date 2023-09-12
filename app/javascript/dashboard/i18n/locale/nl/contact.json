@@ -71,7 +71,7 @@
       "SUBMIT": "Importeren",
       "CANCEL": "Annuleren"
     },
-    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+    "SUCCESS_MESSAGE": "U wordt per e-mail geïnformeerd wanneer de import is voltooid.",
     "ERROR_MESSAGE": "Er is een fout opgetreden, probeer het opnieuw"
   },
   "EXPORT_CONTACTS": {
@@ -205,8 +205,8 @@
         "ERROR": "Bericht mag niet leeg zijn"
       },
       "ATTACHMENTS": {
-        "SELECT": "Choose files",
-        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+        "SELECT": "Kies bestanden",
+        "HELP_TEXT": "Sleep bestanden hier naartoe of kies bestanden om toe te voegen"
       },
       "SUBMIT": "Verstuur bericht",
       "CANCEL": "Annuleren",
