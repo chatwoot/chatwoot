@@ -35,7 +35,7 @@ class AdministratorNotifications::AccountMailer < ApplicationMailer
     @deletion_date = Date.today.strftime('%d %b %Y')
     subject = 'OneHash Chat Account Deletion'
     account.update(deletion_email_reminder: :deletion_pending, email_sent_at: Time.current)
-    @action_url = "#{ENV['FRONTEND_URL']}/"
+    @action_url = "#{ENV.fetch('FRONTEND_URL', nil)}/"
     send_mail_with_liquid(to: admin_email, subject: subject) and return
   end
 
