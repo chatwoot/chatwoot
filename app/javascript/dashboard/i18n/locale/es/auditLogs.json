@@ -57,15 +57,15 @@
       "DELETE": "%{agentName} eliminó una macro (#%{id})"
     },
     "INBOX_MEMBER": {
-      "ADD": "%{agentName} added %{user} to the inbox(#%{inbox_id})",
-      "REMOVE": "%{agentName} removed %{user} from the inbox(#%{inbox_id})"
+      "ADD": "%{agentName} agregó %{user} a la bandeja de entrada (#%{inbox_id})",
+      "REMOVE": "%{agentName} eliminó %{user} de la bandeja de entrada(#%{inbox_id})"
     },
     "TEAM_MEMBER": {
-      "ADD": "%{agentName} added %{user} to the team(#%{team_id})",
-      "REMOVE": "%{agentName} removed %{user} from the team(#%{team_id})"
+      "ADD": "%{agentName} agregó %{user} al equipo (#%{team_id})",
+      "REMOVE": "%{agentName} eliminó %{user} del equipo (#%{team_id})"
     },
     "ACCOUNT": {
-      "EDIT": "%{agentName} updated the account configuration (#%{id})"
+      "EDIT": "%{agentName} Actualizó la configuración de la cuenta (#%{id})"
     }
   }
 }

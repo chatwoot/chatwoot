@@ -1,68 +1,68 @@
 {
   "AGENT_BOTS": {
     "HEADER": "Bots",
-    "LOADING_EDITOR": "Loading Editor...",
-    "HEADER_BTN_TXT": "Add Bot Configuration",
-    "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent bots allows you to automate the conversations</p>",
+    "LOADING_EDITOR": "Editor laden...",
+    "HEADER_BTN_TXT": "Botconfiguratie toevoegen",
+    "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent bots stelt je in staat de gesprekken te automatiseren</p>",
     "CSML_BOT_EDITOR": {
       "NAME": {
         "LABEL": "Bot Naam",
-        "PLACEHOLDER": "Give your bot a name",
-        "ERROR": "Bot name is required"
+        "PLACEHOLDER": "Geef uw bot een naam",
+        "ERROR": "Bot naam is vereist"
       },
       "DESCRIPTION": {
-        "LABEL": "Bot Description",
-        "PLACEHOLDER": "What does this bot do?"
+        "LABEL": "Bot Beschrijving",
+        "PLACEHOLDER": "Wat doet deze bot?"
       },
       "BOT_CONFIG": {
-        "ERROR": "Please enter your CSML bot configuration above",
-        "API_ERROR": "Your CSML configuration is invalid, please fix it and try again."
+        "ERROR": "Vul uw CSML bot configuratie hierboven in",
+        "API_ERROR": "Uw CSML-configuratie is ongeldig, los het op en probeer het opnieuw."
       },
-      "SUBMIT": "Validate and save"
+      "SUBMIT": "Valideren en opslaan"
     },
     "BOT_CONFIGURATION": {
-      "TITLE": "Select an agent bot",
-      "DESC": "You can set an agent bot from the list to this inbox. The bot can initially handle the conversation and transfer it to an agent when needed.",
+      "TITLE": "Selecteer een agent bot",
+      "DESC": "U kunt een agent bot instellen vanuit de lijst naar deze inbox. De bot kan het gesprek in eerste instantie afhandelen en indien nodig naar een agent overbrengen.",
       "SUBMIT": "Vernieuwen",
-      "DISCONNECT": "Disconnect Bot",
-      "SUCCESS_MESSAGE": "Successfully updated the agent bot",
-      "DISCONNECTED_SUCCESS_MESSAGE": "Successfully disconnected the agent bot",
-      "ERROR_MESSAGE": "Could not update the agent bot, please try again later",
-      "DISCONNECTED_ERROR_MESSAGE": "Could not disconnect the agent bot, please try again later",
-      "SELECT_PLACEHOLDER": "Select Bot"
+      "DISCONNECT": "Bot verbinding verbreken",
+      "SUCCESS_MESSAGE": "De agent bot is succesvol bijgewerkt",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Succesvol de agent bot verbinding verbroken",
+      "ERROR_MESSAGE": "Kan de agent bot niet bijwerken, probeer het later opnieuw",
+      "DISCONNECTED_ERROR_MESSAGE": "Kan de agent bot niet ontkoppelen, probeer het later opnieuw",
+      "SELECT_PLACEHOLDER": "Selecteer Bot"
     },
     "ADD": {
-      "TITLE": "Configure new bot",
+      "TITLE": "Configureer nieuwe bot",
       "CANCEL_BUTTON_TEXT": "Annuleren",
       "API": {
-        "SUCCESS_MESSAGE": "Bot added successfully",
-        "ERROR_MESSAGE": "Could not add bot, Please try again later"
+        "SUCCESS_MESSAGE": "Bot succesvol toegevoegd",
+        "ERROR_MESSAGE": "Kan bot niet toevoegen, probeer het later opnieuw"
       }
     },
     "LIST": {
-      "404": "No Bots found, you can create a bot by clicking the 'Configure new bot' Button ↗",
-      "LOADING": "Fetching Bots...",
+      "404": "Geen bots gevonden, u kunt een bot maken door op de 'Configureer nieuwe bot' knop te klikken ↗",
+      "LOADING": "Bots Ophalen...",
       "TYPE": "Bot Type"
     },
     "DELETE": {
       "BUTTON_TEXT": "Verwijderen",
-      "TITLE": "Delete Bot",
+      "TITLE": "Bot Verwijderen",
       "SUBMIT": "Verwijderen",
       "CANCEL_BUTTON_TEXT": "Annuleren",
-      "DESCRIPTION": "Are you sure you want to delete this bot? This action is irreversible",
+      "DESCRIPTION": "Weet u zeker dat u deze bot wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt",
       "API": {
-        "SUCCESS_MESSAGE": "Bot deleted successfully",
-        "ERROR_MESSAGE": "Could not able to delete bot, Please try again later"
+        "SUCCESS_MESSAGE": "Bot succesvol verwijderd",
+        "ERROR_MESSAGE": "Kan bot niet verwijderen, probeer het later opnieuw"
       }
     },
     "EDIT": {
       "BUTTON_TEXT": "Bewerken",
-      "LOADING": "Fetching Bots...",
-      "TITLE": "Edit Bot",
+      "LOADING": "Bots Ophalen...",
+      "TITLE": "Bot Bewerken",
       "CANCEL_BUTTON_TEXT": "Annuleren",
       "API": {
-        "SUCCESS_MESSAGE": "Bot updated successfully",
-        "ERROR_MESSAGE": "Could not update bot, Please try again later"
+        "SUCCESS_MESSAGE": "Bot succesvol bijgewerkt",
+        "ERROR_MESSAGE": "Kan bot niet updaten, probeer het later opnieuw"
       }
     },
     "TYPES": {

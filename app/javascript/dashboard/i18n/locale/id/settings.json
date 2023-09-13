@@ -39,7 +39,10 @@
         "NOTE": "Buat tanda tangan pesan pribadi yang akan ditambahkan ke semua pesan yang Anda kirim dari kotak masuk email Anda. Gunakan editor konten kaya untuk membuat tanda tangan yang sangat personal.",
         "BTN_TEXT": "Simpan tanda tangan pesan",
         "API_ERROR": "Tidak dapat menyimpan tanda tangan! Coba lagi",
-        "API_SUCCESS": "Tanda tangan berhasil disimpan"
+        "API_SUCCESS": "Tanda tangan berhasil disimpan",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Ukuran gambar harus kurang dari {size}MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Tanda Tangan Pesan",
