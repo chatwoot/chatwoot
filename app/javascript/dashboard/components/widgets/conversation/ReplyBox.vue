@@ -604,6 +604,10 @@ export default {
       this.updateUISettings({
         display_rich_content_editor: !this.showRichContentEditor,
       });
+
+      if (!this.showRichContentEditor) {
+        this.message = extractTextFromMarkdown(this.message);
+      }
     },
     saveDraft(conversationId, replyType) {
       if (this.message || this.message === '') {
