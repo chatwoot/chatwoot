@@ -299,7 +299,12 @@ export default {
         this.editorMenuOptions
       );
       this.editorView.updateState(this.state);
-      this.focusEditorInputField();
+
+      if (this.isBodyEmpty(content) && this.signatureEnabled) {
+        this.handleEmptyBodyWithSignature();
+      } else {
+        this.focusEditorInputField('end');
+      }
     },
     toggleSignatureInEditor(signatureEnabled) {
       // The toggleSignatureInEditor gets the new value from the
@@ -313,21 +318,40 @@ export default {
     },
     addSignature() {
       let content = this.value;
-      const contentWasEmpty = content.trim().length === 0;
+      const contentWasEmpty = this.isBodyEmpty(content);
       content = appendSignature(content, this.signature);
       this.reloadState(content);
 
       if (contentWasEmpty) {
-        const paragraph = this.state.schema.nodes.paragraph.create();
-        const paragraphTransaction = this.state.tr.insert(0, paragraph);
-        this.editorView.dispatch(paragraphTransaction);
-        this.focusEditorInputField('start');
+        this.handleEmptyBodyWithSignature();
       }
     },
     removeSignature() {
+      if (!this.signature) return;
       let content = this.value;
       content = removeSignature(content, this.signature);
       this.reloadState(content);
+    },
+    isBodyEmpty(content) {
+      if (!content) return true;
+
+      const bodyWithoutSignature = this.signature
+        ? removeSignature(content, this.signature)
+        : content;
+
+      return bodyWithoutSignature.trim().length === 0;
+    },
+    handleEmptyBodyWithSignature() {
+      const { schema, tr } = this.state;
+
+      // create a paragraph node and
+      // start a transaction to append it at the end
+      const paragraph = schema.nodes.paragraph.create();
+      const paragraphTransaction = tr.insert(0, paragraph);
+      this.editorView.dispatch(paragraphTransaction);
+
+      // Set the focus at the start of the input field
+      this.focusEditorInputField('start');
     },
     createEditorView() {
       this.editorView = new EditorView(this.$refs.editor, {
