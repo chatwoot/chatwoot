@@ -55,7 +55,7 @@ export const createWhatsAppConversationPayload = ({ params }) => {
   return payload;
 };
 
-const setNewConversationMessagePayload = ({
+export const setNewConversationPayload = ({
   isFromWhatsApp,
   params,
   contactId,
@@ -94,7 +94,7 @@ export const actions = {
     });
     const { contactId, files } = params;
     try {
-      const payload = setNewConversationMessagePayload({
+      const payload = setNewConversationPayload({
         isFromWhatsApp,
         params,
         contactId,
