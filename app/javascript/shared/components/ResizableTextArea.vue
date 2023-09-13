@@ -52,6 +52,13 @@ export default {
       idleTimer: null,
     };
   },
+  computed: {
+    cleanedSignature() {
+      // clean the signature, this will ensure that we don't have
+      // any markdown formatted text in the signature
+      return extractTextFromMarkdown(this.signature);
+    },
+  },
   watch: {
     value() {
       this.resizeTextarea();
@@ -66,6 +73,7 @@ export default {
     this.$nextTick(() => {
       if (this.value) {
         this.resizeTextarea();
+        this.setCursor();
       }
     });
   },
@@ -81,21 +89,28 @@ export default {
     // watcher, this means that if the value is true, the signature
     // is supposed to be added, else we remove it.
     toggleSignatureInEditor(signatureEnabled) {
-      // clean the signature, this will ensure that we don't have
-      // any markdown formatted text in the signature
-      const cleanedSignature = extractTextFromMarkdown(this.signature);
+      const valueWithSignature = signatureEnabled
+        ? appendSignature(this.value, this.cleanedSignature)
+        : removeSignature(this.value, this.cleanedSignature);
 
-      if (signatureEnabled) {
-        this.value = appendSignature(this.value, cleanedSignature);
-      } else {
-        this.value = removeSignature(this.value, cleanedSignature);
-      }
-
-      this.$emit('input', this.value);
+      this.$emit('input', valueWithSignature);
 
       this.$nextTick(() => {
         this.resizeTextarea();
+        this.setCursor();
       });
+    },
+    setCursor() {
+      const textarea = this.$refs.textarea;
+      const bodyWithoutSignature = removeSignature(
+        this.value,
+        this.cleanedSignature
+      );
+
+      // only trim at end, so if there are spaces at the start, those are not removed
+      const bodyEndsAt = bodyWithoutSignature.trimEnd().length;
+      textarea.focus();
+      textarea.setSelectionRange(bodyEndsAt, bodyEndsAt);
     },
     onInput(event) {
       this.$emit('input', event.target.value);
