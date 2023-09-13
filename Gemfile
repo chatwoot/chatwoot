@@ -4,7 +4,7 @@ ruby '3.2.2'
 
 ##-- base gems for rails --##
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails', '~> 7.0.7.2'
+gem 'rails', '~> 7.0.8.0'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
@@ -113,9 +113,9 @@ gem 'sentry-ruby', require: false
 gem 'sentry-sidekiq', '>= 5.11.0', require: false
 
 ##-- background job processing --##
-gem 'sidekiq'
+gem 'sidekiq', '>= 7.1.3'
 # We want cron jobs
-gem 'sidekiq-cron'
+gem 'sidekiq-cron', '>= 1.10.1'
 
 ##-- Push notification service --##
 gem 'fcm'
