@@ -25,6 +25,10 @@ export async function uploadFile(file, accountId) {
   // Create a new FormData instance.
   let formData = new FormData();
 
+  if (!accountId) {
+    accountId = window.location.pathname.split('/')[3];
+  }
+
   // Append the file to the FormData instance under the key 'attachment'.
   formData.append('attachment', file);
 
