@@ -21,7 +21,7 @@ const HEADERS = {
  * @param {File} file - The file to be uploaded. It should be a File object (typically coming from a file input element).
  * @returns {Promise} A promise that resolves with the server's response when the upload is successful, or rejects if there's an error.
  */
-export async function uploadFile(file) {
+export async function uploadFile(file, accountId) {
   // Create a new FormData instance.
   let formData = new FormData();
 
@@ -29,9 +29,13 @@ export async function uploadFile(file) {
   formData.append('attachment', file);
 
   // Use axios to send a POST request to the upload endpoint.
-  const { data } = await axios.post(`/api/${API_VERSION}/upload`, formData, {
-    headers: HEADERS,
-  });
+  const { data } = await axios.post(
+    `/api/${API_VERSION}/${accountId}/upload`,
+    formData,
+    {
+      headers: HEADERS,
+    }
+  );
 
   return {
     fileUrl: data.file_url,
