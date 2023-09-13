@@ -9,7 +9,7 @@ class Twilio::IncomingMessageService
     set_contact
     set_conversation
     @message = @conversation.messages.create!(
-      content: params[:Body],
+      content: message_body,
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
       message_type: :incoming,
@@ -44,6 +44,10 @@ class Twilio::IncomingMessageService
 
   def formatted_phone_number
     TelephoneNumber.parse(phone_number).international_number
+  end
+
+  def message_body
+    params[:Body].delete("\u0000")
   end
 
   def set_contact
