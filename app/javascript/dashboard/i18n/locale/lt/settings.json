@@ -39,7 +39,10 @@
         "NOTE": "Sukurkite asmeninį pranešimo parašą, kuris būtų pridėtas prie visų pranešimų, kuriuos siunčiate iš el. pašto dėžutės. Naudokite turtingo turinio redagavimo priemonę, kad sukurtumėte labai suasmenintą parašą.",
         "BTN_TEXT": "Išsaugoti pranešimo parašą",
         "API_ERROR": "Nepavyko išsaugoti parašo! Bandykite dar kartą",
-        "API_SUCCESS": "Parašas išsaugotas sėkmingai"
+        "API_SUCCESS": "Parašas išsaugotas sėkmingai",
+        "IMAGE_UPLOAD_ERROR": "Nepavyko įkelti vaizdo! Prašau, pabandykite dar kartą",
+        "IMAGE_UPLOAD_SUCCESS": "Vaizdas sėkmingai pridėtas. Spustelėkite \"Išsaugoti\", kad išsaugotumėte parašą",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Paveiksliuko dydis turi būti mažesnis nei {size} MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Pranešimo parašas",

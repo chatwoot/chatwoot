@@ -87,8 +87,8 @@
     }
   },
   "EMOJI": {
-    "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+    "PLACEHOLDER": "搜索表情符号",
+    "NOT_FOUND": "没有适合你的搜索结果"
   },
   "CSAT": {
     "TITLE": "评价您的对话",
