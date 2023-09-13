@@ -517,6 +517,7 @@ export default {
       });
       return variables;
     },
+    // ensure that the signature is plain text depending on `showRichContentEditor`
     signatureToApply() {
       return this.showRichContentEditor
         ? this.messageSignature
@@ -855,6 +856,7 @@ export default {
     clearMessage() {
       this.message = '';
       if (this.sendWithSignature) {
+        // if signature is enabled, append it to the message
         this.message = appendSignature(this.message, this.signatureToApply);
       }
       this.attachedFiles = [];
