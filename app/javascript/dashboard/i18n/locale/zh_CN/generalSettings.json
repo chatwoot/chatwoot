@@ -3,7 +3,7 @@
     "TITLE": "帐户设置",
     "SUBMIT": "更新设置",
     "BACK": "后退",
-    "DISMISS": "Dismiss",
+    "DISMISS": "取消",
     "UPDATE": {
       "ERROR": "无法更新设置，请重试！",
       "SUCCESS": "已成功更新账户设置"
@@ -24,7 +24,7 @@
         "ERROR": "请输入有效的帐户名称"
       },
       "LANGUAGE": {
-        "LABEL": "Site language",
+        "LABEL": "站点语言",
         "PLACEHOLDER": "您的帐户名称",
         "ERROR": ""
       },
@@ -50,7 +50,7 @@
     },
     "UPDATE_CHATWOOT": "Chatwoot 有可用更新%{latestChatwootVersion}，请更新您的应用。",
     "LEARN_MORE": "了解更多",
-    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "PAYMENT_PENDING": "您的付款尚未完成。请更新您的付款信息以继续使用Chatwoot",
     "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
     "OPEN_BILLING": "Open billing"
   },

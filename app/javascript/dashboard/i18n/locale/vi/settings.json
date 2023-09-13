@@ -39,7 +39,10 @@
         "NOTE": "Tạo chữ ký thư cá nhân sẽ được thêm vào tất cả các thư bạn gửi từ hộp thư email của mình. Sử dụng trình chỉnh sửa nội dung phong phú để tạo chữ ký được cá nhân hóa cao.",
         "BTN_TEXT": "Lưu chữ ký tin nhắn",
         "API_ERROR": "Không thể lưu chữ ký! Thử lại",
-        "API_SUCCESS": "Chữ ký được lưu thành công"
+        "API_SUCCESS": "Chữ ký được lưu thành công",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Kích thước ảnh phải nhỏ hơn {size}MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Chữ ký tin nhắn",

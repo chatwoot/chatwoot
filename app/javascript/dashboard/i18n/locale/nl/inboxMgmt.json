@@ -189,7 +189,7 @@
             "ERROR": "Dit veld is verplicht"
           },
           "INBOX_NAME": {
-            "LABEL": "Inbox Name",
+            "LABEL": "Inbox Naam",
             "PLACEHOLDER": "Please enter a inbox name",
             "ERROR": "Dit veld is verplicht"
           },
@@ -458,7 +458,7 @@
       "SETTINGS": "Instellingen",
       "COLLABORATORS": "Collaborators",
       "CONFIGURATION": "Configuration",
-      "CAMPAIGN": "Campaigns",
+      "CAMPAIGN": "Campagnes",
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Business Hours",
       "WIDGET_BUILDER": "Widget Builder",
@@ -540,7 +540,7 @@
         "FIELDS": "Fields",
         "LABEL": "Label",
         "PLACE_HOLDER": "Placeholder",
-        "KEY": "Key",
+        "KEY": "Sleutel",
         "TYPE": "Type",
         "REQUIRED": "Required"
       },

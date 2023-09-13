@@ -39,7 +39,10 @@
         "NOTE": "Cree una firma de mensaje personal que se añadirá a todos los mensajes que envíe desde su buzón de correo electrónico. Utilice el rico editor de contenidos para crear una firma altamente personalizada.",
         "BTN_TEXT": "Guardar firma de mensaje",
         "API_ERROR": "¡No se pudo guardar la firma! Inténtalo de nuevo",
-        "API_SUCCESS": "Firma guardada correctamente"
+        "API_SUCCESS": "Firma guardada correctamente",
+        "IMAGE_UPLOAD_ERROR": "¡No se pudo subir la imagen! Intente nuevamente",
+        "IMAGE_UPLOAD_SUCCESS": "Imagen agregada satisfactoriamente. Por favor haga clic en salvar para guardar la firma",
+        "IMAGE_UPLOAD_SIZE_ERROR": "El tamaño de la imagen debe ser menor que {size}MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Firma del mensaje",
@@ -205,7 +208,7 @@
     "AGENTS": "Agentes",
     "AGENT_BOTS": "Bots",
     "AUDIT_LOGS": "Auditoría de registros",
-    "INBOXES": "Bandejas de entrada",
+    "INBOXES": "Entradas",
     "NOTIFICATIONS": "Notificaciones",
     "CANNED_RESPONSES": "Respuestas predefinidas",
     "INTEGRATIONS": "Integraciones",
