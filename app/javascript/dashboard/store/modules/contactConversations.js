@@ -32,22 +32,12 @@ export const createConversationPayload = ({ params, contactId, files }) => {
 };
 
 export const createWhatsAppConversationPayload = ({ params }) => {
-  const {
-    inboxId,
-    message,
-    contactId,
-    mailSubject,
-    sourceId,
-    assigneeId,
-  } = params;
+  const { inboxId, message, contactId, sourceId, assigneeId } = params;
 
   const payload = {
     inbox_id: inboxId,
     contact_id: contactId,
     source_id: sourceId,
-    additional_attributes: {
-      mail_subject: mailSubject,
-    },
     message,
     assignee_id: assigneeId,
   };
@@ -55,7 +45,7 @@ export const createWhatsAppConversationPayload = ({ params }) => {
   return payload;
 };
 
-export const setNewConversationPayload = ({
+const setNewConversationPayload = ({
   isFromWhatsApp,
   params,
   contactId,

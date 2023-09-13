@@ -4,7 +4,6 @@ import {
   createMessagePayload,
   createConversationPayload,
   createWhatsAppConversationPayload,
-  setNewConversationMessagePayload,
 } from '../../contactConversations';
 import * as types from '../../../mutation-types';
 import conversationList from './fixtures';
@@ -294,7 +293,6 @@ describe('createWhatsAppConversationPayload', () => {
           content: 'Test message content',
         },
         sourceId: '12',
-        mailSubject: 'Test Subject',
         assigneeId: '123',
       },
     };
@@ -304,72 +302,6 @@ describe('createWhatsAppConversationPayload', () => {
     expect(payload.message).toBe(options.params.message);
     expect(payload.inbox_id).toBe(options.params.inboxId);
     expect(payload.source_id).toBe(options.params.sourceId);
-    expect(payload.additional_attributes.mail_subject).toBe(
-      options.params.mailSubject
-    );
-    expect(payload.assignee_id).toBe(options.params.assigneeId);
-  });
-});
-
-describe('setNewConversationMessagePayload', () => {
-  it('is not from Whatsapp creates conversation payload with message and attachments', () => {
-    const options = {
-      isFromWhatsApp: false,
-      params: {
-        inboxId: '1',
-        message: {
-          content: 'Test message content',
-        },
-        sourceId: '12',
-        mailSubject: 'Test Subject',
-        assigneeId: '123',
-      },
-      contactId: '23',
-      files: ['file1.pdf', 'file2.jpg'],
-    };
-
-    const payload = setNewConversationMessagePayload(options);
-
-    expect(payload.get('message[content]')).toBe(
-      options.params.message.content
-    );
-    expect(payload.get('inbox_id')).toBe(options.params.inboxId);
-    expect(payload.get('contact_id')).toBe(options.contactId);
-    expect(payload.get('source_id')).toBe(options.params.sourceId);
-    expect(payload.get('additional_attributes[mail_subject]')).toBe(
-      options.params.mailSubject
-    );
-    expect(payload.get('assignee_id')).toBe(options.params.assigneeId);
-    expect(payload.getAll('message[attachments][]')).toEqual(options.files);
-  });
-
-  it('is from Whatsapp creates conversation payload with message', () => {
-    const options = {
-      isFromWhatsApp: true,
-      params: {
-        inboxId: '1',
-        message: {
-          content: 'Test message content',
-          template_params: {
-            name: 'hello_world',
-            category: 'MARKETING',
-            language: 'en_US',
-            processed_params: {},
-          },
-        },
-        sourceId: '12',
-        assigneeId: '123',
-      },
-    };
-
-    const payload = setNewConversationMessagePayload(options);
-
-    expect(payload.message).toBe(options.params.message);
-    expect(payload.inbox_id).toBe(options.params.inboxId);
-    expect(payload.source_id).toBe(options.params.sourceId);
-    expect(payload.additional_attributes.mail_subject).toBe(
-      options.params.mailSubject
-    );
     expect(payload.assignee_id).toBe(options.params.assigneeId);
   });
 });
