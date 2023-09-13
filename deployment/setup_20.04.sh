@@ -755,7 +755,7 @@ function upgrade_redis() {
 
 function upgrade_node() {
   echo "Upgrading nodejs version"
-  curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
+  curl -sL https://deb.nodesource.com/setup_20.x | sudo bash -
   apt install -y nodejs
 }
 
@@ -794,7 +794,7 @@ function upgrade() {
   yarn
 
   # Recompile the assets
-  rake assets:precompile RAILS_ENV=production
+  rake assets:precompile RAILS_ENV=production NODE_OPTIONS=--openssl-legacy-provider
 
   # Migrate the database schema
   RAILS_ENV=production POSTGRES_STATEMENT_TIMEOUT=600s bundle exec rake db:migrate
