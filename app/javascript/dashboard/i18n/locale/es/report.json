@@ -12,11 +12,11 @@
         "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Mensajes entrantes",
+        "NAME": "Mensajes recibidos",
         "DESC": "( Total )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Mensajes salientes",
+        "NAME": "Mensajes enviados",
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
@@ -36,8 +36,8 @@
         "DESC": "( Total )"
       },
       "REPLY_TIME": {
-        "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} conversations)"
+        "NAME": "Tiempo de espera del cliente",
+        "TOOLTIP_TEXT": "El tiempo de espera es %{metricValue} (basado en %{conversationCount} conversaciones)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -118,15 +118,15 @@
     ],
     "GROUP_BY_YEAR_OPTIONS": [
       {
-        "id": 1,
-        "groupBy": "Día"
-      },
-      {
         "id": 2,
         "groupBy": "Semana"
       },
       {
         "id": 3,
+        "groupBy": "Mes"
+      },
+      {
+        "id": 4,
         "groupBy": "Mes"
       }
     ],
