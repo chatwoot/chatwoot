@@ -120,16 +120,18 @@ export const generateConditionOptions = (options, key = 'id') => {
   });
 };
 
-export const getActionOptions = ({ agents, teams, labels, type }) => {
-  const noneAgent = {
+// Add the "None" option to the agent list
+export const agentList = agents => [
+  {
     id: 'nil',
     name: 'None',
-  };
+  },
+  ...(agents || []),
+];
 
-  const agentsWithNone = agents ? [noneAgent, ...agents] : [noneAgent];
-
+export const getActionOptions = ({ agents, teams, labels, type }) => {
   const actionsMap = {
-    assign_agent: agentsWithNone,
+    assign_agent: agentList(agents),
     assign_team: teams,
     send_email_to_team: teams,
     add_label: generateConditionOptions(labels, 'title'),
