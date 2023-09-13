@@ -39,7 +39,10 @@
         "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
         "BTN_TEXT": "İmzanızı kaydedin",
         "API_ERROR": "İmza kaydedilemedi! Tekrar deneyin",
-        "API_SUCCESS": "İmza başarıyla kaydedildi"
+        "API_SUCCESS": "İmza başarıyla kaydedildi",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "İmzanız",
