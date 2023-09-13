@@ -232,7 +232,7 @@ export default {
       // this is considered the source of truth, we watch this property
       // on change, we toggle the signature in the editor
       const { send_with_signature: isEnabled } = this.uiSettings;
-      return isEnabled && this.allowSignature;
+      return isEnabled && this.allowSignature && !this.isPrivate;
     },
   },
   watch: {

@@ -622,6 +622,10 @@ export default {
       }
     },
     toggleSignatureForDraft(message) {
+      if (this.isPrivate) {
+        return message;
+      }
+
       return this.sendWithSignature
         ? appendSignature(message, this.signatureToApply)
         : removeSignature(message, this.signatureToApply);
@@ -846,7 +850,7 @@ export default {
     },
     clearMessage() {
       this.message = '';
-      if (this.sendWithSignature) {
+      if (this.sendWithSignature && !this.isPrivate) {
         // if signature is enabled, append it to the message
         this.message = appendSignature(this.message, this.signatureToApply);
       }
