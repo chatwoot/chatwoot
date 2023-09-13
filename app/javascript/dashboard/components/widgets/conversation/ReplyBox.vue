@@ -70,7 +70,6 @@
         :enable-variables="true"
         :variables="messageVariables"
         :signature="messageSignature"
-        :signature-enabled="isSignatureEnabledForInbox"
         @typing-off="onTypingOff"
         @typing-on="onTypingOn"
         @focus="onFocus"
@@ -180,6 +179,7 @@ import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
 import {
   appendSignature,
   removeSignature,
+  extractTextFromMarkdown,
 } from 'dashboard/helper/editorHelper';
 
 const EmojiInput = () => import('shared/components/emoji/EmojiInput');
@@ -513,6 +513,11 @@ export default {
       });
       return variables;
     },
+    signatureToApply() {
+      return this.showRichContentEditor
+        ? this.messageSignature
+        : extractTextFromMarkdown(this.messageSignature);
+    },
   },
   watch: {
     currentChat(conversation) {
@@ -617,10 +622,13 @@ export default {
           this.$store.getters['draftMessages/get'](key) || '';
 
         // ensure that the message has signature set based on the ui setting
-        this.message = this.sendWithSignature
-          ? appendSignature(messageFromStore, this.messageSignature)
-          : removeSignature(messageFromStore, this.messageSignature);
+        this.message = this.toggleSignatureForDraft(messageFromStore);
       }
+    },
+    toggleSignatureForDraft(message) {
+      return this.sendWithSignature
+        ? appendSignature(message, this.signatureToApply)
+        : removeSignature(message, this.signatureToApply);
     },
     removeFromDraft() {
       if (this.conversationIdByRoute) {
