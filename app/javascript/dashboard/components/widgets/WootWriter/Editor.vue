@@ -321,8 +321,7 @@ export default {
         const paragraph = this.state.schema.nodes.paragraph.create();
         const paragraphTransaction = this.state.tr.insert(0, paragraph);
         this.editorView.dispatch(paragraphTransaction);
-
-        this.focusEditorInputField();
+        this.focusEditorInputField('start');
       }
     },
     removeSignature() {
@@ -373,9 +372,11 @@ export default {
         this.focusEditorInputField();
       }
     },
-    focusEditorInputField() {
+    focusEditorInputField(pos = 'end') {
       const { tr } = this.editorView.state;
-      const selection = Selection.atEnd(tr.doc);
+
+      const selection =
+        pos === 'end' ? Selection.atEnd(tr.doc) : Selection.atStart(tr.doc);
 
       this.editorView.dispatch(tr.setSelection(selection));
       this.editorView.focus();
