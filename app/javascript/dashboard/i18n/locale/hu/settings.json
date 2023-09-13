@@ -39,7 +39,10 @@
         "NOTE": "Hozz létre egy személyes üzenetaláírást, amelyet az e-mail postafiókodból küldött összes üzenethez hozzáadhatsz. A sokszínű tartalomszerkesztő segítségével személyre szabott aláírást hozhatsz létre.",
         "BTN_TEXT": "Üzenet aláírás mentése",
         "API_ERROR": "Nem sikerült menteni az aláírást! Próbáld újra",
-        "API_SUCCESS": "Aláírás sikeresen mentve"
+        "API_SUCCESS": "Aláírás sikeresen mentve",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "A kép mérete kevesebb, mint {size} MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Üzenet aláírás",

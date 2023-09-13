@@ -14,11 +14,10 @@
       <file-upload
         ref="upload"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
-        input-id="conversationAttachment"
         :size="4096 * 4096"
         :accept="allowedFileTypes"
         :multiple="enableMultipleFileUpload"
-        :drop="enableDragAndDrop"
+        :drop="true"
         :drop-directory="false"
         :data="{
           direct_upload_url: '/rails/active_storage/direct_uploads',
@@ -101,9 +100,9 @@
       <transition name="modal-fade">
         <div
           v-show="$refs.upload && $refs.upload.dropActive"
-          class="flex items-center justify-center gap-2 fixed left-0 right-0 top-0 bottom-0 w-full h-full z-20 text-slate-600 dark:text-slate-200 bg-white_transparent dark:bg-black_transparent flex-col"
+          class="modal-mask"
         >
-          <fluent-icon icon="cloud-backup" size="40" />
+          <fluent-icon icon="cloud-backup" />
           <h4 class="page-sub-title text-slate-600 dark:text-slate-200">
             {{ $t('CONVERSATION.REPLYBOX.DRAG_DROP') }}
           </h4>
@@ -229,10 +228,6 @@ export default {
       type: String,
       default: '',
     },
-    newConversationModalActive: {
-      type: Boolean,
-      default: false,
-    },
   },
   computed: {
     ...mapGetters({
@@ -278,9 +273,6 @@ export default {
         return ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP;
       }
       return ALLOWED_FILE_TYPES;
-    },
-    enableDragAndDrop() {
-      return !this.newConversationModalActive;
     },
     audioRecorderPlayStopIcon() {
       switch (this.recordingAudioState) {
@@ -353,5 +345,13 @@ export default {
   &:hover button {
     @apply dark:bg-slate-800 bg-slate-100;
   }
+}
+
+.modal-mask {
+  @apply text-slate-600 dark:text-slate-200 bg-white_transparent dark:bg-black_transparent flex-col;
+}
+
+.icon {
+  @apply text-[5rem];
 }
 </style>

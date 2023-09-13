@@ -39,7 +39,10 @@
         "NOTE": "Δημιουργήστε μια προσωπική υπογραφή, η οποία θα προστεθεί σε όλα τα μηνύματα που στέλνετε από τα εισερχόμενα email σας. Χρησιμοποιήστε τον επεξεργαστή πλούσιου περιεχομένου για να δημιουργήσετε μια εξατομικευμένη υπογραφή.",
         "BTN_TEXT": "Αποθήκευση υπογραφής μηνύματος",
         "API_ERROR": "Δεν ήταν δυνατή η αποθήκευση της υπογραφής! Δοκιμάστε ξανά",
-        "API_SUCCESS": "Η υπογραφή αποθηκεύτηκε με επιτυχία"
+        "API_SUCCESS": "Η υπογραφή αποθηκεύτηκε με επιτυχία",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Υπογραφή μηνύματος",
