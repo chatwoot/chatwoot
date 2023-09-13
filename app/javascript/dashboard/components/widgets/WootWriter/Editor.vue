@@ -105,6 +105,7 @@ export default {
     variables: { type: Object, default: () => ({}) },
     enabledMenuOptions: { type: Array, default: () => [] },
     signature: { type: String, default: '' },
+    allowSignature: { type: Boolean, default: false },
   },
   data() {
     return {
@@ -227,7 +228,7 @@ export default {
     },
     sendWithSignature() {
       const { send_with_signature: isEnabled } = this.uiSettings;
-      return isEnabled;
+      return isEnabled && this.allowSignature;
     },
   },
   watch: {
@@ -272,7 +273,9 @@ export default {
       return null;
     },
     sendWithSignature(newValue) {
-      this.toggleSignatureInEditor(newValue);
+      if (this.allowSignature) {
+        this.toggleSignatureInEditor(newValue);
+      }
     },
   },
   created() {
