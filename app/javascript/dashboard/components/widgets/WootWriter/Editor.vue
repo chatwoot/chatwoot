@@ -105,6 +105,8 @@ export default {
     variables: { type: Object, default: () => ({}) },
     enabledMenuOptions: { type: Array, default: () => [] },
     signature: { type: String, default: '' },
+    // allowSignature is a kill switch, ensuring no signature methods
+    // are triggered except when this flag is true
     allowSignature: { type: Boolean, default: false },
   },
   data() {
@@ -227,6 +229,8 @@ export default {
       ];
     },
     sendWithSignature() {
+      // this is considered the source of truth, we watch this property
+      // on change, we toggle the signature in the editor
       const { send_with_signature: isEnabled } = this.uiSettings;
       return isEnabled && this.allowSignature;
     },
@@ -273,6 +277,7 @@ export default {
       return null;
     },
     sendWithSignature(newValue) {
+      // see if the allowSignature flag is true
       if (this.allowSignature) {
         this.toggleSignatureInEditor(newValue);
       }
@@ -304,8 +309,13 @@ export default {
       this.editorView.updateState(this.state);
 
       if (this.isBodyEmpty(content) && this.sendWithSignature) {
+        // reload state can be called when switching between conversations, or when drafts is loaded
+        // these drafts can also have a signature, so we need to check if the body is empty
+        // and handle things accordingly
         this.handleEmptyBodyWithSignature();
       } else {
+        // this is in the else block, handleEmptyBodyWithSignature also has a call to the focus method
+        // the position is set to start, because the signature is added at the end of the body
         this.focusEditorInputField('end');
       }
     },
@@ -321,8 +331,11 @@ export default {
     },
     addSignature() {
       let content = this.value;
+      // see if the content is empty, if it is before appending the signature
+      // we need to add a paragraph node and move the cursor at the start of the editor
       const contentWasEmpty = this.isBodyEmpty(content);
       content = appendSignature(content, this.signature);
+      // need to reload first, ensuring that the editorView is updated
       this.reloadState(content);
 
       if (contentWasEmpty) {
@@ -333,15 +346,20 @@ export default {
       if (!this.signature) return;
       let content = this.value;
       content = removeSignature(content, this.signature);
+      // reload the state, ensuring that the editorView is updated
       this.reloadState(content);
     },
     isBodyEmpty(content) {
+      // if content is undefined, we assume that the body is empty
       if (!content) return true;
 
+      // if the signature is present, we need to remove it before checking
+      // note that we don't update the editorView, so this is safe
       const bodyWithoutSignature = this.signature
         ? removeSignature(content, this.signature)
         : content;
 
+      // trimming should remove all the whitespaces, so we can check the length
       return bodyWithoutSignature.trim().length === 0;
     },
     handleEmptyBodyWithSignature() {
