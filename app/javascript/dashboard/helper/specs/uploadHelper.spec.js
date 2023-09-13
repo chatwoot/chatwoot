@@ -28,7 +28,7 @@ describe('#Upload Helpers', () => {
     const result = await uploadFile(mockFile, '1602');
 
     expect(axios.post).toHaveBeenCalledWith(
-      '/api/v1/1602/upload',
+      '/api/v1/accounts/1602/upload',
       expect.any(FormData),
       { headers: { 'Content-Type': 'multipart/form-data' } }
     );

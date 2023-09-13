@@ -34,7 +34,7 @@ export async function uploadFile(file, accountId) {
 
   // Use axios to send a POST request to the upload endpoint.
   const { data } = await axios.post(
-    `/api/${API_VERSION}/${accountId}/upload`,
+    `/api/${API_VERSION}/accounts/${accountId}/upload`,
     formData,
     {
       headers: HEADERS,
