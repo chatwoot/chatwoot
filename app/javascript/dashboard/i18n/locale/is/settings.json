@@ -39,7 +39,10 @@
         "NOTE": "Búðu til persónulega skilaboðaundirskrift sem verður bætt við öll skilaboðin sem þú sendir úr pósthólfinu þínu. Notaðu innihaldsríka ritilinn til að búa til mjög persónulega undirskrift.",
         "BTN_TEXT": "Vista undirskrift á skilaboðum",
         "API_ERROR": "Gat ekki vistað undirskrift! Reyndu aftur",
-        "API_SUCCESS": "Undirskrift var vistuð"
+        "API_SUCCESS": "Undirskrift var vistuð",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Undirskrift skilaboða",
