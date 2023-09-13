@@ -39,7 +39,10 @@
         "NOTE": "Erstellen Sie eine persönliche Nachrichtensignatur, die allen Nachrichten hinzugefügt wird, die Sie aus Ihrem E-Mail-Posteingang senden. Verwenden Sie den Rich-Content-Editor, um eine stark personalisierte Signatur zu erstellen.",
         "BTN_TEXT": "Nachrichten-Signatur speichern",
         "API_ERROR": "Signatur konnte nicht gespeichert werden! Versuch es noch einmal",
-        "API_SUCCESS": "Signatur erfolgreich gespeichert"
+        "API_SUCCESS": "Signatur erfolgreich gespeichert",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Bildgröße sollte kleiner als {size}MB sein"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Nachrichten-Signatur",

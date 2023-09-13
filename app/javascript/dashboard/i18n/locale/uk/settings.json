@@ -39,7 +39,10 @@
         "NOTE": "Створити особистий підпис повідомлення, який буде додано до всіх повідомлень, надісланих з поштової скриньки. Використовуйте редактор багатокористувацького контенту для створення персоналізованого підпису.",
         "BTN_TEXT": "Зберегти підпис повідомлення",
         "API_ERROR": "Не вдалося зберегти підпис! Повторіть спробу",
-        "API_SUCCESS": "Підпис успішно збережено"
+        "API_SUCCESS": "Підпис успішно збережено",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Зображення має бути менше {size}Мб"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Підпис повідомлення",
