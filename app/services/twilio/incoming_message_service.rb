@@ -47,7 +47,7 @@ class Twilio::IncomingMessageService
   end
 
   def message_body
-    params[:Body].delete("\u0000")
+    params[:Body]&.delete("\u0000")
   end
 
   def set_contact
