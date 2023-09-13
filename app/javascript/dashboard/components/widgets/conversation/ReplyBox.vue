@@ -473,7 +473,7 @@ export default {
       return !this.isPrivate && this.sendWithSignature;
     },
     isSignatureAvailable() {
-      return !!this.messageSignature;
+      return !!this.signatureToApply;
     },
     sendWithSignature() {
       const { send_with_signature: isEnabled } = this.uiSettings;
@@ -851,7 +851,7 @@ export default {
     clearMessage() {
       this.message = '';
       if (this.sendWithSignature) {
-        this.message = appendSignature(this.message, this.messageSignature);
+        this.message = appendSignature(this.message, this.signatureToApply);
       }
       this.attachedFiles = [];
       this.isRecordingAudio = false;
