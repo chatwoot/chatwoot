@@ -90,7 +90,10 @@ export default {
       }
 
       this.$emit('input', this.value);
-      this.resizeTextarea();
+
+      this.$nextTick(() => {
+        this.resizeTextarea();
+      });
     },
     onInput(event) {
       this.$emit('input', event.target.value);
