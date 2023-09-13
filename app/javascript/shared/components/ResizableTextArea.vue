@@ -11,6 +11,12 @@
 </template>
 
 <script>
+import {
+  appendSignature,
+  removeSignature,
+  extractTextFromMarkdown,
+} from 'dashboard/helper/editorHelper';
+
 const TYPING_INDICATOR_IDLE_TIME = 4000;
 export default {
   props: {
@@ -26,6 +32,19 @@ export default {
       type: Number,
       default: 2,
     },
+    signature: {
+      type: String,
+      default: '',
+    },
+    // add this as a prop, so that we won't have to include uiSettingsMixin
+    sendWithSignature: {
+      type: Boolean,
+      default: false,
+    },
+    allowSignature: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -35,6 +54,11 @@ export default {
   watch: {
     value() {
       this.resizeTextarea();
+    },
+    sendWithSignature(newValue) {
+      if (this.allowSignature) {
+        this.toggleSignatureInEditor(newValue);
+      }
     },
   },
   mounted() {
@@ -51,6 +75,22 @@ export default {
       } else {
         this.$el.style.height = `${this.$el.scrollHeight}px`;
       }
+    },
+    toggleSignatureInEditor(signatureEnabled) {
+      // The toggleSignatureInEditor gets the new value from the
+      // watcher, this means that if the value is true, the signature
+      // is supposed to be added, else we remove it.
+
+      const cleanedSignature = extractTextFromMarkdown(this.signature);
+
+      if (signatureEnabled) {
+        this.value = appendSignature(this.value, cleanedSignature);
+      } else {
+        this.value = removeSignature(this.value, cleanedSignature);
+      }
+
+      this.$emit('input', this.value);
+      this.resizeTextarea();
     },
     onInput(event) {
       this.$emit('input', event.target.value);

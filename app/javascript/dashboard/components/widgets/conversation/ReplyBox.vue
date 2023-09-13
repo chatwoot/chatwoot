@@ -55,6 +55,7 @@
         :min-height="4"
         :signature="signatureToApply"
         :allow-signature="true"
+        :send-with-signature="sendWithSignature"
         @typing-off="onTypingOff"
         @typing-on="onTypingOn"
         @focus="onFocus"
