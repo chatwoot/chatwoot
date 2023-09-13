@@ -41,6 +41,7 @@ export default {
       type: Boolean,
       default: false,
     },
+    // allowSignature is a kill switch, ensuring no signature methods are triggered except when this flag is true
     allowSignature: {
       type: Boolean,
       default: false,
@@ -76,11 +77,12 @@ export default {
         this.$el.style.height = `${this.$el.scrollHeight}px`;
       }
     },
+    // The toggleSignatureInEditor gets the new value from the
+    // watcher, this means that if the value is true, the signature
+    // is supposed to be added, else we remove it.
     toggleSignatureInEditor(signatureEnabled) {
-      // The toggleSignatureInEditor gets the new value from the
-      // watcher, this means that if the value is true, the signature
-      // is supposed to be added, else we remove it.
-
+      // clean the signature, this will ensure that we don't have
+      // any markdown formatted text in the signature
       const cleanedSignature = extractTextFromMarkdown(this.signature);
 
       if (signatureEnabled) {
