@@ -256,13 +256,6 @@ export default {
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CREATED_AT'),
           align: this.isRTLView ? 'right' : 'left',
         },
-        {
-          field: 'conversationsCount',
-          key: 'conversationsCount',
-          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CONVERSATIONS'),
-          width: 150,
-          align: this.isRTLView ? 'right' : 'left',
-        },
       ];
     },
   },
