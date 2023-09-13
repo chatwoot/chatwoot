@@ -204,10 +204,6 @@
         "PLACEHOLDER": "Write your message here",
         "ERROR": "Message can't be empty"
       },
-      "ATTACHMENTS": {
-        "SELECT": "Choose files",
-        "HELP_TEXT": "Drag and drop files here or choose files to attach"
-      },
       "SUBMIT": "Send message",
       "CANCEL": "Cancel",
       "SUCCESS_MESSAGE": "Message sent!",
