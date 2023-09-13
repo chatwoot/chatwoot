@@ -295,7 +295,7 @@ export default {
   mounted() {
     this.createEditorView();
     this.editorView.updateState(this.state);
-    this.focusEditorInputField();
+    this.focusEditor(this.value);
   },
   methods: {
     reloadState(content = this.value) {
@@ -308,6 +308,9 @@ export default {
       );
       this.editorView.updateState(this.state);
 
+      this.focusEditor(content);
+    },
+    focusEditor(content) {
       if (this.isBodyEmpty(content) && this.sendWithSignature) {
         // reload state can be called when switching between conversations, or when drafts is loaded
         // these drafts can also have a signature, so we need to check if the body is empty
