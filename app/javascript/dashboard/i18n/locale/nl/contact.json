@@ -204,10 +204,6 @@
         "PLACEHOLDER": "Schrijf hier je bericht",
         "ERROR": "Bericht mag niet leeg zijn"
       },
-      "ATTACHMENTS": {
-        "SELECT": "Kies bestanden",
-        "HELP_TEXT": "Sleep bestanden hier naartoe of kies bestanden om toe te voegen"
-      },
       "SUBMIT": "Verstuur bericht",
       "CANCEL": "Annuleren",
       "SUCCESS_MESSAGE": "Bericht verzonden!",
