@@ -186,6 +186,7 @@ import rtlMixin from 'shared/mixins/rtlMixin';
 import {
   appendSignature,
   removeSignature,
+  replaceSignature,
   extractTextFromMarkdown,
 } from 'dashboard/helper/editorHelper';
 
@@ -592,8 +593,21 @@ export default {
         display_rich_content_editor: !this.showRichContentEditor,
       });
 
-      if (!this.showRichContentEditor) {
-        this.message = extractTextFromMarkdown(this.message);
+      const plainTextSignature = extractTextFromMarkdown(this.messageSignature);
+
+      if (!this.showRichContentEditor && this.messageSignature) {
+        // remove the old signature -> extract text from markdown -> attach new signature
+        let message = removeSignature(this.message, this.messageSignature);
+        message = extractTextFromMarkdown(message);
+        message = appendSignature(message, plainTextSignature);
+
+        this.message = message;
+      } else {
+        this.message = replaceSignature(
+          this.message,
+          plainTextSignature,
+          this.messageSignature
+        );
       }
     },
     saveDraft(conversationId, replyType) {
