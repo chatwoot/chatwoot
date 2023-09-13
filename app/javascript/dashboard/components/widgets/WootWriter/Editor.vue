@@ -300,7 +300,7 @@ export default {
       );
       this.editorView.updateState(this.state);
 
-      if (this.isBodyEmpty(content) && this.signatureEnabled) {
+      if (this.isBodyEmpty(content) && this.sendWithSignature) {
         this.handleEmptyBodyWithSignature();
       } else {
         this.focusEditorInputField('end');
