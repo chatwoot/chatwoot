@@ -18,6 +18,7 @@
       :popout-reply-box="popoutReplyBox"
       @click="$emit('click')"
     />
+    <ArticleSearchPopover @insert="handleInsert" />
     <div class="reply-box__top">
       <canned-response
         v-if="showMentions && hasSlashCommand"
@@ -157,6 +158,7 @@ import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
 import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel';
 import ReplyEmailHead from './ReplyEmailHead';
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel';
+import ArticleSearchPopover from 'dashboard/routes/dashboard/helpcenter/components/ArticleSearch/SearchPopover';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
@@ -197,6 +199,7 @@ export default {
     WootAudioRecorder,
     Banner,
     WhatsappTemplates,
+    ArticleSearchPopover,
   },
   mixins: [
     clickaway,
@@ -590,6 +593,9 @@ export default {
     );
   },
   methods: {
+    handleInsert(url) {
+      this.message = `${this.message} ${url}`;
+    },
     toggleRichContentEditor() {
       this.updateUISettings({
         display_rich_content_editor: !this.showRichContentEditor,
@@ -1082,7 +1088,7 @@ export default {
 }
 
 .reply-box {
-  @apply border-t border-slate-50 dark:border-slate-700 bg-white dark:bg-slate-900;
+  @apply relative border-t border-slate-50 dark:border-slate-700 bg-white dark:bg-slate-900;
 
   &.is-private {
     @apply bg-yellow-50 dark:bg-yellow-200;

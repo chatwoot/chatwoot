@@ -1,5 +1,5 @@
 <template>
-  <div class="editor-root">
+  <div class="editor-root relative">
     <tag-agents
       v-if="showUserMentions && isPrivate"
       :search-key="mentionSearchKey"

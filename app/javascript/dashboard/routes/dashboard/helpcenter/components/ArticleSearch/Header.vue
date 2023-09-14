@@ -1,23 +1,26 @@
 <template>
-  <div class="chatwoot-search">
-    <div class="flex-container align-middle align-justify">
-      <h3 class="sub-block-title¯">{{ title }}</h3>
+  <div class="flex flex-col py-1">
+    <div class="flex-container align-middle align-justify py-2">
+      <h3 class="sub-block-title text-slate-900 dark:text-slate-25">
+        {{ title }}
+      </h3>
       <woot-button
         variant="clear"
+        size="tiny"
         color-scheme="secondary"
         icon="dismiss"
         @click="onClose"
       />
     </div>
 
-    <div class="search-wrap">
-      <div class="search-icon-container">
-        <fluent-icon icon="search" class="search-icon" />
+    <div class="relative">
+      <div class="absolute left-0 w-10 h-10 flex justify-center items-center">
+        <fluent-icon icon="search" class="" />
       </div>
       <input
         type="text"
         :placeholder="$t('HELP_CENTER.ARTICLE_SEARCH.PLACEHOLDER')"
-        class="contact-search"
+        class="block w-full pl-10 bg-slate-700 rounded-md leading-8 py-1 text-slate-700 shadow-sm ring-2 ring-transparent ring-slate-300 border border-solid border-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-woot-600 mb-0"
         :value="searchQuery"
         @input="onInput"
       />
@@ -40,8 +43,8 @@ export default {
     };
   },
   methods: {
-    onInput() {
-      this.$emit('search-input', this.searchQuery);
+    onInput(e) {
+      this.$emit('search', e.target.value);
     },
     onClose() {
       this.$emit('close');
@@ -51,12 +54,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.chatwoot-search {
-  display: flex;
-  flex-direction: column;
-  padding: var(--space-small);
-}
-
 .title {
   margin-bottom: 10px;
 }
@@ -65,28 +62,5 @@ export default {
   position: relative;
   display: flex;
   align-items: center;
-
-  .search-icon-container {
-    display: flex;
-    align-items: center;
-    position: absolute;
-    height: 100%;
-    left: var(--space-small);
-
-    .search-icon {
-      height: var(--space-normal);
-      font-size: var(--font-size-small);
-      color: var(--b-700);
-    }
-  }
-  .contact-search {
-    height: var(--space-large);
-    margin: 0;
-    width: 100%;
-    font-size: var(--font-size-small);
-    padding-left: calc(var(--space-large) + var(--space-smaller));
-    border-color: var(--s-100);
-    background: var(--s-25);
-  }
 }
 </style>

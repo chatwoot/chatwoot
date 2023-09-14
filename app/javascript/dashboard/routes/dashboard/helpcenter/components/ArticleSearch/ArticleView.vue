@@ -1,7 +1,6 @@
 <template>
-  <div class="chatwoot-search">
-    <search-header @close="onClose" @search="onSearch" />
-    <div class="padding-1">
+  <div class="h-full w-full">
+    <div class="padding-1 h-[480px] max-h-[60vh] min-h-[320px]">
       <iframe-loader :url="url" />
     </div>
     <div class="footer">
@@ -10,30 +9,28 @@
         size="small"
         color-scheme="secondary"
         icon="dismiss"
-        @click="onClose"
+        @click="onBack"
       >
-        {{ $t('HELP_CENTER.ARTICLE_SEARCH.INSERT_ARTICLE') }}
+        {{ $t('HELP_CENTER.ARTICLE_SEARCH.CANCEL') }}
       </woot-button>
       <woot-button
         variant="smooth"
         size="small"
         icon="arrow-download"
-        @click="onClose"
+        @click="onInsert"
       >
-        {{ $t('HELP_CENTER.ARTICLE_SEARCH.CANCEL') }}
+        {{ $t('HELP_CENTER.ARTICLE_SEARCH.INSERT_ARTICLE') }}
       </woot-button>
     </div>
   </div>
 </template>
 
 <script>
-import SearchHeader from './Header';
 import IframeLoader from 'shared/components/IframeLoader.vue';
 
 export default {
   name: 'ChatwootSearch',
   components: {
-    SearchHeader,
     IframeLoader,
   },
   props: {
@@ -42,17 +39,12 @@ export default {
       default: '',
     },
   },
-  data() {
-    return {
-      searchQuery: '',
-    };
-  },
   methods: {
-    onSearch() {
-      this.$emit('search', this.searchQuery);
+    onBack() {
+      this.$emit('back');
     },
-    onClose() {
-      this.$emit('close');
+    onInsert() {
+      this.$emit('insert');
     },
   },
 };
