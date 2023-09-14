@@ -16,13 +16,17 @@
       <available-agents v-if="isOnline" :agents="availableAgents" />
     </div>
     <button
-      class="inline-flex text-sm font-medium rounded-md py-1 mt-2 leading-6 text-slate-800 dark:text-slate-50 justify-between items-center hover:bg-slate-25 dark:hover:bg-slate-800 see-articles"
+      class="inline-flex text-sm font-medium rounded-md py-1 mt-2 px-2 -ml-2 leading-6 text-slate-800 dark:text-slate-50 justify-between items-center hover:bg-slate-25 dark:hover:bg-slate-800"
       :style="{ color: widgetColor }"
       @click="startConversation"
     >
-      <span class="pr-2 text-sm">{{
-        hasConversation ? $t('CONTINUE_CONVERSATION') : $t('START_CONVERSATION')
-      }}</span>
+      <span class="pr-2 text-sm">
+        {{
+          hasConversation
+            ? $t('CONTINUE_CONVERSATION')
+            : $t('START_CONVERSATION')
+        }}
+      </span>
       <fluent-icon icon="arrow-right" size="14" />
     </button>
   </div>
