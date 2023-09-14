@@ -56,10 +56,6 @@ export default {
       type: Number,
       default: 0,
     },
-    lastMessageContent: {
-      type: String,
-      default: '',
-    },
   },
 
   computed: {

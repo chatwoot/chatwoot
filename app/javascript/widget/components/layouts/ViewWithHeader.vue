@@ -20,7 +20,6 @@
           :intro-body="channelConfig.welcomeTagline"
           :avatar-url="channelConfig.avatarUrl"
           :show-popout-button="appConfig.showPopoutButton"
-          :show-bg="!!portal"
         />
         <chat-header
           v-if="isHeaderCollapsed"

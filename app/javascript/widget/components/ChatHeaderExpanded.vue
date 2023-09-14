@@ -1,7 +1,6 @@
 <template>
   <header
-    class="header-expanded pt-6 pb-4 px-5 relative box-border w-full"
-    :class="showBg ? 'bg-transparent' : 'bg-white dark:bg-slate-900'"
+    class="header-expanded pt-6 pb-4 px-5 relative box-border w-full bg-transparent"
   >
     <div
       class="flex items-start"
@@ -57,10 +56,6 @@ export default {
     showPopoutButton: {
       type: Boolean,
       default: false,
-    },
-    showBg: {
-      type: Boolean,
-      default: true,
     },
   },
 };

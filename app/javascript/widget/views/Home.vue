@@ -8,7 +8,6 @@
         :available-agents="availableAgents"
         :has-conversation="!!conversationSize"
         :unread-count="unreadMessageCount"
-        :last-message-content="lastMessageContent"
         @start-conversation="startConversation"
       />
     </div>
@@ -66,7 +65,6 @@ export default {
       availableAgents: 'agent/availableAgents',
       activeCampaign: 'campaign/getActiveCampaign',
       conversationSize: 'conversation/getConversationSize',
-      lastMessage: 'conversation/getLastMessage',
       unreadMessageCount: 'conversation/getUnreadMessageCount',
       popularArticles: 'article/popularArticles',
       articleUiFlags: 'article/uiFlags',
@@ -80,34 +78,6 @@ export default {
         !this.articleUiFlags.isFetching &&
         this.popularArticles.length
       );
-    },
-    lastMessageFileType() {
-      const [{ file_type: fileType } = {}] = this.lastMessage.attachments || [];
-      return fileType;
-    },
-
-    attachmentMessageContent() {
-      if (!this.lastMessageFileType) return '';
-      return this.$t(`ATTACHMENTS.${this.lastMessageFileType}.CONTENT`);
-    },
-
-    senderName() {
-      const { sender } = this.lastMessage;
-      if (!sender) return '';
-
-      const { name, type } = sender;
-      if (type === 'contact') {
-        return this.$t('YOU');
-      }
-      return name;
-    },
-
-    lastMessageContent() {
-      const content = this.lastMessage.content || this.attachmentMessageContent;
-      if (this.senderName) {
-        return `${this.senderName}: ${content}`;
-      }
-      return content;
     },
   },
   mounted() {
