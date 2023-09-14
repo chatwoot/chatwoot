@@ -1,16 +1,20 @@
 <template>
   <button
     type="button"
-    class="flex w-full justify-between items-center rounded-md ring-1 ring-inset ring-slate-50 bg-white px-2 py-2 text-sm text-slate-700 shadow-sm hover:bg-slate-25 dark:text-white dark:bg-slate-800 dark:ring-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+    class="flex w-full justify-between items-center rounded-md ring-1 ring-inset ring-slate-50 px-2 py-2 text-sm text-slate-700 bg-slate-25 hover:bg-slate-50 dark:text-white dark:bg-slate-800 dark:ring-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-woot-600 group"
     @click="$emit('continue')"
   >
     <div
       class="w-10 h-10 rounded-md bg-slate-75 dark:bg-slate-700 text-lg flex items-center justify-center flex-shrink-0"
     >
-      <fluent-icon icon="chat" size="16" />
+      <fluent-icon
+        icon="chat"
+        size="16"
+        class="text-slate-600 dark:text-slate-400"
+      />
     </div>
     <div
-      class="text-left flex flex-col justify-start flex-grow max-w-[calc(100%-80px)] mx-2"
+      class="text-left flex flex-col justify-start flex-grow max-w-[calc(100%-80px)] mx-2 group-hover:opacity-75"
     >
       <h5 class="font-medium text-slate-900 dark:text-white">
         {{ title }}
