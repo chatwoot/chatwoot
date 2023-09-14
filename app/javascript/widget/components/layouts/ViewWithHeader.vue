@@ -6,7 +6,7 @@
   >
     <div class="flex flex-col h-full relative">
       <div
-        class="header-wrap sticky top-0 z-40 transition-opacity"
+        class="header-wrap sticky top-0 z-40 transition-all"
         :class="{
           expanded: !isHeaderCollapsed,
           collapsed: isHeaderCollapsed,
@@ -14,43 +14,26 @@
           ...opacityClass,
         }"
       >
-        <transition
-          enter-active-class="transition-all delay-200 duration-300 ease-in"
-          leave-active-class="transition-all duration-200 ease-out"
-          enter-class="opacity-0"
-          enter-to-class="opacity-100"
-          leave-class="opacity-100"
-          leave-to-class="opacity-0"
-        >
-          <chat-header-expanded
-            v-if="!isHeaderCollapsed"
-            :intro-heading="channelConfig.welcomeTitle"
-            :intro-body="channelConfig.welcomeTagline"
-            :avatar-url="channelConfig.avatarUrl"
-            :show-popout-button="appConfig.showPopoutButton"
-            :show-bg="!!portal"
-          />
-          <chat-header
-            v-if="isHeaderCollapsed"
-            :title="channelConfig.websiteName"
-            :avatar-url="channelConfig.avatarUrl"
-            :show-popout-button="appConfig.showPopoutButton"
-            :available-agents="availableAgents"
-            :show-back-button="showBackButton"
-          />
-        </transition>
+        <chat-header-expanded
+          v-if="!isHeaderCollapsed"
+          :intro-heading="channelConfig.welcomeTitle"
+          :intro-body="channelConfig.welcomeTagline"
+          :avatar-url="channelConfig.avatarUrl"
+          :show-popout-button="appConfig.showPopoutButton"
+          :show-bg="!!portal"
+        />
+        <chat-header
+          v-if="isHeaderCollapsed"
+          :title="channelConfig.websiteName"
+          :avatar-url="channelConfig.avatarUrl"
+          :show-popout-button="appConfig.showPopoutButton"
+          :available-agents="availableAgents"
+          :show-back-button="showBackButton"
+        />
       </div>
       <banner />
-      <transition
-        enter-active-class="transition-all delay-300 duration-300 ease-in"
-        leave-active-class="transition-all duration-200 ease-out"
-        enter-class="opacity-0"
-        enter-to-class="opacity-100"
-        leave-class="opacity-100"
-        leave-to-class="opacity-0"
-      >
-        <router-view />
-      </transition>
+      <router-view />
+
       <branding v-if="!isOnArticleViewer" :disable-branding="disableBranding" />
     </div>
   </div>
@@ -116,13 +99,13 @@ export default {
         return {};
       }
       if (this.scrollPosition > 30) {
-        return { 'opacity-50': true };
+        return { 'opacity-30': true };
       }
       if (this.scrollPosition > 25) {
-        return { 'opacity-60': true };
+        return { 'opacity-40': true };
       }
       if (this.scrollPosition > 20) {
-        return { 'opacity-70': true };
+        return { 'opacity-60': true };
       }
       if (this.scrollPosition > 15) {
         return { 'opacity-80': true };
@@ -167,7 +150,7 @@ export default {
 
 .header-wrap {
   flex-shrink: 0;
-  transition: max-height 300ms;
+  transition: max-height 100ms;
 
   &.expanded {
     max-height: 16rem;
