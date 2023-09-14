@@ -74,6 +74,8 @@ export default {
       if (this.value) {
         this.resizeTextarea();
         this.setCursor();
+      } else {
+        this.focus();
       }
     });
   },
@@ -109,6 +111,7 @@ export default {
 
       // only trim at end, so if there are spaces at the start, those are not removed
       const bodyEndsAt = bodyWithoutSignature.trimEnd().length;
+
       textarea.focus();
       textarea.setSelectionRange(bodyEndsAt, bodyEndsAt);
     },
