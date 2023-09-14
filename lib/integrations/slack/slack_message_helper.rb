@@ -1,4 +1,4 @@
-module SlackMessageHelper
+module Integrations::Slack::SlackMessageHelper
   def create_message
     return unless conversation
 
