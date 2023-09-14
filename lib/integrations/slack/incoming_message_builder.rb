@@ -75,17 +75,48 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   def create_link_shared_message
-    # byebug
-    # Integrations::Slack::SendOnSlackService.new(message: message, hook: hook).perform
-    @slack_client ||= Slack::Web::Client.new(token: 'xoxb-260754243843-4659984567445-l4idDPOVuXiPtxzpxt5SPTnE')
+    unfurls = { params[:event][:links][0][:url] => { 'blocks' => [{
+      'type': 'section',
+      'fields': [
+        {
+          'type': 'mrkdwn',
+          'text': "*Name:*\nCandicek  Matherson"
+        },
+        {
+          'type': 'mrkdwn',
+          'text': "*Email:*\n<www.gmail.com|Fred Enriquez>"
+        },
+        {
+          'type': 'mrkdwn',
+          'text': "*Phone:*\n97457862323"
+        },
+        {
+          'type': 'mrkdwn',
+          'text': "*Company:*\nMeta"
+        }
+      ]
+    }, {
 
-    unfurls = { params[:event][:links][0][:url] => { 'blocks' => [{ 'type' => 'section',
-                                                                    'text' => { 'type' => 'mrkdwn', 'text' => 'Hoooyyyy....!!Take a look at this carafe, just another cousin of glass' }, 'accessory' => { 'type' => 'image', 'image_url' => 'https://avatars.githubusercontent.com/u/23416667', 'alt_text' => "Stein's wine carafe" } }] } }
-
-    slack_client.chat_unfurl(
-      channel: params[:event][:channel],
-      ts: params[:event][:message_ts],
+      'type': 'actions',
+      'elements': [
+        {
+          'type': 'button',
+          'text': {
+            'type': 'plain_text',
+            'text': 'Open conversation',
+            'emoji': true
+          },
+          'value': 'click_me_123',
+          'action_id': 'actionId-0'
+        }
+      ]
+    }] } }
+    Integrations::Slack::SendOnSlackService.new(message: nil, hook: integration_hook).link_unfurl(
+      unfurl_id: params[:event][:unfurl_id],
+      source: params[:event][:source],
       unfurls: JSON.generate(unfurls)
+      # channel: params[:event][:channel],
+      # ts: params[:event][:message_ts]
     )
   end
 
