@@ -75,24 +75,38 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   def create_link_shared_message
-    unfurls = { params[:event][:links][0][:url] => { 'blocks' => [{
+    url = params[:event][:links][0][:url]
+    conversation_id_regex = %r{/conversations/(\d+)}
+    match_data = url.match(conversation_id_regex)
+    return unless match_data
+
+    conversation_id = match_data[1] # The first capturing group contains the ID
+    conversation = Conversation.find_by(display_id: conversation_id)
+    return unless conversation
+
+    user_name = conversation.contact&.name.presence || '---'
+    email = conversation.contact&.email.presence || '---'
+    phone_number = conversation.contact&.phone_number.presence || '---'
+    company_name = conversation.contact&.additional_attributes&.dig('company_name').presence || '---'
+
+    unfurls = { url => { 'blocks' => [{
       'type': 'section',
       'fields': [
         {
           'type': 'mrkdwn',
-          'text': "*Name:*\nCandicek  Matherson"
+          'text': "*Name:*\n#{user_name}"
         },
         {
           'type': 'mrkdwn',
-          'text': "*Email:*\n<www.gmail.com|Fred Enriquez>"
+          'text': "*Email:*\n#{email}"
         },
         {
           'type': 'mrkdwn',
-          'text': "*Phone:*\n97457862323"
+          'text': "*Phone:*\n#{phone_number}"
         },
         {
           'type': 'mrkdwn',
-          'text': "*Company:*\nMeta"
+          'text': "*Company:*\n#{company_name}"
         }
       ]
     }, {
@@ -106,8 +120,8 @@ class Integrations::Slack::IncomingMessageBuilder
             'text': 'Open conversation',
             'emoji': true
           },
-          'value': 'click_me_123',
-          'action_id': 'actionId-0'
+          'url': url,
+          'action_id': 'button-action'
         }
       ]
     }] } }
@@ -115,8 +129,6 @@ class Integrations::Slack::IncomingMessageBuilder
       unfurl_id: params[:event][:unfurl_id],
       source: params[:event][:source],
       unfurls: JSON.generate(unfurls)
-      # channel: params[:event][:channel],
-      # ts: params[:event][:message_ts]
     )
   end
 
