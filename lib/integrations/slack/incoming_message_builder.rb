@@ -75,13 +75,11 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   def create_link_shared_message
-    url = params[:event][:links][0][:url]
-    conversation_id_regex = %r{/conversations/(\d+)}
-    match_data = url.match(conversation_id_regex)
-    return unless match_data
+    url = params.dig(:event, :links, 0, :url)
+    conversation_id = extract_conversation_id(url)
+    return unless conversation_id
 
-    conversation_id = match_data[1] # The first capturing group contains the ID
-    conversation = Conversation.find_by(display_id: conversation_id)
+    conversation = find_conversation_by_id(conversation_id)
     return unless conversation
 
     user_name = conversation.contact&.name.presence || '---'
@@ -89,47 +87,68 @@ class Integrations::Slack::IncomingMessageBuilder
     phone_number = conversation.contact&.phone_number.presence || '---'
     company_name = conversation.contact&.additional_attributes&.dig('company_name').presence || '---'
 
-    unfurls = { url => { 'blocks' => [{
-      'type': 'section',
-      'fields': [
-        {
-          'type': 'mrkdwn',
-          'text': "*Name:*\n#{user_name}"
-        },
-        {
-          'type': 'mrkdwn',
-          'text': "*Email:*\n#{email}"
-        },
-        {
-          'type': 'mrkdwn',
-          'text': "*Phone:*\n#{phone_number}"
-        },
-        {
-          'type': 'mrkdwn',
-          'text': "*Company:*\n#{company_name}"
-        }
-      ]
-    }, {
+    unfurls = generate_unfurls(url, user_name, email, phone_number, company_name)
 
-      'type': 'actions',
-      'elements': [
-        {
-          'type': 'button',
-          'text': {
-            'type': 'plain_text',
-            'text': 'Open conversation',
-            'emoji': true
-          },
-          'url': url,
-          'action_id': 'button-action'
-        }
-      ]
-    }] } }
     Integrations::Slack::SendOnSlackService.new(message: nil, hook: integration_hook).link_unfurl(
-      unfurl_id: params[:event][:unfurl_id],
-      source: params[:event][:source],
+      unfurl_id: params.dig(:event, :unfurl_id),
+      source: params.dig(:event, :source),
       unfurls: JSON.generate(unfurls)
     )
+  end
+
+  def extract_conversation_id(url)
+    conversation_id_regex = %r{/conversations/(\d+)}
+    match_data = url.match(conversation_id_regex)
+    match_data[1] if match_data
+  end
+
+  def find_conversation_by_id(conversation_id)
+    Conversation.find_by(display_id: conversation_id)
+  end
+
+  def generate_unfurls(url, user_name, email, phone_number, company_name)
+    {
+      url => {
+        'blocks' => [
+          {
+            :type => 'section',
+            'fields' => [
+              {
+                'type' => 'mrkdwn',
+                'text' => "*Name:*\n#{user_name}"
+              },
+              {
+                'type' => 'mrkdwn',
+                'text' => "*Email:*\n#{email}"
+              },
+              {
+                'type' => 'mrkdwn',
+                'text' => "*Phone:*\n#{phone_number}"
+              },
+              {
+                'type' => 'mrkdwn',
+                'text' => "*Company:*\n#{company_name}"
+              }
+            ]
+          },
+          {
+            'type' => 'actions',
+            'elements' => [
+              {
+                'type' => 'button',
+                'text' => {
+                  'type' => 'plain_text',
+                  'text' => 'Open conversation',
+                  'emoji' => true
+                },
+                'url' => url,
+                'action_id' => 'button-action'
+              }
+            ]
+          }
+        ]
+      }
+    }
   end
 
   def message
