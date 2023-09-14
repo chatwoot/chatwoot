@@ -126,13 +126,13 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def fetch_contacts(contacts)
-    contacts = filtrate(contacts)
-               .includes([{ avatar_attachment: [:blob] }])
-               .page(@current_page).per(RESULTS_PER_PAGE)
+    contacts_with_avatar = filtrate(contacts)
+                           .includes([{ avatar_attachment: [:blob] }])
+                           .page(@current_page).per(RESULTS_PER_PAGE)
 
-    return contacts.includes([{ contact_inboxes: [:inbox] }]) if @include_contact_inboxes
+    return contacts_with_avatar.includes([{ contact_inboxes: [:inbox] }]) if @include_contact_inboxes
 
-    contacts
+    contacts_with_avatar
   end
 
   def build_contact_inbox
