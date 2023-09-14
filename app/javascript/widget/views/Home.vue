@@ -91,8 +91,23 @@ export default {
       return this.$t(`ATTACHMENTS.${this.lastMessageFileType}.CONTENT`);
     },
 
+    senderName() {
+      const { sender } = this.lastMessage;
+      if (!sender) return '';
+
+      const { name, type } = sender;
+      if (type === 'contact') {
+        return this.$t('YOU');
+      }
+      return name;
+    },
+
     lastMessageContent() {
-      return this.lastMessage.content || this.attachmentMessageContent;
+      const content = this.lastMessage.content || this.attachmentMessageContent;
+      if (this.senderName) {
+        return `${this.senderName}: ${content}`;
+      }
+      return content;
     },
   },
   mounted() {

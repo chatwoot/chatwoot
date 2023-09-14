@@ -34,6 +34,7 @@
   "START_CONVERSATION": "Start Conversation",
   "END_CONVERSATION": "End Conversation",
   "CONTINUE_CONVERSATION": "Continue conversation",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "Start a new conversation",
   "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {

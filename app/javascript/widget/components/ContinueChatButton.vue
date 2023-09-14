@@ -7,7 +7,7 @@
     <div
       class="w-10 h-10 rounded-md bg-slate-75 dark:bg-slate-700 text-lg flex items-center justify-center flex-shrink-0"
     >
-      💬
+      <fluent-icon icon="chat" size="16" />
     </div>
     <div
       class="text-left flex flex-col justify-start flex-grow max-w-[calc(100%-80px)] mx-2"
