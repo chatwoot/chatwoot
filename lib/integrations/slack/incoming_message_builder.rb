@@ -77,21 +77,44 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   def create_link_shared_message
-    url = params.dig(:event, :links, 0, :url)
-    conversation_id = extract_conversation_id(url)
-    return unless conversation_id
-
-    conversation = find_conversation_by_id(conversation_id)
+    conversation = conversation_from_params
     return unless conversation
 
-    user_name = conversation.contact&.name.presence || '---'
-    email = conversation.contact&.email.presence || '---'
-    phone_number = conversation.contact&.phone_number.presence || '---'
-    company_name = conversation.contact&.additional_attributes&.dig('company_name').presence || '---'
+    user_name, email, phone_number, company_name = conntact_attributes(conversation).values_at(:user_name, :email, :phone_number, :company_name)
+    unfurls = generate_unfurls(conversation_url, user_name, email, phone_number, company_name)
 
-    unfurls = generate_unfurls(url, user_name, email, phone_number, company_name)
+    send_unfurls(unfurls)
+  end
 
-    Integrations::Slack::SendOnSlackService.new(message: nil, hook: integration_hook).link_unfurl(
+  def conntact_attributes(conversation)
+    contact = conversation.contact
+    user_name = contact&.name.presence || '---'
+    email = contact&.email.presence || '---'
+    phone_number = contact&.phone_number.presence || '---'
+    company_name = contact&.additional_attributes&.dig('company_name').presence || '---'
+
+    {
+      user_name: user_name,
+      email: email,
+      phone_number: phone_number,
+      company_name: company_name
+    }
+  end
+
+  def conversation_from_params
+    conversation_id = extract_conversation_id(conversation_url)
+    return unless conversation_id
+
+    find_conversation_by_id(conversation_id)
+  end
+
+  def conversation_url
+    params.dig(:event, :links, 0, :url)
+  end
+
+  def send_unfurls(unfurls)
+    slack_service = Integrations::Slack::SendOnSlackService.new(message: nil, hook: integration_hook)
+    slack_service.link_unfurl(
       unfurl_id: params.dig(:event, :unfurl_id),
       source: params.dig(:event, :source),
       unfurls: JSON.generate(unfurls)
