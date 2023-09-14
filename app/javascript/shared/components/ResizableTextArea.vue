@@ -62,6 +62,16 @@ export default {
   watch: {
     value() {
       this.resizeTextarea();
+      // 🚨 watch triggers every time the value is changed, we cannot set this to focus then
+      // when this runs, it sets the cursor to the end of the body, ignoring the signature
+      // Suppose if someone manually set the cursor to the middle of the body
+      // and starts typing, the cursor will be set to the end of the body
+      // A surprise cursor jump? Definitely not user-friendly.
+      if (document.activeElement !== this.$refs.textarea) {
+        this.$nextTick(() => {
+          this.setCursor();
+        });
+      }
     },
     sendWithSignature(newValue) {
       if (this.allowSignature) {
