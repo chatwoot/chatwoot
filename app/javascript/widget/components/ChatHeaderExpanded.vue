@@ -20,7 +20,7 @@
     </div>
     <h2
       v-dompurify-html="introHeading"
-      class="mt-4 text-2xl mb-2 font-normal"
+      class="mt-4 text-2xl mb-1.5 font-medium"
       :class="$dm('text-slate-900', 'dark:text-slate-50')"
     />
     <p

@@ -1,10 +1,19 @@
 <template>
   <div
-    class="z-50 rounded-md border-t border-slate-50 w-full flex flex-1 flex-col justify-end bg-slate-25 dark:bg-slate-800"
-    :class="{ 'pb-2': showArticles }"
+    class="z-50 rounded-md w-full flex flex-1 flex-col"
+    :class="{ 'pb-2': showArticles, 'justify-end': !showArticles }"
   >
+    <div class="px-4 pt-4 w-full">
+      <team-availability
+        :available-agents="availableAgents"
+        :has-conversation="!!conversationSize"
+        :unread-count="unreadMessageCount"
+        :last-message-content="lastMessageContent"
+        @start-conversation="startConversation"
+      />
+    </div>
     <div v-if="showArticles" class="px-4 py-2 w-full">
-      <div class="p-4 rounded-md bg-white dark:bg-slate-700 shadow w-full">
+      <div class="p-4 rounded-md bg-white dark:bg-slate-700 shadow-sm w-full">
         <article-hero
           v-if="
             !articleUiFlags.isFetching &&
@@ -18,18 +27,9 @@
       </div>
     </div>
     <div v-if="articleUiFlags.isFetching" class="px-4 py-2 w-full">
-      <div class="p-4 rounded-md bg-white dark:bg-slate-700 shadow w-full">
+      <div class="p-4 rounded-md bg-white dark:bg-slate-700 shadow-sm w-full">
         <article-card-skeleton-loader />
       </div>
-    </div>
-    <div class="px-4 pt-2 w-full sticky bottom-4">
-      <team-availability
-        :available-agents="availableAgents"
-        :has-conversation="!!conversationSize"
-        :unread-count="unreadMessageCount"
-        :last-message-content="lastMessageContent"
-        @start-conversation="startConversation"
-      />
     </div>
   </div>
 </template>

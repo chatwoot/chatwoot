@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col flex-1 pb-2 overflow-hidden rounded-b-lg bg-slate-25 dark:bg-slate-800"
+    class="flex flex-col flex-1 overflow-hidden rounded-b-lg bg-slate-25 dark:bg-slate-800"
   >
     <div class="flex flex-1 overflow-auto">
       <conversation-wrap :grouped-messages="groupedMessages" />

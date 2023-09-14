@@ -1,16 +1,17 @@
 <template>
   <div
-    class="w-full h-full bg-white dark:bg-slate-900"
+    class="w-full h-full bg-slate-25 dark:bg-slate-800"
     :class="{ 'overflow-auto': isOnHomeView }"
     @keydown.esc="closeWindow"
   >
-    <div class="flex flex-col h-full relative bg-slate-25 dark:bg-slate-800">
+    <div class="flex flex-col h-full relative">
       <div
-        class="header-wrap sticky top-0 z-40"
+        class="header-wrap sticky top-0 z-40 transition-opacity"
         :class="{
           expanded: !isHeaderCollapsed,
           collapsed: isHeaderCollapsed,
-          'custom-header-shadow': shouldRenderCustomShadow,
+          'custom-header-shadow': isHeaderCollapsed,
+          ...opacityClass,
         }"
       >
         <transition
@@ -50,11 +51,7 @@
       >
         <router-view />
       </transition>
-      <branding
-        v-if="!isOnArticleViewer"
-        class="bg-slate-25 dark:bg-slate-800"
-        :disable-branding="disableBranding"
-      />
+      <branding v-if="!isOnArticleViewer" :disable-branding="disableBranding" />
     </div>
   </div>
 </template>
@@ -78,6 +75,8 @@ export default {
   data() {
     return {
       showPopoutButton: false,
+      scrollPosition: 0,
+      ticking: true,
       disableBranding: window.chatwootWebChannel.disableBranding || false,
     };
   },
@@ -112,17 +111,47 @@ export default {
     isOnHomeView() {
       return ['home'].includes(this.$route.name);
     },
-    shouldRenderCustomShadow() {
-      if (this.isOnHomeView) {
-        return !this.portal;
+    opacityClass() {
+      if (this.isHeaderCollapsed) {
+        return {};
       }
-
-      return !this.isOnArticleViewer;
+      if (this.scrollPosition > 30) {
+        return { 'opacity-50': true };
+      }
+      if (this.scrollPosition > 25) {
+        return { 'opacity-60': true };
+      }
+      if (this.scrollPosition > 20) {
+        return { 'opacity-70': true };
+      }
+      if (this.scrollPosition > 15) {
+        return { 'opacity-80': true };
+      }
+      if (this.scrollPosition > 10) {
+        return { 'opacity-90': true };
+      }
+      return {};
     },
+  },
+  mounted() {
+    this.$el.addEventListener('scroll', this.updateScrollPosition);
+  },
+  beforeDestroy() {
+    this.$el.removeEventListener('scroll', this.updateScrollPosition);
   },
   methods: {
     closeWindow() {
       IFrameHelper.sendMessage({ event: 'closeWindow' });
+    },
+    updateScrollPosition(event) {
+      this.scrollPosition = event.target.scrollTop;
+      if (!this.ticking) {
+        window.requestAnimationFrame(() => {
+          this.ticking = false;
+        });
+
+        this.ticking = true;
+      }
     },
   },
 };

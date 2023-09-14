@@ -1,41 +1,30 @@
 <template>
-  <div class="p-4 shadow rounded-md bg-white dark:bg-slate-700">
-    <div class="flex items-center justify-between mb-4">
-      <div class="max-w-xs text-slate-700 dark:text-slate-50">
-        <div class="text-sm font-medium mb-1">
+  <div class="p-4 shadow-sm rounded-md bg-white dark:bg-slate-700">
+    <div class="flex items-center justify-between ">
+      <div class="  ">
+        <div class="text-sm font-medium text-slate-700 dark:text-slate-50">
           {{
             isOnline
               ? $t('TEAM_AVAILABILITY.ONLINE')
               : $t('TEAM_AVAILABILITY.OFFLINE')
           }}
         </div>
-        <div class="text-xs mt-1">
+        <div class="text-sm mt-1 text-slate-500 dark:text-slate-100">
           {{ replyWaitMessage }}
         </div>
       </div>
       <available-agents v-if="isOnline" :agents="availableAgents" />
     </div>
-    <continue-chat-button
-      v-if="hasConversation || unreadCount > 0"
-      :title="$t('CONTINUE_CONVERSATION')"
-      :content="
-        unreadCount > 0 ? $t('VIEW_UNREAD_MESSAGES') : lastMessageContent
-      "
-      :unread-count="unreadCount"
-      @continue="startConversation"
-    />
-    <custom-button
-      v-else
-      class="font-medium"
-      block
-      :bg-color="widgetColor"
-      :text-color="textColor"
+    <button
+      class="inline-flex text-sm font-medium rounded-md py-1 mt-2 leading-6 text-slate-800 dark:text-slate-50 justify-between items-center hover:bg-slate-25 dark:hover:bg-slate-800 see-articles"
+      :style="{ color: widgetColor }"
       @click="startConversation"
     >
-      {{
+      <span class="pr-2 text-sm">{{
         hasConversation ? $t('CONTINUE_CONVERSATION') : $t('START_CONVERSATION')
-      }}
-    </custom-button>
+      }}</span>
+      <fluent-icon icon="arrow-right" size="14" />
+    </button>
   </div>
 </template>
 
@@ -44,17 +33,14 @@ import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
 import AvailableAgents from 'widget/components/AvailableAgents.vue';
-import CustomButton from 'shared/components/Button';
 import configMixin from 'widget/mixins/configMixin';
 import availabilityMixin from 'widget/mixins/availability';
-import ContinueChatButton from './ContinueChatButton.vue';
-
+import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 export default {
   name: 'TeamAvailability',
   components: {
     AvailableAgents,
-    CustomButton,
-    ContinueChatButton,
+    FluentIcon,
   },
   mixins: [configMixin, nextAvailabilityTime, availabilityMixin],
   props: {
