@@ -10,7 +10,7 @@
       "
     >
       <thumbnail
-        size="40px"
+        size="36px"
         :username="user.name"
         :src="user.avatar"
         has-border
