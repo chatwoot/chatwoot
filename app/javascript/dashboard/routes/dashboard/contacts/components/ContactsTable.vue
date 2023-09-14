@@ -1,6 +1,6 @@
 <template>
   <section
-    class="contacts-table-wrap bg-white dark:bg-slate-900 flex-1 h-full overflow-hidden"
+    class="contacts-table-wrap bg-white dark:bg-slate-900 flex-1 h-full overflow-hidden -mt-1"
   >
     <ve-table
       :fixed-header="true"
