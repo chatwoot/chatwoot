@@ -1,5 +1,3 @@
-require_relative 'slack_message_helper'
-
 class Integrations::Slack::IncomingMessageBuilder
   include Integrations::Slack::SlackMessageHelper
   attr_reader :params
