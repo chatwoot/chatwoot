@@ -1,7 +1,7 @@
 <template>
   <category-card
     :title="$t('PORTAL.POPULAR_ARTICLES')"
-    :articles="articles.slice(0, 4)"
+    :articles="articles.slice(0, 6)"
     @view-all="$emit('view-all')"
     @view="onArticleClick"
   />
