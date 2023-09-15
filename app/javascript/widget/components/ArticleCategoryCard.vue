@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 class="text-base font-medium text-slate-900 dark:text-slate-50 mb-0">
+    <h3 class="text-sm font-medium text-slate-800 dark:text-slate-50 mb-0">
       {{ title }}
     </h3>
     <article-list :articles="articles" @click="onArticleClick" />
