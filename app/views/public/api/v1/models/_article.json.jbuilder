@@ -38,3 +38,5 @@ json.associated_articles do
     end
   end
 end
+
+json.link "hc/#{article.portal.slug}/articles/#{article.slug}"

@@ -71,7 +71,7 @@
       "SUBMIT": "Import",
       "CANCEL": "Zrušit"
     },
-    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "Došlo k chybě, zkuste to prosím znovu"
   },
   "EXPORT_CONTACTS": {

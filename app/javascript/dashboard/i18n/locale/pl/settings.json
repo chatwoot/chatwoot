@@ -39,7 +39,10 @@
         "NOTE": "Utwórz osobisty podpis wiadomości, który zostanie dodany do wszystkich wiadomości wysyłanych z Twojej skrzynki pocztowej. Użyj edytora bogatego w treści, aby stworzyć wysoko spersonalizowany podpis.",
         "BTN_TEXT": "Zapisz podpis wiadomości",
         "API_ERROR": "Nie można zapisać podpisu! Spróbuj ponownie",
-        "API_SUCCESS": "Podpis został pomyślnie zapisany"
+        "API_SUCCESS": "Podpis został pomyślnie zapisany",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Rozmiar obrazu powinien być mniejszy niż {size}MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Podpis wiadomości",

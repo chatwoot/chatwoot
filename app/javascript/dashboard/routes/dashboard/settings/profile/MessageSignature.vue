@@ -15,11 +15,13 @@
           <woot-message-editor
             id="message-signature-input"
             v-model="messageSignature"
-            class="message-editor"
+            class="message-editor h-[10rem]"
             :is-format-mode="true"
             :placeholder="
               $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE.PLACEHOLDER')
             "
+            :enabled-menu-options="customEditorMenuList"
+            :enable-suggestions="false"
             @blur="$v.messageSignature.$touch"
           />
         </div>
@@ -41,6 +43,7 @@ import { mapGetters } from 'vuex';
 
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import alertMixin from 'shared/mixins/alertMixin';
+import { MESSAGE_SIGNATURE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 
 export default {
   components: {
@@ -53,6 +56,7 @@ export default {
       enableMessageSignature: false,
       isUpdating: false,
       errorMessage: '',
+      customEditorMenuList: MESSAGE_SIGNATURE_EDITOR_MENU_OPTIONS,
     };
   },
   validations: {
@@ -65,11 +69,6 @@ export default {
       currentUser: 'getCurrentUser',
       currentUserId: 'getCurrentUserID',
     }),
-  },
-  watch: {
-    currentUser() {
-      this.initValues();
-    },
   },
   mounted() {
     this.initValues();
@@ -102,6 +101,7 @@ export default {
         }
       } finally {
         this.isUpdating = false;
+        this.initValues();
         this.showAlert(this.errorMessage);
       }
     },
@@ -110,12 +110,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.profile--settings--row {
-  .ProseMirror-woot-style {
-    @apply h-20;
-  }
-}
-
 .message-editor {
   @apply px-3 mb-4;
 

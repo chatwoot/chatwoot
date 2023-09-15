@@ -4,7 +4,7 @@
       v-if="!uiFlags.isFetching && !macros.length"
       class="macros_list--empty-state"
     >
-      <p class="no-items-error-message">
+      <p class="flex h-full items-center flex-col justify-center">
         {{ $t('MACROS.LIST.404') }}
       </p>
       <router-link :to="addAccountScoping('settings/macros')">

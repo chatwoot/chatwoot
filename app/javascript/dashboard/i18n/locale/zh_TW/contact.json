@@ -71,7 +71,7 @@
       "SUBMIT": "匯入",
       "CANCEL": "取消"
     },
-    "SUCCESS_MESSAGE": "聯絡人儲存成功",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "出現錯誤，請重試"
   },
   "EXPORT_CONTACTS": {
