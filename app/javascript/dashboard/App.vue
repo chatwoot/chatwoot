@@ -2,7 +2,7 @@
   <div
     v-if="!authUIFlags.isFetching"
     id="app"
-    class="app-wrapper app-root"
+    class="app-wrapper h-full flex-grow-0 min-h-0 w-full"
     :class="{ 'app-rtl--wrapper': isRTLView }"
     :dir="isRTLView ? 'rtl' : 'ltr'"
   >

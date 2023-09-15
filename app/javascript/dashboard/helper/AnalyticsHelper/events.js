@@ -15,6 +15,9 @@ export const ACCOUNT_EVENTS = Object.freeze({
   ADDED_A_CUSTOM_ATTRIBUTE: 'Added a custom attribute',
   ADDED_AN_INBOX: 'Added an inbox',
   OPEN_MESSAGE_CONTEXT_MENU: 'Opened message context menu',
+  OPENED_NOTIFICATIONS: 'Opened notifications',
+  MARK_AS_READ_NOTIFICATIONS: 'Marked notifications as read',
+  OPEN_CONVERSATION_VIA_NOTIFICATION: 'Opened conversation via notification',
 });
 
 export const LABEL_EVENTS = Object.freeze({

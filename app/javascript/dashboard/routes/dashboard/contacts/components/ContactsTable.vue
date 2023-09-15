@@ -1,6 +1,6 @@
 <template>
   <section
-    class="contacts-table-wrap bg-white dark:bg-slate-900 flex-1 h-full overflow-hidden"
+    class="contacts-table-wrap bg-white dark:bg-slate-900 flex-1 h-full overflow-hidden -mt-1"
   >
     <ve-table
       :fixed-header="true"
@@ -254,13 +254,6 @@ export default {
           key: 'created_at',
           sortBy: this.sortConfig.created_at || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CREATED_AT'),
-          align: this.isRTLView ? 'right' : 'left',
-        },
-        {
-          field: 'conversationsCount',
-          key: 'conversationsCount',
-          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CONVERSATIONS'),
-          width: 150,
           align: this.isRTLView ? 'right' : 'left',
         },
       ];

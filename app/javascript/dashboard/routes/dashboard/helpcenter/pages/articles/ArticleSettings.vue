@@ -209,15 +209,21 @@ export default {
     },
     onClickAssignAuthor({ id }) {
       this.$emit('save-article', { author_id: id });
+      this.updateMeta();
     },
     onChangeMetaInput() {
       this.saveArticle();
     },
     onClickArchiveArticle() {
       this.$emit('archive-article');
+      this.updateMeta();
     },
     onClickDeleteArticle() {
       this.$emit('delete-article');
+      this.updateMeta();
+    },
+    updateMeta() {
+      this.$emit('update-meta');
     },
   },
 };
