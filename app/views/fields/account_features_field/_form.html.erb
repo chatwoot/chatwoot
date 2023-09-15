@@ -5,7 +5,7 @@
     <% field.data.each do |key,val| %>
     <div class='feature-cell'>
     <% if ['audit_logs', 'response_bot'].include? key %>
-    <span class='icon-container'><i class="ion ion-cloud"></i></span>
+    <span class='icon-container'><i class="ion ion-asterisk"></i></span>
     <% end %>
     <span><%= key %></span> 
     <span class='value-container'><%= check_box "enabled_features", "feature_#{key}", { checked: val }, true, false  %> </span>
