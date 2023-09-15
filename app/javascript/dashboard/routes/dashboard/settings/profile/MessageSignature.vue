@@ -15,7 +15,7 @@
           <woot-message-editor
             id="message-signature-input"
             v-model="messageSignature"
-            class="message-editor signature-editor"
+            class="message-editor h-[10rem]"
             :is-format-mode="true"
             :placeholder="
               $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE.PLACEHOLDER')
@@ -110,8 +110,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.signature-editor {
-  @apply h-[10rem];
 }
 
 .message-editor {
