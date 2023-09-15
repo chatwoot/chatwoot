@@ -1,23 +1,18 @@
 <template>
   <div
-    class="w-full h-full flex flex-col"
-    :class="$dm('bg-slate-50', 'dark:bg-slate-800')"
+    class="w-full h-full bg-slate-25 dark:bg-slate-800"
+    :class="{ 'overflow-auto': isOnHomeView }"
     @keydown.esc="closeWindow"
   >
-    <div
-      class="header-wrap"
-      :class="{
-        expanded: !isHeaderCollapsed,
-        collapsed: isHeaderCollapsed,
-      }"
-    >
-      <transition
-        enter-active-class="transition-all delay-200 duration-300 ease-in"
-        leave-active-class="transition-all duration-200 ease-out"
-        enter-class="opacity-0"
-        enter-to-class="opacity-100"
-        leave-class="opacity-100"
-        leave-to-class="opacity-0"
+    <div class="flex flex-col h-full relative">
+      <div
+        class="header-wrap sticky top-0 z-40 transition-all"
+        :class="{
+          expanded: !isHeaderCollapsed,
+          collapsed: isHeaderCollapsed,
+          'custom-header-shadow': isHeaderCollapsed,
+          ...opacityClass,
+        }"
       >
         <chat-header-expanded
           v-if="!isHeaderCollapsed"
@@ -32,21 +27,14 @@
           :avatar-url="channelConfig.avatarUrl"
           :show-popout-button="appConfig.showPopoutButton"
           :available-agents="availableAgents"
+          :show-back-button="showBackButton"
         />
-      </transition>
-    </div>
-    <banner />
-    <transition
-      enter-active-class="transition-all delay-300 duration-300 ease-in"
-      leave-active-class="transition-all duration-200 ease-out"
-      enter-class="opacity-0"
-      enter-to-class="opacity-100"
-      leave-class="opacity-100"
-      leave-to-class="opacity-0"
-    >
+      </div>
+      <banner />
       <router-view />
-    </transition>
-    <branding :disable-branding="disableBranding" />
+
+      <branding v-if="!isOnArticleViewer" :disable-branding="disableBranding" />
+    </div>
   </div>
 </template>
 <script>
@@ -55,7 +43,6 @@ import Branding from 'shared/components/Branding.vue';
 import ChatHeader from '../ChatHeader.vue';
 import ChatHeaderExpanded from '../ChatHeaderExpanded.vue';
 import configMixin from '../../mixins/configMixin';
-import darkModeMixin from 'widget/mixins/darkModeMixin';
 import { mapGetters } from 'vuex';
 import { IFrameHelper } from 'widget/helpers/utils';
 
@@ -66,33 +53,87 @@ export default {
     ChatHeader,
     ChatHeaderExpanded,
   },
-  mixins: [configMixin, darkModeMixin],
+  mixins: [configMixin],
   data() {
     return {
       showPopoutButton: false,
+      scrollPosition: 0,
+      ticking: true,
       disableBranding: window.chatwootWebChannel.disableBranding || false,
     };
   },
   computed: {
     ...mapGetters({
-      availableAgents: 'agent/availableAgents',
       appConfig: 'appConfig/getAppConfig',
+      availableAgents: 'agent/availableAgents',
+      widgetColor: 'appConfig/getWidgetColor',
     }),
+    portal() {
+      return window.chatwootWebChannel.portal;
+    },
     isHeaderCollapsed() {
       if (!this.hasIntroText) {
         return true;
       }
-      return this.$route.name !== 'home';
+      return !this.isOnHomeView;
     },
     hasIntroText() {
       return (
         this.channelConfig.welcomeTitle || this.channelConfig.welcomeTagline
       );
     },
+    showBackButton() {
+      return ['article-viewer', 'messages', 'prechat-form'].includes(
+        this.$route.name
+      );
+    },
+    isOnArticleViewer() {
+      return ['article-viewer'].includes(this.$route.name);
+    },
+    isOnHomeView() {
+      return ['home'].includes(this.$route.name);
+    },
+    opacityClass() {
+      if (this.isHeaderCollapsed) {
+        return {};
+      }
+      if (this.scrollPosition > 30) {
+        return { 'opacity-30': true };
+      }
+      if (this.scrollPosition > 25) {
+        return { 'opacity-40': true };
+      }
+      if (this.scrollPosition > 20) {
+        return { 'opacity-60': true };
+      }
+      if (this.scrollPosition > 15) {
+        return { 'opacity-80': true };
+      }
+      if (this.scrollPosition > 10) {
+        return { 'opacity-90': true };
+      }
+      return {};
+    },
+  },
+  mounted() {
+    this.$el.addEventListener('scroll', this.updateScrollPosition);
+  },
+  beforeDestroy() {
+    this.$el.removeEventListener('scroll', this.updateScrollPosition);
   },
   methods: {
     closeWindow() {
       IFrameHelper.sendMessage({ event: 'closeWindow' });
+    },
+    updateScrollPosition(event) {
+      this.scrollPosition = event.target.scrollTop;
+      if (!this.ticking) {
+        window.requestAnimationFrame(() => {
+          this.ticking = false;
+        });
+
+        this.ticking = true;
+      }
     },
   },
 };
@@ -102,11 +143,13 @@ export default {
 @import '~widget/assets/scss/variables';
 @import '~widget/assets/scss/mixins';
 
+.custom-header-shadow {
+  @include shadow-large;
+}
+
 .header-wrap {
   flex-shrink: 0;
-  transition: max-height 300ms;
-  z-index: 99;
-  @include shadow-large;
+  transition: max-height 100ms;
 
   &.expanded {
     max-height: 16rem;

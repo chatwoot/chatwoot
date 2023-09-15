@@ -71,7 +71,7 @@
       "SUBMIT": "Importeren",
       "CANCEL": "Annuleren"
     },
-    "SUCCESS_MESSAGE": "Contacten werden succesvol opgeslagen",
+    "SUCCESS_MESSAGE": "U wordt per e-mail geïnformeerd wanneer de import is voltooid.",
     "ERROR_MESSAGE": "Er is een fout opgetreden, probeer het opnieuw"
   },
   "EXPORT_CONTACTS": {

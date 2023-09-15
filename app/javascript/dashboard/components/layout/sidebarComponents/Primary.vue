@@ -46,6 +46,7 @@ import AgentDetails from './AgentDetails';
 import NotificationBell from './NotificationBell';
 import wootConstants from 'dashboard/constants/globals';
 import { frontendURL } from 'dashboard/helper/URLHelper';
+import { ACCOUNT_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
 export default {
   components: {
@@ -99,6 +100,7 @@ export default {
       window.$chatwoot.toggle();
     },
     openNotificationPanel() {
+      this.$track(ACCOUNT_EVENTS.OPENED_NOTIFICATIONS);
       this.$emit('open-notification-panel');
     },
   },

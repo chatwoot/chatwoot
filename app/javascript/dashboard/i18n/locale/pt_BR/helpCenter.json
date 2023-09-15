@@ -75,12 +75,12 @@
       }
     },
     "ARTICLE_SEARCH_RESULT": {
-      "UNCATEGORIZED": "Uncategorized",
-      "INSERT_ARTICLE": "Insert",
-      "NO_RESULT": "No articles found",
-      "COPY_LINK": "Copy article link to clipboard",
-      "OPEN_LINK": "Open article in new tab",
-      "PREVIEW_LINK": "Preview article"
+      "UNCATEGORIZED": "Não categorizado",
+      "INSERT_ARTICLE": "Inserir",
+      "NO_RESULT": "Nenhum artigo encontrado",
+      "COPY_LINK": "Copiar link do artigo para área de transferência",
+      "OPEN_LINK": "Abrir artigo em nova aba",
+      "PREVIEW_LINK": "Visualizar artigo"
     },
     "PORTAL": {
       "HEADER": "Portais",

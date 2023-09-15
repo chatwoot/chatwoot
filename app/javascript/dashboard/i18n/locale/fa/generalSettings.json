@@ -149,18 +149,18 @@
       "UNTIL_TOMORROW": "تا فردا",
       "UNTIL_NEXT_MONTH": "Until next month",
       "AN_HOUR_FROM_NOW": "Until an hour from now",
-      "CUSTOM": "Custom...",
-      "CHANGE_APPEARANCE": "Change Appearance",
-      "LIGHT_MODE": "Light",
-      "DARK_MODE": "Dark",
-      "SYSTEM_MODE": "System"
+      "CUSTOM": "سفارشی...",
+      "CHANGE_APPEARANCE": "تغییر ظاهر",
+      "LIGHT_MODE": "روشن",
+      "DARK_MODE": "تیره",
+      "SYSTEM_MODE": "سیستم"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "در حال بارگیری برنامه پیشخوان..."
   },
   "COMMON": {
-    "OR": "Or",
+    "OR": "یا",
     "CLICK_HERE": "اینجا کلیک کنید"
   }
 }

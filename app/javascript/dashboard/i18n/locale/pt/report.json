@@ -36,8 +36,8 @@
         "DESC": "( Total )"
       },
       "REPLY_TIME": {
-        "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} conversations)"
+        "NAME": "Tempo espera do cliente",
+        "TOOLTIP_TEXT": "O tempo de espera é %{metricValue} (com base em %{conversationCount} conversas)"
       }
     },
     "DATE_RANGE_OPTIONS": {

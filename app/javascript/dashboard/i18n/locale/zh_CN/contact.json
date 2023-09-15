@@ -71,7 +71,7 @@
       "SUBMIT": "导入",
       "CANCEL": "取消"
     },
-    "SUCCESS_MESSAGE": "已成功保存联系人",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "出现错误，请重试"
   },
   "EXPORT_CONTACTS": {

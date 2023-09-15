@@ -50,7 +50,7 @@ lv:
     dyte:
       invalid_message_type: "Nederīgs ziņojuma veids. Darbība nav atļauta"
     slack:
-      invalid_channel_id: "Invalid slack channel. Please try again"
+      invalid_channel_id: "Nepareizs Slack kanāls. Lūdzu, mēģiniet vēlreiz"
     inboxes:
       imap:
         socket_error: Lūdzu, pārbaudiet tīkla savienojumu, IMAP adresi un mēģiniet vēlreiz.

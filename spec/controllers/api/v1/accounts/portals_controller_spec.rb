@@ -210,33 +210,4 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
       end
     end
   end
-
-  describe 'POST /api/v1/accounts/{account.id}/portals/attach_file' do
-    it 'update the portal with a logo' do
-      file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
-
-      post "/api/v1/accounts/#{account.id}/portals/attach_file",
-           headers: admin.create_new_auth_token,
-           params: { logo: file }
-
-      expect(response).to have_http_status(:success)
-
-      blob = response.parsed_body
-
-      expect(blob['blob_key']).to be_present
-      expect(blob['blob_id']).to be_present
-
-      params = { blob_id: blob['blob_id'] }
-
-      expect(portal.logo.attachment).not_to be_present
-
-      patch "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
-            headers: admin.create_new_auth_token,
-            params: params
-      portal.reload
-
-      expect(portal.logo.presence).to be_truthy
-      expect(portal.logo.attachment).to be_present
-    end
-  end
 end

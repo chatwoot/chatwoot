@@ -71,7 +71,7 @@
       "SUBMIT": "Import",
       "CANCEL": "റദ്ദാക്കുക"
     },
-    "SUCCESS_MESSAGE": "കോൺടാക്റ്റുകൾ വിജയകരമായി സേവ് ചെയ്തിരിക്കുന്നു",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക"
   },
   "EXPORT_CONTACTS": {

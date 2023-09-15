@@ -39,7 +39,10 @@
         "NOTE": "Napravite potpis privatne poruke koji će se dodavati svakoj poruci koju pošaljete u prijemno sanduče e-pošte. Koristite bogati uređivač sadržaja da bi ste napravili personalizovan potpis.",
         "BTN_TEXT": "Sačuvaj potpis poruke",
         "API_ERROR": "Nije bilo moguće sačuvati potpis! Pokušajte ponovo",
-        "API_SUCCESS": "Potpis je uspešno sačuvan"
+        "API_SUCCESS": "Potpis je uspešno sačuvan",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Potpis poruke",
