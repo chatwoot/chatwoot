@@ -1,11 +1,11 @@
-// custom styles 
+// custom styles for the dashboard
 
 .feature-cell {
+  background: $color-border-dark;
+  border-radius: 10px;
   float: left;
   margin-left: 8px;
   margin-top: 6px;
-  background: #f4f6fb;
-  border-radius: 10px;
   padding: 4px 12px;
 
   .icon-container {
@@ -21,5 +21,4 @@
 
 .feature-container {
   max-width: 100rem;
-
 }
