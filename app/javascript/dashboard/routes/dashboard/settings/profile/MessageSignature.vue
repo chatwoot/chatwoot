@@ -110,8 +110,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-}
-
 .message-editor {
   @apply px-3 mb-4;
 
