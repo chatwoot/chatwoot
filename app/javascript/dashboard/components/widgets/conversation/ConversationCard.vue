@@ -78,6 +78,9 @@
           icon="info"
         />
         <span v-if="lastMessageInChat.content">
+          <span v-if="mailSubject">
+            {{ mailSubject }} -
+          </span">
           {{ parsedLastMessage }}
         </span>
         <span v-else-if="lastMessageInChat.attachments">
@@ -311,9 +314,19 @@ export default {
     },
 
     parsedLastMessage() {
+      return this.getPlainText(this.lastMessageInChat.content);
+    },
+
+    lastMessageSubject(){
       const { content_attributes: contentAttributes } = this.lastMessageInChat;
       const { email: { subject } = {} } = contentAttributes || {};
-      return this.getPlainText(subject || this.lastMessageInChat.content);
+      return subject;
+    },
+
+    mailSubject() {
+      const { additional_attributes: additionalAttributes } = this.chat;
+      const { mail_subject: subject } = additionalAttributes || {};
+      return this.lastMessageSubject || subject;
     },
 
     inbox() {
