@@ -23,8 +23,8 @@ class FilterService
       @filter_values["value_#{current_index}"] = filter_values(query_hash)
       equals_to_filter_string(query_hash[:filter_operator], current_index)
     when 'contains', 'does_not_contain'
-      @filter_values["value_#{current_index}"] = "%#{string_filter_values(query_hash)}%"
-      like_filter_string(query_hash[:filter_operator], current_index)
+      @filter_values["value_#{current_index}"] = values_for_ilike(query_hash)
+      ilike_filter_string(query_hash[:filter_operator], current_index)
     when 'is_present'
       @filter_values["value_#{current_index}"] = 'IS NOT NULL'
     when 'is_not_present'
@@ -58,6 +58,10 @@ class FilterService
     else
       query_hash['values']
     end
+  end
+
+  def values_for_ilike(query_hash)
+    query_hash['values'].map { |item| "%#{item.strip}%" }
   end
 
   def string_filter_values(query_hash)
@@ -145,6 +149,12 @@ class FilterService
     return  "IN (:value_#{current_index})" if filter_operator == 'equal_to'
 
     "NOT IN (:value_#{current_index})"
+  end
+
+  def ilike_filter_string(filter_operator, current_index)
+    return "ILIKE ANY (ARRAY[:value_#{current_index}])" if %w[contains].include?(filter_operator)
+
+    "NOT ILIKE ANY (ARRAY[:value_#{current_index}])"
   end
 
   def like_filter_string(filter_operator, current_index)
