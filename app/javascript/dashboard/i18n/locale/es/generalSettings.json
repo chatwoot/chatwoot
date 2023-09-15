@@ -134,7 +134,7 @@
       "GO_TO_NOTIFICATIONS": "Ir a Notificaciones",
       "ADD_LABELS_TO_CONVERSATION": "Añadir etiqueta a la conversación",
       "ASSIGN_AN_AGENT": "Asignar un agente",
-      "AI_ASSIST": "AI Assist",
+      "AI_ASSIST": "Asistencia AI",
       "ASSIGN_PRIORITY": "Asignar prioridad",
       "ASSIGN_A_TEAM": "Asignar un equipo",
       "MUTE_CONVERSATION": "Silenciar conversación",
@@ -160,7 +160,7 @@
     "LOADING_MESSAGE": "Cargando aplicación del tablero..."
   },
   "COMMON": {
-    "OR": "Or",
+    "OR": "O",
     "CLICK_HERE": "haz clic aquí"
   }
 }
