@@ -34,7 +34,9 @@
   "START_CONVERSATION": "Bắt đầu một cuộc trò chuyện",
   "END_CONVERSATION": "Kết thúc hội thoại",
   "CONTINUE_CONVERSATION": "Tiếp tục hội thoại",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "Bắt đầu hội thoại mới",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Xem tin nhắn mới",
     "CLOSE_MESSAGES_BUTTON": "Đóng",
@@ -108,6 +110,27 @@
   },
   "PORTAL": {
     "POPULAR_ARTICLES": "Popular Articles",
-    "VIEW_ALL_ARTICLES": "Xem tất cả bài viết"
+    "VIEW_ALL_ARTICLES": "Xem tất cả bài viết",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Tin nhắn hình ảnh"
+    },
+    "audio": {
+      "CONTENT": "Tin nhắn thoại"
+    },
+    "video": {
+      "CONTENT": "Tin nhắn video"
+    },
+    "file": {
+      "CONTENT": "Tập tin đính kèm"
+    },
+    "location": {
+      "CONTENT": "Địa điểm"
+    },
+    "fallback": {
+      "CONTENT": "có một đường dẫn chia sẻ"
+    }
   }
 }
