@@ -44,6 +44,10 @@ import {
 import TagAgents from '../conversation/TagAgents';
 import CannedResponse from '../conversation/CannedResponse';
 import VariableList from '../conversation/VariableList';
+import {
+  appendSignature,
+  removeSignature,
+} from 'dashboard/helper/editorHelper';
 
 const TYPING_INDICATOR_IDLE_TIME = 4000;
 const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
@@ -100,6 +104,10 @@ export default {
     enableCannedResponses: { type: Boolean, default: true },
     variables: { type: Object, default: () => ({}) },
     enabledMenuOptions: { type: Array, default: () => [] },
+    signature: { type: String, default: '' },
+    // allowSignature is a kill switch, ensuring no signature methods
+    // are triggered except when this flag is true
+    allowSignature: { type: Boolean, default: false },
   },
   data() {
     return {
@@ -220,6 +228,12 @@ export default {
         }),
       ];
     },
+    sendWithSignature() {
+      // this is considered the source of truth, we watch this property
+      // on change, we toggle the signature in the editor
+      const { send_with_signature: isEnabled } = this.uiSettings;
+      return isEnabled && this.allowSignature && !this.isPrivate;
+    },
   },
   watch: {
     showUserMentions(updatedValue) {
@@ -244,7 +258,6 @@ export default {
     isPrivate() {
       this.reloadState(this.value);
     },
-
     updateSelectionWith(newValue, oldValue) {
       if (!this.editorView) {
         return null;
@@ -263,6 +276,12 @@ export default {
       }
       return null;
     },
+    sendWithSignature(newValue) {
+      // see if the allowSignature flag is true
+      if (this.allowSignature) {
+        this.toggleSignatureInEditor(newValue);
+      }
+    },
   },
   created() {
     this.state = createState(
@@ -276,7 +295,7 @@ export default {
   mounted() {
     this.createEditorView();
     this.editorView.updateState(this.state);
-    this.focusEditorInputField();
+    this.focusEditor(this.value);
   },
   methods: {
     reloadState(content = this.value) {
@@ -288,7 +307,75 @@ export default {
         this.editorMenuOptions
       );
       this.editorView.updateState(this.state);
-      this.focusEditorInputField();
+
+      this.focusEditor(content);
+    },
+    focusEditor(content) {
+      if (this.isBodyEmpty(content) && this.sendWithSignature) {
+        // reload state can be called when switching between conversations, or when drafts is loaded
+        // these drafts can also have a signature, so we need to check if the body is empty
+        // and handle things accordingly
+        this.handleEmptyBodyWithSignature();
+      } else {
+        // this is in the else block, handleEmptyBodyWithSignature also has a call to the focus method
+        // the position is set to start, because the signature is added at the end of the body
+        this.focusEditorInputField('end');
+      }
+    },
+    toggleSignatureInEditor(signatureEnabled) {
+      // The toggleSignatureInEditor gets the new value from the
+      // watcher, this means that if the value is true, the signature
+      // is supposed to be added, else we remove it.
+      if (signatureEnabled) {
+        this.addSignature();
+      } else {
+        this.removeSignature();
+      }
+    },
+    addSignature() {
+      let content = this.value;
+      // see if the content is empty, if it is before appending the signature
+      // we need to add a paragraph node and move the cursor at the start of the editor
+      const contentWasEmpty = this.isBodyEmpty(content);
+      content = appendSignature(content, this.signature);
+      // need to reload first, ensuring that the editorView is updated
+      this.reloadState(content);
+
+      if (contentWasEmpty) {
+        this.handleEmptyBodyWithSignature();
+      }
+    },
+    removeSignature() {
+      if (!this.signature) return;
+      let content = this.value;
+      content = removeSignature(content, this.signature);
+      // reload the state, ensuring that the editorView is updated
+      this.reloadState(content);
+    },
+    isBodyEmpty(content) {
+      // if content is undefined, we assume that the body is empty
+      if (!content) return true;
+
+      // if the signature is present, we need to remove it before checking
+      // note that we don't update the editorView, so this is safe
+      const bodyWithoutSignature = this.signature
+        ? removeSignature(content, this.signature)
+        : content;
+
+      // trimming should remove all the whitespaces, so we can check the length
+      return bodyWithoutSignature.trim().length === 0;
+    },
+    handleEmptyBodyWithSignature() {
+      const { schema, tr } = this.state;
+
+      // create a paragraph node and
+      // start a transaction to append it at the end
+      const paragraph = schema.nodes.paragraph.create();
+      const paragraphTransaction = tr.insert(0, paragraph);
+      this.editorView.dispatch(paragraphTransaction);
+
+      // Set the focus at the start of the input field
+      this.focusEditorInputField('start');
     },
     createEditorView() {
       this.editorView = new EditorView(this.$refs.editor, {
@@ -333,9 +420,11 @@ export default {
         this.focusEditorInputField();
       }
     },
-    focusEditorInputField() {
+    focusEditorInputField(pos = 'end') {
       const { tr } = this.editorView.state;
-      const selection = Selection.atEnd(tr.doc);
+
+      const selection =
+        pos === 'end' ? Selection.atEnd(tr.doc) : Selection.atStart(tr.doc);
 
       this.editorView.dispatch(tr.setSelection(selection));
       this.editorView.focus();

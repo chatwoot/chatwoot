@@ -288,7 +288,7 @@ export default {
       }
     },
     showMessageSignatureButton() {
-      return !this.isOnPrivateNote && this.isAnEmailChannel;
+      return !this.isOnPrivateNote;
     },
     sendWithSignature() {
       const { send_with_signature: isEnabled } = this.uiSettings;
