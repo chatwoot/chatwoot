@@ -53,6 +53,9 @@
         class="input"
         :placeholder="messagePlaceHolder"
         :min-height="4"
+        :signature="signatureToApply"
+        :allow-signature="true"
+        :send-with-signature="sendWithSignature"
         @typing-off="onTypingOff"
         @typing-on="onTypingOn"
         @focus="onFocus"
@@ -69,6 +72,8 @@
         :min-height="4"
         :enable-variables="true"
         :variables="messageVariables"
+        :signature="signatureToApply"
+        :allow-signature="true"
         @typing-off="onTypingOff"
         @typing-on="onTypingOn"
         @focus="onFocus"
@@ -86,16 +91,10 @@
       />
     </div>
     <div
-      v-if="isSignatureEnabledForInbox"
-      v-tooltip="$t('CONVERSATION.FOOTER.MESSAGE_SIGN_TOOLTIP')"
+      v-if="isSignatureEnabledForInbox && !isSignatureAvailable"
       class="message-signature-wrap"
     >
-      <p
-        v-if="isSignatureAvailable"
-        v-dompurify-html="formatMessage(messageSignature)"
-        class="message-signature"
-      />
-      <p v-else class="message-signature">
+      <p class="message-signature">
         {{ $t('CONVERSATION.FOOTER.MESSAGE_SIGNATURE_NOT_CONFIGURED') }}
         <router-link :to="profilePath">
           {{ $t('CONVERSATION.FOOTER.CLICK_HERE') }}
@@ -184,6 +183,12 @@ import wootConstants from 'dashboard/constants/globals';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import rtlMixin from 'shared/mixins/rtlMixin';
+import {
+  appendSignature,
+  removeSignature,
+  replaceSignature,
+  extractTextFromMarkdown,
+} from 'dashboard/helper/editorHelper';
 
 const EmojiInput = () => import('shared/components/emoji/EmojiInput');
 
@@ -471,10 +476,10 @@ export default {
       );
     },
     isSignatureEnabledForInbox() {
-      return !this.isPrivate && this.isAnEmailChannel && this.sendWithSignature;
+      return !this.isPrivate && this.sendWithSignature;
     },
     isSignatureAvailable() {
-      return !!this.messageSignature;
+      return !!this.signatureToApply;
     },
     sendWithSignature() {
       const { send_with_signature: isEnabled } = this.uiSettings;
@@ -513,6 +518,12 @@ export default {
         conversation: this.currentChat,
       });
       return variables;
+    },
+    // ensure that the signature is plain text depending on `showRichContentEditor`
+    signatureToApply() {
+      return this.showRichContentEditor
+        ? this.messageSignature
+        : extractTextFromMarkdown(this.messageSignature);
     },
   },
   watch: {
@@ -581,6 +592,23 @@ export default {
       this.updateUISettings({
         display_rich_content_editor: !this.showRichContentEditor,
       });
+
+      const plainTextSignature = extractTextFromMarkdown(this.messageSignature);
+
+      if (!this.showRichContentEditor && this.messageSignature) {
+        // remove the old signature -> extract text from markdown -> attach new signature
+        let message = removeSignature(this.message, this.messageSignature);
+        message = extractTextFromMarkdown(message);
+        message = appendSignature(message, plainTextSignature);
+
+        this.message = message;
+      } else {
+        this.message = replaceSignature(
+          this.message,
+          plainTextSignature,
+          this.messageSignature
+        );
+      }
     },
     saveDraft(conversationId, replyType) {
       if (this.message || this.message === '') {
@@ -600,8 +628,21 @@ export default {
     getFromDraft() {
       if (this.conversationIdByRoute) {
         const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
-        this.message = this.$store.getters['draftMessages/get'](key) || '';
+        const messageFromStore =
+          this.$store.getters['draftMessages/get'](key) || '';
+
+        // ensure that the message has signature set based on the ui setting
+        this.message = this.toggleSignatureForDraft(messageFromStore);
       }
+    },
+    toggleSignatureForDraft(message) {
+      if (this.isPrivate) {
+        return message;
+      }
+
+      return this.sendWithSignature
+        ? appendSignature(message, this.signatureToApply)
+        : removeSignature(message, this.signatureToApply);
     },
     removeFromDraft() {
       if (this.conversationIdByRoute) {
@@ -694,19 +735,14 @@ export default {
         return;
       }
       if (!this.showMentions) {
-        let newMessage = this.message;
-        if (this.isSignatureEnabledForInbox && this.messageSignature) {
-          newMessage += '\n\n' + this.messageSignature;
-        }
-
         const isOnWhatsApp =
           this.isATwilioWhatsAppChannel ||
           this.isAWhatsAppCloudChannel ||
           this.is360DialogWhatsAppChannel;
         if (isOnWhatsApp && !this.isPrivate) {
-          this.sendMessageAsMultipleMessages(newMessage);
+          this.sendMessageAsMultipleMessages(this.message);
         } else {
-          const messagePayload = this.getMessagePayload(newMessage);
+          const messagePayload = this.getMessagePayload(this.message);
           this.sendMessage(messagePayload);
         }
 
@@ -828,6 +864,10 @@ export default {
     },
     clearMessage() {
       this.message = '';
+      if (this.sendWithSignature && !this.isPrivate) {
+        // if signature is enabled, append it to the message
+        this.message = appendSignature(this.message, this.signatureToApply);
+      }
       this.attachedFiles = [];
       this.isRecordingAudio = false;
     },
