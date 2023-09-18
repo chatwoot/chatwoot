@@ -734,7 +734,7 @@ function upgrade_redis() {
   echo "Checking Redis version..."
 
   # Get current Redis version
-  current_version=$(redis-server --version | awk '{print $3}')
+  current_version=$(redis-server --version | awk -F 'v=' '{print $2}' | awk '{print $1}')
 
   # Parse major version number
   major_version=$(echo "$current_version" | cut -d. -f1)
@@ -754,7 +754,7 @@ function upgrade_redis() {
 }
 
 function upgrade_node() {
-  echo "Upgrading nodejs version"
+  echo "Upgrading nodejs version to v20.x"
   curl -sL https://deb.nodesource.com/setup_20.x | sudo bash -
   apt install -y nodejs
 }
