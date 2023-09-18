@@ -17,10 +17,13 @@
       </p>
     </div>
     <div v-else>
-      <span v-if="hasError">
-        <h4>{{ errorStateMessage }}</h4>
-        <p v-if="errorStateDescription">{{ errorStateDescription }}</p>
-      </span>
+      <div v-if="hasError" class="max-w-lg mx-auto text-center">
+        <h5>{{ errorStateMessage }}</h5>
+        <p
+          v-if="errorStateDescription"
+          v-dompurify-html="errorStateDescription"
+        />
+      </div>
       <loading-state v-else-if="showLoader" :message="emptyStateMessage" />
       <form
         v-else
