@@ -155,3 +155,19 @@ describe('extractTextFromMarkdown', () => {
     expect(extractTextFromMarkdown(markdown)).toEqual(expected);
   });
 });
+
+describe('testing', () => {
+  it.only('works', () => {
+    const signature = '**~**      \n**Jack**';
+    const body = ``;
+
+    let newBody = appendSignature(body, signature);
+
+    expect(newBody).toBe(body);
+    newBody = appendSignature(newBody, signature);
+    expect(newBody).toBe(body);
+
+    newBody = appendSignature(newBody, signature);
+    expect(newBody).toBe(body);
+  });
+});
