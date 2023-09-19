@@ -1,14 +1,14 @@
 require 'rails_helper'
 
-RSpec.describe 'Api::V1::UploadController', type: :request do
-  describe 'POST /api/v1/upload/' do
+RSpec.describe 'Api::V1::Accounts::UploadController', type: :request do
+  describe 'POST /api/v1/account/1/upload/' do
     let(:account) { create(:account) }
     let(:user) { create(:user, account: account) }
 
     it 'uploads the image when authorized' do
       file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
 
-      post '/api/v1/upload/',
+      post "/api/v1/accounts/#{account.id}/upload/",
            headers: user.create_new_auth_token,
            params: { attachment: file }
 
@@ -25,7 +25,7 @@ RSpec.describe 'Api::V1::UploadController', type: :request do
     it 'does not upload when un-authorized' do
       file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
 
-      post '/api/v1/upload/',
+      post "/api/v1/accounts/#{account.id}/upload/",
            headers: {},
            params: { attachment: file }
 

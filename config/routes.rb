@@ -217,12 +217,12 @@ Rails.application.routes.draw do
               post :reorder, on: :collection
             end
           end
+
+          resources :upload, only: [:create]
         end
       end
       # end of account scoped api routes
       # ----------------------------------
-
-      resources :upload, only: [:create]
 
       namespace :integrations do
         resources :webhooks, only: [:create]
