@@ -5,12 +5,25 @@
 export const SIGNATURE_DELIMITER = '--';
 
 /**
+ * Remove trailing spaces from each line in a markdown text
+ * @param {string} markdownText
+ * @returns
+ */
+function removeTrailingSpaces(markdownText) {
+  return markdownText
+    .split('\n')
+    .map(line => line.replace(/\s+$/, ''))
+    .join('\n');
+}
+
+/**
  * Trim the signature and remove all " \r" from the signature
  * 1. Trim any extra lines or spaces at the start or end of the string
  * 2. Converts all \r or \r\n to \f
  */
 export function cleanSignature(signature) {
-  return signature.trim().replace(/\r\n?/g, '\n');
+  const cleaned = signature.trim().replace(/\r\n?/g, '\n');
+  return removeTrailingSpaces(cleaned);
 }
 
 /**
