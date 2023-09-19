@@ -61,7 +61,12 @@ class FilterService
   end
 
   def values_for_ilike(query_hash)
-    query_hash['values'].map { |item| "%#{item.strip}%" }
+    if query_hash['values'].is_a?(Array)
+      query_hash['values']
+        .map { |item| "%#{item.strip}%" }
+    else
+      ["%#{query_hash['values'].strip}%"]
+    end
   end
 
   def string_filter_values(query_hash)
