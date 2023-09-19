@@ -39,7 +39,10 @@
         "NOTE": "Créez une signature de message personnelle qui sera ajoutée à tous les messages que vous envoyez depuis votre boîte aux lettres électronique. Utilisez l'éditeur de contenu riche pour créer une signature personnalisée.",
         "BTN_TEXT": "Enregistrer la signature du message",
         "API_ERROR": "Impossible d'enregistrer la signature ! Réessayez",
-        "API_SUCCESS": "Signature enregistrée avec succès"
+        "API_SUCCESS": "Signature enregistrée avec succès",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "La taille de l'image doit être inférieure à {size}Mo"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Signature du message",

@@ -24,7 +24,7 @@ class Integrations::Slack::ChannelBuilder
   end
 
   def channels
-    conversations_list = slack_client.conversations_list(types: 'public_channel, private_channel')
+    conversations_list = slack_client.conversations_list(types: 'public_channel, private_channel', exclude_archived: true)
     channel_list = conversations_list.channels
     while conversations_list.response_metadata.next_cursor.present?
       conversations_list = slack_client.conversations_list(cursor: conversations_list.response_metadata.next_cursor)
