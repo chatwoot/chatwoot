@@ -86,6 +86,24 @@ describe Conversations::FilterService do
         expect(result.length).to be conversations.count
       end
 
+      it 'filters items with contains filter_operator with values being an array' do
+        params[:payload] = [{
+          attribute_key: 'browser_language',
+          filter_operator: 'contains',
+          values: %w[tr fr],
+          query_operator: '',
+          custom_attribute_type: ''
+        }.with_indifferent_access]
+
+        create(:conversation, account: account, inbox: inbox, assignee: user_1, campaign_id: campaign_1.id,
+                              status: 'pending', additional_attributes: { 'browser_language': 'fr' })
+        create(:conversation, account: account, inbox: inbox, assignee: user_1, campaign_id: campaign_1.id,
+                              status: 'pending', additional_attributes: { 'browser_language': 'tr' })
+
+        result = filter_service.new(params, user_1).perform
+        expect(result.length).to be 2
+      end
+
       it 'filter conversations by additional_attributes with NOT_IN filter' do
         payload = [{ attribute_key: 'conversation_type', filter_operator: 'not_equal_to', values: 'platinum', query_operator: nil,
                      custom_attribute_type: 'conversation_attribute' }.with_indifferent_access]
