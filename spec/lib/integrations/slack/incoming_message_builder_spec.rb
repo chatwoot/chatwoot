@@ -3,6 +3,7 @@ require 'rails_helper'
 describe Integrations::Slack::IncomingMessageBuilder do
   let(:account) { create(:account) }
   let(:message_params) { slack_message_stub }
+  let(:builder) { described_class.new(hook: hook) }
   let(:private_message_params) do
     {
       team_id: 'TLST3048H',
@@ -30,6 +31,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
       event_time: 1_588_623_033
     }
   end
+  let(:slack_client) { double }
   let(:message_with_attachments) { slack_attachment_stub }
   let(:message_without_thread_ts) { slack_message_stub_without_thread_ts }
   let(:verification_params) { slack_url_verification_stub }
@@ -37,7 +39,19 @@ describe Integrations::Slack::IncomingMessageBuilder do
   let!(:hook) { create(:integrations_hook, account: account, reference_id: message_params[:event][:channel]) }
   let!(:conversation) { create(:conversation, identifier: message_params[:event][:thread_ts]) }
 
+  let(:link_shared) do
+    {
+      team_id: 'TLST3048H',
+      api_app_id: 'A012S5UETV4',
+      event: link_shared_event.merge({ links: [{ url: "https://qa.chatwoot.com/app/accounts/1/conversations/#{conversation.display_id}",
+                                                 domain: 'qa.chatwoot.com' }] }),
+      type: 'event_callback',
+      event_time: 1_588_623_033
+    }
+  end
+
   before do
+    allow(builder).to receive(:slack_client).and_return(slack_client)
     stub_request(:get, 'https://chatwoot-assets.local/sample.png').to_return(
       status: 200,
       body: File.read('spec/assets/sample.png'),
@@ -143,6 +157,20 @@ describe Integrations::Slack::IncomingMessageBuilder do
         builder.perform
 
         expect(conversation.messages.count).to eql(messages_count)
+      end
+    end
+
+    context 'when link shared' do
+      it 'unfurls link' do
+        expect(hook).not_to be_nil
+        builder = described_class.new(link_shared)
+        allow(builder).to receive(:sender).and_return(nil)
+        # builder.perform
+        # expect(slack_client).to receive :chat_unfurl.with(
+        #   unfurl_id: link_shared[:event][:unfurl_id],
+        #   source: link_shared[:event][:source]
+        #   unfurls: JSON.generate(unfurls)
+        # ).and_return(true)
       end
     end
   end
