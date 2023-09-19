@@ -111,10 +111,10 @@ module SlackStubs
   def link_shared_event
     {
       type: 'link_shared',
-      channel: 'C7NQEAE5Q',
       user: 'ULYPAKE5S',
       source: 'conversations_history',
-      unfurl_id: 'C7NQEAE5Q.1695111587.937099.7e240338c6d2053fb49f56808e7c1f619f6ef317c39ebc59fc4af1cc30dce49b'
+      unfurl_id: 'C7NQEAE5Q.1695111587.937099.7e240338c6d2053fb49f56808e7c1f619f6ef317c39ebc59fc4af1cc30dce49b',
+      channel: 'G01354F6A6Q'
     }
   end
 end
