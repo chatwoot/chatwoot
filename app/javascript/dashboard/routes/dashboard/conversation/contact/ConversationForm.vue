@@ -247,15 +247,12 @@ import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 import { getInboxSource } from 'dashboard/helper/inbox';
 import { required, requiredIf } from 'vuelidate/lib/validators';
-<<<<<<< HEAD
 import axios from 'axios';
-=======
 import inboxMixin from 'shared/mixins/inboxMixin';
 import FileUpload from 'vue-upload-component';
 import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
->>>>>>> develop
 
 export default {
   components: {

@@ -4,7 +4,11 @@
     :class="$dm('bg-white', 'dark:bg-slate-900')"
   >
     <div class="flex items-center">
-      <button v-if="showBackButton" @click="onBackButtonClick">
+      <button
+        v-if="showBackButton"
+        class="-ml-3 px-2"
+        @click="onBackButtonClick"
+      >
         <fluent-icon
           icon="chevron-left"
           size="24"

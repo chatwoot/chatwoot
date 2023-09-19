@@ -19,7 +19,7 @@ export const AUTOMATIONS = {
         key: 'content',
         name: 'Message Content',
         attributeI18nKey: 'MESSAGE_CONTAINS',
-        inputType: 'plain_text',
+        inputType: 'comma_separated_plain_text',
         filterOperators: OPERATOR_TYPES_2,
       },
       {

@@ -204,7 +204,7 @@
       "DELETE": {
         "CONFIRM_YES": "Yes, delete it",
         "CONFIRM_NO": "No, keep it",
-        "TITLE": "Confirm deletion",
+        "TITLE": "Verwijdering bevestigen",
         "MESSAGE": "Are you sure to delete the app - %{appName}?",
         "API_SUCCESS": "Dashboard app deleted successfully",
         "API_ERROR": "We couldn't delete the app. Please try again later"
