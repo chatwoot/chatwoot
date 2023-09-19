@@ -4,24 +4,28 @@ module Integrations::Slack::SlackLinkHelper
     return unless event_links
 
     event_links.each do |link_info|
-      url = link_info[:url]
-      next unless url
-
-      conversation = conversation_from_url(url)
-      next unless conversation
-
-      user_info = contact_attributes(conversation).slice(:user_name, :email, :phone_number, :company_name)
-      unfurls = generate_unfurls(url, user_info)
-      send_unfurls(unfurls, link_info)
+      unfurl_link(link_info)
     end
+  end
+
+  def unfurl_link(link_info)
+    url = link_info[:url]
+    return unless url
+
+    conversation = conversation_from_url(url)
+    return unless conversation
+
+    user_info = contact_attributes(conversation).slice(:user_name, :email, :phone_number, :company_name)
+    unfurls = generate_unfurls(url, user_info)
+    send_unfurls(unfurls, link_info)
   end
 
   def contact_attributes(conversation)
     contact = conversation.contact
-    user_name = contact&.name.presence || '---'
-    email = contact&.email.presence || '---'
-    phone_number = contact&.phone_number.presence || '---'
-    company_name = contact&.additional_attributes&.dig('company_name').presence || '---'
+    user_name = contact.name.presence || '---'
+    email = contact.email.presence || '---'
+    phone_number = contact.phone_number.presence || '---'
+    company_name = contact.additional_attributes&.dig('company_name').presence || '---'
 
     {
       user_name: user_name,
