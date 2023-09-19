@@ -159,7 +159,7 @@ class FilterService
   def ilike_filter_string(filter_operator, current_index)
     return "ILIKE ANY (ARRAY[:value_#{current_index}])" if %w[contains].include?(filter_operator)
 
-    "NOT ILIKE ANY (ARRAY[:value_#{current_index}])"
+    "NOT ILIKE ALL (ARRAY[:value_#{current_index}])"
   end
 
   def like_filter_string(filter_operator, current_index)
