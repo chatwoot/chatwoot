@@ -96,12 +96,13 @@ class V2::ReportBuilder
   end
 
   def live_conversations
-    @open_conversations = scope.conversations.where(account_id: @account.id).open
+    open_conversations_count = scope.conversations.where(account_id: @account.id).open.count
+    open_unattended_conversations_count = scope.conversations.where(account_id: @account.id).open.unattended.count
     metric = {
-      open: @open_conversations.count,
-      unattended: @open_conversations.unattended.count
+      open: open_conversations_count,
+      unattended: open_unattended_conversations_count
     }
-    metric[:unassigned] = @open_conversations.unassigned.count if params[:type].equal?(:account)
+    metric[:unassigned] = scope.conversations.where(account_id: @account.id).open.unassigned.count if params[:type].equal?(:account)
     metric
   end
 end
