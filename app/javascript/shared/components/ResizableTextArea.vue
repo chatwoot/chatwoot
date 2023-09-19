@@ -1,6 +1,9 @@
 <template>
   <textarea
     ref="textarea"
+    :style="{
+      height: editorHeight,
+    }"
     :placeholder="placeholder"
     :value="value"
     rows="1"
@@ -51,6 +54,7 @@ export default {
   data() {
     return {
       idleTimer: null,
+      editorHeight: `${this.minHeight}rem`,
     };
   },
   computed: {
@@ -59,10 +63,17 @@ export default {
       // any markdown formatted text in the signature
       return extractTextFromMarkdown(this.signature);
     },
+    textAreaHeight() {
+      return this.editorHeight;
+    },
   },
   watch: {
-    value() {
-      this.resizeTextarea();
+    value(value, oldValue) {
+      if (value !== oldValue) {
+        this.$nextTick(() => {
+          this.resizeTextarea();
+        });
+      }
       // 🚨 watch triggers every time the value is changed, we cannot set this to focus then
       // when this runs, it sets the cursor to the end of the body, ignoring the signature
       // Suppose if someone manually set the cursor to the middle of the body
@@ -83,21 +94,17 @@ export default {
   mounted() {
     this.$nextTick(() => {
       if (this.value) {
-        this.resizeTextarea();
         this.setCursor();
       } else {
         this.focus();
       }
-    },
+    });
   },
   methods: {
     resizeTextarea() {
-      this.$el.style.height = 'inherit';
-      if (!this.value) {
-        this.$el.style.height = `${this.minHeight}rem`;
-      } else {
-        this.$el.style.height = `${this.$el.scrollHeight}px`;
-      }
+      this.editorHeight = !this.value
+        ? `${this.minHeight}rem`
+        : this.$refs.textarea.scrollHeight + 'px';
     },
     // The toggleSignatureInEditor gets the new value from the
     // watcher, this means that if the value is true, the signature
@@ -163,3 +170,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+textarea {
+  height: inherit;
+}
+</style>
