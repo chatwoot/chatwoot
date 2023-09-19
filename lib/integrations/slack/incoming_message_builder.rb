@@ -20,7 +20,7 @@ class Integrations::Slack::IncomingMessageBuilder
     elsif create_message?
       create_message
     elsif link_shared?
-      create_link_shared_message
+      unfurl_url
     end
   end
 
@@ -76,7 +76,7 @@ class Integrations::Slack::IncomingMessageBuilder
     params[:event][:type] == 'link_shared'
   end
 
-  def create_link_shared_message
+  def unfurl_url
     conversation = conversation_from_params
     return unless conversation
 
