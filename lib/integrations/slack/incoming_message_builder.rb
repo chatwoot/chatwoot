@@ -1,9 +1,11 @@
 class Integrations::Slack::IncomingMessageBuilder
   include Integrations::Slack::SlackMessageHelper
+  include Integrations::Slack::LinkUnfurlHelper
+
   attr_reader :params
 
   SUPPORTED_EVENT_TYPES = %w[event_callback url_verification].freeze
-  SUPPORTED_EVENTS = %w[message].freeze
+  SUPPORTED_EVENTS = %w[message link_shared].freeze
   SUPPORTED_MESSAGE_TYPES = %w[rich_text].freeze
 
   def initialize(params)
@@ -17,6 +19,8 @@ class Integrations::Slack::IncomingMessageBuilder
       verify_hook
     elsif create_message?
       create_message
+    elsif link_shared?
+      create_link_shared_message
     end
   end
 
@@ -68,6 +72,55 @@ class Integrations::Slack::IncomingMessageBuilder
     thread_timestamp_available? && supported_message? && integration_hook
   end
 
+  def link_shared?
+    params[:event][:type] == 'link_shared'
+  end
+
+  def create_link_shared_message
+    conversation = conversation_from_params
+    return unless conversation
+
+    user_info = conntact_attributes(conversation).slice(:user_name, :email, :phone_number, :company_name)
+    unfurls = generate_unfurls(conversation_url, user_info)
+
+    send_unfurls(unfurls)
+  end
+
+  def conntact_attributes(conversation)
+    contact = conversation.contact
+    user_name = contact&.name.presence || '---'
+    email = contact&.email.presence || '---'
+    phone_number = contact&.phone_number.presence || '---'
+    company_name = contact&.additional_attributes&.dig('company_name').presence || '---'
+
+    {
+      user_name: user_name,
+      email: email,
+      phone_number: phone_number,
+      company_name: company_name
+    }
+  end
+
+  def conversation_from_params
+    conversation_id = extract_conversation_id(conversation_url)
+    return unless conversation_id
+
+    find_conversation_by_id(conversation_id)
+  end
+
+  def conversation_url
+    params.dig(:event, :links, 0, :url)
+  end
+
+  def send_unfurls(unfurls)
+    slack_service = Integrations::Slack::SendOnSlackService.new(message: nil, hook: integration_hook)
+    slack_service.link_unfurl(
+      unfurl_id: params.dig(:event, :unfurl_id),
+      source: params.dig(:event, :source),
+      unfurls: JSON.generate(unfurls)
+    )
+  end
+
   def message
     params[:event][:blocks]&.first
   end
@@ -80,19 +133,6 @@ class Integrations::Slack::IncomingMessageBuilder
 
   def integration_hook
     @integration_hook ||= Integrations::Hook.find_by(reference_id: params[:event][:channel])
-  end
-
-  def conversation
-    @conversation ||= Conversation.where(identifier: params[:event][:thread_ts]).first
-  end
-
-  def sender
-    user_email = slack_client.users_info(user: params[:event][:user])[:user][:profile][:email]
-    conversation.account.users.find_by(email: user_email)
-  end
-
-  def private_note?
-    params[:event][:text].strip.downcase.starts_with?('note:', 'private:')
   end
 
   def slack_client
