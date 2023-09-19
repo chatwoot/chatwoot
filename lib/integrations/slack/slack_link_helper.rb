@@ -1,15 +1,22 @@
 module Integrations::Slack::SlackLinkHelper
   def unfurl_url
-    conversation = conversation_from_params
-    return unless conversation
+    event_links = params.dig(:event, :links)
+    return unless event_links
 
-    user_info = conntact_attributes(conversation).slice(:user_name, :email, :phone_number, :company_name)
-    unfurls = generate_unfurls(conversation_url, user_info)
+    event_links.each do |link_info|
+      url = link_info[:url]
+      next unless url
 
-    send_unfurls(unfurls)
+      conversation = conversation_from_url(url)
+      next unless conversation
+
+      user_info = contact_attributes(conversation).slice(:user_name, :email, :phone_number, :company_name)
+      unfurls = generate_unfurls(url, user_info)
+      send_unfurls(unfurls, link_info)
+    end
   end
 
-  def conntact_attributes(conversation)
+  def contact_attributes(conversation)
     contact = conversation.contact
     user_name = contact&.name.presence || '---'
     email = contact&.email.presence || '---'
@@ -24,18 +31,14 @@ module Integrations::Slack::SlackLinkHelper
     }
   end
 
-  def conversation_from_params
-    conversation_id = extract_conversation_id(conversation_url)
+  def conversation_from_url(url)
+    conversation_id = extract_conversation_id(url)
     return unless conversation_id
 
     find_conversation_by_id(conversation_id)
   end
 
-  def conversation_url
-    params.dig(:event, :links, 0, :url)
-  end
-
-  def send_unfurls(unfurls)
+  def send_unfurls(unfurls, _link_info)
     slack_service = Integrations::Slack::SendOnSlackService.new(message: nil, hook: integration_hook)
     slack_service.link_unfurl(
       unfurl_id: params.dig(:event, :unfurl_id),
