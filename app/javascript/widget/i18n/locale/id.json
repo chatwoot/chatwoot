@@ -34,7 +34,9 @@
   "START_CONVERSATION": "Mulai Percakapan",
   "END_CONVERSATION": "Akhiri Percakapan",
   "CONTINUE_CONVERSATION": "Lanjutkan Percakapan",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "Mulai Percakapan",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Lihat pesan baru",
     "CLOSE_MESSAGES_BUTTON": "Tutup",
@@ -108,6 +110,27 @@
   },
   "PORTAL": {
     "POPULAR_ARTICLES": "Popular Articles",
-    "VIEW_ALL_ARTICLES": "Lihat semua artikel"
+    "VIEW_ALL_ARTICLES": "Lihat semua artikel",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Pesan gambar"
+    },
+    "audio": {
+      "CONTENT": "Pesan audio"
+    },
+    "video": {
+      "CONTENT": "Pesan video"
+    },
+    "file": {
+      "CONTENT": "Lampiran File"
+    },
+    "location": {
+      "CONTENT": "Lokasi"
+    },
+    "fallback": {
+      "CONTENT": "telah membagikan url"
+    }
   }
 }

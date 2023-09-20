@@ -34,7 +34,9 @@
   "START_CONVERSATION": "Start Chat",
   "END_CONVERSATION": "Gesprek beëindigen",
   "CONTINUE_CONVERSATION": "Verdergaan met gesprek",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "Een nieuw gesprek starten",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Bekijk nieuwe berichten",
     "CLOSE_MESSAGES_BUTTON": "Sluiten",
@@ -108,6 +110,27 @@
   },
   "PORTAL": {
     "POPULAR_ARTICLES": "Populaire artikelen",
-    "VIEW_ALL_ARTICLES": "Bekijk alle artikelen"
+    "VIEW_ALL_ARTICLES": "Bekijk alle artikelen",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Bericht met foto"
+    },
+    "audio": {
+      "CONTENT": "Audiobericht"
+    },
+    "video": {
+      "CONTENT": "Videobericht"
+    },
+    "file": {
+      "CONTENT": "Bestandsbijlage"
+    },
+    "location": {
+      "CONTENT": "Locatie"
+    },
+    "fallback": {
+      "CONTENT": "heeft een url gedeeld"
+    }
   }
 }
