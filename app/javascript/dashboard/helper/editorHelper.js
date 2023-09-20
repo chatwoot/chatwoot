@@ -1,3 +1,9 @@
+import {
+  messageSchema,
+  MessageMarkdownTransformer,
+  MessageMarkdownSerializer,
+} from '@chatwoot/prosemirror-schema';
+
 /**
  * The delimiter used to separate the signature from the rest of the body.
  * @type {string}
@@ -22,7 +28,11 @@ function removeTrailingSpaces(markdownText) {
  * 2. Converts all \r or \r\n to \f
  */
 export function cleanSignature(signature) {
-  const cleaned = signature.trim().replace(/\r\n?/g, '\n');
+  // convert from markdown to common mark format
+  const nodes = new MessageMarkdownTransformer(messageSchema).parse(signature);
+  const md = MessageMarkdownSerializer.serialize(nodes);
+
+  const cleaned = md.trim().replace(/\r\n?/g, '\n');
   return removeTrailingSpaces(cleaned);
 }
 
