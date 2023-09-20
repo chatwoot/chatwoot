@@ -6,48 +6,6 @@ import {
   extractTextFromMarkdown,
 } from '../editorHelper';
 
-// 🚨 Why mock @chatwoot/prosemirror-schema?
-// If we don't mock it we will get an error like this
-//     SyntaxError: Cannot use import statement outside a module
-// This is because one of the imports inside @prosemirror/schema is not a module
-// It's prosemirror-history, it is written in typescript, but seems like it's not exported properly
-// We cannot do much about it, except mock it
-//
-// Including `ts-jest` and `typescript` should potentially fix it
-// but a problem exists with babel and jest versions, babel uses core-js 3,
-// which has a conflict with the browser name for `opera_mobile`,
-// this breaks the build
-// the best solution in that case is to mock the function with a closest implementation
-//
-// In the future, we could also mock this using MarkdownIt and TurnDown
-// import MarkdownIt from "markdown-it";
-// import Turndown from "turndown";
-//
-// const forward = new MarkdownIt("commonmark");
-// const reverse = new Turndown()
-// const commonMark = reverse.turndown(forward.render(signature))
-//
-// At the moment it's not necessary, but if we need to do more complex
-// transformations, we can use the above approach
-jest.mock('@chatwoot/prosemirror-schema', () => ({
-  messageSchema: 'mocked messageSchema',
-  MessageMarkdownTransformer: () => {
-    return {
-      parse: jest.fn().mockImplementation(candidate => {
-        return candidate
-          .trim()
-          .replace(/\r\n?/g, '\n')
-          .split('\n')
-          .map(line => line.replace(/\s+$/, ''))
-          .join('\n');
-      }),
-    };
-  },
-  MessageMarkdownSerializer: {
-    serialize: candidate => candidate,
-  },
-}));
-
 const NEW_SIGNATURE = 'This is a new signature';
 
 const DOES_NOT_HAVE_SIGNATURE = {
