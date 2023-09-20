@@ -99,26 +99,44 @@
           <div v-if="isEmailOrWebWidgetInbox">
             <label>
               {{ $t('NEW_CONVERSATION.FORM.MESSAGE.LABEL') }}
-              <reply-email-head
-                v-if="isAnEmailInbox"
-                :cc-emails.sync="ccEmails"
-                :bcc-emails.sync="bccEmails"
-              />
-              <label class="editor-wrap">
-                <woot-message-editor
-                  v-model="message"
-                  class="message-editor"
-                  :class="{ editor_warning: $v.message.$error }"
-                  :enable-variables="true"
-                  :placeholder="$t('NEW_CONVERSATION.FORM.MESSAGE.PLACEHOLDER')"
-                  @toggle-canned-menu="toggleCannedMenu"
-                  @blur="$v.message.$touch"
-                />
-                <span v-if="$v.message.$error" class="editor-warning__message">
-                  {{ $t('NEW_CONVERSATION.FORM.MESSAGE.ERROR') }}
-                </span>
-              </label>
             </label>
+            <reply-email-head
+              v-if="isAnEmailInbox"
+              :cc-emails.sync="ccEmails"
+              :bcc-emails.sync="bccEmails"
+            />
+            <div class="editor-wrap">
+              <woot-message-editor
+                v-model="message"
+                class="message-editor"
+                :class="{ editor_warning: $v.message.$error }"
+                :enable-variables="true"
+                :signature="signatureToApply"
+                :allow-signature="true"
+                :placeholder="$t('NEW_CONVERSATION.FORM.MESSAGE.PLACEHOLDER')"
+                @toggle-canned-menu="toggleCannedMenu"
+                @blur="$v.message.$touch"
+              >
+                <message-signature-view
+                  v-if="isSignatureEnabledForInbox && !messageSignature"
+                  class="!mx-0 mb-1"
+                />
+                <div v-if="isAnEmailInbox" class="mb-3 mt-px">
+                  <woot-button
+                    v-tooltip.top-end="signatureToggleTooltip"
+                    icon="signature"
+                    color-scheme="secondary"
+                    variant="smooth"
+                    size="small"
+                    :title="signatureToggleTooltip"
+                    @click.prevent="toggleMessageSignature"
+                  />
+                </div>
+              </woot-message-editor>
+              <span v-if="$v.message.$error" class="editor-warning__message">
+                {{ $t('NEW_CONVERSATION.FORM.MESSAGE.ERROR') }}
+              </span>
+            </div>
           </div>
           <whatsapp-templates
             v-else-if="hasWhatsappTemplates"
@@ -162,6 +180,7 @@ import Thumbnail from 'dashboard/components/widgets/Thumbnail';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import ReplyEmailHead from 'dashboard/components/widgets/conversation/ReplyEmailHead';
 import CannedResponse from 'dashboard/components/widgets/conversation/CannedResponse.vue';
+import MessageSignatureView from 'dashboard/components/widgets/conversation/MessageSignature';
 import InboxDropdownItem from 'dashboard/components/widgets/InboxDropdownItem';
 import WhatsappTemplates from './WhatsappTemplates.vue';
 import alertMixin from 'shared/mixins/alertMixin';
@@ -169,6 +188,12 @@ import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 import { getInboxSource } from 'dashboard/helper/inbox';
 import { required, requiredIf } from 'vuelidate/lib/validators';
+import {
+  appendSignature,
+  removeSignature,
+  cleanSignature,
+} from 'dashboard/helper/editorHelper';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
 export default {
   components: {
@@ -178,8 +203,9 @@ export default {
     CannedResponse,
     WhatsappTemplates,
     InboxDropdownItem,
+    MessageSignatureView,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, uiSettingsMixin],
   props: {
     contact: {
       type: Object,
@@ -219,7 +245,15 @@ export default {
       uiFlags: 'contacts/getUIFlags',
       conversationsUiFlags: 'contactConversations/getUIFlags',
       currentUser: 'getCurrentUser',
+      messageSignature: 'getMessageSignature',
     }),
+    sendWithSignature() {
+      const { send_with_signature: isEnabled } = this.uiSettings;
+      return isEnabled;
+    },
+    signatureToApply() {
+      return cleanSignature(this.messageSignature);
+    },
     emailMessagePayload() {
       const payload = {
         inboxId: this.targetInbox.id,
@@ -258,6 +292,14 @@ export default {
         return false;
       }
       return this.inboxes.length === 0 && !this.uiFlags.isFetchingInboxes;
+    },
+    isSignatureEnabledForInbox() {
+      return this.isAnEmailInbox && this.sendWithSignature;
+    },
+    signatureToggleTooltip() {
+      return this.sendWithSignature
+        ? this.$t('CONVERSATION.FOOTER.DISABLE_SIGN_TOOLTIP')
+        : this.$t('CONVERSATION.FOOTER.ENABLE_SIGN_TOOLTIP');
     },
     inboxes() {
       const inboxList = this.contact.contactableInboxes || [];
@@ -298,8 +340,21 @@ export default {
         this.showCannedResponseMenu = false;
       }
     },
+    targetInbox() {
+      this.setSignature();
+    },
+  },
+  mounted() {
+    this.setSignature();
   },
   methods: {
+    setSignature() {
+      if (this.isSignatureEnabledForInbox) {
+        this.message = appendSignature(this.message, this.signatureToApply);
+      } else {
+        this.message = removeSignature(this.message, this.signatureToApply);
+      }
+    },
     onCancel() {
       this.$emit('cancel');
     },
@@ -369,6 +424,19 @@ export default {
         inbox
       );
       return classByType;
+    },
+    toggleMessageSignature() {
+      this.updateUISettings({
+        send_with_signature: !this.sendWithSignature,
+      });
+
+      if (this.messageSignature) {
+        if (this.sendWithSignature) {
+          this.message = appendSignature(this.message, this.signatureToApply);
+        } else {
+          this.message = removeSignature(this.message, this.signatureToApply);
+        }
+      }
     },
   },
 };
