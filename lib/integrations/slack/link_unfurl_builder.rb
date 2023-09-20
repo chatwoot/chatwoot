@@ -1,5 +1,7 @@
-module Integrations::Slack::LinkUnfurlHelper
-  def generate_unfurls(url, user_info)
+class Integrations::Slack::LinkUnfurlBuilder
+  pattr_initialize [:url!, :user_info!]
+
+  def perform
     {
       url => {
         'blocks' => user_info_blocks(user_info) +

@@ -1,7 +1,5 @@
 class Integrations::Slack::IncomingMessageBuilder
   include Integrations::Slack::SlackMessageHelper
-  include Integrations::Slack::LinkUnfurlHelper
-  include Integrations::Slack::SlackLinkHelper
 
   attr_reader :params
 
@@ -21,7 +19,7 @@ class Integrations::Slack::IncomingMessageBuilder
     elsif create_message?
       create_message
     elsif link_shared?
-      unfurl_url
+      Integrations::Slack::SlackLinkBuilder.new(params: params).perform
     end
   end
 

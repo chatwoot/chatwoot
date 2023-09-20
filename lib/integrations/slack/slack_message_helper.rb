@@ -75,14 +75,4 @@ module Integrations::Slack::SlackMessageHelper
   def private_note?
     params[:event][:text].strip.downcase.starts_with?('note:', 'private:')
   end
-
-  def extract_conversation_id(url)
-    conversation_id_regex = %r{/conversations/(\d+)}
-    match_data = url.match(conversation_id_regex)
-    match_data[1] if match_data
-  end
-
-  def find_conversation_by_id(conversation_id)
-    Conversation.find_by(display_id: conversation_id)
-  end
 end
