@@ -39,7 +39,10 @@
         "NOTE": "Creați o semnătură de mesaj personal care ar fi adăugată la toate mesajele pe care le trimiteți din inboxul de e-mail. Utilizați editorul de conținut îmbogățit pentru a crea o semnătură extrem de personalizată.",
         "BTN_TEXT": "Salvarea semnăturii mesajului",
         "API_ERROR": "Nu s-a putut trimite! Încearcă din nou",
-        "API_SUCCESS": "Semnătura salvată cu succes"
+        "API_SUCCESS": "Semnătura salvată cu succes",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Dimensiunea imaginii trebuie să fie mai mică de {size}MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Semnătura mesajului",

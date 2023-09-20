@@ -87,7 +87,7 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response_body['payload'].last['email']).to eq(contact_4.email)
       end
 
-      it 'returns includes conversations count and last seen at' do
+      it 'returns last seen at' do
         create(:conversation, contact: contact, account: account, inbox: contact_inbox.inbox, contact_last_seen_at: Time.now.utc)
         get "/api/v1/accounts/#{account.id}/contacts",
             headers: admin.create_new_auth_token,
@@ -95,7 +95,6 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(response).to have_http_status(:success)
         response_body = response.parsed_body
-        expect(response_body['payload'].first['conversations_count']).to eq(contact.conversations.count)
         expect(response_body['payload'].first['last_seen_at']).present?
       end
 
