@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-end gap-1 py-6 bg-white dark:bg-slate-900">
-    <div class="flex flex-col gap-4 w-full">
+    <div class="flex flex-col gap-1 w-full">
       <div
         v-if="isLoading"
         class="text-center flex items-center justify-center px-4 py-8 text-slate-600 dark:text-slate-400"
@@ -17,6 +17,7 @@
       <search-result-item
         v-for="article in articles"
         v-else
+        :id="article.id"
         :key="article.id"
         :title="article.title"
         :body="article.content"
@@ -58,11 +59,11 @@ export default {
     generateArticleUrl(article) {
       return `/hc/${article.portal.slug}/articles/${article.slug}`;
     },
-    handlePreview(url) {
-      this.$emit('preview', url);
+    handlePreview(id) {
+      this.$emit('preview', id);
     },
-    handleInsert(url) {
-      this.$emit('insert', url);
+    handleInsert(id) {
+      this.$emit('insert', id);
     },
   },
 };

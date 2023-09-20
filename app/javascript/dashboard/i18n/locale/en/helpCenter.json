@@ -434,11 +434,13 @@
       "NO_RESULT": "No articles found",
       "SEARCHING": "Searching...",
       "SEARCH_BUTTON": "Search",
-      "INSERT_ARTICLE": "Insert",
+      "INSERT_ARTICLE": "Insert link",
       "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
       "OPEN_LINK": "Open article in new tab",
       "PREVIEW_LINK": "Preview article",
-      "CANCEL": "Cancel"
+      "CANCEL": "Close",
+      "BACK": "Back",
+      "BACK_RESULTS": "Back to results"
     }
   }
 }

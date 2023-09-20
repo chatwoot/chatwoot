@@ -1,21 +1,33 @@
 <template>
-  <div class="h-full w-full">
-    <div class="padding-1 h-[480px] max-h-[60vh] min-h-[320px]">
+  <div class="h-full w-full flex flex-col flex-1 overflow-hidden">
+    <div class="py-1">
+      <woot-button
+        variant="link"
+        size="small"
+        icon="chevron-left"
+        @click="onBack"
+      >
+        {{ $t('HELP_CENTER.ARTICLE_SEARCH.BACK_RESULTS') }}
+      </woot-button>
+    </div>
+    <div class="w-full h-full overflow-auto min-h-0">
       <iframe-loader :url="url" />
     </div>
-    <div class="footer">
+
+    <div class="flex justify-end gap-2 py-2">
       <woot-button
         variant="hollow"
         size="small"
+        is-expanded
         color-scheme="secondary"
-        icon="dismiss"
+        icon="chevron-left"
         @click="onBack"
       >
-        {{ $t('HELP_CENTER.ARTICLE_SEARCH.CANCEL') }}
+        {{ $t('HELP_CENTER.ARTICLE_SEARCH.BACK') }}
       </woot-button>
       <woot-button
-        variant="smooth"
         size="small"
+        is-expanded
         icon="arrow-download"
         @click="onInsert"
       >

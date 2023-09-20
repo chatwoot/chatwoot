@@ -2,14 +2,14 @@
   <div
     class="flex flex-col gap-1 bg-white dark:bg-slate-900 hover:bg-slate-25 hover:dark:bg-slate-800 rounded-md py-1 px-2 w-full group"
   >
-    <h4 class="text-block-title mb-0 text-slate-900 dark:text-slate-25">
-      {{ title }}
-    </h4>
-    <p
-      class="mb-0 overflow-hidden whitespace-nowrap text-ellipsis text-slate-700 dark:text-slate-100"
-    >
-      {{ plainBody }}
-    </p>
+    <button @click="handlePreview">
+      <h4
+        class="text-block-title text-left mb-0 text-slate-900 dark:text-slate-25 px-1 -mx-1 rounded-sm hover:underline cursor-pointer width-auto"
+      >
+        {{ title }}
+      </h4>
+    </button>
+
     <div class="flex content-between items-center gap-0.5 w-full">
       <p class="text-sm text-slate-600 dark:text-slate-300 mb-0 w-full">
         {{ locale }}
@@ -68,6 +68,10 @@ export default {
   name: 'ArticleSearchResultItem',
   mixins: [messageFormatterMixin],
   props: {
+    id: {
+      type: Number,
+      default: 0,
+    },
     title: {
       type: String,
       default: 'Untitled',
@@ -95,11 +99,12 @@ export default {
     },
   },
   methods: {
-    handleInsert() {
-      this.$emit('insert', this.url);
+    handleInsert(e) {
+      e.preventDefault();
+      this.$emit('insert', this.id);
     },
     handlePreview() {
-      this.$emit('preview', this.url);
+      this.$emit('preview', this.id);
     },
     async handleCopy(e) {
       e.preventDefault();

@@ -18,7 +18,11 @@
       :popout-reply-box="popoutReplyBox"
       @click="$emit('click')"
     />
-    <ArticleSearchPopover @insert="handleInsert" />
+    <ArticleSearchPopover
+      v-if="showArticleSearchPopover"
+      @insert="handleInsert"
+      @close="onSearchPopoverClose"
+    />
     <div class="reply-box__top">
       <canned-response
         v-if="showMentions && hasSlashCommand"
@@ -31,7 +35,7 @@
         v-if="showEmojiPicker"
         v-on-clickaway="hideEmojiPicker"
         :class="emojiDialogClassOnExpandedLayoutAndRTLView"
-        :on-click="emojiOnClick"
+        :on-click="addIntoEditor"
       />
       <reply-email-head
         v-if="showReplyHead"
@@ -249,6 +253,7 @@ export default {
       showCannedMenu: false,
       showVariablesMenu: false,
       newConversationModalActive: false,
+      showArticleSearchPopover: true,
     };
   },
   computed: {
@@ -593,8 +598,13 @@ export default {
     );
   },
   methods: {
-    handleInsert(url) {
-      this.message = `${this.message} ${url}`;
+    handleInsert(article) {
+      // debugger;
+      // this.message = `${this.message} ${url}`;
+      // this.addIntoEditor(`Read more ${url}`);
+
+      const { url, title } = article;
+      bus.$emit(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, `[${title}](${url})`);
     },
     toggleRichContentEditor() {
       this.updateUISettings({
@@ -827,7 +837,7 @@ export default {
     clearEditorSelection() {
       this.updateEditorSelectionWith = '';
     },
-    insertEmoji(emoji, selectionStart, selectionEnd) {
+    insertIntoTextEditor(emoji, selectionStart, selectionEnd) {
       const { message } = this;
       const newMessage =
         message.slice(0, selectionStart) +
@@ -835,14 +845,14 @@ export default {
         message.slice(selectionEnd, message.length);
       this.message = newMessage;
     },
-    emojiOnClick(emoji) {
+    addIntoEditor(emoji) {
       if (this.showRichContentEditor) {
         this.updateEditorSelectionWith = emoji;
         this.onFocus();
       }
       if (!this.showRichContentEditor) {
         const { selectionStart, selectionEnd } = this.$refs.messageInput.$el;
-        this.insertEmoji(emoji, selectionStart, selectionEnd);
+        this.insertIntoTextEditor(emoji, selectionStart, selectionEnd);
       }
     },
     clearMessage() {
@@ -1061,6 +1071,9 @@ export default {
       // so to fix this we are removing the drag and drop event listener from the current conversation reply box
       // When new conversation modal is open
       this.newConversationModalActive = isActive;
+    },
+    onSearchPopoverClose() {
+      this.showArticleSearchPopover = false;
     },
   },
 };

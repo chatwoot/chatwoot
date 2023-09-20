@@ -1,8 +1,12 @@
 <template>
   <div
-    class="flex flex-col px-4 rounded-md shadow-lg bg-white dark:bg-slate-900 z-1000 w-full max-w-[480px] absolute bottom-[calc(100%+3rem)]"
+    class="flex flex-col px-4 rounded-md shadow-lg bg-white dark:bg-slate-900 z-[1000] w-full max-w-[480px] fixed right-0 bottom-0 sm:w-[17.5rem] md:w-[18.75rem] lg:w-[19.375rem] xl:w-[20.625rem] 2xl:w-[25rem] h-[calc(100vh-4rem)] overflow-y-auto"
   >
-    <search-header @close="onClose" @search="onSearch" />
+    <search-header
+      class="w-full sticky top-0 bg-[inherit]"
+      @close="onClose"
+      @search="onSearch"
+    />
 
     <div
       v-if="!isLoading && !searchQuery"
@@ -12,8 +16,8 @@
     </div>
 
     <article-view
-      v-if="activeUrl"
-      :url="activeUrl"
+      v-if="activeId"
+      :url="articleViewerUrl"
       @back="onBack"
       @insert="onInsert"
     />
@@ -49,20 +53,42 @@ export default {
       searchQuery: '',
       isLoading: false,
       searchResults: [],
-      activeUrl: '',
+      activeId: '',
     };
   },
+  computed: {
+    articleViewerUrl() {
+      const article = this.activeArticle(this.activeId);
+      if (!article) return undefined;
+
+      return article.url;
+    },
+  },
   methods: {
+    generateArticleUrl(article) {
+      return `/hc/${article.portal.slug}/articles/${article.slug}?show_plain_layout=true`;
+    },
+    activeArticle(id) {
+      const activeArticle = this.searchResults.find(
+        article => article.id === id
+      );
+
+      if (!activeArticle || id === '') return undefined;
+
+      const url = this.generateArticleUrl(activeArticle);
+      return { ...activeArticle, url };
+    },
     onSearch(query) {
       this.searchQuery = query;
-      this.activeUrl = '';
+      this.activeId = '';
       this.fetchArticlesByQuery(query);
       debounce(() => {}, 500, true);
     },
-
     onClose() {
       this.$emit('close');
       this.searchQuery = '';
+      this.activeId = '';
+      this.searchResults = [];
     },
     async fetchArticlesByQuery(query) {
       try {
@@ -81,25 +107,17 @@ export default {
         this.isLoading = false;
       }
     },
-    handlePreview(url) {
-      this.activeUrl = `${url}?show_plain_layout=true`;
+    handlePreview(id) {
+      this.activeId = id;
     },
     onBack() {
-      this.activeUrl = '';
+      this.activeId = '';
     },
-    onInsert() {
-      this.$emit('insert', this.activeUrl);
+    onInsert(id) {
+      const article = this.activeArticle(id || this.activeId);
+
+      this.$emit('insert', article);
     },
   },
 };
 </script>
-<style lang="scss" scoped>
-.search-link {
-  &:hover {
-    .search--icon,
-    .search--label {
-      @apply hover:text-woot-500 dark:hover:text-woot-500;
-    }
-  }
-}
-</style>

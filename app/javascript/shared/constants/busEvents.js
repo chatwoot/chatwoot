@@ -11,4 +11,5 @@ export const BUS_EVENTS = {
   WEBSOCKET_DISCONNECT: 'WEBSOCKET_DISCONNECT',
   SHOW_TOAST: 'newToastMessage',
   NEW_CONVERSATION_MODAL: 'newConversationModal',
+  INSERT_INTO_RICH_EDITOR: 'insertIntoRichEditor',
 };
