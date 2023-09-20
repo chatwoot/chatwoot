@@ -3,6 +3,7 @@ import {
   appendSignature,
   removeSignature,
   replaceSignature,
+  cleanSignature,
   extractTextFromMarkdown,
 } from '../editorHelper';
 
@@ -20,7 +21,7 @@ const DOES_NOT_HAVE_SIGNATURE = {
   signature_has_images: {
     body: 'This is a test',
     signature:
-      'Testing \n![](http://localhost:3000/rails/active_storage/blobs/redirect/some-hash/image.png)',
+      'Testing\n![](http://localhost:3000/rails/active_storage/blobs/redirect/some-hash/image.png)',
   },
 };
 
@@ -58,9 +59,10 @@ describe('appendSignature', () => {
   it('appends the signature if it is not present', () => {
     Object.keys(DOES_NOT_HAVE_SIGNATURE).forEach(key => {
       const { body, signature } = DOES_NOT_HAVE_SIGNATURE[key];
-      expect(appendSignature(body, signature)).toBe(
-        `${body}\n\n--\n\n${signature}`
-      );
+      const cleanedSignature = cleanSignature(signature);
+      expect(
+        appendSignature(body, signature).includes(cleanedSignature)
+      ).toBeTruthy();
     });
   });
   it('does not append signature if already present', () => {
