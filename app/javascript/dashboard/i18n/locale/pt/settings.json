@@ -39,7 +39,10 @@
         "NOTE": "Crie uma assinatura de email personalizada que será adicionada a todas as mensagens de email enviadas. Use o editor de conteúdo para criar uma assinatura mais personalizada.",
         "BTN_TEXT": "Salvar assinatura da mensagem",
         "API_ERROR": "Não foi possível salvar a assinatura! Tente novamente",
-        "API_SUCCESS": "Assinatura salva com sucesso"
+        "API_SUCCESS": "Assinatura salva com sucesso",
+        "IMAGE_UPLOAD_ERROR": "Não foi possível carregar a imagem! Tente novamente",
+        "IMAGE_UPLOAD_SUCCESS": "Imagem adicionada. Clique em salvar para salvar a assinatura",
+        "IMAGE_UPLOAD_SIZE_ERROR": "O tamanho da imagem deve ser inferior a {size}MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Assinatura da mensagem",
