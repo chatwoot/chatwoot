@@ -25,7 +25,11 @@ const DOES_NOT_HAVE_SIGNATURE = {
   },
   'signature has non commonmark syntax': {
     body: 'This is a test',
-    signature: '- Shivam',
+    signature: '- Signature',
+  },
+  'signature has trailing spaces': {
+    body: 'This is a test',
+    signature: '**hello**      \n**world**',
   },
 };
 
