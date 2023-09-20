@@ -18,10 +18,14 @@ const DOES_NOT_HAVE_SIGNATURE = {
     body: 'This is a test\n\n--\n\nThis is a signature\n\nThis is more text',
     signature: 'This is a signature',
   },
-  signature_has_images: {
+  'signature has images': {
     body: 'This is a test',
     signature:
-      'Testing\n![](http://localhost:3000/rails/active_storage/blobs/redirect/some-hash/image.png)',
+      'Testing \n![](http://localhost:3000/rails/active_storage/blobs/redirect/some-hash/image.png)',
+  },
+  'signature has non commonmark syntax': {
+    body: 'This is a test',
+    signature: '- Shivam',
   },
 };
 
@@ -37,6 +41,10 @@ const HAS_SIGNATURE = {
   'no text before signature': {
     body: '\n\n--\n\nThis is a signature',
     signature: 'This is a signature',
+  },
+  'signature has non-commonmark syntax': {
+    body: '\n\n--\n\n* Signature',
+    signature: '- Signature',
   },
 };
 
