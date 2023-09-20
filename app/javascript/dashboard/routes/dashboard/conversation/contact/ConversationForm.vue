@@ -349,10 +349,12 @@ export default {
   },
   methods: {
     setSignature() {
-      if (this.isSignatureEnabledForInbox) {
-        this.message = appendSignature(this.message, this.signatureToApply);
-      } else {
-        this.message = removeSignature(this.message, this.signatureToApply);
+      if (this.messageSignature) {
+        if (this.isSignatureEnabledForInbox) {
+          this.message = appendSignature(this.message, this.signatureToApply);
+        } else {
+          this.message = removeSignature(this.message, this.signatureToApply);
+        }
       }
     },
     onCancel() {
@@ -429,14 +431,7 @@ export default {
       this.updateUISettings({
         send_with_signature: !this.sendWithSignature,
       });
-
-      if (this.messageSignature) {
-        if (this.sendWithSignature) {
-          this.message = appendSignature(this.message, this.signatureToApply);
-        } else {
-          this.message = removeSignature(this.message, this.signatureToApply);
-        }
-      }
+      this.setSignature();
     },
   },
 };
