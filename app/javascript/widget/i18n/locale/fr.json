@@ -34,7 +34,9 @@
   "START_CONVERSATION": "Démarrer la conversation",
   "END_CONVERSATION": "Clôturer la conversation",
   "CONTINUE_CONVERSATION": "Continuer la conversation",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "Démarrer une nouvelle conversation",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Voir les nouveaux messages",
     "CLOSE_MESSAGES_BUTTON": "Fermer",
@@ -108,6 +110,27 @@
   },
   "PORTAL": {
     "POPULAR_ARTICLES": "Popular Articles",
-    "VIEW_ALL_ARTICLES": "Voir tous les articles"
+    "VIEW_ALL_ARTICLES": "Voir tous les articles",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Message image"
+    },
+    "audio": {
+      "CONTENT": "Message audio"
+    },
+    "video": {
+      "CONTENT": "Message vidéo"
+    },
+    "file": {
+      "CONTENT": "Pièce jointe"
+    },
+    "location": {
+      "CONTENT": "Localisation"
+    },
+    "fallback": {
+      "CONTENT": "a partagé une URL"
+    }
   }
 }

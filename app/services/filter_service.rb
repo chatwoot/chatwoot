@@ -47,9 +47,15 @@ class FilterService
       query_hash['values'].map { |x| Conversation.statuses[x.to_sym] }
     when 'message_type'
       query_hash['values'].map { |x| Message.message_types[x.to_sym] }
+    when 'content'
+      downcase_array_values(query_hash['values'])
     else
       case_insensitive_values(query_hash)
     end
+  end
+
+  def downcase_array_values(values)
+    values.map(&:downcase)
   end
 
   def case_insensitive_values(query_hash)
