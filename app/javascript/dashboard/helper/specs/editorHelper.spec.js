@@ -20,7 +20,7 @@ const DOES_NOT_HAVE_SIGNATURE = {
   signature_has_images: {
     body: 'This is a test',
     signature:
-      'Testing \n![](http://localhost:3000/rails/active_storage/blobs/redirect/some-hash/image.png)',
+      'Testing\n![](http://localhost:3000/rails/active_storage/blobs/redirect/some-hash/image.png)',
   },
 };
 
