@@ -159,7 +159,7 @@ export default {
       this.$emit('focus');
     },
     focus() {
-      this.$refs.textarea.focus();
+      if (this.$refs.textarea) this.$refs.textarea.focus();
     },
   },
 };
