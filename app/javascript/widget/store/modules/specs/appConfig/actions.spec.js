@@ -31,4 +31,11 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([['SET_COLOR_SCHEME', 'dark']]);
     });
   });
+
+  describe('#setLocale', () => {
+    it('creates actions for setting the locale properly', () => {
+      actions.setLocale({ commit }, 'es_ES');
+      expect(commit.mock.calls).toEqual([['SET_WIDGET_LOCALE', 'es_ES']]);
+    });
+  });
 });

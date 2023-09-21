@@ -111,6 +111,7 @@ export default {
       'setWidgetColor',
       'setBubbleVisibility',
       'setColorScheme',
+      'setLocale',
     ]),
     ...mapActions('conversation', ['fetchOldConversations', 'setUserLastSeen']),
     ...mapActions('campaign', [
@@ -152,8 +153,10 @@ export default {
 
       if (hasLocaleWithVariation) {
         this.$root.$i18n.locale = localeWithVariation;
+        this.$store.dispatch('appConfig/setLocale', localeWithVariation);
       } else if (hasLocaleWithoutVariation) {
         this.$root.$i18n.locale = localeWithoutVariation;
+        this.$store.dispatch('appConfig/setLocale', localeWithoutVariation);
       }
     },
     registerUnreadEvents() {
