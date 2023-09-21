@@ -119,7 +119,7 @@
 </template>
 
 <script>
-import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown';
+import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import { mapGetters } from 'vuex';
 import { debounce } from '@chatwoot/utils';
 import { isEmptyObject } from 'dashboard/helper/commons.js';

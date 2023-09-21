@@ -154,8 +154,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import Widget from 'dashboard/modules/widget-preview/components/Widget';
-import InputRadioGroup from './components/InputRadioGroup';
+import Widget from 'dashboard/modules/widget-preview/components/Widget.vue';
+import InputRadioGroup from './components/InputRadioGroup.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import { required } from 'vuelidate/lib/validators';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
