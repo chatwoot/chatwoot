@@ -34,9 +34,9 @@
 </template>
 
 <script>
-import TeamAvailability from 'widget/components/TeamAvailability';
-import ArticleHero from 'widget/components/ArticleHero';
-import ArticleCardSkeletonLoader from 'widget/components/ArticleCardSkeletonLoader';
+import TeamAvailability from 'widget/components/TeamAvailability.vue';
+import ArticleHero from 'widget/components/ArticleHero.vue';
+import ArticleCardSkeletonLoader from 'widget/components/ArticleCardSkeletonLoader.vue';
 
 import { mapGetters } from 'vuex';
 import routerMixin from 'widget/mixins/routerMixin';

@@ -110,8 +110,8 @@
 import alertMixin from 'shared/mixins/alertMixin';
 import { required } from 'vuelidate/lib/validators';
 
-import MergeContactSummary from 'dashboard/modules/contact/components/MergeContactSummary';
-import ContactDropdownItem from './ContactDropdownItem';
+import MergeContactSummary from 'dashboard/modules/contact/components/MergeContactSummary.vue';
+import ContactDropdownItem from './ContactDropdownItem.vue';
 
 export default {
   components: { MergeContactSummary, ContactDropdownItem },

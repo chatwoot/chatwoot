@@ -110,8 +110,8 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import AddCanned from './AddCanned';
-import EditCanned from './EditCanned';
+import AddCanned from './AddCanned.vue';
+import EditCanned from './EditCanned.vue';
 
 export default {
   components: {
