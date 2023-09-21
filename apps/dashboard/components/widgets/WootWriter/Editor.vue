@@ -621,7 +621,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~@chatwoot/prosemirror-schema/src/styles/base.scss';
+@import '@chatwoot/prosemirror-schema/src/styles/base.scss';
 
 .ProseMirror-menubar-wrapper {
   @apply flex flex-col;

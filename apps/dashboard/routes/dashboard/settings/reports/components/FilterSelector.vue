@@ -59,7 +59,7 @@ import ReportsFiltersTeams from './Filters/Teams.vue';
 import ReportsFiltersRatings from './Filters/Ratings.vue';
 import subDays from 'date-fns/subDays';
 import { DATE_RANGE_OPTIONS } from '../constants';
-import { getUnixStartOfDay, getUnixEndOfDay } from 'helpers/DateHelper';
+import { getUnixStartOfDay, getUnixEndOfDay } from 'shared/helpers/DateHelper';
 
 export default {
   components: {
