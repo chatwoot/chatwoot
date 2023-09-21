@@ -1,3 +1,9 @@
+import {
+  messageSchema,
+  MessageMarkdownTransformer,
+  MessageMarkdownSerializer,
+} from '@chatwoot/prosemirror-schema';
+
 /**
  * The delimiter used to separate the signature from the rest of the body.
  * @type {string}
@@ -5,12 +11,12 @@
 export const SIGNATURE_DELIMITER = '--';
 
 /**
- * Trim the signature and remove all " \r" from the signature
- * 1. Trim any extra lines or spaces at the start or end of the string
- * 2. Converts all \r or \r\n to \f
+ * Parse and Serialize the markdown text to remove any extra spaces or new lines
  */
 export function cleanSignature(signature) {
-  return signature.trim().replace(/\r\n?/g, '\n');
+  // convert from markdown to common mark format
+  const nodes = new MessageMarkdownTransformer(messageSchema).parse(signature);
+  return MessageMarkdownSerializer.serialize(nodes);
 }
 
 /**
