@@ -393,8 +393,6 @@ export default {
   .mention--box {
     @apply left-0 m-auto right-0 top-auto h-fit;
   }
-
-  /* TODO: Remove when have standardized a component out of multiselect  */
   .multiselect .multiselect__content .multiselect__option span {
     @apply inline-flex w-6 text-slate-600 dark:text-slate-400;
   }
