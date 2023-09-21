@@ -104,7 +104,7 @@ describe CustomMarkdownRenderer do
     end
 
     context 'when multiple links are present' do
-      it 'renders all links' do
+      it 'renders all links when present between empty lines' do
         markdown = "\n[youtube](https://www.youtube.com/watch?v=VIDEO_ID)\n\n[vimeo](https://vimeo.com/1234567)\n^ hello ^ [normal](https://example.com)"
         output = render_markdown(markdown)
         expect(output).to include('src="https://www.youtube.com/embed/VIDEO_ID"')
@@ -115,11 +115,12 @@ describe CustomMarkdownRenderer do
     end
 
     context 'when links within text are present' do
-      it 'renders only text witin blank lines as embeds' do
-        markdown = "\n[youtube](https://www.youtube.com/watch?v=VIDEO_ID)\nthis is such an amazing [vimeo](https://vimeo.com/1234567)\n"
+      it 'renders only text within blank lines as embeds' do
+        markdown = "\n[youtube](https://www.youtube.com/watch?v=VIDEO_ID)\nthis is such an amazing [vimeo](https://vimeo.com/1234567)\n[vimeo](https://vimeo.com/1234567)"
         output = render_markdown(markdown)
         expect(output).to include('src="https://www.youtube.com/embed/VIDEO_ID"')
         expect(output).to include('href="https://vimeo.com/1234567"')
+        expect(output).to include('src="https://player.vimeo.com/video/1234567"')
       end
     end
   end
