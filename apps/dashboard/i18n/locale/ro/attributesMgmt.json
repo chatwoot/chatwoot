@@ -1,0 +1,99 @@
+{
+  "ATTRIBUTES_MGMT": {
+    "HEADER": "Editează atribut personalizat",
+    "HEADER_BTN_TXT": "Adauga atributii personalizate",
+    "LOADING": "Preluarea atributelor particularizate",
+    "SIDEBAR_TXT": "<p><b>Atribute personalizate</b> <p>Un atribut personalizat urmărește fapte despre persoanele de contact/conversație - cum ar fi planul de abonament sau când au comandat primul element etc. <br /><br />Pentru a crea un atribut personalizat, trebuie doar să faceți clic pe <b>Adăugare atribut personalizat.</b> De asemenea, puteți edita sau șterge un atribut personalizat existent făcând clic pe butonul Editare sau Ștergere.</p>",
+    "ADD": {
+      "TITLE": "Adauga atributii personalizate",
+      "SUBMIT": "Creeaza",
+      "CANCEL_BUTTON_TEXT": "Renunță",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nume afișat",
+          "PLACEHOLDER": "Introducerea numelui afișat al atributului personalizat",
+          "ERROR": "Numele este obligatoriu"
+        },
+        "DESC": {
+          "LABEL": "Descriere",
+          "PLACEHOLDER": "Introduceți descrierea atributului personalizat",
+          "ERROR": "Descrierea este obligatorie"
+        },
+        "MODEL": {
+          "LABEL": "Aplică la",
+          "PLACEHOLDER": "Vă rugăm să selectaţi un tip",
+          "ERROR": "Conținutul este obligatoriu"
+        },
+        "TYPE": {
+          "LABEL": "Tip",
+          "PLACEHOLDER": "Vă rugăm să selectaţi un tip",
+          "ERROR": "Tipul de agent este obligatoriu",
+          "LIST": {
+            "LABEL": "Valori listă",
+            "PLACEHOLDER": "Vă rugăm să introduceţi valoarea şi apăsaţi tasta enter",
+            "ERROR": "Trebuie să conțină cel puțin o valoare"
+          }
+        },
+        "KEY": {
+          "LABEL": "Cheie",
+          "PLACEHOLDER": "Introduceți cheia atributului personalizat",
+          "ERROR": "Cheia este obligatorie",
+          "IN_VALID": "Cheie invalidă"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Atribut personalizat adăugat cu succes!",
+        "ERROR_MESSAGE": "Nu s-a putut crea un atribut particularizat. Încercați din nou mai târziu."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Şterge",
+      "API": {
+        "SUCCESS_MESSAGE": "Atribut personalizat șters cu succes.",
+        "ERROR_MESSAGE": "Nu s-a putut șterge atributul personalizat. Încercați din nou."
+      },
+      "CONFIRM": {
+        "TITLE": "Ești sigur că vrei să ștergi - %{attributeName}",
+        "PLACE_HOLDER": "Te rugăm să introduci {attributeName} pentru a confirma",
+        "MESSAGE": "Ștergerea va elimina atributul personalizat",
+        "YES": "Şterge ",
+        "NO": "Renunță"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Editează atribut personalizat",
+      "UPDATE_BUTTON_TEXT": "Actualizare",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "Valori listă",
+          "PLACEHOLDER": "Vă rugăm să introduceţi valoarea şi apăsaţi tasta enter"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Atribut personalizat actualizat cu succes",
+        "ERROR_MESSAGE": "A apărut o eroare la actualizarea atributului personalizat, vă rugăm să încercați din nou"
+      }
+    },
+    "TABS": {
+      "HEADER": "Editează atribut personalizat",
+      "CONVERSATION": "Conversație",
+      "CONTACT": "Contact"
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Nume",
+        "Descriere",
+        "Tip",
+        "Cheie"
+      ],
+      "BUTTONS": {
+        "EDIT": "Editare",
+        "DELETE": "Şterge"
+      },
+      "EMPTY_RESULT": {
+        "404": "Nu exista atribute personalizate create",
+        "NOT_FOUND": "Nu sunt configurate atribute personalizate"
+      }
+    }
+  }
+}

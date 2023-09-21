@@ -1,0 +1,109 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "Gesprekken ophalen",
+    "LOAD_MORE_CONVERSATIONS": "Meer gesprekken laden",
+    "EOF": "Alle gesprekken geladen 🎉",
+    "LIST": {
+      "404": "Er zijn geen actieve gesprekken in deze groep."
+    },
+    "TAB_HEADING": "Gesprekken",
+    "MENTION_HEADING": "Vermeldingen",
+    "UNATTENDED_HEADING": "Onbeheer",
+    "SEARCH": {
+      "INPUT": "Zoek naar mensen, gesprekken, opgeslagen antwoorden .."
+    },
+    "FILTER_ALL": "Allemaal",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Mijn",
+      "unassigned": "Niet toegewezen",
+      "all": "Allemaal"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Open"
+      },
+      "resolved": {
+        "TEXT": "Opgelost"
+      },
+      "pending": {
+        "TEXT": "Afwachtend"
+      },
+      "snoozed": {
+        "TEXT": "Gesluimerd"
+      },
+      "all": {
+        "TEXT": "Allemaal"
+      }
+    },
+    "VIEW_FILTER": "Bekijken",
+    "SORT_TOOLTIP_LABEL": "Sorteer gesprekken",
+    "CHAT_SORT": {
+      "STATUS": "Status",
+      "ORDER_BY": "Sorteren op"
+    },
+    "CHAT_SORT_FILTER_ITEMS": {
+      "latest": {
+        "TEXT": "Laatste Activiteit"
+      },
+      "sort_on_created_at": {
+        "TEXT": "Aangemaakt op"
+      },
+      "sort_on_priority": {
+        "TEXT": "Prioriteit"
+      },
+      "sort_on_waiting_since": {
+        "TEXT": "Wachtend op antwoord"
+      }
+    },
+    "ATTACHMENTS": {
+      "image": {
+        "CONTENT": "Bericht met foto"
+      },
+      "audio": {
+        "CONTENT": "Audiobericht"
+      },
+      "video": {
+        "CONTENT": "Videobericht"
+      },
+      "file": {
+        "CONTENT": "Bestandsbijlage"
+      },
+      "location": {
+        "CONTENT": "Locatie"
+      },
+      "fallback": {
+        "CONTENT": "heeft een url gedeeld"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Gesprek sorteren",
+      "DROPDOWN_TITLE": "Sorteren op",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Laatste activiteit om",
+          "LABEL": "Laatste Activiteit"
+        },
+        "CREATED_AT": {
+          "NAME": "Aangemaakt op",
+          "LABEL": "Aangemaakt op"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Laatste bericht van gebruiker op",
+          "LABEL": "Laatste bericht"
+        }
+      }
+    },
+    "RECEIVED_VIA_EMAIL": "Ontvangen via e-mail",
+    "VIEW_TWEET_IN_TWITTER": "Bekijk tweet op Twitter",
+    "REPLY_TO_TWEET": "Antwoord op deze tweet",
+    "LINK_TO_STORY": "Ga naar instagram verhaal",
+    "SENT": "Succesvol verzonden",
+    "READ": "Succesvol gelezen",
+    "DELIVERED": "Succesvol afgeleverd",
+    "NO_MESSAGES": "Geen berichten",
+    "NO_CONTENT": "Geen inhoud beschikbaar",
+    "HIDE_QUOTED_TEXT": "Verberg geciteerde tekst",
+    "SHOW_QUOTED_TEXT": "Toon geciteerde tekst",
+    "MESSAGE_READ": "Lezen"
+  }
+}

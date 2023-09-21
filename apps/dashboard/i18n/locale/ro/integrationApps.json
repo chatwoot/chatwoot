@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "Preluarea integrărilor",
+    "NO_HOOK_CONFIGURED": "Nu există integrări %{integrationId} configurate în acest cont.",
+    "HEADER": "Aplicatii",
+    "STATUS": {
+      "ENABLED": "Activat",
+      "DISABLED": "Dezactivat"
+    },
+    "CONFIGURE": "Configurare",
+    "ADD_BUTTON": "Adăugați un cârlig nou",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "Confirmă ștergerea",
+        "ACCOUNT": "Deconectare"
+      },
+      "MESSAGE": {
+        "INBOX": "Sigur doriți să ștergeți?",
+        "ACCOUNT": "Sunteți sigur că vă deconectați?"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "Da, șterge",
+        "ACCOUNT": "Da, Deconectați-vă"
+      },
+      "CANCEL_BUTTON_TEXT": "Renunță",
+      "API": {
+        "SUCCESS_MESSAGE": "Cârlig șters cu succes",
+        "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+      }
+    },
+    "LIST": {
+      "FETCHING": "Preluarea cârligelor de integrare",
+      "INBOX": "Inbox",
+      "DELETE": {
+        "BUTTON_TEXT": "Şterge"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Selectați Inbox",
+          "PLACEHOLDER": "Selectați Inbox"
+        },
+        "SUBMIT": "Creeaza",
+        "CANCEL": "Renunță"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Regulă de automatizare adăugată cu succes",
+        "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Conectează-te"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "Deconectare"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow este o platformă naturală de înțelegere a limbajului, care facilitează proiectarea și integrarea unei interfețe de utilizator conversaționale în aplicația mobilă, aplicația web, dispozitivul, botul, sistemul interactiv de răspuns vocal și așa mai departe. <br /> <br /> Integrarea fluxului de dialog vă %{installationName} permite să configurați un bot Dialogflow cu casetele dvs., ceea ce permite botului să gestioneze interogările inițial și să le predea unui agent atunci când este necesar. Dialogflow poate fi folosit pentru a califica clienții potențiali, pentru a reduce volumul de muncă al agenților prin furnizarea de întrebări frecvente etc. <br /> <br /> Pentru a adăuga Dialogflow, trebuie să creați un cont de serviciu în consola de proiect Google și să partajați acreditările. Vă rugăm să consultați documentele Dialogflow pentru mai multe informații."
+    }
+  }
+}

@@ -1,0 +1,214 @@
+{
+  "INTEGRATION_SETTINGS": {
+    "HEADER": "Integracje",
+    "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Subskrybowane wydarzenia",
+      "FORM": {
+        "CANCEL": "Anuluj",
+        "DESC": "Webhooki dostarczają informacje o tym, co dzieje się w Twoim koncie Chatwoot. Wprowadź poprawny adres URL, aby skonfigurować webhook.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Wydarzenia",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Rozpoczęcie rozmowy",
+            "CONVERSATION_STATUS_CHANGED": "Zmiana statusu rozmowy",
+            "CONVERSATION_UPDATED": "Aktualizacja rozmowy",
+            "MESSAGE_CREATED": "Utworzenie wiadomości",
+            "MESSAGE_UPDATED": "Aktualizacja wiadomości",
+            "WEBWIDGET_TRIGGERED": "Użytkownik otworzył czat na żywo",
+            "CONTACT_CREATED": "Utworzenie kontaktu",
+            "CONTACT_UPDATED": "Aktualizacja kontaktu"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "Adres URL webhooka",
+          "PLACEHOLDER": "Przykład: https://example/api/webhook",
+          "ERROR": "Wprowadź poprawny adres URL"
+        },
+        "EDIT_SUBMIT": "Aktualizuj webhook",
+        "ADD_SUBMIT": "Utwórz webhook"
+      },
+      "TITLE": "Webhook",
+      "CONFIGURE": "Skonfiguruj",
+      "HEADER": "Ustawienia webhooka",
+      "HEADER_BTN_TXT": "Dodaj nowy webhook",
+      "LOADING": "Pobieranie webhooków",
+      "SEARCH_404": "Brak wyników pasujących do wyszukiwania",
+      "SIDEBAR_TXT": "<p><b>Webhooki</b> </p> <p>Webhooki są wywołaniami zwrotnymi HTTP, które mogą być zdefiniowane dla każdego konta. Są wywoływane przez zdarzenia takie jak utworzenie wiadomości w Chatwoot. Możesz utworzyć więcej niż jeden webhook dla tego konta. <br /><br /> Aby utworzyć <b>webhook</b>, kliknij przycisk <b>Dodaj nowy webhook</b>. Możesz również usunąć istniejący webhook, klikając przycisk Usuń.</p>",
+      "LIST": {
+        "404": "Brak skonfigurowanych webhooków dla tego konta.",
+        "TITLE": "Zarządzaj webhookami",
+        "TABLE_HEADER": [
+          "Adres URL webhooka",
+          "Akcje"
+        ]
+      },
+      "EDIT": {
+        "BUTTON_TEXT": "Edytuj",
+        "TITLE": "Edytuj webhook",
+        "API": {
+          "SUCCESS_MESSAGE": "Konfiguracja webhooka została pomyślnie zaktualizowana",
+          "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot, spróbuj ponownie później"
+        }
+      },
+      "ADD": {
+        "CANCEL": "Anuluj",
+        "TITLE": "Dodaj nowy webhook",
+        "API": {
+          "SUCCESS_MESSAGE": "Konfiguracja webhooka została pomyślnie dodana",
+          "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot, spróbuj ponownie później"
+        }
+      },
+      "DELETE": {
+        "BUTTON_TEXT": "Usuń",
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook został pomyślnie usunięty",
+          "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot, spróbuj ponownie później"
+        },
+        "CONFIRM": {
+          "TITLE": "Potwierdź usunięcie",
+          "MESSAGE": "Czy na pewno chcesz usunąć webhook? (%{webhookURL})",
+          "YES": "Tak, usuń ",
+          "NO": "Nie, zostaw"
+        }
+      }
+    },
+    "SLACK": {
+      "DELETE": "Usuń",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Delete the integration",
+        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+      },
+      "HELP_TEXT": {
+        "TITLE": "Using Slack Integration",
+        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>",
+        "SELECTED": "selected"
+      },
+      "SELECT_CHANNEL": {
+        "OPTION_LABEL": "Select a channel",
+        "UPDATE": "Aktualizuj",
+        "BUTTON_TEXT": "Connect channel",
+        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
+        "ATTENTION_REQUIRED": "Attention required",
+        "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
+      },
+      "UPDATE_ERROR": "There was an error updating the integration, please try again",
+      "UPDATE_SUCCESS": "The channel is connected successfully",
+      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
+    },
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Kliknij tutaj, aby dołączyć",
+      "LEAVE_THE_ROOM": "Opuść pokój",
+      "START_VIDEO_CALL_HELP_TEXT": "Rozpocznij nową wideorozmowę z klientem",
+      "JOIN_ERROR": "Wystąpił błąd podczas dołączania do rozmowy, spróbuj ponownie",
+      "CREATE_ERROR": "Wystąpił błąd podczas tworzenia linku spotkania, spróbuj ponownie"
+    },
+    "OPEN_AI": {
+      "AI_ASSIST": "AI Assist",
+      "WITH_AI": " %{option} with AI ",
+      "OPTIONS": {
+        "REPLY_SUGGESTION": "Reply Suggestion",
+        "SUMMARIZE": "Summarize",
+        "REPHRASE": "Improve Writing",
+        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
+        "SHORTEN": "Shorten",
+        "EXPAND": "Expand",
+        "MAKE_FRIENDLY": "Change message tone to friendly",
+        "MAKE_FORMAL": "Use formal tone",
+        "SIMPLIFY": "Simplify"
+      },
+      "ASSISTANCE_MODAL": {
+        "DRAFT_TITLE": "Draft content",
+        "GENERATED_TITLE": "Generated content",
+        "AI_WRITING": "AI is writing",
+        "BUTTONS": {
+          "APPLY": "Use this suggestion",
+          "CANCEL": "Anuluj"
+        }
+      },
+      "CTA_MODAL": {
+        "TITLE": "Integrate with OpenAI",
+        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
+        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "BUTTONS": {
+          "NEED_HELP": "Potrzebujesz pomocy?",
+          "DISMISS": "Odrzuć",
+          "FINISH": "Finish Setup"
+        },
+        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
+        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
+      },
+      "TITLE": "Ulepszanie przy użyciu sztucznej inteligencji",
+      "SUMMARY_TITLE": "Podsumowanie z użyciem sztucznej inteligencji",
+      "REPLY_TITLE": "Sugerowanie odpowiedzi z użyciem sztucznej inteligencji",
+      "SUBTITLE": "Na podstawie bieżącej wersji roboczej zostanie wygenerowana ulepszona odpowiedź przy użyciu sztucznej inteligencji.",
+      "TONE": {
+        "TITLE": "Tonalność",
+        "OPTIONS": {
+          "PROFESSIONAL": "Profesjonalna",
+          "FRIENDLY": "Przyjazna"
+        }
+      },
+      "BUTTONS": {
+        "GENERATE": "Generuj",
+        "GENERATING": "Generowanie...",
+        "CANCEL": "Anuluj"
+      },
+      "GENERATE_ERROR": "There was an error processing the content, please try again"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Usuń",
+      "API": {
+        "SUCCESS_MESSAGE": "Integracja została pomyślnie usunięta"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Połącz"
+    },
+    "DASHBOARD_APPS": {
+      "TITLE": "Aplikacje na pulpicie",
+      "HEADER_BTN_TXT": "Dodaj nową aplikację na pulpicie",
+      "SIDEBAR_TXT": "<p><b>Aplikacje na pulpicie</b></p><p>Aplikacje na pulpicie umożliwiają organizacjom osadzenie aplikacji wewnątrz panelu Chatwoot w celu dostarczenia kontekstu dla agentów obsługi klienta. Ta funkcja umożliwia tworzenie niezależnej aplikacji i osadzanie jej w celu dostarczania informacji o użytkowniku, jego zamówieniach lub historii płatności.</p><p>Kiedy osadzisz swoją aplikację za pomocą pulpitu Chatwoot, Twoja aplikacja otrzyma kontekst rozmowy i kontaktu jako zdarzenie okna. W swojej stronie zaimplementuj nasłuchiwanie zdarzenia wiadomości, aby otrzymać kontekst.</p><p>Aby dodać nową aplikację na pulpicie, kliknij przycisk 'Dodaj nową aplikację na pulpicie'.</p>",
+      "DESCRIPTION": "Aplikacje na pulpicie umożliwiają organizacjom osadzenie aplikacji wewnątrz panelu w celu dostarczenia kontekstu dla agentów obsługi klienta. Ta funkcja umożliwia tworzenie niezależnej aplikacji i osadzanie jej w celu dostarczania informacji o użytkowniku, jego zamówieniach lub historii płatności.",
+      "LIST": {
+        "404": "Na tym koncie nie skonfigurowano jeszcze aplikacji na pulpicie",
+        "LOADING": "Pobieranie aplikacji na pulpicie...",
+        "TABLE_HEADER": [
+          "Nazwa",
+          "Punkt końcowy"
+        ],
+        "EDIT_TOOLTIP": "Edytuj aplikację",
+        "DELETE_TOOLTIP": "Usuń aplikację"
+      },
+      "FORM": {
+        "TITLE_LABEL": "Nazwa",
+        "TITLE_PLACEHOLDER": "Wprowadź nazwę dla aplikacji na pulpicie",
+        "TITLE_ERROR": "Nazwa aplikacji na pulpicie jest wymagana",
+        "URL_LABEL": "Punkt końcowy",
+        "URL_PLACEHOLDER": "Wprowadź adres URL punktu końcowego, gdzie jest hostowana Twoja aplikacja",
+        "URL_ERROR": "Wymagany jest poprawny adres URL"
+      },
+      "CREATE": {
+        "HEADER": "Dodaj nową aplikację na pulpicie",
+        "FORM_SUBMIT": "Wyślij",
+        "FORM_CANCEL": "Anuluj",
+        "API_SUCCESS": "Aplikacja na pulpicie została pomyślnie skonfigurowana",
+        "API_ERROR": "Nie udało się utworzyć aplikacji. Spróbuj ponownie później"
+      },
+      "UPDATE": {
+        "HEADER": "Edytuj aplikację na pulpicie",
+        "FORM_SUBMIT": "Aktualizuj",
+        "FORM_CANCEL": "Anuluj",
+        "API_SUCCESS": "Aplikacja na pulpicie została pomyślnie zaktualizowana",
+        "API_ERROR": "Nie udało się zaktualizować aplikacji. Spróbuj ponownie później"
+      },
+      "DELETE": {
+        "CONFIRM_YES": "Tak, usuń",
+        "CONFIRM_NO": "Nie, zostaw",
+        "TITLE": "Potwierdzenie usunięcia",
+        "MESSAGE": "Czy na pewno chcesz usunąć aplikację - %{appName}?",
+        "API_SUCCESS": "Aplikacja na pulpicie została pomyślnie usunięta",
+        "API_ERROR": "Nie udało się usunąć aplikacji. Spróbuj ponownie później"
+      }
+    }
+  }
+}

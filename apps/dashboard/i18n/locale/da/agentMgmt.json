@@ -1,0 +1,119 @@
+{
+  "AGENT_MGMT": {
+    "HEADER": "Agenter",
+    "HEADER_BTN_TXT": "Tilføj Agent",
+    "LOADING": "Henter Agent Liste",
+    "SIDEBAR_TXT": "<p><b>Agenter</b></p> <p> En <b>Agent</b> er medlemmer af dit kundesupportteam. </p><p> Agenter vil være i stand til at se og besvare beskeder fra dine brugere. Listen viser alle agenter i øjeblikket på din konto. </p><p> Klik på <b>Tilføj agent</b> for at tilføje en ny agent. Agent du tilføjer, vil modtage en e-mail med et bekræftelseslink for at aktivere deres konto, hvorefter de kan få adgang til Chatwoot og svare på beskeder. </p><p> Adgang til Chatwoot's funktioner er baseret på følgende roller. </p><p> <b>Agent</b> - Agenter med denne rolle kan kun få adgang til indbakker, rapporter og samtaler. De kan tildele samtaler til andre agenter eller sig selv og løse samtaler.</p><p> <b>Administrator</b> - Administrator vil have adgang til alle Chatwoot-funktioner aktiveret for din konto, herunder indstillinger sammen med alle normale agenters privilegier.</p>",
+    "AGENT_TYPES": {
+      "ADMINISTRATOR": "Administrator",
+      "AGENT": "Agent"
+    },
+    "LIST": {
+      "404": "Der er ingen agenter tilknyttet denne konto",
+      "TITLE": "Administrer agenter i dit team",
+      "DESC": "Du kan tilføje/fjerne agenter til/fra dit team.",
+      "NAME": "Navn",
+      "EMAIL": "E-MAIL",
+      "STATUS": "Status",
+      "ACTIONS": "Handlinger",
+      "VERIFIED": "Verificeret",
+      "VERIFICATION_PENDING": "Verifikation Afventer"
+    },
+    "ADD": {
+      "TITLE": "Tilføj agent til dit team",
+      "DESC": "Du kan tilføje personer, der vil være i stand til at håndtere support i dine indbakker.",
+      "CANCEL_BUTTON_TEXT": "Annuller",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Agentens Navn",
+          "PLACEHOLDER": "Indtast et navn på agenten"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Rolle",
+          "PLACEHOLDER": "Vælg venligst en rolle",
+          "ERROR": "Rolle er påkrævet"
+        },
+        "EMAIL": {
+          "LABEL": "E-Mail Adresse",
+          "PLACEHOLDER": "Indtast venligst en e-mail adresse på agenten"
+        },
+        "SUBMIT": "Tilføj Agent"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Agenten blev tilføjet",
+        "EXIST_MESSAGE": "Agent e-mail allerede i brug, Prøv venligst en anden e-mail adresse",
+        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Slet",
+      "API": {
+        "SUCCESS_MESSAGE": "Agenten blev slettet",
+        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
+      },
+      "CONFIRM": {
+        "TITLE": "Bekræft Sletning",
+        "MESSAGE": "Er du sikker på du vil slette ",
+        "YES": "Ja, Slet ",
+        "NO": "Nej, Behold "
+      }
+    },
+    "EDIT": {
+      "TITLE": "Rediger agent",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Agentens Navn",
+          "PLACEHOLDER": "Indtast et navn på agenten"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Rolle",
+          "PLACEHOLDER": "Vælg venligst en rolle",
+          "ERROR": "Rolle er påkrævet"
+        },
+        "EMAIL": {
+          "LABEL": "E-Mail Adresse",
+          "PLACEHOLDER": "Indtast venligst en e-mail adresse på agenten"
+        },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Tilgængelighed",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
+        "SUBMIT": "Rediger Agent"
+      },
+      "BUTTON_TEXT": "Rediger",
+      "CANCEL_BUTTON_TEXT": "Annuller",
+      "API": {
+        "SUCCESS_MESSAGE": "Agenten blev opdateret",
+        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
+      },
+      "PASSWORD_RESET": {
+        "ADMIN_RESET_BUTTON": "Nulstil Adgangskode",
+        "ADMIN_SUCCESS_MESSAGE": "En e-mail med nulstilling af adgangskodeinstruktioner er blevet sendt til agenten",
+        "SUCCESS_MESSAGE": "Agentens adgangskode nulstillet",
+        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
+      }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "Ingen resultater fundet."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "Ingen",
+      "TITLE": {
+        "AGENT": "Vælg agent",
+        "TEAM": "Vælg hold"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "Ingen agenter fundet",
+          "TEAM": "Ingen hold fundet"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Søg agenter",
+          "TEAM": "Søg i teams",
+          "INPUT": "Search for agents"
+        }
+      }
+    }
+  }
+}

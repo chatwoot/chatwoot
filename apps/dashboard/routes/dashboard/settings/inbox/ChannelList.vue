@@ -1,0 +1,94 @@
+<template>
+  <div class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%] h-auto">
+    <page-header
+      :header-title="$t('INBOX_MGMT.ADD.AUTH.TITLE')"
+      :header-content="
+        useInstallationName(
+          $t('INBOX_MGMT.ADD.AUTH.DESC'),
+          globalConfig.installationName
+        )
+      "
+    />
+    <div class="mt-6 mx-0 flex flex-wrap">
+      <channel-item
+        v-for="channel in channelList"
+        :key="channel.key"
+        :channel="channel"
+        :enabled-features="enabledFeatures"
+        @channel-item-click="initChannelAuth"
+      />
+    </div>
+  </div>
+</template>
+
+<script>
+import ChannelItem from 'dashboard/components/widgets/ChannelItem';
+import router from '../../../index';
+import PageHeader from '../SettingsSubPageHeader';
+import { mapGetters } from 'vuex';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+
+export default {
+  components: {
+    ChannelItem,
+    PageHeader,
+  },
+  mixins: [globalConfigMixin],
+  data() {
+    return {
+      enabledFeatures: {},
+    };
+  },
+  computed: {
+    account() {
+      return this.$store.getters['accounts/getAccount'](this.accountId);
+    },
+    channelList() {
+      const { apiChannelName, apiChannelThumbnail } = this.globalConfig;
+      return [
+        { key: 'website', name: 'Website' },
+        { key: 'facebook', name: 'Messenger' },
+        { key: 'whatsapp', name: 'WhatsApp' },
+        { key: 'sms', name: 'SMS' },
+        { key: 'email', name: 'Email' },
+        {
+          key: 'api',
+          name: apiChannelName || 'API',
+          thumbnail: apiChannelThumbnail,
+        },
+        { key: 'telegram', name: 'Telegram' },
+        { key: 'line', name: 'Line' },
+      ];
+    },
+    ...mapGetters({
+      accountId: 'getCurrentAccountId',
+      globalConfig: 'globalConfig/get',
+    }),
+  },
+  mounted() {
+    this.initializeEnabledFeatures();
+  },
+  methods: {
+    async initializeEnabledFeatures() {
+      await this.$store.dispatch('accounts/get', this.accountId);
+      this.enabledFeatures = this.account.features;
+    },
+    initChannelAuth(channel) {
+      const params = {
+        page: 'new',
+        sub_page: channel,
+      };
+      router.push({ name: 'settings_inboxes_page_channel', params });
+    },
+  },
+};
+</script>
+<style scoped>
+.height-auto {
+  height: auto;
+}
+
+.channel-list {
+  margin-top: var(--space-medium);
+}
+</style>

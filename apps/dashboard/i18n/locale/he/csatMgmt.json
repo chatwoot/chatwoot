@@ -1,0 +1,13 @@
+{
+  "CSAT": {
+    "TITLE": "דרג את השיחה",
+    "PLACEHOLDER": "ספר לנו עוד...",
+    "RATINGS": {
+      "POOR": "😞 Poor",
+      "FAIR": "😑 Fair",
+      "AVERAGE": "😐 Average",
+      "GOOD": "😀 Good",
+      "EXCELLENT": "😍 Excellent"
+    }
+  }
+}

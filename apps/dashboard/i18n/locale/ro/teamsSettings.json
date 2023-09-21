@@ -1,0 +1,125 @@
+{
+  "TEAMS_SETTINGS": {
+    "NEW_TEAM": "Crează o echipă nouă",
+    "HEADER": "Echipe",
+    "SIDEBAR_TXT": "<p><b>Echipe</b></p> <p>Echipele vă permit să vă organizați agenții în grupuri în funcție de responsabilitățile lor. <br /> Un agent poate face parte din mai multe echipe. Puteți atribui conversații unei echipe atunci când lucrați în colaborare. </p>",
+    "LIST": {
+      "404": "Nu există echipe create în acest cont.",
+      "EDIT_TEAM": "Editează echipa"
+    },
+    "CREATE_FLOW": {
+      "CREATE": {
+        "TITLE": "Crează o echipă nouă",
+        "DESC": "Adaugă un titlu și o descriere noii tale echipe."
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "Adaugă agenți în echipă",
+        "TITLE": "Adăugați agenți în echipă - %{teamName}",
+        "DESC": "Adăugați agenți în echipa nou creată. Acest lucru vă permite să colaborați ca echipă la conversații, să primiți notificări cu privire la evenimente noi din aceeași conversație."
+      },
+      "WIZARD": [
+        {
+          "title": "Creeaza",
+          "route": "setări_echipă_nou",
+          "body": "Creați o nouă echipă de agenți."
+        },
+        {
+          "title": "Adaugă Agent",
+          "route": "setări_echipă_adaugă_agenți",
+          "body": "Adăugați agenți în echipă."
+        },
+        {
+          "title": "Finalizează",
+          "route": "setări_echipă_finalizare",
+          "body": "Toate setarile sunt facute!"
+        }
+      ]
+    },
+    "EDIT_FLOW": {
+      "CREATE": {
+        "TITLE": "Editarea detaliilor echipei",
+        "DESC": "Editați titlul și descrierea echipei dvs.",
+        "BUTTON_TEXT": "Actualizați echipa"
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "Actualizați agenții din echipă",
+        "TITLE": "Adăugați agenți în echipă - %{teamName}",
+        "DESC": "Adăugați agenți în echipa nou creată. Toți agenții adăugați vor fi anunțați atunci când o conversație este atribuită acestei echipe."
+      },
+      "WIZARD": [
+        {
+          "title": "Detalii despre echipă",
+          "route": "setări_echipă_editează",
+          "body": "Modificați numele, descrierea și alte detalii."
+        },
+        {
+          "title": "Editarea agenților",
+          "route": "setări_echipă_editează_membrii",
+          "body": "Editați agenții din echipa dvs."
+        },
+        {
+          "title": "Finalizează",
+          "route": "setări_echipă_editează_finalizare",
+          "body": "Toate setarile sunt facute!"
+        }
+      ]
+    },
+    "TEAM_FORM": {
+      "ERROR_MESSAGE": "Nu a putut salva detaliile echipei. Încearcă din nou."
+    },
+    "AGENTS": {
+      "AGENT": "AGENT",
+      "EMAIL": "E-MAIL",
+      "BUTTON_TEXT": "Adaugă Agent",
+      "ADD_AGENTS": "Adăugarea agenților în echipa ta...",
+      "SELECT": "selectează",
+      "SELECT_ALL": "selectați toți agenții",
+      "SELECTED_COUNT": "%{selected} din %{total} agenți selectați."
+    },
+    "ADD": {
+      "TITLE": "Adăugați agenți în echipă - %{teamName}",
+      "DESC": "Adăugați agenți în echipa nou creată. Acest lucru vă permite să colaborați ca echipă la conversații, să primiți notificări cu privire la evenimente noi din aceeași conversație.",
+      "SELECT": "selectează",
+      "SELECT_ALL": "selectați toți agenții",
+      "SELECTED_COUNT": "%{selected} din %{total} agenți selectați.",
+      "BUTTON_TEXT": "Adaugă Agent",
+      "AGENT_VALIDATION_ERROR": "Selectați cel puțin un agent."
+    },
+    "FINISH": {
+      "TITLE": "Echipa ta e gata!",
+      "MESSAGE": "Acum puteți colabora ca o echipă la conversații. Sprijin fericit ",
+      "BUTTON_TEXT": "Finalizează"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Şterge",
+      "API": {
+        "SUCCESS_MESSAGE": "Echipa a fost ștearsă cu succes.",
+        "ERROR_MESSAGE": "Nu a putut șterge echipa. Încearcă din nou."
+      },
+      "CONFIRM": {
+        "TITLE": "Sunteți sigur că doriți să ștergeți - %{teamName}",
+        "PLACE_HOLDER": "Vă rugăm să tastați {teamName} pentru a confirma",
+        "MESSAGE": "Ștergerea echipei va elimina atribuirea echipei din conversațiile atribuite acestei echipe.",
+        "YES": "Şterge ",
+        "NO": "Renunță"
+      }
+    },
+    "SETTINGS": "Setări",
+    "FORM": {
+      "UPDATE": "Actualizați echipa",
+      "CREATE": "Creați o echipă",
+      "NAME": {
+        "LABEL": "Numele echipei",
+        "PLACEHOLDER": "Exemplu: Vânzări, Asistență clienți"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descrierea echipei",
+        "PLACEHOLDER": "Scurtă descriere despre această echipă."
+      },
+      "AUTO_ASSIGN": {
+        "LABEL": "Permiteți atribuirea automată pentru această echipă."
+      },
+      "SUBMIT_CREATE": "Creați o echipă"
+    }
+  }
+}

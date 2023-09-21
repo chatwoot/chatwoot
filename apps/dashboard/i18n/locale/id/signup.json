@@ -1,0 +1,44 @@
+{
+  "REGISTER": {
+    "TRY_WOOT": "Buat akun",
+    "TITLE": "Daftar",
+    "TESTIMONIAL_HEADER": "Hanya butuh satu langkah untuk maju",
+    "TESTIMONIAL_CONTENT": "Anda hanya tinggal selangkah lagi untuk berinteraksi dengan pelanggan Anda, mempertahankan mereka, dan menemukan yang baru.",
+    "TERMS_ACCEPT": "Dengan membuat akun, Anda menyetujui <a href=\"https://www.chatwoot.com/terms\">Syarat & Ketentuan</a> dan <a href=\"https://www.chatwoot.com/privacy-policy\">Kebijakan Privasi</a> kami.",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Daftar dengan Google"
+    },
+    "COMPANY_NAME": {
+      "LABEL": "Nama Perusahaan",
+      "PLACEHOLDER": "Masukkan nama perusahaan Anda. contoh: Wayne Enterprises",
+      "ERROR": "Nama perusahaan terlalu pendek"
+    },
+    "FULL_NAME": {
+      "LABEL": "Nama Lengkap",
+      "PLACEHOLDER": "Masukkan nama lengkap Anda. contoh: Bruce Wayne",
+      "ERROR": "Nama lengkap terlalu pendek"
+    },
+    "EMAIL": {
+      "LABEL": "Email kantor",
+      "PLACEHOLDER": "Masukkan alamat email kantor Anda. contoh: bruce@wayne.enterprises",
+      "ERROR": "Harap masukkan alamat email kantor yang valid"
+    },
+    "PASSWORD": {
+      "LABEL": "Kata Sandi",
+      "PLACEHOLDER": "Kata Sandi",
+      "ERROR": "Kata sandi terlalu pendek",
+      "IS_INVALID_PASSWORD": "Kata sandi harus mengandung setidaknya 1 huruf kapital, 1 huruf kecil, 1 angka, dan 1 karakter khusus"
+    },
+    "CONFIRM_PASSWORD": {
+      "LABEL": "Konfirmasi Kata Sandi",
+      "PLACEHOLDER": "Konfirmasi Kata Sandi",
+      "ERROR": "Kata Sandi tidak cocok"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Pendaftaran Berhasil",
+      "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+    },
+    "SUBMIT": "Buat akun",
+    "HAVE_AN_ACCOUNT": "Sudah punya akun?"
+  }
+}

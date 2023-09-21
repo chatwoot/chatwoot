@@ -1,0 +1,76 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "預設回覆",
+    "HEADER_BTN_TXT": "新增預設回覆",
+    "LOADING": "取得預設回覆",
+    "SEARCH_404": "沒有任何項目符合此查詢",
+    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+    "LIST": {
+      "404": "此帳戶中沒有可用的罐頭回覆。",
+      "TITLE": "管理預設回覆",
+      "DESC": "預設回覆是預定義的回覆模板，可以用來快速發送對工單的回覆。",
+      "TABLE_HEADER": [
+        "簡碼",
+        "内容",
+        "操作"
+      ]
+    },
+    "ADD": {
+      "TITLE": "新增預設回覆",
+      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
+      "CANCEL_BUTTON_TEXT": "取消操作",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "簡碼",
+          "PLACEHOLDER": "Please enter a short code",
+          "ERROR": "必須輸入簡碼"
+        },
+        "CONTENT": {
+          "LABEL": "内容",
+          "PLACEHOLDER": "請輸入内容。",
+          "ERROR": "内容是必填的"
+        },
+        "SUBMIT": "送出"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "已成功新增預設回覆",
+        "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
+      }
+    },
+    "EDIT": {
+      "TITLE": "編輯預設回覆",
+      "CANCEL_BUTTON_TEXT": "取消操作",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "簡碼",
+          "PLACEHOLDER": "請輸入簡碼",
+          "ERROR": "必須輸入簡碼"
+        },
+        "CONTENT": {
+          "LABEL": "内容",
+          "PLACEHOLDER": "請輸入内容。",
+          "ERROR": "内容是必填項目"
+        },
+        "SUBMIT": "送出"
+      },
+      "BUTTON_TEXT": "編輯",
+      "API": {
+        "SUCCESS_MESSAGE": "預設回覆已成功更新",
+        "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "刪除",
+      "API": {
+        "SUCCESS_MESSAGE": "預設回覆已成功刪除",
+        "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
+      },
+      "CONFIRM": {
+        "TITLE": "確認刪除",
+        "MESSAGE": "您確定要刪除嗎？ ",
+        "YES": "是，刪除 ",
+        "NO": "不，保留 "
+      }
+    }
+  }
+}

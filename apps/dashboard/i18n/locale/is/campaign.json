@@ -1,0 +1,126 @@
+{
+  "CAMPAIGN": {
+    "HEADER": "Herferð",
+    "SIDEBAR_TXT": "Fyrirbyggjandi skilaboð gera viðskiptavinum kleift að senda skilaboð á útleið til tengiliða sinna sem myndu kalla fram fleiri samtöl. Smelltu á <b>Bæta við herferð</b> til að búa til nýja herferð. Þú getur líka breytt eða eytt núverandi herferð með því að smella á Breyta eða Eyða hnappinn.",
+    "HEADER_BTN_TXT": {
+      "ONE_OFF": "Búa til einkvæma herðferð",
+      "ONGOING": "Create a ongoing campaign"
+    },
+    "ADD": {
+      "TITLE": "Create a campaign",
+      "DESC": "Fyrirbyggjandi skilaboð gera viðskiptavinum kleift að senda skilaboð á útleið til tengiliða sinna sem myndu kalla fram fleiri samtöl.",
+      "CANCEL_BUTTON_TEXT": "Hætta við",
+      "CREATE_BUTTON_TEXT": "Create",
+      "FORM": {
+        "TITLE": {
+          "LABEL": "Title",
+          "PLACEHOLDER": "Please enter the title of campaign",
+          "ERROR": "Title is required"
+        },
+        "SCHEDULED_AT": {
+          "LABEL": "Scheduled time",
+          "PLACEHOLDER": "Please select the time",
+          "CONFIRM": "Confirm",
+          "ERROR": "Scheduled time is required"
+        },
+        "AUDIENCE": {
+          "LABEL": "Audience",
+          "PLACEHOLDER": "Select the customer labels",
+          "ERROR": "Audience is required"
+        },
+        "INBOX": {
+          "LABEL": "Select Inbox",
+          "PLACEHOLDER": "Select Inbox",
+          "ERROR": "Inbox is required"
+        },
+        "MESSAGE": {
+          "LABEL": "Skilaboð",
+          "PLACEHOLDER": "Please enter the message of campaign",
+          "ERROR": "Message is required"
+        },
+        "SENT_BY": {
+          "LABEL": "Sent by",
+          "PLACEHOLDER": "Please select the the content of campaign",
+          "ERROR": "Sender is required"
+        },
+        "END_POINT": {
+          "LABEL": "URL",
+          "PLACEHOLDER": "Please enter the URL",
+          "ERROR": "Please enter a valid URL"
+        },
+        "TIME_ON_PAGE": {
+          "LABEL": "Time on page(Seconds)",
+          "PLACEHOLDER": "Please enter the time",
+          "ERROR": "Time on page is required"
+        },
+        "ENABLED": "Enable campaign",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours",
+        "SUBMIT": "Add Campaign"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Campaign created successfully",
+        "ERROR_MESSAGE": "There was an error. Please try again."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Eyða",
+      "CONFIRM": {
+        "TITLE": "Staðfesta eyðingu",
+        "MESSAGE": "Are you sure to delete?",
+        "YES": "Já, eyða",
+        "NO": "Nei, hætta við eyðingu"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Campaign deleted successfully",
+        "ERROR_MESSAGE": "Ekki tókst að eyða herferðinni. Vinsamlegast reyndu aftur síðar."
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit campaign",
+      "UPDATE_BUTTON_TEXT": "Uppfæra",
+      "API": {
+        "SUCCESS_MESSAGE": "Campaign updated successfully",
+        "ERROR_MESSAGE": "There was an error, please try again"
+      }
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "Loading campaigns...",
+      "404": "Engar herferðir eru til fyrir þetta pósthólf.",
+      "TABLE_HEADER": {
+        "TITLE": "Title",
+        "MESSAGE": "Skilaboð",
+        "INBOX": "Innhólf",
+        "STATUS": "Staða",
+        "SENDER": "Sender",
+        "URL": "URL",
+        "SCHEDULED_AT": "Scheduled time",
+        "TIME_ON_PAGE": "Time(Seconds)",
+        "CREATED_AT": "Created at"
+      },
+      "BUTTONS": {
+        "ADD": "Bæta við",
+        "EDIT": "Breyta",
+        "DELETE": "Eyða"
+      },
+      "STATUS": {
+        "ENABLED": "Virkt",
+        "DISABLED": "Slökkt",
+        "COMPLETED": "Completed",
+        "ACTIVE": "Active"
+      },
+      "SENDER": {
+        "BOT": "Bot"
+      }
+    },
+    "ONE_OFF": {
+      "HEADER": "One off campaigns",
+      "404": "There are no one off campaigns created",
+      "INBOXES_NOT_FOUND": "Vinsamlegast búðu til sms innhólf og byrjaðu að bæta við herferðum"
+    },
+    "ONGOING": {
+      "HEADER": "Ongoing campaigns",
+      "404": "There are no ongoing campaigns created",
+      "INBOXES_NOT_FOUND": "Vinsamlegast búðu til innhólf á vefsíðu og byrjaðu að bæta við herferðum"
+    }
+  }
+}

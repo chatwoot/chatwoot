@@ -1,0 +1,99 @@
+{
+  "ATTRIBUTES_MGMT": {
+    "HEADER": "Attributs personnalisés",
+    "HEADER_BTN_TXT": "Ajouter un attribut personnalisé",
+    "LOADING": "Récupération des attributs personnalisés",
+    "SIDEBAR_TXT": "<p><b>Attributs personnalisés</b> <p>Un attribut personnalisé suit les faits concernant vos contacts/conversation — comme le plan d'abonnement, ou quand ils ont commandé le premier objet, etc. <br /><br />Pour créer un attribut personnalisé, cliquez simplement sur le<b>Ajouter un attribut personnalisé.</b> Vous pouvez également modifier ou supprimer un attribut personnalisé existant en cliquant sur le bouton Modifier ou Supprimer.</p>",
+    "ADD": {
+      "TITLE": "Ajouter un attribut personnalisé",
+      "SUBMIT": "Créer",
+      "CANCEL_BUTTON_TEXT": "Annuler",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nom affiché",
+          "PLACEHOLDER": "Entrez le nom de l'attribut personnalisé",
+          "ERROR": "Le nom est requis"
+        },
+        "DESC": {
+          "LABEL": "Description",
+          "PLACEHOLDER": "Entrez la description de l'attribut personnalisé",
+          "ERROR": "La description est requise"
+        },
+        "MODEL": {
+          "LABEL": "S'applique à",
+          "PLACEHOLDER": "Veuillez en sélectionner un",
+          "ERROR": "Le modèle est requis"
+        },
+        "TYPE": {
+          "LABEL": "Type",
+          "PLACEHOLDER": "Veuillez sélectionner un type",
+          "ERROR": "Le type est requis",
+          "LIST": {
+            "LABEL": "Lister les valeurs",
+            "PLACEHOLDER": "Veuillez entrer la valeur et appuyer sur la touche Entrée",
+            "ERROR": "Doit avoir au moins une valeur"
+          }
+        },
+        "KEY": {
+          "LABEL": "Clé",
+          "PLACEHOLDER": "Entrez une clé d'attribut personnalisée",
+          "ERROR": "La clé est requise",
+          "IN_VALID": "Clé invalide"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Attribut personnalisé ajouté avec succès!",
+        "ERROR_MESSAGE": "Impossible de créer un attribut personnalisé. Veuillez réessayer plus tard."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Supprimer",
+      "API": {
+        "SUCCESS_MESSAGE": "Attribut personnalisé supprimé avec succès.",
+        "ERROR_MESSAGE": "Impossible de supprimer l'attribut personnalisé. Veuillez réessayer."
+      },
+      "CONFIRM": {
+        "TITLE": "Voulez-vous vraiment supprimer - %{attributeName}",
+        "PLACE_HOLDER": "Veuillez taper {attributeName} pour confirmer",
+        "MESSAGE": "La suppression supprimera l'attribut personnalisé",
+        "YES": "Supprimer ",
+        "NO": "Annuler"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Modifier l'attribut personnalisé",
+      "UPDATE_BUTTON_TEXT": "Mettre à jour",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "Lister les valeurs",
+          "PLACEHOLDER": "Veuillez entrer des valeurs et appuyer sur la touche Entrée"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Attribut personnalisé mis à jour avec succès",
+        "ERROR_MESSAGE": "Une erreur s'est produite lors de la mise à jour de l'attribut personnalisé, veuillez réessayer"
+      }
+    },
+    "TABS": {
+      "HEADER": "Attributs personnalisés",
+      "CONVERSATION": "Conversation",
+      "CONTACT": "Contact"
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Nom",
+        "Description",
+        "Type",
+        "Clé"
+      ],
+      "BUTTONS": {
+        "EDIT": "Modifier",
+        "DELETE": "Supprimer"
+      },
+      "EMPTY_RESULT": {
+        "404": "Aucun attribut personnalisé créé",
+        "NOT_FOUND": "Il n’y a aucun attribut personnalisé configuré"
+      }
+    }
+  }
+}

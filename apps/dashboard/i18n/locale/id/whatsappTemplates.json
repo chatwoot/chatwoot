@@ -1,0 +1,25 @@
+{
+    "WHATSAPP_TEMPLATES": {
+        "MODAL": {
+            "TITLE": "Templat Whatsapp",
+            "SUBTITLE": "Pilih templat Whatsapp yang ingin Anda kirim",
+            "TEMPLATE_SELECTED_SUBTITLE": "Proses %{templatName}"
+        },
+        "PICKER": {
+            "SEARCH_PLACEHOLDER": "Cari Templat",
+            "NO_TEMPLATES_FOUND": "Tidak ditemukan templat untuk",
+            "LABELS": {
+                "LANGUAGE": "Bahasa",
+                "TEMPLATE_BODY": "Isi Templat",
+                "CATEGORY": "Kategori"
+            }
+        },
+        "PARSER": {
+            "VARIABLES_LABEL": "Variabel",
+            "VARIABLE_PLACEHOLDER": "Masukkan nilai %{variable}",
+            "GO_BACK_LABEL": "Kembali",
+            "SEND_MESSAGE_LABEL": "Kirim Pesan",
+            "FORM_ERROR_MESSAGE": "Harap isi semua variabel sebelum mengirim"
+        }
+    }
+}

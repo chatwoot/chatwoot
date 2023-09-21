@@ -1,0 +1,44 @@
+{
+  "REGISTER": {
+    "TRY_WOOT": "Creează cont",
+    "TITLE": "Inregistrare",
+    "TESTIMONIAL_HEADER": "Tot ce trebuie este un pas pentru a merge mai departe",
+    "TESTIMONIAL_CONTENT": "Ești la un pas de a-ți angaja clienții, de a-i păstra și de a găsi altele noi.",
+    "TERMS_ACCEPT": "Prin crearea unui cont, sunteți de acord cu <a href=\"https://www.chatwoot.com/terms\">T & C</a> și <a href=\"https://www.chatwoot.com/privacy-policy\">politica noastră de confidențialitate</a>",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Înscrieți-vă cu Google"
+    },
+    "COMPANY_NAME": {
+      "LABEL": "Numele Companiei",
+      "PLACEHOLDER": "Introduceți numele companiei dvs. de exemplu: Wayne Intreprinderi",
+      "ERROR": "Numele companiei este prea scurt."
+    },
+    "FULL_NAME": {
+      "LABEL": "Nume complet",
+      "PLACEHOLDER": "Introduceți numele complet. de exemplu: Bruce Wayne",
+      "ERROR": "Numele complet este prea scurt."
+    },
+    "EMAIL": {
+      "LABEL": "E-mail de lucru",
+      "PLACEHOLDER": "Introduceți adresa de e-mail de la locul de muncă. de exemplu: bruce@wayne.enterprises",
+      "ERROR": "Vă rugăm să introduceți o adresă de e-mail validă de lucru."
+    },
+    "PASSWORD": {
+      "LABEL": "Parola",
+      "PLACEHOLDER": "Parola",
+      "ERROR": "Parola este prea scurta.",
+      "IS_INVALID_PASSWORD": "Parola trebuie să conțină atleast 1 literă mare, 1 literă mică, 1 număr și 1 caracter special."
+    },
+    "CONFIRM_PASSWORD": {
+      "LABEL": "Confirmă parola",
+      "PLACEHOLDER": "Confirmă parola",
+      "ERROR": "Parola nu coincide."
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Înregistrare cu succes",
+      "ERROR_MESSAGE": "Nu s-a putut conecta la serverul Woot. Vă rugăm să încercați din nou."
+    },
+    "SUBMIT": "Creează cont",
+    "HAVE_AN_ACCOUNT": "Ai deja un cont?"
+  }
+}

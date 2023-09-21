@@ -1,0 +1,76 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "ക്യാൻഡ് പ്രതികരണങ്ങൾ",
+    "HEADER_BTN_TXT": "ക്യാൻഡ് പ്രതികരണം ചേർക്കുക",
+    "LOADING": "ക്യാൻഡ് പ്രതികരണങ്ങൾ ലഭ്യമാക്കുന്നു",
+    "SEARCH_404": "ഈ ചോദ്യവുമായി പൊരുത്തപ്പെടുന്ന ഇനങ്ങളൊന്നുമില്ല",
+    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+    "LIST": {
+      "404": "ഈ അക്കൗണ്ടിൽ ക്യാൻഡ് പ്രതികരണങ്ങളൊന്നും ലഭ്യമല്ല.",
+      "TITLE": "ക്യാൻഡ് പ്രതികരണങ്ങൾ നിയന്ത്രിക്കുക",
+      "DESC": "മുൻ‌നിശ്ചയിച്ച മറുപടി ടെം‌പ്ലേറ്റുകളാണ് ക്യാൻഡ് പ്രതികരണങ്ങൾ‌, അവ ടിക്കറ്റുകൾ‌ക്ക് വേഗത്തിൽ‌ മറുപടികൾ‌ അയയ്‌ക്കാൻ‌ ഉപയോഗിക്കാം.",
+      "TABLE_HEADER": [
+        "ഹ്രസ്വ കോഡ്",
+        "ഉള്ളടക്കം",
+        "പ്രവർത്തനങ്ങൾ"
+      ]
+    },
+    "ADD": {
+      "TITLE": "ക്യാൻഡ് പ്രതികരണം ചേർക്കുക",
+      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
+      "CANCEL_BUTTON_TEXT": "റദ്ദാക്കുക",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "ഹ്രസ്വ കോഡ്",
+          "PLACEHOLDER": "Please enter a short code",
+          "ERROR": "ഹ്രസ്വ കോഡ് ആവശ്യമാണ്"
+        },
+        "CONTENT": {
+          "LABEL": "ഉള്ളടക്കം",
+          "PLACEHOLDER": "ദയവായി ഒരു ഉള്ളടക്കം നൽകുക",
+          "ERROR": "ഉള്ളടക്കം ആവശ്യമാണ്"
+        },
+        "SUBMIT": "സമർപ്പിക്കുക"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "ക്യാൻഡ് പ്രതികരണം വിജയകരമായി ചേർത്തു",
+        "ERROR_MESSAGE": "വൂട്ട് സെർവറിലേക്ക് കണക്റ്റുചെയ്യാനായില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക"
+      }
+    },
+    "EDIT": {
+      "TITLE": "ക്യാൻഡ് പ്രതികരണം എഡിറ്റുചെയ്യുക",
+      "CANCEL_BUTTON_TEXT": "റദ്ദാക്കുക",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "ഹ്രസ്വ കോഡ്",
+          "PLACEHOLDER": "ദയവായി ഒരു ഹ്രസ്വ കോഡ് നൽകുക",
+          "ERROR": "ഹ്രസ്വ കോഡ് ആവശ്യമാണ്"
+        },
+        "CONTENT": {
+          "LABEL": "ഉള്ളടക്കം",
+          "PLACEHOLDER": "ദയവായി ഒരു ഉള്ളടക്കം നൽകുക",
+          "ERROR": "ഉള്ളടക്കം ആവശ്യമാണ്"
+        },
+        "SUBMIT": "സമർപ്പിക്കുക"
+      },
+      "BUTTON_TEXT": "എഡിറ്റുചെയ്യുക",
+      "API": {
+        "SUCCESS_MESSAGE": "ക്യാൻഡ്  പ്രതികരണം വിജയകരമായി അപ്‌ഡേറ്റുചെയ്‌തു",
+        "ERROR_MESSAGE": "വൂട്ട് സെർവറിലേക്ക് കണക്റ്റുചെയ്യാനായില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "ഇല്ലാതാക്കുക",
+      "API": {
+        "SUCCESS_MESSAGE": "ക്യാൻഡ് പ്രതികരണം വിജയകരമായി ഇല്ലാതാക്കി",
+        "ERROR_MESSAGE": "വൂട്ട് സെർവറിലേക്ക് കണക്റ്റുചെയ്യാനായില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക"
+      },
+      "CONFIRM": {
+        "TITLE": "ഇല്ലാതാക്കൽ സ്ഥിരീകരിക്കുക",
+        "MESSAGE": "ഇല്ലാതാക്കണമെന്ന് ഉറപ്പാണോ",
+        "YES": "അതെ, ഇല്ലാതാക്കുക",
+        "NO": "ഇല്ല, സൂക്ഷിക്കുക"
+      }
+    }
+  }
+}

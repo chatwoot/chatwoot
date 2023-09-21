@@ -1,0 +1,44 @@
+{
+  "REGISTER": {
+    "TRY_WOOT": "Criar uma conta",
+    "TITLE": "Cadastrar",
+    "TESTIMONIAL_HEADER": "Tudo que precisa é um passo para avançar",
+    "TESTIMONIAL_CONTENT": "Está a um passo de fidelizar os seus clientes, mantê-los e encontrar novos.",
+    "TERMS_ACCEPT": "Ao criar uma conta, concorda com os nossos <a href=\"https://www.chatwoot.com/terms\">Termos & Condições</a> e <a href=\"https://www.chatwoot.com/privacy-policy\">Política de privacidade</a>",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Inscrever-se com conta Google"
+    },
+    "COMPANY_NAME": {
+      "LABEL": "Nome da empresa",
+      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
+      "ERROR": "Company name is too short"
+    },
+    "FULL_NAME": {
+      "LABEL": "Nome completo",
+      "PLACEHOLDER": "Digite o seu nome completo, por exemplo: António Almeida",
+      "ERROR": "O nome completo é muito pequeno"
+    },
+    "EMAIL": {
+      "LABEL": "E-mail de trabalho",
+      "PLACEHOLDER": "Digite o seu endereço de e-mail profissional. Por exemplo: geral@informatico.pt",
+      "ERROR": "Please enter a valid work email address"
+    },
+    "PASSWORD": {
+      "LABEL": "Palavra-passe",
+      "PLACEHOLDER": "Palavra-passe",
+      "ERROR": "A senha é muito curta",
+      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+    },
+    "CONFIRM_PASSWORD": {
+      "LABEL": "Confirmar senha",
+      "PLACEHOLDER": "Confirmar senha",
+      "ERROR": "As senhas não conferem"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Registro Bem Sucedido",
+      "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+    },
+    "SUBMIT": "Criar conta",
+    "HAVE_AN_ACCOUNT": "Já tem uma conta?"
+  }
+}

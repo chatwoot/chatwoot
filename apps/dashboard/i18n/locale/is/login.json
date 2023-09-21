@@ -1,0 +1,27 @@
+{
+  "LOGIN": {
+    "TITLE": "Login to Chatwoot",
+    "EMAIL": {
+      "LABEL": "Tölvupóstfang",
+      "PLACEHOLDER": "Tölvupóstfang t.d. someone@example.com",
+      "ERROR": "Vinsamlegast skrifaðu gilt netfang"
+    },
+    "PASSWORD": {
+      "LABEL": "Lykilorð",
+      "PLACEHOLDER": "Lykilorð"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Innskráning tókst",
+      "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur",
+      "UNAUTH": "Notandanafn / lykilorð rangt. Vinsamlegast reyndu aftur"
+    },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Login with Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
+      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+    },
+    "FORGOT_PASSWORD": "Gleymt lykilorð?",
+    "CREATE_NEW_ACCOUNT": "Stofna nýjan aðgang",
+    "SUBMIT": "Innskráning"
+  }
+}

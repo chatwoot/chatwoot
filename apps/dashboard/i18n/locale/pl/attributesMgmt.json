@@ -1,0 +1,99 @@
+{
+  "ATTRIBUTES_MGMT": {
+    "HEADER": "Niestandardowe atrybuty",
+    "HEADER_BTN_TXT": "Dodaj niestandardowy atrybut",
+    "LOADING": "Pobieranie niestandardowych atrybutów",
+    "SIDEBAR_TXT": "<p><b>Niestandardowe atrybuty</b> <p>Niestandardowy atrybut śledzi informacje o Twoich kontaktach/rozmowach - na przykład plan subskrypcji lub datę zamówienia pierwszego przedmiotu itp. <br /><br />Aby utworzyć niestandardowy atrybut, wystarczy kliknąć przycisk <b>Dodaj niestandardowy atrybut</b>. Możesz również edytować lub usunąć istniejący niestandardowy atrybut, klikając przycisk Edytuj lub Usuń.</p>",
+    "ADD": {
+      "TITLE": "Dodaj niestandardowy atrybut",
+      "SUBMIT": "Stwórz",
+      "CANCEL_BUTTON_TEXT": "Anuluj",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nazwa wyświetlana",
+          "PLACEHOLDER": "Wprowadź nazwę wyświetlaną niestandardowego atrybutu",
+          "ERROR": "Nazwa jest wymagana"
+        },
+        "DESC": {
+          "LABEL": "Opis",
+          "PLACEHOLDER": "Wprowadź opis niestandardowego atrybutu",
+          "ERROR": "Opis jest wymagany"
+        },
+        "MODEL": {
+          "LABEL": "Dotyczy",
+          "PLACEHOLDER": "Wybierz jedno",
+          "ERROR": "Model jest wymagany"
+        },
+        "TYPE": {
+          "LABEL": "Typ",
+          "PLACEHOLDER": "Wybierz typ",
+          "ERROR": "Typ jest wymagany",
+          "LIST": {
+            "LABEL": "Wartości listy",
+            "PLACEHOLDER": "Wprowadź wartość i naciśnij klawisz Enter",
+            "ERROR": "Musisz mieć co najmniej jedną wartość"
+          }
+        },
+        "KEY": {
+          "LABEL": "Klucz",
+          "PLACEHOLDER": "Wprowadź klucz niestandardowego atrybutu",
+          "ERROR": "Klucz jest wymagany",
+          "IN_VALID": "Nieprawidłowy klucz"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Niestandardowy atrybut został pomyślnie dodany!",
+        "ERROR_MESSAGE": "Nie można utworzyć niestandardowego atrybutu. Spróbuj ponownie później."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Usuń",
+      "API": {
+        "SUCCESS_MESSAGE": "Niestandardowy atrybut został pomyślnie usunięty.",
+        "ERROR_MESSAGE": "Nie można usunąć niestandardowego atrybutu. Spróbuj ponownie."
+      },
+      "CONFIRM": {
+        "TITLE": "Czy na pewno chcesz usunąć - %{attributeName}",
+        "PLACE_HOLDER": "Wpisz {attributeName}, aby potwierdzić",
+        "MESSAGE": "Spowoduje to usunięcie niestandardowego atrybutu",
+        "YES": "Usuń ",
+        "NO": "Anuluj"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edytuj niestandardowy atrybut",
+      "UPDATE_BUTTON_TEXT": "Aktualizuj",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "Wartości listy",
+          "PLACEHOLDER": "Wprowadź wartości i naciśnij klawisz Enter"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Atrybut został pomyślnie zaktualizowany",
+        "ERROR_MESSAGE": "Wystąpił błąd podczas aktualizacji niestandardowego atrybutu, spróbuj ponownie"
+      }
+    },
+    "TABS": {
+      "HEADER": "Niestandardowe atrybuty",
+      "CONVERSATION": "Rozmowa",
+      "CONTACT": "Kontakt"
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Nazwa",
+        "Opis",
+        "Typ",
+        "Klucz"
+      ],
+      "BUTTONS": {
+        "EDIT": "Edytuj",
+        "DELETE": "Usuń"
+      },
+      "EMPTY_RESULT": {
+        "404": "Nie utworzono niestandardowych atrybutów",
+        "NOT_FOUND": "Brak skonfigurowanych niestandardowych atrybutów"
+      }
+    }
+  }
+}

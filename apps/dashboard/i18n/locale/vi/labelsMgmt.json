@@ -1,0 +1,83 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "Nhãn",
+    "HEADER_BTN_TXT": "Thêm nhãn",
+    "LOADING": "Tải về các nhãn",
+    "SEARCH_404": "Không có kết quả nào phù hợp",
+    "SIDEBAR_TXT": "<p><b>Nhãn</b> <p>Nhãn giúp bạn phân loại các cuộc hội thoại và ưu tiên chúng. Bạn có thể gán nhãn cho một cuộc hội thoại từ bảng phụ. <br /><br />Nhãn được liên kết với tài khoản và có thể được sử dụng để tạo quy trình công việc tùy chỉnh trong tổ chức của bạn. Bạn có thể gán màu tùy chỉnh cho nhãn, điều này giúp bạn nhận dạng nhãn dễ dàng hơn. Bạn sẽ có thể hiển thị nhãn trên thanh bên để lọc các cuộc hội thoại một cách dễ dàng.</p>",
+    "LIST": {
+      "404": "Không có nhãn nào có sẵn trong tài khoản này.",
+      "TITLE": "Quản lý nhãn",
+      "DESC": "Nhãn cho phép bạn nhóm các cuộc trò chuyện lại với nhau.",
+      "TABLE_HEADER": [
+        "Tên",
+        "Mô tả",
+        "Màu sắc"
+      ]
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Tên nhãn",
+        "PLACEHOLDER": "Tên nhãn",
+        "REQUIRED_ERROR": "Tên nhãn là bắt buộc",
+        "MINIMUM_LENGTH_ERROR": "Bắt buộc độ dài tối thiểu là 2",
+        "VALID_ERROR": "Chỉ cho phép Chữ cái, Chữ số, Dấu gạch ngang và Dấu gạch dưới"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Mô tả",
+        "PLACEHOLDER": "Mô tả cho nhãn"
+      },
+      "COLOR": {
+        "LABEL": "Màu sắc"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "Hiển thị nhãn trên sidebar"
+      },
+      "EDIT": "Chỉnh sửa",
+      "CREATE": "Tạo",
+      "DELETE": "Xoá",
+      "CANCEL": "Huỷ"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Add label to conversation",
+        "MULTIPLE_SUGGESTION": "Select this label",
+        "DESELECT": "Deselect label",
+        "DISMISS": "Dismiss suggestion"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Dismiss",
+      "ADD_SELECTED_LABELS": "Add selected labels",
+      "ADD_SELECTED_LABEL": "Add selected label",
+      "ADD_ALL_LABELS": "Add all labels"
+    },
+    "ADD": {
+      "TITLE": "Thêm nhãn",
+      "DESC": "Nhãn cho phép bạn nhóm các cuộc trò chuyện lại với nhau.",
+      "API": {
+        "SUCCESS_MESSAGE": "Thêm nhãn thành công",
+        "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Chỉnh sửa nhãn",
+      "API": {
+        "SUCCESS_MESSAGE": "Nhãn được cập nhật thành công",
+        "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Xoá",
+      "API": {
+        "SUCCESS_MESSAGE": "Nhãn đã được xoá thành công",
+        "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
+      },
+      "CONFIRM": {
+        "TITLE": "Xác Nhận Xoá",
+        "MESSAGE": "Bạn có chắc muốn xoá? ",
+        "YES": "Có, xoá ",
+        "NO": "Không, giữ "
+      }
+    }
+  }
+}

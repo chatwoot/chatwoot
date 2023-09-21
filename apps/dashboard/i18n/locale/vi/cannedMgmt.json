@@ -1,0 +1,76 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Thư mẫu phẩn hồi",
+    "HEADER_BTN_TXT": "Thêm thư mẫu phẩn hồi",
+    "LOADING": "Đang tải thư mẫu phẩn hồi",
+    "SEARCH_404": "Không có kết quả nào được tìm thấy",
+    "SIDEBAR_TXT": "<p><b>Tin trả lời lưu sẵn</b> </p><p> Tin trả lời lưu sẵn là các mẫu tin nhắn đã lưu có thể được sử dụng để trả lời nhanh cho một cuộc trò chuyện. </p><p> Để tạo một Tin trả lời lưu sẵn, chỉ cần ấn vào <b>Thêm Tin trả lời lưu sẵn</b>. Bạn cũng có thể sửa hoặc xoá Tin trả lời lưu sẵn \bbằng cách ấn nút Sửa hoặc Xoá </p><p> Tin trả lời lưu sẵn được sử dụng với sự giúp đỡ của <b>Mã Ngắn</b>. Nhân viên có thể truy cập Tin trả lời lưu sẵn khi trò chuyện bằng cách nhập <b>'/'</b>. </p>",
+    "LIST": {
+      "404": "Không có câu trả lời soạn trước nào có sẵn trong tài khoản này.",
+      "TITLE": "Quản lý thư mẫu phẩn hồi",
+      "DESC": "Thư mẫu phẩn hồi là các mẫu trả lời được xác định trước có thể được sử dụng để nhanh chóng gửi trả lời cho vé.",
+      "TABLE_HEADER": [
+        "Mã Ngắn",
+        "Nội dung",
+        "Hành động"
+      ]
+    },
+    "ADD": {
+      "TITLE": "Thêm thư mẫu phẩn hồi",
+      "DESC": "Tin trả lời lưu sẵn là các mẫu tin trả lời đã lưu, có thể được sử dụng để trả lời nhanh cho cuộc trò chuyện.",
+      "CANCEL_BUTTON_TEXT": "Huỷ",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Mã Ngắn",
+          "PLACEHOLDER": "Vui lòng nhập một mã ngắn",
+          "ERROR": "Short Code là bắt buộc"
+        },
+        "CONTENT": {
+          "LABEL": "Nội dung",
+          "PLACEHOLDER": "Vui lòng nhập nội dung",
+          "ERROR": "Nội dung là bắt buộc"
+        },
+        "SUBMIT": "Gửi"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Thư mẫu phẩn hồi được thêm thành công",
+        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Chỉnh sửa Thư mẫu phẩn hồi",
+      "CANCEL_BUTTON_TEXT": "Huỷ",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Mã Ngắn",
+          "PLACEHOLDER": "Vui lòng nhập shortcode",
+          "ERROR": "Short Code là bắt buộc"
+        },
+        "CONTENT": {
+          "LABEL": "Nội dung",
+          "PLACEHOLDER": "Vui lòng nhập nội dung",
+          "ERROR": "Nội dung là bắt buộc"
+        },
+        "SUBMIT": "Gửi"
+      },
+      "BUTTON_TEXT": "Chỉnh sửa",
+      "API": {
+        "SUCCESS_MESSAGE": "Thư mẫu phẩn hồi cập nhật thành công",
+        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Xoá",
+      "API": {
+        "SUCCESS_MESSAGE": "Thư mẫu phẩn hồi đã được xoá thành công",
+        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+      },
+      "CONFIRM": {
+        "TITLE": "Xác nhận xoá",
+        "MESSAGE": "Bạn có chắc muốn xoá? ",
+        "YES": "Có, xoá ",
+        "NO": "Không, giữ "
+      }
+    }
+  }
+}

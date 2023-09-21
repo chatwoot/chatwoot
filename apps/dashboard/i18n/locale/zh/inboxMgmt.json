@@ -1,0 +1,238 @@
+{
+  "INBOX_MGMT": {
+    "HEADER": "收件箱",
+    "SIDEBAR_TXT": "<p><b>收件箱</b></p> <p> 当您将网站或Facebook页面连接到Chatwoot 它被称为一个 <b>收件箱</b>。 您可以在Chatwoot 帐户中拥有无限的收件箱。 </p><p> 点击 <b>添加收件箱</b> 连接网站或 Facebook 页面。 </p><p> 在仪表盘中 您可以在一个地方看到所有收件箱中的所有对话，并在“对话”选项卡下回复。 </p><p> 您也可以通过点击仪表板左侧面板上的收件箱名称看到针对收件箱的对话。 </p>",
+    "LIST": {
+      "404": "此账户没有收件箱。"
+    },
+    "CREATE_FLOW": [
+      {
+        "title": "选择频道",
+        "route": "settings_inbox_new",
+        "body": "选择你想要与Chatwoot 集成的提供商。"
+      },
+      {
+        "title": "新增收件箱",
+        "route": "settings_inboxes_page_channel",
+        "body": "验证您的帐户并创建收件箱。"
+      },
+      {
+        "title": "添加客服代理",
+        "route": "settings_inboxes_add_agents",
+        "body": "将客服添加到创建的收件箱。"
+      },
+      {
+        "title": "Voila!",
+        "route": "settings_inbox_finish",
+        "body": "你已设定状态为离开"
+      }
+    ],
+    "ADD": {
+      "FB": {
+        "HELP": "注意: 通过登录，我们只能访问您的页面的消息。您的私人消息永远不能被聊天室访问。",
+        "CHOOSE_PAGE": "选择页面",
+        "CHOOSE_PLACEHOLDER": "从列表中选择一个页面",
+        "INBOX_NAME": "收件箱名称",
+        "ADD_NAME": "为收件箱添加名称",
+        "PICK_NAME": "选择收件箱名称",
+        "PICK_A_VALUE": "选择一个数值"
+      },
+      "TWITTER": {
+        "HELP": "若要将您的Twitter个人资料添加为频道，您需要通过点击“使用Twitter登录”来验证您的Twitter个人资料。 "
+      },
+      "WEBSITE_CHANNEL": {
+        "TITLE": "网站频道",
+        "DESC": "为您的网站创建一个频道并通过我们的网站小部件开始支持您的客户。",
+        "LOADING_MESSAGE": "创建网站支持频道",
+        "CHANNEL_AVATAR": {
+          "LABEL": "频道头像"
+        },
+        "CHANNEL_NAME": {
+          "LABEL": "网站名称",
+          "PLACEHOLDER": "输入您的网站名称 (e.g: Acme Inc)"
+        },
+        "CHANNEL_DOMAIN": {
+          "LABEL": "网站域名",
+          "PLACEHOLDER": "输入您的网站域名(e.g: acme.com)"
+        },
+        "CHANNEL_WELCOME_TITLE": {
+          "LABEL": "欢迎标题：",
+          "PLACEHOLDER": "你好！"
+        },
+        "CHANNEL_WELCOME_TAGLINE": {
+          "LABEL": "欢迎标签行",
+          "PLACEHOLDER": "如有疑问，请联系我们"
+        },
+        "CHANNEL_GREETING_MESSAGE": {
+          "LABEL": "频道问候消息",
+          "PLACEHOLDER": "Acme Inc通常在几小时内回复。"
+        },
+        "CHANNEL_GREETING_TOGGLE": {
+          "LABEL": "开启频道问候功能",
+          "HELP_TEXT": "在用户开始对话时发送问候消息。",
+          "ENABLED": "已启用",
+          "DISABLED": "已禁用"
+        },
+        "WIDGET_COLOR": {
+          "LABEL": "窗口小部件颜色",
+          "PLACEHOLDER": "更新小部件中使用的部件颜色"
+        },
+        "SUBMIT_BUTTON": "创建收件箱"
+      },
+      "TWILIO": {
+        "TITLE": "Twilio SMS/Whatsapp 频道",
+        "DESC": "整合Twilio 并开始通过短信或Whatsap支持您的客户。",
+        "ACCOUNT_SID": {
+          "LABEL": "账户 SID",
+          "PLACEHOLDER": "请输入您的 Twilio 账户 SID",
+          "ERROR": "此字段是必填项"
+        },
+        "CHANNEL_TYPE": {
+          "LABEL": "频道类型",
+          "ERROR": "请选择您的频道类型"
+        },
+        "AUTH_TOKEN": {
+          "LABEL": "身份验证令牌",
+          "PLACEHOLDER": "请输入您的 Twilio 认证令牌",
+          "ERROR": "此字段是必填项"
+        },
+        "CHANNEL_NAME": {
+          "LABEL": "频道类型",
+          "PLACEHOLDER": "请输入频道名称",
+          "ERROR": "此字段是必填项"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "电话号码",
+          "PLACEHOLDER": "请输入发送消息的电话号码。",
+          "ERROR": "请输入一个有效的值。电话号码应该以`+`开始。"
+        },
+        "API_CALLBACK": {
+          "TITLE": "回调地址",
+          "SUBTITLE": "您必须使用这里提到的URL来配置Twilio中的回调URL。"
+        },
+        "SUBMIT_BUTTON": "创建 Twilio 频道",
+        "API": {
+          "ERROR_MESSAGE": "我们无法验证 Twilio 凭据，请重试"
+        }
+      },
+      "API_CHANNEL": {
+        "TITLE": "API 频道",
+        "DESC": "Integrate with API channel and start supporting your customers.",
+        "CHANNEL_NAME": {
+          "LABEL": "频道类型",
+          "PLACEHOLDER": "请输入频道名称",
+          "ERROR": "此字段是必填项"
+        },
+        "WEBHOOK_URL": {
+          "LABEL": "Webhook 网址",
+          "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
+          "PLACEHOLDER": "Webhook 网址"
+        },
+        "SUBMIT_BUTTON": "创建 API 频道",
+        "API": {
+          "ERROR_MESSAGE": "我们无法保存 api 频道"
+        }
+      },
+      "EMAIL_CHANNEL": {
+        "TITLE": "电子邮件频道",
+        "DESC": "Integrate you email inbox.",
+        "CHANNEL_NAME": {
+          "LABEL": "频道类型",
+          "PLACEHOLDER": "请输入频道名称",
+          "ERROR": "此字段是必填项"
+        },
+        "EMAIL": {
+          "LABEL": "Email",
+          "SUBTITLE": "向您的客户发送支持工单的电子邮件",
+          "PLACEHOLDER": "Email"
+        },
+        "SUBMIT_BUTTON": "创建电子邮件频道",
+        "API": {
+          "ERROR_MESSAGE": "我们无法保存电子邮件频道"
+        },
+        "FINISH_MESSAGE": "开始将您的电子邮件转发到以下电子邮件地址。"
+      },
+      "AUTH": {
+        "TITLE": "频道",
+        "DESC": "目前我们支持网站在线聊天小部件、Facebook页面和Twitter配置文件作为平台。 我们在工作中拥有更多平台，如Whatsapp、Email、Telegram 和 Line，这些平台将很快出台。"
+      },
+      "AGENTS": {
+        "TITLE": "客服代理们",
+        "DESC": "在这里您可以添加代理来管理您新创建的收件箱。只有这些选定的代理才能访问您的收件箱。 不属于此收件箱的代理人在登录时将无法看到或回复此收件箱中的消息。 <br> <b>PS：</b> 作为管理员，如果您需要访问所有收件箱， 您应该将自己添加到您创建的所有收件箱中。"
+      },
+      "DETAILS": {
+        "TITLE": "收件箱详细信息",
+        "DESC": "从下面的下拉菜单中选择您想要连接到聊天室的 Facebook 页面。 您也可以给您的收件箱提供一个自定义名称以便更好地识别身份。"
+      },
+      "FINISH": {
+        "TITLE": "已被注明！",
+        "DESC": "您已成功地将您的Facebook页面与Chatwoot集成。下次客户消息您的页面时，对话将自动出现在收件箱中。<br>我们还为您提供了一个小部件脚本，您可以轻松地添加到您的网站。 在您的网站上登录后， 客户可以在没有任何外部工具帮助的情况下从您的网站向您发送消息，对话将会在这里出现在Chatwoot 上。<br>酷，好吧？好吧，我们肯定试着是 :)"
+      }
+    },
+    "DETAILS": {
+      "LOADING_FB": "在 Facebook 上认证你... ..",
+      "ERROR_FB_AUTH": "出错了，请刷新页面...",
+      "CREATING_CHANNEL": "创建您的收件箱...",
+      "TITLE": "配置收件箱详情",
+      "DESC": ""
+    },
+    "AGENTS": {
+      "BUTTON_TEXT": "添加客服代理",
+      "ADD_AGENTS": "正在向收件箱添加代理..."
+    },
+    "FINISH": {
+      "TITLE": "您的收件箱已准备就绪！",
+      "MESSAGE": "您现在可以通过您的新频道与您的客户联系。快乐支持 ",
+      "BUTTON_TEXT": "带我到这里",
+      "WEBSITE_SUCCESS": "您已成功完成创建网站频道。复制下面显示的代码并将其粘贴在您的网站上。 下次客户使用实时聊天时，对话将自动出现在您的收件箱中。"
+    },
+    "REAUTH": "重新授权",
+    "VIEW": "查看",
+    "EDIT": {
+      "API": {
+        "SUCCESS_MESSAGE": "已成功更新收件箱设置",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "自动分配成功更新",
+        "ERROR_MESSAGE": "无法更新部件颜色。请稍后再试。"
+      },
+      "AUTO_ASSIGNMENT": {
+        "ENABLED": "已启用",
+        "DISABLED": "已禁用"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "删除",
+      "CONFIRM": {
+        "TITLE": "确认删除",
+        "MESSAGE": "您确定要删除吗？ ",
+        "YES": "是，删除 ",
+        "NO": "不，保留 "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "收件箱删除成功",
+        "ERROR_MESSAGE": "无法删除收件箱。请稍后再试。"
+      }
+    },
+    "TABS": {
+      "SETTINGS": "设置",
+      "COLLABORATORS": "Collaborators",
+      "CONFIGURATION": "Configuration"
+    },
+    "SETTINGS": "设置",
+    "FEATURES": {
+      "LABEL": "Features",
+      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
+      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
+    },
+    "SETTINGS_POPUP": {
+      "MESSENGER_HEADING": "Messenger 脚本",
+      "MESSENGER_SUB_HEAD": "将此按钮放置在窗体标签中",
+      "INBOX_AGENTS": "客服代理们",
+      "INBOX_AGENTS_SUB_TEXT": "添加或删除此收件箱中的客服",
+      "UPDATE": "更新",
+      "AUTO_ASSIGNMENT": "启用自动分配",
+      "INBOX_UPDATE_TITLE": "收件箱设置",
+      "INBOX_UPDATE_SUB_TEXT": "更新收件箱设置",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "启用或禁用添加到此收件箱的代理人自动分配新的会话。"
+    }
+  }
+}

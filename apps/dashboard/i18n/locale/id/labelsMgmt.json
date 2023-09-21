@@ -1,0 +1,83 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "Label",
+    "HEADER_BTN_TXT": "Tambah label",
+    "LOADING": "Mengambil label",
+    "SEARCH_404": "Tidak ada item yang cocok dengan kueri ini",
+    "SIDEBAR_TXT": "<p><b>Label</b> <p>Label membantu Anda mengkategorikan percakapan dan memprioritaskannya. Anda dapat menetapkan label ke percakapan dari panel samping. <br /><br />Label terikat ke akun dan bisa digunakan untuk membuat alur kerja kustom di organisasi Anda. Anda dapat menetapkan warna khusus ke label, ini membuatnya lebih mudah untuk mengidentifikasi label. Anda akan dapat menampilkan label di sidebar untuk memfilter percakapan dengan mudah.</p>",
+    "LIST": {
+      "404": "Tidak ada label yang tersedia di akun ini.",
+      "TITLE": "Kelola label",
+      "DESC": "Label memungkinkan Anda mengelompokkan percakapan menjadi satu.",
+      "TABLE_HEADER": [
+        "Nama",
+        "Deskripsi",
+        "Warna"
+      ]
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Nama Label",
+        "PLACEHOLDER": "Nama label",
+        "REQUIRED_ERROR": "Nama label wajib diisi",
+        "MINIMUM_LENGTH_ERROR": "Panjang minimal 2 diperlukan",
+        "VALID_ERROR": "Hanya Abjad, Angka, Tanda Hubung, dan Garis Bawah yang diperbolehkan"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Deskripsi",
+        "PLACEHOLDER": "Deskripsi Label"
+      },
+      "COLOR": {
+        "LABEL": "Warna"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "Tampilkan label di sidebar"
+      },
+      "EDIT": "Edit",
+      "CREATE": "Buat",
+      "DELETE": "Hapus",
+      "CANCEL": "Batalkan"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Add label to conversation",
+        "MULTIPLE_SUGGESTION": "Select this label",
+        "DESELECT": "Deselect label",
+        "DISMISS": "Dismiss suggestion"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Tutup",
+      "ADD_SELECTED_LABELS": "Add selected labels",
+      "ADD_SELECTED_LABEL": "Add selected label",
+      "ADD_ALL_LABELS": "Add all labels"
+    },
+    "ADD": {
+      "TITLE": "Tambah label",
+      "DESC": "Label memungkinkan Anda mengelompokkan percakapan menjadi satu.",
+      "API": {
+        "SUCCESS_MESSAGE": "Label berhasil ditambahkan",
+        "ERROR_MESSAGE": "Terjadi kesalahan, harap coba lagi"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit label",
+      "API": {
+        "SUCCESS_MESSAGE": "Label berhasil diperbarui",
+        "ERROR_MESSAGE": "Terjadi kesalahan, harap coba lagi"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Hapus",
+      "API": {
+        "SUCCESS_MESSAGE": "Label berhasil dihapus",
+        "ERROR_MESSAGE": "Terjadi kesalahan, harap coba lagi"
+      },
+      "CONFIRM": {
+        "TITLE": "Konfirmasi Penghapusan",
+        "MESSAGE": "Apakah Anda yakin untuk menghapus ",
+        "YES": "Ya, Hapus ",
+        "NO": "Tidak, Simpan "
+      }
+    }
+  }
+}

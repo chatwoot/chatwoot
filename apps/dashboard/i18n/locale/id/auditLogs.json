@@ -1,0 +1,71 @@
+{
+  "AUDIT_LOGS": {
+    "HEADER": "Catatan Audit",
+    "HEADER_BTN_TXT": "Tambahkan Catatan Audit",
+    "LOADING": "Mengambil Catatan Audit",
+    "SEARCH_404": "Tidak ada item yang cocok dengan kueri ini",
+    "SIDEBAR_TXT": "<p><b>Catatan Audit</b> </p><p> Catatan Audit adalah jejak untuk peristiwa dan tindakan dalam Sistem Chatwoot. </p>",
+    "LIST": {
+      "404": "Tidak ada Catatan Audit yang tersedia di akun ini.",
+      "TITLE": "Kelola Catatan Audit",
+      "DESC": "Catatan Audit adalah jejak untuk peristiwa dan tindakan dalam Sistem Chatwoot.",
+      "TABLE_HEADER": [
+        "Pengguna",
+        "Tindakan",
+        "Alamat IP"
+      ]
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Catatan Audit berhasil diambil",
+      "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silakan coba lagi nanti"
+    },
+    "DEFAULT_USER": "Sistem",
+    "AUTOMATION_RULE": {
+      "ADD": "%{agentName} membuat aturan otomatisasi baru (#%{id})",
+      "EDIT": "%{agentName} memperbarui aturan otomatisasi (#%{id})",
+      "DELETE": "%{agentName} menghapus aturan otomatisasi (#%{id})"
+    },
+    "ACCOUNT_USER": {
+      "ADD": "%{agentName} mengundang %{invitee} ke akun sebagai %{role}",
+      "EDIT": {
+        "SELF": "%{agentName} mengubah %{attributes} mereka menjadi %{values}",
+        "OTHER": "%{agentName} mengubah %{attributes} dari %{user} menjadi %{values}"
+      }
+    },
+    "INBOX": {
+      "ADD": "%{agentName} membuat kotak masuk baru (#%{id})",
+      "EDIT": "%{agentName} memperbarui kotak masuk (#%{id})",
+      "DELETE": "%{agentName} menghapus kotak masuk (#%{id})"
+    },
+    "WEBHOOK": {
+      "ADD": "%{agentName} membuat webhook baru (#%{id})",
+      "EDIT": "%{agentName} memperbarui webhook (#%{id})",
+      "DELETE": "%{agentName} menghapus webhook (#%{id})"
+    },
+    "USER_ACTION": {
+      "SIGN_IN": "%{agentName} masuk",
+      "SIGN_OUT": "%{agentName} keluar"
+    },
+    "TEAM": {
+      "ADD": "%{agentName} membuat tim baru (#%{id})",
+      "EDIT": "%{agentName} memperbarui tim (#%{id})",
+      "DELETE": "%{agentName} menghapus tim (#%{id})"
+    },
+    "MACRO": {
+      "ADD": "%{agentName} membuat makro baru (#%{id})",
+      "EDIT": "%{agentName} memperbarui makro (#%{id})",
+      "DELETE": "%{agentName} menghapus makro (#%{id})"
+    },
+    "INBOX_MEMBER": {
+      "ADD": "%{agentName} added %{user} to the inbox(#%{inbox_id})",
+      "REMOVE": "%{agentName} removed %{user} from the inbox(#%{inbox_id})"
+    },
+    "TEAM_MEMBER": {
+      "ADD": "%{agentName} added %{user} to the team(#%{team_id})",
+      "REMOVE": "%{agentName} removed %{user} from the team(#%{team_id})"
+    },
+    "ACCOUNT": {
+      "EDIT": "%{agentName} updated the account configuration (#%{id})"
+    }
+  }
+}

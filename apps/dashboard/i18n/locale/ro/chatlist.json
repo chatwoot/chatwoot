@@ -1,0 +1,109 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "Preluare conversații",
+    "LOAD_MORE_CONVERSATIONS": "Încarcă mai multe conversații",
+    "EOF": "Toate conversațiile au fost încărcate 🎉",
+    "LIST": {
+      "404": "Nu sunt conversații active în acest grup."
+    },
+    "TAB_HEADING": "Conversații",
+    "MENTION_HEADING": "Mențiuni",
+    "UNATTENDED_HEADING": "Neasistat",
+    "SEARCH": {
+      "INPUT": "Caută persoane, conversații, răspunsuri salvate .."
+    },
+    "FILTER_ALL": "Toate",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Ale mele",
+      "unassigned": "Neatribuit",
+      "all": "Toate"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Deschide"
+      },
+      "resolved": {
+        "TEXT": "Rezolvat"
+      },
+      "pending": {
+        "TEXT": "În aşteptare"
+      },
+      "snoozed": {
+        "TEXT": "Amânat"
+      },
+      "all": {
+        "TEXT": "Toate"
+      }
+    },
+    "VIEW_FILTER": "Vizualizare",
+    "SORT_TOOLTIP_LABEL": "Sortarea conversațiilor",
+    "CHAT_SORT": {
+      "STATUS": "Status",
+      "ORDER_BY": "Ordonat după"
+    },
+    "CHAT_SORT_FILTER_ITEMS": {
+      "latest": {
+        "TEXT": "Ultima activitate"
+      },
+      "sort_on_created_at": {
+        "TEXT": "Creat la"
+      },
+      "sort_on_priority": {
+        "TEXT": "Prioritate"
+      },
+      "sort_on_waiting_since": {
+        "TEXT": "Pending Response"
+      }
+    },
+    "ATTACHMENTS": {
+      "image": {
+        "CONTENT": "Mesaj imagine"
+      },
+      "audio": {
+        "CONTENT": "Mesaj audio"
+      },
+      "video": {
+        "CONTENT": "Mesaj video"
+      },
+      "file": {
+        "CONTENT": "Fişier ataşat"
+      },
+      "location": {
+        "CONTENT": "Locaţie"
+      },
+      "fallback": {
+        "CONTENT": "a partajat un URL"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Sortarea conversației",
+      "DROPDOWN_TITLE": "Sortați după",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Ultima activitate la",
+          "LABEL": "Ultima activitate"
+        },
+        "CREATED_AT": {
+          "NAME": "Creat la",
+          "LABEL": "Creat la"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Ultimul mesaj de utilizator la",
+          "LABEL": "Ultimul mesaj"
+        }
+      }
+    },
+    "RECEIVED_VIA_EMAIL": "Primit prin e-mail",
+    "VIEW_TWEET_IN_TWITTER": "Vezi tweet pe Twitter",
+    "REPLY_TO_TWEET": "Răspunde la acest tweet",
+    "LINK_TO_STORY": "Accesați povestea Instagram",
+    "SENT": "Trimis cu succes",
+    "READ": "Citit cu succes",
+    "DELIVERED": "Livrat cu succes",
+    "NO_MESSAGES": "Niciun mesaj",
+    "NO_CONTENT": "Nici un conținut disponibil",
+    "HIDE_QUOTED_TEXT": "Ascunde textul citat",
+    "SHOW_QUOTED_TEXT": "Arată textul citat",
+    "MESSAGE_READ": "Citește"
+  }
+}

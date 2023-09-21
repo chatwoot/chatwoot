@@ -1,0 +1,166 @@
+{
+  "GENERAL_SETTINGS": {
+    "TITLE": "Impostazioni account",
+    "SUBMIT": "Aggiorna le impostazioni",
+    "BACK": "Indietro",
+    "DISMISS": "Dismiss",
+    "UPDATE": {
+      "ERROR": "Impossibile aggiornare le impostazioni, riprova!",
+      "SUCCESS": "Impostazioni account aggiornate con successo"
+    },
+    "FORM": {
+      "ERROR": "Correggi gli errori del modulo",
+      "GENERAL_SECTION": {
+        "TITLE": "Impostazioni generali",
+        "NOTE": ""
+      },
+      "ACCOUNT_ID": {
+        "TITLE": "ID Account",
+        "NOTE": "Questo ID è richiesto se si sta costruendo un'integrazione basata su API"
+      },
+      "NAME": {
+        "LABEL": "Nome account",
+        "PLACEHOLDER": "Nome del tuo account",
+        "ERROR": "Inserisci un nome account valido"
+      },
+      "LANGUAGE": {
+        "LABEL": "Site language",
+        "PLACEHOLDER": "Nome del tuo account",
+        "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "Dominio email in entrata",
+        "PLACEHOLDER": "Il dominio in cui riceverai le email",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "Email di supporto",
+        "PLACEHOLDER": "Email di supporto della tua azienda",
+        "ERROR": ""
+      },
+      "AUTO_RESOLVE_DURATION": {
+        "LABEL": "Numero di giorni dopo che un ticket dovrebbe risolvere automaticamente se non c'è attività",
+        "PLACEHOLDER": "30",
+        "ERROR": "Inserisci una durata di risoluzione automatica valida (minimo 1 giorno e massimo 999 giorni)"
+      },
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "La continuità della conversazione con le email è abilitata per il tuo account.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Puoi ricevere email nel tuo dominio personalizzato ora."
+      }
+    },
+    "UPDATE_CHATWOOT": "È disponibile un aggiornamento %{latestChatwootVersion} per Chatwoot. Aggiorna la tua istanza.",
+    "LEARN_MORE": "Scopri di più",
+    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
+    "OPEN_BILLING": "Open billing"
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "Premi Invio per selezionare",
+      "ENTER_TO_REMOVE": "Premi Invio per rimuovere",
+      "SELECT_ONE": "Selezionane uno",
+      "SELECT": "Select"
+    }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "Notifiche",
+    "MARK_ALL_DONE": "Contrassegna tutto come fatto",
+    "DELETE_TITLE": "eliminato",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Notifiche non lette",
+      "ALL_NOTIFICATIONS": "Visualizza tutte le notifiche",
+      "LOADING_UNREAD_MESSAGE": "Caricamento notifiche non lette...",
+      "EMPTY_MESSAGE": "Non hai notifiche non lette"
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "Caricamento notifiche...",
+      "404": "Nessuna notifica",
+      "TABLE_HEADER": [
+        "Nome",
+        "Numero di telefono",
+        "Conversazioni",
+        "Ultimo contattato"
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "Nuova conversazione",
+      "conversation_assignment": "Conversazione assegnata",
+      "assigned_conversation_new_message": "Nuovo messaggio",
+      "participating_conversation_new_message": "Nuovo messaggio",
+      "conversation_mention": "Menzione"
+    }
+  },
+  "NETWORK": {
+    "NOTIFICATION": {
+      "TEXT": "Disconnesso da Chatwoot"
+    },
+    "BUTTON": {
+      "REFRESH": "Aggiorna"
+    }
+  },
+  "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "Cerca o salta a",
+    "SECTIONS": {
+      "GENERAL": "Generale",
+      "REPORTS": "Rapporti",
+      "CONVERSATION": "Conversazioni",
+      "CHANGE_ASSIGNEE": "Cambia assegnatario",
+      "CHANGE_PRIORITY": "Change Priority",
+      "CHANGE_TEAM": "Cambia Team",
+      "SNOOZE_CONVERSATION": "Posticipa conversazione",
+      "ADD_LABEL": "Aggiungi etichetta alla conversazione",
+      "REMOVE_LABEL": "Rimuovi etichetta dalla conversazione",
+      "SETTINGS": "Impostazioni",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance"
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "Vai alla dashboard Conversazioni",
+      "GO_TO_CONTACTS_DASHBOARD": "Vai alla dashboard Contatti",
+      "GO_TO_REPORTS_OVERVIEW": "Vai alla panoramica dei report",
+      "GO_TO_CONVERSATION_REPORTS": "Vai ai report della conversazione",
+      "GO_TO_AGENT_REPORTS": "Vai ai report degli agenti",
+      "GO_TO_LABEL_REPORTS": "Vai ai report delle etichette",
+      "GO_TO_INBOX_REPORTS": "Vai ai report delle caselle",
+      "GO_TO_TEAM_REPORTS": "Vai ai report dei team",
+      "GO_TO_SETTINGS_AGENTS": "Vai alle impostazioni dell'agente",
+      "GO_TO_SETTINGS_TEAMS": "Vai alle impostazioni del team",
+      "GO_TO_SETTINGS_INBOXES": "Vai alle impostazioni delle caselle",
+      "GO_TO_SETTINGS_LABELS": "Vai alle impostazioni delle etichette",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Vai alle impostazioni delle risposte predefinite",
+      "GO_TO_SETTINGS_APPLICATIONS": "Vai alle impostazioni dell'applicazione",
+      "GO_TO_SETTINGS_ACCOUNT": "Vai alle impostazioni dell'account",
+      "GO_TO_SETTINGS_PROFILE": "Vai alle impostazioni del profilo",
+      "GO_TO_NOTIFICATIONS": "Vai alle notifiche",
+      "ADD_LABELS_TO_CONVERSATION": "Aggiungi etichetta alla conversazione",
+      "ASSIGN_AN_AGENT": "Assegna un agente",
+      "AI_ASSIST": "AI Assist",
+      "ASSIGN_PRIORITY": "Assign priority",
+      "ASSIGN_A_TEAM": "Assegna un team",
+      "MUTE_CONVERSATION": "Silenzia conversazione",
+      "UNMUTE_CONVERSATION": "Riattiva conversazione",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Rimuovi etichetta dalla conversazione",
+      "REOPEN_CONVERSATION": "Riapri la conversazione",
+      "RESOLVE_CONVERSATION": "Risolvi la conversazione",
+      "SEND_TRANSCRIPT": "Invia una trascrizione email",
+      "SNOOZE_CONVERSATION": "Posticipa conversazione",
+      "UNTIL_NEXT_REPLY": "Fino alla prossima risposta",
+      "UNTIL_NEXT_WEEK": "Fino alla prossima settimana",
+      "UNTIL_TOMORROW": "Fino a domani",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "System"
+    }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Loading Dashboard App..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "clicca qui"
+  }
+}

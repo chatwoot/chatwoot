@@ -1,0 +1,118 @@
+{
+  "AUTOMATION": {
+    "HEADER": "Automações",
+    "HEADER_BTN_TXT": "Adicionar regra de automação",
+    "LOADING": "Buscando regras de automação",
+    "SIDEBAR_TXT": "<p><b>Regras de automação</b> <p>A automação pode substituir e agilizar processos existentes que requerem esforço manual. Você pode fazer muitas coisas automatizadas, como adicionar marcadores e atribuir a conversa ao melhor agente, enquanto a equipe se concentra no que saber fazer de melhor, que é atender, sem se preocupar com tarefas manuais.</p>",
+    "ADD": {
+      "TITLE": "Adicionar regra de automação",
+      "SUBMIT": "Criar",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nome da Regra",
+          "PLACEHOLDER": "Inserir nome da regra",
+          "ERROR": "O nome é obrigatório"
+        },
+        "DESC": {
+          "LABEL": "Descrição",
+          "PLACEHOLDER": "Inserir descrição de regra",
+          "ERROR": "Descrição obrigatória"
+        },
+        "EVENT": {
+          "LABEL": "Evento",
+          "PLACEHOLDER": "Por favor, selecione um",
+          "ERROR": "O campo evento é obrigatório"
+        },
+        "CONDITIONS": {
+          "LABEL": "Condições"
+        },
+        "ACTIONS": {
+          "LABEL": "Ações"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Adicionar condição",
+      "ACTION_BUTTON_LABEL": "Adicionar ação",
+      "API": {
+        "SUCCESS_MESSAGE": "Regra de automação adicionada com sucesso",
+        "ERROR_MESSAGE": "Não foi possível criar uma regra de automação, por favor, tente novamente mais tarde"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Nome",
+        "Descrição",
+        "Ativo",
+        "Criado em"
+      ],
+      "404": "Nenhuma regra de automação encontrada"
+    },
+    "DELETE": {
+      "TITLE": "Excluir regra de automação",
+      "SUBMIT": "Excluir",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "CONFIRM": {
+        "TITLE": "Confirmar exclusão",
+        "MESSAGE": "Você tem certeza que deseja excluir? ",
+        "YES": "Sim, excluir ",
+        "NO": "Não, Mantenha "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Regra de automação excluída com sucesso",
+        "ERROR_MESSAGE": "Não foi possível excluir uma regra de automação, por favor, tente novamente mais tarde"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Editar regra de automação",
+      "SUBMIT": "Atualizar",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "API": {
+        "SUCCESS_MESSAGE": "Regra de automação atualizada com sucesso",
+        "ERROR_MESSAGE": "Não foi possível atualizar a regra de automação, por favor, tente novamente mais tarde"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "Duplicar",
+      "API": {
+        "SUCCESS_MESSAGE": "Automação duplicada com sucesso",
+        "ERROR_MESSAGE": "Não foi possível duplicar regra de automação, por favor, tente novamente mais tarde"
+      }
+    },
+    "FORM": {
+      "EDIT": "Alterar",
+      "CREATE": "Criar",
+      "DELETE": "Excluir",
+      "CANCEL": "Cancelar",
+      "RESET_MESSAGE": "Alterar o evento irá redefinir as condições e eventos que você adicionou abaixo"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "Você precisa ter pelo menos uma condição para salvar",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Atributos personalizados do contato",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Atributos personalizados da conversa"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "Você precisa ter pelo menos uma ação para salvar",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Escreva sua mensagem aqui",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Selecione o time"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Ativar regra de automação",
+      "DEACTIVATION_TITLE": "Desativar regra de automação",
+      "ACTIVATION_DESCRIPTION": "Esta ação ativará a regra de automação '{automationName}'. Tem certeza que deseja continuar?",
+      "DEACTIVATION_DESCRIPTION": "Esta ação irá desativar a regra de automação '{automationName}'. Tem certeza que deseja continuar?",
+      "ACTIVATION_SUCCESFUL": "Regra de automação ativada com sucesso",
+      "DEACTIVATION_SUCCESFUL": "Regra de automação desativada com sucesso",
+      "ACTIVATION_ERROR": "Não foi possível ativar a automação, por favor tente novamente mais tarde",
+      "DEACTIVATION_ERROR": "Não foi possível desativar a automação, por favor, tente novamente mais tarde",
+      "CONFIRMATION_LABEL": "Sim",
+      "CANCEL_LABEL": "Não"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Não foi possível enviar o anexo, por favor, tente novamente",
+      "LABEL_IDLE": "Enviar Anexo",
+      "LABEL_UPLOADING": "Enviando...",
+      "LABEL_UPLOADED": "Upload feito com sucesso",
+      "LABEL_UPLOAD_FAILED": "Faha no envio"
+    }
+  }
+}

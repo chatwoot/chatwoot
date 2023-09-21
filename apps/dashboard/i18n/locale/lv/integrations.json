@@ -1,0 +1,214 @@
+{
+  "INTEGRATION_SETTINGS": {
+    "HEADER": "Integrācijas",
+    "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Abonētie Notikumi",
+      "FORM": {
+        "CANCEL": "Atcelt",
+        "DESC": "Webhook notikumi sniedz Jums reāllaika informāciju par to, kas notiek jūsu Chatwoot kontā. Lūdzu, ievadiet derīgu URL, lai nokonfigurētu atzvanīšanu.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Notikumi",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Saruna izveidota",
+            "CONVERSATION_STATUS_CHANGED": "Sarunas Statuss Mainīts",
+            "CONVERSATION_UPDATED": "Saruna Atjaunināta",
+            "MESSAGE_CREATED": "Ziņojums izveidots",
+            "MESSAGE_UPDATED": "Ziņojums atjaunināts",
+            "WEBWIDGET_TRIGGERED": "Lietotājs atvēra tiešsaistes tērzēšanas logrīku",
+            "CONTACT_CREATED": "Kontaktpersona izveidota",
+            "CONTACT_UPDATED": "Kontaktpersona atjaunināta"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "Webhook URL",
+          "PLACEHOLDER": "Piemēram: %{webhookExampleURL}",
+          "ERROR": "Lūdzu, ievadiet derīgu URL"
+        },
+        "EDIT_SUBMIT": "Atjaunināt webhook",
+        "ADD_SUBMIT": "Izveidot webhook"
+      },
+      "TITLE": "Webhook",
+      "CONFIGURE": "Konfigurēt",
+      "HEADER": "Webhook iestatījumi",
+      "HEADER_BTN_TXT": "Pievienot jaunu webhook",
+      "LOADING": "Notiek pievienoto webhook iegūšana",
+      "SEARCH_404": "Šim vaicājumam nav atbilstošu vienumu",
+      "SIDEBAR_TXT": "<p><b>Webhook</b> </p> <p>Webhook ir HTTP atzvani, kurus var definēt katram kontam. Tos aktivizē tādi notikumi kā ziņojumu izveide pakalpojumā Chatwoot. Šim kontam varat izveidot vairāk nekā vienu webhook. <br /><br /> Lai izveidotu <b>webhook</b>, noklikšķiniet uz <b>Pievienot jaunu webhook</b> pogas. Jūs varat arī noņemt jebkuru esošo webhook, noklikšķinot uz pogas Dzēst.</p>",
+      "LIST": {
+        "404": "Šim kontam nav nokonfigurēts neviens webhook.",
+        "TITLE": "Pārvaldīt webhook",
+        "TABLE_HEADER": [
+          "Webhook galapunkts",
+          "Darbības"
+        ]
+      },
+      "EDIT": {
+        "BUTTON_TEXT": "Rediģēt",
+        "TITLE": "Rediģēt webhook",
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook konfigurācija ir veiksmīgi atjaunināta",
+          "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+        }
+      },
+      "ADD": {
+        "CANCEL": "Atcelt",
+        "TITLE": "Pievienot jaunu webhook",
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook konfigurācija ir veiksmīgi pievienota",
+          "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+        }
+      },
+      "DELETE": {
+        "BUTTON_TEXT": "Dzēst",
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook ir veiksmīgi izdzēsts",
+          "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+        },
+        "CONFIRM": {
+          "TITLE": "Apstiprināt Dzēšanu",
+          "MESSAGE": "Vai tiešām vēlaties izdzēst webhook? (%{webhookURL})",
+          "YES": "Jā, Dzēst ",
+          "NO": "Nē, Paturēt"
+        }
+      }
+    },
+    "SLACK": {
+      "DELETE": "Dzēst",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Dzēst integrāciju",
+        "MESSAGE": "Vai tiešām vēlaties dzēst integrāciju? To darot, tiks zaudēta piekļuve sarunām Jūsu Slack workspace."
+      },
+      "HELP_TEXT": {
+        "TITLE": "Kā izmantot Slack integrāciju?",
+        "BODY": "Izmantojot šo integrāciju, visas Jūsu ienākošās sarunas tiks sinhronizētas ar Jūsu Slack workspace kanālu ***%{selectedChannelName}***. Jūs varat pārvaldīt visas savas sarunas ar klientiem savā kanālā un nekad nepalaist garām nevienu ziņojumu.\n\nŠeit ir galvenās integrācijas iezīmes:\n\n**Atbildēt uz sarunām no Slack:** Lai atbildētu uz sarunu Slack kanālā ***%{selectedChannelName}***, uzrakstiet savu ziņojumu un nosūtiet to kā pavedienu. Tas nosūtīs atbildi klientam, izmantojot Chatwoot. Tas ir tik vienkārši!\n\n  **Izveidot privātas piezīmes:** Ja vēlaties izveidot privātas piezīmes, nevis atbildes, sāciet ziņojumu ar ***`note:`***. Tas nodrošina, ka jūsu ziņojums ir privāts un nebūs redzams klientam.\n\n**Asociēt aģenta profilu:** Ja personai, kas atbildēja Slack kanālā, ir aģenta profils pakalpojumā Chatwoot, ar tādu pašu e-pasta adresi, atbildes tiks automātiski asociētas ar šo aģenta profilu. Tas nozīmē, ka varat viegli izsekot kurš ko teica un kad. No otras puses, ja atbildētājam nav asociēta aģenta profila, atbildes klientam tiks rādītas no robotprogrammatūras profila.",
+        "SELECTED": "izvēlēts"
+      },
+      "SELECT_CHANNEL": {
+        "OPTION_LABEL": "Izvēlēties kanālu",
+        "UPDATE": "Atjaunināt",
+        "BUTTON_TEXT": "Pievienot kanālu",
+        "DESCRIPTION": "Jūsu Slack workspace tagad ir saistīta ar Chatwoot, taču integrācija pašlaik ir neaktīva. Lai aktivizētu integrāciju un savienotu kanālu ar Chatwoot, lūdzu, noklikšķiniet uz tālāk esošās pogas.\n\n**Piezīme:** Ja mēģinat izveidot savienojumu ar privātu kanālu, pirms turpināt šo darbību, pievienojiet lietotni Chatwoot Slack kanālam.",
+        "ATTENTION_REQUIRED": "Nepieciešama uzmanība",
+        "EXPIRED": "Jūsu Slack integrācijas derīguma termiņš ir beidzies. Lai turpinātu saņemt ziņojumus pakalpojumā Slack, lūdzu, izdzēsiet integrāciju un vēlreiz pievienojiet savu workspace."
+      },
+      "UPDATE_ERROR": "Atjauninot integrāciju radās kļūda. Lūdzu, mēģiniet vēlreiz",
+      "UPDATE_SUCCESS": "Kanāls ir veiksmīgi pievienots",
+      "FAILED_TO_FETCH_CHANNELS": "Ienesot kanālus no Slack radās kļūda. Lūdzu, mēģiniet vēlreiz"
+    },
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Noklikšķiniet šeit, lai pievienotos",
+      "LEAVE_THE_ROOM": "Iziet no istabas",
+      "START_VIDEO_CALL_HELP_TEXT": "Sākt jaunu videozvanu ar klientu",
+      "JOIN_ERROR": "Pievienojoties zvanam, radās kļūda. Lūdzu, mēģiniet vēlreiz",
+      "CREATE_ERROR": "Veidojot sapulces saiti, radās kļūda. Lūdzu, mēģiniet vēlreiz"
+    },
+    "OPEN_AI": {
+      "AI_ASSIST": "AI Palīgs",
+      "WITH_AI": " %{option} ar AI ",
+      "OPTIONS": {
+        "REPLY_SUGGESTION": "Atbildes Ieteikums",
+        "SUMMARIZE": "Apkopot",
+        "REPHRASE": "Uzlabot Rakstību",
+        "FIX_SPELLING_GRAMMAR": "Izlabot Pareizrakstību un Gramatiku",
+        "SHORTEN": "Saīsināt",
+        "EXPAND": "Izvērst",
+        "MAKE_FRIENDLY": "Mainīt ziņojuma toni uz draudzīgu",
+        "MAKE_FORMAL": "Izmantot formālu toni",
+        "SIMPLIFY": "Vienkāršot"
+      },
+      "ASSISTANCE_MODAL": {
+        "DRAFT_TITLE": "Melnraksta saturs",
+        "GENERATED_TITLE": "Ģenerētais saturs",
+        "AI_WRITING": "AI raksta",
+        "BUTTONS": {
+          "APPLY": "Izmantot šo ieteikumu",
+          "CANCEL": "Atcelt"
+        }
+      },
+      "CTA_MODAL": {
+        "TITLE": "Integrēt ar OpenAI",
+        "DESC": "Ievietot uzlabotās AI funkcijas savā informācijas panelī, izmantojot OpenAI GPT modeļus. Lai sāktu, ievadiet sava OpenAI konta API atslēgu.",
+        "KEY_PLACEHOLDER": "Ievadiet savu OpenAI API atslēgu",
+        "BUTTONS": {
+          "NEED_HELP": "Nepieciešama palīdzība?",
+          "DISMISS": "Atcelt",
+          "FINISH": "Pabeigt Iestatīšanu"
+        },
+        "DISMISS_MESSAGE": "OpenAI integrāciju varat iestatīt vēlāk, kad vien vēlaties.",
+        "SUCCESS_MESSAGE": "OpenAI integrācija iestatīta veiksmīgi"
+      },
+      "TITLE": "Uzlabot ar AI",
+      "SUMMARY_TITLE": "Kopsavilkums ar AI",
+      "REPLY_TITLE": "Atbildes rekomendācija ar AI",
+      "SUBTITLE": "Izmantojot AI, tiks ģenerēta uzlabota atbilde, pamatojoties uz jūsu pašreizējo melnrakstu.",
+      "TONE": {
+        "TITLE": "Tonis",
+        "OPTIONS": {
+          "PROFESSIONAL": "Profesionāls",
+          "FRIENDLY": "Draudzīgs"
+        }
+      },
+      "BUTTONS": {
+        "GENERATE": "Ģenerēt",
+        "GENERATING": "Notiek ģenerēšana...",
+        "CANCEL": "Atcelt"
+      },
+      "GENERATE_ERROR": "Apstrādājot saturu radās kļūda. Lūdzu, pārbaudiet savu OpenAI API atslēgu un mēģiniet vēlreiz"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Dzēst",
+      "API": {
+        "SUCCESS_MESSAGE": "Integrācija ir veiksmīgi izdzēsta"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Savienot"
+    },
+    "DASHBOARD_APPS": {
+      "TITLE": "Informācijas paneļa lietotnes",
+      "HEADER_BTN_TXT": "Pievienot jaunu informācijas paneļa lietotni",
+      "SIDEBAR_TXT": "<p><b>Informācijas Paneļa Lietotnes</b></p><p>Informācijas paneļa lietotnes ļauj organizācijām iegult lietojumprogrammu Chatwoot informācijas panelī, lai nodrošinātu kontekstu klientu atbalsta aģentiem. Šī funkcija ļauj Jums izveidot lietojumprogrammu neatkarīgi un iegult to informācijas panelī, lai sniegtu informāciju par lietotāju, viņu pasūtījumiem vai viņu iepriekšējo maksājumu vēsturi.</p><p>Kad iegulsiet lietojumprogrammu, izmantojot Chatwoot informācijas paneli, Jūsu lietojumprogramma iegūs sarunas un kontaktpersonas kontekstu kā loga notikumu. Ieviesiet savā lapā ziņojuma notikuma uztvērēju, lai saņemtu kontekstu.</p><p>Lai pievienotu jaunu informācijas paneļa lietotni, noklikšķiniet uz pogas 'Pievienot jaunu informācijas paneļa lietotni'.</p>",
+      "DESCRIPTION": "Informācijas paneļa lietotnes ļauj organizācijām iegult lietojumprogrammu informācijas panelī, lai nodrošinātu kontekstu klientu atbalsta aģentiem. Šī funkcija ļauj Jums neatkarīgi izveidot lietojumprogrammu un iegult to, lai sniegtu informāciju par lietotāju, viņu pasūtījumiem vai iepriekšējo maksājumu vēsturi.",
+      "LIST": {
+        "404": "Šajā kontā vēl nav nokonfigurēta neviena informācijas paneļa lietotne",
+        "LOADING": "Notiek informācijas paneļa lietotņu iegūšana...",
+        "TABLE_HEADER": [
+          "Nosaukums",
+          "Endpoint"
+        ],
+        "EDIT_TOOLTIP": "Rediģēt lietotni",
+        "DELETE_TOOLTIP": "Dzēst lietotni"
+      },
+      "FORM": {
+        "TITLE_LABEL": "Nosaukums",
+        "TITLE_PLACEHOLDER": "Ievadiet informācijas paneļa lietotnes nosaukumu",
+        "TITLE_ERROR": "Informācijas paneļa lietotnei ir jānorāda nosaukums",
+        "URL_LABEL": "Endpoint",
+        "URL_PLACEHOLDER": "Ievadiet endpoint URL, kurā tiek mitināta jūsu lietotne",
+        "URL_ERROR": "Nepieciešams derīgs URL"
+      },
+      "CREATE": {
+        "HEADER": "Pievienot jaunu informācijas paneļa lietotni",
+        "FORM_SUBMIT": "Iesniegt",
+        "FORM_CANCEL": "Atcelt",
+        "API_SUCCESS": "Informācijas paneļa lietotne ir veiksmīgi nokonfigurēta",
+        "API_ERROR": "Mēs nevarējām izveidot lietotni. Lūdzu, vēlāk pamēģiniet vēlreiz"
+      },
+      "UPDATE": {
+        "HEADER": "Rediģēt informācijas paneļa lietotni",
+        "FORM_SUBMIT": "Atjaunināt",
+        "FORM_CANCEL": "Atcelt",
+        "API_SUCCESS": "Informācijas paneļa lietotne ir veiksmīgi atjaunināta",
+        "API_ERROR": "Mēs nevarējām atjaunināt lietotni. Lūdzu, vēlāk pamēģiniet vēlreiz"
+      },
+      "DELETE": {
+        "CONFIRM_YES": "Jā, dzēst",
+        "CONFIRM_NO": "Nē, paturēt",
+        "TITLE": "Apstipriniet dzēšanu",
+        "MESSAGE": "Vai tiešām vēlaties izdzēst lietotni - %{appName}?",
+        "API_SUCCESS": "Informācijas paneļa lietotne ir veiksmīgi izdzēsta",
+        "API_ERROR": "Mēs nevarējām izdzēst lietotni. Lūdzu, vēlāk pamēģiniet vēlreiz"
+      }
+    }
+  }
+}

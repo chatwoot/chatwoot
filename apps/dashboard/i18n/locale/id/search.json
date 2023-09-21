@@ -1,0 +1,25 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "Semua",
+      "CONTACTS": "Kontak",
+      "CONVERSATIONS": "Percakapan",
+      "MESSAGES": "Pesan"
+    },
+    "SECTION": {
+      "CONTACTS": "Kontak",
+      "CONVERSATIONS": "Percakapan",
+      "MESSAGES": "Pesan"
+    },
+    "EMPTY_STATE": "Tidak ada %{item} ditemukan untuk kueri '%{query}'",
+    "EMPTY_STATE_FULL": "Tidak ada hasil ditemukan untuk kueri '%{query}'",
+    "PLACEHOLDER_KEYBINDING": "/ untuk fokus",
+    "INPUT_PLACEHOLDER": "Cari pesan, kontak, atau percakapan",
+    "EMPTY_STATE_DEFAULT": "Cari dengan ID percakapan, email, nomor telepon, atau pesan untuk hasil pencarian yang lebih baik.",
+    "BOT_LABEL": "Bot",
+    "READ_MORE": "Baca lebih lanjut",
+    "WROTE": "menulis:",
+    "FROM": "dari",
+    "EMAIL": "email"
+  }
+}

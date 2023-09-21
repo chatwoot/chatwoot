@@ -1,0 +1,78 @@
+{
+  "MACROS": {
+    "HEADER": "Macros",
+    "HEADER_BTN_TXT": "Añadir una nueva macro",
+    "HEADER_BTN_TXT_SAVE": "Guardar macro",
+    "LOADING": "Obteniendo macros",
+    "SIDEBAR_TXT": "<p><b>Macros</b><p>Una macro es un conjunto de acciones guardadas que ayudan a los agentes de servicio al cliente a completar fácilmente tareas. Los agentes pueden definir un conjunto de acciones como etiquetar una conversación con una etiqueta, enviar una transcripción de correo electrónico, actualizar un atributo personalizado, etc. y pueden ejecutar estas acciones en un solo clic. Cuando los agentes ejecutan la macro, las acciones se realizarían secuencialmente en el orden en que se definen. Las macros mejoran la productividad y aumentan la consistencia en las acciones. </p><p>Una macro puede ser útil de 2 maneras. </p><p><b>Como agente de asistencia:</b> Si un agente realiza un conjunto de acciones múltiples veces, pueden guardarlo como una macro y ejecutar todas las acciones juntas usando un solo clic.</p><p><b>Como opción a bordo de un miembro del equipo:</b> Cada agente tiene que realizar muchas comprobaciones/acciones diferentes durante cada conversación. Incorporar un nuevo miembro del equipo de soporte será fácil si las macros predefinidas están disponibles en la cuenta. En lugar de describir cada paso en detalle, el jefe de equipo puede señalar las macros utilizadas en diferentes escenarios.</p>",
+    "ERROR": "Algo salió mal. Por favor, inténtalo de nuevo",
+    "ORDER_INFO": "Las macros se ejecutarán en el orden en que añadas sus acciones. Puede reorganizarlas arrastrándolas por el manejador al lado de cada nodo.",
+    "ADD": {
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nombre de macro",
+          "PLACEHOLDER": "Introduzca un nombre para su macro",
+          "ERROR": "Se requiere un nombre para crear una macro"
+        },
+        "ACTIONS": {
+          "LABEL": "Acciones"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Macro añadida correctamente",
+        "ERROR_MESSAGE": "No se puede crear la macro, por favor inténtalo de nuevo más tarde"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Nombre",
+        "Creado por",
+        "Última actualización por",
+        "Visibilidad"
+      ],
+      "404": "No se encontraron macros"
+    },
+    "DELETE": {
+      "TOOLTIP": "Eliminar macro",
+      "CONFIRM": {
+        "MESSAGE": "¿Está seguro de eliminar ",
+        "YES": "Sí, eliminar",
+        "NO": "No"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Macro eliminada correctamente",
+        "ERROR_MESSAGE": "Hubo un error al eliminar la macro. Por favor, inténtalo de nuevo más tarde"
+      }
+    },
+    "EDIT": {
+      "TOOLTIP": "Editar macro",
+      "API": {
+        "SUCCESS_MESSAGE": "Macro actualizado correctamente",
+        "ERROR_MESSAGE": "No se pudo actualizar la Macro, por favor inténtalo de nuevo más tarde"
+      }
+    },
+    "EDITOR": {
+      "START_FLOW": "Iniciar flujo",
+      "END_FLOW": "Finalizar flujo",
+      "LOADING": "Buscando macro",
+      "ADD_BTN_TOOLTIP": "Añadir nueva acción",
+      "DELETE_BTN_TOOLTIP": "Eliminar acción",
+      "VISIBILITY": {
+        "LABEL": "Visibilidad de macro",
+        "GLOBAL": {
+          "LABEL": "Público",
+          "DESCRIPTION": "Esta macro está disponible públicamente para todos los agentes de esta cuenta."
+        },
+        "PERSONAL": {
+          "LABEL": "Privado",
+          "DESCRIPTION": "Esta macro será privada para usted y no estará disponible para otros."
+        }
+      }
+    },
+    "EXECUTE": {
+      "BUTTON_TOOLTIP": "Ejecutar",
+      "PREVIEW": "Previsualizar macro",
+      "EXECUTED_SUCCESSFULLY": "Macro ejecutado correctamente"
+    }
+  }
+}

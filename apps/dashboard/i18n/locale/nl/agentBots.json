@@ -1,0 +1,73 @@
+{
+  "AGENT_BOTS": {
+    "HEADER": "Bots",
+    "LOADING_EDITOR": "Editor laden...",
+    "HEADER_BTN_TXT": "Botconfiguratie toevoegen",
+    "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent bots stelt je in staat de gesprekken te automatiseren</p>",
+    "CSML_BOT_EDITOR": {
+      "NAME": {
+        "LABEL": "Bot Naam",
+        "PLACEHOLDER": "Geef uw bot een naam",
+        "ERROR": "Bot naam is vereist"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Bot Beschrijving",
+        "PLACEHOLDER": "Wat doet deze bot?"
+      },
+      "BOT_CONFIG": {
+        "ERROR": "Vul uw CSML bot configuratie hierboven in",
+        "API_ERROR": "Uw CSML-configuratie is ongeldig, los het op en probeer het opnieuw."
+      },
+      "SUBMIT": "Valideren en opslaan"
+    },
+    "BOT_CONFIGURATION": {
+      "TITLE": "Selecteer een agent bot",
+      "DESC": "U kunt een agent bot instellen vanuit de lijst naar deze inbox. De bot kan het gesprek in eerste instantie afhandelen en indien nodig naar een agent overbrengen.",
+      "SUBMIT": "Vernieuwen",
+      "DISCONNECT": "Bot verbinding verbreken",
+      "SUCCESS_MESSAGE": "De agent bot is succesvol bijgewerkt",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Succesvol de agent bot verbinding verbroken",
+      "ERROR_MESSAGE": "Kan de agent bot niet bijwerken, probeer het later opnieuw",
+      "DISCONNECTED_ERROR_MESSAGE": "Kan de agent bot niet ontkoppelen, probeer het later opnieuw",
+      "SELECT_PLACEHOLDER": "Selecteer Bot"
+    },
+    "ADD": {
+      "TITLE": "Configureer nieuwe bot",
+      "CANCEL_BUTTON_TEXT": "Annuleren",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot succesvol toegevoegd",
+        "ERROR_MESSAGE": "Kan bot niet toevoegen, probeer het later opnieuw"
+      }
+    },
+    "LIST": {
+      "404": "Geen bots gevonden, u kunt een bot maken door op de 'Configureer nieuwe bot' knop te klikken ↗",
+      "LOADING": "Bots Ophalen...",
+      "TYPE": "Bot Type"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Verwijderen",
+      "TITLE": "Bot Verwijderen",
+      "SUBMIT": "Verwijderen",
+      "CANCEL_BUTTON_TEXT": "Annuleren",
+      "DESCRIPTION": "Weet u zeker dat u deze bot wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot succesvol verwijderd",
+        "ERROR_MESSAGE": "Kan bot niet verwijderen, probeer het later opnieuw"
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Bewerken",
+      "LOADING": "Bots Ophalen...",
+      "TITLE": "Bot Bewerken",
+      "CANCEL_BUTTON_TEXT": "Annuleren",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot succesvol bijgewerkt",
+        "ERROR_MESSAGE": "Kan bot niet updaten, probeer het later opnieuw"
+      }
+    },
+    "TYPES": {
+      "WEBHOOK": "Webhook Bot",
+      "CSML": "CSML Bot"
+    }
+  }
+}

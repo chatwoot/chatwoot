@@ -1,0 +1,83 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "Etiketler",
+    "HEADER_BTN_TXT": "Etiket ekleyin",
+    "LOADING": "Etiketler getiriliyor",
+    "SEARCH_404": "Bu sorgu ile eşleşen öğe yok",
+    "SIDEBAR_TXT": "<p> <b> Etiketler </b> <p> Etiketler, sohbetleri kategorize etmenize ve önceliklerini belirlemenize yardımcı olur. Yan panelden bir görüşmeye etiket atayabilirsiniz. <br /> <br /> Etiketler hesaba bağlıdır ve kuruluşunuzda özel iş akışları oluşturmak için kullanılabilir. Bir etikete özel renk atayabilirsiniz, etiketin tanımlanmasını kolaylaştırır. Sohbetleri kolayca filtrelemek için kenar çubuğunda etiketi görüntüleyebileceksiniz. </p>",
+    "LIST": {
+      "404": "Bu hesapta mevcut etiket yok.",
+      "TITLE": "Etiketleri yönet",
+      "DESC": "Etiketler, konuşmaları birlikte gruplamanıza olanak tanır.",
+      "TABLE_HEADER": [
+        "İsim",
+        "Açıklama",
+        "Renk"
+      ]
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Etiket adı",
+        "PLACEHOLDER": "Etiket adı",
+        "REQUIRED_ERROR": "Etiket ismi gereklidir",
+        "MINIMUM_LENGTH_ERROR": "En az 2 karakter gereklidir",
+        "VALID_ERROR": "Sadece yazılar, numaralar, tire işareti ve alt çizgi kullanabilirsiniz"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Açıklama",
+        "PLACEHOLDER": "Etiket Açıklama"
+      },
+      "COLOR": {
+        "LABEL": "Renk"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "Kenar çubuğunda etiketi göster"
+      },
+      "EDIT": "Düzenle",
+      "CREATE": "Yarat",
+      "DELETE": "Sil",
+      "CANCEL": "İptal Et"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Add label to conversation",
+        "MULTIPLE_SUGGESTION": "Select this label",
+        "DESELECT": "Deselect label",
+        "DISMISS": "Dismiss suggestion"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Dismiss",
+      "ADD_SELECTED_LABELS": "Add selected labels",
+      "ADD_SELECTED_LABEL": "Add selected label",
+      "ADD_ALL_LABELS": "Add all labels"
+    },
+    "ADD": {
+      "TITLE": "Etiket ekleyin",
+      "DESC": "Etiketler, konuşmaları birlikte gruplamanıza olanak tanır.",
+      "API": {
+        "SUCCESS_MESSAGE": "Etiket başarıyla eklendi",
+        "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Etiketi düzenleyin",
+      "API": {
+        "SUCCESS_MESSAGE": "Etiket başarıyla güncellendi",
+        "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Sil",
+      "API": {
+        "SUCCESS_MESSAGE": "Etiket başarıyla silindi",
+        "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
+      },
+      "CONFIRM": {
+        "TITLE": "Silmeyi onayla",
+        "MESSAGE": "Silmek istediğinize emin misiniz ?",
+        "YES": "Evet, Sil ",
+        "NO": "Hayır, Tut"
+      }
+    }
+  }
+}

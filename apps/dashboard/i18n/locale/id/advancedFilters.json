@@ -1,0 +1,103 @@
+{
+  "FILTER": {
+    "TITLE": "Filter Percakapan",
+    "SUBTITLE": "Tambahkan filter di bawah ini dan tekan 'Terapkan filter' untuk menyaring percakapan.",
+    "EDIT_CUSTOM_FILTER": "Edit Folder",
+    "CUSTOM_VIEWS_SUBTITLE": "Tambahkan atau hapus filter dan perbarui folder Anda.",
+    "ADD_NEW_FILTER": "Tambahkan Filter",
+    "FILTER_DELETE_ERROR": "Anda harus memiliki setidaknya satu filter untuk disimpan",
+    "SUBMIT_BUTTON_LABEL": "Terapkan filter",
+    "UPDATE_BUTTON_LABEL": "Perbarui folder",
+    "CANCEL_BUTTON_LABEL": "Batalkan",
+    "CLEAR_BUTTON_LABEL": "Hapus Filter",
+    "EMPTY_VALUE_ERROR": "Nilai dibutuhkan",
+    "FOLDER_LABEL": "Nama Folder",
+    "FOLDER_QUERY_LABEL": "Kueri Folder",
+    "TOOLTIP_LABEL": "Filter percakapan",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "DAN",
+      "OR": "ATAU"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "Sama dengan",
+      "not_equal_to": "Tidak sama dengan",
+      "contains": "Berisi",
+      "does_not_contain": "Tidak berisi",
+      "is_present": "Ada",
+      "is_not_present": "Tidak ada",
+      "is_greater_than": "Lebih besar dari",
+      "is_less_than": "Lebih kecil dari",
+      "days_before": "X hari sebelum",
+      "starts_with": "Dimulai dengan"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "Benar",
+      "FALSE": "Salah"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "Status",
+      "ASSIGNEE_NAME": "Nama Penerima Tugas",
+      "INBOX_NAME": "Nama Kotak Masuk",
+      "TEAM_NAME": "Nama Tim",
+      "CONVERSATION_IDENTIFIER": "Pengenal Percakapan",
+      "CAMPAIGN_NAME": "Nama Kampanye",
+      "LABELS": "Label",
+      "BROWSER_LANGUAGE": "Bahasa Browser",
+      "PRIORITY": "Prioritas",
+      "COUNTRY_NAME": "Nama Negara",
+      "REFERER_LINK": "Tautan Referer",
+      "CUSTOM_ATTRIBUTE_LIST": "Daftar",
+      "CUSTOM_ATTRIBUTE_TEXT": "Teks",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Nomor",
+      "CUSTOM_ATTRIBUTE_LINK": "Tautan",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Kotak centang",
+      "CREATED_AT": "Dibuat pada",
+      "LAST_ACTIVITY": "Aktivitas Terakhir"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Filter Standar",
+      "ADDITIONAL_FILTERS": "Filter Tambahan",
+      "CUSTOM_ATTRIBUTES": "Atribut Kustom"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "Apakah Anda ingin menyimpan filter ini?",
+        "LABEL": "Beri nama pada filter ini",
+        "PLACEHOLDER": "Masukkan nama untuk filter ini",
+        "ERROR_MESSAGE": "Nama dibutuhkan",
+        "SAVE_BUTTON": "Simpan filter",
+        "CANCEL_BUTTON": "Batalkan",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Folder berhasil dibuat",
+          "ERROR_MESSAGE": "Galat saat membuat folder"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment berhasil dibuat",
+          "ERROR_MESSAGE": "Galat saat membuat segment"
+        }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Edit folder"
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "Hapus filter",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "Konfirmasi Penghapusan",
+            "MESSAGE": "Apakah Anda yakin ingin menghapus filter ",
+            "YES": "Ya, Hapus",
+            "NO": "Tidak, Simpan"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Folder berhasil dihapus",
+          "ERROR_MESSAGE": "Galat saat menghapus folder"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment berhasil dihapus",
+          "ERROR_MESSAGE": "Galat saat menghapus segment"
+        }
+      }
+    }
+  }
+}

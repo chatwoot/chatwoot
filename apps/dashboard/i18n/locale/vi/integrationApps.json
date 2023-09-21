@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "Đang lấy Tích hợp",
+    "NO_HOOK_CONFIGURED": "Không có tích hợp %{integrationId} được cấu hình đối với tài khoản này.",
+    "HEADER": "Ứng dụng",
+    "STATUS": {
+      "ENABLED": "Bật",
+      "DISABLED": "Không bật"
+    },
+    "CONFIGURE": "Cấu hình",
+    "ADD_BUTTON": "Thêm một hook mới",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "Xác nhận xoá",
+        "ACCOUNT": "Ngắt kết nối"
+      },
+      "MESSAGE": {
+        "INBOX": "Bạn có chắc muốn xoá?",
+        "ACCOUNT": "Bạn có chắc muốn ngắt kết nối?"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "Có, Xoá",
+        "ACCOUNT": "Có, ngắt kết nối"
+      },
+      "CANCEL_BUTTON_TEXT": "Huỷ",
+      "API": {
+        "SUCCESS_MESSAGE": "Hook đã được xoá thành công",
+        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+      }
+    },
+    "LIST": {
+      "FETCHING": "Đang lấy hook tích hợp",
+      "INBOX": "Hộp thư đến",
+      "DELETE": {
+        "BUTTON_TEXT": "Xoá"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Chọn Hộp thư đến",
+          "PLACEHOLDER": "Chọn Hộp thư đến"
+        },
+        "SUBMIT": "Tạo",
+        "CANCEL": "Huỷ"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Hook tích hợp đã được thêm thành công",
+        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Kết nối"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "Ngắt kết nối"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow là một nền tảng hiểu ngôn ngữ tự nhiên giúp bạn dễ dàng thiết kế và tích hợp giao diện người dùng trò chuyện vào ứng dụng di động, ứng dụng web, thiết bị, bot, hệ thống phản hồi giọng nói tương tác, v. v. Tích hợp <br/> <br/> Dialogflow với %{installationName} cho phép bạn định cấu hình bot Dialogflow với hộp thư đến của bạn, điều này cho phép bot xử lý các truy vấn ban đầu và giao chúng cho đại lý khi cần. Dialogflow có thể được sử dụng để xác định khách hàng tiềm năng, giảm khối lượng công việc của các đại lý bằng cách cung cấp các câu hỏi thường gặp, v. v. <br/> <br/> Để thêm Dialogflow, bạn cần tạo Tài khoản dịch vụ trong bảng điều khiển dự án của Google và chia sẻ chứng chỉ. Vui lòng tham khảo tài liệu Dialogflow để biết thêm thông tin."
+    }
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "Nahrávam konverzácie",
+    "LOAD_MORE_CONVERSATIONS": "Načítavam viac konverzácií",
+    "EOF": "Všetky konverzácie boli načítané 🎉",
+    "LIST": {
+      "404": "V tejto skupine neprebiehajú žiadne aktívne rozhovory."
+    },
+    "TAB_HEADING": "Rozhovory",
+    "MENTION_HEADING": "Zmienky",
+    "UNATTENDED_HEADING": "Unattended",
+    "SEARCH": {
+      "INPUT": "Vyhľadávanie ľudí, konverzácií, uložených odpovedí.."
+    },
+    "FILTER_ALL": "Všetko",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Moje",
+      "unassigned": "Nepriradené",
+      "all": "Všetko"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Otvorené"
+      },
+      "resolved": {
+        "TEXT": "Vyriešené"
+      },
+      "pending": {
+        "TEXT": "Čaká sa na"
+      },
+      "snoozed": {
+        "TEXT": "Odložené"
+      },
+      "all": {
+        "TEXT": "Všetko"
+      }
+    },
+    "VIEW_FILTER": "Zobraziť",
+    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "CHAT_SORT": {
+      "STATUS": "Status",
+      "ORDER_BY": "Order by"
+    },
+    "CHAT_SORT_FILTER_ITEMS": {
+      "latest": {
+        "TEXT": "Last activity"
+      },
+      "sort_on_created_at": {
+        "TEXT": "Created at"
+      },
+      "sort_on_priority": {
+        "TEXT": "Priority"
+      },
+      "sort_on_waiting_since": {
+        "TEXT": "Pending Response"
+      }
+    },
+    "ATTACHMENTS": {
+      "image": {
+        "CONTENT": "Obrázková správa"
+      },
+      "audio": {
+        "CONTENT": "Hlasová správa"
+      },
+      "video": {
+        "CONTENT": "Video správa"
+      },
+      "file": {
+        "CONTENT": "Súbor v prílohe"
+      },
+      "location": {
+        "CONTENT": "Lokácia"
+      },
+      "fallback": {
+        "CONTENT": "zdieľal/a url"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Sort conversation",
+      "DROPDOWN_TITLE": "Sort by",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Last activity at",
+          "LABEL": "Last activity"
+        },
+        "CREATED_AT": {
+          "NAME": "Created at",
+          "LABEL": "Created at"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Last user message at",
+          "LABEL": "Last message"
+        }
+      }
+    },
+    "RECEIVED_VIA_EMAIL": "Prijaté emailom",
+    "VIEW_TWEET_IN_TWITTER": "Zobraz tweet na Twitteri",
+    "REPLY_TO_TWEET": "Odpovedať na tento Tweet",
+    "LINK_TO_STORY": "Go to instagram story",
+    "SENT": "Úspešne odoslané",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
+    "NO_MESSAGES": "Žiadne správy",
+    "NO_CONTENT": "Žiaden obsah nie je k dispozícii",
+    "HIDE_QUOTED_TEXT": "Skryť citovaný text",
+    "SHOW_QUOTED_TEXT": "Ukázať citovaný text",
+    "MESSAGE_READ": "Read"
+  }
+}

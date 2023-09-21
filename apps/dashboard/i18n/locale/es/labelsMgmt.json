@@ -1,0 +1,83 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "Etiquetas",
+    "HEADER_BTN_TXT": "Añadir etiqueta",
+    "LOADING": "Obteniendo etiquetas",
+    "SEARCH_404": "No hay elementos que coincidan con esta consulta",
+    "SIDEBAR_TXT": "<p><b>Etiquetas</b> <p>Las etiquetas le ayudan a categorizar las conversaciones y priorizarlas. Puede asignar la etiqueta a una conversación desde el panel lateral. <br /><br />Las etiquetas están vinculadas a la cuenta y pueden utilizarse para crear flujos de trabajo personalizados en su organización. Puede asignar un color personalizado a una etiqueta, hace más fácil identificarla. Podrá mostrar la etiqueta en la barra lateral para filtrar las conversaciones fácilmente.</p>",
+    "LIST": {
+      "404": "No hay etiquetas disponibles en esta cuenta.",
+      "TITLE": "Gestionar etiquetas",
+      "DESC": "Las etiquetas permiten agrupar las conversaciones.",
+      "TABLE_HEADER": [
+        "Nombre",
+        "Descripción",
+        "Color"
+      ]
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Nombre de la etiqueta",
+        "PLACEHOLDER": "Nombre de la etiqueta",
+        "REQUIRED_ERROR": "Nombre de la etiqueta es obligatorio",
+        "MINIMUM_LENGTH_ERROR": "La longitud mínima es de 2 caracteres",
+        "VALID_ERROR": "Sólo letras, números, guión y guión bajo son permitidos"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descripción",
+        "PLACEHOLDER": "Descripción de la etiqueta"
+      },
+      "COLOR": {
+        "LABEL": "Color"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "Mostrar etiqueta en la barra lateral"
+      },
+      "EDIT": "Editar",
+      "CREATE": "Crear",
+      "DELETE": "Eliminar",
+      "CANCEL": "Cancelar"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Añadir etiqueta a la conversación",
+        "MULTIPLE_SUGGESTION": "Seleccionar esta etiqueta",
+        "DESELECT": "Deseleccionar etiqueta",
+        "DISMISS": "Descartar sugerencia"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Descartar",
+      "ADD_SELECTED_LABELS": "Asignar etiquetas seleccionadas",
+      "ADD_SELECTED_LABEL": "Añadir etiqueta seleccionada",
+      "ADD_ALL_LABELS": "Añadir todas las etiquetas"
+    },
+    "ADD": {
+      "TITLE": "Añadir etiqueta",
+      "DESC": "Las etiquetas permiten agrupar las conversaciones.",
+      "API": {
+        "SUCCESS_MESSAGE": "Etiqueta añadida correctamente",
+        "ERROR_MESSAGE": "Hubo un error, por favor inténtelo de nuevo"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Editar etiqueta",
+      "API": {
+        "SUCCESS_MESSAGE": "Etiqueta actualizada correctamente",
+        "ERROR_MESSAGE": "Hubo un error, por favor inténtelo de nuevo"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Eliminar",
+      "API": {
+        "SUCCESS_MESSAGE": "Etiqueta actualizada correctamente",
+        "ERROR_MESSAGE": "Hubo un error, por favor inténtelo de nuevo"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirmar eliminación",
+        "MESSAGE": "¿Está seguro de eliminar ",
+        "YES": "Sí, eliminar ",
+        "NO": "No, mantenerlo "
+      }
+    }
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "MACROS": {
+    "HEADER": "宏",
+    "HEADER_BTN_TXT": "添加一个新宏文件",
+    "HEADER_BTN_TXT_SAVE": "保存宏文件",
+    "LOADING": "获取宏中",
+    "SIDEBAR_TXT": "<p><b>宏</b><p>宏是一组保存的操作，帮助客户服务代理人员轻松完成任务。代理人员可以定义一组操作，如用标签标记对话，发送电子邮件记录，更新自定义属性等，并且他们可以通过单击一次来运行这些操作。当代理人员运行宏时，这些操作将按照定义的顺序依次执行。宏提高了生产力并增加了操作的一致性。</p><p>宏可以有两种用途。</p><p><b>作为代理人员的助手：</b>如果代理人员多次执行一组操作，他们可以将其保存为宏，并使用单击执行所有操作。</p><p><b>作为新团队成员的入职选项：</b>每个代理人员在每次对话中都必须执行许多不同的检查/操作。如果帐户上有预定义的宏，那么新的支持团队成员的入职将会很容易。经理/团队负责人可以指向不同情况下使用的宏，而不是详细描述每个步骤。</p>",
+    "ERROR": "出错了。请重试",
+    "ORDER_INFO": "宏将按照您添加操作的顺序运行。您可以通过拖动每个节点旁边的手柄来重新排列它们。",
+    "ADD": {
+      "FORM": {
+        "NAME": {
+          "LABEL": "宏名称",
+          "PLACEHOLDER": "为您的宏输入名称",
+          "ERROR": "创建宏需要名称"
+        },
+        "ACTIONS": {
+          "LABEL": "操作"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "宏添加成功",
+        "ERROR_MESSAGE": "无法创建宏，请稍后再试。"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "姓名：",
+        "创建者",
+        "最后更新者",
+        "可视性"
+      ],
+      "404": "未找到宏"
+    },
+    "DELETE": {
+      "TOOLTIP": "删除宏文件",
+      "CONFIRM": {
+        "MESSAGE": "您确定要删除吗？ ",
+        "YES": "是，删除",
+        "NO": "否"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "宏添加成功",
+        "ERROR_MESSAGE": "删除宏时出错。请稍后再试"
+      }
+    },
+    "EDIT": {
+      "TOOLTIP": "编辑宏文件",
+      "API": {
+        "SUCCESS_MESSAGE": "宏观已成功更新",
+        "ERROR_MESSAGE": "无法更新宏，请稍后再试"
+      }
+    },
+    "EDITOR": {
+      "START_FLOW": "启动流",
+      "END_FLOW": "结束流",
+      "LOADING": "正在获取宏文件",
+      "ADD_BTN_TOOLTIP": "添加新操作",
+      "DELETE_BTN_TOOLTIP": "删除",
+      "VISIBILITY": {
+        "LABEL": "宏可见性",
+        "GLOBAL": {
+          "LABEL": "公开的",
+          "DESCRIPTION": "此宏对此帐户中的所有代理公开可用"
+        },
+        "PERSONAL": {
+          "LABEL": "私人的",
+          "DESCRIPTION": "这个宏将私有化，其他人无法使用。"
+        }
+      }
+    },
+    "EXECUTE": {
+      "BUTTON_TOOLTIP": "执行",
+      "PREVIEW": "预览宏...",
+      "EXECUTED_SUCCESSFULLY": "宏成功执行"
+    }
+  }
+}

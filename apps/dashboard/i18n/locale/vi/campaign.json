@@ -1,0 +1,126 @@
+{
+  "CAMPAIGN": {
+    "HEADER": "Chiến dịch",
+    "SIDEBAR_TXT": "Tin nhắn chủ động cho phép khách hàng gửi tin nhắn đi đến các liên hệ của họ, điều này sẽ kích hoạt nhiều cuộc trò chuyện hơn. Nhấp vào <b>Thêm Chiến dịch</b> để tạo một chiến dịch mới. Bạn cũng có thể chỉnh sửa hoặc xóa chiến dịch hiện tại bằng cách nhấp vào nút Chỉnh sửa hoặc Xóa.",
+    "HEADER_BTN_TXT": {
+      "ONE_OFF": "Tạo chiến dịch một lần",
+      "ONGOING": "Tạo chiến dịch đang diễn ra"
+    },
+    "ADD": {
+      "TITLE": "Tạo một chiến dịch",
+      "DESC": "Tin nhắn chủ động cho phép khách hàng gửi tin nhắn đi đến các liên hệ của họ, điều này sẽ kích hoạt nhiều cuộc trò chuyện hơn.",
+      "CANCEL_BUTTON_TEXT": "Huỷ",
+      "CREATE_BUTTON_TEXT": "Tạo",
+      "FORM": {
+        "TITLE": {
+          "LABEL": "Tiêu đề",
+          "PLACEHOLDER": "Vui lòng điền tiêu đề của chiến dịch",
+          "ERROR": "Tiêu đề bắt buộc có"
+        },
+        "SCHEDULED_AT": {
+          "LABEL": "Thời gian dự kiến",
+          "PLACEHOLDER": "Vui lòng chọn thời gian",
+          "CONFIRM": "Xác nhận",
+          "ERROR": "Thời gian dự kiến là bắt buộc"
+        },
+        "AUDIENCE": {
+          "LABEL": "Khán giả",
+          "PLACEHOLDER": "Chọn nhãn người dùng",
+          "ERROR": "Khán giả bắt buộc có"
+        },
+        "INBOX": {
+          "LABEL": "Chọn kênh",
+          "PLACEHOLDER": "Chọn kênh",
+          "ERROR": "Cần phải có kênh"
+        },
+        "MESSAGE": {
+          "LABEL": "Tin nhắn",
+          "PLACEHOLDER": "Vui lòng điền thông điệp của chiến dịch",
+          "ERROR": "Thông điệp bắt buộc có"
+        },
+        "SENT_BY": {
+          "LABEL": "Gửi bởi",
+          "PLACEHOLDER": "Vui lòng chọn nội dung của chiến dịch",
+          "ERROR": "Người gửi cần có"
+        },
+        "END_POINT": {
+          "LABEL": "URL",
+          "PLACEHOLDER": "Vui lòng nhập URL",
+          "ERROR": "Vui lòng nhập một URL hợp lệ"
+        },
+        "TIME_ON_PAGE": {
+          "LABEL": "Thời gian trên trang(Giây)",
+          "PLACEHOLDER": "Vui lòng nhập thời gian",
+          "ERROR": "Thời gian trên trang là bắt buộc"
+        },
+        "ENABLED": "Vận hành chiến dịch",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "Chỉ kích hoạt trong giờ làm việc",
+        "SUBMIT": "Thêm Chiến dịch"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Chiến dịch được tạo thành công",
+        "ERROR_MESSAGE": "Đã có lỗi. Vui lòng thử lại."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Xoá",
+      "CONFIRM": {
+        "TITLE": "Xác nhận xoá",
+        "MESSAGE": "Bạn có chắc muốn xoá?",
+        "YES": "Có, xoá ",
+        "NO": "Không, giữ "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Chiến dịch được xoá thành công",
+        "ERROR_MESSAGE": "Không thể xoá chiến dịch. Vui lòng thử lại sau."
+      }
+    },
+    "EDIT": {
+      "TITLE": "Sửa chiến dịch",
+      "UPDATE_BUTTON_TEXT": "Cập nhật",
+      "API": {
+        "SUCCESS_MESSAGE": "Chiến dịch được cập nhật thành công",
+        "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
+      }
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "Đang tải chiến dịch...",
+      "404": "Không có chiến dịch được tạo cho hộp thư đến này.",
+      "TABLE_HEADER": {
+        "TITLE": "Tiêu đề",
+        "MESSAGE": "Tin nhắn",
+        "INBOX": "Kênh",
+        "STATUS": "Trạng thái",
+        "SENDER": "Người gửi",
+        "URL": "URL",
+        "SCHEDULED_AT": "Thời gian dự kiến",
+        "TIME_ON_PAGE": "Thời gian(Giây)",
+        "CREATED_AT": "Tạo vào lúc"
+      },
+      "BUTTONS": {
+        "ADD": "Thêm",
+        "EDIT": "Chỉnh sửa",
+        "DELETE": "Xoá"
+      },
+      "STATUS": {
+        "ENABLED": "Bật",
+        "DISABLED": "Tắt",
+        "COMPLETED": "Hoàn tất",
+        "ACTIVE": "Có hiệu lực"
+      },
+      "SENDER": {
+        "BOT": "Bot"
+      }
+    },
+    "ONE_OFF": {
+      "HEADER": "Chiến dịch một lần",
+      "404": "Không có chiến dịch một lần nào được tạo",
+      "INBOXES_NOT_FOUND": "Vui lòng tạo một hộp thư đến sms và bắt đầu thêm chiến dịch"
+    },
+    "ONGOING": {
+      "HEADER": "Chiến dịch đang diễn ra",
+      "404": "Không có chiến dịch đang diễn ra nào được tạo",
+      "INBOXES_NOT_FOUND": "Vui lòng tạo hộp thư đến cho trang web và bắt đầu thêm chiến dịch"
+    }
+  }
+}

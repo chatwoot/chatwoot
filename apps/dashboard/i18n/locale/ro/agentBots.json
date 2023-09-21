@@ -1,0 +1,73 @@
+{
+  "AGENT_BOTS": {
+    "HEADER": "Boți",
+    "LOADING_EDITOR": "Editor de încărcare ...",
+    "HEADER_BTN_TXT": "Adăugați configurația botului",
+    "SIDEBAR_TXT": "<p><b>Agent boti</b> <p>Roboții de agent vă permit să automatizați conversațiile</p>",
+    "CSML_BOT_EDITOR": {
+      "NAME": {
+        "LABEL": "Numele botului",
+        "PLACEHOLDER": "Dă-i botului tău un nume",
+        "ERROR": "Numele botului este necesar"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descrierea botului",
+        "PLACEHOLDER": "Ce face acest bot?"
+      },
+      "BOT_CONFIG": {
+        "ERROR": "Vă rugăm să introduceți configurația bot CSML de mai sus",
+        "API_ERROR": "Configurația CSML nu este validă, vă rugăm să o remediați și să încercați din nou."
+      },
+      "SUBMIT": "Validați și salvați"
+    },
+    "BOT_CONFIGURATION": {
+      "TITLE": "Selectați un bot de agent",
+      "DESC": "Puteți seta un bot de agent din listă în acest inbox. Botul se poate ocupa inițial de conversație și îl poate transfera unui agent atunci când este necesar.",
+      "SUBMIT": "Actualizare",
+      "DISCONNECT": "Deconectați botul",
+      "SUCCESS_MESSAGE": "A actualizat cu succes botul agentului",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Deconectat cu succes botul agentului",
+      "ERROR_MESSAGE": "Nu s-a putut actualiza botul agentului, încercați din nou mai târziu",
+      "DISCONNECTED_ERROR_MESSAGE": "Nu a putut deconecta botul agentului, vă rugăm să încercați din nou mai târziu",
+      "SELECT_PLACEHOLDER": "Selectați Bot"
+    },
+    "ADD": {
+      "TITLE": "Configurați un bot nou",
+      "CANCEL_BUTTON_TEXT": "Renunță",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot adăugat cu succes",
+        "ERROR_MESSAGE": "Nu a putut adăuga bot, Vă rugăm să încercați din nou mai târziu"
+      }
+    },
+    "LIST": {
+      "404": "Nu s-au găsit roboți, puteți crea un bot făcând clic pe butonul \"Configurați un bot nou\" ↗",
+      "LOADING": "Preluarea Bots ...",
+      "TYPE": "Tip bot"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Şterge",
+      "TITLE": "Ștergeți botul",
+      "SUBMIT": "Şterge",
+      "CANCEL_BUTTON_TEXT": "Renunță",
+      "DESCRIPTION": "Sunteți sigur că doriți să ștergeți acest bot? Această acțiune este ireversibilă",
+      "API": {
+        "SUCCESS_MESSAGE": "Agent sters cu succes",
+        "ERROR_MESSAGE": "Nu a putut șterge o regulă de automatizare, Încercați din nou mai târziu"
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Editare",
+      "LOADING": "Preluarea Bots ...",
+      "TITLE": "Editare bot",
+      "CANCEL_BUTTON_TEXT": "Renunță",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot actualizat cu succes",
+        "ERROR_MESSAGE": "Nu s-a putut actualiza botul, Vă rugăm să încercați din nou mai târziu"
+      }
+    },
+    "TYPES": {
+      "WEBHOOK": "Webhook",
+      "CSML": "CSML Bot"
+    }
+  }
+}

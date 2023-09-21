@@ -1,0 +1,125 @@
+{
+  "TEAMS_SETTINGS": {
+    "NEW_TEAM": "Stofna nýtt teymi",
+    "HEADER": "Teymi",
+    "SIDEBAR_TXT": "<p><b>Teymi</b></p> <p>Teymi leyfa þér að skipuleggja þjónustufulltrúa þína í hópa út frá ábyrgð þeirra. <br /> Þjónustufulltrúi getur verið hluti af mörgum teymum. Þú getur úthlutað samtölum á teymi þegar þú ert að vinna í samvinnu. </p>",
+    "LIST": {
+      "404": "Það eru engin teymi til á þessum reikningi.",
+      "EDIT_TEAM": "Breyta teymi"
+    },
+    "CREATE_FLOW": {
+      "CREATE": {
+        "TITLE": "Stofna nýtt teymi",
+        "DESC": "Bættu titli og lýsingu við nýja teymið þitt."
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "Bæta þjónustufulltrúum við teymið",
+        "TITLE": "Bæta þjónustufulltrúa við teymið - %{teamName}",
+        "DESC": "Bættu þjónustufullrtúum við nýstofnað teymið þitt. Þetta gerir þér kleift að vinna sem teymi í samtölum, fá tilkynningu um nýja atburði í sama samtali."
+      },
+      "WIZARD": [
+        {
+          "title": "Stofna",
+          "route": "settings_teams_new",
+          "body": "Stofna nýtt teymi af þjónustufulltrúum."
+        },
+        {
+          "title": "Bæta við þjónustufulltrúa",
+          "route": "settings_teams_add_agents",
+          "body": "Add agents to the team."
+        },
+        {
+          "title": "Finish",
+          "route": "settings_teams_finish",
+          "body": "Þú ert tilbúin til að halda áfram!"
+        }
+      ]
+    },
+    "EDIT_FLOW": {
+      "CREATE": {
+        "TITLE": "Edit your team details",
+        "DESC": "Edit title and description to your team.",
+        "BUTTON_TEXT": "Update team"
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "Update agents in team",
+        "TITLE": "Bæta þjónustufulltrúa við teymið - %{teamName}",
+        "DESC": "Bættu þjónustufulltrúum við nýstofnaða teymið þitt. Allir þjónustufulltrúar sem bætt er við verða látnir vita þegar samtali er úthlutað þessu teymi."
+      },
+      "WIZARD": [
+        {
+          "title": "Team details",
+          "route": "settings_teams_edit",
+          "body": "Breyttu nafni, lýsingu og öðrum upplýsingum."
+        },
+        {
+          "title": "Edit Agents",
+          "route": "settings_teams_edit_members",
+          "body": "Edit agents in your team."
+        },
+        {
+          "title": "Finish",
+          "route": "settings_teams_edit_finish",
+          "body": "Þú ert tilbúin til að halda áfram!"
+        }
+      ]
+    },
+    "TEAM_FORM": {
+      "ERROR_MESSAGE": "Ekki tókst að vista teymisupplýsingarnar. Reyndu aftur."
+    },
+    "AGENTS": {
+      "AGENT": "AGENT",
+      "EMAIL": "NETFANG",
+      "BUTTON_TEXT": "Bæta við þjónustufulltrúum",
+      "ADD_AGENTS": "Adding Agents to your Team...",
+      "SELECT": "select",
+      "SELECT_ALL": "select all agents",
+      "SELECTED_COUNT": "%{selected} af %{total} þjónustufulltrúum valdir."
+    },
+    "ADD": {
+      "TITLE": "Bæta þjónustufulltrúa við teymið - %{teamName}",
+      "DESC": "Bættu þjónustufullrtúum við nýstofnað teymið þitt. Þetta gerir þér kleift að vinna sem teymi í samtölum, fá tilkynningu um nýja atburði í sama samtali.",
+      "SELECT": "select",
+      "SELECT_ALL": "select all agents",
+      "SELECTED_COUNT": "%{selected} af %{total} þjónustufulltrúum valdir.",
+      "BUTTON_TEXT": "Bæta við þjónustufulltrúum",
+      "AGENT_VALIDATION_ERROR": "Select at least one agent."
+    },
+    "FINISH": {
+      "TITLE": "Your team is ready!",
+      "MESSAGE": "Þú getur nú unnið sem teymi í samtölum. Gangi þér vel að þjónusta",
+      "BUTTON_TEXT": "Finish"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Eyða",
+      "API": {
+        "SUCCESS_MESSAGE": "Team deleted successfully.",
+        "ERROR_MESSAGE": "Couldn't delete the team. Try again."
+      },
+      "CONFIRM": {
+        "TITLE": "Are you sure want to delete - %{teamName}",
+        "PLACE_HOLDER": "Please type {teamName} to confirm",
+        "MESSAGE": "Ef teyminu er eytt verður liðsúthlutunin fjarlægð úr samtölunum sem þessu teymi hefur verið úthlutað.",
+        "YES": "Delete ",
+        "NO": "Hætta við"
+      }
+    },
+    "SETTINGS": "Stillingar",
+    "FORM": {
+      "UPDATE": "Update team",
+      "CREATE": "Create team",
+      "NAME": {
+        "LABEL": "Team name",
+        "PLACEHOLDER": "Example: Sales, Customer Support"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Team Description",
+        "PLACEHOLDER": "Short description about this team."
+      },
+      "AUTO_ASSIGN": {
+        "LABEL": "Allow auto assign for this team."
+      },
+      "SUBMIT_CREATE": "Create team"
+    }
+  }
+}

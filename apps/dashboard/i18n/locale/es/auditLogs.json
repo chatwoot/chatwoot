@@ -1,0 +1,71 @@
+{
+  "AUDIT_LOGS": {
+    "HEADER": "Auditoría de registros",
+    "HEADER_BTN_TXT": "Añadir registros de auditoría",
+    "LOADING": "Obteniendo registros de auditoría",
+    "SEARCH_404": "No hay elementos que coincidan con esta consulta",
+    "SIDEBAR_TXT": "<p><b>Registros de auditoría</b> </p><p> Registros de auditoría son pistas para eventos y acciones en un Sistema de Chatwoot </p>",
+    "LIST": {
+      "404": "No hay registros de auditoría disponibles en esta cuenta.",
+      "TITLE": "Administrar registros de auditoría",
+      "DESC": "Los registros de auditoría son pistas para eventos y acciones en un sistema de Chatwoot.",
+      "TABLE_HEADER": [
+        "User",
+        "Action",
+        "Dirección IP"
+      ]
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Registros de auditoria cargados satisfactoriamente",
+      "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
+    },
+    "DEFAULT_USER": "Sistema",
+    "AUTOMATION_RULE": {
+      "ADD": "%{agentName} creó una nueva regla de automatización (#%{id})",
+      "EDIT": "%{agentName} actualizó una regla de automatización (#%{id})",
+      "DELETE": "%{agentName} eliminó una regla de automatización (#%{id})"
+    },
+    "ACCOUNT_USER": {
+      "ADD": "%{agentName} invitó a %{invitee} a la cuenta como %{role}",
+      "EDIT": {
+        "SELF": "%{agentName} cambió su %{attributes} por %{values}",
+        "OTHER": "%{agentName} cambió %{attributes} de %{user} a %{values}"
+      }
+    },
+    "INBOX": {
+      "ADD": "%{agentName} creó una nueva bandeja de entrada (#%{id})",
+      "EDIT": "%{agentName} actualizó una bandeja de entrada (#%{id})",
+      "DELETE": "%{agentName} eliminó una bandeja de entrada (#%{id})"
+    },
+    "WEBHOOK": {
+      "ADD": "%{agentName} creó un nuevo webhook (#%{id})",
+      "EDIT": "%{agentName} actualizó un webhook (#%{id})",
+      "DELETE": "%{agentName} eliminó un webhook (#%{id})"
+    },
+    "USER_ACTION": {
+      "SIGN_IN": "%{agentName} inició sesión",
+      "SIGN_OUT": "%{agentName} cerró su sesión"
+    },
+    "TEAM": {
+      "ADD": "%{agentName} creó un nuevo equipo (#%{id})",
+      "EDIT": "%{agentName} actualizó un equipo (#%{id})",
+      "DELETE": "%{agentName} eliminó un equipo (#%{id})"
+    },
+    "MACRO": {
+      "ADD": "%{agentName} creó una nueva macro (#%{id})",
+      "EDIT": "%{agentName} actualizó una macro (#%{id})",
+      "DELETE": "%{agentName} eliminó una macro (#%{id})"
+    },
+    "INBOX_MEMBER": {
+      "ADD": "%{agentName} agregó %{user} a la bandeja de entrada (#%{inbox_id})",
+      "REMOVE": "%{agentName} eliminó %{user} de la bandeja de entrada(#%{inbox_id})"
+    },
+    "TEAM_MEMBER": {
+      "ADD": "%{agentName} agregó %{user} al equipo (#%{team_id})",
+      "REMOVE": "%{agentName} eliminó %{user} del equipo (#%{team_id})"
+    },
+    "ACCOUNT": {
+      "EDIT": "%{agentName} Actualizó la configuración de la cuenta (#%{id})"
+    }
+  }
+}

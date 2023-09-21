@@ -1,0 +1,73 @@
+{
+  "AGENT_BOTS": {
+    "HEADER": "Bots",
+    "LOADING_EDITOR": "Chargement de l'éditeur...",
+    "HEADER_BTN_TXT": "Ajouter une configuration de bot",
+    "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Les robots d'agents vous permettent d'automatiser les conversations</p>",
+    "CSML_BOT_EDITOR": {
+      "NAME": {
+        "LABEL": "Nom du bot",
+        "PLACEHOLDER": "Donnez un nom à votre bot",
+        "ERROR": "Le nom du bot est requis"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Description du bot",
+        "PLACEHOLDER": "Que fait ce bot ?"
+      },
+      "BOT_CONFIG": {
+        "ERROR": "Veuillez entrer votre configuration de bot CSML ci-dessus",
+        "API_ERROR": "Votre configuration CSML n'est pas valide, veuillez la corriger et réessayer."
+      },
+      "SUBMIT": "Valider et enregistrer"
+    },
+    "BOT_CONFIGURATION": {
+      "TITLE": "Sélectionnez un bot d'agent",
+      "DESC": "Vous pouvez définir un bot d'agent à partir de la liste à cette boîte de réception. Le bot peut initialement gérer la conversation et la transférer à un agent si nécessaire.",
+      "SUBMIT": "Mettre à jour",
+      "DISCONNECT": "Déconnecter le bot",
+      "SUCCESS_MESSAGE": "Le bot agent a été mis à jour avec succès",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Déconnexion réussie du bot agent",
+      "ERROR_MESSAGE": "Impossible de mettre à jour la couleur du widget. Veuillez réessayer plus tard",
+      "DISCONNECTED_ERROR_MESSAGE": "Impossible de déconnecter le bot de l'agent, veuillez réessayer plus tard",
+      "SELECT_PLACEHOLDER": "Sélectionner le bot"
+    },
+    "ADD": {
+      "TITLE": "Configurer le nouveau bot",
+      "CANCEL_BUTTON_TEXT": "Annuler",
+      "API": {
+        "SUCCESS_MESSAGE": "Le bot a été ajouté avec succès",
+        "ERROR_MESSAGE": "Impossible d'ajouter le bot, veuillez réessayer plus tard"
+      }
+    },
+    "LIST": {
+      "404": "Aucun Bots trouvé, vous pouvez créer un bot en cliquant sur le bouton 'Configurer un nouveau bot' ↗️",
+      "LOADING": "Récupération des bots...",
+      "TYPE": "Type de bot"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Supprimer",
+      "TITLE": "Supprimer le bot",
+      "SUBMIT": "Supprimer",
+      "CANCEL_BUTTON_TEXT": "Annuler",
+      "DESCRIPTION": "Êtes-vous sûr de vouloir supprimer ce bot ? Cette action est irréversible",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot supprimé avec succès",
+        "ERROR_MESSAGE": "Impossible de supprimer le bot, veuillez réessayer plus tard"
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Modifier",
+      "LOADING": "Récupération des bots...",
+      "TITLE": "Modifier le bot",
+      "CANCEL_BUTTON_TEXT": "Annuler",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot mis à jour avec succès",
+        "ERROR_MESSAGE": "Impossible de mettre à jour le bot, veuillez réessayer plus tard"
+      }
+    },
+    "TYPES": {
+      "WEBHOOK": "Webhook Bot",
+      "CSML": "CSML Bot"
+    }
+  }
+}

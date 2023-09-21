@@ -1,0 +1,166 @@
+{
+  "GENERAL_SETTINGS": {
+    "TITLE": "Ustawienia konta",
+    "SUBMIT": "Zaktualizuj ustawienia",
+    "BACK": "Powrót",
+    "DISMISS": "Odrzuć",
+    "UPDATE": {
+      "ERROR": "Nie udało się zaktualizować ustawień, spróbuj ponownie!",
+      "SUCCESS": "Ustawienia konta zostały pomyślnie zaktualizowane"
+    },
+    "FORM": {
+      "ERROR": "Proszę poprawić błędy formularza",
+      "GENERAL_SECTION": {
+        "TITLE": "Ustawienia ogólne",
+        "NOTE": ""
+      },
+      "ACCOUNT_ID": {
+        "TITLE": "ID konta",
+        "NOTE": "To ID jest wymagane, jeśli tworzysz integrację opartą na API"
+      },
+      "NAME": {
+        "LABEL": "Nazwa konta",
+        "PLACEHOLDER": "Nazwa konta",
+        "ERROR": "Wprowadź poprawną nazwę konta"
+      },
+      "LANGUAGE": {
+        "LABEL": "Język strony",
+        "PLACEHOLDER": "Język konta",
+        "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "Domena przychodzących wiadomości e-mail",
+        "PLACEHOLDER": "Domena, na której otrzymujesz wiadomości e-mail",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "E-mail obsługi",
+        "PLACEHOLDER": "E-mail obsługi klienta Twojej firmy",
+        "ERROR": ""
+      },
+      "AUTO_RESOLVE_DURATION": {
+        "LABEL": "Liczba dni po upływie których rozmowa powinna zostać automatycznie zamknięta z powodu braku aktywności",
+        "PLACEHOLDER": "30",
+        "ERROR": "Wprowadź poprawną wartość dla czasu automatycznego zamykania rozmów (minimum 1 dzień, maksimum 999 dni)"
+      },
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "Kontynuacja rozmów za pomocą wiadomości e-mail jest włączona dla Twojego konta.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Możesz teraz odbierać wiadomości e-mail na swojej własnej domenie."
+      }
+    },
+    "UPDATE_CHATWOOT": "Dostępna jest aktualizacja do wersji %{latestChatwootVersion} Chatwoot. Proszę zaktualizować swoją instancję.",
+    "LEARN_MORE": "Dowiedz się więcej",
+    "PAYMENT_PENDING": "Twoja płatność jest w toku. Zaktualizuj informacje o płatności, aby kontynuować korzystanie z Chatwoot.",
+    "LIMITS_UPGRADE": "Twoje konto przekroczyło limit użytkowania. Zaktualizuj swój plan, aby kontynuować korzystanie z Chatwoot.",
+    "OPEN_BILLING": "Otwórz fakturę"
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "Naciśnij Enter, aby wybrać",
+      "ENTER_TO_REMOVE": "Naciśnij Enter, aby usunąć",
+      "SELECT_ONE": "Wybierz jeden",
+      "SELECT": "Wybierz"
+    }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "Powiadomienia",
+    "MARK_ALL_DONE": "Oznacz wszystkie jako zrobione",
+    "DELETE_TITLE": "usunięto",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Nieprzeczytane powiadomienia",
+      "ALL_NOTIFICATIONS": "Wyświetl wszystkie powiadomienia",
+      "LOADING_UNREAD_MESSAGE": "Ładowanie nieprzeczytanych powiadomień...",
+      "EMPTY_MESSAGE": "Nie masz żadnych nieprzeczytanych powiadomień"
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "Ładowanie powiadomień...",
+      "404": "Nie znaleziono powiadomień",
+      "TABLE_HEADER": [
+        "Nazwisko",
+        "Numer telefonu",
+        "Rozmowy",
+        "Ostatni kontakt"
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "Nowa rozmowa",
+      "conversation_assignment": "Przypisanie rozmowy",
+      "assigned_conversation_new_message": "Nowa wiadomość",
+      "participating_conversation_new_message": "Nowa wiadomość",
+      "conversation_mention": "Wzmianka"
+    }
+  },
+  "NETWORK": {
+    "NOTIFICATION": {
+      "TEXT": "Rozłączono z Chatwoot"
+    },
+    "BUTTON": {
+      "REFRESH": "Odśwież"
+    }
+  },
+  "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "Szukaj lub przejdź do",
+    "SECTIONS": {
+      "GENERAL": "Ogólne",
+      "REPORTS": "Raporty",
+      "CONVERSATION": "Rozmowa",
+      "CHANGE_ASSIGNEE": "Zmień przypisanego",
+      "CHANGE_PRIORITY": "Zmień priorytet",
+      "CHANGE_TEAM": "Zmień zespół",
+      "SNOOZE_CONVERSATION": "Zatrzymaj rozmowę",
+      "ADD_LABEL": "Dodaj etykietę do rozmowy",
+      "REMOVE_LABEL": "Usuń etykietę z rozmowy",
+      "SETTINGS": "Ustawienia",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance"
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "Przejdź do pulpitu rozmów",
+      "GO_TO_CONTACTS_DASHBOARD": "Przejdź do pulpitu kontaktów",
+      "GO_TO_REPORTS_OVERVIEW": "Przejdź do przeglądu raportów",
+      "GO_TO_CONVERSATION_REPORTS": "Przejdź do raportów rozmów",
+      "GO_TO_AGENT_REPORTS": "Przejdź do raportów agentów",
+      "GO_TO_LABEL_REPORTS": "Przejdź do raportów etykiet",
+      "GO_TO_INBOX_REPORTS": "Przejdź do raportów skrzynek odbiorczych",
+      "GO_TO_TEAM_REPORTS": "Przejdź do raportów zespołów",
+      "GO_TO_SETTINGS_AGENTS": "Przejdź do ustawień agentów",
+      "GO_TO_SETTINGS_TEAMS": "Przejdź do ustawień zespołów",
+      "GO_TO_SETTINGS_INBOXES": "Przejdź do ustawień skrzynek odbiorczych",
+      "GO_TO_SETTINGS_LABELS": "Przejdź do ustawień etykiet",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Przejdź do ustawień gotowych odpowiedzi",
+      "GO_TO_SETTINGS_APPLICATIONS": "Przejdź do ustawień aplikacji",
+      "GO_TO_SETTINGS_ACCOUNT": "Przejdź do ustawień konta",
+      "GO_TO_SETTINGS_PROFILE": "Przejdź do ustawień profilu",
+      "GO_TO_NOTIFICATIONS": "Przejdź do powiadomień",
+      "ADD_LABELS_TO_CONVERSATION": "Dodaj etykietę do rozmowy",
+      "ASSIGN_AN_AGENT": "Przypisz agenta",
+      "AI_ASSIST": "AI Assist",
+      "ASSIGN_PRIORITY": "Przypisz priorytet",
+      "ASSIGN_A_TEAM": "Przypisz zespół",
+      "MUTE_CONVERSATION": "Wycisz rozmowę",
+      "UNMUTE_CONVERSATION": "Wyłącz wyciszenie rozmowy",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Usuń etykietę z rozmowy",
+      "REOPEN_CONVERSATION": "Ponownie otwórz rozmowę",
+      "RESOLVE_CONVERSATION": "Zamknij rozmowę",
+      "SEND_TRANSCRIPT": "Wyślij transkrypt rozmowy",
+      "SNOOZE_CONVERSATION": "Zatrzymaj rozmowę",
+      "UNTIL_NEXT_REPLY": "Do następnej odpowiedzi",
+      "UNTIL_NEXT_WEEK": "Do następnego tygodnia",
+      "UNTIL_TOMORROW": "Do jutra",
+      "UNTIL_NEXT_MONTH": "Do następnego miesiąca",
+      "AN_HOUR_FROM_NOW": "Do godziny od teraz",
+      "CUSTOM": "Niestandardowe...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "System"
+    }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Ładowanie aplikacji pulpitu..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "kliknij tutaj"
+  }
+}

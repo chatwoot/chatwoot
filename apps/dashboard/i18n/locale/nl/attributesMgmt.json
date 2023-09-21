@@ -1,0 +1,99 @@
+{
+  "ATTRIBUTES_MGMT": {
+    "HEADER": "Aangepaste attributen",
+    "HEADER_BTN_TXT": "Aangepast attribuut toevoegen",
+    "LOADING": "Aangepaste attributen ophalen",
+    "SIDEBAR_TXT": "<p><b>Aangepaste Attributen</b> <p>Een aangepast attribuut volgt feiten over uw contacten/conversaties - zoals het abonnement of wanneer ze voor het eerst een item bestelden etc. <br /><br />Voor het maken van een aangepast attribuut, klik op <b>Voeg Aangepast Attribuut toe.</b> U kunt ook een bestaand Aangepast Attribuut bewerken of verwijderen door op de knop Bewerken of Verwijderen te klikken.</p>",
+    "ADD": {
+      "TITLE": "Aangepast attribuut toevoegen",
+      "SUBMIT": "Aanmaken",
+      "CANCEL_BUTTON_TEXT": "Annuleren",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Weergave naam",
+          "PLACEHOLDER": "Voer aangepaste attribuut weergavenaam in",
+          "ERROR": "Naam is vereist"
+        },
+        "DESC": {
+          "LABEL": "Beschrijving",
+          "PLACEHOLDER": "Voer aangepaste attribuutbeschrijving in",
+          "ERROR": "Omschrijving is vereist"
+        },
+        "MODEL": {
+          "LABEL": "Van toepassing op",
+          "PLACEHOLDER": "Selecteer er een",
+          "ERROR": "Model is vereist"
+        },
+        "TYPE": {
+          "LABEL": "Type",
+          "PLACEHOLDER": "Selecteer een type",
+          "ERROR": "Type is vereist",
+          "LIST": {
+            "LABEL": "Toon waardes",
+            "PLACEHOLDER": "Voer waarde in en druk op enter-toets",
+            "ERROR": "Moet minstens één waarde bevatten"
+          }
+        },
+        "KEY": {
+          "LABEL": "Sleutel",
+          "PLACEHOLDER": "Voer aangepaste attribuut sleutel in",
+          "ERROR": "Sleutel is vereist",
+          "IN_VALID": "Ongeldige sleutel"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Aangepast attribuut succesvol toegevoegd!",
+        "ERROR_MESSAGE": "Aanmaken van aangepaste attribuut mislukt. Probeer het later opnieuw."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Verwijderen",
+      "API": {
+        "SUCCESS_MESSAGE": "Aangepast attribuut succesvol verwijderd.",
+        "ERROR_MESSAGE": "Kan het aangepaste attribuut niet verwijderen. Probeer het opnieuw."
+      },
+      "CONFIRM": {
+        "TITLE": "Weet u zeker dat u wilt verwijderen - %{attributeName}",
+        "PLACE_HOLDER": "Voer {attributeName} in om te bevestigen",
+        "MESSAGE": "Verwijderen zal het aangepaste attribuut verwijderen",
+        "YES": "Verwijderen ",
+        "NO": "Annuleren"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Aangepast attribuut bewerken",
+      "UPDATE_BUTTON_TEXT": "Vernieuwen",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "Toon waardes",
+          "PLACEHOLDER": "Voer waarden in en druk op enter-toets"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Aangepast attribuut succesvol bijgewerkt",
+        "ERROR_MESSAGE": "Er is een fout opgetreden bij het bijwerken van aangepaste attributen, probeer het opnieuw"
+      }
+    },
+    "TABS": {
+      "HEADER": "Aangepaste attributen",
+      "CONVERSATION": "Gesprek",
+      "CONTACT": "Contact"
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Naam",
+        "Beschrijving",
+        "Type",
+        "Toets"
+      ],
+      "BUTTONS": {
+        "EDIT": "Bewerken",
+        "DELETE": "Verwijderen"
+      },
+      "EMPTY_RESULT": {
+        "404": "Er zijn geen aangepaste attributen aangemaakt",
+        "NOT_FOUND": "Er zijn geen aangepaste attributen geconfigureerd"
+      }
+    }
+  }
+}

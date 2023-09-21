@@ -1,0 +1,27 @@
+{
+  "LOGIN": {
+    "TITLE": "Login to Chatwoot",
+    "EMAIL": {
+      "LABEL": "El. paštas",
+      "PLACEHOLDER": "email pavyzdys: someone@example.com",
+      "ERROR": "Prašau įveskite teisingą el. pašto adresą"
+    },
+    "PASSWORD": {
+      "LABEL": "Slaptažodis",
+      "PLACEHOLDER": "Slaptažodis"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Sėkmingai prisijungta",
+      "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio. Bandykite dar kartą vėliau.",
+      "UNAUTH": "Vartotojo vardas arba slaptažodis yra neteisingas. Prašome pabandyti dar kartą."
+    },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Prisijungti su Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Norėdami prisijungti, naudokite savo įmonės el. pašto adresą",
+      "NO_ACCOUNT_FOUND": "Nepavyko rasti paskyros pagal jūsų el. pašto adresą."
+    },
+    "FORGOT_PASSWORD": "Pamiršote slaptažodį?",
+    "CREATE_NEW_ACCOUNT": "Sukurti naują paskyrą",
+    "SUBMIT": "Prisijungti"
+  }
+}

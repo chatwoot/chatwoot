@@ -1,0 +1,13 @@
+{
+  "CSAT": {
+    "TITLE": "ให้คะแนนการสนทนาครั้งนี้",
+    "PLACEHOLDER": "บอกเราเพิ่มเติม...",
+    "RATINGS": {
+      "POOR": "😞 Poor",
+      "FAIR": "😑 Fair",
+      "AVERAGE": "😐 Average",
+      "GOOD": "😀 Good",
+      "EXCELLENT": "😍 Excellent"
+    }
+  }
+}

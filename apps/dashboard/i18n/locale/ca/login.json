@@ -1,0 +1,27 @@
+{
+  "LOGIN": {
+    "TITLE": "Entra a Chatwoot",
+    "EMAIL": {
+      "LABEL": "Correu electrònic",
+      "PLACEHOLDER": "Correu electrònic p.e.: someone@exemple.com",
+      "ERROR": "Introduïu una adreça de correu electrònic vàlida"
+    },
+    "PASSWORD": {
+      "LABEL": "Contrasenya",
+      "PLACEHOLDER": "Contrasenya"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Iniciada la sessió amb èxit",
+      "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant",
+      "UNAUTH": "Nom d'usuari / contrasenya incorrecte. Torna-ho a provar-ho"
+    },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Login with Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
+      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+    },
+    "FORGOT_PASSWORD": "Has oblidat la contrasenya?",
+    "CREATE_NEW_ACCOUNT": "Crear un nou compte",
+    "SUBMIT": "Inicia la sessió"
+  }
+}

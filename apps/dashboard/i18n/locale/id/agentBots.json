@@ -1,0 +1,73 @@
+{
+  "AGENT_BOTS": {
+    "HEADER": "Bot",
+    "LOADING_EDITOR": "Memuat Editor...",
+    "HEADER_BTN_TXT": "Tambah Konfigurasi Bot",
+    "SIDEBAR_TXT": "<p><b>Bot Agen</b> <p>Bot agen memungkinkan Anda mengotomatiskan percakapan</p>",
+    "CSML_BOT_EDITOR": {
+      "NAME": {
+        "LABEL": "Nama Bot",
+        "PLACEHOLDER": "Beri nama bot Anda",
+        "ERROR": "Nama bot wajib diisi"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Deskripsi Bot",
+        "PLACEHOLDER": "Apa yang dilakukan bot ini?"
+      },
+      "BOT_CONFIG": {
+        "ERROR": "Harap masukkan konfigurasi bot CSML Anda di atas",
+        "API_ERROR": "Konfigurasi CSML Anda tidak valid, harap perbaiki dan coba lagi."
+      },
+      "SUBMIT": "Validasi dan simpan"
+    },
+    "BOT_CONFIGURATION": {
+      "TITLE": "Pilih bot agen",
+      "DESC": "Anda dapat menetapkan bot agen dari daftar ini ke kotak masuk ini. Bot dapat mengatasi percakapan secara awal dan mentransfernya ke agen saat diperlukan.",
+      "SUBMIT": "Perbarui",
+      "DISCONNECT": "Putuskan Hubungan Bot",
+      "SUCCESS_MESSAGE": "Berhasil memperbarui bot agen",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Berhasil memutuskan hubungan bot agen",
+      "ERROR_MESSAGE": "Tidak dapat memperbarui bot agen, harap coba lagi nanti",
+      "DISCONNECTED_ERROR_MESSAGE": "Tidak dapat memutuskan hubungan bot agen, harap coba lagi nanti",
+      "SELECT_PLACEHOLDER": "Pilih Bot"
+    },
+    "ADD": {
+      "TITLE": "Konfigurasi bot baru",
+      "CANCEL_BUTTON_TEXT": "Batalkan",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot berhasil ditambahkan",
+        "ERROR_MESSAGE": "Tidak dapat menambahkan bot, Harap coba lagi nanti"
+      }
+    },
+    "LIST": {
+      "404": "Tidak ada Bot ditemukan, Anda dapat membuat bot dengan mengklik Tombol 'Konfigurasi bot baru' ↗",
+      "LOADING": "Mengambil Bot...",
+      "TYPE": "Jenis Bot"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Hapus",
+      "TITLE": "Hapus Bot",
+      "SUBMIT": "Hapus",
+      "CANCEL_BUTTON_TEXT": "Batalkan",
+      "DESCRIPTION": "Apakah Anda yakin ingin menghapus bot ini? Tindakan ini tidak dapat dibatalkan",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot berhasil dihapus",
+        "ERROR_MESSAGE": "Tidak dapat menghapus bot, Harap coba lagi nanti"
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Edit",
+      "LOADING": "Mengambil Bot...",
+      "TITLE": "Edit Bot",
+      "CANCEL_BUTTON_TEXT": "Batalkan",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot berhasil diperbarui",
+        "ERROR_MESSAGE": "Tidak dapat memperbarui bot, Harap coba lagi nanti"
+      }
+    },
+    "TYPES": {
+      "WEBHOOK": "Bot Webhook",
+      "CSML": "Bot CSML"
+    }
+  }
+}

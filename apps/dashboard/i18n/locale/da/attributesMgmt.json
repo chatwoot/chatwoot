@@ -1,0 +1,99 @@
+{
+  "ATTRIBUTES_MGMT": {
+    "HEADER": "Brugerdefinerede Egenskaber",
+    "HEADER_BTN_TXT": "Tilføj Tilpasset Attribut",
+    "LOADING": "Henter brugerdefinerede attributter",
+    "SIDEBAR_TXT": "<p><b>Brugerdefinerede attributter</b> <p>En brugerdefineret attribut sporer fakta om dine kontakter/samtale — såsom abonnementet, eller når de bestilte det første element osv. <br /><br />For at oprette en brugerdefineret attribut, klik blot på<b>Tilføj brugerdefineret attribut.</b> Du kan også redigere eller slette en eksisterende brugerdefineret attribut ved at klikke på Rediger eller Slet knappen.</p>",
+    "ADD": {
+      "TITLE": "Tilføj Tilpasset Attribut",
+      "SUBMIT": "Opret",
+      "CANCEL_BUTTON_TEXT": "Annuller",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Vis Navn",
+          "PLACEHOLDER": "Angiv brugerdefineret attribut visningsnavn",
+          "ERROR": "Navn er påkrævet"
+        },
+        "DESC": {
+          "LABEL": "Beskrivelse",
+          "PLACEHOLDER": "Angiv brugerdefineret attribut beskrivelse",
+          "ERROR": "Beskrivelse er påkrævet"
+        },
+        "MODEL": {
+          "LABEL": "Gælder for",
+          "PLACEHOLDER": "Vælg venligst en",
+          "ERROR": "Model er påkrævet"
+        },
+        "TYPE": {
+          "LABEL": "Type",
+          "PLACEHOLDER": "Vælg venligst en type",
+          "ERROR": "Type er påkrævet",
+          "LIST": {
+            "LABEL": "Liste Værdier",
+            "PLACEHOLDER": "Indtast venligst værdi og tryk på enter tasten",
+            "ERROR": "Skal have mindst én værdi"
+          }
+        },
+        "KEY": {
+          "LABEL": "Nøgle",
+          "PLACEHOLDER": "Angiv brugerdefineret attributnøgle",
+          "ERROR": "Nøgle er påkrævet",
+          "IN_VALID": "Ugyldig nøgle"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Brugerdefineret attribut blev tilføjet!",
+        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Slet",
+      "API": {
+        "SUCCESS_MESSAGE": "Brugerdefineret attribut slettet.",
+        "ERROR_MESSAGE": "Kunne ikke slette den brugerdefinerede attribut. Prøv igen."
+      },
+      "CONFIRM": {
+        "TITLE": "Er du sikker på du vil slette - %{attributeName}",
+        "PLACE_HOLDER": "Skriv venligst {attributeName} for at bekræfte",
+        "MESSAGE": "Sletning vil fjerne den brugerdefinerede attribut",
+        "YES": "Slet ",
+        "NO": "Annuller"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Rediger Brugerdefineret Attribut",
+      "UPDATE_BUTTON_TEXT": "Opdater",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "Liste Værdier",
+          "PLACEHOLDER": "Indtast værdier og tryk på enter tasten"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Brugerdefineret attribut opdateret",
+        "ERROR_MESSAGE": "Der opstod en fejl under opdatering af brugerdefineret attribut. Prøv igen"
+      }
+    },
+    "TABS": {
+      "HEADER": "Brugerdefinerede Egenskaber",
+      "CONVERSATION": "Samtale",
+      "CONTACT": "Kontakt"
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Navn",
+        "Beskrivelse",
+        "Type",
+        "Nøgle"
+      ],
+      "BUTTONS": {
+        "EDIT": "Rediger",
+        "DELETE": "Slet"
+      },
+      "EMPTY_RESULT": {
+        "404": "Der er ingen brugerdefinerede attributter oprettet",
+        "NOT_FOUND": "Der er ingen brugerdefinerede attributter konfigureret"
+      }
+    }
+  }
+}

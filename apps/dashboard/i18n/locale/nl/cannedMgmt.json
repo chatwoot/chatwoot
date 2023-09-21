@@ -1,0 +1,76 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Standaard antwoorden",
+    "HEADER_BTN_TXT": "Standaard antwoord toevoegen",
+    "LOADING": "Standaard antwoorden ophalen",
+    "SEARCH_404": "Er zijn geen items die overeenkomen met deze zoekopdracht",
+    "SIDEBAR_TXT": "<p><b> Standaard antwoorden</b> </p><p> Standaard antwoorden zijn opgeslagen antwoordsjablonen die kunnen worden gebruikt om snel een antwoord te sturen naar een gesprek. </p><p> Voor het maken van een standaard antwoord, klik op de <b>Voeg standaard antwoord toe</b>. U kunt een bestaand antwoord bewerken of verwijderen door op de knop Bewerken of Verwijderen te klikken </p><p> Standaard antwoorden worden gebruikt met behulp van <b>korte codes</b>. Medewerkers hebben toegang tot standaard antwoorden in een chat door <b>'/'</b> te typen gevolgd door de korte code. </p>",
+    "LIST": {
+      "404": "Er zijn geen standaard antwoorden beschikbaar in dit account.",
+      "TITLE": "Beheer standaard antwoorden",
+      "DESC": "Standaard antwoorden zijn vooraf gedefinieerde antwoordsjablonen die kunnen worden gebruikt om snel antwoorden naar tickets te sturen.",
+      "TABLE_HEADER": [
+        "Korte code",
+        "Inhoud",
+        "Acties"
+      ]
+    },
+    "ADD": {
+      "TITLE": "Standaard antwoord toevoegen",
+      "DESC": "Standaard antwoorden zijn opgeslagen antwoordsjablonen die kunnen worden gebruikt om snel te reageren op gesprekken.",
+      "CANCEL_BUTTON_TEXT": "Annuleren",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Korte code",
+          "PLACEHOLDER": "Vul een korte code in",
+          "ERROR": "Korte code is vereist"
+        },
+        "CONTENT": {
+          "LABEL": "Inhoud",
+          "PLACEHOLDER": "Voer inhoud in",
+          "ERROR": "Inhoud is vereist"
+        },
+        "SUBMIT": "Bevestigen"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Standaard antwoord met succes toegevoegd",
+        "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Bewerk standaard antwoord",
+      "CANCEL_BUTTON_TEXT": "Annuleren",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Korte code",
+          "PLACEHOLDER": "Vul een korte code in",
+          "ERROR": "Korte code is vereist"
+        },
+        "CONTENT": {
+          "LABEL": "Inhoud",
+          "PLACEHOLDER": "Voer inhoud in",
+          "ERROR": "Inhoud is vereist"
+        },
+        "SUBMIT": "Bevestigen"
+      },
+      "BUTTON_TEXT": "Bewerken",
+      "API": {
+        "SUCCESS_MESSAGE": "standaard antwoord succesvol bijgewerkt",
+        "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Verwijderen",
+      "API": {
+        "SUCCESS_MESSAGE": "Standaard antwoord succesvol verwijderd",
+        "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+      },
+      "CONFIRM": {
+        "TITLE": "Verwijdering bevestigen",
+        "MESSAGE": "Weet u zeker dat u wilt verwijderen ",
+        "YES": "Ja, verwijderen ",
+        "NO": "Nee, Behouden "
+      }
+    }
+  }
+}

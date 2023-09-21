@@ -1,0 +1,118 @@
+{
+  "AUTOMATION": {
+    "HEADER": "Otomatisasi",
+    "HEADER_BTN_TXT": "Tambah Aturan Otomatisasi",
+    "LOADING": "Mengambil aturan otomatisasi",
+    "SIDEBAR_TXT": "<p><b>Aturan Otomatisasi</b> <p>Otomatisasi dapat menggantikan dan mengotomatisasi proses yang memerlukan upaya manual. Anda dapat melakukan banyak hal dengan otomatisasi, termasuk menambahkan label dan menugaskan percakapan kepada agen terbaik. Dengan begitu, tim fokus pada hal-hal yang mereka lakukan dengan baik dan menghabiskan lebih sedikit waktu untuk tugas-tugas manual.</p>",
+    "ADD": {
+      "TITLE": "Tambah Aturan Otomatisasi",
+      "SUBMIT": "Buat",
+      "CANCEL_BUTTON_TEXT": "Batalkan",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nama Aturan",
+          "PLACEHOLDER": "Masukkan nama aturan",
+          "ERROR": "Nama dibutuhkan"
+        },
+        "DESC": {
+          "LABEL": "Deskripsi",
+          "PLACEHOLDER": "Masukkan deskripsi aturan",
+          "ERROR": "Deskripsi dibutuhkan"
+        },
+        "EVENT": {
+          "LABEL": "Peristiwa",
+          "PLACEHOLDER": "Silakan pilih salah satu",
+          "ERROR": "Peristiwa dibutuhkan"
+        },
+        "CONDITIONS": {
+          "LABEL": "Kondisi"
+        },
+        "ACTIONS": {
+          "LABEL": "Aksi"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Tambah Kondisi",
+      "ACTION_BUTTON_LABEL": "Tambah Aksi",
+      "API": {
+        "SUCCESS_MESSAGE": "Aturan otomatisasi berhasil ditambahkan",
+        "ERROR_MESSAGE": "Tidak dapat membuat aturan otomatisasi, Harap coba lagi nanti"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Nama",
+        "Deskripsi",
+        "Aktif",
+        "Dibuat pada"
+      ],
+      "404": "Tidak ada aturan otomatisasi ditemukan"
+    },
+    "DELETE": {
+      "TITLE": "Hapus Aturan Otomatisasi",
+      "SUBMIT": "Hapus",
+      "CANCEL_BUTTON_TEXT": "Batalkan",
+      "CONFIRM": {
+        "TITLE": "Konfirmasi Penghapusan",
+        "MESSAGE": "Apakah Anda yakin ingin menghapus ",
+        "YES": "Ya, Hapus ",
+        "NO": "Tidak, Simpan "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Aturan otomatisasi berhasil dihapus",
+        "ERROR_MESSAGE": "Tidak dapat menghapus aturan otomatisasi, Harap coba lagi nanti"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit Aturan Otomatisasi",
+      "SUBMIT": "Perbarui",
+      "CANCEL_BUTTON_TEXT": "Batalkan",
+      "API": {
+        "SUCCESS_MESSAGE": "Aturan otomatisasi berhasil diperbarui",
+        "ERROR_MESSAGE": "Tidak dapat memperbarui aturan otomatisasi, Harap coba lagi nanti"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "Klon",
+      "API": {
+        "SUCCESS_MESSAGE": "Otomatisasi berhasil dikloning",
+        "ERROR_MESSAGE": "Tidak dapat mengkloning aturan otomatisasi, Harap coba lagi nanti"
+      }
+    },
+    "FORM": {
+      "EDIT": "Edit",
+      "CREATE": "Buat",
+      "DELETE": "Hapus",
+      "CANCEL": "Batalkan",
+      "RESET_MESSAGE": "Mengubah jenis peristiwa akan mengatur ulang kondisi dan peristiwa yang Anda tambahkan di bawah"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "Anda harus memiliki setidaknya satu kondisi untuk disimpan",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Atribut Kustom Kontak",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Atribut Kustom Percakapan"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "Anda harus memiliki setidaknya satu aksi untuk disimpan",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Masukkan pesan Anda di sini",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Pilih tim"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Aktifkan Aturan Otomatisasi",
+      "DEACTIVATION_TITLE": "Nonaktifkan Aturan Otomatisasi",
+      "ACTIVATION_DESCRIPTION": "Tindakan ini akan mengaktifkan aturan otomatisasi '{automationName}'. Apakah Anda yakin ingin melanjutkan?",
+      "DEACTIVATION_DESCRIPTION": "Tindakan ini akan menonaktifkan aturan otomatisasi '{automationName}'. Apakah Anda yakin ingin melanjutkan?",
+      "ACTIVATION_SUCCESFUL": "Aturan Otomatisasi Berhasil Diaktifkan",
+      "DEACTIVATION_SUCCESFUL": "Aturan Otomatisasi Berhasil Dinonaktifkan",
+      "ACTIVATION_ERROR": "Tidak dapat Mengaktifkan Otomatisasi, Harap coba lagi nanti",
+      "DEACTIVATION_ERROR": "Tidak dapat Menonaktifkan Otomatisasi, Harap coba lagi nanti",
+      "CONFIRMATION_LABEL": "Ya",
+      "CANCEL_LABEL": "Tidak"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Tidak dapat mengunggah lampiran, Harap coba lagi",
+      "LABEL_IDLE": "Unggah Lampiran",
+      "LABEL_UPLOADING": "Mengunggah...",
+      "LABEL_UPLOADED": "Berhasil Diunggah",
+      "LABEL_UPLOAD_FAILED": "Gagal Mengunggah"
+    }
+  }
+}

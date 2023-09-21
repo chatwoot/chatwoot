@@ -1,0 +1,119 @@
+{
+  "AGENT_MGMT": {
+    "HEADER": "Agenți",
+    "HEADER_BTN_TXT": "Adaugă agent",
+    "LOADING": "Se preia lista de agenți",
+    "SIDEBAR_TXT": "<p><b>Agenții</b></p> <p> Un agent <b></b> este membru al echipei dumneavoastră de asistență pentru clienți. </p><p> Agenți vor putea vizualiza mesajele utilizatorilor și le vor putea răspunde. Lista afișează toți agenții din contul tău. </p><p> Faceți clic pe <b>Adăugați Agent</b> pentru a adăuga un agent nou. Agentul pe care îl adăugați va primi un e-mail cu un link de confirmare pentru a-și activa contul, după care pot accesa Chatwoot și răspunde la mesaje. </p><p> Accesul la Chatwoot este bazat pe următoarele roluri. </p><p> <b>Agent</b> - Agenții cu acest rol pot accesa doar mesaje, rapoarte și conversații. Ei pot atribui conversații altor agenți sau ei înșiși și pot rezolva conversațiile.</p><p> <b>Administrator</b> - Administratorul va avea acces la toate caracteristicile Chatwoot activate pentru contul dumneavoastră, inclusiv setările şi facturarea, împreună cu toate privilegiile agenţilor obişnuiţi.</p>",
+    "AGENT_TYPES": {
+      "ADMINISTRATOR": "Administrator",
+      "AGENT": "Agent"
+    },
+    "LIST": {
+      "404": "Nu există agenți asociați acestui cont",
+      "TITLE": "Gestionează agenții din echipa ta",
+      "DESC": "Puteți adăuga/elimina agenții în/din echipa dvs.",
+      "NAME": "Nume",
+      "EMAIL": "E-MAIL",
+      "STATUS": "Status",
+      "ACTIONS": "Actiuni",
+      "VERIFIED": "Verificat",
+      "VERIFICATION_PENDING": "Verificare în așteptare"
+    },
+    "ADD": {
+      "TITLE": "Adaugă un agent echipei tale",
+      "DESC": "Puteți adăuga persoane care vor putea să se ocupe de suportul pentru inbox-urile dvs.",
+      "CANCEL_BUTTON_TEXT": "Renunță",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nume Agent",
+          "PLACEHOLDER": "Vă rugăm să introduceţi un nume de agent"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Tip Agent",
+          "PLACEHOLDER": "Te rog selecteaza un tip",
+          "ERROR": "Tipul de agent este obligatoriu"
+        },
+        "EMAIL": {
+          "LABEL": "Adresa Email",
+          "PLACEHOLDER": "Vă rugăm să introduceți o adresă de e-mail a agentului"
+        },
+        "SUBMIT": "Adaugă Agent"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Agent adăugat cu succes",
+        "EXIST_MESSAGE": "Agent e-mail deja folosit, te rugăm să încerci o altă adresă de e-mail",
+        "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Şterge",
+      "API": {
+        "SUCCESS_MESSAGE": "Agent sters cu succes",
+        "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirmă ștergerea",
+        "MESSAGE": "Sigur doriți să ștergeți ",
+        "YES": "Da, șterge ",
+        "NO": "Nu, păstreaza "
+      }
+    },
+    "EDIT": {
+      "TITLE": "Editează agent",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nume Agent",
+          "PLACEHOLDER": "Vă rugăm să introduceţi un nume de agent"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Tip Agent",
+          "PLACEHOLDER": "Vă rugăm să selectaţi un tip",
+          "ERROR": "Tipul de agent este obligatoriu"
+        },
+        "EMAIL": {
+          "LABEL": "Adresa Email",
+          "PLACEHOLDER": "Vă rugăm să introduceți o adresă de e-mail a agentului"
+        },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Disponibilitate",
+          "PLACEHOLDER": "Vă rugăm să selectați o stare de disponibilitate",
+          "ERROR": "Disponibilitatea este necesară"
+        },
+        "SUBMIT": "Editează agent"
+      },
+      "BUTTON_TEXT": "Editare",
+      "CANCEL_BUTTON_TEXT": "Renunță",
+      "API": {
+        "SUCCESS_MESSAGE": "Agent actualizat cu succes",
+        "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+      },
+      "PASSWORD_RESET": {
+        "ADMIN_RESET_BUTTON": "Resetează Parola",
+        "ADMIN_SUCCESS_MESSAGE": "Un e-mail cu instrucțiunile de resetare a parolei a fost trimis agentului",
+        "SUCCESS_MESSAGE": "Parola resetata cu succes",
+        "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+      }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "Niciun rezultat găsit."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "Nimic",
+      "TITLE": {
+        "AGENT": "Selectați agentul",
+        "TEAM": "Selectați echipa"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "Niciun agent găsit",
+          "TEAM": "Nu au fost găsite echipe"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Agenți de căutare",
+          "TEAM": "Echipele de căutare",
+          "INPUT": "Căutare agenți"
+        }
+      }
+    }
+  }
+}

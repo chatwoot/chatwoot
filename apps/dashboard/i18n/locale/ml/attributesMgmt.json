@@ -1,0 +1,99 @@
+{
+  "ATTRIBUTES_MGMT": {
+    "HEADER": "ഇഷ്‌ടാനുസൃത ആട്രിബ്യൂട്ടുകൾ",
+    "HEADER_BTN_TXT": "Add Custom Attribute",
+    "LOADING": "Fetching custom attributes",
+    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
+    "ADD": {
+      "TITLE": "Add Custom Attribute",
+      "SUBMIT": "സൃഷ്ടിക്കുക",
+      "CANCEL_BUTTON_TEXT": "റദ്ദാക്കുക",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Display Name",
+          "PLACEHOLDER": "ഇഷ്‌ടാനുസൃത ആട്രിബ്യൂട്ട് പ്രദർശന നാമം നൽകുക",
+          "ERROR": "നാമം ആവശ്യമാണ്"
+        },
+        "DESC": {
+          "LABEL": "വിവരണം",
+          "PLACEHOLDER": "Enter custom attribute description",
+          "ERROR": "വിവരണം ആവശ്യമാണ്"
+        },
+        "MODEL": {
+          "LABEL": "ബാധകമാണ്",
+          "PLACEHOLDER": "ദയവായി തിരഞ്ഞെടുക്കുക",
+          "ERROR": "മോഡൽ ആവശ്യമാണ്"
+        },
+        "TYPE": {
+          "LABEL": "Type",
+          "PLACEHOLDER": "ദയവായി ഒരു തരം തിരഞ്ഞെടുക്കുക",
+          "ERROR": "Type is required",
+          "LIST": {
+            "LABEL": "List Values",
+            "PLACEHOLDER": "ദയവായി മൂല്യം നൽകി എന്റർ കീ അമർത്തുക",
+            "ERROR": "കുറഞ്ഞത് ഒരു മൂല്യമെങ്കിലും ഉണ്ടായിരിക്കണം"
+          }
+        },
+        "KEY": {
+          "LABEL": "കീ",
+          "PLACEHOLDER": "Enter custom attribute key",
+          "ERROR": "കീ ആവശ്യമാണ്",
+          "IN_VALID": "Invalid key"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Custom Attribute added successfully!",
+        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "ഇല്ലാതാക്കുക",
+      "API": {
+        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
+        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
+      },
+      "CONFIRM": {
+        "TITLE": "നിങ്ങൾക്ക് ഇല്ലാതാക്കണമെന്ന് തീർച്ചയാണോ - %{attributeName}",
+        "PLACE_HOLDER": "സ്ഥിരീകരിക്കാൻ {attributeName} എന്ന് ടൈപ്പ് ചെയ്യുക",
+        "MESSAGE": "Deleting will remove the custom attribute",
+        "YES": "ഇല്ലാതാക്കുക ",
+        "NO": "റദ്ദാക്കുക"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit Custom Attribute",
+      "UPDATE_BUTTON_TEXT": "അപ്‌ഡേറ്റ്",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "List Values",
+          "PLACEHOLDER": "ദയവായി മൂല്യങ്ങൾ നൽകി എന്റർ കീ അമർത്തുക"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "ഇഷ്‌ടാനുസൃത ആട്രിബ്യൂട്ട് വിജയകരമായി അപ്‌ഡേറ്റ് ചെയ്‌തു",
+        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
+      }
+    },
+    "TABS": {
+      "HEADER": "ഇഷ്‌ടാനുസൃത ആട്രിബ്യൂട്ടുകൾ",
+      "CONVERSATION": "സംഭാഷണം",
+      "CONTACT": "ബന്ധപ്പെടുക"
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "പേര്",
+        "വിവരണം",
+        "തരം",
+        "കീ"
+      ],
+      "BUTTONS": {
+        "EDIT": "എഡിറ്റുചെയ്യുക",
+        "DELETE": "ഇല്ലാതാക്കുക"
+      },
+      "EMPTY_RESULT": {
+        "404": "There are no custom attributes created",
+        "NOT_FOUND": "There are no custom attributes configured"
+      }
+    }
+  }
+}

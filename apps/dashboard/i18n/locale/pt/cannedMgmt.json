@@ -1,0 +1,76 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Respostas Prontas",
+    "HEADER_BTN_TXT": "Adicionar resposta pronta",
+    "LOADING": "Buscando respostas prontas",
+    "SEARCH_404": "Não existem itens correspondentes a esta consulta",
+    "SIDEBAR_TXT": "<p><b>Respostas Prontas</b> </p><p> Respostas Prontas são modelos de respostas salvos que podem ser usados para enviar rapidamente uma resposta a uma conversa. </p><p> Para criar uma Resposta Pronta basta clicar em <b>Adicionar Resposta Pronta</b>. Você também pode editar ou apagar uma Resposta Pronta existente clicando no botão Editar ou Remover </p><p> Respostas prontas são usadas com a ajuda de <b>Shortcodes (Atalhos de códigos)</b>. Os agentes podem acessar as respostas prontas num chat digitando <b>'/'</b> seguido pelo shortcode. </p>",
+    "LIST": {
+      "404": "Não há respostas prontas disponíveis nesta conta.",
+      "TITLE": "Gerenciar respostas prontas",
+      "DESC": "Respostas prontas são modelos de resposta pré-definidos, que podem ser usadas para enviar respostas rapidamente a tickets.",
+      "TABLE_HEADER": [
+        "Código curto",
+        "Conteúdo",
+        "Ações."
+      ]
+    },
+    "ADD": {
+      "TITLE": "Adicionar resposta pronta",
+      "DESC": "Respostas prontas são modelos de respostas salvos que podem ser usados para enviar rapidamente uma resposta para a conversa.",
+      "CANCEL_BUTTON_TEXT": "cancelar",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Código curto",
+          "PLACEHOLDER": "Por favor, insira um código curto",
+          "ERROR": "É necessário um código curto"
+        },
+        "CONTENT": {
+          "LABEL": "Conteúdo",
+          "PLACEHOLDER": "Por favor, insira um conteúdo",
+          "ERROR": "Conteúdo é obrigatório"
+        },
+        "SUBMIT": "submeter"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Resposta pronta adicionada com sucesso",
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Editar resposta pronta",
+      "CANCEL_BUTTON_TEXT": "cancelar",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Código curto",
+          "PLACEHOLDER": "Insira o shortcode",
+          "ERROR": "É necessário um código curto"
+        },
+        "CONTENT": {
+          "LABEL": "Conteúdo",
+          "PLACEHOLDER": "Por favor, insira um conteúdo",
+          "ERROR": "Conteúdo é obrigatório"
+        },
+        "SUBMIT": "submeter"
+      },
+      "BUTTON_TEXT": "Alterar",
+      "API": {
+        "SUCCESS_MESSAGE": "Resposta pronta atualizada com sucesso",
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "excluir",
+      "API": {
+        "SUCCESS_MESSAGE": "Resposta pronta excluída com sucesso",
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirmar Exclusão",
+        "MESSAGE": "Tem certeza que deseja excluir ",
+        "YES": "Sim, excluir ",
+        "NO": "Não, Manter "
+      }
+    }
+  }
+}

@@ -1,0 +1,117 @@
+.slide-fade-enter-active {
+  transition: all 0.3s var(--ease-in-cubic);
+}
+
+.slide-fade-leave-active {
+  transition: all 0.3s var(--ease-out-cubic);
+}
+
+.slide-fade-enter,
+.slide-fade-leave-to {
+  opacity: 0;
+  transform: translateX(10px);
+}
+
+.slide-fade-enter {
+  transform: translateX($space-micro);
+}
+
+.slide-fade-leave-to {
+  transform: translateX($space-medium);
+}
+
+.conversations-list-enter-active,
+.conversations-list-leave-active {
+  transition: all 0.25s var(--ease-out-cubic);
+}
+
+.conversations-list-enter,
+.conversations-list-leave-to {
+  opacity: 0;
+  transform: translateX($space-medium);
+}
+
+.menu-list-enter-active,
+.menu-list-leave-active {
+  transition: opacity 0.3s var(--ease-out-cubic),
+    transform 0.2s var(--ease-out-cubic);
+}
+
+.menu-list-leave-to {
+  opacity: 0;
+  position: absolute;
+  transform: translateX($space-small);
+}
+
+.menu-list-enter {
+  opacity: 0;
+  transform: translateX(-$space-small);
+}
+
+.slide-up-enter-active {
+  transition: all 0.3s var(--ease-in-cubic);
+}
+
+.slide-up-leave-active {
+  transition: all 0.3s var(--ease-out-cubic);
+}
+
+.slide-up-enter,
+.slide-up-leave-to {
+  opacity: 0;
+  transform: translateY(-$space-medium);
+}
+
+.menu-slide-enter-active,
+.menu-slide-leave-active {
+  transform: translateY(0);
+  transition: transform 0.25s var(--ease-in-cubic),
+    opacity 0.15s var(--ease-in-cubic);
+}
+
+.menu-slide-enter,
+.menu-slide-leave-to {
+  opacity: 0;
+  transform: translateY($space-small);
+}
+
+.toast-fade-enter-active {
+  transition: all 0.3s var(--ease-in-sine);
+}
+
+.toast-fade-leave-active {
+  transition: all 0.1s var(--ease-out-sine);
+}
+
+.toast-fade-enter,
+.toast-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-$space-small);
+}
+
+.modal-fade-enter-active {
+  transition: all 0.3s var(--ease-in-sine);
+}
+
+.modal-fade-leave-active {
+  transition: all 0.1s var(--ease-out-sine);
+}
+
+.modal-fade-enter,
+.modal-fade-leave-to {
+  opacity: 0;
+}
+
+.network-notification-fade-enter-active {
+  transition: all 0.1s var(--ease-in-sine);
+}
+
+.network-notification-fade-leave-active {
+  transition: all 0.1s var(--ease-out-sine);
+}
+
+.network-notification-fade-enter,
+.network-notification-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-$space-small);
+}

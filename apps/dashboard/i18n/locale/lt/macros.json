@@ -1,0 +1,78 @@
+{
+  "MACROS": {
+    "HEADER": "Makrokomandos",
+    "HEADER_BTN_TXT": "Pridėti naują makrokomandą",
+    "HEADER_BTN_TXT_SAVE": "Išsaugoti makrokomandą",
+    "LOADING": "Gaunama makrokomanda",
+    "SIDEBAR_TXT": "<p><b>Makrokomandos</b><p>Makrokomandos yra išsaugotų veiksmų rinkinys, padedantis klientų aptarnavimo agentams lengvai atlikti užduotis. Agentai gali apibrėžti veiksmų rinkinį, pvz., pokalbio žymėjimą etikete, el. laiško nuorašo siuntimą, atributo atnaujinimą ir pan., ir jie gali atlikti šiuos veiksmus vienu paspaudimu. Kai agentai vykdo makrokomandą, veiksmai bus atliekami nuosekliai tokia tvarka, kokia jie yra apibrėžti. Makrokomandos pagerina produktyvumą ir padidina veiksmų nuoseklumą. </p><p>Makrokomandas gali būti naudingas dviem būdais. </p><p><b>Kaip agento pagalba:</b> jei agentas kelis kartus atlieka veiksmų rinkinį, jis gali išsaugoti jį kaip makrokomandą ir atlikti visus veiksmus kartu vienu spustelėjimu.</b> p><p><b>Kaip galimybė įtraukti komandos narį:</b> kiekvienas agentas kiekvieno pokalbio metu turi atlikti daugybę skirtingų patikrinimų / veiksmų. Priimant naują komandos narį bus lengva, jei paskyroje bus iš anksto nustatytų makrokomandų. Užuot išsamiai aprašęs kiekvieną veiksmą, vadovas / komandos vadovas gali nurodyti įvairiuose scenarijuose naudojamas makrokomandas.</p>",
+    "ERROR": "Kažkas nepavyko. Bandykite dar kartą",
+    "ORDER_INFO": "Makrokomandos bus paleistos ta tvarka, kuria pridėsite veiksmus. Galite juos pertvarkyti vilkdami už rankenos šalia kiekvieno mazgo.",
+    "ADD": {
+      "FORM": {
+        "NAME": {
+          "LABEL": "Makrokomandos pavadinimas",
+          "PLACEHOLDER": "Įveskite makrokomandos pavadinimą",
+          "ERROR": "Kuriant makrokomandą būtinas pavadinimas"
+        },
+        "ACTIONS": {
+          "LABEL": "Veiksmai"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Makrokomanda sėkmingai pridėta",
+        "ERROR_MESSAGE": "Nepavyko sukurti makrokomandos, bandykite dar kartą vėliau"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Vardas",
+        "Sukurtas",
+        "Paskutinį kartą atnaujino",
+        "Matomumas"
+      ],
+      "404": "Nerasta makrokomandų"
+    },
+    "DELETE": {
+      "TOOLTIP": "Ištrinti makrokomandą",
+      "CONFIRM": {
+        "MESSAGE": "Ar tikrai norite ištrinti ",
+        "YES": "Taip, Ištrinti",
+        "NO": "Ne"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Makrokomanda sėkmingai ištrinta",
+        "ERROR_MESSAGE": "Ištrinant makrokomandą įvyko klaida. Pabandykite dar kartą vėliau"
+      }
+    },
+    "EDIT": {
+      "TOOLTIP": "Redaguoti makrokomandą",
+      "API": {
+        "SUCCESS_MESSAGE": "Makrokomanda sėkmingai atnaujinta",
+        "ERROR_MESSAGE": "Nepavyko atnaujinti makrokomandos. Pabandykite dar kartą vėliau"
+      }
+    },
+    "EDITOR": {
+      "START_FLOW": "Pradėti srautą",
+      "END_FLOW": "Baigti srautą",
+      "LOADING": "Gaunama makrokomanda",
+      "ADD_BTN_TOOLTIP": "Pridėti naują veiksmą",
+      "DELETE_BTN_TOOLTIP": "Ištrinti Veiksmą",
+      "VISIBILITY": {
+        "LABEL": "Makrokomandos matomumas",
+        "GLOBAL": {
+          "LABEL": "Viešas",
+          "DESCRIPTION": "Ši makrokomanda yra viešai prieinama visiems šios paskyros agentams."
+        },
+        "PERSONAL": {
+          "LABEL": "Privatus",
+          "DESCRIPTION": "Ši makrokomanda bus prieinama tik jums ir nepasiekiama kitiems."
+        }
+      }
+    },
+    "EXECUTE": {
+      "BUTTON_TOOLTIP": "Vykdyti",
+      "PREVIEW": "Peržiūrėti makrokomandą",
+      "EXECUTED_SUCCESSFULLY": "Sėkmingai įvykdyta makrokomanda"
+    }
+  }
+}

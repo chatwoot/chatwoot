@@ -1,0 +1,118 @@
+{
+  "AUTOMATION": {
+    "HEADER": "Automatizációk",
+    "HEADER_BTN_TXT": "Automatikus szabály hozzáadása",
+    "LOADING": "Automatizálási szabályok betöltése",
+    "SIDEBAR_TXT": "<p><b>Automatizálási szabályok</b> <p>Az automatizálás helyettesítheti és automatizálhatja a meglévő folyamatokat, amelyek kézi kezelést igényelnek. Az automatizálással sok mindent megtehetsz, beleértve a címkék hozzáadását és a beszélgetések hozzárendelését a legjobb ügynökhöz. Így a csapat arra összpontosít, amit a legjobban csinál, és kevesebb időt fordít a manuális feladatokra.</p>",
+    "ADD": {
+      "TITLE": "Automatikus szabály hozzáadása",
+      "SUBMIT": "Létrehozás",
+      "CANCEL_BUTTON_TEXT": "Mégse",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Szabály neve",
+          "PLACEHOLDER": "Szabálynév megadása",
+          "ERROR": "Név kötelező"
+        },
+        "DESC": {
+          "LABEL": "Leírás",
+          "PLACEHOLDER": "Szabályleírás megadása",
+          "ERROR": "Leírás megadása kötelező"
+        },
+        "EVENT": {
+          "LABEL": "Esemény",
+          "PLACEHOLDER": "Kérlek, válassz egyet",
+          "ERROR": "Esemény megadása kötezelő"
+        },
+        "CONDITIONS": {
+          "LABEL": "Feltételek"
+        },
+        "ACTIONS": {
+          "LABEL": "Műveletek"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Feltétel hozzáadása",
+      "ACTION_BUTTON_LABEL": "Akció hozzáadása",
+      "API": {
+        "SUCCESS_MESSAGE": "Automatizált szabály sikeresen hozzáaadva",
+        "ERROR_MESSAGE": "Nem sikerült automatizált szabályt létrehozni. Kérjük, próbáld újra később"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Név",
+        "Leírás",
+        "Aktív",
+        "Létrehozva"
+      ],
+      "404": "Nem található automatizált szabály"
+    },
+    "DELETE": {
+      "TITLE": "Automatizált szabály törlése",
+      "SUBMIT": "Törlés",
+      "CANCEL_BUTTON_TEXT": "Mégse",
+      "CONFIRM": {
+        "TITLE": "Törlés megerősítése",
+        "MESSAGE": "Biztos abban, hogy törli ",
+        "YES": "Igen, Törlés ",
+        "NO": "Nem, Mégse "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Automatizált szabály sikeresen törölve",
+        "ERROR_MESSAGE": "Nem sikerült automatizált szabályt törölni. Kérjük, próbáld újra később"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Automatizált szabály szerkesztése",
+      "SUBMIT": "Frissítés",
+      "CANCEL_BUTTON_TEXT": "Mégse",
+      "API": {
+        "SUCCESS_MESSAGE": "Automatizált szabály sikeresen frissítve",
+        "ERROR_MESSAGE": "Nem sikerült automatizált szabályt frissíteni. Kérjük, próbáld újra később"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "Duplikálás",
+      "API": {
+        "SUCCESS_MESSAGE": "Automatizálás sikeresen többszörözve",
+        "ERROR_MESSAGE": "Nem sikerült automatizált szabályt többszörözni. Kérjük, próbáld újra később"
+      }
+    },
+    "FORM": {
+      "EDIT": "Szerkesztés",
+      "CREATE": "Létrehozás",
+      "DELETE": "Törlés",
+      "CANCEL": "Mégse",
+      "RESET_MESSAGE": "Az eseménytípus módosítása visszaállítja az alább hozzáadott feltételeket és eseményeket\n"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "Legalább egy feltételt meg kell adnod a mentéshez",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Kapcsolat az egyéni tulajdonságokkal",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Beszélgetés az egyéni tulajdonságokkal\n"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "Legalább egy tevékenység szükséges a mentéshez",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Írd be az üzeneted ide",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Csapatok kiválasztása"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Automatizált szabályok aktivizálása",
+      "DEACTIVATION_TITLE": "Automatizált szabályok inaktivizálása",
+      "ACTIVATION_DESCRIPTION": "Ez a művelet aktiválja a „{automationName}” automatizálási szabályt. Biztosan folytatod?",
+      "DEACTIVATION_DESCRIPTION": "Ez a művelet deaktiválja a(z) „{automationName}” automatizálási szabályt. Biztosan folytatod?",
+      "ACTIVATION_SUCCESFUL": "Automatizált szabály sikeresen aktiválva",
+      "DEACTIVATION_SUCCESFUL": "Automatizált szabály sikeresen inaktiválva",
+      "ACTIVATION_ERROR": "Nem sikerült aktiválni az automatizálást. Kérjük, próbálja újra később",
+      "DEACTIVATION_ERROR": "Nem sikerült inaktiválni az automatizálást. Kérjük, próbálja újra később",
+      "CONFIRMATION_LABEL": "Igen",
+      "CANCEL_LABEL": "Nem"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Nem sikerült feltölteni a csatolmányt, kérlek, próbáld később",
+      "LABEL_IDLE": "Csatolmányok feltöltése",
+      "LABEL_UPLOADING": "Frissítés...",
+      "LABEL_UPLOADED": "Sikeres feltöltés",
+      "LABEL_UPLOAD_FAILED": "Sikertelen feltöltés"
+    }
+  }
+}

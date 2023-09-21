@@ -1,0 +1,73 @@
+{
+  "AGENT_BOTS": {
+    "HEADER": "Botok",
+    "LOADING_EDITOR": "Szerkesztő betöltése...",
+    "HEADER_BTN_TXT": "Bot konfiguráció hozzáadása",
+    "SIDEBAR_TXT": "<p><b>Ügynökök</b> <p>Az ügynökök lehetővé teszik a beszélgetés automatizálását</p>",
+    "CSML_BOT_EDITOR": {
+      "NAME": {
+        "LABEL": "Bot neve",
+        "PLACEHOLDER": "Adj nevet a botodnak",
+        "ERROR": "Bot név megadása kötelező"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Bot leírása",
+        "PLACEHOLDER": "Mit csinál ez a bot?"
+      },
+      "BOT_CONFIG": {
+        "ERROR": "Add meg a CSML bot konfigurációt feljebb",
+        "API_ERROR": "A CSML konfigurációd invalid, javítsd, majd próbáld újra."
+      },
+      "SUBMIT": "Validáció és mentés"
+    },
+    "BOT_CONFIGURATION": {
+      "TITLE": "Válassz ügynököt",
+      "DESC": "Beemelhet egy ügynök botot a listából ebbe a postafiókba. A bot kezdetben képes kezelni a beszélgetést és továbbítani tudja egy ügynöknek, ha az szükséges.",
+      "SUBMIT": "Frissítés",
+      "DISCONNECT": "Bot leválasztása",
+      "SUCCESS_MESSAGE": "Ügynök frissítve",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Ügynök leválasztva",
+      "ERROR_MESSAGE": "Nem sikerült frissíteni az ügynököt, próbáld újra később",
+      "DISCONNECTED_ERROR_MESSAGE": "Nem sikerült leválasztani az ügynököt, próbáld újra később",
+      "SELECT_PLACEHOLDER": "Válasssz botot"
+    },
+    "ADD": {
+      "TITLE": "Új bot beállítása",
+      "CANCEL_BUTTON_TEXT": "Mégse",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot hozzáadva",
+        "ERROR_MESSAGE": "Sikertelen bot hozzáadás"
+      }
+    },
+    "LIST": {
+      "404": "Nem található Bot, létrehozhatsz egyet az 'Új Bot létrehozása' gomb megnyomásával",
+      "LOADING": "Botok keresése...",
+      "TYPE": "Bot típusa"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Törlés",
+      "TITLE": "Bot törlése",
+      "SUBMIT": "Törlés",
+      "CANCEL_BUTTON_TEXT": "Mégse",
+      "DESCRIPTION": "Biztosan törölni szeretnéd ezt a botot? Ez a művelet visszafordíthatatlan",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot törölve",
+        "ERROR_MESSAGE": "Nem sikerült frissíteni a botot, kérlek próbáld újra később"
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Szerkesztés",
+      "LOADING": "Botok keresése...",
+      "TITLE": "Bot szerkesztése",
+      "CANCEL_BUTTON_TEXT": "Mégse",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot frissítve",
+        "ERROR_MESSAGE": "Nem sikerült frissíteni a botot"
+      }
+    },
+    "TYPES": {
+      "WEBHOOK": "Webhook bot",
+      "CSML": "CSML bot"
+    }
+  }
+}

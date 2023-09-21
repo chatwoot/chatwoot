@@ -1,0 +1,76 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Răspunsuri predefinite",
+    "HEADER_BTN_TXT": "Adauga Răspunsuri predefinite",
+    "LOADING": "Preluarea Răspunsuri predefinite",
+    "SEARCH_404": "Nu există elemente care să corespundă acestei interogări",
+    "SIDEBAR_TXT": "<p><b>Răspunsuri conservate</b> </p><p> Răspunsurile conservate sunt șabloane de răspuns salvate care pot fi utilizate pentru a trimite rapid un răspuns la o conversație. </p><p> Pentru a crea un răspuns conservat, trebuie doar să faceți clic pe <b>Adăugare răspuns conservat</b>. De asemenea, puteți edita sau șterge un răspuns conservat existent făcând clic pe butonul Editare sau Ștergere </p><p> Răspunsurile conservate sunt utilizate cu ajutorul <b>codurilor scurte</b>. Agenții pot accesa răspunsurile conservate în timp ce se află pe un chat tastând <b>\"/\"</b> urmat de codul scurt. </p>",
+    "LIST": {
+      "404": "Nu există răspunsuri predefinite disponibile în acest cont.",
+      "TITLE": "Gestionare Răspunsuri predefinite",
+      "DESC": "Răspunsurile predefinite sunt șabloane de răspuns predefinite, care pot fi utilizate pentru a trimite rapid răspunsuri la tichete.",
+      "TABLE_HEADER": [
+        "Cod scurt",
+        "Conținut",
+        "Acțiuni"
+      ]
+    },
+    "ADD": {
+      "TITLE": "Adauga Răspunsuri predefinite",
+      "DESC": "Răspunsurile conservate sunt salvate șabloane de răspuns care pot fi utilizate pentru a trimite rapid răspuns la conversație.",
+      "CANCEL_BUTTON_TEXT": "Renunță",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Cod scurt",
+          "PLACEHOLDER": "Vă rugăm să introduceți un cod scurt",
+          "ERROR": "Codul scurt este necesar"
+        },
+        "CONTENT": {
+          "LABEL": "Conținut",
+          "PLACEHOLDER": "Te rugăm să introduci un conținut",
+          "ERROR": "Conținutul este obligatoriu"
+        },
+        "SUBMIT": "Trimite"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Răspuns predefinit adaugat cu succes",
+        "ERROR_MESSAGE": "Nu s-a putut crea un răspuns predefinit, Vă rugăm să încercați din nou mai târziu"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Adauga Răspunsuri predefinite",
+      "CANCEL_BUTTON_TEXT": "Renunță",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Cod scurt",
+          "PLACEHOLDER": "Te rugăm să introduci un cod scurt",
+          "ERROR": "Este necesar un cod scurt"
+        },
+        "CONTENT": {
+          "LABEL": "Conținut",
+          "PLACEHOLDER": "Te rugăm să introduci un conținut",
+          "ERROR": "Conținutul este obligatoriu"
+        },
+        "SUBMIT": "Trimite"
+      },
+      "BUTTON_TEXT": "Editare",
+      "API": {
+        "SUCCESS_MESSAGE": "Răspuns predefinit actualizat cu succes",
+        "ERROR_MESSAGE": "Nu a fost posibilă actualizarea răspunsului predefinit, Vă rugăm să încercați din nou mai târziu"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Şterge",
+      "API": {
+        "SUCCESS_MESSAGE": "Răspunsul predefinit a fost sters",
+        "ERROR_MESSAGE": "Nu a fost posibilă ștergerea răspunsului predefinit, vă rugăm să încercați din nou mai târziu"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirmă ștergerea",
+        "MESSAGE": "Sigur doriți să ștergeți ",
+        "YES": "Da, șterge ",
+        "NO": "Nu, păstreaza "
+      }
+    }
+  }
+}

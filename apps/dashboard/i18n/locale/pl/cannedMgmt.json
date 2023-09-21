@@ -1,0 +1,76 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Przygotowane odpowiedzi",
+    "HEADER_BTN_TXT": "Dodaj przygotowaną odpowiedź",
+    "LOADING": "Pobieranie przygotowanych odpowiedzi",
+    "SEARCH_404": "Brak elementów pasujących do tego zapytania",
+    "SIDEBAR_TXT": "<p><b>Gotowe odpowiedzi</b> </p><p> Gotowe odpowiedzi to zapisane szablony odpowiedzi, które można szybko wysyłać w odpowiedzi na rozmowę. </p><p> Aby utworzyć Gotową odpowiedź, wystarczy kliknąć przycisk <b>Dodaj Gotową odpowiedź</b>. Możesz również edytować lub usuwać istniejące Gotowe odpowiedzi, klikając przycisk Edytuj lub Usuń. </p><p> Gotowe odpowiedzi są używane za pomocą <b>krótkich kodów</b>. Agenci mogą korzystać z Gotowych odpowiedzi podczas rozmowy, wpisując <b>'/'</b>, a następnie krótki kod. </p>",
+    "LIST": {
+      "404": "Brak dostępnych Gotowych odpowiedzi na tym koncie.",
+      "TITLE": "Zarządzaj Gotowymi odpowiedziami",
+      "DESC": "Gotowe odpowiedzi to predefiniowane szablony odpowiedzi, które można szybko wysyłać w odpowiedzi na rozmowy.",
+      "TABLE_HEADER": [
+        "Krótki kod",
+        "Zawartość",
+        "Akcje"
+      ]
+    },
+    "ADD": {
+      "TITLE": "Dodaj Gotową odpowiedź",
+      "DESC": "Gotowe odpowiedzi są zapisanymi szablonami odpowiedzi, które można szybko wysyłać w odpowiedzi na rozmowy.",
+      "CANCEL_BUTTON_TEXT": "Anuluj",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Krótki kod",
+          "PLACEHOLDER": "Wprowadź krótki kod",
+          "ERROR": "Krótki kod jest wymagany"
+        },
+        "CONTENT": {
+          "LABEL": "Zawartość",
+          "PLACEHOLDER": "Wprowadź zawartość",
+          "ERROR": "Zawartość jest wymagana"
+        },
+        "SUBMIT": "Prześlij"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Gotowa odpowiedź została pomyślnie dodana",
+        "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edytuj Gotową odpowiedź",
+      "CANCEL_BUTTON_TEXT": "Anuluj",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Krótki kod",
+          "PLACEHOLDER": "Wprowadź krótki kod",
+          "ERROR": "Krótki kod jest wymagany"
+        },
+        "CONTENT": {
+          "LABEL": "Zawartość",
+          "PLACEHOLDER": "Wprowadź zawartość",
+          "ERROR": "Zawartość jest wymagana"
+        },
+        "SUBMIT": "Prześlij"
+      },
+      "BUTTON_TEXT": "Edytuj",
+      "API": {
+        "SUCCESS_MESSAGE": "Gotowa odpowiedź została pomyślnie zaktualizowana",
+        "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Usuń",
+      "API": {
+        "SUCCESS_MESSAGE": "Gotowa odpowiedź została pomyślnie usunięta",
+        "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
+      },
+      "CONFIRM": {
+        "TITLE": "Potwierdź usunięcie",
+        "MESSAGE": "Czy na pewno chcesz usunąć ",
+        "YES": "Tak, usuń ",
+        "NO": "Nie, zachowaj "
+      }
+    }
+  }
+}

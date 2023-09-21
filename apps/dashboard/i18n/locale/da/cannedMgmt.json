@@ -1,0 +1,76 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Standardsvar Svar",
+    "HEADER_BTN_TXT": "Tilføj Standardsvar",
+    "LOADING": "Henter Standardsvar",
+    "SEARCH_404": "Der er ingen elementer, der matcher denne forespørgsel",
+    "SIDEBAR_TXT": "<p><b>Standardsvar</b> </p><p> Standardsvar er gemte svarskabeloner, som kan bruges til hurtigt at sende et svar på en samtale. </p><p> For at oprette et standardsvar, klik blot på <b>Tilføj standardsvar</b>. Du kan også redigere eller slette et eksisterende standardsvar ved at klikke på Rediger eller Slet knappen </p><p> Standardsvar bruges ved hjælp af <b>Short Codes</b>. Agenter kan tilgå standardsvar på en chat ved at skrive <b>'/'</b> efterfulgt af din short code </p>",
+    "LIST": {
+      "404": "Der er ingen tilgængelige standardsvar på denne konto.",
+      "TITLE": "Administrer standardsvar",
+      "DESC": "Standardsvar er foruddefinerede svarskabeloner, som kan bruges til hurtigt at sende svar på tickets.",
+      "TABLE_HEADER": [
+        "Short Code",
+        "Indhold",
+        "Handlinger"
+      ]
+    },
+    "ADD": {
+      "TITLE": "Tilføj Standardsvar",
+      "DESC": "Standardsvar er gemte svarskabeloner, som kan bruges til hurtigt at sende svar til samtalen.",
+      "CANCEL_BUTTON_TEXT": "Annuller",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Short Code",
+          "PLACEHOLDER": "Indtast venligst en shortcode",
+          "ERROR": "Short Code er påkrævet"
+        },
+        "CONTENT": {
+          "LABEL": "Indhold",
+          "PLACEHOLDER": "Indtast venligst indhold",
+          "ERROR": "Indhold er påkrævet"
+        },
+        "SUBMIT": "Send"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Standardsvar tilføjet",
+        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Rediger Standardsvar",
+      "CANCEL_BUTTON_TEXT": "Annuller",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Short Code",
+          "PLACEHOLDER": "Indtast venligst en shortcode",
+          "ERROR": "Short Code er påkrævet"
+        },
+        "CONTENT": {
+          "LABEL": "Indhold",
+          "PLACEHOLDER": "Indtast venligst indhold",
+          "ERROR": "Indhold er påkrævet"
+        },
+        "SUBMIT": "Send"
+      },
+      "BUTTON_TEXT": "Rediger",
+      "API": {
+        "SUCCESS_MESSAGE": "Standardsvar opdateret",
+        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Slet",
+      "API": {
+        "SUCCESS_MESSAGE": "Standardsvar slettet",
+        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
+      },
+      "CONFIRM": {
+        "TITLE": "Bekræft Sletning",
+        "MESSAGE": "Er du sikker på du vil slette ",
+        "YES": "Ja, Slet ",
+        "NO": "Nej, Behold "
+      }
+    }
+  }
+}

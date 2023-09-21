@@ -1,0 +1,118 @@
+{
+  "AUTOMATION": {
+    "HEADER": "Automatisering",
+    "HEADER_BTN_TXT": "Automatiseringsregel toevoegen",
+    "LOADING": "Automatiseringsregels ophalen",
+    "SIDEBAR_TXT": "<p><b>Automatiseringsregels</b> <p>Automation kan bestaande processen vervangen en automatiseren die handmatige inspanning vereisen. U kunt veel dingen doen met automatisering, inclusief het toevoegen van labels en het toewijzen van gesprekken aan uw beste agent. Het team concentreert zich dus op wat ze het beste doen en besteedt minder tijd aan handmatige taken.</p>",
+    "ADD": {
+      "TITLE": "Automatiseringsregel toevoegen",
+      "SUBMIT": "Aanmaken",
+      "CANCEL_BUTTON_TEXT": "Annuleren",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Regel naam",
+          "PLACEHOLDER": "Voer regelnaam in",
+          "ERROR": "Naam is vereist"
+        },
+        "DESC": {
+          "LABEL": "Beschrijving",
+          "PLACEHOLDER": "Voer regelomschrijving in",
+          "ERROR": "Omschrijving is vereist"
+        },
+        "EVENT": {
+          "LABEL": "Event",
+          "PLACEHOLDER": "Selecteer er een",
+          "ERROR": "Event is verplicht"
+        },
+        "CONDITIONS": {
+          "LABEL": "Voorwaarden"
+        },
+        "ACTIONS": {
+          "LABEL": "Acties"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Voorwaarde toevoegen",
+      "ACTION_BUTTON_LABEL": "Actie toevoegen",
+      "API": {
+        "SUCCESS_MESSAGE": "Automatiseringsregel succesvol toegevoegd",
+        "ERROR_MESSAGE": "Kan geen automatiseringsregel aanmaken, probeer het later opnieuw"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Naam",
+        "Beschrijving",
+        "Actief",
+        "Aangemaakt op"
+      ],
+      "404": "Geen automatiseringsregels gevonden"
+    },
+    "DELETE": {
+      "TITLE": "Automatiseringsregel verwijderen",
+      "SUBMIT": "Verwijderen",
+      "CANCEL_BUTTON_TEXT": "Annuleren",
+      "CONFIRM": {
+        "TITLE": "Verwijderen bevestigen",
+        "MESSAGE": "Weet u zeker dat u wilt verwijderen ",
+        "YES": "Ja, verwijderen ",
+        "NO": "Nee, Behouden "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Automatiseringsregel succesvol verwijderd",
+        "ERROR_MESSAGE": "Kon geen automatiseringsregel verwijderen, probeer het later opnieuw"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Automatiseringsregel bewerken",
+      "SUBMIT": "Vernieuwen",
+      "CANCEL_BUTTON_TEXT": "Annuleren",
+      "API": {
+        "SUCCESS_MESSAGE": "Automatiseringsregel succesvol bijgewerkt",
+        "ERROR_MESSAGE": "Automatiseringsregel kon niet worden bijgewerkt, probeer het later opnieuw"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "Kloon",
+      "API": {
+        "SUCCESS_MESSAGE": "Automatisering met succes gekloond",
+        "ERROR_MESSAGE": "Automatiseringsregel kon niet worden gekloond, probeer het later opnieuw"
+      }
+    },
+    "FORM": {
+      "EDIT": "Bewerken",
+      "CREATE": "Aanmaken",
+      "DELETE": "Verwijderen",
+      "CANCEL": "Annuleren",
+      "RESET_MESSAGE": "Het veranderen van het event type zal de condities en events die u hieronder hebt toegevoegd resetten"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "U moet tenminste één voorwaarde hebben om op te slaan",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Aangepaste contactattributen",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Gesprek aangepaste attributen"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "U moet tenminste één actie hebben om op te slaan",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Voer hier uw bericht in",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Teams selecteren"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Automatiseringsregel activeren",
+      "DEACTIVATION_TITLE": "Automatiseringsregel deactiveren",
+      "ACTIVATION_DESCRIPTION": "Deze actie activeert de automatiseringsregel '{automationName}'. Weet u zeker dat u wilt doorgaan?",
+      "DEACTIVATION_DESCRIPTION": "Deze actie zal de automatiseringsregel '{automationName}' deactiveren. Weet u zeker dat u wilt doorgaan?",
+      "ACTIVATION_SUCCESFUL": "Automatiseringsregel succesvol geactiveerd",
+      "DEACTIVATION_SUCCESFUL": "Automatiseringsregel succesvol gedeactiveerd",
+      "ACTIVATION_ERROR": "Automatisering kon niet worden geactiveerd, probeer het later opnieuw",
+      "DEACTIVATION_ERROR": "Automatisering kon niet worden gedeactiveerd, probeer het later opnieuw",
+      "CONFIRMATION_LABEL": "Ja",
+      "CANCEL_LABEL": "Nee"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Kon bijlage niet uploaden, probeer het opnieuw",
+      "LABEL_IDLE": "Bijlage uploaden",
+      "LABEL_UPLOADING": "Uploaden...",
+      "LABEL_UPLOADED": "Succesvol geüpload",
+      "LABEL_UPLOAD_FAILED": "Upload mislukt"
+    }
+  }
+}

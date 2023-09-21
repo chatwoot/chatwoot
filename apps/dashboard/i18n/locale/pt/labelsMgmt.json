@@ -1,0 +1,83 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "Etiquetas",
+    "HEADER_BTN_TXT": "Adicionar Etiqueta",
+    "LOADING": "Buscando etiquetas",
+    "SEARCH_404": "Não existem itens correspondentes a esta consulta",
+    "SIDEBAR_TXT": "<p><b>Etiquetas</b> <p>As etiquetas o ajudam a categorizar as conversas e a priorizá-las. Você pode atribuir a etiqueta a uma conversa a partir do painel lateral. <br /><br />As etiquetas estão vinculadas à conta e podem ser usadas para criar fluxos de trabalho personalizados em sua organização. Você pode atribuir uma cor personalizada para uma etiqueta, facilitando a identificação da etiqueta. Você será capaz de exibir o rótulo na barra lateral para filtrar as conversas facilmente.</p>",
+    "LIST": {
+      "404": "Não há etiquetas disponíveis nesta conta.",
+      "TITLE": "Gerir etiquetas",
+      "DESC": "Etiquetas permitem que você agrupe as conversas juntos.",
+      "TABLE_HEADER": [
+        "Nome:",
+        "Descrição",
+        "Cor"
+      ]
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Nome da etiqueta",
+        "PLACEHOLDER": "Nome da etiqueta",
+        "REQUIRED_ERROR": "O nome da etiqueta é obrigatório",
+        "MINIMUM_LENGTH_ERROR": "O tamanho mínimo obrigatório é 2",
+        "VALID_ERROR": "Apenas são permitidos Alfabetos, Números, Hífen e Underscores"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descrição",
+        "PLACEHOLDER": "Descrição da etiqueta"
+      },
+      "COLOR": {
+        "LABEL": "Cor"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "Mostrar etiqueta na barra lateral"
+      },
+      "EDIT": "Alterar",
+      "CREATE": "Criar",
+      "DELETE": "excluir",
+      "CANCEL": "cancelar"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Adicionar etiqueta à conversa",
+        "MULTIPLE_SUGGESTION": "Selecione esta etiqueta",
+        "DESELECT": "Desmarcar etiqueta",
+        "DISMISS": "Descartar sugestão"
+      },
+      "POWERED_BY": "Chatwoot IA",
+      "DISMISS": "Descartar",
+      "ADD_SELECTED_LABELS": "Adicionar etiquetas selecionadas",
+      "ADD_SELECTED_LABEL": "Adicionar etiqueta selecionada",
+      "ADD_ALL_LABELS": "Adicionar todas as etiquetas"
+    },
+    "ADD": {
+      "TITLE": "Adicionar Etiqueta",
+      "DESC": "Etiquetas permitem que você agrupe as conversas juntos.",
+      "API": {
+        "SUCCESS_MESSAGE": "Etiqueta adicionada com sucesso",
+        "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Editar etiqueta",
+      "API": {
+        "SUCCESS_MESSAGE": "Etiqueta adicionada com sucesso",
+        "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "excluir",
+      "API": {
+        "SUCCESS_MESSAGE": "Etiqueta eliminada com sucesso",
+        "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirmar Exclusão",
+        "MESSAGE": "Tem certeza que deseja excluir ",
+        "YES": "Sim, excluir ",
+        "NO": "Não, Manter "
+      }
+    }
+  }
+}

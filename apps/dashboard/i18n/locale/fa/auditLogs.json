@@ -1,0 +1,71 @@
+{
+  "AUDIT_LOGS": {
+    "HEADER": "گزارش های حسابرسی",
+    "HEADER_BTN_TXT": "اضافه کردن گزارش های حسابرسی",
+    "LOADING": "واکشی گزارش های حسابرسی",
+    "SEARCH_404": "هیچ آیتمی با این مشخصات یافت نشد",
+    "SIDEBAR_TXT": "<p><b>گزارش‌های حسابرسی</b> </p><p> گزارش‌های حسابرسی مسیرهایی برای رویدادها و اقدامات در یک سیستم Chatwoot هستند. </p>",
+    "LIST": {
+      "404": "هیچ گزارش حسابرسی در این حساب موجود نیست.",
+      "TITLE": "مدیریت گزارش های حسابرسی",
+      "DESC": "گزارش های حسابرسی مسیرهایی برای رویدادها و اقدامات در یک سیستم چت ووت هستند.",
+      "TABLE_HEADER": [
+        "کاربر",
+        "اقدام",
+        "آدرس آی‌پی"
+      ]
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "گزارش های حسابرسی با موفقیت بازیابی شد",
+      "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید"
+    },
+    "DEFAULT_USER": "System",
+    "AUTOMATION_RULE": {
+      "ADD": "%{agentName} created a new automation rule (#%{id})",
+      "EDIT": "%{agentName} updated an automation rule (#%{id})",
+      "DELETE": "%{agentName} deleted an automation rule (#%{id})"
+    },
+    "ACCOUNT_USER": {
+      "ADD": "%{agentName} invited %{invitee} to the account as an %{role}",
+      "EDIT": {
+        "SELF": "%{agentName} changed their %{attributes} to %{values}",
+        "OTHER": "%{agentName} changed %{attributes} of %{user} to %{values}"
+      }
+    },
+    "INBOX": {
+      "ADD": "%{agentName} created a new inbox (#%{id})",
+      "EDIT": "%{agentName} updated an inbox (#%{id})",
+      "DELETE": "%{agentName} deleted an inbox (#%{id})"
+    },
+    "WEBHOOK": {
+      "ADD": "%{agentName} created a new webhook (#%{id})",
+      "EDIT": "%{agentName} updated a webhook (#%{id})",
+      "DELETE": "%{agentName} deleted a webhook (#%{id})"
+    },
+    "USER_ACTION": {
+      "SIGN_IN": "%{agentName} signed in",
+      "SIGN_OUT": "%{agentName} signed out"
+    },
+    "TEAM": {
+      "ADD": "%{agentName} created a new team (#%{id})",
+      "EDIT": "%{agentName} updated a team (#%{id})",
+      "DELETE": "%{agentName} deleted a team (#%{id})"
+    },
+    "MACRO": {
+      "ADD": "%{agentName} created a new macro (#%{id})",
+      "EDIT": "%{agentName} updated a macro (#%{id})",
+      "DELETE": "%{agentName} deleted a macro (#%{id})"
+    },
+    "INBOX_MEMBER": {
+      "ADD": "%{agentName} added %{user} to the inbox(#%{inbox_id})",
+      "REMOVE": "%{agentName} removed %{user} from the inbox(#%{inbox_id})"
+    },
+    "TEAM_MEMBER": {
+      "ADD": "%{agentName} added %{user} to the team(#%{team_id})",
+      "REMOVE": "%{agentName} removed %{user} from the team(#%{team_id})"
+    },
+    "ACCOUNT": {
+      "EDIT": "%{agentName} updated the account configuration (#%{id})"
+    }
+  }
+}

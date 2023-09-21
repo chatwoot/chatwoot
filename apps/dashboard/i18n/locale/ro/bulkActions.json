@@ -1,0 +1,40 @@
+{
+  "BULK_ACTION": {
+    "CONVERSATIONS_SELECTED": "%{conversationCount} conversații selectate",
+    "AGENT_SELECT_LABEL": "Selectează agent",
+    "ASSIGN_CONFIRMATION_LABEL": "Sigur doriți să atribuiți %{conversationCount} %{conversationLabel} la",
+    "UNASSIGN_CONFIRMATION_LABEL": "Sigur doriți să anulați atribuirea a %{conversationCount} %{conversationLabel}?",
+    "GO_BACK_LABEL": "Mergeți înapoi",
+    "ASSIGN_LABEL": "Atribuiți",
+    "YES": "Da",
+    "ASSIGN_AGENT_TOOLTIP": "Atribuiți agent",
+    "ASSIGN_TEAM_TOOLTIP": "Atribuiți echipă",
+    "ASSIGN_SUCCESFUL": "Conversațiile au fost atribuite",
+    "ASSIGN_FAILED": "Nu s-au putut atribui conversațiile, încercați din nou",
+    "RESOLVE_SUCCESFUL": "Conversațiile au fost rezolvate",
+    "RESOLVE_FAILED": "Nu s-au putut rezolva conversațiile, încercați din nou",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "Conversațiile vizibile pe această pagină sunt doar selectate.",
+    "AGENT_LIST_LOADING": "Se încarcă agenții",
+    "UPDATE": {
+      "CHANGE_STATUS": "Schimbați statusul",
+      "SNOOZE_UNTIL_NEXT_REPLY": "Amânați până la următorul răspuns",
+      "UPDATE_SUCCESFUL": "Statusul conversației a fost actualizat.",
+      "UPDATE_FAILED": "Nu s-au putut actualiza conversațiile, încercați din nou"
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "Atribuiți etichete",
+      "NO_LABELS_FOUND": "Nu s-au găsit etichete pentru",
+      "ASSIGN_SELECTED_LABELS": "Atribuiți etichetele selectate",
+      "ASSIGN_SUCCESFUL": "Etichete atribuite cu succes",
+      "ASSIGN_FAILED": "Nu s-au putut atribui etichetele, încercați din nou"
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "Selectați echipa",
+      "NONE": "Nimic",
+      "NO_TEAMS_AVAILABLE": "Nu există încă echipe adăugate la acest cont.",
+      "ASSIGN_SELECTED_TEAMS": "Atribuirea echipei selectate",
+      "ASSIGN_SUCCESFUL": "Echipe assiged cu succes",
+      "ASSIGN_FAILED": "Nu a reușit să atribuie echipa, vă rugăm să încercați din nou"
+    }
+  }
+}

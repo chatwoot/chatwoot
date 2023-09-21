@@ -1,0 +1,27 @@
+{
+  "LOGIN": {
+    "TITLE": "Log ind på Chatwoot",
+    "EMAIL": {
+      "LABEL": "E-mail",
+      "PLACEHOLDER": "E-mail, fx: navn@eksempel.dk",
+      "ERROR": "Indtast venligst en gyldig e-mailadresse"
+    },
+    "PASSWORD": {
+      "LABEL": "Adgangskode",
+      "PLACEHOLDER": "Adgangskode"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Login Lykkedes",
+      "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere",
+      "UNAUTH": "Brugernavn / adgangskode forkert. Prøv igen"
+    },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Login with Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
+      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+    },
+    "FORGOT_PASSWORD": "Glemt din adgangskode?",
+    "CREATE_NEW_ACCOUNT": "Opret ny konto",
+    "SUBMIT": "Log Ind"
+  }
+}

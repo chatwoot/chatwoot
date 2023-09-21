@@ -1,0 +1,27 @@
+{
+  "LOGIN": {
+    "TITLE": "ചാറ്റ് വൂട്ടിലേക്ക് ലോഗിൻ ചെയ്യുക",
+    "EMAIL": {
+      "LABEL": "ഇമെയിൽ",
+      "PLACEHOLDER": "example@companyname.com",
+      "ERROR": "ദയവായി സാധുവായ ഒരു ഇമെയിൽ വിലാസം നൽകുക"
+    },
+    "PASSWORD": {
+      "LABEL": "പാസ്‌വേഡ്",
+      "PLACEHOLDER": "പാസ്‌വേഡ്"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Login successful",
+      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again.",
+      "UNAUTH": "Username or password is incorrect. Please try again."
+    },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Login with Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
+      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+    },
+    "FORGOT_PASSWORD": "നിങ്ങളുടെ പാസ്‌വേഡ് മറന്നോ?",
+    "CREATE_NEW_ACCOUNT": "പുതിയ അക്കൗണ്ട് സൃഷ്ടിക്കുക",
+    "SUBMIT": "സൈൻ ഇൻ"
+  }
+}

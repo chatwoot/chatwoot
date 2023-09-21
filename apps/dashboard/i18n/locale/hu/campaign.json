@@ -1,0 +1,126 @@
+{
+  "CAMPAIGN": {
+    "HEADER": "Kampányok",
+    "SIDEBAR_TXT": "A proaktív üzenetek lehetővé teszik az ügyfelek számára, hogy kimenő üzeneteket küldjenek kapcsolataiknak, amelyek több beszélgetést indítanak el. Új kampány létrehozásához kattints a <b>Kampány hozzáadása</b> lehetőségre. Meglévő kampányt is szerkeszthetsz vagy törölhetsz a Szerkesztés vagy a Törlés gombra kattintva.",
+    "HEADER_BTN_TXT": {
+      "ONE_OFF": "Hozz létre egy egyszeri kampányt",
+      "ONGOING": "Hozz létre egy folyamatban lévő kampányt"
+    },
+    "ADD": {
+      "TITLE": "Kampány létrehozása",
+      "DESC": "A proaktív üzenetek lehetővé teszik az ügyfelek számára, hogy kimenő üzeneteket küldjenek kapcsolataiknak, amelyek több beszélgetést indítanak el.",
+      "CANCEL_BUTTON_TEXT": "Mégse",
+      "CREATE_BUTTON_TEXT": "Létrehozás",
+      "FORM": {
+        "TITLE": {
+          "LABEL": "Cím",
+          "PLACEHOLDER": "Kérlek írd ide a kampány nevét",
+          "ERROR": "Cím megadása kötelező"
+        },
+        "SCHEDULED_AT": {
+          "LABEL": "Tervezett idő",
+          "PLACEHOLDER": "Kérlek, válaszd ki az időtartamot",
+          "CONFIRM": "Megerősítés",
+          "ERROR": "Tervezett idő megadása kötelező"
+        },
+        "AUDIENCE": {
+          "LABEL": "Közönség",
+          "PLACEHOLDER": "Ügyfél címke kiválasztása",
+          "ERROR": "Közönség megadása kötelező"
+        },
+        "INBOX": {
+          "LABEL": "Válassz egy fiókot",
+          "PLACEHOLDER": "Válassz fiókot",
+          "ERROR": "Fiók kötelező"
+        },
+        "MESSAGE": {
+          "LABEL": "Üzenet",
+          "PLACEHOLDER": "Kérlek írd ide a kampány üzenetét",
+          "ERROR": "Üzenet kötelező"
+        },
+        "SENT_BY": {
+          "LABEL": "Küldő",
+          "PLACEHOLDER": "Kérlek, válaszd ki a kampány tartalmát",
+          "ERROR": "Küldő megadása kötelező"
+        },
+        "END_POINT": {
+          "LABEL": "URL",
+          "PLACEHOLDER": "Kérjük adj meg egy URL-t",
+          "ERROR": "Kérjük helyes URL-t adj meg"
+        },
+        "TIME_ON_PAGE": {
+          "LABEL": "Az oldalon töltött idő (másodperc)",
+          "PLACEHOLDER": "Kérlek, add meg az időtartamot",
+          "ERROR": "Az oldalon töltött idő megadása kötelező"
+        },
+        "ENABLED": "Kampány engedélyezése",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "Feloldás csak munkaidőben",
+        "SUBMIT": "Kampány hozzáadása"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Kampány sikeresen létrehozva",
+        "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Törlés",
+      "CONFIRM": {
+        "TITLE": "Törlés megerősítése",
+        "MESSAGE": "Biztos abban, hogy törli?",
+        "YES": "Igen, Törlés ",
+        "NO": "Nem, Mégse "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Kampány sikeresen törölve",
+        "ERROR_MESSAGE": "Nem sikerült a kampány törlése. Kérjük próbáld később."
+      }
+    },
+    "EDIT": {
+      "TITLE": "Kampány szerkesztése",
+      "UPDATE_BUTTON_TEXT": "Frissítés",
+      "API": {
+        "SUCCESS_MESSAGE": "Kampány sikeresen frissítve",
+        "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra"
+      }
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "Kampányok betöltése...",
+      "404": "Nem találhatók kampányok létrehozva ehhez a postafiókhoz",
+      "TABLE_HEADER": {
+        "TITLE": "Cím",
+        "MESSAGE": "Üzenet",
+        "INBOX": "Fiók",
+        "STATUS": "Státusz",
+        "SENDER": "Küldő",
+        "URL": "URL",
+        "SCHEDULED_AT": "Tervezett idő",
+        "TIME_ON_PAGE": "Idő(mp)",
+        "CREATED_AT": "Létrehozva"
+      },
+      "BUTTONS": {
+        "ADD": "Hozzáadás",
+        "EDIT": "Szerkesztés",
+        "DELETE": "Törlés"
+      },
+      "STATUS": {
+        "ENABLED": "Engedélyezve",
+        "DISABLED": "Letiltva",
+        "COMPLETED": "Lezárt",
+        "ACTIVE": "Aktív"
+      },
+      "SENDER": {
+        "BOT": "Bot"
+      }
+    },
+    "ONE_OFF": {
+      "HEADER": "Egyszeri kampányok",
+      "404": "Nincsennek kampányok létrehozva",
+      "INBOXES_NOT_FOUND": "Kérjük, hozz létre egy SMS-postafiókot, és kezdd el kampányok hozzáadását"
+    },
+    "ONGOING": {
+      "HEADER": "Folyamatban lévő kampányok",
+      "404": "Nincsennek folyamatban lévő kampányok létrehozva",
+      "INBOXES_NOT_FOUND": "Kérjük, hozz létre egy postafiókot, és kezdd el kampányok hozzáadását"
+    }
+  }
+}

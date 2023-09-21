@@ -1,0 +1,125 @@
+{
+  "TEAMS_SETTINGS": {
+    "NEW_TEAM": "Buat tim baru",
+    "HEADER": "Tim",
+    "SIDEBAR_TXT": "<p><b>Tim</b></p> <p>Tim memungkinkan Anda mengorganisir agen-agen Anda ke dalam kelompok berdasarkan tanggung jawab mereka. <br /> Seorang agen dapat menjadi bagian dari beberapa tim. Anda dapat mengalokasikan percakapan kepada sebuah tim saat bekerja secara kolaboratif. </p>",
+    "LIST": {
+      "404": "Belum ada tim yang dibuat pada akun ini.",
+      "EDIT_TEAM": "Edit Tim"
+    },
+    "CREATE_FLOW": {
+      "CREATE": {
+        "TITLE": "Buat tim",
+        "DESC": "Tambahkan judul dan deskripsi untuk tim baru Anda."
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "Tambahkan agen ke tim Anda",
+        "TITLE": "Tambahkan agen ke tim - %{teamName}",
+        "DESC": "Tambahkan agen pada tim baru Anda. Ini memungkinkan Anda berkolaborasi sebagai sebuah tim pada percakapan, mendapatkan notifikasi atas peristiwa baru dalam percakapan yang sama."
+      },
+      "WIZARD": [
+        {
+          "title": "Buat",
+          "route": "pengaturan_tim_baru",
+          "body": "Buat tim baru dari agen-agen."
+        },
+        {
+          "title": "Tambahkan Agen",
+          "route": "pengaturan_tim_tambahkan_agen",
+          "body": "Tambahkan agen-agen ke dalam tim."
+        },
+        {
+          "title": "Selesai",
+          "route": "pengaturan_tim_selesai",
+          "body": "Sekarang kotak masuk Anda sudah siap!"
+        }
+      ]
+    },
+    "EDIT_FLOW": {
+      "CREATE": {
+        "TITLE": "Edit detil tim Anda",
+        "DESC": "Edit judul dan deskripsi tim Anda.",
+        "BUTTON_TEXT": "Update tim"
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "Update agen dalam tim",
+        "TITLE": "Tambahkan agen ke tim - %{teamName}",
+        "DESC": "Tambahkan agen-agen pada tim baru Anda. Semua agen yang telah ditambahkan akan mendapatkan notifikasi ketika sebuah percakapan dialokasikan pada tim ini."
+      },
+      "WIZARD": [
+        {
+          "title": "Detil tim",
+          "route": "pengaturan_tim_edit",
+          "body": "Ubah nama, deskripsi, dan detil lainnya."
+        },
+        {
+          "title": "Edit Agen",
+          "route": "pengaturan_tim_edit_anggota",
+          "body": "Edit agen-agen dalam tim Anda."
+        },
+        {
+          "title": "Selesai",
+          "route": "pengaturan_tim_edit_selesai",
+          "body": "Sekarang kotak masuk Anda sudah siap!"
+        }
+      ]
+    },
+    "TEAM_FORM": {
+      "ERROR_MESSAGE": "Tidak dapat menyimpan detil tim. Coba lagi."
+    },
+    "AGENTS": {
+      "AGENT": "Agen",
+      "EMAIL": "Email",
+      "BUTTON_TEXT": "Tambahkan Agen",
+      "ADD_AGENTS": "Menambahkan Agen ke Tim Anda...",
+      "SELECT": "pilih",
+      "SELECT_ALL": "pilih semua agen",
+      "SELECTED_COUNT": "%{selected} dari %{total} agen terpilih."
+    },
+    "ADD": {
+      "TITLE": "Tambahkan agen ke tim - %{teamName}",
+      "DESC": "Tambahkan agen-agen pada tim baru Anda. Ini memungkinkan Anda berkolaborasi sebagai sebuah tim pada percakapan, mendapatkan notifikasi atas peristiwa baru dalam percakapan yang sama.",
+      "SELECT": "pilih",
+      "SELECT_ALL": "pilih semua agen",
+      "SELECTED_COUNT": "%{selected} dari %{total} agen terpilih.",
+      "BUTTON_TEXT": "Tambahkan Agen",
+      "AGENT_VALIDATION_ERROR": "Pilih setidaknya satu agen."
+    },
+    "FINISH": {
+      "TITLE": "Tim Anda siap!",
+      "MESSAGE": "Sekarang Anda dapat berkolaborasi sebagai sebuah tim pada percakapan. Selamat mendukung ",
+      "BUTTON_TEXT": "Selesai"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Hapus",
+      "API": {
+        "SUCCESS_MESSAGE": "Tim berhasil dihapus.",
+        "ERROR_MESSAGE": "Tidak dapat menghapus tim. Coba lagi."
+      },
+      "CONFIRM": {
+        "TITLE": "Anda yakin akan menghapus - %{teamName}",
+        "PLACE_HOLDER": "Silakan ketik %{teamName} untuk konfirmasi",
+        "MESSAGE": "Menghapus tim akan menghilangkan alokasi tim dari percakapan yang telah ditetapkan terhadap tim ini.",
+        "YES": "Hapus ",
+        "NO": "Batalkan"
+      }
+    },
+    "SETTINGS": "Pengaturan",
+    "FORM": {
+      "UPDATE": "Update tim",
+      "CREATE": "Buat tim",
+      "NAME": {
+        "LABEL": "Nama Tim",
+        "PLACEHOLDER": "Contoh: Sales, Customer Support"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Deskripsi Tim",
+        "PLACEHOLDER": "Deskripsi singkat tentang tim ini."
+      },
+      "AUTO_ASSIGN": {
+        "LABEL": "Izinkan penugasan otomatis untuk tim ini."
+      },
+      "SUBMIT_CREATE": "Buat tim"
+    }
+  }
+}

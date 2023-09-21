@@ -1,0 +1,166 @@
+{
+  "GENERAL_SETTINGS": {
+    "TITLE": "Nastavenia účtu",
+    "SUBMIT": "Aktualizovať nastavenia",
+    "BACK": "Späť",
+    "DISMISS": "Dismiss",
+    "UPDATE": {
+      "ERROR": "Nastavenia sa nepodarilo aktualizovať, skúste to znova!",
+      "SUCCESS": "Úspešne aktualizované nastavenia účtu"
+    },
+    "FORM": {
+      "ERROR": "Prosím, opravte chyby vo formulári",
+      "GENERAL_SECTION": {
+        "TITLE": "Všeobecné nastavenia",
+        "NOTE": ""
+      },
+      "ACCOUNT_ID": {
+        "TITLE": "ID účtu",
+        "NOTE": "Toto ID je potrebné, ak vytvárate integráciu založenú na rozhraní API"
+      },
+      "NAME": {
+        "LABEL": "Názov účtu",
+        "PLACEHOLDER": "Názov vášho účtu",
+        "ERROR": "Zadajte platný názov účtu"
+      },
+      "LANGUAGE": {
+        "LABEL": "Site language",
+        "PLACEHOLDER": "Názov vášho účtu",
+        "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "Doména prichádzajúceho e-mailu",
+        "PLACEHOLDER": "Doména, na ktorú budete dostávať e-maily",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "E-mailová podpora",
+        "PLACEHOLDER": "E-mailová podpora vašej spoločnosti",
+        "ERROR": ""
+      },
+      "AUTO_RESOLVE_DURATION": {
+        "LABEL": "Počet dní po automatickom vyriešení tiketu, ak sa nevykonáva žiadna aktivita",
+        "PLACEHOLDER": "30",
+        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
+      },
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "Pre vaše konto je povolená kontinuita konverzácie s e-mailami.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Teraz môžete prijímať e-maily vo vlastnej doméne."
+      }
+    },
+    "UPDATE_CHATWOOT": "K dispozícii je aktualizácia %{latestChatwootVersion} pre Chatwoot. Prosím, aktualizujte svoju inštanciu.",
+    "LEARN_MORE": "Learn more",
+    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
+    "OPEN_BILLING": "Open billing"
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "Stlačením tlačidla enter vyberte",
+      "ENTER_TO_REMOVE": "Stlačením tlačidla enter vymažte",
+      "SELECT_ONE": "Vyberte jeden",
+      "SELECT": "Select"
+    }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "Upozornenia",
+    "MARK_ALL_DONE": "Označiť všetky ako hotové",
+    "DELETE_TITLE": "deleted",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Unread Notifications",
+      "ALL_NOTIFICATIONS": "View all notifications",
+      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
+      "EMPTY_MESSAGE": "You have no unread notifications"
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "Načítavajú sa notifikácie...",
+      "404": "Žiadne notifikácie",
+      "TABLE_HEADER": [
+        "Meno",
+        "Telefónne číslo",
+        "Konverzácie",
+        "Naposledy kontaktovaný"
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "Nová konverzácia",
+      "conversation_assignment": "Konverzácia pridelená",
+      "assigned_conversation_new_message": "Nová správa",
+      "participating_conversation_new_message": "Nová správa",
+      "conversation_mention": "Zmienka"
+    }
+  },
+  "NETWORK": {
+    "NOTIFICATION": {
+      "TEXT": "Chatwoot je odpojený"
+    },
+    "BUTTON": {
+      "REFRESH": "Obnoviť"
+    }
+  },
+  "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "Hľadať alebo ísť na",
+    "SECTIONS": {
+      "GENERAL": "Všeobecné",
+      "REPORTS": "Reporty",
+      "CONVERSATION": "Konverzácia",
+      "CHANGE_ASSIGNEE": "Zmeniť prideleného agenta",
+      "CHANGE_PRIORITY": "Change Priority",
+      "CHANGE_TEAM": "Zmeniť tím",
+      "SNOOZE_CONVERSATION": "Snooze Conversation",
+      "ADD_LABEL": "Pridať štítok do konverzácie",
+      "REMOVE_LABEL": "Odstrániť štítok z konverzácie",
+      "SETTINGS": "Nastavenia",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance"
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "Prejsť na ovládací panel konverzácie",
+      "GO_TO_CONTACTS_DASHBOARD": "Prejsť na ovládací panel kontaktov",
+      "GO_TO_REPORTS_OVERVIEW": "Prejsť na prehľad reportov",
+      "GO_TO_CONVERSATION_REPORTS": "Go to Conversation Reports",
+      "GO_TO_AGENT_REPORTS": "Prejsť na reporty o agentoch",
+      "GO_TO_LABEL_REPORTS": "Prejsť na reporty o štítkoch",
+      "GO_TO_INBOX_REPORTS": "Prejsť na reporty o schránkach",
+      "GO_TO_TEAM_REPORTS": "Prejsť na reporty o tímoch",
+      "GO_TO_SETTINGS_AGENTS": "Prejsť na nastavenia agentov",
+      "GO_TO_SETTINGS_TEAMS": "Prejsť na nastavenia tímov",
+      "GO_TO_SETTINGS_INBOXES": "Prejsť na nastavenia chránok",
+      "GO_TO_SETTINGS_LABELS": "Prejsť na nastavenia štítkov",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Prejsť na nastavenia uložených odpovedí",
+      "GO_TO_SETTINGS_APPLICATIONS": "Go to Application Settings",
+      "GO_TO_SETTINGS_ACCOUNT": "Go to Account Settings",
+      "GO_TO_SETTINGS_PROFILE": "Go to Profile Settings",
+      "GO_TO_NOTIFICATIONS": "Go to Notifications",
+      "ADD_LABELS_TO_CONVERSATION": "Pridať štítok do konverzácie",
+      "ASSIGN_AN_AGENT": "Assign an agent",
+      "AI_ASSIST": "AI Assist",
+      "ASSIGN_PRIORITY": "Assign priority",
+      "ASSIGN_A_TEAM": "Assign a team",
+      "MUTE_CONVERSATION": "Mute conversation",
+      "UNMUTE_CONVERSATION": "Unmute conversation",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Odstrániť štítok z konverzácie",
+      "REOPEN_CONVERSATION": "Reopen conversation",
+      "RESOLVE_CONVERSATION": "Resolve conversation",
+      "SEND_TRANSCRIPT": "Send an email transcript",
+      "SNOOZE_CONVERSATION": "Snooze Conversation",
+      "UNTIL_NEXT_REPLY": "Until next reply",
+      "UNTIL_NEXT_WEEK": "Until next week",
+      "UNTIL_TOMORROW": "Until tomorrow",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "System"
+    }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Loading Dashboard App..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "kliknite sem"
+  }
+}

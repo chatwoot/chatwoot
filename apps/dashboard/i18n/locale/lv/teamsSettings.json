@@ -1,0 +1,125 @@
+{
+  "TEAMS_SETTINGS": {
+    "NEW_TEAM": "Izveidot jaunu komandu",
+    "HEADER": "Komandas",
+    "SIDEBAR_TXT": "<p><b>Komandas</b></p> <p>Komandas ļauj kārtot aģentus grupās, pamatojoties uz viņu pienākumiem. <br /> Aģents var atrasties vairākās komandās. Jūs varat piešķirt sarunas komandai, kad sadarbojaties. </p>",
+    "LIST": {
+      "404": "Šajā kontā nav izveidota neviena komanda.",
+      "EDIT_TEAM": "Rediģēt komandu"
+    },
+    "CREATE_FLOW": {
+      "CREATE": {
+        "TITLE": "Izveidojiet jaunu komandu",
+        "DESC": "Pievienot savai jaunajai komandai nosaukumu un aprakstu."
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "Pievienot komandai aģentus",
+        "TITLE": "Pievienot aģentus komandai - %{teamName}",
+        "DESC": "Pievienot aģentus savai jaunizveidotajai komandai. Tas ļauj sarunās sadarboties kā komandai, kā arī saņemt paziņojumus par jauniem notikumiem tajā pašā sarunā."
+      },
+      "WIZARD": [
+        {
+          "title": "Izveidot",
+          "route": "settings_teams_new",
+          "body": "Izveidot jaunu aģentu komandu."
+        },
+        {
+          "title": "Pievienot Aģentus",
+          "route": "settings_teams_add_agents",
+          "body": "Pievienot komandai aģentus."
+        },
+        {
+          "title": "Pabeigt",
+          "route": "settings_teams_finish",
+          "body": "Jūs varat sākt darboties!"
+        }
+      ]
+    },
+    "EDIT_FLOW": {
+      "CREATE": {
+        "TITLE": "Rediģēt savas komandas informāciju",
+        "DESC": "Rediģēt savas komandas nosaukumu un aprakstu.",
+        "BUTTON_TEXT": "Atjaunināt komandu"
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "Atjaunināt aģentus komandā",
+        "TITLE": "Pievienot aģentus komandai - %{teamName}",
+        "DESC": "Pievienot aģentus savai jaunizveidotajai komandai. Visi pievienotie aģenti tiks informēti, kad saruna tiks piešķirta šai komandai."
+      },
+      "WIZARD": [
+        {
+          "title": "Komandas informācija",
+          "route": "settings_teams_edit",
+          "body": "Mainīt nosaukumu, aprakstu un citu informāciju."
+        },
+        {
+          "title": "Rediģēt Aģentus",
+          "route": "settings_teams_edit_members",
+          "body": "Rediģēt savas komandas aģentus."
+        },
+        {
+          "title": "Pabeigt",
+          "route": "settings_teams_edit_finish",
+          "body": "Jūs varat sākt darboties!"
+        }
+      ]
+    },
+    "TEAM_FORM": {
+      "ERROR_MESSAGE": "Nevarēja saglabāt komandas informāciju. Lūdzu, mēģiniet vēlreiz."
+    },
+    "AGENTS": {
+      "AGENT": "AĢENTS",
+      "EMAIL": "Epasts",
+      "BUTTON_TEXT": "Pievienot aģentus",
+      "ADD_AGENTS": "Notiek aģentu pievienošana Jūsu komandai...",
+      "SELECT": "izvēlēties",
+      "SELECT_ALL": "izvēlēties visus aģentus",
+      "SELECTED_COUNT": "%{selected} no %{total} aģentiem ir izvēlēti."
+    },
+    "ADD": {
+      "TITLE": "Pievienot aģentus komandai - %{teamName}",
+      "DESC": "Pievienot aģentus savai jaunizveidotajai komandai. Tas ļauj sarunās sadarboties kā komandai, tā arī saņemt paziņojumus par jauniem notikumiem tajā pašā sarunā.",
+      "SELECT": "izvēlēties",
+      "SELECT_ALL": "izvēlēties visus aģentus",
+      "SELECTED_COUNT": "%{selected} no %{total} aģentiem ir atlasīti.",
+      "BUTTON_TEXT": "Pievienot aģentus",
+      "AGENT_VALIDATION_ERROR": "Izvēlieties vismaz vienu aģentu."
+    },
+    "FINISH": {
+      "TITLE": "Jūsu komanda ir gatava!",
+      "MESSAGE": "Tagad Jūs sarunās varat sadarboties kā komanda. Laimīgu atbalstu ",
+      "BUTTON_TEXT": "Pabeigt"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Dzēst",
+      "API": {
+        "SUCCESS_MESSAGE": "Komanda ir veiksmīgi izdzēsa.",
+        "ERROR_MESSAGE": "Nevarēja izdzēst komandu. Lūdzu, mēģiniet vēlreiz."
+      },
+      "CONFIRM": {
+        "TITLE": "Vai esat pārliecināts, ka vēlaties izdzēst - %{teamName}",
+        "PLACE_HOLDER": "Lūdzu, uzrakstiet {teamName} lai apstiprinātu",
+        "MESSAGE": "Komandas dzēšana noņems komandas uzdevumu no sarunām, kas piešķirtas šai komandai.",
+        "YES": "Dzēst ",
+        "NO": "Atcelt"
+      }
+    },
+    "SETTINGS": "Iestatījumi",
+    "FORM": {
+      "UPDATE": "Atjaunināt komandu",
+      "CREATE": "Izveidot komandu",
+      "NAME": {
+        "LABEL": "Komandas nosaukums",
+        "PLACEHOLDER": "Piemēram: Pārdošana, Klientu Atbalsts"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Komandas Apraksts",
+        "PLACEHOLDER": "Īss apraksts par šo komandu."
+      },
+      "AUTO_ASSIGN": {
+        "LABEL": "Atļaut automātiskai piešķirt šai komandai."
+      },
+      "SUBMIT_CREATE": "Izveidot komandu"
+    }
+  }
+}

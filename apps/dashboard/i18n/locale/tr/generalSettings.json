@@ -1,0 +1,166 @@
+{
+  "GENERAL_SETTINGS": {
+    "TITLE": "Hesap ayarları",
+    "SUBMIT": "Ayarları güncelle",
+    "BACK": "Geri",
+    "DISMISS": "Dismiss",
+    "UPDATE": {
+      "ERROR": "Ayarlar güncellenemedi, tekrar deneyin!",
+      "SUCCESS": "Hesap ayarları başarıyla güncellendi"
+    },
+    "FORM": {
+      "ERROR": "Lütfen form hatalarını düzeltin",
+      "GENERAL_SECTION": {
+        "TITLE": "Genel Ayarlar",
+        "NOTE": ""
+      },
+      "ACCOUNT_ID": {
+        "TITLE": "Account ID",
+        "NOTE": "This ID is required if you are building an API based integration"
+      },
+      "NAME": {
+        "LABEL": "Hesap adı",
+        "PLACEHOLDER": "Hesap adınız",
+        "ERROR": "Lütfen geçerli bir hesap adı girin"
+      },
+      "LANGUAGE": {
+        "LABEL": "Site language",
+        "PLACEHOLDER": "Hesap adınız",
+        "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "Gelen E-posta Alanı",
+        "PLACEHOLDER": "E-postaları alacağınız alan",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "Destek E-postası",
+        "PLACEHOLDER": "Şirketinizin destek e-postası",
+        "ERROR": ""
+      },
+      "AUTO_RESOLVE_DURATION": {
+        "LABEL": "Etkinlik yoksa, bir biletin otomatik olarak çözülmesi gereken gün sayısı",
+        "PLACEHOLDER": "30",
+        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
+      },
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "Hesabınız için e-postalarla görüşme sürekliliği etkinleştirildi.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Artık özel alan adınızda e-postalar alabilirsiniz."
+      }
+    },
+    "UPDATE_CHATWOOT": "%{latestChatwootVersion} chatwoot sürümü indirilebilir. Lütfen sürümü güncelleyin.",
+    "LEARN_MORE": "Daha fazla",
+    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
+    "OPEN_BILLING": "Open billing"
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "Seçmek için enter tuşuna basın",
+      "ENTER_TO_REMOVE": "Kaldırmak için enter tuşuna basın",
+      "SELECT_ONE": "Birini seç",
+      "SELECT": "Select"
+    }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "Bildirimler",
+    "MARK_ALL_DONE": "Hepsini tamamlandı işaretle",
+    "DELETE_TITLE": "deleted",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Unread Notifications",
+      "ALL_NOTIFICATIONS": "View all notifications",
+      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
+      "EMPTY_MESSAGE": "Okunmamış bildiriminiz yok"
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "Bildirimler yükleniyor...",
+      "404": "Bildirim yok",
+      "TABLE_HEADER": [
+        "İsim",
+        "Telefon numarası",
+        "Konuşmalar",
+        "Son Görüşülen"
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "Yeni görüşme",
+      "conversation_assignment": "Atanan görüşme",
+      "assigned_conversation_new_message": "Yeni Mesaj",
+      "participating_conversation_new_message": "Yeni Mesaj",
+      "conversation_mention": "Bahset"
+    }
+  },
+  "NETWORK": {
+    "NOTIFICATION": {
+      "TEXT": "Chatwoot ile bağlantı kesildi"
+    },
+    "BUTTON": {
+      "REFRESH": "Yenile"
+    }
+  },
+  "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "Ara veya atla",
+    "SECTIONS": {
+      "GENERAL": "Genel",
+      "REPORTS": "Raporlar",
+      "CONVERSATION": "Konuşma",
+      "CHANGE_ASSIGNEE": "Atanan Kişiyi Değiştir",
+      "CHANGE_PRIORITY": "Change Priority",
+      "CHANGE_TEAM": "Takım değiştir",
+      "SNOOZE_CONVERSATION": "Snooze Conversation",
+      "ADD_LABEL": "Konuşmaya etiket ekle",
+      "REMOVE_LABEL": "Konuşmadan etiketi kaldır",
+      "SETTINGS": "Ayarlar",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance"
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "Konuşma Panosuna Git",
+      "GO_TO_CONTACTS_DASHBOARD": "Kişiler Panosuna Git",
+      "GO_TO_REPORTS_OVERVIEW": "Raporlara Genel Bakış'a gidin",
+      "GO_TO_CONVERSATION_REPORTS": "Konuşma Raporlarına Git",
+      "GO_TO_AGENT_REPORTS": "Temsilci Raporlarına Git",
+      "GO_TO_LABEL_REPORTS": "Etiket Raporlarına Git",
+      "GO_TO_INBOX_REPORTS": "Gelen Kutusu Raporlarına Git",
+      "GO_TO_TEAM_REPORTS": "Ekip Raporlarına Git",
+      "GO_TO_SETTINGS_AGENTS": "Temsilci Ayarlarına Git",
+      "GO_TO_SETTINGS_TEAMS": "Go to Team Settings",
+      "GO_TO_SETTINGS_INBOXES": "Go to Inbox Settings",
+      "GO_TO_SETTINGS_LABELS": "Go to Label Settings",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Go to Canned Response Settings",
+      "GO_TO_SETTINGS_APPLICATIONS": "Go to Application Settings",
+      "GO_TO_SETTINGS_ACCOUNT": "Go to Account Settings",
+      "GO_TO_SETTINGS_PROFILE": "Go to Profile Settings",
+      "GO_TO_NOTIFICATIONS": "Go to Notifications",
+      "ADD_LABELS_TO_CONVERSATION": "Konuşmaya etiket ekle",
+      "ASSIGN_AN_AGENT": "Assign an agent",
+      "AI_ASSIST": "AI Assist",
+      "ASSIGN_PRIORITY": "Assign priority",
+      "ASSIGN_A_TEAM": "Assign a team",
+      "MUTE_CONVERSATION": "Mute conversation",
+      "UNMUTE_CONVERSATION": "Unmute conversation",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Konuşmadan etiketi kaldır",
+      "REOPEN_CONVERSATION": "Görüşmeyi yeniden açın",
+      "RESOLVE_CONVERSATION": "Görüşmeyi çöz",
+      "SEND_TRANSCRIPT": "Send an email transcript",
+      "SNOOZE_CONVERSATION": "Snooze Conversation",
+      "UNTIL_NEXT_REPLY": "Until next reply",
+      "UNTIL_NEXT_WEEK": "Until next week",
+      "UNTIL_TOMORROW": "Until tomorrow",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "System"
+    }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Loading Dashboard App..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "buraya Tıkla"
+  }
+}

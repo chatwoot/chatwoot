@@ -1,0 +1,118 @@
+{
+  "AUTOMATION": {
+    "HEADER": "אוטומציות",
+    "HEADER_BTN_TXT": "הוספת אוטומציה",
+    "LOADING": "חיבור אוטומציות",
+    "SIDEBAR_TXT": "<p><b>אוטומציות</b> <p>האוטומציות יכולות להחליף פעולות שאתם עושים בדרך כלל בצורה ידנית. ניתן לעשות שלל דברים עם אוטומציה לדוגמא הוספת תויית ושיוך שיחה לסוכן בהתאם לחוקים מוגדרים מראש. זה יאפשר לצוות שלכם להתמקד בדברים החשובים באמת ולתת למערכת לעשות פעולות אוטומיות.</p>",
+    "ADD": {
+      "TITLE": "הוספת אוטומציה",
+      "SUBMIT": "צור",
+      "CANCEL_BUTTON_TEXT": "ביטול",
+      "FORM": {
+        "NAME": {
+          "LABEL": "שם",
+          "PLACEHOLDER": "הכנס שם לאוטומציה",
+          "ERROR": "שם שדה חובה"
+        },
+        "DESC": {
+          "LABEL": "תיאור",
+          "PLACEHOLDER": "הכנס תיאור",
+          "ERROR": "נדרש תיאור"
+        },
+        "EVENT": {
+          "LABEL": "אירוע",
+          "PLACEHOLDER": "בבקשה תבחר אחד",
+          "ERROR": "אירוע נדרש"
+        },
+        "CONDITIONS": {
+          "LABEL": "תנאים"
+        },
+        "ACTIONS": {
+          "LABEL": "פעולות"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "הוסף תנאי",
+      "ACTION_BUTTON_LABEL": "הוסף פעולה",
+      "API": {
+        "SUCCESS_MESSAGE": "אוטומציה התווספה בהצלחה",
+        "ERROR_MESSAGE": "הוספת אוטומציה נכשלה, נסה שנית מאוחר יותר"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "שם",
+        "תיאור",
+        "פעיל",
+        "נוצר ב"
+      ],
+      "404": "לא נמצאו אוטומציות"
+    },
+    "DELETE": {
+      "TITLE": "מחק אוטומציה",
+      "SUBMIT": "מחק",
+      "CANCEL_BUTTON_TEXT": "ביטול",
+      "CONFIRM": {
+        "TITLE": "אשר מחיקה",
+        "MESSAGE": "האם אתה בטוח שברצונך למחוק ",
+        "YES": "כן, מחק ",
+        "NO": "לא, השאר "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "אוטומציה נמחקה בהצלחה",
+        "ERROR_MESSAGE": "מחיקת האוטומציה נכשלה, נסה שנית מאוחר יותר"
+      }
+    },
+    "EDIT": {
+      "TITLE": "ערוך אוטומציה",
+      "SUBMIT": "עדכן",
+      "CANCEL_BUTTON_TEXT": "ביטול",
+      "API": {
+        "SUCCESS_MESSAGE": "אוטומציה התעדכנה בהצלחה",
+        "ERROR_MESSAGE": "עדכון אוטומציה נכשל, נסה שנית מאוחר יותר"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "שכפל",
+      "API": {
+        "SUCCESS_MESSAGE": "אוטומציה שוכפלה בהצלחה",
+        "ERROR_MESSAGE": "שכפול אוטומציה נכשל, נסה שנית מאוחר יותר"
+      }
+    },
+    "FORM": {
+      "EDIT": "ערוך",
+      "CREATE": "צור",
+      "DELETE": "מחק",
+      "CANCEL": "ביטול",
+      "RESET_MESSAGE": "שינוי סוג אירוע יאפס את התנאים והפעולות שהוגדרו"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "נדרש לפחות תנאי אחד",
+      "CONTACT_CUSTOM_ATTR_LABEL": "שדה מותאם של איש קשר",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "שדה מותאם של שיחה"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "נדרשת פעולה אחת לפחות",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "הכנס כאן את ההודעה",
+      "TEAM_DROPDOWN_PLACEHOLDER": "בחר קבוצות"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "הפעל אוטומציה",
+      "DEACTIVATION_TITLE": "השהה אוטומציה",
+      "ACTIVATION_DESCRIPTION": "פעולה זו תפעיל את האוטומציה '{automationName}'. האם אתה בטוח שברצונך להמשיך?",
+      "DEACTIVATION_DESCRIPTION": "פעולה זו תשהה את האוטומציה '{automationName}'. האם אתה בטוח שברצונך להמשיך?",
+      "ACTIVATION_SUCCESFUL": "אוטומציה הופעלה בהצלחה",
+      "DEACTIVATION_SUCCESFUL": "אוטומציה הושהתה בהצלחה",
+      "ACTIVATION_ERROR": "הפעלת אוטומציה נכשלה, נסה שנית מאוחר יותר",
+      "DEACTIVATION_ERROR": "השהיית אוטומציה נכשלה, נסה שנית מאוחר יותר",
+      "CONFIRMATION_LABEL": "כן",
+      "CANCEL_LABEL": "לא"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "העלאת קובץ נכשלה, נסה שנית",
+      "LABEL_IDLE": "העלה קובץ",
+      "LABEL_UPLOADING": "מעלה...",
+      "LABEL_UPLOADED": "קובץ הועלה בהצלחה",
+      "LABEL_UPLOAD_FAILED": "העלאה נכשלה"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "LOGIN": {
+    "TITLE": "Masuk ke Chatwoot",
+    "EMAIL": {
+      "LABEL": "Email",
+      "PLACEHOLDER": "contoh@perusahan-mu.com",
+      "ERROR": "Harap masukkan alamat email yang valid"
+    },
+    "PASSWORD": {
+      "LABEL": "Kata Sandi",
+      "PLACEHOLDER": "Kata Sandi"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Berhasil Masuk",
+      "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti",
+      "UNAUTH": "Nama Pengguna / Kata Sandi Salah. Silahkan coba lagi"
+    },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Masuk dengan Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Harap gunakan alamat email perusahaan Anda untuk masuk",
+      "NO_ACCOUNT_FOUND": "Kami tidak dapat menemukan akun untuk alamat email Anda."
+    },
+    "FORGOT_PASSWORD": "Lupa kata sandi Anda?",
+    "CREATE_NEW_ACCOUNT": "Buat akun baru",
+    "SUBMIT": "Masuk"
+  }
+}

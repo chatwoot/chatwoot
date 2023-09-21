@@ -1,0 +1,40 @@
+{
+  "BULK_ACTION": {
+    "CONVERSATIONS_SELECTED": "%{conversationCount} σινομιλίες επιλέχθηκαν",
+    "AGENT_SELECT_LABEL": "Επιλογή πράκτορα",
+    "ASSIGN_CONFIRMATION_LABEL": "Είσαστε σίγουροι ότι θέλετε να αντιστοιχίσετε %{conversationCount} %{conversationLabel} στον",
+    "UNASSIGN_CONFIRMATION_LABEL": "Είσαστε σίγουροι ότι θέλετε να αφαιρέσετε την αντιστοίχιση %{conversationCount} %{conversationLabel} στον;",
+    "GO_BACK_LABEL": "Πίσω",
+    "ASSIGN_LABEL": "Αντιστοίχιση",
+    "YES": "Ναι",
+    "ASSIGN_AGENT_TOOLTIP": "Ανάθεση σε πράκτορα",
+    "ASSIGN_TEAM_TOOLTIP": "Ανάθεση ομάδας",
+    "ASSIGN_SUCCESFUL": "Οι σινομιλίες αντιστοιχήθηκαν επιτυχώς",
+    "ASSIGN_FAILED": "Αποτυχία στην αντιστοίχιση σινομιλιών, παρακαλώ δοκιμάστε αργότερα",
+    "RESOLVE_SUCCESFUL": "Οι σινομιλίες επιλύθηκαν επιτυχώς",
+    "RESOLVE_FAILED": "Αποτυχία στην αντιστοίχιση σινομιλιών, παρακαλώ δοκιμάστε αργότερα",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "Επιλέχθηκαν μόνο οι σινομιλίες που φαίνονται στην σελίδα.",
+    "AGENT_LIST_LOADING": "Φόρτωση πρακτόρων",
+    "UPDATE": {
+      "CHANGE_STATUS": "Αλλαγή κατάστασης",
+      "SNOOZE_UNTIL_NEXT_REPLY": "Αναβολή έως την επόμενη απάντηση",
+      "UPDATE_SUCCESFUL": "Η κατάσταση συνομιλίας ενημερώθηκε με επιτυχία.",
+      "UPDATE_FAILED": "Αποτυχία ενημέρωσης συνομιλιών, παρακαλώ προσπαθήστε ξανά"
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "Ανάθεση Ετικετών",
+      "NO_LABELS_FOUND": "Δεν βρέθηκαν πρότυπα για",
+      "ASSIGN_SELECTED_LABELS": "Ανάθεση επιλεγμένων ετικετών",
+      "ASSIGN_SUCCESFUL": "Επιτυχής ανάθεση ετικετών",
+      "ASSIGN_FAILED": "Αποτυχία στην ανάθεση ετικετών, παρακαλώ δοκιμάστε αργότερα"
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "Επιλογή Ομάδας",
+      "NONE": "Κανένα",
+      "NO_TEAMS_AVAILABLE": "Δεν έχουν προστεθεί ομάδες σε αυτόν τον λογαριασμό ακόμα.",
+      "ASSIGN_SELECTED_TEAMS": "Ανάθεση επιλεγμένης ομάδας",
+      "ASSIGN_SUCCESFUL": "Επιτυχής ανάθεση σε ομάδα",
+      "ASSIGN_FAILED": "Αδυναμία αντιστοίχισης ομάδας. Παρακαλώ δοκιμάστε ξανά"
+    }
+  }
+}

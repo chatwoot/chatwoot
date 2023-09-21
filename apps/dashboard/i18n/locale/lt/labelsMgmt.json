@@ -1,0 +1,83 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "Etiketės",
+    "HEADER_BTN_TXT": "Pridėti Etiketę",
+    "LOADING": "Gaunamos etiketės",
+    "SEARCH_404": "Šią užklausą atitinkančių elementų nėra",
+    "SIDEBAR_TXT": "<p><b>Etiketės</b> <p>Etiketės padeda suskirstyti pokalbius į kategorijas ir nustatyti jiems prioritetus. Galite priskirti etiketę pokalbiui iš šoninio skydelio. <br /><br />Etiketės susietos su paskyra ir gali būti naudojamos kuriant supaprastintus darbo procesus jūsų organizacijoje. Etiketei galite priskirti pasirinktą spalvą, kad būtų lengviau atpažinti etiketę. Galėsite rodyti etiketę šoninėje juostoje, kad galėtumėte lengvai filtruoti pokalbius.</p>",
+    "LIST": {
+      "404": "Šioje paskyroje nėra galimų etikečių.",
+      "TITLE": "Tvarkyti etiketes",
+      "DESC": "Etiketės leidžia grupuoti pokalbius kartu.",
+      "TABLE_HEADER": [
+        "Vardas",
+        "Aprašymas",
+        "Spalva"
+      ]
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Etiketės pavadinimas",
+        "PLACEHOLDER": "Etiketės pavadinimas",
+        "REQUIRED_ERROR": "Yra reikalingas etiketės pavadinimas",
+        "MINIMUM_LENGTH_ERROR": "Minimalus ilgis yra 2",
+        "VALID_ERROR": "Leidžiama naudoti tik abėcėlės raides, skaitmenis, brūkšnelius ir apatinį pabraukimą"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Aprašymas",
+        "PLACEHOLDER": "Etiketės aprašymas"
+      },
+      "COLOR": {
+        "LABEL": "Spalva"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "Rodyti etiketę šoninėje juostoje"
+      },
+      "EDIT": "Redaguoti",
+      "CREATE": "Sukurti",
+      "DELETE": "Ištrinti",
+      "CANCEL": "Atšaukti"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Add label to conversation",
+        "MULTIPLE_SUGGESTION": "Select this label",
+        "DESELECT": "Deselect label",
+        "DISMISS": "Dismiss suggestion"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Atsisakyti",
+      "ADD_SELECTED_LABELS": "Add selected labels",
+      "ADD_SELECTED_LABEL": "Add selected label",
+      "ADD_ALL_LABELS": "Add all labels"
+    },
+    "ADD": {
+      "TITLE": "Pridėti Etiketę",
+      "DESC": "Etiketės leidžia grupuoti pokalbius kartu.",
+      "API": {
+        "SUCCESS_MESSAGE": "Etiketė sėkmingai priskirta",
+        "ERROR_MESSAGE": "Įvyko klaida, prašau pabandykite dar kartą"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Tvarkyti Etiketę",
+      "API": {
+        "SUCCESS_MESSAGE": "Etiketė sėkmingai atnaujinta",
+        "ERROR_MESSAGE": "Įvyko klaida, prašau pabandykite dar kartą"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Ištrinti",
+      "API": {
+        "SUCCESS_MESSAGE": "Etiketė sėkmingai ištrinta",
+        "ERROR_MESSAGE": "Įvyko klaida, prašau pabandykite dar kartą"
+      },
+      "CONFIRM": {
+        "TITLE": "Patvirtinti Ištrynimą",
+        "MESSAGE": "Ar tikrai norite ištrinti ",
+        "YES": "Taip, Trinti ",
+        "NO": "Ne, Išsaugoti "
+      }
+    }
+  }
+}

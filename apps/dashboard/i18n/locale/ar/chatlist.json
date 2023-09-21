@@ -1,0 +1,109 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "جاري جلب المحادثات",
+    "LOAD_MORE_CONVERSATIONS": "تحميل المزيد من المحادثات",
+    "EOF": "تم تحميل كافة المحادثات 🎉",
+    "LIST": {
+      "404": "لا توجد محادثات نشطة في هذه المجموعة."
+    },
+    "TAB_HEADING": "المحادثات",
+    "MENTION_HEADING": "الإشارات",
+    "UNATTENDED_HEADING": "بدون حضور",
+    "SEARCH": {
+      "INPUT": "البحث عن جهات الاتصال، المحادثات، قوالب الردود الجاهزة .."
+    },
+    "FILTER_ALL": "الكل",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "محادثاتي",
+      "unassigned": "غير مسند",
+      "all": "الكل"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "فتح"
+      },
+      "resolved": {
+        "TEXT": "مغلقة"
+      },
+      "pending": {
+        "TEXT": "معلق"
+      },
+      "snoozed": {
+        "TEXT": "غفوة"
+      },
+      "all": {
+        "TEXT": "الكل"
+      }
+    },
+    "VIEW_FILTER": "عرض",
+    "SORT_TOOLTIP_LABEL": "ترتيب المحادثات",
+    "CHAT_SORT": {
+      "STATUS": "الحالة",
+      "ORDER_BY": "الترتيب بواسطة"
+    },
+    "CHAT_SORT_FILTER_ITEMS": {
+      "latest": {
+        "TEXT": "النشاط الأخير"
+      },
+      "sort_on_created_at": {
+        "TEXT": "تم إنشاؤها في"
+      },
+      "sort_on_priority": {
+        "TEXT": "الأولوية"
+      },
+      "sort_on_waiting_since": {
+        "TEXT": "Pending Response"
+      }
+    },
+    "ATTACHMENTS": {
+      "image": {
+        "CONTENT": "رسالة صورة"
+      },
+      "audio": {
+        "CONTENT": "رسالة صوتية"
+      },
+      "video": {
+        "CONTENT": "رسالة فيديو"
+      },
+      "file": {
+        "CONTENT": "مرفقات"
+      },
+      "location": {
+        "CONTENT": "الموقع الجغرافي"
+      },
+      "fallback": {
+        "CONTENT": "قام بمشاركة رابط"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "ترتيب المحادثات",
+      "DROPDOWN_TITLE": "ترتيب حسب",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "النشاط الأخير في",
+          "LABEL": "النشاط الأخير"
+        },
+        "CREATED_AT": {
+          "NAME": "تم إنشاؤها في",
+          "LABEL": "تم إنشاؤها في"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Last user message at",
+          "LABEL": "Last message"
+        }
+      }
+    },
+    "RECEIVED_VIA_EMAIL": "تم تلقيه عبر البريد الإلكتروني",
+    "VIEW_TWEET_IN_TWITTER": "عرض التغريدة في تويتر",
+    "REPLY_TO_TWEET": "الرد على هذه التغريدة",
+    "LINK_TO_STORY": "الذهاب إلى قصة الإنستقرام",
+    "SENT": "Sent successfully",
+    "READ": "تمت القراءة بنجاح",
+    "DELIVERED": "تم الإرسال بنجاح",
+    "NO_MESSAGES": "لا توجد رسائل",
+    "NO_CONTENT": "لم يتم العثور على محتوى",
+    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
+    "SHOW_QUOTED_TEXT": "Show Quoted Text",
+    "MESSAGE_READ": "قرائة"
+  }
+}

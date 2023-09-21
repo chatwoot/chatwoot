@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "Mengambil Integrasi",
+    "NO_HOOK_CONFIGURED": "Tidak ada integrasi %{integrationId} yang dikonfigurasi di akun ini.",
+    "HEADER": "Aplikasi",
+    "STATUS": {
+      "ENABLED": "Diaktifkan",
+      "DISABLED": "Nonaktif"
+    },
+    "CONFIGURE": "Konfigurasi",
+    "ADD_BUTTON": "Tambahkan hook baru",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "Konfirmasi penghapusan",
+        "ACCOUNT": "Putuskan koneksi"
+      },
+      "MESSAGE": {
+        "INBOX": "Apakah Anda yakin ingin menghapus?",
+        "ACCOUNT": "Apakah Anda yakin ingin memutuskan koneksi?"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "Ya, Hapus",
+        "ACCOUNT": "Ya, Putuskan Koneksi"
+      },
+      "CANCEL_BUTTON_TEXT": "Batalkan",
+      "API": {
+        "SUCCESS_MESSAGE": "Hook berhasil dihapus",
+        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+      }
+    },
+    "LIST": {
+      "FETCHING": "Mengambil hook integrasi",
+      "INBOX": "Kotak masuk",
+      "DELETE": {
+        "BUTTON_TEXT": "Hapus"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Pilih Kotak Masuk",
+          "PLACEHOLDER": "Pilih Kotak Masuk"
+        },
+        "SUBMIT": "Buat",
+        "CANCEL": "Batalkan"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Hook integrasi berhasil ditambahkan",
+        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Sambungkan"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "Putuskan"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow adalah platform pemahaman bahasa alami yang memungkinkan Anda merancang dan mengintegrasikan antarmuka pengguna percakapan ke aplikasi seluler, aplikasi web, perangkat, bot, sistem respons suara interaktif, dan lain-lain. <br /> <br /> Integrasi Dialogflow dengan %{installationName} memungkinkan Anda mengkonfigurasi bot Dialogflow dengan kotak masuk Anda, sehingga bot menangani pertanyaan awal dan menyerahkannya ke agen jika diperlukan. Dialogflow dapat digunakan untuk memfilter prospek, mengurangi beban kerja agen dengan memberikan pertanyaan yang sering diajukan, dan sebagainya. <br /> <br /> Untuk menambahkan Dialogflow, Anda perlu membuat Akun Layanan di konsol proyek Google Anda dan berbagi kredensialnya. Silakan lihat dokumen Dialogflow untuk informasi lebih lanjut."
+    }
+  }
+}

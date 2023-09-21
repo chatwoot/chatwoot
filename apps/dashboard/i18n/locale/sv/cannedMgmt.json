@@ -1,0 +1,76 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Svarsmallar",
+    "HEADER_BTN_TXT": "Lägg till svarsmall",
+    "LOADING": "Hämtar svarsmallar",
+    "SEARCH_404": "Det finns inga objekt som matchar denna fråga",
+    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+    "LIST": {
+      "404": "Det finns inga svarsmallar tillgängliga på detta konto.",
+      "TITLE": "Hantera svarsmallar",
+      "DESC": "Svarsmallar är fördefinierade mallar som kan användas för att snabbt skicka ut svar till ärenden.",
+      "TABLE_HEADER": [
+        "Kortkod",
+        "Innehåll",
+        "Åtgärder"
+      ]
+    },
+    "ADD": {
+      "TITLE": "Lägg till svarsmall",
+      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
+      "CANCEL_BUTTON_TEXT": "Avbryt",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Kortkod",
+          "PLACEHOLDER": "Please enter a short code",
+          "ERROR": "Kortkod krävs"
+        },
+        "CONTENT": {
+          "LABEL": "Innehåll",
+          "PLACEHOLDER": "Ange ett innehåll",
+          "ERROR": "Innehåll krävs"
+        },
+        "SUBMIT": "Skicka"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Svarsmallen har lagts till",
+        "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Redigera svarsmall",
+      "CANCEL_BUTTON_TEXT": "Avbryt",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Kortkod",
+          "PLACEHOLDER": "Ange en kortkod",
+          "ERROR": "Kortkod krävs"
+        },
+        "CONTENT": {
+          "LABEL": "Innehåll",
+          "PLACEHOLDER": "Ange ett innehåll",
+          "ERROR": "Innehåll krävs"
+        },
+        "SUBMIT": "Skicka"
+      },
+      "BUTTON_TEXT": "Redigera",
+      "API": {
+        "SUCCESS_MESSAGE": "Svarsmallen har uppdaterats",
+        "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Radera",
+      "API": {
+        "SUCCESS_MESSAGE": "Svarsmallen har tagits bort",
+        "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
+      },
+      "CONFIRM": {
+        "TITLE": "Bekräfta borttagning",
+        "MESSAGE": "Är du säker på att ta bort ",
+        "YES": "Ja, ta bort ",
+        "NO": "Nej, behåll "
+      }
+    }
+  }
+}

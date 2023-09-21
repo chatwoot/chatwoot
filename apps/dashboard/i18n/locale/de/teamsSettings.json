@@ -1,0 +1,125 @@
+{
+  "TEAMS_SETTINGS": {
+    "NEW_TEAM": "Neues Team erstellen",
+    "HEADER": "Teams",
+    "SIDEBAR_TXT": "<p><b>Teams</b></p> Mit <p>Teams können Sie Ihre Agenten basierend auf ihren Verantwortlichkeiten in Gruppen organisieren. <br /> Ein Agent kann mehreren Teams angehören. Sie können Konversationen einem Team zuweisen, wenn Sie zusammenarbeiten. </p>",
+    "LIST": {
+      "404": "Es wurden noch keine Teams auf diesem Konto erstellt.",
+      "EDIT_TEAM": "Team bearbeiten"
+    },
+    "CREATE_FLOW": {
+      "CREATE": {
+        "TITLE": "Neues Team erstellen",
+        "DESC": "Fügen Sie Ihrem neuen Team einen Titel und eine Beschreibung hinzu."
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "Agenten zum Team hinzufügen",
+        "TITLE": "Agenten zum Team hinzufügen - %{teamName}",
+        "DESC": "Fügen Sie Agenten zu Ihrem neu erstellten Team hinzu. So können Sie bei Konversationen als Team zusammenarbeiten, erhalten Sie Benachrichtigungen über neue Ereignisse in der gleichen Konversation."
+      },
+      "WIZARD": [
+        {
+          "title": "Erstellen",
+          "route": "settings_team_new",
+          "body": "Erstellen Sie ein neues Team aus Agenten."
+        },
+        {
+          "title": "Agenten hinzufügen",
+          "route": "settings_teams_add_agents",
+          "body": "Agenten zum Team hinzufügen."
+        },
+        {
+          "title": "Abschließen",
+          "route": "settings_teams_finish",
+          "body": "Sie sind bereit zu gehen!"
+        }
+      ]
+    },
+    "EDIT_FLOW": {
+      "CREATE": {
+        "TITLE": "Teamdetails bearbeiten",
+        "DESC": "Titel und Beschreibung für Ihr Team bearbeiten.",
+        "BUTTON_TEXT": "Team aktualisieren"
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "Agenten im Team aktualisieren",
+        "TITLE": "Agenten zum Team %{teamName} hinzufügen",
+        "DESC": "Fügen Sie Agenten zu Ihrem neu erstellten Team hinzu. Alle hinzugefügten Agenten werden benachrichtigt, wenn diesem Team eine Unterhaltung zugewiesen wird."
+      },
+      "WIZARD": [
+        {
+          "title": "Teamdetails",
+          "route": "settings_teams_edit",
+          "body": "Name, Beschreibung und andere Details ändern."
+        },
+        {
+          "title": "Agenten bearbeiten",
+          "route": "settings_teams_edit_members",
+          "body": "Verwalten Sie Agenten in Ihrem Team."
+        },
+        {
+          "title": "Fertig",
+          "route": "settings_teams_edit_finish",
+          "body": "Geschafft!"
+        }
+      ]
+    },
+    "TEAM_FORM": {
+      "ERROR_MESSAGE": "Die Teamdetails konnten nicht gespeichert werden. Versuchen Sie es nochmal."
+    },
+    "AGENTS": {
+      "AGENT": "Agent",
+      "EMAIL": "E-Mail",
+      "BUTTON_TEXT": "Agenten hinzufügen",
+      "ADD_AGENTS": "Agenten zu Ihrem Team hinzufügen...",
+      "SELECT": "Auswählen",
+      "SELECT_ALL": "Alle Agenten auswählen",
+      "SELECTED_COUNT": "%{selected} von %{total} Agenten ausgewählt."
+    },
+    "ADD": {
+      "TITLE": "Agenten zum Team %{teamName} hinzufügen",
+      "DESC": "Fügen Sie Agenten zu Ihrem neu erstellten Team hinzu. So können Sie bei Konversationen als Team zusammenarbeiten und erhalten Benachrichtigungen über neue Ereignisse in der gleichen Konversation.",
+      "SELECT": "Auswählen",
+      "SELECT_ALL": "Alle Agenten auswählen",
+      "SELECTED_COUNT": "%{selected} von %{total} Agenten ausgewählt.",
+      "BUTTON_TEXT": "Agenten hinzufügen",
+      "AGENT_VALIDATION_ERROR": "Wählen Sie mindestens einen Agenten aus."
+    },
+    "FINISH": {
+      "TITLE": "Ihr Team ist bereit!",
+      "MESSAGE": "Sie können jetzt als Team an Gesprächen zusammenarbeiten. Viel Spaß beim Unterstützen ",
+      "BUTTON_TEXT": "Fertig"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Löschen",
+      "API": {
+        "SUCCESS_MESSAGE": "Das Team wurde erfolgreich gelöscht.",
+        "ERROR_MESSAGE": "Das Team konnte nicht gelöscht werden. Versuchen Sie es erneut."
+      },
+      "CONFIRM": {
+        "TITLE": "Sind Sie sicher, dass Sie %{teamName} löschen möchten",
+        "PLACE_HOLDER": "Bitte geben Sie {teamName} zur Bestätigung ein",
+        "MESSAGE": "Das Löschen des Teams wird die Teamzuordnung aus den Konversationen entfernen, die diesem Team zugewiesen wurden.",
+        "YES": "Löschen ",
+        "NO": "Abbrechen"
+      }
+    },
+    "SETTINGS": "Einstellungen",
+    "FORM": {
+      "UPDATE": "Team aktualisieren",
+      "CREATE": "Team erstellen",
+      "NAME": {
+        "LABEL": "Teamname",
+        "PLACEHOLDER": "Beispiel: Vertrieb, Kundendienst"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Teambeschreibung",
+        "PLACEHOLDER": "Kurze Beschreibung zu diesem Team."
+      },
+      "AUTO_ASSIGN": {
+        "LABEL": "Automatische Zuweisung in diesem Team aktivieren."
+      },
+      "SUBMIT_CREATE": "Neues Team erstellen"
+    }
+  }
+}

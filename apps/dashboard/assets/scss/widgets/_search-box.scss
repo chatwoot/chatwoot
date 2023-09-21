@@ -1,0 +1,18 @@
+.search {
+  @include flex;
+  @include flex-align($x: left, $y: middle);
+  @include flex-shrink;
+
+  padding: $space-one $space-normal;
+  transition: all 0.3s var(--ease-in-out-quad);
+
+  > .icon {
+    color: $medium-gray;
+    font-size: $font-size-medium;
+  }
+
+  > input {
+    @include ghost-input();
+    margin: 0;
+  }
+}

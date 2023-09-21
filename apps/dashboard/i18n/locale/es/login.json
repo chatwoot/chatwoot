@@ -1,0 +1,27 @@
+{
+  "LOGIN": {
+    "TITLE": "Iniciar sesión en Chatwoot",
+    "EMAIL": {
+      "LABEL": "E-mail",
+      "PLACEHOLDER": "Email por ejemplo: alguien@ejemplo.com",
+      "ERROR": "Por favor, introduzca una dirección de correo válida"
+    },
+    "PASSWORD": {
+      "LABEL": "Contraseña",
+      "PLACEHOLDER": "Contraseña"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Inicio de sesión exitoso",
+      "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde",
+      "UNAUTH": "Nombre de usuario / Contraseña incorrecto. Inténtelo de nuevo"
+    },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Iniciar sesión con Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Por favor, utiliza el correo electrónico de tu empresa para iniciar sesión",
+      "NO_ACCOUNT_FOUND": "No pudimos encontrar una cuenta para tu dirección de correo electrónico."
+    },
+    "FORGOT_PASSWORD": "¿Olvidaste tu contraseña?",
+    "CREATE_NEW_ACCOUNT": "Crear nueva cuenta",
+    "SUBMIT": "Iniciar sesión"
+  }
+}

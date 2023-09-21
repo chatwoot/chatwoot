@@ -1,0 +1,78 @@
+{
+  "MACROS": {
+    "HEADER": "Makrók",
+    "HEADER_BTN_TXT": "Új makró hozzáadása",
+    "HEADER_BTN_TXT_SAVE": "Makró mentése",
+    "LOADING": "Makrók lekérdezése",
+    "SIDEBAR_TXT": "<p><b>Makrók</b><p>A makró olyan mentett műveletek halmaza, amelyek segítségével az ügyfélszolgálati ügynökök könnyedén elvégezhetik a feladatokat. Az ügynökök meghatározhatnak egy sor műveletet, mint például egy beszélgetés címkével való címkézése, e-mail átirat küldése, egyéni tulajdonság frissítése stb., Ezeket a műveleteket egyetlen kattintással végrehajthatják. Amikor az ügynökök futtatják a makrót, a műveletek egymás után, a meghatározott sorrendben hajtódnak végre. A makrók javítják a produktivitást és növelik a műveletek következetességét. </p><p>A makró kétféleképpen lehet hasznos: </p><p><b>Ügynöki asszisztensként:</b> Ha egy ügynök többször végrehajt egy műveletsort, makróként mentheti el, és egyetlen kattintással végrehajthatja az összes műveletet.</p><p><b>Csapattag bevonásának lehetősége:</b> Minden ügynöknek sok különböző ellenőrzést/műveletet kell végrehajtania minden beszélgetés során. Egy új ügyfélszolgálati tag felvétele egyszerű lesz, ha előre meghatározott makrók állnak rendelkezésre a fiókban. Az egyes lépések részletes leírása helyett a menedzser/csapatvezető rámutathat a különböző forgatókönyvekben használt makrókra.</p>",
+    "ERROR": "Valami elromlott, kérjük töltsd próbáld újra",
+    "ORDER_INFO": "A makrók a műveletek hozzáadásának sorrendjében fognak futni. A makrókat áthúzással át tudod rendezni.",
+    "ADD": {
+      "FORM": {
+        "NAME": {
+          "LABEL": "Makró neve",
+          "PLACEHOLDER": "Írd ide a makród nevét",
+          "ERROR": "Név megadása szükséges a makró létrehozásához"
+        },
+        "ACTIONS": {
+          "LABEL": "Műveletek"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Makró sikeresen hozzáadva",
+        "ERROR_MESSAGE": "Nem lehet létrehozni a makrót. Kérlek, próbáld újra később"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Név",
+        "Létrehozta",
+        "Utoljára szerkesztette:",
+        "Láthatóság"
+      ],
+      "404": "Nem találtunk makrót"
+    },
+    "DELETE": {
+      "TOOLTIP": "Makró törlése",
+      "CONFIRM": {
+        "MESSAGE": "Biztos abban, hogy törli ",
+        "YES": "Igen, Törlés",
+        "NO": "Nem"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Makró sikeresen törölve",
+        "ERROR_MESSAGE": "Hiba történt a makró törlése közben. Kérlek próbáld újra később"
+      }
+    },
+    "EDIT": {
+      "TOOLTIP": "Makró szerkesztése",
+      "API": {
+        "SUCCESS_MESSAGE": "Makró frissítve",
+        "ERROR_MESSAGE": "Nem sikerült frissíteni a makrót, kérlek próbáld újra később"
+      }
+    },
+    "EDITOR": {
+      "START_FLOW": "Flow indítása",
+      "END_FLOW": "Flow befejezése",
+      "LOADING": "Makró betöltése",
+      "ADD_BTN_TOOLTIP": "Akció hozzáadása",
+      "DELETE_BTN_TOOLTIP": "Akció törlése",
+      "VISIBILITY": {
+        "LABEL": "Makró láthatósága",
+        "GLOBAL": {
+          "LABEL": "Nyilvános",
+          "DESCRIPTION": "Ez a makró nyilvánosan elérhető minden ügynök számára ebben a fiókban."
+        },
+        "PERSONAL": {
+          "LABEL": "Privát",
+          "DESCRIPTION": "Ez a makró privát, csak Te látod és nem lesz elérhető mások számára."
+        }
+      }
+    },
+    "EXECUTE": {
+      "BUTTON_TOOLTIP": "Futtatás",
+      "PREVIEW": "Makró előnézet",
+      "EXECUTED_SUCCESSFULLY": "Makró végrehajtása sikeres"
+    }
+  }
+}

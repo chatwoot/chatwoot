@@ -1,0 +1,214 @@
+{
+  "INTEGRATION_SETTINGS": {
+    "HEADER": "Ενοποιήσεις",
+    "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Εγγεγραμμένα Συμβάντα",
+      "FORM": {
+        "CANCEL": "Άκυρο",
+        "DESC": "Τα συμβάντα Webhook μας εφοδιάζουν με πληροφορίες πραγματικού χρόνου σχετικά με το τι συμβαίνει στο λογαριασμό σας στο Chatwoot. Παρακαλώ εισάγετε ένα έγκυρο URL στην σχετική ρύθμιση.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Συμβάντα",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Δημιουργήθηκε Συνομιλία",
+            "CONVERSATION_STATUS_CHANGED": "Η κατάσταση της συνομιλίας άλλαξε",
+            "CONVERSATION_UPDATED": "Η Συνομιλία Ενημερώθηκε",
+            "MESSAGE_CREATED": "Δημιουργήθηκε Μήνυμα",
+            "MESSAGE_UPDATED": "Το μήνυμα ενημερώθηκε",
+            "WEBWIDGET_TRIGGERED": "Το widget συνομιλίας άνοιξε από τον χρήστη",
+            "CONTACT_CREATED": "Contact created",
+            "CONTACT_UPDATED": "Contact updated"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "Σύνδεσμος Webhook",
+          "PLACEHOLDER": "Παράδειγμα: https://www.hmu.gr/api/webhook",
+          "ERROR": "Παρακαλώ εισάγετε ένα έγκυρο URL"
+        },
+        "EDIT_SUBMIT": "Ενημέρωση Webhook",
+        "ADD_SUBMIT": "Δημιουργία Webhook"
+      },
+      "TITLE": "Webhook",
+      "CONFIGURE": "Διαμόρφωση",
+      "HEADER": "Ρυθμίσεις Webhook",
+      "HEADER_BTN_TXT": "Προσθήκη Webhook",
+      "LOADING": "Λήψη σχετικών webhooks",
+      "SEARCH_404": "Δεν υπάρχουν δεδομένα που να ταιριάζουν με αυτό το ερώτημα",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Τα Webhooks είναι κλήσεις HTTP οι οποίες μπορούν να οριστούν για κάθε λογαριασμό. Ενεργοποιούνται από τα συμβάντα στο Chatwoot όπως για παράδειγμα την έναρξη μια συνομιλίας. Μπορείτε να δημιουργείσετε πάνω από ένα για τον λογαριασμό σας. <br /><br /> Για την δημιουργία ενός <b>webhook</b>, Πατήστε στο κουμπί <b>Προσθήκη webhook</b>. Μπορείτε επίσης να αφαιρέσετε ένα υπάρχων webhook πατώντας στο σχετική κουμπί Διαγραφή.</p>",
+      "LIST": {
+        "404": "Δεν έχουν δημιουργηθεί webhooks για αυτόν το λογαριασμό.",
+        "TITLE": "Διαχείριση webhooks",
+        "TABLE_HEADER": [
+          "ΣΥΝΔΕΣΜΟΣ Webhook",
+          "ΕΝΕΡΓΕΙΕΣ"
+        ]
+      },
+      "EDIT": {
+        "BUTTON_TEXT": "Επεξεργασία",
+        "TITLE": "Επεξεργασία webhook",
+        "API": {
+          "SUCCESS_MESSAGE": "Οι ρυθμίσεις του Webhook ενημερώθηκαν με επιτυχία",
+          "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
+        }
+      },
+      "ADD": {
+        "CANCEL": "Άκυρο",
+        "TITLE": "Προσθήκη Νέου webhook",
+        "API": {
+          "SUCCESS_MESSAGE": "Η διαμόρφωση Webhook προστέθηκε με επιτυχία",
+          "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
+        }
+      },
+      "DELETE": {
+        "BUTTON_TEXT": "Διαγραφή",
+        "API": {
+          "SUCCESS_MESSAGE": "Το Webhook διαγράφηκε επιτυχώς",
+          "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
+        },
+        "CONFIRM": {
+          "TITLE": "Επιβεβαίωση Διαγραφής",
+          "MESSAGE": "Είστε βέβαιοι να διαγράψετε το webhook? (%{webhookURL})",
+          "YES": "Ναι, Διέγραψε ",
+          "NO": "Όχι, Κράτησε τον/την"
+        }
+      }
+    },
+    "SLACK": {
+      "DELETE": "Διαγραφή",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Delete the integration",
+        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+      },
+      "HELP_TEXT": {
+        "TITLE": "Χρήση Slack Integration",
+        "BODY": "<br/><p>Το Chatwoot θα συγχρονίσει τώρα όλες τις εισερχόμενες συνομιλίες στο κανάλι <b><i>πελατών-συνομιλιών</i></b> μέσα στο slack χώρο εργασίας σας.</p><p>Απάντηση σε μια συνομιλία από <b><i>συνομιλίες πελατών</i></b> το κανάλι slack θα δημιουργήσει μια απάντηση για στον πελάτη μέσω chatwoot.</p><p>Ξεκινήστε τις απαντήσεις με το <b><i>note:</i></b> για να δημιουργήσετε ιδιωτικές σημειώσεις αντί για απαντήσεις.</p><p>Αν ο χρήστης στο slack έχει προφίλ πράκτορα στο chatwoot με το ίδιο email, οι απαντήσεις θα συσχετιστούν ανάλογα.</p><p>Εφόσον δεν έχει προφίλ συνδεδεμένου πράκτορα, οι απαντήσεις θα γίνουν από το προφίλ bot.</p>",
+        "SELECTED": "selected"
+      },
+      "SELECT_CHANNEL": {
+        "OPTION_LABEL": "Select a channel",
+        "UPDATE": "Ενημέρωση",
+        "BUTTON_TEXT": "Connect channel",
+        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
+        "ATTENTION_REQUIRED": "Attention required",
+        "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
+      },
+      "UPDATE_ERROR": "There was an error updating the integration, please try again",
+      "UPDATE_SUCCESS": "The channel is connected successfully",
+      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
+    },
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Κάντε κλικ εδώ για να συμμετάσχετε",
+      "LEAVE_THE_ROOM": "Αποχώρηση",
+      "START_VIDEO_CALL_HELP_TEXT": "Ξεκινήστε μια νέα βιντεοκλήση με τον πελάτη",
+      "JOIN_ERROR": "Παρουσιάστηκε σφάλμα κατά τη σύνδεση της κλήσης, παρακαλώ προσπαθήστε ξανά",
+      "CREATE_ERROR": "Παρουσιάστηκε σφάλμα κατά τη δημιουργία ενός συνδέσμου συνάντησης, παρακαλώ προσπαθήστε ξανά"
+    },
+    "OPEN_AI": {
+      "AI_ASSIST": "AI Assist",
+      "WITH_AI": " %{option} with AI ",
+      "OPTIONS": {
+        "REPLY_SUGGESTION": "Reply Suggestion",
+        "SUMMARIZE": "Summarize",
+        "REPHRASE": "Improve Writing",
+        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
+        "SHORTEN": "Shorten",
+        "EXPAND": "Expand",
+        "MAKE_FRIENDLY": "Change message tone to friendly",
+        "MAKE_FORMAL": "Use formal tone",
+        "SIMPLIFY": "Simplify"
+      },
+      "ASSISTANCE_MODAL": {
+        "DRAFT_TITLE": "Draft content",
+        "GENERATED_TITLE": "Generated content",
+        "AI_WRITING": "AI is writing",
+        "BUTTONS": {
+          "APPLY": "Use this suggestion",
+          "CANCEL": "Άκυρο"
+        }
+      },
+      "CTA_MODAL": {
+        "TITLE": "Integrate with OpenAI",
+        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
+        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "BUTTONS": {
+          "NEED_HELP": "Χρειάζεστε βοήθεια;",
+          "DISMISS": "Dismiss",
+          "FINISH": "Finish Setup"
+        },
+        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
+        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
+      },
+      "TITLE": "Improve With AI",
+      "SUMMARY_TITLE": "Summary with AI",
+      "REPLY_TITLE": "Reply suggestion with AI",
+      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TONE": {
+        "TITLE": "Tone",
+        "OPTIONS": {
+          "PROFESSIONAL": "Professional",
+          "FRIENDLY": "Friendly"
+        }
+      },
+      "BUTTONS": {
+        "GENERATE": "Generate",
+        "GENERATING": "Generating...",
+        "CANCEL": "Άκυρο"
+      },
+      "GENERATE_ERROR": "There was an error processing the content, please try again"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Διαγραφή",
+      "API": {
+        "SUCCESS_MESSAGE": "Η ενοποίηση διαγράφηκε επιτυχώς"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Σύνδεση"
+    },
+    "DASHBOARD_APPS": {
+      "TITLE": "Εφαρμογές Dashboard",
+      "HEADER_BTN_TXT": "Προσθήκη νέας εφαρμογής Dashboard",
+      "SIDEBAR_TXT": "<p><b>Εφαρμογές Dashboard</b></p><p>Οι εφαρμογές Dashboard επιτρέπουν σε οργανισμούς να ενσωματώσουν μια εφαρμογή μέσα στο ταμπλό Chatwoot για να παρέχουν το πλαίσιο για τους πράκτορες υποστήριξης πελατών. Αυτό το χαρακτηριστικό σας επιτρέπει να δημιουργήσετε μια εφαρμογή ανεξάρτητα και ενσωματωμένη που μέσα στον πίνακα ελέγχου για να παρέχει πληροφορίες χρήστη, τις παραγγελίες τους, ή το ιστορικό προηγούμενων πληρωμών τους.</p><p>Όταν ενσωματώσετε την εφαρμογή σας χρησιμοποιώντας το Dashboard στο Chatwoot, η εφαρμογή σας θα πάρει το πλαίσιο της συνομιλίας και θα επικοινωνήσει ως ένα παράθυρο εκδήλωσης. Εφαρμόστε έναν ακροατή για το γεγονός του μηνύματος στη σελίδα σας για να λάβετε το πλαίσιο.</p><p>Για να προσθέσετε μια νέα εφαρμογή ταμπλό, κάντε κλικ στο κουμπί 'Προσθήκη μιας νέας εφαρμογής Dashboard'.</p>",
+      "DESCRIPTION": "Οι εφαρμογές Dashboard επιτρέπουν στους οργανισμούς να ενσωματώσουν μια εφαρμογή μέσα στον πίνακα ελέγχου για να παρέχουν το περιεχόμενο για τους πράκτορες υποστήριξης πελατών. Αυτή η λειτουργία σας επιτρέπει να δημιουργήσετε μια εφαρμογή ανεξάρτητα και ενσωματωμένη που θα παρέχει πληροφορίες χρήστη, τις παραγγελίες τους, ή το ιστορικό προηγούμενων πληρωμών τους.",
+      "LIST": {
+        "404": "Δεν έχουν δημιουργηθεί εφαρμογές Dashboard για αυτόν το λογαριασμό",
+        "LOADING": "Λήψη εφαρμογών dashboard ...",
+        "TABLE_HEADER": [
+          "Όνομα",
+          "Endpoint"
+        ],
+        "EDIT_TOOLTIP": "Επεξεργασία εφαρμογής",
+        "DELETE_TOOLTIP": "Διαγραφή εφαρμογής"
+      },
+      "FORM": {
+        "TITLE_LABEL": "Όνομα",
+        "TITLE_PLACEHOLDER": "Εισάγετε όνομα για την εφαρμογή dashboard",
+        "TITLE_ERROR": "Απαιτείται ένα όνομα για την εφαρμογή dashboard",
+        "URL_LABEL": "Endpoint",
+        "URL_PLACEHOLDER": "Εισάγετε το URL του endpoint όπου φιλοξενείται η εφαρμογή σας",
+        "URL_ERROR": "Απαιτείται ένα έγκυρο URL"
+      },
+      "CREATE": {
+        "HEADER": "Προσθήκη νέας εφαρμογής Dashboard",
+        "FORM_SUBMIT": "Καταχώρηση",
+        "FORM_CANCEL": "Άκυρο",
+        "API_SUCCESS": "Η εφαρμογή dashboard ρυθμίστηκε επιτυχώς",
+        "API_ERROR": "Δεν μπορούμε να δημιουργήσουμε μια εφαρμογή. Παρακαλώ δοκιμάστε ξανά αργότερα"
+      },
+      "UPDATE": {
+        "HEADER": "Επεξεργασία εφαρμογής dashboard",
+        "FORM_SUBMIT": "Ενημέρωση",
+        "FORM_CANCEL": "Άκυρο",
+        "API_SUCCESS": "Η εφαρμογή dashboard ενημερώθηκε με επιτυχία",
+        "API_ERROR": "Δεν ήταν δυνατή η ενημέρωση της εφαρμογής. Παρακαλώ δοκιμάστε ξανά αργότερα"
+      },
+      "DELETE": {
+        "CONFIRM_YES": "Ναι, Διέγραψε την",
+        "CONFIRM_NO": "Όχι, Κράτησε την",
+        "TITLE": "Επιβεβαίωση Διαγραφής",
+        "MESSAGE": "Είστε βέβαιοι να διαγράψετε την εφαρμογή - %{appName};",
+        "API_SUCCESS": "Η εφαρμογή dashboard διαγράφηκε επιτυχώς",
+        "API_ERROR": "Δεν μπορούμε να διαγράψουμε την εφαρμογή. Παρακαλώ δοκιμάστε ξανά αργότερα"
+      }
+    }
+  }
+}

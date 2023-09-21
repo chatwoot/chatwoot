@@ -1,0 +1,76 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Réponses standardisées",
+    "HEADER_BTN_TXT": "Ajouter une réponse standardisée",
+    "LOADING": "Récupération des réponses standardisées",
+    "SEARCH_404": "Il n'y a aucun élément correspondant à cette requête",
+    "SIDEBAR_TXT": "<p><b>Réponses standardisées</b> </p><p> Les réponses standardisées sont des modèles de réponse enregistrés qui peuvent être utilisés pour envoyer rapidement une réponse à une conversation. </p><p> Pour créer une réponse en conserve, cliquez simplement sur <b>Ajouter une réponse en conserve</b>. Vous pouvez également modifier ou supprimer une réponse en conserve existante en cliquant sur le bouton Modifier ou Supprimer </p><p> Les réponses en conserve sont utilisées à l'aide de <b>codes courts</b>. Les agents peuvent accéder aux réponses standardisées lors d'un chat en tapant <b>'/'</b> suivi du code court. </p>",
+    "LIST": {
+      "404": "Il n'y a aucune réponse standardisée disponible dans ce compte.",
+      "TITLE": "Gérer les réponses standardisées",
+      "DESC": "Les réponses standardisées sont des modèles de réponse prédéfinis qui peuvent être utilisés pour envoyer rapidement des réponses aux tickets.",
+      "TABLE_HEADER": [
+        "Raccourcis",
+        "Contenu",
+        "Actions"
+      ]
+    },
+    "ADD": {
+      "TITLE": "Ajouter une réponse standardisée",
+      "DESC": "Les réponses en conserve sont des modèles de réponse enregistrés qui peuvent être utilisés pour envoyer rapidement une réponse à une conversation.",
+      "CANCEL_BUTTON_TEXT": "Annuler",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Raccourcis",
+          "PLACEHOLDER": "Veuillez entrer un code court",
+          "ERROR": "Le raccourci est requis"
+        },
+        "CONTENT": {
+          "LABEL": "Contenu",
+          "PLACEHOLDER": "Veuillez saisir un contenu",
+          "ERROR": "Le contenu est requis"
+        },
+        "SUBMIT": "Envoyer"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Réponse standardisée ajoutée avec succès",
+        "ERROR_MESSAGE": "Impossible de se connecter au serveur Woot, veuillez réessayer plus tard"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Modifier la réponse standardisée",
+      "CANCEL_BUTTON_TEXT": "Annuler",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Raccourci",
+          "PLACEHOLDER": "Veuillez entrer un raccourci",
+          "ERROR": "Le raccourci est requis"
+        },
+        "CONTENT": {
+          "LABEL": "Contenu",
+          "PLACEHOLDER": "Veuillez saisir un contenu",
+          "ERROR": "Le contenu est requis"
+        },
+        "SUBMIT": "Envoyer"
+      },
+      "BUTTON_TEXT": "Modifier",
+      "API": {
+        "SUCCESS_MESSAGE": "La réponse standardisée à été mise à jour avec succès",
+        "ERROR_MESSAGE": "Impossible de se connecter au serveur Woot, veuillez réessayer plus tard"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Supprimer",
+      "API": {
+        "SUCCESS_MESSAGE": "Réponse standardisée supprimée avec succès",
+        "ERROR_MESSAGE": "Impossible de se connecter au serveur Woot, veuillez réessayer plus tard"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirmer la suppression",
+        "MESSAGE": "Êtes-vous sûr de vouloir supprimer ",
+        "YES": "Oui, supprimer ",
+        "NO": "Non, Conserver "
+      }
+    }
+  }
+}

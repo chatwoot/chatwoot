@@ -1,0 +1,126 @@
+{
+  "CAMPAIGN": {
+    "HEADER": "Akcijos",
+    "SIDEBAR_TXT": "Proaktyvūs pranešimai leidžia klientui siųsti išeinančius pranešimus savo kontaktams, kurie sukeltų daugiau pokalbių. Norėdami sukurti naują kampaniją, spustelėkite <b>Pridėti kampaniją</b>. Taip pat galite redaguoti arba ištrinti esamą reklamos kampaniją spustelėdami mygtuką Redaguoti arba Ištrinti.",
+    "HEADER_BTN_TXT": {
+      "ONE_OFF": "Sukurti vieną iš akcijų",
+      "ONGOING": "Sukurkite nuolatinę akciją"
+    },
+    "ADD": {
+      "TITLE": "Sukurti akciją",
+      "DESC": "Proaktyvūs pranešimai leidžia klientui siųsti išeinančius pranešimus savo kontaktams, kas paskatina daugiau pokalbių.",
+      "CANCEL_BUTTON_TEXT": "Atšaukti",
+      "CREATE_BUTTON_TEXT": "Sukurti",
+      "FORM": {
+        "TITLE": {
+          "LABEL": "Pavadinimas",
+          "PLACEHOLDER": "Įveskite akcijos pavadinimą",
+          "ERROR": "Yra reikalingas pavadinimas"
+        },
+        "SCHEDULED_AT": {
+          "LABEL": "Suplanuotas laikas",
+          "PLACEHOLDER": "Prašau pasirinkti laiką",
+          "CONFIRM": "Patvirtinti",
+          "ERROR": "Būtinas suplanuotas laikas"
+        },
+        "AUDIENCE": {
+          "LABEL": "Auditorija",
+          "PLACEHOLDER": "Pažymėti klieto etiketes",
+          "ERROR": "Reikalinga auditorija"
+        },
+        "INBOX": {
+          "LABEL": "Pasirinkti gautų laiškų aplanką",
+          "PLACEHOLDER": "Pasirinkti gautų laiškų aplanką",
+          "ERROR": "Yra reikalingas gautų laiškų aplankas"
+        },
+        "MESSAGE": {
+          "LABEL": "Žinutė",
+          "PLACEHOLDER": "Įveskite akcijos pranešimą",
+          "ERROR": "Yra reikalingas pranešimas"
+        },
+        "SENT_BY": {
+          "LABEL": "Siuntėjas",
+          "PLACEHOLDER": "Pasirinkite akcijos turinį",
+          "ERROR": "Yra reikalingas siuntėjas"
+        },
+        "END_POINT": {
+          "LABEL": "URL",
+          "PLACEHOLDER": "Prašome įvesti URL adresą",
+          "ERROR": "Prašome įvesti tesingą URL adresą"
+        },
+        "TIME_ON_PAGE": {
+          "LABEL": "Laikas puslapyje (sekundės)",
+          "PLACEHOLDER": "Prašome įvesti laiką",
+          "ERROR": "Nurodykite laiką puslapyje"
+        },
+        "ENABLED": "Leisti akciją",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "Aktyvuokite tik darbo valandomis",
+        "SUBMIT": "Pridėti Akciją"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Akcija sukurta sėkmingai",
+        "ERROR_MESSAGE": "Įvyko klaida. Prašau, pabandykite dar kartą."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Ištrinti",
+      "CONFIRM": {
+        "TITLE": "Patvirtinti Ištrynimą",
+        "MESSAGE": "Ar tikrai norite ištrinti?",
+        "YES": "Taip, Trinti ",
+        "NO": "Ne, Išsaugoti "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Akcija ištrinta sėkmingai",
+        "ERROR_MESSAGE": "Nepavyko ištrinti akcijos. Pabandykite dar kartą vėliau."
+      }
+    },
+    "EDIT": {
+      "TITLE": "Redaguoti akciją",
+      "UPDATE_BUTTON_TEXT": "Atnaujinti",
+      "API": {
+        "SUCCESS_MESSAGE": "Akcija sėkmingai atnaujinta",
+        "ERROR_MESSAGE": "Įvyko klaida, prašau pabandykite dar kartą"
+      }
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "Akcijos užkraunamos...",
+      "404": "Nėra kampanijų, sukurtų šiam gautų laiškų aplankui.",
+      "TABLE_HEADER": {
+        "TITLE": "Pavadinimas",
+        "MESSAGE": "Žinutė",
+        "INBOX": "Gautų laiškų aplankas",
+        "STATUS": "Būsena",
+        "SENDER": "Siuntėjas",
+        "URL": "URL",
+        "SCHEDULED_AT": "Suplanuotas laikas",
+        "TIME_ON_PAGE": "Laikas(sekundės)",
+        "CREATED_AT": "Sukurta"
+      },
+      "BUTTONS": {
+        "ADD": "Pridėti",
+        "EDIT": "Redaguoti",
+        "DELETE": "Ištrinti"
+      },
+      "STATUS": {
+        "ENABLED": "Leisti",
+        "DISABLED": "Išjungta",
+        "COMPLETED": "Užbaigta",
+        "ACTIVE": "Aktyvus"
+      },
+      "SENDER": {
+        "BOT": "Botas"
+      }
+    },
+    "ONE_OFF": {
+      "HEADER": "Viena iš akcijų",
+      "404": "Nėra sukurtų vienkartinių akcijų",
+      "INBOXES_NOT_FOUND": "Sukurkite gautų SMS aplanką ir pridėkite akcijas"
+    },
+    "ONGOING": {
+      "HEADER": "Vykstančios akcijos",
+      "404": "Nėra sukurtų nuolatinių akcijų",
+      "INBOXES_NOT_FOUND": "Sukurkite svetainės gautų laiškų aplanką ir pridėkite akcijas"
+    }
+  }
+}

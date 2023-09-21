@@ -1,0 +1,76 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Brzi odgovori",
+    "HEADER_BTN_TXT": "Dodaj brzi odgovor",
+    "LOADING": "Preuzimanje brzih odgovora",
+    "SEARCH_404": "Nema stavki koje se poklapaju sa upitom",
+    "SIDEBAR_TXT": "<p><b>Brzi odgovori</b> </p><p> Brzi odgovori su sačuvani šabloni odgovora koji se mogu koristiti za brzo slanje odgovora u razgovoru. </p><p> Za pravljenje Brzih odgovora, samo kliknite na <b>Dodaj brzi odgovor</b>. Takođe možete urediti ili obrisati postojeći Brzi odgovor klikom na dugme Uredi ili Obriši. </p><p> Brzi odgovori se koriste uz pomoć <b>Brzih kodova</b>. Agenti mogu da pristupe brzim odgovorima tokom ćaskanja kucanjem <b>'/'</b> pa zatim brzog koda. </p>",
+    "LIST": {
+      "404": "Ne postoje brzi odgovori u ovom nalogu.",
+      "TITLE": "Upravljajte brzim odgovorima",
+      "DESC": "Brzi odgovori su predefinisani šabloni odgovora koji se mogu koristiti za slanje brzih odgovora na tikete.",
+      "TABLE_HEADER": [
+        "Brzi kod",
+        "Sadržaj",
+        "Akcije"
+      ]
+    },
+    "ADD": {
+      "TITLE": "Dodaj brzi odgovor",
+      "DESC": "Brzi odgovori su predefinisani šabloni odgovora koji se mogu koristiti za slanje brzih odgovora u razgovorima.",
+      "CANCEL_BUTTON_TEXT": "Otkaži",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Brzi kod",
+          "PLACEHOLDER": "Molim vas unesite brzi kod",
+          "ERROR": "Brzi kod je obavezan"
+        },
+        "CONTENT": {
+          "LABEL": "Sadržaj",
+          "PLACEHOLDER": "Molim vas unesite sadržaj",
+          "ERROR": "Sadržaj je obavezan"
+        },
+        "SUBMIT": "Pošalji"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Brzi odgovor je uspešno dodat",
+        "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Uredi brzi odgovor",
+      "CANCEL_BUTTON_TEXT": "Otkaži",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Brzi kod",
+          "PLACEHOLDER": "Unesite brzi kod",
+          "ERROR": "Brzi kod je obavezan"
+        },
+        "CONTENT": {
+          "LABEL": "Sadržaj",
+          "PLACEHOLDER": "Molim vas unesite sadržaj",
+          "ERROR": "Sadržaj je obavezan"
+        },
+        "SUBMIT": "Pošalji"
+      },
+      "BUTTON_TEXT": "Uredi",
+      "API": {
+        "SUCCESS_MESSAGE": "Brzi odgovor je uspešno izmenjen",
+        "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Obriši",
+      "API": {
+        "SUCCESS_MESSAGE": "Brzi odgovor je uspešno izbrisan",
+        "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
+      },
+      "CONFIRM": {
+        "TITLE": "Potvrdite brisanje",
+        "MESSAGE": "Sigurni ste da želite izbrisati ",
+        "YES": "Da, izbriši ",
+        "NO": "Ne, zadrži "
+      }
+    }
+  }
+}

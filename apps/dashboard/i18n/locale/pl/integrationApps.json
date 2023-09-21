@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "Pobieranie integracji",
+    "NO_HOOK_CONFIGURED": "W tym koncie nie skonfigurowano integracji %{integrationId}.",
+    "HEADER": "Aplikacje",
+    "STATUS": {
+      "ENABLED": "Włączone",
+      "DISABLED": "Wyłączone"
+    },
+    "CONFIGURE": "Skonfiguruj",
+    "ADD_BUTTON": "Dodaj nowy hook",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "Potwierdzenie usunięcia",
+        "ACCOUNT": "Rozłącz"
+      },
+      "MESSAGE": {
+        "INBOX": "Czy na pewno chcesz usunąć?",
+        "ACCOUNT": "Czy na pewno chcesz się rozłączyć?"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "Tak, usuń",
+        "ACCOUNT": "Tak, rozłącz"
+      },
+      "CANCEL_BUTTON_TEXT": "Anuluj",
+      "API": {
+        "SUCCESS_MESSAGE": "Hook został pomyślnie usunięty",
+        "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot, spróbuj ponownie później"
+      }
+    },
+    "LIST": {
+      "FETCHING": "Pobieranie hooków integracyjnych",
+      "INBOX": "Skrzynka odbiorcza",
+      "DELETE": {
+        "BUTTON_TEXT": "Usuń"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Wybierz skrzynkę odbiorczą",
+          "PLACEHOLDER": "Wybierz skrzynkę odbiorczą"
+        },
+        "SUBMIT": "Dodaj",
+        "CANCEL": "Anuluj"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Hook integracyjny został pomyślnie dodany",
+        "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot, spróbuj ponownie później"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Połącz"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "Rozłącz"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow to platforma do rozpoznawania naturalnego języka, która ułatwia projektowanie i integrację interfejsu rozmowy z użytkownikiem w aplikacjach mobilnych, aplikacjach internetowych, urządzeniach, botach, systemach interaktywnego systemu odpowiedzi głosowej itp. <br /> <br /> Integracja Dialogflow z %{installationName} umożliwia konfigurację bota Dialogflow z Twoimi skrzynkami odbiorczymi, co pozwala botowi obsługiwać zapytania początkowo i przekazywać je do agenta, gdy jest to potrzebne. Dialogflow można używać do kwalifikowania leadów, redukcji obciążenia agentów poprzez udzielanie odpowiedzi na często zadawane pytania itp. <br /> <br /> Aby dodać Dialogflow, musisz utworzyć Kontousługi w konsoli projektu Google i udostępnić poświadczenia. Więcej informacji można znaleźć w dokumentacji Dialogflow."
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Atsakymų Ruošiniai",
+    "HEADER_BTN_TXT": "Pridėti Atsakymą Ruošinį",
+    "LOADING": "Atsakymų Ruošinių Gavimas",
+    "SEARCH_404": "Šią užklausą atitinkančių elementų nėra",
+    "SIDEBAR_TXT": "<p><b>Atsakymų Ruošiniai</b> </p><p> Atsakymų Ruošiniai yra išsaugoti atsakymų šablonai, kuriuos galima naudoti norint greitai išsiųsti atsakymą į pokalbį. </p><p> Norėdami sukurti Atsakymų Ruošinį, tiesiog spustelėkite <b>Pridėti Atsakymo Ruošinį</b>. Taip pat galite redaguoti arba ištrinti esamą paruoštą Atsakymo Ruošinį spustelėdami mygtuką Redaguoti arba Trinti </p><p> Atsakymų Ruošiniai naudojami naudojant <b>trumpuosius kodus</b>. Agentai gali pasiekti paruoštus atsakymus dalyvaudami pokalbyje įvesdami <b>'/'</b> ir trumpąjį kodą. </p>",
+    "LIST": {
+      "404": "Šioje paskyroje nėra galimų atsakymų ruošinių.",
+      "TITLE": "Tvarkyti atsakymų ruošinius",
+      "DESC": "Atsakymų ruošiniai yra iš anksto nustatyti atsakymų šablonai, kuriuos galima naudoti norint greitai išsiųsti atsakymus į užklausas.",
+      "TABLE_HEADER": [
+        "Trumpas Kodas",
+        "Turinys",
+        "Veiksmai"
+      ]
+    },
+    "ADD": {
+      "TITLE": "Pridėti Atsakymą Ruošinį",
+      "DESC": "Atsakymų Ruošiniai yra išsaugoti atsakym yra išsaugoti atsakymų šablonai, kurie gali būti naudojami norint greitai išsiųsti atsakymą į pokalbį.",
+      "CANCEL_BUTTON_TEXT": "Atšaukti",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Trumpas Kodas",
+          "PLACEHOLDER": "Prašome įvesti trumpą kodą",
+          "ERROR": "Trumpasis Kodas yra būtinas"
+        },
+        "CONTENT": {
+          "LABEL": "Turinys",
+          "PLACEHOLDER": "Įveskite prašau tekstą",
+          "ERROR": "Tekstas yra būtinas"
+        },
+        "SUBMIT": "Pateikti"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Atsakymų Ruošinys pridėtas sėkmingai",
+        "ERROR_MESSAGE": "Nepavyko sukurti atsakymo ruošinį. Bandykite dar kartą vėliau."
+      }
+    },
+    "EDIT": {
+      "TITLE": "Taisyti atsakymo ruošinį",
+      "CANCEL_BUTTON_TEXT": "Atšaukti",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Trumpas Kodas",
+          "PLACEHOLDER": "Prašome įvesti trumpą kodą",
+          "ERROR": "Trumpasis Kodas yra būtinas"
+        },
+        "CONTENT": {
+          "LABEL": "Turinys",
+          "PLACEHOLDER": "Prašome įrašyti turinį",
+          "ERROR": "Tekstas yra būtinas"
+        },
+        "SUBMIT": "Pateikti"
+      },
+      "BUTTON_TEXT": "Taisyti",
+      "API": {
+        "SUCCESS_MESSAGE": "Atsakymų Ruošinys atnaujintas sėkmingai",
+        "ERROR_MESSAGE": "Nepavyko atnaujinti atsakymo ruošinį. Bandykite dar kartą vėliau."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Ištrinti",
+      "API": {
+        "SUCCESS_MESSAGE": "Atsakymų Ruošinys ištrintas sėkmingai",
+        "ERROR_MESSAGE": "Nepavyko ištrinti atsakymo ruošinio. Bandykite dar kartą vėliau."
+      },
+      "CONFIRM": {
+        "TITLE": "Patvirtinti Ištrynimą",
+        "MESSAGE": "Ar tikrai norite ištrinti ",
+        "YES": "Taip, Ištrinti ",
+        "NO": "Ne, Išsaugoti "
+      }
+    }
+  }
+}

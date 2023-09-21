@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "Procurando integrações",
+    "NO_HOOK_CONFIGURED": "Não há integrações %{integrationId} configuradas nesta conta.",
+    "HEADER": "Aplicações",
+    "STATUS": {
+      "ENABLED": "Ativado",
+      "DISABLED": "Desabilitado"
+    },
+    "CONFIGURE": "Configurar",
+    "ADD_BUTTON": "Adicionar um novo hook",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "Confirmar a eliminação",
+        "ACCOUNT": "Desligar"
+      },
+      "MESSAGE": {
+        "INBOX": "Tem certeza que deseja excluir?",
+        "ACCOUNT": "Tem certeza que deseja desligar?"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "Sim, excluir",
+        "ACCOUNT": "Sim, Desligar"
+      },
+      "CANCEL_BUTTON_TEXT": "cancelar",
+      "API": {
+        "SUCCESS_MESSAGE": "Hook eliminado com sucesso",
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+      }
+    },
+    "LIST": {
+      "FETCHING": "Procurando Hooks de integração",
+      "INBOX": "Caixa de Entrada",
+      "DELETE": {
+        "BUTTON_TEXT": "excluir"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Escolher caixa de entrada",
+          "PLACEHOLDER": "Escolher caixa de entrada"
+        },
+        "SUBMIT": "Criar",
+        "CANCEL": "cancelar"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Hook de integração adicionado com sucesso",
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Ligar"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "Desligar"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow é uma plataforma que facilita o planeamento e integração através de interface de conversação de utilizador numa aplicação móvel, web, bot, sistema de resposta de voz interativo, etc. <br /> <br /> A integração do fluxo de diálogo com o %{installationName} permite-lhe configurar um bot de Dialogflow nas suas caixas de entrada, para que ele trate inicialmente das consultas dos seus contactos e só depois as entregue aos seus agentes se for necessário. O fluxo de diálogo pode ser utilizado para qualificar os pedidos de contacto, reduzir a carga de trabalho dos agentes, oferecer respostas frequentes, etc. <br /> <br /> Para adicionar uma conta do Dialogflow à sua conta Chatwoot só precisa de ter o serviço ativo no Google e partilhar as suas credenciais. Por favor, consulte a documentação do Dialogflow para obter mais informações."
+    }
+  }
+}

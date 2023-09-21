@@ -1,0 +1,214 @@
+{
+  "INTEGRATION_SETTINGS": {
+    "HEADER": "אינטגרציות",
+    "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "אירועים מנויים",
+      "FORM": {
+        "CANCEL": "ביטול",
+        "DESC": "אירועי Webhook מספקים לך מידע בזמן אמת על מה שקורה בחשבון Chatwoot שלך. אנא הזן כתובת אתר חוקית כדי להגדיר התקשרות חוזרת.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "אירועים",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "השיחה נוצרה",
+            "CONVERSATION_STATUS_CHANGED": "סטטוס השיחה השתנה",
+            "CONVERSATION_UPDATED": "השיחה עודכנה",
+            "MESSAGE_CREATED": "ההודעה נוצרה",
+            "MESSAGE_UPDATED": "ההודעה עודכנה",
+            "WEBWIDGET_TRIGGERED": "ווידג'ט צ'אט חי נפתח על ידי המשתמש",
+            "CONTACT_CREATED": "צור קשר",
+            "CONTACT_UPDATED": "איש קשר עודכן"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "כתובת אתר של Webhook",
+          "PLACEHOLDER": "דוגמה: https://example/api/webhook",
+          "ERROR": "אנא הכנס כתובת URL חוקית"
+        },
+        "EDIT_SUBMIT": "עדכון webhook",
+        "ADD_SUBMIT": "צור webhook"
+      },
+      "TITLE": "Webhook",
+      "CONFIGURE": "הגדר",
+      "HEADER": "הגדרןת Webhook",
+      "HEADER_BTN_TXT": "הוסף Webhook חדש",
+      "LOADING": "מביאים ל-webhooks מחוברים",
+      "SEARCH_404": "אין פריטים התואמים לשאילתה זו",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks הם התקשרות חוזרת של HTTP שניתן להגדיר עבור כל חשבון. הם מופעלים על ידי אירועים כמו יצירת הודעות ב-Chatwoot. אתה יכול ליצור יותר מ-webhook אחד עבור חשבון זה. <br /><br /> ליצירת <b>הוסף אינטרנט</b>, לחץ על הלחצן <b>הוסף אינטרנט חדש</b>. אתה יכול גם להסיר כל webhook קיים על ידי לחיצה על הלחצן Delete.</p>",
+      "LIST": {
+        "404": "לא הוגדרו webhooks עבור חשבון זה.",
+        "TITLE": "נהל webhooks",
+        "TABLE_HEADER": [
+          "נקודת קצה של Webhook",
+          "פעולות"
+        ]
+      },
+      "EDIT": {
+        "BUTTON_TEXT": "ערוך",
+        "TITLE": "ערוך webhook",
+        "API": {
+          "SUCCESS_MESSAGE": "תצורת Webhook עודכנה בהצלחה",
+          "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
+        }
+      },
+      "ADD": {
+        "CANCEL": "ביטול",
+        "TITLE": "הוסף Webhook חדש",
+        "API": {
+          "SUCCESS_MESSAGE": "תצורת Webhook נוספה בהצלחה",
+          "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
+        }
+      },
+      "DELETE": {
+        "BUTTON_TEXT": "מחק",
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook נמחק בהצלחה",
+          "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
+        },
+        "CONFIRM": {
+          "TITLE": "אשר מחיקה",
+          "MESSAGE": "האם אתה בטוח שתמחק את ה-webhook? (%{webhookURL})",
+          "YES": "כן, מחק ",
+          "NO": "לא, השאר"
+        }
+      }
+    },
+    "SLACK": {
+      "DELETE": "מחק",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Delete the integration",
+        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+      },
+      "HELP_TEXT": {
+        "TITLE": "שימוש ב-Slack Integration",
+        "BODY": "<br/><p>Chatwoot תסנכרן כעת את כל השיחות הנכנסות לערוץ <b><i>שיחות-לקוח</i></b> בתוך מקום העבודה הרפוי שלך.</p><p>משיב ל- שרשור שיחה ב<b><i>שיחות לקוח</i></b> ערוץ רפוי ייצור תגובה חזרה ללקוח באמצעות chatwoot.</p><p>התחל את התשובות עם <b><i> הערה:</i></b> כדי ליצור הערות פרטיות במקום תשובות.</p><p>אם למשיב ב-slack יש פרופיל סוכן ב-chatwoot תחת אותו דוא\"ל, התשובות ישויכו בהתאם.</b> p><p>כאשר למשיב אין פרופיל סוכן משויך, התשובות ייעשו מפרופיל הבוט.</p>",
+        "SELECTED": "selected"
+      },
+      "SELECT_CHANNEL": {
+        "OPTION_LABEL": "Select a channel",
+        "UPDATE": "עדכן",
+        "BUTTON_TEXT": "Connect channel",
+        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
+        "ATTENTION_REQUIRED": "Attention required",
+        "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
+      },
+      "UPDATE_ERROR": "There was an error updating the integration, please try again",
+      "UPDATE_SUCCESS": "The channel is connected successfully",
+      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
+    },
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "לחץ כאן בשביל להצטרף",
+      "LEAVE_THE_ROOM": "עזוב את החדר",
+      "START_VIDEO_CALL_HELP_TEXT": "התחל שיחת וידאו חדשה עם הלקוח",
+      "JOIN_ERROR": "אירעה שגיאה בהצטרפות לשיחה, אנא נסה שוב",
+      "CREATE_ERROR": "אירעה שגיאה ביצירת קישור לפגישה, אנא נסה שוב"
+    },
+    "OPEN_AI": {
+      "AI_ASSIST": "AI Assist",
+      "WITH_AI": " %{option} with AI ",
+      "OPTIONS": {
+        "REPLY_SUGGESTION": "Reply Suggestion",
+        "SUMMARIZE": "Summarize",
+        "REPHRASE": "Improve Writing",
+        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
+        "SHORTEN": "Shorten",
+        "EXPAND": "Expand",
+        "MAKE_FRIENDLY": "Change message tone to friendly",
+        "MAKE_FORMAL": "Use formal tone",
+        "SIMPLIFY": "Simplify"
+      },
+      "ASSISTANCE_MODAL": {
+        "DRAFT_TITLE": "Draft content",
+        "GENERATED_TITLE": "Generated content",
+        "AI_WRITING": "AI is writing",
+        "BUTTONS": {
+          "APPLY": "Use this suggestion",
+          "CANCEL": "ביטול"
+        }
+      },
+      "CTA_MODAL": {
+        "TITLE": "Integrate with OpenAI",
+        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
+        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "BUTTONS": {
+          "NEED_HELP": "זקוק לעזרה?",
+          "DISMISS": "Dismiss",
+          "FINISH": "Finish Setup"
+        },
+        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
+        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
+      },
+      "TITLE": "Improve With AI",
+      "SUMMARY_TITLE": "Summary with AI",
+      "REPLY_TITLE": "Reply suggestion with AI",
+      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TONE": {
+        "TITLE": "Tone",
+        "OPTIONS": {
+          "PROFESSIONAL": "Professional",
+          "FRIENDLY": "Friendly"
+        }
+      },
+      "BUTTONS": {
+        "GENERATE": "Generate",
+        "GENERATING": "Generating...",
+        "CANCEL": "ביטול"
+      },
+      "GENERATE_ERROR": "There was an error processing the content, please try again"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "מחק",
+      "API": {
+        "SUCCESS_MESSAGE": "האינטגרציה נמחקה בהצלחה"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "התחבר"
+    },
+    "DASHBOARD_APPS": {
+      "TITLE": "אפליקציות לוח מחוונים",
+      "HEADER_BTN_TXT": "הוסף אפליקציית לוח מחוונים חדשה",
+      "SIDEBAR_TXT": "<p><b>אפליקציות לוח מחוונים</b></p><p>אפליקציות לוח מחוונים מאפשרות לארגונים להטמיע אפליקציה בתוך לוח המחוונים של Chatwoot כדי לספק את ההקשר לסוכני תמיכת לקוחות. תכונה זו מאפשרת לך ליצור אפליקציה באופן עצמאי ולהטמיע אותה בתוך לוח המחוונים כדי לספק מידע על המשתמש, ההזמנות שלו או היסטוריית התשלומים הקודמת שלו.</p><p>כאשר תטמיע את האפליקציה שלך באמצעות לוח המחוונים ב-Chatwoot, האפליקציה שלך תהיה קבל את ההקשר של השיחה והקשר כאירוע חלון. הטמיע מאזין לאירוע ההודעה בדף שלך כדי לקבל את ההקשר.</p><p>כדי להוסיף אפליקציית לוח מחוונים חדשה, לחץ על הלחצן 'הוסף אפליקציית לוח מחוונים חדשה'.</p>",
+      "DESCRIPTION": "אפליקציות לוח מחוונים מאפשרות לארגונים להטמיע אפליקציה בתוך לוח המחוונים כדי לספק את ההקשר לסוכני תמיכת לקוחות. תכונה זו מאפשרת לך ליצור אפליקציה באופן עצמאי ולהטמיע אותה כדי לספק מידע על המשתמש, ההזמנות שלהם או היסטוריית התשלומים הקודמת שלהם.",
+      "LIST": {
+        "404": "אין עדיין אפליקציות לוח מחוונים מוגדרות בחשבון זה",
+        "LOADING": "מביא אפליקציות לוח מחוונים...",
+        "TABLE_HEADER": [
+          "שם",
+          "נקודת קצה"
+        ],
+        "EDIT_TOOLTIP": "ערוך אפליקציה",
+        "DELETE_TOOLTIP": "מחק אפליקציה"
+      },
+      "FORM": {
+        "TITLE_LABEL": "שם",
+        "TITLE_PLACEHOLDER": "הזן שם לאפליקציית לוח המחוונים שלך",
+        "TITLE_ERROR": "נדרש שם לאפליקציית לוח המחוונים",
+        "URL_LABEL": "נקודת קצה",
+        "URL_PLACEHOLDER": "הזן את כתובת האתר של נקודת הקצה שבה האפליקציה שלך מתארחת",
+        "URL_ERROR": "נדרשת כתובת אתר חוקית"
+      },
+      "CREATE": {
+        "HEADER": "הוסף אפליקציית לוח מחוונים חדשה",
+        "FORM_SUBMIT": "שלח",
+        "FORM_CANCEL": "ביטול",
+        "API_SUCCESS": "אפליקציית לוח המחוונים הוגדרה בהצלחה",
+        "API_ERROR": "לא הצלחנו ליצור אפליקציה. אנא נסה שוב מאוחר יותר"
+      },
+      "UPDATE": {
+        "HEADER": "עריכת אפליקציית לוח המחוונים",
+        "FORM_SUBMIT": "עדכן",
+        "FORM_CANCEL": "ביטול",
+        "API_SUCCESS": "אפליקציית לוח המחוונים עודכנה בהצלחה",
+        "API_ERROR": "לא הצלחנו לעדכן את האפליקציה. אנא נסה שוב מאוחר יותר"
+      },
+      "DELETE": {
+        "CONFIRM_YES": "כן, מחק את זה",
+        "CONFIRM_NO": "לא, שמור את זה",
+        "TITLE": "אשר מחיקה",
+        "MESSAGE": "האם אתה בטוח שתמחק את האפליקציה - %{appName}?",
+        "API_SUCCESS": "אפליקציית לוח המחוונים נמחקה בהצלחה",
+        "API_ERROR": "לא הצלחנו למחוק את האפליקציה. אנא נסה שוב מאוחר יותר"
+      }
+    }
+  }
+}

@@ -1,0 +1,214 @@
+{
+  "INTEGRATION_SETTINGS": {
+    "HEADER": "連携",
+    "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "FORM": {
+        "CANCEL": "キャンセル",
+        "DESC": "Webhookイベントは、Chatwootアカウントで何が起こっているかについてのリアルタイムの情報を提供します。コールバックを設定するには有効なURLを入力してください。",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Events",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Conversation Created",
+            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
+            "CONVERSATION_UPDATED": "Conversation Updated",
+            "MESSAGE_CREATED": "Message created",
+            "MESSAGE_UPDATED": "Message updated",
+            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user",
+            "CONTACT_CREATED": "Contact created",
+            "CONTACT_UPDATED": "Contact updated"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "Webhook URL",
+          "PLACEHOLDER": "例: https://example/api/webhook",
+          "ERROR": "有効な URL を入力してください"
+        },
+        "EDIT_SUBMIT": "Update webhook",
+        "ADD_SUBMIT": "Webhookを作成"
+      },
+      "TITLE": "Webhook",
+      "CONFIGURE": "設定",
+      "HEADER": "Webhookの設定",
+      "HEADER_BTN_TXT": "新しいWebhookを追加",
+      "LOADING": "添付されたWebhookを取得しています",
+      "SEARCH_404": "検索内容（クエリ）に一致する項目はありませんでした",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks は、すべてのアカウントで定義可能なHTTP コールバックです。これらは、メッセージの作成などChatwoot上でのイベントをきっかけに実行されます。このアカウントでは、1つ以上のwebhookが作成できます。 <br /><br /> <b>webhook</b>を作成するには、<b>webhookを作成</b>ボタンをクリックしてください。また、作成した webhook を削除ボタンを押して削除することもできます。</p>",
+      "LIST": {
+        "404": "このアカウントに紐付けされたWebフックはありません。",
+        "TITLE": "Webhookの管理",
+        "TABLE_HEADER": [
+          "Webhookエンドポイント",
+          "操作"
+        ]
+      },
+      "EDIT": {
+        "BUTTON_TEXT": "編集",
+        "TITLE": "Edit webhook",
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
+          "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
+        }
+      },
+      "ADD": {
+        "CANCEL": "キャンセル",
+        "TITLE": "新しいWebhookを追加",
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
+          "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
+        }
+      },
+      "DELETE": {
+        "BUTTON_TEXT": "削除",
+        "API": {
+          "SUCCESS_MESSAGE": "Webhookの削除に成功しました",
+          "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
+        },
+        "CONFIRM": {
+          "TITLE": "削除の確認",
+          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
+          "YES": "削除する ",
+          "NO": "いいえ、保存しておきます"
+        }
+      }
+    },
+    "SLACK": {
+      "DELETE": "削除",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Delete the integration",
+        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+      },
+      "HELP_TEXT": {
+        "TITLE": "Using Slack Integration",
+        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>",
+        "SELECTED": "selected"
+      },
+      "SELECT_CHANNEL": {
+        "OPTION_LABEL": "Select a channel",
+        "UPDATE": "更新",
+        "BUTTON_TEXT": "Connect channel",
+        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
+        "ATTENTION_REQUIRED": "Attention required",
+        "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
+      },
+      "UPDATE_ERROR": "There was an error updating the integration, please try again",
+      "UPDATE_SUCCESS": "The channel is connected successfully",
+      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
+    },
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the room",
+      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
+      "JOIN_ERROR": "There was an error joining the call, please try again",
+      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+    },
+    "OPEN_AI": {
+      "AI_ASSIST": "AI Assist",
+      "WITH_AI": " %{option} with AI ",
+      "OPTIONS": {
+        "REPLY_SUGGESTION": "Reply Suggestion",
+        "SUMMARIZE": "Summarize",
+        "REPHRASE": "Improve Writing",
+        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
+        "SHORTEN": "Shorten",
+        "EXPAND": "Expand",
+        "MAKE_FRIENDLY": "Change message tone to friendly",
+        "MAKE_FORMAL": "Use formal tone",
+        "SIMPLIFY": "Simplify"
+      },
+      "ASSISTANCE_MODAL": {
+        "DRAFT_TITLE": "Draft content",
+        "GENERATED_TITLE": "Generated content",
+        "AI_WRITING": "AI is writing",
+        "BUTTONS": {
+          "APPLY": "Use this suggestion",
+          "CANCEL": "キャンセル"
+        }
+      },
+      "CTA_MODAL": {
+        "TITLE": "Integrate with OpenAI",
+        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
+        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "BUTTONS": {
+          "NEED_HELP": "Need help?",
+          "DISMISS": "Dismiss",
+          "FINISH": "Finish Setup"
+        },
+        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
+        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
+      },
+      "TITLE": "Improve With AI",
+      "SUMMARY_TITLE": "Summary with AI",
+      "REPLY_TITLE": "Reply suggestion with AI",
+      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TONE": {
+        "TITLE": "Tone",
+        "OPTIONS": {
+          "PROFESSIONAL": "Professional",
+          "FRIENDLY": "Friendly"
+        }
+      },
+      "BUTTONS": {
+        "GENERATE": "Generate",
+        "GENERATING": "Generating...",
+        "CANCEL": "キャンセル"
+      },
+      "GENERATE_ERROR": "There was an error processing the content, please try again"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "削除",
+      "API": {
+        "SUCCESS_MESSAGE": "連携が正常に削除されました"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "接続"
+    },
+    "DASHBOARD_APPS": {
+      "TITLE": "Dashboard Apps",
+      "HEADER_BTN_TXT": "Add a new dashboard app",
+      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
+      "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
+      "LIST": {
+        "404": "There are no dashboard apps configured on this account yet",
+        "LOADING": "Fetching dashboard apps...",
+        "TABLE_HEADER": [
+          "名前",
+          "Endpoint"
+        ],
+        "EDIT_TOOLTIP": "Edit app",
+        "DELETE_TOOLTIP": "Delete app"
+      },
+      "FORM": {
+        "TITLE_LABEL": "名前",
+        "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
+        "TITLE_ERROR": "A name for the dashboard app is required",
+        "URL_LABEL": "Endpoint",
+        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
+        "URL_ERROR": "A valid URL is required"
+      },
+      "CREATE": {
+        "HEADER": "Add a new dashboard app",
+        "FORM_SUBMIT": "送信",
+        "FORM_CANCEL": "キャンセル",
+        "API_SUCCESS": "Dashboard app configured successfully",
+        "API_ERROR": "We couldn't create an app. Please try again later"
+      },
+      "UPDATE": {
+        "HEADER": "Edit dashboard app",
+        "FORM_SUBMIT": "更新",
+        "FORM_CANCEL": "キャンセル",
+        "API_SUCCESS": "Dashboard app updated successfully",
+        "API_ERROR": "We couldn't update the app. Please try again later"
+      },
+      "DELETE": {
+        "CONFIRM_YES": "Yes, delete it",
+        "CONFIRM_NO": "No, keep it",
+        "TITLE": "Confirm deletion",
+        "MESSAGE": "Are you sure to delete the app - %{appName}?",
+        "API_SUCCESS": "Dashboard app deleted successfully",
+        "API_ERROR": "We couldn't delete the app. Please try again later"
+      }
+    }
+  }
+}

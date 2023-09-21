@@ -1,0 +1,118 @@
+{
+  "AUTOMATION": {
+    "HEADER": "Automations",
+    "HEADER_BTN_TXT": "Add Automation Rule",
+    "LOADING": "Fetching automation rules",
+    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
+    "ADD": {
+      "TITLE": "Add Automation Rule",
+      "SUBMIT": "Create",
+      "CANCEL_BUTTON_TEXT": "Zrušiť",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Rule Name",
+          "PLACEHOLDER": "Enter rule name",
+          "ERROR": "Name is required"
+        },
+        "DESC": {
+          "LABEL": "Description",
+          "PLACEHOLDER": "Enter rule description",
+          "ERROR": "Description is required"
+        },
+        "EVENT": {
+          "LABEL": "Event",
+          "PLACEHOLDER": "Please select one",
+          "ERROR": "Event is required"
+        },
+        "CONDITIONS": {
+          "LABEL": "Conditions"
+        },
+        "ACTIONS": {
+          "LABEL": "Akcie"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Add Condition",
+      "ACTION_BUTTON_LABEL": "Add Action",
+      "API": {
+        "SUCCESS_MESSAGE": "Automation rule added successfully",
+        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Meno",
+        "Description",
+        "Active",
+        "Created on"
+      ],
+      "404": "No automation rules found"
+    },
+    "DELETE": {
+      "TITLE": "Delete Automation Rule",
+      "SUBMIT": "Vymazať",
+      "CANCEL_BUTTON_TEXT": "Zrušiť",
+      "CONFIRM": {
+        "TITLE": "Potvrdiť vymazanie",
+        "MESSAGE": "Určite chcete vymazať ",
+        "YES": "Áno, vymazať ",
+        "NO": "Nie, ponechať "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
+        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit Automation Rule",
+      "SUBMIT": "Update",
+      "CANCEL_BUTTON_TEXT": "Zrušiť",
+      "API": {
+        "SUCCESS_MESSAGE": "Automation rule updated successfully",
+        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "Clone",
+      "API": {
+        "SUCCESS_MESSAGE": "Automation cloned successfully",
+        "ERROR_MESSAGE": "Could not clone automation rule, Please try again later"
+      }
+    },
+    "FORM": {
+      "EDIT": "Upraviť",
+      "CREATE": "Create",
+      "DELETE": "Vymazať",
+      "CANCEL": "Zrušiť",
+      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "You need to have atleast one condition to save",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "You need to have atleast one action to save",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Activate Automation Rule",
+      "DEACTIVATION_TITLE": "Deactivate Automation Rule",
+      "ACTIVATION_DESCRIPTION": "This action will activate the automation rule '{automationName}'. Are you sure you want to proceed?",
+      "DEACTIVATION_DESCRIPTION": "This action will deactivate the automation rule '{automationName}'. Are you sure you want to proceed?",
+      "ACTIVATION_SUCCESFUL": "Automation Rule Activated Successfully",
+      "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
+      "ACTIVATION_ERROR": "Could not Activate Automation, Please try again later",
+      "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
+      "CONFIRMATION_LABEL": "Áno",
+      "CANCEL_LABEL": "Nie"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
+      "LABEL_IDLE": "Upload Attachment",
+      "LABEL_UPLOADING": "Nahrávanie...",
+      "LABEL_UPLOADED": "Successfully Uploaded",
+      "LABEL_UPLOAD_FAILED": "Upload Failed"
+    }
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "AGENT_MGMT": {
+    "HEADER": "Agenti",
+    "HEADER_BTN_TXT": "Pridať agenta",
+    "LOADING": "Zoznam agentov sa načítava",
+    "SIDEBAR_TXT": "<p><b>Agent</b></p> <p>Agent</b> je člen vášho tímu zákazníckej podpory. </p><p>Agenti budú môcť zobrazovať správy od vašich používateľov a odpovedať na ne. V zozname sa zobrazujú všetci agenti, ktorí sa aktuálne nachádzajú vo vašom účte. </p><p> Kliknutím na <b>Pridať agenta</b> pridáte nového agenta. Agent, ktorého pridáte, dostane e-mail s potvrdzovacím odkazom na aktiváciu svojho konta, po ktorej môže pristupovať k službe Chatwoot a odpovedať na správy. </p><p> Prístup k funkciám Chatwoot je založený na nasledujúcich rolách. </p><p> <b>Agent</b> - agenti s touto rolou majú prístup len k doručeným správam, správam a konverzáciám. Môžu priraďovať konverzácie iným agentom alebo sebe a riešiť konverzácie.</p><p> <b>Administrátor</b> - Administrátor bude mať prístup ku všetkým funkciám Chatwoot povoleným pre vaše konto vrátane nastavení spolu so všetkými oprávneniami bežných agentov.</p>",
+    "AGENT_TYPES": {
+      "ADMINISTRATOR": "Administrátor",
+      "AGENT": "Agent"
+    },
+    "LIST": {
+      "404": "K tomuto účtu nie sú priradení žiadni agenti",
+      "TITLE": "Spravujte agentov vo svojom tíme",
+      "DESC": "Môžete pridávať/odstraňovať agentov z/do svojho tímu.",
+      "NAME": "Meno",
+      "EMAIL": "EMAIL",
+      "STATUS": "Status",
+      "ACTIONS": "Akcie",
+      "VERIFIED": "Overené",
+      "VERIFICATION_PENDING": "Čaká sa na overenie"
+    },
+    "ADD": {
+      "TITLE": "Pridať agenta do tímu",
+      "DESC": "Môžete pridať ľudí, ktorí budú môcť poskytovať podporu pre vaše schránky.",
+      "CANCEL_BUTTON_TEXT": "Zrušiť",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Meno agenta",
+          "PLACEHOLDER": "Zadajte meno agenta"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Agent Type",
+          "PLACEHOLDER": "Please select a type",
+          "ERROR": "Agent type is required"
+        },
+        "EMAIL": {
+          "LABEL": "E-mailová adresa",
+          "PLACEHOLDER": "Zadajte e-mailovú adresu agenta"
+        },
+        "SUBMIT": "Pridať agenta"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Agent bol úspešne pridaný",
+        "EXIST_MESSAGE": "E-mail agenta sa už používa, skúste inú e-mailovú adresu",
+        "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Woot, skúste to prosím neskôr"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Vymazať",
+      "API": {
+        "SUCCESS_MESSAGE": "Agent úspešne odstránený",
+        "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Woot, skúste to prosím neskôr"
+      },
+      "CONFIRM": {
+        "TITLE": "Potvrdiť vymazanie",
+        "MESSAGE": "Určite chcete vymazať ",
+        "YES": "Áno, vymazať ",
+        "NO": "Nie, ponechať "
+      }
+    },
+    "EDIT": {
+      "TITLE": "Upraviť agenta",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Meno agenta",
+          "PLACEHOLDER": "Zadajte meno agenta"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Agent Type",
+          "PLACEHOLDER": "Please select a type",
+          "ERROR": "Agent type is required"
+        },
+        "EMAIL": {
+          "LABEL": "E-mailová adresa",
+          "PLACEHOLDER": "Zadajte e-mailovú adresu agenta"
+        },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Dostupnosť",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
+        "SUBMIT": "Upraviť agenta"
+      },
+      "BUTTON_TEXT": "Upraviť",
+      "CANCEL_BUTTON_TEXT": "Zrušiť",
+      "API": {
+        "SUCCESS_MESSAGE": "Agent bol úspešne aktualizovaný",
+        "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Woot, skúste to prosím neskôr"
+      },
+      "PASSWORD_RESET": {
+        "ADMIN_RESET_BUTTON": "Obnoviť heslo",
+        "ADMIN_SUCCESS_MESSAGE": "Agentovi bol odoslaný e-mail s pokynmi na obnovenie hesla",
+        "SUCCESS_MESSAGE": "Heslo agenta bolo úspešne obnovené",
+        "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Woot, skúste to prosím neskôr"
+      }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "Žiadne výsledky neboli nájdené."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "Žiadne",
+      "TITLE": {
+        "AGENT": "Vybrať agenta",
+        "TEAM": "Vybrať tím"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "Žiadni agenti neboli nájdení",
+          "TEAM": "Žiadne tímy neboli nájdené"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Hľadať agentov",
+          "TEAM": "Hľadať tímy",
+          "INPUT": "Search for agents"
+        }
+      }
+    }
+  }
+}

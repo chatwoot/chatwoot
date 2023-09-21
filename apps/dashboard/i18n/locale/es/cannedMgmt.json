@@ -1,0 +1,76 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Respuestas predefinidas",
+    "HEADER_BTN_TXT": "Añadir respuesta predefinida",
+    "LOADING": "Obteniendo respuestas predefinidas",
+    "SEARCH_404": "No hay elementos que coincidan con esta consulta",
+    "SIDEBAR_TXT": "<p><b>Respuestas predefinidas</b> </p><p> Respuestas predefinidas son plantillas de respuesta guardadas que pueden utilizarse para enviar rápidamente una respuesta a una conversación. </p><p> Para crear una respuesta predefinida, simplemente haga clic en <b>Añadir respuesta predefinida</b>. También puede editar o eliminar una respuesta predefinida haciendo clic en el botón Editar o Borrar </p><p> Las respuestas predefinidas se utilizan con la ayuda de <b>Códigos cortos</b>. Los agentes pueden acceder a las respuestas predefinidas mientras están en un chat escribiendo <b>'/'</b> seguido del código corto. </p>",
+    "LIST": {
+      "404": "No hay respuestas enlatadas disponibles en esta cuenta.",
+      "TITLE": "Administrar respuestas predefinidas",
+      "DESC": "Las respuestas predefinidas son plantillas de respuesta predefinidas que se pueden utilizar para enviar rápidamente respuestas a los Tickets.",
+      "TABLE_HEADER": [
+        "Código corto",
+        "Contenido",
+        "Acciones"
+      ]
+    },
+    "ADD": {
+      "TITLE": "Añadir respuesta predefinida",
+      "DESC": "Las respuestas predefinidas son plantillas de respuesta guardadas que se pueden utilizar para enviar rápidamente la respuesta a la conversación.",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Código corto",
+          "PLACEHOLDER": "Por favor, introduzca un código corto",
+          "ERROR": "El código corto es requerido"
+        },
+        "CONTENT": {
+          "LABEL": "Contenido",
+          "PLACEHOLDER": "Por favor, introduzca un contenido",
+          "ERROR": "El contenido es requerido"
+        },
+        "SUBMIT": "Enviar"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Respuesta predefinida añadida correctamente",
+        "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Editar respuesta predefinida",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Código corto",
+          "PLACEHOLDER": "Por favor, introduzca un código corto",
+          "ERROR": "El código corto es requerido"
+        },
+        "CONTENT": {
+          "LABEL": "Contenido",
+          "PLACEHOLDER": "Por favor, introduzca un contenido",
+          "ERROR": "El contenido es requerido"
+        },
+        "SUBMIT": "Enviar"
+      },
+      "BUTTON_TEXT": "Editar",
+      "API": {
+        "SUCCESS_MESSAGE": "Respuesta predefinida actualizada correctamente",
+        "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Eliminar",
+      "API": {
+        "SUCCESS_MESSAGE": "Respuesta predefinida eliminada correctamente",
+        "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirmar eliminación",
+        "MESSAGE": "¿Está seguro de eliminar ",
+        "YES": "Sí, eliminar ",
+        "NO": "No, mantenerlo "
+      }
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "Henter Integrationer",
+    "NO_HOOK_CONFIGURED": "Der er ingen %{integrationId} integrationer konfigureret på denne konto.",
+    "HEADER": "Applikationer",
+    "STATUS": {
+      "ENABLED": "Aktiveret",
+      "DISABLED": "Deaktiveret"
+    },
+    "CONFIGURE": "Konfigurer",
+    "ADD_BUTTON": "Tilføj en ny krog",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "Bekræft sletning",
+        "ACCOUNT": "Afbryd"
+      },
+      "MESSAGE": {
+        "INBOX": "Er du sikker på du vil slette?",
+        "ACCOUNT": "Er du sikker på at du afbryder?"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "Ja, Slet",
+        "ACCOUNT": "Ja, Afbryd"
+      },
+      "CANCEL_BUTTON_TEXT": "Annuller",
+      "API": {
+        "SUCCESS_MESSAGE": "Hook slettet",
+        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
+      }
+    },
+    "LIST": {
+      "FETCHING": "Henter integrationshoks",
+      "INBOX": "Indbakke",
+      "DELETE": {
+        "BUTTON_TEXT": "Slet"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Vælg Indbakke",
+          "PLACEHOLDER": "Vælg Indbakke"
+        },
+        "SUBMIT": "Opret",
+        "CANCEL": "Annuller"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Integration hook tilføjet",
+        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Tilslut"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "Afbryd"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow er en naturlig sprogforståelsesplatform, der gør det nemt at designe og integrere en samtalebrugergrænseflade i din mobile app, webapplikation, enhed, bot, interaktivt talespons system, og så videre. <br /> <br /> Dialogflow integration med %{installationName} giver dig mulighed for at konfigurere en Dialogflow bot med dine indbakker, som lader botten håndtere spørgsmålene i første omgang og overdrage dem til en agent, når det er nødvendigt. Dialogflow kan bruges til at kvalificere kundeemner, reducere arbejdsbyrden af agenter ved at stille ofte stillede spørgsmål osv. <br /> <br /> For at tilføje Dialogflow skal du oprette en servicekonto i din Google-projektkonsol og dele legitimationsoplysningerne. Se Dialogflow dokumenterne for mere information."
+    }
+  }
+}

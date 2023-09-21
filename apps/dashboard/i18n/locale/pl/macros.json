@@ -1,0 +1,78 @@
+{
+  "MACROS": {
+    "HEADER": "Makra",
+    "HEADER_BTN_TXT": "Dodaj nowe makro",
+    "HEADER_BTN_TXT_SAVE": "Zapisz makro",
+    "LOADING": "Pobieranie makr",
+    "SIDEBAR_TXT": "<p><b>Makra</b><p>Makro to zestaw zapisanych czynności, które pomagają agentom obsługi klienta łatwo wykonywać zadania. Agenci mogą zdefiniować zestaw czynności, takich jak oznaczenie rozmowy etykietą, wysłanie transkryptu rozmowy e-mailem, aktualizacja niestandardowego atrybutu, itp., a następnie uruchamiać te czynności za pomocą jednego kliknięcia. Kiedy agenci uruchamiają makro, czynności są wykonywane sekwencyjnie w kolejności, w jakiej są zdefiniowane. Makra poprawiają produktywność i zwiększają spójność działań. </p><p>Makro może być pomocne na dwa sposoby. </p><p><b>Jako pomoc dla agenta:</b> Jeśli agent wykonuje zestaw czynności wielokrotnie, może je zapisać jako makro i uruchamiać wszystkie czynności za pomocą jednego kliknięcia.</p><p><b>Jako opcja wprowadzenia nowego członka zespołu:</b> Każdy agent musi wykonywać wiele różnych czynności sprawdzających/operacyjnych podczas każdej rozmowy. Wprowadzenie nowego członka zespołu wsparcia będzie łatwiejsze, jeśli w ramach konta będą dostępne predefiniowane makra. Zamiast szczegółowego opisywania każdego kroku, menedżer/kierownik zespołu może wskazać na makra używane w różnych scenariuszach.</p>",
+    "ERROR": "Wystąpił błąd. Spróbuj ponownie",
+    "ORDER_INFO": "Makra będą uruchamiane w kolejności, w jakiej dodajesz czynności. Możesz zmieniać ich kolejność, przeciągając je za uchwyt obok każdego węzła.",
+    "ADD": {
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nazwa makra",
+          "PLACEHOLDER": "Wprowadź nazwę makra",
+          "ERROR": "Wymagana jest nazwa makra"
+        },
+        "ACTIONS": {
+          "LABEL": "Akcje"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Makro pomyślnie dodane",
+        "ERROR_MESSAGE": "Nie można utworzyć makra. Spróbuj ponownie później"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Nazwa",
+        "Utworzone przez",
+        "Ostatnio zaktualizowane przez",
+        "Widoczność"
+      ],
+      "404": "Nie znaleziono makr"
+    },
+    "DELETE": {
+      "TOOLTIP": "Usuń makro",
+      "CONFIRM": {
+        "MESSAGE": "Czy na pewno chcesz usunąć ",
+        "YES": "Tak, usuń",
+        "NO": "Nie"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Makro pomyślnie usunięte",
+        "ERROR_MESSAGE": "Wystąpił błąd podczas usuwania makra. Spróbuj ponownie później"
+      }
+    },
+    "EDIT": {
+      "TOOLTIP": "Edytuj makro",
+      "API": {
+        "SUCCESS_MESSAGE": "Makro pomyślnie zaktualizowane",
+        "ERROR_MESSAGE": "Nie można zaktualizować makra. Spróbuj ponownie później"
+      }
+    },
+    "EDITOR": {
+      "START_FLOW": "Rozpocznij przepływ",
+      "END_FLOW": "Zakończ przepływ",
+      "LOADING": "Pobieranie makra",
+      "ADD_BTN_TOOLTIP": "Dodaj nową czynność",
+      "DELETE_BTN_TOOLTIP": "Usuń czynność",
+      "VISIBILITY": {
+        "LABEL": "Widoczność makra",
+        "GLOBAL": {
+          "LABEL": "Publiczne",
+          "DESCRIPTION": "To makro jest publicznie dostępne dla wszystkich agentów na tym koncie."
+        },
+        "PERSONAL": {
+          "LABEL": "Prywatne",
+          "DESCRIPTION": "To makro będzie prywatne i nie będzie dostępne dla innych."
+        }
+      }
+    },
+    "EXECUTE": {
+      "BUTTON_TOOLTIP": "Wykonaj",
+      "PREVIEW": "Podgląd makra",
+      "EXECUTED_SUCCESSFULLY": "Makro pomyślnie wykonane"
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Respostes predeterminades",
+    "HEADER_BTN_TXT": "Afegeix una resposta predeterminada",
+    "LOADING": "S'estan recollint les respostes predeterminades",
+    "SEARCH_404": "No hi ha cap resposta que coincideixi amb aquesta consulta",
+    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+    "LIST": {
+      "404": "No hi ha respostes predeterminades disponibles en aquest compte.",
+      "TITLE": "Gestiona les respostes predeterminades",
+      "DESC": "Les respostes predeterminades són plantilles de resposta predefinides que es poden utilitzar per enviar ràpidament respostes a les converses.",
+      "TABLE_HEADER": [
+        "Codi curt",
+        "Contingut",
+        "Accions"
+      ]
+    },
+    "ADD": {
+      "TITLE": "Afegeix Resposta Predeterminada",
+      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
+      "CANCEL_BUTTON_TEXT": "Cancel·la",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Codi curt",
+          "PLACEHOLDER": "Introduïu un codi curt",
+          "ERROR": "És necessari el codi curt"
+        },
+        "CONTENT": {
+          "LABEL": "Contingut",
+          "PLACEHOLDER": "Introduïu un contingut",
+          "ERROR": "És necessari un contingut"
+        },
+        "SUBMIT": "Envia"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Resposta predeterminada afegida correctament",
+        "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edita la resposta predeterminada",
+      "CANCEL_BUTTON_TEXT": "Cancel·la",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Codi curt",
+          "PLACEHOLDER": "Introduïu un codi curt",
+          "ERROR": "És necessari el codi curt"
+        },
+        "CONTENT": {
+          "LABEL": "Contingut",
+          "PLACEHOLDER": "Introduïu un contingut",
+          "ERROR": "És necessari un contingut"
+        },
+        "SUBMIT": "Envia"
+      },
+      "BUTTON_TEXT": "Edita",
+      "API": {
+        "SUCCESS_MESSAGE": "Resposta predeterminada actualitzada correctament",
+        "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Esborra",
+      "API": {
+        "SUCCESS_MESSAGE": "Resposta predeterminada eliminada correctament",
+        "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirma esborrat",
+        "MESSAGE": "N'estas segur ",
+        "YES": "Si, esborra ",
+        "NO": "No, segueix "
+      }
+    }
+  }
+}

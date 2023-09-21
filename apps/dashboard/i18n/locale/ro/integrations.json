@@ -1,0 +1,214 @@
+{
+  "INTEGRATION_SETTINGS": {
+    "HEADER": "Integrări",
+    "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Evenimente subscrise",
+      "FORM": {
+        "CANCEL": "Renunță",
+        "DESC": "Evenimentele Webhook vă oferă informații în timp real despre ce se întâmplă în contul dvs. Chatwoot. Introduceți un URL valid pentru a configura un callback.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Evenimente",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Conversație creată",
+            "CONVERSATION_STATUS_CHANGED": "Stare conversație schimbată",
+            "CONVERSATION_UPDATED": "Conversație actualizată",
+            "MESSAGE_CREATED": "Mesaj creat",
+            "MESSAGE_UPDATED": "Mesaj actualizat",
+            "WEBWIDGET_TRIGGERED": "Widget de chat live deschis de utilizator",
+            "CONTACT_CREATED": "Persoană de contact creată",
+            "CONTACT_UPDATED": "Persoană de contact actualizată"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "URL Webhook",
+          "PLACEHOLDER": "Exemplu: https://example/api/webhook",
+          "ERROR": "Te rog introdu un URL valid"
+        },
+        "EDIT_SUBMIT": "Actualizați webhook",
+        "ADD_SUBMIT": "Creează webhook"
+      },
+      "TITLE": "Webhook",
+      "CONFIGURE": "Configurare",
+      "HEADER": "Setări Webhook",
+      "HEADER_BTN_TXT": "Adaugă un nou webhook",
+      "LOADING": "Preluare webhook-uri atașate",
+      "SEARCH_404": "Nu există elemente care să corespundă acestei interogări",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks sunt request-uri HTTP care pot fi definite pentru fiecare cont. Acestea sunt declanșate de evenimente precum crearea de mesaje în Chatwoot. Poți crea mai mult de un singur webhook pentru acest cont. <br /><br /> Pentru a crea un webhook <b></b>, apasă pe butonul <b>Adaugă un nou webhook</b>. De asemenea, puteți elimina orice webhook existent făcând clic pe butonul Ștergere.</p>",
+      "LIST": {
+        "404": "Nu există webhook-uri configurate pentru acest cont.",
+        "TITLE": "Gestionează webhook-uri",
+        "TABLE_HEADER": [
+          "Webhook endpoint",
+          "Actiuni"
+        ]
+      },
+      "EDIT": {
+        "BUTTON_TEXT": "Editare",
+        "TITLE": "Editare webhook",
+        "API": {
+          "SUCCESS_MESSAGE": "Configurația Webhook actualizată cu succes",
+          "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+        }
+      },
+      "ADD": {
+        "CANCEL": "Renunță",
+        "TITLE": "Adaugă un nou webhook",
+        "API": {
+          "SUCCESS_MESSAGE": "Configurare Webhook adăugată cu succes",
+          "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+        }
+      },
+      "DELETE": {
+        "BUTTON_TEXT": "Şterge",
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook șters cu succes",
+          "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+        },
+        "CONFIRM": {
+          "TITLE": "Confirmă ștergerea",
+          "MESSAGE": "Sunteți sigur de a șterge webhook? (%{webhookURL})",
+          "YES": "Da, șterge ",
+          "NO": "Nu, păstreaza"
+        }
+      }
+    },
+    "SLACK": {
+      "DELETE": "Şterge",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Delete the integration",
+        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+      },
+      "HELP_TEXT": {
+        "TITLE": "Utilizarea integrării Slack",
+        "BODY": "<br/><p>Chatwoot va sincroniza acum toate conversațiile primite în canalul <b><i>de conversații cu clienții</i></b> din interiorul locului de muncă slăbit.</p><p>Răspunsul la un fir de conversație în canalul de slăbire <b><i>a conversațiilor clienților</i></b> va crea un răspuns înapoi la client prin chatwoot.</p><p>Începeți răspunsurile cu <b><i>notă:</i></b> pentru a crea note private în loc de răspunsuri.</p><p>În cazul în care replier pe slack are un profil de agent în chatwoot sub același e-mail, răspunsurile vor fi asociate în consecință.</p><p>Atunci când replierul nu are un profil de agent asociat, răspunsurile vor fi făcute din profilul botului.</p>",
+        "SELECTED": "selected"
+      },
+      "SELECT_CHANNEL": {
+        "OPTION_LABEL": "Select a channel",
+        "UPDATE": "Actualizare",
+        "BUTTON_TEXT": "Connect channel",
+        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
+        "ATTENTION_REQUIRED": "Attention required",
+        "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
+      },
+      "UPDATE_ERROR": "There was an error updating the integration, please try again",
+      "UPDATE_SUCCESS": "The channel is connected successfully",
+      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
+    },
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click aici pentru a vă alătura",
+      "LEAVE_THE_ROOM": "Părăsiți camera",
+      "START_VIDEO_CALL_HELP_TEXT": "Inițierea unui nou apel video cu clientul",
+      "JOIN_ERROR": "A existat o eroare la aderarea la apel, vă rugăm să încercați din nou",
+      "CREATE_ERROR": "A existat o eroare la crearea unui link de întâlnire, încercați din nou"
+    },
+    "OPEN_AI": {
+      "AI_ASSIST": "AI Assist",
+      "WITH_AI": " %{option} with AI ",
+      "OPTIONS": {
+        "REPLY_SUGGESTION": "Reply Suggestion",
+        "SUMMARIZE": "Summarize",
+        "REPHRASE": "Improve Writing",
+        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
+        "SHORTEN": "Shorten",
+        "EXPAND": "Expand",
+        "MAKE_FRIENDLY": "Change message tone to friendly",
+        "MAKE_FORMAL": "Use formal tone",
+        "SIMPLIFY": "Simplify"
+      },
+      "ASSISTANCE_MODAL": {
+        "DRAFT_TITLE": "Draft content",
+        "GENERATED_TITLE": "Generated content",
+        "AI_WRITING": "AI is writing",
+        "BUTTONS": {
+          "APPLY": "Use this suggestion",
+          "CANCEL": "Renunță"
+        }
+      },
+      "CTA_MODAL": {
+        "TITLE": "Integrate with OpenAI",
+        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
+        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "BUTTONS": {
+          "NEED_HELP": "Aveţi nevoie de ajutor?",
+          "DISMISS": "Dismiss",
+          "FINISH": "Finish Setup"
+        },
+        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
+        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
+      },
+      "TITLE": "Îmbunătățiți cu IA",
+      "SUMMARY_TITLE": "Sumar cu AI",
+      "REPLY_TITLE": "Sugestie de răspuns cu AI",
+      "SUBTITLE": "Un răspuns îmbunătățit va fi generat folosind IA, pe baza proiectului curent.",
+      "TONE": {
+        "TITLE": "Ton",
+        "OPTIONS": {
+          "PROFESSIONAL": "Profesională",
+          "FRIENDLY": "Amical"
+        }
+      },
+      "BUTTONS": {
+        "GENERATE": "Genereaza",
+        "GENERATING": "Generez…",
+        "CANCEL": "Renunță"
+      },
+      "GENERATE_ERROR": "A existat o eroare de procesare a conținutului, vă rugăm să încercați din nou"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Şterge",
+      "API": {
+        "SUCCESS_MESSAGE": "Integrare ștearsă cu succes"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Conectează-te"
+    },
+    "DASHBOARD_APPS": {
+      "TITLE": "Aplicații tablou de bord",
+      "HEADER_BTN_TXT": "Adăugarea unei noi aplicații pentru tabloul de bord",
+      "SIDEBAR_TXT": "<p><b>Aplicații tablou de bord</b></p><p>Aplicațiile tablou de bord permit organizațiilor să încorporeze o aplicație în tabloul de bord Chatwoot pentru a oferi contextul pentru agenții de asistență pentru clienți. Această caracteristică vă permite să creați o aplicație independent și să o încorporați în interiorul tabloului de bord pentru a furniza informații despre utilizator, comenzile lor sau istoricul plăților anterioare.</p><p>Când încorporați aplicația utilizând tabloul de bord în Chatwoot, aplicația va primi contextul conversației și al contactului ca eveniment de fereastră. Implementați un ascultător pentru evenimentul mesajului de pe pagina dvs., pentru a primi contextul.</p><p>Pentru a adăuga o nouă aplicație de tablou de bord, faceți clic pe butonul \"Adăugați o nouă aplicație de tablou de bord\".</p>",
+      "DESCRIPTION": "Aplicațiile tablou de bord permit organizațiilor să încorporeze o aplicație în interiorul tabloului de bord pentru a oferi contextul agenților de asistență pentru clienți. Această caracteristică vă permite să creați o aplicație independent și să o încorporați pentru a furniza informații despre utilizator, comenzile lor sau istoricul plăților anterioare.",
+      "LIST": {
+        "404": "Nu există încă aplicații de tablou de bord configurate pe acest cont",
+        "LOADING": "Preluarea aplicațiilor de tablou de bord...",
+        "TABLE_HEADER": [
+          "Nume",
+          "Punct final"
+        ],
+        "EDIT_TOOLTIP": "Editarea aplicației",
+        "DELETE_TOOLTIP": "Ștergerea aplicației"
+      },
+      "FORM": {
+        "TITLE_LABEL": "Nume",
+        "TITLE_PLACEHOLDER": "Introduceți un nume pentru aplicația tablou de bord",
+        "TITLE_ERROR": "Este necesar un nume pentru aplicația tabloul de bord",
+        "URL_LABEL": "Punct final",
+        "URL_PLACEHOLDER": "Introduceți adresa URL a punctului final în care este găzduită aplicația dvs",
+        "URL_ERROR": "Este necesară o adresă URL validă"
+      },
+      "CREATE": {
+        "HEADER": "Adăugarea unei noi aplicații pentru tabloul de bord",
+        "FORM_SUBMIT": "Trimite",
+        "FORM_CANCEL": "Renunță",
+        "API_SUCCESS": "Aplicația Tablou de bord configurată cu succes",
+        "API_ERROR": "Nu am putut crea o aplicație. Încercați din nou mai târziu"
+      },
+      "UPDATE": {
+        "HEADER": "Accesați Tabloul de bord conversație",
+        "FORM_SUBMIT": "Actualizare",
+        "FORM_CANCEL": "Renunță",
+        "API_SUCCESS": "Setările IMAP actualizate cu succes",
+        "API_ERROR": "Nu am putut actualiza aplicația. Încercați din nou mai târziu"
+      },
+      "DELETE": {
+        "CONFIRM_YES": "Da, ștergeți acest lucru",
+        "CONFIRM_NO": "Nu, păstreaza",
+        "TITLE": "Confirmă ștergerea",
+        "MESSAGE": "Sunteți sigur că ștergeți aplicația - %{appName}?",
+        "API_SUCCESS": "Aplicația Tablou de bord ștearsă cu succes",
+        "API_ERROR": "Nu am putut șterge aplicația. Încercați din nou mai târziu"
+      }
+    }
+  }
+}

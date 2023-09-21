@@ -1,0 +1,166 @@
+{
+  "GENERAL_SETTINGS": {
+    "TITLE": "Kontoindstillinger",
+    "SUBMIT": "Opdater indstillinger",
+    "BACK": "Tilbage",
+    "DISMISS": "Dismiss",
+    "UPDATE": {
+      "ERROR": "Kunne ikke opdatere indstillinger, prøv igen!",
+      "SUCCESS": "Kontoindstillinger blev opdateret"
+    },
+    "FORM": {
+      "ERROR": "Ret venligst formularfejl",
+      "GENERAL_SECTION": {
+        "TITLE": "Generelle indstillinger",
+        "NOTE": ""
+      },
+      "ACCOUNT_ID": {
+        "TITLE": "Konto SID",
+        "NOTE": "Dette ID er påkrævet, hvis du bygger en API-baseret integration"
+      },
+      "NAME": {
+        "LABEL": "Kontonavn",
+        "PLACEHOLDER": "Dit kontonavn",
+        "ERROR": "Angiv et gyldigt kontonavn"
+      },
+      "LANGUAGE": {
+        "LABEL": "Site language",
+        "PLACEHOLDER": "Dit kontonavn",
+        "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "Indkommende E-Mail Domæne",
+        "PLACEHOLDER": "Domænet, hvor du vil modtage e-mails",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "Support E-Mail",
+        "PLACEHOLDER": "Din virksomheds support e-mail",
+        "ERROR": ""
+      },
+      "AUTO_RESOLVE_DURATION": {
+        "LABEL": "Antal dage efter en ticket skal løses automatisk, hvis der ikke er nogen aktivitet",
+        "PLACEHOLDER": "30",
+        "ERROR": "Please enter a valid auto resolve duration (minimum 1 dag og maksimum 999 dage)"
+      },
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "Samtale kontinuitet med e-mails er aktiveret for din konto.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Du kan modtage e-mails på dit brugerdefinerede domæne nu."
+      }
+    },
+    "UPDATE_CHATWOOT": "En opdatering %{latestChatwootVersion} til Chatwoot er tilgængelig. Opdater venligst din instans.",
+    "LEARN_MORE": "Lær mere",
+    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
+    "OPEN_BILLING": "Open billing"
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "Tryk enter for at vælge",
+      "ENTER_TO_REMOVE": "Tryk enter for at fjerne",
+      "SELECT_ONE": "Vælg en",
+      "SELECT": "Vælg"
+    }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "Notifikationer",
+    "MARK_ALL_DONE": "Markér Alle Udførte",
+    "DELETE_TITLE": "slettet",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Ulæste Notifikationer",
+      "ALL_NOTIFICATIONS": "Se alle notifikationer",
+      "LOADING_UNREAD_MESSAGE": "Indlæser ulæste notifikationer...",
+      "EMPTY_MESSAGE": "Du har ingen ulæste notifikationer"
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "Indlæser notifikationer...",
+      "404": "Ingen Notifikationer",
+      "TABLE_HEADER": [
+        "Navn",
+        "Telefonnummer",
+        "Samtaler",
+        "Sidst Kontaktet"
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "Ny samtale",
+      "conversation_assignment": "Samtale Tildelt",
+      "assigned_conversation_new_message": "Ny Besked",
+      "participating_conversation_new_message": "Ny Besked",
+      "conversation_mention": "Omtale"
+    }
+  },
+  "NETWORK": {
+    "NOTIFICATION": {
+      "TEXT": "Afbrudt fra Chatwoot"
+    },
+    "BUTTON": {
+      "REFRESH": "Opdater"
+    }
+  },
+  "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "Søg eller hop til",
+    "SECTIONS": {
+      "GENERAL": "Generelt",
+      "REPORTS": "Rapporter",
+      "CONVERSATION": "Samtale",
+      "CHANGE_ASSIGNEE": "Skift Modtager",
+      "CHANGE_PRIORITY": "Change Priority",
+      "CHANGE_TEAM": "Skift Team",
+      "SNOOZE_CONVERSATION": "Udsæt Samtale",
+      "ADD_LABEL": "Tilføj etiket til samtalen",
+      "REMOVE_LABEL": "Fjern etiket fra samtalen",
+      "SETTINGS": "Indstillinger",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance"
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "Gå til Konversationspanel",
+      "GO_TO_CONTACTS_DASHBOARD": "Gå til Contacts Dashboard",
+      "GO_TO_REPORTS_OVERVIEW": "Gå til Oversigt over rapporter",
+      "GO_TO_CONVERSATION_REPORTS": "Gå til Konversationsrapporter",
+      "GO_TO_AGENT_REPORTS": "Gå til Agent rapporter",
+      "GO_TO_LABEL_REPORTS": "Gå til Label rapporter",
+      "GO_TO_INBOX_REPORTS": "Gå til Indbakke Rapporter",
+      "GO_TO_TEAM_REPORTS": "Gå til holdrapporter",
+      "GO_TO_SETTINGS_AGENTS": "Gå til Agent indstillinger",
+      "GO_TO_SETTINGS_TEAMS": "Gå til teamindstillinger",
+      "GO_TO_SETTINGS_INBOXES": "Gå til Indbakkeindstillinger",
+      "GO_TO_SETTINGS_LABELS": "Gå til Label indstillinger",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Gå til Indstillinger for scannede svar",
+      "GO_TO_SETTINGS_APPLICATIONS": "Gå til programindstillinger",
+      "GO_TO_SETTINGS_ACCOUNT": "Gå til kontoindstillinger",
+      "GO_TO_SETTINGS_PROFILE": "Gå til profilindstillinger",
+      "GO_TO_NOTIFICATIONS": "Gå til Notifikationer",
+      "ADD_LABELS_TO_CONVERSATION": "Tilføj etiket til samtalen",
+      "ASSIGN_AN_AGENT": "Tildel en agent",
+      "AI_ASSIST": "AI Assist",
+      "ASSIGN_PRIORITY": "Assign priority",
+      "ASSIGN_A_TEAM": "Tildel et team",
+      "MUTE_CONVERSATION": "Gør samtale lydløs",
+      "UNMUTE_CONVERSATION": "Fjern samtale",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Fjern etiket fra samtalen",
+      "REOPEN_CONVERSATION": "Genåbn samtale",
+      "RESOLVE_CONVERSATION": "Løs samtale",
+      "SEND_TRANSCRIPT": "Send en e-mail udskrift",
+      "SNOOZE_CONVERSATION": "Udsæt Samtale",
+      "UNTIL_NEXT_REPLY": "Indtil næste svar",
+      "UNTIL_NEXT_WEEK": "Indtil næste uge",
+      "UNTIL_TOMORROW": "Indtil i morgen",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "System"
+    }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Indlæser Dashboard App..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "klik her"
+  }
+}
