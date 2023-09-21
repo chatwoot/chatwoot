@@ -3,6 +3,7 @@ import {
   appendSignature,
   removeSignature,
   replaceSignature,
+  cleanSignature,
   extractTextFromMarkdown,
 } from '../editorHelper';
 
@@ -17,10 +18,18 @@ const DOES_NOT_HAVE_SIGNATURE = {
     body: 'This is a test\n\n--\n\nThis is a signature\n\nThis is more text',
     signature: 'This is a signature',
   },
-  signature_has_images: {
+  'signature has images': {
     body: 'This is a test',
     signature:
       'Testing\n![](http://localhost:3000/rails/active_storage/blobs/redirect/some-hash/image.png)',
+  },
+  'signature has non commonmark syntax': {
+    body: 'This is a test',
+    signature: '- Signature',
+  },
+  'signature has trailing spaces': {
+    body: 'This is a test',
+    signature: '**hello**      \n**world**',
   },
 };
 
@@ -36,6 +45,10 @@ const HAS_SIGNATURE = {
   'no text before signature': {
     body: '\n\n--\n\nThis is a signature',
     signature: 'This is a signature',
+  },
+  'signature has non-commonmark syntax': {
+    body: '\n\n--\n\n* Signature',
+    signature: '- Signature',
   },
 };
 
@@ -58,9 +71,10 @@ describe('appendSignature', () => {
   it('appends the signature if it is not present', () => {
     Object.keys(DOES_NOT_HAVE_SIGNATURE).forEach(key => {
       const { body, signature } = DOES_NOT_HAVE_SIGNATURE[key];
-      expect(appendSignature(body, signature)).toBe(
-        `${body}\n\n--\n\n${signature}`
-      );
+      const cleanedSignature = cleanSignature(signature);
+      expect(
+        appendSignature(body, signature).includes(cleanedSignature)
+      ).toBeTruthy();
     });
   });
   it('does not append signature if already present', () => {
