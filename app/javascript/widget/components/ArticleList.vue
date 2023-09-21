@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import ArticleListItem from './ArticleListItem';
+import ArticleListItem from './ArticleListItem.vue';
 
 export default {
   components: {

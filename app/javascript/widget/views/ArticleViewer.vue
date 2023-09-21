@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import IframeLoader from 'shared/components/IframeLoader';
+import IframeLoader from 'shared/components/IframeLoader.vue';
 
 export default {
   name: 'ArticleViewer',
