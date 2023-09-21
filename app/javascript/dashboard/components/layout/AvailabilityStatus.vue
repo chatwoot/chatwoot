@@ -49,11 +49,11 @@
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
-import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem';
-import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu';
-import WootDropdownHeader from 'shared/components/ui/dropdown/DropdownHeader';
-import WootDropdownDivider from 'shared/components/ui/dropdown/DropdownDivider';
-import AvailabilityStatusBadge from '../widgets/conversation/AvailabilityStatusBadge';
+import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
+import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
+import WootDropdownHeader from 'shared/components/ui/dropdown/DropdownHeader.vue';
+import WootDropdownDivider from 'shared/components/ui/dropdown/DropdownDivider.vue';
+import AvailabilityStatusBadge from '../widgets/conversation/AvailabilityStatusBadge.vue';
 import wootConstants from 'dashboard/constants/globals';
 
 const { AVAILABILITY_STATUS_KEYS } = wootConstants;

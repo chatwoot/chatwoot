@@ -34,9 +34,9 @@
 import { mapGetters } from 'vuex';
 
 import Spinner from 'shared/components/Spinner.vue';
-import ArticleHeader from 'dashboard/routes/dashboard/helpcenter/components/Header/ArticleHeader';
-import EmptyState from 'dashboard/components/widgets/EmptyState';
-import ArticleTable from '../../components/ArticleTable';
+import ArticleHeader from 'dashboard/routes/dashboard/helpcenter/components/Header/ArticleHeader.vue';
+import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
+import ArticleTable from '../../components/ArticleTable.vue';
 
 export default {
   components: {
