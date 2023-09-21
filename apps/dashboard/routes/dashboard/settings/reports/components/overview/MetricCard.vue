@@ -25,7 +25,7 @@
   </div>
 </template>
 <script>
-import Spinner from 'shared/components/Spinner.vue.vue';
+import Spinner from 'shared/components/Spinner.vue';
 
 export default {
   name: 'MetricCard',

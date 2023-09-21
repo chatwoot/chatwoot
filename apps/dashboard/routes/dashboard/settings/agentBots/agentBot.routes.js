@@ -1,4 +1,4 @@
-import SettingsContent from '../Wrapper';
+import SettingsContent from '../Wrapper.vue';
 const Bot = () => import('./Index.vue');
 const CsmlEditBot = () => import('./csml/Edit.vue');
 const CsmlNewBot = () => import('./csml/New.vue');

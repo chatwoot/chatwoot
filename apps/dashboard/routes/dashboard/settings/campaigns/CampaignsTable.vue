@@ -7,9 +7,14 @@
     <div v-else class="w-full">
       <empty-state v-if="showEmptyResult" :title="emptyMessage" />
       <div v-else class="w-full">
-        <campaign-card v-for="campaign in campaigns" :key="campaign.id" :campaign="campaign"
-          :is-ongoing-type="isOngoingType" @edit="campaign => $emit('edit', campaign)"
-          @delete="campaign => $emit('delete', campaign)" />
+        <campaign-card
+          v-for="campaign in campaigns"
+          :key="campaign.id"
+          :campaign="campaign"
+          :is-ongoing-type="isOngoingType"
+          @edit="campaign => $emit('edit', campaign)"
+          @delete="campaign => $emit('delete', campaign)"
+        />
       </div>
     </div>
   </div>
@@ -17,7 +22,7 @@
 
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
-import Spinner from 'shared/components/Spinner.vue.vue';
+import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import campaignMixin from 'shared/mixins/campaignMixin';
 import CampaignCard from './CampaignCard.vue';

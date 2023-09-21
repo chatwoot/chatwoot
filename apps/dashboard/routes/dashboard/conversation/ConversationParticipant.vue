@@ -11,33 +11,68 @@
             {{ $t('CONVERSATION_PARTICIPANTS.NO_PARTICIPANTS_TEXT') }}
           </p>
         </div>
-        <woot-button v-tooltip.left="$t('CONVERSATION_PARTICIPANTS.ADD_PARTICIPANTS')"
-          :title="$t('CONVERSATION_PARTICIPANTS.ADD_PARTICIPANTS')" icon="settings" size="tiny" variant="smooth"
-          color-scheme="secondary" @click="onOpenDropdown" />
+        <woot-button
+          v-tooltip.left="$t('CONVERSATION_PARTICIPANTS.ADD_PARTICIPANTS')"
+          :title="$t('CONVERSATION_PARTICIPANTS.ADD_PARTICIPANTS')"
+          icon="settings"
+          size="tiny"
+          variant="smooth"
+          color-scheme="secondary"
+          @click="onOpenDropdown"
+        />
       </div>
     </div>
     <div class="flex justify-between items-center">
-      <thumbnail-group :more-thumbnails-text="moreThumbnailsText" :show-more-thumbnails-count="showMoreThumbs"
-        :users-list="thumbnailList" />
-      <p v-if="isUserWatching" class="text-slate-300 dark:text-slate-300 m-0 text-sm">
+      <thumbnail-group
+        :more-thumbnails-text="moreThumbnailsText"
+        :show-more-thumbnails-count="showMoreThumbs"
+        :users-list="thumbnailList"
+      />
+      <p
+        v-if="isUserWatching"
+        class="text-slate-300 dark:text-slate-300 m-0 text-sm"
+      >
         {{ $t('CONVERSATION_PARTICIPANTS.YOU_ARE_WATCHING') }}
       </p>
-      <woot-button v-else icon="arrow-right" variant="link" size="small" @click="onSelfAssign">
+      <woot-button
+        v-else
+        icon="arrow-right"
+        variant="link"
+        size="small"
+        @click="onSelfAssign"
+      >
         {{ $t('CONVERSATION_PARTICIPANTS.WATCH_CONVERSATION') }}
       </woot-button>
     </div>
-    <div v-on-clickaway="() => {
-        onCloseDropdown();
-      }
-      " :class="{ 'dropdown-pane--open': showDropDown }" class="dropdown-pane">
+    <div
+      v-on-clickaway="
+        () => {
+          onCloseDropdown();
+        }
+      "
+      :class="{ 'dropdown-pane--open': showDropDown }"
+      class="dropdown-pane"
+    >
       <div class="flex justify-between items-center mb-1">
-        <h4 class="text-sm m-0 overflow-hidden whitespace-nowrap text-ellipsis text-slate-800 dark:text-slate-100">
+        <h4
+          class="text-sm m-0 overflow-hidden whitespace-nowrap text-ellipsis text-slate-800 dark:text-slate-100"
+        >
           {{ $t('CONVERSATION_PARTICIPANTS.ADD_PARTICIPANTS') }}
         </h4>
-        <woot-button icon="dismiss" size="tiny" color-scheme="secondary" variant="clear" @click="onCloseDropdown" />
+        <woot-button
+          icon="dismiss"
+          size="tiny"
+          color-scheme="secondary"
+          variant="clear"
+          @click="onCloseDropdown"
+        />
       </div>
-      <multiselect-dropdown-items :options="agentsList" :selected-items="selectedWatchers" :has-thumbnail="true"
-        @click="onClickItem" />
+      <multiselect-dropdown-items
+        :options="agentsList"
+        :selected-items="selectedWatchers"
+        :has-thumbnail="true"
+        @click="onClickItem"
+      />
     </div>
   </div>
 </template>
@@ -49,7 +84,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 import { mapGetters } from 'vuex';
 import agentMixin from 'dashboard/mixins/agentMixin';
 import ThumbnailGroup from 'dashboard/components/widgets/ThumbnailGroup';
-import MultiselectDropdownItems from 'shared/components/ui/MultiselectDropdownItems';
+import MultiselectDropdownItems from 'shared/components/ui/MultiselectDropdown.vue';
 
 export default {
   components: {

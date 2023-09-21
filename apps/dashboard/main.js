@@ -102,5 +102,5 @@ window.onload = () => {
 };
 
 window.addEventListener('load', () => {
-  window.playAudioAlert = () => { };
+  window.playAudioAlert = () => {};
 });

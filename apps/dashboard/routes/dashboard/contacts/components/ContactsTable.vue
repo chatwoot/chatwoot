@@ -1,10 +1,25 @@
 <template>
-  <section class="contacts-table-wrap bg-white dark:bg-slate-900 flex-1 h-full overflow-hidden -mt-1">
-    <ve-table :fixed-header="true" max-height="calc(100vh - 7.125rem)" scroll-width="187rem" :columns="columns"
-      :table-data="tableData" :border-around="false" :sort-option="sortOption" />
+  <section
+    class="contacts-table-wrap bg-white dark:bg-slate-900 flex-1 h-full overflow-hidden -mt-1"
+  >
+    <ve-table
+      :fixed-header="true"
+      max-height="calc(100vh - 7.125rem)"
+      scroll-width="187rem"
+      :columns="columns"
+      :table-data="tableData"
+      :border-around="false"
+      :sort-option="sortOption"
+    />
 
-    <empty-state v-if="showSearchEmptyState" :title="$t('CONTACTS_PAGE.LIST.404')" />
-    <empty-state v-else-if="!isLoading && !contacts.length" :title="$t('CONTACTS_PAGE.LIST.NO_CONTACTS')" />
+    <empty-state
+      v-if="showSearchEmptyState"
+      :title="$t('CONTACTS_PAGE.LIST.404')"
+    />
+    <empty-state
+      v-else-if="!isLoading && !contacts.length"
+      :title="$t('CONTACTS_PAGE.LIST.NO_CONTACTS')"
+    />
     <div v-if="isLoading" class="items-center flex text-base justify-center">
       <spinner />
       <span>{{ $t('CONTACTS_PAGE.LIST.LOADING_MESSAGE') }}</span>
@@ -12,17 +27,17 @@
   </section>
 </template>
 
-<script>
+<script lang="jsx">
 import { mixin as clickaway } from 'vue-clickaway';
 import { VeTable } from 'vue-easytable';
 import { getCountryFlag } from 'dashboard/helper/flag';
 
-import Spinner from 'shared/components/Spinner.vue.vue';
+import Spinner from 'shared/components/Spinner.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import timeMixin from 'dashboard/mixins/time';
 import rtlMixin from 'shared/mixins/rtlMixin';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
 export default {
   components: {
@@ -42,7 +57,7 @@ export default {
     },
     onClickContact: {
       type: Function,
-      default: () => { },
+      default: () => {},
     },
     isLoading: {
       type: Boolean,

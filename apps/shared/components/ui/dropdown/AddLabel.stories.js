@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions';
-import AddLabel from './AddLabel';
+import AddLabel from './AddLabel.vue';
 
 export default {
   title: 'Components/Label/Add Button',

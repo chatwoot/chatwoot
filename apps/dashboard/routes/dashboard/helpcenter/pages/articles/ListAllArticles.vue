@@ -1,23 +1,39 @@
 <template>
-  <div class="py-0 px-0 w-full max-w-full overflow-auto bg-white dark:bg-slate-900">
-    <article-header :header-title="headerTitle" :count="meta.count" selected-value="Published"
-      @newArticlePage="newArticlePage" />
-    <article-table :articles="articles" :current-page="Number(meta.currentPage)" :total-count="Number(meta.count)"
-      @page-change="onPageChange" @reorder="onReorder" />
-    <div v-if="shouldShowLoader"
-      class="items-center flex text-base justify-center py-6 px-4 text-slate-600 dark:text-slate-200">
+  <div
+    class="py-0 px-0 w-full max-w-full overflow-auto bg-white dark:bg-slate-900"
+  >
+    <article-header
+      :header-title="headerTitle"
+      :count="meta.count"
+      selected-value="Published"
+      @newArticlePage="newArticlePage"
+    />
+    <article-table
+      :articles="articles"
+      :current-page="Number(meta.currentPage)"
+      :total-count="Number(meta.count)"
+      @page-change="onPageChange"
+      @reorder="onReorder"
+    />
+    <div
+      v-if="shouldShowLoader"
+      class="items-center flex text-base justify-center py-6 px-4 text-slate-600 dark:text-slate-200"
+    >
       <spinner />
       <span class="text-slate-600 dark:text-slate-200">{{
         $t('HELP_CENTER.TABLE.LOADING_MESSAGE')
       }}</span>
     </div>
-    <empty-state v-else-if="shouldShowEmptyState" :title="$t('HELP_CENTER.TABLE.NO_ARTICLES')" />
+    <empty-state
+      v-else-if="shouldShowEmptyState"
+      :title="$t('HELP_CENTER.TABLE.NO_ARTICLES')"
+    />
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
 
-import Spinner from 'shared/components/Spinner.vue.vue';
+import Spinner from 'shared/components/Spinner.vue';
 import ArticleHeader from 'dashboard/routes/dashboard/helpcenter/components/Header/ArticleHeader';
 import EmptyState from 'dashboard/components/widgets/EmptyState';
 import ArticleTable from '../../components/ArticleTable';

@@ -10,7 +10,8 @@
     <div
       class="flex items-center justify-between py-0 px-4"
       :class="{
-        'pb-3 border-b border-slate-75 dark:border-slate-700': hasAppliedFiltersOrActiveFolders,
+        'pb-3 border-b border-slate-75 dark:border-slate-700':
+          hasAppliedFiltersOrActiveFolders,
       }"
     >
       <div class="flex max-w-[85%] justify-center items-center">
@@ -193,17 +194,17 @@
 <script>
 import { mapGetters } from 'vuex';
 
-import ConversationAdvancedFilter from './widgets/conversation/ConversationAdvancedFilter';
-import ConversationBasicFilter from './widgets/conversation/ConversationBasicFilter';
-import ChatTypeTabs from './widgets/ChatTypeTabs';
-import ConversationCard from './widgets/conversation/ConversationCard';
+import ConversationAdvancedFilter from './widgets/conversation/ConversationAdvancedFilter.vue';
+import ConversationBasicFilter from './widgets/conversation/ConversationBasicFilter.vue';
+import ChatTypeTabs from './widgets/ChatTypeTabs.vue';
+import ConversationCard from './widgets/conversation/ConversationCard.vue';
 import timeMixin from '../mixins/time';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import conversationMixin from '../mixins/conversations';
 import wootConstants from 'dashboard/constants/globals';
 import advancedFilterTypes from './widgets/conversation/advancedFilterItems';
 import filterQueryGenerator from '../helper/filterQueryGenerator.js';
-import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews';
+import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews.vue';
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
 import alertMixin from 'shared/mixins/alertMixin';
@@ -642,10 +643,8 @@ export default {
     },
     handleKeyEvents(e) {
       if (hasPressedAltAndJKey(e)) {
-        const {
-          allConversations,
-          activeConversationIndex,
-        } = this.getKeyboardListenerParams();
+        const { allConversations, activeConversationIndex } =
+          this.getKeyboardListenerParams();
         if (activeConversationIndex === -1) {
           allConversations[0].click();
         }

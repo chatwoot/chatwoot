@@ -5,7 +5,7 @@ import VueI18n from 'vue-i18n';
 import Vuelidate from 'vuelidate';
 import Multiselect from 'vue-multiselect';
 import VueDOMPurifyHTML from 'vue-dompurify-html';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
 import WootUiKit from '../app/javascript/dashboard/components';
 import i18n from '../app/javascript/dashboard/i18n';
@@ -32,7 +32,7 @@ addDecorator(() => ({
   template: '<story/>',
   i18n: i18nConfig,
   store,
-  beforeCreate: function() {
+  beforeCreate: function () {
     this.$root._i18n = this.$i18n;
   },
 }));

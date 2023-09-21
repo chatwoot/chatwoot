@@ -1,24 +1,36 @@
 <template>
   <div class="agent-table-container">
-    <ve-table max-height="calc(100vh - 21.875rem)" :fixed-header="true" :columns="columns" :table-data="tableData" />
+    <ve-table
+      max-height="calc(100vh - 21.875rem)"
+      :fixed-header="true"
+      :columns="columns"
+      :table-data="tableData"
+    />
     <div v-if="isLoading" class="agents-loader">
       <spinner />
       <span>{{
         $t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.LOADING_MESSAGE')
       }}</span>
     </div>
-    <empty-state v-else-if="!isLoading && !agentMetrics.length"
-      :title="$t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.NO_AGENTS')" />
+    <empty-state
+      v-else-if="!isLoading && !agentMetrics.length"
+      :title="$t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.NO_AGENTS')"
+    />
     <div v-if="agentMetrics.length > 0" class="table-pagination">
-      <ve-pagination :total="agents.length" :page-index="pageIndex" :page-size="25" :page-size-option="[25]"
-        @on-page-number-change="onPageNumberChange" />
+      <ve-pagination
+        :total="agents.length"
+        :page-index="pageIndex"
+        :page-size="25"
+        :page-size-option="[25]"
+        @on-page-number-change="onPageNumberChange"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import { VeTable, VePagination } from 'vue-easytable';
-import Spinner from 'shared/components/Spinner.vue.vue';
+import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import rtlMixin from 'shared/mixins/rtlMixin';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';

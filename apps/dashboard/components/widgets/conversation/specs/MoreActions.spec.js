@@ -5,7 +5,7 @@ import VTooltip from 'v-tooltip';
 
 import Button from 'dashboard/components/buttons/Button';
 import i18n from 'dashboard/i18n';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 import MoreActions from '../MoreActions';
 
 const localVue = createLocalVue();

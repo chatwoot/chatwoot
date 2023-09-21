@@ -1,5 +1,5 @@
-import Index from './Index';
-import SettingsContent from '../Wrapper';
+import Index from './Index.vue';
+import SettingsContent from '../Wrapper.vue';
 import { frontendURL } from '../../../../helper/URLHelper';
 
 export default {

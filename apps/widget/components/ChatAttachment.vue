@@ -1,8 +1,14 @@
 <template>
-  <file-upload ref="upload" :size="4096 * 2048" :accept="allowedFileTypes" :data="{
-    direct_upload_url: '/api/v1/widget/direct_uploads',
-    direct_upload: true,
-  }" @input-file="onFileUpload">
+  <file-upload
+    ref="upload"
+    :size="4096 * 2048"
+    :accept="allowedFileTypes"
+    :data="{
+      direct_upload_url: '/api/v1/widget/direct_uploads',
+      direct_upload: true,
+    }"
+    @input-file="onFileUpload"
+  >
     <button class="icon-button flex items-center justify-center">
       <fluent-icon v-if="!isUploading.image" icon="attach" />
       <spinner v-if="isUploading" size="small" />
@@ -12,7 +18,7 @@
 
 <script>
 import FileUpload from 'vue-upload-component';
-import Spinner from 'shared/components/Spinner.vue.vue';
+import Spinner from 'shared/components/Spinner.vue';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import {
   MAXIMUM_FILE_UPLOAD_SIZE,
@@ -28,7 +34,7 @@ export default {
   props: {
     onAttach: {
       type: Function,
-      default: () => { },
+      default: () => {},
     },
   },
   data() {

@@ -25,7 +25,7 @@ import ForwardToOption from './emailChannels/ForwardToOption';
 import Microsoft from './emailChannels/Microsoft';
 import { mapGetters } from 'vuex';
 import ChannelSelector from 'dashboard/components/ChannelSelector.vue';
-import PageHeader from '../../SettingsSubPageHeader';
+import PageHeader from '../../SettingsSubPageHeader.vue';
 
 export default {
   components: {

@@ -13,7 +13,7 @@ import AnalyticsPlugin from 'dashboard/helper/AnalyticsHelper/plugin';
 import App from '../v3/App.vue';
 import router, { initalizeRouter } from '../v3/views/index';
 import store from '../v3/store';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
 Vue.config.env = process.env;
 

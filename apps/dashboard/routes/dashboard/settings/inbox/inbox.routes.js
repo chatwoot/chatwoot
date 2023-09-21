@@ -1,12 +1,12 @@
 /* eslint arrow-body-style: 0 */
-import SettingsContent from '../Wrapper';
-import Settings from './Settings';
-import InboxHome from './Index';
-import InboxChannel from './InboxChannels';
-import ChannelList from './ChannelList';
+import SettingsContent from '../Wrapper.vue';
+import Settings from './Settings.vue';
+import InboxHome from './Index.vue';
+import InboxChannel from './InboxChannels.vue';
+import ChannelList from './ChannelList.vue';
 import channelFactory from './channel-factory';
-import AddAgents from './AddAgents';
-import FinishSetup from './FinishSetup';
+import AddAgents from './AddAgents.vue';
+import FinishSetup from './FinishSetup.vue';
 import { frontendURL } from '../../../../helper/URLHelper';
 
 export default {

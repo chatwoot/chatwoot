@@ -4,8 +4,10 @@
       <emoji-or-icon class="icon-grab" icon="grab-handle" />
       <div class="article-block">
         <router-link :to="articleUrl(id)">
-          <h6 :title="title"
-            class="text-base ltr:text-left rtl:text-right text-slate-800 dark:text-slate-100 mb-0 leading-6 h-6 hover:underline overflow-hidden whitespace-nowrap text-ellipsis">
+          <h6
+            :title="title"
+            class="text-base ltr:text-left rtl:text-right text-slate-800 dark:text-slate-100 mb-0 leading-6 h-6 hover:underline overflow-hidden whitespace-nowrap text-ellipsis"
+          >
             {{ title }}
           </h6>
         </router-link>
@@ -16,8 +18,14 @@
       </div>
     </span>
     <span class="article-column article-category">
-      <router-link class="fs-small button clear link secondary" :to="getCategoryRoute(category.slug)">
-        <span :title="category.name" class="category-link-content overflow-hidden whitespace-nowrap text-ellipsis">
+      <router-link
+        class="fs-small button clear link secondary"
+        :to="getCategoryRoute(category.slug)"
+      >
+        <span
+          :title="category.name"
+          class="category-link-content overflow-hidden whitespace-nowrap text-ellipsis"
+        >
           {{ category.name }}
         </span>
       </router-link>
@@ -29,7 +37,12 @@
     </span>
     <span class="article-column article-status">
       <div>
-        <woot-label :title="status" size="small" variant="smooth" :color-scheme="labelColor" />
+        <woot-label
+          :title="status"
+          size="small"
+          variant="smooth"
+          :color-scheme="labelColor"
+        />
       </div>
     </span>
     <span class="article-column article-last-edited">
@@ -43,7 +56,7 @@
 import timeMixin from 'dashboard/mixins/time';
 import portalMixin from '../mixins/portalMixin';
 import { frontendURL } from 'dashboard/helper/URLHelper';
-import EmojiOrIcon from '../../../../../shared/components/EmojiOrIcon.vue.vue';
+import EmojiOrIcon from '../../../../../shared/components/EmojiOrIcon.vue';
 
 export default {
   components: {
@@ -62,11 +75,11 @@ export default {
     },
     author: {
       type: Object,
-      default: () => { },
+      default: () => {},
     },
     category: {
       type: Object,
-      default: () => { },
+      default: () => {},
     },
     views: {
       type: Number,
@@ -166,7 +179,6 @@ export default {
     }
 
     @media (max-width: 47.9375em) {
-
       &.article-read-count,
       &.article-last-edited {
         @apply hidden;

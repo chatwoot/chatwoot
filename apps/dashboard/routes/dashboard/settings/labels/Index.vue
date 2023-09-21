@@ -1,17 +1,31 @@
 <template>
   <div class="flex-1 overflow-auto p-4">
-    <woot-button color-scheme="success" class-names="button--fixed-top" icon="add-circle" @click="openAddPopup">
+    <woot-button
+      color-scheme="success"
+      class-names="button--fixed-top"
+      icon="add-circle"
+      @click="openAddPopup"
+    >
       {{ $t('LABEL_MGMT.HEADER_BTN_TXT') }}
     </woot-button>
     <div class="flex flex-row gap-4">
       <div class="w-[60%]">
-        <p v-if="!uiFlags.isFetching && !records.length" class="flex h-full items-center flex-col justify-center">
+        <p
+          v-if="!uiFlags.isFetching && !records.length"
+          class="flex h-full items-center flex-col justify-center"
+        >
           {{ $t('LABEL_MGMT.LIST.404') }}
         </p>
-        <woot-loading-state v-if="uiFlags.isFetching" :message="$t('LABEL_MGMT.LOADING')" />
+        <woot-loading-state
+          v-if="uiFlags.isFetching"
+          :message="$t('LABEL_MGMT.LOADING')"
+        />
         <table v-if="!uiFlags.isFetching && records.length" class="woot-table">
           <thead>
-            <th v-for="thHeader in $t('LABEL_MGMT.LIST.TABLE_HEADER')" :key="thHeader">
+            <th
+              v-for="thHeader in $t('LABEL_MGMT.LIST.TABLE_HEADER')"
+              :key="thHeader"
+            >
               {{ thHeader }}
             </th>
           </thead>
@@ -25,17 +39,34 @@
               <td>{{ label.description }}</td>
               <td>
                 <div class="label-color--container">
-                  <span class="label-color--display" :style="{ backgroundColor: label.color }" />
+                  <span
+                    class="label-color--display"
+                    :style="{ backgroundColor: label.color }"
+                  />
                   {{ label.color }}
                 </div>
               </td>
               <td class="button-wrapper">
-                <woot-button v-tooltip.top="$t('LABEL_MGMT.FORM.EDIT')" variant="smooth" size="tiny"
-                  color-scheme="secondary" class-names="grey-btn" :is-loading="loading[label.id]" icon="edit"
-                  @click="openEditPopup(label)" />
-                <woot-button v-tooltip.top="$t('LABEL_MGMT.FORM.DELETE')" variant="smooth" color-scheme="alert"
-                  size="tiny" icon="dismiss-circle" class-names="grey-btn" :is-loading="loading[label.id]"
-                  @click="openDeletePopup(label, index)" />
+                <woot-button
+                  v-tooltip.top="$t('LABEL_MGMT.FORM.EDIT')"
+                  variant="smooth"
+                  size="tiny"
+                  color-scheme="secondary"
+                  class-names="grey-btn"
+                  :is-loading="loading[label.id]"
+                  icon="edit"
+                  @click="openEditPopup(label)"
+                />
+                <woot-button
+                  v-tooltip.top="$t('LABEL_MGMT.FORM.DELETE')"
+                  variant="smooth"
+                  color-scheme="alert"
+                  size="tiny"
+                  icon="dismiss-circle"
+                  class-names="grey-btn"
+                  :is-loading="loading[label.id]"
+                  @click="openDeletePopup(label, index)"
+                />
               </td>
             </tr>
           </tbody>
@@ -51,19 +82,29 @@
     </woot-modal>
 
     <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
-      <edit-label :selected-response="selectedResponse" @close="hideEditPopup" />
+      <edit-label
+        :selected-response="selectedResponse"
+        @close="hideEditPopup"
+      />
     </woot-modal>
 
-    <woot-delete-modal :show.sync="showDeleteConfirmationPopup" :on-close="closeDeletePopup" :on-confirm="confirmDeletion"
-      :title="$t('LABEL_MGMT.DELETE.CONFIRM.TITLE')" :message="$t('LABEL_MGMT.DELETE.CONFIRM.MESSAGE')"
-      :message-value="deleteMessage" :confirm-text="deleteConfirmText" :reject-text="deleteRejectText" />
+    <woot-delete-modal
+      :show.sync="showDeleteConfirmationPopup"
+      :on-close="closeDeletePopup"
+      :on-confirm="confirmDeletion"
+      :title="$t('LABEL_MGMT.DELETE.CONFIRM.TITLE')"
+      :message="$t('LABEL_MGMT.DELETE.CONFIRM.MESSAGE')"
+      :message-value="deleteMessage"
+      :confirm-text="deleteConfirmText"
+      :reject-text="deleteRejectText"
+    />
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
 
-import AddLabel from './AddLabel';
-import EditLabel from './EditLabel';
+import AddLabel from './AddLabel.vue';
+import EditLabel from './EditLabel.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 
 export default {

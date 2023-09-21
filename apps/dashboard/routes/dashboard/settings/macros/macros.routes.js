@@ -1,6 +1,6 @@
-import SettingsContent from '../Wrapper';
-import Macros from './Index';
-const MacroEditor = () => import('./MacroEditor');
+import SettingsContent from '../Wrapper.vue';
+import Macros from './Index.vue';
+const MacroEditor = () => import('./MacroEditor.vue');
 import { frontendURL } from 'dashboard/helper/URLHelper';
 
 export default {

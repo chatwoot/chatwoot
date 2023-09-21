@@ -1,15 +1,22 @@
 <template>
-  <div v-if="!conversationSize && isFetchingList" class="flex flex-1 items-center h-full bg-black-25 justify-center"
-    :class="{ dark: prefersDarkMode }">
+  <div
+    v-if="!conversationSize && isFetchingList"
+    class="flex flex-1 items-center h-full bg-black-25 justify-center"
+    :class="{ dark: prefersDarkMode }"
+  >
     <spinner size="" />
   </div>
-  <div v-else class="flex flex-col justify-end h-full" :class="{
-    'is-mobile': isMobile,
-    'is-widget-right': isRightAligned,
-    'is-bubble-hidden': hideMessageBubble,
-    'is-flat-design': isWidgetStyleFlat,
-    dark: prefersDarkMode,
-  }">
+  <div
+    v-else
+    class="flex flex-col justify-end h-full"
+    :class="{
+      'is-mobile': isMobile,
+      'is-widget-right': isRightAligned,
+      'is-bubble-hidden': hideMessageBubble,
+      'is-flat-design': isWidgetStyleFlat,
+      dark: prefersDarkMode,
+    }"
+  >
     <router-view />
   </div>
 </template>
@@ -23,7 +30,7 @@ import configMixin from './mixins/configMixin';
 import availabilityMixin from 'widget/mixins/availability';
 import { getLocale } from './helpers/urlParamsHelper';
 import { isEmptyObject } from 'widget/helpers/utils';
-import Spinner from 'shared/components/Spinner.vue.vue';
+import Spinner from 'shared/components/Spinner.vue';
 import routerMixin from './mixins/routerMixin';
 import {
   getExtraSpaceToScroll,

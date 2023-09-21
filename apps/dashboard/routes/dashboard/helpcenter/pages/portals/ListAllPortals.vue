@@ -7,21 +7,45 @@
           {{ $t('HELP_CENTER.PORTAL.HEADER') }}
         </h1>
       </div>
-      <woot-button color-scheme="primary" icon="add" size="small" @click="addPortal">
+      <woot-button
+        color-scheme="primary"
+        icon="add"
+        size="small"
+        @click="addPortal"
+      >
         {{ $t('HELP_CENTER.PORTAL.NEW_BUTTON') }}
       </woot-button>
     </div>
     <div class="h-[90vh] overflow-y-scroll">
-      <portal-list-item v-for="portal in portals" :key="portal.id" :portal="portal" :status="portalStatus"
-        @add-locale="addLocale" @open-site="openPortal" />
-      <div v-if="isFetching" class="items-center flex text-base justify-center p-40">
+      <portal-list-item
+        v-for="portal in portals"
+        :key="portal.id"
+        :portal="portal"
+        :status="portalStatus"
+        @add-locale="addLocale"
+        @open-site="openPortal"
+      />
+      <div
+        v-if="isFetching"
+        class="items-center flex text-base justify-center p-40"
+      >
         <spinner />
         <span>{{ $t('HELP_CENTER.PORTAL.LOADING_MESSAGE') }}</span>
       </div>
-      <empty-state v-else-if="shouldShowEmptyState" :title="$t('HELP_CENTER.PORTAL.NO_PORTALS_MESSAGE')" />
+      <empty-state
+        v-else-if="shouldShowEmptyState"
+        :title="$t('HELP_CENTER.PORTAL.NO_PORTALS_MESSAGE')"
+      />
     </div>
-    <woot-modal :show.sync="isAddLocaleModalOpen" :on-close="closeAddLocaleModal">
-      <add-locale :show="isAddLocaleModalOpen" :portal="selectedPortal" @cancel="closeAddLocaleModal" />
+    <woot-modal
+      :show.sync="isAddLocaleModalOpen"
+      :on-close="closeAddLocaleModal"
+    >
+      <add-locale
+        :show="isAddLocaleModalOpen"
+        :portal="selectedPortal"
+        @cancel="closeAddLocaleModal"
+      />
     </woot-modal>
   </div>
 </template>
@@ -30,7 +54,7 @@
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import PortalListItem from '../../components/PortalListItem';
-import Spinner from 'shared/components/Spinner.vue.vue';
+import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState';
 import AddLocale from '../../components/AddLocale';
 import { buildPortalURL } from 'dashboard/helper/portalHelper';

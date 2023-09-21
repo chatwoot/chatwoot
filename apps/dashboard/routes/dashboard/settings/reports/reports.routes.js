@@ -1,11 +1,11 @@
-import Index from './Index';
-import AgentReports from './AgentReports';
-import LabelReports from './LabelReports';
-import InboxReports from './InboxReports';
-import TeamReports from './TeamReports';
-import CsatResponses from './CsatResponses';
-import LiveReports from './LiveReports';
-import SettingsContent from '../Wrapper';
+import Index from './Index.vue';
+import AgentReports from './AgentReports.vue';
+import LabelReports from './LabelReports.vue';
+import InboxReports from './InboxReports.vue';
+import TeamReports from './TeamReports.vue';
+import CsatResponses from './CsatResponses.vue';
+import LiveReports from './LiveReports.vue';
+import SettingsContent from '../Wrapper.vue';
 import { frontendURL } from '../../../../helper/URLHelper';
 
 export default {

@@ -1,15 +1,39 @@
 <template>
   <div class="sidebar-labels-wrap">
-    <div v-if="!conversationUiFlags.isFetching" class="contact-conversation--list">
-      <div v-on-clickaway="closeDropdownLabel" class="label-wrap" @keyup.esc="closeDropdownLabel">
+    <div
+      v-if="!conversationUiFlags.isFetching"
+      class="contact-conversation--list"
+    >
+      <div
+        v-on-clickaway="closeDropdownLabel"
+        class="label-wrap"
+        @keyup.esc="closeDropdownLabel"
+      >
         <add-label @add="toggleLabels" />
-        <woot-label v-for="label in activeLabels" :key="label.id" :title="label.title" :description="label.description"
-          :show-close="true" :color="label.color" variant="smooth" @click="removeLabelFromConversation" />
+        <woot-label
+          v-for="label in activeLabels"
+          :key="label.id"
+          :title="label.title"
+          :description="label.description"
+          :show-close="true"
+          :color="label.color"
+          variant="smooth"
+          @click="removeLabelFromConversation"
+        />
 
         <div class="dropdown-wrap">
-          <div :class="{ 'dropdown-pane--open': showSearchDropdownLabel }" class="dropdown-pane">
-            <label-dropdown v-if="showSearchDropdownLabel" :account-labels="accountLabels" :selected-labels="savedLabels"
-              :allow-creation="isAdmin" @add="addLabelToConversation" @remove="removeLabelFromConversation" />
+          <div
+            :class="{ 'dropdown-pane--open': showSearchDropdownLabel }"
+            class="dropdown-pane"
+          >
+            <label-dropdown
+              v-if="showSearchDropdownLabel"
+              :account-labels="accountLabels"
+              :selected-labels="savedLabels"
+              :allow-creation="isAdmin"
+              @add="addLabelToConversation"
+              @remove="removeLabelFromConversation"
+            />
           </div>
         </div>
       </div>
@@ -21,8 +45,8 @@
 <script>
 import { mapGetters } from 'vuex';
 import Spinner from 'shared/components/Spinner.vue';
-import LabelDropdown from 'shared/components/ui/label/LabelDropdown';
-import AddLabel from 'shared/components/ui/dropdown/AddLabel';
+import LabelDropdown from 'shared/components/ui/label/LabelDropdown.vue';
+import AddLabel from 'shared/components/ui/dropdown/AddLabel.vue';
 import { mixin as clickaway } from 'vue-clickaway';
 import adminMixin from 'dashboard/mixins/isAdmin';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';

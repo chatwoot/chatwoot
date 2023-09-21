@@ -1,9 +1,9 @@
-import Index from './Index';
-import SettingsContent from '../Wrapper';
-import Webhook from './Webhooks/Index';
-import DashboardApps from './DashboardApps/Index';
-import ShowIntegration from './ShowIntegration';
-import Slack from './Slack';
+import Index from './Index.vue';
+import SettingsContent from '../Wrapper.vue';
+import Webhook from './Webhooks/Index.vue';
+import DashboardApps from './DashboardApps/Index.vue';
+import ShowIntegration from './ShowIntegration.vue';
+import Slack from './Slack.vue';
 import { frontendURL } from '../../../../helper/URLHelper';
 
 export default {

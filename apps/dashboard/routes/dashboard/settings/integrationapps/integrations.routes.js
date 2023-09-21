@@ -1,6 +1,6 @@
-import Index from './Index';
-import SettingsContent from '../Wrapper';
-import IntegrationHooks from './IntegrationHooks';
+import Index from './Index.vue';
+import SettingsContent from '../Wrapper.vue';
+import IntegrationHooks from './IntegrationHooks.vue';
 import { frontendURL } from '../../../../helper/URLHelper';
 
 export default {

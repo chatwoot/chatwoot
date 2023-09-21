@@ -1,5 +1,5 @@
-import SettingsContent from '../Wrapper';
-import CannedHome from './Index';
+import SettingsContent from '../Wrapper.vue';
+import CannedHome from './Index.vue';
 import { frontendURL } from '../../../../helper/URLHelper';
 
 export default {

@@ -149,7 +149,7 @@ import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
 
 import CannedResponse from './CannedResponse';
-import ResizableTextArea from 'shared/components/ResizableTextArea';
+import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
 import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel';
 import ReplyEmailHead from './ReplyEmailHead';
@@ -435,9 +435,8 @@ export default {
       const {
         LAYOUT_TYPES: { CONDENSED },
       } = wootConstants;
-      const {
-        conversation_display_type: conversationDisplayType = CONDENSED,
-      } = this.uiSettings;
+      const { conversation_display_type: conversationDisplayType = CONDENSED } =
+        this.uiSettings;
       return conversationDisplayType !== CONDENSED;
     },
     emojiDialogClassOnExpandedLayoutAndRTLView() {

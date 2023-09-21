@@ -129,7 +129,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import router from '../../../../index';
-import PageHeader from '../../SettingsSubPageHeader';
+import PageHeader from '../../SettingsSubPageHeader.vue';
 import GreetingsEditor from 'shared/components/GreetingsEditor';
 import alertMixin from 'shared/mixins/alertMixin';
 

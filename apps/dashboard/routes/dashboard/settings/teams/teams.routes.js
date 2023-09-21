@@ -1,13 +1,13 @@
 /* eslint arrow-body-style: 0 */
-import SettingsContent from '../Wrapper';
-import TeamsHome from './Index';
-import CreateStepWrap from './Create/Index';
-import EditStepWrap from './Edit/Index';
-import CreateTeam from './Create/CreateTeam';
-import EditTeam from './Edit/EditTeam';
-import AddAgents from './Create/AddAgents';
-import EditAgents from './Edit/EditAgents';
-import FinishSetup from './FinishSetup';
+import SettingsContent from '../Wrapper.vue';
+import TeamsHome from './Index.vue';
+import CreateStepWrap from './Create/Index.vue';
+import EditStepWrap from './Edit/Index.vue';
+import CreateTeam from './Create/CreateTeam.vue';
+import EditTeam from './Edit/EditTeam.vue';
+import AddAgents from './Create/AddAgents.vue';
+import EditAgents from './Edit/EditAgents.vue';
+import FinishSetup from './FinishSetup.vue';
 import { frontendURL } from '../../../../helper/URLHelper';
 
 export default {

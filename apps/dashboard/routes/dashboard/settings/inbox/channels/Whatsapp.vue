@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import PageHeader from '../../SettingsSubPageHeader';
+import PageHeader from '../../SettingsSubPageHeader.vue';
 import Twilio from './Twilio';
 import ThreeSixtyDialogWhatsapp from './360DialogWhatsapp';
 import CloudWhatsapp from './CloudWhatsapp';

@@ -7,14 +7,25 @@
     </div>
     <div class="header flex-between">
       <span>{{ $t('BULK_ACTION.UPDATE.CHANGE_STATUS') }}</span>
-      <woot-button size="tiny" variant="clear" color-scheme="secondary" icon="dismiss" @click="onClose" />
+      <woot-button
+        size="tiny"
+        variant="clear"
+        color-scheme="secondary"
+        icon="dismiss"
+        @click="onClose"
+      />
     </div>
     <div class="container">
       <woot-dropdown-menu>
         <template v-for="action in actions">
           <woot-dropdown-item v-if="showAction(action.key)" :key="action.key">
-            <woot-button variant="clear" color-scheme="secondary" size="small" :icon="action.icon"
-              @click="updateConversations(action.key)">
+            <woot-button
+              variant="clear"
+              color-scheme="secondary"
+              size="small"
+              :icon="action.icon"
+              @click="updateConversations(action.key)"
+            >
               {{ actionLabel(action.key) }}
             </woot-button>
           </woot-dropdown-item>
@@ -26,8 +37,8 @@
 
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
-import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue.vue';
-import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue.vue';
+import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
+import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 
 export default {
   components: {

@@ -1,5 +1,5 @@
-import SettingsContent from '../Wrapper';
-import AuditLogsHome from './Index';
+import SettingsContent from '../Wrapper.vue';
+import AuditLogsHome from './Index.vue';
 import { frontendURL } from '../../../../helper/URLHelper';
 
 export default {

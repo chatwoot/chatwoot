@@ -4,9 +4,17 @@
       <div v-if="isFetchingList" class="message--loader">
         <spinner />
       </div>
-      <div v-for="groupedMessage in groupedMessages" :key="groupedMessage.date" class="messages-wrap">
+      <div
+        v-for="groupedMessage in groupedMessages"
+        :key="groupedMessage.date"
+        class="messages-wrap"
+      >
         <date-separator :date="groupedMessage.date" />
-        <chat-message v-for="message in groupedMessage.messages" :key="message.id" :message="message" />
+        <chat-message
+          v-for="message in groupedMessage.messages"
+          :key="message.id"
+          :message="message"
+        />
       </div>
       <agent-typing-bubble v-if="showStatusIndicator" />
     </div>
@@ -17,7 +25,7 @@
 import ChatMessage from 'widget/components/ChatMessage.vue';
 import AgentTypingBubble from 'widget/components/AgentTypingBubble.vue';
 import DateSeparator from 'shared/components/DateSeparator.vue';
-import Spinner from 'shared/components/Spinner.vue.vue';
+import Spinner from 'shared/components/Spinner.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
 import { MESSAGE_TYPE } from 'shared/constants/messages';
 import { mapActions, mapGetters } from 'vuex';

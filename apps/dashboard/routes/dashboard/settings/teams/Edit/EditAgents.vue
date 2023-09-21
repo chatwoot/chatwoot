@@ -2,7 +2,10 @@
   <div class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%]">
     <form class="mx-0 flex flex-wrap" @submit.prevent="addAgents">
       <div class="w-full">
-        <page-header :header-title="headerTitle" :header-content="$t('TEAMS_SETTINGS.EDIT_FLOW.AGENTS.DESC')" />
+        <page-header
+          :header-title="headerTitle"
+          :header-content="$t('TEAMS_SETTINGS.EDIT_FLOW.AGENTS.DESC')"
+        />
       </div>
 
       <div class="w-full">
@@ -11,9 +14,16 @@
             {{ $t('TEAMS_SETTINGS.ADD.AGENT_VALIDATION_ERROR') }}
           </p>
         </div>
-        <agent-selector v-if="showAgentsList" :agent-list="agentList" :selected-agents="selectedAgents"
-          :update-selected-agents="updateSelectedAgents" :is-working="isCreating" :submit-button-text="$t('TEAMS_SETTINGS.EDIT_FLOW.AGENTS.BUTTON_TEXT')
-            " />
+        <agent-selector
+          v-if="showAgentsList"
+          :agent-list="agentList"
+          :selected-agents="selectedAgents"
+          :update-selected-agents="updateSelectedAgents"
+          :is-working="isCreating"
+          :submit-button-text="
+            $t('TEAMS_SETTINGS.EDIT_FLOW.AGENTS.BUTTON_TEXT')
+          "
+        />
         <spinner v-else />
       </div>
     </form>
@@ -26,8 +36,8 @@ import Spinner from 'shared/components/Spinner.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 
 import router from '../../../../index';
-import PageHeader from '../../SettingsSubPageHeader';
-import AgentSelector from '../AgentSelector';
+import PageHeader from '../../SettingsSubPageHeader.vue';
+import AgentSelector from '../AgentSelector.vue';
 
 export default {
   components: {
@@ -40,7 +50,7 @@ export default {
   props: {
     team: {
       type: Object,
-      default: () => { },
+      default: () => {},
     },
   },
   validations: {
