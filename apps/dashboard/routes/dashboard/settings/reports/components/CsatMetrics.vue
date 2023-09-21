@@ -40,7 +40,7 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="jsx">
 import { mapGetters } from 'vuex';
 import CsatMetricCard from './CsatMetricCard';
 import { CSAT_RATINGS } from 'shared/constants/messages';

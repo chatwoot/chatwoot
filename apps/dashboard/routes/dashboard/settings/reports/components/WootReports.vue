@@ -23,7 +23,7 @@
   </div>
 </template>
 
-<script>
+<script lang="jsx">
 import ReportFilters from './ReportFilters';
 import ReportContainer from '../ReportContainer.vue';
 import { GROUP_BY_FILTER } from '../constants';
