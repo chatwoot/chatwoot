@@ -159,6 +159,6 @@ export default {
 }
 
 .dropdown-arrow {
-  @apply ml-1 rtl: ml-0 rtl:mr-1;
+  @apply ml-1 rtl:ml-0 rtl:mr-1;
 }
 </style>

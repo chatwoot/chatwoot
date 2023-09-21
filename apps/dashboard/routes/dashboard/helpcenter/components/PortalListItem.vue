@@ -190,7 +190,7 @@
 </template>
 
 <script>
-import thumbnail from 'dashboard/components/widgets/Thumbnail';
+import thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import LocaleItemTable from './PortalListItemTable';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import alertMixin from 'shared/mixins/alertMixin';

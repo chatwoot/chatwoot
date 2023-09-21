@@ -45,7 +45,7 @@
 
 <script>
 import PreviewCard from 'dashboard/components/ui/PreviewCard';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 
 export default {
   components: {

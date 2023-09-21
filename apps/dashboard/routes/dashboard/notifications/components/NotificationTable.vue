@@ -155,7 +155,7 @@ export default {
 
       > td {
         &.conversation-count-item {
-          @apply pl-6 rtl: pl-0 rtl:pr-6;
+          @apply pl-6 rtl:pl-0 rtl:pr-6;
         }
       }
 

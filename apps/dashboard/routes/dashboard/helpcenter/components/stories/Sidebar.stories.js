@@ -1,6 +1,6 @@
 import { action } from '@storybook/addon-actions';
 import Sidebar from '../Sidebar/Sidebar';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 
 export default {
   title: 'Components/Help Center/Sidebar',

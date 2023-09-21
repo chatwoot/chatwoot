@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 
 export default {

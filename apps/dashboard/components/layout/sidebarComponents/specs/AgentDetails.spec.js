@@ -5,7 +5,7 @@ import VueI18n from 'vue-i18n';
 import VTooltip from 'v-tooltip';
 
 import i18n from 'dashboard/i18n';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import WootButton from 'dashboard/components/ui/WootButton';
 const localVue = createLocalVue();
 localVue.use(Vuex);

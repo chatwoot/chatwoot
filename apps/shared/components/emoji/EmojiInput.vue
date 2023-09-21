@@ -206,10 +206,10 @@ export default {
 }
 
 .emoji-dialog--footer {
-  @apply relative w-[322px] -left-px rtl: left-[unset] rtl:-right-px bottom-0 py-0 rounded-b-md border-b border-solid border-slate-75 dark:border-slate-800/50 px-1 bg-slate-75 dark:bg-slate-800;
+  @apply relative w-[322px] -left-px rtl:left-[unset] rtl:-right-px bottom-0 py-0 rounded-b-md border-b border-solid border-slate-75 dark:border-slate-800/50 px-1 bg-slate-75 dark:bg-slate-800;
 
   ul {
-    @apply flex relative left-[2px] rtl: left-[unset] rtl:right-[2px] list-none m-0 overflow-auto py-1 px-0;
+    @apply flex relative left-[2px] rtl:left-[unset] rtl:right-[2px] list-none m-0 overflow-auto py-1 px-0;
 
     >li {
       @apply items-center cursor-pointer flex justify-center p-1;

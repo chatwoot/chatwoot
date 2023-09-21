@@ -158,8 +158,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail';
-import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import ReplyEmailHead from 'dashboard/components/widgets/conversation/ReplyEmailHead';
 import CannedResponse from 'dashboard/components/widgets/conversation/CannedResponse.vue';
 import InboxDropdownItem from 'dashboard/components/widgets/InboxDropdownItem';

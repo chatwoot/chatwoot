@@ -75,7 +75,7 @@ import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import SettingsSection from 'dashboard/components/SettingsSection';
-import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import BusinessDay from './BusinessDay';
 import {
   timeSlotParse,

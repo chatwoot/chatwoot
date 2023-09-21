@@ -195,7 +195,7 @@ export default {
 }
 
 .label-color--display {
-  @apply rounded h-4 w-4 mr-1 rtl: mr-0 rtl:ml-1 border border-solid border-slate-50 dark:border-slate-700;
+  @apply rounded h-4 w-4 mr-1 rtl:mr-0 rtl:ml-1 border border-solid border-slate-50 dark:border-slate-700;
 }
 
 .label-title {
