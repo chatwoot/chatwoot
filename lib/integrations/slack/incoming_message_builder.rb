@@ -19,7 +19,7 @@ class Integrations::Slack::IncomingMessageBuilder
     elsif create_message?
       create_message
     elsif link_shared?
-      Integrations::Slack::SlackLinkBuilder.new(params: params).perform
+      Integrations::Slack::SlackLinkUnfurlService.new(params: params, integration_hook: integration_hook).perform
     end
   end
 

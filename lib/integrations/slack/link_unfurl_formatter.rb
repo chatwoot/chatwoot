@@ -1,4 +1,4 @@
-class Integrations::Slack::LinkUnfurlBuilder
+class Integrations::Slack::LinkUnfurlFormatter
   pattr_initialize [:url!, :user_info!]
 
   def perform

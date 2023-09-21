@@ -1,5 +1,5 @@
-class Integrations::Slack::SlackLinkBuilder
-  pattr_initialize [:params!]
+class Integrations::Slack::SlackLinkUnfurlService
+  pattr_initialize [:params!, :integration_hook!]
 
   def perform
     event_links = params.dig(:event, :links)
@@ -18,9 +18,11 @@ class Integrations::Slack::SlackLinkBuilder
     return unless conversation
 
     user_info = contact_attributes(conversation).slice(:user_name, :email, :phone_number, :company_name)
-    unfurls = Integrations::Slack::LinkUnfurlBuilder.new(url: url, user_info: user_info).perform
-    send_unfurls(unfurls, link_info)
+    unfurls = Integrations::Slack::LinkUnfurlFormatter.new(url: url, user_info: user_info).perform
+    send_unfurls(unfurls)
   end
+
+  private
 
   def contact_attributes(conversation)
     contact = conversation.contact
@@ -44,19 +46,13 @@ class Integrations::Slack::SlackLinkBuilder
     find_conversation_by_id(conversation_id)
   end
 
-  def send_unfurls(unfurls, _link_info)
+  def send_unfurls(unfurls)
     slack_service = Integrations::Slack::SendOnSlackService.new(message: nil, hook: integration_hook)
     slack_service.link_unfurl(
       unfurl_id: params.dig(:event, :unfurl_id),
       source: params.dig(:event, :source),
       unfurls: JSON.generate(unfurls)
     )
-  end
-
-  private
-
-  def integration_hook
-    @integration_hook ||= Integrations::Hook.find_by(reference_id: params[:event][:channel])
   end
 
   def extract_conversation_id(url)
