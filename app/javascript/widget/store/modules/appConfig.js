@@ -5,7 +5,6 @@ import {
   SET_WIDGET_APP_CONFIG,
   SET_WIDGET_COLOR,
   TOGGLE_WIDGET_OPEN,
-  SET_WIDGET_LOCALE,
 } from '../types';
 
 const state = {
@@ -19,7 +18,6 @@ const state = {
   widgetColor: '',
   widgetStyle: 'standard',
   darkMode: 'light',
-  locale: 'en',
 };
 
 export const getters = {
@@ -31,7 +29,6 @@ export const getters = {
   getReferrerHost: $state => $state.referrerHost,
   isWidgetStyleFlat: $state => $state.widgetStyle === 'flat',
   darkMode: $state => $state.darkMode,
-  widgetLocale: $state => $state.locale,
 };
 
 export const actions = {
@@ -68,9 +65,6 @@ export const actions = {
   setBubbleVisibility({ commit }, hideMessageBubble) {
     commit(SET_BUBBLE_VISIBILITY, hideMessageBubble);
   },
-  setLocale({ commit }, locale) {
-    commit(SET_WIDGET_LOCALE, locale);
-  },
 };
 
 export const mutations = {
@@ -96,9 +90,6 @@ export const mutations = {
   },
   [SET_COLOR_SCHEME]($state, darkMode) {
     $state.darkMode = darkMode;
-  },
-  [SET_WIDGET_LOCALE]($state, locale) {
-    $state.locale = locale || $state.locale;
   },
 };
 
