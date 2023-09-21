@@ -28,10 +28,8 @@
         >
           <span v-dompurify-html="title" class="mr-1" />
           <div
-            :class="
-              `h-2 w-2 rounded-full
-              ${isOnline ? 'bg-green-500' : 'hidden'}`
-            "
+            :class="`h-2 w-2 rounded-full
+              ${isOnline ? 'bg-green-500' : 'hidden'}`"
           />
         </div>
         <div
@@ -52,7 +50,7 @@ import { mapGetters } from 'vuex';
 import availabilityMixin from 'widget/mixins/availability';
 import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import HeaderActions from './HeaderActions';
+import HeaderActions from './HeaderActions.vue';
 import routerMixin from 'widget/mixins/routerMixin';
 import darkMixin from 'widget/mixins/darkModeMixin.js';
 

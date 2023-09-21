@@ -181,7 +181,7 @@ export default {
   methods: {
     twilioChannelName(item) {
       const { medium = '' } = item;
-      if (medium === 'whatsapp') return 'WhatsApp';
+      if (medium === 'whatsapp') return 'WhatsApp.vue';
       return 'Twilio SMS';
     },
     openSettings(inbox) {

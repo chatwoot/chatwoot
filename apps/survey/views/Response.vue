@@ -1,22 +1,48 @@
 <template>
-  <div v-if="isLoading" class="flex flex-1 items-center h-full bg-black-25 justify-center">
+  <div
+    v-if="isLoading"
+    class="flex flex-1 items-center h-full bg-black-25 justify-center"
+  >
     <spinner size="" />
   </div>
-  <div v-else class="w-full h-full flex overflow-auto bg-slate-50 items-center justify-center">
-    <div class="flex bg-white shadow-lg rounded-lg flex-col w-full lg:w-2/5 h-full lg:h-auto">
+  <div
+    v-else
+    class="w-full h-full flex overflow-auto bg-slate-50 items-center justify-center"
+  >
+    <div
+      class="flex bg-white shadow-lg rounded-lg flex-col w-full lg:w-2/5 h-full lg:h-auto"
+    >
       <div class="w-full my-0 m-auto px-12 pt-12 pb-6">
         <img v-if="logo" :src="logo" alt="Chatwoot logo" class="logo mb-6" />
-        <p v-if="!isRatingSubmitted" class="text-black-700 text-lg leading-relaxed mb-8">
+        <p
+          v-if="!isRatingSubmitted"
+          class="text-black-700 text-lg leading-relaxed mb-8"
+        >
           {{ $t('SURVEY.DESCRIPTION', { inboxName }) }}
         </p>
-        <banner v-if="shouldShowBanner" :show-success="shouldShowSuccessMesage" :show-error="shouldShowErrorMesage"
-          :message="message" />
-        <label v-if="!isRatingSubmitted" class="text-base font-medium text-black-800 mb-4">
+        <banner
+          v-if="shouldShowBanner"
+          :show-success="shouldShowSuccessMesage"
+          :show-error="shouldShowErrorMesage"
+          :message="message"
+        />
+        <label
+          v-if="!isRatingSubmitted"
+          class="text-base font-medium text-black-800 mb-4"
+        >
           {{ $t('SURVEY.RATING.LABEL') }}
         </label>
-        <rating :selected-rating="selectedRating" @selectRating="selectRating" />
-        <feedback v-if="enableFeedbackForm" :is-updating="isUpdating" :is-button-disabled="isButtonDisabled"
-          :selected-rating="selectedRating" @sendFeedback="sendFeedback" />
+        <rating
+          :selected-rating="selectedRating"
+          @selectRating="selectRating"
+        />
+        <feedback
+          v-if="enableFeedbackForm"
+          :is-updating="isUpdating"
+          :is-button-disabled="isButtonDisabled"
+          :selected-rating="selectedRating"
+          @sendFeedback="sendFeedback"
+        />
       </div>
       <div class="mb-3">
         <branding />
@@ -26,11 +52,11 @@
 </template>
 
 <script>
-import Branding from 'shared/components/Branding';
+import Branding from 'shared/components/Branding.vue';
 import Spinner from 'shared/components/Spinner.vue';
-import Rating from 'survey/components/Rating';
-import Feedback from 'survey/components/Feedback';
-import Banner from 'survey/components/Banner';
+import Rating from 'survey/components/Rating.vue';
+import Feedback from 'survey/components/Feedback.vue';
+import Banner from 'survey/components/Banner.vue';
 import configMixin from 'shared/mixins/configMixin';
 import { getSurveyDetails, updateSurvey } from 'survey/api/survey';
 import alertMixin from 'shared/mixins/alertMixin';

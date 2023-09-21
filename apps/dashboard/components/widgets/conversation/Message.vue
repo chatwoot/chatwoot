@@ -2,71 +2,146 @@
   <li v-if="shouldRenderMessage" :id="`message${data.id}`" :class="alignBubble">
     <div :class="wrapClass">
       <div v-if="isFailed" class="message-failed--alert">
-        <woot-button v-tooltip.top-end="$t('CONVERSATION.TRY_AGAIN')" size="tiny" color-scheme="alert" variant="clear"
-          icon="arrow-clockwise" @click="retrySendMessage" />
+        <woot-button
+          v-tooltip.top-end="$t('CONVERSATION.TRY_AGAIN')"
+          size="tiny"
+          color-scheme="alert"
+          variant="clear"
+          icon="arrow-clockwise"
+          @click="retrySendMessage"
+        />
       </div>
-      <div v-tooltip.top-start="messageToolTip" :class="bubbleClass" @contextmenu="openContextMenu($event)">
-        <bubble-mail-head :email-attributes="contentAttributes.email" :cc="emailHeadAttributes.cc"
-          :bcc="emailHeadAttributes.bcc" :is-incoming="isIncoming" />
+      <div
+        v-tooltip.top-start="messageToolTip"
+        :class="bubbleClass"
+        @contextmenu="openContextMenu($event)"
+      >
+        <bubble-mail-head
+          :email-attributes="contentAttributes.email"
+          :cc="emailHeadAttributes.cc"
+          :bcc="emailHeadAttributes.bcc"
+          :is-incoming="isIncoming"
+        />
         <blockquote v-if="storyReply" class="story-reply-quote">
           <span>{{ $t('CONVERSATION.REPLIED_TO_STORY') }}</span>
-          <bubble-image v-if="!hasImgStoryError && storyUrl" :url="storyUrl" @error="onStoryLoadError" />
-          <bubble-video v-else-if="hasImgStoryError && storyUrl" :url="storyUrl" />
+          <bubble-image
+            v-if="!hasImgStoryError && storyUrl"
+            :url="storyUrl"
+            @error="onStoryLoadError"
+          />
+          <bubble-video
+            v-else-if="hasImgStoryError && storyUrl"
+            :url="storyUrl"
+          />
         </blockquote>
-        <bubble-text v-if="data.content" :message="message" :is-email="isEmailContentType"
-          :display-quoted-button="displayQuotedButton" />
-        <bubble-integration :message-id="data.id" :content-attributes="contentAttributes" :inbox-id="data.inbox_id" />
-        <span v-if="isPending && hasAttachments" class="chat-bubble has-attachment agent">
+        <bubble-text
+          v-if="data.content"
+          :message="message"
+          :is-email="isEmailContentType"
+          :display-quoted-button="displayQuotedButton"
+        />
+        <bubble-integration
+          :message-id="data.id"
+          :content-attributes="contentAttributes"
+          :inbox-id="data.inbox_id"
+        />
+        <span
+          v-if="isPending && hasAttachments"
+          class="chat-bubble has-attachment agent"
+        >
           {{ $t('CONVERSATION.UPLOADING_ATTACHMENTS') }}
         </span>
         <div v-if="!isPending && hasAttachments">
           <div v-for="attachment in attachments" :key="attachment.id">
-            <bubble-image-audio-video v-if="isAttachmentImageVideoAudio(attachment.file_type)" :attachment="attachment"
-              @error="onImageLoadError" />
-            <bubble-location v-else-if="attachment.file_type === 'location'" :latitude="attachment.coordinates_lat"
-              :longitude="attachment.coordinates_long" :name="attachment.fallback_title" />
-            <bubble-contact v-else-if="attachment.file_type === 'contact'" :name="data.content"
-              :phone-number="attachment.fallback_title" />
-            <instagram-image-error-placeholder v-else-if="hasImageError && hasInstagramStory" />
+            <bubble-image-audio-video
+              v-if="isAttachmentImageVideoAudio(attachment.file_type)"
+              :attachment="attachment"
+              @error="onImageLoadError"
+            />
+            <bubble-location
+              v-else-if="attachment.file_type === 'location'"
+              :latitude="attachment.coordinates_lat"
+              :longitude="attachment.coordinates_long"
+              :name="attachment.fallback_title"
+            />
+            <bubble-contact
+              v-else-if="attachment.file_type === 'contact'"
+              :name="data.content"
+              :phone-number="attachment.fallback_title"
+            />
+            <instagram-image-error-placeholder
+              v-else-if="hasImageError && hasInstagramStory"
+            />
             <bubble-file v-else :url="attachment.data_url" />
           </div>
         </div>
-        <bubble-actions :id="data.id" :sender="data.sender" :story-sender="storySender" :external-error="externalError"
-          :story-id="`${storyId}`" :is-a-tweet="isATweet" :is-a-whatsapp-channel="isAWhatsAppChannel"
-          :has-instagram-story="hasInstagramStory" :is-email="isEmailContentType" :is-private="data.private"
-          :message-type="data.message_type" :message-status="status" :source-id="data.source_id" :inbox-id="data.inbox_id"
-          :created-at="createdAt" />
+        <bubble-actions
+          :id="data.id"
+          :sender="data.sender"
+          :story-sender="storySender"
+          :external-error="externalError"
+          :story-id="`${storyId}`"
+          :is-a-tweet="isATweet"
+          :is-a-whatsapp-channel="isAWhatsAppChannel"
+          :has-instagram-story="hasInstagramStory"
+          :is-email="isEmailContentType"
+          :is-private="data.private"
+          :message-type="data.message_type"
+          :message-status="status"
+          :source-id="data.source_id"
+          :inbox-id="data.inbox_id"
+          :created-at="createdAt"
+        />
       </div>
       <spinner v-if="isPending" size="tiny" />
-      <div v-if="showAvatar" v-tooltip.left="tooltipForSender" class="sender--info">
-        <woot-thumbnail :src="sender.thumbnail" :username="senderNameForAvatar" size="16px" />
-        <a v-if="isATweet && isIncoming" class="sender--available-name" :href="twitterProfileLink" target="_blank"
-          rel="noopener noreferrer nofollow">
+      <div
+        v-if="showAvatar"
+        v-tooltip.left="tooltipForSender"
+        class="sender--info"
+      >
+        <woot-thumbnail
+          :src="sender.thumbnail"
+          :username="senderNameForAvatar"
+          size="16px"
+        />
+        <a
+          v-if="isATweet && isIncoming"
+          class="sender--available-name"
+          :href="twitterProfileLink"
+          target="_blank"
+          rel="noopener noreferrer nofollow"
+        >
           {{ sender.name }}
         </a>
       </div>
     </div>
     <div v-if="shouldShowContextMenu" class="context-menu-wrap">
-      <context-menu v-if="isBubble && !isMessageDeleted" :context-menu-position="contextMenuPosition"
-        :is-open="showContextMenu" :enabled-options="contextMenuEnabledOptions" :message="data" @open="openContextMenu"
-        @close="closeContextMenu" />
+      <context-menu
+        v-if="isBubble && !isMessageDeleted"
+        :context-menu-position="contextMenuPosition"
+        :is-open="showContextMenu"
+        :enabled-options="contextMenuEnabledOptions"
+        :message="data"
+        @open="openContextMenu"
+        @close="closeContextMenu"
+      />
     </div>
   </li>
 </template>
 <script>
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import BubbleActions from './bubble/Actions';
-import BubbleFile from './bubble/File';
-import BubbleImage from './bubble/Image';
-import BubbleVideo from './bubble/Video';
-import BubbleImageAudioVideo from './bubble/ImageAudioVideo';
+import BubbleActions from './bubble/Actions.vue';
+import BubbleFile from './bubble/File.vue';
+import BubbleImage from './bubble/Image.vue';
+import BubbleVideo from './bubble/Video.vue';
+import BubbleImageAudioVideo from './bubble/ImageAudioVideo.vue';
 import BubbleIntegration from './bubble/Integration.vue';
-import BubbleLocation from './bubble/Location';
-import BubbleMailHead from './bubble/MailHead';
-import BubbleText from './bubble/Text';
-import BubbleContact from './bubble/Contact';
+import BubbleLocation from './bubble/Location.vue';
+import BubbleMailHead from './bubble/MailHead.vue';
+import BubbleText from './bubble/Text.vue';
+import BubbleContact from './bubble/Contact.vue';
 import Spinner from 'shared/components/Spinner.vue';
-import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu';
+import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
 import instagramImageErrorPlaceholder from './instagramImageErrorPlaceholder.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import contentTypeMixin from 'shared/mixins/contentTypeMixin';
@@ -289,8 +364,8 @@ export default {
         messageType === MESSAGE_TYPE.TEMPLATE;
       return showTooltip
         ? {
-          content: `${this.$t('CONVERSATION.SENT_BY')} ${name}`,
-        }
+            content: `${this.$t('CONVERSATION.SENT_BY')} ${name}`,
+          }
         : false;
     },
     messageToolTip() {
@@ -435,7 +510,7 @@ export default {
 </script>
 <style lang="scss">
 .wrap {
-  >.bubble {
+  > .bubble {
     @apply min-w-[128px];
 
     &.is-image,
@@ -446,12 +521,12 @@ export default {
       .video {
         @apply max-w-[20rem] p-0.5;
 
-        >img,
-        >video {
+        > img,
+        > video {
           @apply rounded-lg;
         }
 
-        >video {
+        > video {
           @apply h-full w-full object-cover;
         }
       }
@@ -461,8 +536,8 @@ export default {
       }
     }
 
-    &.is-image.is-text>.message-text__wrap,
-    &.is-video.is-text>.message-text__wrap {
+    &.is-image.is-text > .message-text__wrap,
+    &.is-video.is-text > .message-text__wrap {
       @apply max-w-[20rem] py-2 px-4;
     }
 
@@ -480,11 +555,11 @@ export default {
       }
     }
 
-    &.is-private.is-text>.message-text__wrap .link {
+    &.is-private.is-text > .message-text__wrap .link {
       @apply text-woot-600 dark:text-woot-200;
     }
 
-    &.is-private.is-text>.message-text__wrap .prosemirror-mention-node {
+    &.is-private.is-text > .message-text__wrap .prosemirror-mention-node {
       @apply font-bold bg-none rounded-sm p-0 bg-yellow-100 dark:bg-yellow-700 text-slate-700 dark:text-slate-25 underline;
     }
 
@@ -516,7 +591,7 @@ export default {
       @apply absolute bottom-1 right-1;
     }
 
-    >.is-image.is-text.bubble>.message-text__wrap {
+    > .is-image.is-text.bubble > .message-text__wrap {
       @apply p-0;
     }
   }

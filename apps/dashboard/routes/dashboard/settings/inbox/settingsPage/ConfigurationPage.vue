@@ -156,9 +156,9 @@
 import alertMixin from 'shared/mixins/alertMixin';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import SettingsSection from '../../../../../components/SettingsSection.vue';
-import ImapSettings from '../ImapSettings';
-import SmtpSettings from '../SmtpSettings';
-import MicrosoftReauthorize from '../channels/microsoft/Reauthorize';
+import ImapSettings from '../ImapSettings.vue';
+import SmtpSettings from '../SmtpSettings.vue';
+import MicrosoftReauthorize from '../channels/microsoft/Reauthorize.vue';
 import { required } from 'vuelidate/lib/validators';
 
 export default {

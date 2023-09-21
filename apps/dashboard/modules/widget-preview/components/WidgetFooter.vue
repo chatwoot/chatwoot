@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import CustomButton from 'dashboard/components/buttons/Button';
+import CustomButton from 'dashboard/components/buttons/Button.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 export default {
   name: 'WidgetFooter',

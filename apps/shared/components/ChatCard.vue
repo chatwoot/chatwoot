@@ -1,5 +1,8 @@
 <template>
-  <div class="card-message chat-bubble agent" :class="$dm('bg-white', 'dark:bg-slate-700')">
+  <div
+    class="card-message chat-bubble agent"
+    :class="$dm('bg-white', 'dark:bg-slate-700')"
+  >
     <img class="media" :src="mediaUrl" />
     <div class="card-body">
       <h4 class="title" :class="$dm('text-black-900', 'dark:text-slate-50')">
@@ -8,13 +11,17 @@
       <p class="body" :class="$dm('text-black-700', 'dark:text-slate-100')">
         {{ description }}
       </p>
-      <card-button v-for="action in actions" :key="action.id" :action="action" />
+      <card-button
+        v-for="action in actions"
+        :key="action.id"
+        :action="action"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import CardButton from 'shared/components/CardButton';
+import CardButton from 'shared/components/CardButton.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 
 export default {
@@ -75,7 +82,7 @@ export default {
     border-radius: 5px;
   }
 
-  .action-button+.action-button {
+  .action-button + .action-button {
     background: $color-white;
     @include thin-border($color-woot);
     color: $color-woot;

@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import ChannelItem from 'dashboard/components/widgets/ChannelItem';
+import ChannelItem from 'dashboard/components/widgets/ChannelItem.vue';
 import router from '../../../index';
 import PageHeader from '../SettingsSubPageHeader.vue';
 import { mapGetters } from 'vuex';

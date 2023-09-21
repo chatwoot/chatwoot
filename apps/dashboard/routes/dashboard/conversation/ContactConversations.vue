@@ -7,8 +7,14 @@
         </span>
       </div>
       <div v-else class="contact-conversation--list">
-        <conversation-card v-for="conversation in previousConversations" :key="conversation.id" :chat="conversation"
-          :hide-inbox-name="false" :hide-thumbnail="true" class="compact" />
+        <conversation-card
+          v-for="conversation in previousConversations"
+          :key="conversation.id"
+          :chat="conversation"
+          :hide-inbox-name="false"
+          :hide-thumbnail="true"
+          class="compact"
+        />
       </div>
     </div>
     <spinner v-else />
@@ -16,7 +22,7 @@
 </template>
 
 <script>
-import ConversationCard from 'dashboard/components/widgets/conversation/ConversationCard';
+import ConversationCard from 'dashboard/components/widgets/conversation/ConversationCard.vue';
 import { mapGetters } from 'vuex';
 import Spinner from 'shared/components/Spinner.vue';
 

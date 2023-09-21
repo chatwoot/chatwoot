@@ -148,16 +148,16 @@ import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
 
-import CannedResponse from './CannedResponse';
+import CannedResponse from './CannedResponse.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
-import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
-import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel';
-import ReplyEmailHead from './ReplyEmailHead';
-import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel';
+import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview.vue';
+import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel.vue';
+import ReplyEmailHead from './ReplyEmailHead.vue';
+import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
-import WootAudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder';
+import WootAudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder.vue';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import {
@@ -175,12 +175,12 @@ import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
 import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin from 'shared/mixins/inboxMixin';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings.vue';
 import { DirectUpload } from 'activestorage';
 import { frontendURL } from '../../../helper/URLHelper';
 import { trimContent, debounce } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants/globals';
-import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
+import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings.vue';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import rtlMixin from 'shared/mixins/rtlMixin';
 import {

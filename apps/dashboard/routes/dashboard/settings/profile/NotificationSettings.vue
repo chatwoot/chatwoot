@@ -1,7 +1,7 @@
 <template>
   <div id="profile-settings-notifications">
     <div class="profile--settings--row text-black-900 dark:text-slate-300 row">
-      <div class="columns small-3 ">
+      <div class="columns small-3">
         <h4 class="block-title text-black-900 dark:text-slate-200">
           {{ $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.TITLE') }}
         </h4>
@@ -19,8 +19,14 @@
             }}
           </span>
           <div>
-            <input id="audio_enable_alert_none" v-model="enableAudioAlerts" class="notification--checkbox" type="radio"
-              value="none" @input="handleAudioInput" />
+            <input
+              id="audio_enable_alert_none"
+              v-model="enableAudioAlerts"
+              class="notification--checkbox"
+              type="radio"
+              value="none"
+              @input="handleAudioInput"
+            />
             <label for="audio_enable_alert_none">
               {{
                 $t(
@@ -30,8 +36,14 @@
             </label>
           </div>
           <div>
-            <input id="audio_enable_alert_mine" v-model="enableAudioAlerts" class="notification--checkbox" type="radio"
-              value="mine" @input="handleAudioInput" />
+            <input
+              id="audio_enable_alert_mine"
+              v-model="enableAudioAlerts"
+              class="notification--checkbox"
+              type="radio"
+              value="mine"
+              @input="handleAudioInput"
+            />
             <label for="audio_enable_alert_mine">
               {{
                 $t(
@@ -41,8 +53,14 @@
             </label>
           </div>
           <div>
-            <input id="audio_enable_alert_all" v-model="enableAudioAlerts" class="notification--checkbox" type="radio"
-              value="all" @input="handleAudioInput" />
+            <input
+              id="audio_enable_alert_all"
+              v-model="enableAudioAlerts"
+              class="notification--checkbox"
+              type="radio"
+              value="all"
+              @input="handleAudioInput"
+            />
             <label for="audio_enable_alert_all">
               {{
                 $t(
@@ -61,8 +79,16 @@
             }}
           </span>
           <div>
-            <select v-model="notificationTone" class="tone-selector" @change="handleAudioToneChange">
-              <option v-for="tone in notificationAlertTones" :key="tone.value" :value="tone.value">
+            <select
+              v-model="notificationTone"
+              class="tone-selector"
+              @change="handleAudioToneChange"
+            >
+              <option
+                v-for="tone in notificationAlertTones"
+                :key="tone.value"
+                :value="tone.value"
+              >
                 {{ tone.label }}
               </option>
             </select>
@@ -77,9 +103,14 @@
             }}
           </span>
           <div>
-            <input id="audio_alert_when_tab_is_inactive" v-model="playAudioWhenTabIsInactive"
-              class="notification--checkbox" type="checkbox" value="tab_is_inactive"
-              @input="handleAudioAlertConditions" />
+            <input
+              id="audio_alert_when_tab_is_inactive"
+              v-model="playAudioWhenTabIsInactive"
+              class="notification--checkbox"
+              type="checkbox"
+              value="tab_is_inactive"
+              @input="handleAudioAlertConditions"
+            />
             <label for="audio_alert_when_tab_is_inactive">
               {{
                 $t(
@@ -89,9 +120,14 @@
             </label>
           </div>
           <div>
-            <input id="audio_alert_until_all_conversations_are_read" v-model="alertIfUnreadConversationExist"
-              class="notification--checkbox" type="checkbox" value="conversations_are_read"
-              @input="handleAudioAlertConditions" />
+            <input
+              id="audio_alert_until_all_conversations_are_read"
+              v-model="alertIfUnreadConversationExist"
+              class="notification--checkbox"
+              type="checkbox"
+              value="conversations_are_read"
+              @input="handleAudioAlertConditions"
+            />
             <label for="audio_alert_until_all_conversations_are_read">
               {{
                 $t(
@@ -104,7 +140,7 @@
       </div>
     </div>
     <div class="profile--settings--row text-black-900 dark:text-slate-300 row">
-      <div class="columns small-3 ">
+      <div class="columns small-3">
         <h4 class="block-title text-black-900 dark:text-slate-200">
           {{ $t('PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.TITLE') }}
         </h4>
@@ -114,8 +150,13 @@
       </div>
       <div class="columns small-9">
         <div>
-          <input v-model="selectedEmailFlags" class="notification--checkbox" type="checkbox"
-            value="email_conversation_creation" @input="handleEmailInput" />
+          <input
+            v-model="selectedEmailFlags"
+            class="notification--checkbox"
+            type="checkbox"
+            value="email_conversation_creation"
+            @input="handleEmailInput"
+          />
           <label for="conversation_creation">
             {{
               $t(
@@ -126,8 +167,13 @@
         </div>
 
         <div>
-          <input v-model="selectedEmailFlags" class="notification--checkbox" type="checkbox"
-            value="email_conversation_assignment" @input="handleEmailInput" />
+          <input
+            v-model="selectedEmailFlags"
+            class="notification--checkbox"
+            type="checkbox"
+            value="email_conversation_assignment"
+            @input="handleEmailInput"
+          />
           <label for="conversation_assignment">
             {{
               $t(
@@ -138,8 +184,13 @@
         </div>
 
         <div>
-          <input v-model="selectedEmailFlags" class="notification--checkbox" type="checkbox"
-            value="email_conversation_mention" @input="handleEmailInput" />
+          <input
+            v-model="selectedEmailFlags"
+            class="notification--checkbox"
+            type="checkbox"
+            value="email_conversation_mention"
+            @input="handleEmailInput"
+          />
           <label for="conversation_mention">
             {{
               $t(
@@ -150,8 +201,13 @@
         </div>
 
         <div>
-          <input v-model="selectedEmailFlags" class="notification--checkbox" type="checkbox"
-            value="email_assigned_conversation_new_message" @input="handleEmailInput" />
+          <input
+            v-model="selectedEmailFlags"
+            class="notification--checkbox"
+            type="checkbox"
+            value="email_assigned_conversation_new_message"
+            @input="handleEmailInput"
+          />
           <label for="assigned_conversation_new_message">
             {{
               $t(
@@ -161,8 +217,13 @@
           </label>
         </div>
         <div>
-          <input v-model="selectedEmailFlags" class="notification--checkbox" type="checkbox"
-            value="email_participating_conversation_new_message" @input="handleEmailInput" />
+          <input
+            v-model="selectedEmailFlags"
+            class="notification--checkbox"
+            type="checkbox"
+            value="email_participating_conversation_new_message"
+            @input="handleEmailInput"
+          />
           <label for="assigned_conversation_new_message">
             {{
               $t(
@@ -173,9 +234,11 @@
         </div>
       </div>
     </div>
-    <div v-if="vapidPublicKey && hasPushAPISupport"
-      class="profile--settings--row text-black-900 dark:text-slate-300 row push-row">
-      <div class="columns small-3 ">
+    <div
+      v-if="vapidPublicKey && hasPushAPISupport"
+      class="profile--settings--row text-black-900 dark:text-slate-300 row push-row"
+    >
+      <div class="columns small-3">
         <h4 class="block-title text-black-900 dark:text-slate-200">
           {{ $t('PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.TITLE') }}
         </h4>
@@ -190,14 +253,25 @@
           }}
         </p>
         <div v-else class="push-notification--button">
-          <woot-submit-button :button-text="$t(
+          <woot-submit-button
+            :button-text="
+              $t(
                 'PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.REQUEST_PUSH'
               )
-              " class="button nice small" type="button" @click="onRequestPermissions" />
+            "
+            class="button nice small"
+            type="button"
+            @click="onRequestPermissions"
+          />
         </div>
         <div>
-          <input v-model="selectedPushFlags" class="notification--checkbox" type="checkbox"
-            value="push_conversation_creation" @input="handlePushInput" />
+          <input
+            v-model="selectedPushFlags"
+            class="notification--checkbox"
+            type="checkbox"
+            value="push_conversation_creation"
+            @input="handlePushInput"
+          />
           <label for="conversation_creation">
             {{
               $t(
@@ -208,8 +282,13 @@
         </div>
 
         <div>
-          <input v-model="selectedPushFlags" class="notification--checkbox" type="checkbox"
-            value="push_conversation_assignment" @input="handlePushInput" />
+          <input
+            v-model="selectedPushFlags"
+            class="notification--checkbox"
+            type="checkbox"
+            value="push_conversation_assignment"
+            @input="handlePushInput"
+          />
           <label for="conversation_assignment">
             {{
               $t(
@@ -220,8 +299,13 @@
         </div>
 
         <div>
-          <input v-model="selectedPushFlags" class="notification--checkbox" type="checkbox"
-            value="push_conversation_mention" @input="handlePushInput" />
+          <input
+            v-model="selectedPushFlags"
+            class="notification--checkbox"
+            type="checkbox"
+            value="push_conversation_mention"
+            @input="handlePushInput"
+          />
           <label for="conversation_mention">
             {{
               $t(
@@ -232,8 +316,13 @@
         </div>
 
         <div>
-          <input v-model="selectedPushFlags" class="notification--checkbox" type="checkbox"
-            value="push_assigned_conversation_new_message" @input="handlePushInput" />
+          <input
+            v-model="selectedPushFlags"
+            class="notification--checkbox"
+            type="checkbox"
+            value="push_assigned_conversation_new_message"
+            @input="handlePushInput"
+          />
           <label for="assigned_conversation_new_message">
             {{
               $t(
@@ -244,8 +333,13 @@
         </div>
 
         <div>
-          <input v-model="selectedPushFlags" class="notification--checkbox" type="checkbox"
-            value="push_participating_conversation_new_message" @input="handlePushInput" />
+          <input
+            v-model="selectedPushFlags"
+            class="notification--checkbox"
+            type="checkbox"
+            value="push_participating_conversation_new_message"
+            @input="handlePushInput"
+          />
           <label for="assigned_conversation_new_message">
             {{
               $t(
@@ -263,7 +357,7 @@
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import configMixin from 'shared/mixins/configMixin';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings.vue';
 import {
   hasPushPermissions,
   requestPushPermissions,
@@ -326,7 +420,8 @@ export default {
       const {
         enable_audio_alerts: enableAudio = false,
         always_play_audio_alert: alwaysPlayAudioAlert,
-        alert_if_unread_assigned_conversation_exist: alertIfUnreadConversationExist,
+        alert_if_unread_assigned_conversation_exist:
+          alertIfUnreadConversationExist,
         notification_tone: notificationTone,
       } = uiSettings;
       this.enableAudioAlerts = enableAudio;

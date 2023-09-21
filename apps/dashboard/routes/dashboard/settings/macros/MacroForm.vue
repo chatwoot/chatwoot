@@ -22,8 +22,8 @@
 </template>
 
 <script>
-import MacroNodes from './MacroNodes';
-import MacroProperties from './MacroProperties';
+import MacroNodes from './MacroNodes.vue';
+import MacroProperties from './MacroProperties.vue';
 import { required, requiredIf } from 'vuelidate/lib/validators';
 
 export default {

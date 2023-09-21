@@ -41,9 +41,9 @@ import {
   triggerCharacters,
 } from '@chatwoot/prosemirror-schema/src/mentions/plugin';
 
-import TagAgents from '../conversation/TagAgents';
-import CannedResponse from '../conversation/CannedResponse';
-import VariableList from '../conversation/VariableList';
+import TagAgents from '../conversation/TagAgents.vue';
+import CannedResponse from '../conversation/CannedResponse.vue';
+import VariableList from '../conversation/VariableList.vue';
 import {
   appendSignature,
   removeSignature,
@@ -59,8 +59,8 @@ import {
   hasPressedAltAndLKey,
 } from 'shared/helpers/KeyboardHelpers';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
-import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings.vue';
+import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings.vue';
 import { replaceVariablesInMessage } from '@chatwoot/utils';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';

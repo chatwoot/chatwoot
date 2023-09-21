@@ -83,7 +83,7 @@ import Spinner from 'shared/components/Spinner.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import { mapGetters } from 'vuex';
 import agentMixin from 'dashboard/mixins/agentMixin';
-import ThumbnailGroup from 'dashboard/components/widgets/ThumbnailGroup';
+import ThumbnailGroup from 'dashboard/components/widgets/ThumbnailGroup.vue';
 import MultiselectDropdownItems from 'shared/components/ui/MultiselectDropdown.vue';
 
 export default {

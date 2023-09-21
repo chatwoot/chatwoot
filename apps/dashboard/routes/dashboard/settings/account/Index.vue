@@ -136,7 +136,7 @@ import configMixin from 'shared/mixins/configMixin';
 import accountMixin from '../../../../mixins/account';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 const semver = require('semver');
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings.vue';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 
 export default {

@@ -1,30 +1,55 @@
 <template>
   <div class="article-container">
-    <div class="edit-article--container" :class="{ 'is-sidebar-open': showArticleSettings }">
-      <edit-article-header :back-button-label="$t('HELP_CENTER.HEADER.TITLES.ALL_ARTICLES')" :is-updating="isUpdating"
-        :is-saved="isSaved" :is-sidebar-open="showArticleSettings" @back="onClickGoBack" @open="openArticleSettings"
-        @close="closeArticleSettings" @show="showArticleInPortal" @update-meta="updateMeta" />
+    <div
+      class="edit-article--container"
+      :class="{ 'is-sidebar-open': showArticleSettings }"
+    >
+      <edit-article-header
+        :back-button-label="$t('HELP_CENTER.HEADER.TITLES.ALL_ARTICLES')"
+        :is-updating="isUpdating"
+        :is-saved="isSaved"
+        :is-sidebar-open="showArticleSettings"
+        @back="onClickGoBack"
+        @open="openArticleSettings"
+        @close="closeArticleSettings"
+        @show="showArticleInPortal"
+        @update-meta="updateMeta"
+      />
       <div v-if="isFetching" class="text-center p-normal fs-default h-full">
         <spinner size="" />
         <span>{{ $t('HELP_CENTER.EDIT_ARTICLE.LOADING') }}</span>
       </div>
-      <article-editor v-else :is-settings-sidebar-open="showArticleSettings" :article="article"
-        @save-article="saveArticle" />
+      <article-editor
+        v-else
+        :is-settings-sidebar-open="showArticleSettings"
+        :article="article"
+        @save-article="saveArticle"
+      />
     </div>
-    <article-settings v-if="showArticleSettings" :article="article" @save-article="saveArticle"
-      @delete-article="openDeletePopup" @archive-article="archiveArticle" @update-meta="updateMeta" />
-    <woot-delete-modal :show.sync="showDeleteConfirmationPopup" :on-close="closeDeletePopup" :on-confirm="confirmDeletion"
+    <article-settings
+      v-if="showArticleSettings"
+      :article="article"
+      @save-article="saveArticle"
+      @delete-article="openDeletePopup"
+      @archive-article="archiveArticle"
+      @update-meta="updateMeta"
+    />
+    <woot-delete-modal
+      :show.sync="showDeleteConfirmationPopup"
+      :on-close="closeDeletePopup"
+      :on-confirm="confirmDeletion"
       :title="$t('HELP_CENTER.DELETE_ARTICLE.MODAL.CONFIRM.TITLE')"
       :message="$t('HELP_CENTER.DELETE_ARTICLE.MODAL.CONFIRM.MESSAGE')"
       :confirm-text="$t('HELP_CENTER.DELETE_ARTICLE.MODAL.CONFIRM.YES')"
-      :reject-text="$t('HELP_CENTER.DELETE_ARTICLE.MODAL.CONFIRM.NO')" />
+      :reject-text="$t('HELP_CENTER.DELETE_ARTICLE.MODAL.CONFIRM.NO')"
+    />
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import EditArticleHeader from '../../components/Header/EditArticleHeader';
-import ArticleEditor from '../../components/ArticleEditor';
-import ArticleSettings from './ArticleSettings';
+import EditArticleHeader from '../../components/Header/EditArticleHeader.vue';
+import ArticleEditor from '../../components/ArticleEditor.vue';
+import ArticleSettings from './ArticleSettings.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import portalMixin from '../../mixins/portalMixin';
 import alertMixin from 'shared/mixins/alertMixin';

@@ -127,14 +127,14 @@ import FileUpload from 'vue-upload-component';
 import * as ActiveStorage from 'activestorage';
 import { hasPressedAltAndAKey } from 'shared/helpers/KeyboardHelpers';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings.vue';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import {
   ALLOWED_FILE_TYPES,
   ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP,
 } from 'shared/constants/messages';
-import VideoCallButton from '../VideoCallButton';
+import VideoCallButton from '../VideoCallButton.vue';
 import AIAssistanceButton from '../AIAssistanceButton.vue';
 import { REPLY_EDITOR_MODES } from './constants';
 import { mapGetters } from 'vuex';

@@ -97,16 +97,16 @@ export default {
       );
     },
     isATwilioInbox() {
-      return this.currentInbox.channel_type === 'Channel::TwilioSms';
+      return this.currentInbox.channel_type === 'Channel::TwilioSms.vue';
     },
     isAEmailInbox() {
-      return this.currentInbox.channel_type === 'Channel::Email';
+      return this.currentInbox.channel_type === 'Channel::Email.vue';
     },
     isALineInbox() {
-      return this.currentInbox.channel_type === 'Channel::Line';
+      return this.currentInbox.channel_type === 'Channel::Line.vue';
     },
     isASmsInbox() {
-      return this.currentInbox.channel_type === 'Channel::Sms';
+      return this.currentInbox.channel_type === 'Channel::Sms.vue';
     },
     isWhatsAppCloudInbox() {
       return (

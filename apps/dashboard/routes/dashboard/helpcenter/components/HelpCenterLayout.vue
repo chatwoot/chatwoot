@@ -67,7 +67,7 @@ import CommandBar from 'dashboard/routes/dashboard/commands/commandbar.vue';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal.vue';
 import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector.vue';
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings.vue';
 import portalMixin from '../mixins/portalMixin';
 import AddCategory from '../pages/categories/AddCategory.vue';
 
@@ -104,9 +104,8 @@ export default {
       isFetching: 'portals/isFetchingPortals',
     }),
     isSidebarOpen() {
-      const {
-        show_help_center_secondary_sidebar: showSecondarySidebar,
-      } = this.uiSettings;
+      const { show_help_center_secondary_sidebar: showSecondarySidebar } =
+        this.uiSettings;
       return showSecondarySidebar;
     },
     showHelpCenterSidebar() {

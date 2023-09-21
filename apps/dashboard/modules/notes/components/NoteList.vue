@@ -1,8 +1,16 @@
 <template>
   <div>
     <add-note @add="onAddNote" />
-    <contact-note v-for="note in notes" :id="note.id" :key="note.id" :note="note.content" :user="note.user"
-      :created-at="note.created_at" @edit="onEditNote" @delete="onDeleteNote" />
+    <contact-note
+      v-for="note in notes"
+      :id="note.id"
+      :key="note.id"
+      :note="note.content"
+      :user="note.user"
+      :created-at="note.created_at"
+      @edit="onEditNote"
+      @delete="onDeleteNote"
+    />
 
     <div v-if="isFetching" class="text-center p-normal fs-default">
       <spinner size="" />
@@ -15,8 +23,8 @@
 </template>
 
 <script>
-import AddNote from './AddNote';
-import ContactNote from './ContactNote';
+import AddNote from './AddNote.vue';
+import ContactNote from './ContactNote.vue';
 import Spinner from 'shared/components/Spinner.vue';
 
 export default {

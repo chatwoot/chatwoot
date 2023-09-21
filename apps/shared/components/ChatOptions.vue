@@ -2,18 +2,30 @@
   <div class="options-message chat-bubble agent bg-white dark:bg-slate-700">
     <div class="card-body">
       <h4 class="title text-black-900 dark:text-slate-50">
-        <div v-dompurify-html="formatMessage(title, false)" class="message-content text-black-900 dark:text-slate-50" />
+        <div
+          v-dompurify-html="formatMessage(title, false)"
+          class="message-content text-black-900 dark:text-slate-50"
+        />
       </h4>
-      <ul v-if="!hideFields" class="options" :class="{ 'has-selected': !!selected }">
-        <chat-option v-for="option in options" :key="option.id" :action="option" :is-selected="isSelected(option)"
-          @click="onClick" />
+      <ul
+        v-if="!hideFields"
+        class="options"
+        :class="{ 'has-selected': !!selected }"
+      >
+        <chat-option
+          v-for="option in options"
+          :key="option.id"
+          :action="option"
+          :is-selected="isSelected(option)"
+          @click="onClick"
+        />
       </ul>
     </div>
   </div>
 </template>
 
 <script>
-import ChatOption from 'shared/components/ChatOption';
+import ChatOption from 'shared/components/ChatOption.vue';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 
 export default {
@@ -80,7 +92,7 @@ export default {
   .options {
     width: 100%;
 
-    >li {
+    > li {
       list-style: none;
       padding: 0;
     }

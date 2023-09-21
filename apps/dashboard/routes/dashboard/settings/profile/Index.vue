@@ -135,7 +135,7 @@ import MessageSignature from './MessageSignature.vue';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import uiSettingsMixin, {
   isEditorHotKeyEnabled,
-} from 'dashboard/mixins/uiSettings';
+} from 'dashboard/mixins/uiSettings.vue';
 import MaskedText from 'dashboard/components/MaskedText.vue';
 import PreviewCard from 'dashboard/components/ui/PreviewCard.vue';
 

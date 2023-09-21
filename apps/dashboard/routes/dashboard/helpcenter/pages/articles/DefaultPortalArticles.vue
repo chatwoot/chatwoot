@@ -6,7 +6,7 @@
   </div>
 </template>
 <script>
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings.vue';
 
 export default {
   mixins: [uiSettingsMixin],

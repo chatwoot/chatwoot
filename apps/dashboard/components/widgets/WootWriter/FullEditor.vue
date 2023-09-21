@@ -26,7 +26,7 @@ import {
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import alertMixin from 'shared/mixins/alertMixin';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings.vue';
 
 const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 const createState = (

@@ -43,7 +43,7 @@
 </template>
 <script>
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import SocialIcons from 'dashboard/routes/dashboard/conversation/contact/SocialIcons';
+import SocialIcons from 'dashboard/routes/dashboard/conversation/contact/SocialIcons.vue';
 
 export default {
   components: {

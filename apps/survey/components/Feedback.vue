@@ -3,7 +3,11 @@
     <label class="text-base font-medium text-black-800">
       {{ $t('SURVEY.FEEDBACK.LABEL') }}
     </label>
-    <text-area v-model="feedback" class="my-5" :placeholder="$t('SURVEY.FEEDBACK.PLACEHOLDER')" />
+    <text-area
+      v-model="feedback"
+      class="my-5"
+      :placeholder="$t('SURVEY.FEEDBACK.PLACEHOLDER')"
+    />
     <div class="flex items-center font-medium float-right">
       <custom-button @click="onClick">
         <spinner v-if="feedback" class="p-0" />
@@ -14,7 +18,7 @@
 </template>
 
 <script>
-import CustomButton from 'shared/components/Button';
+import CustomButton from 'shared/components/Button.vue';
 import TextArea from 'shared/components/TextArea.vue';
 import Spinner from 'shared/components/Spinner.vue';
 
