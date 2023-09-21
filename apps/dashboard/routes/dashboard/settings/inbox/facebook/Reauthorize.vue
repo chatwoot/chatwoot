@@ -1,15 +1,20 @@
 <template>
-  <settings-section :title="$t('INBOX_MGMT.FACEBOOK_REAUTHORIZE.TITLE')"
-    :sub-title="$t('INBOX_MGMT.FACEBOOK_REAUTHORIZE.SUBTITLE')">
+  <settings-section
+    :title="$t('INBOX_MGMT.FACEBOOK_REAUTHORIZE.TITLE')"
+    :sub-title="$t('INBOX_MGMT.FACEBOOK_REAUTHORIZE.SUBTITLE')"
+  >
     <a class="fb--login" href="#" @click="tryFBlogin">
-      <img src="~dashboard/assets/images/channels/facebook_login.png" alt="Facebook-logo" />
+      <img
+        src="~dashboard/assets/images/channels/facebook_login.png"
+        alt="Facebook-logo"
+      />
     </a>
   </settings-section>
 </template>
 
 <script>
 /* global FB */
-import SettingsSection from '../../../../../components/SettingsSection';
+import SettingsSection from '../../../../../components/SettingsSection.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 
 export default {

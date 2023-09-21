@@ -155,7 +155,7 @@
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
 import inboxMixin from 'shared/mixins/inboxMixin';
-import SettingsSection from '../../../../../components/SettingsSection';
+import SettingsSection from '../../../../../components/SettingsSection.vue';
 import ImapSettings from '../ImapSettings';
 import SmtpSettings from '../SmtpSettings';
 import MicrosoftReauthorize from '../channels/microsoft/Reauthorize';
