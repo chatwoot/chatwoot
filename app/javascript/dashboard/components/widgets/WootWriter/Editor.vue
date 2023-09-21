@@ -670,6 +670,10 @@ export default {
 
 .ProseMirror-prompt {
   @apply z-50 bg-slate-25 dark:bg-slate-700 rounded-md border border-solid border-slate-75 dark:border-slate-800;
+
+  h5 {
+    @apply dark:text-slate-25 text-slate-800;
+  }
 }
 
 .is-private {
