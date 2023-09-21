@@ -137,7 +137,7 @@ export default {
 }
 
 .notification--table-wrap {
-  @apply overflow-hidden hover: overflow-y-auto flex-shrink flex-grow h-full py-8 px-12;
+  @apply overflow-hidden hover:overflow-y-auto flex-shrink flex-grow h-full py-8 px-12;
 }
 
 .notifications-table {

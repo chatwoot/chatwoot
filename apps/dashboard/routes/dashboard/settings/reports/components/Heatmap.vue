@@ -60,7 +60,7 @@ import { getQuantileIntervals } from '@chatwoot/utils';
 import format from 'date-fns/format';
 import getDay from 'date-fns/getDay';
 
-import { groupHeatmapByDay } from 'helpers/ReportsDataHelper';
+import { groupHeatmapByDay } from 'dashboard/helpers/ReportsDataHelper';
 
 export default {
   name: 'Heatmap',

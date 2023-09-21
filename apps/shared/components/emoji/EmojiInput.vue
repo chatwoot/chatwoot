@@ -166,7 +166,7 @@ export default {
 }
 
 .emoji--item {
-  @apply bg-transparent border-0 rounded cursor-pointer text-lg h-6 m-0 py-0 px-1 hover: bg-slate-75 dark:hover:bg-slate-800;
+  @apply bg-transparent border-0 rounded cursor-pointer text-lg h-6 m-0 py-0 px-1 hover:bg-slate-75 dark:hover:bg-slate-800;
 }
 
 .emoji--row {

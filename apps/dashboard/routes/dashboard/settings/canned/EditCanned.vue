@@ -54,7 +54,7 @@
 /* eslint no-console: 0 */
 import { required, minLength } from 'vuelidate/lib/validators';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
-import WootSubmitButton from '../../../../components/buttons/FormSubmitButton';
+import WootSubmitButton from '../../../../components/buttons/FormSubmitButton.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import Modal from '../../../../components/Modal.vue';
 

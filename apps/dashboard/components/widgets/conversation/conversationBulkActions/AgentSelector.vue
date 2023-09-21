@@ -208,7 +208,7 @@ ul {
 }
 
 .agent-list-item {
-  @apply flex items-center p-2.5 cursor-pointer hover: bg-slate-50 dark:hover:bg-slate-900;
+  @apply flex items-center p-2.5 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-900;
 
   span {
     @apply text-sm;
