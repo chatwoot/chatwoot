@@ -1,0 +1,8 @@
+{
+  "name": "shared",
+  "version": "1.0.0",
+  "files": [
+    "**/*"
+  ],
+  "license": "MIT"
+}

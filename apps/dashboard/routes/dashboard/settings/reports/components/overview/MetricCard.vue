@@ -50,7 +50,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .card {
-  @apply bg-white dark: bg-slate-800 border-slate-75 dark:border-slate-700;
+  @apply bg-white dark:bg-slate-800 border-slate-75 dark:border-slate-700;
   margin: var(--space-small) !important;
 
   .card-header--control-area {
@@ -74,15 +74,15 @@ export default {
     @apply flex items-center flex-row;
 
     h5 {
-      @apply mb-0 text-slate-800 dark: text-slate-100;
+      @apply mb-0 text-slate-800 dark:text-slate-100;
     }
 
     .live {
       background: rgba(37, 211, 102, 0.1);
-      @apply flex flex-row items-center pr-2 pl-2 m-1 text-green-400 dark: text-green-400 text-xs;
+      @apply flex flex-row items-center pr-2 pl-2 m-1 text-green-400 dark:text-green-400 text-xs;
 
       .ellipse {
-        @apply bg-green-400 dark: bg-green-400 h-1 w-1 rounded-full mr-1 rtl:mr-0 rtl:ml-0;
+        @apply bg-green-400 dark:bg-green-400 h-1 w-1 rounded-full mr-1 rtl:mr-0 rtl:ml-0;
       }
     }
   }
@@ -97,11 +97,11 @@ export default {
     @apply pb-2;
 
     .heading {
-      @apply text-base text-slate-700 dark: text-slate-100;
+      @apply text-base text-slate-700 dark:text-slate-100;
     }
 
     .metric {
-      @apply text-woot-800 dark: text-woot-300 text-3xl mb-0 mt-1;
+      @apply text-woot-800 dark:text-woot-300 text-3xl mb-0 mt-1;
     }
   }
 }

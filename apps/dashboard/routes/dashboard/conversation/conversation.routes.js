@@ -1,5 +1,5 @@
 /* eslint arrow-body-style: 0 */
-import ConversationView from './ConversationView';
+import ConversationView from './ConversationView.vue';
 import { frontendURL } from '../../../helper/URLHelper';
 
 export default {

@@ -65,7 +65,7 @@ export default {
 
 <style lang="scss" scoped>
 .no-label-message {
-  @apply text-slate-500 dark: text-slate-400 mb-4;
+  @apply text-slate-500 dark:text-slate-400 mb-4;
 }
 
 ::v-deep .conversation {

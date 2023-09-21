@@ -109,7 +109,7 @@ export default {
 @import 'dashboard/assets/scss/mixins';
 
 .notification--title {
-  @apply text-sm m-0 text-slate-800 dark: text-slate-100;
+  @apply text-sm m-0 text-slate-800 dark:text-slate-100;
 }
 
 .notification--table-wrap {
@@ -122,11 +122,11 @@ export default {
       @apply cursor-pointer;
 
       &:hover {
-        @apply bg-slate-50 dark: bg-slate-800;
+        @apply bg-slate-50 dark:bg-slate-800;
       }
 
       &.is-active {
-        @apply bg-slate-100 dark: bg-slate-700;
+        @apply bg-slate-100 dark:bg-slate-700;
       }
 
       >td {
@@ -151,11 +151,11 @@ export default {
 }
 
 .notification--unread-indicator {
-  @apply w-2.5 h-2.5 rounded-full bg-woot-500 dark: bg-woot-500;
+  @apply w-2.5 h-2.5 rounded-full bg-woot-500 dark:bg-woot-500;
 }
 
 .notification--created-at {
-  @apply text-slate-700 dark: text-slate-200 text-xs;
+  @apply text-slate-700 dark:text-slate-200 text-xs;
 }
 
 .notification--type {
@@ -175,6 +175,6 @@ export default {
 }
 
 .notification--message-title {
-  @apply text-slate-700 dark: text-slate-100;
+  @apply text-slate-700 dark:text-slate-100;
 }
 </style>

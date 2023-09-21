@@ -109,7 +109,7 @@ export default {
 
 <style scoped lang="scss">
 .actions-container {
-  @apply absolute right-2 top-12 origin-top-right w-auto z-20 bg-white dark: bg-slate-800 rounded-lg border border-solid border-slate-50 dark:border-slate-700 shadow-md;
+  @apply absolute right-2 top-12 origin-top-right w-auto z-20 bg-white dark:bg-slate-800 rounded-lg border border-solid border-slate-50 dark:border-slate-700 shadow-md;
 
   .header {
     @apply p-2.5;
@@ -128,7 +128,7 @@ export default {
     @apply block z-10 absolute text-left -top-3;
 
     svg path {
-      @apply fill-white dark: fill-slate-800 stroke-slate-50 dark:stroke-slate-600/50;
+      @apply fill-white dark:fill-slate-800 stroke-slate-50 dark:stroke-slate-600/50;
     }
   }
 }

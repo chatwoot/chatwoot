@@ -142,7 +142,7 @@ export default {
   }
 
   &::v-deep .ve-pagination {
-    @apply bg-transparent dark: bg-transparent;
+    @apply bg-transparent dark:bg-transparent;
   }
 
   &::v-deep .ve-pagination-select {
@@ -156,11 +156,11 @@ export default {
       @apply items-start flex flex-col min-w-0 my-0 mx-2;
 
       .title {
-        @apply text-sm m-0 leading-[1.2] text-slate-800 dark: text-slate-100;
+        @apply text-sm m-0 leading-[1.2] text-slate-800 dark:text-slate-100;
       }
 
       .sub-title {
-        @apply text-xs text-slate-600 dark: text-slate-200;
+        @apply text-xs text-slate-600 dark:text-slate-200;
       }
     }
   }

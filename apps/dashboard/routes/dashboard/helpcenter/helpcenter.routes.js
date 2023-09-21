@@ -17,7 +17,7 @@ const PortalSettingsFinish = () =>
 
 const ListAllCategories = () => import('./pages/categories/ListAllCategories.vue');
 const NewCategory = () => import('./pages/categories/NewCategory.vue');
-const EditCategory = () => import('./pages/categories/EditCategory');
+const EditCategory = () => import('./pages/categories/EditCategory.vue');
 const ListCategoryArticles = () =>
   import('./pages/articles/ListCategoryArticles.vue');
 const ListAllArticles = () => import('./pages/articles/ListAllArticles.vue');

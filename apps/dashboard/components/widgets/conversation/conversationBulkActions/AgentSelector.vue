@@ -155,7 +155,7 @@ export default {
 
 <style scoped lang="scss">
 .bulk-action__agents {
-  @apply max-w-[75%] absolute right-2 top-12 origin-top-right w-auto z-20 min-w-[15rem] bg-white dark: bg-slate-800 rounded-lg border border-solid border-slate-50 dark:border-slate-700 shadow-md;
+  @apply max-w-[75%] absolute right-2 top-12 origin-top-right w-auto z-20 min-w-[15rem] bg-white dark:bg-slate-800 rounded-lg border border-solid border-slate-50 dark:border-slate-700 shadow-md;
 
   .header {
     @apply p-2.5;
@@ -173,14 +173,14 @@ export default {
     }
 
     .agent-list-search {
-      @apply py-0 px-2.5 bg-slate-50 dark: bg-slate-900 border border-solid border-slate-100 dark:border-slate-600/70 rounded-md;
+      @apply py-0 px-2.5 bg-slate-50 dark:bg-slate-900 border border-solid border-slate-100 dark:border-slate-600/70 rounded-md;
 
       .search-icon {
-        @apply text-slate-400 dark: text-slate-200;
+        @apply text-slate-400 dark:text-slate-200;
       }
 
       .agent--search_input {
-        @apply border-0 text-xs m-0 dark: bg-transparent bg-transparent h-[unset];
+        @apply border-0 text-xs m-0 dark:bg-transparent bg-transparent h-[unset];
       }
     }
   }
@@ -190,7 +190,7 @@ export default {
     @apply block z-10 absolute -top-3 text-left;
 
     svg path {
-      @apply fill-white dark: fill-slate-800 stroke-slate-50 dark:stroke-slate-600/50;
+      @apply fill-white dark:fill-slate-800 stroke-slate-50 dark:stroke-slate-600/50;
     }
   }
 }
@@ -228,10 +228,10 @@ ul {
 }
 
 .search-container {
-  @apply py-0 px-2.5 sticky top-0 z-20 bg-white dark: bg-slate-800;
+  @apply py-0 px-2.5 sticky top-0 z-20 bg-white dark:bg-slate-800;
 }
 
 .agent__list-loading {
-  @apply m-2.5 rounded-md bg-slate-25 dark: bg-slate-900 flex items-center justify-center flex-col p-5 h-[calc(95%-6.25rem)];
+  @apply m-2.5 rounded-md bg-slate-25 dark:bg-slate-900 flex items-center justify-center flex-col p-5 h-[calc(95%-6.25rem)];
 }
 </style>

@@ -10,42 +10,25 @@
     </div>
     <div v-show="isEditing">
       <div class="input-group small">
-        <input
-          ref="inputfield"
-          v-model="editedValue"
-          type="text"
-          class="input-group-field"
-          autofocus="true"
-          @keyup.enter="onUpdate"
-        />
+        <input ref="inputfield" v-model="editedValue" type="text" class="input-group-field" autofocus="true"
+          @keyup.enter="onUpdate" />
         <div class="input-group-button">
           <woot-button size="small" icon="ion-checkmark" @click="onUpdate" />
         </div>
       </div>
     </div>
-    <div
-      v-show="!isEditing"
-      class="value--view"
-      :class="{ 'is-editable': showEdit }"
-    >
+    <div v-show="!isEditing" class="value--view" :class="{ 'is-editable': showEdit }">
       <p class="value">
         {{ value || '---' }}
       </p>
-      <woot-button
-        v-if="showEdit"
-        variant="clear link"
-        size="small"
-        color-scheme="secondary"
-        icon="edit"
-        class-names="edit-button"
-        @click="onEdit"
-      />
+      <woot-button v-if="showEdit" variant="clear link" size="small" color-scheme="secondary" icon="edit"
+        class-names="edit-button" @click="onEdit" />
     </div>
   </div>
 </template>
 
 <script>
-import EmojiOrIcon from 'shared/components/EmojiOrIcon';
+import EmojiOrIcon from 'shared/components/EmojiOrIcon.vue';
 
 export default {
   components: {
@@ -86,22 +69,27 @@ export default {
 .contact-attribute {
   margin-bottom: var(--space-small);
 }
+
 .title-wrap {
   display: flex;
   align-items: center;
   margin-bottom: var(--space-mini);
 }
+
 .title {
   display: flex;
   align-items: center;
   margin: 0;
 }
+
 .title--icon {
   width: var(--space-two);
 }
+
 .edit-button {
   display: none;
 }
+
 .value--view {
   display: flex;
 
@@ -109,11 +97,13 @@ export default {
     .value {
       background: var(--color-background);
     }
+
     .edit-button {
       display: block;
     }
   }
 }
+
 .value {
   display: inline-block;
   min-width: var(--space-mega);

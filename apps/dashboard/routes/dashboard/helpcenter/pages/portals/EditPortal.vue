@@ -34,8 +34,8 @@
 <script>
 import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import SettingsHeader from 'dashboard/routes/dashboard/settings/SettingsHeader';
-import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner';
+import SettingsHeader from 'dashboard/routes/dashboard/settings/SettingsHeader.vue';
+import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner.vue';
 
 export default {
   components: {

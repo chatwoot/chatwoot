@@ -468,43 +468,43 @@ export default {
 
     &.is-private .file.message-text__wrap {
       .file--icon {
-        @apply text-woot-400 dark: text-woot-400;
+        @apply text-woot-400 dark:text-woot-400;
       }
 
       .text-block-title {
-        @apply text-slate-700 dark: text-slate-700;
+        @apply text-slate-700 dark:text-slate-700;
       }
 
       .download.button {
-        @apply text-woot-400 dark: text-woot-400;
+        @apply text-woot-400 dark:text-woot-400;
       }
     }
 
     &.is-private.is-text>.message-text__wrap .link {
-      @apply text-woot-600 dark: text-woot-200;
+      @apply text-woot-600 dark:text-woot-200;
     }
 
     &.is-private.is-text>.message-text__wrap .prosemirror-mention-node {
-      @apply font-bold bg-none rounded-sm p-0 bg-yellow-100 dark: bg-yellow-700 text-slate-700 dark:text-slate-25 underline;
+      @apply font-bold bg-none rounded-sm p-0 bg-yellow-100 dark:bg-yellow-700 text-slate-700 dark:text-slate-25 underline;
     }
 
     &.is-from-bot {
-      @apply bg-violet-400 dark: bg-violet-400;
+      @apply bg-violet-400 dark:bg-violet-400;
 
       .message-text--metadata .time {
-        @apply text-violet-50 dark: text-violet-50;
+        @apply text-violet-50 dark:text-violet-50;
       }
 
       &.is-private .message-text--metadata .time {
-        @apply text-slate-400 dark: text-slate-400;
+        @apply text-slate-400 dark:text-slate-400;
       }
     }
 
     &.is-failed {
-      @apply bg-red-200 dark: bg-red-200;
+      @apply bg-red-200 dark:bg-red-200;
 
       .message-text--metadata .time {
-        @apply text-red-50 dark: text-red-50;
+        @apply text-red-50 dark:text-red-50;
       }
     }
   }
@@ -527,7 +527,7 @@ export default {
 }
 
 .sender--info {
-  @apply items-center text-black-700 dark: text-black-100 inline-flex py-1 px-0;
+  @apply items-center text-black-700 dark:text-black-100 inline-flex py-1 px-0;
 
   .sender--available-name {
     @apply text-xs ml-1;
@@ -535,7 +535,7 @@ export default {
 }
 
 .message-failed--alert {
-  @apply text-red-900 dark: text-red-900 flex-grow text-right mt-1 mr-1 mb-0 ml-0;
+  @apply text-red-900 dark:text-red-900 flex-grow text-right mt-1 mr-1 mb-0 ml-0;
 }
 
 li.left,
@@ -548,7 +548,7 @@ li.left.has-tweet-menu .context-menu {
 }
 
 li.has-bg {
-  @apply bg-woot-75 dark: bg-woot-600;
+  @apply bg-woot-75 dark:bg-woot-600;
 }
 
 li.right .context-menu-wrap {
@@ -568,7 +568,7 @@ li.right {
 }
 
 .has-context-menu {
-  @apply bg-slate-50 dark: bg-slate-700;
+  @apply bg-slate-50 dark:bg-slate-700;
 }
 
 .context-menu {
@@ -579,7 +579,7 @@ li.right {
 
 .bubble .text-content {
   p code {
-    @apply bg-slate-75 dark: bg-slate-700 inline-block leading-none rounded-sm p-1;
+    @apply bg-slate-75 dark:bg-slate-700 inline-block leading-none rounded-sm p-1;
   }
 
   ol li {
@@ -587,45 +587,45 @@ li.right {
   }
 
   pre {
-    @apply bg-slate-75 dark: bg-slate-700 block border-slate-75 dark:border-slate-700 text-slate-800 dark:text-slate-100 rounded-md p-2 mt-1 mb-2 leading-relaxed whitespace-pre-wrap;
+    @apply bg-slate-75 dark:bg-slate-700 block border-slate-75 dark:border-slate-700 text-slate-800 dark:text-slate-100 rounded-md p-2 mt-1 mb-2 leading-relaxed whitespace-pre-wrap;
 
     code {
-      @apply bg-transparent text-slate-800 dark: text-slate-100 p-0;
+      @apply bg-transparent text-slate-800 dark:text-slate-100 p-0;
     }
   }
 
   blockquote {
-    @apply border-l-4 mx-0 my-1 pt-2 pr-2 pb-0 pl-4 border-slate-75 border-solid dark: border-slate-600 text-slate-800 dark:text-slate-100;
+    @apply border-l-4 mx-0 my-1 pt-2 pr-2 pb-0 pl-4 border-slate-75 border-solid dark:border-slate-600 text-slate-800 dark:text-slate-100;
 
     p {
-      @apply text-slate-800 dark: text-slate-300;
+      @apply text-slate-800 dark:text-slate-300;
     }
   }
 }
 
 .right .bubble .text-content {
   p code {
-    @apply bg-woot-600 dark: bg-woot-600 text-white dark:text-white;
+    @apply bg-woot-600 dark:bg-woot-600 text-white dark:text-white;
   }
 
   pre {
-    @apply bg-woot-800 dark: bg-woot-800 border-woot-700 dark:border-woot-700 text-white dark:text-white;
+    @apply bg-woot-800 dark:bg-woot-800 border-woot-700 dark:border-woot-700 text-white dark:text-white;
 
     code {
-      @apply bg-transparent text-white dark: text-white;
+      @apply bg-transparent text-white dark:text-white;
     }
   }
 
   blockquote {
-    @apply border-l-4 border-solid border-woot-400 dark: border-woot-400 text-white dark:text-white;
+    @apply border-l-4 border-solid border-woot-400 dark:border-woot-400 text-white dark:text-white;
 
     p {
-      @apply text-woot-75 dark: text-woot-75;
+      @apply text-woot-75 dark:text-woot-75;
     }
   }
 }
 
 .story-reply-quote {
-  @apply mt-2 mx-4 mb-0 px-2 pb-0 pt-2 border-l-4 border-solid border-slate-75 dark: border-slate-600 text-slate-600 dark:text-slate-200;
+  @apply mt-2 mx-4 mb-0 px-2 pb-0 pt-2 border-l-4 border-solid border-slate-75 dark:border-slate-600 text-slate-600 dark:text-slate-200;
 }
 </style>

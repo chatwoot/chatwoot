@@ -177,7 +177,7 @@ export default {
     position: absolute;
     right: 0;
     width: var(--space-slab);
-    @apply bg-white dark: bg-slate-900;
+    @apply bg-white dark:bg-slate-900;
   }
 
   .user-online-status {
@@ -190,15 +190,15 @@ export default {
   }
 
   .user-online-status--online {
-    @apply bg-green-400 dark: bg-green-400;
+    @apply bg-green-400 dark:bg-green-400;
   }
 
   .user-online-status--busy {
-    @apply bg-yellow-500 dark: bg-yellow-500;
+    @apply bg-yellow-500 dark:bg-yellow-500;
   }
 
   .user-online-status--offline {
-    @apply bg-slate-500 dark: bg-slate-500;
+    @apply bg-slate-500 dark:bg-slate-500;
   }
 }
 </style>

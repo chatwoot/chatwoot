@@ -281,7 +281,7 @@ export default {
     }
 
     .view-details--button {
-      @apply text-slate-600 dark: text-slate-200;
+      @apply text-slate-600 dark:text-slate-200;
     }
 
     .user-email {
@@ -308,7 +308,7 @@ export default {
 
 .cell--social-profiles {
   a {
-    @apply text-slate-300 dark: text-slate-400 text-lg min-w-[2rem] text-center;
+    @apply text-slate-300 dark:text-slate-400 text-lg min-w-[2rem] text-center;
   }
 }
 </style>

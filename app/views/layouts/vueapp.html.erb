@@ -31,7 +31,7 @@
     <link rel="icon" type="image/png" sizes="512x512" href="<%= @global_config['LOGO_THUMBNAIL'] %>">
     <%= csrf_meta_tags %>
     <script>
-      window.chatwootConfig = {
+      window  .chatwootConfig = {
         hostURL: '<%= ENV.fetch('FRONTEND_URL', '') %>',
         helpCenterURL: '<%= ENV.fetch('HELPCENTER_URL', '') %>',
         fbAppId: '<%= ENV.fetch('FB_APP_ID', nil) %>',

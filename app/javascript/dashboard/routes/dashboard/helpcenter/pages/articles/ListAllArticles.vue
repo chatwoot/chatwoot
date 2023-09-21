@@ -33,7 +33,7 @@
 <script>
 import { mapGetters } from 'vuex';
 
-import Spinner from 'shared/components/Spinner.vue';
+import Spinner from 'shared/components/Spinner.vue.vue';
 import ArticleHeader from 'dashboard/routes/dashboard/helpcenter/components/Header/ArticleHeader';
 import EmptyState from 'dashboard/components/widgets/EmptyState';
 import ArticleTable from '../../components/ArticleTable';
