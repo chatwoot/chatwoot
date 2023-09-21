@@ -1,17 +1,50 @@
-import conversationMixin from '../conversations';
+import conversationMixin, {
+  filterDuplicateSourceMessages,
+} from '../conversations';
 import conversationFixture from './conversationFixtures';
 import commonHelpers from '../../helper/commons';
 commonHelpers();
 
+describe('#filterDuplicateSourceMessages', () => {
+  it('returns messages without duplicate source_id and all messages without source_id', () => {
+    expect(
+      filterDuplicateSourceMessages([
+        { source_id: null, id: 1 },
+        { source_id: '', id: 2 },
+        { id: 3 },
+        { source_id: 'wa_1', id: 4 },
+        { source_id: 'wa_1', id: 5 },
+        { source_id: 'wa_1', id: 6 },
+        { source_id: 'wa_2', id: 7 },
+        { source_id: 'wa_2', id: 8 },
+        { source_id: 'wa_3', id: 9 },
+      ])
+    ).toEqual([
+      { source_id: null, id: 1 },
+      { source_id: '', id: 2 },
+      { id: 3 },
+      { source_id: 'wa_1', id: 4 },
+      { source_id: 'wa_2', id: 7 },
+      { source_id: 'wa_3', id: 9 },
+    ]);
+  });
+});
+
 describe('#conversationMixin', () => {
   it('should return read messages if conversation is passed', () => {
     expect(
-      conversationMixin.methods.readMessages(conversationFixture.conversation)
+      conversationMixin.methods.readMessages(
+        conversationFixture.conversation.messages,
+        conversationFixture.conversation.agent_last_seen_at
+      )
     ).toEqual(conversationFixture.readMessages);
   });
   it('should return read messages if conversation is passed', () => {
     expect(
-      conversationMixin.methods.unReadMessages(conversationFixture.conversation)
+      conversationMixin.methods.unReadMessages(
+        conversationFixture.conversation.messages,
+        conversationFixture.conversation.agent_last_seen_at
+      )
     ).toEqual(conversationFixture.unReadMessages);
   });
 

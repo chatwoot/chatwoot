@@ -10,33 +10,33 @@
     },
     "COMPANY_NAME": {
       "LABEL": "Tên công ty",
-      "PLACEHOLDER": "Nhập tên công ty của bạn. ví dụ: Doanh nghiệp Wayne",
-      "ERROR": "Tên công ty quá ngắn"
+      "PLACEHOLDER": "Enter your company name. E.g., Wayne Enterprises",
+      "ERROR": "Tên công ty quá ngắn."
     },
     "FULL_NAME": {
       "LABEL": "Tên đầy đủ",
-      "PLACEHOLDER": "Nhập tên đầy đủ của bạn. ví dụ: Wayne Enterprises",
-      "ERROR": "Tên đầy đủ quá ngắn"
+      "PLACEHOLDER": "Enter your full name. E.g., Bruce Wayne",
+      "ERROR": "Tên đầy đủ quá ngắn."
     },
     "EMAIL": {
       "LABEL": "Email công việc",
-      "PLACEHOLDER": "Nhập email công việc của bạn. ví dụ: bruce@wayne.enterprises",
-      "ERROR": "Vui lòng nhập địa chỉ email công việc hợp lệ"
+      "PLACEHOLDER": "Enter your work email address. E.g., bruce@wayne.enterprises",
+      "ERROR": "Vui lòng nhập địa chỉ email công việc hợp lệ."
     },
     "PASSWORD": {
       "LABEL": "Mật khẩu",
       "PLACEHOLDER": "Mật khẩu",
-      "ERROR": "Mật khẩu quá ngắn",
-      "IS_INVALID_PASSWORD": "Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt"
+      "ERROR": "Mật khẩu quá ngắn.",
+      "IS_INVALID_PASSWORD": "Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt."
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Xác nhận mật khẩu",
-      "PLACEHOLDER": "Xác nhận mật khẩu",
-      "ERROR": "Mật khẩu không khớp"
+      "LABEL": "Confirm password",
+      "PLACEHOLDER": "Confirm password",
+      "ERROR": "Mật khẩu không khớp."
     },
     "API": {
       "SUCCESS_MESSAGE": "Đăng Kí Thành Công",
-      "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau."
+      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
     },
     "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Đã có tài khoản?"

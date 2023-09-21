@@ -19,12 +19,24 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Parasti atbild pēc dažām minūtēm",
     "IN_A_FEW_HOURS": "Parasti atbild pēc dažām stundām",
-    "IN_A_DAY": "Parasti atbild vienas dienas laikā"
+    "IN_A_DAY": "Parasti atbild vienas dienas laikā",
+    "BACK_IN": "Mēs atgriezīsimies tiešsaistē"
   },
+  "DAY_NAMES": [
+    "Svētdiena",
+    "Pirmdiena",
+    "Otrdiena",
+    "Trešdiena",
+    "Ceturtdiena",
+    "Piektdiena",
+    "Sestdiena"
+  ],
   "START_CONVERSATION": "Sākt Sarunu",
   "END_CONVERSATION": "Beigt Sarunu",
   "CONTINUE_CONVERSATION": "Turpināt Sarunu",
+  "YOU": "Jūs",
   "START_NEW_CONVERSATION": "Sākt jaunu sarunu",
+  "VIEW_UNREAD_MESSAGES": "Jums ir nelasītas ziņas",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Skatīt jaunus ziņojumus",
     "CLOSE_MESSAGES_BUTTON": "Aizvērt",
@@ -56,7 +68,9 @@
         "LABEL": "Telefona numurs",
         "PLACEHOLDER": "Lūdzu, ievadiet savu tālruņa numuru",
         "REQUIRED_ERROR": "Nepieciešams tālruņa numurs",
-        "VALID_ERROR": "Tālruņa numuram ir jābūt E.164 formātā, piemēram: +37155555555"
+        "DIAL_CODE_VALID_ERROR": "Lūdzu, izvēlieties valsts kodu",
+        "VALID_ERROR": "Lūdzu ievadiet derīgu telefona numuru",
+        "DROPDOWN_EMPTY": "Nav atrasts"
       },
       "MESSAGE": {
         "LABEL": "Ziņojums",
@@ -92,6 +106,31 @@
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Noklikšķiniet šeit, lai pievienotos",
       "LEAVE_THE_ROOM": "Beigt zvanu"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Populāri Raksti",
+    "VIEW_ALL_ARTICLES": "Skatīt visus rakstus",
+    "IFRAME_LOAD_ERROR": "Ielādējot rakstu radās kļūda. Lūdzu, atsvaidziniet lapu un mēģiniet vēlreiz."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Attēla ziņojums"
+    },
+    "audio": {
+      "CONTENT": "Audio ziņojums"
+    },
+    "video": {
+      "CONTENT": "Video ziņojums"
+    },
+    "file": {
+      "CONTENT": "Faila pielikums"
+    },
+    "location": {
+      "CONTENT": "Atrašanās vieta"
+    },
+    "fallback": {
+      "CONTENT": "ir kopīgojis URL"
     }
   }
 }

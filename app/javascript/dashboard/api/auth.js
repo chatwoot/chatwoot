@@ -3,47 +3,11 @@
 import Cookies from 'js-cookie';
 import endPoints from './endPoints';
 import {
-  setAuthCredentials,
   clearCookiesOnLogout,
   deleteIndexedDBOnLogout,
 } from '../store/utils/api';
 
 export default {
-  login(creds) {
-    return new Promise((resolve, reject) => {
-      axios
-        .post('auth/sign_in', creds)
-        .then(response => {
-          setAuthCredentials(response);
-          resolve(response.data);
-        })
-        .catch(error => {
-          reject(error.response);
-        });
-    });
-  },
-
-  register(creds) {
-    const urlData = endPoints('register');
-    const fetchPromise = new Promise((resolve, reject) => {
-      axios
-        .post(urlData.url, {
-          account_name: creds.accountName.trim(),
-          user_full_name: creds.fullName.trim(),
-          email: creds.email,
-          password: creds.password,
-          h_captcha_client_response: creds.hCaptchaClientResponse,
-        })
-        .then(response => {
-          setAuthCredentials(response);
-          resolve(response);
-        })
-        .catch(error => {
-          reject(error);
-        });
-    });
-    return fetchPromise;
-  },
   validityCheck() {
     const urlData = endPoints('validityCheck');
     return axios.get(urlData.url);
@@ -73,45 +37,6 @@ export default {
     }
     return false;
   },
-  verifyPasswordToken({ confirmationToken }) {
-    return new Promise((resolve, reject) => {
-      axios
-        .post('auth/confirmation', {
-          confirmation_token: confirmationToken,
-        })
-        .then(response => {
-          setAuthCredentials(response);
-          resolve(response);
-        })
-        .catch(error => {
-          reject(error.response);
-        });
-    });
-  },
-
-  setNewPassword({ resetPasswordToken, password, confirmPassword }) {
-    return new Promise((resolve, reject) => {
-      axios
-        .put('auth/password', {
-          reset_password_token: resetPasswordToken,
-          password_confirmation: confirmPassword,
-          password,
-        })
-        .then(response => {
-          setAuthCredentials(response);
-          resolve(response);
-        })
-        .catch(error => {
-          reject(error.response);
-        });
-    });
-  },
-
-  resetPassword({ email }) {
-    const urlData = endPoints('resetPassword');
-    return axios.post(urlData.url, { email });
-  },
-
   profileUpdate({
     password,
     password_confirmation,

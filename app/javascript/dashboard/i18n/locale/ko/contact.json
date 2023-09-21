@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "라벨 추가하기",
         "PLACEHOLDER": "라벨 찾기",
-        "NO_RESULT": "라벨을 찾을 수 없습니다"
+        "NO_RESULT": "라벨을 찾을 수 없습니다",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "연락처 합치기",
@@ -70,7 +71,14 @@
       "SUBMIT": "가져오기",
       "CANCEL": "취소"
     },
-    "SUCCESS_MESSAGE": "연락처가 성공적으로 저장되었습니다",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+    "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
+  },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
     "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
   },
   "DELETE_NOTE": {
@@ -120,7 +128,7 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "연락처의 전화 번호 입력",
         "LABEL": "전화 번호",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
+        "HELP": "전화번호는 E.164 형식이여야 합니다. 예: +1415555555 [+][국가 코드][지역 코드][전화번호]",
         "ERROR": "전화번호는 비어있거나 E.164 형식이여야 합니다",
         "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "이 전화번호는 다른 연락처에 사용 중입니다."
@@ -182,7 +190,7 @@
         "LABEL": "~~에게"
       },
       "INBOX": {
-        "LABEL": "Via Inbox",
+        "LABEL": "받은 메시지함",
         "PLACEHOLDER": "Choose source inbox",
         "ERROR": "받은 메시지함 선택"
       },
@@ -211,6 +219,7 @@
     "FILTER_CONTACTS": "필터",
     "FILTER_CONTACTS_SAVE": "필터 저장하기",
     "FILTER_CONTACTS_DELETE": "필터 삭제하기",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "연락처를 불러오는 중...",
       "404": "검색과 일치하는 연락처 없음 🔍",

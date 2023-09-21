@@ -4,13 +4,13 @@ RSpec.describe '/api/v1/accounts/{account.id}/channels/twilio_channel', type: :r
   let(:account) { create(:account) }
   let(:admin) { create(:user, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
-  let(:twilio_client) { instance_double(::Twilio::REST::Client) }
+  let(:twilio_client) { instance_double(Twilio::REST::Client) }
   let(:message_double) { double }
-  let(:twilio_webhook_setup_service) { instance_double(::Twilio::WebhookSetupService) }
+  let(:twilio_webhook_setup_service) { instance_double(Twilio::WebhookSetupService) }
 
   before do
-    allow(::Twilio::REST::Client).to receive(:new).and_return(twilio_client)
-    allow(::Twilio::WebhookSetupService).to receive(:new).and_return(twilio_webhook_setup_service)
+    allow(Twilio::REST::Client).to receive(:new).and_return(twilio_client)
+    allow(Twilio::WebhookSetupService).to receive(:new).and_return(twilio_webhook_setup_service)
     allow(twilio_webhook_setup_service).to receive(:perform)
   end
 
@@ -46,7 +46,7 @@ RSpec.describe '/api/v1/accounts/{account.id}/channels/twilio_channel', type: :r
                headers: admin.create_new_auth_token
 
           expect(response).to have_http_status(:success)
-          json_response = JSON.parse(response.body)
+          json_response = response.parsed_body
 
           expect(json_response['name']).to eq('SMS Channel')
           expect(json_response['messaging_service_sid']).to eq('MGec8130512b5dd462cfe03095ec1342ed')
@@ -71,7 +71,7 @@ RSpec.describe '/api/v1/accounts/{account.id}/channels/twilio_channel', type: :r
                headers: admin.create_new_auth_token
 
           expect(response).to have_http_status(:success)
-          json_response = JSON.parse(response.body)
+          json_response = response.parsed_body
 
           expect(json_response['messaging_service_sid']).to eq('MGec8130512b5dd462cfe03095ec1111ed')
         end
@@ -99,7 +99,7 @@ RSpec.describe '/api/v1/accounts/{account.id}/channels/twilio_channel', type: :r
                  headers: admin.create_new_auth_token
 
             expect(response).to have_http_status(:success)
-            json_response = JSON.parse(response.body)
+            json_response = response.parsed_body
 
             expect(json_response['name']).to eq('SMS Channel')
             expect(json_response['phone_number']).to eq('+1234567890')
@@ -124,7 +124,7 @@ RSpec.describe '/api/v1/accounts/{account.id}/channels/twilio_channel', type: :r
                  headers: admin.create_new_auth_token
 
             expect(response).to have_http_status(:success)
-            json_response = JSON.parse(response.body)
+            json_response = response.parsed_body
 
             expect(json_response['phone_number']).to eq('whatsapp:+1224466880')
           end

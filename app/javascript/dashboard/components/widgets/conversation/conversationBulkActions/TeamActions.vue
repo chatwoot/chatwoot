@@ -1,14 +1,8 @@
 <template>
   <div v-on-clickaway="onClose" class="bulk-action__teams">
-    <div class="triangle" :style="cssVars">
+    <div class="triangle">
       <svg height="12" viewBox="0 0 24 12" width="24">
-        <path
-          d="M20 12l-8-8-12 12"
-          fill="var(--white)"
-          fill-rule="evenodd"
-          stroke="var(--s-50)"
-          stroke-width="1px"
-        />
+        <path d="M20 12l-8-8-12 12" fill-rule="evenodd" stroke-width="1px" />
       </svg>
     </div>
     <div class="header flex-between">
@@ -59,9 +53,8 @@
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
 import { mapGetters } from 'vuex';
-import bulkActionsMixin from 'dashboard/mixins/bulkActionsMixin.js';
 export default {
-  mixins: [clickaway, bulkActionsMixin],
+  mixins: [clickaway],
   data() {
     return {
       query: '',
@@ -92,83 +85,60 @@ export default {
 
 <style scoped lang="scss">
 .bulk-action__teams {
-  background-color: var(--white);
-  border-radius: var(--border-radius-large);
-  border: 1px solid var(--s-50);
-  box-shadow: var(--shadow-dropdown-pane);
-  max-width: 75%;
-  position: absolute;
-  right: var(--space-small);
-  top: var(--space-larger);
-  transform-origin: top right;
-  width: auto;
-  z-index: var(--z-index-twenty);
-  min-width: var(--space-giga);
+  @apply max-w-[75%] absolute right-2 top-12 origin-top-right w-auto z-20 min-w-[15rem] bg-white dark:bg-slate-800 rounded-lg border border-solid border-slate-50 dark:border-slate-700 shadow-md;
   .header {
-    padding: var(--space-one);
+    @apply p-2.5;
 
     span {
-      font-size: var(--font-size-small);
-      font-weight: var(--font-weight-medium);
+      @apply text-sm font-medium;
     }
   }
 
   .container {
-    max-height: var(--space-giga);
-    overflow-y: auto;
+    @apply overflow-y-auto max-h-[15rem];
     .team__list-container {
-      height: 100%;
+      @apply h-full;
     }
     .agent-list-search {
-      padding: 0 var(--space-one);
-      border: 1px solid var(--s-100);
-      border-radius: var(--border-radius-medium);
-      background-color: var(--s-50);
+      @apply py-0 px-2.5 bg-slate-50 dark:bg-slate-900 border border-solid border-slate-100 dark:border-slate-600/70 rounded-md;
       .search-icon {
-        color: var(--s-400);
+        @apply text-slate-400 dark:text-slate-200;
       }
 
       .agent--search_input {
-        border: 0;
-        font-size: var(--font-size-mini);
-        margin: 0;
-        background-color: transparent;
-        height: unset;
+        @apply border-0 text-xs m-0 dark:bg-transparent bg-transparent h-[unset];
       }
     }
   }
   .triangle {
-    display: block;
-    z-index: var(--z-index-one);
-    position: absolute;
-    top: calc(var(--space-slab) * -1);
     right: var(--triangle-position);
-    text-align: left;
+    @apply block z-10 absolute text-left -top-3;
+
+    svg path {
+      @apply fill-white dark:fill-slate-800 stroke-slate-50 dark:stroke-slate-600/50;
+    }
   }
 }
 ul {
-  margin: 0;
-  list-style: none;
+  @apply m-0 list-none;
+
+  li {
+    &:last-child {
+      .agent-list-item {
+        @apply last:rounded-b-lg;
+      }
+    }
+  }
 }
 
 .team__list-item {
-  display: flex;
-  align-items: center;
-  padding: var(--space-one);
-  cursor: pointer;
-  &:hover {
-    background-color: var(--s-50);
-  }
+  @apply flex items-center p-2.5 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-900;
   span {
-    font-size: var(--font-size-small);
+    @apply text-sm;
   }
 }
 
 .search-container {
-  padding: 0 var(--space-one);
-  position: sticky;
-  top: 0;
-  z-index: var(--z-index-twenty);
-  background-color: var(--white);
+  @apply py-0 px-2.5 sticky top-0 z-20 bg-white dark:bg-slate-800;
 }
 </style>

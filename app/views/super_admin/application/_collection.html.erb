@@ -45,8 +45,8 @@ to display a collection of resources in an HTML table.
           <% end %>
         </th>
       <% end %>
-      <% [valid_action?(:edit, collection_presenter.resource_name),
-          valid_action?(:destroy, collection_presenter.resource_name)].count(true).times do %>
+      <% [existing_action?(collection_presenter.resource_name, :edit),
+          existing_action?(collection_presenter.resource_name, :destroy)].count(true).times do %>
         <th scope="col"></th>
       <% end %>
     </tr>
@@ -56,13 +56,13 @@ to display a collection of resources in an HTML table.
     <% resources.each do |resource| %>
       <tr class="js-table-row"
           tabindex="0"
-          <% if valid_action? :show, collection_presenter.resource_name %>
+          <% if existing_action? collection_presenter.resource_name, :show %>
             <%= %(role=link data-url=#{polymorphic_path([namespace, resource])}) %>
           <% end %>
           >
         <% collection_presenter.attributes_for(resource).each do |attribute| %>
           <td class="cell-data cell-data--<%= attribute.html_class %>">
-            <% if show_action? :show, resource -%>
+            <% if authorized_action? resource, :show -%>
               <a href="<%= polymorphic_path([namespace, resource]) -%>"
                  class="action-show"
                  >
@@ -72,22 +72,22 @@ to display a collection of resources in an HTML table.
           </td>
         <% end %>
 
-        <% if valid_action? :edit, collection_presenter.resource_name %>
+        <% if existing_action? collection_presenter.resource_name, :edit %>
           <td><%= link_to(
             t("administrate.actions.edit"),
             [:edit, namespace, resource],
             class: "action-edit",
-          ) if show_action? :edit, resource%></td>
+          ) if authorized_action? resource, :edit%></td>
         <% end %>
 
-        <% if valid_action? :destroy, collection_presenter.resource_name %>
+        <% if existing_action? collection_presenter.resource_name, :destroy %>
           <td><%= link_to(
             t("administrate.actions.destroy"),
             [namespace, resource],
             class: "text-color-red",
             method: :delete,
             data: { confirm: t("administrate.actions.confirm") }
-          ) if show_action? :destroy, resource %></td>
+          ) if authorized_action? resource, :destroy %></td>
         <% end %>
       </tr>
     <% end %>

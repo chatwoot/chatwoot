@@ -20,9 +20,9 @@ describe('PortalHelper', () => {
         hostURL: 'https://app.chatwoot.com',
         helpCenterURL: 'https://help.chatwoot.com',
       };
-      expect(buildPortalArticleURL('handbook', 'culture', 'fr', 1)).toEqual(
-        'https://help.chatwoot.com/hc/handbook/fr/culture/1'
-      );
+      expect(
+        buildPortalArticleURL('handbook', 'culture', 'fr', 'article-slug')
+      ).toEqual('https://help.chatwoot.com/hc/handbook/articles/article-slug');
       window.chatwootConfig = {};
     });
   });

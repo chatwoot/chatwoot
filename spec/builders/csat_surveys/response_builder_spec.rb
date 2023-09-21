@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ::CsatSurveys::ResponseBuilder do
+describe CsatSurveys::ResponseBuilder do
   let(:message) do
     create(
       :message, content_type: :input_csat,

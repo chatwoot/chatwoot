@@ -1,6 +1,6 @@
 <template>
-  <div class="row ">
-    <div class="small-8 columns with-right-space ">
+  <div class="flex flex-row gap-4">
+    <div class="w-[60%]">
       <table v-if="hasConnectedHooks" class="woot-table">
         <thead>
           <th v-for="hookHeader in hookHeaders" :key="hookHeader">
@@ -15,11 +15,11 @@
             <td
               v-for="property in hook.properties"
               :key="property"
-              class="hook-item"
+              class="break-words"
             >
               {{ property }}
             </td>
-            <td v-if="isHookTypeInbox" class="hook-item">
+            <td v-if="isHookTypeInbox" class="break-words">
               {{ inboxName(hook) }}
             </td>
             <td class="button-wrapper">
@@ -36,7 +36,7 @@
           </tr>
         </tbody>
       </table>
-      <p v-else class="no-items-error-message">
+      <p v-else class="flex h-full items-center flex-col justify-center">
         {{
           $t('INTEGRATION_APPS.NO_HOOK_CONFIGURED', {
             integrationId: integration.id,
@@ -44,7 +44,7 @@
         }}
       </p>
     </div>
-    <div class="small-4 columns">
+    <div class="w-[34%]">
       <p>
         <b>{{ integration.name }}</b>
       </p>
@@ -99,8 +99,3 @@ export default {
   },
 };
 </script>
-<style scoped lang="scss">
-.hook-item {
-  word-break: break-word;
-}
-</style>

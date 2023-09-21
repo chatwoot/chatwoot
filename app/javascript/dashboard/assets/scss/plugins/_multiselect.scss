@@ -1,91 +1,94 @@
 @mixin label-multiselect-hover {
   &::after {
-    color: $color-primary-dark;
+    @apply text-woot-600 dark:text-woot-600;
   }
 
   &:hover {
-    background: $color-background;
+    @apply bg-slate-50 dark:bg-slate-700;
 
     &::after {
-      color: $color-woot;
+      @apply text-woot-500 dark:text-woot-500;
     }
   }
 }
 
 .multiselect {
-  margin-bottom: var(--space-normal);
+  &:not(.no-margin) {
+    @apply mb-4;
+  }
 
   &.multiselect--disabled {
-    opacity: 0.8;
+    @apply opacity-50 border border-slate-200 dark:border-slate-600 rounded-md cursor-not-allowed;
+
+    .multiselect__select {
+      @apply cursor-not-allowed bg-white dark:bg-slate-900 rounded-md;
+    }
+
+    .multiselect__tags {
+      @apply border-0;
+    }
   }
 
   .multiselect--active {
-    >.multiselect__tags {
-      border-color: var(--w-500);
+    > .multiselect__tags {
+      @apply border-woot-500 dark:border-woot-500;
     }
   }
 
   .multiselect__select {
-    min-height: 4.6rem;
-    padding: 0;
-    right: 0;
-    top: 0;
+    @apply min-h-[2.875rem] p-0 right-0 top-0;
 
     &::before {
-      right: 0;
+      @apply right-0;
     }
   }
 
+  .multiselect__content-wrapper {
+    @apply bg-white dark:bg-slate-900 border border-solid border-slate-200 dark:border-slate-600 text-slate-800 dark:text-slate-100;
+  }
+
   .multiselect__content {
-    max-width: 100%;
+    @apply max-w-full;
 
     .multiselect__option {
-      font-size: $font-size-small;
-      font-weight: $font-weight-normal;
+      @apply text-sm font-normal;
 
       span {
-        display: inline-block;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        width: fit-content;
+        @apply inline-block overflow-hidden text-ellipsis whitespace-nowrap w-fit;
       }
 
       p {
-        margin-bottom: 0;
+        @apply mb-0;
       }
 
       &.multiselect__option--highlight {
-        background: var(--white);
-        color: var(--color-body);
+        @apply bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100;
       }
 
       &.multiselect__option--highlight:hover {
-        background: var(--w-50);
-        color: var(--color-body);
+        @apply bg-woot-50 dark:bg-woot-600 text-slate-800 dark:text-slate-100;
 
         &::after {
-          background: var(--w-50);
-          color: var(--s-600);
+          @apply bg-woot-50 dark:bg-woot-600 text-slate-600 dark:text-slate-200;
         }
       }
 
       &.multiselect__option--highlight::after {
-        background: transparent;
+        @apply bg-transparent;
       }
 
       &.multiselect__option--selected {
-        background: var(--w-75);
+        @apply bg-woot-50 dark:bg-woot-600 text-slate-800 dark:text-slate-100;
 
         &.multiselect__option--highlight:hover {
-          background: var(--w-75);
+          @apply bg-woot-75 dark:bg-woot-600;
 
           &::after {
-            background: transparent;
+            @apply bg-transparent;
           }
 
           &::after:hover {
-            color: var(--color-body);
+            @apply text-slate-800 dark:text-slate-100;
           }
         }
       }
@@ -93,175 +96,130 @@
   }
 
   .multiselect__tags {
-    border: 1px solid var(--s-200);
-    border-color: var(--s-200);
-    margin: 0;
-    min-height: 4.4rem;
-    padding-top: $zero;
+    @apply bg-white dark:bg-slate-900 border border-solid border-slate-200 dark:border-slate-600 m-0 min-h-[2.875rem] pt-0;
   }
 
   .multiselect__tags-wrap {
-    display: inline-block;
-    line-height: 1;
-    margin-top: $space-smaller;
+    @apply inline-block leading-none mt-1;
   }
 
   .multiselect__placeholder {
-    color: $color-gray;
-    font-weight: $font-weight-normal;
-    padding-top: var(--space-slab);
+    @apply text-slate-400 dark:text-slate-400 font-normal pt-3;
   }
 
   .multiselect__tag {
-    $vertical-space: $space-smaller + $space-micro;
-    background: $color-background;
-    color: $color-heading;
-    margin-top: $space-smaller;
-    padding: $vertical-space $space-medium $vertical-space $space-one;
+    @apply bg-slate-50 dark:bg-slate-800 mt-1 text-slate-800 dark:text-slate-100 pr-6 pl-2.5 py-1.5;
   }
 
   .multiselect__tag-icon {
     @include label-multiselect-hover;
-    line-height: $space-medium + $space-micro;
   }
 
   .multiselect__input {
     @include ghost-input;
-    font-size: $font-size-small;
-    height: 4.4rem;
-    margin-bottom: $zero;
-    padding: 0;
+    @apply text-sm h-[2.875rem] mb-0 p-0;
   }
 
   .multiselect__single {
-    @include text-ellipsis;
-    display: inline-block;
-    margin-bottom: 0;
-    padding: var(--space-slab) var(--space-one);
+    @apply bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 inline-block mb-0 py-3 px-2.5 overflow-hidden whitespace-nowrap text-ellipsis;
   }
 }
 
 .sidebar-labels-wrap {
-
   &.has-edited,
   &:hover {
     .multiselect {
-      cursor: pointer;
+      @apply cursor-pointer;
     }
   }
 
   .multiselect {
-    >.multiselect__select {
-      visibility: hidden;
+    > .multiselect__select {
+      @apply invisible;
     }
 
-    >.multiselect__tags {
-      border-color: transparent;
+    > .multiselect__tags {
+      @apply border-transparent;
     }
 
-    &.multiselect--active>.multiselect__tags {
-      border-color: $color-woot;
+    &.multiselect--active > .multiselect__tags {
+      @apply border-woot-500 dark:border-woot-500;
     }
   }
 }
 
 .multiselect-wrap--small {
-  $multiselect-height: 4.0rem;
-
   .multiselect__tags,
   .multiselect__input {
-    align-items: center;
-    display: flex;
+    @apply items-center flex;
   }
 
   .multiselect__tags,
   .multiselect__input,
   .multiselect {
-    background: var(--white);
-    font-size: var(--font-size-small);
-    height: $multiselect-height;
-    min-height: $multiselect-height;
+    @apply bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 rounded-[5px] text-sm h-10 min-h-[2.5rem];
   }
 
   .multiselect__input {
-    height: $multiselect-height - $space-micro;
-    min-height: $multiselect-height - $space-micro;
+    @apply h-[2.375rem] min-h-[2.375rem];
   }
 
   .multiselect__single {
-    align-items: center;
-    display: flex;
-    font-size: var(--font-size-small);
-    margin: 0;
-    max-height: 3.8rem;
-    padding: var(--space-smaller) var(--space-micro);
+    @apply items-center flex m-0 text-sm max-h-[2.375rem] text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-900 py-1 px-0.5;
   }
 
   .multiselect__placeholder {
-    margin: 0;
-    padding: var(--space-smaller) var(--space-micro);
+    @apply m-0 py-1 px-0.5;
   }
 
   .multiselect__select {
-    min-height: $multiselect-height;
+    @apply min-h-[2.5rem];
   }
 
   .multiselect--disabled .multiselect__current,
   .multiselect--disabled .multiselect__select {
-    background: transparent;
+    @apply bg-transparent;
   }
 
   .multiselect__tags-wrap {
-    flex-shrink: 0;
+    @apply flex-shrink-0;
   }
 }
 
 .multiselect-wrap--medium {
-  $multiselect-height: 4.8rem;
-
   .multiselect__tags,
   .multiselect__input {
-    align-items: center;
-    display: flex;
+    @apply items-center flex;
   }
 
   .multiselect__tags,
   .multiselect__input,
   .multiselect {
-    background: var(--white);
-    font-size: var(--font-size-small);
-    height: $multiselect-height;
-    min-height: $multiselect-height;
+    @apply bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 text-sm h-12 min-h-[3rem];
   }
 
   .multiselect__input {
-    height: $multiselect-height - $space-micro;
-    min-height: $multiselect-height - $space-micro;
+    @apply h-[2.875rem] min-h-[2.875rem];
   }
 
   .multiselect__single {
-    align-items: center;
-    display: flex;
-    font-size: var(--font-size-small);
-    margin: 0;
-    padding: var(--space-smaller) var(--space-micro);
+    @apply items-center flex m-0 text-sm py-1 px-0.5 text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-900;
   }
 
   .multiselect__placeholder {
-    margin: 0;
-    padding: var(--space-smaller) var(--space-micro);
+    @apply m-0 py-1 px-0.5;
   }
 
   .multiselect__select {
-    min-height: $multiselect-height;
+    @apply min-h-[3rem];
   }
 
   .multiselect--disabled .multiselect__current,
   .multiselect--disabled .multiselect__select {
-    background: transparent;
+    @apply bg-transparent;
   }
 
   .multiselect__tags-wrap {
-    flex-shrink: 0;
+    @apply flex-shrink-0;
   }
 }

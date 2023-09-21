@@ -1,420 +1,428 @@
 {
   "HELP_CENTER": {
     "HEADER": {
-      "FILTER": "Filter by",
-      "SORT": "Sort by",
+      "FILTER": "Szűrés",
+      "SORT": "Rendezés",
       "SETTINGS_BUTTON": "Beállítások",
-      "NEW_BUTTON": "New Article",
+      "NEW_BUTTON": "Új bejegyzés",
       "DROPDOWN_OPTIONS": {
-        "PUBLISHED": "Published",
-        "DRAFT": "Draft",
-        "ARCHIVED": "Archived"
+        "PUBLISHED": "Publikált",
+        "DRAFT": "Vázlat",
+        "ARCHIVED": "Archivált"
       },
       "TITLES": {
-        "ALL_ARTICLES": "All Articles",
-        "MINE": "My Articles",
-        "DRAFT": "Draft Articles",
-        "ARCHIVED": "Archived Articles"
+        "ALL_ARTICLES": "Minden bejegyzés",
+        "MINE": "Saját bejegyzések",
+        "DRAFT": "Vázlat bejegyzések",
+        "ARCHIVED": "Archivált bejegyzések"
       }
     },
     "EDIT_HEADER": {
-      "ALL_ARTICLES": "All Articles",
-      "PUBLISH_BUTTON": "Publish",
-      "MOVE_TO_ARCHIVE_BUTTON": "Move to archived",
-      "PREVIEW": "Preview",
-      "ADD_TRANSLATION": "Add translation",
-      "OPEN_SIDEBAR": "Open sidebar",
-      "CLOSE_SIDEBAR": "Close sidebar",
-      "SAVING": "Saving...",
-      "SAVED": "Saved"
+      "ALL_ARTICLES": "Minden bejegyzés",
+      "PUBLISH_BUTTON": "Publikálás",
+      "MOVE_TO_ARCHIVE_BUTTON": "Archiválás",
+      "PREVIEW": "Előnézet",
+      "ADD_TRANSLATION": "Fordítás hozzáadása",
+      "OPEN_SIDEBAR": "Oldalsáv megnyitása",
+      "CLOSE_SIDEBAR": "Oldalsáv becsukás",
+      "SAVING": "Mentés...",
+      "SAVED": "Mentve"
     },
     "ARTICLE_EDITOR": {
       "IMAGE_UPLOAD": {
         "TITLE": "Kép feltöltése",
         "UPLOADING": "Frissítés...",
-        "SUCCESS": "Image uploaded successfully",
-        "ERROR": "Error while uploading image",
-        "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
-        "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
-        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
+        "SUCCESS": "Képfeltöltés sikeres",
+        "ERROR": "Hiba a kép feltöltésekor",
+        "ERROR_FILE_SIZE": "A kép mérete kevesebb, mint {size} MB",
+        "ERROR_FILE_FORMAT": "A kép formátuma legyen jpg, jpeg vagy png",
+        "ERROR_FILE_DIMENSIONS": "A kép felbontása kevesebb legyen, mint 2000 x 2000"
       }
     },
     "ARTICLE_SETTINGS": {
-      "TITLE": "Article Settings",
+      "TITLE": "Bejegyzés beállítások",
       "FORM": {
         "CATEGORY": {
-          "LABEL": "Category",
-          "TITLE": "Select category",
-          "PLACEHOLDER": "Select category",
-          "NO_RESULT": "No category found",
-          "SEARCH_PLACEHOLDER": "Search category"
+          "LABEL": "Kategória",
+          "TITLE": "Kategória választás",
+          "PLACEHOLDER": "Kategória választás",
+          "NO_RESULT": "Nincsenek kategóriák",
+          "SEARCH_PLACEHOLDER": "Kategória keresés"
         },
         "AUTHOR": {
-          "LABEL": "Author",
-          "TITLE": "Select author",
-          "PLACEHOLDER": "Select author",
-          "NO_RESULT": "No authors found",
-          "SEARCH_PLACEHOLDER": "Search author"
+          "LABEL": "Szerző",
+          "TITLE": "Szerző kiválasztás",
+          "PLACEHOLDER": "Szerző kiválasztás",
+          "NO_RESULT": "Nincsenek szerzők",
+          "SEARCH_PLACEHOLDER": "Szerző keresés"
         },
         "META_TITLE": {
-          "LABEL": "Meta title",
-          "PLACEHOLDER": "Add a meta title"
+          "LABEL": "Meta cím",
+          "PLACEHOLDER": "Meta cím megadása"
         },
         "META_DESCRIPTION": {
-          "LABEL": "Meta description",
-          "PLACEHOLDER": "Add your meta description for better SEO results..."
+          "LABEL": "Meta leírás",
+          "PLACEHOLDER": "Adj hozzá meta leírást a jobb SEO eredmények érdekében..."
         },
         "META_TAGS": {
-          "LABEL": "Meta tags",
-          "PLACEHOLDER": "Add meta tags separated by comma..."
+          "LABEL": "Meta tagek",
+          "PLACEHOLDER": "Adj hozzá meta címkéket vesszőkkel elválasztva..."
         }
       },
       "BUTTONS": {
-        "ARCHIVE": "Archive article",
-        "DELETE": "Delete article"
+        "ARCHIVE": "Bejegyzés archiválása",
+        "DELETE": "Cikk törlése"
       }
     },
+    "ARTICLE_SEARCH_RESULT": {
+      "UNCATEGORIZED": "Kategorizálhatatlan",
+      "INSERT_ARTICLE": "Beszúrás",
+      "NO_RESULT": "Nem található cikk",
+      "COPY_LINK": "Cikk másolása a vágólapra",
+      "OPEN_LINK": "Cikk megnyitása új lapon",
+      "PREVIEW_LINK": "Cikk előnézete"
+    },
     "PORTAL": {
-      "HEADER": "Portals",
-      "DEFAULT": "Default",
-      "NEW_BUTTON": "New Portal",
-      "ACTIVE_BADGE": "active",
-      "CHOOSE_LOCALE_LABEL": "Choose a locale",
-      "LOADING_MESSAGE": "Loading portals...",
-      "ARTICLES_LABEL": "articles",
-      "NO_PORTALS_MESSAGE": "There are no available portals",
-      "ADD_NEW_LOCALE": "Add a new locale",
+      "HEADER": "Portálok",
+      "DEFAULT": "Alapértelmezett",
+      "NEW_BUTTON": "Új portál",
+      "ACTIVE_BADGE": "Aktív",
+      "CHOOSE_LOCALE_LABEL": "Terület választása",
+      "LOADING_MESSAGE": "Portálok betöltése...",
+      "ARTICLES_LABEL": "bejegyzések",
+      "NO_PORTALS_MESSAGE": "Nincsennek elérhető portálok",
+      "ADD_NEW_LOCALE": "Új terület hozzáadása",
       "POPOVER": {
-        "TITLE": "Portals",
-        "PORTAL_SETTINGS": "Portal settings",
-        "SUBTITLE": "You have multiple portals and can have different locales for each portal.",
+        "TITLE": "Portálok",
+        "PORTAL_SETTINGS": "Portál beállítások",
+        "SUBTITLE": "Több portálja van, és mindegyik portálhoz különböző területi beállításokat adhat meg.",
         "CANCEL_BUTTON_LABEL": "Mégse",
-        "CHOOSE_LOCALE_BUTTON": "Choose Locale"
+        "CHOOSE_LOCALE_BUTTON": "Terület választása"
       },
       "PORTAL_SETTINGS": {
         "LIST_ITEM": {
           "HEADER": {
-            "COUNT_LABEL": "articles",
-            "ADD": "Add locale",
-            "VISIT": "Visit site",
+            "COUNT_LABEL": "bejegyzések",
+            "ADD": "Terület hozzáadása",
+            "VISIT": "Oldal meglátogatása",
             "SETTINGS": "Beállítások",
             "DELETE": "Törlés"
           },
           "PORTAL_CONFIG": {
-            "TITLE": "Portal Configurations",
+            "TITLE": "Portál beállítások",
             "ITEMS": {
               "NAME": "Név",
-              "DOMAIN": "Custom domain",
+              "DOMAIN": "Egyedi felhasználó",
               "SLUG": "Slug",
-              "TITLE": "Portal title",
-              "THEME": "Theme color",
-              "SUB_TEXT": "Portal sub text"
+              "TITLE": "Portál címe",
+              "THEME": "Témaszín",
+              "SUB_TEXT": "Portál alszövege"
             }
           },
           "AVAILABLE_LOCALES": {
-            "TITLE": "Available locales",
+            "TITLE": "Elérhető területek",
             "TABLE": {
-              "NAME": "Locale name",
-              "CODE": "Locale code",
-              "ARTICLE_COUNT": "No. of articles",
-              "CATEGORIES": "No. of categories",
-              "SWAP": "Swap",
+              "NAME": "Terület neve",
+              "CODE": "Terület kódja",
+              "ARTICLE_COUNT": "Bejegyzések száma",
+              "CATEGORIES": "Kategóriák száma",
+              "SWAP": "Csere",
               "DELETE": "Törlés",
-              "DEFAULT_LOCALE": "Default"
+              "DEFAULT_LOCALE": "Alapértelmezett"
             }
           }
         },
         "DELETE_PORTAL": {
-          "TITLE": "Delete portal",
-          "MESSAGE": "Are you sure you want to delete this portal",
-          "YES": "Yes, delete portal",
-          "NO": "No, keep portal",
+          "TITLE": "Portál törlése",
+          "MESSAGE": "Biztosan törölni szeretnéd ezt a portált?",
+          "YES": "Igen, portál törlése",
+          "NO": "Nem, portál megtartása",
           "API": {
-            "DELETE_SUCCESS": "Portal deleted successfully",
-            "DELETE_ERROR": "Error while deleting portal"
+            "DELETE_SUCCESS": "Portál sikeresen törölve",
+            "DELETE_ERROR": "Hiba a portál törlése közben"
           }
         }
       },
       "EDIT": {
-        "HEADER_TEXT": "Edit portal",
+        "HEADER_TEXT": "Portál szerkesztése",
         "TABS": {
           "BASIC_SETTINGS": {
-            "TITLE": "Basic information"
+            "TITLE": "Alapinformáció"
           },
           "CUSTOMIZATION_SETTINGS": {
-            "TITLE": "Portal customization"
+            "TITLE": "Portál személyreszabás"
           },
           "CATEGORY_SETTINGS": {
-            "TITLE": "Categories"
+            "TITLE": "Kategóriák"
           },
           "LOCALE_SETTINGS": {
-            "TITLE": "Locales"
+            "TITLE": "Nyelvek"
           }
         },
         "CATEGORIES": {
-          "TITLE": "Categories in",
-          "NEW_CATEGORY": "New category",
+          "TITLE": "Kategóriák, itt:",
+          "NEW_CATEGORY": "Új kategória",
           "TABLE": {
             "NAME": "Név",
             "DESCRIPTION": "Leírás",
-            "LOCALE": "Locale",
-            "ARTICLE_COUNT": "No. of articles",
+            "LOCALE": "Nyelv",
+            "ARTICLE_COUNT": "Bejegyzések száma",
             "ACTION_BUTTON": {
-              "EDIT": "Edit category",
-              "DELETE": "Delete category"
+              "EDIT": "Kategória szerkesztése",
+              "DELETE": "Kategória törlése"
             },
-            "EMPTY_TEXT": "No categories found"
+            "EMPTY_TEXT": "Nincsenek kategóriák"
           }
         },
         "EDIT_BASIC_INFO": {
-          "BUTTON_TEXT": "Update basic settings"
+          "BUTTON_TEXT": "Alapbeállítások frissítése"
         }
       },
       "ADD": {
         "CREATE_FLOW": [
           {
-            "title": "Help center information",
+            "title": "Sugó információk",
             "route": "new_portal_information",
-            "body": "Basic information about portal",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+            "body": "Általános információk a portálról",
+            "CREATE_BASIC_SETTING_BUTTON": "Portál általános beállításainak létrehozása"
           },
           {
-            "title": "Help center customization",
+            "title": "Sugó testreszabása",
             "route": "portal_customization",
-            "body": "Customize portal",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "body": "Portál személyreszabása",
+            "UPDATE_PORTAL_BUTTON": "Portál beállítások frissítése"
           },
           {
             "title": "Voila! 🎉",
             "route": "portal_finish",
-            "body": "You're all set!",
+            "body": "Kész is!",
             "FINISH": "Befejezés"
           }
         ],
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "Vissza",
           "BASIC_SETTINGS_PAGE": {
-            "HEADER": "Create Portal",
-            "TITLE": "Help center information",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+            "HEADER": "Portál létrehozása",
+            "TITLE": "Sugó információk",
+            "CREATE_BASIC_SETTING_BUTTON": "Portál általános beállításainak létrehozása"
           },
           "CUSTOMIZATION_PAGE": {
-            "HEADER": "Portal customisation",
-            "TITLE": "Help center customization",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "HEADER": "Portál személyreszabása",
+            "TITLE": "Sugó testreszabása",
+            "UPDATE_PORTAL_BUTTON": "Portál beállítások frissítése"
           },
           "FINISH_PAGE": {
-            "TITLE": "Voila!🎉 You're all set up!",
-            "MESSAGE": "You can now see this created portal on your all portals page.",
-            "FINISH": "Go to all portals page"
+            "TITLE": "Íme! 🎉 Minden készen áll!",
+            "MESSAGE": "Most már láthatod ezet a létrehozott portált az összes portál oldalán.",
+            "FINISH": "Ugrás az összes portál oldalára"
           }
         },
         "LOGO": {
-          "LABEL": "Logo",
-          "UPLOAD_BUTTON": "Upload logo",
-          "HELP_TEXT": "This logo will be displayed on the portal header."
+          "LABEL": "Logó",
+          "UPLOAD_BUTTON": "Logó feltöltése",
+          "HELP_TEXT": "Ez a logó megjelenik a portál fejlécében."
         },
         "NAME": {
           "LABEL": "Név",
-          "PLACEHOLDER": "Portal name",
-          "HELP_TEXT": "The name will be used in the public facing portal internally.",
-          "ERROR": "Name is required"
+          "PLACEHOLDER": "Portál neve",
+          "HELP_TEXT": "A név belsőleg a nyilvános portálon kerül felhasználásra.",
+          "ERROR": "Név kötelező"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Portal slug for urls",
-          "ERROR": "Slug is required"
+          "PLACEHOLDER": "Portál slug URL-khez",
+          "ERROR": "Slug megadása kötelező"
         },
         "DOMAIN": {
-          "LABEL": "Custom Domain",
-          "PLACEHOLDER": "Portal custom domain",
+          "LABEL": "Egyedi domain",
+          "PLACEHOLDER": "Portál egyedi domain",
           "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: https://example.com",
-          "ERROR": "Enter a valid domain URL"
+          "ERROR": "Adj meg egy érvényes felhasználó URL-t"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home Page Link",
-          "PLACEHOLDER": "Portal home page link",
+          "LABEL": "Főoldal link",
+          "PLACEHOLDER": "Portál főoldal link",
           "HELP_TEXT": "The link used to return from the portal to the home page. Eg: https://example.com",
-          "ERROR": "Enter a valid home page URL"
+          "ERROR": "Adj meg egy érvényes kezdőlap URL-jét"
         },
         "THEME_COLOR": {
-          "LABEL": "Portal theme color",
-          "HELP_TEXT": "This color will show as the theme color for the portal."
+          "LABEL": "Portál témaszíne",
+          "HELP_TEXT": "Ez a szín fog megjelenni a portál témaszíneként."
         },
         "PAGE_TITLE": {
-          "LABEL": "Page Title",
-          "PLACEHOLDER": "Portal page title",
-          "HELP_TEXT": "The page title will be used in the public facing portal.",
-          "ERROR": "Page title is required"
+          "LABEL": "Oldalcím",
+          "PLACEHOLDER": "Portál oldalcím",
+          "HELP_TEXT": "Az oldal címe a nyilvános portálon kerül felhasználásra.",
+          "ERROR": "Oldalcím megadása kötelező"
         },
         "HEADER_TEXT": {
-          "LABEL": "Header Text",
-          "PLACEHOLDER": "Portal header text",
-          "HELP_TEXT": "The Portal header text will be used in the public facing portal.",
-          "ERROR": "Portal header text is required"
+          "LABEL": "Fejléc szöveg",
+          "PLACEHOLDER": "Portál fejléc szöveg",
+          "HELP_TEXT": "A portál fejléc szövege a nyilvános portálon kerül felhasználásra.",
+          "ERROR": "Portál fejléc szöveg megadása kötelező"
         },
         "API": {
-          "SUCCESS_MESSAGE_FOR_BASIC": "Portal created successfully.",
-          "ERROR_MESSAGE_FOR_BASIC": "Couldn't create the portal. Try again.",
-          "SUCCESS_MESSAGE_FOR_UPDATE": "Portal updated successfully.",
-          "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
+          "SUCCESS_MESSAGE_FOR_BASIC": "Portál sikeresen létrehozva.",
+          "ERROR_MESSAGE_FOR_BASIC": "Nem sikerült létrehozni a portált. Kérlek, próbáld újra.",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "Portál sikeresen frissítve.",
+          "ERROR_MESSAGE_FOR_UPDATE": "Nem sikerült frissíteni a portált. Kérlek, próbáld újra."
         }
       },
       "ADD_LOCALE": {
-        "TITLE": "Add a new locale",
-        "SUB_TITLE": "This adds a new locale to your available translation list.",
-        "PORTAL": "Portal",
+        "TITLE": "Új terület hozzáadása",
+        "SUB_TITLE": "Ezzel egy új nyelv- és országkódot adsz hozzá az elérhető fordítási listához.",
+        "PORTAL": "Portál",
         "LOCALE": {
-          "LABEL": "Locale",
-          "PLACEHOLDER": "Choose a locale",
-          "ERROR": "Locale is required"
+          "LABEL": "Nyelv",
+          "PLACEHOLDER": "Terület választása",
+          "ERROR": "Terület megadása kötelező"
         },
         "BUTTONS": {
-          "CREATE": "Create locale",
+          "CREATE": "Terület létrehozása",
           "CANCEL": "Mégse"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Locale added successfully",
-          "ERROR_MESSAGE": "Unable to add locale. Try again."
+          "SUCCESS_MESSAGE": "Terület sikeresen hozzáadva",
+          "ERROR_MESSAGE": "Nem sikerült területet hozzáadni. Kérlek, próbáld újra."
         }
       },
       "CHANGE_DEFAULT_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Default locale updated successfully",
-          "ERROR_MESSAGE": "Unable to update default locale. Try again."
+          "SUCCESS_MESSAGE": "Alapértelmezett területi beállítás sikeresen frissítve",
+          "ERROR_MESSAGE": "Nem sikerült frissíteni az alapértelmezett területi beállítást. Kérlek, próbáld úra."
         }
       },
       "DELETE_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Locale removed from portal successfully",
-          "ERROR_MESSAGE": "Unable to remove locale from portal. Try again."
+          "SUCCESS_MESSAGE": "Terület sikeresen eltávolítva a portálról",
+          "ERROR_MESSAGE": "Nem sikerült eltávolítani a területet a portálról. Kérlek, próbáld újra."
         }
       }
     },
     "TABLE": {
-      "LOADING_MESSAGE": "Loading articles...",
-      "404": "No articles matches your search 🔍",
-      "NO_ARTICLES": "There are no available articles",
+      "LOADING_MESSAGE": "Bejegyzések betöltése...",
+      "404": "Nincs a keresésnek megfelelő cikk 🔍",
+      "NO_ARTICLES": "Nincsennek elérhető cikkek",
       "HEADERS": {
-        "TITLE": "Title",
-        "CATEGORY": "Category",
-        "READ_COUNT": "Read count",
+        "TITLE": "Cím",
+        "CATEGORY": "Kategória",
+        "READ_COUNT": "Olvasói szám",
         "STATUS": "Státusz",
-        "LAST_EDITED": "Last edited"
+        "LAST_EDITED": "Utoljára szerkesztve"
       },
       "COLUMNS": {
-        "BY": "by"
+        "BY": "általa:"
       }
     },
     "EDIT_ARTICLE": {
-      "LOADING": "Loading article...",
-      "TITLE_PLACEHOLDER": "Article title goes here",
-      "CONTENT_PLACEHOLDER": "Write your article here",
+      "LOADING": "Bejegyzés betöltése...",
+      "TITLE_PLACEHOLDER": "A cikk címét írd ide",
+      "CONTENT_PLACEHOLDER": "Írd ide a cikkedet",
       "API": {
-        "ERROR": "Error while saving article"
+        "ERROR": "Hiba a cikk elmentésekor"
       }
     },
     "PUBLISH_ARTICLE": {
       "API": {
-        "ERROR": "Error while publishing article",
-        "SUCCESS": "Article published successfully"
+        "ERROR": "Hiba a cikk publikálásakor",
+        "SUCCESS": "Cikk sikeresen publikálva"
       }
     },
     "ARCHIVE_ARTICLE": {
       "API": {
-        "ERROR": "Error while archiving article",
-        "SUCCESS": "Article archived successfully"
+        "ERROR": "Hiba a cikk archiválásakor",
+        "SUCCESS": "Cikk sikeresen archiválva"
       }
     },
     "DELETE_ARTICLE": {
       "MODAL": {
         "CONFIRM": {
           "TITLE": "Törlés megerősítése",
-          "MESSAGE": "Are you sure to delete the article?",
+          "MESSAGE": "Biztosan törölni szeretnéd a cikket?",
           "YES": "Igen, Törlés",
           "NO": "Nem, tartsa meg"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Article deleted successfully",
-        "ERROR_MESSAGE": "Error while deleting article"
+        "SUCCESS_MESSAGE": "Cikk sikeresen törölve",
+        "ERROR_MESSAGE": "Hiba a cikk törlésekor"
       }
     },
     "CREATE_ARTICLE": {
-      "ERROR_MESSAGE": "Please add the article heading and content then only you can update the settings"
+      "ERROR_MESSAGE": "Kérjük, adj hozzá a cikk címét és tartalmát, ezután csak Te tudod majd frissíteni a beállításokat"
     },
     "SIDEBAR": {
       "SEARCH": {
-        "PLACEHOLDER": "Search for articles"
+        "PLACEHOLDER": "Keresés a bejegyzések között"
       }
     },
     "CATEGORY": {
       "ADD": {
-        "TITLE": "Create a category",
-        "SUB_TITLE": "The category will be used in the public facing portal to categorize articles.",
-        "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "TITLE": "Kategória létrehozása",
+        "SUB_TITLE": "A kategóriát a nyilvános portálon fogják használni a cikkek kategorizálására.",
+        "PORTAL": "Portál",
+        "LOCALE": "Nyelv",
         "NAME": {
           "LABEL": "Név",
-          "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name will be used in the public facing portal to categorize articles.",
-          "ERROR": "Name is required"
+          "PLACEHOLDER": "Kategória neve",
+          "HELP_TEXT": "A kategória nevét a nyilvános portálon a cikkek kategorizálására használjuk.",
+          "ERROR": "Név kötelező"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
+          "PLACEHOLDER": "Kategória az URL-ekhez",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "ERROR": "Érme megadása kötelező"
         },
         "DESCRIPTION": {
           "LABEL": "Leírás",
-          "PLACEHOLDER": "Give a short description about the category.",
-          "ERROR": "Description is required"
+          "PLACEHOLDER": "Adj egy rövid leírást a kategóriához.",
+          "ERROR": "Leírás megadása kötelező"
         },
         "BUTTONS": {
-          "CREATE": "Create category",
+          "CREATE": "Kategória létrehozása",
           "CANCEL": "Mégse"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category created successfully",
-          "ERROR_MESSAGE": "Unable to create category"
+          "SUCCESS_MESSAGE": "Kategória létrehozva",
+          "ERROR_MESSAGE": "Nem lehet  létrehozni a kategóriát"
         }
       },
       "EDIT": {
-        "TITLE": "Edit a category",
-        "SUB_TITLE": "Editing a category will update the category in the public facing portal.",
-        "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "TITLE": "Kategória szerkesztése",
+        "SUB_TITLE": "A kategória szerkesztése frissíti a kategóriát a nyilvános portálon.",
+        "PORTAL": "Portál",
+        "LOCALE": "Nyelv",
         "NAME": {
           "LABEL": "Név",
-          "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name will be used in the public facing portal to categorize articles.",
-          "ERROR": "Name is required"
+          "PLACEHOLDER": "Kategória neve",
+          "HELP_TEXT": "A kategória nevét a nyilvános portálon a cikkek kategorizálására használjuk.",
+          "ERROR": "Név kötelező"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
+          "PLACEHOLDER": "Kategória az URL-ekhez",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "ERROR": "Slug megadása kötelező"
         },
         "DESCRIPTION": {
           "LABEL": "Leírás",
-          "PLACEHOLDER": "Give a short description about the category.",
-          "ERROR": "Description is required"
+          "PLACEHOLDER": "Adj egy rövid leírást a kategóriához.",
+          "ERROR": "Leírás megadása kötelező"
         },
         "BUTTONS": {
-          "CREATE": "Update category",
+          "CREATE": "Kategória szerkesztése",
           "CANCEL": "Mégse"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category updated successfully",
-          "ERROR_MESSAGE": "Unable to update category"
+          "SUCCESS_MESSAGE": "Kategória frissítve",
+          "ERROR_MESSAGE": "Nem lehet frissíteni a kategóriát"
         }
       },
       "DELETE": {
         "API": {
-          "SUCCESS_MESSAGE": "Category deleted successfully",
-          "ERROR_MESSAGE": "Unable to delete category"
+          "SUCCESS_MESSAGE": "Kategória törölve",
+          "ERROR_MESSAGE": "Nem lehet törölni a kategóriát"
         }
       }
     }

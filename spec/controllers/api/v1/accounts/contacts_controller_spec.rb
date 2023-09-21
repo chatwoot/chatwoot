@@ -35,7 +35,7 @@ RSpec.describe 'Contacts API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        response_body = JSON.parse(response.body)
+        response_body = response.parsed_body
         expect(response_body['payload'].first['email']).to eq(contact.email)
         expect(response_body['payload'].first['contact_inboxes'].first['source_id']).to eq(contact_inbox.source_id)
         expect(response_body['payload'].first['contact_inboxes'].first['inbox']['name']).to eq(contact_inbox.inbox.name)
@@ -47,7 +47,7 @@ RSpec.describe 'Contacts API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        response_body = JSON.parse(response.body)
+        response_body = response.parsed_body
         expect(response_body['payload'].first['email']).to eq(contact.email)
         expect(response_body['payload'].first['contact_inboxes'].blank?).to be(true)
       end
@@ -58,7 +58,7 @@ RSpec.describe 'Contacts API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        response_body = JSON.parse(response.body)
+        response_body = response.parsed_body
         expect(response_body['payload'].last['id']).to eq(contact_4.id)
         expect(response_body['payload'].last['email']).to eq(contact_4.email)
       end
@@ -69,7 +69,7 @@ RSpec.describe 'Contacts API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        response_body = JSON.parse(response.body)
+        response_body = response.parsed_body
         expect(response_body['payload'].first['email']).to eq(contact_1.email)
         expect(response_body['payload'].first['id']).to eq(contact_1.id)
         expect(response_body['payload'].last['email']).to eq(contact_4.email)
@@ -81,21 +81,20 @@ RSpec.describe 'Contacts API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        response_body = JSON.parse(response.body)
+        response_body = response.parsed_body
         expect(response_body['payload'].first['email']).to eq(contact.email)
         expect(response_body['payload'].first['id']).to eq(contact.id)
         expect(response_body['payload'].last['email']).to eq(contact_4.email)
       end
 
-      it 'returns includes conversations count and last seen at' do
+      it 'returns last seen at' do
         create(:conversation, contact: contact, account: account, inbox: contact_inbox.inbox, contact_last_seen_at: Time.now.utc)
         get "/api/v1/accounts/#{account.id}/contacts",
             headers: admin.create_new_auth_token,
             as: :json
 
         expect(response).to have_http_status(:success)
-        response_body = JSON.parse(response.body)
-        expect(response_body['payload'].first['conversations_count']).to eq(contact.conversations.count)
+        response_body = response.parsed_body
         expect(response_body['payload'].first['last_seen_at']).present?
       end
 
@@ -110,7 +109,7 @@ RSpec.describe 'Contacts API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        response_body = JSON.parse(response.body)
+        response_body = response.parsed_body
         expect(response_body['meta']['count']).to eq(2)
         expect(response_body['payload'].pluck('email')).to include(contact_with_label1.email, contact_with_label2.email)
       end
@@ -160,10 +159,56 @@ RSpec.describe 'Contacts API', type: :request do
         post "/api/v1/accounts/#{account.id}/contacts/import",
              headers: admin.create_new_auth_token
 
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_response['error']).to eq('File is blank')
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/contacts/export' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/contacts/export"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user with out permission' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/contacts/export",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+
+      it 'enqueues a contact export job' do
+        expect(Account::ContactsExportJob).to receive(:perform_later).with(account.id, nil).once
+
+        get "/api/v1/accounts/#{account.id}/contacts/export",
+            headers: admin.create_new_auth_token,
+            params: { column_names: nil }
+
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'enqueues a contact export job with sent_columns' do
+        expect(Account::ContactsExportJob).to receive(:perform_later).with(account.id, %w[phone_number email]).once
+
+        get "/api/v1/accounts/#{account.id}/contacts/export",
+            headers: admin.create_new_auth_token,
+            params: { column_names: %w[phone_number email] }
+
+        expect(response).to have_http_status(:success)
       end
     end
   end
@@ -191,7 +236,7 @@ RSpec.describe 'Contacts API', type: :request do
       end
 
       it 'returns all contacts who are online' do
-        allow(::OnlineStatusTracker).to receive(:get_available_contact_ids).and_return([contact.id])
+        allow(OnlineStatusTracker).to receive(:get_available_contact_ids).and_return([contact.id])
 
         get "/api/v1/accounts/#{account.id}/contacts/active",
             headers: admin.create_new_auth_token,
@@ -242,6 +287,18 @@ RSpec.describe 'Contacts API', type: :request do
       it 'matches the contact ignoring the case in name' do
         get "/api/v1/accounts/#{account.id}/contacts/search",
             params: { q: 'TestContact' },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include(contact2.email)
+        expect(response.body).not_to include(contact1.email)
+      end
+
+      it 'searches contacts using company name' do
+        contact2.update(additional_attributes: { company_name: 'acme.inc' })
+        get "/api/v1/accounts/#{account.id}/contacts/search",
+            params: { q: 'acme.inc' },
             headers: admin.create_new_auth_token,
             as: :json
 
@@ -353,7 +410,7 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(response).to have_http_status(:success)
         # only the inboxes which agent has access to are shown
-        expect(JSON.parse(response.body)['payload'].pluck('inbox').pluck('id')).to eq([twilio_whatsapp_inbox.id])
+        expect(response.parsed_body['payload'].pluck('inbox').pluck('id')).to eq([twilio_whatsapp_inbox.id])
       end
     end
   end
@@ -383,7 +440,7 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response).to have_http_status(:success)
 
         # custom attributes are updated
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['payload']['contact']['custom_attributes']).to eq({ 'test' => 'test', 'test1' => 'test1' })
       end
 
@@ -395,7 +452,7 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(response).to have_http_status(:unprocessable_entity)
 
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['message']).to eq('Name is too long (maximum is 255 characters)')
       end
 
@@ -460,7 +517,7 @@ RSpec.describe 'Contacts API', type: :request do
               as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(JSON.parse(response.body)['attributes']).to include('email')
+        expect(response.parsed_body['attributes']).to include('email')
       end
 
       it 'prevents updating with an existing phone number' do
@@ -472,7 +529,7 @@ RSpec.describe 'Contacts API', type: :request do
               as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(JSON.parse(response.body)['attributes']).to include('phone_number')
+        expect(response.parsed_body['attributes']).to include('phone_number')
       end
 
       it 'updates avatar' do
@@ -517,7 +574,7 @@ RSpec.describe 'Contacts API', type: :request do
       let(:agent) { create(:user, account: account, role: :agent) }
 
       it 'deletes the contact for administrator user' do
-        allow(::OnlineStatusTracker).to receive(:get_presence).and_return(false)
+        allow(OnlineStatusTracker).to receive(:get_presence).and_return(false)
         delete "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
                headers: admin.create_new_auth_token
 
@@ -530,7 +587,7 @@ RSpec.describe 'Contacts API', type: :request do
       end
 
       it 'does not delete the contact if online' do
-        allow(::OnlineStatusTracker).to receive(:get_presence).and_return(true)
+        allow(OnlineStatusTracker).to receive(:get_presence).and_return(true)
 
         delete "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
                headers: admin.create_new_auth_token
@@ -591,7 +648,7 @@ RSpec.describe 'Contacts API', type: :request do
     context 'when it is an authenticated user' do
       before do
         create(:contact, account: account)
-        contact.avatar.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+        contact.avatar.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
       end
 
       it 'delete contact avatar' do

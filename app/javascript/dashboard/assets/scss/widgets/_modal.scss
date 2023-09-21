@@ -1,117 +1,79 @@
-@import '~dashboard/assets/scss/variables';
-@import '~dashboard/assets/scss/mixins';
-
 .modal-mask {
-  @include flex;
-  @include flex-align(center, middle);
-  background-color: $masked-bg;
-  height: 100%;
-  left: 0;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 9990;
+  // @include flex;
+  // @include flex-align(center, middle);
+  @apply flex items-center justify-center bg-modal dark:bg-modal z-[9990] h-full left-0 fixed top-0 w-full;
 }
 
 .modal--close {
-  position: absolute;
-  right: $space-small;
-  top: $space-small;
-
-  &:hover {
-    background: $color-background;
-  }
+  @apply absolute right-2 rtl:right-[unset] rtl:left-2 top-2;
 }
 
 .page-top-bar {
-  padding: $space-large $space-large $zero;
+  @apply px-8 pt-9 pb-0;
 
   img {
-    max-height: 6rem;
+    @apply max-h-[3.75rem];
   }
 }
 
 .modal-container {
-  @include normal-shadow;
-
-  background-color: $color-white;
-  border-radius: $space-smaller;
-  max-height: 100%;
-  overflow: auto;
-  position: relative;
-  width: 60rem;
+  @apply shadow-md rounded-sm max-h-full overflow-auto relative w-[37.5rem];
 
   &.medium {
-    max-width: 80%;
-    width: 90rem;
+    @apply max-w-[80%] w-[56.25rem];
   }
 
   .content-box {
-    height: auto;
-    padding: 0;
+    @apply h-auto p-0;
   }
 
   h2 {
-    color: $color-heading;
-    font-size: $font-size-medium;
-    font-weight: $font-weight-bold;
+    @apply text-slate-800 dark:text-slate-100 text-lg font-semibold;
   }
 
   p {
-    font-size: $font-size-small;
-    margin: 0;
-    padding: 0;
+    @apply text-sm m-0 p-0 text-slate-600 mt-2 text-sm dark:text-slate-300;
   }
 
   .content {
-    padding: $space-large;
+    @apply p-8;
   }
 
   form,
   .modal-content {
-    align-self: center;
-    padding: $space-large;
+    @apply pt-4 pb-8 px-8 self-center;
 
     a {
-      padding: $space-normal;
+      @apply p-4;
     }
   }
 
   .modal-footer {
-    @include flex;
-    @include flex-align($x: flex-end, $y: middle);
-    padding: $space-small $zero;
-
-    .button {
-      margin-left: var(--space-small);
-    }
-
-    &:first-child {
-      .button {
-        margin-left: 0;
-      }
-    }
+    // @include flex;
+    // @include flex-align($x: flex-end, $y: middle);
+    @apply flex justify-end items-center py-2 px-0 gap-2;
 
     &.justify-content-end {
-      justify-content: end;
+      @apply justify-end;
     }
   }
 
   .delete-item {
-    padding: $space-large;
+    @apply p-8;
 
     button {
-      margin: 0;
+      @apply m-0;
     }
   }
 }
 
 .modal-enter,
 .modal-leave {
-  opacity: 0;
+  @apply opacity-0;
 }
 
 .modal-enter .modal-container,
 .modal-leave .modal-container {
   transform: scale(1.1);
+  // @apply transform scale-110;
 }

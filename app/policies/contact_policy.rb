@@ -11,6 +11,10 @@ class ContactPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
+  def export?
+    @account_user.administrator?
+  end
+
   def search?
     true
   end

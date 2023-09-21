@@ -1,5 +1,5 @@
 import { getters } from '../../customViews';
-import customViewList from './fixtures';
+import { customViewList } from './fixtures';
 
 describe('#getters', () => {
   it('getCustomViews', () => {

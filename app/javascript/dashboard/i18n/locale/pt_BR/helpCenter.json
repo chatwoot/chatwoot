@@ -74,6 +74,14 @@
         "DELETE": "Excluir artigo"
       }
     },
+    "ARTICLE_SEARCH_RESULT": {
+      "UNCATEGORIZED": "Não categorizado",
+      "INSERT_ARTICLE": "Inserir",
+      "NO_RESULT": "Nenhum artigo encontrado",
+      "COPY_LINK": "Copiar link do artigo para área de transferência",
+      "OPEN_LINK": "Abrir artigo em nova aba",
+      "PREVIEW_LINK": "Visualizar artigo"
+    },
     "PORTAL": {
       "HEADER": "Portais",
       "DEFAULT": "Padrão",

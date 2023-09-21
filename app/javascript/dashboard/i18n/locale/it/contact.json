@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Aggiungi etichette",
         "PLACEHOLDER": "Cerca etichette",
-        "NO_RESULT": "Nessuna etichetta trovata"
+        "NO_RESULT": "Nessuna etichetta trovata",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Unisci contatto",
@@ -70,7 +71,14 @@
       "SUBMIT": "Importa",
       "CANCEL": "Annulla"
     },
-    "SUCCESS_MESSAGE": "Contatti salvati con successo",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+    "ERROR_MESSAGE": "Si è verificato un errore, riprova"
+  },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
     "ERROR_MESSAGE": "Si è verificato un errore, riprova"
   },
   "DELETE_NOTE": {
@@ -120,7 +128,7 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Inserisci il numero di telefono del contatto",
         "LABEL": "Numero di telefono",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
+        "HELP": "Il numero di telefono dovrebbe essere di formato E.164 es.: +3915555555 [+][codice nazione][codice zona][numero di telefono locale]",
         "ERROR": "Il numero di telefono deve essere vuoto o di formato E.164",
         "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "Questo numero di telefono è in uso per un altro contatto."
@@ -182,7 +190,7 @@
         "LABEL": "A"
       },
       "INBOX": {
-        "LABEL": "Via Inbox",
+        "LABEL": "Casella",
         "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Seleziona una casella"
       },
@@ -211,6 +219,7 @@
     "FILTER_CONTACTS": "Filtro",
     "FILTER_CONTACTS_SAVE": "Salva filtro",
     "FILTER_CONTACTS_DELETE": "Elimina filtro",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "Caricamento contatti...",
       "404": "Nessun contatto corrisponde alla tua ricerca 🔍",

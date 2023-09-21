@@ -21,7 +21,7 @@
         },
         "END_POINT": {
           "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Piemēram: https://example/api/webhook",
+          "PLACEHOLDER": "Piemēram: %{webhookExampleURL}",
           "ERROR": "Lūdzu, ievadiet derīgu URL"
         },
         "EDIT_SUBMIT": "Atjaunināt webhook",
@@ -73,10 +73,27 @@
       }
     },
     "SLACK": {
+      "DELETE": "Dzēst",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Dzēst integrāciju",
+        "MESSAGE": "Vai tiešām vēlaties dzēst integrāciju? To darot, tiks zaudēta piekļuve sarunām Jūsu Slack workspace."
+      },
       "HELP_TEXT": {
-        "TITLE": "Izmantojot Slack Integrāciju",
-        "BODY": "<br/><p>Chatwoot tagad sinhronizēs visas ienākošās <b><i>customer-conversations</i></b> kanāla sarunas, kas atrodas Jūsu slack workplace.</p><p>Atbildot uz sarunas vītni, <b><i>customer-conversations</i></b> slack kanālā tiks izveidota atbilde klientam, izmantojot chatwoot.</p><p>Sāciet atbildes ar <b><i>note:</i></b> lai izveidotu individuālas piezīmes, nevis atbildes.</p><p>Ja slack atbildētājam ir aģenta profils pakalpojumā chatwoot, ar tādu pašu e-pasta adresi, atbildes tiks attiecīgi sasaistītas.</p><p>Kad atbildētājam nebūs piesaistīts aģenta profils, atbildes tiks sniegtas no robotprogrammatūras profila.</p>"
-      }
+        "TITLE": "Kā izmantot Slack integrāciju?",
+        "BODY": "Izmantojot šo integrāciju, visas Jūsu ienākošās sarunas tiks sinhronizētas ar Jūsu Slack workspace kanālu ***%{selectedChannelName}***. Jūs varat pārvaldīt visas savas sarunas ar klientiem savā kanālā un nekad nepalaist garām nevienu ziņojumu.\n\nŠeit ir galvenās integrācijas iezīmes:\n\n**Atbildēt uz sarunām no Slack:** Lai atbildētu uz sarunu Slack kanālā ***%{selectedChannelName}***, uzrakstiet savu ziņojumu un nosūtiet to kā pavedienu. Tas nosūtīs atbildi klientam, izmantojot Chatwoot. Tas ir tik vienkārši!\n\n  **Izveidot privātas piezīmes:** Ja vēlaties izveidot privātas piezīmes, nevis atbildes, sāciet ziņojumu ar ***`note:`***. Tas nodrošina, ka jūsu ziņojums ir privāts un nebūs redzams klientam.\n\n**Asociēt aģenta profilu:** Ja personai, kas atbildēja Slack kanālā, ir aģenta profils pakalpojumā Chatwoot, ar tādu pašu e-pasta adresi, atbildes tiks automātiski asociētas ar šo aģenta profilu. Tas nozīmē, ka varat viegli izsekot kurš ko teica un kad. No otras puses, ja atbildētājam nav asociēta aģenta profila, atbildes klientam tiks rādītas no robotprogrammatūras profila.",
+        "SELECTED": "izvēlēts"
+      },
+      "SELECT_CHANNEL": {
+        "OPTION_LABEL": "Izvēlēties kanālu",
+        "UPDATE": "Atjaunināt",
+        "BUTTON_TEXT": "Pievienot kanālu",
+        "DESCRIPTION": "Jūsu Slack workspace tagad ir saistīta ar Chatwoot, taču integrācija pašlaik ir neaktīva. Lai aktivizētu integrāciju un savienotu kanālu ar Chatwoot, lūdzu, noklikšķiniet uz tālāk esošās pogas.\n\n**Piezīme:** Ja mēģinat izveidot savienojumu ar privātu kanālu, pirms turpināt šo darbību, pievienojiet lietotni Chatwoot Slack kanālam.",
+        "ATTENTION_REQUIRED": "Nepieciešama uzmanība",
+        "EXPIRED": "Jūsu Slack integrācijas derīguma termiņš ir beidzies. Lai turpinātu saņemt ziņojumus pakalpojumā Slack, lūdzu, izdzēsiet integrāciju un vēlreiz pievienojiet savu workspace."
+      },
+      "UPDATE_ERROR": "Atjauninot integrāciju radās kļūda. Lūdzu, mēģiniet vēlreiz",
+      "UPDATE_SUCCESS": "Kanāls ir veiksmīgi pievienots",
+      "FAILED_TO_FETCH_CHANNELS": "Ienesot kanālus no Slack radās kļūda. Lūdzu, mēģiniet vēlreiz"
     },
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Noklikšķiniet šeit, lai pievienotos",
@@ -84,6 +101,59 @@
       "START_VIDEO_CALL_HELP_TEXT": "Sākt jaunu videozvanu ar klientu",
       "JOIN_ERROR": "Pievienojoties zvanam, radās kļūda. Lūdzu, mēģiniet vēlreiz",
       "CREATE_ERROR": "Veidojot sapulces saiti, radās kļūda. Lūdzu, mēģiniet vēlreiz"
+    },
+    "OPEN_AI": {
+      "AI_ASSIST": "AI Palīgs",
+      "WITH_AI": " %{option} ar AI ",
+      "OPTIONS": {
+        "REPLY_SUGGESTION": "Atbildes Ieteikums",
+        "SUMMARIZE": "Apkopot",
+        "REPHRASE": "Uzlabot Rakstību",
+        "FIX_SPELLING_GRAMMAR": "Izlabot Pareizrakstību un Gramatiku",
+        "SHORTEN": "Saīsināt",
+        "EXPAND": "Izvērst",
+        "MAKE_FRIENDLY": "Mainīt ziņojuma toni uz draudzīgu",
+        "MAKE_FORMAL": "Izmantot formālu toni",
+        "SIMPLIFY": "Vienkāršot"
+      },
+      "ASSISTANCE_MODAL": {
+        "DRAFT_TITLE": "Melnraksta saturs",
+        "GENERATED_TITLE": "Ģenerētais saturs",
+        "AI_WRITING": "AI raksta",
+        "BUTTONS": {
+          "APPLY": "Izmantot šo ieteikumu",
+          "CANCEL": "Atcelt"
+        }
+      },
+      "CTA_MODAL": {
+        "TITLE": "Integrēt ar OpenAI",
+        "DESC": "Ievietot uzlabotās AI funkcijas savā informācijas panelī, izmantojot OpenAI GPT modeļus. Lai sāktu, ievadiet sava OpenAI konta API atslēgu.",
+        "KEY_PLACEHOLDER": "Ievadiet savu OpenAI API atslēgu",
+        "BUTTONS": {
+          "NEED_HELP": "Nepieciešama palīdzība?",
+          "DISMISS": "Atcelt",
+          "FINISH": "Pabeigt Iestatīšanu"
+        },
+        "DISMISS_MESSAGE": "OpenAI integrāciju varat iestatīt vēlāk, kad vien vēlaties.",
+        "SUCCESS_MESSAGE": "OpenAI integrācija iestatīta veiksmīgi"
+      },
+      "TITLE": "Uzlabot ar AI",
+      "SUMMARY_TITLE": "Kopsavilkums ar AI",
+      "REPLY_TITLE": "Atbildes rekomendācija ar AI",
+      "SUBTITLE": "Izmantojot AI, tiks ģenerēta uzlabota atbilde, pamatojoties uz jūsu pašreizējo melnrakstu.",
+      "TONE": {
+        "TITLE": "Tonis",
+        "OPTIONS": {
+          "PROFESSIONAL": "Profesionāls",
+          "FRIENDLY": "Draudzīgs"
+        }
+      },
+      "BUTTONS": {
+        "GENERATE": "Ģenerēt",
+        "GENERATING": "Notiek ģenerēšana...",
+        "CANCEL": "Atcelt"
+      },
+      "GENERATE_ERROR": "Apstrādājot saturu radās kļūda. Lūdzu, pārbaudiet savu OpenAI API atslēgu un mēģiniet vēlreiz"
     },
     "DELETE": {
       "BUTTON_TEXT": "Dzēst",

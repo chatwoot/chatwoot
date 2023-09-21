@@ -16,8 +16,7 @@ db_namespace = namespace :db do
   desc 'Runs setup if database does not exist, or runs migrations if it does'
   task chatwoot_prepare: :load_config do
     ActiveRecord::Base.configurations.configs_for(env_name: Rails.env).each do |db_config|
-      ActiveRecord::Base.establish_connection(db_config.config)
-      # handling case where database was created by the provider, with out running db:setup
+      ActiveRecord::Base.establish_connection(db_config.configuration_hash)
       unless ActiveRecord::Base.connection.table_exists? 'ar_internal_metadata'
         db_namespace['load_config'].invoke if ActiveRecord::Base.schema_format == :ruby
         ActiveRecord::Tasks::DatabaseTasks.load_schema_current(:ruby, ENV.fetch('SCHEMA', nil))

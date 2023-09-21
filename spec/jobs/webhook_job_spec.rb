@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe WebhookJob, type: :job do
+RSpec.describe WebhookJob do
   include ActiveJob::TestHelper
 
   subject(:job) { described_class.perform_later(url, payload) }
@@ -11,7 +11,7 @@ RSpec.describe WebhookJob, type: :job do
   it 'queues the job' do
     expect { job }.to have_enqueued_job(described_class)
       .with(url, payload)
-      .on_queue('webhooks')
+      .on_queue('medium')
   end
 
   it 'executes perform' do

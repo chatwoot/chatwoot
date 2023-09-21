@@ -19,12 +19,24 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Svarar iðulega innan nokkura mínútna",
     "IN_A_FEW_HOURS": "Svarar iðulega innan nokkura klukkustunda",
-    "IN_A_DAY": "Svarar iðulega samdægurs"
+    "IN_A_DAY": "Svarar iðulega samdægurs",
+    "BACK_IN": "We will be back online"
   },
+  "DAY_NAMES": [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ],
   "START_CONVERSATION": "Hefja samtal",
   "END_CONVERSATION": "Ljúka samtali",
   "CONTINUE_CONVERSATION": "Halda samtali áfram",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "Hefja nýtt samtal",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Sjá nýjustu skilaboð",
     "CLOSE_MESSAGES_BUTTON": "Loka",
@@ -56,7 +68,9 @@
         "LABEL": "Símanúmer",
         "PLACEHOLDER": "Vinsamlegast sláðu inn símanúmerið þitt",
         "REQUIRED_ERROR": "Það verður að skrifa símanúmer",
-        "VALID_ERROR": "Símanúmerið þarf að vera á E.164 sniðmáti, t.d. +3547776666"
+        "DIAL_CODE_VALID_ERROR": "Please select a country code",
+        "VALID_ERROR": "Please enter a valid phone number",
+        "DROPDOWN_EMPTY": "Engar niðurstöður fundust"
       },
       "MESSAGE": {
         "LABEL": "Skilaboð",
@@ -92,6 +106,31 @@
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Smelltu hér til að taka þátt",
       "LEAVE_THE_ROOM": "Yfirgefa símtalið"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Myndaskilaboð"
+    },
+    "audio": {
+      "CONTENT": "Hljóðskilaboð"
+    },
+    "video": {
+      "CONTENT": "Myndbandsskilaboð"
+    },
+    "file": {
+      "CONTENT": "File Attachment"
+    },
+    "location": {
+      "CONTENT": "Staðsetning"
+    },
+    "fallback": {
+      "CONTENT": "hefur deilt vefslóð"
     }
   }
 }

@@ -60,7 +60,7 @@ RSpec.describe Channel::TwilioSms do
     let(:twilio_messages) { double }
 
     before do
-      allow(::Twilio::REST::Client).to receive(:new).and_return(twilio_client)
+      allow(Twilio::REST::Client).to receive(:new).and_return(twilio_client)
       allow(twilio_client).to receive(:messages).and_return(twilio_messages)
     end
 

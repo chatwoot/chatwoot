@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Twilio::SendOnTwilioService do
   subject(:outgoing_message_service) { described_class.new(message: message) }
 
-  let(:twilio_client) { instance_double(::Twilio::REST::Client) }
+  let(:twilio_client) { instance_double(Twilio::REST::Client) }
   let(:messages_double) { double }
   let(:message_record_double) { double }
 
@@ -18,7 +18,7 @@ describe Twilio::SendOnTwilioService do
   let(:conversation) { create(:conversation, contact: contact, inbox: twilio_inbox, contact_inbox: contact_inbox) }
 
   before do
-    allow(::Twilio::REST::Client).to receive(:new).and_return(twilio_client)
+    allow(Twilio::REST::Client).to receive(:new).and_return(twilio_client)
     allow(twilio_client).to receive(:messages).and_return(messages_double)
   end
 
@@ -26,27 +26,27 @@ describe Twilio::SendOnTwilioService do
     context 'without reply' do
       it 'if message is private' do
         message = create(:message, message_type: 'outgoing', private: true, inbox: twilio_inbox, account: account)
-        ::Twilio::SendOnTwilioService.new(message: message).perform
+        described_class.new(message: message).perform
         expect(twilio_client).not_to have_received(:messages)
         expect(message.reload.source_id).to be_nil
       end
 
       it 'if inbox channel is not twilio' do
         message = create(:message, message_type: 'outgoing', inbox: widget_inbox, account: account)
-        expect { ::Twilio::SendOnTwilioService.new(message: message).perform }.to raise_error 'Invalid channel service was called'
+        expect { described_class.new(message: message).perform }.to raise_error 'Invalid channel service was called'
         expect(twilio_client).not_to have_received(:messages)
       end
 
       it 'if message is not outgoing' do
         message = create(:message, message_type: 'incoming', inbox: twilio_inbox, account: account)
-        ::Twilio::SendOnTwilioService.new(message: message).perform
+        described_class.new(message: message).perform
         expect(twilio_client).not_to have_received(:messages)
         expect(message.reload.source_id).to be_nil
       end
 
       it 'if message has an source id' do
         message = create(:message, message_type: 'outgoing', inbox: twilio_inbox, account: account, source_id: SecureRandom.uuid)
-        ::Twilio::SendOnTwilioService.new(message: message).perform
+        described_class.new(message: message).perform
         expect(twilio_client).not_to have_received(:messages)
       end
     end
@@ -59,7 +59,7 @@ describe Twilio::SendOnTwilioService do
         outgoing_message = create(
           :message, message_type: 'outgoing', inbox: twilio_inbox, account: account, conversation: conversation
         )
-        ::Twilio::SendOnTwilioService.new(message: outgoing_message).perform
+        described_class.new(message: outgoing_message).perform
 
         expect(outgoing_message.reload.source_id).to eq('1234')
       end
@@ -74,10 +74,11 @@ describe Twilio::SendOnTwilioService do
         :message, message_type: 'outgoing', inbox: twilio_whatsapp_inbox, account: account, conversation: conversation
       )
       attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
-      attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
       message.save!
 
-      ::Twilio::SendOnTwilioService.new(message: message).perform
+      described_class.new(message: message).perform
+      expect(messages_double).to have_received(:create).with(hash_including(media_url: [anything]))
     end
 
     it 'if outgoing message has attachment and is for sms' do
@@ -89,10 +90,11 @@ describe Twilio::SendOnTwilioService do
         :message, message_type: 'outgoing', inbox: twilio_inbox, account: account, conversation: conversation
       )
       attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
-      attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
       message.save!
 
-      ::Twilio::SendOnTwilioService.new(message: message).perform
+      described_class.new(message: message).perform
+      expect(messages_double).to have_received(:create).with(hash_including(media_url: [anything]))
     end
   end
 end

@@ -16,8 +16,8 @@ const sendAttachmentAPI = async attachment => {
   return API.post(urlData.url, urlData.params);
 };
 
-const getMessagesAPI = async ({ before }) => {
-  const urlData = endPoints.getConversation({ before });
+const getMessagesAPI = async ({ before, after }) => {
+  const urlData = endPoints.getConversation({ before, after });
   return API.get(urlData.url, { params: urlData.params });
 };
 

@@ -1,14 +1,14 @@
 <template>
-  <div class="column content-box">
+  <div class="h-auto overflow-auto flex flex-col">
     <woot-modal-header
       :header-title="$t('LABEL_MGMT.ADD.TITLE')"
       :header-content="$t('LABEL_MGMT.ADD.DESC')"
     />
-    <form class="row" @submit.prevent="addLabel">
+    <form class="mx-0 flex flex-wrap" @submit.prevent="addLabel">
       <woot-input
         v-model.trim="title"
         :class="{ error: $v.title.$error }"
-        class="medium-12 columns label-name--input"
+        class="w-full label-name--input"
         :label="$t('LABEL_MGMT.FORM.NAME.LABEL')"
         :placeholder="$t('LABEL_MGMT.FORM.NAME.PLACEHOLDER')"
         :error="getLabelTitleErrorMessage"
@@ -19,38 +19,36 @@
       <woot-input
         v-model.trim="description"
         :class="{ error: $v.description.$error }"
-        class="medium-12 columns"
+        class="w-full"
         :label="$t('LABEL_MGMT.FORM.DESCRIPTION.LABEL')"
         :placeholder="$t('LABEL_MGMT.FORM.DESCRIPTION.PLACEHOLDER')"
         data-testid="label-description"
         @input="$v.description.$touch"
       />
 
-      <div class="medium-12">
+      <div class="w-full">
         <label>
           {{ $t('LABEL_MGMT.FORM.COLOR.LABEL') }}
           <woot-color-picker v-model="color" />
         </label>
       </div>
-      <div class="medium-12">
+      <div class="w-full">
         <input v-model="showOnSidebar" type="checkbox" :value="true" />
         <label for="conversation_creation">
           {{ $t('LABEL_MGMT.FORM.SHOW_ON_SIDEBAR.LABEL') }}
         </label>
       </div>
-      <div class="modal-footer">
-        <div class="medium-12 columns">
-          <woot-button
-            :is-disabled="$v.title.$invalid || uiFlags.isCreating"
-            :is-loading="uiFlags.isCreating"
-            data-testid="label-submit"
-          >
-            {{ $t('LABEL_MGMT.FORM.CREATE') }}
-          </woot-button>
-          <woot-button class="button clear" @click.prevent="onClose">
-            {{ $t('LABEL_MGMT.FORM.CANCEL') }}
-          </woot-button>
-        </div>
+      <div class="flex justify-end items-center py-2 px-0 gap-2 w-full">
+        <woot-button
+          :is-disabled="$v.title.$invalid || uiFlags.isCreating"
+          :is-loading="uiFlags.isCreating"
+          data-testid="label-submit"
+        >
+          {{ $t('LABEL_MGMT.FORM.CREATE') }}
+        </woot-button>
+        <woot-button class="button clear" @click.prevent="onClose">
+          {{ $t('LABEL_MGMT.FORM.CANCEL') }}
+        </woot-button>
       </div>
     </form>
   </div>
@@ -65,6 +63,12 @@ import { getRandomColor } from 'dashboard/helper/labelColor';
 
 export default {
   mixins: [alertMixin, validationMixin],
+  props: {
+    prefillTitle: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
       color: '#000',
@@ -81,6 +85,7 @@ export default {
   },
   mounted() {
     this.color = getRandomColor();
+    this.title = this.prefillTitle.toLowerCase();
   },
   methods: {
     onClose() {
@@ -110,7 +115,7 @@ export default {
 .label-name--input {
   ::v-deep {
     input {
-      text-transform: lowercase;
+      @apply lowercase;
     }
   }
 }

@@ -156,7 +156,7 @@ export default {
   display: flex;
 
   .name-wrap {
-    max-width: 20rem;
+    max-width: 12.5rem;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;

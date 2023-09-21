@@ -59,6 +59,32 @@ RSpec.describe Notification do
 #{message.content.truncate_words(10)}"
     end
 
+    it 'returns appropriate title suited for the notification type participating_conversation_new_message having mention' do
+      message = create(:message, sender: create(:user), content: 'Hey [@John](mention://user/1/john), can you check this ticket?')
+      notification = create(:notification, notification_type: 'participating_conversation_new_message', primary_actor: message,
+                                           secondary_actor: message.sender)
+
+      expect(notification.push_message_title).to eq "[New message] - ##{notification.conversation.display_id} Hey @John, can you check this ticket?"
+    end
+
+    it 'returns appropriate title suited for the notification type participating_conversation_new_message having multple mention' do
+      message = create(:message, sender: create(:user),
+                                 content: 'Hey [@John](mention://user/1/john), [@Alisha Peter](mention://user/2/alisha) can you check this ticket?')
+      notification = create(:notification, notification_type: 'participating_conversation_new_message', primary_actor: message,
+                                           secondary_actor: message.sender)
+
+      expect(notification.push_message_title).to eq "[New message] - ##{notification.conversation.display_id} \
+Hey @John, @Alisha Peter can you check this ticket?"
+    end
+
+    it 'returns appropriate title suited for the notification type participating_conversation_new_message if username contains white space' do
+      message = create(:message, sender: create(:user), content: 'Hey [@John Peter](mention://user/1/john%20K) please check this?')
+      notification = create(:notification, notification_type: 'participating_conversation_new_message', primary_actor: message,
+                                           secondary_actor: message.sender)
+
+      expect(notification.push_message_title).to eq "[New message] - ##{notification.conversation.display_id} Hey @John Peter please check this?"
+    end
+
     it 'returns appropriate title suited for the notification type conversation_mention' do
       message = create(:message, sender: create(:user), content: 'Hey [@John](mention://user/1/john), can you check this ticket?')
       notification = create(:notification, notification_type: 'conversation_mention', primary_actor: message, secondary_actor: message.sender)

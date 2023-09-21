@@ -2,8 +2,8 @@
   "AUTOMATION": {
     "HEADER": "Automatizações",
     "HEADER_BTN_TXT": "Adicionar Regra de Automação",
-    "LOADING": "Fetching automation rules",
-    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
+    "LOADING": "Buscando regras de automação",
+    "SIDEBAR_TXT": "<p><b>Regras de automação</b> <p>A automação pode substituir e agilizar processos existentes que requerem esforço manual. Podem ser feitas muitas coisas com automação, incluindo adicionar etiquetas e atribuir a conversas a agentes. Para que a equipa se concentre no que faz melhor e economize tempo em tarefas manuais.</p>",
     "ADD": {
       "TITLE": "Adicionar Regra de Automação",
       "SUBMIT": "Criar",
@@ -59,7 +59,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Regra de automatização eliminada com sucesso",
-        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
+        "ERROR_MESSAGE": "Não foi possível excluir a regra de automação, por favor, tente novamente mais tarde"
       }
     },
     "EDIT": {
@@ -67,8 +67,8 @@
       "SUBMIT": "Atualização",
       "CANCEL_BUTTON_TEXT": "cancelar",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule updated successfully",
-        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Regra de automação atualizada com sucesso",
+        "ERROR_MESSAGE": "Não foi possível atualizar a regra de automação, por favor, tente novamente mais tarde"
       }
     },
     "CLONE": {
@@ -83,12 +83,12 @@
       "CREATE": "Criar",
       "DELETE": "excluir",
       "CANCEL": "cancelar",
-      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+      "RESET_MESSAGE": "Alterar o tipo de evento irá redefinir as condições e eventos adicionados abaixo"
     },
     "CONDITION": {
       "DELETE_MESSAGE": "É necessário ter pelo menos uma condição para salvar",
-      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
-      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
+      "CONTACT_CUSTOM_ATTR_LABEL": "Atributos Personalizados do Contato",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Atributos Personalizados da Conversa"
     },
     "ACTION": {
       "DELETE_MESSAGE": "É necessário ter pelo menos uma ação para salvar",
@@ -111,8 +111,8 @@
       "UPLOAD_ERROR": "Não foi possível carregar anexo, por favor tente novamente",
       "LABEL_IDLE": "Carregar anexo",
       "LABEL_UPLOADING": "A carregar...",
-      "LABEL_UPLOADED": "Successfully Uploaded",
-      "LABEL_UPLOAD_FAILED": "Upload Failed"
+      "LABEL_UPLOADED": "Carregado com sucesso",
+      "LABEL_UPLOAD_FAILED": "Upload falhou"
     }
   }
 }

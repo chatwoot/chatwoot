@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ::UserDrop do
+describe UserDrop do
   subject(:user_drop) { described_class.new(user) }
 
   let!(:user) { create(:user) }

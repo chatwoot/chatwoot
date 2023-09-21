@@ -71,6 +71,6 @@ export default {
 
 <style scoped>
 .modal-content {
-  padding: 2.5rem 3.2rem;
+  padding: 1.5625rem 2rem;
 }
 </style>

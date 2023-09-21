@@ -2,12 +2,17 @@
   "FILTER": {
     "TITLE": "Filtra conversazioni",
     "SUBTITLE": "Aggiungi filtri qui sotto e premi 'Applica filtri' per filtrare le conversazioni.",
+    "EDIT_CUSTOM_FILTER": "Edit Folder",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
     "ADD_NEW_FILTER": "Aggiungi filtro",
     "FILTER_DELETE_ERROR": "Dovresti avere almeno un filtro da salvare",
     "SUBMIT_BUTTON_LABEL": "Applica filtri",
+    "UPDATE_BUTTON_LABEL": "Update folder",
     "CANCEL_BUTTON_LABEL": "Annulla",
     "CLEAR_BUTTON_LABEL": "Cancella filtri",
     "EMPTY_VALUE_ERROR": "Il valore è obbligatorio",
+    "FOLDER_LABEL": "Folder Name",
+    "FOLDER_QUERY_LABEL": "Folder Query",
     "TOOLTIP_LABEL": "Filtra conversazioni",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "E",
@@ -23,7 +28,7 @@
       "is_greater_than": "È maggiore di",
       "is_less_than": "È minore di",
       "days_before": "È x giorni prima",
-      "starts_with": "Starts with"
+      "starts_with": "Inizia con"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Vero",
@@ -38,6 +43,7 @@
       "CAMPAIGN_NAME": "Nome campagna",
       "LABELS": "Etichette",
       "BROWSER_LANGUAGE": "Lingua del browser",
+      "PRIORITY": "Priorità",
       "COUNTRY_NAME": "Nome del paese",
       "REFERER_LINK": "Link referente",
       "CUSTOM_ATTRIBUTE_LIST": "Elenco",
@@ -69,6 +75,9 @@
           "SUCCESS_MESSAGE": "Segmento creato con successo",
           "ERROR_MESSAGE": "Errore durante la creazione del segmento"
         }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Edit folder"
       },
       "DELETE": {
         "DELETE_BUTTON": "Elimina filtro",

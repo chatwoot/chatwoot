@@ -24,7 +24,7 @@ RSpec.describe 'Team Members API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(JSON.parse(response.body).first['id']).to eq(agent.id)
+        expect(response.parsed_body.first['id']).to eq(agent.id)
       end
     end
   end
@@ -65,7 +65,7 @@ RSpec.describe 'Team Members API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response.count).to eq(user_ids.count - 1)
       end
     end
@@ -144,7 +144,7 @@ RSpec.describe 'Team Members API', type: :request do
               as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response.count).to eq(user_ids.count)
       end
 
@@ -157,7 +157,7 @@ RSpec.describe 'Team Members API', type: :request do
               as: :json
 
         expect(response).to have_http_status(:unauthorized)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['error']).to eq('Invalid User IDs')
       end
     end

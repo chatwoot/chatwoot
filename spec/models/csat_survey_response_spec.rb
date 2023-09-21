@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CsatSurveyResponse, type: :model do
+RSpec.describe CsatSurveyResponse do
   describe 'validations' do
     it { is_expected.to validate_presence_of(:rating) }
     it { is_expected.to validate_presence_of(:account_id) }

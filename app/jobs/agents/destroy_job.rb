@@ -1,5 +1,5 @@
 class Agents::DestroyJob < ApplicationJob
-  queue_as :default
+  queue_as :low
 
   def perform(account, user)
     ActiveRecord::Base.transaction do

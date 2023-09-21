@@ -4,12 +4,13 @@ if ActiveModel::Type::Boolean.new.cast(ENV.fetch('LOGRAGE_ENABLED', false)).pres
   Rails.application.configure do
     config.lograge.enabled = true
     config.lograge.formatter = Lograge::Formatters::Json.new
-
     config.lograge.custom_payload do |controller|
+      # Fixes https://github.com/chatwoot/chatwoot/issues/6922
+      user_id = controller.try(:current_user).try(:id) unless controller.is_a?(SuperAdmin::Devise::SessionsController)
       {
         host: controller.request.host,
         remote_ip: controller.request.remote_ip,
-        user_id: controller.current_user.try(:id)
+        user_id: user_id
       }
     end
 

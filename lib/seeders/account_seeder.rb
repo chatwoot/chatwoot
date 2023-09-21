@@ -12,7 +12,7 @@ class Seeders::AccountSeeder
   def initialize(account:)
     raise 'Account Seeding is not allowed.' unless ENV.fetch('ENABLE_ACCOUNT_SEEDING', !Rails.env.production?)
 
-    @account_data = HashWithIndifferentAccess.new(YAML.safe_load(File.read(Rails.root.join('lib/seeders/seed_data.yml'))))
+    @account_data = ActiveSupport::HashWithIndifferentAccess.new(YAML.safe_load(Rails.root.join('lib/seeders/seed_data.yml').read))
     @account = account
   end
 
@@ -96,16 +96,19 @@ class Seeders::AccountSeeder
   def create_messages(conversation:, messages:)
     messages.each do |message_data|
       sender = find_message_sender(conversation, message_data)
-      conversation.messages.create!(message_data.slice('content', 'message_type').merge(account: conversation.inbox.account, sender: sender,
-                                                                                        inbox: conversation.inbox))
+      conversation.messages.create!(
+        message_data.slice('content', 'message_type').merge(
+          account: conversation.inbox.account, sender: sender, inbox: conversation.inbox
+        )
+      )
     end
   end
 
   def find_message_sender(conversation, message_data)
     if message_data['message_type'] == 'incoming'
-      User.find_by(email: message_data['sender']) if message_data['sender'].present?
-    else
       conversation.contact
+    elsif message_data['sender'].present?
+      User.find_by(email: message_data['sender'])
     end
   end
 

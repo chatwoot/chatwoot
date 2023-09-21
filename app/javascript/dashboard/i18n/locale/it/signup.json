@@ -10,33 +10,33 @@
     },
     "COMPANY_NAME": {
       "LABEL": "Company name",
-      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
-      "ERROR": "Company name is too short"
+      "PLACEHOLDER": "Inserisci il nome della tua azienda. Ad esempio: Wayne Enterprises",
+      "ERROR": "Il nome dell'azienda è troppo corto."
     },
     "FULL_NAME": {
       "LABEL": "Nome completo",
       "PLACEHOLDER": "Inserisci il tuo nome completo, es.: Bruce Wayne",
-      "ERROR": "Nome account troppo corto"
+      "ERROR": "Nome account troppo corto."
     },
     "EMAIL": {
       "LABEL": "Email di lavoro",
       "PLACEHOLDER": "Inserisci il tuo indirizzo email di lavoro. es.: bruce@wayne.enterprises",
-      "ERROR": "Please enter a valid work email address"
+      "ERROR": "Si prega di inserire un indirizzo email di lavoro valido."
     },
     "PASSWORD": {
       "LABEL": "Password",
       "PLACEHOLDER": "Password",
-      "ERROR": "Password troppo corta",
-      "IS_INVALID_PASSWORD": "La password dovrebbe contenere almeno 1 lettera maiuscola, 1 lettera minuscola, 1 numero e 1 carattere speciale"
+      "ERROR": "Password troppo corta.",
+      "IS_INVALID_PASSWORD": "La password dovrebbe contenere almeno 1 lettera maiuscola, 1 lettera minuscola, 1 numero e 1 carattere speciale."
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Conferma password",
       "PLACEHOLDER": "Conferma password",
-      "ERROR": "La password non corrisponde"
+      "ERROR": "La password non corrisponde."
     },
     "API": {
       "SUCCESS_MESSAGE": "Registrazione riuscita",
-      "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
+      "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi."
     },
     "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Hai già un account?"

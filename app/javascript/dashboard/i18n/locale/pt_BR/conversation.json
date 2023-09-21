@@ -12,6 +12,10 @@
     "NO_INBOX_2": " para começar",
     "NO_INBOX_AGENT": "Uh Oh! Parece que você não faz parte de nenhuma caixa de entrada. Por favor, contate seu administrador",
     "SEARCH_MESSAGES": "Procurar por mensagens nas conversas",
+    "EMPTY_STATE": {
+      "CMD_BAR": "para abrir o menu de comando",
+      "KEYBOARD_SHORTCUTS": "para ver os atalhos de teclado"
+    },
     "SEARCH": {
       "TITLE": "Procurar mensagens",
       "RESULT_TITLE": "Resultados da pesquisa",
@@ -37,6 +41,7 @@
     "UNKNOWN_FILE_TYPE": "Arquivo Desconhecido",
     "SAVE_CONTACT": "Salvar",
     "UPLOADING_ATTACHMENTS": "Enviando anexos...",
+    "REPLIED_TO_STORY": "Respondido ao seu story",
     "SUCCESS_DELETE_MESSAGE": "Mensagem excluída com sucesso",
     "FAIL_DELETE_MESSSAGE": "Não foi possível excluir a mensagem! Tente novamente",
     "NO_RESPONSE": "Sem resposta",
@@ -53,17 +58,41 @@
       "OPEN": "Mais",
       "CLOSE": "Fechar",
       "DETAILS": "detalhes",
+      "SNOOZED_UNTIL": "Suspender até",
       "SNOOZED_UNTIL_TOMORROW": "Adiado até amanhã",
       "SNOOZED_UNTIL_NEXT_WEEK": "Adiada até a próxima semana",
       "SNOOZED_UNTIL_NEXT_REPLY": "Adiado até a próxima resposta"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Marcar como pendente",
+      "SNOOZE_UNTIL": "Adiar",
       "SNOOZE": {
         "TITLE": "Suspender até",
         "NEXT_REPLY": "Próxima resposta",
         "TOMORROW": "Amanhã",
         "NEXT_WEEK": "Próxima semana"
+      }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Suspender até",
+      "APPLY": "Adiar",
+      "CANCEL": "Cancelar"
+    },
+    "PRIORITY": {
+      "TITLE": "Prioridade",
+      "OPTIONS": {
+        "NONE": "Nenhuma",
+        "URGENT": "Urgente",
+        "HIGH": "Alta",
+        "MEDIUM": "Média",
+        "LOW": "Baixa"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "Nenhuma",
+        "INPUT_PLACEHOLDER": "Selecionar prioridade",
+        "NO_RESULTS": "Nenhum resultado encontrado",
+        "SUCCESSFUL": "Alterada a prioridade do ID da conversa %{conversationId} para %{priority}",
+        "FAILED": "Não foi possível alterar a prioridade. Por favor, tente novamente."
       }
     },
     "CARD_CONTEXT_MENU": {
@@ -122,6 +151,7 @@
       "STOP_AUDIO_RECORDING": "Parar gravação de áudio",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "Para",
         "ADD_BCC": "Adicionar cco",
         "CC": {
           "LABEL": "CC",

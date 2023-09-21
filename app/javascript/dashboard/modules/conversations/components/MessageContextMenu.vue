@@ -115,11 +115,11 @@ import alertMixin from 'shared/mixins/alertMixin';
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import AddCannedModal from 'dashboard/routes/dashboard/settings/canned/AddCanned';
+import AddCannedModal from 'dashboard/routes/dashboard/settings/canned/AddCanned.vue';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import { conversationUrl, frontendURL } from '../../../helper/URLHelper';
 import { ACCOUNT_EVENTS } from '../../../helper/AnalyticsHelper/events';
-import TranslateModal from 'dashboard/components/widgets/conversation/bubble/TranslateModal';
+import TranslateModal from 'dashboard/components/widgets/conversation/bubble/TranslateModal.vue';
 import MenuItem from '../../../components/widgets/conversation/contextMenu/menuItem.vue';
 import ForwardModal from 'dashboard/components/widgets/conversation/bubble/ForwardModal';
 
@@ -259,34 +259,29 @@ export default {
 </script>
 <style lang="scss" scoped>
 .menu-container {
-  padding: var(--space-smaller);
-  background-color: var(--white);
-  box-shadow: var(--shadow-context-menu);
-  border-radius: var(--border-radius-normal);
+  @apply p-1 bg-white dark:bg-slate-900 shadow-xl rounded-md;
 
   hr:first-child {
-    display: none;
+    @apply hidden;
   }
 
   hr {
-    border-bottom: 1px solid var(--color-border-light);
-    margin: var(--space-smaller);
+    @apply m-1 border-b border-solid border-slate-50 dark:border-slate-800/50;
   }
 }
 
 .context-menu--delete-modal {
   ::v-deep {
     .modal-container {
-      max-width: 48rem;
+      @apply max-w-[30rem];
 
       h2 {
-        font-weight: var(--font-weight-medium);
-        font-size: var(--font-size-default);
+        @apply font-medium text-base;
       }
     }
 
     .modal-footer {
-      padding: var(--space-normal) var(--space-large) var(--space-large);
+      @apply pt-4 pb-8 px-8;
     }
   }
 }

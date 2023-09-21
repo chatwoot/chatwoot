@@ -76,8 +76,8 @@
         },
         "AGENT_AVAILABILITY": {
           "LABEL": "Elérhetőség",
-          "PLACEHOLDER": "Please select an availability status",
-          "ERROR": "Availability is required"
+          "PLACEHOLDER": "Adj meg elérhetőség státuszt",
+          "ERROR": "Elérhetőség megadása kötelező"
         },
         "SUBMIT": "Ügynök szerkesztése"
       },
@@ -110,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "Ügynökök keresése",
-          "TEAM": "Csapatok keresése"
+          "TEAM": "Csapatok keresése",
+          "INPUT": "Ügynök keresése"
         }
       }
     }

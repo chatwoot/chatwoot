@@ -11,7 +11,7 @@ function prepareData(data) {
 
 function getChartOptions() {
   var fontFamily =
-    'Inter,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+    'PlusJakarta,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
   return {
     responsive: true,
     legend: { labels: { fontFamily } },

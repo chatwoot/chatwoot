@@ -1,5 +1,5 @@
 <template>
-  <div class="notification-list-item--wrap h-full flex-view ">
+  <div class="flex-col py-2 px-2.5 overflow-auto h-full flex ">
     <woot-button
       v-for="notificationItem in notifications"
       v-show="!isLoading"
@@ -9,16 +9,20 @@
       variant="link"
       @click="() => onClickNotification(notificationItem)"
     >
-      <div class="notification-list--wrap flex-view w-full">
+      <div
+        class="flex-row items-center p-2.5 leading-[1.4] border-b border-solid border-slate-50 dark:border-slate-700 flex w-full hover:bg-slate-75 dark:hover:bg-slate-900 hover:rounded-md"
+      >
         <div
           v-if="!notificationItem.read_at"
-          class="notification-unread--indicator"
+          class="w-2 h-2 rounded-full bg-woot-500"
         />
-        <div v-else class="empty flex-view" />
-        <div class="notification-content--wrap w-full flex-space-between">
-          <div class="flex-space-between">
-            <div class="title-wrap flex-view ">
-              <span class="notification-title">
+        <div v-else class="w-2 flex" />
+        <div
+          class="flex-col ml-2.5 overflow-hidden w-full flex justify-between"
+        >
+          <div class="flex justify-between">
+            <div class="items-center flex ">
+              <span class="font-bold text-slate-800 dark:text-slate-100">
                 {{
                   `#${
                     notificationItem.primary_actor
@@ -27,7 +31,9 @@
                   }`
                 }}
               </span>
-              <span class="notification-type">
+              <span
+                class="text-xxs p-0.5 px-1 my-0 mx-2 bg-slate-50 dark:bg-slate-700 rounded-md"
+              >
                 {{
                   $t(
                     `NOTIFICATIONS_PAGE.TYPE_LABEL.${notificationItem.notification_type}`
@@ -37,19 +43,23 @@
             </div>
             <div>
               <thumbnail
-                v-if="notificationItem.primary_actor.meta.assignee"
+                v-if="hasAssignee(notificationItem)"
                 :src="notificationItem.primary_actor.meta.assignee.thumbnail"
                 size="16px"
                 :username="notificationItem.primary_actor.meta.assignee.name"
               />
             </div>
           </div>
-          <div class="w-full flex-view ">
-            <span class="notification-message text-truncate">
+          <div class="w-full flex ">
+            <span
+              class="text-slate-700 dark:text-slate-200 font-normal overflow-hidden whitespace-nowrap text-ellipsis"
+            >
               {{ notificationItem.push_message_title }}
             </span>
           </div>
-          <span class="timestamp flex-view">
+          <span
+            class="mt-1 text-slate-500 dark:text-slate-400 text-xxs font-semibold flex"
+          >
             {{ dynamicTime(notificationItem.created_at) }}
           </span>
         </div>
@@ -61,15 +71,18 @@
     />
     <woot-button
       v-if="!isLoading && inLastPage"
-      size="medium"
+      size="expanded"
       variant="clear"
       color-scheme="primary"
-      class-names="action-button"
+      class-names="mt-3"
       @click="openNotificationPage"
     >
       {{ $t('NOTIFICATIONS_PAGE.UNREAD_NOTIFICATION.ALL_NOTIFICATIONS') }}
     </woot-button>
-    <div v-if="isLoading" class="notifications-loader flex-view">
+    <div
+      v-if="isLoading"
+      class="items-center justify-center my-12 mx-2 text-sm font-medium flex"
+    >
       <spinner />
       <span>{{
         $t('NOTIFICATIONS_PAGE.UNREAD_NOTIFICATION.LOADING_UNREAD_MESSAGE')
@@ -127,93 +140,9 @@ export default {
         });
       }
     },
+    hasAssignee(notification) {
+      return notification.primary_actor.meta?.assignee;
+    },
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.flex-view {
-  display: flex;
-}
-
-.flex-space-between {
-  display: flex;
-  justify-content: space-between;
-}
-
-.notification-list-item--wrap {
-  flex-direction: column;
-  padding: var(--space-small) var(--space-slab);
-  overflow: auto;
-}
-
-.empty {
-  width: var(--space-small);
-}
-
-.notification-list--wrap {
-  flex-direction: row;
-  align-items: center;
-  padding: var(--space-slab);
-  line-height: 1.4;
-  border-bottom: 1px solid var(--b-50);
-}
-
-.notification-list--wrap:hover {
-  background: var(--b-100);
-  border-radius: var(--border-radius-normal);
-}
-
-.notification-content--wrap {
-  flex-direction: column;
-  margin-left: var(--space-slab);
-  overflow: hidden;
-}
-
-.title-wrap {
-  align-items: center;
-}
-
-.notification-title {
-  font-weight: var(--font-weight-black);
-}
-
-.notification-type {
-  font-size: var(--font-size-micro);
-  padding: var(--space-micro) var(--space-smaller);
-  margin: 0 var(--space-small);
-  background: var(--s-50);
-  border-radius: var(--border-radius-normal);
-}
-
-.notification-message {
-  color: var(--color-body);
-  font-weight: var(--font-weight-normal);
-}
-
-.timestamp {
-  margin-top: var(--space-smaller);
-  color: var(--b-500);
-  font-size: var(--font-size-micro);
-  font-weight: var(--font-weight-bold);
-}
-
-.notification-unread--indicator {
-  width: var(--space-small);
-  height: var(--space-small);
-  border-radius: var(--border-radius-rounded);
-  background: var(--color-woot);
-}
-
-.action-button {
-  margin-top: var(--space-slab);
-}
-
-.notifications-loader {
-  align-items: center;
-  justify-content: center;
-  margin: var(--space-larger) var(--space-small);
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-medium);
-}
-</style>

@@ -1,14 +1,17 @@
 <template>
-  <div v-if="availableProfiles.length" class="social--icons">
+  <div v-if="availableProfiles.length" class="flex items-end mx-0 my-2 gap-3">
     <a
       v-for="profile in availableProfiles"
       :key="profile.key"
       :href="`${profile.link}${socialProfiles[profile.key]}`"
       target="_blank"
       rel="noopener noreferrer nofollow"
-      class="contact--social-icon"
     >
-      <fluent-icon :icon="`brand-${profile.key}`" size="16" />
+      <fluent-icon
+        :icon="`brand-${profile.key}`"
+        size="16"
+        class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
+      />
     </a>
   </div>
 </template>
@@ -41,16 +44,3 @@ export default {
   },
 };
 </script>
-
-<style scoped lang="scss">
-.social--icons {
-  align-items: flex-end;
-  display: flex;
-  margin: var(--space-small) 0 var(--space-smaller);
-}
-
-.contact--social-icon {
-  padding-right: var(--space-slab);
-  color: var(--color-body);
-}
-</style>

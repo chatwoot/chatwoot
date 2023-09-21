@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe UrlHelper, type: :helper do
+describe UrlHelper do
   describe '#url_valid' do
     context 'when url valid called' do
       it 'return if valid url passed' do

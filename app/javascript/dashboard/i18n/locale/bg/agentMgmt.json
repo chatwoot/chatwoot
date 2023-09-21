@@ -110,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "Търсете агенти",
-          "TEAM": "Търсете екипи"
+          "TEAM": "Търсете екипи",
+          "INPUT": "Search for agents"
         }
       }
     }

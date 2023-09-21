@@ -1,11 +1,26 @@
 <template>
-  <div class="macro-preview">
-    <h6 class="text-block-title macro-title">{{ macro.name }}</h6>
-    <div v-for="(action, i) in resolvedMacro" :key="i" class="macro-block">
-      <div v-if="i !== macro.actions.length - 1" class="macro-block-border" />
-      <div class="macro-block-dot" />
-      <p class="macro-action-name">{{ action.actionName }}</p>
-      <p class="macro-action-params">{{ action.actionValue }}</p>
+  <div
+    class="macro-preview absolute max-h-[22.5rem] w-64 rounded-md bg-white dark:bg-slate-800 shadow-lg bottom-8 right-8 overflow-y-auto p-4 text-left rtl:text-right"
+  >
+    <h6 class="text-sm text-slate-800 dark:text-slate-100 mb-4">
+      {{ macro.name }}
+    </h6>
+    <div
+      v-for="(action, i) in resolvedMacro"
+      :key="i"
+      class="relative pl-4 macro-block"
+    >
+      <div
+        v-if="i !== macro.actions.length - 1"
+        class="top-[0.390625rem] absolute -bottom-1 left-0 w-px bg-slate-75 dark:bg-slate-600"
+      />
+      <div
+        class="absolute -left-[0.21875rem] top-[0.2734375rem] w-2 h-2 rounded-full bg-white dark:bg-slate-200 border-2 border-solid border-slate-100 dark:border-slate-600"
+      />
+      <p class="text-xs text-slate-500 dark:text-slate-400 mb-1">
+        {{ action.actionName }}
+      </p>
+      <p class="text-slate-800 dark:text-slate-100">{{ action.actionValue }}</p>
     </div>
   </div>
 </template>
@@ -68,55 +83,10 @@ export default {
 
 <style lang="scss" scoped>
 .macro-preview {
-  position: absolute;
-  max-height: 36rem;
-  min-height: var(--space-jumbo);
-  width: 27.2rem;
-  border-radius: var(--border-radius-normal);
-  background-color: var(--white);
-  box-shadow: var(--shadow-dropdown-pane);
-  bottom: var(--space-large);
-  right: var(--space-large);
-  overflow-y: auto;
-  padding: var(--space-normal);
-  text-align: left;
-
-  .macro-title {
-    margin-bottom: var(--space-normal);
-  }
-
   .macro-block {
-    position: relative;
-    padding-left: var(--space-normal);
     &:not(:last-child) {
-      padding-bottom: var(--space-small);
+      @apply pb-2;
     }
-
-    .macro-block-border {
-      top: 0.625rem;
-      position: absolute;
-      bottom: var(--space-minus-smaller);
-      left: 0;
-      width: 1px;
-      background-color: var(--s-75);
-    }
-
-    .macro-block-dot {
-      position: absolute;
-      left: -0.35rem;
-      height: var(--space-small);
-      width: var(--space-small);
-      border: 2px solid var(--s-100);
-      background-color: var(--white);
-      border-radius: var(--border-radius-full);
-      top: 0.4375rem;
-    }
-  }
-
-  .macro-action-name {
-    font-size: var(--font-size-mini);
-    color: var(--s-500);
-    margin-bottom: var(--space-smaller);
   }
 }
 </style>

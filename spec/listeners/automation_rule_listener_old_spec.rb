@@ -505,51 +505,6 @@ describe AutomationRuleListener do
     end
   end
 
-  describe '#message_created' do
-    before do
-      automation_rule.update!(
-        event_name: 'message_created',
-        name: 'Call actions message created',
-        description: 'Add labels, assign team after message created',
-        conditions: [{ 'values': ['incoming'], 'attribute_key': 'message_type', 'query_operator': nil, 'filter_operator': 'equal_to' }]
-      )
-    end
-
-    let!(:message) { create(:message, account: account, conversation: conversation, message_type: 'incoming') }
-    let!(:event) do
-      Events::Base.new('message_created', Time.zone.now, { conversation: conversation, message: message })
-    end
-
-    context 'when rule matches' do
-      it 'triggers automation rule to assign team' do
-        expect(conversation.team_id).not_to eq(team.id)
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
-        listener.message_created(event)
-        conversation.reload
-
-        expect(conversation.team_id).to eq(team.id)
-      end
-
-      it 'triggers automation rule to add label' do
-        expect(conversation.labels).to eq([])
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
-        listener.message_created(event)
-        conversation.reload
-
-        expect(conversation.labels.pluck(:name)).to contain_exactly('support', 'priority_customer')
-      end
-
-      it 'triggers automation rule to assign best agent' do
-        expect(conversation.assignee).to be_nil
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
-        listener.message_created(event)
-        conversation.reload
-
-        expect(conversation.assignee).to eq(user_1)
-      end
-    end
-  end
-
   describe '#message_created with conversation and contacts based conditions' do
     before do
       automation_rule.update!(

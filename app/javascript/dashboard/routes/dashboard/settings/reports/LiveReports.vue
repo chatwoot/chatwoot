@@ -1,5 +1,5 @@
 <template>
-  <div class="column content-box">
+  <div class="flex-1 overflow-auto p-4">
     <div class="row">
       <div class="column small-12 medium-8 conversation-metric">
         <metric-card
@@ -74,10 +74,10 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import AgentTable from './components/overview/AgentTable';
-import MetricCard from './components/overview/MetricCard';
+import AgentTable from './components/overview/AgentTable.vue';
+import MetricCard from './components/overview/MetricCard.vue';
 import { OVERVIEW_METRICS } from './constants';
-import ReportHeatmap from './components/Heatmap';
+import ReportHeatmap from './components/Heatmap.vue';
 
 import endOfDay from 'date-fns/endOfDay';
 import getUnixTime from 'date-fns/getUnixTime';

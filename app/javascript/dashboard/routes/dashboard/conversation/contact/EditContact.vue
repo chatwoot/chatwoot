@@ -1,6 +1,6 @@
 <template>
   <woot-modal :show.sync="show" :on-close="onCancel" modal-type="right-aligned">
-    <div class="column content-box">
+    <div class="h-auto overflow-auto flex flex-col">
       <woot-modal-header
         :header-title="
           `${$t('EDIT_CONTACT.TITLE')} - ${contact.name || contact.email}`
@@ -20,7 +20,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import ContactForm from './ContactForm';
+import ContactForm from './ContactForm.vue';
 
 export default {
   components: {

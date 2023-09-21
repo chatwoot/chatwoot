@@ -2,7 +2,7 @@
 
 # Description: Install and manage a Chatwoot installation.
 # OS: Ubuntu 20.04 LTS
-# Script Version: 2.2.0
+# Script Version: 2.4.0
 # Run this script as root
 
 set -eu -o errexit -o pipefail -o noclobber -o nounset
@@ -19,7 +19,7 @@ fi
 # option --output/-o requires 1 argument
 LONGOPTS=console,debug,help,install,Install:,logs:,restart,ssl,upgrade,webserver,version
 OPTIONS=cdhiI:l:rsuwv
-CWCTL_VERSION="2.2.0"
+CWCTL_VERSION="2.4.0"
 pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
 
 # if user does not specify an option
@@ -172,9 +172,11 @@ EOF
 function install_dependencies() {
   apt update && apt upgrade -y
   apt install -y curl
-  curl -sL https://deb.nodesource.com/setup_16.x | bash -
+  curl -sL https://deb.nodesource.com/setup_20.x | bash -
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
   echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+  curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
+  echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
   apt update
 
   apt install -y \
@@ -183,7 +185,8 @@ function install_dependencies() {
       libssl-dev libyaml-dev libreadline-dev gnupg2 \
       postgresql-client redis-tools \
       nodejs yarn patch ruby-dev zlib1g-dev liblzma-dev \
-      libgmp-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev sudo
+      libgmp-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev sudo \
+      libvips
 }
 
 ##############################################################################
@@ -328,8 +331,8 @@ function setup_chatwoot() {
   sudo -i -u chatwoot << EOF
   rvm --version
   rvm autolibs disable
-  rvm install "ruby-3.1.3"
-  rvm use 3.1.3 --default
+  rvm install "ruby-3.2.2"
+  rvm use 3.2.2 --default
 
   git clone https://github.com/chatwoot/chatwoot.git
   cd chatwoot
@@ -346,7 +349,7 @@ function setup_chatwoot() {
   sed -i -e '/RAILS_ENV/ s/=.*/=$RAILS_ENV/' .env
   echo -en "\nINSTALLATION_ENV=linux_script" >> ".env"
 
-  rake assets:precompile RAILS_ENV=production
+  rake assets:precompile RAILS_ENV=production NODE_OPTIONS=--openssl-legacy-provider
 EOF
 }
 
@@ -709,6 +712,54 @@ EOF
 }
 
 ##############################################################################
+# Update redis to v7+ for Rails 7 support(-u/--upgrade)
+# and install libvips for image processing support in Rails 7
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
+function upgrade_redis() {
+
+  echo "Checking Redis availability..."
+
+  # Check if Redis is installed
+  if ! command -v redis-server &> /dev/null; then
+    echo "Redis is not installed. Skipping Redis upgrade."
+    return
+  fi
+
+  echo "Checking Redis version..."
+
+  # Get current Redis version
+  current_version=$(redis-server --version | awk -F 'v=' '{print $2}' | awk '{print $1}')
+
+  # Parse major version number
+  major_version=$(echo "$current_version" | cut -d. -f1)
+
+  if [ "$major_version" -ge 7 ]; then
+    echo "Redis is already version $current_version (>= 7). Skipping Redis upgrade."
+    return
+  fi
+
+  echo "Upgrading Redis to v7+ for Rails 7 support(Chatwoot v2.17+)"
+
+  curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
+  echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
+  apt update -y
+  apt upgrade redis-server -y
+  apt install libvips -y
+}
+
+function upgrade_node() {
+  echo "Upgrading nodejs version to v20.x"
+  curl -sL https://deb.nodesource.com/setup_20.x | sudo bash -
+  apt install -y nodejs
+}
+
+##############################################################################
 # Upgrade an existing installation to latest stable version(-u/--upgrade)
 # Globals:
 #   None
@@ -722,6 +773,8 @@ function upgrade() {
   echo "Upgrading Chatwoot to v$CW_VERSION"
   sleep 3
   upgrade_prereq
+  upgrade_redis
+  upgrade_node
   sudo -i -u chatwoot << "EOF"
 
   # Navigate to the Chatwoot directory
@@ -741,7 +794,7 @@ function upgrade() {
   yarn
 
   # Recompile the assets
-  rake assets:precompile RAILS_ENV=production
+  rake assets:precompile RAILS_ENV=production NODE_OPTIONS=--openssl-legacy-provider
 
   # Migrate the database schema
   RAILS_ENV=production POSTGRES_STATEMENT_TIMEOUT=600s bundle exec rake db:migrate
@@ -805,7 +858,7 @@ function webserver() {
 #   None
 ##############################################################################
 function version() {
-  echo "cwctl v$CWCTL_VERSION alpha build"
+  echo "cwctl v$CWCTL_VERSION beta build"
 }
 
 ##############################################################################

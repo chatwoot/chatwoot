@@ -26,6 +26,33 @@ FactoryBot.define do
     initialize_with { attributes }
   end
 
+  factory :instagram_message_standby_event, class: Hash do
+    entry do
+      [
+        {
+          'time': '2021-09-08T06:34:04+0000',
+          'id': 'instagram-message-id-123',
+          'standby': [
+            {
+              'sender': {
+                'id': 'Sender-id-1'
+              },
+              'recipient': {
+                'id': 'chatwoot-app-user-id-1'
+              },
+              'timestamp': '2021-09-08T06:34:04+0000',
+              'message': {
+                'mid': 'message-id-1',
+                'text': 'This is the first standby message from the customer, after 24 hours.'
+              }
+            }
+          ]
+        }
+      ]
+    end
+    initialize_with { attributes }
+  end
+
   factory :instagram_story_reply_event, class: Hash do
     entry do
       [

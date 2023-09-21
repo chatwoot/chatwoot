@@ -1,8 +1,10 @@
 <template>
-  <section class="contacts-table-wrap">
+  <section
+    class="contacts-table-wrap bg-white dark:bg-slate-900 flex-1 h-full overflow-hidden -mt-1"
+  >
     <ve-table
       :fixed-header="true"
-      max-height="calc(100vh - 11.4rem)"
+      max-height="calc(100vh - 7.125rem)"
       scroll-width="187rem"
       :columns="columns"
       :table-data="tableData"
@@ -18,7 +20,7 @@
       v-else-if="!isLoading && !contacts.length"
       :title="$t('CONTACTS_PAGE.LIST.NO_CONTACTS')"
     />
-    <div v-if="isLoading" class="contacts--loader">
+    <div v-if="isLoading" class="items-center flex text-base justify-center">
       <spinner />
       <span>{{ $t('CONTACTS_PAGE.LIST.LOADING_MESSAGE') }}</span>
     </div>
@@ -35,7 +37,7 @@ import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import timeMixin from 'dashboard/mixins/time';
 import rtlMixin from 'shared/mixins/rtlMixin';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
 export default {
   components: {
@@ -133,7 +135,7 @@ export default {
                   status={row.availability_status}
                 />
                 <div class="user-block">
-                  <h6 class="sub-block-title text-truncate">
+                  <h6 class="sub-block-title overflow-hidden whitespace-nowrap text-ellipsis">
                     <router-link
                       to={`/app/accounts/${this.$route.params.accountId}/contacts/${row.id}`}
                       class="user-name"
@@ -159,7 +161,7 @@ export default {
           renderBodyCell: ({ row }) => {
             if (row.email)
               return (
-                <div class="text-truncate">
+                <div class="overflow-hidden whitespace-nowrap text-ellipsis text-woot-500 dark:text-woot-500">
                   <a
                     target="_blank"
                     rel="noopener noreferrer nofollow"
@@ -202,7 +204,7 @@ export default {
           renderBodyCell: ({ row }) => {
             if (row.country) {
               return (
-                <div class="text-truncate">
+                <div class="overflow-hidden whitespace-nowrap text-ellipsis">
                   {`${getCountryFlag(row.countryCode)} ${row.country}`}
                 </div>
               );
@@ -223,7 +225,7 @@ export default {
             if (!items.length) return '---';
 
             return (
-              <div class="cell--social-profiles">
+              <div class="cell--social-profiles flex gap-0.5 items-center">
                 {items.map(
                   profile =>
                     profiles[profile] && (
@@ -254,13 +256,6 @@ export default {
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CREATED_AT'),
           align: this.isRTLView ? 'right' : 'left',
         },
-        {
-          field: 'conversationsCount',
-          key: 'conversationsCount',
-          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CONVERSATIONS'),
-          width: 150,
-          align: this.isRTLView ? 'right' : 'left',
-        },
       ];
     },
   },
@@ -284,43 +279,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/mixins';
-
-.contacts-table-wrap {
-  flex: 1 1;
-  height: 100%;
-  overflow: hidden;
-}
-
 .contacts-table-wrap::v-deep {
   .ve-table {
-    padding-bottom: var(--space-large);
+    @apply pb-8;
   }
   .row--user-block {
-    align-items: center;
-    display: flex;
-    text-align: left;
+    @apply items-center flex text-left;
 
     .user-block {
-      align-items: flex-start;
-      display: flex;
-      flex-direction: column;
-      margin: 0 var(--space-small);
+      @apply items-start flex flex-col my-0 mx-2;
     }
 
     .user-name {
-      font-size: var(--font-size-small);
-      font-weight: var(--font-weight-medium);
-      margin: 0;
-      text-transform: capitalize;
+      @apply text-sm font-medium m-0 capitalize;
     }
 
     .view-details--button {
-      color: var(--color-body);
+      @apply text-slate-600 dark:text-slate-200;
     }
 
     .user-email {
-      margin: 0;
+      @apply m-0;
     }
   }
 
@@ -336,25 +315,13 @@ export default {
     font-size: var(--font-size-mini) !important;
   }
   .ve-table-sort {
-    top: -4px;
+    @apply -top-1;
   }
-}
-
-.contacts--loader {
-  align-items: center;
-  display: flex;
-  font-size: var(--font-size-default);
-  justify-content: center;
-  padding: var(--space-big);
 }
 
 .cell--social-profiles {
   a {
-    color: var(--s-300);
-    display: inline-block;
-    font-size: var(--font-size-medium);
-    min-width: var(--space-large);
-    text-align: center;
+    @apply text-slate-300 dark:text-slate-400 text-lg min-w-[2rem] text-center;
   }
 }
 </style>

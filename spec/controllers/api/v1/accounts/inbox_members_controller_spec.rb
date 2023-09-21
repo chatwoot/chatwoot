@@ -38,7 +38,7 @@ RSpec.describe 'Inbox Member API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(JSON.parse(response.body)['payload'].pluck('id')).to eq(inbox.inbox_members.pluck(:user_id))
+        expect(response.parsed_body['payload'].pluck('id')).to eq(inbox.inbox_members.pluck(:user_id))
       end
     end
   end

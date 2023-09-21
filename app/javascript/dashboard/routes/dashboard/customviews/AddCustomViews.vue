@@ -1,8 +1,8 @@
 <template>
   <woot-modal :show.sync="show" :on-close="onClose">
     <woot-modal-header :header-title="$t('FILTER.CUSTOM_VIEWS.ADD.TITLE')" />
-    <form class="row" @submit.prevent="saveCustomViews">
-      <div class="medium-12 columns">
+    <form class="w-full" @submit.prevent="saveCustomViews">
+      <div class="w-full">
         <woot-input
           v-model="name"
           :label="$t('FILTER.CUSTOM_VIEWS.ADD.LABEL')"
@@ -15,7 +15,7 @@
           @blur="$v.name.$touch"
         />
 
-        <div class="modal-footer">
+        <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
           <woot-button :disabled="isButtonDisabled">
             {{ $t('FILTER.CUSTOM_VIEWS.ADD.SAVE_BUTTON') }}
           </woot-button>
@@ -98,7 +98,7 @@ export default {
         const errorMessage = error?.message;
         this.alertMessage =
           errorMessage || this.filterType === 0
-            ? this.$t('FILTER.CUSTOM_VIEWS.ADD.API_FOLDERS.ERROR_MESSAGE')
+            ? errorMessage
             : this.$t('FILTER.CUSTOM_VIEWS.ADD.API_SEGMENTS.ERROR_MESSAGE');
       } finally {
         this.showAlert(this.alertMessage);

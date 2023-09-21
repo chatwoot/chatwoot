@@ -32,11 +32,11 @@
       "IMAGE_UPLOAD": {
         "TITLE": "Bild hochladen",
         "UPLOADING": "Hochladen...",
-        "SUCCESS": "Image uploaded successfully",
-        "ERROR": "Error while uploading image",
-        "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
-        "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
-        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
+        "SUCCESS": "Bild erfolgreich hochgeladen",
+        "ERROR": "Fehler beim Hochladen des Bildes",
+        "ERROR_FILE_SIZE": "Bildgröße sollte kleiner als {size}MB sein",
+        "ERROR_FILE_FORMAT": "Bildformat sollte jpg, jpeg oder png sein",
+        "ERROR_FILE_DIMENSIONS": "Bildgröße sollte kleiner als 2000 x 2000 sein"
       }
     },
     "ARTICLE_SETTINGS": {
@@ -73,6 +73,14 @@
         "ARCHIVE": "Artikel archivieren",
         "DELETE": "Artikel löschen"
       }
+    },
+    "ARTICLE_SEARCH_RESULT": {
+      "UNCATEGORIZED": "Uncategorized",
+      "INSERT_ARTICLE": "Insert",
+      "NO_RESULT": "No articles found",
+      "COPY_LINK": "Copy article link to clipboard",
+      "OPEN_LINK": "Open article in new tab",
+      "PREVIEW_LINK": "Preview article"
     },
     "PORTAL": {
       "HEADER": "Portale",

@@ -1,15 +1,20 @@
 <template>
-  <div class="cw-accordion">
-    <button class="cw-accordion--title drag-handle" @click="$emit('click')">
-      <div class="cw-accordion--title-wrap">
-        <emoji-or-icon class="icon-or-emoji" :icon="icon" :emoji="emoji" />
-        <h5>
+  <div class="-mt-px text-sm">
+    <button
+      class="flex items-center select-none w-full bg-slate-50 dark:bg-slate-800 border border-l-0 border-r-0 border-solid m-0 border-slate-100 dark:border-slate-700/50 cursor-grab justify-between py-2 px-4 drag-handle"
+      @click="$emit('click')"
+    >
+      <div class="flex justify-between mb-0.5">
+        <emoji-or-icon class="inline-block w-5" :icon="icon" :emoji="emoji" />
+        <h5
+          class="text-slate-800 text-sm dark:text-slate-100 mb-0 py-0 pr-2 pl-0"
+        >
           {{ title }}
         </h5>
       </div>
-      <div class="button-icon--wrap">
+      <div class="flex flex-row">
         <slot name="button" />
-        <div class="chevron-icon__wrap">
+        <div class="flex justify-end w-3 text-woot-500">
           <fluent-icon v-if="isOpen" size="24" icon="subtract" type="solid" />
           <fluent-icon v-else size="24" icon="add" type="solid" />
         </div>
@@ -17,8 +22,8 @@
     </button>
     <div
       v-if="isOpen"
-      class="cw-accordion--content"
-      :class="{ compact: compact }"
+      class="bg-white dark:bg-slate-900"
+      :class="compact ? 'p-0' : 'p-4'"
     >
       <slot />
     </div>
@@ -26,7 +31,7 @@
 </template>
 
 <script>
-import EmojiOrIcon from 'shared/components/EmojiOrIcon';
+import EmojiOrIcon from 'shared/components/EmojiOrIcon.vue';
 
 export default {
   components: {
@@ -56,67 +61,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.cw-accordion {
-  // This is done to fix contact sidebar border issues
-  // If you are using it else, find a fix to remove this hack
-  margin-top: -1px;
-  font-size: var(--font-size-small);
-}
-.cw-accordion--title {
-  align-items: center;
-  background: var(--s-50);
-  border-bottom: 1px solid var(--s-100);
-  border-top: 1px solid var(--s-100);
-  cursor: grab;
-  display: flex;
-  justify-content: space-between;
-  margin: 0;
-  padding: var(--space-small) var(--space-normal);
-  user-select: none;
-  width: 100%;
-
-  h5 {
-    font-size: var(--font-size-normal);
-    margin-bottom: 0;
-    padding: 0 var(--space-small) 0 0;
-  }
-}
-
-.cw-accordion--title-wrap {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: var(--space-micro);
-}
-
-.title-icon__wrap {
-  display: flex;
-  align-items: baseline;
-}
-
-.icon-or-emoji {
-  display: inline-block;
-  width: var(--space-two);
-}
-
-.button-icon--wrap {
-  display: flex;
-  flex-direction: row;
-}
-
-.chevron-icon__wrap {
-  display: flex;
-  justify-content: flex-end;
-  width: var(--space-slab);
-  color: var(--w-500);
-}
-
-.cw-accordion--content {
-  padding: var(--space-normal);
-
-  &.compact {
-    padding: 0;
-  }
-}
-</style>

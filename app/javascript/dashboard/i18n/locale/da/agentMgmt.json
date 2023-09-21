@@ -110,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "Søg agenter",
-          "TEAM": "Søg i teams"
+          "TEAM": "Søg i teams",
+          "INPUT": "Search for agents"
         }
       }
     }

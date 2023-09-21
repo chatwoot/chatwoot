@@ -73,10 +73,27 @@
       }
     },
     "SLACK": {
+      "DELETE": "Izbriši",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Delete the integration",
+        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+      },
       "HELP_TEXT": {
         "TITLE": "Koristi Slack integraciju",
-        "BODY": "<br/><p>Chatwoot će sada sinhronizovati sve dolazne razgovore u kanal <b><i>customer-conversations</i></b> unutar vašeg slack radnog mesta.</p><p>Odgovaranjem na razgovor u <b><i>customer-conversations</i></b> slack kanal će napraviti odgovor potrošaču kroz chatwoot.</p><p>Započnite odgovore sa <b><i>note:</i></b> da bi ste napravili privatne beleške umesto odgovora.</p><p>Ako odgovarač na slack-u ima agentski profil u chatwoot-u pod istom adresom e-pošte, odgovori će biti odgovarajuće povezani.</p><p>Kada odgovarač nema povezani agentski profil, odgovori će biti napravljeni od strane bot profila.</p>"
-      }
+        "BODY": "<br/><p>Chatwoot će sada sinhronizovati sve dolazne razgovore u kanal <b><i>customer-conversations</i></b> unutar vašeg slack radnog mesta.</p><p>Odgovaranjem na razgovor u <b><i>customer-conversations</i></b> slack kanal će napraviti odgovor potrošaču kroz chatwoot.</p><p>Započnite odgovore sa <b><i>note:</i></b> da bi ste napravili privatne beleške umesto odgovora.</p><p>Ako odgovarač na slack-u ima agentski profil u chatwoot-u pod istom adresom e-pošte, odgovori će biti odgovarajuće povezani.</p><p>Kada odgovarač nema povezani agentski profil, odgovori će biti napravljeni od strane bot profila.</p>",
+        "SELECTED": "selected"
+      },
+      "SELECT_CHANNEL": {
+        "OPTION_LABEL": "Select a channel",
+        "UPDATE": "Primeni",
+        "BUTTON_TEXT": "Connect channel",
+        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
+        "ATTENTION_REQUIRED": "Attention required",
+        "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
+      },
+      "UPDATE_ERROR": "There was an error updating the integration, please try again",
+      "UPDATE_SUCCESS": "The channel is connected successfully",
+      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
     },
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Click here to join",
@@ -84,6 +101,59 @@
       "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
       "JOIN_ERROR": "There was an error joining the call, please try again",
       "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+    },
+    "OPEN_AI": {
+      "AI_ASSIST": "AI Assist",
+      "WITH_AI": " %{option} with AI ",
+      "OPTIONS": {
+        "REPLY_SUGGESTION": "Reply Suggestion",
+        "SUMMARIZE": "Summarize",
+        "REPHRASE": "Improve Writing",
+        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
+        "SHORTEN": "Shorten",
+        "EXPAND": "Expand",
+        "MAKE_FRIENDLY": "Change message tone to friendly",
+        "MAKE_FORMAL": "Use formal tone",
+        "SIMPLIFY": "Simplify"
+      },
+      "ASSISTANCE_MODAL": {
+        "DRAFT_TITLE": "Draft content",
+        "GENERATED_TITLE": "Generated content",
+        "AI_WRITING": "AI is writing",
+        "BUTTONS": {
+          "APPLY": "Use this suggestion",
+          "CANCEL": "Otkaži"
+        }
+      },
+      "CTA_MODAL": {
+        "TITLE": "Integrate with OpenAI",
+        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
+        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "BUTTONS": {
+          "NEED_HELP": "Treba vam pomoć?",
+          "DISMISS": "Dismiss",
+          "FINISH": "Finish Setup"
+        },
+        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
+        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
+      },
+      "TITLE": "Improve With AI",
+      "SUMMARY_TITLE": "Summary with AI",
+      "REPLY_TITLE": "Reply suggestion with AI",
+      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TONE": {
+        "TITLE": "Tone",
+        "OPTIONS": {
+          "PROFESSIONAL": "Professional",
+          "FRIENDLY": "Friendly"
+        }
+      },
+      "BUTTONS": {
+        "GENERATE": "Generate",
+        "GENERATING": "Generating...",
+        "CANCEL": "Otkaži"
+      },
+      "GENERATE_ERROR": "There was an error processing the content, please try again"
     },
     "DELETE": {
       "BUTTON_TEXT": "Izbriši",

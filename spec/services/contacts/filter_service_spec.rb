@@ -1,20 +1,20 @@
 require 'rails_helper'
 
-describe ::Contacts::FilterService do
+describe Contacts::FilterService do
   subject(:filter_service) { described_class }
 
   let!(:account) { create(:account) }
-  let!(:user_1) { create(:user, account: account) }
-  let!(:user_2) { create(:user, account: account) }
+  let!(:first_user) { create(:user, account: account) }
+  let!(:second_user) { create(:user, account: account) }
   let!(:inbox) { create(:inbox, account: account, enable_auto_assignment: false) }
   let(:en_contact) { create(:contact, account: account, additional_attributes: { 'browser_language': 'en' }) }
   let(:el_contact) { create(:contact, account: account, additional_attributes: { 'browser_language': 'el' }) }
   let(:cs_contact) { create(:contact, account: account, additional_attributes: { 'browser_language': 'cs' }) }
 
   before do
-    create(:inbox_member, user: user_1, inbox: inbox)
-    create(:inbox_member, user: user_2, inbox: inbox)
-    create(:conversation, account: account, inbox: inbox, assignee: user_1, contact: en_contact)
+    create(:inbox_member, user: first_user, inbox: inbox)
+    create(:inbox_member, user: second_user, inbox: inbox)
+    create(:conversation, account: account, inbox: inbox, assignee: first_user, contact: en_contact)
     create(:conversation, account: account, inbox: inbox)
     Current.account = account
 
@@ -55,12 +55,6 @@ describe ::Contacts::FilterService do
             attribute_key: 'browser_language',
             filter_operator: 'equal_to',
             values: ['en'],
-            query_operator: 'OR'
-          }.with_indifferent_access,
-          {
-            attribute_key: 'name',
-            filter_operator: 'equal_to',
-            values: [en_contact.name],
             query_operator: nil
           }.with_indifferent_access
         ]
@@ -68,8 +62,25 @@ describe ::Contacts::FilterService do
 
       it 'filter contacts by additional_attributes' do
         params[:payload] = payload
-        result = filter_service.new(params, user_1).perform
-        expect(result[:count]).to be 2
+        result = filter_service.new(params, first_user).perform
+        expect(result[:count]).to be 1
+        expect(result[:contacts].first.id).to eq(en_contact.id)
+      end
+
+      it 'filter contacts by name' do
+        params[:payload] = [
+          {
+            attribute_key: 'name',
+            filter_operator: 'equal_to',
+            values: [en_contact.name],
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+
+        result = filter_service.new(params, first_user).perform
+        expect(result[:count]).to be 1
+        expect(result[:contacts].length).to be 1
+        expect(result[:contacts].first.name).to eq(en_contact.name)
       end
 
       it 'filter contact by tags' do
@@ -83,7 +94,7 @@ describe ::Contacts::FilterService do
           }.with_indifferent_access
         ]
 
-        result = filter_service.new(params, user_1).perform
+        result = filter_service.new(params, first_user).perform
         expect(result[:contacts].length).to be 2
         expect(result[:contacts].first.label_list).to include('support')
         expect(result[:contacts].last.label_list).to include('support')
@@ -111,7 +122,7 @@ describe ::Contacts::FilterService do
             query_operator: nil
           }.with_indifferent_access
         ]
-        result = filter_service.new(params, user_1).perform
+        result = filter_service.new(params, first_user).perform
         expect(result[:contacts].length).to be 1
         expect(result[:contacts].first.id).to eq(cs_contact.id)
       end
@@ -137,7 +148,7 @@ describe ::Contacts::FilterService do
             query_operator: nil
           }.with_indifferent_access
         ]
-        result = filter_service.new(params, user_1).perform
+        result = filter_service.new(params, first_user).perform
         expect(result[:contacts].length).to be 1
         expect(result[:contacts].first.id).to eq(el_contact.id)
       end
@@ -158,7 +169,7 @@ describe ::Contacts::FilterService do
             query_operator: nil
           }.with_indifferent_access
         ]
-        result = filter_service.new(params, user_1).perform
+        result = filter_service.new(params, first_user).perform
         expected_count = Contact.where("created_at < ? AND custom_attributes->>'customer_type' = ?", Date.tomorrow, 'platinum').count
 
         expect(result[:contacts].length).to be expected_count
@@ -196,7 +207,7 @@ describe ::Contacts::FilterService do
             'test custom data'
           ).count
 
-          result = filter_service.new(params, user_1).perform
+          result = filter_service.new(params, first_user).perform
           expect(result[:contacts].length).to be expected_count
           expect(result[:contacts].first.id).to eq(el_contact.id)
         end
@@ -213,7 +224,7 @@ describe ::Contacts::FilterService do
 
           expected_count = Contact.where('last_activity_at < ?', (Time.zone.today - 2.days)).count
 
-          result = filter_service.new(params, user_1).perform
+          result = filter_service.new(params, first_user).perform
           expect(result[:contacts].length).to be expected_count
           expect(result[:contacts].pluck(:id)).to include(el_contact.id)
           expect(result[:contacts].pluck(:id)).to include(cs_contact.id)

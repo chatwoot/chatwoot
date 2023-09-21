@@ -46,7 +46,7 @@ as defined by the routes in the `admin/` namespace
         <%= link_to(
           display_resource_name(resource),
           resource_index_route(resource)
-        ) if valid_action? :index, resource  %>
+        ) if existing_action? resource, :index  %>
       </li>
     <% end %>
 

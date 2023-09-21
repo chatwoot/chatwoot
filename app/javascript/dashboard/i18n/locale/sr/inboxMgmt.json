@@ -111,6 +111,17 @@
           "PLACEHOLDER": "Molim vas unesite SID vašeg Twilio naloga",
           "ERROR": "Ovo polje je obavezno"
         },
+        "API_KEY": {
+          "USE_API_KEY": "Use API Key Authentication",
+          "LABEL": "API Key SID",
+          "PLACEHOLDER": "Please enter your API Key SID",
+          "ERROR": "Ovo polje je obavezno"
+        },
+        "API_KEY_SECRET": {
+          "LABEL": "API Key Secret",
+          "PLACEHOLDER": "Please enter your API Key Secret",
+          "ERROR": "Ovo polje je obavezno"
+        },
         "MESSAGING_SERVICE_SID": {
           "LABEL": "SID servisa za poruke",
           "PLACEHOLDER": "Molim vas unesite SID vašeg Twilio servisa za poruke",
@@ -391,6 +402,25 @@
         "ENABLED": "Omogućeno",
         "DISABLED": "Onemogućeno"
       },
+      "SENDER_NAME_SECTION": {
+        "TITLE": "Sender name",
+        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
+        "FOR_EG": "For eg:",
+        "FRIENDLY": {
+          "TITLE": "Friendly",
+          "FROM": "od",
+          "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
+        },
+        "PROFESSIONAL": {
+          "TITLE": "Professional",
+          "SUBTITLE": "Use only the configured business name as the sender name in the email header."
+        },
+        "BUSINESS_NAME": {
+          "BUTTON_TEXT": "+ Configure your business name",
+          "PLACEHOLDER": "Enter your business name",
+          "SAVE_BUTTON_TEXT": "Save"
+        }
+      },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
         "ENABLED": "Omogućeno",
         "DISABLED": "Onemogućeno"
@@ -454,7 +484,9 @@
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Omogući ili onemogući polje za prikupljanje e-pošte za novi razgovor",
       "AUTO_ASSIGNMENT": "Omogući automatsko dodeljivanje",
       "ENABLE_CSAT": "Omogući ocenu zadovoljstva korisnika",
+      "SENDER_NAME_SECTION": "Enable Agent Name in Email",
       "ENABLE_CSAT_SUB_TEXT": "Omogući/onemogući upitnik o zadovoljstvu korisnika nakon rešavanja razgovora",
+      "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Omogući nastavljanje razgovora putem e-pošte",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Razgovori će se nastaviti putem e-pošte ako je dostupna adresa e-pošte kontakta.",
       "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
@@ -463,9 +495,10 @@
       "INBOX_UPDATE_SUB_TEXT": "Izmenite podešavanja vašeg prijemnog sandučeta",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Omogući ili onemogući automatsku dodelu novih razgovora agentima dodatih ovom prijemnom sandučetu.",
       "HMAC_VERIFICATION": "Potvrda identiteta korisnika",
-      "HMAC_DESCRIPTION": "Da bi se potvrdio identitet korisnika, morate proslediti `identifier_hash` za svakog korisnika. Možete generisti HMAC sha256 heš koristeći `identifier` sa ključem prikazanim ovde.",
+      "HMAC_DESCRIPTION": "With this key you can generate a secret token that can be used to verify the identity of your users.",
+      "HMAC_LINK_TO_DOCS": "You can read more here.",
       "HMAC_MANDATORY_VERIFICATION": "Primoraj potvrdu identiteta korisnika",
-      "HMAC_MANDATORY_DESCRIPTION": "Ukoliko je omogućeno, zahtevi kojima nedostaje `identifier_hash` će biti odbijeni.",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests that cannot be verified will be rejected.",
       "INBOX_IDENTIFIER": "Identifikator prijemnog sandučeta",
       "INBOX_IDENTIFIER_SUB_TEXT": "Koristite `inbox_identifier` token prikazan ovde za autentifikaciju vaših API klijenata.",
       "FORWARD_EMAIL_TITLE": "Prosledi na e-poštu",
@@ -481,6 +514,13 @@
       "WHATSAPP_WEBHOOK_TITLE": "Token potvrde veb zakačke",
       "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+    },
+    "HELP_CENTER": {
+      "LABEL": "Help Center",
+      "PLACEHOLDER": "Select Help Center",
+      "SELECT_PLACEHOLDER": "Select Help Center",
+      "REMOVE": "Remove Help Center",
+      "SUB_TEXT": "Attach a Help Center with the inbox"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Ograničenje automatskog dodeljivanja",
@@ -527,7 +567,6 @@
       "UPDATE": "Izmena podešavanja radnog vremena",
       "TOGGLE_AVAILABILITY": "Omogući vreme dostupnosti za ovo prijemno sanduče",
       "UNAVAILABLE_MESSAGE_LABEL": "Poruka nedostupnosti za posetioce",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "Trenutno nismo dostupni. Ostavite poruku i odgovorićemo vam čim je pročitamo.",
       "TOGGLE_HELP": "Omogućavanje vremena dostupnosti će prikazati dostupno vreme na vidžetu ćaskanja čak i kada su svi agenti nedostupni. Van radnih sati posetioci će biti upozoreni porukom i formularom pre ćaskanja.",
       "DAY": {
         "ENABLE": "Omogućite dostupnost za ovaj dan",

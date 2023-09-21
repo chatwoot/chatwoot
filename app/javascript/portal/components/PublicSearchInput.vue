@@ -1,17 +1,16 @@
 <template>
   <div
-    class="w-full flex items-center rounded-md border-solid  h-16 bg-white px-4 py-2 text-slate-600"
+    class="w-full flex items-center rounded-md border-solid border-2 h-16 bg-white px-4 py-2 text-slate-600"
     :class="{
-      'shadow border-2 border-woot-100': isFocused,
-      'border border-slate-50 shadow-sm': !isFocused,
+      'shadow border-woot-100': isFocused,
+      'border-slate-50 shadow-sm': !isFocused,
     }"
   >
     <fluent-icon icon="search" />
     <input
       :value="value"
       type="text"
-      class="w-full search-input focus:outline-none text-base h-full bg-white px-2 py-2
-    text-slate-700 placeholder-slate-500 sm:text-sm"
+      class="w-full focus:outline-none text-base h-full bg-white px-2 py-2 text-slate-700 placeholder-slate-500"
       :placeholder="searchPlaceholder"
       role="search"
       @input="onChange"

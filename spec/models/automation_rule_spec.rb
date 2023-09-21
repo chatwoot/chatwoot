@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe AutomationRule, type: :model do
+RSpec.describe AutomationRule do
   describe 'associations' do
     let(:account) { create(:account) }
     let(:params) do

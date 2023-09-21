@@ -61,9 +61,11 @@ export const actions = {
       isSearchCompleted: false,
     });
     try {
-      dispatch('contactSearch', { q });
-      dispatch('conversationSearch', { q });
-      dispatch('messageSearch', { q });
+      await Promise.all([
+        dispatch('contactSearch', { q }),
+        dispatch('conversationSearch', { q }),
+        dispatch('messageSearch', { q }),
+      ]);
     } catch (error) {
       // Ignore error
     } finally {

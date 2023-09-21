@@ -53,3 +53,7 @@
   enabled: false
 - name: custom_reply_domain
   enabled: false
+- name: audit_logs
+  enabled: false
+- name: response_bot
+  enabled: false

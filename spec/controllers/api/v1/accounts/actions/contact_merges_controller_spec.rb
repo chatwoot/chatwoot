@@ -30,7 +30,7 @@ RSpec.describe 'Contact Merge Action API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['id']).to eq(base_contact.id)
         expected_params = { account: account, base_contact: base_contact, mergee_contact: mergee_contact }
         expect(ContactMergeAction).to have_received(:new).with(expected_params)

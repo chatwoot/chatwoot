@@ -30,7 +30,7 @@ RSpec.describe 'CSAT Survey Responses API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(JSON.parse(response.body).first['feedback_message']).to eq(csat_survey_response.feedback_message)
+        expect(response.parsed_body.first['feedback_message']).to eq(csat_survey_response.feedback_message)
       end
 
       it 'filters csat responses based on a date range' do
@@ -43,7 +43,7 @@ RSpec.describe 'CSAT Survey Responses API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        response_data = JSON.parse(response.body)
+        response_data = response.parsed_body
         expect(response_data.pluck('id')).to include(csat_3_days_ago.id)
         expect(response_data.pluck('id')).not_to include(csat_10_days_ago.id)
       end
@@ -63,7 +63,7 @@ RSpec.describe 'CSAT Survey Responses API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        response_data = JSON.parse(response.body)
+        response_data = response.parsed_body
         expect(response_data.size).to eq 2
       end
 
@@ -104,7 +104,7 @@ RSpec.describe 'CSAT Survey Responses API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        response_data = JSON.parse(response.body)
+        response_data = response.parsed_body
         expect(response_data['total_count']).to eq 1
         expect(response_data['total_sent_messages_count']).to eq 0
         expect(response_data['ratings_count']).to eq({ '1' => 1 })
@@ -123,7 +123,7 @@ RSpec.describe 'CSAT Survey Responses API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        response_data = JSON.parse(response.body)
+        response_data = response.parsed_body
         expect(response_data['total_count']).to eq 1
         expect(response_data['total_sent_messages_count']).to eq 0
         expect(response_data['ratings_count']).to eq({ '1' => 1 })
@@ -144,7 +144,7 @@ RSpec.describe 'CSAT Survey Responses API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        response_data = JSON.parse(response.body)
+        response_data = response.parsed_body
         expect(response_data['total_count']).to eq 2
         expect(response_data['total_sent_messages_count']).to eq 0
         expect(response_data['ratings_count']).to eq({ '1' => 2 })

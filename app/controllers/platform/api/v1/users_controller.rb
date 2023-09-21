@@ -5,6 +5,8 @@ class Platform::Api::V1::UsersController < PlatformController
   before_action(only: [:login]) { set_resource }
   before_action(only: [:login]) { validate_platform_app_permissible }
 
+  def show; end
+
   def create
     @resource = (User.find_by(email: user_params[:email]) || User.new(user_params))
     @resource.skip_confirmation!
@@ -15,8 +17,6 @@ class Platform::Api::V1::UsersController < PlatformController
   def login
     render json: { url: @resource.generate_sso_link }
   end
-
-  def show; end
 
   def update
     @resource.assign_attributes(user_update_params)

@@ -1,11 +1,14 @@
 <template>
-  <div class="filters">
-    <div class="filter" :class="{ error: v.values.$dirty && v.values.$error }">
-      <div class="filter-inputs">
+  <div>
+    <div
+      class="rounded-md p-2 border border-solid"
+      :class="getInputErrorClass(v.values.$dirty, v.values.$error)"
+    >
+      <div class="flex">
         <select
           v-if="groupedFilters"
           v-model="attributeKey"
-          class="filter__question"
+          class="bg-white max-w-[30%] dark:bg-slate-900 mb-0 mr-1 text-slate-800 dark:text-slate-100 border-slate-75 dark:border-slate-600"
           @change="resetFilter()"
         >
           <optgroup
@@ -25,7 +28,7 @@
         <select
           v-else
           v-model="attributeKey"
-          class="filter__question"
+          class="bg-white max-w-[30%] dark:bg-slate-900 mb-0 mr-1 text-slate-800 dark:text-slate-100 border-slate-75 dark:border-slate-600"
           @change="resetFilter()"
         >
           <option
@@ -38,7 +41,10 @@
           </option>
         </select>
 
-        <select v-model="filterOperator" class="filter__operator">
+        <select
+          v-model="filterOperator"
+          class="bg-white dark:bg-slate-900 max-w-[20%] mb-0 mr-1 text-slate-800 dark:text-slate-100 border-slate-75 dark:border-slate-600"
+        >
           <option
             v-for="(operator, o) in operators"
             :key="o"
@@ -48,7 +54,7 @@
           </option>
         </select>
 
-        <div v-if="showUserInput" class="filter__answer--wrap">
+        <div v-if="showUserInput" class="filter__answer--wrap mr-1 flex-grow">
           <div
             v-if="inputType === 'multi_select'"
             class="multiselect-wrap--small"
@@ -90,14 +96,14 @@
               v-model="values"
               type="date"
               :editable="false"
-              class="answer--text-input datepicker"
+              class="mb-0 datepicker"
             />
           </div>
           <input
             v-else
             v-model="values"
             type="text"
-            class="answer--text-input"
+            class="mb-0"
             placeholder="Enter value"
           />
         </div>
@@ -113,9 +119,17 @@
       </p>
     </div>
 
-    <div v-if="showQueryOperator" class="filter__join-operator">
-      <hr class="operator__line" />
-      <select v-model="query_operator" class="operator__select">
+    <div
+      v-if="showQueryOperator"
+      class="flex items-center justify-center relative my-2.5 mx-0"
+    >
+      <hr
+        class="w-full absolute border-b border-solid border-slate-75 dark:border-slate-800"
+      />
+      <select
+        v-model="query_operator"
+        class="bg-white dark:bg-slate-900 mb-0 w-auto relative text-slate-800 dark:text-slate-100 border-slate-75 dark:border-slate-600"
+      >
         <option value="and">
           {{ $t('FILTER.QUERY_DROPDOWN_LABELS.AND') }}
         </option>
@@ -254,86 +268,26 @@ export default {
     resetFilter() {
       this.$emit('resetFilter');
     },
+    getInputErrorClass(isDirty, hasError) {
+      return isDirty && hasError
+        ? 'bg-red-50 dark:bg-red-800/50 border-red-100 dark:border-red-700/50'
+        : 'bg-slate-50 dark:bg-slate-800 border-slate-75 dark:border-slate-700/50';
+    },
   },
 };
 </script>
 <style lang="scss" scoped>
-.filter {
-  background: var(--color-background);
-  padding: var(--space-small);
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius-medium);
-}
-
-.filter.error {
-  background: var(--r-50);
-}
-
-.filter-inputs {
-  display: flex;
+.filter__answer--wrap {
+  input {
+    @apply bg-white dark:bg-slate-900 mb-0 text-slate-800 dark:text-slate-100 border-slate-75 dark:border-slate-600;
+  }
 }
 
 .filter-error {
-  color: var(--r-500);
-  display: block;
-  margin: var(--space-smaller) 0;
-}
-
-.filter__question,
-.filter__operator {
-  margin-bottom: var(--space-zero);
-  margin-right: var(--space-smaller);
-}
-
-.filter__question {
-  max-width: 30%;
-}
-
-.filter__operator {
-  max-width: 20%;
-}
-
-.filter__answer--wrap {
-  margin-right: var(--space-smaller);
-  flex-grow: 1;
-
-  input {
-    margin-bottom: 0;
-  }
-}
-.filter__answer {
-  &.answer--text-input {
-    margin-bottom: var(--space-zero);
-  }
-}
-
-.filter__join-operator-wrap {
-  position: relative;
-  z-index: var(--z-index-twenty);
-  margin: var(--space-zero);
-}
-
-.filter__join-operator {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  margin: var(--space-one) var(--space-zero);
-
-  .operator__line {
-    position: absolute;
-    width: 100%;
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .operator__select {
-    position: relative;
-    width: auto;
-    margin-bottom: var(--space-zero) !important;
-  }
+  @apply text-red-500 dark:text-red-200 block my-1 mx-0;
 }
 
 .multiselect {
-  margin-bottom: var(--space-zero);
+  @apply mb-0;
 }
 </style>

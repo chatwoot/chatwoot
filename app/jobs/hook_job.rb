@@ -1,7 +1,9 @@
 class HookJob < ApplicationJob
-  queue_as :integrations
+  queue_as :medium
 
   def perform(hook, event_name, event_data = {})
+    return if hook.disabled?
+
     case hook.app_id
     when 'slack'
       process_slack_integration(hook, event_name, event_data)
@@ -20,8 +22,11 @@ class HookJob < ApplicationJob
     return unless ['message.created'].include?(event_name)
 
     message = event_data[:message]
-
-    Integrations::Slack::SendOnSlackService.new(message: message, hook: hook).perform
+    if message.attachments.blank?
+      ::SendOnSlackJob.perform_later(message, hook)
+    else
+      ::SendOnSlackJob.set(wait: 2.seconds).perform_later(message, hook)
+    end
   end
 
   def process_dialogflow_integration(hook, event_name, event_data)

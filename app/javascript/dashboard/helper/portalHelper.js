@@ -8,8 +8,8 @@ export const buildPortalArticleURL = (
   portalSlug,
   categorySlug,
   locale,
-  articleId
+  articleSlug
 ) => {
   const portalURL = buildPortalURL(portalSlug);
-  return `${portalURL}/${locale}/${categorySlug}/${articleId}`;
+  return `${portalURL}/articles/${articleSlug}`;
 };

@@ -5,8 +5,8 @@ FactoryBot.define do
 
     before(:create) do |channel_telegram|
       # we are skipping some of the validation methods
-      channel_telegram.define_singleton_method(:ensure_valid_bot_token) { return }
-      channel_telegram.define_singleton_method(:setup_telegram_webhook) { return }
+      channel_telegram.define_singleton_method(:ensure_valid_bot_token) { nil }
+      channel_telegram.define_singleton_method(:setup_telegram_webhook) { nil }
     end
 
     after(:create) do |channel_telegram|

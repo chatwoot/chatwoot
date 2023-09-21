@@ -1,5 +1,5 @@
 <template>
-  <div class="column content-box">
+  <div class="h-auto overflow-auto flex flex-col">
     <woot-modal-header
       :header-title="$t('INTEGRATION_SETTINGS.WEBHOOK.ADD.TITLE')"
       :header-content="

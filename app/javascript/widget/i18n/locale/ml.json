@@ -19,12 +19,24 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "സാധാരണയായി കുറച്ച് മിനിറ്റിനുള്ളിൽ മറുപടി നൽകുന്നു",
     "IN_A_FEW_HOURS": "സാധാരണയായി കുറച്ച് മണിക്കൂറിനുള്ളിൽ മറുപടി നൽകുന്നു",
-    "IN_A_DAY": "സാധാരണയായി ഒരു ദിവസത്തിൽ മറുപടി നൽകുന്നു"
+    "IN_A_DAY": "സാധാരണയായി ഒരു ദിവസത്തിൽ മറുപടി നൽകുന്നു",
+    "BACK_IN": "We will be back online"
   },
+  "DAY_NAMES": [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ],
   "START_CONVERSATION": "സംഭാഷണം ആരംഭിക്കുക",
   "END_CONVERSATION": "End Conversation",
   "CONTINUE_CONVERSATION": "Continue conversation",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "ഒരു പുതിയ സംഭാഷണം ആരംഭിക്കുക",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "പുതിയ സന്ദേശങ്ങൾ കാണുക",
     "CLOSE_MESSAGES_BUTTON": "അടയ്ക്കുക",
@@ -56,7 +68,9 @@
         "LABEL": "ഫോൺ നമ്പർ",
         "PLACEHOLDER": "Please enter your phone number",
         "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "DIAL_CODE_VALID_ERROR": "Please select a country code",
+        "VALID_ERROR": "Please enter a valid phone number",
+        "DROPDOWN_EMPTY": "ഒരു ഫലവും കണ്ടെത്താനായില്ല"
       },
       "MESSAGE": {
         "LABEL": "സന്ദേശം",
@@ -92,6 +106,31 @@
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Click here to join",
       "LEAVE_THE_ROOM": "Leave the call"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "ചിത്ര സന്ദേശം"
+    },
+    "audio": {
+      "CONTENT": "ഓഡിയോ സന്ദേശം"
+    },
+    "video": {
+      "CONTENT": "വീഡിയോ സന്ദേശം"
+    },
+    "file": {
+      "CONTENT": "ഫയൽ അറ്റാച്ചുമെന്റ്"
+    },
+    "location": {
+      "CONTENT": "സ്ഥാനം"
+    },
+    "fallback": {
+      "CONTENT": "ഒരു യു. ആർ. എൽ പങ്കിട്ടു"
     }
   }
 }

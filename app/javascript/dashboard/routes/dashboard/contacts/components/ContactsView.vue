@@ -1,18 +1,20 @@
 <template>
-  <div class="contacts-page row">
-    <div class="left-wrap" :class="wrapClas">
+  <div class="w-full flex flex-row">
+    <div class="flex flex-col h-full" :class="wrapClass">
       <contacts-header
         :search-query="searchQuery"
-        :segments-id="segmentsId"
-        :on-search-submit="onSearchSubmit"
-        this-selected-contact-id=""
-        :on-input-search="onInputSearch"
-        :on-toggle-create="onToggleCreate"
-        :on-toggle-import="onToggleImport"
-        :on-toggle-filter="onToggleFilters"
         :header-title="pageTitle"
+        :segments-id="segmentsId"
+        this-selected-contact-id=""
+        @on-input-search="onInputSearch"
+        @on-toggle-create="onToggleCreate"
+        @on-toggle-filter="onToggleFilters"
+        @on-search-submit="onSearchSubmit"
+        @on-toggle-import="onToggleImport"
+        @on-export-submit="onExportSubmit"
         @on-toggle-save-filter="onToggleSaveFilters"
         @on-toggle-delete-filter="onToggleDeleteFilters"
+        @on-toggle-edit-filter="onToggleFilters"
       />
       <contacts-table
         :contacts="records"
@@ -58,14 +60,18 @@
     </woot-modal>
     <woot-modal
       :show.sync="showFiltersModal"
-      :on-close="onToggleFilters"
+      :on-close="closeAdvanceFiltersModal"
       size="medium"
     >
       <contacts-advanced-filters
         v-if="showFiltersModal"
-        :on-close="onToggleFilters"
+        :on-close="closeAdvanceFiltersModal"
         :initial-filter-types="contactFilterItems"
+        :initial-applied-filters="appliedFilter"
+        :active-segment-name="activeSegmentName"
+        :is-segments-view="hasActiveSegments"
         @applyFilter="onApplyFilter"
+        @updateSegment="onUpdateSegment"
         @clearFilters="clearFilters"
       />
     </woot-modal>
@@ -75,18 +81,21 @@
 <script>
 import { mapGetters } from 'vuex';
 
-import ContactsHeader from './Header';
-import ContactsTable from './ContactsTable';
-import ContactInfoPanel from './ContactInfoPanel';
-import CreateContact from 'dashboard/routes/dashboard/conversation/contact/CreateContact';
-import TableFooter from 'dashboard/components/widgets/TableFooter';
+import ContactsHeader from './Header.vue';
+import ContactsTable from './ContactsTable.vue';
+import ContactInfoPanel from './ContactInfoPanel.vue';
+import CreateContact from 'dashboard/routes/dashboard/conversation/contact/CreateContact.vue';
+import TableFooter from 'dashboard/components/widgets/TableFooter.vue';
 import ImportContacts from './ImportContacts.vue';
 import ContactsAdvancedFilters from './ContactsAdvancedFilters.vue';
 import contactFilterItems from '../contactFilterItems';
 import filterQueryGenerator from '../../../../helper/filterQueryGenerator';
-import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews';
-import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews';
+import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews.vue';
+import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
 import { CONTACTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
+import alertMixin from 'shared/mixins/alertMixin';
+import countries from 'shared/constants/countries.js';
+import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
 
 const DEFAULT_PAGE = 1;
 const FILTER_TYPE_CONTACT = 1;
@@ -103,6 +112,7 @@ export default {
     AddCustomViews,
     DeleteCustomViews,
   },
+  mixins: [alertMixin],
   props: {
     label: { type: String, default: '' },
     segmentsId: {
@@ -128,6 +138,7 @@ export default {
       filterType: FILTER_TYPE_CONTACT,
       showAddSegmentsModal: false,
       showDeleteSegmentsModal: false,
+      appliedFilter: [],
     };
   },
   computed: {
@@ -175,8 +186,8 @@ export default {
     showContactViewPane() {
       return this.selectedContactId !== '';
     },
-    wrapClas() {
-      return this.showContactViewPane ? 'medium-9' : 'medium-12';
+    wrapClass() {
+      return this.showContactViewPane ? 'w-[75%]' : 'w-full';
     },
     pageParameter() {
       const selectedPageNumber = Number(this.$route.query?.page);
@@ -193,6 +204,9 @@ export default {
         return firstValue;
       }
       return undefined;
+    },
+    activeSegmentName() {
+      return this.activeSegment?.name;
     },
   },
   watch: {
@@ -345,7 +359,14 @@ export default {
       });
     },
     onToggleFilters() {
-      this.showFiltersModal = !this.showFiltersModal;
+      if (this.hasActiveSegments) {
+        this.initializeSegmentToFilterModal(this.activeSegment);
+      }
+      this.showFiltersModal = true;
+    },
+    closeAdvanceFiltersModal() {
+      this.showFiltersModal = false;
+      this.appliedFilter = [];
     },
     onApplyFilter(payload) {
       this.closeContactInfoPanel();
@@ -355,9 +376,68 @@ export default {
       });
       this.showFiltersModal = false;
     },
+    onUpdateSegment(payload, segmentName) {
+      const payloadData = {
+        ...this.activeSegment,
+        name: segmentName,
+        query: filterQueryGenerator(payload),
+      };
+      this.$store.dispatch('customViews/update', payloadData);
+      this.closeAdvanceFiltersModal();
+    },
     clearFilters() {
       this.$store.dispatch('contacts/clearContactFilters');
       this.fetchContacts(this.pageParameter);
+    },
+    onExportSubmit() {
+      try {
+        this.$store.dispatch('contacts/export');
+        this.showAlert(this.$t('EXPORT_CONTACTS.SUCCESS_MESSAGE'));
+      } catch (error) {
+        this.showAlert(
+          error.message || this.$t('EXPORT_CONTACTS.ERROR_MESSAGE')
+        );
+      }
+    },
+    setParamsForEditSegmentModal() {
+      // Here we are setting the params for edit segment modal to show the existing values.
+
+      // For custom attributes we get only attribute key.
+      // So we are mapping it to find the input type of the attribute to show in the edit segment modal.
+      const params = {
+        countries: countries,
+        filterTypes: contactFilterItems,
+        allCustomAttributes: this.$store.getters[
+          'attributes/getAttributesByModel'
+        ]('contact_attribute'),
+      };
+      return params;
+    },
+    initializeSegmentToFilterModal(activeSegment) {
+      // Here we are setting the params for edit segment modal.
+      //  To show the existing values. when we click on edit segment button.
+
+      // Here we get the query from the active segment.
+      // And we are mapping the query to the actual values.
+      // To show in the edit segment modal by the help of generateValuesForEditCustomViews helper.
+      const query = activeSegment?.query?.payload;
+      if (!Array.isArray(query)) return;
+
+      this.appliedFilter.push(
+        ...query.map(filter => ({
+          attribute_key: filter.attribute_key,
+          attribute_model: filter.attribute_model,
+          filter_operator: filter.filter_operator,
+          values: Array.isArray(filter.values)
+            ? generateValuesForEditCustomViews(
+                filter,
+                this.setParamsForEditSegmentModal()
+              )
+            : [],
+          query_operator: filter.query_operator,
+          custom_attribute_type: filter.custom_attribute_type,
+        }))
+      );
     },
     openSavedItemInSegment() {
       const lastItemInSegments = this.segments[this.segments.length - 1];
@@ -378,15 +458,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.contacts-page {
-  width: 100%;
-}
-
-.left-wrap {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-</style>

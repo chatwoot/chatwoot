@@ -128,13 +128,13 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
 
         expect(account.automation_rules.count).to eq(0)
 
-        post "/api/v1/accounts/#{account.id}/automation_rules/attach_file",
+        post "/api/v1/accounts/#{account.id}/upload/",
              headers: administrator.create_new_auth_token,
              params: { attachment: file }
 
         expect(response).to have_http_status(:success)
 
-        blob = JSON.parse(response.body)
+        blob = response.parsed_body
 
         expect(blob['blob_key']).to be_present
         expect(blob['blob_id']).to be_present
@@ -163,17 +163,17 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
         file_1 = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
         file_2 = fixture_file_upload(Rails.root.join('spec/assets/sample.png'), 'image/png')
 
-        post "/api/v1/accounts/#{account.id}/automation_rules/attach_file",
+        post "/api/v1/accounts/#{account.id}/upload/",
              headers: administrator.create_new_auth_token,
              params: { attachment: file_1 }
 
-        blob_1 = JSON.parse(response.body)
+        blob_1 = response.parsed_body
 
-        post "/api/v1/accounts/#{account.id}/automation_rules/attach_file",
+        post "/api/v1/accounts/#{account.id}/upload/",
              headers: administrator.create_new_auth_token,
              params: { attachment: file_2 }
 
-        blob_2 = JSON.parse(response.body)
+        blob_2 = response.parsed_body
 
         params[:actions] = [
           {

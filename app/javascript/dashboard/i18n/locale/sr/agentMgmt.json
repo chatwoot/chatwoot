@@ -110,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "Traži agente",
-          "TEAM": "Traži tim"
+          "TEAM": "Traži tim",
+          "INPUT": "Search for agents"
         }
       }
     }

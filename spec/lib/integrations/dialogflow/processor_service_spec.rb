@@ -150,7 +150,7 @@ describe Integrations::Dialogflow::ProcessorService do
   end
 
   describe '#get_response' do
-    let(:google_dialogflow) { Google::Cloud::Dialogflow }
+    let(:google_dialogflow) { Google::Cloud::Dialogflow::V2::Sessions::Client }
     let(:session_client) { double }
     let(:session) { double }
     let(:query_input) { { text: { text: message, language_code: 'en-US' } } }
@@ -158,8 +158,7 @@ describe Integrations::Dialogflow::ProcessorService do
 
     before do
       hook.update(settings: { 'project_id' => 'test', 'credentials' => 'creds' })
-      allow(google_dialogflow).to receive(:sessions).and_return(session_client)
-      allow(session_client).to receive(:session_path).and_return(session)
+      allow(google_dialogflow).to receive(:new).and_return(session_client)
       allow(session_client).to receive(:detect_intent).and_return({ session: session, query_input: query_input })
     end
 

@@ -1,13 +1,13 @@
 <template>
   <li class="sub-menu-container">
     <ul class="sub-menu-li-container">
-      <woot-dropdown-header :title="title" />
+      <woot-dropdown-header v-if="title" :title="title" />
       <slot />
     </ul>
   </li>
 </template>
 <script>
-import WootDropdownHeader from 'shared/components/ui/dropdown/DropdownHeader';
+import WootDropdownHeader from 'shared/components/ui/dropdown/DropdownHeader.vue';
 
 export default {
   name: 'WootDropdownMenu',

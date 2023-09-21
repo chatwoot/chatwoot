@@ -110,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "Cerca agents",
-          "TEAM": "Cerca equips"
+          "TEAM": "Cerca equips",
+          "INPUT": "Search for agents"
         }
       }
     }

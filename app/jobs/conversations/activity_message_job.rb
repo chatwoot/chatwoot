@@ -1,5 +1,5 @@
 class Conversations::ActivityMessageJob < ApplicationJob
-  queue_as :default
+  queue_as :high
 
   def perform(conversation, message_params)
     conversation.messages.create!(message_params)

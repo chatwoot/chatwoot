@@ -31,9 +31,18 @@
 
       <settings-section
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_VERIFICATION')"
-        :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_DESCRIPTION')"
       >
         <woot-code :script="inbox.hmac_token" />
+        <template #subTitle>
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.HMAC_DESCRIPTION') }}
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://www.chatwoot.com/docs/product/channels/live-chat/sdk/identity-validation/"
+          >
+            {{ $t('INBOX_MGMT.SETTINGS_POPUP.HMAC_LINK_TO_DOCS') }}
+          </a>
+        </template>
       </settings-section>
       <settings-section
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_VERIFICATION')"
@@ -146,10 +155,10 @@
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
 import inboxMixin from 'shared/mixins/inboxMixin';
-import SettingsSection from '../../../../../components/SettingsSection';
-import ImapSettings from '../ImapSettings';
-import SmtpSettings from '../SmtpSettings';
-import MicrosoftReauthorize from '../channels/microsoft/Reauthorize';
+import SettingsSection from '../../../../../components/SettingsSection.vue';
+import ImapSettings from '../ImapSettings.vue';
+import SmtpSettings from '../SmtpSettings.vue';
+import MicrosoftReauthorize from '../channels/microsoft/Reauthorize.vue';
 import { required } from 'vuelidate/lib/validators';
 
 export default {
@@ -242,5 +251,9 @@ export default {
       margin-bottom: 0;
     }
   }
+}
+
+.hmac-link-to-docs {
+  margin-top: var(--space-small);
 }
 </style>

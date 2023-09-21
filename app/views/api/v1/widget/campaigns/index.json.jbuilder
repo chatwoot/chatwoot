@@ -3,5 +3,5 @@ json.array! @campaigns do |campaign|
   json.trigger_rules campaign.trigger_rules
   json.trigger_only_during_business_hours campaign.trigger_only_during_business_hours
   json.message campaign.message
-  json.sender campaign.sender&.slice(:name, :avatar_url)
+  json.sender campaign.sender&.push_event_data
 end

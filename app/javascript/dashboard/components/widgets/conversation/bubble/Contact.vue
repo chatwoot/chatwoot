@@ -2,7 +2,9 @@
   <div class="contact--group">
     <fluent-icon icon="call" class="file--icon" size="18" />
     <div class="meta">
-      <p class="text-truncate margin-bottom-0">
+      <p
+        class="overflow-hidden whitespace-nowrap text-ellipsis margin-bottom-0"
+      >
         {{ phoneNumber }}
       </p>
     </div>

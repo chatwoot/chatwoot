@@ -1,26 +1,26 @@
 {
   "MACROS": {
-    "HEADER": "Macros",
-    "HEADER_BTN_TXT": "Add a new macro",
-    "HEADER_BTN_TXT_SAVE": "Save macro",
-    "LOADING": "Fetching macros",
-    "SIDEBAR_TXT": "<p><b>Macros</b><p>A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click. When the agents run the macro, the actions would be performed sequentially in the order they are defined. Macros improve productivity and increase consistency in actions. </p><p>A macro can be helpful in 2 ways. </p><p><b>As an agent assist:</b> If an agent performs a set of actions multiple times, they can save it as a macro and execute all the actions together using a single click.</p><p><b>As an option to onboard a team member:</b> Every agent has to perform many different checks/actions during each conversation. Onboarding a new support team member will be easy if pre-defined macros are available on the account. Instead of describing each step in detail, the manager/team lead can point to the macros used in different scenarios.</p>",
-    "ERROR": "Something went wrong. Please try again",
-    "ORDER_INFO": "Macros will run in the order you add your actions. You can rearrange them by dragging them by the handle beside each node.",
+    "HEADER": "Макрос",
+    "HEADER_BTN_TXT": "Добавить новый макрос",
+    "HEADER_BTN_TXT_SAVE": "Сохранить макрос",
+    "LOADING": "Получение макроса",
+    "SIDEBAR_TXT": "<p><b>Макросы</b><p>Макрос - это набор сохраненных действий, которые помогают агентам обслуживания клиентов легко выполнять задачи. Агенты могут определить набор действий, таких как метка разговора с меткой, отправка субтитров электронной почты, обновление пользовательских атрибутов и т.д. и они могут выполнить эти действия одним щелчком. Когда агенты запускают макрос, действия будут выполняться последовательно в порядке их определения. Макросы повышают производительность и последовательность действий. </p><p>Макро может быть полезен двумя способами. </p><p><b>Как помощник агента:</b> Если агент выполняет набор действий несколько раз, они могут сохранить его в виде макроса и выполнить все действия вместе одним щелчком мыши.</p><p><b>Как вариант на борту члена команды:</b> Во время каждого разговора каждый агент должен выполнять много различных чеков/действий. Создание нового участника службы поддержки будет легко, если предварительно заданные макросы будут доступны на аккаунте. Вместо подробного описания каждого шага, менеджер / команда может указывать на макросы, используемые в различных сценариях.</p>",
+    "ERROR": "Что-то пошло не так. Попробуйте еще раз",
+    "ORDER_INFO": "Макросы будут выполняться в том порядке, в котором вы добавите ваши действия. Вы можете изменить их порядок, перетаскивая их ручкой рядом с каждым узлом.",
     "ADD": {
       "FORM": {
         "NAME": {
-          "LABEL": "Macro name",
-          "PLACEHOLDER": "Enter a name for your macro",
-          "ERROR": "Name is required for creating a macro"
+          "LABEL": "Название макроса",
+          "PLACEHOLDER": "Введите имя для макроса",
+          "ERROR": "Имя обязательно для создания макроса"
         },
         "ACTIONS": {
           "LABEL": "Действия"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Macro added successfully",
-        "ERROR_MESSAGE": "Unable to create macro, Please try again later"
+        "SUCCESS_MESSAGE": "Макрос успешно добавлен",
+        "ERROR_MESSAGE": "Не удается создать макрос, пожалуйста, повторите попытку позже"
       }
     },
     "LIST": {
@@ -30,42 +30,42 @@
         "Обновлено",
         "Видимость"
       ],
-      "404": "No macros found"
+      "404": "Макросы не найдены"
     },
     "DELETE": {
-      "TOOLTIP": "Delete macro",
+      "TOOLTIP": "Удалить макрос",
       "CONFIRM": {
         "MESSAGE": "Вы точно хотите удалить ",
         "YES": "Да, удалить",
         "NO": "Нет"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Macro deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the macro. Please try again later"
+        "SUCCESS_MESSAGE": "Макрос успешно удален",
+        "ERROR_MESSAGE": "Произошла ошибка при удалении макроса. Пожалуйста, повторите попытку позже"
       }
     },
     "EDIT": {
-      "TOOLTIP": "Edit macro",
+      "TOOLTIP": "Изменить макрос",
       "API": {
-        "SUCCESS_MESSAGE": "Macro updated successfully",
-        "ERROR_MESSAGE": "Could not update Macro, Please try again later"
+        "SUCCESS_MESSAGE": "Макрос успешно обновлен",
+        "ERROR_MESSAGE": "Не удалось обновить Macro, пожалуйста, повторите попытку позже"
       }
     },
     "EDITOR": {
-      "START_FLOW": "Start Flow",
-      "END_FLOW": "End Flow",
-      "LOADING": "Fetching macro",
-      "ADD_BTN_TOOLTIP": "Add new action",
-      "DELETE_BTN_TOOLTIP": "Delete Action",
+      "START_FLOW": "Начало потока",
+      "END_FLOW": "Конец потока",
+      "LOADING": "Получение макроса",
+      "ADD_BTN_TOOLTIP": "Добавить новое действие",
+      "DELETE_BTN_TOOLTIP": "Удалить действие",
       "VISIBILITY": {
-        "LABEL": "Macro Visibility",
+        "LABEL": "Видимость макроса",
         "GLOBAL": {
-          "LABEL": "Public",
-          "DESCRIPTION": "This macro is available publicly for all agents in this account."
+          "LABEL": "Публичный",
+          "DESCRIPTION": "Этот макрос доступен всем агентам на этом аккаунте."
         },
         "PERSONAL": {
-          "LABEL": "Private",
-          "DESCRIPTION": "This macro will be private to you and not be available to others."
+          "LABEL": "Приватный",
+          "DESCRIPTION": "Этот макрос будет приватным для вас и не будет доступен для других."
         }
       }
     },

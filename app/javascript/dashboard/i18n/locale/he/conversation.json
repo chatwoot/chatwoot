@@ -12,6 +12,10 @@
     "NO_INBOX_2": " להתחיל",
     "NO_INBOX_AGENT": "או - או! נראה שאתה לא חלק מתיבת דואר נכנס כלשהי. אנא פנה למנהל המערכת שלך",
     "SEARCH_MESSAGES": "חפש הודעות בשיחות",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "חפש הודעות",
       "RESULT_TITLE": "תוצאות חיפוש",
@@ -37,6 +41,7 @@
     "UNKNOWN_FILE_TYPE": "קובץ לא ידוע",
     "SAVE_CONTACT": "שמור",
     "UPLOADING_ATTACHMENTS": "מעלה קובץ מצורף...",
+    "REPLIED_TO_STORY": "Replied to your story",
     "SUCCESS_DELETE_MESSAGE": "ההודעה נמחקה בהצלחה",
     "FAIL_DELETE_MESSSAGE": "לא ניתן למחוק את ההודעה! נסה שוב",
     "NO_RESPONSE": "אין תגובה",
@@ -53,17 +58,41 @@
       "OPEN": "עוד",
       "CLOSE": "סגור",
       "DETAILS": "פרטים",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "נמנם עד מחר",
       "SNOOZED_UNTIL_NEXT_WEEK": "נמנם עד שבוע הבא",
       "SNOOZED_UNTIL_NEXT_REPLY": "נמנם עד תגובה הבאה"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "סמן כממתין",
+      "SNOOZE_UNTIL": "נודניק",
       "SNOOZE": {
         "TITLE": "השהה עד",
         "NEXT_REPLY": "תגובה הבאה",
         "TOMORROW": "מחר",
         "NEXT_WEEK": "שבוע הבא"
+      }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "השהה עד",
+      "APPLY": "נודניק",
+      "CANCEL": "ביטול"
+    },
+    "PRIORITY": {
+      "TITLE": "Priority",
+      "OPTIONS": {
+        "NONE": "כלום",
+        "URGENT": "Urgent",
+        "HIGH": "High",
+        "MEDIUM": "Medium",
+        "LOW": "Low"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "כלום",
+        "INPUT_PLACEHOLDER": "Select priority",
+        "NO_RESULTS": "לא נמצאו תוצאות",
+        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "FAILED": "Couldn't change priority. Please try again."
       }
     },
     "CARD_CONTEXT_MENU": {
@@ -122,6 +151,7 @@
       "STOP_AUDIO_RECORDING": "עצור הקלטת אודיו",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "הוסף bcc",
         "CC": {
           "LABEL": "CC",

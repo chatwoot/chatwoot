@@ -4,26 +4,26 @@
       :header-title="$t('HELP_CENTER.CATEGORY.ADD.TITLE')"
       :header-content="$t('HELP_CENTER.CATEGORY.ADD.SUB_TITLE')"
     />
-    <form class="row" @submit.prevent="onCreate">
-      <div class="medium-12 columns">
-        <div class="row article-info">
-          <div class="columns medium-6">
+    <form class="w-full" @submit.prevent="onCreate">
+      <div class="w-full">
+        <div class="flex flex-row w-full mt-0 mx-0 mb-4">
+          <div class="w-[50%]">
             <label>
               <span>{{ $t('HELP_CENTER.CATEGORY.ADD.PORTAL') }}</span>
-              <p class="value">{{ portalName }}</p>
+              <p class="text-slate-600 dark:text-slate-400">{{ portalName }}</p>
             </label>
           </div>
-          <div class="columns medium-6">
+          <div class="w-[50%]">
             <label>
               <span>{{ $t('HELP_CENTER.CATEGORY.ADD.LOCALE') }}</span>
-              <p class="value">{{ locale }}</p>
+              <p class="text-slate-600 dark:text-slate-400">{{ locale }}</p>
             </label>
           </div>
         </div>
         <woot-input
           v-model.trim="name"
           :class="{ error: $v.name.$error }"
-          class="medium-12 columns"
+          class="w-full"
           :error="nameError"
           :label="$t('HELP_CENTER.CATEGORY.ADD.NAME.LABEL')"
           :placeholder="$t('HELP_CENTER.CATEGORY.ADD.NAME.PLACEHOLDER')"
@@ -33,7 +33,7 @@
         <woot-input
           v-model.trim="slug"
           :class="{ error: $v.slug.$error }"
-          class="medium-12 columns"
+          class="w-full"
           :error="slugError"
           :label="$t('HELP_CENTER.CATEGORY.ADD.SLUG.LABEL')"
           :placeholder="$t('HELP_CENTER.CATEGORY.ADD.SLUG.PLACEHOLDER')"
@@ -51,8 +51,8 @@
             "
           />
         </label>
-        <div class="medium-12 columns">
-          <div class="modal-footer justify-content-end w-full">
+        <div class="w-full">
+          <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
             <woot-button class="button clear" @click.prevent="onClose">
               {{ $t('HELP_CENTER.CATEGORY.ADD.BUTTONS.CANCEL') }}
             </woot-button>
@@ -174,19 +174,11 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.article-info {
-  width: 100%;
-  margin: 0 0 var(--space-normal);
-  .value {
-    color: var(--s-600);
-  }
-}
-
 .input-container::v-deep {
-  margin: 0 0 var(--space-normal);
+  @apply mt-0 mb-4 mx-0;
 
   input {
-    margin-bottom: 0;
+    @apply mb-0;
   }
 }
 </style>

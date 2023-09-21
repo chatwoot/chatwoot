@@ -1,50 +1,55 @@
 {
-    "CONTACTS_FILTER": {
-        "TITLE": "تصفية جهات الاتصال",
-        "SUBTITLE": "إضافة فلاتر أدناه واضغط على 'إرسال' لتصفية جهات الاتصال.",
-        "ADD_NEW_FILTER": "إضافة فلتر",
-        "CLEAR_ALL_FILTERS": "مسح جميع الفلاتر",
-        "FILTER_DELETE_ERROR": "يجب ان يكون لديك فلتر واحد على الاقل",
-        "SUBMIT_BUTTON_LABEL": "إرسال",
-        "CANCEL_BUTTON_LABEL": "إلغاء",
-        "CLEAR_BUTTON_LABEL": "مسح الفلاتر",
-        "EMPTY_VALUE_ERROR": "القيمة مطلوبة",
-        "TOOLTIP_LABEL": "تصفية جهات الاتصال",
-        "QUERY_DROPDOWN_LABELS": {
-            "AND": "و",
-            "OR": "أو"
-        },
-        "OPERATOR_LABELS": {
-            "equal_to": "يساوي",
-            "not_equal_to": "لا يساوي",
-            "contains": "يحتوي",
-            "does_not_contain": "لا يحتوي",
-            "is_present": "موجود",
-            "is_not_present": "غير موجود",
-            "is_greater_than": "هو أكبر من",
-            "is_lesser_than": "هو أقل من",
-            "days_before": "قبل x أيام"
-        },
-        "ATTRIBUTES": {
-            "NAME": "الاسم",
-            "EMAIL": "البريد الإلكتروني",
-            "PHONE_NUMBER": "رقم الهاتف",
-            "IDENTIFIER": "المعرف",
-            "CITY": "المدينة",
-            "COUNTRY": "الدولة",
-            "CUSTOM_ATTRIBUTE_LIST": "القائمة",
-            "CUSTOM_ATTRIBUTE_TEXT": "النص",
-            "CUSTOM_ATTRIBUTE_NUMBER": "العدد",
-            "CUSTOM_ATTRIBUTE_LINK": "الرابط",
-            "CUSTOM_ATTRIBUTE_CHECKBOX": "مربع",
-            "CREATED_AT": "تم إنشاؤها في",
-            "LAST_ACTIVITY": "آخر نشاط",
-            "REFERER_LINK": "رابط المرجع"
-        },
-        "GROUPS": {
-            "STANDARD_FILTERS": "الفلاتر القياسية",
-            "ADDITIONAL_FILTERS": "فلاتر إضافية",
-            "CUSTOM_ATTRIBUTES": "سمات مخصصة"
-        }
+  "CONTACTS_FILTER": {
+    "TITLE": "تصفية جهات الاتصال",
+    "SUBTITLE": "إضافة فلاتر أدناه واضغط على 'إرسال' لتصفية جهات الاتصال.",
+    "EDIT_CUSTOM_SEGMENT": "Edit Segment",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your segment.",
+    "ADD_NEW_FILTER": "إضافة فلتر",
+    "CLEAR_ALL_FILTERS": "مسح جميع الفلاتر",
+    "FILTER_DELETE_ERROR": "يجب ان يكون لديك فلتر واحد على الاقل",
+    "SUBMIT_BUTTON_LABEL": "إرسال",
+    "UPDATE_BUTTON_LABEL": "Update Segment",
+    "CANCEL_BUTTON_LABEL": "إلغاء",
+    "CLEAR_BUTTON_LABEL": "مسح الفلاتر",
+    "EMPTY_VALUE_ERROR": "القيمة مطلوبة",
+    "SEGMENT_LABEL": "Segment Name",
+    "SEGMENT_QUERY_LABEL": "Segment Query",
+    "TOOLTIP_LABEL": "تصفية جهات الاتصال",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "و",
+      "OR": "أو"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "يساوي",
+      "not_equal_to": "لا يساوي",
+      "contains": "يحتوي",
+      "does_not_contain": "لا يحتوي",
+      "is_present": "موجود",
+      "is_not_present": "غير موجود",
+      "is_greater_than": "هو أكبر من",
+      "is_lesser_than": "هو أقل من",
+      "days_before": "قبل x أيام"
+    },
+    "ATTRIBUTES": {
+      "NAME": "الاسم",
+      "EMAIL": "البريد الإلكتروني",
+      "PHONE_NUMBER": "رقم الهاتف",
+      "IDENTIFIER": "المعرف",
+      "CITY": "المدينة",
+      "COUNTRY": "الدولة",
+      "CUSTOM_ATTRIBUTE_LIST": "القائمة",
+      "CUSTOM_ATTRIBUTE_TEXT": "النص",
+      "CUSTOM_ATTRIBUTE_NUMBER": "العدد",
+      "CUSTOM_ATTRIBUTE_LINK": "الرابط",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "مربع",
+      "CREATED_AT": "تم إنشاؤها في",
+      "LAST_ACTIVITY": "آخر نشاط",
+      "REFERER_LINK": "رابط المرجع"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "الفلاتر القياسية",
+      "ADDITIONAL_FILTERS": "فلاتر إضافية",
+      "CUSTOM_ATTRIBUTES": "سمات مخصصة"
     }
+  }
 }

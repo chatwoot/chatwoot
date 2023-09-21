@@ -41,4 +41,14 @@ class SuperAdmin::AgentBotsController < SuperAdmin::ApplicationController
 
   # See https://administrate-prototype.herokuapp.com/customizing_controller_actions
   # for more information
+
+  def destroy_avatar
+    avatar = requested_resource.avatar
+    avatar.purge
+    redirect_back(fallback_location: super_admin_agent_bots_path)
+  end
+
+  def scoped_resource
+    resource_class.with_attached_avatar
+  end
 end

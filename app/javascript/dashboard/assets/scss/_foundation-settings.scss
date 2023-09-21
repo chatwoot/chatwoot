@@ -48,7 +48,7 @@
 // Disable contrast warnings in Foundation.
 $contrast-warnings: false;
 
-$global-font-size: 10px;
+$global-font-size: 16px;
 $global-width: 100%;
 $global-lineheight: 1.5;
 $foundation-palette: (primary: $color-woot,
@@ -63,7 +63,7 @@ $black: #000;
 $white: #fff;
 $body-background: $white;
 $body-font-color: $color-body;
-$body-font-family: 'Inter',
+$body-font-family: 'PlusJakarta',
 -apple-system,
 system-ui,
 BlinkMacSystemFont,
@@ -117,7 +117,7 @@ $header-font-style: normal;
 $font-family-monospace: $body-font-family;
 $header-color: $color-heading;
 $header-lineheight: 1.4;
-$header-margin-bottom: 0.5rem;
+$header-margin-bottom: 0.3125rem;
 $header-styles: (small: ("h1": ("font-size": 24),
     "h2": ("font-size": 20),
     "h3": ("font-size": 19),
@@ -133,7 +133,7 @@ $header-styles: (small: ("h1": ("font-size": 24),
 $header-text-rendering: optimizeLegibility;
 $small-font-size: 80%;
 $header-small-font-color: $medium-gray;
-$paragraph-lineheight: 1.45;
+$paragraph-lineheight: 1.65;
 $paragraph-margin-bottom: var(--space-small);
 $paragraph-text-rendering: optimizeLegibility;
 $code-color: $black;
@@ -153,11 +153,11 @@ $list-lineheight: $paragraph-lineheight;
 $list-margin-bottom: $paragraph-margin-bottom;
 $list-style-type: disc;
 $list-style-position: outside;
-$list-side-margin: 1.25rem;
-$list-nested-side-margin: 1.25rem;
-$defnlist-margin-bottom: 1rem;
+$list-side-margin: 0.78125rem;
+$list-nested-side-margin: 0.78125rem;
+$defnlist-margin-bottom: 0.6875rem;
 $defnlist-term-weight: $global-weight-bold;
-$defnlist-term-margin-bottom: 0.3rem;
+$defnlist-term-margin-bottom: 0.1875rem;
 $blockquote-color: $dark-gray;
 $blockquote-padding: rem-calc(9 20 0 19);
 $blockquote-border: 1px solid $medium-gray;
@@ -179,9 +179,9 @@ $lead-lineheight: 1.6;
 $subheader-lineheight: 1.4;
 $subheader-color: $dark-gray;
 $subheader-font-weight: $global-weight-normal;
-$subheader-margin-top: 0.2rem;
-$subheader-margin-bottom: 0.5rem;
-$stat-font-size: 2.5rem;
+$subheader-margin-top: 0.125rem;
+$subheader-margin-bottom: 0.3125rem;
+$stat-font-size: 1.5625rem;
 
 // 6. Abide
 // --------
@@ -202,11 +202,11 @@ $accordion-plusminus: true;
 $accordion-title-font-size: rem-calc(12);
 $accordion-item-color: $primary-color;
 $accordion-item-background-hover: $light-gray;
-$accordion-item-padding: 1.25rem 1rem;
+$accordion-item-padding: 0.78125rem 0.625rem;
 $accordion-content-background: $white;
 $accordion-content-border: 1px solid $light-gray;
 $accordion-content-color: $body-font-color;
-$accordion-content-padding: 1rem;
+$accordion-content-padding: 0.625rem;
 
 // 8. Accordion Menu
 // -----------------
@@ -234,7 +234,7 @@ $breadcrumbs-item-font-size: rem-calc(11);
 $breadcrumbs-item-color: $primary-color;
 $breadcrumbs-item-color-current: $black;
 $breadcrumbs-item-color-disabled: $medium-gray;
-$breadcrumbs-item-margin: 0.75rem;
+$breadcrumbs-item-margin: 0.46875rem;
 $breadcrumbs-item-uppercase: true;
 $breadcrumbs-item-slash: true;
 
@@ -254,7 +254,7 @@ $button-sizes: (tiny: var(--font-size-micro),
   default: var(--font-size-small),
   large: var(--font-size-medium));
 $button-palette: $foundation-palette;
-$button-opacity-disabled: 0.25;
+$button-opacity-disabled: 0.4;
 $button-background-hover-lightness: -20%;
 $button-hollow-hover-lightness: -50%;
 $button-transition: background-color 0.25s ease-out,
@@ -275,8 +275,8 @@ $buttongroup-radius-on-each: false;
 $callout-background: $white;
 $callout-background-fade: 85%;
 $callout-border: 1px solid rgba($black, 0.25);
-$callout-margin: 0 0 1rem 0;
-$callout-padding: 1rem;
+$callout-margin: 0 0 0.625rem 0;
+$callout-padding: 0.625rem;
 $callout-font-color: $body-font-color;
 $callout-font-color-alt: $body-background;
 $callout-radius: $global-radius;
@@ -320,10 +320,10 @@ $drilldown-background: $white;
 // 17. Dropdown
 // ------------
 
-$dropdown-padding: 1rem;
+$dropdown-padding: 0.625rem;
 $dropdown-background: $body-background;
 $dropdown-border: 1px solid $medium-gray;
-$dropdown-font-size: 1rem;
+$dropdown-font-size: 0.625rem;
 $dropdown-width: 300px;
 $dropdown-radius: $global-radius;
 $dropdown-sizes: (tiny: 100px,
@@ -354,7 +354,7 @@ $helptext-font-style: italic;
 $input-prefix-color: $color-body;
 $input-prefix-background: var(--b-100);
 $input-prefix-border: 1px solid $color-border;
-$input-prefix-padding: 1rem;
+$input-prefix-padding: 0.625rem;
 $form-label-color: $color-body;
 $form-label-font-size: rem-calc(14);
 $form-label-font-weight: $font-weight-medium;
@@ -406,14 +406,14 @@ $menu-margin-nested: $space-medium;
 $menu-item-padding: $space-slab;
 $menu-item-color-active: $white;
 $menu-item-background-active: $color-background;
-$menu-icon-spacing: 0.25rem;
+$menu-icon-spacing: 0.15625rem;
 $menu-item-background-hover: $light-gray;
 $menu-border: $light-gray;
 
 // 23. Meter
 // ---------
 
-$meter-height: 1rem;
+$meter-height: 0.625rem;
 $meter-radius: $global-radius;
 $meter-background: $medium-gray;
 $meter-fill-good: $success-color;
@@ -423,11 +423,11 @@ $meter-fill-bad: $alert-color;
 // 24. Off-canvas
 // --------------
 
-$offcanvas-sizes: (small: 23rem,
-  medium: 23rem,
+$offcanvas-sizes: (small: 14.375,
+  medium: 14.375,
 );
-$offcanvas-vertical-sizes: (small: 23rem,
-  medium: 23rem,
+$offcanvas-vertical-sizes: (small: 14.375,
+  medium: 14.375,
 );
 $offcanvas-background: $light-gray;
 $offcanvas-shadow: 0 0 10px rgba($black, 0.7);
@@ -445,14 +445,14 @@ $maincontent-class: 'off-canvas-content';
 
 $orbit-bullet-background: $medium-gray;
 $orbit-bullet-background-active: $dark-gray;
-$orbit-bullet-diameter: 1.2rem;
-$orbit-bullet-margin: 0.1rem;
-$orbit-bullet-margin-top: 0.8rem;
-$orbit-bullet-margin-bottom: 0.8rem;
+$orbit-bullet-diameter: 0.75rem;
+$orbit-bullet-margin: 0.0625rem;
+$orbit-bullet-margin-top: 0.5rem;
+$orbit-bullet-margin-bottom: 0.5rem;
 $orbit-caption-background: rgba($black, 0.5);
-$orbit-caption-padding: 1rem;
+$orbit-caption-padding: 0.625rem;
 $orbit-control-background-hover: rgba($black, 0.5);
-$orbit-control-padding: 1rem;
+$orbit-control-padding: 0.625rem;
 $orbit-control-zindex: 10;
 
 // 26. Pagination
@@ -476,7 +476,7 @@ $pagination-arrows: true;
 // 27. Progress Bar
 // ----------------
 
-$progress-height: 1rem;
+$progress-height: 0.625rem;
 $progress-background: $medium-gray;
 $progress-margin-bottom: $global-margin;
 $progress-meter-background: $primary-color;
@@ -504,13 +504,13 @@ $reveal-overlay-background: rgba($black, 0.45);
 // 30. Slider
 // ----------
 
-$slider-width-vertical: 0.5rem;
+$slider-width-vertical: 0.3125rem;
 $slider-transition: all 0.2s ease-in-out;
-$slider-height: 0.5rem;
+$slider-height: 0.3125rem;
 $slider-background: $light-gray;
 $slider-fill-background: $medium-gray;
-$slider-handle-height: 1.4rem;
-$slider-handle-width: 1.4rem;
+$slider-handle-height: 0.875rem;
+$slider-handle-width: 0.875rem;
 $slider-handle-background: $primary-color;
 $slider-opacity-disabled: 0.25;
 $slider-radius: $global-radius;
@@ -569,7 +569,7 @@ $tab-expand-max: 6;
 $tab-content-background: transparent;
 $tab-content-border: transparent;
 $tab-content-color: foreground($tab-background, $primary-color);
-$tab-content-padding: 1rem;
+$tab-content-padding: 0.625rem;
 
 // 34. Thumbnail
 // -------------
@@ -586,11 +586,11 @@ $thumbnail-radius: $global-radius;
 
 $titlebar-background: $black;
 $titlebar-color: $white;
-$titlebar-padding: 0.5rem;
+$titlebar-padding: 0.3125rem;
 $titlebar-text-font-weight: bold;
 $titlebar-icon-color: $white;
 $titlebar-icon-color-hover: $medium-gray;
-$titlebar-icon-spacing: 0.25rem;
+$titlebar-icon-spacing: 0.15625rem;
 
 // 36. Tooltip
 // -----------
@@ -599,19 +599,19 @@ $has-tip-font-weight: $global-weight-bold;
 $has-tip-border-bottom: dotted 1px $dark-gray;
 $tooltip-background-color: $black;
 $tooltip-color: $white;
-$tooltip-padding: 0.75rem;
+$tooltip-padding: 0.46875rem;
 $tooltip-font-size: $font-size-mini;
-$tooltip-pip-width: 0.75rem;
+$tooltip-pip-width: 0.46875rem;
 $tooltip-pip-height: $tooltip-pip-width * 0.866;
 $tooltip-radius: $global-radius;
 
 // 37. Top Bar
 // -----------
 
-$topbar-padding: 0.5rem;
+$topbar-padding: 0.3125;
 $topbar-background: $light-gray;
 $topbar-submenu-background: $topbar-background;
-$topbar-title-spacing: 0.5rem 1rem 0.5rem 0;
+$topbar-title-spacing: 0.3125 0.625rem 0.3125 0;
 $topbar-input-width: 200px;
 $topbar-unstack-breakpoint: medium;
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Webhooks::SmsEventsJob, type: :job do
+RSpec.describe Webhooks::SmsEventsJob do
   subject(:job) { described_class.perform_later(params) }
 
   let!(:sms_channel) { create(:channel_sms) }

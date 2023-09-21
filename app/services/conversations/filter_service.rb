@@ -1,6 +1,11 @@
 class Conversations::FilterService < FilterService
   ATTRIBUTE_MODEL = 'conversation_attribute'.freeze
 
+  def initialize(params, user, filter_account = nil)
+    @account = filter_account || Current.account
+    super(params, user)
+  end
+
   def perform
     @conversations = conversation_query_builder
     mine_count, unassigned_count, all_count, = set_count_for_all_conversations
@@ -49,7 +54,7 @@ class Conversations::FilterService < FilterService
   end
 
   def base_relation
-    Current.account.conversations.left_outer_joins(:labels)
+    @account.conversations.left_outer_joins(:labels)
   end
 
   def current_page
@@ -58,8 +63,9 @@ class Conversations::FilterService < FilterService
 
   def conversations
     @conversations = @conversations.includes(
-      :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team
+      :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team, :messages, :contact_inbox
     )
+
     @conversations.latest.page(current_page)
   end
 end

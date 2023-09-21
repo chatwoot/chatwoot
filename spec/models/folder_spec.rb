@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Folder, type: :model do
+RSpec.describe Folder do
   context 'with validations' do
     it { is_expected.to validate_presence_of(:account_id) }
     it { is_expected.to validate_presence_of(:category_id) }

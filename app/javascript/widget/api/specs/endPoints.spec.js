@@ -79,3 +79,26 @@ describe('#triggerCampaign', () => {
     spy.mockRestore();
   });
 });
+
+describe('#getConversation', () => {
+  it('should returns correct payload', () => {
+    const spy = jest.spyOn(global, 'Date').mockImplementation(() => ({
+      toString: () => 'mock date',
+    }));
+    const windowSpy = jest.spyOn(window, 'window', 'get');
+    expect(
+      endPoints.getConversation({
+        after: 123,
+      })
+    ).toEqual({
+      url: `/api/v1/widget/messages`,
+      params: {
+        after: 123,
+        before: undefined,
+      },
+    });
+    windowSpy.mockRestore();
+
+    spy.mockRestore();
+  });
+});

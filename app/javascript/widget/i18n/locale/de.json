@@ -19,12 +19,24 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Wir antworten üblicherweise innerhalb weniger Minuten",
     "IN_A_FEW_HOURS": "Wir antworten üblicherweise innerhalb weniger Stunden",
-    "IN_A_DAY": "Wir antworten üblicherweise innerhalb eines Tages"
+    "IN_A_DAY": "Wir antworten üblicherweise innerhalb eines Tages",
+    "BACK_IN": "Wir werden wieder online sein"
   },
+  "DAY_NAMES": [
+    "Sonntag",
+    "Montag",
+    "Dienstag",
+    "Mittwoch",
+    "Donnerstag",
+    "Freitag",
+    "Samstag"
+  ],
   "START_CONVERSATION": "Unterhaltung beginnen",
   "END_CONVERSATION": "Konversation beenden",
   "CONTINUE_CONVERSATION": "Konversation fortsetzen",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "Neue Unterhaltung starten",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Neue Nachrichten anzeigen",
     "CLOSE_MESSAGES_BUTTON": "Schließen",
@@ -56,7 +68,9 @@
         "LABEL": "Telefonnummer",
         "PLACEHOLDER": "Bitte geben Sie ihre Telefonnummer ein",
         "REQUIRED_ERROR": "Telefonnummer ist erforderlich",
-        "VALID_ERROR": "Die Telefonnummer sollte im E.164-Format vorliegen, z. B.: +1415555555"
+        "DIAL_CODE_VALID_ERROR": "Bitte wählen Sie eine Landesvorwahl",
+        "VALID_ERROR": "Bitte geben Sie eine gültige Telefonnummer ein",
+        "DROPDOWN_EMPTY": "Keine Ergebnisse gefunden"
       },
       "MESSAGE": {
         "LABEL": "Nachricht",
@@ -90,8 +104,33 @@
   },
   "INTEGRATIONS": {
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Klicke hier, um beizutreten",
+      "CLICK_HERE_TO_JOIN": "Klicken Sie hier, um beizutreten",
       "LEAVE_THE_ROOM": "Anruf verlassen"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "Alle Artikel anzeigen",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Bildnachricht"
+    },
+    "audio": {
+      "CONTENT": "Audio-Nachricht"
+    },
+    "video": {
+      "CONTENT": "Videonachricht"
+    },
+    "file": {
+      "CONTENT": "Dateianhang"
+    },
+    "location": {
+      "CONTENT": "Ort"
+    },
+    "fallback": {
+      "CONTENT": "hat eine URL geteilt"
     }
   }
 }

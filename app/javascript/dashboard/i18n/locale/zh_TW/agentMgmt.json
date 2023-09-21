@@ -110,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "搜尋客服",
-          "TEAM": "搜尋團隊"
+          "TEAM": "搜尋團隊",
+          "INPUT": "Search for agents"
         }
       }
     }

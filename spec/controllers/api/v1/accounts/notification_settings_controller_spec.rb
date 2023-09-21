@@ -21,7 +21,7 @@ RSpec.describe 'Notification Settings API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['user_id']).to eq(agent.id)
         expect(json_response['account_id']).to eq(account.id)
       end
@@ -47,7 +47,7 @@ RSpec.describe 'Notification Settings API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         agent.reload
         expect(json_response['user_id']).to eq(agent.id)
         expect(json_response['account_id']).to eq(account.id)

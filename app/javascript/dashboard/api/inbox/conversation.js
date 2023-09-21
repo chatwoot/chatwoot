@@ -14,6 +14,7 @@ class ConversationApi extends ApiClient {
     labels,
     teamId,
     conversationType,
+    sortBy,
   }) {
     return axios.get(this.url, {
       params: {
@@ -24,6 +25,7 @@ class ConversationApi extends ApiClient {
         page,
         labels,
         conversation_type: conversationType,
+        sort_by: sortBy,
       },
     });
   }
@@ -124,6 +126,10 @@ class ConversationApi extends ApiClient {
     return axios.patch(`${this.url}/${conversationId}/participants`, {
       user_ids: userIds,
     });
+  }
+
+  getAllAttachments(conversationId) {
+    return axios.get(`${this.url}/${conversationId}/attachments`);
   }
 }
 

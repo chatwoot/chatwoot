@@ -87,8 +87,8 @@
     },
     "CONDITION": {
       "DELETE_MESSAGE": "Вам нужно иметь по крайней мере одно условие для сохранения",
-      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
-      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
+      "CONTACT_CUSTOM_ATTR_LABEL": "Контактные пользовательские атрибуты",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Пользовательские атрибуты разговора"
     },
     "ACTION": {
       "DELETE_MESSAGE": "Вам нужно иметь по крайней мере одно условие для сохранения",

@@ -76,8 +76,8 @@
         },
         "AGENT_AVAILABILITY": {
           "LABEL": "Pieejamība",
-          "PLACEHOLDER": "Please select an availability status",
-          "ERROR": "Availability is required"
+          "PLACEHOLDER": "Lūdzu, izvēlieties pieejamības statusu",
+          "ERROR": "Nepieciešama pieejamība"
         },
         "SUBMIT": "Rediģēt Aģentu"
       },
@@ -110,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "Meklēt aģentus",
-          "TEAM": "Meklēt komandas"
+          "TEAM": "Meklēt komandas",
+          "INPUT": "Meklēt aģentus"
         }
       }
     }

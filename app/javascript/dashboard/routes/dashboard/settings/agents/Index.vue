@@ -1,5 +1,5 @@
 <template>
-  <div class="column content-box">
+  <div class="flex-1 overflow-auto p-4">
     <woot-button
       color-scheme="success"
       class-names="button--fixed-top"
@@ -10,8 +10,8 @@
     </woot-button>
 
     <!-- List Agents -->
-    <div class="row">
-      <div class="small-8 columns with-right-space ">
+    <div class="flex flex-row gap-4">
+      <div class="w-[60%]">
         <woot-loading-state
           v-if="uiFlags.isFetching"
           :message="$t('AGENT_MGMT.LOADING')"
@@ -85,7 +85,7 @@
           </table>
         </div>
       </div>
-      <div class="small-4 columns">
+      <div class="w-[34%]">
         <span
           v-dompurify-html="
             useInstallationName(
@@ -128,9 +128,9 @@
 <script>
 import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import Thumbnail from '../../../../components/widgets/Thumbnail';
-import AddAgent from './AddAgent';
-import EditAgent from './EditAgent';
+import Thumbnail from '../../../../components/widgets/Thumbnail.vue';
+import AddAgent from './AddAgent.vue';
+import EditAgent from './EditAgent.vue';
 
 export default {
   components: {

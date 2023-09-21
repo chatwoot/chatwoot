@@ -14,7 +14,7 @@ RSpec.describe '/api/v1/widget/campaigns', type: :request do
         get '/api/v1/widget/campaigns', params: params
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response.length).to eq 1
         expect(json_response.pluck('id')).to include(campaign_1.display_id)
         expect(json_response.pluck('id')).not_to include(campaign_2.display_id)

@@ -17,11 +17,12 @@
         <search-tabs
           v-if="query"
           :tabs="tabs"
+          :selected-tab="activeTabIndex"
           @tab-change="tab => (selectedTab = tab)"
         />
       </header>
       <div class="search-results">
-        <div v-if="all.length">
+        <div v-if="showResultsSection">
           <search-result-contacts-list
             v-if="filterContacts"
             :is-fetching="uiFlags.contact.isFetching"
@@ -46,7 +47,7 @@
             :show-title="isSelectedTabAll"
           />
         </div>
-        <div v-else-if="showEmptySearchResults && !all.length" class="empty">
+        <div v-else-if="showEmptySearchResults" class="empty">
           <fluent-icon icon="info" size="16px" class="icon" />
           <p class="empty-state__text">
             {{ $t('SEARCH.EMPTY_STATE_FULL', { query }) }}
@@ -157,9 +158,23 @@ export default {
         },
       ];
     },
+    activeTabIndex() {
+      const index = this.tabs.findIndex(tab => tab.key === this.selectedTab);
+      return index >= 0 ? index : 0;
+    },
     showEmptySearchResults() {
       return (
-        this.totalSearchResultsCount === 0 && this.uiFlags.isSearchCompleted
+        this.totalSearchResultsCount === 0 &&
+        this.uiFlags.isSearchCompleted &&
+        !this.uiFlags.isFetching &&
+        this.query
+      );
+    },
+    showResultsSection() {
+      return (
+        (this.uiFlags.isSearchCompleted &&
+          this.totalSearchResultsCount !== 0) ||
+        this.uiFlags.isFetching
       );
     },
     isSelectedTabAll() {
@@ -175,6 +190,7 @@ export default {
   },
   methods: {
     onSearch(q) {
+      this.selectedTab = 'all';
       this.query = q;
       if (!q) {
         this.$store.dispatch('conversationSearch/clearSearchResults');
@@ -196,50 +212,26 @@ export default {
 
 <style lang="scss" scoped>
 .search-page {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+  @apply flex flex-col w-full bg-white dark:bg-slate-900;
 }
 .page-header {
-  display: flex;
-  padding: var(--space-normal);
+  @apply flex p-4;
 }
 .search-root {
-  margin: 0 auto;
-  max-width: 72rem;
-  min-height: 32rem;
-  width: 100%;
-  height: 100%;
-  padding: var(--space-normal);
-  display: flex;
-  position: relative;
-  flex-direction: column;
-  background: white;
-  margin-top: var(--space-medium);
+  @apply flex my-0 p-4 relative mx-auto max-w-[45rem] min-h-[20rem] flex-col w-full h-full bg-white dark:bg-slate-900;
 
   .search-results {
-    flex-grow: 1;
-    height: 100%;
-    overflow-y: auto;
-    padding: 0 var(--space-small);
+    @apply flex-grow h-full overflow-y-auto py-0 px-2;
   }
 }
 
 .empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-medium) var(--space-normal);
-  border-radius: var(--border-radius-medium);
-  margin-top: var(--space-large);
+  @apply flex flex-col items-center justify-center py-6 px-4 rounded-md mt-8;
   .icon {
-    color: var(--s-500);
+    @apply text-slate-500 dark:text-slate-400;
   }
   .empty-state__text {
-    text-align: center;
-    color: var(--s-500);
-    margin: var(--space-small);
+    @apply text-center text-slate-500 dark:text-slate-400 m-2;
   }
 }
 </style>

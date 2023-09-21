@@ -222,7 +222,7 @@ RSpec.describe 'Campaigns API', type: :request do
                as: :json
 
         expect(response).to have_http_status(:success)
-        expect(::Campaign.exists?(campaign.display_id)).to be false
+        expect(Campaign.exists?(campaign.display_id)).to be false
       end
     end
   end

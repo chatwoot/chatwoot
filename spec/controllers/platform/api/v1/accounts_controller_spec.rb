@@ -39,7 +39,7 @@ RSpec.describe 'Platform Accounts API', type: :request do
 
         expect(response).to have_http_status(:success)
 
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['name']).to eq('Test Account')
         expect(json_response['locale']).to eq('es')
         expect(json_response['features']['agent_management']).to be(true)
@@ -59,7 +59,7 @@ RSpec.describe 'Platform Accounts API', type: :request do
           disable_branding: false
         } }, headers: { api_access_token: platform_app.access_token.token }, as: :json
 
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['name']).to include('Test Account')
         expect(json_response['features']['inbox_management']).to be(true)
         expect(json_response['features']['ip_lookup']).to be(true)

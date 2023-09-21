@@ -14,6 +14,7 @@ RSpec.describe InboxMember do
         perform_enqueued_jobs do
           inbox_member.inbox.destroy!
         end
+        expect { inbox_member.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
   end

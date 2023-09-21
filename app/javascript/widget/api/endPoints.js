@@ -57,9 +57,9 @@ const sendAttachment = ({ attachment }) => {
   };
 };
 
-const getConversation = ({ before }) => ({
+const getConversation = ({ before, after }) => ({
   url: `/api/v1/widget/messages${window.location.search}`,
-  params: { before },
+  params: { before, after },
 });
 
 const updateMessage = id => ({
@@ -93,6 +93,14 @@ const triggerCampaign = ({ websiteToken, campaignId, customAttributes }) => ({
   },
 });
 
+const getMostReadArticles = (slug, locale) => ({
+  url: `/hc/${slug}/${locale}/articles.json`,
+  params: {
+    page: 1,
+    sort: 'views',
+  },
+});
+
 export default {
   createConversation,
   sendMessage,
@@ -102,4 +110,5 @@ export default {
   getAvailableAgents,
   getCampaigns,
   triggerCampaign,
+  getMostReadArticles,
 };

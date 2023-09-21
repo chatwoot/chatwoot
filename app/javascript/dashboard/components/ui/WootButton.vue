@@ -6,7 +6,11 @@
     :disabled="isDisabled || isLoading"
     @click="handleClick"
   >
-    <spinner v-if="isLoading" size="small" />
+    <spinner
+      v-if="isLoading"
+      size="small"
+      :color-scheme="showDarkSpinner ? 'dark' : ''"
+    />
     <emoji-or-icon
       v-else-if="icon || emoji"
       class="icon"
@@ -14,14 +18,18 @@
       :icon="icon"
       :icon-size="iconSize"
     />
-    <span v-if="$slots.default" class="button__content">
+    <span
+      v-if="$slots.default"
+      class="button__content"
+      :class="{ 'text-left rtl:text-right': size !== 'expanded' }"
+    >
       <slot />
     </span>
   </button>
 </template>
 <script>
-import Spinner from 'shared/components/Spinner';
-import EmojiOrIcon from 'shared/components/EmojiOrIcon';
+import Spinner from 'shared/components/Spinner.vue';
+import EmojiOrIcon from 'shared/components/EmojiOrIcon.vue';
 
 export default {
   name: 'WootButton',
@@ -107,6 +115,14 @@ export default {
         default:
           return 16;
       }
+    },
+    showDarkSpinner() {
+      return (
+        this.colorScheme === 'secondary' ||
+        this.variant === 'clear' ||
+        this.variant === 'link' ||
+        this.variant === 'hollow'
+      );
     },
   },
   methods: {

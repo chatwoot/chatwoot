@@ -11,7 +11,9 @@ describe('#integrationAPI', () => {
     expect(integrationAPI).toHaveProperty('update');
     expect(integrationAPI).toHaveProperty('delete');
     expect(integrationAPI).toHaveProperty('connectSlack');
-    expect(integrationAPI).toHaveProperty('createHook');
+    expect(integrationAPI).toHaveProperty('updateSlack');
+    expect(integrationAPI).toHaveProperty('updateSlack');
+    expect(integrationAPI).toHaveProperty('listAllSlackChannels');
     expect(integrationAPI).toHaveProperty('deleteHook');
   });
   describeWithAPIMock('API calls', context => {
@@ -23,6 +25,24 @@ describe('#integrationAPI', () => {
         {
           code,
         }
+      );
+    });
+
+    it('#updateSlack', () => {
+      const updateObj = { referenceId: 'SDFSDGSVE' };
+      integrationAPI.updateSlack(updateObj);
+      expect(context.axiosMock.patch).toHaveBeenCalledWith(
+        '/api/v1/integrations/slack',
+        {
+          reference_id: updateObj.referenceId,
+        }
+      );
+    });
+
+    it('#listAllSlackChannels', () => {
+      integrationAPI.listAllSlackChannels();
+      expect(context.axiosMock.get).toHaveBeenCalledWith(
+        '/api/v1/integrations/slack/list_all_channels'
       );
     });
 

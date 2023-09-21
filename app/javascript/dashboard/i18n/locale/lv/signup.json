@@ -10,33 +10,33 @@
     },
     "COMPANY_NAME": {
       "LABEL": "Uzņēmuma nosaukums",
-      "PLACEHOLDER": "Ievadiet sava uzņēmuma nosaukumu. Piemēram: Wayne Enterprises",
-      "ERROR": "Uzņēmuma nosaukums ir pārāk īss"
+      "PLACEHOLDER": "Ievadiet sava uzņēmuma nosaukumu. Piemēram, Wayne Enterprises",
+      "ERROR": "Uzņēmuma nosaukums ir pārāk īss."
     },
     "FULL_NAME": {
       "LABEL": "Pilnais vārds",
-      "PLACEHOLDER": "Ievadiet savu pilno vārdu. Piemēram: Bruce Wayne",
-      "ERROR": "Pilnais vārds ir pārāk īss"
+      "PLACEHOLDER": "Ievadiet savu pilno vārdu. Piemēram, Brūss Veins",
+      "ERROR": "Pilnais vārds ir pārāk īss."
     },
     "EMAIL": {
       "LABEL": "Darba e-pasts",
-      "PLACEHOLDER": "Ievadiet savu darba e-pasta adresi. Piemēram: bruce@wayne.enterprises",
-      "ERROR": "Lūdzu, ievadiet derīgu darba e-pasta adresi"
+      "PLACEHOLDER": "Ievadiet savu darba e-pasta adresi. Piemēram, bruce@wayne.enterprises",
+      "ERROR": "Lūdzu, ievadiet derīgu darba e-pasta adresi."
     },
     "PASSWORD": {
       "LABEL": "Parole",
       "PLACEHOLDER": "Parole",
       "ERROR": "Parole ir pārāk īsa",
-      "IS_INVALID_PASSWORD": "Parolei ir jāsatur vismaz 1 lielais burts, 1 mazais burts, 1 cipars un 1 speciālā rakstzīme"
+      "IS_INVALID_PASSWORD": "Parolei ir jāsatur vismaz 1 lielais burts, 1 mazais burts, 1 cipars un 1 speciālā rakstzīme."
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Apstipriniet Paroli",
-      "PLACEHOLDER": "Apstipriniet Paroli",
-      "ERROR": "Parole nesakrīt"
+      "LABEL": "Apstipriniet paroli",
+      "PLACEHOLDER": "Apstipriniet paroli",
+      "ERROR": "Parole nesakrīt."
     },
     "API": {
       "SUCCESS_MESSAGE": "Reģistrācija sekmīga",
-      "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+      "ERROR_MESSAGE": "Nevarēja izveidot savienojumu ar Woot serveri. Lūdzu mēģiniet vēlreiz."
     },
     "SUBMIT": "Izveidot kontu",
     "HAVE_AN_ACCOUNT": "Jau ir konts?"

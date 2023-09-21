@@ -10,33 +10,33 @@
     },
     "COMPANY_NAME": {
       "LABEL": "Nome Empresa",
-      "PLACEHOLDER": "Digite seu nome da empresa. por exemplo: Wayne Enterprises",
-      "ERROR": "O nome da empresa é muito curto"
+      "PLACEHOLDER": "Digite seu nome da sua empresa. Ex: Empresas Wayne",
+      "ERROR": "O nome da empresa é muito curto."
     },
     "FULL_NAME": {
       "LABEL": "Nome Completo",
-      "PLACEHOLDER": "Digite seu nome completo, por exemplo: Bruce Wayne",
-      "ERROR": "Nome completo é muito curto"
+      "PLACEHOLDER": "Digite seu nome completo. Ex.: Bruce Wayne",
+      "ERROR": "Nome completo é muito curto."
     },
     "EMAIL": {
       "LABEL": "E-mail comercial",
-      "PLACEHOLDER": "Digite seu endereço de e-mail de trabalho. por exemplo: bruce@wayne.Business",
-      "ERROR": "Por favor, insira um endereço de e-mail de trabalho válido"
+      "PLACEHOLDER": "Digite seu e-mail de trabalho. Ex.: bruce@wayne.com.br",
+      "ERROR": "Por favor, insira um endereço de e-mail de trabalho válido."
     },
     "PASSWORD": {
       "LABEL": "Senha",
       "PLACEHOLDER": "Senha",
-      "ERROR": "A senha é muito curta",
-      "IS_INVALID_PASSWORD": "A senha deve conter pelo menos 1 letra maiúscula, 1 letra minúscula, 1 número e 1 caractere especial"
+      "ERROR": "A senha é muito curta.",
+      "IS_INVALID_PASSWORD": "A senha deve conter pelo menos 1 letra maiúscula, 1 letra minúscula, 1 número e 1 caractere especial."
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Confirme a senha",
-      "PLACEHOLDER": "Confirme a senha",
-      "ERROR": "As senhas não conferem"
+      "LABEL": "Confirmar senha",
+      "PLACEHOLDER": "Confirmar senha",
+      "ERROR": "As senhas não conferem."
     },
     "API": {
       "SUCCESS_MESSAGE": "Registro realizado com Sucesso",
-      "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+      "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Por favor, tente novamente."
     },
     "SUBMIT": "Criar conta",
     "HAVE_AN_ACCOUNT": "Já possui uma conta?"

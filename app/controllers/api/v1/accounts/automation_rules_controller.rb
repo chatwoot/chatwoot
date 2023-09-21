@@ -6,6 +6,8 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
     @automation_rules = Current.account.automation_rules
   end
 
+  def show; end
+
   def create
     @automation_rule = Current.account.automation_rules.new(automation_rules_permit)
     @automation_rule.actions = params[:actions]
@@ -17,18 +19,6 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
     process_attachments
     @automation_rule
   end
-
-  def attach_file
-    file_blob = ActiveStorage::Blob.create_and_upload!(
-      key: nil,
-      io: params[:attachment].tempfile,
-      filename: params[:attachment].original_filename,
-      content_type: params[:attachment].content_type
-    )
-    render json: { blob_key: file_blob.key, blob_id: file_blob.id }
-  end
-
-  def show; end
 
   def update
     ActiveRecord::Base.transaction do

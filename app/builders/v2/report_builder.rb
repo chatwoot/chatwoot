@@ -20,7 +20,7 @@ class V2::ReportBuilder
 
   # For backward compatible with old report
   def build
-    if %w[avg_first_response_time avg_resolution_time].include?(params[:metric])
+    if %w[avg_first_response_time avg_resolution_time reply_time].include?(params[:metric])
       timeseries.each_with_object([]) do |p, arr|
         arr << { value: p[1], timestamp: p[0].in_time_zone(@timezone).to_i, count: @grouped_values.count[p[0]] }
       end
@@ -33,18 +33,19 @@ class V2::ReportBuilder
 
   def summary
     {
-      conversations_count: conversations_count.values.sum,
-      incoming_messages_count: incoming_messages_count.values.sum,
-      outgoing_messages_count: outgoing_messages_count.values.sum,
+      conversations_count: conversations.count,
+      incoming_messages_count: incoming_messages.count,
+      outgoing_messages_count: outgoing_messages.count,
       avg_first_response_time: avg_first_response_time_summary,
       avg_resolution_time: avg_resolution_time_summary,
-      resolutions_count: resolutions_count.values.sum
+      resolutions_count: resolutions.count,
+      reply_time: reply_time_summary
     }
   end
 
   def conversation_metrics
     if params[:type].equal?(:account)
-      conversations
+      live_conversations
     else
       agent_metrics.sort_by { |hash| hash[:metric][:open] }.reverse
     end
@@ -89,17 +90,16 @@ class V2::ReportBuilder
         email: @user.email,
         thumbnail: @user.avatar_url,
         availability: account_user.availability_status,
-        metric: conversations
+        metric: live_conversations
       }
     end
   end
 
-  def conversations
+  def live_conversations
     @open_conversations = scope.conversations.where(account_id: @account.id).open
-    first_response_count = @account.reporting_events.where(name: 'first_response', conversation_id: @open_conversations.pluck('id')).count
     metric = {
       open: @open_conversations.count,
-      unattended: @open_conversations.count - first_response_count
+      unattended: @open_conversations.unattended.count
     }
     metric[:unassigned] = @open_conversations.unassigned.count if params[:type].equal?(:account)
     metric

@@ -35,6 +35,26 @@
         "TEXT": "Visi"
       }
     },
+    "VIEW_FILTER": "Apskatīt",
+    "SORT_TOOLTIP_LABEL": "Šķirot sarunas",
+    "CHAT_SORT": {
+      "STATUS": "Statuss",
+      "ORDER_BY": "Sakārtot pēc"
+    },
+    "CHAT_SORT_FILTER_ITEMS": {
+      "latest": {
+        "TEXT": "Pēdējā darbība"
+      },
+      "sort_on_created_at": {
+        "TEXT": "Izveidots plkst"
+      },
+      "sort_on_priority": {
+        "TEXT": "Prioritāte"
+      },
+      "sort_on_waiting_since": {
+        "TEXT": "Gaida Atbildi"
+      }
+    },
     "ATTACHMENTS": {
       "image": {
         "CONTENT": "Attēla ziņojums"
@@ -53,6 +73,24 @@
       },
       "fallback": {
         "CONTENT": "ir kopīgojis URL"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Šķirot sarunu",
+      "DROPDOWN_TITLE": "Kārtot pēc",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Pēdējā aktivitāte plkst",
+          "LABEL": "Pēdējā darbība"
+        },
+        "CREATED_AT": {
+          "NAME": "Izveidots plkst",
+          "LABEL": "Izveidots plkst"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Pēdējā lietotāja ziņa plkst",
+          "LABEL": "Pēdējā ziņa"
+        }
       }
     },
     "RECEIVED_VIA_EMAIL": "Saņemts pa e-pastu",

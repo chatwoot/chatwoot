@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Webhooks::LineEventsJob, type: :job do
+RSpec.describe Webhooks::LineEventsJob do
   subject(:job) { described_class.perform_later(params: params) }
 
   let!(:line_channel) { create(:channel_line) }

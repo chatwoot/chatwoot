@@ -38,4 +38,4 @@ class Webhook < ApplicationRecord
   end
 end
 
-Webhook.include_mod_with('Audit::Inbox')
+Webhook.include_mod_with('Audit::Webhook')

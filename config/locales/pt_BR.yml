@@ -38,6 +38,8 @@ pt_BR:
     contacts:
       import:
         failed: Arquivo vazio
+      export:
+        success: Avisaremos você assim que a exportação de arquivos estiver pronta para ser exibida.
       email:
         invalid: E-mail inválido
       phone_number:
@@ -47,15 +49,19 @@ pt_BR:
         unique: deve ser único na categoria e no portal
     dyte:
       invalid_message_type: "Tipo de mensagem inválido. Ação não permitida"
+    slack:
+      invalid_channel_id: "Canal de slack inválido. Por favor, tente novamente"
     inboxes:
       imap:
-        socket_error: Por favor, verifique a conexão de rede, endereço de IMAP e tente novamente.
+        socket_error: Por favor, verifique a conexão de rede, endereço IMAP e tente novamente.
         no_response_error: Por favor, verifique as credenciais de IMAP e tente novamente.
         host_unreachable_error: Servidor inacessível, por favor, verifique o endereço e a porta de IMAP e tente novamente.
         connection_timed_out_error: Tempo esgotado de conexão para %{address}:%{port}
         connection_closed_error: Conexão fechada.
       validations:
         name: 'não deve iniciar ou terminar com símbolos e não deve ter os caracteres: < > / \ @.'
+    custom_filters:
+      number_of_records: Limite atingido. O número máximo de filtros personalizados permitidos para um usuário por conta é de 50.
   reports:
     period: Reportando o período %{since} a %{until}
     utc_warning: O relatório gerado está em fuso horário UTC
@@ -113,6 +119,10 @@ pt_BR:
         snoozed: "Conversa não atribuída por %{user_name}"
         auto_resolved: "Conversa foi marcada como resolvida pelo sistema por ter %{duration} dias de inatividade"
         system_auto_open: O sistema reabriu a conversa devido a uma nova mensagem recebida.
+      priority:
+        added: '%{user_name} definiu a prioridade para %{new_priority}'
+        updated: '%{user_name} mudou a prioridade de %{old_priority} para %{new_priority}'
+        removed: '%{user_name} removeu a prioridade'
       assignee:
         self_assigned: "%{user_name} atribuiu a si mesmo essa conversa"
         assigned: "Atribuído a %{assignee_name} por %{user_name}"
@@ -136,6 +146,8 @@ pt_BR:
         header:
           from_with_name: "%{assignee_name} de %{inbox_name} <reply+%{from_email}>"
           reply_with_name: "%{assignee_name} de %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} de %{business_name} <reply+%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} de %{inbox_name} <reply+%{from_email}>"
@@ -165,14 +177,18 @@ pt_BR:
       name: "Contato completo"
       description: "A integração de contatos completos ajuda a enriquecer perfis de visitantes. Identifique os usuários assim que eles compartilham seu endereço de e-mail e ofereça um atendimento ao cliente personalizado. Conecte seu FullContact à sua conta compartilhando a chave de API de Contato Fullcot."
     google_translate:
-      name: "Tradutor do Google"
+      name: "Google Tradutor"
       description: "Torne isso mais fácil para agentes traduzirem mensagens adicionando uma integração com o Tradutor do Google. O Tradutor do Google ajuda a identificar automaticamente o idioma e convertê-lo para o idioma escolhido pelo administrador de conta/agente."
+    openai:
+      name: "OpenAI"
+      description: "Integre os poderosos recursos de IA ao Chatwoot aproveitando os modelos GPT da OpenAI."
   public_portal:
     search:
       search_placeholder: Pesquisar por artigo por título ou corpo...
       empty_placeholder: Nenhum resultado encontrado.
       loading_placeholder: Procurando...
       results_title: Resultados de pesquisa
+    toc_header: 'Nesta página'
     hero:
       sub_title: Pesquise os artigos aqui ou navegue pelas categorias abaixo.
     common:

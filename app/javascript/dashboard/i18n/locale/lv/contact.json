@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Pievienot Etiķetes",
         "PLACEHOLDER": "Meklēt etiķetes",
-        "NO_RESULT": "Etiķetes nav atrastas"
+        "NO_RESULT": "Etiķetes nav atrastas",
+        "CREATE_LABEL": "Izveidot jaunu etiķeti"
       }
     },
     "MERGE_CONTACT": "Apvienot kontaktu",
@@ -70,7 +71,14 @@
       "SUBMIT": "Importēt",
       "CANCEL": "Atcelt"
     },
-    "SUCCESS_MESSAGE": "Kontaktpersonas ir veiksmīgi saglabātas",
+    "SUCCESS_MESSAGE": "Kad importēšana būs pabeigta, jūs saņemsiet paziņojumu pa e-pastu.",
+    "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
+  },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Eksportēt",
+    "TITLE": "Eksportēt Kontaktpersonas",
+    "DESC": "Eksportēt kontaktpersonas uz CSV failu.",
+    "SUCCESS_MESSAGE": "Notiek eksportēšana, Jūs saņemsit paziņojumu pa e-pastu, kad eksporta fails būs gatavs lejupielādei.",
     "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
   },
   "DELETE_NOTE": {
@@ -120,9 +128,9 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Ievadiet kontaktpersonas tālruņa numuru",
         "LABEL": "Telefona numurs",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
+        "HELP": "Tālruņa numuram ir jābūt E.164 formātā, piemēram: +37155555555",
         "ERROR": "Tālruņa numuram ir jābūt tukšam, vai E.164 formātā",
-        "DIAL_CODE_ERROR": "Please select a dial code from the list",
+        "DIAL_CODE_ERROR": "Lūdzu, izvēlieties sastādīšanas kodu no saraksta",
         "DUPLICATE": "Šis tālruņa numurs tiek izmantots citai kontaktpersonai."
       },
       "LOCATION": {
@@ -134,15 +142,15 @@
         "LABEL": "Uzņēmuma Nosaukums"
       },
       "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
+        "PLACEHOLDER": "Ievadiet valsts nosaukumu",
         "LABEL": "Valsts Nosaukums",
         "SELECT_PLACEHOLDER": "Izvēlieties",
         "REMOVE": "Noņemt",
-        "SELECT_COUNTRY": "Select Country"
+        "SELECT_COUNTRY": "Izvēlieties valsti"
       },
       "CITY": {
-        "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
+        "PLACEHOLDER": "Ievadiet pilsētas nosaukumu",
+        "LABEL": "Pilsētas nosaukums"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -182,8 +190,8 @@
         "LABEL": "Kam"
       },
       "INBOX": {
-        "LABEL": "Via Inbox",
-        "PLACEHOLDER": "Choose source inbox",
+        "LABEL": "Iesūtne",
+        "PLACEHOLDER": "Izvēlieties avota iesūtni",
         "ERROR": "Izvēlieties iesūtni"
       },
       "SUBJECT": {
@@ -211,6 +219,7 @@
     "FILTER_CONTACTS": "Filtrs",
     "FILTER_CONTACTS_SAVE": "Saglabāt filtru",
     "FILTER_CONTACTS_DELETE": "Dzēst filtru",
+    "FILTER_CONTACTS_EDIT": "Rediģēt segmentu",
     "LIST": {
       "LOADING_MESSAGE": "Notiek kontaktpersonu ielāde...",
       "404": "Neviena kontaktpersona neatbilst jūsu meklēšanas vaicājumam 🔍",

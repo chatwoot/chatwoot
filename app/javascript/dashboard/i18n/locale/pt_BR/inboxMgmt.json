@@ -111,6 +111,17 @@
           "PLACEHOLDER": "Por favor, insira o SID sua conta no Twilio",
           "ERROR": "Este campo é obrigatório"
         },
+        "API_KEY": {
+          "USE_API_KEY": "Usar autenticação de chave API",
+          "LABEL": "Chave da API SID",
+          "PLACEHOLDER": "Por favor, insira sua chave de API SID",
+          "ERROR": "Este campo é obrigatório"
+        },
+        "API_KEY_SECRET": {
+          "LABEL": "Segredo da Chave API",
+          "PLACEHOLDER": "Por favor, use sua API Key Secret",
+          "ERROR": "Este campo é obrigatório"
+        },
         "MESSAGING_SERVICE_SID": {
           "LABEL": "SID do Serviço de Mensagens",
           "PLACEHOLDER": "Por favor, informe seu SID do Serviço de Mensagens do Twilio",
@@ -391,6 +402,25 @@
         "ENABLED": "Ativado",
         "DISABLED": "Desativado"
       },
+      "SENDER_NAME_SECTION": {
+        "TITLE": "Nome do remetente",
+        "SUB_TEXT": "Selecione o nome a ser exibido para o seu cliente quando ele receber e-mails de seus agentes.",
+        "FOR_EG": "Por ex:",
+        "FRIENDLY": {
+          "TITLE": "Amigável",
+          "FROM": "De",
+          "SUBTITLE": "Adicione o nome do agente que enviou a resposta ao nome do remetente para torná-la amigável."
+        },
+        "PROFESSIONAL": {
+          "TITLE": "Profissional",
+          "SUBTITLE": "Utilize apenas o nome da empresa configurada como nome do remetente no cabeçalho do e-mail."
+        },
+        "BUSINESS_NAME": {
+          "BUTTON_TEXT": "Configure o nome da sua empresa",
+          "PLACEHOLDER": "Insira o nome de sua empresa",
+          "SAVE_BUTTON_TEXT": "Salvar"
+        }
+      },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
         "ENABLED": "Ativado",
         "DISABLED": "Desativado"
@@ -454,7 +484,9 @@
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Ativar ou desativar caixa de coleta de e-mails em novas conversas",
       "AUTO_ASSIGNMENT": "Habilitar atribuição automática",
       "ENABLE_CSAT": "Habilitar CSAT",
+      "SENDER_NAME_SECTION": "Habilitar o Nome do Agente no E-mail",
       "ENABLE_CSAT_SUB_TEXT": "Ativar/Desativar pesquisa CSAT(satisfação do cliente) após resolver uma conversa",
+      "SENDER_NAME_SECTION_TEXT": "Ativar/Desativar exibição do nome do agente no e-mail, se estiver desativado, exibirá o nome da empresa",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Habilitar continuidade das conversas por e-mail",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "As conversas continuarão sobre o e-mail se o endereço de e-mail de contato estiver disponível.",
       "LOCK_TO_SINGLE_CONVERSATION": "Bloquear para conversa única",
@@ -464,6 +496,7 @@
       "AUTO_ASSIGNMENT_SUB_TEXT": "Ativar ou desativar a atribuição automática de novas conversas aos agentes adicionados a essa caixa de entrada.",
       "HMAC_VERIFICATION": "Validação de Identidade do Usuário",
       "HMAC_DESCRIPTION": "Para validar a identidade do usuário, você pode passar um `identifier_hash` para cada usuário. Você pode gerar um hash HMAC sha256 usando o `identifier` com a chave mostrada aqui.",
+      "HMAC_LINK_TO_DOCS": "Você pode ler mais aqui.",
       "HMAC_MANDATORY_VERIFICATION": "Forçar validação de identidade do usuário",
       "HMAC_MANDATORY_DESCRIPTION": "Se ativado, as solicitações sem o 'identifier_hash' serão rejeitadas.",
       "INBOX_IDENTIFIER": "Identificador da caixa de entrada",
@@ -479,8 +512,15 @@
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Digite a nova chave de API aqui",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Atualizar",
       "WHATSAPP_WEBHOOK_TITLE": "Token de verificação do Webhook",
-      "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "Este token é usado para verificar a autenticidade do webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Atualizar configurações do Formulário Pre Chat"
+    },
+    "HELP_CENTER": {
+      "LABEL": "Centro de Ajuda",
+      "PLACEHOLDER": "Selecionar Centro de Ajuda",
+      "SELECT_PLACEHOLDER": "Selecionar Centro de Ajuda",
+      "REMOVE": "Remover Centro de Ajuda",
+      "SUB_TEXT": "Anexe um Centro de Ajuda com a caixa de entrada"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Limite de atribuição automática",
@@ -527,7 +567,6 @@
       "UPDATE": "Atualizar configurações do horário comercial",
       "TOGGLE_AVAILABILITY": "Permitir a disponibilidade de negócios para essa caixa de entrada",
       "UNAVAILABLE_MESSAGE_LABEL": "Mensagem indisponível para visitantes",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "Nós estamos indisponíveis no momento. Deixe uma mensagem a ser respondida assim que voltarmos.",
       "TOGGLE_HELP": "Permitir a disponibilidade de negócios mostrará as horas disponíveis no widget de bate-papo ao vivo, mesmo que todos os agentes estejam offline. Os vistores disponíveis horários externos podem ser avisados com uma mensagem e um formulário de pré-bate-papo.",
       "DAY": {
         "ENABLE": "Permitir a disponibilidade para este dia",

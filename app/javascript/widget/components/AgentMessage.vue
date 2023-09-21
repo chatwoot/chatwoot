@@ -42,11 +42,10 @@
         </div>
         <p
           v-if="message.showAvatar || hasRecordedResponse"
+          v-dompurify-html="agentName"
           class="agent-name"
           :class="$dm('text-slate-700', 'dark:text-slate-200')"
-        >
-          {{ agentName }}
-        </p>
+        />
       </div>
     </div>
 
@@ -62,12 +61,12 @@
 </template>
 
 <script>
-import UserMessage from 'widget/components/UserMessage';
-import AgentMessageBubble from 'widget/components/AgentMessageBubble';
+import UserMessage from 'widget/components/UserMessage.vue';
+import AgentMessageBubble from 'widget/components/AgentMessageBubble.vue';
 import timeMixin from 'dashboard/mixins/time';
-import ImageBubble from 'widget/components/ImageBubble';
-import FileBubble from 'widget/components/FileBubble';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail';
+import ImageBubble from 'widget/components/ImageBubble.vue';
+import FileBubble from 'widget/components/FileBubble.vue';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import configMixin from '../mixins/configMixin';
 import messageMixin from '../mixins/messageMixin';

@@ -35,7 +35,7 @@
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import LocaleItemTable from 'dashboard/routes/dashboard/helpcenter/components/PortalListItemTable.vue';
-import AddLocale from 'dashboard/routes/dashboard/helpcenter/components/AddLocale';
+import AddLocale from 'dashboard/routes/dashboard/helpcenter/components/AddLocale.vue';
 import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 export default {
   components: {
@@ -145,17 +145,12 @@ export default {
 
 <style lang="scss" scoped>
 .portal-locales {
-  padding: var(--space-small) var(--space-normal);
-  width: 100%;
-  background: var(--white);
-  height: 100%;
-  padding: 0 0 0 var(--space-normal);
+  @apply w-full bg-white dark:bg-slate-900 h-full py-0 pr-0 pl-4;
   .button-container {
-    display: flex;
-    justify-content: flex-end;
+    @apply flex justify-end;
   }
   .locale-container {
-    margin-top: var(--space-normal);
+    @apply mt-4;
   }
 }
 </style>

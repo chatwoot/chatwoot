@@ -29,8 +29,8 @@ describe OnlineStatusTracker do
     before do
       described_class.update_presence(account.id, 'Contact', online_contact.id)
       # creating a stale record for offline contact presence
-      ::Redis::Alfred.zadd(format(::Redis::Alfred::ONLINE_PRESENCE_CONTACTS, account_id: account.id),
-                           (Time.zone.now - (OnlineStatusTracker::PRESENCE_DURATION + 20)).to_i, offline_contact.id)
+      Redis::Alfred.zadd(format(Redis::Alfred::ONLINE_PRESENCE_CONTACTS, account_id: account.id),
+                         (Time.zone.now - (OnlineStatusTracker::PRESENCE_DURATION + 20)).to_i, offline_contact.id)
     end
 
     it 'returns only the online contact ids with presence' do
@@ -39,7 +39,7 @@ describe OnlineStatusTracker do
 
     it 'flushes the stale records from sorted set after the duration' do
       described_class.get_available_contacts(account.id)
-      expect(::Redis::Alfred.zscore(format(::Redis::Alfred::ONLINE_PRESENCE_CONTACTS, account_id: account.id), offline_contact.id)).to be_nil
+      expect(Redis::Alfred.zscore(format(Redis::Alfred::ONLINE_PRESENCE_CONTACTS, account_id: account.id), offline_contact.id)).to be_nil
     end
   end
 end

@@ -1,4 +1,7 @@
-import { MESSAGE_TYPE } from 'shared/constants/messages';
+import {
+  MESSAGE_TYPE,
+  CONVERSATION_PRIORITY_ORDER,
+} from 'shared/constants/messages';
 import { applyPageFilters } from './helpers';
 
 export const getSelectedChatConversation = ({
@@ -7,17 +10,46 @@ export const getSelectedChatConversation = ({
 }) =>
   allConversations.filter(conversation => conversation.id === selectedChatId);
 
+const sortComparator = {
+  latest: (a, b) => b.last_activity_at - a.last_activity_at,
+  sort_on_created_at: (a, b) => a.created_at - b.created_at,
+  sort_on_priority: (a, b) => {
+    return (
+      CONVERSATION_PRIORITY_ORDER[a.priority] -
+      CONVERSATION_PRIORITY_ORDER[b.priority]
+    );
+  },
+  sort_on_waiting_since: (a, b) => {
+    if (!a.waiting_since && !b.waiting_since) {
+      return a.created_at - b.created_at;
+    }
+
+    if (!a.waiting_since) {
+      return 1;
+    }
+
+    if (!b.waiting_since) {
+      return -1;
+    }
+
+    return a.waiting_since - b.waiting_since;
+  },
+};
+
 // getters
 const getters = {
-  getAllConversations: ({ allConversations }) =>
-    allConversations.sort(
-      (a, b) => b.messages.last()?.created_at - a.messages.last()?.created_at
-    ),
+  getAllConversations: ({ allConversations, chatSortFilter }) => {
+    return allConversations.sort(sortComparator[chatSortFilter]);
+  },
   getSelectedChat: ({ selectedChatId, allConversations }) => {
     const selectedChat = allConversations.find(
       conversation => conversation.id === selectedChatId
     );
     return selectedChat || {};
+  },
+  getSelectedChatAttachments: (_state, _getters) => {
+    const selectedChat = _getters.getSelectedChat;
+    return selectedChat.attachments || [];
   },
   getLastEmailInSelectedChat: (stage, _getters) => {
     const selectedChat = _getters.getSelectedChat;
@@ -85,6 +117,7 @@ const getters = {
     ).length;
   },
   getChatStatusFilter: ({ chatStatusFilter }) => chatStatusFilter,
+  getChatSortFilter: ({ chatSortFilter }) => chatSortFilter,
   getSelectedInbox: ({ currentInbox }) => currentInbox,
   getConversationById: _state => conversationId => {
     return _state.allConversations.find(

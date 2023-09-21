@@ -11,68 +11,68 @@
       "FORM": {
         "NAME": {
           "LABEL": "Nome da macro",
-          "PLACEHOLDER": "Enter a name for your macro",
-          "ERROR": "Name is required for creating a macro"
+          "PLACEHOLDER": "Insira um nome para a sua macro",
+          "ERROR": "O nome é obrigatório para criar uma macro"
         },
         "ACTIONS": {
           "LABEL": "Ações."
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Macro added successfully",
-        "ERROR_MESSAGE": "Unable to create macro, Please try again later"
+        "SUCCESS_MESSAGE": "Macro adicionada com sucesso",
+        "ERROR_MESSAGE": "Não é possível criar a macro, por favor tente novamente mais tarde"
       }
     },
     "LIST": {
       "TABLE_HEADER": [
         "Nome:",
-        "Created by",
-        "Last updated by",
-        "Visibility"
+        "Criada por",
+        "Ultima atualização por",
+        "Visibilidade"
       ],
-      "404": "No macros found"
+      "404": "Nenhuma macro encontrada"
     },
     "DELETE": {
-      "TOOLTIP": "Delete macro",
+      "TOOLTIP": "Apagar macro",
       "CONFIRM": {
         "MESSAGE": "Tem certeza que deseja excluir ",
         "YES": "Sim, excluir",
         "NO": "Não"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Macro deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the macro. Please try again later"
+        "SUCCESS_MESSAGE": "Macro apagada com sucesso",
+        "ERROR_MESSAGE": "Ocorreu um erro ao excluir a macro. Por favor, tente novamente mais tarde"
       }
     },
     "EDIT": {
-      "TOOLTIP": "Edit macro",
+      "TOOLTIP": "Editar macro",
       "API": {
-        "SUCCESS_MESSAGE": "Macro updated successfully",
-        "ERROR_MESSAGE": "Could not update Macro, Please try again later"
+        "SUCCESS_MESSAGE": "Macro atualizada com sucesso",
+        "ERROR_MESSAGE": "Não foi possível atualizar Macro, por favor, tente novamente mais tarde"
       }
     },
     "EDITOR": {
-      "START_FLOW": "Start Flow",
-      "END_FLOW": "End Flow",
-      "LOADING": "Fetching macro",
-      "ADD_BTN_TOOLTIP": "Add new action",
-      "DELETE_BTN_TOOLTIP": "Delete Action",
+      "START_FLOW": "Inicio do fluxo",
+      "END_FLOW": "Fim do fluxo",
+      "LOADING": "A obter macro",
+      "ADD_BTN_TOOLTIP": "Adicionar nova ação",
+      "DELETE_BTN_TOOLTIP": "Apagar ação",
       "VISIBILITY": {
-        "LABEL": "Macro Visibility",
+        "LABEL": "Visibilidade da macro",
         "GLOBAL": {
-          "LABEL": "Public",
-          "DESCRIPTION": "This macro is available publicly for all agents in this account."
+          "LABEL": "Publica",
+          "DESCRIPTION": "Esta macro está disponível publicamente para todos os agentes nesta conta."
         },
         "PERSONAL": {
-          "LABEL": "Private",
-          "DESCRIPTION": "This macro will be private to you and not be available to others."
+          "LABEL": "Privada",
+          "DESCRIPTION": "Esta macro será para sua utilização exclusiva e não estará disponível para outras pessoas."
         }
       }
     },
     "EXECUTE": {
-      "BUTTON_TOOLTIP": "Execute",
-      "PREVIEW": "Preview Macro",
-      "EXECUTED_SUCCESSFULLY": "Macro executed successfully"
+      "BUTTON_TOOLTIP": "Executar",
+      "PREVIEW": "Pré-visualizar Macro",
+      "EXECUTED_SUCCESSFULLY": "Macro executada com sucesso"
     }
   }
 }

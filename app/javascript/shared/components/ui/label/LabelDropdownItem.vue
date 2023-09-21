@@ -47,54 +47,38 @@ export default {
 
 <style lang="scss" scoped>
 .item-wrap {
-  display: flex;
+  @apply flex;
 
   ::v-deep .button__content {
-    width: 100%;
+    @apply w-full;
   }
 
   .button-wrap {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
+    @apply flex justify-between w-full;
 
     &.active {
-      display: flex;
-      font-weight: var(--font-weight-bold);
-      color: var(--w-700);
+      @apply flex font-semibold text-woot-700 dark:text-woot-600;
     }
 
     .name-label-wrap {
-      display: flex;
-      min-width: 0;
-      width: 100%;
+      @apply flex min-w-0 w-full;
 
       .label-color--display {
-        margin-right: var(--space-small);
+        @apply mr-2 rtl:mr-0 rtl:ml-2;
       }
 
       .label-text {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        line-height: 1.1;
-        padding-right: var(--space-small);
+        @apply overflow-hidden text-ellipsis whitespace-nowrap leading-[1.1] pr-2;
       }
 
       .icon {
-        font-size: var(--font-size-small);
+        @apply text-sm;
       }
     }
   }
 
   .label-color--display {
-    border-radius: var(--border-radius-normal);
-    height: var(--space-slab);
-    margin-right: var(--space-smaller);
-    margin-top: var(--space-micro);
-    min-width: var(--space-slab);
-    width: var(--space-slab);
-    border: 1px solid var(--color-border-light);
+    @apply rounded-md h-3 mr-1 rtl:mr-0 rtl:ml-1 mt-0.5 min-w-[0.75rem] w-3 border border-solid border-slate-50 dark:border-slate-600;
   }
 }
 </style>

@@ -118,7 +118,7 @@ export default {
 
 .name-wrap {
   display: flex;
-  max-width: 22rem;
+  max-width: 13.75rem;
 
   .text-block-title {
     font-weight: var(--font-weight-bold);

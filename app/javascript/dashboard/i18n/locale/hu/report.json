@@ -4,6 +4,8 @@
     "LOADING_CHART": "Táblázat adatok betöltése...",
     "NO_ENOUGH_DATA": "Nem érkezett elég adat hogy jelentést generáljunk, kérjük próbáld később.",
     "DOWNLOAD_AGENT_REPORTS": "Ügynök jelentések letöltése",
+    "DATA_FETCHING_FAILED": "Sikertelen adatlekérés, kérlek próbáld újra később.",
+    "SUMMARY_FETCHING_FAILED": "Sikertelen összefoglaló lekérés, kérlek próbáld újra később.",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Beszélgetések",
@@ -18,21 +20,33 @@
         "DESC": "( Teljes )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Első reakció idő",
         "DESC": "( Átlag )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "A számításhoz felhasznált beszélgetések száma:",
+        "TOOLTIP_TEXT": "Első válaszidő"
       },
       "RESOLUTION_TIME": {
         "NAME": "Megoldási idő",
         "DESC": "( Átlag )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "A számításhoz felhasznált beszélgetések száma:",
+        "TOOLTIP_TEXT": "Felbontási idő"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Megoldások száma",
         "DESC": "( Teljes )"
+      },
+      "REPLY_TIME": {
+        "NAME": "Customer waiting time",
+        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} conversations)"
       }
+    },
+    "DATE_RANGE_OPTIONS": {
+      "LAST_7_DAYS": "Utolsó 7 nap",
+      "LAST_30_DAYS": "Utolsó 30 nap",
+      "LAST_3_MONTHS": "Elmúlt 3 hónapban",
+      "LAST_6_MONTHS": "Elmúlt 6 hónapban",
+      "LAST_YEAR": "Elmúlt 1 évben",
+      "CUSTOM_DATE_RANGE": "Egyedi időszak"
     },
     "DATE_RANGE": [
       {
@@ -45,55 +59,61 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Elmúlt 3 hónapban"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Elmúlt 6 hónapban"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Elmúlt 1 évben"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Egyedi időszak"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Alkalmaz",
+      "PLACEHOLDER": "Dátumtartomány kiválasztása"
     },
-    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
-    "DURATION_FILTER_LABEL": "Duration",
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Csoportosítás",
+    "DURATION_FILTER_LABEL": "Időszak",
+    "GROUPING_OPTIONS": {
+      "DAY": "Nap",
+      "WEEK": "Hét",
+      "MONTH": "Hónap",
+      "YEAR": "Év"
+    },
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Nap"
       }
     ],
     "GROUP_BY_WEEK_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Nap"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Hét"
       }
     ],
     "GROUP_BY_MONTH_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Nap"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Hét"
       },
       {
         "id": 3,
-        "groupBy": "Month"
+        "groupBy": "Hónap"
       }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
@@ -108,16 +128,12 @@
       {
         "id": 3,
         "groupBy": "Month"
-      },
-      {
-        "id": 4,
-        "groupBy": "Year"
       }
     ],
     "BUSINESS_HOURS": "Nyitvatartás"
   },
   "AGENT_REPORTS": {
-    "HEADER": "Agents Overview",
+    "HEADER": "Ügynök áttekintés",
     "LOADING_CHART": "Táblázat adatok betöltése...",
     "NO_ENOUGH_DATA": "Nem érkezett elég adat hogy jelentést generáljunk, kérjük próbáld később.",
     "DOWNLOAD_AGENT_REPORTS": "Ügynök jelentések letöltése",
@@ -136,16 +152,16 @@
         "DESC": "( Teljes )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Első reakció idő",
         "DESC": "( Átlag )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "A számításhoz felhasznált beszélgetések száma:",
+        "TOOLTIP_TEXT": "Első válaszidő"
       },
       "RESOLUTION_TIME": {
         "NAME": "Megoldási idő",
         "DESC": "( Átlag )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "A számításhoz felhasznált beszélgetések száma:",
+        "TOOLTIP_TEXT": "Felbontási idő"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Megoldások száma",
@@ -163,32 +179,32 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Elmúlt 3 hónapban"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Elmúlt 6 hónapban"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Elmúlt 1 évben"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Egyedi időszak"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Alkalmaz",
+      "PLACEHOLDER": "Dátumtartomány kiválasztása"
     }
   },
   "LABEL_REPORTS": {
-    "HEADER": "Labels Overview",
+    "HEADER": "Címkék áttekintése",
     "LOADING_CHART": "Táblázat adatok betöltése...",
     "NO_ENOUGH_DATA": "Nem érkezett elég adat hogy jelentést generáljunk, kérjük próbáld később.",
-    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
-    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "DOWNLOAD_LABEL_REPORTS": "Címkejelentések letöltése",
+    "FILTER_DROPDOWN_LABEL": "Cimke választása",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Beszélgetések",
@@ -203,16 +219,16 @@
         "DESC": "( Teljes )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Első reakció idő",
         "DESC": "( Átlag )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "A számításhoz felhasznált beszélgetések száma:",
+        "TOOLTIP_TEXT": "Első válaszidő"
       },
       "RESOLUTION_TIME": {
         "NAME": "Megoldási idő",
         "DESC": "( Átlag )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "A számításhoz felhasznált beszélgetések száma:",
+        "TOOLTIP_TEXT": "Felbontási idő"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Megoldások száma",
@@ -230,32 +246,32 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Elmúlt 3 hónapban"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Elmúlt 6 hónapban"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Elmúlt 1 évben"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Egyedi időszak"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Alkalmaz",
+      "PLACEHOLDER": "Dátumtartomány kiválasztása"
     }
   },
   "INBOX_REPORTS": {
-    "HEADER": "Inbox Overview",
+    "HEADER": "Beérkezett üzenetek áttekintése",
     "LOADING_CHART": "Táblázat adatok betöltése...",
     "NO_ENOUGH_DATA": "Nem érkezett elég adat hogy jelentést generáljunk, kérjük próbáld később.",
-    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
-    "FILTER_DROPDOWN_LABEL": "Select Inbox",
+    "DOWNLOAD_INBOX_REPORTS": "Beérkezett üzenetek letöltése",
+    "FILTER_DROPDOWN_LABEL": "Válassz egy fiókot",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Beszélgetések",
@@ -270,16 +286,16 @@
         "DESC": "( Teljes )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Első reakció idő",
         "DESC": "( Átlag )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "A számításhoz felhasznált beszélgetések száma:",
+        "TOOLTIP_TEXT": "Első válaszidő"
       },
       "RESOLUTION_TIME": {
         "NAME": "Megoldási idő",
         "DESC": "( Átlag )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "A számításhoz felhasznált beszélgetések száma:",
+        "TOOLTIP_TEXT": "Felbontási idő"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Megoldások száma",
@@ -297,32 +313,32 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Elmúlt 3 hónapban"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Elmúlt 6 hónapban"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Elmúlt 1 évben"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Egyedi időszak"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Alkalmaz",
+      "PLACEHOLDER": "Dátumtartomány kiválasztása"
     }
   },
   "TEAM_REPORTS": {
-    "HEADER": "Team Overview",
+    "HEADER": "Csapat áttekintés",
     "LOADING_CHART": "Táblázat adatok betöltése...",
     "NO_ENOUGH_DATA": "Nem érkezett elég adat hogy jelentést generáljunk, kérjük próbáld később.",
-    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
-    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "DOWNLOAD_TEAM_REPORTS": "Csapat riport letöltése",
+    "FILTER_DROPDOWN_LABEL": "Csapat kiválasztása",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Beszélgetések",
@@ -337,16 +353,16 @@
         "DESC": "( Teljes )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Első reakció idő",
         "DESC": "( Átlag )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "A számításhoz felhasznált beszélgetések száma:",
+        "TOOLTIP_TEXT": "Első válaszidő"
       },
       "RESOLUTION_TIME": {
         "NAME": "Megoldási idő",
         "DESC": "( Átlag )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "A számításhoz felhasznált beszélgetések száma:",
+        "TOOLTIP_TEXT": "Felbontási idő"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Megoldások száma",
@@ -364,99 +380,100 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Elmúlt 3 hónapban"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Elmúlt 6 hónapban"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Elmúlt 1 évben"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Egyedi időszak"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Alkalmaz",
+      "PLACEHOLDER": "Dátumtartomány kiválasztása"
     }
   },
   "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
-    "NO_RECORDS": "There are no CSAT survey responses available.",
-    "DOWNLOAD": "Download CSAT Reports",
+    "HEADER": "CSAT riportok",
+    "NO_RECORDS": "Nem állnak rendelkezésre CSAT-felmérés válaszai.",
+    "DOWNLOAD": "CSAT jelentés letöltése",
+    "DOWNLOAD_FAILED": "Sikertelen a CSAT jelentés letöltése",
     "FILTERS": {
       "AGENTS": {
-        "PLACEHOLDER": "Choose Agents"
+        "PLACEHOLDER": "Ügynökök választása"
       }
     },
     "TABLE": {
       "HEADER": {
-        "CONTACT_NAME": "Contact",
-        "AGENT_NAME": "Assigned agent",
-        "RATING": "Rating",
-        "FEEDBACK_TEXT": "Feedback comment"
+        "CONTACT_NAME": "Kontakt",
+        "AGENT_NAME": "Hozzárendelt ügynök",
+        "RATING": "Értékelés",
+        "FEEDBACK_TEXT": "Visszajelző komment"
       }
     },
     "METRIC": {
       "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+        "LABEL": "Összes válasz",
+        "TOOLTIP": "Összegyűjtött válaszok száma"
       },
       "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+        "LABEL": "Elégedettségi pontszám",
+        "TOOLTIP": "Pozitív válaszok teljes száma / Válaszok teljes száma * 100"
       },
       "RESPONSE_RATE": {
-        "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+        "LABEL": "Válaszarány",
+        "TOOLTIP": "Válaszok teljes száma / Az elküldött CSAT felmérési üzenetek teljes száma * 100"
       }
     }
   },
   "OVERVIEW_REPORTS": {
-    "HEADER": "Overview",
-    "LIVE": "Live",
+    "HEADER": "Áttekintés",
+    "LIVE": "Élő",
     "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Open Conversations",
-      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "HEADER": "Beszélgetések megnyitása",
+      "LOADING_MESSAGE": "Beszélgetési metrikák betöltése...",
       "OPEN": "Megnyitás",
-      "UNATTENDED": "Unattended",
+      "UNATTENDED": "Figyelmen kívül hagyott",
       "UNASSIGNED": "Gazdátlan"
     },
     "CONVERSATION_HEATMAP": {
-      "HEADER": "Conversation Traffic",
-      "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "%{count} conversation",
-      "CONVERSATIONS": "%{count} conversations"
+      "HEADER": "Beszélgetés forgalom",
+      "NO_CONVERSATIONS": "Nincsennek beszélgetések",
+      "CONVERSATION": "Beszélgetése százaléka",
+      "CONVERSATIONS": "Beszélgetések százalékai"
     },
     "AGENT_CONVERSATIONS": {
-      "HEADER": "Conversations by agents",
-      "LOADING_MESSAGE": "Loading agent metrics...",
-      "NO_AGENTS": "There are no conversations by agents",
+      "HEADER": "Ügynökök által kezelt beszélgetések",
+      "LOADING_MESSAGE": "Ügynökök betöltése...",
+      "NO_AGENTS": "Nincsennek ügynökök általi beszélgetések",
       "TABLE_HEADER": {
         "AGENT": "Ügynök",
-        "OPEN": "OPEN",
-        "UNATTENDED": "Unattended",
+        "OPEN": "NYITOTT",
+        "UNATTENDED": "Figyelmen kívül hagyott",
         "STATUS": "Státusz"
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "Agent status",
+      "HEADER": "Ügynök státusz",
       "ONLINE": "Online",
       "BUSY": "Foglalt",
       "OFFLINE": "Offline"
     }
   },
   "DAYS_OF_WEEK": {
-    "SUNDAY": "Sunday",
-    "MONDAY": "Monday",
-    "TUESDAY": "Tuesday",
-    "WEDNESDAY": "Wednesday",
-    "THURSDAY": "Thursday",
-    "FRIDAY": "Friday",
-    "SATURDAY": "Saturday"
+    "SUNDAY": "vasárnap",
+    "MONDAY": "hétfő",
+    "TUESDAY": "kedd",
+    "WEDNESDAY": "szerda",
+    "THURSDAY": "csütörtök",
+    "FRIDAY": "péntek",
+    "SATURDAY": "szombat"
   }
 }

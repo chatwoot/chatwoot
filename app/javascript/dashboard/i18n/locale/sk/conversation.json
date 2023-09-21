@@ -12,6 +12,10 @@
     "NO_INBOX_2": " na začiatok",
     "NO_INBOX_AGENT": "Zdá sa, že nie ste súčasťou žiadnej schránky. Obráťte sa na svojho správcu",
     "SEARCH_MESSAGES": "Vyhľadávanie správ v konverzáciách",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "Search messages",
       "RESULT_TITLE": "Search Results",
@@ -37,6 +41,7 @@
     "UNKNOWN_FILE_TYPE": "Unknown File",
     "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Prílohy sa nahrávajú...",
+    "REPLIED_TO_STORY": "Replied to your story",
     "SUCCESS_DELETE_MESSAGE": "Správa bola úspešne odstránená",
     "FAIL_DELETE_MESSSAGE": "Správu sa nepodarilo vymazať! Skúste to znova",
     "NO_RESPONSE": "Žiadna odpoveď",
@@ -53,17 +58,41 @@
       "OPEN": "Viac",
       "CLOSE": "Zatvoriť",
       "DETAILS": "detaily",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Odložené do zajtra",
       "SNOOZED_UNTIL_NEXT_WEEK": "Odložené do ďalšieho týždňa",
       "SNOOZED_UNTIL_NEXT_REPLY": "Odložené do ďalšej odpovede"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Označiť ako čakajúce na vybavenie",
+      "SNOOZE_UNTIL": "Snooze",
       "SNOOZE": {
         "TITLE": "Odložiť do",
         "NEXT_REPLY": "Ďalšia odpoveď",
         "TOMORROW": "Zajtra",
         "NEXT_WEEK": "Ďalší ťýždeň"
+      }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Odložiť do",
+      "APPLY": "Snooze",
+      "CANCEL": "Zrušiť"
+    },
+    "PRIORITY": {
+      "TITLE": "Priority",
+      "OPTIONS": {
+        "NONE": "Žiadne",
+        "URGENT": "Urgent",
+        "HIGH": "High",
+        "MEDIUM": "Medium",
+        "LOW": "Low"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "Žiadne",
+        "INPUT_PLACEHOLDER": "Select priority",
+        "NO_RESULTS": "Žiadne výsledky neboli nájdené",
+        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "FAILED": "Couldn't change priority. Please try again."
       }
     },
     "CARD_CONTEXT_MENU": {
@@ -122,6 +151,7 @@
       "STOP_AUDIO_RECORDING": "Stop audio recording",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Pridať skrytú kópiu",
         "CC": {
           "LABEL": "Kópia",

@@ -3,10 +3,10 @@ require 'rails_helper'
 describe Twilio::WebhookSetupService do
   include Rails.application.routes.url_helpers
 
-  let(:twilio_client) { instance_double(::Twilio::REST::Client) }
+  let(:twilio_client) { instance_double(Twilio::REST::Client) }
 
   before do
-    allow(::Twilio::REST::Client).to receive(:new).and_return(twilio_client)
+    allow(Twilio::REST::Client).to receive(:new).and_return(twilio_client)
   end
 
   describe '#perform' do
@@ -26,14 +26,6 @@ describe Twilio::WebhookSetupService do
         described_class.new(inbox: channel_twilio_sms.inbox).perform
 
         expect(services).to have_received(:update)
-      end
-
-      it 'does not raise if TwilioError is thrown' do
-        expect(services).to receive(:update).and_raise(Twilio::REST::TwilioError)
-
-        expect do
-          described_class.new(inbox: channel_twilio_sms.inbox).perform
-        end.not_to raise_error
       end
     end
 
@@ -67,15 +59,6 @@ describe Twilio::WebhookSetupService do
           sms_method: 'POST',
           sms_url: twilio_callback_index_url
         )
-      end
-
-      it 'does not call update if TwilioError is thrown' do
-        allow(twilio_client).to receive(:incoming_phone_numbers).and_return(phone_double)
-        allow(phone_double).to receive(:list).and_raise(Twilio::REST::TwilioError)
-
-        described_class.new(inbox: channel_twilio_sms.inbox).perform
-
-        expect(phone_double).not_to have_received(:update)
       end
     end
   end

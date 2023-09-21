@@ -1,0 +1,17 @@
+<h1 class="text-3xl font-semibold md:tracking-normal leading-snug md:text-4xl text-slate-900">
+  <%= article.title %>
+</h1>
+<div class="flex flex-col items-start justify-between w-full md:flex-row md:items-center pt-2">
+  <div class="flex items-center space-x-2">
+    <% if article.author&.avatar_url&.present? %>
+      <div class="pr-1">
+        <img src="<%= article.author.avatar_url %>" alt="<%= article.author.display_name %>" class="w-12 h-12 border rounded-full">
+      </div>
+    <% end %>
+    <div>
+      <h5 class="text-base font-medium text-slate-900 mb-2"><%= article.author.available_name %></h5>
+      <p class="text-sm font-normal text-slate-700">
+      <%= I18n.t('public_portal.common.last_updated_on', last_updated_on: article.updated_at.strftime("%b %d, %Y")) %>
+    </div>
+  </div>
+</div>

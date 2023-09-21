@@ -79,8 +79,29 @@ class ConversationReplyMailer < ApplicationMailer
     @conversation.messages.chat.where.not(message_type: :incoming)&.last
   end
 
-  def assignee_name
-    @assignee_name ||= @agent&.available_name || 'Notifications'
+  def sender_name(sender_email)
+    if @inbox.friendly?
+      I18n.t('conversations.reply.email.header.friendly_name', sender_name: custom_sender_name, business_name: business_name,
+                                                               from_email: sender_email)
+    else
+      I18n.t('conversations.reply.email.header.professional_name', business_name: business_name, from_email: sender_email)
+    end
+  end
+
+  def current_message
+    @message || @conversation.messages.outgoing.last
+  end
+
+  def custom_sender_name
+    current_message&.sender&.available_name || @agent&.available_name || 'Notifications'
+  end
+
+  def business_name
+    @inbox.business_name || @inbox.name
+  end
+
+  def from_email
+    should_use_conversation_email_address? ? parse_email(@account.support_email) : parse_email(inbox_from_email_address)
   end
 
   def mail_subject
@@ -97,30 +118,18 @@ class ConversationReplyMailer < ApplicationMailer
 
   def reply_email
     if should_use_conversation_email_address?
-      I18n.t('conversations.reply.email.header.reply_with_name', assignee_name: assignee_name, inbox_name: @inbox.name,
-                                                                 reply_email: "#{@conversation.uuid}@#{@account.inbound_email_domain}")
+      sender_name("reply+#{@conversation.uuid}@#{@account.inbound_email_domain}")
     else
       @inbox.email_address || @agent&.email
     end
   end
 
   def from_email_with_name
-    if should_use_conversation_email_address?
-      I18n.t('conversations.reply.email.header.from_with_name', assignee_name: assignee_name, inbox_name: @inbox.name,
-                                                                from_email: parse_email(@account.support_email))
-    else
-      I18n.t('conversations.reply.email.header.from_with_name', assignee_name: assignee_name, inbox_name: @inbox.name,
-                                                                from_email: parse_email(inbox_from_email_address))
-    end
+    sender_name(from_email)
   end
 
   def channel_email_with_name
-    if @conversation.assignee.present?
-      I18n.t('conversations.reply.channel_email.header.reply_with_name', assignee_name: assignee_name, inbox_name: @inbox.name,
-                                                                         from_email: @channel.email)
-    else
-      I18n.t('conversations.reply.channel_email.header.reply_with_inbox_name', inbox_name: @inbox.name, from_email: @channel.email)
-    end
+    sender_name(@channel.email)
   end
 
   def parse_email(email_string)
@@ -160,6 +169,20 @@ class ConversationReplyMailer < ApplicationMailer
     return [] unless content_attributes[:cc_emails] || content_attributes[:bcc_emails]
 
     [content_attributes[:cc_emails], content_attributes[:bcc_emails]]
+  end
+
+  def to_emails_from_content_attributes
+    content_attributes = @conversation.messages.outgoing.last&.content_attributes
+
+    return [] unless content_attributes
+    return [] unless content_attributes[:to_emails]
+
+    content_attributes[:to_emails]
+  end
+
+  def to_emails
+    # if there is no to_emails from content_attributes, send it to @contact&.email
+    to_emails_from_content_attributes.presence || [@contact&.email]
   end
 
   def inbound_email_enabled?

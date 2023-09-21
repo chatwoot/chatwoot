@@ -4,7 +4,9 @@
       <fluent-icon icon="location" class="file--icon" size="32" />
     </div>
     <div class="meta">
-      <h5 class="text-block-title text-truncate">
+      <h5
+        class="text-block-title overflow-hidden whitespace-nowrap text-ellipsis"
+      >
         {{ name }}
       </h5>
       <div class="link-wrap">
@@ -47,32 +49,22 @@ export default {
 
 <style lang="scss" scoped>
 .location {
-  display: flex;
-  flex-direction: row;
-  padding: var(--space-smaller) 0;
-  cursor: pointer;
+  @apply flex flex-row py-1 px-0 cursor-pointer;
 
   .icon-wrap {
-    color: var(--s-600);
-    line-height: 1;
-    margin: 0 var(--space-smaller);
+    @apply text-slate-600 dark:text-slate-200 leading-none my-0 mx-1;
   }
 
   .text-block-title {
-    margin: 0;
-    color: var(--s-800);
-    word-break: break-word;
+    @apply m-0 text-slate-800 dark:text-slate-100 break-words;
   }
 
   .meta {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding-right: var(--space-normal);
+    @apply flex flex-col items-center pr-4;
   }
 
   .link-wrap {
-    display: flex;
+    @apply flex;
   }
 }
 </style>

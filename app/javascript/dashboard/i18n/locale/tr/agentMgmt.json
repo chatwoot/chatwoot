@@ -110,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "Temsilci ara",
-          "TEAM": "Takım ara"
+          "TEAM": "Takım ara",
+          "INPUT": "Search for agents"
         }
       }
     }

@@ -11,14 +11,14 @@
         "ARCHIVED": "Đã lưu trữ"
       },
       "TITLES": {
-        "ALL_ARTICLES": "Tất cả các bài",
+        "ALL_ARTICLES": "Tất cả bài viết",
         "MINE": "Các bài của tôi",
         "DRAFT": "Các bài nháp",
         "ARCHIVED": "Các bài lưu"
       }
     },
     "EDIT_HEADER": {
-      "ALL_ARTICLES": "Tất cả các bài",
+      "ALL_ARTICLES": "Tất cả bài viết",
       "PUBLISH_BUTTON": "Phát hành",
       "MOVE_TO_ARCHIVE_BUTTON": "Di chuyển đến lưu trữ",
       "PREVIEW": "Xem trước",
@@ -32,22 +32,22 @@
       "IMAGE_UPLOAD": {
         "TITLE": "Tải lên hình ảnh",
         "UPLOADING": "Đang tải lên...",
-        "SUCCESS": "Image uploaded successfully",
-        "ERROR": "Error while uploading image",
-        "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
-        "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
-        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
+        "SUCCESS": "Ảnh tải lên thành công",
+        "ERROR": "Lỗi khi tải ảnh lên",
+        "ERROR_FILE_SIZE": "Kích thước ảnh phải nhỏ hơn {size}MB",
+        "ERROR_FILE_FORMAT": "Ảnh phải có định dạng jpg, jpeg hoặc png",
+        "ERROR_FILE_DIMENSIONS": "Kích thước ảnh phải nhỏ hơn 2000 x 2000"
       }
     },
     "ARTICLE_SETTINGS": {
       "TITLE": "Cài đặt bài viết",
       "FORM": {
         "CATEGORY": {
-          "LABEL": "Loại",
+          "LABEL": "Danh mục",
           "TITLE": "Chọn loại",
           "PLACEHOLDER": "Chọn loại",
           "NO_RESULT": "Không tìm thấy loại",
-          "SEARCH_PLACEHOLDER": "Tìm loại"
+          "SEARCH_PLACEHOLDER": "Tìm danh mục"
         },
         "AUTHOR": {
           "LABEL": "Tác giả",
@@ -70,9 +70,17 @@
         }
       },
       "BUTTONS": {
-        "ARCHIVE": "Bài lưu trữ",
+        "ARCHIVE": "Lưu trữ bài viết",
         "DELETE": "Xoá bài"
       }
+    },
+    "ARTICLE_SEARCH_RESULT": {
+      "UNCATEGORIZED": "Chưa được phân loại",
+      "INSERT_ARTICLE": "Thêm vào",
+      "NO_RESULT": "Không có bài viết nào",
+      "COPY_LINK": "Sao chép bài viết vào bộ nhớ tạm",
+      "OPEN_LINK": "Mở bài viên trong tab mới",
+      "PREVIEW_LINK": "Xem trước bài viết"
     },
     "PORTAL": {
       "HEADER": "Cổng",
@@ -81,7 +89,7 @@
       "ACTIVE_BADGE": "có hiệu lực",
       "CHOOSE_LOCALE_LABEL": "Chọn một ngôn ngữ",
       "LOADING_MESSAGE": "Đang tải cổng...",
-      "ARTICLES_LABEL": "các bài",
+      "ARTICLES_LABEL": "bài viết",
       "NO_PORTALS_MESSAGE": "Không có cổng nào",
       "ADD_NEW_LOCALE": "Thêm ngôn ngữ",
       "POPOVER": {
@@ -94,9 +102,9 @@
       "PORTAL_SETTINGS": {
         "LIST_ITEM": {
           "HEADER": {
-            "COUNT_LABEL": "các bài",
+            "COUNT_LABEL": "bài viết",
             "ADD": "Thêm ngôn ngữ",
-            "VISIT": "Thăm trang",
+            "VISIT": "Xem trang",
             "SETTINGS": "Cài đặt",
             "DELETE": "Xoá"
           },
@@ -136,38 +144,38 @@
         }
       },
       "EDIT": {
-        "HEADER_TEXT": "Edit portal",
+        "HEADER_TEXT": "Sửa cổng thông tin",
         "TABS": {
           "BASIC_SETTINGS": {
-            "TITLE": "Basic information"
+            "TITLE": "Thông tin cơ bản"
           },
           "CUSTOMIZATION_SETTINGS": {
-            "TITLE": "Portal customization"
+            "TITLE": "Tuỳ chỉnh cổng thông tin"
           },
           "CATEGORY_SETTINGS": {
-            "TITLE": "Categories"
+            "TITLE": "Danh mục"
           },
           "LOCALE_SETTINGS": {
-            "TITLE": "Locales"
+            "TITLE": "Ngôn ngữ"
           }
         },
         "CATEGORIES": {
-          "TITLE": "Categories in",
-          "NEW_CATEGORY": "New category",
+          "TITLE": "Các danh mục trong",
+          "NEW_CATEGORY": "Tạo danh mục",
           "TABLE": {
             "NAME": "Tên",
             "DESCRIPTION": "Mô tả",
             "LOCALE": "Ngôn ngữ",
             "ARTICLE_COUNT": "Số lượng bài",
             "ACTION_BUTTON": {
-              "EDIT": "Edit category",
-              "DELETE": "Delete category"
+              "EDIT": "Sửa danh mục",
+              "DELETE": "Xoá danh mục"
             },
             "EMPTY_TEXT": "Không tìm thấy danh mục nào"
           }
         },
         "EDIT_BASIC_INFO": {
-          "BUTTON_TEXT": "Update basic settings"
+          "BUTTON_TEXT": "Cập nhật thông tin cơ bản"
         }
       },
       "ADD": {
@@ -229,13 +237,13 @@
           "LABEL": "Tên miền tuỳ biến",
           "PLACEHOLDER": "Tên miền tuỳ biến cổng",
           "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: https://example.com",
-          "ERROR": "Enter a valid domain URL"
+          "ERROR": "Nhập URL domain"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Liên kết trang chủ",
           "PLACEHOLDER": "Liên kế trang chủ cổng thông tin",
           "HELP_TEXT": "The link used to return from the portal to the home page. Eg: https://example.com",
-          "ERROR": "Enter a valid home page URL"
+          "ERROR": "Nhập URL trang chủ"
         },
         "THEME_COLOR": {
           "LABEL": "Màu chủ đề cổng thông tin",
@@ -254,45 +262,45 @@
           "ERROR": "Phải có Văn bản tiêu đề cổng"
         },
         "API": {
-          "SUCCESS_MESSAGE_FOR_BASIC": "Portal created successfully.",
+          "SUCCESS_MESSAGE_FOR_BASIC": "Cổng thông tin được tạo thành công.",
           "ERROR_MESSAGE_FOR_BASIC": "Không thể tạo cổng. Thử lại.",
-          "SUCCESS_MESSAGE_FOR_UPDATE": "Portal updated successfully.",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "Cổng thông tin được cập nhật thành công.",
           "ERROR_MESSAGE_FOR_UPDATE": "Không thể cập nhật cổng. Thử lại."
         }
       },
       "ADD_LOCALE": {
         "TITLE": "Thêm ngôn ngữ",
-        "SUB_TITLE": "This adds a new locale to your available translation list.",
+        "SUB_TITLE": "Việc này sẽ thêm một ngôn ngữ mới vào danh sách của bạn.",
         "PORTAL": "Cổng",
         "LOCALE": {
           "LABEL": "Ngôn ngữ",
           "PLACEHOLDER": "Chọn một ngôn ngữ",
-          "ERROR": "Locale is required"
+          "ERROR": "Ngôn ngữ là bắt buộc"
         },
         "BUTTONS": {
-          "CREATE": "Create locale",
+          "CREATE": "Tạo ngôn ngữ",
           "CANCEL": "Huỷ"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Locale added successfully",
-          "ERROR_MESSAGE": "Unable to add locale. Try again."
+          "SUCCESS_MESSAGE": "Ngôn ngữ được thêm thành công",
+          "ERROR_MESSAGE": "Không thể thêm ngôn ngữ. Vui lòng thử lại."
         }
       },
       "CHANGE_DEFAULT_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Default locale updated successfully",
-          "ERROR_MESSAGE": "Unable to update default locale. Try again."
+          "SUCCESS_MESSAGE": "Ngôn ngữ mặc định được cập nhật thành công",
+          "ERROR_MESSAGE": "Không thể thay đổi ngôn ngữ mặc định. Vui lòng thử lại."
         }
       },
       "DELETE_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Locale removed from portal successfully",
-          "ERROR_MESSAGE": "Unable to remove locale from portal. Try again."
+          "SUCCESS_MESSAGE": "Ngôn ngữ đã được gỡ bỏ thành công khỏi cổng thông tin",
+          "ERROR_MESSAGE": "Không thể gỡ ngôn ngữ khỏi cổng thông tin. Vui lòng thử lại."
         }
       }
     },
     "TABLE": {
-      "LOADING_MESSAGE": "Đang tải bài...",
+      "LOADING_MESSAGE": "Đang tải nội dung...",
       "404": "Không có bài viết nào phù hợp với tìm kiếm của bạn 🔍",
       "NO_ARTICLES": "Không có bài viết nào có sẵn",
       "HEADERS": {
@@ -307,7 +315,7 @@
       }
     },
     "EDIT_ARTICLE": {
-      "LOADING": "Đang tải bài...",
+      "LOADING": "Đang tải nội dung...",
       "TITLE_PLACEHOLDER": "Tiêu đề bài viết ở đây",
       "CONTENT_PLACEHOLDER": "Viết bài của bạn ở đây",
       "API": {
@@ -316,14 +324,14 @@
     },
     "PUBLISH_ARTICLE": {
       "API": {
-        "ERROR": "Error while publishing article",
-        "SUCCESS": "Article published successfully"
+        "ERROR": "Lỗi khi xuất bản bài viết",
+        "SUCCESS": "Bài viết xuất bản thành công"
       }
     },
     "ARCHIVE_ARTICLE": {
       "API": {
-        "ERROR": "Error while archiving article",
-        "SUCCESS": "Article archived successfully"
+        "ERROR": "Lỗi khi lưu trữ bài viết",
+        "SUCCESS": "Lưu trữ bài viết thành công"
       }
     },
     "DELETE_ARTICLE": {
@@ -345,7 +353,7 @@
     },
     "SIDEBAR": {
       "SEARCH": {
-        "PLACEHOLDER": "Tìm kiếm các bài"
+        "PLACEHOLDER": "Tìm kiếm bài viết"
       }
     },
     "CATEGORY": {
@@ -407,14 +415,14 @@
           "CANCEL": "Huỷ"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category updated successfully",
-          "ERROR_MESSAGE": "Unable to update category"
+          "SUCCESS_MESSAGE": "Danh mục cập nhật thành công",
+          "ERROR_MESSAGE": "Không thể cập nhật danh mục"
         }
       },
       "DELETE": {
         "API": {
-          "SUCCESS_MESSAGE": "Category deleted successfully",
-          "ERROR_MESSAGE": "Unable to delete category"
+          "SUCCESS_MESSAGE": "Xoá danh mục thành công",
+          "ERROR_MESSAGE": "Không thể xoá danh mục"
         }
       }
     }

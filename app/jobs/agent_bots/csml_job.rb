@@ -1,5 +1,5 @@
 class AgentBots::CsmlJob < ApplicationJob
-  queue_as :bots
+  queue_as :high
 
   def perform(event, agent_bot, message)
     event_data = { message: message }

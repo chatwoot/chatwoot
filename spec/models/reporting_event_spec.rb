@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ReportingEvent, type: :model do
+RSpec.describe ReportingEvent do
   describe 'validations' do
     it { is_expected.to validate_presence_of(:account_id) }
     it { is_expected.to validate_presence_of(:name) }

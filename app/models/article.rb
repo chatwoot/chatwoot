@@ -41,7 +41,7 @@ class Article < ApplicationRecord
              inverse_of: :associated_articles,
              optional: true
   belongs_to :account
-  belongs_to :category
+  belongs_to :category, optional: true
   belongs_to :portal
   belongs_to :author, class_name: 'User'
 
@@ -49,7 +49,6 @@ class Article < ApplicationRecord
   before_validation :ensure_article_slug
 
   validates :account_id, presence: true
-  validates :category_id, presence: true
   validates :author_id, presence: true
   validates :title, presence: true
   validates :content, presence: true
@@ -66,6 +65,7 @@ class Article < ApplicationRecord
   scope :search_by_status, ->(status) { where(status: status) if status.present? }
   scope :order_by_updated_at, -> { reorder(updated_at: :desc) }
   scope :order_by_position, -> { reorder(position: :asc) }
+  scope :order_by_views, -> { reorder(views: :desc) }
 
   # TODO: if text search slows down https://www.postgresql.org/docs/current/textsearch-features.html#TEXTSEARCH-UPDATE-TRIGGERS
   pg_search_scope(

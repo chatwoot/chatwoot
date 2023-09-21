@@ -2,6 +2,7 @@
   <div
     v-if="!conversationSize && isFetchingList"
     class="flex flex-1 items-center h-full bg-black-25 justify-center"
+    :class="{ dark: prefersDarkMode }"
   >
     <spinner size="" />
   </div>
@@ -13,6 +14,7 @@
       'is-widget-right': isRightAligned,
       'is-bubble-hidden': hideMessageBubble,
       'is-flat-design': isWidgetStyleFlat,
+      dark: prefersDarkMode,
     }"
   >
     <router-view />
@@ -39,7 +41,7 @@ import {
   ON_CAMPAIGN_MESSAGE_CLICK,
   ON_UNREAD_MESSAGE_CLICK,
 } from './constants/widgetBusEvents';
-
+import darkModeMixin from 'widget/mixins/darkModeMixin';
 import { SDK_SET_BUBBLE_VISIBILITY } from '../shared/constants/sharedFrameEvents';
 
 export default {
@@ -47,7 +49,7 @@ export default {
   components: {
     Spinner,
   },
-  mixins: [availabilityMixin, configMixin, routerMixin],
+  mixins: [availabilityMixin, configMixin, routerMixin, darkModeMixin],
   data() {
     return {
       isMobile: false,
@@ -108,6 +110,7 @@ export default {
       'setReferrerHost',
       'setWidgetColor',
       'setBubbleVisibility',
+      'setColorScheme',
     ]),
     ...mapActions('conversation', ['fetchOldConversations', 'setUserLastSeen']),
     ...mapActions('campaign', [
@@ -298,6 +301,8 @@ export default {
         } else if (message.event === 'set-locale') {
           this.setLocale(message.locale);
           this.setBubbleLabel();
+        } else if (message.event === 'set-color-scheme') {
+          this.setColorScheme(message.darkMode);
         } else if (message.event === 'toggle-open') {
           this.$store.dispatch('appConfig/toggleWidgetOpen', message.isOpen);
 

@@ -38,6 +38,8 @@ lv:
     contacts:
       import:
         failed: Fails ir tukšs
+      export:
+        success: Mēs jūs informēsim, kad kontaktpersonu eksporta fails būs gatavs apskatei.
       email:
         invalid: Nederīga e-pasta adrese
       phone_number:
@@ -47,6 +49,8 @@ lv:
         unique: vajadzētu būt unikālai, kategorijā un portālā 
     dyte:
       invalid_message_type: "Nederīgs ziņojuma veids. Darbība nav atļauta"
+    slack:
+      invalid_channel_id: "Nepareizs Slack kanāls. Lūdzu, mēģiniet vēlreiz"
     inboxes:
       imap:
         socket_error: Lūdzu, pārbaudiet tīkla savienojumu, IMAP adresi un mēģiniet vēlreiz.
@@ -56,6 +60,8 @@ lv:
         connection_closed_error: Savienojums slēgts.
       validations:
         name: nevajadzētu sākties vai beigties ar simboliem, un nevajadzētu saturēt <> / \ @ rakstzīmes.
+    custom_filters:
+      number_of_records: Sasniegts limits. Maksimālais atļauto pielāgoto filtru skaits vienam lietotājam ir 50.
   reports:
     period: Ziņošanas periods %{since} līdz %{until}
     utc_warning: Izveidotais pārskats atbilst UTC laika joslai
@@ -81,7 +87,7 @@ lv:
       avg_first_response_time: Vidējais pirmās atbildes laiks (Minūtes)
       avg_resolution_time: Vidējais atrisinājuma laiks (Minūtes)
     conversation_traffic_csv:
-      timezone: Timezone
+      timezone: Laika zona
     default_group_by: diena
     csat:
       headers:
@@ -112,7 +118,11 @@ lv:
         pending: "%{user_name} sarunu atzīmēja kā neapstiprinātu"
         snoozed: "%{user_name} atlika sarunu"
         auto_resolved: "Sistēma sarunu atzīmēja kā atrisinātu %{duration} dienu neaktivitātes dēļ"
-        system_auto_open: System reopened the conversation due to a new incoming message.
+        system_auto_open: Sistēma atkārtoti atvēra sarunu jauna ienākoša ziņojuma dēļ.
+      priority:
+        added: '%{user_name} iestatīja prioritāti uz %{new_priority}'
+        updated: '%{user_name} nomainīja prioritāti no %{old_priority} uz %{new_priority}'
+        removed: '%{user_name} noņēma prioritāti'
       assignee:
         self_assigned: "%{user_name} sev piešķīra šo sarunu"
         assigned: "%{user_name} piešķīra sarunu %{assignee_name}"
@@ -136,6 +146,8 @@ lv:
         header:
           from_with_name: "%{assignee_name} no %{inbox_name} <%{from_email}>"
           reply_with_name: "%{assignee_name} no %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} no %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} no %{inbox_name} <%{from_email}>"
@@ -167,12 +179,16 @@ lv:
     google_translate:
       name: "Google Tulkotājs"
       description: "Atvieglojiet aģentiem ziņojumu tulkošanu, pievienojot Google tulkotāja integrāciju. Google tulkotājs palīdz automātiski identificēt valodu un pārvērst to aģenta/konta administratora izvēlētajā valodā."
+    openai:
+      name: "OpenAI"
+      description: "Integrēt jaudīgas AI funkcijas programmā Chatwoot, izmantojot OpenAI GPT modeļus."
   public_portal:
     search:
       search_placeholder: Meklēt rakstu pēc nosaukuma vai pamatteksta...
       empty_placeholder: Nav atrasts.
       loading_placeholder: Meklēšana...
       results_title: Meklēšanas rezultāti
+    toc_header: 'Šajā lapā'
     hero:
       sub_title: Meklējiet rakstus šeit, vai pārlūkojiet tālāk norādītās kategorijas.
     common:

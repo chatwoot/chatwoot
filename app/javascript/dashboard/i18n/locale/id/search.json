@@ -4,20 +4,22 @@
       "ALL": "Semua",
       "CONTACTS": "Kontak",
       "CONVERSATIONS": "Percakapan",
-      "MESSAGES": "Messages"
+      "MESSAGES": "Pesan"
     },
     "SECTION": {
       "CONTACTS": "Kontak",
       "CONVERSATIONS": "Percakapan",
-      "MESSAGES": "Messages"
+      "MESSAGES": "Pesan"
     },
-    "EMPTY_STATE": "No %{item} found for query '%{query}'",
-    "EMPTY_STATE_FULL": "No results found for query '%{query}'",
-    "PLACEHOLDER_KEYBINDING": "/ to focus",
-    "INPUT_PLACEHOLDER": "Search messages, contacts or conversations",
-    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results.",
+    "EMPTY_STATE": "Tidak ada %{item} ditemukan untuk kueri '%{query}'",
+    "EMPTY_STATE_FULL": "Tidak ada hasil ditemukan untuk kueri '%{query}'",
+    "PLACEHOLDER_KEYBINDING": "/ untuk fokus",
+    "INPUT_PLACEHOLDER": "Cari pesan, kontak, atau percakapan",
+    "EMPTY_STATE_DEFAULT": "Cari dengan ID percakapan, email, nomor telepon, atau pesan untuk hasil pencarian yang lebih baik.",
     "BOT_LABEL": "Bot",
-    "READ_MORE": "Read more",
-    "WROTE": "wrote:"
+    "READ_MORE": "Baca lebih lanjut",
+    "WROTE": "menulis:",
+    "FROM": "dari",
+    "EMAIL": "email"
   }
 }

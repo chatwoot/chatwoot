@@ -4,10 +4,15 @@ require 'rails_helper'
 require Rails.root.join 'spec/models/concerns/assignment_handler_shared.rb'
 require Rails.root.join 'spec/models/concerns/auto_assignment_handler_shared.rb'
 
-RSpec.describe Conversation, type: :model do
+RSpec.describe Conversation do
   describe 'associations' do
     it { is_expected.to belong_to(:account) }
     it { is_expected.to belong_to(:inbox) }
+    it { is_expected.to belong_to(:contact) }
+    it { is_expected.to belong_to(:contact_inbox) }
+    it { is_expected.to belong_to(:assignee).optional }
+    it { is_expected.to belong_to(:team).optional }
+    it { is_expected.to belong_to(:campaign).optional }
   end
 
   describe 'concerns' do
@@ -25,6 +30,10 @@ RSpec.describe Conversation, type: :model do
 
     it 'runs before_create callbacks' do
       expect(conversation.display_id).to eq(1)
+    end
+
+    it 'sets waiting since' do
+      expect(conversation.waiting_since).not_to be_nil
     end
 
     it 'creates a UUID for every conversation automatically' do
@@ -488,6 +497,12 @@ RSpec.describe Conversation, type: :model do
     it 'returns unread incoming messages' do
       expect(unread_incoming_messages).to contain_exactly(message)
     end
+
+    it 'returns unread incoming messages even if the agent has not seen the conversation' do
+      conversation.update!(agent_last_seen_at: nil)
+
+      expect(unread_incoming_messages).to contain_exactly(message)
+    end
   end
 
   describe '#push_event_data' do
@@ -518,6 +533,7 @@ RSpec.describe Conversation, type: :model do
         contact_last_seen_at: conversation.contact_last_seen_at.to_i,
         agent_last_seen_at: conversation.agent_last_seen_at.to_i,
         created_at: conversation.created_at.to_i,
+        waiting_since: conversation.waiting_since.to_i,
         priority: nil,
         unread_count: 0
       }

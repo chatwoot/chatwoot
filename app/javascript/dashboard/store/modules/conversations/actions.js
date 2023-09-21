@@ -10,8 +10,6 @@ import {
   isOnUnattendedView,
 } from './helpers/actionHelpers';
 import messageReadActions from './actions/messageReadActions';
-import AnalyticsHelper from '../../../helper/AnalyticsHelper';
-import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import messageTranslateActions from './actions/messageTranslateActions';
 import messageForwardActions from './actions/messageForwardActions';
 // actions
@@ -82,6 +80,18 @@ const actions = {
       if (!payload.length) {
         commit(types.SET_ALL_MESSAGES_LOADED);
       }
+    } catch (error) {
+      // Handle error
+    }
+  },
+
+  fetchAllAttachments: async ({ commit }, conversationId) => {
+    try {
+      const { data } = await ConversationApi.getAllAttachments(conversationId);
+      commit(types.SET_ALL_ATTACHMENTS, {
+        id: conversationId,
+        data: data.payload,
+      });
     } catch (error) {
       // Handle error
     }
@@ -239,12 +249,11 @@ const actions = {
         status: MESSAGE_STATUS.PROGRESS,
       });
       const response = await MessageApi.create(pendingMessage);
-      AnalyticsHelper.track(
-        pendingMessage.private
-          ? CONVERSATION_EVENTS.SENT_PRIVATE_NOTE
-          : CONVERSATION_EVENTS.SENT_MESSAGE
-      );
       commit(types.ADD_MESSAGE, {
+        ...response.data,
+        status: MESSAGE_STATUS.SENT,
+      });
+      commit(types.ADD_CONVERSATION_ATTACHMENTS, {
         ...response.data,
         status: MESSAGE_STATUS.SENT,
       });
@@ -270,6 +279,7 @@ const actions = {
         conversationId: message.conversation_id,
         canReply: true,
       });
+      commit(types.ADD_CONVERSATION_ATTACHMENTS, message);
     }
   },
 
@@ -284,6 +294,7 @@ const actions = {
     try {
       const { data } = await MessageApi.delete(conversationId, messageId);
       commit(types.ADD_MESSAGE, data);
+      commit(types.DELETE_CONVERSATION_ATTACHMENTS, data);
     } catch (error) {
       throw new Error(error);
     }
@@ -336,8 +347,22 @@ const actions = {
     dispatch('contacts/setContact', sender);
   },
 
-  setChatFilter({ commit }, data) {
+  updateConversationLastActivity(
+    { commit },
+    { conversationId, lastActivityAt }
+  ) {
+    commit(types.UPDATE_CONVERSATION_LAST_ACTIVITY, {
+      lastActivityAt,
+      conversationId,
+    });
+  },
+
+  setChatStatusFilter({ commit }, data) {
     commit(types.CHANGE_CHAT_STATUS_FILTER, data);
+  },
+
+  setChatSortFilter({ commit }, data) {
+    commit(types.CHANGE_CHAT_SORT_FILTER, data);
   },
 
   updateAssignee({ commit }, data) {

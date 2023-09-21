@@ -1,5 +1,5 @@
 <template>
-  <section class="conversation-page">
+  <section class="conversation-page bg-white dark:bg-slate-900">
     <chat-list
       :show-conversation-list="showConversationList"
       :conversation-inbox="inboxId"
@@ -27,9 +27,9 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import ChatList from '../../../components/ChatList';
-import ConversationBox from '../../../components/widgets/conversation/ConversationBox';
-import PopOverSearch from './search/PopOverSearch';
+import ChatList from '../../../components/ChatList.vue';
+import ConversationBox from '../../../components/widgets/conversation/ConversationBox.vue';
+import PopOverSearch from './search/PopOverSearch.vue';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import wootConstants from 'dashboard/constants/globals';

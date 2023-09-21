@@ -1,10 +1,30 @@
 <template>
-  <div class="column">
-    <woot-modal-header :header-title="$t('FILTER.TITLE')">
-      <p>{{ $t('FILTER.SUBTITLE') }}</p>
+  <div>
+    <woot-modal-header :header-title="filterModalHeaderTitle">
+      <p class="text-slate-600 dark:text-slate-200">
+        {{ filterModalSubTitle }}
+      </p>
     </woot-modal-header>
-    <div class="row modal-content">
-      <div class="medium-12 columns filters-wrap">
+    <div class="p-8">
+      <div v-if="isFolderView">
+        <label class="input-label" :class="{ error: !activeFolderNewName }">
+          {{ $t('FILTER.FOLDER_LABEL') }}
+          <input
+            v-model="activeFolderNewName"
+            type="text"
+            class="folder-input border-slate-75 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100"
+          />
+          <span v-if="!activeFolderNewName" class="message">
+            {{ $t('FILTER.EMPTY_VALUE_ERROR') }}
+          </span>
+        </label>
+        <label class="mb-1">
+          {{ $t('FILTER.FOLDER_QUERY_LABEL') }}
+        </label>
+      </div>
+      <div
+        class="p-4 rounded-lg bg-slate-25 dark:bg-slate-900 border border-solid border-slate-50 dark:border-slate-700/50 mb-4"
+      >
         <filter-input-box
           v-for="(filter, i) in appliedFilters"
           :key="i"
@@ -25,7 +45,7 @@
           @resetFilter="resetFilter(i, appliedFilters[i])"
           @removeFilter="removeFilter(i)"
         />
-        <div class="filter-actions">
+        <div class="mt-4">
           <woot-button
             icon="add"
             color-scheme="success"
@@ -37,12 +57,19 @@
           </woot-button>
         </div>
       </div>
-      <div class="medium-12 columns">
-        <div class="modal-footer justify-content-end w-full">
+      <div class="w-full">
+        <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
           <woot-button class="button clear" @click.prevent="onClose">
             {{ $t('FILTER.CANCEL_BUTTON_LABEL') }}
           </woot-button>
-          <woot-button @click="submitFilterQuery">
+          <woot-button
+            v-if="isFolderView"
+            :disabled="!activeFolderNewName"
+            @click="updateSavedCustomViews"
+          >
+            {{ $t('FILTER.UPDATE_BUTTON_LABEL') }}
+          </woot-button>
+          <woot-button v-else @click="submitFilterQuery">
             {{ $t('FILTER.SUBMIT_BUTTON_LABEL') }}
           </woot-button>
         </div>
@@ -81,6 +108,14 @@ export default {
       type: Array,
       default: () => [],
     },
+    activeFolderName: {
+      type: String,
+      default: '',
+    },
+    isFolderView: {
+      type: Boolean,
+      default: false,
+    },
   },
   validations: {
     appliedFilters: {
@@ -107,6 +142,7 @@ export default {
     return {
       show: true,
       appliedFilters: this.initialAppliedFilters,
+      activeFolderNewName: this.activeFolderName,
       filterTypes: this.initialFilterTypes,
       filterAttributeGroups,
       filterGroups: [],
@@ -119,6 +155,16 @@ export default {
     ...mapGetters({
       getAppliedConversationFilters: 'getAppliedConversationFilters',
     }),
+    filterModalHeaderTitle() {
+      return !this.isFolderView
+        ? this.$t('FILTER.TITLE')
+        : this.$t('FILTER.EDIT_CUSTOM_FILTER');
+    },
+    filterModalSubTitle() {
+      return !this.isFolderView
+        ? this.$t('FILTER.SUBTITLE')
+        : this.$t('FILTER.CUSTOM_VIEWS_SUBTITLE');
+    },
   },
   mounted() {
     this.setFilterAttributes();
@@ -126,7 +172,7 @@ export default {
     if (this.getAppliedConversationFilters.length) {
       this.appliedFilters = [];
       this.appliedFilters = [...this.getAppliedConversationFilters];
-    } else {
+    } else if (!this.isFolderView) {
       this.appliedFilters.push({
         attribute_key: 'status',
         filter_operator: 'equal_to',
@@ -177,11 +223,11 @@ export default {
       if (key === 'created_at' || key === 'last_activity_at')
         if (operator === 'days_before') return 'plain_text';
       const type = this.filterTypes.find(filter => filter.attributeKey === key);
-      return type.inputType;
+      return type?.inputType;
     },
     getOperators(key) {
       const type = this.filterTypes.find(filter => filter.attributeKey === key);
-      return type.filterOperators;
+      return type?.filterOperators;
     },
     getDropdownValues(type) {
       const statusFilters = this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS');
@@ -267,11 +313,30 @@ export default {
       }
     },
     appendNewFilter() {
-      this.appliedFilters.push({
-        attribute_key: 'status',
-        filter_operator: 'equal_to',
-        values: '',
+      if (this.isFolderView) {
+        this.setQueryOperatorOnLastQuery();
+      } else {
+        this.appliedFilters.push({
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
+          values: '',
+          query_operator: 'and',
+        });
+      }
+    },
+    setQueryOperatorOnLastQuery() {
+      const lastItemIndex = this.appliedFilters.length - 1;
+      this.appliedFilters[lastItemIndex] = {
+        ...this.appliedFilters[lastItemIndex],
         query_operator: 'and',
+      };
+      this.$nextTick(() => {
+        this.appliedFilters.push({
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
+          values: '',
+          query_operator: 'and',
+        });
       });
     },
     removeFilter(index) {
@@ -293,8 +358,12 @@ export default {
         applied_filters: this.appliedFilters.map(filter => ({
           key: filter.attribute_key,
           operator: filter.filter_operator,
+          query_operator: filter.query_operator,
         })),
       });
+    },
+    updateSavedCustomViews() {
+      this.$emit('updateFolder', this.appliedFilters, this.activeFolderNewName);
     },
     resetFilter(index, currentFilter) {
       this.appliedFilters[index].filter_operator = this.filterTypes.find(
@@ -311,15 +380,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.filters-wrap {
-  padding: var(--space-normal);
-  border-radius: var(--border-radius-large);
-  border: 1px solid var(--color-border);
-  background: var(--color-background-light);
-  margin-bottom: var(--space-normal);
-}
-
-.filter-actions {
-  margin-top: var(--space-normal);
+.folder-input {
+  @apply w-[50%];
 }
 </style>

@@ -1,12 +1,12 @@
 <template>
   <woot-modal :show.sync="show" :on-close="onCancel">
-    <div class="column content-box">
+    <div class="h-auto overflow-auto flex flex-col">
       <woot-modal-header
         :header-title="$t('EMAIL_TRANSCRIPT.TITLE')"
         :header-content="$t('EMAIL_TRANSCRIPT.DESC')"
       />
-      <form @submit.prevent="onSubmit">
-        <div class="medium-12 columns">
+      <form class="w-full" @submit.prevent="onSubmit">
+        <div class="w-full">
           <div v-if="currentChat.meta.sender && currentChat.meta.sender.email">
             <input
               id="contact"
@@ -43,7 +43,7 @@
               $t('EMAIL_TRANSCRIPT.FORM.SEND_TO_OTHER_EMAIL_ADDRESS')
             }}</label>
           </div>
-          <div v-if="sentToOtherEmailAddress" class="medium-6 columns">
+          <div v-if="sentToOtherEmailAddress" class="w-[50%] mt-1">
             <label :class="{ error: $v.email.$error }">
               <input
                 v-model.trim="email"
@@ -57,16 +57,14 @@
             </label>
           </div>
         </div>
-        <div class="modal-footer">
-          <div class="medium-12 row">
-            <woot-submit-button
-              :button-text="$t('EMAIL_TRANSCRIPT.SUBMIT')"
-              :disabled="!isFormValid"
-            />
-            <button class="button clear" @click.prevent="onCancel">
-              {{ $t('EMAIL_TRANSCRIPT.CANCEL') }}
-            </button>
-          </div>
+        <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+          <woot-submit-button
+            :button-text="$t('EMAIL_TRANSCRIPT.SUBMIT')"
+            :disabled="!isFormValid"
+          />
+          <button class="button clear" @click.prevent="onCancel">
+            {{ $t('EMAIL_TRANSCRIPT.CANCEL') }}
+          </button>
         </div>
       </form>
     </div>

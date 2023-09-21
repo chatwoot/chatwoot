@@ -1,0 +1,1 @@
+Please summarize the key points from the following conversation between support agents and customer as bullet points for the next support agent looking into the conversation. Reply in the user's language.

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ::EmailTemplates::DbResolverService do
+describe EmailTemplates::DbResolverService do
   subject(:resolver) { described_class.using(EmailTemplate, {}) }
 
   describe '#find_templates' do

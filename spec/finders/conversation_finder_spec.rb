@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ::ConversationFinder do
+describe ConversationFinder do
   subject(:conversation_finder) { described_class.new(user_1, params) }
 
   let!(:account) { create(:account) }
@@ -8,6 +8,7 @@ describe ::ConversationFinder do
   let!(:user_2) { create(:user, account: account) }
   let!(:admin) { create(:user, account: account, role: :administrator) }
   let!(:inbox) { create(:inbox, account: account, enable_auto_assignment: false) }
+  let!(:contact_inbox) { create(:contact_inbox, inbox: inbox, source_id: 'testing_source_id') }
   let!(:restricted_inbox) { create(:inbox, account: account) }
 
   before do
@@ -16,7 +17,7 @@ describe ::ConversationFinder do
     create(:conversation, account: account, inbox: inbox, assignee: user_1)
     create(:conversation, account: account, inbox: inbox, assignee: user_1)
     create(:conversation, account: account, inbox: inbox, assignee: user_1, status: 'resolved')
-    create(:conversation, account: account, inbox: inbox, assignee: user_2)
+    create(:conversation, account: account, inbox: inbox, assignee: user_2, contact_inbox: contact_inbox)
     # unassigned conversation
     create(:conversation, account: account, inbox: inbox)
     Current.account = account
@@ -127,6 +128,24 @@ describe ::ConversationFinder do
       end
     end
 
+    context 'with source_id' do
+      let(:params) { { source_id: 'testing_source_id' } }
+
+      it 'filter conversations by source id' do
+        result = conversation_finder.perform
+        expect(result[:conversations].length).to be 1
+      end
+    end
+
+    context 'without source' do
+      let(:params) { {} }
+
+      it 'returns conversations with any source' do
+        result = conversation_finder.perform
+        expect(result[:conversations].length).to be 4
+      end
+    end
+
     context 'with pagination' do
       let(:params) { { status: 'open', assignee_type: 'me', page: 1 } }
 
@@ -141,9 +160,13 @@ describe ::ConversationFinder do
       let(:params) { { status: 'open', assignee_type: 'me', conversation_type: 'unattended' } }
 
       it 'returns unattended conversations' do
-        create_list(:conversation, 25, account: account, inbox: inbox, assignee: user_1)
+        create(:conversation, account: account, first_reply_created_at: Time.now.utc, assignee: user_1) # attended_conversation
+        create(:conversation, account: account, first_reply_created_at: nil, assignee: user_1) # unattended_conversation_no_first_reply
+        create(:conversation, account: account, first_reply_created_at: Time.now.utc,
+                              assignee: user_1, waiting_since: Time.now.utc) # unattended_conversation_waiting_since
+
         result = conversation_finder.perform
-        expect(result[:conversations].length).to be 25
+        expect(result[:conversations].length).to be 2
       end
     end
   end

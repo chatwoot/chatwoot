@@ -1,4 +1,5 @@
 class Api::V1::Accounts::CustomFiltersController < Api::V1::Accounts::BaseController
+  before_action :check_authorization
   before_action :fetch_custom_filters, except: [:create]
   before_action :fetch_custom_filter, only: [:show, :update, :destroy]
   DEFAULT_FILTER_TYPE = 'conversation'.freeze
@@ -11,6 +12,7 @@ class Api::V1::Accounts::CustomFiltersController < Api::V1::Accounts::BaseContro
     @custom_filter = current_user.custom_filters.create!(
       permitted_payload.merge(account_id: Current.account.id)
     )
+    render json: { error: @custom_filter.errors.messages }, status: :unprocessable_entity and return unless @custom_filter.valid?
   end
 
   def update

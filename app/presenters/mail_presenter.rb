@@ -70,6 +70,8 @@ class MailPresenter < SimpleDelegator
     }
   end
 
+  # check content disposition check
+  # if inline, upload to AWS and and take the URL
   def attachments
     # ref : https://github.com/gorails-screencasts/action-mailbox-action-text/blob/master/app/mailboxes/posts_mailbox.rb
     mail.attachments.map do |attachment|
@@ -102,6 +104,15 @@ class MailPresenter < SimpleDelegator
       text_content: text_content,
       to: to
     }
+  end
+
+  def in_reply_to
+    return if @mail.in_reply_to.blank?
+
+    # Although the "in_reply_to" field in the email can potentially hold multiple values,
+    # our current system does not have the capability to handle this.
+    # FIX ME: Address this issue by returning the complete results and utilizing them for querying conversations.
+    @mail.in_reply_to.is_a?(Array) ? @mail.in_reply_to.first : @mail.in_reply_to
   end
 
   def from

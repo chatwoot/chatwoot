@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Προσθήκη Ετικετών",
         "PLACEHOLDER": "Αναζήτηση ετικετών",
-        "NO_RESULT": "Δεν βρέθηκαν ετικέτες"
+        "NO_RESULT": "Δεν βρέθηκαν ετικέτες",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Συγχώνευση επαφής",
@@ -70,7 +71,14 @@
       "SUBMIT": "Εισαγωγή",
       "CANCEL": "Άκυρο"
     },
-    "SUCCESS_MESSAGE": "Οι επαφές αποθηκεύτηκαν με επιτυχία",
+    "SUCCESS_MESSAGE": "Θα ειδοποιηθείτε μέσω email όταν ολοκληρωθεί η εισαγωγή.",
+    "ERROR_MESSAGE": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά"
+  },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
     "ERROR_MESSAGE": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά"
   },
   "DELETE_NOTE": {
@@ -120,7 +128,7 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Εισάγετε τον αριθμό τηλεφώνου της επαφής",
         "LABEL": "Αριθμός Τηλεφώνου",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
+        "HELP": "Ο αριθμός τηλεφώνου πρέπει να έχει μορφή E.164 π.χ.: +14155555 [+][κωδικός χώρας][κωδικός περιοχής][αριθμός τοπικού τηλεφώνου]",
         "ERROR": "Ο αριθμός τηλεφώνου πρέπει να είναι είτε άδειος είτε με μορφή E.164",
         "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "Αυτός ο αριθμός τηλεφώνου χρησιμοποιείται σε άλλη επαφή."
@@ -182,7 +190,7 @@
         "LABEL": "Προς"
       },
       "INBOX": {
-        "LABEL": "Via Inbox",
+        "LABEL": "Εισερχόμενα",
         "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Επιλέξτε ένα κιβώτιο εισερχόμενων"
       },
@@ -211,6 +219,7 @@
     "FILTER_CONTACTS": "Φίλτρο",
     "FILTER_CONTACTS_SAVE": "Αποθήκευση φίλτρου",
     "FILTER_CONTACTS_DELETE": "Διαγραφή φίλτρου",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "Φόρτωση επαφών...",
       "404": "Δεν υπάρχουν επαφές που να αντιστοιχούν με την αναζήτησή σας 🔍",

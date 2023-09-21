@@ -35,6 +35,26 @@
         "TEXT": "Всі"
       }
     },
+    "VIEW_FILTER": "Вигляд",
+    "SORT_TOOLTIP_LABEL": "Відсортувати розмови",
+    "CHAT_SORT": {
+      "STATUS": "Статус",
+      "ORDER_BY": "Сортувати за"
+    },
+    "CHAT_SORT_FILTER_ITEMS": {
+      "latest": {
+        "TEXT": "Остання активність"
+      },
+      "sort_on_created_at": {
+        "TEXT": "Створений в"
+      },
+      "sort_on_priority": {
+        "TEXT": "Пріоритет"
+      },
+      "sort_on_waiting_since": {
+        "TEXT": "Pending Response"
+      }
+    },
     "ATTACHMENTS": {
       "image": {
         "CONTENT": "Повідомлення з картинкою"
@@ -53,6 +73,24 @@
       },
       "fallback": {
         "CONTENT": "поділився посиланням"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Відсортувати розмови",
+      "DROPDOWN_TITLE": "Сортувати за",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Остання активність о",
+          "LABEL": "Остання активність"
+        },
+        "CREATED_AT": {
+          "NAME": "Створений в",
+          "LABEL": "Створений в"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Дата останнього повідомлення",
+          "LABEL": "Останнє повідомлення"
+        }
       }
     },
     "RECEIVED_VIA_EMAIL": "Отримано електронною поштою",

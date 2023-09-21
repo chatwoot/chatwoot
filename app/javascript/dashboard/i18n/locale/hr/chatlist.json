@@ -35,6 +35,26 @@
         "TEXT": "All"
       }
     },
+    "VIEW_FILTER": "Pregled",
+    "SORT_TOOLTIP_LABEL": "Poredaj razgovore",
+    "CHAT_SORT": {
+      "STATUS": "Status",
+      "ORDER_BY": "Poredaj po"
+    },
+    "CHAT_SORT_FILTER_ITEMS": {
+      "latest": {
+        "TEXT": "Zadnja aktivnost"
+      },
+      "sort_on_created_at": {
+        "TEXT": "Kreirano"
+      },
+      "sort_on_priority": {
+        "TEXT": "Prioritet"
+      },
+      "sort_on_waiting_since": {
+        "TEXT": "Pending Response"
+      }
+    },
     "ATTACHMENTS": {
       "image": {
         "CONTENT": "Picture message"
@@ -53,6 +73,24 @@
       },
       "fallback": {
         "CONTENT": "has shared a url"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Poredaj razgovor",
+      "DROPDOWN_TITLE": "Poredaj po",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Zadnja aktivnost",
+          "LABEL": "Zadnja aktivnost"
+        },
+        "CREATED_AT": {
+          "NAME": "Kreirano",
+          "LABEL": "Kreirano"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Zadnja poruka korisnika",
+          "LABEL": "Zadnja poruka"
+        }
       }
     },
     "RECEIVED_VIA_EMAIL": "Received via email",

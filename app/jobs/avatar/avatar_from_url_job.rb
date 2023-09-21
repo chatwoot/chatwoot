@@ -1,5 +1,5 @@
 class Avatar::AvatarFromUrlJob < ApplicationJob
-  queue_as :default
+  queue_as :low
 
   def perform(avatarable, avatar_url)
     return unless avatarable.respond_to?(:avatar)

@@ -35,6 +35,41 @@ describe Whatsapp::IncomingMessageService do
         expect(last_conversation.messages.last.content).to eq(params[:messages].first[:text][:body])
       end
 
+      it 'reopen last conversation if last conversation is resolved and lock to single conversation is enabled' do
+        whatsapp_channel.inbox.update(lock_to_single_conversation: true)
+        contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: params[:messages].first[:from])
+        last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
+        last_conversation.update(status: 'resolved')
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        # no new conversation should be created
+        expect(whatsapp_channel.inbox.conversations.count).to eq(1)
+        # message appended to the last conversation
+        expect(last_conversation.messages.last.content).to eq(params[:messages].first[:text][:body])
+        expect(last_conversation.reload.status).to eq('open')
+      end
+
+      it 'creates a new conversation if last conversation is resolved and lock to single conversation is disabled' do
+        whatsapp_channel.inbox.update(lock_to_single_conversation: false)
+        contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: params[:messages].first[:from])
+        last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
+        last_conversation.update(status: 'resolved')
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        # new conversation should be created
+        expect(whatsapp_channel.inbox.conversations.count).to eq(2)
+        expect(contact_inbox.conversations.last.messages.last.content).to eq(params[:messages].first[:text][:body])
+      end
+
+      it 'will not create a new conversation if last conversation is not resolved and lock to single conversation is disabled' do
+        whatsapp_channel.inbox.update(lock_to_single_conversation: false)
+        contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: params[:messages].first[:from])
+        last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
+        last_conversation.update(status: Conversation.statuses.except('resolved').keys.sample)
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        # new conversation should be created
+        expect(whatsapp_channel.inbox.conversations.count).to eq(1)
+        expect(contact_inbox.conversations.last.messages.last.content).to eq(params[:messages].first[:text][:body])
+      end
+
       it 'will not create duplicate messages when same message is received' do
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
         expect(whatsapp_channel.inbox.messages.count).to eq(1)
@@ -306,6 +341,37 @@ describe Whatsapp::IncomingMessageService do
           expect(whatsapp_channel.inbox.messages.first.content).to eq('Test')
           expect(whatsapp_channel.inbox.contact_inboxes.first.source_id).to eq(wa_id)
         end
+      end
+    end
+
+    describe 'when message processing is in progress' do
+      it 'ignores the current message creation request' do
+        params = { 'contacts' => [{ 'profile' => { 'name' => 'Kedar' }, 'wa_id' => '919746334593' }],
+                   'messages' => [{ 'from' => '919446284490',
+                                    'id' => 'wamid.SDFADSf23sfasdafasdfa',
+                                    'timestamp' => '1675823265',
+                                    'type' => 'contacts',
+                                    'contacts' => [
+                                      {
+                                        'name' => { 'formatted_name' => 'Apple Inc.' },
+                                        'phones' => [{ 'phone' => '+911800', 'type' => 'MAIN' }]
+                                      },
+                                      { 'name' => { 'first_name' => 'Chatwoot', 'formatted_name' => 'Chatwoot' },
+                                        'phones' => [{ 'phone' => '+1 (415) 341-8386' }] }
+                                    ] }] }.with_indifferent_access
+
+        expect(Message.find_by(source_id: 'wamid.SDFADSf23sfasdafasdfa')).not_to be_present
+        key = format(Redis::RedisKeys::MESSAGE_SOURCE_KEY, id: 'wamid.SDFADSf23sfasdafasdfa')
+
+        Redis::Alfred.setex(key, true)
+        expect(Redis::Alfred.get(key)).to be_truthy
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        expect(whatsapp_channel.inbox.messages.count).to eq(0)
+        expect(Message.find_by(source_id: 'wamid.SDFADSf23sfasdafasdfa')).not_to be_present
+
+        expect(Redis::Alfred.get(key)).to be_truthy
+        Redis::Alfred.delete(key)
       end
     end
   end

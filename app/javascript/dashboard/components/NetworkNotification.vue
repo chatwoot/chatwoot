@@ -77,7 +77,7 @@ export default {
 @import '~dashboard/assets/scss/mixins';
 
 .ui-notification-container {
-  max-width: 40rem;
+  max-width: 25rem;
   position: absolute;
   right: var(--space-normal);
   top: var(--space-normal);
@@ -94,7 +94,7 @@ export default {
   border-radius: var(--border-radius-medium);
   box-shadow: var(--shadow-large);
 
-  min-width: 24rem;
+  min-width: 15rem;
   padding: var(--space-normal);
 }
 

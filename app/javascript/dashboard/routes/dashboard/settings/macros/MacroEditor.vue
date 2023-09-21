@@ -1,5 +1,5 @@
 <template>
-  <div class="column content-box">
+  <div class="h-full overflow-auto flex-1 flex flex-col">
     <woot-loading-state
       v-if="uiFlags.isFetchingItem"
       :message="$t('MACROS.EDITOR.LOADING')"
@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import MacroForm from './MacroForm';
+import MacroForm from './MacroForm.vue';
 import { MACRO_ACTION_TYPES } from './constants';
 import { mapGetters } from 'vuex';
 import actionQueryGenerator from 'dashboard/helper/actionQueryGenerator.js';
@@ -140,10 +140,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.content-box {
-  padding: 0;
-  height: 100vh;
-}
-</style>

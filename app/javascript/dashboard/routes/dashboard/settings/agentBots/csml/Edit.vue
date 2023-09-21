@@ -4,12 +4,12 @@
     :agent-bot="agentBot"
     @submit="updateBot"
   />
-  <div v-else class="column content-box no-padding">
+  <div v-else class="h-auto overflow-auto flex flex-col no-padding">
     <spinner />
   </div>
 </template>
 <script>
-import Spinner from 'shared/components/Spinner';
+import Spinner from 'shared/components/Spinner.vue';
 import CsmlBotEditor from '../components/CSMLBotEditor.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 

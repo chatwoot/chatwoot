@@ -76,27 +76,25 @@ export default {
 </script>
 <style scoped lang="scss">
 .pre-chat-field {
-  padding: var(--space-normal) var(--space-small);
+  @apply py-4 px-2 text-slate-700 dark:text-slate-100;
 
   svg {
-    display: flex;
-    align-items: center;
+    @apply flex items-center;
   }
 }
 .disabled-text {
-  color: var(--s-500);
+  @apply text-slate-500 dark:text-slate-400;
 }
 
 table {
   thead th {
-    text-transform: none;
+    @apply normal-case;
   }
   input {
-    font-size: var(--font-size-small);
-    margin-bottom: 0;
+    @apply text-sm mb-0;
   }
 }
 checkbox {
-  margin: 0;
+  @apply m-0;
 }
 </style>

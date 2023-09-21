@@ -30,7 +30,7 @@
     },
     "ARTICLE_EDITOR": {
       "IMAGE_UPLOAD": {
-        "TITLE": "Upload image",
+        "TITLE": "Hlaða upp mynd",
         "UPLOADING": "Hleður upp...",
         "SUCCESS": "Image uploaded successfully",
         "ERROR": "Error while uploading image",
@@ -73,6 +73,14 @@
         "ARCHIVE": "Archive article",
         "DELETE": "Delete article"
       }
+    },
+    "ARTICLE_SEARCH_RESULT": {
+      "UNCATEGORIZED": "Uncategorized",
+      "INSERT_ARTICLE": "Insert",
+      "NO_RESULT": "No articles found",
+      "COPY_LINK": "Copy article link to clipboard",
+      "OPEN_LINK": "Open article in new tab",
+      "PREVIEW_LINK": "Preview article"
     },
     "PORTAL": {
       "HEADER": "Portals",

@@ -8,12 +8,12 @@
   >
     <fluent-icon v-if="!!iconClass" :icon="iconClass" class="icon" />
     <span>{{ buttonText }}</span>
-    <spinner v-if="loading" />
+    <spinner v-if="loading" class="ml-2" :color-scheme="spinnerClass" />
   </button>
 </template>
 
 <script>
-import Spinner from 'shared/components/Spinner';
+import Spinner from 'shared/components/Spinner.vue';
 
 export default {
   components: {
@@ -40,6 +40,10 @@ export default {
       type: String,
       default: '',
     },
+    spinnerClass: {
+      type: String,
+      default: '',
+    },
     type: {
       type: String,
       default: 'submit',
@@ -47,7 +51,7 @@ export default {
   },
   computed: {
     computedClass() {
-      return `button nice ${this.buttonClass || ' '}`;
+      return `button nice gap-2 ${this.buttonClass || ' '}`;
     },
   },
   methods: {
@@ -59,11 +63,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 button:disabled {
-  opacity: 1;
-  background-color: var(--w-100);
-
+  @apply bg-woot-100 dark:bg-woot-500/25 dark:text-slate-500 opacity-100;
   &:hover {
-    background-color: var(--w-100);
+    @apply bg-woot-100 dark:bg-woot-500/25;
   }
 }
 </style>

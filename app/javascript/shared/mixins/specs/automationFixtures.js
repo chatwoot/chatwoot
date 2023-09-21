@@ -390,6 +390,7 @@ export const inboxes = [
     working_hours_enabled: false,
     enable_email_collect: true,
     csat_survey_enabled: true,
+    sender_name_type: 0,
     enable_auto_assignment: true,
     out_of_office_message:
       'We are unavailable at the moment. Leave a message we will respond once we are back.',

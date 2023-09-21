@@ -9,5 +9,9 @@ FactoryBot.define do
     trait :skip_validate do
       to_create { |instance| instance.save(validate: false) }
     end
+
+    trait :with_avatar do
+      avatar { fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png') }
+    end
   end
 end

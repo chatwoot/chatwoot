@@ -21,7 +21,7 @@ By default, the relationship is rendered as a link to the associated object.
       field.display_associated_resource,
       super_admin_user_path(field.data),
     ) %>
-  <% elsif valid_action?(:show, field.associated_class) %>
+  <% elsif existing_action?(field.associated_class, :show) %>
     <%= link_to(
       field.display_associated_resource,
       [namespace, field.data],

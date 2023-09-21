@@ -1,5 +1,5 @@
 class ActionCableBroadcastJob < ApplicationJob
-  queue_as :default
+  queue_as :critical
 
   def perform(members, event_name, data)
     members.each do |member|

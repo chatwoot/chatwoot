@@ -5,7 +5,7 @@ ConfigLoader.new.process
 ## Seeds productions
 if Rails.env.production?
   # Setup Onboarding flow
-  ::Redis::Alfred.set(::Redis::Alfred::CHATWOOT_INSTALLATION_ONBOARDING, true)
+  Redis::Alfred.set(Redis::Alfred::CHATWOOT_INSTALLATION_ONBOARDING, true)
 end
 
 ## Seeds for Local Development
@@ -46,7 +46,7 @@ unless Rails.env.production?
   inbox = Inbox.create!(channel: web_widget, account: account, name: 'Acme Support')
   InboxMember.create!(user: user, inbox: inbox)
 
-  contact_inbox = ::ContactInboxWithContactBuilder.new(
+  contact_inbox = ContactInboxWithContactBuilder.new(
     source_id: user.id,
     inbox: inbox,
     hmac_verified: true,

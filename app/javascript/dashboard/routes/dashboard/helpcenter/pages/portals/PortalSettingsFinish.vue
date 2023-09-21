@@ -1,12 +1,12 @@
 <template>
-  <div class="wizard-body height-auto small-9 columns">
+  <div class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%] h-auto">
     <empty-state
       :title="$t('HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.FINISH_PAGE.TITLE')"
       :message="
         $t('HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.FINISH_PAGE.MESSAGE')
       "
     >
-      <div class="medium-12 columns text-center">
+      <div class="w-full text-center">
         <router-link
           class="button success nice"
           :to="{
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import EmptyState from 'dashboard/components/widgets/EmptyState';
+import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 export default {
   components: {
     EmptyState,
@@ -37,7 +37,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .wizard-body {
-  padding-top: var(--space-slab);
-  border: 1px solid transparent;
+  @apply pb-3;
 }
 </style>

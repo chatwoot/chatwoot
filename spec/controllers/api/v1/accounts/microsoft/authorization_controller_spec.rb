@@ -40,8 +40,8 @@ RSpec.describe 'Microsoft Authorization API', type: :request do
             prompt: 'consent'
           }
         )
-        expect(JSON.parse(response.body)['url']).to eq response_url
-        expect(::Redis::Alfred.get(administrator.email)).to eq(account.id.to_s)
+        expect(response.parsed_body['url']).to eq response_url
+        expect(Redis::Alfred.get(administrator.email)).to eq(account.id.to_s)
       end
     end
   end

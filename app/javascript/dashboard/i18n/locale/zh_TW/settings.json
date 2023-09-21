@@ -20,9 +20,9 @@
         "NOTE": "您的電子信箱地址是您的身份並用於登入。"
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
+        "TITLE": "傳送訊息熱鍵",
         "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "UPDATE_SUCCESS": "你的設定已經成功更新",
         "CARD": {
           "ENTER_KEY": {
             "HEADING": "Enter (↵)",
@@ -39,7 +39,10 @@
         "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
         "BTN_TEXT": "Save message signature",
         "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully"
+        "API_SUCCESS": "Signature saved successfully",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Message Signature",
@@ -108,7 +111,7 @@
       "DISPLAY_NAME": {
         "LABEL": "顯示名稱",
         "ERROR": "請輸入一個有效的顯示名稱",
-        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+        "PLACEHOLDER": "請輸入一個名字，這將會在對話中顯示"
       },
       "AVAILABILITY": {
         "LABEL": "有效的",
@@ -149,13 +152,14 @@
     "SELECTOR_SUBTITLE": "從以下列表中選擇一個帳戶",
     "PROFILE_SETTINGS": "個人資料設定",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
+    "APPEARANCE": "Change Appearance",
     "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "退出登入"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "剩餘試用期天數",
     "TRAIL_BUTTON": "立即購買",
-    "DELETED_USER": "Deleted User",
+    "DELETED_USER": "刪除使用者",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Account Suspended",
       "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
@@ -168,8 +172,8 @@
       "COPY_SUCCESSFUL": "Copied to clipboard"
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
-      "SHOW_LESS": "Show Less"
+      "SHOW_MORE": "顯示更多",
+      "SHOW_LESS": "顯示更少"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "下載",

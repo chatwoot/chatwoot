@@ -9,6 +9,8 @@ class Api::V1::Accounts::CategoriesController < Api::V1::Accounts::BaseControlle
     @categories = @portal.categories.search(params)
   end
 
+  def show; end
+
   def create
     @category = @portal.categories.create!(category_params)
     @category.related_categories << related_categories_records
@@ -16,8 +18,6 @@ class Api::V1::Accounts::CategoriesController < Api::V1::Accounts::BaseControlle
 
     @category.save!
   end
-
-  def show; end
 
   def update
     @category.update!(category_params)

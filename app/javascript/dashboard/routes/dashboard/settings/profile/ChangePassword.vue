@@ -1,8 +1,8 @@
 <template>
   <form @submit.prevent="changePassword()">
-    <div class="profile--settings--row row">
+    <div class="profile--settings--row text-black-900 dark:text-slate-300 row">
       <div class="columns small-3">
-        <h4 class="block-title">
+        <h4 class="block-title text-black-900 dark:text-slate-200">
           {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.TITLE') }}
         </h4>
         <p>{{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.NOTE') }}</p>

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Conversations::ReopenSnoozedConversationsJob, type: :job do
+RSpec.describe Conversations::ReopenSnoozedConversationsJob do
   let!(:snoozed_till_5_minutes_ago) { create(:conversation, status: :snoozed, snoozed_until: 5.minutes.ago) }
   let!(:snoozed_till_tomorrow) { create(:conversation, status: :snoozed, snoozed_until: 1.day.from_now) }
   let!(:snoozed_indefinitely) { create(:conversation, status: :snoozed) }

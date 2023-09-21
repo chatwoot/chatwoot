@@ -58,7 +58,7 @@
       <transition name="popover-animation">
         <label-actions
           v-if="showLabelActions"
-          triangle-position="8.5"
+          class="label-actions-box"
           @assign="assignLabels"
           @close="showLabelActions = false"
         />
@@ -66,12 +66,12 @@
       <transition name="popover-animation">
         <update-actions
           v-if="showUpdateActions"
+          class="update-actions-box"
           :selected-inboxes="selectedInboxes"
           :conversation-count="conversations.length"
           :show-resolve="!showResolvedAction"
           :show-reopen="!showOpenAction"
           :show-snooze="!showSnoozedAction"
-          triangle-position="5.6"
           @update="updateConversations"
           @close="showUpdateActions = false"
         />
@@ -79,9 +79,9 @@
       <transition name="popover-animation">
         <agent-selector
           v-if="showAgentsList"
+          class="agent-actions-box"
           :selected-inboxes="selectedInboxes"
           :conversation-count="conversations.length"
-          triangle-position="2.8"
           @select="submit"
           @close="showAgentsList = false"
         />
@@ -89,7 +89,7 @@
       <transition name="popover-animation">
         <team-actions
           v-if="showTeamsList"
-          triangle-position="0.2"
+          class="team-actions-box"
           @assign-team="assignTeam"
           @close="showTeamsList = false"
         />
@@ -194,33 +194,23 @@ export default {
 }
 
 .bulk-action__container {
-  border-bottom: 1px solid var(--s-100);
-  padding: var(--space-normal);
-  position: relative;
+  @apply p-4 relative border-b border-solid border-slate-100 dark:border-slate-600/70;
 }
 
 .bulk-action__panel {
-  cursor: pointer;
+  @apply cursor-pointer;
 
   span {
-    font-size: var(--font-size-mini);
-    margin: 0 var(--space-smaller);
+    @apply text-xs my-0 mx-1;
   }
 
   input[type='checkbox'] {
-    cursor: pointer;
-    margin: var(--space-zero);
+    @apply cursor-pointer m-0;
   }
 }
 
 .bulk-action__alert {
-  background-color: var(--y-50);
-  border-radius: var(--border-radius-small);
-  border: 1px solid var(--y-300);
-  color: var(--y-700);
-  font-size: var(--font-size-mini);
-  margin-top: var(--space-small);
-  padding: var(--space-smaller) var(--space-small);
+  @apply bg-yellow-50 text-yellow-700 rounded text-xs mt-2 py-1 px-2 border border-solid border-yellow-300 dark:border-yellow-300/10 dark:bg-yellow-200/20 dark:text-yellow-400;
 }
 
 .popover-animation-enter-active,
@@ -229,22 +219,35 @@ export default {
 }
 
 .popover-animation-enter {
-  opacity: 0;
   transform: scale(0.95);
+  @apply opacity-0;
 }
 
 .popover-animation-enter-to {
-  opacity: 1;
   transform: scale(1);
+  @apply opacity-100;
 }
 
 .popover-animation-leave {
-  opacity: 1;
   transform: scale(1);
+  @apply opacity-100;
 }
 
 .popover-animation-leave-to {
-  opacity: 0;
   transform: scale(0.95);
+  @apply opacity-0;
+}
+
+.label-actions-box {
+  --triangle-position: 5.3125rem;
+}
+.update-actions-box {
+  --triangle-position: 3.5rem;
+}
+.agent-actions-box {
+  --triangle-position: 1.75rem;
+}
+.team-actions-box {
+  --triangle-position: 0.125rem;
 }
 </style>

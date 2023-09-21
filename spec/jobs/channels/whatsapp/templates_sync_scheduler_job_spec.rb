@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Channels::Whatsapp::TemplatesSyncSchedulerJob, type: :job do
+RSpec.describe Channels::Whatsapp::TemplatesSyncSchedulerJob do
   it 'enqueues the job' do
     expect { described_class.perform_later }.to have_enqueued_job(described_class)
       .on_queue('low')
@@ -11,7 +11,7 @@ RSpec.describe Channels::Whatsapp::TemplatesSyncSchedulerJob, type: :job do
       stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook')
       non_synced = create(:channel_whatsapp, sync_templates: false, message_templates_last_updated: nil)
       synced_recently = create(:channel_whatsapp, sync_templates: false, message_templates_last_updated: Time.zone.now)
-      synced_old = create(:channel_whatsapp, sync_templates: false, message_templates_last_updated: 16.minutes.ago)
+      synced_old = create(:channel_whatsapp, sync_templates: false, message_templates_last_updated: 4.hours.ago)
       described_class.perform_now
       expect(Channels::Whatsapp::TemplatesSyncJob).not_to(
         have_been_enqueued.with(synced_recently).on_queue('low')
