@@ -42,7 +42,7 @@ export const validateRouteAccess = (to, next, chatwootConfig = {}) => {
     to.meta.requireSignupEnabled;
 
   if (!to.name || isAnInalidSignupNavigation) {
-    next(frontendURL('login'));
+    next('/login');
     return;
   }
 

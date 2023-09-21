@@ -8,7 +8,7 @@ const PasswordEdit = () => import('./auth/password/Edit.vue');
 
 export default [
   {
-    path: frontendURL('login'),
+    path: '/login',
     name: 'login',
     component: Login,
     props: route => ({
@@ -21,13 +21,13 @@ export default [
     }),
   },
   {
-    path: frontendURL('auth/signup'),
+    path: '/auth/signup',
     name: 'auth_signup',
     component: Signup,
     meta: { requireSignupEnabled: true },
   },
   {
-    path: frontendURL('auth/confirmation'),
+    path: '/auth/confirmation',
     name: 'auth_confirmation',
     component: Confirmation,
     meta: { ignoreSession: true },
@@ -38,7 +38,7 @@ export default [
     }),
   },
   {
-    path: frontendURL('auth/password/edit'),
+    path: '/auth/password/edit',
     name: 'auth_password_edit',
     component: PasswordEdit,
     meta: { ignoreSession: true },
@@ -49,7 +49,7 @@ export default [
     }),
   },
   {
-    path: frontendURL('auth/reset/password'),
+    path: '/auth/reset/password',
     name: 'auth_reset_password',
     component: ResetPassword,
   },

@@ -75,16 +75,15 @@ export default defineComponent({
       });
     const leftButton = this.createScrollButton(createElement, 'left');
     const rightButton = this.createScrollButton(createElement, 'right');
-    return createElement(
+    return  createElement(
       'div',
-      { class: { 'tabs--container--with-border': this.border, 'tabs--container': true, }, }
-      [
-      leftButton, createElement(
+      { class: { 'tabs--container--with-border': this.border, 'tabs--container': true, }, },
+       [leftButton, createElement(
         'ul',
         {
-          class: { tabs: true },
+          class: { tabs: true, 'tabs--with-scroll': this.hasScroll },
         },
-        tabItems
+        Tabs
       ), rightButton]
     );
   },

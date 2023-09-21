@@ -1,6 +1,7 @@
 import mila from 'markdown-it-link-attributes';
 import mentionPlugin from './markdownIt/link';
-const md = require('markdown-it')({
+import MarkdownIt from 'markdown-it';
+const md = MarkdownIt({
   html: false,
   xhtmlOut: true,
   breaks: true,

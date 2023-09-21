@@ -90,15 +90,15 @@ window.bus = new Vue();
 initializeChatwootEvents();
 initializeAnalyticsEvents();
 initalizeRouter();
-
+window.WOOT = new Vue({
+  router,
+  store,
+  i18n: i18nConfig,
+  components: { App },
+  template: '<App/>',
+}).$mount('#app');
 window.onload = () => {
-  window.WOOT = new Vue({
-    router,
-    store,
-    i18n: i18nConfig,
-    components: { App },
-    template: '<App/>',
-  }).$mount('#app');
+
 };
 
 window.addEventListener('load', () => {

@@ -11,6 +11,7 @@ export default defineConfig({
     alias: {
       "dashboard": path.resolve(__dirname, "./app"),
       "widget": path.resolve(__dirname, "../widget"),
+      vue: 'vue/dist/vue.js'
     }
   },
   define: {
@@ -25,4 +26,5 @@ export default defineConfig({
       },
     },
   },
+
 })
