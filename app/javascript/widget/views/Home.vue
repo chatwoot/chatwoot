@@ -68,6 +68,7 @@ export default {
       unreadMessageCount: 'conversation/getUnreadMessageCount',
       popularArticles: 'article/popularArticles',
       articleUiFlags: 'article/uiFlags',
+      widgetLocale: 'appConfig/widgetLocale',
     }),
     portal() {
       return window.chatwootWebChannel.portal;
@@ -79,12 +80,28 @@ export default {
         this.popularArticles.length
       );
     },
+    defaultLocale() {
+      const widgetLocale = this.widgetLocale;
+      const {
+        allowed_locales: allowedLocales,
+        default_locale: defaultLocale,
+      } = this.portal.config;
+
+      // IMPORTANT: Variation strict locale matching, Follow iso_639_1_code
+      // If the exact match of a locale is available in the list of portal locales, return it
+      // Else return the default locale. Eg: `es` will not work if `es_ES` is available in the list
+      if (allowedLocales.includes(widgetLocale)) {
+        return widgetLocale;
+      }
+      return defaultLocale;
+    },
   },
   mounted() {
     if (this.portal && this.popularArticles.length === 0) {
+      const locale = this.defaultLocale;
       this.$store.dispatch('article/fetch', {
         slug: this.portal.slug,
-        locale: 'en',
+        locale,
       });
     }
   },
@@ -102,9 +119,9 @@ export default {
       });
     },
     viewAllArticles() {
+      const locale = this.defaultLocale;
       const {
         portal: { slug },
-        locale = 'en',
       } = window.chatwootWebChannel;
       this.openArticleInArticleViewer(`/hc/${slug}/${locale}`);
     },
