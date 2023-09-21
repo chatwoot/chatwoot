@@ -218,7 +218,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@chatwoot/prosemirror-schema/src/styles/article.scss';
+@import '~@chatwoot/prosemirror-schema/src/styles/article.scss';
 
 .ProseMirror-menubar-wrapper {
   display: flex;
