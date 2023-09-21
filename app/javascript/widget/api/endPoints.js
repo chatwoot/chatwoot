@@ -98,6 +98,7 @@ const getMostReadArticles = (slug, locale) => ({
   params: {
     page: 1,
     sort: 'views',
+    status: 1,
   },
 });
 
