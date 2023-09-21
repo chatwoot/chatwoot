@@ -81,7 +81,7 @@ import { mapGetters } from 'vuex';
 import { minValue } from 'vuelidate/lib/validators';
 import alertMixin from 'shared/mixins/alertMixin';
 import configMixin from 'shared/mixins/configMixin';
-import SettingsSection from '../../../../../components/SettingsSection';
+import SettingsSection from '../../../../../components/SettingsSection.vue';
 
 export default {
   components: {

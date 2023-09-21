@@ -150,7 +150,7 @@ import {
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import timeMixin from 'dashboard/mixins/time';
 
-import Thumbnail from 'dashboard/components/widgets/Thumbnail';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 
 const ALLOWED_FILE_TYPES = {
   IMAGE: 'image',

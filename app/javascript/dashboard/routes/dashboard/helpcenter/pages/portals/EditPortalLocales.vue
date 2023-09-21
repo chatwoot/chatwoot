@@ -35,7 +35,7 @@
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import LocaleItemTable from 'dashboard/routes/dashboard/helpcenter/components/PortalListItemTable.vue';
-import AddLocale from 'dashboard/routes/dashboard/helpcenter/components/AddLocale';
+import AddLocale from 'dashboard/routes/dashboard/helpcenter/components/AddLocale.vue';
 import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 export default {
   components: {

@@ -82,10 +82,10 @@
 /* eslint-env browser */
 /* global FB */
 import { required } from 'vuelidate/lib/validators';
-import LoadingState from 'dashboard/components/widgets/LoadingState';
+import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
 import { mapGetters } from 'vuex';
 import ChannelApi from '../../../../../api/channels';
-import PageHeader from '../../SettingsSubPageHeader';
+import PageHeader from '../../SettingsSubPageHeader.vue';
 import router from '../../../../index';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import accountMixin from '../../../../../mixins/account';

@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import Thumbnail from 'dashboard/components/widgets/Thumbnail';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 export default {
   name: 'WidgetBody',
   components: {

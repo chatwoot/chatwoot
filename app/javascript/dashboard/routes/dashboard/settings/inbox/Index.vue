@@ -135,7 +135,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import Settings from './Settings';
+import Settings from './Settings.vue';
 import adminMixin from '../../../../mixins/isAdmin';
 import accountMixin from '../../../../mixins/account';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';

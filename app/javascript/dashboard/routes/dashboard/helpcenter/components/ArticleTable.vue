@@ -66,7 +66,7 @@
 
 <script>
 import ArticleItem from './ArticleItem.vue';
-import TableFooter from 'dashboard/components/widgets/TableFooter';
+import TableFooter from 'dashboard/components/widgets/TableFooter.vue';
 import draggable from 'vuedraggable';
 
 export default {
