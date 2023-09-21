@@ -16,8 +16,8 @@
 </template>
 
 <script>
-import AddAttribute from './AddAttribute';
-import CustomAttribute from './CustomAttribute';
+import AddAttribute from './AddAttribute.vue';
+import CustomAttribute from './CustomAttribute.vue';
 export default {
   components: {
     AddAttribute,

@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import Modal from 'dashboard/components/Modal';
+import Modal from 'dashboard/components/Modal.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import { required, minLength } from 'vuelidate/lib/validators';
 

@@ -48,10 +48,10 @@
 </template>
 
 <script>
-import WidgetHead from './WidgetHead';
-import WidgetBody from './WidgetBody';
-import WidgetFooter from './WidgetFooter';
-import InputRadioGroup from 'dashboard/routes/dashboard/settings/inbox/components/InputRadioGroup';
+import WidgetHead from './WidgetHead.vue';
+import WidgetBody from './WidgetBody.vue';
+import WidgetFooter from './WidgetFooter.vue';
+import InputRadioGroup from 'dashboard/routes/dashboard/settings/inbox/components/InputRadioGroup.vue';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import { mapGetters } from 'vuex';
 
