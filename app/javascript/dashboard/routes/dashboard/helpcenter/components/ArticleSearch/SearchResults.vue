@@ -1,10 +1,7 @@
 <template>
   <div class="flex justify-end gap-1 py-6 bg-white dark:bg-slate-900">
     <div class="flex flex-col gap-1 w-full">
-      <div
-        v-if="isLoading"
-        class="text-center flex items-center justify-center px-4 py-8 text-slate-600 dark:text-slate-400"
-      >
+      <div v-if="isLoading" class="">
         <spinner size="" />
         {{ $t('HELP_CENTER.ARTICLE_SEARCH_RESULT.SEARCH_LOADER') }}
       </div>
@@ -68,3 +65,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.empty-state-message {
+  @apply text-center flex items-center justify-center px-4 py-8 text-slate-500 text-sm;
+}
+</style>

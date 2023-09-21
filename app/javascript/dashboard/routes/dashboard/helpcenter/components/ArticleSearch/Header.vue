@@ -14,13 +14,13 @@
     </div>
 
     <div class="relative">
-      <div class="absolute left-0 w-10 h-10 flex justify-center items-center">
-        <fluent-icon icon="search" class="" />
+      <div class="absolute left-0 w-8 h-8 flex justify-center items-center">
+        <fluent-icon icon="search" class="" size="16" />
       </div>
       <input
         type="text"
         :placeholder="$t('HELP_CENTER.ARTICLE_SEARCH.PLACEHOLDER')"
-        class="block w-full pl-10 bg-slate-700 rounded-md leading-8 py-1 text-slate-700 shadow-sm ring-2 ring-transparent ring-slate-300 border border-solid border-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-woot-600 mb-0"
+        class="block w-full pl-8 h-8 text-sm dark:bg-slate-700 bg-slate-25 rounded-md leading-8 py-1 text-slate-700 shadow-sm ring-2 ring-transparent ring-slate-300 border border-solid border-slate-300 placeholder:text-slate-400 focus:border-woot-600 focus:ring-2 focus:ring-woot-100 mb-0 focus:bg-slate-25 dark:focus:bg-slate-700"
         :value="searchQuery"
         @input="onInput"
       />

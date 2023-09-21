@@ -61,12 +61,3 @@ export default {
   },
 };
 </script>
-
-<style scoped lang="scss">
-.footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--space-smaller);
-  padding: var(--space-medium) 0;
-}
-</style>

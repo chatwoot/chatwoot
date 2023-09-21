@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col px-4 rounded-md shadow-lg bg-white dark:bg-slate-900 z-[1000] w-full max-w-[480px] fixed right-0 bottom-0 sm:w-[17.5rem] md:w-[18.75rem] lg:w-[19.375rem] xl:w-[20.625rem] 2xl:w-[25rem] h-[calc(100vh-4rem)] overflow-y-auto"
+    class="flex flex-col px-4 rounded-md shadow-lg bg-white dark:bg-slate-900 z-[1000] w-full max-w-[480px] fixed right-1 -bottom-4 sm:w-[17.5rem] md:w-[18.75rem] lg:w-[19.375rem] xl:w-[20.625rem] 2xl:w-[25rem] h-[calc(100vh-4rem)] overflow-y-auto"
   >
     <search-header
       class="w-full sticky top-0 bg-[inherit]"
@@ -10,7 +10,7 @@
 
     <div
       v-if="!isLoading && !searchQuery"
-      class="text-center flex items-center justify-center px-4 py-8 text-slate-600 dark:text-slate-400"
+      class="text-center text-sm flex items-center justify-center px-4 py-8 text-slate-500 "
     >
       {{ $t('HELP_CENTER.ARTICLE_SEARCH_RESULT.EMPTY_TEXT') }}
     </div>
@@ -54,6 +54,7 @@ export default {
       isLoading: false,
       searchResults: [],
       activeId: '',
+      debounceSearch: () => {},
     };
   },
   computed: {
@@ -63,6 +64,9 @@ export default {
 
       return article.url;
     },
+  },
+  mounted() {
+    this.debounceSearch = debounce(this.fetchArticlesByQuery, 500, true);
   },
   methods: {
     generateArticleUrl(article) {
@@ -81,8 +85,7 @@ export default {
     onSearch(query) {
       this.searchQuery = query;
       this.activeId = '';
-      this.fetchArticlesByQuery(query);
-      debounce(() => {}, 500, true);
+      this.debounceSearch(query);
     },
     onClose() {
       this.$emit('close');
