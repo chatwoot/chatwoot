@@ -68,8 +68,10 @@ export default {
       unreadMessageCount: 'conversation/getUnreadMessageCount',
       popularArticles: 'article/popularArticles',
       articleUiFlags: 'article/uiFlags',
-      widgetLocale: 'appConfig/widgetLocale',
     }),
+    widgetLocale() {
+      return this.$i18n.locale || 'en';
+    },
     portal() {
       return window.chatwootWebChannel.portal;
     },
