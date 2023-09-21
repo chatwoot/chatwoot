@@ -9,7 +9,20 @@ export default defineConfig({
   }), vue()],
   resolve: {
     alias: {
-      "dashboard": path.resolve(__dirname, "./"),
+      "dashboard": path.resolve(__dirname, "./app"),
+      "widget": path.resolve(__dirname, "../widget"),
     }
-  }
+  },
+  define: {
+    'process.env': process.env,
+    global: {},
+  },
+  build: {
+    rollupOptions: {
+      input: {
+        unauthenticated: path.resolve(__dirname, 'index.html'),
+        authenticated: path.resolve(__dirname, 'app/index.html'),
+      },
+    },
+  },
 })
