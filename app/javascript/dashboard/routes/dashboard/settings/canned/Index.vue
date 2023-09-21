@@ -14,7 +14,7 @@
       <div class="w-[60%]">
         <p
           v-if="!uiFlags.fetchingList && !records.length"
-          class="no-items-error-message"
+          class="flex h-full items-center flex-col justify-center"
         >
           {{ $t('CANNED_MGMT.LIST.404') }}
         </p>
