@@ -7,8 +7,6 @@ class SlackUploadsController < ApplicationController
       blob_service_url = url_for(@blob.representation(resize_to_fill: [250, nil]))
       redirect_to blob_service_url
     else
-      # Handle the case where the blob is not found
-      # You can redirect to an error page or set an appropriate response status
       render plain: 'Blob not found', status: :not_found
     end
   end
