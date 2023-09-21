@@ -8,9 +8,9 @@ class AccountUserDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    account: Field::BelongsToSearch.with_options(class_name: 'Account', searchable: true, searchable_field: %w[name id], order: 'id DESC'),
-    user: Field::BelongsToSearch.with_options(class_name: 'User', searchable: true, searchable_field: %w[name email id], order: 'id DESC'),
-    inviter: Field::BelongsToSearch.with_options(class_name: 'User', searchable: true, searchable_field: %w[name email id], order: 'id DESC'),
+    account: Field::BelongsToSearch.with_options(class_name: 'Account', searchable: true, searchable_field: [:name, :id], order: 'id DESC'),
+    user: Field::BelongsToSearch.with_options(class_name: 'User', searchable: true, searchable_field: [:name, :email, :id], order: 'id DESC'),
+    inviter: Field::BelongsToSearch.with_options(class_name: 'User', searchable: true, searchable_field: [:name, :email, :id], order: 'id DESC'),
     id: Field::Number,
     role: Field::Select.with_options(collection: AccountUser.roles.keys),
     created_at: Field::DateTime,
