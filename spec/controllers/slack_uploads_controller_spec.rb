@@ -1,7 +1,6 @@
-# spec/controllers/slack_uploads_controller_spec.rb
 require 'rails_helper'
 
-RSpec.describe SlackUploadsController, type: :controller do
+RSpec.describe SlackUploadsController do
   describe 'GET #show' do
     context 'when a valid blob key is provided' do
       let(:blob) { create(:blob) }
