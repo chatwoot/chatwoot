@@ -1,6 +1,6 @@
 {
   "name": "@chatwoot/chatwoot",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "license": "MIT",
   "scripts": {
     "eslint": "eslint app/**/*.{js,vue}",
@@ -21,7 +21,7 @@
   "size-limit": [
     {
       "path": "public/packs/js/widget-*.js",
-      "limit": "270 KB"
+      "limit": "275 KB"
     },
     {
       "path": "public/packs/js/sdk.js",
@@ -30,7 +30,7 @@
   ],
   "dependencies": {
     "@braid/vue-formulate": "^2.5.2",
-    "@chatwoot/prosemirror-schema": "https://github.com/chatwoot/prosemirror-schema.git#825755b53f1ef4ae14fac2393b53a02e14ce21e0",
+    "@chatwoot/prosemirror-schema": "^1.0.1",
     "@chatwoot/utils": "^0.0.16",
     "@hcaptcha/vue-hcaptcha": "^0.3.2",
     "@june-so/analytics-next": "^1.36.5",
@@ -67,11 +67,9 @@
     "md5": "^2.3.0",
     "ninja-keys": "^1.1.9",
     "opus-recorder": "^8.0.5",
-    "pinia": "^2.1.4",
     "postcss": "^8.4.24",
     "postcss-loader": "^4.2.0",
     "semver": "7.5.2",
-    "spinkit": "~1.2.5",
     "tailwindcss": "^3.3.2",
     "turbolinks": "^5.2.0",
     "url-loader": "^2.0.0",

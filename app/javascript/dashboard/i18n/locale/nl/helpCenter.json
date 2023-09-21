@@ -226,7 +226,7 @@
           "LABEL": "Naam",
           "PLACEHOLDER": "Portal name",
           "HELP_TEXT": "The name will be used in the public facing portal internally.",
-          "ERROR": "Name is required"
+          "ERROR": "Naam is vereist"
         },
         "SLUG": {
           "LABEL": "Slug",
@@ -304,7 +304,7 @@
       "404": "No articles matches your search 🔍",
       "NO_ARTICLES": "There are no available articles",
       "HEADERS": {
-        "TITLE": "Title",
+        "TITLE": "Titel",
         "CATEGORY": "Categorie",
         "READ_COUNT": "Read count",
         "STATUS": "Status",
@@ -366,7 +366,7 @@
           "LABEL": "Naam",
           "PLACEHOLDER": "Category name",
           "HELP_TEXT": "The category name will be used in the public facing portal to categorize articles.",
-          "ERROR": "Name is required"
+          "ERROR": "Naam is vereist"
         },
         "SLUG": {
           "LABEL": "Slug",
@@ -377,7 +377,7 @@
         "DESCRIPTION": {
           "LABEL": "Beschrijving",
           "PLACEHOLDER": "Give a short description about the category.",
-          "ERROR": "Description is required"
+          "ERROR": "Omschrijving is vereist"
         },
         "BUTTONS": {
           "CREATE": "Create category",
@@ -397,7 +397,7 @@
           "LABEL": "Naam",
           "PLACEHOLDER": "Category name",
           "HELP_TEXT": "The category name will be used in the public facing portal to categorize articles.",
-          "ERROR": "Name is required"
+          "ERROR": "Naam is vereist"
         },
         "SLUG": {
           "LABEL": "Slug",
@@ -408,7 +408,7 @@
         "DESCRIPTION": {
           "LABEL": "Beschrijving",
           "PLACEHOLDER": "Give a short description about the category.",
-          "ERROR": "Description is required"
+          "ERROR": "Omschrijving is vereist"
         },
         "BUTTONS": {
           "CREATE": "Update category",

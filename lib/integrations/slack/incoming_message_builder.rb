@@ -1,5 +1,5 @@
 class Integrations::Slack::IncomingMessageBuilder
-  include SlackMessageCreation
+  include Integrations::Slack::SlackMessageHelper
   attr_reader :params
 
   SUPPORTED_EVENT_TYPES = %w[event_callback url_verification].freeze
