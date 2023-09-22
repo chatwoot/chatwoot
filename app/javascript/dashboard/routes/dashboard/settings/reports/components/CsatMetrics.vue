@@ -42,7 +42,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import CsatMetricCard from './CsatMetricCard';
+import CsatMetricCard from './CsatMetricCard.vue';
 import { CSAT_RATINGS } from 'shared/constants/messages';
 
 export default {

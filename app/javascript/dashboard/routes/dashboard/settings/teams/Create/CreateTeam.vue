@@ -15,9 +15,9 @@
 </template>
 
 <script>
-import TeamForm from '../TeamForm';
+import TeamForm from '../TeamForm.vue';
 import router from '../../../../index';
-import PageHeader from '../../SettingsSubPageHeader';
+import PageHeader from '../../SettingsSubPageHeader.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 
 export default {

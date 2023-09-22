@@ -79,8 +79,8 @@
 <script>
 import { required, minLength } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
-import WootSubmitButton from '../../../../components/buttons/FormSubmitButton';
-import Modal from '../../../../components/Modal';
+import WootSubmitButton from '../../../../components/buttons/FormSubmitButton.vue';
+import Modal from '../../../../components/Modal.vue';
 import Auth from '../../../../api/auth';
 import wootConstants from 'dashboard/constants/globals';
 

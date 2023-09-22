@@ -35,8 +35,8 @@ import adminMixin from '../../mixins/isAdmin';
 import { getSidebarItems } from './config/default-sidebar';
 import alertMixin from 'shared/mixins/alertMixin';
 
-import PrimarySidebar from './sidebarComponents/Primary';
-import SecondarySidebar from './sidebarComponents/Secondary';
+import PrimarySidebar from './sidebarComponents/Primary.vue';
+import SecondarySidebar from './sidebarComponents/Secondary.vue';
 import {
   hasPressedAltAndCKey,
   hasPressedAltAndRKey,
