@@ -55,7 +55,7 @@ class Conversations::FilterService < FilterService
 
   def base_relation
     @account.conversations.includes(
-      :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team, :contact_inbox
+      :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team, :messages, :contact_inbox
     )
   end
 
@@ -64,10 +64,6 @@ class Conversations::FilterService < FilterService
   end
 
   def conversations
-    @conversations = @conversations.includes(
-      :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team, :messages, :contact_inbox
-    )
-
     @conversations.latest.page(current_page)
   end
 end
