@@ -371,6 +371,8 @@
     "DETAILS": {
       "LOADING_FB": "ഫേസ്ബുക് ഉപയോഗിച്ച് നിങ്ങളെ പ്രാമാണീകരിക്കുന്നു...",
       "ERROR_FB_AUTH": "എന്തോ കുഴപ്പം സംഭവിച്ചു, ദയവായി പേജ് പുതുക്കുക...",
+      "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
       "CREATING_CHANNEL": "നിങ്ങളുടെ ഇൻ‌ബോക്സ് സൃഷ്ടിച്ചു കൊണ്ട് ഇരിക്കുകയാണ്...",
       "TITLE": "ഇൻ‌ബോക്സ് വിശദാംശങ്ങൾ‌ കോൺഫിഗർ ചെയ്യുക",
       "DESC": ""
