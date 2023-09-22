@@ -36,7 +36,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Подпись личных сообщений",
-        "NOTE": "Создать подпись для личных сообщений, которая будет добавлена ко всем сообщениям, которые вы отправляете из вашего почтового ящика. Используйте редактор текста для создания персональной подписи.",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
         "BTN_TEXT": "Сохранить подпись",
         "API_ERROR": "Не удалось сохранить подпись! Повторите попытку",
         "API_SUCCESS": "Подпись успешно сохранена",
