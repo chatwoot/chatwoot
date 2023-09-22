@@ -84,7 +84,7 @@ describe Contacts::FilterService do
       end
 
       it 'filter contact by tags' do
-        label_id = cs_contact.labels.last.id
+        label_id = cs_contact.labels.last.name
         params[:payload] = [
           {
             attribute_key: 'labels',
@@ -101,7 +101,7 @@ describe Contacts::FilterService do
       end
 
       it 'filter by custom_attributes and labels' do
-        label_id = cs_contact.labels.last.id
+        label_id = cs_contact.labels.last.name
         params[:payload] = [
           {
             attribute_key: 'customer_type',
