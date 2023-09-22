@@ -60,7 +60,7 @@
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import accountMixin from 'dashboard/mixins/account.js';
-import MacrosTableRow from './MacrosTableRow';
+import MacrosTableRow from './MacrosTableRow.vue';
 export default {
   components: {
     MacrosTableRow,
