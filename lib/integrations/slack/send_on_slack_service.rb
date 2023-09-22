@@ -74,7 +74,7 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
 
   def avatar_url(sender)
     sender_type = sender.instance_of?(Contact) ? 'contact' : 'user'
-    blob_key = sender.avatar.blob.key
+    blob_key = sender.avatar.attached? ? sender.avatar.blob.key : nil
     if blob_key.present?
       "#{ENV.fetch('FRONTEND_URL',
                    nil)}/slack_upload?key=#{blob_key}"
