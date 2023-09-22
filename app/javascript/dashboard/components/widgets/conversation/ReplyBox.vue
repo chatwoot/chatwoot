@@ -18,8 +18,10 @@
       :popout-reply-box="popoutReplyBox"
       @click="$emit('click')"
     />
-    <ArticleSearchPopover
-      v-if="showArticleSearchPopover"
+    <article-search-popover
+      v-if="showArticleSearchPopover && connectedPortalSlug"
+      class="fixed right-auto left-auto ml-8 top-2"
+      :portal-slug="connectedPortalSlug"
       @insert="handleInsert"
       @close="onSearchPopoverClose"
     />
@@ -128,9 +130,11 @@
       :toggle-audio-recorder="toggleAudioRecorder"
       :toggle-emoji-picker="toggleEmojiPicker"
       :message="message"
+      :portal-slug="connectedPortalSlug"
       @selectWhatsappTemplate="openWhatsappTemplateModal"
       @toggle-editor="toggleRichContentEditor"
       @replace-text="replaceText"
+      @toggle-insert-article="toggleInsertArticle"
     />
     <whatsapp-templates
       :inbox-id="inbox.id"
@@ -260,7 +264,7 @@ export default {
       showCannedMenu: false,
       showVariablesMenu: false,
       newConversationModalActive: false,
-      showArticleSearchPopover: true,
+      showArticleSearchPopover: false,
     };
   },
   computed: {
@@ -534,6 +538,12 @@ export default {
         ? this.messageSignature
         : extractTextFromMarkdown(this.messageSignature);
     },
+    connectedPortalSlug() {
+      const { help_center: portal = {} } = this.inbox;
+      const { slug = '' } = portal;
+
+      return slug;
+    },
   },
   watch: {
     currentChat(conversation) {
@@ -603,7 +613,12 @@ export default {
       // this.addIntoEditor(`Read more ${url}`);
 
       const { url, title } = article;
-      bus.$emit(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, `[${title}](${url})`);
+
+      if (this.isRichEditorEnabled) {
+        bus.$emit(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, `[${title}](${url})`);
+      } else {
+        this.addIntoEditor(`Read more ${url}`);
+      }
     },
     toggleRichContentEditor() {
       this.updateUISettings({
@@ -1163,6 +1178,9 @@ export default {
     },
     onSearchPopoverClose() {
       this.showArticleSearchPopover = false;
+    },
+    toggleInsertArticle() {
+      this.showArticleSearchPopover = !this.showArticleSearchPopover;
     },
   },
 };

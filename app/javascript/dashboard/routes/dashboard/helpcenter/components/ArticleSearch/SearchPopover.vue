@@ -1,8 +1,9 @@
 <template>
   <div
-    class="flex flex-col px-4 rounded-md shadow-lg bg-white dark:bg-slate-900 z-[1000] w-full max-w-[480px] fixed right-1 -bottom-4 sm:w-[17.5rem] md:w-[18.75rem] lg:w-[19.375rem] xl:w-[20.625rem] 2xl:w-[25rem] h-[calc(100vh-4rem)] overflow-y-auto"
+    class="flex flex-col px-4 pb-4 rounded-md shadow-md border border-solid border-slate-50 dark:border-slate-800 bg-white dark:bg-slate-900 z-[1000] max-w-[720px] md:w-[20rem] lg:w-[24rem] xl:w-[28rem] 2xl:w-[32rem] h-[calc(100vh-16rem)] overflow-y-auto"
   >
     <search-header
+      :title="$t('HELP_CENTER.ARTICLE_SEARCH.TITLE')"
       class="w-full sticky top-0 bg-[inherit]"
       @close="onClose"
       @search="onSearch"
@@ -25,7 +26,8 @@
       v-else
       :search-query="searchQuery"
       :is-loading="isLoading"
-      :articles="searchResults"
+      :portal-slug="portalSlug"
+      :articles="searchResultsWithUrl"
       @preview="handlePreview"
       @insert="onInsert"
     />
@@ -38,7 +40,7 @@ import { debounce } from '@chatwoot/utils';
 import SearchHeader from './Header';
 import SearchResultsList from './SearchResults.vue';
 import ArticleView from './ArticleView.vue';
-import ArticlesAPI from 'portal/api/article';
+import ArticlesAPI from 'dashboard/api/helpCenter/articles';
 
 export default {
   name: 'ArticleSearchPopover',
@@ -47,7 +49,12 @@ export default {
     SearchResultsList,
     ArticleView,
   },
-  props: {},
+  props: {
+    portalSlug: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       searchQuery: '',
@@ -62,7 +69,13 @@ export default {
       const article = this.activeArticle(this.activeId);
       if (!article) return undefined;
 
-      return article.url;
+      return `${article.url}?show_plain_layout=true`;
+    },
+    searchResultsWithUrl() {
+      return this.searchResults.map(article => ({
+        ...article,
+        url: this.generateArticleUrl(article),
+      }));
     },
   },
   mounted() {
@@ -70,17 +83,12 @@ export default {
   },
   methods: {
     generateArticleUrl(article) {
-      return `/hc/${article.portal.slug}/articles/${article.slug}?show_plain_layout=true`;
+      const host =
+        window.chatwootConfig.helpCenterURL || window.chatwootConfig.hostURL;
+      return `${host}/hc/${this.portalSlug}/articles/${article.slug}`;
     },
     activeArticle(id) {
-      const activeArticle = this.searchResults.find(
-        article => article.id === id
-      );
-
-      if (!activeArticle || id === '') return undefined;
-
-      const url = this.generateArticleUrl(activeArticle);
-      return { ...activeArticle, url };
+      return this.searchResultsWithUrl.find(article => article.id === id);
     },
     onSearch(query) {
       this.searchQuery = query;
@@ -97,11 +105,10 @@ export default {
       try {
         this.isLoading = true;
         this.searchResults = [];
-        const { data } = await ArticlesAPI.searchArticles(
-          'stone-rat',
-          'en',
-          query
-        );
+        const { data } = await ArticlesAPI.searchArticles({
+          portalSlug: this.portalSlug,
+          query,
+        });
         this.searchResults = data.payload;
         this.isLoading = true;
       } catch (error) {

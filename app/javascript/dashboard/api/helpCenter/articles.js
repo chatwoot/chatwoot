@@ -22,6 +22,10 @@ class ArticlesAPI extends PortalsAPI {
     return axios.get(baseUrl);
   }
 
+  searchArticles({ portalSlug, query }) {
+    return axios.get(`${this.url}/${portalSlug}/articles?query=${query}`);
+  }
+
   getArticle({ id, portalSlug }) {
     return axios.get(`${this.url}/${portalSlug}/articles/${id}`);
   }

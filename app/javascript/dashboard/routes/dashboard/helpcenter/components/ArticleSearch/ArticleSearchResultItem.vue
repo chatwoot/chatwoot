@@ -90,7 +90,7 @@ export default {
     },
     locale: {
       type: String,
-      default: 'en-US',
+      default: '',
     },
   },
   computed: {
