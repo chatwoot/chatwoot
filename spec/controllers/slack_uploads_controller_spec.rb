@@ -3,12 +3,13 @@ require 'rails_helper'
 RSpec.describe SlackUploadsController do
   describe 'GET #show' do
     context 'when a valid blob key is provided' do
-      let(:blob) { create(:blob) }
+      file = Rack::Test::UploadedFile.new('spec/assets/avatar.png', 'image/png')
+      blob = ActiveStorage::Blob.create_and_upload! io: file, filename: 'avatar.png'
 
       it 'redirects to the blob service URL' do
         get :show, params: { key: blob.key }
-        # TODO: fix this test
-        # expect(response).to redirect_to(blob.service_url)
+        redirect_path = response.location
+        expect(redirect_path).to match(%r{rails/active_storage/representations/redirect/.*/avatar.png})
       end
     end
 
