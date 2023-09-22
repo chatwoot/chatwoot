@@ -128,10 +128,10 @@
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import { clearCookiesOnLogout } from '../../../../store/utils/api';
-import NotificationSettings from './NotificationSettings';
+import NotificationSettings from './NotificationSettings.vue';
 import alertMixin from 'shared/mixins/alertMixin';
-import ChangePassword from './ChangePassword';
-import MessageSignature from './MessageSignature';
+import ChangePassword from './ChangePassword.vue';
+import MessageSignature from './MessageSignature.vue';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import uiSettingsMixin, {
   isEditorHotKeyEnabled,

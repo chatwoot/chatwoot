@@ -98,9 +98,9 @@
 
 <script>
 // components
-import ReplyBox from './ReplyBox';
-import Message from './Message';
-import ConversationLabelSuggestion from './conversation/LabelSuggestion';
+import ReplyBox from './ReplyBox.vue';
+import Message from './Message.vue';
+import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 
 // stores and apis

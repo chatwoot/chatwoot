@@ -34,7 +34,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import BackButton from '../../../components/widgets/BackButton';
+import BackButton from '../../../components/widgets/BackButton.vue';
 import adminMixin from '../../../mixins/isAdmin';
 
 export default {

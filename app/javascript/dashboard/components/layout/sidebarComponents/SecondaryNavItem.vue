@@ -97,7 +97,7 @@ import {
   getInboxWarningIconClass,
 } from 'dashboard/helper/inbox';
 
-import SecondaryChildNavItem from './SecondaryChildNavItem';
+import SecondaryChildNavItem from './SecondaryChildNavItem.vue';
 import {
   isOnMentionsView,
   isOnUnattendedView,
