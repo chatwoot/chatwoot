@@ -73,12 +73,12 @@
 import { hasPressedAltAndOKey } from 'shared/helpers/KeyboardHelpers';
 import { mapGetters } from 'vuex';
 import agentMixin from '../../../mixins/agentMixin.js';
-import BackButton from '../BackButton';
+import BackButton from '../BackButton.vue';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import inboxMixin from 'shared/mixins/inboxMixin';
-import InboxName from '../InboxName';
-import MoreActions from './MoreActions';
-import Thumbnail from '../Thumbnail';
+import InboxName from '../InboxName.vue';
+import MoreActions from './MoreActions.vue';
+import Thumbnail from '../Thumbnail.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { conversationListPageURL } from 'dashboard/helper/URLHelper';
 import { conversationReopenTime } from 'dashboard/helper/snoozeHelpers';
