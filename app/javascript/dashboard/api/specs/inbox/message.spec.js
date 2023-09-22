@@ -1,6 +1,5 @@
 import messageAPI, { buildCreatePayload } from '../../inbox/message';
 import ApiClient from '../../ApiClient';
-import describeWithAPIMock from '../apiSpecHelper';
 
 describe('#ConversationAPI', () => {
   it('creates correct instance', () => {
@@ -13,13 +12,13 @@ describe('#ConversationAPI', () => {
     expect(messageAPI).toHaveProperty('getPreviousMessages');
   });
 
-  describeWithAPIMock('API calls', context => {
+  describe('API calls', context => {
     it('#getPreviousMessages', () => {
       messageAPI.getPreviousMessages({
         conversationId: 12,
         before: 4573,
       });
-      expect(context.axiosMock.get).toHaveBeenCalledWith(
+      expect(axios.get).toHaveBeenCalledWith(
         `/api/v1/conversations/12/messages`,
         {
           params: {

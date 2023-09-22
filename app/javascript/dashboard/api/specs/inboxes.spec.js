@@ -1,6 +1,5 @@
 import inboxesAPI from '../inboxes';
 import ApiClient from '../ApiClient';
-import describeWithAPIMock from './apiSpecHelper';
 
 describe('#InboxesAPI', () => {
   it('creates correct instance', () => {
@@ -14,19 +13,15 @@ describe('#InboxesAPI', () => {
     expect(inboxesAPI).toHaveProperty('getAgentBot');
     expect(inboxesAPI).toHaveProperty('setAgentBot');
   });
-  describeWithAPIMock('API calls', context => {
+  describe('API calls', context => {
     it('#getCampaigns', () => {
       inboxesAPI.getCampaigns(2);
-      expect(context.axiosMock.get).toHaveBeenCalledWith(
-        '/api/v1/inboxes/2/campaigns'
-      );
+      expect(axios.get).toHaveBeenCalledWith('/api/v1/inboxes/2/campaigns');
     });
 
     it('#deleteInboxAvatar', () => {
       inboxesAPI.deleteInboxAvatar(2);
-      expect(context.axiosMock.delete).toHaveBeenCalledWith(
-        '/api/v1/inboxes/2/avatar'
-      );
+      expect(axios.delete).toHaveBeenCalledWith('/api/v1/inboxes/2/avatar');
     });
   });
 });

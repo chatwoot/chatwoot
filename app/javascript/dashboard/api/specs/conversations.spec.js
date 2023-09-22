@@ -1,6 +1,5 @@
 import conversationsAPI from '../conversations';
 import ApiClient from '../ApiClient';
-import describeWithAPIMock from './apiSpecHelper';
 
 describe('#ConversationApi', () => {
   it('creates correct instance', () => {
@@ -14,18 +13,16 @@ describe('#ConversationApi', () => {
     expect(conversationsAPI).toHaveProperty('updateLabels');
   });
 
-  describeWithAPIMock('API calls', context => {
+  describe('API calls', context => {
     it('#getLabels', () => {
       conversationsAPI.getLabels(1);
-      expect(context.axiosMock.get).toHaveBeenCalledWith(
-        '/api/v1/conversations/1/labels'
-      );
+      expect(axios.get).toHaveBeenCalledWith('/api/v1/conversations/1/labels');
     });
 
     it('#updateLabels', () => {
       const labels = ['support-query'];
       conversationsAPI.updateLabels(1, labels);
-      expect(context.axiosMock.post).toHaveBeenCalledWith(
+      expect(axios.post).toHaveBeenCalledWith(
         '/api/v1/conversations/1/labels',
         {
           labels,

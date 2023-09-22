@@ -1,6 +1,5 @@
 import accountAPI from '../account';
 import ApiClient from '../../ApiClient';
-import describeWithAPIMock from '../../specs/apiSpecHelper';
 
 describe('#enterpriseAccountAPI', () => {
   it('creates correct instance', () => {
@@ -13,17 +12,15 @@ describe('#enterpriseAccountAPI', () => {
     expect(accountAPI).toHaveProperty('checkout');
   });
 
-  describeWithAPIMock('API calls', context => {
+  describe('API calls', context => {
     it('#checkout', () => {
       accountAPI.checkout();
-      expect(context.axiosMock.post).toHaveBeenCalledWith(
-        '/enterprise/api/v1/checkout'
-      );
+      expect(axios.post).toHaveBeenCalledWith('/enterprise/api/v1/checkout');
     });
 
     it('#subscription', () => {
       accountAPI.subscription();
-      expect(context.axiosMock.post).toHaveBeenCalledWith(
+      expect(axios.post).toHaveBeenCalledWith(
         '/enterprise/api/v1/subscription'
       );
     });
