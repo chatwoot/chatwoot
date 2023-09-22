@@ -6,7 +6,7 @@ class Contacts::FilterService < FilterService
 
     {
       contacts: @contacts,
-      count: @contacts.distinct.count
+      count: @contacts.count
     }
   end
 
