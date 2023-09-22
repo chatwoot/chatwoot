@@ -52,15 +52,3 @@ export default {
   },
 };
 </script>
-
-<style scoped lang="scss">
-.title {
-  margin-bottom: 10px;
-}
-
-.search-wrap {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-</style>

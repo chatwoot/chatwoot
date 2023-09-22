@@ -18,9 +18,9 @@
         :key="article.id"
         :title="article.title"
         :body="article.content"
-        :url="generateArticleUrl(article)"
+        :url="article.url"
         :category="article.category.name"
-        :locale="article.locale"
+        :locale="article.category.locale"
         @preview="handlePreview"
         @insert="handleInsert"
       />
@@ -51,11 +51,12 @@ export default {
       type: String,
       default: '',
     },
+    portalSlug: {
+      type: String,
+      required: true,
+    },
   },
   methods: {
-    generateArticleUrl(article) {
-      return `/hc/${article.portal.slug}/articles/${article.slug}`;
-    },
     handlePreview(id) {
       this.$emit('preview', id);
     },
