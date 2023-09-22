@@ -23,9 +23,9 @@
 </template>
 
 <script>
-import PageHeader from '../../SettingsSubPageHeader';
+import PageHeader from '../../SettingsSubPageHeader.vue';
 import BandwidthSms from './BandwidthSms.vue';
-import Twilio from './Twilio';
+import Twilio from './Twilio.vue';
 
 export default {
   components: {

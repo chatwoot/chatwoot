@@ -103,8 +103,8 @@
 <script>
 import { mapGetters } from 'vuex';
 
-import AddLabel from './AddLabel';
-import EditLabel from './EditLabel';
+import AddLabel from './AddLabel.vue';
+import EditLabel from './EditLabel.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 
 export default {

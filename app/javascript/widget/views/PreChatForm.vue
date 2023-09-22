@@ -5,7 +5,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import PreChatForm from '../components/PreChat/Form';
+import PreChatForm from '../components/PreChat/Form.vue';
 import configMixin from '../mixins/configMixin';
 import routerMixin from '../mixins/routerMixin';
 import { isEmptyObject } from 'widget/helpers/utils';

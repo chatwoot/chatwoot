@@ -40,7 +40,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { frontendURL } from '../../../../helper/URLHelper';
-import WootLabel from 'dashboard/components/ui/Label';
+import WootLabel from 'dashboard/components/ui/Label.vue';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 export default {
