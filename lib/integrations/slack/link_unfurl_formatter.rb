@@ -2,6 +2,8 @@ class Integrations::Slack::LinkUnfurlFormatter
   pattr_initialize [:url!, :user_info!]
 
   def perform
+    return {} if url.blank?
+
     {
       url => {
         'blocks' => user_info_blocks(user_info) +
