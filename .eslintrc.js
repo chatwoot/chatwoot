@@ -27,10 +27,11 @@ module.exports = {
     'vue/max-attributes-per-line': [
       'error',
       {
-        singleline: 20,
+        singleline: {
+          max: 20,
+        },
         multiline: {
           max: 1,
-          allowFirstLine: false,
         },
       },
     ],
