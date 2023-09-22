@@ -36,7 +36,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Handtekening persoonlijke berichten",
-        "NOTE": "Maak een persoonlijke ondertekening die wordt toegevoegd aan alle berichten die u vanuit uw e-mail inbox verstuurt. Gebruik de rich content editor om een zeer gepersonaliseerde handtekening te maken.",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
         "BTN_TEXT": "Ondertekening van bericht opslaan",
         "API_ERROR": "Kon ondertekening niet opslaan! Probeer het opnieuw",
         "API_SUCCESS": "Ondertekening succesvol opgeslagen",
