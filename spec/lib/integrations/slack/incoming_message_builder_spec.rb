@@ -32,6 +32,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
     }
   end
   let(:slack_client) { double }
+  let(:link_unfurl_service) { double }
   let(:message_with_attachments) { slack_attachment_stub }
   let(:message_without_thread_ts) { slack_message_stub_without_thread_ts }
   let(:verification_params) { slack_url_verification_stub }
@@ -162,15 +163,14 @@ describe Integrations::Slack::IncomingMessageBuilder do
 
     context 'when link shared' do
       it 'unfurls link' do
-        expect(hook).not_to be_nil
         builder = described_class.new(link_shared)
-        allow(builder).to receive(:sender).and_return(nil)
-        # builder.perform
-        # expect(slack_client).to receive :chat_unfurl.with(
-        #   unfurl_id: link_shared[:event][:unfurl_id],
-        #   source: link_shared[:event][:source]
-        #   unfurls: JSON.generate(unfurls)
-        # ).and_return(true)
+        expect(Integrations::Slack::SlackLinkUnfurlService).to receive(:new).with(
+          params: link_shared,
+          integration_hook: hook
+        ).and_return(link_unfurl_service)
+
+        expect(link_unfurl_service).to receive(:perform)
+        builder.perform
       end
     end
   end
