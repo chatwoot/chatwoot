@@ -109,9 +109,9 @@
 import { mixin as clickaway } from 'vue-clickaway';
 import { mapGetters } from 'vuex';
 import Auth from '../../../api/auth';
-import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem';
-import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu';
-import AvailabilityStatus from 'dashboard/components/layout/AvailabilityStatus';
+import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
+import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
+import AvailabilityStatus from 'dashboard/components/layout/AvailabilityStatus.vue';
 
 export default {
   components: {

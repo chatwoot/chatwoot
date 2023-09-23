@@ -116,7 +116,7 @@
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import rtlMixin from 'shared/mixins/rtlMixin';
-import NotificationPanelList from './NotificationPanelList';
+import NotificationPanelList from './NotificationPanelList.vue';
 
 import { ACCOUNT_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 

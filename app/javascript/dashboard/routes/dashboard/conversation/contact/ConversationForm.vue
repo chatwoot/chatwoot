@@ -158,11 +158,11 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail';
-import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
-import ReplyEmailHead from 'dashboard/components/widgets/conversation/ReplyEmailHead';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
+import ReplyEmailHead from 'dashboard/components/widgets/conversation/ReplyEmailHead.vue';
 import CannedResponse from 'dashboard/components/widgets/conversation/CannedResponse.vue';
-import InboxDropdownItem from 'dashboard/components/widgets/InboxDropdownItem';
+import InboxDropdownItem from 'dashboard/components/widgets/InboxDropdownItem.vue';
 import WhatsappTemplates from './WhatsappTemplates.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
@@ -393,8 +393,6 @@ export default {
   .mention--box {
     @apply left-0 m-auto right-0 top-auto h-fit;
   }
-
-  /* TODO: Remove when have standardized a component out of multiselect  */
   .multiselect .multiselect__content .multiselect__option span {
     @apply inline-flex w-6 text-slate-600 dark:text-slate-400;
   }

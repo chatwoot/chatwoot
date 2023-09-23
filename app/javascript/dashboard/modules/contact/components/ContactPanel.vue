@@ -30,11 +30,11 @@
   </div>
 </template>
 <script>
-import EditContact from 'dashboard/routes/dashboard/conversation/contact/EditContact';
-import NewConversation from 'dashboard/routes/dashboard/conversation/contact/NewConversation';
-import AddCustomAttribute from 'dashboard/modules/contact/components/AddCustomAttribute';
-import ContactIntro from './ContactIntro';
-import ContactFields from './ContactFields';
+import EditContact from 'dashboard/routes/dashboard/conversation/contact/EditContact.vue';
+import NewConversation from 'dashboard/routes/dashboard/conversation/contact/NewConversation.vue';
+import AddCustomAttribute from 'dashboard/modules/contact/components/AddCustomAttribute.vue';
+import ContactIntro from './ContactIntro.vue';
+import ContactFields from './ContactFields.vue';
 
 export default {
   components: {

@@ -34,7 +34,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import MacroItem from './MacroItem';
+import MacroItem from './MacroItem.vue';
 import accountMixin from 'dashboard/mixins/account.js';
 
 export default {

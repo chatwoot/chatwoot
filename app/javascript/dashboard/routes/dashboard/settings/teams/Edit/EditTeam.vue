@@ -18,13 +18,13 @@
 </template>
 
 <script>
-import TeamForm from '../TeamForm';
+import TeamForm from '../TeamForm.vue';
 import router from '../../../../index';
-import PageHeader from '../../SettingsSubPageHeader';
+import PageHeader from '../../SettingsSubPageHeader.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 
 import { mapGetters } from 'vuex';
-import Spinner from 'shared/components/Spinner';
+import Spinner from 'shared/components/Spinner.vue';
 
 export default {
   components: {
