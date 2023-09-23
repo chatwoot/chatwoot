@@ -34,7 +34,9 @@
   "START_CONVERSATION": "Начать диалог",
   "END_CONVERSATION": "Завершить диалог",
   "CONTINUE_CONVERSATION": "Продолжить беседу",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "Начать диалог",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Посмотреть новые сообщения",
     "CLOSE_MESSAGES_BUTTON": "Закрыть",
@@ -108,6 +110,27 @@
   },
   "PORTAL": {
     "POPULAR_ARTICLES": "Popular Articles",
-    "VIEW_ALL_ARTICLES": "Показать все статьи"
+    "VIEW_ALL_ARTICLES": "Показать все статьи",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Изображение"
+    },
+    "audio": {
+      "CONTENT": "Аудиосообщение"
+    },
+    "video": {
+      "CONTENT": "Видео"
+    },
+    "file": {
+      "CONTENT": "Прикрепленный файл"
+    },
+    "location": {
+      "CONTENT": "Местоположение"
+    },
+    "fallback": {
+      "CONTENT": "поделился ссылкой"
+    }
   }
 }

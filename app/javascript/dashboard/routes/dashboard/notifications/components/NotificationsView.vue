@@ -19,9 +19,9 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import TableFooter from 'dashboard/components/widgets/TableFooter';
+import TableFooter from 'dashboard/components/widgets/TableFooter.vue';
 
-import NotificationTable from './NotificationTable';
+import NotificationTable from './NotificationTable.vue';
 
 import { ACCOUNT_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 export default {

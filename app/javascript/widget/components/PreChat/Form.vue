@@ -59,8 +59,8 @@
 </template>
 
 <script>
-import CustomButton from 'shared/components/Button';
-import Spinner from 'shared/components/Spinner';
+import CustomButton from 'shared/components/Button.vue';
+import Spinner from 'shared/components/Spinner.vue';
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';

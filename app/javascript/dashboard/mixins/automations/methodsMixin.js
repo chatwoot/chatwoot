@@ -199,6 +199,12 @@ export default {
             values: condition.values[0],
           };
         }
+        if (inputType === 'comma_separated_plain_text') {
+          return {
+            ...condition,
+            values: condition.values.join(','),
+          };
+        }
         return {
           ...condition,
           query_operator: condition.query_operator || 'and',

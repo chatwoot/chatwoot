@@ -22,9 +22,9 @@
 </template>
 
 <script>
-import ConversationCard from 'dashboard/components/widgets/conversation/ConversationCard';
+import ConversationCard from 'dashboard/components/widgets/conversation/ConversationCard.vue';
 import { mapGetters } from 'vuex';
-import Spinner from 'shared/components/Spinner';
+import Spinner from 'shared/components/Spinner.vue';
 
 export default {
   components: {
