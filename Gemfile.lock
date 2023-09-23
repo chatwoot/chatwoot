@@ -116,6 +116,11 @@ GEM
     administrate-field-active_storage (0.4.2)
       administrate (>= 0.2.2)
       rails (>= 7.0)
+    administrate-field-belongs_to_search (0.8.0)
+      administrate (>= 0.3, < 1.0)
+      jbuilder (~> 2)
+      rails (>= 4.2, < 7.1)
+      selectize-rails (~> 0.6)
     annotate (3.2.0)
       activerecord (>= 3.2, < 8.0)
       rake (>= 10.4, < 14.0)
@@ -831,6 +836,7 @@ DEPENDENCIES
   acts-as-taggable-on
   administrate (>= 0.19.0)
   administrate-field-active_storage
+  administrate-field-belongs_to_search
   annotate
   attr_extras
   audited (~> 5.3)

@@ -193,17 +193,17 @@
 <script>
 import { mapGetters } from 'vuex';
 
-import ConversationAdvancedFilter from './widgets/conversation/ConversationAdvancedFilter';
-import ConversationBasicFilter from './widgets/conversation/ConversationBasicFilter';
-import ChatTypeTabs from './widgets/ChatTypeTabs';
-import ConversationCard from './widgets/conversation/ConversationCard';
+import ConversationAdvancedFilter from './widgets/conversation/ConversationAdvancedFilter.vue';
+import ConversationBasicFilter from './widgets/conversation/ConversationBasicFilter.vue';
+import ChatTypeTabs from './widgets/ChatTypeTabs.vue';
+import ConversationCard from './widgets/conversation/ConversationCard.vue';
 import timeMixin from '../mixins/time';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import conversationMixin from '../mixins/conversations';
 import wootConstants from 'dashboard/constants/globals';
 import advancedFilterTypes from './widgets/conversation/advancedFilterItems';
 import filterQueryGenerator from '../helper/filterQueryGenerator.js';
-import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews';
+import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews.vue';
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
 import alertMixin from 'shared/mixins/alertMixin';
