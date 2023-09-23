@@ -1,8 +1,4 @@
-module SlackMessageCreation
-  extend ActiveSupport::Concern
-
-  private
-
+module Integrations::Slack::SlackMessageHelper
   def create_message
     return unless conversation
 

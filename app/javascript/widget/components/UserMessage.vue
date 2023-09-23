@@ -52,10 +52,10 @@
 </template>
 
 <script>
-import UserMessageBubble from 'widget/components/UserMessageBubble';
-import ImageBubble from 'widget/components/ImageBubble';
-import FluentIcon from 'shared/components/FluentIcon/Index';
-import FileBubble from 'widget/components/FileBubble';
+import UserMessageBubble from 'widget/components/UserMessageBubble.vue';
+import ImageBubble from 'widget/components/ImageBubble.vue';
+import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import FileBubble from 'widget/components/FileBubble.vue';
 import timeMixin from 'dashboard/mixins/time';
 import messageMixin from '../mixins/messageMixin';
 import { mapGetters } from 'vuex';

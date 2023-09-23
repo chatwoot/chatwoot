@@ -438,19 +438,19 @@ import { mapGetters } from 'vuex';
 import { shouldBeUrl } from 'shared/helpers/Validators';
 import configMixin from 'shared/mixins/configMixin';
 import alertMixin from 'shared/mixins/alertMixin';
-import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner';
-import SettingsSection from '../../../../components/SettingsSection';
+import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner.vue';
+import SettingsSection from '../../../../components/SettingsSection.vue';
 import inboxMixin from 'shared/mixins/inboxMixin';
-import FacebookReauthorize from './facebook/Reauthorize';
-import PreChatFormSettings from './PreChatForm/Settings';
-import WeeklyAvailability from './components/WeeklyAvailability';
-import GreetingsEditor from 'shared/components/GreetingsEditor';
-import ConfigurationPage from './settingsPage/ConfigurationPage';
-import CollaboratorsPage from './settingsPage/CollaboratorsPage';
-import WidgetBuilder from './WidgetBuilder';
-import BotConfiguration from './components/BotConfiguration';
+import FacebookReauthorize from './facebook/Reauthorize.vue';
+import PreChatFormSettings from './PreChatForm/Settings.vue';
+import WeeklyAvailability from './components/WeeklyAvailability.vue';
+import GreetingsEditor from 'shared/components/GreetingsEditor.vue';
+import ConfigurationPage from './settingsPage/ConfigurationPage.vue';
+import CollaboratorsPage from './settingsPage/CollaboratorsPage.vue';
+import WidgetBuilder from './WidgetBuilder.vue';
+import BotConfiguration from './components/BotConfiguration.vue';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
-import SenderNameExamplePreview from './components/SenderNameExamplePreview';
+import SenderNameExamplePreview from './components/SenderNameExamplePreview.vue';
 
 export default {
   components: {

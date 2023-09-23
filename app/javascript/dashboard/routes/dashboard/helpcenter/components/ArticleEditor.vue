@@ -24,7 +24,7 @@
 
 <script>
 import { debounce } from '@chatwoot/utils';
-import ResizableTextArea from 'shared/components/ResizableTextArea';
+import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 import WootArticleEditor from 'dashboard/components/widgets/WootWriter/FullEditor.vue';
 import { ARTICLE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 

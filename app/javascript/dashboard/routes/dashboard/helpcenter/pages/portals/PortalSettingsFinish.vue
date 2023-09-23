@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import EmptyState from 'dashboard/components/widgets/EmptyState';
+import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 export default {
   components: {
     EmptyState,
