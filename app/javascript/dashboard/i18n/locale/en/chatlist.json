@@ -47,7 +47,7 @@
         "OLDEST": "Created at:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "Last activity :",
+        "NOT_ACTIVE": "Last activity:",
         "ACTIVE": "Last activity"
       }
     },
