@@ -18,8 +18,8 @@ class AccountDashboard < Administrate::BaseDashboard
                                end
 
   ATTRIBUTE_TYPES = {
-    id: Field::Number,
-    name: Field::String,
+    id: Field::Number.with_options(searchable: true),
+    name: Field::String.with_options(searchable: true),
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     users: CountField,
