@@ -4,8 +4,7 @@ class SlackUploadsController < ApplicationController
 
   def show
     if @blob
-      blob_service_url = url_for(@blob.representation(resize_to_fill: [250, nil]))
-      redirect_to blob_service_url
+      redirect_to blob_url
     else
       redirect_to avatar_url
     end
@@ -15,6 +14,10 @@ class SlackUploadsController < ApplicationController
 
   def set_blob
     @blob = ActiveStorage::Blob.find_by(key: params[:blob_key])
+  end
+
+  def blob_url
+    url_for(@blob.representation(resize_to_fill: [250, nil]))
   end
 
   def avatar_url
