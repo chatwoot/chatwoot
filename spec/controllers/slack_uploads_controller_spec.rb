@@ -7,16 +7,37 @@ RSpec.describe SlackUploadsController do
       blob = ActiveStorage::Blob.create_and_upload! io: file, filename: 'avatar.png'
 
       it 'redirects to the blob service URL' do
-        get :show, params: { key: blob.key }
+        get :show, params: { blob_key: blob.key }
         redirect_path = response.location
         expect(redirect_path).to match(%r{rails/active_storage/representations/redirect/.*/avatar.png})
       end
     end
 
     context 'when an invalid blob key is provided' do
-      it 'returns a 404 not found response' do
-        get :show, params: { key: 'invalid_key' }
-        expect(response).to have_http_status(:not_found)
+      it 'returns contact avatar url' do
+        get :show, params: { key: 'invalid_key', sender_type: 'contact' }
+        redirect_path = response.location
+        expect(redirect_path).to match(%r{integrations/slack/contact.png})
+      end
+
+      it 'returns user avatar url' do
+        get :show, params: { key: 'invalid_key', sender_type: 'user' }
+        redirect_path = response.location
+        expect(redirect_path).to match(%r{integrations/slack/user.png})
+      end
+    end
+
+    context 'when no blob key is provided' do
+      it 'returns contact avatar url' do
+        get :show, params: { sender_type: 'contact' }
+        redirect_path = response.location
+        expect(redirect_path).to match(%r{integrations/slack/contact.png})
+      end
+
+      it 'returns user avatar url' do
+        get :show, params: { sender_type: 'user' }
+        redirect_path = response.location
+        expect(redirect_path).to match(%r{integrations/slack/user.png})
       end
     end
   end
