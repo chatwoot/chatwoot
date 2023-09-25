@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col px-4 pb-4 rounded-md shadow-md border border-solid border-slate-50 dark:border-slate-800 bg-white dark:bg-slate-900 z-[1000] max-w-[720px] md:w-[20rem] lg:w-[24rem] xl:w-[28rem] 2xl:w-[32rem] h-[calc(100vh-16rem)] overflow-y-auto"
+    class="flex flex-col px-4 pb-4 rounded-md shadow-md border border-solid border-slate-50 dark:border-slate-800 bg-white dark:bg-slate-900 z-[1000] max-w-[720px] md:w-[20rem] lg:w-[24rem] xl:w-[28rem] 2xl:w-[32rem] h-[calc(100vh-20rem)] max-h-[40rem] overflow-y-auto"
   >
     <search-header
       :title="$t('HELP_CENTER.ARTICLE_SEARCH.TITLE')"
@@ -8,13 +8,6 @@
       @close="onClose"
       @search="onSearch"
     />
-
-    <div
-      v-if="!isLoading && !searchQuery"
-      class="text-center text-sm flex items-center justify-center px-4 py-8 text-slate-500 "
-    >
-      {{ $t('HELP_CENTER.ARTICLE_SEARCH_RESULT.EMPTY_TEXT') }}
-    </div>
 
     <article-view
       v-if="activeId"
@@ -79,6 +72,8 @@ export default {
     },
   },
   mounted() {
+    // Load popular articles on mount
+    this.fetchArticlesByQuery(this.searchQuery);
     this.debounceSearch = debounce(this.fetchArticlesByQuery, 500, true);
   },
   methods: {
@@ -103,11 +98,13 @@ export default {
     },
     async fetchArticlesByQuery(query) {
       try {
+        const sort = query ? undefined : 'views';
         this.isLoading = true;
         this.searchResults = [];
         const { data } = await ArticlesAPI.searchArticles({
           portalSlug: this.portalSlug,
           query,
+          sort,
         });
         this.searchResults = data.payload;
         this.isLoading = true;
