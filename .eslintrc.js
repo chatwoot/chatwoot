@@ -24,6 +24,8 @@ module.exports = {
     'jsx-a11y/label-has-for': 'off',
     'jsx-a11y/anchor-is-valid': 'off',
     'import/no-unresolved': 'off',
+    'vue/html-indent': 'off',
+    'vue/multi-word-component-names': 'off',
     'vue/max-attributes-per-line': [
       'error',
       {
