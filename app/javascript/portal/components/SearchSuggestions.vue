@@ -1,6 +1,6 @@
 <template>
   <div
-    class="shadow-md bg-white mt-2 max-h-72 scroll-py-2 p-4 rounded overflow-y-auto text-sm text-slate-700 dark:text-slate-100"
+    class="shadow-md bg-white dark:bg-slate-900 mt-2 max-h-72 scroll-py-2 p-4 rounded overflow-y-auto text-sm text-slate-700 dark:text-slate-100"
   >
     <div
       v-if="isLoading"
@@ -24,7 +24,7 @@
         :id="article.id"
         :key="article.id"
         class="group flex cursor-default select-none items-center rounded-md p-2 mb-1"
-        :class="{ 'bg-slate-25': index === selectedIndex }"
+        :class="{ 'bg-slate-25 dark:bg-slate-800': index === selectedIndex }"
         role="option"
         tabindex="-1"
         @mouseover="onHover(index)"
