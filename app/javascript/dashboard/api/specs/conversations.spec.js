@@ -13,16 +13,34 @@ describe('#ConversationApi', () => {
     expect(conversationsAPI).toHaveProperty('updateLabels');
   });
 
-  describe('API calls', context => {
+  describe('API calls', () => {
+    const originalAxios = window.axios;
+    const axiosMock = {
+      post: jest.fn(() => Promise.resolve()),
+      get: jest.fn(() => Promise.resolve()),
+      patch: jest.fn(() => Promise.resolve()),
+      delete: jest.fn(() => Promise.resolve()),
+    };
+
+    beforeEach(() => {
+      window.axios = axiosMock;
+    });
+
+    afterEach(() => {
+      window.axios = originalAxios;
+    });
+
     it('#getLabels', () => {
       conversationsAPI.getLabels(1);
-      expect(axios.get).toHaveBeenCalledWith('/api/v1/conversations/1/labels');
+      expect(axiosMock.get).toHaveBeenCalledWith(
+        '/api/v1/conversations/1/labels'
+      );
     });
 
     it('#updateLabels', () => {
       const labels = ['support-query'];
       conversationsAPI.updateLabels(1, labels);
-      expect(axios.post).toHaveBeenCalledWith(
+      expect(axiosMock.post).toHaveBeenCalledWith(
         '/api/v1/conversations/1/labels',
         {
           labels,

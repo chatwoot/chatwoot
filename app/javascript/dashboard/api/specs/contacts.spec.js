@@ -14,51 +14,67 @@ describe('#ContactsAPI', () => {
     expect(contactAPI).toHaveProperty('destroyAvatar');
   });
 
-  describe('API calls', context => {
+  describe('API calls', () => {
+    const originalAxios = window.axios;
+    const axiosMock = {
+      post: jest.fn(() => Promise.resolve()),
+      get: jest.fn(() => Promise.resolve()),
+      patch: jest.fn(() => Promise.resolve()),
+      delete: jest.fn(() => Promise.resolve()),
+    };
+
+    beforeEach(() => {
+      window.axios = axiosMock;
+    });
+
+    afterEach(() => {
+      window.axios = originalAxios;
+    });
+
     it('#get', () => {
       contactAPI.get(1, 'name', 'customer-support');
-      expect(axios.get).toHaveBeenCalledWith(
+      expect(axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/contacts?include_contact_inboxes=false&page=1&sort=name&labels[]=customer-support'
       );
     });
 
     it('#getConversations', () => {
       contactAPI.getConversations(1);
-      expect(axios.get).toHaveBeenCalledWith(
+      expect(axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/contacts/1/conversations'
       );
     });
 
     it('#getContactableInboxes', () => {
       contactAPI.getContactableInboxes(1);
-      expect(axios.get).toHaveBeenCalledWith(
+      expect(axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/contacts/1/contactable_inboxes'
       );
     });
 
     it('#getContactLabels', () => {
       contactAPI.getContactLabels(1);
-      expect(axios.get).toHaveBeenCalledWith('/api/v1/contacts/1/labels');
+      expect(axiosMock.get).toHaveBeenCalledWith('/api/v1/contacts/1/labels');
     });
 
     it('#updateContactLabels', () => {
       const labels = ['support-query'];
       contactAPI.updateContactLabels(1, labels);
-      expect(axios.post).toHaveBeenCalledWith('/api/v1/contacts/1/labels', {
+      expect(axiosMock.post).toHaveBeenCalledWith('/api/v1/contacts/1/labels', {
         labels,
       });
     });
 
     it('#search', () => {
       contactAPI.search('leads', 1, 'date', 'customer-support');
-      expect(axios.get).toHaveBeenCalledWith(
+      expect(axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/contacts/search?include_contact_inboxes=false&page=1&sort=date&q=leads&labels[]=customer-support'
       );
     });
 
     it('#destroyCustomAttributes', () => {
       contactAPI.destroyCustomAttributes(1, ['cloudCustomer']);
-      expect(axios.post).toHaveBeenCalledWith(
+      expect(axiosMock.post).toHaveBeenCalledWith(
         '/api/v1/contacts/1/destroy_custom_attributes',
         {
           custom_attributes: ['cloudCustomer'],
@@ -69,7 +85,7 @@ describe('#ContactsAPI', () => {
     it('#importContacts', () => {
       const file = 'file';
       contactAPI.importContacts(file);
-      expect(axios.post).toHaveBeenCalledWith(
+      expect(axiosMock.post).toHaveBeenCalledWith(
         '/api/v1/contacts/import',
         expect.any(FormData),
         {
@@ -90,7 +106,7 @@ describe('#ContactsAPI', () => {
         ],
       };
       contactAPI.filter(1, 'name', queryPayload);
-      expect(axios.post).toHaveBeenCalledWith(
+      expect(axiosMock.post).toHaveBeenCalledWith(
         '/api/v1/contacts/filter?include_contact_inboxes=false&page=1&sort=name',
         queryPayload
       );
@@ -98,7 +114,9 @@ describe('#ContactsAPI', () => {
 
     it('#destroyAvatar', () => {
       contactAPI.destroyAvatar(1);
-      expect(axios.delete).toHaveBeenCalledWith('/api/v1/contacts/1/avatar');
+      expect(axiosMock.delete).toHaveBeenCalledWith(
+        '/api/v1/contacts/1/avatar'
+      );
     });
   });
 });

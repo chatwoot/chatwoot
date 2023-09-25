@@ -8,21 +8,40 @@ describe('#Reports API', () => {
     expect(csatReportsAPI).toHaveProperty('get');
     expect(csatReportsAPI).toHaveProperty('getMetrics');
   });
-  describe('API calls', context => {
+  describe('API calls', () => {
+    const originalAxios = window.axios;
+    const axiosMock = {
+      post: jest.fn(() => Promise.resolve()),
+      get: jest.fn(() => Promise.resolve()),
+      patch: jest.fn(() => Promise.resolve()),
+      delete: jest.fn(() => Promise.resolve()),
+    };
+
+    beforeEach(() => {
+      window.axios = axiosMock;
+    });
+
+    afterEach(() => {
+      window.axios = originalAxios;
+    });
+
     it('#get', () => {
       csatReportsAPI.get({ page: 1, from: 1622485800, to: 1623695400 });
-      expect(axios.get).toHaveBeenCalledWith('/api/v1/csat_survey_responses', {
-        params: {
-          page: 1,
-          since: 1622485800,
-          until: 1623695400,
-          sort: '-created_at',
-        },
-      });
+      expect(axiosMock.get).toHaveBeenCalledWith(
+        '/api/v1/csat_survey_responses',
+        {
+          params: {
+            page: 1,
+            since: 1622485800,
+            until: 1623695400,
+            sort: '-created_at',
+          },
+        }
+      );
     });
     it('#getMetrics', () => {
       csatReportsAPI.getMetrics({ from: 1622485800, to: 1623695400 });
-      expect(axios.get).toHaveBeenCalledWith(
+      expect(axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/csat_survey_responses/metrics',
         {
           params: { since: 1622485800, until: 1623695400 },
@@ -35,7 +54,7 @@ describe('#Reports API', () => {
         to: 1623695400,
         user_ids: 1,
       });
-      expect(axios.get).toHaveBeenCalledWith(
+      expect(axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/csat_survey_responses/download',
         {
           params: {

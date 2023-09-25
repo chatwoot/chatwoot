@@ -11,7 +11,23 @@ describe('#PortalAPI', () => {
     expect(articlesAPI).toHaveProperty('delete');
     expect(articlesAPI).toHaveProperty('getArticles');
   });
-  describe('API calls', context => {
+  describe('API calls', () => {
+    const originalAxios = window.axios;
+    const axiosMock = {
+      post: jest.fn(() => Promise.resolve()),
+      get: jest.fn(() => Promise.resolve()),
+      patch: jest.fn(() => Promise.resolve()),
+      delete: jest.fn(() => Promise.resolve()),
+    };
+
+    beforeEach(() => {
+      window.axios = axiosMock;
+    });
+
+    afterEach(() => {
+      window.axios = originalAxios;
+    });
+
     it('#getArticles', () => {
       articlesAPI.getArticles({
         pageNumber: 1,
@@ -20,30 +36,62 @@ describe('#PortalAPI', () => {
         status: 'published',
         author_id: '1',
       });
-      expect(axios.get).toHaveBeenCalledWith(
+      expect(axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/portals/room-rental/articles?page=1&locale=en-US&status=published&author_id=1'
       );
     });
   });
-  describe('API calls', context => {
+  describe('API calls', () => {
+    const originalAxios = window.axios;
+    const axiosMock = {
+      post: jest.fn(() => Promise.resolve()),
+      get: jest.fn(() => Promise.resolve()),
+      patch: jest.fn(() => Promise.resolve()),
+      delete: jest.fn(() => Promise.resolve()),
+    };
+
+    beforeEach(() => {
+      window.axios = axiosMock;
+    });
+
+    afterEach(() => {
+      window.axios = originalAxios;
+    });
+
     it('#getArticle', () => {
       articlesAPI.getArticle({
         id: 1,
         portalSlug: 'room-rental',
       });
-      expect(axios.get).toHaveBeenCalledWith(
+      expect(axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/portals/room-rental/articles/1'
       );
     });
   });
-  describe('API calls', context => {
+  describe('API calls', () => {
+    const originalAxios = window.axios;
+    const axiosMock = {
+      post: jest.fn(() => Promise.resolve()),
+      get: jest.fn(() => Promise.resolve()),
+      patch: jest.fn(() => Promise.resolve()),
+      delete: jest.fn(() => Promise.resolve()),
+    };
+
+    beforeEach(() => {
+      window.axios = axiosMock;
+    });
+
+    afterEach(() => {
+      window.axios = originalAxios;
+    });
+
     it('#updateArticle', () => {
       articlesAPI.updateArticle({
         articleId: 1,
         portalSlug: 'room-rental',
         articleObj: { title: 'Update shipping address' },
       });
-      expect(axios.patch).toHaveBeenCalledWith(
+      expect(axiosMock.patch).toHaveBeenCalledWith(
         '/api/v1/portals/room-rental/articles/1',
         {
           title: 'Update shipping address',
@@ -51,13 +99,29 @@ describe('#PortalAPI', () => {
       );
     });
   });
-  describe('API calls', context => {
+  describe('API calls', () => {
+    const originalAxios = window.axios;
+    const axiosMock = {
+      post: jest.fn(() => Promise.resolve()),
+      get: jest.fn(() => Promise.resolve()),
+      patch: jest.fn(() => Promise.resolve()),
+      delete: jest.fn(() => Promise.resolve()),
+    };
+
+    beforeEach(() => {
+      window.axios = axiosMock;
+    });
+
+    afterEach(() => {
+      window.axios = originalAxios;
+    });
+
     it('#deleteArticle', () => {
       articlesAPI.deleteArticle({
         articleId: 1,
         portalSlug: 'room-rental',
       });
-      expect(axios.delete).toHaveBeenCalledWith(
+      expect(axiosMock.delete).toHaveBeenCalledWith(
         '/api/v1/portals/room-rental/articles/1'
       );
     });

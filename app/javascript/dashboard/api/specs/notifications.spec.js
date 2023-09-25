@@ -10,29 +10,47 @@ describe('#NotificationAPI', () => {
     expect(notificationsAPI).toHaveProperty('read');
     expect(notificationsAPI).toHaveProperty('readAll');
   });
-  describe('API calls', context => {
+  describe('API calls', () => {
+    const originalAxios = window.axios;
+    const axiosMock = {
+      post: jest.fn(() => Promise.resolve()),
+      get: jest.fn(() => Promise.resolve()),
+      patch: jest.fn(() => Promise.resolve()),
+      delete: jest.fn(() => Promise.resolve()),
+    };
+
+    beforeEach(() => {
+      window.axios = axiosMock;
+    });
+
+    afterEach(() => {
+      window.axios = originalAxios;
+    });
+
     it('#get', () => {
       notificationsAPI.get(1);
-      expect(axios.get).toHaveBeenCalledWith('/api/v1/notifications?page=1');
+      expect(axiosMock.get).toHaveBeenCalledWith(
+        '/api/v1/notifications?page=1'
+      );
     });
 
     it('#getNotifications', () => {
       notificationsAPI.getNotifications(1);
-      expect(axios.get).toHaveBeenCalledWith(
+      expect(axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/notifications/1/notifications'
       );
     });
 
     it('#getUnreadCount', () => {
       notificationsAPI.getUnreadCount();
-      expect(axios.get).toHaveBeenCalledWith(
+      expect(axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/notifications/unread_count'
       );
     });
 
     it('#read', () => {
       notificationsAPI.read(48670, 'Conversation');
-      expect(axios.post).toHaveBeenCalledWith(
+      expect(axiosMock.post).toHaveBeenCalledWith(
         '/api/v1/notifications/read_all',
         {
           primary_actor_id: 'Conversation',
@@ -43,7 +61,9 @@ describe('#NotificationAPI', () => {
 
     it('#readAll', () => {
       notificationsAPI.readAll();
-      expect(axios.post).toHaveBeenCalledWith('/api/v1/notifications/read_all');
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/notifications/read_all'
+      );
     });
   });
 });

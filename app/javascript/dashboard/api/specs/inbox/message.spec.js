@@ -12,13 +12,29 @@ describe('#ConversationAPI', () => {
     expect(messageAPI).toHaveProperty('getPreviousMessages');
   });
 
-  describe('API calls', context => {
+  describe('API calls', () => {
+    const originalAxios = window.axios;
+    const axiosMock = {
+      post: jest.fn(() => Promise.resolve()),
+      get: jest.fn(() => Promise.resolve()),
+      patch: jest.fn(() => Promise.resolve()),
+      delete: jest.fn(() => Promise.resolve()),
+    };
+
+    beforeEach(() => {
+      window.axios = axiosMock;
+    });
+
+    afterEach(() => {
+      window.axios = originalAxios;
+    });
+
     it('#getPreviousMessages', () => {
       messageAPI.getPreviousMessages({
         conversationId: 12,
         before: 4573,
       });
-      expect(axios.get).toHaveBeenCalledWith(
+      expect(axiosMock.get).toHaveBeenCalledWith(
         `/api/v1/conversations/12/messages`,
         {
           params: {

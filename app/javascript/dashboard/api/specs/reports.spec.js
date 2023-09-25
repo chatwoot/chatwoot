@@ -17,14 +17,30 @@ describe('#Reports API', () => {
     expect(reportsAPI).toHaveProperty('getInboxReports');
     expect(reportsAPI).toHaveProperty('getTeamReports');
   });
-  describe('API calls', context => {
+  describe('API calls', () => {
+    const originalAxios = window.axios;
+    const axiosMock = {
+      post: jest.fn(() => Promise.resolve()),
+      get: jest.fn(() => Promise.resolve()),
+      patch: jest.fn(() => Promise.resolve()),
+      delete: jest.fn(() => Promise.resolve()),
+    };
+
+    beforeEach(() => {
+      window.axios = axiosMock;
+    });
+
+    afterEach(() => {
+      window.axios = originalAxios;
+    });
+
     it('#getAccountReports', () => {
       reportsAPI.getReports({
         metric: 'conversations_count',
         from: 1621103400,
         to: 1621621800,
       });
-      expect(axios.get).toHaveBeenCalledWith('/api/v2/reports', {
+      expect(axiosMock.get).toHaveBeenCalledWith('/api/v2/reports', {
         params: {
           metric: 'conversations_count',
           since: 1621103400,
@@ -37,7 +53,7 @@ describe('#Reports API', () => {
 
     it('#getAccountSummary', () => {
       reportsAPI.getSummary(1621103400, 1621621800);
-      expect(axios.get).toHaveBeenCalledWith('/api/v2/reports/summary', {
+      expect(axiosMock.get).toHaveBeenCalledWith('/api/v2/reports/summary', {
         params: {
           business_hours: undefined,
           group_by: undefined,
@@ -56,7 +72,7 @@ describe('#Reports API', () => {
         to: 1621621800,
         businessHours: true,
       });
-      expect(axios.get).toHaveBeenCalledWith('/api/v2/reports/agents', {
+      expect(axiosMock.get).toHaveBeenCalledWith('/api/v2/reports/agents', {
         params: {
           since: 1621103400,
           until: 1621621800,
@@ -67,7 +83,7 @@ describe('#Reports API', () => {
 
     it('#getLabelReports', () => {
       reportsAPI.getLabelReports({ from: 1621103400, to: 1621621800 });
-      expect(axios.get).toHaveBeenCalledWith('/api/v2/reports/labels', {
+      expect(axiosMock.get).toHaveBeenCalledWith('/api/v2/reports/labels', {
         params: {
           since: 1621103400,
           until: 1621621800,
@@ -77,7 +93,7 @@ describe('#Reports API', () => {
 
     it('#getInboxReports', () => {
       reportsAPI.getInboxReports({ from: 1621103400, to: 1621621800 });
-      expect(axios.get).toHaveBeenCalledWith('/api/v2/reports/inboxes', {
+      expect(axiosMock.get).toHaveBeenCalledWith('/api/v2/reports/inboxes', {
         params: {
           since: 1621103400,
           until: 1621621800,
@@ -87,7 +103,7 @@ describe('#Reports API', () => {
 
     it('#getTeamReports', () => {
       reportsAPI.getTeamReports({ from: 1621103400, to: 1621621800 });
-      expect(axios.get).toHaveBeenCalledWith('/api/v2/reports/teams', {
+      expect(axiosMock.get).toHaveBeenCalledWith('/api/v2/reports/teams', {
         params: {
           since: 1621103400,
           until: 1621621800,
@@ -97,12 +113,15 @@ describe('#Reports API', () => {
 
     it('#getConversationMetric', () => {
       reportsAPI.getConversationMetric('account');
-      expect(axios.get).toHaveBeenCalledWith('/api/v2/reports/conversations', {
-        params: {
-          type: 'account',
-          page: 1,
-        },
-      });
+      expect(axiosMock.get).toHaveBeenCalledWith(
+        '/api/v2/reports/conversations',
+        {
+          params: {
+            type: 'account',
+            page: 1,
+          },
+        }
+      );
     });
   });
 });
