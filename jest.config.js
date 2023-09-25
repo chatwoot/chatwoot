@@ -36,6 +36,13 @@ module.exports = {
   testEnvironmentOptions: {
     url: 'http://localhost/',
   },
+  globals: {
+    'vue-jest': {
+      templateCompiler: {
+        prettify: false,
+      },
+    },
+  },
   globalSetup: './jest.setup.js',
   testEnvironment: 'jsdom',
   setupFiles: ['fake-indexeddb/auto'],
