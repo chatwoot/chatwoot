@@ -39,5 +39,4 @@ module.exports = {
   globalSetup: './jest.setup.js',
   testEnvironment: 'jsdom',
   setupFiles: ['fake-indexeddb/auto'],
-  setupFilesAfterEnv: ['./jest.api-mock.js'],
 };
