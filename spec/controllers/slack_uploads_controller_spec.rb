@@ -14,13 +14,13 @@ RSpec.describe SlackUploadsController do
     end
 
     context 'when an invalid blob key is provided' do
-      it 'returns contact avatar url if the user is contact' do
+      it 'returns contact default avatar url if the user is contact' do
         get :show, params: { key: 'invalid_key', sender_type: 'contact' }
         redirect_path = response.location
         expect(redirect_path).to match(%r{integrations/slack/contact.png})
       end
 
-      it 'returns user avatar url if the user is agent' do
+      it 'returns agent default avatar url if the user is agent' do
         get :show, params: { key: 'invalid_key', sender_type: 'user' }
         redirect_path = response.location
         expect(redirect_path).to match(%r{integrations/slack/user.png})
@@ -28,13 +28,13 @@ RSpec.describe SlackUploadsController do
     end
 
     context 'when no blob key is provided' do
-      it 'returns contact avatar url if the user is contact' do
+      it 'returns contact default avatar url if the user is contact' do
         get :show, params: { sender_type: 'contact' }
         redirect_path = response.location
         expect(redirect_path).to match(%r{integrations/slack/contact.png})
       end
 
-      it 'returns user avatar url if the user is agent' do
+      it 'returns agent default avatar url if the user is agent' do
         get :show, params: { sender_type: 'user' }
         redirect_path = response.location
         expect(redirect_path).to match(%r{integrations/slack/user.png})
