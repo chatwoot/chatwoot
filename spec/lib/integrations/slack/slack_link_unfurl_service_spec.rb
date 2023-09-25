@@ -29,47 +29,61 @@ describe Integrations::Slack::SlackLinkUnfurlService do
   let(:link_builder) { described_class.new(params: link_shared, integration_hook: hook) }
 
   describe '#perform' do
-    it 'creates unfurls for the links' do
-      slack_service = Integrations::Slack::SendOnSlackService.new(message: nil, hook: hook)
-      # expect(slack_service).to receive(:link_unfurl).with(
-      #   unfurl_id: link_shared.dig(:event, :unfurl_id),
-      #   source: link_shared.dig(:event, :source),
-      #   unfurls: []
-      # )
-      # request_body = JSON.generate({
-      #   unfurl_id: 'C7NQEAE5Q.1695111587.937099.7e240338c6d2053fb49f56808e7c1f619f6ef317c39ebc59fc4af1cc30dce49b',
-      #   source: 'conversations_history',
-      #   unfurls: {
-      #     "https://qa.chatwoot.com/app/accounts/1/conversations/1": {
-      #       blocks: [
-      #         {
-      #           type: 'section',
-      #           fields: [
-      #             { type: 'mrkdwn', text: '*Name:*\\nContact 1' },
-      #             { type: 'mrkdwn', text: '*Email:*\\n---' },
-      #             { type: 'mrkdwn', text: '*Phone:*\\n---' },
-      #             { type: 'mrkdwn', text: '*Company:*\\n---' }
-      #           ]
-      #         },
-      #         {
-      #           type: 'actions',
-      #           elements: [
-      #             {
-      #               type: 'button',
-      #               text: { type: 'plain_text', text: 'Open conversation', emoji: true },
-      #               url: 'https://qa.chatwoot.com/app/accounts/1/conversations/1',
-      #               action_id: 'button-action'
-      #             }
-      #           ]
-      #         }
-      #       ]
-      #     }
-      #   }
-      # })
-      # stub_request(:post, 'https://slack.com/api/chat.unfurl')
-      # .with(body: request_body, headers: expected_headers)
-      # .to_return(status: 200, body: link_unufurl_response, headers: {})
-      # link_builder.perform
+    it 'when the event is unfurl' do
+      request_body = {
+        'source' => 'conversations_history',
+        'unfurl_id' => 'C7NQEAE5Q.1695111587.937099.7e240338c6d2053fb49f56808e7c1f619f6ef317c39ebc59fc4af1cc30dce49b',
+        'unfurls' => {
+          'https://qa.chatwoot.com/app/accounts/1/conversations/1' => {
+            'blocks' => [
+              {
+                'type' => 'section',
+                'fields' => [
+                  {
+                    'type' => 'mrkdwn',
+                    'text' => "*Name:*\nContact 52"
+                  },
+                  {
+                    'type' => 'mrkdwn',
+                    'text' => "*Email:*\n---"
+                  },
+                  {
+                    'type' => 'mrkdwn',
+                    'text' => "*Phone:*\n---"
+                  },
+                  {
+                    'type' => 'mrkdwn',
+                    'text' => "*Company:*\n---"
+                  }
+                ]
+              },
+              {
+                'type' => 'actions',
+                'elements' => [
+                  {
+                    'type' => 'button',
+                    'text' => {
+                      'type' => 'plain_text',
+                      'text' => 'Open conversation',
+                      'emoji' => true
+                    },
+                    'url' => 'https://qa.chatwoot.com/app/accounts/1/conversations/1',
+                    'action_id' => 'button-action'
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+
+      stub_request(:post, 'https://slack.com/api/chat.unfurl')
+        .with(
+          body: anything,
+          headers: expected_headers
+        )
+        .to_return(status: 200, body: link_unufurl_response, headers: {})
+        # link_builder.perform
     end
   end
 end
