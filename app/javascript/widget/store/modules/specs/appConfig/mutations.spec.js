@@ -32,12 +32,4 @@ describe('#mutations', () => {
       expect(state.darkMode).toEqual('dark');
     });
   });
-
-  describe('#SET_WIDGET_LOCALE', () => {
-    it('sets widget locale properly', () => {
-      const state = { locale: 'en' };
-      mutations.SET_WIDGET_LOCALE(state, 'es_ES');
-      expect(state.locale).toEqual('es_ES');
-    });
-  });
 });
