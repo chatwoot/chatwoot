@@ -1,16 +1,22 @@
 <template>
   <div
-    class="shadow-md bg-white mt-2 max-h-72 scroll-py-2 p-4 rounded overflow-y-auto text-sm text-slate-700"
+    class="shadow-md bg-white mt-2 max-h-72 scroll-py-2 p-4 rounded overflow-y-auto text-sm text-slate-700 dark:text-slate-100"
   >
-    <div v-if="isLoading" class="font-medium text-sm text-slate-400">
+    <div
+      v-if="isLoading"
+      class="font-medium text-sm text-slate-400 dark:text-slate-700  "
+    >
       {{ loadingPlaceholder }}
     </div>
-    <h3 v-if="shouldShowResults" class="font-medium text-sm text-slate-400">
+    <h3
+      v-if="shouldShowResults"
+      class="font-medium text-sm text-slate-400 dark:text-slate-700 "
+    >
       {{ resultsTitle }}
     </h3>
     <ul
       v-if="shouldShowResults"
-      class="bg-white mt-2 max-h-72 scroll-py-2 overflow-y-auto text-sm text-slate-700"
+      class="bg-white dark:bg-slate-900 mt-2 max-h-72 scroll-py-2 overflow-y-auto text-sm text-slate-700 dark:text-slate-100"
       role="listbox"
     >
       <li
@@ -32,7 +38,10 @@
       </li>
     </ul>
 
-    <div v-if="showEmptyResults" class="font-medium text-sm text-slate-400">
+    <div
+      v-if="showEmptyResults"
+      class="font-medium text-sm text-slate-400 dark:text-slate-700 "
+    >
       {{ emptyPlaceholder }}
     </div>
   </div>
