@@ -56,10 +56,10 @@
 <script>
 import { mapGetters } from 'vuex';
 import ContactInfoPanel from '../components/ContactInfoPanel.vue';
-import ContactNotes from 'dashboard/modules/notes/NotesOnContactPage';
+import ContactNotes from 'dashboard/modules/notes/NotesOnContactPage.vue';
 import SettingsHeader from '../../settings/SettingsHeader.vue';
-import Spinner from 'shared/components/Spinner';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail';
+import Spinner from 'shared/components/Spinner.vue';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 
 export default {
   components: {

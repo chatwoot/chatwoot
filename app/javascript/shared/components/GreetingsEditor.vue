@@ -25,8 +25,8 @@
 </template>
 
 <script>
-import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
-import ResizableTextArea from 'shared/components/ResizableTextArea';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
+import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 
 export default {
   components: {

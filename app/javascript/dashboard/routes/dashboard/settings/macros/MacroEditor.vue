@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import MacroForm from './MacroForm';
+import MacroForm from './MacroForm.vue';
 import { MACRO_ACTION_TYPES } from './constants';
 import { mapGetters } from 'vuex';
 import actionQueryGenerator from 'dashboard/helper/actionQueryGenerator.js';

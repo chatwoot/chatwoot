@@ -28,10 +28,10 @@
 </template>
 
 <script>
-import PageHeader from '../../SettingsSubPageHeader';
-import Twilio from './Twilio';
-import ThreeSixtyDialogWhatsapp from './360DialogWhatsapp';
-import CloudWhatsapp from './CloudWhatsapp';
+import PageHeader from '../../SettingsSubPageHeader.vue';
+import Twilio from './Twilio.vue';
+import ThreeSixtyDialogWhatsapp from './360DialogWhatsapp.vue';
+import CloudWhatsapp from './CloudWhatsapp.vue';
 
 export default {
   components: {

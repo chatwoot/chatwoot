@@ -83,7 +83,7 @@
 
 <script>
 import configMixin from 'shared/mixins/configMixin';
-import EmptyState from '../../../../components/widgets/EmptyState';
+import EmptyState from '../../../../components/widgets/EmptyState.vue';
 
 export default {
   components: {

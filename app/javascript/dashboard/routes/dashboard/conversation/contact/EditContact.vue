@@ -20,7 +20,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import ContactForm from './ContactForm';
+import ContactForm from './ContactForm.vue';
 
 export default {
   components: {
