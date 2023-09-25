@@ -31,7 +31,7 @@
   </tr>
 </template>
 <script>
-import ShowMore from 'dashboard/components/widgets/ShowMore';
+import ShowMore from 'dashboard/components/widgets/ShowMore.vue';
 import AgentBotType from './AgentBotType.vue';
 
 export default {

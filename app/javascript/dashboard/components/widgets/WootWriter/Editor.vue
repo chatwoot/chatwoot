@@ -41,9 +41,9 @@ import {
   triggerCharacters,
 } from '@chatwoot/prosemirror-schema/src/mentions/plugin';
 
-import TagAgents from '../conversation/TagAgents';
-import CannedResponse from '../conversation/CannedResponse';
-import VariableList from '../conversation/VariableList';
+import TagAgents from '../conversation/TagAgents.vue';
+import CannedResponse from '../conversation/CannedResponse.vue';
+import VariableList from '../conversation/VariableList.vue';
 import {
   appendSignature,
   removeSignature,

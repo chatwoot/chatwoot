@@ -50,8 +50,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import SettingsSection from 'dashboard/components/SettingsSection';
-import LoadingState from 'dashboard/components/widgets/LoadingState';
+import SettingsSection from 'dashboard/components/SettingsSection.vue';
+import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 
 export default {

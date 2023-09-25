@@ -76,9 +76,9 @@
 </template>
 
 <script>
-import LabelDropdownItem from './LabelDropdownItem';
-import Hotkey from 'dashboard/components/base/Hotkey';
-import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel';
+import LabelDropdownItem from './LabelDropdownItem.vue';
+import Hotkey from 'dashboard/components/base/Hotkey.vue';
+import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.vue';
 import { picoSearch } from '@scmmishra/pico-search';
 import { sanitizeLabel } from 'shared/helpers/sanitizeData';
 

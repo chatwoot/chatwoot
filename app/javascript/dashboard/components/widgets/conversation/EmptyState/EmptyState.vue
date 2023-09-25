@@ -37,8 +37,8 @@
 import { mapGetters } from 'vuex';
 import adminMixin from 'dashboard/mixins/isAdmin';
 import accountMixin from 'dashboard/mixins/account';
-import OnboardingView from '../OnboardingView';
-import EmptyStateMessage from './EmptyStateMessage';
+import OnboardingView from '../OnboardingView.vue';
+import EmptyStateMessage from './EmptyStateMessage.vue';
 
 export default {
   components: {
