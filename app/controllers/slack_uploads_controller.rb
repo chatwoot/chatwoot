@@ -7,13 +7,18 @@ class SlackUploadsController < ApplicationController
       blob_service_url = url_for(@blob.representation(resize_to_fill: [250, nil]))
       redirect_to blob_service_url
     else
-      render plain: 'Blob not found', status: :not_found
+      redirect_to avatar_url
     end
   end
 
   private
 
   def set_blob
-    @blob = ActiveStorage::Blob.find_by(key: params[:key])
+    @blob = ActiveStorage::Blob.find_by(key: params[:blob_key])
+  end
+
+  def avatar_url
+    base_url = ENV.fetch('FRONTEND_URL', nil)
+    "#{base_url}/integrations/slack/#{params[:sender_type]}.png"
   end
 end
