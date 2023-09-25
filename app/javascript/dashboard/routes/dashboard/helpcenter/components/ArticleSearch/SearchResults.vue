@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-end gap-1 py-6 bg-white dark:bg-slate-900">
+  <div class="flex justify-end gap-1 py-4 bg-white dark:bg-slate-900">
     <div class="flex flex-col gap-1 w-full">
       <div v-if="isLoading" class="empty-state-message">
         <spinner size="" />
