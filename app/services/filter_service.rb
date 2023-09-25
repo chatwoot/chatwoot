@@ -106,6 +106,27 @@ class FilterService
     ]
   end
 
+  def tag_filter_query(model_name, table_name, query_hash, current_index)
+    query_operator = query_hash[:query_operator]
+    @filter_values["value_#{current_index}"] = filter_values(query_hash)
+
+    tag_model_relation_query =
+      "SELECT * FROM taggings WHERE taggings.taggable_id = #{table_name}.id AND taggings.taggable_type = '#{model_name}'"
+    tag_query =
+      "AND taggings.tag_id IN (SELECT tags.id FROM tags WHERE tags.name IN (:value_#{current_index}))"
+
+    case query_hash[:filter_operator]
+    when 'equal_to'
+      "EXISTS (#{tag_model_relation_query} #{tag_query}) #{query_operator}"
+    when 'not_equal_to'
+      "NOT EXISTS (#{tag_model_relation_query} #{tag_query}) #{query_operator}"
+    when 'is_present'
+      "EXISTS (#{tag_model_relation_query}) #{query_operator}"
+    when 'is_not_present'
+      "NOT EXISTS (#{tag_model_relation_query}) #{query_operator}"
+    end
+  end
+
   def custom_attribute_query(query_hash, custom_attribute_type, current_index)
     @attribute_key = query_hash[:attribute_key]
     @custom_attribute_type = custom_attribute_type
