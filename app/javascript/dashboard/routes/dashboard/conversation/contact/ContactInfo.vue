@@ -166,13 +166,13 @@
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
 import timeMixin from 'dashboard/mixins/time';
-import ContactInfoRow from './ContactInfoRow';
+import ContactInfoRow from './ContactInfoRow.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import SocialIcons from './SocialIcons';
+import SocialIcons from './SocialIcons.vue';
 
-import EditContact from './EditContact';
-import NewConversation from './NewConversation';
-import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal';
+import EditContact from './EditContact.vue';
+import NewConversation from './NewConversation.vue';
+import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import adminMixin from '../../../../mixins/isAdmin';
 import { mapGetters } from 'vuex';

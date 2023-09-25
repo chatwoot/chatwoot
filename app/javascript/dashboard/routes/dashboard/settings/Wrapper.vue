@@ -21,7 +21,7 @@
 
 <script>
 /* eslint no-console: 0 */
-import SettingsHeader from './SettingsHeader';
+import SettingsHeader from './SettingsHeader.vue';
 
 export default {
   components: {

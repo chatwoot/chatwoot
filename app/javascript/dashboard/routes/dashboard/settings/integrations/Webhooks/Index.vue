@@ -90,11 +90,11 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import NewWebhook from './NewWebHook';
-import EditWebhook from './EditWebHook';
+import NewWebhook from './NewWebHook.vue';
+import EditWebhook from './EditWebHook.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import WebhookRow from './WebhookRow';
+import WebhookRow from './WebhookRow.vue';
 
 export default {
   components: {

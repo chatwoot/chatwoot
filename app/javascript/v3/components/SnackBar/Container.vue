@@ -15,7 +15,7 @@
 
 <script>
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-import SnackbarItem from './Item';
+import SnackbarItem from './Item.vue';
 
 export default {
   components: { SnackbarItem },

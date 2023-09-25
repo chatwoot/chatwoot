@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import ConversationForm from './ConversationForm';
+import ConversationForm from './ConversationForm.vue';
 
 export default {
   components: {

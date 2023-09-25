@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import thumbnail from 'dashboard/components/widgets/Thumbnail';
+import thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import portalMixin from '../mixins/portalMixin';
 
 export default {

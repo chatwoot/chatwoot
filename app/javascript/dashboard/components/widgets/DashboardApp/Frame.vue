@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import LoadingState from 'dashboard/components/widgets/LoadingState';
+import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
 export default {
   components: {
     LoadingState,
