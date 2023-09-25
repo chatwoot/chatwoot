@@ -46,7 +46,7 @@
 import wootConstants from 'dashboard/constants/globals';
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
-import FilterItem from './FilterItem';
+import FilterItem from './FilterItem.vue';
 
 export default {
   components: {

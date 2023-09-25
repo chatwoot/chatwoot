@@ -24,8 +24,8 @@
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
 
-import SearchSuggestions from './SearchSuggestions';
-import PublicSearchInput from './PublicSearchInput';
+import SearchSuggestions from './SearchSuggestions.vue';
+import PublicSearchInput from './PublicSearchInput.vue';
 
 import ArticlesAPI from '../api/article';
 

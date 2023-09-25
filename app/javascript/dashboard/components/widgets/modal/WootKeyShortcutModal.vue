@@ -95,7 +95,7 @@
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
 import { SHORTCUT_KEYS } from './constants';
-import Hotkey from 'dashboard/components/base/Hotkey';
+import Hotkey from 'dashboard/components/base/Hotkey.vue';
 
 export default {
   components: {

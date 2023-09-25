@@ -53,6 +53,9 @@
         class="input"
         :placeholder="messagePlaceHolder"
         :min-height="4"
+        :signature="signatureToApply"
+        :allow-signature="true"
+        :send-with-signature="sendWithSignature"
         @typing-off="onTypingOff"
         @typing-on="onTypingOn"
         @focus="onFocus"
@@ -69,6 +72,8 @@
         :min-height="4"
         :enable-variables="true"
         :variables="messageVariables"
+        :signature="signatureToApply"
+        :allow-signature="true"
         @typing-off="onTypingOff"
         @typing-on="onTypingOn"
         @focus="onFocus"
@@ -81,22 +86,15 @@
     </div>
     <div v-if="hasAttachments" class="attachment-preview-box" @paste="onPaste">
       <attachment-preview
-        class="mt-4 flex-col"
         :attachments="attachedFiles"
         :remove-attachment="removeAttachment"
       />
     </div>
     <div
-      v-if="isSignatureEnabledForInbox"
-      v-tooltip="$t('CONVERSATION.FOOTER.MESSAGE_SIGN_TOOLTIP')"
+      v-if="isSignatureEnabledForInbox && !isSignatureAvailable"
       class="message-signature-wrap"
     >
-      <p
-        v-if="isSignatureAvailable"
-        v-dompurify-html="formatMessage(messageSignature)"
-        class="message-signature"
-      />
-      <p v-else class="message-signature">
+      <p class="message-signature">
         {{ $t('CONVERSATION.FOOTER.MESSAGE_SIGNATURE_NOT_CONFIGURED') }}
         <router-link :to="profilePath">
           {{ $t('CONVERSATION.FOOTER.CLICK_HERE') }}
@@ -125,7 +123,6 @@
       :toggle-audio-recorder="toggleAudioRecorder"
       :toggle-emoji-picker="toggleEmojiPicker"
       :message="message"
-      :new-conversation-modal-active="newConversationModalActive"
       @selectWhatsappTemplate="openWhatsappTemplateModal"
       @toggle-editor="toggleRichContentEditor"
       @replace-text="replaceText"
@@ -151,18 +148,23 @@ import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
 
-import CannedResponse from './CannedResponse';
-import ResizableTextArea from 'shared/components/ResizableTextArea';
-import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
-import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel';
-import ReplyEmailHead from './ReplyEmailHead';
-import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel';
+import CannedResponse from './CannedResponse.vue';
+import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
+import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview.vue';
+import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel.vue';
+import ReplyEmailHead from './ReplyEmailHead.vue';
+import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
-import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
-import WootAudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
+import WootAudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder.vue';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import { AUDIO_FORMATS } from 'shared/constants/messages';
+import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
+import {
+  MAXIMUM_FILE_UPLOAD_SIZE,
+  MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL,
+  AUDIO_FORMATS,
+} from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import {
   getMessageVariables,
@@ -174,13 +176,19 @@ import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import { DirectUpload } from 'activestorage';
 import { frontendURL } from '../../../helper/URLHelper';
 import { trimContent, debounce } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants/globals';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import rtlMixin from 'shared/mixins/rtlMixin';
-import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
+import {
+  appendSignature,
+  removeSignature,
+  replaceSignature,
+  extractTextFromMarkdown,
+} from 'dashboard/helper/editorHelper';
 
 const EmojiInput = () => import('shared/components/emoji/EmojiInput');
 
@@ -205,7 +213,6 @@ export default {
     alertMixin,
     messageFormatterMixin,
     rtlMixin,
-    fileUploadMixin,
   ],
   props: {
     selectedTweet: {
@@ -245,7 +252,6 @@ export default {
       showUserMentions: false,
       showCannedMenu: false,
       showVariablesMenu: false,
-      newConversationModalActive: false,
     };
   },
   computed: {
@@ -470,10 +476,10 @@ export default {
       );
     },
     isSignatureEnabledForInbox() {
-      return !this.isPrivate && this.isAnEmailChannel && this.sendWithSignature;
+      return !this.isPrivate && this.sendWithSignature;
     },
     isSignatureAvailable() {
-      return !!this.messageSignature;
+      return !!this.signatureToApply;
     },
     sendWithSignature() {
       const { send_with_signature: isEnabled } = this.uiSettings;
@@ -512,6 +518,12 @@ export default {
         conversation: this.currentChat,
       });
       return variables;
+    },
+    // ensure that the signature is plain text depending on `showRichContentEditor`
+    signatureToApply() {
+      return this.showRichContentEditor
+        ? this.messageSignature
+        : extractTextFromMarkdown(this.messageSignature);
     },
   },
   watch: {
@@ -570,30 +582,33 @@ export default {
       500,
       true
     );
-
-    // A hacky fix to solve the drag and drop
-    // Is showing on top of new conversation modal drag and drop
-    // TODO need to find a better solution
-    bus.$on(
-      BUS_EVENTS.NEW_CONVERSATION_MODAL,
-      this.onNewConversationModalActive
-    );
   },
   destroyed() {
     document.removeEventListener('paste', this.onPaste);
     document.removeEventListener('keydown', this.handleKeyEvents);
-  },
-  beforeDestroy() {
-    bus.$off(
-      BUS_EVENTS.NEW_CONVERSATION_MODAL,
-      this.onNewConversationModalActive
-    );
   },
   methods: {
     toggleRichContentEditor() {
       this.updateUISettings({
         display_rich_content_editor: !this.showRichContentEditor,
       });
+
+      const plainTextSignature = extractTextFromMarkdown(this.messageSignature);
+
+      if (!this.showRichContentEditor && this.messageSignature) {
+        // remove the old signature -> extract text from markdown -> attach new signature
+        let message = removeSignature(this.message, this.messageSignature);
+        message = extractTextFromMarkdown(message);
+        message = appendSignature(message, plainTextSignature);
+
+        this.message = message;
+      } else {
+        this.message = replaceSignature(
+          this.message,
+          plainTextSignature,
+          this.messageSignature
+        );
+      }
     },
     saveDraft(conversationId, replyType) {
       if (this.message || this.message === '') {
@@ -613,8 +628,21 @@ export default {
     getFromDraft() {
       if (this.conversationIdByRoute) {
         const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
-        this.message = this.$store.getters['draftMessages/get'](key) || '';
+        const messageFromStore =
+          this.$store.getters['draftMessages/get'](key) || '';
+
+        // ensure that the message has signature set based on the ui setting
+        this.message = this.toggleSignatureForDraft(messageFromStore);
       }
+    },
+    toggleSignatureForDraft(message) {
+      if (this.isPrivate) {
+        return message;
+      }
+
+      return this.sendWithSignature
+        ? appendSignature(message, this.signatureToApply)
+        : removeSignature(message, this.signatureToApply);
     },
     removeFromDraft() {
       if (this.conversationIdByRoute) {
@@ -707,19 +735,14 @@ export default {
         return;
       }
       if (!this.showMentions) {
-        let newMessage = this.message;
-        if (this.isSignatureEnabledForInbox && this.messageSignature) {
-          newMessage += '\n\n' + this.messageSignature;
-        }
-
         const isOnWhatsApp =
           this.isATwilioWhatsAppChannel ||
           this.isAWhatsAppCloudChannel ||
           this.is360DialogWhatsAppChannel;
         if (isOnWhatsApp && !this.isPrivate) {
-          this.sendMessageAsMultipleMessages(newMessage);
+          this.sendMessageAsMultipleMessages(this.message);
         } else {
-          const messagePayload = this.getMessagePayload(newMessage);
+          const messagePayload = this.getMessagePayload(this.message);
           this.sendMessage(messagePayload);
         }
 
@@ -841,6 +864,10 @@ export default {
     },
     clearMessage() {
       this.message = '';
+      if (this.sendWithSignature && !this.isPrivate) {
+        // if signature is enabled, append it to the message
+        this.message = appendSignature(this.message, this.signatureToApply);
+      }
       this.attachedFiles = [];
       this.isRecordingAudio = false;
     },
@@ -916,6 +943,67 @@ export default {
         conversationId,
         isPrivate,
       });
+    },
+    onFileUpload(file) {
+      if (this.globalConfig.directUploadsEnabled) {
+        this.onDirectFileUpload(file);
+      } else {
+        this.onIndirectFileUpload(file);
+      }
+    },
+    onDirectFileUpload(file) {
+      const MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE = this.isATwilioSMSChannel
+        ? MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL
+        : MAXIMUM_FILE_UPLOAD_SIZE;
+
+      if (!file) {
+        return;
+      }
+      if (checkFileSizeLimit(file, MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE)) {
+        const upload = new DirectUpload(
+          file.file,
+          `/api/v1/accounts/${this.accountId}/conversations/${this.currentChat.id}/direct_uploads`,
+          {
+            directUploadWillCreateBlobWithXHR: xhr => {
+              xhr.setRequestHeader(
+                'api_access_token',
+                this.currentUser.access_token
+              );
+            },
+          }
+        );
+
+        upload.create((error, blob) => {
+          if (error) {
+            this.showAlert(error);
+          } else {
+            this.attachFile({ file, blob });
+          }
+        });
+      } else {
+        this.showAlert(
+          this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
+            MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE,
+          })
+        );
+      }
+    },
+    onIndirectFileUpload(file) {
+      const MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE = this.isATwilioSMSChannel
+        ? MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL
+        : MAXIMUM_FILE_UPLOAD_SIZE;
+      if (!file) {
+        return;
+      }
+      if (checkFileSizeLimit(file, MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE)) {
+        this.attachFile({ file });
+      } else {
+        this.showAlert(
+          this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
+            MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE,
+          })
+        );
+      }
     },
     attachFile({ blob, file }) {
       const reader = new FileReader();
@@ -1047,14 +1135,6 @@ export default {
       this.ccEmails = cc.join(', ');
       this.bccEmails = bcc.join(', ');
       this.toEmails = to.join(', ');
-    },
-    onNewConversationModalActive(isActive) {
-      // Issue is if the new conversation modal is open and we drag and drop the file
-      // then the file is not getting attached to the new conversation modal
-      // and it is getting attached to the current conversation reply box
-      // so to fix this we are removing the drag and drop event listener from the current conversation reply box
-      // When new conversation modal is open
-      this.newConversationModalActive = isActive;
     },
   },
 };
