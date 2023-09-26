@@ -95,6 +95,7 @@ Rails.application.routes.draw do
               post :update_last_seen
               post :unread
               post :custom_attributes
+              post :update_draft_message
               get :attachments
             end
           end

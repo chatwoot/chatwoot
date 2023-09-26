@@ -617,7 +617,8 @@ export default {
 
         this.$store.dispatch('draftMessages/set', {
           key,
-          message: draftToSave,
+          conversationId,
+          message: draftToSave
         });
       }
     },
@@ -629,7 +630,7 @@ export default {
       if (this.conversationIdByRoute) {
         const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
         const messageFromStore =
-          this.$store.getters['draftMessages/get'](key) || '';
+          this.$store.getters['draftMessages/get'](key) || this.currentChat.draft_message_content || '';
 
         // ensure that the message has signature set based on the ui setting
         this.message = this.toggleSignatureForDraft(messageFromStore);

@@ -405,6 +405,20 @@ const actions = {
     }
   },
 
+  updateDraftMessage: async (
+    { commit }, 
+    { conversationId, message }
+  ) => {
+    try {
+      const response = await ConversationApi.updateDraftMessage({
+        conversationId,
+        message
+      })
+    } catch (error) {
+      // Handle error
+    }
+  },
+
   updateCustomAttributes: async (
     { commit },
     { conversationId, customAttributes }
@@ -418,6 +432,7 @@ const actions = {
       commit(types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES, custom_attributes);
     } catch (error) {
       // Handle error
+      console.error(error)
     }
   },
 

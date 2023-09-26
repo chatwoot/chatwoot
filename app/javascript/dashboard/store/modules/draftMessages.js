@@ -18,8 +18,12 @@ export const getters = {
 };
 
 export const actions = {
-  set: async ({ commit }, { key, message }) => {
+  set: async ({ commit, dispatch }, { key, conversationId, message }) => {
     commit(types.SET_DRAFT_MESSAGES, { key, message });
+    dispatch('updateDraftMessage', {
+      conversationId,
+      message
+    }, { root: true })
   },
   delete: ({ commit }, { key }) => {
     commit(types.SET_DRAFT_MESSAGES, { key });
