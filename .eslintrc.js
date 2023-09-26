@@ -50,6 +50,7 @@ module.exports = {
       },
     ],
     'vue/no-v-html': 'off',
+    'vue/component-definition-name-casing': 'off',
     'vue/singleline-html-element-content-newline': 'off',
     'import/extensions': ['off'],
     'no-console': 'error',
