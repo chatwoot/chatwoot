@@ -65,8 +65,8 @@
 </template>
 
 <script>
-import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName';
-import InboxName from 'dashboard/components/widgets/InboxName';
+import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName.vue';
+import InboxName from 'dashboard/components/widgets/InboxName.vue';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import timeMixin from 'dashboard/mixins/time';
 

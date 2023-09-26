@@ -59,11 +59,6 @@ $color-success: #44ce4b;
 $color-primary-light: #c7e3ff;
 $color-primary-dark: darken($color-woot, 20%);
 
-// Spinner
-$spinkit-spinner-color: $color-white !default;
-$spinkit-spinner-margin: 0 0 0 1.6rem !default;
-$spinkit-size: 1.6rem !default;
-
 // Snackbar default
 $woot-snackbar-bg: #323232;
 $woot-snackbar-button: #ffeb3b;
@@ -78,15 +73,15 @@ $footer-height: 11.2rem;
 $header-expanded-height: $space-medium * 10;
 
 $font-family: 'Inter',
--apple-system,
-system-ui,
-BlinkMacSystemFont,
-'Segoe UI',
-Roboto,
-'Helvetica Neue',
-Tahoma,
-Arial,
-sans-serif;
+  -apple-system,
+  system-ui,
+  BlinkMacSystemFont,
+  'Segoe UI',
+  Roboto,
+  'Helvetica Neue',
+  Tahoma,
+  Arial,
+  sans-serif;
 
 // Break points
 $break-point-medium: 667px;
