@@ -41,8 +41,9 @@ describe('#WhatsAppTemplates', () => {
       ...config,
       propsData: { template: templates[1] },
     });
-    const expectedOutput = templates[1].components.find(i => i.type === 'BODY')
-      .text;
+    const expectedOutput = templates[1].components.find(
+      i => i.type === 'BODY'
+    ).text;
     expect(wrapper.vm.templateString).toEqual(expectedOutput);
   });
 
@@ -55,7 +56,7 @@ describe('#WhatsAppTemplates', () => {
       },
     });
     await wrapper.setData({
-      processedParams: { '1': 'abc', '2': 'xyz', '3': 'qwerty' },
+      processedParams: { 1: 'abc', 2: 'xyz', 3: 'qwerty' },
     });
     await wrapper.vm.$nextTick();
     const expectedOutput =
