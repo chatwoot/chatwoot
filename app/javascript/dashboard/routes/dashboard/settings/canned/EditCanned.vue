@@ -35,8 +35,8 @@
           <woot-submit-button
             :disabled="
               $v.content.$invalid ||
-                $v.shortCode.$invalid ||
-                editCanned.showLoading
+              $v.shortCode.$invalid ||
+              editCanned.showLoading
             "
             :button-text="$t('CANNED_MGMT.EDIT.FORM.SUBMIT')"
             :loading="editCanned.showLoading"

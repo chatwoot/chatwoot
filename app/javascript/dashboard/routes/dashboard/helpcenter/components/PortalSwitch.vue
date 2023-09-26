@@ -27,13 +27,11 @@
         <ul>
           <li v-for="locale in locales" :key="locale.code">
             <woot-button
-              :variant="
-                `locale-item ${
-                  isLocaleActive(locale.code, activePortalSlug)
-                    ? 'smooth'
-                    : 'clear'
-                }`
-              "
+              :variant="`locale-item ${
+                isLocaleActive(locale.code, activePortalSlug)
+                  ? 'smooth'
+                  : 'clear'
+              }`"
               size="large"
               color-scheme="secondary"
               @click="event => onClick(event, locale.code, portal)"
