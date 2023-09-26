@@ -90,7 +90,7 @@
         :remove-attachment="removeAttachment"
       />
     </div>
-    <message-signature-view
+    <message-signature-missing-alert
       v-if="isSignatureEnabledForInbox && !isSignatureAvailable"
     />
     <reply-bottom-panel
@@ -146,7 +146,7 @@ import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview.v
 import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel.vue';
 import ReplyEmailHead from './ReplyEmailHead.vue';
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue';
-import MessageSignatureView from './MessageSignature';
+import MessageSignatureMissingAlert from './MessageSignatureMissingAlert';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
@@ -197,7 +197,7 @@ export default {
     WootAudioRecorder,
     Banner,
     WhatsappTemplates,
-    MessageSignatureView,
+    MessageSignatureMissingAlert,
   },
   mixins: [
     clickaway,

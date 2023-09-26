@@ -117,21 +117,23 @@
                 @toggle-canned-menu="toggleCannedMenu"
                 @blur="$v.message.$touch"
               >
-                <message-signature-view
-                  v-if="isSignatureEnabledForInbox && !messageSignature"
-                  class="!mx-0 mb-1"
-                />
-                <div v-if="isAnEmailInbox" class="mb-3 mt-px">
-                  <woot-button
-                    v-tooltip.top-end="signatureToggleTooltip"
-                    icon="signature"
-                    color-scheme="secondary"
-                    variant="smooth"
-                    size="small"
-                    :title="signatureToggleTooltip"
-                    @click.prevent="toggleMessageSignature"
+                <template v-slot:footer>
+                  <message-signature-missing-alert
+                    v-if="isSignatureEnabledForInbox && !messageSignature"
+                    class="!mx-0 mb-1"
                   />
-                </div>
+                  <div v-if="isAnEmailInbox" class="mb-3 mt-px">
+                    <woot-button
+                      v-tooltip.top-end="signatureToggleTooltip"
+                      icon="signature"
+                      color-scheme="secondary"
+                      variant="smooth"
+                      size="small"
+                      :title="signatureToggleTooltip"
+                      @click.prevent="toggleMessageSignature"
+                    />
+                  </div>
+                </template>
               </woot-message-editor>
               <span v-if="$v.message.$error" class="editor-warning__message">
                 {{ $t('NEW_CONVERSATION.FORM.MESSAGE.ERROR') }}
@@ -180,7 +182,7 @@ import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import ReplyEmailHead from 'dashboard/components/widgets/conversation/ReplyEmailHead.vue';
 import CannedResponse from 'dashboard/components/widgets/conversation/CannedResponse.vue';
-import MessageSignatureView from 'dashboard/components/widgets/conversation/MessageSignature';
+import MessageSignatureMissingAlert from 'dashboard/components/widgets/conversation/MessageSignatureMissingAlert';
 import InboxDropdownItem from 'dashboard/components/widgets/InboxDropdownItem.vue';
 import WhatsappTemplates from './WhatsappTemplates.vue';
 import alertMixin from 'shared/mixins/alertMixin';
@@ -191,7 +193,6 @@ import { required, requiredIf } from 'vuelidate/lib/validators';
 import {
   appendSignature,
   removeSignature,
-  cleanSignature,
 } from 'dashboard/helper/editorHelper';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
@@ -203,7 +204,7 @@ export default {
     CannedResponse,
     WhatsappTemplates,
     InboxDropdownItem,
-    MessageSignatureView,
+    MessageSignatureMissingAlert,
   },
   mixins: [alertMixin, uiSettingsMixin],
   props: {
@@ -252,7 +253,7 @@ export default {
       return isEnabled;
     },
     signatureToApply() {
-      return cleanSignature(this.messageSignature);
+      return this.messageSignature;
     },
     emailMessagePayload() {
       const payload = {
