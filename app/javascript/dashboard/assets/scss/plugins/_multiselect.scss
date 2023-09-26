@@ -168,6 +168,10 @@
     @apply m-0 py-2 px-0.5;
   }
 
+  .multiselect__tag {
+    @apply py-[6px] my-[1px];
+  }
+
   .multiselect__select {
     @apply min-h-[2.5rem];
   }
