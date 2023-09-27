@@ -55,7 +55,7 @@ describe Integrations::Slack::SlackLinkUnfurlService do
                        '{"type":"mrkdwn","text":"*Phone:*\\n---"},' \
                        '{"type":"mrkdwn","text":"*Company:*\\n---"},' \
                        "{\"type\":\"mrkdwn\",\"text\":\"*Inbox:*\\n#{channel_email.inbox.name}\"}," \
-                       "{\"type\":\"mrkdwn\",\"text\":\"*Inbox Type:*\\n#{channel_email.inbox.channel_type}\"}]}," \
+                       "{\"type\":\"mrkdwn\",\"text\":\"*Inbox Type:*\\n#{channel_email.inbox.channel.name}\"}]}," \
                        '{"type":"actions","elements":[{' \
                        '"type":"button",' \
                        '"text":{"type":"plain_text","text":"Open conversation","emoji":true},' \
@@ -104,7 +104,7 @@ describe Integrations::Slack::SlackLinkUnfurlService do
                        '{"type":"mrkdwn","text":"*Phone:*\\n---"},' \
                        '{"type":"mrkdwn","text":"*Company:*\\n---"},' \
                        "{\"type\":\"mrkdwn\",\"text\":\"*Inbox:*\\n#{channel_email.inbox.name}\"}," \
-                       "{\"type\":\"mrkdwn\",\"text\":\"*Inbox Type:*\\n#{channel_email.inbox.channel_type}\"}]}," \
+                       "{\"type\":\"mrkdwn\",\"text\":\"*Inbox Type:*\\n#{channel_email.channel.name}\"}]}," \
                        '{"type":"actions","elements":[{' \
                        '"type":"button",' \
                        '"text":{"type":"plain_text","text":"Open conversation","emoji":true},' \
