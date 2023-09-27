@@ -13,10 +13,10 @@
       />
       <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
         <woot-button variant="clear" @click.prevent="onClose">
-          {{ this.$t('CONVERSATION.CUSTOM_SNOOZE.CANCEL') }}
+          {{ $t('CONVERSATION.CUSTOM_SNOOZE.CANCEL') }}
         </woot-button>
         <woot-button>
-          {{ this.$t('CONVERSATION.CUSTOM_SNOOZE.APPLY') }}
+          {{ $t('CONVERSATION.CUSTOM_SNOOZE.APPLY') }}
         </woot-button>
       </div>
     </form>

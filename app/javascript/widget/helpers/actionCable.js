@@ -84,15 +84,16 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.app.$store.dispatch('agent/updatePresence', data.users);
   };
 
+  // eslint-disable-next-line class-methods-use-this
   onContactMerge = data => {
     const { pubsub_token: pubsubToken } = data;
     ActionCableConnector.refreshConnector(pubsubToken);
   };
 
   onTypingOn = data => {
-    const activeConversationId = this.app.$store.getters[
-      'conversationAttributes/getConversationParams'
-    ].id;
+    const activeConversationId =
+      this.app.$store.getters['conversationAttributes/getConversationParams']
+        .id;
     const isUserTypingOnAnotherConversation =
       data.conversation && data.conversation.id !== activeConversationId;
 

@@ -61,7 +61,7 @@
             class="button hollow primary"
             :to="{
               name: 'settings_inbox_show',
-              params: { inboxId: this.$route.params.inbox_id },
+              params: { inboxId: $route.params.inbox_id },
             }"
           >
             {{ $t('INBOX_MGMT.FINISH.MORE_SETTINGS') }}
@@ -70,7 +70,7 @@
             class="button success"
             :to="{
               name: 'inbox_dashboard',
-              params: { inboxId: this.$route.params.inbox_id },
+              params: { inboxId: $route.params.inbox_id },
             }"
           >
             {{ $t('INBOX_MGMT.FINISH.BUTTON_TEXT') }}
