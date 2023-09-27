@@ -17,6 +17,6 @@ class Openai::EmbeddingsService
     }
 
     response = Net::HTTP.post(URI(url), data.to_json, headers)
-    JSON.parse(response.body)['data'].pick('embedding')
+    JSON.parse(response.body)['data']&.pick('embedding')
   end
 end

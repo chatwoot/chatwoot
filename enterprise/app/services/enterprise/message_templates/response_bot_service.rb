@@ -4,7 +4,7 @@ class Enterprise::MessageTemplates::ResponseBotService
   def perform
     ActiveRecord::Base.transaction do
       response = get_response(conversation.messages.last.content)
-      process_response(response['response'])
+      process_response(response)
     end
   rescue StandardError => e
     process_action('handoff') # something went wrong, pass to agent
@@ -45,7 +45,7 @@ class Enterprise::MessageTemplates::ResponseBotService
   end
 
   def process_response(response)
-    if response == 'conversation_handoff'
+    if response['response'] == 'conversation_handoff'
       process_action('handoff')
     else
       create_messages(response)
@@ -61,23 +61,11 @@ class Enterprise::MessageTemplates::ResponseBotService
     end
   end
 
-  def create_messages(response)
-    response = process_response_content(response).first
+  def create_messages(response_payload)
+    response = response_payload['response']
+    article_ids = response_payload['context_ids']
     create_outgoing_message(response)
-  end
-
-  def process_response_content(response)
-    # Regular expression to match '{context_ids: [ids]}'
-    regex = /{context_ids: \[(\d+(?:, *\d+)*)\]}/
-
-    # Extract ids from string
-    id_string = response[regex, 1] # This will give you '42, 43'
-    article_ids = id_string.split(',').map(&:to_i) if id_string # This will give you [42, 43]
-
-    # Remove '{context_ids: [ids]}' from string
-    response = response.sub(regex, '')
-
-    [response, article_ids]
+    create_outgoing_message_with_cards(article_ids) if article_ids.present?
   end
 
   def create_outgoing_message(response)
@@ -91,7 +79,7 @@ class Enterprise::MessageTemplates::ResponseBotService
     )
   end
 
-  def create_outgoing_message_with_cards(article_ids, conversation)
+  def create_outgoing_message_with_cards(article_ids)
     content_attributes = get_article_hash(article_ids.uniq)
     return if content_attributes.blank?
 
@@ -109,11 +97,11 @@ class Enterprise::MessageTemplates::ResponseBotService
 
   def get_article_hash(article_ids)
     items = []
-    article_ids.each do |article_id|
+    article_ids.first(3).each do |article_id|
       response = Response.find(article_id)
       next if response.nil?
 
-      items << { title: response.question, description: response.answer[0, 120], link: response.response_document.document_link }
+      items << { title: response.question, description: response.answer[0, 80], link: response.response_document.document_link }
     end
 
     items.present? ? { items: items } : {}
