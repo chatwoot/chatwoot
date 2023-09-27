@@ -36,7 +36,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Firma del messaggio personale",
-        "NOTE": "Crea una firma personale del messaggio che sarà aggiunta a tutti i messaggi inviati dalla tua casella di posta elettronica. Usa l'editor di contenuti per creare una firma altamente personalizzata.",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
         "BTN_TEXT": "Salva firma del messaggio",
         "API_ERROR": "Impossibile salvare la firma! Riprova",
         "API_SUCCESS": "Firma salvata con successo",
