@@ -4,6 +4,10 @@ import {
   MessageMarkdownSerializer,
 } from '@chatwoot/prosemirror-schema';
 
+window.messageSchema = messageSchema;
+window.MessageMarkdownTransformer = MessageMarkdownTransformer;
+window.MessageMarkdownSerializer = MessageMarkdownSerializer;
+
 /**
  * The delimiter used to separate the signature from the rest of the body.
  * @type {string}
@@ -14,10 +18,22 @@ export const SIGNATURE_DELIMITER = '--';
  * Parse and Serialize the markdown text to remove any extra spaces or new lines
  */
 export function cleanSignature(signature) {
-  // convert from markdown to common mark format
-  const nodes = new MessageMarkdownTransformer(messageSchema).parse(signature);
-  return MessageMarkdownSerializer.serialize(nodes);
+  try {
+    // convert from markdown to common mark format
+    const nodes = new MessageMarkdownTransformer(messageSchema).parse(
+      signature
+    );
+    return MessageMarkdownSerializer.serialize(nodes);
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error(e);
+    // The parser can break on some cases
+    // for example, Token type `hr` not supported by Markdown parser
+    return signature;
+  }
 }
+
+window.cleanSignature = cleanSignature;
 
 /**
  * Adds the signature delimiter to the beginning of the signature.
