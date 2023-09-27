@@ -1,7 +1,12 @@
 .logo-brand {
   margin-bottom: $space-normal;
   padding: $space-normal $space-smaller $space-small;
-  text-align: center;
+  text-align: left;
+
+  img {
+    margin-bottom: $space-smaller;
+    max-height: 3rem;
+  }
 }
 
 .navigation {
@@ -19,12 +24,13 @@
   padding: $space-normal;
   position: fixed;
   top: 0;
-  width: 23rem;
+  width: 21rem;
   z-index: 1023;
 
   li {
     align-items: center;
     display: flex;
+    font-size: $font-size-small;
 
     a {
       color: $color-gray;
@@ -35,6 +41,10 @@
       min-width: $space-medium;
     }
   }
+
+  hr {
+    margin: $space-slab;
+  }
 }
 
 .navigation__link {
@@ -43,7 +53,7 @@
   display: block;
   line-height: 1;
   margin-bottom: $space-smaller;
-  padding: $space-one;
+  padding: $space-small;
 
   &:hover {
     color: $blue;
