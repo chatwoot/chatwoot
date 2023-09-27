@@ -220,7 +220,7 @@ export default {
       conversationsUiFlags: 'contactConversations/getUIFlags',
       currentUser: 'getCurrentUser',
     }),
-    emailMessagePayload() {
+    newMessagePayload() {
       const payload = {
         inboxId: this.targetInbox.id,
         sourceId: this.targetInbox.sourceId,
@@ -323,15 +323,19 @@ export default {
       return payload;
     },
     onFormSubmit() {
+      const isFromWhatsApp = false;
       this.$v.$touch();
       if (this.$v.$invalid) {
         return;
       }
-      this.createConversation(this.emailMessagePayload);
+      this.createConversation({
+        payload: this.newMessagePayload,
+        isFromWhatsApp,
+      });
     },
-    async createConversation(payload) {
+    async createConversation({ payload, isFromWhatsApp }) {
       try {
-        const data = await this.onSubmit(payload);
+        const data = await this.onSubmit(payload, isFromWhatsApp);
         const action = {
           type: 'link',
           to: `/app/accounts/${data.account_id}/conversations/${data.id}`,
@@ -355,8 +359,9 @@ export default {
       this.whatsappTemplateSelected = val;
     },
     async onSendWhatsAppReply(messagePayload) {
+      const isFromWhatsApp = true;
       const payload = this.prepareWhatsAppMessagePayload(messagePayload);
-      await this.createConversation(payload);
+      await this.createConversation({ payload, isFromWhatsApp });
     },
     inboxReadableIdentifier(inbox) {
       return `${inbox.name} (${inbox.channel_type})`;
