@@ -40,16 +40,16 @@
     },
     "SUGGESTIONS": {
       "TOOLTIP": {
-        "SINGLE_SUGGESTION": "Add label to conversation",
-        "MULTIPLE_SUGGESTION": "Select this label",
-        "DESELECT": "Deselect label",
-        "DISMISS": "Dismiss suggestion"
+        "SINGLE_SUGGESTION": "Добавить метку в разговор",
+        "MULTIPLE_SUGGESTION": "Выбрать метку",
+        "DESELECT": "Отменить выбор метки",
+        "DISMISS": "Отменить предложение"
       },
       "POWERED_BY": "Chatwoot AI",
-      "DISMISS": "Dismiss",
-      "ADD_SELECTED_LABELS": "Add selected labels",
-      "ADD_SELECTED_LABEL": "Add selected label",
-      "ADD_ALL_LABELS": "Add all labels"
+      "DISMISS": "Отклонить",
+      "ADD_SELECTED_LABELS": "Добавить выбранные метки",
+      "ADD_SELECTED_LABEL": "Добавить метку",
+      "ADD_ALL_LABELS": "Добавить все метки"
     },
     "ADD": {
       "TITLE": "Добавить категорию",
