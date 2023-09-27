@@ -29,17 +29,27 @@ describe Integrations::Slack::SlackLinkUnfurlService do
         expected_body = {
           'source' => 'conversations_history',
           'unfurl_id' => 'C7NQEAE5Q.1695111587.937099.7e240338c6d2053fb49f56808e7c1f619f6ef317c39ebc59fc4af1cc30dce49b',
-          'unfurls' => '{"https://qa.chatwoot.com/app/accounts/1/conversations/1":{"blocks":[{"type":"section",' \
-                       '"fields":[{"type":"mrkdwn","text":"*Name:*\\nContact 1"},{"type":"mrkdwn","text":"*Email:*\\n---"},' \
-                       '{"type":"mrkdwn","text":"*Phone:*\\n---"},{"type":"mrkdwn","text":"*Company:*\\n---"}]},' \
-                       '{"type":"actions","elements":[{"type":"button","text":{"type":"plain_text","text":"Open conversation","emoji":true},' \
-                       '"url":"https://qa.chatwoot.com/app/accounts/1/conversations/1","action_id":"button-action"}]}]}}'
+          'unfurls' => '{"https://qa.chatwoot.com/app/accounts/1/conversations/1":' \
+                       '{"blocks":[{' \
+                       '"type":"section",' \
+                       '"fields":[{' \
+                       '"type":"mrkdwn",' \
+                       "\"text\":\"*Name:*\\n#{contact.name}\"}," \
+                       '{"type":"mrkdwn","text":"*Email:*\\n---"},' \
+                       '{"type":"mrkdwn","text":"*Phone:*\\n---"},' \
+                       '{"type":"mrkdwn","text":"*Company:*\\n---"},' \
+                       "{\"type\":\"mrkdwn\",\"text\":\"*Inbox:*\\n#{channel_email.inbox.name}\"}," \
+                       "{\"type\":\"mrkdwn\",\"text\":\"*Inbox Type:*\\n#{channel_email.inbox.channel_type}\"}]}," \
+                       '{"type":"actions","elements":[{' \
+                       '"type":"button",' \
+                       '"text":{"type":"plain_text","text":"Open conversation","emoji":true},' \
+                       '"url":"https://qa.chatwoot.com/app/accounts/1/conversations/1",' \
+                       '"action_id":"button-action"}]}]}}'
         }
 
         stub_request(:post, 'https://slack.com/api/chat.unfurl')
           .with(body: expected_body)
           .to_return(status: 200, body: '', headers: {})
-
         expect { link_builder.perform }.not_to raise_error
       end
     end

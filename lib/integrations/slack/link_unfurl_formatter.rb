@@ -1,12 +1,12 @@
 class Integrations::Slack::LinkUnfurlFormatter
-  pattr_initialize [:url!, :user_info!]
+  pattr_initialize [:url!, :user_info!, :inbox_name!, :inbox_type!]
 
   def perform
     return {} if url.blank?
 
     {
       url => {
-        'blocks' => user_info_blocks(user_info) +
+        'blocks' => preivew_blocks(user_info) +
           open_conversation_button(url)
       }
     }
@@ -14,21 +14,23 @@ class Integrations::Slack::LinkUnfurlFormatter
 
   private
 
-  def user_info_blocks(user_info)
+  def preivew_blocks(user_info)
     [
       {
         'type' => 'section',
         'fields' => [
-          user_info_field('Name', user_info[:user_name]),
-          user_info_field('Email', user_info[:email]),
-          user_info_field('Phone', user_info[:phone_number]),
-          user_info_field('Company', user_info[:company_name])
+          preview_field('Name', user_info[:user_name]),
+          preview_field('Email', user_info[:email]),
+          preview_field('Phone', user_info[:phone_number]),
+          preview_field('Company', user_info[:company_name]),
+          preview_field('Inbox', inbox_name),
+          preview_field('Inbox Type', inbox_type)
         ]
       }
     ]
   end
 
-  def user_info_field(label, value)
+  def preview_field(label, value)
     {
       'type' => 'mrkdwn',
       'text' => "*#{label}:*\n#{value}"

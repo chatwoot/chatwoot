@@ -18,7 +18,8 @@ class Integrations::Slack::SlackLinkUnfurlService
     return unless conversation
 
     user_info = contact_attributes(conversation).slice(:user_name, :email, :phone_number, :company_name)
-    unfurls = Integrations::Slack::LinkUnfurlFormatter.new(url: url, user_info: user_info).perform
+    unfurls = Integrations::Slack::LinkUnfurlFormatter.new(url: url, user_info: user_info, inbox_name: conversation.inbox.name,
+                                                           inbox_type: conversation.inbox.channel_type).perform
     send_unfurls(unfurls)
   end
 
