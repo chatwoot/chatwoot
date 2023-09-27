@@ -65,7 +65,7 @@
     "markdown-it": "^13.0.1",
     "markdown-it-link-attributes": "^4.0.1",
     "md5": "^2.3.0",
-    "ninja-keys": "^1.1.9",
+    "ninja-keys": "^1.2.2",
     "opus-recorder": "^8.0.5",
     "postcss": "^8.4.24",
     "postcss-loader": "^4.2.0",
