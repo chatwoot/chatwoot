@@ -3,6 +3,7 @@ import {
   MessageMarkdownTransformer,
   MessageMarkdownSerializer,
 } from '@chatwoot/prosemirror-schema';
+import * as Sentry from '@sentry/browser';
 
 window.messageSchema = messageSchema;
 window.MessageMarkdownTransformer = MessageMarkdownTransformer;
@@ -27,6 +28,7 @@ export function cleanSignature(signature) {
   } catch (e) {
     // eslint-disable-next-line no-console
     console.error(e);
+    Sentry.captureException(e);
     // The parser can break on some cases
     // for example, Token type `hr` not supported by Markdown parser
     return signature;
