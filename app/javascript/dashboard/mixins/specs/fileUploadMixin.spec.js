@@ -27,6 +27,9 @@ describe('FileUploadMixin', () => {
     vm.currentUser = {
       access_token: 'token',
     };
+    vm.$t = jest.fn(message => message);
+    vm.showAlert = jest.fn();
+    vm.attachFile = jest.fn();
   });
 
   it('should call onDirectFileUpload when direct uploads are enabled', () => {
@@ -40,5 +43,33 @@ describe('FileUploadMixin', () => {
     vm.onIndirectFileUpload = jest.fn();
     vm.onFileUpload({});
     expect(vm.onIndirectFileUpload).toHaveBeenCalledWith({});
+  });
+
+  describe('onDirectFileUpload', () => {
+    it('returns early if no file is provided', () => {
+      const returnValue = vm.onDirectFileUpload(null);
+      expect(returnValue).toBeUndefined();
+    });
+
+    it('shows an alert if the file size exceeds the maximum limit', () => {
+      const fakeFile = { size: 999999999 };
+      vm.showAlert = jest.fn();
+      vm.onDirectFileUpload(fakeFile);
+      expect(vm.showAlert).toHaveBeenCalledWith(expect.any(String));
+    });
+  });
+
+  describe('onIndirectFileUpload', () => {
+    it('returns early if no file is provided', () => {
+      const returnValue = vm.onIndirectFileUpload(null);
+      expect(returnValue).toBeUndefined();
+    });
+
+    it('shows an alert if the file size exceeds the maximum limit', () => {
+      const fakeFile = { size: 999999999 };
+      vm.showAlert = jest.fn();
+      vm.onIndirectFileUpload(fakeFile);
+      expect(vm.showAlert).toHaveBeenCalledWith(expect.any(String));
+    });
   });
 });
