@@ -52,7 +52,7 @@
         "TEXT": "Приоритет"
       },
       "sort_on_waiting_since": {
-        "TEXT": "Pending Response"
+        "TEXT": "Ожидается ответ"
       }
     },
     "ATTACHMENTS": {
