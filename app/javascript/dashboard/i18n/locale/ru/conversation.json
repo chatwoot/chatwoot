@@ -13,8 +13,8 @@
     "NO_INBOX_AGENT": "Ой! Похоже, вы не добавлены ни к одному источнику сообщений. Обратитесь к администратору",
     "SEARCH_MESSAGES": "Поиск по сообщениям в диалогах",
     "EMPTY_STATE": {
-      "CMD_BAR": "to open command menu",
-      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+      "CMD_BAR": "открыть меню команд",
+      "KEYBOARD_SHORTCUTS": "для просмотра быстрых клавиш"
     },
     "SEARCH": {
       "TITLE": "Поиск сообщений",
@@ -58,7 +58,7 @@
       "OPEN": "Открыть",
       "CLOSE": "Закрыть",
       "DETAILS": "подробности",
-      "SNOOZED_UNTIL": "Snoozed until",
+      "SNOOZED_UNTIL": "Отложить до",
       "SNOOZED_UNTIL_TOMORROW": "Отложено до завтра",
       "SNOOZED_UNTIL_NEXT_WEEK": "Отложено до следующей недели",
       "SNOOZED_UNTIL_NEXT_REPLY": "Отложить до следующего ответа"
@@ -151,7 +151,7 @@
       "STOP_AUDIO_RECORDING": "Остановить запись аудио",
       "": "",
       "EMAIL_HEAD": {
-        "TO": "TO",
+        "TO": "ДО",
         "ADD_BCC": "Добавить bcc",
         "CC": {
           "LABEL": "CC",
