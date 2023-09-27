@@ -52,7 +52,6 @@ describe Integrations::Slack::IncomingMessageBuilder do
   end
 
   before do
-    allow(builder).to receive(:slack_client).and_return(slack_client)
     stub_request(:get, 'https://chatwoot-assets.local/sample.png').to_return(
       status: 200,
       body: File.read('spec/assets/sample.png'),
