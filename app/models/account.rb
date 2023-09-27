@@ -88,8 +88,6 @@ class Account < ApplicationRecord
 
   before_validation :validate_limit_keys
   after_create_commit :notify_creation
-  # after signup subscribe_for_plan
-  after_create :subscribe_for_plan
   after_destroy :remove_account_sequences
 
   def agents
@@ -134,12 +132,45 @@ class Account < ApplicationRecord
   end
 
   # For first-time signup
+  def check_and_subscribe_for_plan(user)
+    subscribe_for_plan unless has_stripe_subscription?(user)
+
+  end
+
   def subscribe_for_plan(name = 'Trial', end_time = ChatwootApp.trial_plan_ending_time)
     _plan = Enterprise::BillingProduct.find_by(product_name: name)
     return unless _plan.present?
 
     plan_price = _plan.billing_product_prices.last
     account_billing_subscriptions.create!(billing_product_price: plan_price, current_period_end: end_time)
+  end
+
+  def has_stripe_subscription?(user)
+    user_email = user.email
+    Stripe.api_key = ENV.fetch('STRIPE_SECRET_KEY', nil)
+    customer = Stripe::Customer.list(email: user_email)
+    if customer.data.any?
+      # customer with the specified email found
+      stripe_customer_id = customer.data[0].id
+      subscription = Stripe::Subscription.list(customer: stripe_customer_id)
+      if subscription.data.any?
+        subscription_price = Enterprise::BillingProductPrice.find_by(price_stripe_id: subscription['data'][0]['plan']['id'])
+        if subscription_price
+          # subscription present for stripe chat plan
+          account_billing_subscriptions.create!(billing_product_price: subscription_price, subscription_stripe_id: subscription['data'][0]['id'],
+            current_period_end: Time.at(subscription['data'][0]['current_period_end']).utc.to_datetime)
+          return true
+        else
+          # subscription present but for any other stripe plan
+          return false
+        end
+      else
+        return false
+      end
+    else
+      # No customer with the specified email found
+      return false
+    end
   end
 
   # Set limits for the account

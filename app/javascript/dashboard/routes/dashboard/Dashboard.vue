@@ -17,6 +17,7 @@
         :available-product-prices="availableProductPrices"
         :plan-id="planId"
         :plan-name="planName"
+        :plan-expiry-date="planExpiryDate"
         :response-for-plans="responseForPlans"
         @hideModal="hideModal"
       />
@@ -77,6 +78,7 @@ export default {
       availableProductPrices: [],
       planId: 0,
       planName: 0,
+      planExpiryDate: null,
       responseForPlans: false,
       showAccountModal: false,
       showCreateAccountModal: false,
@@ -141,16 +143,21 @@ export default {
         await this.$store.dispatch('accounts/getBillingSubscription');
         const response = await this.getAccount(this.$route.params.accountId);
         if (response) {
-          const { available_product_prices, plan_id, plan_name } = response;
+          const {
+            available_product_prices,
+            plan_id,
+            plan_name,
+            plan_expiry_date,
+          } = response;
           this.availableProductPrices = available_product_prices;
           this.planId = plan_id;
           this.planName = plan_name;
+          this.planExpiryDate = plan_expiry_date;
           this.responseForPlans = true;
         }
         this.responseForPlans = true;
       } catch (error) {
         this.responseForPlans = true;
-        console.log(error);
       }
     },
     hideModal() {

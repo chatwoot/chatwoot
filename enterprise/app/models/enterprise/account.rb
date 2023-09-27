@@ -15,7 +15,6 @@ module Enterprise::Account
   end
 
   def create_checkout_link(product_price)
-    puts product_price
     Stripe.api_key = ENV.fetch('STRIPE_SECRET_KEY', nil)
     billing_url = "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{id}/settings/billing"
     stripe_session = Stripe::Checkout::Session.create({
