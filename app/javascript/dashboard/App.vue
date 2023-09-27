@@ -111,10 +111,8 @@ export default {
       this.$store.dispatch('setActiveAccount', {
         accountId: this.currentAccountId,
       });
-      const {
-        locale,
-        latest_chatwoot_version: latestChatwootVersion,
-      } = this.getAccount(this.currentAccountId);
+      const { locale, latest_chatwoot_version: latestChatwootVersion } =
+        this.getAccount(this.currentAccountId);
       const { pubsub_token: pubsubToken } = this.currentUser || {};
       this.setLocale(locale);
       this.updateRTLDirectionView(locale);

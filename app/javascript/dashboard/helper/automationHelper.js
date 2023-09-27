@@ -259,7 +259,9 @@ export const isCustomAttribute = (attrs, key) => {
 };
 
 export const generateCustomAttributes = (
+  // eslint-disable-next-line default-param-last
   conversationAttributes = [],
+  // eslint-disable-next-line default-param-last
   contactAttributes = [],
   conversationlabel,
   contactlabel
