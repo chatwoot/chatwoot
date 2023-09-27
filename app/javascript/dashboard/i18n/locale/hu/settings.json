@@ -36,7 +36,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Személyes üzenet aláírás",
-        "NOTE": "Hozz létre egy személyes üzenetaláírást, amelyet az e-mail postafiókodból küldött összes üzenethez hozzáadhatsz. A sokszínű tartalomszerkesztő segítségével személyre szabott aláírást hozhatsz létre.",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
         "BTN_TEXT": "Üzenet aláírás mentése",
         "API_ERROR": "Nem sikerült menteni az aláírást! Próbáld újra",
         "API_SUCCESS": "Aláírás sikeresen mentve",
