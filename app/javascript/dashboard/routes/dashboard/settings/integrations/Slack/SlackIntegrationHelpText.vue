@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex-1 w-full p-6 bg-white rounded-md border border-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 "
+    class="flex-1 w-full p-6 bg-white rounded-md border border-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
   >
     <div class="prose-lg max-w-5xl">
       <h5 class="dark:text-slate-100">

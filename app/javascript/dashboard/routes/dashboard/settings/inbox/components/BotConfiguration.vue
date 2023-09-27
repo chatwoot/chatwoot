@@ -13,9 +13,9 @@
         <div class="w-[60%]">
           <label>
             <select v-model="selectedAgentBotId">
-              <option value="" disabled selected>{{
-                $t('AGENT_BOTS.BOT_CONFIGURATION.SELECT_PLACEHOLDER')
-              }}</option>
+              <option value="" disabled selected>
+                {{ $t('AGENT_BOTS.BOT_CONFIGURATION.SELECT_PLACEHOLDER') }}
+              </option>
               <option
                 v-for="agentBot in agentBots"
                 :key="agentBot.id"

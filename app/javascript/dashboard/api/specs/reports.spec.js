@@ -1,6 +1,5 @@
 import reportsAPI from '../reports';
 import ApiClient from '../ApiClient';
-import describeWithAPIMock from './apiSpecHelper';
 
 describe('#Reports API', () => {
   it('creates correct instance', () => {
@@ -18,14 +17,30 @@ describe('#Reports API', () => {
     expect(reportsAPI).toHaveProperty('getInboxReports');
     expect(reportsAPI).toHaveProperty('getTeamReports');
   });
-  describeWithAPIMock('API calls', context => {
+  describe('API calls', () => {
+    const originalAxios = window.axios;
+    const axiosMock = {
+      post: jest.fn(() => Promise.resolve()),
+      get: jest.fn(() => Promise.resolve()),
+      patch: jest.fn(() => Promise.resolve()),
+      delete: jest.fn(() => Promise.resolve()),
+    };
+
+    beforeEach(() => {
+      window.axios = axiosMock;
+    });
+
+    afterEach(() => {
+      window.axios = originalAxios;
+    });
+
     it('#getAccountReports', () => {
       reportsAPI.getReports({
         metric: 'conversations_count',
         from: 1621103400,
         to: 1621621800,
       });
-      expect(context.axiosMock.get).toHaveBeenCalledWith('/api/v2/reports', {
+      expect(axiosMock.get).toHaveBeenCalledWith('/api/v2/reports', {
         params: {
           metric: 'conversations_count',
           since: 1621103400,
@@ -38,20 +53,17 @@ describe('#Reports API', () => {
 
     it('#getAccountSummary', () => {
       reportsAPI.getSummary(1621103400, 1621621800);
-      expect(context.axiosMock.get).toHaveBeenCalledWith(
-        '/api/v2/reports/summary',
-        {
-          params: {
-            business_hours: undefined,
-            group_by: undefined,
-            id: undefined,
-            since: 1621103400,
-            timezone_offset: -0,
-            type: 'account',
-            until: 1621621800,
-          },
-        }
-      );
+      expect(axiosMock.get).toHaveBeenCalledWith('/api/v2/reports/summary', {
+        params: {
+          business_hours: undefined,
+          group_by: undefined,
+          id: undefined,
+          since: 1621103400,
+          timezone_offset: -0,
+          type: 'account',
+          until: 1621621800,
+        },
+      });
     });
 
     it('#getAgentReports', () => {
@@ -60,60 +72,48 @@ describe('#Reports API', () => {
         to: 1621621800,
         businessHours: true,
       });
-      expect(context.axiosMock.get).toHaveBeenCalledWith(
-        '/api/v2/reports/agents',
-        {
-          params: {
-            since: 1621103400,
-            until: 1621621800,
-            business_hours: true,
-          },
-        }
-      );
+      expect(axiosMock.get).toHaveBeenCalledWith('/api/v2/reports/agents', {
+        params: {
+          since: 1621103400,
+          until: 1621621800,
+          business_hours: true,
+        },
+      });
     });
 
     it('#getLabelReports', () => {
       reportsAPI.getLabelReports({ from: 1621103400, to: 1621621800 });
-      expect(context.axiosMock.get).toHaveBeenCalledWith(
-        '/api/v2/reports/labels',
-        {
-          params: {
-            since: 1621103400,
-            until: 1621621800,
-          },
-        }
-      );
+      expect(axiosMock.get).toHaveBeenCalledWith('/api/v2/reports/labels', {
+        params: {
+          since: 1621103400,
+          until: 1621621800,
+        },
+      });
     });
 
     it('#getInboxReports', () => {
       reportsAPI.getInboxReports({ from: 1621103400, to: 1621621800 });
-      expect(context.axiosMock.get).toHaveBeenCalledWith(
-        '/api/v2/reports/inboxes',
-        {
-          params: {
-            since: 1621103400,
-            until: 1621621800,
-          },
-        }
-      );
+      expect(axiosMock.get).toHaveBeenCalledWith('/api/v2/reports/inboxes', {
+        params: {
+          since: 1621103400,
+          until: 1621621800,
+        },
+      });
     });
 
     it('#getTeamReports', () => {
       reportsAPI.getTeamReports({ from: 1621103400, to: 1621621800 });
-      expect(context.axiosMock.get).toHaveBeenCalledWith(
-        '/api/v2/reports/teams',
-        {
-          params: {
-            since: 1621103400,
-            until: 1621621800,
-          },
-        }
-      );
+      expect(axiosMock.get).toHaveBeenCalledWith('/api/v2/reports/teams', {
+        params: {
+          since: 1621103400,
+          until: 1621621800,
+        },
+      });
     });
 
     it('#getConversationMetric', () => {
       reportsAPI.getConversationMetric('account');
-      expect(context.axiosMock.get).toHaveBeenCalledWith(
+      expect(axiosMock.get).toHaveBeenCalledWith(
         '/api/v2/reports/conversations',
         {
           params: {

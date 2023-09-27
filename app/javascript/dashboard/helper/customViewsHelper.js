@@ -70,15 +70,8 @@ const getValuesForCountries = (values, countries) => {
 
 export const getValuesForFilter = (filter, params) => {
   const { attribute_key, values } = filter;
-  const {
-    languages,
-    countries,
-    agents,
-    inboxes,
-    teams,
-    campaigns,
-    labels,
-  } = params;
+  const { languages, countries, agents, inboxes, teams, campaigns, labels } =
+    params;
   switch (attribute_key) {
     case 'status':
       return getValuesForStatus(values);

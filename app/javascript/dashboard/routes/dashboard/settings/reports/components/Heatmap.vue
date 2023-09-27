@@ -80,14 +80,10 @@ export default {
     },
     quantileRange() {
       const flattendedData = this.heatData.map(data => data.value);
-      return getQuantileIntervals(flattendedData, [
-        0.2,
-        0.4,
-        0.6,
-        0.8,
-        0.9,
-        0.99,
-      ]);
+      return getQuantileIntervals(
+        flattendedData,
+        [0.2, 0.4, 0.6, 0.8, 0.9, 0.99]
+      );
     },
   },
   methods: {
@@ -255,7 +251,9 @@ $marker-height: var(--space-two);
       box-shadow: var(--shadow-large);
 
       transform: translateY(-2px);
-      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      transition:
+        transform 0.2s ease-in-out,
+        box-shadow 0.2s ease-in-out;
     }
 
     &:not(.l1):not(.l2):not(.l3):not(.l4):not(.l5):not(.l6) {
