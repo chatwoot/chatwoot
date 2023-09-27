@@ -32,7 +32,7 @@ module.exports = api => {
         {
           useBuiltIns: 'usage',
           corejs: 3,
-          targets: '>= 0.5%, not dead, not op_mini all',
+          targets: '> 0.25%, not dead',
         },
       ],
     ],
