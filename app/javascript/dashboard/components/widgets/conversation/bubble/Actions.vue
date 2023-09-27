@@ -187,8 +187,9 @@ export default {
         return '';
       }
       const { screenName, sourceId } = this;
-      return `https://twitter.com/${screenName ||
-        this.inbox.name}/status/${sourceId}`;
+      return `https://twitter.com/${
+        screenName || this.inbox.name
+      }/status/${sourceId}`;
     },
     linkToStory() {
       if (!this.storyId || !this.storySender) {

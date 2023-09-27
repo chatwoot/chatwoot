@@ -211,9 +211,7 @@ describe('#ConversationAPI', () => {
         },
       };
       conversationAPI.filter(payload);
-      expect(
-        axiosMock.post
-      ).toHaveBeenCalledWith(
+      expect(axiosMock.post).toHaveBeenCalledWith(
         '/api/v1/conversations/filter',
         payload.queryData,
         { params: { page: payload.page } }

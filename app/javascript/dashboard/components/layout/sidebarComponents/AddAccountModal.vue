@@ -34,8 +34,8 @@
             <woot-submit-button
               :disabled="
                 $v.accountName.$invalid ||
-                  $v.accountName.$invalid ||
-                  uiFlags.isCreating
+                $v.accountName.$invalid ||
+                uiFlags.isCreating
               "
               :button-text="$t('CREATE_ACCOUNT.FORM.SUBMIT')"
               :loading="uiFlags.isCreating"
