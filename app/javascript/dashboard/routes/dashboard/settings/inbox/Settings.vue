@@ -589,8 +589,9 @@ export default {
 
     inboxName() {
       if (this.isATwilioSMSChannel || this.isATwilioWhatsAppChannel) {
-        return `${this.inbox.name} (${this.inbox.messaging_service_sid ||
-          this.inbox.phone_number})`;
+        return `${this.inbox.name} (${
+          this.inbox.messaging_service_sid || this.inbox.phone_number
+        })`;
       }
       if (this.isAWhatsAppChannel) {
         return `${this.inbox.name} (${this.inbox.phone_number})`;
@@ -673,7 +674,8 @@ export default {
         this.csatSurveyEnabled = this.inbox.csat_survey_enabled;
         this.senderNameType = this.inbox.sender_name_type;
         this.businessName = this.inbox.business_name;
-        this.allowMessagesAfterResolved = this.inbox.allow_messages_after_resolved;
+        this.allowMessagesAfterResolved =
+          this.inbox.allow_messages_after_resolved;
         this.continuityViaEmail = this.inbox.continuity_via_email;
         this.channelWebsiteUrl = this.inbox.website_url;
         this.channelWelcomeTitle = this.inbox.welcome_title;
