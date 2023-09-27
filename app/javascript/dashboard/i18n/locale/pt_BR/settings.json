@@ -36,7 +36,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Assinatura de mensagens pessoais",
-        "NOTE": "Crie uma assinatura de mensagem pessoal que será adicionada a todas as mensagens enviadas a partir da sua caixa de entrada. Use o editor de conteúdo para criar uma assinatura altamente personalizada.",
+        "NOTE": "Crie uma assinatura de mensagem única para aparecer no final de cada mensagem que você enviar de qualquer caixa de entrada. Você também pode incluir uma imagem anexada, suportada em live-chat, e-mail e caixas de entrada de API.",
         "BTN_TEXT": "Salvar assinatura da mensagem",
         "API_ERROR": "Não foi possível salvar a assinatura! Tente novamente",
         "API_SUCCESS": "Assinatura salva com sucesso",
