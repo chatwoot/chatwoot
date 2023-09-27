@@ -4,8 +4,10 @@ class Enterprise::MessageTemplates::ResponseBotService
   def perform
     ActiveRecord::Base.transaction do
       response = get_response(conversation.messages.last.content)
-      process_response(conversation.messages.last, response['response'])
+      process_response(response['response'])
     end
+  rescue JSON::ParserError
+    process_action('handoff')
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: conversation.account).capture_exception
     true
@@ -43,15 +45,15 @@ class Enterprise::MessageTemplates::ResponseBotService
     message.message_type == 'incoming' ? 'user' : 'system'
   end
 
-  def process_response(message, response)
+  def process_response(response)
     if response == 'conversation_handoff'
-      process_action(message, 'handoff')
+      process_action('handoff')
     else
-      create_messages(response, conversation)
+      create_messages(response)
     end
   end
 
-  def process_action(_message, action)
+  def process_action(action)
     case action
     when 'handoff'
       conversation.messages.create!('message_type': :outgoing, 'account_id': conversation.account_id, 'inbox_id': conversation.inbox_id,
@@ -60,9 +62,9 @@ class Enterprise::MessageTemplates::ResponseBotService
     end
   end
 
-  def create_messages(response, conversation)
+  def create_messages(response)
     response = process_response_content(response).first
-    create_outgoing_message(response, conversation)
+    create_outgoing_message(response)
   end
 
   def process_response_content(response)
@@ -79,7 +81,7 @@ class Enterprise::MessageTemplates::ResponseBotService
     [response, article_ids]
   end
 
-  def create_outgoing_message(response, conversation)
+  def create_outgoing_message(response)
     conversation.messages.create!(
       {
         message_type: :outgoing,
