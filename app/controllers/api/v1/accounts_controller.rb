@@ -34,6 +34,7 @@ class Api::V1::AccountsController < Api::BaseController
       user: current_user
     ).perform
     if @user
+      @account.check_and_subscribe_for_plan(@user)
       send_auth_headers(@user)
       render 'api/v1/accounts/create', format: :json, locals: { resource: @user }
     else
@@ -113,6 +114,7 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def update_subscription(subscription)
+    Stripe.api_key = ENV.fetch('STRIPE_SECRET_KEY', nil)
     Stripe::Subscription.update(
       subscription.id,
       {
@@ -123,7 +125,11 @@ class Api::V1::AccountsController < Api::BaseController
             id: subscription.items.data[0].id,
             price: @billing_subscription.price_stripe_id
           }
-        ]
+        ],
+        metadata: {
+          account_id:  @account.id,
+          website: 'OneHash_Chat' 
+        }
       }
     )
   end

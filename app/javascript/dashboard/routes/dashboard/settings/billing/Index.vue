@@ -10,7 +10,7 @@
         <div class="columns small-9 medium-5">
           <label>{{
             $t('BILLING_SETTINGS.FORM.CURRENT_PLAN.PLAN_NOTE', {
-              plan: planName
+              plan: planName,
             })
           }}</label>
         </div>
@@ -24,7 +24,7 @@
         <div class="columns small-9 medium-5">
           <label>{{
             $t('BILLING_SETTINGS.FORM.EXPIRY.PLAN_NOTE', {
-              expiry_date: plan_expiry_date
+              expiry_date: planExpiryDate,
             })
           }}</label>
         </div>
@@ -68,7 +68,7 @@ export default {
       selectedProductPrice: '',
       availableProductPrices: [],
       showStatus: true,
-      plan_expiry_date: ''
+      planExpiryDate: '',
     };
   },
   validations: {},
@@ -97,17 +97,15 @@ export default {
           this.showAlert(this.$t('BILLING_SETTINGS.SUCCESS.MESSAGE'));
           Cookies.remove('subscription');
         } else if (status === 'cancel') {
-          console.log('cancelled');
           this.showAlert(this.$t('BILLING_SETTINGS.CANCEL.MESSAGE'));
         } else if (status === 'error') {
-          console.log('error');
           this.showAlert(this.$t('BILLING_SETTINGS.ERROR.MESSAGE'));
         }
       }
     },
     checkStatus(product) {
       // eslint-disable-next-line eqeqeq
-      if (product.unit == 0 && product.name == 'Free') {
+      if (product.unit == 0 && product.name == 'Trial') {
         return true;
       }
       return false;
@@ -123,9 +121,9 @@ export default {
           plan_name,
           plan_id,
           agent_count,
-          plan_expiry_date
+          plan_expiry_date,
         } = this.getAccount(this.accountId);
-        this.planName = plan_name
+        this.planName = plan_name;
         this.selectedProductPrice = plan_id;
         this.agentCount = agent_count;
         this.availableProductPrices = available_product_prices;
@@ -136,11 +134,11 @@ export default {
 
         const monthNames = [
           'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-          'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+          'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
         ];
 
         const formattedDate = `${day} ${monthNames[monthIndex]} ${year}`;
-        this.plan_expiry_date = formattedDate;
+        this.planExpiryDate = formattedDate;
       } catch (error) {
         console.log(error);
       }

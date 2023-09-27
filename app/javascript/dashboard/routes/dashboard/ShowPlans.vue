@@ -1,9 +1,21 @@
 <template>
-  <div v-if="isSubscriptionValid && responseForPlans" transition="modal" class="skip-context-menu modal-mask ">
+  <div
+    v-if="isSubscriptionValid && responseForPlans"
+    transition="modal"
+    class="skip-context-menu modal-mask "
+  >
     <div class="modal-container bg-white dark:bg-slate-800 skip-context-menu ">
-      <button class="button modal--close clear button--only-icon secondary" @click="hidePlanModal">x</button>
+      <button
+        class="button modal--close clear button--only-icon secondary"
+        @click="hidePlanModal"
+      >
+        x
+      </button>
       <div class="row flex justify-center items-center ">
-        <div v-for="availableProductPrice in availableProductPrices" class="card plan-column">
+        <div
+          v-for="availableProductPrice in availableProductPrices"
+          class="card plan-column"
+        >
           <h4 class="">
             {{ availableProductPrice.name }}
           </h4>
@@ -14,19 +26,52 @@
             <div class="h2 display-2 mb-0">
               {{ availableProductPrice.unit_amount }}
             </div>
-            <div v-if="availableProductPrice.name === 'Starter' || availableProductPrice.name === 'Plus'"
-              class="price mb-0 mt-2">/month</div>
+            <div
+              v-if="
+                availableProductPrice.name === 'Starter' ||
+                  availableProductPrice.name === 'Plus'
+              "
+              class="price mb-0 mt-2"
+            >
+              /month
+            </div>
             <div v-else class="price mb-0 mt-2">/year</div>
           </div>
-          <div class="solution-description" v-html="availableProductPrice.description" />
-          <woot-button v-if="planId !== availableProductPrice.id" title="Select this Plan"
-            :disabled="isPlanClicked === true" @click="() => submitSubscription(availableProductPrice.id)">
+          <div
+            class="solution-description"
+            v-html="availableProductPrice.description"
+          />
+          <woot-button
+            v-if="planId !== availableProductPrice.id"
+            title="Select this Plan"
+            :disabled="isPlanClicked === true"
+            @click="() => submitSubscription(availableProductPrice.id)"
+          >
             Select this plan
-            <woot-spinner v-if="clickedPlan === availableProductPrice.id"></woot-spinner>
+            <woot-spinner v-if="clickedPlan === availableProductPrice.id" />
           </woot-button>
-          <woot-button v-if="planId == availableProductPrice.id" title="Current Plan"
-            style="opacity: 0.5; cursor: not-allowed">
+
+          <woot-button
+            v-if="
+              planId === availableProductPrice.id &&
+                !planHasExpired(planExpiryDate)
+            "
+            title="Current Plan"
+            style="opacity: 0.5; cursor: not-allowed"
+          >
             Current Plan
+          </woot-button>
+
+          <woot-button
+            v-if="
+              planId === availableProductPrice.id &&
+                planHasExpired(planExpiryDate)
+            "
+            title="Purchase Again"
+            :disabled="isPlanClicked === true"
+            @click="() => submitSubscription(availableProductPrice.id)"
+          >
+            Purchase Again
           </woot-button>
         </div>
       </div>
@@ -73,13 +118,17 @@ export default {
       type: Boolean,
       default: false,
     },
+    planExpiryDate: {
+      type: String,
+      default: null,
+    },
   },
   data() {
     return {
       error: '',
       products: '',
       isPlanClicked: false,
-      clickedPlan: null
+      clickedPlan: null,
     };
   },
 
@@ -93,19 +142,25 @@ export default {
     submitSubscription(value) {
       const payload = { product_price: value };
       this.isPlanClicked = true;
-      this.clickedPlan = value
+      this.clickedPlan = value;
       AccountAPI.changePlan(payload)
         .then(response => {
           window.location.href = response.data.url;
           this.isPlanClicked = false;
-          this.clickedPlan = null
-
+          this.clickedPlan = null;
         })
         .catch(error => {
           this.isPlanClicked = false;
           this.isPlanClicked = false;
-          this.clickedPlan = null
+          this.clickedPlan = null;
         });
+    },
+    planHasExpired(expirationDate) {
+      const currentDate = new Date();
+      const planExpirationDate = new Date(expirationDate);
+
+      // Compare the current date with the plan's expiration date
+      return currentDate > planExpirationDate;
     },
   },
 };
@@ -164,6 +219,7 @@ export default {
   &:first-child {
     margin-right: 0;
   }
+
   &:nth-child(2) {
     margin-right: 0;
   }
