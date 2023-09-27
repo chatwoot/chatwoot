@@ -1,6 +1,6 @@
 <template>
   <div class="p-4 shadow-sm rounded-md bg-white dark:bg-slate-700">
-    <div class="flex items-center justify-between ">
+    <div class="flex items-center justify-between">
       <div class="  ">
         <div class="text-sm font-medium text-slate-700 dark:text-slate-50">
           {{
