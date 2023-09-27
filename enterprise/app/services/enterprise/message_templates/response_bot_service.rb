@@ -6,9 +6,8 @@ class Enterprise::MessageTemplates::ResponseBotService
       response = get_response(conversation.messages.last.content)
       process_response(response['response'])
     end
-  rescue JSON::ParserError
-    process_action('handoff')
   rescue StandardError => e
+    process_action('handoff') # something went wrong, pass to agent
     ChatwootExceptionTracker.new(e, account: conversation.account).capture_exception
     true
   end
