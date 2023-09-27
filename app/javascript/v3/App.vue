@@ -15,6 +15,7 @@ export default {
   mounted() {
     this.setColorTheme();
     this.listenToThemeChanges();
+    this.setLocale(window.chatwootConfig.selectedLocale);
   },
   methods: {
     setColorTheme() {
@@ -34,6 +35,9 @@ export default {
           this.theme = 'light';
         }
       };
+    },
+    setLocale(locale) {
+      this.$root.$i18n.locale = locale;
     },
   },
 };
