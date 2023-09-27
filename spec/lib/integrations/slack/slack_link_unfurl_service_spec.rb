@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Integrations::Slack::SlackLinkUnfurlService do
-  let!(:contact) { create(:contact) }
+  let!(:contact) { create(:contact, name: 'Contact 1', email: nil, phone_number: nil) }
   let(:channel_email) { create(:channel_email) }
   let!(:conversation) { create(:conversation, inbox: channel_email.inbox, contact: contact, identifier: nil) }
   let(:account) { conversation.account }
