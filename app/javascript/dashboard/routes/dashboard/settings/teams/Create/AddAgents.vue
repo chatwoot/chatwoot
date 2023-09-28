@@ -33,8 +33,8 @@ import { mapGetters } from 'vuex';
 
 import alertMixin from 'shared/mixins/alertMixin';
 import router from '../../../../index';
-import PageHeader from '../../SettingsSubPageHeader';
-import AgentSelector from '../AgentSelector';
+import PageHeader from '../../SettingsSubPageHeader.vue';
+import AgentSelector from '../AgentSelector.vue';
 
 export default {
   components: {

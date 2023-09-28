@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-mutating-props -->
 <template>
   <woot-modal :show.sync="show" :on-close="onClose">
     <woot-modal-header
@@ -19,7 +20,7 @@
 
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
-import MergeContact from 'dashboard/modules/contact/components/MergeContact';
+import MergeContact from 'dashboard/modules/contact/components/MergeContact.vue';
 
 import ContactAPI from 'dashboard/api/contacts';
 

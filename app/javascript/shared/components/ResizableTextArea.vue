@@ -122,7 +122,6 @@ export default {
       });
     },
     setCursor() {
-      const textarea = this.$refs.textarea;
       const bodyWithoutSignature = removeSignature(
         this.value,
         this.cleanedSignature
@@ -130,9 +129,12 @@ export default {
 
       // only trim at end, so if there are spaces at the start, those are not removed
       const bodyEndsAt = bodyWithoutSignature.trimEnd().length;
+      const textarea = this.$refs.textarea;
 
-      textarea.focus();
-      textarea.setSelectionRange(bodyEndsAt, bodyEndsAt);
+      if (textarea) {
+        textarea.focus();
+        textarea.setSelectionRange(bodyEndsAt, bodyEndsAt);
+      }
     },
     onInput(event) {
       this.$emit('input', event.target.value);
@@ -165,7 +167,7 @@ export default {
       this.$emit('focus');
     },
     focus() {
-      this.$refs.textarea.focus();
+      if (this.$refs.textarea) this.$refs.textarea.focus();
     },
   },
 };

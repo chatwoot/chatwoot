@@ -36,7 +36,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Potpis privatne poruke",
-        "NOTE": "Napravite potpis privatne poruke koji će se dodavati svakoj poruci koju pošaljete u prijemno sanduče e-pošte. Koristite bogati uređivač sadržaja da bi ste napravili personalizovan potpis.",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
         "BTN_TEXT": "Sačuvaj potpis poruke",
         "API_ERROR": "Nije bilo moguće sačuvati potpis! Pokušajte ponovo",
         "API_SUCCESS": "Potpis je uspešno sačuvan",

@@ -34,7 +34,9 @@
   "START_CONVERSATION": "Începe conversația",
   "END_CONVERSATION": "Terminați conversația",
   "CONTINUE_CONVERSATION": "Continuați conversația",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "Începeți o conversație nouă",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Vezi mesajele noi",
     "CLOSE_MESSAGES_BUTTON": "Închide",
@@ -108,6 +110,27 @@
   },
   "PORTAL": {
     "POPULAR_ARTICLES": "Popular Articles",
-    "VIEW_ALL_ARTICLES": "Vezi toate articolele"
+    "VIEW_ALL_ARTICLES": "Vezi toate articolele",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Mesaj imagine"
+    },
+    "audio": {
+      "CONTENT": "Mesaj audio"
+    },
+    "video": {
+      "CONTENT": "Mesaj video"
+    },
+    "file": {
+      "CONTENT": "Fişier ataşat"
+    },
+    "location": {
+      "CONTENT": "Locaţie"
+    },
+    "fallback": {
+      "CONTENT": "a partajat un URL"
+    }
   }
 }

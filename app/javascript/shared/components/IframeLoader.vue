@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import ArticleSkeletonLoader from 'shared/components/ArticleSkeletonLoader';
+import ArticleSkeletonLoader from 'shared/components/ArticleSkeletonLoader.vue';
 
 export default {
   name: 'IframeRenderer',

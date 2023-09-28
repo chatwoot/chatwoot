@@ -48,7 +48,7 @@
           v-if="enabledOptions['copy']"
           :option="{
             icon: 'clipboard',
-            label: this.$t('CONVERSATION.CONTEXT_MENU.COPY'),
+            label: $t('CONVERSATION.CONTEXT_MENU.COPY'),
           }"
           variant="icon"
           @click="handleCopy"
@@ -57,7 +57,7 @@
           v-if="enabledOptions['copy']"
           :option="{
             icon: 'translate',
-            label: this.$t('CONVERSATION.CONTEXT_MENU.TRANSLATE'),
+            label: $t('CONVERSATION.CONTEXT_MENU.TRANSLATE'),
           }"
           variant="icon"
           @click="handleTranslate"
@@ -66,7 +66,7 @@
         <menu-item
           :option="{
             icon: 'link',
-            label: this.$t('CONVERSATION.CONTEXT_MENU.COPY_PERMALINK'),
+            label: $t('CONVERSATION.CONTEXT_MENU.COPY_PERMALINK'),
           }"
           variant="icon"
           @click="copyLinkToMessage"
@@ -75,9 +75,7 @@
           v-if="enabledOptions['cannedResponse']"
           :option="{
             icon: 'comment-add',
-            label: this.$t(
-              'CONVERSATION.CONTEXT_MENU.CREATE_A_CANNED_RESPONSE'
-            ),
+            label: $t('CONVERSATION.CONTEXT_MENU.CREATE_A_CANNED_RESPONSE'),
           }"
           variant="icon"
           @click="showCannedResponseModal"
@@ -87,7 +85,7 @@
           v-if="enabledOptions['delete']"
           :option="{
             icon: 'delete',
-            label: this.$t('CONVERSATION.CONTEXT_MENU.DELETE'),
+            label: $t('CONVERSATION.CONTEXT_MENU.DELETE'),
           }"
           variant="icon"
           @click="openDeleteModal"
@@ -101,11 +99,11 @@ import alertMixin from 'shared/mixins/alertMixin';
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import AddCannedModal from 'dashboard/routes/dashboard/settings/canned/AddCanned';
+import AddCannedModal from 'dashboard/routes/dashboard/settings/canned/AddCanned.vue';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import { conversationUrl, frontendURL } from '../../../helper/URLHelper';
 import { ACCOUNT_EVENTS } from '../../../helper/AnalyticsHelper/events';
-import TranslateModal from 'dashboard/components/widgets/conversation/bubble/TranslateModal';
+import TranslateModal from 'dashboard/components/widgets/conversation/bubble/TranslateModal.vue';
 import MenuItem from '../../../components/widgets/conversation/contextMenu/menuItem.vue';
 
 export default {

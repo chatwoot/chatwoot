@@ -41,9 +41,9 @@ import {
   triggerCharacters,
 } from '@chatwoot/prosemirror-schema/src/mentions/plugin';
 
-import TagAgents from '../conversation/TagAgents';
-import CannedResponse from '../conversation/CannedResponse';
-import VariableList from '../conversation/VariableList';
+import TagAgents from '../conversation/TagAgents.vue';
+import CannedResponse from '../conversation/CannedResponse.vue';
+import VariableList from '../conversation/VariableList.vue';
 import {
   appendSignature,
   removeSignature,
@@ -72,7 +72,9 @@ import { MESSAGE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 const createState = (
   content,
   placeholder,
+  // eslint-disable-next-line default-param-last
   plugins = [],
+  // eslint-disable-next-line default-param-last
   methods = {},
   enabledMenuOptions
 ) => {
@@ -670,6 +672,10 @@ export default {
 
 .ProseMirror-prompt {
   @apply z-50 bg-slate-25 dark:bg-slate-700 rounded-md border border-solid border-slate-75 dark:border-slate-800;
+
+  h5 {
+    @apply dark:text-slate-25 text-slate-800;
+  }
 }
 
 .is-private {

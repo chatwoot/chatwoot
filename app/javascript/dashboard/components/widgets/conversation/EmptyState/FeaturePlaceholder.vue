@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import Hotkey from 'dashboard/components/base/Hotkey';
+import Hotkey from 'dashboard/components/base/Hotkey.vue';
 
 export default {
   components: {

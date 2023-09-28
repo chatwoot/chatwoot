@@ -371,6 +371,8 @@
     "DETAILS": {
       "LOADING_FB": "페이스북 인증하는 중...",
       "ERROR_FB_AUTH": "문제가 발생했습니다 페이지를 새로 고치십시오...",
+      "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
       "CREATING_CHANNEL": "받은 메시지함을 만드는 중...",
       "TITLE": "받은 메시지함 세부 구성",
       "DESC": ""

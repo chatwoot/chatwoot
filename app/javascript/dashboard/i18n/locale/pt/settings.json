@@ -36,12 +36,12 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Assinatura de mensagem pessoal",
-        "NOTE": "Crie uma assinatura de email personalizada que será adicionada a todas as mensagens de email enviadas. Use o editor de conteúdo para criar uma assinatura mais personalizada.",
+        "NOTE": "Crie uma assinatura de mensagem única para aparecer no final de todas as mensagens que enviar de qualquer caixa de entrada. Pode incluir uma imagem embutida, que será suportada nos canais de live-chat, e-mail e caixas de entrada API.",
         "BTN_TEXT": "Salvar assinatura da mensagem",
         "API_ERROR": "Não foi possível salvar a assinatura! Tente novamente",
         "API_SUCCESS": "Assinatura salva com sucesso",
-        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
-        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_ERROR": "Não foi possível carregar a imagem! Tente novamente",
+        "IMAGE_UPLOAD_SUCCESS": "Imagem adicionada. Clique em salvar para salvar a assinatura",
         "IMAGE_UPLOAD_SIZE_ERROR": "O tamanho da imagem deve ser inferior a {size}MB"
       },
       "MESSAGE_SIGNATURE": {

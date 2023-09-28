@@ -36,7 +36,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Signature du message personnel",
-        "NOTE": "Créez une signature de message personnelle qui sera ajoutée à tous les messages que vous envoyez depuis votre boîte aux lettres électronique. Utilisez l'éditeur de contenu riche pour créer une signature personnalisée.",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
         "BTN_TEXT": "Enregistrer la signature du message",
         "API_ERROR": "Impossible d'enregistrer la signature ! Réessayez",
         "API_SUCCESS": "Signature enregistrée avec succès",

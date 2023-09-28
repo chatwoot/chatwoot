@@ -11,14 +11,12 @@ describe('#IFrameHelper', () => {
     it('returns if the event is valid', () => {
       expect(
         IFrameHelper.isAValidEvent({
-          data:
-            'chatwoot-widget:{"event":"config-set","locale":"fr","position":"left","hideMessageBubble":false,"showPopoutButton":true}',
+          data: 'chatwoot-widget:{"event":"config-set","locale":"fr","position":"left","hideMessageBubble":false,"showPopoutButton":true}',
         })
       ).toEqual(true);
       expect(
         IFrameHelper.isAValidEvent({
-          data:
-            '{"event":"config-set","locale":"fr","position":"left","hideMessageBubble":false,"showPopoutButton":true}',
+          data: '{"event":"config-set","locale":"fr","position":"left","hideMessageBubble":false,"showPopoutButton":true}',
         })
       ).toEqual(false);
     });
@@ -27,8 +25,7 @@ describe('#IFrameHelper', () => {
     it('returns parsed message', () => {
       expect(
         IFrameHelper.getMessage({
-          data:
-            'chatwoot-widget:{"event":"config-set","locale":"fr","position":"left","hideMessageBubble":false,"showPopoutButton":true}',
+          data: 'chatwoot-widget:{"event":"config-set","locale":"fr","position":"left","hideMessageBubble":false,"showPopoutButton":true}',
         })
       ).toEqual({
         event: 'config-set',

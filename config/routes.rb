@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     namespace :survey do
       resources :responses, only: [:show]
     end
+    resource :slack_uploads, only: [:show]
   end
 
   get '/api', to: 'api#index'
@@ -423,6 +424,9 @@ Rails.application.routes.draw do
       end
 
       resources :access_tokens, only: [:index, :show]
+      resources :response_sources, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+      resources :response_documents, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+      resources :responses, only: [:index, :show, :new, :create, :edit, :update, :destroy]
       resources :installation_configs, only: [:index, :new, :create, :show, :edit, :update]
       resources :agent_bots, only: [:index, :new, :create, :show, :edit, :update] do
         delete :avatar, on: :member, action: :destroy_avatar
