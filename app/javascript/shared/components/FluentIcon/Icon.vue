@@ -1,5 +1,6 @@
 <template>
   <svg
+    v-if="isIconFromFluent"
     :width="size"
     :height="size"
     fill="none"
@@ -12,6 +13,23 @@
       :d="source"
       fill="currentColor"
     />
+  </svg>
+  <svg
+    v-else
+    :width="size"
+    :height="size"
+    fill="none"
+    :viewBox="viewBox"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g v-for="(pathData, index) in pathSource" :key="index">
+      <path
+        :key="pathData"
+        :d="pathData"
+        stroke="currentColor"
+        stroke-width="1.66667"
+      />
+    </g>
   </svg>
 </template>
 <script>
@@ -37,9 +55,16 @@ export default {
       type: String,
       default: '0 0 24 24',
     },
+    isFluentIcon: {
+      type: Boolean,
+      default: true,
+    },
   },
 
   computed: {
+    isIconFromFluent() {
+      return this.isFluentIcon;
+    },
     pathSource() {
       // To support icons with multiple paths
       const path = this.icons[`${this.icon}-${this.type}`];

@@ -8,6 +8,7 @@
         </h1>
       </div>
       <woot-button
+        v-if="showHelpCenter"
         color-scheme="primary"
         icon="add"
         size="small"
@@ -16,7 +17,7 @@
         {{ $t('HELP_CENTER.PORTAL.NEW_BUTTON') }}
       </woot-button>
     </div>
-    <div class="h-[90vh] overflow-y-scroll">
+    <div v-if="showHelpCenter" class="h-[90vh] overflow-y-scroll">
       <portal-list-item
         v-for="portal in portals"
         :key="portal.id"
@@ -37,6 +38,7 @@
         :title="$t('HELP_CENTER.PORTAL.NO_PORTALS_MESSAGE')"
       />
     </div>
+    <upgrade-page v-else />
     <woot-modal
       :show.sync="isAddLocaleModalOpen"
       :on-close="closeAddLocaleModal"
@@ -58,6 +60,8 @@ import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import AddLocale from '../../components/AddLocale.vue';
 import { buildPortalURL } from 'dashboard/helper/portalHelper';
+import UpgradePage from '../UpgradePage';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 export default {
   components: {
@@ -65,6 +69,7 @@ export default {
     EmptyState,
     Spinner,
     AddLocale,
+    UpgradePage,
   },
   mixins: [alertMixin],
   data() {
@@ -78,12 +83,20 @@ export default {
       portals: 'portals/allPortals',
       meta: 'portals/getMeta',
       isFetching: 'portals/isFetchingPortals',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+      accountId: 'getCurrentAccountId',
     }),
     portalStatus() {
       return this.archived ? 'Archived' : 'Live';
     },
     shouldShowEmptyState() {
       return !this.isFetching && !this.portals.length;
+    },
+    showHelpCenter() {
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.HELP_CENTER
+      );
     },
   },
   methods: {

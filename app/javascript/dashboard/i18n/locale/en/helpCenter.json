@@ -425,6 +425,32 @@
           "ERROR_MESSAGE": "Unable to delete category"
         }
       }
+    },
+    "UPGRADE_PAGE": {
+      "TITLE": "Chatwoot Help Center",
+      "DESCRIPTION": "Create self-service portals to access articles and information. Upgrade your subscription to enable this feature.",
+      "BUTTON": {
+        "LEARN_MORE": "Learn more",
+        "UPGRADE": "Upgrade"
+      },
+      "FEATURES": {
+        "PORTALS": {
+          "TITLE": "Multiple portals",
+          "DESCRIPTION": "Support for multiple help centers from a single Chatwoot account."
+        },
+        "LOCALES": {
+          "TITLE": "Full support for locales",
+          "DESCRIPTION": "Support for all locales and translation for every article."
+        },
+        "SEO": {
+          "TITLE": "SEO friendly design",
+          "DESCRIPTION": "More reach for your documentation articles on the Internet."
+        },
+        "API": {
+          "TITLE": "Full API support",
+          "DESCRIPTION": "The Help Center APIs are powerful enough to build custom apps."
+        }
+      }
     }
   }
 }

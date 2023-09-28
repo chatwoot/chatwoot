@@ -5,6 +5,7 @@
     :type="type"
     :icons="icons"
     :view-box="viewBox"
+    :is-fluent-icon="isFluentIcon"
   />
 </template>
 <script>
@@ -32,6 +33,10 @@ export default {
     viewBox: {
       type: String,
       default: '0 0 24 24',
+    },
+    isFluentIcon: {
+      type: Boolean,
+      default: true,
     },
   },
   data() {
