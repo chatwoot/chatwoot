@@ -157,9 +157,8 @@ export default {
 
       if (this.messageContentAttributes.submitted_values) {
         if (this.contentType === 'input_select') {
-          const [
-            selectionOption = {},
-          ] = this.messageContentAttributes.submitted_values;
+          const [selectionOption = {}] =
+            this.messageContentAttributes.submitted_values;
           return { content: selectionOption.title || selectionOption.value };
         }
       }

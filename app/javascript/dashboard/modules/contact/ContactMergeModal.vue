@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-mutating-props -->
 <template>
   <woot-modal :show.sync="show" :on-close="onClose">
     <woot-modal-header

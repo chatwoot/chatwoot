@@ -189,7 +189,7 @@ describe('#mutations', () => {
       const state = {
         uiFlags: { allMessagesLoaded: false },
         conversations: {
-          '454': {
+          454: {
             id: 454,
             content: 'hi',
             message_type: 0,
@@ -198,7 +198,7 @@ describe('#mutations', () => {
             created_at: 1682432667,
             conversation_id: 20,
           },
-          '464': {
+          464: {
             id: 464,
             content: 'hey will be back soon',
             message_type: 3,
@@ -221,7 +221,7 @@ describe('#mutations', () => {
         },
       ]);
       expect(state.conversations).toEqual({
-        '454': {
+        454: {
           id: 454,
           content: 'hi',
           message_type: 0,
@@ -230,7 +230,7 @@ describe('#mutations', () => {
           created_at: 1682432667,
           conversation_id: 20,
         },
-        '455': {
+        455: {
           id: 455,
           content: 'Hey billowing-grass-423 how are you?',
           message_type: 3,
@@ -239,7 +239,7 @@ describe('#mutations', () => {
           created_at: 1682432667,
           conversation_id: 20,
         },
-        '464': {
+        464: {
           id: 464,
           content: 'hey will be back soon',
           message_type: 3,
