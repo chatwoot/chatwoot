@@ -87,9 +87,8 @@ export default {
       return conversationDisplayType;
     },
     previouslyUsedSidebarView() {
-      const {
-        previously_used_sidebar_view: showSecondarySidebar,
-      } = this.uiSettings;
+      const { previously_used_sidebar_view: showSecondarySidebar } =
+        this.uiSettings;
       return showSecondarySidebar;
     },
   },

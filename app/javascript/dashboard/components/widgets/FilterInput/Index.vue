@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-mutating-props -->
 <template>
   <div>
     <div
@@ -255,7 +256,9 @@ export default {
           value === 'conversation_attribute' ||
           value === 'contact_attribute'
         ) {
+          // eslint-disable-next-line vue/no-mutating-props
           this.value.custom_attribute_type = this.customAttributeType;
+          // eslint-disable-next-line vue/no-mutating-props
         } else this.value.custom_attribute_type = '';
       },
       immediate: true,
