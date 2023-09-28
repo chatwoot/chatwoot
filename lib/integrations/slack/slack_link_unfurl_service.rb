@@ -19,10 +19,7 @@ class Integrations::Slack::SlackLinkUnfurlService
     conversation = conversation_from_url(url)
     return unless conversation
 
-    user_info = contact_attributes(conversation)
-    unfurls = generate_unfurls(url, user_info, conversation.inbox)
-
-    send_unfurls(unfurls, params.dig(:event, :unfurl_id), params.dig(:event, :source))
+    send_unfurls(url, conversation)
   end
 
   private
@@ -46,16 +43,20 @@ class Integrations::Slack::SlackLinkUnfurlService
     ).perform
   end
 
-  def send_unfurls(unfurls, unfurl_id, source)
+  def send_unfurls(url, conversation)
+    user_info = contact_attributes(conversation)
+    unfurls = generate_unfurls(url, user_info, conversation.inbox)
+    unfurl_params = {
+      unfurl_id: params.dig(:event, :unfurl_id),
+      source: params.dig(:event, :source),
+      unfurls: JSON.generate(unfurls)
+    }
+
     slack_service = Integrations::Slack::SendOnSlackService.new(
       message: nil,
       hook: integration_hook
     )
-    slack_service.link_unfurl(
-      unfurl_id: unfurl_id,
-      source: source,
-      unfurls: JSON.generate(unfurls)
-    )
+    slack_service.link_unfurl(unfurl_params)
   end
 
   def conversation_from_url(url)
