@@ -5,6 +5,9 @@ import {
 } from '@chatwoot/prosemirror-schema';
 import * as Sentry from '@sentry/browser';
 
+window.messageSchema = messageSchema;
+window.MessageMarkdownTransformer = MessageMarkdownTransformer;
+window.MessageMarkdownSerializer = MessageMarkdownSerializer;
 /**
  * The delimiter used to separate the signature from the rest of the body.
  * @type {string}
@@ -16,6 +19,11 @@ export const SIGNATURE_DELIMITER = '--';
  */
 export function cleanSignature(signature) {
   try {
+    // remove any horizontal rule tokens
+    signature = signature
+      .replace(/^---+$/gm, '') // replace --- with empty string
+      .replace(/^___+$/gm, ''); // replace ___ with empty string
+
     // convert from markdown to common mark format
     const nodes = new MessageMarkdownTransformer(messageSchema).parse(
       signature
@@ -30,6 +38,8 @@ export function cleanSignature(signature) {
     return signature;
   }
 }
+
+window.cleanSignature = cleanSignature;
 
 /**
  * Adds the signature delimiter to the beginning of the signature.
