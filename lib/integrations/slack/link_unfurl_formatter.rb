@@ -19,12 +19,12 @@ class Integrations::Slack::LinkUnfurlFormatter
       {
         'type' => 'section',
         'fields' => [
-          preview_field('Name', user_info[:user_name]),
-          preview_field('Email', user_info[:email]),
-          preview_field('Phone', user_info[:phone_number]),
-          preview_field('Company', user_info[:company_name]),
-          preview_field('Inbox', inbox_name),
-          preview_field('Inbox Type', inbox_type)
+          preview_field(I18n.t('slack_unfurl.fields.name'), user_info[:user_name]),
+          preview_field(I18n.t('slack_unfurl.fields.email'), user_info[:email]),
+          preview_field(I18n.t('slack_unfurl.fields.phone_number'), user_info[:phone_number]),
+          preview_field(I18n.t('slack_unfurl.fields.company_name'), user_info[:company_name]),
+          preview_field(I18n.t('slack_unfurl.fields.inbox_name'), inbox_name),
+          preview_field(I18n.t('slack_unfurl.fields.inbox_type'), inbox_type)
         ]
       }
     ]
@@ -46,7 +46,7 @@ class Integrations::Slack::LinkUnfurlFormatter
             'type' => 'button',
             'text' => {
               'type' => 'plain_text',
-              'text' => 'Open conversation',
+              'text' => I18n.t('slack_unfurl.button'),
               'emoji' => true
             },
             'url' => url,
