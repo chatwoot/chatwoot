@@ -6,16 +6,12 @@ class Integrations::Slack::SlackLinkUnfurlService
     return unless event_links
 
     event_links.each do |link_info|
-      unfurl_link(link_info)
+      url = link_info[:url]
+      unfurl_link(url) if url && valid_account?(url)
     end
   end
 
-  def unfurl_link(link_info)
-    url = link_info[:url]
-    return unless url
-
-    return unless valid_account?(url)
-
+  def unfurl_link(url)
     conversation = conversation_from_url(url)
     return unless conversation
 
