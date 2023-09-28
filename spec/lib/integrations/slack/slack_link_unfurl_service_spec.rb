@@ -42,8 +42,8 @@ describe Integrations::Slack::SlackLinkUnfurlService do
       let(:link_builder) { described_class.new(params: link_shared, integration_hook: hook) }
 
       it 'does not send a POST request to Slack API' do
-        result = link_builder.perform
-        expect(result).to eq([{ :domain => 'qa.chatwoot.com', :url => 'https://qa.chatwoot.com/app/accounts/1212/conversations/1' }])
+        link_builder.perform
+        expect(link_builder).not_to receive(:unfurl_link)
       end
     end
 
