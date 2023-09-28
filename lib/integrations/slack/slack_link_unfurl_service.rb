@@ -14,6 +14,8 @@ class Integrations::Slack::SlackLinkUnfurlService
     url = link_info[:url]
     return unless url
 
+    return unless valid_account?(url)
+
     conversation = conversation_from_url(url)
     return unless conversation
 
@@ -40,6 +42,12 @@ class Integrations::Slack::SlackLinkUnfurlService
     }
   end
 
+  def account_id_from_url(url)
+    account_id_regex = %r{/accounts/(\d+)}
+    match_data = url.match(account_id_regex)
+    match_data[1] if match_data
+  end
+
   def conversation_from_url(url)
     conversation_id = extract_conversation_id(url)
     return unless conversation_id
@@ -54,6 +62,11 @@ class Integrations::Slack::SlackLinkUnfurlService
       source: params.dig(:event, :source),
       unfurls: JSON.generate(unfurls)
     )
+  end
+
+  def valid_account?(url)
+    account_id = account_id_from_url(url)
+    account_id == integration_hook.account_id.to_s
   end
 
   def extract_conversation_id(url)
