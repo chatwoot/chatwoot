@@ -5,9 +5,6 @@ import {
 } from '@chatwoot/prosemirror-schema';
 import * as Sentry from '@sentry/browser';
 
-window.messageSchema = messageSchema;
-window.MessageMarkdownTransformer = MessageMarkdownTransformer;
-window.MessageMarkdownSerializer = MessageMarkdownSerializer;
 /**
  * The delimiter used to separate the signature from the rest of the body.
  * @type {string}
@@ -38,8 +35,6 @@ export function cleanSignature(signature) {
     return signature;
   }
 }
-
-window.cleanSignature = cleanSignature;
 
 /**
  * Adds the signature delimiter to the beginning of the signature.
