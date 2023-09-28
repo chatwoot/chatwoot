@@ -22,7 +22,7 @@
     <% @category.articles.published.order(:position).each do |article| %>
       <a
         class="text-slate-800 dark:text-slate-50 flex justify-between content-center mb-4 py-2"
-        href="/hc/<%= @portal.slug %>/articles/<%= article.slug %>"
+        href="/hc/<%= @portal.slug %>/articles/<%= article.slug %><%= @theme.present? ? '?theme='+@theme : ''  %>"
       >
         <div>
           <p class="mb-2 hover:underline font-semibold"><%= article.title %></p>

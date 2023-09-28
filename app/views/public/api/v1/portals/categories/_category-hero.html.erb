@@ -1,7 +1,7 @@
 <div class="px-8 max-w-6xl w-full mx-auto">
   <a
     class="text-slate-700 dark:text-slate-100 text-sm hover:underline leading-8 font-semibold"
-    href="/hc/<%= portal.slug %>/<%= category.locale %>"
+    href="/hc/<%= portal.slug %>/<%= category.locale %><%= @theme.present? ? '?theme='+@theme : ''  %>"
   >
     <%= I18n.t('public_portal.common.home') %>
   </a>
