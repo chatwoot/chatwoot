@@ -5,6 +5,9 @@ import {
 } from '@chatwoot/prosemirror-schema';
 import * as Sentry from '@sentry/browser';
 
+window.messageSchema = messageSchema;
+window.MessageMarkdownTransformer = MessageMarkdownTransformer;
+window.MessageMarkdownSerializer = MessageMarkdownSerializer;
 /**
  * The delimiter used to separate the signature from the rest of the body.
  * @type {string}
@@ -18,23 +21,25 @@ export function cleanSignature(signature) {
   try {
     // remove any horizontal rule tokens
     signature = signature
-      .replace(/^---+$/gm, '') // replace --- with empty string
-      .replace(/^___+$/gm, ''); // replace ___ with empty string
+      .replace(/^( *\* *){3,} *$/gm, '')
+      .replace(/^( *- *){3,} *$/gm, '')
+      .replace(/^( *_ *){3,} *$/gm, '');
 
-    // convert from markdown to common mark format
     const nodes = new MessageMarkdownTransformer(messageSchema).parse(
       signature
     );
     return MessageMarkdownSerializer.serialize(nodes);
   } catch (e) {
     // eslint-disable-next-line no-console
-    console.error(e);
+    console.warn(e);
     Sentry.captureException(e);
     // The parser can break on some cases
     // for example, Token type `hr` not supported by Markdown parser
     return signature;
   }
 }
+
+window.cleanSignature = cleanSignature;
 
 /**
  * Adds the signature delimiter to the beginning of the signature.
