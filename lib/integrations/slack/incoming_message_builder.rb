@@ -19,11 +19,15 @@ class Integrations::Slack::IncomingMessageBuilder
     elsif create_message?
       create_message
     elsif link_shared?
-      Integrations::Slack::SlackLinkUnfurlService.new(params: params, integration_hook: integration_hook).perform
+      SlackUnfurlJob.perform_later(slack_unfurl_params, integration_hook)
     end
   end
 
   private
+
+  def slack_unfurl_params
+    params.permit(:event => [:type, :user, :source, :unfurl_id, :channel, { links: [:url, :domain] }])
+  end
 
   def valid_event?
     supported_event_type? && supported_event? && should_process_event?

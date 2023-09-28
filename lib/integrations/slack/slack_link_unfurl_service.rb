@@ -20,50 +20,47 @@ class Integrations::Slack::SlackLinkUnfurlService
     return unless conversation
 
     user_info = contact_attributes(conversation)
-    unfurls = Integrations::Slack::LinkUnfurlFormatter.new(
-      url: url,
-      user_info: user_info,
-      inbox_name: conversation.inbox.name,
-      inbox_type: conversation.inbox.channel.name
-    ).perform
+    unfurls = generate_unfurls(url, user_info, conversation.inbox)
 
-    send_unfurls(unfurls)
+    send_unfurls(unfurls, params.dig(:event, :unfurl_id), params.dig(:event, :source))
   end
 
   private
 
   def contact_attributes(conversation)
     contact = conversation.contact
-    user_name = contact.name.presence || '---'
-    email = contact.email.presence || '---'
-    phone_number = contact.phone_number.presence || '---'
-    company_name = contact.additional_attributes&.dig('company_name').presence || '---'
-
     {
-      user_name: user_name,
-      email: email,
-      phone_number: phone_number,
-      company_name: company_name
+      user_name: contact.name.presence || '---',
+      email: contact.email.presence || '---',
+      phone_number: contact.phone_number.presence || '---',
+      company_name: contact.additional_attributes&.dig('company_name').presence || '---'
     }
   end
 
-  def send_unfurls(unfurls)
+  def generate_unfurls(url, user_info, inbox)
+    Integrations::Slack::LinkUnfurlFormatter.new(
+      url: url,
+      user_info: user_info,
+      inbox_name: inbox.name,
+      inbox_type: inbox.channel.name
+    ).perform
+  end
+
+  def send_unfurls(unfurls, unfurl_id, source)
     slack_service = Integrations::Slack::SendOnSlackService.new(
       message: nil,
       hook: integration_hook
     )
     slack_service.link_unfurl(
-      unfurl_id: params.dig(:event, :unfurl_id),
-      source: params.dig(:event, :source),
+      unfurl_id: unfurl_id,
+      source: source,
       unfurls: JSON.generate(unfurls)
     )
   end
 
   def conversation_from_url(url)
     conversation_id = extract_conversation_id(url)
-    return unless conversation_id
-
-    find_conversation_by_id(conversation_id)
+    find_conversation_by_id(conversation_id) if conversation_id
   end
 
   def find_conversation_by_id(conversation_id)
