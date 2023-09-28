@@ -1,6 +1,6 @@
 <template>
   <svg
-    v-if="isIconFromFluent"
+    v-if="iconLib === 'fluent'"
     :width="size"
     :height="size"
     fill="none"
@@ -55,16 +55,13 @@ export default {
       type: String,
       default: '0 0 24 24',
     },
-    isFluentIcon: {
-      type: Boolean,
-      default: true,
+    iconLib: {
+      type: String,
+      default: 'fluent',
     },
   },
 
   computed: {
-    isIconFromFluent() {
-      return this.isFluentIcon;
-    },
     pathSource() {
       // To support icons with multiple paths
       const path = this.icons[`${this.icon}-${this.type}`];

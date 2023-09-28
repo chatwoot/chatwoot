@@ -47,7 +47,7 @@
           <div>
             <fluent-icon
               :icon="feature.icon"
-              :is-fluent-icon="false"
+              icon-lib="lucide"
               :size="26"
               class="mt-px text-slate-800 dark:text-slate-25"
             />
