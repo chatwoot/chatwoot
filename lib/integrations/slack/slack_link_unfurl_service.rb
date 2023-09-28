@@ -19,9 +19,14 @@ class Integrations::Slack::SlackLinkUnfurlService
     conversation = conversation_from_url(url)
     return unless conversation
 
-    user_info = contact_attributes(conversation).slice(:user_name, :email, :phone_number, :company_name)
-    unfurls = Integrations::Slack::LinkUnfurlFormatter.new(url: url, user_info: user_info, inbox_name: conversation.inbox.name,
-                                                           inbox_type: conversation.inbox.channel.name).perform
+    user_info = contact_attributes(conversation)
+    unfurls = Integrations::Slack::LinkUnfurlFormatter.new(
+      url: url,
+      user_info: user_info,
+      inbox_name: conversation.inbox.name,
+      inbox_type: conversation.inbox.channel.name
+    ).perform
+
     send_unfurls(unfurls)
   end
 
@@ -42,10 +47,16 @@ class Integrations::Slack::SlackLinkUnfurlService
     }
   end
 
-  def account_id_from_url(url)
-    account_id_regex = %r{/accounts/(\d+)}
-    match_data = url.match(account_id_regex)
-    match_data[1] if match_data
+  def send_unfurls(unfurls)
+    slack_service = Integrations::Slack::SendOnSlackService.new(
+      message: nil,
+      hook: integration_hook
+    )
+    slack_service.link_unfurl(
+      unfurl_id: params.dig(:event, :unfurl_id),
+      source: params.dig(:event, :source),
+      unfurls: JSON.generate(unfurls)
+    )
   end
 
   def conversation_from_url(url)
@@ -55,27 +66,24 @@ class Integrations::Slack::SlackLinkUnfurlService
     find_conversation_by_id(conversation_id)
   end
 
-  def send_unfurls(unfurls)
-    slack_service = Integrations::Slack::SendOnSlackService.new(message: nil, hook: integration_hook)
-    slack_service.link_unfurl(
-      unfurl_id: params.dig(:event, :unfurl_id),
-      source: params.dig(:event, :source),
-      unfurls: JSON.generate(unfurls)
-    )
+  def find_conversation_by_id(conversation_id)
+    Conversation.find_by(display_id: conversation_id)
   end
 
   def valid_account?(url)
-    account_id = account_id_from_url(url)
+    account_id = extract_account_id(url)
     account_id == integration_hook.account_id.to_s
+  end
+
+  def extract_account_id(url)
+    account_id_regex = %r{/accounts/(\d+)}
+    match_data = url.match(account_id_regex)
+    match_data[1] if match_data
   end
 
   def extract_conversation_id(url)
     conversation_id_regex = %r{/conversations/(\d+)}
     match_data = url.match(conversation_id_regex)
     match_data[1] if match_data
-  end
-
-  def find_conversation_by_id(conversation_id)
-    Conversation.find_by(display_id: conversation_id)
   end
 end
