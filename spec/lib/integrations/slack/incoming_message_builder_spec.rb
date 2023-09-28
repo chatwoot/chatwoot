@@ -40,17 +40,6 @@ describe Integrations::Slack::IncomingMessageBuilder do
   let!(:hook) { create(:integrations_hook, account: account, reference_id: message_params[:event][:channel]) }
   let!(:conversation) { create(:conversation, identifier: message_params[:event][:thread_ts]) }
 
-  let(:link_shared) do
-    {
-      team_id: 'TLST3048H',
-      api_app_id: 'A012S5UETV4',
-      event: link_shared_event.merge({ links: [{ url: "https://qa.chatwoot.com/app/accounts/1/conversations/#{conversation.display_id}",
-                                                 domain: 'qa.chatwoot.com' }] }),
-      type: 'event_callback',
-      event_time: 1_588_623_033
-    }
-  end
-
   before do
     stub_request(:get, 'https://chatwoot-assets.local/sample.png').to_return(
       status: 200,
@@ -159,19 +148,24 @@ describe Integrations::Slack::IncomingMessageBuilder do
         expect(conversation.messages.count).to eql(messages_count)
       end
     end
-    # TODO: Fix this test
-    # context 'when link shared' do
-    #   it 'unfurls link' do
-    #     builder = described_class.new(link_shared)
-    #     # expect(Integrations::Slack::SlackLinkUnfurlService).to receive(:new).with(
-    #     #   params: link_shared,
-    #     #   integration_hook: hook
-    #     # ).and_return(link_unfurl_service)
 
-    #     # expect(link_unfurl_service).to receive(:perform)
-    #     # expect(SlackUnfurlJob).to receive(:perform_later).with(link_shared, integration_hook: hook)
-    #     # builder.perform
-    #   end
-    # end
+    context 'when link shared' do
+      let(:link_shared) do
+        {
+          team_id: 'TLST3048H',
+          api_app_id: 'A012S5UETV4',
+          event: link_shared_event.merge({ links: [{ url: "https://qa.chatwoot.com/app/accounts/1/conversations/#{conversation.display_id}",
+                                                     domain: 'qa.chatwoot.com' }] }),
+          type: 'event_callback',
+          event_time: 1_588_623_033
+        }
+      end
+
+      it 'unfurls link' do
+        builder = described_class.new(link_shared)
+        expect(SlackUnfurlJob).to receive(:perform_later).with(link_shared, hook)
+        builder.perform
+      end
+    end
   end
 end
