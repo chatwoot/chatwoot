@@ -26,13 +26,34 @@ describe Integrations::Slack::SlackLinkUnfurlService do
       end
     end
 
-    context 'when the event contains invalid account link' do
+    context 'when the event link contains the account id which does not match the integration hook account id' do
       let(:link_shared) do
         {
           team_id: 'TLST3048H',
           api_app_id: 'A012S5UETV4',
           event: link_shared_event.merge(links: [{
                                            url: "https://qa.chatwoot.com/app/accounts/1212/conversations/#{conversation.display_id}",
+                                           domain: 'qa.chatwoot.com'
+                                         }], channel: 'G054F6A6Q'),
+          type: 'event_callback',
+          event_time: 1_588_623_033
+        }
+      end
+      let(:link_builder) { described_class.new(params: link_shared, integration_hook: hook) }
+
+      it 'does not send a POST request to Slack API' do
+        link_builder.perform
+        expect(link_builder).not_to receive(:unfurl_link)
+      end
+    end
+
+    context 'when the event link contains the conversation id which does not belong to the account' do
+      let(:link_shared) do
+        {
+          team_id: 'TLST3048H',
+          api_app_id: 'A012S5UETV4',
+          event: link_shared_event.merge(links: [{
+                                           url: 'https://qa.chatwoot.com/app/accounts/1/conversations/1213',
                                            domain: 'qa.chatwoot.com'
                                          }], channel: 'G054F6A6Q'),
           type: 'event_callback',
