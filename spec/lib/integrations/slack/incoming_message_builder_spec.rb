@@ -159,7 +159,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
         expect(conversation.messages.count).to eql(messages_count)
       end
     end
-
+    # TODO: Fix this test
     # context 'when link shared' do
     #   it 'unfurls link' do
     #     builder = described_class.new(link_shared)

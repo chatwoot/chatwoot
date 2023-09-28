@@ -7,6 +7,7 @@ class Integrations::Slack::SlackLinkUnfurlService
 
     event_links.each do |link_info|
       url = link_info[:url]
+      # Unfurl only if the account id is same as the integration hook account id
       unfurl_link(url) if url && valid_account?(url)
     end
   end
