@@ -849,6 +849,41 @@ function webserver() {
 }
 
 ##############################################################################
+# Report cwctl events to hub
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
+function report_event() {
+  local event_name="$1"
+  local event_data="$2"
+
+  EVENTS_URL = "https://events.chatwoot.com/events"
+
+  # Check if the EVENTS_URL is defined
+  if [ -z "$EVENTS_URL" ]; then
+    echo "EVENTS_URL is not defined. Unable to report event."
+    return 1
+  fi
+
+  # Prepare the data for the request
+  local data="{\"event_name\":\"$event_name\",\"event_data\":\"$event_data\"}"
+
+  # Make the curl request to report the event
+  curl -X POST -H "Content-Type: application/json" -d "$data" "$EVENTS_URL"
+
+  # Check the HTTP response code
+  if [ $? -eq 0 ]; then
+    echo "Event reported successfully: $event_name"
+  else
+    echo "Failed to report event: $event_name"
+  fi
+}
+
+##############################################################################
 # Print cwctl version (-v/--version)
 # Globals:
 #   None
@@ -882,6 +917,7 @@ function main() {
   fi
 
   if [ "$i" == "y" ] || [ "$I" == "y" ]; then
+    report_event "install" "cwctl"
     install
   fi
 
