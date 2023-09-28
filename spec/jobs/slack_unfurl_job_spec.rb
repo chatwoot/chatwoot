@@ -27,8 +27,12 @@ RSpec.describe SlackUnfurlJob do
   end
 
   it 'calls the SlackLinkUnfurlService' do
-    expect do
-      described_class.perform_later(params: link_shared, integration_hook: hook)
-    end.to have_enqueued_job(described_class).on_queue('low')
+    slack_link_unfurl_service = instance_double(Integrations::Slack::SlackLinkUnfurlService)
+
+    expect(Integrations::Slack::SlackLinkUnfurlService).to receive(:new)
+      .with(params: link_shared, integration_hook: hook)
+      .and_return(slack_link_unfurl_service)
+    expect(slack_link_unfurl_service).to receive(:perform)
+    described_class.perform_now(link_shared, hook)
   end
 end
