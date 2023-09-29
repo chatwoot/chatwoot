@@ -62,7 +62,7 @@ class Integrations::Slack::SlackLinkUnfurlService
   end
 
   def find_conversation_by_id(conversation_id)
-    Conversation.find_by(display_id: conversation_id)
+    Conversation.find_by(display_id: conversation_id, account_id: integration_hook.account_id)
   end
 
   def valid_account?(url)

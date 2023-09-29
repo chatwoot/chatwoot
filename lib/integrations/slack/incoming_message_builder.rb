@@ -72,7 +72,7 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   def link_shared?
-    params[:event][:type] == 'link_shared'
+    params[:event][:type] == 'link_shared' && integration_hook
   end
 
   def message
