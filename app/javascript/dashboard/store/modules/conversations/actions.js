@@ -414,6 +414,7 @@ const actions = {
         conversationId,
         message
       })
+      commit(types.UPDATE_CONVERSATION_DRAFT_MESSAGE, message);
     } catch (error) {
       // Handle error
     }

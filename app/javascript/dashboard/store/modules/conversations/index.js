@@ -104,6 +104,11 @@ export const mutations = {
     Vue.set(chat, 'custom_attributes', custom_attributes);
   },
 
+  [types.UPDATE_CONVERSATION_DRAFT_MESSAGE](_state, message) {
+    const [chat] = getSelectedChatConversation(_state);
+    Vue.set(chat, 'draft_message_content', message);
+  },
+
   [types.CHANGE_CONVERSATION_STATUS](
     _state,
     { conversationId, status, snoozedUntil }
