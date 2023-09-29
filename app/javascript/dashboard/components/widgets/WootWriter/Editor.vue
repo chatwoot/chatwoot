@@ -48,6 +48,8 @@ import VariableList from '../conversation/VariableList.vue';
 import {
   appendSignature,
   removeSignature,
+  insertAtCursor,
+  scrollCursorIntoView,
 } from 'dashboard/helper/editorHelper';
 
 const TYPING_INDICATOR_IDLE_TIME = 4000;
@@ -273,6 +275,7 @@ export default {
           const tr = this.editorView.state.tr.replaceSelectionWith(node);
           this.editorView.focus();
           this.state = this.editorView.state.apply(tr);
+          this.editorView.updateState(this.state);
           this.emitOnChange();
           this.$emit('clear-selection');
         }
@@ -395,6 +398,7 @@ export default {
         state: this.state,
         dispatchTransaction: tx => {
           this.state = this.state.apply(tx);
+          this.editorView.updateState(this.state);
           this.emitOnChange();
         },
         handleDOMEvents: {
@@ -469,12 +473,7 @@ export default {
         updatedMessage
       );
 
-      this.insertNodeIntoEditor(
-        node,
-        this.range.from,
-        this.range.to,
-        updatedMessage
-      );
+      this.insertNodeIntoEditor(node, this.range.from, this.range.to);
 
       this.$track(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
       return false;
@@ -486,9 +485,9 @@ export default {
 
       const content = `{{${variable}}}`;
       let node = this.editorView.state.schema.text(content);
-      const from = this.range.from;
+      const { from, to } = this.range;
 
-      this.insertNodeIntoEditor(node, from, this.range.to, content);
+      this.insertNodeIntoEditor(node, from, to);
       this.showVariables = false;
       this.$track(CONVERSATION_EVENTS.INSERTED_A_VARIABLE);
       return false;
@@ -546,8 +545,6 @@ export default {
     },
 
     emitOnChange() {
-      this.editorView.updateState(this.state);
-
       this.$emit('input', this.contentFromEditor);
     },
 
@@ -611,39 +608,14 @@ export default {
       const from = defaultFrom || this.editorView.state.selection.from || 0;
       let node = new MessageMarkdownTransformer(messageSchema).parse(content);
 
-      this.insertNodeIntoEditor(node, from, undefined, content);
+      this.insertNodeIntoEditor(node, from, undefined);
     },
-    insertNodeIntoEditor(node, from = 0, to = 0, content = '') {
-      if (!this.editorView) {
-        return;
-      }
-
-      // If the node is of type 'doc' and has only one child which is a paragraph,
-      // then extract its inline content to be inserted as inline.
-      if (
-        node.type.name === 'doc' &&
-        node.childCount === 1 &&
-        node.firstChild.type.name === 'paragraph'
-      ) {
-        node = node.firstChild.content;
-      } else if (content && node.textContent === content) {
-        node = this.editorView.state.schema.text(content);
-      }
-
-      let tr;
-      if (to) {
-        tr = this.editorView.state.tr
-          .replaceWith(from, to, node)
-          .insertText(` `);
-      } else {
-        tr = this.editorView.state.tr.insert(from, node);
-      }
-
-      this.state = this.editorView.state.apply(tr);
+    insertNodeIntoEditor(node, from = 0, to = 0) {
+      this.state = insertAtCursor(this.editorView, node, from, to);
       this.emitOnChange();
-
-      tr.scrollIntoView();
-      this.editorView.focus();
+      this.$nextTick(() => {
+        scrollCursorIntoView(this.editorView);
+      });
     },
   },
 };
