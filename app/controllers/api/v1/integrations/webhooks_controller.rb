@@ -7,7 +7,7 @@ class Api::V1::Integrations::WebhooksController < ApplicationController
 
   private
 
-  # TODO: Fix me later, this is a temporary solution to permit all params for slack unfurling job.
+  # TODO: This is a temporary solution to permit all params for slack unfurling job.
   # We should only permit the params that we need  Handle all the params based on events and send it to the respective services
   def permitted_params
     params.permit!
