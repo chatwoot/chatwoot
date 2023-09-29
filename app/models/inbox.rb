@@ -77,6 +77,9 @@ class Inbox < ApplicationRecord
 
   after_destroy :delete_round_robin_agents
 
+  after_create_commit :dispatch_create_event
+  after_update_commit :dispatch_update_event
+
   scope :order_by_name, -> { order('lower(name) ASC') }
 
   def add_member(user_id)
@@ -158,6 +161,18 @@ class Inbox < ApplicationRecord
   end
 
   private
+
+  def dispatch_create_event
+    return if ENV['ENABLE_INBOX_EVENTS'].blank?
+
+    Rails.configuration.dispatcher.dispatch(INBOX_CREATED, Time.zone.now, inbox: self)
+  end
+
+  def dispatch_update_event
+    return if ENV['ENABLE_INBOX_EVENTS'].blank?
+
+    Rails.configuration.dispatcher.dispatch(INBOX_UPDATED, Time.zone.now, inbox: self, changed_attributes: previous_changes)
+  end
 
   def ensure_valid_max_assignment_limit
     # overridden in enterprise/app/models/enterprise/inbox.rb
