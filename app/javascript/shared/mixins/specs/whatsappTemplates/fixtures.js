@@ -26,8 +26,7 @@ export const templates = [
     namespace: 'ed41a221_133a_4558_a1d6_192960e3aee9',
     components: [
       {
-        text:
-          'Oi, {{1}}. Nós conseguimos resolver o problema que você estava enfrentando?',
+        text: 'Oi, {{1}}. Nós conseguimos resolver o problema que você estava enfrentando?',
         type: 'BODY',
       },
       {
@@ -77,8 +76,7 @@ export const templates = [
     namespace: 'ed41a221_133a_4558_a1d6_192960e3aee9',
     components: [
       {
-        text:
-          'Halo {{1}}, apakah kami bisa mengatasi masalah yang sedang Anda hadapi?',
+        text: 'Halo {{1}}, apakah kami bisa mengatasi masalah yang sedang Anda hadapi?',
         type: 'BODY',
       },
       {
@@ -121,8 +119,7 @@ export const templates = [
     namespace: 'ed41a221_133a_4558_a1d6_192960e3aee9',
     components: [
       {
-        text:
-          'Paket Anda sudah dikirim. Paket akan sampai dalam {{1}} hari kerja.',
+        text: 'Paket Anda sudah dikirim. Paket akan sampai dalam {{1}} hari kerja.',
         type: 'BODY',
       },
       {
@@ -159,8 +156,7 @@ export const templates = [
     components: [
       { type: 'HEADER', format: 'DOCUMENT' },
       {
-        text:
-          'Ini merupakan konfirmasi penerbangan Anda untuk {{1}}-{{2}} di {{3}}.',
+        text: 'Ini merupakan konfirmasi penerbangan Anda untuk {{1}}-{{2}} di {{3}}.',
         type: 'BODY',
       },
       {
@@ -235,8 +231,7 @@ export const templates = [
     namespace: 'ed41a221_133a_4558_a1d6_192960e3aee9',
     components: [
       {
-        text:
-          'Your package has been shipped. It will be delivered in {{1}} business days.',
+        text: 'Your package has been shipped. It will be delivered in {{1}} business days.',
         type: 'BODY',
       },
       { text: 'This message is from an unverified business.', type: 'FOOTER' },

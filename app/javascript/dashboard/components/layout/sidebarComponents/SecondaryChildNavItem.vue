@@ -9,7 +9,8 @@
       class="font-medium h-7 my-1 hover:bg-slate-25 hover:text-bg-50 flex items-center px-2 rounded-md dark:hover:bg-slate-800"
       :class="{
         'bg-woot-25 dark:bg-slate-800': isActive,
-        'text-ellipsis overflow-hidden whitespace-nowrap max-w-full': shouldTruncate,
+        'text-ellipsis overflow-hidden whitespace-nowrap max-w-full':
+          shouldTruncate,
       }"
       @click="navigate"
     >
@@ -44,7 +45,8 @@
             class="text-sm text-slate-700 dark:text-slate-100"
             :class="{
               'text-woot-500 dark:text-woot-500': isActive,
-              'text-ellipsis overflow-hidden whitespace-nowrap max-w-full': shouldTruncate,
+              'text-ellipsis overflow-hidden whitespace-nowrap max-w-full':
+                shouldTruncate,
             }"
           >
             {{ label }}

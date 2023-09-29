@@ -371,6 +371,8 @@
     "DETAILS": {
       "LOADING_FB": "Notiek Jūsu autentificēšana, izmantojot Facebook...",
       "ERROR_FB_AUTH": "Radās kļūda. Lūdzu, atsvaidziniet lapu...",
+      "ERROR_FB_UNAUTHORIZED": "Jums nav tiesību veikt šo darbību. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Lūdzu, pārliecinieties, ka Jums ir pilna piekļuve Facebook lapai. Vairāk par Facebook lomām varat lasīt <a href=\" https://www.facebook.com/help/187316341316631\">šeit</a>.",
       "CREATING_CHANNEL": "Notiek Iesūtnes izveide...",
       "TITLE": "Nokonfigurēt Iesūtnes Informāciju",
       "DESC": ""

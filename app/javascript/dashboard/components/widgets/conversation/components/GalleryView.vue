@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-mutating-props -->
 <template>
   <woot-modal
     full-width
@@ -212,8 +213,13 @@ export default {
       return this.activeFileType === ALLOWED_FILE_TYPES.AUDIO;
     },
     senderDetails() {
-      const { name, available_name: availableName, avatar_url, thumbnail, id } =
-        this.activeAttachment?.sender || this.attachment?.sender;
+      const {
+        name,
+        available_name: availableName,
+        avatar_url,
+        thumbnail,
+        id,
+      } = this.activeAttachment?.sender || this.attachment?.sender || {};
       const currentUserID = this.currentUser?.id;
       return {
         name: currentUserID === id ? 'You' : name || availableName || '',
