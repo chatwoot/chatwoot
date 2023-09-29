@@ -12,8 +12,10 @@
           :placeholder="$t('CAMPAIGN.ADD.FORM.TITLE.PLACEHOLDER')"
           @blur="$v.title.$touch"
         />
-        <label class="editor-wrap">
-          {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.LABEL') }}
+        <div class="editor-wrap">
+          <label>
+            {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.LABEL') }}
+          </label>
           <woot-message-editor
             v-model="message"
             class="message-editor"
@@ -25,7 +27,7 @@
           <span v-if="$v.message.$error" class="editor-warning__message">
             {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.ERROR') }}
           </span>
-        </label>
+        </div>
 
         <label :class="{ error: $v.selectedInbox.$error }">
           {{ $t('CAMPAIGN.ADD.FORM.INBOX.LABEL') }}
