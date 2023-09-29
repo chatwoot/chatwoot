@@ -5,12 +5,14 @@ export const getters = {
     return { isFetching: false, isUpdating: false, isDeleting: false };
   },
   isFetching: state => state.uiFlags.isFetching,
-  articleById: (...getterArguments) => articleId => {
-    const [state] = getterArguments;
-    const article = state.articles.byId[articleId];
-    if (!article) return undefined;
-    return article;
-  },
+  articleById:
+    (...getterArguments) =>
+    articleId => {
+      const [state] = getterArguments;
+      const article = state.articles.byId[articleId];
+      if (!article) return undefined;
+      return article;
+    },
   allArticles: (...getterArguments) => {
     const [state, _getters] = getterArguments;
     const articles = state.articles.allIds
@@ -20,12 +22,14 @@ export const getters = {
       .filter(article => article !== undefined);
     return articles;
   },
-  articleStatus: (...getterArguments) => articleId => {
-    const [state] = getterArguments;
-    const article = state.articles.byId[articleId];
-    if (!article) return undefined;
-    return article.status;
-  },
+  articleStatus:
+    (...getterArguments) =>
+    articleId => {
+      const [state] = getterArguments;
+      const article = state.articles.byId[articleId];
+      if (!article) return undefined;
+      return article.status;
+    },
   getMeta: state => {
     return state.meta;
   },
