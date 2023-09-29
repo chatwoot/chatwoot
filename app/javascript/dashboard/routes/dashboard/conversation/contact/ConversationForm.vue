@@ -117,7 +117,7 @@
                 @toggle-canned-menu="toggleCannedMenu"
                 @blur="$v.message.$touch"
               >
-                <template v-slot:footer>
+                <template #footer>
                   <message-signature-missing-alert
                     v-if="isSignatureEnabledForInbox && !messageSignature"
                     class="!mx-0 mb-1"
