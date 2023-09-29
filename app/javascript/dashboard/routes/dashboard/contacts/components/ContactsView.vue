@@ -407,9 +407,10 @@ export default {
       const params = {
         countries: countries,
         filterTypes: contactFilterItems,
-        allCustomAttributes: this.$store.getters[
-          'attributes/getAttributesByModel'
-        ]('contact_attribute'),
+        allCustomAttributes:
+          this.$store.getters['attributes/getAttributesByModel'](
+            'contact_attribute'
+          ),
       };
       return params;
     },

@@ -97,9 +97,8 @@ describe('removeSignature', () => {
     expect(removeSignature(body, signature)).toBe('This is a test\n\n');
   });
   it('removes signature if present with spaces and new lines', () => {
-    const { body, signature } = HAS_SIGNATURE[
-      'signature at end with spaces and new lines'
-    ];
+    const { body, signature } =
+      HAS_SIGNATURE['signature at end with spaces and new lines'];
     expect(removeSignature(body, signature)).toBe('This is a test\n\n');
   });
   it('removes signature if present without text before it', () => {
@@ -129,9 +128,8 @@ describe('replaceSignature', () => {
     );
   });
   it('removes signature if present with spaces and new lines', () => {
-    const { body, signature } = HAS_SIGNATURE[
-      'signature at end with spaces and new lines'
-    ];
+    const { body, signature } =
+      HAS_SIGNATURE['signature at end with spaces and new lines'];
     expect(replaceSignature(body, signature, NEW_SIGNATURE)).toBe(
       `This is a test\n\n--\n\n${NEW_SIGNATURE}`
     );

@@ -1,6 +1,5 @@
 import DyteAPIClient from '../../integrations/dyte';
 import ApiClient from '../../ApiClient';
-import describeWithAPIMock from '../apiSpecHelper';
 
 describe('#accountAPI', () => {
   it('creates correct instance', () => {
@@ -9,10 +8,26 @@ describe('#accountAPI', () => {
     expect(DyteAPIClient).toHaveProperty('addParticipantToMeeting');
   });
 
-  describeWithAPIMock('createAMeeting', context => {
+  describe('createAMeeting', () => {
+    const originalAxios = window.axios;
+    const axiosMock = {
+      post: jest.fn(() => Promise.resolve()),
+      get: jest.fn(() => Promise.resolve()),
+      patch: jest.fn(() => Promise.resolve()),
+      delete: jest.fn(() => Promise.resolve()),
+    };
+
+    beforeEach(() => {
+      window.axios = axiosMock;
+    });
+
+    afterEach(() => {
+      window.axios = originalAxios;
+    });
+
     it('creates a valid request', () => {
       DyteAPIClient.createAMeeting(1);
-      expect(context.axiosMock.post).toHaveBeenCalledWith(
+      expect(axiosMock.post).toHaveBeenCalledWith(
         '/api/v1/integrations/dyte/create_a_meeting',
         {
           conversation_id: 1,
@@ -21,10 +36,26 @@ describe('#accountAPI', () => {
     });
   });
 
-  describeWithAPIMock('addParticipantToMeeting', context => {
+  describe('addParticipantToMeeting', () => {
+    const originalAxios = window.axios;
+    const axiosMock = {
+      post: jest.fn(() => Promise.resolve()),
+      get: jest.fn(() => Promise.resolve()),
+      patch: jest.fn(() => Promise.resolve()),
+      delete: jest.fn(() => Promise.resolve()),
+    };
+
+    beforeEach(() => {
+      window.axios = axiosMock;
+    });
+
+    afterEach(() => {
+      window.axios = originalAxios;
+    });
+
     it('creates a valid request', () => {
       DyteAPIClient.addParticipantToMeeting(1);
-      expect(context.axiosMock.post).toHaveBeenCalledWith(
+      expect(axiosMock.post).toHaveBeenCalledWith(
         '/api/v1/integrations/dyte/add_participant_to_meeting',
         {
           message_id: 1,
