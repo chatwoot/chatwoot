@@ -1,5 +1,5 @@
 <template>
-  <div class="macro button secondary clear ">
+  <div class="macro button secondary clear">
     <span class="overflow-hidden whitespace-nowrap text-ellipsis">{{
       macro.name
     }}</span>

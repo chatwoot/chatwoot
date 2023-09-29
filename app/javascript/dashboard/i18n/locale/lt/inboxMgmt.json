@@ -371,6 +371,8 @@
     "DETAILS": {
       "LOADING_FB": "Autentifikuojamas jus naudojant Facebook...",
       "ERROR_FB_AUTH": "Kažkas nepavyko, atnaujinkite puslapį...",
+      "ERROR_FB_UNAUTHORIZED": "Jūs nesate įgalioti atlikti šį veiksmą. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Įsitikinkite, kad turite prieigą prie „Facebook“ puslapio su visapusiška kontrole. Daugiau apie „Facebook“ vaidmenis galite perskaityti <a href=\" https://www.facebook.com/help/187316341316631\">čia</a>.",
       "CREATING_CHANNEL": "Kuriamas gautų laiškų aplankas...",
       "TITLE": "Konfigūruoti gautų laiškų aplanko informaciją",
       "DESC": ""
@@ -409,7 +411,7 @@
         "FRIENDLY": {
           "TITLE": "Draugiškas",
           "FROM": "nuo",
-          "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
+          "SUBTITLE": "Prie siuntėjo vardo pridėkite atsakymą išsiuntusio agento vardą, kad atsakymas būtų draugiškas."
         },
         "PROFESSIONAL": {
           "TITLE": "Profesionalas",
@@ -484,7 +486,7 @@
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Naujame pokalbyje leiskite arba drauskite el. pašto surinkimo dėžutę",
       "AUTO_ASSIGNMENT": "Įjunkti automatinį priskyrimą",
       "ENABLE_CSAT": "Leisti CSAT",
-      "SENDER_NAME_SECTION": "Enable Agent Name in Email",
+      "SENDER_NAME_SECTION": "Leisti agento vardą el. pašte",
       "ENABLE_CSAT_SUB_TEXT": "Leisti/neleisti CSAT (klientų pasitenkinimo) apklausą, kai baigsite pokalbį",
       "SENDER_NAME_SECTION_TEXT": "Įjungti/išjungti agento vardo rodymą el. pašte, jei išjungta, bus rodomas įmonės pavadinimas",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Leisti pokalbio tęstinumą el. paštu",

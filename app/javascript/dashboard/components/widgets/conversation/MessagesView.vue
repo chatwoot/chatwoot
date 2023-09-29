@@ -450,16 +450,14 @@ export default {
 
       // label suggestions are not part of the messages list
       // so we need to handle them separately
-      let labelSuggestions = this.conversationPanel.querySelector(
-        '.label-suggestion'
-      );
+      let labelSuggestions =
+        this.conversationPanel.querySelector('.label-suggestion');
 
       // if there are unread messages, scroll to the first unread message
       if (this.unreadMessageCount > 0) {
         // capturing only the unread messages
-        relevantMessages = this.conversationPanel.querySelectorAll(
-          '.message--unread'
-        );
+        relevantMessages =
+          this.conversationPanel.querySelectorAll('.message--unread');
       } else if (labelSuggestions) {
         // when scrolling to the bottom, the label suggestions is below the last message
         // so we scroll there if there are no unread messages
