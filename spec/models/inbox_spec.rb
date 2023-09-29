@@ -210,6 +210,34 @@ RSpec.describe Inbox do
       expect(inbox.portal).to eq(portal)
     end
 
+    it 'sends the inbox_created event if ENABLE_INBOX_EVENTS is true' do
+      with_modified_env ENABLE_INBOX_EVENTS: 'true' do
+        channel = inbox.channel
+        channel.update(widget_color: '#fff')
+
+        expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+          .with(
+            'inbox.updated',
+            kind_of(Time),
+            inbox: inbox,
+            changed_attributes: kind_of(Object)
+          )
+      end
+    end
+
+    it 'sends the inbox_created event if ENABLE_INBOX_EVENTS is false' do
+      channel = inbox.channel
+      channel.update(widget_color: '#fff')
+
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
+        .with(
+          'inbox.updated',
+          kind_of(Time),
+          inbox: inbox,
+          changed_attributes: kind_of(Object)
+        )
+    end
+
     it 'resets cache key if there is an update in the channel' do
       channel = inbox.channel
       channel.update(widget_color: '#fff')
