@@ -16,19 +16,23 @@
           @blur="$v.title.$touch"
         />
 
-        <label v-if="isOngoingType" class="editor-wrap">
-          {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.LABEL') }}
-          <woot-message-editor
-            v-model="message"
-            class="message-editor"
-            :class="{ editor_warning: $v.message.$error }"
-            :placeholder="$t('CAMPAIGN.ADD.FORM.MESSAGE.PLACEHOLDER')"
-            @blur="$v.message.$touch"
-          />
-          <span v-if="$v.message.$error" class="editor-warning__message">
-            {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.ERROR') }}
-          </span>
-        </label>
+        <div v-if="isOngoingType" class="editor-wrap">
+          <label>
+            {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.LABEL') }}
+          </label>
+          <div>
+            <woot-message-editor
+              v-model="message"
+              class="message-editor"
+              :class="{ editor_warning: $v.message.$error }"
+              :placeholder="$t('CAMPAIGN.ADD.FORM.MESSAGE.PLACEHOLDER')"
+              @blur="$v.message.$touch"
+            />
+            <span v-if="$v.message.$error" class="editor-warning__message">
+              {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.ERROR') }}
+            </span>
+          </div>
+        </div>
 
         <label v-else :class="{ error: $v.message.$error }">
           {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.LABEL') }}
