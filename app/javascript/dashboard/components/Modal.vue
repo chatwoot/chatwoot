@@ -66,9 +66,9 @@ export default {
         'right-aligned': 'right-aligned',
       };
 
-      return `modal-mask skip-context-menu ${modalClassNameMap[
-        this.modalType
-      ] || ''}`;
+      return `modal-mask skip-context-menu ${
+        modalClassNameMap[this.modalType] || ''
+      }`;
     },
   },
   mounted() {

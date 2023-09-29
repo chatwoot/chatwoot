@@ -16,8 +16,8 @@
         <article-hero
           v-if="
             !articleUiFlags.isFetching &&
-              !articleUiFlags.isError &&
-              popularArticles.length
+            !articleUiFlags.isError &&
+            popularArticles.length
           "
           :articles="popularArticles"
           @view="openArticleInArticleViewer"
@@ -84,10 +84,8 @@ export default {
     },
     defaultLocale() {
       const widgetLocale = this.widgetLocale;
-      const {
-        allowed_locales: allowedLocales,
-        default_locale: defaultLocale,
-      } = this.portal.config;
+      const { allowed_locales: allowedLocales, default_locale: defaultLocale } =
+        this.portal.config;
 
       // IMPORTANT: Variation strict locale matching, Follow iso_639_1_code
       // If the exact match of a locale is available in the list of portal locales, return it
