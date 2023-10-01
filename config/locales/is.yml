@@ -202,3 +202,12 @@ is:
       made_with: Made with
     header:
       go_to_homepage: Go to the main site
+  slack_unfurl:
+    fields:
+      name: Nafn
+      email: Tölvupóstfang
+      phone_number: Phone
+      company_name: Fyrirtæki
+      inbox_name: Innhólf
+      inbox_type: Inbox Type
+    button: Opna samtal
