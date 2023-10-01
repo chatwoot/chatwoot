@@ -202,3 +202,12 @@ de:
       made_with: Erstellt mit
     header:
       go_to_homepage: Zur Hauptseite wechseln
+  slack_unfurl:
+    fields:
+      name: Name
+      email: E-Mail
+      phone_number: Phone
+      company_name: Firma
+      inbox_name: Posteingang
+      inbox_type: Inbox Type
+    button: Unterhaltung öffnen
