@@ -202,3 +202,12 @@ pl:
       made_with: Wykonane z
     header:
       go_to_homepage: Przejdź do strony głównej
+  slack_unfurl:
+    fields:
+      name: Nazwa
+      email: E-mail
+      phone_number: Phone
+      company_name: Firma
+      inbox_name: Skrzynka odbiorcza
+      inbox_type: Inbox Type
+    button: Otwórz rozmowę
