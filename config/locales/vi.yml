@@ -202,3 +202,12 @@ vi:
       made_with: Tạo bởi
     header:
       go_to_homepage: Trở về ứng dụng
+  slack_unfurl:
+    fields:
+      name: Tên
+      email: Email
+      phone_number: Phone
+      company_name: Công ty
+      inbox_name: Hộp thư đến
+      inbox_type: Inbox Type
+    button: Mở cuộc trò chuyện
