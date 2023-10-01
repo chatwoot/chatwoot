@@ -89,7 +89,7 @@
         },
         "LAST_USER_MESSAGE_AT": {
           "NAME": "Last user message at",
-          "LABEL": "Last message"
+          "LABEL": "Senaste meddelandet"
         }
       }
     },
