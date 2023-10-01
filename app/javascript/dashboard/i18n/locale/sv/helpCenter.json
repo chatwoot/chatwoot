@@ -11,14 +11,14 @@
         "ARCHIVED": "Archived"
       },
       "TITLES": {
-        "ALL_ARTICLES": "All Articles",
-        "MINE": "My Articles",
+        "ALL_ARTICLES": "Alla artiklar",
+        "MINE": "Mina artiklar",
         "DRAFT": "Draft Articles",
         "ARCHIVED": "Archived Articles"
       }
     },
     "EDIT_HEADER": {
-      "ALL_ARTICLES": "All Articles",
+      "ALL_ARTICLES": "Alla artiklar",
       "PUBLISH_BUTTON": "Publish",
       "MOVE_TO_ARCHIVE_BUTTON": "Move to archived",
       "PREVIEW": "Preview",
@@ -308,7 +308,7 @@
         "CATEGORY": "Category",
         "READ_COUNT": "Read count",
         "STATUS": "Status",
-        "LAST_EDITED": "Last edited"
+        "LAST_EDITED": "Senast redigerad"
       },
       "COLUMNS": {
         "BY": "by"
