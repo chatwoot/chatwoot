@@ -202,3 +202,12 @@ he:
       made_with: Made with
     header:
       go_to_homepage: Go to the main site
+  slack_unfurl:
+    fields:
+      name: שם
+      email: אימייל
+      phone_number: Phone
+      company_name: חברה
+      inbox_name: תיבת הדואר הנכנס
+      inbox_type: Inbox Type
+    button: שיחה פתוחה
