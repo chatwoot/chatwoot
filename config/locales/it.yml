@@ -202,3 +202,12 @@ it:
       made_with: Made with
     header:
       go_to_homepage: Go to the main site
+  slack_unfurl:
+    fields:
+      name: Nome
+      email: Email
+      phone_number: Phone
+      company_name: Azienda
+      inbox_name: Casella
+      inbox_type: Inbox Type
+    button: Apri conversazione
