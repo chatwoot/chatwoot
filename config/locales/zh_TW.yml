@@ -202,3 +202,12 @@ zh_TW:
       made_with: Made with
     header:
       go_to_homepage: Go to the main site
+  slack_unfurl:
+    fields:
+      name: 姓名
+      email: Email
+      phone_number: Phone
+      company_name: 公司
+      inbox_name: 收件匣
+      inbox_type: Inbox Type
+    button: 開啟對話
