@@ -14,6 +14,12 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
     perform_reply
   end
 
+  def link_unfurl(event)
+    slack_client.chat_unfurl(
+      event
+    )
+  end
+
   private
 
   def valid_channel_for_slack?
@@ -74,7 +80,13 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
 
   def avatar_url(sender)
     sender_type = sender.instance_of?(Contact) ? 'contact' : 'user'
-    "#{ENV.fetch('FRONTEND_URL', nil)}/integrations/slack/#{sender_type}.png"
+    blob_key = sender&.avatar&.attached? ? sender.avatar.blob.key : nil
+    generate_url(sender_type, blob_key)
+  end
+
+  def generate_url(sender_type, blob_key)
+    base_url = ENV.fetch('FRONTEND_URL', nil)
+    "#{base_url}/slack_uploads?blob_key=#{blob_key}&sender_type=#{sender_type}"
   end
 
   def send_message

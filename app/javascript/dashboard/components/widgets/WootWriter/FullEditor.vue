@@ -32,7 +32,9 @@ const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 const createState = (
   content,
   placeholder,
+  // eslint-disable-next-line default-param-last
   plugins = [],
+  // eslint-disable-next-line default-param-last
   methods = {},
   enabledMenuOptions
 ) => {

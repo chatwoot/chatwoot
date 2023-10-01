@@ -34,7 +34,9 @@
   "START_CONVERSATION": "Starta konversation",
   "END_CONVERSATION": "End Conversation",
   "CONTINUE_CONVERSATION": "Fortsätt konversation",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "Starta konversation",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Se nya meddelanden",
     "CLOSE_MESSAGES_BUTTON": "Stäng",
@@ -108,6 +110,27 @@
   },
   "PORTAL": {
     "POPULAR_ARTICLES": "Popular Articles",
-    "VIEW_ALL_ARTICLES": "View all articles"
+    "VIEW_ALL_ARTICLES": "View all articles",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Bildmeddelande"
+    },
+    "audio": {
+      "CONTENT": "Ljudmeddelande"
+    },
+    "video": {
+      "CONTENT": "Videomeddelande"
+    },
+    "file": {
+      "CONTENT": "Bifogad fil"
+    },
+    "location": {
+      "CONTENT": "Plats"
+    },
+    "fallback": {
+      "CONTENT": "har delat en webbadress"
+    }
   }
 }

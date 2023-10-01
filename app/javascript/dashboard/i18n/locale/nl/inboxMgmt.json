@@ -189,7 +189,7 @@
             "ERROR": "Dit veld is verplicht"
           },
           "INBOX_NAME": {
-            "LABEL": "Inbox Name",
+            "LABEL": "Inbox Naam",
             "PLACEHOLDER": "Please enter a inbox name",
             "ERROR": "Dit veld is verplicht"
           },
@@ -371,6 +371,8 @@
     "DETAILS": {
       "LOADING_FB": "Verifiëren met Facebook...",
       "ERROR_FB_AUTH": "Er ging iets mis, gelieve pagina te vernieuwen...",
+      "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
       "CREATING_CHANNEL": "Uw postvak wordt gemaakt...",
       "TITLE": "Configureer Postvak in details",
       "DESC": ""
@@ -458,7 +460,7 @@
       "SETTINGS": "Instellingen",
       "COLLABORATORS": "Collaborators",
       "CONFIGURATION": "Configuration",
-      "CAMPAIGN": "Campaigns",
+      "CAMPAIGN": "Campagnes",
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Business Hours",
       "WIDGET_BUILDER": "Widget Builder",
@@ -540,7 +542,7 @@
         "FIELDS": "Fields",
         "LABEL": "Label",
         "PLACE_HOLDER": "Placeholder",
-        "KEY": "Key",
+        "KEY": "Sleutel",
         "TYPE": "Type",
         "REQUIRED": "Required"
       },

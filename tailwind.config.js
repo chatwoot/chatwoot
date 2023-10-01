@@ -26,8 +26,8 @@ module.exports = {
   ],
   theme: {
     fontSize: {
-      xxs: '0.625rem',
       ...defaultTheme.fontSize,
+      xxs: '0.625rem',
     },
     colors: {
       transparent: 'transparent',
@@ -127,6 +127,7 @@ module.exports = {
       body: slateDark.slate7,
     },
     keyframes: {
+      ...defaultTheme.keyframes,
       wiggle: {
         '0%': { transform: 'translateX(0)' },
         '15%': { transform: 'translateX(0.375rem)' },
@@ -139,6 +140,7 @@ module.exports = {
       },
     },
     animation: {
+      ...defaultTheme.animation,
       wiggle: 'wiggle 0.5s ease-in-out',
     },
   },

@@ -44,7 +44,7 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   end
 
   def list_params
-    params.permit(:query, :locale, :sort)
+    params.permit(:query, :locale, :sort, :status)
   end
 
   def permitted_params

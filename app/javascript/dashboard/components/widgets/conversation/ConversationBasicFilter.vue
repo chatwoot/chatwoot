@@ -16,7 +16,7 @@
     >
       <div class="items-center flex justify-between last:mt-4">
         <span class="text-slate-800 dark:text-slate-100 text-xs font-medium">{{
-          this.$t('CHAT_LIST.CHAT_SORT.STATUS')
+          $t('CHAT_LIST.CHAT_SORT.STATUS')
         }}</span>
         <filter-item
           type="status"
@@ -28,7 +28,7 @@
       </div>
       <div class="items-center flex justify-between last:mt-4">
         <span class="text-slate-800 dark:text-slate-100 text-xs font-medium">{{
-          this.$t('CHAT_LIST.CHAT_SORT.ORDER_BY')
+          $t('CHAT_LIST.CHAT_SORT.ORDER_BY')
         }}</span>
         <filter-item
           type="sort"
@@ -46,7 +46,7 @@
 import wootConstants from 'dashboard/constants/globals';
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
-import FilterItem from './FilterItem';
+import FilterItem from './FilterItem.vue';
 
 export default {
   components: {

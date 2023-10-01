@@ -1,11 +1,26 @@
 import assignableAgentsAPI from '../assignableAgents';
-import describeWithAPIMock from './apiSpecHelper';
 
 describe('#AssignableAgentsAPI', () => {
-  describeWithAPIMock('API calls', context => {
+  describe('API calls', () => {
+    const originalAxios = window.axios;
+    const axiosMock = {
+      post: jest.fn(() => Promise.resolve()),
+      get: jest.fn(() => Promise.resolve()),
+      patch: jest.fn(() => Promise.resolve()),
+      delete: jest.fn(() => Promise.resolve()),
+    };
+
+    beforeEach(() => {
+      window.axios = axiosMock;
+    });
+
+    afterEach(() => {
+      window.axios = originalAxios;
+    });
+
     it('#getAssignableAgents', () => {
       assignableAgentsAPI.get({ inboxIds: [1], conversationIds: [1] });
-      expect(context.axiosMock.get).toHaveBeenCalledWith(
+      expect(axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/assignable_agents',
         {
           params: {

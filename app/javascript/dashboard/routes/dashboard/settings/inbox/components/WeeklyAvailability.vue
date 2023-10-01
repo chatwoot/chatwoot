@@ -15,9 +15,11 @@
         </label>
         <p>{{ $t('INBOX_MGMT.BUSINESS_HOURS.TOGGLE_HELP') }}</p>
         <div v-if="isBusinessHoursEnabled" class="mb-6">
-          <label class="unavailable-input-wrap">
-            {{ $t('INBOX_MGMT.BUSINESS_HOURS.UNAVAILABLE_MESSAGE_LABEL') }}
-            <label
+          <div class="max-w-[37.5rem]">
+            <label class="unavailable-input-wrap">
+              {{ $t('INBOX_MGMT.BUSINESS_HOURS.UNAVAILABLE_MESSAGE_LABEL') }}
+            </label>
+            <div
               v-if="isRichEditorEnabled"
               class="py-0 px-4 border border-solid border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 rounded-md mx-0 mt-0 mb-4"
             >
@@ -28,9 +30,9 @@
                 class="message-editor"
                 :min-height="4"
               />
-            </label>
+            </div>
             <textarea v-else v-model="unavailableMessage" type="text" />
-          </label>
+          </div>
           <div class="timezone-input-wrap">
             <label>
               {{ $t('INBOX_MGMT.BUSINESS_HOURS.TIMEZONE_LABEL') }}
@@ -74,9 +76,9 @@
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import inboxMixin from 'shared/mixins/inboxMixin';
-import SettingsSection from 'dashboard/components/SettingsSection';
-import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
-import BusinessDay from './BusinessDay';
+import SettingsSection from 'dashboard/components/SettingsSection.vue';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
+import BusinessDay from './BusinessDay.vue';
 import {
   timeSlotParse,
   timeSlotTransform,

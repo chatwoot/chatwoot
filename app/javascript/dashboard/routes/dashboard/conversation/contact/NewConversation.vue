@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-mutating-props -->
 <template>
   <woot-modal :show.sync="show" :on-close="onCancel">
     <div class="h-auto overflow-auto flex flex-col">
@@ -16,7 +17,7 @@
 </template>
 
 <script>
-import ConversationForm from './ConversationForm';
+import ConversationForm from './ConversationForm.vue';
 
 export default {
   components: {

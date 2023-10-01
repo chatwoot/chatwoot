@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import CardButton from 'shared/components/CardButton';
+import CardButton from 'shared/components/CardButton.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 
 export default {

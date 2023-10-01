@@ -223,7 +223,7 @@ describe('#actions', () => {
       const state = {
         uiFlags: { allMessagesLoaded: false },
         conversations: {
-          '454': {
+          454: {
             id: 454,
             content: 'hi',
             message_type: 0,
@@ -232,7 +232,7 @@ describe('#actions', () => {
             created_at: 1682244355, //  Sunday, 23 April 2023 10:05:55
             conversation_id: 20,
           },
-          '463': {
+          463: {
             id: 463,
             content: 'ss',
             message_type: 0,
@@ -269,7 +269,7 @@ describe('#actions', () => {
           'setMissingMessagesInConversation',
 
           {
-            '454': {
+            454: {
               id: 454,
               content: 'hi',
               message_type: 0,
@@ -278,7 +278,7 @@ describe('#actions', () => {
               created_at: 1682244355,
               conversation_id: 20,
             },
-            '463': {
+            463: {
               id: 463,
               content: 'ss',
               message_type: 0,
@@ -287,7 +287,7 @@ describe('#actions', () => {
               created_at: 1682490729,
               conversation_id: 20,
             },
-            '465': {
+            465: {
               id: 465,
               content: 'hi',
               message_type: 0,
@@ -305,7 +305,7 @@ describe('#actions', () => {
       const state = {
         uiFlags: { allMessagesLoaded: false },
         conversations: {
-          '454': {
+          454: {
             id: 454,
             content: 'hi',
             message_type: 0,
@@ -314,7 +314,7 @@ describe('#actions', () => {
             created_at: 1682244355, //  Sunday, 23 April 2023 10:05:55
             conversation_id: 20,
           },
-          '463': {
+          463: {
             id: 463,
             content: 'ss',
             message_type: 0,
@@ -352,7 +352,7 @@ describe('#actions', () => {
           'setMissingMessagesInConversation',
 
           {
-            '454': {
+            454: {
               id: 454,
               content: 'hi',
               message_type: 0,
@@ -361,7 +361,7 @@ describe('#actions', () => {
               created_at: 1682244355,
               conversation_id: 20,
             },
-            '460': {
+            460: {
               id: 460,
               content: 'Hi how are you',
               message_type: 0,
@@ -370,7 +370,7 @@ describe('#actions', () => {
               created_at: 1682417926,
               conversation_id: 20,
             },
-            '463': {
+            463: {
               id: 463,
               content: 'ss',
               message_type: 0,
@@ -388,7 +388,7 @@ describe('#actions', () => {
       const state = {
         uiFlags: { allMessagesLoaded: false },
         conversation: {
-          '454': {
+          454: {
             id: 454,
             content: 'hi',
             message_type: 0,
@@ -397,7 +397,7 @@ describe('#actions', () => {
             created_at: 1682244355, //  Sunday, 23 April 2023 10:05:55
             conversation_id: 20,
           },
-          '463': {
+          463: {
             id: 463,
             content: 'ss',
             message_type: 0,

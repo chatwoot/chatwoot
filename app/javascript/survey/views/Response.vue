@@ -52,11 +52,11 @@
 </template>
 
 <script>
-import Branding from 'shared/components/Branding';
-import Spinner from 'shared/components/Spinner';
-import Rating from 'survey/components/Rating';
-import Feedback from 'survey/components/Feedback';
-import Banner from 'survey/components/Banner';
+import Branding from 'shared/components/Branding.vue';
+import Spinner from 'shared/components/Spinner.vue';
+import Rating from 'survey/components/Rating.vue';
+import Feedback from 'survey/components/Feedback.vue';
+import Banner from 'survey/components/Banner.vue';
 import configMixin from 'shared/mixins/configMixin';
 import { getSurveyDetails, updateSurvey } from 'survey/api/survey';
 import alertMixin from 'shared/mixins/alertMixin';

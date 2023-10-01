@@ -34,7 +34,9 @@
   "START_CONVERSATION": "Beszélgetés megkezdése",
   "END_CONVERSATION": "Beszélgetés befejezése",
   "CONTINUE_CONVERSATION": "Beszélgetés folytatása",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "Új beszélgetés megkezdése",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Új üzenetek",
     "CLOSE_MESSAGES_BUTTON": "Bezárás",
@@ -108,6 +110,27 @@
   },
   "PORTAL": {
     "POPULAR_ARTICLES": "Popular Articles",
-    "VIEW_ALL_ARTICLES": "Mutasd az összes bejegyzést"
+    "VIEW_ALL_ARTICLES": "Mutasd az összes bejegyzést",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Képüzenet"
+    },
+    "audio": {
+      "CONTENT": "Hangüzenet"
+    },
+    "video": {
+      "CONTENT": "Videoüzenet"
+    },
+    "file": {
+      "CONTENT": "Csatolt file"
+    },
+    "location": {
+      "CONTENT": "Hely"
+    },
+    "fallback": {
+      "CONTENT": "megosztott URL-t tartalmaz"
+    }
   }
 }
