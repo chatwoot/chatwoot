@@ -1,11 +1,11 @@
 <template>
   <div
-    class="flex flex-col mx-2 gap-12 sm:gap-16 items-center justify-center py-0 px-0 w-full h-full max-w-full overflow-auto bg-white dark:bg-slate-900"
+    class="flex flex-col gap-12 sm:gap-16 items-center justify-center py-0 px-4 md:px-0 w-full h-full max-w-full overflow-auto bg-white dark:bg-slate-900"
   >
     <div class="flex flex-col justify-start sm:justify-center gap-6">
       <div class="flex flex-col gap-1.5 items-start sm:items-center">
         <h1
-          class="text-slate-900 dark:text-white text-left sm:text-center text-4xl sm:text-5xl font-semibold"
+          class="text-slate-900 dark:text-white text-left sm:text-center text-4xl sm:text-5xl mb-4 font-semibold"
         >
           {{ $t('HELP_CENTER.UPGRADE_PAGE.TITLE') }}
         </h1>
