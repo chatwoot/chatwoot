@@ -202,3 +202,12 @@ tr:
       made_with: Made with
     header:
       go_to_homepage: Go to the main site
+  slack_unfurl:
+    fields:
+      name: İsim
+      email: E-Posta
+      phone_number: Phone
+      company_name: Şirket
+      inbox_name: Gelen kutusu
+      inbox_type: Inbox Type
+    button: Görüşmeyi aç
