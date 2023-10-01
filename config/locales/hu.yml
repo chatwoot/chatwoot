@@ -202,3 +202,12 @@ hu:
       made_with: 'Ezzel készítve: '
     header:
       go_to_homepage: Irány a főoldal
+  slack_unfurl:
+    fields:
+      name: Név
+      email: E-mail
+      phone_number: Phone
+      company_name: Cég
+      inbox_name: Fiók
+      inbox_type: Inbox Type
+    button: Beszélgetés megnyitása
