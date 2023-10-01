@@ -202,3 +202,12 @@ ru:
       made_with: Сделано с
     header:
       go_to_homepage: Перейти на основной сайт
+  slack_unfurl:
+    fields:
+      name: Имя
+      email: Email
+      phone_number: Phone
+      company_name: Компания
+      inbox_name: Электронная почта
+      inbox_type: Inbox Type
+    button: Открыть беседу
