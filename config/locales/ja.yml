@@ -202,3 +202,12 @@ ja:
       made_with: Made with
     header:
       go_to_homepage: Go to the main site
+  slack_unfurl:
+    fields:
+      name: 名前
+      email: Eメール
+      phone_number: Phone
+      company_name: 企業
+      inbox_name: Inbox
+      inbox_type: Inbox Type
+    button: Open conversation
