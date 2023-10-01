@@ -202,3 +202,12 @@ ar:
       made_with: Made with
     header:
       go_to_homepage: Go to the main site
+  slack_unfurl:
+    fields:
+      name: الاسم
+      email: البريد الإلكتروني
+      phone_number: Phone
+      company_name: الشركة
+      inbox_name: صندوق الوارد
+      inbox_type: Inbox Type
+    button: فتح المحادثة
