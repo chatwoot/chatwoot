@@ -202,3 +202,12 @@ ko:
       made_with: Made with
     header:
       go_to_homepage: Go to the main site
+  slack_unfurl:
+    fields:
+      name: 이름
+      email: 이메일
+      phone_number: Phone
+      company_name: 회사
+      inbox_name: 받은 메시지함
+      inbox_type: Inbox Type
+    button: Open conversation
