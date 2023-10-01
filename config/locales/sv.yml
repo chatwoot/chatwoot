@@ -190,15 +190,24 @@ sv:
       results_title: Search results
     toc_header: 'On this page'
     hero:
-      sub_title: Search for the articles here or browse the categories below.
+      sub_title: Sök efter artiklarna här eller bläddra i kategorierna nedan.
     common:
       home: Hem
-      last_updated_on: Last updated on %{last_updated_on}
-      view_all_articles: View all articles
+      last_updated_on: Senast uppdaterad den %{last_updated_on}
+      view_all_articles: Se alla artiklar
       article: article
-      articles: articles
+      articles: artiklar
       no_articles: There are no articles here
     footer:
       made_with: Made with
     header:
       go_to_homepage: Go to the main site
+  slack_unfurl:
+    fields:
+      name: Namn
+      email: E-post
+      phone_number: Phone
+      company_name: Företag
+      inbox_name: Inkorg
+      inbox_type: Inbox Type
+    button: Open conversation
