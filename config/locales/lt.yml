@@ -202,3 +202,12 @@ lt:
       made_with: Padaryta su
     header:
       go_to_homepage: Eikite į pagrindinę svetainę
+  slack_unfurl:
+    fields:
+      name: Vardas
+      email: El. paštas
+      phone_number: Phone
+      company_name: Įmonė
+      inbox_name: Gautų laiškų aplankas
+      inbox_type: Inbox Type
+    button: Atidaryti pokalbį
