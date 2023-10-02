@@ -371,6 +371,8 @@
     "DETAILS": {
       "LOADING_FB": "பேஸ்புக் மூலம் உங்களை அங்கீகரிக்கிறது...",
       "ERROR_FB_AUTH": "ஏதோ தவறு ஏற்பட்டது, தயவுசெய்து பக்கத்தைப் புதுப்பிக்கவும்...",
+      "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
       "CREATING_CHANNEL": "உங்கள் இன்பாக்ஸை உருவாக்குகிறது...",
       "TITLE": "இன்பாக்ஸ் விவரங்களை உள்ளமைக்கவும்",
       "DESC": ""

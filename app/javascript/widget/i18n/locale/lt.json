@@ -34,9 +34,9 @@
   "START_CONVERSATION": "Pradėti Pokalbį",
   "END_CONVERSATION": "Užbaigti Pokalbį",
   "CONTINUE_CONVERSATION": "Tęsti pokalbį",
-  "YOU": "You",
+  "YOU": "Jūs",
   "START_NEW_CONVERSATION": "Pradėti naują pokalbį",
-  "VIEW_UNREAD_MESSAGES": "You have unread messages",
+  "VIEW_UNREAD_MESSAGES": "Turite neperskaitytų pranešimų",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Žiūrėti naujus pranešimus",
     "CLOSE_MESSAGES_BUTTON": "Uždaryti",

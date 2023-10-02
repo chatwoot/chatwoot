@@ -10,7 +10,7 @@
         {{ ` / ` }}
         {{
           category ||
-            $t('HELP_CENTER.ARTICLE_SEARCH_RESULT.ARTICLE_SEARCH_RESULT')
+          $t('HELP_CENTER.ARTICLE_SEARCH_RESULT.ARTICLE_SEARCH_RESULT')
         }}
       </p>
       <div class="action-buttons">

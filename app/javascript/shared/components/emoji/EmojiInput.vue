@@ -169,11 +169,15 @@ export default {
 @tailwind components;
 @layer components {
   .box-shadow-blue {
-    box-shadow: 0 0 0 1px #1f93ff, 0 0 2px 3px #c7e3ff;
+    box-shadow:
+      0 0 0 1px #1f93ff,
+      0 0 2px 3px #c7e3ff;
   }
 
   .box-shadow-blue-dark {
-    box-shadow: 0 0 0 1px #1f93ff, 0 0 2px 3px #4c5155;
+    box-shadow:
+      0 0 0 1px #1f93ff,
+      0 0 2px 3px #4c5155;
   }
 }
 </style>

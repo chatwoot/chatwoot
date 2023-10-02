@@ -85,6 +85,37 @@ describe('appendSignature', () => {
   });
 });
 
+describe('cleanSignature', () => {
+  it('removes any instance of horizontal rule', () => {
+    const options = [
+      '---',
+      '***',
+      '___',
+      '- - -',
+      '* * *',
+      '_ _ _',
+      ' ---',
+      '--- ',
+      ' --- ',
+      '-----',
+      '*****',
+      '_____',
+      '- - - -',
+      '* * * * *',
+      '_ _ _ _ _ _',
+      ' - - - - ',
+      ' * * * * * ',
+      ' _ _ _ _ _ _',
+      '- - - - -',
+      '* * * * * *',
+      '_ _ _ _ _ _ _',
+    ];
+    options.forEach(option => {
+      expect(cleanSignature(option)).toBe('');
+    });
+  });
+});
+
 describe('removeSignature', () => {
   it('does not remove signature if not present', () => {
     Object.keys(DOES_NOT_HAVE_SIGNATURE).forEach(key => {
@@ -97,9 +128,8 @@ describe('removeSignature', () => {
     expect(removeSignature(body, signature)).toBe('This is a test\n\n');
   });
   it('removes signature if present with spaces and new lines', () => {
-    const { body, signature } = HAS_SIGNATURE[
-      'signature at end with spaces and new lines'
-    ];
+    const { body, signature } =
+      HAS_SIGNATURE['signature at end with spaces and new lines'];
     expect(removeSignature(body, signature)).toBe('This is a test\n\n');
   });
   it('removes signature if present without text before it', () => {
@@ -129,9 +159,8 @@ describe('replaceSignature', () => {
     );
   });
   it('removes signature if present with spaces and new lines', () => {
-    const { body, signature } = HAS_SIGNATURE[
-      'signature at end with spaces and new lines'
-    ];
+    const { body, signature } =
+      HAS_SIGNATURE['signature at end with spaces and new lines'];
     expect(replaceSignature(body, signature, NEW_SIGNATURE)).toBe(
       `This is a test\n\n--\n\n${NEW_SIGNATURE}`
     );

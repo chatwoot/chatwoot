@@ -72,7 +72,9 @@ import { MESSAGE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 const createState = (
   content,
   placeholder,
+  // eslint-disable-next-line default-param-last
   plugins = [],
+  // eslint-disable-next-line default-param-last
   methods = {},
   enabledMenuOptions
 ) => {
@@ -709,6 +711,6 @@ export default {
 }
 
 .editor-warning__message {
-  @apply text-red-400 dark:text-red-400 font-normal pt-1 pb-0 px-0;
+  @apply text-red-400 dark:text-red-400 text-sm font-normal pt-1 pb-0 px-0;
 }
 </style>
