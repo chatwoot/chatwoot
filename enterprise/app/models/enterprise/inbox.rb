@@ -7,7 +7,7 @@ module Enterprise::Inbox
 
   def get_responses(query)
     embedding = Openai::EmbeddingsService.new.get_embedding(query)
-    responses.nearest_neighbors(:embedding, embedding, distance: 'cosine').first(5)
+    responses.active.nearest_neighbors(:embedding, embedding, distance: 'cosine').first(5)
   end
 
   def active_bot?
