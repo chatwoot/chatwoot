@@ -53,8 +53,10 @@ export default {
       const createdTimeDiff = Date.now() - this.createdAtTimestamp * 1000;
       const isBeforeAMonth = createdTimeDiff > DAY_IN_MILLI_SECONDS * 30;
       return !isBeforeAMonth
-        ? `${this.$t('CHAT_LIST.CHAT_TIME_STAMP.CREATED.LATEST')} ${this.createdAtTimeAgo}`
-        : `${this.$t('CHAT_LIST.CHAT_TIME_STAMP.CREATED.OLDEST')}: ${this.dateFormat(this.createdAtTimestamp)}`;
+        ? `${this.$t('CHAT_LIST.CHAT_TIME_STAMP.CREATED.LATEST')}
+          ${this.createdAtTimeAgo}`
+        : `${this.$t('CHAT_LIST.CHAT_TIME_STAMP.CREATED.OLDEST')} 
+          : ${this.dateFormat(this.createdAtTimestamp)}`
     },
     lastActivity() {
       const lastActivityTimeDiff =
