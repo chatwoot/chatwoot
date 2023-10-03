@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import Spinner from 'shared/components/Spinner';
+import Spinner from 'shared/components/Spinner.vue';
 import SearchResultItem from 'dashboard/routes/dashboard/helpcenter/components/ArticleSearch/ArticleSearchResultItem.vue';
 
 export default {

@@ -1,4 +1,3 @@
-// import { action } from '@storybook/addon-actions';
 import ArticleSearchHeader from '../ArticleSearch/Header';
 
 export default {

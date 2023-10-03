@@ -62,11 +62,9 @@
 
 <script>
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin.js';
 
 export default {
   name: 'ArticleSearchResultItem',
-  mixins: [messageFormatterMixin],
   props: {
     id: {
       type: Number,
@@ -91,11 +89,6 @@ export default {
     locale: {
       type: String,
       default: '',
-    },
-  },
-  computed: {
-    plainBody() {
-      return this.getPlainText(this.body);
     },
   },
   methods: {

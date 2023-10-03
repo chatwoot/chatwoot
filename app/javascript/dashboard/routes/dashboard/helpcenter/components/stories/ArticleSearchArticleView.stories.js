@@ -1,4 +1,3 @@
-// import { action } from '@storybook/addon-actions';
 import ArticleSearchArticleView from '../ArticleSearch/ArticleView';
 
 export default {
@@ -30,6 +29,5 @@ const Template = (args, { argTypes }) => ({
 export const ArticleHeaderView = Template.bind({});
 ArticleHeaderView.args = {
   title: 'Insert article',
-  url:
-    'https://staging.chatwoot.com/hc/home-rental-app/articles/filter-your-housing-search-results-0',
+  url: 'https://staging.chatwoot.com/hc/home-rental-app/articles/filter-your-housing-search-results-0',
 };
