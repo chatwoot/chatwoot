@@ -19,7 +19,7 @@ class Integrations::Slack::IncomingMessageBuilder
     elsif create_message?
       create_message
     elsif link_shared?
-      SlackUnfurlJob.perform_later(params, integration_hook)
+      SlackUnfurlJob.perform_later(params)
     end
   end
 
@@ -72,7 +72,7 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   def link_shared?
-    params[:event][:type] == 'link_shared' && integration_hook
+    params[:event][:type] == 'link_shared'
   end
 
   def message
