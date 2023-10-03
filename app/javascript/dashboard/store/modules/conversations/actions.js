@@ -418,7 +418,6 @@ const actions = {
       commit(types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES, custom_attributes);
     } catch (error) {
       // Handle error
-      console.error(error)
     }
   },
 
