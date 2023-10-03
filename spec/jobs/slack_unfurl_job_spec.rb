@@ -7,13 +7,13 @@ RSpec.describe SlackUnfurlJob do
   let(:hook) { create(:integrations_hook, account: account) }
   let(:inbox) { create(:inbox, account: account) }
   let!(:conversation) { create(:conversation, inbox: inbox) }
-
+  let(:slack_client) { double }
   let(:link_shared) do
     {
       team_id: 'TLST3048H',
       api_app_id: 'A012S5UETV4',
       event: link_shared_event.merge(links: [{
-                                       url: "https://qa.chatwoot.com/app/accounts/1/conversations/#{conversation.display_id}",
+                                       url: "https://qa.chatwoot.com/app/accounts/#{hook.account_id}/conversations/#{conversation.display_id}",
                                        domain: 'qa.chatwoot.com'
                                      }]),
       type: 'event_callback',
@@ -29,10 +29,18 @@ RSpec.describe SlackUnfurlJob do
   it 'calls the SlackLinkUnfurlService' do
     slack_link_unfurl_service = instance_double(Integrations::Slack::SlackLinkUnfurlService)
 
+    expected_body = {
+      channel: link_shared[:event][:channel]
+    }
+
+    stub_request(:post, 'https://slack.com/api/conversations.members')
+      .with(body: expected_body)
+      .to_return(status: 200, body: { 'ok' => true }.to_json, headers: {})
+
     expect(Integrations::Slack::SlackLinkUnfurlService).to receive(:new)
       .with(params: link_shared, integration_hook: hook)
       .and_return(slack_link_unfurl_service)
     expect(slack_link_unfurl_service).to receive(:perform)
-    described_class.perform_now(link_shared, hook)
+    described_class.perform_now(link_shared)
   end
 end
