@@ -41,6 +41,16 @@
       "STATUS": "Status",
       "ORDER_BY": "Ordonat după"
     },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Creat",
+        "OLDEST": "Creat la:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Ultima activitate:",
+        "ACTIVE": "Ultima activitate"
+      }
+    },
     "CHAT_SORT_FILTER_ITEMS": {
       "latest": {
         "TEXT": "Ultima activitate"
