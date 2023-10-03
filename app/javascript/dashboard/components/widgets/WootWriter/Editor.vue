@@ -23,6 +23,7 @@
       @change="onFileChange"
     />
     <div ref="editor" />
+    <slot name="footer" />
   </div>
 </template>
 

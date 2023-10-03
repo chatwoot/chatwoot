@@ -111,10 +111,30 @@
                 class="message-editor"
                 :class="{ editor_warning: $v.message.$error }"
                 :enable-variables="true"
+                :signature="signatureToApply"
+                :allow-signature="true"
                 :placeholder="$t('NEW_CONVERSATION.FORM.MESSAGE.PLACEHOLDER')"
                 @toggle-canned-menu="toggleCannedMenu"
                 @blur="$v.message.$touch"
-              />
+              >
+                <template #footer>
+                  <message-signature-missing-alert
+                    v-if="isSignatureEnabledForInbox && !messageSignature"
+                    class="!mx-0 mb-1"
+                  />
+                  <div v-if="isAnEmailInbox" class="mb-3 mt-px">
+                    <woot-button
+                      v-tooltip.top-end="signatureToggleTooltip"
+                      icon="signature"
+                      color-scheme="secondary"
+                      variant="smooth"
+                      size="small"
+                      :title="signatureToggleTooltip"
+                      @click.prevent="toggleMessageSignature"
+                    />
+                  </div>
+                </template>
+              </woot-message-editor>
               <span v-if="$v.message.$error" class="editor-warning__message">
                 {{ $t('NEW_CONVERSATION.FORM.MESSAGE.ERROR') }}
               </span>
@@ -162,6 +182,7 @@ import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import ReplyEmailHead from 'dashboard/components/widgets/conversation/ReplyEmailHead.vue';
 import CannedResponse from 'dashboard/components/widgets/conversation/CannedResponse.vue';
+import MessageSignatureMissingAlert from 'dashboard/components/widgets/conversation/MessageSignatureMissingAlert';
 import InboxDropdownItem from 'dashboard/components/widgets/InboxDropdownItem.vue';
 import WhatsappTemplates from './WhatsappTemplates.vue';
 import alertMixin from 'shared/mixins/alertMixin';
@@ -169,6 +190,11 @@ import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 import { getInboxSource } from 'dashboard/helper/inbox';
 import { required, requiredIf } from 'vuelidate/lib/validators';
+import {
+  appendSignature,
+  removeSignature,
+} from 'dashboard/helper/editorHelper';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
 export default {
   components: {
@@ -178,8 +204,9 @@ export default {
     CannedResponse,
     WhatsappTemplates,
     InboxDropdownItem,
+    MessageSignatureMissingAlert,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, uiSettingsMixin],
   props: {
     contact: {
       type: Object,
@@ -219,7 +246,15 @@ export default {
       uiFlags: 'contacts/getUIFlags',
       conversationsUiFlags: 'contactConversations/getUIFlags',
       currentUser: 'getCurrentUser',
+      messageSignature: 'getMessageSignature',
     }),
+    sendWithSignature() {
+      const { send_with_signature: isEnabled } = this.uiSettings;
+      return isEnabled;
+    },
+    signatureToApply() {
+      return this.messageSignature;
+    },
     emailMessagePayload() {
       const payload = {
         inboxId: this.targetInbox.id,
@@ -258,6 +293,14 @@ export default {
         return false;
       }
       return this.inboxes.length === 0 && !this.uiFlags.isFetchingInboxes;
+    },
+    isSignatureEnabledForInbox() {
+      return this.isAnEmailInbox && this.sendWithSignature;
+    },
+    signatureToggleTooltip() {
+      return this.sendWithSignature
+        ? this.$t('CONVERSATION.FOOTER.DISABLE_SIGN_TOOLTIP')
+        : this.$t('CONVERSATION.FOOTER.ENABLE_SIGN_TOOLTIP');
     },
     inboxes() {
       const inboxList = this.contact.contactableInboxes || [];
@@ -298,8 +341,23 @@ export default {
         this.showCannedResponseMenu = false;
       }
     },
+    targetInbox() {
+      this.setSignature();
+    },
+  },
+  mounted() {
+    this.setSignature();
   },
   methods: {
+    setSignature() {
+      if (this.messageSignature) {
+        if (this.isSignatureEnabledForInbox) {
+          this.message = appendSignature(this.message, this.signatureToApply);
+        } else {
+          this.message = removeSignature(this.message, this.signatureToApply);
+        }
+      }
+    },
     onCancel() {
       this.$emit('cancel');
     },
@@ -369,6 +427,12 @@ export default {
         inbox
       );
       return classByType;
+    },
+    toggleMessageSignature() {
+      this.updateUISettings({
+        send_with_signature: !this.sendWithSignature,
+      });
+      this.setSignature();
     },
   },
 };
