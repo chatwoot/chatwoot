@@ -4,13 +4,13 @@
   >
     <div
       v-if="isLoading"
-      class="font-medium text-sm text-slate-400 dark:text-slate-700  "
+      class="font-medium text-sm text-slate-400 dark:text-slate-700"
     >
       {{ loadingPlaceholder }}
     </div>
     <h3
       v-if="shouldShowResults"
-      class="font-medium text-sm text-slate-400 dark:text-slate-700 "
+      class="font-medium text-sm text-slate-400 dark:text-slate-700"
     >
       {{ resultsTitle }}
     </h3>
@@ -40,7 +40,7 @@
 
     <div
       v-if="showEmptyResults"
-      class="font-medium text-sm text-slate-400 dark:text-slate-700 "
+      class="font-medium text-sm text-slate-400 dark:text-slate-700"
     >
       {{ emptyPlaceholder }}
     </div>
