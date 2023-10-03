@@ -1,14 +1,14 @@
 class Api::V1::Accounts::Conversations::DraftMessagesController < Api::V1::Accounts::Conversations::BaseController
+  def show
+    render json: { has_draft: false } and return unless Redis::Alfred.exists?(draft_redis_key)
+
+    draft_message = Redis::Alfred.get(draft_redis_key)
+    render json: { has_draft: true, message: draft_message }
+  end
+
   def update
     Redis::Alfred.set(draft_redis_key, draft_message_params)
     head :ok
-  end
-
-  def show
-    render json: {has_draft: false} and return unless Redis::Alfred.exists?(draft_redis_key)
-
-    draft_message = Redis::Alfred.get(draft_redis_key)
-    render json: {has_draft: true, message: draft_message}
   end
 
   def destroy
@@ -23,7 +23,7 @@ class Api::V1::Accounts::Conversations::DraftMessagesController < Api::V1::Accou
   end
 
   def conversation_id
-    params.dig(:conversation_id)
+    params[:conversation_id]
   end
 
   def draft_message_params
