@@ -43,14 +43,14 @@
       "TITLE": "Article Settings",
       "FORM": {
         "CATEGORY": {
-          "LABEL": "Category",
+          "LABEL": "Kategori",
           "TITLE": "Select category",
           "PLACEHOLDER": "Select category",
           "NO_RESULT": "No category found",
           "SEARCH_PLACEHOLDER": "Search category"
         },
         "AUTHOR": {
-          "LABEL": "Author",
+          "LABEL": "Författare",
           "TITLE": "Select author",
           "PLACEHOLDER": "Select author",
           "NO_RESULT": "No authors found",
@@ -77,9 +77,9 @@
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Uncategorized",
       "INSERT_ARTICLE": "Insert",
-      "NO_RESULT": "No articles found",
+      "NO_RESULT": "Inga artiklar hittades",
       "COPY_LINK": "Copy article link to clipboard",
-      "OPEN_LINK": "Open article in new tab",
+      "OPEN_LINK": "Öppna artikeln i en ny flik",
       "PREVIEW_LINK": "Preview article"
     },
     "PORTAL": {
@@ -102,7 +102,7 @@
       "PORTAL_SETTINGS": {
         "LIST_ITEM": {
           "HEADER": {
-            "COUNT_LABEL": "articles",
+            "COUNT_LABEL": "artiklar",
             "ADD": "Add locale",
             "VISIT": "Visit site",
             "SETTINGS": "Inställningar",
@@ -300,9 +300,9 @@
       }
     },
     "TABLE": {
-      "LOADING_MESSAGE": "Loading articles...",
+      "LOADING_MESSAGE": "Laddar artiklar...",
       "404": "No articles matches your search 🔍",
-      "NO_ARTICLES": "There are no available articles",
+      "NO_ARTICLES": "Det finns inga tillgängliga artiklar",
       "HEADERS": {
         "TITLE": "Title",
         "CATEGORY": "Category",
@@ -315,7 +315,7 @@
       }
     },
     "EDIT_ARTICLE": {
-      "LOADING": "Loading article...",
+      "LOADING": "Laddar artikel...",
       "TITLE_PLACEHOLDER": "Article title goes here",
       "CONTENT_PLACEHOLDER": "Write your article here",
       "API": {
@@ -353,7 +353,7 @@
     },
     "SIDEBAR": {
       "SEARCH": {
-        "PLACEHOLDER": "Search for articles"
+        "PLACEHOLDER": "Sök efter artiklar"
       }
     },
     "CATEGORY": {
