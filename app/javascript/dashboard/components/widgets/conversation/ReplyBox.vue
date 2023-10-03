@@ -90,17 +90,9 @@
         :remove-attachment="removeAttachment"
       />
     </div>
-    <div
+    <message-signature-missing-alert
       v-if="isSignatureEnabledForInbox && !isSignatureAvailable"
-      class="message-signature-wrap"
-    >
-      <p class="message-signature">
-        {{ $t('CONVERSATION.FOOTER.MESSAGE_SIGNATURE_NOT_CONFIGURED') }}
-        <router-link :to="profilePath">
-          {{ $t('CONVERSATION.FOOTER.CLICK_HERE') }}
-        </router-link>
-      </p>
-    </div>
+    />
     <reply-bottom-panel
       :conversation-id="conversationId"
       :enable-multiple-file-upload="enableMultipleFileUpload"
@@ -154,6 +146,7 @@ import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview.v
 import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel.vue';
 import ReplyEmailHead from './ReplyEmailHead.vue';
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue';
+import MessageSignatureMissingAlert from './MessageSignatureMissingAlert';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
@@ -171,7 +164,6 @@ import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
-import { frontendURL } from '../../../helper/URLHelper';
 import { trimContent, debounce } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants/globals';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
@@ -200,6 +192,7 @@ export default {
     WootAudioRecorder,
     Banner,
     WhatsappTemplates,
+    MessageSignatureMissingAlert,
   },
   mixins: [
     clickaway,
@@ -480,9 +473,6 @@ export default {
       const { send_with_signature: isEnabled } = this.uiSettings;
       return isEnabled;
     },
-    profilePath() {
-      return frontendURL(`accounts/${this.accountId}/profile/settings`);
-    },
     editorMessageKey() {
       const { editor_message_key: isEnabled } = this.uiSettings;
       return isEnabled;
@@ -565,7 +555,7 @@ export default {
 
   mounted() {
     this.getFromDraft();
-    // Donot use the keyboard listener mixin here as the events here are supposed to be
+    // Don't use the keyboard listener mixin here as the events here are supposed to be
     // working even if input/textarea is focussed.
     document.addEventListener('paste', this.onPaste);
     document.addEventListener('keydown', this.handleKeyEvents);
@@ -1083,14 +1073,6 @@ export default {
   @apply py-2;
 }
 
-.message-signature-wrap {
-  @apply my-0 mx-4 px-1 flex max-h-[8vh] items-baseline justify-between hover:bg-slate-25 dark:hover:bg-slate-800 border border-dashed border-slate-100 dark:border-slate-700 rounded-sm overflow-auto;
-}
-
-.message-signature {
-  @apply w-fit m-0;
-}
-
 .attachment-preview-box {
   @apply bg-transparent py-0 px-4;
 }
@@ -1134,13 +1116,6 @@ export default {
   &::before {
     transform: rotate(0deg);
     @apply left-1 -bottom-2;
-  }
-}
-.message-signature {
-  @apply mb-0;
-
-  ::v-deep p:last-child {
-    @apply mb-0;
   }
 }
 
