@@ -184,7 +184,7 @@ sv:
       description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
   public_portal:
     search:
-      search_placeholder: Search for article by title or body...
+      search_placeholder: Sök efter artikel baserat på rubrik eller brödtext...
       empty_placeholder: Inga resultat hittades.
       loading_placeholder: Searching...
       results_title: Search results
@@ -195,9 +195,9 @@ sv:
       home: Hem
       last_updated_on: Senast uppdaterad den %{last_updated_on}
       view_all_articles: Se alla artiklar
-      article: article
+      article: artikel
       articles: artiklar
-      no_articles: There are no articles here
+      no_articles: Det finns inga artiklar här
     footer:
       made_with: Made with
     header:
@@ -206,8 +206,8 @@ sv:
     fields:
       name: Namn
       email: E-post
-      phone_number: Phone
+      phone_number: Telefon
       company_name: Företag
       inbox_name: Inkorg
-      inbox_type: Inbox Type
-    button: Open conversation
+      inbox_type: Typ av inkorg
+    button: Öppna konversation
