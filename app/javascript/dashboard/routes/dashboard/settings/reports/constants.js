@@ -84,7 +84,11 @@ export const DATE_RANGE_OPTIONS = {
     id: 'LAST_YEAR',
     translationKey: 'REPORT.DATE_RANGE_OPTIONS.LAST_YEAR',
     offset: 364,
-    groupByOptions: [GROUP_BY_OPTIONS.WEEK, GROUP_BY_OPTIONS.MONTH],
+    groupByOptions: [
+      GROUP_BY_OPTIONS.DAY,
+      GROUP_BY_OPTIONS.WEEK,
+      GROUP_BY_OPTIONS.MONTH,
+    ],
   },
   CUSTOM_DATE_RANGE: {
     id: 'CUSTOM_DATE_RANGE',
@@ -101,13 +105,6 @@ export const DATE_RANGE_OPTIONS = {
 
 export const CHART_FONT_FAMILY =
   'PlusJakarta,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
-
-export const DEFAULT_LINE_CHART = {
-  type: 'line',
-  fill: false,
-  borderColor: '#779BBB',
-  pointBackgroundColor: '#779BBB',
-};
 
 export const DEFAULT_BAR_CHART = {
   type: 'bar',

@@ -109,26 +109,12 @@ export default {
         }
         return format(fromUnixTime(element.timestamp), 'dd-MMM');
       });
-      const datasets = METRIC_CHART[metric.KEY].datasets.map(dataset => {
-        switch (dataset.type) {
-          case 'bar':
-            return {
-              ...dataset,
-              yAxisID: 'y-left',
-              label: metric.NAME,
-              data: data.map(element => element.value),
-            };
-          case 'line':
-            return {
-              ...dataset,
-              yAxisID: 'y-right',
-              label: this.metrics[0].NAME,
-              data: data.map(element => element.count),
-            };
-          default:
-            return dataset;
-        }
-      });
+      const datasets = METRIC_CHART[metric.KEY].datasets.map(dataset => ({
+        ...dataset,
+        yAxisID: 'y-left',
+        label: metric.NAME,
+        data: data.map(element => element.value),
+      }));
       return {
         labels,
         datasets,
