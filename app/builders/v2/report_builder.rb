@@ -15,13 +15,16 @@ class V2::ReportBuilder
   end
 
   def timeseries
-    send(params[:metric])
+    {
+      records: get_raw_metrics(params[:metric]),
+      count_records: get_count_metrics(params[:metric])
+    }
   end
 
-  # For backward compatible with old report
   def build
-    timeseries.each_with_object([]) do |p, arr|
-      arr << { value: p[1], timestamp: p[0].in_time_zone(@timezone).to_i }
+    count_records = timeseries[:count_records]
+    timeseries[:records].each_with_object([]) do |p, arr|
+      arr << { value: p[1], timestamp: p[0].in_time_zone(@timezone).to_i, count: count_records[p[0]] }
     end
   end
 
@@ -30,10 +33,10 @@ class V2::ReportBuilder
       conversations_count: conversations.count,
       incoming_messages_count: incoming_messages.count,
       outgoing_messages_count: outgoing_messages.count,
-      avg_first_response_time: avg_first_response_time_summary,
-      avg_resolution_time: avg_resolution_time_summary,
+      avg_first_response_time: get_reporting_events('first_response').count,
+      avg_resolution_time: get_reporting_events('conversation_resolved').count,
       resolutions_count: resolutions.count,
-      reply_time: reply_time_summary
+      reply_time: get_reporting_events('reply_time').count
     }
   end
 

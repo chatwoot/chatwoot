@@ -16,20 +16,49 @@ module ReportHelper
     end
   end
 
-  def conversations_count
-    (get_grouped_values conversations).count
+  def get_reporting_events(event_name)
+    scope.reporting_events.where(name: event_name, account_id: account.id, created_at: range)
   end
 
-  def incoming_messages_count
-    (get_grouped_values incoming_messages).count
+  def get_reporting_events_avg(event_name)
+    reporting_events = get_grouped_values(get_reporting_events(event_name))
+    if params[:business_hours].present?
+      reporting_events.average(:value_in_business_hours) || 0
+    else
+      reporting_events.average(:value) || 0
+    end
   end
 
-  def outgoing_messages_count
-    (get_grouped_values outgoing_messages).count
+  def get_count_metrics(metric)
+    case metric
+    when 'avg_first_response_time'
+      get_grouped_values(get_reporting_events('first_response')).count
+    when 'reply_time'
+      get_grouped_values(get_reporting_events('reply_time')).count
+    when 'avg_resolution_time'
+      get_grouped_values(get_reporting_events('conversation_resolved')).count
+    else
+      {}
+    end
   end
 
-  def resolutions_count
-    (get_grouped_values resolutions).count
+  def get_raw_metrics(metric)
+    case metric
+    when 'avg_first_response_time'
+      get_reporting_events_avg('first_response')
+    when 'reply_time'
+      get_reporting_events_avg('reply_time')
+    when 'avg_resolution_time'
+      get_reporting_events_avg('conversation_resolved')
+    when 'conversations_count'
+      get_grouped_values(conversations).count
+    when 'incoming_messages_count'
+      get_grouped_values(incoming_messages).count
+    when 'outgoing_messages_count'
+      get_grouped_values(outgoing_messages).count
+    when 'resolutions_count'
+      get_grouped_values(resolutions).count
+    end
   end
 
   def conversations
@@ -45,66 +74,8 @@ module ReportHelper
   end
 
   def resolutions
-    scope.reporting_events.joins(:conversation).select(:conversation_id).where(account_id: account.id, name: :conversation_resolved,
-                                                                               conversations: { status: :resolved }, created_at: range).distinct
-  end
-
-  def avg_first_response_time
-    grouped_reporting_events = (get_grouped_values scope.reporting_events.where(name: 'first_response', account_id: account.id))
-    return grouped_reporting_events.average(:value_in_business_hours) if params[:business_hours]
-
-    grouped_reporting_events.average(:value)
-  end
-
-  def reply_time
-    grouped_reporting_events = (get_grouped_values scope.reporting_events.where(name: 'reply_time', account_id: account.id))
-    return grouped_reporting_events.average(:value_in_business_hours) if params[:business_hours]
-
-    grouped_reporting_events.average(:value)
-  end
-
-  def avg_resolution_time
-    grouped_reporting_events = (get_grouped_values scope.reporting_events.where(name: 'conversation_resolved', account_id: account.id))
-    return grouped_reporting_events.average(:value_in_business_hours) if params[:business_hours]
-
-    grouped_reporting_events.average(:value)
-  end
-
-  def avg_resolution_time_summary
-    reporting_events = scope.reporting_events
-                            .where(name: 'conversation_resolved', account_id: account.id, created_at: range)
-    avg_rt = if params[:business_hours].present?
-               reporting_events.average(:value_in_business_hours)
-             else
-               reporting_events.average(:value)
-             end
-
-    return 0 if avg_rt.blank?
-
-    avg_rt
-  end
-
-  def reply_time_summary
-    reporting_events = scope.reporting_events
-                            .where(name: 'reply_time', account_id: account.id, created_at: range)
-    reply_time = params[:business_hours] ? reporting_events.average(:value_in_business_hours) : reporting_events.average(:value)
-
-    return 0 if reply_time.blank?
-
-    reply_time
-  end
-
-  def avg_first_response_time_summary
-    reporting_events = scope.reporting_events
-                            .where(name: 'first_response', account_id: account.id, created_at: range)
-    avg_frt = if params[:business_hours].present?
-                reporting_events.average(:value_in_business_hours)
-              else
-                reporting_events.average(:value)
-              end
-
-    return 0 if avg_frt.blank?
-
-    avg_frt
+    scope.reporting_events.joins(:conversation).select(:conversation_id)
+         .where(account_id: account.id, name: :conversation_resolved, conversations: { status: :resolved }, created_at: range)
+         .distinct
   end
 end
