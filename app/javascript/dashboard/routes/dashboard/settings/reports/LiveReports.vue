@@ -3,7 +3,7 @@
     <div class="row">
       <div class="column small-12 medium-8 conversation-metric">
         <metric-card
-          :header="this.$t('OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.HEADER')"
+          :header="$t('OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.HEADER')"
           :is-loading="uiFlags.isFetchingAccountConversationMetric"
           :loading-message="
             $t('OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.LOADING_MESSAGE')
@@ -22,7 +22,7 @@
         </metric-card>
       </div>
       <div class="column small-12 medium-4">
-        <metric-card :header="this.$t('OVERVIEW_REPORTS.AGENT_STATUS.HEADER')">
+        <metric-card :header="$t('OVERVIEW_REPORTS.AGENT_STATUS.HEADER')">
           <div
             v-for="(metric, name, index) in agentStatusMetrics"
             :key="index"
@@ -37,9 +37,7 @@
       </div>
     </div>
     <div class="row">
-      <metric-card
-        :header="this.$t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.HEADER')"
-      >
+      <metric-card :header="$t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.HEADER')">
         <template #control>
           <woot-button
             icon="arrow-download"
@@ -58,9 +56,7 @@
       </metric-card>
     </div>
     <div class="row">
-      <metric-card
-        :header="this.$t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.HEADER')"
-      >
+      <metric-card :header="$t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.HEADER')">
         <agent-table
           :agents="agents"
           :agent-metrics="agentConversationMetric"

@@ -104,9 +104,8 @@ export default {
       isFetching: 'portals/isFetchingPortals',
     }),
     isSidebarOpen() {
-      const {
-        show_help_center_secondary_sidebar: showSecondarySidebar,
-      } = this.uiSettings;
+      const { show_help_center_secondary_sidebar: showSecondarySidebar } =
+        this.uiSettings;
       return showSecondarySidebar;
     },
     showHelpCenterSidebar() {

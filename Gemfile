@@ -76,6 +76,7 @@ gem 'pundit'
 # super admin
 gem 'administrate', '>= 0.19.0'
 gem 'administrate-field-active_storage'
+gem 'administrate-field-belongs_to_search'
 
 ##--- gems for pubsub service ---##
 # https://karolgalanciak.com/blog/2019/11/30/from-activerecord-callbacks-to-publish-slash-subscribe-pattern-and-event-driven-design/
@@ -158,7 +159,7 @@ gem 'lograge', '~> 0.13.0', require: false
 # worked with microsoft refresh token
 gem 'omniauth-oauth2'
 
-gem 'audited', '~> 5.3'
+gem 'audited', '~> 5.4', '>= 5.4.0'
 
 # need for google auth
 gem 'omniauth'
