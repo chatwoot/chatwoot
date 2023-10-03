@@ -34,7 +34,6 @@ json.assignee_last_seen_at conversation.assignee_last_seen_at.to_i
 json.can_reply conversation.can_reply?
 json.contact_last_seen_at conversation.contact_last_seen_at.to_i
 json.custom_attributes conversation.custom_attributes
-json.draft_message_content conversation.draft_message_content
 json.inbox_id conversation.inbox_id
 json.labels conversation.label_list
 json.muted conversation.muted?

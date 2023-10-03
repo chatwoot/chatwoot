@@ -626,11 +626,13 @@ export default {
       this.saveDraft(conversationId, replyType);
       this.message = '';
     },
-    getFromDraft() {
+    async getFromDraft() {
       if (this.conversationIdByRoute) {
         const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
+        const conversationId = this.conversationIdByRoute;
+        await this.$store.dispatch('draftMessages/getFromRemote', { key, conversationId })
         const messageFromStore =
-          this.$store.getters['draftMessages/get'](key) || this.currentChat.draft_message_content || '';
+          this.$store.getters['draftMessages/get'](key) || '';
 
         // ensure that the message has signature set based on the ui setting
         this.message = this.toggleSignatureForDraft(messageFromStore);
@@ -648,7 +650,8 @@ export default {
     removeFromDraft() {
       if (this.conversationIdByRoute) {
         const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
-        this.$store.dispatch('draftMessages/delete', { key });
+        const conversationId = this.conversationIdByRoute;
+        this.$store.dispatch('draftMessages/delete', { key, conversationId });
       }
     },
     handleKeyEvents(e) {

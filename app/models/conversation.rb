@@ -8,7 +8,6 @@
 #  assignee_last_seen_at  :datetime
 #  contact_last_seen_at   :datetime
 #  custom_attributes      :jsonb
-#  draft_message_content  :text
 #  first_reply_created_at :datetime
 #  identifier             :string
 #  last_activity_at       :datetime         not null

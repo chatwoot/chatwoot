@@ -405,21 +405,6 @@ const actions = {
     }
   },
 
-  updateDraftMessage: async (
-    { commit }, 
-    { conversationId, message }
-  ) => {
-    try {
-      const response = await ConversationApi.updateDraftMessage({
-        conversationId,
-        message
-      })
-      commit(types.UPDATE_CONVERSATION_DRAFT_MESSAGE, message);
-    } catch (error) {
-      // Handle error
-    }
-  },
-
   updateCustomAttributes: async (
     { commit },
     { conversationId, customAttributes }

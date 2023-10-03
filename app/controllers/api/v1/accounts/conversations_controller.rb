@@ -80,12 +80,6 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     head :ok
   end
 
-  def update_draft_message
-    @conversation.draft_message_content = params.permit(:message)[:message]
-    @conversation.save!
-    head :ok
-  end
-
   def update_last_seen
     update_last_seen_on_conversation(DateTime.now.utc, assignee?)
   end
