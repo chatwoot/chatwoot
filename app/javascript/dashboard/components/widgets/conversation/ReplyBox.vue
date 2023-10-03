@@ -632,8 +632,8 @@ export default {
         const conversationId = this.conversationIdByRoute;
         await this.$store.dispatch('draftMessages/getFromRemote', {
           key,
-          conversationId
-        })
+          conversationId,
+        });
         const messageFromStore =
           this.$store.getters['draftMessages/get'](key) || '';
 

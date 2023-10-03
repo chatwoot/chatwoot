@@ -11,13 +11,10 @@ class DraftMessageApi extends ApiClient {
     return axios.get(`${this.url}/${conversationId}/draft_messages`);
   }
 
-  updateDraft({
-    conversationId,
-    message,
-  }) {
+  updateDraft({ conversationId, message }) {
     return axios.put(`${this.url}/${conversationId}/draft_messages`, {
-      message
-    })
+      message,
+    });
   }
 
   deleteDraft(conversationId) {
@@ -26,4 +23,3 @@ class DraftMessageApi extends ApiClient {
 }
 
 export default new DraftMessageApi();
-

@@ -34,7 +34,7 @@ export const actions = {
     const response = await DraftMessageApi.getDraft(conversationId);
     if (response && response.data.has_draft) {
       const message = response.data.message || '';
-      commit(types.SET_DRAFT_MESSAGES, { key, message })
+      commit(types.SET_DRAFT_MESSAGES, { key, message });
     }
   },
 };

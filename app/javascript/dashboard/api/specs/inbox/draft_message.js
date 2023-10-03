@@ -6,14 +6,14 @@ describe('#DraftMessageApi', () => {
   it('creates correct instance', () => {
     expect(draftMessageApi).toBeInstanceOf(ApiClient);
     expect(draftMessageApi).toHaveProperty('getDraft');
-    expect(conversationAPI).toHaveProperty('updateDraft');
-    expect(conversationAPI).toHaveProperty('deleteDraft');
+    expect(draftMessageApi).toHaveProperty('updateDraft');
+    expect(draftMessageApi).toHaveProperty('deleteDraft');
   });
 
   describeWithAPIMock('API calls', context => {
     it('#getDraft', () => {
-      messageAPI.getDraft({
-        conversationId: 2
+      draftMessageApi.getDraft({
+        conversationId: 2,
       });
       expect(context.axiosMock.get).toHaveBeenCalledWith(
         `/api/v1/conversations/2/draft_messages`
@@ -21,7 +21,7 @@ describe('#DraftMessageApi', () => {
     });
 
     it('#updateDraft', () => {
-      conversationAPI.updateDraft({
+      draftMessageApi.updateDraft({
         conversationId: 45,
         message: 'Hello',
       });
@@ -34,8 +34,8 @@ describe('#DraftMessageApi', () => {
     });
 
     it('#deleteDraft', () => {
-      messageAPI.deleteDraft({
-        conversationId: 12
+      draftMessageApi.deleteDraft({
+        conversationId: 12,
       });
       expect(context.axiosMock.delete).toHaveBeenCalledWith(
         `/api/v1/conversations/12/draft_messages`
