@@ -34,65 +34,72 @@ RSpec.describe SlackUnfurlJob do
   end
 
   context 'when the calls the slack unfurl job' do
-    it 'does the unfurl when the url shared in the same channel' do
-      slack_link_unfurl_service = instance_double(Integrations::Slack::SlackLinkUnfurlService)
+    let(:slack_link_unfurl_service) { instance_double(Integrations::Slack::SlackLinkUnfurlService) }
 
-      expected_body = {
-        channel: link_shared[:event][:channel]
-      }
-
-      stub_request(:post, 'https://slack.com/api/conversations.members')
-        .with(body: expected_body)
-        .to_return(status: 200, body: { 'ok' => true }.to_json, headers: {})
-
-      expect(Integrations::Slack::SlackLinkUnfurlService).to receive(:new)
+    before do
+      allow(Integrations::Slack::SlackLinkUnfurlService).to receive(:new)
         .with(params: link_shared, integration_hook: hook)
         .and_return(slack_link_unfurl_service)
-      expect(slack_link_unfurl_service).to receive(:perform)
-      described_class.perform_now(link_shared)
     end
 
-    it 'does the unfurl when the url shared in the different channel under same account' do
-      slack_link_unfurl_service = instance_double(Integrations::Slack::SlackLinkUnfurlService)
+    context 'when the URL is shared in the channel' do
+      let(:expected_body) { { channel: link_shared[:event][:channel] } }
 
-      expected_body = {
-        channel: 'XSDSFSFS'
-      }
+      before do
+        stub_request(:post, 'https://slack.com/api/conversations.members')
+          .with(body: expected_body)
+          .to_return(status: 200, body: { 'ok' => true }.to_json, headers: {})
+      end
 
-      link_shared[:event][:channel] = 'XSDSFSFS'
-
-      stub_request(:post, 'https://slack.com/api/conversations.members')
-        .with(body: expected_body)
-        .to_return(status: 200, body: { 'ok' => true }.to_json, headers: {})
-      expect(Integrations::Slack::SlackLinkUnfurlService).to receive(:new)
-        .with(params: link_shared, integration_hook: hook)
-        .and_return(slack_link_unfurl_service)
-
-      expect(slack_link_unfurl_service).to receive(:perform)
-      described_class.perform_now(link_shared)
+      it 'does the unfurl' do
+        expect(slack_link_unfurl_service).to receive(:perform)
+        described_class.perform_now(link_shared)
+      end
     end
 
-    it 'does not unfurl when an other account url shared' do
-      slack_link_unfurl_service = instance_double(Integrations::Slack::SlackLinkUnfurlService)
-      link_shared[:event][:links][0][:url] = 'https://qa.chatwoot.com/app/accounts/123/conversations/123'
-      # described_class does not perform anything
-      expect(Integrations::Slack::SlackLinkUnfurlService).not_to receive(:new)
-      expect(slack_link_unfurl_service).not_to receive(:perform)
-      described_class.perform_now(link_shared)
+    context 'when the URL is shared in a different channel under the same account' do
+      let(:expected_body) { { channel: 'XSDSFSFS' } }
+
+      before do
+        link_shared[:event][:channel] = 'XSDSFSFS'
+        stub_request(:post, 'https://slack.com/api/conversations.members')
+          .with(body: expected_body)
+          .to_return(status: 200, body: { 'ok' => true }.to_json, headers: {})
+      end
+
+      it 'does the unfurl' do
+        expect(slack_link_unfurl_service).to receive(:perform)
+        described_class.perform_now(link_shared)
+      end
     end
 
-    it 'does not unfurl when the url shared in channel under a different account' do
-      slack_link_unfurl_service = instance_double(Integrations::Slack::SlackLinkUnfurlService)
-      expected_body = {
-        channel: 'GDF4F6A6Q'
-      }
-      link_shared[:event][:channel] = 'GDF4F6A6Q'
-      stub_request(:post, 'https://slack.com/api/conversations.members')
-        .with(body: expected_body)
-        .to_return(status: 404, body: { 'ok' => false }.to_json, headers: {})
-      expect(Integrations::Slack::SlackLinkUnfurlService).not_to receive(:new)
-      expect(slack_link_unfurl_service).not_to receive(:perform)
-      described_class.perform_now(link_shared)
+    context 'when another account URL is shared' do
+      before do
+        link_shared[:event][:links][0][:url] = 'https://qa.chatwoot.com/app/accounts/123/conversations/123'
+      end
+
+      it 'does not unfurl' do
+        expect(Integrations::Slack::SlackLinkUnfurlService).not_to receive(:new)
+        expect(slack_link_unfurl_service).not_to receive(:perform)
+        described_class.perform_now(link_shared)
+      end
+    end
+
+    context 'when the URL is shared in a channel under a different account' do
+      let(:expected_body) { { channel: 'GDF4F6A6Q' } }
+
+      before do
+        link_shared[:event][:channel] = 'GDF4F6A6Q'
+        stub_request(:post, 'https://slack.com/api/conversations.members')
+          .with(body: expected_body)
+          .to_return(status: 404, body: { 'ok' => false }.to_json, headers: {})
+      end
+
+      it 'does not unfurl' do
+        expect(Integrations::Slack::SlackLinkUnfurlService).not_to receive(:new)
+        expect(slack_link_unfurl_service).not_to receive(:perform)
+        described_class.perform_now(link_shared)
+      end
     end
   end
 end
