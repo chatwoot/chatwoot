@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe PortalHelper, type: :helper do
+describe PortalHelper do
   describe '#generate_portal_bg_color' do
     context 'when theme is dark' do
       it 'returns the correct color mix with black' do
