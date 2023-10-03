@@ -618,7 +618,7 @@ export default {
         this.$store.dispatch('draftMessages/set', {
           key,
           conversationId,
-          message: draftToSave
+          message: draftToSave,
         });
       }
     },
@@ -630,7 +630,10 @@ export default {
       if (this.conversationIdByRoute) {
         const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
         const conversationId = this.conversationIdByRoute;
-        await this.$store.dispatch('draftMessages/getFromRemote', { key, conversationId })
+        await this.$store.dispatch('draftMessages/getFromRemote', {
+          key,
+          conversationId
+        })
         const messageFromStore =
           this.$store.getters['draftMessages/get'](key) || '';
 

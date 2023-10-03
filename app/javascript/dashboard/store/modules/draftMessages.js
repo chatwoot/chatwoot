@@ -23,7 +23,7 @@ export const actions = {
     commit(types.SET_DRAFT_MESSAGES, { key, message });
     DraftMessageApi.updateDraft({ conversationId, message });
   },
-  delete: async ({ commit }, {key, conversationId}) => {
+  delete: async ({ commit }, { key, conversationId }) => {
     commit(types.SET_DRAFT_MESSAGES, { key });
     DraftMessageApi.deleteDraft(conversationId);
   },
