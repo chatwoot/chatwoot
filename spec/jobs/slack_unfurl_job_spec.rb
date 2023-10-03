@@ -71,5 +71,28 @@ RSpec.describe SlackUnfurlJob do
       expect(slack_link_unfurl_service).to receive(:perform)
       described_class.perform_now(link_shared)
     end
+
+    it 'does not unfurl when an other account url shared' do
+      slack_link_unfurl_service = instance_double(Integrations::Slack::SlackLinkUnfurlService)
+      link_shared[:event][:links][0][:url] = 'https://qa.chatwoot.com/app/accounts/123/conversations/123'
+      # described_class does not perform anything
+      expect(Integrations::Slack::SlackLinkUnfurlService).not_to receive(:new)
+      expect(slack_link_unfurl_service).not_to receive(:perform)
+      described_class.perform_now(link_shared)
+    end
+
+    it 'does not unfurl when the url shared in channel under a different account' do
+      slack_link_unfurl_service = instance_double(Integrations::Slack::SlackLinkUnfurlService)
+      expected_body = {
+        channel: 'GDF4F6A6Q'
+      }
+      link_shared[:event][:channel] = 'GDF4F6A6Q'
+      stub_request(:post, 'https://slack.com/api/conversations.members')
+        .with(body: expected_body)
+        .to_return(status: 404, body: { 'ok' => false }.to_json, headers: {})
+      expect(Integrations::Slack::SlackLinkUnfurlService).not_to receive(:new)
+      expect(slack_link_unfurl_service).not_to receive(:perform)
+      described_class.perform_now(link_shared)
+    end
   end
 end
