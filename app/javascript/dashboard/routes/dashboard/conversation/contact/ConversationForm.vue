@@ -281,10 +281,6 @@ export default {
       type: Function,
       default: () => {},
     },
-    onSubmitWhatsAppMessage: {
-      type: Function,
-      default: () => {},
-    },
   },
   data() {
     return {
