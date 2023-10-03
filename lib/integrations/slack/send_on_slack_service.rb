@@ -14,6 +14,12 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
     perform_reply
   end
 
+  def link_unfurl(event)
+    slack_client.chat_unfurl(
+      event
+    )
+  end
+
   private
 
   def valid_channel_for_slack?

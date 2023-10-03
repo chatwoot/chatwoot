@@ -8,7 +8,7 @@ class ResponseSourceDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    id: Field::Number,
+    id: Field::Number.with_options(searchable: true),
     account: Field::BelongsToSearch.with_options(class_name: 'Account', searchable_field: [:name, :id], order: 'id DESC'),
     name: Field::String.with_options(searchable: true),
     response_documents: Field::HasMany,
@@ -73,7 +73,9 @@ class ResponseSourceDashboard < Administrate::BaseDashboard
   #   COLLECTION_FILTERS = {
   #     open: ->(resources) { resources.where(open: true) }
   #   }.freeze
-  COLLECTION_FILTERS = {}.freeze
+  COLLECTION_FILTERS = {
+    account: ->(resources, attr) { resources.where(account_id: attr) }
+  }.freeze
 
   # Overwrite this method to customize how response sources are displayed
   # across all pages of the admin dashboard.

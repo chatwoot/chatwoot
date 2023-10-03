@@ -71,7 +71,7 @@
       "SUBMIT": "Importer",
       "CANCEL": "Annuler"
     },
-    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+    "SUCCESS_MESSAGE": "Vous serez notifié par e-mail lorsque l'importation sera terminée.",
     "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer"
   },
   "EXPORT_CONTACTS": {
