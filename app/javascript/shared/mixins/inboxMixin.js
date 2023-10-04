@@ -15,6 +15,8 @@ export const INBOX_FEATURES = {
   REPLY_TO: 'replyTo',
 };
 
+// This is a single source of truth for inbox features
+// This is used to check if a feature is available for a particular inbox or not
 export const INBOX_FEATURE_MAP = {
   [INBOX_FEATURES.REPLY_TO]: [
     INBOX_TYPES.WEB,
