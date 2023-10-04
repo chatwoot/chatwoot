@@ -93,7 +93,7 @@ class Enterprise::MessageTemplates::ResponseBotService
     )
   end
 
- def get_article_hash(article_ids)
+  def get_article_hash(article_ids)
     seen_documents = Set.new
     article_ids.uniq.filter_map do |article_id|
       response = Response.find(article_id)
