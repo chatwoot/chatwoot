@@ -3,8 +3,8 @@ class Enterprise::MessageTemplates::ResponseBotService
 
   def perform
     ActiveRecord::Base.transaction do
-      response = get_response(conversation.messages.last.content)
-      process_response(response)
+      @response = get_response(conversation.messages.last.content)
+      process_response
     end
   rescue StandardError => e
     process_action('handoff') # something went wrong, pass to agent
@@ -44,11 +44,11 @@ class Enterprise::MessageTemplates::ResponseBotService
     message.message_type == 'incoming' ? 'user' : 'system'
   end
 
-  def process_response(response)
-    if response['response'] == 'conversation_handoff'
+  def process_response
+    if @response['response'] == 'conversation_handoff'
       process_action('handoff')
     else
-      create_messages(response)
+      create_messages
     end
   end
 
@@ -61,49 +61,54 @@ class Enterprise::MessageTemplates::ResponseBotService
     end
   end
 
-  def create_messages(response_payload)
-    response = response_payload['response']
-    article_ids = response_payload['context_ids']
-    create_outgoing_message(response)
-    create_outgoing_message_with_cards(article_ids) if article_ids.present?
+  def create_messages
+    message_content = @response['response']
+
+    message_content = append_message_with_sources(message_content)
+
+    create_outgoing_message(message_content)
   end
 
-  def create_outgoing_message(response)
+  def append_message_with_sources(message_content)
+    article_ids = @response['context_ids']
+    return message_content if article_ids.blank?
+
+    message_content += "\n \n \n **Sources**  \n"
+    articles_hash = get_article_hash(article_ids.uniq)
+
+    articles_hash.first(3).each do |article_hash|
+      message_content += " - [#{article_hash[:response].question}](#{article_hash[:response_document].document_link}) \n"
+    end
+    message_content
+  end
+
+  def create_outgoing_message(message_content)
     conversation.messages.create!(
       {
         message_type: :outgoing,
         account_id: conversation.account_id,
         inbox_id: conversation.inbox_id,
-        content: response
-      }
-    )
-  end
-
-  def create_outgoing_message_with_cards(article_ids)
-    content_attributes = get_article_hash(article_ids.uniq)
-    return if content_attributes.blank?
-
-    conversation.messages.create!(
-      {
-        message_type: :outgoing,
-        account_id: conversation.account_id,
-        inbox_id: conversation.inbox_id,
-        content: 'suggested articles',
-        content_type: 'article',
-        content_attributes: content_attributes
+        content: message_content
       }
     )
   end
 
   def get_article_hash(article_ids)
     items = []
-    article_ids.first(3).each do |article_id|
-      response = Response.find(article_id)
-      next if response.nil?
+    seen_documents = Set.new
 
-      items << { title: response.question, description: response.answer[0, 80], link: response.response_document.document_link }
+    article_ids.each do |article_id|
+      response = Response.find(article_id)
+      next if response.response_document.blank?
+      next if seen_documents.include?(response.response_document)
+
+      seen_documents << response.response_document
+      items << {
+        response: response,
+        response_document: response.response_document
+      }
     end
 
-    items.present? ? { items: items } : {}
+    items
   end
 end

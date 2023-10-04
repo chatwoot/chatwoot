@@ -5,6 +5,5 @@ FactoryBot.define do
     name { Faker::Name.name }
     source_link { Faker::Internet.url }
     account
-    inbox
   end
 end
