@@ -6,23 +6,23 @@
 <% end %>
 
 <% if !@is_plain_layout_enabled %>
-<div class="bg-woot-50 pt-16 pb-20" style="background: url(/assets/images/hc/grid.svg) color-mix(in srgb, <%= @portal.color %> 10%, white)">
+<div class="bg-woot-50 dark:bg-woot-900 pt-16 pb-20" style="<%= generate_portal_bg(@portal.color, @theme) %>">
   <%= render 'public/api/v1/portals/categories/category-hero', category: @category, portal: @portal %>
 </div>
 <% else %>
   <%= render 'public/api/v1/portals/categories/category-hero', category: @category, portal: @portal %>
 <% end %>
-<section class="bg-white max-w-6xl w-full mx-auto py-6 px-8 flex flex-col items-center justify-center flex-grow">
+<section class="max-w-6xl w-full mx-auto py-6 px-8 flex flex-col items-center justify-center flex-grow">
   <div class="py-4 w-full mt-2 flex-grow">
     <% if @category.articles.published.size == 0 %>
-    <div class="h-full flex items-center justify-center bg-slate-50 rounded-xl py-6">
+    <div class="h-full flex items-center justify-center bg-slate-50 dark:bg-slate-800 rounded-xl py-6">
       <p class="text-sm text-slate-500"><%= I18n.t('public_portal.common.no_articles') %></p>
     </div>
     <% else %>
     <% @category.articles.published.order(:position).each do |article| %>
       <a
-        class="text-slate-800 flex justify-between content-center mb-4 py-2"
-        href="/hc/<%= @portal.slug %>/articles/<%= article.slug %>"
+        class="text-slate-800 dark:text-slate-50 flex justify-between content-center mb-4 py-2"
+        href="/hc/<%= @portal.slug %>/articles/<%= article.slug %><%= @theme.present? ? '?theme='+@theme : ''  %>"
       >
         <div>
           <p class="mb-2 hover:underline font-semibold"><%= article.title %></p>
@@ -33,7 +33,7 @@
 
         <span>
           <svg
-            class="w-4 h-4 fill-current text-slate-700"
+            class="w-4 h-4 fill-current text-slate-700 dark:text-slate-200"
             width="24"
             height="24"
             fill="none"
