@@ -40,6 +40,4 @@ describe ActionService do
       expect(conversation.reload.assignee).to be_nil
     end
   end
-
-  # TODO: Expand this test suite
 end
