@@ -155,6 +155,7 @@ import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
 import replyDraftMixin from 'dashboard/mixins/replyDraftMixin';
 import audioRecordingMixin from 'dashboard/mixins/audioRecordingMixin';
 import emailEditorMixin from 'dashboard/mixins/emailEditorMixin';
+import attachmentHandlerMixin from 'dashboard/mixins/attachmentHandlerMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
 // constants
@@ -220,6 +221,7 @@ export default {
     replyDraftMixin,
     audioRecordingMixin,
     emailEditorMixin,
+    attachmentHandlerMixin,
   ],
   props: {
     selectedTweet: {
@@ -240,7 +242,6 @@ export default {
       message: '',
       isFocused: false,
       showEmojiPicker: false,
-      attachedFiles: [],
       isUploading: false,
       replyType: REPLY_EDITOR_MODES.REPLY,
       mentionSearchKey: '',
@@ -400,9 +401,6 @@ export default {
         ? '(⌘ + ↵)'
         : '(↵)';
       return `${sendMessageText} ${keyLabel}`;
-    },
-    hasAttachments() {
-      return this.attachedFiles.length;
     },
     hasRecordedAudio() {
       return (
@@ -856,24 +854,6 @@ export default {
         conversationId,
         isPrivate,
       });
-    },
-    attachFile({ blob, file }) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file.file);
-      reader.onloadend = () => {
-        this.attachedFiles.push({
-          currentChatId: this.currentChat.id,
-          resource: blob || file,
-          isPrivate: this.isPrivate,
-          thumb: reader.result,
-          blobSignedId: blob ? blob.signed_id : undefined,
-        });
-      };
-    },
-    removeAttachment(itemIndex) {
-      this.attachedFiles = this.attachedFiles.filter(
-        (item, index) => itemIndex !== index
-      );
     },
     getMessagePayloadForWhatsapp(message) {
       const multipleMessagePayload = [];
