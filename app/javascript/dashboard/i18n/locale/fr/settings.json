@@ -36,7 +36,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Signature du message personnel",
-        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
+        "NOTE": "Créez une signature de message unique qui apparaîtra à la fin de chaque message que vous envoyez à partir de n'importe quelle boîte de réception. Vous pouvez également inclure une image en ligne, qui est prise en charge dans les boîtes de réception en direct, les e-mails et les API.",
         "BTN_TEXT": "Enregistrer la signature du message",
         "API_ERROR": "Impossible d'enregistrer la signature ! Réessayez",
         "API_SUCCESS": "Signature enregistrée avec succès",
@@ -152,7 +152,7 @@
     "SELECTOR_SUBTITLE": "Sélectionnez un compte dans la liste suivante",
     "PROFILE_SETTINGS": "Paramètres de profil",
     "KEYBOARD_SHORTCUTS": "Raccourcis clavier",
-    "APPEARANCE": "Change Appearance",
+    "APPEARANCE": "Changer l'apparence",
     "SUPER_ADMIN_CONSOLE": "Super console d'administration",
     "LOGOUT": "Se déconnecter"
   },
