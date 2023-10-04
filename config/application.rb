@@ -54,7 +54,8 @@ module Chatwoot
     config.active_record.yaml_column_permitted_classes = [ActiveSupport::HashWithIndifferentAccess]
 
     config.after_initialize do
-      next if not ENV['IP_LOOKUP_API_KEY'].present?
+      unless ENV['IP_LOOKUP_API_KEY'].blank?
+
       Rails.application.load_tasks
       Rake::Task[ 'ip_lookup:setup' ].invoke
     end
