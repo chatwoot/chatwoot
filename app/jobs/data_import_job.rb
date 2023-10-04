@@ -3,6 +3,7 @@
 
 class DataImportJob < ApplicationJob
   queue_as :low
+  retry_on ActiveStorage::FileNotFoundError, wait: 1.minute, attempts: 3
 
   def perform(data_import)
     @data_import = data_import
