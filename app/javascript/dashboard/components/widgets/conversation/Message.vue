@@ -501,6 +501,7 @@ export default {
       this.showContextMenu = false;
       this.contextMenuPosition = { x: null, y: null };
     },
+    handleReplyTo() {},
     setupHighlightTimer() {
       if (Number(this.$route.query.messageId) !== Number(this.data.id)) {
         return;
