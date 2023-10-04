@@ -206,8 +206,8 @@ pt_BR:
     fields:
       name: Nome
       email: e-mail
-      phone_number: Phone
+      phone_number: Telefone
       company_name: Empresa
       inbox_name: Caixa de Entrada
-      inbox_type: Inbox Type
+      inbox_type: Tipo de Caixa de Entrada
     button: Abrir conversa
