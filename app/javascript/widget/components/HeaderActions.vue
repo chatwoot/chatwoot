@@ -3,8 +3,8 @@
     <button
       v-if="
         canLeaveConversation &&
-          hasEndConversationEnabled &&
-          showEndConversationButton
+        hasEndConversationEnabled &&
+        showEndConversationButton
       "
       class="button transparent compact"
       :title="$t('END_CONVERSATION')"
@@ -18,7 +18,7 @@
     </button>
     <button
       v-if="showPopoutButton"
-      class="button transparent compact new-window--button "
+      class="button transparent compact new-window--button"
       @click="popoutWindow"
     >
       <fluent-icon

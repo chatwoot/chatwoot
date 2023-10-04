@@ -218,3 +218,12 @@ en:
       made_with: Made with
     header:
       go_to_homepage: Go to the main site
+  slack_unfurl:
+    fields:
+     name: Name
+     email: Email
+     phone_number: Phone
+     company_name: Company
+     inbox_name: Inbox
+     inbox_type: Inbox Type
+    button: Open conversation

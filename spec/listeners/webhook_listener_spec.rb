@@ -217,4 +217,64 @@ describe WebhookListener do
       end
     end
   end
+
+  describe '#inbox_created' do
+    let(:event_name) { :'inbox.created' }
+    let!(:inbox_created_event) { Events::Base.new(event_name, Time.zone.now, inbox: inbox) }
+
+    context 'when webhook is not configured' do
+      it 'does not trigger webhook' do
+        expect(WebhookJob).to receive(:perform_later).exactly(0).times
+        listener.inbox_created(inbox_created_event)
+      end
+    end
+
+    context 'when webhook is configured' do
+      it 'triggers webhook' do
+        inbox_data = Inbox::EventDataPresenter.new(inbox).push_data
+        webhook = create(:webhook, account: account, subscriptions: ['inbox_created'])
+        expect(WebhookJob).to receive(:perform_later).with(webhook.url, inbox_data.merge(event: 'inbox_created')).once
+        listener.inbox_created(inbox_created_event)
+      end
+    end
+  end
+
+  describe '#inbox_updated' do
+    let(:event_name) { :'inbox.updated' }
+    let!(:inbox_updated_event) { Events::Base.new(event_name, Time.zone.now, inbox: inbox, changed_attributes: changed_attributes) }
+    let(:changed_attributes) { {} }
+
+    context 'when webhook is not configured' do
+      it 'does not trigger webhook' do
+        expect(WebhookJob).to receive(:perform_later).exactly(0).times
+        listener.inbox_updated(inbox_updated_event)
+      end
+    end
+
+    context 'when webhook is configured and there are no changed attributes' do
+      it 'triggers webhook' do
+        create(:webhook, account: account, subscriptions: ['inbox_updated'])
+        expect(WebhookJob).to receive(:perform_later).exactly(0).times
+        listener.inbox_updated(inbox_updated_event)
+      end
+    end
+
+    context 'when webhook is configured' do
+      let(:changed_attributes) { { 'name' => ['Inbox 1', inbox.name] } }
+
+      it 'triggers webhook' do
+        webhook = create(:webhook, account: account, subscriptions: ['inbox_updated'])
+
+        inbox_data = Inbox::EventDataPresenter.new(inbox).push_data
+        changed_attributes_data = [{ 'name' => { 'previous_value': 'Inbox 1', 'current_value': inbox.name } }]
+
+        expect(WebhookJob).to receive(:perform_later).with(
+          webhook.url,
+          inbox_data.merge(event: 'inbox_updated', changed_attributes: changed_attributes_data)
+        ).once
+
+        listener.inbox_updated(inbox_updated_event)
+      end
+    end
+  end
 end

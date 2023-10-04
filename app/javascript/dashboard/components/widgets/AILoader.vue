@@ -1,6 +1,6 @@
 <template>
   <div class="animation-container margin-top-1">
-    <div class="ai-typing--wrap ">
+    <div class="ai-typing--wrap">
       <fluent-icon icon="wand" size="14" class="ai-typing--icon" />
       <label>
         {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.AI_WRITING') }}

@@ -1,4 +1,4 @@
-const semver = require('semver');
+import semver from 'semver';
 
 export const hasAnUpdateAvailable = (latestVersion, currentVersion) => {
   if (!semver.valid(latestVersion)) {
