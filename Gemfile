@@ -159,7 +159,7 @@ gem 'lograge', '~> 0.13.0', require: false
 # worked with microsoft refresh token
 gem 'omniauth-oauth2'
 
-gem 'audited', '~> 5.3'
+gem 'audited', '~> 5.4', '>= 5.4.0'
 
 # need for google auth
 gem 'omniauth'

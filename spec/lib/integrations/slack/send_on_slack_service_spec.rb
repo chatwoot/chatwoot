@@ -18,12 +18,14 @@ describe Integrations::Slack::SendOnSlackService do
   let(:slack_message_content) { double }
   let(:slack_client) { double }
   let(:builder) { described_class.new(message: message, hook: hook) }
+  let(:link_builder) { described_class.new(message: nil, hook: hook) }
   let(:conversation_link) do
     "<#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{account.id}/conversations/#{conversation.display_id}|Click here> to view the conversation."
   end
 
   before do
     allow(builder).to receive(:slack_client).and_return(slack_client)
+    allow(link_builder).to receive(:slack_client).and_return(slack_client)
     allow(slack_message).to receive(:[]).with('ts').and_return('12345.6789')
     allow(slack_message).to receive(:[]).with('message').and_return(slack_message_content)
     allow(slack_message_content).to receive(:[]).with('ts').and_return('6789.12345')
@@ -133,6 +135,18 @@ describe Integrations::Slack::SendOnSlackService do
 
         expect(hook.reload.reference_id).to eq 'C12345'
         expect(conversation.identifier).to eq '1691652432.896169'
+      end
+
+      it 'sent lnk unfurl to slack' do
+        unflur_payload = { :channel => 'channel',
+                           :ts => 'timestamp',
+                           :unfurls =>
+           { :'https://qa.chatwoot.com/app/accounts/1/conversations/1' =>
+             { :blocks => [{ :type => 'section',
+                             :text => { :type => 'plain_text', :text => 'This is a plain text section block.', :emoji => true } }] } } }
+        allow(slack_client).to receive(:chat_unfurl).with(unflur_payload)
+        link_builder.link_unfurl(unflur_payload)
+        expect(slack_client).to have_received(:chat_unfurl).with(unflur_payload)
       end
 
       it 'sent attachment on slack' do

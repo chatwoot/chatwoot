@@ -3,6 +3,7 @@ import {
   MessageMarkdownTransformer,
   MessageMarkdownSerializer,
 } from '@chatwoot/prosemirror-schema';
+import * as Sentry from '@sentry/browser';
 
 /**
  * The delimiter used to separate the signature from the rest of the body.
@@ -14,9 +15,25 @@ export const SIGNATURE_DELIMITER = '--';
  * Parse and Serialize the markdown text to remove any extra spaces or new lines
  */
 export function cleanSignature(signature) {
-  // convert from markdown to common mark format
-  const nodes = new MessageMarkdownTransformer(messageSchema).parse(signature);
-  return MessageMarkdownSerializer.serialize(nodes);
+  try {
+    // remove any horizontal rule tokens
+    signature = signature
+      .replace(/^( *\* *){3,} *$/gm, '')
+      .replace(/^( *- *){3,} *$/gm, '')
+      .replace(/^( *_ *){3,} *$/gm, '');
+
+    const nodes = new MessageMarkdownTransformer(messageSchema).parse(
+      signature
+    );
+    return MessageMarkdownSerializer.serialize(nodes);
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.warn(e);
+    Sentry.captureException(e);
+    // The parser can break on some cases
+    // for example, Token type `hr` not supported by Markdown parser
+    return signature;
+  }
 }
 
 /**
