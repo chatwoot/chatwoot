@@ -1,5 +1,11 @@
 <template>
-  <div class="reply-box" :class="replyBoxClass">
+  <div
+    class="border-t border-slate-50 dark:border-slate-700 bg-white dark:bg-slate-900 reply-box"
+    :class="{
+      'bg-yellow-100 dark:bg-yellow-800 is-private': isPrivate,
+      'shadow-sm': isFocused || hasAttachments,
+    }"
+  >
     <banner
       v-if="showSelfAssignBanner"
       action-button-variant="clear"
@@ -388,12 +394,6 @@ export default {
         ? '(⌘ + ↵)'
         : '(↵)';
       return `${sendMessageText} ${keyLabel}`;
-    },
-    replyBoxClass() {
-      return {
-        'is-private': this.isPrivate,
-        'is-focused': this.isFocused || this.hasAttachments,
-      };
     },
     hasAttachments() {
       return this.attachedFiles.length;
@@ -1077,13 +1077,6 @@ export default {
   @apply bg-transparent py-0 px-4;
 }
 
-.reply-box {
-  @apply border-t border-slate-50 dark:border-slate-700 bg-white dark:bg-slate-900;
-
-  &.is-private {
-    @apply bg-yellow-50 dark:bg-yellow-200;
-  }
-}
 .send-button {
   @apply mb-0;
 }
