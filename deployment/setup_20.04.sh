@@ -21,6 +21,7 @@ LONGOPTS=console,debug,help,install,Install:,logs:,restart,ssl,upgrade,webserver
 OPTIONS=cdhiI:l:rsuwv
 CWCTL_VERSION="2.4.0"
 pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
+CHATWOOT_HUB_URL="https://hub.2.chatwoot.com/events"
 
 # if user does not specify an option
 if [ "$#" -eq 0 ]; then
@@ -848,12 +849,14 @@ function webserver() {
   #TODO(@vn): allow installing nginx only without SSL
 }
 
+
 ##############################################################################
 # Report cwctl events to hub
 # Globals:
-#   None
+#   CHATWOOT_HUB_URL
 # Arguments:
-#   None
+# event_name: Name of the event to report
+# event_data: Data to report
 # Outputs:
 #   None
 ##############################################################################
@@ -861,26 +864,19 @@ function report_event() {
   local event_name="$1"
   local event_data="$2"
 
-  EVENTS_URL = "https://events.chatwoot.com/events"
-
-  # Check if the EVENTS_URL is defined
-  if [ -z "$EVENTS_URL" ]; then
-    echo "EVENTS_URL is not defined. Unable to report event."
+  CHATWOOT_HUB_URL="https://hub.2.chatwoot.com/events"
+  
+  # Check if the CHATWOOT_HUB_URL is defined
+  if [ -z "$CHATWOOT_HUB_URL" ]; then
+    echo "CHATWOOT_HUB_URL is not defined. Unable to report event."
     return 1
   fi
 
   # Prepare the data for the request
-  local data="{\"event_name\":\"$event_name\",\"event_data\":\"$event_data\"}"
+  local data="{\"installation_identifier\":\"1\",\"event_name\":\"$event_name\",\"event_data\":{\"action\":\"$event_data\"}}"
 
   # Make the curl request to report the event
-  curl -X POST -H "Content-Type: application/json" -d "$data" "$EVENTS_URL"
-
-  # Check the HTTP response code
-  if [ $? -eq 0 ]; then
-    echo "Event reported successfully: $event_name"
-  else
-    echo "Failed to report event: $event_name"
-  fi
+  curl -X POST -H "Content-Type: application/json" -d "$data" "$CHATWOOT_HUB_URL" -s -o /dev/null
 }
 
 ##############################################################################
@@ -909,39 +905,47 @@ function main() {
   setup_logging
 
   if [ "$c" == "y" ]; then
+    report_event "cwctl" "console"
     get_console
   fi
   
   if [ "$h" == "y" ]; then
+    report_event "cwctl" "help"
     help
   fi
 
   if [ "$i" == "y" ] || [ "$I" == "y" ]; then
-    report_event "install" "cwctl"
+    report_event "cwctl" "install"
     install
   fi
 
   if [ "$l" == "y" ]; then
+    report_event "cwctl" "logs"
     get_logs
   fi
 
   if [ "$r" == "y" ]; then
+    report_event "cwctl" "restart"
     restart
   fi
   
   if [ "$s" == "y" ]; then
+    report_event "cwctl" "ssl"
     ssl
   fi
 
   if [ "$u" == "y" ]; then
+    report_event "cwctl" "upgrade"
     upgrade
   fi
 
   if [ "$w" == "y" ]; then
+    report_event "cwctl" "webserver"
     webserver
   fi
 
   if [ "$v" == "y" ]; then
+    report_event "cwctl" "version"
     version
   fi
 
