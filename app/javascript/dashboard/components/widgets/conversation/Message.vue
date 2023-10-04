@@ -124,7 +124,7 @@
         :message="data"
         @open="openContextMenu"
         @close="closeContextMenu"
-        @reply-to="handleReplyTo"
+        @replyTo="handleReplyTo"
       />
     </div>
   </li>
