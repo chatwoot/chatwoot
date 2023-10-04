@@ -24,7 +24,7 @@ class SlackUnfurlJob < ApplicationJob
     return unless url
 
     account_id = extract_account_id(url)
-    Integrations::Hook.find_by(account_id: account_id)
+    Integrations::Hook.find_by(account_id: account_id, app_id: 'slack')
   end
 
   def extract_url(params)
