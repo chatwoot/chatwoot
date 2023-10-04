@@ -73,4 +73,49 @@ describe('#actions', () => {
       ]);
     });
   });
+
+  describe('#setInReplyTo', () => {
+    it('sends correct actions', async () => {
+      await actions.setInReplyTo(
+        {
+          commit,
+          state: {
+            inReplyTo: {},
+          },
+        },
+        { key: 45534, inReplyTo: 24332 }
+      );
+      expect(commit.mock.calls).toEqual([
+        [
+          types.SET_IN_REPLY_TO,
+          {
+            key: 45534,
+            inReplyTo: 24332,
+          },
+        ],
+      ]);
+    });
+  });
+
+  describe('#deleteInReplyTo', () => {
+    it('sends correct actions', async () => {
+      await actions.deleteInReplyTo(
+        {
+          commit,
+          state: {
+            inReplyTo: {},
+          },
+        },
+        { key: 45534 }
+      );
+      expect(commit.mock.calls).toEqual([
+        [
+          types.REMOVE_IN_REPLY_TO,
+          {
+            key: 45534,
+          },
+        ],
+      ]);
+    });
+  });
 });

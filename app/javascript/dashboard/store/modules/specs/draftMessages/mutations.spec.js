@@ -31,6 +31,35 @@ describe('#mutations', () => {
     });
   });
 
+  describe('#SET_IN_REPLY_TO', () => {
+    it('sets the inReplyTo value', () => {
+      const state = {
+        inReplyTo: {},
+      };
+      mutations[types.SET_IN_REPLY_TO](state, {
+        key: 1234,
+        inReplyTo: 9876,
+      });
+      expect(state.inReplyTo).toEqual({
+        1234: 9876,
+      });
+    });
+  });
+
+  describe('#REMOVE_IN_REPLY_TO', () => {
+    it('removes the inReplyTo value', () => {
+      const state = {
+        inReplyTo: {
+          1234: 9876,
+        },
+      };
+      mutations[types.REMOVE_IN_REPLY_TO](state, {
+        key: 1234,
+      });
+      expect(state.inReplyTo).toEqual({});
+    });
+  });
+
   describe('#SET_REPLY_EDITOR_MODE', () => {
     it('sets the reply editor mode', () => {
       const state = {
