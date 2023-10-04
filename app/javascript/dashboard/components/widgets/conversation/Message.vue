@@ -189,7 +189,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    inboxSupportsReply: {
+    inboxSupportsReplyTo: {
       type: Boolean,
       default: false,
     },
@@ -275,7 +275,7 @@ export default {
         delete: this.hasText || this.hasAttachments,
         cannedResponse: this.isOutgoing && this.hasText,
         replyTo: false,
-        // replyTo: !this.data.private && this.inboxSupportsReply,
+        // replyTo: !this.data.private && this.inboxSupportsReplyTo,
       };
     },
     contentAttributes() {

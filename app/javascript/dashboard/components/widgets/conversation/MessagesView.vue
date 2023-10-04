@@ -42,7 +42,7 @@
         :is-a-whatsapp-channel="isAWhatsAppChannel"
         :has-instagram-story="hasInstagramStory"
         :is-web-widget-inbox="isAWebWidgetInbox"
-        :inbox-supports-reply="inboxSupportsReply"
+        :inbox-supports-reply-to="inboxSupportsReplyTo"
       />
       <li v-show="unreadMessageCount != 0" class="unread--toast">
         <span>
@@ -317,7 +317,7 @@ export default {
     unreadMessageCount() {
       return this.currentChat.unread_count || 0;
     },
-    inboxSupportsReply() {
+    inboxSupportsReplyTo() {
       return this.inboxHasFeature(INBOX_FEATURES.REPLY_TO);
     },
   },
