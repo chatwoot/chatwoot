@@ -1,5 +1,5 @@
 <template>
-  <div class="editor-root">
+  <div class="editor-root relative">
     <tag-agents
       v-if="showUserMentions && isPrivate"
       :search-key="mentionSearchKey"
@@ -23,6 +23,23 @@
       @change="onFileChange"
     />
     <div ref="editor" />
+    <div
+      v-show="isImageSelected && showImageToolbar"
+      class="image-toolbar absolute shadow-md rounded-[4px] flex gap-1 py-1 px-1 bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-50"
+      :style="{
+        top: toolbarPosition.top,
+        left: toolbarPosition.left,
+      }"
+    >
+      <button
+        v-for="size in sizes"
+        :key="size.name"
+        class="text-xs font-medium rounded-[4px] border border-solid border-slate-200 dark:border-slate-600 px-1.5 py-0.5 hover:bg-slate-100 dark:hover:bg-slate-800"
+        @click="setURLWithQueryAndSize(size)"
+      >
+        {{ size.name }}
+      </button>
+    </div>
     <slot name="footer" />
   </div>
 </template>
@@ -68,7 +85,10 @@ import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { uploadFile } from 'dashboard/helper/uploadHelper';
 import alertMixin from 'shared/mixins/alertMixin';
 import { findNodeToInsertImage } from 'dashboard/helper/messageEditorHelper';
-import { MESSAGE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
+import {
+  MESSAGE_EDITOR_MENU_OPTIONS,
+  MESSAGE_EDITOR_IMAGE_RESIZES,
+} from 'dashboard/constants/editor';
 
 const createState = (
   content,
@@ -111,6 +131,7 @@ export default {
     // allowSignature is a kill switch, ensuring no signature methods
     // are triggered except when this flag is true
     allowSignature: { type: Boolean, default: false },
+    showImageToolbar: { type: Boolean, default: false },
   },
   data() {
     return {
@@ -123,6 +144,9 @@ export default {
       editorView: null,
       range: null,
       state: undefined,
+      isImageSelected: false,
+      toolbarPosition: { top: 0, left: 0 },
+      sizes: MESSAGE_EDITOR_IMAGE_RESIZES,
     };
   },
   computed: {
@@ -397,6 +421,9 @@ export default {
           focus: () => {
             this.onFocus();
           },
+          click: () => {
+            this.isEditorMouseFocusedOnAnImage();
+          },
           blur: () => {
             this.onBlur();
           },
@@ -408,6 +435,52 @@ export default {
           },
         },
       });
+    },
+    isEditorMouseFocusedOnAnImage() {
+      const selectedNode = document.querySelector(
+        'img.ProseMirror-selectednode'
+      );
+      if (selectedNode) {
+        this.selectedNode = selectedNode;
+        this.isImageSelected = !!selectedNode;
+        // Get the position of the selected node
+        this.setToolbarPosition();
+      } else {
+        this.isImageSelected = false;
+      }
+    },
+    setToolbarPosition() {
+      const editorRoot = document.querySelector('.editor-root');
+      const editorRect = editorRoot.getBoundingClientRect();
+      const rect = this.selectedNode.getBoundingClientRect();
+      this.toolbarPosition = {
+        top: `${rect.top - editorRect.top - 30}px`,
+        left: `${rect.left - editorRect.left - 4}px`,
+      };
+    },
+    setURLWithQueryAndSize(size) {
+      if (this.selectedNode) {
+        // Update the URL query "cw_image_height"
+        const url = new URL(this.selectedNode.src);
+        // Set the new URL with the updated query with the height
+        url.searchParams.set('cw_image_height', size.height);
+        this.selectedNode.src = url.href;
+        this.selectedNode.style.height = size.height;
+
+        // Create and apply the transaction
+        const tr = this.editorView.state.tr.setNodeMarkup(
+          this.editorView.state.selection.from,
+          null,
+          {
+            src: url.href,
+            height: size.height,
+          }
+        );
+        this.isImageSelected = false;
+        if (tr.docChanged) {
+          this.editorView.dispatch(tr);
+        }
+      }
     },
     isEnterToSendEnabled() {
       return isEditorHotKeyEnabled(this.uiSettings, 'enter');

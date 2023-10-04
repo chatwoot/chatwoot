@@ -32,3 +32,22 @@ export const ARTICLE_EDITOR_MENU_OPTIONS = [
   'imageUpload',
   'code',
 ];
+
+export const MESSAGE_EDITOR_IMAGE_RESIZES = [
+  {
+    name: 'small',
+    height: '24px',
+  },
+  {
+    name: 'medium',
+    height: '48px',
+  },
+  {
+    name: 'large',
+    height: '72px',
+  },
+  {
+    name: 'default',
+    height: 'auto',
+  },
+];
