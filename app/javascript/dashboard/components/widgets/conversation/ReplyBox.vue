@@ -142,48 +142,56 @@
 </template>
 
 <script>
+// Vuex
 import { mapGetters } from 'vuex';
+
+// Mixins
 import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
-
-import CannedResponse from './CannedResponse.vue';
-import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
-import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview.vue';
-import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel.vue';
-import ReplyEmailHead from './ReplyEmailHead.vue';
-import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue';
-import MessageSignatureMissingAlert from './MessageSignatureMissingAlert';
-import Banner from 'dashboard/components/ui/Banner.vue';
-import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
-import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
-import WootAudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder.vue';
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import { AUDIO_FORMATS } from 'shared/constants/messages';
-import { BUS_EVENTS } from 'shared/constants/busEvents';
-import {
-  getMessageVariables,
-  getUndefinedVariablesInMessage,
-  replaceVariablesInMessage,
-} from '@chatwoot/utils';
-import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
-import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
-import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin from 'shared/mixins/inboxMixin';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
-import { trimContent, debounce } from '@chatwoot/utils';
-import wootConstants from 'dashboard/constants/globals';
-import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
-import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import rtlMixin from 'shared/mixins/rtlMixin';
 import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+
+// constants
+import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
+import { AUDIO_FORMATS } from 'shared/constants/messages';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
+import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import wootConstants from 'dashboard/constants/globals';
+
+// components
+import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview.vue';
+import Banner from 'dashboard/components/ui/Banner.vue';
+import CannedResponse from './CannedResponse.vue';
+import EmojiInput from 'shared/components/emoji/EmojiInput.vue';
+import MessageSignatureMissingAlert from './MessageSignatureMissingAlert.vue';
+import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue';
+import ReplyEmailHead from './ReplyEmailHead.vue';
+import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel.vue';
+import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
+import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
+import WootAudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder.vue';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
+
+// Helpers
+import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
+import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
 import {
   appendSignature,
   removeSignature,
   replaceSignature,
   extractTextFromMarkdown,
 } from 'dashboard/helper/editorHelper';
-
-const EmojiInput = () => import('shared/components/emoji/EmojiInput');
+import {
+  getMessageVariables,
+  getUndefinedVariablesInMessage,
+  replaceVariablesInMessage,
+  trimContent,
+  debounce,
+} from '@chatwoot/utils';
 
 export default {
   components: {
