@@ -848,6 +848,16 @@
         "security": [
 
         ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/public_conversation_create_payload"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -6614,6 +6624,15 @@
               }
             }
           ]
+        }
+      }
+    },
+    "public_conversation_create_payload": {
+      "type": "object",
+      "properties": {
+        "custom_attributes": {
+          "type": "object",
+          "description": "Custom attributes of the conversation"
         }
       }
     },
