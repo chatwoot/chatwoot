@@ -131,7 +131,7 @@ export default {
     // allowSignature is a kill switch, ensuring no signature methods
     // are triggered except when this flag is true
     allowSignature: { type: Boolean, default: false },
-    showImageToolbar: { type: Boolean, default: false },
+    showImageToolbar: { type: Boolean, default: false }, // A kill switch to show the image toolbar
   },
   data() {
     return {
