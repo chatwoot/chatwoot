@@ -722,7 +722,7 @@
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "We are Online",
+          "ONLINE": "Vi är online",
           "OFFLINE": "Vi är borta för tillfället"
         },
         "USER_MESSAGE": "Hi",
