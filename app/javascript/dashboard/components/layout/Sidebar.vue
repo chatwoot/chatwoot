@@ -11,7 +11,6 @@
       @key-shortcut-modal="toggleKeyShortcutModal"
       @open-notification-panel="openNotificationPanel"
     />
-
     <secondary-sidebar
       v-if="showSecondarySidebar"
       :class="sidebarClassName"
@@ -114,7 +113,9 @@ export default {
         if (!isAvailableForTheUser) {
           return false;
         }
-
+        if (menuItem.alwaysVisibleOnChatwootInstances) {
+          return true;
+        }
         if (menuItem.featureFlag) {
           return this.isFeatureEnabledonAccount(
             this.accountId,

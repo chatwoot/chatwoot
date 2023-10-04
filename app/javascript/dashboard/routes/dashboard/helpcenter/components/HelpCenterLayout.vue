@@ -54,7 +54,6 @@
         @cancel="onClickCloseAddCategoryModal"
       />
     </section>
-
     <upgrade-page v-else />
   </div>
 </template>

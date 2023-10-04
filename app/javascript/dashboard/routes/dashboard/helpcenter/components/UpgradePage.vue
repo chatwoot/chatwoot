@@ -5,17 +5,22 @@
     <div class="flex flex-col justify-start sm:justify-center gap-6">
       <div class="flex flex-col gap-1.5 items-start sm:items-center">
         <h1
-          class="text-slate-900 dark:text-white text-left sm:text-center text-4xl sm:text-5xl mb-4 font-semibold"
+          class="text-slate-900 dark:text-white text-left sm:text-center text-4xl sm:text-5xl mb-6 font-semibold"
         >
           {{ $t('HELP_CENTER.UPGRADE_PAGE.TITLE') }}
         </h1>
         <p
           class="max-w-2xl text-base font-normal leading-6 text-left sm:text-center text-slate-700 dark:text-slate-200"
         >
-          {{ $t('HELP_CENTER.UPGRADE_PAGE.DESCRIPTION') }}
+          {{
+            isOnChatwootCloud
+              ? $t('HELP_CENTER.UPGRADE_PAGE.DESCRIPTION')
+              : $t('HELP_CENTER.UPGRADE_PAGE.SELF_HOSTED_DESCRIPTION')
+          }}
         </p>
       </div>
       <div
+        v-if="isOnChatwootCloud"
         class="flex flex-row gap-3 justify-start items-center sm:justify-center"
       >
         <woot-button
