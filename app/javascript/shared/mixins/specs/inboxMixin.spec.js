@@ -53,6 +53,18 @@ describe('inboxMixin', () => {
     expect(wrapper.vm.isASmsInbox).toBe(true);
   });
 
+  it('isALineChannel returns true if channel type is Line', () => {
+    const Component = getComponentConfig('Channel::Line');
+    const wrapper = shallowMount(Component);
+    expect(wrapper.vm.isALineChannel).toBe(true);
+  });
+
+  it('isATelegramChannel returns true if channel type is Telegram', () => {
+    const Component = getComponentConfig('Channel::Telegram');
+    const wrapper = shallowMount(Component);
+    expect(wrapper.vm.isATelegramChannel).toBe(true);
+  });
+
   it('isATwilioChannel returns true if channel type is Twilio', () => {
     const Component = getComponentConfig('Channel::TwilioSms');
     const wrapper = shallowMount(Component);
