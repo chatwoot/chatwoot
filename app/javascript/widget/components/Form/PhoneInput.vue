@@ -75,7 +75,7 @@
           class="text-sm mt-4 justify-center text-center flex"
           :class="$dm('text-slate-700', 'dark:text-slate-50')"
         >
-          {{ this.$t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.DROPDOWN_EMPTY') }}
+          {{ $t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.DROPDOWN_EMPTY') }}
         </span>
       </div>
     </div>

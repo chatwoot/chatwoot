@@ -1,8 +1,8 @@
 
-<section class="bg-white lg:container w-full py-6 px-4 flex flex-col h-full">
+<section class="lg:container w-full py-6 px-4 flex flex-col h-full">
   <div class="flex justify-between items-center w-full">
-    <h3 class="text-xl text-slate-900 font-semibold leading-relaxed hover:underline"">
-     <a href="/hc/<%= portal.slug %>/<%= category.locale %>/categories/<%= category.slug %>">
+    <h3 class="text-xl text-slate-900 dark:text-white font-semibold leading-relaxed hover:underline">
+     <a href="/hc/<%= portal.slug %>/<%= category.locale %>/categories/<%= category.slug %><%= @theme.present? ? '?theme='+@theme : ''  %>">
       <%= category.name %>
     </a>
     </h3>
@@ -12,21 +12,21 @@
   </div>
   <div class="py-4 w-full mt-2 flex-grow">
     <% if category.articles.published.size == 0 %>
-      <div class="h-full flex items-center justify-center bg-slate-50 rounded-xl mb-4">
+      <div class="h-full flex items-center justify-center bg-slate-50 dark:bg-slate-800 rounded-xl mb-4">
         <p class="text-sm text-slate-500"><%= I18n.t('public_portal.common.no_articles') %></p>
       </div>
     <% else %>
       <% category.articles.published.order(position: :asc).take(5).each do |article| %>
         <div class="flex justify-between content-center h-8 my-1">
           <a
-            class="text-slate-800 hover:underline leading-8"
-            href="/hc/<%= portal.slug %>/articles/<%= article.slug %>"
+            class="text-slate-800 dark:text-slate-50 hover:underline leading-8"
+            href="/hc/<%= portal.slug %>/articles/<%= article.slug %><%= @theme.present? ? '?theme='+@theme : ''  %>"
           >
             <%= article.title %>
           </a>
           <span class="flex items-center">
             <svg
-              class="w-4 h-4 fill-current text-slate-700"
+              class="w-4 h-4 fill-current text-slate-700 dark:text-slate-200"
               width="24"
               height="24"
               fill="none"
@@ -45,8 +45,8 @@
   </div>
   <div>
     <a
-      href="/hc/<%= portal.slug %>/<%= category.locale %>/categories/<%= category.slug %>"
-      class="flex flex-row items-center text-base font-medium text-woot-600 hover:text-slate-900 hover:underline mt-4"
+      href="/hc/<%= portal.slug %>/<%= category.locale %>/categories/<%= category.slug %><%= @theme.present? ? '?theme='+@theme : ''  %>"
+      class="flex flex-row items-center text-base font-medium text-woot-600 dark:text-woot-500 hover:text-slate-900 dark:hover:text-white hover:underline mt-4"
     >
       <%= I18n.t('public_portal.common.view_all_articles') %>
       <span class="ml-2">
