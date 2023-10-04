@@ -37,8 +37,8 @@ describe('#mutations', () => {
         inReplyTo: {},
       };
       mutations[types.SET_IN_REPLY_TO](state, {
-        key: 1234,
-        inReplyTo: 9876,
+        conversationId: 1234,
+        inReplyToMessage: 9876,
       });
       expect(state.inReplyTo).toEqual({
         1234: 9876,
@@ -54,7 +54,7 @@ describe('#mutations', () => {
         },
       };
       mutations[types.REMOVE_IN_REPLY_TO](state, {
-        key: 1234,
+        conversationId: 1234,
       });
       expect(state.inReplyTo).toEqual({});
     });

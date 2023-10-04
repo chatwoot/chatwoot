@@ -83,14 +83,14 @@ describe('#actions', () => {
             inReplyTo: {},
           },
         },
-        { key: 45534, inReplyTo: 24332 }
+        { conversationId: 45534, inReplyToMessage: 24332 }
       );
       expect(commit.mock.calls).toEqual([
         [
           types.SET_IN_REPLY_TO,
           {
-            key: 45534,
-            inReplyTo: 24332,
+            conversationId: 45534,
+            inReplyToMessage: 24332,
           },
         ],
       ]);
@@ -106,13 +106,13 @@ describe('#actions', () => {
             inReplyTo: {},
           },
         },
-        { key: 45534 }
+        { conversationId: 45534 }
       );
       expect(commit.mock.calls).toEqual([
         [
           types.REMOVE_IN_REPLY_TO,
           {
-            key: 45534,
+            conversationId: 45534,
           },
         ],
       ]);

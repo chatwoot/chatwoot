@@ -503,8 +503,8 @@ export default {
     },
     handleReplyTo() {
       this.$store.dispatch('draftMessages/setInReplyTo', {
-        key: this.data.conversation_id,
-        inReplyTo: this.data.id,
+        conversationId: this.data.conversation_id,
+        inReplyToMessage: this.data.id,
       });
     },
     setupHighlightTimer() {

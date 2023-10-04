@@ -15,8 +15,8 @@ export const getters = {
   get: _state => key => {
     return _state.records[key] || '';
   },
-  getInReplyTo: _state => key => {
-    return _state.inReplyTo[key];
+  getInReplyTo: _state => conversationId => {
+    return _state.inReplyTo[conversationId];
   },
   getReplyEditorMode: _state => _state.replyEditorMode,
 };
@@ -28,11 +28,11 @@ export const actions = {
   delete: ({ commit }, { key }) => {
     commit(types.SET_DRAFT_MESSAGES, { key });
   },
-  setInReplyTo({ commit }, { key, inReplyTo }) {
-    commit(types.SET_IN_REPLY_TO, { key, inReplyTo });
+  setInReplyTo({ commit }, { conversationId, inReplyToMessage }) {
+    commit(types.SET_IN_REPLY_TO, { conversationId, inReplyToMessage });
   },
-  deleteInReplyTo({ commit }, { key }) {
-    commit(types.REMOVE_IN_REPLY_TO, { key });
+  deleteInReplyTo({ commit }, { conversationId }) {
+    commit(types.REMOVE_IN_REPLY_TO, { conversationId });
   },
   setReplyEditorMode: ({ commit }, { mode }) => {
     commit(types.SET_REPLY_EDITOR_MODE, { mode });
@@ -49,12 +49,13 @@ export const mutations = {
     Vue.set($state, 'records', updatedRecords);
     LocalStorage.set(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES, $state.records);
   },
-  [types.SET_IN_REPLY_TO]($state, { key, inReplyTo }) {
-    Vue.set($state.inReplyTo, key, inReplyTo);
+  [types.SET_IN_REPLY_TO]($state, { conversationId, inReplyToMessage }) {
+    Vue.set($state.inReplyTo, conversationId, inReplyToMessage);
     LocalStorage.set(LOCAL_STORAGE_KEYS.MESSAGE_IN_REPLY_TO, $state.inReplyTo);
   },
-  [types.REMOVE_IN_REPLY_TO]($state, { key }) {
-    const { [key]: draftToBeRemoved, ...newRecords } = $state.inReplyTo;
+  [types.REMOVE_IN_REPLY_TO]($state, { conversationId }) {
+    const { [conversationId]: messageIdToBeRemoved, ...newRecords } =
+      $state.inReplyTo;
     Vue.set($state, 'inReplyTo', newRecords);
     LocalStorage.set(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES, $state.inReplyTo);
   },
