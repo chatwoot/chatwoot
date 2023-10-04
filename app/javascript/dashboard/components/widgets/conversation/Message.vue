@@ -274,8 +274,7 @@ export default {
         copy: this.hasText,
         delete: this.hasText || this.hasAttachments,
         cannedResponse: this.isOutgoing && this.hasText,
-        replyTo: false,
-        // replyTo: !this.data.private && this.inboxSupportsReplyTo,
+        replyTo: !this.data.private && this.inboxSupportsReplyTo,
       };
     },
     contentAttributes() {
@@ -501,7 +500,12 @@ export default {
       this.showContextMenu = false;
       this.contextMenuPosition = { x: null, y: null };
     },
-    handleReplyTo() {},
+    handleReplyTo() {
+      this.$store.dispatch('draftMessages/setInReplyTo', {
+        key: this.data.conversation_id,
+        inReplyTo: this.data.id,
+      });
+    },
     setupHighlightTimer() {
       if (Number(this.$route.query.messageId) !== Number(this.data.id)) {
         return;
