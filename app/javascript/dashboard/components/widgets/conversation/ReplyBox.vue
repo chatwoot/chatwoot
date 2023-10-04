@@ -152,11 +152,13 @@ import inboxMixin from 'shared/mixins/inboxMixin';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import rtlMixin from 'shared/mixins/rtlMixin';
 import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
+import replyDraftMixin from 'dashboard/mixins/replyDraftMixin';
+import audioRecordingMixin from 'dashboard/mixins/audioRecordingMixin';
+import emailEditorMixin from 'dashboard/mixins/emailEditorMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
 // constants
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
-import { AUDIO_FORMATS } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
@@ -189,7 +191,6 @@ import {
   getMessageVariables,
   getUndefinedVariablesInMessage,
   replaceVariablesInMessage,
-  trimContent,
   debounce,
 } from '@chatwoot/utils';
 
@@ -216,6 +217,9 @@ export default {
     messageFormatterMixin,
     rtlMixin,
     fileUploadMixin,
+    replyDraftMixin,
+    audioRecordingMixin,
+    emailEditorMixin,
   ],
   props: {
     selectedTweet: {
@@ -237,16 +241,10 @@ export default {
       isFocused: false,
       showEmojiPicker: false,
       attachedFiles: [],
-      isRecordingAudio: false,
-      recordingAudioState: '',
-      recordingAudioDurationText: '',
       isUploading: false,
       replyType: REPLY_EDITOR_MODES.REPLY,
       mentionSearchKey: '',
       hasSlashCommand: false,
-      bccEmails: '',
-      ccEmails: '',
-      toEmails: '',
       doAutoSaveDraft: () => {},
       showWhatsAppTemplatesModal: false,
       updateEditorSelectionWith: '',
@@ -415,12 +413,6 @@ export default {
     isRichEditorEnabled() {
       return this.isAWebWidgetInbox || this.isAnEmailChannel;
     },
-    showAudioRecorder() {
-      return !this.isOnPrivateNote && this.showFileUpload;
-    },
-    showAudioRecorderEditor() {
-      return this.showAudioRecorder && this.isRecordingAudio;
-    },
     isOnPrivateNote() {
       return this.replyType === REPLY_EDITOR_MODES.NOTE;
     },
@@ -499,12 +491,6 @@ export default {
     },
     editorStateId() {
       return `draft-${this.conversationIdByRoute}-${this.replyType}`;
-    },
-    audioRecordFormat() {
-      if (this.isAWhatsAppChannel || this.isAPIInbox) {
-        return AUDIO_FORMATS.OGG;
-      }
-      return AUDIO_FORMATS.WAV;
     },
     messageVariables() {
       const variables = getMessageVariables({
@@ -603,31 +589,6 @@ export default {
         );
       }
     },
-    saveDraft(conversationId, replyType) {
-      if (this.message || this.message === '') {
-        const key = `draft-${conversationId}-${replyType}`;
-        const draftToSave = trimContent(this.message || '');
-
-        this.$store.dispatch('draftMessages/set', {
-          key,
-          message: draftToSave,
-        });
-      }
-    },
-    setToDraft(conversationId, replyType) {
-      this.saveDraft(conversationId, replyType);
-      this.message = '';
-    },
-    getFromDraft() {
-      if (this.conversationIdByRoute) {
-        const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
-        const messageFromStore =
-          this.$store.getters['draftMessages/get'](key) || '';
-
-        // ensure that the message has signature set based on the ui setting
-        this.message = this.toggleSignatureForDraft(messageFromStore);
-      }
-    },
     toggleSignatureForDraft(message) {
       if (this.isPrivate) {
         return message;
@@ -636,12 +597,6 @@ export default {
       return this.sendWithSignature
         ? appendSignature(message, this.signatureToApply)
         : removeSignature(message, this.signatureToApply);
-    },
-    removeFromDraft() {
-      if (this.conversationIdByRoute) {
-        const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
-        this.$store.dispatch('draftMessages/delete', { key });
-      }
     },
     handleKeyEvents(e) {
       const keyCode = buildHotKeys(e);
@@ -864,31 +819,8 @@ export default {
       this.attachedFiles = [];
       this.isRecordingAudio = false;
     },
-    clearEmailField() {
-      this.ccEmails = '';
-      this.bccEmails = '';
-      this.toEmails = '';
-    },
     toggleEmojiPicker() {
       this.showEmojiPicker = !this.showEmojiPicker;
-    },
-    toggleAudioRecorder() {
-      this.isRecordingAudio = !this.isRecordingAudio;
-      this.isRecorderAudioStopped = !this.isRecordingAudio;
-      if (!this.isRecordingAudio) {
-        this.clearMessage();
-        this.clearEmailField();
-      }
-    },
-    toggleAudioRecorderPlayPause() {
-      if (this.isRecordingAudio) {
-        if (!this.isRecorderAudioStopped) {
-          this.isRecorderAudioStopped = true;
-          this.$refs.audioRecorderInput.stopAudioRecording();
-        } else if (this.isRecorderAudioStopped) {
-          this.$refs.audioRecorderInput.playPause();
-        }
-      }
     },
     hideEmojiPicker() {
       if (this.showEmojiPicker) {
@@ -910,18 +842,6 @@ export default {
     },
     onFocus() {
       this.isFocused = true;
-    },
-    onStateProgressRecorderChanged(duration) {
-      this.recordingAudioDurationText = duration;
-    },
-    onStateRecorderChanged(state) {
-      this.recordingAudioState = state;
-      if (state && 'notallowederror'.includes(state)) {
-        this.toggleAudioRecorder();
-      }
-    },
-    onFinishRecorder(file) {
-      return file && this.onFileUpload(file);
     },
     toggleTyping(status) {
       const conversationId = this.currentChat.id;
@@ -1022,51 +942,6 @@ export default {
       }
 
       return messagePayload;
-    },
-    setCcEmails(value) {
-      this.bccEmails = value.bccEmails;
-      this.ccEmails = value.ccEmails;
-    },
-    setCCAndToEmailsFromLastChat() {
-      if (!this.lastEmail) return;
-
-      const {
-        content_attributes: { email: emailAttributes = {} },
-      } = this.lastEmail;
-
-      // Retrieve the email of the current conversation's sender
-      const conversationContact = this.currentChat?.meta?.sender?.email || '';
-      let cc = emailAttributes.cc ? [...emailAttributes.cc] : [];
-      let to = [];
-
-      // there might be a situation where the current conversation will include a message from a third person,
-      // and the current conversation contact is in CC.
-      // This is an edge-case, reported here: CW-1511 [ONLY FOR INTERNAL REFERENCE]
-      // So we remove the current conversation contact's email from the CC list if present
-      if (cc.includes(conversationContact)) {
-        cc = cc.filter(email => email !== conversationContact);
-      }
-
-      // If the last incoming message sender is different from the conversation contact, add them to the "to"
-      // and add the conversation contact to the CC
-      if (!emailAttributes.from.includes(conversationContact)) {
-        to.push(...emailAttributes.from);
-        cc.push(conversationContact);
-      }
-
-      // Remove the conversation contact's email from the BCC list if present
-      let bcc = (emailAttributes.bcc || []).filter(
-        email => email !== conversationContact
-      );
-
-      // Ensure only unique email addresses are in the CC list
-      bcc = [...new Set(bcc)];
-      cc = [...new Set(cc)];
-      to = [...new Set(to)];
-
-      this.ccEmails = cc.join(', ');
-      this.bccEmails = bcc.join(', ');
-      this.toEmails = to.join(', ');
     },
   },
 };
