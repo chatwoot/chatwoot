@@ -85,6 +85,37 @@ describe('appendSignature', () => {
   });
 });
 
+describe('cleanSignature', () => {
+  it('removes any instance of horizontal rule', () => {
+    const options = [
+      '---',
+      '***',
+      '___',
+      '- - -',
+      '* * *',
+      '_ _ _',
+      ' ---',
+      '--- ',
+      ' --- ',
+      '-----',
+      '*****',
+      '_____',
+      '- - - -',
+      '* * * * *',
+      '_ _ _ _ _ _',
+      ' - - - - ',
+      ' * * * * * ',
+      ' _ _ _ _ _ _',
+      '- - - - -',
+      '* * * * * *',
+      '_ _ _ _ _ _ _',
+    ];
+    options.forEach(option => {
+      expect(cleanSignature(option)).toBe('');
+    });
+  });
+});
+
 describe('removeSignature', () => {
   it('does not remove signature if not present', () => {
     Object.keys(DOES_NOT_HAVE_SIGNATURE).forEach(key => {
