@@ -113,7 +113,10 @@ export default {
         if (!isAvailableForTheUser) {
           return false;
         }
-        if (menuItem.alwaysVisibleOnChatwootInstances) {
+        if (
+          menuItem.alwaysVisibleOnChatwootInstances &&
+          !this.isACustomBrandedInstance
+        ) {
           return true;
         }
         if (menuItem.featureFlag) {

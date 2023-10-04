@@ -8,7 +8,6 @@
         </h1>
       </div>
       <woot-button
-        v-if="showHelpCenter"
         color-scheme="primary"
         icon="add"
         size="small"
@@ -17,7 +16,7 @@
         {{ $t('HELP_CENTER.PORTAL.NEW_BUTTON') }}
       </woot-button>
     </div>
-    <div v-if="showHelpCenter" class="h-[90vh] overflow-y-scroll">
+    <div class="h-[90vh] overflow-y-scroll">
       <portal-list-item
         v-for="portal in portals"
         :key="portal.id"
