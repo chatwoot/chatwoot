@@ -1,6 +1,6 @@
-<section class="bg-white lg:container w-full py-6 px-4 flex flex-col h-full">
+<section class="lg:container w-full py-6 px-4 flex flex-col h-full">
   <div class="flex justify-between items-center w-full">
-    <h3 class="text-xl text-slate-900 font-semibold leading-relaxed hover:underline">
+    <h3 class="text-xl text-slate-900 dark:text-white font-semibold leading-relaxed hover:underline">
       <%= category %>
     </h3>
     <span class="text-slate-500">
@@ -10,14 +10,14 @@
   <div class="py-4 w-full mt-2 flex-grow">
     <% portal.articles.published.where(category_id: nil).order(position: :asc).take(5).each do |article| %>
     <a
-      class="text-slate-800 hover:underline leading-8"
-      href="/hc/<%= portal.slug %>/articles/<%= article.slug %>"
+      class="text-slate-800 dark:text-slate-100 hover:underline leading-8"
+      href="/hc/<%= portal.slug %>/articles/<%= article.slug %><%= @theme.present? ? '?theme='+@theme : ''  %>"
     >
-      <div class="flex justify-between content-center my-1 -mx-1 p-1 rounded-lg hover:bg-slate-25">
+      <div class="flex justify-between content-center my-1 -mx-1 p-1 rounded-lg hover:bg-slate-25 dark:hover:bg-slate-800">
         <%= article.title %>
         <span class="flex items-center">
           <svg
-            class="w-4 h-4 fill-current text-slate-700"
+            class="w-4 h-4 fill-current text-slate-700 dark:text-slate-200"
             width="24"
             height="24"
             fill="none"
