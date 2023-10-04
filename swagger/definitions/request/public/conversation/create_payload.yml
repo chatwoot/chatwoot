@@ -1,0 +1,5 @@
+type: object
+properties:
+  custom_attributes:
+    type: object
+    description: Custom attributes of the conversation

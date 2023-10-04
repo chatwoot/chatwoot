@@ -4,7 +4,7 @@
       <nav class="max-w-2xl">
         <h2
           id="on-this-page-title"
-          class="text-slate-800 font-semibold tracking-wide border-b mb-3 leading-7"
+          class="text-slate-800 dark:text-slate-50 font-semibold tracking-wide border-b mb-3 leading-7"
         >
           {{ tocHeader }}
         </h2>
@@ -14,7 +14,7 @@
               <a
                 :href="`#${element.slug}`"
                 data-turbolinks="false"
-                class="text-base text-slate-800 cursor-pointer"
+                class="text-base text-slate-800 dark:text-slate-50 cursor-pointer"
               >
                 {{ element.title }}
               </a>
