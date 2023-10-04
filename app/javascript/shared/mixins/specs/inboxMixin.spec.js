@@ -215,4 +215,40 @@ describe('inboxMixin', () => {
     expect(wrapper.vm.isATwitterInbox).toBe(false);
     expect(wrapper.vm.channelType).toBe('Channel::Telegram');
   });
+
+  describe('#inboxHasFeature', () => {
+    it('detects the correct feature', () => {
+      const Component = {
+        render() {},
+        mixins: [inboxMixin],
+        data() {
+          return {
+            inbox: {
+              channel_type: 'Channel::Telegram',
+            },
+          };
+        },
+      };
+      const wrapper = shallowMount(Component);
+      expect(wrapper.vm.inboxHasFeature('replyTo')).toBe(true);
+      expect(wrapper.vm.inboxHasFeature('feature-does-not-exist')).toBe(false);
+    });
+
+    it('returns false for feature not included', () => {
+      const Component = {
+        render() {},
+        mixins: [inboxMixin],
+        data() {
+          return {
+            inbox: {
+              channel_type: 'Channel::SMS',
+            },
+          };
+        },
+      };
+      const wrapper = shallowMount(Component);
+      expect(wrapper.vm.inboxHasFeature('replyTo')).toBe(false);
+      expect(wrapper.vm.inboxHasFeature('feature-does-not-exist')).toBe(false);
+    });
+  });
 });
