@@ -42,6 +42,7 @@
         :is-a-whatsapp-channel="isAWhatsAppChannel"
         :has-instagram-story="hasInstagramStory"
         :is-web-widget-inbox="isAWebWidgetInbox"
+        :inbox-supports-reply="inboxSupportsReply"
       />
       <li v-show="unreadMessageCount != 0" class="unread--toast">
         <span>
@@ -110,7 +111,7 @@ import { mapGetters } from 'vuex';
 import conversationMixin, {
   filterDuplicateSourceMessages,
 } from '../../../mixins/conversations';
-import inboxMixin from 'shared/mixins/inboxMixin';
+import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 import configMixin from 'shared/mixins/configMixin';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import aiMixin from 'dashboard/mixins/aiMixin';
@@ -315,6 +316,9 @@ export default {
     },
     unreadMessageCount() {
       return this.currentChat.unread_count || 0;
+    },
+    inboxSupportsReply() {
+      return this.inboxHasFeature(INBOX_FEATURES.REPLY_TO);
     },
   },
 

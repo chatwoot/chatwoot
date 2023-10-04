@@ -11,6 +11,22 @@ export const INBOX_TYPES = {
   SMS: 'Channel::Sms',
 };
 
+export const INBOX_FEATURES = {
+  REPLY_TO: 'replyTo',
+};
+
+export const INBOX_FEATURE_MAP = {
+  [INBOX_FEATURES.REPLY_TO]: [
+    INBOX_TYPES.WEB,
+    INBOX_TYPES.FB,
+    INBOX_TYPES.TWITTER,
+    INBOX_TYPES.WHATSAPP,
+    INBOX_TYPES.LINE,
+    INBOX_TYPES.TELEGRAM,
+    INBOX_TYPES.API,
+  ],
+};
+
 export default {
   computed: {
     channelType() {
@@ -100,6 +116,11 @@ export default {
         this.channelType === INBOX_TYPES.WHATSAPP ||
         this.isATwilioWhatsAppChannel
       );
+    },
+  },
+  methods: {
+    inboxHasFeature(feature) {
+      return INBOX_FEATURE_MAP[feature]?.includes(this.channelType);
     },
   },
 };

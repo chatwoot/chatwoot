@@ -124,6 +124,7 @@
         :message="data"
         @open="openContextMenu"
         @close="closeContextMenu"
+        @reply-to="handleReplyTo"
       />
     </div>
   </li>
@@ -185,6 +186,10 @@ export default {
       default: false,
     },
     isWebWidgetInbox: {
+      type: Boolean,
+      default: false,
+    },
+    inboxSupportsReply: {
       type: Boolean,
       default: false,
     },
@@ -269,6 +274,8 @@ export default {
         copy: this.hasText,
         delete: this.hasText || this.hasAttachments,
         cannedResponse: this.isOutgoing && this.hasText,
+        replyTo:
+          this.isIncoming && !this.data.private && this.inboxSupportsReply,
       };
     },
     contentAttributes() {
