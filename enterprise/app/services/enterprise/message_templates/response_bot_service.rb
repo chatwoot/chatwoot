@@ -93,22 +93,15 @@ class Enterprise::MessageTemplates::ResponseBotService
     )
   end
 
-  def get_article_hash(article_ids)
-    items = []
+ def get_article_hash(article_ids)
     seen_documents = Set.new
-
-    article_ids.each do |article_id|
+    article_ids.uniq.filter_map do |article_id|
       response = Response.find(article_id)
-      next if response.response_document.blank?
-      next if seen_documents.include?(response.response_document)
+      response_document = response.response_document
+      next if response_document.blank? || seen_documents.include?(response_document)
 
-      seen_documents << response.response_document
-      items << {
-        response: response,
-        response_document: response.response_document
-      }
+      seen_documents << response_document
+      { response: response, response_document: response_document }
     end
-
-    items
   end
 end
