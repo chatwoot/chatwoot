@@ -41,6 +41,7 @@ import {
   suggestionsPlugin,
   triggerCharacters,
 } from '@chatwoot/prosemirror-schema/src/mentions/plugin';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 import TagAgents from '../conversation/TagAgents.vue';
 import CannedResponse from '../conversation/CannedResponse.vue';
@@ -48,6 +49,8 @@ import VariableList from '../conversation/VariableList.vue';
 import {
   appendSignature,
   removeSignature,
+  insertAtCursor,
+  scrollCursorIntoView,
 } from 'dashboard/helper/editorHelper';
 
 const TYPING_INDICATOR_IDLE_TIME = 4000;
@@ -273,6 +276,7 @@ export default {
           const tr = this.editorView.state.tr.replaceSelectionWith(node);
           this.editorView.focus();
           this.state = this.editorView.state.apply(tr);
+          this.editorView.updateState(this.state);
           this.emitOnChange();
           this.$emit('clear-selection');
         }
@@ -298,7 +302,17 @@ export default {
   mounted() {
     this.createEditorView();
     this.editorView.updateState(this.state);
-    this.focusEditor(this.value);
+    this.focusEditorInputField();
+
+    // BUS Event to insert text or markdown into the editor at the
+    // current cursor position.
+    // Components using this
+    // 1. SearchPopover.vue
+
+    bus.$on(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, this.insertContentIntoEditor);
+  },
+  beforeDestroy() {
+    bus.$off(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, this.insertContentIntoEditor);
   },
   methods: {
     reloadState(content = this.value) {
@@ -385,6 +399,7 @@ export default {
         state: this.state,
         dispatchTransaction: tx => {
           this.state = this.state.apply(tx);
+          this.editorView.updateState(this.state);
           this.emitOnChange();
         },
         handleDOMEvents: {
@@ -441,11 +456,7 @@ export default {
         userFullName: mentionItem.name,
       });
 
-      const tr = this.editorView.state.tr
-        .replaceWith(this.range.from, this.range.to, node)
-        .insertText(` `);
-      this.state = this.editorView.state.apply(tr);
-      this.emitOnChange();
+      this.insertNodeIntoEditor(node, this.range.from, this.range.to);
       this.$track(CONVERSATION_EVENTS.USED_MENTIONS);
 
       return false;
@@ -459,26 +470,12 @@ export default {
         return null;
       }
 
-      let from = this.range.from - 1;
       let node = new MessageMarkdownTransformer(messageSchema).parse(
         updatedMessage
       );
 
-      if (node.textContent === updatedMessage) {
-        node = this.editorView.state.schema.text(updatedMessage);
-        from = this.range.from;
-      }
+      this.insertNodeIntoEditor(node, this.range.from, this.range.to);
 
-      const tr = this.editorView.state.tr.replaceWith(
-        from,
-        this.range.to,
-        node
-      );
-
-      this.state = this.editorView.state.apply(tr);
-      this.emitOnChange();
-
-      tr.scrollIntoView();
       this.$track(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
       return false;
     },
@@ -486,23 +483,14 @@ export default {
       if (!this.editorView) {
         return null;
       }
-      let node = this.editorView.state.schema.text(`{{${variable}}}`);
-      const from = this.range.from;
 
-      const tr = this.editorView.state.tr.replaceWith(
-        from,
-        this.range.to,
-        node
-      );
+      const content = `{{${variable}}}`;
+      let node = this.editorView.state.schema.text(content);
+      const { from, to } = this.range;
 
-      this.state = this.editorView.state.apply(tr);
-      this.emitOnChange();
-
-      // The `{{ }}` are added to the message, but the cursor is placed
-      // and onExit of suggestionsPlugin is not called. So we need to manually hide
+      this.insertNodeIntoEditor(node, from, to);
       this.showVariables = false;
       this.$track(CONVERSATION_EVENTS.INSERTED_A_VARIABLE);
-      tr.scrollIntoView();
       return false;
     },
     openFileBrowser() {
@@ -558,8 +546,6 @@ export default {
     },
 
     emitOnChange() {
-      this.editorView.updateState(this.state);
-
       this.$emit('input', this.contentFromEditor);
     },
 
@@ -618,6 +604,19 @@ export default {
     },
     onFocus() {
       this.$emit('focus');
+    },
+    insertContentIntoEditor(content, defaultFrom = 0) {
+      const from = defaultFrom || this.editorView.state.selection.from || 0;
+      let node = new MessageMarkdownTransformer(messageSchema).parse(content);
+
+      this.insertNodeIntoEditor(node, from, undefined);
+    },
+    insertNodeIntoEditor(node, from = 0, to = 0) {
+      this.state = insertAtCursor(this.editorView, node, from, to);
+      this.emitOnChange();
+      this.$nextTick(() => {
+        scrollCursorIntoView(this.editorView);
+      });
     },
   },
 };
