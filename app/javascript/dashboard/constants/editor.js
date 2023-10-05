@@ -35,19 +35,21 @@ export const ARTICLE_EDITOR_MENU_OPTIONS = [
 
 export const MESSAGE_EDITOR_IMAGE_RESIZES = [
   {
-    name: 'small',
+    name: 'Small',
     height: '24px',
   },
   {
-    name: 'medium',
+    name: 'Medium',
     height: '48px',
   },
   {
-    name: 'large',
+    name: 'Large',
     height: '72px',
   },
   {
-    name: 'default',
+    name: 'Original Size',
     height: 'auto',
   },
 ];
+
+export const IMAGE_URL_SIZE_QUERY_PARAM = 'cw_image_height';

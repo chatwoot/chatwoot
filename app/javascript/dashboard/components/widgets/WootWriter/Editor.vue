@@ -1,5 +1,5 @@
 <template>
-  <div class="editor-root relative">
+  <div ref="editorRoot" class="editor-root relative">
     <tag-agents
       v-if="showUserMentions && isPrivate"
       :search-key="mentionSearchKey"
@@ -25,7 +25,7 @@
     <div ref="editor" />
     <div
       v-show="isImageSelected && showImageToolbar"
-      class="image-toolbar absolute shadow-md rounded-[4px] flex gap-1 py-1 px-1 bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-50"
+      class="absolute shadow-md rounded-[4px] flex gap-1 py-1 px-1 bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-50"
       :style="{
         top: toolbarPosition.top,
         left: toolbarPosition.left,
@@ -35,7 +35,7 @@
         v-for="size in sizes"
         :key="size.name"
         class="text-xs font-medium rounded-[4px] border border-solid border-slate-200 dark:border-slate-600 px-1.5 py-0.5 hover:bg-slate-100 dark:hover:bg-slate-800"
-        @click="setURLWithQueryAndSize(size)"
+        @click="setURLWithQueryAndImageSize(size)"
       >
         {{ size.name }}
       </button>
@@ -68,6 +68,8 @@ import {
   removeSignature,
   insertAtCursor,
   scrollCursorIntoView,
+  findNodeToInsertImage,
+  setURLWithQueryAndSize,
 } from 'dashboard/helper/editorHelper';
 
 const TYPING_INDICATOR_IDLE_TIME = 4000;
@@ -87,7 +89,6 @@ import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { uploadFile } from 'dashboard/helper/uploadHelper';
 import alertMixin from 'shared/mixins/alertMixin';
-import { findNodeToInsertImage } from 'dashboard/helper/messageEditorHelper';
 import {
   MESSAGE_EDITOR_MENU_OPTIONS,
   MESSAGE_EDITOR_IMAGE_RESIZES,
@@ -138,6 +139,7 @@ export default {
   },
   data() {
     return {
+      editorRoot: null,
       showUserMentions: false,
       showCannedMenu: false,
       showVariables: false,
@@ -150,6 +152,7 @@ export default {
       isImageSelected: false,
       toolbarPosition: { top: 0, left: 0 },
       sizes: MESSAGE_EDITOR_IMAGE_RESIZES,
+      selectedImageNode: null,
     };
   },
   computed: {
@@ -326,6 +329,7 @@ export default {
   mounted() {
     this.createEditorView();
     this.editorView.updateState(this.state);
+    this.setEditorRoot();
     this.focusEditorInputField();
 
     // BUS Event to insert text or markdown into the editor at the
@@ -339,6 +343,9 @@ export default {
     bus.$off(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, this.insertContentIntoEditor);
   },
   methods: {
+    setEditorRoot() {
+      this.editorRoot = this.$refs.editorRoot;
+    },
     reloadState(content = this.value) {
       this.state = createState(
         content,
@@ -452,12 +459,11 @@ export default {
       });
     },
     isEditorMouseFocusedOnAnImage() {
-      const selectedNode = document.querySelector(
+      this.selectedImageNode = document.querySelector(
         'img.ProseMirror-selectednode'
       );
-      if (selectedNode) {
-        this.selectedNode = selectedNode;
-        this.isImageSelected = !!selectedNode;
+      if (this.selectedImageNode) {
+        this.isImageSelected = !!this.selectedImageNode;
         // Get the position of the selected node
         this.setToolbarPosition();
       } else {
@@ -465,37 +471,15 @@ export default {
       }
     },
     setToolbarPosition() {
-      const editorRoot = document.querySelector('.editor-root');
-      const editorRect = editorRoot.getBoundingClientRect();
-      const rect = this.selectedNode.getBoundingClientRect();
+      const editorRect = this.editorRoot.getBoundingClientRect();
+      const rect = this.selectedImageNode.getBoundingClientRect();
       this.toolbarPosition = {
         top: `${rect.top - editorRect.top - 30}px`,
         left: `${rect.left - editorRect.left - 4}px`,
       };
     },
-    setURLWithQueryAndSize(size) {
-      if (this.selectedNode) {
-        // Update the URL query "cw_image_height"
-        const url = new URL(this.selectedNode.src);
-        // Set the new URL with the updated query with the height
-        url.searchParams.set('cw_image_height', size.height);
-        this.selectedNode.src = url.href;
-        this.selectedNode.style.height = size.height;
-
-        // Create and apply the transaction
-        const tr = this.editorView.state.tr.setNodeMarkup(
-          this.editorView.state.selection.from,
-          null,
-          {
-            src: url.href,
-            height: size.height,
-          }
-        );
-        this.isImageSelected = false;
-        if (tr.docChanged) {
-          this.editorView.dispatch(tr);
-        }
-      }
+    setURLWithQueryAndImageSize(size) {
+      setURLWithQueryAndSize(this.selectedImageNode, size, this.editorView);
     },
     isEnterToSendEnabled() {
       return isEditorHotKeyEnabled(this.uiSettings, 'enter');
