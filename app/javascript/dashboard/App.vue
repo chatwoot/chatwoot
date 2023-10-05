@@ -1,13 +1,13 @@
 <template>
   <div
-    v-if="!authUIFlags.isFetching"
+    v-if="!authUIFlags.isFetching && !accountUIFlags.isFetchingItem"
     id="app"
     class="app-wrapper h-full flex-grow-0 min-h-0 w-full"
     :class="{ 'app-rtl--wrapper': isRTLView }"
     :dir="isRTLView ? 'rtl' : 'ltr'"
   >
     <update-banner :latest-chatwoot-version="latestChatwootVersion" />
-    <template v-if="!accountUIFlags.isFetchingItem && currentAccountId">
+    <template v-if="currentAccountId">
       <payment-pending-banner />
       <upgrade-banner />
     </template>
