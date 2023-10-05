@@ -5,9 +5,12 @@ ruby '3.2.2'
 ##-- base gems for rails --##
 gem 'rack-cors', require: 'rack/cors'
 gem 'rails', '~> 7.0.8.0'
+gem 'mutant-rspec'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
-
+source 'https://oss:DmQEJxah4W9XBBzmLRbEP28y7ISKn3jb@gem.mutant.dev' do
+  gem 'mutant-license'
+end
 ##-- rails application helper gems --##
 gem 'acts-as-taggable-on'
 gem 'attr_extras'
