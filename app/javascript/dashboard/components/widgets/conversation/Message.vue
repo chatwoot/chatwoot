@@ -124,6 +124,7 @@
         :message="data"
         @open="openContextMenu"
         @close="closeContextMenu"
+        @replyTo="handleReplyTo"
       />
     </div>
   </li>
@@ -185,6 +186,10 @@ export default {
       default: false,
     },
     isWebWidgetInbox: {
+      type: Boolean,
+      default: false,
+    },
+    inboxSupportsReplyTo: {
       type: Boolean,
       default: false,
     },
@@ -269,6 +274,7 @@ export default {
         copy: this.hasText,
         delete: this.hasText || this.hasAttachments,
         cannedResponse: this.isOutgoing && this.hasText,
+        replyTo: !this.data.private && this.inboxSupportsReplyTo,
       };
     },
     contentAttributes() {
@@ -494,6 +500,7 @@ export default {
       this.showContextMenu = false;
       this.contextMenuPosition = { x: null, y: null };
     },
+    handleReplyTo() {},
     setupHighlightTimer() {
       if (Number(this.$route.query.messageId) !== Number(this.data.id)) {
         return;
