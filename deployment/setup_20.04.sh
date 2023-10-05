@@ -857,6 +857,7 @@ function webserver() {
 # Arguments:
 # event_name: Name of the event to report
 # event_data: Data to report
+# installation_identifier: Installation identifier
 # Outputs:
 #   None
 ##############################################################################
@@ -872,11 +873,42 @@ function report_event() {
     return 1
   fi
 
+  # get installation identifier
+  local installation_identifier=$(get_installation_identifier)
+
   # Prepare the data for the request
-  local data="{\"installation_identifier\":\"1\",\"event_name\":\"$event_name\",\"event_data\":{\"action\":\"$event_data\"}}"
+  local data="{\"installation_identifier\":\"$installation_identifier\",\"event_name\":\"$event_name\",\"event_data\":{\"action\":\"$event_data\"}}"
 
   # Make the curl request to report the event
   curl -X POST -H "Content-Type: application/json" -d "$data" "$CHATWOOT_HUB_URL" -s -o /dev/null
+}
+
+
+##############################################################################
+# Get installation identifier
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   installation_identifier
+##############################################################################
+function get_installation_identifier() {
+
+  local installation_identifier
+
+  sudo -i -u chatwoot << "EOF"
+  cd chatwoot
+  installation_identifier=$(bundle exec rake instance_id:get_installation_identifier)
+EOF
+
+  # Check if the installation identifier is defined
+  if [ -z "$installation_identifier" ]; then
+    echo "Installation identifier is not defined. Unable to report event."
+    return 1
+  fi
+
+  echo "$installation_identifier"
 }
 
 ##############################################################################
