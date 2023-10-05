@@ -220,14 +220,11 @@ export default {
     },
   },
   mounted() {
-    if (!this.id) {
-      this.initializeAccount();
-    }
+    this.initializeAccount();
   },
   methods: {
     async initializeAccount() {
       try {
-        await this.ensureAccount();
         const {
           name,
           locale,
@@ -250,12 +247,6 @@ export default {
         this.latestChatwootVersion = latestChatwootVersion;
       } catch (error) {
         // Ignore error
-      }
-    },
-
-    async ensureAccount() {
-      if (!this.getAccount(this.accountId)) {
-        await this.$store.dispatch('accounts/get');
       }
     },
 
