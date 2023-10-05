@@ -45,6 +45,15 @@
     >
       <div class="menu-container">
         <menu-item
+          v-if="enabledOptions['replyTo']"
+          :option="{
+            icon: 'arrow-reply',
+            label: $t('CONVERSATION.CONTEXT_MENU.REPLY_TO'),
+          }"
+          variant="icon"
+          @click="handleReplyTo"
+        />
+        <menu-item
           v-if="enabledOptions['copy']"
           :option="{
             icon: 'clipboard',
@@ -204,10 +213,13 @@ export default {
       this.handleClose();
       this.showTranslateModal = true;
     },
+    handleReplyTo() {
+      this.$emit('replyTo', this.message);
+      this.handleClose();
+    },
     onCloseTranslateModal() {
       this.showTranslateModal = false;
     },
-
     openDeleteModal() {
       this.handleClose();
       this.showDeleteModal = true;
