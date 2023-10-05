@@ -4,7 +4,6 @@ import {
   MessageMarkdownSerializer,
 } from '@chatwoot/prosemirror-schema';
 import * as Sentry from '@sentry/browser';
-import { IMAGE_URL_SIZE_QUERY_PARAM } from 'dashboard/constants/editor';
 
 /**
  * The delimiter used to separate the signature from the rest of the body.
