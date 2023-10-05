@@ -381,8 +381,6 @@ describe('setURLWithQueryAndSize', () => {
 
   beforeEach(() => {
     selectedNode = {
-      src: 'https://example.com/image.jpg',
-      style: {},
       setAttribute: jest.fn(),
     };
 
@@ -408,14 +406,6 @@ describe('setURLWithQueryAndSize', () => {
 
     setURLWithQueryAndSize(selectedNode, size, editorView);
 
-    // Check if URL is updated
-    expect(selectedNode.src).toBe(
-      'https://example.com/image.jpg?cw_image_height=20px'
-    );
-
-    // Check if the height is updated
-    expect(selectedNode.style.height).toBe('20px');
-
     // Check if the editor view is updated
     expect(editorView.dispatch).toHaveBeenCalledTimes(1);
   });
@@ -424,14 +414,6 @@ describe('setURLWithQueryAndSize', () => {
     const size = { height: 'auto' };
 
     setURLWithQueryAndSize(selectedNode, size, editorView);
-
-    // Check if URL is updated
-    expect(selectedNode.src).toBe(
-      'https://example.com/image.jpg?cw_image_height=auto'
-    );
-
-    // Check if the height is updated
-    expect(selectedNode.style.height).toBe('auto');
 
     // Check if the editor view is updated
     expect(editorView.dispatch).toHaveBeenCalledTimes(1);
@@ -452,9 +434,6 @@ describe('setURLWithQueryAndSize', () => {
 
   it('does not perform any operations if selectedNode is not provided', () => {
     setURLWithQueryAndSize(null, { height: '20px' }, editorView);
-
-    // Ensure that the src remains unchanged
-    expect(selectedNode.src).toBe('https://example.com/image.jpg');
 
     // Ensure the dispatch method wasn't called
     expect(editorView.dispatch).not.toHaveBeenCalled();

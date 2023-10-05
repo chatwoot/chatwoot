@@ -51,5 +51,3 @@ export const MESSAGE_EDITOR_IMAGE_RESIZES = [
     height: 'auto',
   },
 ];
-
-export const IMAGE_URL_SIZE_QUERY_PARAM = 'cw_image_height';

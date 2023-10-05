@@ -267,20 +267,12 @@ export const findNodeToInsertImage = (editorState, fileUrl) => {
  */
 export function setURLWithQueryAndSize(selectedImageNode, size, editorView) {
   if (selectedImageNode) {
-    // Update the URL query IMAGE_URL_SIZE_QUERY_PARAM (="cw_image_height")
-    const url = new URL(selectedImageNode.src);
-
-    // Set the new URL with the updated query with the height
-    url.searchParams.set(IMAGE_URL_SIZE_QUERY_PARAM, size.height);
-    selectedImageNode.src = url.href;
-    selectedImageNode.style.height = size.height;
-
     // Create and apply the transaction
     const tr = editorView.state.tr.setNodeMarkup(
       editorView.state.selection.from,
       null,
       {
-        src: url.href,
+        src: selectedImageNode.src,
         height: size.height,
       }
     );
