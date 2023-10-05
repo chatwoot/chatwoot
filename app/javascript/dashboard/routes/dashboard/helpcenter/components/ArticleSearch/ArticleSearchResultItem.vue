@@ -92,15 +92,13 @@ export default {
     },
   },
   methods: {
-    handleInsert(e) {
-      e.preventDefault();
+    handleInsert() {
       this.$emit('insert', this.id);
     },
     handlePreview() {
       this.$emit('preview', this.id);
     },
-    async handleCopy(e) {
-      e.preventDefault();
+    async handleCopy() {
       await copyTextToClipboard(this.url);
       this.showAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
     },
