@@ -2,16 +2,12 @@ class SlackUnfurlJob < ApplicationJob
   queue_as :low
 
   def perform(params)
-    integration_hook = find_integration_hook(params)
-    return unless integration_hook
+    @params = params
+    set_integration_hook
 
-    slack_client = build_slack_client(integration_hook)
+    return unless channel_has_access
 
-    return unless channel_has_access?(slack_client, params)
-
-    unfurl_service = build_unfurl_service(params, integration_hook)
-
-    unfurl_service.perform
+    Integrations::Slack::SlackLinkUnfurlService.new(params: @params, integration_hook: @integration_hook).perform
   end
 
   private
@@ -19,16 +15,16 @@ class SlackUnfurlJob < ApplicationJob
   # Find the integration hook by taking first link from array of links
   # Assume that all the links are from the same account, how ever there is a possibility that the links are from different accounts.
   # TODO: Fix this edge case later
-  def find_integration_hook(params)
-    url = extract_url(params)
+  def set_integration_hook
+    url = extract_url
     return unless url
 
     account_id = extract_account_id(url)
-    Integrations::Hook.find_by(account_id: account_id, app_id: 'slack')
+    @integration_hook = Integrations::Hook.find_by(account_id: account_id, app_id: 'slack')
   end
 
-  def extract_url(params)
-    params.dig(:event, :links)&.first&.[](:url)
+  def extract_url
+    @params.dig(:event, :links)&.first&.[](:url)
   end
 
   def extract_account_id(url)
@@ -37,17 +33,17 @@ class SlackUnfurlJob < ApplicationJob
     match_data[1] if match_data
   end
 
-  def build_slack_client(hook)
-    Slack::Web::Client.new(token: hook.access_token)
-  end
-
-  def build_unfurl_service(params, integration_hook)
-    Integrations::Slack::SlackLinkUnfurlService.new(params: params, integration_hook: integration_hook)
-  end
-
   # Check the channel has access to the bot to unfurl the links
-  def channel_has_access?(slack_client, params)
-    response = slack_client.conversations_members(channel: params.dig(:event, :channel))
+  def channel_has_access
+    return if @integration_hook.blank?
+
+    slack_client = Slack::Web::Client.new(token: @integration_hook.access_token)
+    response = slack_client.conversations_members(channel: @params.dig(:event, :channel))
     response['ok']
+  rescue Slack::Web::Api::Errors::ChannelNotFound => e
+    # The link unfurl event will not work for private channels and other accounts channels
+    # So we can ignore the error
+    Rails.logger.error "Exception in SlackUnfurlJob: #{e.message}"
+    false
   end
 end
