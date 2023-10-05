@@ -156,3 +156,62 @@ export function extractTextFromMarkdown(markdown) {
     .replace(/\n{2,}/g, '\n') // Remove multiple consecutive newlines (blank lines)
     .trim(); // Trim any extra space
 }
+
+/**
+ * Scrolls the editor view into current cursor position
+ *
+ * @param {EditorView} view - The Prosemirror EditorView
+ *
+ */
+export const scrollCursorIntoView = view => {
+  // Get the current selection's head position (where the cursor is).
+  const pos = view.state.selection.head;
+
+  // Get the corresponding DOM node for that position.
+  const domAtPos = view.domAtPos(pos);
+  const node = domAtPos.node;
+
+  // Scroll the node into view.
+  if (node && node.scrollIntoView) {
+    node.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+};
+
+/**
+ * Returns a transaction that inserts a node into editor at the given position
+ * Has an optional param 'content' to check if the
+ *
+ * @param {Node} node - The prosemirror node that needs to be inserted into the editor
+ * @param {number} from - Position in the editor where the node needs to be inserted
+ * @param {number} to - Position in the editor where the node needs to be replaced
+ *
+ */
+export function insertAtCursor(editorView, node, from, to) {
+  if (!editorView) {
+    return undefined;
+  }
+
+  // This is a workaround to prevent inserting content into new line rather than on the exiting line
+  // If the node is of type 'doc' and has only one child which is a paragraph,
+  // then extract its inline content to be inserted as inline.
+  const isWrappedInParagraph =
+    node.type.name === 'doc' &&
+    node.childCount === 1 &&
+    node.firstChild.type.name === 'paragraph';
+
+  if (isWrappedInParagraph) {
+    node = node.firstChild.content;
+  }
+
+  let tr;
+  if (to) {
+    tr = editorView.state.tr.replaceWith(from, to, node).insertText(` `);
+  } else {
+    tr = editorView.state.tr.insert(from, node);
+  }
+  const state = editorView.state.apply(tr);
+  editorView.updateState(state);
+  editorView.focus();
+
+  return state;
+}
