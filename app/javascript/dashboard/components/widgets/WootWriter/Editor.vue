@@ -24,7 +24,7 @@
     />
     <div ref="editor" />
     <div
-      v-show="isImageSelected && showImageToolbar"
+      v-show="isImageNodeSelected && showImageResizeToolbar"
       class="absolute shadow-md rounded-[4px] flex gap-1 py-1 px-1 bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-50"
       :style="{
         top: toolbarPosition.top,
@@ -135,7 +135,7 @@ export default {
     // allowSignature is a kill switch, ensuring no signature methods
     // are triggered except when this flag is true
     allowSignature: { type: Boolean, default: false },
-    showImageToolbar: { type: Boolean, default: false }, // A kill switch to show the image toolbar
+    showImageResizeToolbar: { type: Boolean, default: false }, // A kill switch to show or hide the image toolbar
   },
   data() {
     return {
@@ -149,7 +149,7 @@ export default {
       editorView: null,
       range: null,
       state: undefined,
-      isImageSelected: false,
+      isImageNodeSelected: false,
       toolbarPosition: { top: 0, left: 0 },
       sizes: MESSAGE_EDITOR_IMAGE_RESIZES,
       selectedImageNode: null,
@@ -459,15 +459,18 @@ export default {
       });
     },
     isEditorMouseFocusedOnAnImage() {
+      if (!this.showImageResizeToolbar) {
+        return;
+      }
       this.selectedImageNode = document.querySelector(
         'img.ProseMirror-selectednode'
       );
       if (this.selectedImageNode) {
-        this.isImageSelected = !!this.selectedImageNode;
+        this.isImageNodeSelected = !!this.selectedImageNode;
         // Get the position of the selected node
         this.setToolbarPosition();
       } else {
-        this.isImageSelected = false;
+        this.isImageNodeSelected = false;
       }
     },
     setToolbarPosition() {
@@ -479,7 +482,25 @@ export default {
       };
     },
     setURLWithQueryAndImageSize(size) {
+      if (!this.showImageResizeToolbar) {
+        return;
+      }
       setURLWithQueryAndSize(this.selectedImageNode, size, this.editorView);
+      this.isImageNodeSelected = false;
+    },
+    updateImgToolbarOnDelete() {
+      // check if the selected node is present or not on keyup
+      // this is needed because the user can select an image and then delete it
+      // in that case, the selected node will be null and we need to hide the toolbar
+      // otherwise, the toolbar will be visible even when the image is deleted and cause some errors
+      if (this.selectedImageNode) {
+        const hasImgSelectedNode = document.querySelector(
+          'img.ProseMirror-selectednode'
+        );
+        if (!hasImgSelectedNode) {
+          this.isImageNodeSelected = false;
+        }
+      }
     },
     isEnterToSendEnabled() {
       return isEditorHotKeyEnabled(this.uiSettings, 'enter');
@@ -645,6 +666,7 @@ export default {
         () => this.resetTyping(),
         TYPING_INDICATOR_IDLE_TIME
       );
+      this.updateImgToolbarOnDelete();
     },
     onKeydown(event) {
       if (this.isEnterToSendEnabled()) {

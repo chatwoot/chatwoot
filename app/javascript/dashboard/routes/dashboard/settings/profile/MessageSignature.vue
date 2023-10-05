@@ -21,7 +21,7 @@
           "
           :enabled-menu-options="customEditorMenuList"
           :enable-suggestions="false"
-          :show-image-toolbar="true"
+          :show-image-resize-toolbar="true"
           @blur="$v.messageSignature.$touch"
         />
       </div>
