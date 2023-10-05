@@ -274,8 +274,7 @@ export default {
         copy: this.hasText,
         delete: this.hasText || this.hasAttachments,
         cannedResponse: this.isOutgoing && this.hasText,
-        replyTo: false,
-        // replyTo: !this.data.private && this.inboxSupportsReplyTo,
+        replyTo: !this.data.private && this.inboxSupportsReplyTo,
       };
     },
     contentAttributes() {

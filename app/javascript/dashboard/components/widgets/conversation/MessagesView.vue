@@ -124,6 +124,7 @@ import { LocalStorage } from 'shared/helpers/localStorage';
 
 // constants
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { REPLY_POLICY } from 'shared/constants/links';
 import wootConstants from 'dashboard/constants/globals';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
@@ -165,12 +166,14 @@ export default {
 
   computed: {
     ...mapGetters({
+      accountId: 'getCurrentAccountId',
       currentChat: 'getSelectedChat',
       allConversations: 'getAllConversations',
       inboxesList: 'inboxes/getInboxes',
       listLoadingStatus: 'getAllMessagesLoaded',
       loadingChatList: 'getChatListLoadingStatus',
       appIntegrations: 'integrations/getAppIntegrations',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       currentAccountId: 'getCurrentAccountId',
     }),
     isOpen() {
@@ -318,7 +321,13 @@ export default {
       return this.currentChat.unread_count || 0;
     },
     inboxSupportsReplyTo() {
-      return this.inboxHasFeature(INBOX_FEATURES.REPLY_TO);
+      return (
+        this.inboxHasFeature(INBOX_FEATURES.REPLY_TO) &&
+        this.isFeatureEnabledonAccount(
+          this.accountId,
+          FEATURE_FLAGS.MESSAGE_REPLY_TO
+        )
+      );
     },
   },
 
