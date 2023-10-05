@@ -162,7 +162,7 @@
               {{ $t('NEW_CONVERSATION.FORM.MESSAGE.ERROR') }}
             </span>
           </label>
-          <div v-if="!hasWhatsappTemplates" class="flex flex-col">
+          <div v-if="isEmailOrWebWidgetInbox" class="flex flex-col">
             <file-upload
               ref="uploadAttachment"
               input-id="newConversationAttachment"
@@ -220,7 +220,7 @@
       </woot-button>
     </div>
 
-    <transition v-if="!hasWhatsappTemplates" name="modal-fade">
+    <transition v-if="isEmailOrWebWidgetInbox" name="modal-fade">
       <div
         v-show="$refs.uploadAttachment && $refs.uploadAttachment.dropActive"
         class="flex top-0 bottom-0 z-30 gap-2 right-0 left-0 items-center justify-center flex-col absolute w-full h-full bg-white/80 dark:bg-slate-700/80"
