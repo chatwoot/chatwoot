@@ -194,6 +194,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Kopiraj",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "Izbriši",
       "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
       "TRANSLATE": "Prevedi",
