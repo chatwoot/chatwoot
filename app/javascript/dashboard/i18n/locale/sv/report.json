@@ -130,7 +130,7 @@
         "groupBy": "Month"
       }
     ],
-    "BUSINESS_HOURS": "Affärstimmar"
+    "BUSINESS_HOURS": "Öppettider"
   },
   "AGENT_REPORTS": {
     "HEADER": "Agents Overview",
