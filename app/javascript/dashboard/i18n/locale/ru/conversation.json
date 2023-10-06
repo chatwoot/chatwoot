@@ -194,6 +194,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Копировать",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "Удалить",
       "CREATE_A_CANNED_RESPONSE": "Добавить в шаблонные ответы",
       "TRANSLATE": "Перевести",
