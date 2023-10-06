@@ -194,6 +194,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Αντιγραφή",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "Διαγραφή",
       "CREATE_A_CANNED_RESPONSE": "Προσθήκη στις έτοιμες απαντήσεις",
       "TRANSLATE": "Translate",
