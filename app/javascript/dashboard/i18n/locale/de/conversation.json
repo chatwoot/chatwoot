@@ -194,6 +194,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Kopieren",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "Löschen",
       "CREATE_A_CANNED_RESPONSE": "Zu vorgefertigten Antworten hinzufügen",
       "TRANSLATE": "Übersetzen",
