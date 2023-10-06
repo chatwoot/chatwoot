@@ -1,7 +1,9 @@
 <script setup>
+import { computed } from 'vue';
 import EmojiOrIcon from 'shared/components/EmojiOrIcon.vue';
+import { extractTextFromMarkdown } from 'dashboard/helper/editorHelper';
 
-defineProps({
+const { messageContent } = defineProps({
   messageContent: {
     type: String,
     default: '',
@@ -11,6 +13,8 @@ defineProps({
     default: null,
   },
 });
+
+const cleanedContent = computed(() => extractTextFromMarkdown(messageContent));
 </script>
 
 <template>
@@ -23,7 +27,7 @@ defineProps({
       icon-size="14"
     />
     <div class="text-ellipsis overflow-hidden flex-grow">
-      Replying to: {{ messageContent }}.
+      Replying to: {{ cleanedContent }}.
     </div>
     <woot-button
       v-tooltip="'DISMISS REPLY'"
