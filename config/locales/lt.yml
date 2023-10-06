@@ -206,8 +206,8 @@ lt:
     fields:
       name: Vardas
       email: El. paštas
-      phone_number: Phone
+      phone_number: Telefono Nr.
       company_name: Įmonė
       inbox_name: Gautų laiškų aplankas
-      inbox_type: Inbox Type
+      inbox_type: Gautų laiškų aplanko tipas
     button: Atidaryti pokalbį
