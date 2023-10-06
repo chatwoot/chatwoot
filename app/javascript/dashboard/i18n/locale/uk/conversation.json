@@ -194,6 +194,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Копіювати",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "Видалити",
       "CREATE_A_CANNED_RESPONSE": "Додати швидку відповідь",
       "TRANSLATE": "Перекласти",
