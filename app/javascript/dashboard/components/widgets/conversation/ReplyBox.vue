@@ -20,7 +20,7 @@
     />
     <div class="reply-box__top">
       <reply-to-message
-        v-if="inReplyTo && inReplyTo.id && !isPrivate"
+        v-if="shouldShowReplyToMessage"
         :message-id="inReplyTo.id"
         :message-content="inReplyTo.content"
         @dismiss="resetReplyToMessage"
@@ -170,7 +170,7 @@ import {
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
 import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
-import inboxMixin from 'shared/mixins/inboxMixin';
+import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { trimContent, debounce } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants/globals';
@@ -184,6 +184,7 @@ import {
   replaceSignature,
   extractTextFromMarkdown,
 } from 'dashboard/helper/editorHelper';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
@@ -264,7 +265,24 @@ export default {
       lastEmail: 'getLastEmailInSelectedChat',
       globalConfig: 'globalConfig/get',
       accountId: 'getCurrentAccountId',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
+    shouldShowReplyToMessage() {
+      const hasReplyTo =
+        this.inReplyTo &&
+        this.inReplyTo.id &&
+        this.inReplyTo.id !== this.currentChat.id;
+
+      return (
+        hasReplyTo &&
+        !this.isPrivate &&
+        this.inboxHasFeature(INBOX_FEATURES.REPLY_TO) &&
+        this.isFeatureEnabledonAccount(
+          this.accountId,
+          FEATURE_FLAGS.MESSAGE_REPLY_TO
+        )
+      );
+    },
     showRichContentEditor() {
       if (this.isOnPrivateNote || this.isRichEditorEnabled) {
         return true;
