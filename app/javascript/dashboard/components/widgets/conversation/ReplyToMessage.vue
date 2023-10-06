@@ -20,6 +20,7 @@ const cleanedContent = computed(() => extractTextFromMarkdown(messageContent));
 <template>
   <div
     class="reply-editor bg-slate-50 rounded-md py-1 pl-2 pr-1 text-xs tracking-wide mt-2 flex items-center gap-1.5 -mx-2"
+    @click="$emit('navigate-to-message')"
   >
     <emoji-or-icon
       class="icon flex-shrink-0"
@@ -30,13 +31,13 @@ const cleanedContent = computed(() => extractTextFromMarkdown(messageContent));
       Replying to: {{ cleanedContent }}.
     </div>
     <woot-button
-      v-tooltip="'DISMISS REPLY'"
+      v-tooltip="$t('CONVERSATION.REPLY_BOX.DISMISS_REPLY')"
       color-scheme="secondary"
       icon="dismiss"
       variant="clear"
       size="tiny"
       class="flex-shrink-0"
-      @click="$emit('dismiss')"
+      @click.stop="$emit('dismiss')"
     />
   </div>
 </template>

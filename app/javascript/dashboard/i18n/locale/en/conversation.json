@@ -139,6 +139,7 @@
       "PRIVATE_NOTE": "Private Note",
       "SEND": "Send",
       "CREATE": "Add Note",
+      "DISMISS_REPLY": "Dismiss reply",
       "TWEET": "Tweet",
       "TIP_FORMAT_ICON": "Show rich text editor",
       "TIP_EMOJI_ICON": "Show emoji selector",
