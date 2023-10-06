@@ -35,7 +35,7 @@ const cleanedContent = computed(() => extractTextFromMarkdown(messageContent));
       Replying to: {{ cleanedContent }}.
     </div>
     <woot-button
-      v-tooltip="$t('CONVERSATION.REPLY_BOX.DISMISS_REPLY')"
+      v-tooltip="$t('CONVERSATION.REPLYBOX.DISMISS_REPLY')"
       color-scheme="secondary"
       icon="dismiss"
       variant="clear"
