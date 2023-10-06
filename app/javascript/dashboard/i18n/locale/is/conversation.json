@@ -194,6 +194,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Afrita",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "Eyða",
       "CREATE_A_CANNED_RESPONSE": "Bæta við stöðluðu svari",
       "TRANSLATE": "Translate",
