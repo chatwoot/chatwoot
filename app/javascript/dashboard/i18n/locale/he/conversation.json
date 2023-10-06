@@ -194,6 +194,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "העתק",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "מחק",
       "CREATE_A_CANNED_RESPONSE": "הוסף לתגובות מוכנות",
       "TRANSLATE": "תרגום",
