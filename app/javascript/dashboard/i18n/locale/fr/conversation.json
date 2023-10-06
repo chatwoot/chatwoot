@@ -194,6 +194,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Copier",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "Supprimer",
       "CREATE_A_CANNED_RESPONSE": "Ajouter aux réponses préenregistrées",
       "TRANSLATE": "Traduire",
