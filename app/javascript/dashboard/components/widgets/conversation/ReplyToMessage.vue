@@ -32,6 +32,7 @@ defineProps({
       variant="clear"
       size="tiny"
       class="flex-shrink-0"
+      @click="$emit('dismiss')"
     />
   </div>
 </template>
