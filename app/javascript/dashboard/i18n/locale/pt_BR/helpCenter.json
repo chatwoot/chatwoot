@@ -428,28 +428,28 @@
     },
     "UPGRADE_PAGE": {
       "TITLE": "Centro de Ajuda",
-      "DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Upgrade your subscription to enable this feature.",
-      "SELF_HOSTED_DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Please contact your administrator to enable this feature.",
+      "DESCRIPTION": "Crie portais de autoatendimento amigáveis ao usuário. Ajude seus usuários a acessar os artigos e obter suporte 24/7. Atualize sua assinatura para habilitar essa função.",
+      "SELF_HOSTED_DESCRIPTION": "Crie portais de autoatendimento amigáveis ao usuário. Ajude seus usuários a acessar os artigos e obter suporte 24/7. Por favor, contate seu administrador para habilitar essa função.",
       "BUTTON": {
         "LEARN_MORE": "Saiba mais",
-        "UPGRADE": "Upgrade"
+        "UPGRADE": "Atualize"
       },
       "FEATURES": {
         "PORTALS": {
-          "TITLE": "Multiple portals",
-          "DESCRIPTION": "Create multiple help center portals for different products using the same account."
+          "TITLE": "Múltiplos portais",
+          "DESCRIPTION": "Crie múltiplos portais de central de ajuda para diferentes produtos usando a mesma conta."
         },
         "LOCALES": {
-          "TITLE": "Full support for locales",
-          "DESCRIPTION": "Localize the portal in your language. We support all locales and allow translations for every article."
+          "TITLE": "Suporte completo para localidades",
+          "DESCRIPTION": "Localize o portal no seu idioma. Nós damos suporte a todas as localidades e permitimos traduções para todos os artigos."
         },
         "SEO": {
-          "TITLE": "SEO-friendly design",
-          "DESCRIPTION": "Customize your meta tags to improve your visibility on search engines with our SEO-friendly pages."
+          "TITLE": "Design otimizado para SEO",
+          "DESCRIPTION": "Personalize suas meta tags para melhorar sua visibilidade nos motores de busca com nossas páginas otimizadas para SEO."
         },
         "API": {
-          "TITLE": "Full API support",
-          "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
+          "TITLE": "Suporte completo para API",
+          "DESCRIPTION": "Use o portal como um CMS sem interface gráfica com frameworks front-end de terceiros usando nossas APIs."
         }
       }
     }
