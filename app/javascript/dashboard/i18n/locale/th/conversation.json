@@ -194,6 +194,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "คัดลอก",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "ลบ",
       "CREATE_A_CANNED_RESPONSE": "เพิ่มไปยังชุดคำตอบสำเร็จรูป",
       "TRANSLATE": "Translate",
