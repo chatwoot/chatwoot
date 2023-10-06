@@ -866,12 +866,6 @@ function report_event() {
   local event_data="$2"
 
   CHATWOOT_HUB_URL="https://hub.2.chatwoot.com/events"
-  
-  # Check if the CHATWOOT_HUB_URL is defined
-  if [ -z "$CHATWOOT_HUB_URL" ]; then
-    echo "CHATWOOT_HUB_URL is not defined. Unable to report event."
-    return 1
-  fi
 
   # get installation identifier
   local installation_identifier=$(get_installation_identifier)
@@ -897,17 +891,11 @@ function get_installation_identifier() {
 
   local installation_identifier
 
-  sudo -i -u chatwoot << "EOF"
+  installation_identifier=$(sudo -i -u chatwoot << "EOF"
   cd chatwoot
-  installation_identifier=$(bundle exec rake instance_id:get_installation_identifier)
+  RAILS_ENV=production bundle exec rake instance_id:get_installation_identifier
 EOF
-
-  # Check if the installation identifier is defined
-  if [ -z "$installation_identifier" ]; then
-    echo "Installation identifier is not defined. Unable to report event."
-    return 1
-  fi
-
+)
   echo "$installation_identifier"
 }
 
