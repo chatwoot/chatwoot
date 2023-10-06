@@ -194,6 +194,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "نسخ",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "حذف",
       "CREATE_A_CANNED_RESPONSE": "إضافة إلى الردود السريعة",
       "TRANSLATE": "ترجم",
