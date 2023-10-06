@@ -20,7 +20,7 @@
     />
     <div class="reply-box__top">
       <reply-to-message
-        v-if="inReplyTo.id"
+        v-if="inReplyTo.id && !isPrivate"
         :message-id="inReplyTo.id"
         :message-content="inReplyTo.content"
         @dismiss="resetReplyToMessage"
