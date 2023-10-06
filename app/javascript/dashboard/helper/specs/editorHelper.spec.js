@@ -5,7 +5,41 @@ import {
   replaceSignature,
   cleanSignature,
   extractTextFromMarkdown,
+  insertAtCursor,
 } from '../editorHelper';
+import { EditorState } from 'prosemirror-state';
+import { EditorView } from 'prosemirror-view';
+import { Schema } from 'prosemirror-model';
+
+// Define a basic ProseMirror schema
+const schema = new Schema({
+  nodes: {
+    doc: { content: 'paragraph+' },
+    paragraph: {
+      content: 'text*',
+      toDOM: () => ['p', 0], // Represents a paragraph as a <p> tag in the DOM.
+    },
+    text: {
+      toDOM: node => node.text, // Represents text as its actual string value.
+    },
+  },
+});
+
+// Initialize a basic EditorState for testing
+const createEditorState = (content = '') => {
+  if (!content) {
+    return EditorState.create({
+      schema,
+      doc: schema.node('doc', null, [schema.node('paragraph')]),
+    });
+  }
+  return EditorState.create({
+    schema,
+    doc: schema.node('doc', null, [
+      schema.node('paragraph', null, [schema.text(content)]),
+    ]),
+  });
+};
 
 const NEW_SIGNATURE = 'This is a new signature';
 
@@ -196,5 +230,46 @@ describe('extractTextFromMarkdown', () => {
     const expected =
       "Hello World\nThis is a bold text with a link.\nHere's an image:\nList item 1\nList item 2\nItalic text";
     expect(extractTextFromMarkdown(markdown)).toEqual(expected);
+  });
+});
+
+describe('insertAtCursor', () => {
+  it('should return undefined if editorView is not provided', () => {
+    const result = insertAtCursor(undefined, schema.text('Hello'), 0);
+    expect(result).toBeUndefined();
+  });
+
+  it('should unwrap doc nodes that are wrapped in a paragraph', () => {
+    const docNode = schema.node('doc', null, [
+      schema.node('paragraph', null, [schema.text('Hello')]),
+    ]);
+
+    const editorState = createEditorState();
+    const editorView = new EditorView(document.body, { state: editorState });
+
+    insertAtCursor(editorView, docNode, 0);
+
+    // Check if node was unwrapped and inserted correctly
+    expect(editorView.state.doc.firstChild.firstChild.text).toBe('Hello');
+  });
+
+  it('should insert node without replacing any content if "to" is not provided', () => {
+    const editorState = createEditorState();
+    const editorView = new EditorView(document.body, { state: editorState });
+
+    insertAtCursor(editorView, schema.text('Hello'), 0);
+
+    // Check if node was inserted correctly
+    expect(editorView.state.doc.firstChild.firstChild.text).toBe('Hello');
+  });
+
+  it('should replace content between "from" and "to" with the provided node', () => {
+    const editorState = createEditorState('ReplaceMe');
+    const editorView = new EditorView(document.body, { state: editorState });
+
+    insertAtCursor(editorView, schema.text('Hello'), 0, 8);
+
+    // Check if content was replaced correctly
+    expect(editorView.state.doc.firstChild.firstChild.text).toBe('Hello Me');
   });
 });
