@@ -428,27 +428,27 @@
     },
     "UPGRADE_PAGE": {
       "TITLE": "Palaikymo centras",
-      "DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Upgrade your subscription to enable this feature.",
-      "SELF_HOSTED_DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Please contact your administrator to enable this feature.",
+      "DESCRIPTION": "Sukurti patogius savitarnos portalus. Padėkite savo vartotojams pasiekti straipsnius ir gauti palaikymą 24 valandas per parą, 7 dienas per savaitę. Atnaujinkite savo prenumeratą, kad įjungtumėte šią funkciją.",
+      "SELF_HOSTED_DESCRIPTION": "Sukurti patogius savitarnos portalus. Padėkite savo vartotojams pasiekti straipsnius ir gauti palaikymą 24 valandas per parą, 7 dienas per savaitę. Norėdami įjungti šią funkciją, susisiekite su administratoriumi.",
       "BUTTON": {
         "LEARN_MORE": "Sužinoti daugiau",
-        "UPGRADE": "Upgrade"
+        "UPGRADE": "Patobulinti"
       },
       "FEATURES": {
         "PORTALS": {
-          "TITLE": "Multiple portals",
-          "DESCRIPTION": "Create multiple help center portals for different products using the same account."
+          "TITLE": "Keletas portalų",
+          "DESCRIPTION": "Sukurkite kelis pagalbos centro portalus skirtingiems produktams naudodami tą pačią paskyrą."
         },
         "LOCALES": {
-          "TITLE": "Full support for locales",
-          "DESCRIPTION": "Localize the portal in your language. We support all locales and allow translations for every article."
+          "TITLE": "Lokalizacijos yra pilnai palaikomos",
+          "DESCRIPTION": "Lokalizuokite portalą savo kalba. Mes palaikome visas kalbas ir leidžiame kiekvieno straipsnio vertimus."
         },
         "SEO": {
-          "TITLE": "SEO-friendly design",
+          "TITLE": "Paieškos variklio optimizavimui draugiškas dizainas",
           "DESCRIPTION": "Customize your meta tags to improve your visibility on search engines with our SEO-friendly pages."
         },
         "API": {
-          "TITLE": "Full API support",
+          "TITLE": "Pilnas API palaikymas",
           "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
         }
       }
