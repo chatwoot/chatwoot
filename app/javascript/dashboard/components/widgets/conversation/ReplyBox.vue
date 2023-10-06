@@ -21,8 +21,10 @@
     <div class="reply-box__top">
       <reply-to-message
         v-if="inReplyTo"
+        :message-id="inReplyTo.id"
         :message-content="inReplyTo.content"
         @dismiss="resetReplyToMessage"
+        @navigate-to-message="navigateToMessage"
       />
       <canned-response
         v-if="showMentions && hasSlashCommand"
@@ -1097,6 +1099,11 @@ export default {
       const replyStorageKey = LOCAL_STORAGE_KEYS.MESSAGE_REPLY_TO;
       LocalStorage.deleteFromJsonStore(replyStorageKey, this.conversationId);
       bus.$emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE);
+    },
+    navigateToMessage(messageId) {
+      this.$nextTick(() => {
+        bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE, { messageId });
+      });
     },
   },
 };

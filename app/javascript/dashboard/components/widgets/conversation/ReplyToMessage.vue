@@ -4,6 +4,10 @@ import EmojiOrIcon from 'shared/components/EmojiOrIcon.vue';
 import { extractTextFromMarkdown } from 'dashboard/helper/editorHelper';
 
 const { messageContent } = defineProps({
+  messageId: {
+    type: Number,
+    required: true,
+  },
   messageContent: {
     type: String,
     default: '',
@@ -19,8 +23,8 @@ const cleanedContent = computed(() => extractTextFromMarkdown(messageContent));
 
 <template>
   <div
-    class="reply-editor bg-slate-50 rounded-md py-1 pl-2 pr-1 text-xs tracking-wide mt-2 flex items-center gap-1.5 -mx-2"
-    @click="$emit('navigate-to-message')"
+    class="reply-editor bg-slate-50 rounded-md py-1 pl-2 pr-1 text-xs tracking-wide mt-2 flex items-center gap-1.5 -mx-2 cursor-pointer"
+    @click="$emit('navigate-to-message', messageId)"
   >
     <emoji-or-icon
       class="icon flex-shrink-0"
