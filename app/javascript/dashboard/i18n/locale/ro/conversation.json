@@ -194,6 +194,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Copiază",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "Şterge",
       "CREATE_A_CANNED_RESPONSE": "Adaugați la răspunsuri predefinite",
       "TRANSLATE": "Traduceți",
