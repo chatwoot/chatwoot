@@ -925,47 +925,47 @@ function main() {
   setup_logging
 
   if [ "$c" == "y" ]; then
-    report_event "cwctl" "console"
+    report_event "cwctl" "console" > /dev/null 2>&1
     get_console
   fi
   
   if [ "$h" == "y" ]; then
-    report_event "cwctl" "help"
+    report_event "cwctl" "help"  > /dev/null 2>&1
     help
   fi
 
   if [ "$i" == "y" ] || [ "$I" == "y" ]; then
-    report_event "cwctl" "install"
     install
+    report_event "cwctl" "install"  > /dev/null 2>&1
   fi
 
   if [ "$l" == "y" ]; then
-    report_event "cwctl" "logs"
+    report_event "cwctl" "logs"  > /dev/null 2>&1
     get_logs
   fi
 
   if [ "$r" == "y" ]; then
-    report_event "cwctl" "restart"
+    report_event "cwctl" "restart"  > /dev/null 2>&1
     restart
   fi
   
   if [ "$s" == "y" ]; then
-    report_event "cwctl" "ssl"
+    report_event "cwctl" "ssl"  > /dev/null 2>&1
     ssl
   fi
 
   if [ "$u" == "y" ]; then
-    report_event "cwctl" "upgrade"
+    report_event "cwctl" "upgrade"  > /dev/null 2>&1
     upgrade
   fi
 
   if [ "$w" == "y" ]; then
-    report_event "cwctl" "webserver"
+    report_event "cwctl" "webserver"  > /dev/null 2>&1
     webserver
   fi
 
   if [ "$v" == "y" ]; then
-    report_event "cwctl" "version"
+    report_event "cwctl" "version"  > /dev/null 2>&1
     version
   fi
 
