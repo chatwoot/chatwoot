@@ -19,6 +19,11 @@
       @click="$emit('click')"
     />
     <div class="reply-box__top">
+      <reply-to-message
+        v-if="inReplyTo"
+        :message-content="inReplyTo.content"
+        @dismiss="resetReplyToMessage"
+      />
       <canned-response
         v-if="showMentions && hasSlashCommand"
         v-on-clickaway="hideMentions"
@@ -141,6 +146,7 @@ import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
 
 import CannedResponse from './CannedResponse.vue';
+import ReplyToMessage from './ReplyToMessage.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview.vue';
 import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel.vue';
@@ -177,12 +183,16 @@ import {
   extractTextFromMarkdown,
 } from 'dashboard/helper/editorHelper';
 
+import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
+import { LocalStorage } from 'shared/helpers/localStorage';
+
 const EmojiInput = () => import('shared/components/emoji/EmojiInput');
 
 export default {
   components: {
     EmojiInput,
     CannedResponse,
+    ReplyToMessage,
     ResizableTextArea,
     AttachmentPreview,
     ReplyTopPanel,
@@ -220,6 +230,7 @@ export default {
   data() {
     return {
       message: '',
+      inReplyTo: {},
       isFocused: false,
       showEmojiPicker: false,
       attachedFiles: [],
@@ -323,7 +334,7 @@ export default {
       return this.maxLength - this.message.length;
     },
     isReplyButtonDisabled() {
-      if (this.isATweet && !this.inReplyTo && !this.isOnPrivateNote) {
+      if (this.isATweet && !this.selectedTweet.id && !this.isOnPrivateNote) {
         return true;
       }
 
@@ -415,10 +426,6 @@ export default {
     },
     isOnPrivateNote() {
       return this.replyType === REPLY_EDITOR_MODES.NOTE;
-    },
-    inReplyTo() {
-      const selectedTweet = this.selectedTweet || {};
-      return selectedTweet.id;
     },
     isOnExpandedLayout() {
       const {
@@ -567,10 +574,14 @@ export default {
       500,
       true
     );
+
+    this.fetchAndSetReplyTo();
+    bus.$on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.fetchAndSetReplyTo);
   },
   destroyed() {
     document.removeEventListener('paste', this.onPaste);
     document.removeEventListener('keydown', this.handleKeyEvents);
+    bus.$off(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.fetchAndSetReplyTo);
   },
   methods: {
     toggleRichContentEditor() {
@@ -855,6 +866,7 @@ export default {
       }
       this.attachedFiles = [];
       this.isRecordingAudio = false;
+      this.resetReplyToMessage();
     },
     clearEmailField() {
       this.ccEmails = '';
@@ -986,8 +998,14 @@ export default {
         sender: this.sender,
       };
 
-      if (this.inReplyTo) {
-        messagePayload.contentAttributes = { in_reply_to: this.inReplyTo };
+      if (this.selectedTweet?.id) {
+        messagePayload.contentAttributes = {
+          in_reply_to: this.selectedTweet.id,
+        };
+      } else if (this.inReplyTo) {
+        messagePayload.contentAttributes = {
+          in_reply_to: this.inReplyTo.id,
+        };
       }
 
       if (this.attachedFiles && this.attachedFiles.length) {
@@ -1059,6 +1077,26 @@ export default {
       this.ccEmails = cc.join(', ');
       this.bccEmails = bcc.join(', ');
       this.toEmails = to.join(', ');
+    },
+    fetchAndSetReplyTo() {
+      const replyStorageKey = LOCAL_STORAGE_KEYS.MESSAGE_REPLY_TO;
+      const replyToMessageId = LocalStorage.getFromJsonStore(
+        replyStorageKey,
+        this.conversationId
+      );
+
+      this.inReplyTo = this.currentChat.messages.find(message => {
+        if (message.id === replyToMessageId) {
+          this.inReplyTo = message;
+          return true;
+        }
+        return false;
+      });
+    },
+    resetReplyToMessage() {
+      const replyStorageKey = LOCAL_STORAGE_KEYS.MESSAGE_REPLY_TO;
+      LocalStorage.deleteFromJsonStore(replyStorageKey, this.conversationId);
+      bus.$emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE);
     },
   },
 };
