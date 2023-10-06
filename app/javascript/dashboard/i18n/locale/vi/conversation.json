@@ -194,6 +194,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Sao Chép",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "Xoá",
       "CREATE_A_CANNED_RESPONSE": "Thêm vào câu trả lời soạn sẵn",
       "TRANSLATE": "Translate",
