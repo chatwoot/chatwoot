@@ -20,7 +20,7 @@
     />
     <div class="reply-box__top">
       <reply-to-message
-        v-if="inReplyTo.id && !isPrivate"
+        v-if="inReplyTo && inReplyTo.id && !isPrivate"
         :message-id="inReplyTo.id"
         :message-content="inReplyTo.content"
         @dismiss="resetReplyToMessage"
@@ -1004,7 +1004,7 @@ export default {
         messagePayload.contentAttributes = {
           in_reply_to: this.selectedTweet.id,
         };
-      } else if (this.inReplyTo) {
+      } else if (this.inReplyTo?.id) {
         messagePayload.contentAttributes = {
           in_reply_to: this.inReplyTo.id,
         };
