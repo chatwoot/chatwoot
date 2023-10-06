@@ -10,7 +10,7 @@
       v-model="userInput"
       :aria-label="$t('CHAT_PLACEHOLDER')"
       :placeholder="$t('CHAT_PLACEHOLDER')"
-      class="form-input user-message-input is-focused"
+      class="user-message-input is-focused"
       :class="inputColor"
       :min-height="1"
       @typing-off="onTypingOff"
@@ -180,7 +180,7 @@ export default {
 @import '~widget/assets/scss/mixins.scss';
 
 .chat-message--input {
-  @apply flex min-h-[3rem] relative pl-3 pr-2 py-0 rounded-md;
+  @apply flex min-h-[3rem] relative pl-3 pr-2 py-0 rounded-md overflow-hidden;
 
   &.is-focused {
     box-shadow:
@@ -206,7 +206,7 @@ export default {
 }
 
 .user-message-input {
-  @apply max-h-60 min-h-[2rem] h-8 resize-none flex box-content relative self-start p-0 pt-2 border-0 top-1;
+  @apply max-h-60 min-h-[2rem] relative pb-2 pt-3 border-0 flex-grow;
   background: transparent;
 }
 </style>

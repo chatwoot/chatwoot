@@ -1,17 +1,20 @@
 <template>
-  <textarea
-    ref="textarea"
-    :style="{
-      height: editorHeight,
-    }"
-    :placeholder="placeholder"
-    :value="value"
-    rows="1"
-    @input="onInput"
-    @focus="onFocus"
-    @keyup="onKeyup"
-    @blur="onBlur"
-  />
+  <div ref="textareaGrower" class="wrap grid max-h-32">
+    <textarea
+      ref="textarea"
+      class="overflow-x-hidden overflow-y-auto max-h-[inherit] w-full border-0 focus:border-0 active:outline-0 focus-within:outline-0 resize-none m-0 p-0"
+      :style="{
+        minHeight: editorHeight,
+      }"
+      :placeholder="placeholder"
+      :value="value"
+      rows="1"
+      @input="onInput"
+      @focus="onFocus"
+      @keyup="onKeyup"
+      @blur="onBlur"
+    />
+  </div>
 </template>
 
 <script>
@@ -102,9 +105,7 @@ export default {
   },
   methods: {
     resizeTextarea() {
-      this.editorHeight = !this.value
-        ? `${this.minHeight}rem`
-        : this.$refs.textarea.scrollHeight + 'px';
+      this.$refs.textareaGrower.dataset.replicatedValue = this.value;
     },
     // The toggleSignatureInEditor gets the new value from the
     // watcher, this means that if the value is true, the signature
@@ -173,7 +174,23 @@ export default {
 };
 </script>
 <style scoped>
-textarea {
-  height: inherit;
+.wrap::after {
+  /* Note the weird space! Needed to preventy jumpy behavior */
+  content: attr(data-replicated-value) ' ';
+
+  /* This is how textarea text behaves */
+  white-space: pre-wrap;
+
+  /* Hidden from view, clicks, and screen readers */
+  visibility: hidden;
+}
+
+.wrap > textarea,
+.wrap::after {
+  /* Identical styling required!! */
+  font: inherit;
+
+  /* Place on top of each other */
+  grid-area: 1 / 1 / 2 / 2;
 }
 </style>
