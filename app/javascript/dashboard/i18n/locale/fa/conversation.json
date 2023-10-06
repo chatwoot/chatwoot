@@ -194,6 +194,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "کپی",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "حذف",
       "CREATE_A_CANNED_RESPONSE": "اضافه کردن به پاسخ‌های آماده",
       "TRANSLATE": "ترجمه",
