@@ -194,6 +194,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Kopēt",
+      "REPLY_TO": "Atbildēt uz šo ziņojumu",
       "DELETE": "Dzēst",
       "CREATE_A_CANNED_RESPONSE": "Pievienot sagatavotajām atbildēm",
       "TRANSLATE": "Tulkot",
