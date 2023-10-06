@@ -194,6 +194,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Másolás",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "Törlés",
       "CREATE_A_CANNED_RESPONSE": "Mentett válasz hozzáadása",
       "TRANSLATE": "Fordítás",
