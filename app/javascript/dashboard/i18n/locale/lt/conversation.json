@@ -194,6 +194,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Kopijuoti",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "Ištrinti",
       "CREATE_A_CANNED_RESPONSE": "Pridėti Atsakymų Ruošinius",
       "TRANSLATE": "Išversti",
