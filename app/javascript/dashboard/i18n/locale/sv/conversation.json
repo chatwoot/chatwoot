@@ -194,7 +194,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Kopiera",
-      "REPLY_TO": "Reply to this message",
+      "REPLY_TO": "Svara på detta meddelande",
       "DELETE": "Radera",
       "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
       "TRANSLATE": "Translate",
