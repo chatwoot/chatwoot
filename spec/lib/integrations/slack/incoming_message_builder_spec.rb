@@ -163,7 +163,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
 
       it 'unfurls link' do
         builder = described_class.new(link_shared)
-        expect(SlackUnfurlJob).to receive(:perform_later).with(link_shared, hook)
+        expect(SlackUnfurlJob).to receive(:perform_later).with(link_shared)
         builder.perform
       end
     end
