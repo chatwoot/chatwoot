@@ -28,8 +28,8 @@ By default, it renders:
     <% end %>
   </head>
   <body>
-    <div class="antialiased">
-      <main class="main-content min-h-screen flex flex-col" role="main">
+    <div class="antialiased <%= @theme %>">
+      <main class="main-content min-h-screen flex flex-col bg-white dark:bg-slate-900" role="main">
         <% if !@is_plain_layout_enabled %>
           <%= render "public/api/v1/portals/header", portal: @portal %>
         <% end %>
@@ -40,6 +40,11 @@ By default, it renders:
       </main>
     </div>
   </body>
+  <style>
+  :root {
+    color-scheme: '<%= @theme %>';
+  }
+  </style>
   <script>
     window.portalConfig = {
       portalSlug: '<%= @portal.slug %>',

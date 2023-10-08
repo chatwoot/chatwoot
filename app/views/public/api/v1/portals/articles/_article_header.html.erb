@@ -1,4 +1,4 @@
-<h1 class="text-3xl font-semibold md:tracking-normal leading-snug md:text-4xl text-slate-900">
+<h1 class="text-3xl font-semibold md:tracking-normal leading-snug md:text-4xl text-slate-900 dark:text-white">
   <%= article.title %>
 </h1>
 <div class="flex flex-col items-start justify-between w-full md:flex-row md:items-center pt-2">
@@ -9,8 +9,8 @@
       </div>
     <% end %>
     <div>
-      <h5 class="text-base font-medium text-slate-900 mb-2"><%= article.author.available_name %></h5>
-      <p class="text-sm font-normal text-slate-700">
+      <h5 class="text-base font-medium text-slate-900 dark:text-white mb-2"><%= article.author.available_name %></h5>
+      <p class="text-sm font-normal text-slate-700 dark:text-slate-100">
       <%= I18n.t('public_portal.common.last_updated_on', last_updated_on: article.updated_at.strftime("%b %d, %Y")) %>
     </div>
   </div>
