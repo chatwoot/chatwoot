@@ -2,18 +2,18 @@
 import { computed } from 'vue';
 import { extractTextFromMarkdown } from 'dashboard/helper/editorHelper';
 
-const { messageContent } = defineProps({
+const { content } = defineProps({
   messageId: {
     type: Number,
     required: true,
   },
-  messageContent: {
+  content: {
     type: String,
     default: '',
   },
 });
 
-const cleanedContent = computed(() => extractTextFromMarkdown(messageContent));
+const cleanedContent = computed(() => extractTextFromMarkdown(content));
 </script>
 
 <template>
