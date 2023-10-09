@@ -3156,10 +3156,10 @@
     "@braid/vue-formulate-i18n" "^1.16.0"
     is-plain-object "^3.0.1"
 
-"@chatwoot/prosemirror-schema@1.0.3-alpha":
-  version "1.0.3-alpha"
-  resolved "https://registry.yarnpkg.com/@chatwoot/prosemirror-schema/-/prosemirror-schema-1.0.3-alpha.tgz#001ad1999d06d3800eb6e433210fca179d515aeb"
-  integrity sha512-qq88CY6nv/6SBX9F0SRAVpBxijqiilaolHJ6B/lvnQP9yg7WbVfirrGiuGu7TvkDQrXJGm4Zk6t9cP5Yts2ZoA==
+"@chatwoot/prosemirror-schema@1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@chatwoot/prosemirror-schema/-/prosemirror-schema-1.0.3.tgz#8599e517d42cb31fabf977554ade666eb6316ef0"
+  integrity sha512-BIVxV7c8x0vbWtWxGPk/VnBrtC1CV0TzZd+GPZC49irVcQQ2vAwgOYaZ/1qcFe9M3jv0kWAWOPqQAfbB5RBB7g==
   dependencies:
     markdown-it-sup "^1.0.0"
     prosemirror-commands "^1.1.4"
