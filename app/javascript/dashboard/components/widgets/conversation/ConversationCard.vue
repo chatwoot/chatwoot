@@ -159,14 +159,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 import CardLabels from './conversationCardComponents/CardLabels.vue';
 import PriorityMark from './PriorityMark.vue';
-const ATTACHMENT_ICONS = {
-  image: 'image',
-  audio: 'headphones-sound-wave',
-  video: 'video',
-  file: 'document',
-  location: 'location',
-  fallback: 'link',
-};
+import { ATTACHMENT_ICONS } from 'shared/constants/messages';
 
 export default {
   components: {
