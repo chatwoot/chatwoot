@@ -139,7 +139,6 @@ export default {
   },
   data() {
     return {
-      editorRoot: null,
       showUserMentions: false,
       showCannedMenu: false,
       showVariables: false,
@@ -156,6 +155,9 @@ export default {
     };
   },
   computed: {
+    editorRoot() {
+      return this.$refs.editorRoot;
+    },
     contentFromEditor() {
       return MessageMarkdownSerializer.serialize(this.editorView.state.doc);
     },
@@ -343,9 +345,6 @@ export default {
     bus.$off(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, this.insertContentIntoEditor);
   },
   methods: {
-    setEditorRoot() {
-      this.editorRoot = this.$refs.editorRoot;
-    },
     reloadState(content = this.value) {
       this.state = createState(
         content,
