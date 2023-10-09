@@ -34,6 +34,11 @@
             :url="storyUrl"
           />
         </blockquote>
+        <bubble-reply-to
+          v-if="inReplyTo"
+          :content="inReplyTo.content"
+          @click="navigateToMessage"
+        />
         <bubble-text
           v-if="data.content"
           :message="message"
@@ -141,6 +146,7 @@ import BubbleLocation from './bubble/Location.vue';
 import BubbleMailHead from './bubble/MailHead.vue';
 import BubbleText from './bubble/Text.vue';
 import BubbleContact from './bubble/Contact.vue';
+import BubbleReplyTo from './bubble/ReplyTo.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
 import instagramImageErrorPlaceholder from './instagramImageErrorPlaceholder.vue';
@@ -165,6 +171,7 @@ export default {
     BubbleMailHead,
     BubbleText,
     BubbleContact,
+    BubbleReplyTo,
     ContextMenu,
     Spinner,
     instagramImageErrorPlaceholder,
@@ -172,6 +179,10 @@ export default {
   mixins: [alertMixin, messageFormatterMixin, contentTypeMixin],
   props: {
     data: {
+      type: Object,
+      required: true,
+    },
+    currentChat: {
       type: Object,
       required: true,
     },
@@ -270,6 +281,18 @@ export default {
           this.data.private
         ) + botMessageContent
       );
+    },
+    inReplyTo() {
+      const replyToMessageId = this.data.content_attributes?.in_reply_to;
+
+      if (!replyToMessageId) return null;
+
+      return this.currentChat?.messages.find(message => {
+        if (message.id === replyToMessageId) {
+          return true;
+        }
+        return false;
+      });
     },
     contextMenuEnabledOptions() {
       return {
@@ -521,6 +544,13 @@ export default {
       this.higlightTimeout = setTimeout(() => {
         this.showBackgroundHighlight = false;
       }, HIGHLIGHT_TIMER);
+    },
+    navigateToMessage() {
+      this.$nextTick(() => {
+        bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE, {
+          messageId: this.inReplyTo?.id,
+        });
+      });
     },
   },
 };

@@ -34,6 +34,7 @@
         :has-instagram-story="hasInstagramStory"
         :is-web-widget-inbox="isAWebWidgetInbox"
         :inbox-supports-reply-to="inboxSupportsReplyTo"
+        :current-chat="currentChat"
       />
       <li v-show="unreadMessageCount != 0" class="unread--toast">
         <span>
@@ -55,6 +56,8 @@
         :is-a-whatsapp-channel="isAWhatsAppChannel"
         :has-instagram-story="hasInstagramStory"
         :is-web-widget-inbox="isAWebWidgetInbox"
+        :inbox-supports-reply-to="inboxSupportsReplyTo"
+        :current-chat="currentChat"
       />
       <conversation-label-suggestion
         v-if="shouldShowLabelSuggestions"
