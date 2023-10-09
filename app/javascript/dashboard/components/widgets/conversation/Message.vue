@@ -22,10 +22,7 @@
           :bcc="emailHeadAttributes.bcc"
           :is-incoming="isIncoming"
         />
-        <blockquote
-          v-if="storyReply && inboxSupportsReplyTo"
-          class="story-reply-quote"
-        >
+        <blockquote v-if="storyReply" class="story-reply-quote">
           <span>{{ $t('CONVERSATION.REPLIED_TO_STORY') }}</span>
           <bubble-image
             v-if="!hasImgStoryError && storyUrl"
@@ -38,7 +35,7 @@
           />
         </blockquote>
         <bubble-reply-to
-          v-if="inReplyToMessageId"
+          v-if="inReplyToMessageId && inboxSupportsReplyTo"
           :content="inReplyTo.content"
           :default-empty-message="$t('CONVERSATION.REPLY_MESSAGE_NOT_FOUND')"
           @click="navigateToMessage"
