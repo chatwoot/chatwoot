@@ -550,7 +550,7 @@ export default {
         updatedMessage
       );
 
-      this.insertNodeIntoEditor(node, this.range.from, this.range.to);
+      this.insertNodeIntoEditor(node, this.range.from - 1, this.range.to);
 
       this.$track(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
       return false;
