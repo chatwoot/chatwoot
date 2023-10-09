@@ -22,7 +22,10 @@
           :bcc="emailHeadAttributes.bcc"
           :is-incoming="isIncoming"
         />
-        <blockquote v-if="storyReply" class="story-reply-quote">
+        <blockquote
+          v-if="storyReply && inboxSupportsReplyTo"
+          class="story-reply-quote"
+        >
           <span>{{ $t('CONVERSATION.REPLIED_TO_STORY') }}</span>
           <bubble-image
             v-if="!hasImgStoryError && storyUrl"
