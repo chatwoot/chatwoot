@@ -269,8 +269,7 @@ export default {
     }),
     shouldShowReplyToMessage() {
       const hasReplyTo =
-        this.inReplyTo &&
-        this.inReplyTo.id &&
+        this.inReplyTo?.id &&
         this.inReplyTo.id !== this.currentChat.id;
 
       return (
