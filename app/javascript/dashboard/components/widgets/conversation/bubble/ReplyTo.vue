@@ -2,16 +2,18 @@
 import { computed } from 'vue';
 import { extractTextFromMarkdown } from 'dashboard/helper/editorHelper';
 
-const { content } = defineProps({
+const props = defineProps({
   content: {
     type: String,
     default: '',
   },
+  defaultEmptyMessage: {
+    type: String,
+    required: true,
+  },
 });
 
-const cleanedContent = computed(() => extractTextFromMarkdown(content));
-
-const defaultEmptyMessage = this.$t('CONVERSATION.REPLY_MESSAGE_NOT_FOUND');
+const cleanedContent = computed(() => extractTextFromMarkdown(props.content));
 </script>
 
 <template>

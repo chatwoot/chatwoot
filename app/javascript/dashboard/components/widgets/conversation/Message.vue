@@ -40,6 +40,7 @@
         <bubble-reply-to
           v-if="inReplyToMessageId"
           :content="inReplyTo.content"
+          :default-empty-message="$t('CONVERSATION.REPLY_MESSAGE_NOT_FOUND')"
           @click="navigateToMessage"
         />
         <bubble-text
