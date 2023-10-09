@@ -38,7 +38,7 @@
           />
         </blockquote>
         <bubble-reply-to
-          v-if="inReplyTo"
+          v-if="inReplyToMessageId"
           :content="inReplyTo.content"
           @click="navigateToMessage"
         />
@@ -285,17 +285,20 @@ export default {
         ) + botMessageContent
       );
     },
+    inReplyToMessageId() {
+      return this.data.content_attributes?.in_reply_to;
+    },
     inReplyTo() {
-      const replyToMessageId = this.data.content_attributes?.in_reply_to;
+      if (!this.inReplyToMessageId) return null;
 
-      if (!replyToMessageId) return null;
-
-      return this.currentChat?.messages.find(message => {
-        if (message.id === replyToMessageId) {
+      const replyTo = this.currentChat?.messages.find(message => {
+        if (message.id === this.inReplyToMessageId) {
           return true;
         }
         return false;
       });
+
+      return replyTo ?? {};
     },
     contextMenuEnabledOptions() {
       return {
@@ -551,7 +554,7 @@ export default {
     navigateToMessage() {
       this.$nextTick(() => {
         bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE, {
-          messageId: this.inReplyTo?.id,
+          messageId: this.inReplyToMessageId,
         });
       });
     },
