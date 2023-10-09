@@ -331,7 +331,6 @@ export default {
   mounted() {
     this.createEditorView();
     this.editorView.updateState(this.state);
-    this.setEditorRoot();
     this.focusEditorInputField();
 
     // BUS Event to insert text or markdown into the editor at the
@@ -443,7 +442,7 @@ export default {
             this.onFocus();
           },
           click: () => {
-            this.isEditorMouseFocusedOnAnImage();
+            // this.isEditorMouseFocusedOnAnImage(); Enable it when the backend supports for message resize is done.
           },
           blur: () => {
             this.onBlur();
@@ -665,7 +664,7 @@ export default {
         () => this.resetTyping(),
         TYPING_INDICATOR_IDLE_TIME
       );
-      this.updateImgToolbarOnDelete();
+      // this.updateImgToolbarOnDelete(); Enable it when the backend supports for message resize is done.
     },
     onKeydown(event) {
       if (this.isEnterToSendEnabled()) {
