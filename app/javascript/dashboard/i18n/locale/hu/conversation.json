@@ -13,8 +13,8 @@
     "NO_INBOX_AGENT": "O-Ó! Úgy tűnik, hogy egyetlen fióknak sem vagy tagja. Kérjük lépj kapcsolatba az adminisztrátoroddal",
     "SEARCH_MESSAGES": "Üzenetek keresése a beszélgetésekben",
     "EMPTY_STATE": {
-      "CMD_BAR": "to open command menu",
-      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+      "CMD_BAR": "menü megnyitása",
+      "KEYBOARD_SHORTCUTS": "billentyűparancs megtekintése"
     },
     "SEARCH": {
       "TITLE": "Üzenetekben keresés",
@@ -194,7 +194,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Másolás",
-      "REPLY_TO": "Reply to this message",
+      "REPLY_TO": "Válasz az üzenetre",
       "DELETE": "Törlés",
       "CREATE_A_CANNED_RESPONSE": "Mentett válasz hozzáadása",
       "TRANSLATE": "Fordítás",
