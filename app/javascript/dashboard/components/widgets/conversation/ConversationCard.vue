@@ -58,7 +58,7 @@
       <message-preview
         v-if="lastMessageInChat"
         :message="lastMessageInChat"
-        class="conversation--message my-0 mx-2 leading-6 h-6 max-w-[96%] w-[16.875rem]"
+        class="conversation--message mt-0 mb-2 mx-2 leading-6 h-6 max-w-[96%] w-[16.875rem] text-sm"
       />
       <p
         v-else
