@@ -1006,11 +1006,7 @@ export default {
         sender: this.sender,
       };
 
-      if (this.selectedTweet?.id) {
-        messagePayload.contentAttributes = {
-          in_reply_to: this.selectedTweet.id,
-        };
-      } else if (this.inReplyTo?.id) {
+      if (this.inReplyTo?.id) {
         messagePayload.contentAttributes = {
           in_reply_to: this.inReplyTo.id,
         };
