@@ -194,7 +194,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Kopijuoti",
-      "REPLY_TO": "Reply to this message",
+      "REPLY_TO": "Atsakyti į šią žinutę",
       "DELETE": "Ištrinti",
       "CREATE_A_CANNED_RESPONSE": "Pridėti Atsakymų Ruošinius",
       "TRANSLATE": "Išversti",
