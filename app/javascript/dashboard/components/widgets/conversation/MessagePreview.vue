@@ -35,7 +35,7 @@
       {{ $t(`${attachmentMessageContent}`) }}
     </span>
     <span v-else>
-      {{ defaultEmptyMessage ?? $t('CHAT_LIST.NO_CONTENT') }}
+      {{ defaultEmptyMessage || $t('CHAT_LIST.NO_CONTENT') }}
     </span>
   </span>
 </template>
