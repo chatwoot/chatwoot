@@ -50,13 +50,23 @@ export default {
 
       if (this.attachments.length > 1) {
         if (firstFileName) {
-          return `${firstFileName} and ${this.attachments.length - 1} more`;
+          return this.$t(
+            'CONVERSATION.REPLY_TO_ATTACHMENT.FILE_PLUS_MULTIPLE',
+            {
+              first: firstFileName,
+              count: (this.attachments.length - 1).toLocaleString(),
+            }
+          );
         }
 
-        return `${this.attachments.length} files`;
+        return this.$t('CONVERSATION.REPLY_TO_ATTACHMENT.COUNT', {
+          count: this.attachments.length.toLocaleString(),
+        });
       }
 
-      return firstFileName ?? 'Attachment';
+      return (
+        firstFileName ?? this.$t('CONVERSATION.REPLY_TO_ATTACHMENT.ATTACHMENT')
+      );
     },
   },
 };

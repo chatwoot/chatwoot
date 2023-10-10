@@ -47,6 +47,11 @@
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Feedback",
     "REPLY_MESSAGE_NOT_FOUND": "Not available, click to scroll to the message",
+    "REPLY_TO_ATTACHMENT": {
+      "FILE_PLUS_MULTIPLE": "%{first} and %{count} others",
+      "COUNT": "%{count} files",
+      "ATTACHMENT": "Attachment"
+    },
     "CARD": {
       "SHOW_LABELS": "Show labels",
       "HIDE_LABELS": "Hide labels"
