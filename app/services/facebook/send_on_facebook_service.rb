@@ -21,7 +21,7 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   def fb_text_message_params
     {
       recipient: { id: contact.get_source_id(inbox.id) },
-      message: { text: message.content },
+      message: { text: message.content, reply_to: fb_message_reply_to },
       messaging_type: 'MESSAGE_TAG',
       tag: 'ACCOUNT_UPDATE'
     }
@@ -37,11 +37,20 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
           payload: {
             url: attachment.download_url
           }
-        }
+        },
+        reply_to: fb_message_reply_to
       },
       messaging_type: 'MESSAGE_TAG',
       tag: 'ACCOUNT_UPDATE'
     }
+  end
+
+  def fb_message_reply_to
+    # https://developers.facebook.com/docs/messenger-platform/reference/webhook-events/messages/#reply-message
+    mid = message.content_attributes['in_reply_to_external_id']
+    return nil if mid.blank?
+
+    { mid: mid }
   end
 
   def attachment_type(attachment)
