@@ -19,6 +19,13 @@
       @click="$emit('click')"
     />
     <div class="reply-box__top">
+      <reply-to-message
+        v-if="shouldShowReplyToMessage"
+        :message-id="inReplyTo.id"
+        :message-content="inReplyTo.content"
+        @dismiss="resetReplyToMessage"
+        @navigate-to-message="navigateToMessage"
+      />
       <canned-response
         v-if="showMentions && hasSlashCommand"
         v-on-clickaway="hideMentions"
@@ -143,6 +150,7 @@ import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
 
 import CannedResponse from './CannedResponse.vue';
+import ReplyToMessage from './ReplyToMessage.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview.vue';
 import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel.vue';
@@ -164,7 +172,7 @@ import {
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
 import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
-import inboxMixin from 'shared/mixins/inboxMixin';
+import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { trimContent, debounce } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants/globals';
@@ -178,6 +186,10 @@ import {
   replaceSignature,
   extractTextFromMarkdown,
 } from 'dashboard/helper/editorHelper';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+
+import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
+import { LocalStorage } from 'shared/helpers/localStorage';
 
 const EmojiInput = () => import('shared/components/emoji/EmojiInput');
 
@@ -185,6 +197,7 @@ export default {
   components: {
     EmojiInput,
     CannedResponse,
+    ReplyToMessage,
     ResizableTextArea,
     AttachmentPreview,
     ReplyTopPanel,
@@ -214,6 +227,7 @@ export default {
   data() {
     return {
       message: '',
+      inReplyTo: {},
       isFocused: false,
       showEmojiPicker: false,
       attachedFiles: [],
@@ -246,7 +260,19 @@ export default {
       lastEmail: 'getLastEmailInSelectedChat',
       globalConfig: 'globalConfig/get',
       accountId: 'getCurrentAccountId',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
+    shouldShowReplyToMessage() {
+      return (
+        this.inReplyTo?.id &&
+        !this.isPrivate &&
+        this.inboxHasFeature(INBOX_FEATURES.REPLY_TO) &&
+        this.isFeatureEnabledonAccount(
+          this.accountId,
+          FEATURE_FLAGS.MESSAGE_REPLY_TO
+        )
+      );
+    },
     showRichContentEditor() {
       if (this.isOnPrivateNote || this.isRichEditorEnabled) {
         return true;
@@ -540,6 +566,9 @@ export default {
       true
     );
 
+    this.fetchAndSetReplyTo();
+    bus.$on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.fetchAndSetReplyTo);
+
     // A hacky fix to solve the drag and drop
     // Is showing on top of new conversation modal drag and drop
     // TODO need to find a better solution
@@ -551,6 +580,7 @@ export default {
   destroyed() {
     document.removeEventListener('paste', this.onPaste);
     document.removeEventListener('keydown', this.handleKeyEvents);
+    bus.$off(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.fetchAndSetReplyTo);
   },
   beforeDestroy() {
     bus.$off(
@@ -841,6 +871,7 @@ export default {
       }
       this.attachedFiles = [];
       this.isRecordingAudio = false;
+      this.resetReplyToMessage();
     },
     clearEmailField() {
       this.ccEmails = '';
@@ -972,8 +1003,10 @@ export default {
         sender: this.sender,
       };
 
-      if (this.inReplyTo) {
-        messagePayload.contentAttributes = { in_reply_to: this.inReplyTo };
+      if (this.inReplyTo?.id) {
+        messagePayload.contentAttributes = {
+          in_reply_to: this.inReplyTo.id,
+        };
       }
 
       if (this.attachedFiles && this.attachedFiles.length) {
@@ -1045,6 +1078,30 @@ export default {
       this.ccEmails = cc.join(', ');
       this.bccEmails = bcc.join(', ');
       this.toEmails = to.join(', ');
+    },
+    fetchAndSetReplyTo() {
+      const replyStorageKey = LOCAL_STORAGE_KEYS.MESSAGE_REPLY_TO;
+      const replyToMessageId = LocalStorage.getFromJsonStore(
+        replyStorageKey,
+        this.conversationId
+      );
+
+      this.inReplyTo = this.currentChat.messages.find(message => {
+        if (message.id === replyToMessageId) {
+          return true;
+        }
+        return false;
+      });
+    },
+    resetReplyToMessage() {
+      const replyStorageKey = LOCAL_STORAGE_KEYS.MESSAGE_REPLY_TO;
+      LocalStorage.deleteFromJsonStore(replyStorageKey, this.conversationId);
+      bus.$emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE);
+    },
+    navigateToMessage(messageId) {
+      this.$nextTick(() => {
+        bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE, { messageId });
+      });
     },
     onNewConversationModalActive(isActive) {
       // Issue is if the new conversation modal is open and we drag and drop the file
