@@ -45,8 +45,11 @@ class Channel::TwilioSms < ApplicationRecord
   end
 
   def send_message(to:, body:, media_url: nil)
+    base_url = ENV.fetch('FRONTEND_URL', nil)
+    status_callback = "#{base_url}/twilio/callback"
     params = send_message_from.merge(to: to, body: body)
     params[:media_url] = media_url if media_url.present?
+    params[:status_callback] = status_callback
     client.messages.create(**params)
   end
 

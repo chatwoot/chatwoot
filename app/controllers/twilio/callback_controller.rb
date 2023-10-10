@@ -26,7 +26,10 @@ class Twilio::CallbackController < ApplicationController
       :FromState,
       :MediaUrl0,
       :MediaContentType0,
-      :MessagingServiceSid
+      :MessagingServiceSid,
+      :MessageStatus,
+      :ErrorCode,
+      :ErrorMessage
     )
   end
 end
