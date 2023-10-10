@@ -50,7 +50,7 @@ hu:
     dyte:
       invalid_message_type: "Hibás üzenet típus. Kérés elutasítva"
     slack:
-      invalid_channel_id: "Invalid slack channel. Please try again"
+      invalid_channel_id: "Érvénytelen Slack csatorna. Kérjük, próbálja újra"
     inboxes:
       imap:
         socket_error: Kérlek ellenőrizd a hálózati kapcsolatot, az IMAP címet, majd próbáld újra.
@@ -206,8 +206,8 @@ hu:
     fields:
       name: Név
       email: E-mail
-      phone_number: Phone
+      phone_number: Telefon
       company_name: Cég
       inbox_name: Fiók
-      inbox_type: Inbox Type
+      inbox_type: Beérkezett üzenetek típusa
     button: Beszélgetés megnyitása
