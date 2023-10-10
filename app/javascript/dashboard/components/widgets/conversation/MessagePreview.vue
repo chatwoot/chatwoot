@@ -35,7 +35,7 @@
       {{ $t(`${attachmentMessageContent}`) }}
     </span>
     <span v-else>
-      {{ $t('CHAT_LIST.NO_CONTENT') }}
+      {{ defaultEmptyMessage ?? $t('CHAT_LIST.NO_CONTENT') }}
     </span>
   </span>
 </template>
@@ -56,6 +56,10 @@ export default {
     showMessageType: {
       type: Boolean,
       default: true,
+    },
+    defaultEmptyMessage: {
+      type: String,
+      default: '',
     },
   },
   computed: {
