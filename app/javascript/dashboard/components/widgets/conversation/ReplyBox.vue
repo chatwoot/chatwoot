@@ -263,11 +263,8 @@ export default {
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
     shouldShowReplyToMessage() {
-      const hasReplyTo =
-        this.inReplyTo?.id && this.inReplyTo.id !== this.currentChat.id;
-
       return (
-        hasReplyTo &&
+        this.inReplyTo?.id &&
         !this.isPrivate &&
         this.inboxHasFeature(INBOX_FEATURES.REPLY_TO) &&
         this.isFeatureEnabledonAccount(
@@ -1091,7 +1088,6 @@ export default {
 
       this.inReplyTo = this.currentChat.messages.find(message => {
         if (message.id === replyToMessageId) {
-          this.inReplyTo = message;
           return true;
         }
         return false;
