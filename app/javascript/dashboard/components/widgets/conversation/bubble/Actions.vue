@@ -57,17 +57,6 @@
       @mouseenter="isHovered = true"
       @mouseleave="isHovered = false"
     />
-    <button
-      v-if="isATweet && (isIncoming || isOutgoing) && sourceId"
-      @click="onTweetReply"
-    >
-      <fluent-icon
-        v-tooltip.top-start="$t('CHAT_LIST.REPLY_TO_TWEET')"
-        icon="arrow-reply"
-        class="action--icon cursor-pointer"
-        size="16"
-      />
-    </button>
     <a
       v-if="isATweet && (isOutgoing || isIncoming) && linkToTweet"
       :href="linkToTweet"
@@ -77,7 +66,7 @@
       <fluent-icon
         v-tooltip.top-start="$t('CHAT_LIST.VIEW_TWEET_IN_TWITTER')"
         icon="open"
-        class="action--icon cursor-pointer"
+        class="cursor-pointer action--icon"
         size="16"
       />
     </a>
@@ -86,7 +75,6 @@
 
 <script>
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
-import { BUS_EVENTS } from 'shared/constants/busEvents';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import { mapGetters } from 'vuex';
 import timeMixin from '../../../../mixins/time';
@@ -244,11 +232,6 @@ export default {
       }
 
       return false;
-    },
-  },
-  methods: {
-    onTweetReply() {
-      bus.$emit(BUS_EVENTS.SET_TWEET_REPLY, this.id);
     },
   },
 };
