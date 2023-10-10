@@ -60,6 +60,7 @@ class Message < ApplicationRecord
 
   before_validation :ensure_content_type
   before_save :ensure_processed_message_content
+  before_save :ensure_in_reply_to_external_id
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
@@ -231,6 +232,13 @@ class Message < ApplicationRecord
 
     message_content = text_content_quoted || html_content_quoted || content
     self.processed_message_content = message_content&.truncate(150_000)
+  end
+
+  def ensure_in_reply_to_external_id
+    in_reply_to = content_attributes['in_reply_to']
+    return if in_reply_to.blank?
+
+    content_attributes['in_reply_to_external_id'] = Message.find(in_reply_to).source_id
   end
 
   def ensure_content_type
