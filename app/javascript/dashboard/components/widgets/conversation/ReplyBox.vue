@@ -93,6 +93,7 @@
     </div>
     <div v-if="hasAttachments" class="attachment-preview-box" @paste="onPaste">
       <attachment-preview
+        class="mt-4 flex-col"
         :attachments="attachedFiles"
         :remove-attachment="removeAttachment"
       />
@@ -122,6 +123,7 @@
       :toggle-audio-recorder="toggleAudioRecorder"
       :toggle-emoji-picker="toggleEmojiPicker"
       :message="message"
+      :new-conversation-modal-active="newConversationModalActive"
       @selectWhatsappTemplate="openWhatsappTemplateModal"
       @toggle-editor="toggleRichContentEditor"
       @replace-text="replaceText"
@@ -255,6 +257,7 @@ export default {
       showUserMentions: false,
       showCannedMenu: false,
       showVariablesMenu: false,
+      newConversationModalActive: false,
     };
   },
   computed: {
@@ -595,11 +598,25 @@ export default {
 
     this.fetchAndSetReplyTo();
     bus.$on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.fetchAndSetReplyTo);
+
+    // A hacky fix to solve the drag and drop
+    // Is showing on top of new conversation modal drag and drop
+    // TODO need to find a better solution
+    bus.$on(
+      BUS_EVENTS.NEW_CONVERSATION_MODAL,
+      this.onNewConversationModalActive
+    );
   },
   destroyed() {
     document.removeEventListener('paste', this.onPaste);
     document.removeEventListener('keydown', this.handleKeyEvents);
     bus.$off(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.fetchAndSetReplyTo);
+  },
+  beforeDestroy() {
+    bus.$off(
+      BUS_EVENTS.NEW_CONVERSATION_MODAL,
+      this.onNewConversationModalActive
+    );
   },
   methods: {
     toggleRichContentEditor() {
@@ -1120,6 +1137,14 @@ export default {
       this.$nextTick(() => {
         bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE, { messageId });
       });
+    },
+    onNewConversationModalActive(isActive) {
+      // Issue is if the new conversation modal is open and we drag and drop the file
+      // then the file is not getting attached to the new conversation modal
+      // and it is getting attached to the current conversation reply box
+      // so to fix this we are removing the drag and drop event listener from the current conversation reply box
+      // When new conversation modal is open
+      this.newConversationModalActive = isActive;
     },
   },
 };
