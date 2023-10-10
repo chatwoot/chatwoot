@@ -11,10 +11,6 @@ const { messageContent } = defineProps({
     type: String,
     default: '',
   },
-  attachment: {
-    type: Object,
-    default: null,
-  },
 });
 
 const cleanedContent = computed(() => extractTextFromMarkdown(messageContent));
