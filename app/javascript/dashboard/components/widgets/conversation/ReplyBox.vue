@@ -86,7 +86,7 @@
     </div>
     <div v-if="hasAttachments" class="attachment-preview-box" @paste="onPaste">
       <attachment-preview
-        class="mt-4 flex-col"
+        class="flex-col mt-4"
         :attachments="attachedFiles"
         :remove-attachment="removeAttachment"
       />
@@ -206,14 +206,6 @@ export default {
     fileUploadMixin,
   ],
   props: {
-    selectedTweet: {
-      type: [Object, String],
-      default: () => ({}),
-    },
-    isATweet: {
-      type: Boolean,
-      default: false,
-    },
     popoutReplyBox: {
       type: Boolean,
       default: false,
@@ -326,10 +318,7 @@ export default {
       return this.maxLength - this.message.length;
     },
     isReplyButtonDisabled() {
-      if (this.isATweet && !this.inReplyTo && !this.isOnPrivateNote) {
-        return true;
-      }
-
+      if (this.isATwitterInbox) return true;
       if (this.hasAttachments || this.hasRecordedAudio) return false;
 
       return (
@@ -362,11 +351,6 @@ export default {
       if (this.isASmsInbox) {
         return MESSAGE_MAX_LENGTH.TWILIO_SMS;
       }
-      if (this.isATwitterInbox) {
-        if (this.conversationType === 'tweet') {
-          return MESSAGE_MAX_LENGTH.TWEET - this.replyToUserLength - 2;
-        }
-      }
       return MESSAGE_MAX_LENGTH.GENERAL;
     },
     showFileUpload() {
@@ -384,8 +368,6 @@ export default {
       let sendMessageText = this.$t('CONVERSATION.REPLYBOX.SEND');
       if (this.isPrivate) {
         sendMessageText = this.$t('CONVERSATION.REPLYBOX.CREATE');
-      } else if (this.conversationType === 'tweet') {
-        sendMessageText = this.$t('CONVERSATION.REPLYBOX.TWEET');
       }
       const keyLabel = isEditorHotKeyEnabled(this.uiSettings, 'cmd_enter')
         ? '(⌘ + ↵)'
@@ -419,10 +401,6 @@ export default {
     isOnPrivateNote() {
       return this.replyType === REPLY_EDITOR_MODES.NOTE;
     },
-    inReplyTo() {
-      const selectedTweet = this.selectedTweet || {};
-      return selectedTweet.id;
-    },
     isOnExpandedLayout() {
       const {
         LAYOUT_TYPES: { CONDENSED },
@@ -439,15 +417,6 @@ export default {
         return 'emoji-dialog--rtl';
       }
       return '';
-    },
-    replyToUserLength() {
-      const selectedTweet = this.selectedTweet || {};
-      const {
-        sender: {
-          additional_attributes: { screen_name: screenName = '' } = {},
-        } = {},
-      } = selectedTweet;
-      return screenName ? screenName.length : 0;
     },
     isMessageEmpty() {
       if (!this.message) {
