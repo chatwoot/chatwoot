@@ -325,6 +325,7 @@ export default {
         right: isRightAligned,
         'has-context-menu': this.showContextMenu,
         'has-tweet-menu': this.isATweet,
+        // this handles the offset required to align the context menu button  // extra alignment is required since a tweet message has a the user name and avatar below it
         'has-bg': this.showBackgroundHighlight,
       };
     },
@@ -620,6 +621,8 @@ li.right {
 }
 
 li.left.has-tweet-menu .context-menu {
+  // this handles the offset required to align the context menu button
+  // extra alignment is required since a tweet message has a the user name and avatar below it
   @apply mb-6;
 }
 
