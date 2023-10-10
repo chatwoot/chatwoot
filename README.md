@@ -11,6 +11,9 @@
   <a href="https://marketplace.digitalocean.com/apps/chatwoot?refcode=f2238426a2a8" alt="Deploy to DigitalOcean">
      <img width="200" alt="Deploy to DO" src="https://www.deploytodo.com/do-btn-blue.svg"/>
   </a>
+  <a href="https://elest.io/open-source/chatwoot" alt="Deploy on Elestio">
+     <img width="200" height="38" alt="Deploy on Elestio" src="https://pub-da36157c854648669813f3f76c526c2b.r2.dev/deploy-on-elestio-black.png"/>
+  </a>
 </p>
 
 ___
