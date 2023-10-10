@@ -36,9 +36,7 @@
         </blockquote>
         <bubble-reply-to
           v-if="inReplyToMessageId && inboxSupportsReplyTo"
-          :content="inReplyTo.content"
-          :attachments="inReplyTo.attachments"
-          :default-empty-message="$t('CONVERSATION.REPLY_MESSAGE_NOT_FOUND')"
+          :message="inReplyTo"
           @click="navigateToMessage"
         />
         <bubble-text
