@@ -7,7 +7,7 @@ export default {
         case 'send_email_to_team':
           return this.teams;
         case 'assign_agent':
-          return this.agents;
+          return [{ id: 'self', name: 'Self' }, ...this.agents];
         case 'add_label':
         case 'remove_label':
           return this.labels.map(i => {
