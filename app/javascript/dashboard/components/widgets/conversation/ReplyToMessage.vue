@@ -1,21 +1,3 @@
-<script setup>
-import { computed } from 'vue';
-import { extractTextFromMarkdown } from 'dashboard/helper/editorHelper';
-
-const { content } = defineProps({
-  messageId: {
-    type: Number,
-    required: true,
-  },
-  content: {
-    type: String,
-    default: '',
-  },
-});
-
-const cleanedContent = computed(() => extractTextFromMarkdown(content));
-</script>
-
 <template>
   <div
     class="reply-editor bg-slate-50 rounded-md py-1 pl-2 pr-1 text-xs tracking-wide mt-2 flex items-center gap-1.5 -mx-2 cursor-pointer"
@@ -36,6 +18,49 @@ const cleanedContent = computed(() => extractTextFromMarkdown(content));
     />
   </div>
 </template>
+
+<script>
+import { ATTACHMENT_ICONS } from 'shared/constants/messages';
+import { extractTextFromMarkdown } from 'dashboard/helper/editorHelper';
+
+export default {
+  props: {
+    messageId: {
+      type: Number,
+      required: true,
+    },
+    content: {
+      type: String,
+      default: '',
+    },
+    attachments: {
+      type: Array,
+      default: () => [],
+    },
+  },
+  computed: {
+    cleanedContent() {
+      return extractTextFromMarkdown(this.content);
+    },
+    attachmentIcon() {
+      return ATTACHMENT_ICONS[this.attachments[0]?.file_type];
+    },
+    attachmentLabel() {
+      const firstFileName = this.attachments[0].data_url?.split('/').pop();
+
+      if (this.attachments.length > 1) {
+        if (firstFileName) {
+          return `${firstFileName} and ${this.attachments.length - 1} more`;
+        }
+
+        return `${this.attachments.length} files`;
+      }
+
+      return firstFileName ?? 'Attachment';
+    },
+  },
+};
+</script>
 
 <style lang="scss">
 // TODO: Remove this
