@@ -22,7 +22,7 @@
       <reply-to-message
         v-if="shouldShowReplyToMessage"
         :message-id="inReplyTo.id"
-        :message-content="inReplyTo.content"
+        :content="inReplyTo.content"
         :attachments="inReplyTo.attachments"
         @dismiss="resetReplyToMessage"
         @navigate-to-message="navigateToMessage"

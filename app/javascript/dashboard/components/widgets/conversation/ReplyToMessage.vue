@@ -43,9 +43,12 @@ export default {
       return extractTextFromMarkdown(this.content);
     },
     attachmentIcon() {
+      if (!this.attachments.length) return null;
       return ATTACHMENT_ICONS[this.attachments[0]?.file_type];
     },
     attachmentLabel() {
+      if (!this.attachments.length) return null;
+
       const firstFileName = this.attachments[0].data_url?.split('/').pop();
 
       if (this.attachments.length > 1) {
