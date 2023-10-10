@@ -12,13 +12,18 @@ class Twilio::MessageDeliveryService
   def process_statuses
     # https://www.twilio.com/docs/messaging/api/message-resource#message-status-values
     @message.status = params[:MessageStatus]
-    if (params[:MessageStatus] == 'failed' || params[:MessageStatus] == 'undelivered') && params[:ErrorCode].present?
-      # https://www.twilio.com/docs/messaging/guides/webhook-request#status-callback-parameters
-      @message.external_error = "#{params[:ErrorCode]} - #{params[:ErrorMessage].presence || 'Unknown Error'}"
-    end
+    process_error if error_occurred?
     @message.save!
   rescue ArgumentError => e
     Rails.logger.error "Error while processing twilio whatsapp status update #{e.message}"
+  end
+
+  def process_error
+    @message.external_error = "#{params[:ErrorCode]} - #{params[:ErrorMessage].presence || 'Unknown Error'}"
+  end
+
+  def error_occurred?
+    %w[failed undelivered].include?(params[:MessageStatus]) && params[:ErrorCode].present?
   end
 
   def twilio_channel
