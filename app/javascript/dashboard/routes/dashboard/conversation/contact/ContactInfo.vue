@@ -177,6 +177,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 import adminMixin from '../../../../mixins/isAdmin';
 import { mapGetters } from 'vuex';
 import { getCountryFlag } from 'dashboard/helper/flag';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 import {
   isAConversationRoute,
   getConversationDashboardRoute,
@@ -268,6 +269,7 @@ export default {
     },
     toggleConversationModal() {
       this.showConversationModal = !this.showConversationModal;
+      bus.$emit(BUS_EVENTS.NEW_CONVERSATION_MODAL, this.showConversationModal);
     },
     toggleDeleteModal() {
       this.showDeleteModal = !this.showDeleteModal;
