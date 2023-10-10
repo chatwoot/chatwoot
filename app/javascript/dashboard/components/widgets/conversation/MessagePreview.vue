@@ -1,7 +1,5 @@
 <template>
-  <span
-    class="overflow-hidden text-slate-700 dark:text-slate-200 text-ellipsis whitespace-nowrap"
-  >
+  <span class="overflow-hidden text-ellipsis whitespace-nowrap">
     <template v-if="showMessageType">
       <fluent-icon
         v-if="isMessagePrivate"
