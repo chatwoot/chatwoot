@@ -12,7 +12,7 @@
       />
       <iframe
         v-if="configItem.type === 'frame' && configItem.url"
-        :id="`dashboard-app--frame-${index}`"
+        :id="getFrameId(index)"
         :src="configItem.url"
         @load="() => onIframeLoad(index)"
       />
@@ -38,6 +38,10 @@ export default {
     isVisible: {
       type: Boolean,
       default: false,
+    },
+    position: {
+      type: Number,
+      required: true,
     },
   },
   data() {
@@ -82,10 +86,11 @@ export default {
     };
   },
   methods: {
+    getFrameId(index) {
+      return `dashboard-app--frame-${this.position}-${index}`;
+    },
     onIframeLoad(index) {
-      const frameElement = document.getElementById(
-        `dashboard-app--frame-${index}`
-      );
+      const frameElement = this.getFrameId(index);
       const eventData = { event: 'appContext', data: this.dashboardAppContext };
       frameElement.contentWindow.postMessage(JSON.stringify(eventData), '*');
       this.iframeLoading = false;
