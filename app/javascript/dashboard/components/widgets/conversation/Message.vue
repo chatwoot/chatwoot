@@ -150,6 +150,8 @@ import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import { generateBotMessageContent } from './helpers/botMessageContentHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
+import { LocalStorage } from 'shared/helpers/localStorage';
 
 export default {
   components: {
@@ -502,7 +504,13 @@ export default {
       this.showContextMenu = false;
       this.contextMenuPosition = { x: null, y: null };
     },
-    handleReplyTo() {},
+    handleReplyTo() {
+      const replyStorageKey = LOCAL_STORAGE_KEYS.MESSAGE_REPLY_TO;
+      const { conversation_id: conversationId, id: replyTo } = this.data;
+
+      LocalStorage.updateJsonStore(replyStorageKey, conversationId, replyTo);
+      bus.$emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.data);
+    },
     setupHighlightTimer() {
       if (Number(this.$route.query.messageId) !== Number(this.data.id)) {
         return;
