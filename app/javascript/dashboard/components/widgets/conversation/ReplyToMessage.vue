@@ -23,7 +23,7 @@ const cleanedContent = computed(() => extractTextFromMarkdown(messageContent));
   >
     <fluent-icon class="flex-shrink-0 icon" icon="arrow-reply" icon-size="14" />
     <div class="flex-grow overflow-hidden text-ellipsis">
-      Replying to: {{ cleanedContent }}.
+      {{ $t('CONVERSATION.REPLYBOX.REPLYING_TO') }} {{ cleanedContent }}.
     </div>
     <woot-button
       v-tooltip="$t('CONVERSATION.REPLYBOX.DISMISS_REPLY')"
