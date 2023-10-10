@@ -90,7 +90,10 @@ export default {
       return `dashboard-app--frame-${this.position}-${index}`;
     },
     onIframeLoad(index) {
-      const frameElement = this.getFrameId(index);
+      // A possible alternative is to use ref instead of document.getElementById
+      // However, when ref is used together with v-for, the ref you get will be
+      // an array containing the child components mirroring the data source.
+      const frameElement = document.getElementById(this.getFrameId(index));
       const eventData = { event: 'appContext', data: this.dashboardAppContext };
       frameElement.contentWindow.postMessage(JSON.stringify(eventData), '*');
       this.iframeLoading = false;
