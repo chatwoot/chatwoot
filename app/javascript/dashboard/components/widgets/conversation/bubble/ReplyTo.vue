@@ -1,6 +1,6 @@
 <template>
   <div
-    class="p-2 -mx-2 rounded-md bg-woot-600 min-w-[15rem] mb-2 cursor-pointer"
+    class="px-2 py-1.5 -mx-2 rounded-md bg-woot-600 min-w-[15rem] mb-2 cursor-pointer"
     @click="$emit('click')"
   >
     <div v-if="content" class="line-clamp-3">
