@@ -21,9 +21,7 @@
     <div class="reply-box__top">
       <reply-to-message
         v-if="shouldShowReplyToMessage"
-        :message-id="inReplyTo.id"
-        :content="inReplyTo.content"
-        :attachments="inReplyTo.attachments"
+        :message="inReplyTo"
         @dismiss="resetReplyToMessage"
         @navigate-to-message="navigateToMessage"
       />
