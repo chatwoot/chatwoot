@@ -17,7 +17,21 @@ describe Twilio::MessageDeliveryService do
                          source_id: 'SMd560ac79e4a4d36b3ce59f1f50471986')
       end
 
-      it 'when message status is fired' do
+      it 'when message status is delivered' do
+        params = {
+          SmsSid: 'SMxx',
+          From: '+12345',
+          AccountSid: 'ACxxx',
+          MessagingServiceSid: twilio_channel.messaging_service_sid,
+          MessageSid: conversation.messages.last.source_id,
+          MessageStatus: 'read'
+        }
+
+        described_class.new(params: params).perform
+        expect(conversation.reload.messages.last.status).to eq('read')
+      end
+
+      it 'when message status is read' do
         params = {
           SmsSid: 'SMxx',
           From: '+12345',
