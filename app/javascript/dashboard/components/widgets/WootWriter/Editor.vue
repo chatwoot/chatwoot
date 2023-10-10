@@ -1,5 +1,5 @@
 <template>
-  <div ref="editorRoot" class="editor-root relative">
+  <div ref="editorRoot" class="relative editor-root">
     <tag-agents
       v-if="showUserMentions && isPrivate"
       :search-key="mentionSearchKey"
@@ -542,6 +542,7 @@ export default {
         message: cannedItem,
         variables: this.variables,
       });
+
       if (!this.editorView) {
         return null;
       }
@@ -550,7 +551,12 @@ export default {
         updatedMessage
       );
 
-      this.insertNodeIntoEditor(node, this.range.from, this.range.to);
+      const from =
+        node.textContent === updatedMessage
+          ? this.range.from
+          : this.range.from - 1;
+
+      this.insertNodeIntoEditor(node, from, this.range.to);
 
       this.$track(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
       return false;
