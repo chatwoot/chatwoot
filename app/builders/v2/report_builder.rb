@@ -15,7 +15,13 @@ class V2::ReportBuilder
   end
 
   def timeseries
-    send(params[:metric])
+    metric_name = params[:metric]
+
+    if metric_name && respond_to?(metric_name)
+      send(metric_name)
+    else
+      Rails.logger.error "Invalid metric: #{metric_name}"
+    end
   end
 
   # For backward compatible with old report
