@@ -17,7 +17,7 @@ class V2::ReportBuilder
   def timeseries
     metric_name = params[:metric]
 
-    if metric_name && respond_to?(metric_name)
+    if metric_name
       send(metric_name)
     else
       Rails.logger.error "Invalid metric: #{metric_name}"
