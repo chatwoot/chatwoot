@@ -392,7 +392,7 @@ export default {
         const messageElement = document.getElementById('message' + messageId);
         if (messageElement) {
           this.isProgrammaticScroll = true;
-          messageElement.scrollIntoView({ behavior: 'smooth' });
+          messageElement.scrollIntoView();
           this.fetchPreviousMessages();
         } else {
           this.scrollToBottom();

@@ -549,10 +549,8 @@ export default {
       }, HIGHLIGHT_TIMER);
     },
     navigateToMessage() {
-      this.$nextTick(() => {
-        bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE, {
-          messageId: this.inReplyToMessageId,
-        });
+      bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE, {
+        messageId: this.inReplyToMessageId,
       });
     },
   },
