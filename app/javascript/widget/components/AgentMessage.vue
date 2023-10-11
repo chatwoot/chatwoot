@@ -13,6 +13,22 @@
         />
       </div>
       <div class="message-wrap">
+        <div class="flex mb-1 text-xs">
+          <div
+            v-if="replyTo && (replyTo.content || replyTo.attachments)"
+            class="px-1.5 py-0.5 rounded-md text-slate-600 bg-slate-50 hover:bg-slate-100 hover:text-slate-800 cursor-pointer flex items-center gap-1.5"
+          >
+            <FluentIcon icon="arrow-reply" size="12" class="flex-shrink-0" />
+            <div
+              v-if="replyTo.content"
+              v-dompurify-html="formatMessage(replyTo.content, false)"
+              class="reply-to-truncate"
+            />
+            <div v-else-if="replyTo.attachments" class="reply-to-truncate">
+              <p>{{ replyToAttachment }}</p>
+            </div>
+          </div>
+        </div>
         <AgentMessageBubble
           v-if="shouldDisplayAgentMessage"
           :content-type="contentType"
@@ -72,6 +88,8 @@ import configMixin from '../mixins/configMixin';
 import messageMixin from '../mixins/messageMixin';
 import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 
 export default {
   name: 'AgentMessage',
@@ -81,10 +99,21 @@ export default {
     Thumbnail,
     UserMessage,
     FileBubble,
+    FluentIcon,
   },
-  mixins: [timeMixin, configMixin, messageMixin, darkModeMixin],
+  mixins: [
+    timeMixin,
+    configMixin,
+    messageMixin,
+    darkModeMixin,
+    messageFormatterMixin,
+  ],
   props: {
     message: {
+      type: Object,
+      default: () => {},
+    },
+    replyTo: {
       type: Object,
       default: () => {},
     },
@@ -180,6 +209,14 @@ export default {
         'has-text': this.shouldDisplayAgentMessage,
       };
     },
+    replyToAttachment() {
+      if (!this.replyTo?.attachments.length) {
+        return '';
+      }
+
+      const [{ file_type: fileType } = {}] = this.replyTo.attachments;
+      return this.$t(`ATTACHMENTS.${fileType}.CONTENT`);
+    },
   },
   watch: {
     message() {
@@ -196,3 +233,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.reply-to-truncate > p {
+  @apply overflow-hidden truncate max-w-[8rem];
+}
+</style>
