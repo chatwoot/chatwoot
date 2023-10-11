@@ -59,7 +59,7 @@ describe Twilio::DeliveryStatusService do
         expect(conversation.reload.messages.last.status).to eq('failed')
       end
 
-      it 'updates message status to failed and updated the reason if message status is undelivered' do
+      it 'updates message status to failed and updates the error message if message status is undelivered' do
         params = {
           SmsSid: 'SMxx',
           From: '+12345',
@@ -74,6 +74,22 @@ describe Twilio::DeliveryStatusService do
         described_class.new(params: params).perform
         expect(conversation.reload.messages.last.status).to eq('failed')
         expect(conversation.reload.messages.last.external_error).to eq('30008 - Unknown error')
+      end
+
+      it 'updates the error message if message status is undelivered and error message is not present' do
+        params = {
+          SmsSid: 'SMxx',
+          From: '+12345',
+          AccountSid: 'ACxxx',
+          MessagingServiceSid: twilio_channel.messaging_service_sid,
+          MessageSid: conversation.messages.last.source_id,
+          MessageStatus: 'failed',
+          ErrorCode: '30008'
+        }
+
+        described_class.new(params: params).perform
+        expect(conversation.reload.messages.last.status).to eq('failed')
+        expect(conversation.reload.messages.last.external_error).to eq('Error code: 30008')
       end
     end
   end
