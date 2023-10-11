@@ -3,10 +3,14 @@
     class="reply-editor bg-slate-50 dark:bg-slate-800 rounded-md py-1 pl-2 pr-1 text-xs tracking-wide mt-2 flex items-center gap-1.5 -mx-2 cursor-pointer"
     @click="$emit('navigate-to-message', messageId)"
   >
-    <fluent-icon class="flex-shrink-0 icon" icon="arrow-reply" icon-size="14" />
-    <div class="flex items-center flex-grow gap-1 text-xs">
+    <fluent-icon class="flex-shrink-0 icon" icon="arrow-reply" size="14" />
+    <div class="flex-grow gap-1 mt-px text-xs truncate">
       {{ $t('CONVERSATION.REPLYBOX.REPLYING_TO') }}
-      <message-preview :message="message" :show-message-type="false" />
+      <message-preview
+        :message="message"
+        :show-message-type="false"
+        class="inline"
+      />
     </div>
     <woot-button
       v-tooltip="$t('CONVERSATION.REPLYBOX.DISMISS_REPLY')"
