@@ -1,7 +1,6 @@
 <template>
   <div
-    class="reply-editor bg-slate-50 dark:bg-slate-800 rounded-md py-1 pl-2 pr-1 text-xs tracking-wide mt-2 flex items-center gap-1.5 -mx-2 cursor-pointer"
-    @click="$emit('navigate-to-message', message.id)"
+    class="reply-editor bg-slate-50 dark:bg-slate-800 rounded-md py-1 pl-2 pr-1 text-xs tracking-wide mt-2 flex items-center gap-1.5 -mx-2"
   >
     <fluent-icon class="flex-shrink-0 icon" icon="arrow-reply" size="14" />
     <div class="flex-grow gap-1 mt-px text-xs truncate">

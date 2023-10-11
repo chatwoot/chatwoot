@@ -1,7 +1,6 @@
 <template>
   <div
-    class="px-2 py-1.5 -mx-2 rounded-md bg-woot-600 text-woot-50 min-w-[15rem] mb-2 cursor-pointer"
-    @click="$emit('click')"
+    class="px-2 py-1.5 -mx-2 rounded-md bg-woot-600 text-woot-50 min-w-[15rem] mb-2"
   >
     <message-preview
       :message="message"
