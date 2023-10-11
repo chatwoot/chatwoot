@@ -396,6 +396,7 @@ Rails.application.routes.draw do
 
   namespace :twilio do
     resources :callback, only: [:create]
+    resources :delivery_status, only: [:create]
   end
 
   get 'microsoft/callback', to: 'microsoft/callbacks#show'
