@@ -69,7 +69,7 @@ RSpec.describe Channel::TwilioSms do
         messaging_service_sid: channel.messaging_service_sid,
         to: '+15555550111',
         body: 'hello world',
-        status_callback: "#{ENV.fetch('FRONTEND_URL', nil)}/twilio/delivery"
+        status_callback: "#{ENV.fetch('FRONTEND_URL', nil)}/twilio/delivery_status"
       ).once
 
       channel.send_message(to: '+15555550111', body: 'hello world')
@@ -83,7 +83,7 @@ RSpec.describe Channel::TwilioSms do
           from: channel.phone_number,
           to: '+15555550111',
           body: 'hello world',
-          status_callback: "#{ENV.fetch('FRONTEND_URL', nil)}/twilio/delivery"
+          status_callback: "#{ENV.fetch('FRONTEND_URL', nil)}/twilio/delivery_status"
         ).once
 
         channel.send_message(to: '+15555550111', body: 'hello world')
@@ -97,7 +97,7 @@ RSpec.describe Channel::TwilioSms do
           to: '+15555550111',
           body: 'hello world',
           media_url: ['https://example.com/1.jpg'],
-          status_callback: "#{ENV.fetch('FRONTEND_URL', nil)}/twilio/delivery"
+          status_callback: "#{ENV.fetch('FRONTEND_URL', nil)}/twilio/delivery_status"
         ).once
 
         channel.send_message(to: '+15555550111', body: 'hello world', media_url: ['https://example.com/1.jpg'])
