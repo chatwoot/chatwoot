@@ -40,7 +40,7 @@
     },
     "SUGGESTIONS": {
       "TOOLTIP": {
-        "SINGLE_SUGGESTION": "Add label to conversation",
+        "SINGLE_SUGGESTION": "Pridėti etiketę pokalbiui",
         "MULTIPLE_SUGGESTION": "Pasirinkti šitą etiketę",
         "DESELECT": "Panaikinti pažymėjimą",
         "DISMISS": "Dismiss suggestion"
