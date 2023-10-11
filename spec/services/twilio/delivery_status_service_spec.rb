@@ -17,7 +17,21 @@ describe Twilio::DeliveryStatusService do
                          source_id: 'SMd560ac79e4a4d36b3ce59f1f50471986')
       end
 
-      it 'when message status is delivered' do
+      it 'updates the message if the status is delivered' do
+        params = {
+          SmsSid: 'SMxx',
+          From: '+12345',
+          AccountSid: 'ACxxx',
+          MessagingServiceSid: twilio_channel.messaging_service_sid,
+          MessageSid: conversation.messages.last.source_id,
+          MessageStatus: 'delivered'
+        }
+
+        described_class.new(params: params).perform
+        expect(conversation.reload.messages.last.status).to eq('delivered')
+      end
+
+      it 'updates the message if the status is read' do
         params = {
           SmsSid: 'SMxx',
           From: '+12345',
@@ -31,18 +45,18 @@ describe Twilio::DeliveryStatusService do
         expect(conversation.reload.messages.last.status).to eq('read')
       end
 
-      it 'when message status is read' do
+      it 'does not update the message if the status is not a support status' do
         params = {
           SmsSid: 'SMxx',
           From: '+12345',
           AccountSid: 'ACxxx',
           MessagingServiceSid: twilio_channel.messaging_service_sid,
           MessageSid: conversation.messages.last.source_id,
-          MessageStatus: 'delivered'
+          MessageStatus: 'queued'
         }
 
         described_class.new(params: params).perform
-        expect(conversation.reload.messages.last.status).to eq('delivered')
+        expect(conversation.reload.messages.last.status).to eq('sent')
       end
 
       it 'updates message status to failed if message status is failed' do

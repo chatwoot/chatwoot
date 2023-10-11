@@ -1,8 +1,11 @@
 class Twilio::DeliveryStatusService
   pattr_initialize [:params!]
+  # Reference: https://www.twilio.com/docs/messaging/api/message-resource#message-status-values
 
   def perform
     return if twilio_channel.blank?
+
+    return if unsupported_status?
 
     process_statuses if message.present?
   end
@@ -10,12 +13,15 @@ class Twilio::DeliveryStatusService
   private
 
   def process_statuses
-    # https://www.twilio.com/docs/messaging/api/message-resource#message-status-values
     @message.status = params[:MessageStatus]
     @message.external_error = external_error if error_occurred?
     @message.save!
-  rescue ArgumentError => e
-    Rails.logger.error "Error while processing twilio whatsapp status update #{e.message}"
+  end
+
+  def unsupported_status?
+    return false if %w[sent delivered read failed undelivered].include?(params[:MessageStatus])
+
+    true
   end
 
   def external_error
@@ -27,12 +33,12 @@ class Twilio::DeliveryStatusService
     if error_message.present?
       "#{error_code} - #{error_message}"
     elsif error_code.present?
-      "Error code: #{error_code}"
+      I18n.t('conversations.messages.delivery_status.error_code', error_code: error_code)
     end
   end
 
   def error_occurred?
-    %w[failed undelivered].include?(params[:MessageStatus]) && params[:ErrorCode].present?
+    params[:ErrorCode].present? && %w[failed undelivered].include?(params[:MessageStatus])
   end
 
   def twilio_channel
