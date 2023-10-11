@@ -377,12 +377,12 @@ export default {
     removeBusListeners() {
       bus.$off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
     },
-    onScrollToMessage({ messageId = '' } = {}) {
+    onScrollToMessage({ messageId = '', behavior = 'smooth' } = {}) {
       this.$nextTick(() => {
         const messageElement = document.getElementById('message' + messageId);
         if (messageElement) {
           this.isProgrammaticScroll = true;
-          messageElement.scrollIntoView({ behavior: 'smooth' });
+          messageElement.scrollIntoView({ behavior });
           this.fetchPreviousMessages();
         } else {
           this.scrollToBottom();
