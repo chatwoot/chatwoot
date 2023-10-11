@@ -201,7 +201,7 @@ export default {
         return !!this.sourceId;
       }
 
-      if (this.isAWhatsAppChannel) {
+      if (this.isAWhatsAppChannel || this.isATwilioChannel) {
         return this.sourceId && this.isSent;
       }
       return false;
@@ -211,7 +211,7 @@ export default {
         return false;
       }
 
-      if (this.isAWhatsAppChannel) {
+      if (this.isAWhatsAppChannel || this.isATwilioChannel) {
         return this.sourceId && this.isDelivered;
       }
 
@@ -227,7 +227,7 @@ export default {
         return contactLastSeenAt >= this.createdAt;
       }
 
-      if (this.isAWhatsAppChannel) {
+      if (this.isAWhatsAppChannel || this.isATwilioChannel) {
         return this.sourceId && this.isRead;
       }
 
