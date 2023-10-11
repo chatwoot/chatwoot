@@ -548,10 +548,19 @@ export default {
         this.showBackgroundHighlight = false;
       }, HIGHLIGHT_TIMER);
     },
-    navigateToMessage() {
-      bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE, {
-        messageId: this.inReplyToMessageId,
-        behavior: 'instant',
+    async navigateToMessage() {
+      // TODO: check if the message is already loaded
+      await this.$store.dispatch('setActiveChat', {
+        data: this.currentChat,
+        after: this.inReplyToMessageId,
+        force: true,
+      });
+
+      this.$nextTick(() => {
+        bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE, {
+          messageId: this.inReplyToMessageId,
+          behavior: 'instant',
+        });
       });
     },
   },
