@@ -14,9 +14,10 @@
       </div>
       <div class="message-wrap">
         <div class="flex mb-1 text-xs">
-          <div
+          <button
             v-if="replyTo && (replyTo.content || replyTo.attachments)"
             class="px-1.5 py-0.5 rounded-md text-slate-600 bg-slate-50 hover:bg-slate-100 hover:text-slate-800 cursor-pointer flex items-center gap-1.5"
+            @click="navigateTo(replyTo.id)"
           >
             <FluentIcon icon="arrow-reply" size="12" class="flex-shrink-0" />
             <div
@@ -27,7 +28,7 @@
             <div v-else-if="replyTo.attachments" class="reply-to-truncate">
               <p>{{ replyToAttachment }}</p>
             </div>
-          </div>
+          </button>
         </div>
         <AgentMessageBubble
           v-if="shouldDisplayAgentMessage"
@@ -229,6 +230,12 @@ export default {
   methods: {
     onImageLoadError() {
       this.hasImageError = true;
+    },
+    navigateTo(id) {
+      const elementId = `cwmsg-${id}`;
+      this.$nextTick(() => {
+        document.getElementById(elementId).scrollIntoView();
+      });
     },
   },
 };
