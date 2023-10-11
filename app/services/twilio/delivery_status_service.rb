@@ -1,4 +1,4 @@
-class Twilio::MessageDeliveryService
+class Twilio::DeliveryStatusService
   pattr_initialize [:params!]
 
   def perform
