@@ -160,10 +160,10 @@ const actions = {
     });
   },
 
-  async setActiveChat({ commit, dispatch }, { data, after }) {
+  async setActiveChat({ commit, dispatch }, { data, after, force = false }) {
     commit(types.SET_CURRENT_CHAT_WINDOW, data);
     commit(types.CLEAR_ALL_MESSAGES_LOADED);
-    if (data.dataFetched === undefined) {
+    if (data.dataFetched === undefined || force) {
       try {
         await dispatch('fetchPreviousMessages', {
           after,
