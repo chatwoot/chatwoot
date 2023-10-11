@@ -234,7 +234,12 @@ export default {
     navigateTo(id) {
       const elementId = `cwmsg-${id}`;
       this.$nextTick(() => {
-        document.getElementById(elementId).scrollIntoView();
+        const el = document.getElementById(elementId);
+        el.scrollIntoView();
+        el.classList.add('bg-slate-100');
+        setTimeout(() => {
+          el.classList.remove('bg-slate-100');
+        }, 500);
       });
     },
   },
