@@ -1,6 +1,16 @@
 <template>
-  <UserMessage v-if="isUserMessage" :message="message" :reply-to="replyTo" />
-  <AgentMessage v-else :message="message" :reply-to="replyTo" />
+  <UserMessage
+    v-if="isUserMessage"
+    :id="`cwmsg-${message.id}`"
+    :message="message"
+    :reply-to="replyTo"
+  />
+  <AgentMessage
+    v-else
+    :id="`cwmsg-${message.id}`"
+    :message="message"
+    :reply-to="replyTo"
+  />
 </template>
 
 <script>
