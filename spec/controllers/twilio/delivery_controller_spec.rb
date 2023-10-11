@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe 'Twilio::DeliveryController', type: :request do
   include Rails.application.routes.url_helpers
-  let(:twilio_service) { instance_double(Twilio::MessageDeliveryService) }
+  let(:twilio_service) { instance_double(Twilio::DeliveryStatusService) }
 
   before do
-    allow(Twilio::MessageDeliveryService).to receive(:new).and_return(twilio_service)
+    allow(Twilio::DeliveryStatusService).to receive(:new).and_return(twilio_service)
     allow(twilio_service).to receive(:perform)
   end
 
