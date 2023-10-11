@@ -1099,8 +1099,9 @@ export default {
       bus.$emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE);
     },
     navigateToMessage(messageId) {
-      this.$nextTick(() => {
-        bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE, { messageId });
+      bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE, {
+        messageId,
+        behavior: 'instant',
       });
     },
     onNewConversationModalActive(isActive) {

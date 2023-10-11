@@ -551,6 +551,7 @@ export default {
     navigateToMessage() {
       bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE, {
         messageId: this.inReplyToMessageId,
+        behavior: 'instant',
       });
     },
   },
