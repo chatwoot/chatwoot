@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Twilio::DeliveryController', type: :request do
+RSpec.describe 'Twilio::DeliveryStatusController', type: :request do
   include Rails.application.routes.url_helpers
   let(:twilio_service) { instance_double(Twilio::DeliveryStatusService) }
 

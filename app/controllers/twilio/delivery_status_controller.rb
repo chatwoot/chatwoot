@@ -1,4 +1,4 @@
-class Twilio::DeliveryController < ApplicationController
+class Twilio::DeliveryStatusController < ApplicationController
   def create
     ::Twilio::DeliveryStatusService.new(params: permitted_params).perform
 
