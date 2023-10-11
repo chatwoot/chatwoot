@@ -205,8 +205,8 @@
         "ERROR": "Az üzenet nem lehet üres"
       },
       "ATTACHMENTS": {
-        "SELECT": "Choose files",
-        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+        "SELECT": "Fájlok kiválasztása",
+        "HELP_TEXT": "Húzza ide a fájlokat, vagy válassza ki a csatolandó fájlokat"
       },
       "SUBMIT": "Üzenet elküldése",
       "CANCEL": "Mégse",
