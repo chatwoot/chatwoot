@@ -1,5 +1,5 @@
 <template>
-  <span class="overflow-hidden text-ellipsis whitespace-nowrap">
+  <div class="overflow-hidden text-ellipsis whitespace-nowrap">
     <template v-if="showMessageType">
       <fluent-icon
         v-if="isMessagePrivate"
@@ -35,7 +35,7 @@
     <span v-else>
       {{ defaultEmptyMessage || $t('CHAT_LIST.NO_CONTENT') }}
     </span>
-  </span>
+  </div>
 </template>
 
 <script>
