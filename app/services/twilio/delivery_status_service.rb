@@ -5,7 +5,7 @@ class Twilio::DeliveryStatusService
   def perform
     return if twilio_channel.blank?
 
-    return if unsupported_status?
+    return unless supported_status?
 
     process_statuses if message.present?
   end
@@ -18,10 +18,8 @@ class Twilio::DeliveryStatusService
     @message.save!
   end
 
-  def unsupported_status?
-    return false if %w[sent delivered read failed undelivered].include?(params[:MessageStatus])
-
-    true
+  def supported_status?
+    %w[sent delivered read failed undelivered].include?(params[:MessageStatus])
   end
 
   def external_error
