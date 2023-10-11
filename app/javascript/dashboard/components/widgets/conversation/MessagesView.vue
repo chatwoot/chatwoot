@@ -34,7 +34,7 @@
         :has-instagram-story="hasInstagramStory"
         :is-web-widget-inbox="isAWebWidgetInbox"
         :inbox-supports-reply-to="inboxSupportsReplyTo"
-        :current-chat="currentChat"
+        :in-reply-to="getInReplyToMessage(message)"
       />
       <li v-show="unreadMessageCount != 0" class="unread--toast">
         <span>
@@ -57,7 +57,7 @@
         :has-instagram-story="hasInstagramStory"
         :is-web-widget-inbox="isAWebWidgetInbox"
         :inbox-supports-reply-to="inboxSupportsReplyTo"
-        :current-chat="currentChat"
+        :in-reply-to="getInReplyToMessage(message)"
       />
       <conversation-label-suggestion
         v-if="shouldShowLabelSuggestions"
@@ -507,6 +507,19 @@ export default {
 
     makeMessagesRead() {
       this.$store.dispatch('markMessagesRead', { id: this.currentChat.id });
+    },
+
+    getInReplyToMessage(parentMessage) {
+      if (!parentMessage) return {};
+      const inReplyToMessageId = parentMessage.content_attributes?.in_reply_to;
+      if (!inReplyToMessageId) return {};
+
+      return this.currentChat?.messages.find(message => {
+        if (message.id === inReplyToMessageId) {
+          return true;
+        }
+        return false;
+      });
     },
   },
 };

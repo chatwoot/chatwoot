@@ -35,7 +35,7 @@
           />
         </blockquote>
         <bubble-reply-to
-          v-if="inReplyToMessageId && inboxSupportsReplyTo"
+          v-if="inReplyTo && inReplyTo.id && inboxSupportsReplyTo"
           :message="inReplyTo"
         />
         <bubble-text
@@ -205,6 +205,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    inReplyTo: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   data() {
     return {
@@ -280,21 +284,6 @@ export default {
           this.data.private
         ) + botMessageContent
       );
-    },
-    inReplyToMessageId() {
-      return this.data.content_attributes?.in_reply_to;
-    },
-    inReplyTo() {
-      if (!this.inReplyToMessageId) return null;
-
-      const replyTo = this.currentChat?.messages.find(message => {
-        if (message.id === this.inReplyToMessageId) {
-          return true;
-        }
-        return false;
-      });
-
-      return replyTo ?? {};
     },
     contextMenuEnabledOptions() {
       return {
