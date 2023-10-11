@@ -28,6 +28,7 @@
           :message="inReplyTo"
           :message-type="data.message_type"
           :parent-has-attachments="hasAttachments"
+          @click="navigateToMessage"
         />
         <bubble-text
           v-if="data.content"
@@ -518,6 +519,21 @@ export default {
       this.higlightTimeout = setTimeout(() => {
         this.showBackgroundHighlight = false;
       }, HIGHLIGHT_TIMER);
+    },
+    async navigateToMessage() {
+      // TODO: check if the message is already loaded
+      await this.$store.dispatch('setActiveChat', {
+        data: this.currentChat,
+        after: this.inReplyToMessageId,
+        force: true,
+      });
+
+      this.$nextTick(() => {
+        bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE, {
+          messageId: this.inReplyToMessageId,
+          behavior: 'instant',
+        });
+      });
     },
   },
 };
