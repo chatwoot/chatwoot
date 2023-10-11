@@ -35,7 +35,7 @@
           />
         </blockquote>
         <bubble-reply-to
-          v-if="inReplyTo && inReplyTo.id && inboxSupportsReplyTo"
+          v-if="inReplyToMessageId && inboxSupportsReplyTo"
           :message="inReplyTo"
         />
         <bubble-text
@@ -284,6 +284,13 @@ export default {
           this.data.private
         ) + botMessageContent
       );
+    },
+    inReplyToMessageId() {
+      // Why not use the inReplyTo object directly?
+      // Glad you asked! The inReplyTo object may or may not be available
+      // depending on the current scroll position of the message list
+      // since old messages are only loaded when the user scrolls up
+      return this.data.content_attributes?.in_reply_to;
     },
     contextMenuEnabledOptions() {
       return {
