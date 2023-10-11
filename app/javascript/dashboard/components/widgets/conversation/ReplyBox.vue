@@ -523,6 +523,7 @@ export default {
       }
 
       this.setCCAndToEmailsFromLastChat();
+      this.fetchAndSetReplyTo();
     },
     conversationIdByRoute(conversationId, oldConversationId) {
       if (conversationId !== oldConversationId) {
