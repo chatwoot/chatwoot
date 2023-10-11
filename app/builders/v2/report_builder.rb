@@ -21,6 +21,7 @@ class V2::ReportBuilder
       send(metric_name)
     else
       Rails.logger.error "Invalid metric: #{metric_name}"
+      {}
     end
   end
 
