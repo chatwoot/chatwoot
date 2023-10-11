@@ -11,7 +11,7 @@ RSpec.describe 'Twilio::DeliveryStatusController', type: :request do
 
   describe 'POST /twilio/delivery' do
     it 'calls incoming message service' do
-      post twilio_delivery_index_url, params: {}
+      post twilio_delivery_status_index_url, params: {}
       expect(twilio_service).to have_received(:perform)
     end
   end
