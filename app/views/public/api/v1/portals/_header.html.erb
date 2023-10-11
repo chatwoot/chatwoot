@@ -1,4 +1,3 @@
-
 <header class="bg-white dark:bg-slate-900 w-full shadow-sm sticky top-0 z-50">
   <nav class=" flex mx-auto max-w-6xl px-8" aria-label="Top">
     <div class="w-full py-5 flex items-center">
@@ -8,34 +7,110 @@
         <% end %>
         <%= @portal.name %>
       </a>
+    </div>
+    <%# Go to homepage link section %>
+    <div class="flex items-center justify-between gap-5">
       <% if @portal.homepage_link %>
-      <div class="ml-8 border-l-1 border-slate-50 dark:border-slate-800 hidden md:block">
-        <div class="flex-grow flex-shrink-0">
-          <a target="_blank" rel="noopener noreferrer nofollow" href="<%= @portal.homepage_link %>" class="flex flex-row items-center text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-slate-800 dark:hover:text-slate-300  hover:underline"> <%= I18n.t('public_portal.header.go_to_homepage') %>
-            <span class="ml-2">
-              <svg class="w-4 h-4 fill-current text-slate-600 dark:text-slate-200" width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13.267 4.209a.75.75 0 0 0-1.034 1.086l6.251 5.955H3.75a.75.75 0 0 0 0 1.5h14.734l-6.251 5.954a.75.75 0 0 0 1.034 1.087l7.42-7.067a.996.996 0 0 0 .3-.58.758.758 0 0 0-.001-.29.995.995 0 0 0-.3-.578l-7.419-7.067Z" /></svg>
-            </span>
-          </a>
+        <div class="ml-8 border-l-1 border-slate-50 dark:border-slate-800 hidden md:block cursor-pointer px-1 py-2">
+          <div class="flex-grow flex-shrink-0">
+            <a target="_blank" rel="noopener noreferrer nofollow" href="<%= @portal.homepage_link %>" class="flex flex-row items-center gap-1 text-sm font-medium text-slate-700 dark:text-slate-100 hover:text-woot-500 dark:hover:text-woot-500 stroke-slate-700 dark:stroke-slate-200 hover:stroke-woot-500">
+              <svg class="w-4 h-4" width="15" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6.5 3H3.5C2.94772 3 2.5 3.44772 2.5 4V12C2.5 12.5523 2.94772 13 3.5 13H11.5C12.0523 13 12.5 12.5523 12.5 12V9" stroke-width="1.2" stroke-linecap="round"/>
+                <path d="M9.5 3H12.3C12.4105 3 12.5 3.08954 12.5 3.2V6" stroke-linecap="round"/>
+                <path d="M12 3.5L6 9.5" stroke-width="1.2" stroke-linecap="round"/>
+              </svg>
+              <%= I18n.t('public_portal.header.go_to_homepage') %>
+            </a>
+          </div>
+        </div>
+      <% end %>
+      <%# Appearance toggle section %>
+      <div class="flex-grow flex-shrink-0 relative cursor-pointer px-1 py-2">
+        <button class="toggle-appearance flex flex-row items-center stroke-slate-700 dark:stroke-slate-200 hover:stroke-woot-500 text-slate-700 dark:text-slate-100 hover:text-woot-500 gap-1 active:text-woot-500" type="button" onclick="toggleAppearanceDropdown()">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8.0001 10.3998C9.32559 10.3998 10.4001 9.32529 10.4001 7.99982C10.4001 6.67436 9.32559 5.59985 8.0001 5.59985C6.67462 5.59985 5.6001 6.67436 5.6001 7.99982C5.6001 9.32529 6.67462 10.3998 8.0001 10.3998Z" stroke-width="1.19999" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8 2V3.19998" stroke-width="1.19999" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8 12.8V14" stroke-width="1.19999" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M3.75806 3.75781L4.60406 4.6038" stroke-width="1.19999" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M11.396 11.3958L12.242 12.2417" stroke-width="1.19999" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M2 7.99976H3.2" stroke-width="1.19999" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12.8 7.99976H14.0001" stroke-width="1.19999" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4.60406 11.3958L3.75806 12.2417" stroke-width="1.19999" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12.242 3.75781L11.396 4.6038" stroke-width="1.19999" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="text-sm font-medium"><%= I18n.t('public_portal.header.appearance.system') %></span>
+          <div class="pointer-events-none flex items-center px-1">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 4.5L6 7.5L9 4.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </button>
+        <div id="appearance-dropdown" class="hidden absolute flex-col h-auto w-32 bg-white dark:bg-slate-900 border border-solid rounded top-9 border-slate-100 dark:border-slate-700" aria-hidden="true" data-dropdown="appearance-dropdown">
+          <button class="flex flex-row items-center px-2 py-2 border-b border-solid border-slate-100 dark:border-slate-700 gap-1 stroke-slate-700 dark:stroke-slate-200 hover:stroke-woot-500 text-slate-700 dark:text-slate-100 hover:text-woot-500">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 4H4C3.44772 4 3 4.44773 3 5.00002V10.0001C3 10.5524 3.44772 11.0002 4 11.0002H12C12.5523 11.0002 13 10.5524 13 10.0001V5.00002C13 4.44773 12.5523 4 12 4Z" stroke-width="1.00001" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M6 13H10" stroke-width="1.00001" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M8 11V13" stroke-width="1.00001" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="text-xs font-medium"><%= I18n.t('public_portal.header.appearance.system') %></span>
+          </button>
+          <button class="flex flex-row items-center px-2 py-2 border-b border-solid border-slate-100 dark:border-slate-700 gap-1 stroke-slate-700 dark:stroke-slate-200 hover:stroke-woot-500 text-slate-700 dark:text-slate-100 hover:text-woot-500">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8.0001 10.3998C9.32559 10.3998 10.4001 9.32529 10.4001 7.99982C10.4001 6.67436 9.32559 5.59985 8.0001 5.59985C6.67462 5.59985 5.6001 6.67436 5.6001 7.99982C5.6001 9.32529 6.67462 10.3998 8.0001 10.3998Z" stroke-width="1.19999" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M8 2V3.19998" stroke-width="1.19999" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M8 12.8V14" stroke-width="1.19999" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M3.75806 3.75781L4.60406 4.6038" stroke-width="1.19999" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M11.396 11.3958L12.242 12.2417" stroke-width="1.19999" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M2 7.99976H3.2" stroke-width="1.19999" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12.8 7.99976H14.0001" stroke-width="1.19999" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4.60406 11.3958L3.75806 12.2417" stroke-width="1.19999" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12.242 3.75781L11.396 4.6038" stroke-width="1.19999" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="text-xs font-medium"><%= I18n.t('public_portal.header.appearance.light') %></span>
+          </button>
+          <button class="flex flex-row items-center px-2 py-2 gap-1 stroke-slate-700 dark:stroke-slate-200 hover:stroke-woot-500 text-slate-700 dark:text-slate-100 hover:text-woot-500">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 3C7.33696 3.66304 6.96447 4.56232 6.96447 5.5C6.96447 6.43768 7.33696 7.33696 8 8C8.66304 8.66304 9.56232 9.03553 10.5 9.03553C11.4377 9.03553 12.337 8.66304 13 8C13 8.9889 12.7068 9.9556 12.1573 10.7778C11.6079 11.6001 10.827 12.241 9.91342 12.6194C8.99979 12.9978 7.99446 13.0969 7.02455 12.9039C6.05465 12.711 5.16373 12.2348 4.46447 11.5355C3.76521 10.8363 3.289 9.94535 3.09608 8.97545C2.90315 8.00555 3.00217 7.00021 3.3806 6.08658C3.75904 5.17295 4.39991 4.39206 5.22215 3.84265C6.0444 3.29324 7.01109 3 8 3Z" stroke-width="1.11111" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="text-xs font-medium"><%= I18n.t('public_portal.header.appearance.dark') %></span>
+          </button>
         </div>
       </div>
+      <%# Locale switcher section %>
+      <% if @portal.config["allowed_locales"].length > 1 %>
+        <div class="flex items-center stroke-slate-700 dark:stroke-slate-200 hover:stroke-woot-500 text-slate-700 dark:text-slate-100 hover:text-woot-500">
+          <div class="flex items-center gap-1 px-1 py-2">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8.00062 13.5557C11.0689 13.5557 13.5562 11.0684 13.5562 8.00014C13.5562 4.93189 11.0689 2.44458 8.00062 2.44458C4.93237 2.44458 2.44507 4.93189 2.44507 8.00014C2.44507 11.0684 4.93237 13.5557 8.00062 13.5557Z" stroke-width="1.11111" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M2.44507 8H13.5562" stroke-width="1.11111" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M8.00054 2.44458C9.39014 3.96589 10.1798 5.94015 10.2228 8.00014C10.1798 10.0601 9.39014 12.0344 8.00054 13.5557C6.61094 12.0344 5.82124 10.0601 5.77832 8.00014C5.82124 5.94015 6.61094 3.96589 8.00054 2.44458Z" stroke-width="1.11111" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <select
+              data-portal-slug="<%= @portal.slug %>"
+              class="bg-white dark:bg-slate-900 appearance-none w-24 overflow-hidden text-ellipsis whitespace-nowrap leading-tight font-medium focus:outline-none text-sm focus:shadow-outline locale-switcher cursor-pointer"
+            >
+              <% @portal.config["allowed_locales"].each do |locale| %>
+                <option <%= locale == params[:locale] ? 'selected': '' %> value="<%= locale %>"><%= "#{language_name(locale)} (#{locale})" %></option>
+              <% end %>
+            </select>
+          </div>
+          <div class="pointer-events-none flex items-center px-2 text-slate-700 dark:text-slate-100">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 4.5L6 7.5L9 4.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
       <% end %>
     </div>
-    <% if @portal.config["allowed_locales"].length > 1 %>
-    <div class="flex items-center">
-      <div class="inline-flex relative w-24">
-        <select
-          data-portal-slug="<%= @portal.slug %>"
-          class="appearance-none w-full bg-white dark:bg-slate-900 dark:text-slate-100 px-3 py-2 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline locale-switcher hover:bg-slate-75 dark:hover:bg-slate-800 cursor-pointer"
-        >
-          <% @portal.config["allowed_locales"].each do |locale| %>
-            <option <%= locale == params[:locale] ? 'selected': '' %> value="<%= locale %>"><%= locale %></option>
-          <% end %>
-        </select>
-        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-700 dark:text-slate-200">
-          <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-        </div>
-      </div>
-    </div>
-    <% end %>
   </nav>
 </header>
+<script>
+  function toggleAppearanceDropdown() {
+    const dropdown = document.getElementById('appearance-dropdown');
+    if (dropdown.style.display === 'none' || !dropdown.style.display) {
+      dropdown.style.display = 'flex';
+    } else {
+      dropdown.style.display = 'none';
+    }
+  }
+</script>
