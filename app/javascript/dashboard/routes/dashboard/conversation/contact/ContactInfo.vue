@@ -24,7 +24,7 @@
           >
             {{ contact.name }}
           </h3>
-          <div class="flex flex-row items-center gap-1">
+          <div class="flex flex-row items-start gap-1">
             <fluent-icon
               v-if="contact.created_at"
               v-tooltip.left="
