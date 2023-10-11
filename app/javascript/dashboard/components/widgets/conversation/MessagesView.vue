@@ -12,7 +12,7 @@
         variant="smooth"
         size="tiny"
         color-scheme="secondary"
-        class="rounded-bl-calc rtl:rotate-180 rounded-tl-calc fixed top-[6.25rem] z-10 bg-white dark:bg-slate-700 border-slate-50 dark:border-slate-600 border-solid border border-r-0 box-border"
+        class="rounded-bl-calc rtl:rotate-180 rounded-tl-calc fixed top-[9.5rem] md:top-[6.25rem] z-10 bg-white dark:bg-slate-700 border-slate-50 dark:border-slate-600 border-solid border border-r-0 box-border"
         :icon="isRightOrLeftIcon"
         @click="onToggleContactPanel"
       />
