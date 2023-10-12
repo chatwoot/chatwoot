@@ -110,6 +110,8 @@ da:
       instagram_story_content: "%{story_sender} nævnte dig i historien: "
       instagram_deleted_story_content: Denne historie er ikke længere tilgængelig.
       deleted: Denne besked blev slettet
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "Samtalen blev markeret som løst af %{user_name}"
