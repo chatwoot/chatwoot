@@ -59,21 +59,24 @@ describe Twilio::DeliveryStatusService do
         expect(conversation.reload.messages.last.status).to eq('sent')
       end
 
-      it 'updates message status to failed if message status is failed' do
+      it 'updates message status to failed if message status is undelivered' do
         params = {
           SmsSid: 'SMxx',
           From: '+12345',
           AccountSid: 'ACxxx',
           MessagingServiceSid: twilio_channel.messaging_service_sid,
           MessageSid: conversation.messages.last.source_id,
-          MessageStatus: 'failed'
+          MessageStatus: 'undelivered',
+          ErrorCode: '30002',
+          ErrorMessage: 'Account suspended'
         }
 
         described_class.new(params: params).perform
         expect(conversation.reload.messages.last.status).to eq('failed')
+        expect(conversation.reload.messages.last.external_error).to eq('30002 - Account suspended')
       end
 
-      it 'updates message status to failed and updates the error message if message status is undelivered' do
+      it 'updates message status to failed and updates the error message if message status is failed' do
         params = {
           SmsSid: 'SMxx',
           From: '+12345',
