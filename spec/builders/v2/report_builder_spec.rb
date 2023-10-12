@@ -182,7 +182,21 @@ describe V2::ReportBuilder do
 
         builder = described_class.new(account, params)
 
-        expect(Rails.logger).to receive(:error).with('Invalid metric - metric is nil')
+        expect(Rails.logger).to receive(:error).with('ReportBuilder: Invalid metric -')
+        builder.timeseries
+      end
+
+      it 'calls the appropriate metric method for a valid metric' do
+        params = {
+          metric: 'not_conversation_count', # Provide a invalid metric
+          type: :account,
+          since: (Time.zone.today - 3.days).to_time.to_i.to_s,
+          until: Time.zone.today.end_of_day.to_time.to_i.to_s
+        }
+
+        builder = described_class.new(account, params)
+        expect(Rails.logger).to receive(:error).with('ReportBuilder: Invalid metric - conversation_count')
+
         builder.timeseries
       end
     end
