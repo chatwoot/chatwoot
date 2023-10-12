@@ -110,6 +110,8 @@ sr-Latn:
       instagram_story_content: "%{story_sender} vas je pomenuo u priči: "
       instagram_deleted_story_content: Ova priča više nije dostupna.
       deleted: Poruka je obrisana
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "Razgovor je označen kao rešen od strane %{user_name}"
