@@ -38,15 +38,15 @@
             <path d="M4.60406 11.3958L3.75806 12.2417" stroke-width="1.19999" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M12.242 3.75781L11.396 4.6038" stroke-width="1.19999" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
-          <span class="text-sm font-medium"><%= I18n.t('public_portal.header.appearance.system') %></span>
+          <span class="text-sm font-medium"><%= get_theme_names(@theme) %></span>
           <div class="pointer-events-none flex items-center px-1">
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M3 4.5L6 7.5L9 4.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </div>
         </button>
-        <div id="appearance-dropdown" class="hidden absolute flex-col h-auto w-32 bg-white dark:bg-slate-900 border border-solid rounded top-9 border-slate-100 dark:border-slate-700" aria-hidden="true" data-dropdown="appearance-dropdown">
-          <button class="flex flex-row items-center px-2 py-2 border-b border-solid border-slate-100 dark:border-slate-700 gap-1 stroke-slate-700 dark:stroke-slate-200 hover:stroke-woot-500 text-slate-800 dark:text-slate-100 hover:text-woot-500">
+        <div id="appearance-dropdown" class="hidden absolute flex-col h-auto w-32 bg-white dark:bg-slate-900 border border-solid rounded top-9 border-slate-100 dark:border-slate-800" aria-hidden="true" data-dropdown="appearance-dropdown">
+          <button onclick="switchTheme('system')" class="flex flex-row items-center px-2 py-2 border-b border-solid border-slate-100 dark:border-slate-800 gap-1 stroke-slate-700 dark:stroke-slate-200 hover:stroke-woot-500 text-slate-800 dark:text-slate-100 hover:text-woot-500">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 4H4C3.44772 4 3 4.44773 3 5.00002V10.0001C3 10.5524 3.44772 11.0002 4 11.0002H12C12.5523 11.0002 13 10.5524 13 10.0001V5.00002C13 4.44773 12.5523 4 12 4Z" stroke-width="1.00001" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M6 13H10" stroke-width="1.00001" stroke-linecap="round" stroke-linejoin="round"/>
@@ -54,7 +54,7 @@
             </svg>
             <span class="text-xs font-medium"><%= I18n.t('public_portal.header.appearance.system') %></span>
           </button>
-          <button class="flex flex-row items-center px-2 py-2 border-b border-solid border-slate-100 dark:border-slate-700 gap-1 stroke-slate-700 dark:stroke-slate-200 hover:stroke-woot-500 text-slate-800 dark:text-slate-100 hover:text-woot-500">
+          <button onclick="switchTheme('light')" class="flex flex-row items-center px-2 py-2 border-b border-solid border-slate-100 dark:border-slate-800 gap-1 stroke-slate-700 dark:stroke-slate-200 hover:stroke-woot-500 text-slate-800 dark:text-slate-100 hover:text-woot-500">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M8.0001 10.3998C9.32559 10.3998 10.4001 9.32529 10.4001 7.99982C10.4001 6.67436 9.32559 5.59985 8.0001 5.59985C6.67462 5.59985 5.6001 6.67436 5.6001 7.99982C5.6001 9.32529 6.67462 10.3998 8.0001 10.3998Z" stroke-width="1.19999" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M8 2V3.19998" stroke-width="1.19999" stroke-linecap="round" stroke-linejoin="round"/>
@@ -68,7 +68,7 @@
             </svg>
             <span class="text-xs font-medium"><%= I18n.t('public_portal.header.appearance.light') %></span>
           </button>
-          <button class="flex flex-row items-center px-2 py-2 gap-1 stroke-slate-700 dark:stroke-slate-200 hover:stroke-woot-500 text-slate-800 dark:text-slate-100 hover:text-woot-500">
+          <button onclick="switchTheme('dark')" class="flex flex-row items-center px-2 py-2 gap-1 stroke-slate-700 dark:stroke-slate-200 hover:stroke-woot-500 text-slate-800 dark:text-slate-100 hover:text-woot-500">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M8 3C7.33696 3.66304 6.96447 4.56232 6.96447 5.5C6.96447 6.43768 7.33696 7.33696 8 8C8.66304 8.66304 9.56232 9.03553 10.5 9.03553C11.4377 9.03553 12.337 8.66304 13 8C13 8.9889 12.7068 9.9556 12.1573 10.7778C11.6079 11.6001 10.827 12.241 9.91342 12.6194C8.99979 12.9978 7.99446 13.0969 7.02455 12.9039C6.05465 12.711 5.16373 12.2348 4.46447 11.5355C3.76521 10.8363 3.289 9.94535 3.09608 8.97545C2.90315 8.00555 3.00217 7.00021 3.3806 6.08658C3.75904 5.17295 4.39991 4.39206 5.22215 3.84265C6.0444 3.29324 7.01109 3 8 3Z" stroke-width="1.11111" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
@@ -104,13 +104,36 @@
     </div>
   </nav>
 </header>
+
 <script>
   function toggleAppearanceDropdown() {
     const dropdown = document.getElementById('appearance-dropdown');
-    if (dropdown.style.display === 'none' || !dropdown.style.display) {
-      dropdown.style.display = 'flex';
+    dropdown.style.display = (dropdown.style.display === 'none' || !dropdown.style.display) ? 'flex' : 'none';
+  }
+
+  function switchTheme(theme) {
+    const bodyDiv = document.querySelector('.antialiased');
+    bodyDiv.classList.remove('light', 'dark');
+
+    if (theme !== 'system') {
+        bodyDiv.classList.add(theme);
+        document.documentElement.style.setProperty('--color-scheme', theme);
+        window.location.href = updateURLParameter(window.location.href, 'theme', theme);
     } else {
-      dropdown.style.display = 'none';
+        window.location.href = removeURLParameter(window.location.href, 'theme');
     }
+    toggleAppearanceDropdown();
+  }
+
+  function updateURLParameter(url, param, paramVal) {
+    const urlObj = new URL(url);
+    urlObj.searchParams.set(param, paramVal);
+    return urlObj.toString();
+  }
+
+  function removeURLParameter(url, parameter) {
+    const urlObj = new URL(url);
+    urlObj.searchParams.delete(parameter);
+    return urlObj.toString();
   }
 </script>

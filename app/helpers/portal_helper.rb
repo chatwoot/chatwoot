@@ -13,4 +13,14 @@ module PortalHelper
     language_map = YAML.load_file(Rails.root.join('config/languages/language_map.yml'))
     language_map[locale] || locale
   end
+
+  def get_theme_names(theme)
+    if theme == 'light'
+      I18n.t('public_portal.header.appearance.light')
+    elsif theme == 'dark'
+      I18n.t('public_portal.header.appearance.dark')
+    else
+      I18n.t('public_portal.header.appearance.system')
+    end
+  end
 end
