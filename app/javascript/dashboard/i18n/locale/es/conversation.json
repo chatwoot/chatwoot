@@ -46,6 +46,7 @@
     "NO_RESPONSE": "No hay respuesta",
     "RATING_TITLE": "Calificación",
     "FEEDBACK_TITLE": "Comentarios",
+    "REPLY_MESSAGE_NOT_FOUND": "Mensaje no disponible",
     "CARD": {
       "SHOW_LABELS": "Mostrar etiquetas",
       "HIDE_LABELS": "Ocultar etiquetas"
