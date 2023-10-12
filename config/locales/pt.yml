@@ -110,6 +110,8 @@ pt:
       instagram_story_content: "%{story_sender} mencionou você na história: "
       instagram_deleted_story_content: Esta história já não está disponível.
       deleted: Esta mensagem foi apagada
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "Conversa foi marcada como resolvida por %{user_name}"
@@ -206,8 +208,8 @@ pt:
     fields:
       name: 'Nome:'
       email: e-mail
-      phone_number: Phone
+      phone_number: Telefone
       company_name: Empresa
       inbox_name: Caixa de Entrada
-      inbox_type: Inbox Type
+      inbox_type: Tipo de caixa de entrada
     button: Abrir conversa
