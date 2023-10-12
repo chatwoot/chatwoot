@@ -110,6 +110,8 @@ el:
       instagram_story_content: "Ο %{story_sender} σας ανέφερε στην ιστορία: "
       instagram_deleted_story_content: Η ιστορία δεν είναι πλέον διαθέσιμη.
       deleted: Το μήνυμα διαγράφηκε
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "Η συνομιλία έχει επιλυθεί από τον %{user_name}"
