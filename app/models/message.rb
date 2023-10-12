@@ -239,14 +239,15 @@ class Message < ApplicationRecord
     in_reply_to = content_attributes[:in_reply_to]
     in_reply_to_external_id = content_attributes[:in_reply_to_external_id]
 
-    if in_reply_to.present?
+    if in_reply_to.present? && in_reply_to_external_id.blank?
       # this also ensures the message is from the same conversation
-      message = conversation.messages.find(in_reply_to)
+      # we use `find_by`, so that we don't get any errors
+      message = conversation.messages.find_by(id: in_reply_to)
       return if message.blank?
 
       # even if the message is outgoing or incoming, the source_id is going to be set
       content_attributes[:in_reply_to_external_id] = message.source_id
-    elsif in_reply_to_external_id.present?
+    elsif in_reply_to_external_id.present? && in_reply_to.blank?
       # this also ensures the message is from the same conversation
       message = conversation.messages.find_by(source_id: in_reply_to_external_id)
       return if message.blank?
