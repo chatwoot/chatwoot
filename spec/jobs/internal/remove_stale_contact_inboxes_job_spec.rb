@@ -10,7 +10,6 @@ describe Internal::RemoveStaleContactInboxesJob do
     # Create a ContactInbox with a conversation (should not be deleted)
     contact_inbox_with_conversation = create(:contact_inbox)
     create(:conversation, contact_id: contact_inbox_with_conversation.id)
-
     expect(ContactInbox.count).to eq(2) # Verify initial count
 
     described_class.perform_now
