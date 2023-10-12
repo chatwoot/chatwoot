@@ -110,6 +110,8 @@ fr:
       instagram_story_content: "%{story_sender} vous a mentionné dans la story: "
       instagram_deleted_story_content: Cette Story n'est plus disponible.
       deleted: Ce message a été supprimé
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "La conversation a été marquée résolue par %{user_name}"
