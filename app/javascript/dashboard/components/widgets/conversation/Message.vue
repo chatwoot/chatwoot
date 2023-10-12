@@ -34,6 +34,10 @@
             :url="storyUrl"
           />
         </blockquote>
+        <bubble-reply-to
+          v-if="inReplyToMessageId && inboxSupportsReplyTo"
+          :message="inReplyTo"
+        />
         <bubble-text
           v-if="data.content"
           :message="message"
@@ -141,6 +145,7 @@ import BubbleLocation from './bubble/Location.vue';
 import BubbleMailHead from './bubble/MailHead.vue';
 import BubbleText from './bubble/Text.vue';
 import BubbleContact from './bubble/Contact.vue';
+import BubbleReplyTo from './bubble/ReplyTo.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
 import instagramImageErrorPlaceholder from './instagramImageErrorPlaceholder.vue';
@@ -165,6 +170,7 @@ export default {
     BubbleMailHead,
     BubbleText,
     BubbleContact,
+    BubbleReplyTo,
     ContextMenu,
     Spinner,
     instagramImageErrorPlaceholder,
@@ -172,6 +178,10 @@ export default {
   mixins: [alertMixin, messageFormatterMixin, contentTypeMixin],
   props: {
     data: {
+      type: Object,
+      required: true,
+    },
+    currentChat: {
       type: Object,
       required: true,
     },
@@ -194,6 +204,10 @@ export default {
     inboxSupportsReplyTo: {
       type: Boolean,
       default: false,
+    },
+    inReplyTo: {
+      type: Object,
+      default: () => ({}),
     },
   },
   data() {
@@ -270,6 +284,13 @@ export default {
           this.data.private
         ) + botMessageContent
       );
+    },
+    inReplyToMessageId() {
+      // Why not use the inReplyTo object directly?
+      // Glad you asked! The inReplyTo object may or may not be available
+      // depending on the current scroll position of the message list
+      // since old messages are only loaded when the user scrolls up
+      return this.data.content_attributes?.in_reply_to;
     },
     contextMenuEnabledOptions() {
       return {
