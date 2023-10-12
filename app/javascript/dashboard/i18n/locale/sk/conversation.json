@@ -46,6 +46,7 @@
     "NO_RESPONSE": "Žiadna odpoveď",
     "RATING_TITLE": "Hodnotenia",
     "FEEDBACK_TITLE": "Spätná väzba",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Show labels",
       "HIDE_LABELS": "Hide labels"
