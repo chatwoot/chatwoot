@@ -46,6 +46,7 @@
     "NO_RESPONSE": "ไม่มีการตอบกลับ",
     "RATING_TITLE": "การประเมิน",
     "FEEDBACK_TITLE": "ผลตอบรับ",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "แสดงป้ายกำกับ",
       "HIDE_LABELS": "ซ่อนป้ายกำกับ"
