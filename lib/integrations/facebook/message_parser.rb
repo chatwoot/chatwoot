@@ -49,7 +49,7 @@ class Integrations::Facebook::MessageParser
   end
 
   def in_reply_to_external_id
-    @message.dig(:message, :reply_to, :mid)
+    @messaging.dig(:message, :reply_to, :mid)
   end
 end
 
