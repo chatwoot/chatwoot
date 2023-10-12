@@ -2,7 +2,9 @@ class Conversations::MarkMessagesAsReadJob < ApplicationJob
   queue_as :low
 
   def perform(conversation)
-    conversation.messages.where(message_type: 'outgoing', status: %w[sent delivered]).find_each do |message|
+    # Mark every message created before the user's viewing time as read.
+    conversation.messages.where(message_type: 'outgoing', status: %w[sent delivered]).where('created_at <= ?',
+                                                                                            conversation.contact_last_seen_at).find_each do |message|
       message.update!(status: 'read')
     end
   end
