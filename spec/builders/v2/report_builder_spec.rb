@@ -195,7 +195,7 @@ describe V2::ReportBuilder do
         }
 
         builder = described_class.new(account, params)
-        expect(Rails.logger).to receive(:error).with('ReportBuilder: Invalid metric - conversation_count')
+        expect(Rails.logger).to receive(:error).with('ReportBuilder: Invalid metric - not_conversation_count')
 
         builder.timeseries
       end
