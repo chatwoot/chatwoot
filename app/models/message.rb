@@ -236,7 +236,7 @@ class Message < ApplicationRecord
 
   # fetch the in_reply_to message and set the external id
   def ensure_in_reply_to_external_id
-    in_reply_to = content_attributes['in_reply_to']
+    in_reply_to = content_attributes&.['in_reply_to']
     return if in_reply_to.blank?
 
     # this also ensures the message is from the same conversation
