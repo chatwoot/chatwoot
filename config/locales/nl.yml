@@ -110,6 +110,8 @@ nl:
       instagram_story_content: "%{story_sender} heeft je genoemd in het verhaal: "
       instagram_deleted_story_content: Dit verhaal is niet meer beschikbaar.
       deleted: Dit bericht werd verwijderd
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "Gesprek werd gemarkeerd door %{user_name}"
