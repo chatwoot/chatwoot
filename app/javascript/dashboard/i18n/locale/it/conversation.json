@@ -46,6 +46,7 @@
     "NO_RESPONSE": "Nessuna risposta",
     "RATING_TITLE": "Valutazione",
     "FEEDBACK_TITLE": "Feedback",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Show labels",
       "HIDE_LABELS": "Hide labels"
