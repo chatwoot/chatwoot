@@ -46,6 +46,7 @@
     "NO_RESPONSE": "Niciun răspuns",
     "RATING_TITLE": "Evaluare",
     "FEEDBACK_TITLE": "Păreri",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Afișare etichete",
       "HIDE_LABELS": "Ascunderea etichetelor"
