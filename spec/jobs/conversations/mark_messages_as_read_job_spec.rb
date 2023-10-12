@@ -14,14 +14,14 @@ RSpec.describe Conversations::MarkMessagesAsReadJob do
   end
 
   context 'when called' do
-    it 'marks all delivered messages in a conversation as read' do
+    it 'marks all sent messages in a conversation as read' do
       expect do
         described_class.perform_now(conversation)
         message.reload
       end.to change(message, :status).from('sent').to('read')
     end
 
-    it 'marks all sent messages in a conversation as read' do
+    it 'marks all delivered messages in a conversation as read' do
       message.update!(status: 'delivered')
       expect do
         described_class.perform_now(conversation)
