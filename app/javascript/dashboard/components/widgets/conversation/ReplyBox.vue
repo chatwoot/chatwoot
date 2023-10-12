@@ -1085,7 +1085,7 @@ export default {
         this.conversationId
       );
 
-      this.inReplyTo = this.currentChat.messages.find(message => {
+      this.inReplyTo = this.currentChat?.messages?.find(message => {
         if (message.id === replyToMessageId) {
           return true;
         }
