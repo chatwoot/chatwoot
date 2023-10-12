@@ -46,6 +46,7 @@
     "NO_RESPONSE": "אין תגובה",
     "RATING_TITLE": "דירוג",
     "FEEDBACK_TITLE": "משוב",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "הצג תויות",
       "HIDE_LABELS": "הסתר תוויות"
