@@ -46,6 +46,7 @@
     "NO_RESPONSE": "لا توجد استجابة",
     "RATING_TITLE": "التقييم",
     "FEEDBACK_TITLE": "الملاحظات",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "إظهار السمات",
       "HIDE_LABELS": "إخفاء السمات"
