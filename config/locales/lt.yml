@@ -110,6 +110,8 @@ lt:
       instagram_story_content: "%{story_sender} paminėjo jus pasakojime: "
       instagram_deleted_story_content: Šis pasakojimas nebepasiekiamas.
       deleted: Šis pranešimas buvo ištrintas
+      delivery_status:
+        error_code: "Klaidos kodas: %{error_code}"
     activity:
       status:
         resolved: "Pokalbį pažymėjo %{user_name} kaip baigtą"
