@@ -182,7 +182,7 @@ describe V2::ReportBuilder do
 
         builder = described_class.new(account, params)
 
-        expect(Rails.logger).to receive(:error).with('ReportBuilder: Invalid metric -')
+        expect(Rails.logger).to receive(:error).with('ReportBuilder: Invalid metric - ')
         builder.timeseries
       end
 
