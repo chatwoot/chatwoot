@@ -46,6 +46,7 @@
     "NO_RESPONSE": "بدون پاسخ",
     "RATING_TITLE": "رتبه",
     "FEEDBACK_TITLE": "بازخورد",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "مشاهده کردن برچسب‌ها",
       "HIDE_LABELS": "پنهان کردن برچسب‌ها"
