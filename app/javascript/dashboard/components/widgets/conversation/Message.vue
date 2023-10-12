@@ -181,10 +181,6 @@ export default {
       type: Object,
       required: true,
     },
-    currentChat: {
-      type: Object,
-      required: true,
-    },
     isATweet: {
       type: Boolean,
       default: false,
