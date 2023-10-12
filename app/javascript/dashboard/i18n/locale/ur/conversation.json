@@ -46,6 +46,7 @@
     "NO_RESPONSE": "کوئی ردعمل نہیں",
     "RATING_TITLE": "درجہ بندی",
     "FEEDBACK_TITLE": "فیڈ بیک",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Show labels",
       "HIDE_LABELS": "Hide labels"
