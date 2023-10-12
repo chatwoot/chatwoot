@@ -204,6 +204,9 @@ export default {
       if (this.isAWhatsAppChannel || this.isATwilioChannel) {
         return this.sourceId && this.isSent;
       }
+      if (this.isAWebWidgetInbox) {
+        return this.isSent;
+      }
       return false;
     },
     showDeliveredIndicator() {
@@ -214,6 +217,10 @@ export default {
       if (this.isAWhatsAppChannel || this.isATwilioChannel) {
         return this.sourceId && this.isDelivered;
       }
+      // We will consider messages as delivered for web widget inbox if they are sent
+      if (this.isAWebWidgetInbox) {
+        return this.isSent;
+      }
 
       return false;
     },
@@ -222,13 +229,17 @@ export default {
         return false;
       }
 
-      if (this.isAWebWidgetInbox || this.isAPIInbox) {
+      if (this.isAPIInbox) {
         const { contact_last_seen_at: contactLastSeenAt } = this.currentChat;
         return contactLastSeenAt >= this.createdAt;
       }
 
       if (this.isAWhatsAppChannel || this.isATwilioChannel) {
         return this.sourceId && this.isRead;
+      }
+
+      if (this.isAWebWidgetInbox) {
+        return this.isRead;
       }
 
       return false;
