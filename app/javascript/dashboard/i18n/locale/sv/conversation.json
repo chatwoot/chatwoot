@@ -46,6 +46,7 @@
     "NO_RESPONSE": "Inget svar",
     "RATING_TITLE": "Betyg",
     "FEEDBACK_TITLE": "Feedback",
+    "REPLY_MESSAGE_NOT_FOUND": "Meddelandet är inte tillgängligt",
     "CARD": {
       "SHOW_LABELS": "Visa etiketter",
       "HIDE_LABELS": "Dölj etiketter"
