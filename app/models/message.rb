@@ -60,7 +60,7 @@ class Message < ApplicationRecord
 
   before_validation :ensure_content_type
   before_save :ensure_processed_message_content
-  before_save :ensure_in_reply_to_external_id
+  before_save :ensure_in_reply_to
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
@@ -235,16 +235,24 @@ class Message < ApplicationRecord
   end
 
   # fetch the in_reply_to message and set the external id
-  def ensure_in_reply_to_external_id
+  def ensure_in_reply_to
     in_reply_to = content_attributes[:in_reply_to]
-    return if in_reply_to.blank?
+    in_reply_to_external_id = content_attributes[:in_reply_to_external_id]
 
-    # this also ensures the message is from the same conversation
-    message = conversation.messages.find(in_reply_to)
-    return if message.blank?
+    if in_reply_to.present?
+      # this also ensures the message is from the same conversation
+      message = conversation.messages.find(in_reply_to)
+      return if message.blank?
 
-    # even if the message is outgoing or incoming, the source_id is going to be set
-    content_attributes[:in_reply_to_external_id] = message.source_id
+      # even if the message is outgoing or incoming, the source_id is going to be set
+      content_attributes[:in_reply_to_external_id] = message.source_id
+    elsif in_reply_to_external_id.present?
+      # this also ensures the message is from the same conversation
+      message = conversation.messages.find_by(source_id: in_reply_to_external_id)
+      return if message.blank?
+
+      content_attributes[:in_reply_to] = message.id
+    end
   end
 
   def ensure_content_type
