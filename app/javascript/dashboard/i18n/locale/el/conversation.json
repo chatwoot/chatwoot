@@ -46,6 +46,7 @@
     "NO_RESPONSE": "Καμία ανταπόκριση",
     "RATING_TITLE": "Αξιολόγηση",
     "FEEDBACK_TITLE": "Ανατροφοδότηση",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Προβολή ετικετών",
       "HIDE_LABELS": "Απόκρυψη ετικετών"
