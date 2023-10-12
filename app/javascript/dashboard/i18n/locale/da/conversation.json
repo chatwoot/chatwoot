@@ -46,6 +46,7 @@
     "NO_RESPONSE": "Intet svar",
     "RATING_TITLE": "Bedømmelse",
     "FEEDBACK_TITLE": "Tilbagemelding",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Vis etiketter",
       "HIDE_LABELS": "Skjul etiketter"
