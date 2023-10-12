@@ -13,13 +13,17 @@ class Twilio::DeliveryStatusService
   private
 
   def process_statuses
-    @message.status = params[:MessageStatus]
+    @message.status = status
     @message.external_error = external_error if error_occurred?
     @message.save!
   end
 
   def supported_status?
     %w[sent delivered read failed undelivered].include?(params[:MessageStatus])
+  end
+
+  def status
+    params[:MessageStatus] == 'undelivered' ? 'failed' : params[:MessageStatus]
   end
 
   def external_error
