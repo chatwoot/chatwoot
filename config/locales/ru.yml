@@ -110,6 +110,8 @@ ru:
       instagram_story_content: "%{story_sender} упомянул Вас в истории: "
       instagram_deleted_story_content: Эта история больше недоступна.
       deleted: Это сообщение было удалено
+      delivery_status:
+        error_code: "Код ошибки: %{error_code}"
     activity:
       status:
         resolved: "%{user_name} завершил диалог"
