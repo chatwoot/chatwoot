@@ -110,6 +110,8 @@ pl:
       instagram_story_content: "%{story_sender} wspomniał o Tobie w historii: "
       instagram_deleted_story_content: Ta historia już nie jest dostępna.
       deleted: Ta wiadomość została usunięta
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "Rozmowa została oznaczona przez %{user_name}"
