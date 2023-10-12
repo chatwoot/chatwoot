@@ -127,7 +127,7 @@ export default {
     setDefaults() {
       this.enableAutoAssignment = this.inbox.enable_auto_assignment;
       this.maxAssignmentLimit =
-        this.inbox.auto_assignment_config.max_assignment_limit || null;
+        this.inbox.auto_assignment_config?.max_assignment_limit || null;
       this.fetchAttachedAgents();
     },
     async fetchAttachedAgents() {
