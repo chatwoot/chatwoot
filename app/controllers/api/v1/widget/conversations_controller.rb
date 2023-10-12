@@ -1,5 +1,6 @@
 class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   include Events::Types
+  before_action :render_not_found_if_empty, only: [:toggle_typing, :toggle_status, :set_custom_attributes, :destroy_custom_attributes]
 
   def index
     @conversation = conversation
@@ -42,8 +43,6 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   end
 
   def toggle_typing
-    head :ok && return if conversation.nil?
-
     case permitted_params[:typing_status]
     when 'on'
       trigger_typing_event(CONVERSATION_TYPING_ON)
@@ -55,8 +54,6 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   end
 
   def toggle_status
-    return head :not_found if conversation.nil?
-
     return head :forbidden unless @web_widget.end_conversation?
 
     unless conversation.resolved?
@@ -80,6 +77,10 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
 
   def trigger_typing_event(event)
     Rails.configuration.dispatcher.dispatch(event, Time.zone.now, conversation: conversation, user: @contact)
+  end
+
+  def render_not_found_if_empty
+    return head :not_found if conversation.nil?
   end
 
   def permitted_params
