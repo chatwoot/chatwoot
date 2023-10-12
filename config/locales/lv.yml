@@ -110,6 +110,8 @@ lv:
       instagram_story_content: "%{story_sender} pieminēja jūs stāstā: "
       instagram_deleted_story_content: Šis stāsts vairs nav pieejams.
       deleted: Šis ziņojums ir izdzēsts
+      delivery_status:
+        error_code: "Kļūdas kods: %{error_code}"
     activity:
       status:
         resolved: "%{user_name} sarunu atzīmēja kā atrisinātu"
