@@ -46,6 +46,7 @@
     "NO_RESPONSE": "Нет ответа",
     "RATING_TITLE": "Оценка",
     "FEEDBACK_TITLE": "Обратная связь",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Показать метки",
       "HIDE_LABELS": "Скрыть метки"
