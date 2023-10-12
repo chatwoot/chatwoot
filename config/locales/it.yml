@@ -110,6 +110,8 @@ it:
       instagram_story_content: "%{story_sender} ti ha menzionato nella storia: "
       instagram_deleted_story_content: Questa storia non è più disponibile.
       deleted: Questo messaggio è stato eliminato
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "La conversazione è stata contrassegnata come risolta da %{user_name}"
