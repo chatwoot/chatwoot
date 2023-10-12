@@ -46,6 +46,7 @@
     "NO_RESPONSE": "Nema odgovora",
     "RATING_TITLE": "Ocena",
     "FEEDBACK_TITLE": "Povratne informacije",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Show labels",
       "HIDE_LABELS": "Hide labels"
