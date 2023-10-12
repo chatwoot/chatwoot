@@ -110,6 +110,8 @@ vi:
       instagram_story_content: "%{story_sender} đã đề cập đến bạn trong hội thoại: "
       instagram_deleted_story_content: Hội thoại này không còn nữa.
       deleted: Tin nhắn đã bị xoá
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "Cuộc trò chuyện được đánh dấu là đã giải quyết bởi %{user_name}"
