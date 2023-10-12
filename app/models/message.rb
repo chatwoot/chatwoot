@@ -9,7 +9,7 @@
 #  content_type              :integer          default("text"), not null
 #  external_source_ids       :jsonb
 #  message_type              :integer          not null
-#  private                   :boolean          default(FALSE)
+#  private                   :boolean          default(FALSE), not null
 #  processed_message_content :text
 #  sender_type               :string
 #  sentiment                 :jsonb

@@ -16,7 +16,7 @@
           color-scheme="secondary"
           icon="dismiss"
           variant="clear"
-          class="modal--close"
+          class="absolute ltr:right-2 rtl:left-2 top-2 z-10"
           @click="close"
         />
         <slot />
