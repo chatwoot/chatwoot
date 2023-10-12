@@ -29,6 +29,14 @@ RSpec.describe Conversations::MarkMessagesAsReadJob do
       end.to change(message, :status).from('delivered').to('read')
     end
 
+    it 'marks all templates messages in a conversation as read' do
+      message.update!(status: 'delivered', message_type: 'template')
+      expect do
+        described_class.perform_now(conversation)
+        message.reload
+      end.to change(message, :status).from('delivered').to('read')
+    end
+
     it 'does not mark failed messages as read' do
       message.update!(status: 'failed')
       expect do

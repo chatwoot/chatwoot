@@ -204,9 +204,6 @@ export default {
       if (this.isAWhatsAppChannel || this.isATwilioChannel) {
         return this.sourceId && this.isSent;
       }
-      if (this.isAWebWidgetInbox) {
-        return this.isSent;
-      }
       return false;
     },
     showDeliveredIndicator() {
@@ -229,7 +226,7 @@ export default {
         return false;
       }
 
-      if (this.isAPIInbox) {
+      if (this.isAWebWidgetInbox || this.isAPIInbox) {
         const { contact_last_seen_at: contactLastSeenAt } = this.currentChat;
         return contactLastSeenAt >= this.createdAt;
       }
@@ -237,11 +234,6 @@ export default {
       if (this.isAWhatsAppChannel || this.isATwilioChannel) {
         return this.sourceId && this.isRead;
       }
-
-      if (this.isAWebWidgetInbox) {
-        return this.isRead;
-      }
-
       return false;
     },
   },
