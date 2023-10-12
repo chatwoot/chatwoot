@@ -106,34 +106,34 @@
 </header>
 
 <script>
-  function toggleAppearanceDropdown() {
+
+  const toggleAppearanceDropdown = () => {
     const dropdown = document.getElementById('appearance-dropdown');
     dropdown.style.display = (dropdown.style.display === 'none' || !dropdown.style.display) ? 'flex' : 'none';
-  }
+  };
 
-  function switchTheme(theme) {
+  const switchTheme = (theme) => {
     const bodyDiv = document.querySelector('.antialiased');
     bodyDiv.classList.remove('light', 'dark');
-
     if (theme !== 'system') {
-        bodyDiv.classList.add(theme);
-        document.documentElement.style.setProperty('--color-scheme', theme);
-        window.location.href = updateURLParameter(window.location.href, 'theme', theme);
+      bodyDiv.classList.add(theme);
+      window.location.href = updateURLParameter(window.location.href, 'theme', theme);
     } else {
-        window.location.href = removeURLParameter(window.location.href, 'theme');
+      window.location.href = removeURLParameter(window.location.href, 'theme');
     }
     toggleAppearanceDropdown();
-  }
+  };
 
-  function updateURLParameter(url, param, paramVal) {
+  const updateURLParameter = (url, param, paramVal) => {
     const urlObj = new URL(url);
     urlObj.searchParams.set(param, paramVal);
     return urlObj.toString();
-  }
+  };
 
-  function removeURLParameter(url, parameter) {
+  const removeURLParameter = (url, parameter) => {
     const urlObj = new URL(url);
     urlObj.searchParams.delete(parameter);
     return urlObj.toString();
-  }
+  };
+
 </script>
