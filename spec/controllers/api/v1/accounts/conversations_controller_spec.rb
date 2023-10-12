@@ -340,11 +340,12 @@ RSpec.describe 'Conversations API', type: :request do
         create(:inbox_member, user: agent, inbox: conversation.inbox)
       end
 
-      it 'toggles the conversation status' do
+      it 'toggles the conversation status if status is empty' do
         expect(conversation.status).to eq('open')
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
              headers: agent.create_new_auth_token,
+             params: { status: '' },
              as: :json
 
         expect(response).to have_http_status(:success)
@@ -360,18 +361,6 @@ RSpec.describe 'Conversations API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(conversation.reload.status).to eq('open')
-      end
-
-      it 'handles PG::NotNullViolation gracefully' do
-        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
-             headers: agent.create_new_auth_token,
-             params: { status: '' },
-             as: :json
-
-        expect(response).to have_http_status(:unprocessable_entity)
-        response_body = response.parsed_body
-
-        expect(response_body['error']).to include('Database not null violation')
       end
 
       it 'self assign if agent changes the conversation status to open' do

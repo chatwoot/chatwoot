@@ -6,8 +6,6 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   before_action :conversation, except: [:index, :meta, :search, :create, :filter]
   before_action :inbox, :contact, :contact_inbox, only: [:create]
 
-  rescue_from PG::NotNullViolation, with: :handle_not_null_violation
-
   def index
     result = conversation_finder.perform
     @conversations = result[:conversations]
@@ -62,7 +60,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def toggle_status
-    if params[:status]
+    if params[:status].present?
       set_conversation_status
       @status = @conversation.save!
     else
@@ -98,11 +96,6 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   private
-
-  # Handle PG::NotNullViolation exceptions
-  def handle_not_null_violation(exception)
-    render json: { error: "Database not null violation: #{exception.message}" }, status: :unprocessable_entity
-  end
 
   def update_last_seen_on_conversation(last_seen_at, update_assignee)
     # rubocop:disable Rails/SkipsModelValidations
