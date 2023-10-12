@@ -46,6 +46,7 @@
     "NO_RESPONSE": "Nėra atsakymo",
     "RATING_TITLE": "Reitingas",
     "FEEDBACK_TITLE": "Grįžtamasis ryšys",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Rodyti etiketes",
       "HIDE_LABELS": "Slėpti etiketes"
