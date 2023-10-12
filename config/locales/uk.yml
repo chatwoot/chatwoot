@@ -110,6 +110,8 @@ uk:
       instagram_story_content: "%{story_sender} згадав вас у сторіс: "
       instagram_deleted_story_content: Ця історія більше не доступна.
       deleted: Це повідомлення було видалено
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "Розмова була відмічена як вирішена %{user_name}"
