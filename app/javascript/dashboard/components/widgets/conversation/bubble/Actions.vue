@@ -234,6 +234,7 @@ export default {
       if (this.isAWhatsAppChannel || this.isATwilioChannel) {
         return this.sourceId && this.isRead;
       }
+
       return false;
     },
   },
