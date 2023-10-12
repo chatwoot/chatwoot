@@ -110,6 +110,8 @@ id:
       instagram_story_content: "%{story_sender} menyebutmu dalam story: "
       instagram_deleted_story_content: Story ini tidak lagi tersedia.
       deleted: Pesan ini telah terhapus
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "Percakapan ditandai selesai oleh %{user_name}"
