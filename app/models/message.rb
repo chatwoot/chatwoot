@@ -244,7 +244,7 @@ class Message < ApplicationRecord
     return if message.blank?
 
     # even if the message is outgoing or incoming, the source_id is going to be set
-    content_attributes['in_reply_to_external_id'] = message.source_id
+    content_attributes[:in_reply_to_external_id] = message.source_id
   end
 
   def ensure_content_type
