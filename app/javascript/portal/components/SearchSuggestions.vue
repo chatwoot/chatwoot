@@ -1,6 +1,6 @@
 <template>
   <div
-    class="shadow-md bg-white dark:bg-slate-900 mt-2 max-h-72 scroll-py-2 p-4 rounded overflow-y-auto text-sm text-slate-700 dark:text-slate-100"
+    class="shadow-lg bg-white dark:bg-slate-900 mt-2 max-h-72 scroll-py-2 p-4 overflow-y-auto text-sm text-slate-700 dark:text-slate-100 border border-solid border-slate-50 dark:border-slate-800 rounded-md"
   >
     <div
       v-if="isLoading"
