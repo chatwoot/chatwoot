@@ -35,4 +35,14 @@ export const setCookieWithDomain = (
   };
 
   Cookies.set(name, value, cookieOptions);
+
+  // If browser rejects current cookie set with domain in options,
+  //  try setting it without domain as a fallback.
+  const hasCookie = Cookies.get(name);
+  if (!hasCookie) {
+    Cookies.set(name, value, {
+      expires,
+      sameSite: 'Lax',
+    });
+  }
 };
