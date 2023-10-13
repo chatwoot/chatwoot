@@ -415,4 +415,49 @@ RSpec.describe Message do
       expect(instagram_message.reload.attachments.count).to eq 1
     end
   end
+
+  describe '#ensure_in_reply_to' do
+    let(:conversation) { create(:conversation) }
+    let(:message) { create(:message, conversation: conversation, source_id: 12_345) }
+
+    context 'when in_reply_to is present' do
+      let(:content_attributes) { { in_reply_to: message.id } }
+      let(:new_message) { build(:message, conversation: conversation, content_attributes: content_attributes) }
+
+      it 'sets in_reply_to_external_id based on the source_id of the referenced message' do
+        new_message.send(:ensure_in_reply_to)
+        expect(new_message.content_attributes[:in_reply_to_external_id]).to eq(message.source_id)
+      end
+    end
+
+    context 'when in_reply_to is not present' do
+      let(:content_attributes) { { in_reply_to_external_id: message.source_id } }
+      let(:new_message) { build(:message, conversation: conversation, content_attributes: content_attributes) }
+
+      it 'sets in_reply_to based on the source_id of the referenced message' do
+        new_message.send(:ensure_in_reply_to)
+        expect(new_message.content_attributes[:in_reply_to]).to eq(message.id)
+      end
+    end
+
+    context 'when the referenced message is not found' do
+      let(:content_attributes) { { in_reply_to: message.id + 1 } }
+      let(:new_message) { build(:message, conversation: conversation, content_attributes: content_attributes) }
+
+      it 'does not set in_reply_to_external_id' do
+        new_message.send(:ensure_in_reply_to)
+        expect(new_message.content_attributes[:in_reply_to_external_id]).to be_nil
+      end
+    end
+
+    context 'when the source message is not found' do
+      let(:content_attributes) { { in_reply_to_external_id: 'source-id-that-does-not-exist' } }
+      let(:new_message) { build(:message, conversation: conversation, content_attributes: content_attributes) }
+
+      it 'does not set in_reply_to' do
+        new_message.send(:ensure_in_reply_to)
+        expect(new_message.content_attributes[:in_reply_to]).to be_nil
+      end
+    end
+  end
 end
