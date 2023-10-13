@@ -35,8 +35,9 @@
           />
         </blockquote>
         <bubble-reply-to
-          v-if="inReplyToMessageId && inboxSupportsReplyTo"
+          v-if="inReplyToMessageId"
           :message="inReplyTo"
+          :message-type="data.message_type"
         />
         <bubble-text
           v-if="data.content"
