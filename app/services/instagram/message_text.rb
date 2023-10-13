@@ -44,6 +44,7 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
       @inbox.channel.authorization_error!
       ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
     rescue StandardError, Koala::Facebook::ClientError => e
+      Rails.logger.warn("[FacebookUserFetchClientError]: #{e.message}")
       ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
     end
 

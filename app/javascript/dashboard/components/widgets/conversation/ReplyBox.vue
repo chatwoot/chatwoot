@@ -21,6 +21,11 @@
       @selectWhatsappTemplate="openWhatsappTemplateModal"
     />
     <div class="reply-box__top">
+      <reply-to-message
+        v-if="shouldShowReplyToMessage"
+        :message="inReplyTo"
+        @dismiss="resetReplyToMessage"
+      />
       <canned-response
         v-if="showMentions && hasSlashCommand"
         v-on-clickaway="hideMentions"
@@ -88,21 +93,14 @@
     </div>
     <div v-if="hasAttachments" class="attachment-preview-box" @paste="onPaste">
       <attachment-preview
+        class="flex-col mt-4"
         :attachments="attachedFiles"
         :remove-attachment="removeAttachment"
       />
     </div>
-    <div
+    <message-signature-missing-alert
       v-if="isSignatureEnabledForInbox && !isSignatureAvailable"
-      class="message-signature-wrap"
-    >
-      <p class="message-signature">
-        {{ $t('CONVERSATION.FOOTER.MESSAGE_SIGNATURE_NOT_CONFIGURED') }}
-        <router-link :to="profilePath">
-          {{ $t('CONVERSATION.FOOTER.CLICK_HERE') }}
-        </router-link>
-      </p>
-    </div>
+    />
     <reply-bottom-panel
       :conversation-id="conversationId"
       :enable-multiple-file-upload="enableMultipleFileUpload"
@@ -125,6 +123,7 @@
       :toggle-audio-recorder="toggleAudioRecorder"
       :toggle-emoji-picker="toggleEmojiPicker"
       :message="message"
+      :new-conversation-modal-active="newConversationModalActive"
       @selectWhatsappTemplate="openWhatsappTemplateModal"
       @toggle-editor="toggleRichContentEditor"
       @replace-text="replaceText"
@@ -150,23 +149,20 @@ import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
 
-import CannedResponse from './CannedResponse';
-import ResizableTextArea from 'shared/components/ResizableTextArea';
-import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
-import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel';
-import ReplyEmailHead from './ReplyEmailHead';
-import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel';
+import CannedResponse from './CannedResponse.vue';
+import ReplyToMessage from './ReplyToMessage.vue';
+import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
+import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview.vue';
+import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel.vue';
+import ReplyEmailHead from './ReplyEmailHead.vue';
+import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue';
+import MessageSignatureMissingAlert from './MessageSignatureMissingAlert';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
-import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
-import WootAudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
+import WootAudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder.vue';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
-import {
-  MAXIMUM_FILE_UPLOAD_SIZE,
-  MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL,
-  AUDIO_FORMATS,
-} from 'shared/constants/messages';
+import { AUDIO_FORMATS } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import {
   getMessageVariables,
@@ -176,21 +172,24 @@ import {
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
 import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
-import inboxMixin from 'shared/mixins/inboxMixin';
+import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
-import { DirectUpload } from 'activestorage';
-import { frontendURL } from '../../../helper/URLHelper';
 import { trimContent, debounce } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants/globals';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import rtlMixin from 'shared/mixins/rtlMixin';
+import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
 import {
   appendSignature,
   removeSignature,
   replaceSignature,
   extractTextFromMarkdown,
 } from 'dashboard/helper/editorHelper';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+
+import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
+import { LocalStorage } from 'shared/helpers/localStorage';
 
 const EmojiInput = () => import('shared/components/emoji/EmojiInput');
 
@@ -198,6 +197,7 @@ export default {
   components: {
     EmojiInput,
     CannedResponse,
+    ReplyToMessage,
     ResizableTextArea,
     AttachmentPreview,
     ReplyTopPanel,
@@ -207,6 +207,7 @@ export default {
     WootAudioRecorder,
     Banner,
     WhatsappTemplates,
+    MessageSignatureMissingAlert,
   },
   mixins: [
     clickaway,
@@ -215,16 +216,9 @@ export default {
     alertMixin,
     messageFormatterMixin,
     rtlMixin,
+    fileUploadMixin,
   ],
   props: {
-    selectedTweet: {
-      type: [Object, String],
-      default: () => ({}),
-    },
-    isATweet: {
-      type: Boolean,
-      default: false,
-    },
     popoutReplyBox: {
       type: Boolean,
       default: false,
@@ -233,6 +227,7 @@ export default {
   data() {
     return {
       message: '',
+      inReplyTo: {},
       isFocused: false,
       showEmojiPicker: false,
       attachedFiles: [],
@@ -254,6 +249,7 @@ export default {
       showUserMentions: false,
       showCannedMenu: false,
       showVariablesMenu: false,
+      newConversationModalActive: false,
     };
   },
   computed: {
@@ -264,7 +260,19 @@ export default {
       lastEmail: 'getLastEmailInSelectedChat',
       globalConfig: 'globalConfig/get',
       accountId: 'getCurrentAccountId',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
+    shouldShowReplyToMessage() {
+      return (
+        this.inReplyTo?.id &&
+        !this.isPrivate &&
+        this.inboxHasFeature(INBOX_FEATURES.REPLY_TO) &&
+        this.isFeatureEnabledonAccount(
+          this.accountId,
+          FEATURE_FLAGS.MESSAGE_REPLY_TO
+        )
+      );
+    },
     showRichContentEditor() {
       if (this.isOnPrivateNote || this.isRichEditorEnabled) {
         return true;
@@ -336,10 +344,7 @@ export default {
       return this.maxLength - this.message.length;
     },
     isReplyButtonDisabled() {
-      if (this.isATweet && !this.inReplyTo && !this.isOnPrivateNote) {
-        return true;
-      }
-
+      if (this.isATwitterInbox) return true;
       if (this.hasAttachments || this.hasRecordedAudio) return false;
 
       return (
@@ -372,11 +377,6 @@ export default {
       if (this.isASmsInbox) {
         return MESSAGE_MAX_LENGTH.TWILIO_SMS;
       }
-      if (this.isATwitterInbox) {
-        if (this.conversationType === 'tweet') {
-          return MESSAGE_MAX_LENGTH.TWEET - this.replyToUserLength - 2;
-        }
-      }
       return MESSAGE_MAX_LENGTH.GENERAL;
     },
     showFileUpload() {
@@ -394,8 +394,6 @@ export default {
       let sendMessageText = this.$t('CONVERSATION.REPLYBOX.SEND');
       if (this.isPrivate) {
         sendMessageText = this.$t('CONVERSATION.REPLYBOX.CREATE');
-      } else if (this.conversationType === 'tweet') {
-        sendMessageText = this.$t('CONVERSATION.REPLYBOX.TWEET');
       }
       const keyLabel = isEditorHotKeyEnabled(this.uiSettings, 'cmd_enter')
         ? '(⌘ + ↵)'
@@ -429,17 +427,12 @@ export default {
     isOnPrivateNote() {
       return this.replyType === REPLY_EDITOR_MODES.NOTE;
     },
-    inReplyTo() {
-      const selectedTweet = this.selectedTweet || {};
-      return selectedTweet.id;
-    },
     isOnExpandedLayout() {
       const {
         LAYOUT_TYPES: { CONDENSED },
       } = wootConstants;
-      const {
-        conversation_display_type: conversationDisplayType = CONDENSED,
-      } = this.uiSettings;
+      const { conversation_display_type: conversationDisplayType = CONDENSED } =
+        this.uiSettings;
       return conversationDisplayType !== CONDENSED;
     },
     emojiDialogClassOnExpandedLayoutAndRTLView() {
@@ -450,15 +443,6 @@ export default {
         return 'emoji-dialog--rtl';
       }
       return '';
-    },
-    replyToUserLength() {
-      const selectedTweet = this.selectedTweet || {};
-      const {
-        sender: {
-          additional_attributes: { screen_name: screenName = '' } = {},
-        } = {},
-      } = selectedTweet;
-      return screenName ? screenName.length : 0;
     },
     isMessageEmpty() {
       if (!this.message) {
@@ -486,9 +470,6 @@ export default {
     sendWithSignature() {
       const { send_with_signature: isEnabled } = this.uiSettings;
       return isEnabled;
-    },
-    profilePath() {
-      return frontendURL(`accounts/${this.accountId}/profile/settings`);
     },
     editorMessageKey() {
       const { editor_message_key: isEnabled } = this.uiSettings;
@@ -543,6 +524,7 @@ export default {
       }
 
       this.setCCAndToEmailsFromLastChat();
+      this.fetchAndSetReplyTo();
     },
     conversationIdByRoute(conversationId, oldConversationId) {
       if (conversationId !== oldConversationId) {
@@ -572,7 +554,7 @@ export default {
 
   mounted() {
     this.getFromDraft();
-    // Donot use the keyboard listener mixin here as the events here are supposed to be
+    // Don't use the keyboard listener mixin here as the events here are supposed to be
     // working even if input/textarea is focussed.
     document.addEventListener('paste', this.onPaste);
     document.addEventListener('keydown', this.handleKeyEvents);
@@ -584,10 +566,28 @@ export default {
       500,
       true
     );
+
+    this.fetchAndSetReplyTo();
+    bus.$on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.fetchAndSetReplyTo);
+
+    // A hacky fix to solve the drag and drop
+    // Is showing on top of new conversation modal drag and drop
+    // TODO need to find a better solution
+    bus.$on(
+      BUS_EVENTS.NEW_CONVERSATION_MODAL,
+      this.onNewConversationModalActive
+    );
   },
   destroyed() {
     document.removeEventListener('paste', this.onPaste);
     document.removeEventListener('keydown', this.handleKeyEvents);
+    bus.$off(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.fetchAndSetReplyTo);
+  },
+  beforeDestroy() {
+    bus.$off(
+      BUS_EVENTS.NEW_CONVERSATION_MODAL,
+      this.onNewConversationModalActive
+    );
   },
   methods: {
     toggleRichContentEditor() {
@@ -872,6 +872,7 @@ export default {
       }
       this.attachedFiles = [];
       this.isRecordingAudio = false;
+      this.resetReplyToMessage();
     },
     clearEmailField() {
       this.ccEmails = '';
@@ -946,67 +947,6 @@ export default {
         isPrivate,
       });
     },
-    onFileUpload(file) {
-      if (this.globalConfig.directUploadsEnabled) {
-        this.onDirectFileUpload(file);
-      } else {
-        this.onIndirectFileUpload(file);
-      }
-    },
-    onDirectFileUpload(file) {
-      const MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE = this.isATwilioSMSChannel
-        ? MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL
-        : MAXIMUM_FILE_UPLOAD_SIZE;
-
-      if (!file) {
-        return;
-      }
-      if (checkFileSizeLimit(file, MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE)) {
-        const upload = new DirectUpload(
-          file.file,
-          `/api/v1/accounts/${this.accountId}/conversations/${this.currentChat.id}/direct_uploads`,
-          {
-            directUploadWillCreateBlobWithXHR: xhr => {
-              xhr.setRequestHeader(
-                'api_access_token',
-                this.currentUser.access_token
-              );
-            },
-          }
-        );
-
-        upload.create((error, blob) => {
-          if (error) {
-            this.showAlert(error);
-          } else {
-            this.attachFile({ file, blob });
-          }
-        });
-      } else {
-        this.showAlert(
-          this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
-            MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE,
-          })
-        );
-      }
-    },
-    onIndirectFileUpload(file) {
-      const MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE = this.isATwilioSMSChannel
-        ? MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL
-        : MAXIMUM_FILE_UPLOAD_SIZE;
-      if (!file) {
-        return;
-      }
-      if (checkFileSizeLimit(file, MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE)) {
-        this.attachFile({ file });
-      } else {
-        this.showAlert(
-          this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
-            MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE,
-          })
-        );
-      }
-    },
     attachFile({ blob, file }) {
       const reader = new FileReader();
       reader.readAsDataURL(file.file);
@@ -1064,8 +1004,10 @@ export default {
         sender: this.sender,
       };
 
-      if (this.inReplyTo) {
-        messagePayload.contentAttributes = { in_reply_to: this.inReplyTo };
+      if (this.inReplyTo?.id) {
+        messagePayload.contentAttributes = {
+          in_reply_to: this.inReplyTo.id,
+        };
       }
 
       if (this.attachedFiles && this.attachedFiles.length) {
@@ -1138,6 +1080,33 @@ export default {
       this.bccEmails = bcc.join(', ');
       this.toEmails = to.join(', ');
     },
+    fetchAndSetReplyTo() {
+      const replyStorageKey = LOCAL_STORAGE_KEYS.MESSAGE_REPLY_TO;
+      const replyToMessageId = LocalStorage.getFromJsonStore(
+        replyStorageKey,
+        this.conversationId
+      );
+
+      this.inReplyTo = this.currentChat?.messages?.find(message => {
+        if (message.id === replyToMessageId) {
+          return true;
+        }
+        return false;
+      });
+    },
+    resetReplyToMessage() {
+      const replyStorageKey = LOCAL_STORAGE_KEYS.MESSAGE_REPLY_TO;
+      LocalStorage.deleteFromJsonStore(replyStorageKey, this.conversationId);
+      bus.$emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE);
+    },
+    onNewConversationModalActive(isActive) {
+      // Issue is if the new conversation modal is open and we drag and drop the file
+      // then the file is not getting attached to the new conversation modal
+      // and it is getting attached to the current conversation reply box
+      // so to fix this we are removing the drag and drop event listener from the current conversation reply box
+      // When new conversation modal is open
+      this.newConversationModalActive = isActive;
+    },
   },
 };
 </script>
@@ -1149,14 +1118,6 @@ export default {
 
 .banner--self-assign {
   @apply py-2;
-}
-
-.message-signature-wrap {
-  @apply my-0 mx-4 px-1 flex max-h-[8vh] items-baseline justify-between hover:bg-slate-25 dark:hover:bg-slate-800 border border-dashed border-slate-100 dark:border-slate-700 rounded-sm overflow-auto;
-}
-
-.message-signature {
-  @apply w-fit m-0;
 }
 
 .attachment-preview-box {
@@ -1202,13 +1163,6 @@ export default {
   &::before {
     transform: rotate(0deg);
     @apply left-1 -bottom-2;
-  }
-}
-.message-signature {
-  @apply mb-0;
-
-  ::v-deep p:last-child {
-    @apply mb-0;
   }
 }
 

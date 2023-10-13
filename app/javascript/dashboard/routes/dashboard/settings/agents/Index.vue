@@ -128,9 +128,9 @@
 <script>
 import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import Thumbnail from '../../../../components/widgets/Thumbnail';
-import AddAgent from './AddAgent';
-import EditAgent from './EditAgent';
+import Thumbnail from '../../../../components/widgets/Thumbnail.vue';
+import AddAgent from './AddAgent.vue';
+import EditAgent from './EditAgent.vue';
 
 export default {
   components: {

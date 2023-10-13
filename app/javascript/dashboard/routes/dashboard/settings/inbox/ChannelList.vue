@@ -22,9 +22,9 @@
 </template>
 
 <script>
-import ChannelItem from 'dashboard/components/widgets/ChannelItem';
+import ChannelItem from 'dashboard/components/widgets/ChannelItem.vue';
 import router from '../../../index';
-import PageHeader from '../SettingsSubPageHeader';
+import PageHeader from '../SettingsSubPageHeader.vue';
 import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
@@ -71,7 +71,6 @@ export default {
   },
   methods: {
     async initializeEnabledFeatures() {
-      await this.$store.dispatch('accounts/get', this.accountId);
       this.enabledFeatures = this.account.features;
     },
     initChannelAuth(channel) {

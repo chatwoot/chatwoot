@@ -44,9 +44,9 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import Spinner from 'shared/components/Spinner';
-import LabelDropdown from 'shared/components/ui/label/LabelDropdown';
-import AddLabel from 'shared/components/ui/dropdown/AddLabel';
+import Spinner from 'shared/components/Spinner.vue';
+import LabelDropdown from 'shared/components/ui/label/LabelDropdown.vue';
+import AddLabel from 'shared/components/ui/dropdown/AddLabel.vue';
 import { mixin as clickaway } from 'vue-clickaway';
 import adminMixin from 'dashboard/mixins/isAdmin';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';

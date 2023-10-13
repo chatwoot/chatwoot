@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import ReportFilters from './ReportFilters';
+import ReportFilters from './ReportFilters.vue';
 import ReportContainer from '../ReportContainer.vue';
 import { GROUP_BY_FILTER } from '../constants';
 import reportMixin from '../../../../../mixins/reportMixin';

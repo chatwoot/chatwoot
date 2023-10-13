@@ -51,8 +51,8 @@
             <woot-submit-button
               :disabled="
                 $v.agentType.$invalid ||
-                  $v.agentName.$invalid ||
-                  uiFlags.isUpdating
+                $v.agentName.$invalid ||
+                uiFlags.isUpdating
               "
               :button-text="$t('AGENT_MGMT.EDIT.FORM.SUBMIT')"
               :loading="uiFlags.isUpdating"
@@ -79,8 +79,8 @@
 <script>
 import { required, minLength } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
-import WootSubmitButton from '../../../../components/buttons/FormSubmitButton';
-import Modal from '../../../../components/Modal';
+import WootSubmitButton from '../../../../components/buttons/FormSubmitButton.vue';
+import Modal from '../../../../components/Modal.vue';
 import Auth from '../../../../api/auth';
 import wootConstants from 'dashboard/constants/globals';
 

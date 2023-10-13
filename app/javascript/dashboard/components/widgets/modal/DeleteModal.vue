@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-mutating-props -->
 <template>
   <modal :show.sync="show" :on-close="onClose">
     <woot-modal-header
@@ -22,7 +23,7 @@
 </template>
 
 <script>
-import Modal from '../../Modal';
+import Modal from '../../Modal.vue';
 
 export default {
   components: {

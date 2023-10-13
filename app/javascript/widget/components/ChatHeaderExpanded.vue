@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import HeaderActions from './HeaderActions';
+import HeaderActions from './HeaderActions.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 
 export default {

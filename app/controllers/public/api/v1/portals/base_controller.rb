@@ -1,5 +1,6 @@
 class Public::Api::V1::Portals::BaseController < PublicController
   before_action :show_plain_layout
+  before_action :set_color_scheme
   around_action :set_locale
   after_action :allow_iframe_requests
 
@@ -7,6 +8,14 @@ class Public::Api::V1::Portals::BaseController < PublicController
 
   def show_plain_layout
     @is_plain_layout_enabled = params[:show_plain_layout] == 'true'
+  end
+
+  def set_color_scheme
+    @theme = if %w[dark light].include?(params[:theme])
+               params[:theme]
+             else
+               ''
+             end
   end
 
   def set_locale(&)

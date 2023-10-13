@@ -13,7 +13,7 @@
   </div>
 </template>
 <script>
-import LoadingState from 'dashboard/components/widgets/LoadingState';
+import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
 import { mapGetters } from 'vuex';
 
 export default {

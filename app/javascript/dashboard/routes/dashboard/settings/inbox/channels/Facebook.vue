@@ -17,9 +17,16 @@
       </p>
     </div>
     <div v-else>
-      <loading-state v-if="showLoader" :message="emptyStateMessage" />
+      <div v-if="hasError" class="max-w-lg mx-auto text-center">
+        <h5>{{ errorStateMessage }}</h5>
+        <p
+          v-if="errorStateDescription"
+          v-dompurify-html="errorStateDescription"
+        />
+      </div>
+      <loading-state v-else-if="showLoader" :message="emptyStateMessage" />
       <form
-        v-if="!showLoader"
+        v-else
         class="mx-0 flex flex-wrap"
         @submit.prevent="createChannel()"
       >
@@ -82,10 +89,10 @@
 /* eslint-env browser */
 /* global FB */
 import { required } from 'vuelidate/lib/validators';
-import LoadingState from 'dashboard/components/widgets/LoadingState';
+import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
 import { mapGetters } from 'vuex';
 import ChannelApi from '../../../../../api/channels';
-import PageHeader from '../../SettingsSubPageHeader';
+import PageHeader from '../../SettingsSubPageHeader.vue';
 import router from '../../../../index';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import accountMixin from '../../../../../mixins/account';
@@ -99,6 +106,7 @@ export default {
   data() {
     return {
       isCreating: false,
+      hasError: false,
       omniauth_token: '',
       user_access_token: '',
       channel: 'facebook',
@@ -106,6 +114,8 @@ export default {
       pageName: '',
       pageList: [],
       emptyStateMessage: this.$t('INBOX_MGMT.DETAILS.LOADING_FB'),
+      errorStateMessage: '',
+      errorStateDescription: '',
       hasLoginStarted: false,
     };
   },
@@ -194,19 +204,30 @@ export default {
     tryFBlogin() {
       FB.login(
         response => {
+          this.hasError = false;
           if (response.status === 'connected') {
             this.fetchPages(response.authResponse.accessToken);
           } else if (response.status === 'not_authorized') {
+            // eslint-disable-next-line no-console
+            console.error('FACEBOOK AUTH ERROR', response);
+            this.hasError = true;
             // The person is logged into Facebook, but not your app.
-            this.emptyStateMessage = this.$t(
-              'INBOX_MGMT.DETAILS.ERROR_FB_AUTH'
+            this.errorStateMessage = this.$t(
+              'INBOX_MGMT.DETAILS.ERROR_FB_UNAUTHORIZED'
+            );
+            this.errorStateDescription = this.$t(
+              'INBOX_MGMT.DETAILS.ERROR_FB_UNAUTHORIZED_HELP'
             );
           } else {
+            // eslint-disable-next-line no-console
+            console.error('FACEBOOK AUTH ERROR', response);
+            this.hasError = true;
             // The person is not logged into Facebook, so we're not sure if
             // they are logged into this app or not.
-            this.emptyStateMessage = this.$t(
+            this.errorStateMessage = this.$t(
               'INBOX_MGMT.DETAILS.ERROR_FB_AUTH'
             );
+            this.errorStateDescription = '';
           }
         },
         {

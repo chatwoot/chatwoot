@@ -2,7 +2,7 @@
 
 # Description: Install and manage a Chatwoot installation.
 # OS: Ubuntu 20.04 LTS
-# Script Version: 2.4.0
+# Script Version: 2.5.0
 # Run this script as root
 
 set -eu -o errexit -o pipefail -o noclobber -o nounset
@@ -19,8 +19,9 @@ fi
 # option --output/-o requires 1 argument
 LONGOPTS=console,debug,help,install,Install:,logs:,restart,ssl,upgrade,webserver,version
 OPTIONS=cdhiI:l:rsuwv
-CWCTL_VERSION="2.4.0"
+CWCTL_VERSION="2.5.0"
 pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
+CHATWOOT_HUB_URL="https://hub.2.chatwoot.com/events"
 
 # if user does not specify an option
 if [ "$#" -eq 0 ]; then
@@ -848,6 +849,56 @@ function webserver() {
   #TODO(@vn): allow installing nginx only without SSL
 }
 
+
+##############################################################################
+# Report cwctl events to hub
+# Globals:
+#   CHATWOOT_HUB_URL
+# Arguments:
+# event_name: Name of the event to report
+# event_data: Data to report
+# installation_identifier: Installation identifier
+# Outputs:
+#   None
+##############################################################################
+function report_event() {
+  local event_name="$1"
+  local event_data="$2"
+
+  CHATWOOT_HUB_URL="https://hub.2.chatwoot.com/events"
+
+  # get installation identifier
+  local installation_identifier=$(get_installation_identifier)
+
+  # Prepare the data for the request
+  local data="{\"installation_identifier\":\"$installation_identifier\",\"event_name\":\"$event_name\",\"event_data\":{\"action\":\"$event_data\"}}"
+
+  # Make the curl request to report the event
+  curl -X POST -H "Content-Type: application/json" -d "$data" "$CHATWOOT_HUB_URL" -s -o /dev/null
+}
+
+
+##############################################################################
+# Get installation identifier
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   installation_identifier
+##############################################################################
+function get_installation_identifier() {
+
+  local installation_identifier
+
+  installation_identifier=$(sudo -i -u chatwoot << "EOF"
+  cd chatwoot
+  RAILS_ENV=production bundle exec rake instance_id:get_installation_identifier
+EOF
+)
+  echo "$installation_identifier"
+}
+
 ##############################################################################
 # Print cwctl version (-v/--version)
 # Globals:
@@ -874,38 +925,47 @@ function main() {
   setup_logging
 
   if [ "$c" == "y" ]; then
+    report_event "cwctl" "console" > /dev/null 2>&1
     get_console
   fi
   
   if [ "$h" == "y" ]; then
+    report_event "cwctl" "help"  > /dev/null 2>&1
     help
   fi
 
   if [ "$i" == "y" ] || [ "$I" == "y" ]; then
     install
+    report_event "cwctl" "install"  > /dev/null 2>&1
   fi
 
   if [ "$l" == "y" ]; then
+    report_event "cwctl" "logs"  > /dev/null 2>&1
     get_logs
   fi
 
   if [ "$r" == "y" ]; then
+    report_event "cwctl" "restart"  > /dev/null 2>&1
     restart
   fi
   
   if [ "$s" == "y" ]; then
+    report_event "cwctl" "ssl"  > /dev/null 2>&1
     ssl
   fi
 
   if [ "$u" == "y" ]; then
+    report_event "cwctl" "upgrade"  > /dev/null 2>&1
     upgrade
   fi
 
   if [ "$w" == "y" ]; then
+    report_event "cwctl" "webserver"  > /dev/null 2>&1
     webserver
   fi
 
   if [ "$v" == "y" ]; then
+    report_event "cwctl" "version"  > /dev/null 2>&1
     version
   fi
 
