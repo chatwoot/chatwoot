@@ -363,9 +363,9 @@
         "PORTAL": "Portal",
         "LOCALE": "Locale",
         "NAME": {
-          "LABEL": "Name",
+          "LABEL": "Icon & Name",
           "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name will be used in the public facing portal to categorize articles.",
+          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
           "ERROR": "Name is required"
         },
         "SLUG": {
@@ -394,9 +394,9 @@
         "PORTAL": "Portal",
         "LOCALE": "Locale",
         "NAME": {
-          "LABEL": "Name",
+          "LABEL": "Icon & Name",
           "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name will be used in the public facing portal to categorize articles.",
+          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
           "ERROR": "Name is required"
         },
         "SLUG": {
