@@ -214,6 +214,10 @@ export default {
       if (this.isAWhatsAppChannel || this.isATwilioChannel) {
         return this.sourceId && this.isDelivered;
       }
+      // We will consider messages as delivered for web widget inbox if they are sent
+      if (this.isAWebWidgetInbox) {
+        return this.isSent;
+      }
 
       return false;
     },
