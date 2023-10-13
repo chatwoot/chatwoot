@@ -5,7 +5,7 @@ module PortalHelper
   end
 
   def generate_portal_bg(portal_color, theme)
-    bg_image = theme == 'dark' ? 'grid_dark.svg' : 'grid.svg'
+    bg_image = theme == 'dark' ? 'hexagon-dark.svg' : 'hexagon-light.svg'
     "background: url(/assets/images/hc/#{bg_image}) #{generate_portal_bg_color(portal_color, theme)}"
   end
 

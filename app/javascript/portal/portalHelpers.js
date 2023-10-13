@@ -36,7 +36,7 @@ export const InitializationHelpers = {
     return false;
   },
 
-  initalizeSearch: () => {
+  initializeSearch: () => {
     const isSearchContainerAvailable = document.querySelector('#search-wrap');
     if (isSearchContainerAvailable) {
       new Vue({
@@ -73,7 +73,7 @@ export const InitializationHelpers = {
       InitializationHelpers.appendPlainParamToURLs();
     } else {
       InitializationHelpers.navigateToLocalePage();
-      InitializationHelpers.initalizeSearch();
+      InitializationHelpers.initializeSearch();
       InitializationHelpers.initializeTableOfContents();
     }
   },
