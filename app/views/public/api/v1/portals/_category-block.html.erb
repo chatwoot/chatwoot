@@ -3,7 +3,7 @@
       <div class="flex justify-between items-center w-full">
          <div class="flex items-start flex-col gap-1">
             <div class="flex flex-row items-center gap-1 px-1">
-               <%# <span class="text-base py-0.5 px-1.5 rounded-md cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800"><%= category.icon %>
+               <span class="text-base py-0.5 px-1.5 rounded-md cursor-pointer"><%= category.icon %></span>
                <h3 class="text-xl text-slate-800 dark:text-slate-50 font-semibold leading-relaxed hover:text-woot-600 dark:hover:text-woot-600">
                   <a href="/hc/<%= portal.slug %>/<%= category.locale %>/categories/<%= category.slug %><%= @theme.present? ? '?theme='+@theme : ''  %>">
                   <%= category.name %>
