@@ -2,9 +2,11 @@
    <div class="flex flex-col gap-8 border border-solid border-slate-100 dark:border-slate-800 hover:border-woot-600 dark:hover:border-woot-600 py-5 px-3 rounded-lg">
       <div class="flex justify-between items-center w-full">
          <div class="flex items-start flex-col gap-1">
-            <div class="flex flex-row items-center gap-1 px-1">
-               <span class="text-base py-0.5 px-1.5 rounded-md cursor-pointer"><%= category.icon %></span>
-               <h3 class="text-xl text-slate-800 dark:text-slate-50 font-semibold leading-relaxed hover:text-woot-600 dark:hover:text-woot-600">
+            <div class="flex flex-row items-center gap-2 px-1">
+               <% if category.icon.present? %>
+               <span class="text-lg pl-1 rounded-md cursor-pointer"><%= category.icon %></span>
+               <% end %>
+               <h3 class="text-xl text-slate-800 dark:text-slate-50 font-semibold leading-relaxed hover:text-woot-600 dark:hover:text-woot-600" :class="{ 'pl-1': category.icon.blank? }">
                   <a href="/hc/<%= portal.slug %>/<%= category.locale %>/categories/<%= category.slug %><%= @theme.present? ? '?theme='+@theme : ''  %>">
                   <%= category.name %>
                   </a>
