@@ -25,6 +25,7 @@ export const buildCreatePayload = ({
     payload.append('private', isPrivate);
     payload.append('echo_id', echoId);
     payload.append('cc_emails', ccEmails);
+    payload.append('content_attributes', JSON.stringify(contentAttributes));
     payload.append('bcc_emails', bccEmails);
     if (toEmails) {
       payload.append('to_emails', toEmails);

@@ -9,11 +9,11 @@ class Messages::MessageBuilder
     @user = user
     @message_type = params[:message_type] || 'outgoing'
     @attachments = params[:attachments]
-    @automation_rule = @params&.dig(:content_attributes, :automation_rule_id)
+    @automation_rule = content_attributes&.dig(:automation_rule_id)
     return unless params.instance_of?(ActionController::Parameters)
 
-    @in_reply_to = params.to_unsafe_h&.dig(:content_attributes, :in_reply_to)
-    @items = params.to_unsafe_h&.dig(:content_attributes, :items)
+    @in_reply_to = content_attributes&.dig(:in_reply_to)
+    @items = content_attributes&.dig(:items)
   end
 
   def perform
@@ -25,6 +25,19 @@ class Messages::MessageBuilder
   end
 
   private
+
+  def content_attributes
+    content = @params[:content_attributes]
+    if content.is_a?(String)
+      begin
+        JSON.parse(content, symbolize_names: true)
+      rescue JSON::ParserError
+        {}
+      end
+    else
+      content || {}
+    end
+  end
 
   def process_attachments
     return if @attachments.blank?
