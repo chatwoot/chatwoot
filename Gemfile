@@ -15,7 +15,7 @@ gem 'browser'
 gem 'hashie'
 gem 'jbuilder'
 gem 'kaminari'
-gem 'responders'
+gem 'responders', '>= 3.1.1'
 gem 'rest-client'
 gem 'telephone_number'
 gem 'time_diff'
@@ -67,7 +67,7 @@ gem 'webpacker'
 gem 'barnes'
 
 ##--- gems for authentication & authorization ---##
-gem 'devise'
+gem 'devise', '>= 4.9.3'
 gem 'devise-secure_password', git: 'https://github.com/chatwoot/devise-secure_password', branch: 'chatwoot'
 gem 'devise_token_auth'
 # authorization
@@ -92,7 +92,7 @@ gem 'twitty', '~> 0.1.5'
 # facebook client
 gem 'koala'
 # slack client
-gem 'slack-ruby-client', '~> 2.0.0'
+gem 'slack-ruby-client', '~> 2.2.0'
 # for dialogflow integrations
 gem 'google-cloud-dialogflow-v2'
 gem 'grpc'
@@ -109,9 +109,9 @@ gem 'elastic-apm', require: false
 gem 'newrelic_rpm', require: false
 gem 'newrelic-sidekiq-metrics', require: false
 gem 'scout_apm', require: false
-gem 'sentry-rails', '>= 5.11.0', require: false
+gem 'sentry-rails', '>= 5.12.0', require: false
 gem 'sentry-ruby', require: false
-gem 'sentry-sidekiq', '>= 5.11.0', require: false
+gem 'sentry-sidekiq', '>= 5.12.0', require: false
 
 ##-- background job processing --##
 gem 'sidekiq', '>= 7.1.3'
@@ -154,12 +154,12 @@ gem 'stripe'
 gem 'faker'
 
 # Include logrange conditionally in intializer using env variable
-gem 'lograge', '~> 0.13.0', require: false
+gem 'lograge', '~> 0.14.0', require: false
 
 # worked with microsoft refresh token
 gem 'omniauth-oauth2'
 
-gem 'audited', '~> 5.3'
+gem 'audited', '~> 5.4', '>= 5.4.0'
 
 # need for google auth
 gem 'omniauth'

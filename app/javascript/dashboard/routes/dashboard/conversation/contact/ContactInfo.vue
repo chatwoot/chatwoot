@@ -18,36 +18,38 @@
       </div>
 
       <div class="mt-2 w-full">
-        <div v-if="showAvatar" class="flex items-center mb-2 gap-1">
+        <div v-if="showAvatar" class="flex items-center mb-2 gap-1.5">
           <h3
             class="text-base text-slate-800 dark:text-slate-100 capitalize whitespace-normal my-0"
           >
             {{ contact.name }}
           </h3>
-          <fluent-icon
-            v-if="contact.created_at"
-            v-tooltip="
-              `${$t('CONTACT_PANEL.CREATED_AT_LABEL')} ${dynamicTime(
-                contact.created_at
-              )}`
-            "
-            icon="info"
-            size="14"
-            class="mt-0.5"
-          />
-          <a
-            :href="contactProfileLink"
-            class="fs-default"
-            target="_blank"
-            rel="noopener nofollow noreferrer"
-          >
-            <woot-button
-              size="tiny"
-              icon="open"
-              variant="clear"
-              color-scheme="secondary"
+          <div class="flex flex-row items-start gap-1">
+            <fluent-icon
+              v-if="contact.created_at"
+              v-tooltip.left="
+                `${$t('CONTACT_PANEL.CREATED_AT_LABEL')} ${dynamicTime(
+                  contact.created_at
+                )}`
+              "
+              icon="info"
+              size="14"
+              class="mt-0.5"
             />
-          </a>
+            <a
+              :href="contactProfileLink"
+              class="fs-default"
+              target="_blank"
+              rel="noopener nofollow noreferrer"
+            >
+              <woot-button
+                size="tiny"
+                icon="open"
+                variant="clear"
+                color-scheme="secondary"
+              />
+            </a>
+          </div>
         </div>
 
         <p v-if="additionalAttributes.description" class="break-words">
@@ -177,6 +179,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 import adminMixin from '../../../../mixins/isAdmin';
 import { mapGetters } from 'vuex';
 import { getCountryFlag } from 'dashboard/helper/flag';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 import {
   isAConversationRoute,
   getConversationDashboardRoute,
@@ -268,6 +271,7 @@ export default {
     },
     toggleConversationModal() {
       this.showConversationModal = !this.showConversationModal;
+      bus.$emit(BUS_EVENTS.NEW_CONVERSATION_MODAL, this.showConversationModal);
     },
     toggleDeleteModal() {
       this.showDeleteModal = !this.showDeleteModal;
