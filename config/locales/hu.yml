@@ -111,7 +111,7 @@ hu:
       instagram_deleted_story_content: Ez a story már nem érhető el.
       deleted: Az üzenet törölve lett
       delivery_status:
-        error_code: "Error code: %{error_code}"
+        error_code: "Hibakód: %{error_code}"
     activity:
       status:
         resolved: "A beszélgetést lezárta %{user_name}"
