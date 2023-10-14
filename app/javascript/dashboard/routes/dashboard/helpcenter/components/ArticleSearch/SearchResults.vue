@@ -5,10 +5,7 @@
         <spinner />
         {{ $t('HELP_CENTER.ARTICLE_SEARCH_RESULT.SEARCH_LOADER') }}
       </div>
-      <div
-        v-else-if="articles.length === 0 && searchQuery"
-        class="empty-state-message"
-      >
+      <div v-else-if="showNoResults" class="empty-state-message">
         {{ $t('HELP_CENTER.ARTICLE_SEARCH_RESULT.NO_RESULT') }}
       </div>
       <search-result-item
@@ -54,6 +51,11 @@ export default {
     portalSlug: {
       type: String,
       required: true,
+    },
+  },
+  computed: {
+    showNoResults() {
+      return this.searchQuery && this.articles.length === 0;
     },
   },
   methods: {
