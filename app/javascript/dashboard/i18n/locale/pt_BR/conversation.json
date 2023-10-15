@@ -46,7 +46,7 @@
     "NO_RESPONSE": "Sem resposta",
     "RATING_TITLE": "Classificação",
     "FEEDBACK_TITLE": "Feedback",
-    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
+    "REPLY_MESSAGE_NOT_FOUND": "Mensagem não disponível",
     "CARD": {
       "SHOW_LABELS": "Mostrar rótulos",
       "HIDE_LABELS": "Ocultar os rótulos"
@@ -195,7 +195,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Copiar",
-      "REPLY_TO": "Responder a esta mensagem",
+      "REPLY_TO": "Responder mensagem",
       "DELETE": "Excluir",
       "CREATE_A_CANNED_RESPONSE": "Adicionar às respostas prontas",
       "TRANSLATE": "Traduzir",
