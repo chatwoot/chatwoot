@@ -34,12 +34,18 @@ Rails.application.reloader.to_prepare do
     # delivery.recipient # => { 'id' => '2015573629214912' }
     # delivery.at        # => 2016-04-22 21:30:36 +0200
     # delivery.seq       # => 37
+    Webhooks::FacebookDeliveryJob.perform_later(delivery.to_json)
     updater = Integrations::Facebook::DeliveryStatus.new(delivery)
     updater.perform
-    Rails.logger.info "Human was online at #{delivery.at}"
+    Rails.logger.info "Human was online at #{delivery.to_json}"
+  end
+
+  Facebook::Messenger::Bot.on :read do |_read|
+    Webhooks::FacebookDeliveryJob.perform_later(_read.to_json)
   end
 
   Facebook::Messenger::Bot.on :message_echo do |message|
+    Rails.logger.info "Human was openai at #{message.to_json}"
     Webhooks::FacebookEventsJob.perform_later(message.to_json)
   end
 end
