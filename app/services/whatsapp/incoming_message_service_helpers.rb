@@ -91,12 +91,13 @@ module Whatsapp::IncomingMessageServiceHelpers
     return if message['context'].blank?
 
     @in_reply_to_external_id = message['context']['id']
-
     return if @in_reply_to_external_id.blank?
 
-    in_reply_to_message = Message.find_by(source_id: @in_reply_to_external_id)
-
-    @in_reply_to = in_reply_to_message.id if in_reply_to_message.present?
+    Messages::InReplyToMessageBuilder.new(
+      message: @message,
+      in_reply_to: nil,
+      in_reply_to_external_id: @in_reply_to_external_id
+    ).perform
   end
 
   def find_message_by_source_id(source_id)
