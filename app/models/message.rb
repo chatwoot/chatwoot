@@ -240,7 +240,7 @@ class Message < ApplicationRecord
     in_reply_to_external_id = content_attributes[:in_reply_to_external_id]
 
     Messages::InReplyToMessageBuilder.new(
-      message: message,
+      message: self,
       in_reply_to: in_reply_to,
       in_reply_to_external_id: in_reply_to_external_id
     ).perform
