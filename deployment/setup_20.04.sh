@@ -187,7 +187,7 @@ function install_dependencies() {
       postgresql-client redis-tools \
       nodejs yarn patch ruby-dev zlib1g-dev liblzma-dev \
       libgmp-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev sudo \
-      libvips
+      libvips python3-pip
 }
 
 ##############################################################################
@@ -770,10 +770,10 @@ function upgrade_node() {
 #   None
 ##############################################################################
 function upgrade() {
+  cwctl_upgrade_check
   get_cw_version
   echo "Upgrading Chatwoot to v$CW_VERSION"
   sleep 3
-  cwctl_upgrade_check
   upgrade_prereq
   upgrade_redis
   upgrade_node
@@ -924,12 +924,16 @@ function version() {
 #   None
 ##############################################################################
 function cwctl_upgrade_check() {
-    echo "Checking for newer versions of cwctl"
+    echo "Checking for cwctl updates..."
 
     local remote_version_url="https://raw.githubusercontent.com/chatwoot/chatwoot/master/VERSION_CWCTL"
     local remote_version=$(curl -s "$remote_version_url")
-    # TODO remove echo
-    echo "Remote version: $remote_version"
+
+    #Check if pip is not installed, and install it if not
+    if ! command -v pip3 &> /dev/null; then
+        echo "Installing pip..."
+        apt install -y python3-pip
+    fi
 
     # Check if packaging library is installed, and install it if not
     if ! python3 -c "import packaging.version" &> /dev/null; then
@@ -942,9 +946,12 @@ function cwctl_upgrade_check() {
     if [ "$needs_update" -eq 1 ]; then
         echo "Upgrading cwctl from $CWCTL_VERSION to $remote_version"
         upgrade_cwctl
-        echo "Please re-run your command"
+        echo $'\U0002713 Done'
+        echo $'\U0001F680 Please re-run your command'
+        exit 0
     else
         echo "Your cwctl is up to date"
+    fi
 
 }
 
@@ -959,8 +966,7 @@ function cwctl_upgrade_check() {
 #   None
 ##############################################################################
 function upgrade_cwctl() {
-    wget https://get.chatwoot.app/linux/install.sh -O /usr/local/bin/cwctl && chmod +x /usr/local/bin/cwctl
-    cwctl --version
+    wget https://get.chatwoot.app/linux/install.sh -O /usr/local/bin/cwctl > /dev/null 2>&1 && chmod +x /usr/local/bin/cwctl
 }
 
 ##############################################################################
