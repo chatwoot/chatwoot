@@ -16,9 +16,9 @@ class Messages::InReplyToMessageBuilder
   end
 
   def in_reply_to_message
-    return @conversation.messages.find_by(id: @in_reply_to) if @in_reply_to.present?
+    return conversation.messages.find_by(id: @in_reply_to) if @in_reply_to.present?
 
-    return @conversation.messages.find_by(source_id: @in_reply_to_external_id) if @in_reply_to_external_id
+    return conversation.messages.find_by(source_id: @in_reply_to_external_id) if @in_reply_to_external_id
 
     nil
   end
