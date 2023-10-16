@@ -19,6 +19,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
           .with(
             body: {
               messaging_product: 'whatsapp',
+              context: nil,
               to: '+123456789',
               text: { body: message.content },
               type: 'text'

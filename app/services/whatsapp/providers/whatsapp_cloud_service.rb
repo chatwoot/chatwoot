@@ -136,7 +136,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
   def whatsapp_reply_context(message)
     reply_to = message.content_attributes[:in_reply_to_external_id]
-    return {} if reply_to.blank?
+    return nil if reply_to.blank?
 
     {
       message_id: reply_to
