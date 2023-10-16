@@ -18,6 +18,13 @@
       :popout-reply-box="popoutReplyBox"
       @click="$emit('click')"
     />
+    <article-search-popover
+      v-if="showArticleSearchPopover && connectedPortalSlug"
+      class="absolute left-1/2 right-1/2 transform -translate-x-1/2 bottom-[calc(100%+0.5rem)]"
+      :portal-slug="connectedPortalSlug"
+      @insert="handleInsert"
+      @close="onSearchPopoverClose"
+    />
     <div class="reply-box__top">
       <reply-to-message
         v-if="shouldShowReplyToMessage"
@@ -35,7 +42,7 @@
         v-if="showEmojiPicker"
         v-on-clickaway="hideEmojiPicker"
         :class="emojiDialogClassOnExpandedLayoutAndRTLView"
-        :on-click="emojiOnClick"
+        :on-click="addIntoEditor"
       />
       <reply-email-head
         v-if="showReplyHead"
@@ -121,10 +128,13 @@
       :toggle-audio-recorder="toggleAudioRecorder"
       :toggle-emoji-picker="toggleEmojiPicker"
       :message="message"
+      :portal-slug="connectedPortalSlug"
       :new-conversation-modal-active="newConversationModalActive"
+      :is-article-search-active="showArticleSearchPopover"
       @selectWhatsappTemplate="openWhatsappTemplateModal"
       @toggle-editor="toggleRichContentEditor"
       @replace-text="replaceText"
+      @toggle-insert-article="toggleInsertArticle"
     />
     <whatsapp-templates
       :inbox-id="inbox.id"
@@ -154,6 +164,7 @@ import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview.v
 import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel.vue';
 import ReplyEmailHead from './ReplyEmailHead.vue';
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue';
+import ArticleSearchPopover from 'dashboard/routes/dashboard/helpcenter/components/ArticleSearch/SearchPopover.vue';
 import MessageSignatureMissingAlert from './MessageSignatureMissingAlert';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
@@ -206,6 +217,7 @@ export default {
     Banner,
     WhatsappTemplates,
     MessageSignatureMissingAlert,
+    ArticleSearchPopover,
   },
   mixins: [
     clickaway,
@@ -248,6 +260,7 @@ export default {
       showCannedMenu: false,
       showVariablesMenu: false,
       newConversationModalActive: false,
+      showArticleSearchPopover: false,
     };
   },
   computed: {
@@ -506,6 +519,11 @@ export default {
         ? this.messageSignature
         : extractTextFromMarkdown(this.messageSignature);
     },
+    connectedPortalSlug() {
+      const { help_center: portal = {} } = this.inbox;
+      const { slug = '' } = portal;
+      return slug;
+    },
   },
   watch: {
     currentChat(conversation) {
@@ -588,6 +606,17 @@ export default {
     );
   },
   methods: {
+    handleInsert(article) {
+      // debugger;
+      // this.message = `${this.message} ${url}`;
+      // this.addIntoEditor(`Read more ${url}`);
+      const { url, title } = article;
+      if (this.isRichEditorEnabled) {
+        bus.$emit(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, `[${title}](${url})`);
+      } else {
+        this.addIntoEditor(`Read more ${url}`);
+      }
+    },
     toggleRichContentEditor() {
       this.updateUISettings({
         display_rich_content_editor: !this.showRichContentEditor,
@@ -844,7 +873,7 @@ export default {
     clearEditorSelection() {
       this.updateEditorSelectionWith = '';
     },
-    insertEmoji(emoji, selectionStart, selectionEnd) {
+    insertIntoTextEditor(emoji, selectionStart, selectionEnd) {
       const { message } = this;
       const newMessage =
         message.slice(0, selectionStart) +
@@ -852,14 +881,14 @@ export default {
         message.slice(selectionEnd, message.length);
       this.message = newMessage;
     },
-    emojiOnClick(emoji) {
+    addIntoEditor(emoji) {
       if (this.showRichContentEditor) {
         this.updateEditorSelectionWith = emoji;
         this.onFocus();
       }
       if (!this.showRichContentEditor) {
         const { selectionStart, selectionEnd } = this.$refs.messageInput.$el;
-        this.insertEmoji(emoji, selectionStart, selectionEnd);
+        this.insertIntoTextEditor(emoji, selectionStart, selectionEnd);
       }
     },
     clearMessage() {
@@ -1105,6 +1134,12 @@ export default {
       // When new conversation modal is open
       this.newConversationModalActive = isActive;
     },
+    onSearchPopoverClose() {
+      this.showArticleSearchPopover = false;
+    },
+    toggleInsertArticle() {
+      this.showArticleSearchPopover = !this.showArticleSearchPopover;
+    },
   },
 };
 </script>
@@ -1123,7 +1158,7 @@ export default {
 }
 
 .reply-box {
-  @apply border-t border-slate-50 dark:border-slate-700 bg-white dark:bg-slate-900;
+  @apply relative border-t border-slate-50 dark:border-slate-700 bg-white dark:bg-slate-900;
 
   &.is-private {
     @apply bg-yellow-50 dark:bg-yellow-200;

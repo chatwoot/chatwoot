@@ -109,6 +109,16 @@
           </h4>
         </div>
       </transition>
+      <woot-button
+        v-if="portalSlug"
+        v-tooltip.top-end="insertArticleToggleTooltip"
+        icon="document-text-link"
+        color-scheme="secondary"
+        variant="smooth"
+        size="small"
+        :title="insertArticleToggleTooltip"
+        @click="toggleInsertArticle"
+      />
     </div>
     <div class="right-wrap">
       <woot-button
@@ -233,6 +243,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    portalSlug: {
+      type: String,
+      required: true,
+    },
+    isArticleSearchActive: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     ...mapGetters({
@@ -307,6 +325,11 @@ export default {
         ? this.$t('CONVERSATION.FOOTER.DISABLE_SIGN_TOOLTIP')
         : this.$t('CONVERSATION.FOOTER.ENABLE_SIGN_TOOLTIP');
     },
+    insertArticleToggleTooltip() {
+      return this.isArticleSearchActive
+        ? this.$t('HELP_CENTER.ARTICLE_SEARCH.OPEN_ARTICLE_SEARCH')
+        : this.$t('HELP_CENTER.ARTICLE_SEARCH.CLOSE_ARTICLE_SEARCH');
+    },
   },
   mounted() {
     ActiveStorage.start();
@@ -324,6 +347,9 @@ export default {
     },
     replaceText(text) {
       this.$emit('replace-text', text);
+    },
+    toggleInsertArticle() {
+      this.$emit('toggle-insert-article');
     },
   },
 };
