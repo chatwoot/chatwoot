@@ -985,7 +985,7 @@ export default {
           const attachedFile = this.globalConfig.directUploadsEnabled
             ? attachment.blobSignedId
             : attachment.resource.file;
-          const attachmentPayload = {
+          let attachmentPayload = {
             conversationId: this.currentChat.id,
             files: [attachedFile],
             private: false,
@@ -998,7 +998,7 @@ export default {
           caption = '';
         });
       } else {
-        const messagePayload = {
+        let messagePayload = {
           conversationId: this.currentChat.id,
           message,
           private: false,
@@ -1013,7 +1013,7 @@ export default {
       return multipleMessagePayload;
     },
     getMessagePayload(message) {
-      const messagePayload = {
+      let messagePayload = {
         conversationId: this.currentChat.id,
         message,
         private: this.isPrivate,
