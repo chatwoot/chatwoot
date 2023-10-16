@@ -29,8 +29,8 @@
           :error-message="$t('HELP_CENTER.CATEGORY.ADD.NAME.ERROR')"
           :existing-name="category.name"
           :saved-icon="category.icon"
-          @on-name-change="onNameChange"
-          @on-icon-change="onClickInsertEmoji"
+          @name-change="changeName"
+          @icon-change="onClickInsertEmoji"
         />
         <woot-input
           v-model.trim="slug"
@@ -137,7 +137,7 @@ export default {
       this.slug = category.slug;
       this.description = category.description;
     },
-    onNameChange(name) {
+    changeName(name) {
       this.name = name;
       this.slug = convertToCategorySlug(this.name);
     },

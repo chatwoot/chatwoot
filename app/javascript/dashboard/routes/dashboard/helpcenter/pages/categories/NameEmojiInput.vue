@@ -105,11 +105,11 @@ export default {
     },
     onClickInsertEmoji(emoji = '') {
       this.icon = emoji;
-      this.$emit('on-icon-change', emoji);
+      this.$emit('icon-change', emoji);
       this.showEmojiPicker = false;
     },
     onNameChange() {
-      this.$emit('on-name-change', this.name);
+      this.$emit('name-change', this.name);
     },
     hideEmojiPicker() {
       if (this.showEmojiPicker) {
