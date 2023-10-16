@@ -94,7 +94,7 @@ module Whatsapp::IncomingMessageServiceHelpers
     return if @in_reply_to_external_id.blank?
 
     Messages::InReplyToMessageBuilder.new(
-      message: @message,
+      message: message,
       in_reply_to: nil,
       in_reply_to_external_id: @in_reply_to_external_id
     ).perform
