@@ -31,7 +31,7 @@
     "ARTICLE_EDITOR": {
       "IMAGE_UPLOAD": {
         "TITLE": "Upload image",
-        "UPLOADING": "Uploading...",
+        "UPLOADING": "Prenosim...",
         "SUCCESS": "Image uploaded successfully",
         "ERROR": "Error while uploading image",
         "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
