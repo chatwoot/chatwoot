@@ -425,6 +425,33 @@
           "ERROR_MESSAGE": "Não é possível apagar a categoria"
         }
       }
+    },
+    "UPGRADE_PAGE": {
+      "TITLE": "Centro de Suporte",
+      "DESCRIPTION": "Crie portais de self-service de fácil utilização. Ajude os seus utilizadores a aceder aos artigos e obter suporte 24/7. Atualize a sua subscrição para habilitar este recurso.",
+      "SELF_HOSTED_DESCRIPTION": "Crie portais de self-service de fácil utilização. Ajude os seus utilizadores a aceder aos artigos e obter suporte 24/7. Entre em contato com o administrador para ativar este recurso.",
+      "BUTTON": {
+        "LEARN_MORE": "Saiba mais",
+        "UPGRADE": "Upgrade"
+      },
+      "FEATURES": {
+        "PORTALS": {
+          "TITLE": "Múltiplos portais",
+          "DESCRIPTION": "Crie vários portais de ajuda centralizada para diferentes produtos usando a mesma conta."
+        },
+        "LOCALES": {
+          "TITLE": "Suporte total para idiomas",
+          "DESCRIPTION": "Localize o portal no seu idioma. Nós suportamos todos os idiomas e permitimos traduções para todos os artigos."
+        },
+        "SEO": {
+          "TITLE": "Design SEO-friendly",
+          "DESCRIPTION": "Personalize as suas meta tags para melhorar a visibilidade nos motores de busca com as nossas páginas SEO-friendly."
+        },
+        "API": {
+          "TITLE": "Suporte completo API",
+          "DESCRIPTION": "Use o portal como um CMS com frameworks de front-end externos usando as nossas APIs."
+        }
+      }
     }
   }
 }
