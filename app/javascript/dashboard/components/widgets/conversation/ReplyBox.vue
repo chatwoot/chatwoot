@@ -768,6 +768,7 @@ export default {
         : this.$track(CONVERSATION_EVENTS.SENT_MESSAGE, {
             channelType: this.channelType,
             signatureEnabled: this.sendWithSignature,
+            hasReplyTo: !!this.inReplyTo?.id,
           });
     },
     async onSendReply() {
