@@ -27,7 +27,7 @@ class Messages::MessageBuilder
   private
 
   def content_attributes
-    content = @params[:content_attributes]
+    content = @params[:content_attributes]&.permit!
     if content.is_a?(String)
       begin
         JSON.parse(content, symbolize_names: true)
@@ -127,6 +127,7 @@ class Messages::MessageBuilder
       content: @params[:content],
       private: @private,
       sender: sender,
+      content_attributes: content_attributes,
       content_type: @params[:content_type],
       items: @items,
       in_reply_to: @in_reply_to,
