@@ -204,6 +204,10 @@ export default {
       if (this.isAWhatsAppChannel || this.isATwilioChannel) {
         return this.sourceId && this.isSent;
       }
+
+      if (this.isAFacebookInbox) {
+        return this.sourceId && this.isSent;
+      }
       return false;
     },
     showDeliveredIndicator() {
