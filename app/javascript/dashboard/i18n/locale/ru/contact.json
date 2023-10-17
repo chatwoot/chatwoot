@@ -204,6 +204,10 @@
         "PLACEHOLDER": "Напишите здесь ваше сообщение",
         "ERROR": "Сообщение не может быть пустым"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "Отправить сообщение",
       "CANCEL": "Отменить",
       "SUCCESS_MESSAGE": "Сообщение отправлено!",
@@ -343,17 +347,17 @@
     "DESCRIPTION": "Объединение контактов для объединения двух профилей в один, включая все атрибуты и разговоры. В случае конфликта приоритет будет иметь атрибуты первичного контакта.",
     "PRIMARY": {
       "TITLE": "Основной контакт",
-      "HELP_LABEL": "Оставлять"
+      "HELP_LABEL": "Удалять"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Контакт для слияния",
       "PLACEHOLDER": "Поиск по контактам",
-      "HELP_LABEL": "Удалять"
+      "HELP_LABEL": "Оставлять"
     },
     "SUMMARY": {
       "TITLE": "Краткая информация",
-      "DELETE_WARNING": "Контакт <strong>%{childContactName}</strong> будет удален.",
-      "ATTRIBUTE_WARNING": "Контактная информация <strong>%{childContactName}</strong> будет скопирована в <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Контакт <strong>%{primaryContactName}</strong> будет удален.",
+      "ATTRIBUTE_WARNING": "Контактная информация <strong>%{primaryContactName}</strong> будет скопирована в <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"

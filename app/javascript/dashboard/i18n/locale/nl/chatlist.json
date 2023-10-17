@@ -41,6 +41,16 @@
       "STATUS": "Status",
       "ORDER_BY": "Sorteren op"
     },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Aangemaakt op",
+        "OLDEST": "Aangemaakt op:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Laatste Activiteit:",
+        "ACTIVE": "Laatste Activiteit"
+      }
+    },
     "CHAT_SORT_FILTER_ITEMS": {
       "latest": {
         "TEXT": "Laatste Activiteit"
