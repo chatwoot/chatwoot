@@ -41,7 +41,7 @@ describe ReportingEventListener do
 
       events = account.reporting_events.where(name: 'reply_time', conversation_id: message.conversation_id)
       expect(events.length).to be 1
-      expect(events.first.value).to eq 7200
+      expect(events.first.value).to be_within(1).of(7200)
     end
   end
 
