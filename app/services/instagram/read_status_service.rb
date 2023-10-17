@@ -4,10 +4,10 @@ class Instagram::ReadStatusService < Instagram::WebhooksBaseService
   def perform
     return if instagram_channel.blank?
 
-    process_statuses if message.present?
+    process_status if message.present?
   end
 
-  def process_statuses
+  def process_status
     @message.status = 'read'
     @message.save!
   end
@@ -17,7 +17,7 @@ class Instagram::ReadStatusService < Instagram::WebhooksBaseService
   end
 
   def instagram_channel
-    @instagram_channel = Channel::FacebookPage.find_by(instagram_id: instagram_id)
+    @instagram_channel ||= Channel::FacebookPage.find_by(instagram_id: instagram_id)
   end
 
   def message

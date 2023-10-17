@@ -238,6 +238,7 @@ export default {
       ) {
         return this.sourceId && this.isRead;
       }
+
       return false;
     },
   },
