@@ -110,6 +110,8 @@ da:
       instagram_story_content: "%{story_sender} nævnte dig i historien: "
       instagram_deleted_story_content: Denne historie er ikke længere tilgængelig.
       deleted: Denne besked blev slettet
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "Samtalen blev markeret som løst af %{user_name}"
@@ -202,3 +204,12 @@ da:
       made_with: Made with
     header:
       go_to_homepage: Go to the main site
+  slack_unfurl:
+    fields:
+      name: Navn
+      email: E-mail
+      phone_number: Phone
+      company_name: Virksomhed
+      inbox_name: Indbakke
+      inbox_type: Inbox Type
+    button: Åbn samtale
