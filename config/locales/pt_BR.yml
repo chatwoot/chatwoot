@@ -110,6 +110,8 @@ pt_BR:
       instagram_story_content: "%{story_sender} mencionou você na conversa: "
       instagram_deleted_story_content: Este Story não está mais disponível.
       deleted: Esta mensagem foi apagada
+      delivery_status:
+        error_code: "Código de erro: %{error_code}"
     activity:
       status:
         resolved: "Conversa foi marcada como resolvida por %{user_name}"
@@ -202,3 +204,12 @@ pt_BR:
       made_with: Criado com
     header:
       go_to_homepage: Ir para o site principal
+  slack_unfurl:
+    fields:
+      name: Nome
+      email: e-mail
+      phone_number: Telefone
+      company_name: Empresa
+      inbox_name: Caixa de Entrada
+      inbox_type: Tipo de Caixa de Entrada
+    button: Abrir conversa
