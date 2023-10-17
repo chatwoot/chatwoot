@@ -5,11 +5,8 @@ import {
 } from '../preChat';
 import inboxFixture from './inboxFixture';
 
-const {
-  customFields,
-  customAttributes,
-  customAttributesWithRegex,
-} = inboxFixture;
+const { customFields, customAttributes, customAttributesWithRegex } =
+  inboxFixture;
 describe('#Pre chat Helpers', () => {
   describe('getPreChatFields', () => {
     it('should return correct pre-chat fields form options passed', () => {

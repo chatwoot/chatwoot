@@ -26,22 +26,6 @@
           readonly
           @blur="$v.attributeKey.$touch"
         />
-        <woot-input
-          v-if="isAttributeTypeText"
-          v-model="regexPattern"
-          :label="$t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_PATTERN.LABEL')"
-          type="text"
-          :placeholder="
-            $t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_PATTERN.PLACEHOLDER')
-          "
-        />
-        <woot-input
-          v-if="isAttributeTypeText"
-          v-model="regexCue"
-          :label="$t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_CUE.LABEL')"
-          type="text"
-          :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_CUE.PLACEHOLDER')"
-        />
         <label :class="{ error: $v.description.$error }">
           {{ $t('ATTRIBUTES_MGMT.ADD.FORM.DESC.LABEL') }}
           <textarea
@@ -86,6 +70,30 @@
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.ERROR') }}
           </label>
         </div>
+        <div v-if="isAttributeTypeText">
+          <input
+            v-model="regexEnabled"
+            type="checkbox"
+            @input="toggleRegexEnabled"
+          />
+          {{ $t('ATTRIBUTES_MGMT.ADD.FORM.ENABLE_REGEX.LABEL') }}
+        </div>
+        <woot-input
+          v-if="isAttributeTypeText && isRegexEnabled"
+          v-model="regexPattern"
+          :label="$t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_PATTERN.LABEL')"
+          type="text"
+          :placeholder="
+            $t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_PATTERN.PLACEHOLDER')
+          "
+        />
+        <woot-input
+          v-if="isAttributeTypeText && isRegexEnabled"
+          v-model="regexCue"
+          :label="$t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_CUE.LABEL')"
+          type="text"
+          :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_CUE.PLACEHOLDER')"
+        />
       </div>
       <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
         <woot-button :is-loading="isUpdating" :disabled="isButtonDisabled">
@@ -125,6 +133,7 @@ export default {
       attributeType: 0,
       regexPattern: null,
       regexCue: null,
+      regexEnabled: false,
       types: ATTRIBUTE_TYPES,
       show: true,
       attributeKey: '',
@@ -196,6 +205,9 @@ export default {
     isAttributeTypeText() {
       return this.attributeType === 0;
     },
+    isRegexEnabled() {
+      return this.regexEnabled;
+    },
   },
   mounted() {
     this.setFormValues();
@@ -221,6 +233,7 @@ export default {
       this.attributeKey = this.selectedAttribute.attribute_key;
       this.regexPattern = regexPattern;
       this.regexCue = this.selectedAttribute.regex_cue;
+      this.regexEnabled = regexPattern != null;
       this.values = this.setAttributeListValue;
     },
     async editAttributes() {
@@ -228,13 +241,19 @@ export default {
       if (this.$v.$invalid) {
         return;
       }
+      if (!this.regexEnabled) {
+        this.regexPattern = null;
+        this.regexCue = null;
+      }
       try {
         await this.$store.dispatch('attributes/update', {
           id: this.selectedAttribute.id,
           attribute_description: this.description,
           attribute_display_name: this.displayName,
           attribute_values: this.updatedAttributeListValues,
-          regex_pattern: new RegExp(this.regexPattern).toString(),
+          regex_pattern: this.regexPattern
+            ? new RegExp(this.regexPattern).toString()
+            : null,
           regex_cue: this.regexCue,
         });
         this.alertMessage = this.$t('ATTRIBUTES_MGMT.EDIT.API.SUCCESS_MESSAGE');
@@ -246,6 +265,9 @@ export default {
       } finally {
         this.showAlert(this.alertMessage);
       }
+    },
+    toggleRegexEnabled() {
+      this.regexEnabled = !this.regexEnabled;
     },
   },
 };

@@ -39,22 +39,6 @@
             :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.PLACEHOLDER')"
             @blur="$v.attributeKey.$touch"
           />
-          <woot-input
-            v-if="isAttributeTypeText"
-            v-model="regexPattern"
-            :label="$t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_PATTERN.LABEL')"
-            type="text"
-            :placeholder="
-              $t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_PATTERN.PLACEHOLDER')
-            "
-          />
-          <woot-input
-            v-if="isAttributeTypeText"
-            v-model="regexCue"
-            :label="$t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_CUE.LABEL')"
-            type="text"
-            :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_CUE.PLACEHOLDER')"
-          />
           <label :class="{ error: $v.description.$error }">
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.DESC.LABEL') }}
             <textarea
@@ -102,6 +86,30 @@
               {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.ERROR') }}
             </label>
           </div>
+          <div v-if="isAttributeTypeText">
+            <input
+              v-model="regexEnabled"
+              type="checkbox"
+              @input="toggleRegexEnabled"
+            />
+            {{ $t('ATTRIBUTES_MGMT.ADD.FORM.ENABLE_REGEX.LABEL') }}
+          </div>
+          <woot-input
+            v-if="isAttributeTypeText && isRegexEnabled"
+            v-model="regexPattern"
+            :label="$t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_PATTERN.LABEL')"
+            type="text"
+            :placeholder="
+              $t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_PATTERN.PLACEHOLDER')
+            "
+          />
+          <woot-input
+            v-if="isAttributeTypeText && isRegexEnabled"
+            v-model="regexCue"
+            :label="$t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_CUE.LABEL')"
+            type="text"
+            :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_CUE.PLACEHOLDER')"
+          />
           <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
             <woot-submit-button
               :disabled="isButtonDisabled"
@@ -142,6 +150,7 @@ export default {
       attributeKey: '',
       regexPattern: null,
       regexCue: null,
+      regexEnabled: false,
       models: ATTRIBUTE_MODELS,
       types: ATTRIBUTE_TYPES,
       values: [],
@@ -184,6 +193,9 @@ export default {
     isAttributeTypeText() {
       return this.attributeType === 0;
     },
+    isRegexEnabled() {
+      return this.regexEnabled;
+    },
   },
 
   validations: {
@@ -222,10 +234,17 @@ export default {
     onDisplayNameChange() {
       this.attributeKey = convertToAttributeSlug(this.displayName);
     },
+    toggleRegexEnabled() {
+      this.regexEnabled = !this.regexEnabled;
+    },
     async addAttributes() {
       this.$v.$touch();
       if (this.$v.$invalid) {
         return;
+      }
+      if (!this.regexEnabled) {
+        this.regexPattern = null;
+        this.regexCue = null;
       }
       try {
         await this.$store.dispatch('attributes/create', {
@@ -235,7 +254,9 @@ export default {
           attribute_display_type: this.attributeType,
           attribute_key: this.attributeKey,
           attribute_values: this.attributeListValues,
-          regex_pattern: new RegExp(this.regexPattern).toString(),
+          regex_pattern: this.regexPattern
+            ? new RegExp(this.regexPattern).toString()
+            : null,
           regex_cue: this.regexCue,
         });
         this.alertMessage = this.$t('ATTRIBUTES_MGMT.ADD.API.SUCCESS_MESSAGE');

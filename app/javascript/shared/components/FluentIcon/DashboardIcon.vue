@@ -5,6 +5,7 @@
     :type="type"
     :icons="icons"
     :view-box="viewBox"
+    :icon-lib="iconLib"
   />
 </template>
 <script>
@@ -32,6 +33,10 @@ export default {
     viewBox: {
       type: String,
       default: '0 0 24 24',
+    },
+    iconLib: {
+      type: String,
+      default: 'fluent',
     },
   },
   data() {

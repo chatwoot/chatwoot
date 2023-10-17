@@ -47,6 +47,9 @@
         "REGEX_CUE": {
           "LABEL": "Regex Cue",
           "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "Enable regex validation"
         }
       },
       "API": {
@@ -104,6 +107,9 @@
       "REGEX_CUE": {
         "LABEL": "Regex Cue",
         "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "Enable regex validation"
       }
     }
   }
