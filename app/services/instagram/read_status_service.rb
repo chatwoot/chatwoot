@@ -1,10 +1,5 @@
 class Instagram::ReadStatusService < Instagram::WebhooksBaseService
-  attr_reader :messaging
-
-  def initialize(messaging)
-    super()
-    @messaging = messaging
-  end
+  pattr_initialize [:params!]
 
   def perform
     return if instagram_channel.blank?
@@ -18,7 +13,7 @@ class Instagram::ReadStatusService < Instagram::WebhooksBaseService
   end
 
   def instagram_id
-    @messaging[:recipient][:id]
+    params[:recipient][:id]
   end
 
   def instagram_channel
@@ -26,8 +21,8 @@ class Instagram::ReadStatusService < Instagram::WebhooksBaseService
   end
 
   def message
-    return unless @messaging[:read][:mid]
+    return unless params[:read][:mid]
 
-    @message ||= @instagram_channel.inbox.messages.find_by(source_id: @messaging[:read][:mid])
+    @message ||= @instagram_channel.inbox.messages.find_by(source_id: params[:read][:mid])
   end
 end

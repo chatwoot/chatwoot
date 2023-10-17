@@ -45,7 +45,7 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   end
 
   def read(messaging)
-    ::Instagram::ReadStatusService.new(messaging).perform
+    ::Instagram::ReadStatusService.new(params: messaging).perform
   end
 
   def messages(entry)

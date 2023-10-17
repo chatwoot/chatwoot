@@ -242,4 +242,30 @@ FactoryBot.define do
     end
     initialize_with { attributes }
   end
+
+  factory :messaging_seen_event, class: Hash do
+    entry do
+      [
+        {
+          'id': 'instagram-message-id-123',
+          'time': '2021-09-08T06:34:04+0000',
+          'messaging': [
+            {
+              'sender': {
+                'id': 'Sender-id-1'
+              },
+              'recipient': {
+                'id': 'chatwoot-app-user-id-1'
+              },
+              'timestamp': '2021-09-08T06:34:04+0000',
+              'read': {
+                'mid': 'message-id-1'
+              }
+            }
+          ]
+        }
+      ]
+    end
+    initialize_with { attributes }
+  end
 end
