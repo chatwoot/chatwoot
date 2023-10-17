@@ -18,7 +18,7 @@ class Instagram::ReadStatusService < Instagram::WebhooksBaseService
   end
 
   def instagram_id
-    @messaging[:sender][:id]
+    @messaging[:recipient][:id]
   end
 
   def instagram_channel
