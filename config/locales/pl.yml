@@ -110,6 +110,8 @@ pl:
       instagram_story_content: "%{story_sender} wspomniał o Tobie w historii: "
       instagram_deleted_story_content: Ta historia już nie jest dostępna.
       deleted: Ta wiadomość została usunięta
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "Rozmowa została oznaczona przez %{user_name}"
@@ -202,3 +204,12 @@ pl:
       made_with: Wykonane z
     header:
       go_to_homepage: Przejdź do strony głównej
+  slack_unfurl:
+    fields:
+      name: Nazwa
+      email: E-mail
+      phone_number: Phone
+      company_name: Firma
+      inbox_name: Skrzynka odbiorcza
+      inbox_type: Inbox Type
+    button: Otwórz rozmowę

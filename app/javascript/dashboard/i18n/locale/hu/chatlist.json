@@ -41,6 +41,16 @@
       "STATUS": "Státusz",
       "ORDER_BY": "Rendezés"
     },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Létrehozva",
+        "OLDEST": "Létrehozva:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Utolsó aktivitás:",
+        "ACTIVE": "Utolsó aktivitás"
+      }
+    },
     "CHAT_SORT_FILTER_ITEMS": {
       "latest": {
         "TEXT": "Utolsó aktivitás"

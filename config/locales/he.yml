@@ -110,6 +110,8 @@ he:
       instagram_story_content: "%{story_sender} mentioned you in the story: "
       instagram_deleted_story_content: This story is no longer available.
       deleted: This message was deleted
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "השיחה סומנה כפתורה על ידי %{user_name}"
@@ -202,3 +204,12 @@ he:
       made_with: Made with
     header:
       go_to_homepage: Go to the main site
+  slack_unfurl:
+    fields:
+      name: שם
+      email: אימייל
+      phone_number: Phone
+      company_name: חברה
+      inbox_name: תיבת הדואר הנכנס
+      inbox_type: Inbox Type
+    button: שיחה פתוחה
