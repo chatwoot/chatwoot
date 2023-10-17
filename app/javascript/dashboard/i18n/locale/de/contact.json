@@ -204,6 +204,10 @@
         "PLACEHOLDER": "Schreiben Sie Ihre Nachricht hier",
         "ERROR": "Nachricht darf nicht leer sein"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "Nachricht senden",
       "CANCEL": "Abbrechen",
       "SUCCESS_MESSAGE": "Nachricht gesendet!",
@@ -343,17 +347,17 @@
     "DESCRIPTION": "Kontakte zusammenführen, um zwei Profile zu einem zu kombinieren, einschließlich aller Attribute und Gespräche. Im Falle eines Konflikts haben die Attribute des Hauptkontakts Vorrang.",
     "PRIMARY": {
       "TITLE": "Hauptkontakt",
-      "HELP_LABEL": "Zu erhalten"
+      "HELP_LABEL": "Zu löschen"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Kontakt zum Zusammenführen",
       "PLACEHOLDER": "Nach Kontakt suchen",
-      "HELP_LABEL": "Zu löschen"
+      "HELP_LABEL": "Zu erhalten"
     },
     "SUMMARY": {
       "TITLE": "Zusammenfassung",
-      "DELETE_WARNING": "Der Kontakt von <strong>%{childContactName}</strong> wird gelöscht.",
-      "ATTRIBUTE_WARNING": "Details von Kontakt <strong>%{childContactName}</strong> wird zu <strong>%{primaryContactName}</strong> kopiert."
+      "DELETE_WARNING": "Der Kontakt von <strong>%{primaryContactName}</strong> wird gelöscht.",
+      "ATTRIBUTE_WARNING": "Details von Kontakt <strong>%{primaryContactName}</strong> wird zu <strong>%{parentContactName}</strong> kopiert."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
