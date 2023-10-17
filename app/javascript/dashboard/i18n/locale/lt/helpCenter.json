@@ -425,6 +425,33 @@
           "ERROR_MESSAGE": "Nepavyko ištrinti kategorijos"
         }
       }
+    },
+    "UPGRADE_PAGE": {
+      "TITLE": "Palaikymo centras",
+      "DESCRIPTION": "Sukurti patogius savitarnos portalus. Padėkite savo vartotojams pasiekti straipsnius ir gauti palaikymą 24 valandas per parą, 7 dienas per savaitę. Atnaujinkite savo prenumeratą, kad įjungtumėte šią funkciją.",
+      "SELF_HOSTED_DESCRIPTION": "Sukurti patogius savitarnos portalus. Padėkite savo vartotojams pasiekti straipsnius ir gauti palaikymą 24 valandas per parą, 7 dienas per savaitę. Norėdami įjungti šią funkciją, susisiekite su administratoriumi.",
+      "BUTTON": {
+        "LEARN_MORE": "Sužinoti daugiau",
+        "UPGRADE": "Patobulinti"
+      },
+      "FEATURES": {
+        "PORTALS": {
+          "TITLE": "Keletas portalų",
+          "DESCRIPTION": "Sukurkite kelis pagalbos centro portalus skirtingiems produktams naudodami tą pačią paskyrą."
+        },
+        "LOCALES": {
+          "TITLE": "Lokalizacijos yra pilnai palaikomos",
+          "DESCRIPTION": "Lokalizuokite portalą savo kalba. Mes palaikome visas kalbas ir leidžiame kiekvieno straipsnio vertimus."
+        },
+        "SEO": {
+          "TITLE": "Paieškos variklio optimizavimui draugiškas dizainas",
+          "DESCRIPTION": "Customize your meta tags to improve your visibility on search engines with our SEO-friendly pages."
+        },
+        "API": {
+          "TITLE": "Pilnas API palaikymas",
+          "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
+        }
+      }
     }
   }
 }

@@ -110,6 +110,8 @@ zh_CN:
       instagram_story_content: "%{story_sender} mentioned you in the story: "
       instagram_deleted_story_content: This story is no longer available.
       deleted: This message was deleted
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "对话被标记由 %{user_name} 解决"
@@ -202,3 +204,12 @@ zh_CN:
       made_with: Made with
     header:
       go_to_homepage: Go to the main site
+  slack_unfurl:
+    fields:
+      name: 姓名：
+      email: Email
+      phone_number: Phone
+      company_name: 公司
+      inbox_name: 收件箱
+      inbox_type: Inbox Type
+    button: Open conversation

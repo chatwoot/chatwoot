@@ -425,6 +425,33 @@
           "ERROR_MESSAGE": "Impossible de supprimer la catégorie"
         }
       }
+    },
+    "UPGRADE_PAGE": {
+      "TITLE": "Centre d'aide",
+      "DESCRIPTION": "Créez des portails en libre-service conviviaux. Aidez vos utilisateurs à accéder aux articles et à obtenir de l'aide 24h/24, 7j/7. Mettez à niveau votre abonnement pour activer cette fonctionnalité.",
+      "SELF_HOSTED_DESCRIPTION": "Créez des portails en libre-service conviviaux. Aidez vos utilisateurs à accéder aux articles et à obtenir de l'assistance 24/7. Veuillez contacter votre administrateur pour activer cette fonctionnalité.",
+      "BUTTON": {
+        "LEARN_MORE": "En savoir plus",
+        "UPGRADE": "Mise à niveau"
+      },
+      "FEATURES": {
+        "PORTALS": {
+          "TITLE": "Portails multiples",
+          "DESCRIPTION": "Créez plusieurs portails de centre d'aide pour différents produits en utilisant le même compte."
+        },
+        "LOCALES": {
+          "TITLE": "Prise en charge complète des langues",
+          "DESCRIPTION": "Affichez le portail dans votre langue. Nous prenons en charge toutes les langues et autorisons les traductions pour chaque article."
+        },
+        "SEO": {
+          "TITLE": "Design optimisé pour le SEO",
+          "DESCRIPTION": "Personnalisez vos balises méta pour améliorer votre visibilité sur les moteurs de recherche grâce à nos pages optimisées pour le SEO."
+        },
+        "API": {
+          "TITLE": "Support complet de l'API",
+          "DESCRIPTION": "Utilisez le portail comme un CMS sans tête avec des frameworks front-end tiers en utilisant nos API."
+        }
+      }
     }
   }
 }
