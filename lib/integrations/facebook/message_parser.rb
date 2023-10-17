@@ -47,6 +47,10 @@ class Integrations::Facebook::MessageParser
   def sent_from_chatwoot_app?
     app_id && app_id == GlobalConfigService.load('FB_APP_ID', '').to_i
   end
+
+  def in_reply_to_external_id
+    @messaging.dig('message', 'reply_to', 'mid')
+  end
 end
 
 # Sample Response

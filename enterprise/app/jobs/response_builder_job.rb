@@ -63,14 +63,20 @@ class ResponseBuilderJob < ApplicationJob
 
   def create_responses(response, response_document)
     response_body = JSON.parse(response.body)
-    faqs = JSON.parse(response_body['choices'][0]['message']['content'].strip)
+    content = response_body.dig('choices', 0, 'message', 'content')
+
+    return if content.nil?
+
+    faqs = JSON.parse(content.strip)
 
     faqs.each do |faq|
       response_document.responses.create!(
         question: faq['question'],
         answer: faq['answer'],
-        account_id: response_document.account_id
+        response_source: response_document.response_source
       )
     end
+  rescue JSON::ParserError => e
+    Rails.logger.error "Error in parsing GPT processed response document : #{e.message}"
   end
 end
