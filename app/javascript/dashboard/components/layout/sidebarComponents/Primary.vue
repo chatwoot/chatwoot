@@ -36,6 +36,14 @@
         @close="toggleOptions"
       />
     </div>
+    <div>
+      <NewConversation
+        v-if="showNewConversation"
+        :show.sync="showNewConversation"
+        :contact="contactData"
+        @cancel="hideNewConversation"
+      />
+    </div>
   </div>
 </template>
 <script>
@@ -44,6 +52,7 @@ import PrimaryNavItem from './PrimaryNavItem.vue';
 import OptionsMenu from './OptionsMenu.vue';
 import AgentDetails from './AgentDetails.vue';
 import NotificationBell from './NotificationBell.vue';
+import NewConversation from '../../../routes/dashboard/conversation/contact/NewConversation.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import { ACCOUNT_EVENTS } from '../../../helper/AnalyticsHelper/events';
@@ -55,6 +64,7 @@ export default {
     OptionsMenu,
     AgentDetails,
     NotificationBell,
+    NewConversation,
   },
   props: {
     isACustomBrandedInstance: {
@@ -86,6 +96,8 @@ export default {
     return {
       helpDocsURL: wootConstants.DOCS_URL,
       showOptionsMenu: false,
+      showNewConversation: false,
+      contactData: ['irtaza'],
     };
   },
   methods: {
@@ -102,6 +114,9 @@ export default {
     openNotificationPanel() {
       this.$track(ACCOUNT_EVENTS.OPENED_NOTIFICATIONS);
       this.$emit('open-notification-panel');
+    },
+    hideNewConversation() {
+      this.showNewConversation = false;
     },
   },
 };

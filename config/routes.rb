@@ -369,6 +369,13 @@ Rails.application.routes.draw do
   get 'hc/:slug/:locale/categories/:category_slug/articles', to: 'public/api/v1/portals/articles#index'
   get 'hc/:slug/articles/:article_slug', to: 'public/api/v1/portals/articles#show'
 
+  namespace :api do
+    namespace :v1 do
+      resources :whatsapp_channels, only: [:index]
+      resources :contacts, only: [:index]
+    end
+  end
+
   # ----------------------------------------------------------------------
   # Used in mailer templates
   resource :app, only: [:index] do
