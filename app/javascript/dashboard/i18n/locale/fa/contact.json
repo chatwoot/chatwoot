@@ -204,6 +204,10 @@
         "PLACEHOLDER": "پیام خود را اینجا بنویسید",
         "ERROR": "پیام نمی‌تواند خالی باشد"
       },
+      "ATTACHMENTS": {
+        "SELECT": "پرونده‌ها را انتخاب کنید",
+        "HELP_TEXT": "پرونده‌ها را اینجا بکشید و رها کنید یا پرونده‌ها را برای پیوست انتخاب کنید"
+      },
       "SUBMIT": "ارسال پیام",
       "CANCEL": "انصراف",
       "SUCCESS_MESSAGE": "پیام ارسال شد!",
@@ -343,17 +347,17 @@
     "DESCRIPTION": "با ادغام مخاطبین دو پروفایل به همراه تمام ویژگی ها و گفتگوها با هم ادغام می شود. در صورت تعارض، ویژگی های تماس اولیه اولویت دارد.",
     "PRIMARY": {
       "TITLE": "مخاطب اصلی",
-      "HELP_LABEL": "نگه داشتن"
+      "HELP_LABEL": "حذف شود"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "ادغام مخاطب",
       "PLACEHOLDER": "جستجو برای یک مخاطب",
-      "HELP_LABEL": "حذف شود"
+      "HELP_LABEL": "نگه داشتن"
     },
     "SUMMARY": {
       "TITLE": "خلاصه",
-      "DELETE_WARNING": "اطلاعات مخاطب <strong>%{childContactName}</strong> حذف خواهد شد.",
-      "ATTRIBUTE_WARNING": "اطلاعات مخاطب <strong>%{childContactName}</strong> کپی شود به <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "اطلاعات مخاطب <strong>%{primaryContactName}</strong> حذف خواهد شد.",
+      "ATTRIBUTE_WARNING": "اطلاعات مخاطب <strong>%{primaryContactName}</strong> کپی شود به <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
