@@ -41,6 +41,16 @@
       "STATUS": "وضعیت",
       "ORDER_BY": "سفارش توسط"
     },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "ایجاد شده",
+        "OLDEST": "ایجاد شده در:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "آخرین فعالیت:",
+        "ACTIVE": "آخرین فعالیت"
+      }
+    },
     "CHAT_SORT_FILTER_ITEMS": {
       "latest": {
         "TEXT": "آخرین فعالیت"
