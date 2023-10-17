@@ -34,6 +34,18 @@ class Integrations::Facebook::MessageParser
     @messaging.dig('message', 'mid')
   end
 
+  def delivery
+    @messaging['delivery']
+  end
+
+  def read_watermark
+    @messaging.dig('read', 'watermark')
+  end
+
+  def delivery_watermark
+    delivery&.dig('watermark')
+  end
+
   def echo?
     @messaging.dig('message', 'is_echo')
   end

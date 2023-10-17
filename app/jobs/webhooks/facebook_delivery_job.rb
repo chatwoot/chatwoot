@@ -1,8 +1,8 @@
 class Webhooks::FacebookDeliveryJob < MutexApplicationJob
   queue_as :default
-  retry_on LockAcquisitionError, wait: 1.second, attempts: 8
 
-  def perform(_delivery)
-    # byebug
+  def perform(message)
+    response = ::Integrations::Facebook::MessageParser.new(message)
+    Integrations::Facebook::DeliveryStatus.new(params: response).perform
   end
 end
