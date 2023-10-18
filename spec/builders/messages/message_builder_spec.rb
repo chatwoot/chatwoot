@@ -21,6 +21,75 @@ describe Messages::MessageBuilder do
     end
   end
 
+  describe '#content_attributes' do
+    context 'when content_attributes is a JSON string' do
+      let(:params) do
+        ActionController::Parameters.new({
+                                           content: 'test',
+                                           content_attributes: '{"in_reply_to":2342}'
+                                         })
+      end
+
+      it 'parses content_attributes from JSON string' do
+        message = described_class.new(user, conversation, params).perform
+        expect(message.content_attributes).to include(in_reply_to: 2342)
+      end
+    end
+
+    context 'when content_attributes is a hash' do
+      let(:params) do
+        ActionController::Parameters.new({
+                                           content: 'test',
+                                           content_attributes: { in_reply_to: 2342 }
+                                         })
+      end
+
+      it 'uses content_attributes as provided' do
+        message = described_class.new(user, conversation, params).perform
+        expect(message.content_attributes).to include(in_reply_to: 2342)
+      end
+    end
+
+    context 'when content_attributes is absent' do
+      let(:params) do
+        ActionController::Parameters.new({ content: 'test' })
+      end
+
+      it 'defaults to an empty hash' do
+        message = message_builder
+        expect(message.content_attributes).to eq({})
+      end
+    end
+
+    context 'when content_attributes is nil' do
+      let(:params) do
+        ActionController::Parameters.new({
+                                           content: 'test',
+                                           content_attributes: nil
+                                         })
+      end
+
+      it 'defaults to an empty hash' do
+        message = message_builder
+        expect(message.content_attributes).to eq({})
+      end
+    end
+
+    context 'when content_attributes is an invalid JSON string' do
+      let(:params) do
+        ActionController::Parameters.new({
+                                           content: 'test',
+                                           content_attributes: 'invalid_json'
+                                         })
+      end
+
+      it 'defaults to an empty hash' do
+        message = message_builder
+        expect(message.content_attributes).to eq({})
+      end
+    end
+  end
+
   describe '#perform when message_type is incoming' do
     context 'when channel is not api' do
       let(:params) do
