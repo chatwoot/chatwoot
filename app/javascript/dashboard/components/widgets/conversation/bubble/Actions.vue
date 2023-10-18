@@ -201,13 +201,14 @@ export default {
         return !!this.sourceId;
       }
 
-      if (this.isAWhatsAppChannel || this.isATwilioChannel) {
+      if (
+        this.isAWhatsAppChannel ||
+        this.isATwilioChannel ||
+        this.isAFacebookInbox
+      ) {
         return this.sourceId && this.isSent;
       }
 
-      if (this.isAFacebookInbox) {
-        return this.sourceId && this.isSent;
-      }
       return false;
     },
     showDeliveredIndicator() {
