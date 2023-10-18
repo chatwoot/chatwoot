@@ -371,6 +371,8 @@
     "DETAILS": {
       "LOADING_FB": "Ověřování pomocí Facebooku...",
       "ERROR_FB_AUTH": "Něco se pokazilo, prosím obnovte stránku...",
+      "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
       "CREATING_CHANNEL": "Vytvářím vaši doručenou poštu...",
       "TITLE": "Konfigurace detailů doručené pošty",
       "DESC": ""

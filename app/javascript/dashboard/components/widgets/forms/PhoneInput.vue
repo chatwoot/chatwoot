@@ -63,8 +63,9 @@
       <div v-if="filteredCountriesBySearch.length === 0">
         <span
           class="flex items-center justify-center text-sm text-slate-500 dark:text-slate-300 mt-4"
-          >No results found</span
         >
+          No results found
+        </span>
       </div>
     </div>
   </div>

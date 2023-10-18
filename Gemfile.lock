@@ -126,8 +126,8 @@ GEM
       rake (>= 10.4, < 14.0)
     ast (2.4.2)
     attr_extras (7.1.0)
-    audited (5.3.3)
-      activerecord (>= 5.0, < 7.1)
+    audited (5.4.0)
+      activerecord (>= 5.0, < 7.2)
       request_store (~> 1.2)
     aws-eventstream (1.2.0)
     aws-partitions (1.760.0)
@@ -148,7 +148,7 @@ GEM
     barnes (0.0.9)
       multi_json (~> 1)
       statsd-ruby (~> 1.1)
-    bcrypt (3.1.18)
+    bcrypt (3.1.19)
     bindex (0.8.1)
     blingfire (0.1.8)
     bootsnap (1.16.0)
@@ -193,7 +193,7 @@ GEM
       irb (>= 1.5.0)
       reline (>= 0.3.1)
     declarative (0.0.20)
-    devise (4.9.2)
+    devise (4.9.3)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 4.1.0)
@@ -273,7 +273,7 @@ GEM
       googleauth (~> 1.0)
       grpc (~> 1.36)
     geocoder (1.8.1)
-    gli (2.21.0)
+    gli (2.21.1)
     globalid (1.2.1)
       activesupport (>= 6.1)
     gmail_xoauth (0.4.2)
@@ -434,12 +434,12 @@ GEM
     llhttp-ffi (0.4.0)
       ffi-compiler (~> 1.0)
       rake (~> 13.0)
-    lograge (0.13.0)
+    lograge (0.14.0)
       actionpack (>= 4)
       activesupport (>= 4)
       railties (>= 4)
       request_store (~> 1.0)
-    loofah (2.21.3)
+    loofah (2.21.4)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
     mail (2.8.1)
@@ -616,7 +616,7 @@ GEM
       uber (< 0.2.0)
     request_store (1.5.1)
       rack (>= 1.4)
-    responders (3.1.0)
+    responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
     rest-client (2.1.0)
@@ -702,18 +702,18 @@ GEM
       activesupport (>= 4)
     selectize-rails (0.12.6)
     semantic_range (3.0.0)
-    sentry-rails (5.11.0)
+    sentry-rails (5.12.0)
       railties (>= 5.0)
-      sentry-ruby (~> 5.11.0)
-    sentry-ruby (5.11.0)
+      sentry-ruby (~> 5.12.0)
+    sentry-ruby (5.12.0)
       concurrent-ruby (~> 1.0, >= 1.0.2)
-    sentry-sidekiq (5.11.0)
-      sentry-ruby (~> 5.11.0)
+    sentry-sidekiq (5.12.0)
+      sentry-ruby (~> 5.12.0)
       sidekiq (>= 3.0)
     sexp_processor (4.17.0)
     shoulda-matchers (5.3.0)
       activesupport (>= 5.2.0)
-    sidekiq (7.1.3)
+    sidekiq (7.1.6)
       concurrent-ruby (< 2)
       connection_pool (>= 2.3.0)
       rack (>= 2.2.4)
@@ -732,13 +732,12 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    slack-ruby-client (2.0.0)
+    slack-ruby-client (2.2.0)
       faraday (>= 2.0)
       faraday-mashify
       faraday-multipart
       gli
       hashie
-      websocket-driver
     snaky_hash (2.0.1)
       hashie
       version_gem (~> 1.1, >= 1.1.1)
@@ -817,7 +816,7 @@ GEM
     working_hours (1.4.1)
       activesupport (>= 3.2)
       tzinfo
-    zeitwerk (2.6.11)
+    zeitwerk (2.6.12)
 
 PLATFORMS
   arm64-darwin-20
@@ -839,7 +838,7 @@ DEPENDENCIES
   administrate-field-belongs_to_search
   annotate
   attr_extras
-  audited (~> 5.3)
+  audited (~> 5.4, >= 5.4.0)
   aws-sdk-s3
   azure-storage-blob!
   barnes
@@ -856,7 +855,7 @@ DEPENDENCIES
   database_cleaner
   ddtrace
   debug (~> 1.8)
-  devise
+  devise (>= 4.9.3)
   devise-secure_password!
   devise_token_auth
   dotenv-rails
@@ -892,7 +891,7 @@ DEPENDENCIES
   line-bot-api
   liquid
   listen
-  lograge (~> 0.13.0)
+  lograge (~> 0.14.0)
   maxminddb
   mock_redis
   neighbor
@@ -916,7 +915,7 @@ DEPENDENCIES
   rails (~> 7.0.8.0)
   redis
   redis-namespace
-  responders
+  responders (>= 3.1.1)
   rest-client
   reverse_markdown
   rspec-rails
@@ -928,14 +927,14 @@ DEPENDENCIES
   scout_apm
   scss_lint
   seed_dump
-  sentry-rails (>= 5.11.0)
+  sentry-rails (>= 5.12.0)
   sentry-ruby
-  sentry-sidekiq (>= 5.11.0)
+  sentry-sidekiq (>= 5.12.0)
   shoulda-matchers
   sidekiq (>= 7.1.3)
   sidekiq-cron (>= 1.10.1)
   simplecov (= 0.17.1)
-  slack-ruby-client (~> 2.0.0)
+  slack-ruby-client (~> 2.2.0)
   spring
   spring-watcher-listen
   squasher

@@ -110,6 +110,8 @@ is:
       instagram_story_content: "%{story_sender} minntist á þig í sögunni: "
       instagram_deleted_story_content: This story is no longer available.
       deleted: This message was deleted
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "Samtal var merkt sem leyst af %{user_name}"
@@ -202,3 +204,12 @@ is:
       made_with: Made with
     header:
       go_to_homepage: Go to the main site
+  slack_unfurl:
+    fields:
+      name: Nafn
+      email: Tölvupóstfang
+      phone_number: Phone
+      company_name: Fyrirtæki
+      inbox_name: Innhólf
+      inbox_type: Inbox Type
+    button: Opna samtal

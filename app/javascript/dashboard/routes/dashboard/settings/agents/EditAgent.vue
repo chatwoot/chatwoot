@@ -51,8 +51,8 @@
             <woot-submit-button
               :disabled="
                 $v.agentType.$invalid ||
-                  $v.agentName.$invalid ||
-                  uiFlags.isUpdating
+                $v.agentName.$invalid ||
+                uiFlags.isUpdating
               "
               :button-text="$t('AGENT_MGMT.EDIT.FORM.SUBMIT')"
               :loading="uiFlags.isUpdating"

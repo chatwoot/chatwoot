@@ -1,31 +1,35 @@
 <template>
-  <div class="article-item">
-    <h4 class="text-block-title margin-bottom-0">{{ title }}</h4>
-    <p class="margin-bottom-0 overflow-hidden whitespace-nowrap text-ellipsis">
-      {{ body }}
-    </p>
-    <div class="footer">
-      <p class="text-small meta">
+  <div
+    class="flex flex-col gap-1 bg-white dark:bg-slate-900 hover:bg-slate-25 hover:dark:bg-slate-800 rounded-md py-1 px-2 w-full group"
+  >
+    <button @click="handlePreview">
+      <h4
+        class="text-block-title text-left mb-0 text-slate-900 dark:text-slate-25 px-1 -mx-1 rounded-sm hover:underline cursor-pointer width-auto"
+      >
+        {{ title }}
+      </h4>
+    </button>
+
+    <div class="flex content-between items-center gap-0.5 w-full">
+      <p class="text-sm text-slate-600 dark:text-slate-300 mb-0 w-full">
         {{ locale }}
         {{ ` / ` }}
-        {{
-          category ||
-            $t('HELP_CENTER.ARTICLE_SEARCH_RESULT.ARTICLE_SEARCH_RESULT')
-        }}
+        {{ category || $t('HELP_CENTER.ARTICLE_SEARCH_RESULT.UNCATEGORIZED') }}
       </p>
-      <div class="action-buttons">
+      <div class="flex gap-0.5">
         <woot-button
           :title="$t('HELP_CENTER.ARTICLE_SEARCH_RESULT.COPY_LINK')"
           variant="hollow"
           color-scheme="secondary"
           size="tiny"
           icon="copy"
+          class="invisible group-hover:visible"
           @click="handleCopy"
         />
 
         <a
           :href="url"
-          class="button hollow button--only-icon tiny secondary"
+          class="button hollow button--only-icon tiny secondary invisible group-hover:visible"
           rel="noopener noreferrer nofollow"
           target="_blank"
           :title="$t('HELP_CENTER.ARTICLE_SEARCH_RESULT.OPEN_LINK')"
@@ -38,6 +42,7 @@
           color-scheme="secondary"
           size="tiny"
           icon="preview-link"
+          class="invisible group-hover:visible"
           :title="$t('HELP_CENTER.ARTICLE_SEARCH_RESULT.PREVIEW_LINK')"
           @click="handlePreview"
         />
@@ -46,7 +51,7 @@
           variant="smooth"
           color-scheme="secondary"
           size="tiny"
-          @click="handleClick"
+          @click="handleInsert"
         >
           {{ $t('HELP_CENTER.ARTICLE_SEARCH_RESULT.INSERT_ARTICLE') }}
         </woot-button>
@@ -61,6 +66,10 @@ import { copyTextToClipboard } from 'shared/helpers/clipboard';
 export default {
   name: 'ArticleSearchResultItem',
   props: {
+    id: {
+      type: Number,
+      default: 0,
+    },
     title: {
       type: String,
       default: 'Untitled',
@@ -79,15 +88,15 @@ export default {
     },
     locale: {
       type: String,
-      default: 'en-US',
+      default: '',
     },
   },
   methods: {
-    handleClick() {
-      this.$emit('click');
+    handleInsert() {
+      this.$emit('insert', this.id);
     },
     handlePreview() {
-      this.$emit('preview');
+      this.$emit('preview', this.id);
     },
     async handleCopy() {
       await copyTextToClipboard(this.url);
@@ -96,37 +105,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.article-item {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-micro);
-}
-
-.footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: var(--space-micro);
-}
-
-.meta {
-  color: var(--s-600);
-  margin-bottom: 0;
-}
-
-.action-buttons {
-  display: flex;
-  gap: var(--space-micro);
-}
-.action-buttons .button:not(.insert-button) {
-  visibility: hidden;
-  opacity: 0;
-  transition: all 0.1s ease-in;
-}
-
-.article-item:hover .action-buttons .button:not(.insert-button) {
-  visibility: visible;
-  opacity: 1;
-}
-</style>

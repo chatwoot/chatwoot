@@ -110,6 +110,8 @@ de:
       instagram_story_content: "%{story_sender} erwähnte sie in der Geschichte: "
       instagram_deleted_story_content: Diese Geschichte ist nicht mehr verfügbar.
       deleted: Diese Nachricht wurde gelöscht
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "Das Gespräch wurde von %{user_name} gelöst"
@@ -202,3 +204,12 @@ de:
       made_with: Erstellt mit
     header:
       go_to_homepage: Zur Hauptseite wechseln
+  slack_unfurl:
+    fields:
+      name: Name
+      email: E-Mail
+      phone_number: Phone
+      company_name: Firma
+      inbox_name: Posteingang
+      inbox_type: Inbox Type
+    button: Unterhaltung öffnen

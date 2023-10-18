@@ -16,8 +16,8 @@
         <article-hero
           v-if="
             !articleUiFlags.isFetching &&
-              !articleUiFlags.isError &&
-              popularArticles.length
+            !articleUiFlags.isError &&
+            popularArticles.length
           "
           :articles="popularArticles"
           @view="openArticleInArticleViewer"
@@ -39,6 +39,7 @@ import ArticleHero from 'widget/components/ArticleHero.vue';
 import ArticleCardSkeletonLoader from 'widget/components/ArticleCardSkeletonLoader.vue';
 
 import { mapGetters } from 'vuex';
+import darkModeMixin from 'widget/mixins/darkModeMixin';
 import routerMixin from 'widget/mixins/routerMixin';
 import configMixin from 'widget/mixins/configMixin';
 
@@ -49,7 +50,7 @@ export default {
     TeamAvailability,
     ArticleCardSkeletonLoader,
   },
-  mixins: [configMixin, routerMixin],
+  mixins: [configMixin, routerMixin, darkModeMixin],
   props: {
     hasFetched: {
       type: Boolean,
@@ -84,10 +85,8 @@ export default {
     },
     defaultLocale() {
       const widgetLocale = this.widgetLocale;
-      const {
-        allowed_locales: allowedLocales,
-        default_locale: defaultLocale,
-      } = this.portal.config;
+      const { allowed_locales: allowedLocales, default_locale: defaultLocale } =
+        this.portal.config;
 
       // IMPORTANT: Variation strict locale matching, Follow iso_639_1_code
       // If the exact match of a locale is available in the list of portal locales, return it
@@ -115,9 +114,14 @@ export default {
       return this.replaceRoute('messages');
     },
     openArticleInArticleViewer(link) {
+      let linkToOpen = `${link}?show_plain_layout=true`;
+      const isDark = this.prefersDarkMode;
+      if (isDark) {
+        linkToOpen = `${linkToOpen}&theme=dark`;
+      }
       this.$router.push({
         name: 'article-viewer',
-        params: { link: `${link}?show_plain_layout=true` },
+        params: { link: linkToOpen },
       });
     },
     viewAllArticles() {

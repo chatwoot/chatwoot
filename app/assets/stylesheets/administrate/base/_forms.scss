@@ -24,14 +24,6 @@ select {
   font-size: $base-font-size;
 }
 
-input,
-select,
-textarea {
-  display: block;
-  font-family: $base-font-family;
-  font-size: 16px;
-}
-
 [type="color"],
 [type="date"],
 [type="datetime-local"],
@@ -51,6 +43,7 @@ textarea {
   background-color: $white;
   border: $base-border;
   border-radius: $base-border-radius;
+  font-family: $base-font-family;
   padding: 0.5em;
   transition: border-color $base-duration $base-timing;
   width: 100%;

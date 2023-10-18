@@ -204,6 +204,10 @@
         "PLACEHOLDER": "Mesajınızı buraya yazınız",
         "ERROR": "Mesaj boş olamaz"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "Mesaj yolla",
       "CANCEL": "İptal Et",
       "SUCCESS_MESSAGE": "Mesaj yollandı!",
@@ -343,17 +347,17 @@
     "DESCRIPTION": "Tüm nitelikler ve konuşmalar dahil olmak üzere iki profili tek bir profilde birleştirmek için kişileri birleştirin. Çakışma durumunda, Birincil ilgili kişinin nitelikleri öncelikli olacaktır.",
     "PRIMARY": {
       "TITLE": "Birincil kişi",
-      "HELP_LABEL": "Saklanacak"
+      "HELP_LABEL": "Silinecek"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Birleştirilecek kişi",
       "PLACEHOLDER": "Kişileri arayın",
-      "HELP_LABEL": "Silinecek"
+      "HELP_LABEL": "Saklanacak"
     },
     "SUMMARY": {
       "TITLE": "Özet",
-      "DELETE_WARNING": "<strong>%{childContactName}</strong> kişisi silinecek.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "<strong>%{primaryContactName}</strong> kişisi silinecek.",
+      "ATTRIBUTE_WARNING": "Contact details of <strong>%{primaryContactName}</strong> will be copied to <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"

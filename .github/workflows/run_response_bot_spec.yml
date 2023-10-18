@@ -69,7 +69,12 @@ jobs:
     # Run  Response Bot specs
     - name: Run backend tests
       run: |
-        bundle exec rspec spec/enterprise/controllers/api/v1/accounts/response_sources_controller_spec.rb spec/enterprise/controllers/enterprise/api/v1/accounts/inboxes_controller_spec.rb:47 --profile=10 --format documentation
+        bundle exec rspec \
+          spec/enterprise/controllers/api/v1/accounts/response_sources_controller_spec.rb \
+          spec/enterprise/services/enterprise/message_templates/response_bot_service_spec.rb \
+          spec/enterprise/controllers/enterprise/api/v1/accounts/inboxes_controller_spec.rb:47 \
+          --profile=10 \
+          --format documentation
 
     - name: Upload rails log folder
       uses: actions/upload-artifact@v3

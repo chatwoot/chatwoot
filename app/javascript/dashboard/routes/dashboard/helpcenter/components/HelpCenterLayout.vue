@@ -19,6 +19,7 @@
       @open-modal="onClickOpenAddCategoryModal"
     />
     <section
+      v-if="isHelpCenterEnabled"
       class="flex h-full min-h-0 overflow-hidden flex-1 px-0 bg-white dark:bg-slate-900"
     >
       <router-view />
@@ -53,11 +54,12 @@
         @cancel="onClickCloseAddCategoryModal"
       />
     </section>
+    <upgrade-page v-else />
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
-
+import UpgradePage from './UpgradePage';
 import { frontendURL } from '../../../../helper/URLHelper';
 import Sidebar from 'dashboard/components/layout/Sidebar.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -70,17 +72,19 @@ import NotificationPanel from 'dashboard/routes/dashboard/notifications/componen
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import portalMixin from '../mixins/portalMixin';
 import AddCategory from '../pages/categories/AddCategory.vue';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 export default {
   components: {
-    Sidebar,
-    HelpCenterSidebar,
+    AccountSelector,
+    AddCategory,
     CommandBar,
-    WootKeyShortcutModal,
+    HelpCenterSidebar,
     NotificationPanel,
     PortalPopover,
-    AddCategory,
-    AccountSelector,
+    Sidebar,
+    UpgradePage,
+    WootKeyShortcutModal,
   },
   mixins: [portalMixin, uiSettingsMixin],
   data() {
@@ -102,14 +106,25 @@ export default {
       categories: 'categories/allCategories',
       meta: 'portals/getMeta',
       isFetching: 'portals/isFetchingPortals',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
+
+    isHelpCenterEnabled() {
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.HELP_CENTER
+      );
+    },
     isSidebarOpen() {
-      const {
-        show_help_center_secondary_sidebar: showSecondarySidebar,
-      } = this.uiSettings;
+      const { show_help_center_secondary_sidebar: showSecondarySidebar } =
+        this.uiSettings;
       return showSecondarySidebar;
     },
     showHelpCenterSidebar() {
+      if (!this.isHelpCenterEnabled) {
+        return false;
+      }
+
       return this.portals.length === 0 ? false : this.isSidebarOpen;
     },
     selectedPortal() {

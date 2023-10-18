@@ -1,6 +1,6 @@
 <template>
   <div class="p-4 shadow-sm rounded-md bg-white dark:bg-slate-700">
-    <div class="flex items-center justify-between ">
+    <div class="flex items-center justify-between">
       <div class="  ">
         <div class="text-sm font-medium text-slate-700 dark:text-slate-50">
           {{
@@ -40,6 +40,9 @@ import AvailableAgents from 'widget/components/AvailableAgents.vue';
 import configMixin from 'widget/mixins/configMixin';
 import availabilityMixin from 'widget/mixins/availability';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import { IFrameHelper } from 'widget/helpers/utils';
+import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
+
 export default {
   name: 'TeamAvailability',
   components: {
@@ -82,6 +85,13 @@ export default {
   methods: {
     startConversation() {
       this.$emit('start-conversation');
+      if (!this.hasConversation) {
+        IFrameHelper.sendMessage({
+          event: 'onEvent',
+          eventIdentifier: CHATWOOT_ON_START_CONVERSATION,
+          data: { hasConversation: false },
+        });
+      }
     },
   },
 };
