@@ -110,6 +110,8 @@ es:
       instagram_story_content: "%{story_sender} te mencionó en la historia: "
       instagram_deleted_story_content: Esta historia ya no está disponible.
       deleted: Este mensaje se ha eliminado
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "La conversación fue marcada por %{user_name}"
@@ -202,3 +204,12 @@ es:
       made_with: Hecho con
     header:
       go_to_homepage: Ir al sitio principal
+  slack_unfurl:
+    fields:
+      name: Nombre
+      email: E-mail
+      phone_number: Teléfono
+      company_name: Empresa
+      inbox_name: Bandeja de entrada
+      inbox_type: Tipo de bandeja de entrada
+    button: Abrir conversación

@@ -110,6 +110,8 @@ fa:
       instagram_story_content: "%{story_sender} در داستان به شما اشاره کرده: "
       instagram_deleted_story_content: این داستان دیگر در دسترس نیست.
       deleted: این پیام حذف شد
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "مکالمه توسط ایجنت %{user_name} حل شده، اعلام شده بود"
@@ -202,3 +204,12 @@ fa:
       made_with: ساخته شده با
     header:
       go_to_homepage: به سایت اصلی بروید
+  slack_unfurl:
+    fields:
+      name: نام
+      email: ایمیل
+      phone_number: Phone
+      company_name: شرکت
+      inbox_name: صندوق ورودی
+      inbox_type: Inbox Type
+    button: باز کردن گفتگو

@@ -204,6 +204,10 @@
         "PLACEHOLDER": "Wpisz swoją wiadomość tutaj",
         "ERROR": "Wiadomość nie może być pusta"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "Wyślij wiadomość",
       "CANCEL": "Anuluj",
       "SUCCESS_MESSAGE": "Wiadomość została wysłana!",
@@ -343,17 +347,17 @@
     "DESCRIPTION": "Połącz kontakty, aby połączyć dwa profile w jeden, wraz z wszystkimi atrybutami i rozmowami. W przypadku konfliktu atrybuty z profilu głównego będą miały pierwszeństwo.",
     "PRIMARY": {
       "TITLE": "Główny kontakt",
-      "HELP_LABEL": "Zachowaj"
+      "HELP_LABEL": "Usunięcie"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Kontakt do scalenia",
       "PLACEHOLDER": "Wyszukaj kontakty",
-      "HELP_LABEL": "Usunięcie"
+      "HELP_LABEL": "Zachowaj"
     },
     "SUMMARY": {
       "TITLE": "Podsumowanie",
-      "DELETE_WARNING": "Kontakt <strong>%{childContactName}</strong> zostanie usunięty.",
-      "ATTRIBUTE_WARNING": "Dane kontaktowe z <strong>%{childContactName}</strong> zostaną skopiowane do <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Kontakt <strong>%{primaryContactName}</strong> zostanie usunięty.",
+      "ATTRIBUTE_WARNING": "Dane kontaktowe z <strong>%{primaryContactName}</strong> zostaną skopiowane do <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "Błąd"
