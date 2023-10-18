@@ -340,11 +340,12 @@ RSpec.describe 'Conversations API', type: :request do
         create(:inbox_member, user: agent, inbox: conversation.inbox)
       end
 
-      it 'toggles the conversation status' do
+      it 'toggles the conversation status if status is empty' do
         expect(conversation.status).to eq('open')
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
              headers: agent.create_new_auth_token,
+             params: { status: '' },
              as: :json
 
         expect(response).to have_http_status(:success)

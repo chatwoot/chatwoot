@@ -371,6 +371,8 @@
     "DETAILS": {
       "LOADING_FB": "در حال احراز هویت با فیس بوک...",
       "ERROR_FB_AUTH": "اشکالی پیش آمد.. لطفا دوباره سعی کنید...",
+      "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
       "CREATING_CHANNEL": "در حال ساخت صندوق ورودی...",
       "TITLE": "تنظیمات صفحه ورودی",
       "DESC": ""

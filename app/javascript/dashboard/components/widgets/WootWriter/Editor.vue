@@ -1,5 +1,5 @@
 <template>
-  <div class="editor-root">
+  <div ref="editorRoot" class="relative editor-root">
     <tag-agents
       v-if="showUserMentions && isPrivate"
       :search-key="mentionSearchKey"
@@ -23,6 +23,24 @@
       @change="onFileChange"
     />
     <div ref="editor" />
+    <div
+      v-show="isImageNodeSelected && showImageResizeToolbar"
+      class="absolute shadow-md rounded-[4px] flex gap-1 py-1 px-1 bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-50"
+      :style="{
+        top: toolbarPosition.top,
+        left: toolbarPosition.left,
+      }"
+    >
+      <button
+        v-for="size in sizes"
+        :key="size.name"
+        class="text-xs font-medium rounded-[4px] border border-solid border-slate-200 dark:border-slate-600 px-1.5 py-0.5 hover:bg-slate-100 dark:hover:bg-slate-800"
+        @click="setURLWithQueryAndImageSize(size)"
+      >
+        {{ size.name }}
+      </button>
+    </div>
+    <slot name="footer" />
   </div>
 </template>
 
@@ -40,6 +58,7 @@ import {
   suggestionsPlugin,
   triggerCharacters,
 } from '@chatwoot/prosemirror-schema/src/mentions/plugin';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 import TagAgents from '../conversation/TagAgents.vue';
 import CannedResponse from '../conversation/CannedResponse.vue';
@@ -47,6 +66,10 @@ import VariableList from '../conversation/VariableList.vue';
 import {
   appendSignature,
   removeSignature,
+  insertAtCursor,
+  scrollCursorIntoView,
+  findNodeToInsertImage,
+  setURLWithQueryAndSize,
 } from 'dashboard/helper/editorHelper';
 
 const TYPING_INDICATOR_IDLE_TIME = 4000;
@@ -66,13 +89,17 @@ import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { uploadFile } from 'dashboard/helper/uploadHelper';
 import alertMixin from 'shared/mixins/alertMixin';
-import { findNodeToInsertImage } from 'dashboard/helper/messageEditorHelper';
-import { MESSAGE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
+import {
+  MESSAGE_EDITOR_MENU_OPTIONS,
+  MESSAGE_EDITOR_IMAGE_RESIZES,
+} from 'dashboard/constants/editor';
 
 const createState = (
   content,
   placeholder,
+  // eslint-disable-next-line default-param-last
   plugins = [],
+  // eslint-disable-next-line default-param-last
   methods = {},
   enabledMenuOptions
 ) => {
@@ -108,6 +135,7 @@ export default {
     // allowSignature is a kill switch, ensuring no signature methods
     // are triggered except when this flag is true
     allowSignature: { type: Boolean, default: false },
+    showImageResizeToolbar: { type: Boolean, default: false }, // A kill switch to show or hide the image toolbar
   },
   data() {
     return {
@@ -120,9 +148,16 @@ export default {
       editorView: null,
       range: null,
       state: undefined,
+      isImageNodeSelected: false,
+      toolbarPosition: { top: 0, left: 0 },
+      sizes: MESSAGE_EDITOR_IMAGE_RESIZES,
+      selectedImageNode: null,
     };
   },
   computed: {
+    editorRoot() {
+      return this.$refs.editorRoot;
+    },
     contentFromEditor() {
       return MessageMarkdownSerializer.serialize(this.editorView.state.doc);
     },
@@ -270,6 +305,7 @@ export default {
           const tr = this.editorView.state.tr.replaceSelectionWith(node);
           this.editorView.focus();
           this.state = this.editorView.state.apply(tr);
+          this.editorView.updateState(this.state);
           this.emitOnChange();
           this.$emit('clear-selection');
         }
@@ -295,7 +331,17 @@ export default {
   mounted() {
     this.createEditorView();
     this.editorView.updateState(this.state);
-    this.focusEditor(this.value);
+    this.focusEditorInputField();
+
+    // BUS Event to insert text or markdown into the editor at the
+    // current cursor position.
+    // Components using this
+    // 1. SearchPopover.vue
+
+    bus.$on(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, this.insertContentIntoEditor);
+  },
+  beforeDestroy() {
+    bus.$off(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, this.insertContentIntoEditor);
   },
   methods: {
     reloadState(content = this.value) {
@@ -382,6 +428,7 @@ export default {
         state: this.state,
         dispatchTransaction: tx => {
           this.state = this.state.apply(tx);
+          this.editorView.updateState(this.state);
           this.emitOnChange();
         },
         handleDOMEvents: {
@@ -394,6 +441,9 @@ export default {
           focus: () => {
             this.onFocus();
           },
+          click: () => {
+            // this.isEditorMouseFocusedOnAnImage(); Enable it when the backend supports for message resize is done.
+          },
           blur: () => {
             this.onBlur();
           },
@@ -405,6 +455,50 @@ export default {
           },
         },
       });
+    },
+    isEditorMouseFocusedOnAnImage() {
+      if (!this.showImageResizeToolbar) {
+        return;
+      }
+      this.selectedImageNode = document.querySelector(
+        'img.ProseMirror-selectednode'
+      );
+      if (this.selectedImageNode) {
+        this.isImageNodeSelected = !!this.selectedImageNode;
+        // Get the position of the selected node
+        this.setToolbarPosition();
+      } else {
+        this.isImageNodeSelected = false;
+      }
+    },
+    setToolbarPosition() {
+      const editorRect = this.editorRoot.getBoundingClientRect();
+      const rect = this.selectedImageNode.getBoundingClientRect();
+      this.toolbarPosition = {
+        top: `${rect.top - editorRect.top - 30}px`,
+        left: `${rect.left - editorRect.left - 4}px`,
+      };
+    },
+    setURLWithQueryAndImageSize(size) {
+      if (!this.showImageResizeToolbar) {
+        return;
+      }
+      setURLWithQueryAndSize(this.selectedImageNode, size, this.editorView);
+      this.isImageNodeSelected = false;
+    },
+    updateImgToolbarOnDelete() {
+      // check if the selected node is present or not on keyup
+      // this is needed because the user can select an image and then delete it
+      // in that case, the selected node will be null and we need to hide the toolbar
+      // otherwise, the toolbar will be visible even when the image is deleted and cause some errors
+      if (this.selectedImageNode) {
+        const hasImgSelectedNode = document.querySelector(
+          'img.ProseMirror-selectednode'
+        );
+        if (!hasImgSelectedNode) {
+          this.isImageNodeSelected = false;
+        }
+      }
     },
     isEnterToSendEnabled() {
       return isEditorHotKeyEnabled(this.uiSettings, 'enter');
@@ -438,11 +532,7 @@ export default {
         userFullName: mentionItem.name,
       });
 
-      const tr = this.editorView.state.tr
-        .replaceWith(this.range.from, this.range.to, node)
-        .insertText(` `);
-      this.state = this.editorView.state.apply(tr);
-      this.emitOnChange();
+      this.insertNodeIntoEditor(node, this.range.from, this.range.to);
       this.$track(CONVERSATION_EVENTS.USED_MENTIONS);
 
       return false;
@@ -452,30 +542,22 @@ export default {
         message: cannedItem,
         variables: this.variables,
       });
+
       if (!this.editorView) {
         return null;
       }
 
-      let from = this.range.from - 1;
       let node = new MessageMarkdownTransformer(messageSchema).parse(
         updatedMessage
       );
 
-      if (node.textContent === updatedMessage) {
-        node = this.editorView.state.schema.text(updatedMessage);
-        from = this.range.from;
-      }
+      const from =
+        node.textContent === updatedMessage
+          ? this.range.from
+          : this.range.from - 1;
 
-      const tr = this.editorView.state.tr.replaceWith(
-        from,
-        this.range.to,
-        node
-      );
+      this.insertNodeIntoEditor(node, from, this.range.to);
 
-      this.state = this.editorView.state.apply(tr);
-      this.emitOnChange();
-
-      tr.scrollIntoView();
       this.$track(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
       return false;
     },
@@ -483,23 +565,14 @@ export default {
       if (!this.editorView) {
         return null;
       }
-      let node = this.editorView.state.schema.text(`{{${variable}}}`);
-      const from = this.range.from;
 
-      const tr = this.editorView.state.tr.replaceWith(
-        from,
-        this.range.to,
-        node
-      );
+      const content = `{{${variable}}}`;
+      let node = this.editorView.state.schema.text(content);
+      const { from, to } = this.range;
 
-      this.state = this.editorView.state.apply(tr);
-      this.emitOnChange();
-
-      // The `{{ }}` are added to the message, but the cursor is placed
-      // and onExit of suggestionsPlugin is not called. So we need to manually hide
+      this.insertNodeIntoEditor(node, from, to);
       this.showVariables = false;
       this.$track(CONVERSATION_EVENTS.INSERTED_A_VARIABLE);
-      tr.scrollIntoView();
       return false;
     },
     openFileBrowser() {
@@ -555,8 +628,6 @@ export default {
     },
 
     emitOnChange() {
-      this.editorView.updateState(this.state);
-
       this.$emit('input', this.contentFromEditor);
     },
 
@@ -599,6 +670,7 @@ export default {
         () => this.resetTyping(),
         TYPING_INDICATOR_IDLE_TIME
       );
+      // this.updateImgToolbarOnDelete(); Enable it when the backend supports for message resize is done.
     },
     onKeydown(event) {
       if (this.isEnterToSendEnabled()) {
@@ -615,6 +687,19 @@ export default {
     },
     onFocus() {
       this.$emit('focus');
+    },
+    insertContentIntoEditor(content, defaultFrom = 0) {
+      const from = defaultFrom || this.editorView.state.selection.from || 0;
+      let node = new MessageMarkdownTransformer(messageSchema).parse(content);
+
+      this.insertNodeIntoEditor(node, from, undefined);
+    },
+    insertNodeIntoEditor(node, from = 0, to = 0) {
+      this.state = insertAtCursor(this.editorView, node, from, to);
+      this.emitOnChange();
+      this.$nextTick(() => {
+        scrollCursorIntoView(this.editorView);
+      });
     },
   },
 };
@@ -709,6 +794,6 @@ export default {
 }
 
 .editor-warning__message {
-  @apply text-red-400 dark:text-red-400 font-normal pt-1 pb-0 px-0;
+  @apply text-red-400 dark:text-red-400 font-normal text-sm pt-1 pb-0 px-0;
 }
 </style>

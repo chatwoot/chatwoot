@@ -1,6 +1,5 @@
 import accountAPI from '../account';
 import ApiClient from '../../ApiClient';
-import describeWithAPIMock from '../../specs/apiSpecHelper';
 
 describe('#enterpriseAccountAPI', () => {
   it('creates correct instance', () => {
@@ -13,17 +12,33 @@ describe('#enterpriseAccountAPI', () => {
     expect(accountAPI).toHaveProperty('checkout');
   });
 
-  describeWithAPIMock('API calls', context => {
+  describe('API calls', () => {
+    const originalAxios = window.axios;
+    const axiosMock = {
+      post: jest.fn(() => Promise.resolve()),
+      get: jest.fn(() => Promise.resolve()),
+      patch: jest.fn(() => Promise.resolve()),
+      delete: jest.fn(() => Promise.resolve()),
+    };
+
+    beforeEach(() => {
+      window.axios = axiosMock;
+    });
+
+    afterEach(() => {
+      window.axios = originalAxios;
+    });
+
     it('#checkout', () => {
       accountAPI.checkout();
-      expect(context.axiosMock.post).toHaveBeenCalledWith(
+      expect(axiosMock.post).toHaveBeenCalledWith(
         '/enterprise/api/v1/checkout'
       );
     });
 
     it('#subscription', () => {
       accountAPI.subscription();
-      expect(context.axiosMock.post).toHaveBeenCalledWith(
+      expect(axiosMock.post).toHaveBeenCalledWith(
         '/enterprise/api/v1/subscription'
       );
     });

@@ -46,7 +46,7 @@ class Rack::Attack
   #
   # Key: "rack::attack:#{Time.now.to_i/:period}:req/ip:#{req.ip}"
 
-  throttle('req/ip', limit: ENV.fetch('RACK_ATTACK_LIMIT', 3000), period: 1.minute, &:ip)
+  throttle('req/ip', limit: ENV.fetch('RACK_ATTACK_LIMIT', '3000').to_i, period: 1.minute, &:ip)
 
   ###-----------------------------------------------###
   ###-----Authentication Related Throttling---------###

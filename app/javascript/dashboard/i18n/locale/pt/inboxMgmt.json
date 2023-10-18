@@ -371,6 +371,8 @@
     "DETAILS": {
       "LOADING_FB": "Autenticando você com o Facebook...",
       "ERROR_FB_AUTH": "Algo deu errado, por favor, atualize a página...",
+      "ERROR_FB_UNAUTHORIZED": "Não está autorizado a executar esta ação. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Por favor, certifique-se que tem acesso, com controlo total, à página do Facebook. Pode ler mais sobre as permissões do Facebook <a href=\"https://www.facebook.com/help/187316341316631\">aqui</a>.",
       "CREATING_CHANNEL": "Criando sua caixa de entrada...",
       "TITLE": "Configurar Detalhes da Caixa de Entrada",
       "DESC": ""

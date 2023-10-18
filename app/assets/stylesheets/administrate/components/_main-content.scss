@@ -1,13 +1,18 @@
 .main-content {
   font-size: $font-size-default;
-  left: 23rem;
+  left: 21rem;
   position: absolute;
   right: 0;
   top: 0;
 }
 
 .main-content__body {
+  font-size: $font-size-small;
   padding: $space-two;
+
+  table {
+    font-size: $font-size-small;
+  }
 }
 
 .main-content__header {
@@ -20,7 +25,7 @@
 }
 
 .main-content__page-title {
-  font-size: $font-size-large;
+  font-size: $font-size-medium;
   font-weight: $font-weight-medium;
   margin-right: auto;
 }
