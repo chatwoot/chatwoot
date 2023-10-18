@@ -21,9 +21,12 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     @contacts = fetch_contacts(resolved_contacts)
   end
 
+  def all_contacts
+    @contacts = resolved_contacts
+  end
+
   def search
     render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank? && return
-
     contacts = resolved_contacts.where(
       'name ILIKE :search OR email ILIKE :search OR phone_number ILIKE :search OR contacts.identifier LIKE :search
         OR contacts.additional_attributes->>\'company_name\' ILIKE :search',
