@@ -92,10 +92,10 @@
   };
 
   const switchTheme = (theme) => {
-    const bodyDiv = document.querySelector('.antialiased');
-    bodyDiv.classList.remove('light', 'dark');
+    const parentDiv = document.querySelector('.antialiased');
+    parentDiv.classList.remove('light', 'dark');
     if (theme !== 'system') {
-      bodyDiv.classList.add(theme);
+      parentDiv.classList.add(theme);
       window.location.href = updateURLParameter(window.location.href, 'theme', theme);
     } else {
       window.location.href = removeURLParameter(window.location.href, 'theme');
