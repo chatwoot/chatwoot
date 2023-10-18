@@ -1,5 +1,5 @@
-class Webhooks::FacebookDeliveryJob < MutexApplicationJob
-  queue_as :default
+class Webhooks::FacebookDeliveryJob < ApplicationJob
+  queue_as :low
 
   def perform(message)
     response = ::Integrations::Facebook::MessageParser.new(message)
