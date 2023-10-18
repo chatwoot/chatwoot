@@ -10,4 +10,14 @@ FactoryBot.define do
 
     initialize_with { attributes }
   end
+
+  factory :message_deliveries, class: Hash do
+    messaging do
+      { sender: { id: '3383290475046708' },
+        recipient: { id: '117172741761305' },
+        delivery: { watermark: '1648581633369' } }
+    end
+
+    initialize_with { attributes }
+  end
 end

@@ -4,7 +4,7 @@ class Integrations::Facebook::DeliveryStatus
   pattr_initialize [:params!]
 
   def perform
-    return unless facebook_channel
+    return if facebook_channel.blank?
 
     process_delivery_status if params.delivery_watermark
     process_read_status if params.read_watermark
@@ -13,15 +13,17 @@ class Integrations::Facebook::DeliveryStatus
   private
 
   def process_delivery_status
+    timestamp = Time.zone.at(params.delivery_watermark.to_i).to_datetime
     # Find all the sent messages before the watermark, and mark them as delivered
-    @facebook_channel.messages.where(status: 'sent').where('created_at <= ?', params.delivery_watermark).find_each do |message|
+    @facebook_channel.inbox.messages.where(status: 'sent').where('messages.created_at <= ?', timestamp).find_each do |message|
       message.update!(status: 'delivered')
     end
   end
 
   def process_read_status
+    timestamp = Time.zone.at(params.read_watermark.to_i).to_datetime
     # Find all the delivered messages before the watermark, and mark them as read
-    @facebook_channel.messages.where(status: 'delivered').where('created_at <= ?', params.read_watermark).find_each do |message|
+    @facebook_channel.inbox.messages.inbox.where(status: 'delivered').where('messages.created_at <= ?', timestamp).find_each do |message|
       message.update!(status: 'read')
     end
   end
