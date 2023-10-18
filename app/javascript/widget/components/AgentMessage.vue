@@ -8,7 +8,7 @@
         <thumbnail
           v-if="message.showAvatar || hasRecordedResponse"
           :src="avatarUrl"
-          size="24px"
+          size="32px"
           :username="agentName"
         />
       </div>
