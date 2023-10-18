@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-col py-2 px-2.5 overflow-auto h-full flex ">
+  <div class="flex-col py-2 px-2.5 overflow-auto h-full flex">
     <woot-button
       v-for="notificationItem in notifications"
       v-show="!isLoading"
@@ -21,7 +21,7 @@
           class="flex-col ml-2.5 overflow-hidden w-full flex justify-between"
         >
           <div class="flex justify-between">
-            <div class="items-center flex ">
+            <div class="items-center flex">
               <span class="font-bold text-slate-800 dark:text-slate-100">
                 {{
                   `#${
@@ -50,7 +50,7 @@
               />
             </div>
           </div>
-          <div class="w-full flex ">
+          <div class="w-full flex">
             <span
               class="text-slate-700 dark:text-slate-200 font-normal overflow-hidden whitespace-nowrap text-ellipsis"
             >

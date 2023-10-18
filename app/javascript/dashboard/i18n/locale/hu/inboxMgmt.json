@@ -112,14 +112,14 @@
           "ERROR": "Ez a mező kötelező"
         },
         "API_KEY": {
-          "USE_API_KEY": "Use API Key Authentication",
-          "LABEL": "API Key SID",
-          "PLACEHOLDER": "Please enter your API Key SID",
+          "USE_API_KEY": "API kulcs hitelesítés",
+          "LABEL": "API kulcs biztonsági azonosító (SID)",
+          "PLACEHOLDER": "Írja be az API kulcs biztonsági azonosítót (SID)",
           "ERROR": "Ez a mező kötelező"
         },
         "API_KEY_SECRET": {
-          "LABEL": "API Key Secret",
-          "PLACEHOLDER": "Please enter your API Key Secret",
+          "LABEL": "API titkos kulcs",
+          "PLACEHOLDER": "Írja be az API kulcs biztonsági azonosítót (SID)",
           "ERROR": "Ez a mező kötelező"
         },
         "MESSAGING_SERVICE_SID": {
@@ -371,6 +371,8 @@
     "DETAILS": {
       "LOADING_FB": "Facebookkal azonosítunk...",
       "ERROR_FB_AUTH": "Valami elromlott, kérjük töltsd újra az oldalt...",
+      "ERROR_FB_UNAUTHORIZED": "Nincs jogosultsága erre a tevékenységre. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Bizonyosodjon meg, hogy teljes hozzáférése van a Facebook oldalhoz. Bővebb információt <a href=\" https://www.facebook.com/help/187316341316631\">itt talál</a>.",
       "CREATING_CHANNEL": "Inbox létrehozása...",
       "TITLE": "Inbox részletek beállítása",
       "DESC": ""
@@ -403,21 +405,21 @@
         "DISABLED": "Letiltva"
       },
       "SENDER_NAME_SECTION": {
-        "TITLE": "Sender name",
-        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
-        "FOR_EG": "For eg:",
+        "TITLE": "Küldő neve",
+        "SUB_TEXT": "Válassza ki a nevet, amit a vevő lásson, amikor emailt kap.",
+        "FOR_EG": "Például:",
         "FRIENDLY": {
           "TITLE": "Barátságos",
           "FROM": "innen",
-          "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
+          "SUBTITLE": "Adja hozzá a feladó nevéhez a választ küldő ügynök nevét, hogy a válasz személyes hangvételű legyen."
         },
         "PROFESSIONAL": {
           "TITLE": "Professzionális",
-          "SUBTITLE": "Use only the configured business name as the sender name in the email header."
+          "SUBTITLE": "Csak a konfigurált cégnevet használja feladói névként az e-mail fejlécében."
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "+ Configure your business name",
-          "PLACEHOLDER": "Enter your business name",
+          "BUTTON_TEXT": "Üzleti nevének konfigurálása",
+          "PLACEHOLDER": "Adja meg vállalkozásának nevét",
           "SAVE_BUTTON_TEXT": "Mentés"
         }
       },
@@ -484,9 +486,9 @@
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Az e-mailek gyűjtődobozának engedélyezése vagy letiltása új beszélgetéseknél",
       "AUTO_ASSIGNMENT": "Automata hozzárendelés engedélyezése",
       "ENABLE_CSAT": "CSAT engedélyezése",
-      "SENDER_NAME_SECTION": "Enable Agent Name in Email",
+      "SENDER_NAME_SECTION": "Ügynök nevének engedélyezése e-mailben",
       "ENABLE_CSAT_SUB_TEXT": "A CSAT (Ügyfél-elégedettség) felmérés engedélyezése/letiltása egy beszélgetés megoldása után",
-      "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
+      "SENDER_NAME_SECTION_TEXT": "Az ügynök nevének megjelenítésének engedélyezése/letiltása az e-mailben, ha le van tiltva, akkor a cég neve jelenik meg",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Beszélgetés folytatásának engedélyezése emailen keresztül",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "A beszélgetések e-mailben folytatódnak, ha elérhető a kapcsolattartási e-mail cím.",
       "LOCK_TO_SINGLE_CONVERSATION": "Egyetlen beszélgetés zárolása",

@@ -13,8 +13,8 @@
     "NO_INBOX_AGENT": "Oh Oh ! Il semble que vous ne faites parti d'aucune boîte de réception. Veuillez contacter votre administrateur",
     "SEARCH_MESSAGES": "Rechercher des messages dans les conversations",
     "EMPTY_STATE": {
-      "CMD_BAR": "to open command menu",
-      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+      "CMD_BAR": "pour ouvrir le menu de commande",
+      "KEYBOARD_SHORTCUTS": "pour afficher les raccourcis clavier"
     },
     "SEARCH": {
       "TITLE": "Rechercher des messages",
@@ -34,7 +34,6 @@
     "ASSIGN_TO_ME": "M’assigner la conversation",
     "TWILIO_WHATSAPP_CAN_REPLY": "Vous pouvez seulement répondre à cette conversation en utilisant un modèle de message en raison de",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restriction de fenêtre de message de 24 heures",
-    "SELECT_A_TWEET_TO_REPLY": "Veuillez sélectionner un tweet auquel répondre.",
     "REPLYING_TO": "Vous répondez à :",
     "REMOVE_SELECTION": "Supprimer la sélection",
     "DOWNLOAD": "Télécharger",
@@ -47,6 +46,7 @@
     "NO_RESPONSE": "Pas de réponse",
     "RATING_TITLE": "Note",
     "FEEDBACK_TITLE": "Commentaires",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Afficher les étiquettes",
       "HIDE_LABELS": "Masquer les étiquettes"
@@ -139,7 +139,8 @@
       "PRIVATE_NOTE": "Note privée",
       "SEND": "Envoyer",
       "CREATE": "Ajouter une note",
-      "TWEET": "Tweeter",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "Afficher l'éditeur de texte enrichi",
       "TIP_EMOJI_ICON": "Montrer le sélecteur d'émoji",
       "TIP_ATTACH_ICON": "Joindre des fichiers",
@@ -194,6 +195,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Copier",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "Supprimer",
       "CREATE_A_CANNED_RESPONSE": "Ajouter aux réponses préenregistrées",
       "TRANSLATE": "Traduire",

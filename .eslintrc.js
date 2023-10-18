@@ -6,7 +6,7 @@ module.exports = {
     'plugin:storybook/recommended',
   ],
   parserOptions: {
-    parser: 'babel-eslint',
+    parser: '@babel/eslint-parser',
     ecmaVersion: 2020,
     sourceType: 'module',
   },
@@ -24,13 +24,16 @@ module.exports = {
     'jsx-a11y/label-has-for': 'off',
     'jsx-a11y/anchor-is-valid': 'off',
     'import/no-unresolved': 'off',
+    'vue/html-indent': 'off',
+    'vue/multi-word-component-names': 'off',
     'vue/max-attributes-per-line': [
       'error',
       {
-        singleline: 20,
+        singleline: {
+          max: 20,
+        },
         multiline: {
           max: 1,
-          allowFirstLine: false,
         },
       },
     ],
@@ -47,6 +50,7 @@ module.exports = {
       },
     ],
     'vue/no-v-html': 'off',
+    'vue/component-definition-name-casing': 'off',
     'vue/singleline-html-element-content-newline': 'off',
     'import/extensions': ['off'],
     'no-console': 'error',

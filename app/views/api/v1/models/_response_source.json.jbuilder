@@ -2,7 +2,6 @@ json.id resource.id
 json.name resource.name
 json.source_link resource.source_link
 json.source_type resource.source_type
-json.inbox_id resource.inbox_id
 json.account_id resource.account_id
 json.created_at resource.created_at.to_i
 json.updated_at resource.updated_at.to_i
