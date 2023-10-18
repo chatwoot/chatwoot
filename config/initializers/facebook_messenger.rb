@@ -29,7 +29,6 @@ Rails.application.reloader.to_prepare do
   end
 
   Facebook::Messenger::Bot.on :delivery do |delivery|
-    Rails.logger.info "Human was online at #{delivery.to_json}"
     Webhooks::FacebookDeliveryJob.perform_later(delivery.to_json)
   end
 
@@ -38,7 +37,6 @@ Rails.application.reloader.to_prepare do
   end
 
   Facebook::Messenger::Bot.on :message_echo do |message|
-    Rails.logger.info "Human was openai at #{message.to_json}"
     Webhooks::FacebookEventsJob.perform_later(message.to_json)
   end
 end
