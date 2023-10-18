@@ -1,17 +1,26 @@
 <template>
-  <div class="flex items-center relative">
+  <div
+    class="flex items-center relative"
+    @mouseover="showRemoveEmojiButton = true"
+    @mouseleave="showRemoveEmojiButton = false"
+  >
     <div
-      v-if="icon"
-      class="absolute cursor-pointer z-20 p-0.5 top-7 ltr:left-[38px] rtl:right-[38px] bg-red-100 hover:bg-red-200/50 dark:bg-red-800/30 dark:hover:bg-red-800/60 text-red-400 dark:text-red-500 hover:text-red-700 dark:hover:text-red-300 rounded-xl"
+      v-if="icon && showRemoveEmojiButton"
+      class="absolute cursor-pointer z-20 top-4 ltr:left-11 rtl:right-11 rounded-xl"
       @click="onClickInsertEmoji('')"
     >
-      <fluent-icon size="12" icon="delete" type="outline" />
+      <fluent-icon
+        size="18"
+        icon="dismiss-circle"
+        type="outline"
+        class="text-red-400 dark:text-red-500 hover:text-red-700 dark:hover:text-red-300"
+      />
     </div>
     <div
-      class="flex items-center justify-center absolute w-14 z-10 p-px bg-slate-75 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 cursor-pointer h-[2.33rem] ltr:rounded-l-[4px] rtl:rounded-r-[4px] top-[26px] ltr:left-px rtl:right-px"
+      class="flex items-center justify-center absolute w-14 z-10 hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer h-[2.4375rem] rounded-[4px] top-[25px] border border-solid border-slate-200 dark:border-slate-800"
       @click="toggleEmojiPicker"
     >
-      <span v-if="icon" class="text-base ltr:mr-2 rtl:ml-2" v-html="icon" />
+      <span v-if="icon" v-dompurify-html="icon" class="text-lg" />
       <fluent-icon
         v-else
         size="18"
@@ -23,7 +32,7 @@
     <woot-input
       v-model.trim="name"
       :class="{ error: hasError }"
-      class="w-full ltr:[&>input]:pl-16 rtl:[&>input]:pr-16 relative"
+      class="ltr:[&>input]:ml-16 rtl:[&>input]:mr-16 relative w-[calc(100%-4rem)] [&>p]:w-max"
       :error="nameErrorMessage"
       :label="label"
       :placeholder="placeholder"
@@ -82,6 +91,7 @@ export default {
       name: '',
       icon: '',
       showEmojiPicker: false,
+      showRemoveEmojiButton: false,
     };
   },
   computed: {
