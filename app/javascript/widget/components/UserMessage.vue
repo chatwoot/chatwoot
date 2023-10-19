@@ -1,6 +1,12 @@
 <template>
-  <div class="user-message-wrap">
-    <div class="user-message">
+  <div class="user-message-wrap group">
+    <div class="flex user-message">
+      <button
+        class="p-1.5 rounded-full text-slate-600 bg-slate-50 hover:bg-slate-100 hover:text-slate-800 group-hover:opacity-100 opacity-0 sm:opacity-0"
+        @click="toggleReply"
+      >
+        <FluentIcon icon="arrow-reply" size="12" class="flex-shrink-0" />
+      </button>
       <div
         class="message-wrap"
         :class="{ 'in-progress': isInProgress, 'is-failed': isFailed }"
@@ -35,12 +41,12 @@
         </div>
         <div
           v-if="isFailed"
-          class="flex justify-end align-middle px-4 py-2 text-red-700"
+          class="flex justify-end px-4 py-2 text-red-700 align-middle"
         >
           <button
             v-if="!hasAttachments"
             :title="$t('COMPONENTS.MESSAGE_BUBBLE.RETRY')"
-            class="inline-flex justify-center items-center ml-2"
+            class="inline-flex items-center justify-center ml-2"
             @click="retrySendMessage"
           >
             <fluent-icon icon="arrow-clockwise" size="14" />
@@ -58,6 +64,7 @@ import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import FileBubble from 'widget/components/FileBubble.vue';
 import timeMixin from 'dashboard/mixins/time';
 import messageMixin from '../mixins/messageMixin';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -125,6 +132,9 @@ export default {
     },
     onImageLoadError() {
       this.hasImageError = true;
+    },
+    toggleReply() {
+      bus.$emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.message);
     },
   },
 };
