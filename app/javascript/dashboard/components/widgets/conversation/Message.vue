@@ -492,7 +492,10 @@ export default {
       this.showContextMenu = !this.showContextMenu;
     },
     async retrySendMessage() {
-      await this.$store.dispatch('sendMessageWithData', this.data);
+      await this.$store.dispatch('sendMessageWithData', {
+        conversationId: this.data.conversation_id,
+        ...this.data,
+      });
     },
     onImageLoadError() {
       this.hasImageError = true;
