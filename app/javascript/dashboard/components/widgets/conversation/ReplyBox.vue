@@ -768,6 +768,7 @@ export default {
         : this.$track(CONVERSATION_EVENTS.SENT_MESSAGE, {
             channelType: this.channelType,
             signatureEnabled: this.sendWithSignature,
+            hasReplyTo: !!this.inReplyTo?.id,
           });
     },
     async onSendReply() {
@@ -1085,7 +1086,7 @@ export default {
         this.conversationId
       );
 
-      this.inReplyTo = this.currentChat.messages.find(message => {
+      this.inReplyTo = this.currentChat?.messages?.find(message => {
         if (message.id === replyToMessageId) {
           return true;
         }
