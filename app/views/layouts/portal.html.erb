@@ -28,7 +28,7 @@ By default, it renders:
     <% end %>
   </head>
   <body>
-    <div class="antialiased <%= @theme %>">
+    <div id="portal" class="antialiased <%= @theme %>">
       <main class="main-content min-h-screen flex flex-col bg-white dark:bg-slate-900" role="main">
         <% if !@is_plain_layout_enabled %>
           <%= render "public/api/v1/portals/header", portal: @portal %>

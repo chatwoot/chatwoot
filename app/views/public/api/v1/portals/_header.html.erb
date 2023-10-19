@@ -92,10 +92,10 @@
   };
 
   const switchTheme = (theme) => {
-    const parentDiv = document.querySelector('.antialiased');
-    parentDiv.classList.remove('light', 'dark');
+    const portalWrapper = document.getElementById('portal');
+    portalWrapper.classList.remove('light', 'dark');
     if (theme !== 'system') {
-      parentDiv.classList.add(theme);
+      portalWrapper.classList.add(theme);
       window.location.href = updateURLParameter(window.location.href, 'theme', theme);
     } else {
       window.location.href = removeURLParameter(window.location.href, 'theme');
