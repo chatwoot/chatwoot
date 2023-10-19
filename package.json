@@ -29,6 +29,8 @@
     }
   ],
   "dependencies": {
+    "@babel/plugin-transform-regenerator": "^7.22.10",
+    "@babel/plugin-transform-runtime": "^7.23.2",
     "@braid/vue-formulate": "^2.5.2",
     "@chatwoot/prosemirror-schema": "1.0.3",
     "@chatwoot/utils": "^0.0.16",
@@ -50,7 +52,7 @@
     "babel-plugin-transform-vue-jsx": "^3.7.0",
     "chart.js": "~2.9.4",
     "company-email-validator": "^1.0.8",
-    "core-js": "3.11.0",
+    "core-js": "^3.33.0",
     "date-fns": "2.21.1",
     "date-fns-tz": "^1.3.3",
     "dompurify": "2.2.7",
@@ -69,6 +71,7 @@
     "opus-recorder": "^8.0.5",
     "postcss": "^8.4.31",
     "postcss-loader": "^4.2.0",
+    "regenerator-runtime": "^0.14.0",
     "semver": "7.5.2",
     "tailwindcss": "^3.3.2",
     "turbolinks": "^5.2.0",
@@ -99,10 +102,11 @@
     "webpack-cli": "^3.3.12"
   },
   "devDependencies": {
-    "@babel/core": "7.13.16",
+    "@babel/core": "^7.23.2",
     "@babel/eslint-parser": "^7.22.15",
     "@babel/plugin-proposal-class-properties": "7.13.0",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.18.6",
+    "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "7.13.15",
     "@size-limit/file": "^8.2.4",
     "@storybook/addon-actions": "6.5.9",

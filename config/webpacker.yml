@@ -11,7 +11,7 @@ default: &default
 
   # Additional paths webpack should lookup modules
   # ['app/assets', 'engine/foo/app/assets']
-  resolved_paths: []
+  additional_paths: []
 
   # Reload manifest.json on all requests so we reload latest compiled packs
   cache_manifest: false
@@ -70,6 +70,7 @@ development:
     disable_host_check: true
     use_local_ip: false
     quiet: false
+    pretty: false
     headers:
       'Access-Control-Allow-Origin': '*'
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS'

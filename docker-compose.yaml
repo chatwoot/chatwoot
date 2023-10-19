@@ -74,7 +74,7 @@ services:
       - cache:/app/tmp/cache
       - bundle:/usr/local/bundle
     ports:
-      - "3035" # Webpack dev server
+      - 3035:3035 # Webpack dev server
     environment:
       - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
       - NODE_ENV=development
@@ -88,11 +88,11 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - postgres:/data/postgres
+      - postgres:./data/postgres
     environment:
       - POSTGRES_DB=chatwoot
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=
+      - POSTGRES_PASSWORD=123456
 
   redis:
     image: redis:alpine

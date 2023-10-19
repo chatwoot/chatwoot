@@ -2,6 +2,7 @@
 const plugins = () => [
   require('babel-plugin-macros'),
   require('@babel/plugin-proposal-nullish-coalescing-operator'),
+  require('@babel/plugin-transform-runtime'),
   [
     require('@babel/plugin-proposal-class-properties').default,
     {
@@ -26,6 +27,7 @@ module.exports = api => {
   }
 
   return {
+    sourceType: 'unambiguous',
     presets: [
       [
         require('@babel/preset-env').default,

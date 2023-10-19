@@ -92,6 +92,7 @@ ENV BUNDLE_FORCE_RUBY_PLATFORM ${BUNDLE_FORCE_RUBY_PLATFORM}
 ARG RAILS_ENV=production
 ENV RAILS_ENV ${RAILS_ENV}
 ENV BUNDLE_PATH="/gems"
+ENV NODE_OPTIONS="--openssl-legacy-provider"
 
 RUN apk update && apk add --no-cache \
   build-base \
@@ -99,6 +100,7 @@ RUN apk update && apk add --no-cache \
   tzdata \
   postgresql-client \
   imagemagick \
+  nodejs-current \
   git \
   vips \
   && gem install bundler

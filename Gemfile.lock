@@ -334,14 +334,8 @@ GEM
       signet (>= 0.16, < 2.a)
     groupdate (6.2.1)
       activesupport (>= 5.2)
-    grpc (1.54.0)
-      google-protobuf (~> 3.21)
-      googleapis-common-protos-types (~> 1.0)
-    grpc (1.54.0-x86_64-darwin)
-      google-protobuf (~> 3.21)
-      googleapis-common-protos-types (~> 1.0)
-    grpc (1.54.0-x86_64-linux)
-      google-protobuf (~> 3.21)
+    grpc (1.47.0)
+      google-protobuf (~> 3.19)
       googleapis-common-protos-types (~> 1.0)
     haikunator (1.1.1)
     hairtrigger (1.0.0)
@@ -959,4 +953,4 @@ RUBY VERSION
    ruby 3.2.2p185
 
 BUNDLED WITH
-   2.4.6
+   2.4.20
