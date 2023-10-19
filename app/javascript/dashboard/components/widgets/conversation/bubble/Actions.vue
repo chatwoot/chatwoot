@@ -231,7 +231,11 @@ export default {
         return contactLastSeenAt >= this.createdAt;
       }
 
-      if (this.isAWhatsAppChannel || this.isATwilioChannel) {
+      if (
+        this.isAWhatsAppChannel ||
+        this.isATwilioChannel ||
+        this.isAFacebookInbox
+      ) {
         return this.sourceId && this.isRead;
       }
 
