@@ -13,6 +13,7 @@
       <search-suggestions
         :items="searchResults"
         :is-loading="isLoading"
+        :search-term="searchTerm"
         :empty-placeholder="searchTranslations.emptyPlaceholder"
         :results-title="searchTranslations.resultsTitle"
         :loading-placeholder="searchTranslations.loadingPlaceholder"

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="shadow-lg bg-white dark:bg-slate-900 mt-2 max-h-72 scroll-py-2 p-4 overflow-y-auto text-sm text-slate-700 dark:text-slate-100 border border-solid border-slate-50 dark:border-slate-800 rounded-md"
+    class="shadow-lg bg-white dark:bg-slate-900 mt-2 max-h-96 scroll-py-2 p-5 overflow-y-auto text-sm text-slate-700 dark:text-slate-100 border border-solid border-slate-50 dark:border-slate-800 rounded-lg"
   >
     <div
       v-if="isLoading"
@@ -8,33 +8,34 @@
     >
       {{ loadingPlaceholder }}
     </div>
-    <h3
-      v-if="shouldShowResults"
-      class="font-medium text-sm text-slate-400 dark:text-slate-700"
-    >
-      {{ resultsTitle }}
-    </h3>
     <ul
       v-if="shouldShowResults"
-      class="bg-white dark:bg-slate-900 mt-2 max-h-72 scroll-py-2 overflow-y-auto text-sm text-slate-700 dark:text-slate-100"
+      class="bg-white dark:bg-slate-900 gap-4 flex flex-col text-sm text-slate-700 dark:text-slate-100"
       role="listbox"
     >
       <li
         v-for="(article, index) in items"
         :id="article.id"
         :key="article.id"
-        class="group flex cursor-default select-none items-center rounded-md p-2 mb-1"
+        class="group flex border border-solid border-slate-100 dark:border-slate-800 rounded-lg cursor-default select-none items-center p-4"
         :class="{ 'bg-slate-25 dark:bg-slate-800': index === selectedIndex }"
         role="option"
         tabindex="-1"
         @mouseover="onHover(index)"
+        @click="onSelect"
       >
-        <a
-          :href="generateArticleUrl(article)"
-          class="flex-auto truncate text-base font-medium leading-6 w-full hover:underline"
-        >
-          {{ article.title }}
-        </a>
+        <div class="flex flex-col gap-1 overflow-y-hidden">
+          <a
+            :href="generateArticleUrl(article)"
+            class="flex-auto truncate text-base font-semibold leading-6 w-full overflow-hidden text-ellipsis whitespace-nowrap"
+          >
+            {{ article.title }}
+          </a>
+          <div
+            v-dompurify-html="prepareContent(article.content)"
+            class="line-clamp-2 text-ellipsis text-slate-600 dark:text-slate-300 text-sm"
+          />
+        </div>
       </li>
     </ul>
 
@@ -49,9 +50,10 @@
 
 <script>
 import mentionSelectionKeyboardMixin from 'dashboard/components/widgets/mentions/mentionSelectionKeyboardMixin.js';
+import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 
 export default {
-  mixins: [mentionSelectionKeyboardMixin],
+  mixins: [mentionSelectionKeyboardMixin, messageFormatterMixin],
   props: {
     items: {
       type: Array,
@@ -77,6 +79,10 @@ export default {
       type: String,
       default: '',
     },
+    searchTerm: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -94,6 +100,28 @@ export default {
   },
 
   methods: {
+    escapeHtml(html) {
+      var text = document.createTextNode(html);
+      var p = document.createElement('p');
+      p.appendChild(text);
+      return p.innerText;
+    },
+    prepareContent(content = '') {
+      const escapedText = this.escapeHtml(content);
+      const plainTextContent = this.getPlainText(escapedText);
+      const escapedSearchTerm = this.escapeRegExp(this.searchTerm);
+
+      return plainTextContent
+        .replace(
+          new RegExp(`\\b\\w*(${escapedSearchTerm})\\w*\\b`, 'ig'),
+          '<span class="bg-slate-100 dark:bg-slate-700 font-semibold text-slate-600 dark:text-slate-200">$&</span>'
+        )
+        .replace(/\s{2,}|\n|\r/g, ' ');
+    },
+    // from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
+    escapeRegExp(string) {
+      return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    },
     generateArticleUrl(article) {
       return `/hc/${article.portal.slug}/articles/${article.slug}`;
     },
