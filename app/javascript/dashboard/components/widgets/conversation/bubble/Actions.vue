@@ -214,8 +214,8 @@ export default {
       if (this.isAWhatsAppChannel || this.isATwilioChannel) {
         return this.sourceId && this.isDelivered;
       }
-      // We will consider messages as delivered for web widget inbox if they are sent
-      if (this.isAWebWidgetInbox) {
+      // We will consider messages as delivered for web widget inbox and API inbox if they are sent
+      if (this.isAWebWidgetInbox || this.isAPIInbox) {
         return this.isSent;
       }
 

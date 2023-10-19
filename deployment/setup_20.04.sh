@@ -2,14 +2,14 @@
 
 # Description: Install and manage a Chatwoot installation.
 # OS: Ubuntu 20.04 LTS
-# Script Version: 2.5.0
+# Script Version: 2.6.0
 # Run this script as root
 
 set -eu -o errexit -o pipefail -o noclobber -o nounset
 
 # -allow a command to fail with !’s side effect on errexit
 # -use return value from ${PIPESTATUS[0]}, because ! hosed $?
-! getopt --test > /dev/null 
+! getopt --test > /dev/null
 if [[ ${PIPESTATUS[0]} -ne 4 ]]; then
     echo '`getopt --test` failed in this environment.'
     exit 1
@@ -19,7 +19,7 @@ fi
 # option --output/-o requires 1 argument
 LONGOPTS=console,debug,help,install,Install:,logs:,restart,ssl,upgrade,webserver,version
 OPTIONS=cdhiI:l:rsuwv
-CWCTL_VERSION="2.5.0"
+CWCTL_VERSION="2.6.0"
 pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
 CHATWOOT_HUB_URL="https://hub.2.chatwoot.com/events"
 
@@ -187,7 +187,7 @@ function install_dependencies() {
       postgresql-client redis-tools \
       nodejs yarn patch ruby-dev zlib1g-dev liblzma-dev \
       libgmp-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev sudo \
-      libvips
+      libvips python3-pip
 }
 
 ##############################################################################
@@ -634,7 +634,7 @@ Management:
   -c, --console             Open ruby console
   -l, --logs                View logs from Chatwoot. Supported values include web/worker.
   -r, --restart             Restart Chatwoot server
-  
+
 Miscellaneous:
   -d, --debug               Show debug messages
   -v, --version             Display version information
@@ -770,6 +770,7 @@ function upgrade_node() {
 #   None
 ##############################################################################
 function upgrade() {
+  cwctl_upgrade_check
   get_cw_version
   echo "Upgrading Chatwoot to v$CW_VERSION"
   sleep 3
@@ -913,6 +914,62 @@ function version() {
 }
 
 ##############################################################################
+# Check if there is newer version of cwctl and upgrade if found
+# Globals:
+#   CWCTL_VERSION
+# Arguments:
+# remote_version_url = URL to fetch the remote version from
+# remote_version = Remote version of cwctl
+# Outputs:
+#   None
+##############################################################################
+function cwctl_upgrade_check() {
+    echo "Checking for cwctl updates..."
+
+    local remote_version_url="https://raw.githubusercontent.com/chatwoot/chatwoot/master/VERSION_CWCTL"
+    local remote_version=$(curl -s "$remote_version_url")
+
+    #Check if pip is not installed, and install it if not
+    if ! command -v pip3 &> /dev/null; then
+        echo "Installing pip..."
+        apt install -y python3-pip
+    fi
+
+    # Check if packaging library is installed, and install it if not
+    if ! python3 -c "import packaging.version" &> /dev/null; then
+        echo "Installing packaging library..."
+        python3 -m pip install packaging
+    fi
+
+    needs_update=$(python3 -c "from packaging import version; v1 = version.parse('$CWCTL_VERSION'); v2 = version.parse('$remote_version'); print(1 if v2 > v1 else 0)")
+
+    if [ "$needs_update" -eq 1 ]; then
+        echo "Upgrading cwctl from $CWCTL_VERSION to $remote_version"
+        upgrade_cwctl
+        echo $'\U0002713 Done'
+        echo $'\U0001F680 Please re-run your command'
+        exit 0
+    else
+        echo "Your cwctl is up to date"
+    fi
+
+}
+
+
+##############################################################################
+# upgrade cwctl
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
+function upgrade_cwctl() {
+    wget https://get.chatwoot.app/linux/install.sh -O /usr/local/bin/cwctl > /dev/null 2>&1 && chmod +x /usr/local/bin/cwctl
+}
+
+##############################################################################
 # main function that handles the control flow
 # Globals:
 #   None
@@ -928,7 +985,7 @@ function main() {
     report_event "cwctl" "console" > /dev/null 2>&1
     get_console
   fi
-  
+
   if [ "$h" == "y" ]; then
     report_event "cwctl" "help"  > /dev/null 2>&1
     help
@@ -948,7 +1005,7 @@ function main() {
     report_event "cwctl" "restart"  > /dev/null 2>&1
     restart
   fi
-  
+
   if [ "$s" == "y" ]; then
     report_event "cwctl" "ssl"  > /dev/null 2>&1
     ssl
