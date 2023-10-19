@@ -17,7 +17,7 @@ describe Instagram::ReadStatusService do
     context 'when messaging_seen callback is fired' do
       let(:message) { conversation.messages.last }
 
-      it 'updates the message if the status is delivered' do
+      it 'updates the message status to read if the status is delivered' do
         params = {
           recipient: {
             id: 'chatwoot-app-user-id-1'
@@ -30,7 +30,7 @@ describe Instagram::ReadStatusService do
         expect(conversation.reload.messages.last.status).to eq('read')
       end
 
-      it 'does not update the status message message is not found' do
+      it 'does not update the status if message is not found' do
         params = {
           recipient: {
             id: 'chatwoot-app-user-id-1'

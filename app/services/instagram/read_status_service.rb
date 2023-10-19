@@ -1,4 +1,4 @@
-class Instagram::ReadStatusService < Instagram::WebhooksBaseService
+class Instagram::ReadStatusService
   pattr_initialize [:params!]
 
   def perform
