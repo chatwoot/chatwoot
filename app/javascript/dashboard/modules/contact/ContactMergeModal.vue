@@ -73,12 +73,12 @@ export default {
         this.isSearching = false;
       }
     },
-    async onMergeContacts(childContactId) {
+    async onMergeContacts(parentContactId) {
       this.$track(CONTACTS_EVENTS.MERGED_CONTACTS);
       try {
         await this.$store.dispatch('contacts/merge', {
-          childId: childContactId,
-          parentId: this.primaryContact.id,
+          childId: this.primaryContact.id,
+          parentId: parentContactId,
         });
         this.showAlert(this.$t('MERGE_CONTACTS.FORM.SUCCESS_MESSAGE'));
         this.onClose();

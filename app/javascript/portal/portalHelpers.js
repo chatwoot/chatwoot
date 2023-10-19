@@ -60,10 +60,10 @@ export const InitializationHelpers = {
   appendPlainParamToURLs: () => {
     document.getElementsByTagName('a').forEach(aTagElement => {
       if (aTagElement.href && aTagElement.href.includes('/hc/')) {
-        aTagElement.setAttribute(
-          'href',
-          aTagElement.href + '?show_plain_layout=true'
-        );
+        const url = new URL(aTagElement.href);
+        url.searchParams.set('show_plain_layout', 'true');
+
+        aTagElement.setAttribute('href', url);
       }
     });
   },

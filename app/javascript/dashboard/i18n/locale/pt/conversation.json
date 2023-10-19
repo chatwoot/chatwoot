@@ -34,7 +34,6 @@
     "ASSIGN_TO_ME": "Atribuir a mim",
     "TWILIO_WHATSAPP_CAN_REPLY": "Só pode responder, utilizando uma mensagem modelo, porque",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Mensagens bloqueadas durante 24 horas",
-    "SELECT_A_TWEET_TO_REPLY": "Para responder escolha por favor um tweet.",
     "REPLYING_TO": "Está a responder a:",
     "REMOVE_SELECTION": "Remover seleção",
     "DOWNLOAD": "BAIXAR",
@@ -47,6 +46,7 @@
     "NO_RESPONSE": "Sem resposta",
     "RATING_TITLE": "Avaliar",
     "FEEDBACK_TITLE": "Opiniões",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Mostrar etiquetas",
       "HIDE_LABELS": "Ocultar os etiquetas"
@@ -139,7 +139,8 @@
       "PRIVATE_NOTE": "Nota Privada",
       "SEND": "Mandar",
       "CREATE": "Adicionar Nota",
-      "TWEET": "Tuitar",
+      "DISMISS_REPLY": "Descartar resposta",
+      "REPLYING_TO": "Em resposta a:",
       "TIP_FORMAT_ICON": "Mostrar editor de texto completo",
       "TIP_EMOJI_ICON": "Mostrar selecionador de emojis",
       "TIP_ATTACH_ICON": "Anexar ficheiros",
@@ -194,6 +195,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Copiar",
+      "REPLY_TO": "Responder a esta mensagem",
       "DELETE": "excluir",
       "CREATE_A_CANNED_RESPONSE": "Adicionar às respostas prontas",
       "TRANSLATE": "Traduzir",

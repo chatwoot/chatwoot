@@ -22,6 +22,11 @@ class Macros::ExecutionService < ActionService
 
   private
 
+  def assign_agent(agent_ids)
+    agent_ids = agent_ids.map { |id| id == 'self' ? @user.id : id }
+    super(agent_ids)
+  end
+
   def add_private_note(message)
     return if conversation_a_tweet?
 

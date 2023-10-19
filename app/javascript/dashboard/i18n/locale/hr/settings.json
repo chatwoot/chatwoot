@@ -177,7 +177,7 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Download",
-      "UPLOADING": "Uploading...",
+      "UPLOADING": "Prenosim...",
       "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
     },
     "LOCATION_BUBBLE": {
@@ -242,7 +242,7 @@
     "REPORTS_OVERVIEW": "Overview",
     "FACEBOOK_REAUTHORIZE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
     "HELP_CENTER": {
-      "TITLE": "Help Center (Beta)",
+      "TITLE": "Centar za pomoć",
       "ALL_ARTICLES": "All Articles",
       "MY_ARTICLES": "My Articles",
       "DRAFT": "Draft",
