@@ -1,7 +1,9 @@
 <template>
   <div class="flex items-center relative">
-    <div
-      class="flex items-center justify-center absolute z-10 hover:bg-slate-50 dark:bg-slate-900 dark:hover:bg-slate-700 cursor-pointer h-[2.4375rem] w-[2.4375rem] rounded-[4px] top-[25px] border border-solid border-slate-200 dark:border-slate-600"
+    <woot-button
+      variant="hollow"
+      class="absolute [&>span]:flex [&>span]:items-center [&>span]:justify-center z-10 top-[25px] h-[2.45rem] w-[2.45rem] !text-slate-400 dark:!text-slate-600 dark:!bg-slate-900 !p-0"
+      color-scheme="secondary"
       @click="toggleEmojiPicker"
     >
       <span v-if="icon" v-dompurify-html="icon" class="text-lg" />
@@ -12,7 +14,7 @@
         type="outline"
         class="text-slate-400 dark:text-slate-600"
       />
-    </div>
+    </woot-button>
     <woot-input
       v-model="name"
       :class="{ error: hasError }"
