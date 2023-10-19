@@ -52,10 +52,12 @@ export default {
     },
   },
   methods: {
-    onBack() {
+    onBack(e) {
+      e.stopPropagation();
       this.$emit('back');
     },
-    onInsert() {
+    onInsert(e) {
+      e.stopPropagation();
       this.$emit('insert');
     },
   },

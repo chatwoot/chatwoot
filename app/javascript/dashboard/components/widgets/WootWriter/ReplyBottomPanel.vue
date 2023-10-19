@@ -327,8 +327,8 @@ export default {
     },
     insertArticleToggleTooltip() {
       return this.isArticleSearchActive
-        ? this.$t('HELP_CENTER.ARTICLE_SEARCH.OPEN_ARTICLE_SEARCH')
-        : this.$t('HELP_CENTER.ARTICLE_SEARCH.CLOSE_ARTICLE_SEARCH');
+        ? this.$t('HELP_CENTER.ARTICLE_SEARCH.CLOSE_ARTICLE_SEARCH')
+        : this.$t('HELP_CENTER.ARTICLE_SEARCH.OPEN_ARTICLE_SEARCH');
     },
   },
   mounted() {

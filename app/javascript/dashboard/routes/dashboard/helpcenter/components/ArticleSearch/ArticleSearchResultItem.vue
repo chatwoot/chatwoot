@@ -95,7 +95,8 @@ export default {
     handleInsert() {
       this.$emit('insert', this.id);
     },
-    handlePreview() {
+    handlePreview(e) {
+      e.stopPropagation();
       this.$emit('preview', this.id);
     },
     async handleCopy() {
