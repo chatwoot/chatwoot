@@ -239,13 +239,11 @@ class Message < ApplicationRecord
     in_reply_to = content_attributes[:in_reply_to]
     in_reply_to_external_id = content_attributes[:in_reply_to_external_id]
 
-    if in_reply_to.present? && in_reply_to_external_id.blank?
-      message = conversation.messages.find_by(id: in_reply_to)
-      content_attributes[:in_reply_to_external_id] = message.try(:source_id)
-    elsif in_reply_to_external_id.present? && in_reply_to.blank?
-      message = conversation.messages.find_by(source_id: in_reply_to_external_id)
-      content_attributes[:in_reply_to] = message.try(:id)
-    end
+    Messages::InReplyToMessageBuilder.new(
+      message: self,
+      in_reply_to: in_reply_to,
+      in_reply_to_external_id: in_reply_to_external_id
+    ).perform
   end
 
   def ensure_content_type
