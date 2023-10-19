@@ -101,6 +101,7 @@ export default {
       IFrameHelper.sendMessage({
         event: 'onEvent',
         eventIdentifier: CHATWOOT_ON_START_CONVERSATION,
+        data: { hasConversation: true },
       });
     },
     async sendTranscript() {
