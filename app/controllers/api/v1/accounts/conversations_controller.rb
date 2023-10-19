@@ -8,7 +8,6 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def index
     result = conversation_finder.perform
-
     @conversations = result[:conversations]
     @conversations_count = result[:count]
   end

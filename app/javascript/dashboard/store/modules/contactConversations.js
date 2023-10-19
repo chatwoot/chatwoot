@@ -21,6 +21,7 @@ export const createConversationPayload = ({ params, contactId, files }) => {
   if (files && files.length > 0) {
     files.forEach(file => payload.append('message[attachments][]', file));
   }
+
   payload.append('inbox_id', inboxId);
   payload.append('contact_id', contactId);
   payload.append('source_id', sourceId);
@@ -42,6 +43,7 @@ export const createWhatsAppConversationPayload = ({ params }) => {
     assignee_id: assigneeId,
     bulk_contacts: bulkContacts,
   };
+
   return payload;
 };
 
