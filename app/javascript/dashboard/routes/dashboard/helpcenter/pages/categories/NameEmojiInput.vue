@@ -1,38 +1,22 @@
 <template>
-  <div
-    class="flex items-center relative"
-    @mouseover="showRemoveEmojiButton = true"
-    @mouseleave="showRemoveEmojiButton = false"
-  >
+  <div class="flex items-center relative">
     <div
-      v-if="icon && showRemoveEmojiButton"
-      class="absolute cursor-pointer z-20 top-4 ltr:left-11 rtl:right-11 rounded-xl"
-      @click="onClickInsertEmoji('')"
-    >
-      <fluent-icon
-        size="18"
-        icon="dismiss-circle"
-        type="outline"
-        class="text-red-400 dark:text-red-500 hover:text-red-700 dark:hover:text-red-300"
-      />
-    </div>
-    <div
-      class="flex items-center justify-center absolute w-14 z-10 hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer h-[2.4375rem] rounded-[4px] top-[25px] border border-solid border-slate-200 dark:border-slate-800"
+      class="flex items-center justify-center absolute z-10 hover:bg-slate-50 dark:bg-slate-900 dark:hover:bg-slate-700 cursor-pointer h-[2.4375rem] w-[2.4375rem] rounded-[4px] top-[25px] border border-solid border-slate-200 dark:border-slate-600"
       @click="toggleEmojiPicker"
     >
       <span v-if="icon" v-dompurify-html="icon" class="text-lg" />
       <fluent-icon
         v-else
         size="18"
-        icon="emoji"
+        icon="emoji-add"
         type="outline"
-        class="text-slate-800 dark:text-slate-100"
+        class="text-slate-400 dark:text-slate-600"
       />
     </div>
     <woot-input
-      v-model.trim="name"
+      v-model="name"
       :class="{ error: hasError }"
-      class="ltr:[&>input]:ml-16 rtl:[&>input]:mr-16 relative w-[calc(100%-4rem)] [&>p]:w-max"
+      class="!mt-0 !mb-4 !mx-0 [&>input]:!mb-0 ltr:[&>input]:ml-12 rtl:[&>input]:mr-12 relative w-[calc(100%-3rem)] [&>p]:w-max"
       :error="nameErrorMessage"
       :label="label"
       :placeholder="placeholder"
@@ -43,6 +27,7 @@
       v-if="showEmojiPicker"
       v-on-clickaway="hideEmojiPicker"
       class="left-0 top-16"
+      :show-remove-button="true"
       :on-click="onClickInsertEmoji"
     />
   </div>
@@ -91,7 +76,6 @@ export default {
       name: '',
       icon: '',
       showEmojiPicker: false,
-      showRemoveEmojiButton: false,
     };
   },
   computed: {
@@ -131,13 +115,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.input-container::v-deep {
-  @apply mt-0 mb-4 mx-0;
-
-  input {
-    @apply mb-0;
-  }
-}
 .emoji-dialog::before {
   @apply hidden;
 }
