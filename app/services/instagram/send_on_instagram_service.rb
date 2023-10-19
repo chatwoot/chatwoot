@@ -59,7 +59,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
     query[:appsecret_proof] = app_secret_proof if app_secret_proof
 
     # url = "https://graph.facebook.com/v11.0/me/messages?access_token=#{access_token}"
-
+    # TODO: Change hard coded version to dynamic
     response = HTTParty.post(
       'https://graph.facebook.com/v11.0/me/messages',
       body: message_content,
@@ -67,8 +67,8 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
     )
 
     Rails.logger.error("Instagram response: #{response['error']} : #{message_content}") if response['error']
+    message.update!(status: :failed, external_error: response['error']['message']) if response['error'].present?
     message.update!(source_id: response['message_id']) if response['message_id'].present?
-
     response
   end
 
