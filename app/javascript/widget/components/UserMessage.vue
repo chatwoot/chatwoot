@@ -10,6 +10,9 @@
         class="message-wrap"
         :class="{ 'in-progress': isInProgress, 'is-failed': isFailed }"
       >
+        <div v-if="hasReplyTo" class="flex justify-end mt-2 mb-1 text-xs">
+          <reply-to-chip :reply-to="replyTo" />
+        </div>
         <user-message-bubble
           v-if="showTextBubble"
           :message="message.content"
@@ -64,6 +67,7 @@ import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import FileBubble from 'widget/components/FileBubble.vue';
 import timeMixin from 'dashboard/mixins/time';
 import messageMixin from '../mixins/messageMixin';
+import ReplyToChip from 'widget/components/ReplyToChip.vue';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -74,10 +78,15 @@ export default {
     ImageBubble,
     FileBubble,
     FluentIcon,
+    ReplyToChip,
   },
   mixins: [timeMixin, messageMixin],
   props: {
     message: {
+      type: Object,
+      default: () => {},
+    },
+    replyTo: {
       type: Object,
       default: () => {},
     },
@@ -113,6 +122,9 @@ export default {
       return meta
         ? meta.error
         : this.$t('COMPONENTS.MESSAGE_BUBBLE.ERROR_MESSAGE');
+    },
+    hasReplyTo() {
+      return this.replyTo && (this.replyTo.content || this.replyTo.attachments);
     },
   },
   watch: {

@@ -15,7 +15,7 @@
         />
       </div>
       <div class="message-wrap">
-        <div class="flex mt-2 mb-1 text-xs">
+        <div v-if="hasReplyTo" class="flex mt-2 mb-1 text-xs">
           <reply-to-chip :reply-to="replyTo" />
         </div>
         <AgentMessageBubble
