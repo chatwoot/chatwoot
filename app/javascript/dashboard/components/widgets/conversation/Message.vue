@@ -38,6 +38,7 @@
           v-if="inReplyToMessageId && inboxSupportsReplyTo"
           :message="inReplyTo"
           :message-type="data.message_type"
+          :parent-has-attachments="hasAttachments"
         />
         <bubble-text
           v-if="data.content"
