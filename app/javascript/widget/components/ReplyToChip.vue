@@ -5,7 +5,7 @@
   >
     <fluent-icon icon="arrow-reply" size="12" class="flex-shrink-0" />
     <div class="truncate max-w-[8rem]">
-      {{ replyTo.content | replyToAttachment }}
+      {{ replyTo.content || replyToAttachment }}
     </div>
   </button>
 </template>
