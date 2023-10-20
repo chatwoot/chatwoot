@@ -292,7 +292,7 @@ export default {
     },
     inboxSupportsReplyTo() {
       return (
-        this.inboxHasFeature(INBOX_FEATURES.REPLY_TO) &&
+        this.inboxHasFeature(INBOX_FEATURES.REPLY_TO_OUTGOING) &&
         this.isFeatureEnabledonAccount(
           this.accountId,
           FEATURE_FLAGS.MESSAGE_REPLY_TO
