@@ -1,12 +1,7 @@
 <template>
   <div class="user-message-wrap group">
     <div class="flex gap-1 user-message">
-      <button
-        class="p-1.5 mb-1 rounded-full dark:text-slate-500 dark:bg-slate-900 text-slate-600 bg-slate-100 hover:text-slate-800 group-hover:opacity-100 opacity-0 sm:opacity-0"
-        @click="toggleReply"
-      >
-        <FluentIcon icon="arrow-reply" size="12" class="flex-shrink-0" />
-      </button>
+      <message-reply-button :message="message" />
       <div
         class="message-wrap"
         :class="{ 'in-progress': isInProgress, 'is-failed': isFailed }"
@@ -59,18 +54,19 @@
 
 <script>
 import UserMessageBubble from 'widget/components/UserMessageBubble.vue';
+import MessageReplyButton from 'widget/components/MessageReplyButton.vue';
 import ImageBubble from 'widget/components/ImageBubble.vue';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import FileBubble from 'widget/components/FileBubble.vue';
 import timeMixin from 'dashboard/mixins/time';
 import messageMixin from '../mixins/messageMixin';
-import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { mapGetters } from 'vuex';
 
 export default {
   name: 'UserMessage',
   components: {
     UserMessageBubble,
+    MessageReplyButton,
     ImageBubble,
     FileBubble,
     FluentIcon,
@@ -132,9 +128,6 @@ export default {
     },
     onImageLoadError() {
       this.hasImageError = true;
-    },
-    toggleReply() {
-      bus.$emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.message);
     },
   },
 };
