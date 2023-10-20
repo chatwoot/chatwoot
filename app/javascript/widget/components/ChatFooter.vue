@@ -52,6 +52,11 @@ export default {
       default: '',
     },
   },
+  data() {
+    return {
+      inReplyTo: null,
+    };
+  },
   computed: {
     ...mapGetters({
       conversationAttributes: 'conversationAttributes/getConversationParams',
@@ -72,6 +77,9 @@ export default {
       return this.currentUser && this.currentUser.email;
     },
   },
+  mounted() {
+    bus.$on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.toggleReplyTo);
+  },
   methods: {
     ...mapActions('conversation', [
       'sendMessage',
@@ -85,7 +93,10 @@ export default {
     async handleSendMessage(content) {
       await this.sendMessage({
         content,
+        replyTo: this.inReplyTo ? this.inReplyTo.id : null,
       });
+      // reset replyTo message after sending
+      this.inReplyTo = null;
       // Update conversation attributes on new conversation
       if (this.conversationSize === 0) {
         this.getAttributes();
@@ -103,6 +114,9 @@ export default {
         eventIdentifier: CHATWOOT_ON_START_CONVERSATION,
         data: { hasConversation: true },
       });
+    },
+    toggleReplyTo(message) {
+      this.inReplyTo = message;
     },
     async sendTranscript() {
       const { email } = this.currentUser;
