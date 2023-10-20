@@ -77,7 +77,6 @@ import configMixin from '../mixins/configMixin';
 import messageMixin from '../mixins/messageMixin';
 import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import ReplyToChip from 'widget/components/ReplyToChip.vue';
 
 export default {
@@ -90,13 +89,7 @@ export default {
     FileBubble,
     ReplyToChip,
   },
-  mixins: [
-    timeMixin,
-    configMixin,
-    messageMixin,
-    darkModeMixin,
-    messageFormatterMixin,
-  ],
+  mixins: [timeMixin, configMixin, messageMixin, darkModeMixin],
   props: {
     message: {
       type: Object,
