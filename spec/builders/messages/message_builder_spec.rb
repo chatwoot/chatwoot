@@ -8,6 +8,7 @@ describe Messages::MessageBuilder do
   let(:inbox) { create(:inbox, account: account) }
   let(:inbox_member) { create(:inbox_member, inbox: inbox, account: account) }
   let(:conversation) { create(:conversation, inbox: inbox, account: account) }
+  let(:message_for_reply) { create(:message, conversation: conversation) }
   let(:params) do
     ActionController::Parameters.new({
                                        content: 'test'
@@ -26,13 +27,13 @@ describe Messages::MessageBuilder do
       let(:params) do
         ActionController::Parameters.new({
                                            content: 'test',
-                                           content_attributes: '{"in_reply_to":2342}'
+                                           content_attributes: "{\"in_reply_to\":#{message_for_reply.id}}"
                                          })
       end
 
       it 'parses content_attributes from JSON string' do
         message = described_class.new(user, conversation, params).perform
-        expect(message.content_attributes).to include(in_reply_to: 2342)
+        expect(message.content_attributes).to include(in_reply_to: message_for_reply.id)
       end
     end
 
@@ -40,13 +41,13 @@ describe Messages::MessageBuilder do
       let(:params) do
         ActionController::Parameters.new({
                                            content: 'test',
-                                           content_attributes: { in_reply_to: 2342 }
+                                           content_attributes: { in_reply_to: message_for_reply.id }
                                          })
       end
 
       it 'uses content_attributes as provided' do
         message = described_class.new(user, conversation, params).perform
-        expect(message.content_attributes).to include(in_reply_to: 2342)
+        expect(message.content_attributes).to include(in_reply_to: message_for_reply.id)
       end
     end
 
