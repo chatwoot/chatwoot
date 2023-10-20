@@ -4,19 +4,13 @@
     @click="navigateTo(replyTo.id)"
   >
     <fluent-icon icon="arrow-reply" size="12" class="flex-shrink-0" />
-    <div
-      v-if="replyTo.content"
-      v-dompurify-html="formatMessage(replyTo.content, false)"
-      class="reply-to-truncate"
-    />
-    <div v-else-if="replyTo.attachments" class="reply-to-truncate">
-      <p>{{ replyToAttachment }}</p>
+    <div class="truncate max-w-[8rem]">
+      {{ replyTo.content | replyToAttachment }}
     </div>
   </button>
 </template>
 
 <script>
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 
 export default {
@@ -24,7 +18,6 @@ export default {
   components: {
     FluentIcon,
   },
-  mixins: [messageFormatterMixin],
   props: {
     replyTo: {
       type: Object,

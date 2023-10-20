@@ -16,13 +16,11 @@
 </template>
 
 <script>
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 
 export default {
   name: 'FooterReplyTo',
   components: { FluentIcon },
-  mixins: [messageFormatterMixin],
   props: {
     inReplyTo: {
       type: Object,
