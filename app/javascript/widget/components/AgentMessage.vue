@@ -1,7 +1,9 @@
 <template>
   <div
     class="agent-message-wrap"
-    :class="{ 'has-response': hasRecordedResponse || isASubmittedForm }"
+    :class="{
+      'has-response': hasRecordedResponse || isASubmittedForm,
+    }"
   >
     <div v-if="!isASubmittedForm" class="agent-message">
       <div class="avatar-wrap">
@@ -13,9 +15,9 @@
         />
       </div>
       <div class="message-wrap">
-        <div class="flex mb-1 text-xs">
+        <div class="flex mt-2 mb-1 text-xs">
           <button
-            v-if="replyTo && (replyTo.content || replyTo.attachments)"
+            v-if="hasReplyTo"
             class="px-1.5 py-0.5 rounded-md text-slate-600 bg-slate-50 hover:bg-slate-100 hover:text-slate-800 cursor-pointer flex items-center gap-1.5"
             @click="navigateTo(replyTo.id)"
           >
@@ -217,6 +219,9 @@ export default {
 
       const [{ file_type: fileType } = {}] = this.replyTo.attachments;
       return this.$t(`ATTACHMENTS.${fileType}.CONTENT`);
+    },
+    hasReplyTo() {
+      return this.replyTo && (this.replyTo.content || this.replyTo.attachments);
     },
   },
   watch: {
