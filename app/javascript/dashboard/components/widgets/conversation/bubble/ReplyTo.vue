@@ -1,6 +1,6 @@
 <template>
   <div
-    class="px-2 py-1.5 rounded-sm min-w-[15rem] mb-2"
+    class="px-2 py-1.5 rounded-sm min-w-[10rem] mb-2"
     :class="{
       'bg-slate-100 dark:bg-slate-600 dark:text-slate-50':
         messageType === MESSAGE_TYPE.INCOMING,
