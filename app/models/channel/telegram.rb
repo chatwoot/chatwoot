@@ -77,8 +77,16 @@ class Channel::Telegram < ApplicationRecord
     errors.add(:bot_token, 'error setting up the webook') unless response.success?
   end
 
+  def chat_id(message)
+    message.conversation[:additional_attributes]['chat_id']
+  end
+
+  def reply_to_message_id(message)
+    message.content_attributes['in_reply_to_external_id']
+  end
+
   def send_message(message)
-    response = message_request(message.conversation[:additional_attributes]['chat_id'], message.content, reply_markup(message))
+    response = message_request(chat_id(message), message.content, reply_markup(message), reply_to_message_id(message))
     response.parsed_response['result']['message_id'] if response.success?
   end
 
@@ -115,24 +123,26 @@ class Channel::Telegram < ApplicationRecord
       telegram_attachments << telegram_attachment
     end
 
-    response = attachments_request(message.conversation[:additional_attributes]['chat_id'], telegram_attachments)
+    response = attachments_request(chat_id(message), telegram_attachments, reply_to_message_id(message))
     response.parsed_response['result'].first['message_id'] if response.success?
   end
 
-  def attachments_request(chat_id, attachments)
+  def attachments_request(chat_id, attachments, reply_to_message_id)
     HTTParty.post("#{telegram_api_url}/sendMediaGroup",
                   body: {
                     chat_id: chat_id,
-                    media: attachments.to_json
+                    media: attachments.to_json,
+                    reply_to_message_id: reply_to_message_id
                   })
   end
 
-  def message_request(chat_id, text, reply_markup = nil)
+  def message_request(chat_id, text, reply_markup = nil, reply_to_message_id = nil)
     HTTParty.post("#{telegram_api_url}/sendMessage",
                   body: {
                     chat_id: chat_id,
                     text: text,
-                    reply_markup: reply_markup
+                    reply_markup: reply_markup,
+                    reply_to_message_id: reply_to_message_id
                   })
   end
 end

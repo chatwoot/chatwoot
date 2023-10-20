@@ -26,8 +26,12 @@ export const buildCreatePayload = ({
     payload.append('echo_id', echoId);
     payload.append('cc_emails', ccEmails);
     payload.append('bcc_emails', bccEmails);
+
     if (toEmails) {
       payload.append('to_emails', toEmails);
+    }
+    if (contentAttributes) {
+      payload.append('content_attributes', JSON.stringify(contentAttributes));
     }
   } else {
     payload = {
