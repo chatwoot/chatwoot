@@ -16,21 +16,7 @@
       </div>
       <div class="message-wrap">
         <div class="flex mt-2 mb-1 text-xs">
-          <button
-            v-if="hasReplyTo"
-            class="px-1.5 py-0.5 rounded-md text-slate-500 bg-slate-50 dark:bg-slate-900 opacity-60 hover:opacity-100 cursor-pointer flex items-center gap-1.5"
-            @click="navigateTo(replyTo.id)"
-          >
-            <FluentIcon icon="arrow-reply" size="12" class="flex-shrink-0" />
-            <div
-              v-if="replyTo.content"
-              v-dompurify-html="formatMessage(replyTo.content, false)"
-              class="reply-to-truncate"
-            />
-            <div v-else-if="replyTo.attachments" class="reply-to-truncate">
-              <p>{{ replyToAttachment }}</p>
-            </div>
-          </button>
+          <reply-to-chip :reply-to="replyTo" />
         </div>
         <AgentMessageBubble
           v-if="shouldDisplayAgentMessage"
@@ -92,7 +78,7 @@ import messageMixin from '../mixins/messageMixin';
 import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import ReplyToChip from 'widget/components/ReplyToChip.vue';
 
 export default {
   name: 'AgentMessage',
@@ -102,7 +88,7 @@ export default {
     Thumbnail,
     UserMessage,
     FileBubble,
-    FluentIcon,
+    ReplyToChip,
   },
   mixins: [
     timeMixin,
@@ -212,14 +198,6 @@ export default {
         'has-text': this.shouldDisplayAgentMessage,
       };
     },
-    replyToAttachment() {
-      if (!this.replyTo?.attachments.length) {
-        return '';
-      }
-
-      const [{ file_type: fileType } = {}] = this.replyTo.attachments;
-      return this.$t(`ATTACHMENTS.${fileType}.CONTENT`);
-    },
     hasReplyTo() {
       return this.replyTo && (this.replyTo.content || this.replyTo.attachments);
     },
@@ -236,23 +214,6 @@ export default {
     onImageLoadError() {
       this.hasImageError = true;
     },
-    navigateTo(id) {
-      const elementId = `cwmsg-${id}`;
-      this.$nextTick(() => {
-        const el = document.getElementById(elementId);
-        el.scrollIntoView();
-        el.classList.add('bg-slate-100', 'dark:bg-slate-900');
-        setTimeout(() => {
-          el.classList.remove('bg-slate-100', 'dark:bg-slate-900');
-        }, 500);
-      });
-    },
   },
 };
 </script>
-
-<style lang="scss">
-.reply-to-truncate > p {
-  @apply overflow-hidden truncate max-w-[8rem];
-}
-</style>
