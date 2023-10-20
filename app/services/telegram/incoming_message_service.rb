@@ -19,6 +19,7 @@ class Telegram::IncomingMessageService
       inbox_id: @inbox.id,
       message_type: :incoming,
       sender: @contact,
+      content_attributes: telegram_params_content_attributes,
       source_id: telegram_params_message_id.to_s
     )
 
