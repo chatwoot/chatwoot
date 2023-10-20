@@ -1,15 +1,34 @@
 <template>
   <footer
     v-if="!hideReplyBox"
-    class="shadow-sm bg-white mb-1 z-50 relative"
-    :class="{ 'rounded-lg': !isWidgetStyleFlat }"
+    class="relative z-50 mb-1"
+    :class="{
+      'rounded-lg': !isWidgetStyleFlat,
+      'pt-2.5 shadow-[0px_-20px_20px_1px_rgba(0,_0,_0,_0.05)] rounded-t-none':
+        hasReplyTo,
+    }"
   >
+    <div
+      v-if="inReplyTo && inReplyTo.content"
+      class="mb-2.5 rounded-[7px] dark:bg-slate-900 dark:text-slate-100 bg-slate-100 px-2 py-1.5 text-sm text-slate-700 flex items-center gap-2"
+    >
+      <div class="flex-grow truncate">
+        <strong>Replying to:</strong> {{ inReplyTo.content }}
+      </div>
+      <button
+        class="items-end flex-shrink-0 p-1 rounded-md hover:bg-slate-200 dark:hover:bg-slate-800"
+        @click="inReplyTo = null"
+      >
+        <fluent-icon icon="dismiss" size="12" />
+      </button>
+    </div>
     <chat-input-wrap
+      class="bg-white shadow-sm"
       :on-send-message="handleSendMessage"
       :on-send-attachment="handleSendAttachment"
     />
   </footer>
-  <div v-else>
+  <div v-else class="bg-white shadow-sm">
     <custom-button
       class="font-medium"
       block
@@ -39,11 +58,14 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { sendEmailTranscript } from 'widget/api/conversation';
 import routerMixin from 'widget/mixins/routerMixin';
 import { IFrameHelper } from '../helpers/utils';
+import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
+
 export default {
   components: {
     ChatInputWrap,
     CustomButton,
+    FluentIcon,
   },
   mixins: [routerMixin],
   props: {
@@ -75,6 +97,11 @@ export default {
     },
     showEmailTranscriptButton() {
       return this.currentUser && this.currentUser.email;
+    },
+    hasReplyTo() {
+      return (
+        this.inReplyTo && (this.inReplyTo.content || this.inReplyTo.attachments)
+      );
     },
   },
   mounted() {
