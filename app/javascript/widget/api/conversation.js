@@ -11,8 +11,8 @@ const sendMessageAPI = async (content, replyTo = null) => {
   return API.post(urlData.url, urlData.params);
 };
 
-const sendAttachmentAPI = async attachment => {
-  const urlData = endPoints.sendAttachment(attachment);
+const sendAttachmentAPI = async (attachment, replyTo = null) => {
+  const urlData = endPoints.sendAttachment(attachment, replyTo);
   return API.post(urlData.url, urlData.params);
 };
 

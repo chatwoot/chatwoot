@@ -38,7 +38,7 @@ const sendMessage = (content, replyTo) => {
   };
 };
 
-const sendAttachment = ({ attachment }) => {
+const sendAttachment = ({ attachment, replyTo = null }) => {
   const { referrerURL = '' } = window;
   const timestamp = new Date().toString();
   const { file } = attachment;
@@ -52,6 +52,7 @@ const sendAttachment = ({ attachment }) => {
 
   formData.append('message[referer_url]', referrerURL);
   formData.append('message[timestamp]', timestamp);
+  formData.append('message[reply_to]', replyTo);
   return {
     url: `/api/v1/widget/messages${window.location.search}`,
     params: formData,

@@ -120,8 +120,12 @@ export default {
         this.getAttributes();
       }
     },
-    handleSendAttachment(attachment) {
-      this.sendAttachment({ attachment });
+    async handleSendAttachment(attachment) {
+      await this.sendAttachment({
+        attachment,
+        replyTo: this.inReplyTo ? this.inReplyTo.id : null,
+      });
+      this.inReplyTo = null;
     },
     startNewConversation() {
       this.clearConversations();
