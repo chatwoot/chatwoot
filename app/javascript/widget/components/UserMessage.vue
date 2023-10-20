@@ -1,7 +1,11 @@
 <template>
   <div class="user-message-wrap group">
     <div class="flex gap-1 user-message">
-      <message-reply-button :message="message" />
+      <message-reply-button
+        v-if="!isInProgress && !isFailed"
+        :message="message"
+        class="opacity-0 group-hover:opacity-100 sm:opacity-0"
+      />
       <div
         class="message-wrap"
         :class="{ 'in-progress': isInProgress, 'is-failed': isFailed }"
