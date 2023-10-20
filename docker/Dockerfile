@@ -1,5 +1,5 @@
 # pre-build stage
-FROM ruby:3.2.2-alpine3.16 AS pre-builder
+FROM ruby:3.2.2-alpine3.18 AS pre-builder
 
 # ARG default to production settings
 # For development docker-compose file overrides ARGS
@@ -13,6 +13,9 @@ ENV RAILS_SERVE_STATIC_FILES ${RAILS_SERVE_STATIC_FILES}
 ARG RAILS_ENV=production
 ENV RAILS_ENV ${RAILS_ENV}
 
+ARG NODE_OPTIONS="--openssl-legacy-provider"
+ENV NODE_OPTIONS ${NODE_OPTIONS}
+
 ENV BUNDLE_PATH="/gems"
 
 RUN apk add --update --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/main vips
@@ -24,7 +27,7 @@ RUN apk update && apk add --no-cache \
     tzdata \
     postgresql-dev \
     postgresql-client \
-    nodejs \
+    nodejs-current \
     yarn \
     git \
   && mkdir -p /var/app \
@@ -74,7 +77,7 @@ RUN rm -rf /gems/ruby/3.2.0/cache/*.gem \
   && rm .gitignore
 
 # final build stage
-FROM ruby:3.2.2-alpine3.16
+FROM ruby:3.2.2-alpine3.18
 
 
 ARG BUNDLE_WITHOUT="development:test"
