@@ -38,8 +38,12 @@ class Integrations::Facebook::MessageParser
     @messaging['delivery']
   end
 
+  def read
+    @messaging['read']
+  end
+
   def read_watermark
-    @messaging.dig('read', 'watermark')
+    read&.dig('watermark')
   end
 
   def delivery_watermark
