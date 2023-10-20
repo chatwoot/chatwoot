@@ -8,20 +8,11 @@
         hasReplyTo,
     }"
   >
-    <div
-      v-if="inReplyTo && inReplyTo.content"
-      class="mb-2.5 rounded-[7px] dark:bg-slate-900 dark:text-slate-100 bg-slate-100 px-2 py-1.5 text-sm text-slate-700 flex items-center gap-2"
-    >
-      <div class="flex-grow truncate">
-        <strong>Replying to:</strong> {{ inReplyTo.content }}
-      </div>
-      <button
-        class="items-end flex-shrink-0 p-1 rounded-md hover:bg-slate-200 dark:hover:bg-slate-800"
-        @click="inReplyTo = null"
-      >
-        <fluent-icon icon="dismiss" size="12" />
-      </button>
-    </div>
+    <footer-reply-to
+      v-if="hasReplyTo"
+      :in-reply-to="inReplyTo"
+      @dismiss="inReplyTo = null"
+    />
     <chat-input-wrap
       class="bg-white shadow-sm"
       :on-send-message="handleSendMessage"
@@ -53,19 +44,19 @@
 import { mapActions, mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import CustomButton from 'shared/components/Button.vue';
+import FooterReplyTo from 'widget/components/FooterReplyTo.vue';
 import ChatInputWrap from 'widget/components/ChatInputWrap.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { sendEmailTranscript } from 'widget/api/conversation';
 import routerMixin from 'widget/mixins/routerMixin';
 import { IFrameHelper } from '../helpers/utils';
-import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
 
 export default {
   components: {
     ChatInputWrap,
     CustomButton,
-    FluentIcon,
+    FooterReplyTo,
   },
   mixins: [routerMixin],
   props: {
