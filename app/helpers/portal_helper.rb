@@ -23,4 +23,8 @@ module PortalHelper
       I18n.t('public_portal.header.appearance.system')
     end
   end
+
+  def generate_gradient_to_bottom(theme)
+    "background-image: linear-gradient(to bottom, transparent, #{theme == 'dark' ? '#151718' : 'white'})"
+  end
 end
