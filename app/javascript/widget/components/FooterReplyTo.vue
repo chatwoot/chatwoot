@@ -2,16 +2,9 @@
   <div
     class="mb-2.5 rounded-[7px] dark:bg-slate-900 dark:text-slate-100 bg-slate-100 px-2 py-1.5 text-sm text-slate-700 flex items-center gap-2"
   >
-    <div class="flex-grow truncate">
+    <div class="items-center flex-grow truncate">
       <strong>Replying to:</strong>
-      <span
-        v-if="inReplyTo && inReplyTo.content"
-        v-dompurify-html="formatMessage(inReplyTo.content, false)"
-        class="reply-to-truncate"
-      />
-      <span v-else-if="inReplyTo.attachments" class="reply-to-truncate">
-        {{ replyToAttachment }}
-      </span>
+      {{ inReplyTo.content || replyToAttachment }}
     </div>
     <button
       class="items-end flex-shrink-0 p-1 rounded-md hover:bg-slate-200 dark:hover:bg-slate-800"
@@ -48,9 +41,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-.reply-to-truncate > p {
-  @apply overflow-hidden truncate max-w-[8rem];
-}
-</style>
