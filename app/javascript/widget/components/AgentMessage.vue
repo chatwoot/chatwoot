@@ -241,9 +241,9 @@ export default {
       this.$nextTick(() => {
         const el = document.getElementById(elementId);
         el.scrollIntoView();
-        el.classList.add('bg-slate-100');
+        el.classList.add('bg-slate-100', 'dark:bg-slate-900');
         setTimeout(() => {
-          el.classList.remove('bg-slate-100');
+          el.classList.remove('bg-slate-100', 'dark:bg-slate-900');
         }, 500);
       });
     },
