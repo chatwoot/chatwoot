@@ -1,6 +1,6 @@
 <template>
   <div
-    class="agent-message-wrap"
+    class="agent-message-wrap group"
     :class="{
       'has-response': hasRecordedResponse || isASubmittedForm,
     }"
@@ -18,31 +18,39 @@
         <div v-if="hasReplyTo" class="flex mt-2 mb-1 text-xs">
           <reply-to-chip :reply-to="replyTo" />
         </div>
-        <AgentMessageBubble
-          v-if="shouldDisplayAgentMessage"
-          :content-type="contentType"
-          :message-content-attributes="messageContentAttributes"
-          :message-id="message.id"
-          :message-type="messageType"
-          :message="message.content"
-        />
-        <div
-          v-if="hasAttachments"
-          class="chat-bubble has-attachment agent"
-          :class="(wrapClass, $dm('bg-white', 'dark:bg-slate-700'))"
-        >
-          <div v-for="attachment in message.attachments" :key="attachment.id">
-            <image-bubble
-              v-if="attachment.file_type === 'image' && !hasImageError"
-              :url="attachment.data_url"
-              :thumb="attachment.data_url"
-              :readable-time="readableTime"
-              @error="onImageLoadError"
+        <div class="flex gap-1">
+          <AgentMessageBubble
+            v-if="shouldDisplayAgentMessage"
+            :content-type="contentType"
+            :message-content-attributes="messageContentAttributes"
+            :message-id="message.id"
+            :message-type="messageType"
+            :message="message.content"
+          />
+          <div
+            v-if="hasAttachments"
+            class="chat-bubble has-attachment agent"
+            :class="(wrapClass, $dm('bg-white', 'dark:bg-slate-700'))"
+          >
+            <div v-for="attachment in message.attachments" :key="attachment.id">
+              <image-bubble
+                v-if="attachment.file_type === 'image' && !hasImageError"
+                :url="attachment.data_url"
+                :thumb="attachment.data_url"
+                :readable-time="readableTime"
+                @error="onImageLoadError"
+              />
+              <audio v-else-if="attachment.file_type === 'audio'" controls>
+                <source :src="attachment.data_url" />
+              </audio>
+              <file-bubble v-else :url="attachment.data_url" />
+            </div>
+          </div>
+          <div class="flex flex-col justify-end">
+            <message-reply-button
+              :message="message"
+              class="opacity-0 group-hover:opacity-100 sm:opacity-0"
             />
-            <audio v-else-if="attachment.file_type === 'audio'" controls>
-              <source :src="attachment.data_url" />
-            </audio>
-            <file-bubble v-else :url="attachment.data_url" />
           </div>
         </div>
         <p
@@ -68,6 +76,7 @@
 <script>
 import UserMessage from 'widget/components/UserMessage.vue';
 import AgentMessageBubble from 'widget/components/AgentMessageBubble.vue';
+import MessageReplyButton from 'widget/components/MessageReplyButton.vue';
 import timeMixin from 'dashboard/mixins/time';
 import ImageBubble from 'widget/components/ImageBubble.vue';
 import FileBubble from 'widget/components/FileBubble.vue';
@@ -87,6 +96,7 @@ export default {
     Thumbnail,
     UserMessage,
     FileBubble,
+    MessageReplyButton,
     ReplyToChip,
   },
   mixins: [timeMixin, configMixin, messageMixin, darkModeMixin],
