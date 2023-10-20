@@ -224,7 +224,9 @@ export default {
           key: 'category',
           children: this.categories.map(category => ({
             id: category.id,
-            label: category.name,
+            label: category.icon
+              ? `${category.icon} ${category.name}`
+              : category.name,
             count: category.meta.articles_count,
             truncateLabel: true,
             toState: frontendURL(

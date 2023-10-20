@@ -24,7 +24,7 @@
       <tbody>
         <tr v-for="category in categories" :key="category.id">
           <td>
-            <span>{{ category.name }}</span>
+            <span>{{ category.icon }} {{ category.name }}</span>
           </td>
           <td>
             <span>{{ category.description }}</span>
