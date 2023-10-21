@@ -20,7 +20,6 @@
     />
     <article-search-popover
       v-if="showArticleSearchPopover && connectedPortalSlug"
-      class="absolute left-1/2 right-1/2 transform -translate-x-1/2 bottom-[calc(100%+0.5rem)]"
       :portal-slug="connectedPortalSlug"
       @insert="handleInsert"
       @close="onSearchPopoverClose"
