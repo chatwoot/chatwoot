@@ -78,6 +78,24 @@ class Api::V1::AccountsController < Api::BaseController
     render json: { url: url }
   end
 
+  def coupon_code
+    code = CouponCode.find_by(code: params[:coupon_code])
+    if code
+      if Time.current > code.expiry_date
+        render json: { message: 'Coupon code has expired' }, status: :unprocessable_entity
+      elsif code.status == 'redeemed'
+        render json: { message: 'Coupon code already used' }, status: :unprocessable_entity
+      elsif @account.coupon_code_used >= 3
+        render json: { message: 'Account limit reached. Cannot add more coupon codes' }, status: :unprocessable_entity
+      else
+        @account.subscribe_for_ltd_plan(code)
+        code.update!(account_id: @account.id, account_name: @account.name, status: 'Redeemed', redeemed_at: Time.current)
+        render json: { message: 'Redemption successful' }, status: :ok
+      end
+    else
+      render json: { message: 'The provided coupon code is invalid or does not exist' }, status: :unprocessable_entity
+    end
+  end
   private
 
   def get_cache_keys

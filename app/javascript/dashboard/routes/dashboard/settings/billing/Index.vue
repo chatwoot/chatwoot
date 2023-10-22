@@ -11,6 +11,7 @@
           <label>{{
             $t('BILLING_SETTINGS.FORM.CURRENT_PLAN.PLAN_NOTE', {
               plan: planName,
+              platform: platformName,
             })
           }}</label>
         </div>
@@ -27,6 +28,30 @@
               expiry_date: planExpiryDate,
             })
           }}</label>
+        </div>
+      </div>
+      <div class="small-12 row profile--settings--row">
+        <div class="columns small-3">
+          <h4 class="block-title">
+            {{ $t('BILLING_SETTINGS.FORM.COUPON_CODE.TITLE') }}
+          </h4>
+        </div>
+        <div class="columns small-9 medium-5">
+          <div class="input-container">
+            <input
+              id="couponInput"
+              v-model="inputValue"
+              type="text"
+              name="coupon_code"
+              placeholder="Enter a single coupon code"
+            />
+            <woot-submit-button
+              :button-text="$t('BILLING_SETTINGS.FORM.COUPON_CODE.APPLY')"
+              :loading="uiFlags.isCreating"
+              button-class="medium"
+              @click="applyCouponCode"
+            />
+          </div>
         </div>
       </div>
       <div class="small-12 row profile--settings--row">
@@ -58,17 +83,21 @@ import AccountAPI from '../../../../api/account';
 import Cookies from 'js-cookie';
 import WootButton from '../../../../components/ui/WootButton';
 import { BUS_EVENTS } from '../../../../../shared/constants/busEvents';
+import { applyPageFilters } from '../../../../store/modules/conversations/helpers';
 export default {
   components: { WootButton },
   mixins: [accountMixin, alertMixin, configMixin],
   data() {
     return {
       planName: '',
+      platformName: '',
       agentCount: 0,
       selectedProductPrice: '',
       availableProductPrices: [],
       showStatus: true,
       planExpiryDate: '',
+      isValidCouponCode: false,
+      inputValue: '',
     };
   },
   validations: {},
@@ -119,11 +148,13 @@ export default {
         const {
           available_product_prices,
           plan_name,
+          platform_name,
           plan_id,
           agent_count,
           plan_expiry_date,
         } = this.getAccount(this.accountId);
         this.planName = plan_name;
+        this.platformName = platform_name;
         this.selectedProductPrice = plan_id;
         this.agentCount = agent_count;
         this.availableProductPrices = available_product_prices;
@@ -133,13 +164,24 @@ export default {
         const year = dateObject.getFullYear();
 
         const monthNames = [
-          'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-          'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+          'Jan',
+          'Feb',
+          'Mar',
+          'Apr',
+          'May',
+          'Jun',
+          'Jul',
+          'Aug',
+          'Sep',
+          'Oct',
+          'Nov',
+          'Dec',
         ];
 
         const formattedDate = `${day} ${monthNames[monthIndex]} ${year}`;
         this.planExpiryDate = formattedDate;
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.log(error);
       }
     },
@@ -150,7 +192,29 @@ export default {
           window.location.href = response.data.url;
         })
         .catch(error => {
+          // eslint-disable-next-line no-console
           console.log(error, 'error');
+        });
+    },
+    checkInput() {
+      const couponInput = document.getElementById('couponInput');
+      const inputValue = couponInput.value;
+      this.isValidCouponCode = /^(AS|DM|PG)[0-9A-Z]{8}$/.test(inputValue);
+      return this.isValidCouponCode;
+    },
+    async applyCouponCode() {
+      const couponCode = this.inputValue;
+      if (!this.checkInput(couponCode)) {
+        this.showAlert(this.$t('BILLING_SETTINGS.COUPON_ERROR.MESSAGE'));
+        return;
+      }
+      const payload = { coupon_code: couponCode };
+      AccountAPI.checkCouponCodeValidity(payload)
+        .then(response => {
+          this.showAlert(response.data.message);
+        })
+        .catch(error => {
+          this.showAlert(error.response.data.message);
         });
     },
   },
@@ -177,4 +241,11 @@ export default {
   .small-9 {
     padding: $space-normal;
   }
-}</style>
+}
+.input-container {
+  display: flex;
+}
+.input-container input {
+  margin-right: 10px;
+}
+</style>
