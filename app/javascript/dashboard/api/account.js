@@ -17,6 +17,10 @@ class AccountAPI extends ApiClient {
   changePlan(data) {
     return axios.post(`${this.url}change_plan`, data);
   }
+
+  checkCouponCodeValidity(data) {
+    return axios.post(`${this.url}coupon_code`, data);
+  }
 }
 
 export default new AccountAPI();

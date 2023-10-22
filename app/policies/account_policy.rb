@@ -34,4 +34,8 @@ class AccountPolicy < ApplicationPolicy
   def change_plan?
     account_user.administrator?
   end
+
+  def coupon_code?
+    account_user.administrator?
+  end
 end
