@@ -30,7 +30,8 @@ class AccountDashboard < Administrate::BaseDashboard
     conversations: CountField,
     locale: Field::Select.with_options(collection: LANGUAGES_CONFIG.map { |_x, y| y[:iso_639_1_code] }),
     status: Field::Select.with_options(collection: [%w[Active active], %w[Suspended suspended]]),
-    account_users: Field::HasMany
+    account_users: Field::HasMany,
+    coupon_code_used:Field::String
   }.merge(enterprise_attribute_types).freeze
 
   # COLLECTION_ATTRIBUTES
@@ -41,6 +42,7 @@ class AccountDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = %i[
     id
     name
+    coupon_code_used
     deletion_email_reminder
     email_sent_at
     locale
@@ -55,6 +57,7 @@ class AccountDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = (%i[
     id
     name
+    coupon_code_used
     deletion_email_reminder
     email_sent_at
     created_at

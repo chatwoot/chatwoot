@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_18_050326) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_22_133017) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -57,6 +57,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_18_050326) do
     t.integer "status", default: 0
     t.datetime "email_sent_at"
     t.integer "deletion_email_reminder"
+    t.integer "coupon_code_used", default: 0
     t.index ["status"], name: "index_accounts_on_status"
   end
 
@@ -474,6 +475,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_18_050326) do
     t.index ["waiting_since"], name: "index_conversations_on_waiting_since"
   end
 
+  create_table "coupon_codes", force: :cascade do |t|
+    t.integer "account_id"
+    t.string "account_name"
+    t.string "code"
+    t.string "partner"
+    t.string "status", default: "new"
+    t.datetime "redeemed_at"
+    t.datetime "expiry_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "csat_survey_responses", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "conversation_id", null: false
@@ -550,6 +563,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_18_050326) do
     t.datetime "cancelled_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "partner"
     t.index ["account_id"], name: "index_ee_account_billing_subscriptions_on_account_id"
     t.index ["billing_product_price_id"], name: "billing_product_price_index"
     t.index ["subscription_stripe_id"], name: "subscription_stripe_id_index", unique: true

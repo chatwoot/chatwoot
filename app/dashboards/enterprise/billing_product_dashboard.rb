@@ -27,6 +27,7 @@ class Enterprise::BillingProductDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = %i[
     id
     product_name
+    product_description
     product_stripe_id
   ].freeze
 

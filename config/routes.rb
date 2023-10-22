@@ -39,6 +39,8 @@ Rails.application.routes.draw do
           # subscription
           get :billing_subscription
           post :change_plan
+          # ltd account
+          post :coupon_code
         end
 
         scope module: :accounts do
@@ -435,6 +437,7 @@ Rails.application.routes.draw do
         resources :account_billing_subscriptions
       end
 
+      resources :coupon_codes, only: [:index, :show, :edit, :update]
       resources :access_tokens, only: [:index, :show]
       resources :installation_configs, only: [:index, :new, :create, :show, :edit, :update]
       resources :agent_bots, only: [:index, :new, :create, :show, :edit, :update] do
