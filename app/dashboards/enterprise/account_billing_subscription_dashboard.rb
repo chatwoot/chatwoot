@@ -14,6 +14,7 @@ class Enterprise::AccountBillingSubscriptionDashboard < Administrate::BaseDashbo
   ATTRIBUTE_TYPES = {
     billing_product_price: Field::BelongsTo.with_options(searchable: true, searchable_field: 'unit_amount', order: 'id DESC'),
     account: Field::BelongsTo.with_options(searchable: true, searchable_field: 'name', order: 'id DESC'),
+    partner: Field::String,
     id: Field::Number,
     subscription_stripe_id: Field::String,
     status: Field::String,
@@ -31,6 +32,7 @@ class Enterprise::AccountBillingSubscriptionDashboard < Administrate::BaseDashbo
   COLLECTION_ATTRIBUTES = %i[
     id
     account
+    partner
     subscription_stripe_id
   ].freeze
 
@@ -41,6 +43,7 @@ class Enterprise::AccountBillingSubscriptionDashboard < Administrate::BaseDashbo
     billing_product_price
     account
     id
+    partner
     subscription_stripe_id
     status
     current_period_end

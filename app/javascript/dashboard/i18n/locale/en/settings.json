@@ -300,11 +300,15 @@
       "CURRENT_PLAN": {
         "TITLE": "Current Plan",
         "NOTE": "Your current OneHash Chat Subscription Plan",
-        "PLAN_NOTE": "You are currently under the OneHash Chat {plan} Plan"
+        "PLAN_NOTE": "You are currently on the {platform} Chat {plan} Plan"
       },
       "EXPIRY": {
         "TITLE": "Expiry Date",
         "PLAN_NOTE": "Your current plan will expire on {expiry_date}"
+      },
+      "COUPON_CODE": {
+        "TITLE": "Coupon Code",
+        "APPLY": "Apply"
       },
       "CHANGE_PLAN": {
         "TITLE": "Change Plan",
@@ -321,6 +325,9 @@
     },
     "SUCCESS": {
       "MESSAGE": "Subscription plan changed successfully"
+    },
+    "COUPON_ERROR": {
+      "MESSAGE": "Invalid coupon. Please enter a valid code."
     }
   }
 }

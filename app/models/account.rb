@@ -4,6 +4,7 @@
 #
 #  id                      :integer          not null, primary key
 #  auto_resolve_duration   :integer
+#  coupon_code_used        :integer          default(0)
 #  custom_attributes       :jsonb
 #  deletion_email_reminder :integer
 #  domain                  :string(100)
@@ -79,6 +80,7 @@ class Account < ApplicationRecord
   has_many :whatsapp_channels, dependent: :destroy_async, class_name: '::Channel::Whatsapp'
   has_many :working_hours, dependent: :destroy_async
   has_many :account_billing_subscriptions, dependent: :destroy_async, class_name: '::Enterprise::AccountBillingSubscription'
+  has_many :coupon_codes, dependent: :destroy_async
 
   has_one_attached :contacts_export
 
@@ -127,7 +129,7 @@ class Account < ApplicationRecord
     {
       agents: ChatwootApp.max_limit.to_i,
       inboxes: ChatwootApp.max_limit.to_i,
-      history: ChatwootApp.max_limit.to_i
+      history: ChatwootApp.max_limit.to_i,
     }
   end
 
@@ -182,6 +184,38 @@ class Account < ApplicationRecord
       puts "Error updating account: #{e.message}"
     end
     Account::UpdateUserAccountsBasedOnLimitsJob.perform_later(id)
+  end
+
+  #Create subscription plan for ltd accounts
+  def subscribe_for_ltd_plan(coupon_code)
+    partner_prefix = coupon_code.code[0,2]
+    partner_name = ""
+    if partner_prefix == "AS"
+      partner_name = "AppSumo"
+    elsif partner_prefix == "DM"
+      partner_name = "DealMirror"
+    elsif partner_prefix == "PG"
+      partner_name = "PitchGround"
+    end
+
+    if coupon_code_used == 0
+      _plan = Enterprise::BillingProduct.find_by(product_description: 'LTD for Tier 1 Plan')
+      ltd_price = Enterprise::BillingProductPrice.find_by(billing_product_id: _plan.id)
+      account_billing_subscriptions&.update(billing_product_price: ltd_price,current_period_end: Time.new(2050,12,31).utc.to_datetime,partner: partner_name)
+      update_columns(coupon_code_used: coupon_code_used + 1)
+
+    elsif coupon_code_used == 1 
+      _plan = Enterprise::BillingProduct.find_by(product_description: 'LTD for Tier 2 Plan')
+      ltd_price = Enterprise::BillingProductPrice.find_by(billing_product_id: _plan.id)
+      account_billing_subscriptions&.update(billing_product_price: ltd_price,current_period_end: Time.new(2050,12,31).utc.to_datetime,partner: partner_name)
+      update_columns(coupon_code_used: coupon_code_used + 1)
+
+    elsif coupon_code_used == 2
+      _plan = Enterprise::BillingProduct.find_by(product_description: 'LTD for Tier 3 Plan')
+      ltd_price = Enterprise::BillingProductPrice.find_by(billing_product_id: _plan.id)
+      account_billing_subscriptions&.update(billing_product_price: ltd_price,current_period_end: Time.new(2050,12,31).utc.to_datetime,partner: partner_name)
+      update_columns(coupon_code_used: coupon_code_used + 1)
+    end
   end
 
   private

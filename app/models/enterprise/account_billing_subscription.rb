@@ -1,10 +1,11 @@
-#== Schema Information
+# == Schema Information
 #
 # Table name: ee_account_billing_subscriptions
 #
 #  id                       :bigint           not null, primary key
 #  cancelled_at             :datetime
 #  current_period_end       :datetime
+#  partner                  :string
 #  status                   :string           default("true"), not null
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
