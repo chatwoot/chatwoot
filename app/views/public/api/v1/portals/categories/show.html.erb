@@ -24,7 +24,7 @@
     <% @category.articles.published.order(:position).each do |article| %>
     <div class="<%= !@is_plain_layout_enabled ? 'border border-solid border-slate-100 dark:border-slate-800 hover:border-woot-600 dark:hover:border-woot-600 rounded-lg' : '' %>">
       <a
-        class="p-4 text-slate-800 dark:text-slate-50 flex justify-between content-center hover:cursor-pointer"
+        class="<%= !@is_plain_layout_enabled ? 'p-4' : 'px-0 py-1' %> text-slate-800 dark:text-slate-50 flex justify-between content-center hover:cursor-pointer"
         href="/hc/<%= @portal.slug %>/articles/<%= article.slug %><%= @theme.present? ? '?theme='+@theme : ''  %>"
       >
         <div class="flex flex-col gap-5">
