@@ -89,13 +89,14 @@ class Api::V1::AccountsController < Api::BaseController
         render json: { message: 'Account limit reached. Cannot add more coupon codes' }, status: :unprocessable_entity
       else
         @account.subscribe_for_ltd_plan(code)
-        code.update!(account_id: @account.id, account_name: @account.name, status: 'Redeemed', redeemed_at: Time.current)
+        code.update!(account_id: @account.id, account_name: @account.name, status: 'redeemed', redeemed_at: Time.current)
         render json: { message: 'Redemption successful' }, status: :ok
       end
     else
       render json: { message: 'The provided coupon code is invalid or does not exist' }, status: :unprocessable_entity
     end
   end
+
   private
 
   def get_cache_keys
@@ -145,8 +146,8 @@ class Api::V1::AccountsController < Api::BaseController
           }
         ],
         metadata: {
-          account_id:  @account.id,
-          website: 'OneHash_Chat' 
+          account_id: @account.id,
+          website: 'OneHash_Chat'
         }
       }
     )
