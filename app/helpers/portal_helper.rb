@@ -1,7 +1,7 @@
 module PortalHelper
   def generate_portal_bg_color(portal_color, theme)
     base_color = theme == 'dark' ? 'black' : 'white'
-    "color-mix(in srgb, #{portal_color} 0%, #{base_color})"
+    "color-mix(in srgb, #{portal_color} 20%, #{base_color})"
   end
 
   def generate_portal_bg(portal_color, theme)
