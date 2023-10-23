@@ -2,18 +2,12 @@
   <%= article.title %>
 </h1>
 <div class="flex flex-col items-start justify-between w-full md:flex-row md:items-center pt-6">
-  <div class="flex items-center space-x-1">
+  <div class="flex items-start space-x-1">
     <% if article.author&.avatar_url&.present? %>
-      <div class="pr-px">
+      <div class="pr-px mt-1">
         <img src="<%= article.author.avatar_url %>" alt="<%= article.author.display_name %>" class="w-5 h-15 border rounded-full">
       </div>
     <% end %>
-    <div class="flex flex-row items-center gap-1">
-      <h5 class="text-base text-slate-600 whitespace-nowrap dark:text-slate-400 font-medium">By <%= article.author.available_name %></h5>
-      <span class="w-3 h-3 text-lg flex items-center justify-center text-slate-600 dark:text-slate-400">•</span>
-      <p class="text-base text-slate-600 dark:text-slate-400 overflow-hidden text-ellipsis whitespace-nowrap min-w-0 font-medium flex items-center">
-      <%= I18n.t('public_portal.common.last_updated_on', last_updated_on: article.updated_at.strftime("%b %d, %Y")) %>
-      </p>
-    </div>
+    <span class="flex items-center text-base text-slate-600 dark:text-slate-400 font-medium">By <%= article.author.available_name %> • <%= I18n.t('public_portal.common.last_updated_on', last_updated_on: article.updated_at.strftime("%b %d, %Y")) %></span>
   </div>
 </div>
