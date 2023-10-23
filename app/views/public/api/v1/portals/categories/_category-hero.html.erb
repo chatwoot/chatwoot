@@ -1,8 +1,7 @@
-<div class="flex flex-col px-8 max-w-6xl w-full mx-auto gap-6">
-  <% if !@is_plain_layout_enabled %>
+<div class="flex flex-col px-8 max-w-6xl w-full mx-auto gap-6 <%= @is_plain_layout_enabled && 'py-4' %>">
   <div class="flex items-center flex-row">
     <a
-      class="text-slate-500 dark:text-slate-200 text-sm gap-1 hover:cursor-pointer leading-8 font-semibold"
+      class="text-slate-500 dark:text-slate-200 text-sm gap-1 <%= @is_plain_layout_enabled ? 'hover:underline' : 'hover:cursor-pointer' %> leading-8 font-semibold"
       href="/hc/<%= portal.slug %>/<%= category.locale %><%= @theme.present? ? '?theme='+@theme : ''  %>"
     >
       <%= I18n.t('public_portal.common.home') %>
@@ -10,8 +9,7 @@
     <span class="w-4 h-4 [&>svg]:w-3 [&>svg]:h-3 flex items-center justify-center text-xs text-slate-500 dark:text-slate-300"><%= render partial: 'icons/chevron-right' %></span>
     <span class="text-sm text-slate-800 dark:text-slate-100 font-semibold"><%= category.name %></span>
   </div>
-  <% end %>
-  <div class="flex justify-start flex-col items-start w-full gap-2 <%= @is_plain_layout_enabled && 'mt-6' %>">
+  <div class="flex justify-start flex-col items-start w-full gap-2">
     <div class="flex flex-col gap-2">
       <% if category.icon.present? %>
       <h1 class="text-4xl"><%= category.icon %></h1>
@@ -23,14 +21,7 @@
       <span class="font-medium text-slate-800 dark:text-slate-75 text-base"><%= category.description %></span>
       <% end %>
     </div>
-    <div class="flex flex-row items-center gap-1">
-      <%# <div class="flex items-center">
-        <span class="text-base text-slate-600 dark:text-slate-400 font-medium">By Alexander and 3 others</span>
-      </div>
-      <span class="w-3 h-3 text-lg flex items-center justify-center text-slate-600 dark:text-slate-400">•</span> %>
-      <span class="text-base text-slate-600 dark:text-slate-400 font-medium flex items-center">
-        <%= render 'public/api/v1/portals/article_count', article_count: category.articles.published.size %>
-      </span>
-    </div>
+    <%# >By Alexander and 3 others •%>
+    <span class="flex items-center text-base text-slate-600 dark:text-slate-400 font-medium"><%= render 'public/api/v1/portals/article_count', article_count: category.articles.published.size %></span>
   </div>
 </div>
