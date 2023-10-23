@@ -13,28 +13,30 @@
 
 <% if !@is_plain_layout_enabled %>
 <div class="bg-woot-50 dark:bg-woot-900 shadow-inner" style="<%= generate_portal_bg(@portal.color, @theme) %>">
-  <div class="py-8" style="<%= generate_gradient_to_bottom(@theme) %>">
-    <div class="max-w-6xl px-8 pt-8 pb-16 mx-auto space-y-4 w-full">
-      <div>
+  <div class="pt-8 pb-8 md:pt-14 md:pb-6" style="<%= generate_gradient_to_bottom(@theme) %>">
+    <div class="max-w-6xl px-8 mx-auto flex flex-col">
+      <div class="flex items-center flex-row mb-6">
         <a
-          class="text-slate-700 dark:text-slate-100 hover:underline leading-8 text-sm font-semibold"
+          class="text-slate-500 dark:text-slate-200 text-sm gap-1 hover:cursor-pointer leading-8 font-semibold"
           href="/hc/<%= @portal.slug %>/<%= @article.category&.locale %><%= @theme.present? ? '?theme='+@theme : ''  %>"
         >
-          Home
+          <%= I18n.t('public_portal.common.home') %>
         </a>
-        <span class="text-xs text-slate-600 dark:text-slate-200  px-1">/</span>
+        <span class="w-4 h-4 [&>svg]:w-3 [&>svg]:h-3 flex items-center justify-center text-xs text-slate-500 dark:text-slate-300"><%= render partial: 'icons/chevron-right' %></span>
         <% if @article.category %>
           <a
-            class="text-slate-700 dark:text-slate-100 hover:underline leading-8 text-sm font-semibold"
+            class="text-slate-500 dark:text-slate-200 text-sm gap-1 whitespace-nowrap hover:cursor-pointer leading-8 font-semibold"
             href="/hc/<%= @portal.slug %>/<%= @article.category.locale %>/categories/<%= @article.category.slug %><%= @theme.present? ? '?theme='+@theme : ''  %>"
           >
             <%= @article.category&.name %>
           </a>
+          <span class="w-4 h-4 [&>svg]:w-3 [&>svg]:h-3 flex items-center justify-center text-xs text-slate-500 dark:text-slate-300"><%= render partial: 'icons/chevron-right' %></span>
+          <span class="text-sm text-slate-800 dark:text-slate-100 font-semibold overflow-hidden text-ellipsis min-w-0 whitespace-nowrap"><%= @article.title %></span>
         <% else %>
           <span class="text-slate-700 dark:text-slate-100 leading-8 text-sm font-semibold" > Uncategorized </span>
         <% end %>
       </div>
-      <%= render "public/api/v1/portals/articles/article_header", article: @article %>
+        <%= render "public/api/v1/portals/articles/article_header", article: @article %>
     </div>
   </div>
 </div>
@@ -45,7 +47,7 @@
 <% end %>
 
 <div class="flex max-w-6xl w-full px-8 mx-auto">
-  <article id="cw-article-content" class="flex-grow flex-2 mx-auto text-slate-800 dark:text-slate-50 text-lg max-w-3xl prose dark:prose-invert break-words w-full <%= @is_plain_layout_enabled ? 'py-4' : 'py-12' %>">
+  <article id="cw-article-content" class="flex-grow flex-2 mx-auto text-slate-800 dark:text-slate-50 text-lg max-w-3xl prose-h1:text-2xl prose-h2:text-xl prose-h2:mt-0 prose-h3:text-lg prose-code:after:content-none prose-code:before:content-none prose dark:prose-invert break-words w-full <%= @is_plain_layout_enabled ? 'py-4' : 'pt-8 pb-12' %>">
     <%= @parsed_content %>
   </article>
   <div class="flex-1" id="cw-hc-toc"></div>
