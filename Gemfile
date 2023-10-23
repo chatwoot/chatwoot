@@ -41,6 +41,8 @@ gem 'down'
 gem 'gmail_xoauth'
 # Prevent CSV injection
 gem 'csv-safe'
+# read xls file
+gem 'roo-xls'
 
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false
