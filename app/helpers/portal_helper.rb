@@ -1,7 +1,8 @@
+# require 'redcarpet'
 module PortalHelper
   def generate_portal_bg_color(portal_color, theme)
     base_color = theme == 'dark' ? 'black' : 'white'
-    "color-mix(in srgb, #{portal_color} 10%, #{base_color})"
+    "color-mix(in srgb, #{portal_color} 20%, #{base_color})"
   end
 
   def generate_portal_bg(portal_color, theme)
@@ -27,4 +28,11 @@ module PortalHelper
   def generate_gradient_to_bottom(theme)
     "background-image: linear-gradient(to bottom, transparent, #{theme == 'dark' ? '#151718' : 'white'})"
   end
+
+  # def markdown_to_html(text)
+  #   renderer = Redcarpet::Render::HTML.new
+  #   markdown = Redcarpet::Markdown.new(renderer)
+  #   sanitized_output = sanitize(markdown.render(text))
+  #   sanitized_output.html_safe
+  # end
 end
