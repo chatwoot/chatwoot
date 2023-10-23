@@ -15,28 +15,7 @@
 <div class="bg-woot-50 dark:bg-woot-900 shadow-inner" style="<%= generate_portal_bg(@portal.color, @theme) %>">
   <div class="pt-8 pb-8 md:pt-14 md:pb-6" style="<%= generate_gradient_to_bottom(@theme) %>">
     <div class="max-w-6xl px-8 mx-auto flex flex-col">
-      <div class="flex items-center flex-row mb-6">
-        <a
-          class="text-slate-500 dark:text-slate-200 text-sm gap-1 hover:cursor-pointer leading-8 font-semibold"
-          href="/hc/<%= @portal.slug %>/<%= @article.category&.locale %><%= @theme.present? ? '?theme='+@theme : ''  %>"
-        >
-          <%= I18n.t('public_portal.common.home') %>
-        </a>
-        <span class="w-4 h-4 [&>svg]:w-3 [&>svg]:h-3 flex items-center justify-center text-xs text-slate-500 dark:text-slate-300"><%= render partial: 'icons/chevron-right' %></span>
-        <% if @article.category %>
-          <a
-            class="text-slate-500 dark:text-slate-200 text-sm gap-1 whitespace-nowrap hover:cursor-pointer leading-8 font-semibold"
-            href="/hc/<%= @portal.slug %>/<%= @article.category.locale %>/categories/<%= @article.category.slug %><%= @theme.present? ? '?theme='+@theme : ''  %>"
-          >
-            <%= @article.category&.name %>
-          </a>
-          <span class="w-4 h-4 [&>svg]:w-3 [&>svg]:h-3 flex items-center justify-center text-xs text-slate-500 dark:text-slate-300"><%= render partial: 'icons/chevron-right' %></span>
-          <span class="text-sm text-slate-800 dark:text-slate-100 font-semibold overflow-hidden text-ellipsis min-w-0 whitespace-nowrap"><%= @article.title %></span>
-        <% else %>
-          <span class="text-slate-700 dark:text-slate-100 leading-8 text-sm font-semibold" > Uncategorized </span>
-        <% end %>
-      </div>
-        <%= render "public/api/v1/portals/articles/article_header", article: @article %>
+      <%= render "public/api/v1/portals/articles/article_header", article: @article %>
     </div>
   </div>
 </div>
