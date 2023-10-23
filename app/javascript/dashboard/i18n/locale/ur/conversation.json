@@ -34,7 +34,6 @@
     "ASSIGN_TO_ME": "مجھے تفویض کریں۔",
     "TWILIO_WHATSAPP_CAN_REPLY": "آپ اس بات چیت کا جواب صرف ایک ٹیمپلیٹ پیغام کا استعمال کرتے ہوئے دے سکتے ہیں, کيونکہ‎",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 گھنٹے میسج ونڈو کی پابندی",
-    "SELECT_A_TWEET_TO_REPLY": "براہ کرم جواب دینے کے لیے ایک ٹویٹ منتخب کریں۔.",
     "REPLYING_TO": "آپ جواب دے رہے ہیں:",
     "REMOVE_SELECTION": "انتخاب کو ہٹا دیں۔",
     "DOWNLOAD": "ڈاؤن لوڈ کریں",
@@ -47,6 +46,7 @@
     "NO_RESPONSE": "کوئی ردعمل نہیں",
     "RATING_TITLE": "درجہ بندی",
     "FEEDBACK_TITLE": "فیڈ بیک",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Show labels",
       "HIDE_LABELS": "Hide labels"
@@ -139,7 +139,8 @@
       "PRIVATE_NOTE": "Private Note",
       "SEND": "Send",
       "CREATE": "Add Note",
-      "TWEET": "Tweet",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "Show rich text editor",
       "TIP_EMOJI_ICON": "Show emoji selector",
       "TIP_ATTACH_ICON": "Attach files",
@@ -194,6 +195,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Copy",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "حذف کریں۔",
       "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
       "TRANSLATE": "Translate",

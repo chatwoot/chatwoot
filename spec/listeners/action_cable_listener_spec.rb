@@ -9,6 +9,8 @@ describe ActionCableListener do
 
   before do
     create(:inbox_member, inbox: inbox, user: agent)
+    Current.user = nil
+    Current.account = nil
   end
 
   describe '#message_created' do

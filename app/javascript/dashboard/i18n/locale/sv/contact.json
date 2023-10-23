@@ -204,6 +204,10 @@
         "PLACEHOLDER": "Skriv ditt meddelande här",
         "ERROR": "Meddelandet kan inte vara tomt"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Välj filer",
+        "HELP_TEXT": "Dra och släpp filer här eller välj filer att bifoga"
+      },
       "SUBMIT": "Skicka meddelande",
       "CANCEL": "Avbryt",
       "SUCCESS_MESSAGE": "Message sent!",
@@ -343,17 +347,17 @@
     "DESCRIPTION": "Sammanfoga kontakter för att kombinera två profiler till en, inklusive alla attribut och konversationer. Vid konflikter kommer attributen Primärkontakt att ha företräde.",
     "PRIMARY": {
       "TITLE": "Primär kontakt",
-      "HELP_LABEL": "Att behållas"
+      "HELP_LABEL": "Ta bort"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Kontakt att slå samman",
       "PLACEHOLDER": "Sök efter en kontakt",
-      "HELP_LABEL": "Ta bort"
+      "HELP_LABEL": "Att behållas"
     },
     "SUMMARY": {
       "TITLE": "Sammanfattning",
-      "DELETE_WARNING": "Kontakt för <strong>%{childContactName}</strong> kommer att tas bort.",
-      "ATTRIBUTE_WARNING": "Kontaktuppgifter till <strong>%{childContactName}</strong> kommer att kopieras till <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Kontakt för <strong>%{primaryContactName}</strong> kommer att tas bort.",
+      "ATTRIBUTE_WARNING": "Kontaktuppgifter till <strong>%{primaryContactName}</strong> kommer att kopieras till <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "FEL_MESSAGE"

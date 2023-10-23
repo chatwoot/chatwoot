@@ -41,6 +41,16 @@
       "STATUS": "Status",
       "ORDER_BY": "Urut berdasarkan"
     },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Dibuat",
+        "OLDEST": "Dibuat pada:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Aktivitas terakhir:",
+        "ACTIVE": "Aktivitas terakhir"
+      }
+    },
     "CHAT_SORT_FILTER_ITEMS": {
       "latest": {
         "TEXT": "Aktivitas terakhir"

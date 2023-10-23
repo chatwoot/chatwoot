@@ -34,6 +34,12 @@
             :url="storyUrl"
           />
         </blockquote>
+        <bubble-reply-to
+          v-if="inReplyToMessageId && inboxSupportsReplyTo"
+          :message="inReplyTo"
+          :message-type="data.message_type"
+          :parent-has-attachments="hasAttachments"
+        />
         <bubble-text
           v-if="data.content"
           :message="message"
@@ -141,6 +147,7 @@ import BubbleLocation from './bubble/Location.vue';
 import BubbleMailHead from './bubble/MailHead.vue';
 import BubbleText from './bubble/Text.vue';
 import BubbleContact from './bubble/Contact.vue';
+import BubbleReplyTo from './bubble/ReplyTo.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
 import instagramImageErrorPlaceholder from './instagramImageErrorPlaceholder.vue';
@@ -150,6 +157,8 @@ import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import { generateBotMessageContent } from './helpers/botMessageContentHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
+import { LocalStorage } from 'shared/helpers/localStorage';
 
 export default {
   components: {
@@ -163,6 +172,7 @@ export default {
     BubbleMailHead,
     BubbleText,
     BubbleContact,
+    BubbleReplyTo,
     ContextMenu,
     Spinner,
     instagramImageErrorPlaceholder,
@@ -192,6 +202,10 @@ export default {
     inboxSupportsReplyTo: {
       type: Boolean,
       default: false,
+    },
+    inReplyTo: {
+      type: Object,
+      default: () => ({}),
     },
   },
   data() {
@@ -269,6 +283,13 @@ export default {
         ) + botMessageContent
       );
     },
+    inReplyToMessageId() {
+      // Why not use the inReplyTo object directly?
+      // Glad you asked! The inReplyTo object may or may not be available
+      // depending on the current scroll position of the message list
+      // since old messages are only loaded when the user scrolls up
+      return this.data.content_attributes?.in_reply_to;
+    },
     contextMenuEnabledOptions() {
       return {
         copy: this.hasText,
@@ -324,6 +345,8 @@ export default {
         left: isLeftAligned,
         right: isRightAligned,
         'has-context-menu': this.showContextMenu,
+        // this handles the offset required to align the context menu button
+        // extra alignment is required since a tweet message has a the user name and avatar below it
         'has-tweet-menu': this.isATweet,
         'has-bg': this.showBackgroundHighlight,
       };
@@ -500,7 +523,13 @@ export default {
       this.showContextMenu = false;
       this.contextMenuPosition = { x: null, y: null };
     },
-    handleReplyTo() {},
+    handleReplyTo() {
+      const replyStorageKey = LOCAL_STORAGE_KEYS.MESSAGE_REPLY_TO;
+      const { conversation_id: conversationId, id: replyTo } = this.data;
+
+      LocalStorage.updateJsonStore(replyStorageKey, conversationId, replyTo);
+      bus.$emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.data);
+    },
     setupHighlightTimer() {
       if (Number(this.$route.query.messageId) !== Number(this.data.id)) {
         return;
@@ -620,6 +649,8 @@ li.right {
 }
 
 li.left.has-tweet-menu .context-menu {
+  // this handles the offset required to align the context menu button
+  // extra alignment is required since a tweet message has a the user name and avatar below it
   @apply mb-6;
 }
 
