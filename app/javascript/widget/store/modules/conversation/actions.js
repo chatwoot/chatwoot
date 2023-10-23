@@ -68,6 +68,7 @@ export const actions = {
     };
     const tempMessage = createTemporaryMessage({
       attachments: [attachment],
+      replyTo: params.replyTo,
     });
     commit('pushMessageToConversation', tempMessage);
     try {
