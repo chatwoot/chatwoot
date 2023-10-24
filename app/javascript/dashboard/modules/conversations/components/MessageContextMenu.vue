@@ -111,7 +111,10 @@ import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import AddCannedModal from 'dashboard/routes/dashboard/settings/canned/AddCanned.vue';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import { conversationUrl, frontendURL } from '../../../helper/URLHelper';
-import { ACCOUNT_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import {
+  ACCOUNT_EVENTS,
+  CONVERSATION_EVENTS,
+} from '../../../helper/AnalyticsHelper/events';
 import TranslateModal from 'dashboard/components/widgets/conversation/bubble/TranslateModal.vue';
 import MenuItem from '../../../components/widgets/conversation/contextMenu/menuItem.vue';
 
@@ -210,6 +213,7 @@ export default {
         messageId: this.messageId,
         targetLanguage: locale || 'en',
       });
+      this.$track(CONVERSATION_EVENTS.TRANSLATE_A_MESSAGE);
       this.handleClose();
       this.showTranslateModal = true;
     },
