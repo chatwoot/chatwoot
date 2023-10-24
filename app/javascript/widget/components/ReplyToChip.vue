@@ -49,9 +49,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-.reply-to-truncate > p {
-  @apply overflow-hidden truncate max-w-[8rem];
-}
-</style>
