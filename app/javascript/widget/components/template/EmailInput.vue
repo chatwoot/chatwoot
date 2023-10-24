@@ -140,13 +140,6 @@ export default {
     font-size: $font-size-large;
     height: auto;
     margin-left: -1px;
-
-    .spinner {
-      display: block;
-      padding: 0;
-      height: auto;
-      width: auto;
-    }
   }
 }
 </style>

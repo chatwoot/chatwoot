@@ -15,42 +15,6 @@
   @include full-height();
 }
 
-.spinner {
-  @include color-spinner();
-  display: inline-block;
-  height: $space-medium;
-  padding: $zero $space-medium;
-  position: relative;
-  vertical-align: middle;
-  width: $space-medium;
-
-  &.message {
-    @include normal-shadow;
-    background: $color-white;
-    border-radius: $space-large;
-    left: 0;
-    margin: $space-slab auto;
-    padding: $space-normal;
-    top: 0;
-
-    &::before {
-      margin-left: -$space-slab;
-      margin-top: -$space-slab;
-    }
-  }
-
-  &.small {
-    height: $space-normal;
-    width: $space-normal;
-
-    &::before {
-      height: $space-normal;
-      margin-top: -$space-small;
-      width: $space-normal;
-    }
-  }
-}
-
 .justify-space-between {
   justify-content: space-between;
 }

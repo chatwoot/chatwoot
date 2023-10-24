@@ -1,8 +1,6 @@
 @import '~dashboard/assets/scss/variables';
 @import '~widget/assets/scss/mixins';
 
-$spinner-before-border-color: rgba(255, 255, 255, 0.7);
-
 //borders
 @mixin border-nil() {
   border-color: transparent;
@@ -146,29 +144,6 @@ $spinner-before-border-color: rgba(255, 255, 255, 0.7);
   border-radius: $space-small;
 }
 
-@mixin color-spinner() {
-  @keyframes spinner {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
-  &::before {
-    animation: spinner .9s linear infinite;
-    border: 2px solid $spinner-before-border-color;
-    border-radius: 50%;
-    border-top-color: lighten($color-woot, 10%);
-    box-sizing: border-box;
-    content: '';
-    height: $space-medium;
-    left: 50%;
-    margin-left: -$space-one;
-    margin-top: -$space-one;
-    position: absolute;
-    top: 50%;
-    width: $space-medium;
-  }
-}
 
 // --------------------------------------------------------
 // arrows

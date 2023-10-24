@@ -153,7 +153,7 @@
         />
       </div>
       <div v-if="chatListLoading" class="text-center">
-        <span class="spinner mt-4 mb-4" />
+        <woot-spinner class="mt-4 mb-4" />
       </div>
 
       <woot-button

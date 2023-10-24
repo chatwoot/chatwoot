@@ -6,11 +6,7 @@
     :disabled="isDisabled || isLoading"
     @click="handleClick"
   >
-    <spinner
-      v-if="isLoading"
-      size="small"
-      :color-scheme="showDarkSpinner ? 'dark' : ''"
-    />
+    <spinner v-if="isLoading" :size="size" :color-scheme="colorScheme" />
     <emoji-or-icon
       v-else-if="icon || emoji"
       class="icon"
