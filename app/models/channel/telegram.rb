@@ -87,8 +87,8 @@ class Channel::Telegram < ApplicationRecord
 
   def send_message(message)
     response = message_request(chat_id(message), message.content, reply_markup(message), reply_to_message_id(message))
-    response.parsed_response['result']['message_id'] if response.success?
     process_error(message, response) if response.parsed_response['ok'] == false
+    response.parsed_response['result']['message_id'] if response.success?
   end
 
   def process_error(message, response)
@@ -132,8 +132,8 @@ class Channel::Telegram < ApplicationRecord
     end
 
     response = attachments_request(chat_id(message), telegram_attachments, reply_to_message_id(message))
-    response.parsed_response['result'].first['message_id'] if response.success?
     process_error(message, response) if response.parsed_response['ok'] == false
+    response.parsed_response['result'].first['message_id'] if response.success?
   end
 
   def attachments_request(chat_id, attachments, reply_to_message_id)
