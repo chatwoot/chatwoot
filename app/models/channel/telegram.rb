@@ -88,6 +88,14 @@ class Channel::Telegram < ApplicationRecord
   def send_message(message)
     response = message_request(chat_id(message), message.content, reply_markup(message), reply_to_message_id(message))
     response.parsed_response['result']['message_id'] if response.success?
+    # https://github.com/TelegramBotAPI/errors/tree/master/json
+    process_error(message, response) if response.parsed_response['ok'] == false
+  end
+
+  def process_error(message, response)
+    message.external_error = "#{response.parsed_response['error_code']}: #{response.parsed_response['description']}"
+    message.status = 'failed'
+    message.save!
   end
 
   def reply_markup(message)

@@ -42,6 +42,28 @@ RSpec.describe Channel::Telegram do
 
       expect(telegram_channel.send_message_on_telegram(message)).to eq('telegram_123')
     end
+
+    it 'send message failed' do
+      message = create(:message, message_type: :outgoing, content: 'test',
+                                 conversation: create(:conversation, inbox: telegram_channel.inbox, additional_attributes: { 'chat_id' => '123' }))
+
+      stub_request(:post, "https://api.telegram.org/bot#{telegram_channel.bot_token}/sendMessage")
+        .with(
+          body: 'chat_id=123&text=test&reply_markup=&reply_to_message_id='
+        )
+        .to_return(
+          status: 403,
+          headers: { 'Content-Type' => 'application/json' },
+          body: {
+            ok: false,
+            error_code: '403',
+            description: 'Forbidden: bot was blocked by the user'
+          }.to_json
+        )
+      telegram_channel.send_message_on_telegram(message)
+      expect(message.reload.status).to eq('failed')
+      expect(message.reload.external_error).to eq('403: Forbidden: bot was blocked by the user')
+    end
   end
 
   context 'when a empty message and valid attachments' do
