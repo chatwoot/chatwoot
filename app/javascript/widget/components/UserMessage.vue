@@ -12,16 +12,18 @@
           <div class="flex flex-col justify-end">
             <message-reply-button
               v-if="!isInProgress && !isFailed"
-              :message="message"
               class="transition-opacity delay-75 opacity-0 group-hover:opacity-100 sm:opacity-0"
+              @click="toggleReply"
             />
           </div>
-          <user-message-bubble
-            v-if="showTextBubble"
-            :message="message.content"
-            :status="message.status"
-            :widget-color="widgetColor"
-          />
+          <drag-wrapper direction="left" @dragged="toggleReply">
+            <user-message-bubble
+              v-if="showTextBubble"
+              :message="message.content"
+              :status="message.status"
+              :widget-color="widgetColor"
+            />
+          </drag-wrapper>
         </div>
         <div
           v-if="hasAttachments"
@@ -72,6 +74,9 @@ import FileBubble from 'widget/components/FileBubble.vue';
 import timeMixin from 'dashboard/mixins/time';
 import messageMixin from '../mixins/messageMixin';
 import ReplyToChip from 'widget/components/ReplyToChip.vue';
+import DragWrapper from 'widget/components/DragWrapper.vue';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+
 import { mapGetters } from 'vuex';
 
 export default {
@@ -83,6 +88,7 @@ export default {
     FileBubble,
     FluentIcon,
     ReplyToChip,
+    DragWrapper,
   },
   mixins: [timeMixin, messageMixin],
   props: {
@@ -148,6 +154,9 @@ export default {
     },
     onImageLoadError() {
       this.hasImageError = true;
+    },
+    toggleReply() {
+      bus.$emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.message);
     },
   },
 };

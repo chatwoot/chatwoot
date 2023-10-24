@@ -19,14 +19,16 @@
           <reply-to-chip :reply-to="replyTo" />
         </div>
         <div class="flex gap-1">
-          <AgentMessageBubble
-            v-if="shouldDisplayAgentMessage"
-            :content-type="contentType"
-            :message-content-attributes="messageContentAttributes"
-            :message-id="message.id"
-            :message-type="messageType"
-            :message="message.content"
-          />
+          <drag-wrapper direction="right" @dragged="toggleReply">
+            <AgentMessageBubble
+              v-if="shouldDisplayAgentMessage"
+              :content-type="contentType"
+              :message-content-attributes="messageContentAttributes"
+              :message-id="message.id"
+              :message-type="messageType"
+              :message="message.content"
+            />
+          </drag-wrapper>
           <div
             v-if="hasAttachments"
             class="chat-bubble has-attachment agent"
@@ -48,8 +50,8 @@
           </div>
           <div class="flex flex-col justify-end">
             <message-reply-button
-              :message="message"
               class="transition-opacity delay-75 opacity-0 group-hover:opacity-100 sm:opacity-0"
+              @click="toggleReply"
             />
           </div>
         </div>
@@ -87,6 +89,8 @@ import messageMixin from '../mixins/messageMixin';
 import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 import ReplyToChip from 'widget/components/ReplyToChip.vue';
+import DragWrapper from 'widget/components/DragWrapper.vue';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 export default {
   name: 'AgentMessage',
@@ -98,6 +102,7 @@ export default {
     FileBubble,
     MessageReplyButton,
     ReplyToChip,
+    DragWrapper,
   },
   mixins: [timeMixin, configMixin, messageMixin, darkModeMixin],
   props: {
@@ -216,6 +221,9 @@ export default {
   methods: {
     onImageLoadError() {
       this.hasImageError = true;
+    },
+    toggleReply() {
+      bus.$emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.message);
     },
   },
 };
