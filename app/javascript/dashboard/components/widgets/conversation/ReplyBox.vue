@@ -827,10 +827,18 @@ export default {
       this.hideWhatsappTemplatesModal();
     },
     replaceText(message) {
+      if (this.sendWithSignature && !this.private) {
+        // if signature is enabled, append it to the message
+        // appendSignature ensures that the signature is not duplicated
+        // so we don't need to check if the signature is already present
+        message = appendSignature(message, this.signatureToApply);
+      }
+
       const updatedMessage = replaceVariablesInMessage({
         message,
         variables: this.messageVariables,
       });
+
       setTimeout(() => {
         this.$track(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
         this.message = updatedMessage;
