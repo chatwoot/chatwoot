@@ -66,10 +66,19 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
       query: query
     )
 
-    Rails.logger.error("Instagram response: #{response['error']} : #{message_content}") if response['error']
+    Rails.logger.error("Instagram response: #{response['error']} : #{message_content}") if response[:error]
+    message.update!(status: :failed, external_error: external_error(response)) if response[:error].present?
     message.update!(source_id: response['message_id']) if response['message_id'].present?
 
     response
+  end
+
+  def external_error(response)
+    # https://developers.facebook.com/docs/instagram-api/reference/error-codes/
+    error_message = response[:error][:message]
+    error_code = response[:error][:code]
+
+    "#{error_code} - #{error_message}"
   end
 
   def calculate_app_secret_proof(app_secret, access_token)
