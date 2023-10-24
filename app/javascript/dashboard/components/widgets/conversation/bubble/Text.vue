@@ -42,6 +42,8 @@ export default {
         const images = el.querySelectorAll('img');
         const loadImage = async img => {
           try {
+            // Add a class to hide the image, to prevent it from flashing
+            img.classList.add('image-loading');
             // Wait for the image to load
             await img.decode();
             const url = new URL(img.src);
@@ -49,12 +51,13 @@ export default {
             if (height) {
               img.style.height = height;
             }
+            // Now reveal the image
+            img.classList.remove('image-loading');
           } catch (error) {
             // eslint-disable-next-line no-console
             console.error('Failed to adjust image height:', error);
           }
         };
-        // Load all images
         images.forEach(loadImage);
       },
     },
@@ -128,6 +131,10 @@ export default {
   h5,
   h6 {
     font-size: var(--font-size-normal);
+  }
+
+  .image-loading {
+    @apply invisible opacity-0 max-h-0 transition-opacity;
   }
 }
 
