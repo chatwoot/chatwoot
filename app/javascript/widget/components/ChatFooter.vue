@@ -19,7 +19,7 @@
       :on-send-attachment="handleSendAttachment"
     />
   </footer>
-  <div v-else class="bg-white shadow-sm">
+  <div v-else>
     <custom-button
       class="font-medium"
       block
