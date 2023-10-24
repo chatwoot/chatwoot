@@ -1,6 +1,7 @@
 <template>
   <div
     :style="{ transform: `translateX(${dragDistance}px)` }"
+    class="will-change-transform"
     @touchstart="handleTouchStart"
     @touchmove="handleTouchMove"
     @touchend="resetPosition"
