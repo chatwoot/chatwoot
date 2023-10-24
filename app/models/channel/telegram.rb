@@ -94,7 +94,7 @@ class Channel::Telegram < ApplicationRecord
   def process_error(message, response)
     # https://github.com/TelegramBotAPI/errors/tree/master/json
     message.external_error = "#{response.parsed_response['error_code']}: #{response.parsed_response['description']}"
-    message.status = 'failed'
+    message.status = :failed
     message.save!
   end
 
