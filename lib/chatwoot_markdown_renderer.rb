@@ -4,8 +4,9 @@ class ChatwootMarkdownRenderer
   end
 
   def render_message
+    markdown_renderer = BaseMarkdownRenderer.new
     doc = CommonMarker.render_doc(@content, :DEFAULT)
-    html = BaseMarkdownRenderer.new.render(doc)
+    html = markdown_renderer.render(doc)
     render_as_html_safe(html)
   end
 
