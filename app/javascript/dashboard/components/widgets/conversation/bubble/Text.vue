@@ -6,7 +6,12 @@
       'hide--quoted': !isQuotedContentPresent,
     }"
   >
-    <div v-if="!isEmail" v-dompurify-html="message" class="text-content" />
+    <div
+      v-if="!isEmail"
+      v-dompurify-html="message"
+      v-adjust-image-height
+      class="text-content"
+    />
     <letter v-else class="text-content" :html="message" />
     <button
       v-if="showQuoteToggle"
@@ -30,6 +35,30 @@ import Letter from 'vue-letter';
 
 export default {
   components: { Letter },
+  directives: {
+    'adjust-image-height': {
+      inserted(el) {
+        // Get all images in the container
+        const images = el.querySelectorAll('img');
+        const loadImage = async img => {
+          try {
+            // Wait for the image to load
+            await img.decode();
+            const url = new URL(img.src);
+            const height = url.searchParams.get('cw_image_height');
+            if (height) {
+              img.style.height = height;
+            }
+          } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error('Failed to adjust image height:', error);
+          }
+        };
+        // Load all images
+        images.forEach(loadImage);
+      },
+    },
+  },
   props: {
     message: {
       type: String,
