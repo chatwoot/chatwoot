@@ -31,6 +31,9 @@ class BaseMarkdownRenderer < CommonMarker::HtmlRenderer
     title_attribute = title.present? ? " title=\"#{title}\"" : ''
     height_attribute = height ? " height=\"#{height}\" width=\"auto\"" : ''
 
-    out("<img src=\"#{src}\" #{title_attribute} #{height_attribute} />")
+    plain do
+      # plain ensures that the content is not wrapped in a paragraph tag
+      out("<img src=\"#{src}\"#{title_attribute}#{height_attribute} />")
+    end
   end
 end
