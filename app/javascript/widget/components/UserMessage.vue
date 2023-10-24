@@ -1,11 +1,6 @@
 <template>
   <div class="user-message-wrap group">
     <div class="flex gap-1 user-message">
-      <message-reply-button
-        v-if="!isInProgress && !isFailed"
-        :message="message"
-        class="opacity-0 group-hover:opacity-100 sm:opacity-0"
-      />
       <div
         class="message-wrap"
         :class="{ 'in-progress': isInProgress, 'is-failed': isFailed }"
@@ -13,12 +8,21 @@
         <div v-if="hasReplyTo" class="flex justify-end mt-2 mb-1 text-xs">
           <reply-to-chip :reply-to="replyTo" />
         </div>
-        <user-message-bubble
-          v-if="showTextBubble"
-          :message="message.content"
-          :status="message.status"
-          :widget-color="widgetColor"
-        />
+        <div class="flex justify-end gap-1">
+          <div class="flex flex-col justify-end">
+            <message-reply-button
+              v-if="!isInProgress && !isFailed"
+              :message="message"
+              class="transition-opacity delay-75 opacity-0 group-hover:opacity-100 sm:opacity-0"
+            />
+          </div>
+          <user-message-bubble
+            v-if="showTextBubble"
+            :message="message.content"
+            :status="message.status"
+            :widget-color="widgetColor"
+          />
+        </div>
         <div
           v-if="hasAttachments"
           class="chat-bubble has-attachment user"
