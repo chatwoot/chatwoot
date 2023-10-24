@@ -331,12 +331,11 @@ export default {
         : this.$t('HELP_CENTER.ARTICLE_SEARCH.OPEN_ARTICLE_SEARCH');
     },
     enableInsertArticleInReply() {
-      return (
-        this.isFeatureEnabledonAccount(
-          this.accountId,
-          FEATURE_FLAGS.INSERT_ARTICLE_IN_REPLY
-        ) && this.portalSlug
+      const isFeatEnabled = this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.INSERT_ARTICLE_IN_REPLY
       );
+      return isFeatEnabled && this.portalSlug;
     },
   },
   mounted() {

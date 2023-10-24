@@ -606,9 +606,6 @@ export default {
   },
   methods: {
     handleInsert(article) {
-      // debugger;
-      // this.message = `${this.message} ${url}`;
-      // this.addIntoEditor(`Read more ${url}`);
       const { url, title } = article;
       if (this.isRichEditorEnabled) {
         bus.$emit(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, `[${title}](${url})`);
