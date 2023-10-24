@@ -69,9 +69,9 @@ describe Instagram::SendOnInstagramService do
           allow(HTTParty).to receive(:post).and_return(
             {
               'error': {
-                'message': 'Invalid OAuth access token.',
+                'message': 'The Instagram account is restricted.',
                 'type': 'OAuthException',
-                'code': 190,
+                'code': 400,
                 'fbtrace_id': 'anyrandomfbtraceid1234567890'
               }
             }
@@ -79,7 +79,7 @@ describe Instagram::SendOnInstagramService do
           described_class.new(message: message).perform
           expect(HTTParty).to have_received(:post)
           expect(message.reload.status).to eq('failed')
-          expect(message.reload.external_error).to eq('190 - Invalid OAuth access token.')
+          expect(message.reload.external_error).to eq('400 - The Instagram account is restricted.')
         end
       end
 
