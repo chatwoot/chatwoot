@@ -79,6 +79,7 @@ describe Instagram::SendOnInstagramService do
           described_class.new(message: message).perform
           expect(HTTParty).to have_received(:post)
           expect(message.reload.status).to eq('failed')
+          expect(message.reload.external_error).to eq('190 - Invalid OAuth access token.')
         end
       end
 
