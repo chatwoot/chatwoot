@@ -88,11 +88,11 @@ class Channel::Telegram < ApplicationRecord
   def send_message(message)
     response = message_request(chat_id(message), message.content, reply_markup(message), reply_to_message_id(message))
     response.parsed_response['result']['message_id'] if response.success?
-    # https://github.com/TelegramBotAPI/errors/tree/master/json
     process_error(message, response) if response.parsed_response['ok'] == false
   end
 
   def process_error(message, response)
+    # https://github.com/TelegramBotAPI/errors/tree/master/json
     message.external_error = "#{response.parsed_response['error_code']}: #{response.parsed_response['description']}"
     message.status = 'failed'
     message.save!
@@ -133,6 +133,7 @@ class Channel::Telegram < ApplicationRecord
 
     response = attachments_request(chat_id(message), telegram_attachments, reply_to_message_id(message))
     response.parsed_response['result'].first['message_id'] if response.success?
+    process_error(message, response) if response.parsed_response['ok'] == false
   end
 
   def attachments_request(chat_id, attachments, reply_to_message_id)
