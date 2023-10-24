@@ -37,7 +37,7 @@
 import { debounce } from '@chatwoot/utils';
 import { mixin as clickaway } from 'vue-clickaway';
 
-import SearchHeader from './Header';
+import SearchHeader from './Header.vue';
 import SearchResultsList from './SearchResults.vue';
 import ArticleView from './ArticleView.vue';
 import ArticlesAPI from 'dashboard/api/helpCenter/articles';
@@ -69,8 +69,16 @@ export default {
     articleViewerUrl() {
       const article = this.activeArticle(this.activeId);
       if (!article) return undefined;
+      const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-      return `${article.url}?show_plain_layout=true`;
+      const url = new URL(article.url);
+      url.searchParams.set('show_plain_layout', 'true');
+
+      if (isDark) {
+        url.searchParams.set('theme', 'dark');
+      }
+
+      return `${url}`;
     },
     searchResultsWithUrl() {
       return this.searchResults.map(article => ({

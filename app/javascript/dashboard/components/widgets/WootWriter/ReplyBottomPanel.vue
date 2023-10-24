@@ -110,7 +110,7 @@
         </div>
       </transition>
       <woot-button
-        v-if="portalSlug"
+        v-if="enableInsertArticleInReply"
         v-tooltip.top-end="insertArticleToggleTooltip"
         icon="document-text-link"
         color-scheme="secondary"
@@ -329,6 +329,14 @@ export default {
       return this.isArticleSearchActive
         ? this.$t('HELP_CENTER.ARTICLE_SEARCH.CLOSE_ARTICLE_SEARCH')
         : this.$t('HELP_CENTER.ARTICLE_SEARCH.OPEN_ARTICLE_SEARCH');
+    },
+    enableInsertArticleInReply() {
+      return (
+        this.isFeatureEnabledonAccount(
+          this.accountId,
+          FEATURE_FLAGS.INSERT_ARTICLE_IN_REPLY
+        ) && this.portalSlug
+      );
     },
   },
   mounted() {
