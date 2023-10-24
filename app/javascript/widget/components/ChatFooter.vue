@@ -14,7 +14,7 @@
       @dismiss="inReplyTo = null"
     />
     <chat-input-wrap
-      class="bg-white shadow-sm"
+      class="shadow-sm"
       :on-send-message="handleSendMessage"
       :on-send-attachment="handleSendAttachment"
     />
