@@ -101,7 +101,8 @@ RSpec.describe Channel::Telegram do
       attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
 
       allow(telegram_attachment_response).to receive(:success?).and_return(false)
-      allow(telegram_attachment_response).to receive(:parsed_response).and_return({ 'ok' => false , 'error_code' => '400', 'description' => 'Bad Request: invalid file id' })
+      allow(telegram_attachment_response).to receive(:parsed_response).and_return({ 'ok' => false, 'error_code' => '400',
+                                                                                    'description' => 'Bad Request: invalid file id' })
       allow(telegram_channel).to receive(:attachments_request).and_return(telegram_attachment_response)
       telegram_channel.send_message_on_telegram(message)
       expect(message.reload.status).to eq('failed')
