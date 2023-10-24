@@ -33,7 +33,6 @@
             <p class="text-base font-normal text-slate-500 dark:text-slate-200 line-clamp-1 break-all"><%= article.content %></p>
           </div>
           <%# By Alexander •  %>
-          <%= article.author_id %>
           <span class="text-sm text-slate-600 dark:text-slate-400 font-medium flex items-center"><%= I18n.t('public_portal.common.last_updated_on', last_updated_on: article.updated_at.strftime("%b %d, %Y")) %></span>
         </div>
       </a>
