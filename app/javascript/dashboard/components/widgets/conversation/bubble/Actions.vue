@@ -208,6 +208,10 @@ export default {
       ) {
         return this.sourceId && this.isSent;
       }
+      if (this.isALineChannel) {
+        return true;
+      }
+
       return false;
     },
     showDeliveredIndicator() {
