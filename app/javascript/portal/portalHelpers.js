@@ -41,24 +41,18 @@ const generateGradientToBottom = theme => {
 };
 
 const setPortalStyles = theme => {
-  // Set background for #portal-bg
+  const portalColor = window.portalConfig.portalColor;
   const portalBgDiv = document.querySelector('#portal-bg');
-  if (portalBgDiv) {
-    const portalColor = window.portalConfig.portalColor;
-    const bgStyle =
-      theme === 'dark'
-        ? generatePortalBg(portalColor, 'dark')
-        : generatePortalBg(portalColor, 'light');
-    portalBgDiv.setAttribute('style', bgStyle);
-  }
-  // Set gradient background for #portal-bg-gradient
   const portalBgGradientDiv = document.querySelector('#portal-bg-gradient');
+
+  if (portalBgDiv) {
+    // Set background for #portal-bg
+    portalBgDiv.setAttribute('style', generatePortalBg(portalColor, theme));
+  }
+
   if (portalBgGradientDiv) {
-    const gradientStyle =
-      theme === 'dark'
-        ? generateGradientToBottom('dark')
-        : generateGradientToBottom('light');
-    portalBgGradientDiv.setAttribute('style', gradientStyle);
+    // Set gradient background for #portal-bg-gradient
+    portalBgGradientDiv.setAttribute('style', generateGradientToBottom(theme));
   }
 };
 
