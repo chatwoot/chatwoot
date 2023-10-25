@@ -6,15 +6,15 @@
 <% end %>
 
 <% if !@is_plain_layout_enabled %>
-<div class="bg-woot-50 dark:bg-woot-900" style="<%= generate_portal_bg(@portal.color, @theme) %>">
-  <div class="pt-8 pb-8 md:pt-14 md:pb-6" style="<%= generate_gradient_to_bottom(@theme) %>">
+<div id="portal-bg" class="bg-woot-50 dark:bg-woot-900" style="<%= generate_portal_bg(@portal.color, @theme) %>">
+  <div id="portal-bg-gradient" class="pt-8 pb-8 md:pt-14 md:pb-6" style="<%= generate_gradient_to_bottom(@theme) %>">
     <%= render 'public/api/v1/portals/categories/category-hero', category: @category, portal: @portal %>
   </div>
 </div>
 <% else %>
   <%= render 'public/api/v1/portals/categories/category-hero', category: @category, portal: @portal %>
 <% end %>
-<section class="max-w-6xl w-full mx-auto px-8 py-6 flex flex-col items-center justify-center flex-grow">
+<section class="max-w-5xl w-full mx-auto px-8 py-6 flex flex-col items-center justify-center flex-grow">
   <div class="w-full flex flex-col gap-6 flex-grow">
     <% if @category.articles.published.size == 0 %>
     <div class="h-full flex items-center justify-center bg-slate-50 dark:bg-slate-800 rounded-xl py-6">
