@@ -59,32 +59,49 @@ By default, it renders:
       tocHeader: '<%= I18n.t('public_portal.toc_header') %>'
     };
 
-    const setPortalBackground = (theme) => {
+    const setPortalStyles = (theme) => {
+      // Set background for #portal-bg
       const portalBgDiv = document.querySelector('#portal-bg');
-      if (!portalBgDiv) return;
-      let style;
-      if (theme === 'dark') {
-        style = `<%= generate_portal_bg(@portal.color, 'dark') %>`;
-      } else {
-        style = `<%= generate_portal_bg(@portal.color, 'light') %>`;
+      if (portalBgDiv) {
+        const bgStyle = theme === 'dark'
+            ? `<%= generate_portal_bg(@portal.color, 'dark') %>`
+            : `<%= generate_portal_bg(@portal.color, 'light') %>`;
+        portalBgDiv.setAttribute('style', bgStyle);
       }
-      portalBgDiv.setAttribute('style', style);
+      // Set gradient background for #portal-bg-gradient
+      const portalBgGradientDiv = document.querySelector('#portal-bg-gradient');
+      if (portalBgGradientDiv) {
+        const gradientStyle = theme === 'dark'
+            ? `<%= generate_gradient_to_bottom('dark') %>`
+            : `<%= generate_gradient_to_bottom('light') %>`;
+        portalBgGradientDiv.setAttribute('style', gradientStyle);
+      }
     };
 
     const setPortalClass = (theme) => {
       const portalDiv = document.querySelector('#portal');
+      portalDiv.classList.remove('light', 'dark');
       if (!portalDiv) return;
       portalDiv.classList.add(theme);
     };
 
+    const updateThemeStyles = (theme) => {
+      setPortalStyles(theme);
+      setPortalClass(theme);
+    };
+
     document.addEventListener('DOMContentLoaded', () => {
-      const { matches } = window.matchMedia?.('(prefers-color-scheme: dark)') ?? {};
-      const getThemePreference = () => matches ? 'dark' : 'light';
+      const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
+      const getThemePreference = () => mediaQueryList.matches ? 'dark' : 'light';
       const themeFromServer = '<%= @theme %>';
       if (themeFromServer === 'system') {
+        // Handle dynamic theme changes for system theme
+        mediaQueryList.addEventListener('change', event => {
+        const newTheme = event.matches ? 'dark' : 'light';
+        updateThemeStyles(newTheme);
+        });
         const themePreference = getThemePreference();
-        setPortalBackground(themePreference);
-        setPortalClass(themePreference);
+        updateThemeStyles(themePreference);
       }
     });
   </script>
