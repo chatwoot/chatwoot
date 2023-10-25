@@ -48,6 +48,8 @@ By default, it renders:
   <script>
     window.portalConfig = {
       portalSlug: '<%= @portal.slug %>',
+      portalColor: '<%= @portal.color %>',
+      theme: '<%= @theme %>',
       localeCode: '<%= @locale %>',
       searchTranslations: {
         searchPlaceholder: '<%= I18n.t('public_portal.search.search_placeholder') %>',
@@ -58,34 +60,5 @@ By default, it renders:
       isPlainLayoutEnabled: '<%= @is_plain_layout_enabled %>',
       tocHeader: '<%= I18n.t('public_portal.toc_header') %>'
     };
-
-    const setPortalBackground = (theme) => {
-      const portalBgDiv = document.querySelector('#portal-bg');
-      if (!portalBgDiv) return;
-      let style;
-      if (theme === 'dark') {
-        style = `<%= generate_portal_bg(@portal.color, 'dark') %>`;
-      } else {
-        style = `<%= generate_portal_bg(@portal.color, 'light') %>`;
-      }
-      portalBgDiv.setAttribute('style', style);
-    };
-
-    const setPortalClass = (theme) => {
-      const portalDiv = document.querySelector('#portal');
-      if (!portalDiv) return;
-      portalDiv.classList.add(theme);
-    };
-
-    document.addEventListener('DOMContentLoaded', () => {
-      const { matches } = window.matchMedia?.('(prefers-color-scheme: dark)') ?? {};
-      const getThemePreference = () => matches ? 'dark' : 'light';
-      const themeFromServer = '<%= @theme %>';
-      if (themeFromServer === 'system') {
-        const themePreference = getThemePreference();
-        setPortalBackground(themePreference);
-        setPortalClass(themePreference);
-      }
-    });
   </script>
 </html>
