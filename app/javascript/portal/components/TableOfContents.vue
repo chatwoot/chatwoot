@@ -1,15 +1,26 @@
 <template>
-  <div class="hidden lg:block flex-1 scroll-mt-24 pl-4">
-    <div v-if="rows.length > 0" class="sticky top-24 py-12 overflow-auto">
+  <div class="hidden lg:block flex-1 py-6 scroll-mt-24 pl-4">
+    <div v-if="rows.length > 0" class="sticky top-24 py-2 overflow-auto">
       <nav class="max-w-2xl">
         <h2
           id="on-this-page-title"
-          class="text-slate-800 dark:text-slate-50 font-semibold tracking-wide border-b mb-3 leading-7"
+          class="text-slate-800 pl-6 dark:text-slate-50 font-semibold tracking-wide py-3 leading-7 border-l-2 border-solid border-slate-100 dark:border-slate-800"
+          :class="{
+            'border-slate-400 dark:border-slate-50': !currentSlug,
+          }"
         >
           {{ tocHeader }}
         </h2>
-        <ol role="list" class="mt-4 space-y-3 text-base">
-          <li v-for="element in rows" :key="element.slug" class="leading-6">
+        <ol role="list" class="text-base">
+          <li
+            v-for="element in rows"
+            :key="element.slug"
+            class="leading-6 py-2 pl-6 border-l-2 border-solid border-slate-100 dark:border-slate-800"
+            :class="{
+              'border-slate-400 dark:border-slate-50 transition-colors duration-200':
+                getActiveSlug(element),
+            }"
+          >
             <p :class="getClassName(element)">
               <a
                 :href="`#${element.slug}`"
@@ -33,6 +44,11 @@ export default {
       default: () => [],
     },
   },
+  data() {
+    return {
+      currentSlug: window.location?.hash?.substring(1) || '',
+    };
+  },
   computed: {
     tocHeader() {
       return window.portalConfig.tocHeader;
@@ -43,6 +59,12 @@ export default {
     h2Count() {
       return this.rows.filter(el => el.tag === 'h2').length;
     },
+  },
+  mounted() {
+    window.addEventListener('hashchange', this.onURLHashChange);
+  },
+  beforeDestroy() {
+    window.removeEventListener('hashchange', this.onURLHashChange);
   },
   methods: {
     getClassName(el) {
@@ -64,6 +86,12 @@ export default {
       }
 
       return '';
+    },
+    onURLHashChange() {
+      this.currentSlug = window.location?.hash?.substring(1) || '';
+    },
+    getActiveSlug(el) {
+      return this.currentSlug === el.slug;
     },
   },
 };
