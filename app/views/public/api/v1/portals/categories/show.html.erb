@@ -22,14 +22,14 @@
     </div>
     <% else %>
     <% @category.articles.published.order(:position).each do |article| %>
-    <div class="<%= !@is_plain_layout_enabled ? 'border border-solid border-slate-100 dark:border-slate-800 hover:border-woot-600 dark:hover:border-woot-600 rounded-lg' : '' %>">
+    <div class="<%= !@is_plain_layout_enabled ? 'group border border-solid border-slate-100 dark:border-slate-800 hover:border-woot-600 dark:hover:border-woot-600 rounded-lg' : '' %>">
       <a
         class="<%= !@is_plain_layout_enabled ? 'p-4' : 'px-0 py-1' %> text-slate-800 dark:text-slate-50 flex justify-between content-center hover:cursor-pointer"
         href="/hc/<%= @portal.slug %>/articles/<%= article.slug %><%= @theme.present? && @theme != 'system' ? '?theme='+@theme : ''  %>"
       >
         <div class="flex flex-col gap-5">
           <div class="flex flex-col gap-1">
-            <h3 class="text-lg text-slate-900 dark:text-slate-50 font-semibold <%= @is_plain_layout_enabled && 'hover:underline' %>"><%= article.title %></h3>
+            <h3 class="text-lg text-slate-900 dark:text-slate-50 font-semibold <%= @is_plain_layout_enabled ? 'hover:underline' : 'group-hover:text-woot-600 dark:group-hover:text-woot-600' %>"><%= article.title %></h3>
             <p class="text-base font-normal text-slate-500 dark:text-slate-200 line-clamp-1 break-all"><%= article.content %></p>
           </div>
           <%# By Alexander •  %>
