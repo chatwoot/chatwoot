@@ -17,8 +17,8 @@
         v-for="(article, index) in items"
         :id="article.id"
         :key="article.id"
-        class="group flex border border-solid hover:bg-slate-25 dark:bg-slate-800 border-slate-100 dark:border-slate-800 rounded-lg cursor-default select-none items-center p-4"
-        :class="{ 'bg-slate-25 dark:bg-slate-800': index === selectedIndex }"
+        class="group flex border border-solid hover:bg-slate-25 dark:hover:bg-slate-800 border-slate-100 dark:border-slate-800 rounded-lg cursor-pointer select-none items-center p-4"
+        :class="isSearchItemActive(index)"
         role="option"
         tabindex="-1"
         @mouse-enter="onHover(index)"
@@ -121,6 +121,11 @@ export default {
     },
     escapeRegExp(string) {
       return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    },
+    isSearchItemActive(index) {
+      return index === this.selectedIndex
+        ? 'bg-slate-25 dark:bg-slate-800'
+        : 'bg-white dark:bg-slate-900';
     },
     generateArticleUrl(article) {
       return `/hc/${article.portal.slug}/articles/${article.slug}`;
