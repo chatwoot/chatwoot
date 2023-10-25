@@ -17,7 +17,7 @@
             <% end %>
          </div>
       </div>
-      <div class="flex flex-col gap-2 flex-grow">
+      <div class="flex flex-col gap-2 flex-grow <%= category.description.blank? && '-mt-4' %>">
          <% if category.articles.published.size==0 %>
          <div class="h-full flex items-center justify-center bg-slate-50 dark:bg-slate-800 rounded-xl mb-4">
             <p class="text-sm text-slate-500"><%= I18n.t('public_portal.common.no_articles') %></p>
