@@ -23,4 +23,14 @@ module PortalHelper
       I18n.t('public_portal.header.appearance.system')
     end
   end
+
+  def get_theme_icon(theme)
+    if theme == 'light'
+      'icons/sun'
+    elsif theme == 'dark'
+      'icons/moon'
+    else
+      'icons/monitor'
+    end
+  end
 end

@@ -25,7 +25,7 @@
       <%# Appearance toggle section %>
       <div class="flex-grow flex-shrink-0 relative cursor-pointer px-1 py-2">
         <button class="toggle-appearance flex flex-row items-center stroke-slate-700 dark:stroke-slate-200 hover:stroke-woot-500 dark:hover:stroke-woot-500 text-slate-800 dark:text-slate-100 hover:text-woot-500 dark:hover:text-woot-500 gap-1" type="button" onclick="toggleAppearanceDropdown()">
-          <%= render partial: 'icons/palette' %>
+          <%= render partial: get_theme_icon(@theme) %>
           <span class="text-sm font-medium"><%= get_theme_names(@theme) %></span>
           <div class="pointer-events-none flex items-center px-1">
             <%= render partial: 'icons/chevron-down' %>
