@@ -21,27 +21,57 @@ describe Line::SendOnLineService do
       end
     end
 
-    context 'when message sent to fail' do
-      it 'raises an error with out details' do
-        error_response = {
-          'message' => 'Invalid reply token'
-        }
-        allow(line_client).to receive(:push_message).and_raise(error_response.to_json)
-        expect { described_class.new(message: message).perform }.to raise_error.with_message(error_response.to_json)
+    context 'when message send fails without details' do
+      let(:error_response) do
+        {
+          'message' => 'The request was invalid'
+        }.to_json
       end
 
-      it 'raises an error with details' do
-        error_response = {
-          'message' => 'The request body has 1 error(s)',
+      before do
+        allow(line_client).to receive(:push_message).and_return(OpenStruct.new(code: '400', body: error_response))
+      end
+
+      it 'updates the message status to failed' do
+        described_class.new(message: message).perform
+        message.reload
+        expect(message.status).to eq('failed')
+      end
+
+      it 'updates the external error without details' do
+        described_class.new(message: message).perform
+        message.reload
+        expect(message.external_error).to eq('The request was invalid')
+      end
+    end
+
+    context 'when message send fails with details' do
+      let(:error_response) do
+        {
+          'message' => 'The request was invalid',
           'details' => [
             {
-              'message' => 'May not be empty',
-              'property' => 'messages[0].text'
+              'property' => 'messages[0].text',
+              'message' => 'May not be empty'
             }
           ]
-        }
-        allow(line_client).to receive(:push_message).and_raise(error_response.to_json)
-        expect { described_class.new(message: message).perform }.to raise_error.with_message(error_response.to_json)
+        }.to_json
+      end
+
+      before do
+        allow(line_client).to receive(:push_message).and_return(OpenStruct.new(code: '400', body: error_response))
+      end
+
+      it 'updates the message status to failed' do
+        described_class.new(message: message).perform
+        message.reload
+        expect(message.status).to eq('failed')
+      end
+
+      it 'updates the external error with details' do
+        described_class.new(message: message).perform
+        message.reload
+        expect(message.external_error).to eq('The request was invalid, messages[0].text: May not be empty')
       end
     end
   end
