@@ -21,12 +21,12 @@ export const getHeadingsfromTheArticle = () => {
   return rows;
 };
 
-const generatePortalBgColor = (portalColor, theme) => {
+export const generatePortalBgColor = (portalColor, theme) => {
   const baseColor = theme === 'dark' ? 'black' : 'white';
   return `color-mix(in srgb, ${portalColor} 20%, ${baseColor})`;
 };
 
-const generatePortalBg = (portalColor, theme) => {
+export const generatePortalBg = (portalColor, theme) => {
   const bgImage = theme === 'dark' ? 'hexagon-dark.svg' : 'hexagon-light.svg';
   return `background: url(/assets/images/hc/${bgImage}) ${generatePortalBgColor(
     portalColor,
@@ -34,42 +34,36 @@ const generatePortalBg = (portalColor, theme) => {
   )}`;
 };
 
-const generateGradientToBottom = theme => {
+export const generateGradientToBottom = theme => {
   return `background-image: linear-gradient(to bottom, transparent, ${
     theme === 'dark' ? '#151718' : 'white'
   })`;
 };
 
-const setPortalStyles = theme => {
-  // Set background for #portal-bg
+export const setPortalStyles = theme => {
+  const portalColor = window.portalConfig.portalColor;
   const portalBgDiv = document.querySelector('#portal-bg');
-  if (portalBgDiv) {
-    const portalColor = window.portalConfig.portalColor;
-    const bgStyle =
-      theme === 'dark'
-        ? generatePortalBg(portalColor, 'dark')
-        : generatePortalBg(portalColor, 'light');
-    portalBgDiv.setAttribute('style', bgStyle);
-  }
-  // Set gradient background for #portal-bg-gradient
   const portalBgGradientDiv = document.querySelector('#portal-bg-gradient');
+
+  if (portalBgDiv) {
+    // Set background for #portal-bg
+    portalBgDiv.setAttribute('style', generatePortalBg(portalColor, theme));
+  }
+
   if (portalBgGradientDiv) {
-    const gradientStyle =
-      theme === 'dark'
-        ? generateGradientToBottom('dark')
-        : generateGradientToBottom('light');
-    portalBgGradientDiv.setAttribute('style', gradientStyle);
+    // Set gradient background for #portal-bg-gradient
+    portalBgGradientDiv.setAttribute('style', generateGradientToBottom(theme));
   }
 };
 
-const setPortalClass = theme => {
+export const setPortalClass = theme => {
   const portalDiv = document.querySelector('#portal');
   portalDiv.classList.remove('light', 'dark');
   if (!portalDiv) return;
   portalDiv.classList.add(theme);
 };
 
-const updateThemeStyles = theme => {
+export const updateThemeStyles = theme => {
   setPortalStyles(theme);
   setPortalClass(theme);
 };
