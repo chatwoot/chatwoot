@@ -230,15 +230,16 @@ export default {
         return false;
       }
 
-      if (this.isAWebWidgetInbox || this.isAPIInbox) {
-        const { contact_last_seen_at: contactLastSeenAt } = this.currentChat;
-        return contactLastSeenAt >= this.createdAt;
-      }
+      // if (this.isAWebWidgetInbox || this.isAPIInbox) {
+      //   const { contact_last_seen_at: contactLastSeenAt } = this.currentChat;
+      //   return contactLastSeenAt >= this.createdAt;
+      // }
 
       if (
         this.isAWhatsAppChannel ||
         this.isATwilioChannel ||
-        this.isAFacebookInbox
+        this.isAFacebookInbox ||
+        this.isAWebWidgetInbox
       ) {
         return this.sourceId && this.isRead;
       }

@@ -81,7 +81,7 @@ RSpec.describe 'Public Inbox Contact Conversations API', type: :request do
 
     it 'updates the last seen of the conversation contact' do
       contact_last_seen_at = conversation.contact_last_seen_at
-      expect(Conversations::MarkMessagesAsReadJob).to receive(:perform_later).with(conversation)
+      expect(Conversations::MarkMessagesAsReadJob).to receive(:perform_later).with(conversation.inbox, conversation.contact_last_seen_at)
       post update_last_seen_path
 
       expect(response).to have_http_status(:success)

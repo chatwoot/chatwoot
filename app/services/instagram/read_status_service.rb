@@ -4,12 +4,7 @@ class Instagram::ReadStatusService
   def perform
     return if instagram_channel.blank?
 
-    process_status if message.present?
-  end
-
-  def process_status
-    @message.status = 'read'
-    @message.save!
+    ::Conversations::MarkMessagesAsReadJob.perform_later(instagram_channel.inbox, message.created_at) if message.present?
   end
 
   def instagram_id
