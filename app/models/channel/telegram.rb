@@ -132,9 +132,9 @@ class Channel::Telegram < ApplicationRecord
     file_type_mappings = {
       'audio' => 'audio',
       'image' => 'photo',
-      'file' => 'document'
+      'file' => 'document',
+      'video' => 'video'
     }
-
     file_type_mappings[file_type]
   end
 
