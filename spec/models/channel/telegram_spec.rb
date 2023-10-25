@@ -62,7 +62,7 @@ RSpec.describe Channel::Telegram do
         )
       telegram_channel.send_message_on_telegram(message)
       expect(message.reload.status).to eq('failed')
-      expect(message.reload.external_error).to eq('403: Forbidden: bot was blocked by the user')
+      expect(message.reload.external_error).to eq('403, Forbidden: bot was blocked by the user')
     end
   end
 
@@ -106,7 +106,7 @@ RSpec.describe Channel::Telegram do
       allow(telegram_channel).to receive(:attachments_request).and_return(telegram_attachment_response)
       telegram_channel.send_message_on_telegram(message)
       expect(message.reload.status).to eq('failed')
-      expect(message.reload.external_error).to eq('400: Bad Request: invalid file id')
+      expect(message.reload.external_error).to eq('400, Bad Request: invalid file id')
     end
   end
 
