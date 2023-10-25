@@ -220,6 +220,7 @@ en:
       made_with: Made with
     header:
       go_to_homepage: Go to the main site
+      featured_articles: Featured Articles
   slack_unfurl:
     fields:
      name: Name
