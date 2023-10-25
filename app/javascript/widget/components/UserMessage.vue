@@ -23,29 +23,32 @@
               :status="message.status"
               :widget-color="widgetColor"
             />
+            <div
+              v-if="hasAttachments"
+              class="chat-bubble has-attachment user"
+              :style="{ backgroundColor: widgetColor }"
+            >
+              <div
+                v-for="attachment in message.attachments"
+                :key="attachment.id"
+              >
+                <image-bubble
+                  v-if="attachment.file_type === 'image' && !hasImageError"
+                  :url="attachment.data_url"
+                  :thumb="attachment.data_url"
+                  :readable-time="readableTime"
+                  @error="onImageLoadError"
+                />
+                <file-bubble
+                  v-else
+                  :url="attachment.data_url"
+                  :is-in-progress="isInProgress"
+                  :widget-color="widgetColor"
+                  is-user-bubble
+                />
+              </div>
+            </div>
           </drag-wrapper>
-        </div>
-        <div
-          v-if="hasAttachments"
-          class="chat-bubble has-attachment user"
-          :style="{ backgroundColor: widgetColor }"
-        >
-          <div v-for="attachment in message.attachments" :key="attachment.id">
-            <image-bubble
-              v-if="attachment.file_type === 'image' && !hasImageError"
-              :url="attachment.data_url"
-              :thumb="attachment.data_url"
-              :readable-time="readableTime"
-              @error="onImageLoadError"
-            />
-            <file-bubble
-              v-else
-              :url="attachment.data_url"
-              :is-in-progress="isInProgress"
-              :widget-color="widgetColor"
-              is-user-bubble
-            />
-          </div>
         </div>
         <div
           v-if="isFailed"
