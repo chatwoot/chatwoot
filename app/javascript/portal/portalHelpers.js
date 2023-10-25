@@ -21,12 +21,12 @@ export const getHeadingsfromTheArticle = () => {
   return rows;
 };
 
-const generatePortalBgColor = (portalColor, theme) => {
+export const generatePortalBgColor = (portalColor, theme) => {
   const baseColor = theme === 'dark' ? 'black' : 'white';
   return `color-mix(in srgb, ${portalColor} 20%, ${baseColor})`;
 };
 
-const generatePortalBg = (portalColor, theme) => {
+export const generatePortalBg = (portalColor, theme) => {
   const bgImage = theme === 'dark' ? 'hexagon-dark.svg' : 'hexagon-light.svg';
   return `background: url(/assets/images/hc/${bgImage}) ${generatePortalBgColor(
     portalColor,
@@ -34,13 +34,13 @@ const generatePortalBg = (portalColor, theme) => {
   )}`;
 };
 
-const generateGradientToBottom = theme => {
+export const generateGradientToBottom = theme => {
   return `background-image: linear-gradient(to bottom, transparent, ${
     theme === 'dark' ? '#151718' : 'white'
   })`;
 };
 
-const setPortalStyles = theme => {
+export const setPortalStyles = theme => {
   const portalColor = window.portalConfig.portalColor;
   const portalBgDiv = document.querySelector('#portal-bg');
   const portalBgGradientDiv = document.querySelector('#portal-bg-gradient');
@@ -56,14 +56,14 @@ const setPortalStyles = theme => {
   }
 };
 
-const setPortalClass = theme => {
+export const setPortalClass = theme => {
   const portalDiv = document.querySelector('#portal');
   portalDiv.classList.remove('light', 'dark');
   if (!portalDiv) return;
   portalDiv.classList.add(theme);
 };
 
-const updateThemeStyles = theme => {
+export const updateThemeStyles = theme => {
   setPortalStyles(theme);
   setPortalClass(theme);
 };
