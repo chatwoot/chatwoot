@@ -7,7 +7,7 @@
                <span class="text-lg rounded-md cursor-pointer <%= !@is_plain_layout_enabled && 'pl-1' %>"><%= category.icon %></span>
                <% end %>
                <h3 class="text-xl text-slate-800 dark:text-slate-50 font-semibold leading-relaxed hover:cursor-pointer <%= @is_plain_layout_enabled ? 'hover:underline' : 'hover:text-woot-600 dark:hover:text-woot-600' %> <%= category.icon.blank? && !@is_plain_layout_enabled ? 'pl-1' : '' %>">
-                  <a href="/hc/<%= portal.slug %>/<%= category.locale %>/categories/<%= category.slug %><%= @theme.present? ? '?theme='+@theme : ''  %>">
+                  <a href="/hc/<%= portal.slug %>/<%= category.locale %>/categories/<%= category.slug %><%= @theme.present? && @theme != 'system' ? '?theme='+@theme : ''  %>">
                   <%= category.name %>
                   </a>
                </h3>
@@ -24,7 +24,7 @@
          </div>
          <% else %>
          <% category.articles.published.order(position: :asc).take(5).each do |article| %>
-         <a class="text-slate-700 dark:text-slate-100 leading-7" href="/hc/<%= portal.slug %>/articles/<%= article.slug %><%= @theme.present? ? '?theme='+@theme : ''  %>">
+         <a class="text-slate-700 dark:text-slate-100 leading-7" href="/hc/<%= portal.slug %>/articles/<%= article.slug %><%= @theme.present? && @theme != 'system' ? '?theme='+@theme : ''  %>">
             <div class="flex justify-between hover:cursor-pointer items-center py-1 rounded-lg gap-3  <%= !@is_plain_layout_enabled ? 'px-2 hover:bg-slate-50 dark:hover:bg-slate-800' : 'hover:underline' %>">
                <%= article.title %>
                <span class="flex items-center font-normal">
