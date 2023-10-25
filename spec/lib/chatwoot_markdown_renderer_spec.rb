@@ -5,6 +5,7 @@ RSpec.describe ChatwootMarkdownRenderer do
   let(:doc) { instance_double(CommonMarker::Node) }
   let(:renderer) { described_class.new(markdown_content) }
   let(:markdown_renderer) { instance_double(CustomMarkdownRenderer) }
+  let(:base_markdown_renderer) { instance_double(BaseMarkdownRenderer) }
   let(:html_content) { '<p>This is a <em>test</em> content with <sup>markdown</sup></p>' }
 
   before do
@@ -31,6 +32,8 @@ RSpec.describe ChatwootMarkdownRenderer do
 
     before do
       allow(CommonMarker).to receive(:render_html).with(markdown_content).and_return(message_html_content)
+      allow(BaseMarkdownRenderer).to receive(:new).and_return(base_markdown_renderer)
+      allow(base_markdown_renderer).to receive(:render).with(doc).and_return(message_html_content)
     end
 
     it 'renders the markdown message to html' do
