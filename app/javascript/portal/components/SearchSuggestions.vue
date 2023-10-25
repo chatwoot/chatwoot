@@ -17,11 +17,12 @@
         v-for="(article, index) in items"
         :id="article.id"
         :key="article.id"
-        class="group flex border border-solid border-slate-100 dark:border-slate-800 rounded-lg cursor-default select-none items-center p-4"
+        class="group flex border border-solid hover:bg-slate-25 dark:bg-slate-800 border-slate-100 dark:border-slate-800 rounded-lg cursor-default select-none items-center p-4"
         :class="{ 'bg-slate-25 dark:bg-slate-800': index === selectedIndex }"
         role="option"
         tabindex="-1"
-        @mouseover="onHover(index)"
+        @mouse-enter="onHover(index)"
+        @mouse-leave="onHover(-1)"
         @click="onSelect"
       >
         <div class="flex flex-col gap-1 overflow-y-hidden">
@@ -86,7 +87,7 @@ export default {
   },
   data() {
     return {
-      selectedIndex: 0,
+      selectedIndex: -1,
     };
   },
 
@@ -127,7 +128,7 @@ export default {
     },
     handleKeyboardEvent(e) {
       this.processKeyDownEvent(e);
-      this.$el.scrollTop = 40 * this.selectedIndex;
+      this.$el.scrollTop = 100 * this.selectedIndex;
     },
     onHover(index) {
       this.selectedIndex = index;
