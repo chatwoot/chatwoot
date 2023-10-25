@@ -19,7 +19,11 @@
           <reply-to-chip :reply-to="replyTo" />
         </div>
         <div class="flex gap-1">
-          <drag-wrapper direction="right" @dragged="toggleReply">
+          <drag-wrapper
+            class="space-y-2"
+            direction="right"
+            @dragged="toggleReply"
+          >
             <AgentMessageBubble
               v-if="shouldDisplayAgentMessage"
               :content-type="contentType"
@@ -28,26 +32,29 @@
               :message-type="messageType"
               :message="message.content"
             />
-          </drag-wrapper>
-          <div
-            v-if="hasAttachments"
-            class="chat-bubble has-attachment agent"
-            :class="(wrapClass, $dm('bg-white', 'dark:bg-slate-700'))"
-          >
-            <div v-for="attachment in message.attachments" :key="attachment.id">
-              <image-bubble
-                v-if="attachment.file_type === 'image' && !hasImageError"
-                :url="attachment.data_url"
-                :thumb="attachment.data_url"
-                :readable-time="readableTime"
-                @error="onImageLoadError"
-              />
-              <audio v-else-if="attachment.file_type === 'audio'" controls>
-                <source :src="attachment.data_url" />
-              </audio>
-              <file-bubble v-else :url="attachment.data_url" />
+            <div
+              v-if="hasAttachments"
+              class="chat-bubble has-attachment agent"
+              :class="(wrapClass, $dm('bg-white', 'dark:bg-slate-700'))"
+            >
+              <div
+                v-for="attachment in message.attachments"
+                :key="attachment.id"
+              >
+                <image-bubble
+                  v-if="attachment.file_type === 'image' && !hasImageError"
+                  :url="attachment.data_url"
+                  :thumb="attachment.data_url"
+                  :readable-time="readableTime"
+                  @error="onImageLoadError"
+                />
+                <audio v-else-if="attachment.file_type === 'audio'" controls>
+                  <source :src="attachment.data_url" />
+                </audio>
+                <file-bubble v-else :url="attachment.data_url" />
+              </div>
             </div>
-          </div>
+          </drag-wrapper>
           <div class="flex flex-col justify-end">
             <message-reply-button
               class="transition-opacity delay-75 opacity-0 group-hover:opacity-100 sm:opacity-0"
