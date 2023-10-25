@@ -24,6 +24,16 @@ module PortalHelper
     end
   end
 
+  def get_theme_icon(theme)
+    if theme == 'light'
+      'icons/sun'
+    elsif theme == 'dark'
+      'icons/moon'
+    else
+      'icons/monitor'
+    end
+  end
+
   def generate_gradient_to_bottom(theme)
     "background-image: linear-gradient(to bottom, transparent, #{theme == 'dark' ? '#151718' : 'white'})"
   end
