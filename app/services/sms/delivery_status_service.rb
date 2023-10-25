@@ -1,10 +1,7 @@
 class Sms::DeliveryStatusService
-  pattr_initialize [:params!]
-  # Reference: https://www.twilio.com/docs/messaging/api/message-resource#message-status-values
+  pattr_initialize [:inbox!, :params!]
 
   def perform
-    return if twilio_channel.blank?
-
     return unless supported_status?
 
     process_statuses if message.present?
@@ -19,41 +16,37 @@ class Sms::DeliveryStatusService
   end
 
   def supported_status?
-    %w[sent delivered read failed undelivered].include?(params[:MessageStatus])
+    %w[message-delivered message-failed].include?(params[:type])
   end
 
+  # Relevant documentation:
+  # https://dev.bandwidth.com/docs/mfa/webhooks/international/message-delivered
+  # https://dev.bandwidth.com/docs/mfa/webhooks/international/message-failed
   def status
-    params[:MessageStatus] == 'undelivered' ? 'failed' : params[:MessageStatus]
+    type_mapping = {
+      'message-delivered' => 'delivered',
+      'message-failed' => 'failed'
+    }
+
+    type_mapping[params[:type]]
   end
 
   def external_error
     return nil unless error_occurred?
 
-    error_message = params[:ErrorMessage].presence
-    error_code = params[:ErrorCode]
+    error_message = params[:description]
+    error_code = params[:errorCode]
 
-    if error_message.present?
-      "#{error_code} - #{error_message}"
-    elsif error_code.present?
-      I18n.t('conversations.messages.delivery_status.error_code', error_code: error_code)
-    end
+    "#{error_code} - #{error_message}"
   end
 
   def error_occurred?
-    params[:ErrorCode].present? && %w[failed undelivered].include?(params[:MessageStatus])
-  end
-
-  def twilio_channel
-    @twilio_channel ||= if params[:MessagingServiceSid].present?
-                          ::Channel::TwilioSms.find_by(messaging_service_sid: params[:MessagingServiceSid])
-                        elsif params[:AccountSid].present? && params[:From].present?
-                          ::Channel::TwilioSms.find_by!(account_sid: params[:AccountSid], phone_number: params[:From])
-                        end
+    params[:errorCode] && %w[message-failed].include?(params[:type])
   end
 
   def message
-    return unless params[:MessageSid]
+    return unless params[:message][:id]
 
-    @message ||= twilio_channel.inbox.messages.find_by(source_id: params[:MessageSid])
+    @message ||= inbox.messages.find_by(source_id: params[:message][:id])
   end
 end
