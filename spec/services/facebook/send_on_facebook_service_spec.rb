@@ -90,7 +90,6 @@ describe Facebook::SendOnFacebookService do
 
       it 'if message sent from chatwoot is failed' do
         message = create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation)
-        # Expect json in string and can be access error as [:error]
         allow(bot).to receive(:deliver).and_return({ error: { message: 'Invalid OAuth access token.', type: 'OAuthException', code: 190,
                                                               fbtrace_id: 'BLBz/WZt8dN' } }.to_json)
         described_class.new(message: message).perform
