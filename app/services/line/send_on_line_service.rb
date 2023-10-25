@@ -6,7 +6,7 @@ class Line::SendOnLineService < Base::SendOnChannelService
   end
 
   def perform_reply
-    response = channel.client.push_message(message.conversation.contact_inbox.source_id, [{ type: 'text', text: nil }])
+    response = channel.client.push_message(message.conversation.contact_inbox.source_id, [{ type: 'text', text: message.content }])
     return if response.blank?
 
     parsed_json = JSON.parse(response.body)
