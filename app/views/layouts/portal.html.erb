@@ -28,7 +28,7 @@ By default, it renders:
     <% end %>
   </head>
   <body>
-    <div id="portal" class="antialiased <%= @theme %>">
+    <div id="portal" class="antialiased <%= @theme unless @theme == 'system' %>">
       <main class="main-content min-h-screen flex flex-col bg-white dark:bg-slate-900" role="main">
         <% if !@is_plain_layout_enabled %>
           <%= render "public/api/v1/portals/header", portal: @portal %>
@@ -42,7 +42,7 @@ By default, it renders:
   </body>
   <style>
   :root {
-    color-scheme: '<%= @theme %>';
+    color-scheme: <% if @theme == 'system' %>light dark<% else %><%= @theme %><% end %>;
   }
   </style>
   <script>
@@ -58,5 +58,34 @@ By default, it renders:
       isPlainLayoutEnabled: '<%= @is_plain_layout_enabled %>',
       tocHeader: '<%= I18n.t('public_portal.toc_header') %>'
     };
+
+    const setPortalBackground = (theme) => {
+      const portalBgDiv = document.querySelector('#portal-bg');
+      if (!portalBgDiv) return;
+      let style;
+      if (theme === 'dark') {
+        style = `<%= generate_portal_bg(@portal.color, 'dark') %>`;
+      } else {
+        style = `<%= generate_portal_bg(@portal.color, 'light') %>`;
+      }
+      portalBgDiv.setAttribute('style', style);
+    };
+
+    const setPortalClass = (theme) => {
+      const portalDiv = document.querySelector('#portal');
+      if (!portalDiv) return;
+      portalDiv.classList.add(theme);
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const { matches } = window.matchMedia?.('(prefers-color-scheme: dark)') ?? {};
+      const getThemePreference = () => matches ? 'dark' : 'light';
+      const themeFromServer = '<%= @theme %>';
+      if (themeFromServer === 'system') {
+        const themePreference = getThemePreference();
+        setPortalBackground(themePreference);
+        setPortalClass(themePreference);
+      }
+    });
   </script>
 </html>
