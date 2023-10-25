@@ -4,12 +4,12 @@ class Sms::DeliveryStatusService
   def perform
     return unless supported_status?
 
-    process_statuses if message.present?
+    process_status if message.present?
   end
 
   private
 
-  def process_statuses
+  def process_status
     @message.status = status
     @message.external_error = external_error if error_occurred?
     @message.save!
@@ -41,7 +41,7 @@ class Sms::DeliveryStatusService
   end
 
   def error_occurred?
-    params[:errorCode] && %w[message-failed].include?(params[:type])
+    params[:errorCode] && params[:type] == 'message-failed'
   end
 
   def message
