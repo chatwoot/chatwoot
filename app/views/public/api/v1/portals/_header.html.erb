@@ -1,5 +1,5 @@
 <header class="bg-white dark:bg-slate-900 w-full shadow-sm sticky top-0 z-50">
-  <nav class=" flex mx-auto max-w-6xl px-8" aria-label="Top">
+  <nav class=" flex mx-auto max-w-5xl px-8" aria-label="Top">
     <div class="w-full py-5 flex items-center">
       <a href="/hc/<%= @portal.slug %>/<%= @portal.config['default_locale'] || params[:locale] %>/<%= @theme.present? ? '?theme='+@theme : ''  %>" class="h-10 text-lg flex items-center text-slate-900 dark:text-white font-semibold">
         <% if @portal.logo.present? %>
@@ -38,7 +38,7 @@
               <%= render partial: 'icons/monitor' %>
               <span class="text-xs font-medium"><%= I18n.t('public_portal.header.appearance.system') %></span>
             </div>
-            <% if @theme.blank? %>
+            <% if @theme.present? && @theme == 'system' %>
               <%= render partial: 'icons/check-mark' %>
             <% end %>
           </button>
