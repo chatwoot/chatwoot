@@ -6,7 +6,7 @@
           id="on-this-page-title"
           class="text-slate-800 pl-6 dark:text-slate-50 font-semibold tracking-wide py-3 leading-7 border-l-2 border-solid border-slate-100 dark:border-slate-800"
           :class="{
-            'border-slate-400 dark:border-slate-50': !currentSlug,
+            'border-slate-400 dark:border-slate-100': !currentSlug,
           }"
         >
           {{ tocHeader }}
@@ -25,7 +25,11 @@
               <a
                 :href="`#${element.slug}`"
                 data-turbolinks="false"
-                class="text-base text-slate-800 dark:text-slate-50 cursor-pointer"
+                class="text-base text-slate-700 dark:text-slate-100 cursor-pointer"
+                :class="{
+                  'font-semibold text-slate-900 dark:text-slate-25':
+                    getActiveSlug(element),
+                }"
               >
                 {{ element.title }}
               </a>
