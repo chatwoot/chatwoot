@@ -511,6 +511,8 @@ export default {
     currentChat(conversation) {
       const { can_reply: canReply } = conversation;
 
+      this.setCCAndToEmailsFromLastChat();
+
       if (this.isOnPrivateNote) {
         return;
       }
@@ -521,7 +523,6 @@ export default {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
       }
 
-      this.setCCAndToEmailsFromLastChat();
       this.fetchAndSetReplyTo();
     },
     conversationIdByRoute(conversationId, oldConversationId) {
