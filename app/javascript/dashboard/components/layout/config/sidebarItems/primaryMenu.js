@@ -29,6 +29,15 @@ const primaryMenuItems = accountId => [
     roles: ['administrator'],
   },
   {
+    icon: 'book-contacts',
+    key: 'visitors',
+    label: 'VISITORS',
+    featureFlag: FEATURE_FLAGS.CRM,
+    toState: frontendURL(`accounts/${accountId}/visitors`),
+    toStateName: 'visitors',
+    roles: ['administrator', 'agent'],
+  },
+  {
     icon: 'megaphone',
     key: 'campaigns',
     label: 'CAMPAIGNS',
