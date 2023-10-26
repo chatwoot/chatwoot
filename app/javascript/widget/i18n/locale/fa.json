@@ -20,7 +20,7 @@
     "IN_A_FEW_MINUTES": "معمولاً در عرض چند دقیقه پاسخ می دهند",
     "IN_A_FEW_HOURS": "معمولاً در عرض چند ساعت پاسخ می دهند",
     "IN_A_DAY": "به طور معمول در یک روز پاسخ می دهند",
-    "BACK_IN": "We will be back online"
+    "BACK_IN": "دوباره آنلاین خواهیم بود"
   },
   "DAY_NAMES": [
     "یک‌شنبه",
@@ -65,11 +65,11 @@
         "VALID_ERROR": "لطفا ایمیل خود را به شکل صحیح وارد کنید"
       },
       "PHONE_NUMBER": {
-        "LABEL": "شماره تلفن",
+        "LABEL": "شماره موبایل",
         "PLACEHOLDER": "لطفا شماره تلفن خود را وارد کنید",
         "REQUIRED_ERROR": "شماره تلفن مورد نیاز است",
-        "DIAL_CODE_VALID_ERROR": "Please select a country code",
-        "VALID_ERROR": "Please enter a valid phone number",
+        "DIAL_CODE_VALID_ERROR": "لطفا\" یک کد کشور انتخاب کنید",
+        "VALID_ERROR": "لطفا\" یک شماره موبایل معتبر وارد نمایید",
         "DROPDOWN_EMPTY": "نتیجه‌ای یافت نشد"
       },
       "MESSAGE": {
@@ -104,14 +104,14 @@
   },
   "INTEGRATIONS": {
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "برای عضویت اینجا را کلیک کنید",
+      "CLICK_HERE_TO_JOIN": "برای ملحق شدن اینجا را کلیک کنید",
       "LEAVE_THE_ROOM": "تماس را ترک کنید"
     }
   },
   "PORTAL": {
-    "POPULAR_ARTICLES": "Popular Articles",
+    "POPULAR_ARTICLES": "مقالات محبوب",
     "VIEW_ALL_ARTICLES": "مشاهده همه مقالات",
-    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+    "IFRAME_LOAD_ERROR": "در لود مقاله خطایی رخ داده است، لطفا\" صفحه را رفرش و دوباره تلاش نمایید."
   },
   "ATTACHMENTS": {
     "image": {
@@ -124,10 +124,10 @@
       "CONTENT": "پیام ویدیویی"
     },
     "file": {
-      "CONTENT": "فایل الصاقی"
+      "CONTENT": "ضمیمه فایل"
     },
     "location": {
-      "CONTENT": "مکان"
+      "CONTENT": "موقعیت جغرافیایی"
     },
     "fallback": {
       "CONTENT": "یک آدرس URL به اشتراک گذاشته شده"
