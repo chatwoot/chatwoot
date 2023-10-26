@@ -532,17 +532,25 @@ export default {
       }
     },
     message(updatedMessage) {
-      this.hasSlashCommand =
-        updatedMessage[0] === '/' && !this.showRichContentEditor;
-      const hasNextWord = updatedMessage.includes(' ');
-      const isShortCodeActive = this.hasSlashCommand && !hasNextWord;
-      if (isShortCodeActive) {
-        this.mentionSearchKey = updatedMessage.substring(1);
-        this.showMentions = true;
-      } else {
-        this.mentionSearchKey = '';
-        this.showMentions = false;
-      }
+      // Check if the message starts with a slash.
+      const bodyWithoutSignature = removeSignature(
+        updatedMessage,
+        this.signatureToApply
+      );
+      const startsWithSlash = bodyWithoutSignature.startsWith('/');
+
+      // Determine if the user is potentially typing a slash command.
+      // This is true if the message starts with a slash and the rich content editor is not active.
+      this.hasSlashCommand = startsWithSlash && !this.showRichContentEditor;
+      this.showMentions = this.hasSlashCommand;
+
+      // If a slash command is active, extract the command text after the slash.
+      // If not, reset the mentionSearchKey.
+      this.mentionSearchKey = this.hasSlashCommand
+        ? bodyWithoutSignature.substring(1)
+        : '';
+
+      // Autosave the current message draft.
       this.doAutoSaveDraft();
     },
     replyType(updatedReplyType, oldReplyType) {
@@ -820,10 +828,18 @@ export default {
       this.hideWhatsappTemplatesModal();
     },
     replaceText(message) {
+      if (this.sendWithSignature && !this.private) {
+        // if signature is enabled, append it to the message
+        // appendSignature ensures that the signature is not duplicated
+        // so we don't need to check if the signature is already present
+        message = appendSignature(message, this.signatureToApply);
+      }
+
       const updatedMessage = replaceVariablesInMessage({
         message,
         variables: this.messageVariables,
       });
+
       setTimeout(() => {
         this.$track(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
         this.message = updatedMessage;
