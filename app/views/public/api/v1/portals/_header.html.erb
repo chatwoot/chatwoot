@@ -66,7 +66,7 @@
       <%# Locale switcher section %>
       <% if @portal.config["allowed_locales"].length > 1 %>
         <div class="flex items-center stroke-slate-700 dark:stroke-slate-200 hover:stroke-woot-500 dark:hover:stroke-woot-500 text-slate-800 dark:text-slate-100 hover:text-woot-500 dark:hover:text-woot-500">
-          <div class="flex items-center gap-1 px-1 py-2">
+          <div class="flex items-center gap-1 px-1 py-2 cursor-pointer">
             <%= render partial: 'icons/globe' %>
             <select
               data-portal-slug="<%= @portal.slug %>"
@@ -76,8 +76,6 @@
                 <option <%= locale == params[:locale] ? 'selected': '' %> value="<%= locale %>"><%= "#{language_name(locale)} (#{locale})" %></option>
               <% end %>
             </select>
-          </div>
-          <div class="pointer-events-none flex items-center px-2 text-slate-800 dark:text-slate-100">
             <%= render partial: 'icons/chevron-down' %>
           </div>
         </div>
