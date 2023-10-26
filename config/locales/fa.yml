@@ -39,7 +39,7 @@ fa:
       import:
         failed: پرونده خالی است
       export:
-        success: We will notify you once contacts export file is ready to view.
+        success: هر زمان فایل خروجی مخاطبین برای مشاهده آماده شود به شما اطلاع خواهیم داد.
       email:
         invalid: ایمیل نامعتبر است
       phone_number:
@@ -61,7 +61,7 @@ fa:
       validations:
         name: نباید با نمادها شروع یا ختم شود و نباید دارای کاراکترهای < > / \ @ باشد.
     custom_filters:
-      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
+      number_of_records: سررسید محدودیت. حداکثر تعداد قابل قبول فیلترها برای یک کاربر در هر اکانت 50 می باشند.
   reports:
     period: زمان گزارش از %{since} تا %{until}
     utc_warning: گزارش تولید شده در منطقه زمانی UTC است
@@ -111,7 +111,7 @@ fa:
       instagram_deleted_story_content: این داستان دیگر در دسترس نیست.
       deleted: این پیام حذف شد
       delivery_status:
-        error_code: "Error code: %{error_code}"
+        error_code: "کد خطا \" %{error_code}"
     activity:
       status:
         resolved: "مکالمه توسط ایجنت %{user_name} حل شده، اعلام شده بود"
@@ -190,7 +190,7 @@ fa:
       empty_placeholder: نتیجه‌ای یافت نشد.
       loading_placeholder: در حال جستجو...
       results_title: نتایج جستجو
-    toc_header: 'On this page'
+    toc_header: 'در این صفحه'
     hero:
       sub_title: مقالات را در اینجا جستجو کنید یا دسته‌بندی‌های زیر را مرور کنید.
     common:
@@ -208,8 +208,8 @@ fa:
     fields:
       name: نام
       email: ایمیل
-      phone_number: Phone
+      phone_number: موبایل
       company_name: شرکت
       inbox_name: صندوق ورودی
-      inbox_type: Inbox Type
+      inbox_type: نوع صندوق ورودی
     button: باز کردن گفتگو

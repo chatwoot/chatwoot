@@ -39,7 +39,7 @@
     "SORT_TOOLTIP_LABEL": "مرتب‌سازی گفتگوها",
     "CHAT_SORT": {
       "STATUS": "وضعیت",
-      "ORDER_BY": "سفارش توسط"
+      "ORDER_BY": "مرتب بر اساس"
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
@@ -62,7 +62,7 @@
         "TEXT": "اولویت"
       },
       "sort_on_waiting_since": {
-        "TEXT": "پاسخ در انتظار"
+        "TEXT": "در انتظار پاسخ"
       }
     },
     "ATTACHMENTS": {
