@@ -131,7 +131,7 @@
         "KEY_PLACEHOLDER": "Enter your OpenAI API key",
         "BUTTONS": {
           "NEED_HELP": "به کمک احتياج داری؟",
-          "DISMISS": "Dismiss",
+          "DISMISS": "نادیده بگیر",
           "FINISH": "Finish Setup"
         },
         "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
