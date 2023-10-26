@@ -10,7 +10,7 @@
     <input
       :value="value"
       type="text"
-      class="w-full focus:outline-none text-base h-full bg-white dark:bg-slate-900 px-2 text-slate-700 dark:text-slate-100 placeholder-slate-500"
+      class="w-full focus:outline-none text-base h-full bg-white dark:bg-slate-900 px-2 py-2 text-slate-700 dark:text-slate-100 placeholder-slate-500"
       :placeholder="searchPlaceholder"
       role="search"
       @input="onChange"
