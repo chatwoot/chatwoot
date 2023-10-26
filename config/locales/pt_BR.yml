@@ -207,7 +207,7 @@ pt_BR:
   slack_unfurl:
     fields:
       name: Nome
-      email: e-mail
+      email: E-mail
       phone_number: Telefone
       company_name: Empresa
       inbox_name: Caixa de Entrada
