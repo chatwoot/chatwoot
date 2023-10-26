@@ -34,7 +34,6 @@
     "ASSIGN_TO_ME": "שייך לעצמך",
     "TWILIO_WHATSAPP_CAN_REPLY": "אתה יכול להשיב לשיחה זו רק באמצעות הודעת תבנית בשל",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "הגבלת חלון הודעות של 24 שעות",
-    "SELECT_A_TWEET_TO_REPLY": "אנא בחר ציוץ להשיב.",
     "REPLYING_TO": "אתה משיב ל:",
     "REMOVE_SELECTION": "הסר בחירה",
     "DOWNLOAD": "הורד",
@@ -47,6 +46,7 @@
     "NO_RESPONSE": "אין תגובה",
     "RATING_TITLE": "דירוג",
     "FEEDBACK_TITLE": "משוב",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "הצג תויות",
       "HIDE_LABELS": "הסתר תוויות"
@@ -139,7 +139,8 @@
       "PRIVATE_NOTE": "הערה פרטית",
       "SEND": "שלח",
       "CREATE": "הוסף הערה",
-      "TWEET": "ציוץ",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "הצג עורך טקסט עשיר",
       "TIP_EMOJI_ICON": "הצג בחירת אימוג'ים",
       "TIP_ATTACH_ICON": "הוסף קבצים",
@@ -194,6 +195,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "העתק",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "מחק",
       "CREATE_A_CANNED_RESPONSE": "הוסף לתגובות מוכנות",
       "TRANSLATE": "תרגום",

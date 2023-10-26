@@ -201,7 +201,11 @@ export default {
         return !!this.sourceId;
       }
 
-      if (this.isAWhatsAppChannel || this.isATwilioChannel) {
+      if (
+        this.isAWhatsAppChannel ||
+        this.isATwilioChannel ||
+        this.isAFacebookInbox
+      ) {
         return this.sourceId && this.isSent;
       }
       return false;
@@ -214,8 +218,8 @@ export default {
       if (this.isAWhatsAppChannel || this.isATwilioChannel) {
         return this.sourceId && this.isDelivered;
       }
-      // We will consider messages as delivered for web widget inbox if they are sent
-      if (this.isAWebWidgetInbox) {
+      // We will consider messages as delivered for web widget inbox and API inbox if they are sent
+      if (this.isAWebWidgetInbox || this.isAPIInbox) {
         return this.isSent;
       }
 
@@ -231,7 +235,11 @@ export default {
         return contactLastSeenAt >= this.createdAt;
       }
 
-      if (this.isAWhatsAppChannel || this.isATwilioChannel) {
+      if (
+        this.isAWhatsAppChannel ||
+        this.isATwilioChannel ||
+        this.isAFacebookInbox
+      ) {
         return this.sourceId && this.isRead;
       }
 
