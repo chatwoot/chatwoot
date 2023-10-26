@@ -365,7 +365,7 @@
         "NAME": {
           "LABEL": "Nosaukums",
           "PLACEHOLDER": "Kategorijas nosaukums",
-          "HELP_TEXT": "Kategorijas nosaukums tiks izmantots publiskajā portālā, lai klasificētu rakstus.",
+          "HELP_TEXT": "Kategorijas nosaukums un ikona tiks izmantota publiskajā portālā, lai klasificētu rakstus.",
           "ERROR": "Nepieciešams nosaukums"
         },
         "SLUG": {
@@ -396,7 +396,7 @@
         "NAME": {
           "LABEL": "Nosaukums",
           "PLACEHOLDER": "Kategorijas nosaukums",
-          "HELP_TEXT": "Kategorijas nosaukums tiks izmantots publiskajā portālā, lai klasificētu rakstus.",
+          "HELP_TEXT": "Kategorijas nosaukums un ikona tiks izmantota publiskajā portālā, lai klasificētu rakstus.",
           "ERROR": "Nepieciešams nosaukums"
         },
         "SLUG": {
