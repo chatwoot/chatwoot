@@ -31,7 +31,7 @@ describe Instagram::ReadStatusService do
           }
         }
         described_class.new(params: params).perform
-        expect(Conversations::MarkMessagesAsReadJob).to have_received(:perform_later).with(instagram_inbox, message.created_at)
+        expect(Conversations::MarkMessagesAsReadJob).to have_received(:perform_later).with(conversation.id, message.created_at)
       end
 
       it 'does not enqueue the MarkMessagesAsReadJob if the message is not found' do
