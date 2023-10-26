@@ -14,7 +14,12 @@
         </div>
         <span class="timestamp">{{ readableTime }} </span>
       </div>
-      <p v-dompurify-html="prepareContent(content)" class="message-content" />
+      <p
+        v-dompurify-html="
+          highlightContent(content, searchTerm, 'searchkey--highlight')
+        "
+        class="message-content"
+      />
     </div>
   </div>
 </template>
@@ -59,20 +64,6 @@ export default {
         return '';
       }
       return this.dynamicTime(this.timestamp);
-    },
-  },
-  methods: {
-    prepareContent(content = '') {
-      const plainTextContent = this.getPlainText(content);
-      const escapedSearchTerm = this.escapeRegExp(this.searchTerm);
-      return plainTextContent.replace(
-        new RegExp(`(${escapedSearchTerm})`, 'ig'),
-        '<span class="searchkey--highlight">$1</span>'
-      );
-    },
-    // from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
-    escapeRegExp(string) {
-      return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     },
   },
 };
