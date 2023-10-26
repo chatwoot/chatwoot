@@ -24,7 +24,7 @@
 
       <%# Appearance toggle section %>
       <div class="flex-grow flex-shrink-0 relative cursor-pointer px-1 py-2">
-        <button class="toggle-appearance flex flex-row items-center stroke-slate-700 dark:stroke-slate-200 hover:stroke-woot-500 dark:hover:stroke-woot-500 text-slate-800 dark:text-slate-100 hover:text-woot-500 dark:hover:text-woot-500 gap-1" type="button" onclick="toggleAppearanceDropdown()">
+        <button id="toggle-appearance" class="toggle-appearance flex flex-row items-center stroke-slate-700 dark:stroke-slate-200 hover:stroke-woot-500 dark:hover:stroke-woot-500 text-slate-800 dark:text-slate-100 hover:text-woot-500 dark:hover:text-woot-500 gap-1" type="button">
           <%= render partial: get_theme_icon(@theme) %>
           <span class="text-sm font-medium"><%= get_theme_names(@theme) %></span>
           <div class="pointer-events-none flex items-center px-1">
@@ -33,7 +33,7 @@
         </button>
         <%# Appearance dropdown section %>
         <div id="appearance-dropdown" class="hidden absolute flex-col h-auto w-32 bg-white dark:bg-slate-900 border border-solid rounded top-9 border-slate-100 dark:border-slate-800" aria-hidden="true" data-dropdown="appearance-dropdown">
-          <button onclick="switchTheme('system')" class="flex flex-row items-center justify-between px-2 py-2 border-b border-solid border-slate-100 dark:border-slate-800 gap-1 stroke-slate-700 dark:stroke-slate-200 hover:stroke-woot-500 dark:hover:stroke-woot-500 text-slate-800 dark:text-slate-100 hover:text-woot-500 dark:hover:text-woot-500">
+          <button data-theme="system" class="flex flex-row items-center justify-between px-2 py-2 border-b border-solid border-slate-100 dark:border-slate-800 gap-1 stroke-slate-700 dark:stroke-slate-200 hover:stroke-woot-500 dark:hover:stroke-woot-500 text-slate-800 dark:text-slate-100 hover:text-woot-500 dark:hover:text-woot-500">
             <div class="flex flex-row items-center gap-1">
               <%= render partial: 'icons/monitor' %>
               <span class="text-xs font-medium"><%= I18n.t('public_portal.header.appearance.system') %></span>
@@ -42,7 +42,7 @@
               <%= render partial: 'icons/check-mark' %>
             <% end %>
           </button>
-          <button onclick="switchTheme('light')" class="flex flex-row items-center justify-between px-2 py-2 border-b border-solid border-slate-100 dark:border-slate-800 gap-1 stroke-slate-700 dark:stroke-slate-200 hover:stroke-woot-500 dark:hover:stroke-woot-500 text-slate-800 dark:text-slate-100 hover:text-woot-500 dark:hover:text-woot-500">
+          <button data-theme="light" class="flex flex-row items-center justify-between px-2 py-2 border-b border-solid border-slate-100 dark:border-slate-800 gap-1 stroke-slate-700 dark:stroke-slate-200 hover:stroke-woot-500 dark:hover:stroke-woot-500 text-slate-800 dark:text-slate-100 hover:text-woot-500 dark:hover:text-woot-500">
             <div class="flex flex-row items-center gap-1">
               <%= render partial: 'icons/sun' %>
               <span class="text-xs font-medium"><%= I18n.t('public_portal.header.appearance.light') %></span>
@@ -51,7 +51,7 @@
               <%= render partial: 'icons/check-mark' %>
             <% end %>
           </button>
-          <button onclick="switchTheme('dark')" class="flex flex-row items-center justify-between px-2 py-2 gap-1 stroke-slate-700 dark:stroke-slate-200 hover:stroke-woot-500 dark:hover:stroke-woot-500 text-slate-800 dark:text-slate-100 hover:text-woot-500 dark:hover:text-woot-500">
+          <button data-theme="dark" class="flex flex-row items-center justify-between px-2 py-2 gap-1 stroke-slate-700 dark:stroke-slate-200 hover:stroke-woot-500 dark:hover:stroke-woot-500 text-slate-800 dark:text-slate-100 hover:text-woot-500 dark:hover:text-woot-500">
             <div class="flex flex-row items-center gap-1">
               <%= render partial: 'icons/moon' %>
               <span class="text-xs font-medium"><%= I18n.t('public_portal.header.appearance.dark') %></span>
@@ -85,33 +85,3 @@
     </div>
   </nav>
 </header>
-<script>
-  const toggleAppearanceDropdown = () => {
-    const dropdown = document.getElementById('appearance-dropdown');
-    dropdown.style.display = (dropdown.style.display === 'none' || !dropdown.style.display) ? 'flex' : 'none';
-  };
-
-  const switchTheme = (theme) => {
-    const portalWrapper = document.getElementById('portal');
-    portalWrapper.classList.remove('light', 'dark');
-    if (theme !== 'system') {
-      portalWrapper.classList.add(theme);
-      window.location.href = updateURLParameter(window.location.href, 'theme', theme);
-    } else {
-      window.location.href = removeURLParameter(window.location.href, 'theme');
-    }
-    toggleAppearanceDropdown();
-  };
-
-  const updateURLParameter = (url, param, paramVal) => {
-    const urlObj = new URL(url);
-    urlObj.searchParams.set(param, paramVal);
-    return urlObj.toString();
-  };
-
-  const removeURLParameter = (url, parameter) => {
-    const urlObj = new URL(url);
-    urlObj.searchParams.delete(parameter);
-    return urlObj.toString();
-  };
-</script>
