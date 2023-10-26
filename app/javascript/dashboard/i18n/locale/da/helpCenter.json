@@ -365,7 +365,7 @@
         "NAME": {
           "LABEL": "Navn",
           "PLACEHOLDER": "Kategori navn",
-          "HELP_TEXT": "Kategorinavnet vil blive brugt i den offentlige vendende portal til at kategorisere artikler.",
+          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
           "ERROR": "Navn er påkrævet"
         },
         "SLUG": {
@@ -396,7 +396,7 @@
         "NAME": {
           "LABEL": "Navn",
           "PLACEHOLDER": "Kategori navn",
-          "HELP_TEXT": "Kategorinavnet vil blive brugt i den offentlige vendende portal til at kategorisere artikler.",
+          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
           "ERROR": "Navn er påkrævet"
         },
         "SLUG": {
