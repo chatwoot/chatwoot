@@ -162,7 +162,7 @@
         "PROVIDERS": {
           "LABEL": "ارائه دهنده API",
           "TWILIO": "Twilio",
-          "BANDWIDTH": "Bandwidth"
+          "BANDWIDTH": "پهنای باند"
         },
         "API": {
           "ERROR_MESSAGE": "ما نتوانستیم کانال پیامک را ذخیره کنیم"
@@ -405,21 +405,21 @@
         "DISABLED": "غیرفعال"
       },
       "SENDER_NAME_SECTION": {
-        "TITLE": "Sender name",
+        "TITLE": "نام ارسال کننده",
         "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
         "FOR_EG": "For eg:",
         "FRIENDLY": {
-          "TITLE": "Friendly",
+          "TITLE": "دوستانه",
           "FROM": "از",
           "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
         },
         "PROFESSIONAL": {
-          "TITLE": "Professional",
+          "TITLE": "حرفه ای",
           "SUBTITLE": "Use only the configured business name as the sender name in the email header."
         },
         "BUSINESS_NAME": {
           "BUTTON_TEXT": "+ Configure your business name",
-          "PLACEHOLDER": "Enter your business name",
+          "PLACEHOLDER": "نام کسب و کار خود را وارد کنید",
           "SAVE_BUTTON_TEXT": "ذخیره"
         }
       },
@@ -486,7 +486,7 @@
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "فعال یا غیرفعال کردن فرم دریافت ایمیل از کاربر",
       "AUTO_ASSIGNMENT": "فعال کردن واگذاری خودکار گفتگو به ایجنت ها",
       "ENABLE_CSAT": "فعال کردن رضایت مشتری",
-      "SENDER_NAME_SECTION": "Enable Agent Name in Email",
+      "SENDER_NAME_SECTION": "فعال سازی نام اپراتور در ایمیل",
       "ENABLE_CSAT_SUB_TEXT": "پس از پایان گفتگو ، نظرسنجی CSAT (رضایت مشتری) را فعال/غیرفعال کنید",
       "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "ادامه مکالمه را از طریق ایمیل فعال کنید",
@@ -498,7 +498,7 @@
       "AUTO_ASSIGNMENT_SUB_TEXT": "فعال کردن یا غیرفعال کردن واگذاری خودکار گفتگوها به ایجنت های عضو این صندوق ورودی.",
       "HMAC_VERIFICATION": "اعتبار سنجی کاربر",
       "HMAC_DESCRIPTION": "به منظور اعتبارسنجی هویت کاربر، می‌توانید یک «شناسه_هش» برای هر کاربر ارسال کنید. می‌توانید با استفاده از «شناسه» با کلید نشان داده شده در اینجا یک هش HMAC sha256 ایجاد کنید.",
-      "HMAC_LINK_TO_DOCS": "You can read more here.",
+      "HMAC_LINK_TO_DOCS": "از اینجا می توانید بیشتر بخوانید.",
       "HMAC_MANDATORY_VERIFICATION": "مجبور کردن تأیید اعتبار هویت کاربر",
       "HMAC_MANDATORY_DESCRIPTION": "اگر فعال باشد، درخواست‌هایی که «identifier_hash» را ندارند رد می‌شوند.",
       "INBOX_IDENTIFIER": "شناسه صندوق ورودی",
@@ -674,7 +674,7 @@
           "PLACE_HOLDER": "دسترسی به ما ساده است. هر سوالی پیش آمد همینجا از ما بپرسید."
         },
         "REPLY_TIME": {
-          "LABEL": "زمان پاسخ",
+          "LABEL": "زمان پاسخ دهی",
           "IN_A_FEW_MINUTES": "در چند دقیقه",
           "IN_A_FEW_HOURS": "در چند ساعت",
           "IN_A_DAY": "در یک روز"
@@ -712,12 +712,12 @@
         "CHAT": "گفتگو"
       },
       "REPLY_TIME": {
-        "IN_A_FEW_MINUTES": "معمولاً در عرض چند دقیقه پاسخ می دهند",
+        "IN_A_FEW_MINUTES": "معمولاً در عرض چند دقیقه پاسخ دهی انجام می شود",
         "IN_A_FEW_HOURS": "معمولاً در عرض چند ساعت پاسخ می دهند",
-        "IN_A_DAY": "به طور معمول در یک روز پاسخ می دهند"
+        "IN_A_DAY": "به طور معمول در یک روز پاسخ دهی انجام می شود"
       },
       "FOOTER": {
-        "START_CONVERSATION_BUTTON_TEXT": "شروع گفتگو",
+        "START_CONVERSATION_BUTTON_TEXT": "گفتگو را شروع کنید",
         "CHAT_INPUT_PLACEHOLDER": "پیام خود را وارد کنید"
       },
       "BODY": {

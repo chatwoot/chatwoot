@@ -365,7 +365,7 @@
         "NAME": {
           "LABEL": "Tên",
           "PLACEHOLDER": "Tên danh mục",
-          "HELP_TEXT": "Tên danh mục sẽ được sử dụng trong cổng thông tin công khai để phân loại các bài.",
+          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
           "ERROR": "Tên bắt buộc có"
         },
         "SLUG": {
@@ -396,7 +396,7 @@
         "NAME": {
           "LABEL": "Tên",
           "PLACEHOLDER": "Tên danh mục",
-          "HELP_TEXT": "Tên danh mục sẽ được sử dụng trong cổng thông tin công khai để phân loại các bài.",
+          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
           "ERROR": "Tên bắt buộc có"
         },
         "SLUG": {
