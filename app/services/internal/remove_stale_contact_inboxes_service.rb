@@ -29,9 +29,7 @@ class Internal::RemoveStaleContactInboxesService
   end
 
   def stale_contact_inboxes(time_period)
-    ContactInbox.left_joins(:conversations)
-                .where('contact_inboxes.created_at < ?', time_period)
-                .where(conversations: { contact_id: nil })
+    ContactInbox.stale_without_conversations(time_period)
   end
 
   def log_stale_contact_inboxes_deletion(contact_inboxes, time_period)
