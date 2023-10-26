@@ -1,6 +1,7 @@
 {
   "EMOJI": {
     "PLACEHOLDER": "Sök emoji",
-    "NOT_FOUND": "Ingen emoji matchar din sökning"
+    "NOT_FOUND": "Ingen emoji matchar din sökning",
+    "REMOVE": "Radera"
   }
 }
