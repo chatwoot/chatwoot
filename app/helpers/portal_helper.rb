@@ -37,4 +37,8 @@ module PortalHelper
   def generate_gradient_to_bottom(theme)
     "background-image: linear-gradient(to bottom, transparent, #{theme == 'dark' ? '#151718' : 'white'})"
   end
+
+  def render_category_content(content)
+    ChatwootMarkdownRenderer.new(content).render_markdown_to_plain_text
+  end
 end
