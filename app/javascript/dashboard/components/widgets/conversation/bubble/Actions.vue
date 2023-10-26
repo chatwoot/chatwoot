@@ -208,6 +208,7 @@ export default {
       ) {
         return this.sourceId && this.isSent;
       }
+      // There is no source id for the line channel
       if (this.isALineChannel) {
         return true;
       }
