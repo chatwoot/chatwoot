@@ -17,26 +17,26 @@
         v-for="(article, index) in items"
         :id="article.id"
         :key="article.id"
-        class="group flex border border-solid hover:bg-slate-25 dark:bg-slate-800 border-slate-100 dark:border-slate-800 rounded-lg cursor-default select-none items-center p-4"
-        :class="{ 'bg-slate-25 dark:bg-slate-800': index === selectedIndex }"
+        class="group flex border border-solid hover:bg-slate-25 dark:hover:bg-slate-800 border-slate-100 dark:border-slate-800 rounded-lg cursor-pointer select-none items-center p-4"
+        :class="isSearchItemActive(index)"
         role="option"
         tabindex="-1"
         @mouse-enter="onHover(index)"
         @mouse-leave="onHover(-1)"
-        @click="onSelect"
       >
-        <div class="flex flex-col gap-1 overflow-y-hidden">
-          <a
-            :href="generateArticleUrl(article)"
+        <a
+          class="flex flex-col gap-1 overflow-y-hidden"
+          :href="generateArticleUrl(article)"
+        >
+          <span
+            v-dompurify-html="prepareContent(article.title)"
             class="flex-auto truncate text-base font-semibold leading-6 w-full overflow-hidden text-ellipsis whitespace-nowrap"
-          >
-            {{ article.title }}
-          </a>
+          />
           <div
             v-dompurify-html="prepareContent(article.content)"
             class="line-clamp-2 text-ellipsis text-slate-600 dark:text-slate-300 text-sm"
           />
-        </div>
+        </a>
       </li>
     </ul>
 
@@ -101,40 +101,24 @@ export default {
   },
 
   methods: {
-    escapeHtml(html) {
-      var text = document.createTextNode(html);
-      var p = document.createElement('p');
-      p.appendChild(text);
-      return p.innerText;
-    },
-    prepareContent(content = '') {
-      const escapedText = this.escapeHtml(content);
-      const plainTextContent = this.getPlainText(escapedText);
-      const escapedSearchTerm = this.escapeRegExp(this.searchTerm);
-
-      return plainTextContent
-        .replace(
-          new RegExp(`\\b\\w*(${escapedSearchTerm})\\w*\\b`, 'ig'),
-          '<span class="bg-slate-100 dark:bg-slate-700 font-semibold text-slate-600 dark:text-slate-200">$&</span>'
-        )
-        .replace(/\s{2,}|\n|\r/g, ' ');
-    },
-    // from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
-    escapeRegExp(string) {
-      return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    isSearchItemActive(index) {
+      return index === this.selectedIndex
+        ? 'bg-slate-25 dark:bg-slate-800'
+        : 'bg-white dark:bg-slate-900';
     },
     generateArticleUrl(article) {
       return `/hc/${article.portal.slug}/articles/${article.slug}`;
     },
     handleKeyboardEvent(e) {
       this.processKeyDownEvent(e);
-      this.$el.scrollTop = 100 * this.selectedIndex;
+      this.$el.scrollTop = 102 * this.selectedIndex;
     },
-    onHover(index) {
-      this.selectedIndex = index;
-    },
-    onSelect() {
-      window.location = this.generateArticleUrl(this.items[this.selectedIndex]);
+    prepareContent(content) {
+      return this.highlightContent(
+        content,
+        this.searchTerm,
+        'bg-slate-100 dark:bg-slate-700 font-semibold text-slate-600 dark:text-slate-200'
+      );
     },
   },
 };
