@@ -33,14 +33,14 @@ export const generatePortalBgColor = (portalColor, theme) => {
 
 export const generatePortalBg = (portalColor, theme) => {
   const bgImage = theme === 'dark' ? 'hexagon-dark.svg' : 'hexagon-light.svg';
-  return `background: url(/assets/images/hc/${bgImage}) ${generatePortalBgColor(
+  return `url(/assets/images/hc/${bgImage}) ${generatePortalBgColor(
     portalColor,
     theme
   )}`;
 };
 
 export const generateGradientToBottom = theme => {
-  return `background-image: linear-gradient(to bottom, transparent, ${
+  return `linear-gradient(to bottom, transparent, ${
     theme === 'dark' ? '#151718' : 'white'
   })`;
 };
@@ -50,24 +50,20 @@ export const generateHoverColor = (portalColor, theme) => {
   return `color-mix(in srgb, ${portalColor} 5%, ${baseColor})`;
 };
 
-export const setPortalStyles = theme => {
+export const setPortalBackgroundStyles = theme => {
   if (isPlainLayoutEnabled()) return;
   const portalColor = window.portalConfig.portalColor;
-  const portalBgDiv = document.querySelector('#portal-bg');
-  const portalBgGradientDiv = document.querySelector('#portal-bg-gradient');
+  const portalBg = generatePortalBg(portalColor, theme);
+  const portalBgGradient = generateGradientToBottom(theme);
 
-  if (portalBgDiv) {
-    // Set background for #portal-bg
-    portalBgDiv.setAttribute('style', generatePortalBg(portalColor, theme));
-  }
-
-  if (portalBgGradientDiv) {
-    // Set gradient background for #portal-bg-gradient
-    portalBgGradientDiv.setAttribute('style', generateGradientToBottom(theme));
-  }
+  document.documentElement.style.setProperty('--dynamic-portal-bg', portalBg);
+  document.documentElement.style.setProperty(
+    '--dynamic-portal-bg-gradient',
+    portalBgGradient
+  );
 };
 
-export const setHoverStyles = theme => {
+export const setPortalHoverStyles = theme => {
   if (isPlainLayoutEnabled()) return;
   const portalColor = window.portalConfig.portalColor;
   const bgColor = theme === 'dark' ? '#151718' : 'white';
@@ -76,13 +72,12 @@ export const setHoverStyles = theme => {
 
   // Set hover color for category item dynamically
   document.documentElement.style.setProperty(
-    '--dynamic-hover-color',
+    '--dynamic-hover-bg-color',
     hoverBgColor
   );
-
-  // Set hover color for border and name in category block dynamically
+  // Set hover color for border and text dynamically
   document.documentElement.style.setProperty(
-    '--dynamic-category-block-bg-color',
+    '--dynamic-hover-color',
     hoverColor
   );
 };
@@ -95,9 +90,9 @@ export const setPortalClass = theme => {
 };
 
 export const updateThemeStyles = theme => {
-  setPortalStyles(theme);
+  setPortalBackgroundStyles(theme);
   setPortalClass(theme);
-  setHoverStyles(theme);
+  setPortalHoverStyles(theme);
 };
 
 export const toggleAppearanceDropdown = () => {
@@ -182,7 +177,8 @@ export const InitializationHelpers = {
     const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
     const getThemePreference = () =>
       mediaQueryList.matches ? 'dark' : 'light';
-    const themeFromServer = window.portalConfig.theme;
+    const { theme: themeFromServer } = window.portalConfig || {};
+
     if (themeFromServer === 'system') {
       // Handle dynamic theme changes for system theme
       mediaQueryList.addEventListener('change', event => {
@@ -192,7 +188,7 @@ export const InitializationHelpers = {
       const themePreference = getThemePreference();
       updateThemeStyles(themePreference);
     } else {
-      setHoverStyles(themeFromServer);
+      updateThemeStyles(themeFromServer);
     }
   },
 
