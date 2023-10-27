@@ -8,7 +8,8 @@ describe Redis::Config do
 
     before do
       described_class.instance_variable_set(:@config, nil)
-      with_modified_env REDIS_URL: redis_url, REDIS_PASSWORD: redis_pasword, REDIS_DB_NUM: redis_db_num, REDIS_SENTINELS: '', REDIS_SENTINEL_MASTER_NAME: '' do
+      with_modified_env REDIS_URL: redis_url, REDIS_PASSWORD: redis_pasword, REDIS_DB_NUM: redis_db_num,
+                        REDIS_SENTINELS: '', REDIS_SENTINEL_MASTER_NAME: '' do
         described_class.config
       end
     end
