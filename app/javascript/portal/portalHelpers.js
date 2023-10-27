@@ -70,34 +70,21 @@ export const setPortalStyles = theme => {
 export const setHoverStyles = theme => {
   if (isPlainLayoutEnabled()) return;
   const portalColor = window.portalConfig.portalColor;
-  const categoryItemDiv = document.querySelector('#category-item');
-  const categoryBlockDiv = document.querySelector('#category-block');
-  const categoryNameDiv = document.querySelector('#category-name');
+  const bgColor = theme === 'dark' ? '#151718' : 'white';
+  const hoverBgColor = generateHoverColor(portalColor, theme);
+  const hoverColor = adjustColorForContrast(portalColor, bgColor);
 
-  let styleContent = '';
+  // Set hover color for category item dynamically
+  document.documentElement.style.setProperty(
+    '--dynamic-hover-color',
+    hoverBgColor
+  );
 
-  if (categoryItemDiv) {
-    // Set hover color for category item dynamically
-    const hoverColor = generateHoverColor(portalColor, theme);
-    styleContent += `#category-item:hover { background-color: ${hoverColor}; }`;
-  }
-
-  if (categoryBlockDiv && categoryNameDiv) {
-    // Set hover color for border and name in category block dynamically
-    const bgColor = theme === 'dark' ? '#151718' : 'white';
-    const hoverColor = adjustColorForContrast(portalColor, bgColor);
-
-    styleContent += `
-      #category-block:hover { border-color: ${hoverColor}; }
-      #category-block:hover #category-name { color: ${hoverColor}; }
-    `;
-  }
-
-  if (styleContent) {
-    const hoverStyle = document.createElement('style');
-    hoverStyle.innerHTML = styleContent;
-    document.head.appendChild(hoverStyle);
-  }
+  // Set hover color for border and name in category block dynamically
+  document.documentElement.style.setProperty(
+    '--dynamic-category-block-bg-color',
+    hoverColor
+  );
 };
 
 export const setPortalClass = theme => {

@@ -44,6 +44,26 @@ By default, it renders:
   :root {
     color-scheme: <% if @theme == 'system' %>light dark<% else %><%= @theme %><% end %>;
   }
+
+  #portal-bg {
+    background-color: var(--dynamic-portal-bg);
+  }
+
+  #portal-bg-gradient {
+    background-image: var(--dynamic-portal-bg-gradient);
+  }
+
+  #category-item:hover {
+    background-color: var(--dynamic-hover-color);
+  }
+
+  #category-block:hover {
+    border-color: var(--dynamic-category-block-bg-color);
+  }
+
+  #category-block:hover #category-name  {
+    color: var(--dynamic-category-block-bg-color);
+  }
   </style>
   <script>
     window.portalConfig = {
