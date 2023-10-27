@@ -554,8 +554,8 @@ export default {
     },
     setSavedSortByFilter() {
       const { status, order_by: orderBy } = this.savedSortByFilter || {};
-      this.activeStatus = status || this.activeStatus;
-      this.activeSortBy = orderBy || this.activeSortBy;
+      this.activeStatus = status || wootConstants.STATUS_TYPE.OPEN;
+      this.activeSortBy = orderBy || wootConstants.SORT_BY_TYPE.LATEST;
     },
     onClickOpenAddFoldersModal() {
       this.showAddFoldersModal = true;
