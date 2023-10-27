@@ -1,75 +1,75 @@
 {
   "CANNED_MGMT": {
     "HEADER": "Respostas Prontas",
-    "HEADER_BTN_TXT": "Adicionar resposta pronta",
-    "LOADING": "Buscando respostas prontas",
-    "SEARCH_404": "Não existem itens correspondentes a esta consulta",
-    "SIDEBAR_TXT": "<p><b>Respostas Prontas</b> </p><p> Respostas Prontas são modelos de respostas salvos que podem ser usados para enviar rapidamente uma resposta a uma conversa. </p><p> Para criar uma Resposta Pronta basta clicar em <b>Adicionar Resposta Pronta</b>. Você também pode editar ou apagar uma Resposta Pronta existente clicando no botão Editar ou Remover </p><p> Respostas prontas são usadas com a ajuda de <b>Shortcodes (Atalhos de códigos)</b>. Os agentes podem acessar as respostas prontas num chat digitando <b>'/'</b> seguido pelo shortcode. </p>",
+    "HEADER_BTN_TXT": "Add canned response",
+    "LOADING": "Fetching canned responses...",
+    "SEARCH_404": "Não existem itens correspondentes a esta consulta.",
+    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are pre-written reply templates that help you quickly respond to a conversation. To insert a canned response during a chat, agents can type a short code preceded by a '/' character. </p><p> You can manage your canned responses from this page or create new ones using the \"Add canned response\" button.</p><p>Open the <a target=\"_blank\" href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677501325-how-to-create-saved-reply-templates-with-canned-responses\">Canned Responses handbook</a> in another tab for a helping hand.</p><p>Also, check out the all-new <a href=\"https://www.chatwoot.com/tools/canned-responses-library\" target=\"_blank\">Canned Responses Library</a>.</p>",
     "LIST": {
       "404": "Não há respostas prontas disponíveis nesta conta.",
       "TITLE": "Gerenciar respostas prontas",
-      "DESC": "Respostas prontas são modelos de resposta pré-definidos, que podem ser usadas para enviar respostas rapidamente a tickets.",
+      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
       "TABLE_HEADER": [
-        "Código curto",
+        "Short code",
         "Conteúdo",
         "Ações."
       ]
     },
     "ADD": {
-      "TITLE": "Adicionar resposta pronta",
-      "DESC": "Respostas prontas são modelos de respostas salvos que podem ser usados para enviar rapidamente uma resposta para a conversa.",
+      "TITLE": "Add canned response",
+      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
       "CANCEL_BUTTON_TEXT": "cancelar",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Código curto",
-          "PLACEHOLDER": "Por favor, insira um código curto",
-          "ERROR": "É necessário um código curto"
+          "LABEL": "Short code",
+          "PLACEHOLDER": "Please enter a short code.",
+          "ERROR": "Short Code is required."
         },
         "CONTENT": {
-          "LABEL": "Conteúdo",
-          "PLACEHOLDER": "Por favor, insira um conteúdo",
-          "ERROR": "Conteúdo é obrigatório"
+          "LABEL": "Messagem",
+          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
+          "ERROR": "Message is required."
         },
         "SUBMIT": "submeter"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Resposta pronta adicionada com sucesso",
-        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+        "SUCCESS_MESSAGE": "Canned response added successfully.",
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Por favor, tente novamente."
       }
     },
     "EDIT": {
-      "TITLE": "Editar resposta pronta",
+      "TITLE": "Edit canned response",
       "CANCEL_BUTTON_TEXT": "cancelar",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Código curto",
-          "PLACEHOLDER": "Insira o shortcode",
-          "ERROR": "É necessário um código curto"
+          "LABEL": "Short code",
+          "PLACEHOLDER": "Please enter a shortcode.",
+          "ERROR": "Short code is required."
         },
         "CONTENT": {
-          "LABEL": "Conteúdo",
-          "PLACEHOLDER": "Por favor, insira um conteúdo",
-          "ERROR": "Conteúdo é obrigatório"
+          "LABEL": "Messagem",
+          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
+          "ERROR": "A mensagem é obrigatória."
         },
         "SUBMIT": "submeter"
       },
       "BUTTON_TEXT": "Alterar",
       "API": {
-        "SUCCESS_MESSAGE": "Resposta pronta atualizada com sucesso",
-        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+        "SUCCESS_MESSAGE": "Canned response is updated successfully.",
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Por favor, tente novamente."
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "excluir",
       "API": {
-        "SUCCESS_MESSAGE": "Resposta pronta excluída com sucesso",
-        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+        "SUCCESS_MESSAGE": "Canned response deleted successfully.",
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Por favor, tente novamente."
       },
       "CONFIRM": {
-        "TITLE": "Confirmar Exclusão",
+        "TITLE": "Confirmar a eliminação",
         "MESSAGE": "Tem certeza que deseja excluir ",
-        "YES": "Sim, excluir ",
-        "NO": "Não, Manter "
+        "YES": "Yes, delete ",
+        "NO": "No, keep "
       }
     }
   }
