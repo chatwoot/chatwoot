@@ -25,7 +25,7 @@
          <% else %>
          <% category.articles.published.order(position: :asc).take(5).each do |article| %>
          <a class="text-slate-700 dark:text-slate-100 leading-7" href="/hc/<%= portal.slug %>/articles/<%= article.slug %><%= @theme.present? && @theme != 'system' ? '?theme='+@theme : ''  %>">
-            <div id="category-item" class="flex justify-between hover:cursor-pointer items-center py-1 rounded-lg gap-3  <%= !@is_plain_layout_enabled ? 'px-2' : 'hover:underline' %>">
+            <div id="<%= !@is_plain_layout_enabled ? 'category-item' : '' %>" class="flex justify-between hover:cursor-pointer items-center py-1 rounded-lg gap-3  <%= !@is_plain_layout_enabled ? 'px-2' : 'hover:underline' %>">
                <%= article.title %>
                <span class="flex items-center font-normal">
                   <%= render partial: 'icons/chevron-right' %>
