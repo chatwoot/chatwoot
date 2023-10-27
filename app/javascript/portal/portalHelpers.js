@@ -108,9 +108,8 @@ export const setPortalClass = theme => {
 
 export const updateThemeStyles = theme => {
   setPortalStyles(theme);
-  setCategoryItemHoverColor(theme);
   setPortalClass(theme);
-  setGroupHoverForCategoryBlock();
+  setCategoryItemHoverColor(theme);
 };
 
 export const toggleAppearanceDropdown = () => {
@@ -204,7 +203,10 @@ export const InitializationHelpers = {
       });
       const themePreference = getThemePreference();
       updateThemeStyles(themePreference);
+    } else {
+      setCategoryItemHoverColor(themeFromServer);
     }
+    setGroupHoverForCategoryBlock();
   },
 
   initializeToggleButton: () => {
