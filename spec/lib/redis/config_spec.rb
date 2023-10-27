@@ -4,19 +4,21 @@ describe Redis::Config do
   context 'when single redis instance is used' do
     let(:redis_url) { 'redis://my-redis-instance:6379' }
     let(:redis_pasword) { 'some-strong-password' }
+    let(:redis_db_num) { 2 }
 
     before do
       described_class.instance_variable_set(:@config, nil)
-      with_modified_env REDIS_URL: redis_url, REDIS_PASSWORD: redis_pasword, REDIS_SENTINELS: '', REDIS_SENTINEL_MASTER_NAME: '' do
+      with_modified_env REDIS_URL: redis_url, REDIS_PASSWORD: redis_pasword, REDIS_DB_NUM: redis_db_num, REDIS_SENTINELS: '', REDIS_SENTINEL_MASTER_NAME: '' do
         described_class.config
       end
     end
 
     it 'checks for app redis config' do
       app_config = described_class.app
-      expect(app_config.keys).to contain_exactly(:url, :password, :timeout, :reconnect_attempts, :ssl_params)
+      expect(app_config.keys).to contain_exactly(:url, :password, :db, :timeout, :reconnect_attempts, :ssl_params)
       expect(app_config[:url]).to eq(redis_url)
       expect(app_config[:password]).to eq(redis_pasword)
+      expect(app_config[:db]).to eq(redis_db_num)
     end
   end
 
