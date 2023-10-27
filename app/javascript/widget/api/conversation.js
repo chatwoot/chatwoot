@@ -6,13 +6,13 @@ const createConversationAPI = async content => {
   return API.post(urlData.url, urlData.params);
 };
 
-const sendMessageAPI = async content => {
-  const urlData = endPoints.sendMessage(content);
+const sendMessageAPI = async (content, replyTo = null) => {
+  const urlData = endPoints.sendMessage(content, replyTo);
   return API.post(urlData.url, urlData.params);
 };
 
-const sendAttachmentAPI = async attachment => {
-  const urlData = endPoints.sendAttachment(attachment);
+const sendAttachmentAPI = async (attachment, replyTo = null) => {
+  const urlData = endPoints.sendAttachment(attachment, replyTo);
   return API.post(urlData.url, urlData.params);
 };
 
