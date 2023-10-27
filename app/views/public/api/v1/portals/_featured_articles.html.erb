@@ -14,7 +14,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-x-2 gap-y-2 gap-2">
          <% articles.where(status: :published).order_by_views.take(6).each do |article| %>
          <a class="text-slate-700 dark:text-slate-100 leading-7" href="/hc/<%= portal.slug %>/articles/<%= article.slug %><%= @theme.present? && @theme != 'system' ? '?theme='+@theme : ''  %>">
-            <div class="flex justify-between items-center py-1 px-2 rounded-lg gap-3 hover:bg-slate-50 dark:hover:bg-slate-800">
+            <div  id="category-item" class="flex justify-between items-center py-1 px-2 rounded-lg gap-3">
                <%= article.title %>
                <span class="flex items-center font-normal">
                   <%= render partial: 'icons/chevron-right' %>

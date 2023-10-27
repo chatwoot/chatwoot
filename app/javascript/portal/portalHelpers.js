@@ -21,6 +21,10 @@ export const getHeadingsfromTheArticle = () => {
   return rows;
 };
 
+export const isPlainLayoutEnabled = () => {
+  return window.portalConfig.isPlainLayoutEnabled === 'true';
+};
+
 export const generatePortalBgColor = (portalColor, theme) => {
   const baseColor = theme === 'dark' ? 'black' : 'white';
   return `color-mix(in srgb, ${portalColor} 20%, ${baseColor})`;
@@ -40,7 +44,13 @@ export const generateGradientToBottom = theme => {
   })`;
 };
 
+export const generateHoverColor = (portalColor, theme) => {
+  const baseColor = theme === 'dark' ? '#1B1B1B' : '#F9F9F9';
+  return `color-mix(in srgb, ${portalColor} 5%, ${baseColor})`;
+};
+
 export const setPortalStyles = theme => {
+  if (isPlainLayoutEnabled()) return;
   const portalColor = window.portalConfig.portalColor;
   const portalBgDiv = document.querySelector('#portal-bg');
   const portalBgGradientDiv = document.querySelector('#portal-bg-gradient');
@@ -56,6 +66,39 @@ export const setPortalStyles = theme => {
   }
 };
 
+export const setCategoryItemHoverColor = theme => {
+  if (isPlainLayoutEnabled()) return;
+  // Set hover color for category item dynamically
+  const categoryItemDiv = document.querySelector('#category-item');
+  if (!categoryItemDiv) return;
+  const portalColor = window.portalConfig.portalColor;
+  const hoverColor = generateHoverColor(portalColor, theme);
+  const hoverStyle = document.createElement('style');
+  hoverStyle.innerHTML = `#category-item:hover { background-color: ${hoverColor};`;
+  document.head.appendChild(hoverStyle);
+};
+
+export const setGroupHoverForCategoryBlock = () => {
+  if (isPlainLayoutEnabled()) return;
+
+  const categoryBlockDiv = document.querySelector('#category-block');
+  const categoryNameDiv = document.querySelector('#category-name');
+  if (!categoryBlockDiv || !categoryNameDiv) return;
+  const hoverColor = window.portalConfig.portalColor;
+  const hoverStyle = document.createElement('style');
+
+  // Change border color of the block and text color of the name when hovering over the block
+  hoverStyle.innerHTML = `
+    #category-block:hover { 
+      border-color: ${hoverColor};
+    }
+    #category-block:hover #category-name { 
+      color: ${hoverColor};
+    }`;
+
+  document.head.appendChild(hoverStyle);
+};
+
 export const setPortalClass = theme => {
   const portalDiv = document.querySelector('#portal');
   portalDiv.classList.remove('light', 'dark');
@@ -65,7 +108,9 @@ export const setPortalClass = theme => {
 
 export const updateThemeStyles = theme => {
   setPortalStyles(theme);
+  setCategoryItemHoverColor(theme);
   setPortalClass(theme);
+  setGroupHoverForCategoryBlock();
 };
 
 export const toggleAppearanceDropdown = () => {
@@ -186,12 +231,12 @@ export const InitializationHelpers = {
     if (window.portalConfig.isPlainLayoutEnabled === 'true') {
       InitializationHelpers.appendPlainParamToURLs();
     } else {
-      InitializationHelpers.navigateToLocalePage();
-      InitializationHelpers.initializeSearch();
-      InitializationHelpers.initializeTableOfContents();
       InitializationHelpers.initializeTheme();
       InitializationHelpers.initializeToggleButton();
       InitializationHelpers.initializeThemeSwitchButtons();
+      InitializationHelpers.navigateToLocalePage();
+      InitializationHelpers.initializeSearch();
+      InitializationHelpers.initializeTableOfContents();
     }
   },
 

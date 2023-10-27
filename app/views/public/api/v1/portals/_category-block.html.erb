@@ -1,12 +1,12 @@
 <section class="lg:container w-full flex flex-col h-full">
-   <div class="flex flex-col gap-8 h-full group <%= !@is_plain_layout_enabled ? 'border border-solid border-slate-100 dark:border-slate-800 hover:border-woot-600 dark:hover:border-woot-600 py-5 px-3 rounded-lg' : '' %>">
+   <div id="category-block" class="flex flex-col gap-8 h-full group <%= !@is_plain_layout_enabled ? 'border border-solid border-slate-100 dark:border-slate-800 py-5 px-3 rounded-lg' : '' %>">
       <div class="flex justify-between items-center w-full">
          <div class="flex items-start flex-col gap-1">
             <div class="flex flex-row items-center gap-2 <%= !@is_plain_layout_enabled && 'px-1' %>">
                <% if category.icon.present? %>
                <span class="text-lg rounded-md cursor-pointer <%= !@is_plain_layout_enabled && 'pl-1' %>"><%= category.icon %></span>
                <% end %>
-               <h3 class="text-xl text-slate-800 dark:text-slate-50 font-semibold leading-relaxed hover:cursor-pointer <%= @is_plain_layout_enabled ? 'hover:underline' : 'group-hover:text-woot-600 dark:group-hover:text-woot-600' %> <%= category.icon.blank? && !@is_plain_layout_enabled ? 'pl-1' : '' %>">
+               <h3 id="category-name" class="text-xl text-slate-800 dark:text-slate-50 font-semibold leading-relaxed hover:cursor-pointer <%= @is_plain_layout_enabled ? 'hover:underline' : '' %> <%= category.icon.blank? && !@is_plain_layout_enabled ? 'pl-1' : '' %>">
                   <a href="/hc/<%= portal.slug %>/<%= category.locale %>/categories/<%= category.slug %><%= @theme.present? && @theme != 'system' ? '?theme='+@theme : ''  %>">
                   <%= category.name %>
                   </a>
@@ -25,7 +25,7 @@
          <% else %>
          <% category.articles.published.order(position: :asc).take(5).each do |article| %>
          <a class="text-slate-700 dark:text-slate-100 leading-7" href="/hc/<%= portal.slug %>/articles/<%= article.slug %><%= @theme.present? && @theme != 'system' ? '?theme='+@theme : ''  %>">
-            <div class="flex justify-between hover:cursor-pointer items-center py-1 rounded-lg gap-3  <%= !@is_plain_layout_enabled ? 'px-2 hover:bg-slate-50 dark:hover:bg-slate-800' : 'hover:underline' %>">
+            <div id="category-item" class="flex justify-between hover:cursor-pointer items-center py-1 rounded-lg gap-3  <%= !@is_plain_layout_enabled ? 'px-2' : 'hover:underline' %>">
                <%= article.title %>
                <span class="flex items-center font-normal">
                   <%= render partial: 'icons/chevron-right' %>
