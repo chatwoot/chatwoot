@@ -14,7 +14,7 @@ module FilterHelper
       raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: query_hash['attribute_key'])
     end
 
-    condition_query = build_query_string(current_filter, query_hash, current_index)
+    condition_query = build_condition_query_string(current_filter, query_hash, current_index)
     # The query becomes empty only when it doesn't match to any supported
     # standard attribute or custom attribute defined in the account.
     raise CustomExceptions::CustomFilter::InvalidAttribute.new(allowed_keys: model_filters.keys) if condition_query.empty?

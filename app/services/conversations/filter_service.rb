@@ -22,7 +22,7 @@ class Conversations::FilterService < FilterService
     }
   end
 
-  def build_query_string(current_filter, query_hash, current_index)
+  def build_condition_query_string(current_filter, query_hash, current_index)
     attribute_key = query_hash[:attribute_key]
     query_operator = query_hash[:query_operator]
     filter_operator_value = filter_operation(query_hash, current_index)
