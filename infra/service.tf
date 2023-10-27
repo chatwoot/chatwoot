@@ -8,7 +8,7 @@ module "container" {
 
   publish = [3000]
 
-  command = ["RAILS_ENV=production bundle exec rake db:migrate", "bundle exec bundle exec rails s -b 0.0.0.0 -p 3000"]
+  # command = ["RAILS_ENV=production bundle exec rake db:migrate", "bundle exec bundle exec rails s -b 0.0.0.0 -p 3000"]
 
   secrets = {
     POSTGRES_USERNAME = "${module.postgres.master_user_secret_arn}:username::"
