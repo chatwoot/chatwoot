@@ -3,6 +3,7 @@ import Vue from 'vue';
 
 import PublicArticleSearch from './components/PublicArticleSearch.vue';
 import TableOfContents from './components/TableOfContents.vue';
+import { adjustColorForContrast } from '../shared/helpers/colorHelper.js';
 
 export const getHeadingsfromTheArticle = () => {
   const rows = [];
@@ -66,37 +67,41 @@ export const setPortalStyles = theme => {
   }
 };
 
-export const setCategoryItemHoverColor = theme => {
+export const setHoverStyles = theme => {
   if (isPlainLayoutEnabled()) return;
-  // Set hover color for category item dynamically
+
   const categoryItemDiv = document.querySelector('#category-item');
-  if (!categoryItemDiv) return;
-  const portalColor = window.portalConfig.portalColor;
-  const hoverColor = generateHoverColor(portalColor, theme);
-  const hoverStyle = document.createElement('style');
-  hoverStyle.innerHTML = `#category-item:hover { background-color: ${hoverColor};`;
-  document.head.appendChild(hoverStyle);
-};
-
-export const setGroupHoverForCategoryBlock = () => {
-  if (isPlainLayoutEnabled()) return;
-
   const categoryBlockDiv = document.querySelector('#category-block');
   const categoryNameDiv = document.querySelector('#category-name');
-  if (!categoryBlockDiv || !categoryNameDiv) return;
-  const hoverColor = window.portalConfig.portalColor;
-  const hoverStyle = document.createElement('style');
 
-  // Change border color of the block and text color of the name when hovering over the block
-  hoverStyle.innerHTML = `
-    #category-block:hover { 
-      border-color: ${hoverColor};
-    }
-    #category-block:hover #category-name { 
-      color: ${hoverColor};
-    }`;
+  let styleContent = '';
 
-  document.head.appendChild(hoverStyle);
+  if (categoryItemDiv) {
+    // Set hover color for category item dynamically
+    const portalColor = window.portalConfig.portalColor;
+    const hoverColor = generateHoverColor(portalColor, theme);
+    styleContent += `#category-item:hover { background-color: ${hoverColor}; }`;
+  }
+
+  if (categoryBlockDiv && categoryNameDiv) {
+    // Set hover color for border and name in category block dynamically
+    const bgColor = window.portalConfig.theme === 'dark' ? '#151718' : 'white';
+    const hoverColor = adjustColorForContrast(
+      window.portalConfig.portalColor,
+      bgColor
+    );
+
+    styleContent += `
+      #category-block:hover { border-color: ${hoverColor}; }
+      #category-block:hover #category-name { color: ${hoverColor}; }
+    `;
+  }
+
+  if (styleContent) {
+    const hoverStyle = document.createElement('style');
+    hoverStyle.innerHTML = styleContent;
+    document.head.appendChild(hoverStyle);
+  }
 };
 
 export const setPortalClass = theme => {
@@ -109,7 +114,7 @@ export const setPortalClass = theme => {
 export const updateThemeStyles = theme => {
   setPortalStyles(theme);
   setPortalClass(theme);
-  setCategoryItemHoverColor(theme);
+  setHoverStyles(theme);
 };
 
 export const toggleAppearanceDropdown = () => {
@@ -204,9 +209,8 @@ export const InitializationHelpers = {
       const themePreference = getThemePreference();
       updateThemeStyles(themePreference);
     } else {
-      setCategoryItemHoverColor(themeFromServer);
+      setHoverStyles(themeFromServer);
     }
-    setGroupHoverForCategoryBlock();
   },
 
   initializeToggleButton: () => {
