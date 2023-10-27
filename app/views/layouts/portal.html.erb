@@ -44,23 +44,27 @@ By default, it renders:
   :root {
     color-scheme: <% if @theme == 'system' %>light dark<% else %><%= @theme %><% end %>;
   }
-
+  /* Header section */
+  #header-action-button:hover,
+  #toggle-appearance:hover,
+  #toggle-theme-button:hover {
+    color: var(--dynamic-hover-color);
+    stroke: var(--dynamic-hover-color);
+  }
+  /* Portal background and gradient */
   #portal-bg {
     background: var(--dynamic-portal-bg);
   }
-
   #portal-bg-gradient {
     background-image: var(--dynamic-portal-bg-gradient);
   }
-
+  /* Category block */
   #category-item:hover {
     background-color: var(--dynamic-hover-bg-color);
   }
-
   #category-block:hover {
     border-color: var(--dynamic-hover-color);
   }
-
   #category-block:hover #category-name  {
     color: var(--dynamic-hover-color);
   }

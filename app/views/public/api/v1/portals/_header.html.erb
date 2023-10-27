@@ -14,7 +14,7 @@
       <% if @portal.homepage_link %>
         <div class="ml-8 border-l-1 border-slate-50 dark:border-slate-800 hidden md:block cursor-pointer px-1 py-2">
           <div class="flex-grow flex-shrink-0">
-            <a target="_blank" rel="noopener noreferrer nofollow" href="<%= @portal.homepage_link %>" class="flex flex-row items-center gap-1 text-sm font-medium text-slate-800 dark:text-slate-100 hover:text-woot-500 dark:hover:text-woot-500 stroke-slate-700 dark:stroke-slate-200 hover:stroke-woot-500 dark:hover:stroke-woot-500">
+            <a id="header-action-button" target="_blank" rel="noopener noreferrer nofollow" href="<%= @portal.homepage_link %>" class="flex flex-row items-center gap-1 text-sm font-medium text-slate-800 dark:text-slate-100 stroke-slate-700 dark:stroke-slate-200">
               <%= render partial: 'icons/redirect' %>
               <%= I18n.t('public_portal.header.go_to_homepage') %>
             </a>
@@ -24,7 +24,7 @@
 
       <%# Appearance toggle section %>
       <div class="flex-grow flex-shrink-0 relative cursor-pointer px-1 py-2">
-        <button id="toggle-appearance" class="toggle-appearance flex flex-row items-center stroke-slate-700 dark:stroke-slate-200 hover:stroke-woot-500 dark:hover:stroke-woot-500 text-slate-800 dark:text-slate-100 hover:text-woot-500 dark:hover:text-woot-500 gap-1" type="button">
+        <button id="toggle-appearance" class="toggle-appearance flex flex-row items-center stroke-slate-700 dark:stroke-slate-200 text-slate-800 dark:text-slate-100 gap-1" type="button">
           <%= render partial: get_theme_icon(@theme) %>
           <span class="text-sm font-medium"><%= get_theme_names(@theme) %></span>
           <div class="pointer-events-none flex items-center px-1">
@@ -33,7 +33,7 @@
         </button>
         <%# Appearance dropdown section %>
         <div id="appearance-dropdown" class="hidden absolute flex-col h-auto w-32 bg-white dark:bg-slate-900 border border-solid rounded top-9 right-1 border-slate-100 dark:border-slate-800" aria-hidden="true" data-dropdown="appearance-dropdown">
-          <button data-theme="system" class="flex flex-row items-center justify-between px-2 py-2 border-b border-solid border-slate-100 dark:border-slate-800 gap-1 stroke-slate-700 dark:stroke-slate-200 hover:stroke-woot-500 dark:hover:stroke-woot-500 text-slate-800 dark:text-slate-100 hover:text-woot-500 dark:hover:text-woot-500">
+          <button id="toggle-theme-button" data-theme="system" class="flex flex-row items-center justify-between px-2 py-2 border-b border-solid border-slate-100 dark:border-slate-800 gap-1 stroke-slate-700 dark:stroke-slate-200 text-slate-800 dark:text-slate-100">
             <div class="flex flex-row items-center gap-1">
               <%= render partial: 'icons/monitor' %>
               <span class="text-xs font-medium"><%= I18n.t('public_portal.header.appearance.system') %></span>
@@ -42,7 +42,7 @@
               <%= render partial: 'icons/check-mark' %>
             <% end %>
           </button>
-          <button data-theme="light" class="flex flex-row items-center justify-between px-2 py-2 border-b border-solid border-slate-100 dark:border-slate-800 gap-1 stroke-slate-700 dark:stroke-slate-200 hover:stroke-woot-500 dark:hover:stroke-woot-500 text-slate-800 dark:text-slate-100 hover:text-woot-500 dark:hover:text-woot-500">
+          <button id="toggle-theme-button" data-theme="light" class="flex flex-row items-center justify-between px-2 py-2 border-b border-solid border-slate-100 dark:border-slate-800 gap-1 stroke-slate-700 dark:stroke-slate-200 text-slate-800 dark:text-slate-100">
             <div class="flex flex-row items-center gap-1">
               <%= render partial: 'icons/sun' %>
               <span class="text-xs font-medium"><%= I18n.t('public_portal.header.appearance.light') %></span>
@@ -51,7 +51,7 @@
               <%= render partial: 'icons/check-mark' %>
             <% end %>
           </button>
-          <button data-theme="dark" class="flex flex-row items-center justify-between px-2 py-2 gap-1 stroke-slate-700 dark:stroke-slate-200 hover:stroke-woot-500 dark:hover:stroke-woot-500 text-slate-800 dark:text-slate-100 hover:text-woot-500 dark:hover:text-woot-500">
+          <button id="toggle-theme-button" data-theme="dark" class="flex flex-row items-center justify-between px-2 py-2 gap-1 stroke-slate-700 dark:stroke-slate-200 text-slate-800 dark:text-slate-100">
             <div class="flex flex-row items-center gap-1">
               <%= render partial: 'icons/moon' %>
               <span class="text-xs font-medium"><%= I18n.t('public_portal.header.appearance.dark') %></span>
@@ -65,7 +65,7 @@
 
       <%# Locale switcher section %>
       <% if @portal.config["allowed_locales"].length > 1 %>
-        <div class="flex items-center stroke-slate-700 dark:stroke-slate-200 hover:stroke-woot-500 dark:hover:stroke-woot-500 text-slate-800 dark:text-slate-100 hover:text-woot-500 dark:hover:text-woot-500">
+        <div id="header-action-button" class="flex items-center stroke-slate-700 dark:stroke-slate-200 text-slate-800 dark:text-slate-100">
           <div class="flex items-center gap-1 px-1 py-2 cursor-pointer">
             <%= render partial: 'icons/globe' %>
             <select
