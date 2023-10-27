@@ -35,6 +35,10 @@
 <script>
 import { debounce } from '@chatwoot/utils';
 import { mixin as clickaway } from 'vue-clickaway';
+import {
+  isEscape,
+  isActiveElementTypeable,
+} from 'shared/helpers/KeyboardHelpers';
 
 import SearchHeader from './Header.vue';
 import SearchResults from './SearchResults.vue';
@@ -98,12 +102,6 @@ export default {
     document.body.removeEventListener('keydown', this.closeOnEsc);
   },
   methods: {
-    closeOnEsc(e) {
-      // Do not close the popover if the search input is active
-      if (e.code === 'Escape' && document.activeElement.tagName !== 'INPUT') {
-        this.onClose();
-      }
-    },
     generateArticleUrl(article) {
       const host =
         window.chatwootConfig.helpCenterURL || window.chatwootConfig.hostURL;
@@ -155,6 +153,12 @@ export default {
         'newToastMessage',
         this.$t('HELP_CENTER.ARTICLE_SEARCH.SUCCESS_ARTICLE_INSERTED')
       );
+    },
+    closeOnEsc(e) {
+      if (isEscape(e) && !isActiveElementTypeable(e)) {
+        e.preventDefault();
+        this.onClose();
+      }
     },
   },
 };

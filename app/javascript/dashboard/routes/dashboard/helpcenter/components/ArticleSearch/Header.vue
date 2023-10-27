@@ -32,8 +32,15 @@
 </template>
 
 <script>
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import {
+  buildHotKeys,
+  isActiveElementTypeable,
+} from 'shared/helpers/KeyboardHelpers';
+
 export default {
   name: 'ChatwootSearch',
+  mixins: [eventListenerMixins],
   props: {
     title: {
       type: String,
@@ -48,24 +55,8 @@ export default {
   },
   mounted() {
     this.$refs.searchInput.focus();
-    document.addEventListener('keydown', this.handler);
-  },
-  beforeDestroy() {
-    document.removeEventListener('keydown', this.handler);
   },
   methods: {
-    handler(e) {
-      if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
-        e.preventDefault();
-        this.$refs.searchInput.focus();
-      } else if (
-        e.key === 'Escape' &&
-        document.activeElement.tagName === 'INPUT'
-      ) {
-        e.preventDefault();
-        this.$refs.searchInput.blur();
-      }
-    },
     onInput(e) {
       this.$emit('search', e.target.value);
     },
@@ -77,6 +68,14 @@ export default {
     },
     onBlur() {
       this.isInputFocused = false;
+    },
+    handleKeyEvents(e) {
+      const keyPattern = buildHotKeys(e);
+
+      if (keyPattern === '/' && !isActiveElementTypeable(e)) {
+        e.preventDefault();
+        this.$refs.searchInput.focus();
+      }
     },
   },
 };
