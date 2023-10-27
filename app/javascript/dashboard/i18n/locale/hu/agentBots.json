@@ -1,68 +1,68 @@
 {
   "AGENT_BOTS": {
     "HEADER": "Botok",
-    "LOADING_EDITOR": "Szerkesztő betöltése...",
-    "HEADER_BTN_TXT": "Bot konfiguráció hozzáadása",
-    "SIDEBAR_TXT": "<p><b>Ügynökök</b> <p>Az ügynökök lehetővé teszik a beszélgetés automatizálását</p>",
+    "LOADING_EDITOR": "Loading editor...",
+    "HEADER_BTN_TXT": "Add bot configuration",
+    "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try.</p> <p> You can manage your bots from this page or create new ones using the 'Add bot configuraton' button.</p> <p> Open the <a href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677497472-how-to-use-agent-bots\" target=\"blank\">Agent bots handbook</a> in another tab for a helping hand.</p>",
     "CSML_BOT_EDITOR": {
       "NAME": {
-        "LABEL": "Bot neve",
-        "PLACEHOLDER": "Adj nevet a botodnak",
-        "ERROR": "Bot név megadása kötelező"
+        "LABEL": "Bot name",
+        "PLACEHOLDER": "Name your bot.",
+        "ERROR": "Bot név megadása kötelező."
       },
       "DESCRIPTION": {
-        "LABEL": "Bot leírása",
+        "LABEL": "Bot description",
         "PLACEHOLDER": "Mit csinál ez a bot?"
       },
       "BOT_CONFIG": {
-        "ERROR": "Add meg a CSML bot konfigurációt feljebb",
-        "API_ERROR": "A CSML konfigurációd invalid, javítsd, majd próbáld újra."
+        "ERROR": "Add meg a CSML bot konfigurációt feljebb.",
+        "API_ERROR": "Your CSML configuration is invalid. Please fix it and try again."
       },
       "SUBMIT": "Validáció és mentés"
     },
     "BOT_CONFIGURATION": {
       "TITLE": "Válassz ügynököt",
-      "DESC": "Beemelhet egy ügynök botot a listából ebbe a postafiókba. A bot kezdetben képes kezelni a beszélgetést és továbbítani tudja egy ügynöknek, ha az szükséges.",
+      "DESC": "Assign an Agent Bot to your inbox. They can handle initial conversations and transfer them to a live agent when necessary.",
       "SUBMIT": "Frissítés",
-      "DISCONNECT": "Bot leválasztása",
-      "SUCCESS_MESSAGE": "Ügynök frissítve",
-      "DISCONNECTED_SUCCESS_MESSAGE": "Ügynök leválasztva",
-      "ERROR_MESSAGE": "Nem sikerült frissíteni az ügynököt, próbáld újra később",
-      "DISCONNECTED_ERROR_MESSAGE": "Nem sikerült leválasztani az ügynököt, próbáld újra később",
-      "SELECT_PLACEHOLDER": "Válasssz botot"
+      "DISCONNECT": "Disconnect bot",
+      "SUCCESS_MESSAGE": "Ügynök frissítve.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Ügynök leválasztva.",
+      "ERROR_MESSAGE": "Could not update the agent bot. Please try again.",
+      "DISCONNECTED_ERROR_MESSAGE": "Could not disconnect the agent bot. Please try again.",
+      "SELECT_PLACEHOLDER": "Select bot"
     },
     "ADD": {
       "TITLE": "Új bot beállítása",
       "CANCEL_BUTTON_TEXT": "Mégse",
       "API": {
-        "SUCCESS_MESSAGE": "Bot hozzáadva",
-        "ERROR_MESSAGE": "Sikertelen bot hozzáadás"
+        "SUCCESS_MESSAGE": "Bot hozzáadva.",
+        "ERROR_MESSAGE": "Could not add bot. Please try again later."
       }
     },
     "LIST": {
-      "404": "Nem található Bot, létrehozhatsz egyet az 'Új Bot létrehozása' gomb megnyomásával",
-      "LOADING": "Botok keresése...",
-      "TYPE": "Bot típusa"
+      "404": "No bots found. You can create a bot by clicking the 'Configure new bot' button ↗",
+      "LOADING": "Fetching bots...",
+      "TYPE": "Bot type"
     },
     "DELETE": {
       "BUTTON_TEXT": "Törlés",
-      "TITLE": "Bot törlése",
+      "TITLE": "Delete bot",
       "SUBMIT": "Törlés",
       "CANCEL_BUTTON_TEXT": "Mégse",
-      "DESCRIPTION": "Biztosan törölni szeretnéd ezt a botot? Ez a művelet visszafordíthatatlan",
+      "DESCRIPTION": "Biztosan törölni szeretnéd ezt a botot? Ez a művelet visszafordíthatatlan.",
       "API": {
-        "SUCCESS_MESSAGE": "Bot törölve",
-        "ERROR_MESSAGE": "Nem sikerült frissíteni a botot, kérlek próbáld újra később"
+        "SUCCESS_MESSAGE": "Bot törölve.",
+        "ERROR_MESSAGE": "Could not delete bot. Please try again."
       }
     },
     "EDIT": {
       "BUTTON_TEXT": "Szerkesztés",
-      "LOADING": "Botok keresése...",
-      "TITLE": "Bot szerkesztése",
+      "LOADING": "Fetching bots...",
+      "TITLE": "Edit bot",
       "CANCEL_BUTTON_TEXT": "Mégse",
       "API": {
-        "SUCCESS_MESSAGE": "Bot frissítve",
-        "ERROR_MESSAGE": "Nem sikerült frissíteni a botot"
+        "SUCCESS_MESSAGE": "Bot frissítve.",
+        "ERROR_MESSAGE": "Could not update bot. Please try again."
       }
     },
     "TYPES": {
