@@ -85,7 +85,7 @@ export const setHoverStyles = theme => {
 
   if (categoryBlockDiv && categoryNameDiv) {
     // Set hover color for border and name in category block dynamically
-    const bgColor = window.portalConfig.theme === 'dark' ? '#151718' : 'white';
+    const bgColor = theme === 'dark' ? '#151718' : 'white';
     const hoverColor = adjustColorForContrast(
       window.portalConfig.portalColor,
       bgColor
