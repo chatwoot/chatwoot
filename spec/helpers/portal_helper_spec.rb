@@ -29,22 +29,6 @@ describe PortalHelper do
     end
   end
 
-  describe '#generate_gradient_to_bottom' do
-    context 'when theme is dark' do
-      it 'returns the correct background gradient' do
-        expected_gradient = 'background-image: linear-gradient(to bottom, transparent, #151718)'
-        expect(helper.generate_gradient_to_bottom('dark')).to eq(expected_gradient)
-      end
-    end
-
-    context 'when theme is not dark' do
-      it 'returns the correct background gradient' do
-        expected_gradient = 'background-image: linear-gradient(to bottom, transparent, white)'
-        expect(helper.generate_gradient_to_bottom('light')).to eq(expected_gradient)
-      end
-    end
-  end
-
   describe '#render_category_content' do
     let(:markdown_content) { 'This is a *test* markdown content' }
     let(:plain_text_content) { 'This is a test markdown content' }
