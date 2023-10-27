@@ -1,6 +1,6 @@
 <header class="bg-white dark:bg-slate-900 w-full shadow-sm sticky top-0 z-50">
-  <nav class=" flex mx-auto max-w-5xl px-8" aria-label="Top">
-    <div class="w-full py-5 flex items-center">
+  <nav class=" flex mx-auto max-w-5xl px-4 md:px-8" aria-label="Top">
+    <div class="w-full py-5 flex items-center overflow-hidden">
       <a href="/hc/<%= @portal.slug %>/<%= @portal.config['default_locale'] || params[:locale] %>/<%= @theme.present? && @theme != 'system' ? '?theme='+@theme : ''  %>" class="h-10 text-lg flex items-center text-slate-900 dark:text-white font-semibold">
         <% if @portal.logo.present? %>
           <img src="<%= url_for(@portal.logo) %>" class="h-10 w-auto mr-2" />
@@ -10,7 +10,7 @@
     </div>
 
     <%# Go to homepage link section %>
-    <div class="flex items-center justify-between gap-5">
+    <div class="flex items-center justify-between gap-2 sm:gap-5">
       <% if @portal.homepage_link %>
         <div class="ml-8 border-l-1 border-slate-50 dark:border-slate-800 hidden md:block cursor-pointer px-1 py-2">
           <div class="flex-grow flex-shrink-0">

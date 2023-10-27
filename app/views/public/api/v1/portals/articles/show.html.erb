@@ -14,18 +14,18 @@
 <% if !@is_plain_layout_enabled %>
 <div id="portal-bg" class="bg-woot-50 dark:bg-woot-900 shadow-inner" style="<%= generate_portal_bg(@portal.color, @theme) %>">
   <div id="portal-bg-gradient" class="pt-8 pb-8 md:pt-14 md:pb-6" style="<%= generate_gradient_to_bottom(@theme) %>">
-    <div class="max-w-5xl px-8 mx-auto flex flex-col">
+    <div class="max-w-5xl px-4 md:px-8 mx-auto flex flex-col">
       <%= render "public/api/v1/portals/articles/article_header", article: @article %>
     </div>
   </div>
 </div>
 <% else %>
-<div class="max-w-5xl p-8 mx-auto space-y-4 w-full <%= @is_plain_layout_enabled ? 'px-8 py-4' : 'p-8' %>">
+<div class="max-w-5xl mx-auto space-y-4 w-full px-4 md:px-8 <%= @is_plain_layout_enabled ? 'py-4' : 'py-8' %>">
   <%= render "public/api/v1/portals/articles/article_header", article: @article %>
 </div>
 <% end %>
 
-<div class="flex max-w-5xl w-full px-8 mx-auto">
+<div class="flex max-w-5xl w-full px-4 md:px-8 mx-auto">
   <article id="cw-article-content" class="flex-grow flex-2 mx-auto text-slate-800 dark:text-slate-50 text-lg max-w-3xl prose-h1:text-2xl prose-h2:text-xl prose-h2:mt-0 prose-h3:text-lg prose-code:after:content-none prose-code:before:content-none prose dark:prose-invert break-words w-full <%= @is_plain_layout_enabled ? 'py-4' : 'pt-8 pb-12' %>">
     <%= @parsed_content %>
   </article>
