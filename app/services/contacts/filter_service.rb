@@ -2,7 +2,7 @@ class Contacts::FilterService < FilterService
   ATTRIBUTE_MODEL = 'contact_attribute'.freeze
 
   def perform
-    @contacts = contact_query_builder
+    @contacts = query_builder(@filters['contacts'])
 
     {
       contacts: @contacts,
@@ -10,18 +10,7 @@ class Contacts::FilterService < FilterService
     }
   end
 
-  def contact_query_builder
-    contact_filters = @filters['contacts']
-
-    @params[:payload].each_with_index do |query_hash, current_index|
-      current_filter = contact_filters[query_hash['attribute_key']]
-      @query_string += contact_query_string(current_filter, query_hash, current_index)
-    end
-
-    base_relation.where(@query_string, @filter_values.with_indifferent_access)
-  end
-
-  def contact_query_string(current_filter, query_hash, current_index)
+  def build_query_string(current_filter, query_hash, current_index)
     attribute_key = query_hash[:attribute_key]
     query_operator = query_hash[:query_operator]
     filter_operator_value = filter_operation(query_hash, current_index)

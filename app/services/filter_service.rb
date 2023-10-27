@@ -1,6 +1,9 @@
 require 'json'
 
 class FilterService
+  include FilterHelper
+  include CustomExceptions::CustomFilter
+
   ATTRIBUTE_MODEL = 'conversation_attribute'.freeze
   ATTRIBUTE_TYPES = {
     date: 'date', text: 'text', number: 'numeric', link: 'text', list: 'text', checkbox: 'boolean'
@@ -130,10 +133,8 @@ class FilterService
   def custom_attribute_query(query_hash, custom_attribute_type, current_index)
     @attribute_key = query_hash[:attribute_key]
     @custom_attribute_type = custom_attribute_type
-
     attribute_data_type
-
-    return ' ' if @custom_attribute.blank?
+    return '' if @custom_attribute.blank?
 
     build_custom_attr_query(query_hash, current_index)
   end
@@ -193,5 +194,13 @@ class FilterService
     return "LIKE :value_#{current_index}" if %w[contains starts_with].include?(filter_operator)
 
     "NOT LIKE :value_#{current_index}"
+  end
+
+  def query_builder(model_filters)
+    @params[:payload].each_with_index do |query_hash, current_index|
+      current_filter = model_filters[query_hash['attribute_key']]
+      @query_string += build_condition_query(current_filter, query_hash, current_index)
+    end
+    base_relation.where(@query_string, @filter_values.with_indifferent_access)
   end
 end
