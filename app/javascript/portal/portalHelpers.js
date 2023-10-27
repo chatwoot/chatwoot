@@ -69,7 +69,7 @@ export const setPortalStyles = theme => {
 
 export const setHoverStyles = theme => {
   if (isPlainLayoutEnabled()) return;
-
+  const portalColor = window.portalConfig.portalColor;
   const categoryItemDiv = document.querySelector('#category-item');
   const categoryBlockDiv = document.querySelector('#category-block');
   const categoryNameDiv = document.querySelector('#category-name');
@@ -78,7 +78,6 @@ export const setHoverStyles = theme => {
 
   if (categoryItemDiv) {
     // Set hover color for category item dynamically
-    const portalColor = window.portalConfig.portalColor;
     const hoverColor = generateHoverColor(portalColor, theme);
     styleContent += `#category-item:hover { background-color: ${hoverColor}; }`;
   }
@@ -86,10 +85,7 @@ export const setHoverStyles = theme => {
   if (categoryBlockDiv && categoryNameDiv) {
     // Set hover color for border and name in category block dynamically
     const bgColor = theme === 'dark' ? '#151718' : 'white';
-    const hoverColor = adjustColorForContrast(
-      window.portalConfig.portalColor,
-      bgColor
-    );
+    const hoverColor = adjustColorForContrast(portalColor, bgColor);
 
     styleContent += `
       #category-block:hover { border-color: ${hoverColor}; }
