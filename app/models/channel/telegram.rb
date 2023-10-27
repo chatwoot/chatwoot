@@ -87,7 +87,17 @@ class Channel::Telegram < ApplicationRecord
 
   def send_message(message)
     response = message_request(chat_id(message), message.content, reply_markup(message), reply_to_message_id(message))
+    process_error(message, response)
     response.parsed_response['result']['message_id'] if response.success?
+  end
+
+  def process_error(message, response)
+    return unless response.parsed_response['ok'] == false
+
+    # https://github.com/TelegramBotAPI/errors/tree/master/json
+    message.external_error = "#{response.parsed_response['error_code']}, #{response.parsed_response['description']}"
+    message.status = :failed
+    message.save!
   end
 
   def reply_markup(message)
@@ -110,21 +120,24 @@ class Channel::Telegram < ApplicationRecord
     telegram_attachments = []
     message.attachments.each do |attachment|
       telegram_attachment = {}
-
-      case attachment[:file_type]
-      when 'audio'
-        telegram_attachment[:type] = 'audio'
-      when 'image'
-        telegram_attachment[:type] = 'photo'
-      when 'file'
-        telegram_attachment[:type] = 'document'
-      end
+      telegram_attachment[:type] = attachment_type(attachment[:file_type])
       telegram_attachment[:media] = attachment.download_url
       telegram_attachments << telegram_attachment
     end
 
     response = attachments_request(chat_id(message), telegram_attachments, reply_to_message_id(message))
+    process_error(message, response)
     response.parsed_response['result'].first['message_id'] if response.success?
+  end
+
+  def attachment_type(file_type)
+    file_type_mappings = {
+      'audio' => 'audio',
+      'image' => 'photo',
+      'file' => 'document',
+      'video' => 'video'
+    }
+    file_type_mappings[file_type]
   end
 
   def attachments_request(chat_id, attachments, reply_to_message_id)
