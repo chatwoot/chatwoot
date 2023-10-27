@@ -2,13 +2,13 @@
   "CANNED_MGMT": {
     "HEADER": "Svarsmallar",
     "HEADER_BTN_TXT": "Lägg till svarsmall",
-    "LOADING": "Hämtar svarsmallar",
-    "SEARCH_404": "Det finns inga objekt som matchar denna fråga",
-    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+    "LOADING": "Hämtar svarsmallar...",
+    "SEARCH_404": "Det finns inga objekt som matchar denna fråga.",
+    "SIDEBAR_TXT": "<p><b>Svarsmallar</b> </p><p> Svarsmallar är mallar med färdiga svar som hjälper dig att snabbt svara på en konversation. För att infoga en svarsmall i en chatt, kan agenter skriva en kortkod som föregås av ett \"/\"-tecken. </p><p> Du kan hantera dina svarsmallar från denna sida eller skapa nya med hjälp av knappen \"Lägg till svarsmallar\".</p><p>Öppna <a target=\"_blank\" href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677501325-how-to-create-saved-reply-templates-with-canned-responses\">Dokumentation av svarsmallar</a> i en annan flik för mer information.</p><p>Kolla även in det helt nya <a href=\"https://www.chatwoot.com/tools/canned-responses-library\" target=\"_blank\">Biblioteket med svarsmallar</a>.</p>",
     "LIST": {
       "404": "Det finns inga svarsmallar tillgängliga på detta konto.",
       "TITLE": "Hantera svarsmallar",
-      "DESC": "Svarsmallar är fördefinierade mallar som kan användas för att snabbt skicka ut svar till ärenden.",
+      "DESC": "Svarsmallar är fördefinierade mallar som kan användas för att snabbt skicka ut svar i konversationer.",
       "TABLE_HEADER": [
         "Kortkod",
         "Innehåll",
@@ -17,24 +17,24 @@
     },
     "ADD": {
       "TITLE": "Lägg till svarsmall",
-      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
+      "DESC": "Svarsmallar är fördefinierade mallar som kan användas för att snabbt skicka ut svar i konversationer.",
       "CANCEL_BUTTON_TEXT": "Avbryt",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Kortkod",
-          "PLACEHOLDER": "Please enter a short code",
-          "ERROR": "Kortkod krävs"
+          "PLACEHOLDER": "Ange en kortkod.",
+          "ERROR": "Kortkod måste anges."
         },
         "CONTENT": {
-          "LABEL": "Innehåll",
-          "PLACEHOLDER": "Ange ett innehåll",
-          "ERROR": "Innehåll krävs"
+          "LABEL": "Meddelande",
+          "PLACEHOLDER": "Skriv meddelandet du vill spara som mall för att använda senare.",
+          "ERROR": "Meddelande måste fyllas i."
         },
         "SUBMIT": "Skicka"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Svarsmallen har lagts till",
-        "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
+        "SUCCESS_MESSAGE": "Svarsmallen har lagts till.",
+        "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare."
       }
     },
     "EDIT": {
@@ -43,27 +43,27 @@
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Kortkod",
-          "PLACEHOLDER": "Ange en kortkod",
-          "ERROR": "Kortkod krävs"
+          "PLACEHOLDER": "Ange en kortkod.",
+          "ERROR": "Kortkod måste anges."
         },
         "CONTENT": {
-          "LABEL": "Innehåll",
-          "PLACEHOLDER": "Ange ett innehåll",
-          "ERROR": "Innehåll krävs"
+          "LABEL": "Meddelande",
+          "PLACEHOLDER": "Skriv meddelandet du vill spara som mall för att använda senare.",
+          "ERROR": "Meddelande måste fyllas i."
         },
         "SUBMIT": "Skicka"
       },
       "BUTTON_TEXT": "Redigera",
       "API": {
-        "SUCCESS_MESSAGE": "Svarsmallen har uppdaterats",
-        "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
+        "SUCCESS_MESSAGE": "Svarsmallen har uppdaterats.",
+        "ERROR_MESSAGE": "Kunde inte ansluta till Woot server. Vänligen försök igen."
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Radera",
       "API": {
-        "SUCCESS_MESSAGE": "Svarsmallen har tagits bort",
-        "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
+        "SUCCESS_MESSAGE": "Svarsmallen har tagits bort.",
+        "ERROR_MESSAGE": "Kunde inte ansluta till Woot server. Vänligen försök igen."
       },
       "CONFIRM": {
         "TITLE": "Bekräfta borttagning",
