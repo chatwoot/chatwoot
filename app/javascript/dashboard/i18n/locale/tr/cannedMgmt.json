@@ -1,75 +1,75 @@
 {
   "CANNED_MGMT": {
     "HEADER": "Hazır Yanıtlar",
-    "HEADER_BTN_TXT": "Hazır Yanıt Ekle",
-    "LOADING": "Hazır Yanıtlar Getiriliyor",
-    "SEARCH_404": "Bu sorgu ile eşleşen öğe yok",
-    "SIDEBAR_TXT": "<p><b>Hazır Yanıtlar</b> </p><p> Hazır Yanıtlar, bir sohbete hızlı bir şekilde yanıt göndermek için kullanılabilen kaydedilmiş yanıt şablonlarıdır. </p><p> Bir Hazır Yanıt oluşturmak için, <b>Hazır Yanıt Ekle</b>'yi tıklamanız yeterlidir. Ayrıca, Düzenle veya Sil düğmesini tıklayarak mevcut bir Hazır Yanıtı düzenleyebilir veya silebilirsiniz </p><p> Hazır yanıtlar, <b>Kısa Kodlar</b> yardımıyla kullanılır. Temsilciler, sohbet sırasında <b>'/'</b> ve ardından kısa kodu yazarak hazır yanıtlara erişebilir. </p>",
+    "HEADER_BTN_TXT": "Add canned response",
+    "LOADING": "Fetching canned responses...",
+    "SEARCH_404": "Bu sorgu ile eşleşen öğe yok.",
+    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are pre-written reply templates that help you quickly respond to a conversation. To insert a canned response during a chat, agents can type a short code preceded by a '/' character. </p><p> You can manage your canned responses from this page or create new ones using the \"Add canned response\" button.</p><p>Open the <a target=\"_blank\" href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677501325-how-to-create-saved-reply-templates-with-canned-responses\">Canned Responses handbook</a> in another tab for a helping hand.</p><p>Also, check out the all-new <a href=\"https://www.chatwoot.com/tools/canned-responses-library\" target=\"_blank\">Canned Responses Library</a>.</p>",
     "LIST": {
       "404": "Bu hesapta hazır yanıt yok.",
       "TITLE": "Hazır yanıtları yönetin",
-      "DESC": "Hazır Yanıtlar, çağrılara hızlı bir şekilde yanıt göndermek için kullanılabilen önceden tanımlanmış yanıt şablonlarıdır.",
+      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
       "TABLE_HEADER": [
-        "Kısa kod",
+        "Short code",
         "İçerik",
         "Hareketler"
       ]
     },
     "ADD": {
-      "TITLE": "Hazır Yanıt Ekle",
-      "DESC": "Hazır Yanıtlar, sohbete hızlı bir şekilde yanıt göndermek için kullanılabilen kaydedilmiş yanıt şablonlarıdır.",
+      "TITLE": "Add canned response",
+      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
       "CANCEL_BUTTON_TEXT": "İptal Et",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Kısa kod",
-          "PLACEHOLDER": "Lütfen bir kısa kod girin",
-          "ERROR": "Kısa Kod gerekli"
+          "LABEL": "Short code",
+          "PLACEHOLDER": "Please enter a short code.",
+          "ERROR": "Short Code is required."
         },
         "CONTENT": {
-          "LABEL": "İçerik",
-          "PLACEHOLDER": "Lütfen bir içerik girin",
-          "ERROR": "İçerik gerekli"
+          "LABEL": "Mesaj",
+          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
+          "ERROR": "Message is required."
         },
         "SUBMIT": "Yolla"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Hazır Yanıt başarıyla eklendi",
-        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+        "SUCCESS_MESSAGE": "Canned response added successfully.",
+        "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
       }
     },
     "EDIT": {
-      "TITLE": "Hazır Yanıtı Düzenle",
+      "TITLE": "Edit canned response",
       "CANCEL_BUTTON_TEXT": "İptal Et",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Kısa kod",
-          "PLACEHOLDER": "Lütfen bir kısa kod girin",
-          "ERROR": "Kısa Kod gerekli"
+          "LABEL": "Short code",
+          "PLACEHOLDER": "Please enter a shortcode.",
+          "ERROR": "Short code is required."
         },
         "CONTENT": {
-          "LABEL": "İçerik",
-          "PLACEHOLDER": "Lütfen bir içerik girin",
-          "ERROR": "İçerik gerekli"
+          "LABEL": "Mesaj",
+          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
+          "ERROR": "Mesaj gerekli."
         },
         "SUBMIT": "Yolla"
       },
       "BUTTON_TEXT": "Düzenle",
       "API": {
-        "SUCCESS_MESSAGE": "Hazır Yanıt başarıyla güncellendi",
-        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+        "SUCCESS_MESSAGE": "Canned response is updated successfully.",
+        "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Sil",
       "API": {
-        "SUCCESS_MESSAGE": "Hazır yanıt başarıyla silindi",
-        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+        "SUCCESS_MESSAGE": "Canned response deleted successfully.",
+        "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
       },
       "CONFIRM": {
-        "TITLE": "Silmeyi onayla",
+        "TITLE": "Confirm deletion",
         "MESSAGE": "Silmek istediğinize emin misiniz ?",
-        "YES": "Evet, Sil ",
-        "NO": "Hayır, Tut"
+        "YES": "Yes, delete ",
+        "NO": "No, keep "
       }
     }
   }
