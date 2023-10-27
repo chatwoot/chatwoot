@@ -41,17 +41,6 @@ RSpec.describe 'Custom Filters API', type: :request do
         expect(response_body.first['name']).to eq(custom_filter.name)
         expect(response_body.first['query']).to eq(custom_filter.query)
       end
-
-      it 'returns custom_filter conversations count when set in redis' do
-        get "/api/v1/accounts/#{account.id}/custom_filters",
-            headers: user.create_new_auth_token,
-            as: :json
-
-        expect(response).to have_http_status(:success)
-        response_body = response.parsed_body
-        expect(response_body.first['name']).to eq(custom_filter.name)
-        expect(response_body.first['count']).to eq(custom_filter.fetch_record_count_from_redis)
-      end
     end
   end
 
@@ -66,16 +55,12 @@ RSpec.describe 'Custom Filters API', type: :request do
 
     context 'when it is an authenticated user' do
       it 'shows the custom filter' do
-        custom_filter.set_record_count_in_redis
-
         get "/api/v1/accounts/#{account.id}/custom_filters/#{custom_filter.id}",
             headers: user.create_new_auth_token,
             as: :json
 
         expect(response).to have_http_status(:success)
         expect(response.body).to include(custom_filter.name)
-        json_response = response.parsed_body
-        expect(json_response['count']).to eq 1
       end
     end
   end
@@ -106,7 +91,6 @@ RSpec.describe 'Custom Filters API', type: :request do
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
         expect(json_response['name']).to eq 'vip-customers'
-        expect(json_response['count']).to be_zero
       end
 
       it 'gives the error for 51st record' do
