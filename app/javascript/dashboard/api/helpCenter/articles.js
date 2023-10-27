@@ -16,11 +16,16 @@ class ArticlesAPI extends PortalsAPI {
     category_slug,
     sort,
   }) {
-    let baseUrl = `${this.url}/${portalSlug}/articles?page=${pageNumber}&locale=${locale}`;
-    if (status !== undefined) baseUrl += `&status=${status}`;
-    if (author_id) baseUrl += `&author_id=${author_id}`;
-    if (category_slug) baseUrl += `&category_slug=${category_slug}`;
-    if (sort) baseUrl += `&sort=${sort}`;
+    const queryParams = new URLSearchParams({ page: pageNumber, locale });
+
+    if (status !== undefined) queryParams.set('status', status);
+    if (author_id) queryParams.set('author_id', author_id);
+    if (category_slug) queryParams.set('category_slug', category_slug);
+    if (sort) queryParams.set('sort', sort);
+
+    const baseUrl = `${
+      this.url
+    }/${portalSlug}/articles?${queryParams.toString()}`;
     return axios.get(baseUrl);
   }
 
