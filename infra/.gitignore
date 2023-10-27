@@ -1,0 +1,10 @@
+.DS_Store
+/.idea/
+
+# terraform specific
+/terraform.tfstate*
+/.terraform*/
+/*.plan
+/*.backup
+/*.tfstate
+/builds

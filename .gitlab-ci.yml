@@ -1,0 +1,70 @@
+include:
+  - project: 'dtolk/dope/pipelines'
+    ref: main
+    file: 'terraform.yml'
+
+stages:
+  - build_and_publish
+  - plan
+  - apply
+
+default:
+  image: ecr.digitaltolk.net/dtolk/dope/docker-builder
+  services:
+    - name: public.ecr.aws/docker/library/docker:24-dind
+      alias: docker
+  tags:
+    - shared
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - eval $(ssh-agent -s)
+    - chmod 400 "${CICD_PRIVATE_KEY}"
+    - ssh-add "${CICD_PRIVATE_KEY}"
+
+variables:
+  DOCKER_HOST: tcp://docker:2375
+  DOCKER_TLS_CERTDIR: ""
+
+build_and_publish:
+  stage: build_and_publish
+  script:
+    - make build
+    - make publish
+  only:
+    - main
+    - merge_request
+
+plan_infra:
+  stage: plan
+  script:
+    - make -C infra init
+    - make -C infra plan
+  artifacts:
+    paths:
+      - infra/.terraform_${CI_ENVIRONMENT_NAME}/**
+      - infra/${CI_ENVIRONMENT_NAME}.plan
+    expire_in: 1 week
+  environment:
+    action: prepare
+    name: infra
+  needs:
+    - build_and_publish
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+      variables:
+        TF_VAR_docker_image_tag: "$CI_DEFAULT_BRANCH-$CI_PIPELINE_ID"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      variables:
+        TF_VAR_docker_image_tag: "mr-$CI_MERGE_REQUEST_IID-$CI_PIPELINE_ID"
+
+apply_infra:
+  extends: .apply
+  dependencies:
+    - plan_infra
+  environment: infra
+  needs:
+    - plan_infra
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  variables:
+    TF_VAR_docker_image_tag: "$CI_DEFAULT_BRANCH-$CI_PIPELINE_ID"
