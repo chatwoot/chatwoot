@@ -4,8 +4,7 @@
   >
     <div
       v-on-clickaway="onClose"
-      class="flex flex-col px-4 pb-4 rounded-md shadow-md border border-solid border-slate-50 dark:border-slate-800 bg-white dark:bg-slate-900 z-[1000] max-w-[720px] md:w-[20rem] lg:w-[24rem] xl:w-[28rem] 2xl:w-[32rem] h-[calc(100vh-20rem)] max-h-[40rem] overflow-y-auto"
-      @keyup.esc="onClose"
+      class="flex flex-col px-4 pb-4 rounded-md shadow-md border border-solid border-slate-50 dark:border-slate-800 bg-white dark:bg-slate-900 z-[1000] max-w-[720px] md:w-[20rem] lg:w-[24rem] xl:w-[28rem] 2xl:w-[32rem] h-[calc(100vh-20rem)] max-h-[40rem]"
     >
       <search-header
         :title="$t('HELP_CENTER.ARTICLE_SEARCH.TITLE')"
@@ -20,11 +19,11 @@
         @back="onBack"
         @insert="onInsert"
       />
-      <search-results-list
+      <search-results
         v-else
         :search-query="searchQuery"
         :is-loading="isLoading"
-        :portal-slug="portalSlug"
+        :portal-slug="selectedPortalSlug"
         :articles="searchResultsWithUrl"
         @preview="handlePreview"
         @insert="onInsert"
@@ -38,20 +37,21 @@ import { debounce } from '@chatwoot/utils';
 import { mixin as clickaway } from 'vue-clickaway';
 
 import SearchHeader from './Header.vue';
-import SearchResultsList from './SearchResults.vue';
+import SearchResults from './SearchResults.vue';
 import ArticleView from './ArticleView.vue';
 import ArticlesAPI from 'dashboard/api/helpCenter/articles';
+import portalMixin from '../../mixins/portalMixin';
 
 export default {
   name: 'ArticleSearchPopover',
   components: {
     SearchHeader,
-    SearchResultsList,
+    SearchResults,
     ArticleView,
   },
-  mixins: [clickaway],
+  mixins: [clickaway, portalMixin],
   props: {
-    portalSlug: {
+    selectedPortalSlug: {
       type: String,
       required: true,
     },
@@ -69,7 +69,7 @@ export default {
     articleViewerUrl() {
       const article = this.activeArticle(this.activeId);
       if (!article) return undefined;
-      const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const isDark = document.body.classList.contains('dark');
 
       const url = new URL(article.url);
       url.searchParams.set('show_plain_layout', 'true');
@@ -83,6 +83,7 @@ export default {
     searchResultsWithUrl() {
       return this.searchResults.map(article => ({
         ...article,
+        localeName: this.localeName(article.category.locale || 'en'),
         url: this.generateArticleUrl(article),
       }));
     },
@@ -91,12 +92,22 @@ export default {
     // Load popular articles on mount
     this.fetchArticlesByQuery(this.searchQuery);
     this.debounceSearch = debounce(this.fetchArticlesByQuery, 500, true);
+    document.body.addEventListener('keydown', this.closeOnEsc);
+  },
+  beforeDestroy() {
+    document.body.removeEventListener('keydown', this.closeOnEsc);
   },
   methods: {
+    closeOnEsc(e) {
+      // Do not close the popover if the search input is active
+      if (e.code === 'Escape' && document.activeElement.tagName !== 'INPUT') {
+        this.onClose();
+      }
+    },
     generateArticleUrl(article) {
       const host =
         window.chatwootConfig.helpCenterURL || window.chatwootConfig.hostURL;
-      return `${host}/hc/${this.portalSlug}/articles/${article.slug}`;
+      return `${host}/hc/${this.selectedPortalSlug}/articles/${article.slug}`;
     },
     activeArticle(id) {
       return this.searchResultsWithUrl.find(article => article.id === id);
@@ -118,7 +129,7 @@ export default {
         this.isLoading = true;
         this.searchResults = [];
         const { data } = await ArticlesAPI.searchArticles({
-          portalSlug: this.portalSlug,
+          portalSlug: this.selectedPortalSlug,
           query,
           sort,
         });
@@ -140,6 +151,10 @@ export default {
       const article = this.activeArticle(id || this.activeId);
 
       this.$emit('insert', article);
+      bus.$emit(
+        'newToastMessage',
+        this.$t('HELP_CENTER.ARTICLE_SEARCH.SUCCESS_ARTICLE_INSERTED')
+      );
     },
   },
 };

@@ -1,5 +1,7 @@
 <template>
-  <div class="flex justify-end gap-1 py-4 bg-white dark:bg-slate-900">
+  <div
+    class="flex justify-end gap-1 py-4 bg-white dark:bg-slate-900 h-full overflow-y-auto"
+  >
     <div class="flex flex-col gap-1 w-full">
       <div v-if="isLoading" class="empty-state-message">
         <spinner />
@@ -17,7 +19,7 @@
         :body="article.content"
         :url="article.url"
         :category="article.category.name"
-        :locale="article.category.locale"
+        :locale="article.localeName"
         @preview="handlePreview"
         @insert="handleInsert"
       />

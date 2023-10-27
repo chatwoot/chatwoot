@@ -20,7 +20,7 @@
     />
     <article-search-popover
       v-if="showArticleSearchPopover && connectedPortalSlug"
-      :portal-slug="connectedPortalSlug"
+      :selected-portal-slug="connectedPortalSlug"
       @insert="handleInsert"
       @close="onSearchPopoverClose"
     />
@@ -129,7 +129,6 @@
       :message="message"
       :portal-slug="connectedPortalSlug"
       :new-conversation-modal-active="newConversationModalActive"
-      :is-article-search-active="showArticleSearchPopover"
       @selectWhatsappTemplate="openWhatsappTemplateModal"
       @toggle-editor="toggleRichContentEditor"
       @replace-text="replaceText"

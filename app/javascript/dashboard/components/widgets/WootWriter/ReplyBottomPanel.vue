@@ -111,12 +111,12 @@
       </transition>
       <woot-button
         v-if="enableInsertArticleInReply"
-        v-tooltip.top-end="insertArticleToggleTooltip"
+        v-tooltip.top-end="$t('HELP_CENTER.ARTICLE_SEARCH.OPEN_ARTICLE_SEARCH')"
         icon="document-text-link"
         color-scheme="secondary"
         variant="smooth"
         size="small"
-        :title="insertArticleToggleTooltip"
+        :title="$t('HELP_CENTER.ARTICLE_SEARCH.OPEN_ARTICLE_SEARCH')"
         @click="toggleInsertArticle"
       />
     </div>
@@ -247,10 +247,6 @@ export default {
       type: String,
       required: true,
     },
-    isArticleSearchActive: {
-      type: Boolean,
-      default: false,
-    },
   },
   computed: {
     ...mapGetters({
@@ -324,11 +320,6 @@ export default {
       return this.sendWithSignature
         ? this.$t('CONVERSATION.FOOTER.DISABLE_SIGN_TOOLTIP')
         : this.$t('CONVERSATION.FOOTER.ENABLE_SIGN_TOOLTIP');
-    },
-    insertArticleToggleTooltip() {
-      return this.isArticleSearchActive
-        ? this.$t('HELP_CENTER.ARTICLE_SEARCH.CLOSE_ARTICLE_SEARCH')
-        : this.$t('HELP_CENTER.ARTICLE_SEARCH.OPEN_ARTICLE_SEARCH');
     },
     enableInsertArticleInReply() {
       const isFeatEnabled = this.isFeatureEnabledonAccount(
