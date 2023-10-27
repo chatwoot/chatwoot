@@ -207,6 +207,7 @@ import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCust
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import filterMixin from 'shared/mixins/filterMixin';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import countries from 'shared/constants/countries';
 import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
@@ -238,6 +239,7 @@ export default {
     eventListenerMixins,
     alertMixin,
     filterMixin,
+    uiSettingsMixin,
   ],
   props: {
     conversationInbox: {
@@ -320,6 +322,9 @@ export default {
     },
     hasAppliedFiltersOrActiveFolders() {
       return this.hasAppliedFilters || this.hasActiveFolders;
+    },
+    savedSortByFilter() {
+      return this.uiSettings?.conversations_filter_by;
     },
     savedFoldersValue() {
       if (this.hasActiveFolders) {
@@ -514,6 +519,9 @@ export default {
       this.chatsOnView = this.conversationList;
     },
   },
+  created() {
+    this.setSavedSortByFilter();
+  },
   mounted() {
     this.$store.dispatch('setChatStatusFilter', this.activeStatus);
     this.$store.dispatch('setChatSortFilter', this.activeSortBy);
@@ -543,6 +551,11 @@ export default {
       };
       this.$store.dispatch('customViews/update', payloadData);
       this.closeAdvanceFiltersModal();
+    },
+    setSavedSortByFilter() {
+      const { status, order_by: orderBy } = this.savedSortByFilter || {};
+      this.activeStatus = status || this.activeStatus;
+      this.activeSortBy = orderBy || this.activeSortBy;
     },
     onClickOpenAddFoldersModal() {
       this.showAddFoldersModal = true;
