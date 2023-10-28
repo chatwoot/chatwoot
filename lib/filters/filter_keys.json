@@ -17,22 +17,6 @@
       "filter_operators": [
         "equal_to",
         "not_equal_to",
-        "contains",
-        "does_not_contain",
-        "is_present",
-        "is_not_present"
-      ],
-      "attribute_type": "standard"
-    },
-    "contact_id": {
-      "attribute_name": "Contact Name",
-      "input_type": "plain_text",
-      "data_type": "text",
-      "filter_operators": [
-        "equal_to",
-        "not_equal_to",
-        "contains",
-        "does_not_contain",
         "is_present",
         "is_not_present"
       ],
@@ -45,8 +29,6 @@
       "filter_operators": [
         "equal_to",
         "not_equal_to",
-        "contains",
-        "does_not_contain",
         "is_present",
         "is_not_present"
       ],
@@ -59,8 +41,6 @@
       "filter_operators": [
         "equal_to",
         "not_equal_to",
-        "contains",
-        "does_not_contain",
         "is_present",
         "is_not_present"
       ],
@@ -74,9 +54,7 @@
         "equal_to",
         "not_equal_to",
         "contains",
-        "does_not_contain",
-        "is_present",
-        "is_not_present"
+        "does_not_contain"
       ],
       "attribute_type": "standard"
     },
@@ -87,8 +65,6 @@
       "filter_operators": [
         "equal_to",
         "not_equal_to",
-        "contains",
-        "does_not_contain",
         "is_present",
         "is_not_present"
       ],
@@ -99,8 +75,10 @@
       "input_type": "tags",
       "data_type": "text",
       "filter_operators": [
-        "contains",
-        "does_not_contain"
+        "equal_to",
+        "not_equal_to",
+        "is_present",
+        "is_not_present"
       ],
       "attribute_type": "standard"
     },
@@ -110,9 +88,7 @@
       "data_type": "text",
       "filter_operators": [
         "equal_to",
-        "not_equal_to",
-        "contains",
-        "does_not_contain"
+        "not_equal_to"
       ],
       "attribute_type": "additional_attributes"
     },
@@ -132,11 +108,7 @@
       "data_type": "text",
       "filter_operators": [
         "equal_to",
-        "not_equal_to",
-        "contains",
-        "does_not_contain",
-        "is_present",
-        "is_not_present"
+        "not_equal_to"
       ],
       "attribute_type": "additional_attributes"
     },
@@ -148,9 +120,7 @@
         "equal_to",
         "not_equal_to",
         "contains",
-        "does_not_contain",
-        "present",
-        "is_not_present"
+        "does_not_contain"
       ],
       "attribute_type": "additional_attributes"
     },
@@ -258,18 +228,6 @@
       ],
       "attribute_type": "additional_attributes"
     },
-    "browser_language": {
-      "attribute_name": "Browser Language",
-      "input_type": "textbox",
-      "data_type": "text",
-      "filter_operators": [
-        "equal_to",
-        "not_equal_to",
-        "contains",
-        "does_not_contain"
-      ],
-      "attribute_type": "additional_attributes"
-    },
     "company": {
       "attribute_name": "Company",
       "input_type": "textbox",
@@ -287,8 +245,8 @@
       "input_type": "tags",
       "data_type": "text",
       "filter_operators": [
-        "contains",
-        "does_not_contain"
+        "equal_to",
+        "not_equal_to"
       ],
       "attribute_type": "standard"
     },

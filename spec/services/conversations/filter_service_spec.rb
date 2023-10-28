@@ -55,7 +55,7 @@ describe Conversations::FilterService do
         [
           {
             attribute_key: 'browser_language',
-            filter_operator: 'contains',
+            filter_operator: 'equal_to',
             values: 'en',
             query_operator: 'AND',
             custom_attribute_type: ''
@@ -88,7 +88,7 @@ describe Conversations::FilterService do
       it 'filters items with contains filter_operator with values being an array' do
         params[:payload] = [{
           attribute_key: 'browser_language',
-          filter_operator: 'contains',
+          filter_operator: 'equal_to',
           values: %w[tr fr],
           query_operator: '',
           custom_attribute_type: ''
@@ -106,7 +106,7 @@ describe Conversations::FilterService do
       it 'filters items with does not contain filter operator with values being an array' do
         params[:payload] = [{
           attribute_key: 'browser_language',
-          filter_operator: 'does_not_contain',
+          filter_operator: 'not_equal_to',
           values: %w[tr en],
           query_operator: '',
           custom_attribute_type: ''
@@ -301,7 +301,7 @@ describe Conversations::FilterService do
           }.with_indifferent_access,
           {
             attribute_key: 'browser_language',
-            filter_operator: 'is_equal_to',
+            filter_operator: 'not_equal_to',
             values: 'en',
             query_operator: nil,
             custom_attribute_type: ''
