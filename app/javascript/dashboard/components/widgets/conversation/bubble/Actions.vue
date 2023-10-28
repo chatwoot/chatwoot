@@ -227,6 +227,9 @@ export default {
       if (this.isAWebWidgetInbox || this.isAPIInbox) {
         return this.isSent;
       }
+      if (this.isALineChannel) {
+        return true;
+      }
 
       return false;
     },

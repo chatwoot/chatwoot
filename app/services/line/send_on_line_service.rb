@@ -10,6 +10,8 @@ class Line::SendOnLineService < Base::SendOnChannelService
     return if response.blank?
 
     parsed_json = JSON.parse(response.body)
+    # If the request is success, update the message status to delivered
+    message.update!(status: :delivered) if response.code == '200'
     # If the request not success, update the message status to failed and save the external error
     message.update!(status: :failed, external_error: external_error(parsed_json)) unless response.code == '200'
   end

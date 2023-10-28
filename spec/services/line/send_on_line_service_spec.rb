@@ -74,5 +74,23 @@ describe Line::SendOnLineService do
         expect(message.external_error).to eq('The request was invalid, messages[0].text: May not be empty')
       end
     end
+
+    context 'when message send succeeds' do
+      let(:success_response) do
+        {
+          'message' => 'ok'
+        }.to_json
+      end
+
+      before do
+        allow(line_client).to receive(:push_message).and_return(OpenStruct.new(code: '200', body: success_response))
+      end
+
+      it 'updates the message status to delivered' do
+        described_class.new(message: message).perform
+        message.reload
+        expect(message.status).to eq('delivered')
+      end
+    end
   end
 end
