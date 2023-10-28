@@ -228,7 +228,7 @@ export default {
         return this.isSent;
       }
       if (this.isALineChannel) {
-        return true;
+        return this.isDelivered;
       }
 
       return false;
