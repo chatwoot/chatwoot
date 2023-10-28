@@ -4,7 +4,7 @@ import Vue from 'vue';
 import PublicArticleSearch from './components/PublicArticleSearch.vue';
 import TableOfContents from './components/TableOfContents.vue';
 
-export const getHeadingsfromTheArticle = () => {
+export const getHeadingsFromTheArticle = () => {
   const rows = [];
   const articleElement = document.getElementById('cw-article-content');
   articleElement.querySelectorAll('h1, h2, h3').forEach(element => {
@@ -19,6 +19,53 @@ export const getHeadingsfromTheArticle = () => {
     });
   });
   return rows;
+};
+
+export const generatePortalBgColor = (portalColor, theme) => {
+  const baseColor = theme === 'dark' ? 'black' : 'white';
+  return `color-mix(in srgb, ${portalColor} 20%, ${baseColor})`;
+};
+
+export const generatePortalBg = (portalColor, theme) => {
+  const bgImage = theme === 'dark' ? 'hexagon-dark.svg' : 'hexagon-light.svg';
+  return `background: url(/assets/images/hc/${bgImage}) ${generatePortalBgColor(
+    portalColor,
+    theme
+  )}`;
+};
+
+export const generateGradientToBottom = theme => {
+  return `background-image: linear-gradient(to bottom, transparent, ${
+    theme === 'dark' ? '#151718' : 'white'
+  })`;
+};
+
+export const setPortalStyles = theme => {
+  const portalColor = window.portalConfig.portalColor;
+  const portalBgDiv = document.querySelector('#portal-bg');
+  const portalBgGradientDiv = document.querySelector('#portal-bg-gradient');
+
+  if (portalBgDiv) {
+    // Set background for #portal-bg
+    portalBgDiv.setAttribute('style', generatePortalBg(portalColor, theme));
+  }
+
+  if (portalBgGradientDiv) {
+    // Set gradient background for #portal-bg-gradient
+    portalBgGradientDiv.setAttribute('style', generateGradientToBottom(theme));
+  }
+};
+
+export const setPortalClass = theme => {
+  const portalDiv = document.querySelector('#portal');
+  portalDiv.classList.remove('light', 'dark');
+  if (!portalDiv) return;
+  portalDiv.classList.add(theme);
+};
+
+export const updateThemeStyles = theme => {
+  setPortalStyles(theme);
+  setPortalClass(theme);
 };
 
 export const InitializationHelpers = {
@@ -36,7 +83,7 @@ export const InitializationHelpers = {
     return false;
   },
 
-  initalizeSearch: () => {
+  initializeSearch: () => {
     const isSearchContainerAvailable = document.querySelector('#search-wrap');
     if (isSearchContainerAvailable) {
       new Vue({
@@ -51,7 +98,7 @@ export const InitializationHelpers = {
     if (isOnArticlePage) {
       new Vue({
         components: { TableOfContents },
-        data: { rows: getHeadingsfromTheArticle() },
+        data: { rows: getHeadingsFromTheArticle() },
         template: '<table-of-contents :rows="rows" />',
       }).$mount('#cw-hc-toc');
     }
@@ -68,13 +115,30 @@ export const InitializationHelpers = {
     });
   },
 
+  initializeTheme: () => {
+    const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
+    const getThemePreference = () =>
+      mediaQueryList.matches ? 'dark' : 'light';
+    const themeFromServer = window.portalConfig.theme;
+    if (themeFromServer === 'system') {
+      // Handle dynamic theme changes for system theme
+      mediaQueryList.addEventListener('change', event => {
+        const newTheme = event.matches ? 'dark' : 'light';
+        updateThemeStyles(newTheme);
+      });
+      const themePreference = getThemePreference();
+      updateThemeStyles(themePreference);
+    }
+  },
+
   initialize: () => {
     if (window.portalConfig.isPlainLayoutEnabled === 'true') {
       InitializationHelpers.appendPlainParamToURLs();
     } else {
       InitializationHelpers.navigateToLocalePage();
-      InitializationHelpers.initalizeSearch();
+      InitializationHelpers.initializeSearch();
       InitializationHelpers.initializeTableOfContents();
+      // InitializationHelpers.initializeTheme();
     }
   },
 
