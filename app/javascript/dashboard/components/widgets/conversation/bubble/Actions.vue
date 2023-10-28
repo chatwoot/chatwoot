@@ -114,10 +114,6 @@ export default {
       type: Boolean,
       default: true,
     },
-    hasInstagramStory: {
-      type: Boolean,
-      default: true,
-    },
     messageType: {
       type: Number,
       default: 1,
