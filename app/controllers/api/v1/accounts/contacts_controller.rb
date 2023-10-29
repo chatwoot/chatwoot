@@ -116,10 +116,15 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def resolved_contacts
     return @resolved_contacts if @resolved_contacts
 
-    @resolved_contacts = Current.account.contacts.resolved_contacts
-
+    @resolved_contacts = params[:visitors] == 'true' ? online_visitor_contacts : Current.account.contacts.resolved_contacts
     @resolved_contacts = @resolved_contacts.tagged_with(params[:labels], any: true) if params[:labels].present?
     @resolved_contacts
+  end
+
+  def online_visitor_contacts
+    contacts = Current.account.contacts.where(id: ::OnlineStatusTracker
+                  .get_available_contact_ids(Current.account.id))
+    contacts.visitor_users
   end
 
   def set_current_page

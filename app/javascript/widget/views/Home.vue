@@ -42,6 +42,7 @@ import { mapGetters } from 'vuex';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
 import routerMixin from 'widget/mixins/routerMixin';
 import configMixin from 'widget/mixins/configMixin';
+import messageMixin from '../mixins/messageMixin';
 
 export default {
   name: 'Home',
@@ -50,7 +51,7 @@ export default {
     TeamAvailability,
     ArticleCardSkeletonLoader,
   },
-  mixins: [configMixin, routerMixin, darkModeMixin],
+  mixins: [configMixin, routerMixin, darkModeMixin, messageMixin],
   props: {
     hasFetched: {
       type: Boolean,
@@ -108,7 +109,10 @@ export default {
   },
   methods: {
     startConversation() {
-      if (this.preChatFormEnabled && !this.conversationSize) {
+      if (
+        this.preChatFormEnabled &&
+        (this.totalMessagesSentByContact() === 0 || !this.conversationSize)
+      ) {
         return this.replaceRoute('prechat-form');
       }
       return this.replaceRoute('messages');

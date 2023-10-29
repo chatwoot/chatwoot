@@ -116,6 +116,8 @@ class Contact < ApplicationRecord
     )
   }
 
+  scope :visitor_users, -> { where(phone_number: nil) }
+
   def get_source_id(inbox_id)
     contact_inboxes.find_by!(inbox_id: inbox_id).source_id
   end
