@@ -176,6 +176,9 @@ export default {
       if (this.label) {
         return `#${this.label}`;
       }
+      if (this.isVisitorsDashboard) {
+        return this.$t('VISITOR_CONTACTS_PAGE.HEADER');
+      }
       return this.$t('CONTACTS_PAGE.HEADER');
     },
     selectedContact() {
