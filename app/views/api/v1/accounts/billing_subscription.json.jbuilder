@@ -1,9 +1,9 @@
 json.id @account.id
 if @billing_subscription&.billing_product_price.present?
   json.plan_name @billing_subscription.billing_product_price.billing_product.product_name.capitalize
-  json.platform_name @billing_subscription.partner.presence || 'OneHash'.html_safe
+  json.platform_name @billing_subscription.partner.presence || ''
   json.plan_id @billing_subscription.billing_product_price.id
-  json.allowed_no_agents @billing_subscription.billing_product_price.limits['agents']
+  json.allowed_no_agents @billing_subscription.billing_product_price.limits['agents'].presence || 'Unlimited '.html_safe
   json.allowed_no_inboxes @billing_subscription.billing_product_price.limits['inboxes']
   json.chat @billing_subscription.billing_product_price.limits['chat']
   json.chat_history @billing_subscription.billing_product_price.limits['history']
