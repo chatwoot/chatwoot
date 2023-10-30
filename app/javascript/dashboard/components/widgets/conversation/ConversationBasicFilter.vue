@@ -66,9 +66,6 @@ export default {
       chatStatusFilter: 'getChatStatusFilter',
       chatSortFilter: 'getChatSortFilter',
     }),
-    savedSortByFilter() {
-      return this.uiSettings.conversations_filter_by;
-    },
     chatStatus() {
       return this.chatStatusFilter || wootConstants.STATUS_TYPE.OPEN;
     },
