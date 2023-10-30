@@ -101,4 +101,22 @@ describe PortalHelper do
       end
     end
   end
+
+  describe '#generate_article_link' do
+    context 'when theme is not present' do
+      it 'returns the correct link' do
+        expect(helper.generate_article_link('portal_slug', 'article_slug', nil)).to eq(
+          '/hc/portal_slug/articles/article_slug'
+        )
+      end
+    end
+
+    context 'when theme is present' do
+      it 'returns the correct link' do
+        expect(helper.generate_article_link('portal_slug', 'article_slug', 'dark')).to eq(
+          '/hc/portal_slug/articles/article_slug?theme=dark'
+        )
+      end
+    end
+  end
 end

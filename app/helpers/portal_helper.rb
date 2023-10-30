@@ -37,4 +37,8 @@ module PortalHelper
   def generate_gradient_to_bottom(theme)
     "background-image: linear-gradient(to bottom, transparent, #{theme == 'dark' ? '#151718' : 'white'})"
   end
+
+  def generate_article_link(portal_slug, article_slug, theme)
+    "/hc/#{portal_slug}/articles/#{article_slug}#{theme.present? && theme != 'system' ? "?theme=#{theme}" : ''}"
+  end
 end
