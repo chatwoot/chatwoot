@@ -20,7 +20,7 @@ const primaryMenuItems = accountId => [
     roles: ['administrator', 'agent'],
   },
   {
-    icon: 'people-team',
+    icon: 'visitor-contacts',
     key: 'visitors',
     label: 'VISITORS',
     featureFlag: FEATURE_FLAGS.CRM,
