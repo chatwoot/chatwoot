@@ -41,7 +41,7 @@ module Enterprise::Account
   end
 
   def create_subscription(product_price)
-    # Removed from subscription create, because we are not offering trail on stripe plan
+    # Removed from subscription create, because we are not offering trial on stripe plan
     # trial_end: (Date.zone.today + 5.days).to_time.to_i,
     subscription = Stripe::Subscription.create({
                                                  customer: stripe_customer_id,

@@ -108,11 +108,11 @@ export default {
     },
     planName: {
       type: [String, Number],
-      default: 'Trail',
+      default: 'Trial',
     },
     availableProductPrices: {
       type: Array,
-      default: () => { },
+      default: () => {},
     },
     responseForPlans: {
       type: Boolean,
