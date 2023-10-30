@@ -314,7 +314,7 @@ describe('Theme Functions', () => {
         addEventListener: jest.fn(),
       };
       window.matchMedia = jest.fn().mockReturnValue(mediaQueryList);
-      window.portalConfig = { theme: 'system' };
+      window.portalConfig = { theme: 'system', portalColor: '#FFFFFF' };
 
       InitializationHelpers.initializeTheme();
 
@@ -326,7 +326,7 @@ describe('Theme Functions', () => {
     });
 
     it('updates theme based on portal theme dark', () => {
-      window.portalConfig = { theme: 'dark' };
+      window.portalConfig = { theme: 'dark', portalColor: '#F93443' };
 
       InitializationHelpers.initializeTheme();
 
@@ -334,7 +334,7 @@ describe('Theme Functions', () => {
     });
 
     it('updates theme based on portal theme light', () => {
-      window.portalConfig = { theme: 'light' };
+      window.portalConfig = { theme: 'light', portalColor: '#023223' };
 
       InitializationHelpers.initializeTheme();
 
