@@ -8,13 +8,14 @@ import { mapGetters } from 'vuex';
 import PreChatForm from '../components/PreChat/Form.vue';
 import configMixin from '../mixins/configMixin';
 import routerMixin from '../mixins/routerMixin';
+import messageMixin from '../mixins/messageMixin';
 import { isEmptyObject } from 'widget/helpers/utils';
 
 export default {
   components: {
     PreChatForm,
   },
-  mixins: [configMixin, routerMixin],
+  mixins: [configMixin, routerMixin, messageMixin],
   computed: {
     ...mapGetters({
       conversationSize: 'conversation/getConversationSize',
@@ -22,7 +23,10 @@ export default {
   },
   watch: {
     conversationSize(newSize, oldSize) {
-      if (!oldSize && newSize > oldSize) {
+      if (
+        (!oldSize && newSize > oldSize) ||
+        this.totalMessagesSentByContact() !== 0
+      ) {
         this.replaceRoute('messages');
       }
     },
