@@ -2,6 +2,19 @@
   <div
     class="flex flex-col bg-white min-h-full w-full py-12 sm:px-6 lg:px-8 justify-center dark:bg-slate-900"
   >
+    <section class="max-w-5xl mx-auto">
+      <img
+        :src="globalConfig.logo"
+        :alt="globalConfig.installationName"
+        class="mx-auto h-14 w-auto block dark:hidden"
+      />
+      <img
+        v-if="globalConfig.logoDark"
+        :src="globalConfig.logoDark"
+        :alt="globalConfig.installationName"
+        class="mx-auto h-14 w-auto hidden dark:block"
+      />
+    </section>
     <form
       class="sm:mx-auto sm:w-full sm:max-w-lg bg-white dark:bg-slate-800 p-11 shadow sm:shadow-lg sm:rounded-lg"
       @submit.prevent="submitForm"
