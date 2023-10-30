@@ -48,6 +48,20 @@
 
   .mx-time {
     @apply border-0 bg-white dark:bg-slate-800;
+
+    .mx-time-header {
+      @apply border-0;
+    }
+
+    .mx-time-item {
+      &.disabled {
+        @apply bg-slate-25 dark:bg-slate-900;
+      }
+
+      &:hover {
+        @apply bg-slate-75 dark:bg-slate-700;
+      }
+    }
   }
 
   .today {
