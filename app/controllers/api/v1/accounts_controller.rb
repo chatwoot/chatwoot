@@ -80,12 +80,28 @@ class Api::V1::AccountsController < Api::BaseController
 
   def coupon_code
     code = CouponCode.find_by(code: params[:coupon_code])
-    if code
+    if code && (code.partner == 'AppSumo' || code.partner == 'DealMirror')
       if Time.current > code.expiry_date
         render json: { message: 'Coupon code has expired' }, status: :unprocessable_entity
       elsif code.status == 'redeemed'
         render json: { message: 'Coupon code already used' }, status: :unprocessable_entity
-      elsif @account.coupon_code_used >= 3
+      elsif @account.coupon_code_used >= 5
+        render json: { message: 'Account limit reached. Cannot add more coupon codes' }, status: :unprocessable_entity
+      else
+        @account.subscribe_for_ltd_plan(code)
+        code.update!(account_id: @account.id, account_name: @account.name, status: 'redeemed', redeemed_at: Time.current)
+        if @account.coupon_code_used == 4
+          render json: { message: 'To upgrade to unlimited agents, please apply the fifth code.' }, status: :ok
+        else
+          render json: { message: 'Redemption successful' }, status: :ok
+        end
+      end
+    elsif code && (code.partner == 'PitchGround')
+      if Time.current > code.expiry_date
+        render json: { message: 'Coupon code has expired' }, status: :unprocessable_entity
+      elsif code.status == 'redeemed'
+        render json: { message: 'Coupon code already used' }, status: :unprocessable_entity
+      elsif @account.coupon_code_used >= 1
         render json: { message: 'Account limit reached. Cannot add more coupon codes' }, status: :unprocessable_entity
       else
         @account.subscribe_for_ltd_plan(code)

@@ -62,6 +62,17 @@
     <table class="body-wrap" style="width: 100%; background-color: #F8FAFC; margin: 0;" bgcolor="#F8FAFC">
       <tr style="margin: 0;">
         <td class="container" width="600" style="display: block !important; max-width: 600px !important; clear: both !important; margin: 0 auto;" valign="top">
+          <div class="header" style="color: #93AFC8; margin: 0; padding: 0 20px 0px; text-align: center">
+            <table width="100%" style="margin: 0;">
+              <tr style="margin: 0;">
+                {% if global_config['BRAND_NAME'] != '' %}
+                  <td class="content-block" style="vertical-align: top; margin: 0;" valign="top">
+                    <img src="https://chat.onehash.ai/brand-assets/logo.svg" style="max-width: 100%; height: auto; vertical-align: top; text-align: center; margin: 0;" align="center" valign="top" alt="{{global_config['BRAND_NAME']}}"/>
+                  </td>
+                {% endif %}
+              </tr>
+            </table>
+          </div>
           <div class="content" style="display: block; margin: 0 auto; padding: 20px; text-align:center;">
             <table class="main" width="100%" cellpadding="0" cellspacing="0" itemprop="action" itemscope itemtype="http://schema.org/ConfirmAction" style="border-radius: 6px;  background-color: #fff; text-align:left; margin: 0; border: 1px solid #e9e9e9; border-top:3px solid #0080f8;" bgcolor="#fff">
               <tr style="margin: 0;">
@@ -73,20 +84,35 @@
               </tr>
             </table>
           </div>
-          <div class="footer" style="color: #93AFC8; margin: 0; padding: 0 20px 40px; text-align: center">
-            <table width="100%" style="margin: 0;">
-              <tr style="margin: 0;">
-                {% if global_config['BRAND_NAME'] != '' %}
-                  <td class="content-block" style="font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-                    Powered by
-                    <a href="{{ global_config['BRAND_URL'] }}" style="vertical-align: top; color: #93AFC8; text-align: center; margin: 0; padding: 0 0 20px;" align="center" valign="top">
-                      {{ global_config['BRAND_NAME'] }}
-                    </a>
-                  </td>
-                {% endif %}
+          <table style="margin-left:auto;margin-right:auto">
+            <tr>
+                <td><a style="margin-left:5px" href=" https://www.instagram.com/onehash.ai" target="_blank"> <img
+                  src="https://app-rsrc.getbee.io/public/resources/social-networks-icon-sets/circle-color/instagram@2x.png"
+                  width="32" height="32" alt="Instagram" title="Instagram"
+                  style="display: block; height: auto; border: 0;"></a></td>
+                <td><a style="margin-left:5px" href=" https://twitter.com/OneHash" target="_blank"><img
+                  src="https://app-rsrc.getbee.io/public/resources/social-networks-icon-sets/circle-color/twitter@2x.png"
+                  width="32" height="32" alt="Twitter" title="Twitter"
+                  style="display: block; height: auto; border: 0;"></a></td>
+                <td><a style="margin-left:5px" href=" https://www.linkedin.com/company/onehash/" target="_blank"><img
+                  src="https://app-rsrc.getbee.io/public/resources/social-networks-icon-sets/circle-color/linkedin@2x.png"
+                  width="32" height="32" alt="LinkedIn" title="LinkedIn"
+                  style="display: block; height: auto; border: 0;"></a></td>
+                <td><a style="margin-left:5px" href="https://www.youtube.com/c/OneHash-AI" target="_blank"><img
+                  src="https://app-rsrc.getbee.io/public/resources/social-networks-icon-sets/circle-color/youtube@2x.png"
+                  width="32" height="32" alt="YouTube" title="YouTube"
+                  style="display: block; height: auto; border: 0;"></a></td>
+                <td>
+                  <a style="margin-left:5px" href=" https://www.facebook.com/onehash.ai.crm" target="_blank"><img src="https://app-rsrc.getbee.io/public/resources/social-networks-icon-sets/circle-color/facebook@2x.png" width="32" height="32" alt="Facebook" title="Facebook" style="display: block; height: auto; border: 0;"></a>
+                </td>
               </tr>
-            </table>
+        </table>
+        <p style="margin: 0; font-size: 12px; text-align: center;">_______________________________________________________________________</p>
+          <div style="width:100%; min-height:200px;justify-content:center;align-item:center">
+              <p style="margin: 0; font-size: 12px; text-align: center;"><span style="color:#000000;"> Copyright © 2023 | OneHash
+                          Inc.| All rights reserved</span></p>
           </div>
+
         </td>
       </tr>
     </table>
