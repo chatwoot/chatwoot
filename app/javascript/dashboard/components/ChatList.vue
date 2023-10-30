@@ -323,9 +323,6 @@ export default {
     hasAppliedFiltersOrActiveFolders() {
       return this.hasAppliedFilters || this.hasActiveFolders;
     },
-    savedSortByFilter() {
-      return this.uiSettings?.conversations_filter_by;
-    },
     savedFoldersValue() {
       if (this.hasActiveFolders) {
         const payload = this.activeFolder.query;
@@ -520,7 +517,7 @@ export default {
     },
   },
   created() {
-    this.setSavedSortByFilter();
+    this.setFiltersFromUISettings();
   },
   mounted() {
     this.$store.dispatch('setChatStatusFilter', this.activeStatus);
@@ -552,8 +549,9 @@ export default {
       this.$store.dispatch('customViews/update', payloadData);
       this.closeAdvanceFiltersModal();
     },
-    setSavedSortByFilter() {
-      const { status, order_by: orderBy } = this.savedSortByFilter || {};
+    setFiltersFromUISettings() {
+      const { status, order_by: orderBy } =
+        this.uiSettings.conversations_filter_by;
       this.activeStatus = status || wootConstants.STATUS_TYPE.OPEN;
       this.activeSortBy = orderBy || wootConstants.SORT_BY_TYPE.LATEST;
     },

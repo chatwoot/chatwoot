@@ -87,15 +87,15 @@ export default {
     closeDropdown() {
       this.showActionsDropdown = false;
     },
-    onChangeFilter(type, value) {
-      this.$emit('changeFilter', type, value);
+    onChangeFilter(value, type) {
+      this.$emit('changeFilter', value, type);
       this.saveSelectedFilter(type, value);
     },
     saveSelectedFilter(type, value) {
       this.updateUISettings({
         conversations_filter_by: {
-          status: value === 'status' ? type : this.chatStatus,
-          order_by: value === 'sort' ? type : this.sortFilter,
+          status: type === 'status' ? value : this.chatStatus,
+          order_by: type === 'sort' ? value : this.sortFilter,
         },
       });
     },
