@@ -25,8 +25,8 @@ class Enterprise::Billing::HandleStripeEventService
         active_subscription&.update(current_period_end: Time.zone.at(subscription.ended_at), cancelled_at: Time.current)
         account_billing_subscription = account.account_billing_subscriptions.where(cancelled_at: nil)&.last
         if account_billing_subscription.present?
-          trail_plan = Enterprise::BillingProduct.find_by(product_name: 'Trial')
-          plan_price = trail_plan.billing_product_prices.last
+          trial_plan = Enterprise::BillingProduct.find_by(product_name: 'Trial')
+          plan_price = trial_plan.billing_product_prices.last
           account_billing_subscription&.update(current_period_end: Time.zone.at(subscription.current_period_end), billing_product_price_id: plan_price.id)
         else
           account.subscribe_for_plan('Trial')

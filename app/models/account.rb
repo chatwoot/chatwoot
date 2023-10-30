@@ -188,33 +188,58 @@ class Account < ApplicationRecord
 
   #Create subscription plan for ltd accounts
   def subscribe_for_ltd_plan(coupon_code)
-    partner_prefix = coupon_code.code[0,2]
+    code_prefix = coupon_code.code[0,2]
     partner_name = ""
-    if partner_prefix == "AS"
+    if code_prefix == "AS"
       partner_name = "AppSumo"
-    elsif partner_prefix == "DM"
+    elsif code_prefix == "DM"
       partner_name = "DealMirror"
-    elsif partner_prefix == "PG"
+    elsif code_prefix == "PG"
       partner_name = "PitchGround"
     end
 
-    if coupon_code_used == 0
-      _plan = Enterprise::BillingProduct.find_by(product_description: 'LTD for Tier 1 Plan')
-      ltd_price = Enterprise::BillingProductPrice.find_by(billing_product_id: _plan.id)
-      account_billing_subscriptions&.update(billing_product_price: ltd_price,current_period_end: Time.new(2050,12,31).utc.to_datetime,partner: partner_name)
-      update_columns(coupon_code_used: coupon_code_used + 1)
+    if partner_name == "AppSumo" || partner_name == "DealMirror"
+      _plan=nil
+      ltd_price=nil
+      if coupon_code_used == 0
+        _plan = Enterprise::BillingProduct.find_by(product_description: 'Tier 1 LTD Plan for AS/DM')
+      elsif coupon_code_used == 1 
+        _plan = Enterprise::BillingProduct.find_by(product_description: 'Tier 2 LTD Plan for AS/DM')
+      elsif coupon_code_used == 2
+        _plan = Enterprise::BillingProduct.find_by(product_description: 'Tier 3 LTD Plan for AS/DM')
+      elsif coupon_code_used == 4
+        _plan = Enterprise::BillingProduct.find_by(product_description: 'Tier 4 LTD Plan for AS/DM')
+      end
 
-    elsif coupon_code_used == 1 
-      _plan = Enterprise::BillingProduct.find_by(product_description: 'LTD for Tier 2 Plan')
-      ltd_price = Enterprise::BillingProductPrice.find_by(billing_product_id: _plan.id)
-      account_billing_subscriptions&.update(billing_product_price: ltd_price,current_period_end: Time.new(2050,12,31).utc.to_datetime,partner: partner_name)
-      update_columns(coupon_code_used: coupon_code_used + 1)
+      if _plan
+        ltd_price = Enterprise::BillingProductPrice.find_by(billing_product_id: _plan.id)
+        account_billing_subscriptions&.update(billing_product_price: ltd_price, current_period_end: Time.new(2050, 12, 31).utc.to_datetime, partner: partner_name)
+      end
 
-    elsif coupon_code_used == 2
-      _plan = Enterprise::BillingProduct.find_by(product_description: 'LTD for Tier 3 Plan')
-      ltd_price = Enterprise::BillingProductPrice.find_by(billing_product_id: _plan.id)
-      account_billing_subscriptions&.update(billing_product_price: ltd_price,current_period_end: Time.new(2050,12,31).utc.to_datetime,partner: partner_name)
-      update_columns(coupon_code_used: coupon_code_used + 1)
+      if coupon_code_used < 5
+        update_columns(coupon_code_used: coupon_code_used + 1)
+      end
+    elsif partner_name == "PitchGround"
+      tier = coupon_code.code[-2,2]
+      _plan=nil
+      if tier == 'T1'
+        _plan = Enterprise::BillingProduct.find_by(product_description: 'Tier 1 LTD Plan for PG')
+      elsif tier == 'T2'
+        _plan = Enterprise::BillingProduct.find_by(product_description: 'Tier 2 LTD Plan for PG')
+      elsif tier == 'T3'
+        _plan = Enterprise::BillingProduct.find_by(product_description: 'Tier 3 LTD Plan for PG')
+      elsif tier == 'T4'
+        _plan = Enterprise::BillingProduct.find_by(product_description: 'Tier 4 LTD Plan for PG')
+      end
+
+      if _plan
+        ltd_price = Enterprise::BillingProductPrice.find_by(billing_product_id: _plan.id)
+        account_billing_subscriptions&.update(billing_product_price: ltd_price, current_period_end: Time.new(2050, 12, 31).utc.to_datetime, partner: partner_name)
+      end
+
+      if coupon_code_used < 1
+        update_columns(coupon_code_used: coupon_code_used + 1)
+      end
     end
   end
 

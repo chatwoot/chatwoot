@@ -8,10 +8,16 @@
           </h4>
         </div>
         <div class="columns small-9 medium-5">
-          <label>{{
-            $t('BILLING_SETTINGS.FORM.CURRENT_PLAN.PLAN_NOTE', {
+          <label v-if="planName == 'Lifetime'">{{
+            $t('BILLING_SETTINGS.FORM.CURRENT_PLAN.LTD_PLAN_NOTE', {
               plan: planName,
               platform: platformName,
+              agent: agentCount,
+            })
+          }}</label>
+          <label v-else>{{
+            $t('BILLING_SETTINGS.FORM.CURRENT_PLAN.SUBSCRIPTION_PLAN_NOTE', {
+              plan: planName,
             })
           }}</label>
         </div>
@@ -150,13 +156,13 @@ export default {
           plan_name,
           platform_name,
           plan_id,
-          agent_count,
+          allowed_no_agents,
           plan_expiry_date,
         } = this.getAccount(this.accountId);
         this.planName = plan_name;
         this.platformName = platform_name;
         this.selectedProductPrice = plan_id;
-        this.agentCount = agent_count;
+        this.agentCount = allowed_no_agents;
         this.availableProductPrices = available_product_prices;
         const dateObject = new Date(plan_expiry_date);
         const day = String(dateObject.getDate()).padStart(2, '0');
@@ -199,7 +205,9 @@ export default {
     checkInput() {
       const couponInput = document.getElementById('couponInput');
       const inputValue = couponInput.value;
-      this.isValidCouponCode = /^(AS|DM|PG)[0-9A-Z]{8}$/.test(inputValue);
+      this.isValidCouponCode = /^(AS|DM)[0-9a-zA-Z]{8}$|^(PG-)([0-9a-zA-Z]{4}-){3}[0-9a-zA-Z]{2}$/.test(
+        inputValue
+      );
       return this.isValidCouponCode;
     },
     async applyCouponCode() {
@@ -212,6 +220,7 @@ export default {
       AccountAPI.checkCouponCodeValidity(payload)
         .then(response => {
           this.showAlert(response.data.message);
+          window.location.reload();
         })
         .catch(error => {
           this.showAlert(error.response.data.message);
