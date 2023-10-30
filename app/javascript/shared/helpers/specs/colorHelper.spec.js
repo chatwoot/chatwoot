@@ -1,4 +1,4 @@
-import tinycolor from 'tinycolor2';
+import { toHex, getContrast } from 'color2k';
 import {
   isWidgetColorLighter,
   adjustColorForContrast,
@@ -17,10 +17,8 @@ describe('#adjustColorForContrast', () => {
   const targetRatio = 3.1;
 
   const getContrastRatio = (color1, color2) => {
-    const [L1, L2] = [color1, color2]
-      .map(c => tinycolor(c).getLuminance())
-      .sort((a, b) => b - a);
-    return (L1 + 0.05) / (L2 + 0.05);
+    // getContrast from 'color2k'
+    return getContrast(color1, color2);
   };
 
   it('adjusts a color to meet the contrast ratio against a light background', () => {
@@ -42,12 +40,11 @@ describe('#adjustColorForContrast', () => {
   });
 
   it('returns a string representation of the color', () => {
-    const color = '#0000ff';
-    const backgroundColor = '#ffffff';
+    const color = '#00ff00';
+    const backgroundColor = '#000000';
     const adjustedColor = adjustColorForContrast(color, backgroundColor);
 
-    expect(typeof adjustedColor).toBe('string');
-    expect(tinycolor(adjustedColor).isValid()).toBe(true);
+    expect(typeof adjustedColor).toEqual('string');
   });
 
   it('handles cases where the color already meets the contrast ratio', () => {
@@ -57,6 +54,14 @@ describe('#adjustColorForContrast', () => {
     const ratio = getContrastRatio(adjustedColor, backgroundColor);
 
     expect(ratio).toBeGreaterThanOrEqual(targetRatio);
-    expect(adjustedColor).toEqual(color);
+    expect(adjustedColor).toEqual(toHex(color));
+  });
+
+  it('does not modify a color that already exceeds the contrast ratio', () => {
+    const color = '#000000';
+    const backgroundColor = '#ffffff';
+    const adjustedColor = adjustColorForContrast(color, backgroundColor);
+
+    expect(adjustedColor).toEqual(toHex(color));
   });
 });

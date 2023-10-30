@@ -1,4 +1,4 @@
-import tinycolor from 'tinycolor2';
+import { toHex, mix, getLuminance, getContrast } from 'color2k';
 
 export const isWidgetColorLighter = color => {
   const colorToCheck = color.replace('#', '');
@@ -11,29 +11,18 @@ export const isWidgetColorLighter = color => {
 
 export const adjustColorForContrast = (color, backgroundColor) => {
   const targetRatio = 3.1;
-  const getContrastRatio = (color1, color2) => {
-    const [L1, L2] = [color1, color2]
-      .map(c => tinycolor(c).getLuminance())
-      .sort((a, b) => b - a);
-    return (L1 + 0.05) / (L2 + 0.05);
-  };
-
-  let adjustedColor = tinycolor(color);
-  let currentRatio = getContrastRatio(adjustedColor, backgroundColor);
-
   const MAX_ITERATIONS = 20;
-  let iteration = 0;
+  let adjustedColor = color;
 
-  while (currentRatio < targetRatio && iteration < MAX_ITERATIONS) {
-    if (adjustedColor.isDark()) {
-      adjustedColor = adjustedColor.lighten(5);
-    } else {
-      adjustedColor = adjustedColor.darken(5);
+  for (let iteration = 0; iteration < MAX_ITERATIONS; iteration += 1) {
+    const currentRatio = getContrast(adjustedColor, backgroundColor);
+    if (currentRatio >= targetRatio) {
+      break;
     }
-
-    currentRatio = getContrastRatio(adjustedColor, backgroundColor);
-    iteration += 1;
+    const adjustmentDirection =
+      getLuminance(adjustedColor) < 0.5 ? '#fff' : '#151718';
+    adjustedColor = mix(adjustedColor, adjustmentDirection, 0.05);
   }
 
-  return adjustedColor.toString();
+  return toHex(adjustedColor);
 };
