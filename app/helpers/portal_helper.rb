@@ -38,6 +38,10 @@ module PortalHelper
     "background-image: linear-gradient(to bottom, transparent, #{theme == 'dark' ? '#151718' : 'white'})"
   end
 
+  def generate_article_link(portal_slug, article_slug, theme)
+    "/hc/#{portal_slug}/articles/#{article_slug}#{theme.present? && theme != 'system' ? "?theme=#{theme}" : ''}"
+  end
+
   def render_category_content(content)
     ChatwootMarkdownRenderer.new(content).render_markdown_to_plain_text
   end
