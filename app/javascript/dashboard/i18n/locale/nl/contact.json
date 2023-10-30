@@ -215,6 +215,10 @@
       "ERROR_MESSAGE": "Kon niet worden verzonden! Probeer opnieuw"
     }
   },
+  "VISITOR_CONTACTS_PAGE": {
+    "HEADER": "Visitor Contacts",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for visitor contacts"
+  },
   "CONTACTS_PAGE": {
     "HEADER": "Contacten",
     "FIELDS": "Contactvelden",

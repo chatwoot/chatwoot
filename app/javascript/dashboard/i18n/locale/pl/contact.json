@@ -215,6 +215,10 @@
       "ERROR_MESSAGE": "Nie udało się wysłać wiadomości! Spróbuj ponownie"
     }
   },
+  "VISITOR_CONTACTS_PAGE": {
+    "HEADER": "Visitor Contacts",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for visitor contacts"
+  },
   "CONTACTS_PAGE": {
     "HEADER": "Kontakty",
     "FIELDS": "Pola kontaktu",

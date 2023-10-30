@@ -215,6 +215,10 @@
       "ERROR_MESSAGE": "Nu s-a putut trimite! Încearcă din nou"
     }
   },
+  "VISITOR_CONTACTS_PAGE": {
+    "HEADER": "Visitor Contacts",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for visitor contacts"
+  },
   "CONTACTS_PAGE": {
     "HEADER": "Contacte",
     "FIELDS": "Câmpuri de contact",

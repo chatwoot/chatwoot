@@ -215,6 +215,10 @@
       "ERROR_MESSAGE": "Impossible d'envoyer ! Veuillez réessayer"
     }
   },
+  "VISITOR_CONTACTS_PAGE": {
+    "HEADER": "Contacts visiteurs",
+    "SEARCH_INPUT_PLACEHOLDER": "Rechercher des contacts visiteurs"
+  },
   "CONTACTS_PAGE": {
     "HEADER": "Contacts",
     "FIELDS": "Champs du contact",

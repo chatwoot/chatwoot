@@ -215,6 +215,10 @@
       "ERROR_MESSAGE": "ไม่สามารถส่งข้อความได้กรุณาลองอีกครั้ง"
     }
   },
+  "VISITOR_CONTACTS_PAGE": {
+    "HEADER": "Visitor Contacts",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for visitor contacts"
+  },
   "CONTACTS_PAGE": {
     "HEADER": "ผู้ติดต่อ",
     "FIELDS": "ข้อมูลผู้ติดต่อ",

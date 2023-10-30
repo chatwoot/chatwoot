@@ -215,6 +215,10 @@
       "ERROR_MESSAGE": "Kunne ikke sendes! prøv igen"
     }
   },
+  "VISITOR_CONTACTS_PAGE": {
+    "HEADER": "Visitor Contacts",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for visitor contacts"
+  },
   "CONTACTS_PAGE": {
     "HEADER": "Kontakter",
     "FIELDS": "Kontakt felter",

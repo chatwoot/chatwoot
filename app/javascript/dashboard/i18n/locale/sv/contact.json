@@ -215,6 +215,10 @@
       "ERROR_MESSAGE": "Couldn't send! try again"
     }
   },
+  "VISITOR_CONTACTS_PAGE": {
+    "HEADER": "Visitor Contacts",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for visitor contacts"
+  },
   "CONTACTS_PAGE": {
     "HEADER": "Kontakter",
     "FIELDS": "Contact fields",

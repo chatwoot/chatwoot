@@ -215,6 +215,10 @@
       "ERROR_MESSAGE": "전송이 불가능합니다! 다시 시도해주세요"
     }
   },
+  "VISITOR_CONTACTS_PAGE": {
+    "HEADER": "Visitor Contacts",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for visitor contacts"
+  },
   "CONTACTS_PAGE": {
     "HEADER": "연락처",
     "FIELDS": "Contact fields",

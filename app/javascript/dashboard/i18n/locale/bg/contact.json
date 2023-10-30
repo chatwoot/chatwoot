@@ -215,6 +215,10 @@
       "ERROR_MESSAGE": "Не може да се изпрати! Опитайте пак"
     }
   },
+  "VISITOR_CONTACTS_PAGE": {
+    "HEADER": "Visitor Contacts",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for visitor contacts"
+  },
   "CONTACTS_PAGE": {
     "HEADER": "Контакти",
     "FIELDS": "Полета на контакта",

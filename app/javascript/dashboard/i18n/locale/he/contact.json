@@ -215,6 +215,10 @@
       "ERROR_MESSAGE": "לא ניתן לשלוח! נסה שוב"
     }
   },
+  "VISITOR_CONTACTS_PAGE": {
+    "HEADER": "Visitor Contacts",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for visitor contacts"
+  },
   "CONTACTS_PAGE": {
     "HEADER": "איש קשר",
     "FIELDS": "שדות איש קשר",
