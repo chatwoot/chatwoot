@@ -2,7 +2,7 @@
 <div class="max-w-5xl w-full flex flex-col flex-grow mx-auto py-8 px-8 gap-6">
   <%# Featured Articles %>
   <% if !@is_plain_layout_enabled %>
-    <div><%= render "public/api/v1/portals/featured_articles", articles: @portal.articles, portal: @portal %></div>
+    <div><%= render "public/api/v1/portals/featured_articles", articles: @portal.articles, categories: @portal.categories.where(locale: @locale), portal: @portal %></div>
   <% end %>
   <%# Categories with articles %>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
