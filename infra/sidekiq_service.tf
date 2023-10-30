@@ -3,8 +3,8 @@ module "container-sidekiq" {
   name   = "main"
   image  = "ecr.digitaltolk.net/${local.system_repo}:${var.docker_image_tag}"
 
-  cpu    = 512
-  memory = 1024
+  cpu    = 256
+  memory = 2048
 
   publish = [3000]
 
@@ -31,7 +31,7 @@ module "service-sidekiq" {
   name = "${local.system_name}-sidekiq"
 
   cpu_architecture = "X86_64"
-  service_cpu      = 1024
+  service_cpu      = 256
   service_memory   = 2048
 
   service_count_desired = 1
