@@ -46,7 +46,10 @@
       :option="agentMenuConfig"
       :sub-menu-available="!!assignableAgents.length"
     >
-      <agent-loading-placeholder v-if="assignableAgentsUiFlags.isFetching" />
+      <woot-loading-state
+        v-if="assignableAgentsUiFlags.isFetching"
+        :message="$t('CONVERSATION.CARD_CONTEXT_MENU.AGENTS_LOADING')"
+      />
       <template v-else>
         <menu-item
           v-for="agent in assignableAgents"
@@ -77,12 +80,10 @@ import MenuItemWithSubmenu from './menuItemWithSubmenu.vue';
 import wootConstants from 'dashboard/constants/globals';
 import agentMixin from 'dashboard/mixins/agentMixin';
 import { mapGetters } from 'vuex';
-import AgentLoadingPlaceholder from './agentLoadingPlaceholder.vue';
 export default {
   components: {
     MenuItem,
     MenuItemWithSubmenu,
-    AgentLoadingPlaceholder,
   },
   mixins: [agentMixin],
   props: {

@@ -12,10 +12,10 @@
       @delete="onDeleteNote"
     />
 
-    <div v-if="isFetching" class="text-center p-normal fs-default">
-      <spinner size="" />
-      <span>{{ $t('NOTES.FETCHING_NOTES') }}</span>
-    </div>
+    <woot-loading-state
+      v-if="isFetching"
+      :message="$t('NOTES.FETCHING_NOTES')"
+    />
     <div v-else-if="!notes.length" class="text-center p-normal fs-default">
       <span>{{ $t('NOTES.NOT_AVAILABLE') }}</span>
     </div>
@@ -25,13 +25,11 @@
 <script>
 import AddNote from './AddNote.vue';
 import ContactNote from './ContactNote.vue';
-import Spinner from 'shared/components/Spinner.vue';
 
 export default {
   components: {
     AddNote,
     ContactNote,
-    Spinner,
   },
 
   props: {

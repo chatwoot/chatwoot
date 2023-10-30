@@ -47,7 +47,7 @@
       v-show="isLoading"
       class="flex items-center justify-center h-full w-full"
     >
-      <spinner color-scheme="primary" size="" />
+      <woot-spinner color-scheme="primary" size="" />
     </div>
   </div>
 </template>
@@ -57,12 +57,10 @@ import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import SignupForm from './components/Signup/Form.vue';
 import Testimonials from './components/Testimonials/Index.vue';
-import Spinner from 'shared/components/Spinner.vue';
 
 export default {
   components: {
     SignupForm,
-    Spinner,
     Testimonials,
   },
   mixins: [globalConfigMixin],

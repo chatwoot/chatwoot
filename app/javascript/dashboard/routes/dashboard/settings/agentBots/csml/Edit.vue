@@ -5,17 +5,16 @@
     @submit="updateBot"
   />
   <div v-else class="h-auto overflow-auto flex flex-col no-padding">
-    <spinner />
+    <woot-spinner />
   </div>
 </template>
 <script>
-import Spinner from 'shared/components/Spinner.vue';
 import CsmlBotEditor from '../components/CSMLBotEditor.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 
 import { mapGetters } from 'vuex';
 export default {
-  components: { Spinner, CsmlBotEditor },
+  components: { CsmlBotEditor },
   mixins: [alertMixin],
   computed: {
     ...mapGetters({ uiFlags: 'agentBots/uiFlags' }),

@@ -20,10 +20,10 @@
       v-else-if="!isLoading && !contacts.length"
       :title="$t('CONTACTS_PAGE.LIST.NO_CONTACTS')"
     />
-    <div v-if="isLoading" class="items-center flex text-base justify-center">
-      <spinner />
-      <span>{{ $t('CONTACTS_PAGE.LIST.LOADING_MESSAGE') }}</span>
-    </div>
+    <woot-loading-state
+      v-if="isLoading"
+      :message="$t('CONTACTS_PAGE.LIST.LOADING_MESSAGE')"
+    />
   </section>
 </template>
 
@@ -32,7 +32,6 @@ import { mixin as clickaway } from 'vue-clickaway';
 import { VeTable } from 'vue-easytable';
 import { getCountryFlag } from 'dashboard/helper/flag';
 
-import Spinner from 'shared/components/Spinner.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import timeMixin from 'dashboard/mixins/time';
@@ -42,7 +41,6 @@ import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 export default {
   components: {
     EmptyState,
-    Spinner,
     VeTable,
   },
   mixins: [clickaway, timeMixin, rtlMixin],

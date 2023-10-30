@@ -24,7 +24,7 @@
             $t('TEAMS_SETTINGS.EDIT_FLOW.AGENTS.BUTTON_TEXT')
           "
         />
-        <spinner v-else />
+        <woot-spinner v-else />
       </div>
     </form>
   </div>
@@ -32,7 +32,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import Spinner from 'shared/components/Spinner.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 
 import router from '../../../../index';
@@ -41,7 +40,6 @@ import AgentSelector from '../AgentSelector.vue';
 
 export default {
   components: {
-    Spinner,
     PageHeader,
     AgentSelector,
   },

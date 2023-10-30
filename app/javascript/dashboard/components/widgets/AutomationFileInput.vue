@@ -7,7 +7,7 @@
       :class="uploadState === 'processing' ? 'disabled' : ''"
       @change="onChangeFile"
     />
-    <spinner v-if="uploadState === 'processing'" />
+    <woot-spinner v-if="uploadState === 'processing'" />
     <fluent-icon v-if="uploadState === 'idle'" icon="file-upload" />
     <fluent-icon
       v-if="uploadState === 'uploaded'"
@@ -21,17 +21,13 @@
       type="outline"
       class="error-icon"
     />
-    <p class="file-button">{{ label }}</p>
+    <p class="file-button mt-0">{{ label }}</p>
   </label>
 </template>
 
 <script>
-import Spinner from 'shared/components/Spinner.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 export default {
-  components: {
-    Spinner,
-  },
   mixins: [alertMixin],
   props: {
     value: {

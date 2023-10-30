@@ -4,7 +4,7 @@
       class="block text-base text-center w-100 text-slate-800 dark:text-slate-300"
     >
       <span class="mr-3">{{ message }}</span>
-      <span class="spinner" />
+      <woot-spinner size="small" />
     </h6>
   </div>
 </template>

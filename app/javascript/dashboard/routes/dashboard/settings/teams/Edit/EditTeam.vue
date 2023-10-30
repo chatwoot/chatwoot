@@ -12,7 +12,7 @@
         :submit-button-text="$t('TEAMS_SETTINGS.EDIT_FLOW.CREATE.BUTTON_TEXT')"
         :form-data="teamData"
       />
-      <spinner v-else />
+      <woot-spinner v-else />
     </div>
   </div>
 </template>
@@ -24,13 +24,11 @@ import PageHeader from '../../SettingsSubPageHeader.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 
 import { mapGetters } from 'vuex';
-import Spinner from 'shared/components/Spinner.vue';
 
 export default {
   components: {
     TeamForm,
     PageHeader,
-    Spinner,
   },
   mixins: [alertMixin],
   data() {

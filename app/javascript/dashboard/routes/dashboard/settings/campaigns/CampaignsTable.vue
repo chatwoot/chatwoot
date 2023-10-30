@@ -1,9 +1,9 @@
 <template>
   <div class="flex items-center flex-col">
-    <div v-if="isLoading" class="items-center flex text-base justify-center">
-      <spinner color-scheme="primary" />
-      <span>{{ $t('CAMPAIGN.LIST.LOADING_MESSAGE') }}</span>
-    </div>
+    <woot-loading-state
+      v-if="isLoading"
+      :message="$t('CAMPAIGN.LIST.LOADING_MESSAGE')"
+    />
     <div v-else class="w-full">
       <empty-state v-if="showEmptyResult" :title="emptyMessage" />
       <div v-else class="w-full">
@@ -22,7 +22,6 @@
 
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
-import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import campaignMixin from 'shared/mixins/campaignMixin';
 import CampaignCard from './CampaignCard.vue';
@@ -30,7 +29,6 @@ import CampaignCard from './CampaignCard.vue';
 export default {
   components: {
     EmptyState,
-    Spinner,
     CampaignCard,
   },
 

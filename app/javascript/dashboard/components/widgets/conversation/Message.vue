@@ -99,7 +99,12 @@
           :created-at="createdAt"
         />
       </div>
-      <spinner v-if="isPending" size="tiny" />
+      <woot-spinner
+        v-if="isPending"
+        size="tiny"
+        color-scheme="warning"
+        class="ml-2 spinner"
+      />
       <div
         v-if="showAvatar"
         v-tooltip.left="tooltipForSender"
@@ -148,7 +153,6 @@ import BubbleMailHead from './bubble/MailHead.vue';
 import BubbleText from './bubble/Text.vue';
 import BubbleContact from './bubble/Contact.vue';
 import BubbleReplyTo from './bubble/ReplyTo.vue';
-import Spinner from 'shared/components/Spinner.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
 import instagramImageErrorPlaceholder from './instagramImageErrorPlaceholder.vue';
 import alertMixin from 'shared/mixins/alertMixin';
@@ -174,7 +178,6 @@ export default {
     BubbleContact,
     BubbleReplyTo,
     ContextMenu,
-    Spinner,
     instagramImageErrorPlaceholder,
   },
   mixins: [alertMixin, messageFormatterMixin, contentTypeMixin],
@@ -546,6 +549,7 @@ export default {
 </script>
 <style lang="scss">
 .wrap {
+  @apply flex items-end;
   > .bubble {
     @apply min-w-[128px];
 

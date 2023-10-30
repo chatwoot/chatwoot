@@ -38,7 +38,7 @@
           color: textColor,
         }"
       >
-        <spinner v-if="isUpdating && feedback" />
+        <spinner v-if="isUpdating && feedback" class="spinner" />
         <fluent-icon v-else icon="chevron-right" />
       </button>
     </form>

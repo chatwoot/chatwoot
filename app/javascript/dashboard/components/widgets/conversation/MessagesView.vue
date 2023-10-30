@@ -19,8 +19,12 @@
     </div>
     <ul class="conversation-panel">
       <transition name="slide-up">
-        <li class="min-h-[4rem]">
-          <span v-if="shouldShowSpinner" class="spinner message" />
+        <li class="min-h-[4rem] w-full flex items-center justify-center">
+          <woot-spinner
+            v-if="shouldShowSpinner"
+            color-scheme="primary"
+            size="large"
+          />
         </li>
       </transition>
       <message

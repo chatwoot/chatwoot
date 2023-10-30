@@ -18,20 +18,12 @@
     <div v-if="!isLoading" class="card-body row">
       <slot />
     </div>
-    <div v-else-if="isLoading" class="conversation-metric-loader">
-      <spinner />
-      <span>{{ loadingMessage }}</span>
-    </div>
+    <woot-loading-state v-else-if="isLoading" :message="loadingMessage" />
   </div>
 </template>
 <script>
-import Spinner from 'shared/components/Spinner.vue';
-
 export default {
   name: 'MetricCard',
-  components: {
-    Spinner,
-  },
   props: {
     header: {
       type: String,
@@ -102,9 +94,5 @@ export default {
       @apply text-woot-800 dark:text-woot-300 text-3xl mb-0 mt-1;
     }
   }
-}
-
-.conversation-metric-loader {
-  @apply items-center flex text-base justify-center p-12;
 }
 </style>

@@ -16,13 +16,10 @@
       />
     </div>
     <div class="container">
-      <div
+      <woot-loading-state
         v-if="assignableAgentsUiFlags.isFetching"
-        class="agent__list-loading"
-      >
-        <spinner />
-        <p>{{ $t('BULK_ACTION.AGENT_LIST_LOADING') }}</p>
-      </div>
+        :message="$t('BULK_ACTION.AGENT_LIST_LOADING')"
+      />
       <div v-else class="agent__list-container">
         <ul v-if="!selectedAgent">
           <li class="search-container">
@@ -248,9 +245,5 @@ ul {
 }
 .search-container {
   @apply py-0 px-2.5 sticky top-0 z-20 bg-white dark:bg-slate-800;
-}
-
-.agent__list-loading {
-  @apply m-2.5 rounded-md bg-slate-25 dark:bg-slate-900 flex items-center justify-center flex-col p-5 h-[calc(95%-6.25rem)];
 }
 </style>

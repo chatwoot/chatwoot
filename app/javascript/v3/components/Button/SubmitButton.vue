@@ -9,17 +9,12 @@
   >
     <span>{{ buttonText }}</span>
     <fluent-icon v-if="!!iconClass" :icon="iconClass" class="icon" />
-    <spinner v-if="loading" />
+    <woot-spinner v-if="loading" />
   </button>
 </template>
 
 <script>
-import Spinner from 'shared/components/Spinner.vue';
-
 export default {
-  components: {
-    Spinner,
-  },
   props: {
     disabled: {
       type: Boolean,

@@ -25,13 +25,11 @@
         @add-locale="addLocale"
         @open-site="openPortal"
       />
-      <div
+
+      <woot-loading-state
         v-if="isFetching"
-        class="items-center flex text-base justify-center p-40"
-      >
-        <spinner />
-        <span>{{ $t('HELP_CENTER.PORTAL.LOADING_MESSAGE') }}</span>
-      </div>
+        :message="$t('HELP_CENTER.PORTAL.LOADING_MESSAGE')"
+      />
       <empty-state
         v-else-if="shouldShowEmptyState"
         :title="$t('HELP_CENTER.PORTAL.NO_PORTALS_MESSAGE')"
@@ -54,7 +52,6 @@
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import PortalListItem from '../../components/PortalListItem.vue';
-import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import AddLocale from '../../components/AddLocale.vue';
 import { buildPortalURL } from 'dashboard/helper/portalHelper';
@@ -63,7 +60,6 @@ export default {
   components: {
     PortalListItem,
     EmptyState,
-    Spinner,
     AddLocale,
   },
   mixins: [alertMixin],

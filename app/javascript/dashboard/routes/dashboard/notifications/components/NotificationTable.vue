@@ -75,16 +75,15 @@
       v-if="showEmptyResult"
       :title="$t('NOTIFICATIONS_PAGE.LIST.404')"
     />
-    <div v-if="isLoading" class="notifications--loader">
-      <spinner />
-      <span>{{ $t('NOTIFICATIONS_PAGE.LIST.LOADING_MESSAGE') }}</span>
-    </div>
+    <woot-loading-state
+      v-if="isLoading"
+      :message="$t('NOTIFICATIONS_PAGE.LIST.LOADING_MESSAGE')"
+    />
   </section>
 </template>
 
 <script>
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import timeMixin from '../../../../mixins/time';
 import { mapGetters } from 'vuex';
@@ -92,7 +91,6 @@ import { mapGetters } from 'vuex';
 export default {
   components: {
     Thumbnail,
-    Spinner,
     EmptyState,
   },
   mixins: [timeMixin],
@@ -168,10 +166,6 @@ export default {
 
 .is-unread {
   @apply font-semibold;
-}
-
-.notifications--loader {
-  @apply text-base flex items-center justify-center p-10;
 }
 
 .notification--unread-indicator {

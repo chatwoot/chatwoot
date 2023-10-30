@@ -17,19 +17,17 @@
         />
       </div>
     </div>
-    <spinner v-else />
+    <woot-spinner v-else />
   </div>
 </template>
 
 <script>
 import ConversationCard from 'dashboard/components/widgets/conversation/ConversationCard.vue';
 import { mapGetters } from 'vuex';
-import Spinner from 'shared/components/Spinner.vue';
 
 export default {
   components: {
     ConversationCard,
-    Spinner,
   },
   props: {
     contactId: {

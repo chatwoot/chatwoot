@@ -15,15 +15,10 @@
       @page-change="onPageChange"
       @reorder="onReorder"
     />
-    <div
+    <woot-loading-state
       v-if="shouldShowLoader"
-      class="items-center flex text-base justify-center py-6 px-4 text-slate-600 dark:text-slate-200"
-    >
-      <spinner />
-      <span class="text-slate-600 dark:text-slate-200">{{
-        $t('HELP_CENTER.TABLE.LOADING_MESSAGE')
-      }}</span>
-    </div>
+      :message="$t('HELP_CENTER.TABLE.LOADING_MESSAGE')"
+    />
     <empty-state
       v-else-if="shouldShowEmptyState"
       :title="$t('HELP_CENTER.TABLE.NO_ARTICLES')"
@@ -33,7 +28,6 @@
 <script>
 import { mapGetters } from 'vuex';
 
-import Spinner from 'shared/components/Spinner.vue';
 import ArticleHeader from 'dashboard/routes/dashboard/helpcenter/components/Header/ArticleHeader.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import ArticleTable from '../../components/ArticleTable.vue';
@@ -43,7 +37,6 @@ export default {
     ArticleHeader,
     ArticleTable,
     EmptyState,
-    Spinner,
   },
   data() {
     return {

@@ -31,7 +31,7 @@
     </div>
   </div>
   <div v-else class="flex flex-1 items-center justify-center">
-    <spinner size="" color-scheme="primary" />
+    <woot-spinner color-scheme="primary" />
   </div>
 </template>
 <script>
@@ -41,10 +41,8 @@ import Integration from './Integration.vue';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import SelectChannelWarning from './Slack/SelectChannelWarning.vue';
 import SlackIntegrationHelpText from './Slack/SlackIntegrationHelpText.vue';
-import Spinner from 'shared/components/Spinner.vue';
 export default {
   components: {
-    Spinner,
     Integration,
     SelectChannelWarning,
     SlackIntegrationHelpText,

@@ -4,7 +4,7 @@
       <div class="flex justify-between w-full mb-1">
         <div>
           <p v-if="watchersList.length" class="total-watchers m-0 text-sm">
-            <spinner v-if="watchersUiFlas.isFetching" size="tiny" />
+            <woot-spinner v-if="watchersUiFlas.isFetching" size="tiny" />
             {{ totalWatchersText }}
           </p>
           <p v-else class="text-muted m-0 text-sm">
@@ -79,7 +79,6 @@
 
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
-import Spinner from 'shared/components/Spinner.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import { mapGetters } from 'vuex';
 import agentMixin from 'dashboard/mixins/agentMixin';
@@ -88,7 +87,6 @@ import MultiselectDropdownItems from 'shared/components/ui/MultiselectDropdownIt
 
 export default {
   components: {
-    Spinner,
     ThumbnailGroup,
     MultiselectDropdownItems,
   },

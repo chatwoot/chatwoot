@@ -6,12 +6,10 @@
       :columns="columns"
       :table-data="tableData"
     />
-    <div v-if="isLoading" class="agents-loader">
-      <spinner />
-      <span>{{
-        $t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.LOADING_MESSAGE')
-      }}</span>
-    </div>
+    <woot-loading-state
+      v-if="isLoading"
+      :message="$t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.LOADING_MESSAGE')"
+    />
     <empty-state
       v-else-if="!isLoading && !agentMetrics.length"
       :title="$t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.NO_AGENTS')"
@@ -179,9 +177,5 @@ export default {
   .table-pagination {
     @apply mt-4 text-right;
   }
-}
-
-.agents-loader {
-  @apply items-center flex text-base justify-center p-8;
 }
 </style>

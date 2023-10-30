@@ -25,7 +25,7 @@ export default {
   props: {
     size: {
       type: String,
-      default: 'small',
+      default: '',
     },
     colorScheme: {
       type: String,
@@ -39,29 +39,29 @@ export default {
       }
 
       if (this.colorScheme === 'warning') {
-        return 'text-yellow-200 dark:text-yellow-500 fill-yellow-500 dark:fill-yellow-300';
+        return 'text-yellow-300 dark:text-yellow-700 fill-yellow-600 dark:fill-yellow-300';
       }
 
       if (this.colorScheme === 'success') {
-        return 'text-green-200 dark:text-green-500 fill-green-500 dark:fill-green-300';
+        return 'text-green-200 dark:text-green-700 fill-green-600 dark:fill-green-300';
       }
 
       return 'text-slate-200 dark:text-slate-500 fill-slate-500 dark:fill-slate-300';
     },
     sizeClasses() {
       if (this.size === 'tiny') {
-        return 'w-2 h-2';
+        return 'w-3 h-3';
       }
 
       if (this.size === 'small') {
-        return 'w-3 h-3';
+        return 'w-4 h-4';
       }
 
       if (this.size === 'large') {
         return 'w-6 h-6';
       }
 
-      return 'w-4 h-4';
+      return 'w-5 h-5';
     },
   },
 };

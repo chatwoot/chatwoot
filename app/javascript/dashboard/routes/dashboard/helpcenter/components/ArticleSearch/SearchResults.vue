@@ -1,10 +1,10 @@
 <template>
   <div class="flex justify-end gap-1 py-4 bg-white dark:bg-slate-900">
     <div class="flex flex-col gap-1 w-full">
-      <div v-if="isLoading" class="empty-state-message">
-        <spinner />
-        {{ $t('HELP_CENTER.ARTICLE_SEARCH_RESULT.SEARCH_LOADER') }}
-      </div>
+      <woot-loading-state
+        v-if="isLoading"
+        :message="$t('HELP_CENTER.ARTICLE_SEARCH_RESULT.SEARCH_LOADER')"
+      />
       <div v-else-if="showNoResults" class="empty-state-message">
         {{ $t('HELP_CENTER.ARTICLE_SEARCH_RESULT.NO_RESULT') }}
       </div>
@@ -26,13 +26,11 @@
 </template>
 
 <script>
-import Spinner from 'shared/components/Spinner.vue';
 import SearchResultItem from 'dashboard/routes/dashboard/helpcenter/components/ArticleSearch/ArticleSearchResultItem.vue';
 
 export default {
   name: 'SearchResults',
   components: {
-    Spinner,
     SearchResultItem,
   },
   props: {

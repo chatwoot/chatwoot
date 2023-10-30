@@ -15,7 +15,7 @@ import HorizontalBar from './widgets/chart/HorizontalBarChart';
 import Input from './widgets/forms/Input.vue';
 import PhoneInput from './widgets/forms/PhoneInput.vue';
 import Label from './ui/Label';
-import LoadingState from './widgets/LoadingState';
+import LoadingState from 'dashboard/components/ui/LoadingState.vue';
 import Modal from './Modal';
 import ModalHeader from './ModalHeader';
 import ReportStatsCard from './widgets/ReportStatsCard';

@@ -19,10 +19,10 @@
       />
     </settings-header>
 
-    <div v-if="uiFlags.isFetchingItem" class="text-center p-4 text-base h-full">
-      <spinner size="" />
-      <span>{{ $t('CONTACT_PROFILE.LOADING') }}</span>
-    </div>
+    <woot-loading-state
+      v-if="uiFlags.isFetchingItem"
+      :message="$t('CONTACT_PROFILE.LOADING')"
+    />
     <div v-else-if="contact.id" class="overflow-hidden flex-1 min-w-0">
       <div class="flex flex-wrap ml-auto mr-auto max-w-full h-full">
         <contact-info-panel
@@ -58,7 +58,6 @@ import { mapGetters } from 'vuex';
 import ContactInfoPanel from '../components/ContactInfoPanel.vue';
 import ContactNotes from 'dashboard/modules/notes/NotesOnContactPage.vue';
 import SettingsHeader from '../../settings/SettingsHeader.vue';
-import Spinner from 'shared/components/Spinner.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 
 export default {
@@ -66,7 +65,6 @@ export default {
     ContactInfoPanel,
     ContactNotes,
     SettingsHeader,
-    Spinner,
     Thumbnail,
   },
   props: {

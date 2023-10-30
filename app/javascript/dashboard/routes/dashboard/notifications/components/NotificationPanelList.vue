@@ -79,15 +79,12 @@
     >
       {{ $t('NOTIFICATIONS_PAGE.UNREAD_NOTIFICATION.ALL_NOTIFICATIONS') }}
     </woot-button>
-    <div
+    <woot-loading-state
       v-if="isLoading"
-      class="items-center justify-center my-12 mx-2 text-sm font-medium flex"
-    >
-      <spinner />
-      <span>{{
+      :message="
         $t('NOTIFICATIONS_PAGE.UNREAD_NOTIFICATION.LOADING_UNREAD_MESSAGE')
-      }}</span>
-    </div>
+      "
+    />
   </div>
 </template>
 
@@ -95,14 +92,12 @@
 import { mapGetters } from 'vuex';
 
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import timeMixin from '../../../../mixins/time';
 
 export default {
   components: {
     Thumbnail,
-    Spinner,
     EmptyState,
   },
   mixins: [timeMixin],
