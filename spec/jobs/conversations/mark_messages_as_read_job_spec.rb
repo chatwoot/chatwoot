@@ -16,7 +16,7 @@ RSpec.describe Conversations::MarkMessagesAsReadJob do
   context 'when called' do
     it 'marks all sent messages in a conversation as read' do
       expect do
-        described_class.perform_now(conversation)
+        described_class.perform_now(conversation.id, conversation.contact_last_seen_at)
         message.reload
       end.to change(message, :status).from('sent').to('read')
     end
@@ -24,7 +24,7 @@ RSpec.describe Conversations::MarkMessagesAsReadJob do
     it 'marks all delivered messages in a conversation as read' do
       message.update!(status: 'delivered')
       expect do
-        described_class.perform_now(conversation)
+        described_class.perform_now(conversation.id, conversation.contact_last_seen_at)
         message.reload
       end.to change(message, :status).from('delivered').to('read')
     end
@@ -32,7 +32,7 @@ RSpec.describe Conversations::MarkMessagesAsReadJob do
     it 'marks all templates messages in a conversation as read' do
       message.update!(status: 'delivered', message_type: 'template')
       expect do
-        described_class.perform_now(conversation)
+        described_class.perform_now(conversation.id, conversation.contact_last_seen_at)
         message.reload
       end.to change(message, :status).from('delivered').to('read')
     end
@@ -40,21 +40,27 @@ RSpec.describe Conversations::MarkMessagesAsReadJob do
     it 'does not mark failed messages as read' do
       message.update!(status: 'failed')
       expect do
-        described_class.perform_now(conversation)
+        described_class.perform_now(conversation.id, conversation.contact_last_seen_at)
       end.not_to change(message.reload, :status)
     end
 
     it 'does not mark incoming messages as read' do
       message.update!(message_type: 'incoming')
       expect do
-        described_class.perform_now(conversation)
+        described_class.perform_now(conversation.id, conversation.contact_last_seen_at)
       end.not_to change(message.reload, :status)
     end
 
     it 'does not mark messages created after the contact last seen time as read' do
       message.update!(created_at: DateTime.now.utc)
       expect do
-        described_class.perform_now(conversation)
+        described_class.perform_now(conversation.id, conversation.contact_last_seen_at)
+      end.not_to change(message.reload, :status)
+    end
+
+    it 'does not run the job if the conversation does not exist' do
+      expect do
+        described_class.perform_now(1212, conversation.contact_last_seen_at)
       end.not_to change(message.reload, :status)
     end
   end
