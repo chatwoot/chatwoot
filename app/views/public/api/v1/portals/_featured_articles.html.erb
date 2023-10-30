@@ -1,7 +1,7 @@
 <% featured_articles = articles.where(status: :published).order_by_views.take(6) %>
 <% if featured_articles.count >= 6 %>
 <section class="lg:container w-full flex flex-col h-full">
-   <div class="flex flex-col gap-5 <%= !@is_plain_layout_enabled ? 'border border-solid border-slate-100 dark:border-slate-800 rounded-lg py-5 px-3' : '' %>">
+   <div class="flex flex-col gap-5 border border-solid border-slate-100 dark:border-slate-800 rounded-lg py-5 px-3">
       <div class="flex justify-between items-center w-full"> 
          <div class="flex items-start flex-col gap-1">
             <div class="flex flex-row items-center gap-2 px-2">
@@ -12,7 +12,7 @@
          </div>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-x-2 gap-y-2 gap-2">
-         <% articles.where(status: :published).order_by_views.take(6).each do |article| %>
+         <% featured_articles.each do |article| %>
          <a class="text-slate-700 dark:text-slate-100 leading-7" href="/hc/<%= portal.slug %>/articles/<%= article.slug %><%= @theme.present? && @theme != 'system' ? '?theme='+@theme : ''  %>">
             <div class="flex justify-between items-center py-1 px-2 rounded-lg gap-3 hover:bg-slate-50 dark:hover:bg-slate-800">
                <%= article.title %>
