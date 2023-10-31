@@ -144,7 +144,6 @@ import BubbleText from './bubble/Text.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
 import InstagramStory from './bubble/InstagramStory.vue';
 import InstagramStoryReply from './bubble/InstagramStoryReply.vue';
-import Spinner from 'shared/components/Spinner.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import contentTypeMixin from 'shared/mixins/contentTypeMixin';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
@@ -166,7 +165,6 @@ export default {
     BubbleReplyTo,
     BubbleText,
     ContextMenu,
-    instagramImageErrorPlaceholder,
     InstagramStory,
     InstagramStoryReply,
   },
