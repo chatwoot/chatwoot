@@ -35,7 +35,7 @@ export default {
   computed: {
     colorSchemeClasses() {
       if (this.colorScheme === 'primary') {
-        return 'text-woot-200 dark:text-woot-500 fill-woot-500 dark:fill-woot-300';
+        return 'text-woot-200 dark:text-woot-700 fill-woot-600 dark:fill-woot-300';
       }
 
       if (this.colorScheme === 'warning') {
@@ -46,7 +46,11 @@ export default {
         return 'text-green-200 dark:text-green-700 fill-green-600 dark:fill-green-300';
       }
 
-      return 'text-slate-200 dark:text-slate-500 fill-slate-500 dark:fill-slate-300';
+      if (this.colorScheme === 'alert') {
+        return 'text-red-200 dark:text-red-700 fill-red-600 dark:fill-red-300';
+      }
+
+      return 'text-slate-200 dark:text-slate-700 fill-slate-600 dark:fill-slate-300';
     },
     sizeClasses() {
       if (this.size === 'tiny') {
