@@ -64,3 +64,28 @@ export const isValidURL = value => {
     /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/gm;
   return URL_REGEX.test(value);
 };
+
+export const getArticleSearchURL = ({
+  host,
+  portalSlug,
+  pageNumber,
+  locale,
+  status,
+  authorId,
+  categorySlug,
+  sort,
+  query,
+}) => {
+  const queryParams = new URLSearchParams({});
+
+  if (pageNumber) queryParams.set('page', pageNumber);
+  if (locale) queryParams.set('locale', locale);
+  if (status) queryParams.set('status', status);
+  if (authorId) queryParams.set('author_id', authorId);
+  if (categorySlug) queryParams.set('category_slug', categorySlug);
+  if (sort) queryParams.set('sort', sort);
+  if (sort) queryParams.set('sort', sort);
+  if (query) queryParams.set('query', query);
+
+  return `${host}/${portalSlug}/articles?${queryParams.toString()}`;
+};
