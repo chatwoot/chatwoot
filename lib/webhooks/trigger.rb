@@ -12,9 +12,9 @@ class Webhooks::Trigger
 
   def execute
     perform_request
-  rescue StandardError => e
-    Rails.logger.warn "Exception: Invalid webhook URL #{@url} : #{e.message}"
+  rescue RestClient::Exceptions::Timeout, RestClient::ExceptionWithResponse => e
     handle_error(e)
+    Rails.logger.warn "Exception: Invalid webhook URL #{@url} : #{e.message}"
   end
 
   private
@@ -30,22 +30,37 @@ class Webhooks::Trigger
   end
 
   def handle_error(error)
-    return unless SUPPORTED_ERROR_HANDLE_EVENTS.include?(@payload[:event])
+    return unless should_handle_error?
+    return unless conversation && message
 
-    return unless conversation.present? && message.present?
+    update_message_status(error)
+  end
 
+  def should_handle_error?
+    SUPPORTED_ERROR_HANDLE_EVENTS.include?(@payload[:event])
+  end
+
+  def update_message_status(error)
     message.update!(status: :failed, external_error: error.message)
   end
 
   def conversation
-    return if @payload[:conversation].blank? || @payload[:conversation][:id].blank?
+    return if conversation_id.blank?
 
-    @conversation ||= Conversation.find_by(id: @payload[:conversation][:id])
+    @conversation ||= Conversation.find_by(id: conversation_id)
   end
 
   def message
-    return if @payload[:id].blank?
+    return if message_id.blank?
 
-    @message ||= conversation.messages.find_by(id: @payload[:id])
+    @message ||= conversation&.messages&.find_by(id: message_id)
+  end
+
+  def conversation_id
+    @payload.dig(:conversation, :id)
+  end
+
+  def message_id
+    @payload[:id]
   end
 end
