@@ -8,14 +8,13 @@ class ArticlesAPI extends PortalsAPI {
     super('articles', { accountScoped: true });
   }
 
-  // eslint-disable-next-line class-methods-use-this
   getArticles({
     pageNumber,
     portalSlug,
     locale,
     status,
-    author_id,
-    category_slug,
+    authorId,
+    categorySlug,
     sort,
   }) {
     const url = getArticleSearchURL({
@@ -23,9 +22,10 @@ class ArticlesAPI extends PortalsAPI {
       portalSlug,
       locale,
       status,
-      author_id,
-      category_slug,
+      authorId,
+      categorySlug,
       sort,
+      host: this.url,
     });
 
     return axios.get(url);

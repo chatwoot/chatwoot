@@ -70,20 +70,19 @@ export const getArticleSearchURL = ({
   pageNumber,
   locale,
   status,
-  author_id,
-  category_slug,
+  authorId,
+  categorySlug,
   sort,
+  host,
 }) => {
   const queryParams = new URLSearchParams({ page: pageNumber, locale });
 
-  if (status !== undefined) queryParams.set('status', status);
-  if (author_id) queryParams.set('author_id', author_id);
-  if (category_slug) queryParams.set('category_slug', category_slug);
+  if (status) queryParams.set('status', status);
+  if (authorId) queryParams.set('author_id', authorId);
+  if (categorySlug) queryParams.set('category_slug', categorySlug);
   if (sort) queryParams.set('sort', sort);
 
-  const baseUrl = `${
-    this.url
-  }/${portalSlug}/articles?${queryParams.toString()}`;
+  const url = `${host}/${portalSlug}/articles?${queryParams.toString()}`;
 
-  return baseUrl;
+  return url;
 };

@@ -156,6 +156,7 @@ export default {
       this.showAlert(
         this.$t('HELP_CENTER.ARTICLE_SEARCH.SUCCESS_ARTICLE_INSERTED')
       );
+      this.onClose();
     },
     closeOnEsc(e) {
       if (isEscape(e) && !isActiveElementTypeable(e)) {

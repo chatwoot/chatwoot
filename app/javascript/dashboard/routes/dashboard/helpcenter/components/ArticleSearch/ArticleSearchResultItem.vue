@@ -1,11 +1,10 @@
 <template>
   <button
     class="flex flex-col gap-1 bg-white dark:bg-slate-900 hover:bg-slate-25 hover:dark:bg-slate-800 rounded-md py-1 px-2 w-full group border border-transparent border-solid focus:outline-none focus:bg-slate-25 focus:border-slate-500 dark:focus:border-slate-400 dark:focus:bg-slate-800 cursor-pointer"
-    :title="$t('HELP_CENTER.ARTICLE_SEARCH_RESULT.PREVIEW_LINK')"
     @click="handlePreview"
   >
     <h4
-      class="text-block-title text-left mb-0 text-slate-900 dark:text-slate-25 px-1 -mx-1 rounded-sm width-auto"
+      class="text-block-title text-left mb-0 text-slate-900 dark:text-slate-25 px-1 -mx-1 rounded-sm width-auto hover:underline group-hover:underline"
     >
       {{ title }}
     </h4>
@@ -44,9 +43,11 @@
 
 <script>
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   name: 'ArticleSearchResultItem',
+  mixins: [alertMixin],
   props: {
     id: {
       type: Number,
