@@ -37,4 +37,13 @@ export const routes = [
       return { contactId: route.params.contactId };
     },
   },
+  {
+    path: frontendURL('accounts/:accountId/visitors'),
+    name: 'visitors',
+    roles: ['administrator', 'agent'],
+    component: ContactsView,
+    props: {
+      reload: true,
+    },
+  },
 ];

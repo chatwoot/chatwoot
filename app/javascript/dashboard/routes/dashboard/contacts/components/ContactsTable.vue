@@ -86,6 +86,9 @@ export default {
     };
   },
   computed: {
+    allowToGoToContactDetailPage() {
+      return this.$route.name !== 'visitors';
+    },
     tableData() {
       if (this.isLoading) {
         return [];
@@ -122,34 +125,60 @@ export default {
           align: this.isRTLView ? 'right' : 'left',
           sortBy: this.sortConfig.name || '',
           width: 300,
-          renderBodyCell: ({ row }) => (
-            <woot-button
-              variant="clear"
-              onClick={() => this.onClickContact(row.id)}
-            >
-              <div class="row--user-block">
-                <Thumbnail
-                  src={row.thumbnail}
-                  size="32px"
-                  username={row.name}
-                  status={row.availability_status}
-                />
-                <div class="user-block">
-                  <h6 class="sub-block-title overflow-hidden whitespace-nowrap text-ellipsis">
-                    <router-link
-                      to={`/app/accounts/${this.$route.params.accountId}/contacts/${row.id}`}
-                      class="user-name"
-                    >
+          renderBodyCell: ({ row }) => {
+            if (`${this.allowToGoToContactDetailPage}` === 'true')
+              return (
+                <woot-button
+                  variant="clear"
+                  onClick={() => this.onClickContact(row.id)}
+                >
+                  <div class="row--user-block">
+                    <Thumbnail
+                      src={row.thumbnail}
+                      size="32px"
+                      username={row.name}
+                      status={row.availability_status}
+                    />
+                    <div class="user-block">
+                      <h6 class="sub-block-title overflow-hidden whitespace-nowrap text-ellipsis">
+                        <router-link
+                          to={`/app/accounts/${this.$route.params.accountId}/contacts/${row.id}`}
+                          class="user-name"
+                        >
+                          {row.name}
+                        </router-link>
+                      </h6>
+                      <button class="button clear small link view-details--button">
+                        {this.$t('CONTACTS_PAGE.LIST.VIEW_DETAILS')}
+                      </button>
+                    </div>
+                  </div>
+                </woot-button>
+              );
+            return (
+              <woot-button
+                variant="clear"
+                onClick={() => this.onClickContact(row.id)}
+              >
+                <div class="row--user-block">
+                  <Thumbnail
+                    src={row.thumbnail}
+                    size="32px"
+                    username={row.name}
+                    status={row.availability_status}
+                  />
+                  <div class="user-block">
+                    <h6 class="sub-block-title overflow-hidden whitespace-nowrap text-ellipsis">
                       {row.name}
-                    </router-link>
-                  </h6>
-                  <button class="button clear small link view-details--button">
-                    {this.$t('CONTACTS_PAGE.LIST.VIEW_DETAILS')}
-                  </button>
+                    </h6>
+                    <button class="button clear small link view-details--button">
+                      {this.$t('CONTACTS_PAGE.LIST.VIEW_DETAILS')}
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </woot-button>
-          ),
+              </woot-button>
+            );
+          },
         },
         {
           field: 'email',

@@ -115,6 +115,7 @@ export default {
   mixins: [alertMixin],
   props: {
     label: { type: String, default: '' },
+    reload: { type: Boolean, default: false },
     segmentsId: {
       type: [String, Number],
       default: 0,
@@ -165,12 +166,18 @@ export default {
         this.$route.name === 'contacts_labels_dashboard'
       );
     },
+    isVisitorsDashboard() {
+      return this.$route.name === 'visitors';
+    },
     pageTitle() {
       if (this.hasActiveSegments) {
         return this.activeSegment.name;
       }
       if (this.label) {
         return `#${this.label}`;
+      }
+      if (this.isVisitorsDashboard) {
+        return this.$t('VISITOR_CONTACTS_PAGE.HEADER');
       }
       return this.$t('CONTACTS_PAGE.HEADER');
     },
@@ -227,6 +234,9 @@ export default {
         this.fetchContacts(DEFAULT_PAGE);
       }
     },
+    reload() {
+      this.fetchContacts(DEFAULT_PAGE);
+    },
   },
   mounted() {
     this.fetchContacts(this.pageParameter);
@@ -251,7 +261,7 @@ export default {
       return sortAttr;
     },
     fetchContacts(page) {
-      if (this.isContactAndLabelDashboard) {
+      if (this.isContactAndLabelDashboard || this.isVisitorsDashboard) {
         this.updatePageParam(page);
         let value = '';
         if (this.searchQuery.charAt(0) === '+') {
@@ -263,6 +273,7 @@ export default {
           page,
           sortAttr: this.getSortAttribute(),
           label: this.label,
+          visitors: this.isVisitorsDashboard,
         };
         if (!value) {
           this.$store.dispatch('contacts/get', requestParams);

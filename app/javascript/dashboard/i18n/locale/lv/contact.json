@@ -215,6 +215,10 @@
       "ERROR_MESSAGE": "Nevarēja nosūtīt! mēģiniet vēlreiz"
     }
   },
+  "VISITOR_CONTACTS_PAGE": {
+    "HEADER": "Visitor Contacts",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for visitor contacts"
+  },
   "CONTACTS_PAGE": {
     "HEADER": "Kontaktpersonas",
     "FIELDS": "Kontaktpersonu lauki",

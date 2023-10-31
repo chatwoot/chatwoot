@@ -215,6 +215,10 @@
       "ERROR_MESSAGE": "Gat ekki sent! Reyndu aftur"
     }
   },
+  "VISITOR_CONTACTS_PAGE": {
+    "HEADER": "Visitor Contacts",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for visitor contacts"
+  },
   "CONTACTS_PAGE": {
     "HEADER": "Tengiliðir",
     "FIELDS": "Tengiliðs reitir",

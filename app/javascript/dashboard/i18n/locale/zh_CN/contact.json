@@ -215,6 +215,10 @@
       "ERROR_MESSAGE": "无法发送，请重试！"
     }
   },
+  "VISITOR_CONTACTS_PAGE": {
+    "HEADER": "Visitor Contacts",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for visitor contacts"
+  },
   "CONTACTS_PAGE": {
     "HEADER": "联系人",
     "FIELDS": "联系人字段",

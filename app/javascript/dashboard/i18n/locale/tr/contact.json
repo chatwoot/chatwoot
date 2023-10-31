@@ -215,6 +215,10 @@
       "ERROR_MESSAGE": "Yollanamıyor! lütfen tekrar deneyin"
     }
   },
+  "VISITOR_CONTACTS_PAGE": {
+    "HEADER": "Visitor Contacts",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for visitor contacts"
+  },
   "CONTACTS_PAGE": {
     "HEADER": "Kişiler",
     "FIELDS": "İletişim alanları",
