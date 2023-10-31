@@ -205,6 +205,11 @@ export default {
       ) {
         return this.sourceId && this.isSent;
       }
+      // There is no source id for the line channel
+      if (this.isALineChannel) {
+        return true;
+      }
+
       return false;
     },
     showDeliveredIndicator() {
@@ -222,6 +227,9 @@ export default {
       // We will consider messages as delivered for web widget inbox and API inbox if they are sent
       if (this.isAWebWidgetInbox || this.isAPIInbox) {
         return this.isSent;
+      }
+      if (this.isALineChannel) {
+        return this.isDelivered;
       }
 
       return false;
