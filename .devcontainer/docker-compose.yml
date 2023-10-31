@@ -8,13 +8,11 @@ services:
   app:
     build:
       context: ..
-      dockerfile: .devcontainer/Dockerfile
+      dockerfile: .devcontainer/Dockerfile.base
       args:
-        # Update 'VARIANT' to pick a Ruby version: https://github.com/microsoft/vscode-dev-containers/tree/main/containers/ruby
-        VARIANT: 3
-        # [Choice] Install Node.js
-        INSTALL_NODE: "true"
-        NODE_VERSION: "lts/*"
+        # Update 'VARIANT' to to pick a Ubuntu version
+        VARIANT: ubuntu-20.04
+        NODE_VERSION: "20.9.0"
         # On Linux, you may need to update USER_UID and USER_GID below if not your local UID is not 1000.
         USER_UID: 1000
         USER_GID: 1000
