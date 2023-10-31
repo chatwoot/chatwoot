@@ -1,11 +1,11 @@
 # https://github.com/microsoft/vscode-dev-containers/blob/master/containers/python-3-postgres/.devcontainer/docker-compose.yml
 # https://github.com/microsoft/vscode-dev-containers/blob/master/containers/ruby-rails/.devcontainer/devcontainer.json
-# 
+#
 
 version: '3'
 
 services:
-  app: 
+  app:
     build:
       context: ..
       dockerfile: .devcontainer/Dockerfile
@@ -14,17 +14,17 @@ services:
         VARIANT: 3
         # [Choice] Install Node.js
         INSTALL_NODE: "true"
-        NODE_VERSION: "lts/*"
+        NODE_VERSION: "20"
         # On Linux, you may need to update USER_UID and USER_GID below if not your local UID is not 1000.
         USER_UID: 1000
         USER_GID: 1000
 
     volumes:
       - ..:/workspace:cached
-  
+
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity
-    
+
     # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
     network_mode: service:db
 
@@ -49,8 +49,7 @@ services:
     restart: unless-stopped
     image: mailhog/mailhog
     network_mode: service:db
-  
+
 volumes:
   postgres-data:
   redis-data:
-  
