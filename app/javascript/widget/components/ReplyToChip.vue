@@ -26,7 +26,7 @@ export default {
   },
   computed: {
     replyToAttachment() {
-      if (!this.replyTo?.attachments.length) {
+      if (!this.replyTo?.attachments?.length) {
         return '';
       }
 
