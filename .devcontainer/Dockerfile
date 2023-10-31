@@ -5,4 +5,5 @@ FROM ghcr.io/chatwoot/chatwoot_codespace:latest
 # Do the set up required for chatwoot app
 WORKDIR /workspace
 COPY . /workspace
+RUN n 20.9.0
 RUN yarn && gem install bundler && bundle install
