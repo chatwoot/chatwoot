@@ -16,7 +16,11 @@
               @click="toggleReply"
             />
           </div>
-          <drag-wrapper direction="left" @dragged="toggleReply">
+          <drag-wrapper
+            direction="left"
+            :disabled="!allowReplyTo"
+            @dragged="toggleReply"
+          >
             <user-message-bubble
               v-if="showTextBubble"
               :message="message.content"

@@ -22,6 +22,7 @@
           <drag-wrapper
             class="space-y-2"
             direction="right"
+            :disabled="!allowReplyTo"
             @dragged="toggleReply"
           >
             <AgentMessageBubble
