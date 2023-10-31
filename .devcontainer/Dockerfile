@@ -6,4 +6,6 @@ FROM ghcr.io/chatwoot/chatwoot_codespace:latest
 WORKDIR /workspace
 COPY . /workspace
 RUN n 20.9.0
+RUN rbenv global system
+RUN rbenv global versions
 RUN yarn && gem install bundler && bundle install
