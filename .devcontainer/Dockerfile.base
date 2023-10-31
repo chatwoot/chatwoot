@@ -1,5 +1,5 @@
 
-ARG VARIANT=ubuntu-20.04
+ARG VARIANT=ubuntu-22.04
 FROM mcr.microsoft.com/vscode/devcontainers/base:${VARIANT}
 
 # Update args in docker-compose.yaml to set the UID/GID of the "vscode" user.
@@ -46,7 +46,7 @@ RUN rbenv install $RUBY_VERSION && \
 RUN curl -L https://github.com/DarthSim/overmind/releases/download/v2.1.0/overmind-v2.1.0-linux-amd64.gz > overmind.gz \
   && gunzip overmind.gz \
   && sudo mv overmind /usr/local/bin \
-  && chmod +x /usr/local/bin/overmind 
+  && chmod +x /usr/local/bin/overmind
 
 
 # Install gh
@@ -56,7 +56,7 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | s
    && sudo apt install gh
 
 
-# Do the set up required for chatwoot app 
+# Do the set up required for chatwoot app
 WORKDIR /workspace
 COPY . /workspace
 

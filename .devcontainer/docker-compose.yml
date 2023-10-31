@@ -14,7 +14,7 @@ services:
         VARIANT: 3
         # [Choice] Install Node.js
         INSTALL_NODE: "true"
-        NODE_VERSION: "20"
+        NODE_VERSION: "lts/*"
         # On Linux, you may need to update USER_UID and USER_GID below if not your local UID is not 1000.
         USER_UID: 1000
         USER_GID: 1000
