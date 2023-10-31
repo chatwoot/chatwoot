@@ -82,7 +82,5 @@ export const getArticleSearchURL = ({
   if (categorySlug) queryParams.set('category_slug', categorySlug);
   if (sort) queryParams.set('sort', sort);
 
-  const url = `${host}/${portalSlug}/articles?${queryParams.toString()}`;
-
-  return url;
+  return `${host}/${portalSlug}/articles?${queryParams.toString()}`;
 };

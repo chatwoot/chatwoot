@@ -96,7 +96,7 @@ export default {
   },
   mounted() {
     this.fetchArticlesByQuery(this.searchQuery);
-    this.debounceSearch = debounce(this.fetchArticlesByQuery, 500, true);
+    this.debounceSearch = debounce(this.fetchArticlesByQuery, 500, false);
     document.body.addEventListener('keydown', this.closeOnEsc);
   },
   beforeDestroy() {
