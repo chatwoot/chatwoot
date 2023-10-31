@@ -38,6 +38,7 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 RUN git clone https://github.com/rbenv/rbenv.git ~/.rbenv \
     &&  echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc \
     &&  echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+ENV PATH "/root/.rbenv/bin/:/root/.rbenv/shims/:$PATH"
 RUN git clone https://github.com/rbenv/ruby-build.git && \
     PREFIX=/usr/local ./ruby-build/install.sh
 
