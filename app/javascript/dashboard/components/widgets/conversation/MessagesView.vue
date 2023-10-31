@@ -31,7 +31,6 @@
         :data="message"
         :is-a-tweet="isATweet"
         :is-a-whatsapp-channel="isAWhatsAppChannel"
-        :has-instagram-story="hasInstagramStory"
         :is-web-widget-inbox="isAWebWidgetInbox"
         :inbox-supports-reply-to="inboxSupportsReplyTo"
         :in-reply-to="getInReplyToMessage(message)"
@@ -54,7 +53,6 @@
         :data="message"
         :is-a-tweet="isATweet"
         :is-a-whatsapp-channel="isAWhatsAppChannel"
-        :has-instagram-story="hasInstagramStory"
         :is-web-widget-inbox="isAWebWidgetInbox"
         :inbox-supports-reply-to="inboxSupportsReplyTo"
         :in-reply-to="getInReplyToMessage(message)"
@@ -237,10 +235,6 @@ export default {
 
     isATweet() {
       return this.conversationType === 'tweet';
-    },
-
-    hasInstagramStory() {
-      return this.conversationType === 'instagram_direct_message';
     },
     isRightOrLeftIcon() {
       if (this.isContactPanelOpen) {
