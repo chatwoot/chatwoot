@@ -114,10 +114,6 @@ export default {
       type: Boolean,
       default: true,
     },
-    hasInstagramStory: {
-      type: Boolean,
-      default: true,
-    },
     messageType: {
       type: Number,
       default: 1,
@@ -204,7 +200,8 @@ export default {
       if (
         this.isAWhatsAppChannel ||
         this.isATwilioChannel ||
-        this.isAFacebookInbox
+        this.isAFacebookInbox ||
+        this.isASmsInbox
       ) {
         return this.sourceId && this.isSent;
       }
@@ -215,7 +212,11 @@ export default {
         return false;
       }
 
-      if (this.isAWhatsAppChannel || this.isATwilioChannel) {
+      if (
+        this.isAWhatsAppChannel ||
+        this.isATwilioChannel ||
+        this.isASmsInbox
+      ) {
         return this.sourceId && this.isDelivered;
       }
       // We will consider messages as delivered for web widget inbox and API inbox if they are sent
