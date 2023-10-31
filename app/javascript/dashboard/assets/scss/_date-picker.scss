@@ -1,9 +1,5 @@
 @import '~vue2-datepicker/scss/index';
 
-.mx-datepicker-popup {
-  @apply z-[99999];
-}
-
 .date-picker {
   &.no-margin {
     .mx-input {
@@ -29,10 +25,52 @@
   .mx-input[readonly] {
     @apply bg-white dark:bg-slate-900 cursor-pointer;
   }
+
+  .mx-icon-calendar {
+    @apply dark:text-slate-500;
+  }
 }
 
-.mx-calendar-content .cell:hover {
-  @apply bg-slate-75 dark:bg-slate-700 text-slate-900 dark:text-slate-100;
+.mx-datepicker-main {
+  @apply border-0 bg-white dark:bg-slate-800;
+
+  .cell {
+    &.disabled {
+      @apply bg-slate-25 dark:bg-slate-900 text-slate-200 dark:text-slate-300;
+    }
+
+    &:hover,
+    &.hover-in-range,
+    &.in-range {
+      @apply bg-slate-75 dark:bg-slate-700 text-slate-900 dark:text-slate-100;
+    }
+  }
+
+  .mx-time {
+    @apply border-0 bg-white dark:bg-slate-800;
+
+    .mx-time-header {
+      @apply border-0;
+    }
+
+    .mx-time-item {
+      &.disabled {
+        @apply bg-slate-25 dark:bg-slate-900;
+      }
+
+      &:hover {
+        @apply bg-slate-75 dark:bg-slate-700;
+      }
+    }
+  }
+
+  .today {
+    @apply font-semibold;
+  }
+}
+
+.mx-datepicker-popup {
+  @apply z-[99999];
 }
 
 .mx-datepicker-inline {
@@ -40,25 +78,5 @@
 
   .mx-calendar {
     @apply w-full;
-  }
-
-  .cell.disabled {
-    @apply bg-slate-25 dark:bg-slate-900 text-slate-200 dark:text-slate-300;
-  }
-
-  .mx-time-item.disabled {
-    @apply bg-slate-25 dark:bg-slate-900;
-  }
-
-  .today {
-    @apply font-semibold;
-  }
-
-  .mx-datepicker-main {
-    @apply border-0 bg-white dark:bg-slate-800;
-  }
-
-  .mx-time-header {
-    @apply border-0;
   }
 }
