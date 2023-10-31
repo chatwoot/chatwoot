@@ -1,11 +1,12 @@
 
-ARG VARIANT=ubuntu-22.04
+ARG VARIANT
+
+FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT}
+
 ARG NODE_VERSION
 ARG RUBY_VERSION
 ARG USER_UID
 ARG USER_GID
-
-FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT}
 
 # Update args in docker-compose.yaml to set the UID/GID of the "vscode" user.
 RUN if [ "$USER_GID" != "1000" ] || [ "$USER_UID" != "1000" ]; then \
