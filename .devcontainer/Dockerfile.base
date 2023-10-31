@@ -35,9 +35,15 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     libyaml-dev
 
 # Install rbenv and ruby
-RUN curl -fsSL https://github.com/rbenv/rbenv-installer/raw/HEAD/bin/rbenv-installer | bash
+RUN git clone https://github.com/rbenv/rbenv.git ~/.rbenv \
+    && echo 'eval "$(~/.rbenv/bin/rbenv init - bash)"' >> ~/.bashrc
+ENV PATH "/root/.rbenv/bin/:/root/.rbenv/shims/:$PATH"
+RUN git clone https://github.com/rbenv/ruby-build.git && \
+    PREFIX=/usr/local ./ruby-build/install.sh
+
 RUN rbenv install $RUBY_VERSION && \
-    rbenv global $RUBY_VERSION
+    rbenv global $RUBY_VERSION && \
+    rbenv versions
 
 # Install overmind
 RUN curl -L https://github.com/DarthSim/overmind/releases/download/v2.1.0/overmind-v2.1.0-linux-amd64.gz > overmind.gz \
