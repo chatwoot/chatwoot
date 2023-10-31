@@ -618,7 +618,9 @@ export default {
       if (this.isRichEditorEnabled) {
         bus.$emit(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, `[${title}](${url})`);
       } else {
-        this.addIntoEditor(`Read more ${url}`);
+        this.addIntoEditor(
+          `${this.$t('CONVERSATION.REPLYBOX.INSERT_READ_MORE')} ${url}`
+        );
       }
     },
     toggleRichContentEditor() {
@@ -886,22 +888,22 @@ export default {
     clearEditorSelection() {
       this.updateEditorSelectionWith = '';
     },
-    insertIntoTextEditor(emoji, selectionStart, selectionEnd) {
+    insertIntoTextEditor(text, selectionStart, selectionEnd) {
       const { message } = this;
       const newMessage =
         message.slice(0, selectionStart) +
-        emoji +
+        text +
         message.slice(selectionEnd, message.length);
       this.message = newMessage;
     },
-    addIntoEditor(emoji) {
+    addIntoEditor(content) {
       if (this.showRichContentEditor) {
-        this.updateEditorSelectionWith = emoji;
+        this.updateEditorSelectionWith = content;
         this.onFocus();
       }
       if (!this.showRichContentEditor) {
         const { selectionStart, selectionEnd } = this.$refs.messageInput.$el;
-        this.insertIntoTextEditor(emoji, selectionStart, selectionEnd);
+        this.insertIntoTextEditor(content, selectionStart, selectionEnd);
       }
     },
     clearMessage() {

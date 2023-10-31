@@ -44,7 +44,9 @@ import SearchHeader from './Header.vue';
 import SearchResults from './SearchResults.vue';
 import ArticleView from './ArticleView.vue';
 import ArticlesAPI from 'dashboard/api/helpCenter/articles';
+import { buildPortalArticleURL } from 'dashboard/helper/portalHelper';
 import portalMixin from '../../mixins/portalMixin';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   name: 'ArticleSearchPopover',
@@ -53,7 +55,7 @@ export default {
     SearchResults,
     ArticleView,
   },
-  mixins: [clickaway, portalMixin],
+  mixins: [clickaway, portalMixin, alertMixin],
   props: {
     selectedPortalSlug: {
       type: String,
@@ -72,7 +74,7 @@ export default {
   computed: {
     articleViewerUrl() {
       const article = this.activeArticle(this.activeId);
-      if (!article) return undefined;
+      if (!article) return '';
       const isDark = document.body.classList.contains('dark');
 
       const url = new URL(article.url);
@@ -93,7 +95,6 @@ export default {
     },
   },
   mounted() {
-    // Load popular articles on mount
     this.fetchArticlesByQuery(this.searchQuery);
     this.debounceSearch = debounce(this.fetchArticlesByQuery, 500, true);
     document.body.addEventListener('keydown', this.closeOnEsc);
@@ -103,9 +104,12 @@ export default {
   },
   methods: {
     generateArticleUrl(article) {
-      const host =
-        window.chatwootConfig.helpCenterURL || window.chatwootConfig.hostURL;
-      return `${host}/hc/${this.selectedPortalSlug}/articles/${article.slug}`;
+      return buildPortalArticleURL(
+        this.selectedPortalSlug,
+        '',
+        '',
+        article.slug
+      );
     },
     activeArticle(id) {
       return this.searchResultsWithUrl.find(article => article.id === id);
@@ -123,7 +127,7 @@ export default {
     },
     async fetchArticlesByQuery(query) {
       try {
-        const sort = query ? undefined : 'views';
+        const sort = query ? '' : 'views';
         this.isLoading = true;
         this.searchResults = [];
         const { data } = await ArticlesAPI.searchArticles({
@@ -149,8 +153,7 @@ export default {
       const article = this.activeArticle(id || this.activeId);
 
       this.$emit('insert', article);
-      bus.$emit(
-        'newToastMessage',
+      this.showAlert(
         this.$t('HELP_CENTER.ARTICLE_SEARCH.SUCCESS_ARTICLE_INSERTED')
       );
     },

@@ -1,12 +1,14 @@
 /* global axios */
 
 import PortalsAPI from './portals';
+import { getArticleSearchURL } from 'dashboard/helper/URLHelper.js';
 
 class ArticlesAPI extends PortalsAPI {
   constructor() {
     super('articles', { accountScoped: true });
   }
 
+  // eslint-disable-next-line class-methods-use-this
   getArticles({
     pageNumber,
     portalSlug,
@@ -16,17 +18,17 @@ class ArticlesAPI extends PortalsAPI {
     category_slug,
     sort,
   }) {
-    const queryParams = new URLSearchParams({ page: pageNumber, locale });
+    const url = getArticleSearchURL({
+      pageNumber,
+      portalSlug,
+      locale,
+      status,
+      author_id,
+      category_slug,
+      sort,
+    });
 
-    if (status !== undefined) queryParams.set('status', status);
-    if (author_id) queryParams.set('author_id', author_id);
-    if (category_slug) queryParams.set('category_slug', category_slug);
-    if (sort) queryParams.set('sort', sort);
-
-    const baseUrl = `${
-      this.url
-    }/${portalSlug}/articles?${queryParams.toString()}`;
-    return axios.get(baseUrl);
+    return axios.get(url);
   }
 
   searchArticles({ portalSlug, query }) {
