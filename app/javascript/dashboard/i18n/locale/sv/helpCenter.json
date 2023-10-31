@@ -240,7 +240,7 @@
           "ERROR": "Enter a valid domain URL"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home Page Link",
+          "LABEL": "Länk till startsida",
           "PLACEHOLDER": "Portal home page link",
           "HELP_TEXT": "The link used to return from the portal to the home page. Eg: https://example.com",
           "ERROR": "Enter a valid home page URL"
