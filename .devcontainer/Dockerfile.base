@@ -1,5 +1,11 @@
 
-FROM mcr.microsoft.com/vscode/devcontainers/base:${VARIANT}
+ARG VARIANT=ubuntu-22.04
+ARG NODE_VERSION
+ARG RUBY_VERSION
+ARG USER_UID
+ARG USER_GID
+
+FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT}
 
 # Update args in docker-compose.yaml to set the UID/GID of the "vscode" user.
 RUN if [ "$USER_GID" != "1000" ] || [ "$USER_UID" != "1000" ]; then \
@@ -27,7 +33,6 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     npm
 
 # Install rbenv and ruby
-ARG RUBY_VERSION="3.2.2"
 RUN git clone https://github.com/rbenv/rbenv.git ~/.rbenv \
     &&  echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc \
     &&  echo 'eval "$(rbenv init -)"' >> ~/.bashrc
