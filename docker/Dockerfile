@@ -25,7 +25,7 @@ RUN apk update && apk add --no-cache \
   tzdata \
   postgresql-dev \
   postgresql-client \
-  nodejs-current \
+  nodejs-current --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
   yarn \
   git \
   && mkdir -p /var/app \
