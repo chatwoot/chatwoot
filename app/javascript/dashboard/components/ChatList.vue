@@ -411,7 +411,9 @@ export default {
     conversationListPagination() {
       const conversationsPerPage = 25;
       const hasChatsOnView =
-        Array.isArray(this.chatsOnView) && this.chatsOnView.length !== 0;
+        this.chatsOnView &&
+        Array.isArray(this.chatsOnView) &&
+        !this.chatsOnView.length;
       const isNoFiltersOrFoldersAndChatListNotEmpty =
         !this.hasAppliedFiltersOrActiveFolders && hasChatsOnView;
       const isUnderPerPage =
