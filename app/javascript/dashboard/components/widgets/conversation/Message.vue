@@ -24,7 +24,7 @@
         />
         <instagram-story-reply v-if="storyUrl" :story-url="storyUrl" />
         <bubble-reply-to
-          v-if="inReplyToMessageId && inboxSupportsReplyTo"
+          v-if="inReplyToMessageId && inboxSupportsReplyTo.incoming"
           :message="inReplyTo"
           :message-type="data.message_type"
           :parent-has-attachments="hasAttachments"
@@ -184,8 +184,8 @@ export default {
       default: false,
     },
     inboxSupportsReplyTo: {
-      type: Boolean,
-      default: false,
+      type: Object,
+      default: () => ({}),
     },
     inReplyTo: {
       type: Object,
@@ -281,7 +281,7 @@ export default {
         copy: this.hasText,
         delete: this.hasText || this.hasAttachments,
         cannedResponse: this.isOutgoing && this.hasText,
-        replyTo: !this.data.private && this.inboxSupportsReplyTo,
+        replyTo: !this.data.private && this.inboxSupportsReplyTo.outgoing,
       };
     },
     contentAttributes() {
