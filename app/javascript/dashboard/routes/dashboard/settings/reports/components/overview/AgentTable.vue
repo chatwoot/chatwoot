@@ -28,7 +28,6 @@
 
 <script>
 import { VeTable, VePagination } from 'vue-easytable';
-import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import rtlMixin from 'shared/mixins/rtlMixin';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
@@ -37,7 +36,6 @@ export default {
   name: 'AgentTable',
   components: {
     EmptyState,
-    Spinner,
     VeTable,
     VePagination,
   },
