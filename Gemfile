@@ -107,7 +107,7 @@ gem 'google-cloud-translate-v3'
 gem 'ddtrace', require: false
 gem 'elastic-apm', require: false
 gem 'newrelic_rpm', require: false
-gem 'newrelic-sidekiq-metrics', require: false
+gem 'newrelic-sidekiq-metrics', '>= 1.6.2', require: false
 gem 'scout_apm', require: false
 gem 'sentry-rails', '>= 5.12.0', require: false
 gem 'sentry-ruby', require: false
