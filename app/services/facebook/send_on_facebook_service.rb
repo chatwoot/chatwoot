@@ -11,6 +11,7 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   rescue Facebook::Messenger::FacebookError => e
     # TODO : handle specific errors or else page will get disconnected
     handle_facebook_error(e)
+    message.update!(status: :failed, external_error: e.message)
   end
 
   def send_message_to_facebook(delivery_params)
