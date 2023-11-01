@@ -1,18 +1,18 @@
 {
   "FILTER": {
     "TITLE": "Beszélgetések szűrése",
-    "SUBTITLE": "Adj meg szűrőket alább, majd kattints a \"Szűrők alkalmazása\" gombra a szűréshez.",
+    "SUBTITLE": "Adja hozzá a szűrőket az alábbiakban, és nyomja meg a \"Szűrők alkalmazása\" gombot.",
     "EDIT_CUSTOM_FILTER": "Mappa szerkesztése",
     "CUSTOM_VIEWS_SUBTITLE": "Adj hozzá vagy törölj szűrőket, és frissítsd a mappát.",
     "ADD_NEW_FILTER": "Szűrő hozzáadása",
-    "FILTER_DELETE_ERROR": "Kötelező legalább egy szűrőt megadni a mentéshez",
+    "FILTER_DELETE_ERROR": "Hoppá, úgy tűnik, semmit sem tudunk elmenteni! Kérjük, adjon hozzá legalább egy szűrőt a mentéshez.",
     "SUBMIT_BUTTON_LABEL": "Szűrők alkalmazása",
     "UPDATE_BUTTON_LABEL": "Mappa frissítése",
     "CANCEL_BUTTON_LABEL": "Mégse",
     "CLEAR_BUTTON_LABEL": "Szűrők törlése",
-    "EMPTY_VALUE_ERROR": "Kötelező megadni",
     "FOLDER_LABEL": "Mappa neve",
     "FOLDER_QUERY_LABEL": "Mappa lekérdezés",
+    "EMPTY_VALUE_ERROR": "Kötelező megadni.",
     "TOOLTIP_LABEL": "Beszélgetések szűrése",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "ÉS",
@@ -36,11 +36,11 @@
     },
     "ATTRIBUTES": {
       "STATUS": "Státusz",
-      "ASSIGNEE_NAME": "Felelős neve",
+      "ASSIGNEE_NAME": "Jogosult neve",
       "INBOX_NAME": "Fiók név",
-      "TEAM_NAME": "Csapat neve",
-      "CONVERSATION_IDENTIFIER": "Beszélgetés azonosító",
-      "CAMPAIGN_NAME": "Kampány neve",
+      "TEAM_NAME": "Csapatnév",
+      "CONVERSATION_IDENTIFIER": "Beszélgetés azonosítója",
+      "CAMPAIGN_NAME": "Vállalkozás neve",
       "LABELS": "Cimkék",
       "BROWSER_LANGUAGE": "Böngésző nyelve",
       "PRIORITY": "Prioritás",
@@ -55,25 +55,25 @@
       "LAST_ACTIVITY": "Utolsó aktivitás"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Alap szűrők",
-      "ADDITIONAL_FILTERS": "Extra szűrők",
-      "CUSTOM_ATTRIBUTES": "Egyedi atribútumok"
+      "STANDARD_FILTERS": "Standard szűrők",
+      "ADDITIONAL_FILTERS": "További szűrők",
+      "CUSTOM_ATTRIBUTES": "Egyéni tulajdonságok"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
         "TITLE": "El akarod menteni ezt a szűrőt?",
         "LABEL": "Nevezd el a szűrőt",
-        "PLACEHOLDER": "Adj nevet a szűrőnek",
-        "ERROR_MESSAGE": "Név kötelező",
+        "PLACEHOLDER": "Nevezze el a szűrőt, hogy később hivatkozhasson rá.",
+        "ERROR_MESSAGE": "Név kötelező.",
         "SAVE_BUTTON": "Szűrő mentése",
         "CANCEL_BUTTON": "Mégse",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Mappa sikeresen létrehozva",
-          "ERROR_MESSAGE": "Hiba történt a mappa létrehozása során"
+          "SUCCESS_MESSAGE": "Mappa sikeresen létrehozva.",
+          "ERROR_MESSAGE": "Hiba történt a mappa létrehozása során."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Szegmens sikeresen létrehozva",
-          "ERROR_MESSAGE": "Hiba történt a szegmens törlésekor"
+          "SUCCESS_MESSAGE": "Szegmens sikeresen létrehozva.",
+          "ERROR_MESSAGE": "Hiba történt a szegmens törlésekor."
         }
       },
       "EDIT": {
@@ -85,17 +85,17 @@
           "CONFIRM": {
             "TITLE": "Törlés megerősítése",
             "MESSAGE": "Biztosan törölni akarod a szűrőt ",
-            "YES": "Igen, Törlés",
-            "NO": "Nem, tartsa meg"
+            "YES": "Igen, törlés",
+            "NO": "Nem, tartsd meg"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Mappa sikeresen törölve",
-          "ERROR_MESSAGE": "Hiba történt a mappa törlése során"
+          "SUCCESS_MESSAGE": "Mappa sikeresen törölve.",
+          "ERROR_MESSAGE": "Hiba történt a mappa törlése során."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Szegmens törölve",
-          "ERROR_MESSAGE": "Hiba történt a szegmens törlése során"
+          "SUCCESS_MESSAGE": "Szegmens törölve.",
+          "ERROR_MESSAGE": "Hiba történt a szegmens törlése során."
         }
       }
     }
