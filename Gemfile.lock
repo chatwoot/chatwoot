@@ -148,6 +148,7 @@ GEM
     barnes (0.0.9)
       multi_json (~> 1)
       statsd-ruby (~> 1.1)
+    base64 (0.1.1)
     bcrypt (3.1.19)
     bindex (0.8.1)
     blingfire (0.1.8)
@@ -478,10 +479,11 @@ GEM
     net-smtp (0.3.3)
       net-protocol
     netrc (0.11.0)
-    newrelic-sidekiq-metrics (1.6.1)
-      newrelic_rpm (~> 8)
+    newrelic-sidekiq-metrics (1.6.2)
+      newrelic_rpm (>= 8.0.0)
       sidekiq
-    newrelic_rpm (8.16.0)
+    newrelic_rpm (9.6.0)
+      base64
     nio4r (2.5.9)
     nokogiri (1.15.4)
       mini_portile2 (~> 2.8.2)
@@ -603,7 +605,7 @@ GEM
       ffi (~> 1.0)
     redis (5.0.6)
       redis-client (>= 0.9.0)
-    redis-client (0.17.0)
+    redis-client (0.18.0)
       connection_pool
     redis-namespace (1.10.0)
       redis (>= 4)
@@ -895,7 +897,7 @@ DEPENDENCIES
   maxminddb
   mock_redis
   neighbor
-  newrelic-sidekiq-metrics
+  newrelic-sidekiq-metrics (>= 1.6.2)
   newrelic_rpm
   omniauth
   omniauth-google-oauth2
