@@ -78,14 +78,23 @@ export const getArticleSearchURL = ({
 }) => {
   const queryParams = new URLSearchParams({});
 
-  if (pageNumber) queryParams.set('page', pageNumber);
-  if (locale) queryParams.set('locale', locale);
-  if (status) queryParams.set('status', status);
-  if (authorId) queryParams.set('author_id', authorId);
-  if (categorySlug) queryParams.set('category_slug', categorySlug);
-  if (sort) queryParams.set('sort', sort);
-  if (sort) queryParams.set('sort', sort);
-  if (query) queryParams.set('query', query);
+  // Define the parameters in an array
+  const params = [
+    { key: 'page', value: pageNumber },
+    { key: 'locale', value: locale },
+    { key: 'status', value: status },
+    { key: 'author_id', value: authorId },
+    { key: 'category_slug', value: categorySlug },
+    { key: 'sort', value: sort },
+    { key: 'query', value: query },
+  ];
+
+  // Add parameters to queryParams
+  params.forEach(({ key, value }) => {
+    if (value) {
+      queryParams.set(key, value);
+    }
+  });
 
   return `${host}/${portalSlug}/articles?${queryParams.toString()}`;
 };
