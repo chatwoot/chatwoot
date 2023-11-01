@@ -285,13 +285,18 @@ export default {
       return this.currentChat.unread_count || 0;
     },
     inboxSupportsReplyTo() {
-      return (
-        this.inboxHasFeature(INBOX_FEATURES.REPLY_TO_OUTGOING) &&
-        this.isFeatureEnabledonAccount(
+      if (
+        !this.isFeatureEnabledonAccount(
           this.accountId,
           FEATURE_FLAGS.MESSAGE_REPLY_TO
         )
-      );
+      ) {
+        return {};
+      }
+      return {
+        incoming: this.inboxHasFeature(INBOX_FEATURES.REPLY_TO),
+        outgoing: this.inboxHasFeature(INBOX_FEATURES.REPLY_TO_OUTGOING),
+      };
     },
   },
 
