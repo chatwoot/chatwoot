@@ -1,13 +1,14 @@
 class Webhooks::Trigger
   SUPPORTED_ERROR_HANDLE_EVENTS = %w[message_created message_updated].freeze
 
-  def initialize(url, payload)
+  def initialize(url, payload, webhook_type)
     @url = url
     @payload = payload
+    @webhook_type = webhook_type
   end
 
-  def self.execute(url, payload)
-    new(url, payload).execute
+  def self.execute(url, payload, webhook_type)
+    new(url, payload, webhook_type).execute
   end
 
   def execute
@@ -37,7 +38,7 @@ class Webhooks::Trigger
   end
 
   def should_handle_error?
-    SUPPORTED_ERROR_HANDLE_EVENTS.include?(@payload[:event])
+    @webhook_type == :api_inbox_webhook && SUPPORTED_ERROR_HANDLE_EVENTS.include?(@payload[:event])
   end
 
   def update_message_status(error)
