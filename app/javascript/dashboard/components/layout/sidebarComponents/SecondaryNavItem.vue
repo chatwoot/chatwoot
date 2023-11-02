@@ -78,6 +78,7 @@
               variant="clear"
               color-scheme="secondary"
               icon="add"
+              :data-testid="menuItem.dataTestid"
               @click="e => newLinkClick(e, navigate)"
             >
               {{ $t(`SIDEBAR.${menuItem.newLinkTag}`) }}
