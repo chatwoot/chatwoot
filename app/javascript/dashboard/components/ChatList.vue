@@ -1,6 +1,6 @@
 <template>
   <div
-    class="conversations-list-wrap flex-basis-clamp flex-shrink-0 flex-basis-custom overflow-hidden flex flex-col border-r rtl:border-r-0 rtl:border-l border-slate-50 dark:border-slate-800/50"
+    class="flex flex-col flex-shrink-0 overflow-hidden border-r conversations-list-wrap flex-basis-clamp flex-basis-custom rtl:border-r-0 rtl:border-l border-slate-50 dark:border-slate-800/50"
     :class="{
       hide: !showConversationList,
       'list--full-width': isOnExpandedLayout,
@@ -8,7 +8,7 @@
   >
     <slot />
     <div
-      class="flex items-center justify-between py-0 px-4"
+      class="flex items-center justify-between px-4 py-0"
       :class="{
         'pb-3 border-b border-slate-75 dark:border-slate-700':
           hasAppliedFiltersOrActiveFolders,
@@ -16,7 +16,7 @@
     >
       <div class="flex max-w-[85%] justify-center items-center">
         <h1
-          class="text-xl break-words overflow-hidden whitespace-nowrap text-ellipsis text-black-900 dark:text-slate-100 mb-0"
+          class="mb-0 overflow-hidden text-xl break-words whitespace-nowrap text-ellipsis text-black-900 dark:text-slate-100"
           :title="pageTitle"
         >
           {{ pageTitle }}
@@ -107,7 +107,7 @@
 
     <p
       v-if="!chatListLoading && !conversationList.length"
-      class="overflow-auto p-4 flex justify-center items-center"
+      class="flex items-center justify-center p-4 overflow-auto"
     >
       {{ $t('CHAT_LIST.LIST.404') }}
     </p>
@@ -127,7 +127,7 @@
     />
     <div
       ref="activeConversation"
-      class="conversations-list flex-1"
+      class="flex-1 conversations-list"
       :class="{ 'overflow-hidden': isContextMenuOpen }"
     >
       <div>
@@ -153,7 +153,7 @@
         />
       </div>
       <div v-if="chatListLoading" class="text-center">
-        <span class="spinner mt-4 mb-4" />
+        <span class="mt-4 mb-4 spinner" />
       </div>
 
       <woot-button
@@ -166,7 +166,7 @@
         {{ $t('CHAT_LIST.LOAD_MORE_CONVERSATIONS') }}
       </woot-button>
 
-      <p v-if="showEndOfListMessage" class="text-center text-muted p-4">
+      <p v-if="showEndOfListMessage" class="p-4 text-center text-muted">
         {{ $t('CHAT_LIST.EOF') }}
       </p>
     </div>
