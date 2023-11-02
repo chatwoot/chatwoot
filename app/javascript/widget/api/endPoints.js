@@ -22,7 +22,7 @@ const createConversation = params => {
   };
 };
 
-const sendMessage = (content, replyTo) => {
+const sendMessage = (content, replyTo, echoId) => {
   const referrerURL = window.referrerURL || '';
   const search = buildSearchParamsWithLocale(window.location.search);
   return {
@@ -33,12 +33,13 @@ const sendMessage = (content, replyTo) => {
         reply_to: replyTo,
         timestamp: new Date().toString(),
         referer_url: referrerURL,
+        echo_id: echoId,
       },
     },
   };
 };
 
-const sendAttachment = ({ attachment, replyTo = null }) => {
+const sendAttachment = ({ attachment, replyTo = null, echoId }) => {
   const { referrerURL = '' } = window;
   const timestamp = new Date().toString();
   const { file } = attachment;
@@ -53,6 +54,7 @@ const sendAttachment = ({ attachment, replyTo = null }) => {
   formData.append('message[referer_url]', referrerURL);
   formData.append('message[timestamp]', timestamp);
   formData.append('message[reply_to]', replyTo);
+  formData.append('message[echo_id]', echoId);
   return {
     url: `/api/v1/widget/messages${window.location.search}`,
     params: formData,
