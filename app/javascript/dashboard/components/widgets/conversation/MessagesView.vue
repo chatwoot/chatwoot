@@ -31,7 +31,6 @@
         :data="message"
         :is-a-tweet="isATweet"
         :is-a-whatsapp-channel="isAWhatsAppChannel"
-        :has-instagram-story="hasInstagramStory"
         :is-web-widget-inbox="isAWebWidgetInbox"
         :inbox-supports-reply-to="inboxSupportsReplyTo"
         :in-reply-to="getInReplyToMessage(message)"
@@ -54,7 +53,6 @@
         :data="message"
         :is-a-tweet="isATweet"
         :is-a-whatsapp-channel="isAWhatsAppChannel"
-        :has-instagram-story="hasInstagramStory"
         :is-web-widget-inbox="isAWebWidgetInbox"
         :inbox-supports-reply-to="inboxSupportsReplyTo"
         :in-reply-to="getInReplyToMessage(message)"
@@ -238,10 +236,6 @@ export default {
     isATweet() {
       return this.conversationType === 'tweet';
     },
-
-    hasInstagramStory() {
-      return this.conversationType === 'instagram_direct_message';
-    },
     isRightOrLeftIcon() {
       if (this.isContactPanelOpen) {
         return 'arrow-chevron-right';
@@ -291,13 +285,18 @@ export default {
       return this.currentChat.unread_count || 0;
     },
     inboxSupportsReplyTo() {
-      return (
-        this.inboxHasFeature(INBOX_FEATURES.REPLY_TO_OUTGOING) &&
-        this.isFeatureEnabledonAccount(
+      if (
+        !this.isFeatureEnabledonAccount(
           this.accountId,
           FEATURE_FLAGS.MESSAGE_REPLY_TO
         )
-      );
+      ) {
+        return {};
+      }
+      return {
+        incoming: this.inboxHasFeature(INBOX_FEATURES.REPLY_TO),
+        outgoing: this.inboxHasFeature(INBOX_FEATURES.REPLY_TO_OUTGOING),
+      };
     },
   },
 
