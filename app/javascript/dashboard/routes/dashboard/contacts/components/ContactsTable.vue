@@ -31,7 +31,6 @@
 import { mixin as clickaway } from 'vue-clickaway';
 import { VeTable } from 'vue-easytable';
 import { getCountryFlag } from 'dashboard/helper/flag';
-
 import Spinner from 'shared/components/Spinner.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
@@ -99,6 +98,7 @@ export default {
         const additional = item.additional_attributes || {};
         const { last_activity_at: lastActivityAt } = item;
         const { created_at: createdAt } = item;
+        const url = this.isVisitorRoute() ? additional.referrer : '---';
         return {
           ...item,
           phone_number: item.phone_number || '---',
@@ -108,6 +108,7 @@ export default {
           country: additional.country,
           countryCode: additional.country_code,
           conversationsCount: item.conversations_count || '---',
+          url: url,
           last_activity_at: lastActivityAt
             ? this.dynamicTime(lastActivityAt)
             : '---',
@@ -116,7 +117,7 @@ export default {
       });
     },
     columns() {
-      return [
+      const dynamicColumns = [
         {
           field: 'name',
           key: 'name',
@@ -248,11 +249,8 @@ export default {
           align: this.isRTLView ? 'right' : 'left',
           renderBodyCell: ({ row }) => {
             const { profiles } = row;
-
             const items = Object.keys(profiles);
-
             if (!items.length) return '---';
-
             return (
               <div class="cell--social-profiles flex gap-0.5 items-center">
                 {items.map(
@@ -286,6 +284,16 @@ export default {
           align: this.isRTLView ? 'right' : 'left',
         },
       ];
+      if (this.isVisitorRoute()) {
+        dynamicColumns.splice(3, 0, {
+          field: 'url',
+          key: 'url',
+          sortBy: this.sortConfig.url || '',
+          title: 'referrer url',
+          align: this.isRTLView ? 'right' : 'left',
+        });
+      }
+      return dynamicColumns;
     },
   },
   watch: {
@@ -302,6 +310,9 @@ export default {
   methods: {
     setSortConfig() {
       this.sortConfig = { [this.sortParam]: this.sortOrder };
+    },
+    isVisitorRoute() {
+      return this.$route.name === 'visitors';
     },
   },
 };

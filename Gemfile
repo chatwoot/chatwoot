@@ -12,6 +12,7 @@ gem 'bootsnap', require: false
 gem 'acts-as-taggable-on'
 gem 'attr_extras'
 gem 'browser'
+gem 'countries'
 gem 'hashie'
 gem 'jbuilder'
 gem 'kaminari'

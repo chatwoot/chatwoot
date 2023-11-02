@@ -58,11 +58,24 @@ class WidgetsController < ActionController::Base
   def ensure_location_is_supported; end
 
   def additional_attributes
-    if @web_widget.inbox.account.feature_enabled?('ip_lookup')
-      { created_at_ip: request.remote_ip }
-    else
-      {}
+    results = Geocoder.search(request.remote_ip)
+    browser = Browser.new(request.user_agent)
+    country = ISO3166::Country[results.first.country]
+    country_name = begin
+      country.translations[I18n.locale.to_s]
+    rescue StandardError
+      nil
     end
+    {
+      created_at_ip: request.remote_ip,
+      referrer: request.referer,
+      country_code: results.first.country,
+      country: country_name,
+      city: results.first.city,
+      state: results.first.state,
+      browser_name: browser.name,
+      browser_version: browser.version
+    }
   end
 
   def permitted_params
