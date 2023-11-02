@@ -72,14 +72,14 @@ export default {
     setSignatureFlagForInbox(channelType, value) {
       channelType = slugifyChannel(channelType);
       this.updateUISettings({
-        [`inbox_${channelType}_signature_enabled`]: value,
+        [`${channelType}_signature_enabled`]: value,
       });
     },
     fetchSignatureFlagFromUiSettings(channelType) {
       if (!channelType) return false;
 
       channelType = slugifyChannel(channelType);
-      return this.uiSettings[`inbox_${channelType}_signature_enabled`];
+      return this.uiSettings[`${channelType}_signature_enabled`];
     },
   },
 };
