@@ -207,6 +207,7 @@ import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCust
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import filterMixin from 'shared/mixins/filterMixin';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import countries from 'shared/constants/countries';
 import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
@@ -238,6 +239,7 @@ export default {
     eventListenerMixins,
     alertMixin,
     filterMixin,
+    uiSettingsMixin,
   ],
   props: {
     conversationInbox: {
@@ -408,8 +410,12 @@ export default {
     },
     conversationListPagination() {
       const conversationsPerPage = 25;
+      const hasChatsOnView =
+        this.chatsOnView &&
+        Array.isArray(this.chatsOnView) &&
+        !this.chatsOnView.length;
       const isNoFiltersOrFoldersAndChatListNotEmpty =
-        !this.hasAppliedFiltersOrActiveFolders && this.chatsOnView !== [];
+        !this.hasAppliedFiltersOrActiveFolders && hasChatsOnView;
       const isUnderPerPage =
         this.chatsOnView.length < conversationsPerPage &&
         this.activeAssigneeTabCount < conversationsPerPage &&
@@ -515,6 +521,7 @@ export default {
     },
   },
   mounted() {
+    this.setFiltersFromUISettings();
     this.$store.dispatch('setChatStatusFilter', this.activeStatus);
     this.$store.dispatch('setChatSortFilter', this.activeSortBy);
     this.resetAndFetchData();
@@ -543,6 +550,12 @@ export default {
       };
       this.$store.dispatch('customViews/update', payloadData);
       this.closeAdvanceFiltersModal();
+    },
+    setFiltersFromUISettings() {
+      const { conversations_filter_by: filterBy = {} } = this.uiSettings;
+      const { status, order_by: orderBy } = filterBy;
+      this.activeStatus = status || wootConstants.STATUS_TYPE.OPEN;
+      this.activeSortBy = orderBy || wootConstants.SORT_BY_TYPE.LATEST;
     },
     onClickOpenAddFoldersModal() {
       this.showAddFoldersModal = true;

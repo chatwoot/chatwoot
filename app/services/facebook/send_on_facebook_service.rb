@@ -11,11 +11,14 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   rescue Facebook::Messenger::FacebookError => e
     # TODO : handle specific errors or else page will get disconnected
     handle_facebook_error(e)
+    message.update!(status: :failed, external_error: e.message)
   end
 
   def send_message_to_facebook(delivery_params)
     result = Facebook::Messenger::Bot.deliver(delivery_params, page_id: channel.page_id)
-    message.update!(source_id: JSON.parse(result)['message_id'])
+    parsed_result = JSON.parse(result)
+    message.update!(status: :failed, external_error: external_error(parsed_result)) if parsed_result['error'].present?
+    message.update!(source_id: parsed_result['message_id']) if parsed_result['message_id'].present?
   end
 
   def fb_text_message_params
@@ -25,6 +28,14 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
       messaging_type: 'MESSAGE_TAG',
       tag: 'ACCOUNT_UPDATE'
     }
+  end
+
+  def external_error(response)
+    # https://developers.facebook.com/docs/graph-api/guides/error-handling/
+    error_message = response['error']['message']
+    error_code = response['error']['code']
+
+    "#{error_code} - #{error_message}"
   end
 
   def fb_attachment_message_params

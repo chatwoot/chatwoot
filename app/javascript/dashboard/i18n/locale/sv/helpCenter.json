@@ -240,7 +240,7 @@
           "ERROR": "Enter a valid domain URL"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home Page Link",
+          "LABEL": "Länk till startsida",
           "PLACEHOLDER": "Portal home page link",
           "HELP_TEXT": "The link used to return from the portal to the home page. Eg: https://example.com",
           "ERROR": "Enter a valid home page URL"
@@ -365,7 +365,7 @@
         "NAME": {
           "LABEL": "Namn",
           "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name will be used in the public facing portal to categorize articles.",
+          "HELP_TEXT": "Kategorinamnet och ikonen kommer att användas i den publika portalen för att kategorisera artiklar.",
           "ERROR": "Name is required"
         },
         "SLUG": {
@@ -396,7 +396,7 @@
         "NAME": {
           "LABEL": "Namn",
           "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name will be used in the public facing portal to categorize articles.",
+          "HELP_TEXT": "Kategorinamnet och ikonen kommer att användas i den publika portalen för att kategorisera artiklar.",
           "ERROR": "Name is required"
         },
         "SLUG": {

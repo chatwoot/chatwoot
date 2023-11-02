@@ -4,14 +4,24 @@
     class="emoji-dialog bg-white shadow-lg dark:bg-slate-900 rounded-md border border-solid border-slate-75 dark:border-slate-800/50 box-content h-[300px] absolute right-0 -top-[95px] w-80 z-20"
   >
     <div class="flex flex-col">
-      <div class="emoji-search--wrap">
+      <div class="emoji-search--wrap flex gap-2">
         <input
           ref="searchbar"
           v-model="search"
           type="text"
-          class="emoji-search--input focus:box-shadow-blue dark:focus:box-shadow-blue-dark"
+          class="emoji-search--input focus:box-shadow-blue dark:focus:box-shadow-dark"
           :placeholder="$t('EMOJI.PLACEHOLDER')"
         />
+        <woot-button
+          v-if="showRemoveButton"
+          size="small"
+          variant="smooth"
+          class="dark:!bg-slate-800 dark:!hover:bg-slate-700"
+          color-scheme="secondary"
+          @click="onClick('')"
+        >
+          {{ $t('EMOJI.REMOVE') }}
+        </woot-button>
       </div>
       <div v-if="hasNoSearch" ref="emojiItem" class="emoji-item">
         <h5 class="emoji-category--title">
@@ -99,6 +109,10 @@ export default {
       type: Function,
       default: () => {},
     },
+    showRemoveButton: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -171,13 +185,13 @@ export default {
   .box-shadow-blue {
     box-shadow:
       0 0 0 1px #1f93ff,
-      0 0 2px 3px #c7e3ff;
+      0 0 1px 2px #c7e3ff;
   }
 
-  .box-shadow-blue-dark {
+  .box-shadow-dark {
     box-shadow:
-      0 0 0 1px #1f93ff,
-      0 0 2px 3px #4c5155;
+      0 0 0 1px #212222,
+      0 0 1px 2px #4c5155;
   }
 }
 </style>
@@ -217,7 +231,7 @@ export default {
   @apply m-2 sticky top-2;
 
   .emoji-search--input {
-    @apply text-sm focus-visible:border-transparent text-slate-800 dark:text-slate-100 h-8 m-0 p-2 w-full rounded-md bg-slate-75 dark:bg-slate-800 border border-solid border-transparent dark:border-slate-800/50;
+    @apply text-sm focus-visible:border-transparent text-slate-800 dark:text-slate-100 h-8 m-0 p-2 w-full rounded-md bg-slate-50 dark:bg-slate-800 border border-solid border-transparent dark:border-slate-800/50;
   }
 }
 
