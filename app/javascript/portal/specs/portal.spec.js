@@ -1,9 +1,5 @@
 import {
   InitializationHelpers,
-  generatePortalBgColor,
-  generatePortalBg,
-  generateGradientToBottom,
-  setPortalBackgroundStyles,
   setPortalHoverStyles,
   setPortalClass,
   updateThemeStyles,
@@ -36,94 +32,17 @@ describe('#navigateToLocalePage', () => {
 });
 
 describe('Theme Functions', () => {
-  describe('#generatePortalBgColor', () => {
-    it('returns mixed color for dark theme', () => {
-      const result = generatePortalBgColor('#FF5733', 'dark');
-      expect(result).toBe('color-mix(in srgb, #FF5733 20%, black)');
-    });
-
-    it('returns mixed color for light theme', () => {
-      const result = generatePortalBgColor('#FF5733', 'light');
-      expect(result).toBe('color-mix(in srgb, #FF5733 20%, white)');
-    });
-  });
-
-  describe('#generatePortalBg', () => {
-    it('returns background for dark theme', () => {
-      const result = generatePortalBg('#FF5733', 'dark');
-      expect(result).toBe(
-        'url(/assets/images/hc/hexagon-dark.svg) color-mix(in srgb, #FF5733 20%, black)'
-      );
-    });
-
-    it('returns background for light theme', () => {
-      const result = generatePortalBg('#FF5733', 'light');
-      expect(result).toBe(
-        'url(/assets/images/hc/hexagon-light.svg) color-mix(in srgb, #FF5733 20%, white)'
-      );
-    });
-  });
-
-  describe('#generateGradientToBottom', () => {
-    it('returns gradient for dark theme', () => {
-      const result = generateGradientToBottom('dark');
-      expect(result).toBe('linear-gradient(to bottom, transparent, #151718)');
-    });
-
-    it('returns gradient for light theme', () => {
-      const result = generateGradientToBottom('light');
-      expect(result).toBe('linear-gradient(to bottom, transparent, white)');
-    });
-  });
-
-  describe('#setPortalBackgroundStyles', () => {
-    beforeEach(() => {
-      window.portalConfig = { portalColor: '#FF5733' };
-    });
-
-    afterEach(() => {
-      document.documentElement.style.removeProperty('--dynamic-portal-bg');
-      document.documentElement.style.removeProperty(
-        '--dynamic-portal-bg-gradient'
-      );
-    });
-
-    it('sets styles for portal background based on theme', () => {
-      setPortalBackgroundStyles('dark');
-
-      const portalBgStyle = getComputedStyle(
-        document.documentElement
-      ).getPropertyValue('--dynamic-portal-bg');
-      const portalBgGradientStyle = getComputedStyle(
-        document.documentElement
-      ).getPropertyValue('--dynamic-portal-bg-gradient');
-
-      const expectedPortalBgStyle =
-        'url(/assets/images/hc/hexagon-dark.svg) color-mix(in srgb, #FF5733 20%, black)';
-      const expectedGradientStyle =
-        'linear-gradient(to bottom, transparent, #151718)';
-
-      expect(portalBgStyle.trim()).toBe(expectedPortalBgStyle);
-      expect(portalBgGradientStyle.trim()).toBe(expectedGradientStyle);
-    });
-  });
-
   describe('#setPortalHoverStyles', () => {
     beforeEach(() => {
       window.portalConfig = { portalColor: '#ff5733' };
     });
 
     afterEach(() => {
-      document.documentElement.style.removeProperty('--dynamic-hover-bg-color');
       document.documentElement.style.removeProperty('--dynamic-hover-color');
     });
 
     it('sets styles for portal hover based on theme', () => {
       setPortalHoverStyles('dark');
-
-      const hoverBgColorStyle = getComputedStyle(
-        document.documentElement
-      ).getPropertyValue('--dynamic-hover-bg-color');
       const hoverColorStyle = getComputedStyle(
         document.documentElement
       ).getPropertyValue('--dynamic-hover-color');
@@ -131,8 +50,6 @@ describe('Theme Functions', () => {
       const expectedHoverBgColorStyle =
         'color-mix(in srgb, #ff5733 5%, #1B1B1B)';
       const expectedHoverColorStyle = '#ff5733';
-
-      expect(hoverBgColorStyle.trim()).toBe(expectedHoverBgColorStyle);
       expect(hoverColorStyle.trim()).toBe(expectedHoverColorStyle);
     });
   });
@@ -242,20 +159,6 @@ describe('Theme Functions', () => {
     it('updates theme based on theme', () => {
       window.portalConfig = { portalColor: '#FF5733' };
       switchTheme('dark');
-
-      const portalBgStyle = getComputedStyle(
-        document.documentElement
-      ).getPropertyValue('--dynamic-portal-bg');
-      const portalBgGradientStyle = getComputedStyle(
-        document.documentElement
-      ).getPropertyValue('--dynamic-portal-bg-gradient');
-
-      const expectedPortalBgStyle =
-        'url(/assets/images/hc/hexagon-dark.svg) color-mix(in srgb, #FF5733 20%, black)';
-      const expectedGradientStyle =
-        'linear-gradient(to bottom, transparent, #151718)';
-      expect(portalBgStyle.trim()).toBe(expectedPortalBgStyle);
-      expect(portalBgGradientStyle.trim()).toBe(expectedGradientStyle);
       expect(mockPortalDiv.classList.contains('dark')).toBe(true);
     });
   });
@@ -276,21 +179,6 @@ describe('Theme Functions', () => {
     it('updates theme styles based on theme', () => {
       window.portalConfig = { portalColor: '#FF5733' };
       updateThemeStyles('dark');
-
-      const portalBgStyle = getComputedStyle(
-        document.documentElement
-      ).getPropertyValue('--dynamic-portal-bg');
-      const portalBgGradientStyle = getComputedStyle(
-        document.documentElement
-      ).getPropertyValue('--dynamic-portal-bg-gradient');
-
-      const expectedPortalBgStyle =
-        'url(/assets/images/hc/hexagon-dark.svg) color-mix(in srgb, #FF5733 20%, black)';
-      const expectedGradientStyle =
-        'linear-gradient(to bottom, transparent, #151718)';
-
-      expect(portalBgStyle.trim()).toBe(expectedPortalBgStyle);
-      expect(portalBgGradientStyle.trim()).toBe(expectedGradientStyle);
       expect(mockPortalDiv.classList.contains('dark')).toBe(true);
     });
   });

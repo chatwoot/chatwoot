@@ -26,55 +26,12 @@ export const isPlainLayoutEnabled = () => {
   return window.portalConfig.isPlainLayoutEnabled === 'true';
 };
 
-export const generatePortalBgColor = (portalColor, theme) => {
-  const baseColor = theme === 'dark' ? 'black' : 'white';
-  return `color-mix(in srgb, ${portalColor} 20%, ${baseColor})`;
-};
-
-export const generatePortalBg = (portalColor, theme) => {
-  const bgImage = theme === 'dark' ? 'hexagon-dark.svg' : 'hexagon-light.svg';
-  return `url(/assets/images/hc/${bgImage}) ${generatePortalBgColor(
-    portalColor,
-    theme
-  )}`;
-};
-
-export const generateGradientToBottom = theme => {
-  return `linear-gradient(to bottom, transparent, ${
-    theme === 'dark' ? '#151718' : 'white'
-  })`;
-};
-
-export const generateHoverColor = (portalColor, theme) => {
-  const baseColor = theme === 'dark' ? '#1B1B1B' : '#F9F9F9';
-  return `color-mix(in srgb, ${portalColor} 5%, ${baseColor})`;
-};
-
-export const setPortalBackgroundStyles = theme => {
-  if (isPlainLayoutEnabled()) return;
-  const portalColor = window.portalConfig.portalColor;
-  const portalBg = generatePortalBg(portalColor, theme);
-  const portalBgGradient = generateGradientToBottom(theme);
-
-  document.documentElement.style.setProperty('--dynamic-portal-bg', portalBg);
-  document.documentElement.style.setProperty(
-    '--dynamic-portal-bg-gradient',
-    portalBgGradient
-  );
-};
-
 export const setPortalHoverStyles = theme => {
   if (isPlainLayoutEnabled()) return;
   const portalColor = window.portalConfig.portalColor;
   const bgColor = theme === 'dark' ? '#151718' : 'white';
-  const hoverBgColor = generateHoverColor(portalColor, theme);
   const hoverColor = adjustColorForContrast(portalColor, bgColor);
 
-  // Set hover color for category item dynamically
-  document.documentElement.style.setProperty(
-    '--dynamic-hover-bg-color',
-    hoverBgColor
-  );
   // Set hover color for border and text dynamically
   document.documentElement.style.setProperty(
     '--dynamic-hover-color',
@@ -90,7 +47,6 @@ export const setPortalClass = theme => {
 };
 
 export const updateThemeStyles = theme => {
-  setPortalBackgroundStyles(theme);
   setPortalClass(theme);
   setPortalHoverStyles(theme);
 };

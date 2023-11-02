@@ -43,24 +43,37 @@ By default, it renders:
   <style>
   :root {
     color-scheme: <% if @theme == 'system' %>light dark<% else %><%= @theme %><% end %>;
+
+    --dynamic-portal-bg: <%= generate_portal_bg(@portal.color, 'light') %>;
+    --dynamic-portal-bg-gradient: <%= generate_gradient_to_bottom('light') %>;
+    --dynamic-hover-bg-color: <%= generate_portal_hover_color(@portal.color , 'light') %>;
+
+    .dark {
+      --dynamic-portal-bg: <%= generate_portal_bg(@portal.color, 'dark') %>;
+      --dynamic-portal-bg-gradient: <%= generate_gradient_to_bottom('dark') %>;
+      --dynamic-hover-bg-color: <%= generate_portal_hover_color(@portal.color , 'dark') %>;
+    }
   }
+
+  /* Portal background */
+  #portal-bg {
+    background: var(--dynamic-portal-bg);
+  }
+  /* Portal background gradient */
+  #portal-bg-gradient {
+    background-image: var(--dynamic-portal-bg-gradient);
+  }
+  /* Category block item hover color */
+  #category-item:hover {
+    background-color: var(--dynamic-hover-bg-color);
+  }
+
   /* Header section */
   #header-action-button:hover,
   #toggle-appearance:hover,
   #toggle-theme-button:hover {
     color: var(--dynamic-hover-color);
     stroke: var(--dynamic-hover-color);
-  }
-  /* Portal background and gradient */
-  #portal-bg {
-    background: var(--dynamic-portal-bg);
-  }
-  #portal-bg-gradient {
-    background-image: var(--dynamic-portal-bg-gradient);
-  }
-  /* Category block */
-  #category-item:hover {
-    background-color: var(--dynamic-hover-bg-color);
   }
   #category-block:hover {
     border-color: var(--dynamic-hover-color);
