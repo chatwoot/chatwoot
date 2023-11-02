@@ -21,7 +21,8 @@ export default {
       return messageDate;
     },
     dynamicTime(time) {
-      const unixTime = fromUnixTime(time);
+      const unixTime =
+        typeof time === 'string' ? new Date(time) : fromUnixTime(time);
       return formatDistanceToNow(unixTime, { addSuffix: true });
     },
     dateFormat(time, dateFormat = 'MMM d, yyyy') {

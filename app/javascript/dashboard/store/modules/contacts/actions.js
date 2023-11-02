@@ -218,6 +218,10 @@ export const actions = {
     commit(types.UPDATE_CONTACTS_PRESENCE, data);
   },
 
+  updateVisitorContacts: ({ commit }, data) => {
+    commit(types.SET_CONTACTS, data);
+  },
+
   setContact({ commit }, data) {
     commit(types.SET_CONTACT_ITEM, data);
   },

@@ -69,6 +69,12 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onPresenceUpdate = data => {
+    if (this.app.$route.name === 'visitors') {
+      this.app.$store.dispatch(
+        'contacts/updateVisitorContacts',
+        data.online_contacts
+      );
+    }
     this.app.$store.dispatch('contacts/updatePresence', data.contacts);
     this.app.$store.dispatch('agents/updatePresence', data.users);
     this.app.$store.dispatch('setCurrentUserAvailability', data.users);

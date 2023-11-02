@@ -22,6 +22,9 @@ class RoomChannel < ApplicationCable::Channel
 
     data = { account_id: @current_account.id, users: ::OnlineStatusTracker.get_available_users(@current_account.id) }
     data[:contacts] = ::OnlineStatusTracker.get_available_contacts(@current_account.id) if @current_user.is_a? User
+    data[:online_contacts] = @current_account.contacts.where(id: ::OnlineStatusTracker
+                  .get_available_contact_ids(@current_account.id))
+
     ActionCable.server.broadcast(@pubsub_token, { event: 'presence.update', data: data })
   end
 
