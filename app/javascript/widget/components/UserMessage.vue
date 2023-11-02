@@ -11,12 +11,16 @@
         <div class="flex justify-end gap-1">
           <div class="flex flex-col justify-end">
             <message-reply-button
-              v-if="!isInProgress && !isFailed"
+              v-if="!isInProgress && !isFailed && allowReplyTo"
               class="transition-opacity delay-75 opacity-0 group-hover:opacity-100 sm:opacity-0"
               @click="toggleReply"
             />
           </div>
-          <drag-wrapper direction="left" @dragged="toggleReply">
+          <drag-wrapper
+            direction="left"
+            :disabled="!allowReplyTo"
+            @dragged="toggleReply"
+          >
             <user-message-bubble
               v-if="showTextBubble"
               :message="message.content"
@@ -107,6 +111,7 @@ export default {
   data() {
     return {
       hasImageError: false,
+      allowReplyTo: window.chatwootWebChannel.allowReplyTo || false,
     };
   },
   computed: {
@@ -137,6 +142,7 @@ export default {
         : this.$t('COMPONENTS.MESSAGE_BUBBLE.ERROR_MESSAGE');
     },
     hasReplyTo() {
+      if (!this.allowReplyTo) return false;
       return this.replyTo && (this.replyTo.content || this.replyTo.attachments);
     },
   },
