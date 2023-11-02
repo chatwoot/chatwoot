@@ -58,3 +58,48 @@ export const updateSingleRecordPresence = (
 export const destroy = (state, id) => {
   state.records = state.records.filter(record => record.id !== id);
 };
+
+export const appendItems = (state, entity, items) => {
+  items.forEach(item => {
+    Vue.set(state[entity].byId, item.id, item);
+  });
+};
+
+export const appendItemIds = (state, entity, items = []) => {
+  const itemIds = items.map(item => item.id);
+  const allIds = state[entity].allIds;
+  const newIds = [...allIds, ...itemIds];
+  const uniqIds = Array.from(new Set(newIds));
+
+  Vue.set(state[entity], 'allIds', uniqIds);
+};
+
+export const updateItemEntry = (state, entity, item) => {
+  const itemId = item.id;
+  if (!itemId) return;
+
+  const itemById = state[entity].byId[itemId];
+  if (!itemById) return;
+
+  Vue.set(state[entity].byId, itemId, { ...itemById, ...item });
+};
+
+export const removeItemEntry = (state, entity, itemId) => {
+  if (!itemId) return;
+
+  Vue.delete(state[entity].byId, itemId);
+};
+
+export const removeItemId = (state, entity, itemId) => {
+  if (!itemId) return;
+
+  state[entity].allIds = state[entity].allIds.filter(id => id !== itemId);
+};
+
+export const setItemUIFlag = (state, entity, itemId, uiFlags) => {
+  const flags = state[entity].uiFlags.byId[itemId];
+  state[entity].uiFlags.byId[itemId] = {
+    ...flags,
+    ...uiFlags,
+  };
+};
