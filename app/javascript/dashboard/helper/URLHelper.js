@@ -78,20 +78,18 @@ export const getArticleSearchURL = ({
 }) => {
   const queryParams = new URLSearchParams({});
 
-  // Define the parameters in an array
-  const params = [
-    { key: 'page', value: pageNumber },
-    { key: 'locale', value: locale },
-    { key: 'status', value: status },
-    { key: 'author_id', value: authorId },
-    { key: 'category_slug', value: categorySlug },
-    { key: 'sort', value: sort },
-    { key: 'query', value: query },
-  ];
+  const params = {
+    page: pageNumber,
+    locale,
+    status,
+    author_id: authorId,
+    category_slug: categorySlug,
+    sort,
+    query,
+  };
 
-  // Add parameters to queryParams
-  params.forEach(({ key, value }) => {
-    if (value) {
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== null && value !== undefined) {
       queryParams.set(key, value);
     }
   });
