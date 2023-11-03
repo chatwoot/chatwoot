@@ -15,8 +15,4 @@ class Public::Api::V1::Portals::CategoriesController < Public::Api::V1::Portals:
   def set_category
     @category = @portal.categories.find_by!(locale: params[:locale], slug: params[:category_slug])
   end
-
-  def portal
-    @portal ||= Portal.find_by!(slug: params[:slug], archived: false)
-  end
 end
