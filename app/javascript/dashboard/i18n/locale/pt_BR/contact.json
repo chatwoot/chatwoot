@@ -71,7 +71,7 @@
       "SUBMIT": "Importar",
       "CANCEL": "Cancelar"
     },
-    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+    "SUCCESS_MESSAGE": "Você será notificado por e-mail quando a importação for concluída.",
     "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
   },
   "EXPORT_CONTACTS": {
@@ -203,6 +203,10 @@
         "LABEL": "Messagem",
         "PLACEHOLDER": "Escreva sua mensagem aqui",
         "ERROR": "A mensagem não pode estar vazia"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Selecionar arquivos",
+        "HELP_TEXT": "Arraste e solte arquivos aqui ou selecione arquivos para anexar"
       },
       "SUBMIT": "Enviar mensagem",
       "CANCEL": "Cancelar",
@@ -343,17 +347,17 @@
     "DESCRIPTION": "Mescle contatos para combinar dois perfis em um, incluindo todos os atributos e conversas. Em caso de conflito, os atributos do contato principal terão prioridade.",
     "PRIMARY": {
       "TITLE": "Contato principal",
-      "HELP_LABEL": "Para ser mantido"
+      "HELP_LABEL": "Para ser excluído"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Contato para mesclar",
       "PLACEHOLDER": "Procurar um contato",
-      "HELP_LABEL": "Para ser excluído"
+      "HELP_LABEL": "Para ser mantido"
     },
     "SUMMARY": {
       "TITLE": "Sumário",
-      "DELETE_WARNING": "Contato de <strong>%{childContactName}</strong> será excluído.",
-      "ATTRIBUTE_WARNING": "Detalhes de contato de <strong>%{childContactName}</strong> serão copiados para <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Contato de <strong>%{primaryContactName}</strong> será excluído.",
+      "ATTRIBUTE_WARNING": "Detalhes de contato de <strong>%{primaryContactName}</strong> serão copiados para <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "Mensagem de erro"

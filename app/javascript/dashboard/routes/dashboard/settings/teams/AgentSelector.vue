@@ -15,10 +15,10 @@
               />
             </div>
           </td>
-          <td class=" text-slate-800 dark:text-slate-100">
+          <td class="text-slate-800 dark:text-slate-100">
             {{ $t('TEAMS_SETTINGS.AGENTS.AGENT') }}
           </td>
-          <td class=" text-slate-800 dark:text-slate-100">
+          <td class="text-slate-800 dark:text-slate-100">
             {{ $t('TEAMS_SETTINGS.AGENTS.EMAIL') }}
           </td>
         </tr>

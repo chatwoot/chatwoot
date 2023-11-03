@@ -76,6 +76,10 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
     message[:reply_to][:story] if message[:reply_to].present? && message[:reply_to][:story].present?
   end
 
+  def message_reply_attributes
+    message[:reply_to][:mid] if message[:reply_to].present? && message[:reply_to][:mid].present?
+  end
+
   def build_message
     return if @outgoing_echo && already_sent_from_chatwoot?
     return if message_content.blank? && all_unsupported_files?
@@ -118,7 +122,10 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
       message_type: message_type,
       source_id: message_identifier,
       content: message_content,
-      sender: @outgoing_echo ? nil : contact
+      sender: @outgoing_echo ? nil : contact,
+      content_attributes: {
+        in_reply_to_external_id: message_reply_attributes
+      }
     }
   end
 

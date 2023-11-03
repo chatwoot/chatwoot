@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import Spinner from 'shared/components/Spinner';
+import Spinner from 'shared/components/Spinner.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 export default {
   components: {

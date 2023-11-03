@@ -371,6 +371,8 @@
     "DETAILS": {
       "LOADING_FB": "Xác thực bạn bằng Facebook...",
       "ERROR_FB_AUTH": "Đã xảy ra sự cố, Vui lòng làm mới trang...",
+      "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
       "CREATING_CHANNEL": "Tạo Hộp thư đến của bạn...",
       "TITLE": "Cấu hình chi tiết hộp thư đến",
       "DESC": ""

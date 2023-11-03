@@ -46,7 +46,7 @@ class Rack::Attack
   #
   # Key: "rack::attack:#{Time.now.to_i/:period}:req/ip:#{req.ip}"
 
-  throttle('req/ip', limit: ENV.fetch('RACK_ATTACK_LIMIT', 3000), period: 1.minute, &:ip)
+  throttle('req/ip', limit: ENV.fetch('RACK_ATTACK_LIMIT', '3000').to_i, period: 1.minute, &:ip)
 
   ###-----------------------------------------------###
   ###-----Authentication Related Throttling---------###
@@ -138,8 +138,9 @@ class Rack::Attack
   end
 
   ## Prevent Abuse of attachment upload APIs ##
-  throttle('/api/v1/upload', limit: 60, period: 1.hour) do |req|
-    req.ip if req.path_without_extentions == '/api/v1/upload' && req.post?
+  throttle('/api/v1/accounts/:account_id/upload', limit: 60, period: 1.hour) do |req|
+    match_data = %r{/api/v1/accounts/(?<account_id>\d+)/upload}.match(req.path)
+    match_data[:account_id] if match_data.present?
   end
 
   ## ----------------------------------------------- ##

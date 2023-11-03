@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe 'Response Sources API', type: :request do
   let!(:account) { create(:account) }
   let!(:admin) { create(:user, account: account, role: :administrator) }
-  let!(:inbox) { create(:inbox, account: account) }
 
   before do
     skip('Skipping since vector is not enabled in this environment') unless Features::ResponseBotService.new.vector_extension_enabled?
@@ -44,7 +43,6 @@ RSpec.describe 'Response Sources API', type: :request do
         response_source: {
           name: 'Test',
           source_link: 'http://test.test',
-          inbox_id: inbox.id,
           response_documents_attributes: [
             { document_link: 'http://test1.test' },
             { document_link: 'http://test2.test' }
@@ -75,7 +73,7 @@ RSpec.describe 'Response Sources API', type: :request do
   end
 
   describe 'POST /api/v1/accounts/{account.id}/response_sources/{response_source.id}/add_document' do
-    let!(:response_source) { create(:response_source, account: account, inbox: inbox) }
+    let!(:response_source) { create(:response_source, account: account) }
     let(:valid_params) do
       { document_link: 'http://test.test' }
     end
@@ -103,7 +101,7 @@ RSpec.describe 'Response Sources API', type: :request do
   end
 
   describe 'POST /api/v1/accounts/{account.id}/response_sources/{response_source.id}/remove_document' do
-    let!(:response_source) { create(:response_source, account: account, inbox: inbox) }
+    let!(:response_source) { create(:response_source, account: account) }
     let!(:response_document) { response_source.response_documents.create!(document_link: 'http://test.test') }
     let(:valid_params) do
       { document_id: response_document.id }

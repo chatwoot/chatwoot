@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     namespace :survey do
       resources :responses, only: [:show]
     end
+    resource :slack_uploads, only: [:show]
   end
 
   get '/api', to: 'api#index'
@@ -45,6 +46,11 @@ Rails.application.routes.draw do
           resource :bulk_actions, only: [:create]
           resources :agents, only: [:index, :create, :update, :destroy]
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy]
+          resources :contact_inboxes, only: [] do
+            collection do
+              post :filter
+            end
+          end
           resources :assignable_agents, only: [:index]
           resource :audit_logs, only: [:show]
           resources :callbacks, only: [] do
@@ -217,12 +223,12 @@ Rails.application.routes.draw do
               post :reorder, on: :collection
             end
           end
+
+          resources :upload, only: [:create]
         end
       end
       # end of account scoped api routes
       # ----------------------------------
-
-      resources :upload, only: [:create]
 
       namespace :integrations do
         resources :webhooks, only: [:create]
@@ -390,6 +396,7 @@ Rails.application.routes.draw do
 
   namespace :twilio do
     resources :callback, only: [:create]
+    resources :delivery_status, only: [:create]
   end
 
   get 'microsoft/callback', to: 'microsoft/callbacks#show'
@@ -423,6 +430,9 @@ Rails.application.routes.draw do
       end
 
       resources :access_tokens, only: [:index, :show]
+      resources :response_sources, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+      resources :response_documents, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+      resources :responses, only: [:index, :show, :new, :create, :edit, :update, :destroy]
       resources :installation_configs, only: [:index, :new, :create, :show, :edit, :update]
       resources :agent_bots, only: [:index, :new, :create, :show, :edit, :update] do
         delete :avatar, on: :member, action: :destroy_avatar

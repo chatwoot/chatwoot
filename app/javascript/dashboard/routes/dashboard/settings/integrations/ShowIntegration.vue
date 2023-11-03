@@ -30,8 +30,8 @@
 <script>
 import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import Integration from './Integration';
-import IntegrationHelpText from './IntegrationHelpText';
+import Integration from './Integration.vue';
+import IntegrationHelpText from './IntegrationHelpText.vue';
 
 export default {
   components: {

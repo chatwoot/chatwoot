@@ -36,10 +36,13 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Signature du message personnel",
-        "NOTE": "Créez une signature de message personnelle qui sera ajoutée à tous les messages que vous envoyez depuis votre boîte aux lettres électronique. Utilisez l'éditeur de contenu riche pour créer une signature personnalisée.",
+        "NOTE": "Créez une signature de message unique qui apparaîtra à la fin de chaque message que vous envoyez à partir de n'importe quelle boîte de réception. Vous pouvez également inclure une image en ligne, qui est prise en charge dans les boîtes de réception en direct, les e-mails et les API.",
         "BTN_TEXT": "Enregistrer la signature du message",
         "API_ERROR": "Impossible d'enregistrer la signature ! Réessayez",
-        "API_SUCCESS": "Signature enregistrée avec succès"
+        "API_SUCCESS": "Signature enregistrée avec succès",
+        "IMAGE_UPLOAD_ERROR": "Impossible de télécharger l'image! Réessayez",
+        "IMAGE_UPLOAD_SUCCESS": "L'image a été ajoutée avec succès. Veuillez cliquer sur Enregistrer pour enregistrer la signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "La taille de l'image doit être inférieure à {size}Mo"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Signature du message",
@@ -149,7 +152,7 @@
     "SELECTOR_SUBTITLE": "Sélectionnez un compte dans la liste suivante",
     "PROFILE_SETTINGS": "Paramètres de profil",
     "KEYBOARD_SHORTCUTS": "Raccourcis clavier",
-    "APPEARANCE": "Change Appearance",
+    "APPEARANCE": "Changer l'apparence",
     "SUPER_ADMIN_CONSOLE": "Super console d'administration",
     "LOGOUT": "Se déconnecter"
   },
@@ -239,7 +242,7 @@
     "REPORTS_OVERVIEW": "Vue d'ensemble",
     "FACEBOOK_REAUTHORIZE": "Votre connexion Facebook a expiré, veuillez reconnecter votre page Facebook pour continuer les services",
     "HELP_CENTER": {
-      "TITLE": "Centre d'aide (Beta)",
+      "TITLE": "Centre d'aide",
       "ALL_ARTICLES": "Tous les articles",
       "MY_ARTICLES": "Mes articles",
       "DRAFT": "Brouillon",

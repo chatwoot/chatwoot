@@ -3,6 +3,7 @@ import {
   actions,
   createMessagePayload,
   createConversationPayload,
+  createWhatsAppConversationPayload,
 } from '../../contactConversations';
 import * as types from '../../../mutation-types';
 import conversationList from './fixtures';
@@ -48,18 +49,20 @@ describe('#actions', () => {
       await actions.create(
         { commit },
         {
-          inboxId: 1,
-          message: { content: 'hi' },
-          contactId: 4,
-          sourceId: 5,
-          mailSubject: 'Mail Subject',
-          assigneeId: 6,
-          files: [],
+          params: {
+            inboxId: 1,
+            message: { content: 'hi' },
+            contactId: 4,
+            sourceId: 5,
+            mailSubject: 'Mail Subject',
+            assigneeId: 6,
+            files: [],
+          },
+          isFromWhatsApp: false,
         }
       );
       expect(commit.mock.calls).toEqual([
         [types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, { isCreating: true }],
-
         [
           types.default.ADD_CONTACT_CONVERSATION,
           { id: 4, data: conversationList[0] },
@@ -75,18 +78,55 @@ describe('#actions', () => {
       await actions.create(
         { commit },
         {
-          inboxId: 1,
-          message: { content: 'hi' },
-          contactId: 4,
-          sourceId: 5,
-          assigneeId: 6,
-          mailSubject: 'Mail Subject',
-          files: [new File([], 'file1')],
+          params: {
+            inboxId: 1,
+            message: { content: 'hi' },
+            contactId: 4,
+            sourceId: 5,
+            mailSubject: 'Mail Subject',
+            assigneeId: 6,
+            files: ['file1.pdf', 'file2.jpg'],
+          },
+          isFromWhatsApp: false,
         }
       );
       expect(commit.mock.calls).toEqual([
         [types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, { isCreating: true }],
-
+        [
+          types.default.ADD_CONTACT_CONVERSATION,
+          { id: 4, data: conversationList[0] },
+        ],
+        [
+          types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG,
+          { isCreating: false },
+        ],
+      ]);
+    });
+    it('sends correct actions actions if API is success for whatsapp conversation', async () => {
+      axios.post.mockResolvedValue({ data: conversationList[0] });
+      await actions.create(
+        { commit },
+        {
+          params: {
+            inboxId: 1,
+            message: {
+              content: 'hi',
+              template_params: {
+                name: 'hello_world',
+                category: 'MARKETING',
+                language: 'en_US',
+                processed_params: {},
+              },
+            },
+            contactId: 4,
+            sourceId: 5,
+            assigneeId: 6,
+          },
+          isFromWhatsApp: true,
+        }
+      );
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, { isCreating: true }],
         [
           types.default.ADD_CONTACT_CONVERSATION,
           { id: 4, data: conversationList[0] },
@@ -99,17 +139,19 @@ describe('#actions', () => {
     });
     it('sends correct actions if API is error', async () => {
       axios.post.mockRejectedValue({ message: 'Incorrect header' });
-
       await expect(
         actions.create(
           { commit },
           {
-            inboxId: 1,
-            message: { content: 'hi' },
-            contactId: 4,
-            assigneeId: 6,
-            sourceId: 5,
-            mailSubject: 'Mail Subject',
+            params: {
+              inboxId: 1,
+              message: { content: 'hi' },
+              contactId: 4,
+              assigneeId: 6,
+              sourceId: 5,
+              mailSubject: 'Mail Subject',
+            },
+            isFromWhatsApp: false,
           }
         )
       ).rejects.toThrow(Error);
@@ -123,18 +165,20 @@ describe('#actions', () => {
     });
     it('sends correct actions with files if API is error', async () => {
       axios.post.mockRejectedValue({ message: 'Incorrect header' });
-
       await expect(
         actions.create(
           { commit },
           {
-            inboxId: 1,
-            message: { content: 'hi' },
-            contactId: 4,
-            assigneeId: 6,
-            sourceId: 5,
-            mailSubject: 'Mail Subject',
-            files: [new File([], 'file1')],
+            params: {
+              inboxId: 1,
+              message: { content: 'hi' },
+              contactId: 4,
+              sourceId: 5,
+              mailSubject: 'Mail Subject',
+              assigneeId: 6,
+              files: ['file1.pdf', 'file2.jpg'],
+            },
+            isFromWhatsApp: false,
           }
         )
       ).rejects.toThrow(Error);
@@ -237,5 +281,27 @@ describe('createConversationPayload', () => {
     );
     expect(payload.get('assignee_id')).toBe(options.params.assigneeId);
     expect(payload.getAll('message[attachments][]')).toEqual([]);
+  });
+});
+
+describe('createWhatsAppConversationPayload', () => {
+  it('creates conversation payload with message', () => {
+    const options = {
+      params: {
+        inboxId: '1',
+        message: {
+          content: 'Test message content',
+        },
+        sourceId: '12',
+        assigneeId: '123',
+      },
+    };
+
+    const payload = createWhatsAppConversationPayload(options);
+
+    expect(payload.message).toBe(options.params.message);
+    expect(payload.inbox_id).toBe(options.params.inboxId);
+    expect(payload.source_id).toBe(options.params.sourceId);
+    expect(payload.assignee_id).toBe(options.params.assigneeId);
   });
 });

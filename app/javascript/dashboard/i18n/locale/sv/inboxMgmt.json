@@ -30,7 +30,7 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Inkorgsnamn",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)",
+        "PLACEHOLDER": "Ange ditt inkorgsnamn (t. ex. Acme Inc)",
         "ERROR": "Please enter a valid inbox name"
       },
       "WEBSITE_NAME": {
@@ -371,6 +371,8 @@
     "DETAILS": {
       "LOADING_FB": "Autentiserar dig med Facebook...",
       "ERROR_FB_AUTH": "Något gick fel, vänligen ladda om sidan...",
+      "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
       "CREATING_CHANNEL": "Skapar din inkorg...",
       "TITLE": "Konfigurera Inkorgsdetaljer",
       "DESC": ""
@@ -418,7 +420,7 @@
         "BUSINESS_NAME": {
           "BUTTON_TEXT": "+ Configure your business name",
           "PLACEHOLDER": "Enter your business name",
-          "SAVE_BUTTON_TEXT": "Save"
+          "SAVE_BUTTON_TEXT": "Spara"
         }
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
@@ -460,7 +462,7 @@
       "CONFIGURATION": "Konfiguration",
       "CAMPAIGN": "Kampanjer",
       "PRE_CHAT_FORM": "Förre chattformulär",
-      "BUSINESS_HOURS": "Affärstimmar",
+      "BUSINESS_HOURS": "Öppettider",
       "WIDGET_BUILDER": "Widget Builder",
       "BOT_CONFIGURATION": "Bot Configuration"
     },
@@ -480,8 +482,8 @@
       "AGENT_ASSIGNMENT": "Conversation Assignment",
       "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "Uppdatera",
-      "ENABLE_EMAIL_COLLECT_BOX": "Aktivera inkasso för e-post",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Aktivera eller inaktivera insamlingsrutan för e-post på ny konversation",
+      "ENABLE_EMAIL_COLLECT_BOX": "Aktivera insamlingsbox för e-post",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Aktivera eller inaktivera insamlingsbox för e-post på ny konversation",
       "AUTO_ASSIGNMENT": "Aktivera automatisk tilldelning",
       "ENABLE_CSAT": "Aktivera CSAT",
       "SENDER_NAME_SECTION": "Enable Agent Name in Email",
@@ -720,7 +722,7 @@
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "We are Online",
+          "ONLINE": "Vi är online",
           "OFFLINE": "Vi är borta för tillfället"
         },
         "USER_MESSAGE": "Hi",

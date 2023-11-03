@@ -110,6 +110,8 @@ vi:
       instagram_story_content: "%{story_sender} đã đề cập đến bạn trong hội thoại: "
       instagram_deleted_story_content: Hội thoại này không còn nữa.
       deleted: Tin nhắn đã bị xoá
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "Cuộc trò chuyện được đánh dấu là đã giải quyết bởi %{user_name}"
@@ -202,3 +204,12 @@ vi:
       made_with: Tạo bởi
     header:
       go_to_homepage: Trở về ứng dụng
+  slack_unfurl:
+    fields:
+      name: Tên
+      email: Email
+      phone_number: Phone
+      company_name: Công ty
+      inbox_name: Hộp thư đến
+      inbox_type: Inbox Type
+    button: Mở cuộc trò chuyện

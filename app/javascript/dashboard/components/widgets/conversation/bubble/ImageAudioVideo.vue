@@ -4,13 +4,14 @@
       v-if="isImage && !isImageError"
       :src="attachment.data_url"
       @click="onClick"
-      @error="onImgError()"
+      @error="onImgError"
     />
     <video
       v-if="isVideo"
       :src="attachment.data_url"
       muted
       playsInline
+      @error="onImgError"
       @click="onClick"
     />
     <audio v-else-if="isAudio" controls class="skip-context-menu">
@@ -21,7 +22,7 @@
       :show.sync="show"
       :attachment="attachment"
       :all-attachments="filteredCurrentChatAttachments"
-      @error="onImgError()"
+      @error="onImgError"
       @close="onClose"
     />
   </div>
@@ -31,7 +32,7 @@
 import { mapGetters } from 'vuex';
 import { hasPressedCommand } from 'shared/helpers/KeyboardHelpers';
 
-import GalleryView from '../components/GalleryView';
+import GalleryView from '../components/GalleryView.vue';
 
 const ALLOWED_FILE_TYPES = {
   IMAGE: 'image',

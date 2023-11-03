@@ -35,7 +35,8 @@
         :class="{
           'text-slate-300 dark:text-slate-600': isCountZero && !isActiveView,
           'text-slate-600 dark:text-slate-50': !isCountZero && !isActiveView,
-          'bg-woot-75 dark:bg-woot-200 text-woot-600 dark:text-woot-600': isActiveView,
+          'bg-woot-75 dark:bg-woot-200 text-woot-600 dark:text-woot-600':
+            isActiveView,
           'bg-slate-50 dark:bg-slate-700': !isActiveView,
         }"
       >
@@ -77,6 +78,7 @@
               variant="clear"
               color-scheme="secondary"
               icon="add"
+              :data-testid="menuItem.dataTestid"
               @click="e => newLinkClick(e, navigate)"
             >
               {{ $t(`SIDEBAR.${menuItem.newLinkTag}`) }}
@@ -97,7 +99,7 @@ import {
   getInboxWarningIconClass,
 } from 'dashboard/helper/inbox';
 
-import SecondaryChildNavItem from './SecondaryChildNavItem';
+import SecondaryChildNavItem from './SecondaryChildNavItem.vue';
 import {
   isOnMentionsView,
   isOnUnattendedView,

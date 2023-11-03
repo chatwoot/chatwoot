@@ -1,9 +1,10 @@
 class Integrations::Slack::IncomingMessageBuilder
-  include SlackMessageCreation
+  include Integrations::Slack::SlackMessageHelper
+
   attr_reader :params
 
   SUPPORTED_EVENT_TYPES = %w[event_callback url_verification].freeze
-  SUPPORTED_EVENTS = %w[message].freeze
+  SUPPORTED_EVENTS = %w[message link_shared].freeze
   SUPPORTED_MESSAGE_TYPES = %w[rich_text].freeze
 
   def initialize(params)
@@ -17,6 +18,8 @@ class Integrations::Slack::IncomingMessageBuilder
       verify_hook
     elsif create_message?
       create_message
+    elsif link_shared?
+      SlackUnfurlJob.perform_later(params)
     end
   end
 
@@ -68,6 +71,10 @@ class Integrations::Slack::IncomingMessageBuilder
     thread_timestamp_available? && supported_message? && integration_hook
   end
 
+  def link_shared?
+    params[:event][:type] == 'link_shared'
+  end
+
   def message
     params[:event][:blocks]&.first
   end
@@ -80,19 +87,6 @@ class Integrations::Slack::IncomingMessageBuilder
 
   def integration_hook
     @integration_hook ||= Integrations::Hook.find_by(reference_id: params[:event][:channel])
-  end
-
-  def conversation
-    @conversation ||= Conversation.where(identifier: params[:event][:thread_ts]).first
-  end
-
-  def sender
-    user_email = slack_client.users_info(user: params[:event][:user])[:user][:profile][:email]
-    conversation.account.users.find_by(email: user_email)
-  end
-
-  def private_note?
-    params[:event][:text].strip.downcase.starts_with?('note:', 'private:')
   end
 
   def slack_client
