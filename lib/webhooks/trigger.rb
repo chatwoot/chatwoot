@@ -32,7 +32,7 @@ class Webhooks::Trigger
 
   def handle_error(error)
     return unless should_handle_error?
-    return unless conversation && message
+    return unless message
 
     update_message_status(error)
   end
@@ -45,20 +45,10 @@ class Webhooks::Trigger
     message.update!(status: :failed, external_error: error.message)
   end
 
-  def conversation
-    return if conversation_id.blank?
-
-    @conversation ||= Conversation.find_by(id: conversation_id)
-  end
-
   def message
     return if message_id.blank?
 
-    @message ||= conversation.messages.find_by(id: message_id)
-  end
-
-  def conversation_id
-    @payload.dig(:conversation, :id)
+    @message ||= Message.find_by(id: message_id)
   end
 
   def message_id
