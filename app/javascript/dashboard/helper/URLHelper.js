@@ -66,6 +66,7 @@ export const isValidURL = value => {
 };
 
 export const getArticleSearchURL = ({
+  host,
   portalSlug,
   pageNumber,
   locale,
@@ -73,14 +74,25 @@ export const getArticleSearchURL = ({
   authorId,
   categorySlug,
   sort,
-  host,
+  query,
 }) => {
-  const queryParams = new URLSearchParams({ page: pageNumber, locale });
+  const queryParams = new URLSearchParams({});
 
-  if (status) queryParams.set('status', status);
-  if (authorId) queryParams.set('author_id', authorId);
-  if (categorySlug) queryParams.set('category_slug', categorySlug);
-  if (sort) queryParams.set('sort', sort);
+  const params = {
+    page: pageNumber,
+    locale,
+    status,
+    author_id: authorId,
+    category_slug: categorySlug,
+    sort,
+    query,
+  };
+
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== null && value !== undefined) {
+      queryParams.set(key, value);
+    }
+  });
 
   return `${host}/${portalSlug}/articles?${queryParams.toString()}`;
 };

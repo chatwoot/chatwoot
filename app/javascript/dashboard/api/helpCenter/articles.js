@@ -32,7 +32,12 @@ class ArticlesAPI extends PortalsAPI {
   }
 
   searchArticles({ portalSlug, query }) {
-    return axios.get(`${this.url}/${portalSlug}/articles?query=${query}`);
+    const url = getArticleSearchURL({
+      portalSlug,
+      query,
+      host: this.url,
+    });
+    return axios.get(url);
   }
 
   getArticle({ id, portalSlug }) {
