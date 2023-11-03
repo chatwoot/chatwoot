@@ -19,7 +19,7 @@ class Public::Api::V1::Portals::BaseController < PublicController
   end
 
   def portal
-    @portal ||= Portal.find_by!(slug: permitted_params[:slug], archived: false)
+    @portal ||= Portal.find_by!(slug: params[:slug], archived: false)
   end
 
   def set_locale(&)
