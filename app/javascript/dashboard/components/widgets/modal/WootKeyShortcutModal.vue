@@ -30,9 +30,7 @@
               <hotkey custom-class="min-h-[28px] min-w-[60px] normal-case key">
                 {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
               </hotkey>
-              <hotkey custom-class="min-h-[28px] w-9 key">
-                J
-              </hotkey>
+              <hotkey custom-class="min-h-[28px] w-9 key"> J </hotkey>
               <span
                 class="flex items-center font-semibold text-sm text-slate-800 dark:text-slate-100"
               >
@@ -42,9 +40,7 @@
             <hotkey custom-class="min-h-[28px] min-w-[60px] normal-case key">
               {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
             </hotkey>
-            <hotkey custom-class="w-9 key">
-              K
-            </hotkey>
+            <hotkey custom-class="w-9 key"> K </hotkey>
           </div>
         </div>
 
@@ -59,9 +55,7 @@
             <hotkey custom-class="min-h-[28px] min-w-[60px] normal-case key">
               {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
             </hotkey>
-            <hotkey custom-class="w-9 key">
-              E
-            </hotkey>
+            <hotkey custom-class="w-9 key"> E </hotkey>
           </div>
         </div>
         <div
@@ -95,7 +89,7 @@
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
 import { SHORTCUT_KEYS } from './constants';
-import Hotkey from 'dashboard/components/base/Hotkey';
+import Hotkey from 'dashboard/components/base/Hotkey.vue';
 
 export default {
   components: {

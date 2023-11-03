@@ -31,6 +31,36 @@ export const createConversationPayload = ({ params, contactId, files }) => {
   return payload;
 };
 
+export const createWhatsAppConversationPayload = ({ params }) => {
+  const { inboxId, message, contactId, sourceId, assigneeId } = params;
+
+  const payload = {
+    inbox_id: inboxId,
+    contact_id: contactId,
+    source_id: sourceId,
+    message,
+    assignee_id: assigneeId,
+  };
+
+  return payload;
+};
+
+const setNewConversationPayload = ({
+  isFromWhatsApp,
+  params,
+  contactId,
+  files,
+}) => {
+  if (isFromWhatsApp) {
+    return createWhatsAppConversationPayload({ params });
+  }
+  return createConversationPayload({
+    params,
+    contactId,
+    files,
+  });
+};
+
 const state = {
   records: {},
   uiFlags: {
@@ -48,14 +78,18 @@ export const getters = {
 };
 
 export const actions = {
-  create: async ({ commit }, params) => {
+  create: async ({ commit }, { params, isFromWhatsApp }) => {
     commit(types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, {
       isCreating: true,
     });
     const { contactId, files } = params;
-
     try {
-      const payload = createConversationPayload({ params, contactId, files });
+      const payload = setNewConversationPayload({
+        isFromWhatsApp,
+        params,
+        contactId,
+        files,
+      });
 
       const { data } = await ConversationApi.create(payload);
       commit(types.default.ADD_CONTACT_CONVERSATION, {

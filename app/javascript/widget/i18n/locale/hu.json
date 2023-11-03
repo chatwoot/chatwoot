@@ -34,7 +34,9 @@
   "START_CONVERSATION": "Beszélgetés megkezdése",
   "END_CONVERSATION": "Beszélgetés befejezése",
   "CONTINUE_CONVERSATION": "Beszélgetés folytatása",
+  "YOU": "Ön",
   "START_NEW_CONVERSATION": "Új beszélgetés megkezdése",
+  "VIEW_UNREAD_MESSAGES": "Olvasatlan üzenetei vannak",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Új üzenetek",
     "CLOSE_MESSAGES_BUTTON": "Bezárás",
@@ -107,7 +109,28 @@
     }
   },
   "PORTAL": {
-    "POPULAR_ARTICLES": "Popular Articles",
-    "VIEW_ALL_ARTICLES": "Mutasd az összes bejegyzést"
+    "POPULAR_ARTICLES": "Népszerű cikkek",
+    "VIEW_ALL_ARTICLES": "Mutasd az összes bejegyzést",
+    "IFRAME_LOAD_ERROR": "Hiba történt a cikk betöltése során, kérjük, frissítse az oldalt, és próbálja meg újra."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Képüzenet"
+    },
+    "audio": {
+      "CONTENT": "Hangüzenet"
+    },
+    "video": {
+      "CONTENT": "Videoüzenet"
+    },
+    "file": {
+      "CONTENT": "Csatolt file"
+    },
+    "location": {
+      "CONTENT": "Hely"
+    },
+    "fallback": {
+      "CONTENT": "megosztott URL-t tartalmaz"
+    }
   }
 }

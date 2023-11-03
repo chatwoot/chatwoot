@@ -110,6 +110,8 @@ tr:
       instagram_story_content: "%{story_sender} hikayesinde senden bahsetti: "
       instagram_deleted_story_content: This story is no longer available.
       deleted: Bu mesaj silinmiş
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "Görüşme %{user_name} tarafından çözüldü olarak işaretlendi"
@@ -184,21 +186,30 @@ tr:
       description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
   public_portal:
     search:
-      search_placeholder: Başlığa veya içeriğe göre arama yapın...
+      search_placeholder: Search for article by title or body...
       empty_placeholder: Sonuç bulunamadı.
-      loading_placeholder: Aranıyor...
-      results_title: Arama sonuçları
-    toc_header: 'Bu sayfadakiler'
+      loading_placeholder: Searching...
+      results_title: Search results
+    toc_header: 'On this page'
     hero:
-      sub_title: Makalelerde arayın veya aşağıdaki kategorilere göz atın.
+      sub_title: Search for the articles here or browse the categories below.
     common:
       home: Anasayfa
-      last_updated_on: "Son güncelleme: %{last_updated_on}"
-      view_all_articles: Tüm makaleleri görüntüle
-      article: makale
-      articles: makale
-      no_articles: Burada hiç makale yok.
+      last_updated_on: Last updated on %{last_updated_on}
+      view_all_articles: View all articles
+      article: article
+      articles: articles
+      no_articles: There are no articles here
     footer:
       made_with: Made with
     header:
-      go_to_homepage: Ana siteye git
+      go_to_homepage: Go to the main site
+  slack_unfurl:
+    fields:
+      name: İsim
+      email: E-Posta
+      phone_number: Phone
+      company_name: Şirket
+      inbox_name: Gelen kutusu
+      inbox_type: Inbox Type
+    button: Görüşmeyi aç

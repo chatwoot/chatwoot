@@ -34,7 +34,9 @@
   "START_CONVERSATION": "Iniciar conversación",
   "END_CONVERSATION": "Finalizar conversación",
   "CONTINUE_CONVERSATION": "Continuar conversación",
+  "YOU": "Tú",
   "START_NEW_CONVERSATION": "Iniciar una nueva conversación",
+  "VIEW_UNREAD_MESSAGES": "Tienes mensajes no leídos",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Ver nuevos mensajes",
     "CLOSE_MESSAGES_BUTTON": "Cerrar",
@@ -107,7 +109,28 @@
     }
   },
   "PORTAL": {
-    "POPULAR_ARTICLES": "Popular Articles",
-    "VIEW_ALL_ARTICLES": "Ver todos los artículos"
+    "POPULAR_ARTICLES": "Artículos populares",
+    "VIEW_ALL_ARTICLES": "Ver todos los artículos",
+    "IFRAME_LOAD_ERROR": "Se ha producido un error al cargar el artículo, por favor actualiza la página e inténtalo de nuevo."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Mensaje de imagen"
+    },
+    "audio": {
+      "CONTENT": "Mensaje de audio"
+    },
+    "video": {
+      "CONTENT": "Mensaje de vídeo"
+    },
+    "file": {
+      "CONTENT": "Archivo adjunto"
+    },
+    "location": {
+      "CONTENT": "Ubicación"
+    },
+    "fallback": {
+      "CONTENT": "ha compartido una url"
+    }
   }
 }

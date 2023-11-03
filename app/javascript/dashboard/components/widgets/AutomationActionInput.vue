@@ -108,7 +108,7 @@
 <script>
 import AutomationActionTeamMessageInput from './AutomationActionTeamMessageInput.vue';
 import AutomationActionFileInput from './AutomationFileInput.vue';
-import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 export default {
   components: {
     AutomationActionTeamMessageInput,

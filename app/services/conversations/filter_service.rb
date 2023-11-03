@@ -46,7 +46,7 @@ class Conversations::FilterService < FilterService
       " (conversations.#{attribute_key})::#{current_filter['data_type']} #{filter_operator_value}#{current_filter['data_type']} #{query_operator} "
     when 'standard'
       if attribute_key == 'labels'
-        " tags.name #{filter_operator_value} #{query_operator} "
+        " #{tag_filter_query('Conversation', 'conversations', query_hash, current_index)} "
       else
         " conversations.#{attribute_key} #{filter_operator_value} #{query_operator} "
       end
@@ -54,7 +54,9 @@ class Conversations::FilterService < FilterService
   end
 
   def base_relation
-    @account.conversations.left_outer_joins(:labels)
+    @account.conversations.includes(
+      :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team, :messages, :contact_inbox
+    )
   end
 
   def current_page
@@ -62,10 +64,6 @@ class Conversations::FilterService < FilterService
   end
 
   def conversations
-    @conversations = @conversations.includes(
-      :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team, :messages, :contact_inbox
-    )
-
     @conversations.latest.page(current_page)
   end
 end

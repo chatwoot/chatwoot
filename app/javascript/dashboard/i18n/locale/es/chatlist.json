@@ -8,7 +8,7 @@
     },
     "TAB_HEADING": "Conversaciones",
     "MENTION_HEADING": "Menciones",
-    "UNATTENDED_HEADING": "Sin atender",
+    "UNATTENDED_HEADING": "Desatendido",
     "SEARCH": {
       "INPUT": "Búsqueda de Personas, Chats, Respuestas Salvadas .."
     },
@@ -20,7 +20,7 @@
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "Abiertas"
+        "TEXT": "Abrir"
       },
       "resolved": {
         "TEXT": "Resueltas"
@@ -40,6 +40,16 @@
     "CHAT_SORT": {
       "STATUS": "Estado",
       "ORDER_BY": "Ordenar por"
+    },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Creado",
+        "OLDEST": "Creado el:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Última actividad:",
+        "ACTIVE": "Última actividad"
+      }
     },
     "CHAT_SORT_FILTER_ITEMS": {
       "latest": {

@@ -36,10 +36,13 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Személyes üzenet aláírás",
-        "NOTE": "Hozz létre egy személyes üzenetaláírást, amelyet az e-mail postafiókodból küldött összes üzenethez hozzáadhatsz. A sokszínű tartalomszerkesztő segítségével személyre szabott aláírást hozhatsz létre.",
+        "NOTE": "Hozzon létre egyedi üzenetaláírást, amely bármelyik postafiókból küldött üzenet végén megjelenik. Beilleszthet egy soron belüli képet is, amelyet az élő chat, az e-mail és az API bejövő üzenetek támogatnak.",
         "BTN_TEXT": "Üzenet aláírás mentése",
         "API_ERROR": "Nem sikerült menteni az aláírást! Próbáld újra",
-        "API_SUCCESS": "Aláírás sikeresen mentve"
+        "API_SUCCESS": "Aláírás sikeresen mentve",
+        "IMAGE_UPLOAD_ERROR": "A képet nem lehet betölteni! Próbálja újra",
+        "IMAGE_UPLOAD_SUCCESS": "A kép sikeresen hozzáadva. Az aláírás mentéséhez kattintson a mentésre",
+        "IMAGE_UPLOAD_SIZE_ERROR": "A kép mérete kevesebb, mint {size} MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Üzenet aláírás",
@@ -149,7 +152,7 @@
     "SELECTOR_SUBTITLE": "Fiók kiválasztása az alábbi listából",
     "PROFILE_SETTINGS": "Profilbeállítások",
     "KEYBOARD_SHORTCUTS": "Rövid billentyűparancsok",
-    "APPEARANCE": "Change Appearance",
+    "APPEARANCE": "Megjelenés módosítása",
     "SUPER_ADMIN_CONSOLE": "Szuper felügyeleti konzol",
     "LOGOUT": "Kilépés"
   },
@@ -239,7 +242,7 @@
     "REPORTS_OVERVIEW": "Áttekintés",
     "FACEBOOK_REAUTHORIZE": "A Facebook kapcsolatod lejárt, kérjük kapcsold össze oldalad újra a szolgáltatás folytatásához",
     "HELP_CENTER": {
-      "TITLE": "Sugó",
+      "TITLE": "Súgóközpont",
       "ALL_ARTICLES": "Minden bejegyzés",
       "MY_ARTICLES": "Saját bejegyzések",
       "DRAFT": "Vázlat",

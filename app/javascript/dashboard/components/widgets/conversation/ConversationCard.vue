@@ -1,6 +1,6 @@
 <template>
   <div
-    class="conversation flex flex-shrink-0 flex-grow-0 w-auto max-w-full cursor-pointer relative py-0 px-4 border-transparent border-l-2 border-t-0 border-b-0 border-r-0 border-solid items-start hover:bg-slate-25 dark:hover:bg-slate-800 group"
+    class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full px-4 py-0 border-t-0 border-b-0 border-l-2 border-r-0 border-transparent border-solid cursor-pointer conversation hover:bg-slate-25 dark:hover:bg-slate-800 group"
     :class="{
       'active bg-slate-25 dark:bg-slate-800 border-woot-500': isActiveChat,
       'unread-chat': hasUnread,
@@ -31,7 +31,7 @@
       size="40px"
     />
     <div
-      class="py-3 px-0 border-b group-last:border-transparent group-hover:border-transparent border-slate-50 dark:border-slate-800/75 columns"
+      class="px-0 py-3 border-b group-last:border-transparent group-hover:border-transparent border-slate-50 dark:border-slate-800/75 columns"
     >
       <div class="flex justify-between">
         <inbox-name v-if="showInboxName" :inbox="inbox" />
@@ -55,44 +55,11 @@
       >
         {{ currentContact.name }}
       </h4>
-      <p
+      <message-preview
         v-if="lastMessageInChat"
-        class="conversation--message text-slate-700 dark:text-slate-200 text-sm my-0 mx-2 leading-6 h-6 max-w-[96%] w-[16.875rem] overflow-hidden text-ellipsis whitespace-nowrap"
-      >
-        <fluent-icon
-          v-if="isMessagePrivate"
-          size="16"
-          class="-mt-0.5 align-middle text-slate-600 dark:text-slate-300 inline-block"
-          icon="lock-closed"
-        />
-        <fluent-icon
-          v-else-if="messageByAgent"
-          size="16"
-          class="-mt-0.5 align-middle text-slate-600 dark:text-slate-300 inline-block"
-          icon="arrow-reply"
-        />
-        <fluent-icon
-          v-else-if="isMessageAnActivity"
-          size="16"
-          class="-mt-0.5 align-middle text-slate-600 dark:text-slate-300 inline-block"
-          icon="info"
-        />
-        <span v-if="lastMessageInChat.content">
-          {{ parsedLastMessage }}
-        </span>
-        <span v-else-if="lastMessageInChat.attachments">
-          <fluent-icon
-            v-if="attachmentIcon"
-            size="16"
-            class="-mt-0.5 align-middle inline-block text-slate-600 dark:text-slate-300"
-            :icon="attachmentIcon"
-          />
-          {{ this.$t(`${attachmentMessageContent}`) }}
-        </span>
-        <span v-else>
-          {{ $t('CHAT_LIST.NO_CONTENT') }}
-        </span>
-      </p>
+        :message="lastMessageInChat"
+        class="conversation--message my-0 mx-2 leading-6 h-6 max-w-[96%] w-[16.875rem] text-sm text-slate-700 dark:text-slate-200"
+      />
       <p
         v-else
         class="conversation--message text-slate-700 dark:text-slate-200 text-sm my-0 mx-2 leading-6 h-6 max-w-[96%] w-[16.875rem] overflow-hidden text-ellipsis whitespace-nowrap"
@@ -103,11 +70,11 @@
           icon="info"
         />
         <span>
-          {{ this.$t(`CHAT_LIST.NO_MESSAGES`) }}
+          {{ $t(`CHAT_LIST.NO_MESSAGES`) }}
         </span>
       </p>
-      <div class="conversation--meta flex flex-col absolute right-4 top-4">
-        <span class="text-black-600 text-xxs font-normal leading-4 ml-auto">
+      <div class="absolute flex flex-col conversation--meta right-4 top-4">
+        <span class="ml-auto font-normal leading-4 text-black-600 text-xxs">
           <time-ago
             :last-activity-timestamp="chat.timestamp"
             :created-at-timestamp="chat.created_at"
@@ -145,28 +112,19 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import { MESSAGE_TYPE } from 'widget/helpers/constants';
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import Thumbnail from '../Thumbnail';
+import Thumbnail from '../Thumbnail.vue';
+import MessagePreview from './MessagePreview.vue';
 import conversationMixin from '../../../mixins/conversations';
 import timeMixin from '../../../mixins/time';
 import router from '../../../routes';
 import { frontendURL, conversationUrl } from '../../../helper/URLHelper';
-import InboxName from '../InboxName';
+import InboxName from '../InboxName.vue';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import ConversationContextMenu from './contextMenu/Index.vue';
 import alertMixin from 'shared/mixins/alertMixin';
-import TimeAgo from 'dashboard/components/ui/TimeAgo';
+import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 import CardLabels from './conversationCardComponents/CardLabels.vue';
 import PriorityMark from './PriorityMark.vue';
-const ATTACHMENT_ICONS = {
-  image: 'image',
-  audio: 'headphones-sound-wave',
-  video: 'video',
-  file: 'document',
-  location: 'location',
-  fallback: 'link',
-};
 
 export default {
   components: {
@@ -175,16 +133,11 @@ export default {
     Thumbnail,
     ConversationContextMenu,
     TimeAgo,
+    MessagePreview,
     PriorityMark,
   },
 
-  mixins: [
-    inboxMixin,
-    timeMixin,
-    conversationMixin,
-    messageFormatterMixin,
-    alertMixin,
-  ],
+  mixins: [inboxMixin, timeMixin, conversationMixin, alertMixin],
   props: {
     activeLabel: {
       type: String,
@@ -258,20 +211,6 @@ export default {
       );
     },
 
-    lastMessageFileType() {
-      const lastMessage = this.lastMessageInChat;
-      const [{ file_type: fileType } = {}] = lastMessage.attachments;
-      return fileType;
-    },
-
-    attachmentIcon() {
-      return ATTACHMENT_ICONS[this.lastMessageFileType];
-    },
-
-    attachmentMessageContent() {
-      return `CHAT_LIST.ATTACHMENTS.${this.lastMessageFileType}.CONTENT`;
-    },
-
     isActiveChat() {
       return this.currentChat.id === this.chat.id;
     },
@@ -290,30 +229,6 @@ export default {
 
     lastMessageInChat() {
       return this.lastMessage(this.chat);
-    },
-
-    messageByAgent() {
-      const lastMessage = this.lastMessageInChat;
-      const { message_type: messageType } = lastMessage;
-      return messageType === MESSAGE_TYPE.OUTGOING;
-    },
-
-    isMessageAnActivity() {
-      const lastMessage = this.lastMessageInChat;
-      const { message_type: messageType } = lastMessage;
-      return messageType === MESSAGE_TYPE.ACTIVITY;
-    },
-
-    isMessagePrivate() {
-      const lastMessage = this.lastMessageInChat;
-      const { private: isPrivate } = lastMessage;
-      return isPrivate;
-    },
-
-    parsedLastMessage() {
-      const { content_attributes: contentAttributes } = this.lastMessageInChat;
-      const { email: { subject } = {} } = contentAttributes || {};
-      return this.getPlainText(subject || this.lastMessageInChat.content);
     },
 
     inbox() {

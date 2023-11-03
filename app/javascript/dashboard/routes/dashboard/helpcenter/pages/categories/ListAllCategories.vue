@@ -63,9 +63,9 @@ import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import portalMixin from '../../mixins/portalMixin';
 
-import CategoryListItem from './CategoryListItem';
-import AddCategory from './AddCategory';
-import EditCategory from './EditCategory';
+import CategoryListItem from './CategoryListItem.vue';
+import AddCategory from './AddCategory.vue';
+import EditCategory from './EditCategory.vue';
 import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 
 export default {

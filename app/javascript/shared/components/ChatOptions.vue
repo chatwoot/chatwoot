@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import ChatOption from 'shared/components/ChatOption';
+import ChatOption from 'shared/components/ChatOption.vue';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 
 export default {

@@ -371,6 +371,8 @@
     "DETAILS": {
       "LOADING_FB": "Facebook を認証中...",
       "ERROR_FB_AUTH": "問題が発生しました。ページを更新してください...",
+      "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
       "CREATING_CHANNEL": "受信トレイを作成しています...",
       "TITLE": "受信トレイの詳細の設定",
       "DESC": ""
