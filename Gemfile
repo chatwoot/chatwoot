@@ -116,7 +116,7 @@ gem 'sentry-sidekiq', '>= 5.12.0', require: false
 ##-- background job processing --##
 gem 'sidekiq', '>= 7.1.3'
 # We want cron jobs
-gem 'sidekiq-cron', '>= 1.10.1'
+gem 'sidekiq-cron', '>= 1.11.0'
 
 ##-- Push notification service --##
 gem 'fcm'
