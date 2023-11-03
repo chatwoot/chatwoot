@@ -3,7 +3,7 @@
     "TITLE": "تنظیمات حساب",
     "SUBMIT": "به‌روزرسانی تنظیمات",
     "BACK": "بازگشت",
-    "DISMISS": "Dismiss",
+    "DISMISS": "نادیده بگیر",
     "UPDATE": {
       "ERROR": "تنظیمات به‌روزرسانی نشد، دوباره امتحان کنید!",
       "SUCCESS": "تنظیمات با موفقیت اعمال شد"
@@ -92,7 +92,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "قطع کردن Chatwoot"
+      "TEXT": "ارتباط با سیستم چت قطع شده است"
     },
     "BUTTON": {
       "REFRESH": "تازه کردن"
@@ -112,7 +112,7 @@
       "REMOVE_LABEL": "برچسب را از مکالمه حذف کنید",
       "SETTINGS": "تنظیمات",
       "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance"
+      "APPEARANCE": "ظاهری"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "به داشبورد مکالمه بروید",
@@ -135,7 +135,7 @@
       "ADD_LABELS_TO_CONVERSATION": "برچسب را به مکالمه اضافه کنید",
       "ASSIGN_AN_AGENT": "یک ایجنت تعیین کنید",
       "AI_ASSIST": "AI Assist",
-      "ASSIGN_PRIORITY": "Assign priority",
+      "ASSIGN_PRIORITY": "انتساب اولویت",
       "ASSIGN_A_TEAM": "یک تیم را تعیین کنید",
       "MUTE_CONVERSATION": "صدای گفتگو را قطع کن",
       "UNMUTE_CONVERSATION": "مکالمه را باصدا کنید",
@@ -147,8 +147,8 @@
       "UNTIL_NEXT_REPLY": "تا پاسخ بعدی",
       "UNTIL_NEXT_WEEK": "تا هفته بعد",
       "UNTIL_TOMORROW": "تا فردا",
-      "UNTIL_NEXT_MONTH": "Until next month",
-      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "UNTIL_NEXT_MONTH": "تا ماه آینده",
+      "AN_HOUR_FROM_NOW": "از حالا تا یک ساعت دیگر",
       "CUSTOM": "سفارشی...",
       "CHANGE_APPEARANCE": "تغییر ظاهر",
       "LIGHT_MODE": "روشن",

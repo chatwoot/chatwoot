@@ -50,7 +50,7 @@ ru:
     dyte:
       invalid_message_type: "Недопустимый тип сообщения. Действие запрещено"
     slack:
-      invalid_channel_id: "Invalid slack channel. Please try again"
+      invalid_channel_id: "Неправильный канал slack - попробуйте еще раз"
     inboxes:
       imap:
         socket_error: Пожалуйста, проверьте сетевое подключение, адрес IMAP и повторите попытку.
@@ -110,6 +110,8 @@ ru:
       instagram_story_content: "%{story_sender} упомянул Вас в истории: "
       instagram_deleted_story_content: Эта история больше недоступна.
       deleted: Это сообщение было удалено
+      delivery_status:
+        error_code: "Код ошибки: %{error_code}"
     activity:
       status:
         resolved: "%{user_name} завершил диалог"
@@ -202,3 +204,12 @@ ru:
       made_with: Сделано с
     header:
       go_to_homepage: Перейти на основной сайт
+  slack_unfurl:
+    fields:
+      name: Имя
+      email: Email
+      phone_number: Phone
+      company_name: Компания
+      inbox_name: Электронная почта
+      inbox_type: Inbox Type
+    button: Открыть беседу

@@ -111,8 +111,8 @@
       "ADD_LABEL": "Ajouter une étiquette à la conversation",
       "REMOVE_LABEL": "Supprimer l'étiquette de la conversation",
       "SETTINGS": "Paramètres",
-      "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance"
+      "AI_ASSIST": "Assistance IA",
+      "APPEARANCE": "Apparence"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Aller au tableau de bord des conversations",
@@ -134,7 +134,7 @@
       "GO_TO_NOTIFICATIONS": "Accéder aux notifications",
       "ADD_LABELS_TO_CONVERSATION": "Ajouter une étiquette à la conversation",
       "ASSIGN_AN_AGENT": "Affecter un agent",
-      "AI_ASSIST": "AI Assist",
+      "AI_ASSIST": "Assistance IA",
       "ASSIGN_PRIORITY": "Attribuer priorité",
       "ASSIGN_A_TEAM": "Assigner une équipe",
       "MUTE_CONVERSATION": "Désactiver la conversation",
@@ -150,9 +150,9 @@
       "UNTIL_NEXT_MONTH": "Jusqu'au mois prochain",
       "AN_HOUR_FROM_NOW": "D'ici une heure",
       "CUSTOM": "Personnalisé...",
-      "CHANGE_APPEARANCE": "Change Appearance",
-      "LIGHT_MODE": "Light",
-      "DARK_MODE": "Dark",
+      "CHANGE_APPEARANCE": "Changer l'apparence",
+      "LIGHT_MODE": "Clair",
+      "DARK_MODE": "Sombre",
       "SYSTEM_MODE": "Système"
     }
   },
@@ -160,7 +160,7 @@
     "LOADING_MESSAGE": "Chargement de l'application du tableau de bord ..."
   },
   "COMMON": {
-    "OR": "Or",
+    "OR": "Ou",
     "CLICK_HERE": "cliquez ici"
   }
 }

@@ -1,13 +1,13 @@
 <div class="px-8 max-w-6xl w-full mx-auto">
   <a
-    class="text-slate-700 text-sm hover:underline leading-8 font-semibold"
-    href="/hc/<%= portal.slug %>/<%= category.locale %>"
+    class="text-slate-700 dark:text-slate-100 text-sm hover:underline leading-8 font-semibold"
+    href="/hc/<%= portal.slug %>/<%= category.locale %><%= @theme.present? ? '?theme='+@theme : ''  %>"
   >
     <%= I18n.t('public_portal.common.home') %>
   </a>
-  <span class="text-xs text-slate-600 px-1">/</span>
+  <span class="text-xs text-slate-600 dark:text-slate-200 px-1">/</span>
   <div class="flex justify-start items-center w-full">
-    <h1 class="text-3xl font-semibold leading-snug md:tracking-normal text-slate-900">
+    <h1 class="text-3xl font-semibold leading-snug md:tracking-normal text-slate-900 dark:text-white">
       <%= category.name %>
     </h1>
     <div class="text-slate-500 px-8 mt-2">

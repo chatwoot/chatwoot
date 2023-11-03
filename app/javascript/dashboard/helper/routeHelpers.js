@@ -1,7 +1,9 @@
+// eslint-disable-next-line default-param-last
 export const getCurrentAccount = ({ accounts } = {}, accountId) => {
   return accounts.find(account => account.id === accountId);
 };
 
+// eslint-disable-next-line default-param-last
 export const getUserRole = ({ accounts } = {}, accountId) => {
   const currentAccount = getCurrentAccount({ accounts }, accountId) || {};
   return currentAccount.role || null;

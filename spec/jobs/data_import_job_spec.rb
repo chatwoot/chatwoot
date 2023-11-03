@@ -13,6 +13,20 @@ RSpec.describe DataImportJob do
     end
   end
 
+  describe 'retrying the job' do
+    context 'when ActiveStorage::FileNotFoundError is raised' do
+      before do
+        allow(data_import.import_file).to receive(:download).and_raise(ActiveStorage::FileNotFoundError)
+      end
+
+      it 'retries the job' do
+        expect do
+          described_class.perform_now(data_import)
+        end.to have_enqueued_job(described_class).at_least(1).times
+      end
+    end
+  end
+
   describe 'importing data' do
     context 'when the data is valid' do
       it 'imports data into the account' do

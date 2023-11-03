@@ -1,6 +1,5 @@
 import messageAPI, { buildCreatePayload } from '../../inbox/message';
 import ApiClient from '../../ApiClient';
-import describeWithAPIMock from '../apiSpecHelper';
 
 describe('#ConversationAPI', () => {
   it('creates correct instance', () => {
@@ -13,13 +12,29 @@ describe('#ConversationAPI', () => {
     expect(messageAPI).toHaveProperty('getPreviousMessages');
   });
 
-  describeWithAPIMock('API calls', context => {
+  describe('API calls', () => {
+    const originalAxios = window.axios;
+    const axiosMock = {
+      post: jest.fn(() => Promise.resolve()),
+      get: jest.fn(() => Promise.resolve()),
+      patch: jest.fn(() => Promise.resolve()),
+      delete: jest.fn(() => Promise.resolve()),
+    };
+
+    beforeEach(() => {
+      window.axios = axiosMock;
+    });
+
+    afterEach(() => {
+      window.axios = originalAxios;
+    });
+
     it('#getPreviousMessages', () => {
       messageAPI.getPreviousMessages({
         conversationId: 12,
         before: 4573,
       });
-      expect(context.axiosMock.get).toHaveBeenCalledWith(
+      expect(axiosMock.get).toHaveBeenCalledWith(
         `/api/v1/conversations/12/messages`,
         {
           params: {
@@ -35,7 +50,7 @@ describe('#ConversationAPI', () => {
         message: 'test content',
         echoId: 12,
         isPrivate: true,
-
+        contentAttributes: { in_reply_to: 12 },
         files: [new Blob(['test-content'], { type: 'application/pdf' })],
       });
       expect(formPayload).toBeInstanceOf(FormData);
@@ -43,6 +58,10 @@ describe('#ConversationAPI', () => {
       expect(formPayload.get('echo_id')).toEqual('12');
       expect(formPayload.get('private')).toEqual('true');
       expect(formPayload.get('cc_emails')).toEqual('');
+      expect(formPayload.get('bcc_emails')).toEqual('');
+      expect(formPayload.get('content_attributes')).toEqual(
+        '{"in_reply_to":12}'
+      );
     });
 
     it('builds object payload if file is not available', () => {
@@ -58,8 +77,10 @@ describe('#ConversationAPI', () => {
         private: false,
         echo_id: 12,
         content_attributes: { in_reply_to: 12 },
-        bcc_emails: '',
         cc_emails: '',
+        bcc_emails: '',
+        to_emails: '',
+        template_params: undefined,
       });
     });
   });

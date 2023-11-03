@@ -36,7 +36,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Tanda tangan pesan pribadi",
-        "NOTE": "Buat tanda tangan pesan pribadi yang akan ditambahkan ke semua pesan yang Anda kirim dari kotak masuk email Anda. Gunakan editor konten kaya untuk membuat tanda tangan yang sangat personal.",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
         "BTN_TEXT": "Simpan tanda tangan pesan",
         "API_ERROR": "Tidak dapat menyimpan tanda tangan! Coba lagi",
         "API_SUCCESS": "Tanda tangan berhasil disimpan",
@@ -242,7 +242,7 @@
     "REPORTS_OVERVIEW": "Gambaran",
     "FACEBOOK_REAUTHORIZE": "Koneksi Facebook Anda telah kedaluwarsa, hubungkan kembali halaman Facebook Anda untuk melanjutkan layanan",
     "HELP_CENTER": {
-      "TITLE": "Pusat Bantuan (Beta)",
+      "TITLE": "Pusat Bantuan",
       "ALL_ARTICLES": "Semua Artikel",
       "MY_ARTICLES": "Artikel Saya",
       "DRAFT": "Konsep",

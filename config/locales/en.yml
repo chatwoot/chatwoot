@@ -126,6 +126,8 @@ en:
       instagram_story_content: "%{story_sender} mentioned you in the story: "
       instagram_deleted_story_content: This story is no longer available.
       deleted: This message was deleted
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "Conversation was marked resolved by %{user_name}"
@@ -218,3 +220,12 @@ en:
       made_with: Made with
     header:
       go_to_homepage: Go to the main site
+  slack_unfurl:
+    fields:
+     name: Name
+     email: Email
+     phone_number: Phone
+     company_name: Company
+     inbox_name: Inbox
+     inbox_type: Inbox Type
+    button: Open conversation

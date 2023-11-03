@@ -16,4 +16,5 @@ export const FEATURE_FLAGS = {
   TEAM_MANAGEMENT: 'team_management',
   VOICE_RECORDER: 'voice_recorder',
   AUDIT_LOGS: 'audit_logs',
+  MESSAGE_REPLY_TO: 'message_reply_to',
 };
