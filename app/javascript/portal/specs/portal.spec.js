@@ -46,9 +46,6 @@ describe('Theme Functions', () => {
       const hoverColorStyle = getComputedStyle(
         document.documentElement
       ).getPropertyValue('--dynamic-hover-color');
-
-      const expectedHoverBgColorStyle =
-        'color-mix(in srgb, #ff5733 5%, #1B1B1B)';
       const expectedHoverColorStyle = '#ff5733';
       expect(hoverColorStyle.trim()).toBe(expectedHoverColorStyle);
     });
