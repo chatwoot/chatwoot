@@ -4,7 +4,6 @@
   >
     <div class="flex flex-col gap-1 w-full">
       <div v-if="isLoading" class="empty-state-message">
-        <spinner />
         {{ $t('HELP_CENTER.ARTICLE_SEARCH_RESULT.SEARCH_LOADER') }}
       </div>
       <div v-else-if="showNoResults" class="empty-state-message">
@@ -28,13 +27,11 @@
 </template>
 
 <script>
-import Spinner from 'shared/components/Spinner.vue';
-import SearchResultItem from 'dashboard/routes/dashboard/helpcenter/components/ArticleSearch/ArticleSearchResultItem.vue';
+import SearchResultItem from './ArticleSearchResultItem.vue';
 
 export default {
   name: 'SearchResults',
   components: {
-    Spinner,
     SearchResultItem,
   },
   props: {
