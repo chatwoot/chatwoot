@@ -18,6 +18,10 @@ class Public::Api::V1::Portals::BaseController < PublicController
              end
   end
 
+  def portal
+    @portal ||= Portal.find_by!(slug: params[:slug], archived: false)
+  end
+
   def set_locale(&)
     switch_locale_with_portal(&) if params[:locale].present?
     switch_locale_with_article(&) if params[:article_slug].present?
@@ -40,6 +44,8 @@ class Public::Api::V1::Portals::BaseController < PublicController
 
   def switch_locale_with_article(&)
     article = Article.find_by(slug: params[:article_slug])
+    Rails.logger.info "Article: not found for slug: #{params[:article_slug]}"
+    render_404 && return if article.blank?
 
     @locale = if article.category.present?
                 article.category.locale
@@ -52,5 +58,10 @@ class Public::Api::V1::Portals::BaseController < PublicController
 
   def allow_iframe_requests
     response.headers.delete('X-Frame-Options') if @is_plain_layout_enabled
+  end
+
+  def render_404
+    portal
+    render 'public/api/v1/portals/error/404', status: :not_found
   end
 end
