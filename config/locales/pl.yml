@@ -204,6 +204,10 @@ pl:
       made_with: Wykonane z
     header:
       go_to_homepage: Przejdź do strony głównej
+    404:
+      title: Page not found
+      description: We couldn't find the page you were looking for.
+      back_to_home: Go to home page
   slack_unfurl:
     fields:
       name: Nazwa
