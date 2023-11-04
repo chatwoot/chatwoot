@@ -204,10 +204,14 @@ pt_BR:
       made_with: Criado com
     header:
       go_to_homepage: Ir para o site principal
+    404:
+      title: Page not found
+      description: We couldn't find the page you were looking for.
+      back_to_home: Go to home page
   slack_unfurl:
     fields:
       name: Nome
-      email: e-mail
+      email: E-mail
       phone_number: Telefone
       company_name: Empresa
       inbox_name: Caixa de Entrada
