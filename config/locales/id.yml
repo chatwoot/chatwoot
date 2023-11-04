@@ -204,6 +204,10 @@ id:
       made_with: Dibuat oleh
     header:
       go_to_homepage: Pergi ke situs beranda
+    404:
+      title: Page not found
+      description: We couldn't find the page you were looking for.
+      back_to_home: Go to home page
   slack_unfurl:
     fields:
       name: Nama
