@@ -1,68 +1,68 @@
 {
   "CANNED_MGMT": {
     "HEADER": "Réponses standardisées",
-    "HEADER_BTN_TXT": "Ajouter une réponse standardisée",
-    "LOADING": "Récupération des réponses standardisées",
-    "SEARCH_404": "Il n'y a aucun élément correspondant à cette requête",
-    "SIDEBAR_TXT": "<p><b>Réponses standardisées</b> </p><p> Les réponses standardisées sont des modèles de réponse enregistrés qui peuvent être utilisés pour envoyer rapidement une réponse à une conversation. </p><p> Pour créer une réponse en conserve, cliquez simplement sur <b>Ajouter une réponse en conserve</b>. Vous pouvez également modifier ou supprimer une réponse en conserve existante en cliquant sur le bouton Modifier ou Supprimer </p><p> Les réponses en conserve sont utilisées à l'aide de <b>codes courts</b>. Les agents peuvent accéder aux réponses standardisées lors d'un chat en tapant <b>'/'</b> suivi du code court. </p>",
+    "HEADER_BTN_TXT": "Ajouter une réponse prédéfinie",
+    "LOADING": "Récupération des réponses prédéfinies...",
+    "SEARCH_404": "Il n'y a aucun élément correspondant à cette requête.",
+    "SIDEBAR_TXT": "<p><b>Réponses prédéfinies</b> </p><p>Les réponses prédéfinies sont des modèles de réponse pré-écrits qui vous aident à répondre rapidement à une conversation. Pour insérer une réponse prédéfinie pendant un chat, les agents peuvent taper un code court précédé du caractère '/'. </p><p>Vous pouvez gérer vos réponses standard à partir de cette page ou en créer de nouvelles à l'aide du bouton \"Ajouter une réponse standard\".</p><p>Ouvrez le <a target=\"_blank\" href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677501325-how-to-create-saved-reply-templates-with-canned-responses\">Manuel des réponses standard</a> dans un autre onglet pour obtenir un coup de main.</p><p>Vérifiez également la toute nouvelle <a href=\"https://www.chatwoot.com/tools/canned-responses-library\" target=\"_blank\">Bibliothèque des réponses standard</a>.</p>",
     "LIST": {
       "404": "Il n'y a aucune réponse standardisée disponible dans ce compte.",
       "TITLE": "Gérer les réponses standardisées",
-      "DESC": "Les réponses standardisées sont des modèles de réponse prédéfinis qui peuvent être utilisés pour envoyer rapidement des réponses aux tickets.",
+      "DESC": "Les réponses prédéfinies sont des modèles de réponse prédéfinis qui peuvent être utilisés pour envoyer rapidement des réponses aux conversations.",
       "TABLE_HEADER": [
-        "Raccourcis",
+        "Code court",
         "Contenu",
         "Actions"
       ]
     },
     "ADD": {
-      "TITLE": "Ajouter une réponse standardisée",
-      "DESC": "Les réponses en conserve sont des modèles de réponse enregistrés qui peuvent être utilisés pour envoyer rapidement une réponse à une conversation.",
+      "TITLE": "Ajouter une réponse prédéfinie",
+      "DESC": "Les réponses prédéfinies sont des modèles de réponse prédéfinis qui peuvent être utilisés pour envoyer rapidement des réponses aux conversations.",
       "CANCEL_BUTTON_TEXT": "Annuler",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Raccourcis",
-          "PLACEHOLDER": "Veuillez entrer un code court",
-          "ERROR": "Le raccourci est requis"
+          "LABEL": "Code court",
+          "PLACEHOLDER": "Veuillez entrer un code court.",
+          "ERROR": "Le code court est requis."
         },
         "CONTENT": {
-          "LABEL": "Contenu",
-          "PLACEHOLDER": "Veuillez saisir un contenu",
-          "ERROR": "Le contenu est requis"
+          "LABEL": "Message",
+          "PLACEHOLDER": "Veuillez écrire le message que vous voulez enregistrer comme modèle à utiliser plus tard.",
+          "ERROR": "Le message est obligatoire."
         },
         "SUBMIT": "Envoyer"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Réponse standardisée ajoutée avec succès",
+        "SUCCESS_MESSAGE": "La réponse prédéfinie a été ajoutée.",
         "ERROR_MESSAGE": "Impossible de se connecter au serveur Woot, veuillez réessayer plus tard"
       }
     },
     "EDIT": {
-      "TITLE": "Modifier la réponse standardisée",
+      "TITLE": "Éditer la réponse prédéfinie",
       "CANCEL_BUTTON_TEXT": "Annuler",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Raccourci",
-          "PLACEHOLDER": "Veuillez entrer un raccourci",
-          "ERROR": "Le raccourci est requis"
+          "LABEL": "Code court",
+          "PLACEHOLDER": "Veuillez entrer un code court.",
+          "ERROR": "Le code court est requis."
         },
         "CONTENT": {
-          "LABEL": "Contenu",
-          "PLACEHOLDER": "Veuillez saisir un contenu",
-          "ERROR": "Le contenu est requis"
+          "LABEL": "Message",
+          "PLACEHOLDER": "Veuillez écrire le message que vous voulez enregistrer comme modèle à utiliser plus tard.",
+          "ERROR": "Le message est obligatoire."
         },
         "SUBMIT": "Envoyer"
       },
       "BUTTON_TEXT": "Modifier",
       "API": {
-        "SUCCESS_MESSAGE": "La réponse standardisée à été mise à jour avec succès",
+        "SUCCESS_MESSAGE": "Réponse prédéfinie mise à jour.",
         "ERROR_MESSAGE": "Impossible de se connecter au serveur Woot, veuillez réessayer plus tard"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Supprimer",
       "API": {
-        "SUCCESS_MESSAGE": "Réponse standardisée supprimée avec succès",
+        "SUCCESS_MESSAGE": "Réponse prédéfinie supprimée.",
         "ERROR_MESSAGE": "Impossible de se connecter au serveur Woot, veuillez réessayer plus tard"
       },
       "CONFIRM": {
