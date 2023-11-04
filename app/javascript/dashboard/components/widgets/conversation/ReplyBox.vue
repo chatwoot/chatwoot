@@ -619,7 +619,7 @@ export default {
         // Removing empty lines from the title
         const lines = title.split('\n');
         const nonEmptyLines = lines.filter(line => line.trim() !== '');
-        const filteredMarkdown = nonEmptyLines.join('\n');
+        const filteredMarkdown = nonEmptyLines.join(' ');
         bus.$emit(
           BUS_EVENTS.INSERT_INTO_RICH_EDITOR,
           `[${filteredMarkdown}](${url})`
