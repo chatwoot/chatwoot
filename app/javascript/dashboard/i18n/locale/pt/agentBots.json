@@ -1,73 +1,73 @@
 {
   "AGENT_BOTS": {
     "HEADER": "Bots",
-    "LOADING_EDITOR": "A carregar Editor...",
-    "HEADER_BTN_TXT": "Adicionar Configuração do Bot",
-    "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent bots permitem-lhe automatizar as conversas</p>",
+    "LOADING_EDITOR": "Loading editor...",
+    "HEADER_BTN_TXT": "Add bot configuration",
+    "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try.</p> <p> You can manage your bots from this page or create new ones using the 'Add bot configuraton' button.</p> <p> Open the <a href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677497472-how-to-use-agent-bots\" target=\"blank\">Agent bots handbook</a> in another tab for a helping hand.</p>",
     "CSML_BOT_EDITOR": {
       "NAME": {
-        "LABEL": "Nome do Bot",
-        "PLACEHOLDER": "Dê um nome ao seu bot",
-        "ERROR": "O nome do bot é obrigatório"
+        "LABEL": "Bot name",
+        "PLACEHOLDER": "Name your bot.",
+        "ERROR": "O nome do bot é obrigatório."
       },
       "DESCRIPTION": {
-        "LABEL": "Descrição do bot",
+        "LABEL": "Bot description",
         "PLACEHOLDER": "O que faz este bot?"
       },
       "BOT_CONFIG": {
-        "ERROR": "Por favor, insira acima, a sua configuração CSML do bot",
-        "API_ERROR": "A sua configuração CSML é inválida, por favor corrija-a e tente novamente."
+        "ERROR": "Por favor, insira acima, a sua configuração CSML do bot.",
+        "API_ERROR": "Your CSML configuration is invalid. Please fix it and try again."
       },
       "SUBMIT": "Validar e salvar"
     },
     "BOT_CONFIGURATION": {
       "TITLE": "Selecione um agent bot",
-      "DESC": "Pode definir um agent bot da lista desta caixa de entrada. O bot pode inicialmente tratar da conversa e transferi-la para um agente quando necessário.",
+      "DESC": "Assign an Agent Bot to your inbox. They can handle initial conversations and transfer them to a live agent when necessary.",
       "SUBMIT": "Atualização",
-      "DISCONNECT": "Desligar Bot",
-      "SUCCESS_MESSAGE": "Agent bot atualizado com sucesso",
-      "DISCONNECTED_SUCCESS_MESSAGE": "O agente bot foi desligado com sucesso",
-      "ERROR_MESSAGE": "Não foi possível atualizar o agent bot, tente novamente mais tarde",
-      "DISCONNECTED_ERROR_MESSAGE": "Não foi possível desligar o agent bot, tente novamente mais tarde",
-      "SELECT_PLACEHOLDER": "Selecionar Bot"
+      "DISCONNECT": "Disconnect bot",
+      "SUCCESS_MESSAGE": "Agent bot atualizado com sucesso.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "O agente bot foi desligado com sucesso.",
+      "ERROR_MESSAGE": "Could not update the agent bot. Please try again.",
+      "DISCONNECTED_ERROR_MESSAGE": "Could not disconnect the agent bot. Please try again.",
+      "SELECT_PLACEHOLDER": "Select bot"
     },
     "ADD": {
       "TITLE": "Configurar novo bot",
       "CANCEL_BUTTON_TEXT": "cancelar",
       "API": {
-        "SUCCESS_MESSAGE": "Bot adicionado com sucesso",
-        "ERROR_MESSAGE": "Não foi possível adicionar o bot, por favor tente novamente mais tarde"
+        "SUCCESS_MESSAGE": "Bot adicionado com sucesso.",
+        "ERROR_MESSAGE": "Could not add bot. Please try again later."
       }
     },
     "LIST": {
-      "404": "Nenhum bot encontrado. Pode criar um bot clicando no botão 'Configurar novo bot' ↗️",
-      "LOADING": "A carregar Bots...",
-      "TYPE": "Tipo de Bot"
+      "404": "No bots found. You can create a bot by clicking the 'Configure new bot' button ↗",
+      "LOADING": "Fetching bots...",
+      "TYPE": "Bot type"
     },
     "DELETE": {
       "BUTTON_TEXT": "excluir",
-      "TITLE": "Apagar Bot",
+      "TITLE": "Delete bot",
       "SUBMIT": "excluir",
       "CANCEL_BUTTON_TEXT": "cancelar",
-      "DESCRIPTION": "Tem certeza que pretende excluir este bot? Esta ação é irreversível",
+      "DESCRIPTION": "Tem certeza que pretende excluir este bot? Esta ação é irreversível.",
       "API": {
-        "SUCCESS_MESSAGE": "Bot apagado com sucesso",
-        "ERROR_MESSAGE": "Não foi possível excluir o bot, por favor tente novamente mais tarde"
+        "SUCCESS_MESSAGE": "Bot apagado com sucesso.",
+        "ERROR_MESSAGE": "Could not delete bot. Please try again."
       }
     },
     "EDIT": {
       "BUTTON_TEXT": "Alterar",
-      "LOADING": "A carregar Bots...",
-      "TITLE": "Editar Bot",
+      "LOADING": "Fetching bots...",
+      "TITLE": "Edit bot",
       "CANCEL_BUTTON_TEXT": "cancelar",
       "API": {
-        "SUCCESS_MESSAGE": "Bot atualizado com sucesso",
-        "ERROR_MESSAGE": "Não foi possível atualizar o bot, por favor tente novamente mais tarde"
+        "SUCCESS_MESSAGE": "Bot atualizado com sucesso.",
+        "ERROR_MESSAGE": "Could not update bot. Please try again."
       }
     },
     "TYPES": {
-      "WEBHOOK": "Webhook Bot",
-      "CSML": "CSML Bot"
+      "WEBHOOK": "Webhook bot",
+      "CSML": "CSML bot"
     }
   }
 }
