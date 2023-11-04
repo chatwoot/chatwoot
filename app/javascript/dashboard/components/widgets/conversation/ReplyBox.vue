@@ -616,7 +616,14 @@ export default {
     handleInsert(article) {
       const { url, title } = article;
       if (this.isRichEditorEnabled) {
-        bus.$emit(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, `[${title}](${url})`);
+        // Removing empty lines from the title
+        const lines = title.split('\n');
+        const nonEmptyLines = lines.filter(line => line.trim() !== '');
+        const filteredMarkdown = nonEmptyLines.join('\n');
+        bus.$emit(
+          BUS_EVENTS.INSERT_INTO_RICH_EDITOR,
+          `[${filteredMarkdown}](${url})`
+        );
       } else {
         this.addIntoEditor(
           `${this.$t('CONVERSATION.REPLYBOX.INSERT_READ_MORE')} ${url}`
