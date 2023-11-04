@@ -204,6 +204,10 @@ vi:
       made_with: Tạo bởi
     header:
       go_to_homepage: Trở về ứng dụng
+    404:
+      title: Page not found
+      description: We couldn't find the page you were looking for.
+      back_to_home: Go to home page
   slack_unfurl:
     fields:
       name: Tên
