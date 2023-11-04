@@ -5,7 +5,7 @@
     <ve-table
       :fixed-header="true"
       max-height="calc(100vh - 7.125rem)"
-      scroll-width="187rem"
+      :scroll-width="scrollWidth()"
       :columns="columns"
       :table-data="tableData"
       :border-around="false"
@@ -117,6 +117,120 @@ export default {
       });
     },
     columns() {
+      if (this.isVisitorRoute()) {
+        const dynamicColumns = [
+          {
+            field: 'name',
+            key: 'name',
+            title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.NAME'),
+            fixed: 'left',
+            align: this.isRTLView ? 'right' : 'left',
+            sortBy: this.sortConfig.name || '',
+            width: 300,
+            renderBodyCell: ({ row }) => {
+              if (`${this.allowToGoToContactDetailPage}` === 'true')
+                return (
+                  <woot-button
+                    variant="clear"
+                    onClick={() => this.onClickContact(row.id)}
+                  >
+                    <div class="row--user-block">
+                      <Thumbnail
+                        src={row.thumbnail}
+                        size="32px"
+                        username={row.name}
+                        status={row.availability_status}
+                      />
+                      <div class="user-block">
+                        <h6 class="sub-block-title overflow-hidden whitespace-nowrap text-ellipsis">
+                          <router-link
+                            to={`/app/accounts/${this.$route.params.accountId}/contacts/${row.id}`}
+                            class="user-name"
+                          >
+                            {row.name}
+                          </router-link>
+                        </h6>
+                        <button class="button clear small link view-details--button">
+                          {this.$t('CONTACTS_PAGE.LIST.VIEW_DETAILS')}
+                        </button>
+                      </div>
+                    </div>
+                  </woot-button>
+                );
+              return (
+                <woot-button
+                  variant="clear"
+                  onClick={() => this.onClickContact(row.id)}
+                >
+                  <div class="row--user-block">
+                    <Thumbnail
+                      src={row.thumbnail}
+                      size="32px"
+                      username={row.name}
+                      status={row.availability_status}
+                    />
+                    <div class="user-block">
+                      <h6 class="sub-block-title overflow-hidden whitespace-nowrap text-ellipsis">
+                        {row.name}
+                      </h6>
+                      <button class="button clear small link view-details--button">
+                        {this.$t('CONTACTS_PAGE.LIST.VIEW_DETAILS')}
+                      </button>
+                    </div>
+                  </div>
+                </woot-button>
+              );
+            },
+          },
+          {
+            field: 'url',
+            key: 'url',
+            sortBy: this.sortConfig.url || '',
+            title: 'referrer url',
+            align: this.isRTLView ? 'right' : 'left',
+          },
+          {
+            field: 'city',
+            key: 'city',
+            sortBy: this.sortConfig.city || '',
+            title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CITY'),
+            align: this.isRTLView ? 'right' : 'left',
+          },
+          {
+            field: 'country',
+            key: 'country',
+            title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.COUNTRY'),
+            align: this.isRTLView ? 'right' : 'left',
+            sortBy: this.sortConfig.country || '',
+            renderBodyCell: ({ row }) => {
+              if (row.country) {
+                return (
+                  <div class="overflow-hidden whitespace-nowrap text-ellipsis">
+                    {`${getCountryFlag(row.countryCode)} ${row.country}`}
+                  </div>
+                );
+              }
+              return '---';
+            },
+          },
+          {
+            field: 'last_activity_at',
+            key: 'last_activity_at',
+            sortBy: this.sortConfig.last_activity_at || '',
+            title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.LAST_ACTIVITY'),
+            align: this.isRTLView ? 'right' : 'left',
+          },
+          {
+            field: 'created_at',
+            key: 'created_at',
+            sortBy: this.sortConfig.created_at || '',
+            title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CREATED_AT'),
+            align: this.isRTLView ? 'right' : 'left',
+          },
+        ];
+        return dynamicColumns;
+      }
+
       const dynamicColumns = [
         {
           field: 'name',
@@ -284,15 +398,6 @@ export default {
           align: this.isRTLView ? 'right' : 'left',
         },
       ];
-      if (this.isVisitorRoute()) {
-        dynamicColumns.splice(3, 0, {
-          field: 'url',
-          key: 'url',
-          sortBy: this.sortConfig.url || '',
-          title: 'referrer url',
-          align: this.isRTLView ? 'right' : 'left',
-        });
-      }
       return dynamicColumns;
     },
   },
@@ -313,6 +418,9 @@ export default {
     },
     isVisitorRoute() {
       return this.$route.name === 'visitors';
+    },
+    scrollWidth() {
+      return this.isVisitorRoute() ? '100rem' : '187rem';
     },
   },
 };
