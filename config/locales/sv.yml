@@ -204,6 +204,10 @@ sv:
       made_with: Gjord med
     header:
       go_to_homepage: Gå till hemsidan
+    404:
+      title: Page not found
+      description: We couldn't find the page you were looking for.
+      back_to_home: Go to home page
   slack_unfurl:
     fields:
       name: Namn
