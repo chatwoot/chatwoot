@@ -204,6 +204,10 @@ uk:
       made_with: Зроблено з
     header:
       go_to_homepage: Перейти на основний сайт
+    404:
+      title: Page not found
+      description: We couldn't find the page you were looking for.
+      back_to_home: Go to home page
   slack_unfurl:
     fields:
       name: Ім'я
