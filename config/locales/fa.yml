@@ -204,6 +204,10 @@ fa:
       made_with: ساخته شده با
     header:
       go_to_homepage: به سایت اصلی بروید
+    404:
+      title: Page not found
+      description: We couldn't find the page you were looking for.
+      back_to_home: Go to home page
   slack_unfurl:
     fields:
       name: نام
