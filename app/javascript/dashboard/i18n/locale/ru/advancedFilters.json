@@ -1,18 +1,18 @@
 {
   "FILTER": {
-    "TITLE": "Фильтр диалогов",
-    "SUBTITLE": "Добавьте фильтры и нажмите «Применить фильтры» для фильтрации диалогов.",
+    "TITLE": "Фильтровать беседы",
+    "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
     "EDIT_CUSTOM_FILTER": "Изменить папку",
     "CUSTOM_VIEWS_SUBTITLE": "Добавить или удалить фильтры и обновить свою папку.",
-    "ADD_NEW_FILTER": "Добавить фильтр",
-    "FILTER_DELETE_ERROR": "У вас должен быть по крайней мере один фильтр для сохранения",
+    "ADD_NEW_FILTER": "Add filter",
+    "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
     "SUBMIT_BUTTON_LABEL": "Применить фильтры",
     "UPDATE_BUTTON_LABEL": "Обновить папку",
     "CANCEL_BUTTON_LABEL": "Отменить",
-    "CLEAR_BUTTON_LABEL": "Очистить фильтры",
-    "EMPTY_VALUE_ERROR": "Необходимо указать значение",
+    "CLEAR_BUTTON_LABEL": "Clear filters",
     "FOLDER_LABEL": "Название папки",
     "FOLDER_QUERY_LABEL": "Запрос к папке",
+    "EMPTY_VALUE_ERROR": "Необходимо указать значение.",
     "TOOLTIP_LABEL": "Фильтровать беседы",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "И",
@@ -36,15 +36,15 @@
     },
     "ATTRIBUTES": {
       "STATUS": "Статус",
-      "ASSIGNEE_NAME": "Имя назначенного",
-      "INBOX_NAME": "Имя источника",
-      "TEAM_NAME": "Имя команды",
-      "CONVERSATION_IDENTIFIER": "Идентификатор беседы",
-      "CAMPAIGN_NAME": "Название Кампании",
+      "ASSIGNEE_NAME": "Assignee name",
+      "INBOX_NAME": "Inbox name",
+      "TEAM_NAME": "Название команды",
+      "CONVERSATION_IDENTIFIER": "Conversation identifier",
+      "CAMPAIGN_NAME": "Campaign name",
       "LABELS": "Категории",
-      "BROWSER_LANGUAGE": "Язык браузера",
+      "BROWSER_LANGUAGE": "Browser language",
       "PRIORITY": "Приоритет",
-      "COUNTRY_NAME": "Страна",
+      "COUNTRY_NAME": "Country name",
       "REFERER_LINK": "Ссылка реферера",
       "CUSTOM_ATTRIBUTE_LIST": "Список",
       "CUSTOM_ATTRIBUTE_TEXT": "Текст",
@@ -55,25 +55,25 @@
       "LAST_ACTIVITY": "Последние действия"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Стандартные фильтры",
-      "ADDITIONAL_FILTERS": "Дополнительные фильтры",
-      "CUSTOM_ATTRIBUTES": "Пользовательские атрибуты"
+      "STANDARD_FILTERS": "Standard filters",
+      "ADDITIONAL_FILTERS": "Additional filters",
+      "CUSTOM_ATTRIBUTES": "Custom attributes"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
         "TITLE": "Вы хотите сохранить этот фильтр?",
         "LABEL": "Название фильтра",
-        "PLACEHOLDER": "Введите имя для этого фильтра",
-        "ERROR_MESSAGE": "Необходимо указать имя",
+        "PLACEHOLDER": "Name your filter to refer it later.",
+        "ERROR_MESSAGE": "Необходимо указать имя.",
         "SAVE_BUTTON": "Сохранить фильтр",
         "CANCEL_BUTTON": "Отменить",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Папка успешно создана",
-          "ERROR_MESSAGE": "Ошибка при создании папки"
+          "SUCCESS_MESSAGE": "Папка успешно создана.",
+          "ERROR_MESSAGE": "Ошибка при создании папки."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Сегмент успешно создан",
-          "ERROR_MESSAGE": "Ошибка при создании сегмента"
+          "SUCCESS_MESSAGE": "Сегмент успешно создан.",
+          "ERROR_MESSAGE": "Ошибка при создании сегмента."
         }
       },
       "EDIT": {
@@ -85,17 +85,17 @@
           "CONFIRM": {
             "TITLE": "Подтвердите удаление",
             "MESSAGE": "Вы уверены, что хотите удалить фильтр ",
-            "YES": "Да, удалить",
+            "YES": "Yes, delete",
             "NO": "Нет, не удалять"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Папка успешно удалена",
-          "ERROR_MESSAGE": "При удалении папки произошла ошибка"
+          "SUCCESS_MESSAGE": "Папка успешно удалена.",
+          "ERROR_MESSAGE": "При удалении папки произошла ошибка."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Сегмент успешно удален",
-          "ERROR_MESSAGE": "При удалении сегмента произошла ошибка"
+          "SUCCESS_MESSAGE": "Сегмент успешно удален.",
+          "ERROR_MESSAGE": "При удалении сегмента произошла ошибка."
         }
       }
     }
