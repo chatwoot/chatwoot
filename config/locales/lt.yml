@@ -204,6 +204,10 @@ lt:
       made_with: Padaryta su
     header:
       go_to_homepage: Eikite į pagrindinę svetainę
+    404:
+      title: Page not found
+      description: We couldn't find the page you were looking for.
+      back_to_home: Go to home page
   slack_unfurl:
     fields:
       name: Vardas
