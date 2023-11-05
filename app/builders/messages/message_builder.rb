@@ -9,11 +9,11 @@ class Messages::MessageBuilder
     @user = user
     @message_type = params[:message_type] || 'outgoing'
     @attachments = params[:attachments]
-    @automation_rule = @params&.dig(:content_attributes, :automation_rule_id)
+    @automation_rule = content_attributes&.dig(:automation_rule_id)
     return unless params.instance_of?(ActionController::Parameters)
 
-    @in_reply_to = params.to_unsafe_h&.dig(:content_attributes, :in_reply_to)
-    @items = params.to_unsafe_h&.dig(:content_attributes, :items)
+    @in_reply_to = content_attributes&.dig(:in_reply_to)
+    @items = content_attributes&.dig(:items)
   end
 
   def perform
@@ -25,6 +25,38 @@ class Messages::MessageBuilder
   end
 
   private
+
+  # Extracts content attributes from the given params.
+  # - Converts ActionController::Parameters to a regular hash if needed.
+  # - Attempts to parse a JSON string if content is a string.
+  # - Returns an empty hash if content is not present, if there's a parsing error, or if it's an unexpected type.
+  def content_attributes
+    params = convert_to_hash(@params)
+    content_attributes = params.fetch(:content_attributes, {})
+
+    return parse_json(content_attributes) if content_attributes.is_a?(String)
+    return content_attributes if content_attributes.is_a?(Hash)
+
+    {}
+  end
+
+  # Converts the given object to a hash.
+  # If it's an instance of ActionController::Parameters, converts it to an unsafe hash.
+  # Otherwise, returns the object as-is.
+  def convert_to_hash(obj)
+    return obj.to_unsafe_h if obj.instance_of?(ActionController::Parameters)
+
+    obj
+  end
+
+  # Attempts to parse a string as JSON.
+  # If successful, returns the parsed hash with symbolized names.
+  # If unsuccessful, returns nil.
+  def parse_json(content)
+    JSON.parse(content, symbolize_names: true)
+  rescue JSON::ParserError
+    {}
+  end
 
   def process_attachments
     return if @attachments.blank?

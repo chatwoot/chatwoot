@@ -1,6 +1,6 @@
 <template>
   <div class="image message-text__wrap">
-    <img :src="url" @click="onClick" @error="onImgError()" />
+    <img :src="url" @click="onClick" @error="$emit('error')" />
     <woot-modal :full-width="true" :show.sync="show" :on-close="onClose">
       <img :src="url" class="modal-image skip-context-menu" />
     </woot-modal>
@@ -27,9 +27,6 @@ export default {
     },
     onClick() {
       this.show = true;
-    },
-    onImgError() {
-      this.$emit('error');
     },
   },
 };

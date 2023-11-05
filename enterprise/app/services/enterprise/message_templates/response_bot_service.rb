@@ -63,23 +63,22 @@ class Enterprise::MessageTemplates::ResponseBotService
 
   def create_messages
     message_content = @response['response']
-
-    message_content = append_message_with_sources(message_content)
+    message_content += generate_sources_section if @response['context_ids'].present?
 
     create_outgoing_message(message_content)
   end
 
-  def append_message_with_sources(message_content)
+  def generate_sources_section
     article_ids = @response['context_ids']
-    return message_content if article_ids.blank?
+    sources_content = ''
 
-    message_content += "\n \n \n **Sources**  \n"
     articles_hash = get_article_hash(article_ids.uniq)
 
     articles_hash.first(3).each do |article_hash|
-      message_content += " - [#{article_hash[:response].question}](#{article_hash[:response_document].document_link}) \n"
+      sources_content += " - [#{article_hash[:response].question}](#{article_hash[:response_document].document_link}) \n"
     end
-    message_content
+    sources_content = "\n \n \n **Sources**  \n#{sources_content}" if sources_content.present?
+    sources_content
   end
 
   def create_outgoing_message(message_content)

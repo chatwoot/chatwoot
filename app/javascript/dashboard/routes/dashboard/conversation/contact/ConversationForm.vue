@@ -11,7 +11,10 @@
           <label>
             {{ $t('NEW_CONVERSATION.FORM.INBOX.LABEL') }}
           </label>
-          <div class="multiselect-wrap--small">
+          <div
+            class="multiselect-wrap--small"
+            :class="{ 'has-multi-select-error': $v.targetInbox.$error }"
+          >
             <multiselect
               v-model="targetInbox"
               track-by="id"
@@ -159,9 +162,52 @@
               {{ $t('NEW_CONVERSATION.FORM.MESSAGE.ERROR') }}
             </span>
           </label>
+          <div v-if="isEmailOrWebWidgetInbox" class="flex flex-col">
+            <file-upload
+              ref="uploadAttachment"
+              input-id="newConversationAttachment"
+              :size="4096 * 4096"
+              :accept="allowedFileTypes"
+              :multiple="true"
+              :drop="true"
+              :drop-directory="false"
+              :data="{
+                direct_upload_url: '/rails/active_storage/direct_uploads',
+                direct_upload: true,
+              }"
+              @input-file="onFileUpload"
+            >
+              <woot-button
+                class-names="button--upload"
+                icon="attach"
+                emoji="📎"
+                color-scheme="secondary"
+                variant="smooth"
+                size="small"
+              >
+                {{ $t('NEW_CONVERSATION.FORM.ATTACHMENTS.SELECT') }}
+              </woot-button>
+              <span
+                class="text-slate-500 ltr:ml-1 rtl:mr-1 font-medium text-xs dark:text-slate-400"
+              >
+                {{ $t('NEW_CONVERSATION.FORM.ATTACHMENTS.HELP_TEXT') }}
+              </span>
+            </file-upload>
+            <div
+              v-if="hasAttachments"
+              class="max-h-20 overflow-y-auto mb-4 mt-1.5"
+            >
+              <attachment-preview
+                class="[&>.preview-item]:dark:bg-slate-700 flex-row flex-wrap gap-x-3 gap-y-1"
+                :attachments="attachedFiles"
+                :remove-attachment="removeAttachment"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
+
     <div
       v-if="!hasWhatsappTemplates"
       class="flex flex-row justify-end gap-2 py-2 px-0 w-full"
@@ -173,6 +219,18 @@
         {{ $t('NEW_CONVERSATION.FORM.SUBMIT') }}
       </woot-button>
     </div>
+
+    <transition v-if="isEmailOrWebWidgetInbox" name="modal-fade">
+      <div
+        v-show="$refs.uploadAttachment && $refs.uploadAttachment.dropActive"
+        class="flex top-0 bottom-0 z-30 gap-2 right-0 left-0 items-center justify-center flex-col absolute w-full h-full bg-white/80 dark:bg-slate-700/80"
+      >
+        <fluent-icon icon="cloud-backup" size="40" />
+        <h4 class="page-sub-title text-slate-600 dark:text-slate-200">
+          {{ $t('CONVERSATION.REPLYBOX.DRAG_DROP') }}
+        </h4>
+      </div>
+    </transition>
   </form>
 </template>
 
@@ -190,6 +248,11 @@ import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 import { getInboxSource } from 'dashboard/helper/inbox';
 import { required, requiredIf } from 'vuelidate/lib/validators';
+import inboxMixin from 'shared/mixins/inboxMixin';
+import FileUpload from 'vue-upload-component';
+import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
+import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
+import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
 import {
   appendSignature,
   removeSignature,
@@ -204,9 +267,11 @@ export default {
     CannedResponse,
     WhatsappTemplates,
     InboxDropdownItem,
+    FileUpload,
+    AttachmentPreview,
     MessageSignatureMissingAlert,
   },
-  mixins: [alertMixin, uiSettingsMixin],
+  mixins: [alertMixin, uiSettingsMixin, inboxMixin, fileUploadMixin],
   props: {
     contact: {
       type: Object,
@@ -228,6 +293,7 @@ export default {
       ccEmails: '',
       targetInbox: {},
       whatsappTemplateSelected: false,
+      attachedFiles: [],
     };
   },
   validations: {
@@ -246,6 +312,7 @@ export default {
       uiFlags: 'contacts/getUIFlags',
       conversationsUiFlags: 'contactConversations/getUIFlags',
       currentUser: 'getCurrentUser',
+      globalConfig: 'globalConfig/get',
       messageSignature: 'getMessageSignature',
     }),
     sendWithSignature() {
@@ -255,7 +322,7 @@ export default {
     signatureToApply() {
       return this.messageSignature;
     },
-    emailMessagePayload() {
+    newMessagePayload() {
       const payload = {
         inboxId: this.targetInbox.id,
         sourceId: this.targetInbox.sourceId,
@@ -264,6 +331,12 @@ export default {
         mailSubject: this.subject,
         assigneeId: this.currentUser.id,
       };
+
+      if (this.attachedFiles && this.attachedFiles.length) {
+        payload.files = [];
+        this.setAttachmentPayload(payload);
+      }
+
       if (this.ccEmails) {
         payload.message.cc_emails = this.ccEmails;
       }
@@ -327,6 +400,15 @@ export default {
     hasWhatsappTemplates() {
       return !!this.selectedInbox.inbox?.message_templates;
     },
+    hasAttachments() {
+      return this.attachedFiles.length;
+    },
+    inbox() {
+      return this.targetInbox;
+    },
+    allowedFileTypes() {
+      return ALLOWED_FILE_TYPES;
+    },
   },
   watch: {
     message(value) {
@@ -358,6 +440,33 @@ export default {
         }
       }
     },
+    setAttachmentPayload(payload) {
+      this.attachedFiles.forEach(attachment => {
+        if (this.globalConfig.directUploadsEnabled) {
+          payload.files.push(attachment.blobSignedId);
+        } else {
+          payload.files.push(attachment.resource.file);
+        }
+      });
+    },
+    attachFile({ blob, file }) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file.file);
+      reader.onloadend = () => {
+        this.attachedFiles.push({
+          currentChatId: this.contact.id,
+          resource: blob || file,
+          isPrivate: this.isPrivate,
+          thumb: reader.result,
+          blobSignedId: blob ? blob.signed_id : undefined,
+        });
+      };
+    },
+    removeAttachment(itemIndex) {
+      this.attachedFiles = this.attachedFiles.filter(
+        (item, index) => itemIndex !== index
+      );
+    },
     onCancel() {
       this.$emit('cancel');
     },
@@ -381,15 +490,19 @@ export default {
       return payload;
     },
     onFormSubmit() {
+      const isFromWhatsApp = false;
       this.$v.$touch();
       if (this.$v.$invalid) {
         return;
       }
-      this.createConversation(this.emailMessagePayload);
+      this.createConversation({
+        payload: this.newMessagePayload,
+        isFromWhatsApp,
+      });
     },
-    async createConversation(payload) {
+    async createConversation({ payload, isFromWhatsApp }) {
       try {
-        const data = await this.onSubmit(payload);
+        const data = await this.onSubmit(payload, isFromWhatsApp);
         const action = {
           type: 'link',
           to: `/app/accounts/${data.account_id}/conversations/${data.id}`,
@@ -413,8 +526,9 @@ export default {
       this.whatsappTemplateSelected = val;
     },
     async onSendWhatsAppReply(messagePayload) {
+      const isFromWhatsApp = true;
       const payload = this.prepareWhatsAppMessagePayload(messagePayload);
-      await this.createConversation(payload);
+      await this.createConversation({ payload, isFromWhatsApp });
     },
     inboxReadableIdentifier(inbox) {
       return `${inbox.name} (${inbox.channel_type})`;
@@ -449,6 +563,17 @@ export default {
   ::v-deep {
     .ProseMirror-menubar {
       @apply rounded-tl-[4px];
+    }
+  }
+}
+
+.file-uploads {
+  @apply text-start;
+}
+.multiselect-wrap--small.has-multi-select-error {
+  ::v-deep {
+    .multiselect__tags {
+      @apply border-red-500;
     }
   }
 }

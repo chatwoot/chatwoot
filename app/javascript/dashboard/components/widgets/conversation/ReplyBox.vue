@@ -18,7 +18,18 @@
       :popout-reply-box="popoutReplyBox"
       @click="$emit('click')"
     />
+    <article-search-popover
+      v-if="showArticleSearchPopover && connectedPortalSlug"
+      :selected-portal-slug="connectedPortalSlug"
+      @insert="handleInsert"
+      @close="onSearchPopoverClose"
+    />
     <div class="reply-box__top">
+      <reply-to-message
+        v-if="shouldShowReplyToMessage"
+        :message="inReplyTo"
+        @dismiss="resetReplyToMessage"
+      />
       <canned-response
         v-if="showMentions && hasSlashCommand"
         v-on-clickaway="hideMentions"
@@ -30,7 +41,7 @@
         v-if="showEmojiPicker"
         v-on-clickaway="hideEmojiPicker"
         :class="emojiDialogClassOnExpandedLayoutAndRTLView"
-        :on-click="emojiOnClick"
+        :on-click="addIntoEditor"
       />
       <reply-email-head
         v-if="showReplyHead"
@@ -86,6 +97,7 @@
     </div>
     <div v-if="hasAttachments" class="attachment-preview-box" @paste="onPaste">
       <attachment-preview
+        class="flex-col mt-4"
         :attachments="attachedFiles"
         :remove-attachment="removeAttachment"
       />
@@ -115,9 +127,12 @@
       :toggle-audio-recorder="toggleAudioRecorder"
       :toggle-emoji-picker="toggleEmojiPicker"
       :message="message"
+      :portal-slug="connectedPortalSlug"
+      :new-conversation-modal-active="newConversationModalActive"
       @selectWhatsappTemplate="openWhatsappTemplateModal"
       @toggle-editor="toggleRichContentEditor"
       @replace-text="replaceText"
+      @toggle-insert-article="toggleInsertArticle"
     />
     <whatsapp-templates
       :inbox-id="inbox.id"
@@ -141,11 +156,13 @@ import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
 
 import CannedResponse from './CannedResponse.vue';
+import ReplyToMessage from './ReplyToMessage.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview.vue';
 import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel.vue';
 import ReplyEmailHead from './ReplyEmailHead.vue';
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue';
+import ArticleSearchPopover from 'dashboard/routes/dashboard/helpcenter/components/ArticleSearch/SearchPopover.vue';
 import MessageSignatureMissingAlert from './MessageSignatureMissingAlert';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
@@ -162,7 +179,7 @@ import {
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
 import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
-import inboxMixin from 'shared/mixins/inboxMixin';
+import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { trimContent, debounce } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants/globals';
@@ -176,6 +193,10 @@ import {
   replaceSignature,
   extractTextFromMarkdown,
 } from 'dashboard/helper/editorHelper';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+
+import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
+import { LocalStorage } from 'shared/helpers/localStorage';
 
 const EmojiInput = () => import('shared/components/emoji/EmojiInput');
 
@@ -183,6 +204,7 @@ export default {
   components: {
     EmojiInput,
     CannedResponse,
+    ReplyToMessage,
     ResizableTextArea,
     AttachmentPreview,
     ReplyTopPanel,
@@ -193,6 +215,7 @@ export default {
     Banner,
     WhatsappTemplates,
     MessageSignatureMissingAlert,
+    ArticleSearchPopover,
   },
   mixins: [
     clickaway,
@@ -204,14 +227,6 @@ export default {
     fileUploadMixin,
   ],
   props: {
-    selectedTweet: {
-      type: [Object, String],
-      default: () => ({}),
-    },
-    isATweet: {
-      type: Boolean,
-      default: false,
-    },
     popoutReplyBox: {
       type: Boolean,
       default: false,
@@ -220,6 +235,7 @@ export default {
   data() {
     return {
       message: '',
+      inReplyTo: {},
       isFocused: false,
       showEmojiPicker: false,
       attachedFiles: [],
@@ -241,6 +257,8 @@ export default {
       showUserMentions: false,
       showCannedMenu: false,
       showVariablesMenu: false,
+      newConversationModalActive: false,
+      showArticleSearchPopover: false,
     };
   },
   computed: {
@@ -251,7 +269,19 @@ export default {
       lastEmail: 'getLastEmailInSelectedChat',
       globalConfig: 'globalConfig/get',
       accountId: 'getCurrentAccountId',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
+    shouldShowReplyToMessage() {
+      return (
+        this.inReplyTo?.id &&
+        !this.isPrivate &&
+        this.inboxHasFeature(INBOX_FEATURES.REPLY_TO) &&
+        this.isFeatureEnabledonAccount(
+          this.accountId,
+          FEATURE_FLAGS.MESSAGE_REPLY_TO
+        )
+      );
+    },
     showRichContentEditor() {
       if (this.isOnPrivateNote || this.isRichEditorEnabled) {
         return true;
@@ -323,10 +353,7 @@ export default {
       return this.maxLength - this.message.length;
     },
     isReplyButtonDisabled() {
-      if (this.isATweet && !this.inReplyTo && !this.isOnPrivateNote) {
-        return true;
-      }
-
+      if (this.isATwitterInbox) return true;
       if (this.hasAttachments || this.hasRecordedAudio) return false;
 
       return (
@@ -359,11 +386,6 @@ export default {
       if (this.isASmsInbox) {
         return MESSAGE_MAX_LENGTH.TWILIO_SMS;
       }
-      if (this.isATwitterInbox) {
-        if (this.conversationType === 'tweet') {
-          return MESSAGE_MAX_LENGTH.TWEET - this.replyToUserLength - 2;
-        }
-      }
       return MESSAGE_MAX_LENGTH.GENERAL;
     },
     showFileUpload() {
@@ -381,8 +403,6 @@ export default {
       let sendMessageText = this.$t('CONVERSATION.REPLYBOX.SEND');
       if (this.isPrivate) {
         sendMessageText = this.$t('CONVERSATION.REPLYBOX.CREATE');
-      } else if (this.conversationType === 'tweet') {
-        sendMessageText = this.$t('CONVERSATION.REPLYBOX.TWEET');
       }
       const keyLabel = isEditorHotKeyEnabled(this.uiSettings, 'cmd_enter')
         ? '(⌘ + ↵)'
@@ -416,10 +436,6 @@ export default {
     isOnPrivateNote() {
       return this.replyType === REPLY_EDITOR_MODES.NOTE;
     },
-    inReplyTo() {
-      const selectedTweet = this.selectedTweet || {};
-      return selectedTweet.id;
-    },
     isOnExpandedLayout() {
       const {
         LAYOUT_TYPES: { CONDENSED },
@@ -436,15 +452,6 @@ export default {
         return 'emoji-dialog--rtl';
       }
       return '';
-    },
-    replyToUserLength() {
-      const selectedTweet = this.selectedTweet || {};
-      const {
-        sender: {
-          additional_attributes: { screen_name: screenName = '' } = {},
-        } = {},
-      } = selectedTweet;
-      return screenName ? screenName.length : 0;
     },
     isMessageEmpty() {
       if (!this.message) {
@@ -510,10 +517,17 @@ export default {
         ? this.messageSignature
         : extractTextFromMarkdown(this.messageSignature);
     },
+    connectedPortalSlug() {
+      const { help_center: portal = {} } = this.inbox;
+      const { slug = '' } = portal;
+      return slug;
+    },
   },
   watch: {
     currentChat(conversation) {
       const { can_reply: canReply } = conversation;
+
+      this.setCCAndToEmailsFromLastChat();
 
       if (this.isOnPrivateNote) {
         return;
@@ -525,7 +539,7 @@ export default {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
       }
 
-      this.setCCAndToEmailsFromLastChat();
+      this.fetchAndSetReplyTo();
     },
     conversationIdByRoute(conversationId, oldConversationId) {
       if (conversationId !== oldConversationId) {
@@ -534,17 +548,25 @@ export default {
       }
     },
     message(updatedMessage) {
-      this.hasSlashCommand =
-        updatedMessage[0] === '/' && !this.showRichContentEditor;
-      const hasNextWord = updatedMessage.includes(' ');
-      const isShortCodeActive = this.hasSlashCommand && !hasNextWord;
-      if (isShortCodeActive) {
-        this.mentionSearchKey = updatedMessage.substring(1);
-        this.showMentions = true;
-      } else {
-        this.mentionSearchKey = '';
-        this.showMentions = false;
-      }
+      // Check if the message starts with a slash.
+      const bodyWithoutSignature = removeSignature(
+        updatedMessage,
+        this.signatureToApply
+      );
+      const startsWithSlash = bodyWithoutSignature.startsWith('/');
+
+      // Determine if the user is potentially typing a slash command.
+      // This is true if the message starts with a slash and the rich content editor is not active.
+      this.hasSlashCommand = startsWithSlash && !this.showRichContentEditor;
+      this.showMentions = this.hasSlashCommand;
+
+      // If a slash command is active, extract the command text after the slash.
+      // If not, reset the mentionSearchKey.
+      this.mentionSearchKey = this.hasSlashCommand
+        ? bodyWithoutSignature.substring(1)
+        : '';
+
+      // Autosave the current message draft.
       this.doAutoSaveDraft();
     },
     replyType(updatedReplyType, oldReplyType) {
@@ -567,12 +589,47 @@ export default {
       500,
       true
     );
+
+    this.fetchAndSetReplyTo();
+    bus.$on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.fetchAndSetReplyTo);
+
+    // A hacky fix to solve the drag and drop
+    // Is showing on top of new conversation modal drag and drop
+    // TODO need to find a better solution
+    bus.$on(
+      BUS_EVENTS.NEW_CONVERSATION_MODAL,
+      this.onNewConversationModalActive
+    );
   },
   destroyed() {
     document.removeEventListener('paste', this.onPaste);
     document.removeEventListener('keydown', this.handleKeyEvents);
+    bus.$off(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.fetchAndSetReplyTo);
+  },
+  beforeDestroy() {
+    bus.$off(
+      BUS_EVENTS.NEW_CONVERSATION_MODAL,
+      this.onNewConversationModalActive
+    );
   },
   methods: {
+    handleInsert(article) {
+      const { url, title } = article;
+      if (this.isRichEditorEnabled) {
+        // Removing empty lines from the title
+        const lines = title.split('\n');
+        const nonEmptyLines = lines.filter(line => line.trim() !== '');
+        const filteredMarkdown = nonEmptyLines.join(' ');
+        bus.$emit(
+          BUS_EVENTS.INSERT_INTO_RICH_EDITOR,
+          `[${filteredMarkdown}](${url})`
+        );
+      } else {
+        this.addIntoEditor(
+          `${this.$t('CONVERSATION.REPLYBOX.INSERT_READ_MORE')} ${url}`
+        );
+      }
+    },
     toggleRichContentEditor() {
       this.updateUISettings({
         display_rich_content_editor: !this.showRichContentEditor,
@@ -760,6 +817,7 @@ export default {
         : this.$track(CONVERSATION_EVENTS.SENT_MESSAGE, {
             channelType: this.channelType,
             signatureEnabled: this.sendWithSignature,
+            hasReplyTo: !!this.inReplyTo?.id,
           });
     },
     async onSendReply() {
@@ -810,10 +868,18 @@ export default {
       this.hideWhatsappTemplatesModal();
     },
     replaceText(message) {
+      if (this.sendWithSignature && !this.private) {
+        // if signature is enabled, append it to the message
+        // appendSignature ensures that the signature is not duplicated
+        // so we don't need to check if the signature is already present
+        message = appendSignature(message, this.signatureToApply);
+      }
+
       const updatedMessage = replaceVariablesInMessage({
         message,
         variables: this.messageVariables,
       });
+
       setTimeout(() => {
         this.$track(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
         this.message = updatedMessage;
@@ -836,22 +902,22 @@ export default {
     clearEditorSelection() {
       this.updateEditorSelectionWith = '';
     },
-    insertEmoji(emoji, selectionStart, selectionEnd) {
+    insertIntoTextEditor(text, selectionStart, selectionEnd) {
       const { message } = this;
       const newMessage =
         message.slice(0, selectionStart) +
-        emoji +
+        text +
         message.slice(selectionEnd, message.length);
       this.message = newMessage;
     },
-    emojiOnClick(emoji) {
+    addIntoEditor(content) {
       if (this.showRichContentEditor) {
-        this.updateEditorSelectionWith = emoji;
+        this.updateEditorSelectionWith = content;
         this.onFocus();
       }
       if (!this.showRichContentEditor) {
         const { selectionStart, selectionEnd } = this.$refs.messageInput.$el;
-        this.insertEmoji(emoji, selectionStart, selectionEnd);
+        this.insertIntoTextEditor(content, selectionStart, selectionEnd);
       }
     },
     clearMessage() {
@@ -862,6 +928,7 @@ export default {
       }
       this.attachedFiles = [];
       this.isRecordingAudio = false;
+      this.resetReplyToMessage();
     },
     clearEmailField() {
       this.ccEmails = '';
@@ -954,6 +1021,19 @@ export default {
         (item, index) => itemIndex !== index
       );
     },
+    setReplyToInPayload(payload) {
+      if (this.inReplyTo?.id) {
+        return {
+          ...payload,
+          contentAttributes: {
+            ...payload.contentAttributes,
+            in_reply_to: this.inReplyTo.id,
+          },
+        };
+      }
+
+      return payload;
+    },
     getMessagePayloadForWhatsapp(message) {
       const multipleMessagePayload = [];
 
@@ -963,39 +1043,41 @@ export default {
           const attachedFile = this.globalConfig.directUploadsEnabled
             ? attachment.blobSignedId
             : attachment.resource.file;
-          const attachmentPayload = {
+          let attachmentPayload = {
             conversationId: this.currentChat.id,
             files: [attachedFile],
             private: false,
             message: caption,
             sender: this.sender,
           };
+
+          attachmentPayload = this.setReplyToInPayload(attachmentPayload);
           multipleMessagePayload.push(attachmentPayload);
           caption = '';
         });
       } else {
-        const messagePayload = {
+        let messagePayload = {
           conversationId: this.currentChat.id,
           message,
           private: false,
           sender: this.sender,
         };
+
+        messagePayload = this.setReplyToInPayload(messagePayload);
+
         multipleMessagePayload.push(messagePayload);
       }
 
       return multipleMessagePayload;
     },
     getMessagePayload(message) {
-      const messagePayload = {
+      let messagePayload = {
         conversationId: this.currentChat.id,
         message,
         private: this.isPrivate,
         sender: this.sender,
       };
-
-      if (this.inReplyTo) {
-        messagePayload.contentAttributes = { in_reply_to: this.inReplyTo };
-      }
+      messagePayload = this.setReplyToInPayload(messagePayload);
 
       if (this.attachedFiles && this.attachedFiles.length) {
         messagePayload.files = [];
@@ -1067,6 +1149,39 @@ export default {
       this.bccEmails = bcc.join(', ');
       this.toEmails = to.join(', ');
     },
+    fetchAndSetReplyTo() {
+      const replyStorageKey = LOCAL_STORAGE_KEYS.MESSAGE_REPLY_TO;
+      const replyToMessageId = LocalStorage.getFromJsonStore(
+        replyStorageKey,
+        this.conversationId
+      );
+
+      this.inReplyTo = this.currentChat?.messages?.find(message => {
+        if (message.id === replyToMessageId) {
+          return true;
+        }
+        return false;
+      });
+    },
+    resetReplyToMessage() {
+      const replyStorageKey = LOCAL_STORAGE_KEYS.MESSAGE_REPLY_TO;
+      LocalStorage.deleteFromJsonStore(replyStorageKey, this.conversationId);
+      bus.$emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE);
+    },
+    onNewConversationModalActive(isActive) {
+      // Issue is if the new conversation modal is open and we drag and drop the file
+      // then the file is not getting attached to the new conversation modal
+      // and it is getting attached to the current conversation reply box
+      // so to fix this we are removing the drag and drop event listener from the current conversation reply box
+      // When new conversation modal is open
+      this.newConversationModalActive = isActive;
+    },
+    onSearchPopoverClose() {
+      this.showArticleSearchPopover = false;
+    },
+    toggleInsertArticle() {
+      this.showArticleSearchPopover = !this.showArticleSearchPopover;
+    },
   },
 };
 </script>
@@ -1085,7 +1200,7 @@ export default {
 }
 
 .reply-box {
-  @apply border-t border-slate-50 dark:border-slate-700 bg-white dark:bg-slate-900;
+  @apply relative border-t border-slate-50 dark:border-slate-700 bg-white dark:bg-slate-900;
 
   &.is-private {
     @apply bg-yellow-50 dark:bg-yellow-200;

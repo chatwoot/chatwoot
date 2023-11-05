@@ -71,7 +71,7 @@
       "SUBMIT": "Importálás",
       "CANCEL": "Mégse"
     },
-    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+    "SUCCESS_MESSAGE": "Értesítjük emailben, amint a befogadás megtörtént.",
     "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra"
   },
   "EXPORT_CONTACTS": {
@@ -203,6 +203,10 @@
         "LABEL": "Üzenet",
         "PLACEHOLDER": "Írd ide üzeneted",
         "ERROR": "Az üzenet nem lehet üres"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Fájlok kiválasztása",
+        "HELP_TEXT": "Húzza ide a fájlokat, vagy válassza ki a csatolandó fájlokat"
       },
       "SUBMIT": "Üzenet elküldése",
       "CANCEL": "Mégse",
@@ -343,17 +347,17 @@
     "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
     "PRIMARY": {
       "TITLE": "Elsődleges kontakt",
-      "HELP_LABEL": "Megtartani"
+      "HELP_LABEL": "Törlendő"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Egyesítendő kontakt",
       "PLACEHOLDER": "Kontakt keresése",
-      "HELP_LABEL": "Törlendő"
+      "HELP_LABEL": "Megtartani"
     },
     "SUMMARY": {
       "TITLE": "Összegzés",
-      "DELETE_WARNING": "<strong>%{childContactName}</strong> kontaktja törlésre kerül.",
-      "ATTRIBUTE_WARNING": "<strong>%{childContactName}</strong> kontakt adatai át lesznek másolva hozzá: <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "<strong>%{primaryContactName}</strong> kontaktja törlésre kerül.",
+      "ATTRIBUTE_WARNING": "<strong>%{primaryContactName}</strong> kontakt adatai át lesznek másolva hozzá: <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "HIBA_ÜZENET"
