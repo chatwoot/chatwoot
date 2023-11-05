@@ -76,6 +76,9 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Uncategorized",
+      "SEARCH_RESULTS": "Search results for %{query}",
+      "EMPTY_TEXT": "Search for articles to insert into replies.",
+      "SEARCH_LOADER": "Searching...",
       "INSERT_ARTICLE": "Insert",
       "NO_RESULT": "No articles found",
       "COPY_LINK": "Copy article link to clipboard",
@@ -425,6 +428,21 @@
           "ERROR_MESSAGE": "Unable to delete category"
         }
       }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Search articles",
+      "PLACEHOLDER": "Search articles",
+      "NO_RESULT": "No articles found",
+      "SEARCHING": "Searching...",
+      "SEARCH_BUTTON": "Search",
+      "INSERT_ARTICLE": "Insert link",
+      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
+      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
+      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
+      "PREVIEW_LINK": "Preview article",
+      "CANCEL": "Close",
+      "BACK": "Back",
+      "BACK_RESULTS": "Back to results"
     },
     "UPGRADE_PAGE": {
       "TITLE": "Help Center",
