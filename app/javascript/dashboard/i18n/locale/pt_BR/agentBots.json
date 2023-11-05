@@ -41,23 +41,23 @@
     },
     "LIST": {
       "404": "No bots found. You can create a bot by clicking the 'Configure new bot' button ↗",
-      "LOADING": "Fetching bots...",
+      "LOADING": "Buscando bots...",
       "TYPE": "Bot type"
     },
     "DELETE": {
       "BUTTON_TEXT": "Excluir",
-      "TITLE": "Delete bot",
+      "TITLE": "Excluir bot",
       "SUBMIT": "Excluir",
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "DESCRIPTION": "Tem certeza que deseja excluir este bot? Esta ação é irreversível.",
       "API": {
         "SUCCESS_MESSAGE": "Bot excluído com sucesso.",
-        "ERROR_MESSAGE": "Could not delete bot. Please try again."
+        "ERROR_MESSAGE": "Não foi possível excluir o bot. Por favor, tente novamente."
       }
     },
     "EDIT": {
       "BUTTON_TEXT": "Alterar",
-      "LOADING": "Fetching bots...",
+      "LOADING": "Buscando bots...",
       "TITLE": "Edit bot",
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "API": {
