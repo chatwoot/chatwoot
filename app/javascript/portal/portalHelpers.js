@@ -115,6 +115,32 @@ export const InitializationHelpers = {
     });
   },
 
+  openExternalLinksInNewTab: () => {
+    document.querySelectorAll('a').forEach(link => {
+      const { hostname } = new URL(link.href);
+      const { customDomain, hostURL } = window.portalConfig;
+
+      const href = link.getAttribute('href');
+      const isExternalLink =
+        hostname !== window.location.hostname ||
+        href.startsWith('http') ||
+        href.startsWith('https') ||
+        href.startsWith('//');
+
+      const isSameHost =
+        window.location.href.includes(customDomain) ||
+        window.location.href.includes(hostURL);
+
+      // Modify external links only on articles page
+      const isOnArticlePage =
+        isSameHost && window.location.pathname.includes('/articles/');
+
+      if (isExternalLink && isOnArticlePage) {
+        link.target = '_blank';
+      }
+    });
+  },
+
   initializeTheme: () => {
     const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
     const getThemePreference = () =>
@@ -132,6 +158,7 @@ export const InitializationHelpers = {
   },
 
   initialize: () => {
+    InitializationHelpers.openExternalLinksInNewTab();
     if (window.portalConfig.isPlainLayoutEnabled === 'true') {
       InitializationHelpers.appendPlainParamToURLs();
     } else {
