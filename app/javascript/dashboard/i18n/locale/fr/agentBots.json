@@ -24,50 +24,50 @@
       "TITLE": "Sélectionnez un bot d'agent",
       "DESC": "Assignez un robot d'agent à votre boîte de réception. Ils peuvent gérer les conversations initiales et les transférer à un agent en direct si nécessaire.",
       "SUBMIT": "Mettre à jour",
-      "DISCONNECT": "Disconnect bot",
+      "DISCONNECT": "Déconnecter le bot",
       "SUCCESS_MESSAGE": "Le bot agent a été mis à jour avec succès.",
       "DISCONNECTED_SUCCESS_MESSAGE": "Déconnexion réussie du bot agent.",
-      "ERROR_MESSAGE": "Could not update the agent bot. Please try again.",
-      "DISCONNECTED_ERROR_MESSAGE": "Could not disconnect the agent bot. Please try again.",
-      "SELECT_PLACEHOLDER": "Select bot"
+      "ERROR_MESSAGE": "Impossible de mettre à jour le bot de l'agent. Veuillez réessayer.",
+      "DISCONNECTED_ERROR_MESSAGE": "Impossible de déconnecter le bot de l'agent. Veuillez réessayer.",
+      "SELECT_PLACEHOLDER": "Sélectionner le bot"
     },
     "ADD": {
       "TITLE": "Configurer le nouveau bot",
       "CANCEL_BUTTON_TEXT": "Annuler",
       "API": {
         "SUCCESS_MESSAGE": "Le bot a été ajouté avec succès.",
-        "ERROR_MESSAGE": "Could not add bot. Please try again later."
+        "ERROR_MESSAGE": "Impossible d'ajouter le bot, veuillez réessayer plus tard."
       }
     },
     "LIST": {
-      "404": "No bots found. You can create a bot by clicking the 'Configure new bot' button ↗",
-      "LOADING": "Fetching bots...",
-      "TYPE": "Bot type"
+      "404": "Aucun Bots trouvé, vous pouvez créer un bot en cliquant sur le bouton 'Configurer un nouveau bot' ↗️",
+      "LOADING": "Récupération des bots...",
+      "TYPE": "Type de bot"
     },
     "DELETE": {
       "BUTTON_TEXT": "Supprimer",
-      "TITLE": "Delete bot",
+      "TITLE": "Supprimer le bot",
       "SUBMIT": "Supprimer",
       "CANCEL_BUTTON_TEXT": "Annuler",
       "DESCRIPTION": "Êtes-vous sûr de vouloir supprimer ce bot ? Cette action est irréversible.",
       "API": {
         "SUCCESS_MESSAGE": "Bot supprimé avec succès.",
-        "ERROR_MESSAGE": "Could not delete bot. Please try again."
+        "ERROR_MESSAGE": "Impossible de supprimer le bot. Veuillez réessayer."
       }
     },
     "EDIT": {
       "BUTTON_TEXT": "Modifier",
-      "LOADING": "Fetching bots...",
-      "TITLE": "Edit bot",
+      "LOADING": "Récupération des bots...",
+      "TITLE": "Modifier le bot",
       "CANCEL_BUTTON_TEXT": "Annuler",
       "API": {
         "SUCCESS_MESSAGE": "Bot mis à jour avec succès.",
-        "ERROR_MESSAGE": "Could not update bot. Please try again."
+        "ERROR_MESSAGE": "Impossible de mettre à jour le bot, veuillez réessayer plus tard."
       }
     },
     "TYPES": {
-      "WEBHOOK": "Webhook bot",
-      "CSML": "CSML bot"
+      "WEBHOOK": "Webhook Bot",
+      "CSML": "CSML Bot"
     }
   }
 }
