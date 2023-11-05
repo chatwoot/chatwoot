@@ -76,6 +76,9 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Bez kategorijas",
+      "SEARCH_RESULTS": "Search results for %{query}",
+      "EMPTY_TEXT": "Search for articles to insert into replies.",
+      "SEARCH_LOADER": "Meklēšana...",
       "INSERT_ARTICLE": "Ievietot",
       "NO_RESULT": "Raksti nav atrasti",
       "COPY_LINK": "Kopēt raksta saiti starpliktuvē",
@@ -425,6 +428,21 @@
           "ERROR_MESSAGE": "Nevar izdzēst kategoriju"
         }
       }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Search articles",
+      "PLACEHOLDER": "Search articles",
+      "NO_RESULT": "Raksti nav atrasti",
+      "SEARCHING": "Meklēšana...",
+      "SEARCH_BUTTON": "Meklēt",
+      "INSERT_ARTICLE": "Insert link",
+      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
+      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
+      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
+      "PREVIEW_LINK": "Raksta priekšskatījums",
+      "CANCEL": "Aizvērt",
+      "BACK": "Atpakaļ",
+      "BACK_RESULTS": "Back to results"
     },
     "UPGRADE_PAGE": {
       "TITLE": "Palīdzības centrs",
