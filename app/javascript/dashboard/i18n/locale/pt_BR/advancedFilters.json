@@ -5,7 +5,7 @@
     "EDIT_CUSTOM_FILTER": "Editar Pasta",
     "CUSTOM_VIEWS_SUBTITLE": "Adicione ou remova filtros e atualize sua pasta.",
     "ADD_NEW_FILTER": "Add filter",
-    "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
+    "FILTER_DELETE_ERROR": "Ops! Parece que não podemos salvar nada! Por favor, adicione pelo menos um filtro para salvá-lo.",
     "SUBMIT_BUTTON_LABEL": "Aplicar filtros",
     "UPDATE_BUTTON_LABEL": "Pasta de atualização",
     "CANCEL_BUTTON_LABEL": "Cancelar",
@@ -85,7 +85,7 @@
           "CONFIRM": {
             "TITLE": "Confirmar exclusão",
             "MESSAGE": "Tem certeza que deseja excluir o filtro?",
-            "YES": "Yes, delete",
+            "YES": "Sim, excluir",
             "NO": "Não, mantenha-o"
           }
         },
