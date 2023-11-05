@@ -76,6 +76,9 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Kategorizálhatatlan",
+      "SEARCH_RESULTS": "Search results for %{query}",
+      "EMPTY_TEXT": "Search for articles to insert into replies.",
+      "SEARCH_LOADER": "Keresés...",
       "INSERT_ARTICLE": "Beszúrás",
       "NO_RESULT": "Nem található cikk",
       "COPY_LINK": "Cikk másolása a vágólapra",
@@ -425,6 +428,21 @@
           "ERROR_MESSAGE": "Nem lehet törölni a kategóriát"
         }
       }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Search articles",
+      "PLACEHOLDER": "Search articles",
+      "NO_RESULT": "Nem található cikk",
+      "SEARCHING": "Keresés...",
+      "SEARCH_BUTTON": "Keresés",
+      "INSERT_ARTICLE": "Insert link",
+      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
+      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
+      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
+      "PREVIEW_LINK": "Cikk előnézete",
+      "CANCEL": "Bezárás",
+      "BACK": "Vissza",
+      "BACK_RESULTS": "Back to results"
     },
     "UPGRADE_PAGE": {
       "TITLE": "Súgóközpont",
