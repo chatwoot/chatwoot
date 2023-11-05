@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import types from '../mutation-types';
+import DraftMessageApi from '../../api/inbox/draft_message';
 
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import { LocalStorage } from 'shared/helpers/localStorage';
@@ -18,14 +19,23 @@ export const getters = {
 };
 
 export const actions = {
-  set: async ({ commit }, { key, message }) => {
+  set: async ({ commit }, { key, conversationId, message }) => {
     commit(types.SET_DRAFT_MESSAGES, { key, message });
+    DraftMessageApi.updateDraft({ conversationId, message });
   },
-  delete: ({ commit }, { key }) => {
+  delete: async ({ commit }, { key, conversationId }) => {
     commit(types.SET_DRAFT_MESSAGES, { key });
+    DraftMessageApi.deleteDraft(conversationId);
   },
   setReplyEditorMode: ({ commit }, { mode }) => {
     commit(types.SET_REPLY_EDITOR_MODE, { mode });
+  },
+  getFromRemote: async ({ commit }, { key, conversationId }) => {
+    const response = await DraftMessageApi.getDraft(conversationId);
+    if (response && response.data.has_draft) {
+      const message = response.data.message || '';
+      commit(types.SET_DRAFT_MESSAGES, { key, message });
+    }
   },
 };
 
