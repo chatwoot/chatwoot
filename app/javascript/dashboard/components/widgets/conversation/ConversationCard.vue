@@ -57,7 +57,6 @@
       </h4>
       <message-preview
         v-if="lastMessageInChat"
-        :subject="lastMessageSubject"
         :message="lastMessageInChat"
         class="conversation--message my-0 mx-2 leading-6 h-6 max-w-[96%] w-[16.875rem] text-sm text-slate-700 dark:text-slate-200"
       />
@@ -230,18 +229,6 @@ export default {
 
     lastMessageInChat() {
       return this.lastMessage(this.chat);
-    },
-
-    lastMessageSubject() {
-      const { content_attributes: contentAttributes } = this.lastMessageInChat;
-      const { email: { subject } = {} } = contentAttributes || {};
-      return subject || this.chatSubject;
-    },
-
-    chatSubject() {
-      const { additional_attributes: additionalAttributes } = this.chat;
-      const { mail_subject: subject } = additionalAttributes || {};
-      return subject;
     },
 
     inbox() {
