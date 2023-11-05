@@ -111,7 +111,7 @@ fr:
       instagram_deleted_story_content: Cette Story n'est plus disponible.
       deleted: Ce message a été supprimé
       delivery_status:
-        error_code: "Error code: %{error_code}"
+        error_code: "Code d'erreur: %{error_code}"
     activity:
       status:
         resolved: "La conversation a été marquée résolue par %{user_name}"
@@ -205,9 +205,9 @@ fr:
     header:
       go_to_homepage: Aller à la page d'accueil
     404:
-      title: Page not found
-      description: We couldn't find the page you were looking for.
-      back_to_home: Go to home page
+      title: Page introuvable
+      description: Nous n'avons pas pu trouver la page que vous cherchiez.
+      back_to_home: Aller à la page d'accueil
   slack_unfurl:
     fields:
       name: Nom
