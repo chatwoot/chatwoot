@@ -139,6 +139,7 @@
       "PRIVATE_NOTE": "私人便笺",
       "SEND": "发送",
       "CREATE": "添加便笺",
+      "INSERT_READ_MORE": "Read more",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "显示富文本编辑器",
