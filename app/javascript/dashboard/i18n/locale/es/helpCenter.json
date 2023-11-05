@@ -76,6 +76,9 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Sin categoría",
+      "SEARCH_RESULTS": "Search results for %{query}",
+      "EMPTY_TEXT": "Search for articles to insert into replies.",
+      "SEARCH_LOADER": "Buscando...",
       "INSERT_ARTICLE": "Insertar",
       "NO_RESULT": "No se encontraron articulos",
       "COPY_LINK": "Copiar enlace del artículo al portapapeles",
@@ -425,6 +428,21 @@
           "ERROR_MESSAGE": "No se pudo borrar la categoría"
         }
       }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Search articles",
+      "PLACEHOLDER": "Search articles",
+      "NO_RESULT": "No se encontraron articulos",
+      "SEARCHING": "Buscando...",
+      "SEARCH_BUTTON": "Buscar",
+      "INSERT_ARTICLE": "Insert link",
+      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
+      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
+      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
+      "PREVIEW_LINK": "Previsualizar artículo",
+      "CANCEL": "Cerrar",
+      "BACK": "Atrás",
+      "BACK_RESULTS": "Back to results"
     },
     "UPGRADE_PAGE": {
       "TITLE": "Centro de ayuda",
