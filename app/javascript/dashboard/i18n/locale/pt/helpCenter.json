@@ -76,6 +76,9 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Sem categoria",
+      "SEARCH_RESULTS": "Search results for %{query}",
+      "EMPTY_TEXT": "Search for articles to insert into replies.",
+      "SEARCH_LOADER": "A pesquisar...",
       "INSERT_ARTICLE": "Inserir",
       "NO_RESULT": "Nenhum artigo encontrado",
       "COPY_LINK": "Copiar link do artigo para área de transferência",
@@ -425,6 +428,21 @@
           "ERROR_MESSAGE": "Não é possível apagar a categoria"
         }
       }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Search articles",
+      "PLACEHOLDER": "Search articles",
+      "NO_RESULT": "Nenhum artigo encontrado",
+      "SEARCHING": "A pesquisar...",
+      "SEARCH_BUTTON": "Procurar",
+      "INSERT_ARTICLE": "Insert link",
+      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
+      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
+      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
+      "PREVIEW_LINK": "Pré-visualizar artigo",
+      "CANCEL": "FECHAR",
+      "BACK": "Voltar",
+      "BACK_RESULTS": "Back to results"
     },
     "UPGRADE_PAGE": {
       "TITLE": "Centro de Suporte",
