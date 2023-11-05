@@ -76,6 +76,9 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Neįtraukta į kategorijas",
+      "SEARCH_RESULTS": "Search results for %{query}",
+      "EMPTY_TEXT": "Search for articles to insert into replies.",
+      "SEARCH_LOADER": "Ieškoma...",
       "INSERT_ARTICLE": "Įterpti",
       "NO_RESULT": "Straipsnių nerasta",
       "COPY_LINK": "Nukopijuokite straipsnio nuorodą į iškarpinę",
@@ -425,6 +428,21 @@
           "ERROR_MESSAGE": "Nepavyko ištrinti kategorijos"
         }
       }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Search articles",
+      "PLACEHOLDER": "Search articles",
+      "NO_RESULT": "Straipsnių nerasta",
+      "SEARCHING": "Ieškoma...",
+      "SEARCH_BUTTON": "Ieškoti",
+      "INSERT_ARTICLE": "Insert link",
+      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
+      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
+      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
+      "PREVIEW_LINK": "Straipsnio peržiūra",
+      "CANCEL": "Uždaryti",
+      "BACK": "Atgal",
+      "BACK_RESULTS": "Back to results"
     },
     "UPGRADE_PAGE": {
       "TITLE": "Palaikymo centras",
