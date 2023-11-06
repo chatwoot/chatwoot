@@ -7,7 +7,12 @@
     }"
   >
     <div v-if="!isEmail" v-dompurify-html="message" class="text-content" />
-    <letter v-else class="text-content" :html="message" />
+    <letter
+      v-else
+      class="text-content"
+      className="[&>div]:!bg-white [&>div]:dark:!bg-slate-700 [&>div]:!text-black-900 [&>div]:dark:!text-slate-50"
+      :html="message"
+    />
     <button
       v-if="showQuoteToggle"
       class="text-slate-300 dark:text-slate-300 cursor-pointer text-xs py-1"
