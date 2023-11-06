@@ -1,14 +1,6 @@
 import mila from 'markdown-it-link-attributes';
 import mentionPlugin from './markdownIt/link';
 
-const processInlineToken = blockToken => {
-  blockToken.children.forEach(inlineToken => {
-    if (inlineToken.type === 'image') {
-      setImageHeight(inlineToken);
-    }
-  });
-};
-
 const setImageHeight = inlineToken => {
   const imgSrc = inlineToken.attrGet('src');
   if (!imgSrc) return;
@@ -16,6 +8,14 @@ const setImageHeight = inlineToken => {
   const height = url.searchParams.get('cw_image_height');
   if (!height) return;
   inlineToken.attrSet('style', `height: ${height};`);
+};
+
+const processInlineToken = blockToken => {
+  blockToken.children.forEach(inlineToken => {
+    if (inlineToken.type === 'image') {
+      setImageHeight(inlineToken);
+    }
+  });
 };
 
 const imgResizeManager = md => {
