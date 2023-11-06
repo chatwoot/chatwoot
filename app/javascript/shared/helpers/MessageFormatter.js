@@ -1,18 +1,6 @@
 import mila from 'markdown-it-link-attributes';
 import mentionPlugin from './markdownIt/link';
 
-const imgResizeManager = md => {
-  // Custom rule for image resize in markdown
-  // If the image url has a query param cw_image_height, then add a style attribute to the image
-  md.core.ruler.after('inline', 'add-image-height', state => {
-    state.tokens.forEach(blockToken => {
-      if (blockToken.type === 'inline') {
-        processInlineToken(blockToken);
-      }
-    });
-  });
-};
-
 const processInlineToken = blockToken => {
   blockToken.children.forEach(inlineToken => {
     if (inlineToken.type === 'image') {
@@ -28,6 +16,18 @@ const setImageHeight = inlineToken => {
   const height = url.searchParams.get('cw_image_height');
   if (!height) return;
   inlineToken.attrSet('style', `height: ${height};`);
+};
+
+const imgResizeManager = md => {
+  // Custom rule for image resize in markdown
+  // If the image url has a query param cw_image_height, then add a style attribute to the image
+  md.core.ruler.after('inline', 'add-image-height', state => {
+    state.tokens.forEach(blockToken => {
+      if (blockToken.type === 'inline') {
+        processInlineToken(blockToken);
+      }
+    });
+  });
 };
 
 const md = require('markdown-it')({
