@@ -109,6 +109,16 @@
           </h4>
         </div>
       </transition>
+      <woot-button
+        v-if="enableInsertArticleInReply"
+        v-tooltip.top-end="$t('HELP_CENTER.ARTICLE_SEARCH.OPEN_ARTICLE_SEARCH')"
+        icon="document-text-link"
+        color-scheme="secondary"
+        variant="smooth"
+        size="small"
+        :title="$t('HELP_CENTER.ARTICLE_SEARCH.OPEN_ARTICLE_SEARCH')"
+        @click="toggleInsertArticle"
+      />
     </div>
     <div class="right-wrap">
       <woot-button
@@ -233,6 +243,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    portalSlug: {
+      type: String,
+      required: true,
+    },
   },
   computed: {
     ...mapGetters({
@@ -307,6 +321,13 @@ export default {
         ? this.$t('CONVERSATION.FOOTER.DISABLE_SIGN_TOOLTIP')
         : this.$t('CONVERSATION.FOOTER.ENABLE_SIGN_TOOLTIP');
     },
+    enableInsertArticleInReply() {
+      const isFeatEnabled = this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.INSERT_ARTICLE_IN_REPLY
+      );
+      return isFeatEnabled && this.portalSlug;
+    },
   },
   mounted() {
     ActiveStorage.start();
@@ -324,6 +345,9 @@ export default {
     },
     replaceText(text) {
       this.$emit('replace-text', text);
+    },
+    toggleInsertArticle() {
+      this.$emit('toggle-insert-article');
     },
   },
 };
