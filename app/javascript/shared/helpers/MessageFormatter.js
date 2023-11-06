@@ -6,20 +6,28 @@ const imgResizeManager = md => {
   // If the image url has a query param cw_image_height, then add a style attribute to the image
   md.core.ruler.after('inline', 'add-image-height', state => {
     state.tokens.forEach(blockToken => {
-      if (blockToken.type !== 'inline') return;
-
-      blockToken.children.forEach(inlineToken => {
-        if (inlineToken.type !== 'image') return;
-
-        const imgSrc = inlineToken.attrGet('src');
-        if (!imgSrc) return;
-        const url = new URL(imgSrc);
-        const height = url.searchParams.get('cw_image_height');
-        if (!height) return;
-        inlineToken.attrSet('style', `height: ${height};`);
-      });
+      if (blockToken.type === 'inline') {
+        processInlineToken(blockToken);
+      }
     });
   });
+};
+
+const processInlineToken = blockToken => {
+  blockToken.children.forEach(inlineToken => {
+    if (inlineToken.type === 'image') {
+      setImageHeight(inlineToken);
+    }
+  });
+};
+
+const setImageHeight = inlineToken => {
+  const imgSrc = inlineToken.attrGet('src');
+  if (!imgSrc) return;
+  const url = new URL(imgSrc);
+  const height = url.searchParams.get('cw_image_height');
+  if (!height) return;
+  inlineToken.attrSet('style', `height: ${height};`);
 };
 
 const md = require('markdown-it')({
