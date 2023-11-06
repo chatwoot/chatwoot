@@ -66,7 +66,7 @@ export const switchTheme = theme => {
     updateThemeStyles(theme);
     Cookies.set('selected_theme', theme, { expires: 365 });
   }
-  location.reload(); // Reload is required to apply the active theme from the server
+  window.location.reload(); // Reload is required to apply the active theme from the server
   toggleAppearanceDropdown();
 };
 
