@@ -4,6 +4,7 @@ class Api::V1::Widget::ConfigsController < Api::V1::Widget::BaseController
   def create
     build_contact
     set_token
+    set_campaigns
   end
 
   private
@@ -24,6 +25,10 @@ class Api::V1::Widget::ConfigsController < Api::V1::Widget::BaseController
 
     @contact_inbox = @web_widget.create_contact_inbox(additional_attributes)
     @contact = @contact_inbox.contact
+  end
+
+  def set_campaigns
+    @campaigns = @web_widget.inbox.campaigns.where(enabled: true)
   end
 
   def set_token
