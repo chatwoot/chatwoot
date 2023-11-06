@@ -44,8 +44,28 @@ module PortalHelper
     end
   end
 
-  def generate_article_link(portal_slug, article_slug, theme)
-    "/hc/#{portal_slug}/articles/#{article_slug}#{theme.present? && theme != 'system' ? "?theme=#{theme}" : ''}"
+  def generate_home_link(portal_slug, portal_locale, theme, is_plain_layout_enabled)
+    if is_plain_layout_enabled
+      "/hc/#{portal_slug}/#{portal_locale}#{theme.present? && theme != 'system' ? "?theme=#{theme}" : ''}"
+    else
+      "/hc/#{portal_slug}/#{portal_locale}"
+    end
+  end
+
+  def generate_category_link(portal_slug, category_locale, category_slug, theme, is_plain_layout_enabled)
+    if is_plain_layout_enabled
+      "/hc/#{portal_slug}/#{category_locale}/categories/#{category_slug}#{theme.present? && theme != 'system' ? "?theme=#{theme}" : ''}"
+    else
+      "/hc/#{portal_slug}/#{category_locale}/categories/#{category_slug}"
+    end
+  end
+
+  def generate_article_link(portal_slug, article_slug, theme, is_plain_layout_enabled)
+    if is_plain_layout_enabled
+      "/hc/#{portal_slug}/articles/#{article_slug}#{theme.present? && theme != 'system' ? "?theme=#{theme}" : ''}"
+    else
+      "/hc/#{portal_slug}/articles/#{article_slug}"
+    end
   end
 
   def render_category_content(content)

@@ -144,19 +144,79 @@ describe PortalHelper do
     end
   end
 
+  describe '#generate_home_link' do
+    context 'when theme is not present' do
+      it 'returns the correct link' do
+        expect(helper.generate_home_link('portal_slug', 'en', nil, true)).to eq(
+          '/hc/portal_slug/en'
+        )
+      end
+    end
+
+    context 'when theme is present and plain layout is enabled' do
+      it 'returns the correct link' do
+        expect(helper.generate_home_link('portal_slug', 'en', 'dark', true)).to eq(
+          '/hc/portal_slug/en?theme=dark'
+        )
+      end
+    end
+
+    context 'when plain layout is not enabled' do
+      it 'returns the correct link' do
+        expect(helper.generate_home_link('portal_slug', 'en', 'dark', false)).to eq(
+          '/hc/portal_slug/en'
+        )
+      end
+    end
+  end
+
+  describe '#generate_category_link' do
+    context 'when theme is not present' do
+      it 'returns the correct link' do
+        expect(helper.generate_category_link('portal_slug', 'en', 'category_slug', nil, true)).to eq(
+          '/hc/portal_slug/en/categories/category_slug'
+        )
+      end
+    end
+
+    context 'when theme is present and plain layout is enabled' do
+      it 'returns the correct link' do
+        expect(helper.generate_category_link('portal_slug', 'en', 'category_slug', 'dark', true)).to eq(
+          '/hc/portal_slug/en/categories/category_slug?theme=dark'
+        )
+      end
+    end
+
+    context 'when plain layout is not enabled' do
+      it 'returns the correct link' do
+        expect(helper.generate_category_link('portal_slug', 'en', 'category_slug', 'dark', false)).to eq(
+          '/hc/portal_slug/en/categories/category_slug'
+        )
+      end
+    end
+  end
+
   describe '#generate_article_link' do
     context 'when theme is not present' do
       it 'returns the correct link' do
-        expect(helper.generate_article_link('portal_slug', 'article_slug', nil)).to eq(
+        expect(helper.generate_article_link('portal_slug', 'article_slug', nil, true)).to eq(
           '/hc/portal_slug/articles/article_slug'
         )
       end
     end
 
-    context 'when theme is present' do
+    context 'when theme is present and plain layout is enabled' do
       it 'returns the correct link' do
-        expect(helper.generate_article_link('portal_slug', 'article_slug', 'dark')).to eq(
+        expect(helper.generate_article_link('portal_slug', 'article_slug', 'dark', true)).to eq(
           '/hc/portal_slug/articles/article_slug?theme=dark'
+        )
+      end
+    end
+
+    context 'when plain layout is not enabled' do
+      it 'returns the correct link' do
+        expect(helper.generate_article_link('portal_slug', 'article_slug', 'dark', false)).to eq(
+          '/hc/portal_slug/articles/article_slug'
         )
       end
     end

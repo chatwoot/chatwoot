@@ -7,7 +7,7 @@
                <span class="text-lg rounded-md cursor-pointer <%= !@is_plain_layout_enabled && 'pl-1' %>"><%= category.icon %></span>
                <% end %>
                <h3 id="<%= !@is_plain_layout_enabled ? 'category-name' : '' %>" class="text-xl text-slate-800 dark:text-slate-50 font-semibold leading-relaxed hover:cursor-pointer <%= @is_plain_layout_enabled ? 'hover:underline' : '' %> <%= category.icon.blank? && !@is_plain_layout_enabled ? 'pl-1' : '' %>">
-                  <a href="/hc/<%= portal.slug %>/<%= category.locale %>/categories/<%= category.slug %><%= @theme.present? && @theme != 'system' ? '?theme='+@theme : ''  %>">
+                  <a href="<%= generate_category_link(portal.slug, category.locale, category.slug, @theme, @is_plain_layout_enabled) %>">
                   <%= category.name %>
                   </a>
                </h3>
@@ -24,7 +24,7 @@
          </div>
          <% else %>
          <% category.articles.published.order(position: :asc).take(5).each do |article| %>
-         <a class="text-slate-700 dark:text-slate-100 leading-7" href="<%= generate_article_link(portal.slug, article.slug, @theme) %>">
+         <a class="text-slate-700 dark:text-slate-100 leading-7" href="<%= generate_article_link(portal.slug, article.slug, @theme, @is_plain_layout_enabled) %>">
             <div id="<%= !@is_plain_layout_enabled ? 'category-item' : '' %>" class="flex justify-between hover:cursor-pointer items-center py-1 rounded-lg gap-3  <%= !@is_plain_layout_enabled ? 'px-2' : 'hover:underline' %>">
                <%= article.title %>
                <span class="flex items-center font-normal">
@@ -40,7 +40,7 @@
            <span class="text-sm font-medium text-slate-600 dark:text-slate-300"><%= render 'public/api/v1/portals/article_count', article_count: category.articles.published.order(position: :asc).size %></span>
          </div>
          <div>
-            <a href="/hc/<%= portal.slug %>/<%= category.locale %>/categories/<%= category.slug %><%= @theme.present? ? '?theme='+@theme : ''  %>" class="flex flex-row items-center text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-700 dark:hover:text-slate-100">
+            <a href="<%= generate_category_link(portal.slug, category.locale, category.slug, @theme, @is_plain_layout_enabled) %>" class="flex flex-row items-center text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-700 dark:hover:text-slate-100">
             <%= I18n.t('public_portal.common.view_all_articles') %>
             </a>
          </div>

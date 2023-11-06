@@ -5,7 +5,7 @@
     <h1 class="text-6xl text-center font-semibold text-slate-800 dark:text-slate-100 leading-relaxed"><%= I18n.t('public_portal.404.title') %></h1>
     <p class="text-center text-slate-700 dark:text-slate-300 my-1"><%= I18n.t('public_portal.404.description') %></p>
     <div class="text-center my-8">
-        <a href="/hc/<%= @portal.slug %>/<%= @portal.config['default_locale'] || params[:locale] %>/<%= @theme.present? ? '?theme='+@theme : ''  %>" class="text-woot-500 font-semibold underline">
+        <a href="<%= generate_home_link(@portal.slug, @portal.config['default_locale'] || params[:locale], @theme, @is_plain_layout_enabled) %>" class="text-woot-500 font-semibold underline">
             <%= I18n.t('public_portal.404.back_to_home') %>
         </a>
     </div>

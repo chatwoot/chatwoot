@@ -1,5 +1,6 @@
 import slugifyWithCounter from '@sindresorhus/slugify';
 import Vue from 'vue';
+import Cookies from 'js-cookie';
 
 import PublicArticleSearch from './components/PublicArticleSearch.vue';
 import TableOfContents from './components/TableOfContents.vue';
@@ -22,12 +23,8 @@ export const getHeadingsfromTheArticle = () => {
   return rows;
 };
 
-export const isPlainLayoutEnabled = () => {
-  return window.portalConfig.isPlainLayoutEnabled === 'true';
-};
-
-export const setPortalHoverStyles = theme => {
-  if (isPlainLayoutEnabled()) return;
+export const setPortalHoverColor = theme => {
+  if (window.portalConfig.isPlainLayoutEnabled === 'true') return;
   const portalColor = window.portalConfig.portalColor;
   const bgColor = theme === 'dark' ? '#151718' : 'white';
   const hoverColor = adjustColorForContrast(portalColor, bgColor);
@@ -41,14 +38,14 @@ export const setPortalHoverStyles = theme => {
 
 export const setPortalClass = theme => {
   const portalDiv = document.querySelector('#portal');
-  portalDiv.classList.remove('light', 'dark');
+  portalDiv.classList.remove('light', 'dark', 'system');
   if (!portalDiv) return;
   portalDiv.classList.add(theme);
 };
 
 export const updateThemeStyles = theme => {
   setPortalClass(theme);
-  setPortalHoverStyles(theme);
+  setPortalHoverColor(theme);
 };
 
 export const toggleAppearanceDropdown = () => {
@@ -60,25 +57,16 @@ export const toggleAppearanceDropdown = () => {
       : 'none';
 };
 
-export const updateURLParameter = (param, paramVal) => {
-  const urlObj = new URL(window.location);
-  urlObj.searchParams.set(param, paramVal);
-  return urlObj.toString();
-};
-
-export const removeURLParameter = parameter => {
-  const urlObj = new URL(window.location);
-  urlObj.searchParams.delete(parameter);
-  return urlObj.toString();
-};
-
 export const switchTheme = theme => {
-  updateThemeStyles(theme);
-  const newUrl =
-    theme !== 'system'
-      ? updateURLParameter('theme', theme)
-      : removeURLParameter('theme');
-  window.location.href = newUrl;
+  if (theme === 'system') {
+    Cookies.remove('selected_theme');
+    const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
+    updateThemeStyles(mediaQueryList.matches ? 'dark' : 'light');
+  } else {
+    updateThemeStyles(theme);
+    Cookies.set('selected_theme', theme, { expires: 365 });
+  }
+  location.reload(); // Reload is required to apply the active theme from the server
   toggleAppearanceDropdown();
 };
 
@@ -136,14 +124,18 @@ export const InitializationHelpers = {
     const { theme: themeFromServer } = window.portalConfig || {};
 
     if (themeFromServer === 'system') {
+      Cookies.remove('selected_theme');
       // Handle dynamic theme changes for system theme
       mediaQueryList.addEventListener('change', event => {
         const newTheme = event.matches ? 'dark' : 'light';
+        Cookies.set('system_theme', newTheme, { expires: 365 });
         updateThemeStyles(newTheme);
       });
       const themePreference = getThemePreference();
+      Cookies.set('system_theme', themePreference, { expires: 365 });
       updateThemeStyles(themePreference);
     } else {
+      Cookies.set('selected_theme', themeFromServer, { expires: 365 });
       updateThemeStyles(themeFromServer);
     }
   },

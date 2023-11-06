@@ -1,11 +1,9 @@
 import {
   InitializationHelpers,
-  setPortalHoverStyles,
+  setPortalHoverColor,
   setPortalClass,
   updateThemeStyles,
   toggleAppearanceDropdown,
-  updateURLParameter,
-  removeURLParameter,
   switchTheme,
 } from '../portalHelpers';
 
@@ -32,7 +30,7 @@ describe('#navigateToLocalePage', () => {
 });
 
 describe('Theme Functions', () => {
-  describe('#setPortalHoverStyles', () => {
+  describe('#setPortalHoverColor', () => {
     beforeEach(() => {
       window.portalConfig = { portalColor: '#ff5733' };
     });
@@ -42,7 +40,7 @@ describe('Theme Functions', () => {
     });
 
     it('sets styles for portal hover based on theme', () => {
-      setPortalHoverStyles('dark');
+      setPortalHoverColor('dark');
       const hoverColorStyle = getComputedStyle(
         document.documentElement
       ).getPropertyValue('--dynamic-hover-color');
@@ -97,46 +95,6 @@ describe('Theme Functions', () => {
     it('does nothing if dropdown element does not exist', () => {
       document.body.innerHTML = ``;
       expect(() => toggleAppearanceDropdown()).not.toThrow();
-    });
-  });
-
-  describe('updateURLParameter', () => {
-    it('updates a given parameter with a new value', () => {
-      const originalUrl = 'http://example.com?param=oldValue';
-      delete window.location;
-      window.location = new URL(originalUrl);
-
-      const updatedUrl = updateURLParameter('param', 'newValue');
-      expect(updatedUrl).toContain('param=newValue');
-    });
-
-    it('adds a new parameter if it does not exist', () => {
-      const originalUrl = 'http://example.com';
-      delete window.location;
-      window.location = new URL(originalUrl);
-
-      const updatedUrl = updateURLParameter('newParam', 'value');
-      expect(updatedUrl).toContain('newParam=value');
-    });
-  });
-
-  describe('removeURLParameter', () => {
-    it('removes an existing parameter', () => {
-      const originalUrl = 'http://example.com?param=value';
-      delete window.location;
-      window.location = new URL(originalUrl);
-
-      const updatedUrl = removeURLParameter('param');
-      expect(updatedUrl).not.toContain('param=value');
-    });
-
-    it('does nothing if the parameter does not exist', () => {
-      const originalUrl = 'http://example.com/';
-      delete window.location;
-      window.location = new URL(originalUrl);
-
-      const updatedUrl = removeURLParameter('param');
-      expect(updatedUrl).toBe(originalUrl);
     });
   });
 

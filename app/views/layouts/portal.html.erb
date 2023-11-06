@@ -28,7 +28,7 @@ By default, it renders:
     <% end %>
   </head>
   <body>
-    <div id="portal" class="antialiased <%= @theme unless @theme == 'system' %>">
+    <div id="portal" class="antialiased <%= @theme == 'system' ? @system_theme : @theme %>">
       <main class="main-content min-h-screen flex flex-col bg-white dark:bg-slate-900" role="main">
         <% if !@is_plain_layout_enabled %>
           <%= render "public/api/v1/portals/header", portal: @portal %>
@@ -43,7 +43,7 @@ By default, it renders:
   <style>
   :root {
     color-scheme: <% if @theme == 'system' %>light dark<% else %><%= @theme %><% end %>;
-
+    
     --dynamic-portal-bg: <%= generate_portal_bg(@portal.color, 'light') %>;
     --dynamic-portal-bg-gradient: <%= generate_gradient_to_bottom('light') %>;
     --dynamic-hover-bg-color: <%= generate_portal_hover_color(@portal.color , 'light') %>;
@@ -54,7 +54,7 @@ By default, it renders:
       --dynamic-hover-bg-color: <%= generate_portal_hover_color(@portal.color , 'dark') %>;
     }
   }
-
+  
   /* Portal background */
   #portal-bg {
     background: var(--dynamic-portal-bg);
