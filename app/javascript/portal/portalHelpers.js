@@ -166,7 +166,6 @@ export const InitializationHelpers = {
     const { theme: themeFromServer } = window.portalConfig || {};
 
     if (themeFromServer === 'system') {
-      Cookies.remove('selected_theme');
       // Handle dynamic theme changes for system theme
       mediaQueryList.addEventListener('change', event => {
         if (Cookies.get('selected_theme') !== 'system') return;
