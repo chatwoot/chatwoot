@@ -66,8 +66,25 @@ export const switchTheme = theme => {
     updateThemeStyles(theme);
     Cookies.set('selected_theme', theme, { expires: 365 });
   }
-  window.location.reload(); // Reload is required to apply the active theme from the server
+  displayThemeButtons(theme);
   toggleAppearanceDropdown();
+};
+
+export const displayThemeButtons = theme => {
+  const allButtons = document.querySelectorAll('.theme-button');
+  const activeButton = document.querySelector(`.theme-button.${theme}-theme`);
+
+  // Hide all buttons
+  allButtons.forEach(button => {
+    button.classList.remove('flex');
+    button.classList.add('hidden');
+  });
+
+  // Only show the active theme button
+  if (activeButton) {
+    activeButton.classList.remove('hidden');
+    activeButton.classList.add('flex');
+  }
 };
 
 export const InitializationHelpers = {
@@ -134,17 +151,19 @@ export const InitializationHelpers = {
       const themePreference = getThemePreference();
       Cookies.set('system_theme', themePreference, { expires: 365 });
       updateThemeStyles(themePreference);
+      displayThemeButtons('system');
     } else {
       Cookies.set('selected_theme', themeFromServer, { expires: 365 });
       updateThemeStyles(themeFromServer);
+      displayThemeButtons(themeFromServer);
     }
   },
 
   initializeToggleButton: () => {
-    const toggleButton = document.getElementById('toggle-appearance');
-    if (toggleButton) {
-      toggleButton.addEventListener('click', toggleAppearanceDropdown);
-    }
+    const toggleButtons = document.querySelectorAll('.theme-button');
+    toggleButtons.forEach(button => {
+      button.addEventListener('click', toggleAppearanceDropdown);
+    });
   },
 
   initializeThemeSwitchButtons: () => {
