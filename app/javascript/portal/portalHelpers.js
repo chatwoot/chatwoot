@@ -41,8 +41,8 @@ export const setPortalHoverColor = theme => {
 
 export const setPortalClass = theme => {
   const portalDiv = document.querySelector('#portal');
-  portalDiv.classList.remove('light', 'dark', 'system');
   if (!portalDiv) return;
+  portalDiv.classList.remove('light', 'dark', 'system');
   portalDiv.classList.add(theme);
 };
 
@@ -115,6 +115,18 @@ export const updateActiveThemeInHeader = theme => {
   setActiveThemeIconInDropdown(theme);
 };
 
+export const updateTheme = (theme, cookie) => {
+  Cookies.set(cookie, theme, { expires: 365 });
+  updateThemeStyles(theme);
+};
+
+export const updateThemeBasedOnSystem = (event, cookie) => {
+  if (Cookies.get(SELECTED_COOKIE) !== 'system') return;
+
+  const newTheme = event.matches ? 'dark' : 'light';
+  updateTheme(newTheme, cookie);
+};
+
 export const InitializationHelpers = {
   navigateToLocalePage: () => {
     const allLocaleSwitcher = document.querySelector('.locale-switcher');
@@ -171,20 +183,13 @@ export const InitializationHelpers = {
     if (themeFromServer === 'system') {
       // Handle dynamic theme changes for system theme
       mediaQueryList.addEventListener('change', event => {
-        if (Cookies.get(SELECTED_COOKIE) !== 'system') return;
-
-        const newTheme = event.matches ? 'dark' : 'light';
-        Cookies.set(SYSTEM_COOKIE, newTheme, { expires: 365 });
-        updateThemeStyles(newTheme);
+        updateThemeBasedOnSystem(event, SYSTEM_COOKIE);
       });
-
       const themePreference = getThemePreference();
-      Cookies.set(SYSTEM_COOKIE, themePreference, { expires: 365 });
-      updateThemeStyles(themePreference);
+      updateTheme(themePreference, SYSTEM_COOKIE);
       updateActiveThemeInHeader('system');
     } else {
-      Cookies.set(SELECTED_COOKIE, themeFromServer, { expires: 365 });
-      updateThemeStyles(themeFromServer);
+      updateTheme(themeFromServer, SELECTED_COOKIE);
       updateActiveThemeInHeader(themeFromServer);
     }
   },
