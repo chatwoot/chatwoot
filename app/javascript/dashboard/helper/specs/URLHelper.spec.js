@@ -3,6 +3,7 @@ import {
   conversationUrl,
   isValidURL,
   conversationListPageURL,
+  getArticleSearchURL,
 } from '../URLHelper';
 
 describe('#URL Helpers', () => {
@@ -73,6 +74,94 @@ describe('#URL Helpers', () => {
     });
     it('should return false if invalid url is passed', () => {
       expect(isValidURL('alert.window')).toBe(false);
+    });
+  });
+
+  describe('getArticleSearchURL', () => {
+    it('should generate a basic URL without optional parameters', () => {
+      const url = getArticleSearchURL({
+        portalSlug: 'news',
+        pageNumber: 1,
+        locale: 'en',
+        host: 'myurl.com',
+      });
+      expect(url).toBe('myurl.com/news/articles?page=1&locale=en');
+    });
+
+    it('should include status parameter if provided', () => {
+      const url = getArticleSearchURL({
+        portalSlug: 'news',
+        pageNumber: 1,
+        locale: 'en',
+        status: 'published',
+        host: 'myurl.com',
+      });
+      expect(url).toBe(
+        'myurl.com/news/articles?page=1&locale=en&status=published'
+      );
+    });
+
+    it('should include author_id parameter if provided', () => {
+      const url = getArticleSearchURL({
+        portalSlug: 'news',
+        pageNumber: 1,
+        locale: 'en',
+        authorId: 123,
+        host: 'myurl.com',
+      });
+      expect(url).toBe(
+        'myurl.com/news/articles?page=1&locale=en&author_id=123'
+      );
+    });
+
+    it('should include category_slug parameter if provided', () => {
+      const url = getArticleSearchURL({
+        portalSlug: 'news',
+        pageNumber: 1,
+        locale: 'en',
+        categorySlug: 'technology',
+        host: 'myurl.com',
+      });
+      expect(url).toBe(
+        'myurl.com/news/articles?page=1&locale=en&category_slug=technology'
+      );
+    });
+
+    it('should include sort parameter if provided', () => {
+      const url = getArticleSearchURL({
+        portalSlug: 'news',
+        pageNumber: 1,
+        locale: 'en',
+        sort: 'views',
+        host: 'myurl.com',
+      });
+      expect(url).toBe('myurl.com/news/articles?page=1&locale=en&sort=views');
+    });
+
+    it('should handle multiple optional parameters', () => {
+      const url = getArticleSearchURL({
+        portalSlug: 'news',
+        pageNumber: 1,
+        locale: 'en',
+        status: 'draft',
+        authorId: 456,
+        categorySlug: 'science',
+        sort: 'views',
+        host: 'myurl.com',
+      });
+      expect(url).toBe(
+        'myurl.com/news/articles?page=1&locale=en&status=draft&author_id=456&category_slug=science&sort=views'
+      );
+    });
+
+    it('should handle missing optional parameters gracefully', () => {
+      const url = getArticleSearchURL({
+        portalSlug: 'news',
+        pageNumber: 1,
+        locale: 'en',
+        host: 'myurl.com',
+      });
+      expect(url).toBe('myurl.com/news/articles?page=1&locale=en');
     });
   });
 });
