@@ -410,8 +410,12 @@ export default {
     },
     conversationListPagination() {
       const conversationsPerPage = 25;
+      const hasChatsOnView =
+        this.chatsOnView &&
+        Array.isArray(this.chatsOnView) &&
+        !this.chatsOnView.length;
       const isNoFiltersOrFoldersAndChatListNotEmpty =
-        !this.hasAppliedFiltersOrActiveFolders && this.chatsOnView !== [];
+        !this.hasAppliedFiltersOrActiveFolders && hasChatsOnView;
       const isUnderPerPage =
         this.chatsOnView.length < conversationsPerPage &&
         this.activeAssigneeTabCount < conversationsPerPage &&
@@ -516,10 +520,8 @@ export default {
       this.chatsOnView = this.conversationList;
     },
   },
-  created() {
-    this.setFiltersFromUISettings();
-  },
   mounted() {
+    this.setFiltersFromUISettings();
     this.$store.dispatch('setChatStatusFilter', this.activeStatus);
     this.$store.dispatch('setChatSortFilter', this.activeSortBy);
     this.resetAndFetchData();
@@ -550,8 +552,8 @@ export default {
       this.closeAdvanceFiltersModal();
     },
     setFiltersFromUISettings() {
-      const { status, order_by: orderBy } =
-        this.uiSettings.conversations_filter_by;
+      const { conversations_filter_by: filterBy = {} } = this.uiSettings;
+      const { status, order_by: orderBy } = filterBy;
       this.activeStatus = status || wootConstants.STATUS_TYPE.OPEN;
       this.activeSortBy = orderBy || wootConstants.SORT_BY_TYPE.LATEST;
     },
