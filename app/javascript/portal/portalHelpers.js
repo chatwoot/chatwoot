@@ -58,13 +58,13 @@ export const toggleAppearanceDropdown = () => {
 };
 
 export const switchTheme = theme => {
+  Cookies.set('selected_theme', theme, { expires: 365 });
+
   if (theme === 'system') {
-    Cookies.remove('selected_theme');
     const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
     updateThemeStyles(mediaQueryList.matches ? 'dark' : 'light');
   } else {
     updateThemeStyles(theme);
-    Cookies.set('selected_theme', theme, { expires: 365 });
   }
   updateActiveThemeInHeader(theme);
   toggleAppearanceDropdown();
@@ -169,10 +169,13 @@ export const InitializationHelpers = {
       Cookies.remove('selected_theme');
       // Handle dynamic theme changes for system theme
       mediaQueryList.addEventListener('change', event => {
+        if (Cookies.get('selected_theme') !== 'system') return;
+
         const newTheme = event.matches ? 'dark' : 'light';
         Cookies.set('system_theme', newTheme, { expires: 365 });
         updateThemeStyles(newTheme);
       });
+
       const themePreference = getThemePreference();
       Cookies.set('system_theme', themePreference, { expires: 365 });
       updateThemeStyles(themePreference);
