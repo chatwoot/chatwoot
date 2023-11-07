@@ -24,23 +24,19 @@
 
       <%# Appearance toggle section %>
       <div class="flex-grow flex-shrink-0 relative cursor-pointer px-1 py-2">
-        <button class="theme-button system-theme hidden flex-row items-center stroke-slate-700 dark:stroke-slate-200 text-slate-800 dark:text-slate-100 gap-1" type="button">
-          <%= render partial: 'icons/monitor' %>
-          <span class="text-sm font-medium"><%= I18n.t('public_portal.header.appearance.system') %></span>
-          <div class="pointer-events-none flex items-center px-1">
-            <%= render partial: 'icons/chevron-down' %>
+        <button id="toggle-appearance" class="flex justify-between min-w-[76px] flex-row items-center stroke-slate-700 dark:stroke-slate-200 text-slate-800 dark:text-slate-100 gap-1" type="button">
+          <div class="theme-button system-theme hidden flex-row items-center gap-1">
+            <%= render partial: 'icons/monitor' %>
+            <span class="text-sm font-medium"><%= I18n.t('public_portal.header.appearance.system') %></span>
           </div>
-        </button>
-        <button class="theme-button light-theme hidden flex-row items-center stroke-slate-700 dark:stroke-slate-200 text-slate-800 dark:text-slate-100 gap-1" type="button">
-          <%= render partial: 'icons/sun' %>
-          <span class="text-sm font-medium"><%= I18n.t('public_portal.header.appearance.light') %></span>
-          <div class="pointer-events-none flex items-center px-1">
-            <%= render partial: 'icons/chevron-down' %>
+          <div class="theme-button light-theme hidden flex-row items-center gap-1">
+            <%= render partial: 'icons/sun' %>
+            <span class="text-sm font-medium"><%= I18n.t('public_portal.header.appearance.light') %></span>
           </div>
-        </button>
-        <button class="theme-button dark-theme hidden flex-row items-center stroke-slate-700 dark:stroke-slate-200 text-slate-800 dark:text-slate-100 gap-1" type="button">
-          <%= render partial: 'icons/moon' %>
-          <span class="text-sm font-medium"><%= I18n.t('public_portal.header.appearance.dark') %></span>
+          <div class="theme-button dark-theme hidden flex-row items-center gap-1">
+            <%= render partial: 'icons/moon' %>
+            <span class="text-sm font-medium"><%= I18n.t('public_portal.header.appearance.dark') %></span>
+          </div>
           <div class="pointer-events-none flex items-center px-1">
             <%= render partial: 'icons/chevron-down' %>
           </div>

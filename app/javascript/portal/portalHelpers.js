@@ -71,7 +71,8 @@ export const switchTheme = theme => {
 };
 
 export const displayThemeButtons = theme => {
-  const allButtons = document.querySelectorAll('.theme-button');
+  const buttonContainer = document.getElementById('toggle-appearance');
+  const allButtons = buttonContainer.querySelectorAll('.theme-button');
   const activeButton = document.querySelector(`.theme-button.${theme}-theme`);
 
   // Hide all buttons
@@ -79,8 +80,6 @@ export const displayThemeButtons = theme => {
     button.classList.remove('flex');
     button.classList.add('hidden');
   });
-
-  // Only show the active theme button
   if (activeButton) {
     activeButton.classList.remove('hidden');
     activeButton.classList.add('flex');
@@ -160,10 +159,10 @@ export const InitializationHelpers = {
   },
 
   initializeToggleButton: () => {
-    const toggleButtons = document.querySelectorAll('.theme-button');
-    toggleButtons.forEach(button => {
-      button.addEventListener('click', toggleAppearanceDropdown);
-    });
+    const toggleButton = document.getElementById('toggle-appearance');
+    if (toggleButton) {
+      toggleButton.addEventListener('click', toggleAppearanceDropdown);
+    }
   },
 
   initializeThemeSwitchButtons: () => {
