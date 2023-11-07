@@ -205,9 +205,9 @@ pt_BR:
     header:
       go_to_homepage: Ir para o site principal
     404:
-      title: Page not found
-      description: We couldn't find the page you were looking for.
-      back_to_home: Go to home page
+      title: Página não encontrada
+      description: Não conseguimos encontrar a página que você estava procurando.
+      back_to_home: Ir para a página inicial
   slack_unfurl:
     fields:
       name: Nome
