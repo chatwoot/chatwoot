@@ -66,24 +66,50 @@ export const switchTheme = theme => {
     updateThemeStyles(theme);
     Cookies.set('selected_theme', theme, { expires: 365 });
   }
-  displayThemeButtons(theme);
+  updateActiveThemeInHeader(theme);
   toggleAppearanceDropdown();
 };
 
-export const displayThemeButtons = theme => {
+export const updateThemeSelectionInHeader = theme => {
+  // This function is to update the theme selection in the header in real time
   const buttonContainer = document.getElementById('toggle-appearance');
-  const allButtons = buttonContainer.querySelectorAll('.theme-button');
-  const activeButton = document.querySelector(`.theme-button.${theme}-theme`);
+  const allElementInButton = buttonContainer.querySelectorAll('.theme-button');
+  const activeThemeElement = document.querySelector(
+    `.theme-button.${theme}-theme`
+  );
 
-  // Hide all buttons
-  allButtons.forEach(button => {
+  allElementInButton.forEach(button => {
     button.classList.remove('flex');
     button.classList.add('hidden');
   });
-  if (activeButton) {
-    activeButton.classList.remove('hidden');
-    activeButton.classList.add('flex');
+
+  if (activeThemeElement) {
+    activeThemeElement.classList.remove('hidden');
+    activeThemeElement.classList.add('flex');
   }
+};
+
+export const setActiveThemeIconInDropdown = theme => {
+  // This function is to set the check mark icon for the active theme in the dropdown in real time
+  const dropdownContainer = document.getElementById('appearance-dropdown');
+  const allCheckMarkIcons =
+    dropdownContainer.querySelectorAll('.check-mark-icon');
+  const activeIcon = document.querySelector(`.check-mark-icon.${theme}-theme`);
+
+  allCheckMarkIcons.forEach(icon => {
+    icon.classList.remove('flex');
+    icon.classList.add('hidden');
+  });
+
+  if (activeIcon) {
+    activeIcon.classList.remove('hidden');
+    activeIcon.classList.add('flex');
+  }
+};
+
+export const updateActiveThemeInHeader = theme => {
+  updateThemeSelectionInHeader(theme);
+  setActiveThemeIconInDropdown(theme);
 };
 
 export const InitializationHelpers = {
@@ -150,11 +176,11 @@ export const InitializationHelpers = {
       const themePreference = getThemePreference();
       Cookies.set('system_theme', themePreference, { expires: 365 });
       updateThemeStyles(themePreference);
-      displayThemeButtons('system');
+      updateActiveThemeInHeader('system');
     } else {
       Cookies.set('selected_theme', themeFromServer, { expires: 365 });
       updateThemeStyles(themeFromServer);
-      displayThemeButtons(themeFromServer);
+      updateActiveThemeInHeader(themeFromServer);
     }
   },
 

@@ -48,27 +48,27 @@
               <%= render partial: 'icons/monitor' %>
               <span class="text-xs font-medium"><%= I18n.t('public_portal.header.appearance.system') %></span>
             </div>
-            <% if @theme.present? && @theme == 'system' %>
+            <span class="check-mark-icon system-theme hidden">
               <%= render partial: 'icons/check-mark' %>
-            <% end %>
+            </span>
           </button>
           <button id="toggle-theme-button" data-theme="light" class="flex flex-row items-center justify-between px-2 py-2 border-b border-solid border-slate-100 dark:border-slate-800 gap-1 stroke-slate-700 dark:stroke-slate-200 text-slate-800 dark:text-slate-100">
             <div class="flex flex-row items-center gap-1">
               <%= render partial: 'icons/sun' %>
               <span class="text-xs font-medium"><%= I18n.t('public_portal.header.appearance.light') %></span>
             </div>
-            <% if @theme.present? && @theme == 'light' %>
+            <span class="check-mark-icon light-theme hidden">
               <%= render partial: 'icons/check-mark' %>
-            <% end %>
+            </span>
           </button>
           <button id="toggle-theme-button" data-theme="dark" class="flex flex-row items-center justify-between px-2 py-2 gap-1 stroke-slate-700 dark:stroke-slate-200 text-slate-800 dark:text-slate-100">
             <div class="flex flex-row items-center gap-1">
               <%= render partial: 'icons/moon' %>
               <span class="text-xs font-medium"><%= I18n.t('public_portal.header.appearance.dark') %></span>
             </div>
-            <% if @theme.present? && @theme == 'dark' %>
+            <span class="check-mark-icon dark-theme hidden">
               <%= render partial: 'icons/check-mark' %>
-            <% end %>
+            </span>
           </button>
         </div>
       </div>
