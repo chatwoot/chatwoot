@@ -18,7 +18,7 @@ export const setPortalHoverColor = theme => {
 };
 
 export const setPortalClass = theme => {
-  const portalDiv = document.querySelector('#portal');
+  const portalDiv = document.getElementById('portal');
   if (!portalDiv) return;
   portalDiv.classList.remove('light', 'dark', 'system');
   portalDiv.classList.add(theme);
@@ -32,10 +32,14 @@ export const updateThemeStyles = theme => {
 export const toggleAppearanceDropdown = () => {
   const dropdown = document.getElementById('appearance-dropdown');
   if (!dropdown) return;
-  dropdown.style.display =
-    dropdown.style.display === 'none' || !dropdown.style.display
-      ? 'flex'
-      : 'none';
+  const isCurrentlyHidden = dropdown.style.display === 'none';
+  // Toggle the dropdown
+  dropdown.style.display = isCurrentlyHidden ? 'flex' : 'none';
+};
+
+export const updateActiveThemeInHeader = theme => {
+  updateThemeSelectionInHeader(theme);
+  setActiveThemeIconInDropdown(theme);
 };
 
 export const switchTheme = theme => {
@@ -88,11 +92,6 @@ export const setActiveThemeIconInDropdown = theme => {
     activeIcon.classList.remove('hidden');
     activeIcon.classList.add('flex');
   }
-};
-
-export const updateActiveThemeInHeader = theme => {
-  updateThemeSelectionInHeader(theme);
-  setActiveThemeIconInDropdown(theme);
 };
 
 export const updateTheme = (theme, cookie) => {
