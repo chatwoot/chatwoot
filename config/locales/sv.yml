@@ -205,9 +205,9 @@ sv:
     header:
       go_to_homepage: Gå till hemsidan
     404:
-      title: Page not found
-      description: We couldn't find the page you were looking for.
-      back_to_home: Go to home page
+      title: Sidan kunde inte hittas
+      description: Vi kunde inte hitta sidan du letade efter.
+      back_to_home: Gå till startsidan
   slack_unfurl:
     fields:
       name: Namn
