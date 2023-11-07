@@ -30,7 +30,7 @@
         @keydown.enter="onSubmit"
       />
       <button
-        class="button small"
+        class="flex items-center justify-center button small"
         :disabled="isButtonDisabled"
         :style="{
           background: widgetColor,

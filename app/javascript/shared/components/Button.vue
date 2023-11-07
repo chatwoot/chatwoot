@@ -1,5 +1,6 @@
 <template>
   <button
+    class="flex items-center justify-center"
     :class="buttonClassName"
     :style="buttonStyles"
     :disabled="disabled"

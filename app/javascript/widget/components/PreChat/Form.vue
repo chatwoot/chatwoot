@@ -46,13 +46,13 @@
     />
 
     <custom-button
-      class="font-medium mt-2 mb-5"
+      class="font-medium mt-2 mb-5 gap-1"
       block
       :bg-color="widgetColor"
       :text-color="textColor"
       :disabled="isCreating"
     >
-      <spinner v-if="isCreating" class="p-0" />
+      <spinner v-if="isCreating" size="small" />
       {{ $t('START_CONVERSATION') }}
     </custom-button>
   </FormulateForm>
