@@ -37,24 +37,6 @@ export const toggleAppearanceDropdown = () => {
   dropdown.style.display = isCurrentlyHidden ? 'flex' : 'none';
 };
 
-export const updateActiveThemeInHeader = theme => {
-  updateThemeSelectionInHeader(theme);
-  setActiveThemeIconInDropdown(theme);
-};
-
-export const switchTheme = theme => {
-  Cookies.set(SELECTED_COOKIE, theme, { expires: 365 });
-
-  if (theme === 'system') {
-    const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
-    updateThemeStyles(mediaQueryList.matches ? 'dark' : 'light');
-  } else {
-    updateThemeStyles(theme);
-  }
-  updateActiveThemeInHeader(theme);
-  toggleAppearanceDropdown();
-};
-
 export const updateThemeSelectionInHeader = theme => {
   // This function is to update the theme selection in the header in real time
   const buttonContainer = document.getElementById('toggle-appearance');
@@ -92,6 +74,24 @@ export const setActiveThemeIconInDropdown = theme => {
     activeIcon.classList.remove('hidden');
     activeIcon.classList.add('flex');
   }
+};
+
+export const updateActiveThemeInHeader = theme => {
+  updateThemeSelectionInHeader(theme);
+  setActiveThemeIconInDropdown(theme);
+};
+
+export const switchTheme = theme => {
+  Cookies.set(SELECTED_COOKIE, theme, { expires: 365 });
+
+  if (theme === 'system') {
+    const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
+    updateThemeStyles(mediaQueryList.matches ? 'dark' : 'light');
+  } else {
+    updateThemeStyles(theme);
+  }
+  updateActiveThemeInHeader(theme);
+  toggleAppearanceDropdown();
 };
 
 export const updateTheme = (theme, cookie) => {
