@@ -6,6 +6,7 @@ import {
   setPortalStyles,
   setPortalClass,
   updateThemeStyles,
+  openExternalLinksInNewTab,
 } from '../portalHelpers';
 
 describe('#navigateToLocalePage', () => {
@@ -221,6 +222,98 @@ describe('Theme Functions', () => {
       expect(mediaQueryList.addEventListener).not.toBeCalled();
       expect(mockPortalDiv.classList.contains('dark')).toBe(false);
       expect(mockPortalDiv.classList.contains('light')).toBe(false);
+    });
+  });
+
+  describe('openExternalLinksInNewTab', () => {
+    beforeAll(() => {
+      delete window.location;
+      delete global.window.location;
+
+      global.window.portalConfig = {
+        customDomain: 'chatwoot.help',
+        hostURL: 'https://chatwoot.help',
+      };
+    });
+
+    beforeEach(() => {
+      // Mock the page not being an article page
+      global.window.location = new URL('https://chatwoot.help');
+    });
+
+    // Helper function to create a sample link element
+    function createLinkElement(href, id) {
+      const link = document.createElement('a');
+      link.href = href;
+      link.id = id;
+      document.body.appendChild(link);
+      return link;
+    }
+
+    it('should not modify links when not on an article page', () => {
+      global.window.location.pathname = '/hc/handbook/en/categories/company';
+
+      // Create a sample link element
+      createLinkElement('https://example.com/external-link', 'test-link-1');
+
+      // Run the function
+      openExternalLinksInNewTab();
+
+      const link = document.querySelector('#test-link-1');
+
+      // Expect that the link's target attribute is not changed
+      expect(link.target).toBe('');
+    });
+
+    it('should modify external links when on an article page', () => {
+      // Mock the page being an article page
+      global.window.location.pathname = '/hc/handbook/articles/investors-27';
+
+      createLinkElement('https://external-website.com', 'externalLink');
+      openExternalLinksInNewTab();
+      const externalLink = document.querySelector('#externalLink');
+
+      // Expect that the external link's target attribute is set to '_blank'
+      expect(externalLink.target).toBe('_blank');
+    });
+
+    it('should not modify relative links when on an article page', () => {
+      // Mock the page being an article page
+      global.window.location.pathname = '/hc/handbook/articles/investors-42';
+
+      createLinkElement(
+        'https://chatwoot.help/hc/handbook/articles/history-of-chatwoot-22',
+        'internalLink'
+      );
+      openExternalLinksInNewTab();
+      const internalLink = document.querySelector('#internalLink');
+
+      // Expect that the external link's target attribute is set to '_blank'
+      expect(internalLink.target).toBe('');
+    });
+
+    it('should correctly handle links with complex URLs', () => {
+      // Mock the page being an article page
+      global.window.location.pathname = '/hc/handbook/articles/investors-27';
+
+      // Create a sample external link element with complex URL
+      const complexExternalLink = createLinkElement(
+        'https://sub.example.com/path?query=param'
+      );
+
+      // Create a sample internal link element with complex URL
+      const complexInternalLink = createLinkElement(
+        'https://chatwoot.help/hc/handbook/articles/history-of-chatwoot-39?theme=dark'
+      );
+
+      // Run the function
+      openExternalLinksInNewTab();
+
+      // Expect that the complex external link's target attribute is set to '_blank'
+      expect(complexExternalLink.target).toBe('_blank');
+
+      // Expect that the complex internal link's target attribute is not changed
+      expect(complexInternalLink.target).toBe('');
     });
   });
 });

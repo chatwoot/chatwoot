@@ -68,6 +68,31 @@ export const updateThemeStyles = theme => {
   setPortalClass(theme);
 };
 
+export const openExternalLinksInNewTab = () => {
+  const { customDomain, hostURL } = window.portalConfig;
+  const isSameHost =
+    window.location.href.includes(customDomain) ||
+    window.location.href.includes(hostURL);
+
+  // Modify external links only on articles page
+  const isOnArticlePage =
+    isSameHost && window.location.pathname.includes('/articles/');
+
+  if (!isOnArticlePage) return;
+  document.querySelectorAll('a').forEach(link => {
+    const { href } = link;
+    const { hostname } = new URL(href);
+    const isExternalLink =
+      hostname !== window.location.hostname &&
+      !href.includes('/articles/') &&
+      !href.includes('/hc/');
+
+    if (isExternalLink) {
+      link.target = '_blank';
+    }
+  });
+};
+
 export const InitializationHelpers = {
   navigateToLocalePage: () => {
     const allLocaleSwitcher = document.querySelector('.locale-switcher');
@@ -115,32 +140,6 @@ export const InitializationHelpers = {
     });
   },
 
-  openExternalLinksInNewTab: () => {
-    document.querySelectorAll('a').forEach(link => {
-      const { hostname } = new URL(link.href);
-      const { customDomain, hostURL } = window.portalConfig;
-
-      const href = link.getAttribute('href');
-      const isExternalLink =
-        hostname !== window.location.hostname ||
-        href.startsWith('http') ||
-        href.startsWith('https') ||
-        href.startsWith('//');
-
-      const isSameHost =
-        window.location.href.includes(customDomain) ||
-        window.location.href.includes(hostURL);
-
-      // Modify external links only on articles page
-      const isOnArticlePage =
-        isSameHost && window.location.pathname.includes('/articles/');
-
-      if (isExternalLink && isOnArticlePage) {
-        link.target = '_blank';
-      }
-    });
-  },
-
   initializeTheme: () => {
     const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
     const getThemePreference = () =>
@@ -158,7 +157,7 @@ export const InitializationHelpers = {
   },
 
   initialize: () => {
-    InitializationHelpers.openExternalLinksInNewTab();
+    openExternalLinksInNewTab();
     if (window.portalConfig.isPlainLayoutEnabled === 'true') {
       InitializationHelpers.appendPlainParamToURLs();
     } else {
