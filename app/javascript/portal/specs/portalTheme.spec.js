@@ -207,18 +207,6 @@ describe('Theme Functions', () => {
     });
   });
 
-  // export const updateTheme = (theme, cookie) => {
-  //   Cookies.set(cookie, theme, { expires: 365 });
-  //   updateThemeStyles(theme);
-  // };
-
-  // export const updateThemeBasedOnSystem = (event, cookie) => {
-  //   if (Cookies.get(SELECTED_COOKIE) !== 'system') return;
-
-  //   const newTheme = event.matches ? 'dark' : 'light';
-  //   updateTheme(newTheme, cookie);
-  // };
-
   describe('#updateTheme', () => {
     it('updates system_theme cookie and styles', () => {
       const mockCookie = 'system_theme';
