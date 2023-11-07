@@ -6,6 +6,9 @@ import PublicArticleSearch from './components/PublicArticleSearch.vue';
 import TableOfContents from './components/TableOfContents.vue';
 import { adjustColorForContrast } from '../shared/helpers/colorHelper.js';
 
+const SYSTEM_COOKIE = 'system_theme';
+const SELECTED_COOKIE = 'selected_theme';
+
 export const getHeadingsfromTheArticle = () => {
   const rows = [];
   const articleElement = document.getElementById('cw-article-content');
@@ -58,7 +61,7 @@ export const toggleAppearanceDropdown = () => {
 };
 
 export const switchTheme = theme => {
-  Cookies.set('selected_theme', theme, { expires: 365 });
+  Cookies.set(SELECTED_COOKIE, theme, { expires: 365 });
 
   if (theme === 'system') {
     const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
@@ -168,19 +171,19 @@ export const InitializationHelpers = {
     if (themeFromServer === 'system') {
       // Handle dynamic theme changes for system theme
       mediaQueryList.addEventListener('change', event => {
-        if (Cookies.get('selected_theme') !== 'system') return;
+        if (Cookies.get(SELECTED_COOKIE) !== 'system') return;
 
         const newTheme = event.matches ? 'dark' : 'light';
-        Cookies.set('system_theme', newTheme, { expires: 365 });
+        Cookies.set(SYSTEM_COOKIE, newTheme, { expires: 365 });
         updateThemeStyles(newTheme);
       });
 
       const themePreference = getThemePreference();
-      Cookies.set('system_theme', themePreference, { expires: 365 });
+      Cookies.set(SYSTEM_COOKIE, themePreference, { expires: 365 });
       updateThemeStyles(themePreference);
       updateActiveThemeInHeader('system');
     } else {
-      Cookies.set('selected_theme', themeFromServer, { expires: 365 });
+      Cookies.set(SELECTED_COOKIE, themeFromServer, { expires: 365 });
       updateThemeStyles(themeFromServer);
       updateActiveThemeInHeader(themeFromServer);
     }
