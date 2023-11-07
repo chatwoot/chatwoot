@@ -1,10 +1,13 @@
 import slugifyWithCounter from '@sindresorhus/slugify';
 import Vue from 'vue';
-import Cookies from 'js-cookie';
 
 import PublicArticleSearch from './components/PublicArticleSearch.vue';
 import TableOfContents from './components/TableOfContents.vue';
-import { adjustColorForContrast } from '../shared/helpers/colorHelper.js';
+import {
+  initializeTheme,
+  initializeToggleButton,
+  initializeThemeSwitchButtons,
+} from './portalThemeHelper.js';
 
 export const getHeadingsfromTheArticle = () => {
   const rows = [];
@@ -21,53 +24,6 @@ export const getHeadingsfromTheArticle = () => {
     });
   });
   return rows;
-};
-
-export const setPortalHoverColor = theme => {
-  if (window.portalConfig.isPlainLayoutEnabled === 'true') return;
-  const portalColor = window.portalConfig.portalColor;
-  const bgColor = theme === 'dark' ? '#151718' : 'white';
-  const hoverColor = adjustColorForContrast(portalColor, bgColor);
-
-  // Set hover color for border and text dynamically
-  document.documentElement.style.setProperty(
-    '--dynamic-hover-color',
-    hoverColor
-  );
-};
-
-export const setPortalClass = theme => {
-  const portalDiv = document.querySelector('#portal');
-  portalDiv.classList.remove('light', 'dark', 'system');
-  if (!portalDiv) return;
-  portalDiv.classList.add(theme);
-};
-
-export const updateThemeStyles = theme => {
-  setPortalClass(theme);
-  setPortalHoverColor(theme);
-};
-
-export const toggleAppearanceDropdown = () => {
-  const dropdown = document.getElementById('appearance-dropdown');
-  if (!dropdown) return;
-  dropdown.style.display =
-    dropdown.style.display === 'none' || !dropdown.style.display
-      ? 'flex'
-      : 'none';
-};
-
-export const switchTheme = theme => {
-  if (theme === 'system') {
-    Cookies.remove('selected_theme');
-    const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
-    updateThemeStyles(mediaQueryList.matches ? 'dark' : 'light');
-  } else {
-    updateThemeStyles(theme);
-    Cookies.set('selected_theme', theme, { expires: 365 });
-  }
-  window.location.reload(); // Reload is required to apply the active theme from the server
-  toggleAppearanceDropdown();
 };
 
 export const InitializationHelpers = {
@@ -117,56 +73,17 @@ export const InitializationHelpers = {
     });
   },
 
-  initializeTheme: () => {
-    const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
-    const getThemePreference = () =>
-      mediaQueryList.matches ? 'dark' : 'light';
-    const { theme: themeFromServer } = window.portalConfig || {};
-
-    if (themeFromServer === 'system') {
-      Cookies.remove('selected_theme');
-      // Handle dynamic theme changes for system theme
-      mediaQueryList.addEventListener('change', event => {
-        const newTheme = event.matches ? 'dark' : 'light';
-        Cookies.set('system_theme', newTheme, { expires: 365 });
-        updateThemeStyles(newTheme);
-      });
-      const themePreference = getThemePreference();
-      Cookies.set('system_theme', themePreference, { expires: 365 });
-      updateThemeStyles(themePreference);
-    } else {
-      Cookies.set('selected_theme', themeFromServer, { expires: 365 });
-      updateThemeStyles(themeFromServer);
-    }
-  },
-
-  initializeToggleButton: () => {
-    const toggleButton = document.getElementById('toggle-appearance');
-    if (toggleButton) {
-      toggleButton.addEventListener('click', toggleAppearanceDropdown);
-    }
-  },
-
-  initializeThemeSwitchButtons: () => {
-    const appearanceDropdown = document.getElementById('appearance-dropdown');
-    if (!appearanceDropdown) return;
-    appearanceDropdown.addEventListener('click', event => {
-      const target = event.target.closest('button[data-theme]');
-
-      if (target) {
-        const theme = target.getAttribute('data-theme');
-        switchTheme(theme);
-      }
-    });
+  initializeThemesInPortal: () => {
+    initializeTheme();
+    initializeToggleButton();
+    initializeThemeSwitchButtons();
   },
 
   initialize: () => {
     if (window.portalConfig.isPlainLayoutEnabled === 'true') {
       InitializationHelpers.appendPlainParamToURLs();
     } else {
-      InitializationHelpers.initializeTheme();
-      InitializationHelpers.initializeToggleButton();
-      InitializationHelpers.initializeThemeSwitchButtons();
+      InitializationHelpers.initializeThemesInPortal();
       InitializationHelpers.navigateToLocalePage();
       InitializationHelpers.initializeSearch();
       InitializationHelpers.initializeTableOfContents();
