@@ -1,17 +1,18 @@
 <template>
-  <div
-    class="flex flex-col gap-1 bg-white dark:bg-slate-900 hover:bg-slate-25 hover:dark:bg-slate-800 rounded-md py-1 px-2 w-full group"
+  <button
+    class="flex flex-col gap-1 bg-white dark:bg-slate-900 hover:bg-slate-25 hover:dark:bg-slate-800 rounded-md py-1 px-2 w-full group border border-transparent border-solid focus:outline-none focus:bg-slate-25 focus:border-slate-500 dark:focus:border-slate-400 dark:focus:bg-slate-800 cursor-pointer"
+    @click="handlePreview"
   >
-    <button @click="handlePreview">
-      <h4
-        class="text-block-title text-left mb-0 text-slate-900 dark:text-slate-25 px-1 -mx-1 rounded-sm hover:underline cursor-pointer width-auto"
-      >
-        {{ title }}
-      </h4>
-    </button>
+    <h4
+      class="text-block-title text-left mb-0 text-slate-900 dark:text-slate-25 px-1 -mx-1 rounded-sm width-auto hover:underline group-hover:underline"
+    >
+      {{ title }}
+    </h4>
 
     <div class="flex content-between items-center gap-0.5 w-full">
-      <p class="text-sm text-slate-600 dark:text-slate-300 mb-0 w-full">
+      <p
+        class="text-sm text-left text-slate-600 dark:text-slate-300 mb-0 w-full"
+      >
         {{ locale }}
         {{ ` / ` }}
         {{ category || $t('HELP_CENTER.ARTICLE_SEARCH_RESULT.UNCATEGORIZED') }}
@@ -26,26 +27,6 @@
           class="invisible group-hover:visible"
           @click="handleCopy"
         />
-
-        <a
-          :href="url"
-          class="button hollow button--only-icon tiny secondary invisible group-hover:visible"
-          rel="noopener noreferrer nofollow"
-          target="_blank"
-          :title="$t('HELP_CENTER.ARTICLE_SEARCH_RESULT.OPEN_LINK')"
-        >
-          <fluent-icon size="12" icon="arrow-up-right" />
-          <span class="show-for-sr">{{ url }}</span>
-        </a>
-        <woot-button
-          variant="hollow"
-          color-scheme="secondary"
-          size="tiny"
-          icon="preview-link"
-          class="invisible group-hover:visible"
-          :title="$t('HELP_CENTER.ARTICLE_SEARCH_RESULT.PREVIEW_LINK')"
-          @click="handlePreview"
-        />
         <woot-button
           class="insert-button"
           variant="smooth"
@@ -57,14 +38,16 @@
         </woot-button>
       </div>
     </div>
-  </div>
+  </button>
 </template>
 
 <script>
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   name: 'ArticleSearchResultItem',
+  mixins: [alertMixin],
   props: {
     id: {
       type: Number,
@@ -92,13 +75,16 @@ export default {
     },
   },
   methods: {
-    handleInsert() {
+    handleInsert(e) {
+      e.stopPropagation();
       this.$emit('insert', this.id);
     },
-    handlePreview() {
+    handlePreview(e) {
+      e.stopPropagation();
       this.$emit('preview', this.id);
     },
-    async handleCopy() {
+    async handleCopy(e) {
+      e.stopPropagation();
       await copyTextToClipboard(this.url);
       this.showAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
     },

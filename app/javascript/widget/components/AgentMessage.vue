@@ -22,6 +22,7 @@
           <drag-wrapper
             class="space-y-2"
             direction="right"
+            :disabled="!allowReplyTo"
             @dragged="toggleReply"
           >
             <AgentMessageBubble
@@ -57,6 +58,7 @@
           </drag-wrapper>
           <div class="flex flex-col justify-end">
             <message-reply-button
+              v-if="allowReplyTo"
               class="transition-opacity delay-75 opacity-0 group-hover:opacity-100 sm:opacity-0"
               @click="toggleReply"
             />
@@ -125,6 +127,7 @@ export default {
   data() {
     return {
       hasImageError: false,
+      allowReplyTo: window.chatwootWebChannel.allowReplyTo || false,
     };
   },
   computed: {
@@ -214,6 +217,7 @@ export default {
       };
     },
     hasReplyTo() {
+      if (!this.allowReplyTo) return false;
       return this.replyTo && (this.replyTo.content || this.replyTo.attachments);
     },
   },
