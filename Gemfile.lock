@@ -126,9 +126,9 @@ GEM
       rake (>= 10.4, < 14.0)
     ast (2.4.2)
     attr_extras (7.1.0)
-    audited (5.4.0)
-      activerecord (>= 5.0, < 7.2)
-      request_store (~> 1.2)
+    audited (5.4.1)
+      activerecord (>= 5.0, < 7.7)
+      activesupport (>= 5.0, < 7.7)
     aws-eventstream (1.2.0)
     aws-partitions (1.760.0)
     aws-sdk-core (3.171.1)
@@ -840,7 +840,7 @@ DEPENDENCIES
   administrate-field-belongs_to_search
   annotate
   attr_extras
-  audited (~> 5.4, >= 5.4.0)
+  audited (~> 5.4, >= 5.4.1)
   aws-sdk-s3
   azure-storage-blob!
   barnes
