@@ -9,7 +9,7 @@
     "SUBMIT_BUTTON_LABEL": "Taikyti filtrus",
     "UPDATE_BUTTON_LABEL": "Atnaujinti aplanką",
     "CANCEL_BUTTON_LABEL": "Atšaukti",
-    "CLEAR_BUTTON_LABEL": "Clear filters",
+    "CLEAR_BUTTON_LABEL": "Išvalyti filtrus",
     "FOLDER_LABEL": "Aplanko Pavadinimas",
     "FOLDER_QUERY_LABEL": "Aplanko užklausa",
     "EMPTY_VALUE_ERROR": "Reikalinga vertė.",
@@ -36,15 +36,15 @@
     },
     "ATTRIBUTES": {
       "STATUS": "Būsena",
-      "ASSIGNEE_NAME": "Assignee name",
+      "ASSIGNEE_NAME": "Priskirtojo vardas",
       "INBOX_NAME": "Gautų laiškų aplanko pavadinimas",
       "TEAM_NAME": "Komandos pavadinimas",
-      "CONVERSATION_IDENTIFIER": "Conversation identifier",
-      "CAMPAIGN_NAME": "Campaign name",
+      "CONVERSATION_IDENTIFIER": "Pokalbio identifikatorius",
+      "CAMPAIGN_NAME": "Akcijos Pavadinimas",
       "LABELS": "Etiketės",
-      "BROWSER_LANGUAGE": "Browser language",
+      "BROWSER_LANGUAGE": "Naršyklės Kalba",
       "PRIORITY": "Prioritetas",
-      "COUNTRY_NAME": "Country name",
+      "COUNTRY_NAME": "Šalies Pavadinimas",
       "REFERER_LINK": "Siuntimo nuoroda",
       "CUSTOM_ATTRIBUTE_LIST": "Sąrašas",
       "CUSTOM_ATTRIBUTE_TEXT": "Tekstas",
@@ -55,9 +55,9 @@
       "LAST_ACTIVITY": "Paskutiniai veiksmai"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standard filters",
-      "ADDITIONAL_FILTERS": "Additional filters",
-      "CUSTOM_ATTRIBUTES": "Custom attributes"
+      "STANDARD_FILTERS": "Standartinis Filtras",
+      "ADDITIONAL_FILTERS": "Papildomas Filtras",
+      "CUSTOM_ATTRIBUTES": "Personalizuoti Požymiai"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
