@@ -76,8 +76,8 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Bez kategorijas",
-      "SEARCH_RESULTS": "Search results for %{query}",
-      "EMPTY_TEXT": "Search for articles to insert into replies.",
+      "SEARCH_RESULTS": "Meklēšanas rezultāti vaicājumam %{query}",
+      "EMPTY_TEXT": "Meklēt rakstus, ko ievietot atbildēs.",
       "SEARCH_LOADER": "Meklēšana...",
       "INSERT_ARTICLE": "Ievietot",
       "NO_RESULT": "Raksti nav atrasti",
@@ -430,19 +430,19 @@
       }
     },
     "ARTICLE_SEARCH": {
-      "TITLE": "Search articles",
-      "PLACEHOLDER": "Search articles",
+      "TITLE": "Meklēt rakstus",
+      "PLACEHOLDER": "Meklēt rakstus",
       "NO_RESULT": "Raksti nav atrasti",
       "SEARCHING": "Meklēšana...",
       "SEARCH_BUTTON": "Meklēt",
-      "INSERT_ARTICLE": "Insert link",
-      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
-      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
-      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
+      "INSERT_ARTICLE": "Ievietot saiti",
+      "IFRAME_ERROR": "URL ir tukšs vai nederīgs. Nevar parādīt saturu.",
+      "OPEN_ARTICLE_SEARCH": "Ievietot rakstu no Palīdzības Centra",
+      "SUCCESS_ARTICLE_INSERTED": "Raksts ir veiksmīgi ievietots",
       "PREVIEW_LINK": "Raksta priekšskatījums",
       "CANCEL": "Aizvērt",
       "BACK": "Atpakaļ",
-      "BACK_RESULTS": "Back to results"
+      "BACK_RESULTS": "Atpakaļ uz rezultātiem"
     },
     "UPGRADE_PAGE": {
       "TITLE": "Palīdzības centrs",
