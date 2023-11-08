@@ -82,10 +82,9 @@ export const openExternalLinksInNewTab = () => {
   document.querySelectorAll('a').forEach(link => {
     const { href } = link;
     const { hostname } = new URL(href);
+    const isPortalUrl = href.includes('/articles/') && href.includes('/hc/');
     const isExternalLink =
-      hostname !== window.location.hostname &&
-      !href.includes('/articles/') &&
-      !href.includes('/hc/');
+      hostname !== window.location.hostname && !isPortalUrl;
 
     if (isExternalLink) {
       link.target = '_blank';
