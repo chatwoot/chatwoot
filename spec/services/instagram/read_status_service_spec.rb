@@ -18,10 +18,10 @@ describe Instagram::ReadStatusService do
       let(:message) { conversation.messages.last }
 
       before do
-        allow(Conversations::MarkMessagesAsReadJob).to receive(:perform_later)
+        allow(Conversations::UpdateMessageStatusJob).to receive(:perform_later)
       end
 
-      it 'enqueues the MarkMessagesAsReadJob with correct parameters if the message is found' do
+      it 'enqueues the UpdateMessageStatusJob with correct parameters if the message is found' do
         params = {
           recipient: {
             id: 'chatwoot-app-user-id-1'
@@ -31,10 +31,10 @@ describe Instagram::ReadStatusService do
           }
         }
         described_class.new(params: params).perform
-        expect(Conversations::MarkMessagesAsReadJob).to have_received(:perform_later).with(conversation.id, message.created_at)
+        expect(Conversations::UpdateMessageStatusJob).to have_received(:perform_later).with(conversation.id, message.created_at)
       end
 
-      it 'does not enqueue the MarkMessagesAsReadJob if the message is not found' do
+      it 'does not enqueue the UpdateMessageStatusJob if the message is not found' do
         params = {
           recipient: {
             id: 'chatwoot-app-user-id-1'
@@ -44,7 +44,7 @@ describe Instagram::ReadStatusService do
           }
         }
         described_class.new(params: params).perform
-        expect(Conversations::MarkMessagesAsReadJob).not_to have_received(:perform_later)
+        expect(Conversations::UpdateMessageStatusJob).not_to have_received(:perform_later)
       end
     end
   end
