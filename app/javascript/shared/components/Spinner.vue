@@ -35,22 +35,22 @@ export default {
   computed: {
     colorSchemeClasses() {
       if (this.colorScheme === 'primary') {
-        return 'text-woot-200 dark:text-woot-700 fill-woot-600 dark:fill-woot-300';
+        return 'text-woot-500/50 dark:text-woot-800/60 fill-woot-600/80 dark:fill-woot-700/80';
       }
 
       if (this.colorScheme === 'warning') {
-        return 'text-yellow-300 dark:text-yellow-700 fill-yellow-600 dark:fill-yellow-300';
+        return 'text-yellow-600/50 dark:text-yellow-800/60 fill-yellow-600/80 dark:fill-yellow-600/80';
       }
 
       if (this.colorScheme === 'success') {
-        return 'text-green-200 dark:text-green-700 fill-green-600 dark:fill-green-300';
+        return 'text-green-500/50 dark:text-green-800/40 fill-green-600/90 dark:fill-green-700/90';
       }
 
       if (this.colorScheme === 'alert') {
-        return 'text-red-200 dark:text-red-700 fill-red-600 dark:fill-red-300';
+        return 'text-red-500/50 dark:text-red-800/60 fill-red-600/80 dark:fill-red-600/80';
       }
 
-      return 'text-slate-200 dark:text-slate-700 fill-slate-600 dark:fill-slate-300';
+      return 'text-slate-500/50 dark:text-slate-600/80 fill-slate-900/60 dark:fill-slate-300/60';
     },
     sizeClasses() {
       if (this.size === 'tiny') {
