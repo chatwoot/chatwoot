@@ -13,7 +13,7 @@
     <span class="w-4 h-4 [&>svg]:w-3 [&>svg]:h-3 flex items-center justify-center text-xs text-slate-500 dark:text-slate-300"><%= render partial: 'icons/chevron-right' %></span>
     <span class="text-sm text-slate-800 dark:text-slate-100 font-semibold overflow-hidden text-ellipsis min-w-0 whitespace-nowrap"><%= @article.title %></span>
   <% else %>
-    <span class="text-slate-700 dark:text-slate-100 leading-8 text-sm font-semibold" > Uncategorized </span>
+    <span class="text-slate-700 dark:text-slate-100 leading-8 text-sm font-semibold" ><%= I18n.t('public_portal.header.uncategorized') %></span>
   <% end %>
 </div>
 <h1 class="text-3xl font-semibold leading-normal md:tracking-normal md:text-4xl text-slate-900 dark:text-white">
