@@ -1,7 +1,7 @@
 class Conversations::UpdateMessageStatusJob < ApplicationJob
   queue_as :low
 
-  # The Job support two statuses: read and delivered
+  # This job only support marking messages as read or delivered, update this array if we want to support more statuses
   VALID_STATUSES = %w[read delivered].freeze
 
   def perform(conversation_id, timestamp, status = :read)

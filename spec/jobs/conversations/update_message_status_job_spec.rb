@@ -70,5 +70,11 @@ RSpec.describe Conversations::UpdateMessageStatusJob do
         described_class.perform_now(1212, conversation.contact_last_seen_at)
       end.not_to change(message.reload, :status)
     end
+
+    it 'does not run the job if the status is failed' do
+      expect do
+        described_class.perform_now(conversation.id, conversation.contact_last_seen_at, :failed)
+      end.not_to change(message.reload, :status)
+    end
   end
 end
