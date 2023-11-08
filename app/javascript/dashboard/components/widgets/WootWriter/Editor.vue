@@ -446,7 +446,7 @@ export default {
             this.onFocus();
           },
           click: () => {
-            // this.isEditorMouseFocusedOnAnImage(); Enable it when the backend supports for message resize is done.
+            this.isEditorMouseFocusedOnAnImage();
           },
           blur: () => {
             this.onBlur();
@@ -674,7 +674,7 @@ export default {
         () => this.resetTyping(),
         TYPING_INDICATOR_IDLE_TIME
       );
-      // this.updateImgToolbarOnDelete(); Enable it when the backend supports for message resize is done.
+      this.updateImgToolbarOnDelete();
     },
     onKeydown(event) {
       if (this.isEnterToSendEnabled()) {
