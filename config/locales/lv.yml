@@ -205,9 +205,9 @@ lv:
     header:
       go_to_homepage: Doties uz galveno vietni
     404:
-      title: Page not found
-      description: We couldn't find the page you were looking for.
-      back_to_home: Go to home page
+      title: Lapa nav atrasta
+      description: Mēs nevarējām atrast lapu, kuru meklējāt.
+      back_to_home: Doties uz sākumlapu
   slack_unfurl:
     fields:
       name: Nosaukums
