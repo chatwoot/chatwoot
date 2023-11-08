@@ -368,7 +368,7 @@
         "NAME": {
           "LABEL": "Vardas",
           "PLACEHOLDER": "Kategorijos pavadinimas",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "HELP_TEXT": "Kategorijos pavadinimas ir piktograma bus naudojamas viešajame portale straipsniams skirstyti į kategorijas.",
           "ERROR": "Yra reikalingas vardas"
         },
         "SLUG": {
@@ -399,7 +399,7 @@
         "NAME": {
           "LABEL": "Vardas",
           "PLACEHOLDER": "Kategorijos pavadinimas",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "HELP_TEXT": "Kategorijos pavadinimas ir piktograma bus naudojamas viešajame portale straipsniams skirstyti į kategorijas.",
           "ERROR": "Yra reikalingas vardas"
         },
         "SLUG": {
@@ -430,15 +430,15 @@
       }
     },
     "ARTICLE_SEARCH": {
-      "TITLE": "Search articles",
-      "PLACEHOLDER": "Search articles",
+      "TITLE": "Ieškoti straipsnių",
+      "PLACEHOLDER": "Ieškoti straipsnių",
       "NO_RESULT": "Straipsnių nerasta",
       "SEARCHING": "Ieškoma...",
       "SEARCH_BUTTON": "Ieškoti",
       "INSERT_ARTICLE": "Insert link",
       "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
       "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
-      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
+      "SUCCESS_ARTICLE_INSERTED": "Straipsnis patalpintas sėkmingai",
       "PREVIEW_LINK": "Straipsnio peržiūra",
       "CANCEL": "Uždaryti",
       "BACK": "Atgal",
