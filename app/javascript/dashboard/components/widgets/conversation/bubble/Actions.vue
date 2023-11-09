@@ -201,7 +201,8 @@ export default {
         this.isAWhatsAppChannel ||
         this.isATwilioChannel ||
         this.isAFacebookInbox ||
-        this.isASmsInbox
+        this.isASmsInbox ||
+        this.isATelegramChannel
       ) {
         return this.sourceId && this.isSent;
       }
@@ -220,7 +221,8 @@ export default {
       if (
         this.isAWhatsAppChannel ||
         this.isATwilioChannel ||
-        this.isASmsInbox
+        this.isASmsInbox ||
+        this.isAFacebookInbox
       ) {
         return this.sourceId && this.isDelivered;
       }
@@ -239,17 +241,16 @@ export default {
         return false;
       }
 
-      if (this.isAWebWidgetInbox || this.isAPIInbox) {
-        const { contact_last_seen_at: contactLastSeenAt } = this.currentChat;
-        return contactLastSeenAt >= this.createdAt;
-      }
-
       if (
         this.isAWhatsAppChannel ||
         this.isATwilioChannel ||
         this.isAFacebookInbox
       ) {
         return this.sourceId && this.isRead;
+      }
+
+      if (this.isAWebWidgetInbox || this.isAPIInbox) {
+        return this.isRead;
       }
 
       return false;
