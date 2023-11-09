@@ -196,14 +196,20 @@ sv:
     common:
       home: Hem
       last_updated_on: Senast uppdaterad den %{last_updated_on}
-      view_all_articles: Se alla artiklar
+      view_all_articles: View all
       article: artikel
       articles: artiklar
       no_articles: Det finns inga artiklar här
     footer:
       made_with: Gjord med
     header:
-      go_to_homepage: Gå till hemsidan
+      go_to_homepage: Website
+      appearance:
+        system: System
+        light: Light
+        dark: Dark
+      featured_articles: Featured Articles
+      uncategorized: Uncategorized
     404:
       title: Sidan kunde inte hittas
       description: Vi kunde inte hitta sidan du letade efter.
