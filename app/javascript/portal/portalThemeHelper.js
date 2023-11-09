@@ -95,8 +95,13 @@ export const initializeToggleButton = () => {
 };
 
 export const initializeTheme = () => {
+  // start with updating the theme in the header, this will set the current theme on the button
   updateThemeInHeader();
+
+  // add the event listeners for the dropdown toggle and theme buttons
   initializeToggleButton();
   initializeThemeSwitchButtons();
+
+  // set the hover color at the start of init, this is set again when the theme is switched
   setPortalHoverColor(localStorage.theme || 'system');
 };
