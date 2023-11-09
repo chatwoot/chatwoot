@@ -36,13 +36,8 @@ export const updateThemeInHeader = theme => {
     themeToggleButton.querySelectorAll('.theme-button');
 
   allElementInButton.forEach(button => {
-    if (button.dataset.theme === theme) {
-      button.classList.remove('hidden');
-      button.classList.add('flex');
-    } else {
-      button.classList.remove('flex');
-      button.classList.add('hidden');
-    }
+    button.classList.toggle('hidden', button.dataset.theme !== theme);
+    button.classList.toggle('flex', button.dataset.theme === theme);
   });
 };
 
