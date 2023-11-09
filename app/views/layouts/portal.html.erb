@@ -96,6 +96,16 @@ By default, it renders:
   #category-block:hover #category-name  {
     color: var(--dynamic-hover-color);
   }
+
+  #appearance-dropdown[data-current-theme="system"] .check-mark-icon.light-theme,
+  #appearance-dropdown[data-current-theme="system"] .check-mark-icon.dark-theme,
+  #appearance-dropdown[data-current-theme="dark"] .check-mark-icon.light-theme,
+  #appearance-dropdown[data-current-theme="dark"] .check-mark-icon.system-theme,
+  #appearance-dropdown[data-current-theme="light"] .check-mark-icon.dark-theme,
+  #appearance-dropdown[data-current-theme="light"] .check-mark-icon.system-theme {
+    display: none;
+  }
+  
   </style>
   <script>
     window.portalConfig = {
