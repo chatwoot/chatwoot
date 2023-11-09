@@ -71,7 +71,7 @@
       "SUBMIT": "Import",
       "CANCEL": "Peruuta"
     },
-    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "Tapahtui virhe, yritä uudelleen"
   },
   "EXPORT_CONTACTS": {
@@ -203,6 +203,10 @@
         "LABEL": "Message",
         "PLACEHOLDER": "Write your message here",
         "ERROR": "Message can't be empty"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
       },
       "SUBMIT": "Lähetä viesti",
       "CANCEL": "Peruuta",
@@ -343,17 +347,17 @@
     "DESCRIPTION": "Yhdistämällä yhteystiedot voit muuntaa kaksi profiilia yhdeksi, mukaan lukien kaikki määritteet ja keskustelut. Ristiriitatilanteessa ensisijaisen yhteyshenkilön määritteet ovat ensisijaisia.",
     "PRIMARY": {
       "TITLE": "Ensisijainen kontakti",
-      "HELP_LABEL": "Säilytetään"
+      "HELP_LABEL": "Poistetaan"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Yhdistettävä yhteystieto",
       "PLACEHOLDER": "Etsi yhteystietoa",
-      "HELP_LABEL": "Poistetaan"
+      "HELP_LABEL": "Säilytetään"
     },
     "SUMMARY": {
       "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Contact of <strong>%{primaryContactName}</strong> will be deleted.",
+      "ATTRIBUTE_WARNING": "Contact details of <strong>%{primaryContactName}</strong> will be copied to <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"

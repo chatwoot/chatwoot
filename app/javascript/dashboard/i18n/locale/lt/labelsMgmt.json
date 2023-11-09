@@ -38,6 +38,19 @@
       "DELETE": "Ištrinti",
       "CANCEL": "Atšaukti"
     },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Pridėti etiketę pokalbiui",
+        "MULTIPLE_SUGGESTION": "Pasirinkti šitą etiketę",
+        "DESELECT": "Panaikinti pažymėjimą",
+        "DISMISS": "Dismiss suggestion"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Atsisakyti",
+      "ADD_SELECTED_LABELS": "Pridėti pažymėtas etiketes",
+      "ADD_SELECTED_LABEL": "Pridėti pažymėtą etiketę",
+      "ADD_ALL_LABELS": "Pridėti visas etiketes"
+    },
     "ADD": {
       "TITLE": "Pridėti Etiketę",
       "DESC": "Etiketės leidžia grupuoti pokalbius kartu.",

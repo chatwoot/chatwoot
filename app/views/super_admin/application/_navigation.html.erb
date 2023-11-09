@@ -43,9 +43,8 @@ as defined by the routes in the `admin/` namespace
       <%= link_to "App Config", super_admin_app_config_url %>
     </li>
 
-      
-  <% Administrate::Namespace.new(namespace).resources.each do |resource| %>
-      <% next if ["account_users", "dashboard", "devise/sessions", "app_configs", "instance_statuses"].include?(resource.resource) %>
+    <% Administrate::Namespace.new(namespace).resources.each do |resource| %>
+      <% next if ["account_users", "dashboard", "devise/sessions", "app_configs", "instance_statuses", "responses", "response_sources", "response_documents" ].include?  resource.resource %>
       <li class="navigation__link navigation__link--<%= nav_link_state(resource) %>">
         <i class="<%= sidebar_icons[resource.resource.to_sym] %>"></i>
         <%= link_to(
@@ -54,6 +53,25 @@ as defined by the routes in the `admin/` namespace
         ) if existing_action? resource, :index  %>
       </li>
     <% end %>
+
+  <% if InstallationConfig.find_by(name: 'DEPLOYMENT_ENV')&.value == 'cloud' ||  Rails.env.development? %>
+  <hr/>
+  <li class="navigation__link">
+    <i class="ion ion-help-buoy"></i>
+      <%= link_to "Sources", super_admin_response_sources_url %>  
+  </li>
+
+    <li class="navigation__link">
+    <i class="ion ion-document-text"></i>
+      <%= link_to "Documents", super_admin_response_documents_url %>  
+  </li>
+
+  <li class="navigation__link">
+    <i class="ion ion-help"></i>
+      <%= link_to "Responses", super_admin_responses_url %>  
+  </li>
+  <hr/>
+  <% end %>
 
   <li class="navigation__link">
       <i class="ion ion-medkit"></i>

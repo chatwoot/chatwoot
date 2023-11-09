@@ -21,7 +21,10 @@
       />
     </div>
     <div v-if="areHooksAvailable" class="p-6 flex-1">
-      <select-channel-warning v-if="!isIntegrationHookEnabled" />
+      <select-channel-warning
+        v-if="!isIntegrationHookEnabled"
+        :has-connected-a-channel="hasConnectedAChannel"
+      />
       <slack-integration-help-text
         :selected-channel-name="selectedChannelName"
       />
@@ -38,7 +41,7 @@ import Integration from './Integration.vue';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import SelectChannelWarning from './Slack/SelectChannelWarning.vue';
 import SlackIntegrationHelpText from './Slack/SlackIntegrationHelpText.vue';
-import Spinner from 'shared/components/Spinner';
+import Spinner from 'shared/components/Spinner.vue';
 export default {
   components: {
     Spinner,
@@ -61,16 +64,20 @@ export default {
       const { hooks = [] } = this.integration || {};
       return !!hooks.length;
     },
-    isIntegrationHookEnabled() {
+    hook() {
       const { hooks = [] } = this.integration || {};
-      const [hook = {}] = hooks;
-      return hook.status || false;
+      const [hook] = hooks;
+      return hook || {};
+    },
+    isIntegrationHookEnabled() {
+      return this.hook.status || false;
+    },
+    hasConnectedAChannel() {
+      return !!this.hook.reference_id;
     },
     selectedChannelName() {
-      const { hooks = [] } = this.integration || {};
-      const [hook = {}] = hooks;
-      if (hook.status) {
-        const { settings: { channel_name: channelName = '' } = {} } = hook;
+      if (this.hook.status) {
+        const { settings: { channel_name: channelName = '' } = {} } = this.hook;
         return channelName || 'customer-conversations';
       }
       return this.$t('INTEGRATION_SETTINGS.SLACK.HELP_TEXT.SELECTED');

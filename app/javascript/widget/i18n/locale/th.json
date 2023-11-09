@@ -34,7 +34,9 @@
   "START_CONVERSATION": "เริ่มการสนทนา",
   "END_CONVERSATION": "จบการสนทนา",
   "CONTINUE_CONVERSATION": "สนทนาต่อ",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "เริ่มการสนทนาใหม่",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "ดูข้อความใหม่",
     "CLOSE_MESSAGES_BUTTON": "ปิด",
@@ -104,6 +106,31 @@
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Click here to join",
       "LEAVE_THE_ROOM": "Leave the call"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "ข้อความภาพ"
+    },
+    "audio": {
+      "CONTENT": "ข้อความเสียง"
+    },
+    "video": {
+      "CONTENT": "ข้อความวิดิโอ"
+    },
+    "file": {
+      "CONTENT": "เเนบไฟล์"
+    },
+    "location": {
+      "CONTENT": "สถานที่"
+    },
+    "fallback": {
+      "CONTENT": "ได้เเชร์ลิ้ง"
     }
   }
 }

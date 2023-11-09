@@ -38,6 +38,19 @@
       "DELETE": "Supprimer",
       "CANCEL": "Annuler"
     },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Ajouter un libellé à la conversation",
+        "MULTIPLE_SUGGESTION": "Sélectionner ce libellé",
+        "DESELECT": "Désélectionner ce libellé",
+        "DISMISS": "Rejeter la suggestion"
+      },
+      "POWERED_BY": "Chatwoot IA",
+      "DISMISS": "Rejeter",
+      "ADD_SELECTED_LABELS": "Ajouter les libellés sélectionnés",
+      "ADD_SELECTED_LABEL": "Ajouter le libellé sélectionné",
+      "ADD_ALL_LABELS": "Ajouter tous les libellés"
+    },
     "ADD": {
       "TITLE": "Ajouter une étiquette",
       "DESC": "Les étiquettes vous permettent de grouper les conversations ensemble.",

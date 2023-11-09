@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe ActionService do
+  let(:account) { create(:account) }
+
   describe '#resolve_conversation' do
     let(:conversation) { create(:conversation) }
     let(:action_service) { described_class.new(conversation) }
@@ -27,5 +29,15 @@ describe ActionService do
     end
   end
 
-  # TODO: Expand this test suite
+  describe '#assign_agent' do
+    let(:agent) { create(:user, account: account, role: :agent) }
+    let(:conversation) { create(:conversation, account: account) }
+    let(:inbox_member) { create(:inbox_member, inbox: conversation.inbox, user: agent) }
+    let(:action_service) { described_class.new(conversation) }
+
+    it 'unassigns the conversation if agent id is nil' do
+      action_service.assign_agent(['nil'])
+      expect(conversation.reload.assignee).to be_nil
+    end
+  end
 end

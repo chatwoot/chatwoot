@@ -11,7 +11,6 @@
       @key-shortcut-modal="toggleKeyShortcutModal"
       @open-notification-panel="openNotificationPanel"
     />
-
     <secondary-sidebar
       v-if="showSecondarySidebar"
       :class="sidebarClassName"
@@ -35,8 +34,8 @@ import adminMixin from '../../mixins/isAdmin';
 import { getSidebarItems } from './config/default-sidebar';
 import alertMixin from 'shared/mixins/alertMixin';
 
-import PrimarySidebar from './sidebarComponents/Primary';
-import SecondarySidebar from './sidebarComponents/Secondary';
+import PrimarySidebar from './sidebarComponents/Primary.vue';
+import SecondarySidebar from './sidebarComponents/Secondary.vue';
 import {
   hasPressedAltAndCKey,
   hasPressedAltAndRKey,
@@ -114,7 +113,12 @@ export default {
         if (!isAvailableForTheUser) {
           return false;
         }
-
+        if (
+          menuItem.alwaysVisibleOnChatwootInstances &&
+          !this.isACustomBrandedInstance
+        ) {
+          return true;
+        }
         if (menuItem.featureFlag) {
           return this.isFeatureEnabledonAccount(
             this.accountId,

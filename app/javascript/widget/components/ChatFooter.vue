@@ -33,11 +33,13 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
-import CustomButton from 'shared/components/Button';
+import CustomButton from 'shared/components/Button.vue';
 import ChatInputWrap from 'widget/components/ChatInputWrap.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { sendEmailTranscript } from 'widget/api/conversation';
 import routerMixin from 'widget/mixins/routerMixin';
+import { IFrameHelper } from '../helpers/utils';
+import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
 export default {
   components: {
     ChatInputWrap,
@@ -96,6 +98,11 @@ export default {
       this.clearConversations();
       this.clearConversationAttributes();
       this.replaceRoute('prechat-form');
+      IFrameHelper.sendMessage({
+        event: 'onEvent',
+        eventIdentifier: CHATWOOT_ON_START_CONVERSATION,
+        data: { hasConversation: true },
+      });
     },
     async sendTranscript() {
       const { email } = this.currentUser;

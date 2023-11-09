@@ -19,7 +19,7 @@ window.chatwootSettings = {
   locale: 'en',
   useBrowserLanguage: true,
   type: '<%= @widget_type %>',
-  showPopoutButton: true,
+  // showPopoutButton: true,
   widgetStyle: '<%= @widget_style %>',
   darkMode: '<%= @dark_mode %>',
 };
@@ -58,5 +58,10 @@ window.addEventListener('chatwoot:error', function(e) {
 
 window.addEventListener('chatwoot:on-message', function(e) {
   console.log('chatwoot:on-message', e.detail)
+})
+
+
+window.addEventListener('chatwoot:on-start-conversation', function(e) {
+  console.log('chatwoot:on-start-conversation', e.detail)
 })
 </script>

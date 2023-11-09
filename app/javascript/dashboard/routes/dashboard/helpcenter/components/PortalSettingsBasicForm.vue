@@ -87,7 +87,7 @@
 <script>
 import { required, minLength } from 'vuelidate/lib/validators';
 import { isDomain } from 'shared/helpers/Validators';
-import thumbnail from 'dashboard/components/widgets/Thumbnail';
+import thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import { convertToCategorySlug } from 'dashboard/helper/commons.js';
 import { buildPortalURL } from 'dashboard/helper/portalHelper';
 import wootConstants from 'dashboard/constants/globals';

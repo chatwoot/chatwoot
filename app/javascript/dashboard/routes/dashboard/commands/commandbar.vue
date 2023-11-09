@@ -30,13 +30,10 @@ export default {
     appearanceHotKeys,
     goToCommandHotKeys,
   ],
-
-  data() {
-    return {
-      placeholder: this.$t('COMMAND_BAR.SEARCH_PLACEHOLDER'),
-    };
-  },
   computed: {
+    placeholder() {
+      return this.$t('COMMAND_BAR.SEARCH_PLACEHOLDER');
+    },
     accountId() {
       return this.$store.getters.getCurrentAccountId;
     },
@@ -64,9 +61,8 @@ export default {
       this.$refs.ninjakeys.data = this.hotKeys;
     },
     onSelected(item) {
-      const {
-        detail: { action: { title = null, section = null } = {} } = {},
-      } = item;
+      const { detail: { action: { title = null, section = null } = {} } = {} } =
+        item;
       this.$track(GENERAL_EVENTS.COMMAND_BAR, {
         section,
         action: title,

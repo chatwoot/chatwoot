@@ -34,7 +34,9 @@
   "START_CONVERSATION": "Start Conversation",
   "END_CONVERSATION": "End Conversation",
   "CONTINUE_CONVERSATION": "Continue conversation",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "Start a new conversation",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "See new messages",
     "CLOSE_MESSAGES_BUTTON": "மூடு",
@@ -104,6 +106,31 @@
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Click here to join",
       "LEAVE_THE_ROOM": "Leave the call"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "பட செய்தி"
+    },
+    "audio": {
+      "CONTENT": "ஆடியோ செய்தி"
+    },
+    "video": {
+      "CONTENT": "வீடியோ செய்தி"
+    },
+    "file": {
+      "CONTENT": "பைல் இணைப்புகள்"
+    },
+    "location": {
+      "CONTENT": "இருப்பிடம்"
+    },
+    "fallback": {
+      "CONTENT": "ஒரு URL ஐப் பகிர்ந்துள்ளார்"
     }
   }
 }

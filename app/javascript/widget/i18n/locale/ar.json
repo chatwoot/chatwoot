@@ -34,7 +34,9 @@
   "START_CONVERSATION": "ابدأ المحادثة",
   "END_CONVERSATION": "إنهاء المحادثة",
   "CONTINUE_CONVERSATION": "متابعة المحادثة",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "ابدأ محادثة جديدة",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "عرض الرسائل الجديدة",
     "CLOSE_MESSAGES_BUTTON": "أغلق",
@@ -104,6 +106,31 @@
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Click here to join",
       "LEAVE_THE_ROOM": "Leave the call"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "رسالة صورة"
+    },
+    "audio": {
+      "CONTENT": "رسالة صوتية"
+    },
+    "video": {
+      "CONTENT": "رسالة فيديو"
+    },
+    "file": {
+      "CONTENT": "مرفقات"
+    },
+    "location": {
+      "CONTENT": "الموقع الجغرافي"
+    },
+    "fallback": {
+      "CONTENT": "قام بمشاركة رابط"
     }
   }
 }

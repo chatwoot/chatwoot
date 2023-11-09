@@ -3,7 +3,7 @@
     "TITLE": "Configuración de la cuenta",
     "SUBMIT": "Actualizar ajustes",
     "BACK": "Atrás",
-    "DISMISS": "Dismiss",
+    "DISMISS": "Descartar",
     "UPDATE": {
       "ERROR": "No se pudo actualizar la configuración, ¡inténtalo de nuevo!",
       "SUCCESS": "Configuración de cuenta actualizada correctamente"
@@ -110,7 +110,9 @@
       "SNOOZE_CONVERSATION": "Posponer conversación",
       "ADD_LABEL": "Añadir etiqueta a la conversación",
       "REMOVE_LABEL": "Eliminar etiqueta de la conversación",
-      "SETTINGS": "Ajustes"
+      "SETTINGS": "Ajustes",
+      "AI_ASSIST": "Asistencia AI",
+      "APPEARANCE": "Apariencia"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Ir al panel de conversaciones",
@@ -132,6 +134,7 @@
       "GO_TO_NOTIFICATIONS": "Ir a Notificaciones",
       "ADD_LABELS_TO_CONVERSATION": "Añadir etiqueta a la conversación",
       "ASSIGN_AN_AGENT": "Asignar un agente",
+      "AI_ASSIST": "Asistencia AI",
       "ASSIGN_PRIORITY": "Asignar prioridad",
       "ASSIGN_A_TEAM": "Asignar un equipo",
       "MUTE_CONVERSATION": "Silenciar conversación",
@@ -146,10 +149,18 @@
       "UNTIL_TOMORROW": "Hasta mañana",
       "UNTIL_NEXT_MONTH": "Hasta el mes próximo",
       "AN_HOUR_FROM_NOW": "Hasta una hora a partir de ahora",
-      "CUSTOM": "Personalizar..."
+      "CUSTOM": "Personalizar...",
+      "CHANGE_APPEARANCE": "Cambiar apariencia",
+      "LIGHT_MODE": "Claro",
+      "DARK_MODE": "Oscuro",
+      "SYSTEM_MODE": "Sistema"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "Cargando aplicación del tablero..."
+  },
+  "COMMON": {
+    "OR": "O",
+    "CLICK_HERE": "haz clic aquí"
   }
 }

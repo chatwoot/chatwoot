@@ -36,10 +36,13 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Personlig beskedsignatur",
-        "NOTE": "Opret en personlig besked signatur, der vil blive føjet til alle de meddelelser, du sender fra din e-mail indbakke. Brug den rige content editor til at oprette en meget personlig signatur.",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
         "BTN_TEXT": "Gem beskedsignatur",
         "API_ERROR": "Kunne ikke gemme signatur! Prøv igen",
-        "API_SUCCESS": "Signatur gemt"
+        "API_SUCCESS": "Signatur gemt",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Besked Signatur",
@@ -149,6 +152,7 @@
     "SELECTOR_SUBTITLE": "Vælg en konto fra følgende liste",
     "PROFILE_SETTINGS": "Profilindstillinger",
     "KEYBOARD_SHORTCUTS": "Tastaturgenveje",
+    "APPEARANCE": "Change Appearance",
     "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "Log Ud"
   },
@@ -238,7 +242,7 @@
     "REPORTS_OVERVIEW": "Oversigt",
     "FACEBOOK_REAUTHORIZE": "Din Facebook-forbindelse er udløbet, tilslut venligst din Facebook-side igen for at fortsætte tjenesterne",
     "HELP_CENTER": {
-      "TITLE": "Hjælpecenter (Beta)",
+      "TITLE": "Help Center",
       "ALL_ARTICLES": "Alle Artikler",
       "MY_ARTICLES": "Alle Artikler",
       "DRAFT": "Kladde",

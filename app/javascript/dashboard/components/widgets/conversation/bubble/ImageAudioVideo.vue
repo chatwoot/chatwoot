@@ -31,7 +31,7 @@
 import { mapGetters } from 'vuex';
 import { hasPressedCommand } from 'shared/helpers/KeyboardHelpers';
 
-import GalleryView from '../components/GalleryView';
+import GalleryView from '../components/GalleryView.vue';
 
 const ALLOWED_FILE_TYPES = {
   IMAGE: 'image',

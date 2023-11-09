@@ -12,6 +12,10 @@
     "NO_INBOX_2": " pentru a începe",
     "NO_INBOX_AGENT": "Uh Oh! Se pare că nu faci parte din nici o căsuță de e-mail. Te rugăm să contactezi administratorul",
     "SEARCH_MESSAGES": "Caută mesaje în conversații",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "Caută mesaje",
       "RESULT_TITLE": "Rezultate căutare",
@@ -30,7 +34,6 @@
     "ASSIGN_TO_ME": "Atribuie-mi",
     "TWILIO_WHATSAPP_CAN_REPLY": "Poți răspunde la această conversație doar folosind un mesaj șablon datorat",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restricţie fereastră mesaj 24 de ore",
-    "SELECT_A_TWEET_TO_REPLY": "Te rugăm să selectezi un tweet pentru a răspunde.",
     "REPLYING_TO": "Răspundeți la:",
     "REMOVE_SELECTION": "Elimină selecția",
     "DOWNLOAD": "Descărcare",
@@ -43,6 +46,7 @@
     "NO_RESPONSE": "Niciun răspuns",
     "RATING_TITLE": "Evaluare",
     "FEEDBACK_TITLE": "Păreri",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Afișare etichete",
       "HIDE_LABELS": "Ascunderea etichetelor"
@@ -135,7 +139,8 @@
       "PRIVATE_NOTE": "Notă privată",
       "SEND": "Trimite",
       "CREATE": "Adaugă Notă",
-      "TWEET": "Tweet",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "Arată editorul de text",
       "TIP_EMOJI_ICON": "Arată selectorul emoji",
       "TIP_ATTACH_ICON": "Ataşează fişiere",
@@ -147,6 +152,7 @@
       "STOP_AUDIO_RECORDING": "Mesaj audio",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Adaugă bcc",
         "CC": {
           "LABEL": "CC",
@@ -189,6 +195,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Copiază",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "Şterge",
       "CREATE_A_CANNED_RESPONSE": "Adaugați la răspunsuri predefinite",
       "TRANSLATE": "Traduceți",

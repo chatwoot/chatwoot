@@ -49,6 +49,8 @@ pl:
         unique: powinno być unikalne w kategorii i portalu
     dyte:
       invalid_message_type: "Nieprawidłowy typ wiadomości. Niedozwolone działanie."
+    slack:
+      invalid_channel_id: "Invalid slack channel. Please try again"
     inboxes:
       imap:
         socket_error: Sprawdź połączenie sieciowe, adres IMAP i spróbuj ponownie.
@@ -108,6 +110,8 @@ pl:
       instagram_story_content: "%{story_sender} wspomniał o Tobie w historii: "
       instagram_deleted_story_content: Ta historia już nie jest dostępna.
       deleted: Ta wiadomość została usunięta
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "Rozmowa została oznaczona przez %{user_name}"
@@ -144,6 +148,8 @@ pl:
         header:
           from_with_name: "%{assignee_name} z %{inbox_name} <%{from_email}>"
           reply_with_name: "%{assignee_name} z %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} z %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} z %{inbox_name} <%{from_email}>"
@@ -198,3 +204,12 @@ pl:
       made_with: Wykonane z
     header:
       go_to_homepage: Przejdź do strony głównej
+  slack_unfurl:
+    fields:
+      name: Nazwa
+      email: E-mail
+      phone_number: Phone
+      company_name: Firma
+      inbox_name: Skrzynka odbiorcza
+      inbox_type: Inbox Type
+    button: Otwórz rozmowę

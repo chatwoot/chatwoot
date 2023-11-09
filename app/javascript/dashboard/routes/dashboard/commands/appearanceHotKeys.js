@@ -56,8 +56,9 @@ export default {
   methods: {
     setAppearance(theme) {
       LocalStorage.set(LOCAL_STORAGE_KEYS.COLOR_SCHEME, theme);
-      const isOSOnDarkMode = window.matchMedia('(prefers-color-scheme: dark)')
-        .matches;
+      const isOSOnDarkMode = window.matchMedia(
+        '(prefers-color-scheme: dark)'
+      ).matches;
       setColorTheme(isOSOnDarkMode);
     },
   },

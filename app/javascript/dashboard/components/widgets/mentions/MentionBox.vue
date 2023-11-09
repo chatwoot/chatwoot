@@ -79,7 +79,7 @@ export default {
 
 <style scoped lang="scss">
 .mention--box {
-  @apply bg-white dark:bg-slate-700 rounded-md overflow-auto absolute w-full z-[100] pt-2 px-2 pb-0 shadow-md left-0 bottom-full max-h-[9.75rem] border-t border-solid border-slate-75 dark:border-slate-800;
+  @apply bg-white dark:bg-slate-700 rounded-md overflow-auto absolute w-full z-20 pt-2 px-2 pb-0 shadow-md left-0 bottom-full max-h-[9.75rem] border-t border-solid border-slate-75 dark:border-slate-800;
 
   .dropdown-menu__item:last-child {
     @apply pb-1;

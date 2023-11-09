@@ -44,8 +44,8 @@
 </template>
 
 <script>
-import PreviewCard from 'dashboard/components/ui/PreviewCard';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail';
+import PreviewCard from 'dashboard/components/ui/PreviewCard.vue';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 
 export default {
   components: {

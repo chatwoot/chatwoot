@@ -5,11 +5,10 @@
 </template>
 
 <script>
-import { IFrameHelper } from 'widget/helpers/utils';
-import IframeLoader from 'shared/components/IframeLoader';
+import IframeLoader from 'shared/components/IframeLoader.vue';
 
 export default {
-  name: 'Campaigns',
+  name: 'ArticleViewer',
   components: {
     IframeLoader,
   },
@@ -17,17 +16,6 @@ export default {
     link: {
       type: String,
       default: '',
-    },
-  },
-  methods: {
-    closeFullView() {
-      if (IFrameHelper.isIFrame()) {
-        IFrameHelper.sendMessage({
-          event: 'setCampaignReadOn',
-        });
-        IFrameHelper.sendMessage({ event: 'toggleBubble' });
-        bus.$emit('snooze-campaigns');
-      }
     },
   },
 };

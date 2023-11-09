@@ -1,26 +1,19 @@
 <template>
-  <div class="row app-wrapper">
+  <div
+    class="app-wrapper h-full flex-grow-0 min-h-0 w-full max-w-full ml-auto mr-auto flex flex-wrap dark:text-slate-300"
+  >
     <sidebar
       :route="currentRoute"
-      :sidebar-class-name="sidebarClassName"
+      :show-secondary-sidebar="isSidebarOpen"
       @open-notification-panel="openNotificationPanel"
       @toggle-account-modal="toggleAccountModal"
       @open-key-shortcut-modal="toggleKeyShortcutModal"
       @close-key-shortcut-modal="closeKeyShortcutModal"
       @show-add-label-popup="showAddLabelPopup"
     />
-    <section class="app-content columns" :class="contentClassName">
+    <section class="flex h-full min-h-0 overflow-hidden flex-1 px-0">
       <router-view />
       <command-bar />
-      <ShowPlans
-        :is-subscription-valid="!isSubscriptionValid"
-        :available-product-prices="availableProductPrices"
-        :plan-id="planId"
-        :plan-name="planName"
-        :plan-expiry-date="planExpiryDate"
-        :response-for-plans="responseForPlans"
-        @hideModal="hideModal"
-      />
       <account-selector
         :show-account-modal="showAccountModal"
         @close-account-modal="toggleAccountModal"
@@ -31,7 +24,7 @@
         @close-account-create-modal="closeCreateAccountModal"
       />
       <woot-key-shortcut-modal
-        v-if="showShortcutModal"
+        :show.sync="showShortcutModal"
         @close="closeKeyShortcutModal"
         @clickaway="closeKeyShortcutModal"
       />
@@ -47,128 +40,108 @@
 </template>
 
 <script>
-import Sidebar from '../../components/layout/Sidebar';
+import Sidebar from '../../components/layout/Sidebar.vue';
 import CommandBar from './commands/commandbar.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-import Cookies from 'js-cookie';
-import ShowPlans from './ShowPlans';
-import { mapGetters } from 'vuex';
-import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal';
-import AddAccountModal from 'dashboard/components/layout/sidebarComponents/AddAccountModal';
-import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector';
-import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel';
-import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel';
+import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal.vue';
+import AddAccountModal from 'dashboard/components/layout/sidebarComponents/AddAccountModal.vue';
+import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector.vue';
+import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.vue';
+import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import wootConstants from 'dashboard/constants/globals';
 
 export default {
   components: {
     Sidebar,
     CommandBar,
-    ShowPlans,
     WootKeyShortcutModal,
     AddAccountModal,
     AccountSelector,
     AddLabelModal,
     NotificationPanel,
   },
+  mixins: [uiSettingsMixin],
   data() {
     return {
-      isSidebarOpen: false,
-      isOnDesktop: true,
-      isSubscriptionValid: true,
-      availableProductPrices: [],
-      planId: 0,
-      planName: 0,
-      planExpiryDate: null,
-      responseForPlans: false,
       showAccountModal: false,
       showCreateAccountModal: false,
       showAddLabelModal: false,
       showShortcutModal: false,
       isNotificationPanel: false,
+      displayLayoutType: '',
     };
   },
   computed: {
     currentRoute() {
       return ' ';
     },
-    ...mapGetters({
-      globalConfig: 'globalConfig/get',
-      getAccount: 'accounts/getAccount',
-      uiFlags: 'accounts/getUIFlags',
-    }),
-    isUpdating() {
-      return this.uiFlags.isUpdating;
+    isSidebarOpen() {
+      const { show_secondary_sidebar: showSecondarySidebar } = this.uiSettings;
+      return showSecondarySidebar;
     },
-    sidebarClassName() {
-      if (this.isOnDesktop) {
-        return '';
-      }
-      if (this.isSidebarOpen) {
-        return 'off-canvas is-open';
-      }
-      return 'off-canvas is-transition-push is-closed';
+    previouslyUsedDisplayType() {
+      const {
+        previously_used_conversation_display_type: conversationDisplayType,
+      } = this.uiSettings;
+      return conversationDisplayType;
     },
-    contentClassName() {
-      if (this.isOnDesktop) {
-        return '';
-      }
-      if (this.isSidebarOpen) {
-        return 'off-canvas-content is-open-left has-transition-push';
-      }
-      return 'off-canvas-content has-transition-push';
+    previouslyUsedSidebarView() {
+      const { previously_used_sidebar_view: showSecondarySidebar } =
+        this.uiSettings;
+      return showSecondarySidebar;
+    },
+  },
+  watch: {
+    displayLayoutType() {
+      const { LAYOUT_TYPES } = wootConstants;
+      this.updateUISettings({
+        conversation_display_type:
+          this.displayLayoutType === LAYOUT_TYPES.EXPANDED
+            ? LAYOUT_TYPES.EXPANDED
+            : this.previouslyUsedDisplayType,
+        show_secondary_sidebar:
+          this.displayLayoutType === LAYOUT_TYPES.EXPANDED
+            ? false
+            : this.previouslyUsedSidebarView,
+      });
     },
   },
   mounted() {
-    window.addEventListener('resize', this.handleResize);
     this.handleResize();
+    window.addEventListener('resize', this.handleResize);
     bus.$on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
-    this.initializeAccountBillingSubscription();
-    bus.$on(BUS_EVENTS.SHOW_PLAN_MODAL, this.showModal);
   },
   beforeDestroy() {
-    bus.$off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
     window.removeEventListener('resize', this.handleResize);
+    bus.$off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
   },
+
   methods: {
     handleResize() {
-      if (window.innerWidth > 1200) {
-        this.isOnDesktop = true;
-      } else {
-        this.isOnDesktop = false;
+      const { SMALL_SCREEN_BREAKPOINT, LAYOUT_TYPES } = wootConstants;
+      let throttled = false;
+      const delay = 150;
+
+      if (throttled) {
+        return;
       }
-    },
-    async initializeAccountBillingSubscription() {
-      this.responseForPlans = false;
-      try {
-        await this.$store.dispatch('accounts/getBillingSubscription');
-        const response = await this.getAccount(this.$route.params.accountId);
-        if (response) {
-          const {
-            available_product_prices,
-            plan_id,
-            plan_name,
-            plan_expiry_date,
-          } = response;
-          this.availableProductPrices = available_product_prices;
-          this.planId = plan_id;
-          this.planName = plan_name;
-          this.planExpiryDate = plan_expiry_date;
-          this.responseForPlans = true;
+      throttled = true;
+
+      setTimeout(() => {
+        throttled = false;
+        if (window.innerWidth <= SMALL_SCREEN_BREAKPOINT) {
+          this.displayLayoutType = LAYOUT_TYPES.EXPANDED;
+        } else {
+          this.displayLayoutType = LAYOUT_TYPES.CONDENSED;
         }
-        this.responseForPlans = true;
-      } catch (error) {
-        this.responseForPlans = true;
-      }
-    },
-    hideModal() {
-      Cookies.remove('subscription');
-      this.isSubscriptionValid = true;
-    },
-    showModal() {
-      this.isSubscriptionValid = false;
+      }, delay);
     },
     toggleSidebar() {
-      this.isSidebarOpen = !this.isSidebarOpen;
+      this.updateUISettings({
+        show_secondary_sidebar: !this.isSidebarOpen,
+        previously_used_sidebar_view: !this.isSidebarOpen,
+      });
     },
     openCreateAccountModal() {
       this.showAccountModal = false;
@@ -201,8 +174,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.off-canvas-content.is-open-left {
-  transform: translateX(20rem);
-}
-</style>

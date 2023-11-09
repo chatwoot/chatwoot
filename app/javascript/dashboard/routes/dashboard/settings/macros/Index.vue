@@ -12,7 +12,7 @@
     <div class="flex flex-row gap-4">
       <div class="w-[60%]">
         <div v-if="!uiFlags.isFetching && !records.length" class="p-3">
-          <p class="no-items-error-message">
+          <p class="flex h-full items-center flex-col justify-center">
             {{ $t('MACROS.LIST.404') }}
           </p>
         </div>
@@ -60,7 +60,7 @@
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import accountMixin from 'dashboard/mixins/account.js';
-import MacrosTableRow from './MacrosTableRow';
+import MacrosTableRow from './MacrosTableRow.vue';
 export default {
   components: {
     MacrosTableRow,

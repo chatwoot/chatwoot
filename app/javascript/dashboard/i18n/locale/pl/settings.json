@@ -36,10 +36,13 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Osobisty podpis wiadomości",
-        "NOTE": "Utwórz osobisty podpis wiadomości, który zostanie dodany do wszystkich wiadomości wysyłanych z Twojej skrzynki pocztowej. Użyj edytora bogatego w treści, aby stworzyć wysoko spersonalizowany podpis.",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
         "BTN_TEXT": "Zapisz podpis wiadomości",
         "API_ERROR": "Nie można zapisać podpisu! Spróbuj ponownie",
-        "API_SUCCESS": "Podpis został pomyślnie zapisany"
+        "API_SUCCESS": "Podpis został pomyślnie zapisany",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Rozmiar obrazu powinien być mniejszy niż {size}MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Podpis wiadomości",
@@ -149,6 +152,7 @@
     "SELECTOR_SUBTITLE": "Wybierz konto z poniższej listy",
     "PROFILE_SETTINGS": "Ustawienia profilu",
     "KEYBOARD_SHORTCUTS": "Skróty klawiszowe",
+    "APPEARANCE": "Change Appearance",
     "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "Wyloguj się"
   },
@@ -238,7 +242,7 @@
     "REPORTS_OVERVIEW": "Przegląd",
     "FACEBOOK_REAUTHORIZE": "Twoje połączenie z Facebookiem wygasło, aby kontynuować usługi, ponownie połącz swoją stronę na Facebooku",
     "HELP_CENTER": {
-      "TITLE": "Centrum pomocy (Beta)",
+      "TITLE": "Centrum pomocy",
       "ALL_ARTICLES": "Wszystkie artykuły",
       "MY_ARTICLES": "Moje artykuły",
       "DRAFT": "Szkic",

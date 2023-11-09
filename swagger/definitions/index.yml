@@ -138,6 +138,9 @@ public_message_create_payload:
 public_message_update_payload:
   $ref: ./request/public/message/update_payload.yml
 
+public_conversation_create_payload:
+  $ref: ./request/public/conversation/create_payload.yml
+
 ##  ---------- RESPONSE ------------- ##
 ## -------------------------------- ##
 

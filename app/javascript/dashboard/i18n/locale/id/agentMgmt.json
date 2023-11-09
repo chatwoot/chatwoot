@@ -76,8 +76,8 @@
         },
         "AGENT_AVAILABILITY": {
           "LABEL": "Ketersediaan",
-          "PLACEHOLDER": "Please select an availability status",
-          "ERROR": "Availability is required"
+          "PLACEHOLDER": "Pilih status ketersediaan",
+          "ERROR": "Ketersediaan diperlukan"
         },
         "SUBMIT": "Edit Agen"
       },
@@ -100,18 +100,18 @@
     "MULTI_SELECTOR": {
       "PLACEHOLDER": "Tidak ada",
       "TITLE": {
-        "AGENT": "Select agent",
-        "TEAM": "Select team"
+        "AGENT": "Pilih Agen",
+        "TEAM": "Pilih tim"
       },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "Tidak ada agen",
-          "TEAM": "No teams found"
+          "TEAM": "Tidak ada tim ditemukan"
         },
         "PLACEHOLDER": {
-          "AGENT": "Search agents",
-          "TEAM": "Search teams",
-          "INPUT": "Search for agents"
+          "AGENT": "Mencari Agen",
+          "TEAM": "Mencari tim",
+          "INPUT": "Mencari Agen"
         }
       }
     }

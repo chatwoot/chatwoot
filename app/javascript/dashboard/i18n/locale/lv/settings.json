@@ -36,10 +36,13 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Personīgais ziņojuma paraksts",
-        "NOTE": "Izveidojiet personīgu ziņojumu parakstu, kas tiks pievienots visiem ziņojumiem, kurus nosūtat no jūsu e -pasta iesūtnes. Izmantojiet bagātīgā satura redaktoru, lai izveidotu īpaši personalizētu parakstu.",
+        "NOTE": "Izveidot unikālu ziņojuma parakstu, kas parādās katra ziņojuma beigās, kuru sūtāt no jebkuras iesūtnes. Varat arī iekļaut attēlu, kas tiek atbalstīts tiešraidē, e-pastā un API iesūtnēs.",
         "BTN_TEXT": "Saglabāt ziņojuma parakstu",
         "API_ERROR": "Nevarēja saglabāt parakstu! Lūdzu, mēģiniet vēlreiz",
-        "API_SUCCESS": "Paraksts ir veiksmīgi saglabāts"
+        "API_SUCCESS": "Paraksts ir veiksmīgi saglabāts",
+        "IMAGE_UPLOAD_ERROR": "Nevarēja augšupielādēt attēlu! Lūdzu, mēģiniet vēlreiz",
+        "IMAGE_UPLOAD_SUCCESS": "Attēls ir veiksmīgi pievienots. Lūdzu, noklikšķiniet uz saglabāt, lai saglabātu parakstu",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Attēla izmēram ir jābūt mazākam par {size}MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Ziņojuma Paraksts",
@@ -149,6 +152,7 @@
     "SELECTOR_SUBTITLE": "Izvēlieties kontu no šī saraksta",
     "PROFILE_SETTINGS": "Profila Iestatījumi",
     "KEYBOARD_SHORTCUTS": "Tastatūras Īsinājumtaustiņi",
+    "APPEARANCE": "Mainīt Izskatu",
     "SUPER_ADMIN_CONSOLE": "Superadministratora Konsole",
     "LOGOUT": "Izrakstīties"
   },
@@ -238,7 +242,7 @@
     "REPORTS_OVERVIEW": "Pārskats",
     "FACEBOOK_REAUTHORIZE": "Jūsu Facebook savienojuma derīguma termiņš ir beidzies. Lūdzu, atkārtoti pievienojiet savu Facebook lapu, lai turpinātu pakalpojumus",
     "HELP_CENTER": {
-      "TITLE": "Palīdzības Centrs (Beta)",
+      "TITLE": "Palīdzības centrs",
       "ALL_ARTICLES": "Visi Raksti",
       "MY_ARTICLES": "Mani Raksti",
       "DRAFT": "Melnraksts",

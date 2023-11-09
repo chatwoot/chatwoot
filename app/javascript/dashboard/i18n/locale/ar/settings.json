@@ -36,10 +36,13 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "توقيع الرسالة الشخصية",
-        "NOTE": "إنشاء توقيع رسالة شخصية يتم إضافتها إلى جميع الرسائل التي ترسلها من المنصة. استخدم محرر المحتوى الغني لإنشاء توقيع شديد التخصيص.",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
         "BTN_TEXT": "حفظ توقيع الرسالة",
         "API_ERROR": "تعذر إرسال الرسالة! حاول مرة أخرى",
-        "API_SUCCESS": "تم حفظ التوقيع بنجاح"
+        "API_SUCCESS": "تم حفظ التوقيع بنجاح",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "توقيع الرسالة",
@@ -149,6 +152,7 @@
     "SELECTOR_SUBTITLE": "اختر حساباً من القائمة التالية",
     "PROFILE_SETTINGS": "إعدادات الملف الشخصي",
     "KEYBOARD_SHORTCUTS": "اختصارات لوحة المفاتيح",
+    "APPEARANCE": "Change Appearance",
     "SUPER_ADMIN_CONSOLE": "وحدة تحكم المدير المتميز",
     "LOGOUT": "تسجيل الخروج"
   },
@@ -238,7 +242,7 @@
     "REPORTS_OVERVIEW": "نظرة عامة",
     "FACEBOOK_REAUTHORIZE": "انتهت صلاحية اتصال الفيسبوك الخاص بك، يرجى إعادة الاتصال بصفحة الفيسبوك الخاصة بك لمواصلة الخدمات",
     "HELP_CENTER": {
-      "TITLE": "مركز المساعدة (نسخة تجريبية)",
+      "TITLE": "Help Center",
       "ALL_ARTICLES": "جميع المقالات",
       "MY_ARTICLES": "مقالاتي",
       "DRAFT": "مسودة",

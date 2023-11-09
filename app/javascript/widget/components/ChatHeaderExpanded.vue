@@ -1,7 +1,6 @@
 <template>
   <header
-    class="header-expanded py-6 px-5 relative box-border w-full"
-    :class="showBg ? 'bg-transparent' : 'bg-white dark:bg-slate-900'"
+    class="header-expanded pt-6 pb-4 px-5 relative box-border w-full bg-transparent"
   >
     <div
       class="flex items-start"
@@ -20,7 +19,7 @@
     </div>
     <h2
       v-dompurify-html="introHeading"
-      class="mt-4 text-2xl mb-2 font-normal"
+      class="mt-4 text-2xl mb-1.5 font-medium"
       :class="$dm('text-slate-900', 'dark:text-slate-50')"
     />
     <p
@@ -32,7 +31,7 @@
 </template>
 
 <script>
-import HeaderActions from './HeaderActions';
+import HeaderActions from './HeaderActions.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 
 export default {
@@ -57,10 +56,6 @@ export default {
     showPopoutButton: {
       type: Boolean,
       default: false,
-    },
-    showBg: {
-      type: Boolean,
-      default: true,
     },
   },
 };

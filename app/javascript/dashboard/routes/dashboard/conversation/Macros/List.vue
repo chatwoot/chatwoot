@@ -4,7 +4,7 @@
       v-if="!uiFlags.isFetching && !macros.length"
       class="macros_list--empty-state"
     >
-      <p class="no-items-error-message">
+      <p class="flex h-full items-center flex-col justify-center">
         {{ $t('MACROS.LIST.404') }}
       </p>
       <router-link :to="addAccountScoping('settings/macros')">
@@ -34,7 +34,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import MacroItem from './MacroItem';
+import MacroItem from './MacroItem.vue';
 import accountMixin from 'dashboard/mixins/account.js';
 
 export default {

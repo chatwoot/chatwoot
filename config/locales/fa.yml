@@ -49,6 +49,8 @@ fa:
         unique: باید منحصر به فرد در دسته‌بندی و پورتال باشد
     dyte:
       invalid_message_type: "نوع پیام نامعتبر است. اقدام مجاز نیست"
+    slack:
+      invalid_channel_id: "Invalid slack channel. Please try again"
     inboxes:
       imap:
         socket_error: لطفا اتصال شبکه، آدرس IMAP را بررسی کنید و دوباره امتحان کنید.
@@ -108,6 +110,8 @@ fa:
       instagram_story_content: "%{story_sender} در داستان به شما اشاره کرده: "
       instagram_deleted_story_content: این داستان دیگر در دسترس نیست.
       deleted: این پیام حذف شد
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "مکالمه توسط ایجنت %{user_name} حل شده، اعلام شده بود"
@@ -144,6 +148,8 @@ fa:
         header:
           from_with_name: "%{assignee_name} از %{inbox_name} «%{from_email}»"
           reply_with_name: "%{assignee_name} از %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} از %{business_name} «%{from_email}»"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} از %{inbox_name} «%{from_email}»"
@@ -198,3 +204,12 @@ fa:
       made_with: ساخته شده با
     header:
       go_to_homepage: به سایت اصلی بروید
+  slack_unfurl:
+    fields:
+      name: نام
+      email: ایمیل
+      phone_number: Phone
+      company_name: شرکت
+      inbox_name: صندوق ورودی
+      inbox_type: Inbox Type
+    button: باز کردن گفتگو

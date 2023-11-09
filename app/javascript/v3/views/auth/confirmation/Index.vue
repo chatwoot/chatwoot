@@ -7,7 +7,7 @@
 <script>
 import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 import { verifyPasswordToken } from '../../../api/auth';
-import Spinner from 'shared/components/Spinner';
+import Spinner from 'shared/components/Spinner.vue';
 
 export default {
   components: { Spinner },
