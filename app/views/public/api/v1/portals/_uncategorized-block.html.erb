@@ -11,7 +11,7 @@
     <% portal.articles.published.where(category_id: nil).order(position: :asc).take(5).each do |article| %>
     <a
       class="text-slate-800 dark:text-slate-100 hover:underline leading-8"
-      href="/hc/<%= portal.slug %>/articles/<%= article.slug %><%= @theme.present? ? '?theme='+@theme : ''  %>"
+      href="<%= generate_article_link(portal.slug, article.slug, @theme) %>"
     >
       <div class="flex justify-between content-center my-1 -mx-1 p-1 rounded-lg hover:bg-slate-25 dark:hover:bg-slate-800">
         <%= article.title %>
