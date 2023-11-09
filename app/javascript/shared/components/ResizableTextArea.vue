@@ -65,8 +65,12 @@ export default {
     },
   },
   watch: {
-    value() {
-      this.resizeTextarea();
+    value(value, oldValue) {
+      if (value !== oldValue) {
+        this.$nextTick(() => {
+          this.resizeTextarea();
+        });
+      }
       // 🚨 watch triggers every time the value is changed, we cannot set this to focus then
       // when this runs, it sets the cursor to the end of the body, ignoring the signature
       // Suppose if someone manually set the cursor to the middle of the body
@@ -87,7 +91,6 @@ export default {
   mounted() {
     this.$nextTick(() => {
       if (this.value) {
-        this.resizeTextarea();
         this.setCursor();
       } else {
         this.focus();

@@ -9,7 +9,7 @@
       ref="chatInput"
       v-model="userInput"
       :aria-label="$t('CHAT_PLACEHOLDER')"
-      :min-height="1"
+      :min-height="3"
       :placeholder="$t('CHAT_PLACEHOLDER')"
       class="user-message-input is-focused"
       :class="inputColor"
