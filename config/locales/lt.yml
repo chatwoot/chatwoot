@@ -196,14 +196,20 @@ lt:
     common:
       home: Pagrindinis
       last_updated_on: Paskutinį kartą atnaujinta %{last_updated_on}
-      view_all_articles: Žiūrėti visus straipsnius
+      view_all_articles: View all
       article: straipsnis
       articles: straipsniai
       no_articles: Čia nėra straipsnių
     footer:
       made_with: Padaryta su
     header:
-      go_to_homepage: Eikite į pagrindinę svetainę
+      go_to_homepage: Website
+      appearance:
+        system: Sistema
+        light: Šviesus
+        dark: Tamsus
+      featured_articles: Featured Articles
+      uncategorized: Neįtraukta į kategorijas
     404:
       title: Page not found
       description: We couldn't find the page you were looking for.
