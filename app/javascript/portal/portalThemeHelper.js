@@ -16,13 +16,13 @@ export const setPortalHoverColor = theme => {
   );
 };
 
-export const updateThemeInHeader = () => {
+export const updateThemeInHeader = theme => {
   // This function is to update the theme selection in the header in real time
   if (!themeToggleButton) {
     themeToggleButton = document.getElementById('toggle-appearance');
   }
+
   if (!themeToggleButton) return;
-  const theme = localStorage.theme || 'system';
 
   const allElementInButton =
     themeToggleButton.querySelectorAll('.theme-button');
@@ -40,11 +40,11 @@ export const updateThemeInHeader = () => {
 
 export const switchTheme = theme => {
   if (theme === 'system') {
+    localStorage.removeItem(theme);
     const prefersDarkMode = window.matchMedia(
       '(prefers-color-scheme: dark)'
     ).matches;
     // remove this so that the system theme is used
-    localStorage.removeItem(theme);
 
     document.documentElement.classList.remove('dark', 'light');
     document.documentElement.classList.add(prefersDarkMode ? 'dark' : 'light');
@@ -54,6 +54,9 @@ export const switchTheme = theme => {
     document.documentElement.classList.remove('dark', 'light');
     document.documentElement.classList.add(theme);
   }
+
+  setPortalHoverColor(theme);
+  updateThemeInHeader(theme);
 };
 
 export const initializeThemeSwitchButtons = () => {
@@ -70,8 +73,6 @@ export const initializeThemeSwitchButtons = () => {
       // setting this data property will automatically toggle the checkmark using CSS
       appearanceDropdown.dataset.currentTheme = theme;
       switchTheme(theme);
-      updateThemeInHeader();
-      setPortalHoverColor(theme);
       // wait for a bit before hiding the dropdown
       appearanceDropdown.style.display = 'none';
     }
@@ -94,14 +95,26 @@ export const initializeToggleButton = () => {
   });
 };
 
+export const initalizeMediaQueryListener = () => {
+  const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+  mediaQuery.addEventListener('change', () => {
+    if (['light', 'dark'].includes(localStorage.theme)) return;
+
+    switchTheme('system');
+  });
+};
+
 export const initializeTheme = () => {
   // start with updating the theme in the header, this will set the current theme on the button
-  updateThemeInHeader();
+  // and set the hover color at the start of init, this is set again when the theme is switched
+  setPortalHoverColor(localStorage.theme || 'system');
+  updateThemeInHeader(localStorage.theme || 'system');
 
   // add the event listeners for the dropdown toggle and theme buttons
   initializeToggleButton();
   initializeThemeSwitchButtons();
 
-  // set the hover color at the start of init, this is set again when the theme is switched
-  setPortalHoverColor(localStorage.theme || 'system');
+  // add the media query listener to update the theme when the system theme changes
+  initalizeMediaQueryListener();
 };
