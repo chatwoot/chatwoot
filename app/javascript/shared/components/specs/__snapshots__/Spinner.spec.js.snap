@@ -7,7 +7,7 @@ exports[`Spinner matches snapshot 1`] = `
 >
   <svg
     aria-hidden="true"
-    class="inline animate-spin w-5 h-5 text-slate-200 dark:text-slate-700 fill-slate-600 dark:fill-slate-300"
+    class="inline animate-spin w-5 h-5 text-slate-500/50 dark:text-slate-600/80 fill-slate-900/60 dark:fill-slate-300/60"
     fill="none"
     viewBox="0 0 100 101"
     xmlns="http://www.w3.org/2000/svg"
