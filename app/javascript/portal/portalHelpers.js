@@ -76,18 +76,32 @@ export const openExternalLinksInNewTab = () => {
 
   // Modify external links only on articles page
   const isOnArticlePage =
-    isSameHost && window.location.pathname.includes('/articles/');
+    isSameHost && document.querySelector('#cw-article-content') !== null;
 
-  if (!isOnArticlePage) return;
-  document.querySelectorAll('a').forEach(link => {
-    const { href } = link;
-    const { hostname } = new URL(href);
-    const isPortalUrl = href.includes('/articles/') && href.includes('/hc/');
-    const isExternalLink =
-      hostname !== window.location.hostname && !isPortalUrl;
+  document.addEventListener('click', function (event) {
+    if (!isOnArticlePage) return;
 
-    if (isExternalLink) {
-      link.target = '_blank';
+    // Some of the links come wrapped in strong tag through prosemirror
+
+    const isTagAnchor = event.target.tagName === 'A';
+    const isParentTagAnchor =
+      event.target.tagName === 'STRONG' &&
+      event.target.parentNode.tagName === 'A';
+
+    if (isTagAnchor || isParentTagAnchor) {
+      const link = isTagAnchor ? event.target : event.target.parentNode;
+
+      const isInternalLink =
+        link.hostname === window.location.hostname ||
+        link.href.includes(customDomain) ||
+        link.href.includes(hostURL);
+
+      if (!isInternalLink) {
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer'; // Security and performance benefits
+        // Prevent default if you want to stop the link from opening in the current tab
+        event.stopPropagation();
+      }
     }
   });
 };
