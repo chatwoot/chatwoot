@@ -4,7 +4,7 @@ describe Integrations::Facebook::DeliveryStatus do
   subject(:message_builder) { described_class.new(message_deliveries, facebook_channel.inbox).perform }
 
   before do
-    stub_request(:post, /graph.facebook.com/)
+    stub_request(:post, /graph\.facebook\.com/)
   end
 
   let!(:account) { create(:account) }
