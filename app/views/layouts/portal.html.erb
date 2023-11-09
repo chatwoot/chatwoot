@@ -57,17 +57,16 @@ By default, it renders:
     </div>
   </body>
   <style>
-  :root {
-    color-scheme: <% if @theme_from_params == 'system' %>light dark<% else %><%= @theme_from_params %><% end %>;
+  html.dark {
+    --dynamic-portal-bg: <%= generate_portal_bg(@portal.color, 'dark') %>;
+    --dynamic-portal-bg-gradient: <%= generate_gradient_to_bottom('dark') %>;
+    --dynamic-hover-bg-color: <%= generate_portal_hover_color(@portal.color , 'dark') %>;
+  }
+  
+  html.light {
     --dynamic-portal-bg: <%= generate_portal_bg(@portal.color, 'light') %>;
     --dynamic-portal-bg-gradient: <%= generate_gradient_to_bottom('light') %>;
     --dynamic-hover-bg-color: <%= generate_portal_hover_color(@portal.color , 'light') %>;
-
-    .dark {
-      --dynamic-portal-bg: <%= generate_portal_bg(@portal.color, 'dark') %>;
-      --dynamic-portal-bg-gradient: <%= generate_gradient_to_bottom('dark') %>;
-      --dynamic-hover-bg-color: <%= generate_portal_hover_color(@portal.color , 'dark') %>;
-    }
   }
   
   /* Portal background */

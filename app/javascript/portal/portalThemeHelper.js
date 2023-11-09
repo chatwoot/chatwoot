@@ -5,6 +5,14 @@ let themeToggleButton = document.getElementById('toggle-appearance');
 
 export const setPortalHoverColor = theme => {
   if (window.portalConfig.isPlainLayoutEnabled === 'true') return;
+
+  if (theme === 'system') {
+    const prefersDarkMode = window.matchMedia(
+      '(prefers-color-scheme: dark)'
+    ).matches;
+    theme = prefersDarkMode ? 'dark' : 'light';
+  }
+
   const portalColor = window.portalConfig.portalColor;
   const bgColor = theme === 'dark' ? '#151718' : 'white';
   const hoverColor = adjustColorForContrast(portalColor, bgColor);
