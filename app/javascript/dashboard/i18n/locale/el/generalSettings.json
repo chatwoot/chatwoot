@@ -110,7 +110,9 @@
       "SNOOZE_CONVERSATION": "Αναβολή Συνομιλίας",
       "ADD_LABEL": "Προσθήκη ετικέτας στη συνομιλία",
       "REMOVE_LABEL": "Αφαίρεση ετικέτας από την συνομιλία",
-      "SETTINGS": "Ρυθμίσεις"
+      "SETTINGS": "Ρυθμίσεις",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Μεταβείτε στον Πίνακα Συνομιλίων",
@@ -132,6 +134,7 @@
       "GO_TO_NOTIFICATIONS": "Μετάβαση στις ειδοποιήσεις",
       "ADD_LABELS_TO_CONVERSATION": "Προσθήκη ετικέτας στη συνομιλία",
       "ASSIGN_AN_AGENT": "Εκχώρηση πράκτορα",
+      "AI_ASSIST": "AI Assist",
       "ASSIGN_PRIORITY": "Assign priority",
       "ASSIGN_A_TEAM": "Εκχώρηση ομάδας",
       "MUTE_CONVERSATION": "Σίγαση Συνομιλίας",
@@ -146,10 +149,18 @@
       "UNTIL_TOMORROW": "Μέχρι αύριο",
       "UNTIL_NEXT_MONTH": "Until next month",
       "AN_HOUR_FROM_NOW": "Until an hour from now",
-      "CUSTOM": "Custom..."
+      "CUSTOM": "Custom...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "System"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "Φόρτωση Εφαρμογής Dashboard..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "πατήστε εδώ"
   }
 }

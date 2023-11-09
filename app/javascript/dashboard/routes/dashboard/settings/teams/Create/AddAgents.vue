@@ -1,5 +1,7 @@
 <template>
-  <div class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%]">
+  <div
+    class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%] overflow-y-auto"
+  >
     <form class="mx-0 flex flex-wrap" @submit.prevent="addAgents">
       <div class="w-full">
         <page-header
@@ -31,8 +33,8 @@ import { mapGetters } from 'vuex';
 
 import alertMixin from 'shared/mixins/alertMixin';
 import router from '../../../../index';
-import PageHeader from '../../SettingsSubPageHeader';
-import AgentSelector from '../AgentSelector';
+import PageHeader from '../../SettingsSubPageHeader.vue';
+import AgentSelector from '../AgentSelector.vue';
 
 export default {
   components: {

@@ -49,6 +49,8 @@ sv:
         unique: should be unique in the category and portal
     dyte:
       invalid_message_type: "Invalid message type. Action not permitted"
+    slack:
+      invalid_channel_id: "Invalid slack channel. Please try again"
     inboxes:
       imap:
         socket_error: Please check the network connection, IMAP address and try again.
@@ -108,6 +110,8 @@ sv:
       instagram_story_content: "%{story_sender} mentioned you in the story: "
       instagram_deleted_story_content: This story is no longer available.
       deleted: Detta meddelande har tagits bort
+      delivery_status:
+        error_code: "Felkod: %{error_code}"
     activity:
       status:
         resolved: "Konversationen har markerats som löst av %{user_name}"
@@ -144,6 +148,8 @@ sv:
         header:
           from_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
           reply_with_name: "%{assignee_name} from %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} from %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
@@ -180,21 +186,30 @@ sv:
       description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
   public_portal:
     search:
-      search_placeholder: Search for article by title or body...
+      search_placeholder: Sök efter artikel baserat på rubrik eller brödtext...
       empty_placeholder: Inga resultat hittades.
       loading_placeholder: Searching...
       results_title: Search results
     toc_header: 'On this page'
     hero:
-      sub_title: Search for the articles here or browse the categories below.
+      sub_title: Sök efter artiklarna här eller bläddra i kategorierna nedan.
     common:
       home: Hem
-      last_updated_on: Last updated on %{last_updated_on}
-      view_all_articles: View all articles
-      article: article
-      articles: articles
-      no_articles: There are no articles here
+      last_updated_on: Senast uppdaterad den %{last_updated_on}
+      view_all_articles: Se alla artiklar
+      article: artikel
+      articles: artiklar
+      no_articles: Det finns inga artiklar här
     footer:
       made_with: Made with
     header:
       go_to_homepage: Go to the main site
+  slack_unfurl:
+    fields:
+      name: Namn
+      email: E-post
+      phone_number: Telefon
+      company_name: Företag
+      inbox_name: Inkorg
+      inbox_type: Typ av inkorg
+    button: Öppna konversation

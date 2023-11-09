@@ -34,6 +34,10 @@
       "RESOLUTION_COUNT": {
         "NAME": "Количество завершенных",
         "DESC": "( Всего )"
+      },
+      "REPLY_TIME": {
+        "NAME": "Время ожидания клиента",
+        "TOOLTIP_TEXT": "Время ожидания %{metricValue} (на основе %{conversationCount} сообщений)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -124,10 +128,6 @@
       {
         "id": 3,
         "groupBy": "Месяц"
-      },
-      {
-        "id": 4,
-        "groupBy": "Год"
       }
     ],
     "BUSINESS_HOURS": "Время работы"

@@ -36,10 +36,13 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "ลายเซ็นส่วนตัว",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
         "BTN_TEXT": "บันทึกลายเซ็น",
         "API_ERROR": "ไม่สามารถบันทึกลายเซ็นได้ โปรดลองใหม่อีกครั้ง",
-        "API_SUCCESS": "บันทึกลายเซ็นสำเร็จแล้ว"
+        "API_SUCCESS": "บันทึกลายเซ็นสำเร็จแล้ว",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "ข้อความลายเซ็น",
@@ -149,6 +152,7 @@
     "SELECTOR_SUBTITLE": "เลือกบัญชีจากรายชื่อต่อไปนี้",
     "PROFILE_SETTINGS": "ตั้งค่าข้อมูลส่วนตัว",
     "KEYBOARD_SHORTCUTS": "คีย์ลัด",
+    "APPEARANCE": "Change Appearance",
     "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "ออกจากระบบ"
   },
@@ -238,7 +242,7 @@
     "REPORTS_OVERVIEW": "ภาพรวม",
     "FACEBOOK_REAUTHORIZE": "การเชื่อมต่อกับ Facebook หมดอายุแล้ว โปรดเชื่อมต่อใหม่อีกครั้ง",
     "HELP_CENTER": {
-      "TITLE": "Help Center (Beta)",
+      "TITLE": "Help Center",
       "ALL_ARTICLES": "All Articles",
       "MY_ARTICLES": "My Articles",
       "DRAFT": "Draft",

@@ -71,7 +71,7 @@
       "SUBMIT": "Nhập",
       "CANCEL": "Huỷ"
     },
-    "SUCCESS_MESSAGE": "Liên hệ được lưu thành công",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
   },
   "EXPORT_CONTACTS": {
@@ -203,6 +203,10 @@
         "LABEL": "Tin nhắn",
         "PLACEHOLDER": "Viết tin nhắn ở đây",
         "ERROR": "Tin nhắn không được rỗng"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
       },
       "SUBMIT": "Gửi tin nhắn",
       "CANCEL": "Huỷ",
@@ -343,17 +347,17 @@
     "DESCRIPTION": "Hợp nhất các liên hệ để kết hợp hai hồ sơ thành một, bao gồm tất cả các thuộc tính và hội thoại. Trong trường hợp xung đột, các thuộc tính của liên hệ Chính sẽ được ưu tiên.",
     "PRIMARY": {
       "TITLE": "Liên hệ chính",
-      "HELP_LABEL": "Được giữ"
+      "HELP_LABEL": "Sẽ được xoá"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Liên hệ cần gộp",
       "PLACEHOLDER": "Tìm kiếm liên hệ",
-      "HELP_LABEL": "Sẽ được xoá"
+      "HELP_LABEL": "Được giữ"
     },
     "SUMMARY": {
       "TITLE": "Tóm tắt",
-      "DELETE_WARNING": "Liên hệ của <strong>%{childContactName}</strong> sẽ bị xoá.",
-      "ATTRIBUTE_WARNING": "\bChi tiết liên hệ của <strong>%{childContactName}</strong> \bsẽ được sao chép đến <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Liên hệ của <strong>%{primaryContactName}</strong> sẽ bị xoá.",
+      "ATTRIBUTE_WARNING": "\bChi tiết liên hệ của <strong>%{primaryContactName}</strong> \bsẽ được sao chép đến <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"

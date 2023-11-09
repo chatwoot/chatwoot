@@ -425,6 +425,33 @@
           "ERROR_MESSAGE": "Unable to delete category"
         }
       }
+    },
+    "UPGRADE_PAGE": {
+      "TITLE": "Help Center",
+      "DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Upgrade your subscription to enable this feature.",
+      "SELF_HOSTED_DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Please contact your administrator to enable this feature.",
+      "BUTTON": {
+        "LEARN_MORE": "了解更多",
+        "UPGRADE": "Upgrade"
+      },
+      "FEATURES": {
+        "PORTALS": {
+          "TITLE": "Multiple portals",
+          "DESCRIPTION": "Create multiple help center portals for different products using the same account."
+        },
+        "LOCALES": {
+          "TITLE": "Full support for locales",
+          "DESCRIPTION": "Localize the portal in your language. We support all locales and allow translations for every article."
+        },
+        "SEO": {
+          "TITLE": "SEO-friendly design",
+          "DESCRIPTION": "Customize your meta tags to improve your visibility on search engines with our SEO-friendly pages."
+        },
+        "API": {
+          "TITLE": "Full API support",
+          "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
+        }
+      }
     }
   }
 }

@@ -34,7 +34,9 @@
   "START_CONVERSATION": "شروع گفتگو",
   "END_CONVERSATION": "پایان گفتگو",
   "CONTINUE_CONVERSATION": "ادامه گفتگو",
+  "YOU": "شما",
   "START_NEW_CONVERSATION": "یک مکالمه جدید را شروع کنید",
+  "VIEW_UNREAD_MESSAGES": "شما پیام خوانده نشده دارید",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "مشاهده پیام‌های جدید",
     "CLOSE_MESSAGES_BUTTON": "بستن",
@@ -104,6 +106,31 @@
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "برای عضویت اینجا را کلیک کنید",
       "LEAVE_THE_ROOM": "تماس را ترک کنید"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "مشاهده همه مقالات",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "پیام تصویری"
+    },
+    "audio": {
+      "CONTENT": "پیام صوتی"
+    },
+    "video": {
+      "CONTENT": "پیام ویدیویی"
+    },
+    "file": {
+      "CONTENT": "فایل الصاقی"
+    },
+    "location": {
+      "CONTENT": "مکان"
+    },
+    "fallback": {
+      "CONTENT": "یک آدرس URL به اشتراک گذاشته شده"
     }
   }
 }

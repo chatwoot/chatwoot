@@ -1,6 +1,8 @@
 import {
+  getConversationDashboardRoute,
   getCurrentAccount,
   getUserRole,
+  isAConversationRoute,
   routeIsAccessibleFor,
   validateLoggedInRoutes,
 } from '../routeHelpers';
@@ -92,5 +94,43 @@ describe('#validateLoggedInRoutes', () => {
         });
       });
     });
+  });
+});
+
+describe('isAConversationRoute', () => {
+  it('returns true if conversation route name is provided', () => {
+    expect(isAConversationRoute('inbox_conversation')).toBe(true);
+    expect(isAConversationRoute('conversation_through_inbox')).toBe(true);
+    expect(isAConversationRoute('conversations_through_label')).toBe(true);
+    expect(isAConversationRoute('conversations_through_team')).toBe(true);
+    expect(isAConversationRoute('dashboard')).toBe(false);
+  });
+});
+
+describe('getConversationDashboardRoute', () => {
+  it('returns dashboard route for conversation', () => {
+    expect(getConversationDashboardRoute('inbox_conversation')).toEqual('home');
+    expect(
+      getConversationDashboardRoute('conversation_through_mentions')
+    ).toEqual('conversation_mentions');
+    expect(
+      getConversationDashboardRoute('conversation_through_unattended')
+    ).toEqual('conversation_unattended');
+    expect(
+      getConversationDashboardRoute('conversations_through_label')
+    ).toEqual('label_conversations');
+    expect(getConversationDashboardRoute('conversations_through_team')).toEqual(
+      'team_conversations'
+    );
+    expect(
+      getConversationDashboardRoute('conversations_through_folders')
+    ).toEqual('folder_conversations');
+    expect(
+      getConversationDashboardRoute('conversation_through_participating')
+    ).toEqual('conversation_participating');
+    expect(getConversationDashboardRoute('conversation_through_inbox')).toEqual(
+      'inbox_dashboard'
+    );
+    expect(getConversationDashboardRoute('non_existent_route')).toBeNull();
   });
 });

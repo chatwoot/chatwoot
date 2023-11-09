@@ -1,5 +1,5 @@
 <template>
-  <div class="editor-root">
+  <div ref="editorRoot" class="relative editor-root">
     <tag-agents
       v-if="showUserMentions && isPrivate"
       :search-key="mentionSearchKey"
@@ -15,14 +15,39 @@
       :search-key="variableSearchTerm"
       @click="insertVariable"
     />
+    <input
+      ref="imageUpload"
+      type="file"
+      accept="image/png, image/jpeg, image/jpg, image/gif, image/webp"
+      hidden
+      @change="onFileChange"
+    />
     <div ref="editor" />
+    <div
+      v-show="isImageNodeSelected && showImageResizeToolbar"
+      class="absolute shadow-md rounded-[4px] flex gap-1 py-1 px-1 bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-50"
+      :style="{
+        top: toolbarPosition.top,
+        left: toolbarPosition.left,
+      }"
+    >
+      <button
+        v-for="size in sizes"
+        :key="size.name"
+        class="text-xs font-medium rounded-[4px] border border-solid border-slate-200 dark:border-slate-600 px-1.5 py-0.5 hover:bg-slate-100 dark:hover:bg-slate-800"
+        @click="setURLWithQueryAndImageSize(size)"
+      >
+        {{ size.name }}
+      </button>
+    </div>
+    <slot name="footer" />
   </div>
 </template>
 
 <script>
 import {
   messageSchema,
-  wootMessageWriterSetup,
+  buildEditor,
   EditorView,
   MessageMarkdownTransformer,
   MessageMarkdownSerializer,
@@ -33,12 +58,22 @@ import {
   suggestionsPlugin,
   triggerCharacters,
 } from '@chatwoot/prosemirror-schema/src/mentions/plugin';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
-import TagAgents from '../conversation/TagAgents';
-import CannedResponse from '../conversation/CannedResponse';
-import VariableList from '../conversation/VariableList';
+import TagAgents from '../conversation/TagAgents.vue';
+import CannedResponse from '../conversation/CannedResponse.vue';
+import VariableList from '../conversation/VariableList.vue';
+import {
+  appendSignature,
+  removeSignature,
+  insertAtCursor,
+  scrollCursorIntoView,
+  findNodeToInsertImage,
+  setURLWithQueryAndSize,
+} from 'dashboard/helper/editorHelper';
 
 const TYPING_INDICATOR_IDLE_TIME = 4000;
+const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 
 import {
   hasPressedEnterAndNotCmdOrShift,
@@ -51,14 +86,31 @@ import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
 import { replaceVariablesInMessage } from '@chatwoot/utils';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
+import { uploadFile } from 'dashboard/helper/uploadHelper';
+import alertMixin from 'shared/mixins/alertMixin';
+import {
+  MESSAGE_EDITOR_MENU_OPTIONS,
+  MESSAGE_EDITOR_IMAGE_RESIZES,
+} from 'dashboard/constants/editor';
 
-const createState = (content, placeholder, plugins = []) => {
+const createState = (
+  content,
+  placeholder,
+  // eslint-disable-next-line default-param-last
+  plugins = [],
+  // eslint-disable-next-line default-param-last
+  methods = {},
+  enabledMenuOptions
+) => {
   return EditorState.create({
     doc: new MessageMarkdownTransformer(messageSchema).parse(content),
-    plugins: wootMessageWriterSetup({
+    plugins: buildEditor({
       schema: messageSchema,
       placeholder,
+      methods,
       plugins,
+      enabledMenuOptions,
     }),
   });
 };
@@ -66,7 +118,7 @@ const createState = (content, placeholder, plugins = []) => {
 export default {
   name: 'WootMessageEditor',
   components: { TagAgents, CannedResponse, VariableList },
-  mixins: [eventListenerMixins, uiSettingsMixin],
+  mixins: [eventListenerMixins, uiSettingsMixin, alertMixin],
   props: {
     value: { type: String, default: '' },
     editorId: { type: String, default: '' },
@@ -78,6 +130,12 @@ export default {
     enableVariables: { type: Boolean, default: false },
     enableCannedResponses: { type: Boolean, default: true },
     variables: { type: Object, default: () => ({}) },
+    enabledMenuOptions: { type: Array, default: () => [] },
+    signature: { type: String, default: '' },
+    // allowSignature is a kill switch, ensuring no signature methods
+    // are triggered except when this flag is true
+    allowSignature: { type: Boolean, default: false },
+    showImageResizeToolbar: { type: Boolean, default: false }, // A kill switch to show or hide the image toolbar
   },
   data() {
     return {
@@ -90,9 +148,16 @@ export default {
       editorView: null,
       range: null,
       state: undefined,
+      isImageNodeSelected: false,
+      toolbarPosition: { top: 0, left: 0 },
+      sizes: MESSAGE_EDITOR_IMAGE_RESIZES,
+      selectedImageNode: null,
     };
   },
   computed: {
+    editorRoot() {
+      return this.$refs.editorRoot;
+    },
     contentFromEditor() {
       return MessageMarkdownSerializer.serialize(this.editorView.state.doc);
     },
@@ -103,6 +168,11 @@ export default {
       return (
         this.enableCannedResponses && this.showCannedMenu && !this.isPrivate
       );
+    },
+    editorMenuOptions() {
+      return this.enabledMenuOptions.length
+        ? this.enabledMenuOptions
+        : MESSAGE_EDITOR_MENU_OPTIONS;
     },
     plugins() {
       if (!this.enableSuggestions) {
@@ -193,6 +263,12 @@ export default {
         }),
       ];
     },
+    sendWithSignature() {
+      // this is considered the source of truth, we watch this property
+      // on change, we toggle the signature in the editor
+      const { send_with_signature: isEnabled } = this.uiSettings;
+      return isEnabled && this.allowSignature && !this.isPrivate;
+    },
   },
   watch: {
     showUserMentions(updatedValue) {
@@ -204,20 +280,19 @@ export default {
     showVariables(updatedValue) {
       this.$emit('toggle-variables-menu', !this.isPrivate && updatedValue);
     },
-    value(newValue = '') {
-      if (newValue !== this.contentFromEditor) {
-        this.reloadState();
+    value(newVal = '') {
+      if (newVal !== this.contentFromEditor) {
+        this.reloadState(newVal);
       }
     },
     editorId() {
       this.showCannedMenu = false;
       this.cannedSearchTerm = '';
-      this.reloadState();
+      this.reloadState(this.value);
     },
     isPrivate() {
-      this.reloadState();
+      this.reloadState(this.value);
     },
-
     updateSelectionWith(newValue, oldValue) {
       if (!this.editorView) {
         return null;
@@ -230,32 +305,130 @@ export default {
           const tr = this.editorView.state.tr.replaceSelectionWith(node);
           this.editorView.focus();
           this.state = this.editorView.state.apply(tr);
+          this.editorView.updateState(this.state);
           this.emitOnChange();
           this.$emit('clear-selection');
         }
       }
       return null;
     },
+    sendWithSignature(newValue) {
+      // see if the allowSignature flag is true
+      if (this.allowSignature) {
+        this.toggleSignatureInEditor(newValue);
+      }
+    },
   },
   created() {
-    this.state = createState(this.value, this.placeholder, this.plugins);
+    this.state = createState(
+      this.value,
+      this.placeholder,
+      this.plugins,
+      { onImageUpload: this.openFileBrowser },
+      this.editorMenuOptions
+    );
   },
   mounted() {
     this.createEditorView();
     this.editorView.updateState(this.state);
     this.focusEditorInputField();
+
+    // BUS Event to insert text or markdown into the editor at the
+    // current cursor position.
+    // Components using this
+    // 1. SearchPopover.vue
+
+    bus.$on(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, this.insertContentIntoEditor);
+  },
+  beforeDestroy() {
+    bus.$off(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, this.insertContentIntoEditor);
   },
   methods: {
-    reloadState() {
-      this.state = createState(this.value, this.placeholder, this.plugins);
+    reloadState(content = this.value) {
+      this.state = createState(
+        content,
+        this.placeholder,
+        this.plugins,
+        { onImageUpload: this.openFileBrowser },
+        this.editorMenuOptions
+      );
       this.editorView.updateState(this.state);
-      this.focusEditorInputField();
+
+      this.focusEditor(content);
+    },
+    focusEditor(content) {
+      if (this.isBodyEmpty(content) && this.sendWithSignature) {
+        // reload state can be called when switching between conversations, or when drafts is loaded
+        // these drafts can also have a signature, so we need to check if the body is empty
+        // and handle things accordingly
+        this.handleEmptyBodyWithSignature();
+      } else {
+        // this is in the else block, handleEmptyBodyWithSignature also has a call to the focus method
+        // the position is set to start, because the signature is added at the end of the body
+        this.focusEditorInputField('end');
+      }
+    },
+    toggleSignatureInEditor(signatureEnabled) {
+      // The toggleSignatureInEditor gets the new value from the
+      // watcher, this means that if the value is true, the signature
+      // is supposed to be added, else we remove it.
+      if (signatureEnabled) {
+        this.addSignature();
+      } else {
+        this.removeSignature();
+      }
+    },
+    addSignature() {
+      let content = this.value;
+      // see if the content is empty, if it is before appending the signature
+      // we need to add a paragraph node and move the cursor at the start of the editor
+      const contentWasEmpty = this.isBodyEmpty(content);
+      content = appendSignature(content, this.signature);
+      // need to reload first, ensuring that the editorView is updated
+      this.reloadState(content);
+
+      if (contentWasEmpty) {
+        this.handleEmptyBodyWithSignature();
+      }
+    },
+    removeSignature() {
+      if (!this.signature) return;
+      let content = this.value;
+      content = removeSignature(content, this.signature);
+      // reload the state, ensuring that the editorView is updated
+      this.reloadState(content);
+    },
+    isBodyEmpty(content) {
+      // if content is undefined, we assume that the body is empty
+      if (!content) return true;
+
+      // if the signature is present, we need to remove it before checking
+      // note that we don't update the editorView, so this is safe
+      const bodyWithoutSignature = this.signature
+        ? removeSignature(content, this.signature)
+        : content;
+
+      // trimming should remove all the whitespaces, so we can check the length
+      return bodyWithoutSignature.trim().length === 0;
+    },
+    handleEmptyBodyWithSignature() {
+      const { schema, tr } = this.state;
+
+      // create a paragraph node and
+      // start a transaction to append it at the end
+      const paragraph = schema.nodes.paragraph.create();
+      const paragraphTransaction = tr.insert(0, paragraph);
+      this.editorView.dispatch(paragraphTransaction);
+
+      // Set the focus at the start of the input field
+      this.focusEditorInputField('start');
     },
     createEditorView() {
       this.editorView = new EditorView(this.$refs.editor, {
         state: this.state,
         dispatchTransaction: tx => {
           this.state = this.state.apply(tx);
+          this.editorView.updateState(this.state);
           this.emitOnChange();
         },
         handleDOMEvents: {
@@ -268,6 +441,9 @@ export default {
           focus: () => {
             this.onFocus();
           },
+          click: () => {
+            // this.isEditorMouseFocusedOnAnImage(); Enable it when the backend supports for message resize is done.
+          },
           blur: () => {
             this.onBlur();
           },
@@ -279,6 +455,50 @@ export default {
           },
         },
       });
+    },
+    isEditorMouseFocusedOnAnImage() {
+      if (!this.showImageResizeToolbar) {
+        return;
+      }
+      this.selectedImageNode = document.querySelector(
+        'img.ProseMirror-selectednode'
+      );
+      if (this.selectedImageNode) {
+        this.isImageNodeSelected = !!this.selectedImageNode;
+        // Get the position of the selected node
+        this.setToolbarPosition();
+      } else {
+        this.isImageNodeSelected = false;
+      }
+    },
+    setToolbarPosition() {
+      const editorRect = this.editorRoot.getBoundingClientRect();
+      const rect = this.selectedImageNode.getBoundingClientRect();
+      this.toolbarPosition = {
+        top: `${rect.top - editorRect.top - 30}px`,
+        left: `${rect.left - editorRect.left - 4}px`,
+      };
+    },
+    setURLWithQueryAndImageSize(size) {
+      if (!this.showImageResizeToolbar) {
+        return;
+      }
+      setURLWithQueryAndSize(this.selectedImageNode, size, this.editorView);
+      this.isImageNodeSelected = false;
+    },
+    updateImgToolbarOnDelete() {
+      // check if the selected node is present or not on keyup
+      // this is needed because the user can select an image and then delete it
+      // in that case, the selected node will be null and we need to hide the toolbar
+      // otherwise, the toolbar will be visible even when the image is deleted and cause some errors
+      if (this.selectedImageNode) {
+        const hasImgSelectedNode = document.querySelector(
+          'img.ProseMirror-selectednode'
+        );
+        if (!hasImgSelectedNode) {
+          this.isImageNodeSelected = false;
+        }
+      }
     },
     isEnterToSendEnabled() {
       return isEditorHotKeyEnabled(this.uiSettings, 'enter');
@@ -294,9 +514,11 @@ export default {
         this.focusEditorInputField();
       }
     },
-    focusEditorInputField() {
+    focusEditorInputField(pos = 'end') {
       const { tr } = this.editorView.state;
-      const selection = Selection.atEnd(tr.doc);
+
+      const selection =
+        pos === 'end' ? Selection.atEnd(tr.doc) : Selection.atStart(tr.doc);
 
       this.editorView.dispatch(tr.setSelection(selection));
       this.editorView.focus();
@@ -310,11 +532,7 @@ export default {
         userFullName: mentionItem.name,
       });
 
-      const tr = this.editorView.state.tr
-        .replaceWith(this.range.from, this.range.to, node)
-        .insertText(` `);
-      this.state = this.editorView.state.apply(tr);
-      this.emitOnChange();
+      this.insertNodeIntoEditor(node, this.range.from, this.range.to);
       this.$track(CONVERSATION_EVENTS.USED_MENTIONS);
 
       return false;
@@ -324,30 +542,22 @@ export default {
         message: cannedItem,
         variables: this.variables,
       });
+
       if (!this.editorView) {
         return null;
       }
 
-      let from = this.range.from - 1;
       let node = new MessageMarkdownTransformer(messageSchema).parse(
         updatedMessage
       );
 
-      if (node.textContent === updatedMessage) {
-        node = this.editorView.state.schema.text(updatedMessage);
-        from = this.range.from;
-      }
+      const from =
+        node.textContent === updatedMessage
+          ? this.range.from
+          : this.range.from - 1;
 
-      const tr = this.editorView.state.tr.replaceWith(
-        from,
-        this.range.to,
-        node
-      );
+      this.insertNodeIntoEditor(node, from, this.range.to);
 
-      this.state = this.editorView.state.apply(tr);
-      this.emitOnChange();
-
-      tr.scrollIntoView();
       this.$track(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
       return false;
     },
@@ -355,29 +565,69 @@ export default {
       if (!this.editorView) {
         return null;
       }
-      let node = this.editorView.state.schema.text(`{{${variable}}}`);
-      const from = this.range.from;
 
-      const tr = this.editorView.state.tr.replaceWith(
-        from,
-        this.range.to,
-        node
-      );
+      const content = `{{${variable}}}`;
+      let node = this.editorView.state.schema.text(content);
+      const { from, to } = this.range;
 
-      this.state = this.editorView.state.apply(tr);
-      this.emitOnChange();
-
-      // The `{{ }}` are added to the message, but the cursor is placed
-      // and onExit of suggestionsPlugin is not called. So we need to manually hide
+      this.insertNodeIntoEditor(node, from, to);
       this.showVariables = false;
       this.$track(CONVERSATION_EVENTS.INSERTED_A_VARIABLE);
-      tr.scrollIntoView();
       return false;
+    },
+    openFileBrowser() {
+      this.$refs.imageUpload.click();
+    },
+    onFileChange() {
+      const file = this.$refs.imageUpload.files[0];
+      if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
+        this.uploadImageToStorage(file);
+      } else {
+        this.showAlert(
+          this.$t(
+            'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.IMAGE_UPLOAD_SIZE_ERROR',
+            {
+              size: MAXIMUM_FILE_UPLOAD_SIZE,
+            }
+          )
+        );
+      }
+
+      this.$refs.imageUpload.value = '';
+    },
+    async uploadImageToStorage(file) {
+      try {
+        const { fileUrl } = await uploadFile(file);
+        if (fileUrl) {
+          this.onImageInsertInEditor(fileUrl);
+        }
+        this.showAlert(
+          this.$t(
+            'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.IMAGE_UPLOAD_SUCCESS'
+          )
+        );
+      } catch (error) {
+        this.showAlert(
+          this.$t(
+            'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.IMAGE_UPLOAD_ERROR'
+          )
+        );
+      }
+    },
+    onImageInsertInEditor(fileUrl) {
+      const { tr } = this.editorView.state;
+
+      const insertData = findNodeToInsertImage(this.editorView.state, fileUrl);
+
+      if (insertData) {
+        this.editorView.dispatch(
+          tr.insert(insertData.pos, insertData.node).scrollIntoView()
+        );
+        this.focusEditorInputField();
+      }
     },
 
     emitOnChange() {
-      this.editorView.updateState(this.state);
-
       this.$emit('input', this.contentFromEditor);
     },
 
@@ -420,6 +670,7 @@ export default {
         () => this.resetTyping(),
         TYPING_INDICATOR_IDLE_TIME
       );
+      // this.updateImgToolbarOnDelete(); Enable it when the backend supports for message resize is done.
     },
     onKeydown(event) {
       if (this.isEnterToSendEnabled()) {
@@ -436,6 +687,19 @@ export default {
     },
     onFocus() {
       this.$emit('focus');
+    },
+    insertContentIntoEditor(content, defaultFrom = 0) {
+      const from = defaultFrom || this.editorView.state.selection.from || 0;
+      let node = new MessageMarkdownTransformer(messageSchema).parse(content);
+
+      this.insertNodeIntoEditor(node, from, undefined);
+    },
+    insertNodeIntoEditor(node, from = 0, to = 0) {
+      this.state = insertAtCursor(this.editorView, node, from, to);
+      this.emitOnChange();
+      this.$nextTick(() => {
+        scrollCursorIntoView(this.editorView);
+      });
     },
   },
 };
@@ -491,6 +755,10 @@ export default {
 
 .ProseMirror-prompt {
   @apply z-50 bg-slate-25 dark:bg-slate-700 rounded-md border border-solid border-slate-75 dark:border-slate-800;
+
+  h5 {
+    @apply dark:text-slate-25 text-slate-800;
+  }
 }
 
 .is-private {
@@ -526,6 +794,6 @@ export default {
 }
 
 .editor-warning__message {
-  @apply text-red-400 dark:text-red-400 font-normal pt-1 pb-0 px-0;
+  @apply text-red-400 dark:text-red-400 font-normal text-sm pt-1 pb-0 px-0;
 }
 </style>

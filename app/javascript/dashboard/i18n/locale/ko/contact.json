@@ -71,7 +71,7 @@
       "SUBMIT": "가져오기",
       "CANCEL": "취소"
     },
-    "SUCCESS_MESSAGE": "연락처가 성공적으로 저장되었습니다",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
   },
   "EXPORT_CONTACTS": {
@@ -203,6 +203,10 @@
         "LABEL": "메시지",
         "PLACEHOLDER": "메시지를 여기에 작성해주세요",
         "ERROR": "메시지는 비어 있을 수 없습니다"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
       },
       "SUBMIT": "메시지 보내기",
       "CANCEL": "취소",
@@ -343,17 +347,17 @@
     "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
     "PRIMARY": {
       "TITLE": "Primary contact",
-      "HELP_LABEL": "To be kept"
+      "HELP_LABEL": "To be deleted"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Contact to merge",
       "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be deleted"
+      "HELP_LABEL": "To be kept"
     },
     "SUMMARY": {
       "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Contact of <strong>%{primaryContactName}</strong> will be deleted.",
+      "ATTRIBUTE_WARNING": "Contact details of <strong>%{primaryContactName}</strong> will be copied to <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "에러_메시지"

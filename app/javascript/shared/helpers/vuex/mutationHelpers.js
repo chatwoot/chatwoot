@@ -33,7 +33,7 @@ export const updateAttributes = (state, data) => {
     }
   });
 };
-//added
+// subscription mutation
 export const updatedAttributes = (state, data) => {
   const recordIndex = state.records.findIndex(record => record.id === data.id);
   if (recordIndex > -1) {

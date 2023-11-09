@@ -146,3 +146,12 @@ export const MESSAGE_VARIABLES = [
     key: 'agent.email',
   },
 ];
+
+export const ATTACHMENT_ICONS = {
+  image: 'image',
+  audio: 'headphones-sound-wave',
+  video: 'video',
+  file: 'document',
+  location: 'location',
+  fallback: 'link',
+};

@@ -16,7 +16,7 @@
 <script>
 import {
   fullSchema,
-  wootArticleWriterSetup,
+  buildEditor,
   EditorView,
   ArticleMarkdownSerializer,
   ArticleMarkdownTransformer,
@@ -32,16 +32,20 @@ const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 const createState = (
   content,
   placeholder,
+  // eslint-disable-next-line default-param-last
   plugins = [],
-  onImageUpload = () => {}
+  // eslint-disable-next-line default-param-last
+  methods = {},
+  enabledMenuOptions
 ) => {
   return EditorState.create({
     doc: new ArticleMarkdownTransformer(fullSchema).parse(content),
-    plugins: wootArticleWriterSetup({
+    plugins: buildEditor({
       schema: fullSchema,
       placeholder,
+      methods,
       plugins,
-      onImageUpload,
+      enabledMenuOptions,
     }),
   });
 };
@@ -52,6 +56,7 @@ export default {
     value: { type: String, default: '' },
     editorId: { type: String, default: '' },
     placeholder: { type: String, default: '' },
+    enabledMenuOptions: { type: Array, default: () => [] },
   },
   data() {
     return {
@@ -83,7 +88,8 @@ export default {
       this.value,
       this.placeholder,
       this.plugins,
-      this.openFileBrowser
+      { onImageUpload: this.openFileBrowser },
+      this.enabledMenuOptions
     );
   },
   mounted() {
@@ -152,7 +158,8 @@ export default {
         this.value,
         this.placeholder,
         this.plugins,
-        this.openFileBrowser
+        { onImageUpload: this.openFileBrowser },
+        this.enabledMenuOptions
       );
       this.editorView.updateState(this.state);
       this.focusEditorInputField();

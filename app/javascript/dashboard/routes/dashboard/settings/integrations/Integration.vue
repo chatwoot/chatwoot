@@ -1,6 +1,8 @@
 <template>
-  <div class="flex flex-col md:flex-row items-start md:items-center">
-    <div class="flex items-center justify-center m-0 mx-4 flex-1">
+  <div
+    class="flex flex-col md:flex-row justify-between items-start md:items-center"
+  >
+    <div class="flex items-center justify-start m-0 mx-4 flex-1">
       <img
         :src="'/dashboard/images/integrations/' + integrationLogo"
         class="p-2 h-16 w-16 mr-4"
@@ -33,7 +35,7 @@
               <woot-submit-button
                 :button-text="
                   actionButtonText ||
-                    $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT')
+                  $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT')
                 "
                 button-class="smooth alert"
               />
@@ -58,11 +60,11 @@
       :on-confirm="confirmDeletion"
       :title="
         deleteConfirmationText.title ||
-          $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.TITLE')
+        $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.TITLE')
       "
       :message="
         deleteConfirmationText.message ||
-          $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.MESSAGE')
+        $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.MESSAGE')
       "
       :confirm-text="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.YES')"
       :reject-text="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.NO')"

@@ -34,7 +34,9 @@
   "START_CONVERSATION": "സംഭാഷണം ആരംഭിക്കുക",
   "END_CONVERSATION": "End Conversation",
   "CONTINUE_CONVERSATION": "Continue conversation",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "ഒരു പുതിയ സംഭാഷണം ആരംഭിക്കുക",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "പുതിയ സന്ദേശങ്ങൾ കാണുക",
     "CLOSE_MESSAGES_BUTTON": "അടയ്ക്കുക",
@@ -104,6 +106,31 @@
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Click here to join",
       "LEAVE_THE_ROOM": "Leave the call"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "ചിത്ര സന്ദേശം"
+    },
+    "audio": {
+      "CONTENT": "ഓഡിയോ സന്ദേശം"
+    },
+    "video": {
+      "CONTENT": "വീഡിയോ സന്ദേശം"
+    },
+    "file": {
+      "CONTENT": "ഫയൽ അറ്റാച്ചുമെന്റ്"
+    },
+    "location": {
+      "CONTENT": "സ്ഥാനം"
+    },
+    "fallback": {
+      "CONTENT": "ഒരു യു. ആർ. എൽ പങ്കിട്ടു"
     }
   }
 }

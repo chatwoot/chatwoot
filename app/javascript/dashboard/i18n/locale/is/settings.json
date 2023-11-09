@@ -36,10 +36,13 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Persónuleg undirskrift á skilaboðum",
-        "NOTE": "Búðu til persónulega skilaboðaundirskrift sem verður bætt við öll skilaboðin sem þú sendir úr pósthólfinu þínu. Notaðu innihaldsríka ritilinn til að búa til mjög persónulega undirskrift.",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
         "BTN_TEXT": "Vista undirskrift á skilaboðum",
         "API_ERROR": "Gat ekki vistað undirskrift! Reyndu aftur",
-        "API_SUCCESS": "Undirskrift var vistuð"
+        "API_SUCCESS": "Undirskrift var vistuð",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Undirskrift skilaboða",
@@ -149,6 +152,7 @@
     "SELECTOR_SUBTITLE": "Veldu reikning úr eftirfarandi lista",
     "PROFILE_SETTINGS": "Stillingar Prófíls",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
+    "APPEARANCE": "Change Appearance",
     "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "Logout"
   },
@@ -238,7 +242,7 @@
     "REPORTS_OVERVIEW": "Overview",
     "FACEBOOK_REAUTHORIZE": "Facebook tengingin þín er útrunnin, vinsamlegast tengdu Facebook síðuna þína aftur til að halda áfram þjónustu",
     "HELP_CENTER": {
-      "TITLE": "Help Center (Beta)",
+      "TITLE": "Help Center",
       "ALL_ARTICLES": "All Articles",
       "MY_ARTICLES": "My Articles",
       "DRAFT": "Draft",

@@ -39,16 +39,6 @@ class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
     head :ok
   end
 
-  def attach_file
-    file_blob = ActiveStorage::Blob.create_and_upload!(
-      key: nil,
-      io: params[:attachment].tempfile,
-      filename: params[:attachment].original_filename,
-      content_type: params[:attachment].content_type
-    )
-    render json: { blob_key: file_blob.key, blob_id: file_blob.id }
-  end
-
   def execute
     ::MacrosExecutionJob.perform_later(@macro, conversation_ids: params[:conversation_ids], user: Current.user)
 

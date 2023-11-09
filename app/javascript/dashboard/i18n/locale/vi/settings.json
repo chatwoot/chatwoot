@@ -36,10 +36,13 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Chữ ký tin nhắn cá nhân",
-        "NOTE": "Tạo chữ ký thư cá nhân sẽ được thêm vào tất cả các thư bạn gửi từ hộp thư email của mình. Sử dụng trình chỉnh sửa nội dung phong phú để tạo chữ ký được cá nhân hóa cao.",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
         "BTN_TEXT": "Lưu chữ ký tin nhắn",
         "API_ERROR": "Không thể lưu chữ ký! Thử lại",
-        "API_SUCCESS": "Chữ ký được lưu thành công"
+        "API_SUCCESS": "Chữ ký được lưu thành công",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Kích thước ảnh phải nhỏ hơn {size}MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Chữ ký tin nhắn",
@@ -149,6 +152,7 @@
     "SELECTOR_SUBTITLE": "Chọn một tài khoản từ danh sách sau",
     "PROFILE_SETTINGS": "Cài Đặt Hồ Sơ Cá Nhân",
     "KEYBOARD_SHORTCUTS": "Phím tắt",
+    "APPEARANCE": "Change Appearance",
     "SUPER_ADMIN_CONSOLE": "Bảng điều khiển dành cho quản trị viên cấp cao",
     "LOGOUT": "Đăng xuất"
   },
@@ -238,7 +242,7 @@
     "REPORTS_OVERVIEW": "Tổng quan",
     "FACEBOOK_REAUTHORIZE": "Kết nối Facebook của bạn đã hết hạn, vui lòng kết nối lại trang Facebook của bạn để tiếp tục dịch vụ",
     "HELP_CENTER": {
-      "TITLE": "Trung tâm trợ giúp (Thử nghiệm)",
+      "TITLE": "Help Center",
       "ALL_ARTICLES": "Tất cả các bài",
       "MY_ARTICLES": "Các bài của tôi",
       "DRAFT": "Nháp",

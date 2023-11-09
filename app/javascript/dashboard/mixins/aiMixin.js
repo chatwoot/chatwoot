@@ -10,14 +10,18 @@ export default {
   },
   computed: {
     ...mapGetters({
+      uiFlags: 'integrations/getUIFlags',
       appIntegrations: 'integrations/getAppIntegrations',
       currentChat: 'getSelectedChat',
       replyMode: 'draftMessages/getReplyEditorMode',
     }),
     isAIIntegrationEnabled() {
-      return this.appIntegrations.find(
+      return !!this.appIntegrations.find(
         integration => integration.id === 'openai' && !!integration.hooks.length
       );
+    },
+    isFetchingAppIntegrations() {
+      return this.uiFlags.isFetching;
     },
     hookId() {
       return this.appIntegrations.find(

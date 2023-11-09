@@ -15,10 +15,29 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
   end
 
   def link(node)
-    render_embedded_content(node) || super
+    return if surrounded_by_empty_lines?(node) && render_embedded_content(node)
+
+    # If it's not YouTube or Vimeo link, render normally
+    super
   end
 
   private
+
+  def surrounded_by_empty_lines?(node)
+    prev_node_empty?(node.previous) && next_node_empty?(node.next)
+  end
+
+  def prev_node_empty?(prev_node)
+    prev_node.nil? || node_empty?(prev_node)
+  end
+
+  def next_node_empty?(next_node)
+    next_node.nil? || node_empty?(next_node)
+  end
+
+  def node_empty?(node)
+    (node.type == :text && node.string_content.strip.empty?) || (node.type != :text)
+  end
 
   def render_embedded_content(node)
     link_url = node.url

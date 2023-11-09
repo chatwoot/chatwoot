@@ -38,6 +38,19 @@
       "DELETE": "ഇല്ലാതാക്കുക",
       "CANCEL": "റദ്ദാക്കുക"
     },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Add label to conversation",
+        "MULTIPLE_SUGGESTION": "Select this label",
+        "DESELECT": "Deselect label",
+        "DISMISS": "Dismiss suggestion"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Dismiss",
+      "ADD_SELECTED_LABELS": "Add selected labels",
+      "ADD_SELECTED_LABEL": "Add selected label",
+      "ADD_ALL_LABELS": "Add all labels"
+    },
     "ADD": {
       "TITLE": "ലേബൽ ചേർക്കുക",
       "DESC": "സംഭാഷണങ്ങൾ ഒരുമിച്ച് ഗ്രൂപ്പുചെയ്യാൻ ലേബലുകൾ നിങ്ങളെ അനുവദിക്കുന്നു.",

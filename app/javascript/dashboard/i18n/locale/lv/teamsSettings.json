@@ -78,7 +78,7 @@
     },
     "ADD": {
       "TITLE": "Pievienot aģentus komandai - %{teamName}",
-      "DESC": "Pievienot aģentus savai jaunizveidotajai komandai. Tas ļauj sarunās sadarboties kā komandai, kā arī saņemt paziņojumus par jauniem notikumiem tajā pašā sarunā.",
+      "DESC": "Pievienot aģentus savai jaunizveidotajai komandai. Tas ļauj sarunās sadarboties kā komandai, tā arī saņemt paziņojumus par jauniem notikumiem tajā pašā sarunā.",
       "SELECT": "izvēlēties",
       "SELECT_ALL": "izvēlēties visus aģentus",
       "SELECTED_COUNT": "%{selected} no %{total} aģentiem ir atlasīti.",

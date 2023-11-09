@@ -12,7 +12,7 @@
       <div class="w-[60%]">
         <p
           v-if="!uiFlags.isFetching && !records.length"
-          class="no-items-error-message"
+          class="flex h-full items-center flex-col justify-center"
         >
           {{ $t('LABEL_MGMT.LIST.404') }}
         </p>
@@ -103,8 +103,8 @@
 <script>
 import { mapGetters } from 'vuex';
 
-import AddLabel from './AddLabel';
-import EditLabel from './EditLabel';
+import AddLabel from './AddLabel.vue';
+import EditLabel from './EditLabel.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 
 export default {

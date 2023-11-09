@@ -12,6 +12,10 @@
     "NO_INBOX_2": " para empezar",
     "NO_INBOX_AGENT": "¡Uh Oh! Parece que no eres parte de ninguna bandeja de entrada. Por favor, contacta con tu administrador",
     "SEARCH_MESSAGES": "Buscar mensajes en conversaciones",
+    "EMPTY_STATE": {
+      "CMD_BAR": "para abrir el menú de comandos",
+      "KEYBOARD_SHORTCUTS": "para ver los atajos del teclado"
+    },
     "SEARCH": {
       "TITLE": "Buscar mensajes",
       "RESULT_TITLE": "Buscar resultados",
@@ -30,7 +34,6 @@
     "ASSIGN_TO_ME": "Asignar a mi",
     "TWILIO_WHATSAPP_CAN_REPLY": "Sólo puede responder a esta conversación usando una plantilla de mensaje debido a",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restricción de la ventana de mensajes de 24 horas",
-    "SELECT_A_TWEET_TO_REPLY": "Por favor, seleccione un tweet al que responder.",
     "REPLYING_TO": "Esta respondiendo a:",
     "REMOVE_SELECTION": "Eliminar selección",
     "DOWNLOAD": "Descargar",
@@ -43,6 +46,7 @@
     "NO_RESPONSE": "No hay respuesta",
     "RATING_TITLE": "Calificación",
     "FEEDBACK_TITLE": "Comentarios",
+    "REPLY_MESSAGE_NOT_FOUND": "Mensaje no disponible",
     "CARD": {
       "SHOW_LABELS": "Mostrar etiquetas",
       "HIDE_LABELS": "Ocultar etiquetas"
@@ -54,7 +58,7 @@
       "OPEN": "Más",
       "CLOSE": "Cerrar",
       "DETAILS": "detalles",
-      "SNOOZED_UNTIL": "Snoozed until",
+      "SNOOZED_UNTIL": "Posponer hasta",
       "SNOOZED_UNTIL_TOMORROW": "Pospuesto hasta mañana",
       "SNOOZED_UNTIL_NEXT_WEEK": "Pospuesto hasta la próxima semana",
       "SNOOZED_UNTIL_NEXT_REPLY": "Posponer hasta la siguiente respuesta"
@@ -135,7 +139,8 @@
       "PRIVATE_NOTE": "Nota privada",
       "SEND": "Enviar",
       "CREATE": "Añadir nota",
-      "TWEET": "Tweet",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "Mostrar editor de textos",
       "TIP_EMOJI_ICON": "Mostrar selector de emoji",
       "TIP_ATTACH_ICON": "Adjuntar archivos",
@@ -147,6 +152,7 @@
       "STOP_AUDIO_RECORDING": "Detener grabación de audio",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "A",
         "ADD_BCC": "Añadir bcc",
         "CC": {
           "LABEL": "CC",
@@ -189,6 +195,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Copiar",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "Eliminar",
       "CREATE_A_CANNED_RESPONSE": "Añadir a respuestas predefinidas",
       "TRANSLATE": "Traducir",

@@ -110,7 +110,9 @@
       "SNOOZE_CONVERSATION": "Snooze conversație",
       "ADD_LABEL": "Adăugarea etichetei la conversație",
       "REMOVE_LABEL": "Eliminarea etichetei din conversație",
-      "SETTINGS": "Setări"
+      "SETTINGS": "Setări",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Accesați Tabloul de bord conversație",
@@ -132,6 +134,7 @@
       "GO_TO_NOTIFICATIONS": "Accesați Notificări",
       "ADD_LABELS_TO_CONVERSATION": "Adăugarea etichetei la conversație",
       "ASSIGN_AN_AGENT": "Atribuirea unui agent",
+      "AI_ASSIST": "AI Assist",
       "ASSIGN_PRIORITY": "Atribuirea priorității",
       "ASSIGN_A_TEAM": "Atribuirea unei echipe",
       "MUTE_CONVERSATION": "Silențios conversația",
@@ -146,10 +149,18 @@
       "UNTIL_TOMORROW": "Până mâine",
       "UNTIL_NEXT_MONTH": "Until next month",
       "AN_HOUR_FROM_NOW": "Until an hour from now",
-      "CUSTOM": "Custom..."
+      "CUSTOM": "Custom...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "Sistem"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "Se încarcă aplicația Dashboard..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "click aici"
   }
 }

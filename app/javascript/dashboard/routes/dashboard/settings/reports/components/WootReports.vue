@@ -1,5 +1,5 @@
 <template>
-  <div class="column content-box">
+  <div class="flex-1 overflow-auto p-4">
     <woot-button
       color-scheme="success"
       class-names="button--fixed-top"
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import ReportFilters from './ReportFilters';
+import ReportFilters from './ReportFilters.vue';
 import ReportContainer from '../ReportContainer.vue';
 import { GROUP_BY_FILTER } from '../constants';
 import reportMixin from '../../../../../mixins/reportMixin';

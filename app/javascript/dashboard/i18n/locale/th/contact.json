@@ -71,7 +71,7 @@
       "SUBMIT": "นำเข้า",
       "CANCEL": "ยกเลิก"
     },
-    "SUCCESS_MESSAGE": "บันทึกผู้ติดต่อเรียบร้อยแล้ว",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง"
   },
   "EXPORT_CONTACTS": {
@@ -203,6 +203,10 @@
         "LABEL": "ข้อความ",
         "PLACEHOLDER": "เขียนข้อความของคุณที่นี่",
         "ERROR": "ไม่สามารถปล่อยให่ข้อความว่างได้"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
       },
       "SUBMIT": "ส่วข้อความ",
       "CANCEL": "ยกเลิก",
@@ -343,17 +347,17 @@
     "DESCRIPTION": "รวมผู้ติดต่อเพื่อรวมสองโปรไฟล์ทั้งสองเข้าด้วยกัน รวมถึงแอตทริบิวต์และการสนทนาทั้งหมด ในกรณีที่มีข้อขัดแย้ง แอตทริบิวต์ของผู้ติดต่อหลักจะมีความสำคัญมากกว่า",
     "PRIMARY": {
       "TITLE": "ผู้ติดต่อหลัก",
-      "HELP_LABEL": "ที่ต้องการเก็บไว้"
+      "HELP_LABEL": "ที่จะถูกลบ"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "ผู้ติดต่อที่จะรวมเข้าด้วยกัน",
       "PLACEHOLDER": "ค้นหาผู้ติดต่อ",
-      "HELP_LABEL": "ที่จะถูกลบ"
+      "HELP_LABEL": "ที่ต้องการเก็บไว้"
     },
     "SUMMARY": {
       "TITLE": "สรุปผล",
-      "DELETE_WARNING": "ผู้ติดต่อ <strong>%{childContactName}</strong>จะถูกลบออก",
-      "ATTRIBUTE_WARNING": "ข้อมูลผู้ติดต่อของ <strong>%{childContactName}</strong> จะถูกคัดลอกไปยัง <strong>%{primaryContactName}</strong>"
+      "DELETE_WARNING": "ผู้ติดต่อ <strong>%{primaryContactName}</strong>จะถูกลบออก",
+      "ATTRIBUTE_WARNING": "ข้อมูลผู้ติดต่อของ <strong>%{primaryContactName}</strong> จะถูกคัดลอกไปยัง <strong>%{parentContactName}</strong>"
     },
     "SEARCH": {
       "ERROR": "ข้อความผิดพลาด"

@@ -60,7 +60,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def toggle_status
-    if params[:status]
+    if params[:status].present?
       set_conversation_status
       @status = @conversation.save!
     else
