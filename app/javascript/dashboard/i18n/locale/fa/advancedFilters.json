@@ -2,15 +2,15 @@
   "FILTER": {
     "TITLE": "فیلتر گفتگو‌ها",
     "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
-    "EDIT_CUSTOM_FILTER": "Edit Folder",
+    "EDIT_CUSTOM_FILTER": "ویرایش فولدر",
     "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
-    "ADD_NEW_FILTER": "Add filter",
+    "ADD_NEW_FILTER": "افزودن فیلتر",
     "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
     "SUBMIT_BUTTON_LABEL": "اعمال فیلترها",
-    "UPDATE_BUTTON_LABEL": "Update folder",
+    "UPDATE_BUTTON_LABEL": "بروز رسانی فولدر",
     "CANCEL_BUTTON_LABEL": "انصراف",
-    "CLEAR_BUTTON_LABEL": "Clear filters",
-    "FOLDER_LABEL": "Folder Name",
+    "CLEAR_BUTTON_LABEL": "پاک کردن فیلترها",
+    "FOLDER_LABEL": "نام فولدر",
     "FOLDER_QUERY_LABEL": "Folder Query",
     "EMPTY_VALUE_ERROR": "مقدار الزامی است.",
     "TOOLTIP_LABEL": "فیلتر گفتگو‌ها",
@@ -44,7 +44,7 @@
       "LABELS": "برچسب‌ها",
       "BROWSER_LANGUAGE": "Browser language",
       "PRIORITY": "اولویت",
-      "COUNTRY_NAME": "Country name",
+      "COUNTRY_NAME": "نام کشور",
       "REFERER_LINK": "پیوند ارجاع‌دهنده",
       "CUSTOM_ATTRIBUTE_LIST": "فهرست",
       "CUSTOM_ATTRIBUTE_TEXT": "متن",
@@ -55,9 +55,9 @@
       "LAST_ACTIVITY": "آخرین فعالیت"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standard filters",
-      "ADDITIONAL_FILTERS": "Additional filters",
-      "CUSTOM_ATTRIBUTES": "Custom attributes"
+      "STANDARD_FILTERS": "فیلترهای استاندارد",
+      "ADDITIONAL_FILTERS": "فیلترهای اضافی",
+      "CUSTOM_ATTRIBUTES": "ویژگی‌های سفارشی"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
@@ -77,7 +77,7 @@
         }
       },
       "EDIT": {
-        "EDIT_BUTTON": "Edit folder"
+        "EDIT_BUTTON": "ویرایش فولدر"
       },
       "DELETE": {
         "DELETE_BUTTON": "حذف فیلتر",
@@ -85,7 +85,7 @@
           "CONFIRM": {
             "TITLE": "تاییدیه حذف",
             "MESSAGE": "آیا مطمئن هستید که فیلتر را حذف می‌کنید ",
-            "YES": "Yes, delete",
+            "YES": "بله، حذف شود",
             "NO": "خیر، بماند"
           }
         },
