@@ -15,7 +15,7 @@
     "INITIATED_FROM": "Započeto sa",
     "INITIATED_AT": "Započeto u",
     "IP_ADDRESS": "IP adresa",
-    "CREATED_AT_LABEL": "Created",
+    "CREATED_AT_LABEL": "Kreirano",
     "NEW_MESSAGE": "Nova poruka",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Nema ranijih razgovora povezanih sa ovim kontaktom.",
@@ -71,7 +71,7 @@
       "SUBMIT": "Uvoz",
       "CANCEL": "Otkaži"
     },
-    "SUCCESS_MESSAGE": "Kontakti su uspešno sačuvani",
+    "SUCCESS_MESSAGE": "Bićete obavešteni putem e-poruke kada se uvoz završi.",
     "ERROR_MESSAGE": "Pojavila se greška, molim vas pokušajte ponovo"
   },
   "EXPORT_CONTACTS": {
@@ -203,6 +203,10 @@
         "LABEL": "Poruka",
         "PLACEHOLDER": "Unesite Vašu poruku ovde",
         "ERROR": "Poruka ne može biti prazna"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Izaberite datoteke",
+        "HELP_TEXT": "Prevucite i pustite ovde datoteke ili izaberite datoteke koje želite da priložite"
       },
       "SUBMIT": "Pošalji poruku",
       "CANCEL": "Otkaži",
@@ -343,17 +347,17 @@
     "DESCRIPTION": "Spojite kontakte da bi ste spojili dva profila u jedan, uključujući sve atribute i razgovore. U slučaju neslaganja, atributi primarnog kontakta će imati prednost.",
     "PRIMARY": {
       "TITLE": "Glavni kontakt",
-      "HELP_LABEL": "Da bude zadržan"
+      "HELP_LABEL": "Da bude obrisan"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Kontakt za spajanje",
       "PLACEHOLDER": "Traži kontakta",
-      "HELP_LABEL": "Da bude obrisan"
+      "HELP_LABEL": "Da bude zadržan"
     },
     "SUMMARY": {
       "TITLE": "Rezime",
-      "DELETE_WARNING": "Kontakt <strong>%{childContactName}</strong> će biti obrisan.",
-      "ATTRIBUTE_WARNING": "Detalji kontakta <strong>%{childContactName}</strong> će biti iskopirani u <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Kontakt <strong>%{primaryContactName}</strong> će biti obrisan.",
+      "ATTRIBUTE_WARNING": "Detalji kontakta <strong>%{primaryContactName}</strong> će biti iskopirani u <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"

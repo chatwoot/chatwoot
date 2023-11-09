@@ -111,6 +111,17 @@
           "PLACEHOLDER": "Introduce tu SID de cuenta de Twilio",
           "ERROR": "Este campo es obligatorio"
         },
+        "API_KEY": {
+          "USE_API_KEY": "Usar autenticación de Clave API",
+          "LABEL": "API Key SID",
+          "PLACEHOLDER": "Por favor ingrese su API Key SID",
+          "ERROR": "Este campo es obligatorio"
+        },
+        "API_KEY_SECRET": {
+          "LABEL": "Clave API secreta",
+          "PLACEHOLDER": "Por favor ingrese su Clave API secreta",
+          "ERROR": "Este campo es obligatorio"
+        },
         "MESSAGING_SERVICE_SID": {
           "LABEL": "Servicio de Mensajes SID",
           "PLACEHOLDER": "Por favor, introduzca su SID de Servicio de Mensajes de Twilio",
@@ -360,6 +371,8 @@
     "DETAILS": {
       "LOADING_FB": "Autenticándote con Facebook...",
       "ERROR_FB_AUTH": "Algo salió mal, Por favor actualiza la página...",
+      "ERROR_FB_UNAUTHORIZED": "No estás autorizado a realizar esta acción. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Asegúrate de tener acceso a la página de Facebook con control completo. Puedes leer más sobre los roles de Facebook <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
       "CREATING_CHANNEL": "Creando tu bandeja de entrada...",
       "TITLE": "Configurar detalles de la Bandeja de Entrada",
       "DESC": ""
@@ -390,6 +403,25 @@
       "ENABLE_CSAT": {
         "ENABLED": "Activado",
         "DISABLED": "Deshabilitado"
+      },
+      "SENDER_NAME_SECTION": {
+        "TITLE": "Nombre del remitente",
+        "SUB_TEXT": "Seleccione el nombre que se muestra al cliente cuando reciba correos electrónicos de sus agentes.",
+        "FOR_EG": "Por ejemplo:",
+        "FRIENDLY": {
+          "TITLE": "Amigable",
+          "FROM": "De",
+          "SUBTITLE": "Añada el nombre del agente que envió la respuesta en el nombre del remitente para que sea amistoso."
+        },
+        "PROFESSIONAL": {
+          "TITLE": "Profesional",
+          "SUBTITLE": "Utilice sólo el nombre del negocio configurado como nombre del remitente en el encabezado del correo electrónico."
+        },
+        "BUSINESS_NAME": {
+          "BUTTON_TEXT": "+ Configura el nombre de tu negocio",
+          "PLACEHOLDER": "Introduce el nombre de tu negocio",
+          "SAVE_BUTTON_TEXT": "Guardar"
+        }
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
         "ENABLED": "Activado",
@@ -454,7 +486,9 @@
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Activar o desactivar la caja de recolección de correo electrónico",
       "AUTO_ASSIGNMENT": "Activar asignación automática",
       "ENABLE_CSAT": "Habilitar Encuesta de Satisfacción",
+      "SENDER_NAME_SECTION": "Habilitar nombre del agente en el correo electrónico",
       "ENABLE_CSAT_SUB_TEXT": "Habilitar/deshabilitar encuesta CSAT(satisfacción del cliente) después de resolver una conversación",
+      "SENDER_NAME_SECTION_TEXT": "Habilitar/Deshabilitar mostrando el nombre del agente en el correo electrónico, si está deshabilitado, mostrará el nombre del negocio",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Habilitar continuidad de conversación por correo electrónico",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Las conversaciones continuarán por correo electrónico si la dirección de correo electrónico de contacto está disponible.",
       "LOCK_TO_SINGLE_CONVERSATION": "Bloquear a una sola conversación",

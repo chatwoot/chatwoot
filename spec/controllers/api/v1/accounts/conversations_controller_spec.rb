@@ -15,8 +15,6 @@ RSpec.describe 'Conversations API', type: :request do
     context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
       let(:conversation) { create(:conversation, account: account) }
-      let(:attended_conversation) { create(:conversation, account: account, first_reply_created_at: Time.now.utc) }
-      let(:unattended_conversation) { create(:conversation, account: account, first_reply_created_at: nil) }
 
       before do
         create(:inbox_member, user: agent, inbox: conversation.inbox)
@@ -48,9 +46,16 @@ RSpec.describe 'Conversations API', type: :request do
       end
 
       it 'returns unattended conversations' do
+        attended_conversation = create(:conversation, account: account, first_reply_created_at: Time.now.utc)
+        # to ensure that waiting since value is populated
+        create(:message, message_type: :outgoing, conversation: attended_conversation, account: account)
+        unattended_conversation_no_first_reply = create(:conversation, account: account, first_reply_created_at: nil)
+        unattended_conversation_waiting_since = create(:conversation, account: account, first_reply_created_at: Time.now.utc)
+
         agent_1 = create(:user, account: account, role: :agent)
         create(:inbox_member, user: agent_1, inbox: attended_conversation.inbox)
-        create(:inbox_member, user: agent_1, inbox: unattended_conversation.inbox)
+        create(:inbox_member, user: agent_1, inbox: unattended_conversation_no_first_reply.inbox)
+        create(:inbox_member, user: agent_1, inbox: unattended_conversation_waiting_since.inbox)
 
         get "/api/v1/accounts/#{account.id}/conversations",
             headers: agent_1.create_new_auth_token,
@@ -59,8 +64,8 @@ RSpec.describe 'Conversations API', type: :request do
 
         expect(response).to have_http_status(:success)
         body = JSON.parse(response.body, symbolize_names: true)
-        expect(body[:data][:meta][:all_count]).to eq(1)
-        expect(body[:data][:payload].count).to eq(1)
+        expect(body[:data][:meta][:all_count]).to eq(2)
+        expect(body[:data][:payload].count).to eq(2)
       end
     end
   end
@@ -335,11 +340,12 @@ RSpec.describe 'Conversations API', type: :request do
         create(:inbox_member, user: agent, inbox: conversation.inbox)
       end
 
-      it 'toggles the conversation status' do
+      it 'toggles the conversation status if status is empty' do
         expect(conversation.status).to eq('open')
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
              headers: agent.create_new_auth_token,
+             params: { status: '' },
              as: :json
 
         expect(response).to have_http_status(:success)

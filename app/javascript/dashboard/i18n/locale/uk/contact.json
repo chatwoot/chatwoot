@@ -71,7 +71,7 @@
       "SUBMIT": "Імпорт",
       "CANCEL": "Скасувати"
     },
-    "SUCCESS_MESSAGE": "Контакт успішно збережено",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "Сталася помилка, будь ласка, спробуйте ще раз"
   },
   "EXPORT_CONTACTS": {
@@ -203,6 +203,10 @@
         "LABEL": "Текст повідомлення",
         "PLACEHOLDER": "Напишіть ваше повідомлення тут",
         "ERROR": "Повідомлення не може бути пустим"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
       },
       "SUBMIT": "Надіслати",
       "CANCEL": "Скасувати",
@@ -343,17 +347,17 @@
     "DESCRIPTION": "Об'єднати контакти, щоб об'єднати два профілі в один, включаючи всі атрибути та розмови. У разі конфлікту, атрибути первинних контактів будуть переважати.",
     "PRIMARY": {
       "TITLE": "Основний контакт",
-      "HELP_LABEL": "Утримуватися"
+      "HELP_LABEL": "Буде видалено"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Контакт для об'єднання",
       "PLACEHOLDER": "Пошук контакту",
-      "HELP_LABEL": "Буде видалено"
+      "HELP_LABEL": "Утримуватися"
     },
     "SUMMARY": {
       "TITLE": "Коротка інформація",
-      "DELETE_WARNING": "Контакт <strong>%{childContactName}</strong> буде видалено.",
-      "ATTRIBUTE_WARNING": "Контактні дані <strong>%{childContactName}</strong> буде скопійовано до <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Контакт <strong>%{primaryContactName}</strong> буде видалено.",
+      "ATTRIBUTE_WARNING": "Контактні дані <strong>%{primaryContactName}</strong> буде скопійовано до <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"

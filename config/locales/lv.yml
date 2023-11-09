@@ -49,6 +49,8 @@ lv:
         unique: vajadzētu būt unikālai, kategorijā un portālā 
     dyte:
       invalid_message_type: "Nederīgs ziņojuma veids. Darbība nav atļauta"
+    slack:
+      invalid_channel_id: "Nepareizs Slack kanāls. Lūdzu, mēģiniet vēlreiz"
     inboxes:
       imap:
         socket_error: Lūdzu, pārbaudiet tīkla savienojumu, IMAP adresi un mēģiniet vēlreiz.
@@ -108,6 +110,8 @@ lv:
       instagram_story_content: "%{story_sender} pieminēja jūs stāstā: "
       instagram_deleted_story_content: Šis stāsts vairs nav pieejams.
       deleted: Šis ziņojums ir izdzēsts
+      delivery_status:
+        error_code: "Kļūdas kods: %{error_code}"
     activity:
       status:
         resolved: "%{user_name} sarunu atzīmēja kā atrisinātu"
@@ -144,6 +148,8 @@ lv:
         header:
           from_with_name: "%{assignee_name} no %{inbox_name} <%{from_email}>"
           reply_with_name: "%{assignee_name} no %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} no %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} no %{inbox_name} <%{from_email}>"
@@ -198,3 +204,12 @@ lv:
       made_with: Veidots ar
     header:
       go_to_homepage: Doties uz galveno vietni
+  slack_unfurl:
+    fields:
+      name: Nosaukums
+      email: E-pasts
+      phone_number: Telefona Nr.
+      company_name: Uzņēmums
+      inbox_name: Iesūtne
+      inbox_type: Iesūtnes Veids
+    button: Atvērt sarunu

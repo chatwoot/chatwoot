@@ -5,7 +5,7 @@
       <div>
         <p
           v-if="!uiFlags.fetchingList && !records.length"
-          class="no-items-error-message"
+          class="flex h-full items-center flex-col justify-center"
         >
           {{ $t('AUDIT_LOGS.LIST.404') }}
         </p>
@@ -64,7 +64,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import TableFooter from 'dashboard/components/widgets/TableFooter';
+import TableFooter from 'dashboard/components/widgets/TableFooter.vue';
 import timeMixin from 'dashboard/mixins/time';
 import alertMixin from 'shared/mixins/alertMixin';
 import {
@@ -77,6 +77,12 @@ export default {
     TableFooter,
   },
   mixins: [alertMixin, timeMixin],
+  beforeRouteEnter(to, from, next) {
+    // Fetch Audit Logs on page load without manual refresh
+    next(vm => {
+      vm.fetchAuditLogs();
+    });
+  },
   data() {
     return {
       loading: {},
@@ -84,12 +90,6 @@ export default {
         message: '',
       },
     };
-  },
-  beforeRouteEnter(to, from, next) {
-    // Fetch Audit Logs on page load without manual refresh
-    next(vm => {
-      vm.fetchAuditLogs();
-    });
   },
   computed: {
     ...mapGetters({

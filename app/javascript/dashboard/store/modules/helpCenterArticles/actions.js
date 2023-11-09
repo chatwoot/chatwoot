@@ -1,4 +1,5 @@
 import articlesAPI from 'dashboard/api/helpCenter/articles';
+import { uploadFile } from 'dashboard/helper/uploadHelper';
 import { throwErrorMessage } from 'dashboard/store/utils/api';
 
 import types from '../../mutation-types';
@@ -126,19 +127,9 @@ export const actions = {
     }
   },
 
-  attachImage: async (_, { portalSlug, file }) => {
-    try {
-      const {
-        data: { file_url: fileUrl },
-      } = await articlesAPI.uploadImage({
-        portalSlug,
-        file,
-      });
-      return fileUrl;
-    } catch (error) {
-      throwErrorMessage(error);
-    }
-    return '';
+  attachImage: async (_, { file }) => {
+    const { fileUrl } = await uploadFile(file);
+    return fileUrl;
   },
 
   reorder: async (_, { portalSlug, categorySlug, reorderedGroup }) => {

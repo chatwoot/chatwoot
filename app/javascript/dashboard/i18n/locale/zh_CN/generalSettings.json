@@ -3,7 +3,7 @@
     "TITLE": "帐户设置",
     "SUBMIT": "更新设置",
     "BACK": "后退",
-    "DISMISS": "Dismiss",
+    "DISMISS": "取消",
     "UPDATE": {
       "ERROR": "无法更新设置，请重试！",
       "SUCCESS": "已成功更新账户设置"
@@ -24,7 +24,7 @@
         "ERROR": "请输入有效的帐户名称"
       },
       "LANGUAGE": {
-        "LABEL": "Site language",
+        "LABEL": "站点语言",
         "PLACEHOLDER": "您的帐户名称",
         "ERROR": ""
       },
@@ -50,7 +50,7 @@
     },
     "UPDATE_CHATWOOT": "Chatwoot 有可用更新%{latestChatwootVersion}，请更新您的应用。",
     "LEARN_MORE": "了解更多",
-    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "PAYMENT_PENDING": "您的付款尚未完成。请更新您的付款信息以继续使用Chatwoot",
     "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
     "OPEN_BILLING": "Open billing"
   },
@@ -110,7 +110,9 @@
       "SNOOZE_CONVERSATION": "Snooze Conversation",
       "ADD_LABEL": "为对话添加标签",
       "REMOVE_LABEL": "从对话移除标签",
-      "SETTINGS": "设置"
+      "SETTINGS": "设置",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "转到对话面板",
@@ -132,6 +134,7 @@
       "GO_TO_NOTIFICATIONS": "转到通知",
       "ADD_LABELS_TO_CONVERSATION": "为对话添加标签",
       "ASSIGN_AN_AGENT": "分配一位客服代表",
+      "AI_ASSIST": "AI Assist",
       "ASSIGN_PRIORITY": "Assign priority",
       "ASSIGN_A_TEAM": "分配一个团队",
       "MUTE_CONVERSATION": "静音对话",
@@ -146,10 +149,18 @@
       "UNTIL_TOMORROW": "Until tomorrow",
       "UNTIL_NEXT_MONTH": "Until next month",
       "AN_HOUR_FROM_NOW": "Until an hour from now",
-      "CUSTOM": "Custom..."
+      "CUSTOM": "Custom...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "System"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "Loading Dashboard App..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "点击这里"
   }
 }

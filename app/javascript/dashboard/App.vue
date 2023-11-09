@@ -1,13 +1,13 @@
 <template>
   <div
-    v-if="!authUIFlags.isFetching"
+    v-if="!authUIFlags.isFetching && !accountUIFlags.isFetchingItem"
     id="app"
-    class="app-wrapper app-root"
+    class="app-wrapper h-full flex-grow-0 min-h-0 w-full"
     :class="{ 'app-rtl--wrapper': isRTLView }"
     :dir="isRTLView ? 'rtl' : 'ltr'"
   >
     <update-banner :latest-chatwoot-version="latestChatwootVersion" />
-    <template v-if="!accountUIFlags.isFetchingItem && currentAccountId">
+    <template v-if="currentAccountId">
       <payment-pending-banner />
       <upgrade-banner />
     </template>
@@ -26,14 +26,14 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import AddAccountModal from '../dashboard/components/layout/sidebarComponents/AddAccountModal';
+import AddAccountModal from '../dashboard/components/layout/sidebarComponents/AddAccountModal.vue';
 import LoadingState from './components/widgets/LoadingState.vue';
-import NetworkNotification from './components/NetworkNotification';
+import NetworkNotification from './components/NetworkNotification.vue';
 import UpdateBanner from './components/app/UpdateBanner.vue';
 import UpgradeBanner from './components/app/UpgradeBanner.vue';
 import PaymentPendingBanner from './components/app/PaymentPendingBanner.vue';
 import vueActionCable from './helper/actionCable';
-import WootSnackbarBox from './components/SnackbarContainer';
+import WootSnackbarBox from './components/SnackbarContainer.vue';
 import rtlMixin from 'shared/mixins/rtlMixin';
 import { setColorTheme } from './helper/themeHelper';
 import {
@@ -111,10 +111,8 @@ export default {
       this.$store.dispatch('setActiveAccount', {
         accountId: this.currentAccountId,
       });
-      const {
-        locale,
-        latest_chatwoot_version: latestChatwootVersion,
-      } = this.getAccount(this.currentAccountId);
+      const { locale, latest_chatwoot_version: latestChatwootVersion } =
+        this.getAccount(this.currentAccountId);
       const { pubsub_token: pubsubToken } = this.currentUser || {};
       this.setLocale(locale);
       this.updateRTLDirectionView(locale);

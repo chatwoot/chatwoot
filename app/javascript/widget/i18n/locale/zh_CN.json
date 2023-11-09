@@ -34,7 +34,9 @@
   "START_CONVERSATION": "开始会话",
   "END_CONVERSATION": "结束对话",
   "CONTINUE_CONVERSATION": "继续对话",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "开始新的对话",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "查看新消息",
     "CLOSE_MESSAGES_BUTTON": "关闭",
@@ -87,8 +89,8 @@
     }
   },
   "EMOJI": {
-    "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+    "PLACEHOLDER": "搜索表情符号",
+    "NOT_FOUND": "没有适合你的搜索结果"
   },
   "CSAT": {
     "TITLE": "评价您的对话",
@@ -104,6 +106,31 @@
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Click here to join",
       "LEAVE_THE_ROOM": "Leave the call"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "图片消息"
+    },
+    "audio": {
+      "CONTENT": "音频消息"
+    },
+    "video": {
+      "CONTENT": "视频消息"
+    },
+    "file": {
+      "CONTENT": "附件"
+    },
+    "location": {
+      "CONTENT": "位置"
+    },
+    "fallback": {
+      "CONTENT": "分享了一个网址"
     }
   }
 }

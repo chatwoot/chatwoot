@@ -34,7 +34,9 @@
   "START_CONVERSATION": "Sākt Sarunu",
   "END_CONVERSATION": "Beigt Sarunu",
   "CONTINUE_CONVERSATION": "Turpināt Sarunu",
+  "YOU": "Jūs",
   "START_NEW_CONVERSATION": "Sākt jaunu sarunu",
+  "VIEW_UNREAD_MESSAGES": "Jums ir nelasītas ziņas",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Skatīt jaunus ziņojumus",
     "CLOSE_MESSAGES_BUTTON": "Aizvērt",
@@ -104,6 +106,31 @@
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Noklikšķiniet šeit, lai pievienotos",
       "LEAVE_THE_ROOM": "Beigt zvanu"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Populāri Raksti",
+    "VIEW_ALL_ARTICLES": "Skatīt visus rakstus",
+    "IFRAME_LOAD_ERROR": "Ielādējot rakstu radās kļūda. Lūdzu, atsvaidziniet lapu un mēģiniet vēlreiz."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Attēla ziņojums"
+    },
+    "audio": {
+      "CONTENT": "Audio ziņojums"
+    },
+    "video": {
+      "CONTENT": "Video ziņojums"
+    },
+    "file": {
+      "CONTENT": "Faila pielikums"
+    },
+    "location": {
+      "CONTENT": "Atrašanās vieta"
+    },
+    "fallback": {
+      "CONTENT": "ir kopīgojis URL"
     }
   }
 }

@@ -34,7 +34,9 @@
   "START_CONVERSATION": "Začať konverzáciu",
   "END_CONVERSATION": "End Conversation",
   "CONTINUE_CONVERSATION": "Continue conversation",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "Začať novú konverzáciu",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Zobraziť nové správy",
     "CLOSE_MESSAGES_BUTTON": "Zatvoriť",
@@ -104,6 +106,31 @@
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Click here to join",
       "LEAVE_THE_ROOM": "Leave the call"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Obrázková správa"
+    },
+    "audio": {
+      "CONTENT": "Hlasová správa"
+    },
+    "video": {
+      "CONTENT": "Video správa"
+    },
+    "file": {
+      "CONTENT": "Súbor v prílohe"
+    },
+    "location": {
+      "CONTENT": "Lokácia"
+    },
+    "fallback": {
+      "CONTENT": "zdieľal/a url"
     }
   }
 }

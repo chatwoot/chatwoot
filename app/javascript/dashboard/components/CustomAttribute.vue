@@ -61,7 +61,7 @@
       >
         <a
           v-if="isAttributeTypeLink"
-          :href="value"
+          :href="hrefURL"
           target="_blank"
           rel="noopener noreferrer"
           class="value inline-block rounded-sm mb-0 break-all py-0.5 px-1"
@@ -187,6 +187,9 @@ export default {
     },
     urlValue() {
       return isValidURL(this.value) ? this.value : '---';
+    },
+    hrefURL() {
+      return isValidURL(this.value) ? this.value : '';
     },
     notAttributeTypeCheckboxAndList() {
       return !this.isAttributeTypeCheckbox && !this.isAttributeTypeList;

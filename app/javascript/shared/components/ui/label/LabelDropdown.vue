@@ -6,7 +6,11 @@
       >
         {{ $t('CONTACT_PANEL.LABELS.LABEL_SELECT.TITLE') }}
       </h4>
-      <hotkey>L</hotkey>
+      <hotkey
+        custom-class="text-slate-800 dark:text-slate-100 bg-slate-50 dark:bg-slate-600 text-xxs border border-solid border-slate-75 dark:border-slate-600"
+      >
+        L
+      </hotkey>
     </div>
     <div class="mb-2 flex-shrink-0 flex-grow-0 flex-auto max-h-8">
       <input
@@ -72,9 +76,9 @@
 </template>
 
 <script>
-import LabelDropdownItem from './LabelDropdownItem';
-import Hotkey from 'dashboard/components/base/Hotkey';
-import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel';
+import LabelDropdownItem from './LabelDropdownItem.vue';
+import Hotkey from 'dashboard/components/base/Hotkey.vue';
+import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.vue';
 import { picoSearch } from '@scmmishra/pico-search';
 import { sanitizeLabel } from 'shared/helpers/sanitizeData';
 

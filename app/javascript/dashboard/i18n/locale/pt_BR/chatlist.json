@@ -41,6 +41,16 @@
       "STATUS": "Situação",
       "ORDER_BY": "Ordenar por"
     },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Criado",
+        "OLDEST": "Criado em:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Última atividade:",
+        "ACTIVE": "Última atividade"
+      }
+    },
     "CHAT_SORT_FILTER_ITEMS": {
       "latest": {
         "TEXT": "Última atividade"
@@ -52,7 +62,7 @@
         "TEXT": "Prioridade"
       },
       "sort_on_waiting_since": {
-        "TEXT": "Pending Response"
+        "TEXT": "Resposta Pendente"
       }
     },
     "ATTACHMENTS": {

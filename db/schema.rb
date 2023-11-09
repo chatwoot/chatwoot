@@ -716,7 +716,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_22_133017) do
     t.integer "message_type", null: false
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.boolean "private", default: false
+    t.boolean "private", default: false, null: false
     t.integer "status", default: 0
     t.string "source_id"
     t.integer "content_type", default: 0, null: false

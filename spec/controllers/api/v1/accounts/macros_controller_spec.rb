@@ -129,7 +129,7 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
       it 'Saves file in the macros actions to send an attachments' do
         file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
 
-        post "/api/v1/accounts/#{account.id}/macros/attach_file",
+        post "/api/v1/accounts/#{account.id}/upload/",
              headers: administrator.create_new_auth_token,
              params: { attachment: file }
 

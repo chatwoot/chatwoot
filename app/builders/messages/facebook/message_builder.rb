@@ -93,6 +93,9 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
       message_type: @message_type,
       content: response.content,
       source_id: response.identifier,
+      content_attributes: {
+        in_reply_to_external_id: response.in_reply_to_external_id
+      },
       sender: @outgoing_echo ? nil : @contact_inbox.contact
     }
   end

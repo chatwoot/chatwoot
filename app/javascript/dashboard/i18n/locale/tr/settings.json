@@ -36,10 +36,13 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "İmzanız",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
         "BTN_TEXT": "İmzanızı kaydedin",
         "API_ERROR": "İmza kaydedilemedi! Tekrar deneyin",
-        "API_SUCCESS": "İmza başarıyla kaydedildi"
+        "API_SUCCESS": "İmza başarıyla kaydedildi",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "İmzanız",
@@ -149,6 +152,7 @@
     "SELECTOR_SUBTITLE": "Aşağıdaki listeden bir hesap seçin",
     "PROFILE_SETTINGS": "Profil ayarları",
     "KEYBOARD_SHORTCUTS": "Klavye Kısayolları",
+    "APPEARANCE": "Change Appearance",
     "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "Çıkış Yap"
   },
@@ -238,7 +242,7 @@
     "REPORTS_OVERVIEW": "Önizleme",
     "FACEBOOK_REAUTHORIZE": "Facebook bağlantınızın süresi doldu, hizmetlere devam etmek için lütfen Facebook sayfanızı yeniden bağlayın",
     "HELP_CENTER": {
-      "TITLE": "Help Center (Beta)",
+      "TITLE": "Help Center",
       "ALL_ARTICLES": "All Articles",
       "MY_ARTICLES": "My Articles",
       "DRAFT": "Draft",

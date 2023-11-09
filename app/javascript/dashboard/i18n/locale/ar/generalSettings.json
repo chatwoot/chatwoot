@@ -110,7 +110,9 @@
       "SNOOZE_CONVERSATION": "تأجيل المحادثة",
       "ADD_LABEL": "إضافة تسمية إلى المحادثة",
       "REMOVE_LABEL": "إزالة التسمية من المحادثة",
-      "SETTINGS": "الإعدادات"
+      "SETTINGS": "الإعدادات",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "الذهاب إلى لوحة المحادثة",
@@ -132,6 +134,7 @@
       "GO_TO_NOTIFICATIONS": "الذهاب إلى الإشعارات",
       "ADD_LABELS_TO_CONVERSATION": "إضافة تسمية إلى المحادثة",
       "ASSIGN_AN_AGENT": "تعيين وكيل",
+      "AI_ASSIST": "AI Assist",
       "ASSIGN_PRIORITY": "Assign priority",
       "ASSIGN_A_TEAM": "تعيين فريق",
       "MUTE_CONVERSATION": "كتم المحادثة",
@@ -146,10 +149,18 @@
       "UNTIL_TOMORROW": "حتى الغد",
       "UNTIL_NEXT_MONTH": "Until next month",
       "AN_HOUR_FROM_NOW": "Until an hour from now",
-      "CUSTOM": "Custom..."
+      "CUSTOM": "Custom...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "System"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "تحميل تطبيق لوحة التحكم..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "اضغط هنا"
   }
 }

@@ -12,6 +12,10 @@
     "NO_INBOX_2": " norint pradėti",
     "NO_INBOX_AGENT": "Oi! Atrodo, kad nesate jokio gautų laiškų aplanko dalis. Susisiekite su administratoriumi",
     "SEARCH_MESSAGES": "Ieškokite pranešimų pokalbiuose",
+    "EMPTY_STATE": {
+      "CMD_BAR": "norėdami atidaryti komandų meniu",
+      "KEYBOARD_SHORTCUTS": "norėdami peržiūrėti sparčiuosius klavišus"
+    },
     "SEARCH": {
       "TITLE": "Ieškoti pranešimų",
       "RESULT_TITLE": "Rezultatų Paieška",
@@ -30,7 +34,6 @@
     "ASSIGN_TO_ME": "Priskirti man",
     "TWILIO_WHATSAPP_CAN_REPLY": "Į šį pokalbį galite atsakyti tik naudodami šablono pranešimą, nes",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Pranešimų apribojimas 24 valandoms",
-    "SELECT_A_TWEET_TO_REPLY": "Pasirinkite tweetą, į kurį norite atsakyti.",
     "REPLYING_TO": "Jūs atsakote į:",
     "REMOVE_SELECTION": "Pašalinti Pasirinkimą",
     "DOWNLOAD": "Parsisiųsti",
@@ -43,6 +46,7 @@
     "NO_RESPONSE": "Nėra atsakymo",
     "RATING_TITLE": "Reitingas",
     "FEEDBACK_TITLE": "Grįžtamasis ryšys",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Rodyti etiketes",
       "HIDE_LABELS": "Slėpti etiketes"
@@ -135,7 +139,8 @@
       "PRIVATE_NOTE": "Privati pastaba",
       "SEND": "Siųsti",
       "CREATE": "Pridėti pastabą",
-      "TWEET": "Tweetinti",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "Rodyti raiškiojo teksto redagavimo priemonę",
       "TIP_EMOJI_ICON": "Parodyti emodžio parinkiklį",
       "TIP_ATTACH_ICON": "Pridėti failus",
@@ -147,6 +152,7 @@
       "STOP_AUDIO_RECORDING": "Baigti audio įrašymą",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "Kam",
         "ADD_BCC": "Pridėti bcc",
         "CC": {
           "LABEL": "CC",
@@ -189,6 +195,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Kopijuoti",
+      "REPLY_TO": "Atsakyti į šią žinutę",
       "DELETE": "Ištrinti",
       "CREATE_A_CANNED_RESPONSE": "Pridėti Atsakymų Ruošinius",
       "TRANSLATE": "Išversti",

@@ -34,7 +34,9 @@
   "START_CONVERSATION": "開始對話",
   "END_CONVERSATION": "結束對話",
   "CONTINUE_CONVERSATION": "繼續對話",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "開始一個新對話",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "查看新訊息",
     "CLOSE_MESSAGES_BUTTON": "關閉",
@@ -104,6 +106,31 @@
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "點擊這裡加入",
       "LEAVE_THE_ROOM": "Leave the call"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "圖片訊息"
+    },
+    "audio": {
+      "CONTENT": "聲音訊息"
+    },
+    "video": {
+      "CONTENT": "影片訊息"
+    },
+    "file": {
+      "CONTENT": "附件"
+    },
+    "location": {
+      "CONTENT": "位置"
+    },
+    "fallback": {
+      "CONTENT": "分享了一個網址"
     }
   }
 }

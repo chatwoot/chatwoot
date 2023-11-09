@@ -71,7 +71,7 @@
       "SUBMIT": "ייבוא",
       "CANCEL": "ביטול"
     },
-    "SUCCESS_MESSAGE": "אנשי הקשר נשמרו בהצלחה",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
   },
   "EXPORT_CONTACTS": {
@@ -203,6 +203,10 @@
         "LABEL": "הודעה",
         "PLACEHOLDER": "כתוב את הודעתך כאן",
         "ERROR": "ההודעה לא יכולה להיות ריקה"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
       },
       "SUBMIT": "שלח הודעה",
       "CANCEL": "ביטול",
@@ -343,17 +347,17 @@
     "DESCRIPTION": "מיזוג אנשי קשר כדי לשלב שני פרופילים לאחד, כולל כל התכונות והשיחות. במקרה של התנגשות, התכונות של איש הקשר הראשי יקבלו עדיפות.",
     "PRIMARY": {
       "TITLE": "איש קשר ראשי",
-      "HELP_LABEL": "להישמר"
+      "HELP_LABEL": "להימחק"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "צור קשר למיזוג",
       "PLACEHOLDER": "חפש איש קשר",
-      "HELP_LABEL": "להימחק"
+      "HELP_LABEL": "להישמר"
     },
     "SUMMARY": {
       "TITLE": "סיכום",
-      "DELETE_WARNING": "איש הקשר של <strong>%{childContactName}</strong> יימחק.",
-      "ATTRIBUTE_WARNING": "פרטי הקשר של <strong>%{childContactName}</strong> יועתקו אל <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "איש הקשר של <strong>%{primaryContactName}</strong> יימחק.",
+      "ATTRIBUTE_WARNING": "פרטי הקשר של <strong>%{primaryContactName}</strong> יועתקו אל <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "הודעת שגיאה"

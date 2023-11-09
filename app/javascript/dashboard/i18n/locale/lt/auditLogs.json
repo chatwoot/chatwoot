@@ -25,6 +25,13 @@
       "EDIT": "%{agentName} atnaujino automatizavimo taisyklę (#%{id})",
       "DELETE": "%{agentName} ištrynė automatizavimo taisyklę (#%{id})"
     },
+    "ACCOUNT_USER": {
+      "ADD": "%{agentName} pakvietė %{invitee} į paskyrą kaip %{role}",
+      "EDIT": {
+        "SELF": "%{agentName} pakeitė savo %{attributes} į %{values}",
+        "OTHER": "%{agentName} pakeitė %{attributes} iš %{user} į %{values}"
+      }
+    },
     "INBOX": {
       "ADD": "%{agentName} sukūrė naują gautų laiškų aplanką (#%{id})",
       "EDIT": "%{agentName} atnaujino gautų laiškų aplanką (#%{id})",
@@ -48,6 +55,17 @@
       "ADD": "%{agentName} sukūrė naują makrokomandą (#%{id})",
       "EDIT": "%{agentName} atnaujino makrokomandą (#%{id})",
       "DELETE": "%{agentName} ištrynė makrokomandą (#%{id})"
+    },
+    "INBOX_MEMBER": {
+      "ADD": "%{agentName} pridėjo %{user} prie gautų laiškų aplanko(#%{inbox_id})",
+      "REMOVE": "%{agentName} ipašalino %{user} iš gautų laiškų aplanko(#%{inbox_id})"
+    },
+    "TEAM_MEMBER": {
+      "ADD": "%{agentName} pridėjo %{user} prie komandos(#%{team_id})",
+      "REMOVE": "%{agentName} pašalino %{user} iš komandos(#%{team_id})"
+    },
+    "ACCOUNT": {
+      "EDIT": "%{agentName} atnaujino paskyros konfigūraciją (#%{id})"
     }
   }
 }

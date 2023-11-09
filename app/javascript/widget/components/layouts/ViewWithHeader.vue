@@ -1,25 +1,18 @@
 <template>
   <div
-    class="w-full h-full flex flex-col relative bg-slate-50 dark:bg-slate-800"
+    class="w-full h-full bg-slate-25 dark:bg-slate-800"
     :class="{ 'overflow-auto': isOnHomeView }"
-    :style="portal ? { backgroundColor: backgroundColor } : {}"
     @keydown.esc="closeWindow"
   >
-    <div
-      class="header-wrap sticky top-0 z-40"
-      :class="{
-        expanded: !isHeaderCollapsed,
-        collapsed: isHeaderCollapsed,
-        'custom-header-shadow': (isOnHomeView && !portal) || !isOnArticleViewer,
-      }"
-    >
-      <transition
-        enter-active-class="transition-all delay-200 duration-300 ease-in"
-        leave-active-class="transition-all duration-200 ease-out"
-        enter-class="opacity-0"
-        enter-to-class="opacity-100"
-        leave-class="opacity-100"
-        leave-to-class="opacity-0"
+    <div class="flex flex-col h-full relative">
+      <div
+        class="header-wrap sticky top-0 z-40 transition-all"
+        :class="{
+          expanded: !isHeaderCollapsed,
+          collapsed: isHeaderCollapsed,
+          'custom-header-shadow': isHeaderCollapsed,
+          ...opacityClass,
+        }"
       >
         <chat-header-expanded
           v-if="!isHeaderCollapsed"
@@ -27,7 +20,6 @@
           :intro-body="channelConfig.welcomeTagline"
           :avatar-url="channelConfig.avatarUrl"
           :show-popout-button="appConfig.showPopoutButton"
-          :show-bg="!!portal"
         />
         <chat-header
           v-if="isHeaderCollapsed"
@@ -37,20 +29,12 @@
           :available-agents="availableAgents"
           :show-back-button="showBackButton"
         />
-      </transition>
-    </div>
-    <banner />
-    <transition
-      enter-active-class="transition-all delay-300 duration-300 ease-in"
-      leave-active-class="transition-all duration-200 ease-out"
-      enter-class="opacity-0"
-      enter-to-class="opacity-100"
-      leave-class="opacity-100"
-      leave-to-class="opacity-0"
-    >
+      </div>
+      <banner />
       <router-view />
-    </transition>
-    <branding v-if="!isOnArticleViewer" :disable-branding="disableBranding" />
+
+      <branding v-if="!isOnArticleViewer" :disable-branding="disableBranding" />
+    </div>
   </div>
 </template>
 <script>
@@ -59,7 +43,6 @@ import Branding from 'shared/components/Branding.vue';
 import ChatHeader from '../ChatHeader.vue';
 import ChatHeaderExpanded from '../ChatHeaderExpanded.vue';
 import configMixin from '../../mixins/configMixin';
-import darkModeMixin from 'widget/mixins/darkModeMixin';
 import { mapGetters } from 'vuex';
 import { IFrameHelper } from 'widget/helpers/utils';
 
@@ -70,10 +53,12 @@ export default {
     ChatHeader,
     ChatHeaderExpanded,
   },
-  mixins: [configMixin, darkModeMixin],
+  mixins: [configMixin],
   data() {
     return {
       showPopoutButton: false,
+      scrollPosition: 0,
+      ticking: true,
       disableBranding: window.chatwootWebChannel.disableBranding || false,
     };
   },
@@ -92,13 +77,6 @@ export default {
       }
       return !this.isOnHomeView;
     },
-    backgroundColor() {
-      const color = this.widgetColor.replace('#', '');
-      const r = parseInt(color.slice(0, 2), 16);
-      const g = parseInt(color.slice(2, 4), 16);
-      const b = parseInt(color.slice(4, 6), 16);
-      return `rgba(${r},${g},${b}, 0.02)`;
-    },
     hasIntroText() {
       return (
         this.channelConfig.welcomeTitle || this.channelConfig.welcomeTagline
@@ -115,10 +93,47 @@ export default {
     isOnHomeView() {
       return ['home'].includes(this.$route.name);
     },
+    opacityClass() {
+      if (this.isHeaderCollapsed) {
+        return {};
+      }
+      if (this.scrollPosition > 30) {
+        return { 'opacity-30': true };
+      }
+      if (this.scrollPosition > 25) {
+        return { 'opacity-40': true };
+      }
+      if (this.scrollPosition > 20) {
+        return { 'opacity-60': true };
+      }
+      if (this.scrollPosition > 15) {
+        return { 'opacity-80': true };
+      }
+      if (this.scrollPosition > 10) {
+        return { 'opacity-90': true };
+      }
+      return {};
+    },
+  },
+  mounted() {
+    this.$el.addEventListener('scroll', this.updateScrollPosition);
+  },
+  beforeDestroy() {
+    this.$el.removeEventListener('scroll', this.updateScrollPosition);
   },
   methods: {
     closeWindow() {
       IFrameHelper.sendMessage({ event: 'closeWindow' });
+    },
+    updateScrollPosition(event) {
+      this.scrollPosition = event.target.scrollTop;
+      if (!this.ticking) {
+        window.requestAnimationFrame(() => {
+          this.ticking = false;
+        });
+
+        this.ticking = true;
+      }
     },
   },
 };
@@ -134,7 +149,7 @@ export default {
 
 .header-wrap {
   flex-shrink: 0;
-  transition: max-height 300ms;
+  transition: max-height 100ms;
 
   &.expanded {
     max-height: 16rem;

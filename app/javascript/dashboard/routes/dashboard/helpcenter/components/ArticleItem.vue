@@ -6,7 +6,7 @@
         <router-link :to="articleUrl(id)">
           <h6
             :title="title"
-            class="text-base text-slate-800 dark:text-slate-100 mb-0 leading-6 h-6 hover:underline overflow-hidden whitespace-nowrap text-ellipsis"
+            class="text-base ltr:text-left rtl:text-right text-slate-800 dark:text-slate-100 mb-0 leading-6 h-6 hover:underline overflow-hidden whitespace-nowrap text-ellipsis"
           >
             {{ title }}
           </h6>

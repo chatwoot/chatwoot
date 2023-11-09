@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-mutating-props -->
 <template>
   <woot-modal :show.sync="show" :on-close="onClose">
     <woot-modal-header
@@ -19,7 +20,7 @@
 
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
-import MergeContact from 'dashboard/modules/contact/components/MergeContact';
+import MergeContact from 'dashboard/modules/contact/components/MergeContact.vue';
 
 import ContactAPI from 'dashboard/api/contacts';
 
@@ -72,12 +73,12 @@ export default {
         this.isSearching = false;
       }
     },
-    async onMergeContacts(childContactId) {
+    async onMergeContacts(parentContactId) {
       this.$track(CONTACTS_EVENTS.MERGED_CONTACTS);
       try {
         await this.$store.dispatch('contacts/merge', {
-          childId: childContactId,
-          parentId: this.primaryContact.id,
+          childId: this.primaryContact.id,
+          parentId: parentContactId,
         });
         this.showAlert(this.$t('MERGE_CONTACTS.FORM.SUCCESS_MESSAGE'));
         this.onClose();

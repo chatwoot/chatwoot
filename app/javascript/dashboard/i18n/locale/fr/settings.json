@@ -36,10 +36,13 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Signature du message personnel",
-        "NOTE": "Créez une signature de message personnelle qui sera ajoutée à tous les messages que vous envoyez depuis votre boîte aux lettres électronique. Utilisez l'éditeur de contenu riche pour créer une signature personnalisée.",
+        "NOTE": "Créez une signature de message unique qui apparaîtra à la fin de chaque message que vous envoyez à partir de n'importe quelle boîte de réception. Vous pouvez également inclure une image en ligne, qui est prise en charge dans les boîtes de réception en direct, les e-mails et les API.",
         "BTN_TEXT": "Enregistrer la signature du message",
         "API_ERROR": "Impossible d'enregistrer la signature ! Réessayez",
-        "API_SUCCESS": "Signature enregistrée avec succès"
+        "API_SUCCESS": "Signature enregistrée avec succès",
+        "IMAGE_UPLOAD_ERROR": "Impossible de télécharger l'image! Réessayez",
+        "IMAGE_UPLOAD_SUCCESS": "L'image a été ajoutée avec succès. Veuillez cliquer sur Enregistrer pour enregistrer la signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "La taille de l'image doit être inférieure à {size}Mo"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Signature du message",
@@ -59,18 +62,18 @@
         "TITLE": "Notifications audio",
         "NOTE": "Activer les notifications audio dans le tableau de bord pour les nouveaux messages et conversations.",
         "ALERT_TYPE": {
-          "TITLE": "Alert events:",
+          "TITLE": "Événements d'alerte :",
           "NONE": "Aucun",
           "ASSIGNED": "Conversations assignées",
           "ALL_CONVERSATIONS": "Toutes les conversations"
         },
         "DEFAULT_TONE": {
-          "TITLE": "Alert tone:"
+          "TITLE": "Sonnerie d'alerte :"
         },
         "CONDITIONS": {
-          "TITLE": "Alert conditions:",
-          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
-          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+          "TITLE": "Condition d'alerte :",
+          "CONDITION_ONE": "Envoyer des alertes audio seulement si la fenêtre du navigateur n'est pas active",
+          "CONDITION_TWO": "Envoyer des alertes toutes les 30s jusqu'à ce que toutes les conversations assignées soient lues"
         }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
@@ -80,7 +83,7 @@
         "CONVERSATION_CREATION": "Envoyer des notifications par courriel quand une nouvelle conversation est créée",
         "CONVERSATION_MENTION": "Envoyer des notifications par courriel lorsque vous êtes mentionné dans une conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envoyer des notifications par courriel lorsqu'un nouveau message est créé dans une conversation assignée",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Envoyer des notifications par courriel lorsqu'un nouveau message est créé dans une conversation assignée"
       },
       "API": {
         "UPDATE_SUCCESS": "Vos préférences de notifications ont été mises à jour avec succès",
@@ -93,7 +96,7 @@
         "CONVERSATION_CREATION": "Envoyer des notifications push quand une nouvelle conversation est créée",
         "CONVERSATION_MENTION": "Envoyer des notifications push lorsque vous êtes mentionné dans une conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envoyer des notifications push lorsqu'un nouveau message est créé dans une conversation assignée",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Envoyer des notifications par courriel lorsqu'un nouveau message est créé dans une conversation assignée",
         "HAS_ENABLED_PUSH": "Vous avez activé les notifications pour ce navigateur.",
         "REQUEST_PUSH": "Activer les notifications push"
       },
@@ -117,8 +120,8 @@
           "Occupé(e)",
           "Hors-ligne"
         ],
-        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
+        "SET_AVAILABILITY_SUCCESS": "La disponibilité a bien été définie",
+        "SET_AVAILABILITY_ERROR": "Impossible de définir la disponibilité, veuillez réessayer"
       },
       "EMAIL": {
         "LABEL": "Votre adresse de courriel",
@@ -149,7 +152,8 @@
     "SELECTOR_SUBTITLE": "Sélectionnez un compte dans la liste suivante",
     "PROFILE_SETTINGS": "Paramètres de profil",
     "KEYBOARD_SHORTCUTS": "Raccourcis clavier",
-    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
+    "APPEARANCE": "Changer l'apparence",
+    "SUPER_ADMIN_CONSOLE": "Super console d'administration",
     "LOGOUT": "Se déconnecter"
   },
   "APP_GLOBAL": {
@@ -164,7 +168,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Copier",
-      "CODEPEN": "Open in CodePen",
+      "CODEPEN": "Ouvrir dans CodePen",
       "COPY_SUCCESSFUL": "Code copié dans le presse-papier avec succès"
     },
     "SHOW_MORE_BLOCK": {
@@ -191,11 +195,11 @@
   },
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "En cours de visualisation:",
-    "SWITCH": "Switch",
+    "SWITCH": "Commuter",
     "CONVERSATIONS": "Conversations",
     "ALL_CONVERSATIONS": "Toutes les conversations",
     "MENTIONED_CONVERSATIONS": "Mentions",
-    "PARTICIPATING_CONVERSATIONS": "Participating",
+    "PARTICIPATING_CONVERSATIONS": "Conversations assignées",
     "UNATTENDED_CONVERSATIONS": "Sans suivi",
     "REPORTS": "Rapports",
     "SETTINGS": "Paramètres",
@@ -203,7 +207,7 @@
     "HOME": "Accueil",
     "AGENTS": "Agents",
     "AGENT_BOTS": "Bots",
-    "AUDIT_LOGS": "Audit Logs",
+    "AUDIT_LOGS": "Journaux d'audit",
     "INBOXES": "Boîtes de réception",
     "NOTIFICATIONS": "Notifications",
     "CANNED_RESPONSES": "Réponses standardisées",
@@ -216,7 +220,7 @@
     "AUTOMATION": "Automatisations",
     "MACROS": "Macros",
     "TEAMS": "Équipes",
-    "BILLING": "Billing",
+    "BILLING": "Facturation",
     "CUSTOM_VIEWS_FOLDER": "Dossiers",
     "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "Tous les contacts",
@@ -238,7 +242,7 @@
     "REPORTS_OVERVIEW": "Vue d'ensemble",
     "FACEBOOK_REAUTHORIZE": "Votre connexion Facebook a expiré, veuillez reconnecter votre page Facebook pour continuer les services",
     "HELP_CENTER": {
-      "TITLE": "Centre d'aide (Beta)",
+      "TITLE": "Centre d'aide",
       "ALL_ARTICLES": "Tous les articles",
       "MY_ARTICLES": "Mes articles",
       "DRAFT": "Brouillon",

@@ -32,6 +32,8 @@ class ActionService
   end
 
   def assign_agent(agent_ids = [])
+    return @conversation.update!(assignee_id: nil) if agent_ids[0] == 'nil'
+
     return unless agent_belongs_to_inbox?(agent_ids)
 
     @agent = @account.users.find_by(id: agent_ids)

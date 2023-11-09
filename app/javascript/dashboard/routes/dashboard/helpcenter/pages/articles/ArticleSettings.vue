@@ -119,7 +119,7 @@
 </template>
 
 <script>
-import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown';
+import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import { mapGetters } from 'vuex';
 import { debounce } from '@chatwoot/utils';
 import { isEmptyObject } from 'dashboard/helper/commons.js';
@@ -209,15 +209,21 @@ export default {
     },
     onClickAssignAuthor({ id }) {
       this.$emit('save-article', { author_id: id });
+      this.updateMeta();
     },
     onChangeMetaInput() {
       this.saveArticle();
     },
     onClickArchiveArticle() {
       this.$emit('archive-article');
+      this.updateMeta();
     },
     onClickDeleteArticle() {
       this.$emit('delete-article');
+      this.updateMeta();
+    },
+    updateMeta() {
+      this.$emit('update-meta');
     },
   },
 };

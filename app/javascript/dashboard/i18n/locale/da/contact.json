@@ -71,7 +71,7 @@
       "SUBMIT": "Importer",
       "CANCEL": "Annuller"
     },
-    "SUCCESS_MESSAGE": "Kontakter gemt",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen"
   },
   "EXPORT_CONTACTS": {
@@ -203,6 +203,10 @@
         "LABEL": "Besked",
         "PLACEHOLDER": "Skriv din besked her",
         "ERROR": "Beskeden må ikke være tom"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
       },
       "SUBMIT": "Send besked",
       "CANCEL": "Annuller",
@@ -343,17 +347,17 @@
     "DESCRIPTION": "Sammenflet kontakter for at kombinere to profiler til én, herunder alle attributter og samtaler. I tilfælde af konflikter vil den primære kontakts attributter have forrang.",
     "PRIMARY": {
       "TITLE": "Primær kontakt",
-      "HELP_LABEL": "Skal opbevares"
+      "HELP_LABEL": "Skal slettes"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Kontakt for sammenfletning",
       "PLACEHOLDER": "Søg efter en kontakt",
-      "HELP_LABEL": "Skal slettes"
+      "HELP_LABEL": "Skal opbevares"
     },
     "SUMMARY": {
       "TITLE": "Oversigt",
-      "DELETE_WARNING": "Kontakt af <strong>%{childContactName}</strong> vil blive slettet.",
-      "ATTRIBUTE_WARNING": "Kontaktoplysninger på <strong>%{childContactName}</strong> vil blive kopieret til <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Kontakt af <strong>%{primaryContactName}</strong> vil blive slettet.",
+      "ATTRIBUTE_WARNING": "Kontaktoplysninger på <strong>%{primaryContactName}</strong> vil blive kopieret til <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "FEJL_MEDDELELSE"

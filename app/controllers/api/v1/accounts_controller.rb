@@ -60,7 +60,7 @@ class Api::V1::AccountsController < Api::BaseController
   def billing_subscription
     @billing_subscription = @account.account_billing_subscriptions.last
     @available_product_prices = Enterprise::BillingProductPrice.includes(:billing_product)
-    render 'api/v1/accounts/billing_subscription', format: :json,
+    render 'api/v1/models/_billing', format: :json,
                                                    resource: { billing_subscription: @billing_subscription, available_product_prices: @available_product_prices }
   end
 
