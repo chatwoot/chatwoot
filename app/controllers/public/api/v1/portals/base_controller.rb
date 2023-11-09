@@ -11,13 +11,8 @@ class Public::Api::V1::Portals::BaseController < PublicController
   end
 
   def set_color_scheme
-    system_theme_cookie = cookies[:system_theme] # the system_theme cookie is set to dark or light based on the system appearance
-    selected_theme_cookie = cookies[:selected_theme] # the selected_theme cookie is set to dark or light based on the user's preference
-    @system_theme = system_theme_cookie
     @theme = if %w[dark light].include?(params[:theme])
                params[:theme]
-             elsif selected_theme_cookie.present?
-               selected_theme_cookie
              else
                'system'
              end
