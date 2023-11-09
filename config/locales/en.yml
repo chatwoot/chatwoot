@@ -219,7 +219,11 @@ en:
     footer:
       made_with: Made with
     header:
-      go_to_homepage: Go to the main site
+      go_to_homepage: Website
+      appearance:
+        system: System
+        light: Light
+        dark: Dark
     404:
       title: Page not found
       description: We couldn't find the page you were looking for.
