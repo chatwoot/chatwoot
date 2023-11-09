@@ -5,7 +5,7 @@
     </div>
     <div class="conversation-details">
       <div class="meta-wrap">
-        <div class="flex-container ">
+        <div class="flex-container">
           <woot-label
             class="conversation-id"
             :title="`#${id}`"

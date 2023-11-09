@@ -34,7 +34,7 @@
         "TITLE": "Añadir etiquetas",
         "PLACEHOLDER": "Buscar etiquetas",
         "NO_RESULT": "No se encontraron etiquetas",
-        "CREATE_LABEL": "Create new label"
+        "CREATE_LABEL": "Crear nueva etiqueta"
       }
     },
     "MERGE_CONTACT": "Combinar contacto",
@@ -71,7 +71,7 @@
       "SUBMIT": "Importar",
       "CANCEL": "Cancelar"
     },
-    "SUCCESS_MESSAGE": "Contacto guardado correctamente",
+    "SUCCESS_MESSAGE": "Se le notificará por correo electrónico cuando se complete la importación.",
     "ERROR_MESSAGE": "Hubo un error, por favor inténtelo de nuevo"
   },
   "EXPORT_CONTACTS": {
@@ -203,6 +203,10 @@
         "LABEL": "Mensaje",
         "PLACEHOLDER": "Escriba su mensaje aquí",
         "ERROR": "El mensaje no puede estar vacío"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Seleccionar archivos",
+        "HELP_TEXT": "Arrastre y suelte los archivos aquí o elige archivos para adjuntar"
       },
       "SUBMIT": "Enviar mensaje",
       "CANCEL": "Cancelar",
@@ -343,17 +347,17 @@
     "DESCRIPTION": "Fusionar los contactos para combinar dos perfiles en uno, incluyendo todos los atributos y conversaciones.",
     "PRIMARY": {
       "TITLE": "Contacto principal",
-      "HELP_LABEL": "Mantener"
+      "HELP_LABEL": "A eliminar"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Contacto para combinar",
       "PLACEHOLDER": "Buscar un contacto",
-      "HELP_LABEL": "A eliminar"
+      "HELP_LABEL": "Mantener"
     },
     "SUMMARY": {
       "TITLE": "Resumen",
-      "DELETE_WARNING": "El contacto de <strong>%{childContactName}</strong> se eliminará.",
-      "ATTRIBUTE_WARNING": "Los datos de contacto de <strong>%{childContactName}</strong> se copiarán en <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "El contacto de <strong>%{primaryContactName}</strong> se eliminará.",
+      "ATTRIBUTE_WARNING": "Los datos de contacto de <strong>%{primaryContactName}</strong> se copiarán en <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR"

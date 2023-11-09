@@ -2,7 +2,8 @@
   <div
     class="ml-0 mr-0 flex pt-0 pr-4 pb-4 pl-0"
     :class="{
-      'pt-4 border-b border-solid border-slate-50 dark:border-slate-700/30': showBorder,
+      'pt-4 border-b border-solid border-slate-50 dark:border-slate-700/30':
+        showBorder,
     }"
   >
     <div class="w-[30%] min-w-0 max-w-[30%] pr-12">

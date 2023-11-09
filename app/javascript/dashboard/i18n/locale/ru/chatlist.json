@@ -41,6 +41,16 @@
       "STATUS": "Статус",
       "ORDER_BY": "Сортировать по"
     },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Создан",
+        "OLDEST": "Дата создания:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Последние действия:",
+        "ACTIVE": "Последние действия"
+      }
+    },
     "CHAT_SORT_FILTER_ITEMS": {
       "latest": {
         "TEXT": "Последние действия"
@@ -52,7 +62,7 @@
         "TEXT": "Приоритет"
       },
       "sort_on_waiting_since": {
-        "TEXT": "Pending Response"
+        "TEXT": "Ожидается ответ"
       }
     },
     "ATTACHMENTS": {

@@ -34,7 +34,9 @@
   "START_CONVERSATION": "Hefja samtal",
   "END_CONVERSATION": "Ljúka samtali",
   "CONTINUE_CONVERSATION": "Halda samtali áfram",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "Hefja nýtt samtal",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Sjá nýjustu skilaboð",
     "CLOSE_MESSAGES_BUTTON": "Loka",
@@ -104,6 +106,31 @@
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Smelltu hér til að taka þátt",
       "LEAVE_THE_ROOM": "Yfirgefa símtalið"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Myndaskilaboð"
+    },
+    "audio": {
+      "CONTENT": "Hljóðskilaboð"
+    },
+    "video": {
+      "CONTENT": "Myndbandsskilaboð"
+    },
+    "file": {
+      "CONTENT": "File Attachment"
+    },
+    "location": {
+      "CONTENT": "Staðsetning"
+    },
+    "fallback": {
+      "CONTENT": "hefur deilt vefslóð"
     }
   }
 }

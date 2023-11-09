@@ -34,7 +34,9 @@
   "START_CONVERSATION": "Görüşmeyi Başlatın",
   "END_CONVERSATION": "Görüşmeyi Sonlandır",
   "CONTINUE_CONVERSATION": "Görüşmeye devam et",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "Yeni Görüşme Başlatın",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Yeni mesajları gör",
     "CLOSE_MESSAGES_BUTTON": "Kapat",
@@ -104,6 +106,31 @@
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Görüşmeye katılmak için tıklayın",
       "LEAVE_THE_ROOM": "Görüşmeden ayrıl"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Görsel mesaj"
+    },
+    "audio": {
+      "CONTENT": "Sesli mesaj"
+    },
+    "video": {
+      "CONTENT": "Video mesajı"
+    },
+    "file": {
+      "CONTENT": "Dosya eklentisi"
+    },
+    "location": {
+      "CONTENT": "Yer"
+    },
+    "fallback": {
+      "CONTENT": "bir url paylaştı"
     }
   }
 }

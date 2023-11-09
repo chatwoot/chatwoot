@@ -71,7 +71,7 @@
       "SUBMIT": "导入",
       "CANCEL": "取消"
     },
-    "SUCCESS_MESSAGE": "已成功保存联系人",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "出现错误，请重试"
   },
   "EXPORT_CONTACTS": {
@@ -203,6 +203,10 @@
         "LABEL": "消息",
         "PLACEHOLDER": "在此处输入您的消息",
         "ERROR": "消息不能为空"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
       },
       "SUBMIT": "发送消息",
       "CANCEL": "取消",
@@ -343,17 +347,17 @@
     "DESCRIPTION": "合并联系人以将两个个人资料合并为一个，包括所有属性和对话。 如果发生冲突，将以主联系人的属性为优先。",
     "PRIMARY": {
       "TITLE": "主联系人",
-      "HELP_LABEL": "将被保留"
+      "HELP_LABEL": "将被删除"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "需要合并的联系人",
       "PLACEHOLDER": "搜索联系人",
-      "HELP_LABEL": "将被删除"
+      "HELP_LABEL": "将被保留"
     },
     "SUMMARY": {
       "TITLE": "总结",
-      "DELETE_WARNING": "<strong>%{childContactName}</strong> 的联系信息将被删除。",
-      "ATTRIBUTE_WARNING": "<strong>%{childContactName}</strong> 的联系信息将拷贝到 <strong>%{primaryContactName}</strong>。"
+      "DELETE_WARNING": "<strong>%{primaryContactName}</strong> 的联系信息将被删除。",
+      "ATTRIBUTE_WARNING": "<strong>%{primaryContactName}</strong> 的联系信息将拷贝到 <strong>%{parentContactName}</strong>。"
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"

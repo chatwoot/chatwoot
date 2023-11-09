@@ -13,6 +13,7 @@
         @open="openArticleSettings"
         @close="closeArticleSettings"
         @show="showArticleInPortal"
+        @update-meta="updateMeta"
       />
       <div v-if="isFetching" class="text-center p-normal fs-default h-full">
         <spinner size="" />
@@ -31,6 +32,7 @@
       @save-article="saveArticle"
       @delete-article="openDeletePopup"
       @archive-article="archiveArticle"
+      @update-meta="updateMeta"
     />
     <woot-delete-modal
       :show.sync="showDeleteConfirmationPopup"
@@ -45,10 +47,10 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import EditArticleHeader from '../../components/Header/EditArticleHeader';
-import ArticleEditor from '../../components/ArticleEditor';
-import ArticleSettings from './ArticleSettings';
-import Spinner from 'shared/components/Spinner';
+import EditArticleHeader from '../../components/Header/EditArticleHeader.vue';
+import ArticleEditor from '../../components/ArticleEditor.vue';
+import ArticleSettings from './ArticleSettings.vue';
+import Spinner from 'shared/components/Spinner.vue';
 import portalMixin from '../../mixins/portalMixin';
 import alertMixin from 'shared/mixins/alertMixin';
 import wootConstants from 'dashboard/constants/globals';
@@ -86,6 +88,9 @@ export default {
     },
     selectedPortalSlug() {
       return this.$route.params.portalSlug;
+    },
+    selectedLocale() {
+      return this.$route.params.locale;
     },
     portalLink() {
       const slug = this.$route.params.portalSlug;
@@ -182,6 +187,13 @@ export default {
       } finally {
         this.showAlert(this.alertMessage);
       }
+    },
+    updateMeta() {
+      const selectedPortalParam = {
+        portalSlug: this.selectedPortalSlug,
+        locale: this.selectedLocale,
+      };
+      return this.$store.dispatch('portals/show', selectedPortalParam);
     },
     openArticleSettings() {
       this.showArticleSettings = true;

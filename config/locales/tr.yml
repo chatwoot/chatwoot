@@ -49,6 +49,8 @@ tr:
         unique: kategori ve portalde tekil olmalı
     dyte:
       invalid_message_type: "Invalid message type. Action not permitted"
+    slack:
+      invalid_channel_id: "Invalid slack channel. Please try again"
     inboxes:
       imap:
         socket_error: Lütfen ağ bağlantınızı, IMAP adresini kontrol edin ve tekrar deneyin.
@@ -108,6 +110,8 @@ tr:
       instagram_story_content: "%{story_sender} hikayesinde senden bahsetti: "
       instagram_deleted_story_content: This story is no longer available.
       deleted: Bu mesaj silinmiş
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "Görüşme %{user_name} tarafından çözüldü olarak işaretlendi"
@@ -144,6 +148,8 @@ tr:
         header:
           from_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
           reply_with_name: "%{assignee_name} from %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} from %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
@@ -198,3 +204,12 @@ tr:
       made_with: Made with
     header:
       go_to_homepage: Go to the main site
+  slack_unfurl:
+    fields:
+      name: İsim
+      email: E-Posta
+      phone_number: Phone
+      company_name: Şirket
+      inbox_name: Gelen kutusu
+      inbox_type: Inbox Type
+    button: Görüşmeyi aç

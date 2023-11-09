@@ -3,8 +3,8 @@
     "HEADER": "Kampanye",
     "SIDEBAR_TXT": "Pesan proaktif mengizinkan pelanggan untuk mengirimkan pesan keluar kepada kontak mereka yang akan memicu percakapan lebih. Klik pada <b>Tambahkan Kampanye</b> untuk membuat sebuah kampanye baru. Anda juga dapat mengedit atau menghapus kampanye yang telah ada dengan mengklik pada tombol Edit atau Delete.",
     "HEADER_BTN_TXT": {
-      "ONE_OFF": "Create a one off campaign",
-      "ONGOING": "Create a ongoing campaign"
+      "ONE_OFF": "Buat kampanye sekali pakai",
+      "ONGOING": "Buat kampanye berkelanjutan"
     },
     "ADD": {
       "TITLE": "Buat sebuah kampanye",
@@ -54,7 +54,7 @@
           "ERROR": "Waktu pada halaman wajib diisi"
         },
         "ENABLED": "Aktifkan kampanye",
-        "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "Pemicu hanya selama jam kerja",
         "SUBMIT": "Tambahkan kampanye"
       },
       "API": {
@@ -113,8 +113,8 @@
       }
     },
     "ONE_OFF": {
-      "HEADER": "One off campaigns",
-      "404": "There are no one off campaigns created",
+      "HEADER": "Kampanye sekali pakai",
+      "404": "Tidak ada kampanye yang dibuat oleh siapa pun",
       "INBOXES_NOT_FOUND": "Silakan buat sebuah kotak masuk sms dan mulai menambahkan kampanye"
     },
     "ONGOING": {

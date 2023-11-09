@@ -1,54 +1,54 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automations",
-    "HEADER_BTN_TXT": "Add Automation Rule",
-    "LOADING": "Fetching automation rules",
-    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
+    "HEADER": "Automatizációk",
+    "HEADER_BTN_TXT": "Automatikus szabály hozzáadása",
+    "LOADING": "Automatizálási szabályok betöltése",
+    "SIDEBAR_TXT": "<p><b>Automatizálási szabályok</b> <p>Az automatizálás helyettesítheti és automatizálhatja a meglévő folyamatokat, amelyek kézi kezelést igényelnek. Az automatizálással sok mindent megtehetsz, beleértve a címkék hozzáadását és a beszélgetések hozzárendelését a legjobb ügynökhöz. Így a csapat arra összpontosít, amit a legjobban csinál, és kevesebb időt fordít a manuális feladatokra.</p>",
     "ADD": {
-      "TITLE": "Add Automation Rule",
+      "TITLE": "Automatikus szabály hozzáadása",
       "SUBMIT": "Létrehozás",
       "CANCEL_BUTTON_TEXT": "Mégse",
       "FORM": {
         "NAME": {
-          "LABEL": "Rule Name",
-          "PLACEHOLDER": "Enter rule name",
-          "ERROR": "Name is required"
+          "LABEL": "Szabály neve",
+          "PLACEHOLDER": "Szabálynév megadása",
+          "ERROR": "Név kötelező"
         },
         "DESC": {
           "LABEL": "Leírás",
-          "PLACEHOLDER": "Enter rule description",
-          "ERROR": "Description is required"
+          "PLACEHOLDER": "Szabályleírás megadása",
+          "ERROR": "Leírás megadása kötelező"
         },
         "EVENT": {
-          "LABEL": "Event",
-          "PLACEHOLDER": "Please select one",
-          "ERROR": "Event is required"
+          "LABEL": "Esemény",
+          "PLACEHOLDER": "Kérlek, válassz egyet",
+          "ERROR": "Esemény megadása kötezelő"
         },
         "CONDITIONS": {
-          "LABEL": "Conditions"
+          "LABEL": "Feltételek"
         },
         "ACTIONS": {
           "LABEL": "Műveletek"
         }
       },
-      "CONDITION_BUTTON_LABEL": "Add Condition",
-      "ACTION_BUTTON_LABEL": "Add Action",
+      "CONDITION_BUTTON_LABEL": "Feltétel hozzáadása",
+      "ACTION_BUTTON_LABEL": "Akció hozzáadása",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule added successfully",
-        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Automatizált szabály sikeresen hozzáaadva",
+        "ERROR_MESSAGE": "Nem sikerült automatizált szabályt létrehozni. Kérjük, próbáld újra később"
       }
     },
     "LIST": {
       "TABLE_HEADER": [
         "Név",
         "Leírás",
-        "Active",
-        "Created on"
+        "Aktív",
+        "Létrehozva"
       ],
-      "404": "No automation rules found"
+      "404": "Nem található automatizált szabály"
     },
     "DELETE": {
-      "TITLE": "Delete Automation Rule",
+      "TITLE": "Automatizált szabály törlése",
       "SUBMIT": "Törlés",
       "CANCEL_BUTTON_TEXT": "Mégse",
       "CONFIRM": {
@@ -58,24 +58,24 @@
         "NO": "Nem, Mégse "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
-        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Automatizált szabály sikeresen törölve",
+        "ERROR_MESSAGE": "Nem sikerült automatizált szabályt törölni. Kérjük, próbáld újra később"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Automation Rule",
+      "TITLE": "Automatizált szabály szerkesztése",
       "SUBMIT": "Frissítés",
       "CANCEL_BUTTON_TEXT": "Mégse",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule updated successfully",
-        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Automatizált szabály sikeresen frissítve",
+        "ERROR_MESSAGE": "Nem sikerült automatizált szabályt frissíteni. Kérjük, próbáld újra később"
       }
     },
     "CLONE": {
-      "TOOLTIP": "Clone",
+      "TOOLTIP": "Duplikálás",
       "API": {
-        "SUCCESS_MESSAGE": "Automation cloned successfully",
-        "ERROR_MESSAGE": "Could not clone automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Automatizálás sikeresen többszörözve",
+        "ERROR_MESSAGE": "Nem sikerült automatizált szabályt többszörözni. Kérjük, próbáld újra később"
       }
     },
     "FORM": {
@@ -83,36 +83,36 @@
       "CREATE": "Létrehozás",
       "DELETE": "Törlés",
       "CANCEL": "Mégse",
-      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+      "RESET_MESSAGE": "Az eseménytípus módosítása visszaállítja az alább hozzáadott feltételeket és eseményeket\n"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "You need to have atleast one condition to save",
-      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
-      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
+      "DELETE_MESSAGE": "Legalább egy feltételt meg kell adnod a mentéshez",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Kapcsolat az egyéni tulajdonságokkal",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Beszélgetés az egyéni tulajdonságokkal\n"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "You need to have atleast one action to save",
-      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
+      "DELETE_MESSAGE": "Legalább egy tevékenység szükséges a mentéshez",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Írd be az üzeneted ide",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Csapatok kiválasztása"
     },
     "TOGGLE": {
-      "ACTIVATION_TITLE": "Activate Automation Rule",
-      "DEACTIVATION_TITLE": "Deactivate Automation Rule",
-      "ACTIVATION_DESCRIPTION": "This action will activate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "DEACTIVATION_DESCRIPTION": "This action will deactivate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "ACTIVATION_SUCCESFUL": "Automation Rule Activated Successfully",
-      "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
-      "ACTIVATION_ERROR": "Could not Activate Automation, Please try again later",
-      "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
+      "ACTIVATION_TITLE": "Automatizált szabályok aktivizálása",
+      "DEACTIVATION_TITLE": "Automatizált szabályok inaktivizálása",
+      "ACTIVATION_DESCRIPTION": "Ez a művelet aktiválja a „{automationName}” automatizálási szabályt. Biztosan folytatod?",
+      "DEACTIVATION_DESCRIPTION": "Ez a művelet deaktiválja a(z) „{automationName}” automatizálási szabályt. Biztosan folytatod?",
+      "ACTIVATION_SUCCESFUL": "Automatizált szabály sikeresen aktiválva",
+      "DEACTIVATION_SUCCESFUL": "Automatizált szabály sikeresen inaktiválva",
+      "ACTIVATION_ERROR": "Nem sikerült aktiválni az automatizálást. Kérjük, próbálja újra később",
+      "DEACTIVATION_ERROR": "Nem sikerült inaktiválni az automatizálást. Kérjük, próbálja újra később",
       "CONFIRMATION_LABEL": "Igen",
       "CANCEL_LABEL": "Nem"
     },
     "ATTACHMENT": {
-      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
-      "LABEL_IDLE": "Upload Attachment",
+      "UPLOAD_ERROR": "Nem sikerült feltölteni a csatolmányt, kérlek, próbáld később",
+      "LABEL_IDLE": "Csatolmányok feltöltése",
       "LABEL_UPLOADING": "Frissítés...",
-      "LABEL_UPLOADED": "Successfully Uploaded",
-      "LABEL_UPLOAD_FAILED": "Upload Failed"
+      "LABEL_UPLOADED": "Sikeres feltöltés",
+      "LABEL_UPLOAD_FAILED": "Sikertelen feltöltés"
     }
   }
 }

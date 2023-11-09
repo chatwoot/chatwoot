@@ -36,10 +36,13 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Підпис особистого повідомлення",
-        "NOTE": "Створити особистий підпис повідомлення, який буде додано до всіх повідомлень, надісланих з поштової скриньки. Використовуйте редактор багатокористувацького контенту для створення персоналізованого підпису.",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
         "BTN_TEXT": "Зберегти підпис повідомлення",
         "API_ERROR": "Не вдалося зберегти підпис! Повторіть спробу",
-        "API_SUCCESS": "Підпис успішно збережено"
+        "API_SUCCESS": "Підпис успішно збережено",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Зображення має бути менше {size}Мб"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Підпис повідомлення",
@@ -149,6 +152,7 @@
     "SELECTOR_SUBTITLE": "Виберіть обліковий запис із наступного списку",
     "PROFILE_SETTINGS": "Налаштування облікового запису",
     "KEYBOARD_SHORTCUTS": "Комбінації клавіш",
+    "APPEARANCE": "Change Appearance",
     "SUPER_ADMIN_CONSOLE": "Консоль адміна",
     "LOGOUT": "Вийти"
   },
@@ -238,7 +242,7 @@
     "REPORTS_OVERVIEW": "Огляд",
     "FACEBOOK_REAUTHORIZE": "Підключення до Facebook закінчилося, будь ласка, поновіть сторінку Facebook, щоб продовжити роботу служб",
     "HELP_CENTER": {
-      "TITLE": "Довідковий центр (Beta)",
+      "TITLE": "Довідковий центр",
       "ALL_ARTICLES": "Всі статті",
       "MY_ARTICLES": "Мої статті",
       "DRAFT": "Чернетка",

@@ -110,7 +110,9 @@
       "SNOOZE_CONVERSATION": "به تعویق انداختن مکالمه",
       "ADD_LABEL": "برچسب را به مکالمه اضافه کنید",
       "REMOVE_LABEL": "برچسب را از مکالمه حذف کنید",
-      "SETTINGS": "تنظیمات"
+      "SETTINGS": "تنظیمات",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "به داشبورد مکالمه بروید",
@@ -132,6 +134,7 @@
       "GO_TO_NOTIFICATIONS": "به اعلان ها بروید",
       "ADD_LABELS_TO_CONVERSATION": "برچسب را به مکالمه اضافه کنید",
       "ASSIGN_AN_AGENT": "یک ایجنت تعیین کنید",
+      "AI_ASSIST": "AI Assist",
       "ASSIGN_PRIORITY": "Assign priority",
       "ASSIGN_A_TEAM": "یک تیم را تعیین کنید",
       "MUTE_CONVERSATION": "صدای گفتگو را قطع کن",
@@ -146,10 +149,18 @@
       "UNTIL_TOMORROW": "تا فردا",
       "UNTIL_NEXT_MONTH": "Until next month",
       "AN_HOUR_FROM_NOW": "Until an hour from now",
-      "CUSTOM": "Custom..."
+      "CUSTOM": "سفارشی...",
+      "CHANGE_APPEARANCE": "تغییر ظاهر",
+      "LIGHT_MODE": "روشن",
+      "DARK_MODE": "تیره",
+      "SYSTEM_MODE": "سیستم"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "در حال بارگیری برنامه پیشخوان..."
+  },
+  "COMMON": {
+    "OR": "یا",
+    "CLICK_HERE": "اینجا کلیک کنید"
   }
 }

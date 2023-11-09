@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/v-slot-style -->
 <template>
   <div class="bg-white dark:bg-slate-900">
     <div class="multiselect-wrap--small">

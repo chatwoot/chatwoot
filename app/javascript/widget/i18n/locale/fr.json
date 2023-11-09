@@ -20,21 +20,23 @@
     "IN_A_FEW_MINUTES": "Répond généralement en quelques minutes",
     "IN_A_FEW_HOURS": "Répond généralement en quelques heures",
     "IN_A_DAY": "Répond généralement dans la journée",
-    "BACK_IN": "We will be back online"
+    "BACK_IN": "Nous serons de retour en ligne"
   },
   "DAY_NAMES": [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday"
+    "Dimanche",
+    "Lundi",
+    "Mardi",
+    "Mercredi",
+    "Jeudi",
+    "Vendredi",
+    "Samedi"
   ],
   "START_CONVERSATION": "Démarrer la conversation",
   "END_CONVERSATION": "Clôturer la conversation",
   "CONTINUE_CONVERSATION": "Continuer la conversation",
+  "YOU": "Vous",
   "START_NEW_CONVERSATION": "Démarrer une nouvelle conversation",
+  "VIEW_UNREAD_MESSAGES": "Vous avez des messages non lus",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Voir les nouveaux messages",
     "CLOSE_MESSAGES_BUTTON": "Fermer",
@@ -66,8 +68,8 @@
         "LABEL": "Numéro de téléphone",
         "PLACEHOLDER": "Veuillez saisir votre numéro de téléphone",
         "REQUIRED_ERROR": "Le numéro de téléphone est obligatoire",
-        "DIAL_CODE_VALID_ERROR": "Please select a country code",
-        "VALID_ERROR": "Please enter a valid phone number",
+        "DIAL_CODE_VALID_ERROR": "Veuillez sélectionner un code pays",
+        "VALID_ERROR": "Veuillez saisir un numéro de téléphone valide",
         "DROPDOWN_EMPTY": "Aucun résultat trouvé"
       },
       "MESSAGE": {
@@ -104,6 +106,31 @@
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Cliquez ici pour rejoindre",
       "LEAVE_THE_ROOM": "Quitter l'appel"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Articles populaires",
+    "VIEW_ALL_ARTICLES": "Voir tous les articles",
+    "IFRAME_LOAD_ERROR": "Une erreur s'est produite lors du chargement de l'article, veuillez actualiser la page et réessayer."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Message image"
+    },
+    "audio": {
+      "CONTENT": "Message audio"
+    },
+    "video": {
+      "CONTENT": "Message vidéo"
+    },
+    "file": {
+      "CONTENT": "Pièce jointe"
+    },
+    "location": {
+      "CONTENT": "Localisation"
+    },
+    "fallback": {
+      "CONTENT": "a partagé une URL"
     }
   }
 }

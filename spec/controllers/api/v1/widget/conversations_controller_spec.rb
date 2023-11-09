@@ -170,6 +170,7 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
       it 'returns the correct conversation params' do
         allow(Rails.configuration.dispatcher).to receive(:dispatch)
         expect(conversation.contact_last_seen_at).to be_nil
+        expect(Conversations::MarkMessagesAsReadJob).to receive(:perform_later).with(conversation)
 
         post '/api/v1/widget/conversations/update_last_seen',
              headers: { 'X-Auth-Token' => token },

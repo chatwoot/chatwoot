@@ -21,20 +21,19 @@ export const getters = {
   getUIFlags($state) {
     return $state.uiFlags;
   },
-  isFeatureEnabledonAccount: ($state, _, __, rootGetters) => (
-    id,
-    featureName
-  ) => {
-    // If a user is SuperAdmin and has access to the account, then they would see all the available features
-    const isUserASuperAdmin = rootGetters.getCurrentUser?.type === 'SuperAdmin';
-    if (isUserASuperAdmin) {
-      return true;
-    }
+  isFeatureEnabledonAccount:
+    ($state, _, __, rootGetters) => (id, featureName) => {
+      // If a user is SuperAdmin and has access to the account, then they would see all the available features
+      const isUserASuperAdmin =
+        rootGetters.getCurrentUser?.type === 'SuperAdmin';
+      if (isUserASuperAdmin) {
+        return true;
+      }
 
-    const { features = {} } =
-      $state.records.find(record => record.id === Number(id)) || {};
-    return features[featureName] || false;
-  },
+      const { features = {} } =
+        $state.records.find(record => record.id === Number(id)) || {};
+      return features[featureName] || false;
+    },
 };
 
 export const actions = {
@@ -108,20 +107,18 @@ export const actions = {
   },
 
   getBillingSubscription: async ({ commit }) => {
-    commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetchingItem: true });
+    commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: true });
     try {
       const response = await AccountAPI.getBillingSubscription();
-      // console.log(response.data)
       commit(types.default.UPDATE_ACCOUNT, response.data);
-      commit(types.default.SET_ACCOUNT_UI_FLAG, {
-        isFetchingItem: false,
-      });
     } catch (error) {
+      throwErrorMessage(error);
+    } finally {
       commit(types.default.SET_ACCOUNT_UI_FLAG, {
-        isFetchingItem: false,
+        isCheckoutInProcess: false,
       });
     }
-  }
+  },
 };
 
 export const mutations = {
@@ -134,8 +131,8 @@ export const mutations = {
   [types.default.ADD_ACCOUNT]: MutationHelpers.setSingleRecord,
   [types.default.EDIT_ACCOUNT]: MutationHelpers.update,
   [types.default.SET_ACCOUNT_LIMITS]: MutationHelpers.updateAttributes,
-   //added
-  [types.default.UPDATE_ACCOUNT]: MutationHelpers.updatedAttributes
+  // Update Account mutation
+  [types.default.UPDATE_ACCOUNT]: MutationHelpers.updatedAttributes,
 };
 
 export default {

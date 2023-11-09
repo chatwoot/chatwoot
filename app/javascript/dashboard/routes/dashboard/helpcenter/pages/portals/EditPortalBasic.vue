@@ -14,7 +14,7 @@
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 
-import PortalSettingsBasicForm from 'dashboard/routes/dashboard/helpcenter/components/PortalSettingsBasicForm';
+import PortalSettingsBasicForm from 'dashboard/routes/dashboard/helpcenter/components/PortalSettingsBasicForm.vue';
 
 export default {
   components: {

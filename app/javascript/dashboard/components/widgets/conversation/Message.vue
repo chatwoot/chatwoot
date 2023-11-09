@@ -34,6 +34,11 @@
             :url="storyUrl"
           />
         </blockquote>
+        <bubble-reply-to
+          v-if="inReplyToMessageId && inboxSupportsReplyTo"
+          :message="inReplyTo"
+          :message-type="data.message_type"
+        />
         <bubble-text
           v-if="data.content"
           :message="message"
@@ -124,24 +129,26 @@
         :message="data"
         @open="openContextMenu"
         @close="closeContextMenu"
+        @replyTo="handleReplyTo"
       />
     </div>
   </li>
 </template>
 <script>
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import BubbleActions from './bubble/Actions';
-import BubbleFile from './bubble/File';
-import BubbleImage from './bubble/Image';
-import BubbleVideo from './bubble/Video';
-import BubbleImageAudioVideo from './bubble/ImageAudioVideo';
+import BubbleActions from './bubble/Actions.vue';
+import BubbleFile from './bubble/File.vue';
+import BubbleImage from './bubble/Image.vue';
+import BubbleVideo from './bubble/Video.vue';
+import BubbleImageAudioVideo from './bubble/ImageAudioVideo.vue';
 import BubbleIntegration from './bubble/Integration.vue';
-import BubbleLocation from './bubble/Location';
-import BubbleMailHead from './bubble/MailHead';
-import BubbleText from './bubble/Text';
-import BubbleContact from './bubble/Contact';
-import Spinner from 'shared/components/Spinner';
-import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu';
+import BubbleLocation from './bubble/Location.vue';
+import BubbleMailHead from './bubble/MailHead.vue';
+import BubbleText from './bubble/Text.vue';
+import BubbleContact from './bubble/Contact.vue';
+import BubbleReplyTo from './bubble/ReplyTo.vue';
+import Spinner from 'shared/components/Spinner.vue';
+import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
 import instagramImageErrorPlaceholder from './instagramImageErrorPlaceholder.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import contentTypeMixin from 'shared/mixins/contentTypeMixin';
@@ -149,6 +156,8 @@ import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import { generateBotMessageContent } from './helpers/botMessageContentHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
+import { LocalStorage } from 'shared/helpers/localStorage';
 
 export default {
   components: {
@@ -162,6 +171,7 @@ export default {
     BubbleMailHead,
     BubbleText,
     BubbleContact,
+    BubbleReplyTo,
     ContextMenu,
     Spinner,
     instagramImageErrorPlaceholder,
@@ -187,6 +197,14 @@ export default {
     isWebWidgetInbox: {
       type: Boolean,
       default: false,
+    },
+    inboxSupportsReplyTo: {
+      type: Boolean,
+      default: false,
+    },
+    inReplyTo: {
+      type: Object,
+      default: () => ({}),
     },
   },
   data() {
@@ -264,11 +282,19 @@ export default {
         ) + botMessageContent
       );
     },
+    inReplyToMessageId() {
+      // Why not use the inReplyTo object directly?
+      // Glad you asked! The inReplyTo object may or may not be available
+      // depending on the current scroll position of the message list
+      // since old messages are only loaded when the user scrolls up
+      return this.data.content_attributes?.in_reply_to;
+    },
     contextMenuEnabledOptions() {
       return {
         copy: this.hasText,
         delete: this.hasText || this.hasAttachments,
         cannedResponse: this.isOutgoing && this.hasText,
+        replyTo: !this.data.private && this.inboxSupportsReplyTo,
       };
     },
     contentAttributes() {
@@ -318,6 +344,8 @@ export default {
         left: isLeftAligned,
         right: isRightAligned,
         'has-context-menu': this.showContextMenu,
+        // this handles the offset required to align the context menu button
+        // extra alignment is required since a tweet message has a the user name and avatar below it
         'has-tweet-menu': this.isATweet,
         'has-bg': this.showBackgroundHighlight,
       };
@@ -494,6 +522,13 @@ export default {
       this.showContextMenu = false;
       this.contextMenuPosition = { x: null, y: null };
     },
+    handleReplyTo() {
+      const replyStorageKey = LOCAL_STORAGE_KEYS.MESSAGE_REPLY_TO;
+      const { conversation_id: conversationId, id: replyTo } = this.data;
+
+      LocalStorage.updateJsonStore(replyStorageKey, conversationId, replyTo);
+      bus.$emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.data);
+    },
     setupHighlightTimer() {
       if (Number(this.$route.query.messageId) !== Number(this.data.id)) {
         return;
@@ -613,6 +648,8 @@ li.right {
 }
 
 li.left.has-tweet-menu .context-menu {
+  // this handles the offset required to align the context menu button
+  // extra alignment is required since a tweet message has a the user name and avatar below it
   @apply mb-6;
 }
 

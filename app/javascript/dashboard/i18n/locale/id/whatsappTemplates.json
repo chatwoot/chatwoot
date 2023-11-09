@@ -1,25 +1,25 @@
 {
     "WHATSAPP_TEMPLATES": {
         "MODAL": {
-            "TITLE": "Whatsapp Templates",
-            "SUBTITLE": "Select the whatsapp template you want to send",
-            "TEMPLATE_SELECTED_SUBTITLE": "Process %{templateName}"
+            "TITLE": "Templat Whatsapp",
+            "SUBTITLE": "Pilih templat Whatsapp yang ingin Anda kirim",
+            "TEMPLATE_SELECTED_SUBTITLE": "Proses %{templatName}"
         },
         "PICKER": {
-            "SEARCH_PLACEHOLDER": "Search Templates",
-            "NO_TEMPLATES_FOUND": "No templates found for",
+            "SEARCH_PLACEHOLDER": "Cari Templat",
+            "NO_TEMPLATES_FOUND": "Tidak ditemukan templat untuk",
             "LABELS": {
-                "LANGUAGE": "Language",
-                "TEMPLATE_BODY": "Template Body",
-                "CATEGORY": "Category"
+                "LANGUAGE": "Bahasa",
+                "TEMPLATE_BODY": "Isi Templat",
+                "CATEGORY": "Kategori"
             }
         },
         "PARSER": {
-            "VARIABLES_LABEL": "Variables",
-            "VARIABLE_PLACEHOLDER": "Enter %{variable} value",
-            "GO_BACK_LABEL": "Go Back",
-            "SEND_MESSAGE_LABEL": "Send Message",
-            "FORM_ERROR_MESSAGE": "Please fill all variables before sending"
+            "VARIABLES_LABEL": "Variabel",
+            "VARIABLE_PLACEHOLDER": "Masukkan nilai %{variable}",
+            "GO_BACK_LABEL": "Kembali",
+            "SEND_MESSAGE_LABEL": "Kirim Pesan",
+            "FORM_ERROR_MESSAGE": "Harap isi semua variabel sebelum mengirim"
         }
     }
 }

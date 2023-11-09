@@ -12,6 +12,10 @@
     "NO_INBOX_2": " برای شروع",
     "NO_INBOX_AGENT": "اوه اوه! به نظر می‌رسد شما عضو هیچ صندوق ورودی نیستید. لطفا با مدیر خود تماس بگیرید",
     "SEARCH_MESSAGES": "پیام‌ها را در گفتگوها جستجو کنید",
+    "EMPTY_STATE": {
+      "CMD_BAR": "برای باز کردن منوی فرمان",
+      "KEYBOARD_SHORTCUTS": "برای مشاهده میانبرهای صفحه کلید"
+    },
     "SEARCH": {
       "TITLE": "جستجو پیام‌ها",
       "RESULT_TITLE": "نتایج جستجو",
@@ -30,7 +34,6 @@
     "ASSIGN_TO_ME": "اختصاص به من",
     "TWILIO_WHATSAPP_CAN_REPLY": "شما فقط می توانید با استفاده از یک پیام الگو به این مکالمه پاسخ دهید",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "محدودیت ۲۴ ساعته پنجره پیام",
-    "SELECT_A_TWEET_TO_REPLY": "لطفا برای پاسخ دادن، یک توییت را انتخاب کنید.",
     "REPLYING_TO": "شما در حال پاسخ دادن به:",
     "REMOVE_SELECTION": "حذف انتخاب‌شده‌ها",
     "DOWNLOAD": "دانلود",
@@ -43,6 +46,7 @@
     "NO_RESPONSE": "بدون پاسخ",
     "RATING_TITLE": "رتبه",
     "FEEDBACK_TITLE": "بازخورد",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "مشاهده کردن برچسب‌ها",
       "HIDE_LABELS": "پنهان کردن برچسب‌ها"
@@ -135,7 +139,8 @@
       "PRIVATE_NOTE": "یادداشت خصوصی",
       "SEND": "ارسال",
       "CREATE": "افزودن یادداشت",
-      "TWEET": "توییت",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "نمایش ویرایشگر متنی پیشرفته",
       "TIP_EMOJI_ICON": "انتخاب ایموجی",
       "TIP_ATTACH_ICON": "ضمیمه فایل",
@@ -147,6 +152,7 @@
       "STOP_AUDIO_RECORDING": "در حال توقف ضبط صدا",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "افزودن bcc",
         "CC": {
           "LABEL": "CC",
@@ -189,6 +195,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "کپی",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "حذف",
       "CREATE_A_CANNED_RESPONSE": "اضافه کردن به پاسخ‌های آماده",
       "TRANSLATE": "ترجمه",

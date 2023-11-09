@@ -34,7 +34,9 @@
   "START_CONVERSATION": "Начать диалог",
   "END_CONVERSATION": "Завершить диалог",
   "CONTINUE_CONVERSATION": "Продолжить беседу",
+  "YOU": "Вы",
   "START_NEW_CONVERSATION": "Начать диалог",
+  "VIEW_UNREAD_MESSAGES": "У вас есть непрочитанные сообщения",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Посмотреть новые сообщения",
     "CLOSE_MESSAGES_BUTTON": "Закрыть",
@@ -104,6 +106,31 @@
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Нажмите, чтобы присоединиться",
       "LEAVE_THE_ROOM": "Закончить разговор"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Популярные статьи",
+    "VIEW_ALL_ARTICLES": "Показать все статьи",
+    "IFRAME_LOAD_ERROR": "Произошла ошибка при загрузке статьи, пожалуйста, обновите страницу и повторите попытку."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Изображение"
+    },
+    "audio": {
+      "CONTENT": "Аудиосообщение"
+    },
+    "video": {
+      "CONTENT": "Видео"
+    },
+    "file": {
+      "CONTENT": "Прикрепленный файл"
+    },
+    "location": {
+      "CONTENT": "Местоположение"
+    },
+    "fallback": {
+      "CONTENT": "поделился ссылкой"
     }
   }
 }

@@ -14,7 +14,7 @@
       <div class="w-[60%]">
         <p
           v-if="!uiFlags.fetchingList && !records.length"
-          class="no-items-error-message"
+          class="flex h-full items-center flex-col justify-center"
         >
           {{ $t('CANNED_MGMT.LIST.404') }}
         </p>
@@ -110,8 +110,8 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import AddCanned from './AddCanned';
-import EditCanned from './EditCanned';
+import AddCanned from './AddCanned.vue';
+import EditCanned from './EditCanned.vue';
 
 export default {
   components: {

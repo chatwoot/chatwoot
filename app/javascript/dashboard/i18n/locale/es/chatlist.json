@@ -41,6 +41,16 @@
       "STATUS": "Estado",
       "ORDER_BY": "Ordenar por"
     },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Creado",
+        "OLDEST": "Creado el:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Última actividad:",
+        "ACTIVE": "Última actividad"
+      }
+    },
     "CHAT_SORT_FILTER_ITEMS": {
       "latest": {
         "TEXT": "Última actividad"
@@ -52,7 +62,7 @@
         "TEXT": "Prioridad"
       },
       "sort_on_waiting_since": {
-        "TEXT": "Pending Response"
+        "TEXT": "Respuesta pendiente"
       }
     },
     "ATTACHMENTS": {

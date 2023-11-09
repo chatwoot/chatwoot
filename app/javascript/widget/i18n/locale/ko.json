@@ -34,7 +34,9 @@
   "START_CONVERSATION": "대화 시작",
   "END_CONVERSATION": "End Conversation",
   "CONTINUE_CONVERSATION": "Continue conversation",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "Start a new conversation",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "새 메시지 보기",
     "CLOSE_MESSAGES_BUTTON": "닫기",
@@ -104,6 +106,31 @@
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Click here to join",
       "LEAVE_THE_ROOM": "Leave the call"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "사진 메시지"
+    },
+    "audio": {
+      "CONTENT": "음성 메시지"
+    },
+    "video": {
+      "CONTENT": "영상 메시지"
+    },
+    "file": {
+      "CONTENT": "파일 첨부"
+    },
+    "location": {
+      "CONTENT": "장소"
+    },
+    "fallback": {
+      "CONTENT": "URL을 공유함"
     }
   }
 }

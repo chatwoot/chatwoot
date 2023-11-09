@@ -39,7 +39,7 @@ es:
       import:
         failed: Archivo está en blanco
       export:
-        success: We will notify you once contacts export file is ready to view.
+        success: Le notificaremos cuando el archivo de exportación de contactos esté listo para ver.
       email:
         invalid: Email inválido
       phone_number:
@@ -49,6 +49,8 @@ es:
         unique: debe ser único en la categoría y el portal
     dyte:
       invalid_message_type: "Tipo de mensaje inválido. Acción no permitida"
+    slack:
+      invalid_channel_id: "Canal de slack inválido. Por favor, inténtalo de nuevo"
     inboxes:
       imap:
         socket_error: Verifique la conexión de red, la dirección IMAP y vuelva a intentarlo.
@@ -59,7 +61,7 @@ es:
       validations:
         name: no debe comenzar ni terminar con símbolos, y no debe tener caracteres < > / \ @.
     custom_filters:
-      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
+      number_of_records: Límite alcanzado. El número máximo de filtros personalizados permitidos para un usuario por cuenta es de 50.
   reports:
     period: Reportando el periodo desde %{since} hasta %{until}
     utc_warning: El informe generado está en zona horaria UTC
@@ -108,6 +110,8 @@ es:
       instagram_story_content: "%{story_sender} te mencionó en la historia: "
       instagram_deleted_story_content: Esta historia ya no está disponible.
       deleted: Este mensaje se ha eliminado
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "La conversación fue marcada por %{user_name}"
@@ -144,6 +148,8 @@ es:
         header:
           from_with_name: "%{assignee_name} de %{inbox_name} <%{from_email}>"
           reply_with_name: "%{assignee_name} de %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} de %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} de %{inbox_name} <%{from_email}>"
@@ -184,7 +190,7 @@ es:
       empty_placeholder: No se encontraron resultados.
       loading_placeholder: Buscando...
       results_title: Buscar resultados
-    toc_header: 'On this page'
+    toc_header: 'En esta página'
     hero:
       sub_title: Busque aquí los artículos o busque las categorías de abajo.
     common:
@@ -198,3 +204,12 @@ es:
       made_with: Hecho con
     header:
       go_to_homepage: Ir al sitio principal
+  slack_unfurl:
+    fields:
+      name: Nombre
+      email: E-mail
+      phone_number: Teléfono
+      company_name: Empresa
+      inbox_name: Bandeja de entrada
+      inbox_type: Tipo de bandeja de entrada
+    button: Abrir conversación

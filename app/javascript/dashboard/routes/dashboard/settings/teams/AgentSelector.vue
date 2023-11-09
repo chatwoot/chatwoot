@@ -5,7 +5,7 @@
       <thead>
         <tr>
           <td>
-            <div class="checkbox-wrap">
+            <div class="flex items-center">
               <input
                 name="select-all-agents"
                 type="checkbox"
@@ -15,8 +15,12 @@
               />
             </div>
           </td>
-          <td>{{ $t('TEAMS_SETTINGS.AGENTS.AGENT') }}</td>
-          <td>{{ $t('TEAMS_SETTINGS.AGENTS.EMAIL') }}</td>
+          <td class="text-slate-800 dark:text-slate-100">
+            {{ $t('TEAMS_SETTINGS.AGENTS.AGENT') }}
+          </td>
+          <td class="text-slate-800 dark:text-slate-100">
+            {{ $t('TEAMS_SETTINGS.AGENTS.EMAIL') }}
+          </td>
         </tr>
       </thead>
       <tbody>
@@ -25,8 +29,8 @@
           :key="agent.id"
           :class="agentRowClass(agent.id)"
         >
-          <td class="checkbox-cell">
-            <div class="checkbox-wrap">
+          <td class="w-12">
+            <div class="flex items-center">
               <input
                 type="checkbox"
                 :checked="isAgentSelected(agent.id)"
@@ -35,14 +39,14 @@
             </div>
           </td>
           <td>
-            <div class="user-info-wrap">
+            <div class="flex items-center gap-2">
               <thumbnail
                 :src="agent.thumbnail"
                 size="24px"
                 :username="agent.name"
                 :status="agent.availability_status"
               />
-              <h4 class="sub-block-title user-name">
+              <h4 class="text-base mb-0 text-slate-800 dark:text-slate-100">
                 {{ agent.name }}
               </h4>
             </div>
@@ -53,7 +57,7 @@
         </tr>
       </tbody>
     </table>
-    <div class="add-agents__footer">
+    <div class="flex items-center justify-between">
       <p>
         {{
           $t('TEAMS_SETTINGS.AGENTS.SELECTED_COUNT', {
@@ -141,39 +145,8 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-.table__meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: var(--space-small);
-}
-
-.user-info-wrap {
-  display: flex;
-  align-items: center;
-}
-
-.user-name {
-  margin-bottom: 0;
-  margin-left: var(--space-small);
-}
-
-.add-agents__footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.checkbox-wrap {
-  display: flex;
-  align-items: center;
-
-  input {
-    margin: 0;
-  }
-}
-.checkbox-cell {
-  width: var(--space-larger);
+<style scoped>
+input {
+  @apply mb-0;
 }
 </style>

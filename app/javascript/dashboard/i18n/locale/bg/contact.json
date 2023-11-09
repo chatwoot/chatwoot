@@ -71,7 +71,7 @@
       "SUBMIT": "Внасяне",
       "CANCEL": "Отмени"
     },
-    "SUCCESS_MESSAGE": "Успешно запазване на контактите",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "Възникна грешка, моля опитайте отново"
   },
   "EXPORT_CONTACTS": {
@@ -203,6 +203,10 @@
         "LABEL": "Съобщение",
         "PLACEHOLDER": "Напишете съобщението си тук",
         "ERROR": "Съобщението не може да е празно"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
       },
       "SUBMIT": "Изпрати съобщение",
       "CANCEL": "Отмени",
@@ -343,17 +347,17 @@
     "DESCRIPTION": "Обединете контактите, за да комбинирате два профила в един, включително всички атрибути и разговори. В случай на конфликт атрибутите на основния контакт ще имат предимство.",
     "PRIMARY": {
       "TITLE": "Основен контакт",
-      "HELP_LABEL": "Да бъде запазено"
+      "HELP_LABEL": "Да бъде изтрит"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Контакт за обединяване",
       "PLACEHOLDER": "Търсене на контакт",
-      "HELP_LABEL": "Да бъде изтрит"
+      "HELP_LABEL": "Да бъде запазено"
     },
     "SUMMARY": {
       "TITLE": "Резюме",
-      "DELETE_WARNING": "Контакт от <strong>%{childContactName}</strong> ще бъде изтрит.",
-      "ATTRIBUTE_WARNING": "Детайлите на контакт <strong>%{childContactName}</strong> ще бъдат копирани в <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Контакт от <strong>%{primaryContactName}</strong> ще бъде изтрит.",
+      "ATTRIBUTE_WARNING": "Детайлите на контакт <strong>%{primaryContactName}</strong> ще бъдат копирани в <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ГРЕШКА"

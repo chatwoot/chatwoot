@@ -1,5 +1,5 @@
 <template>
-  <div class="macro button secondary clear ">
+  <div class="macro button secondary clear">
     <span class="overflow-hidden whitespace-nowrap text-ellipsis">{{
       macro.name
     }}</span>
@@ -36,7 +36,7 @@
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
 import { mixin as clickaway } from 'vue-clickaway';
-import MacroPreview from './MacroPreview';
+import MacroPreview from './MacroPreview.vue';
 import { CONVERSATION_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 
 export default {

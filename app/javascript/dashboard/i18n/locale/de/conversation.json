@@ -1,7 +1,7 @@
 {
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Bitte wählen Sie eine Konversation aus dem linken Bereich aus",
-    "CSAT_REPLY_MESSAGE": "Bitte bewerte die Unterhaltung",
+    "CSAT_REPLY_MESSAGE": "Bitte bewerten Sie diese Unterhaltung",
     "404": "Wir können die Konversation leider nicht finden. Bitte versuche es erneut",
     "SWITCH_VIEW_LAYOUT": "Layout wechseln",
     "DASHBOARD_APP_TAB_MESSAGES": "Nachrichten",
@@ -12,6 +12,10 @@
     "NO_INBOX_2": " um loszulegen",
     "NO_INBOX_AGENT": "Oh oh! Sieht so aus, als wären Sie nicht Teil eines Posteingangs. Bitte wenden Sie sich an Ihren Administrator",
     "SEARCH_MESSAGES": "Nachrichten in Unterhaltungen suchen",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "Nachrichten durchsuchen",
       "RESULT_TITLE": "Suchergebnisse",
@@ -30,7 +34,6 @@
     "ASSIGN_TO_ME": "Mir zuweisen",
     "TWILIO_WHATSAPP_CAN_REPLY": "Sie können auf diese Konversation nur mit einer Nachrichtenvorlage antworten wegen",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24-Stunden-Nachrichtenfenster-Beschränkung",
-    "SELECT_A_TWEET_TO_REPLY": "Bitte wählen Sie einen Tweet aus, auf welchen Sie antworten möchten.",
     "REPLYING_TO": "Sie antworten auf:",
     "REMOVE_SELECTION": "Auswahl entfernen",
     "DOWNLOAD": "Herunterladen",
@@ -43,8 +46,9 @@
     "NO_RESPONSE": "Keine Antwort",
     "RATING_TITLE": "Bewertung",
     "FEEDBACK_TITLE": "Feedback",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
-      "SHOW_LABELS": "Label anzeigen",
+      "SHOW_LABELS": "Labels anzeigen",
       "HIDE_LABELS": "Labels ausblenden"
     },
     "HEADER": {
@@ -54,14 +58,14 @@
       "OPEN": "Mehr",
       "CLOSE": "Schließen",
       "DETAILS": "Einzelheiten",
-      "SNOOZED_UNTIL": "Schlummern bis",
+      "SNOOZED_UNTIL": "Stummschalten bis",
       "SNOOZED_UNTIL_TOMORROW": "Schlummern bis morgen",
       "SNOOZED_UNTIL_NEXT_WEEK": "Schlummern bis nächste Woche",
       "SNOOZED_UNTIL_NEXT_REPLY": "Schlummern bis zur nächsten Antwort"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Als ausstehend markieren",
-      "SNOOZE_UNTIL": "Schlummern",
+      "SNOOZE_UNTIL": "Stummschalten",
       "SNOOZE": {
         "TITLE": "Schlummern bis",
         "NEXT_REPLY": "Bei Antwort",
@@ -70,9 +74,9 @@
       }
     },
     "CUSTOM_SNOOZE": {
-      "TITLE": "Schlummern bis",
-      "APPLY": "Schlummern",
-      "CANCEL": "Stornieren"
+      "TITLE": "Stummschalten bis",
+      "APPLY": "Stummschalten",
+      "CANCEL": "Abbrechen"
     },
     "PRIORITY": {
       "TITLE": "Priorität",
@@ -135,7 +139,8 @@
       "PRIVATE_NOTE": "Private Notiz",
       "SEND": "Senden",
       "CREATE": "Notiz hinzufügen",
-      "TWEET": "Tweet",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "Rich Text Editor anzeigen",
       "TIP_EMOJI_ICON": "Emoji-Auswahl anzeigen",
       "TIP_ATTACH_ICON": "Dateien anhängen",
@@ -147,6 +152,7 @@
       "STOP_AUDIO_RECORDING": "Audioaufzeichnung stoppen",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "An",
         "ADD_BCC": "BCC hinzufügen",
         "CC": {
           "LABEL": "CC",
@@ -164,7 +170,7 @@
         "MESSAGE": "Sie haben {undefinedVariablesCount} undefinierte Variablen in Ihrer Nachricht: {undefinedVariables}. Möchten Sie die Nachricht trotzdem senden?",
         "CONFIRM": {
           "YES": "Senden",
-          "CANCEL": "Stornieren"
+          "CANCEL": "Abbrechen"
         }
       }
     },
@@ -189,6 +195,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Kopieren",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "Löschen",
       "CREATE_A_CANNED_RESPONSE": "Zu vorgefertigten Antworten hinzufügen",
       "TRANSLATE": "Übersetzen",
@@ -198,7 +205,7 @@
         "TITLE": "Sind Sie sicher, dass Sie diese Nachricht löschen möchten?",
         "MESSAGE": "Sie können diese Aktion nicht rückgängig machen",
         "DELETE": "Löschen",
-        "CANCEL": "Stornieren"
+        "CANCEL": "Abbrechen"
       }
     }
   },
@@ -301,7 +308,7 @@
     "WATCH_CONVERSATION": "Konversation beitreten",
     "YOU_ARE_WATCHING": "Sie nehmen teil",
     "API": {
-      "ERROR_MESSAGE": "Konnte nicht aktualisiert werden, versuche Sie es noch einmal!",
+      "ERROR_MESSAGE": "Konnte nicht aktualisiert werden, versuchen Sie es noch einmal!",
       "SUCCESS_MESSAGE": "Teilnehmer aktualisiert!"
     }
   },

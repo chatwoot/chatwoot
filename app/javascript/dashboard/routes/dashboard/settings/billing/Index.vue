@@ -68,14 +68,27 @@
         </div>
         <div class="columns small-9 medium-5">
           <label>
-            <woot-button title="Change the Plan" @click="openPlanModal">
-              {{ $t('BILLING_SETTINGS.FORM.CHANGE_PLAN.SELECT_PLAN') }}
-            </woot-button>
+            <woot-submit-button
+              :button-text="$t('BILLING_SETTINGS.FORM.CHANGE_PLAN.SELECT_PLAN')"
+              variant="smooth"
+              button-class="medium"
+              @click="openPlanModal"
+            />
           </label>
         </div>
       </div>
     </div>
-
+    <!-- List Plans -->
+    <woot-modal :show.sync="showPlanModal" :on-close="hidePlanModal">
+      <show-plan
+        v-if="showPlanModal"
+        :available-product-prices="availableProductPrices"
+        :plan-id="selectedProductPrice"
+        :plan-name="planName"
+        :plan-expiry-date="planExpiryDate"
+        :on-close="hidePlanModal"
+      />
+    </woot-modal>
     <woot-loading-state v-if="uiFlags.isFetchingItem" />
   </div>
 </template>
@@ -86,12 +99,14 @@ import alertMixin from 'shared/mixins/alertMixin';
 import configMixin from 'shared/mixins/configMixin';
 import accountMixin from '../../../../mixins/account';
 import AccountAPI from '../../../../api/account';
-import Cookies from 'js-cookie';
-import WootButton from '../../../../components/ui/WootButton';
-import { BUS_EVENTS } from '../../../../../shared/constants/busEvents';
 import { applyPageFilters } from '../../../../store/modules/conversations/helpers';
+// List all Plans
+import ShowPlan from './ShowPlan.vue';
+
 export default {
-  components: { WootButton },
+  components: {
+    ShowPlan,
+  },
   mixins: [accountMixin, alertMixin, configMixin],
   data() {
     return {
@@ -104,6 +119,7 @@ export default {
       planExpiryDate: '',
       isValidCouponCode: false,
       inputValue: '',
+      showPlanModal: false,
     };
   },
   validations: {},
@@ -130,7 +146,6 @@ export default {
         this.showStatus = false;
         if (status === 'success') {
           this.showAlert(this.$t('BILLING_SETTINGS.SUCCESS.MESSAGE'));
-          Cookies.remove('subscription');
         } else if (status === 'cancel') {
           this.showAlert(this.$t('BILLING_SETTINGS.CANCEL.MESSAGE'));
         } else if (status === 'error') {
@@ -145,51 +160,54 @@ export default {
       }
       return false;
     },
+    // Open Plan Modal
     openPlanModal() {
-      bus.$emit(BUS_EVENTS.SHOW_PLAN_MODAL);
+      this.showPlanModal = true;
+    },
+    // Close Plan Modal
+    hidePlanModal() {
+      this.showPlanModal = false;
     },
     async initializeAccountBillingSubscription() {
-      try {
-        await this.$store.dispatch('accounts/getBillingSubscription');
-        const {
-          available_product_prices,
-          plan_name,
-          platform_name,
-          plan_id,
-          allowed_no_agents,
-          plan_expiry_date,
-        } = this.getAccount(this.accountId);
-        this.planName = plan_name;
-        this.platformName = platform_name;
-        this.selectedProductPrice = plan_id;
-        this.agentCount = allowed_no_agents;
-        this.availableProductPrices = available_product_prices;
-        const dateObject = new Date(plan_expiry_date);
-        const day = String(dateObject.getDate()).padStart(2, '0');
-        const monthIndex = dateObject.getMonth();
-        const year = dateObject.getFullYear();
-
-        const monthNames = [
-          'Jan',
-          'Feb',
-          'Mar',
-          'Apr',
-          'May',
-          'Jun',
-          'Jul',
-          'Aug',
-          'Sep',
-          'Oct',
-          'Nov',
-          'Dec',
-        ];
-
-        const formattedDate = `${day} ${monthNames[monthIndex]} ${year}`;
-        this.planExpiryDate = formattedDate;
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
+      this.$store.dispatch('accounts/getBillingSubscription').then(() => {
+        try {
+          const {
+            available_product_prices,
+            plan_name,
+            platform_name,
+            plan_id,
+            allowed_no_agents,
+            plan_expiry_date,
+          } = this.getAccount(this.accountId);
+          this.planName = plan_name;
+          this.platformName = platform_name;
+          this.selectedProductPrice = plan_id;
+          this.agentCount = allowed_no_agents;
+          this.availableProductPrices = available_product_prices;
+          const dateObject = new Date(plan_expiry_date);
+          const day = String(dateObject.getDate()).padStart(2, '0');
+          const monthIndex = dateObject.getMonth();
+          const year = dateObject.getFullYear();
+          const monthNames = [
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'May',
+            'Jun',
+            'Jul',
+            'Aug',
+            'Sep',
+            'Oct',
+            'Nov',
+            'Dec',
+          ];
+          const formattedDate = `${day} ${monthNames[monthIndex]} ${year}`;
+          this.planExpiryDate = formattedDate;
+        } catch (error) {
+          // not showing error
+        }
+      });
     },
     submitSubscription(event) {
       const payload = { product_price: event.target.value };
@@ -205,9 +223,10 @@ export default {
     checkInput() {
       const couponInput = document.getElementById('couponInput');
       const inputValue = couponInput.value;
-      this.isValidCouponCode = /^(AS|DM)[0-9a-zA-Z]{8}$|^(PG-)([0-9a-zA-Z]{4}-){3}[0-9a-zA-Z]{2}$/.test(
-        inputValue
-      );
+      this.isValidCouponCode =
+        /^(AS|DM)[0-9a-zA-Z]{8}$|^(PG-)([0-9a-zA-Z]{4}-){3}[0-9a-zA-Z]{2}$/.test(
+          inputValue
+        );
       return this.isValidCouponCode;
     },
     async applyCouponCode() {

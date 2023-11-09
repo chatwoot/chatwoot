@@ -18,8 +18,8 @@ class AccountDashboard < Administrate::BaseDashboard
                                end
 
   ATTRIBUTE_TYPES = {
-    id: Field::Number,
-    name: Field::String,
+    id: Field::Number.with_options(searchable: true),
+    name: Field::String.with_options(searchable: true),
     deletion_email_reminder: Field::Select.with_options(searchable: false, collection: lambda { |field|
                                                                                          field.resource.class.send(field.attribute.to_s.pluralize).keys
                                                                                        }),

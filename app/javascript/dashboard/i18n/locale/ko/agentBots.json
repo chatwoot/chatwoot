@@ -1,8 +1,8 @@
 {
   "AGENT_BOTS": {
     "HEADER": "봇",
-    "LOADING_EDITOR": "Loading Editor...",
-    "HEADER_BTN_TXT": "Add Bot Configuration",
+    "LOADING_EDITOR": "에디터 로딩 중...",
+    "HEADER_BTN_TXT": "봇 설정 추가",
     "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent bots allows you to automate the conversations</p>",
     "CSML_BOT_EDITOR": {
       "NAME": {
