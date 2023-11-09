@@ -1,5 +1,5 @@
 <%= render "public/api/v1/portals/hero", portal: @portal %>
-<div class="max-w-5xl w-full flex flex-col flex-grow mx-auto py-8 px-8 gap-6">
+<div class="max-w-5xl w-full flex flex-col flex-grow mx-auto py-8 px-4 md:px-8 gap-6">
   <%# Featured Articles %>
   <% if !@is_plain_layout_enabled %>
     <div><%= render "public/api/v1/portals/featured_articles", articles: @portal.articles, categories: @portal.categories.where(locale: @locale), portal: @portal %></div>

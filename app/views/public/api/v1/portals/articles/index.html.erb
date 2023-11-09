@@ -4,7 +4,7 @@
 		<div>
 			<a
 				class="text-slate-800 hover:underline leading-8"
-        href="/hc/<%= @portal.slug %>/<%= @category.present? ? @category.slug : '' %><%= @theme.present? ? '?theme='+@theme : ''  %>"
+        href="/hc/<%= @portal.slug %>/<%= @category.present? ? @category.slug : '' %><%= @theme.present? && @theme != 'system' ? '?theme='+@theme : ''  %>"
 			>
 				<%= @portal.name %> <%= I18n.t('public_portal.common.home') %>
 			</a>

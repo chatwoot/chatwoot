@@ -14,7 +14,7 @@
 <% else %>
   <%= render 'public/api/v1/portals/categories/category-hero', category: @category, portal: @portal %>
 <% end %>
-<section class="max-w-5xl w-full mx-auto px-8 py-6 flex flex-col items-center justify-center flex-grow">
+<section class="max-w-5xl w-full mx-auto px-4 md:px-8 py-6 flex flex-col items-center justify-center flex-grow">
   <div class="w-full flex flex-col gap-6 flex-grow">
     <% if @category.articles.published.size == 0 %>
     <div class="h-full flex items-center justify-center bg-slate-50 dark:bg-slate-800 rounded-xl py-6">

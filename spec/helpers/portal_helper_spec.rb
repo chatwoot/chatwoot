@@ -119,7 +119,7 @@ describe PortalHelper do
       end
     end
   end
- 
+
   describe '#render_category_content' do
     let(:markdown_content) { 'This is a *test* markdown content' }
     let(:plain_text_content) { 'This is a test markdown content' }
