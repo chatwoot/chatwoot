@@ -17,7 +17,7 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 es:
-  hello: "Hola mundo"
+  hello: 'Hola mundo'
   messages:
     reset_password_success: '¡Genial! La solicitud de restablecimiento de contraseña ha sido exitosa. Revisa tu correo para ver las instrucciones.'
     reset_password_failure: '¡Uh ho! No hemos podido encontrar ningún usuario con el correo electrónico especificado.'
@@ -30,7 +30,7 @@ es:
     signup:
       disposable_email: No permitimos correos electrónicos desechables
       invalid_email: Ha introducido un correo electrónico no válido
-      email_already_exists: "Ya te has registrado en una cuenta con %{email}"
+      email_already_exists: 'Ya te has registrado en una cuenta con %{email}'
       failed: Registro fallido
     data_import:
       data_type:
@@ -48,9 +48,9 @@ es:
       locale:
         unique: debe ser único en la categoría y el portal
     dyte:
-      invalid_message_type: "Tipo de mensaje inválido. Acción no permitida"
+      invalid_message_type: 'Tipo de mensaje inválido. Acción no permitida'
     slack:
-      invalid_channel_id: "Canal de slack inválido. Por favor, inténtalo de nuevo"
+      invalid_channel_id: 'Canal de slack inválido. Por favor, inténtalo de nuevo'
     inboxes:
       imap:
         socket_error: Verifique la conexión de red, la dirección IMAP y vuelva a intentarlo.
@@ -101,89 +101,89 @@ es:
         recorded_at: Fecha registrada
   notifications:
     notification_title:
-      conversation_creation: "[Nueva conversación] - #%{display_id} ha sido creado en %{inbox_name}"
-      conversation_assignment: "[Asignado a usted] - #%{display_id} le ha sido asignado a usted"
-      assigned_conversation_new_message: "[Nuevo mensaje] - #%{display_id} %{content}"
-      conversation_mention: "Ha sido mencionado en la conversación [ID - %{display_id}] por %{name}"
+      conversation_creation: '[Nueva conversación] - #%{display_id} ha sido creado en %{inbox_name}'
+      conversation_assignment: '[Asignado a usted] - #%{display_id} le ha sido asignado a usted'
+      assigned_conversation_new_message: '[Nuevo mensaje] - #%{display_id} %{content}'
+      conversation_mention: 'Ha sido mencionado en la conversación [ID - %{display_id}] por %{name}'
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} te mencionó en la historia: "
+      instagram_story_content: '%{story_sender} te mencionó en la historia: '
       instagram_deleted_story_content: Esta historia ya no está disponible.
       deleted: Este mensaje se ha eliminado
       delivery_status:
-        error_code: "Código de error: %{error_code}"
+        error_code: 'Código de error: %{error_code}'
     activity:
       status:
-        resolved: "La conversación fue marcada por %{user_name}"
-        contact_resolved: "Conversación fue resuelta por %{contact_name}"
-        open: "La conversación fue reabierta por %{user_name}"
-        pending: "La conversación fue marcada como pendiente por %{user_name}"
-        snoozed: "La conversación fue pospuesta por %{user_name}"
-        auto_resolved: "La conversación fue marcada por el sistema debido a %{duration} días de inactividad"
+        resolved: 'La conversación fue marcada por %{user_name}'
+        contact_resolved: 'Conversación fue resuelta por %{contact_name}'
+        open: 'La conversación fue reabierta por %{user_name}'
+        pending: 'La conversación fue marcada como pendiente por %{user_name}'
+        snoozed: 'La conversación fue pospuesta por %{user_name}'
+        auto_resolved: 'La conversación fue marcada por el sistema debido a %{duration} días de inactividad'
         system_auto_open: El sistema reabrió la conversación debido a un nuevo mensaje entrante.
       priority:
         added: '%{user_name} estableció la prioridad a %{new_priority}'
         updated: '%{user_name} cambió la prioridad de %{old_priority} a %{new_priority}'
         removed: '%{user_name} eliminó la prioridad'
       assignee:
-        self_assigned: "%{user_name} auto-asignado a esta conversación"
-        assigned: "Asignado a %{assignee_name} por %{user_name}"
-        removed: "Conversación no asignada por %{user_name}"
+        self_assigned: '%{user_name} auto-asignado a esta conversación'
+        assigned: 'Asignado a %{assignee_name} por %{user_name}'
+        removed: 'Conversación no asignada por %{user_name}'
       team:
-        assigned: "Asignado a %{team_name} por %{user_name}"
-        assigned_with_assignee: "Asignado a %{assignee_name} via %{team_name} por %{user_name}"
-        removed: "Desasignado de %{team_name} por %{user_name}"
+        assigned: 'Asignado a %{team_name} por %{user_name}'
+        assigned_with_assignee: 'Asignado a %{assignee_name} via %{team_name} por %{user_name}'
+        removed: 'Desasignado de %{team_name} por %{user_name}'
       labels:
-        added: "%{user_name} agregó %{labels}"
-        removed: "%{user_name} eliminó a %{labels}"
-      muted: "%{user_name} ha silenciado la conversación"
-      unmuted: "%{user_name} ha anulado el silenciado de la conversación"
+        added: '%{user_name} agregó %{labels}'
+        removed: '%{user_name} eliminó a %{labels}'
+      muted: '%{user_name} ha silenciado la conversación'
+      unmuted: '%{user_name} ha anulado el silenciado de la conversación'
     templates:
-      greeting_message_body: "%{account_name} normalmente responde en unas pocas horas."
-      ways_to_reach_you_message_body: "Dale al equipo una forma de llegar a ti."
-      email_input_box_message_body: "Recibir notificaciones por correo electrónico"
-      csat_input_message_body: "Por favor, valora la conversación"
+      greeting_message_body: '%{account_name} normalmente responde en unas pocas horas.'
+      ways_to_reach_you_message_body: 'Dale al equipo una forma de llegar a ti.'
+      email_input_box_message_body: 'Recibir notificaciones por correo electrónico'
+      csat_input_message_body: 'Por favor, valora la conversación'
     reply:
       email:
         header:
-          from_with_name: "%{assignee_name} de %{inbox_name} <%{from_email}>"
-          reply_with_name: "%{assignee_name} de %{inbox_name} <reply+%{reply_email}>"
-          friendly_name: "%{sender_name} de %{business_name} <%{from_email}>"
-          professional_name: "%{business_name} <%{from_email}>"
+          from_with_name: '%{assignee_name} de %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} de %{inbox_name} <reply+%{reply_email}>'
+          friendly_name: '%{sender_name} de %{business_name} <%{from_email}>'
+          professional_name: '%{business_name} <%{from_email}>'
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} de %{inbox_name} <%{from_email}>"
-          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
-      email_subject: "Nuevos mensajes en esta conversación"
-      transcript_subject: "Transcripción de la conversación"
+          reply_with_name: '%{assignee_name} de %{inbox_name} <%{from_email}>'
+          reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
+      email_subject: 'Nuevos mensajes en esta conversación'
+      transcript_subject: 'Transcripción de la conversación'
     survey:
-      response: "Por favor califica esta conversación, %{link}"
+      response: 'Por favor califica esta conversación, %{link}'
   contacts:
     online:
-      delete: "%{contact_name} está conectado, por favor inténtalo más tarde"
+      delete: '%{contact_name} está conectado, por favor inténtalo más tarde'
   integration_apps:
     dyte:
-      name: "Dyte"
-      description: "Dyte es una herramienta que te ayuda a agregar audio y vídeo en vivo a tu aplicación con unas pocas líneas de código. Esta integración le permite dar una opción a sus agentes para tener una videollamada o llamada de voz con sus clientes sin salir de Chatwoot."
-      meeting_name: "%{agent_name} ha iniciado una reunión"
+      name: 'Dyte'
+      description: 'Dyte es una herramienta que te ayuda a agregar audio y vídeo en vivo a tu aplicación con unas pocas líneas de código. Esta integración le permite dar una opción a sus agentes para tener una videollamada o llamada de voz con sus clientes sin salir de Chatwoot.'
+      meeting_name: '%{agent_name} ha iniciado una reunión'
     slack:
-      name: "Slack"
-      description: "Slack es una herramienta de chat que reúne toda su comunicación en un solo lugar. Al integrar Slack, puede ser notificado de todas las nuevas conversaciones en su cuenta directamente dentro de su Slack."
+      name: 'Slack'
+      description: 'Slack es una herramienta de chat que reúne toda su comunicación en un solo lugar. Al integrar Slack, puede ser notificado de todas las nuevas conversaciones en su cuenta directamente dentro de su Slack.'
     webhooks:
-      name: "Webhook"
-      description: "Los eventos Webhook le proporcionan información en tiempo real sobre lo que está sucediendo en su cuenta de Chatwoot. Puede hacer uso de los webhooks para comunicar los eventos a sus aplicaciones favoritas como Slack o Github. Haga clic en Configurar para configurar sus webhooks."
+      name: 'Webhook'
+      description: 'Los eventos Webhook le proporcionan información en tiempo real sobre lo que está sucediendo en su cuenta de Chatwoot. Puede hacer uso de los webhooks para comunicar los eventos a sus aplicaciones favoritas como Slack o Github. Haga clic en Configurar para configurar sus webhooks.'
     dialogflow:
-      name: "Dialogflow"
-      description: "Construya chatboots usando Dialogflow y conéctelos rápidamente a su bandeja de entrada. Permita que los bots gestionen las preguntas and de que pasen a los agentes de servicio al cliente."
+      name: 'Dialogflow'
+      description: 'Construya chatboots usando Dialogflow y conéctelos rápidamente a su bandeja de entrada. Permita que los bots gestionen las preguntas and de que pasen a los agentes de servicio al cliente.'
     fullcontact:
-      name: "Nombre completo"
-      description: "La integración con FullContact enriquece los perfiles de los visitantes. Identifique a los usuarios tan pronto compartan la dirección de correo electrónico y ofrezca un servicio al cliente personalizado. Conecte su cuenta de FullContact usando al clave de la API."
+      name: 'Nombre completo'
+      description: 'La integración con FullContact enriquece los perfiles de los visitantes. Identifique a los usuarios tan pronto compartan la dirección de correo electrónico y ofrezca un servicio al cliente personalizado. Conecte su cuenta de FullContact usando al clave de la API.'
     google_translate:
-      name: "Traductor de Google"
-      description: "Facilita a los agentes la traducción de mensajes añadiendo una integración de traducción de Google. Google Translate ayuda a identificar el idioma automáticamente y convertirlo al idioma elegido por el agente o administrador de la cuenta."
+      name: 'Traductor de Google'
+      description: 'Facilita a los agentes la traducción de mensajes añadiendo una integración de traducción de Google. Google Translate ayuda a identificar el idioma automáticamente y convertirlo al idioma elegido por el agente o administrador de la cuenta.'
     openai:
-      name: "OpenAI"
-      description: "Integra poderosas características de IA en Chatwoot aprovechando los modelos GPT de OpenAI."
+      name: 'OpenAI'
+      description: 'Integra poderosas características de IA en Chatwoot aprovechando los modelos GPT de OpenAI.'
   public_portal:
     search:
       search_placeholder: Buscar artículo por título o cuerpo...
@@ -204,6 +204,12 @@ es:
       made_with: Hecho con
     header:
       go_to_homepage: Ir al sitio principal
+      appearance:
+        system: Sistema
+        light: Claro
+        dark: Oscuro
+      featured_articles: Artículos Destacados
+      uncategorized: Sin Categoría
   slack_unfurl:
     fields:
       name: Nombre
