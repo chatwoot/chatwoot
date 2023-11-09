@@ -1,7 +1,9 @@
 import { adjustColorForContrast } from '../shared/helpers/colorHelper.js';
 
-let appearanceDropdown = document.getElementById('appearance-dropdown');
-let themeToggleButton = document.getElementById('toggle-appearance');
+const getEl = id => document.getElementById(id);
+
+let appearanceDropdown = getEl('appearance-dropdown');
+let themeToggleButton = getEl('toggle-appearance');
 
 export const setPortalHoverColor = theme => {
   if (window.portalConfig.isPlainLayoutEnabled === 'true') return;
@@ -26,9 +28,7 @@ export const setPortalHoverColor = theme => {
 
 export const updateThemeInHeader = theme => {
   // This function is to update the theme selection in the header in real time
-  if (!themeToggleButton) {
-    themeToggleButton = document.getElementById('toggle-appearance');
-  }
+  themeToggleButton = themeToggleButton || getEl('toggle-appearance');
 
   if (!themeToggleButton) return;
 
@@ -63,9 +63,7 @@ export const switchTheme = theme => {
 };
 
 export const initializeThemeSwitchButtons = () => {
-  if (!appearanceDropdown) {
-    appearanceDropdown = document.getElementById('appearance-dropdown');
-  }
+  appearanceDropdown = appearanceDropdown || getEl('appearance-dropdown');
   appearanceDropdown.dataset.currentTheme = localStorage.theme || 'system';
 
   appearanceDropdown.addEventListener('click', event => {
@@ -83,14 +81,10 @@ export const initializeThemeSwitchButtons = () => {
 };
 
 export const initializeToggleButton = () => {
-  if (!themeToggleButton) {
-    themeToggleButton = document.getElementById('toggle-appearance');
-  }
+  themeToggleButton = themeToggleButton || getEl('toggle-appearance');
 
   themeToggleButton?.addEventListener('click', () => {
-    if (!appearanceDropdown) {
-      appearanceDropdown = document.getElementById('appearance-dropdown');
-    }
+    appearanceDropdown = appearanceDropdown || getEl('appearance-dropdown');
 
     const isCurrentlyHidden = appearanceDropdown.style.display === 'none';
     // Toggle the appearanceDropdown
