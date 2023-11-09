@@ -31,7 +31,7 @@ describe Integrations::Facebook::DeliveryStatus do
         allow(Conversations::UpdateMessageStatusJob).to receive(:perform_later)
       end
 
-      it 'updates all message if the status is delivered' do
+      it 'updates all messages if the status is delivered' do
         described_class.new(params: message_deliveries).perform
         expect(Conversations::UpdateMessageStatusJob).to have_received(:perform_later).with(
           message1.conversation.id,
@@ -40,12 +40,12 @@ describe Integrations::Facebook::DeliveryStatus do
         )
       end
 
-      it 'doesnt update the message status if the message is incoming' do
+      it 'does not update the message status if the message is incoming' do
         described_class.new(params: message_deliveries).perform
         expect(message2.reload.status).to eq('sent')
       end
 
-      it 'doesnt update the message status if the message created is after the watermark' do
+      it 'does not update the message status if the message was created after the watermark' do
         message1.update(created_at: 1.day.from_now)
         message_deliveries.delivery['watermark'] = 1.day.ago.to_i
         described_class.new(params: message_deliveries).perform
@@ -58,7 +58,7 @@ describe Integrations::Facebook::DeliveryStatus do
         allow(Conversations::UpdateMessageStatusJob).to receive(:perform_later)
       end
 
-      it 'updates all message if the status is read' do
+      it 'updates all messages if the status is read' do
         described_class.new(params: message_reads).perform
         expect(Conversations::UpdateMessageStatusJob).to have_received(:perform_later).with(
           message1.conversation.id,
@@ -67,12 +67,12 @@ describe Integrations::Facebook::DeliveryStatus do
         )
       end
 
-      it 'doesnt update the message status if the message is incoming' do
+      it 'does not update the message status if the message is incoming' do
         described_class.new(params: message_reads).perform
         expect(message2.reload.status).to eq('sent')
       end
 
-      it 'doesnt update the message status if the message created is after the watermark' do
+      it 'does not update the message status if the message was created after the watermark' do
         message1.update(created_at: 1.day.from_now)
         message_reads.read['watermark'] = 1.day.ago.to_i
         described_class.new(params: message_reads).perform
