@@ -85,6 +85,7 @@
         :variables="messageVariables"
         :signature="signatureToApply"
         :allow-signature="true"
+        :channel-type="channelType"
         @typing-off="onTypingOff"
         @typing-on="onTypingOn"
         @focus="onFocus"
@@ -477,8 +478,7 @@ export default {
       return !!this.signatureToApply;
     },
     sendWithSignature() {
-      const { send_with_signature: isEnabled } = this.uiSettings;
-      return isEnabled;
+      return this.fetchSignatureFlagFromUiSettings(this.channelType);
     },
     editorMessageKey() {
       const { editor_message_key: isEnabled } = this.uiSettings;

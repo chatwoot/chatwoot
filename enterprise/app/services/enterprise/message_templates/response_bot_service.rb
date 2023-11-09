@@ -3,7 +3,7 @@ class Enterprise::MessageTemplates::ResponseBotService
 
   def perform
     ActiveRecord::Base.transaction do
-      @response = get_response(conversation.messages.last.content)
+      @response = get_response(conversation.messages.incoming.last.content)
       process_response
     end
   rescue StandardError => e
