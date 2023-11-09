@@ -4,7 +4,7 @@ import Vue from 'vue';
 import PublicArticleSearch from './components/PublicArticleSearch.vue';
 import TableOfContents from './components/TableOfContents.vue';
 
-export const getHeadingsFromTheArticle = () => {
+export const getHeadingsfromTheArticle = () => {
   const rows = [];
   const articleElement = document.getElementById('cw-article-content');
   articleElement.querySelectorAll('h1, h2, h3').forEach(element => {
@@ -68,6 +68,37 @@ export const updateThemeStyles = theme => {
   setPortalClass(theme);
 };
 
+export const toggleAppearanceDropdown = () => {
+  const dropdown = document.getElementById('appearance-dropdown');
+  if (!dropdown) return;
+  dropdown.style.display =
+    dropdown.style.display === 'none' || !dropdown.style.display
+      ? 'flex'
+      : 'none';
+};
+
+export const updateURLParameter = (param, paramVal) => {
+  const urlObj = new URL(window.location);
+  urlObj.searchParams.set(param, paramVal);
+  return urlObj.toString();
+};
+
+export const removeURLParameter = parameter => {
+  const urlObj = new URL(window.location);
+  urlObj.searchParams.delete(parameter);
+  return urlObj.toString();
+};
+
+export const switchTheme = theme => {
+  updateThemeStyles(theme);
+  const newUrl =
+    theme !== 'system'
+      ? updateURLParameter('theme', theme)
+      : removeURLParameter('theme');
+  window.location.href = newUrl;
+  toggleAppearanceDropdown();
+};
+
 export const InitializationHelpers = {
   navigateToLocalePage: () => {
     const allLocaleSwitcher = document.querySelector('.locale-switcher');
@@ -98,7 +129,7 @@ export const InitializationHelpers = {
     if (isOnArticlePage) {
       new Vue({
         components: { TableOfContents },
-        data: { rows: getHeadingsFromTheArticle() },
+        data: { rows: getHeadingsfromTheArticle() },
         template: '<table-of-contents :rows="rows" />',
       }).$mount('#cw-hc-toc');
     }
@@ -131,6 +162,26 @@ export const InitializationHelpers = {
     }
   },
 
+  initializeToggleButton: () => {
+    const toggleButton = document.getElementById('toggle-appearance');
+    if (toggleButton) {
+      toggleButton.addEventListener('click', toggleAppearanceDropdown);
+    }
+  },
+
+  initializeThemeSwitchButtons: () => {
+    const appearanceDropdown = document.getElementById('appearance-dropdown');
+    if (!appearanceDropdown) return;
+    appearanceDropdown.addEventListener('click', event => {
+      const target = event.target.closest('button[data-theme]');
+
+      if (target) {
+        const theme = target.getAttribute('data-theme');
+        switchTheme(theme);
+      }
+    });
+  },
+
   initialize: () => {
     if (window.portalConfig.isPlainLayoutEnabled === 'true') {
       InitializationHelpers.appendPlainParamToURLs();
@@ -138,7 +189,9 @@ export const InitializationHelpers = {
       InitializationHelpers.navigateToLocalePage();
       InitializationHelpers.initializeSearch();
       InitializationHelpers.initializeTableOfContents();
-      // InitializationHelpers.initializeTheme();
+      InitializationHelpers.initializeTheme();
+      InitializationHelpers.initializeToggleButton();
+      InitializationHelpers.initializeThemeSwitchButtons();
     }
   },
 

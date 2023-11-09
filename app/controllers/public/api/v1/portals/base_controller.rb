@@ -14,7 +14,7 @@ class Public::Api::V1::Portals::BaseController < PublicController
     @theme = if %w[dark light].include?(params[:theme])
                params[:theme]
              else
-               ''
+               'system'
              end
   end
 

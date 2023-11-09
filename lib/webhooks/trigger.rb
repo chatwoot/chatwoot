@@ -13,7 +13,7 @@ class Webhooks::Trigger
 
   def execute
     perform_request
-  rescue RestClient::Exceptions::Timeout, RestClient::ExceptionWithResponse => e
+  rescue StandardError => e
     handle_error(e)
     Rails.logger.warn "Exception: Invalid webhook URL #{@url} : #{e.message}"
   end
