@@ -196,14 +196,20 @@ hu:
     common:
       home: Nyitólap
       last_updated_on: 'Utoljára frissítve: %{last_updated_on}'
-      view_all_articles: Mutasd az összes bejegyzést
+      view_all_articles: View all
       article: bejegyzés
       articles: bejegyzések
       no_articles: Nincsenek bejegyzések
     footer:
       made_with: 'Ezzel készítve: '
     header:
-      go_to_homepage: Irány a főoldal
+      go_to_homepage: Website
+      appearance:
+        system: Rendszer
+        light: Világos mód
+        dark: Sötét mód
+      featured_articles: Featured Articles
+      uncategorized: Kategorizálhatatlan
     404:
       title: Page not found
       description: We couldn't find the page you were looking for.
