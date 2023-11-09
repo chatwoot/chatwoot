@@ -57,4 +57,32 @@ describe PortalHelper do
       end
     end
   end
+
+  describe '#get_theme_names' do
+    it 'returns the light theme name' do
+      expect(helper.get_theme_names('light')).to eq(I18n.t('public_portal.header.appearance.light'))
+    end
+
+    it 'returns the dark theme name' do
+      expect(helper.get_theme_names('dark')).to eq(I18n.t('public_portal.header.appearance.dark'))
+    end
+
+    it 'returns the system theme name for any other value' do
+      expect(helper.get_theme_names('any_other_value')).to eq(I18n.t('public_portal.header.appearance.system'))
+    end
+  end
+
+  describe '#get_theme_icon' do
+    it 'returns the light theme icon' do
+      expect(helper.get_theme_icon('light')).to eq('icons/sun')
+    end
+
+    it 'returns the dark theme icon' do
+      expect(helper.get_theme_icon('dark')).to eq('icons/moon')
+    end
+
+    it 'returns the system theme icon for any other value' do
+      expect(helper.get_theme_icon('any_other_value')).to eq('icons/monitor')
+    end
+  end
 end

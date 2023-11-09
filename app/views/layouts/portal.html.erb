@@ -28,7 +28,7 @@ By default, it renders:
     <% end %>
   </head>
   <body>
-    <div class="antialiased <%= @theme %>">
+    <div id="portal" class="antialiased <%= @theme unless @theme == 'system' %>">
       <main class="main-content min-h-screen flex flex-col bg-white dark:bg-slate-900" role="main">
         <% if !@is_plain_layout_enabled %>
           <%= render "public/api/v1/portals/header", portal: @portal %>
@@ -42,7 +42,7 @@ By default, it renders:
   </body>
   <style>
   :root {
-    color-scheme: '<%= @theme %>';
+    color-scheme: <% if @theme == 'system' %>light dark<% else %><%= @theme %><% end %>;
   }
   </style>
   <script>
