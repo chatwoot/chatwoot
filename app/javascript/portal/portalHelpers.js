@@ -79,26 +79,6 @@ export const InitializationHelpers = {
     initializeThemeSwitchButtons();
   },
 
-  initializeToggleButton: () => {
-    const toggleButton = document.getElementById('toggle-appearance');
-    if (toggleButton) {
-      toggleButton.addEventListener('click', toggleAppearanceDropdown);
-    }
-  },
-
-  initializeThemeSwitchButtons: () => {
-    const appearanceDropdown = document.getElementById('appearance-dropdown');
-    if (!appearanceDropdown) return;
-    appearanceDropdown.addEventListener('click', event => {
-      const target = event.target.closest('button[data-theme]');
-
-      if (target) {
-        const theme = target.getAttribute('data-theme');
-        switchTheme(theme);
-      }
-    });
-  },
-
   initialize: () => {
     if (window.portalConfig.isPlainLayoutEnabled === 'true') {
       InitializationHelpers.appendPlainParamToURLs();
@@ -107,9 +87,6 @@ export const InitializationHelpers = {
       InitializationHelpers.navigateToLocalePage();
       InitializationHelpers.initializeSearch();
       InitializationHelpers.initializeTableOfContents();
-      InitializationHelpers.initializeTheme();
-      InitializationHelpers.initializeToggleButton();
-      InitializationHelpers.initializeThemeSwitchButtons();
     }
   },
 
