@@ -196,14 +196,20 @@ fr:
     common:
       home: Page d'accueil
       last_updated_on: Dernière mise à jour le %{last_updated_on}
-      view_all_articles: Voir tous les articles
+      view_all_articles: View all
       article: article
       articles: articles
       no_articles: Il n'y a pas d'articles ici
     footer:
       made_with: Réalisé avec
     header:
-      go_to_homepage: Aller à la page d'accueil
+      go_to_homepage: Website
+      appearance:
+        system: Système
+        light: Clair
+        dark: Sombre
+      featured_articles: Featured Articles
+      uncategorized: Non catégorisé
     404:
       title: Page introuvable
       description: Nous n'avons pas pu trouver la page que vous cherchiez.
