@@ -48,7 +48,7 @@ export const updateThemeInHeader = theme => {
 
 export const switchTheme = theme => {
   if (theme === 'system') {
-    localStorage.removeItem(theme);
+    localStorage.removeItem('theme');
     const prefersDarkMode = window.matchMedia(
       '(prefers-color-scheme: dark)'
     ).matches;
