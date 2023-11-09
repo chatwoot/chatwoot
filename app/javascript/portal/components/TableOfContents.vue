@@ -4,10 +4,8 @@
       <nav class="max-w-2xl">
         <h2
           id="on-this-page-title"
-          class="text-slate-800 pl-6 dark:text-slate-50 font-semibold tracking-wide py-3 leading-7 border-l-2 border-solid border-slate-100 dark:border-slate-800"
-          :class="{
-            '!border-slate-400 dark:!border-slate-100': !currentSlug,
-          }"
+          class="text-slate-800 pl-6 dark:text-slate-50 font-semibold tracking-wide py-3 leading-7 border-l-2 border-solid"
+          :class="tocHeaderBorderStyles"
         >
           {{ tocHeader }}
         </h2>
@@ -57,12 +55,21 @@ export default {
     h2Count() {
       return this.rows.filter(el => el.tag === 'h2').length;
     },
+    tocHeaderBorderStyles() {
+      if (this.currentSlug === '') {
+        return 'border-slate-400 dark:border-slate-100';
+      }
+      return 'border-slate-100 dark:border-slate-800';
+    },
   },
   mounted() {
+    this.onScrollSetCurrentSlug();
     window.addEventListener('hashchange', this.onURLHashChange);
+    window.addEventListener('scroll', this.onScrollSetCurrentSlug);
   },
   beforeDestroy() {
     window.removeEventListener('hashchange', this.onURLHashChange);
+    window.removeEventListener('scroll', this.onScrollSetCurrentSlug);
   },
   methods: {
     getClassName(el) {
@@ -85,27 +92,44 @@ export default {
 
       return '';
     },
+    onScrollSetCurrentSlug() {
+      const intersectionObserver = new IntersectionObserver(
+        entries => {
+          const currentSection = entries.find(entry => entry.isIntersecting);
+          const headerHeight = 224;
+
+          if (window.scrollY <= headerHeight) {
+            this.currentSlug = '';
+          } else if (currentSection) {
+            this.currentSlug = currentSection.target.id;
+          }
+        },
+        {
+          threshold: 0.25,
+        }
+      );
+
+      this.rows.forEach(el => {
+        const sectionElement = document.getElementById(el.slug);
+        if (!sectionElement) return;
+        intersectionObserver.observe(sectionElement);
+      });
+    },
     onURLHashChange() {
       this.currentSlug = window.location?.hash?.substring(1) || '';
     },
     isElementActive(el) {
       return this.currentSlug === el.slug;
     },
-    tocHeaderBorderStyles() {
-      if (this.currentSlug === '') {
-        return 'border-slate-400 dark:border-slate-100';
-      }
-      return 'border-slate-100 dark:border-slate-800';
-    },
     elementBorderStyles(el) {
       if (this.isElementActive(el)) {
-        return 'border-slate-400 dark:border-slate-50 transition-colors duration-200';
+        return 'border-slate-400 dark:border-slate-50 transition-colors duration-500';
       }
       return 'border-slate-100 dark:border-slate-800';
     },
     elementTextStyles(el) {
       if (this.isElementActive(el)) {
-        return 'font-semibold text-slate-900 dark:text-slate-25';
+        return 'font-semibold text-slate-900 dark:text-slate-25 transition-colors duration-500';
       }
       return 'text-slate-700 dark:text-slate-100';
     },
