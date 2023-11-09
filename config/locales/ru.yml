@@ -196,14 +196,20 @@ ru:
     common:
       home: Главная
       last_updated_on: Обновлено %{last_updated_on}
-      view_all_articles: Показать все статьи
+      view_all_articles: View all
       article: статья
       articles: статьи
       no_articles: Здесь нет статей
     footer:
       made_with: Сделано с
     header:
-      go_to_homepage: Перейти на основной сайт
+      go_to_homepage: Website
+      appearance:
+        system: Система
+        light: Светлая
+        dark: Тёмная
+      featured_articles: Featured Articles
+      uncategorized: Без категории
     404:
       title: Page not found
       description: We couldn't find the page you were looking for.
