@@ -3,11 +3,7 @@ import Vue from 'vue';
 
 import PublicArticleSearch from './components/PublicArticleSearch.vue';
 import TableOfContents from './components/TableOfContents.vue';
-import {
-  initializeTheme,
-  initializeToggleButton,
-  initializeThemeSwitchButtons,
-} from './portalThemeHelper.js';
+import { initializeTheme } from './portalThemeHelper.js';
 
 export const getHeadingsfromTheArticle = () => {
   const rows = [];
@@ -73,11 +69,7 @@ export const InitializationHelpers = {
     });
   },
 
-  initializeThemesInPortal: () => {
-    initializeTheme();
-    initializeToggleButton();
-    initializeThemeSwitchButtons();
-  },
+  initializeThemesInPortal: initializeTheme,
 
   initialize: () => {
     if (window.portalConfig.isPlainLayoutEnabled === 'true') {

@@ -1,12 +1,7 @@
-import Cookies from 'js-cookie';
 import { adjustColorForContrast } from '../shared/helpers/colorHelper.js';
 
-const SYSTEM_COOKIE = 'system_theme';
-const SELECTED_COOKIE = 'selected_theme';
-
-let portalDiv = null;
-let appearanceDropdown = null;
-let themeToggleButton = null;
+let appearanceDropdown = document.getElementById('appearance-dropdown');
+let themeToggleButton = document.getElementById('toggle-appearance');
 
 export const setPortalHoverColor = theme => {
   if (window.portalConfig.isPlainLayoutEnabled === 'true') return;
@@ -21,151 +16,87 @@ export const setPortalHoverColor = theme => {
   );
 };
 
-export const setPortalClass = theme => {
-  portalDiv =
-    portalDiv !== null ? portalDiv : document.getElementById('portal');
-  if (!portalDiv) return;
-  portalDiv.classList.remove('light', 'dark', 'system');
-  portalDiv.classList.add(theme);
-};
-
-export const updateThemeStyles = theme => {
-  setPortalClass(theme);
-  setPortalHoverColor(theme);
-};
-
-export const toggleAppearanceDropdown = () => {
-  appearanceDropdown =
-    appearanceDropdown !== null
-      ? appearanceDropdown
-      : document.getElementById('appearance-dropdown');
-  if (!appearanceDropdown) return;
-  const isCurrentlyHidden = appearanceDropdown.style.display === 'none';
-  // Toggle the appearanceDropdown
-  appearanceDropdown.style.display = isCurrentlyHidden ? 'flex' : 'none';
-};
-
-export const updateThemeSelectionInHeader = theme => {
+export const updateThemeInHeader = () => {
   // This function is to update the theme selection in the header in real time
-  themeToggleButton =
-    themeToggleButton !== null
-      ? themeToggleButton
-      : document.getElementById('toggle-appearance');
+  if (!themeToggleButton) {
+    themeToggleButton = document.getElementById('toggle-appearance');
+  }
   if (!themeToggleButton) return;
+  const theme = localStorage.theme || 'system';
+
   const allElementInButton =
     themeToggleButton.querySelectorAll('.theme-button');
 
   allElementInButton.forEach(button => {
-    button.classList.remove('flex');
-    button.classList.add('hidden');
+    if (button.dataset.theme === theme) {
+      button.classList.remove('hidden');
+      button.classList.add('flex');
+    } else {
+      button.classList.remove('flex');
+      button.classList.add('hidden');
+    }
   });
-
-  const activeThemeElement = themeToggleButton.querySelector(
-    `[data-theme="${theme}"]`
-  );
-
-  if (activeThemeElement) {
-    activeThemeElement.classList.remove('hidden');
-    activeThemeElement.classList.add('flex');
-  }
-};
-
-export const setActiveThemeIconInDropdown = theme => {
-  // This function is to set the check mark icon for the active theme in the dropdown in real time
-  appearanceDropdown =
-    appearanceDropdown !== null
-      ? appearanceDropdown
-      : document.getElementById('appearance-dropdown');
-  if (!appearanceDropdown) return;
-  const allCheckMarkIcons =
-    appearanceDropdown.querySelectorAll('.check-mark-icon');
-
-  allCheckMarkIcons.forEach(icon => {
-    icon.classList.remove('flex');
-    icon.classList.add('hidden');
-  });
-
-  const activeIcon = appearanceDropdown.querySelector(
-    `.check-mark-icon.${theme}-theme`
-  );
-
-  if (activeIcon) {
-    activeIcon.classList.remove('hidden');
-    activeIcon.classList.add('flex');
-  }
-};
-
-export const updateActiveThemeInHeader = theme => {
-  updateThemeSelectionInHeader(theme);
-  setActiveThemeIconInDropdown(theme);
 };
 
 export const switchTheme = theme => {
-  Cookies.set(SELECTED_COOKIE, theme, { expires: 365 });
-
   if (theme === 'system') {
-    const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
-    updateThemeStyles(mediaQueryList.matches ? 'dark' : 'light');
+    const prefersDarkMode = window.matchMedia(
+      '(prefers-color-scheme: dark)'
+    ).matches;
+    // remove this so that the system theme is used
+    localStorage.removeItem(theme);
+
+    document.documentElement.classList.remove('dark', 'light');
+    document.documentElement.classList.add(prefersDarkMode ? 'dark' : 'light');
   } else {
-    updateThemeStyles(theme);
-  }
-  updateActiveThemeInHeader(theme);
-  toggleAppearanceDropdown();
-};
+    localStorage.theme = theme;
 
-export const updateTheme = (theme, cookie) => {
-  Cookies.set(cookie, theme, { expires: 365 });
-  updateThemeStyles(theme);
-};
-
-export const updateThemeBasedOnSystem = (event, cookie) => {
-  if (Cookies.get(SELECTED_COOKIE) !== 'system') return;
-
-  const newTheme = event.matches ? 'dark' : 'light';
-  updateTheme(newTheme, cookie);
-};
-
-export const initializeTheme = () => {
-  const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
-  const getThemePreference = () => (mediaQueryList.matches ? 'dark' : 'light');
-  const { theme: themeFromServer } = window.portalConfig || {};
-
-  if (themeFromServer === 'system') {
-    // Handle dynamic theme changes for system theme
-    mediaQueryList.addEventListener('change', event => {
-      updateThemeBasedOnSystem(event, SYSTEM_COOKIE);
-    });
-    const themePreference = getThemePreference();
-    updateTheme(themePreference, SYSTEM_COOKIE);
-    updateActiveThemeInHeader('system');
-  } else {
-    updateTheme(themeFromServer, SELECTED_COOKIE);
-    updateActiveThemeInHeader(themeFromServer);
-  }
-};
-
-export const initializeToggleButton = () => {
-  themeToggleButton =
-    themeToggleButton !== null
-      ? themeToggleButton
-      : document.getElementById('toggle-appearance');
-  if (themeToggleButton) {
-    themeToggleButton.addEventListener('click', toggleAppearanceDropdown);
+    document.documentElement.classList.remove('dark', 'light');
+    document.documentElement.classList.add(theme);
   }
 };
 
 export const initializeThemeSwitchButtons = () => {
-  appearanceDropdown =
-    appearanceDropdown !== null
-      ? appearanceDropdown
-      : document.getElementById('appearance-dropdown');
-  if (!appearanceDropdown) return;
+  if (!appearanceDropdown) {
+    appearanceDropdown = document.getElementById('appearance-dropdown');
+  }
+  appearanceDropdown.dataset.currentTheme = localStorage.theme || 'system';
+
   appearanceDropdown.addEventListener('click', event => {
     const target = event.target.closest('button[data-theme]');
 
     if (target) {
-      const theme = target.getAttribute('data-theme');
+      const { theme } = target.dataset;
+      // setting this data property will automatically toggle the checkmark using CSS
+      appearanceDropdown.dataset.currentTheme = theme;
       switchTheme(theme);
+      updateThemeInHeader();
+      setPortalHoverColor(theme);
+      // wait for a bit before hiding the dropdown
+      appearanceDropdown.style.display = 'none';
     }
   });
+};
+
+export const initializeToggleButton = () => {
+  if (!themeToggleButton) {
+    themeToggleButton = document.getElementById('toggle-appearance');
+  }
+
+  themeToggleButton?.addEventListener('click', () => {
+    if (!appearanceDropdown) {
+      appearanceDropdown = document.getElementById('appearance-dropdown');
+    }
+
+    const isCurrentlyHidden = appearanceDropdown.style.display === 'none';
+    // Toggle the appearanceDropdown
+    appearanceDropdown.style.display = isCurrentlyHidden ? 'flex' : 'none';
+  });
+};
+
+export const initializeTheme = () => {
+  updateThemeInHeader();
+  initializeToggleButton();
+  initializeThemeSwitchButtons();
+  setPortalHoverColor(localStorage.theme || 'system');
 };
