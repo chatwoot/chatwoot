@@ -2,6 +2,11 @@
   <textarea
     ref="textarea"
     :placeholder="placeholder"
+    class="overflow-x-hidden overflow-y-auto max-h-[inherit] w-full border-0 focus:border-0 active:outline-0 focus-within:outline-0 resize-none m-0 p-0"
+    :style="{
+      minHeight: `${minHeight}rem`,
+    }"
+    rows="1"
     :value="value"
     @input="onInput"
     @focus="onFocus"
@@ -30,7 +35,7 @@ export default {
     },
     minHeight: {
       type: Number,
-      default: 2,
+      default: 3,
     },
     signature: {
       type: String,

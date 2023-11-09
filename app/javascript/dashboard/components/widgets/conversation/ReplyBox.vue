@@ -61,7 +61,7 @@
         v-else-if="!showRichContentEditor"
         ref="messageInput"
         v-model="message"
-        class="input"
+        class="input max-h-64 pt-4 pb-2"
         :placeholder="messagePlaceHolder"
         :min-height="4"
         :signature="signatureToApply"
@@ -1204,7 +1204,7 @@ export default {
 }
 
 .reply-box__top {
-  @apply relative py-0 px-4 -mt-px border-t border-solid border-slate-50 dark:border-slate-700;
+  @apply relative py-0 px-4 -mt-px border-t border-solid border-slate-50 dark:border-slate-700 overflow-hidden;
 }
 
 .emoji-dialog {
