@@ -6,8 +6,10 @@
 <% end %>
 
 <% if !@is_plain_layout_enabled %>
-<div class="bg-woot-50 dark:bg-woot-900 pt-16 pb-20" style="<%= generate_portal_bg(@portal.color, @theme) %>">
-  <%= render 'public/api/v1/portals/categories/category-hero', category: @category, portal: @portal %>
+<div class="bg-woot-50 dark:bg-woot-900" style="<%= generate_portal_bg(@portal.color, @theme) %>">
+  <div class="pt-16 pb-20" style="<%= generate_gradient_to_bottom(@theme) %>">
+    <%= render 'public/api/v1/portals/categories/category-hero', category: @category, portal: @portal %>
+  </div>
 </div>
 <% else %>
   <%= render 'public/api/v1/portals/categories/category-hero', category: @category, portal: @portal %>
