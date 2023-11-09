@@ -97,23 +97,23 @@
     },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Markeren als in afwachting van",
-      "RESOLVED": "Mark as resolved",
-      "MARK_AS_UNREAD": "Mark as unread",
+      "RESOLVED": "Markeer als opgelost",
+      "MARK_AS_UNREAD": "Markeer als ongelezen",
       "REOPEN": "Heropen gesprek",
       "SNOOZE": {
-        "TITLE": "Snooze",
-        "NEXT_REPLY": "Until next reply",
-        "TOMORROW": "Until tomorrow",
-        "NEXT_WEEK": "Until next week"
+        "TITLE": "Sluimeren",
+        "NEXT_REPLY": "Tot volgende antwoord",
+        "TOMORROW": "Tot morgen",
+        "NEXT_WEEK": "Tot volgende week"
       },
-      "ASSIGN_AGENT": "Assign agent",
-      "ASSIGN_LABEL": "Assign label",
-      "AGENTS_LOADING": "Loading agents...",
-      "ASSIGN_TEAM": "Assign team",
+      "ASSIGN_AGENT": "Agent toewijzen",
+      "ASSIGN_LABEL": "Label toewijzen",
+      "AGENTS_LOADING": "Agents worden geladen...",
+      "ASSIGN_TEAM": "Team toewijzen",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
-          "FAILED": "Couldn't assign agent. Please try again."
+          "SUCCESFUL": "Gesprek id %{conversationId} toegewezen aan \"%{agentName}\"",
+          "FAILED": "Kan agent niet toewijzen. Probeer het opnieuw."
         },
         "LABEL_ASSIGNMENT": {
           "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
@@ -126,13 +126,13 @@
       }
     },
     "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "Message signature",
-      "ENABLE_SIGN_TOOLTIP": "Enable signature",
-      "DISABLE_SIGN_TOOLTIP": "Disable signature",
+      "MESSAGE_SIGN_TOOLTIP": "Handtekening van berichten",
+      "ENABLE_SIGN_TOOLTIP": "Handtekening activeren",
+      "DISABLE_SIGN_TOOLTIP": "Handtekening deactiveren",
       "MSG_INPUT": "Shift + enter voor nieuwe regel. Begin met '/' om een standaard antwoord te selecteren.",
       "PRIVATE_MSG_INPUT": "Shift + nieuwe regel invoeren. Dit is alleen zichtbaar voor medewerkers",
-      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
-      "CLICK_HERE": "Click here to update"
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Berichtondertekening is niet geconfigureerd, configureer deze in de profielinstellingen.",
+      "CLICK_HERE": "Klik hier om bij te werken"
     },
     "REPLYBOX": {
       "REPLY": "Beantwoorden",
@@ -140,15 +140,15 @@
       "SEND": "Verzenden",
       "CREATE": "Notitie toevoegen",
       "INSERT_READ_MORE": "Meer lezen",
-      "DISMISS_REPLY": "Dismiss reply",
-      "REPLYING_TO": "Replying to:",
-      "TIP_FORMAT_ICON": "Show rich text editor",
-      "TIP_EMOJI_ICON": "Show emoji selector",
-      "TIP_ATTACH_ICON": "Attach files",
-      "TIP_AUDIORECORDER_ICON": "Record audio",
-      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
-      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
-      "DRAG_DROP": "Drag and drop here to attach",
+      "DISMISS_REPLY": "Antwoord afwijzen",
+      "REPLYING_TO": "Antwoord op:",
+      "TIP_FORMAT_ICON": "Toon rich text editor",
+      "TIP_EMOJI_ICON": "Toon emoji-kiezer",
+      "TIP_ATTACH_ICON": "Bestanden toevoegen",
+      "TIP_AUDIORECORDER_ICON": "Audio opnemen",
+      "TIP_AUDIORECORDER_PERMISSION": "Sta toegang tot audio toe",
+      "TIP_AUDIORECORDER_ERROR": "Geluid kon niet worden geopend",
+      "DRAG_DROP": "Sleep hierheen om toe te voegen",
       "START_AUDIO_RECORDING": "Start audio recording",
       "STOP_AUDIO_RECORDING": "Stop audio recording",
       "": "",
