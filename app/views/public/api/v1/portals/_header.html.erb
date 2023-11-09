@@ -25,15 +25,15 @@
       <%# Appearance toggle section %>
       <div class="flex-grow flex-shrink-0 relative cursor-pointer px-1 py-2">
         <button id="toggle-appearance" class="flex justify-between min-w-[76px] flex-row items-center stroke-slate-700 dark:stroke-slate-200 text-slate-800 dark:text-slate-100 gap-1" type="button">
-          <div class="theme-button system-theme hidden flex-row items-center gap-1">
+          <div data-theme="system" class="theme-button hidden flex-row items-center gap-1">
             <%= render partial: 'icons/monitor' %>
             <span class="text-sm font-medium"><%= I18n.t('public_portal.header.appearance.system') %></span>
           </div>
-          <div class="theme-button light-theme hidden flex-row items-center gap-1">
+          <div data-theme="light" class="theme-button hidden flex-row items-center gap-1">
             <%= render partial: 'icons/sun' %>
             <span class="text-sm font-medium"><%= I18n.t('public_portal.header.appearance.light') %></span>
           </div>
-          <div class="theme-button dark-theme hidden flex-row items-center gap-1">
+          <div data-theme="dark" class="theme-button hidden flex-row items-center gap-1">
             <%= render partial: 'icons/moon' %>
             <span class="text-sm font-medium"><%= I18n.t('public_portal.header.appearance.dark') %></span>
           </div>

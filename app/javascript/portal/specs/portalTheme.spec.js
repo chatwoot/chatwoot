@@ -148,7 +148,8 @@ describe('Theme Functions', () => {
       const themes = ['dark', 'light', 'system'];
       themes.forEach(theme => {
         const button = document.createElement('button');
-        button.classList.add('theme-button', `${theme}-theme`);
+        button.classList.add('theme-button');
+        button.setAttribute('data-theme', theme);
         mockThemeSelectionInHeaderContainer.appendChild(button);
       });
     });
@@ -160,9 +161,7 @@ describe('Theme Functions', () => {
     it('updates theme selection in header', () => {
       window.portalConfig = { theme: 'dark', portalColor: '#FF5733' };
       updateThemeSelectionInHeader('dark');
-      const darkThemeButton = document.querySelector(
-        '.theme-button.dark-theme'
-      );
+      const darkThemeButton = document.querySelector('[data-theme="dark"]');
       expect(darkThemeButton.classList.contains('flex')).toBe(true);
     });
 

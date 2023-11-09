@@ -42,14 +42,15 @@ export const updateThemeSelectionInHeader = theme => {
   const buttonContainer = document.getElementById('toggle-appearance');
   if (!buttonContainer) return;
   const allElementInButton = buttonContainer.querySelectorAll('.theme-button');
-  const activeThemeElement = document.querySelector(
-    `.theme-button.${theme}-theme`
-  );
 
   allElementInButton.forEach(button => {
     button.classList.remove('flex');
     button.classList.add('hidden');
   });
+
+  const activeThemeElement = buttonContainer.querySelector(
+    `[data-theme="${theme}"]`
+  );
 
   if (activeThemeElement) {
     activeThemeElement.classList.remove('hidden');
@@ -63,12 +64,15 @@ export const setActiveThemeIconInDropdown = theme => {
   if (!dropdownContainer) return;
   const allCheckMarkIcons =
     dropdownContainer.querySelectorAll('.check-mark-icon');
-  const activeIcon = document.querySelector(`.check-mark-icon.${theme}-theme`);
 
   allCheckMarkIcons.forEach(icon => {
     icon.classList.remove('flex');
     icon.classList.add('hidden');
   });
+
+  const activeIcon = dropdownContainer.querySelector(
+    `.check-mark-icon.${theme}-theme`
+  );
 
   if (activeIcon) {
     activeIcon.classList.remove('hidden');
