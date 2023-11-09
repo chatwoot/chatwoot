@@ -24,7 +24,7 @@
          </div>
          <% else %>
          <% category.articles.published.order(position: :asc).take(5).each do |article| %>
-         <a class="text-slate-700 dark:text-slate-100 leading-7" href="/hc/<%= portal.slug %>/articles/<%= article.slug %><%= @theme.present? && @theme != 'system' ? '?theme='+@theme : ''  %>">
+         <a class="text-slate-700 dark:text-slate-100 leading-7" href="<%= generate_article_link(portal.slug, article.slug, @theme) %>">
             <div class="flex justify-between hover:cursor-pointer items-center py-1 rounded-lg gap-3  <%= !@is_plain_layout_enabled ? 'px-2 hover:bg-slate-50 dark:hover:bg-slate-800' : 'hover:underline' %>">
                <%= article.title %>
                <span class="flex items-center font-normal">
