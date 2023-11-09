@@ -91,6 +91,7 @@ export default {
   },
   methods: {
     resizeTextarea() {
+      this.$el.style.height = 'auto';
       if (!this.value) {
         this.$el.style.height = `${this.minHeight}rem`;
       } else {

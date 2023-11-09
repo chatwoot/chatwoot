@@ -1010,6 +1010,79 @@
         }
       }
     },
+    "/api/v1/accounts/{account_id}/contacts/{contact_identifier}/labels": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "$ref": "#/parameters/public_contact_identifier"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Contact Labels"
+        ],
+        "operationId": "list-all-labels-of-a-contact",
+        "summary": "List Labels",
+        "description": "Lists all the labels of a contact",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/contact_labels"
+            }
+          },
+          "404": {
+            "description": "Contact not found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Contact Labels"
+        ],
+        "operationId": "contact-add-labels",
+        "summary": "Add Labels",
+        "description": "Add labels to a contact. Note that this API would overwrite the existing list of labels associated to the conversation.",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "labels": {
+                  "type": "array",
+                  "description": "Array of labels (comma-separated strings)",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/contact_labels"
+            }
+          },
+          "404": {
+            "description": "Contact not found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "/survey/responses/{conversation_uuid}": {
       "parameters": [
         {
@@ -6810,6 +6883,18 @@
         ]
       }
     },
+    "contact_labels": {
+      "type": "object",
+      "properties": {
+        "payload": {
+          "type": "array",
+          "description": "Array of labels",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "conversation_list": {
       "type": "object",
       "properties": {
@@ -7214,6 +7299,7 @@
         "Agents",
         "Canned Responses",
         "Contacts",
+        "Contact Labels",
         "Conversation Assignment",
         "Conversation Labels",
         "Conversations",
