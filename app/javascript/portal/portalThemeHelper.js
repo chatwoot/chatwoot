@@ -4,6 +4,10 @@ import { adjustColorForContrast } from '../shared/helpers/colorHelper.js';
 const SYSTEM_COOKIE = 'system_theme';
 const SELECTED_COOKIE = 'selected_theme';
 
+let portalDiv = null;
+let appearanceDropdown = null;
+let themeToggleButton = null;
+
 export const setPortalHoverColor = theme => {
   if (window.portalConfig.isPlainLayoutEnabled === 'true') return;
   const portalColor = window.portalConfig.portalColor;
@@ -18,7 +22,8 @@ export const setPortalHoverColor = theme => {
 };
 
 export const setPortalClass = theme => {
-  const portalDiv = document.getElementById('portal');
+  portalDiv =
+    portalDiv !== null ? portalDiv : document.getElementById('portal');
   if (!portalDiv) return;
   portalDiv.classList.remove('light', 'dark', 'system');
   portalDiv.classList.add(theme);
@@ -30,25 +35,32 @@ export const updateThemeStyles = theme => {
 };
 
 export const toggleAppearanceDropdown = () => {
-  const dropdown = document.getElementById('appearance-dropdown');
-  if (!dropdown) return;
-  const isCurrentlyHidden = dropdown.style.display === 'none';
-  // Toggle the dropdown
-  dropdown.style.display = isCurrentlyHidden ? 'flex' : 'none';
+  appearanceDropdown =
+    appearanceDropdown !== null
+      ? appearanceDropdown
+      : document.getElementById('appearance-dropdown');
+  if (!appearanceDropdown) return;
+  const isCurrentlyHidden = appearanceDropdown.style.display === 'none';
+  // Toggle the appearanceDropdown
+  appearanceDropdown.style.display = isCurrentlyHidden ? 'flex' : 'none';
 };
 
 export const updateThemeSelectionInHeader = theme => {
   // This function is to update the theme selection in the header in real time
-  const buttonContainer = document.getElementById('toggle-appearance');
-  if (!buttonContainer) return;
-  const allElementInButton = buttonContainer.querySelectorAll('.theme-button');
+  themeToggleButton =
+    themeToggleButton !== null
+      ? themeToggleButton
+      : document.getElementById('toggle-appearance');
+  if (!themeToggleButton) return;
+  const allElementInButton =
+    themeToggleButton.querySelectorAll('.theme-button');
 
   allElementInButton.forEach(button => {
     button.classList.remove('flex');
     button.classList.add('hidden');
   });
 
-  const activeThemeElement = buttonContainer.querySelector(
+  const activeThemeElement = themeToggleButton.querySelector(
     `[data-theme="${theme}"]`
   );
 
@@ -60,17 +72,20 @@ export const updateThemeSelectionInHeader = theme => {
 
 export const setActiveThemeIconInDropdown = theme => {
   // This function is to set the check mark icon for the active theme in the dropdown in real time
-  const dropdownContainer = document.getElementById('appearance-dropdown');
-  if (!dropdownContainer) return;
+  appearanceDropdown =
+    appearanceDropdown !== null
+      ? appearanceDropdown
+      : document.getElementById('appearance-dropdown');
+  if (!appearanceDropdown) return;
   const allCheckMarkIcons =
-    dropdownContainer.querySelectorAll('.check-mark-icon');
+    appearanceDropdown.querySelectorAll('.check-mark-icon');
 
   allCheckMarkIcons.forEach(icon => {
     icon.classList.remove('flex');
     icon.classList.add('hidden');
   });
 
-  const activeIcon = dropdownContainer.querySelector(
+  const activeIcon = appearanceDropdown.querySelector(
     `.check-mark-icon.${theme}-theme`
   );
 
@@ -130,14 +145,20 @@ export const initializeTheme = () => {
 };
 
 export const initializeToggleButton = () => {
-  const toggleButton = document.getElementById('toggle-appearance');
-  if (toggleButton) {
-    toggleButton.addEventListener('click', toggleAppearanceDropdown);
+  themeToggleButton =
+    themeToggleButton !== null
+      ? themeToggleButton
+      : document.getElementById('toggle-appearance');
+  if (themeToggleButton) {
+    themeToggleButton.addEventListener('click', toggleAppearanceDropdown);
   }
 };
 
 export const initializeThemeSwitchButtons = () => {
-  const appearanceDropdown = document.getElementById('appearance-dropdown');
+  appearanceDropdown =
+    appearanceDropdown !== null
+      ? appearanceDropdown
+      : document.getElementById('appearance-dropdown');
   if (!appearanceDropdown) return;
   appearanceDropdown.addEventListener('click', event => {
     const target = event.target.closest('button[data-theme]');

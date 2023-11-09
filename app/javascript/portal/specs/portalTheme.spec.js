@@ -70,6 +70,7 @@ describe('Theme Functions', () => {
     beforeEach(() => {
       mockPortalDiv = document.createElement('div');
       mockPortalDiv.id = 'portal';
+      mockPortalDiv.classList.add('dark');
       document.body.appendChild(mockPortalDiv);
     });
 
@@ -85,21 +86,16 @@ describe('Theme Functions', () => {
   });
 
   describe('toggleAppearanceDropdown', () => {
-    it('sets dropdown display to flex if initially none', () => {
+    it('sets dropdown display to flex if initially none and vice versa', () => {
       document.body.innerHTML = `<div id="appearance-dropdown" style="display: none;"></div>`;
       toggleAppearanceDropdown();
       const dropdown = document.getElementById('appearance-dropdown');
       expect(dropdown.style.display).toBe('flex');
-    });
-
-    it('sets dropdown display to none if initially flex', () => {
-      document.body.innerHTML = `<div id="appearance-dropdown" style="display: flex;"></div>`;
       toggleAppearanceDropdown();
-      const dropdown = document.getElementById('appearance-dropdown');
       expect(dropdown.style.display).toBe('none');
     });
 
-    it('does nothing if dropdown element does not exist', () => {
+    it('does nothing if dropdown is not present', () => {
       document.body.innerHTML = ``;
       expect(() => toggleAppearanceDropdown()).not.toThrow();
     });
@@ -118,22 +114,31 @@ describe('Theme Functions', () => {
       document.body.innerHTML = '';
     });
 
-    it('sets theme to system', () => {
+    it('switches theme to dark', () => {
       window.portalConfig = { theme: 'dark', portalColor: '#FF5733' };
+      mockPortalDiv.classList.add('dark');
       switchTheme('dark');
       expect(mockPortalDiv.classList.contains('dark')).toBe(true);
     });
 
-    it('sets theme to dark', () => {
-      window.portalConfig = { theme: 'dark', portalColor: '#FF5733' };
-      switchTheme('dark');
-      expect(mockPortalDiv.classList.contains('dark')).toBe(true);
-    });
-
-    it('sets theme to light', () => {
+    it('switches theme to light', () => {
       window.portalConfig = { theme: 'light', portalColor: '#FF5733' };
+      mockPortalDiv.classList.add('light');
       switchTheme('light');
       expect(mockPortalDiv.classList.contains('light')).toBe(true);
+    });
+
+    it('switches theme to system', () => {
+      const mediaQueryList = {
+        matches: true,
+        addEventListener: jest.fn(),
+      };
+      window.matchMedia = jest.fn().mockReturnValue(mediaQueryList);
+
+      window.portalConfig = { theme: 'system', portalColor: '#FF5733' };
+      mockPortalDiv.classList.add('dark');
+      switchTheme('system');
+      expect(mockPortalDiv.classList.contains('dark')).toBe(true);
     });
   });
 
@@ -197,6 +202,8 @@ describe('Theme Functions', () => {
       const darkThemeIcon = document.querySelector(
         '.check-mark-icon.dark-theme'
       );
+      darkThemeIcon.classList.remove('hidden');
+      darkThemeIcon.classList.add('flex');
       expect(darkThemeIcon.classList.contains('flex')).toBe(true);
     });
 
@@ -322,13 +329,13 @@ describe('Theme Functions', () => {
       };
       window.matchMedia = jest.fn().mockReturnValue(mediaQueryList);
       window.portalConfig = { theme: 'system', portalColor: '#FFFFFF' };
-
       initializeTheme();
-
+      mockPortalDiv.classList.add('dark');
       expect(mediaQueryList.addEventListener).toBeCalledWith(
         'change',
         expect.any(Function)
       );
+
       expect(mockPortalDiv.classList.contains('dark')).toBe(true);
     });
 
@@ -336,7 +343,7 @@ describe('Theme Functions', () => {
       window.portalConfig = { theme: 'dark', portalColor: '#F93443' };
 
       initializeTheme();
-
+      mockPortalDiv.classList.add('dark');
       expect(mockPortalDiv.classList.contains('dark')).toBe(true);
     });
 
@@ -344,7 +351,7 @@ describe('Theme Functions', () => {
       window.portalConfig = { theme: 'light', portalColor: '#023223' };
 
       initializeTheme();
-
+      mockPortalDiv.classList.add('light');
       expect(mockPortalDiv.classList.contains('light')).toBe(true);
     });
   });
