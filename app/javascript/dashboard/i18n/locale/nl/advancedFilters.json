@@ -4,12 +4,12 @@
     "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
     "EDIT_CUSTOM_FILTER": "Map bewerken",
     "CUSTOM_VIEWS_SUBTITLE": "Filters toevoegen of verwijderen en bijwerken van uw folder.",
-    "ADD_NEW_FILTER": "Add filter",
-    "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
+    "ADD_NEW_FILTER": "Filter toevoegen",
+    "FILTER_DELETE_ERROR": "Oeps, het lijkt erop dat we niets kunnen opslaan! Voeg ten minste één filter toe om het op te slaan.",
     "SUBMIT_BUTTON_LABEL": "Filters toepassen",
     "UPDATE_BUTTON_LABEL": "Update folder",
     "CANCEL_BUTTON_LABEL": "Annuleren",
-    "CLEAR_BUTTON_LABEL": "Clear filters",
+    "CLEAR_BUTTON_LABEL": "Filters wissen",
     "FOLDER_LABEL": "Folder naam",
     "FOLDER_QUERY_LABEL": "Folder Query",
     "EMPTY_VALUE_ERROR": "Waarde is vereist.",
@@ -36,15 +36,15 @@
     },
     "ATTRIBUTES": {
       "STATUS": "Status",
-      "ASSIGNEE_NAME": "Assignee name",
+      "ASSIGNEE_NAME": "Toegewezen naam",
       "INBOX_NAME": "Naam postvak",
       "TEAM_NAME": "Team Naam",
-      "CONVERSATION_IDENTIFIER": "Conversation identifier",
-      "CAMPAIGN_NAME": "Campaign name",
+      "CONVERSATION_IDENTIFIER": "Conversatie ID",
+      "CAMPAIGN_NAME": "Campagne naam",
       "LABELS": "Labelen",
-      "BROWSER_LANGUAGE": "Browser language",
+      "BROWSER_LANGUAGE": "Browser taal",
       "PRIORITY": "Prioriteit",
-      "COUNTRY_NAME": "Country name",
+      "COUNTRY_NAME": "Land naam",
       "REFERER_LINK": "Verwijzende link",
       "CUSTOM_ATTRIBUTE_LIST": "Lijst",
       "CUSTOM_ATTRIBUTE_TEXT": "Tekst",
@@ -55,9 +55,9 @@
       "LAST_ACTIVITY": "Laatste Activiteit"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standard filters",
-      "ADDITIONAL_FILTERS": "Additional filters",
-      "CUSTOM_ATTRIBUTES": "Custom attributes"
+      "STANDARD_FILTERS": "Standaard filters",
+      "ADDITIONAL_FILTERS": "Aanvullende filters",
+      "CUSTOM_ATTRIBUTES": "Aangepaste attributen"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
@@ -85,8 +85,8 @@
           "CONFIRM": {
             "TITLE": "Verwijdering bevestigen",
             "MESSAGE": "Weet u zeker dat u de filter wilt verwijderen? ",
-            "YES": "Yes, delete",
-            "NO": "No, keep it"
+            "YES": "Ja, verwijderen",
+            "NO": "Nee, bewaar het"
           }
         },
         "API_FOLDERS": {
