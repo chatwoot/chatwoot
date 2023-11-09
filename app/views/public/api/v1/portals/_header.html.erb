@@ -14,7 +14,7 @@
       <% if @portal.homepage_link %>
         <div class="ml-8 border-l-1 border-slate-50 dark:border-slate-800 hidden md:block cursor-pointer px-1 py-2">
           <div class="flex-grow flex-shrink-0">
-            <a target="_blank" rel="noopener noreferrer nofollow" href="<%= @portal.homepage_link %>" class="flex flex-row items-center gap-1 text-sm font-medium text-slate-800 dark:text-slate-100 hover:text-woot-500 dark:hover:text-woot-500 stroke-slate-700 dark:stroke-slate-200 hover:stroke-woot-500 dark:hover:stroke-woot-500">
+            <a target="_blank" rel="noopener noreferrer nofollow" href="<%= @portal.homepage_link %>" class="flex flex-row items-center gap-1 text-sm font-medium whitespace-nowrap text-slate-800 dark:text-slate-100 hover:text-woot-500 dark:hover:text-woot-500 stroke-slate-700 dark:stroke-slate-200 hover:stroke-woot-500 dark:hover:stroke-woot-500">
               <%= render partial: 'icons/redirect' %>
               <%= I18n.t('public_portal.header.go_to_homepage') %>
             </a>
