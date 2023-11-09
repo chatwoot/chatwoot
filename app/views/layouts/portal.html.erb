@@ -43,7 +43,6 @@ By default, it renders:
   <style>
   :root {
     color-scheme: <% if @theme == 'system' %>light dark<% else %><%= @theme %><% end %>;
-    
     --dynamic-portal-bg: <%= generate_portal_bg(@portal.color, 'light') %>;
     --dynamic-portal-bg-gradient: <%= generate_gradient_to_bottom('light') %>;
     --dynamic-hover-bg-color: <%= generate_portal_hover_color(@portal.color , 'light') %>;
