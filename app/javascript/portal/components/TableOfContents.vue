@@ -16,7 +16,7 @@
               <a
                 :href="`#${element.slug}`"
                 data-turbolinks="false"
-                class="text-base cursor-pointer"
+                class="font-medium text-sm tracking-[0.28px] cursor-pointer"
                 :class="elementTextStyles(element)"
               >
                 {{ element.title }}
@@ -115,7 +115,7 @@ export default {
     },
     elementTextStyles(el) {
       if (this.isElementActive(el)) {
-        return 'font-semibold text-slate-900 dark:text-slate-25 transition-colors duration-200';
+        return 'text-slate-900 dark:text-slate-25 transition-colors duration-200';
       }
       return 'text-slate-700 dark:text-slate-100';
     },
