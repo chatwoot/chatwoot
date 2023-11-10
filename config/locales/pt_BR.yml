@@ -196,19 +196,19 @@ pt_BR:
     common:
       home: Principal
       last_updated_on: Última atualização em %{last_updated_on}
-      view_all_articles: View all
+      view_all_articles: Visualizar tudo
       article: artigo
       articles: artigos
       no_articles: Não há artigos aqui
     footer:
       made_with: Criado com
     header:
-      go_to_homepage: Website
+      go_to_homepage: Site
       appearance:
         system: Sistema
         light: Claro
         dark: Escuro
-      featured_articles: Featured Articles
+      featured_articles: Artigos em Destaque
       uncategorized: Não categorizado
     404:
       title: Página não encontrada
