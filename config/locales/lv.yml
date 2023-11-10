@@ -196,19 +196,19 @@ lv:
     common:
       home: Sākums
       last_updated_on: Pēdējo reizi atjaunināts %{last_updated_on}
-      view_all_articles: View all
+      view_all_articles: Apskatīt visu
       article: raksts
       articles: raksti
       no_articles: Šeit nav neviena raksta
     footer:
       made_with: Veidots ar
     header:
-      go_to_homepage: Website
+      go_to_homepage: Tīmekļa vietne
       appearance:
         system: Sistēma
         light: Gaišs
         dark: Tumšs
-      featured_articles: Featured Articles
+      featured_articles: Piedāvātie raksti
       uncategorized: Bez kategorijas
     404:
       title: Lapa nav atrasta
