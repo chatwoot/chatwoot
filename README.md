@@ -30,7 +30,7 @@ ___
 </p>
 
 <img src="https://www.chatwoot.com/images/dashboard-dark.png#gh-dark-mode-only" width="100%" alt="Chat dashboard dark mode"/>
-<img src="https://www.chatwoot.com/images/dashboard.png#gh-dark-mode-only" width="100%" alt="Chat dashboard"/>
+<img src="https://www.chatwoot.com/images/dashboard.png#gh-light-mode-only" width="100%" alt="Chat dashboard"/>
 
 
 Chatwoot is an open-source, self-hosted customer engagement suite. Chatwoot lets you view and manage your customer data, communicate with them irrespective of which medium they use, and re-engage them based on their profile.
