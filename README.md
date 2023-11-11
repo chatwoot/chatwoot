@@ -1,10 +1,13 @@
-![image](https://github.com/chatwoot/chatwoot/assets/2246121/42f46a95-b3e1-4e72-aad9-3a5bae7db9aa)![image](https://github.com/chatwoot/chatwoot/assets/2246121/7c513cdf-1e5e-4115-9335-43432202212a)<p align="center">
-  <img src="https://s3.us-west-2.amazonaws.com/gh-assets.chatwoot.com/brand.svg" alt="Woot-logo" width="240" />
 
-  <p align="center">Customer engagement suite, an open-source alternative to Intercom, Zendesk, Salesforce Service Cloud etc.</p>
-</p>
 
-<p align="center">
+<img src="https://user-images.githubusercontent.com/2246121/282256260-8862e264-8eee-4679-8ada-1bb98db56bdf.png#gh-dark-mode-only" alt="chatwoot-header" width="100%" />
+<img src="https://user-images.githubusercontent.com/2246121/282256265-fd429750-cf33-4712-a7dc-985e92a1048f.png#gh-light-mode-only" alt="chatwoot-header" width="100%" />
+
+## Chatwoot 
+---
+Customer engagement suite, an open-source alternative to Intercom, Zendesk, Salesforce Service Cloud etc.
+
+<p>
   <a href="https://heroku.com/deploy?template=https://github.com/chatwoot/chatwoot/tree/master" alt="Deploy to Heroku">
      <img width="150" alt="Deploy" src="https://www.herokucdn.com/deploy/button.svg"/>
   </a>
@@ -15,7 +18,7 @@
 
 ___
 
-<p align="center">
+<p>
   <a href="https://codeclimate.com/github/chatwoot/chatwoot/maintainability"><img src="https://api.codeclimate.com/v1/badges/e6e3f66332c91e5a4c0c/maintainability" alt="Maintainability"></a>
   <img src="https://img.shields.io/circleci/build/github/chatwoot/chatwoot" alt="CircleCI Badge">
     <a href="https://hub.docker.com/r/chatwoot/chatwoot/"><img src="https://img.shields.io/docker/pulls/chatwoot/chatwoot" alt="Docker Pull Badge"></a>
@@ -29,8 +32,8 @@ ___
   <a href="https://artifacthub.io/packages/helm/chatwoot/chatwoot"><img src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/artifact-hub" alt="Artifact HUB"></a>
 </p>
 
-<img src="https://user-images.githubusercontent.com/2246121/282255783-ee8a50c9-f42d-4752-8201-2d59965a663d.png#gh-dark-mode-only" width="100%" alt="Chat dashboard dark mode"/>
-<img src="https://user-images.githubusercontent.com/2246121/282255784-3d1994ec-d895-4ff5-ac68-d819987e1869.png#gh-light-mode-only" width="100%" alt="Chat dashboard"/>
+<img src="https://user-images.githubusercontent.com/2246121/282255783-ee8a50c9-f42d-4752-8201-2d59965a663d.png#gh-light-mode-only" width="100%" alt="Chat dashboard dark mode"/>
+<img src="https://user-images.githubusercontent.com/2246121/282255784-3d1994ec-d895-4ff5-ac68-d819987e1869.png#gh-dark-mode-only" width="100%" alt="Chat dashboard"/>
 
 
 Chatwoot is an open-source, self-hosted customer engagement suite. Chatwoot lets you view and manage your customer data, communicate with them irrespective of which medium they use, and re-engage them based on their profile.
