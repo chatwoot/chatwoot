@@ -176,6 +176,9 @@ gem 'reverse_markdown'
 # Sentiment analysis
 gem 'informers'
 
+# Algolia
+gem "algoliasearch-rails"
+
 ### Gems required only in specific deployment environments ###
 ##############################################################
 
