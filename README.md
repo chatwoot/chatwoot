@@ -3,10 +3,11 @@
 <img src="https://user-images.githubusercontent.com/2246121/282256260-8862e264-8eee-4679-8ada-1bb98db56bdf.png#gh-dark-mode-only" alt="chatwoot-header" width="100%" />
 <img src="https://user-images.githubusercontent.com/2246121/282256265-fd429750-cf33-4712-a7dc-985e92a1048f.png#gh-light-mode-only" alt="chatwoot-header" width="100%" />
 
-## Chatwoot 
----
-Customer engagement suite, an open-source alternative to Intercom, Zendesk, Salesforce Service Cloud etc.
+___
 
+# Chatwoot 
+
+Customer engagement suite, an open-source alternative to Intercom, Zendesk, Salesforce Service Cloud etc.
 <p>
   <a href="https://heroku.com/deploy?template=https://github.com/chatwoot/chatwoot/tree/master" alt="Deploy to Heroku">
      <img width="150" alt="Deploy" src="https://www.herokucdn.com/deploy/button.svg"/>
@@ -15,8 +16,6 @@ Customer engagement suite, an open-source alternative to Intercom, Zendesk, Sale
      <img width="200" alt="Deploy to DO" src="https://www.deploytodo.com/do-btn-blue.svg"/>
   </a>
 </p>
-
-___
 
 <p>
   <a href="https://codeclimate.com/github/chatwoot/chatwoot/maintainability"><img src="https://api.codeclimate.com/v1/badges/e6e3f66332c91e5a4c0c/maintainability" alt="Maintainability"></a>
