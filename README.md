@@ -29,8 +29,8 @@ ___
   <a href="https://artifacthub.io/packages/helm/chatwoot/chatwoot"><img src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/artifact-hub" alt="Artifact HUB"></a>
 </p>
 
-<img src="https://www.chatwoot.com/images/dashboard-dark.png#dark-mode-only" width="100%" alt="Chat dashboard dark mode"/>
-<img src="https://www.chatwoot.com/images/dashboard.png#dark-mode-only" width="100%" alt="Chat dashboard"/>
+<img src="https://www.chatwoot.com/images/dashboard-dark.png#gh-dark-mode-only" width="100%" alt="Chat dashboard dark mode"/>
+<img src="https://www.chatwoot.com/images/dashboard.png#gh-dark-mode-only" width="100%" alt="Chat dashboard"/>
 
 
 Chatwoot is an open-source, self-hosted customer engagement suite. Chatwoot lets you view and manage your customer data, communicate with them irrespective of which medium they use, and re-engage them based on their profile.
