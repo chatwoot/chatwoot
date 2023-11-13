@@ -302,6 +302,10 @@ export default {
       type: Function,
       default: () => {},
     },
+    channelType: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -337,8 +341,7 @@ export default {
       messageSignature: 'getMessageSignature',
     }),
     sendWithSignature() {
-      const { send_with_signature: isEnabled } = this.uiSettings;
-      return isEnabled;
+      return this.fetchSignatureFlagFromUiSettings(this.channelType);
     },
     signatureToApply() {
       return this.messageSignature;
@@ -604,9 +607,7 @@ export default {
       return classByType;
     },
     toggleMessageSignature() {
-      this.updateUISettings({
-        send_with_signature: !this.sendWithSignature,
-      });
+      this.setSignatureFlagForInbox(this.channelType, !this.sendWithSignature);
       this.setSignature();
     },
   },

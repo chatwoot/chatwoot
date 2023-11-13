@@ -43,6 +43,10 @@ class Integrations::Hook < ApplicationRecord
     app_id == 'slack'
   end
 
+  def dialogflow?
+    app_id == 'dialogflow'
+  end
+
   def disable
     update(status: 'disabled')
   end

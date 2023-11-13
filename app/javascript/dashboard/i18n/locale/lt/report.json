@@ -36,8 +36,8 @@
         "DESC": "( Viso )"
       },
       "REPLY_TIME": {
-        "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} conversations)"
+        "NAME": "Kliento laukimo laikas",
+        "TOOLTIP_TEXT": "Laukimo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
       }
     },
     "DATE_RANGE_OPTIONS": {

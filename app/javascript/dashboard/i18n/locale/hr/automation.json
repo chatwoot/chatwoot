@@ -110,7 +110,7 @@
     "ATTACHMENT": {
       "UPLOAD_ERROR": "Could not upload attachment, Please try again",
       "LABEL_IDLE": "Upload Attachment",
-      "LABEL_UPLOADING": "Uploading...",
+      "LABEL_UPLOADING": "Prenosim...",
       "LABEL_UPLOADED": "Successfully Uploaded",
       "LABEL_UPLOAD_FAILED": "Upload Failed"
     }

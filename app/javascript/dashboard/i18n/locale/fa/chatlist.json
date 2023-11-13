@@ -39,7 +39,17 @@
     "SORT_TOOLTIP_LABEL": "مرتب‌سازی گفتگوها",
     "CHAT_SORT": {
       "STATUS": "وضعیت",
-      "ORDER_BY": "سفارش توسط"
+      "ORDER_BY": "مرتب بر اساس"
+    },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "ایجاد شده",
+        "OLDEST": "ایجاد شده در:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "آخرین فعالیت:",
+        "ACTIVE": "آخرین فعالیت"
+      }
     },
     "CHAT_SORT_FILTER_ITEMS": {
       "latest": {
@@ -52,7 +62,7 @@
         "TEXT": "اولویت"
       },
       "sort_on_waiting_since": {
-        "TEXT": "پاسخ در انتظار"
+        "TEXT": "در انتظار پاسخ"
       }
     },
     "ATTACHMENTS": {

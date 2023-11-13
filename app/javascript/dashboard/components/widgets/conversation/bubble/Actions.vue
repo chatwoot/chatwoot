@@ -114,10 +114,6 @@ export default {
       type: Boolean,
       default: true,
     },
-    hasInstagramStory: {
-      type: Boolean,
-      default: true,
-    },
     messageType: {
       type: Number,
       default: 1,
@@ -201,9 +197,19 @@ export default {
         return !!this.sourceId;
       }
 
-      if (this.isAWhatsAppChannel || this.isATwilioChannel) {
+      if (
+        this.isAWhatsAppChannel ||
+        this.isATwilioChannel ||
+        this.isAFacebookInbox ||
+        this.isASmsInbox
+      ) {
         return this.sourceId && this.isSent;
       }
+      // There is no source id for the line channel
+      if (this.isALineChannel) {
+        return true;
+      }
+
       return false;
     },
     showDeliveredIndicator() {
@@ -211,12 +217,19 @@ export default {
         return false;
       }
 
-      if (this.isAWhatsAppChannel || this.isATwilioChannel) {
+      if (
+        this.isAWhatsAppChannel ||
+        this.isATwilioChannel ||
+        this.isASmsInbox
+      ) {
         return this.sourceId && this.isDelivered;
       }
-      // We will consider messages as delivered for web widget inbox if they are sent
-      if (this.isAWebWidgetInbox) {
+      // We will consider messages as delivered for web widget inbox and API inbox if they are sent
+      if (this.isAWebWidgetInbox || this.isAPIInbox) {
         return this.isSent;
+      }
+      if (this.isALineChannel) {
+        return this.isDelivered;
       }
 
       return false;
@@ -231,7 +244,11 @@ export default {
         return contactLastSeenAt >= this.createdAt;
       }
 
-      if (this.isAWhatsAppChannel || this.isATwilioChannel) {
+      if (
+        this.isAWhatsAppChannel ||
+        this.isATwilioChannel ||
+        this.isAFacebookInbox
+      ) {
         return this.sourceId && this.isRead;
       }
 

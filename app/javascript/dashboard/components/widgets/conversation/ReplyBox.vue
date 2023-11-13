@@ -20,6 +20,12 @@
       @click="$emit('click')"
       @selectWhatsappTemplate="openWhatsappTemplateModal"
     />
+    <article-search-popover
+      v-if="showArticleSearchPopover && connectedPortalSlug"
+      :selected-portal-slug="connectedPortalSlug"
+      @insert="handleInsert"
+      @close="onSearchPopoverClose"
+    />
     <div class="reply-box__top">
       <reply-to-message
         v-if="shouldShowReplyToMessage"
@@ -37,7 +43,7 @@
         v-if="showEmojiPicker"
         v-on-clickaway="hideEmojiPicker"
         :class="emojiDialogClassOnExpandedLayoutAndRTLView"
-        :on-click="emojiOnClick"
+        :on-click="addIntoEditor"
       />
       <reply-email-head
         v-if="showReplyHead"
@@ -81,6 +87,7 @@
         :variables="messageVariables"
         :signature="signatureToApply"
         :allow-signature="true"
+        :channel-type="channelType"
         @typing-off="onTypingOff"
         @typing-on="onTypingOn"
         @focus="onFocus"
@@ -123,10 +130,12 @@
       :toggle-audio-recorder="toggleAudioRecorder"
       :toggle-emoji-picker="toggleEmojiPicker"
       :message="message"
+      :portal-slug="connectedPortalSlug"
       :new-conversation-modal-active="newConversationModalActive"
       @selectWhatsappTemplate="openWhatsappTemplateModal"
       @toggle-editor="toggleRichContentEditor"
       @replace-text="replaceText"
+      @toggle-insert-article="toggleInsertArticle"
     />
     <whatsapp-templates
       :inbox-id="inbox.id"
@@ -156,6 +165,7 @@ import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview.v
 import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel.vue';
 import ReplyEmailHead from './ReplyEmailHead.vue';
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue';
+import ArticleSearchPopover from 'dashboard/routes/dashboard/helpcenter/components/ArticleSearch/SearchPopover.vue';
 import MessageSignatureMissingAlert from './MessageSignatureMissingAlert';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
@@ -208,6 +218,7 @@ export default {
     Banner,
     WhatsappTemplates,
     MessageSignatureMissingAlert,
+    ArticleSearchPopover,
   },
   mixins: [
     clickaway,
@@ -250,6 +261,7 @@ export default {
       showCannedMenu: false,
       showVariablesMenu: false,
       newConversationModalActive: false,
+      showArticleSearchPopover: false,
     };
   },
   computed: {
@@ -468,8 +480,7 @@ export default {
       return !!this.signatureToApply;
     },
     sendWithSignature() {
-      const { send_with_signature: isEnabled } = this.uiSettings;
-      return isEnabled;
+      return this.fetchSignatureFlagFromUiSettings(this.channelType);
     },
     editorMessageKey() {
       const { editor_message_key: isEnabled } = this.uiSettings;
@@ -508,10 +519,17 @@ export default {
         ? this.messageSignature
         : extractTextFromMarkdown(this.messageSignature);
     },
+    connectedPortalSlug() {
+      const { help_center: portal = {} } = this.inbox;
+      const { slug = '' } = portal;
+      return slug;
+    },
   },
   watch: {
     currentChat(conversation) {
       const { can_reply: canReply } = conversation;
+
+      this.setCCAndToEmailsFromLastChat();
 
       if (this.isOnPrivateNote) {
         return;
@@ -523,7 +541,6 @@ export default {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
       }
 
-      this.setCCAndToEmailsFromLastChat();
       this.fetchAndSetReplyTo();
     },
     conversationIdByRoute(conversationId, oldConversationId) {
@@ -533,17 +550,25 @@ export default {
       }
     },
     message(updatedMessage) {
-      this.hasSlashCommand =
-        updatedMessage[0] === '/' && !this.showRichContentEditor;
-      const hasNextWord = updatedMessage.includes(' ');
-      const isShortCodeActive = this.hasSlashCommand && !hasNextWord;
-      if (isShortCodeActive) {
-        this.mentionSearchKey = updatedMessage.substring(1);
-        this.showMentions = true;
-      } else {
-        this.mentionSearchKey = '';
-        this.showMentions = false;
-      }
+      // Check if the message starts with a slash.
+      const bodyWithoutSignature = removeSignature(
+        updatedMessage,
+        this.signatureToApply
+      );
+      const startsWithSlash = bodyWithoutSignature.startsWith('/');
+
+      // Determine if the user is potentially typing a slash command.
+      // This is true if the message starts with a slash and the rich content editor is not active.
+      this.hasSlashCommand = startsWithSlash && !this.showRichContentEditor;
+      this.showMentions = this.hasSlashCommand;
+
+      // If a slash command is active, extract the command text after the slash.
+      // If not, reset the mentionSearchKey.
+      this.mentionSearchKey = this.hasSlashCommand
+        ? bodyWithoutSignature.substring(1)
+        : '';
+
+      // Autosave the current message draft.
       this.doAutoSaveDraft();
     },
     replyType(updatedReplyType, oldReplyType) {
@@ -590,6 +615,23 @@ export default {
     );
   },
   methods: {
+    handleInsert(article) {
+      const { url, title } = article;
+      if (this.isRichEditorEnabled) {
+        // Removing empty lines from the title
+        const lines = title.split('\n');
+        const nonEmptyLines = lines.filter(line => line.trim() !== '');
+        const filteredMarkdown = nonEmptyLines.join(' ');
+        bus.$emit(
+          BUS_EVENTS.INSERT_INTO_RICH_EDITOR,
+          `[${filteredMarkdown}](${url})`
+        );
+      } else {
+        this.addIntoEditor(
+          `${this.$t('CONVERSATION.REPLYBOX.INSERT_READ_MORE')} ${url}`
+        );
+      }
+    },
     toggleRichContentEditor() {
       this.updateUISettings({
         display_rich_content_editor: !this.showRichContentEditor,
@@ -770,6 +812,7 @@ export default {
         : this.$track(CONVERSATION_EVENTS.SENT_MESSAGE, {
             channelType: this.channelType,
             signatureEnabled: this.sendWithSignature,
+            hasReplyTo: !!this.inReplyTo?.id,
           });
     },
     async onSendReply() {
@@ -820,10 +863,18 @@ export default {
       this.hideWhatsappTemplatesModal();
     },
     replaceText(message) {
+      if (this.sendWithSignature && !this.private) {
+        // if signature is enabled, append it to the message
+        // appendSignature ensures that the signature is not duplicated
+        // so we don't need to check if the signature is already present
+        message = appendSignature(message, this.signatureToApply);
+      }
+
       const updatedMessage = replaceVariablesInMessage({
         message,
         variables: this.messageVariables,
       });
+
       setTimeout(() => {
         this.$track(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
         this.message = updatedMessage;
@@ -846,22 +897,22 @@ export default {
     clearEditorSelection() {
       this.updateEditorSelectionWith = '';
     },
-    insertEmoji(emoji, selectionStart, selectionEnd) {
+    insertIntoTextEditor(text, selectionStart, selectionEnd) {
       const { message } = this;
       const newMessage =
         message.slice(0, selectionStart) +
-        emoji +
+        text +
         message.slice(selectionEnd, message.length);
       this.message = newMessage;
     },
-    emojiOnClick(emoji) {
+    addIntoEditor(content) {
       if (this.showRichContentEditor) {
-        this.updateEditorSelectionWith = emoji;
+        this.updateEditorSelectionWith = content;
         this.onFocus();
       }
       if (!this.showRichContentEditor) {
         const { selectionStart, selectionEnd } = this.$refs.messageInput.$el;
-        this.insertEmoji(emoji, selectionStart, selectionEnd);
+        this.insertIntoTextEditor(content, selectionStart, selectionEnd);
       }
     },
     clearMessage() {
@@ -965,6 +1016,19 @@ export default {
         (item, index) => itemIndex !== index
       );
     },
+    setReplyToInPayload(payload) {
+      if (this.inReplyTo?.id) {
+        return {
+          ...payload,
+          contentAttributes: {
+            ...payload.contentAttributes,
+            in_reply_to: this.inReplyTo.id,
+          },
+        };
+      }
+
+      return payload;
+    },
     getMessagePayloadForWhatsapp(message) {
       const multipleMessagePayload = [];
 
@@ -974,41 +1038,41 @@ export default {
           const attachedFile = this.globalConfig.directUploadsEnabled
             ? attachment.blobSignedId
             : attachment.resource.file;
-          const attachmentPayload = {
+          let attachmentPayload = {
             conversationId: this.currentChat.id,
             files: [attachedFile],
             private: false,
             message: caption,
             sender: this.sender,
           };
+
+          attachmentPayload = this.setReplyToInPayload(attachmentPayload);
           multipleMessagePayload.push(attachmentPayload);
           caption = '';
         });
       } else {
-        const messagePayload = {
+        let messagePayload = {
           conversationId: this.currentChat.id,
           message,
           private: false,
           sender: this.sender,
         };
+
+        messagePayload = this.setReplyToInPayload(messagePayload);
+
         multipleMessagePayload.push(messagePayload);
       }
 
       return multipleMessagePayload;
     },
     getMessagePayload(message) {
-      const messagePayload = {
+      let messagePayload = {
         conversationId: this.currentChat.id,
         message,
         private: this.isPrivate,
         sender: this.sender,
       };
-
-      if (this.inReplyTo?.id) {
-        messagePayload.contentAttributes = {
-          in_reply_to: this.inReplyTo.id,
-        };
-      }
+      messagePayload = this.setReplyToInPayload(messagePayload);
 
       if (this.attachedFiles && this.attachedFiles.length) {
         messagePayload.files = [];
@@ -1107,6 +1171,12 @@ export default {
       // When new conversation modal is open
       this.newConversationModalActive = isActive;
     },
+    onSearchPopoverClose() {
+      this.showArticleSearchPopover = false;
+    },
+    toggleInsertArticle() {
+      this.showArticleSearchPopover = !this.showArticleSearchPopover;
+    },
   },
 };
 </script>
@@ -1125,7 +1195,7 @@ export default {
 }
 
 .reply-box {
-  @apply border-t border-slate-50 dark:border-slate-700 bg-white dark:bg-slate-900;
+  @apply relative border-t border-slate-50 dark:border-slate-700 bg-white dark:bg-slate-900;
 
   &.is-private {
     @apply bg-yellow-50 dark:bg-yellow-200;

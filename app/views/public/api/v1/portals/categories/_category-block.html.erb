@@ -2,7 +2,7 @@
 <section class="lg:container w-full py-6 px-4 flex flex-col h-full">
   <div class="flex justify-between items-center w-full">
     <h3 class="text-xl text-slate-900 dark:text-white font-semibold leading-relaxed hover:underline">
-     <a href="/hc/<%= portal.slug %>/<%= category.locale %>/categories/<%= category.slug %><%= @theme.present? ? '?theme='+@theme : ''  %>">
+     <a href="/hc/<%= portal.slug %>/<%= category.locale %>/categories/<%= category.slug %><%= @theme.present? && @theme != 'system' ? '?theme='+@theme : ''  %>">
       <%= category.name %>
     </a>
     </h3>
@@ -20,7 +20,7 @@
         <div class="flex justify-between content-center h-8 my-1">
           <a
             class="text-slate-800 dark:text-slate-50 hover:underline leading-8"
-            href="/hc/<%= portal.slug %>/articles/<%= article.slug %><%= @theme.present? ? '?theme='+@theme : ''  %>"
+            href="/hc/<%= portal.slug %>/articles/<%= article.slug %><%= @theme.present? && @theme != 'system' ? '?theme='+@theme : ''  %>"
           >
             <%= article.title %>
           </a>
@@ -45,7 +45,7 @@
   </div>
   <div>
     <a
-      href="/hc/<%= portal.slug %>/<%= category.locale %>/categories/<%= category.slug %><%= @theme.present? ? '?theme='+@theme : ''  %>"
+      href="/hc/<%= portal.slug %>/<%= category.locale %>/categories/<%= category.slug %><%= @theme.present? && @theme != 'system' ? '?theme='+@theme : ''  %>"
       class="flex flex-row items-center text-base font-medium text-woot-600 dark:text-woot-500 hover:text-slate-900 dark:hover:text-white hover:underline mt-4"
     >
       <%= I18n.t('public_portal.common.view_all_articles') %>
