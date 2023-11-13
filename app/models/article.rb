@@ -28,6 +28,7 @@
 #
 class Article < ApplicationRecord
   include PgSearch::Model
+  include AlgoliaSearch
 
   has_many :associated_articles,
            class_name: :Article,
@@ -82,7 +83,32 @@ class Article < ApplicationRecord
     }
   )
 
-  def self.search(params)
+  algoliasearch per_environment: true do
+    # the list of attributes sent to Algolia's API
+    attribute :created_at, :title, :content, :description
+
+    add_attribute :tenant_id
+
+    # searchableAttributes ['title', 'description', 'content']
+    searchableAttributes %w[title description content]
+
+    # integer version of the created_at datetime field, to use numerical filtering
+    attribute :created_at_i do
+      created_at.to_i
+    end
+  end
+
+  def tenant_id
+    "cw-tenant-#{account.id}-#{portal.id}"
+  end
+
+  def self.search_with_algolia(params)
+    results = raw_search(params[:query])
+    hit_ids = results['hits'].pluck('objectID')
+    Article.where(id: hit_ids)
+  end
+
+  def self.search_on_db(params)
     records = joins(
       :category
     ).search_by_category_slug(
@@ -91,6 +117,18 @@ class Article < ApplicationRecord
 
     records = records.text_search(params[:query]) if params[:query].present?
     records
+  end
+
+  def self.search(params)
+    if algolia_enabled?
+      search_with_algolia(params)
+    else
+      search_on_db(params)
+    end
+  end
+
+  def self.algolia_enabled?
+    ENV['ALGOLIA_KEY'].present? && ENV['ALGOLIA_APP_ID'].present?
   end
 
   def associate_root_article(associated_article_id)
