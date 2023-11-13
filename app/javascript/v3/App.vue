@@ -52,11 +52,10 @@ export default {
 @import 'shared/assets/stylesheets/spacing';
 @import 'shared/assets/stylesheets/font-size';
 @import 'shared/assets/stylesheets/border-radius';
-
 html,
 body {
   font-family:
-    'PlusJakarta',
+    'Inter',
     -apple-system,
     BlinkMacSystemFont,
     'Segoe UI',

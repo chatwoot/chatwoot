@@ -1,6 +1,17 @@
 // Typography
-$base-font-family: PlusJakarta, Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-  "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+$base-font-family:
+  Inter,
+  Inter,
+  -apple-system,
+  BlinkMacSystemFont,
+  'Segoe UI',
+  'Roboto',
+  'Oxygen',
+  'Ubuntu',
+  'Cantarell',
+  'Fira Sans',
+  'Droid Sans',
+  'Helvetica Neue',
   sans-serif !default;
 $heading-font-family: $base-font-family !default;
 
@@ -49,7 +60,7 @@ $flash-colors: (
   alert: $light-yellow,
   error: $red,
   notice: mix($white, $blue, 50%),
-  success: $light-green
+  success: $light-green,
 );
 
 // Border
