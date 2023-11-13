@@ -6,6 +6,9 @@ import {
   setPortalStyles,
   setPortalClass,
   updateThemeStyles,
+  toggleAppearanceDropdown,
+  updateURLParameter,
+  removeURLParameter,
 } from '../portalHelpers';
 
 describe('#navigateToLocalePage', () => {
@@ -126,11 +129,77 @@ describe('Theme Functions', () => {
       document.body.innerHTML = '';
     });
 
-    it('sets portal class based on theme', () => {
+    it('sets portal class to "dark" based on theme', () => {
       setPortalClass('dark');
-
       expect(mockPortalDiv.classList.contains('dark')).toBe(true);
       expect(mockPortalDiv.classList.contains('light')).toBe(false);
+    });
+
+    it('sets portal class to "light" based on theme', () => {
+      setPortalClass('light');
+      expect(mockPortalDiv.classList.contains('light')).toBe(true);
+      expect(mockPortalDiv.classList.contains('dark')).toBe(false);
+    });
+  });
+
+  describe('toggleAppearanceDropdown', () => {
+    it('sets dropdown display to flex if initially none', () => {
+      document.body.innerHTML = `<div id="appearance-dropdown" style="display: none;"></div>`;
+      toggleAppearanceDropdown();
+      const dropdown = document.getElementById('appearance-dropdown');
+      expect(dropdown.style.display).toBe('flex');
+    });
+
+    it('sets dropdown display to none if initially flex', () => {
+      document.body.innerHTML = `<div id="appearance-dropdown" style="display: flex;"></div>`;
+      toggleAppearanceDropdown();
+      const dropdown = document.getElementById('appearance-dropdown');
+      expect(dropdown.style.display).toBe('none');
+    });
+
+    it('does nothing if dropdown element does not exist', () => {
+      document.body.innerHTML = ``;
+      expect(() => toggleAppearanceDropdown()).not.toThrow();
+    });
+  });
+
+  describe('updateURLParameter', () => {
+    it('updates a given parameter with a new value', () => {
+      const originalUrl = 'http://example.com?param=oldValue';
+      delete window.location;
+      window.location = new URL(originalUrl);
+
+      const updatedUrl = updateURLParameter('param', 'newValue');
+      expect(updatedUrl).toContain('param=newValue');
+    });
+
+    it('adds a new parameter if it does not exist', () => {
+      const originalUrl = 'http://example.com';
+      delete window.location;
+      window.location = new URL(originalUrl);
+
+      const updatedUrl = updateURLParameter('newParam', 'value');
+      expect(updatedUrl).toContain('newParam=value');
+    });
+  });
+
+  describe('removeURLParameter', () => {
+    it('removes an existing parameter', () => {
+      const originalUrl = 'http://example.com?param=value';
+      delete window.location;
+      window.location = new URL(originalUrl);
+
+      const updatedUrl = removeURLParameter('param');
+      expect(updatedUrl).not.toContain('param=value');
+    });
+
+    it('does nothing if the parameter does not exist', () => {
+      const originalUrl = 'http://example.com/';
+      delete window.location;
+      window.location = new URL(originalUrl);
+
+      const updatedUrl = removeURLParameter('param');
+      expect(updatedUrl).toBe(originalUrl);
     });
   });
 
@@ -221,6 +290,45 @@ describe('Theme Functions', () => {
       expect(mediaQueryList.addEventListener).not.toBeCalled();
       expect(mockPortalDiv.classList.contains('dark')).toBe(false);
       expect(mockPortalDiv.classList.contains('light')).toBe(false);
+    });
+  });
+
+  describe('initializeToggleButton', () => {
+    it('adds a click listener to the toggle button', () => {
+      document.body.innerHTML = `<button id="toggle-appearance"></button>`;
+      InitializationHelpers.initializeToggleButton();
+      const toggleButton = document.getElementById('toggle-appearance');
+      expect(toggleButton.onclick).toBeDefined();
+    });
+
+    it('does nothing if the toggle button is not present', () => {
+      document.body.innerHTML = ``;
+      expect(() =>
+        InitializationHelpers.initializeToggleButton()
+      ).not.toThrow();
+    });
+  });
+
+  describe('initializeThemeSwitchButtons', () => {
+    it('adds click listeners to theme switch buttons', () => {
+      document.body.innerHTML = `<div id="appearance-dropdown"><button data-theme="dark"></button><button data-theme="light"></button></div>`;
+      InitializationHelpers.initializeThemeSwitchButtons();
+      const buttons = document.querySelectorAll('button[data-theme]');
+      buttons.forEach(button => expect(button.onclick).toBeDefined());
+    });
+
+    it('does nothing if theme switch buttons are not present', () => {
+      document.body.innerHTML = ``;
+      expect(() =>
+        InitializationHelpers.initializeThemeSwitchButtons()
+      ).not.toThrow();
+    });
+
+    it('does nothing if appearance-dropdown is not present', () => {
+      document.body.innerHTML = ``;
+      expect(() =>
+        InitializationHelpers.initializeThemeSwitchButtons()
+      ).not.toThrow();
     });
   });
 });

@@ -18,6 +18,7 @@ By default, it renders:
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1">
     <meta name= "turbolinks-cache-control" content= "no-cache">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <%= javascript_pack_tag 'portal' %>
     <%= stylesheet_pack_tag 'portal' %>
     <%= csrf_meta_tags %>
@@ -28,7 +29,7 @@ By default, it renders:
     <% end %>
   </head>
   <body>
-    <div class="antialiased <%= @theme %>">
+    <div id="portal" class="antialiased <%= @theme unless @theme == 'system' %>">
       <main class="main-content min-h-screen flex flex-col bg-white dark:bg-slate-900" role="main">
         <% if !@is_plain_layout_enabled %>
           <%= render "public/api/v1/portals/header", portal: @portal %>
@@ -42,7 +43,7 @@ By default, it renders:
   </body>
   <style>
   :root {
-    color-scheme: '<%= @theme %>';
+    color-scheme: <% if @theme == 'system' %>light dark<% else %><%= @theme %><% end %>;
   }
   </style>
   <script>
