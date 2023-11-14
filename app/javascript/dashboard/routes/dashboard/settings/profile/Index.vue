@@ -198,6 +198,9 @@ export default {
       currentUserId: 'getCurrentUserID',
       globalConfig: 'globalConfig/get',
     }),
+    showDeleteButton() {
+      return this.avatarUrl && !this.avatarUrl.includes('www.gravatar.com');
+    },
   },
   watch: {
     currentUserId(newCurrentUserId, prevCurrentUserId) {
@@ -264,9 +267,6 @@ export default {
       } catch (error) {
         this.showAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_FAILED'));
       }
-    },
-    showDeleteButton() {
-      return this.avatarUrl && !this.avatarUrl.includes('www.gravatar.com');
     },
     toggleEditorMessageKey(key) {
       this.updateUISettings({ editor_message_key: key });
