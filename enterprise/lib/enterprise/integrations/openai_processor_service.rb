@@ -50,6 +50,8 @@ module Enterprise::Integrations::OpenaiProcessorService
   end
 
   def label_suggestion_body
+    return unless label_suggestions_enabled?
+
     content = labels_with_messages
     return nil if content.blank?
 
@@ -63,5 +65,9 @@ module Enterprise::Integrations::OpenaiProcessorService
         { role: 'user', content: content }
       ]
     }.to_json
+  end
+
+  def label_suggestions_enabled?
+    hook.account.feature_enabled?(:openai_label_suggestions)
   end
 end
