@@ -14,11 +14,11 @@
       <% if category.icon.present? %>
       <span class="text-4xl"><%= category.icon %></span>
       <% end %>
-      <h1 class="text-3xl font-semibold leading-[52.5px] text-slate-900 dark:text-white">
+      <h1 class="text-3xl font-bold tracking-wide leading-[52.5px] text-slate-900 dark:text-white">
         <%= category.name %>
       </h1>
       <% if category.description.present? %>
-      <span class="font-medium text-slate-800 dark:text-slate-75 text-base leading-5"><%= category.description %></span>
+      <span class="font-medium text-slate-700 dark:text-slate-100 text-base leading-5"><%= category.description %></span>
       <% end %>
     </div>
     <span class="flex items-center text-base text-slate-600 dark:text-slate-400 font-medium"><%= render 'public/api/v1/portals/article_count', article_count: category.articles.published.size %></span>
