@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_13_072802) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_14_111614) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -49,7 +49,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_13_072802) do
     t.integer "locale", default: 0
     t.string "domain", limit: 100
     t.string "support_email", limit: 100
-    t.integer "feature_flags", default: 0, null: false
+    t.bigint "feature_flags", default: 0, null: false
     t.integer "auto_resolve_duration"
     t.jsonb "limits", default: {}
     t.jsonb "custom_attributes", default: {}
@@ -451,8 +451,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_13_072802) do
     t.datetime "assignee_last_seen_at", precision: nil
     t.datetime "first_reply_created_at", precision: nil
     t.integer "priority"
-    t.bigint "sla_policy_id"
     t.datetime "waiting_since"
+    t.bigint "sla_policy_id"
+    t.text "summary"
+    t.datetime "summary_generated_at"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
     t.index ["account_id", "inbox_id", "status", "assignee_id"], name: "conv_acid_inbid_stat_asgnid_idx"
@@ -615,6 +617,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_13_072802) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.jsonb "settings", default: {}
+  end
+
+  create_table "label_associations", force: :cascade do |t|
+    t.bigint "label_id", null: false
+    t.string "labelable_type", null: false
+    t.bigint "labelable_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["label_id"], name: "index_label_associations_on_label_id"
+    t.index ["labelable_type", "labelable_id"], name: "index_label_associations_on_contact", where: "((labelable_type)::text = 'Contact'::text)"
+    t.index ["labelable_type", "labelable_id"], name: "index_label_associations_on_conversation", where: "((labelable_type)::text = 'Conversation'::text)"
+    t.index ["labelable_type", "labelable_id"], name: "index_label_associations_on_labelable"
+    t.index ["labelable_type", "labelable_id"], name: "index_label_associations_on_labelable_type_and_labelable_id"
   end
 
   create_table "labels", force: :cascade do |t|
@@ -946,6 +961,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_13_072802) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "label_associations", "labels"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).
