@@ -1,8 +1,7 @@
 import { adjustColorForContrast } from '../shared/helpers/colorHelper.js';
 
 export const setPortalHoverColor = theme => {
-  if (window.portalConfig.isPlainLayoutEnabled === 'true') return;
-
+  // This function is to set the hover color for the portal
   if (theme === 'system') {
     const prefersDarkMode = window.matchMedia(
       '(prefers-color-scheme: dark)'
@@ -21,13 +20,32 @@ export const setPortalHoverColor = theme => {
   );
 };
 
+export const removeQueryParamsFromUrl = (queryParam = 'theme') => {
+  // This function is to remove the theme query param from the URL
+  // This is done so that the theme is not persisted in the URL
+  // This is called when the theme is switched from the dropdown
+  const url = new URL(window.location.href);
+  const param = url.searchParams.get(queryParam);
+
+  if (param) {
+    url.searchParams.delete(queryParam);
+    window.history.replaceState({}, '', url.toString()); // Convert URL to string
+  }
+};
+
 export const updateThemeInHeader = theme => {
   // This function is to update the theme selection in the header in real time
   const themeToggleButton = document.getElementById('toggle-appearance');
 
   if (!themeToggleButton) return;
+  const allElementInButton =
+    themeToggleButton.querySelectorAll('.theme-button');
 
-  themeToggleButton.dataset.currentTheme = theme;
+  if (!allElementInButton) return;
+  allElementInButton.forEach(button => {
+    button.classList.toggle('hidden', button.dataset.theme !== theme);
+    button.classList.toggle('flex', button.dataset.theme === theme);
+  });
 };
 
 export const switchTheme = theme => {
@@ -49,6 +67,7 @@ export const switchTheme = theme => {
 
   setPortalHoverColor(theme);
   updateThemeInHeader(theme);
+  removeQueryParamsFromUrl();
 };
 
 export const initializeThemeSwitchButtons = () => {
@@ -92,6 +111,7 @@ export const initializeMediaQueryListener = () => {
 };
 
 export const initializeTheme = () => {
+  if (window.portalConfig.isPlainLayoutEnabled === 'true') return;
   // start with updating the theme in the header, this will set the current theme on the button
   // and set the hover color at the start of init, this is set again when the theme is switched
   setPortalHoverColor(localStorage.theme || 'system');

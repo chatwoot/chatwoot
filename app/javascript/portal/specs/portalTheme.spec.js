@@ -1,5 +1,6 @@
 import {
   setPortalHoverColor,
+  removeQueryParamsFromUrl,
   updateThemeInHeader,
   switchTheme,
   initializeThemeSwitchButtons,
@@ -45,12 +46,6 @@ describe('portalThemeHelper', () => {
   });
 
   describe('#setPortalHoverColor', () => {
-    it('should not set hover color when plain layout is enabled', () => {
-      window.portalConfig.isPlainLayoutEnabled = 'true';
-      setPortalHoverColor('dark');
-      expect(document.documentElement.style.setProperty).not.toHaveBeenCalled();
-    });
-
     it('should apply dark hover color in dark theme', () => {
       const hoverColor = adjustColorForContrast('#ff5733', '#151718');
       setPortalHoverColor('dark');
@@ -70,16 +65,59 @@ describe('portalThemeHelper', () => {
     });
   });
 
-  describe('#updateThemeInHeader', () => {
-    it('does nothing if the theme toggle button is not found', () => {
-      themeToggleButton.remove();
-      updateThemeInHeader('dark');
-      expect(themeToggleButton.dataset.currentTheme).toBeUndefined();
+  describe('#removeQueryParamsFromUrl', () => {
+    let originalLocation;
+
+    beforeEach(() => {
+      originalLocation = window.location;
+      delete window.location;
+      window.location = new URL('http://localhost:3000/');
+      window.history.replaceState = jest.fn();
     });
 
-    it('updates the theme toggle button', () => {
-      updateThemeInHeader('dark');
-      expect(themeToggleButton.dataset.currentTheme).toBe('dark');
+    afterEach(() => {
+      window.location = originalLocation;
+    });
+
+    it('should not remove query params if theme is not in the URL', () => {
+      removeQueryParamsFromUrl();
+      expect(window.history.replaceState).not.toHaveBeenCalled();
+    });
+
+    it('should remove theme query param from the URL', () => {
+      window.location = new URL(
+        'http://localhost:3000/?theme=light&show_plain_layout=true'
+      );
+      removeQueryParamsFromUrl('theme');
+      expect(window.history.replaceState).toHaveBeenCalledWith(
+        {},
+        '',
+        'http://localhost:3000/?show_plain_layout=true'
+      );
+    });
+  });
+
+  describe('#updateThemeInHeader', () => {
+    beforeEach(() => {
+      themeToggleButton.innerHTML = `
+        <div class="theme-button" data-theme="light"></div>
+        <div class="theme-button" data-theme="dark"></div>
+        <div class="theme-button" data-theme="system"></div>
+      `;
+    });
+
+    it('should not update header if theme toggle button is not found', () => {
+      themeToggleButton.remove();
+      updateThemeInHeader('light');
+      expect(document.querySelector('.theme-button')).toBeNull();
+    });
+
+    it('should show the theme button for the selected theme', () => {
+      updateThemeInHeader('light');
+      const lightButton = themeToggleButton.querySelector(
+        '.theme-button[data-theme="light"]'
+      );
+      expect(lightButton.classList).toContain('flex');
     });
   });
 
@@ -203,6 +241,14 @@ describe('portalThemeHelper', () => {
   });
 
   describe('#initializeTheme', () => {
+    it('should not initialize theme if plain layout is enabled', () => {
+      window.portalConfig.isPlainLayoutEnabled = 'true';
+      initializeTheme();
+      expect(localStorage.theme).toBeUndefined();
+      expect(document.documentElement.classList).not.toContain('light');
+      expect(document.documentElement.classList).not.toContain('dark');
+    });
+
     it('sets the theme to the system theme', () => {
       initializeTheme();
       expect(localStorage.theme).toBeUndefined();
