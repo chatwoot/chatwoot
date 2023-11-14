@@ -24,16 +24,16 @@
 
       <%# Appearance toggle section %>
       <div class="relative flex-grow flex-shrink-0 px-1 py-2 cursor-pointer">
-        <button id="toggle-appearance" class="flex justify-between min-w-[76px] flex-row items-center stroke-slate-700 dark:stroke-slate-200 text-slate-800 dark:text-slate-100 gap-1" type="button">
-          <div data-theme="system" class="flex-row items-center gap-1 theme-button <%= @theme_from_params == 'system' ? 'flex' : 'hidden' %>">
+        <button id="toggle-appearance" data-current-theme="<%= @theme_from_params %>" class="flex justify-between min-w-[76px] flex-row items-center stroke-slate-700 dark:stroke-slate-200 text-slate-800 dark:text-slate-100 gap-1" type="button">
+          <div data-theme="system" class="flex-row items-center gap-1 theme-button">
             <%= render partial: 'icons/monitor' %>
             <span class="text-sm font-medium"><%= I18n.t('public_portal.header.appearance.system') %></span>
           </div>
-          <div data-theme="light" class="flex-row items-center gap-1 theme-button <%= @theme_from_params == 'light' ? 'flex' : 'hidden' %>">
+          <div data-theme="light" class="flex-row items-center gap-1 theme-button">
             <%= render partial: 'icons/sun' %>
             <span class="text-sm font-medium"><%= I18n.t('public_portal.header.appearance.light') %></span>
           </div>
-          <div data-theme="dark" class="flex-row items-center gap-1 theme-button <%= @theme_from_params == 'dark' ? 'flex' : 'hidden' %>">
+          <div data-theme="dark" class="flex-row items-center gap-1 theme-button">
             <%= render partial: 'icons/moon' %>
             <span class="text-sm font-medium"><%= I18n.t('public_portal.header.appearance.dark') %></span>
           </div>
