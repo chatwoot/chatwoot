@@ -76,7 +76,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Без категории",
-      "SEARCH_RESULTS": "Search results for %{query}",
+      "SEARCH_RESULTS": "Результаты поиска %{query}",
       "EMPTY_TEXT": "Search for articles to insert into replies.",
       "SEARCH_LOADER": "Идёт поиск...",
       "INSERT_ARTICLE": "Вставить",
@@ -430,19 +430,19 @@
       }
     },
     "ARTICLE_SEARCH": {
-      "TITLE": "Search articles",
-      "PLACEHOLDER": "Search articles",
+      "TITLE": "Поиск статей",
+      "PLACEHOLDER": "Поиск статей",
       "NO_RESULT": "Статьи не найдены",
       "SEARCHING": "Идёт поиск...",
       "SEARCH_BUTTON": "Поиск",
-      "INSERT_ARTICLE": "Insert link",
-      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
+      "INSERT_ARTICLE": "Вставить ссылку",
+      "IFRAME_ERROR": "URL пуст или недействителен. Невозможно отобразить содержимое.",
       "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
       "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
       "PREVIEW_LINK": "Предпросмотр статьи",
       "CANCEL": "Закрыть",
       "BACK": "Назад",
-      "BACK_RESULTS": "Back to results"
+      "BACK_RESULTS": "Назад к результатам"
     },
     "UPGRADE_PAGE": {
       "TITLE": "Центр поддержки",
