@@ -71,11 +71,9 @@ export const initializeThemeSwitchButtons = () => {
 
 export const initializeToggleButton = () => {
   const themeToggleButton = document.getElementById('toggle-appearance');
-  const appearanceDropdown = document.getElementById('appearance-dropdown');
 
   themeToggleButton?.addEventListener('click', () => {
-    appearanceDropdown =
-      appearanceDropdown || document.getElementById('appearance-dropdown');
+    const appearanceDropdown = document.getElementById('appearance-dropdown');
 
     const isCurrentlyHidden = appearanceDropdown.style.display === 'none';
     // Toggle the appearanceDropdown
