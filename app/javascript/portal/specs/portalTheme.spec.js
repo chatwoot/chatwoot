@@ -1,391 +1,233 @@
-import Cookies from 'js-cookie';
-jest.mock('js-cookie');
-
 import {
   setPortalHoverColor,
-  setPortalClass,
-  updateThemeStyles,
-  toggleAppearanceDropdown,
+  updateThemeInHeader,
   switchTheme,
-  updateThemeSelectionInHeader,
-  setActiveThemeIconInDropdown,
-  updateTheme,
-  updateThemeBasedOnSystem,
-  initializeTheme,
-  initializeToggleButton,
   initializeThemeSwitchButtons,
-} from '../portalThemeHelper';
+  initializeToggleButton,
+  initializeMediaQueryListener,
+  initializeTheme,
+} from '../portalThemeHelper.js';
+import { adjustColorForContrast } from '../../shared/helpers/colorHelper.js';
 
-describe('Theme Functions', () => {
+describe('portalThemeHelper', () => {
+  let themeToggleButton;
+  let appearanceDropdown;
+
+  beforeEach(() => {
+    themeToggleButton = document.createElement('div');
+    themeToggleButton.id = 'toggle-appearance';
+    document.body.appendChild(themeToggleButton);
+
+    appearanceDropdown = document.createElement('div');
+    appearanceDropdown.id = 'appearance-dropdown';
+    document.body.appendChild(appearanceDropdown);
+
+    window.matchMedia = jest.fn().mockImplementation(query => ({
+      matches: query === '(prefers-color-scheme: dark)',
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+    }));
+
+    window.portalConfig = { portalColor: '#ff5733' };
+    document.documentElement.style.setProperty = jest.fn();
+    document.documentElement.classList.remove('dark', 'light');
+
+    jest.clearAllMocks();
+  });
+
+  afterEach(() => {
+    themeToggleButton.remove();
+    appearanceDropdown.remove();
+    delete window.portalConfig;
+    document.documentElement.style.setProperty.mockRestore();
+    document.documentElement.classList.remove('dark', 'light');
+    localStorage.clear();
+  });
+
   describe('#setPortalHoverColor', () => {
-    beforeEach(() => {
-      window.portalConfig = { portalColor: '#ff5733' };
-    });
-
-    afterEach(() => {
-      document.documentElement.style.removeProperty('--dynamic-hover-color');
-    });
-
-    it('sets styles for portal hover based on theme', () => {
+    it('should not set hover color when plain layout is enabled', () => {
+      window.portalConfig.isPlainLayoutEnabled = 'true';
       setPortalHoverColor('dark');
-      const hoverColorStyle = getComputedStyle(
-        document.documentElement
-      ).getPropertyValue('--dynamic-hover-color');
-      const expectedHoverColorStyle = '#ff5733';
-      expect(hoverColorStyle.trim()).toBe(expectedHoverColorStyle);
+      expect(document.documentElement.style.setProperty).not.toHaveBeenCalled();
+    });
+
+    it('should apply dark hover color in dark theme', () => {
+      const hoverColor = adjustColorForContrast('#ff5733', '#151718');
+      setPortalHoverColor('dark');
+      expect(document.documentElement.style.setProperty).toHaveBeenCalledWith(
+        '--dynamic-hover-color',
+        hoverColor
+      );
+    });
+
+    it('should apply light hover color in light theme', () => {
+      const hoverColor = adjustColorForContrast('#ff5733', '#ffffff');
+      setPortalHoverColor('light');
+      expect(document.documentElement.style.setProperty).toHaveBeenCalledWith(
+        '--dynamic-hover-color',
+        hoverColor
+      );
     });
   });
 
-  describe('#setPortalClass', () => {
-    let mockPortalDiv;
-
-    beforeEach(() => {
-      // Mocking portal div
-      mockPortalDiv = document.createElement('div');
-      mockPortalDiv.id = 'portal';
-      mockPortalDiv.classList.add('light');
-      document.body.appendChild(mockPortalDiv);
+  describe('#updateThemeInHeader', () => {
+    it('does nothing if the theme toggle button is not found', () => {
+      themeToggleButton.remove();
+      updateThemeInHeader('dark');
+      expect(themeToggleButton.dataset.currentTheme).toBeUndefined();
     });
 
-    afterEach(() => {
-      document.body.innerHTML = '';
-    });
-
-    it('sets portal class to "dark" based on theme', () => {
-      setPortalClass('dark');
-      expect(mockPortalDiv.classList.contains('dark')).toBe(true);
-      expect(mockPortalDiv.classList.contains('light')).toBe(false);
-    });
-
-    it('sets portal class to "light" based on theme', () => {
-      setPortalClass('light');
-      expect(mockPortalDiv.classList.contains('light')).toBe(true);
-      expect(mockPortalDiv.classList.contains('dark')).toBe(false);
+    it('updates the theme toggle button', () => {
+      updateThemeInHeader('dark');
+      expect(themeToggleButton.dataset.currentTheme).toBe('dark');
     });
   });
 
-  describe('#updateThemeStyles', () => {
-    let mockPortalDiv;
-
-    beforeEach(() => {
-      mockPortalDiv = document.createElement('div');
-      mockPortalDiv.id = 'portal';
-      mockPortalDiv.classList.add('dark');
-      document.body.appendChild(mockPortalDiv);
-    });
-
-    afterEach(() => {
-      document.body.innerHTML = '';
-    });
-
-    it('updates theme styles based on theme', () => {
-      window.portalConfig = { portalColor: '#FF5733' };
-      updateThemeStyles('dark');
-      expect(mockPortalDiv.classList.contains('dark')).toBe(true);
-    });
-  });
-
-  describe('toggleAppearanceDropdown', () => {
-    it('sets dropdown display to flex if initially none and vice versa', () => {
-      document.body.innerHTML = `<div id="appearance-dropdown" style="display: none;"></div>`;
-      toggleAppearanceDropdown();
-      const dropdown = document.getElementById('appearance-dropdown');
-      expect(dropdown.style.display).toBe('flex');
-      toggleAppearanceDropdown();
-      expect(dropdown.style.display).toBe('none');
-    });
-
-    it('does nothing if dropdown is not present', () => {
-      document.body.innerHTML = ``;
-      expect(() => toggleAppearanceDropdown()).not.toThrow();
-    });
-  });
-
-  describe('switchTheme', () => {
-    let mockPortalDiv;
-
-    beforeEach(() => {
-      mockPortalDiv = document.createElement('div');
-      mockPortalDiv.id = 'portal';
-      document.body.appendChild(mockPortalDiv);
-    });
-
-    afterEach(() => {
-      document.body.innerHTML = '';
-    });
-
-    it('switches theme to dark', () => {
-      window.portalConfig = { theme: 'dark', portalColor: '#FF5733' };
-      mockPortalDiv.classList.add('dark');
-      switchTheme('dark');
-      expect(mockPortalDiv.classList.contains('dark')).toBe(true);
-    });
-
-    it('switches theme to light', () => {
-      window.portalConfig = { theme: 'light', portalColor: '#FF5733' };
-      mockPortalDiv.classList.add('light');
-      switchTheme('light');
-      expect(mockPortalDiv.classList.contains('light')).toBe(true);
-    });
-
-    it('switches theme to system', () => {
-      const mediaQueryList = {
-        matches: true,
-        addEventListener: jest.fn(),
-      };
-      window.matchMedia = jest.fn().mockReturnValue(mediaQueryList);
-
-      window.portalConfig = { theme: 'system', portalColor: '#FF5733' };
-      mockPortalDiv.classList.add('dark');
+  describe('#switchTheme', () => {
+    it('should set theme to system theme and update classes', () => {
+      window.matchMedia = jest.fn().mockReturnValue({ matches: true });
       switchTheme('system');
-      expect(mockPortalDiv.classList.contains('dark')).toBe(true);
+      expect(localStorage.theme).toBeUndefined();
+      expect(document.documentElement.classList).toContain('dark');
+    });
+
+    it('should set theme to light theme and update classes', () => {
+      switchTheme('light');
+      expect(localStorage.theme).toBe('light');
+      expect(document.documentElement.classList).toContain('light');
+    });
+
+    it('should set theme to dark theme and update classes', () => {
+      switchTheme('dark');
+      expect(localStorage.theme).toBe('dark');
+      expect(document.documentElement.classList).toContain('dark');
     });
   });
 
-  describe('#updateThemeSelectionInHeader', () => {
-    let mockThemeSelectionInHeaderContainer;
+  describe('#initializeThemeSwitchButtons', () => {
+    beforeEach(() => {
+      appearanceDropdown.innerHTML = `
+        <button data-theme="light"><span class="check-mark-icon light-theme"></span></button>
+        <button data-theme="dark"><span class="check-mark-icon dark-theme"></span></button>
+        <button data-theme="system"><span class="check-mark-icon system-theme"></span></button>
+      `;
+    });
+
+    it('does nothing if the appearance dropdown is not found', () => {
+      appearanceDropdown.remove();
+      expect(appearanceDropdown.dataset.currentTheme).toBeUndefined();
+    });
+    it('should set current theme to system if no theme in localStorage', () => {
+      localStorage.removeItem('theme');
+      initializeThemeSwitchButtons();
+      expect(appearanceDropdown.dataset.currentTheme).toBe('system');
+    });
+
+    it('sets the current theme to the light theme', () => {
+      localStorage.theme = 'light';
+      appearanceDropdown.dataset.currentTheme = 'light';
+      initializeThemeSwitchButtons();
+      expect(appearanceDropdown.dataset.currentTheme).toBe('light');
+    });
+
+    it('sets the current theme to the dark theme', () => {
+      localStorage.theme = 'dark';
+      appearanceDropdown.dataset.currentTheme = 'dark';
+      initializeThemeSwitchButtons();
+      expect(appearanceDropdown.dataset.currentTheme).toBe('dark');
+    });
+  });
+
+  describe('#initializeToggleButton', () => {
+    it('does nothing if the theme toggle button is not found', () => {
+      themeToggleButton.remove();
+      initializeToggleButton();
+      expect(appearanceDropdown.style.display).toBe('');
+    });
+
+    it('toggles the appearance dropdown show/hide', () => {
+      themeToggleButton.click();
+      appearanceDropdown.style.display = 'flex';
+      expect(appearanceDropdown.style.display).toBe('flex');
+      themeToggleButton.click();
+      appearanceDropdown.style.display = 'none';
+      expect(appearanceDropdown.style.display).toBe('none');
+    });
+  });
+
+  describe('#initializeMediaQueryListener', () => {
+    let mediaQuery;
 
     beforeEach(() => {
-      mockThemeSelectionInHeaderContainer = document.createElement('div');
-      mockThemeSelectionInHeaderContainer.id = 'toggle-appearance';
-      document.body.appendChild(mockThemeSelectionInHeaderContainer);
-
-      const themes = ['dark', 'light', 'system'];
-      themes.forEach(theme => {
-        const button = document.createElement('button');
-        button.classList.add('theme-button');
-        button.setAttribute('data-theme', theme);
-        mockThemeSelectionInHeaderContainer.appendChild(button);
-      });
-    });
-
-    afterEach(() => {
-      document.body.innerHTML = '';
-    });
-
-    it('updates theme selection in header', () => {
-      window.portalConfig = { theme: 'dark', portalColor: '#FF5733' };
-      updateThemeSelectionInHeader('dark');
-      const darkThemeButton = document.querySelector('[data-theme="dark"]');
-      expect(darkThemeButton.classList.contains('flex')).toBe(true);
-    });
-
-    it('does nothing if theme selection in header container is not present', () => {
-      document.body.innerHTML = ``;
-      expect(() => updateThemeSelectionInHeader('dark')).not.toThrow();
-    });
-  });
-
-  describe('#setActiveThemeIconInDropdown', () => {
-    let mockThemeSwitchButtonsContainer;
-
-    beforeEach(() => {
-      mockThemeSwitchButtonsContainer = document.createElement('div');
-      mockThemeSwitchButtonsContainer.id = 'appearance-dropdown';
-      document.body.appendChild(mockThemeSwitchButtonsContainer);
-
-      const themes = ['dark', 'light', 'system'];
-      themes.forEach(theme => {
-        const button = document.createElement('button');
-        button.classList.add('check-mark-icon', `${theme}-theme`);
-        mockThemeSwitchButtonsContainer.appendChild(button);
-      });
-    });
-
-    afterEach(() => {
-      document.body.innerHTML = '';
-    });
-
-    it('updates active theme icon in dropdown', () => {
-      window.portalConfig = { theme: 'dark', portalColor: '#FF5733' };
-      setActiveThemeIconInDropdown('dark');
-      const darkThemeIcon = document.querySelector(
-        '.check-mark-icon.dark-theme'
-      );
-      darkThemeIcon.classList.remove('hidden');
-      darkThemeIcon.classList.add('flex');
-      expect(darkThemeIcon.classList.contains('flex')).toBe(true);
-    });
-
-    it('does nothing if theme switch buttons container is not present', () => {
-      document.body.innerHTML = ``;
-      expect(() => setActiveThemeIconInDropdown('dark')).not.toThrow();
-    });
-  });
-
-  describe('#updateTheme', () => {
-    it('updates system_theme cookie and styles', () => {
-      const mockCookie = 'system_theme';
-      const mockTheme = 'light';
-      updateTheme(mockTheme, mockCookie);
-      expect(Cookies.set).toBeCalledWith(mockCookie, mockTheme, {
-        expires: 365,
-      });
-    });
-
-    it('updates selected_theme cookie and styles', () => {
-      const mockCookie = 'selected_theme';
-      const mockTheme = 'dark';
-      updateTheme(mockTheme, mockCookie);
-      expect(Cookies.set).toBeCalledWith(mockCookie, mockTheme, {
-        expires: 365,
-      });
-    });
-  });
-
-  describe('#updateThemeBasedOnSystem', () => {
-    let mockPortalDiv;
-
-    beforeEach(() => {
-      mockPortalDiv = document.createElement('div');
-      mockPortalDiv.id = 'portal';
-      document.body.appendChild(mockPortalDiv);
-    });
-
-    afterEach(() => {
-      document.body.innerHTML = '';
-    });
-
-    it('updates theme based on system preferences', () => {
-      const mediaQueryList = {
-        matches: true,
+      mediaQuery = {
         addEventListener: jest.fn(),
+        matches: false,
       };
-      window.matchMedia = jest.fn().mockReturnValue(mediaQueryList);
+      window.matchMedia = jest.fn().mockReturnValue(mediaQuery);
+    });
 
-      mediaQueryList.addEventListener('change', e => {
-        updateThemeBasedOnSystem(e, 'system_theme');
-      });
-
-      expect(mediaQueryList.addEventListener).toBeCalledWith(
+    it('adds a listener to the media query', () => {
+      initializeMediaQueryListener();
+      expect(window.matchMedia).toHaveBeenCalledWith(
+        '(prefers-color-scheme: dark)'
+      );
+      expect(mediaQuery.addEventListener).toHaveBeenCalledWith(
         'change',
         expect.any(Function)
       );
     });
 
-    it('if selected_theme cookie is not system, does nothing', () => {
-      const mediaQueryList = {
-        matches: true,
-        addEventListener: jest.fn(),
-      };
-      window.matchMedia = jest.fn().mockReturnValue(mediaQueryList);
-      window.portalConfig = { theme: 'system', portalColor: '#FFFFFF' };
-      Cookies.get = jest.fn().mockReturnValue('dark');
-
-      updateThemeBasedOnSystem(mediaQueryList, 'system_theme');
-
-      expect(mediaQueryList.addEventListener).not.toBeCalledWith(
-        'change',
-        expect.any(Function)
-      );
-      expect(mockPortalDiv.classList.contains('dark')).toBe(false);
+    it('does not switch theme if local storage theme is light or dark', () => {
+      localStorage.theme = 'light';
+      initializeMediaQueryListener();
+      mediaQuery.matches = true;
+      mediaQuery.addEventListener.mock.calls[0][1]();
+      expect(localStorage.theme).toBe('light');
     });
 
-    it('does nothing if selected theme is not system', () => {
-      const mediaQueryList = {
-        matches: true,
-        addEventListener: jest.fn(),
-      };
-      window.matchMedia = jest.fn().mockReturnValue(mediaQueryList);
-      window.portalConfig = { theme: 'dark', portalColor: '#FFFFFF' };
+    it('switches to dark theme if system preference changes to dark and no theme is set in local storage', () => {
+      localStorage.removeItem('theme');
+      initializeMediaQueryListener();
+      mediaQuery.matches = true;
+      mediaQuery.addEventListener.mock.calls[0][1]();
+      expect(document.documentElement.classList).toContain('dark');
+    });
 
-      updateThemeBasedOnSystem(mediaQueryList, 'system_theme');
-
-      expect(mediaQueryList.addEventListener).not.toBeCalledWith(
-        'change',
-        expect.any(Function)
-      );
-      expect(mockPortalDiv.classList.contains('dark')).toBe(false);
+    it('switches to light theme if system preference changes to light and no theme is set in local storage', () => {
+      localStorage.removeItem('theme');
+      initializeMediaQueryListener();
+      mediaQuery.matches = false;
+      mediaQuery.addEventListener.mock.calls[0][1]();
+      expect(document.documentElement.classList).toContain('light');
     });
   });
 
   describe('#initializeTheme', () => {
-    let mockPortalDiv;
-    let mockThemeSelectionInHeaderContainer;
-    let mockThemeSwitchButtonsContainer;
-
-    beforeEach(() => {
-      mockPortalDiv = document.createElement('div');
-      mockPortalDiv.id = 'portal';
-      document.body.appendChild(mockPortalDiv);
-
-      mockThemeSelectionInHeaderContainer = document.createElement('div');
-      mockThemeSelectionInHeaderContainer.id = 'toggle-appearance';
-      document.body.appendChild(mockThemeSelectionInHeaderContainer);
-
-      mockThemeSwitchButtonsContainer = document.createElement('div');
-      mockThemeSwitchButtonsContainer.id = 'appearance-dropdown';
-      document.body.appendChild(mockThemeSwitchButtonsContainer);
-    });
-
-    afterEach(() => {
-      document.body.innerHTML = '';
-    });
-
-    it('updates theme based on system preferences', () => {
-      const mediaQueryList = {
-        matches: true,
-        addEventListener: jest.fn(),
-      };
-      window.matchMedia = jest.fn().mockReturnValue(mediaQueryList);
-      window.portalConfig = { theme: 'system', portalColor: '#FFFFFF' };
+    it('sets the theme to the system theme', () => {
       initializeTheme();
-      mockPortalDiv.classList.add('dark');
-      expect(mediaQueryList.addEventListener).toBeCalledWith(
-        'change',
-        expect.any(Function)
+      expect(localStorage.theme).toBeUndefined();
+      const prefersDarkMode = window.matchMedia(
+        '(prefers-color-scheme: dark)'
+      ).matches;
+      expect(document.documentElement.classList.contains('light')).toBe(
+        !prefersDarkMode
       );
-
-      expect(mockPortalDiv.classList.contains('dark')).toBe(true);
     });
 
-    it('updates theme based on portal theme dark', () => {
-      window.portalConfig = { theme: 'dark', portalColor: '#F93443' };
-
+    it('sets the theme to the light theme', () => {
+      localStorage.theme = 'light';
+      document.documentElement.classList.add('light');
       initializeTheme();
-      mockPortalDiv.classList.add('dark');
-      expect(mockPortalDiv.classList.contains('dark')).toBe(true);
+      expect(localStorage.theme).toBe('light');
+      expect(document.documentElement.classList.contains('light')).toBe(true);
     });
 
-    it('updates theme based on portal theme light', () => {
-      window.portalConfig = { theme: 'light', portalColor: '#023223' };
-
+    it('sets the theme to the dark theme', () => {
+      localStorage.theme = 'dark';
+      document.documentElement.classList.add('dark');
       initializeTheme();
-      mockPortalDiv.classList.add('light');
-      expect(mockPortalDiv.classList.contains('light')).toBe(true);
-    });
-  });
-
-  describe('initializeToggleButton', () => {
-    it('adds a click listener to the toggle button', () => {
-      document.body.innerHTML = `<button id="toggle-appearance"></button>`;
-      initializeToggleButton();
-      const toggleButton = document.getElementById('toggle-appearance');
-      expect(toggleButton.onclick).toBeDefined();
-    });
-
-    it('does nothing if the toggle button is not present', () => {
-      document.body.innerHTML = ``;
-      expect(() => initializeToggleButton()).not.toThrow();
-    });
-  });
-
-  describe('initializeThemeSwitchButtons', () => {
-    it('adds click listeners to theme switch buttons', () => {
-      document.body.innerHTML = `<div id="appearance-dropdown"><button data-theme="dark"></button><button data-theme="light"></button></div>`;
-      initializeThemeSwitchButtons();
-      const buttons = document.querySelectorAll('button[data-theme]');
-      buttons.forEach(button => expect(button.onclick).toBeDefined());
-    });
-
-    it('does nothing if theme switch buttons are not present', () => {
-      document.body.innerHTML = ``;
-      expect(() => initializeThemeSwitchButtons()).not.toThrow();
-    });
-
-    it('does nothing if appearance-dropdown is not present', () => {
-      document.body.innerHTML = ``;
-      expect(() => initializeThemeSwitchButtons()).not.toThrow();
+      expect(localStorage.theme).toBe('dark');
+      expect(document.documentElement.classList.contains('dark')).toBe(true);
     });
   });
 });
