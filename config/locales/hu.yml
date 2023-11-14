@@ -196,24 +196,24 @@ hu:
     common:
       home: Nyitólap
       last_updated_on: 'Utoljára frissítve: %{last_updated_on}'
-      view_all_articles: View all
+      view_all_articles: Összes megtekintése
       article: bejegyzés
       articles: bejegyzések
       no_articles: Nincsenek bejegyzések
     footer:
       made_with: 'Ezzel készítve: '
     header:
-      go_to_homepage: Website
+      go_to_homepage: Honlap
       appearance:
         system: Rendszer
         light: Világos mód
         dark: Sötét mód
-      featured_articles: Featured Articles
+      featured_articles: Kiemelt cikkek
       uncategorized: Kategorizálhatatlan
     404:
-      title: Page not found
-      description: We couldn't find the page you were looking for.
-      back_to_home: Go to home page
+      title: Az oldal nem található
+      description: Nem találtuk meg a keresett oldalt.
+      back_to_home: Menj a kezdőlapra
   slack_unfurl:
     fields:
       name: Név
