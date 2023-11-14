@@ -10,6 +10,7 @@ By default, it renders:
   (if provided by a `content_for` block in a nested page)
 - Flashes
 - Links to stylesheets and JavaScripts
+- The appearance dropdown styles are added to the top to prevent FOUC
 %>
 
 <!DOCTYPE html>
@@ -21,16 +22,58 @@ By default, it renders:
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <%= javascript_pack_tag 'portal' %>
     <%= stylesheet_pack_tag 'portal' %>
+    <style>
+      #appearance-dropdown[data-current-theme="system"] .check-mark-icon.light-theme,
+      #appearance-dropdown[data-current-theme="system"] .check-mark-icon.dark-theme,
+      #appearance-dropdown[data-current-theme="dark"] .check-mark-icon.light-theme,
+      #appearance-dropdown[data-current-theme="dark"] .check-mark-icon.system-theme,
+      #appearance-dropdown[data-current-theme="light"] .check-mark-icon.dark-theme,
+      #appearance-dropdown[data-current-theme="light"] .check-mark-icon.system-theme {
+        display: none;
+      }
+
+      button#toggle-appearance[data-current-theme="system"] div[data-theme="dark"],
+      button#toggle-appearance[data-current-theme="system"] div[data-theme="light"],
+      button#toggle-appearance[data-current-theme="dark"] div[data-theme="light"],
+      button#toggle-appearance[data-current-theme="dark"] div[data-theme="system"],
+      button#toggle-appearance[data-current-theme="light"] div[data-theme="dark"],
+      button#toggle-appearance[data-current-theme="light"] div[data-theme="system"] {
+        display: none;
+      }
+      
+      button#toggle-appearance[data-current-theme="system"] div[data-theme="system"],
+      button#toggle-appearance[data-current-theme="dark"] div[data-theme="dark"],
+      button#toggle-appearance[data-current-theme="light"] div[data-theme="light"] {
+        display: flex;
+      }
+    </style>
     <%= csrf_meta_tags %>
     <% if content_for?(:head) %>
       <%= yield(:head) %>
     <% else %>
       <title><%= @portal.page_title%></title>
     <% end %>
+    
+    <% unless @theme_from_params.blank? %>
+    <%# this adds the theme from params, ensuring that there a localstorage value set %>
+    <%# this will further trigger the next script to ensure color mode is toggled without a FOUC %>
+    <script>localStorage.theme = '<%= @theme_from_params %>';</script>
+    <% end %>
+
+    <script>
+      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        // we can use document.body here but that would mean pushing this script inside the body
+        // since the body is not created yet. This is done to avoid FOUC, at a tiny cost of Time to Interactive
+        document.documentElement.classList.add('dark')
+      } else {
+        document.documentElement.classList.remove('dark')
+        document.documentElement.classList.remove('light')
+      }
+    </script>
   </head>
   <body>
-    <div id="portal" class="antialiased <%= @theme == 'system' ? @system_theme : @theme %>">
-      <main class="main-content min-h-screen flex flex-col bg-white dark:bg-slate-900" role="main">
+    <div id="portal" class="antialiased">
+      <main class="flex flex-col min-h-screen bg-white main-content dark:bg-slate-900" role="main">
         <% if !@is_plain_layout_enabled %>
           <%= render "public/api/v1/portals/header", portal: @portal %>
         <% end %>
@@ -42,17 +85,16 @@ By default, it renders:
     </div>
   </body>
   <style>
-  :root {
-    color-scheme: <% if @theme == 'system' %>light dark<% else %><%= @theme %><% end %>;
+  html.dark {
+    --dynamic-portal-bg: <%= generate_portal_bg(@portal.color, 'dark') %>;
+    --dynamic-portal-bg-gradient: <%= generate_gradient_to_bottom('dark') %>;
+    --dynamic-hover-bg-color: <%= generate_portal_hover_color(@portal.color , 'dark') %>;
+  }
+  
+  html.light {
     --dynamic-portal-bg: <%= generate_portal_bg(@portal.color, 'light') %>;
     --dynamic-portal-bg-gradient: <%= generate_gradient_to_bottom('light') %>;
     --dynamic-hover-bg-color: <%= generate_portal_hover_color(@portal.color , 'light') %>;
-
-    .dark {
-      --dynamic-portal-bg: <%= generate_portal_bg(@portal.color, 'dark') %>;
-      --dynamic-portal-bg-gradient: <%= generate_gradient_to_bottom('dark') %>;
-      --dynamic-hover-bg-color: <%= generate_portal_hover_color(@portal.color , 'dark') %>;
-    }
   }
   
   /* Portal background */
@@ -82,11 +124,12 @@ By default, it renders:
     color: var(--dynamic-hover-color);
   }
   </style>
+
   <script>
     window.portalConfig = {
       portalSlug: '<%= @portal.slug %>',
       portalColor: '<%= @portal.color %>',
-      theme: '<%= @theme %>',
+      theme: '<%= @theme_from_params %>',
       localeCode: '<%= @locale %>',
       searchTranslations: {
         searchPlaceholder: '<%= I18n.t('public_portal.search.search_placeholder') %>',

@@ -2,7 +2,7 @@
   <div class="flex items-center flex-row">
     <a
       class="text-slate-500 dark:text-slate-200 text-sm gap-1 <%= @is_plain_layout_enabled && 'hover:underline' %> hover:cursor-pointer leading-8 font-semibold"
-      href="<%= generate_home_link(portal.slug, category.locale, @theme, @is_plain_layout_enabled) %>"
+      href="<%= generate_home_link(portal.slug, category.locale, @theme_from_params, @is_plain_layout_enabled) %>"
     >
       <%= I18n.t('public_portal.common.home') %>
     </a>
