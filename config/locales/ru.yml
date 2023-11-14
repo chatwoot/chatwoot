@@ -196,30 +196,30 @@ ru:
     common:
       home: Главная
       last_updated_on: Обновлено %{last_updated_on}
-      view_all_articles: View all
+      view_all_articles: Посмотреть все
       article: статья
       articles: статьи
       no_articles: Здесь нет статей
     footer:
       made_with: Сделано с
     header:
-      go_to_homepage: Website
+      go_to_homepage: Сайт
       appearance:
         system: Система
         light: Светлая
         dark: Тёмная
-      featured_articles: Featured Articles
+      featured_articles: Рекомендуемые статьи
       uncategorized: Без категории
     404:
-      title: Page not found
-      description: We couldn't find the page you were looking for.
-      back_to_home: Go to home page
+      title: Страница не найдена
+      description: Мы не смогли найти запрашиваемую вами страницу.
+      back_to_home: Перейти на главную страницу
   slack_unfurl:
     fields:
       name: Имя
       email: Email
-      phone_number: Phone
+      phone_number: Телефон
       company_name: Компания
       inbox_name: Электронная почта
-      inbox_type: Inbox Type
+      inbox_type: Тип источника
     button: Открыть беседу
