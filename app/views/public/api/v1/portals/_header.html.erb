@@ -42,7 +42,7 @@
           </div>
         </button>
         <%# Appearance dropdown section %>
-        <div id="appearance-dropdown" data-current-theme="<%= @theme_from_params %>" class="absolute flex-col hidden w-32 h-auto bg-white border border-solid rounded dark:bg-slate-900 top-9 right-1 border-slate-100 dark:border-slate-800" aria-hidden="true" data-dropdown="appearance-dropdown">
+        <div id="appearance-dropdown" data-current-theme="<%= @theme_from_params %>" class="absolute flex-col w-32 h-auto bg-white border border-solid rounded dark:bg-slate-900 top-9 right-1 border-slate-100 dark:border-slate-800" aria-hidden="true" style="display: none;" data-dropdown="appearance-dropdown">
           <button id="toggle-theme-button" data-theme="system" class="flex flex-row items-center justify-between gap-1 px-2 py-2 border-b border-solid border-slate-100 dark:border-slate-800 stroke-slate-700 dark:stroke-slate-200 text-slate-800 dark:text-slate-100">
             <div class="flex flex-row items-center gap-1">
               <%= render partial: 'icons/monitor' %>
