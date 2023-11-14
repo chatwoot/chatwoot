@@ -10,6 +10,7 @@ By default, it renders:
   (if provided by a `content_for` block in a nested page)
 - Flashes
 - Links to stylesheets and JavaScripts
+- The appearance dropdown styles are added to the top to prevent FOUC
 %>
 
 <!DOCTYPE html>
@@ -21,6 +22,31 @@ By default, it renders:
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <%= javascript_pack_tag 'portal' %>
     <%= stylesheet_pack_tag 'portal' %>
+    <style>
+      #appearance-dropdown[data-current-theme="system"] .check-mark-icon.light-theme,
+      #appearance-dropdown[data-current-theme="system"] .check-mark-icon.dark-theme,
+      #appearance-dropdown[data-current-theme="dark"] .check-mark-icon.light-theme,
+      #appearance-dropdown[data-current-theme="dark"] .check-mark-icon.system-theme,
+      #appearance-dropdown[data-current-theme="light"] .check-mark-icon.dark-theme,
+      #appearance-dropdown[data-current-theme="light"] .check-mark-icon.system-theme {
+        display: none;
+      }
+
+      button#toggle-appearance[data-current-theme="system"] div[data-theme="dark"],
+      button#toggle-appearance[data-current-theme="system"] div[data-theme="light"],
+      button#toggle-appearance[data-current-theme="dark"] div[data-theme="light"],
+      button#toggle-appearance[data-current-theme="dark"] div[data-theme="system"],
+      button#toggle-appearance[data-current-theme="light"] div[data-theme="dark"],
+      button#toggle-appearance[data-current-theme="light"] div[data-theme="system"] {
+        display: none;
+      }
+      
+      button#toggle-appearance[data-current-theme="system"] div[data-theme="system"],
+      button#toggle-appearance[data-current-theme="dark"] div[data-theme="dark"],
+      button#toggle-appearance[data-current-theme="light"] div[data-theme="light"] {
+        display: flex;
+      }
+    </style>
     <%= csrf_meta_tags %>
     <% if content_for?(:head) %>
       <%= yield(:head) %>
@@ -96,30 +122,6 @@ By default, it renders:
   }
   #category-block:hover #category-name  {
     color: var(--dynamic-hover-color);
-  }
-
-  #appearance-dropdown[data-current-theme="system"] .check-mark-icon.light-theme,
-  #appearance-dropdown[data-current-theme="system"] .check-mark-icon.dark-theme,
-  #appearance-dropdown[data-current-theme="dark"] .check-mark-icon.light-theme,
-  #appearance-dropdown[data-current-theme="dark"] .check-mark-icon.system-theme,
-  #appearance-dropdown[data-current-theme="light"] .check-mark-icon.dark-theme,
-  #appearance-dropdown[data-current-theme="light"] .check-mark-icon.system-theme {
-    display: none;
-  }
-
-  button#toggle-appearance[data-current-theme="system"] div[data-theme="dark"],
-  button#toggle-appearance[data-current-theme="system"] div[data-theme="light"],
-  button#toggle-appearance[data-current-theme="dark"] div[data-theme="light"],
-  button#toggle-appearance[data-current-theme="dark"] div[data-theme="system"],
-  button#toggle-appearance[data-current-theme="light"] div[data-theme="dark"],
-  button#toggle-appearance[data-current-theme="light"] div[data-theme="system"] {
-    display: none;
-  }
-  
-  button#toggle-appearance[data-current-theme="system"] div[data-theme="system"],
-  button#toggle-appearance[data-current-theme="dark"] div[data-theme="dark"],
-  button#toggle-appearance[data-current-theme="light"] div[data-theme="light"] {
-    display: flex;
   }
   </style>
 
