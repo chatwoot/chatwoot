@@ -76,8 +76,8 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Kategorizálhatatlan",
-      "SEARCH_RESULTS": "Search results for %{query}",
-      "EMPTY_TEXT": "Search for articles to insert into replies.",
+      "SEARCH_RESULTS": "Keresési eredmények %{query}",
+      "EMPTY_TEXT": "Cikkek keresése a válaszokba való beillesztéshez.",
       "SEARCH_LOADER": "Keresés...",
       "INSERT_ARTICLE": "Beszúrás",
       "NO_RESULT": "Nem található cikk",
@@ -430,19 +430,19 @@
       }
     },
     "ARTICLE_SEARCH": {
-      "TITLE": "Search articles",
-      "PLACEHOLDER": "Search articles",
+      "TITLE": "Cikkek keresése",
+      "PLACEHOLDER": "Cikkek keresése",
       "NO_RESULT": "Nem található cikk",
       "SEARCHING": "Keresés...",
       "SEARCH_BUTTON": "Keresés",
-      "INSERT_ARTICLE": "Insert link",
-      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
-      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
-      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
+      "INSERT_ARTICLE": "Link beillesztése",
+      "IFRAME_ERROR": "Az URL üres vagy érvénytelen. A tartalom megjelenítése nem lehetséges.",
+      "OPEN_ARTICLE_SEARCH": "Cikk beillesztése a Súgóközpontból",
+      "SUCCESS_ARTICLE_INSERTED": "Cikk sikeresen beillesztve",
       "PREVIEW_LINK": "Cikk előnézete",
       "CANCEL": "Bezárás",
       "BACK": "Vissza",
-      "BACK_RESULTS": "Back to results"
+      "BACK_RESULTS": "Vissza az eredményekhez"
     },
     "UPGRADE_PAGE": {
       "TITLE": "Súgóközpont",
