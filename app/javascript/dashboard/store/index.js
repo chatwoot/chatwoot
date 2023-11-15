@@ -1,12 +1,13 @@
-import { createStore } from 'vuex';
+import Vue from 'vue';
+import Vuex from 'vuex';
 
 import accounts from './modules/accounts';
 import agentBots from './modules/agentBots';
 import agents from './modules/agents';
 import articles from './modules/helpCenterArticles';
 import attributes from './modules/attributes';
-import auditlogs from './modules/auditlogs';
 import auth from './modules/auth';
+import auditlogs from './modules/auditlogs';
 import automations from './modules/automations';
 import bulkActions from './modules/bulkActions';
 import campaigns from './modules/campaigns';
@@ -25,10 +26,8 @@ import conversationStats from './modules/conversationStats';
 import conversationTypingStatus from './modules/conversationTypingStatus';
 import conversationWatchers from './modules/conversationWatchers';
 import csat from './modules/csat';
-import customRole from './modules/customRole';
 import customViews from './modules/customViews';
 import dashboardApps from './modules/dashboardApps';
-import draftMessages from './modules/draftMessages';
 import globalConfig from 'shared/store/globalConfig';
 import inboxAssignableAgents from './modules/inboxAssignableAgents';
 import inboxes from './modules/inboxes';
@@ -39,33 +38,43 @@ import macros from './modules/macros';
 import notifications from './modules/notifications';
 import portals from './modules/helpCenterPortals';
 import reports from './modules/reports';
-import sla from './modules/sla';
-import slaReports from './modules/SLAReports';
-import summaryReports from './modules/summaryReports';
 import teamMembers from './modules/teamMembers';
 import teams from './modules/teams';
 import userNotificationSettings from './modules/userNotificationSettings';
 import webhooks from './modules/webhooks';
-import captainAssistants from './captain/assistant';
-import captainDocuments from './captain/document';
-import captainResponses from './captain/response';
-import captainInboxes from './captain/inboxes';
-import captainBulkActions from './captain/bulkActions';
-import copilotThreads from './captain/copilotThreads';
-import copilotMessages from './captain/copilotMessages';
+import draftMessages from './modules/draftMessages';
+
+import LogRocket from 'logrocket';
+import createPlugin from 'logrocket-vuex';
 
 const plugins = [];
 
-export default createStore({
+if (window.logRocketProjectId) {
+  LogRocket.init(window.logRocketProjectId);
+  // eslint-disable-next-line func-names
+  const logRocketPlugin = createPlugin(LogRocket, function (mutation) {
+    const eventsToIgnore = ['SET_CURRENT_USER', 'AUTHENTICATE', 'CLEAR_USER'];
+    if (eventsToIgnore.includes(mutation.type)) {
+      return null;
+    }
+
+    return mutation;
+  });
+
+  plugins.push(logRocketPlugin);
+}
+
+Vue.use(Vuex);
+export default new Vuex.Store({
   modules: {
     accounts,
     agentBots,
     agents,
     articles,
     attributes,
-    auditlogs,
     auth,
     automations,
+    auditlogs,
     bulkActions,
     campaigns,
     cannedResponse,
@@ -83,10 +92,8 @@ export default createStore({
     conversationTypingStatus,
     conversationWatchers,
     csat,
-    customRole,
     customViews,
     dashboardApps,
-    draftMessages,
     globalConfig,
     inboxAssignableAgents,
     inboxes,
@@ -97,20 +104,11 @@ export default createStore({
     notifications,
     portals,
     reports,
-    sla,
-    slaReports,
-    summaryReports,
     teamMembers,
     teams,
     userNotificationSettings,
     webhooks,
-    captainAssistants,
-    captainDocuments,
-    captainResponses,
-    captainInboxes,
-    captainBulkActions,
-    copilotThreads,
-    copilotMessages,
+    draftMessages,
   },
   plugins,
 });

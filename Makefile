@@ -79,4 +79,3 @@ ifeq ($(GIT_BRANCH),main)
 	docker tag '$(CI_REGISTRY_IMAGE):$(DOCKER_TAG)' '$(CI_REGISTRY_IMAGE):latest'
 	docker push '$(CI_REGISTRY_IMAGE):latest'
 endif
-

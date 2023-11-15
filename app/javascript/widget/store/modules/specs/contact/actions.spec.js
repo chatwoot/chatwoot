@@ -1,13 +1,11 @@
 import { API } from 'widget/helpers/axios';
 import { sendMessage } from 'widget/helpers/utils';
 import { actions } from '../../contacts';
-
-const commit = vi.fn();
-const dispatch = vi.fn();
-
-vi.mock('widget/helpers/axios');
-vi.mock('widget/helpers/utils', () => ({
-  sendMessage: vi.fn(),
+const commit = jest.fn();
+const dispatch = jest.fn();
+jest.mock('widget/helpers/axios');
+jest.mock('widget/helpers/utils', () => ({
+  sendMessage: jest.fn(),
 }));
 
 describe('#actions', () => {
@@ -18,9 +16,7 @@ describe('#actions', () => {
         name: 'Adu Thoma',
         avatar_url: '',
       };
-      vi.spyOn(API, 'patch').mockResolvedValue({
-        data: { widget_auth_token: 'token' },
-      });
+      API.patch.mockResolvedValue({ data: { widget_auth_token: 'token' } });
       await actions.setUser({ commit, dispatch }, { identifier: 1, user });
       expect(sendMessage.mock.calls).toEqual([
         [{ data: { widgetAuthToken: 'token' }, event: 'setAuthCookie' }],
@@ -41,7 +37,7 @@ describe('#actions', () => {
         avatar_url: '',
         identifier_hash: '12345',
       };
-      vi.spyOn(API, 'patch').mockResolvedValue({ data: { id: 1 } });
+      API.patch.mockResolvedValue({ data: { id: 1 } });
       await actions.setUser({ commit, dispatch }, { identifier: 1, user });
       expect(sendMessage.mock.calls).toEqual([]);
       expect(commit.mock.calls).toEqual([]);

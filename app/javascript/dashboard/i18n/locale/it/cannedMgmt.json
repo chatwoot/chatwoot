@@ -1,76 +1,75 @@
 {
   "CANNED_MGMT": {
     "HEADER": "Risposte predefinite",
-    "LEARN_MORE": "Learn more about canned responses",
-    "DESCRIPTION": "Canned Responses are pre-written reply templates that help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a canned response during a conversation. ",
-    "HEADER_BTN_TXT": "Add canned response",
-    "LOADING": "Fetching canned responses...",
-    "SEARCH_404": "Non ci sono elementi che corrispondono a questa richiesta.",
+    "HEADER_BTN_TXT": "Aggiungi risposta predefinita",
+    "LOADING": "Recupero delle risposte predefinite",
+    "SEARCH_404": "Non ci sono elementi che corrispondono a questa richiesta",
+    "SIDEBAR_TXT": "<p><b>Risposte predefinite</b> </p><p> Le risposte predefinite sono modelli di risposta salvati che possono essere utilizzati per inviare rapidamente una risposta a una conversazione. </p><p> Per creare una risposta predefinita, basta cliccare su <b>Aggiungi risposta predefinita</b>. Puoi anche modificare o eliminare una risposta predefinita esistente facendo clic sul pulsante Modifica o Elimina </p><p> Le risposte predefinite sono utilizzate con l'aiuto dei <b>Codici brevi</b>. Gli agenti possono accedere alle risposte predefinite durante una chat digitando <b>'/'</b> seguito dal codice breve. </p>",
     "LIST": {
       "404": "Non ci sono risposte predefinite disponibili in questo account.",
       "TITLE": "Gestisci le risposte predefinite",
-      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
-      "TABLE_HEADER": {
-        "SHORT_CODE": "Short code",
-        "CONTENT": "Contenuto",
-        "ACTIONS": "Azioni"
-      }
+      "DESC": "Le risposte predefinite sono modelli di risposta predefiniti che possono essere utilizzati per inviare rapidamente risposte ai ticket.",
+      "TABLE_HEADER": [
+        "Codice breve",
+        "Contenuto",
+        "Azioni"
+      ]
     },
     "ADD": {
-      "TITLE": "Add canned response",
-      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
+      "TITLE": "Aggiungi risposta predefinita",
+      "DESC": "Le risposte predefinite sono modelli di risposta salvati che possono essere utilizzati per inviare rapidamente una risposta alla conversazione.",
       "CANCEL_BUTTON_TEXT": "Annulla",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short code",
-          "PLACEHOLDER": "Please enter a short code.",
-          "ERROR": "Short Code is required."
+          "LABEL": "Codice breve",
+          "PLACEHOLDER": "Si prega di inserire un codice breve",
+          "ERROR": "Il codice breve è obbligatorio"
         },
         "CONTENT": {
-          "LABEL": "Messaggio",
-          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
-          "ERROR": "Message is required."
+          "LABEL": "Contenuto",
+          "PLACEHOLDER": "Inserisci un contenuto",
+          "ERROR": "Il contenuto è obbligatorio"
         },
         "SUBMIT": "Invia"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Canned response added successfully.",
+        "SUCCESS_MESSAGE": "Risposta predefinita aggiunta correttamente",
         "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
       }
     },
     "EDIT": {
-      "TITLE": "Edit canned response",
+      "TITLE": "Modifica risposta predefinita",
       "CANCEL_BUTTON_TEXT": "Annulla",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short code",
-          "PLACEHOLDER": "Please enter a shortcode.",
-          "ERROR": "Short code is required."
+          "LABEL": "Codice breve",
+          "PLACEHOLDER": "Si prega di inserire un codice breve",
+          "ERROR": "Il codice breve è obbligatorio"
         },
         "CONTENT": {
-          "LABEL": "Messaggio",
-          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
-          "ERROR": "Il messaggio è obbligatorio."
+          "LABEL": "Contenuto",
+          "PLACEHOLDER": "Inserisci un contenuto",
+          "ERROR": "Il contenuto è obbligatorio"
         },
         "SUBMIT": "Invia"
       },
       "BUTTON_TEXT": "Modifica",
       "API": {
-        "SUCCESS_MESSAGE": "Canned response is updated successfully.",
+        "SUCCESS_MESSAGE": "Risposta predefinita aggiornata con successo",
         "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Elimina",
       "API": {
-        "SUCCESS_MESSAGE": "Canned response deleted successfully.",
+        "SUCCESS_MESSAGE": "Risposta predefinita eliminata correttamente",
         "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
       },
       "CONFIRM": {
         "TITLE": "Conferma eliminazione",
         "MESSAGE": "Sei sicuro di voler eliminare ",
-        "YES": "Yes, delete ",
-        "NO": "No, keep "
+        "YES": "Sì, elimina ",
+        "NO": "No, conserva "
       }
     }
   }

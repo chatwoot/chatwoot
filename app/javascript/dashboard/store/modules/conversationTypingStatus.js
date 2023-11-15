@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import * as types from '../mutation-types';
 import ConversationAPI from '../../api/inbox/conversation';
 const state = {
@@ -42,10 +43,7 @@ export const mutations = {
       record => record.id === user.id && record.type === user.type
     ).length;
     if (!hasUserRecordAlready) {
-      $state.records = {
-        ...$state.records,
-        [conversationId]: [...records, user],
-      };
+      Vue.set($state.records, conversationId, [...records, user]);
     }
   },
   [types.default.REMOVE_USER_TYPING_FROM_CONVERSATION]: (
@@ -56,10 +54,7 @@ export const mutations = {
     const updatedRecords = records.filter(
       record => record.id !== user.id || record.type !== user.type
     );
-    $state.records = {
-      ...$state.records,
-      [conversationId]: updatedRecords,
-    };
+    Vue.set($state.records, conversationId, updatedRecords);
   },
 };
 

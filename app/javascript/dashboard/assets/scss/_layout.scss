@@ -1,0 +1,33 @@
+html,
+body {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.app-wrapper {
+  @apply h-full flex-grow-0 min-h-0 w-full;
+
+  .button--fixed-top {
+    @apply fixed ltr:right-2 rtl:left-2 top-2 flex flex-row;
+  }
+}
+
+.banner + .app-wrapper {
+  // Reduce the height of the dashboard to make room for the banner.
+  // And causing the top right green-action button to be pushed down when scrolling.
+  @apply h-[calc(100%-48px)];
+
+  .button--fixed-top {
+    @apply top-14;
+  }
+
+  .off-canvas-content {
+    .button--fixed-top {
+      @apply top-2;
+    }
+  }
+}

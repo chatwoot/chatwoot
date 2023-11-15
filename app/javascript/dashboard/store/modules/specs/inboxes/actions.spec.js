@@ -3,14 +3,14 @@ import { actions } from '../../inboxes';
 import * as types from '../../../mutation-types';
 import inboxList from './fixtures';
 
-const commit = vi.fn();
+const commit = jest.fn();
 global.axios = axios;
-vi.mock('axios');
+jest.mock('axios');
 
 describe('#actions', () => {
   describe('#get', () => {
     it('sends correct actions if API is success', async () => {
-      const mockedGet = vi.fn(url => {
+      const mockedGet = jest.fn(url => {
         if (url === '/api/v1/inboxes') {
           return Promise.resolve({ data: { payload: inboxList } });
         }
@@ -53,28 +53,6 @@ describe('#actions', () => {
     it('sends correct actions if API is error', async () => {
       axios.post.mockRejectedValue({ message: 'Incorrect header' });
       await expect(actions.createWebsiteChannel({ commit })).rejects.toThrow(
-        Error
-      );
-      expect(commit.mock.calls).toEqual([
-        [types.default.SET_INBOXES_UI_FLAG, { isCreating: true }],
-        [types.default.SET_INBOXES_UI_FLAG, { isCreating: false }],
-      ]);
-    });
-  });
-
-  describe('#createVoiceChannel', () => {
-    it('sends correct actions if API is success', async () => {
-      axios.post.mockResolvedValue({ data: inboxList[0] });
-      await actions.createVoiceChannel({ commit }, inboxList[0]);
-      expect(commit.mock.calls).toEqual([
-        [types.default.SET_INBOXES_UI_FLAG, { isCreating: true }],
-        [types.default.ADD_INBOXES, inboxList[0]],
-        [types.default.SET_INBOXES_UI_FLAG, { isCreating: false }],
-      ]);
-    });
-    it('sends correct actions if API is error', async () => {
-      axios.post.mockRejectedValue({ message: 'Incorrect header' });
-      await expect(actions.createVoiceChannel({ commit })).rejects.toThrow(
         Error
       );
       expect(commit.mock.calls).toEqual([

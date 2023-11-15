@@ -1,3 +1,21 @@
+<template>
+  <file-upload
+    ref="upload"
+    :size="4096 * 2048"
+    :accept="allowedFileTypes"
+    :data="{
+      direct_upload_url: '/api/v1/widget/direct_uploads',
+      direct_upload: true,
+    }"
+    @input-file="onFileUpload"
+  >
+    <button class="icon-button flex items-center justify-center">
+      <fluent-icon v-if="!isUploading.image" icon="attach" />
+      <spinner v-if="isUploading" size="small" />
+    </button>
+  </file-upload>
+</template>
+
 <script>
 import FileUpload from 'vue-upload-component';
 import Spinner from 'shared/components/Spinner.vue';
@@ -10,7 +28,6 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import { DirectUpload } from 'activestorage';
 import { mapGetters } from 'vuex';
-import { emitter } from 'shared/helpers/mitt';
 
 export default {
   components: { FluentIcon, FileUpload, Spinner },
@@ -24,10 +41,7 @@ export default {
     return { isUploading: false };
   },
   computed: {
-    ...mapGetters({
-      globalConfig: 'globalConfig/get',
-      shouldShowFilePicker: 'appConfig/getShouldShowFilePicker',
-    }),
+    ...mapGetters({ globalConfig: 'globalConfig/get' }),
     fileUploadSizeLimit() {
       return MAXIMUM_FILE_UPLOAD_SIZE;
     },
@@ -38,18 +52,13 @@ export default {
   mounted() {
     document.addEventListener('paste', this.handleClipboardPaste);
   },
-  unmounted() {
+  destroyed() {
     document.removeEventListener('paste', this.handleClipboardPaste);
   },
   methods: {
     handleClipboardPaste(e) {
-      // If file picker is not enabled, do not allow paste
-      if (!this.shouldShowFilePicker) return;
-
       const items = (e.clipboardData || e.originalEvent.clipboardData).items;
-      // items is a DataTransferItemList object which does not have forEach method
-      const itemsArray = Array.from(items);
-      itemsArray.forEach(item => {
+      items.forEach(item => {
         if (item.kind === 'file') {
           e.preventDefault();
           const file = item.getAsFile();
@@ -87,7 +96,7 @@ export default {
 
           upload.create((error, blob) => {
             if (error) {
-              emitter.emit(BUS_EVENTS.SHOW_ALERT, {
+              window.bus.$emit(BUS_EVENTS.SHOW_ALERT, {
                 message: error,
               });
             } else {
@@ -98,7 +107,7 @@ export default {
             }
           });
         } else {
-          emitter.emit(BUS_EVENTS.SHOW_ALERT, {
+          window.bus.$emit(BUS_EVENTS.SHOW_ALERT, {
             message: this.$t('FILE_SIZE_LIMIT', {
               MAXIMUM_FILE_UPLOAD_SIZE: this.fileUploadSizeLimit,
             }),
@@ -121,7 +130,7 @@ export default {
             ...this.getLocalFileAttributes(file),
           });
         } else {
-          emitter.emit(BUS_EVENTS.SHOW_ALERT, {
+          window.bus.$emit(BUS_EVENTS.SHOW_ALERT, {
             message: this.$t('FILE_SIZE_LIMIT', {
               MAXIMUM_FILE_UPLOAD_SIZE: this.fileUploadSizeLimit,
             }),
@@ -141,21 +150,3 @@ export default {
   },
 };
 </script>
-
-<template>
-  <FileUpload
-    ref="upload"
-    :size="4096 * 2048"
-    :accept="allowedFileTypes"
-    :data="{
-      direct_upload_url: '/api/v1/widget/direct_uploads',
-      direct_upload: true,
-    }"
-    @input-file="onFileUpload"
-  >
-    <button class="min-h-8 min-w-8 flex items-center justify-center">
-      <FluentIcon v-if="!isUploading.image" icon="attach" />
-      <Spinner v-if="isUploading" size="small" />
-    </button>
-  </FileUpload>
-</template>

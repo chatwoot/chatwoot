@@ -1,0 +1,14 @@
+tags:
+  - Contact Labels
+operationId: list-all-labels-of-a-contact
+summary: List Labels
+description: Lists all the labels of a contact
+responses:
+  200:
+    description: Success
+    schema:
+      $ref: '#/definitions/contact_labels'
+  404:
+    description: Contact not found
+  401:
+    description: Unauthorized

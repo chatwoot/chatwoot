@@ -8,16 +8,10 @@ security:
 responses:
   200:
     description: Success
-    content:
-      application/json:
-        schema:
-          type: array
-          description: 'Array of all active agents'
-          items:
-            $ref: '#/components/schemas/agent'
+    schema:
+        type: array
+        description: 'Array of all active agents'
+        items:
+          $ref: '#/definitions/agent'
   403:
     description: Access denied
-    content:
-      application/json:
-        schema:
-          $ref: '#/components/schemas/bad_request_error'

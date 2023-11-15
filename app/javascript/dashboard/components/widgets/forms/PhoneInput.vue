@@ -1,14 +1,90 @@
+<template>
+  <div class="phone-input--wrap relative">
+    <div class="phone-input" :class="{ 'has-error': error }">
+      <div
+        class="cursor-pointer py-2 pr-1.5 pl-2 rounded-tl-md rounded-bl-md flex items-center justify-center gap-1.5 bg-slate-25 dark:bg-slate-700 h-10 w-14"
+        @click="toggleCountryDropdown"
+      >
+        <h5 v-if="activeCountry.emoji" class="mb-0">
+          {{ activeCountry.emoji }}
+        </h5>
+        <fluent-icon v-else icon="globe" class="fluent-icon" size="16" />
+        <fluent-icon icon="chevron-down" class="fluent-icon" size="12" />
+      </div>
+      <span
+        v-if="activeDialCode"
+        class="flex bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-normal text-base leading-normal py-2 pl-2 pr-0"
+      >
+        {{ activeDialCode }}
+      </span>
+      <input
+        :value="phoneNumber"
+        type="tel"
+        class="phone-input--field"
+        :placeholder="placeholder"
+        :readonly="readonly"
+        :style="styles"
+        @input="onChange"
+        @blur="onBlur"
+      />
+    </div>
+    <div v-if="showDropdown" ref="dropdown" class="country-dropdown">
+      <div class="dropdown-search--wrap">
+        <input
+          ref="searchbar"
+          v-model="searchCountry"
+          type="text"
+          placeholder="Search"
+          class="dropdown-search"
+        />
+      </div>
+      <div
+        v-for="(country, index) in filteredCountriesBySearch"
+        ref="dropdownItem"
+        :key="index"
+        class="country-dropdown--item"
+        :class="{
+          active: country.id === activeCountryCode,
+          focus: index === selectedIndex,
+        }"
+        @click="onSelectCountry(country)"
+      >
+        <span class="text-base mr-1">{{ country.emoji }}</span>
+
+        <span
+          class="max-w-[7.5rem] overflow-hidden text-ellipsis whitespace-nowrap"
+        >
+          {{ country.name }}
+        </span>
+        <span class="ml-1 text-slate-300 dark:text-slate-300 text-xs">{{
+          country.dial_code
+        }}</span>
+      </div>
+      <div v-if="filteredCountriesBySearch.length === 0">
+        <span
+          class="flex items-center justify-center text-sm text-slate-500 dark:text-slate-300 mt-4"
+        >
+          No results found
+        </span>
+      </div>
+    </div>
+  </div>
+</template>
+
 <script>
 import countries from 'shared/constants/countries.js';
 import parsePhoneNumber from 'libphonenumber-js';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import {
-  getActiveCountryCode,
-  getActiveDialCode,
-} from 'shared/components/PhoneInput/helper';
+  hasPressedArrowUpKey,
+  hasPressedArrowDownKey,
+  isEnter,
+} from 'shared/helpers/KeyboardHelpers';
 
 export default {
+  mixins: [eventListenerMixins],
   props: {
-    modelValue: {
+    value: {
       type: [String, Number],
       default: '',
     },
@@ -29,32 +105,26 @@ export default {
       default: false,
     },
   },
-  emits: ['blur', 'setCode', 'update:modelValue'],
   data() {
     return {
-      selectedIndex: -1,
-      showDropdown: false,
-      searchCountry: '',
-      activeCountryCode: getActiveCountryCode(),
-      activeDialCode: getActiveDialCode(),
-      phoneNumber: this.modelValue,
-    };
-  },
-  computed: {
-    countries() {
-      return [
+      countries: [
         {
-          name: this.dropdownFirstItemName,
+          name: 'Select Country',
           dial_code: '',
           emoji: '',
           id: '',
         },
         ...countries,
-      ];
-    },
-    dropdownFirstItemName() {
-      return this.activeCountryCode ? 'Clear selection' : 'Select Country';
-    },
+      ],
+      selectedIndex: -1,
+      showDropdown: false,
+      searchCountry: '',
+      activeCountryCode: '',
+      activeDialCode: '',
+      phoneNumber: this.value,
+    };
+  },
+  computed: {
     filteredCountriesBySearch() {
       return this.countries.filter(country => {
         const { name, dial_code, id } = country;
@@ -76,12 +146,12 @@ export default {
     },
   },
   watch: {
-    modelValue() {
-      const number = parsePhoneNumber(this.modelValue);
+    value() {
+      const number = parsePhoneNumber(this.value);
       if (number) {
         this.activeCountryCode = number.country;
         this.activeDialCode = `+${number.countryCallingCode}`;
-        this.phoneNumber = this.modelValue.replace(
+        this.phoneNumber = this.value.replace(
           `+${number.countryCallingCode}`,
           ''
         );
@@ -89,7 +159,11 @@ export default {
     },
   },
   mounted() {
+    window.addEventListener('mouseup', this.onOutsideClick);
     this.setActiveCountry();
+  },
+  beforeDestroy() {
+    window.removeEventListener('mouseup', this.onOutsideClick);
   },
   methods: {
     onOutsideClick(e) {
@@ -103,48 +177,54 @@ export default {
     },
     onChange(e) {
       this.phoneNumber = e.target.value;
-      this.$emit('update:modelValue', e.target.value);
-      this.$emit('setCode', this.activeDialCode);
+      this.$emit('input', e.target.value, this.activeDialCode);
     },
     onBlur(e) {
       this.$emit('blur', e.target.value);
     },
-    onSearchCountry() {
-      // Reset selected index to 0
-      this.selectedIndex = 0;
-    },
-    moveUp() {
-      if (!this.showDropdown) return;
-      this.selectedIndex = Math.max(this.selectedIndex - 1, 0);
-      this.scrollToSelected();
-    },
-    moveDown() {
-      if (!this.showDropdown) return;
-      this.selectedIndex = Math.min(
-        this.selectedIndex + 1,
-        this.filteredCountriesBySearch.length - 1
+    dropdownItem() {
+      return Array.from(
+        this.$refs.dropdown.querySelectorAll(
+          'div.country-dropdown div.country-dropdown--item'
+        )
       );
-      this.scrollToSelected();
     },
-    scrollToSelected() {
-      this.$nextTick(() => {
-        const dropdown = this.$refs.dropdown;
-        const selectedItem = this.$refs.dropdownItem[this.selectedIndex];
-        const dropdownSearchbarHeight = 40;
-        if (selectedItem) {
-          const selectedItemTop = selectedItem.offsetTop;
-          dropdown.scrollTop = selectedItemTop - dropdownSearchbarHeight;
+    focusedItem() {
+      return Array.from(
+        this.$refs.dropdown.querySelectorAll('div.country-dropdown div.focus')
+      );
+    },
+    focusedItemIndex() {
+      return Array.from(this.dropdownItem()).indexOf(this.focusedItem()[0]);
+    },
+    onKeyDownHandler(e) {
+      const { showDropdown, filteredCountriesBySearch, onSelectCountry } = this;
+      const { selectedIndex } = this;
+
+      if (showDropdown) {
+        if (hasPressedArrowDownKey(e)) {
+          e.preventDefault();
+          this.selectedIndex = Math.min(
+            selectedIndex + 1,
+            filteredCountriesBySearch.length - 1
+          );
+          this.$refs.dropdown.scrollTop = this.focusedItemIndex() * 28;
+        } else if (hasPressedArrowUpKey(e)) {
+          e.preventDefault();
+          this.selectedIndex = Math.max(selectedIndex - 1, 0);
+          this.$refs.dropdown.scrollTop = this.focusedItemIndex() * 28 - 56;
+        } else if (isEnter(e)) {
+          e.preventDefault();
+          onSelectCountry(filteredCountriesBySearch[selectedIndex]);
         }
-      });
+      }
     },
     onSelectCountry(country) {
-      if (!country || !this.showDropdown) return;
       this.activeCountryCode = country.id;
       this.searchCountry = '';
       this.activeDialCode = country.dial_code;
       this.$emit('setCode', country.dial_code);
       this.closeDropdown();
-      this.$refs.phoneNumberInput.focus();
     },
     setActiveCountry() {
       const { phoneNumber } = this;
@@ -171,98 +251,42 @@ export default {
   },
 };
 </script>
+<style scoped lang="scss">
+.phone-input--wrap {
+  .phone-input {
+    @apply flex items-center justify-start mb-4 rounded-md border border-solid border-slate-200 dark:border-slate-600;
 
-<template>
-  <div class="relative phone-input--wrap">
-    <div
-      class="flex items-center justify-start border-none outline outline-1 rounded-lg bg-n-alpha-black2"
-      :class="
-        error
-          ? 'outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9 mb-1'
-          : 'mb-4 outline-n-weak dark:outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6'
-      "
-    >
-      <div
-        class="cursor-pointer py-2 pr-1.5 pl-2 rounded-tl-lg rounded-bl-lg flex items-center justify-center gap-1.5 bg-n-solid-3 h-10 w-14"
-        @click.prevent="toggleCountryDropdown"
-      >
-        <h5 v-if="activeCountry" class="mb-0">
-          {{ activeCountry.emoji }}
-        </h5>
-        <fluent-icon v-else icon="globe" class="fluent-icon" size="16" />
-        <fluent-icon icon="chevron-down" class="fluent-icon" size="12" />
-      </div>
-      <span
-        v-if="activeDialCode"
-        class="flex py-2 ltr:pl-2 rtl:pr-2 text-base font-normal leading-normal text-n-slate-12"
-      >
-        {{ activeDialCode }}
-      </span>
-      <input
-        ref="phoneNumberInput"
-        :value="phoneNumber"
-        type="tel"
-        class="no-margin !rounded-tl-none !rounded-bl-none !outline-none !border-0 font-normal !w-full !bg-transparent text-base !px-1.5 placeholder:font-normal"
-        :placeholder="placeholder"
-        :readonly="readonly"
-        :style="styles"
-        @input="onChange"
-        @blur="onBlur"
-      />
-    </div>
-    <div
-      v-if="showDropdown"
-      ref="dropdown"
-      v-on-clickaway="onOutsideClick"
-      tabindex="0"
-      class="z-10 absolute h-60 w-[12.5rem] shadow-md overflow-y-auto top-10 rounded-lg px-0 pt-0 pb-1 bg-n-alpha-3 backdrop-blur-[100px]"
-      @keydown.prevent.up="moveUp"
-      @keydown.prevent.down="moveDown"
-      @keydown.prevent.enter="
-        onSelectCountry(filteredCountriesBySearch[selectedIndex])
-      "
-    >
-      <div
-        class="sticky top-0 p-1 bg-white dark:bg-transparent backdrop-blur-[100px]"
-      >
-        <input
-          ref="searchbar"
-          v-model="searchCountry"
-          type="text"
-          :placeholder="$t('GENERAL.PHONE_INPUT.PLACEHOLDER')"
-          class="!h-8 !mb-0 !text-sm !outline-n-brand dark:!outline-n-brand"
-          @input="onSearchCountry"
-        />
-      </div>
-      <div
-        v-for="(country, index) in filteredCountriesBySearch"
-        ref="dropdownItem"
-        :key="index"
-        class="flex items-center px-1 py-0 cursor-pointer h-7 hover:bg-n-alpha-1 dark:hover:bg-n-alpha-2"
-        :class="{
-          'bg-n-alpha-1 dark:bg-n-alpha-2': country.id === activeCountryCode,
-          'bg-n-alpha-1 dark:bg-n-alpha-2': index === selectedIndex,
-        }"
-        @click="onSelectCountry(country)"
-      >
-        <span class="mr-1 text-base">{{ country.emoji }}</span>
+    &.has-error {
+      @apply border border-solid border-red-400 dark:border-red-400;
+    }
+  }
 
-        <span
-          class="max-w-[7.5rem] overflow-hidden text-ellipsis whitespace-nowrap"
-        >
-          {{ country.name }}
-        </span>
-        <span class="ml-1 text-xs text-n-slate-11">
-          {{ country.dial_code }}
-        </span>
-      </div>
-      <div v-if="filteredCountriesBySearch.length === 0">
-        <span
-          class="flex items-center justify-center mt-4 text-sm text-n-slate-10"
-        >
-          {{ $t('GENERAL.PHONE_INPUT.EMPTY_STATE') }}
-        </span>
-      </div>
-    </div>
-  </div>
-</template>
+  .phone-input--field {
+    @apply mb-0 rounded-tl-none rounded-bl-none border-0;
+  }
+
+  .country-dropdown {
+    @apply z-10 absolute h-60 w-[12.5rem] shadow-md overflow-y-auto top-10 rounded px-0 pt-0 pb-1 bg-white dark:bg-slate-900;
+
+    .dropdown-search--wrap {
+      @apply top-0 sticky bg-white dark:bg-slate-900 p-1;
+
+      .dropdown-search {
+        @apply h-8 mb-0 text-sm border border-solid border-slate-200 dark:border-slate-600;
+      }
+    }
+
+    .country-dropdown--item {
+      @apply flex items-center h-7 py-0 px-1 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700;
+
+      &.active {
+        @apply bg-slate-50 dark:bg-slate-700;
+      }
+
+      &.focus {
+        @apply bg-slate-25 dark:bg-slate-800;
+      }
+    }
+  }
+}
+</style>

@@ -1,16 +1,10 @@
-import { createApp } from 'vue';
-import VueDOMPurifyHTML from 'vue-dompurify-html';
-import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
-import { directive as onClickaway } from 'vue3-click-away';
-import { isSameHost } from '@chatwoot/utils';
-
 import slugifyWithCounter from '@sindresorhus/slugify';
+import Vue from 'vue';
+
 import PublicArticleSearch from './components/PublicArticleSearch.vue';
 import TableOfContents from './components/TableOfContents.vue';
-import { initializeTheme } from './portalThemeHelper.js';
-import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages.js';
 
-export const getHeadingsfromTheArticle = () => {
+export const getHeadingsFromTheArticle = () => {
   const rows = [];
   const articleElement = document.getElementById('cw-article-content');
   articleElement.querySelectorAll('h1, h2, h3').forEach(element => {
@@ -27,81 +21,91 @@ export const getHeadingsfromTheArticle = () => {
   return rows;
 };
 
-export const openExternalLinksInNewTab = () => {
-  const { customDomain, hostURL } = window.portalConfig;
-  const isOnArticlePage =
-    document.querySelector('#cw-article-content') !== null;
+export const generatePortalBgColor = (portalColor, theme) => {
+  const baseColor = theme === 'dark' ? 'black' : 'white';
+  return `color-mix(in srgb, ${portalColor} 20%, ${baseColor})`;
+};
 
-  document.addEventListener('click', event => {
-    if (!isOnArticlePage) return;
+export const generatePortalBg = (portalColor, theme) => {
+  const bgImage = theme === 'dark' ? 'hexagon-dark.svg' : 'hexagon-light.svg';
+  return `background: url(/assets/images/hc/${bgImage}) ${generatePortalBgColor(
+    portalColor,
+    theme
+  )}`;
+};
 
-    const link = event.target.closest('a');
+export const generateGradientToBottom = theme => {
+  return `background-image: linear-gradient(to bottom, transparent, ${
+    theme === 'dark' ? '#151718' : 'white'
+  })`;
+};
 
-    if (link) {
-      const currentLocation = window.location.href;
-      const linkHref = link.href;
+export const setPortalStyles = theme => {
+  const portalColor = window.portalConfig.portalColor;
+  const portalBgDiv = document.querySelector('#portal-bg');
+  const portalBgGradientDiv = document.querySelector('#portal-bg-gradient');
 
-      // Check against current location and custom domains
-      const isInternalLink =
-        isSameHost(linkHref, currentLocation) ||
-        (customDomain && isSameHost(linkHref, customDomain)) ||
-        (hostURL && isSameHost(linkHref, hostURL));
+  if (portalBgDiv) {
+    // Set background for #portal-bg
+    portalBgDiv.setAttribute('style', generatePortalBg(portalColor, theme));
+  }
 
-      if (!isInternalLink) {
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer'; // Security and performance benefits
-        // Prevent default if you want to stop the link from opening in the current tab
-        event.stopPropagation();
-      }
-    }
-  });
+  if (portalBgGradientDiv) {
+    // Set gradient background for #portal-bg-gradient
+    portalBgGradientDiv.setAttribute('style', generateGradientToBottom(theme));
+  }
+};
+
+export const setPortalClass = theme => {
+  const portalDiv = document.querySelector('#portal');
+  portalDiv.classList.remove('light', 'dark');
+  if (!portalDiv) return;
+  portalDiv.classList.add(theme);
+};
+
+export const updateThemeStyles = theme => {
+  setPortalStyles(theme);
+  setPortalClass(theme);
 };
 
 export const InitializationHelpers = {
   navigateToLocalePage: () => {
-    document.addEventListener('change', e => {
-      const localeSwitcher = e.target.closest('.locale-switcher');
-      if (!localeSwitcher) return;
+    const allLocaleSwitcher = document.querySelector('.locale-switcher');
 
-      const { portalSlug } = localeSwitcher.dataset;
-      window.location.href = `/hc/${encodeURIComponent(portalSlug)}/${encodeURIComponent(localeSwitcher.value)}/`;
+    if (!allLocaleSwitcher) {
+      return false;
+    }
+
+    const { portalSlug } = allLocaleSwitcher.dataset;
+    allLocaleSwitcher.addEventListener('change', event => {
+      window.location = `/hc/${portalSlug}/${event.target.value}/`;
     });
+    return false;
   },
 
   initializeSearch: () => {
     const isSearchContainerAvailable = document.querySelector('#search-wrap');
     if (isSearchContainerAvailable) {
-      // eslint-disable-next-line vue/one-component-per-file
-      const app = createApp({
+      new Vue({
         components: { PublicArticleSearch },
         template: '<PublicArticleSearch />',
-      });
-
-      app.use(VueDOMPurifyHTML, domPurifyConfig);
-      app.directive('on-clickaway', onClickaway);
-      app.mount('#search-wrap');
+      }).$mount('#search-wrap');
     }
   },
 
   initializeTableOfContents: () => {
     const isOnArticlePage = document.querySelector('#cw-hc-toc');
     if (isOnArticlePage) {
-      // eslint-disable-next-line vue/one-component-per-file
-      const app = createApp({
+      new Vue({
         components: { TableOfContents },
-        data() {
-          return { rows: getHeadingsfromTheArticle() };
-        },
+        data: { rows: getHeadingsFromTheArticle() },
         template: '<table-of-contents :rows="rows" />',
-      });
-
-      app.use(VueDOMPurifyHTML, domPurifyConfig);
-      app.mount('#cw-hc-toc');
+      }).$mount('#cw-hc-toc');
     }
   },
 
   appendPlainParamToURLs: () => {
-    [...document.getElementsByTagName('a')].forEach(aTagElement => {
+    document.getElementsByTagName('a').forEach(aTagElement => {
       if (aTagElement.href && aTagElement.href.includes('/hc/')) {
         const url = new URL(aTagElement.href);
         url.searchParams.set('show_plain_layout', 'true');
@@ -111,29 +115,30 @@ export const InitializationHelpers = {
     });
   },
 
-  setDirectionAttribute: () => {
-    const htmlElement = document.querySelector('html');
-    // If direction is already applied through props, do not apply again (iframe case)
-    const hasDirApplied = htmlElement.getAttribute('data-dir-applied');
-    if (!htmlElement || hasDirApplied) return;
-
-    const localeFromHtml = htmlElement.lang;
-    htmlElement.dir =
-      localeFromHtml && getLanguageDirection(localeFromHtml) ? 'rtl' : 'ltr';
+  initializeTheme: () => {
+    const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
+    const getThemePreference = () =>
+      mediaQueryList.matches ? 'dark' : 'light';
+    const themeFromServer = window.portalConfig.theme;
+    if (themeFromServer === 'system') {
+      // Handle dynamic theme changes for system theme
+      mediaQueryList.addEventListener('change', event => {
+        const newTheme = event.matches ? 'dark' : 'light';
+        updateThemeStyles(newTheme);
+      });
+      const themePreference = getThemePreference();
+      updateThemeStyles(themePreference);
+    }
   },
 
-  initializeThemesInPortal: initializeTheme,
-
   initialize: () => {
-    openExternalLinksInNewTab();
-    InitializationHelpers.setDirectionAttribute();
     if (window.portalConfig.isPlainLayoutEnabled === 'true') {
       InitializationHelpers.appendPlainParamToURLs();
     } else {
-      InitializationHelpers.initializeThemesInPortal();
       InitializationHelpers.navigateToLocalePage();
       InitializationHelpers.initializeSearch();
       InitializationHelpers.initializeTableOfContents();
+      // InitializationHelpers.initializeTheme();
     }
   },
 

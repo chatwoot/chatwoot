@@ -51,24 +51,28 @@ describe('#hasUserKeys', () => {
 });
 
 // Mock the 'set' method of the 'Cookies' object
+jest.mock('js-cookie', () => ({
+  set: jest.fn(),
+}));
 
 describe('setCookieWithDomain', () => {
-  beforeEach(() => {
-    vi.spyOn(Cookies, 'set');
-  });
-
   afterEach(() => {
-    vi.restoreAllMocks();
+    // Clear mock calls after each test
+    Cookies.set.mockClear();
   });
 
   it('should set a cookie with default parameters', () => {
     setCookieWithDomain('myCookie', 'cookieValue');
 
-    expect(Cookies.set).toHaveBeenCalledWith('myCookie', 'cookieValue', {
-      expires: 365,
-      sameSite: 'Lax',
-      domain: undefined,
-    });
+    expect(Cookies.set).toHaveBeenCalledWith(
+      'myCookie',
+      'cookieValue',
+      expect.objectContaining({
+        expires: 365,
+        sameSite: 'Lax',
+        domain: undefined,
+      })
+    );
   });
 
   it('should set a cookie with custom expiration and sameSite attribute', () => {
@@ -76,11 +80,15 @@ describe('setCookieWithDomain', () => {
       expires: 30,
     });
 
-    expect(Cookies.set).toHaveBeenCalledWith('myCookie', 'cookieValue', {
-      expires: 30,
-      sameSite: 'Lax',
-      domain: undefined,
-    });
+    expect(Cookies.set).toHaveBeenCalledWith(
+      'myCookie',
+      'cookieValue',
+      expect.objectContaining({
+        expires: 30,
+        sameSite: 'Lax',
+        domain: undefined,
+      })
+    );
   });
 
   it('should set a cookie with a specific base domain', () => {
@@ -88,30 +96,14 @@ describe('setCookieWithDomain', () => {
       baseDomain: 'example.com',
     });
 
-    expect(Cookies.set).toHaveBeenCalledWith('myCookie', 'cookieValue', {
-      expires: 365,
-      sameSite: 'Lax',
-      domain: 'example.com',
-    });
-  });
-
-  it('should stringify the cookie value when setting the value', () => {
-    setCookieWithDomain(
-      'myCookie',
-      { value: 'cookieValue' },
-      {
-        baseDomain: 'example.com',
-      }
-    );
-
     expect(Cookies.set).toHaveBeenCalledWith(
       'myCookie',
-      JSON.stringify({ value: 'cookieValue' }),
-      {
+      'cookieValue',
+      expect.objectContaining({
         expires: 365,
         sameSite: 'Lax',
         domain: 'example.com',
-      }
+      })
     );
   });
 
@@ -121,10 +113,14 @@ describe('setCookieWithDomain', () => {
       baseDomain: 'example.com',
     });
 
-    expect(Cookies.set).toHaveBeenCalledWith('myCookie', 'cookieValue', {
-      expires: 7,
-      sameSite: 'Lax',
-      domain: 'example.com',
-    });
+    expect(Cookies.set).toHaveBeenCalledWith(
+      'myCookie',
+      'cookieValue',
+      expect.objectContaining({
+        expires: 7,
+        sameSite: 'Lax',
+        domain: 'example.com',
+      })
+    );
   });
 });

@@ -2,9 +2,9 @@ import axios from 'axios';
 import { actions } from '../../dashboardApps';
 import types from '../../../mutation-types';
 import { payload, automationsList } from './fixtures';
-const commit = vi.fn();
+const commit = jest.fn();
 global.axios = axios;
-vi.mock('axios');
+jest.mock('axios');
 
 describe('#actions', () => {
   describe('#get', () => {

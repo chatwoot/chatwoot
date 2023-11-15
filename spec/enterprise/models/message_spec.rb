@@ -1,25 +1,20 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
+require Rails.root.join 'spec/models/concerns/liquidable_shared.rb'
 
 RSpec.describe Message do
-  let!(:conversation) { create(:conversation) }
+  context 'with sentiment analysis' do
+    let(:message) { build(:message, message_type: :incoming, content_type: nil, account: create(:account)) }
 
-  it 'updates first reply if the message is human and even if there are messages from captain' do
-    captain_assistant = create(:captain_assistant, account: conversation.account)
-    expect(conversation.first_reply_created_at).to be_nil
+    it 'calls SentimentAnalysisJob' do
+      with_modified_env SENTIMENT_FILE_PATH: 'sentiment-analysis.onnx' do
+        allow(Enterprise::SentimentAnalysisJob).to receive(:perform_later).and_return(:perform_later).with(message)
 
-    ## There is a difference on how the time is stored in the database and how it is retrieved
-    # This is because of the precision of the time stored in the database
-    # In the test, we will check whether the time is within the range
-    expect(conversation.waiting_since).to be_within(0.000001.seconds).of(conversation.created_at)
+        message.save!
 
-    create(:message, message_type: :outgoing, conversation: conversation, sender: captain_assistant)
-
-    expect(conversation.first_reply_created_at).to be_nil
-    expect(conversation.waiting_since).to be_within(0.000001.seconds).of(conversation.created_at)
-
-    create(:message, message_type: :outgoing, conversation: conversation)
-
-    expect(conversation.first_reply_created_at).not_to be_nil
-    expect(conversation.waiting_since).to be_nil
+        expect(Enterprise::SentimentAnalysisJob).to have_received(:perform_later)
+      end
+    end
   end
 end

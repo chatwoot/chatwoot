@@ -11,5 +11,3 @@ class CsatSurveyResponsePolicy < ApplicationPolicy
     @account_user.administrator?
   end
 end
-
-CsatSurveyResponsePolicy.prepend_mod_with('CsatSurveyResponsePolicy')

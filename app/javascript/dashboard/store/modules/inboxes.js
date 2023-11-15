@@ -1,16 +1,36 @@
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import * as types from '../mutation-types';
-import { INBOX_TYPES } from 'dashboard/helper/inbox';
+import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
 import InboxesAPI from '../../api/inboxes';
 import WebChannel from '../../api/channel/webChannel';
 import FBChannel from '../../api/channel/fbChannel';
 import TwilioChannel from '../../api/channel/twilioChannel';
-import WhatsappChannel from '../../api/channel/whatsappChannel';
 import { throwErrorMessage } from '../utils/api';
 import AnalyticsHelper from '../../helper/AnalyticsHelper';
-import camelcaseKeys from 'camelcase-keys';
 import { ACCOUNT_EVENTS } from '../../helper/AnalyticsHelper/events';
-import { channelActions, buildInboxData } from './inboxes/channelActions';
+
+const buildInboxData = inboxParams => {
+  const formData = new FormData();
+  const { channel = {}, ...inboxProperties } = inboxParams;
+  Object.keys(inboxProperties).forEach(key => {
+    formData.append(key, inboxProperties[key]);
+  });
+  const { selectedFeatureFlags, ...channelParams } = channel;
+  // selectedFeatureFlags needs to be empty when creating a website channel
+  if (selectedFeatureFlags) {
+    if (selectedFeatureFlags.length) {
+      selectedFeatureFlags.forEach(featureFlag => {
+        formData.append(`channel[selected_feature_flags][]`, featureFlag);
+      });
+    } else {
+      formData.append('channel[selected_feature_flags][]', '');
+    }
+  }
+  Object.keys(channelParams).forEach(key => {
+    formData.append(`channel[${key}]`, channel[key]);
+  });
+  return formData;
+};
 
 export const state = {
   records: [],
@@ -72,12 +92,6 @@ export const getters = {
     );
     return inbox || {};
   },
-  getInboxById: $state => inboxId => {
-    const [inbox] = $state.records.filter(
-      record => record.id === Number(inboxId)
-    );
-    return camelcaseKeys(inbox || {}, { deep: true });
-  },
   getUIFlags($state) {
     return $state.uiFlags;
   },
@@ -96,28 +110,9 @@ export const getters = {
         (item.channel_type === INBOX_TYPES.TWILIO && item.medium === 'sms')
     );
   },
-  getWhatsAppInboxes($state) {
-    return $state.records.filter(
-      item => item.channel_type === INBOX_TYPES.WHATSAPP
-    );
-  },
   dialogFlowEnabledInboxes($state) {
     return $state.records.filter(
       item => item.channel_type !== INBOX_TYPES.EMAIL
-    );
-  },
-  getFacebookInboxByInstagramId: $state => instagramId => {
-    return $state.records.find(
-      item =>
-        item.instagram_id === instagramId &&
-        item.channel_type === INBOX_TYPES.FB
-    );
-  },
-  getInstagramInboxByInstagramId: $state => instagramId => {
-    return $state.records.find(
-      item =>
-        item.instagram_id === instagramId &&
-        item.channel_type === INBOX_TYPES.INSTAGRAM
     );
   },
 };
@@ -188,7 +183,7 @@ export const actions = {
       return response.data;
     } catch (error) {
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
-      throw error;
+      throw new Error(error);
     }
   },
   createFBChannel: async ({ commit }, params) => {
@@ -204,25 +199,6 @@ export const actions = {
       throw new Error(error);
     }
   },
-  createWhatsAppEmbeddedSignup: async ({ commit }, params) => {
-    try {
-      commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: true });
-      const response = await WhatsappChannel.createEmbeddedSignup(params);
-      commit(types.default.ADD_INBOXES, response.data);
-      commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
-      sendAnalyticsEvent('whatsapp');
-      return response.data;
-    } catch (error) {
-      commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
-      throw error;
-    }
-  },
-  ...channelActions,
-  // TODO: Extract other create channel methods to separate files to reduce file size
-  // - createChannel
-  // - createWebsiteChannel
-  // - createTwilioChannel
-  // - createFBChannel
   updateInbox: async ({ commit }, { id, formData = true, ...inboxParams }) => {
     commit(types.default.SET_INBOXES_UI_FLAG, { isUpdating: true });
     try {

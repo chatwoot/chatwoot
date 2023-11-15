@@ -1,69 +1,66 @@
+<template>
+  <div v-if="!isFetchingAppIntegrations">
+    <div v-if="isAIIntegrationEnabled" class="relative">
+      <AIAssistanceCTAButton
+        v-if="shouldShowAIAssistCTAButton"
+        @click="openAIAssist"
+      />
+      <woot-button
+        v-else
+        v-tooltip.top-end="$t('INTEGRATION_SETTINGS.OPEN_AI.AI_ASSIST')"
+        icon="wand"
+        color-scheme="secondary"
+        variant="smooth"
+        size="small"
+        @click="openAIAssist"
+      />
+      <woot-modal
+        :show.sync="showAIAssistanceModal"
+        :on-close="hideAIAssistanceModal"
+      >
+        <AIAssistanceModal
+          :ai-option="aiOption"
+          @apply-text="insertText"
+          @close="hideAIAssistanceModal"
+        />
+      </woot-modal>
+    </div>
+    <div v-else-if="shouldShowAIAssistCTAButtonForAdmin" class="relative">
+      <AIAssistanceCTAButton @click="openAICta" />
+      <woot-modal :show.sync="showAICtaModal" :on-close="hideAICtaModal">
+        <AICTAModal @close="hideAICtaModal" />
+      </woot-modal>
+    </div>
+  </div>
+</template>
 <script>
-import { ref } from 'vue';
 import { mapGetters } from 'vuex';
-import { useAdmin } from 'dashboard/composables/useAdmin';
-import { useUISettings } from 'dashboard/composables/useUISettings';
-import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
-import { useAI } from 'dashboard/composables/useAI';
 import AICTAModal from './AICTAModal.vue';
 import AIAssistanceModal from './AIAssistanceModal.vue';
-import { CMD_AI_ASSIST } from 'dashboard/helper/commandbar/events';
+import adminMixin from 'dashboard/mixins/aiMixin';
+import aiMixin from 'dashboard/mixins/isAdmin';
+import { CMD_AI_ASSIST } from 'dashboard/routes/dashboard/commands/commandBarBusEvents';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import AIAssistanceCTAButton from './AIAssistanceCTAButton.vue';
-import { emitter } from 'shared/helpers/mitt';
-import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
-    NextButton,
     AIAssistanceModal,
     AICTAModal,
     AIAssistanceCTAButton,
   },
-  emits: ['replaceText'],
-  setup(props, { emit }) {
-    const { uiSettings, updateUISettings } = useUISettings();
-
-    const { isAIIntegrationEnabled, draftMessage, recordAnalytics } = useAI();
-
-    const { isAdmin } = useAdmin();
-
-    const initialMessage = ref('');
-
-    const initializeMessage = draftMsg => {
-      initialMessage.value = draftMsg;
-    };
-    const keyboardEvents = {
-      '$mod+KeyZ': {
-        action: () => {
-          if (initialMessage.value) {
-            emit('replaceText', initialMessage.value);
-            initialMessage.value = '';
-          }
-        },
-        allowOnFocusedInput: true,
-      },
-    };
-    useKeyboardEvents(keyboardEvents);
-
-    return {
-      uiSettings,
-      updateUISettings,
-      isAdmin,
-      initialMessage,
-      initializeMessage,
-      recordAnalytics,
-      isAIIntegrationEnabled,
-      draftMessage,
-    };
-  },
+  mixins: [aiMixin, eventListenerMixins, adminMixin, uiSettingsMixin],
   data: () => ({
     showAIAssistanceModal: false,
     showAICtaModal: false,
     aiOption: '',
+    initialMessage: '',
   }),
   computed: {
     ...mapGetters({
-      isAChatwootInstance: 'globalConfig/isAChatwootInstance',
+      currentChat: 'getSelectedChat',
     }),
     isAICTAModalDismissed() {
       return this.uiSettings.is_open_ai_cta_modal_dismissed;
@@ -73,8 +70,7 @@ export default {
       return (
         this.isAdmin &&
         !this.isAIIntegrationEnabled &&
-        !this.isAICTAModalDismissed &&
-        this.isAChatwootInstance
+        !this.isAICTAModalDismissed
       );
     },
     // Display a AI CTA button for agents and other admins who have not yet opened the AI assistance modal.
@@ -84,11 +80,20 @@ export default {
   },
 
   mounted() {
-    emitter.on(CMD_AI_ASSIST, this.onAIAssist);
-    this.initializeMessage(this.draftMessage);
+    bus.$on(CMD_AI_ASSIST, this.onAIAssist);
+    this.initialMessage = this.draftMessage;
   },
 
   methods: {
+    onKeyDownHandler(event) {
+      const keyPattern = buildHotKeys(event);
+      const shouldRevertTheContent =
+        ['meta+z', 'ctrl+z'].includes(keyPattern) && !!this.initialMessage;
+      if (shouldRevertTheContent) {
+        this.$emit('replace-text', this.initialMessage);
+        this.initialMessage = '';
+      }
+    },
     hideAIAssistanceModal() {
       this.recordAnalytics('DISMISS_AI_SUGGESTION', {
         aiOption: this.aiOption,
@@ -102,7 +107,7 @@ export default {
           is_open_ai_cta_modal_dismissed: true,
         });
       }
-      this.initializeMessage(this.draftMessage);
+      this.initialMessage = this.draftMessage;
       const ninja = document.querySelector('ninja-keys');
       ninja.open({ parent: 'ai_assist' });
     },
@@ -117,44 +122,8 @@ export default {
       this.showAIAssistanceModal = true;
     },
     insertText(message) {
-      this.$emit('replaceText', message);
+      this.$emit('replace-text', message);
     },
   },
 };
 </script>
-
-<template>
-  <div>
-    <div v-if="isAIIntegrationEnabled" class="relative">
-      <AIAssistanceCTAButton
-        v-if="shouldShowAIAssistCTAButton"
-        @open="openAIAssist"
-      />
-      <NextButton
-        v-else
-        v-tooltip.top-end="$t('INTEGRATION_SETTINGS.OPEN_AI.AI_ASSIST')"
-        icon="i-ph-magic-wand"
-        slate
-        faded
-        sm
-        @click="openAIAssist"
-      />
-      <woot-modal
-        v-model:show="showAIAssistanceModal"
-        :on-close="hideAIAssistanceModal"
-      >
-        <AIAssistanceModal
-          :ai-option="aiOption"
-          @apply-text="insertText"
-          @close="hideAIAssistanceModal"
-        />
-      </woot-modal>
-    </div>
-    <div v-else-if="shouldShowAIAssistCTAButtonForAdmin" class="relative">
-      <AIAssistanceCTAButton @click="openAICta" />
-      <woot-modal v-model:show="showAICtaModal" :on-close="hideAICtaModal">
-        <AICTAModal @close="hideAICtaModal" />
-      </woot-modal>
-    </div>
-  </div>
-</template>

@@ -9,7 +9,6 @@
 #  auto_assignment_config        :jsonb
 #  business_name                 :string
 #  channel_type                  :string
-#  csat_config                   :jsonb            not null
 #  csat_survey_enabled           :boolean          default(FALSE)
 #  email_address                 :string
 #  enable_auto_assignment        :boolean          default(TRUE)
@@ -47,6 +46,8 @@ class Inbox < ApplicationRecord
 
   # Not allowing characters:
   validates :name, presence: true
+  validates :name, if: :check_channel_type?, format: { with: %r{^^\b[^/\\<>@]*\b$}, multiline: true,
+                                                       message: I18n.t('errors.inboxes.validations.name') }
   validates :account_id, presence: true
   validates :timezone, inclusion: { in: TZInfo::Timezone.all_identifiers }
   validates :out_of_office_message, length: { maximum: Limits::OUT_OF_OFFICE_MESSAGE_MAX_LENGTH }
@@ -65,7 +66,7 @@ class Inbox < ApplicationRecord
   has_many :inbox_members, dependent: :destroy_async
   has_many :members, through: :inbox_members, source: :user
   has_many :conversations, dependent: :destroy_async
-  has_many :messages, dependent: :destroy_async
+  has_many :messages, through: :conversations
 
   has_one :agent_bot_inbox, dependent: :destroy_async
   has_one :agent_bot, through: :agent_bot_inbox
@@ -81,34 +82,14 @@ class Inbox < ApplicationRecord
 
   scope :order_by_name, -> { order('lower(name) ASC') }
 
-  # Adds multiple members to the inbox
-  # @param user_ids [Array<Integer>] Array of user IDs to add as members
-  # @return [void]
-  def add_members(user_ids)
-    inbox_members.create!(user_ids.map { |user_id| { user_id: user_id } })
-    update_account_cache
+  def add_member(user_id)
+    member = inbox_members.new(user_id: user_id)
+    member.save!
   end
 
-  # Removes multiple members from the inbox
-  # @param user_ids [Array<Integer>] Array of user IDs to remove
-  # @return [void]
-  def remove_members(user_ids)
-    inbox_members.where(user_id: user_ids).destroy_all
-    update_account_cache
-  end
-
-  # Sanitizes inbox name for balanced email provider compatibility
-  # ALLOWS: /'._- and Unicode letters/numbers/emojis
-  # REMOVES: Forbidden chars (\<>@") + spam-trigger symbols (!#$%&*+=?^`{|}~)
-  def sanitized_name
-    return default_name_for_blank_name if name.blank?
-
-    sanitized = apply_sanitization_rules(name)
-    sanitized.blank? && email? ? display_name_from_email : sanitized
-  end
-
-  def sms?
-    channel_type == 'Channel::Sms'
+  def remove_member(user_id)
+    member = inbox_members.find_by!(user_id: user_id)
+    member.try(:destroy)
   end
 
   def facebook?
@@ -116,11 +97,7 @@ class Inbox < ApplicationRecord
   end
 
   def instagram?
-    (facebook? || instagram_direct?) && channel.instagram_id.present?
-  end
-
-  def instagram_direct?
-    channel_type == 'Channel::Instagram'
+    facebook? && channel.instagram_id.present?
   end
 
   def web_widget?
@@ -152,8 +129,7 @@ class Inbox < ApplicationRecord
   end
 
   def active_bot?
-    agent_bot_inbox&.active? || hooks.where(app_id: %w[dialogflow],
-                                            status: 'enabled').count.positive?
+    agent_bot_inbox&.active? || hooks.where(app_id: 'dialogflow', status: 'enabled').count.positive?
   end
 
   def inbox_type
@@ -185,22 +161,6 @@ class Inbox < ApplicationRecord
   end
 
   private
-
-  def default_name_for_blank_name
-    email? ? display_name_from_email : ''
-  end
-
-  def apply_sanitization_rules(name)
-    name.gsub(/[\\<>@"!#$%&*+=?^`{|}~:;]/, '')         # Remove forbidden chars
-        .gsub(/[\x00-\x1F\x7F]/, ' ')                   # Replace control chars with spaces
-        .gsub(/\A[[:punct:]]+|[[:punct:]]+\z/, '')      # Remove leading/trailing punctuation
-        .gsub(/\s+/, ' ')                               # Normalize spaces
-        .strip
-  end
-
-  def display_name_from_email
-    channel.email.split('@').first.parameterize.titleize
-  end
 
   def dispatch_create_event
     return if ENV['ENABLE_INBOX_EVENTS'].blank?

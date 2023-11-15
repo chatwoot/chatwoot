@@ -1,114 +1,152 @@
-<script setup>
-import { computed } from 'vue';
-import { getLanguageName } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
-import ContactDetailsItem from './ContactDetailsItem.vue';
-import CustomAttributes from './customAttributes/CustomAttributes.vue';
-
-const props = defineProps({
-  conversationAttributes: {
-    type: Object,
-    default: () => ({}),
-  },
-  contactAttributes: {
-    type: Object,
-    default: () => ({}),
-  },
-});
-
-const referer = computed(() => props.conversationAttributes.referer);
-const initiatedAt = computed(
-  () => props.conversationAttributes.initiated_at?.timestamp
-);
-
-const browserInfo = computed(() => props.conversationAttributes.browser);
-
-const browserName = computed(() => {
-  if (!browserInfo.value) return '';
-  const { browser_name: name = '', browser_version: version = '' } =
-    browserInfo.value;
-  return `${name} ${version}`;
-});
-
-const browserLanguage = computed(() =>
-  getLanguageName(props.conversationAttributes.browser_language)
-);
-
-const platformName = computed(() => {
-  if (!browserInfo.value) return '';
-  const { platform_name: name = '', platform_version: version = '' } =
-    browserInfo.value;
-  return `${name} ${version}`;
-});
-
-const createdAtIp = computed(() => props.contactAttributes.created_at_ip);
-
-const staticElements = computed(() =>
-  [
-    {
-      content: initiatedAt,
-      title: 'CONTACT_PANEL.INITIATED_AT',
-      key: 'static-initiated-at',
-      type: 'static_attribute',
-    },
-    {
-      content: browserLanguage,
-      title: 'CONTACT_PANEL.BROWSER_LANGUAGE',
-      key: 'static-browser-language',
-      type: 'static_attribute',
-    },
-    {
-      content: referer,
-      title: 'CONTACT_PANEL.INITIATED_FROM',
-      key: 'static-referer',
-      type: 'static_attribute',
-    },
-    {
-      content: browserName,
-      title: 'CONTACT_PANEL.BROWSER',
-      key: 'static-browser',
-      type: 'static_attribute',
-    },
-    {
-      content: platformName,
-      title: 'CONTACT_PANEL.OS',
-      key: 'static-platform',
-      type: 'static_attribute',
-    },
-    {
-      content: createdAtIp,
-      title: 'CONTACT_PANEL.IP_ADDRESS',
-      key: 'static-ip-address',
-      type: 'static_attribute',
-    },
-  ].filter(attribute => !!attribute.content.value)
-);
-</script>
-
 <template>
   <div class="conversation--details">
-    <CustomAttributes
-      :static-elements="staticElements"
-      attribute-class="conversation--attribute"
-      attribute-from="conversation_panel"
-      attribute-type="conversation_attribute"
+    <contact-details-item
+      v-if="initiatedAt"
+      :title="$t('CONTACT_PANEL.INITIATED_AT')"
+      :value="initiatedAt.timestamp"
+      class="conversation--attribute"
+    />
+    <contact-details-item
+      v-if="browserLanguage"
+      :title="$t('CONTACT_PANEL.BROWSER_LANGUAGE')"
+      :value="browserLanguage"
+      class="conversation--attribute"
+    />
+    <contact-details-item
+      v-if="referer"
+      :title="$t('CONTACT_PANEL.INITIATED_FROM')"
+      :value="referer"
+      class="conversation--attribute"
     >
-      <template #staticItem="{ element }">
-        <ContactDetailsItem
-          :key="element.title"
-          :title="$t(element.title)"
-          :value="element.content.value"
-        >
-          <a
-            v-if="element.key === 'static-referer'"
-            :href="element.content.value"
-            rel="noopener noreferrer nofollow"
-            target="_blank"
-            class="text-n-brand"
-          >
-            {{ element.content.value }}
-          </a>
-        </ContactDetailsItem>
-      </template>
-    </CustomAttributes>
+      <a :href="referer" rel="noopener noreferrer nofollow" target="_blank">
+        {{ referer }}
+      </a>
+    </contact-details-item>
+    <contact-details-item
+      v-if="browserName"
+      :title="$t('CONTACT_PANEL.BROWSER')"
+      :value="browserName"
+      class="conversation--attribute"
+    />
+    <contact-details-item
+      v-if="platformName"
+      :title="$t('CONTACT_PANEL.OS')"
+      :value="platformName"
+      class="conversation--attribute"
+    />
+    <contact-details-item
+      v-if="ipAddress"
+      :title="$t('CONTACT_PANEL.IP_ADDRESS')"
+      :value="ipAddress"
+      class="conversation--attribute"
+    />
+    <custom-attributes
+      attribute-type="conversation_attribute"
+      attribute-class="conversation--attribute"
+      :class="customAttributeRowClass"
+    />
+    <custom-attribute-selector attribute-type="conversation_attribute" />
   </div>
 </template>
+
+<script>
+import { getLanguageName } from '../../../components/widgets/conversation/advancedFilterItems/languages';
+import ContactDetailsItem from './ContactDetailsItem.vue';
+import CustomAttributes from './customAttributes/CustomAttributes.vue';
+import CustomAttributeSelector from './customAttributes/CustomAttributeSelector.vue';
+
+export default {
+  components: {
+    ContactDetailsItem,
+    CustomAttributes,
+    CustomAttributeSelector,
+  },
+  props: {
+    conversationAttributes: {
+      type: Object,
+      default: () => ({}),
+    },
+    contactAttributes: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
+  STATIC_ATTRIBUTES: [
+    {
+      name: 'initiated_at',
+      label: 'CONTACT_PANEL.INITIATED_AT',
+    },
+    {
+      name: 'referer',
+      label: 'CONTACT_PANEL.BROWSER',
+    },
+    {
+      name: 'browserName',
+      label: 'CONTACT_PANEL.BROWSER',
+    },
+    {
+      name: 'platformName',
+      label: 'CONTACT_PANEL.OS',
+    },
+    {
+      name: 'ipAddress',
+      label: 'CONTACT_PANEL.IP_ADDRESS',
+    },
+  ],
+  computed: {
+    referer() {
+      return this.conversationAttributes.referer;
+    },
+    initiatedAt() {
+      return this.conversationAttributes.initiated_at;
+    },
+    browserName() {
+      if (!this.conversationAttributes.browser) {
+        return '';
+      }
+      const {
+        browser_name: browserName = '',
+        browser_version: browserVersion = '',
+      } = this.conversationAttributes.browser;
+      return `${browserName} ${browserVersion}`;
+    },
+    browserLanguage() {
+      return getLanguageName(this.conversationAttributes.browser_language);
+    },
+    platformName() {
+      if (!this.conversationAttributes.browser) {
+        return '';
+      }
+      const { platform_name: platformName, platform_version: platformVersion } =
+        this.conversationAttributes.browser;
+      return `${platformName || ''} ${platformVersion || ''}`;
+    },
+    ipAddress() {
+      const { created_at_ip: createdAtIp } = this.contactAttributes;
+      return createdAtIp;
+    },
+    customAttributeRowClass() {
+      const attributes = [
+        'initiatedAt',
+        'referer',
+        'browserName',
+        'platformName',
+        'ipAddress',
+      ];
+      const availableAttributes = attributes.filter(
+        attribute => !!this[attribute]
+      );
+      return availableAttributes.length % 2 === 0 ? 'even' : 'odd';
+    },
+  },
+};
+</script>
+<style scoped lang="scss">
+.conversation--attribute {
+  @apply border-slate-50 dark:border-slate-700 border-b border-solid;
+
+  &:nth-child(2n) {
+    @apply bg-slate-25 dark:bg-slate-800;
+  }
+}
+</style>

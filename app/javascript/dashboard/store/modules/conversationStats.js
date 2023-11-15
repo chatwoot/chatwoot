@@ -1,6 +1,6 @@
+import Vue from 'vue';
 import types from '../mutation-types';
 import ConversationApi from '../../api/inbox/conversation';
-import { debounce } from '@chatwoot/utils';
 
 const state = {
   mineCount: 0,
@@ -12,28 +12,16 @@ export const getters = {
   getStats: $state => $state,
 };
 
-// Create a debounced version of the actual API call function
-const fetchMetaData = async (commit, params) => {
-  try {
-    const response = await ConversationApi.meta(params);
-    const {
-      data: { meta },
-    } = response;
-    commit(types.SET_CONV_TAB_META, meta);
-  } catch (error) {
-    // ignore
-  }
-};
-
-const debouncedFetchMetaData = debounce(fetchMetaData, 500, false, 1000);
-const longDebouncedFetchMetaData = debounce(fetchMetaData, 500, false, 5000);
-
 export const actions = {
-  get: async ({ commit, state: $state }, params) => {
-    if ($state.allCount > 100) {
-      longDebouncedFetchMetaData(commit, params);
-    } else {
-      debouncedFetchMetaData(commit, params);
+  get: async ({ commit }, params) => {
+    try {
+      const response = await ConversationApi.meta(params);
+      const {
+        data: { meta },
+      } = response;
+      commit(types.SET_CONV_TAB_META, meta);
+    } catch (error) {
+      // Ignore error
     }
   },
   set({ commit }, meta) {
@@ -50,10 +38,9 @@ export const mutations = {
       all_count: allCount,
     } = {}
   ) {
-    $state.mineCount = mineCount;
-    $state.allCount = allCount;
-    $state.unAssignedCount = unAssignedCount;
-    $state.updatedOn = new Date();
+    Vue.set($state, 'mineCount', mineCount);
+    Vue.set($state, 'allCount', allCount);
+    Vue.set($state, 'unAssignedCount', unAssignedCount);
   },
 };
 

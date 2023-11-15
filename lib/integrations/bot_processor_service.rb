@@ -1,4 +1,5 @@
 class Integrations::BotProcessorService
+  # TODO: In CSML processor service, the argument is agent bot, update initializers accordingly.
   pattr_initialize [:event_name!, :hook!, :event_data!]
 
   def perform

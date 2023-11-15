@@ -152,55 +152,16 @@ RSpec.describe 'Conversations API', type: :request do
         create(:inbox_member, user: agent, inbox: conversation.inbox)
       end
 
-      it 'returns all conversations matching the query' do
+      it 'returns all conversations with empty query' do
         post "/api/v1/accounts/#{account.id}/conversations/filter",
              headers: agent.create_new_auth_token,
-             params: {
-               payload: [{
-                 attribute_key: 'status',
-                 filter_operator: 'equal_to',
-                 values: ['open']
-               }]
-             },
+             params: { payload: [] },
              as: :json
 
         expect(response).to have_http_status(:success)
         response_data = JSON.parse(response.body, symbolize_names: true)
+
         expect(response_data.count).to eq(2)
-      end
-
-      it 'returns error if the filters contain invalid attributes' do
-        post "/api/v1/accounts/#{account.id}/conversations/filter",
-             headers: agent.create_new_auth_token,
-             params: {
-               payload: [{
-                 attribute_key: 'phone_number',
-                 filter_operator: 'equal_to',
-                 values: ['open']
-               }]
-             },
-             as: :json
-
-        expect(response).to have_http_status(:unprocessable_entity)
-        response_data = JSON.parse(response.body, symbolize_names: true)
-        expect(response_data[:error]).to include('Invalid attribute key - [phone_number]')
-      end
-
-      it 'returns error if the filters contain invalid operator' do
-        post "/api/v1/accounts/#{account.id}/conversations/filter",
-             headers: agent.create_new_auth_token,
-             params: {
-               payload: [{
-                 attribute_key: 'status',
-                 filter_operator: 'eq',
-                 values: ['open']
-               }]
-             },
-             as: :json
-
-        expect(response).to have_http_status(:unprocessable_entity)
-        response_data = JSON.parse(response.body, symbolize_names: true)
-        expect(response_data[:error]).to eq('Invalid operator. The allowed operators for status are [equal_to,not_equal_to].')
       end
     end
   end
@@ -245,55 +206,6 @@ RSpec.describe 'Conversations API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(JSON.parse(response.body, symbolize_names: true)[:id]).to eq(conversation.display_id)
-      end
-    end
-  end
-
-  describe 'PATCH /api/v1/accounts/{account.id}/conversations/:id' do
-    let(:conversation) { create(:conversation, account: account) }
-    let(:params) { { priority: 'high' } }
-
-    context 'when it is an unauthenticated user' do
-      it 'returns unauthorized' do
-        patch "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
-              params: params
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-    end
-
-    context 'when it is an authenticated user' do
-      let(:agent) { create(:user, account: account, role: :agent) }
-      let(:administrator) { create(:user, account: account, role: :administrator) }
-
-      it 'does not update the conversation if you do not have access to it' do
-        patch "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
-              params: params,
-              headers: agent.create_new_auth_token,
-              as: :json
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-
-      it 'updates the conversation if you are an administrator' do
-        patch "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
-              params: params,
-              headers: administrator.create_new_auth_token,
-              as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(JSON.parse(response.body, symbolize_names: true)[:priority]).to eq('high')
-      end
-
-      it 'updates the conversation if you are an agent with access to inbox' do
-        create(:inbox_member, user: agent, inbox: conversation.inbox)
-        patch "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
-              params: params,
-              headers: agent.create_new_auth_token,
-              as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(JSON.parse(response.body, symbolize_names: true)[:priority]).to eq('high')
       end
     end
   end
@@ -411,9 +323,6 @@ RSpec.describe 'Conversations API', type: :request do
 
   describe 'POST /api/v1/accounts/{account.id}/conversations/:id/toggle_status' do
     let(:conversation) { create(:conversation, account: account) }
-    let(:inbox) { create(:inbox, account: account) }
-    let(:pending_conversation) { create(:conversation, inbox: inbox, account: account, status: 'pending') }
-    let(:agent_bot) { create(:agent_bot, account: account) }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -499,51 +408,26 @@ RSpec.describe 'Conversations API', type: :request do
         expect(conversation.reload.status).to eq('snoozed')
         expect(conversation.reload.snoozed_until.to_i).to eq(snoozed_until)
       end
-    end
 
-    context 'when it is an authenticated bot' do
-      # this test will basically ensure that the status actually changes
-      # regardless of the value to be done
-      it 'returns authorized for arbritrary status' do
-        create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
+      # TODO: remove this spec when we remove the condition check in controller
+      # Added for backwards compatibility for bot status
+      # remove in next release
+      # it 'toggles the conversation status to pending status when parameter bot is passed' do
+      #   expect(conversation.status).to eq('open')
 
-        conversation.update!(status: 'open')
-        expect(conversation.reload.status).to eq('open')
-        snoozed_until = (DateTime.now.utc + 2.days).to_i
+      #   post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
+      #        headers: agent.create_new_auth_token,
+      #        params: { status: 'bot' },
+      #        as: :json
 
-        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
-             headers: { api_access_token: agent_bot.access_token.token },
-             params: { status: 'snoozed', snoozed_until: snoozed_until },
-             as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(conversation.reload.status).to eq('snoozed')
-      end
-
-      it 'triggers handoff event when moving from pending to open' do
-        create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
-        allow(Rails.configuration.dispatcher).to receive(:dispatch)
-
-        post "/api/v1/accounts/#{account.id}/conversations/#{pending_conversation.display_id}/toggle_status",
-             headers: { api_access_token: agent_bot.access_token.token },
-             params: { status: 'open' },
-             as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(pending_conversation.reload.status).to eq('open')
-        expect(Rails.configuration.dispatcher).to have_received(:dispatch)
-          .with(Events::Types::CONVERSATION_BOT_HANDOFF, kind_of(Time), conversation: pending_conversation, notifiable_assignee_change: false,
-                                                                        changed_attributes: anything, performed_by: anything)
-      end
+      #   expect(response).to have_http_status(:success)
+      #   expect(conversation.reload.status).to eq('pending')
+      # end
     end
   end
 
   describe 'POST /api/v1/accounts/{account.id}/conversations/:id/toggle_priority' do
-    let(:inbox) { create(:inbox, account: account) }
     let(:conversation) { create(:conversation, account: account) }
-    let(:pending_conversation) { create(:conversation, inbox: inbox, account: account, status: 'pending') }
-    let(:agent) { create(:user, account: account, role: :agent) }
-    let(:agent_bot) { create(:agent_bot, account: account) }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -554,6 +438,7 @@ RSpec.describe 'Conversations API', type: :request do
     end
 
     context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
       let(:administrator) { create(:user, account: account, role: :administrator) }
 
       before do
@@ -583,23 +468,6 @@ RSpec.describe 'Conversations API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(conversation.reload.priority).to be_nil
-      end
-    end
-
-    context 'when it is an authenticated bot' do
-      it 'toggle the priority of the bot agent conversation' do
-        create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
-
-        conversation.update!(priority: 'low')
-        expect(conversation.reload.priority).to eq('low')
-
-        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_priority",
-             headers: { api_access_token: agent_bot.access_token.token },
-             params: { priority: 'high' },
-             as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(conversation.reload.priority).to eq('high')
       end
     end
   end
@@ -843,30 +711,9 @@ RSpec.describe 'Conversations API', type: :request do
         create(:inbox_member, user: agent, inbox: conversation.inbox)
       end
 
-      it 'updates custom attributes' do
+      it 'updates last seen' do
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/custom_attributes",
              headers: agent.create_new_auth_token,
-             params: valid_params,
-             as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(conversation.reload.custom_attributes).not_to be_nil
-        expect(conversation.reload.custom_attributes.count).to eq 3
-      end
-    end
-
-    context 'when it is a bot' do
-      let(:agent_bot) { create(:agent_bot, account: account) }
-      let(:custom_attributes) { { bot_id: 1001, flow_name: 'support_flow', step: 'greeting' } }
-      let(:valid_params) { { custom_attributes: custom_attributes } }
-
-      before do
-        create(:agent_bot_inbox, agent_bot: agent_bot, inbox: conversation.inbox)
-      end
-
-      it 'updates custom attributes' do
-        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/custom_attributes",
-             headers: { api_access_token: agent_bot.access_token.token },
              params: valid_params,
              as: :json
 
@@ -923,65 +770,6 @@ RSpec.describe 'Conversations API', type: :request do
         expect(response).to have_http_status(:success)
         response_body = response.parsed_body
         expect(response_body['payload'].length).to eq(1)
-      end
-    end
-  end
-
-  describe 'DELETE /api/v1/accounts/{account.id}/conversations/:id' do
-    let(:conversation) { create(:conversation, account: account) }
-    let(:agent) { create(:user, account: account, role: :agent) }
-    let(:administrator) { create(:user, account: account, role: :administrator) }
-
-    context 'when it is an unauthenticated user' do
-      it 'returns unauthorized' do
-        delete "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}"
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-    end
-
-    context 'when it is an authenticated agent' do
-      before do
-        create(:inbox_member, user: agent, inbox: conversation.inbox)
-      end
-
-      it 'returns unauthorized' do
-        delete "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
-               headers: agent.create_new_auth_token,
-               as: :json
-
-        expect(response).to have_http_status(:unauthorized)
-        response_body = response.parsed_body
-        expect(response_body['error']).to eq('You are not authorized to do this action')
-      end
-    end
-
-    context 'when it is an authenticated administrator' do
-      before do
-        create(:inbox_member, user: administrator, inbox: conversation.inbox)
-      end
-
-      it 'successfully deletes the conversation' do
-        expect do
-          delete "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
-                 headers: administrator.create_new_auth_token,
-                 as: :json
-        end.to have_enqueued_job(DeleteObjectJob).with(conversation, administrator, anything)
-
-        expect(response).to have_http_status(:ok)
-      end
-
-      it 'can delete conversations from inboxes without direct access' do
-        other_inbox = create(:inbox, account: account)
-        other_conversation = create(:conversation, account: account, inbox: other_inbox)
-
-        expect do
-          delete "/api/v1/accounts/#{account.id}/conversations/#{other_conversation.display_id}",
-                 headers: administrator.create_new_auth_token,
-                 as: :json
-        end.to have_enqueued_job(DeleteObjectJob).with(other_conversation, administrator, anything)
-
-        expect(response).to have_http_status(:ok)
       end
     end
   end

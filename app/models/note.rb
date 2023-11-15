@@ -21,10 +21,11 @@ class Note < ApplicationRecord
   validates :content, presence: true
   validates :account_id, presence: true
   validates :contact_id, presence: true
+  validates :user_id, presence: true
 
   belongs_to :account
   belongs_to :contact
-  belongs_to :user, optional: true
+  belongs_to :user
 
   scope :latest, -> { order(created_at: :desc) }
 

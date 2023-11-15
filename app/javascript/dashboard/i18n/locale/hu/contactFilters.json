@@ -30,9 +30,6 @@
       "is_lesser_than": "Kisebb mint",
       "days_before": "x nappal előtte"
     },
-    "ERRORS": {
-      "VALUE_REQUIRED": "Kötelező megadni"
-    },
     "ATTRIBUTES": {
       "NAME": "Név",
       "EMAIL": "E-mail",
@@ -47,8 +44,7 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Jelölőnégyzet",
       "CREATED_AT": "Létrehozva",
       "LAST_ACTIVITY": "Utolsó aktivitás",
-      "REFERER_LINK": "Hivatkozás link",
-      "BLOCKED": "Blocked"
+      "REFERER_LINK": "Hivatkozás link"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Alap szűrők",

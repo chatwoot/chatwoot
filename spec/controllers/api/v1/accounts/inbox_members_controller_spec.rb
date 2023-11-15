@@ -255,30 +255,28 @@ RSpec.describe 'Inbox Member API', type: :request do
         expect(response).to have_http_status(:not_found)
       end
 
-      it 'ignores invalid params' do
+      it 'renders error on invalid params' do
         params = { inbox_id: inbox.id, user_ids: ['invalid'] }
-        original_count = inbox.inbox_members&.count
 
         delete "/api/v1/accounts/#{account.id}/inbox_members",
                headers: administrator.create_new_auth_token,
                params: params,
                as: :json
 
-        expect(response).to have_http_status(:success)
-        expect(inbox.inbox_members&.count).to eq(original_count)
+        expect(response).to have_http_status(:not_found)
+        expect(response.body).to include('Resource could not be found')
       end
 
-      it 'ignores non member params' do
+      it 'renders error on non member params' do
         params = { inbox_id: inbox.id, user_ids: [non_member_agent.id] }
-        original_count = inbox.inbox_members&.count
 
         delete "/api/v1/accounts/#{account.id}/inbox_members",
                headers: administrator.create_new_auth_token,
                params: params,
                as: :json
 
-        expect(response).to have_http_status(:success)
-        expect(inbox.inbox_members&.count).to eq(original_count)
+        expect(response).to have_http_status(:not_found)
+        expect(response.body).to include('Resource could not be found')
       end
     end
   end

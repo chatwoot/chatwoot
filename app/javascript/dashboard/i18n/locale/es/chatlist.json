@@ -6,7 +6,6 @@
     "LIST": {
       "404": "No hay conversaciones activas en este grupo."
     },
-    "FAILED_TO_SEND": "Error al enviar",
     "TAB_HEADING": "Conversaciones",
     "MENTION_HEADING": "Menciones",
     "UNATTENDED_HEADING": "Desatendido",
@@ -21,7 +20,7 @@
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "Abiertas"
+        "TEXT": "Abrir"
       },
       "resolved": {
         "TEXT": "Resueltas"
@@ -52,30 +51,18 @@
         "ACTIVE": "Última actividad"
       }
     },
-    "SORT_ORDER_ITEMS": {
-      "last_activity_at_asc": {
-        "TEXT": "Última actividad: Más antigua primero"
+    "CHAT_SORT_FILTER_ITEMS": {
+      "latest": {
+        "TEXT": "Última actividad"
       },
-      "last_activity_at_desc": {
-        "TEXT": "Última actividad: Más reciente primero"
+      "sort_on_created_at": {
+        "TEXT": "Creado el"
       },
-      "created_at_desc": {
-        "TEXT": "Creado el: Más Nuevo primero"
+      "sort_on_priority": {
+        "TEXT": "Prioridad"
       },
-      "created_at_asc": {
-        "TEXT": "Creado el: Más antiguo primero"
-      },
-      "priority_desc": {
-        "TEXT": "Prioridad: el más alto primero"
-      },
-      "priority_asc": {
-        "TEXT": "Prioridad: el más bajo primero"
-      },
-      "waiting_since_asc": {
-        "TEXT": "Respuesta pendiente: la más larga primero"
-      },
-      "waiting_since_desc": {
-        "TEXT": "Respuesta pendiente: la más corta primero"
+      "sort_on_waiting_since": {
+        "TEXT": "Respuesta pendiente"
       }
     },
     "ATTACHMENTS": {
@@ -94,14 +81,8 @@
       "location": {
         "CONTENT": "Ubicación"
       },
-      "ig_reel": {
-        "CONTENT": "Reel de Instagram"
-      },
       "fallback": {
         "CONTENT": "ha compartido una url"
-      },
-      "contact": {
-        "CONTENT": "Contacto compartido"
       }
     },
     "CHAT_SORT_BY_FILTER": {
@@ -133,7 +114,6 @@
     "NO_CONTENT": "No hay contenido disponible",
     "HIDE_QUOTED_TEXT": "Ocultar texto citado",
     "SHOW_QUOTED_TEXT": "Mostrar texto citado",
-    "MESSAGE_READ": "Leído",
-    "SENDING": "Enviando"
+    "MESSAGE_READ": "Leído"
   }
 }

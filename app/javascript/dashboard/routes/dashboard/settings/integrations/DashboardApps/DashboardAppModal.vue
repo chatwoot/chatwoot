@@ -1,14 +1,64 @@
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { required, url } from '@vuelidate/validators';
-import { useAlert } from 'dashboard/composables';
+<template>
+  <woot-modal :show="show" :on-close="closeModal">
+    <div class="h-auto overflow-auto flex flex-col">
+      <woot-modal-header :header-title="header" />
 
-import NextButton from 'dashboard/components-next/button/Button.vue';
+      <form class="mx-0 flex flex-wrap" @submit.prevent="submit">
+        <woot-input
+          v-model.trim="app.title"
+          :class="{ error: $v.app.title.$error }"
+          class="w-full"
+          :label="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.TITLE_LABEL')"
+          :placeholder="
+            $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.TITLE_PLACEHOLDER')
+          "
+          :error="
+            $v.app.title.$error
+              ? $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.TITLE_ERROR')
+              : null
+          "
+          data-testid="app-title"
+          @input="$v.app.title.$touch"
+        />
+        <woot-input
+          v-model.trim="app.content.url"
+          :class="{ error: $v.app.content.url.$error }"
+          class="w-full"
+          :label="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.URL_LABEL')"
+          :placeholder="
+            $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.URL_PLACEHOLDER')
+          "
+          :error="
+            $v.app.content.url.$error
+              ? $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.URL_ERROR')
+              : null
+          "
+          data-testid="app-url"
+          @input="$v.app.content.url.$touch"
+        />
+        <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+          <woot-button
+            :is-loading="isLoading"
+            :is-disabled="$v.$invalid"
+            data-testid="label-submit"
+          >
+            {{ submitButtonLabel }}
+          </woot-button>
+          <woot-button class="button clear" @click.prevent="closeModal">
+            {{ $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.CREATE.FORM_CANCEL') }}
+          </woot-button>
+        </div>
+      </form>
+    </div>
+  </woot-modal>
+</template>
+
+<script>
+import { required, url } from 'vuelidate/lib/validators';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
-  components: {
-    NextButton,
-  },
+  mixins: [alertMixin],
   props: {
     show: {
       type: Boolean,
@@ -22,10 +72,6 @@ export default {
       type: Object,
       default: () => ({}),
     },
-  },
-  emits: ['close'],
-  setup() {
-    return { v$: useVuelidate() };
   },
   validations: {
     app: {
@@ -75,8 +121,8 @@ export default {
     },
     async submit() {
       try {
-        this.v$.$touch();
-        if (this.v$.$invalid) {
+        this.$v.$touch();
+        if (this.$v.$invalid) {
           return;
         }
 
@@ -92,14 +138,14 @@ export default {
 
         this.isLoading = true;
         await this.$store.dispatch(`dashboardApps/${action}`, payload);
-        useAlert(
+        this.showAlert(
           this.$t(
             `INTEGRATION_SETTINGS.DASHBOARD_APPS.${this.mode}.API_SUCCESS`
           )
         );
         this.closeModal();
       } catch (err) {
-        useAlert(
+        this.showAlert(
           this.$t(`INTEGRATION_SETTINGS.DASHBOARD_APPS.${this.mode}.API_ERROR`)
         );
       } finally {
@@ -109,64 +155,3 @@ export default {
   },
 };
 </script>
-
-<template>
-  <woot-modal :show="show" :on-close="closeModal">
-    <div class="flex flex-col h-auto overflow-auto">
-      <woot-modal-header :header-title="header" />
-      <form class="w-full" @submit.prevent="submit">
-        <woot-input
-          v-model="app.title"
-          :class="{ error: v$.app.title.$error }"
-          class="w-full"
-          :label="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.TITLE_LABEL')"
-          :placeholder="
-            $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.TITLE_PLACEHOLDER')
-          "
-          :error="
-            v$.app.title.$error
-              ? $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.TITLE_ERROR')
-              : null
-          "
-          data-testid="app-title"
-          @input="v$.app.title.$touch"
-          @blur="v$.app.title.$touch"
-        />
-        <woot-input
-          v-model="app.content.url"
-          :class="{ error: v$.app.content.url.$error }"
-          class="w-full"
-          :label="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.URL_LABEL')"
-          :placeholder="
-            $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.URL_PLACEHOLDER')
-          "
-          :error="
-            v$.app.content.url.$error
-              ? $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.URL_ERROR')
-              : null
-          "
-          data-testid="app-url"
-          @input="v$.app.content.url.$touch"
-          @blur="v$.app.content.url.$touch"
-        />
-        <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
-          <NextButton
-            faded
-            slate
-            type="reset"
-            :label="
-              $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.CREATE.FORM_CANCEL')
-            "
-            @click.prevent="closeModal"
-          />
-          <NextButton
-            type="submit"
-            :label="submitButtonLabel"
-            :disabled="v$.$invalid"
-            :is-loading="isLoading"
-          />
-        </div>
-      </form>
-    </div>
-  </woot-modal>
-</template>

@@ -4,18 +4,28 @@
 
 .conversation-wrap {
   .agent-message {
-    @apply items-end flex flex-row justify-start mt-0 ltr:mr-0 rtl:mr-2 mb-0.5 ltr:ml-2 rtl:ml-0 max-w-[88%];
+    align-items: flex-end;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin: 0 0 $space-micro $space-small;
+    max-width: 88%;
 
     .avatar-wrap {
-      @apply flex-shrink-0 h-6 w-6;
+      flex-shrink: 0;
+      height: $space-medium;
+      width: $space-medium;
 
       .user-thumbnail-box {
-        @apply -mt-8;
+        margin-top: -$space-large;
       }
     }
 
     .message-wrap {
-      @apply flex-grow flex-shrink-0 ltr:ml-2 rtl:mr-2 max-w-[90%];
+      flex-grow: 1;
+      flex-shrink: 0;
+      margin-left: $space-small;
+      max-width: 90%;
     }
   }
 
@@ -32,7 +42,10 @@
   }
 
   .agent-name {
-    @apply text-xs font-medium my-2 ltr:pl-0.5 rtl:pr-0.5;
+    font-size: $font-size-small;
+    font-weight: $font-weight-medium;
+    margin: $space-small 0;
+    padding-left: $space-micro;
   }
 
   .has-attachment {
@@ -43,127 +56,146 @@
     }
 
     &.has-text {
-      @apply mt-1;
+      margin-top: $space-smaller;
     }
   }
 
   .agent-message-wrap {
     + .agent-message-wrap {
-      @apply mt-0.5;
+      margin-top: $space-micro;
 
       .agent-message .chat-bubble {
-        @apply ltr:rounded-tl-[0.25rem] rtl:rounded-tr-[0.25rem];
+        border-top-left-radius: $space-smaller;
       }
     }
 
     + .user-message-wrap {
-      @apply mt-4;
+      margin-top: $space-normal;
     }
 
     &.has-response + .user-message-wrap {
-      @apply mt-0.5;
+      margin-top: $space-micro;
 
       .chat-bubble {
-        @apply ltr:rounded-tr-[0.25rem] rtl:rounded-tl-[0.25rem];
+        border-top-right-radius: $space-smaller;
       }
     }
 
     &.has-response + .agent-message-wrap {
-      @apply mt-4;
+      margin-top: $space-normal;
     }
   }
 
   .user-message {
-    @apply flex items-end flex-row justify-end max-w-[85%] ltr:text-right rtl:text-left mt-0 ltr:ml-auto rtl:mr-auto ltr:mr-1 rtl:ml-1 mb-0.5;
+    align-items: flex-end;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin: 0 $space-smaller $space-micro auto;
+    max-width: 85%;
+    text-align: right;
 
     .message-wrap {
-      @apply max-w-full ltr:mr-2 rtl:ml-2;
+      margin-right: $space-small;
+      max-width: 100%;
     }
 
-    .in-progress {
+    .in-progress,
+    .is-failed {
       opacity: 0.6;
     }
 
     .is-failed {
-      @apply flex items-end flex-row-reverse;
+      align-items: flex-end;
+      display: flex;
+      flex-direction: row-reverse;
 
       .chat-bubble.user {
-        @apply bg-n-ruby-9 dark:bg-n-ruby-9 #{!important};
+        background: $color-error !important;
+        // TODO: Remove the important
       }
     }
   }
 
   .user.has-attachment {
     .icon-wrap {
-      @apply text-white;
+      color: $color-white;
     }
 
     .download {
-      @apply text-white;
+      color: $color-white;
     }
   }
 
   .user-message-wrap {
     + .user-message-wrap {
-      @apply mt-0.5;
+      margin-top: $space-micro;
 
       .user-message .chat-bubble {
-        @apply ltr:rounded-tr-[0.25rem] rtl:rounded-tl-[0.25rem];
+        border-top-right-radius: $space-smaller;
       }
     }
 
     + .agent-message-wrap {
-      @apply mt-4;
+      margin-top: $space-normal;
     }
   }
 
   p:not(:last-child) {
-    @apply mb-4;
+    margin-bottom: $space-normal;
   }
 }
 
 .unread-messages {
-  @apply flex flex-col flex-nowrap mt-0 overflow-y-auto w-full pb-2;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  margin-top: 0;
+  overflow-y: auto;
+  padding-bottom: $space-small;
+  width: 100%;
 
   .chat-bubble-wrap {
-    @apply mb-1;
+    margin-bottom: $space-smaller;
 
     &:first-child {
       margin-top: auto;
     }
 
     .chat-bubble {
-      @apply border border-solid border-n-slate-5 dark:border-n-slate-11/50 text-n-black;
+      border: 1px solid $color-border-dark;
     }
 
     + .chat-bubble-wrap {
       .chat-bubble {
-        @apply ltr:rounded-tl-[0.25rem] rtl:rounded-tr-[0.25rem];
+        border-top-left-radius: $space-smaller;
       }
     }
 
     &:last-child .chat-bubble {
-      @apply ltr:rounded-bl-[1.25rem] rtl:rounded-br-[1.25rem];
+      border-bottom-left-radius: $space-two;
     }
   }
 }
 
 .is-widget-right .unread-wrap {
-  @apply ltr:text-right rtl:text-left overflow-hidden;
+  overflow: hidden;
+  text-align: right;
 
   .chat-bubble-wrap {
     .chat-bubble {
-      @apply ltr:rounded-br-[0.25rem] rtl:rounded-bl-[0.25rem] rounded-[1.25rem];
+      border-bottom-right-radius: $space-smaller;
+      border-radius: $space-two;
     }
 
     + .chat-bubble-wrap {
       .chat-bubble {
-        @apply ltr:rounded-tr-[0.25rem] rtl:rounded-tl-[0.25rem];
+        border-top-right-radius: $space-smaller;
       }
     }
 
     &:last-child .chat-bubble {
-      @apply ltr:rounded-br-[1.25rem] rtl:rounded-bl-[1.25rem];
+      border-bottom-right-radius: $space-two;
     }
   }
 
@@ -173,8 +205,15 @@
 }
 
 .chat-bubble {
-  @apply shadow-[0_0.25rem_6px_rgba(50,50,93,0.08),0_1px_3px_rgba(0,0,0,0.05)] rounded-[1.25rem] inline-block text-sm leading-[1.5] max-w-full ltr:text-left rtl:text-right py-3 px-4 text-white;
-
+  @include light-shadow;
+  border-radius: $space-two;
+  color: $color-white;
+  display: inline-block;
+  font-size: $font-size-default;
+  line-height: 1.5;
+  max-width: 100%;
+  padding: $space-slab $space-normal;
+  text-align: left;
   word-break: break-word;
 
   :not([audio]) {
@@ -182,7 +221,7 @@
   }
 
   > a {
-    @apply text-n-brand;
+    color: $color-primary;
     word-break: break-all;
   }
 
@@ -191,18 +230,19 @@
   }
 
   &.user {
-    @apply ltr:rounded-br-[0.25rem] rtl:rounded-bl-[0.25rem];
+    border-bottom-right-radius: $space-smaller;
 
     > a {
-      @apply text-white;
+      color: $color-white;
     }
   }
 
   &.agent {
-    @apply ltr:rounded-bl-[0.25rem] rtl:rounded-br-[0.25rem] text-n-slate-12;
+    border-bottom-left-radius: $space-smaller;
+    color: $color-body;
 
     .link {
-      @apply text-n-brand;
+      color: $color-woot;
       word-break: break-word;
     }
   }

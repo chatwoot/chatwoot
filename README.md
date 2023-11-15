@@ -1,5 +1,3 @@
-# Chatwoot
-
 # Development process
 
 - All app code goes into root folder

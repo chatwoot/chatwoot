@@ -20,17 +20,17 @@
     "IN_A_FEW_MINUTES": "Paprastai atsako per kelias minutes",
     "IN_A_FEW_HOURS": "Paprastai atsako per kelias valandas",
     "IN_A_DAY": "Paprastai atsako per dieną",
-    "BACK_IN": "Mes grįšime"
+    "BACK_IN": "Mes grįšime online"
   },
-  "DAY_NAMES": {
-    "SUNDAY": "Sekmadienis",
-    "MONDAY": "Pirmadienis",
-    "TUESDAY": "Antradienis",
-    "WEDNESDAY": "Trečiadienis",
-    "THURSDAY": "Ketvirtadienis",
-    "FRIDAY": "Penktadienis",
-    "SATURDAY": "Šeštadienis"
-  },
+  "DAY_NAMES": [
+    "Sekmadienis",
+    "Pirmadienis",
+    "Antradienis",
+    "Trečiadienis",
+    "Ketvirtadienis",
+    "Penktadienis",
+    "Šeštadienis"
+  ],
   "START_CONVERSATION": "Pradėti Pokalbį",
   "END_CONVERSATION": "Užbaigti Pokalbį",
   "CONTINUE_CONVERSATION": "Tęsti pokalbį",
@@ -70,8 +70,7 @@
         "REQUIRED_ERROR": "Telefono Numeris yra reikalingas",
         "DIAL_CODE_VALID_ERROR": "Prašome pasirinkti šalies kodą",
         "VALID_ERROR": "Prašau įveskite teisingą telefono numerį",
-        "DROPDOWN_EMPTY": "Nieko nerasta",
-        "DROPDOWN_SEARCH": "Search country"
+        "DROPDOWN_EMPTY": "Nieko nerasta"
       },
       "MESSAGE": {
         "LABEL": "Žinutė",
@@ -81,8 +80,7 @@
     },
     "CAMPAIGN_HEADER": "Prieš pradėdami pokalbį nurodykite savo vardą ir el. pašto adresą",
     "IS_REQUIRED": "reikalingas",
-    "REQUIRED": "Reikalingas",
-    "REGEX_ERROR": "Please provide a valid input"
+    "REQUIRED": "Reikalingas"
   },
   "FILE_SIZE_LIMIT": "Failas viršija {MAXIMUM_FILE_UPLOAD_SIZE} apribojimą",
   "CHAT_FORM": {
@@ -92,8 +90,7 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Ieškoti emodžių",
-    "NOT_FOUND": "Jūsų paieška neatitinka jokių emodži",
-    "ARIA_LABEL": "Emoji picker"
+    "NOT_FOUND": "Jūsų paieška neatitinka jokių emodži"
   },
   "CSAT": {
     "TITLE": "Įvertinkite savo pokalbį",
@@ -135,8 +132,5 @@
     "fallback": {
       "CONTENT": "pasidalino URL"
     }
-  },
-  "FOOTER_REPLY_TO": {
-    "REPLY_TO": "Atsakant į:"
   }
 }

@@ -30,9 +30,6 @@
       "is_lesser_than": "Je manje od",
       "days_before": "Je x dana pre"
     },
-    "ERRORS": {
-      "VALUE_REQUIRED": "Vrednost je neophodna"
-    },
     "ATTRIBUTES": {
       "NAME": "Ime",
       "EMAIL": "E-pošta",
@@ -47,8 +44,7 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Polje za potvrdu",
       "CREATED_AT": "Kreirano",
       "LAST_ACTIVITY": "Poslednja aktivnost",
-      "REFERER_LINK": "Veza preporuke",
-      "BLOCKED": "Blocked"
+      "REFERER_LINK": "Veza preporuke"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standardni filteri",

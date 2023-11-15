@@ -1,121 +1,125 @@
 {
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "チームを新規作成",
-    "HEADER": "チーム",
-    "LOADING": "チームを取得中",
-    "DESCRIPTION": "チームは担当者をその責務に基づいてグループ化することを可能にします。担当者は複数のチームに所属できます。共同作業では、会話を特定のチームに割り当てることができます。",
-    "LEARN_MORE": "チームについて詳しく学ぶ",
+    "HEADER": "チーム一覧",
+    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> An agent can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
     "LIST": {
-      "404": "このアカウントにはまだ作成されたチームがありません。",
-      "EDIT_TEAM": "チームを編集",
-      "NONE": "該当なし"
+      "404": "このアカウントにはまだ作成したチームはありません。",
+      "EDIT_TEAM": "チームを編集"
     },
     "CREATE_FLOW": {
       "CREATE": {
         "TITLE": "チームを新規作成",
-        "DESC": "新しいチームにタイトルと説明を追加してください。"
+        "DESC": "Add a title and description to your new team."
       },
       "AGENTS": {
-        "BUTTON_TEXT": "チームに担当者を追加",
-        "TITLE": "チームに担当者を追加 - {teamName}",
-        "DESC": "新しく作成したチームに担当者を追加してください。これにより、チームとして会話で協力したり、同じ会話での新しいイベントについて通知を受けたりできます。"
+        "BUTTON_TEXT": "Add agents to team",
+        "TITLE": "Add agents to team - %{teamName}",
+        "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
       },
-      "WIZARD_CREATE": {
-        "TITLE": "作成",
-        "BODY": "新しい担当者チームを作成します。"
-      },
-      "WIZARD_ADD_AGENTS": {
-        "TITLE": "担当者を追加",
-        "BODY": "チームに担当者を追加します。"
-      },
-      "WIZARD_FINISH": {
-        "TITLE": "完了",
-        "BODY": "すべての準備が完了しました！"
-      }
+      "WIZARD": [
+        {
+          "title": "作成",
+          "route": "settings_teams_new",
+          "body": "Create a new team of agents."
+        },
+        {
+          "title": "担当者を追加",
+          "route": "settings_teams_add_agents",
+          "body": "Add agents to the team."
+        },
+        {
+          "title": "Finish",
+          "route": "settings_teams_finish",
+          "body": "すべての準備が完了しました！"
+        }
+      ]
     },
     "EDIT_FLOW": {
       "CREATE": {
-        "TITLE": "チームの詳細を編集",
-        "DESC": "チームのタイトルや説明を編集します。",
-        "BUTTON_TEXT": "チームを更新"
+        "TITLE": "Edit your team details",
+        "DESC": "Edit title and description to your team.",
+        "BUTTON_TEXT": "Update team"
       },
       "AGENTS": {
-        "BUTTON_TEXT": "チーム内の担当者を更新",
-        "TITLE": "チームに担当者を追加 - {teamName}",
-        "DESC": "新しく作成したチームに担当者を追加してください。追加された担当者は、このチームに割り当てられた会話について通知を受けます。"
+        "BUTTON_TEXT": "Update agents in team",
+        "TITLE": "Add agents to team - %{teamName}",
+        "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
       },
-      "EDIT_WIZARD_DETAILS": {
-        "TITLE": "チームの詳細",
-        "ROUTE": "settings_teams_edit",
-        "BODY": "名前、説明、その他の詳細を変更します。"
-      },
-      "EDIT_WIZARD_AGENTS": {
-        "TITLE": "担当者を編集",
-        "ROUTE": "settings_teams_edit_members",
-        "BODY": "チーム内の担当者を編集します。"
-      },
-      "EDIT_WIZARD_FINISH": {
-        "TITLE": "完了",
-        "ROUTE": "settings_teams_edit_finish",
-        "BODY": "すべての準備が完了しました！"
-      }
+      "WIZARD": [
+        {
+          "title": "Team details",
+          "route": "settings_teams_edit",
+          "body": "Change name, description and other details."
+        },
+        {
+          "title": "Edit Agents",
+          "route": "settings_teams_edit_members",
+          "body": "Edit agents in your team."
+        },
+        {
+          "title": "Finish",
+          "route": "settings_teams_edit_finish",
+          "body": "すべての準備が完了しました！"
+        }
+      ]
     },
     "TEAM_FORM": {
-      "ERROR_MESSAGE": "チームの詳細を保存できませんでした。もう一度お試しください。"
+      "ERROR_MESSAGE": "Couldn't save the team details. Try again."
     },
     "AGENTS": {
-      "AGENT": "担当者",
+      "AGENT": "AGENT",
       "EMAIL": "Eメール",
       "BUTTON_TEXT": "担当者を追加",
-      "ADD_AGENTS": "チームに担当者を追加中...",
-      "SELECT": "選択",
-      "SELECT_ALL": "すべての担当者を選択",
-      "SELECTED_COUNT": "{total}人中{selected}人が選択されました。"
+      "ADD_AGENTS": "Adding Agents to your Team...",
+      "SELECT": "select",
+      "SELECT_ALL": "select all agents",
+      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
     },
     "ADD": {
-      "TITLE": "チームに担当者を追加 - {teamName}",
-      "DESC": "新しく作成したチームに担当者を追加してください。これにより、チームとして会話で協力したり、同じ会話での新しいイベントについて通知を受けたりできます。",
-      "SELECT": "選択",
-      "SELECT_ALL": "すべての担当者を選択",
-      "SELECTED_COUNT": "{total}人中{selected}人が選択されました。",
+      "TITLE": "Add agents to team - %{teamName}",
+      "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation.",
+      "SELECT": "select",
+      "SELECT_ALL": "select all agents",
+      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
       "BUTTON_TEXT": "担当者を追加",
-      "AGENT_VALIDATION_ERROR": "少なくとも1人の担当者を選択してください。"
+      "AGENT_VALIDATION_ERROR": "Select at least one agent."
     },
     "FINISH": {
-      "TITLE": "チームの準備ができました！",
-      "MESSAGE": "これで会話においてチームとして協力することができます。サポート活動を楽しんでください！",
-      "BUTTON_TEXT": "完了"
+      "TITLE": "Your team is ready!",
+      "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
+      "BUTTON_TEXT": "Finish"
     },
     "DELETE": {
       "BUTTON_TEXT": "削除",
       "API": {
-        "SUCCESS_MESSAGE": "チームが正常に削除されました。",
-        "ERROR_MESSAGE": "チームを削除できませんでした。もう一度お試しください。"
+        "SUCCESS_MESSAGE": "Team deleted successfully.",
+        "ERROR_MESSAGE": "Couldn't delete the team. Try again."
       },
       "CONFIRM": {
-        "TITLE": "本当にこのチームを削除しますか？",
-        "PLACE_HOLDER": "{teamName}と入力して確認してください",
-        "MESSAGE": "チームを削除すると、このチームに割り当てられた会話のチーム割り当てが削除されます。",
-        "YES": "削除",
+        "TITLE": "Are you sure want to delete - %{teamName}",
+        "PLACE_HOLDER": "Please type {teamName} to confirm",
+        "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
+        "YES": "削除 ",
         "NO": "キャンセル"
       }
     },
     "SETTINGS": "設定",
     "FORM": {
-      "UPDATE": "チームを更新",
-      "CREATE": "チームを作成",
+      "UPDATE": "Update team",
+      "CREATE": "Create team",
       "NAME": {
-        "LABEL": "チーム名",
-        "PLACEHOLDER": "例: 営業、カスタマーサポート"
+        "LABEL": "Team name",
+        "PLACEHOLDER": "Example: Sales, Customer Support"
       },
       "DESCRIPTION": {
-        "LABEL": "チームの説明",
-        "PLACEHOLDER": "このチームに関する簡単な説明。"
+        "LABEL": "Team Description",
+        "PLACEHOLDER": "Short description about this team."
       },
       "AUTO_ASSIGN": {
-        "LABEL": "このチームで自動割り当てを許可する"
+        "LABEL": "Allow auto assign for this team."
       },
-      "SUBMIT_CREATE": "チームを作成"
+      "SUBMIT_CREATE": "Create team"
     }
   }
 }

@@ -15,10 +15,10 @@ describe Integrations::Dyte::ProcessorService do
   describe '#create_a_meeting' do
     context 'when the API response is success' do
       before do
-        stub_request(:post, 'https://api.dyte.io/v2/meetings')
+        stub_request(:post, 'https://api.cluster.dyte.in/v1/organizations/org_id/meeting')
           .to_return(
             status: 200,
-            body: { success: true, data: { id: 'meeting_id' } }.to_json,
+            body: { success: true, data: { meeting: { id: 'meeting_id', roomName: 'room_name' } } }.to_json,
             headers: headers
           )
       end
@@ -32,7 +32,7 @@ describe Integrations::Dyte::ProcessorService do
 
     context 'when the API response is errored' do
       before do
-        stub_request(:post, 'https://api.dyte.io/v2/meetings')
+        stub_request(:post, 'https://api.cluster.dyte.in/v1/organizations/org_id/meeting')
           .to_return(
             status: 422,
             body: { success: false, data: { message: 'Title is required' } }.to_json,
@@ -51,17 +51,17 @@ describe Integrations::Dyte::ProcessorService do
   describe '#add_participant_to_meeting' do
     context 'when the API response is success' do
       before do
-        stub_request(:post, 'https://api.dyte.io/v2/meetings/m_id/participants')
+        stub_request(:post, 'https://api.cluster.dyte.in/v1/organizations/org_id/meetings/m_id/participant')
           .to_return(
             status: 200,
-            body: { success: true, data: { id: 'random_uuid', auth_token: 'json-web-token' } }.to_json,
+            body: { success: true, data: { authResponse: { userAdded: true, id: 'random_uuid', auth_token: 'json-web-token' } } }.to_json,
             headers: headers
           )
       end
 
       it 'return the authResponse' do
         response = processor.add_participant_to_meeting('m_id', agent)
-        expect(response).not_to be_nil
+        expect(response[:authResponse]).not_to be_nil
       end
     end
   end

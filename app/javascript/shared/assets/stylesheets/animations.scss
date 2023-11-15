@@ -1,0 +1,11 @@
+// Taken from thoughtbot/bourbon library timing functions
+
+:root {
+  --ease-in-cubic: cubic-bezier(0.17, 0.67, 0.83, 0.67);
+  --ease-in-sine: cubic-bezier(0.47, 0, 0.745, 0.715);
+
+  --ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
+  --ease-out-sine: cubic-bezier(0.39, 0.575, 0.565, 1);
+
+  --ease-in-out-quad: cubic-bezier(0.455, 0.03, 0.515, 0.955);
+}

@@ -1,6 +1,5 @@
 in: path
-name: id
-schema:
-  type: string
+name: portal_id
+type: integer
 required: true
-description: The slug identifier of the portal
+description: The numeric ID of the portal

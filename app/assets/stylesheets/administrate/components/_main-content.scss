@@ -13,10 +13,6 @@
   table {
     font-size: $font-size-small;
   }
-
-  form {
-    margin-top: $space-two;
-  }
 }
 
 .main-content__header {
@@ -24,7 +20,7 @@
   background-color: $color-white;
   border-bottom: 1px solid $color-border;
   display: flex;
-  min-height: 3.5rem;
+  min-height: 5.6rem;
   padding: $space-small $space-normal;
 }
 

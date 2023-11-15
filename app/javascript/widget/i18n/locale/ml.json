@@ -22,15 +22,15 @@
     "IN_A_DAY": "സാധാരണയായി ഒരു ദിവസത്തിൽ മറുപടി നൽകുന്നു",
     "BACK_IN": "We will be back online"
   },
-  "DAY_NAMES": {
-    "SUNDAY": "Sunday",
-    "MONDAY": "Monday",
-    "TUESDAY": "Tuesday",
-    "WEDNESDAY": "Wednesday",
-    "THURSDAY": "Thursday",
-    "FRIDAY": "Friday",
-    "SATURDAY": "Saturday"
-  },
+  "DAY_NAMES": [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ],
   "START_CONVERSATION": "സംഭാഷണം ആരംഭിക്കുക",
   "END_CONVERSATION": "End Conversation",
   "CONTINUE_CONVERSATION": "Continue conversation",
@@ -70,8 +70,7 @@
         "REQUIRED_ERROR": "Phone Number is required",
         "DIAL_CODE_VALID_ERROR": "Please select a country code",
         "VALID_ERROR": "Please enter a valid phone number",
-        "DROPDOWN_EMPTY": "ഒരു ഫലവും കണ്ടെത്താനായില്ല",
-        "DROPDOWN_SEARCH": "Search country"
+        "DROPDOWN_EMPTY": "ഒരു ഫലവും കണ്ടെത്താനായില്ല"
       },
       "MESSAGE": {
         "LABEL": "സന്ദേശം",
@@ -81,8 +80,7 @@
     },
     "CAMPAIGN_HEADER": "സംഭാഷണം ആരംഭിക്കുന്നതിന് മുമ്പ് ദയവായി നിങ്ങളുടെ പേരും ഇമെയിലും നൽകുക",
     "IS_REQUIRED": "is required",
-    "REQUIRED": "Required",
-    "REGEX_ERROR": "Please provide a valid input"
+    "REQUIRED": "Required"
   },
   "FILE_SIZE_LIMIT": "ഫയൽ {MAXIMUM_FILE_UPLOAD_SIZE} അറ്റാച്ച്‌മെന്റ് പരിധി കവിഞ്ഞു",
   "CHAT_FORM": {
@@ -92,8 +90,7 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search",
-    "ARIA_LABEL": "Emoji picker"
+    "NOT_FOUND": "No emoji match your search"
   },
   "CSAT": {
     "TITLE": "നിങ്ങളുടെ സംഭാഷണം റേറ്റുചെയ്യുക",
@@ -135,8 +132,5 @@
     "fallback": {
       "CONTENT": "ഒരു യു. ആർ. എൽ പങ്കിട്ടു"
     }
-  },
-  "FOOTER_REPLY_TO": {
-    "REPLY_TO": "Replying to:"
   }
 }

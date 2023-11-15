@@ -6,8 +6,6 @@ export const getters = {
   },
 
   isFetchingPortals: state => state.uiFlags.isFetching,
-  isCreatingPortal: state => state.uiFlags.isCreating,
-  isSwitchingPortal: state => state.uiFlags.isSwitching,
   portalBySlug:
     (...getterArguments) =>
     portalId => {
@@ -25,5 +23,4 @@ export const getters = {
   },
   count: state => state.portals.allIds.length || 0,
   getMeta: state => state.meta,
-  isSwitching: state => state.isSwitching,
 };

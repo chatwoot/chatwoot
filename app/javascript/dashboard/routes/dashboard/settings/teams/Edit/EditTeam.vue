@@ -1,10 +1,29 @@
-<script>
-import { mapGetters } from 'vuex';
-import { useAlert } from 'dashboard/composables';
+<template>
+  <div class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%]">
+    <page-header
+      :header-title="$t('TEAMS_SETTINGS.EDIT_FLOW.CREATE.TITLE')"
+      :header-content="$t('TEAMS_SETTINGS.EDIT_FLOW.CREATE.DESC')"
+    />
+    <div class="flex flex-wrap">
+      <team-form
+        v-if="showTeamForm"
+        :on-submit="updateTeam"
+        :submit-in-progress="false"
+        :submit-button-text="$t('TEAMS_SETTINGS.EDIT_FLOW.CREATE.BUTTON_TEXT')"
+        :form-data="teamData"
+      />
+      <spinner v-else />
+    </div>
+  </div>
+</template>
 
+<script>
 import TeamForm from '../TeamForm.vue';
 import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader.vue';
+import alertMixin from 'shared/mixins/alertMixin';
+
+import { mapGetters } from 'vuex';
 import Spinner from 'shared/components/Spinner.vue';
 
 export default {
@@ -13,6 +32,7 @@ export default {
     PageHeader,
     Spinner,
   },
+  mixins: [alertMixin],
   data() {
     return {
       enabledFeatures: {},
@@ -49,30 +69,9 @@ export default {
           },
         });
       } catch (error) {
-        useAlert(this.$t('TEAMS_SETTINGS.TEAM_FORM.ERROR_MESSAGE'));
+        this.showAlert(this.$t('TEAMS_SETTINGS.TEAM_FORM.ERROR_MESSAGE'));
       }
     },
   },
 };
 </script>
-
-<template>
-  <div
-    class="border border-n-weak bg-n-solid-1 rounded-t-lg border-b-0 h-full w-full p-6 col-span-6 overflow-auto"
-  >
-    <PageHeader
-      :header-title="$t('TEAMS_SETTINGS.EDIT_FLOW.CREATE.TITLE')"
-      :header-content="$t('TEAMS_SETTINGS.EDIT_FLOW.CREATE.DESC')"
-    />
-    <div class="flex flex-wrap">
-      <TeamForm
-        v-if="showTeamForm"
-        :on-submit="updateTeam"
-        :submit-in-progress="false"
-        :submit-button-text="$t('TEAMS_SETTINGS.EDIT_FLOW.CREATE.BUTTON_TEXT')"
-        :form-data="teamData"
-      />
-      <Spinner v-else />
-    </div>
-  </div>
-</template>

@@ -20,23 +20,23 @@
     "IN_A_FEW_MINUTES": "Genellikle birkaç dakika içinde yanıt verir",
     "IN_A_FEW_HOURS": "Genellikle birkaç saat içinde yanıt verir",
     "IN_A_DAY": "Genellikle bir gün içinde yanıtlar",
-    "BACK_IN": "Tekrar çevrim içi olacağız"
+    "BACK_IN": "We will be back online"
   },
-  "DAY_NAMES": {
-    "SUNDAY": "Pazar",
-    "MONDAY": "Pazartesi",
-    "TUESDAY": "Salı",
-    "WEDNESDAY": "Çarşamba",
-    "THURSDAY": "Perşembe",
-    "FRIDAY": "Cuma",
-    "SATURDAY": "Cumartesi"
-  },
+  "DAY_NAMES": [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ],
   "START_CONVERSATION": "Görüşmeyi Başlatın",
   "END_CONVERSATION": "Görüşmeyi Sonlandır",
   "CONTINUE_CONVERSATION": "Görüşmeye devam et",
-  "YOU": "Sen",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "Yeni Görüşme Başlatın",
-  "VIEW_UNREAD_MESSAGES": "Okunmamış mesajlarınız var",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Yeni mesajları gör",
     "CLOSE_MESSAGES_BUTTON": "Kapat",
@@ -60,7 +60,7 @@
       },
       "EMAIL_ADDRESS": {
         "LABEL": "E-posta adresi",
-        "PLACEHOLDER": "Lütfen e-eposta adresinizi girin",
+        "PLACEHOLDER": "Lütfen e-postanızı girin",
         "REQUIRED_ERROR": "e-Posta adresi zorunludur",
         "VALID_ERROR": "Lütfen geçerli bir e-posta adresi girin"
       },
@@ -68,10 +68,9 @@
         "LABEL": "Telefon numarası",
         "PLACEHOLDER": "Lütfen telefon numaranızı yazınız",
         "REQUIRED_ERROR": "Telefon numarası zorunludur",
-        "DIAL_CODE_VALID_ERROR": "Lütfen bir ülke kodu seçin",
-        "VALID_ERROR": "Lütfen geçerli bir telefon numarası girin",
-        "DROPDOWN_EMPTY": "Sonuç bulunamadı",
-        "DROPDOWN_SEARCH": "Ülke ismi giriniz"
+        "DIAL_CODE_VALID_ERROR": "Please select a country code",
+        "VALID_ERROR": "Please enter a valid phone number",
+        "DROPDOWN_EMPTY": "Sonuç bulunamadı"
       },
       "MESSAGE": {
         "LABEL": "Mesaj",
@@ -81,8 +80,7 @@
     },
     "CAMPAIGN_HEADER": "Görüşmeye başlamadan önce lütfen isminizi ve e-posta adresinizi belirtiniz",
     "IS_REQUIRED": "zorunlu",
-    "REQUIRED": "Zorunlu",
-    "REGEX_ERROR": "Lütfen geçerli bir giriş yapın"
+    "REQUIRED": "Zorunlu"
   },
   "FILE_SIZE_LIMIT": "Dosya {MAXIMUM_FILE_UPLOAD_SIZE} sınırını aşıyor",
   "CHAT_FORM": {
@@ -92,8 +90,7 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "İfade ara",
-    "NOT_FOUND": "İfade bulunamadı",
-    "ARIA_LABEL": "Emoji seçimi"
+    "NOT_FOUND": "İfade bulunamadı"
   },
   "CSAT": {
     "TITLE": "Görüşmenizi değerlendirin",
@@ -101,7 +98,7 @@
     "PLACEHOLDER": "Biraz daha fazla bilgi verin..."
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Konuşma kaydını talep et",
+    "BUTTON_TEXT": "Konuşma transkripti talep et",
     "SEND_EMAIL_SUCCESS": "Sohbet metni başarıyla gönderildi",
     "SEND_EMAIL_ERROR": "Bir hata oluştu, lütfen tekrar deneyin"
   },
@@ -112,9 +109,9 @@
     }
   },
   "PORTAL": {
-    "POPULAR_ARTICLES": "Popüler Makaleler",
-    "VIEW_ALL_ARTICLES": "Tüm makaleleri görüntüle",
-    "IFRAME_LOAD_ERROR": "Makale yüklenirken bir hata oluştu, lütfen sayfayı yenileyip tekrar deneyin."
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
   },
   "ATTACHMENTS": {
     "image": {
@@ -133,10 +130,7 @@
       "CONTENT": "Yer"
     },
     "fallback": {
-      "CONTENT": "bir bağlantı paylaştı"
+      "CONTENT": "bir url paylaştı"
     }
-  },
-  "FOOTER_REPLY_TO": {
-    "REPLY_TO": "Cevap veriliyor:"
   }
 }

@@ -33,11 +33,8 @@ class DashboardApp < ApplicationRecord
         'required' => %w[url type],
         'properties' => {
           'type' => { 'enum': ['frame'] },
-          'url' => { '$ref' => '#/definitions/saneUrl' }
+          'url' => { :type => 'string', 'format' => 'uri' }
         }
-      },
-      'definitions' => {
-        'saneUrl' => { 'format' => 'uri', 'pattern' => '^https?://' }
       },
       'additionalProperties' => false,
       'minItems' => 1

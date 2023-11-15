@@ -6,7 +6,6 @@
     "LIST": {
       "404": "هیچ گفتگوی فعالی در این گروه نیست."
     },
-    "FAILED_TO_SEND": "ارسال با خطا مواجه شد",
     "TAB_HEADING": "گفتگوها",
     "MENTION_HEADING": "اشاره",
     "UNATTENDED_HEADING": "بی سرپرست",
@@ -52,30 +51,18 @@
         "ACTIVE": "آخرین فعالیت"
       }
     },
-    "SORT_ORDER_ITEMS": {
-      "last_activity_at_asc": {
-        "TEXT": "آخرین فعالیت: قدیمی ترین اول"
+    "CHAT_SORT_FILTER_ITEMS": {
+      "latest": {
+        "TEXT": "آخرین فعالیت"
       },
-      "last_activity_at_desc": {
-        "TEXT": "آخرین فعالیت: جدید ترین اول"
+      "sort_on_created_at": {
+        "TEXT": "ایجاد شده در"
       },
-      "created_at_desc": {
-        "TEXT": "زمان ایجاد: جدیدترین اول"
+      "sort_on_priority": {
+        "TEXT": "اولویت"
       },
-      "created_at_asc": {
-        "TEXT": "زمان ایجاد: قدیمی ترین اول"
-      },
-      "priority_desc": {
-        "TEXT": "اولویت: بالاترین اول"
-      },
-      "priority_asc": {
-        "TEXT": "اولویت: پایین ترین اول"
-      },
-      "waiting_since_asc": {
-        "TEXT": "در انتظار پاسخ: بیشترین اول"
-      },
-      "waiting_since_desc": {
-        "TEXT": "در انتظار پاسخ: کم‌ترین اول"
+      "sort_on_waiting_since": {
+        "TEXT": "در انتظار پاسخ"
       }
     },
     "ATTACHMENTS": {
@@ -94,14 +81,8 @@
       "location": {
         "CONTENT": "مکان"
       },
-      "ig_reel": {
-        "CONTENT": "Instagram Reel"
-      },
       "fallback": {
         "CONTENT": "یک آدرس URL به اشتراک گذاشته شده"
-      },
-      "contact": {
-        "CONTENT": "Shared contact"
       }
     },
     "CHAT_SORT_BY_FILTER": {
@@ -133,7 +114,6 @@
     "NO_CONTENT": "هیچ محتوایی موجود نیست",
     "HIDE_QUOTED_TEXT": "مخفی کردن متن نقل قول شده",
     "SHOW_QUOTED_TEXT": "نمایش متن نقل قول",
-    "MESSAGE_READ": "خوانده شده",
-    "SENDING": "در حال ارسال"
+    "MESSAGE_READ": "خوانده شده"
   }
 }

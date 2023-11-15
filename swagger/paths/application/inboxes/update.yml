@@ -3,41 +3,58 @@ patch:
     - Inboxes
   operationId: updateInbox
   summary: Update Inbox
-  security:
-    - userApiKey: []
-  description: Update an existing inbox
+  description: Add avatar and disable auto assignment for an inbox
   parameters:
-    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/parameters/account_id'
     - name: id
       in: path
-      schema:
-        type: number
+      type: number
       description: ID of the inbox
       required: true
-  requestBody:
-    required: true
-    content:
-      application/json:
-        schema:
-          $ref: '#/components/schemas/inbox_update_payload'
-  responses:
-    '200':
-      description: Success
-      content:
-        application/json:
-          schema:
+    - name: data
+      in: body
+      required: true
+      schema:
+        type: object
+        required:
+          - enable_auto_assignment
+        properties:
+          name:
+            type: string
+            description: The name of the inbox
+          enable_auto_assignment:
+            type: boolean
+            description: 'Enable Auto Assignment'
+          avatar:
+            type: string
+            format: binary
+            description: 'Image file for avatar'
+          channel:
             type: object
-            description: 'Updated inbox object'
-            $ref: '#/components/schemas/inbox'
-    '404':
+            properties:
+              website_url:
+                type: string
+                description: URL at which the widget will be loaded
+              welcome_title:
+                type: string
+                description: Welcome title to be displayed on the widget
+              welcome_tagline:
+                type: string
+                description: Welcome tagline to be displayed on the widget
+              agent_away_message:
+                type: string
+                description: A message which will be sent if there is not agent available. This is not available if agentbot is connected
+              widget_color:
+                type: string
+                description: A Hex-color string used to customize the widget
+  responses:
+    200:
+      description: Success
+      schema:
+        type: object
+        description: 'Updated inbox object'
+        $ref: '#/definitions/inbox'
+    404:
       description: Inbox not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/bad_request_error'
-    '403':
+    403:
       description: Access denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/bad_request_error'

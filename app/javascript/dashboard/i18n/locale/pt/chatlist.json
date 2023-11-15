@@ -1,17 +1,16 @@
 {
   "CHAT_LIST": {
-    "LOADING": "A carregar conversas",
-    "LOAD_MORE_CONVERSATIONS": "A carregar mais conversas",
+    "LOADING": "Buscando conversas",
+    "LOAD_MORE_CONVERSATIONS": "Carregar mais conversas",
     "EOF": "Todas as conversas carregadas 🎉",
     "LIST": {
       "404": "Não há conversas ativas neste grupo."
     },
-    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "Conversas",
     "MENTION_HEADING": "Menções",
-    "UNATTENDED_HEADING": "Por responder",
+    "UNATTENDED_HEADING": "Por tratar",
     "SEARCH": {
-      "INPUT": "Pesquisar pessoas, conversas, respostas guardadas .."
+      "INPUT": "Pesquisar pessoas, conversas, respostas salvas .."
     },
     "FILTER_ALL": "Todas",
     "ASSIGNEE_TYPE_TABS": {
@@ -39,7 +38,7 @@
     "VIEW_FILTER": "Visualizar",
     "SORT_TOOLTIP_LABEL": "Ordenar conversas",
     "CHAT_SORT": {
-      "STATUS": "Situação",
+      "STATUS": "SItuação",
       "ORDER_BY": "Ordenar por"
     },
     "CHAT_TIME_STAMP": {
@@ -52,30 +51,18 @@
         "ACTIVE": "Última atividade"
       }
     },
-    "SORT_ORDER_ITEMS": {
-      "last_activity_at_asc": {
-        "TEXT": "Última Atividade: Mais antigas primeiro"
+    "CHAT_SORT_FILTER_ITEMS": {
+      "latest": {
+        "TEXT": "Última atividade"
       },
-      "last_activity_at_desc": {
-        "TEXT": "Última Atividade: Mais recentes primeiro"
+      "sort_on_created_at": {
+        "TEXT": "Criada em"
       },
-      "created_at_desc": {
-        "TEXT": "Criado em: Mais recentes primeiro"
+      "sort_on_priority": {
+        "TEXT": "Prioridade"
       },
-      "created_at_asc": {
-        "TEXT": "Criado em: Mais antigas primeiro"
-      },
-      "priority_desc": {
-        "TEXT": "Prioridade: Mais alta primeiro"
-      },
-      "priority_asc": {
-        "TEXT": "Prioridade: Mais baixa primeiro"
-      },
-      "waiting_since_asc": {
-        "TEXT": "Resposta pendente: Mais longa primeiro"
-      },
-      "waiting_since_desc": {
-        "TEXT": "Resposta pendente: Mais curta primeiro"
+      "sort_on_waiting_since": {
+        "TEXT": "Resposta Pendente"
       }
     },
     "ATTACHMENTS": {
@@ -89,19 +76,13 @@
         "CONTENT": "Mensagem de vídeo"
       },
       "file": {
-        "CONTENT": "Carregar anexo"
+        "CONTENT": "Arquivo anexo"
       },
       "location": {
         "CONTENT": "Local:"
       },
-      "ig_reel": {
-        "CONTENT": "Instagram Reel"
-      },
       "fallback": {
-        "CONTENT": "partilhou um URL"
-      },
-      "contact": {
-        "CONTENT": "Shared contact"
+        "CONTENT": "compartilhou uma url"
       }
     },
     "CHAT_SORT_BY_FILTER": {
@@ -124,16 +105,15 @@
     },
     "RECEIVED_VIA_EMAIL": "Recebido por e-mail",
     "VIEW_TWEET_IN_TWITTER": "Ver mensagem no Twitter",
-    "REPLY_TO_TWEET": "Responder a esta mensagem",
+    "REPLY_TO_TWEET": "Responder à mensagem",
     "LINK_TO_STORY": "Ir para story do instagram",
     "SENT": "Enviado com sucesso",
     "READ": "Lido com sucesso",
     "DELIVERED": "Entregue com sucesso",
-    "NO_MESSAGES": "Sem mensagens",
+    "NO_MESSAGES": "Nenhuma mensagem",
     "NO_CONTENT": "Sem conteúdo disponível",
-    "HIDE_QUOTED_TEXT": "Ocultar texto citado",
-    "SHOW_QUOTED_TEXT": "Mostrar texto citado",
-    "MESSAGE_READ": "Lida",
-    "SENDING": "Sending"
+    "HIDE_QUOTED_TEXT": "Ocultar Texto Citado",
+    "SHOW_QUOTED_TEXT": "Mostrar Texto Citado",
+    "MESSAGE_READ": "Lida"
   }
 }

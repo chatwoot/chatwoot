@@ -1,7 +1,9 @@
-import { createStore } from 'vuex';
+import Vue from 'vue';
+import Vuex from 'vuex';
 import globalConfig from 'shared/store/globalConfig';
 
-export default createStore({
+Vue.use(Vuex);
+export default new Vuex.Store({
   modules: {
     globalConfig,
   },

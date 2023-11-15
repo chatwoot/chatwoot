@@ -10,14 +10,14 @@ import {
 } from '../../teams/types';
 import teamsList from './fixtures';
 
-const commit = vi.fn();
+const commit = jest.fn();
 global.axios = axios;
-vi.mock('axios');
+jest.mock('axios');
 
 describe('#actions', () => {
   describe('#get', () => {
     it('sends correct actions if API is success', async () => {
-      const mockedGet = vi.fn(url => {
+      const mockedGet = jest.fn(url => {
         if (url === '/api/v1/teams') {
           return Promise.resolve({ data: teamsList[1] });
         }

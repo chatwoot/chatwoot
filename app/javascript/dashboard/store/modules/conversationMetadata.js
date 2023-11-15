@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import * as types from '../mutation-types';
 
 const state = {
@@ -14,7 +15,7 @@ export const actions = {};
 
 export const mutations = {
   [types.default.SET_CONVERSATION_METADATA]: ($state, { id, data }) => {
-    $state.records = { ...$state.records, [id]: data };
+    Vue.set($state.records, id, data);
   },
 };
 

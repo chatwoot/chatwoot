@@ -19,7 +19,11 @@ class Api::V1::Accounts::Conversations::DraftMessagesController < Api::V1::Accou
   private
 
   def draft_redis_key
-    format(Redis::Alfred::CONVERSATION_DRAFT_MESSAGE, id: @conversation.id)
+    format(Redis::Alfred::CONVERSATION_DRAFT_MESSAGE, conversation_id: conversation_id, account_id: current_account.id)
+  end
+
+  def conversation_id
+    params[:conversation_id]
   end
 
   def draft_message_params

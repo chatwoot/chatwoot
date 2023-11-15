@@ -20,23 +20,23 @@
     "IN_A_FEW_MINUTES": "Většinou odpovíme během pár minut",
     "IN_A_FEW_HOURS": "Většinou odpovíme během pár hodin",
     "IN_A_DAY": "Obvykle odpoví za den",
-    "BACK_IN": "Budem online zase"
+    "BACK_IN": "We will be back online"
   },
-  "DAY_NAMES": {
-    "SUNDAY": "Neděle",
-    "MONDAY": "Pondělí",
-    "TUESDAY": "Úterý",
-    "WEDNESDAY": "Středa",
-    "THURSDAY": "Čtvrtek",
-    "FRIDAY": "Pátek",
-    "SATURDAY": "Sobota"
-  },
+  "DAY_NAMES": [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ],
   "START_CONVERSATION": "Zahájit konverzaci",
   "END_CONVERSATION": "Ukončit konverzaci",
   "CONTINUE_CONVERSATION": "Pokračovat v konverzaci",
-  "YOU": "Vy",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "Zahájit novou konverzaci",
-  "VIEW_UNREAD_MESSAGES": "Máte nepřečtené zprávy",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Zobrazit nové zprávy",
     "CLOSE_MESSAGES_BUTTON": "Zavřít",
@@ -68,10 +68,9 @@
         "LABEL": "Telefonní číslo",
         "PLACEHOLDER": "Zadejte prosím Vaše telefonní číslo",
         "REQUIRED_ERROR": "Telefonní číslo je vyžadováno",
-        "DIAL_CODE_VALID_ERROR": "Vyberte prosím kód země",
-        "VALID_ERROR": "Zadejte prosím platné telefonní číslo",
-        "DROPDOWN_EMPTY": "Žádné výsledky",
-        "DROPDOWN_SEARCH": "Vyhledat zemi"
+        "DIAL_CODE_VALID_ERROR": "Please select a country code",
+        "VALID_ERROR": "Please enter a valid phone number",
+        "DROPDOWN_EMPTY": "Žádné výsledky"
       },
       "MESSAGE": {
         "LABEL": "Zpráva",
@@ -81,8 +80,7 @@
     },
     "CAMPAIGN_HEADER": "Zadejte své jméno a e-mail před zahájením konverzace",
     "IS_REQUIRED": "je vyžadováno",
-    "REQUIRED": "Povinné",
-    "REGEX_ERROR": "Zadejte prosím platnou hodnotu"
+    "REQUIRED": "Required"
   },
   "FILE_SIZE_LIMIT": "Soubor překračuje limit {MAXIMUM_FILE_UPLOAD_SIZE} přílohy",
   "CHAT_FORM": {
@@ -91,9 +89,8 @@
     }
   },
   "EMOJI": {
-    "PLACEHOLDER": "Hledat emoji",
-    "NOT_FOUND": "Žádné emoji neodpovídají vašemu hledání",
-    "ARIA_LABEL": "Výběr emoji"
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
   },
   "CSAT": {
     "TITLE": "Ohodnoťte svou konverzaci",
@@ -107,14 +104,14 @@
   },
   "INTEGRATIONS": {
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Přidejte se kliknutím sem",
-      "LEAVE_THE_ROOM": "Opustit hovor"
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
     }
   },
   "PORTAL": {
-    "POPULAR_ARTICLES": "Populární články",
-    "VIEW_ALL_ARTICLES": "Zobrazit všechny články",
-    "IFRAME_LOAD_ERROR": "Při načítání článku došlo k chybě, obnovte stránku a zkuste to znovu."
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
   },
   "ATTACHMENTS": {
     "image": {
@@ -135,8 +132,5 @@
     "fallback": {
       "CONTENT": "sdílel URL"
     }
-  },
-  "FOOTER_REPLY_TO": {
-    "REPLY_TO": "Odpověď na:"
   }
 }

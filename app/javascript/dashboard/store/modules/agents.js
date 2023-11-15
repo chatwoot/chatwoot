@@ -22,9 +22,6 @@ export const getters = {
   getUIFlags($state) {
     return $state.uiFlags;
   },
-  getAgentById: $state => id => {
-    return $state.records.find(record => record.id === Number(id)) || {};
-  },
   getAgentStatus($state) {
     let status = {
       online: $state.records.filter(

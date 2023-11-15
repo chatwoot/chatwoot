@@ -1,4 +1,4 @@
 type: object
 allOf:
-  - $ref: '#/components/schemas/conversation'
+  - $ref: '#/definitions/conversation'
   - $ref: '../contact/conversation.yml'

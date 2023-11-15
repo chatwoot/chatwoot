@@ -1,29 +1,19 @@
 <% @messages.each do |message| %>
   <tr>
     <td>
-      <b><%= message.sender&.try(:available_name) || message.sender&.name || '' %></b>
-      <% if message.conversation.inbox&.inbox_type == 'Email' %>
-        <div style="font-size: 90%; color: #899096; line-height: 16px">
-          <% if message.content_attributes.dig(:email, :from).present? %>
-            <div>From: <%= message.content_attributes.dig(:email, :from).join(", ") %></div>
-          <% else %>
-            <div>From: <%= message.sender&.try(:email) %></div>
-          <% end %>
-
-          <% if message.content_attributes.dig(:email, :subject).present? %>
-            <div>Subject: <%= message.content_attributes.dig(:email, :subject) %></div>
-          <% end %>
-
-          <% if message.content_attributes[:to_emails].present? %>
-            <div>To: <%= message.content_attributes[:to_emails].join(", ") %></div>
-          <% end %>
-          <% if message.content_attributes[:cc_emails].present? %>
-            <div>CC: <%= message.content_attributes[:cc_emails].join(", ") %></div>
-          <% end %>
-          <% if message.content_attributes[:bcc_emails].present? %>
-            <div>BCC: <%= message.content_attributes[:bcc_emails].join(", ") %></div>
-          <% end %>
-        </div>
+      <% sender_name = message.sender&.try(:available_name) || message.sender&.name %>
+      <% if @inbox.email? %>
+        <% if sender_name.present? %>
+          <b>From:</b> <%= sender_name %> <%= "<#{message.sender&.email}>" %>
+          <br>
+        <% end %>
+        <% subject = message.conversation&.additional_attributes&.dig('mail_subject')%>
+        <% if subject.present? %>
+          <b>Subject:</b> <%= subject %>
+          <br>
+        <% end %>
+      <% else %>
+        <b><%= sender_name %></b>
       <% end %>
     </td>
   </tr>
@@ -32,10 +22,9 @@
       <% if message.content %>
         <%= ChatwootMarkdownRenderer.new(message.content).render_message %>
       <% end %>
-      <% if message.attachments.present? %>
-        <p>Attachments:</p>
+      <% if message.attachments %>
         <% message.attachments.each do |attachment| %>
-          <p><a href="<%= attachment.file_url %>" target="_blank"><%= attachment.file.filename.to_s %></a></p>
+          Attachment [<a href="<%= attachment.file_url %>" _target="blank">Click here to view</a>]
         <% end %>
       <% end %>
       <p style="font-size: 90%; font-size: 90%;color: #899096;margin-top: -8px; margin-bottom: 0px;">

@@ -22,15 +22,15 @@
     "IN_A_DAY": "ปกติจะตอบกลับภายใน 1 วัน",
     "BACK_IN": "We will be back online"
   },
-  "DAY_NAMES": {
-    "SUNDAY": "Sunday",
-    "MONDAY": "Monday",
-    "TUESDAY": "Tuesday",
-    "WEDNESDAY": "Wednesday",
-    "THURSDAY": "Thursday",
-    "FRIDAY": "Friday",
-    "SATURDAY": "Saturday"
-  },
+  "DAY_NAMES": [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ],
   "START_CONVERSATION": "เริ่มการสนทนา",
   "END_CONVERSATION": "จบการสนทนา",
   "CONTINUE_CONVERSATION": "สนทนาต่อ",
@@ -70,8 +70,7 @@
         "REQUIRED_ERROR": "Phone Number is required",
         "DIAL_CODE_VALID_ERROR": "Please select a country code",
         "VALID_ERROR": "Please enter a valid phone number",
-        "DROPDOWN_EMPTY": "No results found",
-        "DROPDOWN_SEARCH": "Search country"
+        "DROPDOWN_EMPTY": "No results found"
       },
       "MESSAGE": {
         "LABEL": "ข้อความ",
@@ -81,8 +80,7 @@
     },
     "CAMPAIGN_HEADER": "โปรดแจ้งชื่อ และ อีเมลื ก่อนเริ่มการสนทนา",
     "IS_REQUIRED": "is required",
-    "REQUIRED": "โปรดระบุ",
-    "REGEX_ERROR": "Please provide a valid input"
+    "REQUIRED": "โปรดระบุ"
   },
   "FILE_SIZE_LIMIT": "ไฟล์ใหเกินกว่า {MAXIMUM_FILE_UPLOAD_SIZE} ที่กำหนดไว้",
   "CHAT_FORM": {
@@ -92,8 +90,7 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search",
-    "ARIA_LABEL": "Emoji picker"
+    "NOT_FOUND": "No emoji match your search"
   },
   "CSAT": {
     "TITLE": "ให้คะแนนการสนทนาครั้งนี้",
@@ -135,8 +132,5 @@
     "fallback": {
       "CONTENT": "ได้เเชร์ลิ้ง"
     }
-  },
-  "FOOTER_REPLY_TO": {
-    "REPLY_TO": "Replying to:"
   }
 }

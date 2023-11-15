@@ -1,14 +1,13 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automation",
-    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
-    "LEARN_MORE": "Learn more about automation",
+    "HEADER": "Automations",
     "HEADER_BTN_TXT": "Add Automation Rule",
     "LOADING": "Fetching automation rules",
+    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
     "ADD": {
       "TITLE": "Add Automation Rule",
       "SUBMIT": "Create",
-      "CANCEL_BUTTON_TEXT": "Odustani",
+      "CANCEL_BUTTON_TEXT": "Cancel",
       "FORM": {
         "NAME": {
           "LABEL": "Rule Name",
@@ -29,7 +28,7 @@
           "LABEL": "Conditions"
         },
         "ACTIONS": {
-          "LABEL": "Radnje"
+          "LABEL": "Actions"
         }
       },
       "CONDITION_BUTTON_LABEL": "Add Condition",
@@ -40,23 +39,23 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": {
-        "NAME": "Ime",
-        "DESCRIPTION": "Description",
-        "ACTIVE": "Active",
-        "CREATED_ON": "Created on"
-      },
+      "TABLE_HEADER": [
+        "Name",
+        "Description",
+        "Active",
+        "Created on"
+      ],
       "404": "No automation rules found"
     },
     "DELETE": {
       "TITLE": "Delete Automation Rule",
-      "SUBMIT": "Izbriši",
-      "CANCEL_BUTTON_TEXT": "Odustani",
+      "SUBMIT": "Delete",
+      "CANCEL_BUTTON_TEXT": "Cancel",
       "CONFIRM": {
-        "TITLE": "Potvrdi brisanje",
+        "TITLE": "Confirm Deletion",
         "MESSAGE": "Are you sure to delete ",
-        "YES": "Da, izbriši",
-        "NO": "Ne, zadrži"
+        "YES": "Yes, Delete ",
+        "NO": "No, Keep "
       },
       "API": {
         "SUCCESS_MESSAGE": "Automation rule deleted successfully",
@@ -66,7 +65,7 @@
     "EDIT": {
       "TITLE": "Edit Automation Rule",
       "SUBMIT": "Update",
-      "CANCEL_BUTTON_TEXT": "Odustani",
+      "CANCEL_BUTTON_TEXT": "Cancel",
       "API": {
         "SUCCESS_MESSAGE": "Automation rule updated successfully",
         "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
@@ -80,10 +79,10 @@
       }
     },
     "FORM": {
-      "EDIT": "Uredi",
+      "EDIT": "Edit",
       "CREATE": "Create",
-      "DELETE": "Izbriši",
-      "CANCEL": "Odustani",
+      "DELETE": "Delete",
+      "CANCEL": "Cancel",
       "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
     },
     "CONDITION": {
@@ -94,9 +93,7 @@
     "ACTION": {
       "DELETE_MESSAGE": "You need to have atleast one action to save",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams",
-      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
-      "URL_INPUT_PLACEHOLDER": "Enter URL"
+      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activate Automation Rule",
@@ -107,75 +104,15 @@
       "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
       "ACTIVATION_ERROR": "Could not Activate Automation, Please try again later",
       "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
-      "CONFIRMATION_LABEL": "Da",
-      "CANCEL_LABEL": "Ne"
+      "CONFIRMATION_LABEL": "Yes",
+      "CANCEL_LABEL": "No"
     },
     "ATTACHMENT": {
       "UPLOAD_ERROR": "Could not upload attachment, Please try again",
-      "LABEL_IDLE": "Prenesi privitak",
+      "LABEL_IDLE": "Upload Attachment",
       "LABEL_UPLOADING": "Prenosim...",
       "LABEL_UPLOADED": "Successfully Uploaded",
       "LABEL_UPLOAD_FAILED": "Upload Failed"
-    },
-    "ERRORS": {
-      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
-      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
-      "VALUE_REQUIRED": "Value is required",
-      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
-      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
-      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
-      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
-    },
-    "NONE_OPTION": "Nijedno",
-    "EVENTS": {
-      "CONVERSATION_CREATED": "Conversation Created",
-      "CONVERSATION_UPDATED": "Conversation Updated",
-      "MESSAGE_CREATED": "Message Created",
-      "CONVERSATION_OPENED": "Conversation Opened"
-    },
-    "ACTIONS": {
-      "ASSIGN_AGENT": "Assign to Agent",
-      "ASSIGN_TEAM": "Assign a Team",
-      "ADD_LABEL": "Add a Label",
-      "REMOVE_LABEL": "Remove a Label",
-      "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
-      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
-      "MUTE_CONVERSATION": "Mute Conversation",
-      "SNOOZE_CONVERSATION": "Snooze Conversation",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
-      "SEND_ATTACHMENT": "Send Attachment",
-      "SEND_MESSAGE": "Send a Message",
-      "CHANGE_PRIORITY": "Promjena prioriteta",
-      "ADD_SLA": "Add SLA",
-      "OPEN_CONVERSATION": "Otvori razgovor"
-    },
-    "MESSAGE_TYPES": {
-      "INCOMING": "Incoming Message",
-      "OUTGOING": "Outgoing Message"
-    },
-    "PRIORITY_TYPES": {
-      "NONE": "None",
-      "LOW": "Nisko",
-      "MEDIUM": "Srednje",
-      "HIGH": "Visoko",
-      "URGENT": "Hitno"
-    },
-    "ATTRIBUTES": {
-      "MESSAGE_TYPE": "Message Type",
-      "MESSAGE_CONTAINS": "Message Contains",
-      "EMAIL": "Email",
-      "INBOX": "Inbox",
-      "CONVERSATION_LANGUAGE": "Conversation Language",
-      "PHONE_NUMBER": "Phone Number",
-      "STATUS": "Status",
-      "BROWSER_LANGUAGE": "Browser Language",
-      "MAIL_SUBJECT": "Email Subject",
-      "COUNTRY_NAME": "Country",
-      "REFERER_LINK": "Referrer Link",
-      "ASSIGNEE_NAME": "Assignee",
-      "TEAM_NAME": "Tim",
-      "PRIORITY": "Prioritet"
     }
   }
 }

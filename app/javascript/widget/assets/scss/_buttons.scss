@@ -1,0 +1,71 @@
+$button-border-width: 1px;
+// Buttons
+.button {
+  appearance: none;
+  background: $color-primary;
+  border: $button-border-width solid $color-primary;
+  border-radius: $border-radius;
+  color: $color-white;
+  cursor: pointer;
+  display: inline-block;
+  font-size: $font-size-default;
+  height: $space-two * 2;
+  line-height: $line-height;
+  outline: none;
+  padding: $space-smaller $space-normal;
+  text-align: center;
+  text-decoration: none;
+  transition: background .2s, border .2s, box-shadow .2s, color .2s;
+  user-select: none;
+  vertical-align: middle;
+  white-space: nowrap;
+
+  &:focus,
+  &:hover {
+    background: lighten($color-primary, 7%);
+    border-color: $color-primary;
+    text-decoration: none;
+  }
+
+  &:active,
+  &.active {
+    background: $color-primary;
+    border-color: darken($color-primary, 5%);
+    color: lighten($color-primary, 20%);
+    text-decoration: none;
+  }
+
+  &[disabled],
+  &:disabled,
+  &.disabled {
+    cursor: default;
+    opacity: .5;
+    pointer-events: none;
+  }
+
+  &.small {
+    font-size: $font-size-small;
+    height: $space-medium;
+    padding: $space-smaller $space-slab;
+  }
+
+  &.large {
+    font-size: $font-size-medium;
+    height: $space-larger;
+    padding: $space-small $space-medium;
+  }
+
+  &.block {
+    width: 100%;
+  }
+
+  &.transparent {
+    background: transparent;
+    border: 0;
+    height: auto;
+  }
+
+  &.compact {
+    padding: 0;
+  }
+}

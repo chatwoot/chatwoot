@@ -1,31 +1,33 @@
+<template>
+  <div class="flex flex-1 overflow-auto">
+    <pre-chat-form :options="preChatFormOptions" @submit="onSubmit" />
+  </div>
+</template>
 <script>
+import { mapGetters } from 'vuex';
 import PreChatForm from '../components/PreChat/Form.vue';
 import configMixin from '../mixins/configMixin';
 import routerMixin from '../mixins/routerMixin';
 import { isEmptyObject } from 'widget/helpers/utils';
-import { ON_CONVERSATION_CREATED } from '../constants/widgetBusEvents';
-import { emitter } from 'shared/helpers/mitt';
 
 export default {
   components: {
     PreChatForm,
   },
   mixins: [configMixin, routerMixin],
-  mounted() {
-    // Register event listener for conversation creation
-    emitter.on(ON_CONVERSATION_CREATED, this.handleConversationCreated);
+  computed: {
+    ...mapGetters({
+      conversationSize: 'conversation/getConversationSize',
+    }),
   },
-  beforeUnmount() {
-    emitter.off(ON_CONVERSATION_CREATED, this.handleConversationCreated);
+  watch: {
+    conversationSize(newSize, oldSize) {
+      if (!oldSize && newSize > oldSize) {
+        this.replaceRoute('messages');
+      }
+    },
   },
   methods: {
-    handleConversationCreated() {
-      // Redirect to messages page after conversation is created
-      this.replaceRoute('messages');
-      // Only after successful navigation, reset the isUpdatingRoute UIflag in app/javascript/widget/router.js
-      // See issue: https://github.com/chatwoot/chatwoot/issues/10736
-    },
-
     onSubmit({
       fullName,
       emailAddress,
@@ -36,7 +38,7 @@ export default {
       conversationCustomAttributes,
     }) {
       if (activeCampaignId) {
-        emitter.emit('execute-campaign', {
+        bus.$emit('execute-campaign', {
           campaignId: activeCampaignId,
           customAttributes: conversationCustomAttributes,
         });
@@ -66,9 +68,3 @@ export default {
   },
 };
 </script>
-
-<template>
-  <div class="flex flex-1 overflow-auto">
-    <PreChatForm :options="preChatFormOptions" @submit-pre-chat="onSubmit" />
-  </div>
-</template>

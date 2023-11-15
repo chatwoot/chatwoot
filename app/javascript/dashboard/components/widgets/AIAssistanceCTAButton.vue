@@ -1,54 +1,51 @@
-<script setup>
-import NextButton from 'dashboard/components-next/button/Button.vue';
-
-const emit = defineEmits(['open']);
-
-const onClick = () => {
-  emit('open');
-};
-</script>
-
 <template>
   <div class="relative">
-    <NextButton
-      class="cta-btn cta-btn-light dark:cta-btn-dark hover:cta-btn-light-hover dark:hover:cta-btn-dark-hover"
-      :label="$t('INTEGRATION_SETTINGS.OPEN_AI.AI_ASSIST')"
-      icon="i-ph-magic-wand"
-      sm
+    <woot-button
+      icon="wand"
+      color-scheme="secondary"
+      variant="smooth"
+      size="small"
+      class-names="cta-btn cta-btn-light dark:cta-btn-dark hover:cta-btn-light-hover dark:hover:cta-btn-dark-hover"
       @click="onClick"
-    />
+    >
+      {{ $t('INTEGRATION_SETTINGS.OPEN_AI.AI_ASSIST') }}
+    </woot-button>
 
     <div
-      class="radar-ping-animation absolute top-0 right-0 -mt-1 -mr-1 rounded-full w-3 h-3 bg-n-brand"
+      class="radar-ping-animation absolute top-0 right-0 -mt-1 -mr-1 rounded-full w-3 h-3 bg-woot-500 dark:bg-woot-500"
     />
     <div
-      class="absolute top-0 right-0 -mt-1 -mr-1 rounded-full w-3 h-3 bg-n-brand opacity-50"
+      class="absolute top-0 right-0 -mt-1 -mr-1 rounded-full w-3 h-3 bg-woot-500 dark:bg-woot-500 opacity-50"
     />
   </div>
 </template>
-
+<script>
+export default {
+  methods: {
+    onClick() {
+      this.$emit('click');
+    },
+  },
+};
+</script>
 <style scoped>
 @tailwind components;
-
 @layer components {
   /* Gradient animation */
   @keyframes gradient {
     0% {
       background-position: 0% 50%;
     }
-
     50% {
       background-position: 100% 50%;
     }
-
     100% {
       background-position: 0% 50%;
     }
   }
-
   .cta-btn {
     animation: gradient 5s ease infinite;
-    @apply text-n-slate-12 border-0 text-xs;
+    border: 0;
   }
 
   .cta-btn-light {
@@ -95,7 +92,6 @@ const onClick = () => {
       opacity: 0;
     }
   }
-
   .radar-ping-animation {
     animation: ping 1s ease infinite;
   }

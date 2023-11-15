@@ -4,21 +4,15 @@
       "ALL": "Wszystkie",
       "CONTACTS": "Kontakty",
       "CONVERSATIONS": "Rozmowy",
-      "MESSAGES": "Wiadomości",
-      "ARTICLES": "Articles"
+      "MESSAGES": "Wiadomości"
     },
     "SECTION": {
       "CONTACTS": "Kontakty",
       "CONVERSATIONS": "Rozmowy",
-      "MESSAGES": "Wiadomości",
-      "ARTICLES": "Articles"
+      "MESSAGES": "Wiadomości"
     },
-    "VIEW_MORE": "View more",
-    "LOAD_MORE": "Load more",
-    "SEARCHING_DATA": "Wyszukiwanie",
-    "LOADING_DATA": "Loading",
-    "EMPTY_STATE": "Nie znaleziono {item} dla zapytania '{query}'",
-    "EMPTY_STATE_FULL": "Nie znaleziono wyników dla zapytania '{query}'",
+    "EMPTY_STATE": "Nie znaleziono %{item} dla zapytania '%{query}'",
+    "EMPTY_STATE_FULL": "Nie znaleziono wyników dla zapytania '%{query}'",
     "PLACEHOLDER_KEYBINDING": "/ aby skupić się",
     "INPUT_PLACEHOLDER": "Wpisz co najmniej 3 znaki, aby wyszukać",
     "EMPTY_STATE_DEFAULT": "Wyszukaj według identyfikatora rozmowy, adresu e-mail, numeru telefonu lub treści wiadomości, aby uzyskać lepsze wyniki wyszukiwania.",
@@ -26,7 +20,6 @@
     "READ_MORE": "Czytaj więcej",
     "WROTE": "napisał/a:",
     "FROM": "od",
-    "EMAIL": "e-mail",
-    "EMAIL_SUBJECT": "temat"
+    "EMAIL": "e-mail"
   }
 }

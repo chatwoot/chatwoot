@@ -6,15 +6,13 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
 
   def index
     @portal_articles = @portal.articles
-
-    set_article_count
-
-    @articles = @articles.search(list_params)
+    @all_articles = @portal_articles.search(list_params)
+    @articles_count = @all_articles.count
 
     @articles = if list_params[:category_slug].present?
-                  @articles.order_by_position.page(@current_page)
+                  @all_articles.order_by_position.page(@current_page)
                 else
-                  @articles.order_by_updated_at.page(@current_page)
+                  @all_articles.order_by_updated_at.page(@current_page)
                 end
   end
 
@@ -45,19 +43,6 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
 
   private
 
-  def set_article_count
-    # Search the params without status and author_id, use this to
-    # compute mine count published draft etc
-    base_search_params = list_params.except(:status, :author_id)
-    @articles = @portal_articles.search(base_search_params)
-
-    @articles_count = @articles.count
-    @mine_articles_count = @articles.search_by_author(Current.user.id).count
-    @published_articles_count = @articles.published.count
-    @draft_articles_count = @articles.draft.count
-    @archived_articles_count = @articles.archived.count
-  end
-
   def fetch_article
     @article = @portal.articles.find(params[:id])
   end
@@ -68,10 +53,9 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
 
   def article_params
     params.require(:article).permit(
-      :title, :slug, :position, :content, :description, :category_id, :author_id, :associated_article_id, :status,
-      :locale, meta: [:title,
-                      :description,
-                      { tags: [] }]
+      :title, :slug, :position, :content, :description, :position, :category_id, :author_id, :associated_article_id, :status, meta: [:title,
+                                                                                                                                     :description,
+                                                                                                                                     { tags: [] }]
     )
   end
 

@@ -1,184 +1,226 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { JSDOM } from 'jsdom';
 import {
   InitializationHelpers,
-  openExternalLinksInNewTab,
+  generatePortalBgColor,
+  generatePortalBg,
+  generateGradientToBottom,
+  setPortalStyles,
+  setPortalClass,
+  updateThemeStyles,
 } from '../portalHelpers';
 
-describe('InitializationHelpers.navigateToLocalePage', () => {
-  let dom;
-  let document;
-  let window;
+describe('#navigateToLocalePage', () => {
+  it('returns correct cookie name', () => {
+    const elemDiv = document.createElement('div');
+    elemDiv.classList.add('locale-switcher');
+    document.body.appendChild(elemDiv);
 
-  beforeEach(() => {
-    dom = new JSDOM(
-      '<!DOCTYPE html><html><body><div class="locale-switcher" data-portal-slug="test-slug"><select><option value="en">English</option><option value="fr">French</option></select></div></body></html>',
-      { url: 'http://localhost/' }
+    const allLocaleSwitcher = document.querySelector('.locale-switcher');
+
+    allLocaleSwitcher.addEventListener = jest
+      .fn()
+      .mockImplementationOnce((event, callback) => {
+        callback({ target: { value: 1 } });
+      });
+
+    InitializationHelpers.navigateToLocalePage();
+    expect(allLocaleSwitcher.addEventListener).toBeCalledWith(
+      'change',
+      expect.any(Function)
     );
-    document = dom.window.document;
-    window = dom.window;
-    global.document = document;
-    global.window = window;
-  });
-
-  afterEach(() => {
-    dom = null;
-    document = null;
-    window = null;
-    delete global.document;
-    delete global.window;
-  });
-
-  it('sets up document event listener regardless of locale-switcher existence', () => {
-    document.querySelector('.locale-switcher').remove();
-    const documentSpy = vi.spyOn(document, 'addEventListener');
-    InitializationHelpers.navigateToLocalePage();
-    expect(documentSpy).toHaveBeenCalledWith('change', expect.any(Function));
-    documentSpy.mockRestore();
-  });
-
-  it('adds document-level event listener to handle locale switching', () => {
-    const documentSpy = vi.spyOn(document, 'addEventListener');
-
-    InitializationHelpers.navigateToLocalePage();
-
-    expect(documentSpy).toHaveBeenCalledWith('change', expect.any(Function));
-    documentSpy.mockRestore();
   });
 });
 
-describe('openExternalLinksInNewTab', () => {
-  let dom;
-  let document;
-  let window;
+describe('Theme Functions', () => {
+  describe('#generatePortalBgColor', () => {
+    it('returns mixed color for dark theme', () => {
+      const result = generatePortalBgColor('#FF5733', 'dark');
+      expect(result).toBe('color-mix(in srgb, #FF5733 20%, black)');
+    });
 
-  beforeEach(() => {
-    dom = new JSDOM(
-      `<!DOCTYPE html>
-      <html>
-        <body>
-          <div id="cw-article-content">
-            <a href="https://external.com" id="external">External</a>
-            <a href="https://app.chatwoot.com/page" id="internal">Internal</a>
-            <a href="https://custom.domain.com/page" id="custom">Custom</a>
-            <a href="https://example.com" id="nested"><code>Code</code><strong>Bold</strong></a>
-            <ul>
-              <li>Visit the preferences centre here &gt; <a href="https://external.com" id="list-link"><strong>https://external.com</strong></a></li>
-            </ul>
-          </div>
-        </body>
-      </html>`,
-      { url: 'https://app.chatwoot.com/hc/article' }
-    );
-
-    document = dom.window.document;
-    window = dom.window;
-
-    window.portalConfig = {
-      customDomain: 'custom.domain.com',
-      hostURL: 'app.chatwoot.com',
-    };
-
-    global.document = document;
-    global.window = window;
+    it('returns mixed color for light theme', () => {
+      const result = generatePortalBgColor('#FF5733', 'light');
+      expect(result).toBe('color-mix(in srgb, #FF5733 20%, white)');
+    });
   });
 
-  afterEach(() => {
-    dom = null;
-    document = null;
-    window = null;
-    delete global.document;
-    delete global.window;
+  describe('#generatePortalBg', () => {
+    it('returns background for dark theme', () => {
+      const result = generatePortalBg('#FF5733', 'dark');
+      expect(result).toBe(
+        'background: url(/assets/images/hc/hexagon-dark.svg) color-mix(in srgb, #FF5733 20%, black)'
+      );
+    });
+
+    it('returns background for light theme', () => {
+      const result = generatePortalBg('#FF5733', 'light');
+      expect(result).toBe(
+        'background: url(/assets/images/hc/hexagon-light.svg) color-mix(in srgb, #FF5733 20%, white)'
+      );
+    });
   });
 
-  const simulateClick = selector => {
-    const element = document.querySelector(selector);
-    const event = new window.MouseEvent('click', { bubbles: true });
-    element.dispatchEvent(event);
-    return element.closest('a') || element;
-  };
+  describe('#generateGradientToBottom', () => {
+    it('returns gradient for dark theme', () => {
+      const result = generateGradientToBottom('dark');
+      expect(result).toBe(
+        'background-image: linear-gradient(to bottom, transparent, #151718)'
+      );
+    });
 
-  it('opens external links in new tab', () => {
-    openExternalLinksInNewTab();
-
-    const link = simulateClick('#external');
-    expect(link.target).toBe('_blank');
-    expect(link.rel).toBe('noopener noreferrer');
+    it('returns gradient for light theme', () => {
+      const result = generateGradientToBottom('light');
+      expect(result).toBe(
+        'background-image: linear-gradient(to bottom, transparent, white)'
+      );
+    });
   });
 
-  it('preserves internal links', () => {
-    openExternalLinksInNewTab();
+  describe('#setPortalStyles', () => {
+    let mockPortalBgDiv;
+    let mockPortalBgGradientDiv;
 
-    const internal = simulateClick('#internal');
-    const custom = simulateClick('#custom');
+    beforeEach(() => {
+      // Mocking portal background div
+      mockPortalBgDiv = document.createElement('div');
+      mockPortalBgDiv.id = 'portal-bg';
+      document.body.appendChild(mockPortalBgDiv);
 
-    expect(internal.target).not.toBe('_blank');
-    expect(custom.target).not.toBe('_blank');
+      // Mocking portal background gradient div
+      mockPortalBgGradientDiv = document.createElement('div');
+      mockPortalBgGradientDiv.id = 'portal-bg-gradient';
+      document.body.appendChild(mockPortalBgGradientDiv);
+    });
+
+    afterEach(() => {
+      document.body.innerHTML = '';
+    });
+
+    it('sets styles for portal background based on theme', () => {
+      window.portalConfig = { portalColor: '#FF5733' };
+
+      setPortalStyles('dark');
+      const expectedPortalBgStyle =
+        'background: url(/assets/images/hc/hexagon-dark.svg) color-mix(in srgb, #FF5733 20%, black)';
+      const expectedGradientStyle =
+        'background-image: linear-gradient(to bottom, transparent, #151718)';
+
+      expect(mockPortalBgDiv.getAttribute('style')).toBe(expectedPortalBgStyle);
+      expect(mockPortalBgGradientDiv.getAttribute('style')).toBe(
+        expectedGradientStyle
+      );
+    });
   });
 
-  it('handles clicks on nested elements', () => {
-    openExternalLinksInNewTab();
+  describe('#setPortalClass', () => {
+    let mockPortalDiv;
 
-    simulateClick('#nested code');
-    simulateClick('#nested strong');
+    beforeEach(() => {
+      // Mocking portal div
+      mockPortalDiv = document.createElement('div');
+      mockPortalDiv.id = 'portal';
+      mockPortalDiv.classList.add('light');
+      document.body.appendChild(mockPortalDiv);
+    });
 
-    const link = document.getElementById('nested');
-    expect(link.target).toBe('_blank');
-    expect(link.rel).toBe('noopener noreferrer');
+    afterEach(() => {
+      document.body.innerHTML = '';
+    });
+
+    it('sets portal class based on theme', () => {
+      setPortalClass('dark');
+
+      expect(mockPortalDiv.classList.contains('dark')).toBe(true);
+      expect(mockPortalDiv.classList.contains('light')).toBe(false);
+    });
   });
 
-  it('handles links inside list items with strong tags', () => {
-    openExternalLinksInNewTab();
+  describe('#updateThemeStyles', () => {
+    let mockPortalDiv;
+    let mockPortalBgDiv;
+    let mockPortalBgGradientDiv;
 
-    // Click on the strong element inside the link in the list
-    simulateClick('#list-link strong');
+    beforeEach(() => {
+      // Mocking portal div
+      mockPortalDiv = document.createElement('div');
+      mockPortalDiv.id = 'portal';
+      document.body.appendChild(mockPortalDiv);
 
-    const link = document.getElementById('list-link');
-    expect(link.target).toBe('_blank');
-    expect(link.rel).toBe('noopener noreferrer');
+      // Mocking portal background div
+      mockPortalBgDiv = document.createElement('div');
+      mockPortalBgDiv.id = 'portal-bg';
+      document.body.appendChild(mockPortalBgDiv);
+
+      // Mocking portal background gradient div
+      mockPortalBgGradientDiv = document.createElement('div');
+      mockPortalBgGradientDiv.id = 'portal-bg-gradient';
+      document.body.appendChild(mockPortalBgGradientDiv);
+    });
+
+    afterEach(() => {
+      document.body.innerHTML = '';
+    });
+
+    it('updates theme styles based on theme', () => {
+      window.portalConfig = { portalColor: '#FF5733' };
+
+      updateThemeStyles('dark');
+
+      const expectedPortalBgStyle =
+        'background: url(/assets/images/hc/hexagon-dark.svg) color-mix(in srgb, #FF5733 20%, black)';
+      const expectedGradientStyle =
+        'background-image: linear-gradient(to bottom, transparent, #151718)';
+
+      expect(mockPortalDiv.classList.contains('dark')).toBe(true);
+      expect(mockPortalBgDiv.getAttribute('style')).toBe(expectedPortalBgStyle);
+      expect(mockPortalBgGradientDiv.getAttribute('style')).toBe(
+        expectedGradientStyle
+      );
+    });
   });
 
-  it('opens external links in a new tab even if customDomain is empty', () => {
-    window = dom.window;
-    window.portalConfig = {
-      hostURL: 'app.chatwoot.com',
-    };
+  describe('#initializeTheme', () => {
+    let mockPortalDiv;
 
-    global.window = window;
+    beforeEach(() => {
+      mockPortalDiv = document.createElement('div');
+      mockPortalDiv.id = 'portal';
+      document.body.appendChild(mockPortalDiv);
+    });
 
-    openExternalLinksInNewTab();
+    afterEach(() => {
+      document.body.innerHTML = '';
+    });
 
-    const link = simulateClick('#external');
-    const internal = simulateClick('#internal');
-    const custom = simulateClick('#custom');
+    it('updates theme based on system preferences', () => {
+      const mediaQueryList = {
+        matches: true,
+        addEventListener: jest.fn(),
+      };
+      window.matchMedia = jest.fn().mockReturnValue(mediaQueryList);
+      window.portalConfig = { theme: 'system' };
 
-    expect(link.target).toBe('_blank');
-    expect(link.rel).toBe('noopener noreferrer');
+      InitializationHelpers.initializeTheme();
 
-    expect(internal.target).not.toBe('_blank');
-    // this will be blank since the configs customDomain is empty
-    // which is a fair expectation
-    expect(custom.target).toBe('_blank');
-  });
+      expect(mediaQueryList.addEventListener).toBeCalledWith(
+        'change',
+        expect.any(Function)
+      );
+      expect(mockPortalDiv.classList.contains('dark')).toBe(true);
+    });
 
-  it('opens external links in a new tab even if hostURL is empty', () => {
-    window = dom.window;
-    window.portalConfig = {
-      customDomain: 'custom.domain.com',
-    };
+    it('does not update theme if themeFromServer is not "system"', () => {
+      const mediaQueryList = {
+        matches: true,
+        addEventListener: jest.fn(),
+      };
+      window.matchMedia = jest.fn().mockReturnValue(mediaQueryList);
+      window.portalConfig = { theme: 'dark' };
 
-    global.window = window;
+      InitializationHelpers.initializeTheme();
 
-    openExternalLinksInNewTab();
-
-    const link = simulateClick('#external');
-    const internal = simulateClick('#internal');
-    const custom = simulateClick('#custom');
-
-    expect(link.target).toBe('_blank');
-    expect(link.rel).toBe('noopener noreferrer');
-
-    expect(internal.target).not.toBe('_blank');
-    expect(custom.target).not.toBe('_blank');
+      expect(mediaQueryList.addEventListener).not.toBeCalled();
+      expect(mockPortalDiv.classList.contains('dark')).toBe(false);
+      expect(mockPortalDiv.classList.contains('light')).toBe(false);
+    });
   });
 });

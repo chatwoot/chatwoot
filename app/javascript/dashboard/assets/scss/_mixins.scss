@@ -1,0 +1,246 @@
+@import '~dashboard/assets/scss/variables';
+@import '~widget/assets/scss/mixins';
+
+$spinner-before-border-color: rgba(255, 255, 255, 0.7);
+
+//borders
+@mixin border-nil() {
+  border-color: transparent;
+  border: 0;
+}
+
+@mixin thin-border($color) {
+  border: 1px solid $color;
+}
+
+@mixin custom-border-bottom($size, $color) {
+  border-bottom: $size solid $color;
+}
+
+@mixin custom-border-top($size, $color) {
+  border-top: $size solid $color;
+}
+
+@mixin border-normal() {
+  @apply border border-slate-50 dark:border-slate-700;
+}
+
+@mixin border-normal-left() {
+  @apply border-l border-slate-50 dark:border-slate-700;
+}
+
+@mixin border-normal-top() {
+  @apply border-t border-slate-50 dark:border-slate-700;
+}
+
+@mixin border-normal-right() {
+  @apply border-r border-slate-50 dark:border-slate-700;
+}
+
+@mixin border-normal-bottom() {
+  @apply border-b border-slate-50 dark:border-slate-700;
+}
+
+@mixin border-light() {
+  @apply border border-slate-25 dark:border-slate-700;
+}
+
+@mixin border-light-left() {
+  @apply border-l border-slate-25 dark:border-slate-700;
+}
+
+@mixin border-light-top() {
+  @apply border-t border-slate-25 dark:border-slate-700;
+}
+
+@mixin border-light-right() {
+  @apply border-r border-slate-25 dark:border-slate-700;
+}
+
+@mixin border-light-bottom() {
+  @apply border-b border-slate-25 dark:border-slate-700;
+}
+
+// background
+@mixin background-gray() {
+  background: $color-background;
+}
+
+@mixin background-light() {
+  @apply bg-slate-50 dark:bg-slate-800;
+}
+
+@mixin background-white() {
+  @apply bg-white dark:bg-slate-900;
+}
+
+// input form
+@mixin ghost-input() {
+  box-shadow: none;
+  border-color: transparent;
+
+  &:active,
+  &:hover,
+  &:focus {
+    border-color: transparent;
+    box-shadow: none;
+  }
+}
+
+// flex-layout
+@mixin space-between() {
+  display: flex;
+  justify-content: space-between;
+}
+
+@mixin space-between-column() {
+  @include space-between;
+  flex-direction: column;
+}
+
+@mixin space-between-row() {
+  @include space-between;
+  flex-direction: row;
+}
+
+@mixin flex-shrink() {
+  flex: 0 0 auto;
+  max-width: 100%;
+}
+
+@mixin flex-weight($value) {
+  // Grab flex-grow for older browsers.
+  $flex-grow: nth($value, 1);
+
+  // 2009
+  @include prefixer(box-flex, $flex-grow, webkit moz spec);
+
+  // 2011 (IE 10), 2012
+  @include prefixer(flex, $value, webkit moz ms spec);
+}
+
+// full height
+@mixin full-height() {
+  height: 100%;
+}
+
+@mixin round-corner() {
+  border-radius: 1000px;
+}
+
+@mixin scroll-on-hover() {
+  overflow: hidden;
+
+  &:hover {
+    overflow-y: auto;
+  }
+}
+
+
+@mixin horizontal-scroll() {
+  overflow-y: auto;
+}
+
+@mixin elegant-card() {
+  @include normal-shadow;
+  border-radius: $space-small;
+}
+
+@mixin color-spinner() {
+  @keyframes spinner {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  &::before {
+    animation: spinner .9s linear infinite;
+    border: 2px solid $spinner-before-border-color;
+    border-radius: 50%;
+    border-top-color: lighten($color-woot, 10%);
+    box-sizing: border-box;
+    content: '';
+    height: $space-medium;
+    left: 50%;
+    margin-left: -$space-one;
+    margin-top: -$space-one;
+    position: absolute;
+    top: 50%;
+    width: $space-medium;
+  }
+}
+
+// --------------------------------------------------------
+// arrows
+// --------------------------------------------------------
+// $direction: top, left, right, bottom, top-left, top-right, bottom-left, bottom-right
+// $color: hex, rgb or rbga
+// $size: px or em
+// @example
+// .element{
+//     @include arrow(top, #000, 50px);
+// }
+@mixin arrow($direction, $color, $size) {
+  display: block;
+  height: 0;
+  width: 0;
+  content: '';
+
+  @if $direction == 'top' {
+    border-bottom: $size solid $color;
+    border-left: $size solid transparent;
+    border-right: $size solid transparent;
+  }
+
+  @else if $direction == 'right' {
+    border-bottom: $size solid transparent;
+    border-left: $size solid $color;
+    border-top: $size solid transparent;
+  }
+
+  @else if $direction == 'bottom' {
+    border-left: $size solid transparent;
+    border-right: $size solid transparent;
+    border-top: $size solid $color;
+  }
+
+  @else if $direction == 'left' {
+    border-bottom: $size solid transparent;
+    border-right: $size solid $color;
+    border-top: $size solid transparent;
+  }
+
+  @else if $direction == 'top-left' {
+    border-right: $size solid transparent;
+    border-top: $size solid $color;
+  }
+
+  @else if $direction == 'top-right' {
+    border-left: $size solid transparent;
+    border-top: $size solid $color;
+  }
+
+  @else if $direction == 'bottom-left' {
+    border-bottom: $size solid $color;
+    border-right: $size solid transparent;
+  }
+
+  @else if $direction == 'bottom-right' {
+    border-bottom: $size solid $color;
+    border-left: $size solid transparent;
+  }
+}
+
+@mixin text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin three-column-grid($column-one-width: 16rem,
+  $column-three-width: 16rem) {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: minmax($column-one-width, 6fr) 10fr minmax($column-three-width, 6fr);
+}

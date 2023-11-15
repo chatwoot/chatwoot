@@ -1,16 +1,12 @@
 import { mutations } from '../../campaign';
 import { campaigns } from './data';
-vi.mock('widget/store/index.js', () => ({
-  default: {},
-}));
-
+jest.mock('widget/store/index.js');
 describe('#mutations', () => {
   describe('#setCampaigns', () => {
     it('set campaign records', () => {
-      const state = { records: [], uiFlags: {} };
+      const state = { records: [] };
       mutations.setCampaigns(state, campaigns);
       expect(state.records).toEqual(campaigns);
-      expect(state.uiFlags.hasFetched).toEqual(true);
     });
   });
 

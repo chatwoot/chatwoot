@@ -1,17 +1,17 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "親愛的客戶👋，請花一些時間分享您與 {inboxName} 對話的反饋。",
+    "DESCRIPTION": "Dear customer 👋, please take a few moments to share feedback about the conversation you had with %{inboxName}.",
     "RATING": {
-      "LABEL": "為此對話評分",
+      "LABEL": "Rate your conversation",
       "SUCCESS_MESSAGE": "感謝您提交的評分"
     },
     "FEEDBACK": {
-      "LABEL": "有什麼想法想分享嗎？",
+      "LABEL": "Do you have any thoughts you'd like to share?",
       "PLACEHOLDER": "Your feedback (optional)",
-      "BUTTON_TEXT": "提交反饋"
+      "BUTTON_TEXT": "Submit feedback"
     },
     "API": {
-      "SUCCESS_MESSAGE": "标签已成功更新",
+      "SUCCESS_MESSAGE": "Survey updated successfully",
       "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
     }
   },

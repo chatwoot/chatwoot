@@ -17,10 +17,6 @@ class PortalsAPI extends ApiClient {
   deletePortal(portalSlug) {
     return axios.delete(`${this.url}/${portalSlug}`);
   }
-
-  deleteLogo(portalSlug) {
-    return axios.delete(`${this.url}/${portalSlug}/logo`);
-  }
 }
 
 export default PortalsAPI;

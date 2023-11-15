@@ -23,7 +23,7 @@ describe AutomationRuleListener do
            attribute_display_type: 'list',
            attribute_values: %w[regular platinum gold])
     create(:custom_attribute_definition,
-           attribute_key: 'priority_level',
+           attribute_key: 'priority',
            account: account,
            attribute_model: 'conversation_attribute',
            attribute_display_type: 'list',
@@ -83,7 +83,6 @@ describe AutomationRuleListener do
           {
             attribute_key: 'customer_type',
             filter_operator: 'equal_to',
-            custom_attribute_type: 'contact_attribute',
             values: ['platinum'],
             query_operator: 'AND'
           }.with_indifferent_access,
@@ -155,7 +154,6 @@ describe AutomationRuleListener do
             {
               attribute_key: 'customer_type',
               filter_operator: 'equal_to',
-              custom_attribute_type: 'contact_attribute',
               values: ['platinum'],
               query_operator: nil
             }.with_indifferent_access
@@ -267,7 +265,7 @@ describe AutomationRuleListener do
 
     context 'when rule matches based on custom_attributes' do
       before do
-        conversation.update!(custom_attributes: { priority_level: 'P2' })
+        conversation.update!(custom_attributes: { priority: 'P2' })
         conversation.contact.update!(custom_attributes: { cloud_customer: false })
 
         automation_rule.update!(
@@ -276,7 +274,7 @@ describe AutomationRuleListener do
           description: 'Add labels, assign team after conversation updated',
           conditions: [
             {
-              attribute_key: 'priority_level',
+              attribute_key: 'priority',
               filter_operator: 'equal_to',
               values: ['P2'],
               custom_attribute_type: 'conversation_attribute',

@@ -2,11 +2,11 @@ import { actions } from '../../conversation/actions';
 import getUuid from '../../../../helpers/uuid';
 import { API } from 'widget/helpers/axios';
 
-vi.mock('../../../../helpers/uuid');
-vi.mock('widget/helpers/axios');
+jest.mock('../../../../helpers/uuid');
+jest.mock('widget/helpers/axios');
 
-const commit = vi.fn();
-const dispatch = vi.fn();
+const commit = jest.fn();
+const dispatch = jest.fn();
 
 describe('#actions', () => {
   describe('#createConversation', () => {
@@ -17,8 +17,7 @@ describe('#actions', () => {
           messages: [{ id: 1, content: 'This is a test message' }],
         },
       });
-
-      let windowSpy = vi.spyOn(window, 'window', 'get');
+      let windowSpy = jest.spyOn(window, 'window', 'get');
       windowSpy.mockImplementation(() => ({
         WOOT_WIDGET: {
           $root: {
@@ -97,8 +96,8 @@ describe('#actions', () => {
     it('sends correct mutations', async () => {
       const mockDate = new Date(1466424490000);
       getUuid.mockImplementationOnce(() => '1111');
-      const spy = vi.spyOn(global, 'Date').mockImplementation(() => mockDate);
-      const windowSpy = vi.spyOn(window, 'window', 'get');
+      const spy = jest.spyOn(global, 'Date').mockImplementation(() => mockDate);
+      const windowSpy = jest.spyOn(window, 'window', 'get');
       windowSpy.mockImplementation(() => ({
         WOOT_WIDGET: {
           $root: {
@@ -133,7 +132,7 @@ describe('#actions', () => {
     it('sends correct mutations', () => {
       const mockDate = new Date(1466424490000);
       getUuid.mockImplementationOnce(() => '1111');
-      const spy = vi.spyOn(global, 'Date').mockImplementation(() => mockDate);
+      const spy = jest.spyOn(global, 'Date').mockImplementation(() => mockDate);
       const thumbUrl = '';
       const attachment = { thumbUrl, fileType: 'file' };
 

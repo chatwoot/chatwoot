@@ -1,13 +1,13 @@
 {
   "CSAT": {
-    "TITLE": "Ocenite svoj pogovor",
-    "PLACEHOLDER": "Povejte nam več ...",
+    "TITLE": "Rate your conversation",
+    "PLACEHOLDER": "Tell us more...",
     "RATINGS": {
-      "POOR": "😞 Slabo",
-      "FAIR": "😑 Zadovoljivo",
-      "AVERAGE": "😐 Povprečno",
-      "GOOD": "😀 Dobro",
-      "EXCELLENT": "😍 Odlično"
+      "POOR": "😞 Poor",
+      "FAIR": "😑 Fair",
+      "AVERAGE": "😐 Average",
+      "GOOD": "😀 Good",
+      "EXCELLENT": "😍 Excellent"
     }
   }
 }

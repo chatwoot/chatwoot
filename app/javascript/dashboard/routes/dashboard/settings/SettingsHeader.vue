@@ -1,13 +1,47 @@
+<template>
+  <div
+    class="flex justify-between items-center h-14 min-h-[3.5rem] px-4 py-2 bg-white dark:bg-slate-900 border-b border-slate-50 dark:border-slate-800/50"
+  >
+    <h1
+      class="text-2xl mb-0 flex items-center text-slate-900 dark:text-slate-100"
+    >
+      <woot-sidemenu-icon v-if="showSidemenuIcon" />
+      <back-button
+        v-if="showBackButton"
+        :button-label="backButtonLabel"
+        :back-url="backUrl"
+      />
+      <fluent-icon
+        v-if="icon"
+        :icon="icon"
+        :class="iconClass"
+        class="mr-2 ml-4 rtl:ml-2 rtl:mr-4"
+      />
+      <slot />
+      <span class="text-slate-900 dark:text-slate-100">{{ headerTitle }}</span>
+    </h1>
+    <router-link
+      v-if="showNewButton && isAdmin"
+      :to="buttonRoute"
+      class="button success button--fixed-top"
+    >
+      <fluent-icon icon="add-circle" />
+      <span class="button__content">
+        {{ buttonText }}
+      </span>
+    </router-link>
+  </div>
+</template>
 <script>
-import { useAdmin } from 'dashboard/composables/useAdmin';
+import { mapGetters } from 'vuex';
 import BackButton from '../../../components/widgets/BackButton.vue';
-import NextButton from 'dashboard/components-next/button/Button.vue';
+import adminMixin from '../../../mixins/isAdmin';
 
 export default {
   components: {
     BackButton,
-    NextButton,
   },
+  mixins: [adminMixin],
   props: {
     headerTitle: {
       default: '',
@@ -35,46 +69,18 @@ export default {
       type: String,
       default: '',
     },
-  },
-  setup() {
-    const { isAdmin } = useAdmin();
-    return {
-      isAdmin,
-    };
+    showSidemenuIcon: {
+      type: Boolean,
+      default: true,
+    },
   },
   computed: {
+    ...mapGetters({
+      currentUser: 'getCurrentUser',
+    }),
     iconClass() {
       return `icon ${this.icon} header--icon`;
     },
   },
 };
 </script>
-
-<template>
-  <div
-    class="flex justify-between items-center h-20 min-h-[3.5rem] px-4 py-2 bg-n-background"
-  >
-    <h1 class="flex items-center mb-0 text-2xl text-n-slate-12">
-      <BackButton
-        v-if="showBackButton"
-        :button-label="backButtonLabel"
-        :back-url="backUrl"
-        class="ml-2 mr-4"
-      />
-
-      <slot />
-      <span class="text-xl font-medium text-n-slate-12">
-        {{ headerTitle }}
-      </span>
-    </h1>
-    <!-- TODO: Remove this when we are not using this -->
-    <router-link v-if="showNewButton && isAdmin" :to="buttonRoute">
-      <NextButton
-        teal
-        icon="i-lucide-circle-plus"
-        class="button--fixed-top"
-        :label="buttonText"
-      />
-    </router-link>
-  </div>
-</template>

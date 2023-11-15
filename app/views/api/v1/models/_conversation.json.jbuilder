@@ -1,5 +1,3 @@
-# This file is used to render conversation data search API response.
-
 json.id conversation.display_id
 json.uuid conversation.uuid
 json.created_at conversation.created_at.to_i

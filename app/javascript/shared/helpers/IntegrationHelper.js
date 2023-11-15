@@ -1,5 +1,5 @@
-const DYTE_MEETING_LINK = 'https://app.dyte.io/v2/meeting';
+const DYTE_MEETING_LINK = 'https://app.dyte.in/meeting/stage/';
 
-export const buildDyteURL = dyteAuthToken => {
-  return `${DYTE_MEETING_LINK}?authToken=${dyteAuthToken}&showSetupScreen=true&disableVideoBackground=true`;
+export const buildDyteURL = (roomName, dyteAuthToken) => {
+  return `${DYTE_MEETING_LINK}${roomName}?authToken=${dyteAuthToken}&showSetupScreen=true&disableVideoBackground=true`;
 };

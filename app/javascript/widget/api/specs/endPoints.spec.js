@@ -2,21 +2,22 @@ import endPoints from '../endPoints';
 
 describe('#sendMessage', () => {
   it('returns correct payload', () => {
-    const spy = vi.spyOn(global, 'Date').mockImplementation(() => ({
+    const spy = jest.spyOn(global, 'Date').mockImplementation(() => ({
       toString: () => 'mock date',
     }));
-    vi.spyOn(window, 'location', 'get').mockReturnValue({
-      ...window.location,
-      search: '?param=1',
-    });
-
-    window.WOOT_WIDGET = {
-      $root: {
-        $i18n: {
-          locale: 'ar',
+    const windowSpy = jest.spyOn(window, 'window', 'get');
+    windowSpy.mockImplementation(() => ({
+      WOOT_WIDGET: {
+        $root: {
+          $i18n: {
+            locale: 'ar',
+          },
         },
       },
-    };
+      location: {
+        search: '?param=1',
+      },
+    }));
 
     expect(endPoints.sendMessage('hello')).toEqual({
       url: `/api/v1/widget/messages?param=1&locale=ar`,
@@ -28,16 +29,13 @@ describe('#sendMessage', () => {
         },
       },
     });
+    windowSpy.mockRestore();
     spy.mockRestore();
   });
 });
 
 describe('#getConversation', () => {
   it('returns correct payload', () => {
-    vi.spyOn(window, 'location', 'get').mockReturnValue({
-      ...window.location,
-      search: '',
-    });
     expect(endPoints.getConversation({ before: 123 })).toEqual({
       url: `/api/v1/widget/messages`,
       params: {
@@ -49,13 +47,10 @@ describe('#getConversation', () => {
 
 describe('#triggerCampaign', () => {
   it('should returns correct payload', () => {
-    const spy = vi.spyOn(global, 'Date').mockImplementation(() => ({
+    const spy = jest.spyOn(global, 'Date').mockImplementation(() => ({
       toString: () => 'mock date',
     }));
-    vi.spyOn(window, 'location', 'get').mockReturnValue({
-      ...window.location,
-      search: '',
-    });
+    const windowSpy = jest.spyOn(window, 'window', 'get');
     const websiteToken = 'ADSDJ2323MSDSDFMMMASDM';
     const campaignId = 12;
     expect(
@@ -79,6 +74,7 @@ describe('#triggerCampaign', () => {
         website_token: websiteToken,
       },
     });
+    windowSpy.mockRestore();
 
     spy.mockRestore();
   });
@@ -86,13 +82,10 @@ describe('#triggerCampaign', () => {
 
 describe('#getConversation', () => {
   it('should returns correct payload', () => {
-    const spy = vi.spyOn(global, 'Date').mockImplementation(() => ({
+    const spy = jest.spyOn(global, 'Date').mockImplementation(() => ({
       toString: () => 'mock date',
     }));
-    vi.spyOn(window, 'location', 'get').mockReturnValue({
-      ...window.location,
-      search: '',
-    });
+    const windowSpy = jest.spyOn(window, 'window', 'get');
     expect(
       endPoints.getConversation({
         after: 123,
@@ -104,6 +97,7 @@ describe('#getConversation', () => {
         before: undefined,
       },
     });
+    windowSpy.mockRestore();
 
     spy.mockRestore();
   });

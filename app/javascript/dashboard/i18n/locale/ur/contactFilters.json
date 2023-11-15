@@ -30,13 +30,10 @@
       "is_lesser_than": "Is lesser than",
       "days_before": "Is x days before"
     },
-    "ERRORS": {
-      "VALUE_REQUIRED": "Value is required"
-    },
     "ATTRIBUTES": {
       "NAME": "نام",
       "EMAIL": "Email",
-      "PHONE_NUMBER": "فون نمبر",
+      "PHONE_NUMBER": "Phone number",
       "IDENTIFIER": "Identifier",
       "CITY": "شہر",
       "COUNTRY": "ملک",
@@ -47,8 +44,7 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
       "CREATED_AT": "Created At",
       "LAST_ACTIVITY": "آخری سرگرمی",
-      "REFERER_LINK": "Referrer link",
-      "BLOCKED": "Blocked"
+      "REFERER_LINK": "Referrer link"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard Filters",

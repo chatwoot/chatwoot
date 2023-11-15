@@ -46,7 +46,6 @@ class AgentBotDashboard < Administrate::BaseDashboard
     name
     description
     outgoing_url
-    access_token
   ].freeze
 
   # FORM_ATTRIBUTES

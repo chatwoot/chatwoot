@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import * as types from '../mutation-types';
 import UserNotificationSettings from '../../api/userNotificationSettings';
 
@@ -67,7 +68,7 @@ export const mutations = {
     };
   },
   [types.default.SET_USER_NOTIFICATION]: ($state, data) => {
-    $state.record = data;
+    Vue.set($state, 'record', data);
   },
 };
 

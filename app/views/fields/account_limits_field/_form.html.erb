@@ -1,0 +1,9 @@
+<div class="field-unit__label">
+  <%= f.label field.attribute %>
+</div>
+<div class="field-unit__field">
+
+  <% JSON.parse(field.to_s).each do |key,val| %>
+    <%= key %>: <%= number_field "account[limits]", key, value: val %> </br>
+  <% end %>
+</div>

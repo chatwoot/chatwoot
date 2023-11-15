@@ -5,22 +5,16 @@ summary: Add a new article
 description: Add a new article to portal
 security:
   - userApiKey: []
-requestBody:
-  required: true
-  content:
-    application/json:
-      schema:
-        $ref: '#/components/schemas/article_create_update_payload'
+parameters:
+  - name: data
+    in: body
+    required: true
+    schema:
+      $ref: '#/definitions/article_create_update_payload'
 responses:
   '200':
     description: Success
-    content:
-      application/json:
-        schema:
-          $ref: '#/components/schemas/article'
+    schema:
+      $ref: '#/definitions/article'
   '403':
     description: Access denied
-    content:
-      application/json:
-        schema:
-          $ref: '#/components/schemas/bad_request_error'

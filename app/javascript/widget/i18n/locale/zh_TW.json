@@ -22,15 +22,15 @@
     "IN_A_DAY": "通常在一天內回覆",
     "BACK_IN": "We will be back online"
   },
-  "DAY_NAMES": {
-    "SUNDAY": "星期日",
-    "MONDAY": "星期一",
-    "TUESDAY": "Tuesday",
-    "WEDNESDAY": "Wednesday",
-    "THURSDAY": "Thursday",
-    "FRIDAY": "Friday",
-    "SATURDAY": "Saturday"
-  },
+  "DAY_NAMES": [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ],
   "START_CONVERSATION": "開始對話",
   "END_CONVERSATION": "結束對話",
   "CONTINUE_CONVERSATION": "繼續對話",
@@ -70,8 +70,7 @@
         "REQUIRED_ERROR": "電話號碼為必填",
         "DIAL_CODE_VALID_ERROR": "Please select a country code",
         "VALID_ERROR": "Please enter a valid phone number",
-        "DROPDOWN_EMPTY": "No results found",
-        "DROPDOWN_SEARCH": "Search country"
+        "DROPDOWN_EMPTY": "No results found"
       },
       "MESSAGE": {
         "LABEL": "訊息",
@@ -81,8 +80,7 @@
     },
     "CAMPAIGN_HEADER": "在開始對話之前請提供您的名字及電郵",
     "IS_REQUIRED": "必填",
-    "REQUIRED": "Required",
-    "REGEX_ERROR": "請輸入有效的字符"
+    "REQUIRED": "Required"
   },
   "FILE_SIZE_LIMIT": "{MAXIMUM_FILE_UPLOAD_SIZE} 已超出檔案大小限制",
   "CHAT_FORM": {
@@ -92,8 +90,7 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "搜尋 emojis",
-    "NOT_FOUND": "查無相符的 emoji",
-    "ARIA_LABEL": "表情選擇"
+    "NOT_FOUND": "查無相符的 emoji"
   },
   "CSAT": {
     "TITLE": "為此對話評分",
@@ -108,13 +105,13 @@
   "INTEGRATIONS": {
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "點擊這裡加入",
-      "LEAVE_THE_ROOM": "留下電話"
+      "LEAVE_THE_ROOM": "Leave the call"
     }
   },
   "PORTAL": {
-    "POPULAR_ARTICLES": "熱門文章",
-    "VIEW_ALL_ARTICLES": "查看所有文章",
-    "IFRAME_LOAD_ERROR": "載入文章時出錯，請重新整理頁面並重試。"
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
   },
   "ATTACHMENTS": {
     "image": {
@@ -135,8 +132,5 @@
     "fallback": {
       "CONTENT": "分享了一個網址"
     }
-  },
-  "FOOTER_REPLY_TO": {
-    "REPLY_TO": "回覆:"
   }
 }

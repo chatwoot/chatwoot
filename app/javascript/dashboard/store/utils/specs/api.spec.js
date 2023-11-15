@@ -3,7 +3,6 @@ import {
   parseAPIErrorResponse,
   setLoadingStatus,
   throwErrorMessage,
-  parseLinearAPIErrorResponse,
 } from '../api';
 
 describe('#getLoadingStatus', () => {
@@ -48,28 +47,5 @@ describe('#throwErrorMessage', () => {
       });
     };
     expect(errorFn).toThrow('Error Message [message]');
-  });
-});
-
-describe('#parseLinearAPIErrorResponse', () => {
-  it('returns correct values', () => {
-    expect(
-      parseLinearAPIErrorResponse(
-        {
-          response: {
-            data: {
-              error: {
-                errors: [
-                  {
-                    message: 'Error Message [message]',
-                  },
-                ],
-              },
-            },
-          },
-        },
-        'Default Message'
-      )
-    ).toBe('Error Message [message]');
   });
 });

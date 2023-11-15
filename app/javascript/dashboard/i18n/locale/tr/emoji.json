@@ -1,7 +1,7 @@
 {
   "EMOJI": {
-    "PLACEHOLDER": "Emoji ara",
-    "NOT_FOUND": "Aramanızla eşleşen emoji yok",
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search",
     "REMOVE": "Kaldır"
   }
 }

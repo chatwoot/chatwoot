@@ -7,6 +7,10 @@ module Channelable
     after_update :create_audit_log_entry
   end
 
+  def messaging_window_enabled?
+    false
+  end
+
   def create_audit_log_entry; end
 end
 

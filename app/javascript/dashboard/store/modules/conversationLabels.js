@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import * as types from '../mutation-types';
 import ConversationAPI from '../../api/conversations';
 
@@ -79,15 +80,12 @@ export const mutations = {
     };
   },
   [types.default.SET_CONVERSATION_LABELS]: ($state, { id, data }) => {
-    $state.records = { ...$state.records, [id]: data };
+    Vue.set($state.records, id, data);
   },
   [types.default.SET_BULK_CONVERSATION_LABELS]: ($state, conversations) => {
-    const updatedRecords = { ...$state.records };
     conversations.forEach(conversation => {
-      updatedRecords[conversation.id] = conversation.labels;
+      Vue.set($state.records, conversation.id, conversation.labels);
     });
-
-    $state.records = updatedRecords;
   },
 };
 

@@ -1,20 +1,3 @@
-export const contactViewList = [
-  {
-    name: 'Custom view 1',
-    filter_type: 1,
-    query: {
-      payload: [
-        {
-          attribute_key: 'name',
-          filter_operator: 'equal_to',
-          values: ['john doe'],
-          query_operator: null,
-        },
-      ],
-    },
-  },
-];
-
 export const customViewList = [
   {
     name: 'Custom view',
@@ -38,14 +21,14 @@ export const customViewList = [
   },
   {
     name: 'Custom view 1',
-    filter_type: 0,
+    filter_type: 1,
     query: {
       payload: [
         {
-          attribute_key: 'assignee_id',
+          attribute_key: 'name',
           filter_operator: 'equal_to',
-          values: [45],
-          query_operator: 'and',
+          values: ['john doe'],
+          query_operator: null,
         },
       ],
     },

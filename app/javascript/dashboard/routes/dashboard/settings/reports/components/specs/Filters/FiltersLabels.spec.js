@@ -1,14 +1,15 @@
-import { shallowMount } from '@vue/test-utils';
-import { createStore } from 'vuex';
-import ReportsFiltersLabels from '../../Filters/Labels.vue';
+import { shallowMount, createLocalVue } from '@vue/test-utils';
+import Vuex from 'vuex';
+import ReportsFiltersLabels from '../../Filters/Labels';
+
+const localVue = createLocalVue();
+localVue.use(Vuex);
 
 const mountParams = {
-  global: {
-    mocks: {
-      $t: msg => msg,
-    },
-    stubs: ['multiselect'],
+  mocks: {
+    $t: msg => msg,
   },
+  stubs: ['multiselect'],
 };
 
 describe('ReportsFiltersLabels.vue', () => {
@@ -25,11 +26,11 @@ describe('ReportsFiltersLabels.vue', () => {
         ],
       },
       actions: {
-        get: vi.fn(),
+        get: jest.fn(),
       },
     };
 
-    store = createStore({
+    store = new Vuex.Store({
       modules: {
         labels: labelsModule,
       },
@@ -38,29 +39,27 @@ describe('ReportsFiltersLabels.vue', () => {
 
   it('dispatches "labels/get" action when component is mounted', () => {
     shallowMount(ReportsFiltersLabels, {
-      global: {
-        plugins: [store],
-        ...mountParams.global,
-      },
+      store,
+      localVue,
+      ...mountParams,
     });
     expect(labelsModule.actions.get).toHaveBeenCalled();
   });
 
-  it('emits "labels-filter-selection" event when handleInput is called', async () => {
+  it('emits "labels-filter-selection" event when handleInput is called', () => {
     const wrapper = shallowMount(ReportsFiltersLabels, {
-      global: {
-        plugins: [store],
-        ...mountParams.global,
-      },
+      store,
+      localVue,
+      ...mountParams,
     });
 
     const selectedLabel = { id: 1, title: 'Label 1', color: 'red' };
-    await wrapper.setData({ selectedOption: selectedLabel });
+    wrapper.setData({ selectedOption: selectedLabel });
 
-    await wrapper.vm.handleInput();
+    wrapper.vm.handleInput();
 
-    expect(wrapper.emitted('labelsFilterSelection')).toBeTruthy();
-    expect(wrapper.emitted('labelsFilterSelection')[0]).toEqual([
+    expect(wrapper.emitted('labels-filter-selection')).toBeTruthy();
+    expect(wrapper.emitted('labels-filter-selection')[0]).toEqual([
       selectedLabel,
     ]);
   });

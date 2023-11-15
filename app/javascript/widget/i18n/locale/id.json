@@ -22,21 +22,21 @@
     "IN_A_DAY": "Biasanya membalas dalam sehari",
     "BACK_IN": "Kami akan kembali online"
   },
-  "DAY_NAMES": {
-    "SUNDAY": "Minggu",
-    "MONDAY": "Senin",
-    "TUESDAY": "Selasa",
-    "WEDNESDAY": "Rabu",
-    "THURSDAY": "Kamis",
-    "FRIDAY": "Jumat",
-    "SATURDAY": "Sabtu"
-  },
+  "DAY_NAMES": [
+    "Minggu",
+    "Senin",
+    "Selasa",
+    "Rabu",
+    "Kamis",
+    "Jumat",
+    "Sabtu"
+  ],
   "START_CONVERSATION": "Mulai Percakapan",
   "END_CONVERSATION": "Akhiri Percakapan",
   "CONTINUE_CONVERSATION": "Lanjutkan Percakapan",
-  "YOU": "Anda",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "Mulai Percakapan",
-  "VIEW_UNREAD_MESSAGES": "Anda memiliki pesan yang belum dibaca",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Lihat pesan baru",
     "CLOSE_MESSAGES_BUTTON": "Tutup",
@@ -70,8 +70,7 @@
         "REQUIRED_ERROR": "Nomor Telepon Dibutuhkan",
         "DIAL_CODE_VALID_ERROR": "Silakan pilih kode negara",
         "VALID_ERROR": "Mohon berikan nomor telepon yang valid",
-        "DROPDOWN_EMPTY": "Tidak ada hasil ditemukan",
-        "DROPDOWN_SEARCH": "Search country"
+        "DROPDOWN_EMPTY": "Tidak ada hasil ditemukan"
       },
       "MESSAGE": {
         "LABEL": "Pesan",
@@ -81,8 +80,7 @@
     },
     "CAMPAIGN_HEADER": "Silahkan input nama dan email anda sebelum memulai percakapan",
     "IS_REQUIRED": "dibutuhkan",
-    "REQUIRED": "Diperlukan",
-    "REGEX_ERROR": "Tolong berikan masukan yang tepat"
+    "REQUIRED": "Diperlukan"
   },
   "FILE_SIZE_LIMIT": "File melebihi batas {MAXIMUM_FILE_UPLOAD_SIZE} lampiran",
   "CHAT_FORM": {
@@ -92,8 +90,7 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Cari emoji",
-    "NOT_FOUND": "Tidak ada emoji yang cocok dengan penelusuran anda",
-    "ARIA_LABEL": "Emoji picker"
+    "NOT_FOUND": "Tidak ada emoji yang cocok dengan penelusuran anda"
   },
   "CSAT": {
     "TITLE": "Nilai percakapan anda",
@@ -112,9 +109,9 @@
     }
   },
   "PORTAL": {
-    "POPULAR_ARTICLES": "Artikel Populer",
+    "POPULAR_ARTICLES": "Popular Articles",
     "VIEW_ALL_ARTICLES": "Lihat semua artikel",
-    "IFRAME_LOAD_ERROR": "Terjadi kesalahan saat memuat artikel, harap muat ulang halaman dan coba lagi."
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
   },
   "ATTACHMENTS": {
     "image": {
@@ -135,8 +132,5 @@
     "fallback": {
       "CONTENT": "telah membagikan url"
     }
-  },
-  "FOOTER_REPLY_TO": {
-    "REPLY_TO": "Replying to:"
   }
 }

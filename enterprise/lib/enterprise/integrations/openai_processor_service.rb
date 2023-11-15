@@ -9,19 +9,23 @@ module Enterprise::Integrations::OpenaiProcessorService
 
     response = make_api_call(label_suggestion_body)
 
-    return response if response[:error].present?
-
     # LLMs are not deterministic, so this is bandaid solution
     # To what you ask? Sometimes, the response includes
     # "Labels:" in it's response in some format. This is a hacky way to remove it
     # TODO: Fix with with a better prompt
-    { message: response[:message] ? response[:message].gsub(/^(label|labels):/i, '') : '' }
+    response.present? ? response.gsub(/^(label|labels):/i, '') : ''
   end
 
   private
 
   def labels_with_messages
-    return nil unless valid_conversation?(conversation)
+    conversation = find_conversation
+
+    # return nil if conversation is not present
+    return nil if conversation.nil?
+
+    # return nil if conversation has less than 3 incoming messages
+    return nil if conversation.messages.incoming.count < 3
 
     labels = hook.account.labels.pluck(:title).join(', ')
     character_count = labels.length
@@ -32,19 +36,6 @@ module Enterprise::Integrations::OpenaiProcessorService
     return nil if messages.blank? || labels.blank?
 
     "Messages:\n#{messages}\nLabels:\n#{labels}"
-  end
-
-  def valid_conversation?(conversation)
-    return false if conversation.nil?
-    return false if conversation.messages.incoming.count < 3
-
-    # Think Mark think, at this point the conversation is beyond saving
-    return false if conversation.messages.count > 100
-
-    # if there are more than 20 messages, only trigger this if the last message is from the client
-    return false if conversation.messages.count > 20 && !conversation.messages.last.incoming?
-
-    true
   end
 
   def summarize_body
@@ -59,10 +50,8 @@ module Enterprise::Integrations::OpenaiProcessorService
   end
 
   def label_suggestion_body
-    return unless label_suggestions_enabled?
-
     content = labels_with_messages
-    return value_from_cache if content.blank?
+    return nil if content.blank?
 
     {
       model: self.class::GPT_MODEL,
@@ -74,9 +63,5 @@ module Enterprise::Integrations::OpenaiProcessorService
         { role: 'user', content: content }
       ]
     }.to_json
-  end
-
-  def label_suggestions_enabled?
-    hook.settings['label_suggestion'].present?
   end
 end

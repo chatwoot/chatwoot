@@ -3,9 +3,9 @@ import { actions } from '../../integrations';
 import types from '../../../mutation-types';
 import integrationsList from './fixtures';
 
-const commit = vi.fn();
+const commit = jest.fn();
 global.axios = axios;
-vi.mock('axios');
+jest.mock('axios');
 
 const errorMessage = { message: 'Incorrect header' };
 describe('#actions', () => {

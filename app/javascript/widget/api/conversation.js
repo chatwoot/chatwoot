@@ -38,9 +38,10 @@ const setUserLastSeenAt = async ({ lastSeen }) => {
     { contact_last_seen_at: lastSeen }
   );
 };
-const sendEmailTranscript = async () => {
+const sendEmailTranscript = async ({ email }) => {
   return API.post(
-    `/api/v1/widget/conversations/transcript${window.location.search}`
+    `/api/v1/widget/conversations/transcript${window.location.search}`,
+    { email }
   );
 };
 const toggleStatus = async () => {

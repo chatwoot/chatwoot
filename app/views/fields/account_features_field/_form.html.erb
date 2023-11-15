@@ -1,0 +1,14 @@
+<div class="field-unit__label">
+  <%= f.label field.attribute %>
+</div>
+<div class="field-unit__field feature-container">
+    <% field.data.each do |key,val| %>
+    <div class='feature-cell'>
+    <% if ['audit_logs', 'response_bot'].include? key %>
+    <span class='icon-container'><i class="ion ion-asterisk"></i></span>
+    <% end %>
+    <span><%= key %></span> 
+    <span class='value-container'><%= check_box "enabled_features", "feature_#{key}", { checked: val }, true, false  %> </span>
+    </div>
+  <% end %>
+</div>

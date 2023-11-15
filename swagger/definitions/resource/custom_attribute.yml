@@ -15,24 +15,15 @@ properties:
   attribute_key:
     type: string
     description: Attribute unique key value
-  regex_pattern:
-    type: string
-    description: Regex pattern
-  regex_cue:
-    type: string
-    description: Regex cue
   attribute_values:
     type: string
     description: Attribute values
-  attribute_model:
-    type: string
-    description: Attribute type(conversation_attribute/contact_attribute)
   default_value:
     type: string
     description: Attribute default value
-  created_at:
+  attribute_model:
     type: string
-    description: The date and time when the custom attribute was created
-  updated_at:
-    type: string
-    description: The date and time when the custom attribute was updated
+    description: Attribute type(conversation_attribute/contact_attribute)
+  account_id:
+    type: integer
+    description: Account Id

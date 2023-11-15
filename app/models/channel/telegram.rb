@@ -33,9 +33,9 @@ class Channel::Telegram < ApplicationRecord
   end
 
   def send_message_on_telegram(message)
-    message_id = send_message(message) if message.outgoing_content.present?
-    message_id = Telegram::SendAttachmentsService.new(message: message).perform if message.attachments.present?
-    message_id
+    return send_message(message) if message.attachments.empty?
+
+    send_attachments(message)
   end
 
   def get_telegram_profile_image(user_id)
@@ -54,27 +54,6 @@ class Channel::Telegram < ApplicationRecord
     return nil unless response.success?
 
     "https://api.telegram.org/file/bot#{bot_token}/#{response.parsed_response['result']['file_path']}"
-  end
-
-  def process_error(message, response)
-    return unless response.parsed_response['ok'] == false
-
-    # https://github.com/TelegramBotAPI/errors/tree/master/json
-    message.external_error = "#{response.parsed_response['error_code']}, #{response.parsed_response['description']}"
-    message.status = :failed
-    message.save!
-  end
-
-  def chat_id(message)
-    message.conversation[:additional_attributes]['chat_id']
-  end
-
-  def business_connection_id(message)
-    message.conversation[:additional_attributes]['business_connection_id']
-  end
-
-  def reply_to_message_id(message)
-    message.content_attributes['in_reply_to_external_id']
   end
 
   private
@@ -98,16 +77,27 @@ class Channel::Telegram < ApplicationRecord
     errors.add(:bot_token, 'error setting up the webook') unless response.success?
   end
 
+  def chat_id(message)
+    message.conversation[:additional_attributes]['chat_id']
+  end
+
+  def reply_to_message_id(message)
+    message.content_attributes['in_reply_to_external_id']
+  end
+
   def send_message(message)
-    response = message_request(
-      chat_id(message),
-      message.outgoing_content,
-      reply_markup(message),
-      reply_to_message_id(message),
-      business_connection_id: business_connection_id(message)
-    )
+    response = message_request(chat_id(message), message.content, reply_markup(message), reply_to_message_id(message))
     process_error(message, response)
     response.parsed_response['result']['message_id'] if response.success?
+  end
+
+  def process_error(message, response)
+    return unless response.parsed_response['ok'] == false
+
+    # https://github.com/TelegramBotAPI/errors/tree/master/json
+    message.external_error = "#{response.parsed_response['error_code']}, #{response.parsed_response['description']}"
+    message.status = :failed
+    message.save!
   end
 
   def reply_markup(message)
@@ -124,36 +114,48 @@ class Channel::Telegram < ApplicationRecord
     }.to_json
   end
 
-  def convert_markdown_to_telegram_html(text)
-    # ref: https://core.telegram.org/bots/api#html-style
+  def send_attachments(message)
+    send_message(message) unless message.content.nil?
 
-    # escape html tags in text. We are subbing \n to <br> since commonmark will strip exta '\n'
-    text = CGI.escapeHTML(text.gsub("\n", '<br>'))
+    telegram_attachments = []
+    message.attachments.each do |attachment|
+      telegram_attachment = {}
+      telegram_attachment[:type] = attachment_type(attachment[:file_type])
+      telegram_attachment[:media] = attachment.download_url
+      telegram_attachments << telegram_attachment
+    end
 
-    # convert markdown to html
-    html = CommonMarker.render_html(text).strip
-
-    # remove all html tags except b, strong, i, em, u, ins, s, strike, del, a, code, pre, blockquote
-    stripped_html = Rails::HTML5::SafeListSanitizer.new.sanitize(html, tags: %w[b strong i em u ins s strike del a code pre blockquote],
-                                                                       attributes: %w[href])
-
-    # converted escaped br tags to \n
-    stripped_html.gsub('&lt;br&gt;', "\n")
+    response = attachments_request(chat_id(message), telegram_attachments, reply_to_message_id(message))
+    process_error(message, response)
+    response.parsed_response['result'].first['message_id'] if response.success?
   end
 
-  def message_request(chat_id, text, reply_markup = nil, reply_to_message_id = nil, business_connection_id: nil)
-    text_payload = convert_markdown_to_telegram_html(text)
+  def attachment_type(file_type)
+    file_type_mappings = {
+      'audio' => 'audio',
+      'image' => 'photo',
+      'file' => 'document',
+      'video' => 'video'
+    }
+    file_type_mappings[file_type]
+  end
 
-    business_body = {}
-    business_body[:business_connection_id] = business_connection_id if business_connection_id
+  def attachments_request(chat_id, attachments, reply_to_message_id)
+    HTTParty.post("#{telegram_api_url}/sendMediaGroup",
+                  body: {
+                    chat_id: chat_id,
+                    media: attachments.to_json,
+                    reply_to_message_id: reply_to_message_id
+                  })
+  end
 
+  def message_request(chat_id, text, reply_markup = nil, reply_to_message_id = nil)
     HTTParty.post("#{telegram_api_url}/sendMessage",
                   body: {
                     chat_id: chat_id,
-                    text: text_payload,
+                    text: text,
                     reply_markup: reply_markup,
-                    parse_mode: 'HTML',
                     reply_to_message_id: reply_to_message_id
-                  }.merge(business_body))
+                  })
   end
 end

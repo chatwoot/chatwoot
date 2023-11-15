@@ -4,21 +4,15 @@
       "ALL": "Mind",
       "CONTACTS": "Kontaktok",
       "CONVERSATIONS": "Beszélgetések",
-      "MESSAGES": "Üzenetek",
-      "ARTICLES": "Articles"
+      "MESSAGES": "Üzenetek"
     },
     "SECTION": {
       "CONTACTS": "Kontaktok",
       "CONVERSATIONS": "Beszélgetések",
-      "MESSAGES": "Üzenetek",
-      "ARTICLES": "Articles"
+      "MESSAGES": "Üzenetek"
     },
-    "VIEW_MORE": "View more",
-    "LOAD_MORE": "Load more",
-    "SEARCHING_DATA": "Keresés",
-    "LOADING_DATA": "Loading",
-    "EMPTY_STATE": "Nem található {item}, a keresésre: '{query}'",
-    "EMPTY_STATE_FULL": "Nincs eredménye a következő keresésnek: '{query}'",
+    "EMPTY_STATE": "Nem található %{item}, a keresésre: '%{query}'",
+    "EMPTY_STATE_FULL": "Nincs eredménye a következő keresésnek: '%{query}'",
     "PLACEHOLDER_KEYBINDING": "/ a fókuszáláshoz",
     "INPUT_PLACEHOLDER": "Search messages, contacts or conversations",
     "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results.",
@@ -26,7 +20,6 @@
     "READ_MORE": "Tudj meg többet",
     "WROTE": "írta:",
     "FROM": "innen",
-    "EMAIL": "e-mail",
-    "EMAIL_SUBJECT": "tárgy"
+    "EMAIL": "e-mail"
   }
 }

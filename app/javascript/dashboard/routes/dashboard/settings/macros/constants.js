@@ -1,72 +1,67 @@
 export const MACRO_ACTION_TYPES = [
   {
     key: 'assign_team',
-    label: 'ASSIGN_TEAM',
+    label: 'Assign a team',
     inputType: 'search_select',
   },
   {
     key: 'assign_agent',
-    label: 'ASSIGN_AGENT',
+    label: 'Assign an agent',
     inputType: 'search_select',
   },
   {
     key: 'add_label',
-    label: 'ADD_LABEL',
+    label: 'Add a label',
     inputType: 'multi_select',
   },
   {
     key: 'remove_label',
-    label: 'REMOVE_LABEL',
+    label: 'Remove a label',
     inputType: 'multi_select',
   },
   {
     key: 'remove_assigned_team',
-    label: 'REMOVE_ASSIGNED_TEAM',
+    label: 'Remove Assigned Team',
     inputType: null,
   },
   {
     key: 'send_email_transcript',
-    label: 'SEND_EMAIL_TRANSCRIPT',
+    label: 'Send an email transcript',
     inputType: 'email',
   },
   {
     key: 'mute_conversation',
-    label: 'MUTE_CONVERSATION',
+    label: 'Mute conversation',
     inputType: null,
   },
   {
     key: 'snooze_conversation',
-    label: 'SNOOZE_CONVERSATION',
+    label: 'Snooze conversation',
     inputType: null,
   },
   {
     key: 'resolve_conversation',
-    label: 'RESOLVE_CONVERSATION',
+    label: 'Resolve conversation',
     inputType: null,
   },
   {
     key: 'send_attachment',
-    label: 'SEND_ATTACHMENT',
+    label: 'Send Attachment',
     inputType: 'attachment',
   },
   {
     key: 'send_message',
-    label: 'SEND_MESSAGE',
+    label: 'Send a message',
     inputType: 'textarea',
   },
   {
     key: 'add_private_note',
-    label: 'ADD_PRIVATE_NOTE',
+    label: 'Add a private note',
     inputType: 'textarea',
   },
   {
     key: 'change_priority',
-    label: 'CHANGE_PRIORITY',
+    label: 'Change Priority',
     inputType: 'search_select',
-  },
-  {
-    key: 'send_webhook_event',
-    label: 'SEND_WEBHOOK_EVENT',
-    inputType: 'url',
   },
 ];

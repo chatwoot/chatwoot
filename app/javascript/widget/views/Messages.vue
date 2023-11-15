@@ -1,3 +1,13 @@
+<template>
+  <div
+    class="flex flex-col flex-1 overflow-hidden rounded-b-lg bg-slate-25 dark:bg-slate-800"
+  >
+    <div class="flex flex-1 overflow-auto">
+      <conversation-wrap :grouped-messages="groupedMessages" />
+    </div>
+    <chat-footer class="px-5" />
+  </div>
+</template>
 <script>
 import { mapGetters } from 'vuex';
 
@@ -16,14 +26,3 @@ export default {
   },
 };
 </script>
-
-<template>
-  <div
-    class="flex flex-col flex-1 overflow-hidden rounded-b-lg bg-n-slate-2 dark:bg-n-solid-1"
-  >
-    <div class="flex flex-1 overflow-auto">
-      <ConversationWrap :grouped-messages="groupedMessages" />
-    </div>
-    <ChatFooter class="px-5" />
-  </div>
-</template>

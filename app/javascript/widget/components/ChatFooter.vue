@@ -1,3 +1,45 @@
+<template>
+  <footer
+    v-if="!hideReplyBox"
+    class="relative z-50 mb-1"
+    :class="{
+      'rounded-lg': !isWidgetStyleFlat,
+      'pt-2.5 shadow-[0px_-20px_20px_1px_rgba(0,_0,_0,_0.05)] dark:shadow-[0px_-20px_20px_1px_rgba(0,_0,_0,_0.15)] rounded-t-none':
+        hasReplyTo,
+    }"
+  >
+    <footer-reply-to
+      v-if="hasReplyTo"
+      :in-reply-to="inReplyTo"
+      @dismiss="inReplyTo = null"
+    />
+    <chat-input-wrap
+      class="shadow-sm"
+      :on-send-message="handleSendMessage"
+      :on-send-attachment="handleSendAttachment"
+    />
+  </footer>
+  <div v-else>
+    <custom-button
+      class="font-medium"
+      block
+      :bg-color="widgetColor"
+      :text-color="textColor"
+      @click="startNewConversation"
+    >
+      {{ $t('START_NEW_CONVERSATION') }}
+    </custom-button>
+    <custom-button
+      v-if="showEmailTranscriptButton"
+      type="clear"
+      class="font-normal"
+      @click="sendTranscript"
+    >
+      {{ $t('EMAIL_TRANSCRIPT.BUTTON_TEXT') }}
+    </custom-button>
+  </div>
+</template>
+
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
@@ -9,7 +51,6 @@ import { sendEmailTranscript } from 'widget/api/conversation';
 import routerMixin from 'widget/mixins/routerMixin';
 import { IFrameHelper } from '../helpers/utils';
 import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
-import { emitter } from 'shared/helpers/mitt';
 
 export default {
   components: {
@@ -18,9 +59,16 @@ export default {
     FooterReplyTo,
   },
   mixins: [routerMixin],
+  props: {
+    msg: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
       inReplyTo: null,
+      allowReplyTo: window.chatwootWebChannel.allowReplyTo || false,
     };
   },
   computed: {
@@ -40,19 +88,18 @@ export default {
       return !allowMessagesAfterResolved && status === 'resolved';
     },
     showEmailTranscriptButton() {
-      return this.hasEmail;
-    },
-    hasEmail() {
-      return this.currentUser && this.currentUser.has_email;
+      return this.currentUser && this.currentUser.email;
     },
     hasReplyTo() {
+      if (!this.allowReplyTo) return false;
+
       return (
         this.inReplyTo && (this.inReplyTo.content || this.inReplyTo.attachments)
       );
     },
   },
   mounted() {
-    emitter.on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.toggleReplyTo);
+    bus.$on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.toggleReplyTo);
   },
   methods: {
     ...mapActions('conversation', [
@@ -97,15 +144,18 @@ export default {
       this.inReplyTo = message;
     },
     async sendTranscript() {
-      if (this.hasEmail) {
+      const { email } = this.currentUser;
+      if (email) {
         try {
-          await sendEmailTranscript();
-          emitter.emit(BUS_EVENTS.SHOW_ALERT, {
+          await sendEmailTranscript({
+            email,
+          });
+          window.bus.$emit(BUS_EVENTS.SHOW_ALERT, {
             message: this.$t('EMAIL_TRANSCRIPT.SEND_EMAIL_SUCCESS'),
             type: 'success',
           });
         } catch (error) {
-          emitter.$emit(BUS_EVENTS.SHOW_ALERT, {
+          window.bus.$emit(BUS_EVENTS.SHOW_ALERT, {
             message: this.$t('EMAIL_TRANSCRIPT.SEND_EMAIL_ERROR'),
           });
         }
@@ -114,45 +164,22 @@ export default {
   },
 };
 </script>
+<style scoped lang="scss">
+@import '~widget/assets/scss/variables.scss';
 
-<template>
-  <footer
-    v-if="!hideReplyBox"
-    class="relative z-50 mb-1"
-    :class="{
-      'rounded-lg': !isWidgetStyleFlat,
-      'pt-2.5 shadow-[0px_-20px_20px_1px_rgba(0,_0,_0,_0.05)] dark:shadow-[0px_-20px_20px_1px_rgba(0,_0,_0,_0.15)] rounded-t-none':
-        hasReplyTo,
-    }"
-  >
-    <FooterReplyTo
-      v-if="hasReplyTo"
-      :in-reply-to="inReplyTo"
-      @dismiss="inReplyTo = null"
-    />
-    <ChatInputWrap
-      class="shadow-sm"
-      :on-send-message="handleSendMessage"
-      :on-send-attachment="handleSendAttachment"
-    />
-  </footer>
-  <div v-else>
-    <CustomButton
-      class="font-medium"
-      block
-      :bg-color="widgetColor"
-      :text-color="textColor"
-      @click="startNewConversation"
-    >
-      {{ $t('START_NEW_CONVERSATION') }}
-    </CustomButton>
-    <CustomButton
-      v-if="showEmailTranscriptButton"
-      type="clear"
-      class="font-normal"
-      @click="sendTranscript"
-    >
-      {{ $t('EMAIL_TRANSCRIPT.BUTTON_TEXT') }}
-    </CustomButton>
-  </div>
-</template>
+.branding {
+  align-items: center;
+  color: $color-body;
+  display: flex;
+  font-size: $font-size-default;
+  justify-content: center;
+  padding: $space-one;
+  text-align: center;
+  text-decoration: none;
+
+  img {
+    margin-right: $space-small;
+    max-width: $space-two;
+  }
+}
+</style>

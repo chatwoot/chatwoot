@@ -9,9 +9,9 @@ export const setColorTheme = isOSOnDarkMode => {
     selectedColorScheme === 'dark'
   ) {
     document.body.classList.add('dark');
-    document.documentElement.style.setProperty('color-scheme', 'dark');
+    document.documentElement.setAttribute('style', 'color-scheme: dark;');
   } else {
     document.body.classList.remove('dark');
-    document.documentElement.style.setProperty('color-scheme', 'light');
+    document.documentElement.setAttribute('style', 'color-scheme: light;');
   }
 };

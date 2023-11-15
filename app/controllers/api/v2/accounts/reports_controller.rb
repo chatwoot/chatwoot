@@ -5,17 +5,13 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   before_action :check_authorization
 
   def index
-    builder = V2::Reports::Conversations::ReportBuilder.new(Current.account, report_params)
-    data = builder.timeseries
+    builder = V2::ReportBuilder.new(Current.account, report_params)
+    data = builder.build
     render json: data
   end
 
   def summary
-    render json: build_summary(:summary)
-  end
-
-  def bot_summary
-    render json: build_summary(:bot_summary)
+    render json: summary_metrics
   end
 
   def agents
@@ -52,11 +48,6 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     render json: conversation_metrics
   end
 
-  def bot_metrics
-    bot_metrics = V2::Reports::BotMetricsBuilder.new(Current.account, params).metrics
-    render json: bot_metrics
-  end
-
   private
 
   def generate_csv(filename, template)
@@ -66,7 +57,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def check_authorization
-    authorize :report, :view?
+    raise Pundit::NotAuthorizedError unless Current.account_user.administrator?
   end
 
   def common_params
@@ -124,11 +115,10 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     }
   end
 
-  def build_summary(method)
-    builder = V2::Reports::Conversations::MetricBuilder
-    current_summary = builder.new(Current.account, current_summary_params).send(method)
-    previous_summary = builder.new(Current.account, previous_summary_params).send(method)
-    current_summary.merge(previous: previous_summary)
+  def summary_metrics
+    summary = V2::ReportBuilder.new(Current.account, current_summary_params).summary
+    summary[:previous] = V2::ReportBuilder.new(Current.account, previous_summary_params).summary
+    summary
   end
 
   def conversation_metrics

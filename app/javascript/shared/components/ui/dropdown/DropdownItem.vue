@@ -1,19 +1,6 @@
-<script>
-export default {
-  name: 'WootDropdownItem',
-  componentName: 'WootDropdownMenu',
-  props: {
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-  },
-};
-</script>
-
 <template>
   <li
-    class="mb-1 list-none dropdown-menu__item"
+    class="dropdown-menu__item list-none mb-1"
     :class="{
       'is-disabled': disabled,
     }"
@@ -23,7 +10,22 @@ export default {
     <slot />
   </li>
 </template>
-
+<script>
+export default {
+  name: 'WootDropdownItem',
+  componentName: 'WootDropdownMenu',
+  props: {
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+    className: {
+      type: String,
+      default: '',
+    },
+  },
+};
+</script>
 <style lang="scss" scoped>
 .dropdown-menu__item {
   ::v-deep {

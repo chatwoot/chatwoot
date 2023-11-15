@@ -4,32 +4,17 @@ get:
   operationId: listAllInboxes
   summary: List all inboxes
   description: List all inboxes available in the current account
-  security:
-    - userApiKey: []
   parameters:
-    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/parameters/account_id'
   responses:
-    '200':
+    200:
       description: Success
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              payload:
-                type: array
-                description: 'Array of inboxes'
-                items:
-                  $ref: '#/components/schemas/inbox'
-    '404':
+      schema:
+        type: array
+        description: 'Array of inboxes'
+        items:
+          $ref: '#/definitions/inbox'
+    404:
       description: Inbox not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/bad_request_error'
-    '403':
+    403:
       description: Access denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/bad_request_error'

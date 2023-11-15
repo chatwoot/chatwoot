@@ -32,12 +32,4 @@ describe('#mutations', () => {
       expect(state.darkMode).toEqual('dark');
     });
   });
-
-  describe('#SET_ROUTE_UPDATE_STATE', () => {
-    it('sets dark mode properly', () => {
-      const state = { isUpdatingRoute: false };
-      mutations.SET_ROUTE_UPDATE_STATE(state, true);
-      expect(state.isUpdatingRoute).toEqual(true);
-    });
-  });
 });

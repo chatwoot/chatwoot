@@ -22,15 +22,15 @@
     "IN_A_DAY": "Svar vanligtvis inom en dag",
     "BACK_IN": "Vi kommer tillbaka online"
   },
-  "DAY_NAMES": {
-    "SUNDAY": "Söndag",
-    "MONDAY": "Måndag",
-    "TUESDAY": "Tisdag",
-    "WEDNESDAY": "Onsdag",
-    "THURSDAY": "Torsdag",
-    "FRIDAY": "Fredag",
-    "SATURDAY": "Lördag"
-  },
+  "DAY_NAMES": [
+    "Söndag",
+    "Måndag",
+    "Tisdag",
+    "Onsdag",
+    "Torsdag",
+    "Fredag",
+    "Lördag"
+  ],
   "START_CONVERSATION": "Starta konversation",
   "END_CONVERSATION": "Avsluta konversation",
   "CONTINUE_CONVERSATION": "Fortsätt konversation",
@@ -70,8 +70,7 @@
         "REQUIRED_ERROR": "Telefonnummer är obligatoriskt",
         "DIAL_CODE_VALID_ERROR": "Välj en landskod",
         "VALID_ERROR": "Vänligen ange ett giltigt telefonnummer",
-        "DROPDOWN_EMPTY": "Inga resultat hittades",
-        "DROPDOWN_SEARCH": "Search country"
+        "DROPDOWN_EMPTY": "Inga resultat hittades"
       },
       "MESSAGE": {
         "LABEL": "Meddelande",
@@ -81,8 +80,7 @@
     },
     "CAMPAIGN_HEADER": "Ange ditt namn och e-post innan du startar konversationen",
     "IS_REQUIRED": "är obligatoriskt",
-    "REQUIRED": "Obligatoriskt",
-    "REGEX_ERROR": "Please provide a valid input"
+    "REQUIRED": "Obligatoriskt"
   },
   "FILE_SIZE_LIMIT": "Filen överskrider gränsen för {MAXIMUM_FILE_UPLOAD_SIZE} bifogade filer",
   "CHAT_FORM": {
@@ -92,8 +90,7 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Sök emoji",
-    "NOT_FOUND": "Ingen emoji matchar din sökning",
-    "ARIA_LABEL": "Emoji-väljare"
+    "NOT_FOUND": "Ingen emoji matchar din sökning"
   },
   "CSAT": {
     "TITLE": "Betygsätt din konversation",
@@ -135,8 +132,5 @@
     "fallback": {
       "CONTENT": "har delat en webbadress"
     }
-  },
-  "FOOTER_REPLY_TO": {
-    "REPLY_TO": "Svarar till:"
   }
 }

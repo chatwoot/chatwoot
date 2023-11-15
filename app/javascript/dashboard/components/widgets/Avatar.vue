@@ -1,3 +1,9 @@
+<template>
+  <div class="avatar-container" :style="style" aria-hidden="true">
+    <slot>{{ userInitial }}</slot>
+  </div>
+</template>
+
 <script>
 export default {
   name: 'Avatar',
@@ -32,12 +38,6 @@ export default {
 };
 </script>
 
-<template>
-  <div class="avatar-container" :style="style" aria-hidden="true">
-    <slot>{{ userInitial }}</slot>
-  </div>
-</template>
-
 <style scoped>
 @tailwind components;
 @layer components {
@@ -50,6 +50,6 @@ export default {
   }
 }
 .avatar-container {
-  @apply flex leading-[100%] font-medium items-center justify-center text-center cursor-default avatar-color dark:dark-avatar-color text-n-blue-text;
+  @apply flex leading-[100%] font-medium items-center justify-center text-center cursor-default avatar-color dark:dark-avatar-color text-woot-600 dark:text-woot-200;
 }
 </style>

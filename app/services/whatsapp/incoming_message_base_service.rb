@@ -19,13 +19,7 @@ class Whatsapp::IncomingMessageBaseService
   private
 
   def process_messages
-    # We don't support reactions & ephemeral message now, we need to skip processing the message
-    # if the webhook event is a reaction or an ephermal message or an unsupported message.
-    return if unprocessable_message_type?(message_type)
-
-    # Multiple webhook event can be received against the same message due to misconfigurations in the Meta
-    # business manager account. While we have not found the core reason yet, the following line ensure that
-    # there are no duplicate messages created.
+    # message allready exists so we don't need to process
     return if find_message_by_source_id(@processed_params[:messages].first[:id]) || message_under_process?
 
     cache_message_source_id_in_redis
@@ -55,6 +49,8 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def create_messages
+    return if unprocessable_message_type?(message_type)
+
     message = @processed_params[:messages].first
     log_error(message) && return if error_webhook_event?(message)
 

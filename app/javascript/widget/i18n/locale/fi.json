@@ -22,15 +22,15 @@
     "IN_A_DAY": "Vastaa tyypillisesti päivässä",
     "BACK_IN": "Tulemme olemaan takaisin linjoilla"
   },
-  "DAY_NAMES": {
-    "SUNDAY": "Sunnuntai",
-    "MONDAY": "Maanantai",
-    "TUESDAY": "Tiistai",
-    "WEDNESDAY": "Keskiviikko",
-    "THURSDAY": "Torstai",
-    "FRIDAY": "Perjantai",
-    "SATURDAY": "Lauantai"
-  },
+  "DAY_NAMES": [
+    "Sunnuntai",
+    "Maanantai",
+    "Tiistai",
+    "Keskiviikko",
+    "Torstai",
+    "Perjantai",
+    "Lauantai"
+  ],
   "START_CONVERSATION": "Aloita keskustelu",
   "END_CONVERSATION": "Lopeta keskustelu",
   "CONTINUE_CONVERSATION": "Jatka keskustelua",
@@ -60,7 +60,7 @@
       },
       "EMAIL_ADDRESS": {
         "LABEL": "Sähköpostiosoite",
-        "PLACEHOLDER": "Ole hyvä ja syötä email osoite",
+        "PLACEHOLDER": "Ole hyvä ja syötä sähköpostiosoitteesi",
         "REQUIRED_ERROR": "Sähköpostiosoite on pakollinen",
         "VALID_ERROR": "Ole hyvä ja syötä validi sähköposti"
       },
@@ -70,8 +70,7 @@
         "REQUIRED_ERROR": "Puhelinnumero vaaditaan",
         "DIAL_CODE_VALID_ERROR": "Ole hyvä ja valitse maakoodi",
         "VALID_ERROR": "Anna kelvollinen puhelinnumero",
-        "DROPDOWN_EMPTY": "Tuloksia ei löytynyt",
-        "DROPDOWN_SEARCH": "Search country"
+        "DROPDOWN_EMPTY": "Tuloksia ei löytynyt"
       },
       "MESSAGE": {
         "LABEL": "Viesti",
@@ -81,8 +80,7 @@
     },
     "CAMPAIGN_HEADER": "Ole hyvä ja anna nimesi ja sähköpostisi ennen keskustelun aloittamista",
     "IS_REQUIRED": "on vaadittu",
-    "REQUIRED": "Pakollinen",
-    "REGEX_ERROR": "Please provide a valid input"
+    "REQUIRED": "Pakollinen"
   },
   "FILE_SIZE_LIMIT": "Tiedosto ylittää sallitun {MAXIMUM_FILE_UPLOAD_SIZE} liitteen rajan",
   "CHAT_FORM": {
@@ -92,8 +90,7 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Etsi emojeista",
-    "NOT_FOUND": "Yksikään emoji ei vastaa hakuasi",
-    "ARIA_LABEL": "Emoji picker"
+    "NOT_FOUND": "Yksikään emoji ei vastaa hakuasi"
   },
   "CSAT": {
     "TITLE": "Anna arvio palvelusta",
@@ -135,8 +132,5 @@
     "fallback": {
       "CONTENT": "on jakanut URL-osoitteen"
     }
-  },
-  "FOOTER_REPLY_TO": {
-    "REPLY_TO": "Replying to:"
   }
 }

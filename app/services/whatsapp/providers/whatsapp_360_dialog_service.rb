@@ -1,6 +1,5 @@
 class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseService
   def send_message(phone_number, message)
-    @message = message
     if message.attachments.present?
       send_attachment_message(phone_number, message)
     elsif message.content_type == 'input_select'
@@ -63,7 +62,7 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
       headers: api_headers,
       body: {
         to: phone_number,
-        text: { body: message.outgoing_content },
+        text: { body: message.content },
         type: 'text'
       }.to_json
     )
@@ -77,9 +76,8 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
     type_content = {
       'link': attachment.download_url
     }
-    type_content['caption'] = message.outgoing_content unless %w[audio sticker].include?(type)
+    type_content['caption'] = message.content unless %w[audio sticker].include?(type)
     type_content['filename'] = attachment.file.filename if type == 'document'
-
     response = HTTParty.post(
       "#{api_base_path}/messages",
       headers: api_headers,
@@ -93,9 +91,13 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
     process_response(response)
   end
 
-  def error_message(response)
-    # {"meta": {"success": false, "http_code": 400, "developer_message": "errro-message", "360dialog_trace_id": "someid"}}
-    response.parsed_response.dig('meta', 'developer_message')
+  def process_response(response)
+    if response.success?
+      response['messages'].first['id']
+    else
+      Rails.logger.error response.body
+      nil
+    end
   end
 
   def template_body_parameters(template_info)

@@ -4,22 +4,16 @@ operationId: update-a-message
 summary: Update a message
 description: Update a message
 security: []
-requestBody:
-  required: true
-  content:
-    application/json:
-      schema:
-        $ref: '#/components/schemas/public_message_update_payload'
+parameters:
+  - name: data
+    in: body
+    required: true
+    schema:
+      $ref: '#/definitions/public_message_update_payload'
 responses:
-  '200':
+  200:
     description: Success
-    content:
-      application/json:
-        schema:
-          $ref: '#/components/schemas/public_message'
-  '401':
+    schema:
+      $ref: '#/definitions/public_message'
+  401:
     description: Unauthorized
-    content:
-      application/json:
-        schema:
-          $ref: '#/components/schemas/bad_request_error'

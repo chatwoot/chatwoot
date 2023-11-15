@@ -5,7 +5,6 @@ export const getters = {
     return { isFetching: false, isUpdating: false, isDeleting: false };
   },
   isFetching: state => state.uiFlags.isFetching,
-  isCreating: state => state.uiFlags.isCreating,
   categoryById:
     (...getterArguments) =>
     categoryId => {

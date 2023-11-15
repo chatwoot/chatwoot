@@ -30,9 +30,6 @@
       "is_lesser_than": "Είναι μικρότερο από",
       "days_before": "Είναι x ημέρες πριν"
     },
-    "ERRORS": {
-      "VALUE_REQUIRED": "Απαιτείται τιμή"
-    },
     "ATTRIBUTES": {
       "NAME": "Όνομα",
       "EMAIL": "Email",
@@ -47,8 +44,7 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
       "CREATED_AT": "Δημιουργήθηκε στις",
       "LAST_ACTIVITY": "Τελευταία Δραστηριότητα",
-      "REFERER_LINK": "Σύνδεσμος αναφοράς",
-      "BLOCKED": "Blocked"
+      "REFERER_LINK": "Σύνδεσμος αναφοράς"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Τυπικά Φίλτρα",

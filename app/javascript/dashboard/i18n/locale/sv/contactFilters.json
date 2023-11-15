@@ -30,9 +30,6 @@
       "is_lesser_than": "Is lesser than",
       "days_before": "Is x days before"
     },
-    "ERRORS": {
-      "VALUE_REQUIRED": "Value is required"
-    },
     "ATTRIBUTES": {
       "NAME": "Namn",
       "EMAIL": "E-post",
@@ -47,8 +44,7 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
       "CREATED_AT": "Created At",
       "LAST_ACTIVITY": "Senaste aktivitet",
-      "REFERER_LINK": "Referrer link",
-      "BLOCKED": "Blockerad"
+      "REFERER_LINK": "Referrer link"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard Filters",

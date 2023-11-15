@@ -4,21 +4,15 @@
       "ALL": "TODOS",
       "CONTACTS": "Contactos",
       "CONVERSATIONS": "Conversas",
-      "MESSAGES": "Mensagens",
-      "ARTICLES": "Articles"
+      "MESSAGES": "Mensagens"
     },
     "SECTION": {
       "CONTACTS": "Contactos",
       "CONVERSATIONS": "Conversas",
-      "MESSAGES": "Mensagens",
-      "ARTICLES": "Articles"
+      "MESSAGES": "Mensagens"
     },
-    "VIEW_MORE": "View more",
-    "LOAD_MORE": "Load more",
-    "SEARCHING_DATA": "A pesquisar",
-    "LOADING_DATA": "A carregar",
-    "EMPTY_STATE": "Não foi encontrado {item} para a consulta '{query}'",
-    "EMPTY_STATE_FULL": "Nenhum resultado encontrado para a consulta '{query}'",
+    "EMPTY_STATE": "Não foi encontrado %{item} para a consulta '%{query}'",
+    "EMPTY_STATE_FULL": "Nenhum resultado encontrado para a consulta '%{query}'",
     "PLACEHOLDER_KEYBINDING": "/ para focar",
     "INPUT_PLACEHOLDER": "Digite 3 ou mais caracteres para pesquisar",
     "EMPTY_STATE_DEFAULT": "Procurar por ID da conversa, email, número de telefone, mensagens para obter melhores resultados. ",
@@ -26,7 +20,6 @@
     "READ_MORE": "Ler mais",
     "WROTE": "escreveu:",
     "FROM": "de",
-    "EMAIL": "e-mail",
-    "EMAIL_SUBJECT": "assunto"
+    "EMAIL": "e-mail"
   }
 }

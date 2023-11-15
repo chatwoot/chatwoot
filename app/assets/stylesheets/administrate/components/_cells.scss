@@ -46,25 +46,17 @@
 
 .cell-data__secret-field {
   align-items: center;
-  color: $hint-grey;
   display: flex;
 
   span {
-    flex: 0 0 auto;
+    flex: 1;
   }
 
-  [data-secret-toggler],
-  [data-secret-copier] {
-    background: transparent;
-    border: 0;
-    color: inherit;
-    margin-left: 0.5rem;
-    padding: 0;
+  button {
+    margin-left: 5px;
 
     svg {
       fill: currentColor;
-      height: 1.25rem;
-      width: 1.25rem;
     }
   }
 }

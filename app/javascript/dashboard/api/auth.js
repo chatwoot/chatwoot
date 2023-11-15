@@ -29,16 +29,21 @@ export default {
     return fetchPromise;
   },
   hasAuthCookie() {
-    return !!Cookies.get('cw_d_session_info');
+    return !!Cookies.getJSON('cw_d_session_info');
   },
   getAuthData() {
     if (this.hasAuthCookie()) {
-      const savedAuthInfo = Cookies.get('cw_d_session_info');
-      return JSON.parse(savedAuthInfo || '{}');
+      return Cookies.getJSON('cw_d_session_info');
     }
     return false;
   },
-  profileUpdate({ displayName, avatar, ...profileAttributes }) {
+  profileUpdate({
+    password,
+    password_confirmation,
+    displayName,
+    avatar,
+    ...profileAttributes
+  }) {
     const formData = new FormData();
     Object.keys(profileAttributes).forEach(key => {
       const hasValue = profileAttributes[key] === undefined;
@@ -47,20 +52,14 @@ export default {
       }
     });
     formData.append('profile[display_name]', displayName || '');
+    if (password && password_confirmation) {
+      formData.append('profile[password]', password);
+      formData.append('profile[password_confirmation]', password_confirmation);
+    }
     if (avatar) {
       formData.append('profile[avatar]', avatar);
     }
     return axios.put(endPoints('profileUpdate').url, formData);
-  },
-
-  profilePasswordUpdate({ currentPassword, password, passwordConfirmation }) {
-    return axios.put(endPoints('profileUpdate').url, {
-      profile: {
-        current_password: currentPassword,
-        password,
-        password_confirmation: passwordConfirmation,
-      },
-    });
   },
 
   updateUISettings({ uiSettings }) {
@@ -97,13 +96,5 @@ export default {
         account_id: accountId,
       },
     });
-  },
-  resendConfirmation() {
-    const urlData = endPoints('resendConfirmation');
-    return axios.post(urlData.url);
-  },
-  resetAccessToken() {
-    const urlData = endPoints('resetAccessToken');
-    return axios.post(urlData.url);
   },
 };

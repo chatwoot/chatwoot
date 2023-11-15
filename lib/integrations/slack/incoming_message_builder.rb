@@ -16,8 +16,8 @@ class Integrations::Slack::IncomingMessageBuilder
 
     if hook_verification?
       verify_hook
-    elsif process_message_payload?
-      process_message_payload
+    elsif create_message?
+      create_message
     elsif link_shared?
       SlackUnfurlJob.perform_later(params)
     end
@@ -67,7 +67,7 @@ class Integrations::Slack::IncomingMessageBuilder
     params[:event][:thread_ts].present?
   end
 
-  def process_message_payload?
+  def create_message?
     thread_timestamp_available? && supported_message? && integration_hook
   end
 

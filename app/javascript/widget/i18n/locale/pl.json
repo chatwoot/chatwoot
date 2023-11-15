@@ -22,15 +22,15 @@
     "IN_A_DAY": "Zwykle odpowiadamy w przeciągu jednego dnia",
     "BACK_IN": "Będziemy dostępni ponownie"
   },
-  "DAY_NAMES": {
-    "SUNDAY": "Niedziela",
-    "MONDAY": "Poniedziałek",
-    "TUESDAY": "Wtorek",
-    "WEDNESDAY": "Środa",
-    "THURSDAY": "Czwartek",
-    "FRIDAY": "Piątek",
-    "SATURDAY": "Sobota"
-  },
+  "DAY_NAMES": [
+    "Niedziela",
+    "Poniedziałek",
+    "Wtorek",
+    "Środa",
+    "Czwartek",
+    "Piątek",
+    "Sobota"
+  ],
   "START_CONVERSATION": "Rozpocznij rozmowę",
   "END_CONVERSATION": "Zakończ rozmowę",
   "CONTINUE_CONVERSATION": "Kontynuuj rozmowę",
@@ -70,8 +70,7 @@
         "REQUIRED_ERROR": "Numer telefonu jest wymagany",
         "DIAL_CODE_VALID_ERROR": "Proszę wybrać kod kraju",
         "VALID_ERROR": "Wprowadź poprawny numer telefonu",
-        "DROPDOWN_EMPTY": "Brak wyników",
-        "DROPDOWN_SEARCH": "Search country"
+        "DROPDOWN_EMPTY": "Brak wyników"
       },
       "MESSAGE": {
         "LABEL": "Wiadomość",
@@ -81,8 +80,7 @@
     },
     "CAMPAIGN_HEADER": "Proszę podać swoje imię i nazwisko oraz adres e-mail przed rozpoczęciem rozmowy",
     "IS_REQUIRED": "jest wymagane",
-    "REQUIRED": "Wymagane",
-    "REGEX_ERROR": "Please provide a valid input"
+    "REQUIRED": "Wymagane"
   },
   "FILE_SIZE_LIMIT": "Plik przekracza limit {MAXIMUM_FILE_UPLOAD_SIZE} dla załącznika",
   "CHAT_FORM": {
@@ -92,8 +90,7 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Wyszukaj emoji",
-    "NOT_FOUND": "Nie znaleziono emoji pasującego do wyszukiwania",
-    "ARIA_LABEL": "Emoji picker"
+    "NOT_FOUND": "Nie znaleziono emoji pasującego do wyszukiwania"
   },
   "CSAT": {
     "TITLE": "Oceń udzielone Ci wsparcie",
@@ -135,8 +132,5 @@
     "fallback": {
       "CONTENT": "udostępnił adres URL"
     }
-  },
-  "FOOTER_REPLY_TO": {
-    "REPLY_TO": "Replying to:"
   }
 }

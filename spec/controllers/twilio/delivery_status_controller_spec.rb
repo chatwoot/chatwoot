@@ -2,25 +2,17 @@ require 'rails_helper'
 
 RSpec.describe 'Twilio::DeliveryStatusController', type: :request do
   include Rails.application.routes.url_helpers
+  let(:twilio_service) { instance_double(Twilio::DeliveryStatusService) }
 
-  describe 'POST /twilio/delivery_status' do
-    let(:params) do
-      {
-        'MessageSid' => 'SM123',
-        'MessageStatus' => 'delivered',
-        'AccountSid' => 'AC123'
-      }
-    end
+  before do
+    allow(Twilio::DeliveryStatusService).to receive(:new).and_return(twilio_service)
+    allow(twilio_service).to receive(:perform)
+  end
 
-    it 'enqueues the Twilio delivery status job' do
-      expect do
-        post twilio_delivery_status_index_url, params: params
-      end.to have_enqueued_job(Webhooks::TwilioDeliveryStatusJob).with(params)
-    end
-
-    it 'returns no content status' do
-      post twilio_delivery_status_index_url, params: params
-      expect(response).to have_http_status(:no_content)
+  describe 'POST /twilio/delivery' do
+    it 'calls incoming message service' do
+      post twilio_delivery_status_index_url, params: {}
+      expect(twilio_service).to have_received(:perform)
     end
   end
 end

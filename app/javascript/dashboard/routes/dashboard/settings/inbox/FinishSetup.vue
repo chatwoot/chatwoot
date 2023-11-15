@@ -1,107 +1,6 @@
-<script>
-import EmptyState from '../../../../components/widgets/EmptyState.vue';
-import NextButton from 'dashboard/components-next/button/Button.vue';
-import DuplicateInboxBanner from './channels/instagram/DuplicateInboxBanner.vue';
-import { INBOX_TYPES } from 'dashboard/helper/inbox';
-export default {
-  components: {
-    EmptyState,
-    NextButton,
-    DuplicateInboxBanner,
-  },
-  computed: {
-    currentInbox() {
-      return this.$store.getters['inboxes/getInbox'](
-        this.$route.params.inbox_id
-      );
-    },
-    isATwilioInbox() {
-      return this.currentInbox.channel_type === 'Channel::TwilioSms';
-    },
-    // Check if a facebook inbox exists with the same instagram_id
-    hasDuplicateInstagramInbox() {
-      const instagramId = this.currentInbox.instagram_id;
-      const facebookInbox =
-        this.$store.getters['inboxes/getFacebookInboxByInstagramId'](
-          instagramId
-        );
-
-      return (
-        this.currentInbox.channel_type === INBOX_TYPES.INSTAGRAM &&
-        facebookInbox
-      );
-    },
-
-    isAEmailInbox() {
-      return this.currentInbox.channel_type === 'Channel::Email';
-    },
-    isALineInbox() {
-      return this.currentInbox.channel_type === 'Channel::Line';
-    },
-    isASmsInbox() {
-      return this.currentInbox.channel_type === 'Channel::Sms';
-    },
-    isWhatsAppCloudInbox() {
-      return (
-        this.currentInbox.channel_type === 'Channel::Whatsapp' &&
-        this.currentInbox.provider === 'whatsapp_cloud'
-      );
-    },
-    // If the inbox is a whatsapp cloud inbox and the source is not embedded signup, then show the webhook details
-    shouldShowWhatsAppWebhookDetails() {
-      return (
-        this.isWhatsAppCloudInbox &&
-        this.currentInbox.provider_config?.source !== 'embedded_signup'
-      );
-    },
-    message() {
-      if (this.isATwilioInbox) {
-        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
-          'INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE'
-        )}`;
-      }
-
-      if (this.isASmsInbox) {
-        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
-          'INBOX_MGMT.ADD.SMS.BANDWIDTH.API_CALLBACK.SUBTITLE'
-        )}`;
-      }
-
-      if (this.isALineInbox) {
-        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
-          'INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.SUBTITLE'
-        )}`;
-      }
-
-      if (this.isWhatsAppCloudInbox && this.shouldShowWhatsAppWebhookDetails) {
-        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
-          'INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.SUBTITLE'
-        )}`;
-      }
-
-      if (this.isAEmailInbox && !this.currentInbox.provider) {
-        return this.$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.FINISH_MESSAGE');
-      }
-
-      if (this.currentInbox.web_widget_script) {
-        return this.$t('INBOX_MGMT.FINISH.WEBSITE_SUCCESS');
-      }
-
-      return this.$t('INBOX_MGMT.FINISH.MESSAGE');
-    },
-  },
-};
-</script>
-
 <template>
-  <div
-    class="w-full h-full col-span-6 p-6 overflow-auto border border-b-0 rounded-t-lg border-n-weak bg-n-solid-1"
-  >
-    <DuplicateInboxBanner
-      v-if="hasDuplicateInstagramInbox"
-      :content="$t('INBOX_MGMT.ADD.INSTAGRAM.NEW_INBOX_SUGGESTION')"
-    />
-    <EmptyState
+  <div class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%]">
+    <empty-state
       :title="$t('INBOX_MGMT.FINISH.TITLE')"
       :message="message"
       :button-text="$t('INBOX_MGMT.FINISH.BUTTON_TEXT')"
@@ -120,15 +19,12 @@ export default {
             :script="currentInbox.callback_webhook_url"
           />
         </div>
-        <div
-          v-if="shouldShowWhatsAppWebhookDetails"
-          class="w-[50%] max-w-[50%] ml-[25%]"
-        >
-          <p class="mt-8 font-medium text-slate-700 dark:text-slate-200">
+        <div v-if="isWhatsAppCloudInbox" class="w-[50%] max-w-[50%] ml-[25%]">
+          <p class="text-slate-700 dark:text-slate-200 font-medium mt-8">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.WEBHOOK_URL') }}
           </p>
           <woot-code lang="html" :script="currentInbox.callback_webhook_url" />
-          <p class="mt-8 font-medium text-n-slate-11">
+          <p class="text-slate-700 dark:text-slate-200 font-medium mt-8">
             {{
               $t(
                 'INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.WEBHOOK_VERIFICATION_TOKEN'
@@ -162,31 +58,97 @@ export default {
         </div>
         <div class="flex justify-center gap-2 mt-4">
           <router-link
+            class="button hollow primary"
             :to="{
               name: 'settings_inbox_show',
               params: { inboxId: $route.params.inbox_id },
             }"
           >
-            <NextButton
-              outline
-              slate
-              :label="$t('INBOX_MGMT.FINISH.MORE_SETTINGS')"
-            />
+            {{ $t('INBOX_MGMT.FINISH.MORE_SETTINGS') }}
           </router-link>
           <router-link
+            class="button success"
             :to="{
               name: 'inbox_dashboard',
               params: { inboxId: $route.params.inbox_id },
             }"
           >
-            <NextButton
-              solid
-              teal
-              :label="$t('INBOX_MGMT.FINISH.BUTTON_TEXT')"
-            />
+            {{ $t('INBOX_MGMT.FINISH.BUTTON_TEXT') }}
           </router-link>
         </div>
       </div>
-    </EmptyState>
+    </empty-state>
   </div>
 </template>
+
+<script>
+import configMixin from 'shared/mixins/configMixin';
+import EmptyState from '../../../../components/widgets/EmptyState.vue';
+
+export default {
+  components: {
+    EmptyState,
+  },
+  mixins: [configMixin],
+  computed: {
+    currentInbox() {
+      return this.$store.getters['inboxes/getInbox'](
+        this.$route.params.inbox_id
+      );
+    },
+    isATwilioInbox() {
+      return this.currentInbox.channel_type === 'Channel::TwilioSms';
+    },
+    isAEmailInbox() {
+      return this.currentInbox.channel_type === 'Channel::Email';
+    },
+    isALineInbox() {
+      return this.currentInbox.channel_type === 'Channel::Line';
+    },
+    isASmsInbox() {
+      return this.currentInbox.channel_type === 'Channel::Sms';
+    },
+    isWhatsAppCloudInbox() {
+      return (
+        this.currentInbox.channel_type === 'Channel::Whatsapp' &&
+        this.currentInbox.provider === 'whatsapp_cloud'
+      );
+    },
+    message() {
+      if (this.isATwilioInbox) {
+        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
+          'INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE'
+        )}`;
+      }
+
+      if (this.isASmsInbox) {
+        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
+          'INBOX_MGMT.ADD.SMS.BANDWIDTH.API_CALLBACK.SUBTITLE'
+        )}`;
+      }
+
+      if (this.isALineInbox) {
+        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
+          'INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.SUBTITLE'
+        )}`;
+      }
+
+      if (this.isWhatsAppCloudInbox) {
+        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
+          'INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.SUBTITLE'
+        )}`;
+      }
+
+      if (this.isAEmailInbox && !this.currentInbox.provider) {
+        return this.$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.FINISH_MESSAGE');
+      }
+
+      if (this.currentInbox.web_widget_script) {
+        return this.$t('INBOX_MGMT.FINISH.WEBSITE_SUCCESS');
+      }
+
+      return this.$t('INBOX_MGMT.FINISH.MESSAGE');
+    },
+  },
+};
+</script>

@@ -1,12 +1,32 @@
+<template>
+  <div class="flex-1 overflow-auto p-4">
+    <woot-button
+      color-scheme="success"
+      class-names="button--fixed-top"
+      icon="arrow-download"
+      @click="downloadAgentReports"
+    >
+      {{ $t('REPORT.DOWNLOAD_AGENT_REPORTS') }}
+    </woot-button>
+    <report-filter-selector
+      :show-agents-filter="false"
+      :show-group-by-filter="true"
+      @filter-change="onFilterChange"
+    />
+    <report-container :group-by="groupBy" />
+  </div>
+</template>
+
 <script>
-import V4Button from 'dashboard/components-next/button/Button.vue';
-import { useAlert, useTrack } from 'dashboard/composables';
+import { mapGetters } from 'vuex';
+import fromUnixTime from 'date-fns/fromUnixTime';
+import format from 'date-fns/format';
 import ReportFilterSelector from './components/FilterSelector.vue';
 import { GROUP_BY_FILTER } from './constants';
+import reportMixin from 'dashboard/mixins/reportMixin';
+import alertMixin from 'shared/mixins/alertMixin';
 import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
-import { generateFileName } from 'dashboard/helper/downloadHelper';
 import ReportContainer from './ReportContainer.vue';
-import ReportHeader from './components/ReportHeader.vue';
 
 const REPORTS_KEYS = {
   CONVERSATIONS: 'conversations_count',
@@ -21,11 +41,10 @@ const REPORTS_KEYS = {
 export default {
   name: 'ConversationReports',
   components: {
-    ReportHeader,
     ReportFilterSelector,
     ReportContainer,
-    V4Button,
   },
+  mixins: [reportMixin, alertMixin],
   data() {
     return {
       from: 0,
@@ -33,6 +52,12 @@ export default {
       groupBy: GROUP_BY_FILTER[1],
       businessHours: false,
     };
+  },
+  computed: {
+    ...mapGetters({
+      accountSummary: 'getAccountSummary',
+      accountReport: 'getAccountReports',
+    }),
   },
   methods: {
     fetchAllData() {
@@ -43,7 +68,7 @@ export default {
       try {
         this.$store.dispatch('fetchAccountSummary', this.getRequestPayload());
       } catch {
-        useAlert(this.$t('REPORT.SUMMARY_FETCHING_FAILED'));
+        this.showAlert(this.$t('REPORT.SUMMARY_FETCHING_FAILED'));
       }
     },
     fetchChartData() {
@@ -62,7 +87,7 @@ export default {
             ...this.getRequestPayload(),
           });
         } catch {
-          useAlert(this.$t('REPORT.DATA_FETCHING_FAILED'));
+          this.showAlert(this.$t('REPORT.DATA_FETCHING_FAILED'));
         }
       });
     },
@@ -78,17 +103,11 @@ export default {
     },
     downloadAgentReports() {
       const { from, to } = this;
-      const fileName = generateFileName({
-        type: 'agent',
-        to,
-        businessHours: this.businessHours,
-      });
-      this.$store.dispatch('downloadAgentReports', {
-        from,
-        to,
-        fileName,
-        businessHours: this.businessHours,
-      });
+      const fileName = `agent-report-${format(
+        fromUnixTime(to),
+        'dd-MM-yyyy'
+      )}.csv`;
+      this.$store.dispatch('downloadAgentReports', { from, to, fileName });
     },
     onFilterChange({ from, to, groupBy, businessHours }) {
       this.from = from;
@@ -97,7 +116,7 @@ export default {
       this.businessHours = businessHours;
       this.fetchAllData();
 
-      useTrack(REPORTS_EVENTS.FILTER_REPORT, {
+      this.$track(REPORTS_EVENTS.FILTER_REPORT, {
         filterValue: { from, to, groupBy, businessHours },
         reportType: 'conversations',
       });
@@ -105,22 +124,3 @@ export default {
   },
 };
 </script>
-
-<template>
-  <ReportHeader :header-title="$t('REPORT.HEADER')">
-    <V4Button
-      :label="$t('REPORT.DOWNLOAD_AGENT_REPORTS')"
-      icon="i-ph-download-simple"
-      size="sm"
-      @click="downloadAgentReports"
-    />
-  </ReportHeader>
-  <div class="flex flex-col gap-3">
-    <ReportFilterSelector
-      :show-agents-filter="false"
-      show-group-by-filter
-      @filter-change="onFilterChange"
-    />
-    <ReportContainer :group-by="groupBy" />
-  </div>
-</template>

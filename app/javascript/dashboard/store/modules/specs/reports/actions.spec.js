@@ -1,122 +1,15 @@
 import axios from 'axios';
 import { actions } from '../../reports';
-import * as types from '../../../mutation-types';
-import { STATUS } from '../../../constants';
-import * as DownloadHelper from 'dashboard/helper/downloadHelper';
-import { flushPromises } from '@vue/test-utils';
-
-global.open = vi.fn();
+import DownloadHelper from 'dashboard/helper/downloadHelper';
+global.open = jest.fn();
 global.axios = axios;
-global.URL.createObjectURL = vi.fn();
+jest.mock('axios');
 
-vi.mock('axios');
-vi.spyOn(DownloadHelper, 'downloadCsvFile');
+jest.mock('dashboard/helper/downloadHelper', () => ({
+  downloadCsvFile: jest.fn(),
+}));
 
 describe('#actions', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
-  describe('#fetchAccountSummary', () => {
-    it('sends correct actions if API is success', async () => {
-      const commit = vi.fn();
-      const reportObj = {
-        from: 1630504922510,
-        to: 1630504922510,
-        type: 'account',
-        id: 1,
-        groupBy: 'day',
-        businessHours: true,
-      };
-      const summaryData = {
-        conversations_count: 10,
-        incoming_messages_count: 20,
-        outgoing_messages_count: 15,
-        avg_first_response_time: 30,
-        avg_resolution_time: 60,
-        resolutions_count: 5,
-        bot_resolutions_count: 2,
-        bot_handoffs_count: 1,
-        reply_time: 25,
-      };
-      axios.get.mockResolvedValue({ data: summaryData });
-
-      actions.fetchAccountSummary({ commit }, reportObj);
-      await flushPromises();
-
-      expect(commit.mock.calls).toEqual([
-        [types.default.SET_ACCOUNT_SUMMARY_STATUS, STATUS.FETCHING],
-        [types.default.SET_ACCOUNT_SUMMARY, summaryData],
-        [types.default.SET_ACCOUNT_SUMMARY_STATUS, STATUS.FINISHED],
-      ]);
-    });
-
-    it('sends correct actions if API fails', async () => {
-      const commit = vi.fn();
-      const reportObj = {
-        from: 1630504922510,
-        to: 1630504922510,
-      };
-      axios.get.mockRejectedValue(new Error('API Error'));
-
-      actions.fetchAccountSummary({ commit }, reportObj);
-      await flushPromises();
-
-      expect(commit.mock.calls).toEqual([
-        [types.default.SET_ACCOUNT_SUMMARY_STATUS, STATUS.FETCHING],
-        [types.default.SET_ACCOUNT_SUMMARY_STATUS, STATUS.FAILED],
-      ]);
-    });
-  });
-
-  describe('#fetchBotSummary', () => {
-    it('sends correct actions if API is success', async () => {
-      const commit = vi.fn();
-      const reportObj = {
-        from: 1630504922510,
-        to: 1630504922510,
-        groupBy: 'day',
-        businessHours: true,
-      };
-      const summaryData = {
-        bot_resolutions_count: 10,
-        bot_handoffs_count: 5,
-        previous: {
-          bot_resolutions_count: 8,
-          bot_handoffs_count: 4,
-        },
-      };
-      axios.get.mockResolvedValue({ data: summaryData });
-
-      actions.fetchBotSummary({ commit }, reportObj);
-      await flushPromises();
-
-      expect(commit.mock.calls).toEqual([
-        [types.default.SET_BOT_SUMMARY_STATUS, STATUS.FETCHING],
-        [types.default.SET_BOT_SUMMARY, summaryData],
-        [types.default.SET_BOT_SUMMARY_STATUS, STATUS.FINISHED],
-      ]);
-    });
-
-    it('sends correct actions if API fails', async () => {
-      const commit = vi.fn();
-      const reportObj = {
-        from: 1630504922510,
-        to: 1630504922510,
-      };
-      const error = new Error('API error');
-      axios.get.mockRejectedValueOnce(error);
-
-      actions.fetchBotSummary({ commit }, reportObj);
-      await flushPromises();
-
-      expect(commit.mock.calls).toEqual([
-        [types.default.SET_BOT_SUMMARY_STATUS, STATUS.FETCHING],
-        [types.default.SET_BOT_SUMMARY_STATUS, STATUS.FAILED],
-      ]);
-    });
-  });
-
   describe('#downloadAgentReports', () => {
     it('open CSV download prompt if API is success', async () => {
       const data = `Agent name,Conversations count,Avg first response time (Minutes),Avg resolution time (Minutes)
@@ -128,9 +21,7 @@ describe('#actions', () => {
         to: 1630504922510,
         fileName: 'agent-report-01-09-2021.csv',
       };
-      actions.downloadAgentReports(1, param);
-      await flushPromises();
-
+      await actions.downloadAgentReports(1, param);
       expect(DownloadHelper.downloadCsvFile).toBeCalledWith(
         param.fileName,
         data
@@ -149,9 +40,7 @@ describe('#actions', () => {
         type: 'label',
         fileName: 'label-report-01-09-2021.csv',
       };
-      actions.downloadLabelReports(1, param);
-      await flushPromises();
-
+      await actions.downloadLabelReports(1, param);
       expect(DownloadHelper.downloadCsvFile).toBeCalledWith(
         param.fileName,
         data
@@ -171,9 +60,7 @@ describe('#actions', () => {
         to: 1635013800,
         fileName: 'inbox-report-24-10-2021.csv',
       };
-      actions.downloadInboxReports(1, param);
-      await flushPromises();
-
+      await actions.downloadInboxReports(1, param);
       expect(DownloadHelper.downloadCsvFile).toBeCalledWith(
         param.fileName,
         data
@@ -192,9 +79,7 @@ describe('#actions', () => {
         to: 1635013800,
         fileName: 'inbox-report-24-10-2021.csv',
       };
-      actions.downloadInboxReports(1, param);
-      await flushPromises();
-
+      await actions.downloadInboxReports(1, param);
       expect(DownloadHelper.downloadCsvFile).toBeCalledWith(
         param.fileName,
         data

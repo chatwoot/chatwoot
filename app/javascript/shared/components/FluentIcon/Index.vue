@@ -1,3 +1,13 @@
+<template>
+  <base-icon
+    :size="size"
+    :icon="icon"
+    :type="type"
+    :icons="icons"
+    :view-box="viewBox"
+    :icon-lib="iconLib"
+  />
+</template>
 <script>
 import BaseIcon from './Icon.vue';
 import icons from './icons.json';
@@ -34,14 +44,3 @@ export default {
   },
 };
 </script>
-
-<template>
-  <BaseIcon
-    :size="size"
-    :icon="icon"
-    :type="type"
-    :icons="icons"
-    :view-box="viewBox"
-    :icon-lib="iconLib"
-  />
-</template>

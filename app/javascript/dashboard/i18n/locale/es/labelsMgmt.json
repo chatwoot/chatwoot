@@ -3,18 +3,17 @@
     "HEADER": "Etiquetas",
     "HEADER_BTN_TXT": "Añadir etiqueta",
     "LOADING": "Obteniendo etiquetas",
-    "DESCRIPTION": "Las etiquetas le ayudan a clasificar y priorizar conversaciones y clientes potenciales. Puede asignar una etiqueta a una conversación o contacto usando el panel lateral.",
-    "LEARN_MORE": "Aprende más sobre etiquetas",
     "SEARCH_404": "No hay elementos que coincidan con esta consulta",
+    "SIDEBAR_TXT": "<p><b>Etiquetas</b> <p>Las etiquetas le ayudan a categorizar las conversaciones y priorizarlas. Puede asignar la etiqueta a una conversación desde el panel lateral. <br /><br />Las etiquetas están vinculadas a la cuenta y pueden utilizarse para crear flujos de trabajo personalizados en su organización. Puede asignar un color personalizado a una etiqueta, hace más fácil identificarla. Podrá mostrar la etiqueta en la barra lateral para filtrar las conversaciones fácilmente.</p>",
     "LIST": {
       "404": "No hay etiquetas disponibles en esta cuenta.",
       "TITLE": "Gestionar etiquetas",
       "DESC": "Las etiquetas permiten agrupar las conversaciones.",
-      "TABLE_HEADER": {
-        "NAME": "Nombre",
-        "DESCRIPTION": "Descripción",
-        "COLOR": "Color"
-      }
+      "TABLE_HEADER": [
+        "Nombre",
+        "Descripción",
+        "Color"
+      ]
     },
     "FORM": {
       "NAME": {
@@ -50,8 +49,7 @@
       "DISMISS": "Descartar",
       "ADD_SELECTED_LABELS": "Asignar etiquetas seleccionadas",
       "ADD_SELECTED_LABEL": "Añadir etiqueta seleccionada",
-      "ADD_ALL_LABELS": "Añadir todas las etiquetas",
-      "SUGGESTED_LABELS": "Etiquetas sugeridas"
+      "ADD_ALL_LABELS": "Añadir todas las etiquetas"
     },
     "ADD": {
       "TITLE": "Añadir etiqueta",

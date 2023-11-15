@@ -32,7 +32,6 @@ class PlatformAppDashboard < Administrate::BaseDashboard
     name
     created_at
     updated_at
-    access_token
   ].freeze
 
   # FORM_ATTRIBUTES

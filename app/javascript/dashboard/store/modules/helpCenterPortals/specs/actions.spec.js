@@ -3,10 +3,10 @@ import { actions } from '../actions';
 import { types } from '../mutations';
 import { apiResponse } from './fixtures';
 
-const commit = vi.fn();
-const dispatch = vi.fn();
+const commit = jest.fn();
+const dispatch = jest.fn();
 global.axios = axios;
-vi.mock('axios');
+jest.mock('axios');
 
 describe('#actions', () => {
   describe('#index', () => {

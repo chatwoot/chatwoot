@@ -1,0 +1,19 @@
+:root {
+    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+        0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --shadow-small: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-large: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+        0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-larger: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --shadow-dropdown-pane:
+        0 0.5rem 1rem rgb(50 50 93 / 8%),
+        0 0.25rem 0.75rem rgb(0 0 0 / 7%);
+    --shadow-bulk-action-container:
+        6px 3px 22px 9px rgb(181 181 181 / 25%);
+    --shadow-context-menu: rgb(22 23 24 / 30%) 0px 10px 38px -10px,
+    rgb(22 23 24 / 20%) 0px 10px 20px -15px;
+    --shadow-widget-builder: 0 0px 20px 5px rgb(0 0 0 / 10%);
+}

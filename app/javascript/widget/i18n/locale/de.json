@@ -22,21 +22,21 @@
     "IN_A_DAY": "Wir antworten üblicherweise innerhalb eines Tages",
     "BACK_IN": "Wir werden wieder online sein"
   },
-  "DAY_NAMES": {
-    "SUNDAY": "Sonntag",
-    "MONDAY": "Montag",
-    "TUESDAY": "Dienstag",
-    "WEDNESDAY": "Mittwoch",
-    "THURSDAY": "Donnerstag",
-    "FRIDAY": "Freitag",
-    "SATURDAY": "Samstag"
-  },
+  "DAY_NAMES": [
+    "Sonntag",
+    "Montag",
+    "Dienstag",
+    "Mittwoch",
+    "Donnerstag",
+    "Freitag",
+    "Samstag"
+  ],
   "START_CONVERSATION": "Unterhaltung beginnen",
   "END_CONVERSATION": "Konversation beenden",
   "CONTINUE_CONVERSATION": "Konversation fortsetzen",
-  "YOU": "Sie",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "Neue Unterhaltung starten",
-  "VIEW_UNREAD_MESSAGES": "Sie haben ungelesene Nachrichten",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Neue Nachrichten anzeigen",
     "CLOSE_MESSAGES_BUTTON": "Schließen",
@@ -70,8 +70,7 @@
         "REQUIRED_ERROR": "Telefonnummer ist erforderlich",
         "DIAL_CODE_VALID_ERROR": "Bitte wählen Sie eine Landesvorwahl",
         "VALID_ERROR": "Bitte geben Sie eine gültige Telefonnummer ein",
-        "DROPDOWN_EMPTY": "Keine Ergebnisse gefunden",
-        "DROPDOWN_SEARCH": "Search country"
+        "DROPDOWN_EMPTY": "Keine Ergebnisse gefunden"
       },
       "MESSAGE": {
         "LABEL": "Nachricht",
@@ -81,8 +80,7 @@
     },
     "CAMPAIGN_HEADER": "Bitte geben Sie Ihren Namen und Ihre E-Mail-Adresse an, bevor Sie die Konversation beginnen",
     "IS_REQUIRED": "erforderlich",
-    "REQUIRED": "Benötigt",
-    "REGEX_ERROR": "Bitte geben Sie eine gültige Eingabe ein"
+    "REQUIRED": "Benötigt"
   },
   "FILE_SIZE_LIMIT": "Die Datei überschreitet das Anhangslimit von {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
@@ -92,8 +90,7 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Emojis durchsuchen",
-    "NOT_FOUND": "Kein Emoji entspricht Ihrer Suche",
-    "ARIA_LABEL": "Emoji picker"
+    "NOT_FOUND": "Kein Emoji entspricht Ihrer Suche"
   },
   "CSAT": {
     "TITLE": "Bewerten Sie Ihre Konversation",
@@ -112,9 +109,9 @@
     }
   },
   "PORTAL": {
-    "POPULAR_ARTICLES": "Beliebte Artikel",
+    "POPULAR_ARTICLES": "Popular Articles",
     "VIEW_ALL_ARTICLES": "Alle Artikel anzeigen",
-    "IFRAME_LOAD_ERROR": "Beim Laden des Artikels ist ein Fehler aufgetreten. Bitte aktualisieren Sie die Seite und versuchen Sie es erneut."
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
   },
   "ATTACHMENTS": {
     "image": {
@@ -135,8 +132,5 @@
     "fallback": {
       "CONTENT": "hat eine URL geteilt"
     }
-  },
-  "FOOTER_REPLY_TO": {
-    "REPLY_TO": "Antwort auf:"
   }
 }

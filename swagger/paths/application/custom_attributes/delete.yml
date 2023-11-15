@@ -6,25 +6,16 @@ description: Remove a custom attribute from account
 security:
   - userApiKey: []
 parameters:
-  - $ref: '#/components/parameters/account_id'
+  - $ref: '#/parameters/account_id'
   - in: path
     name: id
-    schema:
-      type: integer
+    type: integer
     required: true
     description: The ID of the custom attribute to be deleted
 responses:
-  '200':
+  200:
     description: Success
-  '404':
+  404:
     description: Custom attribute not found
-    content:
-      application/json:
-        schema:
-          $ref: '#/components/schemas/bad_request_error'
-  '403':
+  403:
     description: Access denied
-    content:
-      application/json:
-        schema:
-          $ref: '#/components/schemas/bad_request_error'

@@ -1,6 +1,13 @@
+<template>
+  <div v-if="showBannerMessage" :class="`banner ${bannerType}`">
+    <span>
+      {{ bannerMessage }}
+    </span>
+  </div>
+</template>
+
 <script>
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-import { emitter } from 'shared/helpers/mitt';
 
 export default {
   data() {
@@ -11,7 +18,7 @@ export default {
     };
   },
   mounted() {
-    emitter.on(BUS_EVENTS.SHOW_ALERT, ({ message, type = 'error' }) => {
+    bus.$on(BUS_EVENTS.SHOW_ALERT, ({ message, type = 'error' }) => {
       this.bannerMessage = message;
       this.bannerType = type;
       this.showBannerMessage = true;
@@ -23,25 +30,19 @@ export default {
 };
 </script>
 
-<!-- eslint-disable-next-line vue/no-root-v-if -->
-<template>
-  <div v-if="showBannerMessage" :class="`banner ${bannerType}`">
-    <span>
-      {{ bannerMessage }}
-    </span>
-  </div>
-</template>
-
 <style scoped lang="scss">
+@import '~widget/assets/scss/variables.scss';
 .banner {
-  @apply text-white text-sm font-semibold p-3 text-center;
-
+  color: $color-white;
+  font-size: $font-size-default;
+  font-weight: $font-weight-bold;
+  padding: $space-slab;
+  text-align: center;
   &.success {
-    @apply bg-n-teal-9;
+    background: $color-success;
   }
-
   &.error {
-    @apply bg-n-ruby-9;
+    background: $color-error;
   }
 }
 </style>

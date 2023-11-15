@@ -6,7 +6,6 @@
     "LIST": {
       "404": "Nu sunt conversații active în acest grup."
     },
-    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "Conversații",
     "MENTION_HEADING": "Mențiuni",
     "UNATTENDED_HEADING": "Neasistat",
@@ -52,30 +51,18 @@
         "ACTIVE": "Ultima activitate"
       }
     },
-    "SORT_ORDER_ITEMS": {
-      "last_activity_at_asc": {
-        "TEXT": "Last activity: Oldest first"
+    "CHAT_SORT_FILTER_ITEMS": {
+      "latest": {
+        "TEXT": "Ultima activitate"
       },
-      "last_activity_at_desc": {
-        "TEXT": "Last activity: Newest first"
+      "sort_on_created_at": {
+        "TEXT": "Creat la"
       },
-      "created_at_desc": {
-        "TEXT": "Created at: Newest first"
+      "sort_on_priority": {
+        "TEXT": "Prioritate"
       },
-      "created_at_asc": {
-        "TEXT": "Created at: Oldest first"
-      },
-      "priority_desc": {
-        "TEXT": "Priority: Highest first"
-      },
-      "priority_asc": {
-        "TEXT": "Priority: Lowest first"
-      },
-      "waiting_since_asc": {
-        "TEXT": "Pending Response: Longest first"
-      },
-      "waiting_since_desc": {
-        "TEXT": "Pending Response: Shortest first"
+      "sort_on_waiting_since": {
+        "TEXT": "Pending Response"
       }
     },
     "ATTACHMENTS": {
@@ -94,14 +81,8 @@
       "location": {
         "CONTENT": "Locaţie"
       },
-      "ig_reel": {
-        "CONTENT": "Instagram Reel"
-      },
       "fallback": {
         "CONTENT": "a partajat un URL"
-      },
-      "contact": {
-        "CONTENT": "Shared contact"
       }
     },
     "CHAT_SORT_BY_FILTER": {
@@ -133,7 +114,6 @@
     "NO_CONTENT": "Nici un conținut disponibil",
     "HIDE_QUOTED_TEXT": "Ascunde textul citat",
     "SHOW_QUOTED_TEXT": "Arată textul citat",
-    "MESSAGE_READ": "Citește",
-    "SENDING": "Sending"
+    "MESSAGE_READ": "Citește"
   }
 }

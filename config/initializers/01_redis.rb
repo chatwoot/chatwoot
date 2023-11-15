@@ -1,7 +1,3 @@
-# TODO: Phase out the custom ConnectionPool wrappers ($alfred / $velma),
-# switch to plain Redis clients here and let Rails 7.1+ handle pooling
-# via `pool:` in RedisCacheStore (see rack_attack initializer).
-
 # Alfred
 # Add here as you use it for more features
 # Used for Round Robin, Conversation Emails & Online Presence

@@ -1,20 +1,26 @@
-import {
-  ANALYTICS_IDENTITY,
-  CHATWOOT_RESET,
-  CHATWOOT_SET_USER,
-} from '../constants/appEvents';
 import AnalyticsHelper from './AnalyticsHelper';
+import LogRocket from 'logrocket';
 import DashboardAudioNotificationHelper from './AudioAlerts/DashboardAudioNotificationHelper';
-import { emitter } from 'shared/helpers/mitt';
+
+export const CHATWOOT_SET_USER = 'CHATWOOT_SET_USER';
+export const CHATWOOT_RESET = 'CHATWOOT_RESET';
+
+export const ANALYTICS_IDENTITY = 'ANALYTICS_IDENTITY';
+export const ANALYTICS_RESET = 'ANALYTICS_RESET';
 
 export const initializeAnalyticsEvents = () => {
-  AnalyticsHelper.init();
-  emitter.on(ANALYTICS_IDENTITY, ({ user }) => {
+  window.bus.$on(ANALYTICS_IDENTITY, ({ user }) => {
     AnalyticsHelper.identify(user);
+    if (window.logRocketProjectId) {
+      LogRocket.identify(user.id, {
+        email: user.email,
+        name: user.name,
+      });
+    }
   });
 };
 
-export const initializeAudioAlerts = user => {
+const initializeAudioAlerts = user => {
   const { ui_settings: uiSettings } = user || {};
   const {
     always_play_audio_alert: alwaysPlayAudioAlert,
@@ -25,8 +31,8 @@ export const initializeAudioAlerts = user => {
     // entire payload for the user during the signup process.
   } = uiSettings || {};
 
-  DashboardAudioNotificationHelper.set({
-    currentUser: user,
+  DashboardAudioNotificationHelper.setInstanceValues({
+    currentUserId: user.id,
     audioAlertType: audioAlertType || 'none',
     audioAlertTone: audioAlertTone || 'ding',
     alwaysPlayAudioAlert: alwaysPlayAudioAlert || false,
@@ -35,12 +41,12 @@ export const initializeAudioAlerts = user => {
 };
 
 export const initializeChatwootEvents = () => {
-  emitter.on(CHATWOOT_RESET, () => {
+  window.bus.$on(CHATWOOT_RESET, () => {
     if (window.$chatwoot) {
       window.$chatwoot.reset();
     }
   });
-  emitter.on(CHATWOOT_SET_USER, ({ user }) => {
+  window.bus.$on(CHATWOOT_SET_USER, ({ user }) => {
     if (window.$chatwoot) {
       window.$chatwoot.setUser(user.email, {
         avatar_url: user.avatar_url,

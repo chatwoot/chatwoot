@@ -1,3 +1,7 @@
+<template>
+  <unread-message-list :messages="messages" @close="closeFullView" />
+</template>
+
 <script>
 import { mapGetters } from 'vuex';
 import { IFrameHelper } from 'widget/helpers/utils';
@@ -22,7 +26,3 @@ export default {
   },
 };
 </script>
-
-<template>
-  <UnreadMessageList :messages="messages" @close="closeFullView" />
-</template>

@@ -1,10 +1,26 @@
+<template>
+  <div class="h-auto overflow-auto flex flex-col">
+    <woot-modal-header
+      :header-title="$t('INTEGRATION_SETTINGS.WEBHOOK.EDIT.TITLE')"
+    />
+    <webhook-form
+      :value="value"
+      :is-submitting="uiFlags.updatingItem"
+      :submit-label="$t('INTEGRATION_SETTINGS.WEBHOOK.FORM.EDIT_SUBMIT')"
+      @submit="onSubmit"
+      @cancel="onClose"
+    />
+  </div>
+</template>
+
 <script>
-import { useAlert } from 'dashboard/composables';
+import alertMixin from 'shared/mixins/alertMixin';
 import { mapGetters } from 'vuex';
 import WebhookForm from './WebhookForm.vue';
 
 export default {
   components: { WebhookForm },
+  mixins: [alertMixin],
   props: {
     value: {
       type: Object,
@@ -29,32 +45,17 @@ export default {
           webhook,
           id: this.id,
         });
-        useAlert(
+        this.showAlert(
           this.$t('INTEGRATION_SETTINGS.WEBHOOK.EDIT.API.SUCCESS_MESSAGE')
         );
         this.onClose();
       } catch (error) {
         const alertMessage =
-          error?.response?.data?.message ||
+          error.response.data.message ||
           this.$t('INTEGRATION_SETTINGS.WEBHOOK.EDIT.API.ERROR_MESSAGE');
-        useAlert(alertMessage);
+        this.showAlert(alertMessage);
       }
     },
   },
 };
 </script>
-
-<template>
-  <div class="flex flex-col h-auto overflow-auto">
-    <woot-modal-header
-      :header-title="$t('INTEGRATION_SETTINGS.WEBHOOK.EDIT.TITLE')"
-    />
-    <WebhookForm
-      :value="value"
-      :is-submitting="uiFlags.updatingItem"
-      :submit-label="$t('INTEGRATION_SETTINGS.WEBHOOK.FORM.EDIT_SUBMIT')"
-      @submit="onSubmit"
-      @cancel="onClose"
-    />
-  </div>
-</template>

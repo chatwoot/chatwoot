@@ -9,14 +9,14 @@ class Api::V1::Accounts::TeamMembersController < Api::V1::Accounts::BaseControll
 
   def create
     ActiveRecord::Base.transaction do
-      @team_members = @team.add_members(members_to_be_added_ids)
+      @team_members = members_to_be_added_ids.map { |user_id| @team.add_member(user_id) }
     end
   end
 
   def update
     ActiveRecord::Base.transaction do
-      @team.add_members(members_to_be_added_ids)
-      @team.remove_members(members_to_be_removed_ids)
+      members_to_be_added_ids.each { |user_id| @team.add_member(user_id) }
+      members_to_be_removed_ids.each { |user_id| @team.remove_member(user_id) }
     end
     @team_members = @team.members
     render action: 'create'
@@ -24,7 +24,7 @@ class Api::V1::Accounts::TeamMembersController < Api::V1::Accounts::BaseControll
 
   def destroy
     ActiveRecord::Base.transaction do
-      @team.remove_members(params[:user_ids])
+      params[:user_ids].map { |user_id| @team.remove_member(user_id) }
     end
     head :ok
   end

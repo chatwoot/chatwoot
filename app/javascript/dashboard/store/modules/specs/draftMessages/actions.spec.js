@@ -2,9 +2,9 @@ import axios from 'axios';
 import { actions } from '../../draftMessages';
 import types from '../../../mutation-types';
 
-const commit = vi.fn();
+const commit = jest.fn();
 global.axios = axios;
-vi.mock('axios');
+jest.mock('axios');
 
 describe('#actions', () => {
   describe('#set', () => {

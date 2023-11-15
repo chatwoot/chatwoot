@@ -10,17 +10,14 @@ class AsyncDispatcher < BaseDispatcher
 
   def listeners
     [
-      AutomationRuleListener.instance,
       CampaignListener.instance,
       CsatSurveyListener.instance,
       HookListener.instance,
       InstallationWebhookListener.instance,
       NotificationListener.instance,
-      ParticipationListener.instance,
       ReportingEventListener.instance,
-      WebhookListener.instance
+      WebhookListener.instance,
+      AutomationRuleListener.instance
     ]
   end
 end
-
-AsyncDispatcher.prepend_mod_with('AsyncDispatcher')

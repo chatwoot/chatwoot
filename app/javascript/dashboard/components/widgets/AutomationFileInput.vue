@@ -1,17 +1,48 @@
+<template>
+  <label class="input-wrapper" :class="uploadState">
+    <input
+      v-if="uploadState !== 'processing'"
+      type="file"
+      name="attachment"
+      :class="uploadState === 'processing' ? 'disabled' : ''"
+      @change="onChangeFile"
+    />
+    <spinner v-if="uploadState === 'processing'" />
+    <fluent-icon v-if="uploadState === 'idle'" icon="file-upload" />
+    <fluent-icon
+      v-if="uploadState === 'uploaded'"
+      icon="checkmark-circle"
+      type="outline"
+      class="success-icon"
+    />
+    <fluent-icon
+      v-if="uploadState === 'failed'"
+      icon="dismiss-circle"
+      type="outline"
+      class="error-icon"
+    />
+    <p class="file-button">{{ label }}</p>
+  </label>
+</template>
+
 <script>
-import { useAlert } from 'dashboard/composables';
 import Spinner from 'shared/components/Spinner.vue';
+import alertMixin from 'shared/mixins/alertMixin';
 export default {
   components: {
     Spinner,
   },
+  mixins: [alertMixin],
   props: {
+    value: {
+      type: Array,
+      default: () => [],
+    },
     initialFileName: {
       type: String,
       default: '',
     },
   },
-  emits: ['update:modelValue'],
   data() {
     return {
       uploadState: 'idle',
@@ -34,58 +65,31 @@ export default {
           'automations/uploadAttachment',
           file
         );
-        this.$emit('update:modelValue', [id]);
+        this.$emit('input', [id]);
         this.uploadState = 'uploaded';
         this.label = this.$t('AUTOMATION.ATTACHMENT.LABEL_UPLOADED');
       } catch (error) {
         this.uploadState = 'failed';
         this.label = this.$t('AUTOMATION.ATTACHMENT.LABEL_UPLOAD_FAILED');
-        useAlert(this.$t('AUTOMATION.ATTACHMENT.UPLOAD_ERROR'));
+        this.showAlert(this.$t('AUTOMATION.ATTACHMENT.UPLOAD_ERROR'));
       }
     },
   },
 };
 </script>
 
-<template>
-  <label class="input-wrapper" :class="uploadState">
-    <input
-      v-if="uploadState !== 'processing'"
-      type="file"
-      name="attachment"
-      :class="uploadState === 'processing' ? 'disabled' : ''"
-      @change="onChangeFile"
-    />
-    <Spinner v-if="uploadState === 'processing'" />
-    <fluent-icon v-if="uploadState === 'idle'" icon="file-upload" />
-    <fluent-icon
-      v-if="uploadState === 'uploaded'"
-      icon="checkmark-circle"
-      type="outline"
-      class="success-icon"
-    />
-    <fluent-icon
-      v-if="uploadState === 'failed'"
-      icon="dismiss-circle"
-      type="outline"
-      class="error-icon"
-    />
-    <p class="file-button">{{ label }}</p>
-  </label>
-</template>
-
 <style scoped>
 input[type='file'] {
   @apply hidden;
 }
 .input-wrapper {
-  @apply flex h-9 bg-n-background py-1 px-2 items-center text-xs cursor-pointer rounded-sm border border-dashed border-n-strong;
+  @apply flex h-9 bg-white dark:bg-slate-900 py-1 px-2 items-center text-xs cursor-pointer rounded-sm border border-dashed border-woot-100 dark:border-woot-500;
 }
 .success-icon {
-  @apply text-n-teal-9 mr-2;
+  @apply text-green-500 dark:text-green-600 mr-2;
 }
 .error-icon {
-  @apply text-n-ruby-9 mr-2;
+  @apply text-red-500 dark:text-red-600 mr-2;
 }
 
 .processing {

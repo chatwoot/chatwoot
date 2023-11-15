@@ -1,3 +1,9 @@
+<template>
+  <div class="flex items-center justify-center h-full w-full">
+    <spinner color-scheme="primary" size="" />
+    <div class="ml-2">{{ $t('CONFIRM_EMAIL') }}</div>
+  </div>
+</template>
 <script>
 import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 import { verifyPasswordToken } from '../../../api/auth';
@@ -28,12 +34,3 @@ export default {
   },
 };
 </script>
-
-<template>
-  <div
-    class="flex items-center justify-center min-h-screen h-full bg-n-background w-full"
-  >
-    <Spinner color-scheme="primary" size="" />
-    <div class="ml-2 text-n-slate-11">{{ $t('CONFIRM_EMAIL') }}</div>
-  </div>
-</template>

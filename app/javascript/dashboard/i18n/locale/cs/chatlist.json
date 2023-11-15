@@ -6,7 +6,6 @@
     "LIST": {
       "404": "V této skupině nejsou žádné aktivní konverzace."
     },
-    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "Konverzace",
     "MENTION_HEADING": "Zmínky",
     "UNATTENDED_HEADING": "Unattended",
@@ -48,34 +47,22 @@
         "OLDEST": "Created at:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "Poslední aktivita:",
-        "ACTIVE": "Poslední aktivita"
+        "NOT_ACTIVE": "Last activity:",
+        "ACTIVE": "Last activity"
       }
     },
-    "SORT_ORDER_ITEMS": {
-      "last_activity_at_asc": {
-        "TEXT": "Poslední aktivita: od nejstarších"
+    "CHAT_SORT_FILTER_ITEMS": {
+      "latest": {
+        "TEXT": "Last activity"
       },
-      "last_activity_at_desc": {
-        "TEXT": "Poslední aktivita: od nejnovějších"
+      "sort_on_created_at": {
+        "TEXT": "Created at"
       },
-      "created_at_desc": {
-        "TEXT": "Vytvořeno: od nejnovějších"
+      "sort_on_priority": {
+        "TEXT": "Priority"
       },
-      "created_at_asc": {
-        "TEXT": "Vytvořeno: od nejstarších"
-      },
-      "priority_desc": {
-        "TEXT": "Priorita: od nejvyšší"
-      },
-      "priority_asc": {
-        "TEXT": "Priorita: Od nejnižší"
-      },
-      "waiting_since_asc": {
-        "TEXT": "Pending Response: Longest first"
-      },
-      "waiting_since_desc": {
-        "TEXT": "Pending Response: Shortest first"
+      "sort_on_waiting_since": {
+        "TEXT": "Pending Response"
       }
     },
     "ATTACHMENTS": {
@@ -94,14 +81,8 @@
       "location": {
         "CONTENT": "Poloha"
       },
-      "ig_reel": {
-        "CONTENT": "Instagram Reel"
-      },
       "fallback": {
         "CONTENT": "sdílel URL"
-      },
-      "contact": {
-        "CONTENT": "Shared contact"
       }
     },
     "CHAT_SORT_BY_FILTER": {
@@ -113,12 +94,12 @@
           "LABEL": "Last activity"
         },
         "CREATED_AT": {
-          "NAME": "Vytvořeno",
-          "LABEL": "Vytvořeno"
+          "NAME": "Created at",
+          "LABEL": "Created at"
         },
         "LAST_USER_MESSAGE_AT": {
           "NAME": "Last user message at",
-          "LABEL": "Poslední zpráva"
+          "LABEL": "Last message"
         }
       }
     },
@@ -133,7 +114,6 @@
     "NO_CONTENT": "Žádný obsah k dispozici",
     "HIDE_QUOTED_TEXT": "Skrýt citovaný text",
     "SHOW_QUOTED_TEXT": "Zobrazit citovaný text",
-    "MESSAGE_READ": "Přečtené",
-    "SENDING": "Sending"
+    "MESSAGE_READ": "Přečtené"
   }
 }

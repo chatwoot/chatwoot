@@ -1,0 +1,58 @@
+version: '2'
+plugins:
+  rubocop:
+    enabled: false
+    channel: rubocop-0-73
+  eslint:
+    enabled: false
+  csslint:
+    enabled: true
+  scss-lint:
+    enabled: true
+  brakeman:
+    enabled: false
+checks:
+  similar-code:
+    enabled: false
+  method-count:
+    enabled: true
+    config:
+      threshold: 32
+  file-lines:
+    enabled: true
+    config:
+      threshold: 300
+  method-lines:
+    config:
+      threshold: 50
+exclude_patterns:
+  - 'spec/'
+  - '**/specs/'
+  - 'db/*'
+  - 'bin/**/*'
+  - 'db/**/*'
+  - 'config/**/*'
+  - 'public/**/*'
+  - 'vendor/**/*'
+  - 'node_modules/**/*'
+  - 'lib/tasks/auto_annotate_models.rake'
+  - 'app/test-matchers.js'
+  - 'docs/*'
+  - '**/*.md'
+  - '**/*.yml'
+  - 'app/javascript/dashboard/i18n/locale'
+  - '**/*.stories.js'
+  - 'stories/'
+  - 'app/javascript/dashboard/components/widgets/conversation/advancedFilterItems/index.js'
+  - 'app/javascript/shared/constants/countries.js'
+  - 'app/javascript/dashboard/components/widgets/conversation/advancedFilterItems/languages.js'
+  - 'app/javascript/dashboard/routes/dashboard/contacts/contactFilterItems/index.js'
+  - 'app/javascript/dashboard/routes/dashboard/settings/automation/constants.js'
+  - 'app/javascript/dashboard/components/widgets/FilterInput/FilterOperatorTypes.js'
+  - 'app/javascript/dashboard/routes/dashboard/settings/reports/constants.js'
+  - 'app/javascript/dashboard/i18n/index.js'
+  - 'app/javascript/widget/i18n/index.js'
+  - 'app/javascript/survey/i18n/index.js'
+  - 'app/javascript/shared/constants/locales.js'
+  - 'app/javascript/dashboard/helper/specs/macrosFixtures.js'
+  - 'app/javascript/dashboard/routes/dashboard/settings/macros/constants.js'
