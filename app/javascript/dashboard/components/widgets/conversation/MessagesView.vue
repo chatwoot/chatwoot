@@ -169,7 +169,13 @@ export default {
       return this.currentChat?.status === wootConstants.STATUS_TYPE.OPEN;
     },
     shouldShowLabelSuggestions() {
+      const isFeatureEnabled = this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.LabelSuggestion
+      );
+
       return (
+        isFeatureEnabled &&
         this.isOpen &&
         this.isEnterprise &&
         this.isAIIntegrationEnabled &&
@@ -335,6 +341,13 @@ export default {
 
   methods: {
     async fetchSuggestions() {
+      const isFeatureEnabled = this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.LabelSuggestion
+      );
+
+      if (!isFeatureEnabled) return;
+
       // start empty, this ensures that the label suggestions are not shown
       this.labelSuggestions = [];
 

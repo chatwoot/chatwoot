@@ -18,4 +18,5 @@ export const FEATURE_FLAGS = {
   AUDIT_LOGS: 'audit_logs',
   MESSAGE_REPLY_TO: 'message_reply_to',
   INSERT_ARTICLE_IN_REPLY: 'insert_article_in_reply',
+  LABEL_SUGGESTION: 'openai_label_suggestions',
 };
