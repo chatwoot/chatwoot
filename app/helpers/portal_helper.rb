@@ -24,9 +24,13 @@ module PortalHelper
     language_map[locale] || locale
   end
 
+  def theme_query_string(theme)
+    theme.present? && theme != 'system' ? "?theme=#{theme}" : ''
+  end
+
   def generate_home_link(portal_slug, portal_locale, theme, is_plain_layout_enabled)
     if is_plain_layout_enabled
-      "/hc/#{portal_slug}/#{portal_locale}#{theme.present? && theme != 'system' ? "?theme=#{theme}" : ''}"
+      "/hc/#{portal_slug}/#{portal_locale}#{theme_query_string(theme)}"
     else
       "/hc/#{portal_slug}/#{portal_locale}"
     end
@@ -34,7 +38,7 @@ module PortalHelper
 
   def generate_category_link(portal_slug, category_locale, category_slug, theme, is_plain_layout_enabled)
     if is_plain_layout_enabled
-      "/hc/#{portal_slug}/#{category_locale}/categories/#{category_slug}#{theme.present? && theme != 'system' ? "?theme=#{theme}" : ''}"
+      "/hc/#{portal_slug}/#{category_locale}/categories/#{category_slug}#{theme_query_string(theme)}"
     else
       "/hc/#{portal_slug}/#{category_locale}/categories/#{category_slug}"
     end
@@ -42,7 +46,7 @@ module PortalHelper
 
   def generate_article_link(portal_slug, article_slug, theme, is_plain_layout_enabled)
     if is_plain_layout_enabled
-      "/hc/#{portal_slug}/articles/#{article_slug}#{theme.present? && theme != 'system' ? "?theme=#{theme}" : ''}"
+      "/hc/#{portal_slug}/articles/#{article_slug}#{theme_query_string(theme)}"
     else
       "/hc/#{portal_slug}/articles/#{article_slug}"
     end

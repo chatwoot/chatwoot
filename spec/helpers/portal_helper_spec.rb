@@ -116,6 +116,26 @@ describe PortalHelper do
     end
   end
 
+  describe '#theme_query_string' do
+    context 'when theme is present and not system' do
+      it 'returns the correct query string' do
+        expect(helper.theme_query_string('dark')).to eq('?theme=dark')
+      end
+    end
+
+    context 'when theme is not present' do
+      it 'returns the correct query string' do
+        expect(helper.theme_query_string(nil)).to eq('')
+      end
+    end
+
+    context 'when theme is system' do
+      it 'returns the correct query string' do
+        expect(helper.theme_query_string('system')).to eq('')
+      end
+    end
+  end
+
   describe '#generate_home_link' do
     context 'when theme is not present' do
       it 'returns the correct link' do
