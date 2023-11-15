@@ -4,6 +4,7 @@
       v-model="articleTitle"
       type="text"
       rows="1"
+      :min-height="6"
       class="article-heading"
       :placeholder="$t('HELP_CENTER.EDIT_ARTICLE.TITLE_PLACEHOLDER')"
       @focus="onFocus"

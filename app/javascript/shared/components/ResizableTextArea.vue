@@ -1,6 +1,7 @@
 <template>
   <textarea
     ref="textarea"
+    :style="{ height: textareaHeight }"
     :placeholder="placeholder"
     :value="value"
     @input="onInput"
@@ -18,6 +19,7 @@ import {
 } from 'dashboard/helper/editorHelper';
 
 const TYPING_INDICATOR_IDLE_TIME = 4000;
+const PIXELS_PER_REM = 16;
 export default {
   props: {
     placeholder: {
@@ -50,6 +52,7 @@ export default {
   data() {
     return {
       idleTimer: null,
+      textareaHeight: `${this.minHeight * PIXELS_PER_REM}px`,
     };
   },
   computed: {
@@ -91,12 +94,16 @@ export default {
   },
   methods: {
     resizeTextarea() {
-      this.$el.style.height = 'auto';
-      if (!this.value) {
-        this.$el.style.height = `${this.minHeight}rem`;
-      } else {
-        this.$el.style.height = `${this.$el.scrollHeight}px`;
-      }
+      const textarea = this.$refs.textarea;
+      if (!textarea || !this.value) return;
+      // Reset the height to the minimum first to allow shrinking
+      const minHeightPx = this.minHeight * PIXELS_PER_REM;
+      this.textareaHeight = `${minHeightPx}px`;
+
+      this.$nextTick(() => {
+        const newHeight = Math.max(textarea.scrollHeight, minHeightPx);
+        this.textareaHeight = `${newHeight}px`; // Update the height
+      });
     },
     // The toggleSignatureInEditor gets the new value from the
     // watcher, this means that if the value is true, the signature

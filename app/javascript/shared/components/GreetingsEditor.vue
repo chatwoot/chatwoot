@@ -19,6 +19,7 @@
       v-model="greetingsMessage"
       rows="4"
       type="text"
+      :min-height="6"
       class="greetings--textarea"
       :label="label"
       :placeholder="placeholder"
