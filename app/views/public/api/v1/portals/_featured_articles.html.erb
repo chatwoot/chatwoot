@@ -14,9 +14,9 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-x-2 gap-y-2 gap-2">
          <% featured_articles.each do |article| %>
          <a class="text-slate-700 dark:text-slate-100 leading-7" href="<%= generate_article_link(portal.slug, article.slug, @theme) %>">
-            <div class="flex justify-between items-center py-1 px-2 rounded-lg gap-3 hover:bg-slate-50 dark:hover:bg-slate-800">
+            <div class="flex justify-between items-start py-1 px-2 rounded-lg gap-3 hover:bg-slate-50 dark:hover:bg-slate-800">
                <%= article.title %>
-               <span class="flex items-center font-normal">
+               <span class="flex items-center font-normal mt-1.5">
                   <%= render partial: 'icons/chevron-right' %>
                </span>
             </div>
