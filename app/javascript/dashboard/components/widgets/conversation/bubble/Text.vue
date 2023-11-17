@@ -9,8 +9,7 @@
     <div v-if="!isEmail" v-dompurify-html="message" class="text-content" />
     <letter
       v-else
-      class="text-content"
-      className="[&>div]:!bg-white [&>div]:dark:!bg-slate-700 [&>div]:!text-black-900 [&>div]:dark:!text-slate-50"
+      class="text-content bg-white dark:bg-white text-slate-900 dark:text-slate-900"
       :html="message"
     />
     <button
