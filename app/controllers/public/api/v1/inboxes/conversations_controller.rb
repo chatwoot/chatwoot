@@ -23,6 +23,7 @@ class Public::Api::V1::Inboxes::ConversationsController < Public::Api::V1::Inbox
   def update_last_seen
     @conversation.contact_last_seen_at = DateTime.now.utc
     @conversation.save!
+    ::Conversations::UpdateMessageStatusJob.perform_later(@conversation.id, @conversation.contact_last_seen_at)
     head :ok
   end
 
@@ -33,7 +34,7 @@ class Public::Api::V1::Inboxes::ConversationsController < Public::Api::V1::Inbox
   end
 
   def create_conversation
-    ::Conversation.create!(conversation_params)
+    ConversationBuilder.new(params: conversation_params, contact_inbox: @contact_inbox).perform
   end
 
   def trigger_typing_event(event)
@@ -41,11 +42,6 @@ class Public::Api::V1::Inboxes::ConversationsController < Public::Api::V1::Inbox
   end
 
   def conversation_params
-    {
-      account_id: @contact_inbox.contact.account_id,
-      inbox_id: @contact_inbox.inbox_id,
-      contact_id: @contact_inbox.contact_id,
-      contact_inbox_id: @contact_inbox.id
-    }
+    params.permit(custom_attributes: {})
   end
 end

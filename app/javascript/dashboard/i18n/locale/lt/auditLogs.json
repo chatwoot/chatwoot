@@ -57,15 +57,15 @@
       "DELETE": "%{agentName} ištrynė makrokomandą (#%{id})"
     },
     "INBOX_MEMBER": {
-      "ADD": "%{agentName} added %{user} to the inbox(#%{inbox_id})",
-      "REMOVE": "%{agentName} removed %{user} from the inbox(#%{inbox_id})"
+      "ADD": "%{agentName} pridėjo %{user} prie gautų laiškų aplanko(#%{inbox_id})",
+      "REMOVE": "%{agentName} ipašalino %{user} iš gautų laiškų aplanko(#%{inbox_id})"
     },
     "TEAM_MEMBER": {
-      "ADD": "%{agentName} added %{user} to the team(#%{team_id})",
-      "REMOVE": "%{agentName} removed %{user} from the team(#%{team_id})"
+      "ADD": "%{agentName} pridėjo %{user} prie komandos(#%{team_id})",
+      "REMOVE": "%{agentName} pašalino %{user} iš komandos(#%{team_id})"
     },
     "ACCOUNT": {
-      "EDIT": "%{agentName} updated the account configuration (#%{id})"
+      "EDIT": "%{agentName} atnaujino paskyros konfigūraciją (#%{id})"
     }
   }
 }

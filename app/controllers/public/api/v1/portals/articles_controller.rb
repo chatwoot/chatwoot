@@ -39,12 +39,8 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
     )
   end
 
-  def portal
-    @portal ||= Portal.find_by!(slug: permitted_params[:slug], archived: false)
-  end
-
   def list_params
-    params.permit(:query, :locale, :sort)
+    params.permit(:query, :locale, :sort, :status)
   end
 
   def permitted_params

@@ -40,14 +40,14 @@
 </template>
 
 <script>
-import Sidebar from '../../components/layout/Sidebar';
+import Sidebar from '../../components/layout/Sidebar.vue';
 import CommandBar from './commands/commandbar.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal';
-import AddAccountModal from 'dashboard/components/layout/sidebarComponents/AddAccountModal';
-import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector';
-import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel';
-import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel';
+import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal.vue';
+import AddAccountModal from 'dashboard/components/layout/sidebarComponents/AddAccountModal.vue';
+import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector.vue';
+import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.vue';
+import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import wootConstants from 'dashboard/constants/globals';
 
@@ -87,9 +87,8 @@ export default {
       return conversationDisplayType;
     },
     previouslyUsedSidebarView() {
-      const {
-        previously_used_sidebar_view: showSecondarySidebar,
-      } = this.uiSettings;
+      const { previously_used_sidebar_view: showSecondarySidebar } =
+        this.uiSettings;
       return showSecondarySidebar;
     },
   },

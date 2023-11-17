@@ -91,7 +91,13 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def set_conversation
-    @conversation = @contact_inbox.conversations.last
+    # if lock to single conversation is disabled, we will create a new conversation if previous conversation is resolved
+    @conversation = if @inbox.lock_to_single_conversation
+                      @contact_inbox.conversations.last
+                    else
+                      @contact_inbox.conversations
+                                    .where.not(status: :resolved).last
+                    end
     return if @conversation
 
     @conversation = ::Conversation.create!(conversation_params)
@@ -138,8 +144,7 @@ class Whatsapp::IncomingMessageBaseService
       message_type: :incoming,
       sender: @contact,
       source_id: message[:id].to_s,
-      in_reply_to_external_id: @in_reply_to_external_id,
-      in_reply_to: @in_reply_to
+      in_reply_to_external_id: @in_reply_to_external_id
     )
   end
 

@@ -71,7 +71,7 @@
       "SUBMIT": "Importeren",
       "CANCEL": "Annuleren"
     },
-    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+    "SUCCESS_MESSAGE": "U wordt per e-mail geïnformeerd wanneer de import is voltooid.",
     "ERROR_MESSAGE": "Er is een fout opgetreden, probeer het opnieuw"
   },
   "EXPORT_CONTACTS": {
@@ -203,6 +203,10 @@
         "LABEL": "Bericht",
         "PLACEHOLDER": "Schrijf hier je bericht",
         "ERROR": "Bericht mag niet leeg zijn"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Kies bestanden",
+        "HELP_TEXT": "Sleep bestanden hier naartoe of kies bestanden om toe te voegen"
       },
       "SUBMIT": "Verstuur bericht",
       "CANCEL": "Annuleren",
@@ -343,17 +347,17 @@
     "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
     "PRIMARY": {
       "TITLE": "Primair contact",
-      "HELP_LABEL": "Te behouden"
+      "HELP_LABEL": "Nog te verwijderen"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Contact om samen te voegen",
       "PLACEHOLDER": "Zoeken naar contacten",
-      "HELP_LABEL": "Nog te verwijderen"
+      "HELP_LABEL": "Te behouden"
     },
     "SUMMARY": {
       "TITLE": "Samenvatting",
-      "DELETE_WARNING": "Contact van <strong>%{childContactName}</strong> zal worden verwijderd.",
-      "ATTRIBUTE_WARNING": "Contactgegevens van <strong>%{childContactName}</strong> worden gekopieerd naar <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Contact van <strong>%{primaryContactName}</strong> zal worden verwijderd.",
+      "ATTRIBUTE_WARNING": "Contactgegevens van <strong>%{primaryContactName}</strong> worden gekopieerd naar <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "FOUT_BERICHT"

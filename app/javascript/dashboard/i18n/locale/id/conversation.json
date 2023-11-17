@@ -34,7 +34,6 @@
     "ASSIGN_TO_ME": "Tugaskan kepada saya",
     "TWILIO_WHATSAPP_CAN_REPLY": "Anda hanya dapat membalas percakapan ini menggunakan pesan template karena",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Pembatasan jendela pesan 24 jam",
-    "SELECT_A_TWEET_TO_REPLY": "Harap pilih cuitan untuk dibalas.",
     "REPLYING_TO": "Anda membalas:",
     "REMOVE_SELECTION": "Hapus Pilihan",
     "DOWNLOAD": "Unduh",
@@ -47,6 +46,7 @@
     "NO_RESPONSE": "Tidak ada respon",
     "RATING_TITLE": "Penilaian",
     "FEEDBACK_TITLE": "Umpan Balik",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Tampilkan label",
       "HIDE_LABELS": "Sembunyikan label"
@@ -139,7 +139,8 @@
       "PRIVATE_NOTE": "Catatan Pribadi",
       "SEND": "Kirim",
       "CREATE": "Tambahkan Catatan",
-      "TWEET": "Tweet",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "Tampilkan editor teks",
       "TIP_EMOJI_ICON": "Tampilkan pemilih emoji",
       "TIP_ATTACH_ICON": "Lampirkan file",
@@ -194,6 +195,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Salin",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "Hapus",
       "CREATE_A_CANNED_RESPONSE": "Tambahkan ke respon siap pakai",
       "TRANSLATE": "Terjemahkan",

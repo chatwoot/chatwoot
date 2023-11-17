@@ -109,7 +109,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
-import EditAttribute from './EditAttribute';
+import EditAttribute from './EditAttribute.vue';
 
 export default {
   components: {

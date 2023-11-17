@@ -34,9 +34,9 @@
 import { mapGetters } from 'vuex';
 
 import Spinner from 'shared/components/Spinner.vue';
-import ArticleHeader from 'dashboard/routes/dashboard/helpcenter/components/Header/ArticleHeader';
-import EmptyState from 'dashboard/components/widgets/EmptyState';
-import ArticleTable from '../../components/ArticleTable';
+import ArticleHeader from 'dashboard/routes/dashboard/helpcenter/components/Header/ArticleHeader.vue';
+import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
+import ArticleTable from '../../components/ArticleTable.vue';
 
 export default {
   components: {
@@ -139,8 +139,8 @@ export default {
         portalSlug: this.$route.params.portalSlug,
         locale: this.$route.params.locale,
         status: this.status,
-        author_id: this.author,
-        category_slug: this.selectedCategorySlug,
+        authorId: this.author,
+        categorySlug: this.selectedCategorySlug,
       });
     },
     onPageChange(pageNumber) {

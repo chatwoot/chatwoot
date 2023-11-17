@@ -200,9 +200,13 @@
         "ERROR": "Subject can't be empty"
       },
       "MESSAGE": {
-        "LABEL": "Message",
+        "LABEL": "Viesti",
         "PLACEHOLDER": "Write your message here",
         "ERROR": "Message can't be empty"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
       },
       "SUBMIT": "Lähetä viesti",
       "CANCEL": "Peruuta",
@@ -305,20 +309,20 @@
       },
       "VALUE": {
         "LABEL": "Attribute value",
-        "PLACEHOLDER": "Eg: 11901 "
+        "PLACEHOLDER": "Esim: 11901 "
       },
       "ADD": {
         "TITLE": "Luo uusi määrite ",
-        "SUCCESS": "Attribute added successfully",
-        "ERROR": "Unable to add attribute. Please try again later"
+        "SUCCESS": "Attribuutin lisäys onnistui",
+        "ERROR": "Attribuuttia ei voitu lisätä. Yritä myöhemmin uudelleen"
       },
       "UPDATE": {
-        "SUCCESS": "Attribute updated successfully",
-        "ERROR": "Unable to update attribute. Please try again later"
+        "SUCCESS": "Tunniste päivitetty onnistuneesti",
+        "ERROR": "Attribuuttia ei voida päivittää. Yritä myöhemmin uudelleen"
       },
       "DELETE": {
-        "SUCCESS": "Attribute deleted successfully",
-        "ERROR": "Unable to delete attribute. Please try again later"
+        "SUCCESS": "Attribuutin poisto onnistui",
+        "ERROR": "Attribuuttia ei voida poistaa. Yritä uudelleen myöhemmin"
       },
       "ATTRIBUTE_SELECT": {
         "TITLE": "Lisää määritteitä",
@@ -327,15 +331,15 @@
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
-          "PLACEHOLDER": "Select value",
-          "SEARCH_INPUT_PLACEHOLDER": "Search value",
+          "PLACEHOLDER": "Valitse arvo",
+          "SEARCH_INPUT_PLACEHOLDER": "Etsi arvo",
           "NO_RESULT": "Tuloksia ei löytynyt"
         }
       }
     },
     "VALIDATIONS": {
-      "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL"
+      "REQUIRED": "Kelvollinen arvo vaaditaan",
+      "INVALID_URL": "Virheellinen URL"
     }
   },
   "MERGE_CONTACTS": {
@@ -343,17 +347,17 @@
     "DESCRIPTION": "Yhdistämällä yhteystiedot voit muuntaa kaksi profiilia yhdeksi, mukaan lukien kaikki määritteet ja keskustelut. Ristiriitatilanteessa ensisijaisen yhteyshenkilön määritteet ovat ensisijaisia.",
     "PRIMARY": {
       "TITLE": "Ensisijainen kontakti",
-      "HELP_LABEL": "Säilytetään"
-    },
-    "CHILD": {
-      "TITLE": "Yhdistettävä yhteystieto",
-      "PLACEHOLDER": "Etsi yhteystietoa",
       "HELP_LABEL": "Poistetaan"
     },
+    "PARENT": {
+      "TITLE": "Yhdistettävä yhteystieto",
+      "PLACEHOLDER": "Etsi yhteystietoa",
+      "HELP_LABEL": "Säilytetään"
+    },
     "SUMMARY": {
-      "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+      "TITLE": "Yhteenveto",
+      "DELETE_WARNING": "Contact of <strong>%{primaryContactName}</strong> will be deleted.",
+      "ATTRIBUTE_WARNING": "Contact details of <strong>%{primaryContactName}</strong> will be copied to <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"

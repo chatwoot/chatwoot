@@ -9,7 +9,6 @@ class Api::V1::Accounts::Actions::ContactMergesController < Api::V1::Accounts::B
       mergee_contact: @mergee_contact
     )
     contact_merge_action.perform
-    render json: @base_contact
   end
 
   private

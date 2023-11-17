@@ -9,7 +9,7 @@
 #  content_type              :integer          default("text"), not null
 #  external_source_ids       :jsonb
 #  message_type              :integer          not null
-#  private                   :boolean          default(FALSE)
+#  private                   :boolean          default(FALSE), not null
 #  processed_message_content :text
 #  sender_type               :string
 #  sentiment                 :jsonb
@@ -60,6 +60,7 @@ class Message < ApplicationRecord
 
   before_validation :ensure_content_type
   before_save :ensure_processed_message_content
+  before_save :ensure_in_reply_to
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
@@ -231,6 +232,18 @@ class Message < ApplicationRecord
 
     message_content = text_content_quoted || html_content_quoted || content
     self.processed_message_content = message_content&.truncate(150_000)
+  end
+
+  # fetch the in_reply_to message and set the external id
+  def ensure_in_reply_to
+    in_reply_to = content_attributes[:in_reply_to]
+    in_reply_to_external_id = content_attributes[:in_reply_to_external_id]
+
+    Messages::InReplyToMessageBuilder.new(
+      message: self,
+      in_reply_to: in_reply_to,
+      in_reply_to_external_id: in_reply_to_external_id
+    ).perform
   end
 
   def ensure_content_type

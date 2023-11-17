@@ -4,7 +4,7 @@ ruby '3.2.2'
 
 ##-- base gems for rails --##
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails', '~> 7.0.7.2'
+gem 'rails', '~> 7.0.8.0'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
@@ -15,7 +15,7 @@ gem 'browser'
 gem 'hashie'
 gem 'jbuilder'
 gem 'kaminari'
-gem 'responders'
+gem 'responders', '>= 3.1.1'
 gem 'rest-client'
 gem 'telephone_number'
 gem 'time_diff'
@@ -67,7 +67,7 @@ gem 'webpacker'
 gem 'barnes'
 
 ##--- gems for authentication & authorization ---##
-gem 'devise'
+gem 'devise', '>= 4.9.3'
 gem 'devise-secure_password', git: 'https://github.com/chatwoot/devise-secure_password', branch: 'chatwoot'
 gem 'devise_token_auth'
 # authorization
@@ -76,6 +76,7 @@ gem 'pundit'
 # super admin
 gem 'administrate', '>= 0.19.0'
 gem 'administrate-field-active_storage'
+gem 'administrate-field-belongs_to_search'
 
 ##--- gems for pubsub service ---##
 # https://karolgalanciak.com/blog/2019/11/30/from-activerecord-callbacks-to-publish-slash-subscribe-pattern-and-event-driven-design/
@@ -91,7 +92,7 @@ gem 'twitty', '~> 0.1.5'
 # facebook client
 gem 'koala'
 # slack client
-gem 'slack-ruby-client', '~> 2.0.0'
+gem 'slack-ruby-client', '~> 2.2.0'
 # for dialogflow integrations
 gem 'google-cloud-dialogflow-v2'
 gem 'grpc'
@@ -106,16 +107,16 @@ gem 'google-cloud-translate-v3'
 gem 'ddtrace', require: false
 gem 'elastic-apm', require: false
 gem 'newrelic_rpm', require: false
-gem 'newrelic-sidekiq-metrics', require: false
+gem 'newrelic-sidekiq-metrics', '>= 1.6.2', require: false
 gem 'scout_apm', require: false
-gem 'sentry-rails', '>= 5.10.0', require: false
+gem 'sentry-rails', '>= 5.12.0', require: false
 gem 'sentry-ruby', require: false
-gem 'sentry-sidekiq', '>= 5.10.0', require: false
+gem 'sentry-sidekiq', '>= 5.12.0', require: false
 
 ##-- background job processing --##
-gem 'sidekiq'
+gem 'sidekiq', '>= 7.1.3'
 # We want cron jobs
-gem 'sidekiq-cron'
+gem 'sidekiq-cron', '>= 1.11.0'
 
 ##-- Push notification service --##
 gem 'fcm'
@@ -153,12 +154,12 @@ gem 'stripe'
 gem 'faker'
 
 # Include logrange conditionally in intializer using env variable
-gem 'lograge', '~> 0.13.0', require: false
+gem 'lograge', '~> 0.14.0', require: false
 
 # worked with microsoft refresh token
 gem 'omniauth-oauth2'
 
-gem 'audited', '~> 5.3'
+gem 'audited', '~> 5.4', '>= 5.4.1'
 
 # need for google auth
 gem 'omniauth'
@@ -188,7 +189,7 @@ group :development do
   gem 'bullet'
   gem 'letter_opener'
   gem 'scss_lint', require: false
-  gem 'web-console'
+  gem 'web-console', '>= 4.2.1'
 
   # used in swagger build
   gem 'json_refs'

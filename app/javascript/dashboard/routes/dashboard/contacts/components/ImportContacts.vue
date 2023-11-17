@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import Modal from '../../../../components/Modal';
+import Modal from '../../../../components/Modal.vue';
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import { CONTACTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';

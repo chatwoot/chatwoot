@@ -1,6 +1,5 @@
 import inboxesAPI from '../inboxes';
 import ApiClient from '../ApiClient';
-import describeWithAPIMock from './apiSpecHelper';
 
 describe('#InboxesAPI', () => {
   it('creates correct instance', () => {
@@ -14,19 +13,32 @@ describe('#InboxesAPI', () => {
     expect(inboxesAPI).toHaveProperty('getAgentBot');
     expect(inboxesAPI).toHaveProperty('setAgentBot');
   });
-  describeWithAPIMock('API calls', context => {
+
+  describe('API calls', () => {
+    const originalAxios = window.axios;
+    const axiosMock = {
+      post: jest.fn(() => Promise.resolve()),
+      get: jest.fn(() => Promise.resolve()),
+      patch: jest.fn(() => Promise.resolve()),
+      delete: jest.fn(() => Promise.resolve()),
+    };
+
+    beforeEach(() => {
+      window.axios = axiosMock;
+    });
+
+    afterEach(() => {
+      window.axios = originalAxios;
+    });
+
     it('#getCampaigns', () => {
       inboxesAPI.getCampaigns(2);
-      expect(context.axiosMock.get).toHaveBeenCalledWith(
-        '/api/v1/inboxes/2/campaigns'
-      );
+      expect(axiosMock.get).toHaveBeenCalledWith('/api/v1/inboxes/2/campaigns');
     });
 
     it('#deleteInboxAvatar', () => {
       inboxesAPI.deleteInboxAvatar(2);
-      expect(context.axiosMock.delete).toHaveBeenCalledWith(
-        '/api/v1/inboxes/2/avatar'
-      );
+      expect(axiosMock.delete).toHaveBeenCalledWith('/api/v1/inboxes/2/avatar');
     });
   });
 });

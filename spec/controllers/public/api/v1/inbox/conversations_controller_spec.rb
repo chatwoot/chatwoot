@@ -44,6 +44,17 @@ RSpec.describe 'Public Inbox Contact Conversations API', type: :request do
       data = response.parsed_body
       expect(data['id']).not_to be_nil
     end
+
+    it 'creates a conversation with custom attributes but prevents other attributes' do
+      post "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}/conversations",
+           params: { custom_attributes: { 'test' => 'test' }, additional_attributes: { 'test' => 'test' } }
+
+      expect(response).to have_http_status(:success)
+      data = response.parsed_body
+      conversation = api_channel.inbox.conversations.find_by(display_id: data['id'])
+      expect(conversation.custom_attributes).to eq('test' => 'test')
+      expect(conversation.additional_attributes).to be_empty
+    end
   end
 
   describe 'POST /public/api/v1/inboxes/{identifier}/contact/{source_id}/conversations/{conversation_id}/toggle_typing' do
@@ -69,7 +80,10 @@ RSpec.describe 'Public Inbox Contact Conversations API', type: :request do
     end
 
     it 'updates the last seen of the conversation contact' do
+      current_time = DateTime.now.utc
+      allow(DateTime).to receive(:now).and_return(current_time)
       contact_last_seen_at = conversation.contact_last_seen_at
+      expect(Conversations::UpdateMessageStatusJob).to receive(:perform_later).with(conversation.id, current_time)
       post update_last_seen_path
 
       expect(response).to have_http_status(:success)

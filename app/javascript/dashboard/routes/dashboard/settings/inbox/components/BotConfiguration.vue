@@ -13,9 +13,9 @@
         <div class="w-[60%]">
           <label>
             <select v-model="selectedAgentBotId">
-              <option value="" disabled selected>{{
-                $t('AGENT_BOTS.BOT_CONFIGURATION.SELECT_PLACEHOLDER')
-              }}</option>
+              <option value="" disabled selected>
+                {{ $t('AGENT_BOTS.BOT_CONFIGURATION.SELECT_PLACEHOLDER') }}
+              </option>
               <option
                 v-for="agentBot in agentBots"
                 :key="agentBot.id"
@@ -50,8 +50,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import SettingsSection from 'dashboard/components/SettingsSection';
-import LoadingState from 'dashboard/components/widgets/LoadingState';
+import SettingsSection from 'dashboard/components/SettingsSection.vue';
+import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 
 export default {

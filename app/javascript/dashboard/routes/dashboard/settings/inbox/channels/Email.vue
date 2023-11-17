@@ -21,11 +21,11 @@
   <forward-to-option v-else-if="provider === 'other_provider'" />
 </template>
 <script>
-import ForwardToOption from './emailChannels/ForwardToOption';
-import Microsoft from './emailChannels/Microsoft';
+import ForwardToOption from './emailChannels/ForwardToOption.vue';
+import Microsoft from './emailChannels/Microsoft.vue';
 import { mapGetters } from 'vuex';
 import ChannelSelector from 'dashboard/components/ChannelSelector.vue';
-import PageHeader from '../../SettingsSubPageHeader';
+import PageHeader from '../../SettingsSubPageHeader.vue';
 
 export default {
   components: {

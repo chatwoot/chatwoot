@@ -71,7 +71,7 @@
       "SUBMIT": "Importer",
       "CANCEL": "Annuler"
     },
-    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+    "SUCCESS_MESSAGE": "Vous serez notifié par e-mail lorsque l'importation sera terminée.",
     "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer"
   },
   "EXPORT_CONTACTS": {
@@ -203,6 +203,10 @@
         "LABEL": "Message",
         "PLACEHOLDER": "Ecrivez votre message ici",
         "ERROR": "Le message ne peut être vide"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Choisir les fichiers",
+        "HELP_TEXT": "Glissez et déposez des fichiers ici ou choisissez les fichiers à joindre"
       },
       "SUBMIT": "Envoyer un message",
       "CANCEL": "Annuler",
@@ -343,17 +347,17 @@
     "DESCRIPTION": "Fusionner les contacts pour combiner deux profils en un, y compris tous les attributs et conversations. En cas de conflit, les attributs du contact principal auront priorité.",
     "PRIMARY": {
       "TITLE": "Contact principal",
-      "HELP_LABEL": "À conserver"
+      "HELP_LABEL": "A supprimer"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Contact à fusionner",
       "PLACEHOLDER": "Rechercher un contact",
-      "HELP_LABEL": "A supprimer"
+      "HELP_LABEL": "À conserver"
     },
     "SUMMARY": {
       "TITLE": "Résumé",
-      "DELETE_WARNING": "Le contact de <strong>%{childContactName}</strong> sera supprimé.",
-      "ATTRIBUTE_WARNING": "Les coordonnées de <strong>%{childContactName}</strong> seront copiées vers <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Le contact de <strong>%{primaryContactName}</strong> sera supprimé.",
+      "ATTRIBUTE_WARNING": "Les coordonnées de <strong>%{primaryContactName}</strong> seront copiées vers <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"

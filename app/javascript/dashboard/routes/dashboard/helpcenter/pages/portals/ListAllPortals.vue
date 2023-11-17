@@ -53,10 +53,10 @@
 <script>
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
-import PortalListItem from '../../components/PortalListItem';
+import PortalListItem from '../../components/PortalListItem.vue';
 import Spinner from 'shared/components/Spinner.vue';
-import EmptyState from 'dashboard/components/widgets/EmptyState';
-import AddLocale from '../../components/AddLocale';
+import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
+import AddLocale from '../../components/AddLocale.vue';
 import { buildPortalURL } from 'dashboard/helper/portalHelper';
 
 export default {

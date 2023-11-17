@@ -14,7 +14,7 @@
 
 <script>
 /* global FB */
-import SettingsSection from '../../../../../components/SettingsSection';
+import SettingsSection from '../../../../../components/SettingsSection.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
@@ -80,7 +80,7 @@ export default {
         },
         {
           scope:
-            'pages_manage_metadata,pages_messaging,instagram_basic,pages_show_list,pages_read_engagement,instagram_manage_messages',
+            'pages_manage_metadata,business_management,pages_messaging,instagram_basic,pages_show_list,pages_read_engagement,instagram_manage_messages',
           auth_type: 'reauthorize',
         }
       );

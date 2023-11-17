@@ -19,7 +19,7 @@ export const AUTOMATIONS = {
         key: 'content',
         name: 'Message Content',
         attributeI18nKey: 'MESSAGE_CONTAINS',
-        inputType: 'plain_text',
+        inputType: 'comma_separated_plain_text',
         filterOperators: OPERATOR_TYPES_2,
       },
       {
@@ -66,6 +66,11 @@ export const AUTOMATIONS = {
         key: 'add_label',
         name: 'Add a label',
         attributeI18nKey: 'ADD_LABEL',
+      },
+      {
+        key: 'remove_label',
+        name: 'Remove a label',
+        attributeI18nKey: 'REMOVE_LABEL',
       },
       {
         key: 'send_email_to_team',
@@ -554,6 +559,11 @@ export const AUTOMATION_ACTION_TYPES = [
   {
     key: 'add_label',
     label: 'Add a label',
+    inputType: 'multi_select',
+  },
+  {
+    key: 'remove_label',
+    label: 'Remove a label',
     inputType: 'multi_select',
   },
   {
