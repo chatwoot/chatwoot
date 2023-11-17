@@ -1,15 +1,15 @@
 {
   "FILTER": {
     "TITLE": "Filtrar conversaciones",
-    "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
+    "SUBTITLE": "Añada sus filtros a continuación y pulse 'Aplicar filtros' para cortar el caos del chat.",
     "EDIT_CUSTOM_FILTER": "Editar carpeta",
     "CUSTOM_VIEWS_SUBTITLE": "Agregar o eliminar filtros y actualizar la carpeta.",
-    "ADD_NEW_FILTER": "Add filter",
-    "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
+    "ADD_NEW_FILTER": "Añadir Filtro",
+    "FILTER_DELETE_ERROR": "¡Vaya, parece que no podemos guardar nada! Por favor, añade al menos un filtro para guardarlo.",
     "SUBMIT_BUTTON_LABEL": "Aplicar filtros",
     "UPDATE_BUTTON_LABEL": "Actualizar carpeta",
     "CANCEL_BUTTON_LABEL": "Cancelar",
-    "CLEAR_BUTTON_LABEL": "Clear filters",
+    "CLEAR_BUTTON_LABEL": "Limpiar filtros",
     "FOLDER_LABEL": "Nombre de la carpeta",
     "FOLDER_QUERY_LABEL": "Consulta de carpetas",
     "EMPTY_VALUE_ERROR": "El valor es requerido.",
@@ -36,15 +36,15 @@
     },
     "ATTRIBUTES": {
       "STATUS": "Estado",
-      "ASSIGNEE_NAME": "Assignee name",
+      "ASSIGNEE_NAME": "Nombre Asignado",
       "INBOX_NAME": "Nombre de la bandeja de entrada",
       "TEAM_NAME": "Nombre del equipo",
-      "CONVERSATION_IDENTIFIER": "Conversation identifier",
-      "CAMPAIGN_NAME": "Campaign name",
+      "CONVERSATION_IDENTIFIER": "Identificador de conversacion",
+      "CAMPAIGN_NAME": "Nombre de Campaña",
       "LABELS": "Etiquetas",
-      "BROWSER_LANGUAGE": "Browser language",
+      "BROWSER_LANGUAGE": "Idioma del navegador",
       "PRIORITY": "Prioridad",
-      "COUNTRY_NAME": "Country name",
+      "COUNTRY_NAME": "Nombre del país",
       "REFERER_LINK": "Enlace de referencia",
       "CUSTOM_ATTRIBUTE_LIST": "Lista",
       "CUSTOM_ATTRIBUTE_TEXT": "Texto",
@@ -55,15 +55,15 @@
       "LAST_ACTIVITY": "Última actividad"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standard filters",
-      "ADDITIONAL_FILTERS": "Additional filters",
-      "CUSTOM_ATTRIBUTES": "Custom attributes"
+      "STANDARD_FILTERS": "Filtros estándar",
+      "ADDITIONAL_FILTERS": "Filtros adicionales",
+      "CUSTOM_ATTRIBUTES": "Atributos personalizados"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
         "TITLE": "¿Desea guardar este filtro?",
         "LABEL": "Nombre de este filtro",
-        "PLACEHOLDER": "Name your filter to refer it later.",
+        "PLACEHOLDER": "Nombre su filtro para referirse más tarde.",
         "ERROR_MESSAGE": "El nombre es requerido.",
         "SAVE_BUTTON": "Guardar filtro",
         "CANCEL_BUTTON": "Cancelar",
@@ -85,7 +85,7 @@
           "CONFIRM": {
             "TITLE": "Confirme eliminación",
             "MESSAGE": "¿Está seguro de que desea eliminar el filtro ",
-            "YES": "Yes, delete",
+            "YES": "Sí, eliminar",
             "NO": "No, mantenerlo"
           }
         },
