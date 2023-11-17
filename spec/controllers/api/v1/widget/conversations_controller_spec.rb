@@ -168,8 +168,12 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
   describe 'POST /api/v1/widget/conversations/update_last_seen' do
     context 'with a conversation' do
       it 'returns the correct conversation params' do
+        current_time = DateTime.now.utc
+        allow(DateTime).to receive(:now).and_return(current_time)
+
         allow(Rails.configuration.dispatcher).to receive(:dispatch)
         expect(conversation.contact_last_seen_at).to be_nil
+        expect(Conversations::UpdateMessageStatusJob).to receive(:perform_later).with(conversation.id, current_time)
 
         post '/api/v1/widget/conversations/update_last_seen',
              headers: { 'X-Auth-Token' => token },

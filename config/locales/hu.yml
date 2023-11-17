@@ -50,7 +50,7 @@ hu:
     dyte:
       invalid_message_type: "Hibás üzenet típus. Kérés elutasítva"
     slack:
-      invalid_channel_id: "Invalid slack channel. Please try again"
+      invalid_channel_id: "Érvénytelen Slack csatorna. Kérjük, próbálja újra"
     inboxes:
       imap:
         socket_error: Kérlek ellenőrizd a hálózati kapcsolatot, az IMAP címet, majd próbáld újra.
@@ -110,6 +110,8 @@ hu:
       instagram_story_content: "%{story_sender} megemlített egy storyban: "
       instagram_deleted_story_content: Ez a story már nem érhető el.
       deleted: Az üzenet törölve lett
+      delivery_status:
+        error_code: "Hibakód: %{error_code}"
     activity:
       status:
         resolved: "A beszélgetést lezárta %{user_name}"
@@ -202,3 +204,12 @@ hu:
       made_with: 'Ezzel készítve: '
     header:
       go_to_homepage: Irány a főoldal
+  slack_unfurl:
+    fields:
+      name: Név
+      email: E-mail
+      phone_number: Telefon
+      company_name: Cég
+      inbox_name: Fiók
+      inbox_type: Beérkezett üzenetek típusa
+    button: Beszélgetés megnyitása

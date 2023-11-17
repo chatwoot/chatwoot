@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_01_180936) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_13_072802) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -231,6 +231,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_01_180936) do
     t.string "slug", null: false
     t.bigint "parent_category_id"
     t.bigint "associated_category_id"
+    t.string "icon", default: ""
     t.index ["associated_category_id"], name: "index_categories_on_associated_category_id"
     t.index ["locale", "account_id"], name: "index_categories_on_locale_and_account_id"
     t.index ["locale"], name: "index_categories_on_locale"
@@ -661,7 +662,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_01_180936) do
     t.integer "message_type", null: false
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.boolean "private", default: false
+    t.boolean "private", default: false, null: false
     t.integer "status", default: 0
     t.string "source_id"
     t.integer "content_type", default: 0, null: false

@@ -45,6 +45,15 @@
     >
       <div class="menu-container">
         <menu-item
+          v-if="enabledOptions['replyTo']"
+          :option="{
+            icon: 'arrow-reply',
+            label: $t('CONVERSATION.CONTEXT_MENU.REPLY_TO'),
+          }"
+          variant="icon"
+          @click="handleReplyTo"
+        />
+        <menu-item
           v-if="enabledOptions['copy']"
           :option="{
             icon: 'clipboard',
@@ -102,7 +111,10 @@ import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import AddCannedModal from 'dashboard/routes/dashboard/settings/canned/AddCanned.vue';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import { conversationUrl, frontendURL } from '../../../helper/URLHelper';
-import { ACCOUNT_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import {
+  ACCOUNT_EVENTS,
+  CONVERSATION_EVENTS,
+} from '../../../helper/AnalyticsHelper/events';
 import TranslateModal from 'dashboard/components/widgets/conversation/bubble/TranslateModal.vue';
 import MenuItem from '../../../components/widgets/conversation/contextMenu/menuItem.vue';
 
@@ -201,13 +213,17 @@ export default {
         messageId: this.messageId,
         targetLanguage: locale || 'en',
       });
+      this.$track(CONVERSATION_EVENTS.TRANSLATE_A_MESSAGE);
       this.handleClose();
       this.showTranslateModal = true;
+    },
+    handleReplyTo() {
+      this.$emit('replyTo', this.message);
+      this.handleClose();
     },
     onCloseTranslateModal() {
       this.showTranslateModal = false;
     },
-
     openDeleteModal() {
       this.handleClose();
       this.showDeleteModal = true;
