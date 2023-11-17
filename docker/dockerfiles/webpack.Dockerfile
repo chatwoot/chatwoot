@@ -1,4 +1,4 @@
-FROM chatwoot:development
+FROM monacodes/ruutchat:latest
 
 RUN chmod +x docker/entrypoints/webpack.sh
 

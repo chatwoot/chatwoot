@@ -2,7 +2,7 @@ version: '3'
 
 services:
   base: &base
-    image: chatwoot/chatwoot:latest
+    image: monacodes/ruutchat:latest
     env_file: .env ## Change this file for customized env variables
     volumes:
       - /data/storage:/app/storage
@@ -40,7 +40,7 @@ services:
     volumes:
       - /data/postgres:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=chatwoot
+      - POSTGRES_DB=ruutchat
       - POSTGRES_USER=postgres
       # Please provide your own password.
       - POSTGRES_PASSWORD=
@@ -48,7 +48,7 @@ services:
   redis:
     image: redis:alpine
     restart: always
-    command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
+    command: ['sh', '-c', 'redis-server --requirepass "$REDIS_PASSWORD"']
     env_file: .env
     volumes:
       - /data/redis:/data

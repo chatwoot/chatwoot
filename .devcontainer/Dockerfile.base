@@ -1,15 +1,17 @@
 
 ARG VARIANT=ubuntu-20.04
-FROM mcr.microsoft.com/vscode/devcontainers/base:${VARIANT}
+# FROM mcr.microsoft.com/vscode/devcontainers/base:${VARIANT}
+FROM ubuntu:20.04
+
 
 # Update args in docker-compose.yaml to set the UID/GID of the "vscode" user.
-ARG USER_UID=1000
-ARG USER_GID=$USER_UID
-RUN if [ "$USER_GID" != "1000" ] || [ "$USER_UID" != "1000" ]; then \
-        groupmod --gid $USER_GID vscode \
-        && usermod --uid $USER_UID --gid $USER_GID vscode \
-        && chmod -R $USER_UID:$USER_GID /home/vscode; \
-    fi
+# ARG USER_UID=1000
+# ARG USER_GID=$USER_UID
+# RUN if [ "$USER_GID" != "1000" ] || [ "$USER_UID" != "1000" ]; then \
+#         groupmod --gid $USER_GID vscode \
+#         && usermod --uid $USER_UID --gid $USER_GID vscode \
+#         && chmod -R $USER_UID:$USER_GID /home/vscode; \
+#     fi
 
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
   && apt-get -y install --no-install-recommends \
@@ -38,15 +40,19 @@ ENV PATH "/root/.rbenv/bin/:/root/.rbenv/shims/:$PATH"
 RUN git clone https://github.com/rbenv/ruby-build.git && \
     PREFIX=/usr/local ./ruby-build/install.sh
 
+RUN apt-get update && apt-get install -y curl
+
 RUN rbenv install $RUBY_VERSION && \
     rbenv global $RUBY_VERSION && \
     rbenv versions
+#log build logs
+RUN if [ ! -d "$HOME/.rbenv/versions/$RUBY_VERSION" ]; then cat /tmp/ruby-build.20231117061807.19.log; exit 1; fi
 
 # Install overmind
 RUN curl -L https://github.com/DarthSim/overmind/releases/download/v2.1.0/overmind-v2.1.0-linux-amd64.gz > overmind.gz \
   && gunzip overmind.gz \
   && sudo mv overmind /usr/local/bin \
-  && chmod +x /usr/local/bin/overmind 
+  && chmod +x /usr/local/bin/overmind
 
 
 # Install gh
@@ -56,7 +62,7 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | s
    && sudo apt install gh
 
 
-# Do the set up required for chatwoot app 
+# Do the set up required for chatwoot app
 WORKDIR /workspace
 COPY . /workspace
 
