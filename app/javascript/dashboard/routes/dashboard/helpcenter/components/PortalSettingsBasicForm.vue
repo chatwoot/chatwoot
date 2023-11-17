@@ -105,6 +105,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 import { convertToCategorySlug } from 'dashboard/helper/commons.js';
 import { buildPortalURL } from 'dashboard/helper/portalHelper';
 import wootConstants from 'dashboard/constants/globals';
+import { hasValidAvatarUrl } from 'dashboard/helper/URLHelper';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { uploadFile } from 'dashboard/helper/uploadHelper';
 
@@ -179,7 +180,7 @@ export default {
       });
     },
     showDeleteButton() {
-      return this.logoUrl && !this.logoUrl.includes('www.gravatar.com');
+      return hasValidAvatarUrl(this.logoUrl);
     },
   },
   mounted() {
@@ -218,7 +219,7 @@ export default {
       try {
         this.logoUrl = '';
         this.avatarBlobId = '';
-        this.onSubmitClick();
+        this.$emit('delete-logo');
         this.showAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_SUCCESS'));
       } catch (error) {
         this.showAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_FAILED'));

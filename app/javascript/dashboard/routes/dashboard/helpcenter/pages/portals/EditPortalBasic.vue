@@ -7,6 +7,7 @@
       $t('HELP_CENTER.PORTAL.EDIT.EDIT_BASIC_INFO.BUTTON_TEXT')
     "
     @submit="updatePortalSettings"
+    @delete-logo="deleteLogo"
   />
 </template>
 
@@ -62,6 +63,26 @@ export default {
             params: { portalSlug: portalObj.slug },
           });
         }
+      } catch (error) {
+        this.alertMessage =
+          error?.message ||
+          this.$t('HELP_CENTER.PORTAL.ADD.API.ERROR_MESSAGE_FOR_UPDATE');
+      } finally {
+        this.showAlert(this.alertMessage);
+      }
+    },
+    async deleteLogo() {
+      try {
+        const portalSlug = this.lastPortalSlug;
+        await this.$store.dispatch('portals/deleteLogo', {
+          portalSlug,
+        });
+        this.alertMessage = this.$t(
+          'HELP_CENTER.PORTAL.ADD.API.SUCCESS_MESSAGE_FOR_UPDATE'
+        );
+        await this.$store.dispatch('portals/show', {
+          portalSlug,
+        });
       } catch (error) {
         this.alertMessage =
           error?.message ||

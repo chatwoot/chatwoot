@@ -128,6 +128,7 @@
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import { clearCookiesOnLogout } from '../../../../store/utils/api';
+import { hasValidAvatarUrl } from 'dashboard/helper/URLHelper';
 import NotificationSettings from './NotificationSettings.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import ChangePassword from './ChangePassword.vue';
@@ -199,7 +200,7 @@ export default {
       globalConfig: 'globalConfig/get',
     }),
     showDeleteButton() {
-      return this.avatarUrl && !this.avatarUrl.includes('www.gravatar.com');
+      return hasValidAvatarUrl(this.avatarUrl);
     },
   },
   watch: {

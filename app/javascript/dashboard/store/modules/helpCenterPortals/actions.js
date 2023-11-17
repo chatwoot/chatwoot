@@ -89,6 +89,23 @@ export const actions = {
     }
   },
 
+  deleteLogo: async ({ commit }, { portalSlug }) => {
+    commit(types.SET_HELP_PORTAL_UI_FLAG, {
+      uiFlags: { isUpdating: true },
+      portalSlug,
+    });
+    try {
+      await portalAPIs.deleteLogo(portalSlug);
+    } catch (error) {
+      throwErrorMessage(error);
+    } finally {
+      commit(types.SET_HELP_PORTAL_UI_FLAG, {
+        uiFlags: { isUpdating: false },
+        portalSlug,
+      });
+    }
+  },
+
   updatePortal: async ({ commit }, portal) => {
     commit(types.UPDATE_PORTAL_ENTRY, portal);
   },
