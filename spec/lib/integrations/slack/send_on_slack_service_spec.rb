@@ -183,11 +183,11 @@ describe Integrations::Slack::SendOnSlackService do
       it 'sent a template message on slack' do
         builder = described_class.new(message: template_message, hook: hook)
         allow(builder).to receive(:slack_client).and_return(slack_client)
-
+        template_message.update!(sender: nil)
         expect(slack_client).to receive(:chat_postMessage).with(
           channel: hook.reference_id,
           text: template_message.content,
-          username: "#{template_message.sender.name} (Contact)",
+          username: 'Bot',
           thread_ts: conversation.identifier,
           icon_url: anything,
           unfurl_links: true
@@ -195,6 +195,24 @@ describe Integrations::Slack::SendOnSlackService do
 
         builder.perform
 
+        expect(template_message.external_source_id_slack).to eq 'cw-origin-6789.12345'
+      end
+
+      it 'sent a activity message on slack' do
+        template_message.update!(message_type: :activity)
+        template_message.update!(sender: nil)
+        builder = described_class.new(message: template_message, hook: hook)
+        allow(builder).to receive(:slack_client).and_return(slack_client)
+        expect(slack_client).to receive(:chat_postMessage).with(
+          channel: hook.reference_id,
+          text: "_#{template_message.content}_",
+          username: 'System',
+          thread_ts: conversation.identifier,
+          icon_url: anything,
+          unfurl_links: true
+        ).and_return(slack_message)
+
+        builder.perform
         expect(template_message.external_source_id_slack).to eq 'cw-origin-6789.12345'
       end
 
