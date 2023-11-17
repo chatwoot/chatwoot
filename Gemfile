@@ -200,6 +200,8 @@ group :development do
   # profiling
   gem 'rack-mini-profiler', '>= 3.1.1', require: false
   gem 'stackprof'
+  # Should install the associated chrome extension to view query logs
+  gem 'meta_request'
 end
 
 group :test do
