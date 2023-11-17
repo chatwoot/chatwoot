@@ -76,8 +76,8 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Sin categoría",
-      "SEARCH_RESULTS": "Search results for %{query}",
-      "EMPTY_TEXT": "Search for articles to insert into replies.",
+      "SEARCH_RESULTS": "Buscar resultados para %{query}",
+      "EMPTY_TEXT": "Buscar artículos para insertar en las respuestas.",
       "SEARCH_LOADER": "Buscando...",
       "INSERT_ARTICLE": "Insertar",
       "NO_RESULT": "No se encontraron articulos",
@@ -430,19 +430,19 @@
       }
     },
     "ARTICLE_SEARCH": {
-      "TITLE": "Search articles",
-      "PLACEHOLDER": "Search articles",
+      "TITLE": "Buscar artículos",
+      "PLACEHOLDER": "Buscar artículos",
       "NO_RESULT": "No se encontraron articulos",
       "SEARCHING": "Buscando...",
       "SEARCH_BUTTON": "Buscar",
-      "INSERT_ARTICLE": "Insert link",
-      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
-      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
-      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
+      "INSERT_ARTICLE": "Insertar enlace",
+      "IFRAME_ERROR": "La URL está vacía o no es válida. Imposible mostrar el contenido.",
+      "OPEN_ARTICLE_SEARCH": "Insertar artículo del Centro de Ayuda",
+      "SUCCESS_ARTICLE_INSERTED": "Artículo eliminado correctamente",
       "PREVIEW_LINK": "Previsualizar artículo",
       "CANCEL": "Cerrar",
       "BACK": "Atrás",
-      "BACK_RESULTS": "Back to results"
+      "BACK_RESULTS": "Volver a los resultados"
     },
     "UPGRADE_PAGE": {
       "TITLE": "Centro de ayuda",
