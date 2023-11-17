@@ -14,12 +14,12 @@ class Integrations::Facebook::DeliveryStatus
   private
 
   def process_delivery_status
-    timestamp = Time.zone.at(params.delivery_watermark.to_i).to_datetime
+    timestamp = Time.zone.at(params.delivery_watermark.to_i).to_datetime.utc
     ::Conversations::UpdateMessageStatusJob.perform_later(conversation.id, timestamp, :delivered)
   end
 
   def process_read_status
-    timestamp = Time.zone.at(params.read_watermark.to_i).to_datetime
+    timestamp = Time.zone.at(params.read_watermark.to_i).to_datetime.utc
     ::Conversations::UpdateMessageStatusJob.perform_later(conversation.id, timestamp, :read)
   end
 
