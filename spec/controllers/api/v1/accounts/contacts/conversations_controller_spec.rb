@@ -60,6 +60,19 @@ RSpec.describe '/api/v1/accounts/{account.id}/contacts/:id/conversations', type:
           expect(json_response['payload'].length).to eq 0
         end
       end
+
+      context 'when is system user' do
+        let(:system_user) { create(:user, account: account, role: :system) }
+
+        it 'returns conversations from all inboxes' do
+          get "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/conversations", headers: system_user.create_new_auth_token
+
+          expect(response).to have_http_status(:success)
+          json_response = response.parsed_body
+
+          expect(json_response['payload'].length).to eq 4
+        end
+      end
     end
   end
 end

@@ -157,6 +157,27 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(conversation.messages.first.content_type).to eq(params[:content_type])
       end
     end
+
+    context 'when it is an system user authenticated' do
+      let(:system_user) { create(:user, account: account, role: 'system') }
+
+      before do
+        create(:inbox_member, inbox: conversation.inbox, user: system_user)
+      end
+
+      it 'creates a new outgoing message' do
+        params = { content: 'test-message', private: true }
+
+        post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+             params: params,
+             headers: system_user.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.messages.count).to eq(1)
+        expect(conversation.messages.first.content).to eq(params[:content])
+      end
+    end
   end
 
   describe 'GET /api/v1/accounts/{account.id}/conversations/:id/messages' do
