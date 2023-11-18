@@ -96,5 +96,15 @@ describe Twilio::SendOnTwilioService do
       described_class.new(message: message).perform
       expect(messages_double).to have_received(:create).with(hash_including(media_url: [anything]))
     end
+
+    it 'if message is sent from chatwoot fails' do
+      allow(messages_double).to receive(:create).and_raise(Twilio::REST::TwilioError)
+
+      outgoing_message = create(
+        :message, message_type: 'outgoing', inbox: twilio_inbox, account: account, conversation: conversation
+      )
+      described_class.new(message: outgoing_message).perform
+      expect(outgoing_message.reload.status).to eq('failed')
+    end
   end
 end

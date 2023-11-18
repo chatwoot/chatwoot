@@ -10,7 +10,7 @@ RSpec.describe Channel::Telegram do
 
       stub_request(:post, "https://api.telegram.org/bot#{telegram_channel.bot_token}/sendMessage")
         .with(
-          body: 'chat_id=123&text=test&reply_markup='
+          body: 'chat_id=123&text=test&reply_markup=&reply_to_message_id='
         )
         .to_return(
           status: 200,
@@ -32,7 +32,7 @@ RSpec.describe Channel::Telegram do
         .with(
           body: 'chat_id=123&text=test' \
                 '&reply_markup=%7B%22one_time_keyboard%22%3Atrue%2C%22inline_keyboard%22%3A%5B%5B%7B%22text%22%3A%22test%22%2C%22' \
-                'callback_data%22%3A%22test%22%7D%5D%5D%7D'
+                'callback_data%22%3A%22test%22%7D%5D%5D%7D&reply_to_message_id='
         )
         .to_return(
           status: 200,
@@ -41,6 +41,28 @@ RSpec.describe Channel::Telegram do
         )
 
       expect(telegram_channel.send_message_on_telegram(message)).to eq('telegram_123')
+    end
+
+    it 'send text message failed' do
+      message = create(:message, message_type: :outgoing, content: 'test',
+                                 conversation: create(:conversation, inbox: telegram_channel.inbox, additional_attributes: { 'chat_id' => '123' }))
+
+      stub_request(:post, "https://api.telegram.org/bot#{telegram_channel.bot_token}/sendMessage")
+        .with(
+          body: 'chat_id=123&text=test&reply_markup=&reply_to_message_id='
+        )
+        .to_return(
+          status: 403,
+          headers: { 'Content-Type' => 'application/json' },
+          body: {
+            ok: false,
+            error_code: '403',
+            description: 'Forbidden: bot was blocked by the user'
+          }.to_json
+        )
+      telegram_channel.send_message_on_telegram(message)
+      expect(message.reload.status).to eq('failed')
+      expect(message.reload.external_error).to eq('403, Forbidden: bot was blocked by the user')
     end
   end
 
@@ -71,6 +93,20 @@ RSpec.describe Channel::Telegram do
       allow(telegram_attachment_response).to receive(:parsed_response).and_return({ 'result' => [{ 'message_id' => 'telegram_456' }] })
       allow(telegram_channel).to receive(:attachments_request).and_return(telegram_attachment_response)
       expect(telegram_channel.send_message_on_telegram(message)).to eq('telegram_456')
+    end
+
+    it 'send image failed' do
+      telegram_attachment_response = double
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+
+      allow(telegram_attachment_response).to receive(:success?).and_return(false)
+      allow(telegram_attachment_response).to receive(:parsed_response).and_return({ 'ok' => false, 'error_code' => '400',
+                                                                                    'description' => 'Bad Request: invalid file id' })
+      allow(telegram_channel).to receive(:attachments_request).and_return(telegram_attachment_response)
+      telegram_channel.send_message_on_telegram(message)
+      expect(message.reload.status).to eq('failed')
+      expect(message.reload.external_error).to eq('400, Bad Request: invalid file id')
     end
   end
 
