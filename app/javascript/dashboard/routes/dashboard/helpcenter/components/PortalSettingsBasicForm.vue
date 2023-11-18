@@ -220,7 +220,9 @@ export default {
         this.logoUrl = '';
         this.avatarBlobId = '';
         this.$emit('delete-logo');
-        this.showAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_SUCCESS'));
+        this.showAlert(
+          this.$t('HELP_CENTER.PORTAL.ADD.LOGO.IMAGE_UPLOAD_ERROR')
+        );
       } catch (error) {
         this.showAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_FAILED'));
       }
@@ -251,9 +253,7 @@ export default {
           this.onSubmitClick();
         }
         this.showAlert(
-          this.$t(
-            'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.IMAGE_UPLOAD_SUCCESS'
-          )
+          this.$t('HELP_CENTER.PORTAL.ADD.LOGO.IMAGE_UPLOAD_SUCCESS')
         );
       } catch (error) {
         this.showAlert(
