@@ -34,9 +34,7 @@ export default {
       return this.uiFlags.isFetching;
     },
     hookId() {
-      return this.appIntegrations.find(
-        integration => integration.id === 'openai' && !!integration.hooks.length
-      ).hooks[0].id;
+      return this.aiIntegration.id;
     },
     draftMessage() {
       return this.$store.getters['draftMessages/get'](this.draftKey);
