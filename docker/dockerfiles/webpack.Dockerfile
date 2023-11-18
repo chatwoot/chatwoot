@@ -1,7 +1,6 @@
-FROM monacodes/ruutchat:latest
+FROM --platform=linux/amd64 monacodes/ruutchat:latest
 
 RUN chmod +x docker/entrypoints/webpack.sh
 
 EXPOSE 3035
 CMD ["bin/webpack-dev-server"]
- 

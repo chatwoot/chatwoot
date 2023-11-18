@@ -21,6 +21,7 @@ services:
       context: .
       dockerfile: ./docker/dockerfiles/rails.Dockerfile
     image: monacodes/ruutchat-rails:latest
+    platform: linux/amd64
     volumes:
       - ./:/app:delegated
       - node_modules:/app/node_modules
@@ -46,6 +47,7 @@ services:
   sidekiq:
     <<: *base
     image: monacodes/ruutchat-rails:latest
+    platform: linux/amd64
     volumes:
       - ./:/app:delegated
       - node_modules:/app/node_modules
@@ -67,6 +69,7 @@ services:
       context: .
       dockerfile: ./docker/dockerfiles/webpack.Dockerfile
     image: monacodes/ruutchat-webpack:latest
+    platform: linux/amd64
     volumes:
       - ./:/app:delegated
       - node_modules:/app/node_modules # Node modules shared across containers
@@ -96,6 +99,7 @@ services:
 
   redis:
     image: redis:alpine
+    platform: linux/amd64
     restart: always
     command: ['sh', '-c', 'redis-server --requirepass "$REDIS_PASSWORD"']
     env_file: .env
