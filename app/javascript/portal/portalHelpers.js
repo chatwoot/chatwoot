@@ -21,6 +21,84 @@ export const getHeadingsfromTheArticle = () => {
   return rows;
 };
 
+export const generatePortalBgColor = (portalColor, theme) => {
+  const baseColor = theme === 'dark' ? 'black' : 'white';
+  return `color-mix(in srgb, ${portalColor} 20%, ${baseColor})`;
+};
+
+export const generatePortalBg = (portalColor, theme) => {
+  const bgImage = theme === 'dark' ? 'hexagon-dark.svg' : 'hexagon-light.svg';
+  return `background: url(/assets/images/hc/${bgImage}) ${generatePortalBgColor(
+    portalColor,
+    theme
+  )}`;
+};
+
+export const generateGradientToBottom = theme => {
+  return `background-image: linear-gradient(to bottom, transparent, ${
+    theme === 'dark' ? '#151718' : 'white'
+  })`;
+};
+
+export const setPortalStyles = theme => {
+  const portalColor = window.portalConfig.portalColor;
+  const portalBgDiv = document.querySelector('#portal-bg');
+  const portalBgGradientDiv = document.querySelector('#portal-bg-gradient');
+
+  if (portalBgDiv) {
+    // Set background for #portal-bg
+    portalBgDiv.setAttribute('style', generatePortalBg(portalColor, theme));
+  }
+
+  if (portalBgGradientDiv) {
+    // Set gradient background for #portal-bg-gradient
+    portalBgGradientDiv.setAttribute('style', generateGradientToBottom(theme));
+  }
+};
+
+export const setPortalClass = theme => {
+  const portalDiv = document.querySelector('#portal');
+  portalDiv.classList.remove('light', 'dark');
+  if (!portalDiv) return;
+  portalDiv.classList.add(theme);
+};
+
+export const updateThemeStyles = theme => {
+  setPortalStyles(theme);
+  setPortalClass(theme);
+};
+
+export const toggleAppearanceDropdown = () => {
+  const dropdown = document.getElementById('appearance-dropdown');
+  if (!dropdown) return;
+  dropdown.style.display =
+    dropdown.style.display === 'none' || !dropdown.style.display
+      ? 'flex'
+      : 'none';
+};
+
+export const updateURLParameter = (param, paramVal) => {
+  const urlObj = new URL(window.location);
+  urlObj.searchParams.set(param, paramVal);
+  return urlObj.toString();
+};
+
+export const removeURLParameter = parameter => {
+  const urlObj = new URL(window.location);
+  urlObj.searchParams.delete(parameter);
+  return urlObj.toString();
+};
+
+export const switchTheme = theme => {
+  updateThemeStyles(theme);
+  const newUrl =
+    theme !== 'system'
+      ? updateURLParameter('theme', theme)
+      : removeURLParameter('theme');
+  window.location.href = newUrl;
+  toggleAppearanceDropdown();
+};
+
 export const InitializationHelpers = {
   navigateToLocalePage: () => {
     const allLocaleSwitcher = document.querySelector('.locale-switcher');
@@ -36,7 +114,7 @@ export const InitializationHelpers = {
     return false;
   },
 
-  initalizeSearch: () => {
+  initializeSearch: () => {
     const isSearchContainerAvailable = document.querySelector('#search-wrap');
     if (isSearchContainerAvailable) {
       new Vue({
@@ -68,13 +146,52 @@ export const InitializationHelpers = {
     });
   },
 
+  initializeTheme: () => {
+    const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
+    const getThemePreference = () =>
+      mediaQueryList.matches ? 'dark' : 'light';
+    const themeFromServer = window.portalConfig.theme;
+    if (themeFromServer === 'system') {
+      // Handle dynamic theme changes for system theme
+      mediaQueryList.addEventListener('change', event => {
+        const newTheme = event.matches ? 'dark' : 'light';
+        updateThemeStyles(newTheme);
+      });
+      const themePreference = getThemePreference();
+      updateThemeStyles(themePreference);
+    }
+  },
+
+  initializeToggleButton: () => {
+    const toggleButton = document.getElementById('toggle-appearance');
+    if (toggleButton) {
+      toggleButton.addEventListener('click', toggleAppearanceDropdown);
+    }
+  },
+
+  initializeThemeSwitchButtons: () => {
+    const appearanceDropdown = document.getElementById('appearance-dropdown');
+    if (!appearanceDropdown) return;
+    appearanceDropdown.addEventListener('click', event => {
+      const target = event.target.closest('button[data-theme]');
+
+      if (target) {
+        const theme = target.getAttribute('data-theme');
+        switchTheme(theme);
+      }
+    });
+  },
+
   initialize: () => {
     if (window.portalConfig.isPlainLayoutEnabled === 'true') {
       InitializationHelpers.appendPlainParamToURLs();
     } else {
       InitializationHelpers.navigateToLocalePage();
-      InitializationHelpers.initalizeSearch();
+      InitializationHelpers.initializeSearch();
       InitializationHelpers.initializeTableOfContents();
+      InitializationHelpers.initializeTheme();
+      InitializationHelpers.initializeToggleButton();
+      InitializationHelpers.initializeThemeSwitchButtons();
     }
   },
 

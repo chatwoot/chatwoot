@@ -54,7 +54,9 @@ class ChatGpt
   def request_gpt
     headers = { 'Content-Type' => 'application/json', 'Authorization' => "Bearer #{ENV.fetch('OPENAI_API_KEY')}" }
     body = { model: @model, messages: @messages }.to_json
+    Rails.logger.info "Requesting Chat GPT with body: #{body}"
     response = HTTParty.post("#{self.class.base_uri}/v1/chat/completions", headers: headers, body: body)
+    Rails.logger.info "Chat GPT response: #{response.body}"
     JSON.parse(response.body)
   end
 end

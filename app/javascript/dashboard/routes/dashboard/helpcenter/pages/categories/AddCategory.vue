@@ -21,15 +21,14 @@
             </label>
           </div>
         </div>
-        <woot-input
-          v-model.trim="name"
-          :class="{ error: $v.name.$error }"
-          class="w-full"
-          :error="nameError"
+        <category-name-icon-input
           :label="$t('HELP_CENTER.CATEGORY.ADD.NAME.LABEL')"
           :placeholder="$t('HELP_CENTER.CATEGORY.ADD.NAME.PLACEHOLDER')"
           :help-text="$t('HELP_CENTER.CATEGORY.ADD.NAME.HELP_TEXT')"
-          @input="onNameChange"
+          :has-error="$v.name.$error"
+          :error-message="$t('HELP_CENTER.CATEGORY.ADD.NAME.ERROR')"
+          @name-change="onNameChange"
+          @icon-change="onClickInsertEmoji"
         />
         <woot-input
           v-model.trim="slug"
@@ -72,8 +71,10 @@ import alertMixin from 'shared/mixins/alertMixin';
 import { required, minLength } from 'vuelidate/lib/validators';
 import { convertToCategorySlug } from 'dashboard/helper/commons.js';
 import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
+import CategoryNameIconInput from './NameEmojiInput.vue';
 
 export default {
+  components: { CategoryNameIconInput },
   mixins: [alertMixin],
   props: {
     show: {
@@ -96,6 +97,7 @@ export default {
   data() {
     return {
       name: '',
+      icon: '',
       slug: '',
       description: '',
     };
@@ -115,12 +117,6 @@ export default {
         ? this.$route.params.portalSlug
         : this.portalSlug;
     },
-    nameError() {
-      if (this.$v.name.$error) {
-        return this.$t('HELP_CENTER.CATEGORY.ADD.NAME.ERROR');
-      }
-      return '';
-    },
     slugError() {
       if (this.$v.slug.$error) {
         return this.$t('HELP_CENTER.CATEGORY.ADD.SLUG.ERROR');
@@ -129,7 +125,8 @@ export default {
     },
   },
   methods: {
-    onNameChange() {
+    onNameChange(name) {
+      this.name = name;
       this.slug = convertToCategorySlug(this.name);
     },
     onCreate() {
@@ -138,11 +135,15 @@ export default {
     onClose() {
       this.$emit('cancel');
     },
+    onClickInsertEmoji(emoji) {
+      this.icon = emoji;
+    },
 
     async addCategory() {
-      const { name, slug, description, locale } = this;
+      const { name, slug, description, locale, icon } = this;
       const data = {
         name,
+        icon,
         slug,
         description,
         locale,
