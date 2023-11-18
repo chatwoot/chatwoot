@@ -152,7 +152,7 @@ openai:
       "validation": "required",
     },
     {
-      "label": "Label Suggestions",
+      "label": "Show label suggestions",
       "type": "checkbox",
       "name": "label_suggestion",
       "validation": "",

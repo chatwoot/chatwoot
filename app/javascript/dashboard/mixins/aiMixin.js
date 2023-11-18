@@ -15,10 +15,20 @@ export default {
       currentChat: 'getSelectedChat',
       replyMode: 'draftMessages/getReplyEditorMode',
     }),
-    isAIIntegrationEnabled() {
-      return !!this.appIntegrations.find(
+    aiIntegration() {
+      return this.appIntegrations.find(
         integration => integration.id === 'openai' && !!integration.hooks.length
       );
+    },
+    isAIIntegrationEnabled() {
+      return !!this.aiIntegration;
+    },
+    isLabelSuggestionFeatureEnabled() {
+      if (this.aiIntegration) {
+        const { settings = {} } = this.aiIntegration || {};
+        return settings.label_suggestion;
+      }
+      return false;
     },
     isFetchingAppIntegrations() {
       return this.uiFlags.isFetching;
