@@ -8,7 +8,7 @@
       id="chat-input"
       ref="chatInput"
       v-model="userInput"
-      :rows="4"
+      :rows="1"
       :aria-label="$t('CHAT_PLACEHOLDER')"
       :placeholder="$t('CHAT_PLACEHOLDER')"
       class="form-input user-message-input is-focused"
