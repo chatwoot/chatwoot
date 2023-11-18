@@ -1,75 +1,75 @@
 {
   "CANNED_MGMT": {
     "HEADER": "Răspunsuri predefinite",
-    "HEADER_BTN_TXT": "Adauga Răspunsuri predefinite",
-    "LOADING": "Preluarea Răspunsuri predefinite",
-    "SEARCH_404": "Nu există elemente care să corespundă acestei interogări",
-    "SIDEBAR_TXT": "<p><b>Răspunsuri conservate</b> </p><p> Răspunsurile conservate sunt șabloane de răspuns salvate care pot fi utilizate pentru a trimite rapid un răspuns la o conversație. </p><p> Pentru a crea un răspuns conservat, trebuie doar să faceți clic pe <b>Adăugare răspuns conservat</b>. De asemenea, puteți edita sau șterge un răspuns conservat existent făcând clic pe butonul Editare sau Ștergere </p><p> Răspunsurile conservate sunt utilizate cu ajutorul <b>codurilor scurte</b>. Agenții pot accesa răspunsurile conservate în timp ce se află pe un chat tastând <b>\"/\"</b> urmat de codul scurt. </p>",
+    "HEADER_BTN_TXT": "Add canned response",
+    "LOADING": "Fetching canned responses...",
+    "SEARCH_404": "Nu există elemente care să corespundă acestei interogări.",
+    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are pre-written reply templates that help you quickly respond to a conversation. To insert a canned response during a chat, agents can type a short code preceded by a '/' character. </p><p> You can manage your canned responses from this page or create new ones using the \"Add canned response\" button.</p><p>Open the <a target=\"_blank\" href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677501325-how-to-create-saved-reply-templates-with-canned-responses\">Canned Responses handbook</a> in another tab for a helping hand.</p><p>Also, check out the all-new <a href=\"https://www.chatwoot.com/tools/canned-responses-library\" target=\"_blank\">Canned Responses Library</a>.</p>",
     "LIST": {
       "404": "Nu există răspunsuri predefinite disponibile în acest cont.",
       "TITLE": "Gestionare Răspunsuri predefinite",
-      "DESC": "Răspunsurile predefinite sunt șabloane de răspuns predefinite, care pot fi utilizate pentru a trimite rapid răspunsuri la tichete.",
+      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
       "TABLE_HEADER": [
-        "Cod scurt",
+        "Short code",
         "Conținut",
         "Acțiuni"
       ]
     },
     "ADD": {
-      "TITLE": "Adauga Răspunsuri predefinite",
-      "DESC": "Răspunsurile conservate sunt salvate șabloane de răspuns care pot fi utilizate pentru a trimite rapid răspuns la conversație.",
+      "TITLE": "Add canned response",
+      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
       "CANCEL_BUTTON_TEXT": "Renunță",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Cod scurt",
-          "PLACEHOLDER": "Vă rugăm să introduceți un cod scurt",
-          "ERROR": "Codul scurt este necesar"
+          "LABEL": "Short code",
+          "PLACEHOLDER": "Please enter a short code.",
+          "ERROR": "Short Code is required."
         },
         "CONTENT": {
-          "LABEL": "Conținut",
-          "PLACEHOLDER": "Te rugăm să introduci un conținut",
-          "ERROR": "Conținutul este obligatoriu"
+          "LABEL": "Mesaj",
+          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
+          "ERROR": "Message is required."
         },
         "SUBMIT": "Trimite"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Răspuns predefinit adaugat cu succes",
-        "ERROR_MESSAGE": "Nu s-a putut crea un răspuns predefinit, Vă rugăm să încercați din nou mai târziu"
+        "SUCCESS_MESSAGE": "Canned response added successfully.",
+        "ERROR_MESSAGE": "Nu s-a putut conecta la serverul Woot. Vă rugăm să încercați din nou."
       }
     },
     "EDIT": {
-      "TITLE": "Adauga Răspunsuri predefinite",
+      "TITLE": "Edit canned response",
       "CANCEL_BUTTON_TEXT": "Renunță",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Cod scurt",
-          "PLACEHOLDER": "Te rugăm să introduci un cod scurt",
-          "ERROR": "Este necesar un cod scurt"
+          "LABEL": "Short code",
+          "PLACEHOLDER": "Please enter a shortcode.",
+          "ERROR": "Short code is required."
         },
         "CONTENT": {
-          "LABEL": "Conținut",
-          "PLACEHOLDER": "Te rugăm să introduci un conținut",
-          "ERROR": "Conținutul este obligatoriu"
+          "LABEL": "Mesaj",
+          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
+          "ERROR": "Este necesar un mesaj."
         },
         "SUBMIT": "Trimite"
       },
       "BUTTON_TEXT": "Editare",
       "API": {
-        "SUCCESS_MESSAGE": "Răspuns predefinit actualizat cu succes",
-        "ERROR_MESSAGE": "Nu a fost posibilă actualizarea răspunsului predefinit, Vă rugăm să încercați din nou mai târziu"
+        "SUCCESS_MESSAGE": "Canned response is updated successfully.",
+        "ERROR_MESSAGE": "Nu s-a putut conecta la serverul Woot. Vă rugăm să încercați din nou."
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Şterge",
       "API": {
-        "SUCCESS_MESSAGE": "Răspunsul predefinit a fost sters",
-        "ERROR_MESSAGE": "Nu a fost posibilă ștergerea răspunsului predefinit, vă rugăm să încercați din nou mai târziu"
+        "SUCCESS_MESSAGE": "Canned response deleted successfully.",
+        "ERROR_MESSAGE": "Nu s-a putut conecta la serverul Woot. Vă rugăm să încercați din nou."
       },
       "CONFIRM": {
         "TITLE": "Confirmă ștergerea",
         "MESSAGE": "Sigur doriți să ștergeți ",
-        "YES": "Da, șterge ",
-        "NO": "Nu, păstreaza "
+        "YES": "Yes, delete ",
+        "NO": "No, keep "
       }
     }
   }
