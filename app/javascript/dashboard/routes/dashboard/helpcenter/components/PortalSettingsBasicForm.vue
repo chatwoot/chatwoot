@@ -250,7 +250,6 @@ export default {
           // this.onImageInsertInEditor(fileUrl);
           this.logoUrl = fileUrl;
           this.avatarBlobId = blobId;
-          this.onSubmitClick();
         }
         this.showAlert(
           this.$t('HELP_CENTER.PORTAL.ADD.LOGO.IMAGE_UPLOAD_SUCCESS')

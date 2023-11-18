@@ -80,9 +80,6 @@ export default {
         this.alertMessage = this.$t(
           'HELP_CENTER.PORTAL.ADD.API.SUCCESS_MESSAGE_FOR_UPDATE'
         );
-        await this.$store.dispatch('portals/show', {
-          portalSlug,
-        });
       } catch (error) {
         this.alertMessage =
           error?.message ||
