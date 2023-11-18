@@ -101,7 +101,7 @@
       <transition name="modal-fade">
         <div
           v-show="$refs.upload && $refs.upload.dropActive"
-          class="flex items-center justify-center gap-2 fixed left-0 right-0 top-0 bottom-0 w-full h-full z-20 text-slate-600 dark:text-slate-200 bg-white_transparent dark:bg-black_transparent flex-col"
+          class="fixed top-0 bottom-0 left-0 right-0 z-20 flex flex-col items-center justify-center w-full h-full gap-2 text-slate-600 dark:text-slate-200 bg-white_transparent dark:bg-black_transparent"
         >
           <fluent-icon icon="cloud-backup" size="40" />
           <h4 class="page-sub-title text-slate-600 dark:text-slate-200">
@@ -109,6 +109,16 @@
           </h4>
         </div>
       </transition>
+      <woot-button
+        v-if="enableInsertArticleInReply"
+        v-tooltip.top-end="$t('HELP_CENTER.ARTICLE_SEARCH.OPEN_ARTICLE_SEARCH')"
+        icon="document-text-link"
+        color-scheme="secondary"
+        variant="smooth"
+        size="small"
+        :title="$t('HELP_CENTER.ARTICLE_SEARCH.OPEN_ARTICLE_SEARCH')"
+        @click="toggleInsertArticle"
+      />
     </div>
     <div class="right-wrap">
       <woot-button
@@ -233,6 +243,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    portalSlug: {
+      type: String,
+      required: true,
+    },
   },
   computed: {
     ...mapGetters({
@@ -299,13 +313,20 @@ export default {
       return !this.isOnPrivateNote;
     },
     sendWithSignature() {
-      const { send_with_signature: isEnabled } = this.uiSettings;
-      return isEnabled;
+      // channelType is sourced from inboxMixin
+      return this.fetchSignatureFlagFromUiSettings(this.channelType);
     },
     signatureToggleTooltip() {
       return this.sendWithSignature
         ? this.$t('CONVERSATION.FOOTER.DISABLE_SIGN_TOOLTIP')
         : this.$t('CONVERSATION.FOOTER.ENABLE_SIGN_TOOLTIP');
+    },
+    enableInsertArticleInReply() {
+      const isFeatEnabled = this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.INSERT_ARTICLE_IN_REPLY
+      );
+      return isFeatEnabled && this.portalSlug;
     },
   },
   mounted() {
@@ -318,12 +339,13 @@ export default {
       }
     },
     toggleMessageSignature() {
-      this.updateUISettings({
-        send_with_signature: !this.sendWithSignature,
-      });
+      this.setSignatureFlagForInbox(this.channelType, !this.sendWithSignature);
     },
     replaceText(text) {
       this.$emit('replace-text', text);
+    },
+    toggleInsertArticle() {
+      this.$emit('toggle-insert-article');
     },
   },
 };
