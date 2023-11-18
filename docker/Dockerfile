@@ -104,7 +104,7 @@ RUN apk update && apk add --no-cache \
   && gem install bundler
 
 RUN if [ "$RAILS_ENV" != "production" ]; then \
-  apk add --no-cache nodejs yarn; \
+  apk add --no-cache nodejs-current yarn; \
   fi
 
 COPY --from=pre-builder /gems/ /gems/
