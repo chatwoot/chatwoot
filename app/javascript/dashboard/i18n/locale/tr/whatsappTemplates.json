@@ -1,25 +1,25 @@
 {
     "WHATSAPP_TEMPLATES": {
         "MODAL": {
-            "TITLE": "Whatsapp Templates",
-            "SUBTITLE": "Select the whatsapp template you want to send",
-            "TEMPLATE_SELECTED_SUBTITLE": "Process %{templateName}"
+            "TITLE": "WhatsApp Şablonları",
+            "SUBTITLE": "Göndermek istediğiniz WhatsApp şablonunu seçin",
+            "TEMPLATE_SELECTED_SUBTITLE": "%{templateName} işleniyor"
         },
         "PICKER": {
-            "SEARCH_PLACEHOLDER": "Search Templates",
-            "NO_TEMPLATES_FOUND": "No templates found for",
+            "SEARCH_PLACEHOLDER": "Şablon Ara",
+            "NO_TEMPLATES_FOUND": "İçin hiç şablon bulunamadı",
             "LABELS": {
-                "LANGUAGE": "Language",
-                "TEMPLATE_BODY": "Template Body",
-                "CATEGORY": "Category"
+                "LANGUAGE": "Dil",
+                "TEMPLATE_BODY": "Şablon İçeriği",
+                "CATEGORY": "Kategori"
             }
         },
         "PARSER": {
-            "VARIABLES_LABEL": "Variables",
-            "VARIABLE_PLACEHOLDER": "Enter %{variable} value",
-            "GO_BACK_LABEL": "Go Back",
-            "SEND_MESSAGE_LABEL": "Send Message",
-            "FORM_ERROR_MESSAGE": "Please fill all variables before sending"
+            "VARIABLES_LABEL": "Değişkenler",
+            "VARIABLE_PLACEHOLDER": "%{variable} değerini girin",
+            "GO_BACK_LABEL": "Geri Git",
+            "SEND_MESSAGE_LABEL": "Mesaj Gönder",
+            "FORM_ERROR_MESSAGE": "Lütfen göndermeden önce tüm değişkenleri doldurun"
         }
     }
 }
