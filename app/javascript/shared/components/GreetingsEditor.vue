@@ -17,7 +17,7 @@
     <resizable-text-area
       v-else
       v-model="greetingsMessage"
-      rows="4"
+      rows="2"
       type="text"
       class="greetings--textarea"
       :label="label"

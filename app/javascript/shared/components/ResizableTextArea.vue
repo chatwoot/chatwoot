@@ -3,10 +3,7 @@
     ref="textarea"
     :placeholder="placeholder"
     class="overflow-x-hidden overflow-y-auto max-h-[inherit] w-full border-0 focus:border-0 active:outline-0 focus-within:outline-0 resize-none m-0 p-0"
-    :style="{
-      minHeight: `${minHeight}rem`,
-    }"
-    rows="1"
+    :rows="rows"
     :value="value"
     @input="onInput"
     @focus="onFocus"
@@ -23,6 +20,7 @@ import {
 } from 'dashboard/helper/editorHelper';
 
 const TYPING_INDICATOR_IDLE_TIME = 4000;
+const MIN_HEIGHT = 3;
 export default {
   props: {
     placeholder: {
@@ -33,9 +31,9 @@ export default {
       type: String,
       default: '',
     },
-    minHeight: {
+    rows: {
       type: Number,
-      default: 3,
+      default: 2,
     },
     signature: {
       type: String,
@@ -101,7 +99,7 @@ export default {
     resizeTextarea() {
       this.$el.style.height = 'auto';
       if (!this.value) {
-        this.$el.style.height = `${this.minHeight}rem`;
+        this.$el.style.height = `${MIN_HEIGHT}rem`;
       } else {
         this.$el.style.height = `${this.$el.scrollHeight}px`;
       }

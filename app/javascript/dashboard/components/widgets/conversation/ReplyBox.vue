@@ -63,7 +63,6 @@
         v-model="message"
         class="input max-h-64 pt-4 pb-2"
         :placeholder="messagePlaceHolder"
-        :min-height="4"
         :signature="signatureToApply"
         :allow-signature="true"
         :send-with-signature="sendWithSignature"
