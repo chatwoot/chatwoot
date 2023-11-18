@@ -117,6 +117,7 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { REPLY_POLICY } from 'shared/constants/links';
 import wootConstants from 'dashboard/constants/globals';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 export default {
   components: {
@@ -155,14 +156,14 @@ export default {
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
-      currentChat: 'getSelectedChat',
       allConversations: 'getAllConversations',
+      appIntegrations: 'integrations/getAppIntegrations',
+      currentAccountId: 'getCurrentAccountId',
+      currentChat: 'getSelectedChat',
       inboxesList: 'inboxes/getInboxes',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       listLoadingStatus: 'getAllMessagesLoaded',
       loadingChatList: 'getChatListLoadingStatus',
-      appIntegrations: 'integrations/getAppIntegrations',
-      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
-      currentAccountId: 'getCurrentAccountId',
     }),
     isOpen() {
       return this.currentChat?.status === wootConstants.STATUS_TYPE.OPEN;
@@ -170,7 +171,7 @@ export default {
     shouldShowLabelSuggestions() {
       const isFeatureEnabled = this.isFeatureEnabledonAccount(
         this.accountId,
-        FEATURE_FLAGS.LabelSuggestion
+        FEATURE_FLAGS.LABEL_SUGGESTIONS
       );
 
       return (
@@ -334,7 +335,7 @@ export default {
     async fetchSuggestions() {
       const isFeatureEnabled = this.isFeatureEnabledonAccount(
         this.accountId,
-        FEATURE_FLAGS.LabelSuggestion
+        FEATURE_FLAGS.LABEL_SUGGESTIONS
       );
 
       if (!isFeatureEnabled) return;

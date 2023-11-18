@@ -19,7 +19,9 @@ module Enterprise::Integrations::OpenaiProcessorService
   private
 
   def labels_with_messages
-    return nil unless valid_conversation?
+    conversation = find_conversation
+
+    return nil unless valid_conversation?(conversation)
 
     labels = hook.account.labels.pluck(:title).join(', ')
     character_count = labels.length
@@ -32,8 +34,7 @@ module Enterprise::Integrations::OpenaiProcessorService
     "Messages:\n#{messages}\nLabels:\n#{labels}"
   end
 
-  def valid_conversation?
-    conversation = find_conversation
+  def valid_conversation?(conversation)
     return false if conversation.nil?
     return false if conversation.messages.incoming.count < 3
 
@@ -76,6 +77,6 @@ module Enterprise::Integrations::OpenaiProcessorService
   end
 
   def label_suggestions_enabled?
-    hook.account.feature_enabled?(:openai_label_suggestions)
+    hook.account.feature_enabled?(:label_suggestions)
   end
 end

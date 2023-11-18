@@ -972,7 +972,7 @@ export default {
 @tailwind components;
 @layer components {
   .flex-basis-clamp {
-    flex-basis: clamp(20rem, 4vw + 21.25rem, 27.5rem);
+    flex-basis: clamp(20rem, 4vw + 21.25rem, 23.5rem);
   }
 }
 </style>

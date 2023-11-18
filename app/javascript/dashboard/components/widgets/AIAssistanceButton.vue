@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!isFetchingAppIntegrations">
+  <div v-if="displayAIAssistFeature">
     <div v-if="isAIIntegrationEnabled" class="relative">
       <AIAssistanceCTAButton
         v-if="shouldShowAIAssistCTAButton"
@@ -44,6 +44,7 @@ import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import AIAssistanceCTAButton from './AIAssistanceCTAButton.vue';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 export default {
   components: {
@@ -60,10 +61,18 @@ export default {
   }),
   computed: {
     ...mapGetters({
+      accountId: 'getCurrentAccountId',
       currentChat: 'getSelectedChat',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
     isAICTAModalDismissed() {
       return this.uiSettings.is_open_ai_cta_modal_dismissed;
+    },
+    displayAIAssistFeature() {
+      return (
+        !this.isFetchingAppIntegrations &&
+        this.isFeatureEnabledonAccount(this.accountId, FEATURE_FLAGS.AI_ASSIST)
+      );
     },
     // Display a AI CTA button for admins if the AI integration has not been added yet and the AI assistance modal has not been dismissed.
     shouldShowAIAssistCTAButtonForAdmin() {
