@@ -2,18 +2,18 @@
   "CONTACTS_FILTER": {
     "TITLE": "Kişileri Filtrele",
     "SUBTITLE": "Filtreleri aşağıya ekleyin ve kişileri filtrelemek için 'Gönder' butonuna basın.",
-    "EDIT_CUSTOM_SEGMENT": "Edit Segment",
-    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your segment.",
+    "EDIT_CUSTOM_SEGMENT": "Segmenti Düzenle",
+    "CUSTOM_VIEWS_SUBTITLE": "Filtreler ekleyin veya kaldırın ve segmentinizi güncelleyin.",
     "ADD_NEW_FILTER": "Filtre Ekle",
     "CLEAR_ALL_FILTERS": "Filtreleri Temizle",
     "FILTER_DELETE_ERROR": "Kaydetmek için en az bir filtre ekleyin",
     "SUBMIT_BUTTON_LABEL": "Yolla",
-    "UPDATE_BUTTON_LABEL": "Update Segment",
+    "UPDATE_BUTTON_LABEL": "Segmenti Düzenle",
     "CANCEL_BUTTON_LABEL": "İptal Et",
     "CLEAR_BUTTON_LABEL": "Filtreleri Temizle",
     "EMPTY_VALUE_ERROR": "Değer gereklidir",
-    "SEGMENT_LABEL": "Segment Name",
-    "SEGMENT_QUERY_LABEL": "Segment Query",
+    "SEGMENT_LABEL": "Segment Adı",
+    "SEGMENT_QUERY_LABEL": "Segment Sorgusu",
     "TOOLTIP_LABEL": "Kişileri filtrele",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "VE",
@@ -44,7 +44,7 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Onay Kutusu",
       "CREATED_AT": "Oluşturma",
       "LAST_ACTIVITY": "Son aktivite",
-      "REFERER_LINK": "Referrer link"
+      "REFERER_LINK": "Yönlendiren bağlantısı"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standart Filtreler",
