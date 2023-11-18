@@ -2,6 +2,7 @@ import PortalAPI from 'dashboard/api/helpCenter/portals';
 import { throwErrorMessage } from 'dashboard/store/utils/api';
 import { types } from './mutations';
 const portalAPIs = new PortalAPI();
+
 export const actions = {
   index: async ({ commit }) => {
     try {

@@ -40,18 +40,19 @@ export default {
   methods: {
     async createPortal(portal) {
       try {
+        const { blob_id: blobId } = portal;
         await this.$store.dispatch('portals/create', {
           portal,
+          blob_id: blobId,
         });
 
-        // debugger;
         this.alertMessage = this.$t(
           'HELP_CENTER.PORTAL.ADD.API.SUCCESS_MESSAGE_FOR_BASIC'
         );
-        // this.$router.push({
-        //   name: 'portal_customization',
-        //   params: { portalSlug: portal.slug },
-        // });
+        this.$router.push({
+          name: 'portal_customization',
+          params: { portalSlug: portal.slug },
+        });
         const analyticsPayload = {
           has_custom_domain: portal.domain !== '',
         };
