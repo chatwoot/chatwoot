@@ -32,16 +32,6 @@
                 {{ $t('PROFILE_SETTINGS.DELETE_AVATAR') }}
               </woot-button>
             </div>
-            <woot-button
-              v-if="false"
-              class="ml-3"
-              variant="smooth"
-              color-scheme="secondary"
-              icon="upload"
-              size="small"
-            >
-              {{ $t('HELP_CENTER.PORTAL.ADD.LOGO.UPLOAD_BUTTON') }}
-            </woot-button>
           </div>
           <p
             class="mt-1 mb-0 text-xs text-slate-600 dark:text-slate-400 not-italic"
@@ -216,16 +206,9 @@ export default {
       this.$emit('submit', portal);
     },
     async deleteAvatar() {
-      try {
-        this.logoUrl = '';
-        this.avatarBlobId = '';
-        this.$emit('delete-logo');
-        this.showAlert(
-          this.$t('HELP_CENTER.PORTAL.ADD.LOGO.IMAGE_UPLOAD_ERROR')
-        );
-      } catch (error) {
-        this.showAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_FAILED'));
-      }
+      this.logoUrl = '';
+      this.avatarBlobId = '';
+      this.$emit('delete-logo');
     },
     onFileChange({ file }) {
       if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
@@ -247,18 +230,12 @@ export default {
       try {
         const { fileUrl, blobId } = await uploadFile(file);
         if (fileUrl) {
-          // this.onImageInsertInEditor(fileUrl);
           this.logoUrl = fileUrl;
           this.avatarBlobId = blobId;
         }
-        this.showAlert(
-          this.$t('HELP_CENTER.PORTAL.ADD.LOGO.IMAGE_UPLOAD_SUCCESS')
-        );
       } catch (error) {
         this.showAlert(
-          this.$t(
-            'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.IMAGE_UPLOAD_ERROR'
-          )
+          this.$t('HELP_CENTER.PORTAL.ADD.LOGO.IMAGE_DELETE_ERROR')
         );
       }
     },

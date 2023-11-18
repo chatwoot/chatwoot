@@ -80,8 +80,7 @@ export default {
       } catch (error) {
         this.alertMessage =
           error?.message ||
-          this.$t('HELP_CENTER.PORTAL.ADD.API.ERROR_MESSAGE_FOR_UPDATE');
-      } finally {
+          this.$t('HELP_CENTER.PORTAL.ADD.LOGO.IMAGE_DELETE_ERROR');
         this.showAlert(this.alertMessage);
       }
     },
