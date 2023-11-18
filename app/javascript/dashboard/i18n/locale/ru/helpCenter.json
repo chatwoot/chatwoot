@@ -76,6 +76,9 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Без категории",
+      "SEARCH_RESULTS": "Результаты поиска %{query}",
+      "EMPTY_TEXT": "Search for articles to insert into replies.",
+      "SEARCH_LOADER": "Идёт поиск...",
       "INSERT_ARTICLE": "Вставить",
       "NO_RESULT": "Статьи не найдены",
       "COPY_LINK": "Скопировать ссылку статьи в буфер",
@@ -220,7 +223,10 @@
         "LOGO": {
           "LABEL": "Логотип",
           "UPLOAD_BUTTON": "Загрузить логотип",
-          "HELP_TEXT": "Этот логотип будет показан в заголовке портала."
+          "HELP_TEXT": "Этот логотип будет показан в заголовке портала.",
+          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
+          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
+          "IMAGE_DELETE_ERROR": "Error while deleting logo"
         },
         "NAME": {
           "LABEL": "Имя",
@@ -425,6 +431,21 @@
           "ERROR_MESSAGE": "Не удается удалить категорию"
         }
       }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Поиск статей",
+      "PLACEHOLDER": "Поиск статей",
+      "NO_RESULT": "Статьи не найдены",
+      "SEARCHING": "Идёт поиск...",
+      "SEARCH_BUTTON": "Поиск",
+      "INSERT_ARTICLE": "Вставить ссылку",
+      "IFRAME_ERROR": "URL пуст или недействителен. Невозможно отобразить содержимое.",
+      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
+      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
+      "PREVIEW_LINK": "Предпросмотр статьи",
+      "CANCEL": "Закрыть",
+      "BACK": "Назад",
+      "BACK_RESULTS": "Назад к результатам"
     },
     "UPGRADE_PAGE": {
       "TITLE": "Центр поддержки",
