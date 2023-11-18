@@ -15,7 +15,7 @@
     "INITIATED_FROM": "Başlatıldı",
     "INITIATED_AT": "Başlatıldı",
     "IP_ADDRESS": "IP Adresi",
-    "CREATED_AT_LABEL": "Created",
+    "CREATED_AT_LABEL": "Oluşturuldu",
     "NEW_MESSAGE": "Yeni Mesaj",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Bu kişiyle ilişkilendirilmiş önceki görüşme yok.",
@@ -34,14 +34,14 @@
         "TITLE": "Etiketler ekleyin",
         "PLACEHOLDER": "Etiketleri ara",
         "NO_RESULT": "Etiket bulunamadı",
-        "CREATE_LABEL": "Create new label"
+        "CREATE_LABEL": "Yeni etiket oluştur"
       }
     },
     "MERGE_CONTACT": "Kişileri birleştir",
     "CONTACT_ACTIONS": "Kişi Eylemleri",
     "MUTE_CONTACT": "Konuşmayı Sessize Al",
     "UNMUTE_CONTACT": "Konuşmanın Sesini Aç",
-    "MUTED_SUCCESS": "Bu konuşma 6 saatliğine sessize alınır",
+    "MUTED_SUCCESS": "Bu konuşma 6 saatliğine sessize alındı",
     "UNMUTED_SUCCESS": "Bu görüşmenin sesi kapatıldı",
     "SEND_TRANSCRIPT": "Transkript Gönder",
     "EDIT_LABEL": "Düzenle",
@@ -59,45 +59,45 @@
   "CREATE_CONTACT": {
     "BUTTON_LABEL": "Yeni Kişi",
     "TITLE": "Yeni kişi oluştur",
-    "DESC": "Kişi hakkındaki temel bilgileri giriniz."
+    "DESC": "Kişi hakkındaki temel bilgileri girin."
   },
   "IMPORT_CONTACTS": {
     "BUTTON_LABEL": "İçe Aktar",
     "TITLE": "Kişileri İçe Aktar",
     "DESC": "Kişileri CSV dosyası olarak içe aktar.",
-    "DOWNLOAD_LABEL": "Örnek csv dosyası indir.",
+    "DOWNLOAD_LABEL": "Örnek CSV dosyası indir.",
     "FORM": {
       "LABEL": "CSV Dosyası",
       "SUBMIT": "İçe Aktar",
       "CANCEL": "İptal Et"
     },
-    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+    "SUCCESS_MESSAGE": "İçe aktarma işlemi tamamlandığında e-posta ile bildirileceksiniz.",
     "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
   },
   "EXPORT_CONTACTS": {
-    "BUTTON_LABEL": "Export",
-    "TITLE": "Export Contacts",
-    "DESC": "Export contacts to a CSV file.",
-    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "BUTTON_LABEL": "Dışa Aktar",
+    "TITLE": "Kişileri Dışa Aktar",
+    "DESC": "Kişileri CSV dosyası olarak dışa aktar.",
+    "SUCCESS_MESSAGE": "Dışa aktarma işlemi devam ediyor, dışa aktarma dosyası indirmeye hazır olduğunda e-posta ile bildirileceksiniz.",
     "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
   },
   "DELETE_NOTE": {
     "CONFIRM": {
-      "TITLE": "Silmeyi onayla",
+      "TITLE": "Silmeyi Onayla",
       "MESSAGE": "Bu notu silmek istediğinizden emin misiniz?",
       "YES": "Evet, Sil",
-      "NO": "Hayır, kalsın"
+      "NO": "Hayır, Sakla"
     }
   },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Kişiyi Sil",
-    "TITLE": "Kişiyi sil",
+    "TITLE": "Kişiyi Sil",
     "DESC": "Kişi ayrıntılarını sil",
     "CONFIRM": {
-      "TITLE": "Silmeyi onayla",
-      "MESSAGE": "Silmek istediğinize emin misiniz ?",
+      "TITLE": "Silmeyi Onayla",
+      "MESSAGE": "Silmek istediğinize emin misiniz?",
       "YES": "Evet, Sil",
-      "NO": "Hayır, Tut"
+      "NO": "Hayır, Sakla"
     },
     "API": {
       "SUCCESS_MESSAGE": "Kişi başarıyla silindi",
@@ -106,7 +106,7 @@
   },
   "CONTACT_FORM": {
     "FORM": {
-      "SUBMIT": "Yolla",
+      "SUBMIT": "Gönder",
       "CANCEL": "İptal Et",
       "AVATAR": {
         "LABEL": "İletişim Avatarı"
@@ -121,36 +121,36 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Kişinin e-posta adresini girin",
-        "LABEL": "E-posta adresi",
+        "LABEL": "E-posta Adresi",
         "DUPLICATE": "Bu e-posta adresi başka bir kişi için kullanılıyor.",
-        "ERROR": "Lütfen geçerli bir tam e-posta adresi."
+        "ERROR": "Lütfen geçerli bir e-posta adresi girin."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Kişinin telefon numarasını girin",
-        "LABEL": "Telefon numarası",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
-        "ERROR": "Telefon numarası boş ya da E.164 formatında olabilir",
-        "DIAL_CODE_ERROR": "Please select a dial code from the list",
-        "DUPLICATE": "Bu telefon numarası başkası tarafından kullanılıyor."
+        "LABEL": "Telefon Numarası",
+        "HELP": "Telefon numarası E.164 formatında olmalıdır, örneğin: +1415555555 [+][ülke kodu][alan kodu][yerel telefon numarası]. Döner kodu listeden seçebilirsiniz.",
+        "ERROR": "Telefon numarası boş olamaz veya E.164 formatında olmalıdır.",
+        "DIAL_CODE_ERROR": "Lütfen listeden bir döner kod seçin",
+        "DUPLICATE": "Bu telefon numarası başka bir kişi tarafından kullanılıyor."
       },
       "LOCATION": {
         "PLACEHOLDER": "Kişinin konumunu girin",
-        "LABEL": "Yer"
+        "LABEL": "Konum"
       },
       "COMPANY_NAME": {
         "PLACEHOLDER": "Şirket adını girin",
         "LABEL": "Şirket Adı"
       },
       "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
+        "PLACEHOLDER": "Ülke adını girin",
         "LABEL": "Ülke Adı",
-        "SELECT_PLACEHOLDER": "Select",
+        "SELECT_PLACEHOLDER": "Seçin",
         "REMOVE": "Kaldır",
-        "SELECT_COUNTRY": "Select Country"
+        "SELECT_COUNTRY": "Ülke Seçin"
       },
       "CITY": {
-        "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
+        "PLACEHOLDER": "Şehir adını girin",
+        "LABEL": "Şehir Adı"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -182,17 +182,17 @@
   },
   "NEW_CONVERSATION": {
     "BUTTON_LABEL": "Görüşmeyi Başlatın",
-    "TITLE": "Yeni görüşme",
+    "TITLE": "Yeni Görüşme",
     "DESC": "Mesaj göndererek yeni bir görüşme başlatın.",
     "NO_INBOX": "Bu kişiyle yeni bir görüşme başlatılamadı.",
     "FORM": {
       "TO": {
-        "LABEL": "ya"
+        "LABEL": "Kime"
       },
       "INBOX": {
-        "LABEL": "Via Inbox",
-        "PLACEHOLDER": "Choose source inbox",
-        "ERROR": "Gelen kutusu seç"
+        "LABEL": "Gelen Kutusu İle",
+        "PLACEHOLDER": "Kaynak gelen kutusunu seçin",
+        "ERROR": "Gelen kutusu seçin"
       },
       "SUBJECT": {
         "LABEL": "Konu",
@@ -201,60 +201,60 @@
       },
       "MESSAGE": {
         "LABEL": "Mesaj",
-        "PLACEHOLDER": "Mesajınızı buraya yazınız",
+        "PLACEHOLDER": "Mesajınızı buraya yazın",
         "ERROR": "Mesaj boş olamaz"
       },
       "ATTACHMENTS": {
-        "SELECT": "Choose files",
-        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+        "SELECT": "Dosyaları seçin",
+        "HELP_TEXT": "Dosyaları buraya sürükleyin veya eklemek için dosyaları seçin"
       },
-      "SUBMIT": "Mesaj yolla",
+      "SUBMIT": "Mesajı Gönder",
       "CANCEL": "İptal Et",
-      "SUCCESS_MESSAGE": "Mesaj yollandı!",
+      "SUCCESS_MESSAGE": "Mesaj başarıyla gönderildi!",
       "GO_TO_CONVERSATION": "Görünüm",
-      "ERROR_MESSAGE": "Yollanamıyor! lütfen tekrar deneyin"
+      "ERROR_MESSAGE": "Gönderilemiyor! Lütfen tekrar deneyin"
     }
   },
   "CONTACTS_PAGE": {
     "HEADER": "Kişiler",
-    "FIELDS": "İletişim alanları",
-    "SEARCH_BUTTON": "Arama",
+    "FIELDS": "İletişim Alanları",
+    "SEARCH_BUTTON": "Ara",
     "SEARCH_INPUT_PLACEHOLDER": "Kişileri arayın",
-    "FILTER_CONTACTS": "Filtre",
+    "FILTER_CONTACTS": "Filtrele",
     "FILTER_CONTACTS_SAVE": "Filtreyi kaydet",
     "FILTER_CONTACTS_DELETE": "Filtreyi sil",
-    "FILTER_CONTACTS_EDIT": "Edit segment",
+    "FILTER_CONTACTS_EDIT": "Segmenti düzenle",
     "LIST": {
-      "LOADING_MESSAGE": "Kişiler yükleniyor ...",
-      "404": "Aramanızla eşleşen kişi yok 🔍",
-      "NO_CONTACTS": "Uygun bir kontak bulunamadı",
+      "LOADING_MESSAGE": "Kişiler yükleniyor...",
+      "404": "Aramanızla eşleşen kişi bulunamadı 🔍",
+      "NO_CONTACTS": "Uygun bir kişi bulunamadı",
       "TABLE_HEADER": {
-        "NAME": "İsim",
-        "PHONE_NUMBER": "Telefon numarası",
+        "NAME": "Ad",
+        "PHONE_NUMBER": "Telefon Numarası",
         "CONVERSATIONS": "Konuşmalar",
-        "LAST_ACTIVITY": "Son aktivite",
-        "CREATED_AT": "Oluşturma",
+        "LAST_ACTIVITY": "Son Aktivite",
+        "CREATED_AT": "Oluşturuldu",
         "COUNTRY": "Ülke",
         "CITY": "Şehir",
-        "SOCIAL_PROFILES": "Sosyal profiller",
+        "SOCIAL_PROFILES": "Sosyal Profiller",
         "COMPANY": "Şirket",
-        "EMAIL_ADDRESS": "E-posta adresi"
+        "EMAIL_ADDRESS": "E-posta Adresi"
       },
-      "VIEW_DETAILS": "Detayları göster"
+      "VIEW_DETAILS": "Detayları Göster"
     }
   },
   "CONTACT_PROFILE": {
-    "BACK_BUTTON": "Kişiler",
+    "BACK_BUTTON": "Kişilere Dön",
     "LOADING": "Kişi profili yükleniyor..."
   },
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "Ekle",
-      "TITLE": "Yeni görev oluşturmak için shift + enter ' a basınız"
+      "TITLE": "Yeni görev oluşturmak için shift + enter'a basın"
     },
     "FOOTER": {
-      "DUE_DATE": "Geçerlilik tarihi",
-      "LABEL_TITLE": "Tip belirle"
+      "DUE_DATE": "Bitiş tarihi",
+      "LABEL_TITLE": "Türü belirle"
     }
   },
   "NOTES": {
@@ -268,16 +268,16 @@
     },
     "ADD": {
       "BUTTON": "Ekle",
-      "PLACEHOLDER": "Not ekle",
-      "TITLE": "Yeni not oluşturmak için shift + enter ' a basınız"
+      "PLACEHOLDER": "Not ekleyin",
+      "TITLE": "Yeni not oluşturmak için shift + enter'a basın"
     },
     "CONTENT_HEADER": {
-      "DELETE": "Notu sil"
+      "DELETE": "Notu Sil"
     }
   },
   "EVENTS": {
     "HEADER": {
-      "TITLE": "Aktiviteler"
+      "TITLE": "Etkinlikler"
     },
     "BUTTON": {
       "PILL_BUTTON_NOTES": "notlar",
@@ -309,7 +309,7 @@
       },
       "VALUE": {
         "LABEL": "Özellik değeri",
-        "PLACEHOLDER": "Eg: 11901 "
+        "PLACEHOLDER": "Örn: 11901 "
       },
       "ADD": {
         "TITLE": "Yeni öznitelik oluştur ",
