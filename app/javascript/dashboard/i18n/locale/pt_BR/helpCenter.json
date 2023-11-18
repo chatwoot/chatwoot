@@ -76,6 +76,9 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Não categorizado",
+      "SEARCH_RESULTS": "Resultados da pesquisa para %{query}",
+      "EMPTY_TEXT": "Procurar artigos para inserir em respostas.",
+      "SEARCH_LOADER": "Procurando...",
       "INSERT_ARTICLE": "Inserir",
       "NO_RESULT": "Nenhum artigo encontrado",
       "COPY_LINK": "Copiar link do artigo para área de transferência",
@@ -220,7 +223,10 @@
         "LOGO": {
           "LABEL": "Logotipo",
           "UPLOAD_BUTTON": "Carregar logotipo",
-          "HELP_TEXT": "Este logotipo será exibido no cabeçalho do portal."
+          "HELP_TEXT": "Este logotipo será exibido no cabeçalho do portal.",
+          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
+          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
+          "IMAGE_DELETE_ERROR": "Error while deleting logo"
         },
         "NAME": {
           "LABEL": "Nome",
@@ -425,6 +431,21 @@
           "ERROR_MESSAGE": "Não é possível excluir a categoria"
         }
       }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Pesquisar artigos",
+      "PLACEHOLDER": "Pesquisar artigos",
+      "NO_RESULT": "Nenhum artigo encontrado",
+      "SEARCHING": "Procurando...",
+      "SEARCH_BUTTON": "Pesquisar",
+      "INSERT_ARTICLE": "Inserir link",
+      "IFRAME_ERROR": "A URL está vazia ou é inválida. Não é possível exibir conteúdo.",
+      "OPEN_ARTICLE_SEARCH": "Inserir artigo na Central de Ajuda",
+      "SUCCESS_ARTICLE_INSERTED": "Artigo publicado com sucesso",
+      "PREVIEW_LINK": "Visualizar artigo",
+      "CANCEL": "Fechar",
+      "BACK": "Anterior",
+      "BACK_RESULTS": "Voltar aos resultados"
     },
     "UPGRADE_PAGE": {
       "TITLE": "Centro de Ajuda",
