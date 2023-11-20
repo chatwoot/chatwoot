@@ -137,6 +137,14 @@ Rails.application.routes.draw do
             collection do
               get :metrics
               get :download
+              get :questions
+            end
+          end
+          resources :csat_templates, only: [:index, :show, :update, :create, :destroy] do
+            collection do
+              get :setting_status
+              get :inboxes
+              patch :toggle_setting
             end
           end
           resources :custom_attribute_definitions, only: [:index, :show, :create, :update, :destroy]
@@ -259,6 +267,8 @@ Rails.application.routes.draw do
             post :toggle_typing
             post :transcript
             get  :toggle_status
+            get :total_csat_questions
+            get :csat_template_status
           end
         end
         resource :contact, only: [:show, :update] do

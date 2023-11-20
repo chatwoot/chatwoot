@@ -18,6 +18,7 @@ const state = {
   conversationParticipants: [],
   conversationLastSeen: null,
   syncConversationsMessages: {},
+  total_csat_questions: 0,
 };
 
 // mutations

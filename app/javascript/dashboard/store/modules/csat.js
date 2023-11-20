@@ -10,6 +10,7 @@ const computeDistribution = (value, total) =>
 
 export const state = {
   records: [],
+  questions: [],
   metrics: {
     totalResponseCount: 0,
     ratingsCount: {
@@ -30,6 +31,9 @@ export const state = {
 export const getters = {
   getCSATResponses(_state) {
     return _state.records;
+  },
+  getCSATQuestions(_state) {
+    return _state.questions;
   },
   getMetrics(_state) {
     return _state.metrics;
@@ -96,6 +100,10 @@ export const actions = {
       commit(types.SET_CSAT_RESPONSE_UI_FLAG, { isFetching: false });
     }
   },
+  getQuestions: async function getQuestions({ commit }, params) {
+    const response = await CSATReports.getQuestions(params);
+    commit(types.SET_CSAT_QUESTIONS, response.data.questions);
+  },
   getMetrics: async function getMetrics({ commit }, params) {
     commit(types.SET_CSAT_RESPONSE_UI_FLAG, { isFetchingMetrics: true });
     try {
@@ -143,6 +151,9 @@ export const mutations = {
       5: ratingsCount['5'] || 0,
     };
     _state.metrics.totalSentMessagesCount = totalSentMessagesCount || 0;
+  },
+  [types.SET_CSAT_QUESTIONS](_state, data) {
+    _state.questions = data || [];
   },
 };
 

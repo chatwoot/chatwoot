@@ -12,6 +12,7 @@ import contact from './contact.json';
 import contactFilters from './contactFilters.json';
 import conversation from './conversation.json';
 import csatMgmt from './csatMgmt.json';
+import csatSettings from './csatSettings.json';
 import emoji from './emoji.json';
 import generalSettings from './generalSettings.json';
 import helpCenter from './helpCenter.json';
@@ -45,6 +46,7 @@ export default {
   ...contactFilters,
   ...conversation,
   ...csatMgmt,
+  ...csatSettings,
   ...emoji,
   ...generalSettings,
   ...helpCenter,

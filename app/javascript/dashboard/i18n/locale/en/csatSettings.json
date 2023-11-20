@@ -1,0 +1,32 @@
+{
+  "CSAT_SETTINGS": {
+    "HEADER": "CSAT Settings",
+    "CARD": {
+      "HEADER": "CSAT",
+      "SETTING_DESCRIPTION": "Enable/Disable SAT(Customer satisfaction) survey after resolving a conversation"
+    },
+    "TEMPLATE": {
+      "TITLE": "Templates",
+      "ADD": "Add template",
+      "EDIT": "Edit template",
+      "PLACEHOLDER": "Add a new question",
+      "DESCRIPTION": "Customise template & ask multiple questions to your customer according to the situation of conversation"
+    },
+    "ADD": {
+      "FORM": {
+        "SUBMIT": "Save"
+      }
+    },
+    "EDIT":{
+      "FORM": {
+        "SUBMIT": "Update"
+      }
+    },
+    "TABLE": {
+      "HEADERS": {
+        "QUESTIONS": "Questions",
+        "INBOX": "Inbox"
+      }
+    }
+  }
+}

@@ -14,6 +14,9 @@ const state = {
     isCreating: false,
   },
   lastMessageId: null,
+  totalCsat: 0,
+  totalAnsweredCsat: 0,
+  csatTemplateEnabled: false,
 };
 
 export default {
