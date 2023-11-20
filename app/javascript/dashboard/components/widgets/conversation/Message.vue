@@ -474,7 +474,12 @@ export default {
       this.showContextMenu = !this.showContextMenu;
     },
     async retrySendMessage() {
-      await this.$store.dispatch('sendMessageWithData', this.data);
+      await this.$store.dispatch('sendMessageWithData', {
+        ...this.data,
+        conversationId: this.data.conversation_id,
+        message: this.data.content,
+        isPrivate: this.data.private,
+      });
     },
     onMediaLoadError() {
       this.hasMediaLoadError = true;
