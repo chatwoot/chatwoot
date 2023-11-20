@@ -1,3 +1,12 @@
+<% category_link_params = {
+      portal_slug: @portal.slug,
+      category_locale: @article.category.locale,
+      category_slug: @article.category.slug,
+      theme: @theme_from_params,
+      is_plain_layout_enabled: @is_plain_layout_enabled
+    }
+%>
+
 <div class="flex flex-row items-center gap-px mb-6">
   <a
     class="text-slate-500 dark:text-slate-200 text-sm gap-1 hover:cursor-pointer <%= @is_plain_layout_enabled && 'hover:underline' %> leading-8 font-semibold"
@@ -7,7 +16,7 @@
   </a>
   <span class="w-4 h-4 [&>svg]:w-3 [&>svg]:h-3 flex items-center justify-center text-xs text-slate-500 dark:text-slate-300"><%= render partial: 'icons/chevron-right' %></span>
   <% if @article.category %>
-    <a class="text-slate-500 dark:text-slate-200 text-sm gap-1 whitespace-nowrap hover:cursor-pointer <%= @is_plain_layout_enabled && 'hover:underline' %> leading-8 font-semibold" href="<%= generate_category_link(@portal.slug, @article.category.locale, @article.category.slug, @theme_from_params, @is_plain_layout_enabled) %>">
+    <a class="text-slate-500 dark:text-slate-200 text-sm gap-1 whitespace-nowrap hover:cursor-pointer <%= @is_plain_layout_enabled && 'hover:underline' %> leading-8 font-semibold" href="<%= generate_category_link(category_link_params) %>">
     <%= @article.category&.name %>
     </a>
     <span class="w-4 h-4 [&>svg]:w-3 [&>svg]:h-3 flex items-center justify-center text-xs text-slate-500 dark:text-slate-300"><%= render partial: 'icons/chevron-right' %></span>

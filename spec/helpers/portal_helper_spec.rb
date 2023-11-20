@@ -165,25 +165,43 @@ describe PortalHelper do
   describe '#generate_category_link' do
     context 'when theme is not present' do
       it 'returns the correct link' do
-        expect(helper.generate_category_link('portal_slug', 'en', 'category_slug', nil, true)).to eq(
-          '/hc/portal_slug/en/categories/category_slug'
-        )
+        expect(helper.generate_category_link(
+                 portal_slug: 'portal_slug',
+                 category_locale: 'en',
+                 category_slug: 'category_slug',
+                 theme: nil,
+                 is_plain_layout_enabled: true
+               )).to eq(
+                 '/hc/portal_slug/en/categories/category_slug'
+               )
       end
     end
 
     context 'when theme is present and plain layout is enabled' do
       it 'returns the correct link' do
-        expect(helper.generate_category_link('portal_slug', 'en', 'category_slug', 'dark', true)).to eq(
-          '/hc/portal_slug/en/categories/category_slug?theme=dark'
-        )
+        expect(helper.generate_category_link(
+                 portal_slug: 'portal_slug',
+                 category_locale: 'en',
+                 category_slug: 'category_slug',
+                 theme: 'dark',
+                 is_plain_layout_enabled: true
+               )).to eq(
+                 '/hc/portal_slug/en/categories/category_slug?theme=dark'
+               )
       end
     end
 
     context 'when plain layout is not enabled' do
       it 'returns the correct link' do
-        expect(helper.generate_category_link('portal_slug', 'en', 'category_slug', 'dark', false)).to eq(
-          '/hc/portal_slug/en/categories/category_slug'
-        )
+        expect(helper.generate_category_link(
+                 portal_slug: 'portal_slug',
+                 category_locale: 'en',
+                 category_slug: 'category_slug',
+                 theme: 'dark',
+                 is_plain_layout_enabled: false
+               )).to eq(
+                 '/hc/portal_slug/en/categories/category_slug'
+               )
       end
     end
   end

@@ -36,7 +36,13 @@ module PortalHelper
     end
   end
 
-  def generate_category_link(portal_slug, category_locale, category_slug, theme, is_plain_layout_enabled)
+  def generate_category_link(params)
+    portal_slug = params[:portal_slug]
+    category_locale = params[:category_locale]
+    category_slug = params[:category_slug]
+    theme = params[:theme]
+    is_plain_layout_enabled = params[:is_plain_layout_enabled]
+
     if is_plain_layout_enabled
       "/hc/#{portal_slug}/#{category_locale}/categories/#{category_slug}#{theme_query_string(theme)}"
     else

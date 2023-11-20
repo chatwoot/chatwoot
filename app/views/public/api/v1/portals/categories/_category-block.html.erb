@@ -1,8 +1,17 @@
 
+<% category_link_params = {
+      portal_slug: portal.slug,
+      category_locale: category.locale,
+      category_slug: category.slug,
+      theme: @theme_from_params,
+      is_plain_layout_enabled: @is_plain_layout_enabled
+    }
+%>
+
 <section class="flex flex-col w-full h-full px-4 py-6 lg:container">
   <div class="flex items-center justify-between w-full">
     <h3 class="text-xl font-semibold leading-relaxed text-slate-900 dark:text-white hover:underline">
-     <a href="<%= generate_category_link(portal.slug, category.locale, category.slug, @theme_from_params, @is_plain_layout_enabled) %>">
+     <a href="<%= generate_category_link(category_link_params) %>">
       <%= category.name %>
     </a>
     </h3>
@@ -45,7 +54,7 @@
   </div>
   <div>
     <a
-      href="<%= generate_category_link(portal.slug, category.locale, category.slug, @theme_from_params, @is_plain_layout_enabled) %>"
+      href="<%= generate_category_link(category_link_params) %>"
       class="flex flex-row items-center mt-4 text-base font-medium text-woot-600 dark:text-woot-500 hover:text-slate-900 dark:hover:text-white hover:underline"
     >
       <%= I18n.t('public_portal.common.view_all_articles') %>
