@@ -68,6 +68,44 @@ export const updateThemeStyles = theme => {
   setPortalClass(theme);
 };
 
+export const openExternalLinksInNewTab = () => {
+  const { customDomain, hostURL } = window.portalConfig;
+  const isSameHost =
+    window.location.href.includes(customDomain) ||
+    window.location.href.includes(hostURL);
+
+  // Modify external links only on articles page
+  const isOnArticlePage =
+    isSameHost && document.querySelector('#cw-article-content') !== null;
+
+  document.addEventListener('click', function (event) {
+    if (!isOnArticlePage) return;
+
+    // Some of the links come wrapped in strong tag through prosemirror
+
+    const isTagAnchor = event.target.tagName === 'A';
+    const isParentTagAnchor =
+      event.target.tagName === 'STRONG' &&
+      event.target.parentNode.tagName === 'A';
+
+    if (isTagAnchor || isParentTagAnchor) {
+      const link = isTagAnchor ? event.target : event.target.parentNode;
+
+      const isInternalLink =
+        link.hostname === window.location.hostname ||
+        link.href.includes(customDomain) ||
+        link.href.includes(hostURL);
+
+      if (!isInternalLink) {
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer'; // Security and performance benefits
+        // Prevent default if you want to stop the link from opening in the current tab
+        event.stopPropagation();
+      }
+    }
+  });
+};
+
 export const toggleAppearanceDropdown = () => {
   const dropdown = document.getElementById('appearance-dropdown');
   if (!dropdown) return;
@@ -183,6 +221,7 @@ export const InitializationHelpers = {
   },
 
   initialize: () => {
+    openExternalLinksInNewTab();
     if (window.portalConfig.isPlainLayoutEnabled === 'true') {
       InitializationHelpers.appendPlainParamToURLs();
     } else {

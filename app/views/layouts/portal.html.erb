@@ -50,6 +50,8 @@ By default, it renders:
     window.portalConfig = {
       portalSlug: '<%= @portal.slug %>',
       portalColor: '<%= @portal.color %>',
+      customDomain: '<%= @portal.custom_domain %>',
+      hostURL: '<%= ENV.fetch('FRONTEND_URL', '') %>',
       theme: '<%= @theme %>',
       localeCode: '<%= @locale %>',
       searchTranslations: {
