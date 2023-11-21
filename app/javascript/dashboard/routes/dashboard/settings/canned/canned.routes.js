@@ -1,6 +1,7 @@
-import SettingsContent from '../Wrapper';
-import CannedHome from './Index';
 import { frontendURL } from '../../../../helper/URLHelper';
+
+const SettingsContent = () => import('../Wrapper.vue');
+const CannedHome = () => import('./Index.vue');
 
 export default {
   routes: [
