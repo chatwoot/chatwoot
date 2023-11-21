@@ -224,9 +224,9 @@
           "LABEL": "Logotips",
           "UPLOAD_BUTTON": "Augšupielādēt logotipu",
           "HELP_TEXT": "Šis logotips tiks attēlots portāla galvenē.",
-          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
-          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Error while deleting logo"
+          "IMAGE_UPLOAD_SUCCESS": "Logotips veiksmīgi augšupielādēts",
+          "IMAGE_UPLOAD_ERROR": "Logotips veiksmīgi izdzēsts",
+          "IMAGE_DELETE_ERROR": "Dzēšot logotipu radās kļūda"
         },
         "NAME": {
           "LABEL": "Nosaukums",
