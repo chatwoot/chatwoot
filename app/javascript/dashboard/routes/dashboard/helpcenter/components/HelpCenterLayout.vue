@@ -262,6 +262,9 @@ export default {
         this.fetchPortalAndItsCategories();
       }
     },
+    '$route.params.locale'() {
+      this.fetchPortalAndItsCategories();
+    },
   },
 
   mounted() {
