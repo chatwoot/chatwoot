@@ -1,5 +1,5 @@
 class Api::V1::Accounts::CsatTemplatesController < Api::V1::Accounts::BaseController
-  before_action :load_template, only: [:show, :destroy]
+  before_action :load_template, only: [:show, :update, :destroy]
   def index
     @templates = csat_templates
     @templates_count = @templates.count
@@ -9,8 +9,18 @@ class Api::V1::Accounts::CsatTemplatesController < Api::V1::Accounts::BaseContro
 
   def create
     @template = csat_templates.create(csat_template_params)
+    # rubocop:disable Rails/SkipsModelValidations
     Current.account.inboxes.where(id: inbox_id_params).update_all(csat_template_id: @template.id)
+    # rubocop:enable Rails/SkipsModelValidations
     render json: @template
+  end
+
+  def update
+    @template.update(csat_template_params)
+    # rubocop:disable Rails/SkipsModelValidations
+    Current.account.inboxes.where(csat_template_id: params[:id]).update_all(csat_template_id: nil)
+    Current.account.inboxes.where(id: inbox_id_params).update_all(csat_template_id: @template.id)
+    # rubocop:enable Rails/SkipsModelValidations
   end
 
   def destroy
@@ -45,7 +55,7 @@ class Api::V1::Accounts::CsatTemplatesController < Api::V1::Accounts::BaseContro
   end
 
   def csat_template_params
-    params.require(:csat_template).permit(csat_template_questions_attributes: [:id, :content])
+    params.require(:csat_template).permit(csat_template_questions_attributes: [:id, :content, :_destroy])
   end
 
   def inbox_id_params

@@ -43,6 +43,16 @@ export const actions = {
       return error;
     }
   },
+  update: async function update({ commit, dispatch }, { id, ...params }) {
+    try {
+      const response = await CsatTemplatesAPI.update(id, params);
+      commit(types.UPDATE_CSAT_TEMPLATE, response.data);
+      dispatch('get');
+      return response.data;
+    } catch (error) {
+      return error;
+    }
+  },
   getStatus: async function getStatus({ commit }) {
     const response = await CsatTemplatesAPI.getStatus();
     commit(types.ENABLE_CSAT_TEMPLATES, response.data.status);
@@ -60,10 +70,10 @@ export const actions = {
     commit(types.SET_CURRENT_TEMPLATE_ID, id);
     commit(types.SET_CSAT_TEMPLATE, response.data.csat_template);
   },
-  delete: async function deleteTemplate({ dispatch }, id) {
+  delete: async function deleteTemplate({ commit }, id) {
     const response = await CsatTemplatesAPI.delete(id);
     if (response.data.success) {
-      dispatch('get');
+      commit(types.DELETE_CSAT_TEMPLATE, id);
     }
   },
 };
@@ -84,6 +94,8 @@ export const mutations = {
 
   [types.SET_CSAT_TEMPLATES]: MutationHelpers.set,
   [types.CREATE_CSAT_TEMPLATE]: MutationHelpers.create,
+  [types.UPDATE_CSAT_TEMPLATE]: MutationHelpers.update,
+  [types.DELETE_CSAT_TEMPLATE]: MutationHelpers.destroy,
 };
 
 export default {

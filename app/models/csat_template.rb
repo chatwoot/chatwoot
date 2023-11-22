@@ -13,10 +13,10 @@
 #
 class CsatTemplate < ApplicationRecord
   belongs_to :account
-  has_many :csat_template_questions
-  has_many :inboxes
+  has_many :csat_template_questions, dependent: :nullify
+  has_many :inboxes, dependent: :destroy
 
-  accepts_nested_attributes_for :csat_template_questions
+  accepts_nested_attributes_for :csat_template_questions, allow_destroy: true
 
   def questions_count
     csat_template_questions.count

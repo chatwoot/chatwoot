@@ -147,4 +147,7 @@ export default {
 .grouped-csat .ve-table-header-tr {
   display: none;
 }
+.ve-table-container.ve-table-border-around {
+  overflow: hidden;
+}
 </style>

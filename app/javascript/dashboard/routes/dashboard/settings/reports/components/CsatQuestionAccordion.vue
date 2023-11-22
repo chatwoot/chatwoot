@@ -1,7 +1,7 @@
 <template>
   <div class="-mt-px text-sm">
     <button
-      class="flex items-center select-none w-full bg-slate-50 dark:bg-slate-800 border border-l-0 border-r-0 border-solid m-0 border-slate-100 dark:border-slate-700/50 cursor-grab justify-between py-2 px-4 drag-handle"
+      class="flex items-center select-none w-full bg-slate-50 dark:bg-slate-800 border border-l-0 border-r-0 border-solid m-0 border-slate-100 dark:border-slate-700/50 cursor-grab justify-between px-4 drag-handle"
       @click="toggleAccordion"
     >
       <div class="flex justify-between mb-0.5">
@@ -17,7 +17,7 @@
       </div>
       <div />
       <div>
-        <div class="w-[100%] report-card rtl:[direction:initial]">
+        <div class="w-[100%] report-card rtl:[direction:initial] p-2">
           <h3 class="heading text-slate-800 dark:text-slate-100">
             <div class="flex justify-end flex-row-reverse">
               <div

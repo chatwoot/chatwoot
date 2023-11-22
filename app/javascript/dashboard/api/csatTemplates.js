@@ -26,6 +26,10 @@ class CsatTemplatesAPI extends ApiClient {
     return axios.post(this.url, params);
   }
 
+  update(id, params) {
+    return axios.patch(`${this.url}/${id}`, params);
+  }
+
   getStatus() {
     return axios.get(`${this.url}/setting_status`);
   }

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CsatTemplateQuestion, type: :model do
+RSpec.describe CsatTemplateQuestion do
   describe 'associations' do
     it { is_expected.to belong_to(:csat_template) }
   end

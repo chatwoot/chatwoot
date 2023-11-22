@@ -34,10 +34,10 @@ class MessageTemplates::Template::CsatSurvey
   end
 
   def csat_template_question
-    return @template_question if defined?(@template_question)
+    return @csat_template_question if defined?(@csat_template_question)
     return unless account.csat_template_enabled?
 
     send_csat_count = conversation.messages.csat.count
-    @template_question = inbox.csat_template.csat_template_questions.offset(send_csat_count).limit(1).first
+    @csat_template_question = inbox.csat_template.csat_template_questions.offset(send_csat_count).limit(1).first
   end
 end

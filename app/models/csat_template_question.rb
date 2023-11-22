@@ -14,5 +14,5 @@
 #
 class CsatTemplateQuestion < ApplicationRecord
   belongs_to :csat_template
-  has_many :csat_survey_responses
+  has_many :csat_survey_responses, dependent: :nullify
 end

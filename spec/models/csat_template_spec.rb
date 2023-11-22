@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CsatTemplate, type: :model do
+RSpec.describe CsatTemplate do
   describe 'associations' do
     it { is_expected.to belong_to(:inbox) }
     it { is_expected.to have_many(:csat_template_questions) }

@@ -27,6 +27,16 @@
         "QUESTIONS": "Questions",
         "INBOX": "Inbox"
       }
+    },
+    "FORM": {
+      "INBOXES": {
+        "LABEL": "Inbox",
+        "ERROR": "Please select atleast 1 inbox"
+      },
+      "QUESTION": {
+        "ERROR": "Question is required",
+        "ERROR_MAX_LENGTH": "Question limit is reached"
+      }
     }
   }
 }
