@@ -217,6 +217,7 @@ Rails.application.routes.draw do
             member do
               patch :archive
               put :add_members
+              delete :logo
             end
             resources :categories
             resources :articles do
