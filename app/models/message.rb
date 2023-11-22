@@ -108,6 +108,12 @@ class Message < ApplicationRecord
   scope :chat, -> { where.not(message_type: :activity).where(private: false) }
   scope :non_activity_messages, -> { where.not(message_type: :activity).reorder('id desc') }
   scope :today, -> { where("date_trunc('day', created_at) = ?", Date.current) }
+  scope :csat, -> { where(content_type: :input_csat) }
+  scope :unanswered_csat, lambda {
+    csat
+      .includes(:csat_survey_response)
+      .where(csat_survey_responses: { id: nil })
+  }
 
   # TODO: Get rid of default scope
   # https://stackoverflow.com/a/1834250/939299
@@ -121,6 +127,8 @@ class Message < ApplicationRecord
 
   has_many :attachments, dependent: :destroy, autosave: true, before_add: :validate_attachments_limit
   has_one :csat_survey_response, dependent: :destroy_async
+  has_one :message_csat_template_question, dependent: :destroy_async
+  has_one :csat_template_question, through: :message_csat_template_question
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
 
   after_create_commit :execute_after_create_commit_callbacks

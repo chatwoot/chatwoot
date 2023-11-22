@@ -25,6 +25,7 @@
 #  updated_at                    :datetime         not null
 #  account_id                    :integer          not null
 #  channel_id                    :integer          not null
+#  csat_template_id              :integer
 #  portal_id                     :bigint
 #
 # Indexes
@@ -56,6 +57,7 @@ class Inbox < ApplicationRecord
 
   belongs_to :account
   belongs_to :portal, optional: true
+  belongs_to :csat_template, optional: true
 
   belongs_to :channel, polymorphic: true, dependent: :destroy
 

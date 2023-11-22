@@ -84,6 +84,13 @@ export default {
           },
         },
         {
+          field: 'csatQuestion',
+          key: 'csatQuestion',
+          title: 'Question',
+          align: 'center',
+          width: 300,
+        },
+        {
           field: 'rating',
           key: 'rating',
           title: this.$t('CSAT_REPORTS.TABLE.HEADER.RATING'),
@@ -103,7 +110,7 @@ export default {
           key: 'feedbackText',
           title: this.$t('CSAT_REPORTS.TABLE.HEADER.FEEDBACK_TEXT'),
           align: this.isRTLView ? 'right' : 'left',
-          width: 400,
+          width: 300,
         },
         {
           field: 'conversationId',
@@ -138,6 +145,8 @@ export default {
         feedbackText: response.feedback_message || '---',
         conversationId: response.conversation_id,
         createdAgo: this.dynamicTime(response.created_at),
+        csatQuestion: response.csat_question,
+        csatQuestionId: response.csat_question_id,
         createdAt: this.messageStamp(response.created_at, 'LLL d yyyy, h:mm a'),
       }));
     },

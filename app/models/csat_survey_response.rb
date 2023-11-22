@@ -2,24 +2,28 @@
 #
 # Table name: csat_survey_responses
 #
-#  id                :bigint           not null, primary key
-#  feedback_message  :text
-#  rating            :integer          not null
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  account_id        :bigint           not null
-#  assigned_agent_id :bigint
-#  contact_id        :bigint           not null
-#  conversation_id   :bigint           not null
-#  message_id        :bigint           not null
+#  id                        :bigint           not null, primary key
+#  feedback_message          :text
+#  rating                    :integer          not null
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  account_id                :bigint           not null
+#  assigned_agent_id         :bigint
+#  contact_id                :bigint           not null
+#  conversation_id           :bigint           not null
+#  csat_template_id          :bigint
+#  csat_template_question_id :bigint
+#  message_id                :bigint           not null
 #
 # Indexes
 #
-#  index_csat_survey_responses_on_account_id         (account_id)
-#  index_csat_survey_responses_on_assigned_agent_id  (assigned_agent_id)
-#  index_csat_survey_responses_on_contact_id         (contact_id)
-#  index_csat_survey_responses_on_conversation_id    (conversation_id)
-#  index_csat_survey_responses_on_message_id         (message_id) UNIQUE
+#  index_csat_survey_responses_on_account_id                 (account_id)
+#  index_csat_survey_responses_on_assigned_agent_id          (assigned_agent_id)
+#  index_csat_survey_responses_on_contact_id                 (contact_id)
+#  index_csat_survey_responses_on_conversation_id            (conversation_id)
+#  index_csat_survey_responses_on_csat_template_id           (csat_template_id)
+#  index_csat_survey_responses_on_csat_template_question_id  (csat_template_question_id)
+#  index_csat_survey_responses_on_message_id                 (message_id) UNIQUE
 #
 class CsatSurveyResponse < ApplicationRecord
   belongs_to :account
@@ -27,6 +31,7 @@ class CsatSurveyResponse < ApplicationRecord
   belongs_to :contact
   belongs_to :message
   belongs_to :assigned_agent, class_name: 'User', optional: true
+  belongs_to :csat_template_question
 
   validates :rating, presence: true, inclusion: { in: [1, 2, 3, 4, 5] }
   validates :account_id, presence: true
@@ -39,4 +44,13 @@ class CsatSurveyResponse < ApplicationRecord
   scope :filter_by_team_id, ->(team_id) { joins(:conversation).where(conversations: { team_id: team_id }) if team_id.present? }
   # filter by rating value
   scope :filter_by_rating, ->(rating) { where(rating: rating) if rating.present? }
+
+  after_create_commit :trigger_next_question
+
+  def trigger_next_question
+    # TODO: enhancement
+    return unless account.csat_template_enabled?
+
+    ::MessageTemplates::HookExecutionService.new(message: message).perform
+  end
 end
