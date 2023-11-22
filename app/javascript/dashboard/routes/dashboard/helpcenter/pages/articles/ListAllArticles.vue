@@ -5,8 +5,11 @@
     <article-header
       :header-title="headerTitle"
       :count="meta.count"
+      :selected-locale="activeLocale"
+      :all-locales="allowedLocales"
       selected-value="Published"
-      @newArticlePage="newArticlePage"
+      @new-article-page="newArticlePage"
+      @change-locale="onChangeLocale"
     />
     <article-table
       :articles="articles"
@@ -32,6 +35,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import allLocales from 'shared/constants/locales.js';
 
 import Spinner from 'shared/components/Spinner.vue';
 import ArticleHeader from 'dashboard/routes/dashboard/helpcenter/components/Header/ArticleHeader.vue';
@@ -58,6 +62,7 @@ export default {
       meta: 'articles/getMeta',
       isFetching: 'articles/isFetching',
       currentUserId: 'getCurrentUserID',
+      getPortalBySlug: 'portals/portalBySlug',
     }),
     selectedCategory() {
       return this.categories.find(
@@ -118,6 +123,25 @@ export default {
         ? this.selectedCategory.name
         : '';
     },
+    activeLocale() {
+      return this.$route.params.locale;
+    },
+    portal() {
+      return this.getPortalBySlug(this.selectedPortalSlug);
+    },
+    allowedLocales() {
+      if (!this.portal) {
+        return [];
+      }
+      const { allowed_locales: allowedLocales } = this.portal.config;
+      return allowedLocales.map(locale => {
+        return {
+          id: locale.code,
+          name: allLocales[locale.code],
+          code: locale.code,
+        };
+      });
+    },
   },
   watch: {
     $route() {
@@ -137,7 +161,7 @@ export default {
       this.$store.dispatch('articles/index', {
         pageNumber: pageNumber || this.pageNumber,
         portalSlug: this.$route.params.portalSlug,
-        locale: this.$route.params.locale,
+        locale: this.activeLocale,
         status: this.status,
         authorId: this.author,
         categorySlug: this.selectedCategorySlug,
@@ -150,6 +174,15 @@ export default {
       this.$store.dispatch('articles/reorder', {
         reorderedGroup,
         portalSlug: this.$route.params.portalSlug,
+      });
+    },
+    onChangeLocale(locale) {
+      this.$router.push({
+        name: 'list_all_locale_articles',
+        params: {
+          portalSlug: this.$route.params.portalSlug,
+          locale,
+        },
       });
     },
   },
