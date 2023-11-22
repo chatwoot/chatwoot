@@ -5,7 +5,7 @@
     <article-header
       :header-title="headerTitle"
       :count="meta.count"
-      :selected-locale="activeLocale"
+      :selected-locale="activeLocaleName"
       :all-locales="allowedLocales"
       selected-value="Published"
       @new-article-page="newArticlePage"
@@ -125,6 +125,9 @@ export default {
     },
     activeLocale() {
       return this.$route.params.locale;
+    },
+    activeLocaleName() {
+      return allLocales[this.activeLocale];
     },
     portal() {
       return this.getPortalBySlug(this.selectedPortalSlug);

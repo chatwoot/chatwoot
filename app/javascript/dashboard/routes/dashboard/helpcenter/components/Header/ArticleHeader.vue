@@ -216,7 +216,7 @@ export default {
     },
     onClickSelectItem(value) {
       const { code } = value;
-      if (code === this.selectedLocale || !code) {
+      if (!code) {
         return;
       }
       this.$emit('change-locale', code);
