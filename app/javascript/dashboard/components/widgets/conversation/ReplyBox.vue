@@ -624,6 +624,8 @@ export default {
           `${this.$t('CONVERSATION.REPLYBOX.INSERT_READ_MORE')} ${url}`
         );
       }
+
+      this.$track(CONVERSATION_EVENTS.INSERT_ARTICLE_LINK);
     },
     toggleRichContentEditor() {
       this.updateUISettings({
