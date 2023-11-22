@@ -75,7 +75,7 @@ gem 'jwt'
 gem 'pundit'
 # super admin
 gem 'administrate', '>= 0.19.0'
-gem 'administrate-field-active_storage'
+gem 'administrate-field-active_storage', '>= 1.0.0'
 gem 'administrate-field-belongs_to_search'
 
 ##--- gems for pubsub service ---##
