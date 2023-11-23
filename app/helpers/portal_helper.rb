@@ -6,7 +6,17 @@ module PortalHelper
 
   def generate_portal_bg(portal_color, theme)
     bg_image = theme == 'dark' ? 'hexagon-dark.svg' : 'hexagon-light.svg'
-    "background: url(/assets/images/hc/#{bg_image}) #{generate_portal_bg_color(portal_color, theme)}"
+    "url(/assets/images/hc/#{bg_image}) #{generate_portal_bg_color(portal_color, theme)}"
+  end
+
+  def generate_gradient_to_bottom(theme)
+    base_color = theme == 'dark' ? '#151718' : 'white'
+    "linear-gradient(to bottom, transparent, #{base_color})"
+  end
+
+  def generate_portal_hover_color(portal_color, theme)
+    base_color = theme == 'dark' ? '#1B1B1B' : '#F9F9F9'
+    "color-mix(in srgb, #{portal_color} 5%, #{base_color})"
   end
 
   def language_name(locale)
@@ -14,32 +24,38 @@ module PortalHelper
     language_map[locale] || locale
   end
 
-  def get_theme_names(theme)
-    if theme == 'light'
-      I18n.t('public_portal.header.appearance.light')
-    elsif theme == 'dark'
-      I18n.t('public_portal.header.appearance.dark')
+  def theme_query_string(theme)
+    theme.present? && theme != 'system' ? "?theme=#{theme}" : ''
+  end
+
+  def generate_home_link(portal_slug, portal_locale, theme, is_plain_layout_enabled)
+    if is_plain_layout_enabled
+      "/hc/#{portal_slug}/#{portal_locale}#{theme_query_string(theme)}"
     else
-      I18n.t('public_portal.header.appearance.system')
+      "/hc/#{portal_slug}/#{portal_locale}"
     end
   end
 
-  def get_theme_icon(theme)
-    if theme == 'light'
-      'icons/sun'
-    elsif theme == 'dark'
-      'icons/moon'
+  def generate_category_link(params)
+    portal_slug = params[:portal_slug]
+    category_locale = params[:category_locale]
+    category_slug = params[:category_slug]
+    theme = params[:theme]
+    is_plain_layout_enabled = params[:is_plain_layout_enabled]
+
+    if is_plain_layout_enabled
+      "/hc/#{portal_slug}/#{category_locale}/categories/#{category_slug}#{theme_query_string(theme)}"
     else
-      'icons/monitor'
+      "/hc/#{portal_slug}/#{category_locale}/categories/#{category_slug}"
     end
   end
 
-  def generate_gradient_to_bottom(theme)
-    "background-image: linear-gradient(to bottom, transparent, #{theme == 'dark' ? '#151718' : 'white'})"
-  end
-
-  def generate_article_link(portal_slug, article_slug, theme)
-    "/hc/#{portal_slug}/articles/#{article_slug}#{theme.present? && theme != 'system' ? "?theme=#{theme}" : ''}"
+  def generate_article_link(portal_slug, article_slug, theme, is_plain_layout_enabled)
+    if is_plain_layout_enabled
+      "/hc/#{portal_slug}/articles/#{article_slug}#{theme_query_string(theme)}"
+    else
+      "/hc/#{portal_slug}/articles/#{article_slug}"
+    end
   end
 
   def render_category_content(content)

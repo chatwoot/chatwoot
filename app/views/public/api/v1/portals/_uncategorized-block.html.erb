@@ -1,17 +1,17 @@
-<section class="lg:container w-full flex flex-col h-full">
-  <div class="flex flex-col gap-8 h-full group <%= !@is_plain_layout_enabled ? 'border border-solid border-slate-100 dark:border-slate-800 hover:border-woot-600 dark:hover:border-woot-600 py-5 px-3 rounded-lg' : '' %>">
+<section class="flex flex-col w-full h-full lg:container">
+  <div id="<%= !@is_plain_layout_enabled ? 'category-block' : '' %>" class="flex flex-col gap-8 h-full <%= !@is_plain_layout_enabled ? 'border border-solid border-slate-100 dark:border-slate-800 py-5 px-3 rounded-lg' : '' %>">
     <div class="flex justify-between items-center w-full <%= !@is_plain_layout_enabled ?  'px-1' : '' %>">
-      <h3 class="text-xl text-slate-800 dark:text-slate-50 font-semibold leading-relaxed hover:cursor-pointer <%= @is_plain_layout_enabled ? 'hover:underline' : 'pl-1 group-hover:text-woot-600 dark:group-hover:text-woot-600' %>">
+      <h3 id="<%= !@is_plain_layout_enabled ? 'category-name' : '' %>" class="text-xl text-slate-800 dark:text-slate-50 font-semibold leading-relaxed hover:cursor-pointer <%= @is_plain_layout_enabled ? 'hover:underline' : 'pl-1' %>">
         <%= I18n.t('public_portal.header.uncategorized') %>
       </h3>
     </div>
     <div class="-mt-4">
       <% portal.articles.published.where(category_id: nil).order(position: :asc).take(5).each do |article| %>
       <a
-        class="text-slate-700 dark:text-slate-100 leading-7"
-        href="<%= generate_article_link(portal.slug, article.slug, @theme) %>"
+        class="leading-7 text-slate-700 dark:text-slate-100"
+        href="<%= generate_article_link(portal.slug, article.slug, @theme_from_params, @is_plain_layout_enabled) %>"
       >
-        <div class="flex justify-between hover:cursor-pointer items-center py-1 rounded-lg gap-3  <%= !@is_plain_layout_enabled ? 'px-2 hover:bg-slate-50 dark:hover:bg-slate-800' : 'hover:underline' %>">
+        <div id="<%= !@is_plain_layout_enabled ? 'category-item' : '' %>" class="flex justify-between hover:cursor-pointer items-center py-1 rounded-lg gap-3  <%= !@is_plain_layout_enabled ? 'px-2' : 'hover:underline' %>">
           <%= article.title %>
           <span class="flex items-center font-normal">
             <%= render partial: 'icons/chevron-right' %>
