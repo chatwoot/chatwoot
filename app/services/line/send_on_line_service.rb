@@ -6,7 +6,14 @@ class Line::SendOnLineService < Base::SendOnChannelService
   end
 
   def perform_reply
-    response = channel.client.push_message(message.conversation.contact_inbox.source_id, [{ type: 'text', text: message.content }])
+    byebug
+    payload = if message.attachment?
+                build_attachment_payload
+              else
+                [{ type: 'text', text: message.content }]
+              end
+
+    response = channel.client.push_message(message.conversation.contact_inbox.source_id, payload)
     return if response.blank?
 
     parsed_json = JSON.parse(response.body)
@@ -17,6 +24,16 @@ class Line::SendOnLineService < Base::SendOnChannelService
     else
       # If the request is not successful, update the message status to failed and save the external error
       message.update!(status: :failed, external_error: external_error(parsed_json))
+    end
+  end
+
+  def build_attachment_payload
+    case message.attachment_type
+    when 'image'
+      [{ type: 'image', originalContentUrl: message.attachment_url, previewImageUrl: message.attachment_url }]
+    # Add more cases for other types of attachments like 'video', 'audio', etc.
+    else
+      [{ type: 'text', text: "Unsupported attachment type: #{message.attachment_type}" }]
     end
   end
 
