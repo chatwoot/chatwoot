@@ -33,71 +33,175 @@ describe PortalHelper do
   describe '#generate_portal_bg' do
     context 'when theme is dark' do
       it 'returns the correct background with dark grid image and color mix with black' do
-        expected_bg = 'background: url(/assets/images/hc/hexagon-dark.svg) color-mix(in srgb, #ff0000 20%, black)'
+        expected_bg = 'url(/assets/images/hc/hexagon-dark.svg) color-mix(in srgb, #ff0000 20%, black)'
         expect(helper.generate_portal_bg('#ff0000', 'dark')).to eq(expected_bg)
       end
     end
 
     context 'when theme is not dark' do
       it 'returns the correct background with light grid image and color mix with white' do
-        expected_bg = 'background: url(/assets/images/hc/hexagon-light.svg) color-mix(in srgb, #ff0000 20%, white)'
+        expected_bg = 'url(/assets/images/hc/hexagon-light.svg) color-mix(in srgb, #ff0000 20%, white)'
         expect(helper.generate_portal_bg('#ff0000', 'light')).to eq(expected_bg)
       end
     end
 
     context 'when provided with various colors' do
       it 'adjusts the background appropriately for dark theme' do
-        expected_bg = 'background: url(/assets/images/hc/hexagon-dark.svg) color-mix(in srgb, #00ff00 20%, black)'
+        expected_bg = 'url(/assets/images/hc/hexagon-dark.svg) color-mix(in srgb, #00ff00 20%, black)'
         expect(helper.generate_portal_bg('#00ff00', 'dark')).to eq(expected_bg)
       end
 
       it 'adjusts the background appropriately for light theme' do
-        expected_bg = 'background: url(/assets/images/hc/hexagon-light.svg) color-mix(in srgb, #0000ff 20%, white)'
+        expected_bg = 'url(/assets/images/hc/hexagon-light.svg) color-mix(in srgb, #0000ff 20%, white)'
         expect(helper.generate_portal_bg('#0000ff', 'light')).to eq(expected_bg)
       end
     end
   end
 
-  describe '#get_theme_names' do
-    it 'returns the light theme name' do
-      expect(helper.get_theme_names('light')).to eq(I18n.t('public_portal.header.appearance.light'))
-    end
-
-    it 'returns the dark theme name' do
-      expect(helper.get_theme_names('dark')).to eq(I18n.t('public_portal.header.appearance.dark'))
-    end
-
-    it 'returns the system theme name for any other value' do
-      expect(helper.get_theme_names('any_other_value')).to eq(I18n.t('public_portal.header.appearance.system'))
-    end
-  end
-
-  describe '#get_theme_icon' do
-    it 'returns the light theme icon' do
-      expect(helper.get_theme_icon('light')).to eq('icons/sun')
-    end
-
-    it 'returns the dark theme icon' do
-      expect(helper.get_theme_icon('dark')).to eq('icons/moon')
-    end
-
-    it 'returns the system theme icon for any other value' do
-      expect(helper.get_theme_icon('any_other_value')).to eq('icons/monitor')
-    end
-  end
-
   describe '#generate_gradient_to_bottom' do
     context 'when theme is dark' do
-      it 'returns the correct background gradient' do
-        expected_gradient = 'background-image: linear-gradient(to bottom, transparent, #151718)'
-        expect(helper.generate_gradient_to_bottom('dark')).to eq(expected_gradient)
+      it 'returns the correct gradient' do
+        expect(helper.generate_gradient_to_bottom('dark')).to eq(
+          'linear-gradient(to bottom, transparent, #151718)'
+        )
       end
     end
 
     context 'when theme is not dark' do
-      it 'returns the correct background gradient' do
-        expected_gradient = 'background-image: linear-gradient(to bottom, transparent, white)'
-        expect(helper.generate_gradient_to_bottom('light')).to eq(expected_gradient)
+      it 'returns the correct gradient' do
+        expect(helper.generate_gradient_to_bottom('light')).to eq(
+          'linear-gradient(to bottom, transparent, white)'
+        )
+      end
+    end
+
+    context 'when provided with various colors' do
+      it 'adjusts the gradient appropriately' do
+        expect(helper.generate_gradient_to_bottom('dark')).to eq(
+          'linear-gradient(to bottom, transparent, #151718)'
+        )
+        expect(helper.generate_gradient_to_bottom('light')).to eq(
+          'linear-gradient(to bottom, transparent, white)'
+        )
+      end
+    end
+  end
+
+  describe '#generate_portal_hover_color' do
+    context 'when theme is dark' do
+      it 'returns the correct color mix with #1B1B1B' do
+        expect(helper.generate_portal_hover_color('#ff0000', 'dark')).to eq(
+          'color-mix(in srgb, #ff0000 5%, #1B1B1B)'
+        )
+      end
+    end
+
+    context 'when theme is not dark' do
+      it 'returns the correct color mix with #F9F9F9' do
+        expect(helper.generate_portal_hover_color('#ff0000', 'light')).to eq(
+          'color-mix(in srgb, #ff0000 5%, #F9F9F9)'
+        )
+      end
+    end
+
+    context 'when provided with various colors' do
+      it 'adjusts the color mix appropriately' do
+        expect(helper.generate_portal_hover_color('#00ff00', 'dark')).to eq(
+          'color-mix(in srgb, #00ff00 5%, #1B1B1B)'
+        )
+        expect(helper.generate_portal_hover_color('#0000ff', 'light')).to eq(
+          'color-mix(in srgb, #0000ff 5%, #F9F9F9)'
+        )
+      end
+    end
+  end
+
+  describe '#theme_query_string' do
+    context 'when theme is present and not system' do
+      it 'returns the correct query string' do
+        expect(helper.theme_query_string('dark')).to eq('?theme=dark')
+      end
+    end
+
+    context 'when theme is not present' do
+      it 'returns the correct query string' do
+        expect(helper.theme_query_string(nil)).to eq('')
+      end
+    end
+
+    context 'when theme is system' do
+      it 'returns the correct query string' do
+        expect(helper.theme_query_string('system')).to eq('')
+      end
+    end
+  end
+
+  describe '#generate_home_link' do
+    context 'when theme is not present' do
+      it 'returns the correct link' do
+        expect(helper.generate_home_link('portal_slug', 'en', nil, true)).to eq(
+          '/hc/portal_slug/en'
+        )
+      end
+    end
+
+    context 'when theme is present and plain layout is enabled' do
+      it 'returns the correct link' do
+        expect(helper.generate_home_link('portal_slug', 'en', 'dark', true)).to eq(
+          '/hc/portal_slug/en?theme=dark'
+        )
+      end
+    end
+
+    context 'when plain layout is not enabled' do
+      it 'returns the correct link' do
+        expect(helper.generate_home_link('portal_slug', 'en', 'dark', false)).to eq(
+          '/hc/portal_slug/en'
+        )
+      end
+    end
+  end
+
+  describe '#generate_category_link' do
+    context 'when theme is not present' do
+      it 'returns the correct link' do
+        expect(helper.generate_category_link(
+                 portal_slug: 'portal_slug',
+                 category_locale: 'en',
+                 category_slug: 'category_slug',
+                 theme: nil,
+                 is_plain_layout_enabled: true
+               )).to eq(
+                 '/hc/portal_slug/en/categories/category_slug'
+               )
+      end
+    end
+
+    context 'when theme is present and plain layout is enabled' do
+      it 'returns the correct link' do
+        expect(helper.generate_category_link(
+                 portal_slug: 'portal_slug',
+                 category_locale: 'en',
+                 category_slug: 'category_slug',
+                 theme: 'dark',
+                 is_plain_layout_enabled: true
+               )).to eq(
+                 '/hc/portal_slug/en/categories/category_slug?theme=dark'
+               )
+      end
+    end
+
+    context 'when plain layout is not enabled' do
+      it 'returns the correct link' do
+        expect(helper.generate_category_link(
+                 portal_slug: 'portal_slug',
+                 category_locale: 'en',
+                 category_slug: 'category_slug',
+                 theme: 'dark',
+                 is_plain_layout_enabled: false
+               )).to eq(
+                 '/hc/portal_slug/en/categories/category_slug'
+               )
       end
     end
   end
@@ -105,16 +209,24 @@ describe PortalHelper do
   describe '#generate_article_link' do
     context 'when theme is not present' do
       it 'returns the correct link' do
-        expect(helper.generate_article_link('portal_slug', 'article_slug', nil)).to eq(
+        expect(helper.generate_article_link('portal_slug', 'article_slug', nil, true)).to eq(
           '/hc/portal_slug/articles/article_slug'
         )
       end
     end
 
-    context 'when theme is present' do
+    context 'when theme is present and plain layout is enabled' do
       it 'returns the correct link' do
-        expect(helper.generate_article_link('portal_slug', 'article_slug', 'dark')).to eq(
+        expect(helper.generate_article_link('portal_slug', 'article_slug', 'dark', true)).to eq(
           '/hc/portal_slug/articles/article_slug?theme=dark'
+        )
+      end
+    end
+
+    context 'when plain layout is not enabled' do
+      it 'returns the correct link' do
+        expect(helper.generate_article_link('portal_slug', 'article_slug', 'dark', false)).to eq(
+          '/hc/portal_slug/articles/article_slug'
         )
       end
     end
