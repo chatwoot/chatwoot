@@ -1,31 +1,40 @@
-<div class="flex items-center flex-row mb-6 gap-px">
+<% category_link_params = {
+      portal_slug: @portal.slug,
+      category_locale: @article.category.locale,
+      category_slug: @article.category.slug,
+      theme: @theme_from_params,
+      is_plain_layout_enabled: @is_plain_layout_enabled
+    }
+%>
+
+<div class="flex flex-row items-center gap-px mb-6">
   <a
     class="text-slate-500 dark:text-slate-200 text-sm gap-1 hover:cursor-pointer <%= @is_plain_layout_enabled && 'hover:underline' %> leading-8 font-semibold"
-    href="/hc/<%= @portal.slug %>/<%= @article.category&.locale %><%= @theme.present? && @theme != 'system' ? '?theme='+@theme : ''  %>"
+    href="<%= generate_home_link(@portal.slug, @article.category&.locale, @theme_from_params, @is_plain_layout_enabled) %>" 
   >
     <%= I18n.t('public_portal.common.home') %>
   </a>
   <span class="w-4 h-4 [&>svg]:w-3 [&>svg]:h-3 flex items-center justify-center text-xs text-slate-500 dark:text-slate-300"><%= render partial: 'icons/chevron-right' %></span>
   <% if @article.category %>
-    <a class="text-slate-500 dark:text-slate-200 text-sm gap-1 whitespace-nowrap hover:cursor-pointer <%= @is_plain_layout_enabled && 'hover:underline' %> leading-8 font-semibold" href="/hc/<%= @portal.slug %>/<%= @article.category.locale %>/categories/<%= @article.category.slug %><%= @theme.present? && @theme != 'system' ? '?theme='+@theme : ''  %>">
+    <a class="text-slate-500 dark:text-slate-200 text-sm gap-1 whitespace-nowrap hover:cursor-pointer <%= @is_plain_layout_enabled && 'hover:underline' %> leading-8 font-semibold" href="<%= generate_category_link(category_link_params) %>">
     <%= @article.category&.name %>
     </a>
     <span class="w-4 h-4 [&>svg]:w-3 [&>svg]:h-3 flex items-center justify-center text-xs text-slate-500 dark:text-slate-300"><%= render partial: 'icons/chevron-right' %></span>
-    <span class="text-sm text-slate-800 dark:text-slate-100 font-semibold overflow-hidden text-ellipsis min-w-0 whitespace-nowrap"><%= @article.title %></span>
+    <span class="min-w-0 overflow-hidden text-sm font-semibold text-slate-800 dark:text-slate-100 text-ellipsis whitespace-nowrap"><%= @article.title %></span>
   <% else %>
-    <span class="text-slate-700 dark:text-slate-100 leading-8 text-sm font-semibold" ><%= I18n.t('public_portal.header.uncategorized') %></span>
+    <span class="text-sm font-semibold leading-8 text-slate-700 dark:text-slate-100" ><%= I18n.t('public_portal.header.uncategorized') %></span>
   <% end %>
 </div>
 <h1 class="text-3xl font-semibold leading-normal md:tracking-normal md:text-4xl text-slate-900 dark:text-white">
   <%= article.title %>
 </h1>
-<div class="flex flex-col items-start justify-between w-full md:flex-row md:items-center pt-6">
+<div class="flex flex-col items-start justify-between w-full pt-6 md:flex-row md:items-center">
   <div class="flex items-start space-x-1">
     <% if article.author&.avatar_url&.present? %>
       <div class="pr-px mt-0.5 min-w-[20px] min-h-[20px]">
         <img src="<%= article.author.avatar_url %>" alt="<%= article.author.display_name %>" class="w-5 h-5 border rounded-full">
       </div>
     <% end %>
-    <span class="flex items-center text-base text-slate-600 dark:text-slate-400 font-medium">By <%= article.author.available_name %> • <%= I18n.t('public_portal.common.last_updated_on', last_updated_on: article.updated_at.strftime("%b %d, %Y")) %></span>
+    <span class="flex items-center text-base font-medium text-slate-600 dark:text-slate-400">By <%= article.author.available_name %> • <%= I18n.t('public_portal.common.last_updated_on', last_updated_on: article.updated_at.strftime("%b %d, %Y")) %></span>
   </div>
 </div>
