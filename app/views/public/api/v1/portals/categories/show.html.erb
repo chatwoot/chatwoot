@@ -6,8 +6,8 @@
 <% end %>
 
 <% if !@is_plain_layout_enabled %>
-<div id="portal-bg" class="bg-woot-50 dark:bg-woot-900" style="<%= generate_portal_bg(@portal.color, @theme) %>">
-  <div id="portal-bg-gradient" class="pt-8 pb-8 md:pt-14 md:pb-6" style="<%= generate_gradient_to_bottom(@theme) %>">
+<div id="portal-bg" class="bg-white dark:bg-slate-900">
+  <div id="portal-bg-gradient" class="pt-8 pb-8 md:pt-14 md:pb-6">
     <%= render 'public/api/v1/portals/categories/category-hero', category: @category, portal: @portal %>
   </div>
 </div>
@@ -22,14 +22,14 @@
     </div>
     <% else %>
     <% @category.articles.published.order(:position).each do |article| %>
-    <div class="<%= !@is_plain_layout_enabled ? 'group border border-solid border-slate-100 dark:border-slate-800 hover:border-woot-600 dark:hover:border-woot-600 rounded-lg' : '' %>">
+    <div id="<%= !@is_plain_layout_enabled ? 'category-block' : '' %>" class="<%= !@is_plain_layout_enabled ? 'border border-solid border-slate-100 dark:border-slate-800 rounded-lg' : 'group' %>">
       <a
         class="<%= !@is_plain_layout_enabled ? 'p-4' : 'px-0 py-1' %> text-slate-800 dark:text-slate-50 flex justify-between content-center hover:cursor-pointer"
-        href="/hc/<%= @portal.slug %>/articles/<%= article.slug %><%= @theme.present? && @theme != 'system' ? '?theme='+@theme : ''  %>"
+        href="<%= generate_article_link(@portal.slug, article.slug, @theme_from_params, @is_plain_layout_enabled) %>"
       >
         <div class="flex flex-col gap-5">
           <div class="flex flex-col gap-1">
-            <h3 class="text-lg text-slate-900 dark:text-slate-50 font-semibold <%= @is_plain_layout_enabled ? 'hover:underline' : 'group-hover:text-woot-600 dark:group-hover:text-woot-600' %>"><%= article.title %></h3>
+            <h3 id="<%= !@is_plain_layout_enabled ? 'category-name' : '' %>" class="text-lg text-slate-900 dark:text-slate-50 font-semibold <%= @is_plain_layout_enabled ? 'group-hover:underline' : '' %>"><%= article.title %></h3>
             <p class="text-base font-normal text-slate-500 dark:text-slate-200 line-clamp-1 break-all"><%= render_category_content(article.content) %></p>
           </div>
           <span class="text-sm text-slate-600 dark:text-slate-400 font-medium flex items-center"><%= I18n.t('public_portal.common.last_updated_on', last_updated_on: article.updated_at.strftime("%b %d, %Y")) %></span>
