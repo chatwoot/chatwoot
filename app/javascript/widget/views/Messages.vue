@@ -23,6 +23,8 @@ export default {
   },
   mounted() {
     this.$store.dispatch('conversation/setUserLastSeen');
+    this.$store.dispatch('conversation/getTotalCsatQuestions');
+    this.$store.dispatch('conversation/getCsatTemplateStatus');
   },
 };
 </script>

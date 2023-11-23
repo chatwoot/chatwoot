@@ -55,6 +55,7 @@
       v-if="isCSAT"
       :message-content-attributes="messageContentAttributes.submitted_values"
       :message-id="messageId"
+      :message="message"
     />
   </div>
 </template>

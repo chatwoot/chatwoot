@@ -73,6 +73,14 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
     render json: conversation
   end
 
+  def total_csat_questions
+    render json: { total: inbox.csat_template.questions_count }
+  end
+
+  def csat_template_status
+    render json: { status: inbox.account.csat_template_enabled? }
+  end
+
   private
 
   def trigger_typing_event(event)

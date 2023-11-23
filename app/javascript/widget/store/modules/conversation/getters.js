@@ -58,4 +58,13 @@ export const getters = {
     const maxUnreadCount = Math.min(unreadCount, 3);
     return unreadAgentMessages.splice(-maxUnreadCount);
   },
+  getTotalCsat: _state => {
+    return _state.totalCsat;
+  },
+  getTotalAnsweredCsat: _state => {
+    return _state.totalAnsweredCsat;
+  },
+  getCsatTemplateStatus: _state => {
+    return _state.csatTemplateEnabled;
+  },
 };

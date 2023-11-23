@@ -9,5 +9,12 @@
       "GOOD": "😀 Good",
       "EXCELLENT": "😍 Excellent"
     }
+  },
+  "CSAT_TEMPLATE": {
+    "ADD": {
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT Template added successfully"
+      }
+    }
   }
 }

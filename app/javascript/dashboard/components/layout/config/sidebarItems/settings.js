@@ -39,6 +39,7 @@ const settings = accountId => ({
     'settings_teams_finish',
     'settings_teams_list',
     'settings_teams_new',
+    'settings_csat',
   ],
   menuItems: [
     {
@@ -156,6 +157,15 @@ const settings = accountId => ({
       toState: frontendURL(`accounts/${accountId}/settings/audit-log/list`),
       toStateName: 'auditlogs_list',
       featureFlag: FEATURE_FLAGS.AUDIT_LOGS,
+      beta: true,
+    },
+    {
+      icon: 'star-half',
+      label: 'CSAT_SETTINGS',
+      hasSubMenu: false,
+      toState: frontendURL(`accounts/${accountId}/settings/csat`),
+      toStateName: 'settings_csat',
+      featureFlag: FEATURE_FLAGS.CSAT_SETTINGS,
       beta: true,
     },
   ],

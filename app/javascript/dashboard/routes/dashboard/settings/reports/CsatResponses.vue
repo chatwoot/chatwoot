@@ -17,7 +17,16 @@
       {{ $t('CSAT_REPORTS.DOWNLOAD') }}
     </woot-button>
     <csat-metrics :filters="requestPayload" />
-    <csat-table :page-index="pageIndex" @page-change="onPageNumberChange" />
+    <div>
+      <input v-model="groudByQuestions" type="checkbox" :value="true" />
+      <label>Group by questions</label>
+    </div>
+    <csat-question-group v-if="groudByQuestions" />
+    <csat-table
+      v-else
+      :page-index="pageIndex"
+      @page-change="onPageNumberChange"
+    />
   </div>
 </template>
 <script>
@@ -29,6 +38,7 @@ import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 import { mapGetters } from 'vuex';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import alertMixin from '../../../../../shared/mixins/alertMixin';
+import CsatQuestionGroup from './components/CsatQuestionGroup.vue';
 
 export default {
   name: 'CsatResponses',
@@ -36,6 +46,7 @@ export default {
     CsatMetrics,
     CsatTable,
     ReportFilterSelector,
+    CsatQuestionGroup,
   },
   mixins: [alertMixin],
   data() {
@@ -47,6 +58,7 @@ export default {
       inbox: null,
       team: null,
       rating: null,
+      groudByQuestions: false,
     };
   },
   computed: {
@@ -75,6 +87,7 @@ export default {
     getAllData() {
       try {
         this.$store.dispatch('csat/getMetrics', this.requestPayload);
+        this.$store.dispatch('csat/getQuestions', this.requestPayload);
         this.getResponses();
       } catch {
         this.showAlert(this.$t('REPORT.DATA_FETCHING_FAILED'));

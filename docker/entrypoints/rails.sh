@@ -30,5 +30,7 @@ do
   sleep 2;
 done
 
+bundle exec rake db:migrate
+
 # Execute the main process of the container
 exec "$@"

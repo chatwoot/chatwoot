@@ -57,9 +57,11 @@ COPY . /app
 # https://github.com/chatwoot/chatwoot/issues/701
 RUN mkdir -p /app/log
 
+RUN EDITOR="mate --wait" bin/rails credentials:edit
+
 # generate production assets if production environment
 RUN if [ "$RAILS_ENV" = "production" ]; then \
-  SECRET_KEY_BASE=precompile_placeholder RAILS_LOG_TO_STDOUT=enabled bundle exec rake assets:precompile \
+  RAILS_LOG_TO_STDOUT=enabled bundle exec rake assets:precompile \
   && rm -rf spec node_modules tmp/cache; \
   fi
 
@@ -120,4 +122,5 @@ EXPOSE 3000
 RUN chmod +x docker/entrypoints/rails.sh
 
 ENTRYPOINT ["docker/entrypoints/rails.sh"]
+
 CMD bundle exec bundle exec rails s -b 0.0.0.0 -p 3000

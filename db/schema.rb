@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_13_072802) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_12_075224) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -54,6 +54,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_13_072802) do
     t.jsonb "limits", default: {}
     t.jsonb "custom_attributes", default: {}
     t.integer "status", default: 0
+    t.boolean "csat_template_enabled", default: false
     t.index ["status"], name: "index_accounts_on_status"
   end
 
@@ -482,11 +483,30 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_13_072802) do
     t.bigint "assigned_agent_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "csat_template_id"
+    t.bigint "csat_template_question_id"
     t.index ["account_id"], name: "index_csat_survey_responses_on_account_id"
     t.index ["assigned_agent_id"], name: "index_csat_survey_responses_on_assigned_agent_id"
     t.index ["contact_id"], name: "index_csat_survey_responses_on_contact_id"
     t.index ["conversation_id"], name: "index_csat_survey_responses_on_conversation_id"
+    t.index ["csat_template_id"], name: "index_csat_survey_responses_on_csat_template_id"
+    t.index ["csat_template_question_id"], name: "index_csat_survey_responses_on_csat_template_question_id"
     t.index ["message_id"], name: "index_csat_survey_responses_on_message_id", unique: true
+  end
+
+  create_table "csat_template_questions", force: :cascade do |t|
+    t.bigint "csat_template_id", null: false
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["csat_template_id"], name: "index_csat_template_questions_on_csat_template_id"
+  end
+
+  create_table "csat_templates", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_csat_templates_on_account_id"
   end
 
   create_table "custom_attribute_definitions", force: :cascade do |t|
@@ -501,7 +521,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_13_072802) do
     t.text "attribute_description"
     t.jsonb "attribute_values", default: []
     t.index ["account_id"], name: "index_custom_attribute_definitions_on_account_id"
-    t.index ["attribute_key", "attribute_model", "account_id"], name: "attribute_key_model_index", unique: true
+    t.index ["attribute_key", "attribute_model"], name: "attribute_key_model_index", unique: true
   end
 
   create_table "custom_filters", force: :cascade do |t|
@@ -589,6 +609,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_13_072802) do
     t.bigint "portal_id"
     t.integer "sender_name_type", default: 0, null: false
     t.string "business_name"
+    t.integer "csat_template_id"
     t.index ["account_id"], name: "index_inboxes_on_account_id"
     t.index ["channel_id", "channel_type"], name: "index_inboxes_on_channel_id_and_channel_type"
     t.index ["portal_id"], name: "index_inboxes_on_portal_id"
@@ -652,6 +673,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_13_072802) do
     t.index ["conversation_id"], name: "index_mentions_on_conversation_id"
     t.index ["user_id", "conversation_id"], name: "index_mentions_on_user_id_and_conversation_id", unique: true
     t.index ["user_id"], name: "index_mentions_on_user_id"
+  end
+
+  create_table "message_csat_template_questions", force: :cascade do |t|
+    t.bigint "message_id"
+    t.bigint "csat_template_question_id"
+    t.integer "question_number"
+    t.index ["csat_template_question_id"], name: "index_messages_csat_question_id"
+    t.index ["message_id"], name: "uniq_csat_question_messages_id"
   end
 
   create_table "messages", id: :serial, force: :cascade do |t|
@@ -841,9 +870,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_13_072802) do
     t.index ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context"
     t.index ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy"
     t.index ["taggable_id"], name: "index_taggings_on_taggable_id"
+    t.index ["taggable_type", "taggable_id"], name: "index_taggings_on_taggable_type_and_taggable_id"
     t.index ["taggable_type"], name: "index_taggings_on_taggable_type"
     t.index ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type"
     t.index ["tagger_id"], name: "index_taggings_on_tagger_id"
+    t.index ["tagger_type", "tagger_id"], name: "index_taggings_on_tagger_type_and_tagger_id"
   end
 
   create_table "tags", id: :serial, force: :cascade do |t|

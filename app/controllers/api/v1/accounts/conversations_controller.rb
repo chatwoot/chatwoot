@@ -95,6 +95,10 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     @conversation.save!
   end
 
+  def get
+    render json: { total: @conversation.inbox.csat_template.questions_count }
+  end
+
   private
 
   def update_last_seen_on_conversation(last_seen_at, update_assignee)

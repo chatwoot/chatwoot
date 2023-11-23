@@ -12,6 +12,7 @@ class MessageTemplates::HookExecutionService
 
   delegate :inbox, :conversation, to: :message
   delegate :contact, to: :conversation
+  delegate :csat_template, to: :inbox
 
   def trigger_templates
     ::MessageTemplates::Template::OutOfOffice.new(conversation: conversation).perform if should_send_out_of_office_message?
@@ -65,8 +66,12 @@ class MessageTemplates::HookExecutionService
   def should_send_csat_survey?
     return unless csat_enabled_conversation?
 
+    if inbox.account.csat_template_enabled? && csat_template.present?
+      return if conversation.messages.csat.count >= csat_template.questions_count || conversation.messages.unanswered_csat.exists?
+    elsif conversation.messages.csat.present?
+      return
+    end
     # only send CSAT once in a conversation
-    return if conversation.messages.where(content_type: :input_csat).present?
 
     true
   end

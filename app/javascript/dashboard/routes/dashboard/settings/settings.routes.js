@@ -17,6 +17,7 @@ import profile from './profile/profile.routes';
 import reports from './reports/reports.routes';
 import store from '../../../store';
 import teams from './teams/teams.routes';
+import csat from './csat/csat.routes';
 
 export default {
   routes: [
@@ -48,5 +49,6 @@ export default {
     ...profile.routes,
     ...reports.routes,
     ...teams.routes,
+    ...csat.routes,
   ],
 };

@@ -1,6 +1,6 @@
 class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   before_action :set_conversation, only: [:create]
-  before_action :set_message, only: [:update]
+  before_action :set_message, only: [:update, :csat_question]
 
   def index
     @messages = conversation.nil? ? [] : message_finder.perform
@@ -26,6 +26,8 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   rescue StandardError => e
     render json: { error: @contact.errors, message: e.message }.to_json, status: :internal_server_error
   end
+
+  def csat_question; end
 
   private
 

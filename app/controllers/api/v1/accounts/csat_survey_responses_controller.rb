@@ -5,7 +5,7 @@ class Api::V1::Accounts::CsatSurveyResponsesController < Api::V1::Accounts::Base
   RESULTS_PER_PAGE = 25
 
   before_action :check_authorization
-  before_action :set_csat_survey_responses, only: [:index, :metrics, :download]
+  before_action :set_csat_survey_responses, only: [:index, :metrics, :download, :questions]
   before_action :set_current_page, only: [:index]
   before_action :set_current_page_surveys, only: [:index]
   before_action :set_total_sent_messages_count, only: [:metrics]
@@ -23,6 +23,11 @@ class Api::V1::Accounts::CsatSurveyResponsesController < Api::V1::Accounts::Base
     response.headers['Content-Type'] = 'text/csv'
     response.headers['Content-Disposition'] = 'attachment; filename=csat_report.csv'
     render layout: false, template: 'api/v1/accounts/csat_survey_responses/download', formats: [:csv]
+  end
+
+  def questions
+    @questions = CsatTemplateQuestion.joins(:csat_survey_responses).merge(@csat_survey_responses).reorder('content asc').distinct
+    render json: { questions: @questions }
   end
 
   private

@@ -10,4 +10,8 @@ class CsatSurveyResponsePolicy < ApplicationPolicy
   def download?
     @account_user.administrator?
   end
+
+  def questions?
+    @account_user.administrator?
+  end
 end
