@@ -224,9 +224,9 @@
           "LABEL": "Logó",
           "UPLOAD_BUTTON": "Logó feltöltése",
           "HELP_TEXT": "Ez a logó megjelenik a portál fejlécében.",
-          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
-          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Error while deleting logo"
+          "IMAGE_UPLOAD_SUCCESS": "Logó sikeresen feltöltve",
+          "IMAGE_UPLOAD_ERROR": "Logo sikeresen törölve",
+          "IMAGE_DELETE_ERROR": "Hiba a logó törlése közben"
         },
         "NAME": {
           "LABEL": "Név",
