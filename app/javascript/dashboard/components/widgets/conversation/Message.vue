@@ -22,20 +22,9 @@
           :bcc="emailHeadAttributes.bcc"
           :is-incoming="isIncoming"
         />
-        <blockquote v-if="storyReply" class="story-reply-quote">
-          <span>{{ $t('CONVERSATION.REPLIED_TO_STORY') }}</span>
-          <bubble-image
-            v-if="!hasImgStoryError && storyUrl"
-            :url="storyUrl"
-            @error="onStoryLoadError"
-          />
-          <bubble-video
-            v-else-if="hasImgStoryError && storyUrl"
-            :url="storyUrl"
-          />
-        </blockquote>
+        <instagram-story-reply v-if="storyUrl" :story-url="storyUrl" />
         <bubble-reply-to
-          v-if="inReplyToMessageId && inboxSupportsReplyTo"
+          v-if="inReplyToMessageId && inboxSupportsReplyTo.incoming"
           :message="inReplyTo"
           :message-type="data.message_type"
           :parent-has-attachments="hasAttachments"
@@ -59,10 +48,15 @@
         </span>
         <div v-if="!isPending && hasAttachments">
           <div v-for="attachment in attachments" :key="attachment.id">
+            <instagram-story
+              v-if="isAnInstagramStory"
+              :story-url="attachment.data_url"
+              @error="onMediaLoadError"
+            />
             <bubble-image-audio-video
-              v-if="isAttachmentImageVideoAudio(attachment.file_type)"
+              v-else-if="isAttachmentImageVideoAudio(attachment.file_type)"
               :attachment="attachment"
-              @error="onImageLoadError"
+              @error="onMediaLoadError"
             />
             <bubble-location
               v-else-if="attachment.file_type === 'location'"
@@ -75,9 +69,6 @@
               :name="data.content"
               :phone-number="attachment.fallback_title"
             />
-            <instagram-image-error-placeholder
-              v-else-if="hasImageError && hasInstagramStory"
-            />
             <bubble-file v-else :url="attachment.data_url" />
           </div>
         </div>
@@ -89,7 +80,6 @@
           :story-id="`${storyId}`"
           :is-a-tweet="isATweet"
           :is-a-whatsapp-channel="isAWhatsAppChannel"
-          :has-instagram-story="hasInstagramStory"
           :is-email="isEmailContentType"
           :is-private="data.private"
           :message-type="data.message_type"
@@ -138,19 +128,18 @@
 <script>
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import BubbleActions from './bubble/Actions.vue';
+import BubbleContact from './bubble/Contact.vue';
 import BubbleFile from './bubble/File.vue';
-import BubbleImage from './bubble/Image.vue';
-import BubbleVideo from './bubble/Video.vue';
 import BubbleImageAudioVideo from './bubble/ImageAudioVideo.vue';
 import BubbleIntegration from './bubble/Integration.vue';
 import BubbleLocation from './bubble/Location.vue';
 import BubbleMailHead from './bubble/MailHead.vue';
-import BubbleText from './bubble/Text.vue';
-import BubbleContact from './bubble/Contact.vue';
 import BubbleReplyTo from './bubble/ReplyTo.vue';
-import Spinner from 'shared/components/Spinner.vue';
+import BubbleText from './bubble/Text.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
-import instagramImageErrorPlaceholder from './instagramImageErrorPlaceholder.vue';
+import InstagramStory from './bubble/InstagramStory.vue';
+import InstagramStoryReply from './bubble/InstagramStoryReply.vue';
+import Spinner from 'shared/components/Spinner.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import contentTypeMixin from 'shared/mixins/contentTypeMixin';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
@@ -163,19 +152,18 @@ import { LocalStorage } from 'shared/helpers/localStorage';
 export default {
   components: {
     BubbleActions,
+    BubbleContact,
     BubbleFile,
-    BubbleImage,
-    BubbleVideo,
     BubbleImageAudioVideo,
     BubbleIntegration,
     BubbleLocation,
     BubbleMailHead,
-    BubbleText,
-    BubbleContact,
     BubbleReplyTo,
+    BubbleText,
     ContextMenu,
+    InstagramStory,
+    InstagramStoryReply,
     Spinner,
-    instagramImageErrorPlaceholder,
   },
   mixins: [alertMixin, messageFormatterMixin, contentTypeMixin],
   props: {
@@ -191,17 +179,13 @@ export default {
       type: Boolean,
       default: false,
     },
-    hasInstagramStory: {
-      type: Boolean,
-      default: false,
-    },
     isWebWidgetInbox: {
       type: Boolean,
       default: false,
     },
     inboxSupportsReplyTo: {
-      type: Boolean,
-      default: false,
+      type: Object,
+      default: () => ({}),
     },
     inReplyTo: {
       type: Object,
@@ -211,10 +195,9 @@ export default {
   data() {
     return {
       showContextMenu: false,
-      hasImageError: false,
+      hasMediaLoadError: false,
       contextMenuPosition: {},
       showBackgroundHighlight: false,
-      hasImgStoryError: false,
     };
   },
   computed: {
@@ -290,19 +273,22 @@ export default {
       // since old messages are only loaded when the user scrolls up
       return this.data.content_attributes?.in_reply_to;
     },
+    isAnInstagramStory() {
+      return this.contentAttributes.image_type === 'story_mention';
+    },
     contextMenuEnabledOptions() {
       return {
         copy: this.hasText,
         delete: this.hasText || this.hasAttachments,
         cannedResponse: this.isOutgoing && this.hasText,
-        replyTo: !this.data.private && this.inboxSupportsReplyTo,
+        replyTo: !this.data.private && this.inboxSupportsReplyTo.outgoing,
       };
     },
     contentAttributes() {
       return this.data.content_attributes || {};
     },
     externalError() {
-      return this.contentAttributes.external_error || null;
+      return this.contentAttributes.external_error || '';
     },
     sender() {
       return this.data.sender || {};
@@ -318,9 +304,6 @@ export default {
     },
     storyUrl() {
       return this.contentAttributes.story_url || null;
-    },
-    storyReply() {
-      return this.storyUrl && this.hasInstagramStory;
     },
     contentType() {
       const {
@@ -402,7 +385,7 @@ export default {
         return false;
       }
       if (this.isFailed) {
-        return this.externalError ? '' : this.$t(`CONVERSATION.SEND_FAILED`);
+        return this.externalError || this.$t(`CONVERSATION.SEND_FAILED`);
       }
       return false;
     },
@@ -460,13 +443,11 @@ export default {
   },
   watch: {
     data() {
-      this.hasImageError = false;
-      this.hasImgStoryError = false;
+      this.hasMediaLoadError = false;
     },
   },
   mounted() {
-    this.hasImageError = false;
-    this.hasImgStoryError = false;
+    this.hasMediaLoadError = false;
     bus.$on(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
     this.setupHighlightTimer();
   },
@@ -476,13 +457,13 @@ export default {
   },
   methods: {
     isAttachmentImageVideoAudio(fileType) {
-      return ['image', 'audio', 'video'].includes(fileType);
+      return ['image', 'audio', 'video', 'story_mention'].includes(fileType);
     },
     hasMediaAttachment(type) {
       if (this.hasAttachments && this.data.attachments.length > 0) {
         const { attachments = [{}] } = this.data;
         const { file_type: fileType } = attachments[0];
-        return fileType === type && !this.hasImageError;
+        return fileType === type && !this.hasMediaLoadError;
       }
       if (this.storyReply) {
         return true;
@@ -495,11 +476,8 @@ export default {
     async retrySendMessage() {
       await this.$store.dispatch('sendMessageWithData', this.data);
     },
-    onImageLoadError() {
-      this.hasImageError = true;
-    },
-    onStoryLoadError() {
-      this.hasImgStoryError = true;
+    onMediaLoadError() {
+      this.hasMediaLoadError = true;
     },
     openContextMenu(e) {
       const shouldSkipContextMenu =
@@ -730,9 +708,5 @@ li.right {
       @apply text-woot-75 dark:text-woot-75;
     }
   }
-}
-
-.story-reply-quote {
-  @apply mt-2 mx-4 mb-0 px-2 pb-0 pt-2 border-l-4 border-solid border-slate-75 dark:border-slate-600 text-slate-600 dark:text-slate-200;
 }
 </style>

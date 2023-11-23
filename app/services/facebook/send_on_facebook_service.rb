@@ -11,12 +11,16 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   rescue Facebook::Messenger::FacebookError => e
     # TODO : handle specific errors or else page will get disconnected
     handle_facebook_error(e)
+    message.update!(status: :failed, external_error: e.message)
   end
 
   def send_message_to_facebook(delivery_params)
     result = Facebook::Messenger::Bot.deliver(delivery_params, page_id: channel.page_id)
     parsed_result = JSON.parse(result)
-    message.update!(status: :failed, external_error: external_error(parsed_result)) if parsed_result['error'].present?
+    if parsed_result['error'].present?
+      message.update!(status: :failed, external_error: external_error(parsed_result))
+      Rails.logger.info "Facebook::SendOnFacebookService: Error sending message to Facebook : Page - #{channel.page_id} : #{result}"
+    end
     message.update!(source_id: parsed_result['message_id']) if parsed_result['message_id'].present?
   end
 
@@ -75,10 +79,8 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
 
   def handle_facebook_error(exception)
     # Refer: https://github.com/jgorset/facebook-messenger/blob/64fe1f5cef4c1e3fca295b205037f64dfebdbcab/lib/facebook/messenger/error.rb
-    if exception.to_s.include?('The session has been invalidated') || exception.to_s.include?('Error validating access token')
-      channel.authorization_error!
-    else
-      ChatwootExceptionTracker.new(exception, account: message.account, user: message.sender).capture_exception
-    end
+    return unless exception.to_s.include?('The session has been invalidated') || exception.to_s.include?('Error validating access token')
+
+    channel.authorization_error!
   end
 end

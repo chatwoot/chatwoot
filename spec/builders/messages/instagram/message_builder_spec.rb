@@ -14,6 +14,7 @@ describe Messages::Instagram::MessageBuilder do
   let!(:dm_params) { build(:instagram_message_create_event).with_indifferent_access }
   let!(:story_mention_params) { build(:instagram_story_mention_event).with_indifferent_access }
   let!(:instagram_story_reply_event) { build(:instagram_story_reply_event).with_indifferent_access }
+  let!(:instagram_message_reply_event) { build(:instagram_message_reply_event).with_indifferent_access }
   let(:fb_object) { double }
   let(:contact) { create(:contact, id: 'Sender-id-1', name: 'Jane Dae') }
   let(:contact_inbox) { create(:contact_inbox, contact_id: contact.id, inbox_id: instagram_inbox.id, source_id: 'Sender-id-1') }
@@ -99,6 +100,34 @@ describe Messages::Instagram::MessageBuilder do
       expect(message.content_attributes[:story_sender]).to eq(instagram_inbox.channel.instagram_id)
       expect(message.content_attributes[:story_id]).to eq('chatwoot-app-user-id-1')
       expect(message.content_attributes[:story_url]).to eq('https://chatwoot-assets.local/sample.png')
+    end
+
+    it 'creates message with for reply with mid' do
+      allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+      allow(fb_object).to receive(:get_object).and_return(
+        {
+          name: 'Jane',
+          id: 'Sender-id-1',
+          account_id: instagram_inbox.account_id,
+          profile_pic: 'https://chatwoot-assets.local/sample.png'
+        }.with_indifferent_access
+      )
+      # create first message to ensure reply to is valid
+      first_message = dm_params[:entry][0]['messaging'][0]
+      contact_inbox
+      described_class.new(first_message, instagram_inbox).perform
+
+      # create the second message with the reply to mid set
+      messaging = instagram_message_reply_event[:entry][0]['messaging'][0]
+      contact_inbox
+
+      described_class.new(messaging, instagram_inbox).perform
+      first_message = instagram_channel.inbox.messages.first
+      message = instagram_channel.inbox.messages.last
+
+      expect(message.content).to eq('This is message with replyto mid')
+      expect(message.content_attributes[:in_reply_to_external_id]).to eq(first_message.source_id)
+      expect(message.content_attributes[:in_reply_to]).to eq(first_message.id)
     end
 
     it 'raises exception on deleted story' do

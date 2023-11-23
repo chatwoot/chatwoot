@@ -12,6 +12,7 @@
     <div v-else class="chat-message-input is-focused">
       <resizable-text-area
         id="chat-input"
+        :rows="1"
         :placeholder="
           $t('INBOX_MGMT.WIDGET_BUILDER.FOOTER.CHAT_INPUT_PLACEHOLDER')
         "
