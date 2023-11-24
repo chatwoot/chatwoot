@@ -246,4 +246,10 @@ describe PortalHelper do
       expect(helper.render_category_content(markdown_content)).to eq(plain_text_content)
     end
   end
+
+  describe '#random_thumbnail_bg_color' do
+    it 'returns a random color' do
+      expect(helper.random_thumbnail_bg_color).to be_in(['#6D95BA', '#A4C3C3', '#E19191'])
+    end
+  end
 end

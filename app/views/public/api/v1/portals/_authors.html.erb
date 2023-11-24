@@ -1,0 +1,28 @@
+<% author_size = category.articles.published.order(position: :asc).map(&:author).uniq.size %>
+<% if author_size > 0 %>
+  <div class="flex flex-row items-center gap-1">
+    <div class="flex flex-row items-center -space-x-2">
+        <% category.articles.published.order(position: :asc).map(&:author).uniq.take(3).each do |author| %>
+          <% if author.avatar_url.present? %>
+            <img src="<%= url_for(author.avatar_url) %>" class="w-6 h-6 rounded-full border border-solid border-white dark:border-slate-900" />
+          <% else %>
+            <div class="w-6 h-6 rounded-full text-slate-25 dark:text-slate-900 border border-solid text-[10px] font-semibold border-white dark:border-slate-900 flex justify-center items-center" style="background-color: <%= random_thumbnail_bg_color %>;">
+              <%= author.name[0..1].upcase %>
+            </div>
+          <% end %>
+        <% end %>
+    </div>
+    <% if !show_expanded %>
+        <span class="text-sm font-medium text-slate-600 dark:text-slate-400"><%= author_size > 1 ? "#{author_size} #{I18n.t('public_portal.common.authors')}" : "#{author_size} #{I18n.t('public_portal.common.author')}" %></span>
+    <% else %>
+        <% first_author = category.articles.published.order(position: :asc).map(&:author).uniq.first %>
+        <span class="text-base font-medium text-slate-600 dark:text-slate-400">
+            <% if author_size > 1 %>
+            <%= "#{I18n.t('public_portal.common.by')} #{first_author.name} and #{author_size - 1} #{author_size - 1 > 1 ? I18n.t('public_portal.common.others') : I18n.t('public_portal.common.other')}" %>
+            <% else %>
+            <%= "#{I18n.t('public_portal.common.by')} #{first_author.name}" %>
+            <% end %>
+        </span>
+    <% end %>
+  </div>
+<% end %>
