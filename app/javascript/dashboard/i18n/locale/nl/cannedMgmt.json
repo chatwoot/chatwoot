@@ -1,8 +1,8 @@
 {
   "CANNED_MGMT": {
     "HEADER": "Standaard antwoorden",
-    "HEADER_BTN_TXT": "Add canned response",
-    "LOADING": "Fetching canned responses...",
+    "HEADER_BTN_TXT": "Standaard antwoord toevoegen",
+    "LOADING": "Standaard antwoorden ophalen...",
     "SEARCH_404": "Er zijn geen items die overeenkomen met deze zoekopdracht.",
     "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are pre-written reply templates that help you quickly respond to a conversation. To insert a canned response during a chat, agents can type a short code preceded by a '/' character. </p><p> You can manage your canned responses from this page or create new ones using the \"Add canned response\" button.</p><p>Open the <a target=\"_blank\" href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677501325-how-to-create-saved-reply-templates-with-canned-responses\">Canned Responses handbook</a> in another tab for a helping hand.</p><p>Also, check out the all-new <a href=\"https://www.chatwoot.com/tools/canned-responses-library\" target=\"_blank\">Canned Responses Library</a>.</p>",
     "LIST": {
@@ -10,25 +10,25 @@
       "TITLE": "Beheer standaard antwoorden",
       "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
       "TABLE_HEADER": [
-        "Short code",
+        "Korte code",
         "Inhoud",
         "Acties"
       ]
     },
     "ADD": {
-      "TITLE": "Add canned response",
+      "TITLE": "Standaard antwoord toevoegen",
       "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
       "CANCEL_BUTTON_TEXT": "Annuleren",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short code",
-          "PLACEHOLDER": "Please enter a short code.",
-          "ERROR": "Short Code is required."
+          "LABEL": "Korte code",
+          "PLACEHOLDER": "Vul een korte code in.",
+          "ERROR": "Korte code is vereist."
         },
         "CONTENT": {
           "LABEL": "Bericht",
-          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
-          "ERROR": "Message is required."
+          "PLACEHOLDER": "Schrijf het bericht dat je wilt opslaan als sjabloon om later te gebruiken.",
+          "ERROR": "Bericht is vereist."
         },
         "SUBMIT": "Bevestigen"
       },
@@ -42,14 +42,14 @@
       "CANCEL_BUTTON_TEXT": "Annuleren",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short code",
+          "LABEL": "Korte code",
           "PLACEHOLDER": "Please enter a shortcode.",
           "ERROR": "Short code is required."
         },
         "CONTENT": {
           "LABEL": "Bericht",
-          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
-          "ERROR": "Message is required."
+          "PLACEHOLDER": "Schrijf het bericht dat je wilt opslaan als sjabloon om later te gebruiken.",
+          "ERROR": "Bericht is vereist."
         },
         "SUBMIT": "Bevestigen"
       },
