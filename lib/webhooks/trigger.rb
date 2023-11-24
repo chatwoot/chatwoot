@@ -12,10 +12,11 @@ class Webhooks::Trigger
   end
 
   def execute
-    perform_request
+    response = perform_request
   rescue StandardError => e
     handle_error(e)
-    Rails.logger.warn "Exception: Invalid webhook URL #{@url} : #{e.message}"
+    Rails.logger.warn "Webhooks: Exception: Invalid webhook URL #{@url} : #{e.message}"
+    Rails.logger.warn "Webhooks: Response body: #{response.body}" if response.respond_to?(:body)
   end
 
   private
