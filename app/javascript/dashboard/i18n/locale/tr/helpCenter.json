@@ -224,9 +224,9 @@
           "LABEL": "Logo",
           "UPLOAD_BUTTON": "Logo yükle",
           "HELP_TEXT": "Bu logo portal başlığında görüntülenecektir.",
-          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
-          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Error while deleting logo"
+          "IMAGE_UPLOAD_SUCCESS": "Logo başarıyla yüklendi",
+          "IMAGE_UPLOAD_ERROR": "Logo başarıyla silindi",
+          "IMAGE_DELETE_ERROR": "Logo silinirken hata oluştu"
         },
         "NAME": {
           "LABEL": "İsim",
