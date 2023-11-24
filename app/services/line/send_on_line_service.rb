@@ -6,14 +6,8 @@ class Line::SendOnLineService < Base::SendOnChannelService
   end
 
   def perform_reply
-    byebug
-    payload = if message.attachment?
-                build_attachment_payload
-              else
-                [{ type: 'text', text: message.content }]
-              end
+    response = channel.client.push_message(message.conversation.contact_inbox.source_id, build_payload)
 
-    response = channel.client.push_message(message.conversation.contact_inbox.source_id, payload)
     return if response.blank?
 
     parsed_json = JSON.parse(response.body)
@@ -27,14 +21,31 @@ class Line::SendOnLineService < Base::SendOnChannelService
     end
   end
 
-  def build_attachment_payload
-    case message.attachment_type
-    when 'image'
-      [{ type: 'image', originalContentUrl: message.attachment_url, previewImageUrl: message.attachment_url }]
-    # Add more cases for other types of attachments like 'video', 'audio', etc.
+  def build_payload
+    if message.content && message.attachments.any?
+      [text_message, *attachments]
+    elsif message.content.empty? && message.attachments.any?
+      attachments
     else
-      [{ type: 'text', text: "Unsupported attachment type: #{message.attachment_type}" }]
+      text_message
     end
+  end
+
+  def attachments
+    message.attachments.map do |attachment|
+      {
+        type: 'image',
+        originalContentUrl: attachment.download_url,
+        previewImageUrl: attachment.download_url
+      }
+    end
+  end
+
+  def text_message
+    {
+      type: 'text',
+      text: message.content
+    }
   end
 
   # https://developers.line.biz/en/reference/messaging-api/#error-responses
