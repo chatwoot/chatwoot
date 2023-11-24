@@ -190,14 +190,14 @@ nl:
       empty_placeholder: Geen resultaten gevonden.
       loading_placeholder: Zoeken...
       results_title: Zoekresultaten
-    toc_header: 'On this page'
+    toc_header: 'Op deze pagina'
     hero:
       sub_title: Search for the articles here or browse the categories below.
     common:
       home: Startpagina
       last_updated_on: Last updated on %{last_updated_on}
-      view_all_articles: View all
-      article: article
+      view_all_articles: Alles weergeven
+      article: artikel
       articles: articles
       no_articles: There are no articles here
     footer:
