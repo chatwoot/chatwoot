@@ -24,7 +24,7 @@ class Line::SendOnLineService < Base::SendOnChannelService
   def build_payload
     if message.content && message.attachments.any?
       [text_message, *attachments]
-    elsif message.content.empty? && message.attachments.any?
+    elsif message.content.nil? && message.attachments.any?
       attachments
     else
       text_message
@@ -34,7 +34,7 @@ class Line::SendOnLineService < Base::SendOnChannelService
   def attachments
     message.attachments.map do |attachment|
       {
-        type: 'image',
+        type: attachment.file_type,
         originalContentUrl: attachment.download_url,
         previewImageUrl: attachment.download_url
       }
