@@ -34,7 +34,7 @@
          <% else %>
          <% category.articles.published.order(position: :asc).take(5).each do |article| %>
          <a class="leading-7 text-slate-700 dark:text-slate-100" href="<%= generate_article_link(portal.slug, article.slug, @theme_from_params, @is_plain_layout_enabled) %>">
-            <div id="<%= !@is_plain_layout_enabled ? 'category-item' : '' %>" class="flex justify-between hover:cursor-pointer items-start py-1 rounded-lg gap-3  <%= !@is_plain_layout_enabled ? 'px-2' : 'hover:underline' %>">
+            <div id="<%= !@is_plain_layout_enabled ? 'category-item' : '' %>" class="flex justify-between hover:cursor-pointer items-start py-1 rounded-lg gap-6 <%= !@is_plain_layout_enabled ? 'px-2' : 'hover:underline' %>">
                <%= article.title %>
                <span class="flex items-center font-normal mt-1.5">
                   <%= render partial: 'icons/chevron-right' %>
@@ -45,7 +45,9 @@
          <% end %>
       </div>
       <div class="flex justify-between flex-row items-center <%= !@is_plain_layout_enabled && 'px-2' %>">
-         <div>
+         <div class="flex flex-row items-center gap-1">
+           <%= render "public/api/v1/portals/authors", category: category, show_expanded: false %>
+           <span class="text-slate-600 dark:text-slate-400">•</span>
            <span class="text-sm font-medium text-slate-600 dark:text-slate-400"><%= render 'public/api/v1/portals/article_count', article_count: category.articles.published.order(position: :asc).size %></span>
          </div>
          <div>
