@@ -62,7 +62,8 @@ module PortalHelper
     ChatwootMarkdownRenderer.new(content).render_markdown_to_plain_text
   end
 
-  def random_thumbnail_bg_color
-    ['#6D95BA', '#A4C3C3', '#E19191'].sample
+  def thumbnail_bg_color(username)
+    colors = ['#6D95BA', '#A4C3C3', '#E19191']
+    colors[username.length % colors.size]
   end
 end
