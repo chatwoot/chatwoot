@@ -246,4 +246,16 @@ describe PortalHelper do
       expect(helper.render_category_content(markdown_content)).to eq(plain_text_content)
     end
   end
+
+  describe '#thumbnail_bg_color' do
+    it 'returns the correct color based on username length' do
+      expect(helper.thumbnail_bg_color('')).to eq('#6D95BA') # Length 0, so index is 0
+      expect(helper.thumbnail_bg_color('Joe')).to eq('#6D95BA') # Length 3, so index is 0
+      expect(helper.thumbnail_bg_color('John')).to eq('#A4C3C3') # Length 4, so index is 1
+      expect(helper.thumbnail_bg_color('Jane james')).to eq('#A4C3C3') # Length 10, so index is 1
+      expect(helper.thumbnail_bg_color('Jane_123')).to eq('#E19191') # Length 8, so index is 2
+      expect(helper.thumbnail_bg_color('AlexanderTheGreat')).to eq('#E19191') # Length 17, so index is 2
+      expect(helper.thumbnail_bg_color('Reginald John Sans')).to eq('#6D95BA') # Length 18, so index is 0
+    end
+  end
 end
