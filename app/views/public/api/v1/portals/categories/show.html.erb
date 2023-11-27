@@ -29,8 +29,8 @@
       >
         <div class="flex flex-col gap-5">
           <div class="flex flex-col gap-1">
-            <h3 id="<%= !@is_plain_layout_enabled ? 'category-name' : '' %>" class="text-lg text-slate-900 dark:text-slate-50 font-semibold <%= @is_plain_layout_enabled ? 'group-hover:underline' : '' %>"><%= article.title %></h3>
-            <p class="text-base font-normal text-slate-500 dark:text-slate-200 line-clamp-1 break-all"><%= render_category_content(article.content) %></p>
+            <h3 id="<%= !@is_plain_layout_enabled ? 'category-name' : '' %>" class="text-lg text-slate-900 tracking-[0.28px] dark:text-slate-50 font-semibold <%= @is_plain_layout_enabled ? 'group-hover:underline' : '' %>"><%= article.title %></h3>
+            <p class="text-base font-normal text-slate-600 dark:text-slate-200 line-clamp-1 break-all"><%= render_category_content(article.content) %></p>
           </div>
           <div class="flex flex-row items-center gap-1">
             <div class="flex flex-row items-center gap-1">
