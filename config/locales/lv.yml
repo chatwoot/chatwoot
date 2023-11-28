@@ -199,6 +199,11 @@ lv:
       view_all_articles: Apskatīt visu
       article: raksts
       articles: raksti
+      author: autors
+      authors: autori
+      other: cits
+      others: citi
+      by: autors
       no_articles: Šeit nav neviena raksta
     footer:
       made_with: Veidots ar
