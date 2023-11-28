@@ -199,6 +199,11 @@ uk:
       view_all_articles: View all
       article: статті
       articles: статті
+      author: автор
+      authors: authors
+      other: other
+      others: others
+      by: By
       no_articles: Тут немає статей
     footer:
       made_with: Зроблено з
