@@ -224,9 +224,9 @@
           "LABEL": "Logo",
           "UPLOAD_BUTTON": "Subir logo",
           "HELP_TEXT": "Este logo se mostrará en el encabezado del portal.",
-          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
-          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Error while deleting logo"
+          "IMAGE_UPLOAD_SUCCESS": "Logo subido correctamente",
+          "IMAGE_UPLOAD_ERROR": "Logo eliminado correctamente",
+          "IMAGE_DELETE_ERROR": "Error al eliminar el logo"
         },
         "NAME": {
           "LABEL": "Nombre",
