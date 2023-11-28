@@ -199,6 +199,11 @@ ru:
       view_all_articles: Посмотреть все
       article: статья
       articles: статьи
+      author: автор
+      authors: authors
+      other: other
+      others: others
+      by: By
       no_articles: Здесь нет статей
     footer:
       made_with: Сделано с
