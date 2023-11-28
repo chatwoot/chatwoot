@@ -199,6 +199,11 @@ id:
       view_all_articles: View all
       article: artikel
       articles: artikel
+      author: penulis
+      authors: authors
+      other: other
+      others: others
+      by: By
       no_articles: Tidak ada artikel di sini
     footer:
       made_with: Dibuat oleh
