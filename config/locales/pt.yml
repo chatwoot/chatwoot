@@ -199,6 +199,11 @@ pt:
       view_all_articles: Visualizar todos
       article: artigo
       articles: artigos
+      author: autor
+      authors: autores
+      other: outro
+      others: outros
+      by: Por
       no_articles: Não há artigos aqui
     footer:
       made_with: Feito com
