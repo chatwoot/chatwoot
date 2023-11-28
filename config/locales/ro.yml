@@ -199,6 +199,11 @@ ro:
       view_all_articles: View all
       article: articol
       articles: articole
+      author: autor
+      authors: authors
+      other: other
+      others: others
+      by: By
       no_articles: Nu există articole aici
     footer:
       made_with: Realizat cu
