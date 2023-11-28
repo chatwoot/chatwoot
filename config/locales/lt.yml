@@ -199,6 +199,11 @@ lt:
       view_all_articles: Peržiūrėti visus
       article: straipsnis
       articles: straipsniai
+      author: autorius
+      authors: autoriai
+      other: kitas
+      others: kiti
+      by: Autorius
       no_articles: Čia nėra straipsnių
     footer:
       made_with: Padaryta su
