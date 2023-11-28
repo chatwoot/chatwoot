@@ -199,6 +199,11 @@ hu:
       view_all_articles: Összes megtekintése
       article: bejegyzés
       articles: bejegyzések
+      author: szerző
+      authors: szerzők
+      other: egyéb
+      others: egyebek
+      by: Által
       no_articles: Nincsenek bejegyzések
     footer:
       made_with: 'Ezzel készítve: '
