@@ -61,4 +61,9 @@ module PortalHelper
   def render_category_content(content)
     ChatwootMarkdownRenderer.new(content).render_markdown_to_plain_text
   end
+
+  def thumbnail_bg_color(username)
+    colors = ['#6D95BA', '#A4C3C3', '#E19191']
+    colors[username.length % colors.size]
+  end
 end
