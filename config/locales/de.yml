@@ -199,6 +199,11 @@ de:
       view_all_articles: View all
       article: Artikel
       articles: Artikel
+      author: autor
+      authors: authors
+      other: other
+      others: others
+      by: By
       no_articles: Keine Artikel vorhanden
     footer:
       made_with: Erstellt mit
