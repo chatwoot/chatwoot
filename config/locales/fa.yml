@@ -199,6 +199,11 @@ fa:
       view_all_articles: مشاهده همه
       article: مقاله
       articles: مقالات
+      author: نویسنده
+      authors: authors
+      other: other
+      others: others
+      by: By
       no_articles: هنوز هیچ مقاله‌ای در اینجا وجود ندارد
     footer:
       made_with: ساخته شده با
