@@ -199,6 +199,11 @@ vi:
       view_all_articles: View all
       article: bài viết
       articles: bài viết
+      author: tác giả
+      authors: authors
+      other: other
+      others: others
+      by: By
       no_articles: Không tìm thấy bài viết
     footer:
       made_with: Tạo bởi
