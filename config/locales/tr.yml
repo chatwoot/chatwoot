@@ -199,6 +199,11 @@ tr:
       view_all_articles: Tümünü Görüntüle
       article: makale
       articles: makaleler
+      author: yazar
+      authors: authors
+      other: other
+      others: others
+      by: By
       no_articles: Burada makale bulunmuyor
     footer:
       made_with: İle yapılmıştır
