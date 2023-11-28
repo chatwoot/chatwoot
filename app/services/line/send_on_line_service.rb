@@ -33,6 +33,9 @@ class Line::SendOnLineService < Base::SendOnChannelService
 
   def attachments
     message.attachments.map do |attachment|
+      # Support only image and video for now
+      next unless attachment.file_type == 'image' || attachment.file_type == 'video'
+
       {
         type: attachment.file_type,
         originalContentUrl: attachment.download_url,
