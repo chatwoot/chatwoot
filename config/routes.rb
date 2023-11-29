@@ -171,6 +171,9 @@ Rails.application.routes.draw do
               post :read_all
               get :unread_count
             end
+            member do
+              post :snooze
+            end
           end
           resource :notification_settings, only: [:show, :update]
 
