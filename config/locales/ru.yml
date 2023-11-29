@@ -200,10 +200,10 @@ ru:
       article: статья
       articles: статьи
       author: автор
-      authors: authors
-      other: other
-      others: others
-      by: By
+      authors: авторы
+      other: другое
+      others: другие
+      by: От
       no_articles: Здесь нет статей
     footer:
       made_with: Сделано с
