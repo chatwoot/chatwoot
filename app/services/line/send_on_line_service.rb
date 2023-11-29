@@ -33,7 +33,7 @@ class Line::SendOnLineService < Base::SendOnChannelService
 
   def attachments
     message.attachments.map do |attachment|
-      # Support only image and video for now
+      # Support only image and video for now, https://developers.line.biz/en/reference/messaging-api/#image-message
       next unless attachment.file_type == 'image' || attachment.file_type == 'video'
 
       {
@@ -44,6 +44,7 @@ class Line::SendOnLineService < Base::SendOnChannelService
     end
   end
 
+  # https://developers.line.biz/en/reference/messaging-api/#text-message
   def text_message
     {
       type: 'text',
