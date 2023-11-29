@@ -7,6 +7,7 @@
 #  primary_actor_type   :string           not null
 #  read_at              :datetime
 #  secondary_actor_type :string
+#  snoozed_until        :datetime
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  account_id           :bigint           not null
