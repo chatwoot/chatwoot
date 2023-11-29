@@ -41,6 +41,7 @@ class Notification < ApplicationRecord
   enum notification_type: NOTIFICATION_TYPES
 
   after_create_commit :process_notification_delivery, :dispatch_create_event
+  after_destroy_commit :dispatch_destroy_event
 
   # TODO: Get rid of default scope
   # https://stackoverflow.com/a/1834250/939299
@@ -134,5 +135,9 @@ class Notification < ApplicationRecord
 
   def dispatch_create_event
     Rails.configuration.dispatcher.dispatch(NOTIFICATION_CREATED, Time.zone.now, notification: self)
+  end
+
+  def dispatch_destroy_event
+    Rails.configuration.dispatcher.dispatch(NOTIFICATION_DELETED, Time.zone.now, notification: self)
   end
 end
