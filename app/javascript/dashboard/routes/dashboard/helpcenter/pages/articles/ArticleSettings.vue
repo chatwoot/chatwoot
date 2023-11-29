@@ -157,16 +157,23 @@ export default {
       return this.metaTags.map(item => item.name);
     },
   },
+  watch: {
+    article: {
+      handler() {
+        if (!isEmptyObject(this.article.meta || {})) {
+          const {
+            meta: { title = '', description = '', tags = [] },
+          } = this.article;
+          this.metaTitle = title;
+          this.metaDescription = description;
+          this.metaTags = this.formattedTags({ tags });
+        }
+      },
+      deep: true,
+      immediate: true,
+    },
+  },
   mounted() {
-    if (!isEmptyObject(this.article.meta || {})) {
-      const {
-        meta: { title = '', description = '', tags = [] },
-      } = this.article;
-      this.metaTitle = title;
-      this.metaDescription = description;
-      this.metaTags = this.formattedTags({ tags });
-    }
-
     this.saveArticle = debounce(
       () => {
         this.$emit('save-article', {
