@@ -83,29 +83,39 @@ class Notification < ApplicationRecord
   end
 
   # TODO: move to a data presenter
-  # rubocop:disable Metrics/CyclomaticComplexity
   def push_message_title
     case notification_type
     when 'conversation_creation'
-      I18n.t('notifications.notification_title.conversation_creation', display_id: primary_actor.display_id, inbox_name: primary_actor.inbox.name)
+      I18n.t('notifications.notification_title.conversation_creation', display_id: display_id, inbox_name: primary_actor.inbox.name)
     when 'conversation_assignment'
-      I18n.t('notifications.notification_title.conversation_assignment', display_id: primary_actor.display_id)
+      I18n.t('notifications.notification_title.conversation_assignment', display_id: display_id)
     when 'assigned_conversation_new_message', 'participating_conversation_new_message'
       I18n.t(
         'notifications.notification_title.assigned_conversation_new_message',
-        display_id: conversation.display_id,
-        content: transform_user_mention_content(secondary_actor&.content&.truncate_words(10))
+        display_id: display_id,
+        content: content
       )
     when 'conversation_mention'
-      "[##{conversation&.display_id}] #{transform_user_mention_content secondary_actor&.content}"
+      "[##{conversation&.display_id}] #{transform_user_mention_content content}"
     else
       ''
     end
   end
-  # rubocop:enable Metrics/CyclomaticComplexity
 
   def conversation
     primary_actor
+  end
+
+  def display_id
+    return primary_actor.conversation.display_id if primary_actor_type == 'Message'
+
+    conversation.display_id
+  end
+
+  def content
+    return transform_user_mention_content(primary_actor&.content&.truncate_words(10) || '') if primary_actor_type == 'Message'
+
+    transform_user_mention_content(secondary_actor&.content&.truncate_words(10) || '')
   end
 
   private
