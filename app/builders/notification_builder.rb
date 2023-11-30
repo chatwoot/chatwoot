@@ -1,5 +1,5 @@
 class NotificationBuilder
-  pattr_initialize [:notification_type!, :user!, :account!, :primary_actor!]
+  pattr_initialize [:notification_type!, :user!, :account!, :primary_actor!, :secondary_actor]
 
   def perform
     return unless user_subscribed_to_notification?
@@ -9,7 +9,7 @@ class NotificationBuilder
 
   private
 
-  def secondary_actor
+  def current_user
     Current.user
   end
 
@@ -29,7 +29,8 @@ class NotificationBuilder
       notification_type: notification_type,
       account: account,
       primary_actor: primary_actor,
-      secondary_actor: secondary_actor
+      # secondary_actor is secondary_actor if present, else current_user
+      secondary_actor: secondary_actor || current_user
     )
   end
 end

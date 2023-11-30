@@ -66,17 +66,10 @@ class Notification < ApplicationRecord
   end
 
   def primary_actor_data
-    if %w[assigned_conversation_new_message conversation_mention].include? notification_type
-      {
-        id: primary_actor.conversation.push_event_data[:id],
-        meta: primary_actor.conversation.push_event_data[:meta]
-      }
-    else
-      {
-        id: primary_actor.push_event_data[:id],
-        meta: primary_actor.push_event_data[:meta]
-      }
-    end
+    {
+      id: primary_actor.push_event_data[:id],
+      meta: primary_actor.push_event_data[:meta]
+    }
   end
 
   def fcm_push_data
@@ -101,10 +94,10 @@ class Notification < ApplicationRecord
       I18n.t(
         'notifications.notification_title.assigned_conversation_new_message',
         display_id: conversation.display_id,
-        content: transform_user_mention_content(primary_actor&.content&.truncate_words(10))
+        content: transform_user_mention_content(secondary_actor&.content&.truncate_words(10))
       )
     when 'conversation_mention'
-      "[##{conversation&.display_id}] #{transform_user_mention_content primary_actor&.content}"
+      "[##{conversation&.display_id}] #{transform_user_mention_content secondary_actor&.content}"
     else
       ''
     end
@@ -112,12 +105,6 @@ class Notification < ApplicationRecord
   # rubocop:enable Metrics/CyclomaticComplexity
 
   def conversation
-    return primary_actor.conversation if %w[
-      assigned_conversation_new_message
-      participating_conversation_new_message
-      conversation_mention
-    ].include? notification_type
-
     primary_actor
   end
 
