@@ -163,14 +163,14 @@ export default {
           return;
         }
         const { messageId } = this.$route.query;
-        if (messageId) {
-          // this will automatically set the active chat
-          bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE, { messageId });
-        } else {
-          this.$store.dispatch('setActiveChat', {
+        this.$store
+          .dispatch('setActiveChat', {
             data: selectedConversation,
+            after: messageId,
+          })
+          .then(() => {
+            bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE, { messageId });
           });
-        }
       } else {
         this.$store.dispatch('clearSelectedState');
       }

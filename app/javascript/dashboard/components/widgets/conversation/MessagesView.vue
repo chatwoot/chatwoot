@@ -378,12 +378,13 @@ export default {
       bus.$off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
     },
     async onScrollToMessage({ messageId }) {
-      // TODO: check if the message is already loaded
-      await this.$store.dispatch('setActiveChat', {
-        data: this.currentChat,
-        after: messageId,
-        force: true,
-      });
+      if (messageId) {
+        await this.$store.dispatch('setActiveChat', {
+          data: this.currentChat,
+          after: messageId,
+          force: true,
+        });
+      }
 
       this.$nextTick(() => {
         const messageElement = document.getElementById('message' + messageId);
