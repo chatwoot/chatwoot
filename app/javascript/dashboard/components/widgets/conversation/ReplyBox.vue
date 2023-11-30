@@ -1162,7 +1162,6 @@ export default {
     navigateToMessage(messageId) {
       bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE, {
         messageId,
-        behavior: 'instant',
       });
     },
     onNewConversationModalActive(isActive) {
