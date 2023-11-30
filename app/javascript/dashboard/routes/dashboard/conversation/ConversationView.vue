@@ -1,5 +1,5 @@
 <template>
-  <section class="conversation-page bg-white dark:bg-slate-900">
+  <section class="bg-white conversation-page dark:bg-slate-900">
     <chat-list
       :show-conversation-list="showConversationList"
       :conversation-inbox="inboxId"
@@ -163,7 +163,14 @@ export default {
           return;
         }
         const { messageId } = this.$route.query;
-        bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE, { messageId });
+        if (messageId) {
+          // this will automatically set the active chat
+          bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE, { messageId });
+        } else {
+          this.$store.dispatch('setActiveChat', {
+            data: selectedConversation,
+          });
+        }
       } else {
         this.$store.dispatch('clearSelectedState');
       }
