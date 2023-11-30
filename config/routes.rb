@@ -166,7 +166,7 @@ Rails.application.routes.draw do
             end
           end
 
-          resources :notifications, only: [:index, :update] do
+          resources :notifications, only: [:index, :update, :destroy] do
             collection do
               post :read_all
               get :unread_count
@@ -217,6 +217,7 @@ Rails.application.routes.draw do
             member do
               patch :archive
               put :add_members
+              delete :logo
             end
             resources :categories
             resources :articles do

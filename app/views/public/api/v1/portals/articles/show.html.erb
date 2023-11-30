@@ -12,8 +12,8 @@
 <% end %>
 
 <% if !@is_plain_layout_enabled %>
-<div id="portal-bg" class="bg-woot-50 dark:bg-woot-900 shadow-inner" style="<%= generate_portal_bg(@portal.color, @theme) %>">
-  <div id="portal-bg-gradient" class="pt-8 pb-8 md:pt-14 md:pb-6" style="<%= generate_gradient_to_bottom(@theme) %>">
+<div id="portal-bg" class="bg-white dark:bg-slate-900 shadow-inner">
+  <div id="portal-bg-gradient" class="pt-8 pb-8 md:pt-14 md:pb-6">
     <div class="max-w-5xl px-4 md:px-8 mx-auto flex flex-col">
       <%= render "public/api/v1/portals/articles/article_header", article: @article %>
     </div>
