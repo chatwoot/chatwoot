@@ -142,7 +142,7 @@ describe ActionCableListener do
         'notification.deleted',
         {
           account_id: notification.account_id,
-          notification: notification.push_event_data,
+          notification: notification,
           unread_count: 1,
           count: 1
         }
