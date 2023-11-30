@@ -153,7 +153,7 @@ RSpec.describe 'Notifications API', type: :request do
       end
     end
   end
-  
+
   describe 'PATCH /api/v1/accounts/{account.id}/notifications/:id/snooze' do
     let(:admin) { create(:user, account: account, role: :administrator) }
     let!(:notification) { create(:notification, account: account, user: admin) }
