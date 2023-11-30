@@ -187,6 +187,7 @@ export default {
           locale,
         },
       });
+      this.$emit('reload-locale');
     },
   },
 };

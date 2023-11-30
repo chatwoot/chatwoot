@@ -96,7 +96,6 @@
           @click="openLocaleDropdown"
         >
           <div class="flex justify-between w-full min-w-0 items-center">
-            {{ $t('HELP_CENTER.HEADER.LOCALE') }}
             <span
               class="inline-flex ml-1 rtl:ml-0 rtl:mr-1 items-center text-slate-800 dark:text-slate-100"
             >
@@ -115,7 +114,7 @@
           class="dropdown-pane dropdown-pane--open"
         >
           <multiselect-dropdown-items
-            :options="allLocales"
+            :options="switchableLocales"
             :has-thumbnail="false"
             :selected-items="[selectedLocale]"
             :input-placeholder="
@@ -190,6 +189,11 @@ export default {
     shouldShowLocaleDropdown() {
       return this.allLocales.length > 1;
     },
+    switchableLocales() {
+      return this.allLocales.filter(
+        locale => locale.name !== this.selectedLocale
+      );
+    },
   },
   methods: {
     openFilterModal() {
@@ -204,23 +208,21 @@ export default {
       this.showSortByDropdown = false;
     },
     openLocaleDropdown() {
-      this.$emit('open');
       this.showLocaleDropdown = true;
     },
     closeLocaleDropdown() {
-      this.$emit('close');
       this.showLocaleDropdown = false;
     },
     onClickNewArticlePage() {
-      this.$emit('newArticlePage');
+      this.$emit('new-article-page');
     },
     onClickSelectItem(value) {
-      const { code } = value;
-      if (!code) {
+      const { name, code } = value;
+      this.closeLocaleDropdown();
+      if (!name || name === this.selectedLocale) {
         return;
       }
       this.$emit('change-locale', code);
-      this.closeLocaleDropdown();
     },
   },
 };
@@ -228,7 +230,7 @@ export default {
 
 <style scoped lang="scss">
 .dropdown-pane--open {
-  @apply absolute top-10 right-0 z-50;
+  @apply absolute top-10 right-0 z-50 min-w-[8rem];
 }
 .dropdown-arrow {
   @apply ml-1 rtl:ml-0 rtl:mr-1;
