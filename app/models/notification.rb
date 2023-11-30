@@ -83,7 +83,6 @@ class Notification < ApplicationRecord
   end
 
   # TODO: move to a data presenter
-  # rubocop:disable Metrics/CyclomaticComplexity
   def push_message_title
     case notification_type
     when 'conversation_creation'
@@ -102,7 +101,6 @@ class Notification < ApplicationRecord
       ''
     end
   end
-  # rubocop:enable Metrics/CyclomaticComplexity
 
   def conversation
     primary_actor
@@ -115,12 +113,15 @@ class Notification < ApplicationRecord
   end
 
   def content
-    return transform_user_mention_content(primary_actor&.content&.truncate_words(10) || '') if primary_actor_type == 'Message'
-
-    transform_user_mention_content(secondary_actor&.content&.truncate_words(10) || '')
+    content = primary_actor_type == 'Message' ? primary_actor : secondary_actor
+    truncated_content(content)
   end
 
   private
+
+  def truncated_content(actor)
+    transform_user_mention_content(actor&.content&.truncate_words(10) || '')
+  end
 
   def process_notification_delivery
     Notification::PushNotificationJob.perform_later(self)
@@ -129,6 +130,9 @@ class Notification < ApplicationRecord
     # In future, we could probably add condition here to enqueue the job for 30 seconds later
     # when push enabled and then check in email job whether notification has been read already.
     Notification::EmailNotificationJob.perform_later(self)
+
+    # Clear all the existing notifications where primary actor is Message
+    Notification::DestroyMessageNotificationsJob.perform_later(self)
   end
 
   def dispatch_create_event
