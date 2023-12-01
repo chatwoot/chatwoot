@@ -100,7 +100,9 @@
         "PORTAL_SETTINGS": "Portal settings",
         "SUBTITLE": "You have multiple portals and can have different locales for each portal.",
         "CANCEL_BUTTON_LABEL": "Cancel",
-        "CHOOSE_LOCALE_BUTTON": "Choose Locale"
+        "CHOOSE_LOCALE_BUTTON": "Choose Locale",
+        "ALL_PORTALS": "All portals",
+        "SWITCH_PORTAL": "Switch portal"
       },
       "PORTAL_SETTINGS": {
         "LIST_ITEM": {

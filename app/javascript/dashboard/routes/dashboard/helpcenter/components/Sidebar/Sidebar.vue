@@ -1,6 +1,6 @@
 <template>
   <div
-    class="h-full overflow-auto w-60 flex flex-col bg-white dark:bg-slate-900 border-r dark:border-slate-700 rtl:border-r-0 rtl:border-l border-slate-50 text-sm px-2 pb-8"
+    class="h-full relative overflow-auto w-60 flex flex-col bg-white dark:bg-slate-900 border-r dark:border-slate-700 rtl:border-r-0 rtl:border-l border-slate-50 text-sm px-2 pb-8"
   >
     <sidebar-header
       :thumbnail-src="thumbnailSrc"
@@ -33,10 +33,19 @@
         {{ $t('SIDEBAR.HELP_CENTER.CATEGORY_EMPTY_MESSAGE') }}
       </p>
     </transition-group>
+    <portal-popover
+      v-if="showPortalPopover"
+      :portals="portals"
+      :active-portal-slug="portalSlug"
+      :active-locale="localeSlug"
+      @fetch-portal="fetchPortalAndItsCategories"
+      @close-popover="closePortalPopover"
+    />
   </div>
 </template>
 
 <script>
+import PortalPopover from 'dashboard/routes/dashboard/helpcenter/components/PortalPopover.vue';
 import SecondaryNavItem from 'dashboard/components/layout/sidebarComponents/SecondaryNavItem.vue';
 import SidebarHeader from './SidebarHeader.vue';
 
@@ -44,6 +53,7 @@ export default {
   components: {
     SecondaryNavItem,
     SidebarHeader,
+    PortalPopover,
   },
   props: {
     thumbnailSrc: {
@@ -74,9 +84,15 @@ export default {
       type: Array,
       default: () => [],
     },
+    portals: {
+      type: Array,
+      default: () => [],
+    },
   },
   data() {
-    return {};
+    return {
+      showPortalPopover: false,
+    };
   },
   computed: {
     hasCategory() {
@@ -94,10 +110,16 @@ export default {
       this.$emit('input', value);
     },
     openPortalPopover() {
-      this.$emit('open-popover');
+      this.showPortalPopover = true;
     },
     onClickOpenAddCatogoryModal() {
       this.$emit('open-modal');
+    },
+    fetchPortalAndItsCategories() {
+      this.$emit('fetch-portal');
+    },
+    closePortalPopover() {
+      this.showPortalPopover = false;
     },
   },
 };

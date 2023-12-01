@@ -1,48 +1,26 @@
 <template>
   <div
     v-on-clickaway="closePortalPopover"
-    class="absolute overflow-y-scroll max-h-[96vh] p-4 bg-white dark:bg-slate-800 rounded-md shadow-lg max-w-[30rem] z-[1000]"
+    class="absolute top-16 overflow-y-scroll max-h-[96vh] p-4 min-w-[12rem] w-full bg-white dark:bg-slate-800 rounded-md shadow-lg z-[1000]"
   >
-    <header>
-      <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg text-slate-800 dark:text-slate-100">
-          {{ $t('HELP_CENTER.PORTAL.POPOVER.TITLE') }}
-        </h2>
-        <div>
-          <woot-button
-            variant="smooth"
-            color-scheme="secondary"
-            icon="settings"
-            size="small"
-            @click="openPortalPage"
-          >
-            {{ $t('HELP_CENTER.PORTAL.POPOVER.PORTAL_SETTINGS') }}
-          </woot-button>
-          <woot-button
-            variant="clear"
-            color-scheme="secondary"
-            icon="dismiss"
-            size="small"
-            @click="closePortalPopover"
-          />
-        </div>
-      </div>
-      <p class="text-xs text-slate-600 dark:text-slate-300 mt-2">
-        {{ $t('HELP_CENTER.PORTAL.POPOVER.SUBTITLE') }}
-      </p>
-    </header>
-    <div>
-      <portal-switch
-        v-for="portal in portals"
-        :key="portal.id"
-        :portal="portal"
-        :active-portal-slug="activePortalSlug"
-        :active-locale="activeLocale"
-        :active="portal.slug === activePortalSlug"
-        @open-portal-page="closePortalPopover"
-        @fetch-portal="fetchPortalAndItsCategories"
-      />
-    </div>
+    <portal-switch
+      :portals="portals"
+      :active-portal-slug="activePortalSlug"
+      :active-locale="activeLocale"
+      @open-portal-page="closePortalPopover"
+      @fetch-portal="fetchPortalAndItsCategories"
+    />
+    <woot-button
+      class="mt-4 sticky bottom-4"
+      variant="smooth"
+      color-scheme="secondary"
+      icon="add"
+      size="small"
+      :is-expanded="true"
+      @click="openPortalPage"
+    >
+      {{ $t('Add portal') }}
+    </woot-button>
   </div>
 </template>
 

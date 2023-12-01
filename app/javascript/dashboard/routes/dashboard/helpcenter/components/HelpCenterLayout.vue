@@ -15,7 +15,7 @@
       :sub-title="localeName(selectedLocaleInPortal)"
       :accessible-menu-items="accessibleMenuItems"
       :additional-secondary-menu-items="additionalSecondaryMenuItems"
-      @open-popover="openPortalPopover"
+      :portals="portals"
       @open-modal="onClickOpenAddCategoryModal"
     />
     <section
@@ -37,14 +37,7 @@
         v-if="showNotificationPanel"
         @close="closeNotificationPanel"
       />
-      <portal-popover
-        v-if="showPortalPopover"
-        :portals="portals"
-        :active-portal-slug="selectedPortalSlug"
-        :active-locale="selectedLocaleInPortal"
-        @fetch-portal="fetchPortalAndItsCategories"
-        @close-popover="closePortalPopover"
-      />
+
       <add-category
         v-if="showAddCategoryModal"
         :show.sync="showAddCategoryModal"
@@ -63,7 +56,7 @@ import UpgradePage from './UpgradePage';
 import { frontendURL } from '../../../../helper/URLHelper';
 import Sidebar from 'dashboard/components/layout/Sidebar.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-import PortalPopover from '../components/PortalPopover.vue';
+
 import HelpCenterSidebar from '../components/Sidebar/Sidebar.vue';
 import CommandBar from 'dashboard/routes/dashboard/commands/commandbar.vue';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal.vue';
@@ -81,7 +74,6 @@ export default {
     CommandBar,
     HelpCenterSidebar,
     NotificationPanel,
-    PortalPopover,
     Sidebar,
     UpgradePage,
     WootKeyShortcutModal,
