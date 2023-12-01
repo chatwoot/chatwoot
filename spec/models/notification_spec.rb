@@ -134,7 +134,7 @@ Hey @John, @Alisha Peter can you check this ticket?"
     end
   end
 
-  context 'when primary actory is deleted' do
+  context 'when primary actor is deleted' do
     let!(:conversation) { create(:conversation) }
 
     it 'clears notifications' do

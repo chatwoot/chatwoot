@@ -131,6 +131,27 @@ describe ActionCableListener do
     end
   end
 
+  describe '#notification_deleted' do
+    let(:event_name) { :'notification.deleted' }
+    let!(:notification) { create(:notification, account: account, user: agent) }
+    let!(:event) { Events::Base.new(event_name, Time.zone.now, notification: notification) }
+
+    it 'sends message to account admins, inbox agents' do
+      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+        [agent.pubsub_token],
+        'notification.deleted',
+        {
+          account_id: notification.account_id,
+          notification: notification,
+          unread_count: 1,
+          count: 1
+        }
+      )
+
+      listener.notification_deleted(event)
+    end
+  end
+
   describe '#conversation_updated' do
     let(:event_name) { :'conversation.updated' }
     let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation, user: agent, is_private: false) }
