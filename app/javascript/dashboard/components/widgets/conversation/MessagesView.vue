@@ -377,7 +377,7 @@ export default {
     removeBusListeners() {
       bus.$off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
     },
-    async onScrollToMessage({ messageId }) {
+    async onScrollToMessage({ messageId = '' } = {}) {
       if (messageId) {
         await this.$store.dispatch('setActiveChat', {
           data: this.currentChat,
