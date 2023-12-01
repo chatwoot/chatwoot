@@ -139,6 +139,7 @@ openai:
     "type": "object",
     "properties": {
         "api_key": { "type": "string" },
+        "label_suggestion": { "type": "boolean" },
       },
     "required": ["api_key"],
     "additionalProperties": false,
@@ -150,5 +151,11 @@ openai:
       "name": "api_key",
       "validation": "required",
     },
+    {
+      "label": "Show label suggestions",
+      "type": "checkbox",
+      "name": "label_suggestion",
+      "validation": "",
+    },
   ]
-  visible_properties: ['api_key']
+  visible_properties: ['api_key', 'label_suggestion']

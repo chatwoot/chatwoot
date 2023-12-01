@@ -127,4 +127,30 @@ RSpec.describe 'Notifications API', type: :request do
       end
     end
   end
+
+  describe 'DELETE /api/v1/accounts/{account.id}/notifications/:id' do
+    let(:admin) { create(:user, account: account, role: :administrator) }
+    let!(:notification) { create(:notification, account: account, user: admin) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        delete "/api/v1/accounts/#{account.id}/notifications/#{notification.id}"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+
+      it 'deletes the notification' do
+        delete "/api/v1/accounts/#{account.id}/notifications/#{notification.id}",
+               headers: admin.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(Notification.count).to eq(0)
+      end
+    end
+  end
 end

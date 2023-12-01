@@ -3,11 +3,13 @@ export const CONVERSATION_EVENTS = Object.freeze({
   SENT_MESSAGE: 'Sent a message',
   SENT_PRIVATE_NOTE: 'Sent a private note',
   INSERTED_A_CANNED_RESPONSE: 'Inserted a canned response',
+  TRANSLATE_A_MESSAGE: 'Translated a message',
   INSERTED_A_VARIABLE: 'Inserted a variable',
   USED_MENTIONS: 'Used mentions',
   SEARCH_CONVERSATION: 'Searched conversations',
   APPLY_FILTER: 'Applied filters in the conversation list',
   CHANGE_PRIORITY: 'Assigned priority to a conversation',
+  INSERT_ARTICLE_LINK: 'Inserted article into reply via article search',
 });
 
 export const ACCOUNT_EVENTS = Object.freeze({
