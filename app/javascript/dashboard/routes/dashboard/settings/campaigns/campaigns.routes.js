@@ -1,6 +1,6 @@
-import Index from './Index';
-import SettingsContent from '../Wrapper';
 import { frontendURL } from '../../../../helper/URLHelper';
+const SettingsContent = () => import('../Wrapper.vue');
+const Index = () => import('./Index.vue');
 
 export default {
   routes: [
@@ -20,7 +20,7 @@ export default {
           path: 'ongoing',
           name: 'settings_account_campaigns',
           roles: ['administrator'],
-          component: { ...Index },
+          component: Index,
         },
       ],
     },
@@ -36,7 +36,7 @@ export default {
           path: 'one_off',
           name: 'one_off',
           roles: ['administrator'],
-          component: { ...Index },
+          component: Index,
         },
       ],
     },

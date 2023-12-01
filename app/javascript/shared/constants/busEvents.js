@@ -11,4 +11,6 @@ export const BUS_EVENTS = {
   TOGGLE_REPLY_TO_MESSAGE: 'TOGGLE_REPLY_TO_MESSAGE',
   SHOW_TOAST: 'newToastMessage',
   SHOW_PLAN_MODAL: 'SHOW_PLAN_MODAL',
+  NEW_CONVERSATION_MODAL: 'newConversationModal',
+  INSERT_INTO_RICH_EDITOR: 'insertIntoRichEditor',
 };
