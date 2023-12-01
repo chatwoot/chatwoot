@@ -106,22 +106,13 @@ class Notification < ApplicationRecord
     primary_actor
   end
 
-  def display_id
-    return primary_actor.conversation.display_id if primary_actor_type == 'Message'
-
-    conversation.display_id
-  end
+  delegate :display_id, to: :conversation
 
   def content
-    content = primary_actor_type == 'Message' ? primary_actor : secondary_actor
-    truncated_content(content)
+    transform_user_mention_content(secondary_actor&.content&.truncate_words(10) || '')
   end
 
   private
-
-  def truncated_content(actor)
-    transform_user_mention_content(actor&.content&.truncate_words(10) || '')
-  end
 
   def process_notification_delivery
     Notification::PushNotificationJob.perform_later(self)
