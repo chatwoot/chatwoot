@@ -42,25 +42,42 @@ class Line::IncomingMessageService
   end
 
   def attach_files(message)
-    return unless message_type_non_text?(message['type'])
+    return unless message_type_non_text?(message['type']) || message['type'] == 'sticker'
 
-    response = inbox.channel.client.get_message_content(message['id'])
+    if message['type'] == 'sticker'
+      attachment_file = Down.download(
+        "https://stickershop.line-scdn.net/stickershop/v1/sticker/#{message[:stickerId]}/iphone/sticker.png"
+      )
 
-    file_name = "media-#{message['id']}.#{response.content_type.split('/')[1]}"
-    temp_file = Tempfile.new(file_name)
-    temp_file.binmode
-    temp_file << response.body
-    temp_file.rewind
+      @message.attachments.new(
+        account_id: @message.account_id,
+        file_type: 'image',
+        file: {
+          io: attachment_file,
+          filename: "sticker-#{message['stickerId']}.png",
+          content_type: attachment_file.content_type
+        }
+      )
+    else
+      response = inbox.channel.client.get_message_content(message['id'])
 
-    @message.attachments.new(
-      account_id: @message.account_id,
-      file_type: file_content_type(response),
-      file: {
-        io: temp_file,
-        filename: file_name,
-        content_type: response.content_type
-      }
-    )
+      file_name = "media-#{message['id']}.#{response.content_type.split('/')[1]}"
+      temp_file = Tempfile.new(file_name)
+      temp_file.binmode
+      temp_file << response.body
+      temp_file.rewind
+
+      @message.attachments.new(
+        account_id: @message.account_id,
+        file_type: file_content_type(response),
+        file: {
+          io: temp_file,
+          filename: file_name,
+          content_type: response.content_type
+        }
+      )
+
+    end
     @message.save!
   end
 
