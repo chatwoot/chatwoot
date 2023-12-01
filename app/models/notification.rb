@@ -7,6 +7,7 @@
 #  primary_actor_type   :string           not null
 #  read_at              :datetime
 #  secondary_actor_type :string
+#  snoozed_until        :datetime
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  account_id           :bigint           not null
@@ -130,9 +131,6 @@ class Notification < ApplicationRecord
     # In future, we could probably add condition here to enqueue the job for 30 seconds later
     # when push enabled and then check in email job whether notification has been read already.
     Notification::EmailNotificationJob.perform_later(self)
-
-    # Clear all the existing notifications where primary actor is Message
-    Notification::DestroyMessageNotificationsJob.perform_later(self)
   end
 
   def dispatch_create_event
