@@ -86,13 +86,13 @@ class Notification < ApplicationRecord
   def push_message_title
     case notification_type
     when 'conversation_creation'
-      I18n.t('notifications.notification_title.conversation_creation', display_id: display_id, inbox_name: primary_actor.inbox.name)
+      I18n.t('notifications.notification_title.conversation_creation', display_id: conversation.display_id, inbox_name: primary_actor.inbox.name)
     when 'conversation_assignment'
-      I18n.t('notifications.notification_title.conversation_assignment', display_id: display_id)
+      I18n.t('notifications.notification_title.conversation_assignment', display_id: conversation.display_id)
     when 'assigned_conversation_new_message', 'participating_conversation_new_message'
       I18n.t(
         'notifications.notification_title.assigned_conversation_new_message',
-        display_id: display_id,
+        display_id: conversation.display_id,
         content: content
       )
     when 'conversation_mention'
@@ -105,8 +105,6 @@ class Notification < ApplicationRecord
   def conversation
     primary_actor
   end
-
-  delegate :display_id, to: :conversation
 
   def content
     transform_user_mention_content(secondary_actor&.content&.truncate_words(10) || '')
