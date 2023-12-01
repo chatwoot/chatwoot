@@ -5,6 +5,9 @@ const Signup = () => import('./auth/signup/Index.vue');
 const ResetPassword = () => import('./auth/reset/password/Index.vue');
 const Confirmation = () => import('./auth/confirmation/Index.vue');
 const PasswordEdit = () => import('./auth/password/Edit.vue');
+const SetupUser = () => import('./auth/start/SetupUser.vue');
+const SetupCompany = () => import('./auth/start/SetupCompany.vue');
+const FounderNote = () => import('./auth/start/FounderNote.vue');
 
 export default [
   {
@@ -52,5 +55,20 @@ export default [
     path: frontendURL('auth/reset/password'),
     name: 'auth_reset_password',
     component: ResetPassword,
+  },
+  {
+    path: frontendURL('auth/start/setup-user'),
+    name: 'onboarding_setup_user',
+    component: SetupUser,
+  },
+  {
+    path: frontendURL('auth/start/setup-company'),
+    name: 'onboarding_setup_company',
+    component: SetupCompany,
+  },
+  {
+    path: frontendURL('auth/start/founders-note'),
+    name: 'onboarding_founders_note',
+    component: FounderNote,
   },
 ];
