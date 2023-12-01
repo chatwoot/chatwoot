@@ -110,7 +110,10 @@ describe('#actions', () => {
           search: '?param=1',
         },
       }));
-      await actions.sendMessage({ commit, dispatch }, { content: 'hello' });
+      await actions.sendMessage(
+        { commit, dispatch },
+        { content: 'hello', replyTo: 124 }
+      );
       spy.mockRestore();
       windowSpy.mockRestore();
       expect(dispatch).toBeCalledWith('sendMessageWithData', {
@@ -119,6 +122,7 @@ describe('#actions', () => {
         created_at: 1466424490,
         id: '1111',
         message_type: 0,
+        replyTo: 124,
         status: 'in_progress',
       });
     });
@@ -132,7 +136,10 @@ describe('#actions', () => {
       const thumbUrl = '';
       const attachment = { thumbUrl, fileType: 'file' };
 
-      actions.sendAttachment({ commit, dispatch }, { attachment });
+      actions.sendAttachment(
+        { commit, dispatch },
+        { attachment, replyTo: 135 }
+      );
       spy.mockRestore();
       expect(commit).toBeCalledWith('pushMessageToConversation', {
         id: '1111',
@@ -140,6 +147,7 @@ describe('#actions', () => {
         status: 'in_progress',
         created_at: 1466424490,
         message_type: 0,
+        replyTo: 135,
         attachments: [
           {
             thumb_url: '',

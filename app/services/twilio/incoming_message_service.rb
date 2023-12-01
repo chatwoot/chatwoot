@@ -108,7 +108,9 @@ class Twilio::IncomingMessageService
     return if params[:MediaUrl0].blank?
 
     attachment_file = Down.download(
-      params[:MediaUrl0]
+      params[:MediaUrl0],
+      # https://support.twilio.com/hc/en-us/articles/223183748-Protect-Media-Access-with-HTTP-Basic-Authentication-for-Programmable-Messaging
+      http_basic_authentication: [twilio_channel.account_sid, twilio_channel.auth_token || twilio_channel.api_key_sid]
     )
 
     attachment = @message.attachments.new(

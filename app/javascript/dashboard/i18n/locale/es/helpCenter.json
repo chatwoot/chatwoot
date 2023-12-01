@@ -365,7 +365,7 @@
         "NAME": {
           "LABEL": "Nombre",
           "PLACEHOLDER": "Nombre de categoría",
-          "HELP_TEXT": "El nombre de la categoría se utilizará en el portal público orientado a categorizar los artículos.",
+          "HELP_TEXT": "El nombre de la categoría y el icono se utilizarán en el portal público para categorizar los artículos.",
           "ERROR": "El nombre es requerido"
         },
         "SLUG": {
@@ -396,7 +396,7 @@
         "NAME": {
           "LABEL": "Nombre",
           "PLACEHOLDER": "Nombre de categoría",
-          "HELP_TEXT": "El nombre de la categoría se utilizará en el portal público orientado a categorizar los artículos.",
+          "HELP_TEXT": "El nombre de la categoría y el icono se utilizarán en el portal público para categorizar los artículos.",
           "ERROR": "El nombre es requerido"
         },
         "SLUG": {
@@ -428,28 +428,28 @@
     },
     "UPGRADE_PAGE": {
       "TITLE": "Centro de ayuda",
-      "DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Upgrade your subscription to enable this feature.",
-      "SELF_HOSTED_DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Please contact your administrator to enable this feature.",
+      "DESCRIPTION": "Crear portales de autoservicio amigables. Ayuda a tus usuarios a acceder a los artículos y obtener soporte 24/7. Actualiza tu suscripción para activar esta característica.",
+      "SELF_HOSTED_DESCRIPTION": "Crear portales de autoservicio amigables. Ayuda a tus usuarios a acceder a los artículos y obtener soporte 24/7. Póngase en contacto con su administrador para habilitar esta característica.",
       "BUTTON": {
         "LEARN_MORE": "Más información",
-        "UPGRADE": "Upgrade"
+        "UPGRADE": "Mejorar"
       },
       "FEATURES": {
         "PORTALS": {
-          "TITLE": "Multiple portals",
-          "DESCRIPTION": "Create multiple help center portals for different products using the same account."
+          "TITLE": "Múltiples portales",
+          "DESCRIPTION": "Crear múltiples portales de centro de ayuda para diferentes productos usando la misma cuenta."
         },
         "LOCALES": {
-          "TITLE": "Full support for locales",
-          "DESCRIPTION": "Localize the portal in your language. We support all locales and allow translations for every article."
+          "TITLE": "Soporte completo para locales",
+          "DESCRIPTION": "Localiza el portal en tu idioma. Apoyamos todas las localizaciones y permitimos traducciones para cada artículo."
         },
         "SEO": {
-          "TITLE": "SEO-friendly design",
-          "DESCRIPTION": "Customize your meta tags to improve your visibility on search engines with our SEO-friendly pages."
+          "TITLE": "Diseño amigable con SEO",
+          "DESCRIPTION": "Personalice sus meta-etiquetas para mejorar su visibilidad en los motores de búsqueda con nuestras páginas amigables con SEO."
         },
         "API": {
-          "TITLE": "Full API support",
-          "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
+          "TITLE": "Soporte completo de API",
+          "DESCRIPTION": "Utilice el portal como un CMS sin cabeceras con frameworks front-end de terceros usando nuestras APIs."
         }
       }
     }

@@ -50,7 +50,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_22_133017) do
     t.integer "locale", default: 0
     t.string "domain", limit: 100
     t.string "support_email", limit: 100
-    t.integer "feature_flags", default: 0, null: false
+    t.bigint "feature_flags", default: 0, null: false
     t.integer "auto_resolve_duration"
     t.jsonb "limits", default: {}
     t.jsonb "custom_attributes", default: {}
@@ -235,6 +235,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_22_133017) do
     t.string "slug", null: false
     t.bigint "parent_category_id"
     t.bigint "associated_category_id"
+    t.string "icon", default: ""
     t.index ["associated_category_id"], name: "index_categories_on_associated_category_id"
     t.index ["locale", "account_id"], name: "index_categories_on_locale_and_account_id"
     t.index ["locale"], name: "index_categories_on_locale"

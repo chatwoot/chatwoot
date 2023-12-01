@@ -1,7 +1,7 @@
 class Api::V1::Accounts::NotificationsController < Api::V1::Accounts::BaseController
   RESULTS_PER_PAGE = 15
 
-  before_action :fetch_notification, only: [:update]
+  before_action :fetch_notification, only: [:update, :destroy]
   before_action :set_primary_actor, only: [:read_all]
   before_action :set_current_page, only: [:index]
 
@@ -26,6 +26,11 @@ class Api::V1::Accounts::NotificationsController < Api::V1::Accounts::BaseContro
   def update
     @notification.update(read_at: DateTime.now.utc)
     render json: @notification
+  end
+
+  def destroy
+    @notification.destroy
+    head :ok
   end
 
   def unread_count

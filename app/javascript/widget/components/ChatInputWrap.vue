@@ -8,6 +8,7 @@
       id="chat-input"
       ref="chatInput"
       v-model="userInput"
+      :rows="1"
       :aria-label="$t('CHAT_PLACEHOLDER')"
       :placeholder="$t('CHAT_PLACEHOLDER')"
       class="form-input user-message-input is-focused"
@@ -25,7 +26,7 @@
       />
       <button
         v-if="hasEmojiPickerEnabled"
-        class="icon-button flex justify-center items-center"
+        class="flex items-center justify-center icon-button"
         aria-label="Emoji picker"
         @click="toggleEmojiPicker"
       >
@@ -192,7 +193,7 @@ export default {
 }
 
 .emoji-dialog {
-  right: 0;
+  right: 20px;
   top: -302px;
   max-width: 100%;
 
