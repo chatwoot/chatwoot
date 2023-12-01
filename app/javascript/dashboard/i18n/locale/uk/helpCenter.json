@@ -365,7 +365,7 @@
         "NAME": {
           "LABEL": "Ім'я",
           "PLACEHOLDER": "Назва категорії",
-          "HELP_TEXT": "Назва категорії буде використовуватися в публічному інтерфейсі порталу для категоризації статей.",
+          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
           "ERROR": "Назва обов'язкова"
         },
         "SLUG": {
@@ -396,7 +396,7 @@
         "NAME": {
           "LABEL": "Ім'я",
           "PLACEHOLDER": "Назва категорії",
-          "HELP_TEXT": "Назва категорії буде використовуватися в публічному інтерфейсі порталу для категоризації статей.",
+          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
           "ERROR": "Назва обов'язкова"
         },
         "SLUG": {

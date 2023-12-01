@@ -1,6 +1,6 @@
-import SettingsContent from '../Wrapper';
-import Automation from './Index';
 import { frontendURL } from '../../../../helper/URLHelper';
+const SettingsContent = () => import('../Wrapper.vue');
+const Automation = () => import('./Index.vue');
 
 export default {
   routes: [

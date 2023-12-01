@@ -50,6 +50,7 @@ describe('#ConversationAPI', () => {
         message: 'test content',
         echoId: 12,
         isPrivate: true,
+        contentAttributes: { in_reply_to: 12 },
         files: [new Blob(['test-content'], { type: 'application/pdf' })],
       });
       expect(formPayload).toBeInstanceOf(FormData);
@@ -57,6 +58,10 @@ describe('#ConversationAPI', () => {
       expect(formPayload.get('echo_id')).toEqual('12');
       expect(formPayload.get('private')).toEqual('true');
       expect(formPayload.get('cc_emails')).toEqual('');
+      expect(formPayload.get('bcc_emails')).toEqual('');
+      expect(formPayload.get('content_attributes')).toEqual(
+        '{"in_reply_to":12}'
+      );
     });
 
     it('builds object payload if file is not available', () => {
