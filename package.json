@@ -16,6 +16,7 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "ruby:prettier": "bundle exec rubocop -a",
+    "prepare": "husky install",
     "size": "size-limit"
   },
   "size-limit": [
@@ -152,7 +153,18 @@
     "npm": ">=6.x",
     "yarn": "1.22.x"
   },
-  "*.scss": [
-    "scss-lint"
-  ]
+  "husky": {
+    "hooks": {
+      "pre-push": "sh bin/validate_push"
+    }
+  },
+  "lint-staged": {
+    "app/**/*.{js,vue}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.scss": [
+      "scss-lint"
+    ]
+  }
 }
