@@ -45,7 +45,7 @@ jobs:
       - name: replace docker tag if master
         if: github.ref_name == 'master'
         run: |
-          echo "DOCKER_TAG=chatwoot/chatwoot:latest-ce" >> $GITHUB_ENV
+          echo "DOCKER_TAG=monacodes/ruutchat:latest-ce" >> $GITHUB_ENV
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
@@ -62,4 +62,4 @@ jobs:
           file: docker/Dockerfile
           platforms: linux/amd64
           push: true
-          tags: latest
+          tags:  ${{ env.DOCKER_TAG }}
