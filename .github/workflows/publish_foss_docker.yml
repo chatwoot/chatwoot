@@ -4,7 +4,7 @@
 # # and when tags are created.
 # #
 
-name: Publish Chatwoot CE docker images
+name: Publish Ruutchat docker images
 on:
   push:
     branches:
@@ -29,18 +29,18 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Strip enterprise code
-        run: |
-          rm -rf enterprise
-          rm -rf spec/enterprise
+      # - name: Strip enterprise code
+      #   run: |
+      #     rm -rf enterprise
+      #     rm -rf spec/enterprise
 
-      - name: Set Chatwoot edition
+      - name: Set Ruutchat edition
         run: |
           echo -en '\nENV CW_EDITION="ce"' >> docker/Dockerfile
 
       - name: set docker tag
         run: |
-          echo "DOCKER_TAG=chatwoot/chatwoot:$GIT_REF-ce" >> $GITHUB_ENV
+          echo "DOCKER_TAG=monacodes/ruutchat:$GIT_REF-ce" >> $GITHUB_ENV
 
       - name: replace docker tag if master
         if: github.ref_name == 'master'
