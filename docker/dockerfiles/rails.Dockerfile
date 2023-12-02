@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 monacodes/ruutchat:latest
+FROM chatwoot:development
 
 RUN chmod +x docker/entrypoints/rails.sh
 
