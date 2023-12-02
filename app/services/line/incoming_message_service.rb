@@ -30,8 +30,14 @@ class Line::IncomingMessageService
   def message_created?(event)
     return unless event_type_message?(event)
 
+    content = event['message']['text'] if event['message']['type'] == 'text'
+    if event['message']['type'] === 'sticker'
+      # TODO: add the relevent notes here
+      content = "![sticker](https://stickershop.line-scdn.net/stickershop/v1/sticker/#{event['message']['stickerId']}/iphone/sticker.png)"
+    end
+
     @message = @conversation.messages.create!(
-      content: event['message']['text'],
+      content: content,
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
       message_type: :incoming,
@@ -65,7 +71,7 @@ class Line::IncomingMessageService
   end
 
   def event_type_message?(event)
-    event['type'] == 'message'
+    event['type'] == 'message' || event['type'] == 'sticker'
   end
 
   def message_type_non_text?(type)
