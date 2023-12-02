@@ -194,7 +194,6 @@ import {
   replaceSignature,
   extractTextFromMarkdown,
 } from 'dashboard/helper/editorHelper';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
@@ -276,11 +275,7 @@ export default {
       return (
         this.inReplyTo?.id &&
         !this.isPrivate &&
-        this.inboxHasFeature(INBOX_FEATURES.REPLY_TO) &&
-        this.isFeatureEnabledonAccount(
-          this.accountId,
-          FEATURE_FLAGS.MESSAGE_REPLY_TO
-        )
+        this.inboxHasFeature(INBOX_FEATURES.REPLY_TO)
       );
     },
     showRichContentEditor() {
@@ -397,7 +392,8 @@ export default {
         this.isAPIInbox ||
         this.isAnEmailChannel ||
         this.isASmsInbox ||
-        this.isATelegramChannel
+        this.isATelegramChannel ||
+        this.isALineChannel
       );
     },
     replyButtonLabel() {
@@ -629,6 +625,8 @@ export default {
           `${this.$t('CONVERSATION.REPLYBOX.INSERT_READ_MORE')} ${url}`
         );
       }
+
+      this.$track(CONVERSATION_EVENTS.INSERT_ARTICLE_LINK);
     },
     toggleRichContentEditor() {
       this.updateUISettings({
