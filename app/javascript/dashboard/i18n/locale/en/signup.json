@@ -72,6 +72,10 @@
         "PLACEHOLDER": "Enter your company name",
         "ERROR": "Company name is too short."
       },
+      "INDUSTRY": {
+        "LABEL": "Industry",
+        "PLACEHOLDER": "Select your industry"
+      },
       "TIMEZONE": {
         "LABEL": "Timezone",
         "PLACEHOLDER": "What timezone do you work from?"
@@ -86,7 +90,8 @@
       }
     },
     "FOUNDERS_NOTE": {
-      "TITLE": "A note from the founder"
+      "TITLE": "A note from the founder",
+      "SUBMIT": "Continue"
     }
   }
 }

@@ -7,11 +7,18 @@
       <div class="space-y-3">
         <form-input
           v-model="companyName"
-          name="full_name"
+          name="companyName"
           class="flex-1"
           :label="$t('ONBOARDING.COMPANY.COMPANY_NAME.LABEL')"
           :placeholder="$t('ONBOARDING.COMPANY.COMPANY_NAME.PLACEHOLDER')"
           :error-message="$t('ONBOARDING.COMPANY.COMPANY_NAME.ERROR')"
+        />
+        <form-input
+          v-model="industry"
+          name="industry"
+          class="flex-1"
+          :label="$t('ONBOARDING.COMPANY.INDSUTRY.LABEL')"
+          :placeholder="$t('ONBOARDING.COMPANY.INDSUTRY.PLACEHOLDER')"
         />
         <form-input
           v-model="timezone"
@@ -60,6 +67,7 @@ export default {
       timezone: '',
       locale: '',
       companySize: '',
+      industry: '',
     };
   },
 };
