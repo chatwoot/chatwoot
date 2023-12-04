@@ -7,6 +7,12 @@ class ActionCableListener < BaseListener
     broadcast(account, tokens, NOTIFICATION_CREATED, { notification: notification.push_event_data, unread_count: unread_count, count: count })
   end
 
+  def notification_deleted(event)
+    notification, account, unread_count, count = extract_notification_and_account(event)
+    tokens = [event.data[:notification].user.pubsub_token]
+    broadcast(account, tokens, NOTIFICATION_DELETED, notification: notification, unread_count: unread_count, count: count)
+  end
+
   def account_cache_invalidated(event)
     account = event.data[:account]
     tokens = user_tokens(account, account.agents)
