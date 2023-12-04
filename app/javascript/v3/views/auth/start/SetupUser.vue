@@ -1,11 +1,66 @@
 <template>
-  <div
-    class="px-8 py-12 font-bold dark:text-white bg-woot-25 dark:bg-slate-900"
+  <modal-layout
+    :title="$t('ONBOARDING.PROFILE.TITLE')"
+    :body="$t('ONBOARDING.PROFILE.BODY')"
   >
-    <h2 class="text-3xl">Setup Your Profile</h2>
-  </div>
+    <form class="mt-8 space-y-8">
+      <div class="space-y-3">
+        <form-input
+          v-model="fullName"
+          name="full_name"
+          class="flex-1"
+          :label="$t('ONBOARDING.PROFILE.FULL_NAME.LABEL')"
+          :placeholder="$t('ONBOARDING.PROFILE.FULL_NAME.PLACEHOLDER')"
+          :error-message="$t('ONBOARDING.PROFILE.FULL_NAME.ERROR')"
+        />
+        <form-input
+          v-model="displayName"
+          name="display_name"
+          class="flex-1"
+          :label="$t('ONBOARDING.PROFILE.DISPLAY_NAME.LABEL')"
+          :placeholder="$t('ONBOARDING.PROFILE.DISPLAY_NAME.PLACEHOLDER')"
+        />
+        <form-input
+          v-model="phoneNumber"
+          name="phone_number"
+          class="flex-1"
+          :label="$t('ONBOARDING.PROFILE.PHONE_NUMBER.LABEL')"
+          :placeholder="$t('ONBOARDING.PROFILE.PHONE_NUMBER.PLACEHOLDER')"
+        />
+        <form-input
+          v-model="signature"
+          name="signature"
+          class="flex-1"
+          :label="$t('ONBOARDING.PROFILE.SIGNATURE.LABEL')"
+          :placeholder="$t('ONBOARDING.PROFILE.SIGNATURE.PLACEHOLDER')"
+        />
+      </div>
+      <submit-button
+        button-class="text-sm"
+        :button-text="$t('ONBOARDING.PROFILE.SUBMIT')"
+      />
+    </form>
+  </modal-layout>
 </template>
 
 <script>
-export default {};
+import FormInput from '../../../components/Form/Input.vue';
+import SubmitButton from '../../../components/Button/SubmitButton';
+import ModalLayout from './components/ModalLayout.vue';
+
+export default {
+  components: {
+    FormInput,
+    SubmitButton,
+    ModalLayout,
+  },
+  data() {
+    return {
+      fullName: '',
+      displayName: '',
+      phoneNumber: '',
+      signature: '',
+    };
+  },
+};
 </script>

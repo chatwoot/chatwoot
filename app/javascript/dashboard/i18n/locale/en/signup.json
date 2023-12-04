@@ -42,10 +42,31 @@
     "HAVE_AN_ACCOUNT": "Already have an account?"
   },
   "ONBOARDING": {
+    "PROFILE": {
+      "TITLE": "Tell us about yourself",
+      "BODY": "Here, we'll set up your details like profile picture, display name, contact info, etc., visible to end users, to make a positive first impression.",
+      "SUBMIT": "Continue to account setup",
+      "FULL_NAME": {
+        "LABEL": "Full name",
+        "PLACEHOLDER": "Enter your full name"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "Display name",
+        "PLACEHOLDER": "Enter the name you want to display your customers"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Phone number (Optional)",
+        "PLACEHOLDER": "Enter your phone number"
+      },
+      "SIGNATURE": {
+        "LABEL": "Signature",
+        "PLACEHOLDER": "Add a signature for your messages. You can set this later in your settings."
+      }
+    },
     "COMPANY": {
       "TITLE": "Tell us about your company",
       "BODY": "In this section, we'll set up the language, timezone, and company size. This information allows us to provide contextually accurate information and suggest relevant features for you.",
-      "SUBMIT": "Go to next step",
+      "SUBMIT": "Continue",
       "COMPANY_NAME": {
         "LABEL": "Company name",
         "PLACEHOLDER": "Enter your company name",
@@ -63,6 +84,9 @@
         "LABEL": "Company size",
         "PLACEHOLDER": "How many people work at your company?"
       }
+    },
+    "FOUNDERS_NOTE": {
+      "TITLE": "A note from the founder"
     }
   }
 }
