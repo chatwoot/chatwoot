@@ -10,11 +10,11 @@
           {{ title }}
         </slot>
       </h2>
-      <p class="mt-2 text-sm dark:text-slate-200">
-        <slot name="body">
+      <slot name="body">
+        <p class="mt-2 text-sm dark:text-slate-200">
           {{ body }}
-        </slot>
-      </p>
+        </p>
+      </slot>
       <div class="mt-8">
         <slot />
       </div>
