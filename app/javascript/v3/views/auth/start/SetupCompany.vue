@@ -15,21 +15,21 @@
         />
         <form-input
           v-model="timezone"
-          name="full_name"
+          name="timezone"
           class="flex-1"
           :label="$t('ONBOARDING.COMPANY.TIMEZONE.LABEL')"
           :placeholder="$t('ONBOARDING.COMPANY.TIMEZONE.PLACEHOLDER')"
         />
         <form-input
           v-model="locale"
-          name="full_name"
+          name="locale"
           class="flex-1"
           :label="$t('ONBOARDING.COMPANY.LOCALE.LABEL')"
           :placeholder="$t('ONBOARDING.COMPANY.LOCALE.PLACEHOLDER')"
         />
         <form-input
           v-model="companySize"
-          name="full_name"
+          name="company_size"
           class="flex-1"
           :label="$t('ONBOARDING.COMPANY.SIZE.LABEL')"
           :placeholder="$t('ONBOARDING.COMPANY.SIZE.PLACEHOLDER')"
