@@ -729,6 +729,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_014644) do
     t.datetime "read_at", precision: nil
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "snoozed_until"
     t.index ["account_id"], name: "index_notifications_on_account_id"
     t.index ["primary_actor_type", "primary_actor_id"], name: "uniq_primary_actor_per_account_notifications"
     t.index ["secondary_actor_type", "secondary_actor_id"], name: "uniq_secondary_actor_per_account_notifications"
