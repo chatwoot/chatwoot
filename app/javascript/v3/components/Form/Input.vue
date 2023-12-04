@@ -5,6 +5,8 @@
     :has-error="hasError"
     :error-message="errorMessage"
   >
+    <template #label> {{ label }} <slot /> </template>
+
     <input
       :id="name"
       :name="name"
