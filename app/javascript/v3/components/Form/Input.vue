@@ -29,11 +29,21 @@
         @blur="$emit('blur')"
       />
       <span
-        v-if="errorMessage && hasError"
+        v-if="errorMessage && hasError && typeof errorMessage === 'string'"
         class="text-xs leading-2 text-red-400"
       >
         {{ errorMessage }}
       </span>
+      <template v-if="errorMessage && hasError && Array.isArray(errorMessage)">
+        <span
+          v-for="(error, index) in errorMessage"
+          :key="index"
+          class="text-xs leading-2 text-red-400"
+          style="display: block; margin-top: 0.25rem"
+        >
+          {{ error }}
+        </span>
+      </template>
     </div>
   </div>
 </template>

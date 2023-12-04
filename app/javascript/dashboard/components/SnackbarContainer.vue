@@ -19,7 +19,7 @@ export default {
   props: {
     duration: {
       type: Number,
-      default: 2500,
+      default: 4000,
     },
   },
 

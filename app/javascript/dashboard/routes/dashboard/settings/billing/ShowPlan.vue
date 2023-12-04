@@ -113,10 +113,11 @@ export default {
       this.clickedPlan = value;
       AccountAPI.changePlan(payload)
         .then(response => {
-          window.location.href = response.data.url;
+          window.open(response.data.url, '_blank');
           this.isPlanClicked = false;
           this.clickedPlan = null;
         })
+        // eslint-disable-next-line no-unused-vars
         .catch(error => {
           this.isPlanClicked = false;
           this.isPlanClicked = false;
