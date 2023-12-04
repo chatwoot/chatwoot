@@ -87,11 +87,18 @@ import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 import VueHcaptcha from '@hcaptcha/vue-hcaptcha';
 import FormInput from '../../../../../components/Form/Input.vue';
 import SubmitButton from '../../../../../components/Button/SubmitButton.vue';
-import { isValidPassword } from 'shared/helpers/Validators';
+// import { isValidPassword } from 'shared/helpers/Validators';
+import {
+  isUppercase,
+  isLowercase,
+  hasNumber,
+  hasSpecialChar,
+  hasLength,
+} from 'shared/helpers/Validators';
 import GoogleOAuthButton from '../../../../../components/GoogleOauth/Button.vue';
 import { register } from '../../../../../api/auth';
-var CompanyEmailValidator = require('company-email-validator');
-import {isEmail} from 'validator';
+// var CompanyEmailValidator = require('company-email-validator');
+import { isEmail } from 'validator';
 
 export default {
   components: {
@@ -137,8 +144,11 @@ export default {
       },
       password: {
         required,
-        isValidPassword,
-        minLength: minLength(6),
+        isUppercase,
+        isLowercase,
+        hasNumber,
+        hasSpecialChar,
+        hasLength,
       },
     },
   },
@@ -146,7 +156,10 @@ export default {
     ...mapGetters({ globalConfig: 'globalConfig/get' }),
     termsLink() {
       return this.$t('REGISTER.TERMS_ACCEPT')
-        .replace('https://www.onehash.ai/legal/terms-of-services', this.globalConfig.termsURL)
+        .replace(
+          'https://www.onehash.ai/legal/terms-of-services',
+          this.globalConfig.termsURL
+        )
         .replace(
           'https://www.onehash.ai/legal/privacy-policy',
           this.globalConfig.privacyURL
@@ -159,17 +172,27 @@ export default {
       return true;
     },
     passwordErrorText() {
+      let errs = [];
       const { password } = this.$v.credentials;
       if (!password.$error) {
         return '';
       }
-      if (!password.minLength) {
-        return this.$t('REGISTER.PASSWORD.ERROR');
+      if (!password.hasLength) {
+        errs.push(this.$t('REGISTER.PASSWORD.ERROR'));
       }
-      if (!password.isValidPassword) {
-        return this.$t('REGISTER.PASSWORD.IS_INVALID_PASSWORD');
+      if (!password.isUppercase) {
+        errs.push(this.$t('REGISTER.PASSWORD.NOT_UPPERCASE'));
       }
-      return '';
+      if (!password.isLowercase) {
+        errs.push(this.$t('REGISTER.PASSWORD.NOT_LOWERCASE'));
+      }
+      if (!password.hasSpecialChar) {
+        errs.push(this.$t('REGISTER.PASSWORD.NOT_SPECIAL_CHARACTER'));
+      }
+      if (!password.hasNumber) {
+        errs.push(this.$t('REGISTER.PASSWORD.NOT_NUMBER'));
+      }
+      return errs;
     },
     showGoogleOAuth() {
       return Boolean(window.chatwootConfig.googleOAuthClientId);

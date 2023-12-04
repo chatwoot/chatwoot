@@ -17,19 +17,31 @@ export const startsWithPlus = value => value.startsWith('+');
 export const shouldBeUrl = (value = '') =>
   value ? value.startsWith('http') : true;
 
-export const isValidPassword = value => {
-  const containsUppercase = /[A-Z]/.test(value);
+export const isUppercase = value => {
   const containsLowercase = /[a-z]/.test(value);
-  const containsNumber = /[0-9]/.test(value);
+  return containsLowercase;
+};
+
+export const isLowercase = value => {
+  const containsUppercase = /[A-Z]/.test(value);
+  return containsUppercase;
+};
+
+export const hasSpecialChar = value => {
   const containsSpecialCharacter = /[!@#$%^&*()_+\-=[\]{}|'"/\\.,`<>:;?~]/.test(
     value
   );
-  return (
-    containsUppercase &&
-    containsLowercase &&
-    containsNumber &&
-    containsSpecialCharacter
-  );
+  return containsSpecialCharacter;
+};
+
+export const hasNumber = value => {
+  const containsNumber = /[0-9]/.test(value);
+  return containsNumber;
+};
+
+export const hasLength = value => {
+  const containsNumber = value.length >= 7;
+  return containsNumber;
 };
 
 export const isNumber = value => /^\d+$/.test(value);

@@ -26,16 +26,20 @@
     "PASSWORD": {
       "LABEL": "Password",
       "PLACEHOLDER": "Password",
-      "ERROR": "Password is too short.",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character."
+      "ERROR": "Password must contain atleast 7 characters.",
+      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character.",
+      "NOT_UPPERCASE":"Password should contain atleast 1 uppercase letter.",
+      "NOT_LOWERCASE": "Password should contain atleast 1 lowercase letter.",
+      "NOT_NUMBER":"Password should contain atleast 1 number",
+      "NOT_SPECIAL_CHARACTER":"Password should contain atleast 1 special character."
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirm password",
       "PLACEHOLDER": "Confirm password",
-      "ERROR": "Password doesnot match."
+      "ERROR": "Password does not match."
     },
     "API": {
-      "SUCCESS_MESSAGE": "Registration Successfull",
+      "SUCCESS_MESSAGE": "Registration Successful",
       "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
     },
     "SUBMIT": "Create account",
