@@ -35,7 +35,10 @@
           :placeholder="$t('ONBOARDING.COMPANY.SIZE.PLACEHOLDER')"
         />
       </div>
-      <submit-button :button-text="$t('ONBOARDING.COMPANY.SUBMIT')" />
+      <submit-button
+        button-class="text-sm"
+        :button-text="$t('ONBOARDING.COMPANY.SUBMIT')"
+      />
     </form>
   </modal-layout>
 </template>
