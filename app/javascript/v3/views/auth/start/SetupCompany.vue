@@ -38,7 +38,7 @@
               'text-slate-400': !locale,
               'text-slate-900 dark:text-slate-100': locale,
             }"
-            class="block w-full px-3 py-2 border-0 rounded-md shadow-sm outline-none appearance-none ring-1 ring-inset placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-woot-500 sm:text-sm sm:leading-6 dark:bg-slate-700 dark:ring-slate-600 dark:focus:ring-woot-500 ring-slate-200"
+            class="block w-full px-3 py-2 pr-6 border-0 rounded-md shadow-sm outline-none appearance-none select-caret ring-1 ring-inset placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-woot-500 sm:text-sm sm:leading-6 dark:bg-slate-700 dark:ring-slate-600 dark:focus:ring-woot-500 ring-slate-200"
           >
             <option value="" disabled selected class="hidden">
               {{ $t('ONBOARDING.COMPANY.LOCALE.PLACEHOLDER') }}
@@ -63,7 +63,7 @@
               'text-slate-400': !companySize,
               'text-slate-900 dark:text-slate-100': companySize,
             }"
-            class="block w-full px-3 py-2 border-0 rounded-md shadow-sm outline-none appearance-none ring-1 ring-inset placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-woot-500 sm:text-sm sm:leading-6 dark:bg-slate-700 dark:ring-slate-600 dark:focus:ring-woot-500 ring-slate-200"
+            class="block w-full px-3 py-2 pr-6 border-0 rounded-md shadow-sm outline-none appearance-none select-caret ring-1 ring-inset placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-woot-500 sm:text-sm sm:leading-6 dark:bg-slate-700 dark:ring-slate-600 dark:focus:ring-woot-500 ring-slate-200"
           >
             <option value="" disabled selected class="hidden">
               {{ $t('ONBOARDING.COMPANY.SIZE.PLACEHOLDER') }}
@@ -129,3 +129,13 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.select-caret {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='32' height='24' viewBox='0 0 32 24'><polygon points='0,0 32,0 16,24' style='fill: rgb%28110, 111, 115%29'></polygon></svg>");
+  background-origin: content-box;
+  background-position: right -1rem center;
+  background-repeat: no-repeat;
+  background-size: 9px 6px;
+}
+</style>
