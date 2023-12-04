@@ -27,10 +27,11 @@
           :label="$t('ONBOARDING.PROFILE.PHONE_NUMBER.LABEL')"
           :placeholder="$t('ONBOARDING.PROFILE.PHONE_NUMBER.PLACEHOLDER')"
         />
-        <form-input
+        <form-text-area
           v-model="signature"
           name="signature"
           spacing="compact"
+          :allow-resize="false"
           :label="$t('ONBOARDING.PROFILE.SIGNATURE.LABEL')"
           :placeholder="$t('ONBOARDING.PROFILE.SIGNATURE.PLACEHOLDER')"
         />
@@ -45,6 +46,7 @@
 
 <script>
 import FormInput from '../../../components/Form/Input.vue';
+import FormTextArea from '../../../components/Form/TextArea.vue';
 import SubmitButton from '../../../components/Button/SubmitButton';
 import ModalLayout from './components/ModalLayout.vue';
 
@@ -53,6 +55,7 @@ export default {
     FormInput,
     SubmitButton,
     ModalLayout,
+    FormTextArea,
   },
   data() {
     return {
