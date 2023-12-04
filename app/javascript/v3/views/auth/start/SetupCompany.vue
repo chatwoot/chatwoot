@@ -63,7 +63,7 @@
               'text-slate-400': !companySize,
               'text-slate-900 dark:text-slate-100': companySize,
             }"
-            class="block w-full px-3 py-2 border-0 rounded-md shadow-sm outline-none appearance-none ring-1 ring-inset text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-woot-500 sm:text-sm sm:leading-6 dark:bg-slate-700 dark:ring-slate-600 dark:focus:ring-woot-500 ring-slate-200"
+            class="block w-full px-3 py-2 border-0 rounded-md shadow-sm outline-none appearance-none ring-1 ring-inset placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-woot-500 sm:text-sm sm:leading-6 dark:bg-slate-700 dark:ring-slate-600 dark:focus:ring-woot-500 ring-slate-200"
           >
             <option value="" disabled selected class="hidden">
               {{ $t('ONBOARDING.COMPANY.SIZE.PLACEHOLDER') }}
@@ -115,7 +115,7 @@ export default {
         { value: '201-500', label: '201-500' },
         { value: '501-1000', label: '501-1000' },
         { value: '1001-5000', label: '1001-5000' },
-        { value: '5001+', label: '5001+' },
+        { value: '5001+', label: 'Over 5000' },
       ],
     };
   },
