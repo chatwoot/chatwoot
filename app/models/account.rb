@@ -9,7 +9,7 @@
 #  deletion_email_reminder :integer
 #  domain                  :string(100)
 #  email_sent_at           :datetime
-#  feature_flags           :integer          default(0), not null
+#  feature_flags           :bigint           default(0), not null
 #  limits                  :jsonb
 #  locale                  :integer          default("en")
 #  name                    :string           not null
