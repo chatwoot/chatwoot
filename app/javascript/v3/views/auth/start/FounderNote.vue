@@ -1,11 +1,53 @@
 <template>
-  <div
-    class="px-8 py-24 font-bold dark:text-white bg-woot-25 dark:bg-slate-900"
-  >
-    <h2 class="text-3xl text-center">Founders Note</h2>
-  </div>
+  <modal-layout :title="$t('ONBOARDING.FOUNDERS_NOTE.TITLE')">
+    <template #body>
+      <section class="mt-4 space-y-3 text-sm leading-relaxed">
+        <p>👋 Hey {{ user.name }},</p>
+        <p>
+          I'm Pranav, one of the co-founders at Chatwoot. Thanks for checking
+          out Chatwoot. We're eager to understand your needs and expectations.
+        </p>
+        <p>
+          If you are facing trouble using the app or achieving your use case, we
+          want to help you as quickly as possible.
+        </p>
+        <p>
+          Feel free to schedule a call with our team. We are open to your
+          feedback. Talk soon!
+        </p>
+      </section>
+      <figure class="mt-5 text-sm leading-relaxed">
+        <thumbnail
+          src="https://www.chatwoot.com/images/team/pranav.jpg"
+          username="Pranav"
+        />
+        <p class="mt-2">Pranav, <br />Co-founder & CEO, Chatwoot</p>
+      </figure>
+    </template>
+    <submit-button
+      button-class="text-sm"
+      :button-text="$t('ONBOARDING.FOUNDERS_NOTE.SUBMIT')"
+    />
+  </modal-layout>
 </template>
 
 <script>
-export default {};
+import ModalLayout from './components/ModalLayout.vue';
+import Thumbnail from '../../../../dashboard/components/widgets/Thumbnail.vue';
+import SubmitButton from '../../../components/Button/SubmitButton';
+
+export default {
+  components: {
+    ModalLayout,
+    Thumbnail,
+    SubmitButton,
+  },
+  data() {
+    return {
+      user: {
+        name: 'Shivam',
+      },
+    };
+  },
+};
 </script>
