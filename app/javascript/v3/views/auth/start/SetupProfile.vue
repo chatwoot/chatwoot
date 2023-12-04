@@ -8,7 +8,7 @@
         <form-input
           v-model="fullName"
           name="full_name"
-          class="flex-1"
+          spacing="compact"
           :label="$t('ONBOARDING.PROFILE.FULL_NAME.LABEL')"
           :placeholder="$t('ONBOARDING.PROFILE.FULL_NAME.PLACEHOLDER')"
           :error-message="$t('ONBOARDING.PROFILE.FULL_NAME.ERROR')"
@@ -16,21 +16,21 @@
         <form-input
           v-model="displayName"
           name="display_name"
-          class="flex-1"
+          spacing="compact"
           :label="$t('ONBOARDING.PROFILE.DISPLAY_NAME.LABEL')"
           :placeholder="$t('ONBOARDING.PROFILE.DISPLAY_NAME.PLACEHOLDER')"
         />
         <form-input
           v-model="phoneNumber"
           name="phone_number"
-          class="flex-1"
+          spacing="compact"
           :label="$t('ONBOARDING.PROFILE.PHONE_NUMBER.LABEL')"
           :placeholder="$t('ONBOARDING.PROFILE.PHONE_NUMBER.PLACEHOLDER')"
         />
         <form-input
           v-model="signature"
           name="signature"
-          class="flex-1"
+          spacing="compact"
           :label="$t('ONBOARDING.PROFILE.SIGNATURE.LABEL')"
           :placeholder="$t('ONBOARDING.PROFILE.SIGNATURE.PLACEHOLDER')"
         />
