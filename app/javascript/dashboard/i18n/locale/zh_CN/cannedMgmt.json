@@ -1,75 +1,75 @@
 {
   "CANNED_MGMT": {
     "HEADER": "预设回复",
-    "HEADER_BTN_TXT": "Add canned response",
-    "LOADING": "Fetching canned responses...",
+    "HEADER_BTN_TXT": "新增预定义回复",
+    "LOADING": "正在检索预定义回复...",
     "SEARCH_404": "没有任何项目符合此查询.",
-    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are pre-written reply templates that help you quickly respond to a conversation. To insert a canned response during a chat, agents can type a short code preceded by a '/' character. </p><p> You can manage your canned responses from this page or create new ones using the \"Add canned response\" button.</p><p>Open the <a target=\"_blank\" href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677501325-how-to-create-saved-reply-templates-with-canned-responses\">Canned Responses handbook</a> in another tab for a helping hand.</p><p>Also, check out the all-new <a href=\"https://www.chatwoot.com/tools/canned-responses-library\" target=\"_blank\">Canned Responses Library</a>.</p>",
+    "SIDEBAR_TXT": "<p><b>预定义回复</b></p>\n<p>预定义回复是预先编写的回复模板，帮助您快速回应对话。在聊天过程中插入预定义回复，代理可以输入一个以 '/' 字符开头的短代码。</p>\n<p>您可以从此页面管理预定义回复，或使用\"添加预定义回复\"按钮创建新的回复。</p>\n<p>在<a target=\"_blank\" href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677501325-how-to-create-saved-reply-templates-with-canned-responses\">预定义回复手册</a>中查看详细说明。</p>\n<p>此外，请查看全新的<a href=\"https://www.chatwoot.com/tools/canned-responses-library\" target=\"_blank\">预定义回复库</a>。</p>\n",
     "LIST": {
       "404": "此帐户中没有预设的回复。",
       "TITLE": "管理预设回复",
-      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
+      "DESC": "预定义回复是预先定义的回复模板，可用于快速回复对话。",
       "TABLE_HEADER": [
-        "Short code",
+        "短代码",
         "内容",
         "操作"
       ]
     },
     "ADD": {
-      "TITLE": "Add canned response",
-      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
+      "TITLE": "新增预定义回复",
+      "DESC": "预定义回复是预先定义的回复模板，可用于快速回复对话。",
       "CANCEL_BUTTON_TEXT": "取消操作",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short code",
-          "PLACEHOLDER": "Please enter a short code.",
-          "ERROR": "Short Code is required."
+          "LABEL": "短代码",
+          "PLACEHOLDER": "请输入短代码。",
+          "ERROR": "短代码是必填项。"
         },
         "CONTENT": {
           "LABEL": "消息",
-          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
-          "ERROR": "Message is required."
+          "PLACEHOLDER": "请编写您希望保存为模板以便以后使用的消息。",
+          "ERROR": "请填写消息。"
         },
         "SUBMIT": "提交"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Canned response added successfully.",
-        "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+        "SUCCESS_MESSAGE": "预定义回复已成功添加。",
+        "ERROR_MESSAGE": "无法与 Woot 服务器建立连接。请重试。"
       }
     },
     "EDIT": {
-      "TITLE": "Edit canned response",
+      "TITLE": "编辑预定义回复",
       "CANCEL_BUTTON_TEXT": "取消操作",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short code",
-          "PLACEHOLDER": "Please enter a shortcode.",
-          "ERROR": "Short code is required."
+          "LABEL": "短代码",
+          "PLACEHOLDER": "请填写短代码。",
+          "ERROR": "短代码是必填项"
         },
         "CONTENT": {
           "LABEL": "消息",
-          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
-          "ERROR": "Message is required."
+          "PLACEHOLDER": "请编写您希望保存为模板以便以后使用的消息。",
+          "ERROR": "请填写消息。"
         },
         "SUBMIT": "提交"
       },
       "BUTTON_TEXT": "编辑",
       "API": {
-        "SUCCESS_MESSAGE": "Canned response is updated successfully.",
-        "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+        "SUCCESS_MESSAGE": "预定义回复已成功更新。",
+        "ERROR_MESSAGE": "无法与 Woot 服务器建立连接。请重试。"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "删除",
       "API": {
-        "SUCCESS_MESSAGE": "Canned response deleted successfully.",
-        "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+        "SUCCESS_MESSAGE": "预定义回复已成功删除啦！",
+        "ERROR_MESSAGE": "连接 Woot 服务器失败，请再试一次。"
       },
       "CONFIRM": {
-        "TITLE": "Confirm deletion",
+        "TITLE": "确认删除",
         "MESSAGE": "您确定要删除吗？ ",
-        "YES": "Yes, delete ",
-        "NO": "No, keep "
+        "YES": "是的，删除",
+        "NO": "不，保留 "
       }
     }
   }
