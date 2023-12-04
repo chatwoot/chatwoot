@@ -3,7 +3,7 @@
     class="min-h-screen px-8 py-24 dark:text-white bg-woot-25 dark:bg-slate-900"
   >
     <div
-      class="max-w-lg rounded-md dark:shadow-[#000] p-9 mx-auto border shadow border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-900"
+      class="max-w-lg rounded-md dark:shadow-[#000] p-9 mx-auto border shadow border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900"
     >
       <h2 class="text-lg font-bold tracking-tight">
         <slot name="title">
