@@ -17,8 +17,8 @@
           v-model="industry"
           name="industry"
           class="flex-1"
-          :label="$t('ONBOARDING.COMPANY.INDSUTRY.LABEL')"
-          :placeholder="$t('ONBOARDING.COMPANY.INDSUTRY.PLACEHOLDER')"
+          :label="$t('ONBOARDING.COMPANY.INDUSTRY.LABEL')"
+          :placeholder="$t('ONBOARDING.COMPANY.INDUSTRY.PLACEHOLDER')"
         />
         <form-input
           v-model="timezone"
