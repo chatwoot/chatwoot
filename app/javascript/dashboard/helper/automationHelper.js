@@ -8,34 +8,34 @@ import actionQueryGenerator from './actionQueryGenerator';
 const MESSAGE_CONDITION_VALUES = [
   {
     id: 'incoming',
-    name: 'Incoming Message',
+    name: 'Mensagem de Entrada',
   },
   {
     id: 'outgoing',
-    name: 'Outgoing Message',
+    name: 'Mensagem de Saída',
   },
 ];
 
 export const PRIORITY_CONDITION_VALUES = [
   {
     id: 'nil',
-    name: 'None',
+    name: 'Nenhuma',
   },
   {
     id: 'low',
-    name: 'Low',
+    name: 'Baixa',
   },
   {
     id: 'medium',
-    name: 'Medium',
+    name: 'Média',
   },
   {
     id: 'high',
-    name: 'High',
+    name: 'Alta',
   },
   {
     id: 'urgent',
-    name: 'Urgent',
+    name: 'Urgente',
   },
 ];
 
@@ -135,7 +135,6 @@ export const getActionOptions = ({ agents, teams, labels, type }) => {
     assign_team: teams,
     send_email_to_team: teams,
     add_label: generateConditionOptions(labels, 'title'),
-    remove_label: generateConditionOptions(labels, 'title'),
     change_priority: PRIORITY_CONDITION_VALUES,
   };
   return actionsMap[type];
