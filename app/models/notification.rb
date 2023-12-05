@@ -121,6 +121,9 @@ class Notification < ApplicationRecord
     # In future, we could probably add condition here to enqueue the job for 30 seconds later
     # when push enabled and then check in email job whether notification has been read already.
     Notification::EmailNotificationJob.perform_later(self)
+
+    # Remove duplicate notifications
+    Notification::RemoveDuplicateNotificationJob.perform_later(self)
   end
 
   def dispatch_create_event
