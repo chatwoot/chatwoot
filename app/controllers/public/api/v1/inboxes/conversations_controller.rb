@@ -23,7 +23,7 @@ class Public::Api::V1::Inboxes::ConversationsController < Public::Api::V1::Inbox
   def update_last_seen
     @conversation.contact_last_seen_at = DateTime.now.utc
     @conversation.save!
-    ::Conversations::MarkMessagesAsReadJob.perform_later(@conversation.id, @conversation.contact_last_seen_at)
+    ::Conversations::UpdateMessageStatusJob.perform_later(@conversation.id, @conversation.contact_last_seen_at)
     head :ok
   end
 
