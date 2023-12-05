@@ -295,6 +295,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      currentUserRole: 'getCurrentRole',
       currentChat: 'getSelectedChat',
       currentUser: 'getCurrentUser',
       chatLists: 'getAllConversations',
@@ -344,12 +345,17 @@ export default {
         name,
       };
     },
-    assigneeTabItems() {
+     assigneeTabItems() {
       const ASSIGNEE_TYPE_TAB_KEYS = {
         me: 'mineCount',
         unassigned: 'unAssignedCount',
-        all: 'allCount',
       };
+            
+      const isAvailableForTheUser = this.currentUserRole === 'administrator' ? true : false;
+      if (isAvailableForTheUser) {
+          ASSIGNEE_TYPE_TAB_KEYS.all = 'allCount';
+      }
+
       return Object.keys(ASSIGNEE_TYPE_TAB_KEYS).map(key => {
         const count = this.conversationStats[ASSIGNEE_TYPE_TAB_KEYS[key]] || 0;
         return {
@@ -410,12 +416,8 @@ export default {
     },
     conversationListPagination() {
       const conversationsPerPage = 25;
-      const hasChatsOnView =
-        this.chatsOnView &&
-        Array.isArray(this.chatsOnView) &&
-        !this.chatsOnView.length;
       const isNoFiltersOrFoldersAndChatListNotEmpty =
-        !this.hasAppliedFiltersOrActiveFolders && hasChatsOnView;
+        !this.hasAppliedFiltersOrActiveFolders && this.chatsOnView !== [];
       const isUnderPerPage =
         this.chatsOnView.length < conversationsPerPage &&
         this.activeAssigneeTabCount < conversationsPerPage &&
@@ -520,8 +522,10 @@ export default {
       this.chatsOnView = this.conversationList;
     },
   },
-  mounted() {
+  created() {
     this.setFiltersFromUISettings();
+  },
+  mounted() {
     this.$store.dispatch('setChatStatusFilter', this.activeStatus);
     this.$store.dispatch('setChatSortFilter', this.activeSortBy);
     this.resetAndFetchData();
@@ -552,8 +556,8 @@ export default {
       this.closeAdvanceFiltersModal();
     },
     setFiltersFromUISettings() {
-      const { conversations_filter_by: filterBy = {} } = this.uiSettings;
-      const { status, order_by: orderBy } = filterBy;
+      const { status, order_by: orderBy } =
+        this.uiSettings.conversations_filter_by;
       this.activeStatus = status || wootConstants.STATUS_TYPE.OPEN;
       this.activeSortBy = orderBy || wootConstants.SORT_BY_TYPE.LATEST;
     },
@@ -573,6 +577,11 @@ export default {
       if (!this.hasAppliedFilters && !this.hasActiveFolders) {
         this.initializeExistingFilterToModal();
       }
+            if (this.currentUserRole === 'agent') {
+        this.showAdvancedFilters = false;
+        return;
+      }
+      
       if (this.hasActiveFolders) {
         this.initializeFolderToFilterModal(this.activeFolder);
       }
