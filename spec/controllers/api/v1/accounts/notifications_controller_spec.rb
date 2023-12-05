@@ -153,4 +153,32 @@ RSpec.describe 'Notifications API', type: :request do
       end
     end
   end
+
+  describe 'PATCH /api/v1/accounts/{account.id}/notifications/:id/snooze' do
+    let(:admin) { create(:user, account: account, role: :administrator) }
+    let!(:notification) { create(:notification, account: account, user: admin) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/notifications/#{notification.id}/snooze",
+             params: { snoozed_until: DateTime.now.utc + 1.day }
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+
+      it 'updates the notification snoozed until' do
+        post "/api/v1/accounts/#{account.id}/notifications/#{notification.id}/snooze",
+             headers: admin.create_new_auth_token,
+             params: { snoozed_until: DateTime.now.utc + 1.day },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(notification.reload.snoozed_until).not_to eq('')
+      end
+    end
+  end
 end
