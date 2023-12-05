@@ -126,6 +126,7 @@
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import { clearCookiesOnLogout } from '../../../../store/utils/api';
+import { hasValidAvatarUrl } from 'dashboard/helper/URLHelper';
 import NotificationSettings from './NotificationSettings.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import ChangePassword from './ChangePassword.vue';
@@ -196,6 +197,9 @@ export default {
       currentUserId: 'getCurrentUserID',
       globalConfig: 'globalConfig/get',
     }),
+    showDeleteButton() {
+      return hasValidAvatarUrl(this.avatarUrl);
+    },
   },
   watch: {
     currentUserId(newCurrentUserId, prevCurrentUserId) {
@@ -262,9 +266,6 @@ export default {
       } catch (error) {
         this.showAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_FAILED'));
       }
-    },
-    showDeleteButton() {
-      return this.avatarUrl && !this.avatarUrl.includes('www.gravatar.com');
     },
     toggleEditorMessageKey(key) {
       this.updateUISettings({ editor_message_key: key });

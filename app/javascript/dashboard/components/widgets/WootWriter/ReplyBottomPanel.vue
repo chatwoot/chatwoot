@@ -155,6 +155,7 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import {
   ALLOWED_FILE_TYPES,
   ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP,
+  ALLOWED_FILE_TYPES_FOR_LINE,
 } from 'shared/constants/messages';
 // import VideoCallButton from '../VideoCallButton.vue';
 import AIAssistanceButton from '../AIAssistanceButton.vue';
@@ -281,6 +282,9 @@ export default {
       return this.showFileUpload || this.isNote;
     },
     showAudioRecorderButton() {
+      if (this.isALineChannel) {
+        return false;
+      }
       // Disable audio recorder for safari browser as recording is not supported
       const isSafari = /^((?!chrome|android|crios|fxios).)*safari/i.test(
         navigator.userAgent
@@ -301,6 +305,9 @@ export default {
     allowedFileTypes() {
       if (this.isATwilioWhatsAppChannel) {
         return ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP;
+      }
+      if (this.isALineChannel) {
+        return ALLOWED_FILE_TYPES_FOR_LINE;
       }
       return ALLOWED_FILE_TYPES;
     },
