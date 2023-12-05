@@ -21,6 +21,10 @@
 
   &.expanded {
     @apply flex justify-center text-center;
+
+    .button__content {
+      @apply w-full;
+    }
   }
 
   &.round {
@@ -148,11 +152,11 @@
 
   // Sizes
   &.tiny {
-    @apply h-6;
+    @apply h-6 pl-2 pr-2;
   }
 
   &.small {
-    @apply h-8 pb-1 pt-1;
+    @apply h-8 pb-1 pt-1 pl-2 pr-2;
   }
 
   &.large {

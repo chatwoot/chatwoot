@@ -8,7 +8,7 @@
             color-scheme="secondary"
             size="small"
             icon="settings"
-            @click="$emit('fetch-portal')"
+            @click="$emit('settings')"
           >
             {{ $t('HELP_CENTER.PORTAL.POPOVER.PORTAL_SETTINGS') }}
           </woot-button>
@@ -19,56 +19,58 @@
             size="small"
             color-scheme="secondary"
             icon="app-folder"
-            @click="$emit('fetch-portal')"
+            @click="$emit('all-portals')"
           >
             {{ $t('HELP_CENTER.PORTAL.POPOVER.ALL_PORTALS') }}
           </woot-button>
         </woot-dropdown-item>
       </div>
-      <woot-dropdown-divider />
-      <woot-dropdown-header
-        :title="$t('HELP_CENTER.PORTAL.POPOVER.SWITCH_PORTAL')"
-      />
-      <woot-dropdown-item
-        v-for="portal in portals"
-        :key="portal.id"
-        class="my-1"
-      >
-        <woot-button
-          variant="clear"
-          color-scheme="secondary"
-          class-name=""
-          :is-active="portal.slug === activePortalSlug"
-          @click="() => openSnoozeModal()"
+      <div v-if="portals.length > 1" class="mt-2">
+        <woot-dropdown-divider />
+        <woot-dropdown-header
+          :title="$t('HELP_CENTER.PORTAL.POPOVER.SWITCH_PORTAL')"
+        />
+        <woot-dropdown-item
+          v-for="portal in portals"
+          :key="portal.id"
+          class="my-1"
         >
-          <div
-            class="portal"
-            :class="{ active: portal.slug === activePortalSlug }"
+          <woot-button
+            variant="clear"
+            color-scheme="secondary"
+            class-name=""
+            :is-active="portal.slug === activePortalSlug"
+            @click="() => NithinDavid()"
           >
-            <thumbnail :username="portal.name" variant="square" size="32px" />
+            <div
+              class="portal"
+              :class="{ active: portal.slug === activePortalSlug }"
+            >
+              <thumbnail :username="portal.name" variant="square" size="32px" />
 
-            <div class="flex items-center justify-between">
-              <div>
-                <h3
-                  class="text-sm leading-4 font-semibold text-slate-700 dark:text-slate-100 mb-0"
-                >
-                  {{ portal.name }}
-                </h3>
-                <div class="text-xs text-slate-600 dark:text-slate-300">
-                  <span>{{ articlesCount(portal) }}</span>
+              <div class="flex items-center justify-between">
+                <div>
+                  <h3
+                    class="text-xs leading-4 font-semibold text-slate-600 dark:text-slate-100 mb-0"
+                  >
+                    {{ portal.name }}
+                  </h3>
+                  <div class="text-xs text-slate-600 dark:text-slate-300">
+                    <span>{{ articlesCount(portal) }}</span>
+                  </div>
                 </div>
-              </div>
 
-              <woot-label
-                v-if="active"
-                size="tiny"
-                color-scheme="success"
-                :title="$t('HELP_CENTER.PORTAL.ACTIVE_BADGE')"
-              />
+                <woot-label
+                  v-if="active"
+                  size="tiny"
+                  color-scheme="success"
+                  :title="$t('HELP_CENTER.PORTAL.ACTIVE_BADGE')"
+                />
+              </div>
             </div>
-          </div>
-        </woot-button>
-      </woot-dropdown-item>
+          </woot-button>
+        </woot-dropdown-item>
+      </div>
     </woot-dropdown-menu>
   </div>
 </template>
@@ -150,6 +152,10 @@ export default {
 
 <style lang="scss" scoped>
 .portal {
-  @apply rounded-md relative flex gap-2;
+  @apply rounded-md relative flex gap-2 -mx-1;
+}
+
+.dropdown-menu__item {
+  @apply mb-0 -mx-1;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex h-16 items-center justify-between py-4 px-0 mb-1/4 border-b border-slate-50 dark:border-slate-700"
+    class="flex h-16 items-center justify-between py-4 px-2 -mx-2 mb-1/4 border-b border-slate-50 dark:border-slate-700"
   >
     <div class="flex items-center">
       <thumbnail
@@ -32,7 +32,7 @@
         variant="clear"
         size="small"
         color-scheme="secondary"
-        icon="arrow-swap"
+        icon="chevron-down"
         @click="openPortalPopover"
       />
     </div>

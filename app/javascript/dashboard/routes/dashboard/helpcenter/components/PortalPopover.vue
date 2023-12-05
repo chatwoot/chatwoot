@@ -1,26 +1,28 @@
 <template>
   <div
     v-on-clickaway="closePortalPopover"
-    class="absolute top-16 overflow-y-scroll max-h-[96vh] p-4 min-w-[12rem] w-full bg-white dark:bg-slate-800 rounded-md shadow-lg z-[1000]"
+    class="absolute top-[4.5rem] left-2 overflow-y-scroll max-h-[96vh] px-2 py-3 min-w-[12rem] w-[calc(100%-1rem)] bg-white dark:bg-slate-800 rounded-md shadow-lg z-[1000]"
   >
     <portal-switch
       :portals="portals"
       :active-portal-slug="activePortalSlug"
       :active-locale="activeLocale"
-      @open-portal-page="closePortalPopover"
+      @settings="portalSettingsPage"
+      @all-portals="allPortalPage"
+      @open-portal-page="allPortalPage"
       @fetch-portal="fetchPortalAndItsCategories"
     />
-    <woot-button
-      class="mt-4 sticky bottom-4"
-      variant="smooth"
-      color-scheme="secondary"
-      icon="add"
-      size="small"
-      :is-expanded="true"
-      @click="openPortalPage"
-    >
-      {{ $t('Add portal') }}
-    </woot-button>
+    <div class="px-1 mt-2 sticky bottom-0">
+      <woot-button
+        color-scheme="primary"
+        icon="add"
+        size="tiny"
+        :is-expanded="true"
+        @click="createPortalPage"
+      >
+        {{ $t('Create portal') }}
+      </woot-button>
+    </div>
   </div>
 </template>
 
@@ -51,10 +53,25 @@ export default {
     closePortalPopover() {
       this.$emit('close-popover');
     },
-    openPortalPage() {
+    createPortalPage() {
+      this.closePortalPopover();
+      this.$router.push({
+        name: 'new_portal_information',
+      });
+    },
+    allPortalPage() {
       this.closePortalPopover();
       this.$router.push({
         name: 'list_all_portals',
+      });
+    },
+    portalSettingsPage() {
+      this.closePortalPopover();
+      this.$router.push({
+        name: 'edit_portal_information',
+        params: {
+          portalSlug: this.activePortalSlug,
+        },
       });
     },
     fetchPortalAndItsCategories() {
