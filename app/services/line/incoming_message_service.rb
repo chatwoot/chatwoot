@@ -4,6 +4,7 @@
 class Line::IncomingMessageService
   include ::FileTypeHelper
   pattr_initialize [:inbox!, :params!]
+  LINE_STICKER_IMAGE_URL = 'https://stickershop.line-scdn.net/stickershop/v1/sticker/%s/iphone/sticker.png'.freeze
 
   def perform
     # probably test events
@@ -43,17 +44,24 @@ class Line::IncomingMessageService
   end
 
   def message_content(event)
-    content = event['message']['text'] if event['message']['type'] == 'text'
-    if event['message']['type'] == 'sticker'
-      # Currently, Chatwoot doesn't support stickers. As a temporary solution,
-      # we're displaying stickers as images using the sticker ID in markdown format.
-      # This is subject to change in the future. We've chosen not to download and display the sticker as an image because the sticker's information
-      # and images are the property of the creator or legal owner. We aim to avoid storing it on our server without their consent.
-      # If there are any permission or rendering issues, the URL may break, and we'll display the sticker ID as text instead.
-      # Ref: https://developers.line.biz/en/reference/messaging-api/#wh-sticker
-      content = "![sticker-#{event['message']['stickerId']}](https://stickershop.line-scdn.net/stickershop/v1/sticker/#{event['message']['stickerId']}/iphone/sticker.png)"
+    message_type = event.dig('message', 'type')
+    case message_type
+    when 'text'
+      event.dig('message', 'text')
+    when 'sticker'
+      sticker_id = event.dig('message', 'stickerId')
+      sticker_image_url(sticker_id)
     end
-    content
+  end
+
+  # Currently, Chatwoot doesn't support stickers. As a temporary solution,
+  # we're displaying stickers as images using the sticker ID in markdown format.
+  # This is subject to change in the future. We've chosen not to download and display the sticker as an image because the sticker's information
+  # and images are the property of the creator or legal owner. We aim to avoid storing it on our server without their consent.
+  # If there are any permission or rendering issues, the URL may break, and we'll display the sticker ID as text instead.
+  # Ref: https://developers.line.biz/en/reference/messaging-api/#wh-sticker
+  def sticker_image_url(sticker_id)
+    "![sticker-#{sticker_id}](#{LINE_STICKER_IMAGE_URL % sticker_id})"
   end
 
   def message_content_type(event)
