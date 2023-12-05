@@ -38,7 +38,7 @@ export const AUTOMATIONS = {
       },
       {
         key: 'conversation_language',
-        name: 'Linguagem de Conversação',
+        name: 'Linguagem da Conversa',
         attributeI18nKey: 'CONVERSATION_LANGUAGE',
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
@@ -84,7 +84,7 @@ export const AUTOMATIONS = {
       },
       {
         key: 'mute_conversation',
-        name: 'Mudo conversa',
+        name: 'Deixar Conversa No Mudo',
         attributeI18nKey: 'MUTE_CONVERSATION',
       },
       {
@@ -170,7 +170,7 @@ export const AUTOMATIONS = {
       },
       {
         key: 'conversation_language',
-        name: 'Linguagem de Conversação',
+        name: 'Linguagem da Conversa',
         attributeI18nKey: 'CONVERSATION_LANGUAGE',
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
@@ -216,7 +216,7 @@ export const AUTOMATIONS = {
       },
       {
         key: 'mute_conversation',
-        name: 'Mudo conversa',
+        name: 'Deixar Conversa No Mudo',
         attributeI18nKey: 'MUTE_CONVERSATION',
       },
       {
@@ -361,7 +361,7 @@ export const AUTOMATIONS = {
       },
       {
         key: 'mute_conversation',
-        name: 'Mudo Conversação',
+        name: 'Deixar Conversa No Mudo',
         attributeI18nKey: 'MUTE_CONVERSATION',
       },
       {
@@ -453,7 +453,7 @@ export const AUTOMATIONS = {
       },
       {
         key: 'conversation_language',
-        name: 'Linguagem de Conversação',
+        name: 'Linguagem da Conversa',
         attributeI18nKey: 'CONVERSATION_LANGUAGE',
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
@@ -499,7 +499,7 @@ export const AUTOMATIONS = {
       },
       {
         key: 'mute_conversation',
-        name: 'Mudo Conversa',
+        name: 'Deixar Conversa No Mudo',
         attributeI18nKey: 'MUTE_CONVERSATION',
       },
       {
@@ -532,7 +532,7 @@ export const AUTOMATION_RULE_EVENTS = [
   },
   {
     key: 'message_created',
-    value: 'Mensagem criada',
+    value: 'Mensagem Criada',
   },
   {
     key: 'conversation_opened',
@@ -568,7 +568,7 @@ export const AUTOMATION_ACTION_TYPES = [
   },
   {
     key: 'mute_conversation',
-    label: 'Mudo Conversa',
+    label: 'Silenciar Conversa',
     inputType: null,
   },
   {
