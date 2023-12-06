@@ -68,17 +68,10 @@ class Notification < ApplicationRecord
   end
 
   def primary_actor_data
-    if %w[assigned_conversation_new_message conversation_mention].include? notification_type
-      {
-        id: primary_actor.conversation.push_event_data[:id],
-        meta: primary_actor.conversation.push_event_data[:meta]
-      }
-    else
-      {
-        id: primary_actor.push_event_data[:id],
-        meta: primary_actor.push_event_data[:meta]
-      }
-    end
+    {
+      id: primary_actor.push_event_data[:id],
+      meta: primary_actor.push_event_data[:meta]
+    }
   end
 
   def fcm_push_data
@@ -92,35 +85,31 @@ class Notification < ApplicationRecord
   end
 
   # TODO: move to a data presenter
-  # rubocop:disable Metrics/CyclomaticComplexity
   def push_message_title
     case notification_type
     when 'conversation_creation'
-      I18n.t('notifications.notification_title.conversation_creation', display_id: primary_actor.display_id, inbox_name: primary_actor.inbox.name)
+      I18n.t('notifications.notification_title.conversation_creation', display_id: conversation.display_id, inbox_name: primary_actor.inbox.name)
     when 'conversation_assignment'
-      I18n.t('notifications.notification_title.conversation_assignment', display_id: primary_actor.display_id)
+      I18n.t('notifications.notification_title.conversation_assignment', display_id: conversation.display_id)
     when 'assigned_conversation_new_message', 'participating_conversation_new_message'
       I18n.t(
         'notifications.notification_title.assigned_conversation_new_message',
         display_id: conversation.display_id,
-        content: transform_user_mention_content(primary_actor&.content&.truncate_words(10))
+        content: content
       )
     when 'conversation_mention'
-      "[##{conversation&.display_id}] #{transform_user_mention_content primary_actor&.content}"
+      "[##{conversation&.display_id}] #{transform_user_mention_content content}"
     else
       ''
     end
   end
-  # rubocop:enable Metrics/CyclomaticComplexity
 
   def conversation
-    return primary_actor.conversation if %w[
-      assigned_conversation_new_message
-      participating_conversation_new_message
-      conversation_mention
-    ].include? notification_type
-
     primary_actor
+  end
+
+  def content
+    transform_user_mention_content(secondary_actor&.content&.truncate_words(10) || '')
   end
 
   private
