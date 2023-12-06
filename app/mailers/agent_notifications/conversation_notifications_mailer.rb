@@ -1,5 +1,5 @@
 class AgentNotifications::ConversationNotificationsMailer < ApplicationMailer
-  def conversation_creation(conversation, agent)
+  def conversation_creation(conversation, agent, _user)
     return unless smtp_config_set_or_development?
 
     @agent = agent
@@ -9,7 +9,7 @@ class AgentNotifications::ConversationNotificationsMailer < ApplicationMailer
     send_mail_with_liquid(to: @agent.email, subject: subject) and return
   end
 
-  def conversation_assignment(conversation, agent)
+  def conversation_assignment(conversation, agent, _user)
     return unless smtp_config_set_or_development?
 
     @agent = agent

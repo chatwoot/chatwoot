@@ -55,4 +55,10 @@ export const mutations = {
     Vue.set($state.meta, 'unreadCount', unreadCount);
     Vue.set($state.meta, 'count', count);
   },
+  [types.DELETE_NOTIFICATION]($state, data) {
+    const { notification, unread_count: unreadCount, count } = data;
+    Vue.delete($state.records, notification.id);
+    Vue.set($state.meta, 'unreadCount', unreadCount);
+    Vue.set($state.meta, 'count', count);
+  },
 };
