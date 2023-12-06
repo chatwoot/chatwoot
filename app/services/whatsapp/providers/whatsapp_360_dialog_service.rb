@@ -62,6 +62,7 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
       headers: api_headers,
       body: {
         to: phone_number,
+        context: whatsapp_reply_context(message),
         text: { body: message.content },
         type: 'text'
       }.to_json
@@ -84,6 +85,7 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
       body: {
         'to' => phone_number,
         'type' => type,
+        'context' => whatsapp_reply_context(message),
         type.to_s => type_content
       }.to_json
     )
