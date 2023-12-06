@@ -79,4 +79,4 @@ yarn-debug.log*
 
 # ignore build artifacts
 
-/public/*
+
