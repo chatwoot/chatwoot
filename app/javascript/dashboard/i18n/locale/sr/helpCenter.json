@@ -365,7 +365,7 @@
         "NAME": {
           "LABEL": "Ime",
           "PLACEHOLDER": "Naziv kategorije",
-          "HELP_TEXT": "Naziv kategorije će se koristiti u javno dostupnim portalima da bi se članci kategorizovali.",
+          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
           "ERROR": "Ime je neophodno"
         },
         "SLUG": {
@@ -396,7 +396,7 @@
         "NAME": {
           "LABEL": "Ime",
           "PLACEHOLDER": "Naziv kategorije",
-          "HELP_TEXT": "Naziv kategorije će se koristiti u javno dostupnim portalima da bi se članci kategorizovali.",
+          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
           "ERROR": "Ime je neophodno"
         },
         "SLUG": {

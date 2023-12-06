@@ -57,7 +57,6 @@ export default {
       required: true,
     },
   },
-
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',

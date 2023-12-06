@@ -66,6 +66,9 @@ post:
       required: true
       schema:
         type: object
+        required:
+          - source_id
+          - inbox_id
         properties:
           source_id:
             type: string
@@ -93,7 +96,35 @@ post:
           team_id:
             type: string
             description: Team Id for assigning a conversation to a team
-
+          message:
+            type: object
+            description: The initial message to be sent to the conversation
+            required: ['content']
+            properties:
+              content:
+                type: string
+                description: The content of the message
+              template_params:
+                type: object
+                description: The template params for the message in case of whatsapp Channel
+                properties:
+                  name:
+                    type: string
+                    description: Name of the template
+                    example: 'sample_issue_resolution'
+                  category:
+                    type: string
+                    description: Category of the template
+                    example: UTILITY
+                  language:
+                    type: string
+                    description: Language of the template
+                    example: en_US
+                  processed_params: 
+                    type: object
+                    description: The processed param values for template variables in template
+                    example: 
+                      1: "Chatwoot"
   responses:
     200:
       description: Success

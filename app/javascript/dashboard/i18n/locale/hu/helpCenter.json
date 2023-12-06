@@ -365,7 +365,7 @@
         "NAME": {
           "LABEL": "Név",
           "PLACEHOLDER": "Kategória neve",
-          "HELP_TEXT": "A kategória nevét a nyilvános portálon a cikkek kategorizálására használjuk.",
+          "HELP_TEXT": "A kategória neve és ikonja a nyilvános portálon a cikkek kategorizálására szolgál.",
           "ERROR": "Név kötelező"
         },
         "SLUG": {
@@ -396,7 +396,7 @@
         "NAME": {
           "LABEL": "Név",
           "PLACEHOLDER": "Kategória neve",
-          "HELP_TEXT": "A kategória nevét a nyilvános portálon a cikkek kategorizálására használjuk.",
+          "HELP_TEXT": "A kategória neve és ikonja a nyilvános portálon a cikkek kategorizálására szolgál.",
           "ERROR": "Név kötelező"
         },
         "SLUG": {

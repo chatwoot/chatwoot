@@ -9,7 +9,7 @@
     "LOCATION": "مکان",
     "BROWSER_LANGUAGE": "مرور زبان",
     "CONVERSATION_TITLE": "جزئیات مکالمه",
-    "VIEW_PROFILE": "نمایش مشخصات",
+    "VIEW_PROFILE": "نمایش پروفایل",
     "BROWSER": "مرورگر",
     "OS": "سیستم عامل",
     "INITIATED_FROM": "شروع شده از",
@@ -62,13 +62,13 @@
     "DESC": "اطلاعات اولیه درباره مخاطب را اضافه کنید."
   },
   "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "وارد كردن",
-    "TITLE": "وارد کردن مخاطبین",
+    "BUTTON_LABEL": "تزریق کردن",
+    "TITLE": "تزریق مخاطبین",
     "DESC": "مخاطبین را از طریق یک فایل CSV وارد کنید.",
     "DOWNLOAD_LABEL": "نمونه csv را بارگیری کنید.",
     "FORM": {
       "LABEL": "پرونده CSV",
-      "SUBMIT": "وارد كردن",
+      "SUBMIT": "تزریق کردن",
       "CANCEL": "انصراف"
     },
     "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",

@@ -18,13 +18,13 @@
       </div>
 
       <div class="mt-2 w-full">
-        <div v-if="showAvatar" class="flex items-center mb-2 gap-1.5">
+        <div v-if="showAvatar" class="flex items-start mb-2 gap-1.5">
           <h3
             class="text-base text-slate-800 dark:text-slate-100 capitalize whitespace-normal my-0"
           >
             {{ contact.name }}
           </h3>
-          <div class="flex flex-row items-start gap-1">
+          <div class="flex flex-row items-center gap-1">
             <fluent-icon
               v-if="contact.created_at"
               v-tooltip.left="
@@ -55,7 +55,6 @@
         <p v-if="additionalAttributes.description" class="break-words">
           {{ additionalAttributes.description }}
         </p>
-        <social-icons :social-profiles="socialProfiles" />
         <div class="mb-3">
           <contact-info-row
             :href="contact.email ? `mailto:${contact.email}` : ''"
@@ -93,6 +92,7 @@
             emoji="🌍"
             :title="$t('CONTACT_PANEL.LOCATION')"
           />
+          <social-icons :social-profiles="socialProfiles" />
         </div>
       </div>
       <div class="flex items-center w-full mt-2 gap-2">

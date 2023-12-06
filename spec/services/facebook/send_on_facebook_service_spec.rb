@@ -58,6 +58,8 @@ describe Facebook::SendOnFacebookService do
         described_class.new(message: message).perform
 
         expect(facebook_channel.authorization_error_count).to eq(1)
+        expect(message.reload.status).to eq('failed')
+        expect(message.reload.external_error).to eq('Error validating access token')
       end
 
       it 'if message with attachment is sent from chatwoot and is outgoing' do
@@ -86,6 +88,15 @@ describe Facebook::SendOnFacebookService do
                                                       messaging_type: 'MESSAGE_TAG',
                                                       tag: 'ACCOUNT_UPDATE'
                                                     }, { page_id: facebook_channel.page_id })
+      end
+
+      it 'if message sent from chatwoot is failed' do
+        message = create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation)
+        allow(bot).to receive(:deliver).and_return({ error: { message: 'Invalid OAuth access token.', type: 'OAuthException', code: 190,
+                                                              fbtrace_id: 'BLBz/WZt8dN' } }.to_json)
+        described_class.new(message: message).perform
+        expect(bot).to have_received(:deliver)
+        expect(message.reload.status).to eq('failed')
       end
     end
   end

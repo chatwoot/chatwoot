@@ -32,7 +32,7 @@
         }}</span>
         <filter-item
           type="sort"
-          :selected-value="chatSortFilter"
+          :selected-value="sortFilter"
           :items="chatSortItems"
           path-prefix="CHAT_LIST.CHAT_SORT_FILTER_ITEMS"
           @onChangeFilter="onChangeFilter"
@@ -47,12 +47,13 @@ import wootConstants from 'dashboard/constants/globals';
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import FilterItem from './FilterItem.vue';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
 export default {
   components: {
     FilterItem,
   },
-  mixins: [clickaway],
+  mixins: [clickaway, uiSettingsMixin],
   data() {
     return {
       showActionsDropdown: false,
@@ -83,8 +84,17 @@ export default {
     closeDropdown() {
       this.showActionsDropdown = false;
     },
-    onChangeFilter(type, value) {
-      this.$emit('changeFilter', type, value);
+    onChangeFilter(value, type) {
+      this.$emit('changeFilter', value, type);
+      this.saveSelectedFilter(type, value);
+    },
+    saveSelectedFilter(type, value) {
+      this.updateUISettings({
+        conversations_filter_by: {
+          status: type === 'status' ? value : this.chatStatus,
+          order_by: type === 'sort' ? value : this.sortFilter,
+        },
+      });
     },
   },
 };

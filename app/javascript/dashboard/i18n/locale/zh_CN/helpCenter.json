@@ -365,7 +365,7 @@
         "NAME": {
           "LABEL": "姓名：",
           "PLACEHOLDER": "类别名称",
-          "HELP_TEXT": "类别名称将用于公共门户来对文章进行归类。",
+          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
           "ERROR": "名字必填"
         },
         "SLUG": {
@@ -396,7 +396,7 @@
         "NAME": {
           "LABEL": "姓名：",
           "PLACEHOLDER": "类别名称",
-          "HELP_TEXT": "类别名称将用于公共门户来对文章进行归类。",
+          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
           "ERROR": "名字必填"
         },
         "SLUG": {

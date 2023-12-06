@@ -25,6 +25,22 @@ RSpec.describe AdministratorNotifications::ChannelNotificationsMailer do
     end
   end
 
+  describe 'dialogflow disconnect' do
+    let(:mail) { described_class.with(account: account).dialogflow_disconnect.deliver_now }
+
+    it 'renders the subject' do
+      expect(mail.subject).to eq('Your Dialogflow integration was disconnected')
+    end
+
+    it 'renders the content' do
+      expect(mail.body).to include('Your Dialogflow integration was disconnected because of permission issues.')
+    end
+
+    it 'renders the receiver email' do
+      expect(mail.to).to eq([administrator.email])
+    end
+  end
+
   describe 'facebook_disconnect' do
     before do
       stub_request(:post, /graph.facebook.com/)

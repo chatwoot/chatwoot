@@ -7,6 +7,13 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
     send_mail_with_liquid(to: admin_emails, subject: subject) and return
   end
 
+  def dialogflow_disconnect
+    return unless smtp_config_set_or_development?
+
+    subject = 'Your Dialogflow integration was disconnected'
+    send_mail_with_liquid(to: admin_emails, subject: subject) and return
+  end
+
   def facebook_disconnect(inbox)
     return unless smtp_config_set_or_development?
 

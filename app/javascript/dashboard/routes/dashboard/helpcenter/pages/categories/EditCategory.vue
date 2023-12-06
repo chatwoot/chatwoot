@@ -21,15 +21,16 @@
             </label>
           </div>
         </div>
-        <woot-input
-          v-model.trim="name"
-          :class="{ error: $v.name.$error }"
-          class="w-full"
-          :error="nameError"
+        <category-name-icon-input
           :label="$t('HELP_CENTER.CATEGORY.EDIT.NAME.LABEL')"
           :placeholder="$t('HELP_CENTER.CATEGORY.EDIT.NAME.PLACEHOLDER')"
           :help-text="$t('HELP_CENTER.CATEGORY.EDIT.NAME.HELP_TEXT')"
-          @input="onNameChange"
+          :has-error="$v.name.$error"
+          :error-message="$t('HELP_CENTER.CATEGORY.ADD.NAME.ERROR')"
+          :existing-name="category.name"
+          :saved-icon="category.icon"
+          @name-change="changeName"
+          @icon-change="onClickInsertEmoji"
         />
         <woot-input
           v-model.trim="slug"
@@ -72,8 +73,10 @@ import alertMixin from 'shared/mixins/alertMixin';
 import { required, minLength } from 'vuelidate/lib/validators';
 import { convertToCategorySlug } from 'dashboard/helper/commons.js';
 import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
+import CategoryNameIconInput from './NameEmojiInput.vue';
 
 export default {
+  components: { CategoryNameIconInput },
   mixins: [alertMixin],
   props: {
     show: {
@@ -101,6 +104,7 @@ export default {
     return {
       id: this.category.id,
       name: '',
+      icon: '',
       slug: '',
       description: '',
     };
@@ -115,12 +119,6 @@ export default {
     },
   },
   computed: {
-    nameError() {
-      if (this.$v.name.$error) {
-        return this.$t('HELP_CENTER.CATEGORY.ADD.NAME.ERROR');
-      }
-      return '';
-    },
     slugError() {
       if (this.$v.slug.$error) {
         return this.$t('HELP_CENTER.CATEGORY.ADD.SLUG.ERROR');
@@ -135,11 +133,16 @@ export default {
     updateDataFromStore() {
       const { category } = this;
       this.name = category.name;
+      this.icon = category.icon;
       this.slug = category.slug;
       this.description = category.description;
     },
-    onNameChange() {
+    changeName(name) {
+      this.name = name;
       this.slug = convertToCategorySlug(this.name);
+    },
+    onClickInsertEmoji(emoji) {
+      this.icon = emoji;
     },
     onUpdate() {
       this.$emit('update');
@@ -148,10 +151,11 @@ export default {
       this.$emit('cancel');
     },
     async editCategory() {
-      const { id, name, slug, description } = this;
+      const { id, name, slug, icon, description } = this;
       const data = {
         id,
         name,
+        icon,
         slug,
         description,
       };

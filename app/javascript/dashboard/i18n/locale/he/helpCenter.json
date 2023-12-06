@@ -365,7 +365,7 @@
         "NAME": {
           "LABEL": "שם",
           "PLACEHOLDER": "שם קטגוריה",
-          "HELP_TEXT": "שם הקטגוריה ישמש בפורטל הפונה לציבור כדי לסווג מאמרים.",
+          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
           "ERROR": "שם שדה חובה"
         },
         "SLUG": {
@@ -396,7 +396,7 @@
         "NAME": {
           "LABEL": "שם",
           "PLACEHOLDER": "שם קטגוריה",
-          "HELP_TEXT": "שם הקטגוריה ישמש בפורטל הפונה לציבור כדי לסווג מאמרים.",
+          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
           "ERROR": "שם שדה חובה"
         },
         "SLUG": {

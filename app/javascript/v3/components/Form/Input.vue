@@ -17,6 +17,7 @@
         autocomplete="off"
         :required="required"
         :placeholder="placeholder"
+        :data-testid="dataTestid"
         :value="value"
         :class="{
           'focus:ring-red-600 ring-red-600': hasError,
@@ -68,6 +69,10 @@ export default {
       default: false,
     },
     errorMessage: {
+      type: String,
+      default: '',
+    },
+    dataTestid: {
       type: String,
       default: '',
     },

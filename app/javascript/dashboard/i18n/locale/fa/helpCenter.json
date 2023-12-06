@@ -365,7 +365,7 @@
         "NAME": {
           "LABEL": "نام",
           "PLACEHOLDER": "نام دسته‌بندی",
-          "HELP_TEXT": "از نام دسته در پرتال عمومی برای دسته بندی مقالات استفاده می شود.",
+          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
           "ERROR": "نام الزامی است"
         },
         "SLUG": {
@@ -396,7 +396,7 @@
         "NAME": {
           "LABEL": "نام",
           "PLACEHOLDER": "نام دسته‌بندی",
-          "HELP_TEXT": "از نام دسته در پرتال عمومی برای دسته بندی مقالات استفاده می شود.",
+          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
           "ERROR": "نام الزامی است"
         },
         "SLUG": {

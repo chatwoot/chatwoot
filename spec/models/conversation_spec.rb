@@ -556,6 +556,11 @@ RSpec.describe Conversation do
     it 'returns conversation status as pending' do
       expect(conversation.status).to eq('pending')
     end
+
+    it 'returns conversation as open if campaign is present' do
+      conversation = create(:conversation, inbox: bot_inbox.inbox, campaign: create(:campaign))
+      expect(conversation.status).to eq('open')
+    end
   end
 
   describe '#botintegration: when conversation created in inbox with dialogflow integration' do

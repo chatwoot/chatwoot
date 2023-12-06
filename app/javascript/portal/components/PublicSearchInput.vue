@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full flex items-center rounded-md border-solid border-2 h-16 bg-white dark:bg-slate-900 px-4 py-2 text-slate-600 dark:text-slate-200"
+    class="w-full flex items-center rounded-lg border-solid border h-12 bg-white dark:bg-slate-900 px-5 py-2 text-slate-600 dark:text-slate-200"
     :class="{
       'shadow border-woot-100 dark:border-woot-700': isFocused,
       'border-slate-50 dark:border-slate-800 shadow-sm': !isFocused,

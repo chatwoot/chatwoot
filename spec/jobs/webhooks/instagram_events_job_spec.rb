@@ -27,6 +27,7 @@ describe Webhooks::InstagramEventsJob do
   let!(:attachment_params) { build(:instagram_message_attachment_event).with_indifferent_access }
   let!(:story_mention_params) { build(:instagram_story_mention_event).with_indifferent_access }
   let!(:story_mention_echo_params) { build(:instagram_story_mention_event_with_echo).with_indifferent_access }
+  let!(:messaging_seen_event) { build(:messaging_seen_event).with_indifferent_access }
   let(:fb_object) { double }
 
   describe '#perform' do
@@ -150,6 +151,11 @@ describe Webhooks::InstagramEventsJob do
         expect(instagram_inbox.contacts.count).to be 0
         expect(instagram_inbox.contact_inboxes.count).to be 0
         expect(instagram_inbox.messages.count).to be 0
+      end
+
+      it 'handle messaging_seen callback' do
+        expect(Instagram::ReadStatusService).to receive(:new).with(params: messaging_seen_event[:entry][0][:messaging][0]).and_call_original
+        instagram_webhook.perform_now(messaging_seen_event[:entry])
       end
     end
   end

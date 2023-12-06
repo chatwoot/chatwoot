@@ -1,6 +1,7 @@
 {
   "EMOJI": {
     "PLACEHOLDER": "Emoji keresése",
-    "NOT_FOUND": "Nem található emoji"
+    "NOT_FOUND": "Nem található emoji",
+    "REMOVE": "Eltávolítás"
   }
 }

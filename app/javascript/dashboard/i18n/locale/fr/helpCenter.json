@@ -365,7 +365,7 @@
         "NAME": {
           "LABEL": "Nom",
           "PLACEHOLDER": "Nom de la catégorie",
-          "HELP_TEXT": "Le nom de la catégorie sera utilisé dans le portail public pour classer les articles.",
+          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
           "ERROR": "Le nom est requis"
         },
         "SLUG": {
@@ -396,7 +396,7 @@
         "NAME": {
           "LABEL": "Nom",
           "PLACEHOLDER": "Nom de la catégorie",
-          "HELP_TEXT": "Le nom de la catégorie sera utilisé dans le portail public pour classer les articles.",
+          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
           "ERROR": "Le nom est requis"
         },
         "SLUG": {

@@ -9,7 +9,7 @@
       "
       :show-new-button="false"
     />
-    <div>
+    <div class="overflow-auto max-h-[96%]">
       <setting-intro-banner :header-title="portalName">
         <woot-tabs
           :index="activeTabIndex"
@@ -24,9 +24,9 @@
           />
         </woot-tabs>
       </setting-intro-banner>
-    </div>
-    <div class="overflow-auto p-4 max-w-full my-auto flex flex-wrap">
-      <router-view />
+      <div class="p-4 max-w-full my-auto flex flex-wrap">
+        <router-view />
+      </div>
     </div>
   </div>
 </template>

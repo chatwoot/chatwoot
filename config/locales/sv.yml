@@ -190,7 +190,7 @@ sv:
       empty_placeholder: Inga resultat hittades.
       loading_placeholder: Searching...
       results_title: Search results
-    toc_header: 'On this page'
+    toc_header: 'På denna sida'
     hero:
       sub_title: Sök efter artiklarna här eller bläddra i kategorierna nedan.
     common:
@@ -201,9 +201,9 @@ sv:
       articles: artiklar
       no_articles: Det finns inga artiklar här
     footer:
-      made_with: Made with
+      made_with: Gjord med
     header:
-      go_to_homepage: Go to the main site
+      go_to_homepage: Gå till hemsidan
   slack_unfurl:
     fields:
       name: Namn

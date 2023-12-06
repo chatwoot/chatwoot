@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_11_041615) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_01_014644) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -49,7 +49,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_11_041615) do
     t.integer "locale", default: 0
     t.string "domain", limit: 100
     t.string "support_email", limit: 100
-    t.integer "feature_flags", default: 0, null: false
+    t.bigint "feature_flags", default: 0, null: false
     t.integer "auto_resolve_duration"
     t.jsonb "limits", default: {}
     t.jsonb "custom_attributes", default: {}
@@ -231,6 +231,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_11_041615) do
     t.string "slug", null: false
     t.bigint "parent_category_id"
     t.bigint "associated_category_id"
+    t.string "icon", default: ""
     t.index ["associated_category_id"], name: "index_categories_on_associated_category_id"
     t.index ["locale", "account_id"], name: "index_categories_on_locale_and_account_id"
     t.index ["locale"], name: "index_categories_on_locale"
@@ -728,6 +729,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_11_041615) do
     t.datetime "read_at", precision: nil
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "snoozed_until"
     t.index ["account_id"], name: "index_notifications_on_account_id"
     t.index ["primary_actor_type", "primary_actor_id"], name: "uniq_primary_actor_per_account_notifications"
     t.index ["secondary_actor_type", "secondary_actor_id"], name: "uniq_secondary_actor_per_account_notifications"
