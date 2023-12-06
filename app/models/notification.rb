@@ -52,19 +52,23 @@ class Notification < ApplicationRecord
 
   def push_event_data
     # Secondary actor could be nil for cases like system assigning conversation
-    {
+    payload = {
       id: id,
       notification_type: notification_type,
       primary_actor_type: primary_actor_type,
       primary_actor_id: primary_actor_id,
-      primary_actor: primary_actor_data,
       read_at: read_at,
       secondary_actor: secondary_actor&.push_event_data,
       user: user&.push_event_data,
       created_at: created_at.to_i,
-      account_id: account_id,
-      push_message_title: push_message_title
+      account_id: account_id
+
     }
+    if primary_actor.present?
+      payload[:primary_actor] = primary_actor_data
+      payload[:push_message_title] = push_message_title
+    end
+    payload
   end
 
   def primary_actor_data
@@ -121,6 +125,9 @@ class Notification < ApplicationRecord
     # In future, we could probably add condition here to enqueue the job for 30 seconds later
     # when push enabled and then check in email job whether notification has been read already.
     Notification::EmailNotificationJob.perform_later(self)
+
+    # Remove duplicate notifications
+    Notification::RemoveDuplicateNotificationJob.perform_later(self)
   end
 
   def dispatch_create_event
