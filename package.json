@@ -6,6 +6,8 @@
     "eslint": "eslint app/**/*.{js,vue}",
     "eslint:fix": "eslint app/**/*.{js,vue} --fix",
     "pretest": "rimraf .jest-cache",
+    "start": "RAILS_ENV=production rails s",
+    "build": "RAILS_ENV=production rake assets:precompile",
     "test": "jest -w 1 --no-cache --no-coverage",
     "test:watch": "jest -w 1 --watch --no-cache",
     "test:coverage": "jest -w 1 --no-cache --collectCoverage",

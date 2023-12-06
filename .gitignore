@@ -76,3 +76,7 @@ yarn-debug.log*
 .yarn-integrity
 
 /storybook-static
+
+# ignore build artifacts
+
+/public/*
