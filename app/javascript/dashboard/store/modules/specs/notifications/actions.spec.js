@@ -98,4 +98,13 @@ describe('#actions', () => {
       ]);
     });
   });
+
+  describe('#deleteNotification', () => {
+    it('sends correct actions', async () => {
+      await actions.deleteNotification({ commit }, { data: 1 });
+      expect(commit.mock.calls).toEqual([
+        [types.DELETE_NOTIFICATION, { data: 1 }],
+      ]);
+    });
+  });
 });
