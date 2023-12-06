@@ -64,6 +64,8 @@ module PortalHelper
 
   def thumbnail_bg_color(username)
     colors = ['#6D95BA', '#A4C3C3', '#E19191']
+    return colors.sample if username.blank?
+
     colors[username.length % colors.size]
   end
 end
