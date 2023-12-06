@@ -113,6 +113,12 @@ Hey @John, @Alisha Peter can you check this ticket?"
       notification = create(:notification, notification_type: 'conversation_mention', primary_actor: message.conversation, secondary_actor: message)
       expect(notification.push_message_title).to eq "[##{message.conversation.display_id}] Hey @John Peter please check this?"
     end
+
+    it 'calls remove duplicate notification job' do
+      allow(Notification::RemoveDuplicateNotificationJob).to receive(:perform_later)
+      notification = create(:notification, notification_type: 'conversation_mention')
+      expect(Notification::RemoveDuplicateNotificationJob).to have_received(:perform_later).with(notification)
+    end
   end
 
   context 'when fcm push data' do
