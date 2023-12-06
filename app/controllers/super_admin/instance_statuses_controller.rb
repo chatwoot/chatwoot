@@ -9,6 +9,11 @@ class SuperAdmin::InstanceStatusesController < SuperAdmin::ApplicationController
     instance_meta
   end
 
+  def refresh
+    Internal::CheckNewVersionsJob.perform_now
+    redirect_to super_admin_instance_status_path, notice: 'Instance status refreshed'
+  end
+
   def chatwoot_edition
     @metrics['Chatwoot edition'] = if ChatwootApp.enterprise?
                                      'Enterprise'
@@ -17,6 +22,7 @@ class SuperAdmin::InstanceStatusesController < SuperAdmin::ApplicationController
                                    else
                                      'Community'
                                    end
+    @metrics['Installation Pricing Plan'] = InstallationConfig.find_by(name: 'INSTALLATION_PRICING_PLAN')&.value
   end
 
   def instance_meta

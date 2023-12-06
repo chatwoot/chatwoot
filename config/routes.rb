@@ -442,7 +442,9 @@ Rails.application.routes.draw do
         delete :avatar, on: :member, action: :destroy_avatar
       end
       resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update]
-      resource :instance_status, only: [:show]
+      resource :instance_status, only: [:show] do
+        get :refresh, on: :collection
+      end
 
       # resources that doesn't appear in primary navigation in super admin
       resources :account_users, only: [:new, :create, :destroy]

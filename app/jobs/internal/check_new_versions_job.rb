@@ -4,9 +4,13 @@ class Internal::CheckNewVersionsJob < ApplicationJob
   def perform
     return unless Rails.env.production?
 
-    latest_version = ChatwootHub.latest_version
-    return unless latest_version
+    instance_info = ChatwootHub.sync_with_hub
+    return unless instance_info
 
-    ::Redis::Alfred.set(::Redis::Alfred::LATEST_CHATWOOT_VERSION, latest_version)
+    ::Redis::Alfred.set(::Redis::Alfred::LATEST_CHATWOOT_VERSION, instance_info['version'])
+    config = InstallationConfig.find_or_initialize_by(name: 'INSTALLATION_PRICING_PLAN')
+    config.value = instance_info['plan']
+    config.locked = true
+    config.save!
   end
 end

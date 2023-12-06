@@ -20,4 +20,11 @@ class SuperAdmin::ApplicationController < Administrate::ApplicationController
       params.fetch(resource_name, {}).fetch(:direction, 'desc')
     )
   end
+
+  private
+
+  def invalid_action_perfomed
+    flash[:error] = 'Invalid action performed'
+    redirect_back(fallback_location: root_path)
+  end
 end

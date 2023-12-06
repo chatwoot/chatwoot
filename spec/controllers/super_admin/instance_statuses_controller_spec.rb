@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Super Admin Instance health', type: :request do
+RSpec.describe 'Super Admin Instance status', type: :request do
   let(:super_admin) { create(:super_admin) }
 
   describe 'GET /super_admin/instance_status' do

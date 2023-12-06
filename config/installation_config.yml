@@ -74,3 +74,5 @@
   value:
 - name: LOGO_DARK
   value: '/brand-assets/logo_dark.svg'
+- name: INSTALLATION_PRICING_PLAN
+  value: 'community'
