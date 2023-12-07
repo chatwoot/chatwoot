@@ -56,21 +56,20 @@
   padding: $space-small;
 
   &:hover {
-    color: $blue;
+    color: $purple;
 
     a {
-      color: $blue;
+      color: $purple;
     }
   }
-
 
   &.navigation__link--active {
     background-color: $color-background;
     border-radius: $base-border-radius;
-    color: $blue;
+    color: $purple;
 
     a {
-      color: $blue;
+      color: $purple;
     }
   }
 }

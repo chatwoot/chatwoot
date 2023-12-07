@@ -29,7 +29,7 @@ $small-spacing: $base-spacing / 2 !default;
 $white: #fff !default;
 $black: #000 !default;
 
-$blue: #1f93ff !default;
+$purple: #a450e9 !default;
 $red: #ff382d !default;
 $light-yellow: #ffc532 !default;
 $light-green: #44ce4b !default;
@@ -44,7 +44,7 @@ $hint-grey: #7b808c !default;
 
 // Font Colors
 $base-font-color: $grey-7 !default;
-$action-color: $blue !default;
+$action-color: $purple !default;
 
 // Background Colors
 $base-background-color: $grey-0 !default;
@@ -59,7 +59,7 @@ $focus-outline-offset: 1px;
 $flash-colors: (
   alert: $light-yellow,
   error: $red,
-  notice: mix($white, $blue, 50%),
+  notice: mix($white, $purple, 50%),
   success: $light-green,
 );
 

@@ -1,7 +1,7 @@
 button,
-input[type="button"],
-input[type="reset"],
-input[type="submit"],
+input[type='button'],
+input[type='reset'],
+input[type='submit'],
 .button {
   appearance: none;
   background-color: $color-woot;
@@ -44,7 +44,7 @@ input[type="submit"],
 .button--alt {
   background-color: transparent;
   border: $base-border;
-  border-color: $blue;
-  color: $blue;
+  border-color: $purple;
+  color: $purple;
   margin-bottom: $base-spacing;
 }

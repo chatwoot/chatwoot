@@ -78,5 +78,6 @@ yarn-debug.log*
 /storybook-static
 
 # ignore build artifacts
+public/assets
 
 
