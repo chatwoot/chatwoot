@@ -8,8 +8,15 @@ class Internal::CheckNewVersionsJob < ApplicationJob
     return unless instance_info
 
     ::Redis::Alfred.set(::Redis::Alfred::LATEST_CHATWOOT_VERSION, instance_info['version'])
-    config = InstallationConfig.find_or_initialize_by(name: 'INSTALLATION_PRICING_PLAN')
-    config.value = instance_info['plan']
+    update_installation_config(key: 'INSTALLATION_PRICING_PLAN', value: instance_info['plan'])
+    update_installation_config(key: 'CHATWOOT_SUPPORT_WEBSITE_TOKEN', value: instance_info['chatwoot_support_website_token'])
+    update_installation_config(key: 'CHATWOOT_SUPPORT_HMAC_TOKEN', value: instance_info['chatwoot_support_hmac_token'])
+    update_installation_config(key: 'CHATWOOT_SUPPORT_SCRIPT_URL', value: instance_info['chatwoot_support_script_url'])
+  end
+
+  def update_installation_config(key:, value:)
+    config = InstallationConfig.find_or_initialize_by(name: key)
+    config.value = value
     config.locked = true
     config.save!
   end

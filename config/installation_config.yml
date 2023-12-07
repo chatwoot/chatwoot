@@ -76,3 +76,9 @@
   value: '/brand-assets/logo_dark.svg'
 - name: INSTALLATION_PRICING_PLAN
   value: 'community'
+- name: CHATWOOT_SUPPORT_WEBSITE_TOKEN
+  value:
+- name: CHATWOOT_SUPPORT_SCRIPT_URL
+  value:
+- name: CHATWOOT_SUPPORT_HMAC_TOKEN
+  value:

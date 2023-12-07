@@ -15,7 +15,7 @@
   <% @metrics.each do |key,value| %>
    <tr>
    <td> <%= key %> </td>
-   <td> <%= value %> <% if key == 'Installation Pricing Plan'%> : <a href="<%= refresh_super_admin_instance_status_path %>" style="color: blue" > Refresh </a>  <% end %> </>
+   <td> <%= value %></td>
   </tr>
   <% end %>
 </table>
