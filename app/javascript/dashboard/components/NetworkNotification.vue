@@ -2,8 +2,13 @@
   <transition name="network-notification-fade" tag="div">
     <div
       v-show="showNotification"
-      v-tooltip.right-start="$t('NETWORK.NOTIFICATION.TEXT')"
-      class="top-4 left-2 z-50 relative group"
+      v-tooltip.right-start="
+        useInstallationName(
+          $t('NETWORK.NOTIFICATION.TEXT'),
+          globalConfig.installationName
+        )
+      "
+      class="fixed top-4 left-2 z-50 group"
     >
       <div
         class="flex items-center justify-between py-1 px-2 w-full rounded-lg shadow-lg bg-yellow-100 relative"
