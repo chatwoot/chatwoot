@@ -1,24 +1,27 @@
 <template>
   <transition name="network-notification-fade" tag="div">
-    <div v-show="showNotification" class="ui-notification-container">
-      <div class="ui-notification">
-        <fluent-icon icon="wifi-off" />
-        <p class="ui-notification-text">
-          {{
-            useInstallationName(
-              $t('NETWORK.NOTIFICATION.TEXT'),
-              globalConfig.installationName
-            )
-          }}
-        </p>
-        <woot-button variant="clear" size="small" @click="refreshPage">
-          {{ $t('NETWORK.BUTTON.REFRESH') }}
-        </woot-button>
+    <div
+      v-show="showNotification"
+      v-tooltip.right-start="$t('NETWORK.NOTIFICATION.TEXT')"
+      class="top-4 left-2 z-50 relative group"
+    >
+      <div class="ui-notification relative">
+        <fluent-icon icon="wifi-off" class="text-yellow-600/60" />
         <woot-button
+          :title="$t('NETWORK.BUTTON.REFRESH')"
           variant="smooth"
           size="small"
           color-scheme="warning"
+          icon="arrow-clockwise"
+          class="visible transition-all duration-500 ease-in-out ml-1"
+          @click="refreshPage"
+        />
+        <woot-button
+          variant="smooth"
+          size="tiny"
+          color-scheme="alert"
           icon="dismiss-circle"
+          class="invisible group-hover:visible transition-all duration-500 ease-in-out absolute -right-2 -top-2"
           @click="closeNotification"
         />
       </div>
@@ -45,9 +48,14 @@ export default {
   },
 
   mounted() {
-    window.addEventListener('offline', this.updateOnlineStatus);
+    // window.addEventListener('offline', this.updateOnlineStatus);
     window.bus.$on(BUS_EVENTS.WEBSOCKET_DISCONNECT, () => {
-      this.updateOnlineStatus({ type: 'offline' });
+      // TODO: Remove this after completing the conversation list refetching
+      // TODO: DIRTY FIX : CLEAN UP THIS WITH PROPER FIX, DELAYING THE RECONNECT FOR NOW
+      // THE CABLE IS FIRING IS VERY COMMON AND THUS INTERFEARING USER EXPERIENCE
+      setTimeout(() => {
+        this.updateOnlineStatus({ type: 'offline' });
+      }, 4000);
     });
   },
 
@@ -74,31 +82,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~dashboard/assets/scss/mixins';
-
-.ui-notification-container {
-  max-width: 25rem;
-  position: absolute;
-  right: var(--space-normal);
-  top: var(--space-normal);
-  z-index: var(--z-index-very-high);
-}
-
-.ui-notification {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-
-  background-color: var(--y-100);
-  border-radius: var(--border-radius-medium);
-  box-shadow: var(--shadow-large);
-
-  min-width: 15rem;
-  padding: var(--space-normal);
+\ .ui-notification {
+  @apply flex items-center justify-between py-1 px-2 w-full rounded-lg shadow-lg bg-yellow-100;
 }
 
 .ui-notification-text {
-  margin: 0 var(--space-small);
 }
 </style>
