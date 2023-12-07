@@ -2,8 +2,8 @@ $button-border-width: 1px;
 // Buttons
 .button {
   appearance: none;
-  background: $color-primary;
-  border: $button-border-width solid $color-primary;
+  background: $primary-gradient;
+  border: $button-border-width solid $primary-gradient;
   border-radius: $border-radius;
   color: $color-white;
   cursor: pointer;
@@ -15,23 +15,27 @@ $button-border-width: 1px;
   padding: $space-smaller $space-normal;
   text-align: center;
   text-decoration: none;
-  transition: background .2s, border .2s, box-shadow .2s, color .2s;
+  transition:
+     background 0.2s,
+    border 0.2s,
+    box-shadow 0.2s,
+    color 0.2s;
   user-select: none;
   vertical-align: middle;
   white-space: nowrap;
 
   &:focus,
   &:hover {
-    background: lighten($color-primary, 7%);
-    border-color: $color-primary;
+    background: $primary-gradient-light;
+    border-color: $primary-gradient;
     text-decoration: none;
   }
 
   &:active,
   &.active {
-    background: $color-primary;
-    border-color: darken($color-primary, 5%);
-    color: lighten($color-primary, 20%);
+    background: $primary-gradient;
+    border-color: $primary-gradient-dark;
+    color: $primary-gradient-lighter;
     text-decoration: none;
   }
 
@@ -39,7 +43,7 @@ $button-border-width: 1px;
   &:disabled,
   &.disabled {
     cursor: default;
-    opacity: .5;
+    opacity: 0.5;
     pointer-events: none;
   }
 

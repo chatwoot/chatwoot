@@ -2,6 +2,16 @@
   font-family: $body-font-family;
   font-weight: $font-weight-medium;
 
+  // &.primary {
+  //   &[type='submit'] {
+  //     background: $primary-gradient;
+
+  //     &:hover {
+  //       background: $primary-gradient-lighter;
+  //     }
+  //   }
+  // }
+
   &.round {
     border-radius: 1000px;
   }

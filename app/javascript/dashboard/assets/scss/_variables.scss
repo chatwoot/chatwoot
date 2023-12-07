@@ -69,6 +69,8 @@ $masked-bg: rgba(0, 0, 0, 0.4);
 
 $color-primary-light: #c7e3ff;
 $color-primary-dark: darken($color-woot, 20%);
+$color-primary-gradient: #8932f6;
+$color-secondary-gradient: #d688cd;
 
 // Thumbnail
 $thumbnail-radius: 2.5rem;
@@ -93,6 +95,31 @@ $ionicons-font-path: '~ionicons/fonts';
 
 // Transitions
 $transition-ease-in: all 0.25s ease-in;
+
+// gradients
+$primary-gradient: linear-gradient(
+  316deg,
+  $color-primary-gradient -0.84%,
+  $color-secondary-gradient 66.5%
+);
+
+$primary-gradient-light: linear-gradient(
+  316deg,
+  lighten($color-primary-gradient, 7%) -0.84%,
+  lighten($color-secondary-gradient, 7%) 66.5%
+);
+
+$primary-gradient-lighter: linear-gradient(
+  316deg,
+  lighten($color-primary-gradient, 20%) -0.84%,
+  lighten($color-secondary-gradient, 20%) 66.5%
+);
+
+$primary-gradient-dark: linear-gradient(
+  316deg,
+  darken($color-primary-gradient, 5%) -0.84%,
+  darken($color-secondary-gradient, 5%) 66.5%
+);
 
 :root {
   --dashboard-app-tabs-height: 2.4375rem;
