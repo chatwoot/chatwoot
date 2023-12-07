@@ -17,7 +17,7 @@
               })
             }}
           </p>
-          <p v-if="globalConfig.installationName === 'Ruutchat'">
+          <p v-if="globalConfig.installationName === 'Ruut'">
             <a
               href="https://www.chatwoot.com/changelog"
               target="_blank"

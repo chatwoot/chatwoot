@@ -31,10 +31,10 @@ describe('#accountAPI', () => {
 
     it('#createAccount', () => {
       accountAPI.createAccount({
-        name: 'Ruutchat',
+        name: 'Ruut',
       });
       expect(axiosMock.post).toHaveBeenCalledWith('/api/v1/accounts', {
-        name: 'Ruutchat',
+        name: 'Ruut',
       });
     });
   });

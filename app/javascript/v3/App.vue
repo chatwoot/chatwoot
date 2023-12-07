@@ -55,7 +55,7 @@ export default {
 html,
 body {
   font-family:
-    'Inter',
+    'Satoshi',
     -apple-system,
     BlinkMacSystemFont,
     'Segoe UI',

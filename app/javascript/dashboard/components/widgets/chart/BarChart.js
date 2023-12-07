@@ -1,7 +1,7 @@
 import { Bar } from 'vue-chartjs';
 
 const fontFamily =
-  'Inter,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+  'Satoshi,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 
 const defaultChartOptions = {
   responsive: true,

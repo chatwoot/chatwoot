@@ -76,7 +76,7 @@ export default {
 <style lang="scss">
 ninja-keys {
   --ninja-accent-color: var(--w-500);
-  --ninja-font-family: 'Inter';
+  --ninja-font-family: 'Satoshi';
   z-index: 9999;
 }
 
