@@ -91,6 +91,7 @@
     "vue-router": "~3.5.2",
     "vue-template-compiler": "^2.7.0",
     "vue-upload-component": "2.8.22",
+    "vue-virtual-scroll-list": "^2.3.5",
     "vue2-datepicker": "^3.9.1",
     "vuedraggable": "^2.24.3",
     "vuelidate": "0.7.7",

@@ -8,6 +8,7 @@ import helpcenterRoutes from './helpcenter/helpcenter.routes';
 
 const AppContainer = () => import('./Dashboard.vue');
 const Suspended = () => import('./suspended/Index.vue');
+const Review = () => import('./review/Index.vue');
 
 export default {
   routes: [
@@ -20,6 +21,12 @@ export default {
         ...settings.routes,
         ...contactRoutes,
         ...searchRoutes,
+        {
+          path: frontendURL('accounts/:accountId/review'),
+          name: 'review',
+          roles: ['administrator', 'agent'],
+          component: Review,
+        },
         ...notificationRoutes,
       ],
     },

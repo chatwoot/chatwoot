@@ -40,6 +40,17 @@ Rails.application.routes.draw do
         end
 
         scope module: :accounts do
+          resource :bootstrap, only: [] do
+            collection do
+              get :conversations
+              get :conversation_labels
+              get :contacts
+              get :agents
+              get :inboxes
+              get :teams
+            end
+          end
+
           namespace :actions do
             resource :contact_merge, only: [:create]
           end
@@ -78,6 +89,8 @@ Rails.application.routes.draw do
             collection do
               get :meta
               get :search
+              get :bootstrap
+              get :labels_bootstrap
               post :filter
             end
             scope module: :conversations do
@@ -116,6 +129,7 @@ Rails.application.routes.draw do
           resources :contacts, only: [:index, :show, :update, :create, :destroy] do
             collection do
               get :active
+              get :bootstrap
               get :search
               post :filter
               post :import

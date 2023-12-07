@@ -114,7 +114,7 @@ class Conversation < ApplicationRecord
   def can_reply?
     channel = inbox&.channel
 
-    return can_reply_on_instagram? if additional_attributes['type'] == 'instagram_direct_message'
+    return can_reply_on_instagram? if additional_attributes.present? && additional_attributes['type'] == 'instagram_direct_message'
 
     return true unless channel&.messaging_window_enabled?
 
