@@ -5,7 +5,9 @@
       v-tooltip.right-start="$t('NETWORK.NOTIFICATION.TEXT')"
       class="top-4 left-2 z-50 relative group"
     >
-      <div class="ui-notification relative">
+      <div
+        class="flex items-center justify-between py-1 px-2 w-full rounded-lg shadow-lg bg-yellow-100 relative"
+      >
         <fluent-icon icon="wifi-off" class="text-yellow-600/60" />
         <woot-button
           :title="$t('NETWORK.BUTTON.REFRESH')"
@@ -80,12 +82,3 @@ export default {
   },
 };
 </script>
-
-<style scoped lang="scss">
-\ .ui-notification {
-  @apply flex items-center justify-between py-1 px-2 w-full rounded-lg shadow-lg bg-yellow-100;
-}
-
-.ui-notification-text {
-}
-</style>
