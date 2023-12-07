@@ -28,7 +28,8 @@ shared_examples_for 'liqudable' do
         message.content = 'Are you a {{contact.custom_attribute.customer_type}} customer,
         If yes then the priority is {{conversation.custom_attribute.priority}}'
         message.save!
-        expect(message.content).to eq 'Are you a platinum customer,If yes then the priority is high'
+        expect(message.content).to eq 'Are you a platinum customer,
+        If yes then the priority is high'
       end
 
       it 'process liquid operators like default value' do
