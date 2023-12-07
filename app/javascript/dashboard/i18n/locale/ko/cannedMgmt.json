@@ -9,11 +9,7 @@
       "404": "이 계정에는 미리 준비된 답변이 없습니다.",
       "TITLE": "미리 준비된 답변 관리",
       "DESC": "미리 준비된 답변은 티켓에 대한 답변을 빠르게 보내는 데 사용할 수있는 미리 정의된 답변 템플릿입니다.",
-      "TABLE_HEADER": [
-        "단축 코드",
-        "콘텐츠",
-        "액션"
-      ]
+      "TABLE_HEADER": ["단축 코드", "콘텐츠", "액션"]
     },
     "ADD": {
       "TITLE": "미리 준비된 답변 추가",
@@ -34,7 +30,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "미리 준비된 답변이 성공적으로 추가됨",
-        "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
+        "ERROR_MESSAGE": "Ruut 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
       }
     },
     "EDIT": {
@@ -56,14 +52,14 @@
       "BUTTON_TEXT": "수정",
       "API": {
         "SUCCESS_MESSAGE": "미리 준비된 답변이 성공적으로 추가됨",
-        "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
+        "ERROR_MESSAGE": "Ruut 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "삭제",
       "API": {
         "SUCCESS_MESSAGE": "미리 준비된 답변이 성공적으로 삭제됨",
-        "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
+        "ERROR_MESSAGE": "Ruut 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
       },
       "CONFIRM": {
         "TITLE": "삭제 확인",

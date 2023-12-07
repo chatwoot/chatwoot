@@ -12,7 +12,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Aptauja ir veiksmīgi atjaunināta",
-      "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+      "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Ruut serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
     }
   },
   "POWERED_BY": "Darbināts ar Chatwoot"

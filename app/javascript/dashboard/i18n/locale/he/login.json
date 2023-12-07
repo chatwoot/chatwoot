@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "התחבר ל Woot",
+    "TITLE": "התחבר ל Ruut",
     "EMAIL": {
       "LABEL": "אימייל",
       "PLACEHOLDER": "מייל לדוגמא: someone@example.com",
@@ -12,7 +12,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "נכנסת בהצלחה",
-      "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר",
+      "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Ruut, נסה שוב מאוחר יותר",
       "UNAUTH": "שם משתמש / סיסמה שגויים. נסה שוב"
     },
     "OAUTH": {

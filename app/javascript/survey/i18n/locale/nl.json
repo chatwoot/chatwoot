@@ -12,7 +12,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Enquête succesvol bijgewerkt",
-      "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+      "ERROR_MESSAGE": "Kan geen verbinding maken met Ruut Server, probeer het later opnieuw"
     }
   },
   "POWERED_BY": "Mogelijk gemaakt door Chatwoot"

@@ -9,11 +9,7 @@
       "404": "Non ci sono risposte predefinite disponibili in questo account.",
       "TITLE": "Gestisci le risposte predefinite",
       "DESC": "Le risposte predefinite sono modelli di risposta predefiniti che possono essere utilizzati per inviare rapidamente risposte ai ticket.",
-      "TABLE_HEADER": [
-        "Codice breve",
-        "Contenuto",
-        "Azioni"
-      ]
+      "TABLE_HEADER": ["Codice breve", "Contenuto", "Azioni"]
     },
     "ADD": {
       "TITLE": "Aggiungi risposta predefinita",
@@ -34,7 +30,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Risposta predefinita aggiunta correttamente",
-        "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
+        "ERROR_MESSAGE": "Impossibile connettersi al server Ruut, riprova più tardi"
       }
     },
     "EDIT": {
@@ -56,14 +52,14 @@
       "BUTTON_TEXT": "Modifica",
       "API": {
         "SUCCESS_MESSAGE": "Risposta predefinita aggiornata con successo",
-        "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
+        "ERROR_MESSAGE": "Impossibile connettersi al server Ruut, riprova più tardi"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Elimina",
       "API": {
         "SUCCESS_MESSAGE": "Risposta predefinita eliminata correttamente",
-        "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
+        "ERROR_MESSAGE": "Impossibile connettersi al server Ruut, riprova più tardi"
       },
       "CONFIRM": {
         "TITLE": "Conferma eliminazione",

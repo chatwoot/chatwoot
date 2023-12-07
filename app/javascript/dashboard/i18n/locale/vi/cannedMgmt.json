@@ -9,11 +9,7 @@
       "404": "Không có câu trả lời soạn trước nào có sẵn trong tài khoản này.",
       "TITLE": "Quản lý thư mẫu phẩn hồi",
       "DESC": "Thư mẫu phẩn hồi là các mẫu trả lời được xác định trước có thể được sử dụng để nhanh chóng gửi trả lời cho vé.",
-      "TABLE_HEADER": [
-        "Mã Ngắn",
-        "Nội dung",
-        "Hành động"
-      ]
+      "TABLE_HEADER": ["Mã Ngắn", "Nội dung", "Hành động"]
     },
     "ADD": {
       "TITLE": "Thêm thư mẫu phẩn hồi",
@@ -34,7 +30,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Thư mẫu phẩn hồi được thêm thành công",
-        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Ruut, Vui lòng thử lại sau"
       }
     },
     "EDIT": {
@@ -56,14 +52,14 @@
       "BUTTON_TEXT": "Chỉnh sửa",
       "API": {
         "SUCCESS_MESSAGE": "Thư mẫu phẩn hồi cập nhật thành công",
-        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Ruut, Vui lòng thử lại sau"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Xoá",
       "API": {
         "SUCCESS_MESSAGE": "Thư mẫu phẩn hồi đã được xoá thành công",
-        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Ruut, Vui lòng thử lại sau"
       },
       "CONFIRM": {
         "TITLE": "Xác nhận xoá",

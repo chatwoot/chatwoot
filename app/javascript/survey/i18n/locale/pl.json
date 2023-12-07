@@ -12,7 +12,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Ankieta została zaktualizowana",
-      "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
+      "ERROR_MESSAGE": "Nie można połączyć się z Ruut Server, spróbuj ponownie później"
     }
   },
   "POWERED_BY": "Napędzany przez Chatwoot"

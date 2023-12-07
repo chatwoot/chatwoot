@@ -9,15 +9,11 @@
       "404": "There are no Audit Logs available in this account.",
       "TITLE": "Manage Audit Logs",
       "DESC": "Audit Logs are trails for events and actions in a Chatwoot System.",
-      "TABLE_HEADER": [
-        "User",
-        "Action",
-        "Địa chỉ IP"
-      ]
+      "TABLE_HEADER": ["User", "Action", "Địa chỉ IP"]
     },
     "API": {
       "SUCCESS_MESSAGE": "AuditLogs retrieved successfully",
-      "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+      "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Ruut, Vui lòng thử lại sau"
     },
     "DEFAULT_USER": "System",
     "AUTOMATION_RULE": {

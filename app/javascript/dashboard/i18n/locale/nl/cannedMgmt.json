@@ -9,11 +9,7 @@
       "404": "Er zijn geen standaard antwoorden beschikbaar in dit account.",
       "TITLE": "Beheer standaard antwoorden",
       "DESC": "Standaard antwoorden zijn vooraf gedefinieerde antwoordsjablonen die kunnen worden gebruikt om snel antwoorden naar tickets te sturen.",
-      "TABLE_HEADER": [
-        "Korte code",
-        "Inhoud",
-        "Acties"
-      ]
+      "TABLE_HEADER": ["Korte code", "Inhoud", "Acties"]
     },
     "ADD": {
       "TITLE": "Standaard antwoord toevoegen",
@@ -34,7 +30,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Standaard antwoord met succes toegevoegd",
-        "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+        "ERROR_MESSAGE": "Kan geen verbinding maken met Ruut Server, probeer het later opnieuw"
       }
     },
     "EDIT": {
@@ -56,14 +52,14 @@
       "BUTTON_TEXT": "Bewerken",
       "API": {
         "SUCCESS_MESSAGE": "standaard antwoord succesvol bijgewerkt",
-        "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+        "ERROR_MESSAGE": "Kan geen verbinding maken met Ruut Server, probeer het later opnieuw"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Verwijderen",
       "API": {
         "SUCCESS_MESSAGE": "Standaard antwoord succesvol verwijderd",
-        "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+        "ERROR_MESSAGE": "Kan geen verbinding maken met Ruut Server, probeer het later opnieuw"
       },
       "CONFIRM": {
         "TITLE": "Verwijdering bevestigen",

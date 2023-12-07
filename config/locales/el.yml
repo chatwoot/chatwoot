@@ -19,7 +19,7 @@
 el:
   hello: "Χαίρε Κόσμε"
   messages:
-    reset_password_success: Woot! Το αίτημά σας για επαναφορά κωδικού ενεργοποιήθηκε. Ελέξτε το email σας για οδηγίες.
+    reset_password_success: Ruut! Το αίτημά σας για επαναφορά κωδικού ενεργοποιήθηκε. Ελέξτε το email σας για οδηγίες.
     reset_password_failure: Ωχ όχι! Δεν υπάρχει κάποιος χρήστης με το συγκεκριμένο email.
     inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:

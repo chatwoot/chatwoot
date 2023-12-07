@@ -37,17 +37,14 @@
       "LIST": {
         "404": "Bu hesap için yapılandırılmış web kancası yok.",
         "TITLE": "Web kancalarını yönet",
-        "TABLE_HEADER": [
-          "Web kancası uç noktası",
-          "Hareketler"
-        ]
+        "TABLE_HEADER": ["Web kancası uç noktası", "Hareketler"]
       },
       "EDIT": {
         "BUTTON_TEXT": "Düzenle",
         "TITLE": "Edit webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
-          "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+          "ERROR_MESSAGE": "Ruut Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
         }
       },
       "ADD": {
@@ -55,14 +52,14 @@
         "TITLE": "Yeni web kancası ekle",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration added successfully",
-          "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+          "ERROR_MESSAGE": "Ruut Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Sil",
         "API": {
           "SUCCESS_MESSAGE": "Web kancası başarıyla silindi",
-          "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+          "ERROR_MESSAGE": "Ruut Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
         },
         "CONFIRM": {
           "TITLE": "Silmeyi onayla",
@@ -172,10 +169,7 @@
       "LIST": {
         "404": "There are no dashboard apps configured on this account yet",
         "LOADING": "Fetching dashboard apps...",
-        "TABLE_HEADER": [
-          "İsim",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": ["İsim", "Endpoint"],
         "EDIT_TOOLTIP": "Edit app",
         "DELETE_TOOLTIP": "Delete app"
       },

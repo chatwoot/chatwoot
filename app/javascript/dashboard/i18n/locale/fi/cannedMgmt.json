@@ -9,11 +9,7 @@
       "404": "Tällä tilillä ei ole tallennettuja vastauksia.",
       "TITLE": "Hallitse tallennettuja vastauksia",
       "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
-      "TABLE_HEADER": [
-        "Short code",
-        "Sisältö",
-        "Toiminnot"
-      ]
+      "TABLE_HEADER": ["Short code", "Sisältö", "Toiminnot"]
     },
     "ADD": {
       "TITLE": "Add canned response",
@@ -34,7 +30,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Canned response added successfully.",
-        "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
+        "ERROR_MESSAGE": "Yhteyden muodostaminen Ruut-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
       }
     },
     "EDIT": {
@@ -56,14 +52,14 @@
       "BUTTON_TEXT": "Muokkaa",
       "API": {
         "SUCCESS_MESSAGE": "Canned response is updated successfully.",
-        "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
+        "ERROR_MESSAGE": "Yhteyden muodostaminen Ruut-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Poista",
       "API": {
         "SUCCESS_MESSAGE": "Canned response deleted successfully.",
-        "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
+        "ERROR_MESSAGE": "Yhteyden muodostaminen Ruut-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
       },
       "CONFIRM": {
         "TITLE": "Confirm deletion",

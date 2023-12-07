@@ -12,7 +12,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Undersøgelse opdateret",
-      "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
+      "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Ruut Server, Prøv igen senere"
     }
   },
   "POWERED_BY": "Drevet af Chatwoot"

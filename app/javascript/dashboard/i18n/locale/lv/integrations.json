@@ -37,17 +37,14 @@
       "LIST": {
         "404": "Šim kontam nav nokonfigurēts neviens webhook.",
         "TITLE": "Pārvaldīt webhook",
-        "TABLE_HEADER": [
-          "Webhook galapunkts",
-          "Darbības"
-        ]
+        "TABLE_HEADER": ["Webhook galapunkts", "Darbības"]
       },
       "EDIT": {
         "BUTTON_TEXT": "Rediģēt",
         "TITLE": "Rediģēt webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook konfigurācija ir veiksmīgi atjaunināta",
-          "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+          "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Ruut serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
         }
       },
       "ADD": {
@@ -55,14 +52,14 @@
         "TITLE": "Pievienot jaunu webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook konfigurācija ir veiksmīgi pievienota",
-          "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+          "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Ruut serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Dzēst",
         "API": {
           "SUCCESS_MESSAGE": "Webhook ir veiksmīgi izdzēsts",
-          "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+          "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Ruut serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
         },
         "CONFIRM": {
           "TITLE": "Apstiprināt Dzēšanu",
@@ -172,10 +169,7 @@
       "LIST": {
         "404": "Šajā kontā vēl nav nokonfigurēta neviena informācijas paneļa lietotne",
         "LOADING": "Notiek informācijas paneļa lietotņu iegūšana...",
-        "TABLE_HEADER": [
-          "Nosaukums",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": ["Nosaukums", "Endpoint"],
         "EDIT_TOOLTIP": "Rediģēt lietotni",
         "DELETE_TOOLTIP": "Dzēst lietotni"
       },

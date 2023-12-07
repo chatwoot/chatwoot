@@ -12,7 +12,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Pieteikšanās veiksmīga",
-      "ERROR_MESSAGE": "Nevarēja izveidot savienojumu ar Woot serveri. Lūdzu mēģiniet vēlreiz.",
+      "ERROR_MESSAGE": "Nevarēja izveidot savienojumu ar Ruut serveri. Lūdzu mēģiniet vēlreiz.",
       "UNAUTH": "Lietotājvārds vai parole ir nepareiza. Lūdzu mēģiniet vēlreiz."
     },
     "OAUTH": {

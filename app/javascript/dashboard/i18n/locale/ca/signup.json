@@ -36,7 +36,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Registrat correctament",
-      "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
+      "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Ruut. Torna-ho a provar més endavant"
     },
     "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Ja tens un compte?"

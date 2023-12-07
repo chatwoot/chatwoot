@@ -37,17 +37,14 @@
       "LIST": {
         "404": "There are no webhooks configured for this account.",
         "TITLE": "Manage webhooks",
-        "TABLE_HEADER": [
-          "Webhook endpoint",
-          "Akcie"
-        ]
+        "TABLE_HEADER": ["Webhook endpoint", "Akcie"]
       },
       "EDIT": {
         "BUTTON_TEXT": "Upraviť",
         "TITLE": "Edit webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
-          "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Woot, skúste to prosím neskôr"
+          "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Ruut, skúste to prosím neskôr"
         }
       },
       "ADD": {
@@ -55,14 +52,14 @@
         "TITLE": "Add new webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration added successfully",
-          "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Woot, skúste to prosím neskôr"
+          "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Ruut, skúste to prosím neskôr"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Vymazať",
         "API": {
           "SUCCESS_MESSAGE": "Webhook deleted successfully",
-          "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Woot, skúste to prosím neskôr"
+          "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Ruut, skúste to prosím neskôr"
         },
         "CONFIRM": {
           "TITLE": "Potvrdiť vymazanie",
@@ -172,10 +169,7 @@
       "LIST": {
         "404": "There are no dashboard apps configured on this account yet",
         "LOADING": "Fetching dashboard apps...",
-        "TABLE_HEADER": [
-          "Meno",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": ["Meno", "Endpoint"],
         "EDIT_TOOLTIP": "Edit app",
         "DELETE_TOOLTIP": "Delete app"
       },

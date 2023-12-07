@@ -9,11 +9,7 @@
       "404": "Tidak ada balasan canned yang tersedia di akun ini.",
       "TITLE": "Kelola Balasan Canned",
       "DESC": "Balasan Canned adalah template balasan yang telah ditentukan sebelumnya yang dapat digunakan untuk dengan cepat membalas percakapan.",
-      "TABLE_HEADER": [
-        "Kode Singkat",
-        "Konten",
-        "Aksi"
-      ]
+      "TABLE_HEADER": ["Kode Singkat", "Konten", "Aksi"]
     },
     "ADD": {
       "TITLE": "Tambahkan Balasan Canned",
@@ -34,7 +30,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Balasan Canned berhasil ditambahkan",
-        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Ruut, Silahkan coba lagi nanti"
       }
     },
     "EDIT": {
@@ -56,14 +52,14 @@
       "BUTTON_TEXT": "Edit",
       "API": {
         "SUCCESS_MESSAGE": "Balasan Canned berhasil diperbarui",
-        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Ruut, Silahkan coba lagi nanti"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Hapus",
       "API": {
         "SUCCESS_MESSAGE": "Balasan Canned berhasil dihapus",
-        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Ruut, Silahkan coba lagi nanti"
       },
       "CONFIRM": {
         "TITLE": "Konfirmasi Penghapusan",

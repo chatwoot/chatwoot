@@ -37,17 +37,14 @@
       "LIST": {
         "404": "Non ci sono webhook configurati per questo account.",
         "TITLE": "Gestisci webhook",
-        "TABLE_HEADER": [
-          "Endpoint Webhook",
-          "Azioni"
-        ]
+        "TABLE_HEADER": ["Endpoint Webhook", "Azioni"]
       },
       "EDIT": {
         "BUTTON_TEXT": "Modifica",
         "TITLE": "Modifica webhook",
         "API": {
           "SUCCESS_MESSAGE": "Configurazione Webhook aggiornata correttamente",
-          "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
+          "ERROR_MESSAGE": "Impossibile connettersi al server Ruut, riprova più tardi"
         }
       },
       "ADD": {
@@ -55,14 +52,14 @@
         "TITLE": "Aggiungi nuovo webhook",
         "API": {
           "SUCCESS_MESSAGE": "Configurazione Webhook aggiunta correttamente",
-          "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
+          "ERROR_MESSAGE": "Impossibile connettersi al server Ruut, riprova più tardi"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Elimina",
         "API": {
           "SUCCESS_MESSAGE": "Webhook eliminato con successo",
-          "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
+          "ERROR_MESSAGE": "Impossibile connettersi al server Ruut, riprova più tardi"
         },
         "CONFIRM": {
           "TITLE": "Conferma eliminazione",
@@ -172,10 +169,7 @@
       "LIST": {
         "404": "Non ci sono ancora app dashboard configurate su questo account",
         "LOADING": "Recupero delle app dashboard...",
-        "TABLE_HEADER": [
-          "Nome",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": ["Nome", "Endpoint"],
         "EDIT_TOOLTIP": "Modifica app",
         "DELETE_TOOLTIP": "Elimina app"
       },

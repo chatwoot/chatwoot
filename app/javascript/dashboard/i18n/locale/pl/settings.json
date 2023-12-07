@@ -282,7 +282,7 @@
     "API": {
       "SUCCESS_MESSAGE": "Konto zostało pomyślnie utworzone",
       "EXIST_MESSAGE": "Konto już istnieje",
-      "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot, spróbuj ponownie później"
+      "ERROR_MESSAGE": "Nie można połączyć się z serwerem Ruut, spróbuj ponownie później"
     },
     "FORM": {
       "NAME": {

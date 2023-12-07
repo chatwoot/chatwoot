@@ -12,7 +12,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Chestionar actualizat cu succes",
-      "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+      "ERROR_MESSAGE": "Nu s-a putut conecta la Ruut Server, încercați din nou mai târziu"
     }
   },
   "POWERED_BY": "Oferit de Chatwoot"

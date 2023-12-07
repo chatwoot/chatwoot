@@ -19,7 +19,7 @@
 pl:
   hello: "Witaj świecie"
   messages:
-    reset_password_success: Woot! Prośba o zresetowanie hasła zakończona pomyślnie. Sprawdź swoją pocztę, aby uzyskać instrukcje.
+    reset_password_success: Ruut! Prośba o zresetowanie hasła zakończona pomyślnie. Sprawdź swoją pocztę, aby uzyskać instrukcje.
     reset_password_failure: Ups! Nie mogliśmy znaleźć żadnego użytkownika z podanym adresem e-mail.
     inbox_deletetion_response: Żądanie usunięcia skrzynki odbiorczej zostanie rozpatrzone za jakiś czas.
   errors:

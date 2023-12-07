@@ -9,11 +9,7 @@
       "404": "Ne postoje brzi odgovori u ovom nalogu.",
       "TITLE": "Upravljajte brzim odgovorima",
       "DESC": "Brzi odgovori su predefinisani šabloni odgovora koji se mogu koristiti za slanje brzih odgovora na tikete.",
-      "TABLE_HEADER": [
-        "Brzi kod",
-        "Sadržaj",
-        "Akcije"
-      ]
+      "TABLE_HEADER": ["Brzi kod", "Sadržaj", "Akcije"]
     },
     "ADD": {
       "TITLE": "Dodaj brzi odgovor",
@@ -34,7 +30,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Brzi odgovor je uspešno dodat",
-        "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
+        "ERROR_MESSAGE": "Nije moguće se povezati sa Ruut serverom, pokušajte ponovo kasnije"
       }
     },
     "EDIT": {
@@ -56,14 +52,14 @@
       "BUTTON_TEXT": "Uredi",
       "API": {
         "SUCCESS_MESSAGE": "Brzi odgovor je uspešno izmenjen",
-        "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
+        "ERROR_MESSAGE": "Nije moguće se povezati sa Ruut serverom, pokušajte ponovo kasnije"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Obriši",
       "API": {
         "SUCCESS_MESSAGE": "Brzi odgovor je uspešno izbrisan",
-        "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
+        "ERROR_MESSAGE": "Nije moguće se povezati sa Ruut serverom, pokušajte ponovo kasnije"
       },
       "CONFIRM": {
         "TITLE": "Potvrdite brisanje",

@@ -37,17 +37,14 @@
       "LIST": {
         "404": "Det finns inga webhooks konfigurerade för det här kontot.",
         "TITLE": "Hantera webhooks",
-        "TABLE_HEADER": [
-          "Webhook slutpunkt",
-          "Åtgärder"
-        ]
+        "TABLE_HEADER": ["Webhook slutpunkt", "Åtgärder"]
       },
       "EDIT": {
         "BUTTON_TEXT": "Redigera",
         "TITLE": "Edit webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
-          "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
+          "ERROR_MESSAGE": "Kunde inte ansluta till Ruut Server, försök igen senare"
         }
       },
       "ADD": {
@@ -55,14 +52,14 @@
         "TITLE": "Lägg till ny webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration added successfully",
-          "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
+          "ERROR_MESSAGE": "Kunde inte ansluta till Ruut Server, försök igen senare"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Radera",
         "API": {
           "SUCCESS_MESSAGE": "Webhook har tagits bort",
-          "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
+          "ERROR_MESSAGE": "Kunde inte ansluta till Ruut Server, försök igen senare"
         },
         "CONFIRM": {
           "TITLE": "Bekräfta borttagning",
@@ -172,10 +169,7 @@
       "LIST": {
         "404": "There are no dashboard apps configured on this account yet",
         "LOADING": "Fetching dashboard apps...",
-        "TABLE_HEADER": [
-          "Namn",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": ["Namn", "Endpoint"],
         "EDIT_TOOLTIP": "Edit app",
         "DELETE_TOOLTIP": "Delete app"
       },

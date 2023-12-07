@@ -12,7 +12,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Průzkum byl úspěšně aktualizován",
-      "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
+      "ERROR_MESSAGE": "Nelze se připojit k Ruut serveru, opakujte akci později"
     }
   },
   "POWERED_BY": "Powered by Chatwoot"

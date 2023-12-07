@@ -9,15 +9,11 @@
       "404": "There are no Audit Logs available in this account.",
       "TITLE": "Manage Audit Logs",
       "DESC": "Audit Logs are trails for events and actions in a Chatwoot System.",
-      "TABLE_HEADER": [
-        "User",
-        "Action",
-        "Διεύθυνση IP"
-      ]
+      "TABLE_HEADER": ["User", "Action", "Διεύθυνση IP"]
     },
     "API": {
       "SUCCESS_MESSAGE": "AuditLogs retrieved successfully",
-      "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
+      "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Ruut Server, Παρακαλώ προσπαθήστε αργότερα"
     },
     "DEFAULT_USER": "System",
     "AUTOMATION_RULE": {

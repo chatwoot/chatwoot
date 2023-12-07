@@ -9,11 +9,7 @@
       "404": "Það eru engin stöðluð svör aðgengileg á þessum reikning.",
       "TITLE": "Stjórna stöðluðum svörum",
       "DESC": "Stöðluð svör eru fyrirfram skilgreind svarsniðmát sem hægt er að nota til að senda fljótlega út svör við samtölum.",
-      "TABLE_HEADER": [
-        "Stuttkóði",
-        "Efnistexti",
-        "Aðgerðir"
-      ]
+      "TABLE_HEADER": ["Stuttkóði", "Efnistexti", "Aðgerðir"]
     },
     "ADD": {
       "TITLE": "Bæta við stöðluðu svari",
@@ -34,7 +30,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Stöðluðu svari bætt við",
-        "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
+        "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Ruut, vinsamlegast reynið aftur"
       }
     },
     "EDIT": {
@@ -56,14 +52,14 @@
       "BUTTON_TEXT": "Breyta",
       "API": {
         "SUCCESS_MESSAGE": "Staðlað svar uppfært",
-        "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
+        "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Ruut, vinsamlegast reynið aftur"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Eyða",
       "API": {
         "SUCCESS_MESSAGE": "Stöðluðu svari var eytt",
-        "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
+        "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Ruut, vinsamlegast reynið aftur"
       },
       "CONFIRM": {
         "TITLE": "Staðfesta eyðingu",

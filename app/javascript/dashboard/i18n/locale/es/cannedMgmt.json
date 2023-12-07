@@ -9,11 +9,7 @@
       "404": "No hay respuestas enlatadas disponibles en esta cuenta.",
       "TITLE": "Administrar respuestas predefinidas",
       "DESC": "Las respuestas predefinidas son plantillas de respuesta predefinidas que se pueden utilizar para enviar rápidamente respuestas a los Tickets.",
-      "TABLE_HEADER": [
-        "Código corto",
-        "Contenido",
-        "Acciones"
-      ]
+      "TABLE_HEADER": ["Código corto", "Contenido", "Acciones"]
     },
     "ADD": {
       "TITLE": "Añadir respuesta predefinida",
@@ -34,7 +30,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Respuesta predefinida añadida correctamente",
-        "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
+        "ERROR_MESSAGE": "No se pudo conectar al servidor Ruut, por favor inténtalo de nuevo más tarde"
       }
     },
     "EDIT": {
@@ -56,14 +52,14 @@
       "BUTTON_TEXT": "Editar",
       "API": {
         "SUCCESS_MESSAGE": "Respuesta predefinida actualizada correctamente",
-        "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
+        "ERROR_MESSAGE": "No se pudo conectar al servidor Ruut, por favor inténtalo de nuevo más tarde"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Eliminar",
       "API": {
         "SUCCESS_MESSAGE": "Respuesta predefinida eliminada correctamente",
-        "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
+        "ERROR_MESSAGE": "No se pudo conectar al servidor Ruut, por favor inténtalo de nuevo más tarde"
       },
       "CONFIRM": {
         "TITLE": "Confirmar eliminación",

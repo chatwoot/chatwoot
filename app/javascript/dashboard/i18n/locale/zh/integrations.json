@@ -14,10 +14,7 @@
         "404": "There are no webhooks configured for this account.",
         "TITLE": "Manage webhooks",
         "DESC": "Webhooks are predefined reply templates which can be used to quickly send out replies to tickets.",
-        "TABLE_HEADER": [
-          "Webhook endpoint",
-          "Actions"
-        ]
+        "TABLE_HEADER": ["Webhook endpoint", "Actions"]
       },
       "ADD": {
         "CANCEL": "Cancel",
@@ -33,14 +30,14 @@
         },
         "API": {
           "SUCCESS_MESSAGE": "Webhook added successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "ERROR_MESSAGE": "Could not connect to Ruut Server, Please try again later"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Delete",
         "API": {
           "SUCCESS_MESSAGE": "Webhook deleted successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "ERROR_MESSAGE": "Could not connect to Ruut Server, Please try again later"
         },
         "CONFIRM": {
           "TITLE": "Confirm Deletion",

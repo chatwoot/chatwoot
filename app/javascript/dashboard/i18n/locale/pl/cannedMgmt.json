@@ -9,11 +9,7 @@
       "404": "Brak dostępnych Gotowych odpowiedzi na tym koncie.",
       "TITLE": "Zarządzaj Gotowymi odpowiedziami",
       "DESC": "Gotowe odpowiedzi to predefiniowane szablony odpowiedzi, które można szybko wysyłać w odpowiedzi na rozmowy.",
-      "TABLE_HEADER": [
-        "Krótki kod",
-        "Zawartość",
-        "Akcje"
-      ]
+      "TABLE_HEADER": ["Krótki kod", "Zawartość", "Akcje"]
     },
     "ADD": {
       "TITLE": "Dodaj Gotową odpowiedź",
@@ -34,7 +30,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Gotowa odpowiedź została pomyślnie dodana",
-        "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
+        "ERROR_MESSAGE": "Nie można połączyć się z Ruut Server, spróbuj ponownie później"
       }
     },
     "EDIT": {
@@ -56,14 +52,14 @@
       "BUTTON_TEXT": "Edytuj",
       "API": {
         "SUCCESS_MESSAGE": "Gotowa odpowiedź została pomyślnie zaktualizowana",
-        "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
+        "ERROR_MESSAGE": "Nie można połączyć się z Ruut Server, spróbuj ponownie później"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Usuń",
       "API": {
         "SUCCESS_MESSAGE": "Gotowa odpowiedź została pomyślnie usunięta",
-        "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
+        "ERROR_MESSAGE": "Nie można połączyć się z Ruut Server, spróbuj ponownie później"
       },
       "CONFIRM": {
         "TITLE": "Potwierdź usunięcie",

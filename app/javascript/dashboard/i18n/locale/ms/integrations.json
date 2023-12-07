@@ -37,17 +37,14 @@
       "LIST": {
         "404": "There are no webhooks configured for this account.",
         "TITLE": "Manage webhooks",
-        "TABLE_HEADER": [
-          "Webhook endpoint",
-          "Tindakan-tindakan"
-        ]
+        "TABLE_HEADER": ["Webhook endpoint", "Tindakan-tindakan"]
       },
       "EDIT": {
         "BUTTON_TEXT": "Edit",
         "TITLE": "Edit webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
-          "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
+          "ERROR_MESSAGE": "Masalah untuk hubungi Ruut Server, Sila cuba sebentar lagi"
         }
       },
       "ADD": {
@@ -55,14 +52,14 @@
         "TITLE": "Add new webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration added successfully",
-          "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
+          "ERROR_MESSAGE": "Masalah untuk hubungi Ruut Server, Sila cuba sebentar lagi"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Padamkan",
         "API": {
           "SUCCESS_MESSAGE": "Webhook deleted successfully",
-          "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
+          "ERROR_MESSAGE": "Masalah untuk hubungi Ruut Server, Sila cuba sebentar lagi"
         },
         "CONFIRM": {
           "TITLE": "Pasti Padamkan",
@@ -172,10 +169,7 @@
       "LIST": {
         "404": "There are no dashboard apps configured on this account yet",
         "LOADING": "Fetching dashboard apps...",
-        "TABLE_HEADER": [
-          "Nama",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": ["Nama", "Endpoint"],
         "EDIT_TOOLTIP": "Edit app",
         "DELETE_TOOLTIP": "Delete app"
       },

@@ -9,15 +9,11 @@
       "404": "Það eru engar aðgerðaskrár tiltækar á þessum reikning.",
       "TITLE": "Stjórna Aðgerðaskrám",
       "DESC": "Aðgerðaskrár heldur utan um alla atburði og aðgerðir í Chatwoot.",
-      "TABLE_HEADER": [
-        "Notandi",
-        "Aðgerð",
-        "IP tala"
-      ]
+      "TABLE_HEADER": ["Notandi", "Aðgerð", "IP tala"]
     },
     "API": {
       "SUCCESS_MESSAGE": "Aðgerðaskrá sótt",
-      "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
+      "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Ruut, vinsamlegast reynið aftur"
     },
     "DEFAULT_USER": "System",
     "AUTOMATION_RULE": {

@@ -37,17 +37,14 @@
       "LIST": {
         "404": "Er zijn geen webhooks geconfigureerd voor dit account.",
         "TITLE": "Webhooks beheren",
-        "TABLE_HEADER": [
-          "Webhook eindpunt",
-          "acties"
-        ]
+        "TABLE_HEADER": ["Webhook eindpunt", "acties"]
       },
       "EDIT": {
         "BUTTON_TEXT": "Bewerken",
         "TITLE": "Edit webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
-          "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+          "ERROR_MESSAGE": "Kan geen verbinding maken met Ruut Server, probeer het later opnieuw"
         }
       },
       "ADD": {
@@ -55,14 +52,14 @@
         "TITLE": "Nieuwe webhook toevoegen",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration added successfully",
-          "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+          "ERROR_MESSAGE": "Kan geen verbinding maken met Ruut Server, probeer het later opnieuw"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Verwijderen",
         "API": {
           "SUCCESS_MESSAGE": "Webhook succesvol verwijderd",
-          "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+          "ERROR_MESSAGE": "Kan geen verbinding maken met Ruut Server, probeer het later opnieuw"
         },
         "CONFIRM": {
           "TITLE": "Verwijdering bevestigen",
@@ -172,10 +169,7 @@
       "LIST": {
         "404": "There are no dashboard apps configured on this account yet",
         "LOADING": "Fetching dashboard apps...",
-        "TABLE_HEADER": [
-          "Naam",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": ["Naam", "Endpoint"],
         "EDIT_TOOLTIP": "Edit app",
         "DELETE_TOOLTIP": "Delete app"
       },

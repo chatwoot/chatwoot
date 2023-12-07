@@ -19,7 +19,7 @@
 da:
   hello: "Hej verden"
   messages:
-    reset_password_success: Woot! Anmodning om nulstilling af adgangskode er vellykket. Tjek din mail for instruktioner.
+    reset_password_success: Ruut! Anmodning om nulstilling af adgangskode er vellykket. Tjek din mail for instruktioner.
     reset_password_failure: Åh nej! Vi kunne ikke finde nogen bruger med den angivne e-mail.
     inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:

@@ -9,15 +9,11 @@
       "404": "There are no Audit Logs available in this account.",
       "TITLE": "Manage Audit Logs",
       "DESC": "Audit Logs are trails for events and actions in a Chatwoot System.",
-      "TABLE_HEADER": [
-        "User",
-        "Action",
-        "IP адрес"
-      ]
+      "TABLE_HEADER": ["User", "Action", "IP адрес"]
     },
     "API": {
       "SUCCESS_MESSAGE": "AuditLogs retrieved successfully",
-      "ERROR_MESSAGE": "Не можа да се свърже с Woot сървър. Моля, опитайте отново по-късно"
+      "ERROR_MESSAGE": "Не можа да се свърже с Ruut сървър. Моля, опитайте отново по-късно"
     },
     "DEFAULT_USER": "System",
     "AUTOMATION_RULE": {

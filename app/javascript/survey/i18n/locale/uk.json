@@ -12,7 +12,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Опитування успішно оновлено",
-      "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
+      "ERROR_MESSAGE": "Не вдалося підключитися до Ruut Server, спробуйте ще раз пізніше"
     }
   },
   "POWERED_BY": "Працює на Chatwoot"

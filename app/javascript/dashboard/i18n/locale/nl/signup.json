@@ -36,7 +36,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Registratie geslaagd",
-      "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+      "ERROR_MESSAGE": "Kan geen verbinding maken met Ruut Server, probeer het later opnieuw"
     },
     "SUBMIT": "Account aanmaken",
     "HAVE_AN_ACCOUNT": "Heeft u al een account?"

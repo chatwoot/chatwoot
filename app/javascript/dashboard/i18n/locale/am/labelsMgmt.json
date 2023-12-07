@@ -9,11 +9,7 @@
       "404": "There are no labels available in this account.",
       "TITLE": "Manage labels",
       "DESC": "Labels let you group the conversations together.",
-      "TABLE_HEADER": [
-        "Name",
-        "Description",
-        "Color"
-      ]
+      "TABLE_HEADER": ["Name", "Description", "Color"]
     },
     "FORM": {
       "NAME": {
@@ -45,7 +41,7 @@
         "DESELECT": "Deselect label",
         "DISMISS": "Dismiss suggestion"
       },
-      "POWERED_BY": "Chatwoot AI",
+      "POWERED_BY": "Ruutchat AI",
       "DISMISS": "Dismiss",
       "ADD_SELECTED_LABELS": "Add selected labels",
       "ADD_SELECTED_LABEL": "Add selected label",

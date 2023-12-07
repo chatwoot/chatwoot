@@ -37,17 +37,14 @@
       "LIST": {
         "404": "Brak skonfigurowanych webhooków dla tego konta.",
         "TITLE": "Zarządzaj webhookami",
-        "TABLE_HEADER": [
-          "Adres URL webhooka",
-          "Akcje"
-        ]
+        "TABLE_HEADER": ["Adres URL webhooka", "Akcje"]
       },
       "EDIT": {
         "BUTTON_TEXT": "Edytuj",
         "TITLE": "Edytuj webhook",
         "API": {
           "SUCCESS_MESSAGE": "Konfiguracja webhooka została pomyślnie zaktualizowana",
-          "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot, spróbuj ponownie później"
+          "ERROR_MESSAGE": "Nie można połączyć się z serwerem Ruut, spróbuj ponownie później"
         }
       },
       "ADD": {
@@ -55,14 +52,14 @@
         "TITLE": "Dodaj nowy webhook",
         "API": {
           "SUCCESS_MESSAGE": "Konfiguracja webhooka została pomyślnie dodana",
-          "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot, spróbuj ponownie później"
+          "ERROR_MESSAGE": "Nie można połączyć się z serwerem Ruut, spróbuj ponownie później"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Usuń",
         "API": {
           "SUCCESS_MESSAGE": "Webhook został pomyślnie usunięty",
-          "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot, spróbuj ponownie później"
+          "ERROR_MESSAGE": "Nie można połączyć się z serwerem Ruut, spróbuj ponownie później"
         },
         "CONFIRM": {
           "TITLE": "Potwierdź usunięcie",
@@ -172,10 +169,7 @@
       "LIST": {
         "404": "Na tym koncie nie skonfigurowano jeszcze aplikacji na pulpicie",
         "LOADING": "Pobieranie aplikacji na pulpicie...",
-        "TABLE_HEADER": [
-          "Nazwa",
-          "Punkt końcowy"
-        ],
+        "TABLE_HEADER": ["Nazwa", "Punkt końcowy"],
         "EDIT_TOOLTIP": "Edytuj aplikację",
         "DELETE_TOOLTIP": "Usuń aplikację"
       },

@@ -12,7 +12,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Survey updated successfully",
-      "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
+      "ERROR_MESSAGE": "Ruut Serverに接続できませんでした。後でもう一度お試しください。"
     }
   },
   "POWERED_BY": "Powered by Chatwoot"

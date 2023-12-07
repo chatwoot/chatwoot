@@ -37,17 +37,14 @@
       "LIST": {
         "404": "Không có webhook nào được định cấu hình cho tài khoản này.",
         "TITLE": "Quản lý webhooks",
-        "TABLE_HEADER": [
-          "Webhook endpoint",
-          "Hành động"
-        ]
+        "TABLE_HEADER": ["Webhook endpoint", "Hành động"]
       },
       "EDIT": {
         "BUTTON_TEXT": "Chỉnh sửa",
         "TITLE": "Sửa webhook",
         "API": {
           "SUCCESS_MESSAGE": "Đã cập nhật cấu hình Webhook thành công",
-          "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+          "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Ruut, Vui lòng thử lại sau"
         }
       },
       "ADD": {
@@ -55,14 +52,14 @@
         "TITLE": "Thêm mới webhook",
         "API": {
           "SUCCESS_MESSAGE": "Đã thêm Webhook thành công",
-          "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+          "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Ruut, Vui lòng thử lại sau"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Xoá",
         "API": {
           "SUCCESS_MESSAGE": "Webhook đã được xoá thành công",
-          "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+          "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Ruut, Vui lòng thử lại sau"
         },
         "CONFIRM": {
           "TITLE": "Xác Nhận Xoá",
@@ -172,10 +169,7 @@
       "LIST": {
         "404": "Chưa có ứng dụng trang \u001dđiều khiển nào được định cấu hình trên tài khoản này",
         "LOADING": "Đang tìm nạp ứng dụng bảng điều khiển...",
-        "TABLE_HEADER": [
-          "Tên",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": ["Tên", "Endpoint"],
         "EDIT_TOOLTIP": "Sửa app",
         "DELETE_TOOLTIP": "Xoá app"
       },

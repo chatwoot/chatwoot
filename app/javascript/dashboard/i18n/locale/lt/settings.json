@@ -282,7 +282,7 @@
     "API": {
       "SUCCESS_MESSAGE": "Paskyra sukurta sėkmingai",
       "EXIST_MESSAGE": "Paskyra jau yra",
-      "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
+      "ERROR_MESSAGE": "Nepavyko prisijungti prie Ruut serverio, bandykite dar kartą vėliau"
     },
     "FORM": {
       "NAME": {

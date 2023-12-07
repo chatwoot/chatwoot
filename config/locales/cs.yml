@@ -19,7 +19,7 @@
 cs:
   hello: "Ahoj svět"
   messages:
-    reset_password_success: Woot! Žádost o obnovení hesla byla úspěšná. Zkontrolujte svůj e-mail pro pokyny.
+    reset_password_success: Ruut! Žádost o obnovení hesla byla úspěšná. Zkontrolujte svůj e-mail pro pokyny.
     reset_password_failure: Jejda! Nenašli jsme žádného uživatele se zadaným e-mailem.
     inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:

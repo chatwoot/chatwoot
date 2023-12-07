@@ -282,7 +282,7 @@
     "API": {
       "SUCCESS_MESSAGE": "Nalog je uspešno kreiran",
       "EXIST_MESSAGE": "Nalog već postoji",
-      "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
+      "ERROR_MESSAGE": "Nije moguće se povezati sa Ruut serverom, pokušajte ponovo kasnije"
     },
     "FORM": {
       "NAME": {

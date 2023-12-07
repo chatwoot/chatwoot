@@ -12,7 +12,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Survey updated successfully",
-      "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+      "ERROR_MESSAGE": "Kunne ikke koble til Ruut Server, vennligst prøv igjen senere"
     }
   },
   "POWERED_BY": "Drevet av Chatwoot"

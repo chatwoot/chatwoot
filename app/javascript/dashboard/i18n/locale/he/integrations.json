@@ -37,17 +37,14 @@
       "LIST": {
         "404": "לא הוגדרו webhooks עבור חשבון זה.",
         "TITLE": "נהל webhooks",
-        "TABLE_HEADER": [
-          "נקודת קצה של Webhook",
-          "פעולות"
-        ]
+        "TABLE_HEADER": ["נקודת קצה של Webhook", "פעולות"]
       },
       "EDIT": {
         "BUTTON_TEXT": "ערוך",
         "TITLE": "ערוך webhook",
         "API": {
           "SUCCESS_MESSAGE": "תצורת Webhook עודכנה בהצלחה",
-          "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
+          "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Ruut, נסה שוב מאוחר יותר"
         }
       },
       "ADD": {
@@ -55,14 +52,14 @@
         "TITLE": "הוסף Webhook חדש",
         "API": {
           "SUCCESS_MESSAGE": "תצורת Webhook נוספה בהצלחה",
-          "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
+          "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Ruut, נסה שוב מאוחר יותר"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "מחק",
         "API": {
           "SUCCESS_MESSAGE": "Webhook נמחק בהצלחה",
-          "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
+          "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Ruut, נסה שוב מאוחר יותר"
         },
         "CONFIRM": {
           "TITLE": "אשר מחיקה",
@@ -172,10 +169,7 @@
       "LIST": {
         "404": "אין עדיין אפליקציות לוח מחוונים מוגדרות בחשבון זה",
         "LOADING": "מביא אפליקציות לוח מחוונים...",
-        "TABLE_HEADER": [
-          "שם",
-          "נקודת קצה"
-        ],
+        "TABLE_HEADER": ["שם", "נקודת קצה"],
         "EDIT_TOOLTIP": "ערוך אפליקציה",
         "DELETE_TOOLTIP": "מחק אפליקציה"
       },

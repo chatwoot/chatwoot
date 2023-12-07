@@ -36,7 +36,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Registrace byla úspěšná",
-      "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
+      "ERROR_MESSAGE": "Nelze se připojit k Ruut serveru, opakujte akci později"
     },
     "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Máte již účet?"

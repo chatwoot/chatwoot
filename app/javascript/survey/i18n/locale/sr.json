@@ -12,7 +12,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Anketa je uspešno poslata",
-      "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
+      "ERROR_MESSAGE": "Nije moguće se povezati sa Ruut serverom, pokušajte ponovo kasnije"
     }
   },
   "POWERED_BY": "Pokreće Chatwoot"

@@ -42,7 +42,7 @@ export default {
     },
     codepenTitle: {
       type: String,
-      default: 'Chatwoot Codepen',
+      default: 'Ruutchat Codepen',
     },
   },
   computed: {

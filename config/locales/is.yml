@@ -19,7 +19,7 @@
 is:
   hello: "Hello world"
   messages:
-    reset_password_success: Woot! Beiðni um endurstillingu lykilorðs tókst. Skoðaðu póstinn þinn til að fá leiðbeiningar.
+    reset_password_success: Ruut! Beiðni um endurstillingu lykilorðs tókst. Skoðaðu póstinn þinn til að fá leiðbeiningar.
     reset_password_failure: Uh ó! Við fundum engan notanda með tilgreint netfang.
     inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:

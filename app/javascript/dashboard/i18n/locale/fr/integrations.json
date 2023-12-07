@@ -37,17 +37,14 @@
       "LIST": {
         "404": "Il n'y a aucun Webhook configuré pour ce compte.",
         "TITLE": "Gérer les webhooks",
-        "TABLE_HEADER": [
-          "Point de terminaison du Webhook",
-          "Actions"
-        ]
+        "TABLE_HEADER": ["Point de terminaison du Webhook", "Actions"]
       },
       "EDIT": {
         "BUTTON_TEXT": "Modifier",
         "TITLE": "Modifier le webhook",
         "API": {
           "SUCCESS_MESSAGE": "La configuration du Webhook a été mise à jour",
-          "ERROR_MESSAGE": "Impossible de se connecter au serveur Woot, veuillez réessayer plus tard"
+          "ERROR_MESSAGE": "Impossible de se connecter au serveur Ruut, veuillez réessayer plus tard"
         }
       },
       "ADD": {
@@ -55,14 +52,14 @@
         "TITLE": "Ajouter un nouveau webhook",
         "API": {
           "SUCCESS_MESSAGE": "La configuration du Webhook a été ajoutée",
-          "ERROR_MESSAGE": "Impossible de se connecter au serveur Woot, veuillez réessayer plus tard"
+          "ERROR_MESSAGE": "Impossible de se connecter au serveur Ruut, veuillez réessayer plus tard"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Supprimer",
         "API": {
           "SUCCESS_MESSAGE": "Webhook supprimé avec succès",
-          "ERROR_MESSAGE": "Impossible de se connecter au serveur Woot, veuillez réessayer plus tard"
+          "ERROR_MESSAGE": "Impossible de se connecter au serveur Ruut, veuillez réessayer plus tard"
         },
         "CONFIRM": {
           "TITLE": "Confirmer la suppression",
@@ -172,10 +169,7 @@
       "LIST": {
         "404": "Il n'y a pas encore d'applications de tableau de bord configurées sur ce compte",
         "LOADING": "Récupération des applications du tableau de bord ...",
-        "TABLE_HEADER": [
-          "Nom",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": ["Nom", "Endpoint"],
         "EDIT_TOOLTIP": "Editer l'application",
         "DELETE_TOOLTIP": "Supprimer l'application"
       },

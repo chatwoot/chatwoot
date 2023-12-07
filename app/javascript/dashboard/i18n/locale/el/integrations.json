@@ -37,17 +37,14 @@
       "LIST": {
         "404": "Δεν έχουν δημιουργηθεί webhooks για αυτόν το λογαριασμό.",
         "TITLE": "Διαχείριση webhooks",
-        "TABLE_HEADER": [
-          "ΣΥΝΔΕΣΜΟΣ Webhook",
-          "ΕΝΕΡΓΕΙΕΣ"
-        ]
+        "TABLE_HEADER": ["ΣΥΝΔΕΣΜΟΣ Webhook", "ΕΝΕΡΓΕΙΕΣ"]
       },
       "EDIT": {
         "BUTTON_TEXT": "Επεξεργασία",
         "TITLE": "Επεξεργασία webhook",
         "API": {
           "SUCCESS_MESSAGE": "Οι ρυθμίσεις του Webhook ενημερώθηκαν με επιτυχία",
-          "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
+          "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Ruut Server, Παρακαλώ προσπαθήστε αργότερα"
         }
       },
       "ADD": {
@@ -55,14 +52,14 @@
         "TITLE": "Προσθήκη Νέου webhook",
         "API": {
           "SUCCESS_MESSAGE": "Η διαμόρφωση Webhook προστέθηκε με επιτυχία",
-          "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
+          "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Ruut Server, Παρακαλώ προσπαθήστε αργότερα"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Διαγραφή",
         "API": {
           "SUCCESS_MESSAGE": "Το Webhook διαγράφηκε επιτυχώς",
-          "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
+          "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Ruut Server, Παρακαλώ προσπαθήστε αργότερα"
         },
         "CONFIRM": {
           "TITLE": "Επιβεβαίωση Διαγραφής",
@@ -172,10 +169,7 @@
       "LIST": {
         "404": "Δεν έχουν δημιουργηθεί εφαρμογές Dashboard για αυτόν το λογαριασμό",
         "LOADING": "Λήψη εφαρμογών dashboard ...",
-        "TABLE_HEADER": [
-          "Όνομα",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": ["Όνομα", "Endpoint"],
         "EDIT_TOOLTIP": "Επεξεργασία εφαρμογής",
         "DELETE_TOOLTIP": "Διαγραφή εφαρμογής"
       },

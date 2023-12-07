@@ -9,15 +9,11 @@
       "404": "Šiai paskyrai nėra prieinamų Audito Žurnalų.",
       "TITLE": "Tvarkyti Audito Žurnalus",
       "DESC": "Audito žurnalai yra įvykių ir veiksmų „Chatwoot“ sistemoje pėdsakai.",
-      "TABLE_HEADER": [
-        "Vartotojas",
-        "Action",
-        "IP Adresas"
-      ]
+      "TABLE_HEADER": ["Vartotojas", "Action", "IP Adresas"]
     },
     "API": {
       "SUCCESS_MESSAGE": "Audito Žurnalai parsiųsti sėkmingai",
-      "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
+      "ERROR_MESSAGE": "Nepavyko prisijungti prie Ruut serverio, bandykite dar kartą vėliau"
     },
     "DEFAULT_USER": "Sistema",
     "AUTOMATION_RULE": {

@@ -12,7 +12,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Connexion réussie",
-      "ERROR_MESSAGE": "Impossible de se connecter au serveur Woot, veuillez réessayer plus tard",
+      "ERROR_MESSAGE": "Impossible de se connecter au serveur Ruut, veuillez réessayer plus tard",
       "UNAUTH": "Nom d'utilisateur / Mot de passe incorrect. Veuillez réessayer"
     },
     "OAUTH": {

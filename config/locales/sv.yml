@@ -19,7 +19,7 @@
 sv:
   hello: "Hej världen"
   messages:
-    reset_password_success: Woot! Begäran om återställning av lösenord lyckades. Kontrollera din e-post för instruktioner.
+    reset_password_success: Ruut! Begäran om återställning av lösenord lyckades. Kontrollera din e-post för instruktioner.
     reset_password_failure: Oj då! Vi kunde inte hitta någon användare med den angivna e-postadressen.
     inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:

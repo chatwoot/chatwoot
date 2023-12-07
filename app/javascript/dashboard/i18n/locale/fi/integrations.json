@@ -37,17 +37,14 @@
       "LIST": {
         "404": "Tälle tilille ei ole määritetty webhookeja.",
         "TITLE": "Hallitse webhookeja",
-        "TABLE_HEADER": [
-          "Webhookin päätepiste",
-          "Toiminnot"
-        ]
+        "TABLE_HEADER": ["Webhookin päätepiste", "Toiminnot"]
       },
       "EDIT": {
         "BUTTON_TEXT": "Muokkaa",
         "TITLE": "Edit webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
-          "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
+          "ERROR_MESSAGE": "Yhteyden muodostaminen Ruut-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
         }
       },
       "ADD": {
@@ -55,14 +52,14 @@
         "TITLE": "Lisää uusi webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration added successfully",
-          "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
+          "ERROR_MESSAGE": "Yhteyden muodostaminen Ruut-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Poista",
         "API": {
           "SUCCESS_MESSAGE": "Webhook poistettu onnistuneesti",
-          "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
+          "ERROR_MESSAGE": "Yhteyden muodostaminen Ruut-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
         },
         "CONFIRM": {
           "TITLE": "Vahvista poistaminen",
@@ -172,10 +169,7 @@
       "LIST": {
         "404": "There are no dashboard apps configured on this account yet",
         "LOADING": "Fetching dashboard apps...",
-        "TABLE_HEADER": [
-          "Nimi",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": ["Nimi", "Endpoint"],
         "EDIT_TOOLTIP": "Edit app",
         "DELETE_TOOLTIP": "Delete app"
       },

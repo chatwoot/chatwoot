@@ -36,7 +36,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Sikeres regisztráció",
-      "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
+      "ERROR_MESSAGE": "Nem sikerült csatlakozni a Ruut szerverhez, kérjük próbáld később"
     },
     "SUBMIT": "Fiók létrehozása",
     "HAVE_AN_ACCOUNT": "Már van fiókod?"

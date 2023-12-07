@@ -12,7 +12,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Survey updated successfully",
-      "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Woot, skúste to prosím neskôr"
+      "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Ruut, skúste to prosím neskôr"
     }
   },
   "POWERED_BY": "Používame Chatwoot"

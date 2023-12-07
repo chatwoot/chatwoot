@@ -9,15 +9,11 @@
       "404": "Na ovom korisničkom računu nema dostupnih Audit Logova.",
       "TITLE": "Upravljanje Audit Logovima",
       "DESC": "Audit Logovi su tragovi događaja i akcija u Chatwoot sustavu.",
-      "TABLE_HEADER": [
-        "Korisnik",
-        "Akcija",
-        "IP adresa"
-      ]
+      "TABLE_HEADER": ["Korisnik", "Akcija", "IP adresa"]
     },
     "API": {
       "SUCCESS_MESSAGE": "Audit Logovi su uspješno dohvaćeni",
-      "ERROR_MESSAGE": "Neuspješno spajanje na Woot Server, Molimo pokušajte kasnije"
+      "ERROR_MESSAGE": "Neuspješno spajanje na Ruut Server, Molimo pokušajte kasnije"
     },
     "DEFAULT_USER": "System",
     "AUTOMATION_RULE": {

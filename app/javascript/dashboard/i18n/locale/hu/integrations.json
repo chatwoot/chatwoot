@@ -37,17 +37,14 @@
       "LIST": {
         "404": "Nincs a fiókhoz rendelt Webhook.",
         "TITLE": "Webhook kezelés",
-        "TABLE_HEADER": [
-          "Webhook végpont",
-          "Műveletek"
-        ]
+        "TABLE_HEADER": ["Webhook végpont", "Műveletek"]
       },
       "EDIT": {
         "BUTTON_TEXT": "Szerkesztés",
         "TITLE": "Webhook szerkesztése",
         "API": {
           "SUCCESS_MESSAGE": "A Webhook konfigurációja sikeresen frissítve",
-          "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
+          "ERROR_MESSAGE": "Nem sikerült csatlakozni a Ruut szerverhez, kérjük próbáld később"
         }
       },
       "ADD": {
@@ -55,14 +52,14 @@
         "TITLE": "Új webhook hozzáadása",
         "API": {
           "SUCCESS_MESSAGE": "A Webhook konfigurációja sikeresen hozzáadva",
-          "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
+          "ERROR_MESSAGE": "Nem sikerült csatlakozni a Ruut szerverhez, kérjük próbáld később"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Törlés",
         "API": {
           "SUCCESS_MESSAGE": "Webhook sikeresen törölve",
-          "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
+          "ERROR_MESSAGE": "Nem sikerült csatlakozni a Ruut szerverhez, kérjük próbáld később"
         },
         "CONFIRM": {
           "TITLE": "Törlés megerősítése",
@@ -172,10 +169,7 @@
       "LIST": {
         "404": "Ebben a fiókban még nincsenek konfigurálva kezdőlapi-alkalmazások",
         "LOADING": "Kezdőlapi alkalmazások lekérése...",
-        "TABLE_HEADER": [
-          "Név",
-          "Végpont"
-        ],
+        "TABLE_HEADER": ["Név", "Végpont"],
         "EDIT_TOOLTIP": "App szerkesztése",
         "DELETE_TOOLTIP": "App törlése"
       },

@@ -19,7 +19,7 @@
 fi:
   hello: "Hei maailma"
   messages:
-    reset_password_success: Woot! Salasanan nollauspyyntö onnistui. Tarkista sähköpostisi saadaksesi ohjeita.
+    reset_password_success: Ruut! Salasanan nollauspyyntö onnistui. Tarkista sähköpostisi saadaksesi ohjeita.
     reset_password_failure: Hö! Emme löytäneet yhtään käyttäjää määritellyllä sähköpostilla.
     inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:

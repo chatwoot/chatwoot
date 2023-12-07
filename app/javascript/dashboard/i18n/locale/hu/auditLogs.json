@@ -9,15 +9,11 @@
       "404": "Nincsen elérthető Auditnapló ebben a fiókban.",
       "TITLE": "Audit logok menedzselése",
       "DESC": "Az Auditnaplók a Chatwoot rendszer eseményeinek és műveleteinek nyomvonalai.",
-      "TABLE_HEADER": [
-        "User",
-        "Action",
-        "IP cím"
-      ]
+      "TABLE_HEADER": ["User", "Action", "IP cím"]
     },
     "API": {
       "SUCCESS_MESSAGE": "Auditnapló sikeresen lekérve",
-      "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
+      "ERROR_MESSAGE": "Nem sikerült csatlakozni a Ruut szerverhez, kérjük próbáld később"
     },
     "DEFAULT_USER": "Rendszer",
     "AUTOMATION_RULE": {

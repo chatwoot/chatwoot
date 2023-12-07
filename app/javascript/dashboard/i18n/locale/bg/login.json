@@ -12,7 +12,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Login Successful",
-      "ERROR_MESSAGE": "Не можа да се свърже с Woot сървър. Моля, опитайте отново по-късно",
+      "ERROR_MESSAGE": "Не можа да се свърже с Ruut сървър. Моля, опитайте отново по-късно",
       "UNAUTH": "Username / Password Incorrect. Please try again"
     },
     "OAUTH": {

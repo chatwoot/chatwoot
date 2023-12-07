@@ -37,17 +37,14 @@
       "LIST": {
         "404": "Pro tento účet nejsou nakonfigurovány žádné webové háčky.",
         "TITLE": "Spravovat webové háčky",
-        "TABLE_HEADER": [
-          "Koncový bod webhooku",
-          "Akce"
-        ]
+        "TABLE_HEADER": ["Koncový bod webhooku", "Akce"]
       },
       "EDIT": {
         "BUTTON_TEXT": "Upravit",
         "TITLE": "Edit webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
-          "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
+          "ERROR_MESSAGE": "Nelze se připojit k Ruut serveru, opakujte akci později"
         }
       },
       "ADD": {
@@ -55,14 +52,14 @@
         "TITLE": "Přidat nový webový háček",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration added successfully",
-          "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
+          "ERROR_MESSAGE": "Nelze se připojit k Ruut serveru, opakujte akci později"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Vymazat",
         "API": {
           "SUCCESS_MESSAGE": "Webový háček byl úspěšně odstraněn",
-          "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
+          "ERROR_MESSAGE": "Nelze se připojit k Ruut serveru, opakujte akci později"
         },
         "CONFIRM": {
           "TITLE": "Potvrdit odstranění",
@@ -172,10 +169,7 @@
       "LIST": {
         "404": "There are no dashboard apps configured on this account yet",
         "LOADING": "Fetching dashboard apps...",
-        "TABLE_HEADER": [
-          "Název",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": ["Název", "Endpoint"],
         "EDIT_TOOLTIP": "Edit app",
         "DELETE_TOOLTIP": "Delete app"
       },

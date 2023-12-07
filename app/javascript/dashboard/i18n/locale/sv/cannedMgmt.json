@@ -9,11 +9,7 @@
       "404": "Det finns inga svarsmallar tillgängliga på detta konto.",
       "TITLE": "Hantera svarsmallar",
       "DESC": "Svarsmallar är fördefinierade mallar som kan användas för att snabbt skicka ut svar till ärenden.",
-      "TABLE_HEADER": [
-        "Kortkod",
-        "Innehåll",
-        "Åtgärder"
-      ]
+      "TABLE_HEADER": ["Kortkod", "Innehåll", "Åtgärder"]
     },
     "ADD": {
       "TITLE": "Lägg till svarsmall",
@@ -34,7 +30,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Svarsmallen har lagts till",
-        "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
+        "ERROR_MESSAGE": "Kunde inte ansluta till Ruut Server, försök igen senare"
       }
     },
     "EDIT": {
@@ -56,14 +52,14 @@
       "BUTTON_TEXT": "Redigera",
       "API": {
         "SUCCESS_MESSAGE": "Svarsmallen har uppdaterats",
-        "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
+        "ERROR_MESSAGE": "Kunde inte ansluta till Ruut Server, försök igen senare"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Radera",
       "API": {
         "SUCCESS_MESSAGE": "Svarsmallen har tagits bort",
-        "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
+        "ERROR_MESSAGE": "Kunde inte ansluta till Ruut Server, försök igen senare"
       },
       "CONFIRM": {
         "TITLE": "Bekräfta borttagning",

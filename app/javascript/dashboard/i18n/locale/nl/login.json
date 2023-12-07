@@ -12,7 +12,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Inloggen geslaagd",
-      "ERROR_MESSAGE": "Kan geen verbinding maken met de Woot server. Probeer het opnieuw.",
+      "ERROR_MESSAGE": "Kan geen verbinding maken met de Ruut server. Probeer het opnieuw.",
       "UNAUTH": "Gebruikersnaam of wachtwoord is onjuist. Probeer het opnieuw."
     },
     "OAUTH": {

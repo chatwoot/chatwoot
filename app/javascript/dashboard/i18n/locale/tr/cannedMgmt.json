@@ -9,11 +9,7 @@
       "404": "Bu hesapta hazır yanıt yok.",
       "TITLE": "Hazır yanıtları yönetin",
       "DESC": "Hazır Yanıtlar, çağrılara hızlı bir şekilde yanıt göndermek için kullanılabilen önceden tanımlanmış yanıt şablonlarıdır.",
-      "TABLE_HEADER": [
-        "Kısa kod",
-        "İçerik",
-        "Hareketler"
-      ]
+      "TABLE_HEADER": ["Kısa kod", "İçerik", "Hareketler"]
     },
     "ADD": {
       "TITLE": "Hazır Yanıt Ekle",
@@ -34,7 +30,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Hazır Yanıt başarıyla eklendi",
-        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+        "ERROR_MESSAGE": "Ruut Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
       }
     },
     "EDIT": {
@@ -56,14 +52,14 @@
       "BUTTON_TEXT": "Düzenle",
       "API": {
         "SUCCESS_MESSAGE": "Hazır Yanıt başarıyla güncellendi",
-        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+        "ERROR_MESSAGE": "Ruut Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Sil",
       "API": {
         "SUCCESS_MESSAGE": "Hazır yanıt başarıyla silindi",
-        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+        "ERROR_MESSAGE": "Ruut Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
       },
       "CONFIRM": {
         "TITLE": "Silmeyi onayla",

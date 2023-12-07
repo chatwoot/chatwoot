@@ -9,15 +9,11 @@
       "404": "Er zijn geen Audit Logs beschikbaar in dit account.",
       "TITLE": "Beheer Audit Logs",
       "DESC": "Audit Logs zijn sporen voor gebeurtenissen en acties in een Chatwoot Systeem.",
-      "TABLE_HEADER": [
-        "User",
-        "Tijd",
-        "IP-adres"
-      ]
+      "TABLE_HEADER": ["User", "Tijd", "IP-adres"]
     },
     "API": {
       "SUCCESS_MESSAGE": "AuditLogs succesvol opgehaald",
-      "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+      "ERROR_MESSAGE": "Kan geen verbinding maken met Ruut Server, probeer het later opnieuw"
     },
     "DEFAULT_USER": "Systeem",
     "AUTOMATION_RULE": {

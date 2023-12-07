@@ -12,7 +12,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Undersökningen har uppdaterats",
-      "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
+      "ERROR_MESSAGE": "Kunde inte ansluta till Ruut Server, försök igen senare"
     }
   },
   "POWERED_BY": "Drivs av Chatwoot"

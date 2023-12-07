@@ -19,7 +19,7 @@
 ca:
   hello: "Hola món"
   messages:
-    reset_password_success: Woot! S'ha restablert la contrasenya amb èxit. Revisa el correu per més instruccions.
+    reset_password_success: Ruut! S'ha restablert la contrasenya amb èxit. Revisa el correu per més instruccions.
     reset_password_failure: Uh ho! No s'ha trobat cap compte amb aquest correu electrònic.
     inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:

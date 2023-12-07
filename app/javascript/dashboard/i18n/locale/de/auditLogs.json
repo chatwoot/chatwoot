@@ -9,15 +9,11 @@
       "404": "Es gibt keine Audit-Protokolle in diesem Konto.",
       "TITLE": "Audit-Protokolle verwalten",
       "DESC": "Auditprotokolle sind Spuren für Ereignisse und Aktionen in einem Chatwoot-System.",
-      "TABLE_HEADER": [
-        "User",
-        "Action",
-        "IP-Adresse"
-      ]
+      "TABLE_HEADER": ["User", "Action", "IP-Adresse"]
     },
     "API": {
       "SUCCESS_MESSAGE": "Audit-Protokolle erfolgreich abgerufen",
-      "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot Server hergestellt werden. Bitte versuchen Sie es später erneut"
+      "ERROR_MESSAGE": "Es konnte keine Verbindung zum Ruut Server hergestellt werden. Bitte versuchen Sie es später erneut"
     },
     "DEFAULT_USER": "System",
     "AUTOMATION_RULE": {

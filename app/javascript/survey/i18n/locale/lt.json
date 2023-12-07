@@ -12,7 +12,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Apklausa sėkmingai atnaujinta",
-      "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
+      "ERROR_MESSAGE": "Nepavyko prisijungti prie Ruut serverio, bandykite dar kartą vėliau"
     }
   },
   "POWERED_BY": "Parengta pagal Chatwoot"

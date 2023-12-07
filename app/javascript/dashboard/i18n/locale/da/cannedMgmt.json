@@ -9,11 +9,7 @@
       "404": "Der er ingen tilgængelige standardsvar på denne konto.",
       "TITLE": "Administrer standardsvar",
       "DESC": "Standardsvar er foruddefinerede svarskabeloner, som kan bruges til hurtigt at sende svar på tickets.",
-      "TABLE_HEADER": [
-        "Short Code",
-        "Indhold",
-        "Handlinger"
-      ]
+      "TABLE_HEADER": ["Short Code", "Indhold", "Handlinger"]
     },
     "ADD": {
       "TITLE": "Tilføj Standardsvar",
@@ -34,7 +30,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Standardsvar tilføjet",
-        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
+        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Ruut Server, Prøv igen senere"
       }
     },
     "EDIT": {
@@ -56,14 +52,14 @@
       "BUTTON_TEXT": "Rediger",
       "API": {
         "SUCCESS_MESSAGE": "Standardsvar opdateret",
-        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
+        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Ruut Server, Prøv igen senere"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Slet",
       "API": {
         "SUCCESS_MESSAGE": "Standardsvar slettet",
-        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
+        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Ruut Server, Prøv igen senere"
       },
       "CONFIRM": {
         "TITLE": "Bekræft Sletning",

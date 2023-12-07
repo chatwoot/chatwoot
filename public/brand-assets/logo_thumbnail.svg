@@ -1,12 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
-    <title>woot-log</title>
-    <desc>Created with Sketch.</desc>
-    <g id="Logo" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="woot-log" fill-rule="nonzero">
-            <circle id="Oval" fill="#47A7F6" cx="256" cy="256" r="256"></circle>
-            <path d="M362.807947,368.807947 L244.122956,368.807947 C178.699407,368.807947 125.456954,315.561812 125.456954,250.12177 C125.456954,184.703089 178.699407,131.456954 244.124143,131.456954 C309.565494,131.456954 362.807947,184.703089 362.807947,250.12177 L362.807947,368.807947 Z" id="Fill-1" stroke="#FFFFFF" stroke-width="6" fill="#FFFFFF"></path>
-        </g>
-    </g>
+<svg width="34" height="32" viewBox="0 0 34 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M29.707 26.9476L20.5326 25.4523L26.4148 18.2547L29.707 26.9476Z" fill="url(#paint0_linear_545_3200)"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M13.9029 28.4559C21.5131 28.4559 27.6823 22.2866 27.6823 14.6765C27.6823 7.06634 21.5131 0.897095 13.9029 0.897095C6.29278 0.897095 0.123535 7.06634 0.123535 14.6765C0.123535 22.2866 6.29278 28.4559 13.9029 28.4559ZM16.6346 8.29445H9.0197V21.0585H19.6081L13.2744 14.7248H16.6346C18.4103 14.7248 19.8498 13.2853 19.8498 11.5096C19.8498 9.73394 18.4103 8.29445 16.6346 8.29445Z" fill="url(#paint1_linear_545_3200)"/>
+<defs>
+<linearGradient id="paint0_linear_545_3200" x1="24.5992" y1="20.6035" x2="32.4232" y2="27.0188" gradientUnits="userSpaceOnUse">
+<stop stop-color="#8932F7"/>
+<stop offset="1" stop-color="#D688CD"/>
+</linearGradient>
+<linearGradient id="paint1_linear_545_3200" x1="28.1174" y1="28.4863" x2="9.80954" y2="9.68534" gradientUnits="userSpaceOnUse">
+<stop stop-color="#8932F7"/>
+<stop offset="1" stop-color="#D688CD"/>
+</linearGradient>
+</defs>
 </svg>

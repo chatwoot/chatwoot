@@ -19,7 +19,7 @@
 ro:
   hello: "Salutare lume"
   messages:
-    reset_password_success: Woot! Cererea de resetare a parolei a reusit. Verifica emailul pentru instructiuni.
+    reset_password_success: Ruut! Cererea de resetare a parolei a reusit. Verifica emailul pentru instructiuni.
     reset_password_failure: Nu am putut găsi niciun utilizator cu e-mailul specificat.
     inbox_deletetion_response: Solicitarea de ștergere a inboxului va fi procesată într-un anumit timp.
   errors:

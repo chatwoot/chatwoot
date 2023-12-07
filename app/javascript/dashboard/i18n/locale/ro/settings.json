@@ -282,7 +282,7 @@
     "API": {
       "SUCCESS_MESSAGE": "Agent actualizat cu succes",
       "EXIST_MESSAGE": "Contul există deja",
-      "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+      "ERROR_MESSAGE": "Nu s-a putut conecta la Ruut Server, încercați din nou mai târziu"
     },
     "FORM": {
       "NAME": {

@@ -19,7 +19,7 @@
 id:
   hello: "Hello world"
   messages:
-    reset_password_success: Woot! Permintaan pengaturan ulang kata sandi berhasil. Periksa email Anda untuk mendapatkan petunjuk.
+    reset_password_success: Ruut! Permintaan pengaturan ulang kata sandi berhasil. Periksa email Anda untuk mendapatkan petunjuk.
     reset_password_failure: Aduh! Kami tidak dapat menemukan pengguna dengan email yang dimasukkan.
     inbox_deletetion_response: Permintaan penghapusan kotak masuk Anda akan diproses dalam beberapa waktu.
   errors:

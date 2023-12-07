@@ -9,11 +9,7 @@
       "404": "Det er ingen forhåndslagde svar tilgjengelig i denne kontoen.",
       "TITLE": "Administrer forhåndslagde svar",
       "DESC": "Forhåndslagde svar er predefinerte maler som kan brukes for å raskt sende ut svar til henvendelser.",
-      "TABLE_HEADER": [
-        "Kort kode",
-        "Innhold",
-        "Handlinger"
-      ]
+      "TABLE_HEADER": ["Kort kode", "Innhold", "Handlinger"]
     },
     "ADD": {
       "TITLE": "Legg til svar",
@@ -34,7 +30,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Forhåndslagd svar ble lagt til",
-        "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+        "ERROR_MESSAGE": "Kunne ikke koble til Ruut Server, vennligst prøv igjen senere"
       }
     },
     "EDIT": {
@@ -56,14 +52,14 @@
       "BUTTON_TEXT": "Rediger",
       "API": {
         "SUCCESS_MESSAGE": "Forhåndslagd svar ble oppdatert",
-        "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+        "ERROR_MESSAGE": "Kunne ikke koble til Ruut Server, vennligst prøv igjen senere"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Slett",
       "API": {
         "SUCCESS_MESSAGE": "Forhåndslagd svar ble slettet",
-        "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+        "ERROR_MESSAGE": "Kunne ikke koble til Ruut Server, vennligst prøv igjen senere"
       },
       "CONFIRM": {
         "TITLE": "Bekreft sletting",
