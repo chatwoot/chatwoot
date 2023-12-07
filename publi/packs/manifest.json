@@ -1,0 +1,174 @@
+{
+  "application.js": "/packs/js/application-d1fab7c9b3bc251ce652.js",
+  "application.js.map": "/packs/js/application-d1fab7c9b3bc251ce652.js.map",
+  "auto-track.js": "/packs/js/auto-track-c0acb9fc7cf2940032c9.chunk.js",
+  "auto-track.js.map": "/packs/js/auto-track-c0acb9fc7cf2940032c9.chunk.js.map",
+  "encoderWorker.min.js": "/packs/encoderWorker.min.js",
+  "entrypoints": {
+    "application": {
+      "js": [
+        "/packs/js/application-d1fab7c9b3bc251ce652.js"
+      ],
+      "js.map": [
+        "/packs/js/application-d1fab7c9b3bc251ce652.js.map"
+      ]
+    },
+    "portal": {
+      "js": [
+        "/packs/js/portal-d1fab7c9b3bc251ce652.js"
+      ],
+      "js.map": [
+        "/packs/js/portal-d1fab7c9b3bc251ce652.js.map",
+        "/packs/js/portal-802fbc120fb36a7819e1.hot-update.js.map"
+      ]
+    },
+    "sdk": {
+      "js": [
+        "/packs/js/sdk.js"
+      ],
+      "js.map": [
+        "/packs/js/sdk.js.map"
+      ]
+    },
+    "superadmin_pages": {
+      "js": [
+        "/packs/js/superadmin_pages-d1fab7c9b3bc251ce652.js"
+      ],
+      "js.map": [
+        "/packs/js/superadmin_pages-d1fab7c9b3bc251ce652.js.map"
+      ]
+    },
+    "superadmin": {
+      "js": [
+        "/packs/js/superadmin-d1fab7c9b3bc251ce652.js"
+      ],
+      "js.map": [
+        "/packs/js/superadmin-d1fab7c9b3bc251ce652.js.map"
+      ]
+    },
+    "survey": {
+      "js": [
+        "/packs/js/survey-d1fab7c9b3bc251ce652.js"
+      ],
+      "js.map": [
+        "/packs/js/survey-d1fab7c9b3bc251ce652.js.map",
+        "/packs/js/survey-802fbc120fb36a7819e1.hot-update.js.map"
+      ]
+    },
+    "v3app": {
+      "js": [
+        "/packs/js/v3app-d1fab7c9b3bc251ce652.js"
+      ],
+      "js.map": [
+        "/packs/js/v3app-d1fab7c9b3bc251ce652.js.map"
+      ]
+    },
+    "widget": {
+      "js": [
+        "/packs/js/widget-d1fab7c9b3bc251ce652.js"
+      ],
+      "js.map": [
+        "/packs/js/widget-d1fab7c9b3bc251ce652.js.map",
+        "/packs/js/widget-802fbc120fb36a7819e1.hot-update.js.map"
+      ]
+    }
+  },
+  "legacyVideos.js": "/packs/js/legacyVideos-b3561b4dcbc109226072.chunk.js",
+  "legacyVideos.js.map": "/packs/js/legacyVideos-b3561b4dcbc109226072.chunk.js.map",
+  "media/dashboard/assets/images/bubble-logo.svg": "/packs/media/dashboard/assets/images/bubble-logo-eec5daaebf0c7009bba7568fd9b9ad4a.svg",
+  "media/dashboard/assets/images/channels/facebook_login.png": "/packs/media/dashboard/assets/images/channels/facebook_login-7692d6c379288885d619b1e80bb214a4.png",
+  "media/dashboard/assets/images/chatwoot_bot.png": "/packs/media/dashboard/assets/images/chatwoot_bot-905112376e6493b37e2cecea8f9dc50c.png",
+  "media/dashboard/assets/images/flag.svg": "/packs/media/dashboard/assets/images/flag-2fe41f128623199c8388d77dfc4cff4e.svg",
+  "media/dashboard/assets/images/no-chat-dark.svg": "/packs/media/dashboard/assets/images/no-chat-dark-47cacd0972a4cba7686816851ffeeeb6.svg",
+  "media/dashboard/assets/images/no-chat.svg": "/packs/media/dashboard/assets/images/no-chat-462edd1de1359c96d365ae4d4c1f3380.svg",
+  "media/dashboard/assets/images/typing.gif": "/packs/media/dashboard/assets/images/typing-6027d21b24f45e3377a729a55158f948.gif",
+  "media/font/iconfont.eot?t=1607666235845": "/packs/media/font/iconfont-b7feab36.eot",
+  "media/font/iconfont.svg?t=1607666235845": "/packs/media/font/iconfont-5f9cfce9.svg",
+  "media/font/iconfont.ttf?t=1607666235845": "/packs/media/font/iconfont-2c6ef557.ttf",
+  "media/font/iconfont.woff?t=1607666235845": "/packs/media/font/iconfont-c3c6fe49.woff",
+  "media/fonts/ionicons.woff?v=2.0.1": "/packs/media/fonts/ionicons-e5a4fae0.woff",
+  "media/shared/assets/fonts/Inter-Bold.woff": "/packs/media/shared/assets/fonts/Inter-Bold-3053fbd18c9c00d7783e462e04beed10.woff",
+  "media/shared/assets/fonts/Inter-Bold.woff2": "/packs/media/shared/assets/fonts/Inter-Bold-8ce7b9e67a6b7cd8c6d71b084095ddf8.woff2",
+  "media/shared/assets/fonts/Inter-Italic.woff": "/packs/media/shared/assets/fonts/Inter-Italic-c52bf90bf478701f3d4f5950041ca78f.woff",
+  "media/shared/assets/fonts/Inter-Italic.woff2": "/packs/media/shared/assets/fonts/Inter-Italic-2171665508e87b63ab462307d21e7cb0.woff2",
+  "media/shared/assets/fonts/Inter-Light.woff": "/packs/media/shared/assets/fonts/Inter-Light-951c5254c8c4aff4fd790906be216bb8.woff",
+  "media/shared/assets/fonts/Inter-Light.woff2": "/packs/media/shared/assets/fonts/Inter-Light-a44d8c552d1c8cacede33b5c443d6780.woff2",
+  "media/shared/assets/fonts/Inter-Medium.woff": "/packs/media/shared/assets/fonts/Inter-Medium-e78f8f072aa56924dc4d735fd1abeb68.woff",
+  "media/shared/assets/fonts/Inter-Medium.woff2": "/packs/media/shared/assets/fonts/Inter-Medium-aec38a6b266a908bc320e30f261771d1.woff2",
+  "media/shared/assets/fonts/Inter-Regular.woff": "/packs/media/shared/assets/fonts/Inter-Regular-608dbe34b525dbf880b8d8ce921a5b54.woff",
+  "media/shared/assets/fonts/Inter-Regular.woff2": "/packs/media/shared/assets/fonts/Inter-Regular-b35f79d43d03b9a20047efe416c35d08.woff2",
+  "media/shared/assets/fonts/Inter-SemiBold.woff": "/packs/media/shared/assets/fonts/Inter-SemiBold-af031ccbfc3d90928feba54c9a4b2d4d.woff",
+  "media/shared/assets/fonts/Inter-SemiBold.woff2": "/packs/media/shared/assets/fonts/Inter-SemiBold-878e0cfc04d6108e9f97f3ce94e25b5e.woff2",
+  "media/shared/assets/fonts/Inter-Thin.woff": "/packs/media/shared/assets/fonts/Inter-Thin-046ff26493bd0c8b7af11d58d459e525.woff",
+  "media/shared/assets/fonts/Inter-Thin.woff2": "/packs/media/shared/assets/fonts/Inter-Thin-bc0c400ab97641432db27b3541daa5ac.woff2",
+  "media/shared/assets/fonts/PlusJakartaSans/PlusJakartaSans-Bold.woff2": "/packs/media/shared/assets/fonts/PlusJakartaSans/PlusJakartaSans-Bold-5f53f86aea22967100fc7fb8e53eb842.woff2",
+  "media/shared/assets/fonts/PlusJakartaSans/PlusJakartaSans-ExtraBold.woff2": "/packs/media/shared/assets/fonts/PlusJakartaSans/PlusJakartaSans-ExtraBold-67b4561b9c15a0bb7d6e94895ce9b881.woff2",
+  "media/shared/assets/fonts/PlusJakartaSans/PlusJakartaSans-ExtraLight.woff2": "/packs/media/shared/assets/fonts/PlusJakartaSans/PlusJakartaSans-ExtraLight-4ecb91b6bd39779f24644ef0c7a187f0.woff2",
+  "media/shared/assets/fonts/PlusJakartaSans/PlusJakartaSans-Italic.woff2": "/packs/media/shared/assets/fonts/PlusJakartaSans/PlusJakartaSans-Italic-d0760871ba6c8abd90fe89855c03f10e.woff2",
+  "media/shared/assets/fonts/PlusJakartaSans/PlusJakartaSans-Light.woff2": "/packs/media/shared/assets/fonts/PlusJakartaSans/PlusJakartaSans-Light-f98b4088e49674c8b36ec5193037d2ca.woff2",
+  "media/shared/assets/fonts/PlusJakartaSans/PlusJakartaSans-Medium.woff2": "/packs/media/shared/assets/fonts/PlusJakartaSans/PlusJakartaSans-Medium-f82e29a32033740d46163703c7f605ed.woff2",
+  "media/shared/assets/fonts/PlusJakartaSans/PlusJakartaSans-Regular.woff2": "/packs/media/shared/assets/fonts/PlusJakartaSans/PlusJakartaSans-Regular-f1de7180e1b2fc4818d8790657a3ab08.woff2",
+  "media/shared/assets/fonts/PlusJakartaSans/PlusJakartaSans-SemiBold.woff2": "/packs/media/shared/assets/fonts/PlusJakartaSans/PlusJakartaSans-SemiBold-c855407ebc8dc7dfb3e53d41eed2d1a2.woff2",
+  "media/shared/assets/fonts/satoshi/Satoshi-Black.ttf": "/packs/media/shared/assets/fonts/satoshi/Satoshi-Black-464354ba5a06467ecac56ec6be8e083b.ttf",
+  "media/shared/assets/fonts/satoshi/Satoshi-Black.woff": "/packs/media/shared/assets/fonts/satoshi/Satoshi-Black-4261d202e1e9410db1bfa7a19ab6c372.woff",
+  "media/shared/assets/fonts/satoshi/Satoshi-Black.woff2": "/packs/media/shared/assets/fonts/satoshi/Satoshi-Black-b5013d854bb5a8e48651144002dcc6a7.woff2",
+  "media/shared/assets/fonts/satoshi/Satoshi-BlackItalic.ttf": "/packs/media/shared/assets/fonts/satoshi/Satoshi-BlackItalic-6688ad1e9589e67518294867a239fdae.ttf",
+  "media/shared/assets/fonts/satoshi/Satoshi-BlackItalic.woff": "/packs/media/shared/assets/fonts/satoshi/Satoshi-BlackItalic-048e5edd452be6c1321441275bb898d0.woff",
+  "media/shared/assets/fonts/satoshi/Satoshi-BlackItalic.woff2": "/packs/media/shared/assets/fonts/satoshi/Satoshi-BlackItalic-d456cea1fae27f7d469433631ff713b2.woff2",
+  "media/shared/assets/fonts/satoshi/Satoshi-Bold.ttf": "/packs/media/shared/assets/fonts/satoshi/Satoshi-Bold-137a52d9f47dd71c6247397651ccbf6f.ttf",
+  "media/shared/assets/fonts/satoshi/Satoshi-Bold.woff": "/packs/media/shared/assets/fonts/satoshi/Satoshi-Bold-a875ff682ee232938607cd70a2997cd9.woff",
+  "media/shared/assets/fonts/satoshi/Satoshi-Bold.woff2": "/packs/media/shared/assets/fonts/satoshi/Satoshi-Bold-a0e6d25529eab537426cc73a2199dd85.woff2",
+  "media/shared/assets/fonts/satoshi/Satoshi-BoldItalic.ttf": "/packs/media/shared/assets/fonts/satoshi/Satoshi-BoldItalic-95e24575ceb54c131b6befcb1df1d776.ttf",
+  "media/shared/assets/fonts/satoshi/Satoshi-BoldItalic.woff": "/packs/media/shared/assets/fonts/satoshi/Satoshi-BoldItalic-d6da0f2020393863d72091bd133bd446.woff",
+  "media/shared/assets/fonts/satoshi/Satoshi-BoldItalic.woff2": "/packs/media/shared/assets/fonts/satoshi/Satoshi-BoldItalic-99235b175b514139aed0e14900656fcc.woff2",
+  "media/shared/assets/fonts/satoshi/Satoshi-Italic.ttf": "/packs/media/shared/assets/fonts/satoshi/Satoshi-Italic-89c785539a22fa0dfa0f5e129c4f5a9b.ttf",
+  "media/shared/assets/fonts/satoshi/Satoshi-Italic.woff": "/packs/media/shared/assets/fonts/satoshi/Satoshi-Italic-a7000aa1c017eec578681948611f7460.woff",
+  "media/shared/assets/fonts/satoshi/Satoshi-Italic.woff2": "/packs/media/shared/assets/fonts/satoshi/Satoshi-Italic-f4acf4adbba9bcd2c75cc012be3f0e0e.woff2",
+  "media/shared/assets/fonts/satoshi/Satoshi-Light.ttf": "/packs/media/shared/assets/fonts/satoshi/Satoshi-Light-22ef061781b1162ac317c35b1b821110.ttf",
+  "media/shared/assets/fonts/satoshi/Satoshi-Light.woff": "/packs/media/shared/assets/fonts/satoshi/Satoshi-Light-67e7fa77f107df3491b6c74c9d09a41e.woff",
+  "media/shared/assets/fonts/satoshi/Satoshi-Light.woff2": "/packs/media/shared/assets/fonts/satoshi/Satoshi-Light-df8f06167ee6fd05a1312732d4e9ea50.woff2",
+  "media/shared/assets/fonts/satoshi/Satoshi-LightItalic.ttf": "/packs/media/shared/assets/fonts/satoshi/Satoshi-LightItalic-bdeb9dc94481cdcc43dd3e98c9f87bc6.ttf",
+  "media/shared/assets/fonts/satoshi/Satoshi-LightItalic.woff": "/packs/media/shared/assets/fonts/satoshi/Satoshi-LightItalic-9473bef147f48d191d0d6bfd04f39a14.woff",
+  "media/shared/assets/fonts/satoshi/Satoshi-LightItalic.woff2": "/packs/media/shared/assets/fonts/satoshi/Satoshi-LightItalic-540a6dd2e29f70e154776e4d0dfbaa38.woff2",
+  "media/shared/assets/fonts/satoshi/Satoshi-Medium.ttf": "/packs/media/shared/assets/fonts/satoshi/Satoshi-Medium-759562088ba19068aef82baee40e2ab5.ttf",
+  "media/shared/assets/fonts/satoshi/Satoshi-Medium.woff": "/packs/media/shared/assets/fonts/satoshi/Satoshi-Medium-2419b46c96ed15331ba205aa3b103eb8.woff",
+  "media/shared/assets/fonts/satoshi/Satoshi-Medium.woff2": "/packs/media/shared/assets/fonts/satoshi/Satoshi-Medium-1ffe968245568e8ba1e766cec2c0075d.woff2",
+  "media/shared/assets/fonts/satoshi/Satoshi-MediumItalic.ttf": "/packs/media/shared/assets/fonts/satoshi/Satoshi-MediumItalic-5db9ec801a311bdf187ba0e401b05d12.ttf",
+  "media/shared/assets/fonts/satoshi/Satoshi-MediumItalic.woff": "/packs/media/shared/assets/fonts/satoshi/Satoshi-MediumItalic-cb8316e39642de8a12d54a60366bb476.woff",
+  "media/shared/assets/fonts/satoshi/Satoshi-MediumItalic.woff2": "/packs/media/shared/assets/fonts/satoshi/Satoshi-MediumItalic-6be6d51d5fc7402ee45f6c343e607baa.woff2",
+  "media/shared/assets/fonts/satoshi/Satoshi-Regular.ttf": "/packs/media/shared/assets/fonts/satoshi/Satoshi-Regular-fe762acc7e97cb6128058a93523585f0.ttf",
+  "media/shared/assets/fonts/satoshi/Satoshi-Regular.woff": "/packs/media/shared/assets/fonts/satoshi/Satoshi-Regular-ca3da5fd2b609836ef69e0f6e677450c.woff",
+  "media/shared/assets/fonts/satoshi/Satoshi-Regular.woff2": "/packs/media/shared/assets/fonts/satoshi/Satoshi-Regular-9ec05085c4cd2966eba82346dcfd9bea.woff2",
+  "media/shared/assets/fonts/satoshi/Satoshi-Variable.ttf": "/packs/media/shared/assets/fonts/satoshi/Satoshi-Variable-536fda9b164542087fc736ce08d382d0.ttf",
+  "media/shared/assets/fonts/satoshi/Satoshi-Variable.woff": "/packs/media/shared/assets/fonts/satoshi/Satoshi-Variable-4db206aaad2132de9db7c2ed26b55b88.woff",
+  "media/shared/assets/fonts/satoshi/Satoshi-Variable.woff2": "/packs/media/shared/assets/fonts/satoshi/Satoshi-Variable-353a66cdd8922bb63107b51bb4ebc47f.woff2",
+  "media/shared/assets/fonts/satoshi/Satoshi-VariableItalic.ttf": "/packs/media/shared/assets/fonts/satoshi/Satoshi-VariableItalic-9519fea9567e2405bc08c2a383630289.ttf",
+  "media/shared/assets/fonts/satoshi/Satoshi-VariableItalic.woff": "/packs/media/shared/assets/fonts/satoshi/Satoshi-VariableItalic-fe877592580e0a941b9ed0d2995aea8d.woff",
+  "media/shared/assets/fonts/satoshi/Satoshi-VariableItalic.woff2": "/packs/media/shared/assets/fonts/satoshi/Satoshi-VariableItalic-9d501e440d7109a57c882c57a9285d57.woff2",
+  "media/widget/assets/images/typing.gif": "/packs/media/widget/assets/images/typing-6027d21b24f45e3377a729a55158f948.gif",
+  "middleware.js": "/packs/js/middleware-b677bb8e7a4d1713e50c.chunk.js",
+  "middleware.js.map": "/packs/js/middleware-b677bb8e7a4d1713e50c.chunk.js.map",
+  "portal.js": "/packs/js/portal-d1fab7c9b3bc251ce652.js",
+  "portal.js.map": "/packs/js/portal-802fbc120fb36a7819e1.hot-update.js.map",
+  "queryString.js": "/packs/js/queryString-a6bd2d33b18c2c2e2f90.chunk.js",
+  "queryString.js.map": "/packs/js/queryString-a6bd2d33b18c2c2e2f90.chunk.js.map",
+  "remoteMiddleware.js": "/packs/js/remoteMiddleware-50e3e0ebc13fae27c519.chunk.js",
+  "remoteMiddleware.js.map": "/packs/js/remoteMiddleware-50e3e0ebc13fae27c519.chunk.js.map",
+  "schemaFilter.js": "/packs/js/schemaFilter-e63e28f0470251c4fb0e.chunk.js",
+  "schemaFilter.js.map": "/packs/js/schemaFilter-e63e28f0470251c4fb0e.chunk.js.map",
+  "sdk.js": "/packs/js/sdk.js",
+  "sdk.js.map": "/packs/js/sdk.js.map",
+  "superadmin.js": "/packs/js/superadmin-d1fab7c9b3bc251ce652.js",
+  "superadmin.js.map": "/packs/js/superadmin-d1fab7c9b3bc251ce652.js.map",
+  "superadmin_pages.js": "/packs/js/superadmin_pages-d1fab7c9b3bc251ce652.js",
+  "superadmin_pages.js.map": "/packs/js/superadmin_pages-d1fab7c9b3bc251ce652.js.map",
+  "survey.js": "/packs/js/survey-d1fab7c9b3bc251ce652.js",
+  "survey.js.map": "/packs/js/survey-802fbc120fb36a7819e1.hot-update.js.map",
+  "v3app.js": "/packs/js/v3app-d1fab7c9b3bc251ce652.js",
+  "v3app.js.map": "/packs/js/v3app-d1fab7c9b3bc251ce652.js.map",
+  "vendors~ajs-destination.js": "/packs/js/vendors~ajs-destination-c2fa430dbfc7e73e7e61.chunk.js",
+  "vendors~ajs-destination.js.map": "/packs/js/vendors~ajs-destination-c2fa430dbfc7e73e7e61.chunk.js.map",
+  "waveWorker.min.js": "/packs/waveWorker.min.js",
+  "widget.js": "/packs/js/widget-d1fab7c9b3bc251ce652.js",
+  "widget.js.map": "/packs/js/widget-802fbc120fb36a7819e1.hot-update.js.map"
+}
