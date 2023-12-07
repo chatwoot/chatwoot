@@ -40,7 +40,7 @@ as defined by the routes in the `admin/` namespace
     </li>
 
     <% Administrate::Namespace.new(namespace).resources.each do |resource| %>
-      <% next if ["account_users", "dashboard", "devise/sessions", "app_configs", "instance_statuses", "responses", "response_sources", "response_documents" ].include?  resource.resource %>
+      <% next if ["account_users", "dashboard", "devise/sessions", "app_configs", "instance_statuses", "responses", "response_sources", "response_documents" , "settings"].include?  resource.resource %>
       <li class="navigation__link navigation__link--<%= nav_link_state(resource) %>">
         <i class="<%= sidebar_icons[resource.resource.to_sym] %>"></i>
         <%= link_to(
@@ -80,6 +80,11 @@ as defined by the routes in the `admin/` namespace
     </li>
   </ul>
   <ul class="logout">
+      <li class="navigation__link">
+      <i class="ion ion-android-settings"></i>
+      <%= link_to "Settings", super_admin_settings_url %>
+    </li>
+
    
     <li class="navigation__link">
       <i class="ion ion-log-out"></i>

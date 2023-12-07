@@ -8,12 +8,7 @@ class SuperAdmin::InstanceStatusesController < SuperAdmin::ApplicationController
     chatwoot_edition
     instance_meta
   end
-
-  def refresh
-    Internal::CheckNewVersionsJob.perform_now
-    redirect_to super_admin_instance_status_path, notice: 'Instance status refreshed'
-  end
-
+  
   def chatwoot_edition
     @metrics['Chatwoot edition'] = if ChatwootApp.enterprise?
                                      'Enterprise'
