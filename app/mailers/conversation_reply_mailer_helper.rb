@@ -79,11 +79,14 @@ module ConversationReplyMailerHelper
     email_imap_enabled ? @channel.email : reply_email
   end
 
-  # Use channel email domain in case of account email domain is not set for custom message_id and in_reply_to
+  # Use channel email domain or account email domain depending on preference configuration for custom message_id and in_reply_to
   def channel_email_domain
-    return @account.inbound_email_domain if @account.inbound_email_domain.present?
+    email_domain = @inbox.channel&.email&.split('@')&.last
+    fallback_domain = @account.inbound_email_domain
 
-    email = @inbox.channel.try(:email)
-    email.present? ? email.split('@').last : raise(StandardError, 'Channel email domain not present.')
+    domain = (ENV['MAILER_INBOUND_INBOX_PREFERENCE'] == 'true' ? email_domain : fallback_domain).presence || email_domain.presence
+    raise(StandardError, 'Account inbound email domain and channel email domain not present.') unless domain
+
+    domain
   end
 end
