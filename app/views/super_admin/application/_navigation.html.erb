@@ -53,19 +53,8 @@ as defined by the routes in the `admin/` namespace
       <%= render partial: "nav_item", locals: { icon: 'icon-settings-2-line', url: super_admin_settings_url, label: 'Settings' } %>
       <%= render partial: "nav_item", locals: { icon: 'icon-mist-fill', url: sidekiq_web_url, label: 'Sidekiq Dashboard' } %>
       <%= render partial: "nav_item", locals: { icon: 'icon-health-book-line', url: super_admin_instance_status_url, label: 'Instance Health' } %>
+      <%= render partial: "nav_item", locals: { icon: 'icon-dashboard-line', url: '/', label: 'Agent Dashboard' } %>
+      <%= render partial: "nav_item", locals: { icon: 'icon-logout-circle-r-line', url: super_admin_logout_url, label: 'Logout' } %>
     </ul>
-
-    <div class="flex mx-4 py-4 border-slate-100 border-t items-center text-left">
-      <%= render "public/api/v1/portals/thumbnail", author: current_user, size: 9 %>
-      <div class="ml-2 overflow-hidden">
-        <div class="text-sm truncate"><%= current_user.name %></div>
-        <div class="text-xs text-slate-700 truncate"><%= current_user.email %></div>
-      </div>
-      <div class="ml-4">
-        <%= link_to(super_admin_logout_url, class: 'text-slate-800 hover:text-slate-900', title: 'Logout') do %>
-          <svg width="20" height="20"><use xlink:href="#icon-logout-circle-r-line" /></svg>
-        <% end %>
-      </div>
-    </div>
   </div>
 </div>
