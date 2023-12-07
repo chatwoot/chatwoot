@@ -1,2 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[106],{3424:function(n,t,e){"use strict";e.r(t);var o=e(5),c=Object(o.a)({},(function(){return(0,this._self._c)("div",[this._v("Component to create a category")])}),[],!1,null,null,null);t.default=c.exports}}]);
-//# sourceMappingURL=106-0e1cffa0914770f18495.chunk.js.map
