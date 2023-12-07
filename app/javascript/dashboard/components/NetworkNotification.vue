@@ -50,7 +50,7 @@ export default {
   },
 
   mounted() {
-    // window.addEventListener('offline', this.updateOnlineStatus);
+    window.addEventListener('offline', this.updateOnlineStatus);
     window.bus.$on(BUS_EVENTS.WEBSOCKET_DISCONNECT, () => {
       // TODO: Remove this after completing the conversation list refetching
       // TODO: DIRTY FIX : CLEAN UP THIS WITH PROPER FIX, DELAYING THE RECONNECT FOR NOW
