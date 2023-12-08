@@ -19,7 +19,7 @@ class ChatwootHub
     {
       support_website_token: InstallationConfig.find_by(name: 'CHATWOOT_SUPPORT_WEBSITE_TOKEN')&.value,
       support_script_url: InstallationConfig.find_by(name: 'CHATWOOT_SUPPORT_SCRIPT_URL')&.value,
-      support_hmac_token: InstallationConfig.find_by(name: 'CHATWOOT_SUPPORT_HMAC_TOKEN')&.value
+      support_identifier_hash: InstallationConfig.find_by(name: 'CHATWOOT_SUPPORT_IDENTIFIER_HASH')&.value
     }
   end
 

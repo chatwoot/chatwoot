@@ -42,7 +42,7 @@ window.chatwootSettings = {
 
 window.addEventListener('chatwoot:ready', function() {
   window.$chatwoot.setUser('<%= ChatwootHub.installation_identifier %>', {
-    identifier_hash: '<%= ChatwootHub.support_config[:support_hmac_token] %>',
+    identifier_hash: '<%= ChatwootHub.support_config[:support_identifier_hash] %>',
     email: '<%= SuperAdmin.first.email %>',
     name: '<%= SuperAdmin.first.name %>'
   });
