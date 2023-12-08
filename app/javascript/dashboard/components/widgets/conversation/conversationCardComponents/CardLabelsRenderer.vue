@@ -2,10 +2,10 @@
   <div
     v-show="conversationLabels.length"
     ref="labelContainer"
-    class="label-container mt-0.5 mx-2 mb-0"
+    class="label-container mx-2 mb-0"
   >
     <div
-      class="labels-wrap flex items-end min-w-0 flex-shrink"
+      class="labels-wrap flex items-end min-w-0"
       :class="{ expand: showAllLabels }"
     >
       <woot-label
@@ -25,7 +25,7 @@
             ? $t('CONVERSATION.CARD.HIDE_LABELS')
             : $t('CONVERSATION.CARD.SHOW_LABELS')
         "
-        class="show-more--button sticky flex-shrink-0 right-0 mr-6 rtl:rotate-180"
+        class="show-more--button sticky flex-shrink-0 right-0 mr-1 rtl:rotate-180"
         color-scheme="secondary"
         variant="hollow"
         :icon="showAllLabels ? 'chevron-left' : 'chevron-right'"

@@ -45,9 +45,7 @@ Rails.application.routes.draw do
               get :conversations
               get :conversation_labels
               get :contacts
-              get :agents
-              get :inboxes
-              get :teams
+              get :messages
             end
           end
 

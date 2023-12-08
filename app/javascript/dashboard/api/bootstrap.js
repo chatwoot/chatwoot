@@ -14,6 +14,10 @@ class BootstrapAPI extends ApiClient {
     return axios.get(`${this.url}/contacts`);
   }
 
+  messages() {
+    return axios.get(`${this.url}/messages`);
+  }
+
   conversationLabels() {
     return axios.get(`${this.url}/conversation_labels`);
   }

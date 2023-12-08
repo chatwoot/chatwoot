@@ -1,5 +1,5 @@
 <template>
-  <card-labels-renderer :active-labels="activeLabels" />
+  <card-labels-renderer :conversation-labels="activeLabels" class="mt-0.5" />
 </template>
 <script>
 import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';

@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import BootstrapAPI from '../../api/bootstrap';
+import db from '../../database';
 
 const state = {
   contacts: {},
@@ -10,14 +11,23 @@ const MUTATIONS = {
 };
 
 export const getters = {
-  get: $state => id => $state.contacts[id],
+  getAll: $state => $state.contacts,
+  getProcessedAll: $state =>
+    Object.keys($state.contacts)
+      .sort((c1, c2) => c1 - c2)
+      .map(conversationId => ({
+        ...$state.contacts[conversationId],
+      })),
+  getOne: $state => id => $state.contacts[id],
 };
 
 export const actions = {
   async bootstrap({ commit }) {
-    const { data } = await BootstrapAPI.contacts();
-    console.log(data);
-    commit(MUTATIONS.SET_CONTACTS, data);
+    const oldContacts = await db.contacts.toArray();
+    commit(MUTATIONS.SET_CONTACTS, oldContacts);
+    // const { data } = await BootstrapAPI.contacts();
+    // await db.contacts.bulkPut(data);
+    // commit(MUTATIONS.SET_CONTACTS, data);
   },
 };
 

@@ -1,13 +1,12 @@
 // scss-lint:disable MergeableSelector
 
 @tailwind utilities;
+
 @layer utilities {
   .custom-gradient {
-    background-image: linear-gradient(
-      -180deg,
-      transparent 3%,
-      rgb(76 81 85) 130%
-    );
+    background-image: linear-gradient(-180deg,
+        transparent 3%,
+        rgb(76 81 85) 130%);
   }
 
   .bubble-with-types {
@@ -48,15 +47,15 @@
   @apply flex-shrink flex-grow basis-px flex flex-col overflow-y-auto relative h-full m-0 pb-4;
 }
 
-.conversation-panel > li {
+.conversation-panel>li {
   @apply flex flex-shrink-0 flex-grow-0 flex-auto max-w-full mt-0 mr-0 mb-1 ml-0 relative first:mt-auto last:mb-0;
 
   &.unread--toast {
-    + .right {
+    +.right {
       @apply mb-1;
     }
 
-    + .left {
+    +.left {
       @apply mb-0;
     }
 
@@ -101,7 +100,7 @@
       }
     }
 
-    + .right {
+    +.right {
       @apply mt-2.5;
 
       .bubble {
@@ -109,8 +108,8 @@
       }
     }
 
-    + .unread--toast {
-      + .right {
+    +.unread--toast {
+      +.right {
         @apply mt-2.5;
 
         .bubble {
@@ -118,7 +117,7 @@
         }
       }
 
-      + .left {
+      +.left {
         @apply mt-0;
       }
     }
@@ -159,7 +158,7 @@
       }
     }
 
-    + .left {
+    +.left {
       @apply mt-2.5;
 
       .bubble {
@@ -167,8 +166,8 @@
       }
     }
 
-    + .unread--toast {
-      + .left {
+    +.unread--toast {
+      +.left {
         @apply rounded-lg;
 
         .bubble {
@@ -176,7 +175,7 @@
         }
       }
 
-      + .right {
+      +.right {
         @apply mt-0;
       }
     }
@@ -233,6 +232,7 @@
 }
 
 .left .bubble .text-content {
+
   h1,
   h2,
   h3,
@@ -252,6 +252,7 @@
 }
 
 .right .bubble .text-content {
+
   h1,
   h2,
   h3,

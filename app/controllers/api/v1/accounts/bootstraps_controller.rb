@@ -1,7 +1,7 @@
 # rubocop:disable Metrics/MethodLength
 class Api::V1::Accounts::BootstrapsController < Api::V1::Accounts::BaseController
   def conversations # rubocop:disable Metrics/AbcSize
-    results = ActiveRecord::Base.connection.execute("SELECT * FROM conversations WHERE account_id = #{Current.account.id} ORDER BY id DESC LIMIT 2000")
+    results = ActiveRecord::Base.connection.execute("SELECT * FROM conversations WHERE account_id = #{Current.account.id} ORDER BY id DESC")
     if results.present?
       json_results = results.map do |row|
         additional_attributes = row['additional_attributes'] ? JSON.parse(row['additional_attributes']) : {}
@@ -67,7 +67,7 @@ class Api::V1::Accounts::BootstrapsController < Api::V1::Accounts::BaseControlle
   def contacts
     results = ActiveRecord::Base.connection.execute(
       " SELECT
-        c1.display_id as id,
+        c2.id as id,
         c2.name,
         c2.email,
         c2.phone_number,
@@ -76,7 +76,34 @@ class Api::V1::Accounts::BootstrapsController < Api::V1::Accounts::BaseControlle
           conversations c1
       JOIN
           contacts c2 ON c1.contact_id = c2.id
-      WHERE c1.account_id = #{Current.account.id};
+      WHERE c1.account_id = #{Current.account.id} ORDER BY c1.id;
+    "
+    )
+
+    if results.present?
+      render json: results.to_a.to_json
+      return
+    end
+
+    res.json([])
+  end
+
+  def messages
+    results = ActiveRecord::Base.connection.execute(
+      " SELECT
+          m.id,
+          m.content,
+          m.message_type,
+          m.conversation_id
+      FROM
+          conversations c
+      JOIN
+          messages m ON c.id = m.conversation_id
+      WHERE
+          c.account_id = #{Current.account.id}
+          AND (m.message_type = 0 OR m.message_type = 1)
+      ORDER BY
+          m.created_at DESC
     "
     )
 

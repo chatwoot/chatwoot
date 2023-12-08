@@ -6,7 +6,7 @@
       delay: { show: 1500, hide: 0 },
       hideOnClick: true,
     }"
-    class="shrink-0 rounded-sm inline-flex w-3.5 h-3.5"
+    class="shrink-0 rounded-sm inline-flex w-5 h-5 items-center justify-center"
     :class="{
       'bg-red-50 dark:bg-red-700 dark:bg-opacity-30 text-red-500 dark:text-red-600':
         isUrgent,
@@ -33,6 +33,10 @@ export default {
       default: '',
       validate: value =>
         [...Object.values(CONVERSATION_PRIORITY), ''].includes(value),
+    },
+    size: {
+      type: Number,
+      default: 14,
     },
   },
   data() {

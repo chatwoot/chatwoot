@@ -1,6 +1,6 @@
 <template>
   <div
-    v-tooltip.top="{
+    v-tooltip.top-left="{
       content: tooltipText,
       delay: { show: 1500, hide: 0 },
       hideOnClick: true,
