@@ -6,6 +6,8 @@ import db from '../../database';
 const state = {
   conversations: {},
   labels: {},
+  messages: {},
+  contacts: {},
 };
 
 const MUTATIONS = {
