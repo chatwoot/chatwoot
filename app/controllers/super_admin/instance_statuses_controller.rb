@@ -8,7 +8,7 @@ class SuperAdmin::InstanceStatusesController < SuperAdmin::ApplicationController
     chatwoot_edition
     instance_meta
   end
-  
+
   def chatwoot_edition
     @metrics['Chatwoot edition'] = if ChatwootApp.enterprise?
                                      'Enterprise'
