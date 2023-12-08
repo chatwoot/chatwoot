@@ -17,15 +17,15 @@
     <div class="mb-4">
       <div class="flex items-center gap-2">
         <h2 class="h-5 leading-5 text-slate-900 font-medium">Current plan</h2>
-        <a href="#" class="inline-flex gap-1 text-xs font-medium items-center text-blue-500 hover:text-blue-700">
+        <a href="<%= refresh_super_admin_settings_url %>" class="inline-flex gap-1 text-xs font-medium items-center text-blue-500 hover:text-blue-700">
           <svg width="24" height="24" class="w-4 h-4" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.25 5.18a.75.75 0 0 0 .142 1.051 7.251 7.251 0 0 1-3.599 12.976l.677-.677a.75.75 0 0 0-.977-1.133l-.084.073-2 2a.75.75 0 0 0-.073.976l.073.084 2 2a.75.75 0 0 0 1.133-.976l-.072-.084-.75-.75A8.75 8.75 0 0 0 17.301 5.04a.75.75 0 0 0-1.051.141Zm-5.72-3.71a.75.75 0 0 0 0 1.06l.75.75a8.75 8.75 0 0 0-4.85 15.47.75.75 0 1 0 .956-1.157 7.251 7.251 0 0 1 3.82-12.8l-.676.677a.75.75 0 1 0 1.061 1.06l2-2a.75.75 0 0 0 0-1.06l-2-2a.75.75 0 0 0-1.06 0Z" fill="currentColor"/></svg>
           <span class="">Refresh</span>
         </a>
       </div>
-      <p class="text-slate-600 mt-1">You are currently on the <span class="font-semibold">community</span> edition plan.</p>
+      <p class="text-slate-600 mt-1">You are currently on the <span class="font-semibold"><%= ChatwootHub.pricing_plan %></span> edition plan.</p>
       <div class="flex items-center mt-6">
         <h4 class="text-sm font-medium leading-5 h-5 text-slate-900 mr-4 tracking-wider">Installation Identifier</h4>
-        <span class="text-sm leading-5 h-5 text-slate-600">d55c329d-e511-4348-b827-c1edf464cb53</span>
+        <span class="text-sm leading-5 h-5 text-slate-600"><%= ChatwootHub.installation_identifier %></span>
         <button class="text-slate-600 p-1 ml-1 rounded-sm bg-transparent hover:bg-slate-100 hover:text-slate-700">
           <svg class="h-4 w-4" width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5.503 4.627 5.5 6.75v10.504a3.25 3.25 0 0 0 3.25 3.25h8.616a2.251 2.251 0 0 1-2.122 1.5H8.75A4.75 4.75 0 0 1 4 17.254V6.75c0-.98.627-1.815 1.503-2.123ZM17.75 2A2.25 2.25 0 0 1 20 4.25v13a2.25 2.25 0 0 1-2.25 2.25h-9a2.25 2.25 0 0 1-2.25-2.25v-13A2.25 2.25 0 0 1 8.75 2h9Zm0 1.5h-9a.75.75 0 0 0-.75.75v13c0 .414.336.75.75.75h9a.75.75 0 0 0 .75-.75v-13a.75.75 0 0 0-.75-.75Z" fill="currentColor"/></svg>
         </button>
@@ -34,7 +34,7 @@
     <div class="flex p-4 border border-solid border-slate-100 rounded mt-8 items-center">
       <div class="flex flex-col flex-grow gap-1">
         <h2 class="h-5 leading-5 text-slate-900 font-medium">Current plan</h2>
-        <p class="text-slate-600 m-0 text-sm">You are currently on the <span class="font-medium">community</span> edition plan.</p>
+        <p class="text-slate-600 m-0 text-sm">You are currently on the <span class="font-medium"><%= ChatwootHub.pricing_plan %></span> edition plan.</p>
       </div>
       <button class="flex gap-1 items-center bg-transparent h-9 hover:bg-slate-100 hover:text-slate-800 border border-solid border-slate-100 rounded text-slate-700 font-medium p-2">
         <svg class="h-4 w-4" width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.012 2.25c.734.008 1.465.093 2.182.253a.75.75 0 0 1 .582.649l.17 1.527a1.384 1.384 0 0 0 1.927 1.116l1.401-.615a.75.75 0 0 1 .85.174 9.792 9.792 0 0 1 2.204 3.792.75.75 0 0 1-.271.825l-1.242.916a1.381 1.381 0 0 0 0 2.226l1.243.915a.75.75 0 0 1 .272.826 9.797 9.797 0 0 1-2.204 3.792.75.75 0 0 1-.848.175l-1.407-.617a1.38 1.38 0 0 0-1.926 1.114l-.169 1.526a.75.75 0 0 1-.572.647 9.518 9.518 0 0 1-4.406 0 .75.75 0 0 1-.572-.647l-.168-1.524a1.382 1.382 0 0 0-1.926-1.11l-1.406.616a.75.75 0 0 1-.849-.175 9.798 9.798 0 0 1-2.204-3.796.75.75 0 0 1 .272-.826l1.243-.916a1.38 1.38 0 0 0 0-2.226l-1.243-.914a.75.75 0 0 1-.271-.826 9.793 9.793 0 0 1 2.204-3.792.75.75 0 0 1 .85-.174l1.4.615a1.387 1.387 0 0 0 1.93-1.118l.17-1.526a.75.75 0 0 1 .583-.65c.717-.159 1.45-.243 2.201-.252Zm0 1.5a9.135 9.135 0 0 0-1.354.117l-.109.977A2.886 2.886 0 0 1 6.525 7.17l-.898-.394a8.293 8.293 0 0 0-1.348 2.317l.798.587a2.881 2.881 0 0 1 0 4.643l-.799.588c.32.842.776 1.626 1.348 2.322l.905-.397a2.882 2.882 0 0 1 4.017 2.318l.11.984c.889.15 1.798.15 2.687 0l.11-.984a2.881 2.881 0 0 1 4.018-2.322l.905.396a8.296 8.296 0 0 0 1.347-2.318l-.798-.588a2.881 2.881 0 0 1 0-4.643l.796-.587a8.293 8.293 0 0 0-1.348-2.317l-.896.393a2.884 2.884 0 0 1-4.023-2.324l-.11-.976a8.988 8.988 0 0 0-1.333-.117ZM12 8.25a3.75 3.75 0 1 1 0 7.5 3.75 3.75 0 0 1 0-7.5Zm0 1.5a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z" fill="currentColor"/></svg>

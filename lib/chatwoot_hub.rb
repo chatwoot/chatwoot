@@ -11,6 +11,10 @@ class ChatwootHub
     identifier
   end
 
+  def self.pricing_plan
+    InstallationConfig.find_by(name: 'INSTALLATION_PRICING_PLAN')&.value
+  end
+
   def self.support_config
     {
       support_website_token: InstallationConfig.find_by(name: 'CHATWOOT_SUPPORT_WEBSITE_TOKEN')&.value,
