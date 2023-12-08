@@ -40,7 +40,9 @@
       <span
         class="text-slate-600 text-sm flex-1 text-ellipsis !whitespace-normal line-clamp-1"
       >
-        {{ source.lastMessage ? source.lastMessage.content : '' }}
+        {{
+          source.lastMessage ? source.lastMessage.content : 'File Attachment'
+        }}
       </span>
       <CardLabelsRenderer
         class="flex-1 max-w-[160px] flex justify-end"

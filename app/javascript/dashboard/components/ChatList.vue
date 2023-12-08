@@ -126,46 +126,36 @@
       @assign-team="onAssignTeamsForBulk"
     />
     <div
+      id="conversation-list"
       ref="activeConversation"
       class="conversations-list flex-1"
       :class="{ 'overflow-hidden': isContextMenuOpen }"
     >
-      <div>
-        <conversation-card
-          v-for="chat in conversationList"
-          :key="chat.id"
-          :active-label="label"
-          :team-id="teamId"
-          :folders-id="foldersId"
-          :chat="chat"
-          :conversation-type="conversationType"
-          :show-assignee="showAssigneeInConversationCard"
-          :selected="isConversationSelected(chat.id)"
-          @select-conversation="selectConversation"
-          @de-select-conversation="deSelectConversation"
-          @assign-agent="onAssignAgent"
-          @assign-team="onAssignTeam"
-          @assign-label="onAssignLabels"
-          @update-conversation-status="toggleConversationStatus"
-          @context-menu-toggle="onContextMenuToggle"
-          @mark-as-unread="markAsUnread"
-          @assign-priority="assignPriority"
-        />
-      </div>
+      <conversation-card
+        v-for="chat in conversationList"
+        :key="chat.id"
+        :active-label="label"
+        :team-id="teamId"
+        :folders-id="foldersId"
+        :chat="chat"
+        :conversation-type="conversationType"
+        :show-assignee="showAssigneeInConversationCard"
+        :selected="isConversationSelected(chat.id)"
+        @select-conversation="selectConversation"
+        @de-select-conversation="deSelectConversation"
+        @assign-agent="onAssignAgent"
+        @assign-team="onAssignTeam"
+        @assign-label="onAssignLabels"
+        @update-conversation-status="toggleConversationStatus"
+        @context-menu-toggle="onContextMenuToggle"
+        @mark-as-unread="markAsUnread"
+        @assign-priority="assignPriority"
+      />
+
       <div v-if="chatListLoading" class="text-center">
         <span class="spinner mt-4 mb-4" />
       </div>
-
-      <woot-button
-        v-if="!hasCurrentPageEndReached && !chatListLoading"
-        variant="clear"
-        size="expanded"
-        class="load-more--button"
-        @click="loadMoreConversations"
-      >
-        {{ $t('CHAT_LIST.LOAD_MORE_CONVERSATIONS') }}
-      </woot-button>
-
+      <div id="infinite-loader" class="h-16" />
       <p v-if="showEndOfListMessage" class="text-center text-muted p-4">
         {{ $t('CHAT_LIST.EOF') }}
       </p>
@@ -533,6 +523,24 @@ export default {
     bus.$on('fetch_conversation_stats', () => {
       this.$store.dispatch('conversationStats/get', this.conversationFilters);
     });
+
+    const io = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          console.log(entry);
+          if (!entry.isIntersecting) {
+            return;
+          }
+          this.loadMoreConversations();
+        });
+      },
+      {
+        root: document.getElementById('conversation-list'),
+        rootMargin: '5000px',
+      }
+    );
+
+    io.observe(document.getElementById('infinite-loader'));
   },
   methods: {
     onApplyFilter(payload) {
@@ -697,6 +705,9 @@ export default {
         .then(() => this.$emit('conversation-load'));
     },
     loadMoreConversations() {
+      if (this.hasCurrentPageEndReached || this.chatListLoading) {
+        return;
+      }
       if (!this.hasAppliedFiltersOrActiveFolders) {
         this.fetchConversations();
       }
