@@ -9,22 +9,22 @@
 
 .field-unit__label {
   float: left;
-  margin-left: 1rem;
+  margin-left: 0.625rem;
   text-align: right;
-  width: calc(15% - 1rem);
+  width: calc(15% - 0.625rem);
 }
 
 .field-unit__field {
   float: left;
-  margin-left: 2rem;
-  max-width: 50rem;
+  margin-left: 1.25rem;
+  max-width: 31.15rem;
   width: 100%;
 }
 
 .field-unit--nested {
   border: $base-border;
   margin-left: 7.5%;
-  max-width: 60rem;
+  max-width: 37.5rem;
   padding: $small-spacing;
   width: 100%;
 
