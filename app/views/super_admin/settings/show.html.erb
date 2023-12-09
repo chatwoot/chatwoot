@@ -2,11 +2,11 @@
   Settings
 <% end %>
 <header class="flex mx-8 py-4 items-center border-b border-solid border-slate-100" role="banner">
-  <div class="border border-solid border-slate-100 text-slate-700 mr-4 p-2">
-    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.012 2.25c.734.008 1.465.093 2.182.253a.75.75 0 0 1 .582.649l.17 1.527a1.384 1.384 0 0 0 1.927 1.116l1.401-.615a.75.75 0 0 1 .85.174 9.792 9.792 0 0 1 2.204 3.792.75.75 0 0 1-.271.825l-1.242.916a1.381 1.381 0 0 0 0 2.226l1.243.915a.75.75 0 0 1 .272.826 9.797 9.797 0 0 1-2.204 3.792.75.75 0 0 1-.848.175l-1.407-.617a1.38 1.38 0 0 0-1.926 1.114l-.169 1.526a.75.75 0 0 1-.572.647 9.518 9.518 0 0 1-4.406 0 .75.75 0 0 1-.572-.647l-.168-1.524a1.382 1.382 0 0 0-1.926-1.11l-1.406.616a.75.75 0 0 1-.849-.175 9.798 9.798 0 0 1-2.204-3.796.75.75 0 0 1 .272-.826l1.243-.916a1.38 1.38 0 0 0 0-2.226l-1.243-.914a.75.75 0 0 1-.271-.826 9.793 9.793 0 0 1 2.204-3.792.75.75 0 0 1 .85-.174l1.4.615a1.387 1.387 0 0 0 1.93-1.118l.17-1.526a.75.75 0 0 1 .583-.65c.717-.159 1.45-.243 2.201-.252Zm0 1.5a9.135 9.135 0 0 0-1.354.117l-.109.977A2.886 2.886 0 0 1 6.525 7.17l-.898-.394a8.293 8.293 0 0 0-1.348 2.317l.798.587a2.881 2.881 0 0 1 0 4.643l-.799.588c.32.842.776 1.626 1.348 2.322l.905-.397a2.882 2.882 0 0 1 4.017 2.318l.11.984c.889.15 1.798.15 2.687 0l.11-.984a2.881 2.881 0 0 1 4.018-2.322l.905.396a8.296 8.296 0 0 0 1.347-2.318l-.798-.588a2.881 2.881 0 0 1 0-4.643l.796-.587a8.293 8.293 0 0 0-1.348-2.317l-.896.393a2.884 2.884 0 0 1-4.023-2.324l-.11-.976a8.988 8.988 0 0 0-1.333-.117ZM12 8.25a3.75 3.75 0 1 1 0 7.5 3.75 3.75 0 0 1 0-7.5Zm0 1.5a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z" fill="currentColor"/></svg>
+  <div class="border border-solid border-slate-100 text-slate-700 mr-4 p-2 rounded-full">
+    <svg width="24" height="24"><use xlink:href="#icon-settings-2-line" /></svg>
   </div>
   <div class="flex flex-col h-14 justify-center">
-    <h1 class="text-lg font-medium leading-6 text-slate-900" id="page-title">
+    <h1 class="text-base font-medium leading-6 text-slate-900" id="page-title">
       <%= content_for(:title) %>
     </h1>
     <p class="text-sm font-normal leading-5 text-slate-500 m-0">Update your instance settings, access billing portal</p>
@@ -17,83 +17,73 @@
     <div class="mb-4">
       <div class="flex items-center gap-2">
         <h2 class="h-5 leading-5 text-slate-900 font-medium">Current plan</h2>
-        <a href="<%= refresh_super_admin_settings_url %>" class="inline-flex gap-1 text-xs font-medium items-center text-blue-500 hover:text-blue-700">
-          <svg width="24" height="24" class="w-4 h-4" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.25 5.18a.75.75 0 0 0 .142 1.051 7.251 7.251 0 0 1-3.599 12.976l.677-.677a.75.75 0 0 0-.977-1.133l-.084.073-2 2a.75.75 0 0 0-.073.976l.073.084 2 2a.75.75 0 0 0 1.133-.976l-.072-.084-.75-.75A8.75 8.75 0 0 0 17.301 5.04a.75.75 0 0 0-1.051.141Zm-5.72-3.71a.75.75 0 0 0 0 1.06l.75.75a8.75 8.75 0 0 0-4.85 15.47.75.75 0 1 0 .956-1.157 7.251 7.251 0 0 1 3.82-12.8l-.676.677a.75.75 0 1 0 1.061 1.06l2-2a.75.75 0 0 0 0-1.06l-2-2a.75.75 0 0 0-1.06 0Z" fill="currentColor"/></svg>
-          <span class="">Refresh</span>
+        <a href="<%= refresh_super_admin_settings_url %>" class="inline-flex gap-1 text-xs font-medium items-center text-woot-500 hover:text-woot-700">
+          <svg width="16" height="16"><use xlink:href="#icon-refresh-line" /></svg>
+          <span>Refresh</span>
         </a>
       </div>
       <p class="text-slate-600 mt-1">You are currently on the <span class="font-semibold"><%= ChatwootHub.pricing_plan %></span> edition plan.</p>
       <div class="flex items-center mt-6">
-        <h4 class="text-sm font-medium leading-5 h-5 text-slate-900 mr-4 tracking-wider">Installation Identifier</h4>
+        <h4 class="text-sm font-medium leading-5 h-5 text-slate-900 mr-4">Installation Identifier</h4>
         <span class="text-sm leading-5 h-5 text-slate-600"><%= ChatwootHub.installation_identifier %></span>
-        <button class="text-slate-600 p-1 ml-1 rounded-sm bg-transparent hover:bg-slate-100 hover:text-slate-700">
-          <svg class="h-4 w-4" width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5.503 4.627 5.5 6.75v10.504a3.25 3.25 0 0 0 3.25 3.25h8.616a2.251 2.251 0 0 1-2.122 1.5H8.75A4.75 4.75 0 0 1 4 17.254V6.75c0-.98.627-1.815 1.503-2.123ZM17.75 2A2.25 2.25 0 0 1 20 4.25v13a2.25 2.25 0 0 1-2.25 2.25h-9a2.25 2.25 0 0 1-2.25-2.25v-13A2.25 2.25 0 0 1 8.75 2h9Zm0 1.5h-9a.75.75 0 0 0-.75.75v13c0 .414.336.75.75.75h9a.75.75 0 0 0 .75-.75v-13a.75.75 0 0 0-.75-.75Z" fill="currentColor"/></svg>
-        </button>
       </div>
     </div>
-    <div class="flex p-4 border border-solid border-slate-100 rounded mt-8 items-center">
+    <div class="flex p-4 border border-solid border-slate-100 rounded-lg mt-8 items-start md:items-center shadow-sm flex-col md:flex-row">
       <div class="flex flex-col flex-grow gap-1">
-        <h2 class="h-5 leading-5 text-slate-900 font-medium">Current plan</h2>
+        <h2 class="h-5 leading-5 text-slate-900 text-sm font-medium">Current plan</h2>
         <p class="text-slate-600 m-0 text-sm">You are currently on the <span class="font-semibold"><%= ChatwootHub.pricing_plan %></span> edition plan.</p>
       </div>
       <a href="https://www.chatwoot.com/pricing/self-hosted-plans?utm_source=chatwoot_superadmin" target="_blank" rel="noopener noreferrer">
-      <button class="flex gap-1 items-center bg-transparent h-9 hover:bg-slate-100 hover:text-slate-800 border border-solid border-slate-100 rounded text-slate-700 font-medium p-2">
-        <svg class="h-4 w-4" width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.012 2.25c.734.008 1.465.093 2.182.253a.75.75 0 0 1 .582.649l.17 1.527a1.384 1.384 0 0 0 1.927 1.116l1.401-.615a.75.75 0 0 1 .85.174 9.792 9.792 0 0 1 2.204 3.792.75.75 0 0 1-.271.825l-1.242.916a1.381 1.381 0 0 0 0 2.226l1.243.915a.75.75 0 0 1 .272.826 9.797 9.797 0 0 1-2.204 3.792.75.75 0 0 1-.848.175l-1.407-.617a1.38 1.38 0 0 0-1.926 1.114l-.169 1.526a.75.75 0 0 1-.572.647 9.518 9.518 0 0 1-4.406 0 .75.75 0 0 1-.572-.647l-.168-1.524a1.382 1.382 0 0 0-1.926-1.11l-1.406.616a.75.75 0 0 1-.849-.175 9.798 9.798 0 0 1-2.204-3.796.75.75 0 0 1 .272-.826l1.243-.916a1.38 1.38 0 0 0 0-2.226l-1.243-.914a.75.75 0 0 1-.271-.826 9.793 9.793 0 0 1 2.204-3.792.75.75 0 0 1 .85-.174l1.4.615a1.387 1.387 0 0 0 1.93-1.118l.17-1.526a.75.75 0 0 1 .583-.65c.717-.159 1.45-.243 2.201-.252Zm0 1.5a9.135 9.135 0 0 0-1.354.117l-.109.977A2.886 2.886 0 0 1 6.525 7.17l-.898-.394a8.293 8.293 0 0 0-1.348 2.317l.798.587a2.881 2.881 0 0 1 0 4.643l-.799.588c.32.842.776 1.626 1.348 2.322l.905-.397a2.882 2.882 0 0 1 4.017 2.318l.11.984c.889.15 1.798.15 2.687 0l.11-.984a2.881 2.881 0 0 1 4.018-2.322l.905.396a8.296 8.296 0 0 0 1.347-2.318l-.798-.588a2.881 2.881 0 0 1 0-4.643l.796-.587a8.293 8.293 0 0 0-1.348-2.317l-.896.393a2.884 2.884 0 0 1-4.023-2.324l-.11-.976a8.988 8.988 0 0 0-1.333-.117ZM12 8.25a3.75 3.75 0 1 1 0 7.5 3.75 3.75 0 0 1 0-7.5Zm0 1.5a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z" fill="currentColor"/></svg>
-        <span class="px-1">Manage</span>
-      </button>
+        <button class="mt-4 md:mt-0 flex gap-1 items-center bg-transparent shadow-sm h-9 hover:bg-slate-100 hover:text-slate-800 border border-solid border-slate-100 rounded text-slate-700 font-medium p-2">
+          <svg width="16" height="16"><use xlink:href="#icon-settings-2-line" /></svg>
+          <span class="px-1">Manage</span>
+        </button>
       </a>
     </div>
-
-    <div class="flex p-4 border border-solid border-slate-100 rounded mt-4 items-center">
+    <div class="flex p-4 border border-solid border-slate-100 rounded-lg mt-4 items-start md:items-center shadow-sm flex-col md:flex-row">
       <div class="flex flex-col flex-grow gap-1">
-        <h2 class="h-5 leading-5 text-slate-900 font-medium">Need help?</h2>
+        <h2 class="h-5 leading-5 text-slate-900 text-sm font-medium">Need help?</h2>
         <p class="text-slate-600 m-0 text-sm">Do you face any issues? We are here to help.</p>
       </div>
       <a href="https://discord.gg/cJXdrwS" target="_blank">
-      <button class="mr-4 flex gap-1 items-center bg-transparent h-9 bg-violet-500 hover:bg-violet-600 text-violet-100 hover:text-violet-200 border border-solid border-violet-600 rounded font-medium p-2">
-        <svg class="h-4 w-4" width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10a9.96 9.96 0 0 1-4.587-1.112l-3.826 1.067a1.25 1.25 0 0 1-1.54-1.54l1.068-3.823A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2Zm0 1.5A8.5 8.5 0 0 0 3.5 12c0 1.47.373 2.883 1.073 4.137l.15.27-1.112 3.984 3.987-1.112.27.15A8.5 8.5 0 1 0 12 3.5ZM8.75 13h4.498a.75.75 0 0 1 .102 1.493l-.102.007H8.75a.75.75 0 0 1-.102-1.493L8.75 13h4.498H8.75Zm0-3.5h6.505a.75.75 0 0 1 .101 1.493l-.101.007H8.75a.75.75 0 0 1-.102-1.493L8.75 9.5h6.505H8.75Z" fill="currentColor"/></svg>
-        <span class="px-1">Community Support</span>
-      </button>
+        <button class="flex mt-4 md:mt-0 gap-1 items-center bg-transparent shadow-sm h-9 bg-violet-500 hover:bg-violet-600 text-violet-100 hover:text-violet-200 border border-solid border-violet-600 rounded font-medium p-2">
+          <svg class="h-4 w-4" width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10a9.96 9.96 0 0 1-4.587-1.112l-3.826 1.067a1.25 1.25 0 0 1-1.54-1.54l1.068-3.823A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2Zm0 1.5A8.5 8.5 0 0 0 3.5 12c0 1.47.373 2.883 1.073 4.137l.15.27-1.112 3.984 3.987-1.112.27.15A8.5 8.5 0 1 0 12 3.5ZM8.75 13h4.498a.75.75 0 0 1 .102 1.493l-.102.007H8.75a.75.75 0 0 1-.102-1.493L8.75 13h4.498H8.75Zm0-3.5h6.505a.75.75 0 0 1 .101 1.493l-.101.007H8.75a.75.75 0 0 1-.102-1.493L8.75 9.5h6.505H8.75Z" fill="currentColor"/></svg>
+          <span class="px-1">Community Support</span>
+        </button>
       </a>
-<% if ChatwootHub.pricing_plan !='community' %>
-    <button class="flex gap-1 items-center bg-transparent h-9 hover:bg-slate-100 hover:text-slate-800 border border-solid border-slate-100 rounded text-slate-700 font-medium p-2" onclick="window.$chatwoot.toggle('open')">
-    <svg class="h-4 w-4" width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10a9.96 9.96 0 0 1-4.587-1.112l-3.826 1.067a1.25 1.25 0 0 1-1.54-1.54l1.068-3.823A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2Zm0 1.5A8.5 8.5 0 0 0 3.5 12c0 1.47.373 2.883 1.073 4.137l.15.27-1.112 3.984 3.987-1.112.27.15A8.5 8.5 0 1 0 12 3.5ZM8.75 13h4.498a.75.75 0 0 1 .102 1.493l-.102.007H8.75a.75.75 0 0 1-.102-1.493L8.75 13h4.498H8.75Zm0-3.5h6.505a.75.75 0 0 1 .101 1.493l-.101.007H8.75a.75.75 0 0 1-.102-1.493L8.75 9.5h6.505H8.75Z" fill="currentColor"/></svg>
-    <span class="px-1">Chat Support</span>
-  </button>
-<% end %>
-      
-    </div>
-    <div class="mt-10 p-4">
-      <h3 class="h-5 leading-5 text-slate-900 font-medium">Features</h3>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <% SuperAdmin::FeaturesHelper.available_features.each do |feature, attrs| %>
-
-      <div class="<% if !attrs[:enabled] %> bg-slate-100 <% end %> group border-slate-100 border p-6 rounded-lg relative">
-        <% if attrs[:enabled] %>
-          <span class="absolute rounded-full p-1 inline-flex bg-green-400 right-4 top-8 text-white">
-            <svg class="w-3 h-3" width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.53 12.97a.75.75 0 0 0-1.06 1.06l4.5 4.5a.75.75 0 0 0 1.06 0l11-11a.75.75 0 0 0-1.06-1.06L8.5 16.94l-3.97-3.97Z" fill="currentColor"/></svg>
-          </span>
-        <% end %>
-        <div class="visible <% if !attrs[:enabled] %> group-hover:invisible <% end %> flex items-center justify-center w-9 h-9 mb-4 border border-slate-100 border-solid text-slate-400 rounded-full">
-          <%= attrs[:icon]&.html_safe %>
-        </div>
-         <% if !attrs[:enabled] %>
-        <div class="flex h-9 absolute top-5 items-center invisible group-hover:visible">
-          <a href="https://www.chatwoot.com/pricing/self-hosted-plans?utm_source=chatwoot_superadmin" target="_blank" rel="noopener noreferrer" class="flex gap-1 items-center bg-slate-100 h-9 hover:bg-slate-300 hover:text-slate-900 border border-solid border-slate-100 rounded text-slate-600 font-medium p-2">
-            <svg class="h-4 w-4" width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13.209 3.103c-.495-1.004-1.926-1.004-2.421 0L8.43 7.88l-5.273.766c-1.107.161-1.55 1.522-.748 2.303l3.815 3.72-.9 5.25c-.19 1.103.968 1.944 1.959 1.424l4.715-2.48 4.716 2.48c.99.52 2.148-.32 1.96-1.424l-.902-5.25 3.816-3.72c.8-.78.359-2.142-.748-2.303l-5.273-.766-2.358-4.777ZM9.74 8.615l2.258-4.576 2.259 4.576a1.35 1.35 0 0 0 1.016.738l5.05.734-3.654 3.562a1.35 1.35 0 0 0-.388 1.195l.862 5.03-4.516-2.375a1.35 1.35 0 0 0-1.257 0l-4.516 2.374.862-5.029a1.35 1.35 0 0 0-.388-1.195l-3.654-3.562 5.05-.734c.44-.063.82-.34 1.016-.738ZM1.164 3.782a.75.75 0 0 0 .118 1.054l2.5 2a.75.75 0 1 0 .937-1.172l-2.5-2a.75.75 0 0 0-1.055.118Z" fill="currentColor"/><path d="M22.836 18.218a.75.75 0 0 0-.117-1.054l-2.5-2a.75.75 0 0 0-.938 1.172l2.5 2a.75.75 0 0 0 1.055-.117ZM1.282 17.164a.75.75 0 1 0 .937 1.172l2.5-2a.75.75 0 0 0-.937-1.172l-2.5 2ZM22.836 3.782a.75.75 0 0 1-.117 1.054l-2.5 2a.75.75 0 0 1-.938-1.172l2.5-2a.75.75 0 0 1 1.055.118Z"  fill="currentColor"/></svg>
-            <span class="px-1">Upgrade now</span>
-          </a>
-        </div>
-        <% end %>
-        <div class="flex items-center justify-between mb-2">
-          <h3 class="text-gray-900 font-semibold"><%= attrs[:name] %></h3>
-          <switch-component></switch-component> <!-- Replace with your toggle switch component -->
-        </div>
-        <p class="text-gray-600"><%= attrs[:description] %></p>
-      </div>
+      <% if ChatwootHub.pricing_plan !='community' %>
+        <button class="ml-4 flex gap-1 items-center bg-transparent h-9 hover:bg-slate-100 hover:text-slate-800 border border-solid border-slate-100 rounded text-slate-700 font-medium p-2" onclick="window.$chatwoot.toggle('open')">
+          <svg class="h-4 w-4" width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10a9.96 9.96 0 0 1-4.587-1.112l-3.826 1.067a1.25 1.25 0 0 1-1.54-1.54l1.068-3.823A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2Zm0 1.5A8.5 8.5 0 0 0 3.5 12c0 1.47.373 2.883 1.073 4.137l.15.27-1.112 3.984 3.987-1.112.27.15A8.5 8.5 0 1 0 12 3.5ZM8.75 13h4.498a.75.75 0 0 1 .102 1.493l-.102.007H8.75a.75.75 0 0 1-.102-1.493L8.75 13h4.498H8.75Zm0-3.5h6.505a.75.75 0 0 1 .101 1.493l-.101.007H8.75a.75.75 0 0 1-.102-1.493L8.75 9.5h6.505H8.75Z" fill="currentColor"/></svg>
+          <span class="px-1">Chat Support</span>
+        </button>
       <% end %>
-     
+    </div>
+    <div class="mt-10 py-4">
+      <h3 class="h-5 leading-5 text-slate-900 font-medium text-base">Features</h3>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-2 gap-y-3">
+      <% SuperAdmin::FeaturesHelper.available_features.each do |feature, attrs| %>
+        <div class="group border-slate-100 border p-4 rounded-lg relative shadow-sm">
+          <span class="<%= attrs[:enabled] ? 'bg-green-400 text-white': 'bg-slate-300 text-slate-800' %> absolute rounded-full p-1 inline-flex right-4 top-5">
+            <svg width="14" height="14"><use xlink:href="<%= attrs[:enabled] ? '#icon-tick-line': '#icon-lock-line' %>" /></svg>
+          </span>
+          <div class="visible <% if !attrs[:enabled] %> group-hover:invisible <% end %> flex items-center justify-center w-10 h-10 mb-2 border border-slate-100 border-solid text-slate-800 rounded-full">
+            <svg width="20" height="20"><use xlink:href="#<%= attrs[:icon] %>" /></svg>
+          </div>
+          <% if !attrs[:enabled] %>
+          <div class="flex h-9 absolute top-5 items-center invisible group-hover:visible">
+            <a href="https://www.chatwoot.com/pricing/self-hosted-plans?utm_source=chatwoot_superadmin" target="_blank" rel="noopener noreferrer" class="flex gap-1 items-center bg-slate-100 h-9 hover:bg-slate-300 hover:text-slate-900 border border-solid border-slate-100 rounded text-slate-600 font-medium p-2">
+              <svg class="h-4 w-4" width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13.209 3.103c-.495-1.004-1.926-1.004-2.421 0L8.43 7.88l-5.273.766c-1.107.161-1.55 1.522-.748 2.303l3.815 3.72-.9 5.25c-.19 1.103.968 1.944 1.959 1.424l4.715-2.48 4.716 2.48c.99.52 2.148-.32 1.96-1.424l-.902-5.25 3.816-3.72c.8-.78.359-2.142-.748-2.303l-5.273-.766-2.358-4.777ZM9.74 8.615l2.258-4.576 2.259 4.576a1.35 1.35 0 0 0 1.016.738l5.05.734-3.654 3.562a1.35 1.35 0 0 0-.388 1.195l.862 5.03-4.516-2.375a1.35 1.35 0 0 0-1.257 0l-4.516 2.374.862-5.029a1.35 1.35 0 0 0-.388-1.195l-3.654-3.562 5.05-.734c.44-.063.82-.34 1.016-.738ZM1.164 3.782a.75.75 0 0 0 .118 1.054l2.5 2a.75.75 0 1 0 .937-1.172l-2.5-2a.75.75 0 0 0-1.055.118Z" fill="currentColor"/><path d="M22.836 18.218a.75.75 0 0 0-.117-1.054l-2.5-2a.75.75 0 0 0-.938 1.172l2.5 2a.75.75 0 0 0 1.055-.117ZM1.282 17.164a.75.75 0 1 0 .937 1.172l2.5-2a.75.75 0 0 0-.937-1.172l-2.5 2ZM22.836 3.782a.75.75 0 0 1-.117 1.054l-2.5 2a.75.75 0 0 1-.938-1.172l2.5-2a.75.75 0 0 1 1.055.118Z"  fill="currentColor"/></svg>
+              <span class="px-1">Upgrade now</span>
+            </a>
+          </div>
+          <% end %>
+          <div class="flex items-center justify-between mb-1.5 mt-4">
+            <h3 class="text-slate-900 font-medium"><%= attrs[:name] %></h3>
+          </div>
+          <p class="text-slate-600 mb-0"><%= attrs[:description] %></p>
+        </div>
+      <% end %>
     </div>
   </div>
 </section>

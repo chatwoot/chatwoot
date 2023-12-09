@@ -21,9 +21,9 @@ By default, it renders:
   <title>
     <%= content_for(:title) %> - <%= application_title %>
   </title>
+  <%= render "stylesheet" %>
   <%= javascript_pack_tag 'superadmin' %>
   <%= stylesheet_pack_tag 'superadmin' %>
-  <%= render "stylesheet" %>
   <%= csrf_meta_tags %>
 </head>
 <body class="antialiased w-full h-full">
