@@ -10,8 +10,6 @@
       @settings="portalSettingsPage"
       @switch-portal="switchPortal"
       @all-portals="allPortalPage"
-      @open-portal-page="allPortalPage"
-      @fetch-portal="fetchPortalAndItsCategories"
     />
     <div class="px-1 mt-2 sticky bottom-0">
       <woot-button
@@ -21,7 +19,11 @@
         :is-expanded="true"
         @click="createPortalPage"
       >
-        {{ $t('Create portal') }}
+        {{
+          $t(
+            'HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.BASIC_SETTINGS_PAGE.HEADER'
+          )
+        }}
       </woot-button>
     </div>
   </div>
@@ -74,9 +76,6 @@ export default {
           portalSlug: this.activePortalSlug,
         },
       });
-    },
-    fetchPortalAndItsCategories() {
-      this.$emit('fetch-portal');
     },
     switchPortal({ portalSlug, locale }) {
       this.closePortalPopover();
