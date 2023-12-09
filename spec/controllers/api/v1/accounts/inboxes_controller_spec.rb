@@ -35,13 +35,13 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(JSON.parse(response.body, symbolize_names: true)[:payload].size).to eq(2)
       end
 
-      it 'returns only assigned inboxes of current_account as agent' do
+      it 'returns details about all inboxes' do
         get "/api/v1/accounts/#{account.id}/inboxes",
             headers: agent.create_new_auth_token,
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(JSON.parse(response.body, symbolize_names: true)[:payload].size).to eq(1)
+        expect(JSON.parse(response.body, symbolize_names: true)[:payload].size).to eq(2)
       end
 
       context 'when provider_config' do

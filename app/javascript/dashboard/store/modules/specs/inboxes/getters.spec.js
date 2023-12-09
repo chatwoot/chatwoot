@@ -6,7 +6,7 @@ describe('#getters', () => {
     const state = {
       records: inboxList,
     };
-    expect(getters.getInboxes(state)).toEqual(inboxList);
+    expect(getters.getInboxes(state)).toEqual([inboxList[0]]);
   });
 
   it('getWebsiteInboxes', () => {
@@ -39,6 +39,7 @@ describe('#getters', () => {
       name: 'Test FacebookPage 1',
       channel_type: 'Channel::FacebookPage',
       avatar_url: 'random_image.png',
+      is_inbox_member: true,
       page_id: '12345',
       widget_color: null,
       website_token: null,

@@ -114,9 +114,14 @@ export default {
     },
   },
   watch: {
-    'currentChat.inbox_id'(inboxId) {
-      if (inboxId) {
-        this.$store.dispatch('inboxAssignableAgents/fetch', [inboxId]);
+    currentChat(newChat, oldChat) {
+      if (!newChat.id) {
+        return;
+      }
+      const { meta: newMeta = {} } = newChat;
+      const { meta: oldMeta = {} } = oldChat;
+      if (newMeta.team?.id !== oldMeta.team?.id || newChat.id !== oldChat.id) {
+        this.fetchAssignableAgents();
       }
     },
     'currentChat.id'() {
@@ -129,6 +134,13 @@ export default {
     this.$store.dispatch('dashboardApps/get');
   },
   methods: {
+    fetchAssignableAgents() {
+      const { inbox_id: inboxId } = this.currentChat;
+      this.$store.dispatch('inboxAssignableAgents/fetch', {
+        inboxIds: [inboxId],
+        conversationIds: [this.currentChat.id],
+      });
+    },
     fetchLabels() {
       if (!this.currentChat.id) {
         return;

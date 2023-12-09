@@ -2,11 +2,26 @@ import Vue from 'vue';
 
 import AssignableAgentsAPI from '../../api/assignableAgents';
 
+// Assignable Agents work on inboxId and the conversationId
+// We should show all the agent have access to the inbox and the team which the conversation is part of
+// To store this complex model, we store unique key  as a combination of
+// requested conversation and inbox as follows
+// Consider conversationId = 2 and inboxId = 3
+// The key to access the list of agents is i-1-c-2
+
 const state = {
   records: {},
   uiFlags: {
     isFetching: false,
   },
+};
+
+const getUniqueRecordId = ({ inboxIds = [], conversationIds = [] }) => {
+  const sortedInboxIds = inboxIds.sort((i1, i2) => i1 - i2);
+  const sortedConversationIds = conversationIds.sort((i1, i2) => i1 - i2);
+  return (
+    'i-' + sortedInboxIds.join('-') + '-c-' + sortedConversationIds.join('-')
+  );
 };
 
 export const types = {
@@ -15,8 +30,9 @@ export const types = {
 };
 
 export const getters = {
-  getAssignableAgents: $state => inboxId => {
-    const allAgents = $state.records[inboxId] || [];
+  getAssignableAgents: $state => ({ conversationIds, inboxIds }) => {
+    const allAgents =
+      $state.records[getUniqueRecordId({ conversationIds, inboxIds })] || [];
     const verifiedAgents = allAgents.filter(record => record.confirmed);
     return verifiedAgents;
   },
@@ -26,14 +42,14 @@ export const getters = {
 };
 
 export const actions = {
-  async fetch({ commit }, inboxIds) {
+  async fetch({ commit }, { conversationIds = [], inboxIds = [] }) {
     commit(types.SET_INBOX_ASSIGNABLE_AGENTS_UI_FLAG, { isFetching: true });
     try {
       const {
         data: { payload },
-      } = await AssignableAgentsAPI.get(inboxIds);
+      } = await AssignableAgentsAPI.get({ conversationIds, inboxIds });
       commit(types.SET_INBOX_ASSIGNABLE_AGENTS, {
-        inboxId: inboxIds.join(','),
+        uniqueRecordId: getUniqueRecordId({ conversationIds, inboxIds }),
         members: payload,
       });
     } catch (error) {
@@ -51,8 +67,11 @@ export const mutations = {
       ...data,
     };
   },
-  [types.SET_INBOX_ASSIGNABLE_AGENTS]: ($state, { inboxId, members }) => {
-    Vue.set($state.records, inboxId, members);
+  [types.SET_INBOX_ASSIGNABLE_AGENTS]: (
+    $state,
+    { uniqueRecordId, members }
+  ) => {
+    Vue.set($state.records, uniqueRecordId, members);
   },
 };
 

@@ -19,12 +19,16 @@ describe('#AssignableAgentsAPI', () => {
     });
 
     it('#getAssignableAgents', () => {
-      assignableAgentsAPI.get([1]);
-      expect(axiosMock.get).toHaveBeenCalledWith('/api/v1/assignable_agents', {
-        params: {
-          inbox_ids: [1],
-        },
-      });
+      assignableAgentsAPI.get({ inboxIds: [1], conversationIds: [1] });
+      expect(axiosMock.get).toHaveBeenCalledWith(
+        '/api/v1/assignable_agents',
+        {
+          params: {
+            inbox_ids: [1],
+            conversation_ids: [1],
+          },
+        }
+      );
     });
   });
 });

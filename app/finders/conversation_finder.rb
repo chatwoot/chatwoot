@@ -49,36 +49,30 @@ class ConversationFinder
   private
 
   def set_up
-    set_inboxes
-    set_team
+    find_all_conversations
     set_assignee_type
 
-    find_all_conversations
     filter_by_status unless params[:q]
+    filter_by_inbox
     filter_by_team
     filter_by_labels
     filter_by_query
     filter_by_source_id
   end
 
-  def set_inboxes
-    @inbox_ids = if params[:inbox_id]
-                   @current_user.assigned_inboxes.where(id: params[:inbox_id])
-                 else
-                   @current_user.assigned_inboxes.pluck(:id)
-                 end
-  end
-
   def set_assignee_type
     @assignee_type = params[:assignee_type]
   end
 
-  def set_team
-    @team = current_account.teams.find(params[:team_id]) if params[:team_id]
-  end
-
   def find_all_conversations
-    @conversations = current_account.conversations.where(inbox_id: @inbox_ids)
+    @conversations = current_account.conversations
+
+    if current_user.agent?
+      assigned_inboxes = current_user.assigned_inboxes.pluck(:id)
+      assigned_teams = current_user.teams.pluck(:id)
+      @conversations = @conversations.where(inbox_id: assigned_inboxes).or(@conversations.where(team_id: assigned_teams))
+    end
+
     filter_by_conversation_type if params[:conversation_type]
     @conversations
   end
@@ -124,7 +118,15 @@ class ConversationFinder
     @conversations = @conversations.where(status: params[:status] || DEFAULT_STATUS)
   end
 
+  def filter_by_inbox
+    @inbox = @current_user.assigned_inboxes.where(id: params[:inbox_id])
+    return if @inbox.blank?
+
+    @conversations = @conversations.where(inbox: @inbox)
+  end
+
   def filter_by_team
+    @team = current_account.teams.find(params[:team_id]) if params[:team_id]
     return unless @team
 
     @conversations = @conversations.where(team: @team)

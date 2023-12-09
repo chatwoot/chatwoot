@@ -81,7 +81,7 @@
           v-if="showAgentsList"
           class="agent-actions-box"
           :selected-inboxes="selectedInboxes"
-          :conversation-count="conversations.length"
+          :selected-conversations="conversations"
           @select="submit"
           @close="showAgentsList = false"
         />
