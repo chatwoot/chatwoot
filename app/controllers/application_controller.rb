@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   skip_before_action :verify_authenticity_token
 
   before_action :set_current_user, unless: :devise_controller?
-  before_action :set_x_frame_options_header, unless: :devise_controller?
+  # before_action :set_x_frame_options_header, unless: :devise_controller?
   around_action :switch_locale
   around_action :handle_with_exception, unless: :devise_controller?
 
@@ -18,9 +18,9 @@ class ApplicationController < ActionController::Base
     Current.user = @user
   end
   
-  def set_x_frame_options_header
-    response.headers['X-Frame-Options'] = 'DENY'
-  end
+  # def set_x_frame_options_header
+  #   response.headers['X-Frame-Options'] = 'DENY'
+  # end
 
   def pundit_user
     {
