@@ -38,26 +38,22 @@
           <woot-button
             variant="clear"
             color-scheme="secondary"
+            size="small"
             class-name=""
             :is-active="portal.slug === activePortalSlug"
-            @click="() => NithinDavid()"
+            :is-disabled="portal.slug === activePortalSlug"
+            @click="e => onClick(e, portal)"
           >
-            <div
-              class="portal"
-              :class="{ active: portal.slug === activePortalSlug }"
-            >
-              <thumbnail :username="portal.name" variant="square" size="32px" />
+            <div class="rounded-md relative flex gap-2 -mx-1">
+              <thumbnail :username="portal.name" variant="square" size="24px" />
 
               <div class="flex items-center justify-between">
                 <div>
                   <h3
-                    class="text-xs leading-4 font-semibold text-slate-600 dark:text-slate-100 mb-0"
+                    class="text-sm leading-4 font-medium text-slate-600 dark:text-slate-100 mb-0"
                   >
                     {{ portal.name }}
                   </h3>
-                  <div class="text-xs text-slate-600 dark:text-slate-300">
-                    <span>{{ articlesCount(portal) }}</span>
-                  </div>
                 </div>
 
                 <woot-label
@@ -110,52 +106,28 @@ export default {
       default: '',
     },
   },
-  data() {
-    return {
-      selectedLocale: null,
-    };
-  },
   computed: {},
-  mounted() {
-    this.selectedLocale = this.locale || this.portal?.meta?.default_locale;
-  },
   methods: {
-    articlesCount(portal) {
-      const { allowed_locales: allowedLocales } = portal.config;
-      return allowedLocales.reduce((acc, locale) => {
-        return acc + locale.articles_count;
-      }, 0);
-    },
-    onClick(event, code, portal) {
+    onClick(event, portal) {
+      const {
+        meta: { default_locale: defaultLocale },
+      } = portal;
       event.preventDefault();
-      this.$router.push({
-        name: 'list_all_locale_articles',
-        params: {
-          portalSlug: portal.slug,
-          locale: code,
-        },
+      this.$emit('switch-portal', {
+        portalSlug: portal.slug,
+        locale: defaultLocale,
       });
-      this.$emit('fetch-portal');
-      this.$emit('open-portal-page');
-    },
-    isLocaleActive(code, slug) {
-      const isPortalActive = this.portal.slug === slug;
-      const isLocaleActive = this.activeLocale === code;
-      return isPortalActive && isLocaleActive;
-    },
-    isLocaleDefault(code) {
-      return this.portal?.meta?.default_locale === code;
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.portal {
-  @apply rounded-md relative flex gap-2 -mx-1;
+.dropdown-menu__item {
+  @apply mb-0 px-1;
 }
 
-.dropdown-menu__item {
-  @apply mb-0 -mx-1;
+.dropdown-menu__item .button {
+  @apply px-2 py-1;
 }
 </style>

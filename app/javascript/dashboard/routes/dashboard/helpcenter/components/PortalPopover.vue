@@ -1,13 +1,14 @@
 <template>
   <div
     v-on-clickaway="closePortalPopover"
-    class="absolute top-[4.5rem] left-2 overflow-y-scroll max-h-[96vh] px-2 py-3 min-w-[12rem] w-[calc(100%-1rem)] bg-white dark:bg-slate-800 rounded-md shadow-lg z-[1000]"
+    class="absolute top-[4.5rem] left-2 overflow-y-auto max-h-[96vh] px-2 py-3 min-w-[12rem] w-[calc(100%-1rem)] bg-white dark:bg-slate-800 rounded-md shadow-lg z-[1000]"
   >
     <portal-switch
       :portals="portals"
       :active-portal-slug="activePortalSlug"
       :active-locale="activeLocale"
       @settings="portalSettingsPage"
+      @switch-portal="switchPortal"
       @all-portals="allPortalPage"
       @open-portal-page="allPortalPage"
       @fetch-portal="fetchPortalAndItsCategories"
@@ -76,6 +77,18 @@ export default {
     },
     fetchPortalAndItsCategories() {
       this.$emit('fetch-portal');
+    },
+    switchPortal({ portalSlug, locale }) {
+      this.closePortalPopover();
+      if (portalSlug !== this.activePortalSlug) {
+        this.$router.push({
+          name: 'list_all_locale_articles',
+          params: {
+            portalSlug,
+            locale,
+          },
+        });
+      }
     },
   },
 };
