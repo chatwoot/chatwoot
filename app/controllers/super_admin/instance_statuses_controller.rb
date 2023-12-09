@@ -17,7 +17,6 @@ class SuperAdmin::InstanceStatusesController < SuperAdmin::ApplicationController
                                    else
                                      'Community'
                                    end
-    @metrics['Installation Pricing Plan'] = InstallationConfig.find_by(name: 'INSTALLATION_PRICING_PLAN')&.value
   end
 
   def instance_meta
