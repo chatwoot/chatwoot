@@ -55,12 +55,7 @@
         <span class="px-1">Community Support</span>
       </button>
       </a>
-<% if ChatwootHub.pricing_plan =='community' %>
-   <a href="https://www.chatwoot.com/pricing/self-hosted-plans?utm_source=chatwoot_superadmin" target="_blank" rel="noopener noreferrer" class="flex gap-1 items-center bg-slate-100 h-9 hover:bg-slate-300 hover:text-slate-900 border border-solid border-slate-100 rounded text-slate-600 font-medium p-2">
-    <svg class="h-4 w-4" width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10a9.96 9.96 0 0 1-4.587-1.112l-3.826 1.067a1.25 1.25 0 0 1-1.54-1.54l1.068-3.823A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2Zm0 1.5A8.5 8.5 0 0 0 3.5 12c0 1.47.373 2.883 1.073 4.137l.15.27-1.112 3.984 3.987-1.112.27.15A8.5 8.5 0 1 0 12 3.5ZM8.75 13h4.498a.75.75 0 0 1 .102 1.493l-.102.007H8.75a.75.75 0 0 1-.102-1.493L8.75 13h4.498H8.75Zm0-3.5h6.505a.75.75 0 0 1 .101 1.493l-.101.007H8.75a.75.75 0 0 1-.102-1.493L8.75 9.5h6.505H8.75Z" fill="currentColor"/></svg>
-    <span class="px-1">Get livechat support</span>
-  </a>
-<% else %>
+<% if ChatwootHub.pricing_plan !='community' %>
     <button class="flex gap-1 items-center bg-transparent h-9 hover:bg-slate-100 hover:text-slate-800 border border-solid border-slate-100 rounded text-slate-700 font-medium p-2" onclick="window.$chatwoot.toggle('open')">
     <svg class="h-4 w-4" width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10a9.96 9.96 0 0 1-4.587-1.112l-3.826 1.067a1.25 1.25 0 0 1-1.54-1.54l1.068-3.823A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2Zm0 1.5A8.5 8.5 0 0 0 3.5 12c0 1.47.373 2.883 1.073 4.137l.15.27-1.112 3.984 3.987-1.112.27.15A8.5 8.5 0 1 0 12 3.5ZM8.75 13h4.498a.75.75 0 0 1 .102 1.493l-.102.007H8.75a.75.75 0 0 1-.102-1.493L8.75 13h4.498H8.75Zm0-3.5h6.505a.75.75 0 0 1 .101 1.493l-.101.007H8.75a.75.75 0 0 1-.102-1.493L8.75 9.5h6.505H8.75Z" fill="currentColor"/></svg>
     <span class="px-1">Chat Support</span>

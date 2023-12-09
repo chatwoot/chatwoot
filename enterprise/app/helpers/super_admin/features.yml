@@ -1,7 +1,7 @@
 custom_branding: 
   name: 'Custom Branding'
   description: 'Apply your own branding to this installation.'
-  enabled: (ChatwootHub.pricing_plan != 'community')
+  enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
   icon: '<svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <path 
       d="M5.75 2a.75.75 0 0 0-.75.75v11.5a2.25 2.25 0 0 0 2.25 2.25H9.5v3a2.5 2.5 0 1 0 5 0v-3h2.25A2.25 2.25 0 0 0 19 14.25V2.75a.75.75 0 0 0-.75-.75H5.75Zm.75 9V3.5h6v1.752a.75.75 0 1 0 1.5 0V3.5h1v2.751a.75.75 0 1 0 1.5 0V3.5h1V11h-11Zm0 3.25V12.5h11v1.75a.75.75 0 0 1-.75.75h-3a.75.75 0 0 0-.75.75v3.75a1 1 0 0 1-2 0v-3.75a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 1-.75-.75Z"
@@ -10,7 +10,7 @@ custom_branding:
 agent_capacity: 
   name: 'Agent Capacity'
   description: 'Set limits to auto-assigning conversations to your agents.'
-  enabled: (ChatwootHub.pricing_plan != 'community')
+  enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
   icon: '<svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <path
       d="M14 14H4.253a2.249 2.249 0 0 0-2.25 2.249v.578c0 .892.32 1.756.9 2.435 1.565 1.834 3.951 2.74 7.097 2.74.715 0 1.39-.048 2.026-.141A2.524 2.524 0 0 1 12 21.5v-1.153c-.614.103-1.28.154-2 .154-2.738 0-4.704-.746-5.957-2.213a2.25 2.25 0 0 1-.54-1.462v-.577c0-.414.336-.75.75-.75h7.955A2.505 2.505 0 0 1 14 14.05V14ZM10 2.005a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7ZM15 15h-.5a1.5 1.5 0 0 0-1.5 1.5v5a1.5 1.5 0 0 0 1.5 1.5h6a1.5 1.5 0 0 0 1.5-1.5v-5a1.5 1.5 0 0 0-1.5-1.5H20v-1a2.5 2.5 0 0 0-5 0v1Zm1.5-1a1 1 0 1 1 2 0v1h-2v-1Zm2 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"
@@ -19,7 +19,7 @@ agent_capacity:
 audit_logs: 
   name: 'Audit Logs'
   description: 'Track and trace account activities with ease with detailed audit logs.'
-  enabled: (ChatwootHub.pricing_plan != 'community')
+  enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
   icon: '<svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <path
       d="M4.75 4A2.75 2.75 0 0 0 2 6.75v4.507a5.496 5.496 0 0 1 1.5-.882V6.75c0-.69.56-1.25 1.25-1.25h14.5c.69 0 1.25.56 1.25 1.25v10.5c0 .69-.56 1.25-1.25 1.25h-8.275l1.5 1.5h6.775A2.75 2.75 0 0 0 22 17.25V6.75A2.75 2.75 0 0 0 19.25 4H4.75Z" fill="#ffffff"/><path d="M8.663 11a5.529 5.529 0 0 1 1.447 1.5h7.14a.75.75 0 0 0 0-1.5H8.663ZM15.25 15.5H11c0-.52-.072-1.023-.207-1.5h4.457a.75.75 0 0 1 0 1.5ZM6.75 8a.75.75 0 0 0 0 1.5h6.5a.75.75 0 0 0 0-1.5h-6.5ZM5.5 20a4.48 4.48 0 0 0 2.607-.832l2.613 2.612a.75.75 0 1 0 1.06-1.06l-2.612-2.613A4.5 4.5 0 1 0 5.5 20Zm0-1.5a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"
@@ -28,7 +28,7 @@ audit_logs:
 disable_branding: 
   name: 'Disable Branding'
   description: 'Disable branding on live-chat widget and external emails.'
-  enabled: (ChatwootHub.pricing_plan != 'community')
+  enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
   icon: '<svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <path
       d="m15.87 2.669 4.968 4.968a2.25 2.25 0 0 1 0 3.182l-8.681 8.68 6.097.001a.75.75 0 0 1 .744.648l.006.102a.75.75 0 0 1-.648.743l-.102.007-8.41.001a2.244 2.244 0 0 1-1.714-.655l-4.968-4.969a2.25 2.25 0 0 1 0-3.182l9.526-9.526a2.25 2.25 0 0 1 3.182 0ZM5.709 11.768l-1.487 1.488a.75.75 0 0 0 0 1.06l4.969 4.969c.146.146.338.22.53.22l.029-.005.038.002a.747.747 0 0 0 .463-.217l1.487-1.487-6.03-6.03Zm8.04-8.039-6.98 6.978 6.03 6.03 6.979-6.978a.75.75 0 0 0 0-1.061l-4.969-4.969a.75.75 0 0 0-1.06 0Z"
