@@ -444,6 +444,10 @@ Rails.application.routes.draw do
       resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update]
       resource :instance_status, only: [:show]
 
+      resource :settings, only: [:show] do
+        get :refresh, on: :collection
+      end
+
       # resources that doesn't appear in primary navigation in super admin
       resources :account_users, only: [:new, :create, :destroy]
     end
