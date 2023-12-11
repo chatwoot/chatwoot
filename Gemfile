@@ -224,7 +224,7 @@ group :development, :test do
   gem 'byebug', platform: :mri
   gem 'climate_control'
   gem 'debug', '~> 1.8'
-  gem 'factory_bot_rails'
+  gem 'factory_bot_rails', '>= 6.4.2'
   gem 'listen'
   gem 'mock_redis'
   gem 'pry-rails'
