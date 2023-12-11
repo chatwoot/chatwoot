@@ -26,7 +26,6 @@ const sortComparator = {
     return sortOrder === 'asc' ? diff : -diff;
   },
   sort_on_waiting_since: (a, b, sortOrder) => {
-    // Handle cases where waiting_since may not exist
     if (!a.waiting_since && !b.waiting_since) {
       return sortOrder === 'asc'
         ? a.created_at - b.created_at
