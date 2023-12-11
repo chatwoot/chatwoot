@@ -10,6 +10,11 @@ class ConversationFinder
     sort_on_waiting_since: 'sort_on_waiting_since'
   }.with_indifferent_access
 
+  SORT_ORDER = {
+    asc: 'asc',
+    desc: 'desc'
+  }.with_indifferent_access
+
   # assumptions
   # inbox_id if not given, take from all conversations, else specific to inbox
   # assignee_type if not given, take 'all'
@@ -160,6 +165,7 @@ class ConversationFinder
       :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team, :contact_inbox
     )
     sort_by = SORT_OPTIONS[params[:sort_by]] || SORT_OPTIONS['latest']
-    @conversations.send(sort_by).page(current_page).per(ENV.fetch('CONVERSATION_RESULTS_PER_PAGE', '25').to_i)
+    sort_order = params[:sort_order] || SORT_ORDER['desc']
+    @conversations.send(sort_by, sort_order).page(current_page).per(ENV.fetch('CONVERSATION_RESULTS_PER_PAGE', '25').to_i)
   end
 end
