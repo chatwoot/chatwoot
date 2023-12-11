@@ -695,6 +695,9 @@ export default {
         .then(() => this.$emit('conversation-load'));
     },
     loadMoreConversations() {
+      if (this.hasCurrentPageEndReached || this.chatListLoading) {
+        return;
+      }
       if (!this.hasAppliedFiltersOrActiveFolders) {
         this.fetchConversations();
       }
