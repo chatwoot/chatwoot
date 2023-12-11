@@ -130,7 +130,14 @@
       class="conversations-list flex-1"
       :class="{ 'overflow-hidden': isContextMenuOpen }"
     >
-      <conversation-card
+      <virtual-list
+        :keeps="10"
+        :data-key="'id'"
+        :data-sources="conversationList"
+        :data-component="itemComponent"
+        class="w-full overflow-auto"
+      />
+      <!-- <conversation-card
         v-for="chat in conversationList"
         :key="chat.id"
         :active-label="label"
@@ -149,7 +156,7 @@
         @context-menu-toggle="onContextMenuToggle"
         @mark-as-unread="markAsUnread"
         @assign-priority="assignPriority"
-      />
+      /> -->
       <div v-if="chatListLoading" class="text-center">
         <span class="spinner mt-4 mb-4" />
       </div>
@@ -183,11 +190,12 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import VirtualList from 'vue-virtual-scroll-list';
 
 import ConversationAdvancedFilter from './widgets/conversation/ConversationAdvancedFilter.vue';
 import ConversationBasicFilter from './widgets/conversation/ConversationBasicFilter.vue';
 import ChatTypeTabs from './widgets/ChatTypeTabs.vue';
-import ConversationCard from './widgets/conversation/ConversationCard.vue';
+import ConversationItem from './ConversationItem.vue';
 import timeMixin from '../mixins/time';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import conversationMixin from '../mixins/conversations';
@@ -220,12 +228,13 @@ export default {
   components: {
     AddCustomViews,
     ChatTypeTabs,
-    ConversationCard,
+    ConversationItem,
     ConversationAdvancedFilter,
     DeleteCustomViews,
     ConversationBulkActions,
     ConversationBasicFilter,
     IntersectionObserver,
+    VirtualList,
   },
   mixins: [
     timeMixin,
@@ -289,6 +298,7 @@ export default {
         root: this.$refs.conversationList,
         rootMargin: '100px 0px 100px 0px',
       },
+      itemComponent: ConversationItem,
     };
   },
   computed: {
