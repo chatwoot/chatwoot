@@ -46,7 +46,7 @@
     "NO_RESPONSE": "Pas de réponse",
     "RATING_TITLE": "Note",
     "FEEDBACK_TITLE": "Commentaires",
-    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
+    "REPLY_MESSAGE_NOT_FOUND": "Message indisponible",
     "CARD": {
       "SHOW_LABELS": "Afficher les étiquettes",
       "HIDE_LABELS": "Masquer les étiquettes"
@@ -139,8 +139,9 @@
       "PRIVATE_NOTE": "Note privée",
       "SEND": "Envoyer",
       "CREATE": "Ajouter une note",
-      "DISMISS_REPLY": "Dismiss reply",
-      "REPLYING_TO": "Replying to:",
+      "INSERT_READ_MORE": "En savoir plus",
+      "DISMISS_REPLY": "Annuler la réponse",
+      "REPLYING_TO": "Répondre à:",
       "TIP_FORMAT_ICON": "Afficher l'éditeur de texte enrichi",
       "TIP_EMOJI_ICON": "Montrer le sélecteur d'émoji",
       "TIP_ATTACH_ICON": "Joindre des fichiers",
@@ -195,7 +196,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Copier",
-      "REPLY_TO": "Reply to this message",
+      "REPLY_TO": "Répondre à ce message",
       "DELETE": "Supprimer",
       "CREATE_A_CANNED_RESPONSE": "Ajouter aux réponses préenregistrées",
       "TRANSLATE": "Traduire",

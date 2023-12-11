@@ -43,7 +43,7 @@
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "Created",
+        "LATEST": "Đã tạo",
         "OLDEST": "Tạo vào lúc:"
       },
       "LAST_ACTIVITY": {

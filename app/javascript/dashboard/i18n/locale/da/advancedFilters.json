@@ -1,18 +1,18 @@
 {
   "FILTER": {
-    "TITLE": "Filtrer Samtaler",
-    "SUBTITLE": "Tilføj filtre nedenfor og tryk på 'Anvend filtre' for at filtrere samtaler.",
+    "TITLE": "Filtrer samtaler",
+    "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
     "EDIT_CUSTOM_FILTER": "Edit Folder",
     "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
-    "ADD_NEW_FILTER": "Tilføj Filter",
-    "FILTER_DELETE_ERROR": "Du skal have mindst et filter at gemme",
+    "ADD_NEW_FILTER": "Add filter",
+    "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
     "SUBMIT_BUTTON_LABEL": "Anvend filtre",
     "UPDATE_BUTTON_LABEL": "Update folder",
     "CANCEL_BUTTON_LABEL": "Annuller",
-    "CLEAR_BUTTON_LABEL": "Ryd Filtre",
-    "EMPTY_VALUE_ERROR": "Værdi er påkrævet",
+    "CLEAR_BUTTON_LABEL": "Clear filters",
     "FOLDER_LABEL": "Folder Name",
     "FOLDER_QUERY_LABEL": "Folder Query",
+    "EMPTY_VALUE_ERROR": "Værdi er påkrævet.",
     "TOOLTIP_LABEL": "Filtrer samtaler",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "OG",
@@ -36,44 +36,44 @@
     },
     "ATTRIBUTES": {
       "STATUS": "Status",
-      "ASSIGNEE_NAME": "Ansvarlig Navn",
-      "INBOX_NAME": "Indbakke Navn",
-      "TEAM_NAME": "Hold Navn",
-      "CONVERSATION_IDENTIFIER": "Conversation Identifier",
-      "CAMPAIGN_NAME": "Kampagne Navn",
+      "ASSIGNEE_NAME": "Assignee name",
+      "INBOX_NAME": "Indbakkens navn",
+      "TEAM_NAME": "Team navn",
+      "CONVERSATION_IDENTIFIER": "Conversation identifier",
+      "CAMPAIGN_NAME": "Campaign name",
       "LABELS": "Etiketter",
-      "BROWSER_LANGUAGE": "Browser Sprog",
+      "BROWSER_LANGUAGE": "Browser language",
       "PRIORITY": "Priority",
-      "COUNTRY_NAME": "Land Navn",
+      "COUNTRY_NAME": "Country name",
       "REFERER_LINK": "Refererer link",
       "CUSTOM_ATTRIBUTE_LIST": "Liste",
       "CUSTOM_ATTRIBUTE_TEXT": "Tekst",
       "CUSTOM_ATTRIBUTE_NUMBER": "Nummer",
       "CUSTOM_ATTRIBUTE_LINK": "Link",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Afkrydsningsfelt",
-      "CREATED_AT": "Oprettet Den",
-      "LAST_ACTIVITY": "Sidste Aktivitet"
+      "CREATED_AT": "Oprettet den",
+      "LAST_ACTIVITY": "Last activity"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standard Filtre",
-      "ADDITIONAL_FILTERS": "Yderligere Filtre",
-      "CUSTOM_ATTRIBUTES": "Brugerdefinerede Egenskaber"
+      "STANDARD_FILTERS": "Standard filters",
+      "ADDITIONAL_FILTERS": "Additional filters",
+      "CUSTOM_ATTRIBUTES": "Custom attributes"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
         "TITLE": "Vil du gemme dette filter?",
         "LABEL": "Navngiv dette filter",
-        "PLACEHOLDER": "Angiv et navn for dette filter",
-        "ERROR_MESSAGE": "Navn er påkrævet",
+        "PLACEHOLDER": "Name your filter to refer it later.",
+        "ERROR_MESSAGE": "Navn er påkrævet.",
         "SAVE_BUTTON": "Gem filter",
         "CANCEL_BUTTON": "Annuller",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Mappe oprettet",
-          "ERROR_MESSAGE": "Fejl under oprettelse af mappe"
+          "SUCCESS_MESSAGE": "Mappe oprettet.",
+          "ERROR_MESSAGE": "Fejl under oprettelse af mappe."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segmentet er oprettet",
-          "ERROR_MESSAGE": "Fejl under oprettelse af segment"
+          "SUCCESS_MESSAGE": "Segmentet er oprettet.",
+          "ERROR_MESSAGE": "Fejl under oprettelse af segment."
         }
       },
       "EDIT": {
@@ -83,19 +83,19 @@
         "DELETE_BUTTON": "Slet filter",
         "MODAL": {
           "CONFIRM": {
-            "TITLE": "Bekræft Sletning",
+            "TITLE": "Bekræft sletning",
             "MESSAGE": "Er du sikker på du vil slette filteret ",
-            "YES": "Ja, Slet",
+            "YES": "Yes, delete",
             "NO": "Nej, behold det"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Mappen blev slettet",
-          "ERROR_MESSAGE": "Fejl under sletning af mappe"
+          "SUCCESS_MESSAGE": "Mappen blev slettet.",
+          "ERROR_MESSAGE": "Fejl under sletning af mappe."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segmentet blev slettet",
-          "ERROR_MESSAGE": "Fejl under sletning af segment"
+          "SUCCESS_MESSAGE": "Segmentet blev slettet.",
+          "ERROR_MESSAGE": "Fejl under sletning af segment."
         }
       }
     }

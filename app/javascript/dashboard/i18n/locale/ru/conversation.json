@@ -46,7 +46,7 @@
     "NO_RESPONSE": "Нет ответа",
     "RATING_TITLE": "Оценка",
     "FEEDBACK_TITLE": "Обратная связь",
-    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
+    "REPLY_MESSAGE_NOT_FOUND": "Сообщение недоступно",
     "CARD": {
       "SHOW_LABELS": "Показать метки",
       "HIDE_LABELS": "Скрыть метки"
@@ -139,8 +139,9 @@
       "PRIVATE_NOTE": "Личная заметка",
       "SEND": "Отправить",
       "CREATE": "Добавить заметку",
-      "DISMISS_REPLY": "Dismiss reply",
-      "REPLYING_TO": "Replying to:",
+      "INSERT_READ_MORE": "Читать далее",
+      "DISMISS_REPLY": "Удалить ответ",
+      "REPLYING_TO": "Ответить:",
       "TIP_FORMAT_ICON": "Показать редактор текста",
       "TIP_EMOJI_ICON": "Показать emoji панель",
       "TIP_ATTACH_ICON": "Прикрепить файлы",
@@ -195,7 +196,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Копировать",
-      "REPLY_TO": "Reply to this message",
+      "REPLY_TO": "Ответить на это сообщение",
       "DELETE": "Удалить",
       "CREATE_A_CANNED_RESPONSE": "Добавить в шаблонные ответы",
       "TRANSLATE": "Перевести",

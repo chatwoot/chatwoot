@@ -60,7 +60,7 @@
       },
       "EMAIL_ADDRESS": {
         "LABEL": "Sähköpostiosoite",
-        "PLACEHOLDER": "Ole hyvä ja syötä sähköpostiosoitteesi",
+        "PLACEHOLDER": "Ole hyvä ja syötä email osoite",
         "REQUIRED_ERROR": "Sähköpostiosoite on pakollinen",
         "VALID_ERROR": "Ole hyvä ja syötä validi sähköposti"
       },
