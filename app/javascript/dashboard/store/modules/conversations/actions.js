@@ -11,6 +11,13 @@ import {
 } from './helpers/actionHelpers';
 import messageReadActions from './actions/messageReadActions';
 import messageTranslateActions from './actions/messageTranslateActions';
+
+export const hasMessageFailedWithExternalError = pendingMessage => {
+  const { content_attributes: contentAttributes, status } = pendingMessage;
+  const externalError = contentAttributes?.external_error ?? '';
+  return status === MESSAGE_STATUS.FAILED && externalError !== '';
+};
+
 // actions
 const actions = {
   getConversation: async ({ commit }, conversationId) => {
@@ -242,12 +249,15 @@ const actions = {
   },
 
   sendMessageWithData: async ({ commit }, pendingMessage) => {
+    const { conversation_id: conversationId, id } = pendingMessage;
     try {
       commit(types.ADD_MESSAGE, {
         ...pendingMessage,
         status: MESSAGE_STATUS.PROGRESS,
       });
-      const response = await MessageApi.create(pendingMessage);
+      const response = hasMessageFailedWithExternalError(pendingMessage)
+        ? await MessageApi.retry(conversationId, id)
+        : await MessageApi.create(pendingMessage);
       commit(types.ADD_MESSAGE, {
         ...response.data,
         status: MESSAGE_STATUS.SENT,
