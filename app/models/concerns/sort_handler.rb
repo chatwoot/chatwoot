@@ -1,6 +1,6 @@
 module SortHandler
   extend ActiveSupport::Concern
-
+  # rubocop:disable Metrics/BlockLength
   included do
     def self.latest(sort_order = :desc)
       order(last_activity_at: sort_order)
@@ -18,7 +18,7 @@ module SortHandler
 
     def self.sort_on_last_user_message_at(sort_order = :asc)
       order(
-        "grouped_conversations.message_type #{sort_order.to_s.upcase}",
+        'grouped_conversations.message_type',
         "grouped_conversations.created_at #{sort_order.to_s.upcase}"
       )
     end
@@ -43,4 +43,5 @@ module SortHandler
       )
     end
   end
+  # rubocop:enable Metrics/BlockLength
 end

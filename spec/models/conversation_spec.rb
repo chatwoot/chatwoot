@@ -718,18 +718,42 @@ RSpec.describe Conversation do
   describe 'Custom Sort' do
     include ActiveJob::TestHelper
 
-    let!(:conversation_7) { create(:conversation, created_at: DateTime.now - 10.days, last_activity_at: DateTime.now - 13.days) }
-    let!(:conversation_6) { create(:conversation, created_at: DateTime.now - 10.days, last_activity_at: DateTime.now - 10.days) }
-    let!(:conversation_5) { create(:conversation, created_at: DateTime.now - 10.days, last_activity_at: DateTime.now - 12.days, priority: :urgent) }
-    let!(:conversation_4) { create(:conversation, created_at: DateTime.now - 10.days, last_activity_at: DateTime.now - 10.days, priority: :urgent) }
-    let!(:conversation_3) { create(:conversation, created_at: DateTime.now - 9.days, last_activity_at: DateTime.now - 9.days, priority: :low) }
-    let!(:conversation_2) { create(:conversation, created_at: DateTime.now - 6.days, last_activity_at: DateTime.now - 6.days, priority: :high) }
-    let!(:conversation_1) { create(:conversation, created_at: DateTime.now - 8.days, last_activity_at: DateTime.now - 8.days, priority: :medium) }
+    let!(:conversation_7) { create(:conversation, id: 7, created_at: DateTime.now - 10.days, last_activity_at: DateTime.now - 13.days) }
+    let!(:conversation_6) { create(:conversation, id: 6, created_at: DateTime.now - 10.days, last_activity_at: DateTime.now - 10.days) }
+    let!(:conversation_5) do
+      create(:conversation, id: 5, created_at: DateTime.now - 10.days, last_activity_at: DateTime.now - 12.days, priority: :urgent)
+    end
+    let!(:conversation_4) do
+      create(:conversation, id: 4, created_at: DateTime.now - 10.days, last_activity_at: DateTime.now - 10.days, priority: :urgent)
+    end
+    let!(:conversation_3) { create(:conversation, id: 3, created_at: DateTime.now - 9.days, last_activity_at: DateTime.now - 9.days, priority: :low) }
+    let!(:conversation_2) do
+      create(:conversation, id: 2, created_at: DateTime.now - 6.days, last_activity_at: DateTime.now - 6.days, priority: :high)
+    end
+    let!(:conversation_1) do
+      create(:conversation, id: 1, created_at: DateTime.now - 8.days, last_activity_at: DateTime.now - 8.days, priority: :medium)
+    end
+
+    it 'Sort conversations based on last_activity_at' do
+      records = described_class.latest('desc')
+      expect(records.pluck(:id)).to eq([2, 1, 3, 4, 6, 5, 7])
+    end
+
+    it 'Sort conversations based on last_activity_at with ascending order' do
+      records = described_class.latest('asc')
+      expect(records.pluck(:id)).to eq([7, 5, 6, 4, 3, 1, 2])
+    end
 
     it 'Sort conversations based on created_at' do
       records = described_class.sort_on_created_at
       expect(records.first.id).to eq(conversation_7.id)
       expect(records.last.id).to eq(conversation_2.id)
+    end
+
+    it 'Sort conversations based on created_at with descending order' do
+      records = described_class.sort_on_created_at('desc')
+      expect(records.first.id).to eq(conversation_2.id)
+      expect(records.last.id).to eq(conversation_7.id)
     end
 
     context 'when sort on last_user_message_at' do
@@ -771,6 +795,17 @@ RSpec.describe Conversation do
         expect(records[1]['id']).to eq(conversation_2.id)
         expect(records[2]['id']).to eq(conversation_3.id)
       end
+
+      # it 'Sort based on oldest message first when there are no incoming message with descending order' do
+      #   Message.where(message_type: :incoming).update(message_type: :template)
+      #   conversation_with_message_count = described_class.joins(:messages).uniq.count
+      #   records = described_class.last_user_message_at('desc')
+
+      #   expect(records.length).to eq(conversation_with_message_count)
+      #   expect(records[0]['id']).to eq(conversation_3.id)
+      #   expect(records[1]['id']).to eq(conversation_2.id)
+      #   expect(records[2]['id']).to eq(conversation_1.id)
+      # end
     end
 
     context 'when last_activity_at updated by some actions' do
@@ -815,6 +850,14 @@ RSpec.describe Conversation do
         expect(records.pluck(:priority)).not_to eq(['urgent', 'urgent', 'high', 'medium', 'low', nil, nil])
 
         records = described_class.sort_on_priority
+        expect(records.pluck(:priority)).to eq(['urgent', 'urgent', 'high', 'medium', 'low', nil, nil])
+      end
+
+      it 'Sort conversations with the priority with descending order' do
+        records = described_class.sort_on_created_at
+        expect(records.pluck(:priority)).not_to eq([nil, nil, 'low', 'medium', 'high', 'urgent', 'urgent'])
+
+        records = described_class.sort_on_priority('desc')
         expect(records.pluck(:priority)).to eq(['urgent', 'urgent', 'high', 'medium', 'low', nil, nil])
       end
 
