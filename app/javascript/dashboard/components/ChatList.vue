@@ -747,8 +747,6 @@ export default {
     onBasicFilterChange(value, type) {
       if (type === 'status') {
         this.activeStatus = value;
-      } else if (type === 'sort') {
-        this.activeSortBy = value;
       } else {
         this.activeSortOrder = value;
       }

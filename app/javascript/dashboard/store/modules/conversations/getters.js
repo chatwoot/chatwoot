@@ -49,7 +49,6 @@ const sortComparator = {
       return sortOrder === 'asc' ? -1 : 1;
     }
 
-    // Normal comparison logic with sort order
     const diff = a.waiting_since - b.waiting_since;
     return sortOrder === 'asc' ? diff : -diff;
   },
