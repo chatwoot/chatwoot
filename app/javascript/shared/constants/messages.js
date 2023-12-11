@@ -55,6 +55,8 @@ export const ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP =
   'audio/mpeg, audio/opus, audio/ogg, audio/amr,' +
   'video/mp4,' +
   'application/pdf,';
+// https://developers.line.biz/en/reference/messaging-api/#image-message, https://developers.line.biz/en/reference/messaging-api/#video-message
+export const ALLOWED_FILE_TYPES_FOR_LINE = 'image/png, image/jpeg,video/mp4';
 
 export const CSAT_RATINGS = [
   {
