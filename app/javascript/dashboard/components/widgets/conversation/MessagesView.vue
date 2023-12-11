@@ -340,7 +340,7 @@ export default {
       // method available in mixin, need to ensure that integrations are present
       await this.fetchIntegrationsIfRequired();
 
-      if (!this.isAIIntegrationEnabled) {
+      if (!this.isLabelSuggestionFeatureEnabled) {
         return;
       }
 

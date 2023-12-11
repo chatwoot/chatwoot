@@ -754,8 +754,31 @@ function upgrade_redis() {
   apt install libvips -y
 }
 
+
+##############################################################################
+# Update nodejs to v20+
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
 function upgrade_node() {
-  echo "Upgrading nodejs version to v20.x"
+  echo "Checking Node.js version..."
+
+  # Get current Node.js version
+  current_version=$(node --version | cut -c 2-)
+
+  # Parse major version number
+  major_version=$(echo "$current_version" | cut -d. -f1)
+
+  if [ "$major_version" -ge 20 ]; then
+    echo "Node.js is already version $current_version (>= 20.x). Skipping Node.js upgrade."
+    return
+  fi
+
+  echo "Upgrading Node.js version to v20.x"
   curl -sL https://deb.nodesource.com/setup_20.x | sudo bash -
   apt install -y nodejs
 }
