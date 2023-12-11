@@ -566,7 +566,7 @@ GEM
       rack (< 4)
     rack-cors (2.0.1)
       rack (>= 2.0.0)
-    rack-mini-profiler (3.1.1)
+    rack-mini-profiler (3.2.0)
       rack (>= 1.2.0)
     rack-protection (3.0.6)
       rack
@@ -918,7 +918,7 @@ DEPENDENCIES
   pundit
   rack-attack (>= 6.7.0)
   rack-cors
-  rack-mini-profiler (>= 3.1.1)
+  rack-mini-profiler (>= 3.2.0)
   rack-timeout
   rails (~> 7.0.8.0)
   redis
