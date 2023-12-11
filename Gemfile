@@ -75,7 +75,7 @@ gem 'jwt'
 gem 'pundit'
 # super admin
 gem 'administrate', '>= 0.19.0'
-gem 'administrate-field-active_storage'
+gem 'administrate-field-active_storage', '>= 1.0.0'
 gem 'administrate-field-belongs_to_search'
 
 ##--- gems for pubsub service ---##
@@ -109,9 +109,9 @@ gem 'elastic-apm', require: false
 gem 'newrelic_rpm', require: false
 gem 'newrelic-sidekiq-metrics', '>= 1.6.2', require: false
 gem 'scout_apm', require: false
-gem 'sentry-rails', '>= 5.12.0', require: false
+gem 'sentry-rails', '>= 5.13.0', require: false
 gem 'sentry-ruby', require: false
-gem 'sentry-sidekiq', '>= 5.12.0', require: false
+gem 'sentry-sidekiq', '>= 5.13.0', require: false
 
 ##-- background job processing --##
 gem 'sidekiq', '>= 7.1.3'
@@ -198,8 +198,10 @@ group :development do
   gem 'squasher'
 
   # profiling
-  gem 'rack-mini-profiler', '>= 3.1.1', require: false
+  gem 'rack-mini-profiler', '>= 3.2.0', require: false
   gem 'stackprof'
+  # Should install the associated chrome extension to view query logs
+  gem 'meta_request'
 end
 
 group :test do

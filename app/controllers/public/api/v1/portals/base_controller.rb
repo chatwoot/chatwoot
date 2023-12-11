@@ -11,11 +11,7 @@ class Public::Api::V1::Portals::BaseController < PublicController
   end
 
   def set_color_scheme
-    @theme = if %w[dark light].include?(params[:theme])
-               params[:theme]
-             else
-               'system'
-             end
+    @theme_from_params = params[:theme] if %w[dark light].include?(params[:theme])
   end
 
   def portal

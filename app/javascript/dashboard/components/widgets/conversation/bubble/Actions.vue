@@ -192,7 +192,7 @@ export default {
       if (!this.showStatusIndicators) {
         return false;
       }
-
+      // Messages will be marked as sent for the Email channel if they have a source ID.
       if (this.isAnEmailChannel) {
         return !!this.sourceId;
       }
@@ -201,11 +201,12 @@ export default {
         this.isAWhatsAppChannel ||
         this.isATwilioChannel ||
         this.isAFacebookInbox ||
-        this.isASmsInbox
+        this.isASmsInbox ||
+        this.isATelegramChannel
       ) {
         return this.sourceId && this.isSent;
       }
-      // There is no source id for the line channel
+      // All messages will be mark as sent for the Line channel, as there is no source ID.
       if (this.isALineChannel) {
         return true;
       }
@@ -216,15 +217,15 @@ export default {
       if (!this.showStatusIndicators) {
         return false;
       }
-
       if (
         this.isAWhatsAppChannel ||
         this.isATwilioChannel ||
-        this.isASmsInbox
+        this.isASmsInbox ||
+        this.isAFacebookInbox
       ) {
         return this.sourceId && this.isDelivered;
       }
-      // We will consider messages as delivered for web widget inbox and API inbox if they are sent
+      // All messages marked as delivered for the web widget inbox and API inbox once they are sent.
       if (this.isAWebWidgetInbox || this.isAPIInbox) {
         return this.isSent;
       }
@@ -238,18 +239,16 @@ export default {
       if (!this.showStatusIndicators) {
         return false;
       }
-
-      if (this.isAWebWidgetInbox || this.isAPIInbox) {
-        const { contact_last_seen_at: contactLastSeenAt } = this.currentChat;
-        return contactLastSeenAt >= this.createdAt;
-      }
-
       if (
         this.isAWhatsAppChannel ||
         this.isATwilioChannel ||
         this.isAFacebookInbox
       ) {
         return this.sourceId && this.isRead;
+      }
+
+      if (this.isAWebWidgetInbox || this.isAPIInbox) {
+        return this.isRead;
       }
 
       return false;
