@@ -39,7 +39,8 @@
     "SORT_TOOLTIP_LABEL": "Sort conversations",
     "CHAT_SORT": {
       "STATUS": "Status",
-      "ORDER_BY": "Order by"
+      "ORDER_BY": "Order by",
+      "SORT_ORDER": "Sort order"
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
@@ -63,6 +64,14 @@
       },
       "sort_on_waiting_since": {
         "TEXT": "Pending Response"
+      }
+    },
+    "CHAT_SORT_ORDER_FILTER_ITEMS": {
+      "asc": {
+        "TEXT": "Ascending"
+      },
+      "desc": {
+        "TEXT": "Descending"
       }
     },
     "ATTACHMENTS": {

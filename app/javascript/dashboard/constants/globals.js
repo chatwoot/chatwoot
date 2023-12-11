@@ -18,6 +18,10 @@ export default {
     PRIORITY: 'sort_on_priority',
     WATIING_SINCE: 'waiting_since',
   },
+  SORT_ORDER: {
+    ASC: 'asc',
+    DESC: 'desc',
+  },
   ARTICLE_STATUS_TYPES: {
     DRAFT: 0,
     PUBLISH: 1,

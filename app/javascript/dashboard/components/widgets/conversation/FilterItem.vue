@@ -38,8 +38,10 @@ export default {
     onTabChange() {
       if (this.type === 'status') {
         this.$store.dispatch('setChatStatusFilter', this.activeValue);
-      } else {
+      } else if (this.type === 'sort') {
         this.$store.dispatch('setChatSortFilter', this.activeValue);
+      } else {
+        this.$store.dispatch('setChatSortOrderFilter', this.activeValue);
       }
       this.$emit('onChangeFilter', this.activeValue, this.type);
     },
