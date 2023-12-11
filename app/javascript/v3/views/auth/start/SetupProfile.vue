@@ -2,6 +2,7 @@
   <modal-layout
     :title="$t('ONBOARDING.PROFILE.TITLE')"
     :body="$t('ONBOARDING.PROFILE.BODY')"
+    current-step="profile"
   >
     <form class="mt-8 space-y-8">
       <div class="space-y-3">

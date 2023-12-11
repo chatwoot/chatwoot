@@ -1,5 +1,8 @@
 <template>
-  <modal-layout :title="$t('ONBOARDING.FOUNDERS_NOTE.TITLE')">
+  <modal-layout
+    :title="$t('ONBOARDING.FOUNDERS_NOTE.TITLE')"
+    current-step="founders-note"
+  >
     <template #body>
       <section class="mt-4 space-y-3 text-sm leading-relaxed">
         <p>👋 Hey {{ user.name }},</p>

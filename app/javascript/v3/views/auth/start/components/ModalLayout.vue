@@ -12,9 +12,12 @@
         >
           Get Started
         </h6>
-        <modal-step is-active title="Setup Profile" :step-number="1" />
-        <modal-step title="Setup Company" :step-number="2" />
-        <modal-step title="Invite your team" :step-number="3" />
+        <modal-step
+          v-for="(step, index) in steps"
+          :key="step.name"
+          v-bind="step"
+          :step-number="index + 1"
+        />
       </div>
       <div
         id="modal-body"
@@ -41,6 +44,34 @@
 <script>
 import ModalStep from './ModalStep.vue';
 
+const UISteps = [
+  {
+    name: 'profile',
+    title: 'Setup Profile',
+    isActive: false,
+    isComplete: false,
+  },
+  {
+    name: 'company',
+    title: 'Setup Company',
+    isActive: false,
+    isComplete: false,
+  },
+  {
+    name: 'invite',
+    title: 'Invite your team',
+    isActive: false,
+    isComplete: false,
+  },
+  {
+    name: 'founders-note',
+    title: "Founder's Note",
+    hidden: true,
+    isActive: false,
+    isComplete: false,
+  },
+];
+
 export default {
   components: {
     ModalStep,
@@ -53,6 +84,27 @@ export default {
     body: {
       type: String,
       default: '',
+    },
+    currentStep: {
+      type: String,
+      required: true,
+    },
+  },
+  computed: {
+    steps() {
+      let foundCurrentStep = false;
+
+      return UISteps.map(step => {
+        if (step.name === this.currentStep) {
+          foundCurrentStep = true;
+        }
+
+        return {
+          ...step,
+          isActive: step.name === this.currentStep,
+          isComplete: !foundCurrentStep,
+        };
+      });
     },
   },
 };

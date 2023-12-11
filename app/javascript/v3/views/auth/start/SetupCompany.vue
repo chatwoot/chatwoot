@@ -2,6 +2,7 @@
   <modal-layout
     :title="$t('ONBOARDING.COMPANY.TITLE')"
     :body="$t('ONBOARDING.COMPANY.BODY')"
+    current-step="company"
   >
     <form class="space-y-8">
       <div class="space-y-3">
