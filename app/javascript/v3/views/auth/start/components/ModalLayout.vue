@@ -1,7 +1,12 @@
 <template>
   <section
-    class="min-h-screen px-8 py-20 dark:text-white bg-woot-25 dark:bg-slate-900"
+    class="relative h-screen px-8 py-20 dark:text-white bg-woot-25 dark:bg-slate-900"
   >
+    <img
+      id="bg-grad"
+      src="/onboarding/bg-gradient.png"
+      class="absolute inset-0 w-full opacity-50 dark:mix-blend-color"
+    />
     <div class="relative max-w-lg mx-auto">
       <div
         id="steps"
