@@ -145,10 +145,6 @@ class Conversation < ApplicationRecord
     end
   end
 
-  def update_assignee(agent = nil)
-    update!(assignee: agent)
-  end
-
   def toggle_status
     # FIXME: implement state machine with aasm
     self.status = open? ? :resolved : :open
