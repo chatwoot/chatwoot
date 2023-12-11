@@ -4,6 +4,17 @@ import {
 } from 'shared/constants/messages';
 import { applyPageFilters } from './helpers';
 
+const SORT_OPTIONS = {
+  latest_first: ['latest', 'desc'],
+  latest_last: ['latest', 'asc'],
+  created_at_first: ['sort_on_created_at', 'desc'],
+  created_at_last: ['sort_on_created_at', 'asc'],
+  priority_first: ['sort_on_priority', 'asc'],
+  priority_last: ['sort_on_priority', 'desc'],
+  waiting_since_first: ['sort_on_waiting_since', 'desc'],
+  waiting_since_last: ['sort_on_waiting_since', 'asc'],
+};
+
 export const getSelectedChatConversation = ({
   allConversations,
   selectedChatId,
@@ -45,13 +56,10 @@ const sortComparator = {
 };
 // getters
 const getters = {
-  getAllConversations: ({
-    allConversations,
-    chatSortFilter,
-    chatSortOrderFilter,
-  }) => {
+  getAllConversations: ({ allConversations, chatSortOrderFilter }) => {
+    let [sortBy, sortOrder] = SORT_OPTIONS[chatSortOrderFilter];
     return allConversations.sort((a, b) =>
-      sortComparator[chatSortFilter](a, b, chatSortOrderFilter)
+      sortComparator[sortBy](a, b, sortOrder)
     );
   },
   getSelectedChat: ({ selectedChatId, allConversations }) => {

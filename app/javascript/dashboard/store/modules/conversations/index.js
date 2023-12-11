@@ -12,7 +12,7 @@ const state = {
   listLoadingStatus: true,
   chatStatusFilter: wootConstants.STATUS_TYPE.OPEN,
   chatSortFilter: wootConstants.SORT_BY_TYPE.LATEST,
-  chatSortOrderFilter: wootConstants.SORT_ORDER.DESC,
+  chatSortOrderFilter: wootConstants.SORT_ORDER.LATEST_FIRST,
   currentInbox: null,
   selectedChatId: null,
   appliedFilters: [],

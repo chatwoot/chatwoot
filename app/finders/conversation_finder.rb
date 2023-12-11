@@ -3,19 +3,14 @@ class ConversationFinder
 
   DEFAULT_STATUS = 'open'.freeze
   SORT_OPTIONS = {
-    latest: 'latest',
-    sort_on_created_at: 'sort_on_created_at',
-    last_user_message_at: 'last_user_message_at',
-    sort_on_priority: 'sort_on_priority',
-    sort_on_waiting_since: 'sort_on_waiting_since'
-  }.with_indifferent_access
-
-  SORT_DEFAULT_ORDER = {
-    'latest' => 'desc',
-    'sort_on_created_at' => 'asc',
-    'last_user_message_at' => 'asc',
-    'sort_on_priority' => 'desc',
-    'sort_on_waiting_since' => 'asc'
+    'latest_first' => %w[latest desc],
+    'latest_last' => %w[latest asc],
+    'created_at_first' => %w[sort_on_created_at desc],
+    'created_at_last' => %w[sort_on_created_at asc],
+    'priority_first' => %w[sort_on_priority asc],
+    'priority_last' => %w[sort_on_priority desc],
+    'waiting_since_first' => %w[sort_on_waiting_since desc],
+    'waiting_since_last' => %w[sort_on_waiting_since asc]
   }.with_indifferent_access
   # assumptions
   # inbox_id if not given, take from all conversations, else specific to inbox
@@ -166,8 +161,7 @@ class ConversationFinder
     @conversations = @conversations.includes(
       :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team, :contact_inbox
     )
-    sort_by = SORT_OPTIONS[params[:sort_by]] || SORT_OPTIONS['latest']
-    sort_order = params[:sort_order] || SORT_DEFAULT_ORDER[sort_by]
+    sort_by, sort_order = SORT_OPTIONS[params[:sort_order]] || SORT_OPTIONS['latest_first']
     @conversations.send(sort_by, sort_order).page(current_page).per(ENV.fetch('CONVERSATION_RESULTS_PER_PAGE', '25').to_i)
   end
 end

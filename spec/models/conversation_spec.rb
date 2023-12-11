@@ -795,17 +795,6 @@ RSpec.describe Conversation do
         expect(records[1]['id']).to eq(conversation_2.id)
         expect(records[2]['id']).to eq(conversation_3.id)
       end
-
-      # it 'Sort based on oldest message first when there are no incoming message with descending order' do
-      #   Message.where(message_type: :incoming).update(message_type: :template)
-      #   conversation_with_message_count = described_class.joins(:messages).uniq.count
-      #   records = described_class.last_user_message_at('desc')
-
-      #   expect(records.length).to eq(conversation_with_message_count)
-      #   expect(records[0]['id']).to eq(conversation_3.id)
-      #   expect(records[1]['id']).to eq(conversation_2.id)
-      #   expect(records[2]['id']).to eq(conversation_1.id)
-      # end
     end
 
     context 'when last_activity_at updated by some actions' do

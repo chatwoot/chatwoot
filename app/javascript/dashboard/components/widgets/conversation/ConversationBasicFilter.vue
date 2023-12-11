@@ -26,26 +26,14 @@
           @onChangeFilter="onChangeFilter"
         />
       </div>
-      <div class="items-center flex justify-between mt-4">
+      <div class="items-center flex justify-between last:mt-4">
         <span class="text-slate-800 dark:text-slate-100 text-xs font-medium">{{
           $t('CHAT_LIST.CHAT_SORT.ORDER_BY')
         }}</span>
         <filter-item
-          type="sort"
-          :selected-value="sortFilter"
-          :items="chatSortItems"
-          path-prefix="CHAT_LIST.CHAT_SORT_FILTER_ITEMS"
-          @onChangeFilter="onChangeFilter"
-        />
-      </div>
-      <div class="items-center flex justify-between last:mt-4">
-        <span class="text-slate-800 dark:text-slate-100 text-xs font-medium">{{
-          $t('CHAT_LIST.CHAT_SORT.SORT_ORDER')
-        }}</span>
-        <filter-item
           type="sort_order"
           :selected-value="sortOrderFilter"
-          :items="chatSortOrderItems"
+          :items="chatSortFilterItems"
           path-prefix="CHAT_LIST.CHAT_SORT_ORDER_FILTER_ITEMS"
           @onChangeFilter="onChangeFilter"
         />
@@ -70,24 +58,19 @@ export default {
     return {
       showActionsDropdown: false,
       chatStatusItems: this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS'),
-      chatSortItems: this.$t('CHAT_LIST.CHAT_SORT_FILTER_ITEMS'),
-      chatSortOrderItems: this.$t('CHAT_LIST.CHAT_SORT_ORDER_FILTER_ITEMS'),
+      chatSortFilterItems: this.$t('CHAT_LIST.CHAT_SORT_ORDER_FILTER_ITEMS'),
     };
   },
   computed: {
     ...mapGetters({
       chatStatusFilter: 'getChatStatusFilter',
-      chatSortFilter: 'getChatSortFilter',
       chatSortOrderFilter: 'getChatSortOrderFilter',
     }),
     chatStatus() {
       return this.chatStatusFilter || wootConstants.STATUS_TYPE.OPEN;
     },
-    sortFilter() {
-      return this.chatSortFilter || wootConstants.SORT_BY_TYPE.LATEST;
-    },
     sortOrderFilter() {
-      return this.chatSortOrderFilter || wootConstants.SORT_ORDER.DESC;
+      return this.chatSortOrderFilter || wootConstants.SORT_ORDER.LATEST_FIRST;
     },
   },
   methods: {
@@ -109,7 +92,6 @@ export default {
       this.updateUISettings({
         conversations_filter_by: {
           status: type === 'status' ? value : this.chatStatus,
-          order_by: type === 'sort' ? value : this.sortFilter,
           sort_order: type === 'sort_order' ? value : this.sortOrderFilter,
         },
       });

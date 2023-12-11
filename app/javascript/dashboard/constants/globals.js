@@ -19,8 +19,14 @@ export default {
     WATIING_SINCE: 'waiting_since',
   },
   SORT_ORDER: {
-    ASC: 'asc',
-    DESC: 'desc',
+    LATEST_FIRST: 'latest_first',
+    LATEST_LAST: 'latest_last',
+    CREATED_AT_FIRST: 'created_at_first',
+    CREATED_AT_LAST: 'created_at_last',
+    PRIORITY_FIRST: 'priority_first',
+    PRIORITY_LAST: 'priority_last',
+    WAITING_SINCE_FIRST: 'waiting_since_first',
+    WAITING_SINCE_LAST: 'waiting_since_last',
   },
   ARTICLE_STATUS_TYPES: {
     DRAFT: 0,

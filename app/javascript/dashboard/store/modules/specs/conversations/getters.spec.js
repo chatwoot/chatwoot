@@ -26,8 +26,7 @@ describe('#getters', () => {
             last_activity_at: 1466424480,
           },
         ],
-        chatSortFilter: 'latest',
-        chatSortOrderFilter: 'desc',
+        chatSortOrderFilter: 'latest_first',
       };
 
       expect(getters.getAllConversations(state)).toEqual([
@@ -69,8 +68,7 @@ describe('#getters', () => {
             last_activity_at: 1466424480,
           },
         ],
-        chatSortFilter: 'latest',
-        chatSortOrderFilter: 'asc',
+        chatSortOrderFilter: 'latest_last',
       };
 
       expect(getters.getAllConversations(state)).toEqual([
@@ -113,8 +111,7 @@ describe('#getters', () => {
             last_activity_at: 1466424480,
           },
         ],
-        chatSortFilter: 'sort_on_created_at',
-        chatSortOrderFilter: 'asc',
+        chatSortOrderFilter: 'created_at_last',
       };
 
       expect(getters.getAllConversations(state)).toEqual([
@@ -157,8 +154,7 @@ describe('#getters', () => {
             last_activity_at: 1466424480,
           },
         ],
-        chatSortFilter: 'sort_on_created_at',
-        chatSortOrderFilter: 'desc',
+        chatSortOrderFilter: 'created_at_first',
       };
 
       expect(getters.getAllConversations(state)).toEqual([
@@ -201,8 +197,7 @@ describe('#getters', () => {
             last_activity_at: 1466424480,
           },
         ],
-        chatSortFilter: 'latest',
-        chatSortOrderFilter: 'desc',
+        chatSortOrderFilter: 'latest_first',
       };
 
       expect(getters.getAllConversations(state)).toEqual([
@@ -253,8 +248,7 @@ describe('#getters', () => {
             last_activity_at: 1466421280,
           },
         ],
-        chatSortFilter: 'sort_on_priority',
-        chatSortOrderFilter: 'asc',
+        chatSortOrderFilter: 'priority_first',
       };
 
       expect(getters.getAllConversations(state)).toEqual([
@@ -286,7 +280,7 @@ describe('#getters', () => {
       ]);
     });
 
-    it('order conversations based on  with ascending order', () => {
+    it('order conversations based on  with descending order', () => {
       const state = {
         allConversations: [
           {
@@ -315,25 +309,10 @@ describe('#getters', () => {
             last_activity_at: 1466421280,
           },
         ],
-        chatSortFilter: 'sort_on_priority',
-        chatSortOrderFilter: 'asc',
+        chatSortOrderFilter: 'priority_last',
       };
 
       expect(getters.getAllConversations(state)).toEqual([
-        {
-          id: 2,
-          messages: [{ content: 'test2' }],
-          priority: 'urgent',
-          created_at: 1652109801,
-          last_activity_at: 1466424480,
-        },
-        {
-          id: 3,
-          messages: [{ content: 'test3' }],
-          priority: 'medium',
-          created_at: 1652109801,
-          last_activity_at: 1466421280,
-        },
         {
           id: 1,
           messages: [
@@ -344,6 +323,20 @@ describe('#getters', () => {
           priority: 'low',
           created_at: 1683645801,
           last_activity_at: 2466424490,
+        },
+        {
+          id: 3,
+          messages: [{ content: 'test3' }],
+          priority: 'medium',
+          created_at: 1652109801,
+          last_activity_at: 1466421280,
+        },
+        {
+          id: 2,
+          messages: [{ content: 'test2' }],
+          priority: 'urgent',
+          created_at: 1652109801,
+          last_activity_at: 1466424480,
         },
       ]);
     });
@@ -372,8 +365,7 @@ describe('#getters', () => {
             waiting_since: 1683645800,
           },
         ],
-        chatSortFilter: 'sort_on_waiting_since',
-        chatSortOrderFilter: 'asc',
+        chatSortOrderFilter: 'waiting_since_last',
       };
 
       expect(getters.getAllConversations(state)).toEqual([

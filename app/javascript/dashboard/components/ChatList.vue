@@ -398,7 +398,6 @@ export default {
         inboxId: this.conversationInbox ? this.conversationInbox : undefined,
         assigneeType: this.activeAssigneeTab,
         status: this.activeStatus,
-        sortBy: this.activeSortBy,
         sortOrder: this.activeSortOrder,
         page: this.conversationListPagination,
         labels: this.label ? [this.label] : undefined,
@@ -556,7 +555,7 @@ export default {
       const { status, order_by: orderBy, sort_order: sortOrder } = filterBy;
       this.activeStatus = status || wootConstants.STATUS_TYPE.OPEN;
       this.activeSortBy = orderBy || wootConstants.SORT_BY_TYPE.LATEST;
-      this.activeSortOrder = sortOrder || wootConstants.SORT_ORDER.DESC;
+      this.activeSortOrder = sortOrder || wootConstants.SORT_ORDER.LATEST_FIRST;
     },
     onClickOpenAddFoldersModal() {
       this.showAddFoldersModal = true;
