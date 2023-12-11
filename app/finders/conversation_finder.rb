@@ -160,6 +160,6 @@ class ConversationFinder
       :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team, :contact_inbox
     )
     sort_by = SORT_OPTIONS[params[:sort_by]] || SORT_OPTIONS['latest']
-    @conversations.send(sort_by).page(current_page)
+    @conversations.send(sort_by).page(current_page).per(ENV.fetch('CONVERSATION_RESULTS_PER_PAGE', '25').to_i)
   end
 end
