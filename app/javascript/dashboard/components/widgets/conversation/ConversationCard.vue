@@ -175,6 +175,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    enableContextMenu: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -289,6 +293,7 @@ export default {
       this.$emit(action, this.chat.id, this.inbox.id);
     },
     openContextMenu(e) {
+      if (!this.enableContextMenu) return;
       e.preventDefault();
       this.$emit('context-menu-toggle', true);
       this.contextMenu.x = e.pageX || e.clientX;

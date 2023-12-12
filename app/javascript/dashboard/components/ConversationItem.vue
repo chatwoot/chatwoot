@@ -8,6 +8,7 @@
     :conversation-type="conversationType"
     :selected="isConversationSelected(source.id)"
     :show-assignee="showAssignee"
+    :enable-context-menu="true"
     @select-conversation="selectConversation"
     @de-select-conversation="deSelectConversation"
     @assign-agent="onAssignAgent"
