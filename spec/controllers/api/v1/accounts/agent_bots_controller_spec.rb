@@ -209,7 +209,7 @@ RSpec.describe 'Agent Bot API', type: :request do
   describe 'DELETE /api/v1/accounts/{account.id}/agent_bots/:id/avatar' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        delete "/api/v1/accounts/#{account.id}/agent_bots/#{agent_bot.id}/avatar"
+        delete "/api/v1/accounts/#{account.id}/agent_bots/#{agent_bot.id}"
 
         expect(response).to have_http_status(:unauthorized)
       end

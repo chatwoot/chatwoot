@@ -332,7 +332,7 @@ Rails.application.routes.draw do
           end
         end
         resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
-          delete :avatar, on: :member, action: :destroy_avatar
+          delete :avatar, on: :member
         end
         resources :accounts, only: [:create, :show, :update, :destroy] do
           resources :account_users, only: [:index, :create] do
