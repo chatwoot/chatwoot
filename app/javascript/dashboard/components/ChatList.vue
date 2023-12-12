@@ -131,12 +131,38 @@
       :class="{ 'overflow-hidden': isContextMenuOpen }"
     >
       <virtual-list
-        :keeps="10"
+        :estimate-size="45"
+        :keeps="25"
         :data-key="'id'"
         :data-sources="conversationList"
         :data-component="itemComponent"
-        class="w-full overflow-auto"
-      />
+        :extra-props="virtualListExtraProps"
+        class="w-full overflow-auto h-full"
+        footer-tag="div"
+        @select-conversation="selectConversation"
+        @de-select-conversation="deSelectConversation"
+        @assign-agent="onAssignAgent"
+        @assign-team="onAssignTeam"
+        @assign-label="onAssignLabels"
+        @update-conversation-status="toggleConversationStatus"
+        @context-menu-toggle="onContextMenuToggle"
+        @mark-as-unread="markAsUnread"
+        @assign-priority="assignPriority"
+      >
+        <template #footer>
+          <div v-if="chatListLoading" class="text-center">
+            <span class="spinner mt-4 mb-4" />
+          </div>
+          <p v-if="showEndOfListMessage" class="text-center text-muted p-4">
+            {{ $t('CHAT_LIST.EOF') }}
+          </p>
+          <intersection-observer
+            v-if="!showEndOfListMessage && !chatListLoading"
+            :options="infiniteLoaderOptions"
+            @observed="loadMoreConversations"
+          />
+        </template>
+      </virtual-list>
       <!-- <conversation-card
         v-for="chat in conversationList"
         :key="chat.id"
@@ -157,17 +183,6 @@
         @mark-as-unread="markAsUnread"
         @assign-priority="assignPriority"
       /> -->
-      <div v-if="chatListLoading" class="text-center">
-        <span class="spinner mt-4 mb-4" />
-      </div>
-      <p v-if="showEndOfListMessage" class="text-center text-muted p-4">
-        {{ $t('CHAT_LIST.EOF') }}
-      </p>
-      <intersection-observer
-        v-if="!showEndOfListMessage && !chatListLoading"
-        :options="infiniteLoaderOptions"
-        @observed="loadMoreConversations"
-      />
     </div>
     <woot-modal
       :show.sync="showAdvancedFilters"
@@ -228,6 +243,7 @@ export default {
   components: {
     AddCustomViews,
     ChatTypeTabs,
+    // eslint-disable-next-line vue/no-unused-components
     ConversationItem,
     ConversationAdvancedFilter,
     DeleteCustomViews,
@@ -299,6 +315,14 @@ export default {
         rootMargin: '100px 0px 100px 0px',
       },
       itemComponent: ConversationItem,
+      virtualListExtraProps: {
+        label: this.label,
+        teamId: this.teamId,
+        foldersId: this.foldersId,
+        conversationType: this.conversationType,
+        showAssignee: false,
+        isConversationSelected: this.isConversationSelected,
+      },
     };
   },
   computed: {
@@ -526,6 +550,12 @@ export default {
     },
     chatLists() {
       this.chatsOnView = this.conversationList;
+    },
+    showAssigneeInConversationCard(newVal) {
+      this.virtualListExtraProps = {
+        ...this.virtualListExtraProps,
+        showAssignee: newVal,
+      };
     },
   },
   mounted() {

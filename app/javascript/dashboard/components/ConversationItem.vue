@@ -1,15 +1,23 @@
 <template>
-  <div>
-    <conversation-card
-      :key="source.id"
-      :active-label="label"
-      :team-id="teamId"
-      :folders-id="foldersId"
-      :chat="source"
-      :conversation-type="conversationType"
-      :selected="true"
-    />
-  </div>
+  <conversation-card
+    :key="source.id"
+    :active-label="label"
+    :team-id="teamId"
+    :folders-id="foldersId"
+    :chat="source"
+    :conversation-type="conversationType"
+    :selected="isConversationSelected(source.id)"
+    :show-assignee="showAssignee"
+    @select-conversation="selectConversation"
+    @de-select-conversation="deSelectConversation"
+    @assign-agent="onAssignAgent"
+    @assign-team="onAssignTeam"
+    @assign-label="onAssignLabel"
+    @update-conversation-status="toggleConversationStatus"
+    @context-menu-toggle="onContextMenuToggle"
+    @mark-as-unread="markAsUnread"
+    @assign-priority="assignPriority"
+  />
 </template>
 
 <script>
@@ -23,53 +31,72 @@ export default {
       type: Object,
       required: true,
     },
+    teamId: {
+      type: [String, Number],
+      default: 0,
+    },
+    label: {
+      type: String,
+      default: '',
+    },
+    conversationType: {
+      type: String,
+      default: '',
+    },
+    foldersId: {
+      type: [String, Number],
+      default: 0,
+    },
+    isConversationSelected: {
+      type: Function,
+      default: () => {},
+    },
+    showAssignee: {
+      type: Boolean,
+      default: false,
+    },
   },
-
-  data() {
-    return {
-      teamId: 0,
-      foldersId: 0,
-      label: '',
-      conversationType: '',
-    };
+  methods: {
+    selectConversation(conversationId, inboxId) {
+      this.$parent.$parent.$emit(
+        'select-conversation',
+        conversationId,
+        inboxId
+      );
+    },
+    deSelectConversation(conversationId, inboxId) {
+      this.$parent.$parent.$emit(
+        'de-select-conversation',
+        conversationId,
+        inboxId
+      );
+    },
+    onAssignAgent(agent, conversationId) {
+      this.$parent.$parent.$emit('assign-agent', agent, conversationId);
+    },
+    onAssignTeam(team, conversationId) {
+      this.$parent.$parent.$emit('assign-team', team, conversationId);
+    },
+    onAssignLabel(labelTitle, conversationId) {
+      this.$parent.$parent.$emit('assign-label', labelTitle, conversationId);
+    },
+    toggleConversationStatus(conversationId, status, snoozedUntil) {
+      this.$parent.$parent.$emit(
+        'update-conversation-status',
+        conversationId,
+        status,
+        snoozedUntil
+      );
+    },
+    onContextMenuToggle(value) {
+      this.$parent.$parent.$emit('context-menu-toggle', value);
+    },
+    markAsUnread(conversationId) {
+      this.$parent.$parent.$emit('mark-as-unread', conversationId);
+    },
+    assignPriority(priority, conversationId) {
+      this.$parent.$parent.$emit('assign-priority', priority, conversationId);
+    },
   },
 };
 </script>
-<style scoped>
-@tailwind components;
-@layer components {
-  .flex-basis-clamp {
-    flex-basis: clamp(20rem, 4vw + 21.25rem, 27.5rem);
-  }
-}
-</style>
-
-<style scoped lang="scss">
-.conversations-list-wrap {
-  &.hide {
-    @apply hidden;
-  }
-
-  &.list--full-width {
-    @apply basis-full;
-  }
-}
-
-.conversations-list {
-  @apply overflow-hidden hover:overflow-y-auto;
-}
-
-.load-more--button {
-  @apply text-center rounded-none;
-}
-
-.tab--chat-type {
-  @apply py-0 px-4;
-
-  ::v-deep {
-    .tabs {
-      @apply p-0;
-    }
-  }
-}
-</style>
