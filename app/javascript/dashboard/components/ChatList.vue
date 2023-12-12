@@ -126,51 +126,42 @@
       @assign-team="onAssignTeamsForBulk"
     />
     <div
-      ref="activeConversation"
+      ref="conversationList"
       class="conversations-list flex-1"
       :class="{ 'overflow-hidden': isContextMenuOpen }"
     >
-      <div>
-        <conversation-card
-          v-for="chat in conversationList"
-          :key="chat.id"
-          :active-label="label"
-          :team-id="teamId"
-          :folders-id="foldersId"
-          :chat="chat"
-          :inbox-type="inbox.channel_type"
-          :conversation-type="conversationType"
-          :show-assignee="showAssigneeInConversationCard"
-          :selected="isConversationSelected(chat.id)"
-          @select-conversation="selectConversation"
-          @de-select-conversation="deSelectConversation"
-          @assign-agent="onAssignAgent"
-          @assign-team="onAssignTeam"
-          @assign-label="onAssignLabels"
-          @update-conversation-status="toggleConversationStatus"
-          @context-menu-toggle="onContextMenuToggle"
-          @mark-as-unread="markAsUnread"
-          @assign-priority="assignPriority"
-        />
-      </div>
-
+      <conversation-card
+        v-for="chat in conversationList"
+        :key="chat.id"
+        :active-label="label"
+        :team-id="teamId"
+        :folders-id="foldersId"
+        :chat="chat"
+        :inbox-type="inbox.channel_type"
+        :conversation-type="conversationType"
+        :show-assignee="showAssigneeInConversationCard"
+        :selected="isConversationSelected(chat.id)"
+        @select-conversation="selectConversation"
+        @de-select-conversation="deSelectConversation"
+        @assign-agent="onAssignAgent"
+        @assign-team="onAssignTeam"
+        @assign-label="onAssignLabels"
+        @update-conversation-status="toggleConversationStatus"
+        @context-menu-toggle="onContextMenuToggle"
+        @mark-as-unread="markAsUnread"
+        @assign-priority="assignPriority"
+      />
       <div v-if="chatListLoading" class="text-center">
         <span class="spinner mt-4 mb-4" />
       </div>
-
-      <woot-button
-        v-if="!hasCurrentPageEndReached && !chatListLoading"
-        variant="clear"
-        size="expanded"
-        class="load-more--button"
-        @click="loadMoreConversations"
-      >
-        {{ $t('CHAT_LIST.LOAD_MORE_CONVERSATIONS') }}
-      </woot-button>
-
       <p v-if="showEndOfListMessage" class="text-center text-muted p-4">
         {{ $t('CHAT_LIST.EOF') }}
       </p>
+      <intersection-observer
+        v-if="!showEndOfListMessage && !chatListLoading"
+        :options="infiniteLoaderOptions"
+        @observed="loadMoreConversations"
+      />
     </div>
     <woot-modal
       :show.sync="showAdvancedFilters"
@@ -224,6 +215,7 @@ import {
   isOnUnattendedView,
 } from '../store/modules/conversations/helpers/actionHelpers';
 import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
+import IntersectionObserver from './IntersectionObserver.vue';
 
 export default {
   components: {
@@ -234,6 +226,7 @@ export default {
     DeleteCustomViews,
     ConversationBulkActions,
     ConversationBasicFilter,
+    IntersectionObserver,
   },
   mixins: [
     timeMixin,
@@ -293,6 +286,10 @@ export default {
       selectedInboxes: [],
       isContextMenuOpen: false,
       appliedFilter: [],
+      infiniteLoaderOptions: {
+        root: this.$refs.conversationList,
+        rootMargin: '100px 0px 100px 0px',
+      },
     };
   },
   computed: {
@@ -637,10 +634,10 @@ export default {
       );
     },
     getKeyboardListenerParams() {
-      const allConversations = this.$refs.activeConversation.querySelectorAll(
+      const allConversations = this.$refs.conversationList.querySelectorAll(
         'div.conversations-list div.conversation'
       );
-      const activeConversation = this.$refs.activeConversation.querySelector(
+      const activeConversation = this.$refs.conversationList.querySelector(
         'div.conversations-list div.conversation.active'
       );
       const activeConversationIndex = [...allConversations].indexOf(
@@ -699,6 +696,9 @@ export default {
         .then(() => this.$emit('conversation-load'));
     },
     loadMoreConversations() {
+      if (this.hasCurrentPageEndReached || this.chatListLoading) {
+        return;
+      }
       if (!this.hasAppliedFiltersOrActiveFolders) {
         this.fetchConversations();
       }
