@@ -39,7 +39,7 @@ export default {
       if (this.type === 'status') {
         this.$store.dispatch('setChatStatusFilter', this.activeValue);
       } else {
-        this.$store.dispatch('setChatSortOrderFilter', this.activeValue);
+        this.$store.dispatch('setChatSortFilter', this.activeValue);
       }
       this.$emit('onChangeFilter', this.activeValue, this.type);
     },

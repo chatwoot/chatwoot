@@ -398,7 +398,7 @@ export default {
         inboxId: this.conversationInbox ? this.conversationInbox : undefined,
         assigneeType: this.activeAssigneeTab,
         status: this.activeStatus,
-        sortOrder: this.activeSortOrder,
+        sortBy: this.activeSortBy,
         page: this.conversationListPagination,
         labels: this.label ? [this.label] : undefined,
         teamId: this.teamId || undefined,
@@ -522,7 +522,6 @@ export default {
     this.setFiltersFromUISettings();
     this.$store.dispatch('setChatStatusFilter', this.activeStatus);
     this.$store.dispatch('setChatSortFilter', this.activeSortBy);
-    this.$store.dispatch('setChatSortOrderFilter', this.activeSortOrder);
     this.resetAndFetchData();
 
     if (this.hasActiveFolders) {
@@ -552,10 +551,9 @@ export default {
     },
     setFiltersFromUISettings() {
       const { conversations_filter_by: filterBy = {} } = this.uiSettings;
-      const { status, order_by: orderBy, sort_order: sortOrder } = filterBy;
+      const { status, order_by: orderBy } = filterBy;
       this.activeStatus = status || wootConstants.STATUS_TYPE.OPEN;
       this.activeSortBy = orderBy || wootConstants.SORT_BY_TYPE.LATEST;
-      this.activeSortOrder = sortOrder || wootConstants.SORT_ORDER.LATEST_FIRST;
     },
     onClickOpenAddFoldersModal() {
       this.showAddFoldersModal = true;
@@ -748,7 +746,7 @@ export default {
       if (type === 'status') {
         this.activeStatus = value;
       } else {
-        this.activeSortOrder = value;
+        this.activeSortBy = value;
       }
       this.resetAndFetchData();
     },

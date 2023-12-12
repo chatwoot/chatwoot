@@ -364,10 +364,6 @@ const actions = {
     commit(types.CHANGE_CHAT_SORT_FILTER, data);
   },
 
-  setChatSortOrderFilter({ commit }, data) {
-    commit(types.CHANGE_CHAT_SORT_ORDER_FILTER, data);
-  },
-
   updateAssignee({ commit }, data) {
     commit(types.UPDATE_ASSIGNEE, data);
   },

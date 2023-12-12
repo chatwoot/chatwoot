@@ -31,10 +31,10 @@
           $t('CHAT_LIST.CHAT_SORT.ORDER_BY')
         }}</span>
         <filter-item
-          type="sort_order"
-          :selected-value="sortOrderFilter"
-          :items="chatSortFilterItems"
-          path-prefix="CHAT_LIST.CHAT_SORT_ORDER_FILTER_ITEMS"
+          type="sort"
+          :selected-value="sortFilter"
+          :items="chatSortItems"
+          path-prefix="CHAT_LIST.CHAT_SORT_FILTER_ITEMS"
           @onChangeFilter="onChangeFilter"
         />
       </div>
@@ -58,19 +58,19 @@ export default {
     return {
       showActionsDropdown: false,
       chatStatusItems: this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS'),
-      chatSortFilterItems: this.$t('CHAT_LIST.CHAT_SORT_ORDER_FILTER_ITEMS'),
+      chatSortItems: this.$t('CHAT_LIST.CHAT_SORT_FILTER_ITEMS'),
     };
   },
   computed: {
     ...mapGetters({
       chatStatusFilter: 'getChatStatusFilter',
-      chatSortOrderFilter: 'getChatSortOrderFilter',
+      chatSortFilter: 'getChatSortFilter',
     }),
     chatStatus() {
       return this.chatStatusFilter || wootConstants.STATUS_TYPE.OPEN;
     },
-    sortOrderFilter() {
-      return this.chatSortOrderFilter || wootConstants.SORT_ORDER.LATEST_FIRST;
+    sortFilter() {
+      return this.chatSortFilter || wootConstants.SORT_BY_TYPE.LATEST;
     },
   },
   methods: {
@@ -92,7 +92,7 @@ export default {
       this.updateUISettings({
         conversations_filter_by: {
           status: type === 'status' ? value : this.chatStatus,
-          sort_order: type === 'sort_order' ? value : this.sortOrderFilter,
+          order_by: type === 'sort' ? value : this.sortFilter,
         },
       });
     },
