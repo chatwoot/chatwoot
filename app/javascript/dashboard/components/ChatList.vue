@@ -163,26 +163,6 @@
           />
         </template>
       </virtual-list>
-      <!-- <conversation-card
-        v-for="chat in conversationList"
-        :key="chat.id"
-        :active-label="label"
-        :team-id="teamId"
-        :folders-id="foldersId"
-        :chat="chat"
-        :conversation-type="conversationType"
-        :show-assignee="showAssigneeInConversationCard"
-        :selected="isConversationSelected(chat.id)"
-        @select-conversation="selectConversation"
-        @de-select-conversation="deSelectConversation"
-        @assign-agent="onAssignAgent"
-        @assign-team="onAssignTeam"
-        @assign-label="onAssignLabels"
-        @update-conversation-status="toggleConversationStatus"
-        @context-menu-toggle="onContextMenuToggle"
-        @mark-as-unread="markAsUnread"
-        @assign-priority="assignPriority"
-      /> -->
     </div>
     <woot-modal
       :show.sync="showAdvancedFilters"
@@ -314,7 +294,9 @@ export default {
         root: this.$refs.conversationList,
         rootMargin: '100px 0px 100px 0px',
       },
+
       itemComponent: ConversationItem,
+      // virtualListExtraProps is to pass the props to the conversationItem component.
       virtualListExtraProps: {
         label: this.label,
         teamId: this.teamId,
