@@ -831,4 +831,14 @@ RSpec.describe Conversation do
       end
     end
   end
+
+  describe 'cached_label_list_array' do
+    let(:conversation) { create(:conversation) }
+
+    it 'returns the correct list of labels' do
+      conversation.update(label_list: %w[customer-support enterprise paid-customer])
+
+      expect(conversation.cached_label_list_array).to eq %w[customer-support enterprise paid-customer]
+    end
+  end
 end
