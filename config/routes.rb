@@ -45,7 +45,9 @@ Rails.application.routes.draw do
           end
           resource :bulk_actions, only: [:create]
           resources :agents, only: [:index, :create, :update, :destroy]
-          resources :agent_bots, only: [:index, :create, :show, :update, :destroy]
+          resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
+            delete :avatar, on: :member
+          end
           resources :contact_inboxes, only: [] do
             collection do
               post :filter
@@ -329,7 +331,9 @@ Rails.application.routes.draw do
             get :login
           end
         end
-        resources :agent_bots, only: [:index, :create, :show, :update, :destroy]
+        resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
+          delete :avatar, on: :member
+        end
         resources :accounts, only: [:create, :show, :update, :destroy] do
           resources :account_users, only: [:index, :create] do
             collection do
