@@ -130,37 +130,29 @@
       class="conversations-list flex-1"
       :class="{ 'overflow-hidden': isContextMenuOpen }"
     >
-      <conversation-card
-        v-for="chat in conversationList"
-        :key="chat.id"
-        :active-label="label"
-        :team-id="teamId"
-        :folders-id="foldersId"
-        :chat="chat"
-        :conversation-type="conversationType"
-        :show-assignee="showAssigneeInConversationCard"
-        :selected="isConversationSelected(chat.id)"
-        @select-conversation="selectConversation"
-        @de-select-conversation="deSelectConversation"
-        @assign-agent="onAssignAgent"
-        @assign-team="onAssignTeam"
-        @assign-label="onAssignLabels"
-        @update-conversation-status="toggleConversationStatus"
-        @context-menu-toggle="onContextMenuToggle"
-        @mark-as-unread="markAsUnread"
-        @assign-priority="assignPriority"
-      />
-      <div v-if="chatListLoading" class="text-center">
-        <span class="spinner mt-4 mb-4" />
-      </div>
-      <p v-if="showEndOfListMessage" class="text-center text-muted p-4">
-        {{ $t('CHAT_LIST.EOF') }}
-      </p>
-      <intersection-observer
-        v-if="!showEndOfListMessage && !chatListLoading"
-        :options="infiniteLoaderOptions"
-        @observed="loadMoreConversations"
-      />
+      <virtual-list
+        ref="conversationVirtualList"
+        :data-key="'id'"
+        :data-sources="conversationList"
+        :data-component="itemComponent"
+        :extra-props="virtualListExtraProps"
+        class="w-full overflow-auto h-full"
+        footer-tag="div"
+      >
+        <template #footer>
+          <div v-if="chatListLoading" class="text-center">
+            <span class="spinner mt-4 mb-4" />
+          </div>
+          <p v-if="showEndOfListMessage" class="text-center text-muted p-4">
+            {{ $t('CHAT_LIST.EOF') }}
+          </p>
+          <intersection-observer
+            v-if="!showEndOfListMessage && !chatListLoading"
+            :options="infiniteLoaderOptions"
+            @observed="loadMoreConversations"
+          />
+        </template>
+      </virtual-list>
     </div>
     <woot-modal
       :show.sync="showAdvancedFilters"
@@ -183,11 +175,12 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import VirtualList from 'vue-virtual-scroll-list';
 
 import ConversationAdvancedFilter from './widgets/conversation/ConversationAdvancedFilter.vue';
 import ConversationBasicFilter from './widgets/conversation/ConversationBasicFilter.vue';
 import ChatTypeTabs from './widgets/ChatTypeTabs.vue';
-import ConversationCard from './widgets/conversation/ConversationCard.vue';
+import ConversationItem from './ConversationItem.vue';
 import timeMixin from '../mixins/time';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import conversationMixin from '../mixins/conversations';
@@ -220,12 +213,14 @@ export default {
   components: {
     AddCustomViews,
     ChatTypeTabs,
-    ConversationCard,
+    // eslint-disable-next-line vue/no-unused-components
+    ConversationItem,
     ConversationAdvancedFilter,
     DeleteCustomViews,
     ConversationBulkActions,
     ConversationBasicFilter,
     IntersectionObserver,
+    VirtualList,
   },
   mixins: [
     timeMixin,
@@ -235,6 +230,20 @@ export default {
     filterMixin,
     uiSettingsMixin,
   ],
+  provide() {
+    return {
+      // Actions to be performed on virtual list item and context menu.
+      selectConversation: this.selectConversation,
+      deSelectConversation: this.deSelectConversation,
+      assignAgent: this.onAssignAgent,
+      assignTeam: this.onAssignTeam,
+      assignLabels: this.onAssignLabels,
+      updateConversationStatus: this.toggleConversationStatus,
+      toggleContextMenu: this.onContextMenuToggle,
+      markAsUnread: this.markAsUnread,
+      assignPriority: this.assignPriority,
+    };
+  },
   props: {
     conversationInbox: {
       type: [String, Number],
@@ -288,6 +297,17 @@ export default {
       infiniteLoaderOptions: {
         root: this.$refs.conversationList,
         rootMargin: '100px 0px 100px 0px',
+      },
+
+      itemComponent: ConversationItem,
+      // virtualListExtraProps is to pass the props to the conversationItem component.
+      virtualListExtraProps: {
+        label: this.label,
+        teamId: this.teamId,
+        foldersId: this.foldersId,
+        conversationType: this.conversationType,
+        showAssignee: false,
+        isConversationSelected: this.isConversationSelected,
       },
     };
   },
@@ -507,15 +527,21 @@ export default {
     },
     label() {
       this.resetAndFetchData();
+      this.updateVirtualListProps('label', this.label);
     },
     conversationType() {
       this.resetAndFetchData();
+      this.updateVirtualListProps('conversationType', this.conversationType);
     },
     activeFolder() {
       this.resetAndFetchData();
+      this.updateVirtualListProps('foldersId', this.foldersId);
     },
     chatLists() {
       this.chatsOnView = this.conversationList;
+    },
+    showAssigneeInConversationCard(newVal) {
+      this.updateVirtualListProps('showAssignee', newVal);
     },
   },
   mounted() {
@@ -533,6 +559,12 @@ export default {
     });
   },
   methods: {
+    updateVirtualListProps(key, value) {
+      this.virtualListExtraProps = {
+        ...this.virtualListExtraProps,
+        [key]: value,
+      };
+    },
     onApplyFilter(payload) {
       this.resetBulkActions();
       this.foldersQuery = filterQueryGenerator(payload);
@@ -695,7 +727,7 @@ export default {
     fetchConversations() {
       this.$store
         .dispatch('fetchAllConversations', this.conversationFilters)
-        .then(() => this.$emit('conversation-load'));
+        .then(this.emitConversationLoaded);
     },
     loadMoreConversations() {
       if (this.hasCurrentPageEndReached || this.chatListLoading) {
@@ -719,7 +751,7 @@ export default {
           queryData: filterQueryGenerator(payload),
           page,
         })
-        .then(() => this.$emit('conversation-load'));
+        .then(this.emitConversationLoaded);
       this.showAdvancedFilters = false;
     },
     fetchSavedFilteredConversations(payload) {
@@ -729,7 +761,7 @@ export default {
           queryData: payload,
           page,
         })
-        .then(() => this.$emit('conversation-load'));
+        .then(this.emitConversationLoaded);
     },
     updateAssigneeTab(selectedTab) {
       if (this.activeAssigneeTab !== selectedTab) {
@@ -740,6 +772,20 @@ export default {
           this.fetchConversations();
         }
       }
+    },
+    emitConversationLoaded() {
+      this.$emit('conversation-load');
+      this.$nextTick(() => {
+        // Addressing a known issue in the virtual list library where dynamically added items
+        // might not render correctly. This workaround involves a slight manual adjustment
+        // to the scroll position, triggering the list to refresh its rendering.
+        const virtualList = this.$refs.conversationVirtualList;
+        const scrollToOffset = virtualList?.scrollToOffset;
+        const currentOffset = virtualList?.getOffset() || 0;
+        if (scrollToOffset) {
+          scrollToOffset(currentOffset + 1);
+        }
+      });
     },
     resetBulkActions() {
       this.selectedConversations = [];
