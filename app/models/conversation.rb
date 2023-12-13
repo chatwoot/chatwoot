@@ -183,7 +183,7 @@ class Conversation < ApplicationRecord
   end
 
   def cached_label_list_array
-    (cached_label_list || '').split(',')
+    (cached_label_list || '').split(',').map(&:strip)
   end
 
   def notifiable_assignee_change?
