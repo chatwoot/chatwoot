@@ -522,12 +522,15 @@ export default {
     },
     label() {
       this.resetAndFetchData();
+      this.updateVirtualListProps('label', this.label);
     },
     conversationType() {
       this.resetAndFetchData();
+      this.updateVirtualListProps('conversationType', this.conversationType);
     },
     activeFolder() {
       this.resetAndFetchData();
+      this.updateVirtualListProps('foldersId', this.foldersId);
     },
     chatLists() {
       this.chatsOnView = this.conversationList;
@@ -554,6 +557,12 @@ export default {
     });
   },
   methods: {
+    updateVirtualListProps(key, value) {
+      this.virtualListExtraProps = {
+        ...this.virtualListExtraProps,
+        [key]: value,
+      };
+    },
     onApplyFilter(payload) {
       this.resetBulkActions();
       this.foldersQuery = filterQueryGenerator(payload);
