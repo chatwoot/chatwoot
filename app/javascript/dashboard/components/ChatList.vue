@@ -131,8 +131,7 @@
       :class="{ 'overflow-hidden': isContextMenuOpen }"
     >
       <virtual-list
-        :estimate-size="45"
-        :keeps="25"
+        ref="conversationVirtualList"
         :data-key="'id'"
         :data-sources="conversationList"
         :data-component="itemComponent"
@@ -714,7 +713,7 @@ export default {
     fetchConversations() {
       this.$store
         .dispatch('fetchAllConversations', this.conversationFilters)
-        .then(() => this.$emit('conversation-load'));
+        .then(this.emitConversationLoaded);
     },
     loadMoreConversations() {
       if (this.hasCurrentPageEndReached || this.chatListLoading) {
@@ -738,7 +737,7 @@ export default {
           queryData: filterQueryGenerator(payload),
           page,
         })
-        .then(() => this.$emit('conversation-load'));
+        .then(this.emitConversationLoaded);
       this.showAdvancedFilters = false;
     },
     fetchSavedFilteredConversations(payload) {
@@ -748,7 +747,7 @@ export default {
           queryData: payload,
           page,
         })
-        .then(() => this.$emit('conversation-load'));
+        .then(this.emitConversationLoaded);
     },
     updateAssigneeTab(selectedTab) {
       if (this.activeAssigneeTab !== selectedTab) {
@@ -759,6 +758,20 @@ export default {
           this.fetchConversations();
         }
       }
+    },
+    emitConversationLoaded() {
+      this.$emit('conversation-load');
+      this.$nextTick(() => {
+        // Addressing a known issue in the virtual list library where dynamically added items
+        // might not render correctly. This workaround involves a slight manual adjustment
+        // to the scroll position, triggering the list to refresh its rendering.
+        const virtualList = this.$refs.conversationVirtualList;
+        const scrollToOffset = virtualList?.scrollToOffset;
+        const currentOffset = virtualList?.getOffset() || 0;
+        if (scrollToOffset) {
+          scrollToOffset(currentOffset + 1);
+        }
+      });
     },
     resetBulkActions() {
       this.selectedConversations = [];
