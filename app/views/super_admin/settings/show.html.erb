@@ -79,7 +79,11 @@
           </div>
           <% end %>
           <div class="flex items-center justify-between mb-1.5 mt-4">
+            <% if attrs[:config_key].present? && attrs[:enabled] %>
+            <a href="/super_admin/app_config?config=<%= attrs[:config_key] %>"><h3 class="text-slate-900 font-medium"><%= attrs[:name] %></h3></a>
+            <% else %>
             <h3 class="text-slate-900 font-medium"><%= attrs[:name] %></h3>
+            <% end %>
           </div>
           <p class="text-slate-600 mb-0"><%= attrs[:description] %></p>
         </div>
