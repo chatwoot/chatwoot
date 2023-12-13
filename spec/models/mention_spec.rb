@@ -50,7 +50,7 @@ RSpec.describe Mention do
     end
 
     it 'Sort conversations based on mentioned_at' do
-      records = described_class.latest
+      records = described_class.sort_on_last_activity_at
 
       expect(records.first.id).to eq(mention_3.id)
       expect(records.first.conversation_id).to eq(conversation_3.id)
@@ -58,7 +58,7 @@ RSpec.describe Mention do
 
       travel_to DateTime.now + 1.day
       mention = create(:mention, account: account, conversation: conversation_2, user: user_2)
-      records = described_class.latest
+      records = described_class.sort_on_last_activity_at
 
       expect(records.first.conversation_id).to eq(conversation_2.id)
       expect(mention.created_at).to eq(DateTime.now)
