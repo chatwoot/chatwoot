@@ -269,7 +269,7 @@ export default {
     return {
       activeAssigneeTab: wootConstants.ASSIGNEE_TYPE.ME,
       activeStatus: wootConstants.STATUS_TYPE.OPEN,
-      activeSortBy: wootConstants.SORT_BY_TYPE.LATEST,
+      activeSortBy: wootConstants.SORT_BY_TYPE.LAST_ACTIVITY_AT_DESC,
       showAdvancedFilters: false,
       advancedFilterTypes: advancedFilterTypes.map(filter => ({
         ...filter,
@@ -553,7 +553,10 @@ export default {
       const { conversations_filter_by: filterBy = {} } = this.uiSettings;
       const { status, order_by: orderBy } = filterBy;
       this.activeStatus = status || wootConstants.STATUS_TYPE.OPEN;
-      this.activeSortBy = orderBy || wootConstants.SORT_BY_TYPE.LATEST;
+      this.activeSortBy =
+        Object.keys(wootConstants.SORT_BY_TYPE).find(
+          sortField => sortField === orderBy
+        ) || wootConstants.SORT_BY_TYPE.LAST_ACTIVITY_AT_DESC;
     },
     onClickOpenAddFoldersModal() {
       this.showAddFoldersModal = true;
