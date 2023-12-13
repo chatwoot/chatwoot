@@ -1,19 +1,5 @@
-import {
-  MESSAGE_TYPE,
-  CONVERSATION_PRIORITY_ORDER,
-} from 'shared/constants/messages';
-import { applyPageFilters } from './helpers';
-
-const SORT_OPTIONS = {
-  latest_first: ['latest', 'desc'],
-  latest_last: ['latest', 'asc'],
-  created_at_first: ['sort_on_created_at', 'desc'],
-  created_at_last: ['sort_on_created_at', 'asc'],
-  priority_first: ['sort_on_priority', 'asc'],
-  priority_last: ['sort_on_priority', 'desc'],
-  waiting_since_first: ['sort_on_waiting_since', 'desc'],
-  waiting_since_last: ['sort_on_waiting_since', 'asc'],
-};
+import { MESSAGE_TYPE } from 'shared/constants/messages';
+import { applyPageFilters, sortComparator } from './helpers';
 
 export const getSelectedChatConversation = ({
   allConversations,
@@ -21,45 +7,9 @@ export const getSelectedChatConversation = ({
 }) =>
   allConversations.filter(conversation => conversation.id === selectedChatId);
 
-const sortComparator = {
-  latest: (a, b, sortOrder) =>
-    sortOrder === 'asc'
-      ? a.last_activity_at - b.last_activity_at
-      : b.last_activity_at - a.last_activity_at,
-  sort_on_created_at: (a, b, sortOrder) =>
-    sortOrder === 'asc'
-      ? a.created_at - b.created_at
-      : b.created_at - a.created_at,
-  sort_on_priority: (a, b, sortOrder) => {
-    const diff =
-      CONVERSATION_PRIORITY_ORDER[a.priority] -
-      CONVERSATION_PRIORITY_ORDER[b.priority];
-    return sortOrder === 'asc' ? diff : -diff;
-  },
-  sort_on_waiting_since: (a, b, sortOrder) => {
-    if (!a.waiting_since && !b.waiting_since) {
-      return sortOrder === 'asc'
-        ? a.created_at - b.created_at
-        : b.created_at - a.created_at;
-    }
-    if (!a.waiting_since) {
-      return sortOrder === 'asc' ? 1 : -1;
-    }
-    if (!b.waiting_since) {
-      return sortOrder === 'asc' ? -1 : 1;
-    }
-
-    const diff = a.waiting_since - b.waiting_since;
-    return sortOrder === 'asc' ? diff : -diff;
-  },
-};
-// getters
 const getters = {
-  getAllConversations: ({ allConversations, chatSortOrderFilter }) => {
-    let [sortBy, sortOrder] = SORT_OPTIONS[chatSortOrderFilter];
-    return allConversations.sort((a, b) =>
-      sortComparator[sortBy](a, b, sortOrder)
-    );
+  getAllConversations: ({ allConversations, chatSortFilter: sortKey }) => {
+    return allConversations.sort((a, b) => sortComparator(a, b, sortKey));
   },
   getSelectedChat: ({ selectedChatId, allConversations }) => {
     const selectedChat = allConversations.find(
@@ -139,7 +89,6 @@ const getters = {
   getChatStatusFilter: ({ chatStatusFilter }) => chatStatusFilter,
   getChatSortFilter: ({ chatSortFilter }) => chatSortFilter,
   getSelectedInbox: ({ currentInbox }) => currentInbox,
-  getChatSortOrderFilter: ({ chatSortOrderFilter }) => chatSortOrderFilter,
   getConversationById: _state => conversationId => {
     return _state.allConversations.find(
       value => value.id === Number(conversationId)

@@ -51,44 +51,30 @@
         "ACTIVE": "Last activity"
       }
     },
-    "CHAT_SORT_ORDER_FILTER_ITEMS": {
-      "latest_first": {
-        "TEXT": "Last activity: Newest first"
-      },
-      "latest_last": {
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
         "TEXT": "Last activity: Oldest first"
       },
-      "created_at_first": {
+      "last_activity_at_desc": {
+        "TEXT": "Last activity: Newest first"
+      },
+      "created_at_desc": {
         "TEXT": "Created at: Newest first"
       },
-      "created_at_last": {
+      "created_at_asc": {
         "TEXT": "Created at: Oldest first"
       },
-      "priority_first": {
+      "priority_desc": {
         "TEXT": "Priority: Highest first"
       },
-      "priority_last": {
+      "priority_asc": {
         "TEXT": "Priority: Lowest first"
       },
-      "waiting_since_first": {
-        "TEXT": "Pending Response: Highest first"
+      "waiting_since_asc": {
+        "TEXT": "Pending Response: Longest first"
       },
-      "waiting_since_last": {
-        "TEXT": "Pending Response: Lowest first"
-      }
-    },
-    "CHAT_SORT_FILTER_ITEMS": {
-      "latest": {
-        "TEXT": "Last activity"
-      },
-      "sort_on_created_at": {
-        "TEXT": "Created at"
-      },
-      "sort_on_priority": {
-        "TEXT": "Priority"
-      },
-      "sort_on_waiting_since": {
-        "TEXT": "Pending Response"
+      "waiting_since_desc": {
+        "TEXT": "Pending Response: Shortest first"
       }
     },
     "ATTACHMENTS": {
