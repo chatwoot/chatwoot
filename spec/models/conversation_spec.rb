@@ -830,14 +830,6 @@ RSpec.describe Conversation do
         )
       end
 
-      it 'Sort conversations with the priority with descending order' do
-        records = described_class.sort_on_created_at
-        expect(records.pluck(:priority)).not_to eq([nil, nil, 'low', 'medium', 'high', 'urgent', 'urgent'])
-
-        records = described_class.sort_on_priority('desc')
-        expect(records.pluck(:priority)).to eq(['urgent', 'urgent', 'high', 'medium', 'low', nil, nil])
-      end
-
       it 'sorts conversation with last_activity for the same priority' do
         records = described_class.where(priority: 'urgent').sort_on_priority
         # ensure that the conversation 4 last_activity_at is more recent than conversation 5

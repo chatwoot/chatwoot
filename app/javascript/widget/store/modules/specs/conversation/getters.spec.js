@@ -1,388 +1,477 @@
-import commonHelpers from '../../../../helper/commons';
-import getters from '../../conversations/getters';
-
-// loads .last() helper
-commonHelpers();
+import { getters } from '../../conversation/getters';
 
 describe('#getters', () => {
-  describe('#getAllConversations', () => {
-    it('order conversations based on last activity', () => {
-      const state = {
-        allConversations: [
-          {
-            id: 1,
-            messages: [
-              {
-                content: 'test1',
-              },
-            ],
-            created_at: 2466424490,
-            last_activity_at: 2466424490,
-          },
-          {
-            id: 2,
-            messages: [{ content: 'test2' }],
-            created_at: 1466424480,
-            last_activity_at: 1466424480,
-          },
-        ],
-      };
-
-      expect(getters.getAllConversations(state)).toEqual([
-        {
-          id: 1,
-          messages: [
-            {
-              content: 'test1',
-            },
-          ],
-          created_at: 2466424490,
-          last_activity_at: 2466424490,
+  it('getConversation', () => {
+    const state = {
+      conversations: {
+        1: {
+          content: 'hello',
         },
-        {
-          id: 2,
-          messages: [{ content: 'test2' }],
-          created_at: 1466424480,
-          last_activity_at: 1466424480,
-        },
-      ]);
+      },
+    };
+    expect(getters.getConversation(state)).toEqual({
+      1: {
+        content: 'hello',
+      },
     });
-    it('order conversations based on created at', () => {
-      const state = {
-        allConversations: [
-          {
-            id: 1,
-            messages: [
-              {
-                content: 'test1',
-              },
-            ],
-            created_at: 1683645801, // Tuesday, 9 May 2023
-            last_activity_at: 2466424490,
-          },
-          {
-            id: 2,
-            messages: [{ content: 'test2' }],
-            created_at: 1652109801, // Monday, 9 May 2022
-            last_activity_at: 1466424480,
-          },
-        ],
-        chatSortFilter: 'sort_on_created_at',
-      };
+  });
 
-      expect(getters.getAllConversations(state)).toEqual([
-        {
-          id: 2,
-          messages: [{ content: 'test2' }],
-          created_at: 1652109801,
-          last_activity_at: 1466424480,
-        },
-        {
-          id: 1,
-          messages: [
-            {
-              content: 'test1',
-            },
-          ],
-          created_at: 1683645801,
-          last_activity_at: 2466424490,
-        },
-      ]);
-    });
-    it('order conversations based on default order', () => {
-      const state = {
-        allConversations: [
-          {
-            id: 1,
-            messages: [
-              {
-                content: 'test1',
-              },
-            ],
-            created_at: 2466424490,
-            last_activity_at: 2466424490,
-          },
-          {
-            id: 2,
-            messages: [{ content: 'test2' }],
-            created_at: 1466424480,
-            last_activity_at: 1466424480,
-          },
-        ],
-      };
+  it('getIsCreating', () => {
+    const state = { uiFlags: { isCreating: true } };
+    expect(getters.getIsCreating(state)).toEqual(true);
+  });
 
-      expect(getters.getAllConversations(state)).toEqual([
-        {
-          id: 1,
-          messages: [
-            {
-              content: 'test1',
-            },
-          ],
-          created_at: 2466424490,
-          last_activity_at: 2466424490,
+  it('getConversationSize', () => {
+    const state = {
+      conversations: {
+        1: {
+          content: 'hello',
         },
-        {
-          id: 2,
-          messages: [{ content: 'test2' }],
-          created_at: 1466424480,
-          last_activity_at: 1466424480,
+      },
+    };
+    expect(getters.getConversationSize(state)).toEqual(1);
+  });
+
+  it('getEarliestMessage', () => {
+    const state = {
+      conversations: {
+        1: {
+          content: 'hello',
         },
-      ]);
+        2: {
+          content: 'hello1',
+        },
+      },
+    };
+    expect(getters.getEarliestMessage(state)).toEqual({
+      content: 'hello',
     });
-    it('order conversations based on priority', () => {
-      const state = {
-        allConversations: [
-          {
+  });
+
+  it('uiFlags', () => {
+    const state = {
+      uiFlags: {
+        allMessagesLoaded: false,
+        isFetchingList: false,
+        isAgentTyping: false,
+      },
+    };
+    expect(getters.getAllMessagesLoaded(state)).toEqual(false);
+    expect(getters.getIsFetchingList(state)).toEqual(false);
+    expect(getters.getIsAgentTyping(state)).toEqual(false);
+  });
+
+  it('getGroupedConversation', () => {
+    expect(
+      getters.getGroupedConversation({
+        conversations: {
+          1: {
             id: 1,
-            messages: [
-              {
-                content: 'test1',
-              },
-            ],
-            priority: 'low',
-            created_at: 1683645801,
-            last_activity_at: 2466424490,
+            content: 'Thanks for the help',
+            created_at: 1574075964,
+            message_type: 0,
           },
-          {
+          2: {
             id: 2,
-            messages: [{ content: 'test2' }],
-            priority: 'urgent',
-            created_at: 1652109801,
-            last_activity_at: 1466424480,
+            content: 'Yes, It makes sense',
+            created_at: 1574092218,
+            message_type: 0,
           },
-          {
+          3: {
             id: 3,
-            messages: [{ content: 'test3' }],
-            priority: 'medium',
-            created_at: 1652109801,
-            last_activity_at: 1466421280,
+            content: 'Hey',
+            created_at: 1574092218,
+            message_type: 1,
           },
-        ],
-        chatSortFilter: 'sort_on_priority',
-      };
-
-      expect(getters.getAllConversations(state)).toEqual([
-        {
-          id: 2,
-          messages: [{ content: 'test2' }],
-          priority: 'urgent',
-          created_at: 1652109801,
-          last_activity_at: 1466424480,
-        },
-        {
-          id: 3,
-          messages: [{ content: 'test3' }],
-          priority: 'medium',
-          created_at: 1652109801,
-          last_activity_at: 1466421280,
-        },
-        {
-          id: 1,
-          messages: [
-            {
-              content: 'test1',
-            },
-          ],
-          priority: 'low',
-          created_at: 1683645801,
-          last_activity_at: 2466424490,
-        },
-      ]);
-    });
-    it('order conversations based on waiting_since', () => {
-      const state = {
-        allConversations: [
-          {
-            id: 3,
-            created_at: 1683645800,
-            waiting_since: 0,
-          },
-          {
+          4: {
             id: 4,
-            created_at: 1683645799,
-            waiting_since: 0,
+            content: 'Hey',
+            created_at: 1576340623,
           },
-          {
-            id: 1,
-            created_at: 1683645801,
-            waiting_since: 1683645802,
+          5: {
+            id: 5,
+            content: 'How may I help you',
+            created_at: 1576340626,
           },
-          {
-            id: 2,
-            created_at: 1683645803,
-            waiting_since: 1683645800,
-          },
-        ],
-        chatSortFilter: 'sort_on_waiting_since',
-      };
-
-      expect(getters.getAllConversations(state)).toEqual([
-        {
-          id: 2,
-          created_at: 1683645803,
-          waiting_since: 1683645800,
         },
-        {
-          id: 1,
-          created_at: 1683645801,
-          waiting_since: 1683645802,
-        },
-        {
-          id: 4,
-          created_at: 1683645799,
-          waiting_since: 0,
-        },
-        {
-          id: 3,
-          created_at: 1683645800,
-          waiting_since: 0,
-        },
-      ]);
-    });
-  });
-  describe('#getUnAssignedChats', () => {
-    it('order returns only chats assigned to user', () => {
-      const conversationList = [
-        {
-          id: 1,
-          inbox_id: 2,
-          status: 1,
-          meta: { assignee: { id: 1 } },
-          labels: ['sales', 'dev'],
-        },
-        {
-          id: 2,
-          inbox_id: 2,
-          status: 1,
-          meta: {},
-          labels: ['dev'],
-        },
-        {
-          id: 11,
-          inbox_id: 3,
-          status: 1,
-          meta: { assignee: { id: 1 } },
-          labels: [],
-        },
-        {
-          id: 22,
-          inbox_id: 4,
-          status: 1,
-          meta: { team: { id: 5 } },
-          labels: ['sales'],
-        },
-      ];
-
-      expect(
-        getters.getUnAssignedChats({ allConversations: conversationList })({
-          status: 1,
-        })
-      ).toEqual([
-        {
-          id: 2,
-          inbox_id: 2,
-          status: 1,
-          meta: {},
-          labels: ['dev'],
-        },
-        {
-          id: 22,
-          inbox_id: 4,
-          status: 1,
-          meta: { team: { id: 5 } },
-          labels: ['sales'],
-        },
-      ]);
-    });
-  });
-  describe('#getConversationById', () => {
-    it('get conversations based on id', () => {
-      const state = {
-        allConversations: [
-          {
-            id: 1,
-          },
-        ],
-      };
-      expect(getters.getConversationById(state)(1)).toEqual({ id: 1 });
-    });
-  });
-
-  describe('#getAppliedConversationFilters', () => {
-    it('getAppliedConversationFilters', () => {
-      const filtersList = [
-        {
-          attribute_key: 'status',
-          filter_operator: 'equal_to',
-          values: [{ id: 'snoozed', name: 'Snoozed' }],
-          query_operator: 'and',
-        },
-      ];
-      const state = {
-        appliedFilters: filtersList,
-      };
-      expect(getters.getAppliedConversationFilters(state)).toEqual(filtersList);
-    });
-  });
-
-  describe('#getLastEmailInSelectedChat', () => {
-    it('Returns cc in last email', () => {
-      const state = {};
-      const getSelectedChat = {
+      })
+    ).toEqual([
+      {
+        date: 'Nov 18, 2019',
         messages: [
           {
-            message_type: 1,
-            content_attributes: {
-              email: {
-                from: 'why@how.my',
-                cc: ['nithin@me.co', 'we@who.why'],
-              },
-            },
-          },
-        ],
-      };
-      expect(
-        getters.getLastEmailInSelectedChat(state, { getSelectedChat })
-      ).toEqual({
-        message_type: 1,
-        content_attributes: {
-          email: {
-            from: 'why@how.my',
-            cc: ['nithin@me.co', 'we@who.why'],
-          },
-        },
-      });
-    });
-  });
-
-  describe('#getSelectedChatAttachments', () => {
-    it('Returns attachments in selected chat', () => {
-      const state = {};
-      const getSelectedChat = {
-        attachments: [
-          {
             id: 1,
-            file_name: 'test1',
+            content: 'Thanks for the help',
+            created_at: 1574075964,
+            showAvatar: false,
+            message_type: 0,
           },
           {
             id: 2,
-            file_name: 'test2',
+            content: 'Yes, It makes sense',
+            created_at: 1574092218,
+            showAvatar: true,
+            message_type: 0,
+          },
+          {
+            id: 3,
+            content: 'Hey',
+            created_at: 1574092218,
+            showAvatar: true,
+            message_type: 1,
           },
         ],
+      },
+      {
+        date: 'Dec 14, 2019',
+        messages: [
+          {
+            id: 4,
+            content: 'Hey',
+            created_at: 1576340623,
+            showAvatar: false,
+          },
+          {
+            id: 5,
+            content: 'How may I help you',
+            created_at: 1576340626,
+            showAvatar: true,
+          },
+        ],
+      },
+    ]);
+
+    expect(
+      getters.getGroupedConversation({
+        conversations: {
+          1: {
+            id: 1,
+            content: 'Thanks for the help',
+            created_at: 1574075964,
+            message_type: 0,
+          },
+          2: {
+            id: 2,
+            content: 'Yes, It makes sense',
+            created_at: 1574092218,
+            message_type: 0,
+          },
+          3: {
+            id: 3,
+            content: 'Hey',
+            created_at: 1574092218,
+            message_type: 1,
+          },
+          4: {
+            id: 4,
+            content: 'Hey',
+            created_at: 1576340623,
+          },
+          5: {
+            id: 5,
+            content: 'How may I help you',
+            created_at: 1576340626,
+            message_type: 2,
+            content_type: 'form',
+            content_attributes: {
+              submitted_values: [{ name: 'text', value: 'sample text' }],
+            },
+          },
+          6: {
+            id: 6,
+            content: 'How may I help you',
+            created_at: 1576340626,
+            message_type: 2,
+            content_type: 'form',
+          },
+          7: {
+            id: 7,
+            content: 'How may I help you',
+            created_at: 1576340626,
+            message_type: 2,
+            content_type: 'form',
+            content_attributes: {
+              submitted_values: [{ name: 'text', value: 'sample text' }],
+            },
+          },
+        },
+      })
+    ).toEqual([
+      {
+        date: 'Nov 18, 2019',
+        messages: [
+          {
+            id: 1,
+            content: 'Thanks for the help',
+            created_at: 1574075964,
+            showAvatar: false,
+            message_type: 0,
+          },
+          {
+            id: 2,
+            content: 'Yes, It makes sense',
+            created_at: 1574092218,
+            showAvatar: true,
+            message_type: 0,
+          },
+          {
+            id: 3,
+            content: 'Hey',
+            created_at: 1574092218,
+            showAvatar: true,
+            message_type: 1,
+          },
+        ],
+      },
+      {
+        date: 'Dec 14, 2019',
+        messages: [
+          {
+            id: 4,
+            content: 'Hey',
+            created_at: 1576340623,
+            showAvatar: true,
+          },
+          {
+            id: 5,
+            content: 'How may I help you',
+            created_at: 1576340626,
+            message_type: 2,
+            content_type: 'form',
+            content_attributes: {
+              submitted_values: [{ name: 'text', value: 'sample text' }],
+            },
+            showAvatar: false,
+          },
+          {
+            id: 6,
+            content: 'How may I help you',
+            created_at: 1576340626,
+            message_type: 2,
+            content_type: 'form',
+            showAvatar: true,
+          },
+          {
+            id: 7,
+            content: 'How may I help you',
+            created_at: 1576340626,
+            message_type: 2,
+            content_type: 'form',
+            content_attributes: {
+              submitted_values: [{ name: 'text', value: 'sample text' }],
+            },
+
+            showAvatar: false,
+          },
+        ],
+      },
+    ]);
+  });
+
+  describe('getUnreadMessageCount returns', () => {
+    it('0 if there are no messages and last seen is undefined', () => {
+      const state = {
+        conversations: {},
+        meta: {
+          userLastSeenAt: undefined,
+        },
+      };
+      expect(getters.getUnreadMessageCount(state)).toEqual(0);
+    });
+
+    it('0 if there are no messages and last seen is present', () => {
+      const state = {
+        conversations: {},
+        meta: {
+          userLastSeenAt: Date.now(),
+        },
+      };
+      expect(getters.getUnreadMessageCount(state)).toEqual(0);
+    });
+
+    it('unread count if there are messages and last seen is before messages created-at', () => {
+      const state = {
+        conversations: {
+          1: {
+            id: 1,
+            content: 'Thanks for the help',
+            created_at: 1574075964,
+            message_type: 1,
+          },
+          2: {
+            id: 2,
+            content: 'Yes, It makes sense',
+            created_at: 1574092218,
+            message_type: 1,
+          },
+        },
+        meta: {
+          userLastSeenAt: 1474075964,
+        },
+      };
+      expect(getters.getUnreadMessageCount(state)).toEqual(2);
+    });
+
+    it('unread count if there are messages and last seen is after messages created-at', () => {
+      const state = {
+        conversations: {
+          1: {
+            id: 1,
+            content: 'Thanks for the help',
+            created_at: 1574075964,
+            message_type: 1,
+          },
+          2: {
+            id: 2,
+            content: 'Yes, It makes sense',
+            created_at: 1574092218,
+            message_type: 1,
+          },
+          3: {
+            id: 3,
+            content: 'Yes, It makes sense',
+            created_at: 1574092218,
+            message_type: 0,
+          },
+        },
+        meta: {
+          userLastSeenAt: 1674075964,
+        },
+      };
+      expect(getters.getUnreadMessageCount(state)).toEqual(0);
+    });
+  });
+
+  describe('getUnreadTextMessages returns', () => {
+    it('no messages if there are no messages and last seen is undefined', () => {
+      const state = {
+        conversations: {},
+        meta: {
+          userLastSeenAt: undefined,
+        },
       };
       expect(
-        getters.getSelectedChatAttachments(state, { getSelectedChat })
+        getters.getUnreadTextMessages(state, { getUnreadMessageCount: 0 })
+      ).toEqual([]);
+    });
+
+    it('0 if there are no messages and last seen is present', () => {
+      const state = {
+        conversations: {},
+        meta: {
+          userLastSeenAt: Date.now(),
+        },
+      };
+      expect(
+        getters.getUnreadTextMessages(state, { getUnreadMessageCount: 0 })
+      ).toEqual([]);
+    });
+
+    it('only unread text messages from agent if there are messages and last seen is before messages created-at', () => {
+      const state = {
+        conversations: {
+          1: {
+            id: 1,
+            content: 'Thanks for the help',
+            created_at: 1574075964,
+            message_type: 1,
+          },
+          2: {
+            id: 2,
+            content: 'Yes, It makes sense',
+            created_at: 1574092218,
+            message_type: 0,
+          },
+        },
+      };
+      expect(
+        getters.getUnreadTextMessages(state, { getUnreadMessageCount: 1 })
       ).toEqual([
         {
           id: 1,
-          file_name: 'test1',
-        },
-        {
-          id: 2,
-          file_name: 'test2',
+          content: 'Thanks for the help',
+          created_at: 1574075964,
+          message_type: 1,
         },
       ]);
     });
+
+    it('unread messages omitting seen messages ', () => {
+      const state = {
+        conversations: {
+          1: {
+            id: 1,
+            content: 'Thanks for the help',
+            created_at: 1574075964,
+            message_type: 1,
+          },
+          2: {
+            id: 2,
+            content: 'Yes, It makes sense',
+            created_at: 1674075965,
+            message_type: 1,
+          },
+          3: {
+            id: 3,
+            content: 'Yes, It makes sense',
+            created_at: 1574092218,
+            message_type: 0,
+          },
+        },
+        meta: {
+          userLastSeenAt: 1674075964,
+        },
+      };
+      expect(
+        getters.getUnreadTextMessages(state, { getUnreadMessageCount: 1 })
+      ).toEqual([
+        {
+          id: 2,
+          content: 'Yes, It makes sense',
+          created_at: 1674075965,
+          message_type: 1,
+        },
+      ]);
+    });
+  });
+
+  it('getMessageCount', () => {
+    const state = {
+      conversations: {
+        1: {
+          content: 'hey, how are you?',
+        },
+      },
+    };
+    expect(getters.getMessageCount(state)).toEqual(1);
+  });
+
+  it('getLastMessage', () => {
+    const state = {
+      conversations: {
+        1: {
+          id: 1,
+          content: 'Thanks for the help',
+          created_at: 1574075964,
+          message_type: 1,
+        },
+        2: {
+          id: 2,
+          content: 'Yes, It makes sense',
+          created_at: 1574092218,
+          message_type: 1,
+        },
+        3: {
+          id: 3,
+          content: 'Yes, It makes sense',
+          created_at: 1574092218,
+          message_type: 0,
+        },
+      },
+      meta: {
+        userLastSeenAt: 1674075964,
+      },
+    };
+    expect(getters.getLastMessage(state).id).toEqual(3);
   });
 });

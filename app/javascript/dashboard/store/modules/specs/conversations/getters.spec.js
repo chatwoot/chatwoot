@@ -26,7 +26,6 @@ describe('#getters', () => {
             last_activity_at: 1466424480,
           },
         ],
-        chatSortOrderFilter: 'latest_first',
       };
 
       expect(getters.getAllConversations(state)).toEqual([
@@ -68,7 +67,7 @@ describe('#getters', () => {
             last_activity_at: 1466424480,
           },
         ],
-        chatSortOrderFilter: 'latest_last',
+        chatSortFilter: 'latest_last',
       };
 
       expect(getters.getAllConversations(state)).toEqual([
@@ -111,7 +110,7 @@ describe('#getters', () => {
             last_activity_at: 1466424480,
           },
         ],
-        chatSortOrderFilter: 'created_at_last',
+        chatSortFilter: 'created_at_last',
       };
 
       expect(getters.getAllConversations(state)).toEqual([
@@ -154,7 +153,7 @@ describe('#getters', () => {
             last_activity_at: 1466424480,
           },
         ],
-        chatSortOrderFilter: 'created_at_first',
+        chatSortFilter: 'created_at_first',
       };
 
       expect(getters.getAllConversations(state)).toEqual([
@@ -197,7 +196,6 @@ describe('#getters', () => {
             last_activity_at: 1466424480,
           },
         ],
-        chatSortOrderFilter: 'latest_first',
       };
 
       expect(getters.getAllConversations(state)).toEqual([
@@ -248,7 +246,7 @@ describe('#getters', () => {
             last_activity_at: 1466421280,
           },
         ],
-        chatSortOrderFilter: 'priority_first',
+        chatSortFilter: 'priority_first',
       };
 
       expect(getters.getAllConversations(state)).toEqual([
@@ -309,7 +307,7 @@ describe('#getters', () => {
             last_activity_at: 1466421280,
           },
         ],
-        chatSortOrderFilter: 'priority_last',
+        chatSortFilter: 'priority_last',
       };
 
       expect(getters.getAllConversations(state)).toEqual([
@@ -365,7 +363,7 @@ describe('#getters', () => {
             waiting_since: 1683645800,
           },
         ],
-        chatSortOrderFilter: 'waiting_since_last',
+        chatSortFilter: 'waiting_since_last',
       };
 
       expect(getters.getAllConversations(state)).toEqual([
