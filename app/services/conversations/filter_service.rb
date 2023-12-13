@@ -64,6 +64,6 @@ class Conversations::FilterService < FilterService
   end
 
   def conversations
-    @conversations.latest.page(current_page)
+    @conversations.sort_on_last_activity_at.page(current_page)
   end
 end
