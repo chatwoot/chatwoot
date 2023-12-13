@@ -138,15 +138,6 @@
         :extra-props="virtualListExtraProps"
         class="w-full overflow-auto h-full"
         footer-tag="div"
-        @select-conversation="selectConversation"
-        @de-select-conversation="deSelectConversation"
-        @assign-agent="onAssignAgent"
-        @assign-team="onAssignTeam"
-        @assign-label="onAssignLabels"
-        @update-conversation-status="toggleConversationStatus"
-        @context-menu-toggle="onContextMenuToggle"
-        @mark-as-unread="markAsUnread"
-        @assign-priority="assignPriority"
       >
         <template #footer>
           <div v-if="chatListLoading" class="text-center">
@@ -239,6 +230,20 @@ export default {
     filterMixin,
     uiSettingsMixin,
   ],
+  provide() {
+    return {
+      // Actions to be performed on virtual list item and context menu.
+      selectConversation: this.selectConversation,
+      deSelectConversation: this.deSelectConversation,
+      assignAgent: this.onAssignAgent,
+      assignTeam: this.onAssignTeam,
+      assignLabels: this.onAssignLabels,
+      updateConversationStatus: this.toggleConversationStatus,
+      toggleContextMenu: this.onContextMenuToggle,
+      markAsUnread: this.markAsUnread,
+      assignPriority: this.assignPriority,
+    };
+  },
   props: {
     conversationInbox: {
       type: [String, Number],
@@ -536,10 +541,7 @@ export default {
       this.chatsOnView = this.conversationList;
     },
     showAssigneeInConversationCard(newVal) {
-      this.virtualListExtraProps = {
-        ...this.virtualListExtraProps,
-        showAssignee: newVal,
-      };
+      this.updateVirtualListProps('showAssignee', newVal);
     },
   },
   mounted() {

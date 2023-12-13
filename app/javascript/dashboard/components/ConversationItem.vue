@@ -9,15 +9,15 @@
     :selected="isConversationSelected(source.id)"
     :show-assignee="showAssignee"
     :enable-context-menu="true"
-    @select-conversation="selectConversation"
-    @de-select-conversation="deSelectConversation"
+    @select-conversation="onSelectConversation"
+    @de-select-conversation="onDeSelectConversation"
     @assign-agent="onAssignAgent"
     @assign-team="onAssignTeam"
     @assign-label="onAssignLabel"
     @update-conversation-status="toggleConversationStatus"
     @context-menu-toggle="onContextMenuToggle"
-    @mark-as-unread="markAsUnread"
-    @assign-priority="assignPriority"
+    @mark-as-unread="onClickMarkAsUnread"
+    @assign-priority="onAssignPriority"
   />
 </template>
 
@@ -27,6 +27,17 @@ export default {
   components: {
     ConversationCard,
   },
+  inject: [
+    'selectConversation',
+    'deSelectConversation',
+    'assignAgent',
+    'assignTeam',
+    'assignLabels',
+    'updateConversationStatus',
+    'toggleContextMenu',
+    'markAsUnread',
+    'assignPriority',
+  ],
   props: {
     source: {
       type: Object,
@@ -58,45 +69,32 @@ export default {
     },
   },
   methods: {
-    selectConversation(conversationId, inboxId) {
-      this.$parent.$parent.$emit(
-        'select-conversation',
-        conversationId,
-        inboxId
-      );
+    onSelectConversation(conversationId, inboxId) {
+      this.selectConversation(conversationId, inboxId);
     },
-    deSelectConversation(conversationId, inboxId) {
-      this.$parent.$parent.$emit(
-        'de-select-conversation',
-        conversationId,
-        inboxId
-      );
+    onDeSelectConversation(conversationId, inboxId) {
+      this.deSelectConversation(conversationId, inboxId);
     },
     onAssignAgent(agent, conversationId) {
-      this.$parent.$parent.$emit('assign-agent', agent, conversationId);
+      this.assignAgent(agent, conversationId);
     },
     onAssignTeam(team, conversationId) {
-      this.$parent.$parent.$emit('assign-team', team, conversationId);
+      this.assignTeam(team, conversationId);
     },
     onAssignLabel(labelTitle, conversationId) {
-      this.$parent.$parent.$emit('assign-label', labelTitle, conversationId);
+      this.assignLabels(labelTitle, conversationId);
     },
     toggleConversationStatus(conversationId, status, snoozedUntil) {
-      this.$parent.$parent.$emit(
-        'update-conversation-status',
-        conversationId,
-        status,
-        snoozedUntil
-      );
+      this.updateConversationStatus(conversationId, status, snoozedUntil);
     },
     onContextMenuToggle(value) {
-      this.$parent.$parent.$emit('context-menu-toggle', value);
+      this.toggleContextMenu(value);
     },
-    markAsUnread(conversationId) {
-      this.$parent.$parent.$emit('mark-as-unread', conversationId);
+    onClickMarkAsUnread(conversationId) {
+      this.markAsUnread(conversationId);
     },
-    assignPriority(priority, conversationId) {
-      this.$parent.$parent.$emit('assign-priority', priority, conversationId);
+    onAssignPriority(priority, conversationId) {
+      this.assignPriority(priority, conversationId);
     },
   },
 };
