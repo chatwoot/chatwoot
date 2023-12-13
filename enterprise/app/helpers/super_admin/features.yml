@@ -3,21 +3,26 @@ custom_branding:
   description: 'Apply your own branding to this installation.'
   enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
   icon: 'icon-paint-brush-line'
+  config_key: 'custom_branding'
+  enterprise: true
 agent_capacity:
   name: 'Agent Capacity'
   description: 'Set limits to auto-assigning conversations to your agents.'
   enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
   icon: 'icon-hourglass-line'
+  enterprise: true
 audit_logs:
   name: 'Audit Logs'
   description: 'Track and trace account activities with ease with detailed audit logs.'
   enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
   icon: 'icon-menu-search-line'
+  enterprise: true
 disable_branding:
   name: 'Disable Branding'
   description: 'Disable branding on live-chat widget and external emails.'
   enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
   icon: 'icon-sailbot-fill'
+  enterprise: true
 live_chat:
   name: 'Live Chat'
   description: 'Improve your customer experience using a live chat on your website.'
@@ -33,6 +38,7 @@ messenger:
   description: 'Stay connected with your customers on Facebook & Instagram.'
   enabled: true
   icon: 'icon-messenger-line'
+  config_key: 'facebook'
 whatsapp:
   name: 'WhatsApp'
   description: 'Manage your WhatsApp business interactions from Chatwoot.'
