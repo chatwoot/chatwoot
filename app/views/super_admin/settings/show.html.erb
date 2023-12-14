@@ -79,7 +79,17 @@
           </div>
           <% end %>
           <div class="flex items-center justify-between mb-1.5 mt-4">
-            <h3 class="text-slate-900 font-medium"><%= attrs[:name] %></h3>
+            <div class="flex items-center gap-2">
+              <h3 class="text-slate-900 font-medium"><%= attrs[:name] %></h3> 
+              <% if attrs[:enterprise] %>
+                <span class="px-2 h-4 leading-4 rounded-xl text-green-800 font-medium bg-green-100/70 text-xxs">EE</span>  
+              <% end %>
+              <% if attrs[:config_key].present? && attrs[:enabled] %>
+                <a class="inline-flex items-center justify-center h-5 w-5 hover:bg-slate-50 rounded-sm" href="/super_admin/app_config?config=<%= attrs[:config_key] %>">
+                  <svg width="18" height="18"><use xlink:href="#icon-gear" /></svg>
+                </a>
+              <% end %>
+            </div>
           </div>
           <p class="text-slate-600 mb-0"><%= attrs[:description] %></p>
         </div>
