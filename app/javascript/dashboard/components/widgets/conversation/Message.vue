@@ -254,10 +254,6 @@ export default {
         }
       );
 
-      if (this.contentType === 'input_csat') {
-        return this.$t('CONVERSATION.CSAT_REPLY_MESSAGE') + botMessageContent;
-      }
-
       return (
         this.formatMessage(
           this.data.content,

@@ -110,6 +110,7 @@
       :mode="replyType"
       :on-file-upload="onFileUpload"
       :on-send="onSendReply"
+      :on-send-as-survey="onSendAsSurvey"
       :recording-audio-duration-text="recordingAudioDurationText"
       :recording-audio-state="recordingAudioState"
       :send-button-text="replyButtonLabel"
@@ -248,6 +249,7 @@ export default {
       showCannedMenu: false,
       showVariablesMenu: false,
       newConversationModalActive: false,
+      sendAsSurvey: false,
     };
   },
   computed: {
@@ -811,6 +813,10 @@ export default {
         this.confirmOnSendReply();
       }
     },
+    async onSendAsSurvey(){
+      this.sendAsSurvey = true;
+      this.onSendReply()
+    },
     async sendMessage(messagePayload) {
       try {
         await this.$store.dispatch(
@@ -821,6 +827,7 @@ export default {
         bus.$emit(BUS_EVENTS.MESSAGE_SENT);
         this.removeFromDraft();
         this.sendMessageAnalyticsData(messagePayload.private);
+        this.sendAsSurvey = false;
       } catch (error) {
         const errorMessage =
           error?.response?.data?.error || this.$t('CONVERSATION.MESSAGE_ERROR');
@@ -1067,6 +1074,10 @@ export default {
 
       if (this.toEmails && !this.isOnPrivateNote) {
         messagePayload.toEmails = this.toEmails;
+      }
+
+      if (this.sendAsSurvey){
+        messagePayload.contentType = 'input_csat'
       }
 
       return messagePayload;

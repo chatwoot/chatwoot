@@ -18,7 +18,7 @@
         Answered
         <span>{{ answeredCsatCount }}</span>
         /
-        <span>{{ csatCount }}</span>
+        <span>{{ submittedCsatCount }}</span>
       </div>
     </div>
     <h6 class="title" :class="$dm('text-slate-900', 'dark:text-slate-50')">
@@ -97,6 +97,7 @@ export default {
       selectedRating: null,
       isUpdating: false,
       feedback: '',
+      csatTemplateQuestionId: '',
     };
   },
   computed: {
@@ -104,8 +105,10 @@ export default {
       widgetColor: 'appConfig/getWidgetColor',
       csatCount: 'conversation/getTotalCsat',
       answeredCsatCount: 'conversation/getTotalAnsweredCsat',
+      submittedCsatCount: 'conversation/getTotalSubmittedCsat',
       csatTemplateEnabled: 'conversation/getCsatTemplateStatus',
     }),
+
     isRatingSubmitted() {
       return this.messageContentAttributes?.csat_survey_response?.rating;
     },
@@ -131,12 +134,14 @@ export default {
   async mounted() {
     if (this.isRatingSubmitted) {
       const {
-        csat_survey_response: { rating, feedback_message },
+        csat_survey_response: { csat_template_question_id, rating, feedback_message },
       } = this.messageContentAttributes;
       this.selectedRating = rating;
       this.feedback = feedback_message;
+      this.csatTemplateQuestionId = csat_template_question_id;
       this.$store.commit('conversation/incrementAnsweredCsat');
     }
+    this.$store.commit('conversation/incrementSubmittedCsat');
   },
 
   methods: {

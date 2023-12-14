@@ -67,4 +67,7 @@ export const getters = {
   getCsatTemplateStatus: _state => {
     return _state.csatTemplateEnabled;
   },
+  getTotalSubmittedCsat: _state => {
+    return _state.totalSubmittedCsat;
+  },
 };

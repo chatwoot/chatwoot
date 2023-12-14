@@ -3,14 +3,14 @@
     <div v-for="question in questions" :key="question.id">
       <csat-question-accordion
         :question="question"
-        :responses="responsesFromQuestion(question.id)"
+        :responses="responsesFromQuestion(question.content)"
       >
         <ve-table
           max-height="calc(100vh - 21.875rem)"
           :fixed-header="true"
           :border-around="true"
           :columns="columns()"
-          :table-data="responsesFromQuestion(question.id)"
+          :table-data="responsesFromQuestion(question.content)"
         />
       </csat-question-accordion>
     </div>
@@ -38,9 +38,9 @@ export default {
     }),
   },
   methods: {
-    responsesFromQuestion(id) {
+    responsesFromQuestion(content) {
       return this.tableData().filter(
-        response => id === response.csatQuestionId
+        response => content === response.csatQuestion
       );
     },
     columns() {

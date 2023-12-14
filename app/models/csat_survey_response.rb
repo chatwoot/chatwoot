@@ -31,7 +31,7 @@ class CsatSurveyResponse < ApplicationRecord
   belongs_to :contact
   belongs_to :message
   belongs_to :assigned_agent, class_name: 'User', optional: true
-  belongs_to :csat_template_question
+  belongs_to :csat_template_question, optional: true
 
   validates :rating, presence: true, inclusion: { in: [1, 2, 3, 4, 5] }
   validates :account_id, presence: true
