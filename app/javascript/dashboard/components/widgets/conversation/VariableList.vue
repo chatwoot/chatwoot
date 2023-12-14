@@ -1,5 +1,9 @@
 <template>
-  <mention-box :items="items" @mention-select="handleVariableClick">
+  <mention-box
+    type="variable"
+    :items="items"
+    @mention-select="handleVariableClick"
+  >
     <template slot-scope="{ item }">
       <span class="text-capitalize variable--list-label">
         {{ item.description }}
