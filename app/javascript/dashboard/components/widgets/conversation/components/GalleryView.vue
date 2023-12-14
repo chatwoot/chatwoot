@@ -50,6 +50,7 @@
           @click.stop
         >
           <woot-button
+            v-if="isImage"
             size="large"
             color-scheme="secondary"
             variant="clear"
@@ -57,6 +58,7 @@
             @click="onRotate('counter-clockwise')"
           />
           <woot-button
+            v-if="isImage"
             size="large"
             color-scheme="secondary"
             variant="clear"
@@ -267,6 +269,7 @@ export default {
       }
       this.activeImageIndex = index;
       this.setImageAndVideoSrc(attachment);
+      this.activeImageRotation = 0;
     },
     setImageAndVideoSrc(attachment) {
       const { file_type: type } = attachment;
