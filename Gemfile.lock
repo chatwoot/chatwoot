@@ -208,6 +208,8 @@ GEM
     digest-crc (0.6.4)
       rake (>= 12.0.0, < 14.0.0)
     docile (1.4.0)
+    dockerfile-rails (1.5.14)
+      rails (>= 3.0.0)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     dotenv (2.8.1)
@@ -865,6 +867,7 @@ DEPENDENCIES
   devise (>= 4.9.3)
   devise-secure_password!
   devise_token_auth
+  dockerfile-rails (>= 1.5)
   dotenv-rails
   down
   elastic-apm

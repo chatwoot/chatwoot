@@ -167,5 +167,6 @@
     "*.scss": [
       "scss-lint"
     ]
-  }
+  },
+  "packageManager": "yarn@1.22.17"
 }
