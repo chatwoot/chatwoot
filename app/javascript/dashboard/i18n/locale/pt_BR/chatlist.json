@@ -55,6 +55,9 @@
       "latest": {
         "TEXT": "Última atividade"
       },
+      "oldest": {
+        "TEXT": "Mais antigos"
+      },
       "sort_on_created_at": {
         "TEXT": "Criado em"
       },

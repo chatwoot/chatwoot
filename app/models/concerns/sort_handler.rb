@@ -6,6 +6,10 @@ module SortHandler
       order(last_activity_at: :desc)
     end
 
+    def self.oldest
+      order(last_activity_at: :asc)
+    end
+
     def self.sort_on_created_at
       order(created_at: :asc)
     end
