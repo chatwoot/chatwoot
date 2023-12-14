@@ -4,6 +4,7 @@ class Api::V1::Accounts::NotificationsController < Api::V1::Accounts::BaseContro
 
   before_action :fetch_notification, only: [:update, :destroy, :snooze]
   before_action :set_primary_actor, only: [:read_all]
+  before_action :set_current_page, only: [:index]
 
   def index
     @unread_count = current_user.notifications.where(account_id: current_account.id, read_at: nil).count
@@ -54,6 +55,10 @@ class Api::V1::Accounts::NotificationsController < Api::V1::Accounts::BaseContro
 
   def fetch_notification
     @notification = current_user.notifications.find(params[:id])
+  end
+
+  def set_current_page
+    @current_page = params[:page] || 1
   end
 
   def notification_finder
