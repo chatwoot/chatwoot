@@ -31,8 +31,6 @@ module "service" {
   name         = local.system_name
   listen_hosts = [var.chatwoot_domain]
 
-  enable_execute_command = true
-
   service_port = 3000
 
   cpu_architecture = "X86_64"

@@ -33,6 +33,13 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     @contacts = fetch_contacts(contacts)
   end
 
+  def phone_search
+    render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank? && return
+  
+    contacts = resolved_contacts.where(phone_number: params[:q].strip)
+    render json: { found: contacts.exists?, search_key: params[:q] }
+  end
+
   def import
     render json: { error: I18n.t('errors.contacts.import.failed') }, status: :unprocessable_entity and return if params[:import_file].blank?
 
