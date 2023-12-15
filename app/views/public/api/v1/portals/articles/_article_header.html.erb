@@ -1,7 +1,7 @@
 <% category_link_params = {
       portal_slug: @portal.slug,
-      category_locale: @article.category.locale,
-      category_slug: @article.category.slug,
+      category_locale: @article.category&.locale,
+      category_slug: @article.category&.slug,
       theme: @theme_from_params,
       is_plain_layout_enabled: @is_plain_layout_enabled
     }
