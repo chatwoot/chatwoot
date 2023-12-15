@@ -19,6 +19,10 @@ class ContactPolicy < ApplicationPolicy
     true
   end
 
+  def phone_search?
+    true
+  end
+
   def filter?
     true
   end
