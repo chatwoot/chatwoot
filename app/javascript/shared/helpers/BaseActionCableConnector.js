@@ -12,27 +12,7 @@ class BaseActionCableConnector {
 
     this.consumer = createConsumer(websocketURL);
     this.app = app;
-    this.subscription = this.consumer.subscriptions.create(
-      {
-        channel: 'RoomChannel',
-        pubsub_token: pubsubToken,
-        account_id: app.$store.getters.getCurrentAccountId,
-        user_id: app.$store.getters.getCurrentUserID,
-      },
-      {
-        updatePresence() {
-          this.perform('update_presence');
-        },
-        received: this.onReceived,
-        disconnected: () => {
-          BaseActionCableConnector.isDisconnected = true;
-          this.onDisconnected();
-          this.initReconnectTimer();
-          // TODO: Remove this after completing the conversation list refetching
-          window.bus.$emit(BUS_EVENTS.WEBSOCKET_DISCONNECT);
-        },
-      }
-    );
+    this.subscription = this.createSubscription(pubsubToken);
     this.events = {};
     this.reconnectTimer = null;
     this.isAValidEvent = () => true;
