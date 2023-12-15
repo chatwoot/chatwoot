@@ -57,17 +57,17 @@ export default [
     component: ResetPassword,
   },
   {
-    path: frontendURL('auth/start/setup-profile'),
+    path: frontendURL('start/setup-profile'),
     name: 'onboarding_setup_profile',
     component: SetupProfile,
   },
   {
-    path: frontendURL('auth/start/setup-company'),
+    path: frontendURL('start/setup-company'),
     name: 'onboarding_setup_company',
     component: SetupCompany,
   },
   {
-    path: frontendURL('auth/start/founders-note'),
+    path: frontendURL('start/founders-note'),
     name: 'onboarding_founders_note',
     component: FounderNote,
   },
