@@ -11,6 +11,7 @@ class BaseActionCableConnector {
     const websocketURL = websocketHost ? `${websocketHost}/cable` : undefined;
 
     this.consumer = createConsumer(websocketURL);
+    this.app = app;
     this.subscription = this.consumer.subscriptions.create(
       {
         channel: 'RoomChannel',
@@ -32,7 +33,6 @@ class BaseActionCableConnector {
         },
       }
     );
-    this.app = app;
     this.events = {};
     this.reconnectTimer = null;
     this.isAValidEvent = () => true;
@@ -43,6 +43,40 @@ class BaseActionCableConnector {
       }, PRESENCE_INTERVAL);
     };
     this.triggerPresenceInterval();
+  }
+
+  refreshConnection(newPubsubToken) {
+    // Disconnect the current connection
+    this.disconnect();
+
+    // Create a new subscription with the new pubsubToken
+    this.subscription = this.createSubscription(newPubsubToken);
+
+    // Restart the presence interval
+    this.triggerPresenceInterval();
+  }
+
+  createSubscription(pubsubToken) {
+    return this.consumer.subscriptions.create(
+      {
+        channel: 'RoomChannel',
+        pubsub_token: pubsubToken,
+        account_id: this.app.$store.getters.getCurrentAccountId,
+        user_id: this.app.$store.getters.getCurrentUserID,
+      },
+      {
+        updatePresence() {
+          this.perform('update_presence');
+        },
+        received: this.onReceived,
+        disconnected: () => {
+          BaseActionCableConnector.isDisconnected = true;
+          this.onDisconnected();
+          this.initReconnectTimer();
+          window.bus.$emit(BUS_EVENTS.WEBSOCKET_DISCONNECT);
+        },
+      }
+    );
   }
 
   checkConnection() {
