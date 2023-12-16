@@ -58,6 +58,8 @@ describe Facebook::SendOnFacebookService do
         described_class.new(message: message).perform
 
         expect(facebook_channel.authorization_error_count).to eq(1)
+        expect(message.reload.status).to eq('failed')
+        expect(message.reload.external_error).to eq('Error validating access token')
       end
 
       it 'if message with attachment is sent from chatwoot and is outgoing' do

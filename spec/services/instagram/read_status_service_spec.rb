@@ -17,7 +17,11 @@ describe Instagram::ReadStatusService do
     context 'when messaging_seen callback is fired' do
       let(:message) { conversation.messages.last }
 
-      it 'updates the message status to read if the status is delivered' do
+      before do
+        allow(Conversations::UpdateMessageStatusJob).to receive(:perform_later)
+      end
+
+      it 'enqueues the UpdateMessageStatusJob with correct parameters if the message is found' do
         params = {
           recipient: {
             id: 'chatwoot-app-user-id-1'
@@ -27,10 +31,10 @@ describe Instagram::ReadStatusService do
           }
         }
         described_class.new(params: params).perform
-        expect(conversation.reload.messages.last.status).to eq('read')
+        expect(Conversations::UpdateMessageStatusJob).to have_received(:perform_later).with(conversation.id, message.created_at)
       end
 
-      it 'does not update the status if message is not found' do
+      it 'does not enqueue the UpdateMessageStatusJob if the message is not found' do
         params = {
           recipient: {
             id: 'chatwoot-app-user-id-1'
@@ -39,9 +43,8 @@ describe Instagram::ReadStatusService do
             mid: 'random-message-id'
           }
         }
-
         described_class.new(params: params).perform
-        expect(conversation.reload.messages.last.status).not_to eq('read')
+        expect(Conversations::UpdateMessageStatusJob).not_to have_received(:perform_later)
       end
     end
   end

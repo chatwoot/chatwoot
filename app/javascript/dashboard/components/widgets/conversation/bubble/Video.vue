@@ -1,12 +1,12 @@
 <template>
   <div class="video message-text__wrap">
-    <video :src="url" muted playsInline @click="onClick" />
+    <video ref="videoElement" :src="url" muted playsInline @click="onClick" />
     <woot-modal :show.sync="show" :on-close="onClose">
       <video
         :src="url"
         controls
         playsInline
-        class="modal-video skip-context-menu"
+        class="modal-video skip-context-menu mx-auto"
       />
     </woot-modal>
   </div>
@@ -23,6 +23,11 @@ export default {
   data() {
     return {
       show: false,
+    };
+  },
+  mounted() {
+    this.$refs.videoElement.onerror = () => {
+      this.$emit('error');
     };
   },
   methods: {

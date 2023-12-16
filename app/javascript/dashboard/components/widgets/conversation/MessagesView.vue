@@ -31,7 +31,6 @@
         :data="message"
         :is-a-tweet="isATweet"
         :is-a-whatsapp-channel="isAWhatsAppChannel"
-        :has-instagram-story="hasInstagramStory"
         :is-web-widget-inbox="isAWebWidgetInbox"
         :inbox-supports-reply-to="inboxSupportsReplyTo"
         :in-reply-to="getInReplyToMessage(message)"
@@ -54,7 +53,6 @@
         :data="message"
         :is-a-tweet="isATweet"
         :is-a-whatsapp-channel="isAWhatsAppChannel"
-        :has-instagram-story="hasInstagramStory"
         :is-web-widget-inbox="isAWebWidgetInbox"
         :inbox-supports-reply-to="inboxSupportsReplyTo"
         :in-reply-to="getInReplyToMessage(message)"
@@ -116,7 +114,6 @@ import { LocalStorage } from 'shared/helpers/localStorage';
 
 // constants
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { REPLY_POLICY } from 'shared/constants/links';
 import wootConstants from 'dashboard/constants/globals';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
@@ -238,10 +235,6 @@ export default {
     isATweet() {
       return this.conversationType === 'tweet';
     },
-
-    hasInstagramStory() {
-      return this.conversationType === 'instagram_direct_message';
-    },
     isRightOrLeftIcon() {
       if (this.isContactPanelOpen) {
         return 'arrow-chevron-right';
@@ -291,13 +284,12 @@ export default {
       return this.currentChat.unread_count || 0;
     },
     inboxSupportsReplyTo() {
-      return (
+      const incoming = this.inboxHasFeature(INBOX_FEATURES.REPLY_TO);
+      const outgoing =
         this.inboxHasFeature(INBOX_FEATURES.REPLY_TO_OUTGOING) &&
-        this.isFeatureEnabledonAccount(
-          this.accountId,
-          FEATURE_FLAGS.MESSAGE_REPLY_TO
-        )
-      );
+        !this.is360DialogWhatsAppChannel;
+
+      return { incoming, outgoing };
     },
   },
 
@@ -350,7 +342,7 @@ export default {
       // method available in mixin, need to ensure that integrations are present
       await this.fetchIntegrationsIfRequired();
 
-      if (!this.isAIIntegrationEnabled) {
+      if (!this.isLabelSuggestionFeatureEnabled) {
         return;
       }
 

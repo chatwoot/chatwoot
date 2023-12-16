@@ -121,6 +121,14 @@
     - $ref: '#/parameters/message_id'
   patch:
     $ref: ./public/inboxes/messages/update.yml
+/api/v1/accounts/{account_id}/contacts/{contact_identifier}/labels:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - $ref: '#/parameters/public_contact_identifier'
+  get:
+    $ref: ./application/contacts/labels/index.yml
+  post:
+    $ref: ./application/contacts/labels/create.yml
 
 # ---------------- end of public api routes-----------#
 
