@@ -1,5 +1,5 @@
 <template>
-  <modal-layout
+  <onboarding-layout
     :title="$t('ONBOARDING.PROFILE.TITLE')"
     :body="$t('ONBOARDING.PROFILE.BODY')"
     current-step="profile"
@@ -42,20 +42,20 @@
         :button-text="$t('ONBOARDING.PROFILE.SUBMIT')"
       />
     </form>
-  </modal-layout>
+  </onboarding-layout>
 </template>
 
 <script>
 import FormInput from '../../../components/form/Input.vue';
 import FormTextArea from '../../../components/form/TextArea.vue';
 import SubmitButton from '../../../components/buttons/FormSubmitButton.vue';
-import ModalLayout from './components/ModalLayout.vue';
+import OnboardingLayout from './components/OnboardingLayout.vue';
 
 export default {
   components: {
     FormInput,
     SubmitButton,
-    ModalLayout,
+    OnboardingLayout,
     FormTextArea,
   },
   data() {

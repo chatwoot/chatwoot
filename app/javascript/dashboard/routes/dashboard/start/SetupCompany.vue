@@ -1,5 +1,5 @@
 <template>
-  <modal-layout
+  <onboarding-layout
     :title="$t('ONBOARDING.COMPANY.TITLE')"
     :body="$t('ONBOARDING.COMPANY.BODY')"
     current-step="company"
@@ -55,21 +55,21 @@
         :button-text="$t('ONBOARDING.COMPANY.SUBMIT')"
       />
     </form>
-  </modal-layout>
+  </onboarding-layout>
 </template>
 
 <script>
 import FormInput from '../../../components/form/Input.vue';
 import FormSelect from '../../../components/form/Select.vue';
 import SubmitButton from '../../../components/buttons/FormSubmitButton.vue';
-import ModalLayout from './components/ModalLayout.vue';
+import OnboardingLayout from './components/OnboardingLayout.vue';
 import configMixin from 'shared/mixins/configMixin';
 
 export default {
   components: {
     FormInput,
     SubmitButton,
-    ModalLayout,
+    OnboardingLayout,
     FormSelect,
   },
   mixins: [configMixin],

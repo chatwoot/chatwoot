@@ -1,5 +1,5 @@
 <template>
-  <modal-layout
+  <onboarding-layout
     :title="$t('ONBOARDING.FOUNDERS_NOTE.TITLE')"
     current-step="founders-note"
   >
@@ -31,17 +31,17 @@
       button-class="text-sm"
       :button-text="$t('ONBOARDING.FOUNDERS_NOTE.SUBMIT')"
     />
-  </modal-layout>
+  </onboarding-layout>
 </template>
 
 <script>
-import ModalLayout from './components/ModalLayout.vue';
+import OnboardingLayout from './components/OnboardingLayout.vue';
 import Thumbnail from '../../../../dashboard/components/widgets/Thumbnail.vue';
 import SubmitButton from '../../../components/buttons/FormSubmitButton.vue';
 
 export default {
   components: {
-    ModalLayout,
+    OnboardingLayout,
     Thumbnail,
     SubmitButton,
   },
