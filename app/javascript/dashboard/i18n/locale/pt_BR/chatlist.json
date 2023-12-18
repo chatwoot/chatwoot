@@ -53,7 +53,7 @@
     },
     "SORT_ORDER_ITEMS": {
       "last_activity_at_asc": {
-        "TEXT": "Last activity: Oldest first"
+        "TEXT": ""
       },
       "last_activity_at_desc": {
         "TEXT": "Last activity: Newest first"
