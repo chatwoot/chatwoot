@@ -67,6 +67,10 @@ class ConversationReplyMailer < ApplicationMailer
     @inbox.inbox_type == 'Email' || inbound_email_enabled?
   end
 
+  def should_use_inbox_from?
+    ENV['MAILER_SENDER_INBOX_PREFERENCE'] == 'true'
+  end
+
   def conversation_already_viewed?
     # whether contact already saw the message on widget
     return unless @conversation.contact_last_seen_at
@@ -101,8 +105,7 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def from_email
-    sender_inbox_preference = ENV.fetch('MAILER_SENDER_INBOX_PREFERENCE', 'false') == 'true'
-    return parse_email(@account.support_email) if should_use_conversation_email_address? && !sender_inbox_preference
+    return parse_email(@account.support_email) if should_use_conversation_email_address? && !should_use_inbox_from?
 
     parse_email(inbox_from_email_address)
   end
