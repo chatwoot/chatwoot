@@ -38,7 +38,6 @@ class CsatSurveys::ResponseBuilder
     return unless (attrs = message.content_attributes.dig(:submitted_values)).present?
 
     attrs['csat_template_question_id'] = csat_template_question&.id
-    message.content_attributes['submitted_values'] = attrs
-    message.save
+    message.update_column(:content_attributes, attrs)
   end
 end

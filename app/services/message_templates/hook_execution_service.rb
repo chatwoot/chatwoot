@@ -70,6 +70,7 @@ class MessageTemplates::HookExecutionService
       return if conversation.messages.csat.count >= csat_template.questions_count || conversation.messages.unanswered_csat.exists?
     elsif conversation.messages.csat.present?
       return
+      # only send CSAT once in a conversation
     end
 
     true
