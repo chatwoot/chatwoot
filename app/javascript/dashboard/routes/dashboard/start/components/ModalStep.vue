@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="!hidden"
-    class="flex items-center gap-2 p-2 text-sm rounded"
+    class="flex items-center gap-2 p-2 text-sm rounded-md"
     :class="{
       'text-slate-800 dark:text-slate-100 bg-slate-50 dark:bg-slate-800':
         isActive,
