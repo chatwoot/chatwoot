@@ -97,4 +97,53 @@ RSpec.describe Inbox do
       end
     end
   end
+
+  describe 'audit log with whatsapp channel' do
+    let!(:channel) { build(:channel_whatsapp, provider: 'whatsapp_cloud', account: create(:account)) }
+    let!(:inbox) { channel.inbox }
+    # it 'validates false when provider config is wrong' do
+    #   stub_request(:get, 'https://graph.facebook.com/v14.0//message_templates?access_token=test_key').to_return(status: 401)
+    #   expect(channel.save).to be(false)
+    # end
+
+    # it 'validates true when provider config is right' do
+    #   stub_request(:get, 'https://graph.facebook.com/v14.0//message_templates?access_token=test_key')
+    #     .to_return(status: 200,
+    #                body: { data: [{
+    #                  id: '123456789', name: 'test_template'
+    #                }] }.to_json)
+    #   expect(channel.save).to be(true)
+    # end
+
+    # channel = create(:channel_whatsapp, provider: 'whatsapp_cloud', provider_config: { webhook_verify_token: '123' }, account: create(:account),
+    #                                       validate_provider_config: false, sync_templates: false)
+
+    # let!(:inbox) { channel.inbox }
+    context 'when inbox is created' do
+      it 'has associated audit log created' do
+        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'create').count).to eq(1)
+      end
+    end
+
+    context 'when inbox is updated' do
+      it 'has associated audit log created' do
+        inbox.update(name: 'Updated Inbox')
+        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update').count).to eq(1)
+      end
+    end
+
+    context 'when channel is updated' do
+      it 'has associated audit log created' do
+        previous_phone_number = inbox.channel.phone_number
+        new_phone_number = '1234567890'
+        inbox.channel.update(phone_number: new_phone_number)
+
+        # check if channel update creates an audit log against inbox
+        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update').count).to eq(1)
+        # Check for the specific phone_number update in the audit log
+        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update',
+                                    audited_changes: { 'phone_number' => [previous_phone_number, new_phone_number] }).count).to eq(1)
+      end
+    end
+  end
 end
