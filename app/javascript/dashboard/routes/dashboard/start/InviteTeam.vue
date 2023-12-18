@@ -25,7 +25,7 @@
       <div
         class="rounded-md min-h-[10rem] divide-y divide-slate-100"
         :class="{
-          'border border-slate-200 border-dashed grid place-content-center':
+          'border border-slate-200 dark:border-slate-700 border-dashed grid place-content-center':
             emailsToInvite.length === 0,
         }"
       >

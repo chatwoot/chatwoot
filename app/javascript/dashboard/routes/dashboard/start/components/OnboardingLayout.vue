@@ -30,7 +30,7 @@
         id="modal-body"
         class="dark:shadow-[#000] rounded-md mx-auto p-9 border shadow border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900"
       >
-        <h2 class="text-lg font-bold tracking-tight">
+        <h2 class="text-lg font-bold tracking-tight dark:text-white">
           <slot name="title">
             {{ title }}
           </slot>
