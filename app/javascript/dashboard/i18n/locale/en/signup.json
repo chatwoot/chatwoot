@@ -89,9 +89,15 @@
         "PLACEHOLDER": "How many people work at your company?"
       }
     },
+    "INVITE_TEAM": {
+      "TITLE": "Invite your team",
+      "BODY": "Invite your team members to Chatwoot. You can add them later as well.",
+      "SUBMIT": "Send invitations",
+      "SKIP": "Skip for now"
+    },
     "FOUNDERS_NOTE": {
       "TITLE": "A note from the founder",
-      "SUBMIT": "Continue"
+      "SUBMIT": "Go to dashboard"
     }
   }
 }

@@ -11,6 +11,7 @@ const Suspended = () => import('./suspended/Index.vue');
 const SetupProfile = () => import('./start/SetupProfile.vue');
 const SetupCompany = () => import('./start/SetupCompany.vue');
 const FoundersNote = () => import('./start/FoundersNote.vue');
+const InviteTeam = () => import('./start/InviteTeam.vue');
 
 export default {
   routes: [
@@ -35,20 +36,22 @@ export default {
     {
       path: frontendURL('start/setup-profile'),
       name: 'onboarding_setup_profile',
-      roles: ['administrator'],
       component: SetupProfile,
     },
     {
       path: frontendURL('start/setup-company'),
       name: 'onboarding_setup_company',
-      roles: ['administrator'],
       component: SetupCompany,
     },
     {
       path: frontendURL('start/founders-note'),
       name: 'onboarding_founders_note',
-      roles: ['administrator'],
       component: FoundersNote,
+    },
+    {
+      path: frontendURL('start/invite-team'),
+      name: 'onboarding_invite-team',
+      component: InviteTeam,
     },
   ],
 };
