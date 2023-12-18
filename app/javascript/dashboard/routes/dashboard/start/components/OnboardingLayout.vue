@@ -17,7 +17,7 @@
         >
           Get Started
         </h6>
-        <modal-step
+        <onboarding-step
           v-for="(step, index) in steps"
           :key="step.name"
           v-bind="step"
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import ModalStep from './ModalStep.vue';
+import OnboardingStep from './OnboardingStep.vue';
 
 const UISteps = [
   {
@@ -79,7 +79,7 @@ const UISteps = [
 
 export default {
   components: {
-    ModalStep,
+    OnboardingStep,
   },
   props: {
     title: {
