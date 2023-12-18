@@ -46,9 +46,9 @@
 </template>
 
 <script>
-import FormInput from '../../../components/Form/Input.vue';
-import FormTextArea from '../../../components/Form/TextArea.vue';
-import SubmitButton from '../../../components/Button/SubmitButton';
+import FormInput from '../../../components/form/Input.vue';
+import FormTextArea from '../../../components/form/TextArea.vue';
+import SubmitButton from '../../../components/buttons/FormSubmitButton.vue';
 import ModalLayout from './components/ModalLayout.vue';
 
 export default {

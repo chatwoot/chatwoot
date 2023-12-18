@@ -59,9 +59,9 @@
 </template>
 
 <script>
-import FormInput from '../../../components/Form/Input.vue';
-import FormSelect from '../../../components/Form/Select.vue';
-import SubmitButton from '../../../components/Button/SubmitButton';
+import FormInput from '../../../components/form/Input.vue';
+import FormSelect from '../../../components/form/Select.vue';
+import SubmitButton from '../../../components/buttons/FormSubmitButton.vue';
 import ModalLayout from './components/ModalLayout.vue';
 import configMixin from 'shared/mixins/configMixin';
 

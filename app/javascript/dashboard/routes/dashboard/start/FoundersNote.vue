@@ -37,7 +37,7 @@
 <script>
 import ModalLayout from './components/ModalLayout.vue';
 import Thumbnail from '../../../../dashboard/components/widgets/Thumbnail.vue';
-import SubmitButton from '../../../components/Button/SubmitButton';
+import SubmitButton from '../../../components/buttons/FormSubmitButton.vue';
 
 export default {
   components: {

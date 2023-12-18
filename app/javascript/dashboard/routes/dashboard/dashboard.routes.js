@@ -8,6 +8,9 @@ import helpcenterRoutes from './helpcenter/helpcenter.routes';
 
 const AppContainer = () => import('./Dashboard.vue');
 const Suspended = () => import('./suspended/Index.vue');
+const SetupProfile = () => import('./start/SetupProfile.vue');
+const SetupCompany = () => import('./start/SetupCompany.vue');
+const FoundersNote = () => import('./start/FoundersNote.vue');
 
 export default {
   routes: [
@@ -28,6 +31,21 @@ export default {
       name: 'account_suspended',
       roles: ['administrator', 'agent'],
       component: Suspended,
+    },
+    {
+      path: frontendURL('start/setup-profile'),
+      name: 'onboarding_setup_profile',
+      component: SetupProfile,
+    },
+    {
+      path: frontendURL('start/setup-company'),
+      name: 'onboarding_setup_company',
+      component: SetupCompany,
+    },
+    {
+      path: frontendURL('start/founders-note'),
+      name: 'onboarding_founders_note',
+      component: FoundersNote,
     },
   ],
 };
