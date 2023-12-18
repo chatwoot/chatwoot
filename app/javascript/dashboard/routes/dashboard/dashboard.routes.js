@@ -35,16 +35,19 @@ export default {
     {
       path: frontendURL('start/setup-profile'),
       name: 'onboarding_setup_profile',
+      roles: ['administrator'],
       component: SetupProfile,
     },
     {
       path: frontendURL('start/setup-company'),
       name: 'onboarding_setup_company',
+      roles: ['administrator'],
       component: SetupCompany,
     },
     {
       path: frontendURL('start/founders-note'),
       name: 'onboarding_founders_note',
+      roles: ['administrator'],
       component: FoundersNote,
     },
   ],
