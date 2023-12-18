@@ -11,6 +11,7 @@
           name="email"
           spacing="compact"
           class="flex-grow"
+          :placeholder="$t('ONBOARDING.INVITE_TEAM.PLACEHOLDER')"
           @keyup.enter="pushEmail"
         />
         <woot-button

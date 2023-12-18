@@ -93,6 +93,7 @@
       "TITLE": "Invite your team",
       "BODY": "Invite your team members to Chatwoot. You can add them later as well.",
       "SUBMIT": "Send invitations",
+      "PLACEHOLDER": "robin@chatwoot.com",
       "SKIP": "Skip for now"
     },
     "FOUNDERS_NOTE": {
