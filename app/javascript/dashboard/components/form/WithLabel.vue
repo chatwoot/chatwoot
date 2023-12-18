@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="space-y-1">
     <label
       v-if="label"
       :for="name"
@@ -10,7 +10,7 @@
         {{ label }}
       </slot>
     </label>
-    <div class="mt-1">
+    <div>
       <slot />
       <span
         v-if="errorMessage && hasError"
