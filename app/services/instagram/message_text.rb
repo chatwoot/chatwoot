@@ -19,7 +19,7 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
 
     # This channel might require reauthorization, may be owner might have changed the fb password
     if @inbox.channel.reauthorization_required?
-      Rails.logger.info("Skipping message processing as reauthorization is required for inbox #{inbox.id}")
+      Rails.logger.info("Skipping message processing as reauthorization is required for inbox #{@inbox.id}")
       return
     end
 
