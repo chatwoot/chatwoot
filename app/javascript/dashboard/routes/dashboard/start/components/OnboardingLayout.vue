@@ -1,6 +1,6 @@
 <template>
   <section
-    class="relative h-screen px-8 py-20 dark:text-white bg-woot-25 dark:bg-slate-900"
+    class="relative h-screen px-8 py-12 dark:text-white bg-woot-25 dark:bg-slate-900"
   >
     <img
       id="bg-grad"

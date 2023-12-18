@@ -45,7 +45,7 @@
     "PROFILE": {
       "TITLE": "Tell us about yourself",
       "BODY": "Here, we'll set up your details like profile picture, display name, contact info, etc., visible to end users, to make a positive first impression.",
-      "SUBMIT": "Continue to account setup",
+      "SUBMIT": "Continue to company setup",
       "FULL_NAME": {
         "LABEL": "Full name",
         "PLACEHOLDER": "Enter your full name"

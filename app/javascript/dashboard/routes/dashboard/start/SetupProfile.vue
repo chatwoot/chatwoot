@@ -38,7 +38,7 @@
         />
       </div>
       <submit-button
-        button-class="text-sm"
+        button-class="flex justify-center w-full text-sm text-center"
         :button-text="$t('ONBOARDING.PROFILE.SUBMIT')"
       />
     </form>

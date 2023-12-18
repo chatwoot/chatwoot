@@ -28,7 +28,7 @@
       </figure>
     </template>
     <submit-button
-      button-class="text-sm"
+      button-class="flex justify-center w-full text-sm text-center"
       :button-text="$t('ONBOARDING.FOUNDERS_NOTE.SUBMIT')"
     />
   </onboarding-layout>
