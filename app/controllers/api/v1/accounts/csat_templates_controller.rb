@@ -41,6 +41,7 @@ class Api::V1::Accounts::CsatTemplatesController < Api::V1::Accounts::BaseContro
   end
 
   def toggle_setting
+    Current.account.update(csat_template_enabled: params[:status])
     render json: { success: true }
   end
 

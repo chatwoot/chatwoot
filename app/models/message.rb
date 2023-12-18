@@ -109,6 +109,7 @@ class Message < ApplicationRecord
   scope :non_activity_messages, -> { where.not(message_type: :activity).reorder('id desc') }
   scope :today, -> { where("date_trunc('day', created_at) = ?", Date.current) }
   scope :csat, -> { where(content_type: :input_csat) }
+  scope :csat_from_template, -> { csat.joins(csat_template_question: :csat_template) }
   scope :unanswered_csat, lambda {
     csat
       .includes(:csat_survey_response)

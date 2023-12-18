@@ -175,11 +175,13 @@ export default {
   },
   watch: {
     currentCsatTrigger(){
-      if (this.currentCsatTrigger.includes('conversation_reply_and_resolved')) {
-        this.csatTrigger = 'conversation_reply_and_resolved';
-        this.csatTriggerSubOption = this.currentCsatTrigger;
-      } else {
-        this.csatTrigger = this.currentCsatTrigger;
+      if (this.currentCsatTrigger){
+        if (this.currentCsatTrigger.includes('conversation_reply_and_resolved')) {
+          this.csatTrigger = 'conversation_reply_and_resolved';
+          this.csatTriggerSubOption = this.currentCsatTrigger;
+        } else {
+          this.csatTrigger = this.currentCsatTrigger;
+        }
       }
     },
     csatTrigger(){

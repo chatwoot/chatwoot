@@ -71,7 +71,6 @@ class MessageTemplates::HookExecutionService
     elsif conversation.messages.csat.present?
       return
     end
-    # only send CSAT once in a conversation
 
     true
   end

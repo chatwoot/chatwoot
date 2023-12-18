@@ -143,6 +143,7 @@
     computed: {
       ...mapGetters({ 
         currentChat: 'getSelectedChat',
+        currentCsatTrigger: 'csatTemplates/getCsatTrigger',
       }),
       isOpen() {
         return this.currentChat.status === wootConstants.STATUS_TYPE.OPEN;
@@ -156,26 +157,29 @@
       isSnoozed() {
         return this.currentChat.status === wootConstants.STATUS_TYPE.SNOOZED;
       },
+      defaultRepyAction() {
+        return this.inbox.default_reply_action || 'reply_and_resolve';
+      },
       showReplyAndResolve(){
         if (this.getSelectedAction) {
-          return this.selectedAction == 'reply_and_resolve'
+          return this.selectedAction == 'reply_and_resolve';
         }
 
-        return this.inbox.default_reply_action == 'reply_and_resolve';
+        return this.defaultRepyAction == 'reply_and_resolve';
       },
       showReplyAsPending(){
         if (this.getSelectedAction) {
-          return this.selectedAction == 'reply_as_pending'
+          return this.selectedAction == 'reply_as_pending';
         }
 
-        return this.inbox.default_reply_action == 'reply_as_pending';
+        return this.defaultRepyAction == 'reply_as_pending';
       },
       showReplyWithCSAT(){
         if (this.getSelectedAction) {
-          return this.selectedAction == 'reply_with_csat'
+          return this.selectedAction == 'reply_with_csat';
         }
 
-        return this.inbox.default_reply_action == 'reply_with_csat';
+        return this.defaultRepyAction == 'reply_with_csat';
       },
       buttonClass() {
         if (this.isPending) return 'primary';
@@ -191,18 +195,29 @@
         return this.selectedAction;
       }
     },
+    mounted() {
+      this.$store.dispatch('csatTemplates/getCsatTrigger')
+    },
     methods: {
       setSelectedAction(action){
         this.selectedAction = action;
         this.closeDropdown()
       },
       onReplyAndResolve(){
-        this.onSend();
-        this.toggleStatus(this.STATUS_TYPE.RESOLVED);
+        if (this.currentCsatTrigger == 'conversation_reply_and_resolved_together') {
+          this.onSendAsSurvey();
+        } else {
+          this.onSend();
+        }
+        setTimeout(() => {
+          this.toggleStatus(this.STATUS_TYPE.RESOLVED);
+        }, 500)
       },
       onReplyAsPending(){
-        this.onSend()
-        this.toggleStatus(this.STATUS_TYPE.PENDING);
+        this.onSend();
+        setTimeout(() => {
+          this.toggleStatus(this.STATUS_TYPE.PENDING);
+        }, 500)
       },
       onReplyAsSurvey(){
         this.onSendAsSurvey()
