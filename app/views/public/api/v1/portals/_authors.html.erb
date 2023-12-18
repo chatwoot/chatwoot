@@ -7,7 +7,7 @@
         <% end %>
     </div>
 
-    <% first_author = category.articles.published.order(position: :asc).map(&:author).uniq.first.name %>
+    <% first_author = category.articles.published.order(position: :asc).map(&:author).uniq.first&.name || '' %>
     <% author_text = author_count > 1 ? "#{author_count} #{I18n.t('public_portal.common.authors')}" : "#{author_count} #{I18n.t('public_portal.common.author')}" %>
     <% other_authors_count = author_count - 1 %>
     <% other_authors_text = other_authors_count > 1 ? I18n.t('public_portal.common.others') : I18n.t('public_portal.common.other') %>
