@@ -45,7 +45,9 @@ Rails.application.routes.draw do
           end
           resource :bulk_actions, only: [:create]
           resources :agents, only: [:index, :create, :update, :destroy]
-          resources :agent_bots, only: [:index, :create, :show, :update, :destroy]
+          resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
+            delete :avatar, on: :member
+          end
           resources :contact_inboxes, only: [] do
             collection do
               post :filter
@@ -84,6 +86,7 @@ Rails.application.routes.draw do
               resources :messages, only: [:index, :create, :destroy] do
                 member do
                   post :translate
+                  post :retry
                 end
               end
               resources :assignments, only: [:create]
@@ -166,10 +169,13 @@ Rails.application.routes.draw do
             end
           end
 
-          resources :notifications, only: [:index, :update] do
+          resources :notifications, only: [:index, :update, :destroy] do
             collection do
               post :read_all
               get :unread_count
+            end
+            member do
+              post :snooze
             end
           end
           resource :notification_settings, only: [:show, :update]
@@ -325,7 +331,9 @@ Rails.application.routes.draw do
             get :login
           end
         end
-        resources :agent_bots, only: [:index, :create, :show, :update, :destroy]
+        resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
+          delete :avatar, on: :member
+        end
         resources :accounts, only: [:create, :show, :update, :destroy] do
           resources :account_users, only: [:index, :create] do
             collection do
@@ -440,6 +448,10 @@ Rails.application.routes.draw do
       end
       resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update]
       resource :instance_status, only: [:show]
+
+      resource :settings, only: [:show] do
+        get :refresh, on: :collection
+      end
 
       # resources that doesn't appear in primary navigation in super admin
       resources :account_users, only: [:new, :create, :destroy]
