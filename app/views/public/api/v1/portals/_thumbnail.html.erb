@@ -1,0 +1,7 @@
+<% if author&.avatar_url&.present? %>
+  <img src="<%= url_for(author.avatar_url) %>" alt="<%= author.name %>" class="w-<%= size %> h-<%= size %> rounded-full border border-solid border-white dark:border-slate-900">
+<% else %>
+  <div class="w-<%= size %> h-<%= size %> rounded-full [&>svg]:opacity-70 border border-solid fill-white dark:fill-slate-900 border-white dark:border-slate-900 flex justify-center items-center" style="background-color: <%= thumbnail_bg_color(author&.available_name) %>;">
+    <%= render partial: 'icons/user' %>
+  </div>
+<% end %>
