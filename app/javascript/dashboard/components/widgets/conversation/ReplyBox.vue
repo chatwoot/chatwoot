@@ -275,7 +275,8 @@ export default {
       return (
         this.inReplyTo?.id &&
         !this.isPrivate &&
-        this.inboxHasFeature(INBOX_FEATURES.REPLY_TO)
+        this.inboxHasFeature(INBOX_FEATURES.REPLY_TO) &&
+        !this.is360DialogWhatsAppChannel
       );
     },
     showRichContentEditor() {
@@ -392,7 +393,8 @@ export default {
         this.isAPIInbox ||
         this.isAnEmailChannel ||
         this.isASmsInbox ||
-        this.isATelegramChannel
+        this.isATelegramChannel ||
+        this.isALineChannel
       );
     },
     replyButtonLabel() {
@@ -495,7 +497,11 @@ export default {
       return `draft-${this.conversationIdByRoute}-${this.replyType}`;
     },
     audioRecordFormat() {
-      if (this.isAWhatsAppChannel || this.isAPIInbox) {
+      if (
+        this.isAWhatsAppChannel ||
+        this.isAPIInbox ||
+        this.isATelegramChannel
+      ) {
         return AUDIO_FORMATS.OGG;
       }
       return AUDIO_FORMATS.WAV;
@@ -624,6 +630,8 @@ export default {
           `${this.$t('CONVERSATION.REPLYBOX.INSERT_READ_MORE')} ${url}`
         );
       }
+
+      this.$track(CONVERSATION_EVENTS.INSERT_ARTICLE_LINK);
     },
     toggleRichContentEditor() {
       this.updateUISettings({
