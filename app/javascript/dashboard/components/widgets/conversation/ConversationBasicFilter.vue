@@ -34,7 +34,7 @@
           type="sort"
           :selected-value="sortFilter"
           :items="chatSortItems"
-          path-prefix="CHAT_LIST.CHAT_SORT_FILTER_ITEMS"
+          path-prefix="CHAT_LIST.SORT_ORDER_ITEMS"
           @onChangeFilter="onChangeFilter"
         />
       </div>
@@ -58,7 +58,7 @@ export default {
     return {
       showActionsDropdown: false,
       chatStatusItems: this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS'),
-      chatSortItems: this.$t('CHAT_LIST.CHAT_SORT_FILTER_ITEMS'),
+      chatSortItems: this.$t('CHAT_LIST.SORT_ORDER_ITEMS'),
     };
   },
   computed: {
@@ -70,7 +70,9 @@ export default {
       return this.chatStatusFilter || wootConstants.STATUS_TYPE.OPEN;
     },
     sortFilter() {
-      return this.chatSortFilter || wootConstants.SORT_BY_TYPE.LATEST;
+      return (
+        this.chatSortFilter || wootConstants.SORT_BY_TYPE.LAST_ACTIVITY_AT_DESC
+      );
     },
   },
   methods: {
