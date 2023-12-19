@@ -22,7 +22,7 @@
           <span>Refresh</span>
         </a>
       </div>
-      <p class="text-slate-600 mt-1">You are currently on the <span class="font-semibold"><%= ChatwootHub.pricing_plan %></span> edition plan.</p>
+      <p class="text-slate-600 mt-1"><%= SuperAdmin::FeaturesHelper.plan_details.html_safe %></p>
       <div class="flex items-center mt-6">
         <h4 class="text-sm font-medium leading-5 h-5 text-slate-900 mr-4">Installation Identifier</h4>
         <span class="text-sm leading-5 h-5 text-slate-600"><%= ChatwootHub.installation_identifier %></span>
@@ -31,15 +31,25 @@
     <div class="flex p-4 border border-solid border-slate-100 rounded-lg mt-8 items-start md:items-center shadow-sm flex-col md:flex-row">
       <div class="flex flex-col flex-grow gap-1">
         <h2 class="h-5 leading-5 text-slate-900 text-sm font-medium">Current plan</h2>
-        <p class="text-slate-600 m-0 text-sm">You are currently on the <span class="font-semibold"><%= ChatwootHub.pricing_plan %></span> edition plan.</p>
+        <p class="text-slate-600 m-0 text-sm"><%= SuperAdmin::FeaturesHelper.plan_details.html_safe %></p>
       </div>
-      <a href="https://www.chatwoot.com/pricing/self-hosted-plans?utm_source=chatwoot_superadmin" target="_blank" rel="noopener noreferrer">
+      <a href="<%= ChatwootHub.billing_url %>" target="_blank" rel="noopener noreferrer">
         <button class="mt-4 md:mt-0 flex gap-1 items-center bg-transparent shadow-sm h-9 hover:bg-slate-100 hover:text-slate-800 border border-solid border-slate-100 rounded text-slate-700 font-medium p-2">
           <svg width="16" height="16"><use xlink:href="#icon-settings-2-line" /></svg>
           <span class="px-1">Manage</span>
         </button>
       </a>
     </div>
+
+    <% if ChatwootHub.pricing_plan != 'community' &&  User.count > ChatwootHub.pricing_plan_quantity %>
+    <div role="alert">
+      <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+        <p>You have <%= User.count %> agents. Please add more licenses.</p>
+      </div>
+    </div>
+    <% end %>
+
+
     <div class="flex p-4 border border-solid border-slate-100 rounded-lg mt-4 items-start md:items-center shadow-sm flex-col md:flex-row">
       <div class="flex flex-col flex-grow gap-1">
         <h2 class="h-5 leading-5 text-slate-900 text-sm font-medium">Need help?</h2>
@@ -72,7 +82,7 @@
           </div>
           <% if !attrs[:enabled] %>
           <div class="flex h-9 absolute top-5 items-center invisible group-hover:visible">
-            <a href="https://www.chatwoot.com/pricing/self-hosted-plans?utm_source=chatwoot_superadmin" target="_blank" rel="noopener noreferrer" class="flex gap-1 items-center bg-slate-100 h-9 hover:bg-slate-300 hover:text-slate-900 border border-solid border-slate-100 rounded text-slate-600 font-medium p-2">
+            <a href="<%= ChatwootHub.billing_url %>" target="_blank" rel="noopener noreferrer" class="flex gap-1 items-center bg-slate-100 h-9 hover:bg-slate-300 hover:text-slate-900 border border-solid border-slate-100 rounded text-slate-600 font-medium p-2">
               <svg class="h-4 w-4" width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13.209 3.103c-.495-1.004-1.926-1.004-2.421 0L8.43 7.88l-5.273.766c-1.107.161-1.55 1.522-.748 2.303l3.815 3.72-.9 5.25c-.19 1.103.968 1.944 1.959 1.424l4.715-2.48 4.716 2.48c.99.52 2.148-.32 1.96-1.424l-.902-5.25 3.816-3.72c.8-.78.359-2.142-.748-2.303l-5.273-.766-2.358-4.777ZM9.74 8.615l2.258-4.576 2.259 4.576a1.35 1.35 0 0 0 1.016.738l5.05.734-3.654 3.562a1.35 1.35 0 0 0-.388 1.195l.862 5.03-4.516-2.375a1.35 1.35 0 0 0-1.257 0l-4.516 2.374.862-5.029a1.35 1.35 0 0 0-.388-1.195l-3.654-3.562 5.05-.734c.44-.063.82-.34 1.016-.738ZM1.164 3.782a.75.75 0 0 0 .118 1.054l2.5 2a.75.75 0 1 0 .937-1.172l-2.5-2a.75.75 0 0 0-1.055.118Z" fill="currentColor"/><path d="M22.836 18.218a.75.75 0 0 0-.117-1.054l-2.5-2a.75.75 0 0 0-.938 1.172l2.5 2a.75.75 0 0 0 1.055-.117ZM1.282 17.164a.75.75 0 1 0 .937 1.172l2.5-2a.75.75 0 0 0-.937-1.172l-2.5 2ZM22.836 3.782a.75.75 0 0 1-.117 1.054l-2.5 2a.75.75 0 0 1-.938-1.172l2.5-2a.75.75 0 0 1 1.055.118Z"  fill="currentColor"/></svg>
               <span class="px-1">Upgrade now</span>
             </a>
