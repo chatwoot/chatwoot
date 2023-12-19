@@ -5,7 +5,9 @@ class MessageTemplates::Template::CsatSurvey
     ActiveRecord::Base.transaction do
       new_csat = conversation.messages.create!(csat_survey_message_params)
 
-      new_csat.csat_template_question = csat_template_question if csat_template_question
+      if csat_template_question
+        new_csat.csat_template_question = csat_template_question
+      end
     end
   end
 
@@ -38,6 +40,6 @@ class MessageTemplates::Template::CsatSurvey
     return unless account.csat_template_enabled?
 
     send_csat_count = conversation.messages.csat.count
-    @csat_template_question = inbox.csat_template.csat_template_questions.offset(send_csat_count).limit(1).first
+    @csat_template_question = inbox.csat_template.csat_template_questions.offset(send_csat_count).first
   end
 end

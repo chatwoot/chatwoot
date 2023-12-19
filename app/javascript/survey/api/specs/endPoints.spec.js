@@ -19,6 +19,7 @@ describe('#updateSurvey', () => {
       message: {
         submitted_values: {
           csat_survey_response: {
+            csat_template_question_id: 0,
             rating: 4,
             feedback_message: 'amazing',
           },

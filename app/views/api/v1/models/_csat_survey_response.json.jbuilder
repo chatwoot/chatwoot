@@ -3,10 +3,12 @@ json.rating resource.rating
 json.feedback_message resource.feedback_message
 json.account_id resource.account_id
 json.message_id resource.message_id
+json.csat_question_id resource.message.csat_template_question&.id
 
 if resource.message.csat_template_question
   json.csat_question resource.message.csat_template_question.content
-  json.csat_question_id resource.message.csat_template_question.id
+else
+  json.csat_question resource.message.content
 end
 
 if resource.contact

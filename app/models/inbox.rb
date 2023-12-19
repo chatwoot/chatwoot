@@ -10,6 +10,7 @@
 #  business_name                 :string
 #  channel_type                  :string
 #  csat_survey_enabled           :boolean          default(FALSE)
+#  default_reply_action          :string
 #  email_address                 :string
 #  enable_auto_assignment        :boolean          default(TRUE)
 #  enable_email_collect          :boolean          default(TRUE)

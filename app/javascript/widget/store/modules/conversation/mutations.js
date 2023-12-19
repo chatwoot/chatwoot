@@ -115,6 +115,10 @@ export const mutations = {
     $state.totalAnsweredCsat += 1;
   },
 
+  incrementSubmittedCsat($state) {
+    $state.totalSubmittedCsat += 1;
+  },
+
   setCsatTemplateEnabled($state, status) {
     $state.csatTemplateEnabled = status;
   },

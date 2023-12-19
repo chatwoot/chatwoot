@@ -52,6 +52,9 @@ const generateCSATContent = (
     );
     messageContent += `<div><strong>${ratingTitle}</strong></div>`;
     messageContent += `<p>${ratingObject.emoji}</p>`;
+  } else {
+    messageContent += `<div><strong>${ratingTitle}</strong></div>`;
+    messageContent += `<p>No rating yet.</p>`;
   }
   if (feedback_message) {
     messageContent += `<div><strong>${feedbackTitle}</strong></div>`;
