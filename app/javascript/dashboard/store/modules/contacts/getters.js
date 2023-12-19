@@ -15,4 +15,7 @@ export const getters = {
   getAppliedContactFilters: _state => {
     return _state.appliedFilters;
   },
+  getWhatsappContacts: $state => {
+    return $state.whatsappContacts;
+  },
 };

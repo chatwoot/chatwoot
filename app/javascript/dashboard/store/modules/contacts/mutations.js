@@ -31,6 +31,10 @@ export const mutations = {
     $state.sortOrder = sortOrder;
   },
 
+  [types.SET_WHATSAPP_CONTACTS]: ($state, data) => {
+    $state.whatsappContacts = data;
+  },
+
   [types.SET_CONTACT_ITEM]: ($state, data) => {
     Vue.set($state.records, data.id, {
       ...($state.records[data.id] || {}),
