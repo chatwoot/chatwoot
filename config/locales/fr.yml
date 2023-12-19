@@ -196,7 +196,7 @@ fr:
     common:
       home: Page d'accueil
       last_updated_on: Dernière mise à jour le %{last_updated_on}
-      view_all_articles: View all
+      view_all_articles: Tout afficher
       article: article
       articles: articles
       author: auteur
@@ -208,12 +208,12 @@ fr:
     footer:
       made_with: Réalisé avec
     header:
-      go_to_homepage: Website
+      go_to_homepage: Site internet
       appearance:
         system: Système
         light: Clair
         dark: Sombre
-      featured_articles: Featured Articles
+      featured_articles: Articles à la une
       uncategorized: Non catégorisé
     404:
       title: Page introuvable
