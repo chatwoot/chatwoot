@@ -12,6 +12,7 @@ export const buildCreatePayload = ({
   bccEmails = '',
   toEmails = '',
   templateParams,
+  contentType,
 }) => {
   let payload;
   if (files && files.length !== 0) {
@@ -33,6 +34,9 @@ export const buildCreatePayload = ({
     if (contentAttributes) {
       payload.append('content_attributes', JSON.stringify(contentAttributes));
     }
+    if (contentType) {
+      payload.append('content_type', contentType);
+    }
   } else {
     payload = {
       content: message,
@@ -44,7 +48,12 @@ export const buildCreatePayload = ({
       to_emails: toEmails,
       template_params: templateParams,
     };
+
+    if (contentType) {
+      payload.content_type = contentType;
+    }
   }
+
   return payload;
 };
 
@@ -64,6 +73,7 @@ class MessageApi extends ApiClient {
     bccEmails = '',
     toEmails = '',
     templateParams,
+    contentType,
   }) {
     return axios({
       method: 'post',
@@ -78,6 +88,7 @@ class MessageApi extends ApiClient {
         bccEmails,
         toEmails,
         templateParams,
+        contentType,
       }),
     });
   }

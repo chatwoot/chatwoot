@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_12_075224) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_09_085733) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -54,7 +54,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_12_075224) do
     t.jsonb "limits", default: {}
     t.jsonb "custom_attributes", default: {}
     t.integer "status", default: 0
-    t.boolean "csat_template_enabled", default: false
+    t.boolean "csat_template_enabled", default: false, null: false
+    t.string "csat_trigger"
     t.index ["status"], name: "index_accounts_on_status"
   end
 
@@ -610,6 +611,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_12_075224) do
     t.integer "sender_name_type", default: 0, null: false
     t.string "business_name"
     t.integer "csat_template_id"
+    t.string "default_reply_action"
     t.index ["account_id"], name: "index_inboxes_on_account_id"
     t.index ["channel_id", "channel_type"], name: "index_inboxes_on_channel_id_and_channel_type"
     t.index ["portal_id"], name: "index_inboxes_on_portal_id"
@@ -679,6 +681,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_12_075224) do
     t.bigint "message_id"
     t.bigint "csat_template_question_id"
     t.integer "question_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["csat_template_question_id"], name: "index_messages_csat_question_id"
     t.index ["message_id"], name: "uniq_csat_question_messages_id"
   end

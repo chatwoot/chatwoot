@@ -4,6 +4,8 @@
 #
 #  id                        :bigint           not null, primary key
 #  question_number           :integer
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
 #  csat_template_question_id :bigint
 #  message_id                :bigint
 #

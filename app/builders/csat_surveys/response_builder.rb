@@ -21,9 +21,24 @@ class CsatSurveys::ResponseBuilder
       contact_id: conversation.contact_id, assigned_agent: conversation.assignee,
       csat_template_id: message.csat_template_question&.csat_template_id, csat_template_question_id: message.csat_template_question&.id
     )
+
+    update_message_content_attributes
+    csat_survey_response.csat_template_id = csat_template_question.csat_template_id
+    csat_survey_response.csat_template_question_id = csat_template_question.id
     csat_survey_response.rating = rating
     csat_survey_response.feedback_message = feedback_message
     csat_survey_response.save!
     csat_survey_response
+  end
+
+  def csat_template_question
+    @csat_template_question ||= (message.csat_template_question || CsatTemplateQuestion.load_by_content(message.content))
+  end
+
+  def update_message_content_attributes
+    return unless (attrs = message.content_attributes.dig(:submitted_values)).present?
+
+    attrs['csat_template_question_id'] = csat_template_question&.id
+    message.update_column(:content_attributes, attrs)
   end
 end

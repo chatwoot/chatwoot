@@ -15,6 +15,7 @@ const state = {
   },
   lastMessageId: null,
   totalCsat: 0,
+  totalSubmittedCsat: 0,
   totalAnsweredCsat: 0,
   csatTemplateEnabled: false,
 };

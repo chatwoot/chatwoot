@@ -180,6 +180,28 @@
           </p>
         </label>
 
+        <label class="w-[75%] pb-4">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.SET_DEFAULT_ACTION_REPLY') }}
+          <select v-model="defaultReplyAction">
+            <option value="reply_and_resolve">
+              Reply And Resolve
+            </option>
+            <option value="reply_with_csat">
+              Reply with CSAT
+            </option>
+            <option value="reply_as_pending">
+              Reply as Pending
+            </option>
+          </select>
+          <p class="pb-1 text-sm not-italic text-slate-600 dark:text-slate-400">
+            {{
+              $t(
+                'INBOX_MGMT.SETTINGS_POPUP.ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT'
+              )
+            }}
+          </p>
+        </label>
+
         <label v-if="isAWebWidgetInbox" class="w-[75%] pb-4">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_EMAIL_COLLECT_BOX') }}
           <select v-model="emailCollectEnabled">
@@ -475,6 +497,7 @@ export default {
       channelWelcomeTagline: '',
       selectedFeatureFlags: [],
       replyTime: '',
+      defaultReplyAction: '',
       selectedTabIndex: 0,
       selectedPortalSlug: '',
       showBusinessNameInput: false,
@@ -668,6 +691,8 @@ export default {
         this.channelWelcomeTagline = this.inbox.welcome_tagline;
         this.selectedFeatureFlags = this.inbox.selected_feature_flags || [];
         this.replyTime = this.inbox.reply_time;
+        console.log(this.inbox)
+        this.defaultReplyAction = this.inbox.default_reply_action;
         this.locktoSingleConversation = this.inbox.lock_to_single_conversation;
         this.selectedPortalSlug = this.inbox.help_center
           ? this.inbox.help_center.slug
@@ -681,6 +706,7 @@ export default {
           name: this.selectedInboxName,
           enable_email_collect: this.emailCollectEnabled,
           csat_survey_enabled: this.csatSurveyEnabled,
+          default_reply_action: this.defaultReplyAction,
           allow_messages_after_resolved: this.allowMessagesAfterResolved,
           greeting_enabled: this.greetingEnabled,
           greeting_message: this.greetingMessage || '',

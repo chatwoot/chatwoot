@@ -23,6 +23,14 @@ class Api::V1::Accounts::CsatTemplatesController < Api::V1::Accounts::BaseContro
     # rubocop:enable Rails/SkipsModelValidations
   end
 
+  def update_csat_trigger
+    render json: { status: Current.account.update(csat_trigger: params[:csat_trigger]) }
+  end
+
+  def csat_trigger
+    render json: { csat_trigger: Current.account.csat_trigger }
+  end
+
   def destroy
     @template.destroy
     render json: { success: @template.destroyed? }
@@ -34,6 +42,7 @@ class Api::V1::Accounts::CsatTemplatesController < Api::V1::Accounts::BaseContro
 
   def toggle_setting
     Current.account.update(csat_template_enabled: params[:status])
+    render json: { success: true }
   end
 
   def inboxes

@@ -34,6 +34,16 @@ class CsatTemplatesAPI extends ApiClient {
     return axios.get(`${this.url}/setting_status`);
   }
 
+  getCsatTrigger() {
+    return axios.get(`${this.url}/csat_trigger`);
+  }
+
+  updateCsatTrigger(csat_trigger) {
+    return axios.patch(`${this.url}/update_csat_trigger`, {
+      csat_trigger: csat_trigger
+    });
+  }
+
   toggleSetting(status) {
     return axios.patch(`${this.url}/toggle_setting`, {
       status: status,
