@@ -41,6 +41,7 @@ class Notification < ApplicationRecord
 
   enum notification_type: NOTIFICATION_TYPES
 
+  before_create :set_last_activity_at
   after_create_commit :process_notification_delivery, :dispatch_create_event
   after_destroy_commit :dispatch_destroy_event
 
@@ -136,5 +137,9 @@ class Notification < ApplicationRecord
 
   def dispatch_destroy_event
     Rails.configuration.dispatcher.dispatch(NOTIFICATION_DELETED, Time.zone.now, notification: self)
+  end
+
+  def set_last_activity_at
+    self.last_activity_at = created_at
   end
 end
