@@ -18,7 +18,7 @@
         <hr class="my-2" />
         <h5 class="text-sm text-slate-800 dark:text-slate-100">
           CSAT Triggers
-          <select v-model="csatTrigger" class="mt-5 mb-0">
+          <select v-model="csatTrigger" class="mt-5 mb-0" v-on:change="changeCsatTrigger">
             <option value="conversation_all_reply">Send CSAT with all replies</option>
             <option value="conversation_reply_and_resolved">Include CSAT with 'Reply and Resolve'</option>
             <option value="conversation_resolved">Send CSAT when conversation is closed</option>
@@ -32,7 +32,7 @@
         <hr class="my-2" v-if="showCsatTriggerSubOptions"/>
         <h5 class="text-sm text-slate-800 dark:text-slate-100" v-if="showCsatTriggerSubOptions">
           CSAT Trigger Sub Option
-          <select v-model="csatTriggerSubOption" class="mt-5 mb-0">
+          <select v-model="csatTriggerSubOption" class="mt-5 mb-0" v-on:change="changeCsatTrigger">
             <option value="conversation_reply_and_resolved_together">Send CSAT as part of the reply</option>
             <option value="conversation_reply_and_resolved_separately">Send CSAT separately</option>
           </select>
@@ -184,12 +184,6 @@ export default {
         }
       }
     },
-    csatTrigger(){
-      this.changeCsatTrigger()
-    },
-    csatTriggerSubOption(){
-      this.changeCsatTrigger()
-    }
   }
 };
 </script>
