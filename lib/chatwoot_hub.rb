@@ -4,6 +4,7 @@ class ChatwootHub
   REGISTRATION_URL = "#{BASE_URL}/instances".freeze
   PUSH_NOTIFICATION_URL = "#{BASE_URL}/send_push".freeze
   EVENTS_URL = "#{BASE_URL}/events".freeze
+  BILLING_URL = "#{BASE_URL}/billing".freeze
 
   def self.installation_identifier
     identifier = InstallationConfig.find_by(name: 'INSTALLATION_IDENTIFIER')&.value
@@ -11,8 +12,16 @@ class ChatwootHub
     identifier
   end
 
+  def self.billing_url
+    "#{BILLING_URL}?installation_identifier=#{installation_identifier}"
+  end
+
   def self.pricing_plan
     InstallationConfig.find_by(name: 'INSTALLATION_PRICING_PLAN')&.value || 'community'
+  end
+
+  def self.pricing_plan_quantity
+    InstallationConfig.find_by(name: 'INSTALLATION_PRICING_PLAN_QUANTITY')&.value || 0
   end
 
   def self.support_config
