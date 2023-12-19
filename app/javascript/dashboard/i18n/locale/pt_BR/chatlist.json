@@ -56,25 +56,25 @@
         "TEXT": ""
       },
       "last_activity_at_desc": {
-        "TEXT": "Last activity: Newest first"
+        "TEXT": "Última atividade: Recentes primeiro"
       },
       "created_at_desc": {
-        "TEXT": "Created at: Newest first"
+        "TEXT": "Criado em: Recentes primeiro"
       },
       "created_at_asc": {
-        "TEXT": "Created at: Oldest first"
+        "TEXT": "Criado em: Antigos primeiro"
       },
       "priority_desc": {
-        "TEXT": "Priority: Highest first"
+        "TEXT": "Prioridade: Altas primeiro"
       },
       "priority_asc": {
-        "TEXT": "Priority: Lowest first"
+        "TEXT": "Prioridade: Baixas primeiro"
       },
       "waiting_since_asc": {
-        "TEXT": "Pending Response: Longest first"
+        "TEXT": "Resposta pendente: Longas primeiro"
       },
       "waiting_since_desc": {
-        "TEXT": "Pending Response: Shortest first"
+        "TEXT": "Resposta pendente: Curtas primeiro"
       }
     },
     "ATTACHMENTS": {
