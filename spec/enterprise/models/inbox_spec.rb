@@ -2,6 +2,8 @@
 
 require 'rails_helper'
 
+WebMock.disable_net_connect!(allow_localhost: true)
+
 RSpec.describe Inbox do
   let!(:inbox) { create(:inbox) }
 
@@ -99,29 +101,26 @@ RSpec.describe Inbox do
   end
 
   describe 'audit log with whatsapp channel' do
-    let!(:channel) { build(:channel_whatsapp, provider: 'whatsapp_cloud', account: create(:account)) }
+    let!(:channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud', account: create(:account)) }
     let!(:inbox) { channel.inbox }
-    # it 'validates false when provider config is wrong' do
-    #   stub_request(:get, 'https://graph.facebook.com/v14.0//message_templates?access_token=test_key').to_return(status: 401)
-    #   expect(channel.save).to be(false)
-    # end
 
-    # it 'validates true when provider config is right' do
-    #   stub_request(:get, 'https://graph.facebook.com/v14.0//message_templates?access_token=test_key')
-    #     .to_return(status: 200,
-    #                body: { data: [{
-    #                  id: '123456789', name: 'test_template'
-    #                }] }.to_json)
-    #   expect(channel.save).to be(true)
-    # end
+    before do
+      stub_request(:get, 'https://graph.facebook.com/v14.0//message_templates?access_token=test_key')
+        .with(
+          headers: {
+            'Accept' => '*/*',
+            'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+            'User-Agent' => 'Ruby',
+            'Host' => 'graph.facebook.com'
+          }
+        )
+        .to_return(status: 200, body: '', headers: {})
+    end
 
-    # channel = create(:channel_whatsapp, provider: 'whatsapp_cloud', provider_config: { webhook_verify_token: '123' }, account: create(:account),
-    #                                       validate_provider_config: false, sync_templates: false)
-
-    # let!(:inbox) { channel.inbox }
     context 'when inbox is created' do
       it 'has associated audit log created' do
         expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'create').count).to eq(1)
+        expect(WebMock).to have_requested(:get, 'https://graph.facebook.com/v14.0//message_templates?access_token=test_key')
       end
     end
 
