@@ -64,22 +64,30 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
     categorized_params = {}
 
     processed_params.each do |key, value|
-      parts = key.split('|')
-      type = parts[0]
-      primary_index = parts[1].to_i
-      subtype = parts.length > 2 ? parts[2] : nil
-      secondary_index = parts.length > 3 ? parts[3].to_i : 0
+      if key.include?('|')
+        parts = key.split('|')
+        type = parts[0]
+        primary_index = parts[1].to_i
+        sub_type = parts.length > 2 ? parts[2] : nil
+        secondary_index = parts.length > 3 ? parts[3].to_i : 0
+      else
+        # Fallback to 'body' type if no '|' in the key
+        type = 'body'
+        primary_index = 0
+        sub_type = nil
+        secondary_index = 0
+      end
 
       if type == 'body'
         # Aggregate all body entries
         categorized_params[type] ||= []
         categorized_params[type] << { type: 'text', text: value }
       else
-        # Handle button entries, now considering subtypes
+        # Handle button entries, now considering sub_types
         categorized_params[type] ||= {}
         categorized_params[type][primary_index] ||= {}
-        categorized_params[type][primary_index][subtype] ||= []
-        categorized_params[type][primary_index][subtype] << { type: 'text', text: value }
+        categorized_params[type][primary_index][sub_type] ||= []
+        categorized_params[type][primary_index][sub_type] << { type: 'text', text: value }
       end
     end
 
@@ -89,9 +97,9 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
       if type == 'body'
         result << { type: type, parameters: data }
       else
-        data.each do |index, subtypes|
-          subtypes.each do |subtype, params|
-            result << { type: type, index: index, sub_type: subtype, parameters: params }
+        data.each do |index, sub_types|
+          sub_types.each do |sub_type, params|
+            result << { type: type, index: index, sub_type: sub_type, parameters: params }
           end
         end
       end
