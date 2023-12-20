@@ -511,7 +511,7 @@ GEM
       rack (>= 1.2, < 4)
       snaky_hash (~> 2.0)
       version_gem (~> 1.1)
-    omniauth (2.1.1)
+    omniauth (2.1.2)
       hashie (>= 3.4.6)
       rack (>= 2.2.3)
       rack-protection
@@ -568,8 +568,8 @@ GEM
       rack (>= 2.0.0)
     rack-mini-profiler (3.2.0)
       rack (>= 1.2.0)
-    rack-protection (3.0.6)
-      rack
+    rack-protection (3.1.0)
+      rack (~> 2.2, >= 2.2.4)
     rack-proxy (0.7.6)
       rack
     rack-test (2.1.0)
@@ -905,7 +905,7 @@ DEPENDENCIES
   neighbor
   newrelic-sidekiq-metrics (>= 1.6.2)
   newrelic_rpm
-  omniauth
+  omniauth (>= 2.1.2)
   omniauth-google-oauth2
   omniauth-oauth2
   omniauth-rails_csrf_protection (~> 1.0)
