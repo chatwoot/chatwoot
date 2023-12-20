@@ -3,6 +3,7 @@
 # Table name: notifications
 #
 #  id                   :bigint           not null, primary key
+#  last_activity_at     :datetime
 #  notification_type    :integer          not null
 #  primary_actor_type   :string           not null
 #  read_at              :datetime
@@ -18,6 +19,7 @@
 # Indexes
 #
 #  index_notifications_on_account_id               (account_id)
+#  index_notifications_on_last_activity_at         (last_activity_at)
 #  index_notifications_on_user_id                  (user_id)
 #  uniq_primary_actor_per_account_notifications    (primary_actor_type,primary_actor_id)
 #  uniq_secondary_actor_per_account_notifications  (secondary_actor_type,secondary_actor_id)
@@ -41,6 +43,7 @@ class Notification < ApplicationRecord
 
   enum notification_type: NOTIFICATION_TYPES
 
+  before_create :set_last_activity_at
   after_create_commit :process_notification_delivery, :dispatch_create_event
   after_destroy_commit :dispatch_destroy_event
 
@@ -136,5 +139,9 @@ class Notification < ApplicationRecord
 
   def dispatch_destroy_event
     Rails.configuration.dispatcher.dispatch(NOTIFICATION_DELETED, Time.zone.now, notification: self)
+  end
+
+  def set_last_activity_at
+    self.last_activity_at = created_at
   end
 end
