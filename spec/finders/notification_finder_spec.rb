@@ -7,9 +7,10 @@ describe NotificationFinder do
   let!(:user) { create(:user, account: account) }
 
   before do
-    create(:notification, account: account, user: user, updated_at: DateTime.now.utc + 1.day)
-    create(:notification, account: account, user: user, snoozed_until: DateTime.now.utc + 3.days, updated_at: DateTime.now.utc)
-    create(:notification, account: account, user: user, updated_at: DateTime.now.utc + 2.days)
+    create(:notification, account: account, user: user, updated_at: DateTime.now.utc + 1.day, last_activity_at: DateTime.now.utc + 1.day)
+    create(:notification, account: account, user: user, snoozed_until: DateTime.now.utc + 3.days, updated_at: DateTime.now.utc,
+                          last_activity_at: DateTime.now.utc)
+    create(:notification, account: account, user: user, updated_at: DateTime.now.utc + 2.days, last_activity_at: DateTime.now.utc + 2.days)
   end
 
   describe '#perform' do
@@ -31,12 +32,13 @@ describe NotificationFinder do
       end
     end
 
-    context 'when order by updated_at' do
+    context 'when order by last_activity_at' do
       let(:params) { { status: 'open' } }
 
       it 'returns all notifications' do
         result = notification_finder.perform
-        expect(result.first.updated_at).to be > result.last.updated_at
+        expect(result.first.last_activity_at).to be > result.last.last_activity_at
+        expect(result.first.last_activity_at).to be > result.last.last_activity_at
       end
     end
   end
