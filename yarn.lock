@@ -3177,7 +3177,7 @@
     prosemirror-utils "^0.9.6"
     prosemirror-view "^1.17.2"
 
-"@chatwoot/utils@0.0.18":
+"@chatwoot/utils@^0.0.18":
   version "0.0.18"
   resolved "https://registry.yarnpkg.com/@chatwoot/utils/-/utils-0.0.18.tgz#bab90804295ff9bc2f28248bca0d052463e109b8"
   integrity sha512-nZfCD4Xqg9LDWrRJsZo0FVSpdyweNUDf0S01VpFZMHOL7ajupekLTRrs41v+yqVKzKYM0pvDpz8P4De4FdwKyA==
