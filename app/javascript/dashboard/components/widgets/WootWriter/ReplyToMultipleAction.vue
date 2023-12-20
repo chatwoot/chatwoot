@@ -27,18 +27,6 @@
 
       <woot-button
         :is-disabled="isDisabled"
-        v-else-if="showReplyWithCSAT"
-        color-scheme="primary"
-        icon="emoji"
-        size="small"
-        emoji="👀"
-        @click="onReplyAsSurvey"
-      >
-        Reply with CSAT
-      </woot-button>
-
-      <woot-button
-        :is-disabled="isDisabled"
         ref="arrowDownButton"
         color-scheme="primary"
         size="small"
@@ -73,17 +61,6 @@
             @click="() => setSelectedAction('reply_as_pending')"
           >
             Reply as pending
-          </woot-button>
-        </woot-dropdown-item>
-        <woot-dropdown-item>
-          <woot-button
-            variant="clear"
-            color-scheme="primary"
-            size="small"
-            icon="emoji"
-            @click="() => setSelectedAction('reply_with_csat')"
-          >
-            Reply with CSAT
           </woot-button>
         </woot-dropdown-item>
       </woot-dropdown-menu>
@@ -142,8 +119,7 @@
     },
     computed: {
       ...mapGetters({ 
-        currentChat: 'getSelectedChat',
-        currentCsatTrigger: 'csatTemplates/getCsatTrigger',
+        currentChat: 'getSelectedChat'
       }),
       isOpen() {
         return this.currentChat.status === wootConstants.STATUS_TYPE.OPEN;
@@ -174,13 +150,6 @@
 
         return this.defaultRepyAction == 'reply_as_pending';
       },
-      showReplyWithCSAT(){
-        if (this.getSelectedAction) {
-          return this.selectedAction == 'reply_with_csat';
-        }
-
-        return this.defaultRepyAction == 'reply_with_csat';
-      },
       buttonClass() {
         if (this.isPending) return 'primary';
         if (this.isOpen) return 'success';
@@ -195,20 +164,13 @@
         return this.selectedAction;
       }
     },
-    mounted() {
-      this.$store.dispatch('csatTemplates/getCsatTrigger')
-    },
     methods: {
       setSelectedAction(action){
         this.selectedAction = action;
         this.closeDropdown()
       },
       onReplyAndResolve(){
-        if (this.currentCsatTrigger == 'conversation_reply_and_resolved_together') {
-          this.onSendAsSurvey();
-        } else {
-          this.onSend();
-        }
+        this.onSend();
         setTimeout(() => {
           this.toggleStatus(this.STATUS_TYPE.RESOLVED);
         }, 500)
@@ -218,9 +180,6 @@
         setTimeout(() => {
           this.toggleStatus(this.STATUS_TYPE.PENDING);
         }, 500)
-      },
-      onReplyAsSurvey(){
-        this.onSendAsSurvey()
       },
       openDropdown(){
         this.showActionsDropdown = true
