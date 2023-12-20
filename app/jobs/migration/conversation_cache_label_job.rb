@@ -1,16 +1,9 @@
 class Migration::ConversationCacheLabelJob < ApplicationJob
   queue_as :async_database_migration
 
-  # To cache the label, we simply access it from the object and save it. Anytime the object is
-  # saved in the future, ActsAsTaggable will automatically recompute it. This process is done
-  # initially when the user has not performed any action.
-  # Reference: https://github.com/mbleigh/acts-as-taggable-on/wiki/Caching
   def perform(account)
-    account.conversations.find_in_batches do |conversation_batch|
-      conversation_batch.each do |conversation|
-        conversation.label_list
-        conversation.save!
-      end
+    account.conversations.find_in_batches(batch_size: 100) do |conversation_batch|
+      Migration::ConversationBatchCacheLabelJob.perform_later(conversation_batch)
     end
   end
 end
