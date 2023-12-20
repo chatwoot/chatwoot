@@ -1,29 +1,15 @@
 <template>
   <div class="w-full">
-    <textarea
-      v-model="processedString"
-      rows="4"
-      readonly
-      class="template-input"
-    />
+    <textarea v-model="processedString" rows="4" readonly class="template-input" />
     <div v-if="variables" class="template__variables-container">
       <p class="variables-label">
         {{ $t('WHATSAPP_TEMPLATES.PARSER.VARIABLES_LABEL') }}
       </p>
-      <div
-        v-for="(variable, key) in processedParams"
-        :key="key"
-        class="template__variable-item"
-      >
+      <div v-for="(variable, key) in processedParams" :key="key" class="template__variable-item">
         <span class="variable-label">
           {{ key }}
         </span>
-        <woot-input
-          v-model="processedParams[key]"
-          type="text"
-          class="variable-input"
-          :styles="{ marginBottom: 0 }"
-        />
+        <woot-input v-model="processedParams[key]" type="text" class="variable-input" :styles="{ marginBottom: 0 }" />
       </div>
       <p v-if="$v.$dirty && $v.$invalid" class="error">
         {{ $t('WHATSAPP_TEMPLATES.PARSER.FORM_ERROR_MESSAGE') }}
@@ -50,7 +36,7 @@ export default {
   props: {
     template: {
       type: Object,
-      default: () => {},
+      default: () => { },
     },
   },
   validations: {
@@ -104,14 +90,47 @@ export default {
       return str.replace(/{{|}}/g, '');
     },
     generateVariables() {
-      const matchedVariables = this.templateString.match(/{{([^}]+)}}/g);
-      if (!matchedVariables) return;
+      this.processedParams = {};
 
-      const variables = matchedVariables.map(i => this.processVariable(i));
-      this.processedParams = variables.reduce((acc, variable) => {
-        acc[variable] = '';
-        return acc;
-      }, {});
+      // Process BODY type components
+      const bodyVariables = this.templateString.match(/{{([^}]+)}}/g);
+      if (bodyVariables) {
+        const variables = bodyVariables.map(i => this.processVariable(i));
+        variables.forEach(variable => {
+          this.processedParams[variable] = '';
+        });
+      }
+
+      // Process BUTTONS type components
+      this.template.components.forEach((component, componentIndex) => {
+        if (component.type === 'BUTTONS') {
+          component.buttons.forEach((button, buttonIndex) => {
+            this.extractButtonPlaceholders(button, componentIndex, buttonIndex);
+          });
+        }
+      });
+    },
+    extractButtonPlaceholders(button, componentIndex, buttonIndex) {
+      // Extract placeholders from button text
+      if (button.text) {
+        const textPlaceholders = button.text.match(/{{([^}]+)}}/g);
+        this.addPlaceholdersToParams(textPlaceholders, 'text', componentIndex, buttonIndex);
+      }
+
+      // Extract placeholders from button URL
+      if (button.url) {
+        const urlPlaceholders = button.url.match(/{{([^}]+)}}/g);
+        this.addPlaceholdersToParams(urlPlaceholders, 'url', componentIndex, buttonIndex);
+      }
+    },
+    addPlaceholdersToParams(placeholders, buttonType, componentIndex, buttonIndex) {
+      if (placeholders) {
+        placeholders.forEach((placeholder, placeholderIndex) => {
+          const variable = this.processVariable(placeholder);
+          const key = `button|${componentIndex}|${buttonType}|${buttonIndex}|${placeholderIndex}`;
+          this.processedParams[key] = variable;
+        });
+      }
     },
   },
 };
@@ -149,9 +168,11 @@ footer {
     @apply ml-2.5;
   }
 }
+
 .error {
   @apply bg-red-100 dark:bg-red-100 rounded-md text-red-800 dark:text-red-800 p-2.5 text-center;
 }
+
 .template-input {
   @apply bg-slate-25 dark:bg-slate-900 text-slate-700 dark:text-slate-100;
 }
