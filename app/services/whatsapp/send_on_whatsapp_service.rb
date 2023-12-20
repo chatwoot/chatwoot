@@ -35,7 +35,7 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
         template_params['name'],
         template_params['namespace'],
         template_params['language'],
-        template_params['processed_params']&.map { |_, value| { type: 'text', text: value } }
+        get_component_params(template_params['processed_params'])
       ]
     end
 
@@ -57,6 +57,42 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
     [nil, nil, nil, nil]
   end
   # rubocop:enable Metrics/CyclomaticComplexity
+
+  def get_component_params(processed_params)
+    return nil if processed_params.nil?
+
+    categorized_params = {}
+
+    processed_params.each do |key, value|
+      type, primary_index, secondary_index = key.split('_')
+      secondary_index ||= 0 # Set to 0 if nil
+
+      if type == 'body'
+        # Aggregate all body entries
+        categorized_params[type] ||= []
+        categorized_params[type] << { type: 'text', value: value }
+      else
+        # Handle button entries separately
+        categorized_params[type] ||= {}
+        categorized_params[type][primary_index.to_i] ||= []
+        categorized_params[type][primary_index.to_i] << { type: 'text', value: value }
+      end
+    end
+
+    # Construct the result array
+    result = []
+    categorized_params.each do |type, data|
+      if type == 'body'
+        result << { type: type, parameters: data }
+      else
+        data.each do |index, params|
+          result << { type: type, index: index, parameters: params }
+        end
+      end
+    end
+
+    result
+  end
 
   def template_match_object(template)
     body_object = validated_body_object(template)
