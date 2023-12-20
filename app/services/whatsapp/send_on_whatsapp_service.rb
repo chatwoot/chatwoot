@@ -70,12 +70,12 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
       if type == 'body'
         # Aggregate all body entries
         categorized_params[type] ||= []
-        categorized_params[type] << { type: 'text', value: value }
+        categorized_params[type] << { type: 'text', text: value }
       else
         # Handle button entries separately
         categorized_params[type] ||= {}
         categorized_params[type][primary_index.to_i] ||= []
-        categorized_params[type][primary_index.to_i] << { type: 'text', value: value }
+        categorized_params[type][primary_index.to_i] << { type: 'text', text: value }
       end
     end
 
