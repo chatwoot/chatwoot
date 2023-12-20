@@ -49,7 +49,7 @@ class Notification < ApplicationRecord
 
   # TODO: Get rid of default scope
   # https://stackoverflow.com/a/1834250/939299
-  default_scope { order(id: :desc) }
+  default_scope { order(last_activity_at: :desc) }
 
   PRIMARY_ACTORS = ['Conversation'].freeze
 
