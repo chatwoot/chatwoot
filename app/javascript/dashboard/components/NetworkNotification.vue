@@ -2,15 +2,21 @@
   <transition name="network-notification-fade" tag="div">
     <div v-show="showNotification" class="fixed top-4 left-2 z-50 group">
       <div
-        class="flex items-center justify-between py-1 px-2 w-full rounded-lg shadow-lg bg-yellow-100 relative"
+        class="flex items-center justify-between py-1 px-2 w-full rounded-lg shadow-lg bg-yellow-200 dark:bg-yellow-700 relative"
       >
-        <fluent-icon icon="wifi-off" class="text-yellow-700/50" size="18" />
-        <span class="text-xs tracking-wide font-medium px-2 text-yellow-700/70">
+        <fluent-icon
+          icon="wifi-off"
+          class="text-yellow-700/50 dark:text-yellow-50"
+          size="18"
+        />
+        <span
+          class="text-xs tracking-wide font-medium px-2 text-yellow-700/70 dark:text-yellow-50"
+        >
           {{ $t('NETWORK.NOTIFICATION.OFFLINE') }}
         </span>
         <woot-button
           :title="$t('NETWORK.BUTTON.REFRESH')"
-          variant="smooth"
+          variant="clear"
           size="small"
           color-scheme="warning"
           icon="arrow-clockwise"
@@ -18,11 +24,11 @@
           @click="refreshPage"
         />
         <woot-button
-          variant="smooth"
-          size="tiny"
-          color-scheme="alert"
-          icon="dismiss-circle"
-          class="invisible group-hover:visible transition-all duration-500 ease-in-out absolute -right-2 -top-2"
+          variant="clear"
+          size="small"
+          color-scheme="warning"
+          icon="dismiss"
+          class=""
           @click="closeNotification"
         />
       </div>
