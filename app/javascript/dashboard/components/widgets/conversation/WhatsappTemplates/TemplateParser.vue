@@ -102,33 +102,29 @@ export default {
       }
 
       // Process BUTTONS type components
-      this.template.components.forEach((component, componentIndex) => {
+      this.template.components.forEach((component) => {
         if (component.type === 'BUTTONS') {
           component.buttons.forEach((button, buttonIndex) => {
-            this.extractButtonPlaceholders(button, componentIndex, buttonIndex);
+            this.extractButtonPlaceholders(button, buttonIndex);
           });
         }
       });
     },
-    extractButtonPlaceholders(button, componentIndex, buttonIndex) {
-      // Extract placeholders from button text
-      if (button.text) {
-        const textPlaceholders = button.text.match(/{{([^}]+)}}/g);
-        this.addPlaceholdersToParams(textPlaceholders, 'text', componentIndex, buttonIndex);
-      }
+    extractButtonPlaceholders(button, buttonIndex) {
 
-      // Extract placeholders from button URL
-      if (button.url) {
-        const urlPlaceholders = button.url.match(/{{([^}]+)}}/g);
-        this.addPlaceholdersToParams(urlPlaceholders, 'url', componentIndex, buttonIndex);
+      var alltext = button.text + ' ' + button.url;
+
+      // Extract placeholders from button text
+      if (alltext) {
+        const textPlaceholders = alltext.match(/{{([^}]+)}}/g);
+        this.addPlaceholdersToParams(textPlaceholders, button.type, buttonIndex);
       }
     },
-    addPlaceholdersToParams(placeholders, buttonType, componentIndex, buttonIndex) {
+    addPlaceholdersToParams(placeholders, buttonType, buttonIndex) {
       if (placeholders) {
         placeholders.forEach((placeholder, placeholderIndex) => {
-          const variable = this.processVariable(placeholder);
-          const key = `button|${componentIndex}|${buttonType}|${buttonIndex}|${placeholderIndex}`;
-          this.processedParams[key] = variable;
+          const key = `button|${buttonIndex}|${buttonType}|${placeholderIndex}`;
+          this.processedParams[key] = '';
         });
       }
     },
