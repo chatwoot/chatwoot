@@ -92,7 +92,6 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Disconnected from Chatwoot",
       "OFFLINE": "Offline"
     },
     "BUTTON": {
