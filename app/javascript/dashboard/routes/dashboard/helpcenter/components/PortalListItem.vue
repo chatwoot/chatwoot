@@ -1,17 +1,5 @@
 <template>
   <tr>
-    <!--       "TABLE_HEADER": ["Name", "Slug", "Domain", "Status", "Categories", "Locales", ""] -->
-    <td class="w-20">
-      <div class="flex items-center">
-        <woot-label
-          :title="status"
-          :color-scheme="labelColor"
-          size="small"
-          variant="smooth"
-          class="my-0 mx-2"
-        />
-      </div>
-    </td>
     <td>
       <woot-button
         variant="clear"
@@ -23,6 +11,17 @@
           {{ portal.name }}
         </div>
       </woot-button>
+    </td>
+    <td class="w-20">
+      <div class="flex items-center">
+        <woot-label
+          :title="status"
+          :color-scheme="labelColor"
+          size="small"
+          variant="smooth"
+          class="mx-0 !mb-0"
+        />
+      </div>
     </td>
     <td>
       {{ portal.slug }}
@@ -40,60 +39,64 @@
       }}
     </td>
     <!-- Action Buttons -->
-    <td class="button-wrapper">
-      <woot-button
-        variant="hollow"
-        color-scheme="secondary"
-        size="tiny"
-        @click="navigateToPortalArticles"
-      >
-        {{ $t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.HEADER.SWITCH') }}
-      </woot-button>
-      <woot-button
-        v-tooltip.top-end="
-          $t(
-            'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.HEADER.PUBLIC_PORTAL'
-          )
-        "
-        variant="smooth"
-        size="tiny"
-        icon="open"
-        @click="navigateToPublicPortal"
-      />
-      <woot-button
-        v-tooltip.top-end="
-          $t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.HEADER.SETTINGS')
-        "
-        variant="smooth"
-        size="tiny"
-        color-scheme="secondary"
-        icon="edit"
-        @click="openSettings"
-      />
-      <woot-button
-        v-tooltip.top-end="
-          $t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.HEADER.DELETE')
-        "
-        variant="smooth"
-        color-scheme="alert"
-        size="tiny"
-        icon="dismiss-circle"
-        @click="onClickOpenDeleteModal(portal)"
-      />
-      <woot-delete-modal
-        :show.sync="showDeleteConfirmationPopup"
-        :on-close="closeDeletePopup"
-        :on-confirm="onClickDeletePortal"
-        :title="$t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.TITLE')"
-        :message="
-          $t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.MESSAGE')
-        "
-        :message-value="deleteMessageValue"
-        :confirm-text="
-          $t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.YES')
-        "
-        :reject-text="$t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.NO')"
-      />
+    <td>
+      <div class="flex items-center justify-end gap-1">
+        <woot-button
+          variant="hollow"
+          color-scheme="secondary"
+          size="small"
+          @click="navigateToPortalArticles"
+        >
+          {{ $t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.HEADER.SWITCH') }}
+        </woot-button>
+        <woot-button
+          v-tooltip.top-end="
+            $t(
+              'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.HEADER.PUBLIC_PORTAL'
+            )
+          "
+          variant="smooth"
+          size="small"
+          icon="open"
+          @click="navigateToPublicPortal"
+        />
+        <woot-button
+          v-tooltip.top-end="
+            $t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.HEADER.SETTINGS')
+          "
+          variant="smooth"
+          size="small"
+          color-scheme="secondary"
+          icon="edit"
+          @click="openSettings"
+        />
+        <woot-button
+          v-tooltip.top-end="
+            $t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.HEADER.DELETE')
+          "
+          variant="smooth"
+          color-scheme="alert"
+          size="small"
+          icon="dismiss-circle"
+          @click="onClickOpenDeleteModal(portal)"
+        />
+        <woot-delete-modal
+          :show.sync="showDeleteConfirmationPopup"
+          :on-close="closeDeletePopup"
+          :on-confirm="onClickDeletePortal"
+          :title="$t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.TITLE')"
+          :message="
+            $t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.MESSAGE')
+          "
+          :message-value="deleteMessageValue"
+          :confirm-text="
+            $t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.YES')
+          "
+          :reject-text="
+            $t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.NO')
+          "
+        />
+      </div>
     </td>
   </tr>
 </template>
