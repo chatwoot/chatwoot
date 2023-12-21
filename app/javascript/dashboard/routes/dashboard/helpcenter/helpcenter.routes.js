@@ -1,4 +1,4 @@
-import HelpCenterLayout from './components/HelpCenterLayout';
+import HelpCenterLayout from './layouts/HelpCenterLayout';
 import { getPortalRoute } from './helpers/routeHelper';
 
 const ListAllPortals = () => import('./pages/portals/ListAllPortals');
@@ -26,7 +26,7 @@ const DefaultPortalArticles = () =>
 const NewArticle = () => import('./pages/articles/NewArticle');
 const EditArticle = () => import('./pages/articles/EditArticle');
 
-const portalRoutes = [
+export const portalRoutes = [
   {
     path: getPortalRoute(''),
     name: 'default_portal_articles',

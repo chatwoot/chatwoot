@@ -1,8 +1,18 @@
 <template>
   <div class="py-2 px-4 w-full max-w-full">
-    <div class="flex justify-between items-center mt-0 mb-2 mx-0 h-12">
+    <div
+      class="flex justify-between items-center mt-0 mb-2 mx-0 h-12 border-b border-solid border-slate-50 dark:border-slate-800/50"
+    >
       <div class="flex items-center">
-        <woot-sidemenu-icon />
+        <woot-button
+          v-if="showBack"
+          variant="clear"
+          size="small"
+          icon="chevron-left"
+          @click="onBack"
+        >
+          {{ $t('GENERAL_SETTINGS.BACK') }}
+        </woot-button>
         <h1 class="my-0 mx-2 text-2xl text-slate-800 dark:text-slate-100">
           {{ $t('HELP_CENTER.PORTAL.HEADER') }}
         </h1>
@@ -17,14 +27,28 @@
       </woot-button>
     </div>
     <div class="h-[90vh] overflow-y-scroll">
-      <portal-list-item
-        v-for="portal in portals"
-        :key="portal.id"
-        :portal="portal"
-        :status="portalStatus"
-        @add-locale="addLocale"
-        @open-site="openPortal"
-      />
+      <table class="woot-table">
+        <thead>
+          <!-- Header -->
+          <th
+            v-for="thHeader in $t('HELP_CENTER.PORTAL.TABLE_HEADER')"
+            :key="thHeader"
+          >
+            {{ thHeader }}
+          </th>
+        </thead>
+        <tbody>
+          <portal-list-item
+            v-for="portal in portals"
+            :key="portal.id"
+            :portal="portal"
+            :status="portalStatus"
+            @add-locale="addLocale"
+            @open-site="openPortal"
+          />
+        </tbody>
+      </table>
+
       <div
         v-if="isFetching"
         class="items-center flex text-base justify-center p-40"
@@ -85,6 +109,9 @@ export default {
     shouldShowEmptyState() {
       return !this.isFetching && !this.portals.length;
     },
+    showBack() {
+      return window.history.length;
+    },
   },
   methods: {
     openPortal(portalSlug) {
@@ -100,6 +127,9 @@ export default {
     addLocale(portalId) {
       this.isAddLocaleModalOpen = true;
       this.selectedPortal = this.portals.find(portal => portal.id === portalId);
+    },
+    onBack() {
+      this.$router.go(-1);
     },
   },
 };

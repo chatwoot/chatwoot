@@ -59,7 +59,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import UpgradePage from './UpgradePage';
+import UpgradePage from '../components/UpgradePage';
 import { frontendURL } from '../../../../helper/URLHelper';
 import Sidebar from 'dashboard/components/layout/Sidebar.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -72,6 +72,7 @@ import NotificationPanel from 'dashboard/routes/dashboard/notifications/componen
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import portalMixin from '../mixins/portalMixin';
 import AddCategory from '../pages/categories/AddCategory.vue';
+import { portalRoutes } from 'dashboard/routes/dashboard/helpcenter/helpcenter.routes.js';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 export default {
@@ -122,6 +123,19 @@ export default {
     },
     showHelpCenterSidebar() {
       if (!this.isHelpCenterEnabled) {
+        return false;
+      }
+
+      const hideOnRoutes = portalRoutes
+        .reduce((acc, route) => {
+          return Array.isArray(route.children)
+            ? acc.concat(...route.children)
+            : acc.concat(route);
+        }, [])
+        .map(route => route.name)
+        .filter(route => route !== 'default_portal_articles');
+
+      if (hideOnRoutes.includes(this.$route.name)) {
         return false;
       }
 

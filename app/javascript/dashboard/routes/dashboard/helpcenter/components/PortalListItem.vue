@@ -1,205 +1,111 @@
 <template>
-  <div>
-    <div
-      class="bg-white dark:bg-slate-900 rounded-md relative flex mb-3 p-4 border border-solid border-slate-100 dark:border-slate-600"
-    >
-      <thumbnail :username="portal.name" variant="square" />
-      <div class="ml-2 rtl:ml-0 rtl:mr-2 flex-grow">
-        <header class="flex items-start justify-between mb-8">
-          <div>
-            <div class="flex items-center">
-              <h2 class="mb-0 text-lg text-slate-800 dark:text-slate-100">
-                {{ portal.name }}
-              </h2>
-              <woot-label
-                :title="status"
-                :color-scheme="labelColor"
-                size="small"
-                variant="smooth"
-                class="my-0 mx-2"
-              />
-            </div>
-            <p class="text-sm mb-0 text-slate-700 dark:text-slate-200">
-              {{ articleCount }}
-              {{
-                $t(
-                  'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.HEADER.COUNT_LABEL'
-                )
-              }}
-            </p>
-          </div>
-          <div class="flex flex-row gap-1">
-            <woot-button
-              variant="smooth"
-              size="small"
-              color-scheme="primary"
-              @click="addLocale"
-            >
-              {{
-                $t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.HEADER.ADD')
-              }}
-            </woot-button>
-            <woot-button
-              variant="hollow"
-              size="small"
-              color-scheme="secondary"
-              @click="openSite"
-            >
-              {{
-                $t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.HEADER.VISIT')
-              }}
-            </woot-button>
-            <woot-button
-              v-tooltip.top-end="
-                $t(
-                  'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.HEADER.SETTINGS'
-                )
-              "
-              variant="hollow"
-              size="small"
-              icon="settings"
-              color-scheme="secondary"
-              @click="openSettings"
-            />
-            <woot-button
-              v-tooltip.top-end="
-                $t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.HEADER.DELETE')
-              "
-              variant="hollow"
-              color-scheme="alert"
-              size="small"
-              icon="delete"
-              @click="onClickOpenDeleteModal(portal)"
-            />
-          </div>
-        </header>
-        <div class="mb-12">
-          <h2
-            class="text-slate-800 dark:text-slate-100 font-medium mb-2 text-base"
-          >
-            {{
-              $t(
-                'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.TITLE'
-              )
-            }}
-          </h2>
-          <div
-            class="flex justify-between mr-[6.25rem] rtl:mr-0 rtl:ml-[6.25rem] max-w-[80vw]"
-          >
-            <div class="flex flex-col">
-              <div class="flex items-start flex-col mb-4">
-                <label>{{
-                  $t(
-                    'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.NAME'
-                  )
-                }}</label>
-                <span class="text-sm text-slate-600 dark:text-slate-300">
-                  {{ portal.name }}
-                </span>
-              </div>
-              <div class="flex items-start flex-col mb-4">
-                <label>{{
-                  $t(
-                    'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.DOMAIN'
-                  )
-                }}</label>
-                <span class="text-sm text-slate-600 dark:text-slate-300">
-                  {{ portal.custom_domain }}
-                </span>
-              </div>
-            </div>
-            <div class="flex flex-col">
-              <div class="flex items-start flex-col mb-4">
-                <label>{{
-                  $t(
-                    'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.SLUG'
-                  )
-                }}</label>
-                <span class="text-sm text-slate-600 dark:text-slate-300">
-                  {{ portal.slug }}
-                </span>
-              </div>
-              <div class="flex items-start flex-col mb-4">
-                <label>{{
-                  $t(
-                    'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.TITLE'
-                  )
-                }}</label>
-                <span class="text-sm text-slate-600 dark:text-slate-300">
-                  {{ portal.page_title }}
-                </span>
-              </div>
-            </div>
-            <div class="flex flex-col">
-              <div class="flex items-start flex-col mb-4">
-                <label>{{
-                  $t(
-                    'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.THEME'
-                  )
-                }}</label>
-                <div class="flex items-center">
-                  <div
-                    class="w-4 h-4 rounded-md mr-1 rtl:mr-0 rtl:ml-1 border border-solid border-slate-25 dark:border-slate-800"
-                    :style="{ background: portal.color }"
-                  />
-                </div>
-              </div>
-              <div class="flex items-start flex-col mb-4">
-                <label>{{
-                  $t(
-                    'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.SUB_TEXT'
-                  )
-                }}</label>
-                <span class="text-sm text-slate-600 dark:text-slate-300">
-                  {{ portal.header_text }}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="mb-12">
-          <h2
-            class="text-slate-800 dark:text-slate-100 font-medium mb-2 text-base"
-          >
-            {{
-              $t(
-                'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.AVAILABLE_LOCALES.TITLE'
-              )
-            }}
-          </h2>
-          <locale-item-table
-            :locales="locales"
-            :selected-locale-code="portal.meta.default_locale"
-            @change-default-locale="changeDefaultLocale"
-            @delete="deletePortalLocale"
-          />
-        </div>
+  <tr>
+    <!--       "TABLE_HEADER": ["Name", "Slug", "Domain", "Status", "Categories", "Locales", ""] -->
+    <td class="w-20">
+      <div class="flex items-center">
+        <woot-label
+          :title="status"
+          :color-scheme="labelColor"
+          size="small"
+          variant="smooth"
+          class="my-0 mx-2"
+        />
       </div>
-    </div>
-    <woot-delete-modal
-      :show.sync="showDeleteConfirmationPopup"
-      :on-close="closeDeletePopup"
-      :on-confirm="onClickDeletePortal"
-      :title="$t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.TITLE')"
-      :message="$t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.MESSAGE')"
-      :message-value="deleteMessageValue"
-      :confirm-text="$t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.YES')"
-      :reject-text="$t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.NO')"
-    />
-  </div>
+    </td>
+    <td>
+      <woot-button
+        variant="clear"
+        color-scheme="secondary"
+        @click="navigateToPortalArticles"
+      >
+        <div class="flex items-center gap-2 -mx-1">
+          <thumbnail :username="portal.name" variant="square" size="24px" />
+          {{ portal.name }}
+        </div>
+      </woot-button>
+    </td>
+    <td>
+      {{ portal.slug }}
+    </td>
+    <td class="">
+      {{ portal.domain || '--' }}
+    </td>
+    <td>
+      {{ locales.length }}
+    </td>
+    <td class="">
+      {{ articleCount }}
+      {{
+        $t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.HEADER.COUNT_LABEL')
+      }}
+    </td>
+    <!-- Action Buttons -->
+    <td class="button-wrapper">
+      <woot-button
+        variant="hollow"
+        color-scheme="secondary"
+        size="tiny"
+        @click="navigateToPortalArticles"
+      >
+        {{ $t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.HEADER.SWITCH') }}
+      </woot-button>
+      <woot-button
+        v-tooltip.top-end="
+          $t(
+            'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.HEADER.PUBLIC_PORTAL'
+          )
+        "
+        variant="smooth"
+        size="tiny"
+        icon="open"
+        @click="navigateToPublicPortal"
+      />
+      <woot-button
+        v-tooltip.top-end="
+          $t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.HEADER.SETTINGS')
+        "
+        variant="smooth"
+        size="tiny"
+        color-scheme="secondary"
+        icon="edit"
+        @click="openSettings"
+      />
+      <woot-button
+        v-tooltip.top-end="
+          $t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.HEADER.DELETE')
+        "
+        variant="smooth"
+        color-scheme="alert"
+        size="tiny"
+        icon="dismiss-circle"
+        @click="onClickOpenDeleteModal(portal)"
+      />
+      <woot-delete-modal
+        :show.sync="showDeleteConfirmationPopup"
+        :on-close="closeDeletePopup"
+        :on-confirm="onClickDeletePortal"
+        :title="$t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.TITLE')"
+        :message="
+          $t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.MESSAGE')
+        "
+        :message-value="deleteMessageValue"
+        :confirm-text="
+          $t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.YES')
+        "
+        :reject-text="$t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.NO')"
+      />
+    </td>
+  </tr>
 </template>
 
 <script>
 import thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import LocaleItemTable from './PortalListItemTable.vue';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import alertMixin from 'shared/mixins/alertMixin';
-import { PORTALS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 
 export default {
   components: {
     thumbnail,
-    LocaleItemTable,
   },
   mixins: [alertMixin, uiSettingsMixin],
   props: {
@@ -246,13 +152,17 @@ export default {
         return acc + locale.articles_count;
       }, 0);
     },
+    defaultLocale() {
+      const { meta: { default_locale: defaultLocale = '' } = {} } = this.portal;
+      return defaultLocale;
+    },
+    portalLink() {
+      return `/hc/${this.portal.slug}/${this.defaultLocale}`;
+    },
   },
   methods: {
     addLocale() {
       this.$emit('add-locale', this.portal.id);
-    },
-    openSite() {
-      this.$emit('open-site', this.portal.slug);
     },
     openSettings() {
       this.fetchPortalAndItsCategories();
@@ -303,68 +213,20 @@ export default {
         this.showAlert(this.alertMessage);
       }
     },
-    changeDefaultLocale({ localeCode }) {
-      this.updatePortalLocales({
-        allowedLocales: this.allowedLocales,
-        defaultLocale: localeCode,
-        successMessage: this.$t(
-          'HELP_CENTER.PORTAL.CHANGE_DEFAULT_LOCALE.API.SUCCESS_MESSAGE'
-        ),
-        errorMessage: this.$t(
-          'HELP_CENTER.PORTAL.CHANGE_DEFAULT_LOCALE.API.ERROR_MESSAGE'
-        ),
-      });
-      this.$track(PORTALS_EVENTS.SET_DEFAULT_LOCALE, {
-        newLocale: localeCode,
-        from: this.$route.name,
-      });
-    },
-    deletePortalLocale({ localeCode }) {
-      const updatedLocales = this.allowedLocales.filter(
-        code => code !== localeCode
-      );
-      const defaultLocale = this.portal.meta.default_locale;
-      this.updatePortalLocales({
-        allowedLocales: updatedLocales,
-        defaultLocale,
-        successMessage: this.$t(
-          'HELP_CENTER.PORTAL.DELETE_LOCALE.API.SUCCESS_MESSAGE'
-        ),
-        errorMessage: this.$t(
-          'HELP_CENTER.PORTAL.DELETE_LOCALE.API.ERROR_MESSAGE'
-        ),
-      });
-      this.$track(PORTALS_EVENTS.DELETE_LOCALE, {
-        deletedLocale: localeCode,
-        from: this.$route.name,
-      });
-    },
-    async updatePortalLocales({
-      allowedLocales,
-      defaultLocale,
-      successMessage,
-      errorMessage,
-    }) {
-      try {
-        await this.$store.dispatch('portals/update', {
-          portalSlug: this.portal.slug,
-          config: {
-            default_locale: defaultLocale,
-            allowed_locales: allowedLocales,
-          },
-        });
-        this.alertMessage = successMessage;
-      } catch (error) {
-        this.alertMessage = error?.message || errorMessage;
-      } finally {
-        this.showAlert(this.alertMessage);
-      }
-    },
     navigateToPortalEdit() {
       this.$router.push({
         name: 'edit_portal_information',
         params: { portalSlug: this.portal.slug },
       });
+    },
+    navigateToPortalArticles() {
+      this.$router.push({
+        name: 'list_all_locale_articles',
+        params: { portalSlug: this.portal.slug, locale: this.defaultLocale },
+      });
+    },
+    navigateToPublicPortal() {
+      window.open(this.portalLink, '_blank');
     },
   },
 };
