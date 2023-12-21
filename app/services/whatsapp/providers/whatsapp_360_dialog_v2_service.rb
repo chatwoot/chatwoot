@@ -1,3 +1,4 @@
+# TODO: Remove this in future when we deprecate the 360Dialog Provider
 class Whatsapp::Providers::Whatsapp360DialogV2Service < Whatsapp::Providers::BaseService
   def send_message(phone_number, message)
     if message.attachments.present?

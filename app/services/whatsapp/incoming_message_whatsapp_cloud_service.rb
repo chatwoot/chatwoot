@@ -14,6 +14,7 @@ class Whatsapp::IncomingMessageWhatsappCloudService < Whatsapp::IncomingMessageB
     inbox.channel.authorization_error! if url_response.unauthorized?
 
     download_url = url_response.parsed_response['url']
+    # TODO: Remove this in future when we deprecate the 360Dialog Provider
     download_url.gsub!('https://lookaside.fbsbx.com', 'https://waba-v2.360dialog.io') if inbox.channel.provider == '360dialog_v2'
     Down.download(download_url, headers: inbox.channel.api_headers) if url_response.success?
   end
