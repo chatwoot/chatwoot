@@ -20,7 +20,6 @@
           CSAT Triggers
           <select v-model="csatTrigger" class="mt-5 mb-0" v-on:change="changeCsatTrigger">
             <option value="conversation_all_reply">Send CSAT with all replies</option>
-            <option value="conversation_reply_and_resolved">Include CSAT with 'Reply and Resolve'</option>
             <option value="conversation_resolved">Send CSAT when conversation is closed</option>
           </select>
         </h5>
@@ -29,14 +28,6 @@
             Configurate the triggers for Customer Satisfaction (CSAT)
           </p>
         </div>
-        <hr class="my-2" v-if="showCsatTriggerSubOptions"/>
-        <h5 class="text-sm text-slate-800 dark:text-slate-100" v-if="showCsatTriggerSubOptions">
-          CSAT Trigger Sub Option
-          <select v-model="csatTriggerSubOption" class="mt-5 mb-0" v-on:change="changeCsatTrigger">
-            <option value="conversation_reply_and_resolved_together">Send CSAT as part of the reply</option>
-            <option value="conversation_reply_and_resolved_separately">Send CSAT separately</option>
-          </select>
-        </h5>
         <hr class="my-2" />
         <h5 class="text-sm text-slate-800 dark:text-slate-100">
           {{ $t('CSAT_SETTINGS.TEMPLATE.TITLE') }}
@@ -124,7 +115,6 @@ export default {
       customCsatEnabled: false,
       selectedTeam: {},
       csatTrigger: 'conversation_resolved',
-      csatTriggerSubOption: 'conversation_reply_and_resolved_separately',
     };
   },
   computed: {
@@ -135,9 +125,6 @@ export default {
       currentTemplateId: 'csatTemplates/getCurrentTemplateId',
       currentCsatTrigger: 'csatTemplates/getCsatTrigger'
     }),
-    showCsatTriggerSubOptions(){
-      return this.csatTrigger === 'conversation_reply_and_resolved';
-    }
   },
   mounted() {
     this.$store.dispatch('csatTemplates/get');
@@ -161,27 +148,14 @@ export default {
       this.$store.dispatch('csatTemplates/toggleSetting', enabled);
     },
     changeCsatTrigger(){
-      if (this.csatTrigger === 'conversation_reply_and_resolved') {
-        if (!this.csatTriggerSubOption){
-          return;
-        }
-        this.$store.dispatch('csatTemplates/updateCsatTrigger', this.csatTriggerSubOption);
-        this.showAlert('Successfully updated.');
-      } else {
-        this.$store.dispatch('csatTemplates/updateCsatTrigger', this.csatTrigger);
-        this.showAlert('Successfully updated.');
-      }
+      this.$store.dispatch('csatTemplates/updateCsatTrigger', this.csatTrigger);
+      this.showAlert('Successfully updated.');
     },
   },
   watch: {
     currentCsatTrigger(){
       if (this.currentCsatTrigger){
-        if (this.currentCsatTrigger.includes('conversation_reply_and_resolved')) {
-          this.csatTrigger = 'conversation_reply_and_resolved';
-          this.csatTriggerSubOption = this.currentCsatTrigger;
-        } else {
-          this.csatTrigger = this.currentCsatTrigger;
-        }
+        this.csatTrigger = this.currentCsatTrigger;
       }
     },
   }

@@ -130,9 +130,6 @@
       isResolved() {
         return this.currentChat.status === wootConstants.STATUS_TYPE.RESOLVED;
       },
-      isSnoozed() {
-        return this.currentChat.status === wootConstants.STATUS_TYPE.SNOOZED;
-      },
       defaultRepyAction() {
         return this.inbox.default_reply_action || 'reply_and_resolve';
       },
