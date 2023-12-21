@@ -31,8 +31,8 @@
       "starts_with": "Начинается с"
     },
     "ATTRIBUTE_LABELS": {
-      "TRUE": "Истина",
-      "FALSE": "Ложь"
+      "TRUE": "Да",
+      "FALSE": "Нет"
     },
     "ATTRIBUTES": {
       "STATUS": "Статус",

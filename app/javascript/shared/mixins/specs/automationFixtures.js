@@ -322,11 +322,11 @@ export const agents = [
 export const booleanFilterOptions = [
   {
     id: true,
-    name: 'True',
+    name: 'true',
   },
   {
     id: false,
-    name: 'False',
+    name: 'false',
   },
 ];
 export const teams = [

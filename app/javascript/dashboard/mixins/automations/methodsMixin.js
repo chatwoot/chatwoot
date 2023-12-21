@@ -32,11 +32,11 @@ export default {
       return [
         {
           id: true,
-          name: this.$t('FILTER.ATTRIBUTE_LABELS.TRUE'),
+          name: "true",
         },
         {
           id: false,
-          name: this.$t('FILTER.ATTRIBUTE_LABELS.FALSE'),
+          name: "false",
         },
       ];
     },
