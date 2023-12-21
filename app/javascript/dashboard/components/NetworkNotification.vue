@@ -28,7 +28,6 @@
           size="small"
           color-scheme="warning"
           icon="dismiss"
-          class=""
           @click="closeNotification"
         />
       </div>
