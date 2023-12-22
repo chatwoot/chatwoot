@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "Szűrés",
       "SORT": "Rendezés",
+      "LOCALE": "Nyelv",
       "SETTINGS_BUTTON": "Beállítások",
       "NEW_BUTTON": "Új bejegyzés",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "Saját bejegyzések",
         "DRAFT": "Vázlat bejegyzések",
         "ARCHIVED": "Archivált bejegyzések"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Select locale",
+        "PLACEHOLDER": "Select locale",
+        "NO_RESULT": "No locale found",
+        "SEARCH_PLACEHOLDER": "Search locale"
       }
     },
     "EDIT_HEADER": {
