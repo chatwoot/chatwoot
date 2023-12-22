@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "Фильтровать по",
       "SORT": "Сортировать по",
+      "LOCALE": "Язык",
       "SETTINGS_BUTTON": "Настройки",
       "NEW_BUTTON": "Новая статья",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "Мои статьи",
         "DRAFT": "Черновики статей",
         "ARCHIVED": "Архивы статей"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Выберите язык",
+        "PLACEHOLDER": "Выберите язык",
+        "NO_RESULT": "Язык не найден",
+        "SEARCH_PLACEHOLDER": "Поиск языка"
       }
     },
     "EDIT_HEADER": {
