@@ -92,7 +92,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Atvienots no Chatwoot"
+      "OFFLINE": "Bezsaistē"
     },
     "BUTTON": {
       "REFRESH": "Atjaunot"
