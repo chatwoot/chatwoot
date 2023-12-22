@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "فیلتر براساس",
       "SORT": "مرتب‌سازی براساس",
+      "LOCALE": "محلی",
       "SETTINGS_BUTTON": "تنظیمات",
       "NEW_BUTTON": "مقاله جدید",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "مقالات من",
         "DRAFT": "پیش نویس مقالات",
         "ARCHIVED": "مقالات آرشیو شده"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Select locale",
+        "PLACEHOLDER": "Select locale",
+        "NO_RESULT": "No locale found",
+        "SEARCH_PLACEHOLDER": "Search locale"
       }
     },
     "EDIT_HEADER": {
