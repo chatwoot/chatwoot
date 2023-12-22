@@ -63,7 +63,7 @@ import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import alertMixin from 'shared/mixins/alertMixin';
 import { ONBOARDING_START_URL } from 'dashboard/constants/globals';
 import VueHcaptcha from '@hcaptcha/vue-hcaptcha';
-import FormInput from '../../../../../components/Form/Input.vue';
+import FormInput from 'dashboard/components/form/Input.vue';
 import SubmitButton from '../../../../../components/Button/SubmitButton.vue';
 import { isValidPassword } from 'shared/helpers/Validators';
 import GoogleOAuthButton from '../../../../../components/GoogleOauth/Button.vue';

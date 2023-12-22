@@ -90,7 +90,7 @@ import SubmitButton from '../../components/Button/SubmitButton.vue';
 import { mapGetters } from 'vuex';
 import { parseBoolean } from '@chatwoot/utils';
 import GoogleOAuthButton from '../../components/GoogleOauth/Button.vue';
-import FormInput from '../../components/Form/Input.vue';
+import FormInput from 'dashboard/components/form/Input.vue';
 import { login } from '../../api/auth';
 import Spinner from 'shared/components/Spinner.vue';
 const ERROR_MESSAGES = {

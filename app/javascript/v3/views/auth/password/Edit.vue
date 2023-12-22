@@ -49,7 +49,7 @@
 
 <script>
 import { required, minLength } from 'vuelidate/lib/validators';
-import FormInput from '../../../components/Form/Input.vue';
+import FormInput from 'dashboard/components/form/Input.vue';
 import SubmitButton from '../../../components/Button/SubmitButton.vue';
 import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 import { setNewPassword } from '../../../api/auth';

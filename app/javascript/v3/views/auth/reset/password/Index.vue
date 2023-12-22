@@ -50,7 +50,7 @@
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import { mapGetters } from 'vuex';
-import FormInput from '../../../../components/Form/Input.vue';
+import FormInput from 'dashboard/components/form/Input.vue';
 import { resetPassword } from '../../../../api/auth';
 import SubmitButton from '../../../../components/Button/SubmitButton.vue';
 
