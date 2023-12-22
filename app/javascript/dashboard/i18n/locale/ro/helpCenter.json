@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "Filtrați după",
       "SORT": "Sortați după",
+      "LOCALE": "Limbă",
       "SETTINGS_BUTTON": "Setări",
       "NEW_BUTTON": "Articol nou",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "Articolele mele",
         "DRAFT": "Ciorne",
         "ARCHIVED": "Articole arhivate"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Select locale",
+        "PLACEHOLDER": "Select locale",
+        "NO_RESULT": "No locale found",
+        "SEARCH_PLACEHOLDER": "Search locale"
       }
     },
     "EDIT_HEADER": {
