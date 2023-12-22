@@ -44,7 +44,7 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
     channel = Channel::Whatsapp.find_by(phone_number: phone_number)
 
     # TODO: Remove this in future when we deprecate the 360Dialog Provider
-    return channel unless channel.provider == 'whatsapp_cloud'
+    return channel unless channel&.provider == 'whatsapp_cloud'
     # validate to ensure the phone number id matches the whatsapp channel
     return channel if channel && channel.provider_config['phone_number_id'] == phone_number_id
   end
