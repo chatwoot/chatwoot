@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "Filtruoti pagal",
       "SORT": "Rūšiuoti pagal",
+      "LOCALE": "Lokalizacija",
       "SETTINGS_BUTTON": "Nustatymai",
       "NEW_BUTTON": "Naujas Straipsnis",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "Mano Straipsniai",
         "DRAFT": "Straipsnių juodraščiai",
         "ARCHIVED": "Suarchyvuoti Straipsniai"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Select locale",
+        "PLACEHOLDER": "Select locale",
+        "NO_RESULT": "No locale found",
+        "SEARCH_PLACEHOLDER": "Search locale"
       }
     },
     "EDIT_HEADER": {
