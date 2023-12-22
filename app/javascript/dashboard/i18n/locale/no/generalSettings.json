@@ -92,7 +92,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Disconnected from Chatwoot"
+      "OFFLINE": "Frakoblet"
     },
     "BUTTON": {
       "REFRESH": "Refresh"
