@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "Φιλτράρισμα κατά",
       "SORT": "Ταξινόμηση κατά",
+      "LOCALE": "Γλώσσα",
       "SETTINGS_BUTTON": "Ρυθμίσεις",
       "NEW_BUTTON": "Νέο Άρθρο",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "Τα Άρθρα Μου",
         "DRAFT": "Πρόχειρα Άρθρα",
         "ARCHIVED": "Αρχειοθετημένα Άρθρα"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Select locale",
+        "PLACEHOLDER": "Select locale",
+        "NO_RESULT": "No locale found",
+        "SEARCH_PLACEHOLDER": "Search locale"
       }
     },
     "EDIT_HEADER": {
