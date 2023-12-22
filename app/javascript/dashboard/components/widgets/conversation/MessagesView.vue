@@ -118,7 +118,6 @@ import { LocalStorage } from 'shared/helpers/localStorage';
 
 // constants
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { REPLY_POLICY } from 'shared/constants/links';
 import wootConstants from 'dashboard/constants/globals';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
@@ -289,18 +288,12 @@ export default {
       return this.currentChat.unread_count || 0;
     },
     inboxSupportsReplyTo() {
-      if (
-        !this.isFeatureEnabledonAccount(
-          this.accountId,
-          FEATURE_FLAGS.MESSAGE_REPLY_TO
-        )
-      ) {
-        return {};
-      }
-      return {
-        incoming: this.inboxHasFeature(INBOX_FEATURES.REPLY_TO),
-        outgoing: this.inboxHasFeature(INBOX_FEATURES.REPLY_TO_OUTGOING),
-      };
+      const incoming = this.inboxHasFeature(INBOX_FEATURES.REPLY_TO);
+      const outgoing =
+        this.inboxHasFeature(INBOX_FEATURES.REPLY_TO_OUTGOING) &&
+        !this.is360DialogWhatsAppChannel;
+
+      return { incoming, outgoing };
     },
   },
 
@@ -353,7 +346,7 @@ export default {
       // method available in mixin, need to ensure that integrations are present
       await this.fetchIntegrationsIfRequired();
 
-      if (!this.isAIIntegrationEnabled) {
+      if (!this.isLabelSuggestionFeatureEnabled) {
         return;
       }
 
