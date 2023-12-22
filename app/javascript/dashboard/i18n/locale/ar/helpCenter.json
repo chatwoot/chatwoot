@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "تصفية حسب",
       "SORT": "ترتيب حسب",
+      "LOCALE": "اللغة",
       "SETTINGS_BUTTON": "الإعدادات",
       "NEW_BUTTON": "مقالة جديدة",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "مقالاتي",
         "DRAFT": "مقالات مسودة",
         "ARCHIVED": "المقالات المؤرشفة"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Select locale",
+        "PLACEHOLDER": "Select locale",
+        "NO_RESULT": "No locale found",
+        "SEARCH_PLACEHOLDER": "Search locale"
       }
     },
     "EDIT_HEADER": {
