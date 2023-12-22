@@ -33,6 +33,7 @@
           <th
             v-for="thHeader in $t('HELP_CENTER.PORTAL.TABLE_HEADER')"
             :key="thHeader"
+            class="first:pl-14"
           >
             {{ thHeader }}
           </th>
