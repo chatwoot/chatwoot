@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "Filtrirajte prema",
       "SORT": "Sortirajte prema",
+      "LOCALE": "Lokal",
       "SETTINGS_BUTTON": "Podešavanja",
       "NEW_BUTTON": "Novi članak",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "Moji članci",
         "DRAFT": "Nacrt članaka",
         "ARCHIVED": "Arhivirani članci"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Select locale",
+        "PLACEHOLDER": "Select locale",
+        "NO_RESULT": "No locale found",
+        "SEARCH_PLACEHOLDER": "Search locale"
       }
     },
     "EDIT_HEADER": {
