@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "Filtrovat podle",
       "SORT": "Seřadit podle",
+      "LOCALE": "Locale",
       "SETTINGS_BUTTON": "Nastavení",
       "NEW_BUTTON": "Nový článek",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "Moje články",
         "DRAFT": "Koncepty článků",
         "ARCHIVED": "Archivované články"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Select locale",
+        "PLACEHOLDER": "Select locale",
+        "NO_RESULT": "No locale found",
+        "SEARCH_PLACEHOLDER": "Search locale"
       }
     },
     "EDIT_HEADER": {
