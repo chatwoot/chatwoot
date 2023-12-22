@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "סנן לפי",
       "SORT": "מיין לפי",
+      "LOCALE": "מקומי",
       "SETTINGS_BUTTON": "הגדרות",
       "NEW_BUTTON": "מאמר חדש",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "הכתבות שלי",
         "DRAFT": "טיוטת מאמרים",
         "ARCHIVED": "מאמרים בארכיון"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Select locale",
+        "PLACEHOLDER": "Select locale",
+        "NO_RESULT": "No locale found",
+        "SEARCH_PLACEHOLDER": "Search locale"
       }
     },
     "EDIT_HEADER": {
