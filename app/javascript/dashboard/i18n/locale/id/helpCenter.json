@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "Filter berdasarkan",
       "SORT": "Urutkan berdasarkan",
+      "LOCALE": "Bahasa",
       "SETTINGS_BUTTON": "Pengaturan",
       "NEW_BUTTON": "Artikel Baru",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "Artikel Saya",
         "DRAFT": "Artikel Draf",
         "ARCHIVED": "Artikel Diarsipkan"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Select locale",
+        "PLACEHOLDER": "Select locale",
+        "NO_RESULT": "No locale found",
+        "SEARCH_PLACEHOLDER": "Search locale"
       }
     },
     "EDIT_HEADER": {
