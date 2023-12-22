@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "Filtrer efter",
       "SORT": "Sorter efter",
+      "LOCALE": "Landestandard",
       "SETTINGS_BUTTON": "Indstillinger",
       "NEW_BUTTON": "Ny Artikel",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "Alle Artikler",
         "DRAFT": "Kladde Artikler",
         "ARCHIVED": "Arkiverede Artikler"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Select locale",
+        "PLACEHOLDER": "Select locale",
+        "NO_RESULT": "No locale found",
+        "SEARCH_PLACEHOLDER": "Search locale"
       }
     },
     "EDIT_HEADER": {
