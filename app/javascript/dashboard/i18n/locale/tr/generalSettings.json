@@ -92,7 +92,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Chatwoot ile bağlantı kesildi"
+      "OFFLINE": "Çevrimdışı"
     },
     "BUTTON": {
       "REFRESH": "Yenile"
