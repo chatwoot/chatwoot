@@ -111,7 +111,7 @@ fr:
       instagram_deleted_story_content: Cette Story n'est plus disponible.
       deleted: Ce message a été supprimé
       delivery_status:
-        error_code: "Code d'erreur: %{error_code}"
+        error_code: "Code d'erreur : %{error_code}"
     activity:
       status:
         resolved: "La conversation a été marquée résolue par %{user_name}"
