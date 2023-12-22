@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "กรองด้วย",
       "SORT": "เรียงด้วย",
+      "LOCALE": "Locale",
       "SETTINGS_BUTTON": "ตั้งค่า",
       "NEW_BUTTON": "สร้างบทความ",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "บทความของฉัน",
         "DRAFT": "บทความที่ร่างไว้",
         "ARCHIVED": "Archived Articles"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Select locale",
+        "PLACEHOLDER": "Select locale",
+        "NO_RESULT": "No locale found",
+        "SEARCH_PLACEHOLDER": "Search locale"
       }
     },
     "EDIT_HEADER": {
