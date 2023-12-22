@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "Filtrēt pēc",
       "SORT": "Kārtot pēc",
+      "LOCALE": "Lokalizācija",
       "SETTINGS_BUTTON": "Iestatījumi",
       "NEW_BUTTON": "Jauns Raksts",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "Mani Raksti",
         "DRAFT": "Melnraksti",
         "ARCHIVED": "Arhivētie Raksti"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Izvēlieties lokalizāciju",
+        "PLACEHOLDER": "Izvēlieties lokalizāciju",
+        "NO_RESULT": "Lokalizācija netika atrasta",
+        "SEARCH_PLACEHOLDER": "Meklēt lokalizāciju"
       }
     },
     "EDIT_HEADER": {
