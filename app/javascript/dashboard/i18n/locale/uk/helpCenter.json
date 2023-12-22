@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "Фільтрувати за",
       "SORT": "Сортувати за",
+      "LOCALE": "Локаль",
       "SETTINGS_BUTTON": "Налаштування",
       "NEW_BUTTON": "Нова стаття",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "Мої статті",
         "DRAFT": "Чернетки статтей",
         "ARCHIVED": "Архівовані статті"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Select locale",
+        "PLACEHOLDER": "Select locale",
+        "NO_RESULT": "No locale found",
+        "SEARCH_PLACEHOLDER": "Search locale"
       }
     },
     "EDIT_HEADER": {
