@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "Lọc bởi",
       "SORT": "Sắp bởi",
+      "LOCALE": "Ngôn ngữ",
       "SETTINGS_BUTTON": "Cài đặt",
       "NEW_BUTTON": "Bài mới",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "Các bài của tôi",
         "DRAFT": "Các bài nháp",
         "ARCHIVED": "Các bài lưu"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Select locale",
+        "PLACEHOLDER": "Select locale",
+        "NO_RESULT": "No locale found",
+        "SEARCH_PLACEHOLDER": "Search locale"
       }
     },
     "EDIT_HEADER": {
