@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "Filtrer par",
       "SORT": "Trier par",
+      "LOCALE": "Langue",
       "SETTINGS_BUTTON": "Paramètres",
       "NEW_BUTTON": "Nouvel article",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "Mes articles",
         "DRAFT": "Articles brouillon",
         "ARCHIVED": "Articles archivés"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Choisir un paramètre régional",
+        "PLACEHOLDER": "Choisir un paramètre régional",
+        "NO_RESULT": "Paramètre régional introuvable",
+        "SEARCH_PLACEHOLDER": "Chercher un paramètre régional"
       }
     },
     "EDIT_HEADER": {
