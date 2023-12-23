@@ -273,6 +273,11 @@ export default {
       accountId: 'getCurrentAccountId',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
+    currentContact() {
+      return this.$store.getters['contacts/getContact'](
+        this.currentChat.meta.sender.id
+      );
+    },
     shouldShowReplyToMessage() {
       return (
         this.inReplyTo?.id &&
@@ -511,6 +516,7 @@ export default {
     messageVariables() {
       const variables = getMessageVariables({
         conversation: this.currentChat,
+        contact: this.currentContact,
       });
       return variables;
     },

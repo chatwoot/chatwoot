@@ -47,10 +47,10 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
       result = k.get_object(ig_scope_id) || {}
     rescue Koala::Facebook::AuthenticationError => e
       @inbox.channel.authorization_error!
-      Rails.logger.warn("Authorization error for account #{@inbox.account_id} for #{inbox @inbox.id}")
+      Rails.logger.warn("Authorization error for account #{@inbox.account_id} for inbox #{@inbox.id}")
       ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
     rescue StandardError, Koala::Facebook::ClientError => e
-      Rails.logger.warn("[FacebookUserFetchClientError]: account_id #{@inbox.account_id} inbox_id #{inbox @inbox.id}")
+      Rails.logger.warn("[FacebookUserFetchClientError]: account_id #{@inbox.account_id} inbox_id #{@inbox.id}")
       Rails.logger.warn("[FacebookUserFetchClientError]: #{e.message}")
       ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
     end
