@@ -1,114 +1,56 @@
 <template>
-  <header
-    class="bg-white dark:bg-slate-900 border-b border-slate-50 dark:border-slate-800"
-  >
+  <header class="bg-white dark:bg-slate-900 border-b border-slate-50 dark:border-slate-800">
     <div class="flex justify-between w-full py-2 px-4">
       <div class="flex items-center justify-center max-w-full min-w-[6.25rem]">
         <woot-sidemenu-icon />
         <h1
-          class="m-0 text-xl text-slate-900 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis my-0 mx-2"
-        >
+          class="m-0 text-xl text-slate-900 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis my-0 mx-2">
           {{ headerTitle }}
         </h1>
       </div>
       <div class="flex gap-2">
-        <div
-          class="max-w-[400px] min-w-[150px] flex items-center relative mx-2 search-wrap"
-        >
+        <div class="max-w-[400px] min-w-[150px] flex items-center relative mx-2 search-wrap">
           <div class="flex items-center absolute h-full left-2.5">
-            <fluent-icon
-              icon="search"
-              class="h-5 leading-9 text-sm text-slate-700 dark:text-slate-200"
-            />
+            <fluent-icon icon="search" class="h-5 leading-9 text-sm text-slate-700 dark:text-slate-200" />
           </div>
-          <input
-            type="text"
-            :placeholder="$t('CONTACTS_PAGE.SEARCH_INPUT_PLACEHOLDER')"
-            class="contact-search border-slate-100 dark:border-slate-600"
-            :value="searchQuery"
-            @keyup.enter="submitSearch"
-            @input="inputSearch"
-          />
-          <woot-button
-            :is-loading="false"
-            class="clear"
-            :class-names="searchButtonClass"
-            @click="submitSearch"
-          >
+          <input type="text" :placeholder="$t('CONTACTS_PAGE.SEARCH_INPUT_PLACEHOLDER')"
+            class="contact-search border-slate-100 dark:border-slate-600" :value="searchQuery" @keyup.enter="submitSearch"
+            @input="inputSearch" />
+          <woot-button :is-loading="false" class="clear" :class-names="searchButtonClass" @click="submitSearch">
             {{ $t('CONTACTS_PAGE.SEARCH_BUTTON') }}
           </woot-button>
         </div>
         <div v-if="hasActiveSegments" class="flex gap-2">
-          <woot-button
-            class="clear"
-            color-scheme="secondary"
-            icon="edit"
-            @click="onToggleEditSegmentsModal"
-          >
+          <woot-button class="clear" color-scheme="secondary" icon="edit" @click="onToggleEditSegmentsModal">
             {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_EDIT') }}
           </woot-button>
-          <woot-button
-            class="clear"
-            color-scheme="alert"
-            icon="delete"
-            @click="onToggleDeleteSegmentsModal"
-          >
+          <woot-button class="clear" color-scheme="alert" icon="delete" @click="onToggleDeleteSegmentsModal">
             {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_DELETE') }}
           </woot-button>
         </div>
         <div v-if="!hasActiveSegments" class="relative">
-          <div
-            v-if="hasAppliedFilters"
-            class="absolute h-2 w-2 top-1 right-3 bg-slate-500 dark:bg-slate-500 rounded-full"
-          />
-          <woot-button
-            class="clear"
-            color-scheme="secondary"
-            data-testid="create-new-contact"
-            icon="filter"
-            @click="toggleFilter"
-          >
+          <div v-if="hasAppliedFilters"
+            class="absolute h-2 w-2 top-1 right-3 bg-slate-500 dark:bg-slate-500 rounded-full" />
+          <woot-button class="clear" color-scheme="secondary" data-testid="create-new-contact" icon="filter"
+            @click="toggleFilter">
             {{ $t('CONTACTS_PAGE.FILTER_CONTACTS') }}
           </woot-button>
         </div>
 
-        <woot-button
-          v-if="hasAppliedFilters && !hasActiveSegments"
-          class="clear"
-          color-scheme="alert"
-          variant="clear"
-          icon="save"
-          @click="onToggleSegmentsModal"
-        >
+        <woot-button v-if="hasAppliedFilters && !hasActiveSegments" class="clear" color-scheme="alert" variant="clear"
+          icon="save" @click="onToggleSegmentsModal">
           {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_SAVE') }}
         </woot-button>
-        <woot-button
-          class="clear"
-          color-scheme="success"
-          icon="person-add"
-          data-testid="create-new-contact"
-          @click="toggleCreate"
-        >
+        <woot-button class="clear" color-scheme="success" icon="person-add" data-testid="create-new-contact"
+          @click="toggleCreate">
           {{ $t('CREATE_CONTACT.BUTTON_LABEL') }}
         </woot-button>
 
-        <woot-button
-          v-if="isAdmin"
-          color-scheme="info"
-          icon="upload"
-          class="clear"
-          @click="toggleImport"
-        >
+        <woot-button v-if="isAdmin" color-scheme="info" icon="upload" class="clear" @click="toggleImport">
           {{ $t('IMPORT_CONTACTS.BUTTON_LABEL') }}
         </woot-button>
 
-        <woot-button
-          v-if="isAdmin"
-          color-scheme="info"
-          icon="download"
-          class="clear"
-          @click="submitExport"
-        >
+        <woot-button v-if="isAdmin" color-scheme="info" icon="download" class="clear" @click="submitExport">
           {{ $t('EXPORT_CONTACTS.BUTTON_LABEL') }}
         </woot-button>
       </div>
@@ -176,7 +118,14 @@ export default {
       this.$emit('on-toggle-import');
     },
     submitExport() {
-      this.$emit('on-export-submit');
+      var columnNames = prompt(
+        'Enter column names sepparated by space',
+        'id name email phone_number identifier'
+      );
+      if (columnNames) {
+        columnNames = '%w[' + columnNames + ']';
+        this.$emit('on-export-submit', columnNames);
+      }
     },
     submitSearch() {
       this.$emit('on-search-submit');

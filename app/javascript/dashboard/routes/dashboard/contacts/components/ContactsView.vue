@@ -344,16 +344,8 @@ export default {
       this.$store.dispatch('contacts/clearContactFilters');
       this.fetchContacts(this.pageParameter);
     },
-    onExportSubmit() {
+    onExportSubmit(columnNames) {
       try {
-        var columnNames = prompt(
-          'Enter column names sepparated by space',
-          'id name email phone_number identifier'
-        );
-        if (columnNames) {
-          columnNames = '%w[' + columnNames + ']';
-        }
-
         this.$store.dispatch('contacts/export', { columnNames: columnNames });
         this.showAlert(this.$t('EXPORT_CONTACTS.SUCCESS_MESSAGE'));
       } catch (error) {
