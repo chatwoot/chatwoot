@@ -123,7 +123,6 @@ export default {
         'id name email phone_number identifier'
       );
       if (columnNames) {
-        columnNames = '%w[' + columnNames + ']';
         this.$emit('on-export-submit', columnNames);
       }
     },

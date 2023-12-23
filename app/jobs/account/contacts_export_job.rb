@@ -22,7 +22,7 @@ class Account::ContactsExportJob < ApplicationJob
   end
 
   def valid_headers(column_names)
-    columns = (column_names.presence || default_columns)
+    columns = column_names.present? && !column_names.strip.empty? ? string_to_array(column_names) : default_columns
     headers = columns.map { |column| column if Contact.column_names.include?(column) }
     headers.compact
   end
@@ -39,6 +39,10 @@ class Account::ContactsExportJob < ApplicationJob
 
   def account_contact_export_url(account)
     Rails.application.routes.url_helpers.rails_blob_url(account.contacts_export)
+  end
+
+  def string_to_array(string)
+    string.split.reject(&:empty?)
   end
 
   def default_columns
