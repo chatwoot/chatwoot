@@ -17,10 +17,11 @@ class Account::ContactsExportJob < ApplicationJob
       csv << headers.map do |header|
         if contact.respond_to?(header)
           contact.send(header)
-        elsif contact.additional_attributes && contact.additional_attributes.respond_to?(header)
-          contact.additional_attributes.send(header)
-        elsif contact.custom_attributes && contact.custom_attributes.respond_to?(header)
-          contact.custom_attributes.send(header)
+        elsif contact.additional_attributes && contact.additional_attributes.key?(header)
+          contact.additional_attributes[header]
+        else
+        elsif contact.custom_attributes && contact.custom_attributes.key?(header)
+          contact.custom_attributes[header]
         else
           nil
         end
