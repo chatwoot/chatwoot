@@ -354,7 +354,7 @@ export default {
           columnNames = '%w[' + columnNames + ']';
         }
 
-        this.$store.dispatch('contacts/export', { column_names: columnNames });
+        this.$store.dispatch('contacts/export', { columnNames: columnNames });
         this.showAlert(this.$t('EXPORT_CONTACTS.SUCCESS_MESSAGE'));
       } catch (error) {
         this.showAlert(
