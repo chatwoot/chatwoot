@@ -14,18 +14,18 @@ class Account::ContactsExportJob < ApplicationJob
     csv_data = CSV.generate do |csv|
       csv << headers
       account.contacts.each do |contact|
-        csv << headers.map do |header|
-          if contact.respond_to?(header)
-            contact.send(header)
-          elsif contact.additional_attributes && contact.additional_attributes.respond_to?(header)
-            contact.additional_attributes.send(header)
-          elsif contact.custom_attributes && contact.custom_attributes.respond_to?(header)
-            contact.custom_attributes.send(header)
-          else
-            nil
-          end
+      csv << headers.map do |header|
+        if contact.respond_to?(header)
+          contact.send(header)
+        elsif contact.additional_attributes && contact.additional_attributes.respond_to?(header)
+          contact.additional_attributes.send(header)
+        elsif contact.custom_attributes && contact.custom_attributes.respond_to?(header)
+          contact.custom_attributes.send(header)
+        else
+          nil
         end
       end
+    end
     end
 
     attach_export_file(account, csv_data)
@@ -33,7 +33,7 @@ class Account::ContactsExportJob < ApplicationJob
 
   def valid_headers(column_names)
     columns = column_names.present? && !column_names.strip.empty? ? string_to_array(column_names) : default_columns
-    headers = columns.map { |column| column if Contact.column_names.include?(column) }
+    #headers = columns.map { |column| column if Contact.column_names.include?(column) }
     headers.compact
   end
 
