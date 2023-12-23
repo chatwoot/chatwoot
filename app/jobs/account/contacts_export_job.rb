@@ -19,7 +19,6 @@ class Account::ContactsExportJob < ApplicationJob
           contact.send(header)
         elsif contact.additional_attributes && contact.additional_attributes.key?(header)
           contact.additional_attributes[header]
-        else
         elsif contact.custom_attributes && contact.custom_attributes.key?(header)
           contact.custom_attributes[header]
         else
