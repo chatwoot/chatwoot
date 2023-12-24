@@ -163,6 +163,13 @@ class Inbox < ApplicationRecord
     members.ids
   end
 
+  def csat_template_enabled?
+    return false unless csat_survey_enabled
+    return false unless account.csat_template_enabled?
+    
+    csat_template.present? && csat_template.csat_template_questions.present?
+  end
+
   private
 
   def dispatch_create_event

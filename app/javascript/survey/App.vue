@@ -1,16 +1,16 @@
 <template>
   <div id="app" class="woot-survey-wrap">
-    <response />
+    <responses />
   </div>
 </template>
 
 <script>
-import Response from './views/Response.vue';
+import Responses from './views/Responses.vue';
 
 export default {
   name: 'App',
   components: {
-    Response,
+    Responses,
   },
 };
 </script>
