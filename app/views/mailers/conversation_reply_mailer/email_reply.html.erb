@@ -1,19 +1,24 @@
-<% if @message.content %>
-  <%= ChatwootMarkdownRenderer.new(@message.content).render_message %>
-<% end %>
-<% if @previous_message %>
-  <%= content_tag :div  do %>
-    <%= content_tag :div do %>
-      On <%= @previous_message.created_at.strftime('%a, %b %e, %Y at %l:%M %p') %>
-      &nbsp;
-      <%= @previous_message.sender.try(:available_name) || @previous_message.sender&.name || '' %> 
-      <%= "<#{@previous_message.sender&.email}>" %> wrote:
-    <% end %>
-    <%= content_tag :blockquote, style: "margin: 0px 0px 0px 0.8ex;border-left: 1px solid rgb(204, 204, 204);padding-left: 1ex;" do %>
-      <%= ChatwootMarkdownRenderer.new(@previous_message.content).render_message %>
-    <% end %>
+<% if @message.input_csat? %>
+  <%= render 'csat_template' %>
+<% else %>
+  <% if @message.content %>
+    <%= ChatwootMarkdownRenderer.new(@message.content).render_message %>
   <% end %>
-  <br>
+
+  <% if @previous_message %>
+    <%= content_tag :div  do %>
+      <%= content_tag :div do %>
+        On <%= @previous_message.created_at.strftime('%a, %b %e, %Y at %l:%M %p') %>
+        &nbsp;
+        <%= @previous_message.sender.try(:available_name) || @previous_message.sender&.name || '' %> 
+        <%= "<#{@previous_message.sender&.email}>" %> wrote:
+      <% end %>
+      <%= content_tag :blockquote, style: "margin: 0px 0px 0px 0.8ex;border-left: 1px solid rgb(204, 204, 204);padding-left: 1ex;" do %>
+        <%= ChatwootMarkdownRenderer.new(@previous_message.content).render_message %>
+      <% end %>
+    <% end %>
+    <br>
+  <% end %>
 <% end %>
 <% if @message.attachments %>
   <% @message.attachments.each do |attachment| %>

@@ -170,13 +170,13 @@
         this.onSend();
         setTimeout(() => {
           this.toggleStatus(this.STATUS_TYPE.RESOLVED);
-        }, 500)
+        }, 1000)
       },
       onReplyAsPending(){
         this.onSend();
         setTimeout(() => {
           this.toggleStatus(this.STATUS_TYPE.PENDING);
-        }, 500)
+        }, 1000)
       },
       openDropdown(){
         this.showActionsDropdown = true
