@@ -27,15 +27,23 @@ class AccountPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
-  def billing_subscription?
+  def get_ltd?
     account_user.administrator?
   end
 
-  def change_plan?
+  def get_ltd_details?
     account_user.administrator?
   end
 
-  def coupon_code?
-    account_user.administrator?
+  def stripe_checkout?
+    @account_user.administrator?
+  end
+
+  def stripe_subscription?
+    @account_user.administrator?
+  end
+
+  def usage_limits?
+    @account_user.administrator?
   end
 end

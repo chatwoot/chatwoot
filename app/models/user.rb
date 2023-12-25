@@ -13,7 +13,6 @@
 #  display_name           :string
 #  email                  :string
 #  encrypted_password     :string           default(""), not null
-#  is_deleted             :boolean          default(FALSE)
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :string
 #  message_signature      :text
@@ -105,7 +104,6 @@ class User < ApplicationRecord
   before_validation :set_password_and_uid, on: :create
   after_destroy :remove_macros
 
-  default_scope { where(is_deleted: false) }
   scope :order_by_full_name, -> { order('lower(name) ASC') }
 
   before_validation do

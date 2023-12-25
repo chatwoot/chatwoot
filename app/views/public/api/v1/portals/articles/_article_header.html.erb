@@ -1,7 +1,7 @@
 <% category_link_params = {
       portal_slug: @portal.slug,
-      category_locale: @article.category.locale,
-      category_slug: @article.category.slug,
+      category_locale: @article.category&.locale,
+      category_slug: @article.category&.slug,
       theme: @theme_from_params,
       is_plain_layout_enabled: @is_plain_layout_enabled
     }
@@ -33,6 +33,6 @@
     <div class="pr-px mt-0.5 min-w-[20px] min-h-[20px]">
       <%= render "public/api/v1/portals/thumbnail", author: article.author, size: 5 %>
     </div>
-    <span class="flex items-center text-base font-medium text-slate-600 dark:text-slate-400">By <%= article.author.available_name %> • <%= I18n.t('public_portal.common.last_updated_on', last_updated_on: article.updated_at.strftime("%b %d, %Y")) %></span>
+    <span class="flex items-center text-base font-medium text-slate-600 dark:text-slate-400"><%= "#{I18n.t('public_portal.common.by')} #{article.author&.available_name || article.author&.name || ''}" %> • <%= I18n.t('public_portal.common.last_updated_on', last_updated_on: article.updated_at.strftime("%b %d, %Y")) %></span>
   </div>
 </div>

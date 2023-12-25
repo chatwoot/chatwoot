@@ -106,17 +106,26 @@ export const actions = {
     }
   },
 
-  getBillingSubscription: async ({ commit }) => {
+  stripe_checkout: async ({ commit }) => {
     commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: true });
     try {
-      const response = await AccountAPI.getBillingSubscription();
-      commit(types.default.UPDATE_ACCOUNT, response.data);
+      const response = await AccountAPI.stripe_checkout();
+      window.open(response.data.redirect_url, '_blank');
     } catch (error) {
       throwErrorMessage(error);
     } finally {
-      commit(types.default.SET_ACCOUNT_UI_FLAG, {
-        isCheckoutInProcess: false,
-      });
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: false });
+    }
+  },
+
+  stripe_subscription: async ({ commit }) => {
+    commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: true });
+    try {
+      await AccountAPI.stripe_subscription();
+    } catch (error) {
+      throwErrorMessage(error);
+    } finally {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: false });
     }
   },
 };
@@ -131,8 +140,6 @@ export const mutations = {
   [types.default.ADD_ACCOUNT]: MutationHelpers.setSingleRecord,
   [types.default.EDIT_ACCOUNT]: MutationHelpers.update,
   [types.default.SET_ACCOUNT_LIMITS]: MutationHelpers.updateAttributes,
-  // Update Account mutation
-  [types.default.UPDATE_ACCOUNT]: MutationHelpers.updatedAttributes,
 };
 
 export default {

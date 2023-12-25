@@ -20,10 +20,6 @@ class AccountDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     id: Field::Number.with_options(searchable: true),
     name: Field::String.with_options(searchable: true),
-    deletion_email_reminder: Field::Select.with_options(searchable: false, collection: lambda { |field|
-                                                                                         field.resource.class.send(field.attribute.to_s.pluralize).keys
-                                                                                       }),
-    email_sent_at: Field::DateTime,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     users: CountField,
@@ -31,7 +27,8 @@ class AccountDashboard < Administrate::BaseDashboard
     locale: Field::Select.with_options(collection: LANGUAGES_CONFIG.map { |_x, y| y[:iso_639_1_code] }),
     status: Field::Select.with_options(collection: [%w[Active active], %w[Suspended suspended]]),
     account_users: Field::HasMany,
-    coupon_code_used:Field::String
+    custom_attributes: CustomAttributeField,
+    ltd_attributes:LtdAttributeField,
   }.merge(enterprise_attribute_types).freeze
 
   # COLLECTION_ATTRIBUTES
@@ -42,9 +39,6 @@ class AccountDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = %i[
     id
     name
-    coupon_code_used
-    deletion_email_reminder
-    email_sent_at
     locale
     users
     conversations
@@ -57,15 +51,14 @@ class AccountDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = (%i[
     id
     name
-    coupon_code_used
-    deletion_email_reminder
-    email_sent_at
     created_at
     updated_at
     locale
     status
     conversations
     account_users
+    custom_attributes
+    ltd_attributes
   ] + enterprise_show_page_attributes).freeze
 
   # FORM_ATTRIBUTES
@@ -76,6 +69,8 @@ class AccountDashboard < Administrate::BaseDashboard
     name
     locale
     status
+    custom_attributes
+    ltd_attributes
   ] + enterprise_form_attributes).freeze
 
   # COLLECTION_FILTERS

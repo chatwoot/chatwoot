@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_14_111614) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_25_142810) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -37,7 +37,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_14_111614) do
     t.datetime "active_at", precision: nil
     t.integer "availability", default: 0, null: false
     t.boolean "auto_offline", default: true, null: false
-    t.boolean "is_deleted", default: false
     t.index ["account_id", "user_id"], name: "uniq_user_id_per_account_id", unique: true
     t.index ["account_id"], name: "index_account_users_on_account_id"
     t.index ["user_id"], name: "index_account_users_on_user_id"
@@ -55,9 +54,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_14_111614) do
     t.jsonb "limits", default: {}
     t.jsonb "custom_attributes", default: {}
     t.integer "status", default: 0
-    t.datetime "email_sent_at"
-    t.integer "deletion_email_reminder"
     t.integer "coupon_code_used", default: 0
+    t.jsonb "ltd_attributes", default: {}
     t.index ["status"], name: "index_accounts_on_status"
   end
 
@@ -457,6 +455,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_14_111614) do
     t.integer "priority"
     t.bigint "sla_policy_id"
     t.datetime "waiting_since"
+    t.string "cached_label_list"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
     t.index ["account_id", "inbox_id", "status", "assignee_id"], name: "conv_acid_inbid_stat_asgnid_idx"
@@ -556,18 +555,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_14_111614) do
   end
 
   create_table "ee_account_billing_subscriptions", force: :cascade do |t|
-    t.string "subscription_stripe_id"
+    t.string "stripe_subscription_id"
     t.bigint "account_id", null: false
-    t.bigint "billing_product_price_id", null: false
     t.string "status", default: "true", null: false
     t.datetime "current_period_end"
-    t.datetime "cancelled_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "partner"
+    t.string "stripe_customer_id"
+    t.string "stripe_price_id"
+    t.string "stripe_product_id"
+    t.string "plan_name"
+    t.string "subscription_status"
     t.index ["account_id"], name: "index_ee_account_billing_subscriptions_on_account_id"
-    t.index ["billing_product_price_id"], name: "billing_product_price_index"
-    t.index ["subscription_stripe_id"], name: "subscription_stripe_id_index", unique: true
+    t.index ["stripe_subscription_id"], name: "subscription_stripe_id_index", unique: true
   end
 
   create_table "ee_billing_product_prices", force: :cascade do |t|
@@ -784,6 +784,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_14_111614) do
     t.datetime "read_at", precision: nil
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "snoozed_until"
     t.index ["account_id"], name: "index_notifications_on_account_id"
     t.index ["primary_actor_type", "primary_actor_id"], name: "uniq_primary_actor_per_account_notifications"
     t.index ["secondary_actor_type", "secondary_actor_id"], name: "uniq_secondary_actor_per_account_notifications"
@@ -882,6 +883,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_14_111614) do
     t.index ["account_id"], name: "index_sla_policies_on_account_id"
   end
 
+  create_table "subscription_plans", force: :cascade do |t|
+    t.string "plan_name"
+    t.string "stripe_product_id"
+    t.string "stripe_price_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "taggings", id: :serial, force: :cascade do |t|
     t.integer "tag_id"
     t.string "taggable_type"
@@ -967,7 +976,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_14_111614) do
     t.jsonb "custom_attributes", default: {}
     t.string "type"
     t.text "message_signature"
-    t.boolean "is_deleted", default: false
     t.index ["email"], name: "index_users_on_email"
     t.index ["pubsub_token"], name: "index_users_on_pubsub_token", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
