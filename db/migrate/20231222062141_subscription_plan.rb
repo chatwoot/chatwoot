@@ -1,4 +1,4 @@
-class CreateSubscriptionPlans < ActiveRecord::Migration[7.0]
+class SubscriptionPlans < ActiveRecord::Migration[7.0]
   def change
     create_table :subscription_plans do |t|
       t.string :plan_name
