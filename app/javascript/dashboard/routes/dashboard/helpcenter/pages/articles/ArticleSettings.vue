@@ -91,6 +91,7 @@
             @search-change="handleSearchChange"
             @close="onBlur"
             @tag="addTagValue"
+            @remove="removeTag"
           />
         </label>
       </div>
@@ -201,6 +202,9 @@ export default {
         .filter(tag => tag && !this.allTags.includes(tag));
 
       this.metaTags.push(...this.formattedTags({ tags: [...new Set(tags)] }));
+      this.saveArticle();
+    },
+    removeTag() {
       this.saveArticle();
     },
     handleSearchChange(value) {

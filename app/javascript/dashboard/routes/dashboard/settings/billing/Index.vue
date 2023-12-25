@@ -1,224 +1,146 @@
 <template>
-  <div class="columns profile--settings">
-    <div v-if="!uiFlags.isFetchingItem">
-      <div class="small-12 row profile--settings--row">
-        <div class="columns small-3">
-          <h4 class="block-title">
-            {{ $t('BILLING_SETTINGS.FORM.CURRENT_PLAN.TITLE') }}
-          </h4>
-        </div>
-        <div class="columns small-9 medium-5">
-          <label v-if="planName == 'Lifetime'">{{
-            $t('BILLING_SETTINGS.FORM.CURRENT_PLAN.LTD_PLAN_NOTE', {
-              plan: planName,
-              platform: platformName,
-              agent: agentCount,
-            })
-          }}</label>
-          <label v-else>{{
-            $t('BILLING_SETTINGS.FORM.CURRENT_PLAN.SUBSCRIPTION_PLAN_NOTE', {
-              plan: planName,
-            })
-          }}</label>
-        </div>
-      </div>
-      <div class="small-12 row profile--settings--row">
-        <div class="columns small-3">
-          <h4 class="block-title">
-            {{ $t('BILLING_SETTINGS.FORM.EXPIRY.TITLE') }}
-          </h4>
-        </div>
-        <div class="columns small-9 medium-5">
-          <label>{{
-            $t('BILLING_SETTINGS.FORM.EXPIRY.PLAN_NOTE', {
-              expiry_date: planExpiryDate,
-            })
-          }}</label>
-        </div>
-      </div>
-      <div class="small-12 row profile--settings--row">
-        <div class="columns small-3">
-          <h4 class="block-title">
-            {{ $t('BILLING_SETTINGS.FORM.COUPON_CODE.TITLE') }}
-          </h4>
-        </div>
-        <div class="columns small-9 medium-5">
-          <div class="input-container">
-            <input
-              id="couponInput"
-              v-model="inputValue"
-              type="text"
-              name="coupon_code"
-              placeholder="Enter a single coupon code"
-            />
-            <woot-submit-button
-              :button-text="$t('BILLING_SETTINGS.FORM.COUPON_CODE.APPLY')"
-              :loading="uiFlags.isCreating"
-              button-class="medium"
-              @click="applyCouponCode"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="small-12 row profile--settings--row">
-        <div class="columns small-3">
-          <h4 class="block-title">
-            {{ $t('BILLING_SETTINGS.FORM.CHANGE_PLAN.TITLE') }}
-          </h4>
-        </div>
-        <div class="columns small-9 medium-5">
-          <label>
-            <woot-submit-button
-              :button-text="$t('BILLING_SETTINGS.FORM.CHANGE_PLAN.SELECT_PLAN')"
-              variant="smooth"
-              button-class="medium"
-              @click="openPlanModal"
-            />
-          </label>
-        </div>
-      </div>
-    </div>
-    <!-- List Plans -->
-    <woot-modal :show.sync="showPlanModal" :on-close="hidePlanModal">
-      <show-plan
-        v-if="showPlanModal"
-        :available-product-prices="availableProductPrices"
-        :plan-id="selectedProductPrice"
-        :plan-name="planName"
-        :plan-expiry-date="planExpiryDate"
-        :on-close="hidePlanModal"
-      />
-    </woot-modal>
+  <div class="overflow-auto flex-1 p-6 dark:bg-slate-900">
     <woot-loading-state v-if="uiFlags.isFetchingItem" />
+    <div v-else-if="!hasABillingPlan">
+      <p>{{ $t('BILLING_SETTINGS.NO_BILLING_USER') }}</p>
+    </div>
+    <div v-else class="w-full">
+      <div
+        v-if="
+          (['Starter', 'Plus', 'Pro'].includes(planName) &&
+            ltdPlanName === null) ||
+          (['Plus', 'Pro'].includes(planName) && ltdPlanName !== null)
+        "
+        class="current-plan--details"
+      >
+        <h6>{{ $t('BILLING_SETTINGS.CURRENT_PLAN.TITLE') }}</h6>
+        <div
+          v-dompurify-html="
+            formatMessage(
+              $t('BILLING_SETTINGS.CURRENT_PLAN.PLAN_NOTE', {
+                plan: planName,
+                quantity: planName === 'Starter' ? 2 : 'Unlimited',
+              })
+            )
+          "
+        />
+      </div>
+      <div v-else class="current-plan--details">
+        <h6>{{ $t('LTD_SETTINGS.CURRENT_PLAN.TITLE') }}</h6>
+        <div
+          v-dompurify-html="
+            formatMessage(
+              $t('LTD_SETTINGS.CURRENT_PLAN.PLAN_NOTE', {
+                plan: ltdPlanName,
+                quantity: ltdQuantity !== 100000 ? ltdQuantity : 'Unlimited',
+              })
+            )
+          "
+        />
+      </div>
+      <div class="current-plan--details">
+        <h6>{{ $t('LTD_SETTINGS.TITLE') }}</h6>
+        <div class="input-container">
+          <input
+            id="couponInput"
+            v-model="inputValue"
+            type="text"
+            name="coupon_code"
+            placeholder="Enter a single coupon code"
+          />
+          <woot-submit-button
+            :button-text="$t('LTD_SETTINGS.APPLY')"
+            :loading="uiFlags.isCreating"
+            button-class="medium"
+            @click="applyCouponCode"
+          />
+        </div>
+      </div>
+      <billing-item
+        :title="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.TITLE')"
+        :description="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.DESCRIPTION')"
+        :button-label="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.BUTTON_TXT')"
+        @click="onClickBillingPortal"
+      />
+      <!-- <billing-item
+        :title="$t('BILLING_SETTINGS.CHAT_WITH_US.TITLE')"
+        :description="$t('BILLING_SETTINGS.CHAT_WITH_US.DESCRIPTION')"
+        :button-label="$t('BILLING_SETTINGS.CHAT_WITH_US.BUTTON_TXT')"
+        button-icon="chat-multiple"
+        @click="onToggleChatWindow"
+      /> -->
+    </div>
   </div>
 </template>
 
 <script>
+import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
-import configMixin from 'shared/mixins/configMixin';
 import accountMixin from '../../../../mixins/account';
 import AccountAPI from '../../../../api/account';
-import { applyPageFilters } from '../../../../store/modules/conversations/helpers';
-// List all Plans
-import ShowPlan from './ShowPlan.vue';
+import BillingItem from './components/BillingItem.vue';
 
 export default {
-  components: {
-    ShowPlan,
-  },
-  mixins: [accountMixin, alertMixin, configMixin],
+  components: { BillingItem },
+  mixins: [accountMixin, alertMixin, messageFormatterMixin],
   data() {
     return {
-      planName: '',
-      platformName: '',
-      agentCount: 0,
-      selectedProductPrice: '',
-      availableProductPrices: [],
-      showStatus: true,
-      planExpiryDate: '',
       isValidCouponCode: false,
       inputValue: '',
-      showPlanModal: false,
+      ltdPlanName: null,
+      ltdQuantity: null,
     };
   },
-  validations: {},
   computed: {
     ...mapGetters({
-      globalConfig: 'globalConfig/get',
       getAccount: 'accounts/getAccount',
       uiFlags: 'accounts/getUIFlags',
     }),
-    isUpdating() {
-      return this.uiFlags.isUpdating;
+    currentAccount() {
+      return this.getAccount(this.accountId) || {};
+    },
+    customAttributes() {
+      return this.currentAccount.custom_attributes || {};
+    },
+    ltdAttributes() {
+      return this.currentAccount.ltd_attributes || {};
+    },
+    hasABillingPlan() {
+      return !!this.planName;
+    },
+    planName() {
+      return this.customAttributes.plan_name || '';
     },
   },
   mounted() {
-    this.initializeAccountBillingSubscription();
-  },
-  updated() {
-    this.$nextTick(this.checkStatusOfSubscription());
+    this.fetchAccountDetails();
+    this.fetchLtdDetails();
   },
   methods: {
-    checkStatusOfSubscription() {
-      const status = this.$route.query.subscription_status;
-      if (this.showStatus) {
-        this.showStatus = false;
-        if (status === 'success') {
-          this.showAlert(this.$t('BILLING_SETTINGS.SUCCESS.MESSAGE'));
-        } else if (status === 'cancel') {
-          this.showAlert(this.$t('BILLING_SETTINGS.CANCEL.MESSAGE'));
-        } else if (status === 'error') {
-          this.showAlert(this.$t('BILLING_SETTINGS.ERROR.MESSAGE'));
-        }
+    async fetchAccountDetails() {
+      if (!this.hasABillingPlan) {
+        this.$store.dispatch('accounts/stripe_subscription');
       }
     },
-    checkStatus(product) {
-      // eslint-disable-next-line eqeqeq
-      if (product.unit == 0 && product.name == 'Trial') {
-        return true;
-      }
-      return false;
-    },
-    // Open Plan Modal
-    openPlanModal() {
-      this.showPlanModal = true;
-    },
-    // Close Plan Modal
-    hidePlanModal() {
-      this.showPlanModal = false;
-    },
-    async initializeAccountBillingSubscription() {
-      this.$store.dispatch('accounts/getBillingSubscription').then(() => {
-        try {
-          const {
-            available_product_prices,
-            plan_name,
-            platform_name,
-            plan_id,
-            allowed_no_agents,
-            plan_expiry_date,
-          } = this.getAccount(this.accountId);
-          this.planName = plan_name;
-          this.platformName = platform_name;
-          this.selectedProductPrice = plan_id;
-          this.agentCount = allowed_no_agents;
-          this.availableProductPrices = available_product_prices;
-          const dateObject = new Date(plan_expiry_date);
-          const day = String(dateObject.getDate()).padStart(2, '0');
-          const monthIndex = dateObject.getMonth();
-          const year = dateObject.getFullYear();
-          const monthNames = [
-            'Jan',
-            'Feb',
-            'Mar',
-            'Apr',
-            'May',
-            'Jun',
-            'Jul',
-            'Aug',
-            'Sep',
-            'Oct',
-            'Nov',
-            'Dec',
-          ];
-          const formattedDate = `${day} ${monthNames[monthIndex]} ${year}`;
-          this.planExpiryDate = formattedDate;
-        } catch (error) {
-          // not showing error
-        }
-      });
-    },
-    submitSubscription(event) {
-      const payload = { product_price: event.target.value };
-      AccountAPI.startBillingSubscription(payload)
+    async fetchLtdDetails() {
+      AccountAPI.getLtdDetails()
         .then(response => {
-          window.location.href = response.data.url;
+          this.ltdPlanName = response.data.data.plan_name;
+          this.ltdQuantity = response.data.data.quantity;
         })
         .catch(error => {
-          // eslint-disable-next-line no-console
-          console.log(error, 'error');
+          this.showAlert(error.response.data.message);
         });
+    },
+    onClickBillingPortal() {
+      this.$store.dispatch('accounts/stripe_checkout');
+    },
+    onToggleChatWindow() {
+      if (window.$chatwoot) {
+        window.$chatwoot.toggle();
+      }
     },
     checkInput() {
       const couponInput = document.getElementById('couponInput');
@@ -232,11 +154,11 @@ export default {
     async applyCouponCode() {
       const couponCode = this.inputValue;
       if (!this.checkInput(couponCode)) {
-        this.showAlert(this.$t('BILLING_SETTINGS.COUPON_ERROR.MESSAGE'));
+        this.showAlert(this.$t('LTD_SETTINGS.COUPON_ERROR.MESSAGE'));
         return;
       }
       const payload = { coupon_code: couponCode };
-      AccountAPI.checkCouponCodeValidity(payload)
+      AccountAPI.getLTD(payload)
         .then(response => {
           this.showAlert(response.data.message);
           window.location.reload();
@@ -250,30 +172,29 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~dashboard/assets/scss/variables.scss';
-@import '~dashboard/assets/scss/mixins.scss';
-
-.profile--settings {
-  padding: 24px;
-  overflow: auto;
+.manage-subscription {
+  @apply bg-white dark:bg-slate-800 flex justify-between mb-2 py-6 px-4 items-center rounded-md border border-solid border-slate-75 dark:border-slate-700;
 }
 
-.profile--settings--row {
-  @include border-normal-bottom;
-  padding: $space-normal;
+.current-plan--details {
+  @apply border-b border-solid border-slate-75 dark:border-slate-800 mb-4 pb-4;
 
-  .small-3 {
-    padding: $space-normal $space-medium $space-normal 0;
+  h6 {
+    @apply text-slate-800 dark:text-slate-100;
   }
 
-  .small-9 {
-    padding: $space-normal;
+  p {
+    @apply text-slate-600 dark:text-slate-200;
   }
 }
-.input-container {
-  display: flex;
-}
-.input-container input {
-  margin-right: 10px;
+
+.manage-subscription {
+  .manage-subscription--description {
+    @apply mb-0 text-slate-600 dark:text-slate-200;
+  }
+
+  h6 {
+    @apply text-slate-800 dark:text-slate-100;
+  }
 }
 </style>
