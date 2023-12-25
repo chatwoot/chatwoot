@@ -296,48 +296,32 @@
     }
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing settings",
-    "SUBMIT": "Update settings",
-    "BACK": "Back",
-    "FORM": {
-      "NEW_PLAN":{
-        "TITLE": "Select this Plan"
-      },
-      "CURRENT_PLAN": {
-        "TITLE": "Current Plan",
-        "NOTE": "Your current OneHash Chat Subscription Plan",
-        "SUBSCRIPTION_PLAN_NOTE": "You are currently under OneHash Chat {plan} Plan",
-        "LTD_PLAN_NOTE": "You are currently on a {agent} users {platform} OneHash Chat {plan} Plan."
-      },
-      "EXPIRY": {
-        "TITLE": "Expiry Date",
-        "PLAN_NOTE": "Your current plan will expire on {expiry_date}"
-      },
-      "COUPON_CODE": {
-        "TITLE": "Coupon Code",
-        "APPLY": "Apply"
-      },
-      "CHANGE_PLAN": {
-        "TITLE": "Change Plan",
-        "NOTE": "Change your current OneHash Chat Subscription Plan",
-        "SELECT_PLAN": "Change Plan"
-      },
-      "PURCHASE_AGAIN": {
-        "TITLE": "Purchase Again"
-      }
+    "TITLE": "Billing",
+    "CURRENT_PLAN": {
+      "TITLE": "Current Plan",
+      "PLAN_NOTE": "You are currently subscribed to the OneHash Chat **%{plan}** plan with **%{quantity}** licenses"
     },
-    "ERROR": {
-      "MESSAGE": "You have already taken trial please subscribe to a paid plan."
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Manage your subscription",
+      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
+      "BUTTON_TXT": "Go to the billing portal"
     },
-
-    "CANCEL": {
-      "MESSAGE": "Subscription plan not changed"
+    "CHAT_WITH_US": {
+      "TITLE": "Need help?",
+      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "BUTTON_TXT": "Chat with us"
     },
-    "SUCCESS": {
-      "MESSAGE": "Subscription plan changed successfully"
+    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+  },
+  "LTD_SETTINGS": {
+    "TITLE": "Coupon Code",
+    "CURRENT_PLAN": {
+      "TITLE": "Current Plan",
+      "PLAN_NOTE": "You are currently subscribed to the OneHash Chat **%{plan}** LTD plan with **%{quantity}** licenses"
     },
+    "APPLY": "Apply",
     "COUPON_ERROR": {
-      "MESSAGE": "Invalid coupon. Please enter a valid code."
+      "MESSAGE": "The provided coupon code is invalid"
     }
   }
 }

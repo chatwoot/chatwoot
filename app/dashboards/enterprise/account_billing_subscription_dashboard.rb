@@ -12,14 +12,16 @@ class Enterprise::AccountBillingSubscriptionDashboard < Administrate::BaseDashbo
   # on pages throughout the dashboard.
 
   ATTRIBUTE_TYPES = {
-    billing_product_price: Field::BelongsTo.with_options(searchable: true, searchable_field: 'unit_amount', order: 'id DESC'),
     account: Field::BelongsTo.with_options(searchable: true, searchable_field: 'name', order: 'id DESC'),
-    partner: Field::String,
     id: Field::Number,
-    subscription_stripe_id: Field::String,
+    stripe_customer_id: Field::String,
+    stripe_subscription_id: Field::String,
+    stripe_price_id: Field::String,
+    stripe_product_id: Field::String,
+    plan_name: Field::String,
     status: Field::String,
     current_period_end: Field::DateTime,
-    cancelled_at: Field::DateTime,
+    subscription_status: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime
 
@@ -32,22 +34,23 @@ class Enterprise::AccountBillingSubscriptionDashboard < Administrate::BaseDashbo
   COLLECTION_ATTRIBUTES = %i[
     id
     account
-    partner
-    subscription_stripe_id
+    plan_name
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
 
   SHOW_PAGE_ATTRIBUTES = %i[
-    billing_product_price
     account
     id
-    partner
-    subscription_stripe_id
+    stripe_customer_id
+    stripe_subscription_id
+    stripe_price_id
+    stripe_product_id
+    plan_name
     status
     current_period_end
-    cancelled_at
+    subscription_status
     created_at
     updated_at
 
@@ -58,11 +61,13 @@ class Enterprise::AccountBillingSubscriptionDashboard < Administrate::BaseDashbo
   # on the model's form (`new` and `edit`) pages.
 
   FORM_ATTRIBUTES = %i[
-    billing_product_price
-    account
-    status
+    stripe_customer_id
+    stripe_subscription_id
+    stripe_price_id
+    stripe_product_id
+    plan_name
+    subscription_status
     current_period_end
-    cancelled_at
   ].freeze
 
   # COLLECTION_FILTERS

@@ -8,11 +8,9 @@ class Api::V1::AccountsController < Api::BaseController
   before_action :validate_captcha, only: [:create]
   before_action :fetch_account, except: [:create]
   before_action :check_authorization, except: [:create]
-
-  skip_before_action :verify_subscription,
-                     only: [:billing_subscription, :show, :change_plan], raise: false
-  before_action :fetch_account, except: [:create]
-  before_action :check_authorization, except: [:create]
+  # To removee
+  # skip_before_action :verify_subscription,
+  #                    only: [:billing_subscription, :show, :stripe_checkout], raise: false
 
   rescue_from CustomExceptions::Account::InvalidEmail,
               CustomExceptions::Account::UserExists,
@@ -34,7 +32,6 @@ class Api::V1::AccountsController < Api::BaseController
       user: current_user
     ).perform
     if @user
-      @account.check_and_subscribe_for_plan(@user)
       send_auth_headers(@user)
       render 'api/v1/accounts/create', format: :json, locals: { resource: @user }
     else
@@ -57,28 +54,7 @@ class Api::V1::AccountsController < Api::BaseController
     head :ok
   end
 
-  def billing_subscription
-    @billing_subscription = @account.account_billing_subscriptions.last
-    @available_product_prices = Enterprise::BillingProductPrice.includes(:billing_product)
-    render 'api/v1/models/_billing', format: :json,
-                                                   resource: { billing_subscription: @billing_subscription, available_product_prices: @available_product_prices }
-  end
-
-  def change_plan
-    Stripe.api_key = ENV.fetch('STRIPE_SECRET_KEY', nil)
-    @billing_subscription = Enterprise::BillingProductPrice.find(params[:product_price])
-    active_subscription = @account.account_billing_subscriptions.where.not(subscription_stripe_id: nil)&.last
-    subscription = Stripe::Subscription.retrieve(active_subscription.subscription_stripe_id) if active_subscription
-    url = "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{@account.id}/settings/billing?subscription_status=success"
-    if subscription.present?
-      update_subscription(subscription)
-    else
-      url = @account.create_checkout_link(@billing_subscription)
-    end
-    render json: { url: url }
-  end
-
-  def coupon_code
+  def get_ltd
     code = CouponCode.find_by(code: params[:coupon_code])
     if code && (code.partner == 'AppSumo' || code.partner == 'DealMirror')
       if Time.current > code.expiry_date
@@ -88,7 +64,7 @@ class Api::V1::AccountsController < Api::BaseController
       elsif @account.coupon_code_used >= 5
         render json: { message: 'Account limit reached. Cannot add more coupon codes' }, status: :unprocessable_entity
       else
-        @account.subscribe_for_ltd_plan(code)
+        activate_ltd(code)
         code.update!(account_id: @account.id, account_name: @account.name, status: 'redeemed', redeemed_at: Time.current)
         if @account.coupon_code_used == 4
           render json: { message: 'To upgrade to unlimited agents, please apply the fifth code.' }, status: :ok
@@ -104,7 +80,7 @@ class Api::V1::AccountsController < Api::BaseController
       elsif @account.coupon_code_used >= 1
         render json: { message: 'Account limit reached. Cannot add more coupon codes' }, status: :unprocessable_entity
       else
-        @account.subscribe_for_ltd_plan(code)
+        activate_ltd(code)
         code.update!(account_id: @account.id, account_name: @account.name, status: 'redeemed', redeemed_at: Time.current)
         render json: { message: 'Redemption successful' }, status: :ok
       end
@@ -113,6 +89,22 @@ class Api::V1::AccountsController < Api::BaseController
     end
   end
 
+  def get_ltd_details
+    render 'api/v1/accounts/ltd/show', format: :json, locals: { resource: @account }
+  end
+
+  def stripe_subscription
+    if stripe_customer_id.blank?
+      Account::CreateStripeCustomerJob.perform_later(@account)
+    end
+    head :no_content
+  end
+
+  def stripe_checkout
+    return create_stripe_billing_session(stripe_customer_id) if stripe_customer_id.present?
+    render_invalid_billing_details
+  end
+  
   private
 
   def get_cache_keys
@@ -148,24 +140,103 @@ class Api::V1::AccountsController < Api::BaseController
     }
   end
 
-  def update_subscription(subscription)
-    Stripe.api_key = ENV.fetch('STRIPE_SECRET_KEY', nil)
-    Stripe::Subscription.update(
-      subscription.id,
-      {
-        cancel_at_period_end: false,
-        proration_behavior: 'always_invoice',
-        items: [
-          {
-            id: subscription.items.data[0].id,
-            price: @billing_subscription.price_stripe_id
-          }
-        ],
-        metadata: {
-          account_id: @account.id,
-          website: 'OneHash_Chat'
-        }
-      }
-    )
+  def stripe_customer_id
+    @account.custom_attributes['stripe_customer_id']
+  end
+
+  def create_stripe_billing_session(stripe_customer_id)
+    session = Enterprise::Billing::CreateStripeSessionService.new.create_stripe_session(stripe_customer_id)
+    render_redirect_url(session.url)
+  end
+
+  def render_redirect_url(redirect_url)
+    render json: { redirect_url: redirect_url }
+  end
+
+  def render_invalid_billing_details
+    render_could_not_create_error('Please subscribe to a plan before viewing the billing details')
+  end
+
+  def activate_ltd(coupon_code)
+    code_prefix = coupon_code.code[0,2]
+    partner_name = ""
+    if code_prefix == "AS"
+      partner_name = "AppSumo"
+    elsif code_prefix == "DM"
+      partner_name = "DealMirror"
+    elsif code_prefix == "PG"
+      partner_name = "PitchGround"
+    end
+
+    if partner_name == "AppSumo" || partner_name == "DealMirror"
+      agent = nil
+      ltd_plan_name = nil
+      coupon_code_used = @account.coupon_code_used
+      if coupon_code_used == 0
+        agent = 3
+        ltd_plan_name = 'Tier 1'
+      elsif coupon_code_used == 1 
+        agent = 5
+        ltd_plan_name = 'Tier 2'
+      elsif coupon_code_used == 2
+        agent = 15
+        ltd_plan_name = 'Tier 3'
+      elsif coupon_code_used == 3
+        agent = 15
+        ltd_plan_name = 'Tier 3'
+      elsif coupon_code_used == 4
+        agent = 100_000
+        ltd_plan_name = 'Tier 4'
+      end
+      @account.update(
+        ltd_attributes: {
+          ltd_plan_name: ltd_plan_name,
+          ltd_quantity: agent
+        },
+        limits: {
+          agents: agent,
+          inboxes: 100_000
+        },
+      )
+      if @account.coupon_code_used < 5
+        @account.update(
+          coupon_code_used: @account.coupon_code_used + 1
+        )      
+      end
+      
+    elsif partner_name == "PitchGround"
+      tier = coupon_code.code[-2,2]
+      agent = nil
+      ltd_plan_name = nil
+      coupon_code_used = @account.coupon_code_used
+      if tier == 'T1'
+        agent = 3
+        ltd_plan_name = 'Tier 1'
+      elsif tier == 'T2'
+        agent = 5
+        ltd_plan_name = 'Tier 2'
+      elsif tier == 'T3'
+        agent = 15
+        ltd_plan_name = 'Tier 3'
+      elsif tier == 'T4'
+        agent = 100_000
+        ltd_plan_name = 'Tier 4'
+      end
+      @account.update(
+        ltd_attributes: {
+          ltd_plan_name: ltd_plan_name,
+          ltd_quantity: agent
+        },
+        limits: {
+          agents: agent,
+          inboxes: 100_000
+        },
+      )
+      if @account.coupon_code_used < 1
+        @account.update(
+          coupon_code_used: @account.coupon_code_used + 1
+        )
+      end
+    end
   end
 end

@@ -10,16 +10,20 @@ class AccountAPI extends ApiClient {
     return axios.post(`${this.apiVersion}/accounts`, data);
   }
 
-  getBillingSubscription() {
-    return axios.get(`${this.url}billing_subscription`);
+  getLTD(data) {
+    return axios.post(`${this.url}get_ltd`, data);
   }
 
-  changePlan(data) {
-    return axios.post(`${this.url}change_plan`, data);
+  getLtdDetails() {
+    return axios.get(`${this.url}get_ltd_details`);
   }
 
-  checkCouponCodeValidity(data) {
-    return axios.post(`${this.url}coupon_code`, data);
+  stripe_checkout() {
+    return axios.post(`${this.url}stripe_checkout`);
+  }
+
+  stripe_subscription() {
+    return axios.post(`${this.url}stripe_subscription`);
   }
 }
 
