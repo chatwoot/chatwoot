@@ -1,11 +1,15 @@
 <% if @message.input_csat? %>
-  <%= render 'csat_template' %>
+  <%= render 'csat_template', message: @message %>
 <% else %>
   <% if @message.content %>
     <%= ChatwootMarkdownRenderer.new(@message.content).render_message %>
   <% end %>
 
-  <% if @previous_message %>
+  <% if @message.should_send_csat_at_reply? %>
+    <% @conversation.messages.csat.each do |msg| %>
+      <%= render 'csat_template', message: msg %>
+    <% end %>
+  <% elsif @previous_message %>
     <%= content_tag :div  do %>
       <%= content_tag :div do %>
         On <%= @previous_message.created_at.strftime('%a, %b %e, %Y at %l:%M %p') %>
