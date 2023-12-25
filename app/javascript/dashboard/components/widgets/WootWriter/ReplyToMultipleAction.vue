@@ -167,9 +167,9 @@
         this.closeDropdown()
       },
       onReplyAndResolve(){
-        this.onSend();
+        this.toggleStatus(this.STATUS_TYPE.RESOLVED);
         setTimeout(() => {
-          this.toggleStatus(this.STATUS_TYPE.RESOLVED);
+          this.onSend();
         }, 1000)
       },
       onReplyAsPending(){
