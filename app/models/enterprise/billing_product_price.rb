@@ -20,9 +20,8 @@
 #
 class Enterprise::BillingProductPrice < ApplicationRecord
   belongs_to :billing_product, class_name: 'Enterprise::BillingProduct'
-  has_many :enterprise_account_billing_subscriptions, class_name: 'Enterprise::AccountBillingSubscription'
 
-  after_save :update_limits_job
+  # after_save :update_limits_job
 
   def amount
     unit_amount

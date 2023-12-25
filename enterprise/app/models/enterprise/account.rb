@@ -63,11 +63,6 @@ module Enterprise::Account
     subscribed_quantity || get_limits(:agents)
   end
 
-  def history_limits
-    subscribed_quantity = custom_attributes['subscribed_quantity']
-    subscribed_quantity || get_limits(:history)
-  end
-
   def get_limits(limit_name)
     config_name = "ACCOUNT_#{limit_name.to_s.upcase}_LIMIT"
     return self[:limits][limit_name.to_s] if self[:limits][limit_name.to_s].present?
@@ -86,7 +81,6 @@ module Enterprise::Account
       'properties' => {
         'inboxes' => { 'type': 'number' },
         'agents' => { 'type': 'number' },
-        'history' => { 'type': 'number' }
       },
       'required' => [],
       'additionalProperties' => false

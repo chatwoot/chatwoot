@@ -15,7 +15,6 @@ class AccountUserDashboard < Administrate::BaseDashboard
     role: Field::Select.with_options(collection: AccountUser.roles.keys),
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
-    is_deleted: Field::Boolean
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -28,7 +27,6 @@ class AccountUserDashboard < Administrate::BaseDashboard
     user
     inviter
     role
-    is_deleted
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -39,7 +37,6 @@ class AccountUserDashboard < Administrate::BaseDashboard
     inviter
     id
     role
-    is_deleted
     created_at
     updated_at
   ].freeze
@@ -51,7 +48,6 @@ class AccountUserDashboard < Administrate::BaseDashboard
     account
     user
     role
-    is_deleted
   ].freeze
 
   # COLLECTION_FILTERS

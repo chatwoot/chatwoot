@@ -2,21 +2,20 @@
 #
 # Table name: accounts
 #
-#  id                      :integer          not null, primary key
-#  auto_resolve_duration   :integer
-#  coupon_code_used        :integer          default(0)
-#  custom_attributes       :jsonb
-#  deletion_email_reminder :integer
-#  domain                  :string(100)
-#  email_sent_at           :datetime
-#  feature_flags           :bigint           default(0), not null
-#  limits                  :jsonb
-#  locale                  :integer          default("en")
-#  name                    :string           not null
-#  status                  :integer          default("active")
-#  support_email           :string(100)
-#  created_at              :datetime         not null
-#  updated_at              :datetime         not null
+#  id                    :integer          not null, primary key
+#  auto_resolve_duration :integer
+#  coupon_code_used      :integer          default(0)
+#  custom_attributes     :jsonb
+#  domain                :string(100)
+#  feature_flags         :bigint           default(0), not null
+#  limits                :jsonb
+#  locale                :integer          default("en")
+#  ltd_attributes        :jsonb
+#  name                  :string           not null
+#  status                :integer          default("active")
+#  support_email         :string(100)
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
 #
 # Indexes
 #
@@ -79,17 +78,17 @@ class Account < ApplicationRecord
   has_many :webhooks, dependent: :destroy_async
   has_many :whatsapp_channels, dependent: :destroy_async, class_name: '::Channel::Whatsapp'
   has_many :working_hours, dependent: :destroy_async
-  has_many :account_billing_subscriptions, dependent: :destroy_async, class_name: '::Enterprise::AccountBillingSubscription'
+  # has_many :account_billing_subscriptions, dependent: :destroy_async, class_name: '::Enterprise::AccountBillingSubscription'
   has_many :coupon_codes, dependent: :destroy_async
 
   has_one_attached :contacts_export
 
   enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h
-  enum deletion_email_reminder: { initial_reminder: 0, second_reminder: 1, deletion_pending: 2 }
   enum status: { active: 0, suspended: 1 }
 
   before_validation :validate_limit_keys
   after_create_commit :notify_creation
+  after_create_commit :update_usage_limits
   after_destroy :remove_account_sequences
 
   def agents
@@ -125,123 +124,15 @@ class Account < ApplicationRecord
     super || ENV.fetch('MAILER_SENDER_EMAIL') { GlobalConfig.get('MAILER_SUPPORT_EMAIL')['MAILER_SUPPORT_EMAIL'] }
   end
 
-  def usage_limits
-    {
-      agents: ChatwootApp.max_limit.to_i,
-      inboxes: ChatwootApp.max_limit.to_i,
-      history: ChatwootApp.max_limit.to_i,
+  def update_usage_limits
+    Rails.logger.info('Executing update_usage_limits...')
+    limit = {
+      agents: get_agent_limit.to_i,
+      inboxes: get_inbox_limit.to_i
     }
+    update_columns(limits: limit)
   end
 
-  # For first-time signup
-  def check_and_subscribe_for_plan(user)
-    subscribe_for_plan unless has_stripe_subscription?(user)
-
-  end
-
-  def subscribe_for_plan(name = 'Trial', end_time = ChatwootApp.trial_plan_ending_time)
-    _plan = Enterprise::BillingProduct.find_by(product_name: name)
-    return unless _plan.present?
-
-    plan_price = _plan.billing_product_prices.last
-    account_billing_subscriptions.create!(billing_product_price: plan_price, current_period_end: end_time)
-  end
-
-  def has_stripe_subscription?(user)
-    user_email = user.email
-    Stripe.api_key = ENV.fetch('STRIPE_SECRET_KEY', nil)
-    customer = Stripe::Customer.list(email: user_email)
-    if customer.data.any?
-      # customer with the specified email found
-      stripe_customer_id = customer.data[0].id
-      subscription = Stripe::Subscription.list(customer: stripe_customer_id)
-      if subscription.data.any?
-        subscription_price = Enterprise::BillingProductPrice.find_by(price_stripe_id: subscription['data'][0]['plan']['id'])
-        if subscription_price
-          # subscription present for stripe chat plan
-          account_billing_subscriptions.create!(billing_product_price: subscription_price, subscription_stripe_id: subscription['data'][0]['id'],
-            current_period_end: Time.at(subscription['data'][0]['current_period_end']).utc.to_datetime)
-          return true
-        else
-          # subscription present but for any other stripe plan
-          return false
-        end
-      else
-        return false
-      end
-    else
-      # No customer with the specified email found
-      return false
-    end
-  end
-
-  # Set limits for the account
-  def set_limits_for_account(plan_price)
-    begin
-      update_columns(limits: plan_price.limits)
-      puts 'Account updated successfully!'
-    rescue StandardError => e
-      puts "Error updating account: #{e.message}"
-    end
-    Account::UpdateUserAccountsBasedOnLimitsJob.perform_later(id)
-  end
-
-  #Create subscription plan for ltd accounts
-  def subscribe_for_ltd_plan(coupon_code)
-    code_prefix = coupon_code.code[0,2]
-    partner_name = ""
-    if code_prefix == "AS"
-      partner_name = "AppSumo"
-    elsif code_prefix == "DM"
-      partner_name = "DealMirror"
-    elsif code_prefix == "PG"
-      partner_name = "PitchGround"
-    end
-
-    if partner_name == "AppSumo" || partner_name == "DealMirror"
-      _plan=nil
-      ltd_price=nil
-      if coupon_code_used == 0
-        _plan = Enterprise::BillingProduct.find_by(product_description: 'Tier 1 LTD Plan for AS/DM')
-      elsif coupon_code_used == 1 
-        _plan = Enterprise::BillingProduct.find_by(product_description: 'Tier 2 LTD Plan for AS/DM')
-      elsif coupon_code_used == 2
-        _plan = Enterprise::BillingProduct.find_by(product_description: 'Tier 3 LTD Plan for AS/DM')
-      elsif coupon_code_used == 4
-        _plan = Enterprise::BillingProduct.find_by(product_description: 'Tier 4 LTD Plan for AS/DM')
-      end
-
-      if _plan
-        ltd_price = Enterprise::BillingProductPrice.find_by(billing_product_id: _plan.id)
-        account_billing_subscriptions&.update(billing_product_price: ltd_price, current_period_end: Time.new(2050, 12, 31).utc.to_datetime, partner: partner_name)
-      end
-
-      if coupon_code_used < 5
-        update_columns(coupon_code_used: coupon_code_used + 1)
-      end
-    elsif partner_name == "PitchGround"
-      tier = coupon_code.code[-2,2]
-      _plan=nil
-      if tier == 'T1'
-        _plan = Enterprise::BillingProduct.find_by(product_description: 'Tier 1 LTD Plan for PG')
-      elsif tier == 'T2'
-        _plan = Enterprise::BillingProduct.find_by(product_description: 'Tier 2 LTD Plan for PG')
-      elsif tier == 'T3'
-        _plan = Enterprise::BillingProduct.find_by(product_description: 'Tier 3 LTD Plan for PG')
-      elsif tier == 'T4'
-        _plan = Enterprise::BillingProduct.find_by(product_description: 'Tier 4 LTD Plan for PG')
-      end
-
-      if _plan
-        ltd_price = Enterprise::BillingProductPrice.find_by(billing_product_id: _plan.id)
-        account_billing_subscriptions&.update(billing_product_price: ltd_price, current_period_end: Time.new(2050, 12, 31).utc.to_datetime, partner: partner_name)
-      end
-
-      if coupon_code_used < 1
-        update_columns(coupon_code_used: coupon_code_used + 1)
-      end
-    end
-  end
 
   private
 
@@ -265,6 +156,41 @@ class Account < ApplicationRecord
     ActiveRecord::Base.connection.exec_query("drop sequence IF EXISTS camp_dpid_seq_#{id}")
     ActiveRecord::Base.connection.exec_query("drop sequence IF EXISTS conv_dpid_seq_#{id}")
   end
+
+  def get_agent_limit
+    ltd_plan_name = ltd_attributes['ltd_plan_name']
+    plan_name = custom_attributes['plan_name']
+    if ltd_plan_name && plan_name == "Starter"
+      return
+    end
+    if plan_name
+      if plan_name == "Starter"
+        return ChatwootApp.starter_agent_limit
+      else
+        return ChatwootApp.paid_agent_limit
+      end
+    else
+      return ChatwootApp.starter_agent_limit
+    end
+  end
+
+  def get_inbox_limit
+    ltd_plan_name = ltd_attributes['ltd_plan_name']
+    plan_name = custom_attributes['plan_name']
+    if ltd_plan_name && plan_name == "Starter"
+      return
+    end
+    if plan_name
+      if plan_name === "Starter"
+        return ChatwootApp.starter_inbox_limit
+      else
+        return ChatwootApp.paid_inbox_limit
+      end
+    else
+      return ChatwootApp.starter_inbox_limit
+    end
+  end
+
 end
 
 Account.prepend_mod_with('Account')

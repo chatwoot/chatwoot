@@ -4,7 +4,8 @@ class Api::BaseController < ApplicationController
   before_action :authenticate_access_token!, if: :authenticate_by_access_token?
   before_action :validate_bot_access_token!, if: :authenticate_by_access_token?
   before_action :authenticate_user!, unless: :authenticate_by_access_token?
-  before_action :verify_subscription, if: :current_user
+  # To remove
+  # before_action :verify_subscription, if: :current_user
 
   private
 

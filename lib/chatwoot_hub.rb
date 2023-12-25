@@ -4,11 +4,32 @@ class ChatwootHub
   REGISTRATION_URL = "#{BASE_URL}/instances".freeze
   PUSH_NOTIFICATION_URL = "#{BASE_URL}/send_push".freeze
   EVENTS_URL = "#{BASE_URL}/events".freeze
+  BILLING_URL = "#{BASE_URL}/billing".freeze
 
   def self.installation_identifier
     identifier = InstallationConfig.find_by(name: 'INSTALLATION_IDENTIFIER')&.value
     identifier ||= InstallationConfig.create!(name: 'INSTALLATION_IDENTIFIER', value: SecureRandom.uuid).value
     identifier
+  end
+
+  def self.billing_url
+    "#{BILLING_URL}?installation_identifier=#{installation_identifier}"
+  end
+
+  def self.pricing_plan
+    InstallationConfig.find_by(name: 'INSTALLATION_PRICING_PLAN')&.value || 'community'
+  end
+
+  def self.pricing_plan_quantity
+    InstallationConfig.find_by(name: 'INSTALLATION_PRICING_PLAN_QUANTITY')&.value || 0
+  end
+
+  def self.support_config
+    {
+      support_website_token: InstallationConfig.find_by(name: 'CHATWOOT_SUPPORT_WEBSITE_TOKEN')&.value,
+      support_script_url: InstallationConfig.find_by(name: 'CHATWOOT_SUPPORT_SCRIPT_URL')&.value,
+      support_identifier_hash: InstallationConfig.find_by(name: 'CHATWOOT_SUPPORT_IDENTIFIER_HASH')&.value
+    }
   end
 
   def self.instance_config
@@ -33,18 +54,18 @@ class ChatwootHub
     }
   end
 
-  def self.latest_version
+  def self.sync_with_hub
     begin
       info = instance_config
       info = info.merge(instance_metrics) unless ENV['DISABLE_TELEMETRY']
       response = RestClient.post(PING_URL, info.to_json, { content_type: :json, accept: :json })
-      version = JSON.parse(response)['version']
+      parsed_response = JSON.parse(response)
     rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
       Rails.logger.error "Exception: #{e.message}"
     rescue StandardError => e
       ChatwootExceptionTracker.new(e).capture_exception
     end
-    version
+    parsed_response
   end
 
   def self.register_instance(company_name, owner_name, owner_email)
