@@ -26,15 +26,3 @@ remove_stale_contact_inboxes_job.rb:
   cron: '30 22 * * *'
   class: 'Internal::RemoveStaleContactInboxesJob'
   queue: scheduled_jobs
-
-#delete chat and history limit in accounts
-remove_chat_and_history_limit_job.rb:
-  cron: '*/5 * * * *'
-  class: 'Account::UpdateAccountLimitsJob'
-  queue: scheduled_jobs
-
-#move ltd account to ltd_attributes
-move_ltd_accounts_to_ltd_attributes_job.rb:
-  cron: '*/5 * * * *'
-  class: 'Account::MoveLtdAccountsJob'
-  queue: scheduled_jobs
