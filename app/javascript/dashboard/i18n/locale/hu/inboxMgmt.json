@@ -728,7 +728,7 @@
         "USER_MESSAGE": "Hello",
         "AGENT_MESSAGE": "Hello"
       },
-      "BRANDING_TEXT": "Chatwoot",
+      "BRANDING_TEXT": "xping",
       "SCRIPT_SETTINGS": "\nwindow.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

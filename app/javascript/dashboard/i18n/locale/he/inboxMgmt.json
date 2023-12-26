@@ -728,7 +728,7 @@
         "USER_MESSAGE": "היי",
         "AGENT_MESSAGE": "שלום"
       },
-      "BRANDING_TEXT": "מופעל על ידי Chatwoot",
+      "BRANDING_TEXT": "מופעל על ידי xping",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

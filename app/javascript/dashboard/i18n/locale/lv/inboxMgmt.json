@@ -728,7 +728,7 @@
         "USER_MESSAGE": "Sveicināti",
         "AGENT_MESSAGE": "Labdien"
       },
-      "BRANDING_TEXT": "Darbināts ar Chatwoot",
+      "BRANDING_TEXT": "Darbināts ar xping",
       "SCRIPT_SETTINGS": "\nwindow.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

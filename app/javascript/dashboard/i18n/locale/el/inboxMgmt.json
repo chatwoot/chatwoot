@@ -728,7 +728,7 @@
         "USER_MESSAGE": "Γειά",
         "AGENT_MESSAGE": "Γειά σας"
       },
-      "BRANDING_TEXT": "με την δύναμη του Chatwoot",
+      "BRANDING_TEXT": "με την δύναμη του xping",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

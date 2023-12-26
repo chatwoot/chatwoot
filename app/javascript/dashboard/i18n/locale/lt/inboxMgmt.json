@@ -728,7 +728,7 @@
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Sveiki"
       },
-      "BRANDING_TEXT": "Parengta pagal Chatwoot",
+      "BRANDING_TEXT": "Parengta pagal xping",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

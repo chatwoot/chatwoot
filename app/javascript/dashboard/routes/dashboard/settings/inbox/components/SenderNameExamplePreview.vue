@@ -74,8 +74,8 @@ export default {
             'INBOX_MGMT.EDIT.SENDER_NAME_SECTION.FRIENDLY.SUBTITLE'
           ),
           preview: {
-            senderName: 'Smith',
-            businessName: 'Chatwoot',
+            senderName: 'S',
+            businessName: 'xping',
             email: '<support@yourbusiness.com>',
           },
         },
@@ -89,7 +89,7 @@ export default {
           ),
           preview: {
             senderName: '',
-            businessName: 'Chatwoot',
+            businessName: 'xping',
             email: '<support@yourbusiness.com>',
           },
         },

@@ -728,7 +728,7 @@
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hej"
       },
-      "BRANDING_TEXT": "Drevet af Chatwoot",
+      "BRANDING_TEXT": "Drevet af xping",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
