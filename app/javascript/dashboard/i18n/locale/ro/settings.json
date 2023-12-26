@@ -261,7 +261,7 @@
     "TITLE": "Facturare",
     "CURRENT_PLAN": {
       "TITLE": "Pentru acest plan nu sunt disponibile extraoptiuni",
-      "PLAN_NOTE": "În prezent sunteți abonat la planul **%{plan}** cu licențe **%{quantity}**"
+      "PLAN_NOTE": "În prezent sunteți abonat la planul OneHash Chat **%{plan}** cu licențe **%{quantity}**"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Gestionați-vă abonamentul",
@@ -315,6 +315,17 @@
       "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
       "ALT_OR_OPTION_KEY": "Alt / ⌥",
       "FORWARD_SLASH_KEY": "/"
+    }
+  },
+  "LTD_SETTINGS": {
+    "TITLE": "Cod de Cupon",
+    "CURRENT_PLAN": {
+        "TITLE": "Plan Curent",
+        "PLAN_NOTE": "Ești în prezent abonat la planul OneHash Chat LTD **%{plan}** cu **%{quantity}** licențe"
+    },
+    "APPLY": "Aplică",
+    "COUPON_ERROR": {
+        "MESSAGE": "Codul de cupon furnizat nu este valid"
     }
   }
 }

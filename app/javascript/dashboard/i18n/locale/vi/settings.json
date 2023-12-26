@@ -261,7 +261,7 @@
     "TITLE": "Phí",
     "CURRENT_PLAN": {
       "TITLE": "Gói hiện tại",
-      "PLAN_NOTE": "Bạn hiện đã đăng ký gói **%{plan}** với **%{quantity}** giấy phép"
+      "PLAN_NOTE": "Bạn hiện đã đăng ký gói OneHash Chat **%{plan}** với **%{quantity}** giấy phép"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Quản lý thuê bao của bạn",
@@ -315,6 +315,17 @@
       "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
       "ALT_OR_OPTION_KEY": "Alt / ⌥",
       "FORWARD_SLASH_KEY": "/"
+    }
+  },
+  "LTD_SETTINGS": {
+    "TITLE": "Mã Giảm giá",
+    "CURRENT_PLAN": {
+        "TITLE": "Gói Hiện tại",
+        "PLAN_NOTE": "Hiện tại bạn đang đăng ký gói OneHash Chat LTD **%{plan}** với **%{quantity}** giấy phép"
+    },
+    "APPLY": "Áp dụng",
+    "COUPON_ERROR": {
+        "MESSAGE": "Mã giảm giá cung cấp không hợp lệ"
     }
   }
 }
