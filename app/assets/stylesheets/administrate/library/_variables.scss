@@ -1,5 +1,7 @@
 // Typography
-$base-font-family: Vazirmatn !default;
+$base-font-family: "Vazirmatn", "Vazir-matn", Vazirmatn, Vazir-matn, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+  "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  sans-serif !default;
 $heading-font-family: $base-font-family !default;
 
 $base-font-size: 16px !default;
