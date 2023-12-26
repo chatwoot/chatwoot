@@ -2,7 +2,7 @@
   "REGISTER": {
     "TRY_WOOT": "注册帐户",
     "TITLE": "注册",
-    "TERMS_ACCEPT": "通过注册，您同意我们的 <a href=\"https://www.chatwoot.com/terms\">T & C</a> 和 <a href=\"https://www.chatwoot.com/privacy-policy\">隐私政策</a>",
+    "TERMS_ACCEPT": "注册即表示您同意我们的<a href=\"https://www.onehash.ai/legal/terms-of-services\">服务条款</a>和<a href=\"https://www.onehash.ai/legal/privacy-policy\">隐私政策</a>",
     "ACCOUNT_NAME": {
       "LABEL": "帐户名称",
       "PLACEHOLDER": "Wayne企业",

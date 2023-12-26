@@ -261,7 +261,7 @@
     "TITLE": "Cobrança",
     "CURRENT_PLAN": {
       "TITLE": "Plano Atual",
-      "PLAN_NOTE": "Você está atualmente inscrito no plano **%{plan}** com **%{quantity}** licenças"
+      "PLAN_NOTE": "Você está atualmente inscrito no plano OneHash Chat **%{plan}** com **%{quantity}** licenças"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Gerencie sua assinatura",
@@ -315,6 +315,17 @@
       "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
       "ALT_OR_OPTION_KEY": "Alt / ⌥",
       "FORWARD_SLASH_KEY": "/"
+    }
+  },
+  "LTD_SETTINGS": {
+    "TITLE": "Código de Cupom",
+    "CURRENT_PLAN": {
+        "TITLE": "Plano Atual",
+        "PLAN_NOTE": "Você está atualmente inscrito no plano OneHash Chat LTD **%{plan}** com **%{quantity}** licenças"
+    },
+    "APPLY": "Aplicar",
+    "COUPON_ERROR": {
+        "MESSAGE": "O código de cupom fornecido é inválido"
     }
   }
 }

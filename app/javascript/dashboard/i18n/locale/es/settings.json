@@ -261,7 +261,7 @@
     "TITLE": "Facturación",
     "CURRENT_PLAN": {
       "TITLE": "Plan actual",
-      "PLAN_NOTE": "Actualmente está suscrito al plan **%{plan}** con **%{quantity}** licencias"
+      "PLAN_NOTE": "Actualmente está suscrito al plan OneHash Chat **%{plan}** con **%{quantity}** licencias"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Administre su suscripción",
@@ -315,6 +315,17 @@
       "WINDOWS_KEY_AND_COMMAND_KEY": "Windows / ⌘",
       "ALT_OR_OPTION_KEY": "Alt \\ ⌥",
       "FORWARD_SLASH_KEY": "/"
+    }
+  },
+  "LTD_SETTINGS": {
+    "TITLE": "Código de Cupón",
+    "CURRENT_PLAN": {
+        "TITLE": "Plan Actual",
+        "PLAN_NOTE": "Actualmente estás suscrito al plan OneHash Chat LTD **%{plan}** con **%{quantity}** licencias"
+    },
+    "APPLY": "Aplicar",
+    "COUPON_ERROR": {
+        "MESSAGE": "El código de cupón proporcionado no es válido"
     }
   }
 }

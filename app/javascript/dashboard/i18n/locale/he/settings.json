@@ -261,7 +261,7 @@
     "TITLE": "חיוב",
     "CURRENT_PLAN": {
       "TITLE": "תוכנית נוכחית",
-      "PLAN_NOTE": "אתה רשום כעת לתוכנית **%{plan}** עם רישיונות **%{quantity}**"
+      "PLAN_NOTE": "אתה רשום כעת לתוכנית OneHash Chat **%{plan}** עם רישיונות **%{quantity}**"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "נהל את המנוי שלך",
@@ -315,6 +315,17 @@
       "WINDOWS_KEY_AND_COMMAND_KEY": "נצח / ⌘",
       "ALT_OR_OPTION_KEY": "Alt / ⌥",
       "FORWARD_SLASH_KEY": "/"
+    }
+  },
+  "LTD_SETTINGS": {
+    "TITLE": "קוד קופון",
+    "CURRENT_PLAN": {
+        "TITLE": "תוכנית נוכחית",
+        "PLAN_NOTE": "אתה רשום כעת לתוכנית OneHash Chat LTD **%{plan}** עם **%{quantity}** רישיונות"
+    },
+    "APPLY": "החל",
+    "COUPON_ERROR": {
+        "MESSAGE": "קוד הקופון שסופק אינו תקף"
     }
   }
 }

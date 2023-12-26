@@ -35,7 +35,7 @@ export const CONVERSATION_PRIORITY_ORDER = {
 };
 
 // Size in mega bytes
-export const MAXIMUM_FILE_UPLOAD_SIZE = 2;
+export const MAXIMUM_FILE_UPLOAD_SIZE = 10;
 export const MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL = 5;
 
 export const ALLOWED_FILE_TYPES =

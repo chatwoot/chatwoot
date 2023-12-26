@@ -261,7 +261,7 @@
     "TITLE": "Rechnungen",
     "CURRENT_PLAN": {
       "TITLE": "Derzeitiger Plan",
-      "PLAN_NOTE": "Sie haben derzeit den Tarif **%{plan}** mit **%{quantity}** Lizenzen abonniert"
+      "PLAN_NOTE": "Sie haben derzeit den Tarif OneHash Chat **%{plan}** mit **%{quantity}** Lizenzen abonniert"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Abonnement verwalten",
@@ -316,5 +316,16 @@
       "ALT_OR_OPTION_KEY": "Alt / ⌥",
       "FORWARD_SLASH_KEY": "/"
     }
-  }
+  },
+  "LTD_SETTINGS": {
+    "TITLE": "Gutscheincode",
+    "CURRENT_PLAN": {
+        "TITLE": "Aktueller Plan",
+        "PLAN_NOTE": "Sie sind derzeit im OneHash Chat LTD-Plan **%{plan}** mit **%{quantity}** Lizenzen abonniert"
+    },
+    "APPLY": "Anwenden",
+    "COUPON_ERROR": {
+        "MESSAGE": "Der bereitgestellte Gutscheincode ist ungültig"
+    }
+}
 }

@@ -261,7 +261,7 @@
     "TITLE": "الفواتير",
     "CURRENT_PLAN": {
       "TITLE": "الباقة الحالية",
-      "PLAN_NOTE": "أنت مشترك حاليا في باقة**%{plan}** مع تراخيص **%{quantity}**"
+      "PLAN_NOTE": "أنت مشترك حاليا في باقةOneHash Chat **%{plan}** مع تراخيص لـ **%{quantity}**."
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "إدارة الاشتراك الخاص بك",
@@ -315,6 +315,17 @@
       "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘\n",
       "ALT_OR_OPTION_KEY": "Alt / ⌥",
       "FORWARD_SLASH_KEY": "/"
+    }
+  },
+  "LTD_SETTINGS": {
+    "TITLE": "كود القسيمة",
+    "CURRENT_PLAN": {
+        "TITLE": "الخطة الحالية",
+        "PLAN_NOTE": "أنت مشترك حاليًا في OneHash Chat خطة LTD **%{plan}** مع **%{quantity}** ترخيصًا"
+    },
+    "APPLY": "تطبيق",
+    "COUPON_ERROR": {
+        "MESSAGE": "رمز القسيمة المقدم غير صالح"
     }
   }
 }

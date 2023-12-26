@@ -261,7 +261,7 @@
     "TITLE": "Платёж",
     "CURRENT_PLAN": {
       "TITLE": "Текущий план",
-      "PLAN_NOTE": "На данный момент вы подписаны на ** план%{plan}** с **%{quantity}** лицензиями"
+      "PLAN_NOTE": "На данный момент вы подписаны на OneHash Chat ** план%{plan}** с **%{quantity}** лицензиями"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Управление подпиской",
@@ -315,6 +315,17 @@
       "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
       "ALT_OR_OPTION_KEY": "Alt / ⌥",
       "FORWARD_SLASH_KEY": "/"
+    }
+  },
+  "LTD_SETTINGS": {
+    "TITLE": "Промокод",
+    "CURRENT_PLAN": {
+        "TITLE": "Текущий план",
+        "PLAN_NOTE": "В настоящее время вы подписаны на план OneHash Chat LTD **%{plan}** с **%{quantity}** лицензиями"
+    },
+    "APPLY": "Применить",
+    "COUPON_ERROR": {
+        "MESSAGE": "Предоставленный промокод недействителен"
     }
   }
 }
