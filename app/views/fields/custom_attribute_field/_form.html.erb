@@ -4,6 +4,6 @@
 <div class="field-unit__field">
 
   <% JSON.parse(field.to_s).each do |key,val| %>
-    <%= key %>: <%= text_field "account[customer_attributes]", key, value: val %> </br>
+    <%= key %>: <%= text_field "account[custom_attributes]", key, value: val %> </br>
   <% end %>
 </div>
