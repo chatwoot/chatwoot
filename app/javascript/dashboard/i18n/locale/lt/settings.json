@@ -261,7 +261,7 @@
     "TITLE": "Atsiskaitymas",
     "CURRENT_PLAN": {
       "TITLE": "Prenumeratos Dabartinis Planas",
-      "PLAN_NOTE": "Šiuo metu užsiprenumeravote **%{plan}** planą su **%{quantity}** licencijomis"
+      "PLAN_NOTE": "Šiuo metu užsiprenumeravote OneHash Chat **%{plan}** planą su **%{quantity}** licencijomis"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Tvarkykite savo prenumeratą",
@@ -315,6 +315,17 @@
       "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
       "ALT_OR_OPTION_KEY": "Alt / ⌥",
       "FORWARD_SLASH_KEY": "/"
+    }
+  },
+  "LTD_SETTINGS": {
+    "TITLE": "Kupono Kodas",
+    "CURRENT_PLAN": {
+        "TITLE": "Dabartinis Planas",
+        "PLAN_NOTE": "Šiuo metu esate prenumeratos OneHash Chat **%{plan}** LTD plane su **%{quantity}** licencijomis"
+    },
+    "APPLY": "Taikyti",
+    "COUPON_ERROR": {
+        "MESSAGE": "Pateiktas kupono kodas yra neteisingas"
     }
   }
 }

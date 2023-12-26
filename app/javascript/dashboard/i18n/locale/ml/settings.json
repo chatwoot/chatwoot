@@ -261,7 +261,7 @@
     "TITLE": "Billing",
     "CURRENT_PLAN": {
       "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "PLAN_NOTE": "You are currently subscribed to the OneHash Chat **%{plan}** plan with **%{quantity}** licenses"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Manage your subscription",
@@ -316,5 +316,16 @@
       "ALT_OR_OPTION_KEY": "Alt / ⌥",
       "FORWARD_SLASH_KEY": "/"
     }
-  }
+  },
+  "LTD_SETTINGS": {
+    "TITLE": "Coupon Code",
+    "CURRENT_PLAN": {
+      "TITLE": "Current Plan",
+      "PLAN_NOTE": "You are currently subscribed to the OneHash Chat **%{plan}** LTD plan with **%{quantity}** licenses"
+    },
+    "APPLY": "Apply",
+    "COUPON_ERROR": {
+      "MESSAGE": "The provided coupon code is invalid"
+    }
+  } 
 }

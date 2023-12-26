@@ -261,7 +261,7 @@
     "TITLE": "Χρεώσεις",
     "CURRENT_PLAN": {
       "TITLE": "Τρέχον Πλάνο",
-      "PLAN_NOTE": "Αυτή τη στιγμή έχετε εγγραφεί στο πλάνο **%{plan}** με **%{quantity}** άδειες"
+      "PLAN_NOTE": "Αυτή τη στιγμή έχετε εγγραφεί στο πλάνο OneHash Chat **%{plan}** με **%{quantity}** άδειες"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Διαχειριστείτε τη συνδρομή σας",
@@ -315,6 +315,17 @@
       "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
       "ALT_OR_OPTION_KEY": "Alt / °C.",
       "FORWARD_SLASH_KEY": "/"
+    }
+  },
+  "LTD_SETTINGS": {
+    "TITLE": "Κωδικός Κουπονιού",
+    "CURRENT_PLAN": {
+        "TITLE": "Τρέχουσα Σχέδιο",
+        "PLAN_NOTE": "Είστε εγγεγραμμένοι αυτήν τη στιγμή στο OneHash Chat σχέδιο LTD **%{plan}** με **%{quantity}** άδειες"
+    },
+    "APPLY": "Εφαρμογή",
+    "COUPON_ERROR": {
+        "MESSAGE": "Ο παρεχόμενος κωδικός κουπονιού δεν είναι έγκυρος"
     }
   }
 }

@@ -261,7 +261,7 @@
     "TITLE": "Billing",
     "CURRENT_PLAN": {
       "TITLE": "Current Plan",
-      "PLAN_NOTE": "Þú ert áskrifandi að **%{plan}** áætluninni með **%{quantity}** leyfi"
+      "PLAN_NOTE": "Þú ert áskrifandi að OneHash Chat **%{plan}** áætluninni með **%{quantity}** leyfi"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Manage your subscription",
@@ -315,6 +315,17 @@
       "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
       "ALT_OR_OPTION_KEY": "Alt / ⌥",
       "FORWARD_SLASH_KEY": "/"
+    }
+  },
+  "LTD_SETTINGS": {
+    "TITLE": "Afsláttarkóði",
+    "CURRENT_PLAN": {
+        "TITLE": "Núverandi Áætlan",
+        "PLAN_NOTE": "Þú ert núna áskrifandi að OneHash Chat LTD áætlaninu með **%{plan}** og **%{quantity}** leyndarmálasögum"
+    },
+    "APPLY": "Nota",
+    "COUPON_ERROR": {
+        "MESSAGE": "Veittur afsláttarkóði er ógildur"
     }
   }
 }
