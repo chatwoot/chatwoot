@@ -28,6 +28,5 @@ class Account::UpdateAccountCustomAttributeJob < ApplicationJob
                 stripe_subscription_id: "sub_1OKbUZEwPMdYWOIL5xXwNR3q"
             }
         )
-        end
     end
-  end
+end
