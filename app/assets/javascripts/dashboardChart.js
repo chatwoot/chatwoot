@@ -11,7 +11,7 @@ function prepareData(data) {
 
 function getChartOptions() {
   var fontFamily =
-    'PlusJakarta,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+    'Vazirmatn';
   return {
     responsive: true,
     legend: { labels: { fontFamily } },

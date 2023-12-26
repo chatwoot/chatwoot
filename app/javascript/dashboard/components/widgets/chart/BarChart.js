@@ -1,7 +1,7 @@
 import { Bar } from 'vue-chartjs';
 
 const fontFamily =
-  'PlusJakarta,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+  'Vazirmatn';
 
 const defaultChartOptions = {
   responsive: true,
