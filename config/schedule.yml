@@ -28,7 +28,7 @@ remove_stale_contact_inboxes_job.rb:
   queue: scheduled_jobs
 
 # # upedate_account_custom_attribute
-update_account_custom_attribute_job.rb:
-  cron: '*/5 * * * *'
-  class: 'Account::UpdateAccountCustomAttributeJob'
-  queue: scheduled_jobs
+# update_account_custom_attribute_job.rb:
+#   cron: '*/5 * * * *'
+#   class: 'Account::UpdateAccountCustomAttributeJob'
+#   queue: scheduled_jobs
