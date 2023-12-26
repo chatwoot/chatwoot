@@ -56,16 +56,7 @@ export default {
 html,
 body {
   font-family:
-    'PlusJakarta',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    Oxygen-Sans,
-    Ubuntu,
-    Cantarell,
-    'Helvetica Neue',
-    sans-serif;
+    'Vazirmatn';
   @apply h-full w-full;
 
   input,
