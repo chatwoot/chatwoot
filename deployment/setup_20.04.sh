@@ -647,7 +647,7 @@ Miscellaneous:
 Exit status:
 Returns 0 if successful; non-zero otherwise.
 
-Report bugs at https://github.com/chatwoot/chatwoot/issues
+Report bugs at https://github.com/Parsaa404/chatwoot/issues
 Get help, https://chatwoot.com/community?utm_source=cwctl
 
 EOF
