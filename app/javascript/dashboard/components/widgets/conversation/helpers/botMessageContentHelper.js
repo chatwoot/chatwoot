@@ -40,10 +40,7 @@ const generateCSATContent = (
   contentAttributes,
   { ratingTitle, feedbackTitle }
 ) => {
-  const {
-    submitted_values: { csat_survey_response: surveyResponse = {} } = {},
-  } = contentAttributes;
-  const { rating, feedback_message } = surveyResponse || {};
+  const { rating, feedback_message } = contentAttributes.csat_survey_response || {};
 
   let messageContent = '';
   if (rating) {

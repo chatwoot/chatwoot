@@ -66,8 +66,13 @@ class MessageTemplates::HookExecutionService
   def should_send_csat_survey?
     return unless csat_enabled_conversation?
 
-    if inbox.account.csat_template_enabled? && csat_template.present?
-      return if conversation.messages.csat.count >= csat_template.questions_count || conversation.messages.unanswered_csat.exists?
+    if inbox.csat_template_enabled?
+      last_csat_reached = conversation.messages.csat.count >= csat_template.questions_count
+      if inbox.email?
+        return if last_csat_reached
+      else
+        return if last_csat_reached || conversation.messages.unanswered_csat.exists?
+      end
     elsif conversation.messages.csat.present?
       return
       # only send CSAT once in a conversation
