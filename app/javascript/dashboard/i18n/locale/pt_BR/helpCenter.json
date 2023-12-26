@@ -371,7 +371,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Categoria de slug para URLs",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "chat.onehash.ai/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Slug é obrigatório"
         },
         "DESCRIPTION": {
@@ -402,7 +402,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Categoria de slug para URLs",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "chat.onehash.ai/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Slug é obrigatório"
         },
         "DESCRIPTION": {

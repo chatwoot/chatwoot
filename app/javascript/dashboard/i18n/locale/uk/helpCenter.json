@@ -371,7 +371,7 @@
         "SLUG": {
           "LABEL": "Мітка",
           "PLACEHOLDER": "Мітка категорії для URL-адрес",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "chat.onehash.ai/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Необхідно вказати мітку"
         },
         "DESCRIPTION": {
@@ -402,7 +402,7 @@
         "SLUG": {
           "LABEL": "Мітка",
           "PLACEHOLDER": "Мітка категорії для URL-адрес",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "chat.onehash.ai/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Необхідно вказати мітку"
         },
         "DESCRIPTION": {

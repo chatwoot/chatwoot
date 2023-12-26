@@ -253,6 +253,24 @@
     },
     "DOCS": "Read docs"
   },
+  "BILLING_SETTINGS": {
+    "TITLE": "Billing",
+    "CURRENT_PLAN": {
+      "TITLE": "Current Plan",
+      "PLAN_NOTE": "You are currently subscribed to the OneHash Chat **%{plan}** plan with **%{quantity}** licenses"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Manage your subscription",
+      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
+      "BUTTON_TXT": "Go to the billing portal"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Need help?",
+      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "BUTTON_TXT": "Chat with us"
+    },
+    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+  },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
     "NEW_ACCOUNT": "New Account",
@@ -294,24 +312,6 @@
       "ALT_OR_OPTION_KEY": "Alt / ⌥",
       "FORWARD_SLASH_KEY": "/"
     }
-  },
-  "BILLING_SETTINGS": {
-    "TITLE": "Billing",
-    "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the OneHash Chat **%{plan}** plan with **%{quantity}** licenses"
-    },
-    "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
-    },
-    "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
-      "BUTTON_TXT": "Chat with us"
-    },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
   },
   "LTD_SETTINGS": {
     "TITLE": "Coupon Code",

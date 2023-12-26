@@ -261,7 +261,7 @@
     "TITLE": "Pembayaran",
     "CURRENT_PLAN": {
       "TITLE": "Paket Saat Ini",
-      "PLAN_NOTE": "Anda saat ini berlangganan paket **%{plan}** dengan **%{quantity}** lisensi"
+      "PLAN_NOTE": "Anda saat ini berlangganan paket OneHash Chat **%{plan}** dengan **%{quantity}** lisensi"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Kelola langganan Anda",
@@ -315,6 +315,17 @@
       "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
       "ALT_OR_OPTION_KEY": "Alt / ⌥",
       "FORWARD_SLASH_KEY": "/"
+    }
+  },
+  "LTD_SETTINGS": {
+    "TITLE": "Kode Kupon",
+    "CURRENT_PLAN": {
+        "TITLE": "Rencana Saat Ini",
+        "PLAN_NOTE": "Anda saat ini berlangganan paket OneHash Chat LTD **%{plan}** dengan lisensi **%{quantity}**"
+    },
+    "APPLY": "Terapkan",
+    "COUPON_ERROR": {
+        "MESSAGE": "Kode kupon yang diberikan tidak valid"
     }
   }
 }

@@ -261,7 +261,7 @@
     "TITLE": "صورتحساب",
     "CURRENT_PLAN": {
       "TITLE": "طرح فعلی",
-      "PLAN_NOTE": "شما در حال حاضر مشترک طرح **%{plan}** با مجوز **%{quantity}** هستید"
+      "PLAN_NOTE": "شما در حال حاضر مشترک طرح OneHash Chat **%{plan}** با مجوز **%{quantity}** هستید"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "اشتراک خود را مدیریت کنید",
@@ -315,6 +315,17 @@
       "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
       "ALT_OR_OPTION_KEY": "Alt / ⌥",
       "FORWARD_SLASH_KEY": "/"
+    }
+  },
+  "LTD_SETTINGS": {
+    "TITLE": "کد تخفیف",
+    "CURRENT_PLAN": {
+        "TITLE": "طرح فعلی",
+        "PLAN_NOTE": "شما در حال حاضر در طرح OneHash Chat LTD **%{plan}** با % %{quantity} لایسنس مشترک هستید"
+    },
+    "APPLY": "اعمال",
+    "COUPON_ERROR": {
+        "MESSAGE": "کد تخفیف ارائه شده نامعتبر است"
     }
   }
 }
