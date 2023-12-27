@@ -440,7 +440,7 @@
       "HEADER": "گفتگوها را باز کنید",
       "LOADING_MESSAGE": "در حال بارگیری معیارهای مکالمه...",
       "OPEN": "باز",
-      "UNATTENDED": "بی سرپرستان",
+      "UNATTENDED": "بی سرپرست",
       "UNASSIGNED": "تخصیص داده نشده"
     },
     "CONVERSATION_HEATMAP": {
@@ -456,7 +456,7 @@
       "TABLE_HEADER": {
         "AGENT": "ایجنت",
         "OPEN": "باز",
-        "UNATTENDED": "بی سرپرستان",
+        "UNATTENDED": "بی سرپرست",
         "STATUS": "وضعیت"
       }
     },
