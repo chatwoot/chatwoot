@@ -24,7 +24,7 @@
         'px-3 py-2': spacing === 'compact',
         'resize-none': !allowResize,
       }"
-      class="block w-full border-0 rounded-md shadow-sm outline-none appearance-none ring-1 ring-inset text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-woot-500 sm:text-sm sm:leading-6 dark:bg-slate-700"
+      class="block w-full border-none rounded-md shadow-sm appearance-none outline outline-1 outline-slate-200 focus:outline-none focus:outline-0 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:ring-2 focus:ring-woot-500 sm:text-sm sm:leading-6 dark:bg-slate-700"
       @input="onInput"
       @blur="$emit('blur')"
     />
