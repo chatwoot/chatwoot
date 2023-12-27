@@ -728,7 +728,7 @@
         "USER_MESSAGE": "سلام",
         "AGENT_MESSAGE": "سلام"
       },
-      "BRANDING_TEXT": "xping ساخته شده توسط",
+      "BRANDING_TEXT": "xping ساخته kشده توسط",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
