@@ -109,14 +109,14 @@ gem 'elastic-apm', require: false
 gem 'newrelic_rpm', require: false
 gem 'newrelic-sidekiq-metrics', '>= 1.6.2', require: false
 gem 'scout_apm', require: false
-gem 'sentry-rails', '>= 5.13.0', require: false
+gem 'sentry-rails', '>= 5.14.0', require: false
 gem 'sentry-ruby', require: false
-gem 'sentry-sidekiq', '>= 5.13.0', require: false
+gem 'sentry-sidekiq', '>= 5.14.0', require: false
 
 ##-- background job processing --##
 gem 'sidekiq', '>= 7.1.3'
 # We want cron jobs
-gem 'sidekiq-cron', '>= 1.11.0'
+gem 'sidekiq-cron', '>= 1.12.0'
 
 ##-- Push notification service --##
 gem 'fcm'
@@ -162,7 +162,7 @@ gem 'omniauth-oauth2'
 gem 'audited', '~> 5.4', '>= 5.4.1'
 
 # need for google auth
-gem 'omniauth'
+gem 'omniauth', '>= 2.1.2'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection', '~> 1.0'
 
@@ -198,7 +198,7 @@ group :development do
   gem 'squasher'
 
   # profiling
-  gem 'rack-mini-profiler', '>= 3.1.1', require: false
+  gem 'rack-mini-profiler', '>= 3.2.0', require: false
   gem 'stackprof'
   # Should install the associated chrome extension to view query logs
   gem 'meta_request'
@@ -224,7 +224,7 @@ group :development, :test do
   gem 'byebug', platform: :mri
   gem 'climate_control'
   gem 'debug', '~> 1.8'
-  gem 'factory_bot_rails'
+  gem 'factory_bot_rails', '>= 6.4.2'
   gem 'listen'
   gem 'mock_redis'
   gem 'pry-rails'

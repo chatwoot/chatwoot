@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_14_111614) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_19_073832) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -453,6 +453,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_14_111614) do
     t.integer "priority"
     t.bigint "sla_policy_id"
     t.datetime "waiting_since"
+    t.string "cached_label_list"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
     t.index ["account_id", "inbox_id", "status", "assignee_id"], name: "conv_acid_inbid_stat_asgnid_idx"
@@ -729,7 +730,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_14_111614) do
     t.datetime "read_at", precision: nil
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "snoozed_until"
+    t.datetime "last_activity_at", default: -> { "CURRENT_TIMESTAMP" }
     t.index ["account_id"], name: "index_notifications_on_account_id"
+    t.index ["last_activity_at"], name: "index_notifications_on_last_activity_at"
     t.index ["primary_actor_type", "primary_actor_id"], name: "uniq_primary_actor_per_account_notifications"
     t.index ["secondary_actor_type", "secondary_actor_id"], name: "uniq_secondary_actor_per_account_notifications"
     t.index ["user_id"], name: "index_notifications_on_user_id"

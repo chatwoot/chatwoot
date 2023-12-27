@@ -1,6 +1,6 @@
 {
   "name": "@chatwoot/chatwoot",
-  "version": "3.3.1",
+  "version": "3.4.0",
   "license": "MIT",
   "scripts": {
     "eslint": "eslint app/**/*.{js,vue}",
@@ -22,7 +22,7 @@
   "size-limit": [
     {
       "path": "public/packs/js/widget-*.js",
-      "limit": "275 KB"
+      "limit": "280 KB"
     },
     {
       "path": "public/packs/js/sdk.js",
@@ -32,7 +32,7 @@
   "dependencies": {
     "@braid/vue-formulate": "^2.5.2",
     "@chatwoot/prosemirror-schema": "1.0.3",
-    "@chatwoot/utils": "^0.0.16",
+    "@chatwoot/utils": "^0.0.21",
     "@hcaptcha/vue-hcaptcha": "^0.3.2",
     "@june-so/analytics-next": "^1.36.5",
     "@radix-ui/colors": "^1.0.1",
@@ -46,7 +46,7 @@
     "@tailwindcss/typography": "^0.5.9",
     "activestorage": "^5.2.6",
     "autoprefixer": "^10.4.14",
-    "axios": "^0.21.2",
+    "axios": "^1.6.0",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-vue-jsx": "^3.7.0",
     "chart.js": "~2.9.4",
@@ -91,6 +91,7 @@
     "vue-router": "~3.5.2",
     "vue-template-compiler": "^2.7.0",
     "vue-upload-component": "2.8.22",
+    "vue-virtual-scroll-list": "^2.3.5",
     "vue2-datepicker": "^3.9.1",
     "vuedraggable": "^2.24.3",
     "vuelidate": "0.7.7",
