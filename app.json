@@ -1,9 +1,9 @@
 {
   "name": "xping",
-  "description": "Chatwoot is a customer support tool for instant messaging channels",
+  "description": "xping",
   "website": "https://xping.online/",
   "repository": "https://github.com/Parsaa404/chatwoot",
-  "logo": "https://app.chatwoot.com/brand-assets/logo_thumbnail.svg",
+  "logo": "https://github.com/Parsaa404/chatwoot/blob/develop/public/brand-assets/logo_thumbnail.svg",
   "keywords": [
     "live chat",
     "customer support",
@@ -26,11 +26,11 @@
       "value": "production"
     },
     "FRONTEND_URL": {
-      "description": "Public root URL of the Chatwoot installation. This will be used in the emails.",
+      "description": "Public root URL of the xping installation. This will be used in the emails.",
       "value": "https://CHANGE.herokuapp.com"
     },
     "INSTALLATION_ENV": {
-      "description": "Installation method used for Chatwoot.",
+      "description": "Installation method used for xping.",
       "value": "heroku"
     },
     "REDIS_OPENSSL_VERIFY_MODE":{
