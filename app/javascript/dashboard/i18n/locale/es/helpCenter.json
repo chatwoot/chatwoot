@@ -18,10 +18,10 @@
         "ARCHIVED": "Artículos archivados"
       },
       "LOCALE_SELECT": {
-        "TITLE": "Select locale",
-        "PLACEHOLDER": "Select locale",
-        "NO_RESULT": "No locale found",
-        "SEARCH_PLACEHOLDER": "Search locale"
+        "TITLE": "Seleccionar idioma",
+        "PLACEHOLDER": "Seleccionar idioma",
+        "NO_RESULT": "No se encontró el idioma",
+        "SEARCH_PLACEHOLDER": "Buscar idioma"
       }
     },
     "EDIT_HEADER": {
