@@ -56,6 +56,7 @@ class Api::V1::AccountsController < Api::BaseController
 
   def get_ltd
     code = CouponCode.find_by(code: params[:coupon_code])
+    puts code
     if code && (code.partner == 'AppSumo' || code.partner == 'DealMirror')
       if Time.current > code.expiry_date
         render json: { message: 'Coupon code has expired' }, status: :unprocessable_entity
@@ -72,7 +73,7 @@ class Api::V1::AccountsController < Api::BaseController
           render json: { message: 'Redemption successful' }, status: :ok
         end
       end
-    elsif code && (code.partner == 'PitchGround')
+    elsif code && (code.partner == 'PitchGround' || code.partner == 'RocketHub')
       if Time.current > code.expiry_date
         render json: { message: 'Coupon code has expired' }, status: :unprocessable_entity
       elsif code.status == 'redeemed'
@@ -166,6 +167,8 @@ class Api::V1::AccountsController < Api::BaseController
       partner_name = "DealMirror"
     elsif code_prefix == "PG"
       partner_name = "PitchGround"
+    elsif code_prefix == "RH"
+      partner_name = "RocketHub"
     end
 
     if partner_name == "AppSumo" || partner_name == "DealMirror"
@@ -204,7 +207,7 @@ class Api::V1::AccountsController < Api::BaseController
         )      
       end
       
-    elsif partner_name == "PitchGround"
+    elsif partner_name == "PitchGround" || partner_name == "RocketHub"
       tier = coupon_code.code[-2,2]
       agent = nil
       ltd_plan_name = nil
