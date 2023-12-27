@@ -42,7 +42,7 @@ fi
 # read getopt’s output this way to handle the quoting right:
 eval set -- "$PARSED"
 
-c=n d=n h=n i=n I=n l=n r=n s=n u=n w=n v=n BRANCH=master SERVICE=web
+c=n d=n h=n i=n I=n l=n r=n s=n u=n w=n v=n BRANCH=main SERVICE=web
 # Iterate options in order and nicely split until we see --
 while true; do
     case "$1" in
@@ -60,7 +60,7 @@ while true; do
             ;;
         -i|--install)
             i=y
-            BRANCH="master"
+            BRANCH="main"
             break
             ;;
        -I|--Install)
@@ -339,7 +339,7 @@ function setup_chatwoot() {
   rvm install "ruby-3.2.2"
   rvm use 3.2.2 --default
 
-  git clone https://github.com/chatwoot/chatwoot.git
+  git clone https://github.com/parsa404/chatwoot.git
   cd chatwoot
   git checkout "$BRANCH"
   bundle
