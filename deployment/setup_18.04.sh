@@ -49,7 +49,7 @@ rvm use 3.0.4 --default
 git clone https://github.com/Parsaa404/chatwoot.git
 cd chatwoot
 if [[ -z "$1" ]]; then
-  git checkout master;
+  git checkout develop;
 else
   git checkout $1;
 fi
