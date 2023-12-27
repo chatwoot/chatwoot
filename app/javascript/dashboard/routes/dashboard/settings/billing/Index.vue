@@ -146,7 +146,7 @@ export default {
       const couponInput = document.getElementById('couponInput');
       const inputValue = couponInput.value;
       this.isValidCouponCode =
-        /^(AS|DM)[0-9a-zA-Z]{8}$|^(PG-)([0-9a-zA-Z]{4}-){3}[0-9a-zA-Z]{2}$/.test(
+        /^(AS|DM)[0-9a-zA-Z]{8}$|^(PG-|RH-)([0-9a-zA-Z]{4}-){3}[0-9a-zA-Z]{2}$/.test(
           inputValue
         );
       return this.isValidCouponCode;
