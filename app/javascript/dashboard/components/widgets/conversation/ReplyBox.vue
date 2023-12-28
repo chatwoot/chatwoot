@@ -249,7 +249,7 @@ export default {
       showVariablesMenu: false,
       newConversationModalActive: false,
       draftUpdateDelayer: null,
-      typingUpdateDelayer: null,
+      previousTypingStatus: '',
       previousDraftMessage: '',
     };
   },
@@ -635,7 +635,7 @@ export default {
 
         this.draftUpdateDelayer = setTimeout(() => {
           this.previousDraftMessage = draftToSave;
-          context.$store.dispatch('draftMessages/set', {
+          this.$store.dispatch('draftMessages/set', {
             key,
             conversationId,
             message: draftToSave,
@@ -972,19 +972,16 @@ export default {
       const conversationId = this.currentChat.id;
       const isPrivate = this.isPrivate;
 
-      if (!conversationId) {
+      if (!conversationId || this.previousTypingStatus === status) {
         return;
       }
 
-      clearTimeout(this.typingUpdateDelayer);
-
-      this.typingUpdateDelayer = setTimeout(() => {
-        this.$store.dispatch('conversationTypingStatus/toggleTyping', {
-          status,
-          conversationId,
-          isPrivate,
-        });
-      }, 500)
+      this.previousTypingStatus = status;
+      this.$store.dispatch('conversationTypingStatus/toggleTyping', {
+        status,
+        conversationId,
+        isPrivate,
+      });
     },
     attachFile({ blob, file }) {
       const reader = new FileReader();
