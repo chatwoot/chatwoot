@@ -167,16 +167,16 @@
         this.closeDropdown()
       },
       onReplyAndResolve(){
-        this.toggleStatus(this.STATUS_TYPE.RESOLVED);
+        this.onSend();
         setTimeout(() => {
-          this.onSend();
-        }, 1000)
+          this.toggleStatus(this.STATUS_TYPE.RESOLVED);
+        }, 500)
       },
       onReplyAsPending(){
         this.onSend();
         setTimeout(() => {
           this.toggleStatus(this.STATUS_TYPE.PENDING);
-        }, 1000)
+        }, 500)
       },
       openDropdown(){
         this.showActionsDropdown = true
