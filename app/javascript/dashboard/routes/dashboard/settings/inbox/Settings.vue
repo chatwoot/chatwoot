@@ -186,20 +186,10 @@
             <option value="reply_and_resolve">
               Reply And Resolve
             </option>
-            <option value="reply_with_csat">
-              Reply with CSAT
-            </option>
             <option value="reply_as_pending">
               Reply as Pending
             </option>
           </select>
-          <p class="pb-1 text-sm not-italic text-slate-600 dark:text-slate-400">
-            {{
-              $t(
-                'INBOX_MGMT.SETTINGS_POPUP.ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT'
-              )
-            }}
-          </p>
         </label>
 
         <label v-if="isAWebWidgetInbox" class="w-[75%] pb-4">
@@ -497,7 +487,7 @@ export default {
       channelWelcomeTagline: '',
       selectedFeatureFlags: [],
       replyTime: '',
-      defaultReplyAction: '',
+      defaultReplyAction: 'reply_and_resolve',
       selectedTabIndex: 0,
       selectedPortalSlug: '',
       showBusinessNameInput: false,
