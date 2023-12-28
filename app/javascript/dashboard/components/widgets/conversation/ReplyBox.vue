@@ -110,7 +110,6 @@
       :mode="replyType"
       :on-file-upload="onFileUpload"
       :on-send="onSendReply"
-      :on-send-as-survey="onSendAsSurvey"
       :recording-audio-duration-text="recordingAudioDurationText"
       :recording-audio-state="recordingAudioState"
       :send-button-text="replyButtonLabel"
@@ -249,7 +248,9 @@ export default {
       showCannedMenu: false,
       showVariablesMenu: false,
       newConversationModalActive: false,
-      sendAsSurvey: false,
+      draftUpdateDelayer: null,
+      typingUpdateDelayer: null,
+      previousDraftMessage: '',
     };
   },
   computed: {
@@ -625,12 +626,21 @@ export default {
       if (this.message || this.message === '') {
         const key = `draft-${conversationId}-${replyType}`;
         const draftToSave = trimContent(this.message || '');
+        
+        if (this.previousDraftMessage === draftToSave) {
+          return;
+        }
 
-        this.$store.dispatch('draftMessages/set', {
-          key,
-          conversationId,
-          message: draftToSave,
-        });
+        clearTimeout(this.draftUpdateDelayer)
+
+        this.draftUpdateDelayer = setTimeout(() => {
+          this.previousDraftMessage = draftToSave;
+          context.$store.dispatch('draftMessages/set', {
+            key,
+            conversationId,
+            message: draftToSave,
+          });
+        }, 1000)
       }
     },
     setToDraft(conversationId, replyType) {
@@ -813,10 +823,6 @@ export default {
         this.confirmOnSendReply();
       }
     },
-    async onSendAsSurvey(){
-      this.sendAsSurvey = true;
-      this.onSendReply()
-    },
     async sendMessage(messagePayload) {
       try {
         await this.$store.dispatch(
@@ -827,7 +833,6 @@ export default {
         bus.$emit(BUS_EVENTS.MESSAGE_SENT);
         this.removeFromDraft();
         this.sendMessageAnalyticsData(messagePayload.private);
-        this.sendAsSurvey = false;
       } catch (error) {
         const errorMessage =
           error?.response?.data?.error || this.$t('CONVERSATION.MESSAGE_ERROR');
@@ -971,11 +976,15 @@ export default {
         return;
       }
 
-      this.$store.dispatch('conversationTypingStatus/toggleTyping', {
-        status,
-        conversationId,
-        isPrivate,
-      });
+      clearTimeout(this.typingUpdateDelayer);
+
+      this.typingUpdateDelayer = setTimeout(() => {
+        this.$store.dispatch('conversationTypingStatus/toggleTyping', {
+          status,
+          conversationId,
+          isPrivate,
+        });
+      }, 500)
     },
     attachFile({ blob, file }) {
       const reader = new FileReader();
@@ -1074,10 +1083,6 @@ export default {
 
       if (this.toEmails && !this.isOnPrivateNote) {
         messagePayload.toEmails = this.toEmails;
-      }
-
-      if (this.sendAsSurvey){
-        messagePayload.contentType = 'input_csat'
       }
 
       return messagePayload;

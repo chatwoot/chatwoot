@@ -87,10 +87,7 @@
         type: Function,
         default: () => {},
       },
-      onSendAsSurvey: {
-        type: Function,
-        default: () => {},
-      },
+
       inbox: {
         type: Object,
         default: () => ({}),
