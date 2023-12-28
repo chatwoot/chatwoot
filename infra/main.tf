@@ -17,7 +17,7 @@ variable "chatwoot_domain" {
 
 locals {
   environment = {
-    LOG_LEVEL                 = "debug"
+    LOG_LEVEL                 = "warn"
     SMTP_ADDRESS              = "email-smtp.eu-north-1.amazonaws.com"
     SMTP_PORT                 = "587"
     SMTP_ENABLE_STARTTLS_AUTO = "true"
@@ -37,7 +37,7 @@ locals {
     S3_BUCKET_NAME            = module.bucket.bucket_name
     DIRECT_UPLOADS_ENABLED    = "true"
 
-    RAILS_MAX_THREADS   = "5"
+    RAILS_MAX_THREADS   = "10"
     WEB_CONCURRENCY     = "2"
     SIDEKIQ_CONCURRENCY = "10"
   }

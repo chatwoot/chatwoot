@@ -21,6 +21,13 @@ module "container" {
   }
 
   environment = local.environment
+
+  health_check = {
+    command      = "wget -q --spider --proxy=off 127.0.0.1:3000/api || exit 1"
+    interval     = 45
+    start_period = 120
+    timeout      = 10
+  }
 }
 
 module "service" {
@@ -43,6 +50,11 @@ module "service" {
   scale_target_value_cpu = 50
 
   health_check = {
-    path = "/api"
+    path     = "/robots.txt"
+    interval = 30
+    timeout  = 10
   }
+
+  # avoids pressure on puma killing containers
+  health_check_grace_period_seconds = 2147483647
 }
