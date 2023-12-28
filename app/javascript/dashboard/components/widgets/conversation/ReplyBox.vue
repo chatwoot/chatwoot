@@ -1175,6 +1175,7 @@ export default {
 
 .reply-box {
   @apply border-t border-slate-50 dark:border-slate-700 bg-white dark:bg-slate-900;
+  min-width: 550px;
 
   &.is-private {
     @apply bg-yellow-50 dark:bg-yellow-200;
