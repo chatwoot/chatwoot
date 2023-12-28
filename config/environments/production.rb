@@ -39,6 +39,9 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
 
+  # Allow to specify public IP of reverse proxy if it's needed
+  config.action_dispatch.trusted_proxies = ENV['TRUSTED_PROXY_IPS'].split(/(?:\s*,\s*|\s+)/).map { |item| IPAddr.new(item) } if ENV['TRUSTED_PROXY_IPS'].present?
+
   # Store uploaded files on the local file system (see config/storage.yml for options)
   config.active_storage.service = ENV.fetch('ACTIVE_STORAGE_SERVICE', 'local').to_sym
 

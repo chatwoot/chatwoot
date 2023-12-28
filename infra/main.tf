@@ -10,6 +10,9 @@ data "cloudflare_zone" "digitaltolknet" {
   name = "digitaltolk.net"
 }
 
+data "cloudflare_ip_ranges" "all" {
+}
+
 variable "chatwoot_domain" {
   type    = string
   default = "helpdesk.digitaltolk.net"
@@ -36,9 +39,10 @@ locals {
     ACTIVE_STORAGE_SERVICE    = "amazon"
     S3_BUCKET_NAME            = module.bucket.bucket_name
     DIRECT_UPLOADS_ENABLED    = "true"
+    RAILS_MAX_THREADS         = "10"
+    WEB_CONCURRENCY           = "2"
+    SIDEKIQ_CONCURRENCY       = "10"
 
-    RAILS_MAX_THREADS   = "10"
-    WEB_CONCURRENCY     = "2"
-    SIDEKIQ_CONCURRENCY = "10"
+    TRUSTED_PROXY_IPS = "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,${join(",", data.cloudflare_ip_ranges.all.cidr_blocks)}"
   }
 }
