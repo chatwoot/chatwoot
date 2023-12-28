@@ -110,7 +110,6 @@
       :mode="replyType"
       :on-file-upload="onFileUpload"
       :on-send="onSendReply"
-      :on-send-as-survey="onSendAsSurvey"
       :recording-audio-duration-text="recordingAudioDurationText"
       :recording-audio-state="recordingAudioState"
       :send-button-text="replyButtonLabel"
@@ -249,7 +248,9 @@ export default {
       showCannedMenu: false,
       showVariablesMenu: false,
       newConversationModalActive: false,
-      sendAsSurvey: false,
+      draftUpdateDelayer: null,
+      previousTypingStatus: '',
+      previousDraftMessage: '',
     };
   },
   computed: {
@@ -625,12 +626,21 @@ export default {
       if (this.message || this.message === '') {
         const key = `draft-${conversationId}-${replyType}`;
         const draftToSave = trimContent(this.message || '');
+        
+        if (this.previousDraftMessage === draftToSave) {
+          return;
+        }
 
-        this.$store.dispatch('draftMessages/set', {
-          key,
-          conversationId,
-          message: draftToSave,
-        });
+        clearTimeout(this.draftUpdateDelayer)
+
+        this.draftUpdateDelayer = setTimeout(() => {
+          this.previousDraftMessage = draftToSave;
+          this.$store.dispatch('draftMessages/set', {
+            key,
+            conversationId,
+            message: draftToSave,
+          });
+        }, 1000)
       }
     },
     setToDraft(conversationId, replyType) {
@@ -813,10 +823,6 @@ export default {
         this.confirmOnSendReply();
       }
     },
-    async onSendAsSurvey(){
-      this.sendAsSurvey = true;
-      this.onSendReply()
-    },
     async sendMessage(messagePayload) {
       try {
         await this.$store.dispatch(
@@ -827,7 +833,6 @@ export default {
         bus.$emit(BUS_EVENTS.MESSAGE_SENT);
         this.removeFromDraft();
         this.sendMessageAnalyticsData(messagePayload.private);
-        this.sendAsSurvey = false;
       } catch (error) {
         const errorMessage =
           error?.response?.data?.error || this.$t('CONVERSATION.MESSAGE_ERROR');
@@ -967,10 +972,11 @@ export default {
       const conversationId = this.currentChat.id;
       const isPrivate = this.isPrivate;
 
-      if (!conversationId) {
+      if (!conversationId || this.previousTypingStatus === status) {
         return;
       }
 
+      this.previousTypingStatus = status;
       this.$store.dispatch('conversationTypingStatus/toggleTyping', {
         status,
         conversationId,
@@ -1076,10 +1082,6 @@ export default {
         messagePayload.toEmails = this.toEmails;
       }
 
-      if (this.sendAsSurvey){
-        messagePayload.contentType = 'input_csat'
-      }
-
       return messagePayload;
     },
     setCcEmails(value) {
@@ -1173,6 +1175,7 @@ export default {
 
 .reply-box {
   @apply border-t border-slate-50 dark:border-slate-700 bg-white dark:bg-slate-900;
+  min-width: 550px;
 
   &.is-private {
     @apply bg-yellow-50 dark:bg-yellow-200;

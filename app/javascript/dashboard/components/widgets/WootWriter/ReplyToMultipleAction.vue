@@ -6,11 +6,11 @@
         v-if="showReplyAndResolve"
         size="small"
         color-scheme="primary"
-        icon="checkmark"
+        icon="send"
         emoji="✅"
         @click="onReplyAndResolve"
       >
-        Reply And Resolve
+        and Resolve
       </woot-button>
 
       <woot-button
@@ -18,11 +18,11 @@
         v-else-if="showReplyAsPending"
         color-scheme="primary"
         size="small"
-        icon="book-clock"
+        icon="send"
         emoji="👀"
         @click="onReplyAsPending"
       >
-        Reply as pending
+        as Pending
       </woot-button>
 
       <woot-button
@@ -87,10 +87,7 @@
         type: Function,
         default: () => {},
       },
-      onSendAsSurvey: {
-        type: Function,
-        default: () => {},
-      },
+
       inbox: {
         type: Object,
         default: () => ({}),

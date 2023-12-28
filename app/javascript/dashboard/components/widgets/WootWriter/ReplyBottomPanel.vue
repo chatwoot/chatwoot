@@ -117,7 +117,6 @@
         :is-disabled="isSendDisabled"
         :message="message"
         :on-send="onSend"
-        :on-send-as-survey="onSendAsSurvey"
       />
       <woot-button
         size="small"
@@ -159,10 +158,6 @@ export default {
       default: REPLY_EDITOR_MODES.REPLY,
     },
     onSend: {
-      type: Function,
-      default: () => {},
-    },
-    onSendAsSurvey: {
       type: Function,
       default: () => {},
     },

@@ -232,9 +232,8 @@ class Message < ApplicationRecord
 
   def should_send_csat_at_reply?
     return false unless outgoing? && human_response? && !private?
-    return false unless can_send_csat_at_reply?
 
-    true
+    can_send_csat_at_reply?
   end
 
   def can_send_csat_at_reply?
