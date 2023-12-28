@@ -37,9 +37,10 @@ module "service" {
   service_cpu      = 256
   service_memory   = 2048
 
-  service_count_desired = 1
-  service_count_min     = 1
-  service_count_max     = 1
+  service_count_desired  = 1
+  service_count_min      = 1
+  service_count_max      = 4
+  scale_target_value_cpu = 50
 
   health_check = {
     path = "/api"
