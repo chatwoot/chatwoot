@@ -7,6 +7,7 @@
       'bg-woot-600 text-woot-50': messageType === MESSAGE_TYPE.OUTGOING,
       '-mx-2': !parentHasAttachments,
     }"
+    @click="scrollToMessage"
   >
     <message-preview
       :message="message"
@@ -19,6 +20,7 @@
 <script>
 import MessagePreview from 'dashboard/components/widgets/conversation/MessagePreview.vue';
 import { MESSAGE_TYPE } from 'shared/constants/messages';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 export default {
   name: 'ReplyTo',
@@ -41,6 +43,11 @@ export default {
   },
   data() {
     return { MESSAGE_TYPE };
+  },
+  methods: {
+    scrollToMessage() {
+      bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE, { messageId: this.message.id });
+    },
   },
 };
 </script>
