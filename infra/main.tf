@@ -43,6 +43,8 @@ locals {
     WEB_CONCURRENCY           = "2"
     SIDEKIQ_CONCURRENCY       = "10"
 
-    TRUSTED_PROXY_IPS = "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,${join(",", data.cloudflare_ip_ranges.all.cidr_blocks)}"
+    RACK_ATTACK_LIMIT             = "1024"
+    ENABLE_RACK_ATTACK_WIDGET_API = "false"
+    TRUSTED_PROXY_IPS             = "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,${join(",", data.cloudflare_ip_ranges.all.cidr_blocks)}"
   }
 }
