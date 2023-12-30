@@ -25,7 +25,7 @@ module "container" {
   health_check = {
     command      = "wget -q --spider --proxy=off 127.0.0.1:3000/api || exit 1"
     interval     = 45
-    start_period = 120
+    start_period = 90
     timeout      = 10
   }
 }
@@ -42,12 +42,12 @@ module "service" {
 
   cpu_architecture = "X86_64"
   service_cpu      = 256
-  service_memory   = 2048
+  service_memory   = 1024
 
   service_count_desired  = 1
   service_count_min      = 1
-  service_count_max      = 4
-  scale_target_value_cpu = 50
+  service_count_max      = 6
+  scale_target_value_cpu = 33
 
   health_check = {
     path     = "/robots.txt"

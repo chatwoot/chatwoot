@@ -21,6 +21,13 @@ module "container-sidekiq" {
   }
 
   environment = local.environment
+
+  health_check = {
+    command      = "ps aux | grep '[s]idekiq' || false"
+    interval     = 45
+    start_period = 90
+    timeout      = 10
+  }
 }
 
 module "service-sidekiq" {
