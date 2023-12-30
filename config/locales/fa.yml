@@ -122,11 +122,11 @@ fa:
         auto_resolved: "به دلیل %{duration} روز عدم فعالیت ، مکالمه توسط سیستم بسته شد"
         system_auto_open: سیستم به دلیل یک پیام دریافتی جدید، مکالمه را دوباره باز کرد.
       priority:
-        added: '%{user_name} اولویت را روی %{new_priority} تنظیم کرد'
-        updated: '%{user_name} اولویت را از %{old_priority} به %{new_priority} تغییر داد'
-        removed: '%{user_name} اولویت را حذف کرد'
+        added: 'تنظیم کرد %{new_priority} اولویت را روی %{user_name}'
+        updated: 'تغییر داد %{new_priority} به %{old_priority} اولویت را از %{user_name}'
+        removed: 'اولویت را حذف کرد %{user_name}'
       assignee:
-        self_assigned: "%{user_name} این مکالمه را به خود اختصاص داد"
+        self_assigned: "این مکالمه را به خود اختصاص داد %{user_name}"
         assigned: "%{user_name} گفتگو را به %{assignee_name} اختصاص داد"
         removed: "گفتگو توسط اپراتور %{user_name} به وضعیت اختصاص داده نشده تغییر یافت"
       team:
@@ -134,7 +134,7 @@ fa:
         assigned_with_assignee: "از طرف %{user_name} به تیم %{team_name} و ایجنت %{assignee_name} اختصاص داده شده است"
         removed: "اختصاص داده نشده از %{team_name} توسط %{user_name}"
       labels:
-        added: "%{user_name}، %{labels} را اضافه کرد"
+        added: "را اضافه کرد %{labels} ، %{user_name}"
         removed: "%{user_name}، %{labels} را حذف کرد"
       muted: "%{user_name} مکالمه را بی صدا کرد"
       unmuted: "%{user_name} مکالمه را از حالت بی صدا خراج کرد"
