@@ -6,15 +6,13 @@ include:
 stages:
   - build_and_publish
   - plan
+  - comment
   - apply
 
 default:
-  image: ecr.digitaltolk.net/dtolk/dope/docker-builder
   services:
     - name: public.ecr.aws/docker/library/docker:24-dind
       alias: docker
-  tags:
-    - shared
   before_script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - eval $(ssh-agent -s)
@@ -56,6 +54,13 @@ plan_infra:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       variables:
         TF_VAR_docker_image_tag: "mr-$CI_MERGE_REQUEST_IID-$CI_PIPELINE_ID"
+
+comment_infra:
+  extends: .comment
+  dependencies:
+    - plan_infra
+  environment:
+    name: infra
 
 apply_infra:
   extends: .apply

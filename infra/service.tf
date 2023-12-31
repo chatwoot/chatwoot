@@ -4,7 +4,7 @@ module "container" {
   image  = "ecr.digitaltolk.net/${local.system_repo}:${var.docker_image_tag}"
 
   cpu    = 256
-  memory = 2048
+  memory = 1024
 
   publish = [3000]
 
