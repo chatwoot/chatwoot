@@ -16,7 +16,7 @@
           <div>{{ config.replyTime }}</div>
         </div>
       </div>
-      <div v-if="isDefaultScreen" class="header-expanded">
+      <div v-if="isDefaultScreen" class="header-expanded" dir="rtl">
         <h2>{{ config.welcomeHeading }}</h2>
         <p>{{ config.welcomeTagline }}</p>
       </div>

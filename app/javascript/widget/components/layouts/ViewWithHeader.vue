@@ -6,7 +6,7 @@
   >
     <div class="flex flex-col h-full relative">
       <div
-        class="header-wrap sticky top-0 z-40 transition-all"
+        dir="rtl" class="header-wrap sticky top-0 z-40 transition-all"
         :class="{
           expanded: !isHeaderCollapsed,
           collapsed: isHeaderCollapsed,
