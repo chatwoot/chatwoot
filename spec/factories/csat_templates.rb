@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :csat_template do
-    inbox
+    account
   end
 end

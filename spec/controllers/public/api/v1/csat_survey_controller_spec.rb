@@ -6,7 +6,7 @@ RSpec.describe 'Public Survey Responses API', type: :request do
       conversation = create(:conversation)
       create(:message, conversation: conversation, content_type: 'input_csat')
       get "/public/api/v1/csat_survey/#{conversation.uuid}"
-      data = response.parsed_body
+      data = response.parsed_body.first
       expect(response).to have_http_status(:success)
       expect(data['conversation_id']).to eq conversation.id
     end
