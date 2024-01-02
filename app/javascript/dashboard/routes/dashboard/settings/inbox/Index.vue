@@ -82,14 +82,13 @@
                   </router-link>
 
                   <woot-button
-                    v-if="isAdmin"
+                    v-if="isAdmin && item.channel_type === 'Channel::Whatsapp'"
                     v-tooltip.top="'Sync templates'"
                     variant="smooth"
-                    color-scheme="alert"
                     size="tiny"
                     class-names="grey-btn"
                     :is-loading="loading[item.id]"
-                    icon="cloud-outline"
+                    icon="whatsapp"
                     @click="syncTemplates(item)"
                   />
 
