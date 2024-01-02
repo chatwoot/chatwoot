@@ -1,8 +1,8 @@
 {
   "FILTER": {
     "TITLE": "Φιλτράρισμα συνομιλιών",
-    "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
-    "EDIT_CUSTOM_FILTER": "Edit Folder",
+    "SUBTITLE": "Προσθέστε τα φίλτρα σας παρακάτω και πατήστε \"Εφαρμογή φίλτρων\" για να κρατήσετε μόνο το επιθυμητό μέρος της συνομιλίας.",
+    "EDIT_CUSTOM_FILTER": "Επεξεργασία Φακέλου",
     "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
     "ADD_NEW_FILTER": "Add filter",
     "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
