@@ -213,6 +213,13 @@ export const actions = {
       throwErrorMessage(error);
     }
   },
+  syncTemplates: async (_, { id }) => {
+    try {
+      await InboxesAPI.syncTemplates(id);
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
   updateInboxIMAP: async ({ commit }, { id, ...inboxParams }) => {
     commit(types.default.SET_INBOXES_UI_FLAG, { isUpdatingIMAP: true });
     try {

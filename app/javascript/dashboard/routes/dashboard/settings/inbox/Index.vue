@@ -83,6 +83,18 @@
 
                   <woot-button
                     v-if="isAdmin"
+                    v-tooltip.top="'Sync templates'"
+                    variant="smooth"
+                    color-scheme="alert"
+                    size="tiny"
+                    class-names="grey-btn"
+                    :is-loading="loading[item.id]"
+                    icon="cloud-outline"
+                    @click="syncTemplates(item)"
+                  />
+
+                  <woot-button
+                    v-if="isAdmin"
                     v-tooltip.top="$t('INBOX_MGMT.DELETE.BUTTON_TEXT')"
                     variant="smooth"
                     color-scheme="alert"
@@ -214,6 +226,17 @@ export default {
     openDelete(inbox) {
       this.showDeletePopup = true;
       this.selectedInbox = inbox;
+    },
+    syncTemplates(inbox) {
+      this.selectedInbox = inbox;
+      this.$store.dispatch(
+          'inboxes/syncTemplates',
+          {
+            id: this.selectedInbox.id
+          }
+        );
+
+      alert('Templates sync scheduled.');
     },
     closeDelete() {
       this.showDeletePopup = false;
