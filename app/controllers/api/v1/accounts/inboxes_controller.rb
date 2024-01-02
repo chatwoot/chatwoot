@@ -47,6 +47,12 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     update_channel if channel_update_required?
   end
 
+  def sync_templates
+    @inbox.channel.message_templates_last_updated = nil
+    @inbox.channel.save!
+  end
+
+
   def agent_bot
     @agent_bot = @inbox.agent_bot
   end
