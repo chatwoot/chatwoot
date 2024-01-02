@@ -30,7 +30,7 @@ RSpec.describe 'Public Survey Responses API', type: :request do
             params: params,
             as: :json
       expect(response).to have_http_status(:success)
-      data = response.parsed_body.first
+      data = response.parsed_body
       expect(data['conversation_id']).to eq conversation.id
       expect(data['csat_survey_response']['conversation_id']).to eq conversation.id
       expect(data['csat_survey_response']['feedback_message']).to eq 'amazing experience'
