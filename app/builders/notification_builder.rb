@@ -19,6 +19,7 @@ class NotificationBuilder
     return if notification_setting.blank?
 
     return true if notification_setting.public_send("email_#{notification_type}?")
+    return false unless primary_actor.inbox.push_notification_enabled?
     return true if notification_setting.public_send("push_#{notification_type}?")
 
     false
