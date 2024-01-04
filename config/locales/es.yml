@@ -222,7 +222,7 @@ es:
   slack_unfurl:
     fields:
       name: Nombre
-      email: E-mail
+      email: Correo electrónico
       phone_number: Teléfono
       company_name: Empresa
       inbox_name: Bandeja de entrada
