@@ -155,6 +155,7 @@ class Channel::Telegram < ApplicationRecord
                     chat_id: chat_id,
                     text: text,
                     reply_markup: reply_markup,
+                    parse_mode: 'Markdown',
                     reply_to_message_id: reply_to_message_id
                   })
   end
