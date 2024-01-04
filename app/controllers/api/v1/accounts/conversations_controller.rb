@@ -61,7 +61,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def toggle_status
     if pending_to_open_by_bot?
-      @conversation.handoff
+      @conversation.bot_handoff!
     elsif params[:status].present?
       set_conversation_status
       @status = @conversation.save!
