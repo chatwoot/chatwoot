@@ -323,6 +323,9 @@ RSpec.describe 'Conversations API', type: :request do
 
   describe 'POST /api/v1/accounts/{account.id}/conversations/:id/toggle_status' do
     let(:conversation) { create(:conversation, account: account) }
+    let(:inbox) { create(:inbox, account: account) }
+    let(:pending_conversation) { create(:conversation, inbox: inbox, account: account, status: 'pending') }
+    let(:agent_bot) { create(:agent_bot, account: account) }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -424,6 +427,42 @@ RSpec.describe 'Conversations API', type: :request do
       #   expect(conversation.reload.status).to eq('pending')
       # end
     end
+
+    context 'when it is an authenticated bot' do
+      # this test will basically ensure that the status actually changes
+      # regardless of the value to be done
+      it 'returns authorized for arbritrary status' do
+        create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
+
+        conversation.update!(status: 'open')
+        expect(conversation.reload.status).to eq('open')
+        snoozed_until = (DateTime.now.utc + 2.days).to_i
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
+             headers: { api_access_token: agent_bot.access_token.token },
+             params: { status: 'snoozed', snoozed_until: snoozed_until },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.status).to eq('snoozed')
+      end
+
+      it 'triggers handoff event when moving from pending to open' do
+        create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
+        allow(Rails.configuration.dispatcher).to receive(:dispatch)
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{pending_conversation.display_id}/toggle_status",
+             headers: { api_access_token: agent_bot.access_token.token },
+             params: { status: 'open' },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(pending_conversation.reload.status).to eq('open')
+        expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+          .with(Events::Types::CONVERSATION_BOT_HANDOFF, kind_of(Time), conversation: pending_conversation, notifiable_assignee_change: false,
+                                                                        changed_attributes: anything, performed_by: anything)
+      end
+    end
   end
 
   describe 'POST /api/v1/accounts/{account.id}/conversations/:id/toggle_priority' do
@@ -499,6 +538,7 @@ RSpec.describe 'Conversations API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+          .with
           .with(Conversation::CONVERSATION_TYPING_ON, kind_of(Time), { conversation: conversation, user: agent, is_private: false })
       end
 
@@ -511,6 +551,7 @@ RSpec.describe 'Conversations API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+          .with
           .with(Conversation::CONVERSATION_TYPING_ON, kind_of(Time), { conversation: conversation, user: agent, is_private: true })
       end
     end
