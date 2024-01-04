@@ -72,7 +72,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def pending_to_open_by_bot?
-    @conversation.status == 'pending' && params[:status] == 'open' && Current.user.nil?
+    @conversation.status == 'pending' && params[:status] == 'open' && Current.user.nil? && Current.executed_by.is_a?(AgentBot)
   end
 
   def should_assign_conversation?

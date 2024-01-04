@@ -15,6 +15,7 @@ module AccessTokenAuthHelper
 
     @resource = @access_token.owner
     Current.user = @resource if current_user.is_a?(User)
+    Current.executed_by = @resource
   end
 
   def validate_bot_access_token!
