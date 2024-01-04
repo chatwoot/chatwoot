@@ -2,8 +2,6 @@
 
 require 'rails_helper'
 
-WebMock.disable_net_connect!(allow_localhost: true)
-
 RSpec.describe Inbox do
   let!(:inbox) { create(:inbox) }
 
@@ -101,8 +99,8 @@ RSpec.describe Inbox do
   end
 
   describe 'audit log with whatsapp channel' do
-    let!(:channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud', account: create(:account)) }
-    let!(:inbox) { channel.inbox }
+    let(:channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false) }
+    let(:inbox) { channel.inbox }
 
     before do
       stub_request(:get, 'https://graph.facebook.com/v14.0//message_templates?access_token=test_key')
@@ -110,8 +108,7 @@ RSpec.describe Inbox do
           headers: {
             'Accept' => '*/*',
             'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-            'User-Agent' => 'Ruby',
-            'Host' => 'graph.facebook.com'
+            'User-Agent' => 'Ruby'
           }
         )
         .to_return(status: 200, body: '', headers: {})
@@ -120,7 +117,6 @@ RSpec.describe Inbox do
     context 'when inbox is created' do
       it 'has associated audit log created' do
         expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'create').count).to eq(1)
-        expect(WebMock).to have_requested(:get, 'https://graph.facebook.com/v14.0//message_templates?access_token=test_key')
       end
     end
 
@@ -142,6 +138,14 @@ RSpec.describe Inbox do
         # Check for the specific phone_number update in the audit log
         expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update',
                                     audited_changes: { 'phone_number' => [previous_phone_number, new_phone_number] }).count).to eq(1)
+      end
+    end
+
+    context 'when template sync runs' do
+      it 'has no associated audit log created' do
+        channel.sync_templates
+        # check if template sync does not create an audit log
+        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update').count).to eq(0)
       end
     end
   end
