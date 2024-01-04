@@ -3,6 +3,7 @@ module AccountCacheRevalidator
 
   included do
     after_commit :update_account_cache, on: [:create, :update]
+    after_destroy :update_account_cache
   end
 
   def update_account_cache
