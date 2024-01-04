@@ -113,13 +113,13 @@ GEM
       kaminari (>= 1.0)
       sassc-rails (~> 2.1)
       selectize-rails (~> 0.6)
-    administrate-field-active_storage (1.0.0)
+    administrate-field-active_storage (1.0.1)
       administrate (>= 0.2.2)
       rails (>= 7.0)
-    administrate-field-belongs_to_search (0.8.0)
+    administrate-field-belongs_to_search (0.9.0)
       administrate (>= 0.3, < 1.0)
       jbuilder (~> 2)
-      rails (>= 4.2, < 7.1)
+      rails (>= 4.2, < 7.2)
       selectize-rails (~> 0.6)
     annotate (3.2.0)
       activerecord (>= 3.2, < 8.0)
@@ -472,7 +472,7 @@ GEM
       activerecord (>= 5.2)
     net-http-persistent (4.0.2)
       connection_pool (~> 2.2)
-    net-imap (0.4.5)
+    net-imap (0.4.9)
       date
       net-protocol
     net-pop (0.1.2)
@@ -487,7 +487,7 @@ GEM
       sidekiq
     newrelic_rpm (9.6.0)
       base64
-    nio4r (2.6.0)
+    nio4r (2.7.0)
     nokogiri (1.16.0)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
@@ -841,8 +841,8 @@ DEPENDENCIES
   activerecord-import
   acts-as-taggable-on
   administrate (>= 0.19.0)
-  administrate-field-active_storage (>= 1.0.0)
-  administrate-field-belongs_to_search
+  administrate-field-active_storage (>= 1.0.1)
+  administrate-field-belongs_to_search (>= 0.9.0)
   annotate
   attr_extras
   audited (~> 5.4, >= 5.4.1)
