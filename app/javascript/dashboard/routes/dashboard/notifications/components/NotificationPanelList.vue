@@ -41,9 +41,8 @@
                 }}
               </span>
             </div>
-            <div>
+            <div v-if="hasAssignee(notificationItem)">
               <thumbnail
-                v-if="hasAssignee(notificationItem)"
                 :src="getAssigneeThumbnail(notificationItem)"
                 size="16px"
                 :username="getAssigneeName(notificationItem)"
@@ -140,14 +139,17 @@ export default {
         });
       }
     },
-    hasAssignee(notification) {
+    getAssigneeDetails(notification) {
       return notification?.primary_actor?.meta?.assignee;
     },
+    hasAssignee(notification) {
+      return !!this.getAssigneeDetails(notification);
+    },
     getAssigneeThumbnail(notification) {
-      return notification?.primary_actor?.meta?.assignee?.thumbnail;
+      return this.getAssigneeDetails(notification)?.thumbnail || '';
     },
     getAssigneeName(notification) {
-      return notification?.primary_actor?.meta?.assignee?.name;
+      return this.getAssigneeDetails(notification)?.name || '';
     },
   },
 };
