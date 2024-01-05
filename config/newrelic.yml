@@ -30,7 +30,7 @@ common: &default_settings
     enabled: <%= ENV.fetch('NEW_RELIC_APPLICATION_LOGGING_ENABLED', false) %>
     forwarding:
       # If `true`, the agent captures log records emitted by this application.
-      enabled: true
+      enabled: <%= ENV.fetch('NEW_RELIC_APPLICATION_LOGGING_FORWARDING_ENABLED', true) %>
       # Defines the maximum number of log records to buffer in memory at a time.
       max_samples_stored: 30000
     metrics:
@@ -40,7 +40,7 @@ common: &default_settings
       # If `true`, the agent decorates logs with metadata to link to entities, hosts, traces, and spans.
       # This requires a log forwarder to send your log files to New Relic.
       # This should not be used when forwarding is enabled.
-      enabled: false
+      enabled: <%= ENV.fetch('NEW_RELIC_APPLICATION_LOGGING_DECORATING_ENABLED', false) %>
 
 
 # Environment-specific settings are in this section.
