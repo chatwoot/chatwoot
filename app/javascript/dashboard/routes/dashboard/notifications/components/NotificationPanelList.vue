@@ -44,9 +44,9 @@
             <div>
               <thumbnail
                 v-if="hasAssignee(notificationItem)"
-                :src="notificationItem.primary_actor.meta.assignee.thumbnail"
+                :src="getAssigneeThumbnail(notificationItem)"
                 size="16px"
-                :username="notificationItem.primary_actor.meta.assignee.name"
+                :username="getAssigneeName(notificationItem)"
               />
             </div>
           </div>
@@ -141,7 +141,13 @@ export default {
       }
     },
     hasAssignee(notification) {
-      return notification.primary_actor.meta?.assignee;
+      return notification?.primary_actor?.meta?.assignee;
+    },
+    getAssigneeThumbnail(notification) {
+      return notification?.primary_actor?.meta?.assignee?.thumbnail;
+    },
+    getAssigneeName(notification) {
+      return notification?.primary_actor?.meta?.assignee?.name;
     },
   },
 };
