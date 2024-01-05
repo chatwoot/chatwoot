@@ -83,7 +83,7 @@ class ReplyMailbox < ApplicationMailbox
   end
 
   def validate_resource(resource)
-    raise 'Resource not found' if resource.nil?
+    raise 'Conversation not found' if resource.nil?
 
     resource
   end
