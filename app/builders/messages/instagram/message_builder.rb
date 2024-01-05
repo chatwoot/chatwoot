@@ -48,6 +48,10 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
     @outgoing_echo ? recipient_id : sender_id
   end
 
+  def message_is_unsupported?
+    message[:is_unsupported].present? && @messaging[:message][:is_unsupported] == true
+  end
+
   def sender_id
     @messaging[:sender][:id]
   end
@@ -126,7 +130,8 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
       content: message_content,
       sender: @outgoing_echo ? nil : contact,
       content_attributes: {
-        in_reply_to_external_id: message_reply_attributes
+        in_reply_to_external_id: message_reply_attributes,
+        is_unsupported: message_is_unsupported?
       }
     }
   end
