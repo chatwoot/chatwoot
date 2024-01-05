@@ -11,8 +11,8 @@ describe('#messageStamp', () => {
 
 describe('#messageTimestamp', () => {
   it('should return the message date in the specified format if the message was sent in the current year', () => {
-    expect(TimeMixin.methods.messageTimestamp(1680777464)).toEqual(
-      'Apr 6, 2023'
+    expect(TimeMixin.methods.messageTimestamp(1704433425)).toEqual(
+      'Jan 5, 2024'
     );
   });
   it('should return the message date and time in a different format if the message was sent in a different year', () => {
