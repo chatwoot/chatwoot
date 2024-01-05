@@ -109,11 +109,20 @@ class DashboardAudioNotificationHelper {
   };
 
   shouldNotifyOnMessage = message => {
+    if (!this.isAudioNotificationEnabled(message)) {
+      return;
+    }
+
     if (this.audioAlertType === 'mine') {
       return this.isConversationAssignedToCurrentUser(message);
     }
     return this.audioAlertType === 'all';
   };
+
+  isAudioNotificationEnabled = message => {
+    const inbox = window.WOOT.$store.getters['inboxes/getInbox'](message.inbox_id)
+    return inbox.audio_notification_enabled;
+  }
 
   onNewMessage = message => {
     // If the message is sent by the current user or the
