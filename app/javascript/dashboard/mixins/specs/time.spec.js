@@ -1,4 +1,5 @@
 import TimeMixin from '../time';
+import { format } from 'date-fns';
 
 describe('#messageStamp', () => {
   it('returns correct value', () => {
@@ -11,8 +12,9 @@ describe('#messageStamp', () => {
 
 describe('#messageTimestamp', () => {
   it('should return the message date in the specified format if the message was sent in the current year', () => {
-    expect(TimeMixin.methods.messageTimestamp(1704433425)).toEqual(
-      'Jan 5, 2024'
+    const currentEpochTime = Math.floor(new Date().getTime() / 1000);
+    expect(TimeMixin.methods.messageTimestamp(currentEpochTime)).toEqual(
+      format(new Date(currentEpochTime * 1000), 'MMM d, yyyy')
     );
   });
   it('should return the message date and time in a different format if the message was sent in a different year', () => {
