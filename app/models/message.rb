@@ -299,6 +299,10 @@ class Message < ApplicationRecord
   end
 
   def dispatch_update_event
+    # ref: https://github.com/rails/rails/issues/44500
+    # we want to skip the update event if the message is not updated
+    return if previous_changes.blank?
+
     Rails.configuration.dispatcher.dispatch(MESSAGE_UPDATED, Time.zone.now, message: self, performed_by: Current.executed_by,
                                                                             previous_changes: previous_changes)
   end
