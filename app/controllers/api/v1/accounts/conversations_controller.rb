@@ -60,6 +60,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def toggle_status
+    # FIXME: move this logic into a service object
     if pending_to_open_by_bot?
       @conversation.bot_handoff!
     elsif params[:status].present?
@@ -72,7 +73,9 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def pending_to_open_by_bot?
-    @conversation.status == 'pending' && params[:status] == 'open' && Current.user.nil? && Current.executed_by.is_a?(AgentBot)
+    return false unless Current.user.is_a?(AgentBot)
+
+    @conversation.status == 'pending' && params[:status] == 'open'
   end
 
   def should_assign_conversation?
