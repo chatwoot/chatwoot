@@ -11,6 +11,9 @@ class TriggerScheduledItemsJob < ApplicationJob
     # Job to reopen snoozed conversations
     Conversations::ReopenSnoozedConversationsJob.perform_later
 
+    # Job to reopen snoozed notifications
+    Notification::ReopenSnoozedNotificationsJob.perform_later
+
     # Job to auto-resolve conversations
     Account::ConversationsResolutionSchedulerJob.perform_later
 
