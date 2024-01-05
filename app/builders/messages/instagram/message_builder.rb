@@ -122,7 +122,7 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def message_params
-    {
+    params = {
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
       message_type: message_type,
@@ -130,10 +130,12 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
       content: message_content,
       sender: @outgoing_echo ? nil : contact,
       content_attributes: {
-        in_reply_to_external_id: message_reply_attributes,
-        is_unsupported: message_is_unsupported?
+        in_reply_to_external_id: message_reply_attributes
       }
     }
+
+    params[:content_attributes][:is_unsupported] = true if message_is_unsupported?
+    params
   end
 
   def already_sent_from_chatwoot?

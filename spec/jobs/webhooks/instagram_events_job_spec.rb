@@ -46,6 +46,7 @@ describe Webhooks::InstagramEventsJob do
         expect(instagram_inbox.contacts.last.additional_attributes['social_profiles']['instagram']).to eq 'some_user_name'
         expect(instagram_inbox.conversations.count).to be 1
         expect(instagram_inbox.messages.count).to be 1
+        expect(instagram_inbox.messages.last.content_attributes['is_unsupported']).to be_nil
       end
 
       it 'creates standby message in the instagram inbox' do
