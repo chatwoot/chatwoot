@@ -123,13 +123,17 @@ export default {
       records: 'csatTemplates/records',
       csatTemplateEnabled: 'csatTemplates/csatTemplateEnabled',
       currentTemplateId: 'csatTemplates/getCurrentTemplateId',
-      currentCsatTrigger: 'csatTemplates/getCsatTrigger'
+      selectedCsatTrigger: 'csatTemplates/getCsatTrigger',
     }),
   },
   mounted() {
     this.$store.dispatch('csatTemplates/get');
     this.$store.dispatch('csatTemplates/getStatus');
     this.$store.dispatch('csatTemplates/getCsatTrigger')
+
+    if (this.selectedCsatTrigger){
+      this.csatTrigger = this.selectedCsatTrigger;
+    }
   },
   methods: {
     openAddCsatTemplatesModal() {
@@ -153,11 +157,9 @@ export default {
     },
   },
   watch: {
-    currentCsatTrigger(){
-      if (this.currentCsatTrigger){
-        this.csatTrigger = this.currentCsatTrigger;
-      }
-    },
+    selectedCsatTrigger(newValue){
+      this.csatTrigger = newValue;
+    }
   }
 };
 </script>
