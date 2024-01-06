@@ -123,7 +123,7 @@
         :key="socialProfile.key"
         class="input-group"
       >
-        <span class="input-group-label">{{ socialProfile.prefixURL }}</span>
+        <span class="input-group-label">{{ socialProfile.label }}</span>
         <input
           v-model="socialProfileUserNames[socialProfile.key]"
           class="input-group-field"
@@ -193,12 +193,20 @@ export default {
         twitter: '',
         linkedin: '',
         github: '',
+        instagram: '',
+        line: '',
+        telegram: '',
+        website: '',
       },
       socialProfileKeys: [
-        { key: 'facebook', prefixURL: 'https://facebook.com/' },
-        { key: 'twitter', prefixURL: 'https://twitter.com/' },
-        { key: 'linkedin', prefixURL: 'https://linkedin.com/' },
-        { key: 'github', prefixURL: 'https://github.com/' },
+        { key: 'facebook', label: 'https://facebook.com/' },
+        { key: 'twitter', label: 'https://twitter.com/' },
+        { key: 'linkedin', label: 'https://linkedin.com/' },
+        { key: 'github', label: 'https://github.com/' },
+        { key: 'instagram', label: 'https://instagram.com/' },
+        { key: 'line', label: 'Line User Id '},
+        { key: 'telegram', label: 'Telegram Username '},
+        { key: 'website', label: 'Website: https://'},
       ],
     };
   },
@@ -310,6 +318,9 @@ export default {
         linkedin: socialProfiles.linkedin || '',
         github: socialProfiles.github || '',
         instagram: socialProfiles.instagram || '',
+        line: socialProfiles.line || '',
+        telegram: socialProfiles.telegram || '',
+        website: socialProfiles.website || '',
       };
     },
     getContactObject() {
