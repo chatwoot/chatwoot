@@ -79,7 +79,8 @@ class Telegram::IncomingMessageService
   def additional_attributes
     {
       username: telegram_params_username,
-      language_code: telegram_params_language_code
+      language_code: telegram_params_language_code,
+      social_profiles: { telegram: telegram_params_username }
     }
   end
 
