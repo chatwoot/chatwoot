@@ -12,13 +12,6 @@
         />
       </div>
       <div
-        v-if="isUnsupported"
-        class="text-sm border-dashed border border-yellow-300 text-yellow-700 dark:text-yellow-200 max-w-[300px] px-2 py-1.5 rounded-md bg-yellow-50 dark:bg-yellow-700 dark:border-yellow-200/20"
-      >
-        {{ $t('CONVERSATION.UNSUPPORTED_MESSAGE') }}
-      </div>
-      <div
-        v-else
         v-tooltip.top-start="messageToolTip"
         :class="bubbleClass"
         @contextmenu="openContextMenu($event)"
@@ -36,8 +29,11 @@
           :message-type="data.message_type"
           :parent-has-attachments="hasAttachments"
         />
+        <div v-if="isUnsupported">
+          {{ $t('CONVERSATION.UNSUPPORTED_MESSAGE') }}
+        </div>
         <bubble-text
-          v-if="data.content"
+          v-else-if="data.content"
           :message="message"
           :is-email="isEmailContentType"
           :display-quoted-button="displayQuotedButton"
@@ -226,6 +222,7 @@ export default {
         this.hasAttachments ||
         this.data.content ||
         this.isEmailContentType ||
+        this.isUnsupported ||
         this.isAnIntegrationMessage
       );
     },
@@ -414,6 +411,7 @@ export default {
       return {
         bubble: this.isBubble,
         'is-private': this.data.private,
+        'is-unsupported': this.isUnsupported,
         'is-image': this.hasMediaAttachment('image'),
         'is-video': this.hasMediaAttachment('video'),
         'is-text': this.hasText,
@@ -537,6 +535,14 @@ export default {
 .wrap {
   > .bubble {
     @apply min-w-[128px];
+
+    &.is-unsupported {
+      @apply text-sm border-dashed border border-yellow-400 text-yellow-700 dark:text-yellow-200 bg-yellow-50 dark:bg-yellow-700 dark:border-yellow-200/20;
+
+      .message-text--metadata .time {
+        @apply text-yellow-700 dark:text-yellow-300;
+      }
+    }
 
     &.is-image,
     &.is-video {
