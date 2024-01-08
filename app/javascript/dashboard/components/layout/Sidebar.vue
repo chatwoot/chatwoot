@@ -158,6 +158,7 @@ export default {
     this.$store.dispatch('notifications/unReadCount');
     this.$store.dispatch('teams/get');
     this.$store.dispatch('attributes/get');
+    this.$store.dispatch('userNotificationSettings/get');
     this.fetchCustomViews();
   },
 
