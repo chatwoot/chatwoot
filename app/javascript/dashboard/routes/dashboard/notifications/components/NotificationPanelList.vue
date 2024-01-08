@@ -140,7 +140,8 @@ export default {
       }
     },
     getAssigneeDetails(notification) {
-      return notification?.primary_actor?.meta?.assignee;
+      const { primary_actor: primaryActor } = notification;
+      return primaryActor?.meta?.assignee;
     },
     hasAssignee(notification) {
       return !!this.getAssigneeDetails(notification);
