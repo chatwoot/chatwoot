@@ -60,6 +60,6 @@ class NotificationFinder
   end
 
   def notifications
-    @notifications.page(current_page).per(RESULTS_PER_PAGE).order(last_activity_at: :asc)
+    @notifications.page(current_page).per(RESULTS_PER_PAGE).order(last_activity_at: :desc)
   end
 end
