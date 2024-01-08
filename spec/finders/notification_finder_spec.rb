@@ -13,49 +13,42 @@ describe NotificationFinder do
     create(:notification, account: account, user: user, updated_at: DateTime.now.utc + 2.days, last_activity_at: DateTime.now.utc + 2.days)
     create(:notification, account: account, user: user, updated_at: DateTime.now.utc + 4.days, last_activity_at: DateTime.now.utc + 4.days,
                           notification_type: :conversation_creation)
+    create(:notification, account: account, user: user, updated_at: DateTime.now.utc + 5.days, last_activity_at: DateTime.now.utc + 5.days,
+                          notification_type: :conversation_mention)
+    create(:notification, account: account, user: user, updated_at: DateTime.now.utc + 6.days, last_activity_at: DateTime.now.utc + 6.days,
+                          notification_type: :participating_conversation_new_message)
   end
 
   describe '#perform' do
-    context 'with snoozed status' do
-      let(:params) { { status: 'snoozed' } }
-
-      it 'filter notifications by status' do
-        result = notification_finder.perform
-        expect(result.length).to be 1
-      end
-    end
-
-    context 'without snoozed status' do
+    context 'when params are empty' do
       let(:params) { {} }
 
-      it 'returns all notifications' do
+      it 'returns notifications which aren not snoozed' do
         result = notification_finder.perform
         expect(result.length).to be 3
       end
-    end
 
-    context 'when order by last_activity_at' do
-      let(:params) { {} }
-
-      it 'returns all notifications' do
+      it 'orders notifications by last activity at' do
         result = notification_finder.perform
         expect(result.first.last_activity_at).to be > result.last.last_activity_at
-        expect(result.first.last_activity_at).to be > result.last.last_activity_at
       end
-    end
 
-    context 'when order by user notification settings' do
-      let(:params) { {} }
-
-      before do
+      it 'filter notifications by user preferences' do
         notification_setting = user.notification_settings.find_by(account_id: account.id)
         notification_setting.selected_email_flags = [:email_conversation_creation]
         notification_setting.save!
-      end
 
-      it 'returns all notifications' do
         result = notification_finder.perform
         expect(result.length).to be 4
+      end
+    end
+
+    context 'when snoozed param is passed' do
+      let(:params) { { status: 'snoozed' } }
+
+      it 'returns only snoozed notifications' do
+        result = notification_finder.perform
+        expect(result.length).to be 1
       end
     end
   end

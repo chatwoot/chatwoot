@@ -47,10 +47,6 @@ class Notification < ApplicationRecord
   after_create_commit :process_notification_delivery, :dispatch_create_event
   after_destroy_commit :dispatch_destroy_event
 
-  # TODO: Get rid of default scope
-  # https://stackoverflow.com/a/1834250/939299
-  default_scope { order(last_activity_at: :desc) }
-
   PRIMARY_ACTORS = ['Conversation'].freeze
 
   def push_event_data
