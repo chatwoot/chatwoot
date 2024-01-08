@@ -58,6 +58,14 @@ class Channel::Telegram < ApplicationRecord
 
   private
 
+  def render_markdown_to_text(text)
+    markdown_renderer = TelegramMarkdownRenderer.new
+    doc = CommonMarker.render_doc(text, :DEFAULT)
+    html = markdown_renderer.render(doc)
+
+    render_as_html_safe(html)
+  end
+
   def ensure_valid_bot_token
     response = HTTParty.get("#{telegram_api_url}/getMe")
     unless response.success?
@@ -149,14 +157,36 @@ class Channel::Telegram < ApplicationRecord
                   })
   end
 
+  def convert_markdown_to_telegram(text)
+    # Convert bold - double asterisks to single asterisk in Telegram
+    text.gsub!(/\*\*(.*?)\*\*/, '*\1*')
+
+    # Convert italics - single underscore (same in both CommonMark and Telegram)
+    # No conversion needed for italics as both use _text_
+
+    # Convert underline - not typically used in CommonMark, so we'll leave it as is
+
+    # Convert strikethrough - double tilde to single tilde in Telegram
+    text.gsub!(/~~(.*?)~~/, '~\1~')
+
+    text
+  end
+
   def message_request(chat_id, text, reply_markup = nil, reply_to_message_id = nil)
+    to_html = convert_markdown_to_telegram(text)
     HTTParty.post("#{telegram_api_url}/sendMessage",
                   body: {
                     chat_id: chat_id,
-                    text: text,
+                    text: to_html,
                     reply_markup: reply_markup,
-                    parse_mode: 'Markdown',
+                    parse_mode: 'MarkdownV2',
                     reply_to_message_id: reply_to_message_id
                   })
+  end
+
+  def render_as_html_safe(html)
+    # rubocop:disable Rails/OutputSafety
+    html.html_safe
+    # rubocop:enable Rails/OutputSafety
   end
 end
