@@ -25,6 +25,6 @@ class HtmlParser
   end
 
   def filtered_text
-    @filtered_text ||= Html2Text.convert(filtered_html)
+    @filtered_text ||= Html2Text.convert(filtered_html.encode('UTF-8', invalid: :replace, replace: ''))
   end
 end
