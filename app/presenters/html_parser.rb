@@ -10,7 +10,7 @@ class HtmlParser
   end
 
   def document
-    @document ||= Nokogiri::HTML(raw_body)
+    @document ||= Nokogiri::HTML(raw_body, nil, 'UTF-8')
   end
 
   def filter_replies!
