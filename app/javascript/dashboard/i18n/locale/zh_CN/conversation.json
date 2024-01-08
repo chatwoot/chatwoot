@@ -1,7 +1,7 @@
 {
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "请从左侧窗格选择一个对话",
-    "CSAT_REPLY_MESSAGE": "Please rate the conversation",
+    "CSAT_REPLY_MESSAGE": "请为会话评分",
     "404": "Sorry, we cannot find the conversation. Please try again",
     "SWITCH_VIEW_LAYOUT": "Switch the layout",
     "DASHBOARD_APP_TAB_MESSAGES": "消息",
