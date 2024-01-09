@@ -58,14 +58,6 @@ class Channel::Telegram < ApplicationRecord
 
   private
 
-  def render_markdown_to_text(text)
-    markdown_renderer = TelegramMarkdownRenderer.new
-    doc = CommonMarker.render_doc(text, :DEFAULT)
-    html = markdown_renderer.render(doc)
-
-    render_as_html_safe(html)
-  end
-
   def ensure_valid_bot_token
     response = HTTParty.get("#{telegram_api_url}/getMe")
     unless response.success?
