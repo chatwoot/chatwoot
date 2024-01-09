@@ -18,10 +18,10 @@
         "ARCHIVED": "Archivált bejegyzések"
       },
       "LOCALE_SELECT": {
-        "TITLE": "Select locale",
-        "PLACEHOLDER": "Select locale",
-        "NO_RESULT": "No locale found",
-        "SEARCH_PLACEHOLDER": "Search locale"
+        "TITLE": "Nyelv kiválasztása",
+        "PLACEHOLDER": "Nyelv kiválasztása",
+        "NO_RESULT": "Nem található nyelv",
+        "SEARCH_PLACEHOLDER": "Nyelv kiválasztása"
       }
     },
     "EDIT_HEADER": {
