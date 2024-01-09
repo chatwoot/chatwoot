@@ -165,11 +165,11 @@ class Channel::Telegram < ApplicationRecord
   end
 
   def message_request(chat_id, text, reply_markup = nil, reply_to_message_id = nil)
-    to_html = convert_markdown_to_telegram(text)
+    text_to_md = convert_markdown_to_telegram(text)
     HTTParty.post("#{telegram_api_url}/sendMessage",
                   body: {
                     chat_id: chat_id,
-                    text: to_html,
+                    text: text_to_md,
                     reply_markup: reply_markup,
                     parse_mode: 'MarkdownV2',
                     reply_to_message_id: reply_to_message_id
