@@ -204,9 +204,9 @@ export default {
         { key: 'linkedin', label: 'https://linkedin.com/' },
         { key: 'github', label: 'https://github.com/' },
         { key: 'instagram', label: 'https://instagram.com/' },
-        { key: 'line', label: 'Line User Id '},
-        { key: 'telegram', label: 'Telegram Username '},
-        { key: 'website', label: 'Website: https://'},
+        { key: 'line', label: 'Line User Id ' },
+        { key: 'telegram', label: 'Telegram Username ' },
+        { key: 'website', label: 'Website: https://' },
       ],
     };
   },

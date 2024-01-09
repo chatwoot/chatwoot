@@ -27,15 +27,27 @@ export default {
   data() {
     return {
       socialMediaLinks: [
-        { key: 'facebook', icon: 'brand-facebook', link: 'https://facebook.com/' },
+        {
+          key: 'facebook',
+          icon: 'brand-facebook',
+          link: 'https://facebook.com/',
+        },
         { key: 'twitter', icon: 'brand-twitter', link: 'https://twitter.com/' },
-        { key: 'linkedin', icon: 'brand-linkedin', link: 'https://linkedin.com/' },
+        {
+          key: 'linkedin',
+          icon: 'brand-linkedin',
+          link: 'https://linkedin.com/',
+        },
         { key: 'github', icon: 'brand-github', link: 'https://github.com/' },
-        { key: 'instagram', icon: 'brand-instagram', link: 'https://instagram.com/' },
-        { key: 'line', icon: 'brand-line', link: 'https://line.me/R/ti/p/~'},
-        { key: 'telegram', icon: 'brand-telegram', link: 'https://t.me/'},
-        { key: 'phone', icon: 'brand-whatsapp', link: 'https:/wa.me/'},
-        { key: 'website', icon: 'globe', link: 'https://'},
+        {
+          key: 'instagram',
+          icon: 'brand-instagram',
+          link: 'https://instagram.com/',
+        },
+        { key: 'line', icon: 'brand-line', link: 'https://line.me/R/ti/p/~' },
+        { key: 'telegram', icon: 'brand-telegram', link: 'https://t.me/' },
+        { key: 'phone', icon: 'brand-whatsapp', link: 'https:/wa.me/' },
+        { key: 'website', icon: 'globe', link: 'https://' },
       ],
     };
   },
