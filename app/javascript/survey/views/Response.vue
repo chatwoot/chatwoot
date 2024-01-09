@@ -144,9 +144,7 @@ export default {
         return;
       }
 
-      if (!this.isRatingSubmitted) {
-        this.selectRating(parseInt(this.paramsRating));
-      }
+      this.selectRating(parseInt(this.paramsRating));
     },
     async updateSurveyDetails() {
       this.isUpdating = true;
