@@ -39,7 +39,6 @@ class AutomationRules::ConditionsFilterService < FilterService
       filtered_rules << query_hash if valid_filter?(query_hash)
     end
 
-    # [{"values"=>["open"], "attribute_key"=>"status", "query_operator"=>"and", "filter_operator"=>"equal_to", "custom_attribute_type"=>""}]
     # go to the last condition and remove the `query_operator` key
     filtered_rules.last.delete('query_operator')
 
