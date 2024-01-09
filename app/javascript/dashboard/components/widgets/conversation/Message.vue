@@ -30,7 +30,15 @@
           :parent-has-attachments="hasAttachments"
         />
         <div v-if="isUnsupported">
-          {{ $t('CONVERSATION.UNSUPPORTED_MESSAGE') }}
+          <template v-if="isAFacebookInbox && isInstagram">
+            {{ $t('CONVERSATION.UNSUPPORTED_MESSAGE_INSTAGRAM') }}
+          </template>
+          <template v-else-if="isAFacebookInbox">
+            {{ $t('CONVERSATION.UNSUPPORTED_MESSAGE_FACEBOOK') }}
+          </template>
+          <template v-else>
+            {{ $t('CONVERSATION.UNSUPPORTED_MESSAGE') }}
+          </template>
         </div>
         <bubble-text
           v-else-if="data.content"
@@ -176,6 +184,14 @@ export default {
       required: true,
     },
     isATweet: {
+      type: Boolean,
+      default: false,
+    },
+    isAFacebookInbox: {
+      type: Boolean,
+      default: false,
+    },
+    isInstagram: {
       type: Boolean,
       default: false,
     },
