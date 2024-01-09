@@ -7,7 +7,7 @@ class Api::V1::Accounts::NotificationsController < Api::V1::Accounts::BaseContro
   before_action :set_current_page, only: [:index]
 
   def index
-    @unread_count = current_user.notifications.where(account_id: current_account.id, read_at: nil).count
+    @unread_count = notification_finder.unread_count
     @notifications = notification_finder.perform
     @count = @notifications.count
   end
@@ -35,7 +35,7 @@ class Api::V1::Accounts::NotificationsController < Api::V1::Accounts::BaseContro
   end
 
   def unread_count
-    @unread_count = current_user.notifications.where(account_id: current_account.id, read_at: nil).count
+    @unread_count = notification_finder.unread_count
     render json: @unread_count
   end
 

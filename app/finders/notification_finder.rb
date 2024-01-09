@@ -14,6 +14,11 @@ class NotificationFinder
     notifications
   end
 
+  def unread_count
+    set_up
+    @notifications.where(read_at: nil).count
+  end
+
   private
 
   def set_up
