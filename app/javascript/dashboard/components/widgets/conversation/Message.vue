@@ -553,10 +553,10 @@ export default {
     @apply min-w-[128px];
 
     &.is-unsupported {
-      @apply text-sm border-dashed border border-yellow-400 text-yellow-700 dark:text-yellow-200 bg-yellow-50 dark:bg-yellow-700 dark:border-yellow-200/20;
+      @apply text-xs max-w-[300px] border-dashed border border-slate-200 text-slate-600 dark:text-slate-200 bg-slate-50 dark:bg-slate-700 dark:border-slate-500;
 
       .message-text--metadata .time {
-        @apply text-yellow-700 dark:text-yellow-300;
+        @apply text-slate-400 dark:text-slate-300;
       }
     }
 
