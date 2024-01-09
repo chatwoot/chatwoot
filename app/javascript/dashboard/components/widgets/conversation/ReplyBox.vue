@@ -18,6 +18,12 @@
       :popout-reply-box="popoutReplyBox"
       @click="$emit('click')"
     />
+    <article-search-popover
+      v-if="showArticleSearchPopover && connectedPortalSlug"
+      :selected-portal-slug="connectedPortalSlug"
+      @insert="handleInsert"
+      @close="onSearchPopoverClose"
+    />
     <div class="reply-box__top">
       <reply-to-message
         v-if="shouldShowReplyToMessage"
@@ -35,7 +41,7 @@
         v-if="showEmojiPicker"
         v-on-clickaway="hideEmojiPicker"
         :class="emojiDialogClassOnExpandedLayoutAndRTLView"
-        :on-click="emojiOnClick"
+        :on-click="addIntoEditor"
       />
       <reply-email-head
         v-if="showReplyHead"
@@ -79,6 +85,7 @@
         :variables="messageVariables"
         :signature="signatureToApply"
         :allow-signature="true"
+        :channel-type="channelType"
         @typing-off="onTypingOff"
         @typing-on="onTypingOn"
         @focus="onFocus"
@@ -121,10 +128,12 @@
       :toggle-audio-recorder="toggleAudioRecorder"
       :toggle-emoji-picker="toggleEmojiPicker"
       :message="message"
+      :portal-slug="connectedPortalSlug"
       :new-conversation-modal-active="newConversationModalActive"
       @selectWhatsappTemplate="openWhatsappTemplateModal"
       @toggle-editor="toggleRichContentEditor"
       @replace-text="replaceText"
+      @toggle-insert-article="toggleInsertArticle"
     />
     <whatsapp-templates
       :inbox-id="inbox.id"
@@ -154,6 +163,7 @@ import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview.v
 import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel.vue';
 import ReplyEmailHead from './ReplyEmailHead.vue';
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue';
+import ArticleSearchPopover from 'dashboard/routes/dashboard/helpcenter/components/ArticleSearch/SearchPopover.vue';
 import MessageSignatureMissingAlert from './MessageSignatureMissingAlert';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
@@ -184,7 +194,6 @@ import {
   replaceSignature,
   extractTextFromMarkdown,
 } from 'dashboard/helper/editorHelper';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
@@ -206,6 +215,7 @@ export default {
     Banner,
     WhatsappTemplates,
     MessageSignatureMissingAlert,
+    ArticleSearchPopover,
   },
   mixins: [
     clickaway,
@@ -251,6 +261,7 @@ export default {
       draftUpdateDelayer: null,
       previousTypingStatus: '',
       previousDraftMessage: '',
+      showArticleSearchPopover: false,
     };
   },
   computed: {
@@ -268,10 +279,7 @@ export default {
         this.inReplyTo?.id &&
         !this.isPrivate &&
         this.inboxHasFeature(INBOX_FEATURES.REPLY_TO) &&
-        this.isFeatureEnabledonAccount(
-          this.accountId,
-          FEATURE_FLAGS.MESSAGE_REPLY_TO
-        )
+        !this.is360DialogWhatsAppChannel
       );
     },
     showRichContentEditor() {
@@ -388,7 +396,8 @@ export default {
         this.isAPIInbox ||
         this.isAnEmailChannel ||
         this.isASmsInbox ||
-        this.isATelegramChannel
+        this.isATelegramChannel ||
+        this.isALineChannel
       );
     },
     replyButtonLabel() {
@@ -469,8 +478,7 @@ export default {
       return !!this.signatureToApply;
     },
     sendWithSignature() {
-      const { send_with_signature: isEnabled } = this.uiSettings;
-      return isEnabled;
+      return this.fetchSignatureFlagFromUiSettings(this.channelType);
     },
     editorMessageKey() {
       const { editor_message_key: isEnabled } = this.uiSettings;
@@ -492,7 +500,11 @@ export default {
       return `draft-${this.conversationIdByRoute}-${this.replyType}`;
     },
     audioRecordFormat() {
-      if (this.isAWhatsAppChannel || this.isAPIInbox) {
+      if (
+        this.isAWhatsAppChannel ||
+        this.isAPIInbox ||
+        this.isATelegramChannel
+      ) {
         return AUDIO_FORMATS.OGG;
       }
       return AUDIO_FORMATS.WAV;
@@ -508,6 +520,11 @@ export default {
       return this.showRichContentEditor
         ? this.messageSignature
         : extractTextFromMarkdown(this.messageSignature);
+    },
+    connectedPortalSlug() {
+      const { help_center: portal = {} } = this.inbox;
+      const { slug = '' } = portal;
+      return slug;
     },
   },
   watch: {
@@ -600,6 +617,25 @@ export default {
     );
   },
   methods: {
+    handleInsert(article) {
+      const { url, title } = article;
+      if (this.isRichEditorEnabled) {
+        // Removing empty lines from the title
+        const lines = title.split('\n');
+        const nonEmptyLines = lines.filter(line => line.trim() !== '');
+        const filteredMarkdown = nonEmptyLines.join(' ');
+        bus.$emit(
+          BUS_EVENTS.INSERT_INTO_RICH_EDITOR,
+          `[${filteredMarkdown}](${url})`
+        );
+      } else {
+        this.addIntoEditor(
+          `${this.$t('CONVERSATION.REPLYBOX.INSERT_READ_MORE')} ${url}`
+        );
+      }
+
+      this.$track(CONVERSATION_EVENTS.INSERT_ARTICLE_LINK);
+    },
     toggleRichContentEditor() {
       this.updateUISettings({
         display_rich_content_editor: !this.showRichContentEditor,
@@ -881,22 +917,22 @@ export default {
     clearEditorSelection() {
       this.updateEditorSelectionWith = '';
     },
-    insertEmoji(emoji, selectionStart, selectionEnd) {
+    insertIntoTextEditor(text, selectionStart, selectionEnd) {
       const { message } = this;
       const newMessage =
         message.slice(0, selectionStart) +
-        emoji +
+        text +
         message.slice(selectionEnd, message.length);
       this.message = newMessage;
     },
-    emojiOnClick(emoji) {
+    addIntoEditor(content) {
       if (this.showRichContentEditor) {
-        this.updateEditorSelectionWith = emoji;
+        this.updateEditorSelectionWith = content;
         this.onFocus();
       }
       if (!this.showRichContentEditor) {
         const { selectionStart, selectionEnd } = this.$refs.messageInput.$el;
-        this.insertEmoji(emoji, selectionStart, selectionEnd);
+        this.insertIntoTextEditor(content, selectionStart, selectionEnd);
       }
     },
     clearMessage() {
@@ -1156,6 +1192,12 @@ export default {
       // When new conversation modal is open
       this.newConversationModalActive = isActive;
     },
+    onSearchPopoverClose() {
+      this.showArticleSearchPopover = false;
+    },
+    toggleInsertArticle() {
+      this.showArticleSearchPopover = !this.showArticleSearchPopover;
+    },
   },
 };
 </script>
@@ -1174,7 +1216,7 @@ export default {
 }
 
 .reply-box {
-  @apply border-t border-slate-50 dark:border-slate-700 bg-white dark:bg-slate-900;
+  @apply relative border-t border-slate-50 dark:border-slate-700 bg-white dark:bg-slate-900;
   min-width: 550px;
 
   &.is-private {

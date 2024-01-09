@@ -28,7 +28,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
 
     conversation.contact_last_seen_at = DateTime.now.utc
     conversation.save!
-    ::Conversations::MarkMessagesAsReadJob.perform_later(conversation.id, conversation.contact_last_seen_at)
+    ::Conversations::UpdateMessageStatusJob.perform_later(conversation.id, conversation.contact_last_seen_at)
     head :ok
   end
 

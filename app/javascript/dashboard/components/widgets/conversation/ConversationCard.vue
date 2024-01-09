@@ -31,7 +31,7 @@
       size="40px"
     />
     <div
-      class="px-0 py-3 border-b group-last:border-transparent group-hover:border-transparent border-slate-50 dark:border-slate-800/75 columns"
+      class="px-0 py-3 border-b group-hover:border-transparent border-slate-50 dark:border-slate-800/75 columns"
     >
       <div class="flex justify-between">
         <inbox-name v-if="showInboxName" :inbox="inbox" />
@@ -175,6 +175,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    enableContextMenu: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -289,6 +293,7 @@ export default {
       this.$emit(action, this.chat.id, this.inbox.id);
     },
     openContextMenu(e) {
+      if (!this.enableContextMenu) return;
       e.preventDefault();
       this.$emit('context-menu-toggle', true);
       this.contextMenu.x = e.pageX || e.clientX;
