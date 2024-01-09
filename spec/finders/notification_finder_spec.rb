@@ -7,12 +7,13 @@ describe NotificationFinder do
   let!(:user) { create(:user, account: account) }
 
   before do
-    create(:notification, account: account, user: user, updated_at: DateTime.now.utc + 1.day, last_activity_at: DateTime.now.utc + 1.day)
+    create(:notification, account: account, user: user, updated_at: DateTime.now.utc + 1.day, last_activity_at: DateTime.now.utc + 1.day,
+                          read_at: DateTime.now.utc)
     create(:notification, account: account, user: user, snoozed_until: DateTime.now.utc + 3.days, updated_at: DateTime.now.utc,
                           last_activity_at: DateTime.now.utc)
     create(:notification, account: account, user: user, updated_at: DateTime.now.utc + 2.days, last_activity_at: DateTime.now.utc + 2.days)
     create(:notification, account: account, user: user, updated_at: DateTime.now.utc + 4.days, last_activity_at: DateTime.now.utc + 4.days,
-                          notification_type: :conversation_creation)
+                          notification_type: :conversation_creation, read_at: DateTime.now.utc)
     create(:notification, account: account, user: user, updated_at: DateTime.now.utc + 5.days, last_activity_at: DateTime.now.utc + 5.days,
                           notification_type: :conversation_mention)
     create(:notification, account: account, user: user, updated_at: DateTime.now.utc + 6.days, last_activity_at: DateTime.now.utc + 6.days,
@@ -41,6 +42,11 @@ describe NotificationFinder do
         result = notification_finder.perform
         expect(result.length).to be 4
       end
+
+      it 'returns unread count' do
+        result = notification_finder.unread_count
+        expect(result).to be 2
+      end
     end
 
     context 'when snoozed param is passed' do
@@ -49,6 +55,11 @@ describe NotificationFinder do
       it 'returns only snoozed notifications' do
         result = notification_finder.perform
         expect(result.length).to be 1
+      end
+
+      it 'returns unread count' do
+        result = notification_finder.unread_count
+        expect(result).to be 1
       end
     end
   end
