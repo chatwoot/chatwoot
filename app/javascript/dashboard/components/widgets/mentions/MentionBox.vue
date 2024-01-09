@@ -68,6 +68,7 @@ export default {
     },
     selectedIndex() {
       const container = this.$refs.mentionsListContainer;
+      if (!container) return;
       const item = container.querySelector(
         `#mention-item-${this.selectedIndex}`
       );
