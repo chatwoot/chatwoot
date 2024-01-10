@@ -49,7 +49,7 @@ export const deleteIndexedDBOnLogout = async () => {
     dbs = await window.indexedDB.databases();
     dbs = dbs.map(db => db.name);
   } catch (e) {
-    dbs = JSON.parse(localStorage.getItem('dbNames') || '[]');
+    dbs = JSON.parse(localStorage.getItem('cw-idb-names') || '[]');
   }
 
   dbs.forEach(dbName => {

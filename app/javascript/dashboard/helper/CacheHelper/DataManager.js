@@ -24,7 +24,7 @@ export class DataManager {
     const dbNames = JSON.parse(localStorage.getItem('cw-idb-names') || '[]');
     if (!dbNames.includes(dbName)) {
       dbNames.push(dbName);
-      localStorage.setItem('dbNames', JSON.stringify(dbNames));
+      localStorage.setItem('cw-idb-names', JSON.stringify(dbNames));
     }
 
     return this.db;
