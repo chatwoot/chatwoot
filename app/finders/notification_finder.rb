@@ -3,19 +3,18 @@ class NotificationFinder
 
   RESULTS_PER_PAGE = 15
 
-  def initialize(current_user, current_account, params)
+  def initialize(current_user, current_account, params = {})
     @current_user = current_user
     @current_account = current_account
     @params = params
+    set_up
   end
 
   def perform
-    set_up
     notifications
   end
 
   def unread_count
-    set_up
     @notifications.where(read_at: nil).count
   end
 
