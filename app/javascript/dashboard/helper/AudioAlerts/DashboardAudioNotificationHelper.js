@@ -116,7 +116,7 @@ class DashboardAudioNotificationHelper {
 
   shouldNotifyOnMessage = message => {
     if (this.audioAlertType === 'mine_and_unassigned') {
-      return this.isConversationAssignedToCurrentUser(message) || isConversationUnassigned(message);
+      return this.isConversationAssignedToCurrentUser(message) || this.isConversationUnassigned(message);
     }
     if (this.audioAlertType === 'mine') {
       return this.isConversationAssignedToCurrentUser(message);
