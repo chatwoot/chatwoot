@@ -107,11 +107,7 @@ class Twilio::IncomingMessageService
   def attach_files
     return if params[:MediaUrl0].blank?
 
-    attachment_file = Down.download(
-      params[:MediaUrl0],
-      # https://support.twilio.com/hc/en-us/articles/223183748-Protect-Media-Access-with-HTTP-Basic-Authentication-for-Programmable-Messaging
-      http_basic_authentication: [twilio_channel.account_sid, twilio_channel.auth_token || twilio_channel.api_key_sid]
-    )
+    attachment_file = download_attachment_file
 
     attachment = @message.attachments.new(
       account_id: @message.account_id,
@@ -125,5 +121,27 @@ class Twilio::IncomingMessageService
     )
 
     @message.save!
+  end
+
+  def download_attachment_file
+    download_with_auth
+  rescue Down::Error => e
+    handle_download_attachment_error(e)
+  end
+
+  def download_with_auth
+    Down.download(
+      params[:MediaUrl0],
+      # https://support.twilio.com/hc/en-us/articles/223183748-Protect-Media-Access-with-HTTP-Basic-Authentication-for-Programmable-Messaging
+      http_basic_authentication: [twilio_channel.account_sid, twilio_channel.auth_token || twilio_channel.api_key_sid]
+    )
+  end
+
+  def handle_download_attachment_error(error)
+    if error.message.include?('401 Unauthorized')
+      Down.download(params[:MediaUrl0])
+    else
+      ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
+    end
   end
 end
