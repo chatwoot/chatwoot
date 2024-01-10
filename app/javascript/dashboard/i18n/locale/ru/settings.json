@@ -64,7 +64,8 @@
         "ALERT_TYPE": {
           "TITLE": "Уведомлять о:",
           "NONE": "Нет",
-          "ASSIGNED": "Назначенные беседы",
+          "MINE_AND_UNASSIGNED": "Мои беседы и неназначенные беседы",
+          "MINE": "Мои беседы",
           "ALL_CONVERSATIONS": "Диалоги"
         },
         "DEFAULT_TONE": {

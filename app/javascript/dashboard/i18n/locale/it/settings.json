@@ -62,10 +62,11 @@
         "TITLE": "Notifiche audio",
         "NOTE": "Abilita le notifiche audio nella dashboard per nuovi messaggi e conversazioni.",
         "ALERT_TYPE": {
-          "TITLE": "Alert events:",
+          "TITLE": "Eventi di Allarme:",
           "NONE": "Nessuno",
-          "ASSIGNED": "Conversazioni assegnate",
-          "ALL_CONVERSATIONS": "Tutte le conversazioni"
+          "MINE_AND_UNASSIGNED": "Le mie Conversazioni e Conversazioni non assegnate",
+          "MINE": "Le mie Conversazioni",
+          "ALL_CONVERSATIONS": "Tutte le Conversazioni"
         },
         "DEFAULT_TONE": {
           "TITLE": "Alert tone:"

@@ -62,10 +62,11 @@
         "TITLE": "Audio Notifications",
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
         "ALERT_TYPE": {
-          "TITLE": "Alert events:",
+          "TITLE": "മുന്നറിയിപ്പ് ഘടകങ്ങൾ:",
           "NONE": "ഒന്നുമില്ല",
-          "ASSIGNED": "Assigned Conversations",
-          "ALL_CONVERSATIONS": "All Conversations"
+          "MINE_AND_UNASSIGNED": "എന്റെ സംഭാഷണങ്ങൾ ഒന്നും നിര്ധരിച്ചിട്ടില്ല",
+          "MINE": "എന്റെ സംഭാഷണങ്ങൾ",
+          "ALL_CONVERSATIONS": "എല്ലാ സംഭാഷണങ്ങൾ"
         },
         "DEFAULT_TONE": {
           "TITLE": "Alert tone:"

@@ -64,7 +64,8 @@
         "ALERT_TYPE": {
           "TITLE": "Brīdinājumu notikumi:",
           "NONE": "Nav",
-          "ASSIGNED": "Piešķirtās Sarunas",
+          "MINE_AND_UNASSIGNED": "Manas sarunas un nenoteiktas sarunas",
+          "MINE": "Manas sarunas",
           "ALL_CONVERSATIONS": "Visas Sarunas"
         },
         "DEFAULT_TONE": {

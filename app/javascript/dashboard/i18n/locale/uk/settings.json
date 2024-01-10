@@ -64,7 +64,8 @@
         "ALERT_TYPE": {
           "TITLE": "Події оповіщення:",
           "NONE": "Нiчого",
-          "ASSIGNED": "Призначені розмови",
+          "MINE_AND_UNASSIGNED": "Мої розмови та непризначені розмови",
+          "MINE": "Мої розмови",
           "ALL_CONVERSATIONS": "Всі розмови"
         },
         "DEFAULT_TONE": {

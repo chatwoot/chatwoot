@@ -64,7 +64,8 @@
         "ALERT_TYPE": {
           "TITLE": "Esemény figyelmeztetés:",
           "NONE": "Nincs",
-          "ASSIGNED": "Hozzárendelt Beszélgetések",
+          "MINE_AND_UNASSIGNED": "Saját beszélgetéseim és nem hozzárendelt beszélgetések",
+          "MINE": "Saját beszélgetéseim",
           "ALL_CONVERSATIONS": "Beszélgetések"
         },
         "DEFAULT_TONE": {

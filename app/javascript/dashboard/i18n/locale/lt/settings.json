@@ -64,7 +64,8 @@
         "ALERT_TYPE": {
           "TITLE": "Įspėjimo įvykiai:",
           "NONE": "Nėra",
-          "ASSIGNED": "Priskirti Pokalbiai",
+          "MINE_AND_UNASSIGNED": "Le mie Conversazioni e Conversazioni non assegnate",
+          "MINE": "Le mie Conversazioni",
           "ALL_CONVERSATIONS": "Visi Pokalbiai"
         },
         "DEFAULT_TONE": {

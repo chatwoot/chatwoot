@@ -62,9 +62,10 @@
         "TITLE": "Zvučna obaveštenja",
         "NOTE": "Omogućavanje zvučnih obaveštenja u radnoj tabli za nove poruke i razgovore.",
         "ALERT_TYPE": {
-          "TITLE": "Alert events:",
+          "TITLE": "Догађаји упозорења:",
           "NONE": "Niko",
-          "ASSIGNED": "Dodeljeni razgovori",
+          "MINE_AND_UNASSIGNED": "Моји разговори и неназначени разговори",
+          "MINE": "Моји разговори",
           "ALL_CONVERSATIONS": "Svi razgovori"
         },
         "DEFAULT_TONE": {

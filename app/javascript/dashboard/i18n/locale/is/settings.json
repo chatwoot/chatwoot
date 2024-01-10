@@ -62,10 +62,11 @@
         "TITLE": "Hljóðtilkynningar",
         "NOTE": "Virkjaðu hljóðtilkynningar á mælaborðinu fyrir ný skilaboð og samtöl.",
         "ALERT_TYPE": {
-          "TITLE": "Alert events:",
-          "NONE": "Enginn",
-          "ASSIGNED": "Úthlutuð Samtöl",
-          "ALL_CONVERSATIONS": "Öll Samtöl"
+          "TITLE": "Viðvörunarviðburðir:",
+          "NONE": "Engin",
+          "MINE_AND_UNASSIGNED": "Mín samtöl og óúthlutaðar samtöl",
+          "MINE": "Mín samtöl",
+          "ALL_CONVERSATIONS": "Öll samtöl"
         },
         "DEFAULT_TONE": {
           "TITLE": "Alert tone:"

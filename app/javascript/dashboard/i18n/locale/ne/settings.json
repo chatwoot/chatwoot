@@ -64,7 +64,8 @@
         "ALERT_TYPE": {
           "TITLE": "Alert events:",
           "NONE": "None",
-          "ASSIGNED": "Assigned Conversations",
+          "MINE_AND_UNASSIGNED": "My Conversations and Unassigned Conversations",
+          "MINE": "My Conversations",
           "ALL_CONVERSATIONS": "All Conversations"
         },
         "DEFAULT_TONE": {

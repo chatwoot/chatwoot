@@ -64,7 +64,8 @@
         "ALERT_TYPE": {
           "TITLE": "Sự kiện cảnh báo:",
           "NONE": "Không có",
-          "ASSIGNED": "Cuộc trò chuyện được phân công",
+          "MINE_AND_UNASSIGNED": "Cuộc trò chuyện của tôi và Cuộc trò chuyện chưa gán",
+          "MINE": "Cuộc trò chuyện của tôi",
           "ALL_CONVERSATIONS": "Tất cả cuộc trò chuyện"
         },
         "DEFAULT_TONE": {

@@ -64,7 +64,8 @@
         "ALERT_TYPE": {
           "TITLE": "Melding gebeurtenissen:",
           "NONE": "Geen",
-          "ASSIGNED": "Toegewezen gesprekken",
+          "MINE_AND_UNASSIGNED": "Mijn gesprekken en niet-toegewezen gesprekken",
+          "MINE": "Mijn gesprekken",
           "ALL_CONVERSATIONS": "Alle gesprekken"
         },
         "DEFAULT_TONE": {

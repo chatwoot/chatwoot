@@ -64,7 +64,8 @@
         "ALERT_TYPE": {
           "TITLE": "Wydarzenia powiadomień:",
           "NONE": "Brak",
-          "ASSIGNED": "Przypisane rozmowy",
+          "MINE_AND_UNASSIGNED": "Moje rozmowy i rozmowy nieprzypisane",
+          "MINE": "Moje rozmowy",
           "ALL_CONVERSATIONS": "Rozmowy"
         },
         "DEFAULT_TONE": {

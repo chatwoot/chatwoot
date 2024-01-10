@@ -47,7 +47,24 @@
             <label for="audio_enable_alert_mine">
               {{
                 $t(
-                  'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPE.ASSIGNED'
+                  'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPE.MINE'
+                )
+              }}
+            </label>
+          </div>
+          <div>
+            <input
+              id="audio_enable_alert_mine_and_unassigned"
+              v-model="enableAudioAlerts"
+              class="notification--checkbox"
+              type="radio"
+              value="mine_and_unassigned"
+              @input="handleAudioInput"
+            />
+            <label for="audio_enable_alert_mine_and_unassigned">
+              {{
+                $t(
+                  'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPE.MINE_AND_UNASSIGNED'
                 )
               }}
             </label>

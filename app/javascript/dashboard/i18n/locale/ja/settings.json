@@ -62,10 +62,11 @@
         "TITLE": "Audio Notifications",
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
         "ALERT_TYPE": {
-          "TITLE": "Alert events:",
-          "NONE": "該当なし",
-          "ASSIGNED": "Assigned Conversations",
-          "ALL_CONVERSATIONS": "All Conversations"
+          "TITLE": "警告イベント:",
+          "NONE": "なし",
+          "MINE_AND_UNASSIGNED": "私の会話および未割り当ての会話",
+          "MINE": "私の会話",
+          "ALL_CONVERSATIONS": "すべての会話"
         },
         "DEFAULT_TONE": {
           "TITLE": "Alert tone:"

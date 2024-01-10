@@ -62,9 +62,10 @@
         "TITLE": "Audio-Benachrichtigungen",
         "NOTE": "Audio-Benachrichtigungen im Dashboard für neue Nachrichten und Unterhaltungen aktivieren.",
         "ALERT_TYPE": {
-          "TITLE": "Alarmereignisse:",
+          "TITLE": "Warnungsereignisse:",
           "NONE": "Keine",
-          "ASSIGNED": "Zugewiesene Unterhaltungen",
+          "MINE_AND_UNASSIGNED": "Meine Konversationen und nicht zugeordnete Konversationen",
+          "MINE": "Meine Konversationen",
           "ALL_CONVERSATIONS": "Alle Konversationen"
         },
         "DEFAULT_TONE": {

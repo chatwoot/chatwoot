@@ -62,10 +62,11 @@
         "TITLE": "Notificaciones con sonido",
         "NOTE": "Active las notificaciones de sonido en el tablero para los mensajes nuevos y conversaciones.",
         "ALERT_TYPE": {
-          "TITLE": "Eventos de alerta:",
-          "NONE": "Ninguna",
-          "ASSIGNED": "Conversaciones asignadas",
-          "ALL_CONVERSATIONS": "Todas las conversaciones"
+          "TITLE": "Eventos de Alerta:",
+          "NONE": "Ninguno",
+          "MINE_AND_UNASSIGNED": "Mis Conversaciones y Conversaciones no asignadas",
+          "MINE": "Mis Conversaciones",
+          "ALL_CONVERSATIONS": "Todas las Conversaciones"
         },
         "DEFAULT_TONE": {
           "TITLE": "Tono de alerta:"

@@ -62,10 +62,11 @@
         "TITLE": "Audio Notifications",
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
         "ALERT_TYPE": {
-          "TITLE": "Alert events:",
+          "TITLE": "警报事件:",
           "NONE": "啥都没有",
-          "ASSIGNED": "Assigned Conversations",
-          "ALL_CONVERSATIONS": "All Conversations"
+          "MINE_AND_UNASSIGNED": "我的对话和未分配的对话",
+          "MINE": "我的对话",
+          "ALL_CONVERSATIONS": "所有对话"
         },
         "DEFAULT_TONE": {
           "TITLE": "Alert tone:"

@@ -64,9 +64,11 @@
         "ALERT_TYPE": {
           "TITLE": "أحداث التنبيه:",
           "NONE": "لا شيء",
-          "ASSIGNED": "المحادثات المسندة",
+          "MINE_AND_UNASSIGNED": "محادثاتي ومحادثات غير مخصصة",
+          "MINE": "محادثاتي",
           "ALL_CONVERSATIONS": "كل المحادثات"
         },
+              
         "DEFAULT_TONE": {
           "TITLE": "نغمة التنبيه:"
         },

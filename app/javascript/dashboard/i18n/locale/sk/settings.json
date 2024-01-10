@@ -62,9 +62,10 @@
         "TITLE": "Zvukové oznámenia",
         "NOTE": "Povoliť zvukové upozornenia na paneli s novými správami a konverzáciami.",
         "ALERT_TYPE": {
-          "TITLE": "Alert events:",
+          "TITLE": "Udalosť upozornenia:",
           "NONE": "Žiadne",
-          "ASSIGNED": "Pridelené konverzácie",
+          "MINE_AND_UNASSIGNED": "Moje konverzácie a nepriradené konverzácie",
+          "MINE": "Moje konverzácie",
           "ALL_CONVERSATIONS": "Všetky konverzácie"
         },
         "DEFAULT_TONE": {

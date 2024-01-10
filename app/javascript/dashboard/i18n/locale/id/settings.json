@@ -62,9 +62,10 @@
         "TITLE": "Pemberitahuan Audio",
         "NOTE": "Aktifkan pemberitahuan audio di dashboard untuk pesan dan percakapan baru.",
         "ALERT_TYPE": {
-          "TITLE": "Jenis pemberitahuan:",
+          "TITLE": "Peristiwa Peringatan:",
           "NONE": "Tidak ada",
-          "ASSIGNED": "Percakapan yang ditetapkan",
+          "MINE_AND_UNASSIGNED": "Percakapan Saya dan Percakapan yang Belum Ditugaskan",
+          "MINE": "Percakapan Saya",
           "ALL_CONVERSATIONS": "Semua Percakapan"
         },
         "DEFAULT_TONE": {

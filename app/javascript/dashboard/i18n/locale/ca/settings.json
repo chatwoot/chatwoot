@@ -62,11 +62,12 @@
         "TITLE": "Audio Notifications",
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
         "ALERT_TYPE": {
-          "TITLE": "Alert events:",
-          "NONE": "Ningú",
-          "ASSIGNED": "Assigned Conversations",
-          "ALL_CONVERSATIONS": "All Conversations"
-        },
+          "TITLE": "Esdeveniments d'alerta:",
+          "NONE": "Cap",
+          "MINE_AND_UNASSIGNED": "Les meves converses i converses sense assignar",
+          "MINE": "Les meves converses",
+          "ALL_CONVERSATIONS": "Totes les converses"
+        },        
         "DEFAULT_TONE": {
           "TITLE": "Alert tone:"
         },

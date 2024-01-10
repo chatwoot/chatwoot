@@ -62,10 +62,11 @@
         "TITLE": "Lyd Notifikationer",
         "NOTE": "Aktivér lydmeddelelser i dashboard for nye beskeder og samtaler.",
         "ALERT_TYPE": {
-          "TITLE": "Alert events:",
+          "TITLE": "Advarselshændelser:",
           "NONE": "Ingen",
-          "ASSIGNED": "Tildelte Samtaler",
-          "ALL_CONVERSATIONS": "Alle Samtaler"
+          "MINE_AND_UNASSIGNED": "Mine samtaler og ikke-tildelte samtaler",
+          "MINE": "Mine samtaler",
+          "ALL_CONVERSATIONS": "Alle samtaler"
         },
         "DEFAULT_TONE": {
           "TITLE": "Alert tone:"

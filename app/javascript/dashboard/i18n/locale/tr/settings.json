@@ -62,9 +62,10 @@
         "TITLE": "Sesli Bildirimler",
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
         "ALERT_TYPE": {
-          "TITLE": "Alert events:",
+          "TITLE": "Uyarı Olayları:",
           "NONE": "Hiç",
-          "ASSIGNED": "Atanmış Görüşmeler",
+          "MINE_AND_UNASSIGNED": "Benim Konuşmalarım ve Atanmamış Konuşmalar",
+          "MINE": "Benim Konuşmalarım",
           "ALL_CONVERSATIONS": "Tüm Görüşmeler"
         },
         "DEFAULT_TONE": {

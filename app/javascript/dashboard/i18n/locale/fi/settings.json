@@ -62,10 +62,11 @@
         "TITLE": "Audio Notifications",
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
         "ALERT_TYPE": {
-          "TITLE": "Alert events:",
-          "NONE": "None",
-          "ASSIGNED": "Assigned Conversations",
-          "ALL_CONVERSATIONS": "All Conversations"
+          "TITLE": "Hälytystapahtumat:",
+          "NONE": "Ei mitään",
+          "MINE_AND_UNASSIGNED": "Omat keskustelut ja määrittelemättömät keskustelut",
+          "MINE": "Omat keskustelut",
+          "ALL_CONVERSATIONS": "Kaikki keskustelut"
         },
         "DEFAULT_TONE": {
           "TITLE": "Alert tone:"

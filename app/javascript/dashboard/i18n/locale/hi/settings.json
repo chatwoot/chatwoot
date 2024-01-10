@@ -62,10 +62,11 @@
         "TITLE": "Audio Notifications",
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
         "ALERT_TYPE": {
-          "TITLE": "Alert events:",
-          "NONE": "None",
-          "ASSIGNED": "Assigned Conversations",
-          "ALL_CONVERSATIONS": "All Conversations"
+          "TITLE": "चेतावनी के घटनाएँ:",
+          "NONE": "कोई नहीं",
+          "MINE_AND_UNASSIGNED": "मेरी बातचीतें और असाइन नहीं की गई बातचीतें",
+          "MINE": "मेरी बातचीतें",
+          "ALL_CONVERSATIONS": "सभी बातचीतें"
         },
         "DEFAULT_TONE": {
           "TITLE": "Alert tone:"

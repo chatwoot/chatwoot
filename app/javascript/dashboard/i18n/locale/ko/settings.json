@@ -62,10 +62,11 @@
         "TITLE": "음성 알림",
         "NOTE": "대시보드에서 새 메시지 및 대화에 대한 오디오 알림을 활성화합니다.",
         "ALERT_TYPE": {
-          "TITLE": "Alert events:",
+          "TITLE": "경고 이벤트:",
           "NONE": "없음",
-          "ASSIGNED": "Assigned Conversations",
-          "ALL_CONVERSATIONS": "All Conversations"
+          "MINE_AND_UNASSIGNED": "내 대화 및 미할당 대화",
+          "MINE": "내 대화",
+          "ALL_CONVERSATIONS": "모든 대화"
         },
         "DEFAULT_TONE": {
           "TITLE": "Alert tone:"

@@ -64,7 +64,8 @@
         "ALERT_TYPE": {
           "TITLE": "Evenimente de alertă:",
           "NONE": "Nimic",
-          "ASSIGNED": "Conversații atribuite",
+          "MINE_AND_UNASSIGNED": "Conversațiile mele și conversațiile neatribuite",
+          "MINE": "Conversațiile mele",
           "ALL_CONVERSATIONS": "Toate conversațiile"
         },
         "DEFAULT_TONE": {

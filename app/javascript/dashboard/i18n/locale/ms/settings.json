@@ -63,8 +63,9 @@
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
         "ALERT_TYPE": {
           "TITLE": "Alert events:",
-          "NONE": "Tiada",
-          "ASSIGNED": "Assigned Conversations",
+          "NONE": "None",
+          "MINE_AND_UNASSIGNED": "My Conversations and Unassigned Conversations",
+          "MINE": "My Conversations",
           "ALL_CONVERSATIONS": "All Conversations"
         },
         "DEFAULT_TONE": {

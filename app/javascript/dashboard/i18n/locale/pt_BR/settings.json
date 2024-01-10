@@ -64,7 +64,8 @@
         "ALERT_TYPE": {
           "TITLE": "Tipo de Alerta:",
           "NONE": "Nenhuma",
-          "ASSIGNED": "Conversas atribuídas",
+          "MINE_AND_UNASSIGNED": "Minhas conversas e conversas não atribuídas",
+          "MINE": "Minhas conversas",
           "ALL_CONVERSATIONS": "Todas as conversas"
         },
         "DEFAULT_TONE": {
