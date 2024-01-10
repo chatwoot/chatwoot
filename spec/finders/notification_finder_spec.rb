@@ -24,7 +24,7 @@ describe NotificationFinder do
     context 'when params are empty' do
       let(:params) { {} }
 
-      it 'returns notifications which aren not snoozed' do
+      it 'returns notifications which are not snoozed' do
         result = notification_finder.perform
         expect(result.length).to be 3
       end
@@ -47,6 +47,11 @@ describe NotificationFinder do
         result = notification_finder.unread_count
         expect(result).to be 2
       end
+
+      it 'returns count' do
+        result = notification_finder.count
+        expect(result).to be 3
+      end
     end
 
     context 'when snoozed param is passed' do
@@ -59,6 +64,11 @@ describe NotificationFinder do
 
       it 'returns unread count' do
         result = notification_finder.unread_count
+        expect(result).to be 1
+      end
+
+      it 'returns count' do
+        result = notification_finder.count
         expect(result).to be 1
       end
     end
