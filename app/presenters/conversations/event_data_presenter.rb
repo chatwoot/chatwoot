@@ -16,6 +16,7 @@ class Conversations::EventDataPresenter < SimpleDelegator
       unread_count: unread_incoming_messages.count,
       first_reply_created_at: first_reply_created_at,
       priority: priority,
+      waiting_since: waiting_since.to_i,
       **push_timestamps
     }
   end

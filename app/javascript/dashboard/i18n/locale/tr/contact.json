@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Etiketler ekleyin",
         "PLACEHOLDER": "Etiketleri ara",
-        "NO_RESULT": "Etiket bulunamadı"
+        "NO_RESULT": "Etiket bulunamadı",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Kişileri birleştir",
@@ -70,7 +71,14 @@
       "SUBMIT": "İçe Aktar",
       "CANCEL": "İptal Et"
     },
-    "SUCCESS_MESSAGE": "Kişiler başarıyla kaydedildi",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+    "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
+  },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
     "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
   },
   "DELETE_NOTE": {
@@ -196,6 +204,10 @@
         "PLACEHOLDER": "Mesajınızı buraya yazınız",
         "ERROR": "Mesaj boş olamaz"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "Mesaj yolla",
       "CANCEL": "İptal Et",
       "SUCCESS_MESSAGE": "Mesaj yollandı!",
@@ -211,6 +223,7 @@
     "FILTER_CONTACTS": "Filtre",
     "FILTER_CONTACTS_SAVE": "Filtreyi kaydet",
     "FILTER_CONTACTS_DELETE": "Filtreyi sil",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "Kişiler yükleniyor ...",
       "404": "Aramanızla eşleşen kişi yok 🔍",
@@ -334,17 +347,17 @@
     "DESCRIPTION": "Tüm nitelikler ve konuşmalar dahil olmak üzere iki profili tek bir profilde birleştirmek için kişileri birleştirin. Çakışma durumunda, Birincil ilgili kişinin nitelikleri öncelikli olacaktır.",
     "PRIMARY": {
       "TITLE": "Birincil kişi",
-      "HELP_LABEL": "Saklanacak"
+      "HELP_LABEL": "Silinecek"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Birleştirilecek kişi",
       "PLACEHOLDER": "Kişileri arayın",
-      "HELP_LABEL": "Silinecek"
+      "HELP_LABEL": "Saklanacak"
     },
     "SUMMARY": {
       "TITLE": "Özet",
-      "DELETE_WARNING": "<strong>%{childContactName}</strong> kişisi silinecek.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "<strong>%{primaryContactName}</strong> kişisi silinecek.",
+      "ATTRIBUTE_WARNING": "Contact details of <strong>%{primaryContactName}</strong> will be copied to <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"

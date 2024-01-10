@@ -1,6 +1,27 @@
 require 'rails_helper'
 
 describe MessageTemplates::HookExecutionService do
+  context 'when there is no incoming message in conversation' do
+    it 'will not call any hooks' do
+      contact = create(:contact, email: nil)
+      conversation = create(:conversation, contact: contact)
+      # ensure greeting hook is enabled
+      conversation.inbox.update(greeting_enabled: true, enable_email_collect: true)
+
+      email_collect_service = double
+
+      allow(MessageTemplates::Template::EmailCollect).to receive(:new).and_return(email_collect_service)
+      allow(email_collect_service).to receive(:perform).and_return(true)
+      allow(MessageTemplates::Template::Greeting).to receive(:new)
+
+      # described class gets called in message after commit
+      create(:message, conversation: conversation, message_type: 'activity', content: 'Conversation marked resolved!!')
+
+      expect(MessageTemplates::Template::Greeting).not_to have_received(:new)
+      expect(MessageTemplates::Template::EmailCollect).not_to have_received(:new)
+    end
+  end
+
   context 'when Greeting Message' do
     it 'doesnot calls ::MessageTemplates::Template::Greeting if greeting_message is empty' do
       contact = create(:contact, email: nil)
@@ -22,7 +43,7 @@ describe MessageTemplates::HookExecutionService do
       expect(email_collect_service).to have_received(:perform)
     end
 
-    it 'will not call ::MessageTemplates::Template::CsatSurvey if its a tweet conversation' do
+    it 'will not call ::MessageTemplates::Template::Greeting if its a tweet conversation' do
       twitter_channel = create(:channel_twitter_profile)
       twitter_inbox = create(:inbox, channel: twitter_channel)
       # ensure greeting hook is enabled and greeting_message is present
@@ -97,6 +118,7 @@ describe MessageTemplates::HookExecutionService do
     before do
       allow(MessageTemplates::Template::CsatSurvey).to receive(:new).and_return(csat_survey)
       allow(csat_survey).to receive(:perform).and_return(true)
+      create(:message, conversation: conversation, message_type: 'incoming')
     end
 
     it 'calls ::MessageTemplates::Template::CsatSurvey when a conversation is resolved in an inbox with survey enabled' do

@@ -74,6 +74,14 @@
         "DELETE": "Dzēst rakstu"
       }
     },
+    "ARTICLE_SEARCH_RESULT": {
+      "UNCATEGORIZED": "Bez kategorijas",
+      "INSERT_ARTICLE": "Ievietot",
+      "NO_RESULT": "Raksti nav atrasti",
+      "COPY_LINK": "Kopēt raksta saiti starpliktuvē",
+      "OPEN_LINK": "Atvērt rakstu jaunā cilnē",
+      "PREVIEW_LINK": "Raksta priekšskatījums"
+    },
     "PORTAL": {
       "HEADER": "Portāli",
       "DEFAULT": "Noklusēts",
@@ -228,13 +236,13 @@
         "DOMAIN": {
           "LABEL": "Pielāgots domēns",
           "PLACEHOLDER": "Portāla pielāgots domēns",
-          "HELP_TEXT": "Pievienojiet tikai tad, ja vēlaties saviem portāliem izmantot pielāgotu domēnu. Piemēram: https://example.com",
+          "HELP_TEXT": "Pievienot tikai tad, ja vēlaties saviem portāliem izmantot pielāgotu domēnu. Piemēram: %{exampleURL}",
           "ERROR": "Ievadiet derīgu domēna URL"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Mājaslapas saite",
           "PLACEHOLDER": "Portāla mājaslapas saite",
-          "HELP_TEXT": "Saite, ko izmanto lai atgrieztos no portāla uz sākumlapu. Piemēram: https://example.com",
+          "HELP_TEXT": "Saite, ko izmanto lai atgrieztos no portāla uz sākumlapu. Piemēram: %{exampleURL}",
           "ERROR": "Ievadiet derīgu sākumlapas URL"
         },
         "THEME_COLOR": {
@@ -357,7 +365,7 @@
         "NAME": {
           "LABEL": "Nosaukums",
           "PLACEHOLDER": "Kategorijas nosaukums",
-          "HELP_TEXT": "Kategorijas nosaukums tiks izmantots publiskajā portālā, lai klasificētu rakstus.",
+          "HELP_TEXT": "Kategorijas nosaukums un ikona tiks izmantota publiskajā portālā, lai klasificētu rakstus.",
           "ERROR": "Nepieciešams nosaukums"
         },
         "SLUG": {
@@ -388,7 +396,7 @@
         "NAME": {
           "LABEL": "Nosaukums",
           "PLACEHOLDER": "Kategorijas nosaukums",
-          "HELP_TEXT": "Kategorijas nosaukums tiks izmantots publiskajā portālā, lai klasificētu rakstus.",
+          "HELP_TEXT": "Kategorijas nosaukums un ikona tiks izmantota publiskajā portālā, lai klasificētu rakstus.",
           "ERROR": "Nepieciešams nosaukums"
         },
         "SLUG": {
@@ -415,6 +423,33 @@
         "API": {
           "SUCCESS_MESSAGE": "Kategorija ir veiksmīgi izdzēsta",
           "ERROR_MESSAGE": "Nevar izdzēst kategoriju"
+        }
+      }
+    },
+    "UPGRADE_PAGE": {
+      "TITLE": "Palīdzības centrs",
+      "DESCRIPTION": "Izveidot lietotājiem draudzīgus pašapkalpošanās portālus, palīdzēt saviem lietotājiem piekļūt rakstiem, kā arī saņemt 24/7 atbalstu. Modernizējiet savu abonementu, lai iespējotu šo funkciju.",
+      "SELF_HOSTED_DESCRIPTION": "Izveidot lietotājiem draudzīgus pašapkalpošanās portālus, palīdzēt saviem lietotājiem piekļūt rakstiem, kā arī saņemt 24/7 atbalstu. Lūdzu, sazinieties ar savu administratoru, lai iespējotu šo funkciju.",
+      "BUTTON": {
+        "LEARN_MORE": "Uzzināt vairāk",
+        "UPGRADE": "Modernizēt"
+      },
+      "FEATURES": {
+        "PORTALS": {
+          "TITLE": "Vairāki portāli",
+          "DESCRIPTION": "Izveidot vairākus palīdzības centra portālus dažādiem produktiem, izmantojot vienu un to pašu kontu."
+        },
+        "LOCALES": {
+          "TITLE": "Lokalizācijas tiek pilnībā atbalstītas",
+          "DESCRIPTION": "Lokalizēt portālu savā valodā. Mēs atbalstām visas lokalizācijas un atļaujam tulkojumus katram rakstam."
+        },
+        "SEO": {
+          "TITLE": "Meklētājprogrammu optimizācijai draudzīgs dizains",
+          "DESCRIPTION": "Pielāgot savus metatagus, lai uzlabotu redzamību meklētājprogrammās, izmantojot mūsu meklētājprogrammu optimizācijai draudzīgās lapas."
+        },
+        "API": {
+          "TITLE": "Pilns API atbalsts",
+          "DESCRIPTION": "Izmantot portālu kā headless satura pārvaldības sistēmu ar trešās puses front-end framework, izmantojot mūsu API."
         }
       }
     }

@@ -12,6 +12,10 @@
     "NO_INBOX_2": " 開始吧",
     "NO_INBOX_AGENT": "看起來你還沒有分配到收件匣。請聯絡你的管理員",
     "SEARCH_MESSAGES": "在對話中搜尋訊息",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "搜尋訊息",
       "RESULT_TITLE": "搜尋結果",
@@ -30,7 +34,6 @@
     "ASSIGN_TO_ME": "指定給我",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 小時消息視窗限制",
-    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
     "REPLYING_TO": "你正在回覆到：",
     "REMOVE_SELECTION": "移除選擇項目",
     "DOWNLOAD": "下載",
@@ -43,6 +46,7 @@
     "NO_RESPONSE": "無回應",
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Feedback",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Show labels",
       "HIDE_LABELS": "Hide labels"
@@ -54,18 +58,25 @@
       "OPEN": "詳細資訊",
       "CLOSE": "關閉",
       "DETAILS": "詳情",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
       "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
       "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "標記為待處理",
+      "SNOOZE_UNTIL": "Snooze",
       "SNOOZE": {
         "TITLE": "Snooze until",
         "NEXT_REPLY": "下個回覆",
         "TOMORROW": "明天",
         "NEXT_WEEK": "下週"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Snooze until",
+      "APPLY": "Snooze",
+      "CANCEL": "取消"
     },
     "PRIORITY": {
       "TITLE": "Priority",
@@ -128,7 +139,8 @@
       "PRIVATE_NOTE": "私人筆記",
       "SEND": "發送",
       "CREATE": "新增筆記",
-      "TWEET": "推特",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "顯示文字編輯器",
       "TIP_EMOJI_ICON": "顯示 emoji 選擇器",
       "TIP_ATTACH_ICON": "附件",
@@ -140,6 +152,7 @@
       "STOP_AUDIO_RECORDING": "Stop audio recording",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "密件副本",
         "CC": {
           "LABEL": "副本",
@@ -182,6 +195,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "複製",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "刪除",
       "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
       "TRANSLATE": "Translate",

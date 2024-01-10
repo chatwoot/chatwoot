@@ -4,20 +4,22 @@
       "ALL": "Wszystkie",
       "CONTACTS": "Kontakty",
       "CONVERSATIONS": "Rozmowy",
-      "MESSAGES": "Messages"
+      "MESSAGES": "Wiadomości"
     },
     "SECTION": {
       "CONTACTS": "Kontakty",
       "CONVERSATIONS": "Rozmowy",
-      "MESSAGES": "Messages"
+      "MESSAGES": "Wiadomości"
     },
-    "EMPTY_STATE": "No %{item} found for query '%{query}'",
-    "EMPTY_STATE_FULL": "No results found for query '%{query}'",
-    "PLACEHOLDER_KEYBINDING": "/ to focus",
-    "INPUT_PLACEHOLDER": "Type 3 or more characters to search",
-    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results. ",
+    "EMPTY_STATE": "Nie znaleziono %{item} dla zapytania '%{query}'",
+    "EMPTY_STATE_FULL": "Nie znaleziono wyników dla zapytania '%{query}'",
+    "PLACEHOLDER_KEYBINDING": "/ aby skupić się",
+    "INPUT_PLACEHOLDER": "Wpisz co najmniej 3 znaki, aby wyszukać",
+    "EMPTY_STATE_DEFAULT": "Wyszukaj według identyfikatora rozmowy, adresu e-mail, numeru telefonu lub treści wiadomości, aby uzyskać lepsze wyniki wyszukiwania.",
     "BOT_LABEL": "Bot",
-    "READ_MORE": "Read more",
-    "WROTE": "wrote:"
+    "READ_MORE": "Czytaj więcej",
+    "WROTE": "napisał/a:",
+    "FROM": "od",
+    "EMAIL": "e-mail"
   }
 }

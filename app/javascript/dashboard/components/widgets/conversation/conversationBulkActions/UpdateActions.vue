@@ -2,13 +2,7 @@
   <div v-on-clickaway="onClose" class="actions-container">
     <div class="triangle">
       <svg height="12" viewBox="0 0 24 12" width="24">
-        <path
-          d="M20 12l-8-8-12 12"
-          fill="var(--white)"
-          fill-rule="evenodd"
-          stroke="var(--s-50)"
-          stroke-width="1px"
-        />
+        <path d="M20 12l-8-8-12 12" fill-rule="evenodd" stroke-width="1px" />
       </svg>
     </div>
     <div class="header flex-between">
@@ -126,42 +120,30 @@ export default {
 
 <style scoped lang="scss">
 .actions-container {
-  background-color: var(--white);
-  border-radius: var(--border-radius-large);
-  border: 1px solid var(--s-50);
-  box-shadow: var(--shadow-dropdown-pane);
-  position: absolute;
-  right: var(--space-small);
-  top: var(--space-larger);
-  transform-origin: top right;
-  width: auto;
-  z-index: var(--z-index-twenty);
+  @apply absolute right-2 top-12 origin-top-right w-auto z-20 bg-white dark:bg-slate-800 rounded-lg border border-solid border-slate-50 dark:border-slate-700 shadow-md;
 
   .header {
-    padding: var(--space-one);
+    @apply p-2.5;
 
     span {
-      font-size: var(--font-size-small);
-      font-weight: var(--font-weight-medium);
+      @apply text-sm font-medium;
     }
   }
   .container {
-    padding: var(--space-one);
-    padding-top: var(--space-zero);
+    @apply px-2.5 pt-0 pb-2.5;
   }
 
   .triangle {
-    display: block;
-    position: absolute;
     right: var(--triangle-position);
-    text-align: left;
-    top: var(--space-minus-slab);
-    z-index: var(--z-index-one);
+    @apply block z-10 absolute text-left -top-3;
+
+    svg path {
+      @apply fill-white dark:fill-slate-800 stroke-slate-50 dark:stroke-slate-600/50;
+    }
   }
 }
 
 ul {
-  margin: 0;
-  list-style: none;
+  @apply m-0 list-none;
 }
 </style>

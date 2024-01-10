@@ -3,7 +3,8 @@
     "TITLE": "Kirjaudu sisään Chatwootiin",
     "EMAIL": {
       "LABEL": "Sähköposti",
-      "PLACEHOLDER": "Sähköposti, esim: someone@example.fi"
+      "PLACEHOLDER": "Sähköposti, esim: someone@example.fi",
+      "ERROR": "Ole hyvä ja syötä validi sähköposti"
     },
     "PASSWORD": {
       "LABEL": "Salasana",

@@ -19,10 +19,7 @@ localVue.component('woot-dropdown-menu', WootDropdownMenu);
 localVue.component('woot-dropdown-divider', WootDropdownDivider);
 localVue.component('woot-dropdown-item', WootDropdownItem);
 
-const i18nConfig = new VueI18n({
-  locale: 'en',
-  messages: i18n,
-});
+const i18nConfig = new VueI18n({ locale: 'en', messages: i18n });
 
 describe('AvailabilityStatus', () => {
   const currentAvailability = 'online';
@@ -48,15 +45,13 @@ describe('AvailabilityStatus', () => {
       },
     };
 
-    store = new Vuex.Store({
-      actions,
-      modules,
-    });
+    store = new Vuex.Store({ actions, modules });
 
     availabilityStatus = mount(AvailabilityStatus, {
       store,
       localVue,
       i18n: i18nConfig,
+      stubs: { WootSwitch: { template: '<button />' } },
     });
   });
 

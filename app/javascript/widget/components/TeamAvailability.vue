@@ -1,34 +1,34 @@
 <template>
-  <div class="px-5">
-    <div class="flex items-center justify-between mb-4">
-      <div
-        class="max-w-xs"
-        :class="$dm('text-black-700', 'dark:text-slate-50')"
-      >
-        <div class="text-base leading-5 font-medium mb-1">
+  <div class="p-4 shadow-sm rounded-md bg-white dark:bg-slate-700">
+    <div class="flex items-center justify-between">
+      <div class="  ">
+        <div class="text-sm font-medium text-slate-700 dark:text-slate-50">
           {{
             isOnline
               ? $t('TEAM_AVAILABILITY.ONLINE')
               : $t('TEAM_AVAILABILITY.OFFLINE')
           }}
         </div>
-        <div class="text-xs leading-4 mt-1">
+        <div class="text-sm mt-1 text-slate-500 dark:text-slate-100">
           {{ replyWaitMessage }}
         </div>
       </div>
       <available-agents v-if="isOnline" :agents="availableAgents" />
     </div>
-    <custom-button
-      class="font-medium"
-      block
-      :bg-color="widgetColor"
-      :text-color="textColor"
+    <button
+      class="inline-flex text-sm font-medium rounded-md py-1 mt-2 px-2 -ml-2 leading-6 text-slate-800 dark:text-slate-50 justify-between items-center hover:bg-slate-25 dark:hover:bg-slate-800"
+      :style="{ color: widgetColor }"
       @click="startConversation"
     >
-      {{
-        hasConversation ? $t('CONTINUE_CONVERSATION') : $t('START_CONVERSATION')
-      }}
-    </custom-button>
+      <span class="pr-2 text-sm">
+        {{
+          hasConversation
+            ? $t('CONTINUE_CONVERSATION')
+            : $t('START_CONVERSATION')
+        }}
+      </span>
+      <fluent-icon icon="arrow-right" size="14" />
+    </button>
   </div>
 </template>
 
@@ -37,18 +37,19 @@ import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
 import AvailableAgents from 'widget/components/AvailableAgents.vue';
-import CustomButton from 'shared/components/Button';
 import configMixin from 'widget/mixins/configMixin';
 import availabilityMixin from 'widget/mixins/availability';
-import darkMixin from 'widget/mixins/darkModeMixin.js';
+import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import { IFrameHelper } from 'widget/helpers/utils';
+import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
 
 export default {
   name: 'TeamAvailability',
   components: {
     AvailableAgents,
-    CustomButton,
+    FluentIcon,
   },
-  mixins: [configMixin, nextAvailabilityTime, availabilityMixin, darkMixin],
+  mixins: [configMixin, nextAvailabilityTime, availabilityMixin],
   props: {
     availableAgents: {
       type: Array,
@@ -57,6 +58,10 @@ export default {
     hasConversation: {
       type: Boolean,
       default: false,
+    },
+    unreadCount: {
+      type: Number,
+      default: 0,
     },
   },
 
@@ -80,6 +85,13 @@ export default {
   methods: {
     startConversation() {
       this.$emit('start-conversation');
+      if (!this.hasConversation) {
+        IFrameHelper.sendMessage({
+          event: 'onEvent',
+          eventIdentifier: CHATWOOT_ON_START_CONVERSATION,
+          data: { hasConversation: false },
+        });
+      }
     },
   },
 };

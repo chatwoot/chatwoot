@@ -1,5 +1,5 @@
 <template>
-  <div class="column content-box">
+  <div class="flex-1 overflow-auto p-4">
     <report-filter-selector
       :show-agents-filter="true"
       :show-inbox-filter="true"
@@ -21,9 +21,9 @@
   </div>
 </template>
 <script>
-import CsatMetrics from './components/CsatMetrics';
-import CsatTable from './components/CsatTable';
-import ReportFilterSelector from './components/FilterSelector';
+import CsatMetrics from './components/CsatMetrics.vue';
+import CsatTable from './components/CsatTable.vue';
+import ReportFilterSelector from './components/FilterSelector.vue';
 import { generateFileName } from '../../../../helper/downloadHelper';
 import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 import { mapGetters } from 'vuex';

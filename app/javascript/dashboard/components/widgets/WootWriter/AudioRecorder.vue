@@ -225,8 +225,8 @@ export default {
 
 <style lang="scss">
 .audio-wave-wrapper {
-  min-height: 8rem;
-  height: 8rem;
+  min-height: 5rem;
+  height: 5rem;
 }
 .video-js .vjs-control-bar {
   background-color: transparent;

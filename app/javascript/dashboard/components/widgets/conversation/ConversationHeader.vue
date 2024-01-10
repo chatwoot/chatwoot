@@ -1,39 +1,61 @@
 <template>
-  <div class="conv-header">
-    <div class="conversation-header--details">
-      <div class="user">
-        <back-button v-if="showBackButton" :back-url="backButtonUrl" />
+  <div
+    class="bg-white dark:bg-slate-900 flex justify-between items-center py-2 px-4 border-b border-slate-50 dark:border-slate-800/50 flex-col md:flex-row"
+  >
+    <div
+      class="flex-1 w-full min-w-0 flex flex-col md:flex-row items-center justify-center"
+    >
+      <div
+        class="flex justify-start items-center mr-4 rtl:mr-0 rtl:ml-4 min-w-0 w-[inherit]"
+      >
+        <back-button
+          v-if="showBackButton"
+          :back-url="backButtonUrl"
+          class="ltr:ml-0 rtl:mr-0 rtl:ml-4"
+        />
         <Thumbnail
           :src="currentContact.thumbnail"
           :badge="inboxBadge"
           :username="currentContact.name"
           :status="currentContact.availability_status"
         />
-        <div class="user--profile__meta">
-          <woot-button
-            variant="link"
-            color-scheme="secondary"
-            class="text-truncate"
-            @click.prevent="$emit('contact-panel-toggle')"
+        <div
+          class="items-start flex flex-col ml-2 rtl:ml-0 rtl:mr-2 min-w-0 w-[inherit] overflow-hidden"
+        >
+          <div class="flex items-center flex-row gap-1 m-0 p-0 w-[inherit]">
+            <woot-button
+              variant="link"
+              color-scheme="secondary"
+              class="[&>span]:overflow-hidden [&>span]:whitespace-nowrap [&>span]:text-ellipsis min-w-0"
+              @click.prevent="$emit('contact-panel-toggle')"
+            >
+              <span
+                class="text-base leading-tight text-slate-900 dark:text-slate-100"
+              >
+                {{ currentContact.name }}
+              </span>
+            </woot-button>
+            <fluent-icon
+              v-if="!isHMACVerified"
+              v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
+              size="14"
+              class="text-yellow-600 dark:text-yellow-500 my-0 mx-0 min-w-[14px]"
+              icon="warning"
+            />
+          </div>
+
+          <div
+            class="conversation--header--actions items-center flex text-xs gap-2 text-ellipsis overflow-hidden whitespace-nowrap"
           >
-            <h3 class="sub-block-title user--name text-truncate">
-              <span>{{ currentContact.name }}</span>
-              <fluent-icon
-                v-if="!isHMACVerified"
-                v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
-                size="14"
-                class="hmac-warning__icon"
-                icon="warning"
-              />
-            </h3>
-          </woot-button>
-          <div class="conversation--header--actions text-truncate">
             <inbox-name v-if="hasMultipleInboxes" :inbox="inbox" />
-            <span v-if="isSnoozed" class="snoozed--display-text">
+            <span
+              v-if="isSnoozed"
+              class="font-medium text-yellow-600 dark:text-yellow-500"
+            >
               {{ snoozedDisplayText }}
             </span>
             <woot-button
-              class="user--profile__button"
+              class="p-0"
               size="small"
               variant="link"
               @click="$emit('contact-panel-toggle')"
@@ -44,8 +66,8 @@
         </div>
       </div>
       <div
-        class="header-actions-wrap"
-        :class="{ 'has-open-sidebar': isContactPanelOpen }"
+        class="header-actions-wrap items-center flex flex-row flex-grow justify-end mt-3 lg:mt-0"
+        :class="{ 'justify-end': isContactPanelOpen }"
       >
         <more-actions :conversation-id="currentChat.id" />
       </div>
@@ -56,15 +78,16 @@
 import { hasPressedAltAndOKey } from 'shared/helpers/KeyboardHelpers';
 import { mapGetters } from 'vuex';
 import agentMixin from '../../../mixins/agentMixin.js';
-import BackButton from '../BackButton';
-import differenceInHours from 'date-fns/differenceInHours';
+import BackButton from '../BackButton.vue';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import inboxMixin from 'shared/mixins/inboxMixin';
-import InboxName from '../InboxName';
-import MoreActions from './MoreActions';
-import Thumbnail from '../Thumbnail';
+import InboxName from '../InboxName.vue';
+import MoreActions from './MoreActions.vue';
+import Thumbnail from '../Thumbnail.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { conversationListPageURL } from 'dashboard/helper/URLHelper';
+import { conversationReopenTime } from 'dashboard/helper/snoozeHelpers';
+
 export default {
   components: {
     BackButton,
@@ -125,17 +148,9 @@ export default {
     snoozedDisplayText() {
       const { snoozed_until: snoozedUntil } = this.currentChat;
       if (snoozedUntil) {
-        // When the snooze is applied, it schedules the unsnooze event to next day/week 9AM.
-        // By that logic if the time difference is less than or equal to 24 + 9 hours we can consider it tomorrow.
-        const MAX_TIME_DIFFERENCE = 33;
-        const isSnoozedUntilTomorrow =
-          differenceInHours(new Date(snoozedUntil), new Date()) <=
-          MAX_TIME_DIFFERENCE;
-        return this.$t(
-          isSnoozedUntilTomorrow
-            ? 'CONVERSATION.HEADER.SNOOZED_UNTIL_TOMORROW'
-            : 'CONVERSATION.HEADER.SNOOZED_UNTIL_NEXT_WEEK'
-        );
+        return `${this.$t(
+          'CONVERSATION.HEADER.SNOOZED_UNTIL'
+        )} ${conversationReopenTime(snoozedUntil)}`;
       }
       return this.$t('CONVERSATION.HEADER.SNOOZED_UNTIL_NEXT_REPLY');
     },
@@ -166,72 +181,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/woot';
-
-.conv-header {
-  flex: 0 0 var(--space-jumbo);
-  flex-direction: row;
-
-  @include breakpoint(medium up) {
-    flex-direction: column;
-  }
-}
-
-.conversation-header--details {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-
-  @include breakpoint(medium up) {
-    flex-direction: row;
-  }
-}
-
-.option__desc {
-  display: flex;
-  align-items: center;
-}
-
-.option__desc {
-  &::v-deep .status-badge {
-    margin-right: var(--space-small);
-    min-width: 0;
-    flex-shrink: 0;
-  }
-}
-
-.user--name {
-  display: inline-block;
-  line-height: 1.2;
-  text-transform: capitalize;
-  margin: 0;
-  padding: 0;
-}
-
 .conversation--header--actions {
-  align-items: center;
-  display: flex;
-  font-size: var(--font-size-mini);
-  gap: var(--space-small);
-
   ::v-deep .inbox--name {
-    margin: 0;
+    @apply m-0;
   }
-
-  .user--profile__button {
-    padding: 0;
-  }
-
-  .snoozed--display-text {
-    font-weight: var(--font-weight-medium);
-    color: var(--y-600);
-  }
-}
-
-.hmac-warning__icon {
-  color: var(--y-600);
-  margin: 0 var(--space-micro);
 }
 </style>

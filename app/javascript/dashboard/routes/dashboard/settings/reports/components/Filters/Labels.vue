@@ -28,11 +28,7 @@
         <div class="reports-option__wrap">
           <div
             :style="{ backgroundColor: props.option.color }"
-            class="
-                reports-option__rounded--item
-                reports-option__item
-                reports-option__label--swatch
-              "
+            class="reports-option__rounded--item reports-option__item reports-option__label--swatch"
           />
           <span class="reports-option__desc">
             <span class="reports-option__title">

@@ -19,12 +19,24 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Svarar vanligtvis inom några minuter",
     "IN_A_FEW_HOURS": "Svarar vanligtvis inom några timmar",
-    "IN_A_DAY": "Svar vanligtvis inom en dag"
+    "IN_A_DAY": "Svar vanligtvis inom en dag",
+    "BACK_IN": "Vi kommer tillbaka online"
   },
+  "DAY_NAMES": [
+    "Söndag",
+    "Måndag",
+    "Tisdag",
+    "Onsdag",
+    "Torsdag",
+    "Fredag",
+    "Lördag"
+  ],
   "START_CONVERSATION": "Starta konversation",
-  "END_CONVERSATION": "End Conversation",
+  "END_CONVERSATION": "Avsluta konversation",
   "CONTINUE_CONVERSATION": "Fortsätt konversation",
+  "YOU": "Du",
   "START_NEW_CONVERSATION": "Starta konversation",
+  "VIEW_UNREAD_MESSAGES": "Du har olästa meddelanden",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Se nya meddelanden",
     "CLOSE_MESSAGES_BUTTON": "Stäng",
@@ -49,24 +61,26 @@
       "EMAIL_ADDRESS": {
         "LABEL": "E-postadress",
         "PLACEHOLDER": "Vänligen ange din e-postadress",
-        "REQUIRED_ERROR": "Email Address is required",
+        "REQUIRED_ERROR": "E-postadress är obligatoriskt",
         "VALID_ERROR": "Ange en giltig e-postadress"
       },
       "PHONE_NUMBER": {
         "LABEL": "Telefonnummer",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "PLACEHOLDER": "Vänligen ange ditt telefonnummer",
+        "REQUIRED_ERROR": "Telefonnummer är obligatoriskt",
+        "DIAL_CODE_VALID_ERROR": "Välj en landskod",
+        "VALID_ERROR": "Vänligen ange ett giltigt telefonnummer",
+        "DROPDOWN_EMPTY": "Inga resultat hittades"
       },
       "MESSAGE": {
         "LABEL": "Meddelande",
-        "PLACEHOLDER": "Vänligen ange ditt fullständiga namn",
+        "PLACEHOLDER": "Skriv ditt meddelande",
         "ERROR": "Meddelandet är för kort"
       }
     },
     "CAMPAIGN_HEADER": "Ange ditt namn och e-post innan du startar konversationen",
-    "IS_REQUIRED": "is required",
-    "REQUIRED": "Required"
+    "IS_REQUIRED": "är obligatoriskt",
+    "REQUIRED": "Obligatoriskt"
   },
   "FILE_SIZE_LIMIT": "Filen överskrider gränsen för {MAXIMUM_FILE_UPLOAD_SIZE} bifogade filer",
   "CHAT_FORM": {
@@ -75,8 +89,8 @@
     }
   },
   "EMOJI": {
-    "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+    "PLACEHOLDER": "Sök emoji",
+    "NOT_FOUND": "Ingen emoji matchar din sökning"
   },
   "CSAT": {
     "TITLE": "Betygsätt din konversation",
@@ -90,8 +104,33 @@
   },
   "INTEGRATIONS": {
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
+      "CLICK_HERE_TO_JOIN": "Klicka här för att gå med",
+      "LEAVE_THE_ROOM": "Lämna samtalet"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Populära artiklar",
+    "VIEW_ALL_ARTICLES": "Se alla artiklar",
+    "IFRAME_LOAD_ERROR": "Det gick inte att ladda artikeln, uppdatera sidan och försök igen."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Bildmeddelande"
+    },
+    "audio": {
+      "CONTENT": "Ljudmeddelande"
+    },
+    "video": {
+      "CONTENT": "Videomeddelande"
+    },
+    "file": {
+      "CONTENT": "Bifogad fil"
+    },
+    "location": {
+      "CONTENT": "Plats"
+    },
+    "fallback": {
+      "CONTENT": "har delat en webbadress"
     }
   }
 }

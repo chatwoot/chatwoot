@@ -36,10 +36,13 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "امضای پیام شخصی",
-        "NOTE": "یک امضای پیام شخصی ایجاد کنید که به همه پیام‌هایی که از صندوق ورودی ایمیل ارسال می‌کنید اضافه شود. از ویرایشگر محتوای غنی برای ایجاد یک امضای بسیار شخصی استفاده کنید.",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
         "BTN_TEXT": "ذخیره امضای پیام",
         "API_ERROR": "امضا ذخیره نشد! دوباره امتحان کنید",
-        "API_SUCCESS": "امضا با موفقیت ذخیره شد"
+        "API_SUCCESS": "امضا با موفقیت ذخیره شد",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "اندازه تصویر باید کمتر از {size} مگابایت باشد"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "امضای پیام",
@@ -149,6 +152,7 @@
     "SELECTOR_SUBTITLE": "از لیست یکی از حساب‌ها را انتخاب کنید",
     "PROFILE_SETTINGS": "تنظیمات پروفایل",
     "KEYBOARD_SHORTCUTS": "میانبرهای صفحه‌کلید",
+    "APPEARANCE": "تغییر ظاهر",
     "SUPER_ADMIN_CONSOLE": "کنسول سوپر مدیر",
     "LOGOUT": "خروج از حساب‌کاربری"
   },
@@ -238,7 +242,7 @@
     "REPORTS_OVERVIEW": "بررسی اجمالی",
     "FACEBOOK_REAUTHORIZE": "اتصال فیس بوک شما منقضی شده است ، لطفاً برای ادامه خدمات دوباره صفحه فیس بوک خود را متصل کنید",
     "HELP_CENTER": {
-      "TITLE": "مرکز راهنمایی (آزمایشی)",
+      "TITLE": "مرکز راهنما",
       "ALL_ARTICLES": "همه مقالات",
       "MY_ARTICLES": "مقالات من",
       "DRAFT": "پیش‌نویس",

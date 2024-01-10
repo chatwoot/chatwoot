@@ -1,19 +1,16 @@
 <template>
-  <div class="column content-box">
-    <div class="row">
-      <div class="empty-wrapper">
-        <woot-loading-state
-          v-if="uiFlags.isFetching"
-          :message="$t('INTEGRATION_APPS.FETCHING')"
-        />
+  <div class="flex-shrink flex-grow overflow-auto p-4">
+    <div class="flex flex-col">
+      <div v-if="uiFlags.isFetching" class="my-0 mx-auto">
+        <woot-loading-state :message="$t('INTEGRATION_APPS.FETCHING')" />
       </div>
 
-      <div class="small-12 columns integrations-wrap">
-        <div class="row integrations">
+      <div v-else class="w-full">
+        <div>
           <div
             v-for="item in integrationsList"
             :key="item.id"
-            class="small-12 columns integration"
+            class="bg-white dark:bg-slate-800 border border-solid border-slate-75 dark:border-slate-700/50 rounded-sm mb-4 p-4"
           >
             <integration-item
               :integration-id="item.id"
@@ -30,7 +27,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import IntegrationItem from './IntegrationItem';
+import IntegrationItem from './IntegrationItem.vue';
 
 export default {
   components: {
@@ -47,10 +44,3 @@ export default {
   },
 };
 </script>
-
-<style scoped lang="scss">
-@import '~dashboard/assets/scss/variables';
-.empty-wrapper {
-  margin: var(--space-zero) auto;
-}
-</style>

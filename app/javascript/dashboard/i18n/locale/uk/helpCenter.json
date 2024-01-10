@@ -74,6 +74,14 @@
         "DELETE": "Видалити статтю"
       }
     },
+    "ARTICLE_SEARCH_RESULT": {
+      "UNCATEGORIZED": "Uncategorized",
+      "INSERT_ARTICLE": "Insert",
+      "NO_RESULT": "No articles found",
+      "COPY_LINK": "Copy article link to clipboard",
+      "OPEN_LINK": "Open article in new tab",
+      "PREVIEW_LINK": "Preview article"
+    },
     "PORTAL": {
       "HEADER": "Портали",
       "DEFAULT": "За замовчуванням",
@@ -357,7 +365,7 @@
         "NAME": {
           "LABEL": "Ім'я",
           "PLACEHOLDER": "Назва категорії",
-          "HELP_TEXT": "Назва категорії буде використовуватися в публічному інтерфейсі порталу для категоризації статей.",
+          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
           "ERROR": "Назва обов'язкова"
         },
         "SLUG": {
@@ -388,7 +396,7 @@
         "NAME": {
           "LABEL": "Ім'я",
           "PLACEHOLDER": "Назва категорії",
-          "HELP_TEXT": "Назва категорії буде використовуватися в публічному інтерфейсі порталу для категоризації статей.",
+          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
           "ERROR": "Назва обов'язкова"
         },
         "SLUG": {
@@ -415,6 +423,33 @@
         "API": {
           "SUCCESS_MESSAGE": "Категорію успішно видалено",
           "ERROR_MESSAGE": "Не вдалося видалити категорію"
+        }
+      }
+    },
+    "UPGRADE_PAGE": {
+      "TITLE": "Довідковий центр",
+      "DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Upgrade your subscription to enable this feature.",
+      "SELF_HOSTED_DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Please contact your administrator to enable this feature.",
+      "BUTTON": {
+        "LEARN_MORE": "Детальніше",
+        "UPGRADE": "Upgrade"
+      },
+      "FEATURES": {
+        "PORTALS": {
+          "TITLE": "Multiple portals",
+          "DESCRIPTION": "Create multiple help center portals for different products using the same account."
+        },
+        "LOCALES": {
+          "TITLE": "Full support for locales",
+          "DESCRIPTION": "Localize the portal in your language. We support all locales and allow translations for every article."
+        },
+        "SEO": {
+          "TITLE": "SEO-friendly design",
+          "DESCRIPTION": "Customize your meta tags to improve your visibility on search engines with our SEO-friendly pages."
+        },
+        "API": {
+          "TITLE": "Full API support",
+          "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
         }
       }
     }

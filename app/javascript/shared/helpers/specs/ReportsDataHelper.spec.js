@@ -89,38 +89,38 @@ describe('groupHeatmapByDay', () => {
 
     expect(groupHeatmapByDay(heatmapData)).toMatchInlineSnapshot(`
       Map {
-        "2021-02-25T00:00:00.000Z" => Array [
-          Object {
+        "2021-02-25T00:00:00.000Z" => [
+          {
             "date": 2021-02-25T15:00:00.000Z,
             "hour": 15,
             "timestamp": 1614265200,
             "value": 10,
           },
         ],
-        "2021-02-26T00:00:00.000Z" => Array [
-          Object {
+        "2021-02-26T00:00:00.000Z" => [
+          {
             "date": 2021-02-26T03:00:00.000Z,
             "hour": 3,
             "timestamp": 1614308400,
             "value": 20,
           },
         ],
-        "2021-02-27T00:00:00.000Z" => Array [
-          Object {
+        "2021-02-27T00:00:00.000Z" => [
+          {
             "date": 2021-02-27T01:00:00.000Z,
             "hour": 1,
             "timestamp": 1614387600,
             "value": 30,
           },
-          Object {
+          {
             "date": 2021-02-27T13:00:00.000Z,
             "hour": 13,
             "timestamp": 1614430800,
             "value": 40,
           },
         ],
-        "2021-02-28T00:00:00.000Z" => Array [
-          Object {
+        "2021-02-28T00:00:00.000Z" => [
+          {
             "date": 2021-02-28T08:00:00.000Z,
             "hour": 8,
             "timestamp": 1614499200,
@@ -145,14 +145,14 @@ describe('groupHeatmapByDay', () => {
 
     expect(groupHeatmapByDay(heatmapData)).toMatchInlineSnapshot(`
       Map {
-        "2021-02-25T00:00:00.000Z" => Array [
-          Object {
+        "2021-02-25T00:00:00.000Z" => [
+          {
             "date": 2021-02-25T15:00:00.000Z,
             "hour": 15,
             "timestamp": 1614265200,
             "value": 10,
           },
-          Object {
+          {
             "date": 2021-02-25T15:00:00.000Z,
             "hour": 15,
             "timestamp": 1614265200,

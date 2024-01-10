@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Adaugă etichete",
         "PLACEHOLDER": "Căutare etichete",
-        "NO_RESULT": "Nu s-au găsit etichete"
+        "NO_RESULT": "Nu s-au găsit etichete",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Îmbinare contact",
@@ -70,7 +71,14 @@
       "SUBMIT": "Importă",
       "CANCEL": "Renunță"
     },
-    "SUCCESS_MESSAGE": "Contacte salvate cu succes",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+    "ERROR_MESSAGE": "A apărut o eroare, încercați din nou"
+  },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Exportă",
+    "TITLE": "Exportă contacte",
+    "DESC": "Exportă contactele într-un fișier CSV.",
+    "SUCCESS_MESSAGE": "Exportul este în desfășurare, veți fi notificat prin e-mail când fișierul de export este gata de descărcare.",
     "ERROR_MESSAGE": "A apărut o eroare, încercați din nou"
   },
   "DELETE_NOTE": {
@@ -196,6 +204,10 @@
         "PLACEHOLDER": "Scrie mesajul aici",
         "ERROR": "Mesajul nu poate fi gol"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "Trimite mesaj",
       "CANCEL": "Renunță",
       "SUCCESS_MESSAGE": "Mesaj trimis!",
@@ -211,6 +223,7 @@
     "FILTER_CONTACTS": "Filtru",
     "FILTER_CONTACTS_SAVE": "Salvare filtru",
     "FILTER_CONTACTS_DELETE": "Ștergere filtru",
+    "FILTER_CONTACTS_EDIT": "Modifică segment",
     "LIST": {
       "LOADING_MESSAGE": "Se încarcă contactele...",
       "404": "Niciun contact nu se potrivește cu căutarea ta 🔍",
@@ -334,17 +347,17 @@
     "DESCRIPTION": "Îmbinați contactele pentru a combina două profiluri într-unul, inclusiv toate atributele și conversațiile. În caz de conflict, atributele de contact primar vor avea prioritate.",
     "PRIMARY": {
       "TITLE": "Contact principal",
-      "HELP_LABEL": "De păstrat"
+      "HELP_LABEL": "De eliminat"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Contact pentru îmbinare",
       "PLACEHOLDER": "Caută un contact",
-      "HELP_LABEL": "De eliminat"
+      "HELP_LABEL": "De păstrat"
     },
     "SUMMARY": {
       "TITLE": "Sumar",
-      "DELETE_WARNING": "Contactul <strong>%{childContactName}</strong> va fi șters.",
-      "ATTRIBUTE_WARNING": "Datele de contact ale <strong>%{childContactName}</strong> vor fi copiate la <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Contactul <strong>%{primaryContactName}</strong> va fi șters.",
+      "ATTRIBUTE_WARNING": "Datele de contact ale <strong>%{primaryContactName}</strong> vor fi copiate la <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "MESAJ_EROARE"

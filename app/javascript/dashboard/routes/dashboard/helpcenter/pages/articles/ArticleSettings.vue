@@ -1,7 +1,7 @@
 <template>
   <transition name="popover-animation">
     <div class="article-settings--container">
-      <h3 class="block-title">
+      <h3 class="text-base text-slate-800 dark:text-slate-100">
         {{ $t('HELP_CENTER.ARTICLE_SETTINGS.TITLE') }}
       </h3>
       <div class="form-wrap">
@@ -91,6 +91,7 @@
             @search-change="handleSearchChange"
             @close="onBlur"
             @tag="addTagValue"
+            @remove="removeTag"
           />
         </label>
       </div>
@@ -119,7 +120,7 @@
 </template>
 
 <script>
-import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown';
+import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import { mapGetters } from 'vuex';
 import { debounce } from '@chatwoot/utils';
 import { isEmptyObject } from 'dashboard/helper/commons.js';
@@ -157,16 +158,23 @@ export default {
       return this.metaTags.map(item => item.name);
     },
   },
+  watch: {
+    article: {
+      handler() {
+        if (!isEmptyObject(this.article.meta || {})) {
+          const {
+            meta: { title = '', description = '', tags = [] },
+          } = this.article;
+          this.metaTitle = title;
+          this.metaDescription = description;
+          this.metaTags = this.formattedTags({ tags });
+        }
+      },
+      deep: true,
+      immediate: true,
+    },
+  },
   mounted() {
-    if (!isEmptyObject(this.article.meta || {})) {
-      const {
-        meta: { title = '', description = '', tags = [] },
-      } = this.article;
-      this.metaTitle = title;
-      this.metaDescription = description;
-      this.metaTags = this.formattedTags({ tags });
-    }
-
     this.saveArticle = debounce(
       () => {
         this.$emit('save-article', {
@@ -196,6 +204,9 @@ export default {
       this.metaTags.push(...this.formattedTags({ tags: [...new Set(tags)] }));
       this.saveArticle();
     },
+    removeTag() {
+      this.saveArticle();
+    },
     handleSearchChange(value) {
       this.tagInputValue = value;
     },
@@ -209,15 +220,21 @@ export default {
     },
     onClickAssignAuthor({ id }) {
       this.$emit('save-article', { author_id: id });
+      this.updateMeta();
     },
     onChangeMetaInput() {
       this.saveArticle();
     },
     onClickArchiveArticle() {
       this.$emit('archive-article');
+      this.updateMeta();
     },
     onClickDeleteArticle() {
       this.$emit('delete-article');
+      this.updateMeta();
+    },
+    updateMeta() {
+      this.$emit('update-meta');
     },
   },
 };
@@ -225,48 +242,36 @@ export default {
 
 <style lang="scss" scoped>
 .article-settings--container {
-  flex: 0.3;
-  min-width: var(--space-giga);
-  max-width: 36rem;
-  overflow-y: auto;
-  border-left: 1px solid var(--color-border-light);
-  margin-left: var(--space-normal);
-  padding-left: var(--space-normal);
-  padding-top: var(--space-small);
-  padding-bottom: var(--space-small);
+  @apply flex-[0.3] min-w-[15rem] max-w-[22.5rem] py-2 pl-4 rtl:pl-0 rtl:pr-4 ml-4 rtl:ml-0 rtl:mr-4 overflow-y-auto border-l rtl:border-r rtl:border-l-0 border-solid border-slate-50 dark:border-slate-700;
 
   .form-wrap {
-    margin-top: var(--space-normal);
-    margin-bottom: var(--space-medium);
+    @apply mt-4 mb-6;
 
     textarea {
-      font-size: var(--font-size-small);
+      @apply text-sm;
     }
   }
 
   .action-buttons {
-    display: flex;
-    flex-direction: column;
+    @apply flex flex-col;
   }
 }
 ::v-deep {
   .multiselect {
-    margin-bottom: 0;
+    @apply mb-0;
   }
   .multiselect__content-wrapper {
-    display: none;
+    @apply hidden;
   }
   .multiselect--active .multiselect__tags {
-    border-radius: var(--border-radius-normal);
     padding-right: var(--space-small) !important;
+    @apply rounded-md;
   }
   .multiselect__placeholder {
-    color: var(--s-300);
-    padding-top: var(--space-small);
-    margin-bottom: 0;
+    @apply text-slate-300 dark:text-slate-200 pt-2 mb-0;
   }
   .multiselect__select {
-    display: none;
+    @apply hidden;
   }
 }
 </style>

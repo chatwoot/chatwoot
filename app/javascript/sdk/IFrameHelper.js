@@ -23,11 +23,7 @@ import {
 } from './bubbleHelpers';
 import { isWidgetColorLighter } from 'shared/helpers/colorHelper';
 import { dispatchWindowEvent } from 'shared/helpers/CustomEventHelper';
-import {
-  CHATWOOT_ERROR,
-  CHATWOOT_ON_MESSAGE,
-  CHATWOOT_READY,
-} from '../widget/constants/sdkEvents';
+import { CHATWOOT_ERROR, CHATWOOT_READY } from '../widget/constants/sdkEvents';
 import { SET_USER_ERROR } from '../widget/constants/errorTypes';
 import { getUserCookieName, setCookieWithDomain } from './cookieHelpers';
 import {
@@ -191,8 +187,8 @@ export const IFrameHelper = {
         Cookies.remove(getUserCookieName());
       }
     },
-    onMessage({ data }) {
-      dispatchWindowEvent({ eventName: CHATWOOT_ON_MESSAGE, data });
+    onEvent({ eventIdentifier: eventName, data }) {
+      dispatchWindowEvent({ eventName, data });
     },
     setBubbleLabel(message) {
       setBubbleText(window.$chatwoot.launcherTitle || message.label);

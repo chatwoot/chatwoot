@@ -12,6 +12,10 @@
     "NO_INBOX_2": " da bi ste počeli",
     "NO_INBOX_AGENT": "O ne! Izgleda da niste deo nijednog prijemnog sandučeta. Molim vas kontaktirajte vašeg administratora",
     "SEARCH_MESSAGES": "Pretražite poruke u razgovorima",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "Pretraži poruke",
       "RESULT_TITLE": "Rezultat pretrage",
@@ -30,7 +34,6 @@
     "ASSIGN_TO_ME": "Dodeli meni",
     "TWILIO_WHATSAPP_CAN_REPLY": "Možete jedino da odgovarate na ovaj razgovor koristeći šablon poruka zbog",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24-časovno ograničenje poruka",
-    "SELECT_A_TWEET_TO_REPLY": "Molim vas izaberite tvit na koji da odgovorite.",
     "REPLYING_TO": "Odgovarate na:",
     "REMOVE_SELECTION": "Ukloni izbor",
     "DOWNLOAD": "Preuzmi",
@@ -43,6 +46,7 @@
     "NO_RESPONSE": "Nema odgovora",
     "RATING_TITLE": "Ocena",
     "FEEDBACK_TITLE": "Povratne informacije",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Show labels",
       "HIDE_LABELS": "Hide labels"
@@ -54,18 +58,25 @@
       "OPEN": "Više",
       "CLOSE": "Zatvori",
       "DETAILS": "detalji",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Odloženo do sutra",
       "SNOOZED_UNTIL_NEXT_WEEK": "Odloženo do sledeće nedelje",
       "SNOOZED_UNTIL_NEXT_REPLY": "Odloženo do sledećeg odgovora"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Označeno na čekanju",
+      "SNOOZE_UNTIL": "Odloži",
       "SNOOZE": {
         "TITLE": "Odloži do",
         "NEXT_REPLY": "Sledećeg odgovora",
         "TOMORROW": "Sutra",
         "NEXT_WEEK": "Sledeće nedelje"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Odloži do",
+      "APPLY": "Odloži",
+      "CANCEL": "Otkaži"
     },
     "PRIORITY": {
       "TITLE": "Priority",
@@ -128,7 +139,8 @@
       "PRIVATE_NOTE": "Privatna beleška",
       "SEND": "Pošalji",
       "CREATE": "Dodaj belešku",
-      "TWEET": "Tvit",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "Prikaži bogat uređivač teksta",
       "TIP_EMOJI_ICON": "Prikaži birač emotikona",
       "TIP_ATTACH_ICON": "Dodaj datoteke",
@@ -140,6 +152,7 @@
       "STOP_AUDIO_RECORDING": "Zaustavi snimanje zvuka",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Dodaj bcc",
         "CC": {
           "LABEL": "CC",
@@ -182,9 +195,10 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Kopiraj",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "Izbriši",
       "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
-      "TRANSLATE": "Translate",
+      "TRANSLATE": "Prevedi",
       "COPY_PERMALINK": "Copy link to the message",
       "LINK_COPIED": "Message URL copied to the clipboard",
       "DELETE_CONFIRMATION": {

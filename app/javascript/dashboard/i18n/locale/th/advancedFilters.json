@@ -2,12 +2,17 @@
   "FILTER": {
     "TITLE": "กรองบทสนทนา",
     "SUBTITLE": "เพิ่มตัวกรองด้านล่างและคลิก 'ใช้ตัวกรอง' เพื่อกรองการสนทนา",
+    "EDIT_CUSTOM_FILTER": "Edit Folder",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
     "ADD_NEW_FILTER": "เพิ่มตัวกรอง",
     "FILTER_DELETE_ERROR": "ควรเลือกอย่างน้อย 1 ตัวกรองเพื่อบันทึก",
     "SUBMIT_BUTTON_LABEL": "ใช้ตัวกรอง",
+    "UPDATE_BUTTON_LABEL": "Update folder",
     "CANCEL_BUTTON_LABEL": "ยกเลิก",
     "CLEAR_BUTTON_LABEL": "ล้างตัวกรอง",
     "EMPTY_VALUE_ERROR": "โปรดระบุค่า",
+    "FOLDER_LABEL": "Folder Name",
+    "FOLDER_QUERY_LABEL": "Folder Query",
     "TOOLTIP_LABEL": "กรองการสนทนา",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "และ",
@@ -70,6 +75,9 @@
           "SUCCESS_MESSAGE": "สร้างกลุ่มตามตัวกรองสำเร็จแล้ว",
           "ERROR_MESSAGE": "มีปัญหาระหว่างสร้างกลุ่มตามตัวกรอง"
         }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Edit folder"
       },
       "DELETE": {
         "DELETE_BUTTON": "ลบตัวกรอง",

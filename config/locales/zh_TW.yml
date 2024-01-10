@@ -21,7 +21,7 @@ zh_TW:
   messages:
     reset_password_success: 密碼重設成功，請確認您的信箱有收到重設信件。
     reset_password_failure: 我們找不到用戶指定的電子郵件。
-    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
+    inbox_deletetion_response: 您的收件匣刪除請求將在一段時間後處理。
   errors:
     validations:
       presence: must not be blank
@@ -38,6 +38,8 @@ zh_TW:
     contacts:
       import:
         failed: File is blank
+      export:
+        success: We will notify you once contacts export file is ready to view.
       email:
         invalid: Invalid email
       phone_number:
@@ -47,6 +49,8 @@ zh_TW:
         unique: should be unique in the category and portal
     dyte:
       invalid_message_type: "Invalid message type. Action not permitted"
+    slack:
+      invalid_channel_id: "Invalid slack channel. Please try again"
     inboxes:
       imap:
         socket_error: Please check the network connection, IMAP address and try again.
@@ -56,6 +60,8 @@ zh_TW:
         connection_closed_error: Connection closed.
       validations:
         name: should not start or end with symbols, and it should not have < > / \ @ characters.
+    custom_filters:
+      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
   reports:
     period: Reporting period %{since} to %{until}
     utc_warning: The report generated is in UTC timezone
@@ -65,8 +71,8 @@ zh_TW:
       avg_first_response_time: 平均第一次回覆時間（分鐘）
       avg_resolution_time: 平均解決時間（分鐘）
     inbox_csv:
-      inbox_name: Inbox name
-      inbox_type: Inbox type
+      inbox_name: 收件匣名稱
+      inbox_type: 收件匣類型
       conversations_count: No. of conversations
       avg_first_response_time: 平均第一次回覆時間（分鐘）
       avg_resolution_time: 平均解決時間（分鐘）
@@ -104,6 +110,8 @@ zh_TW:
       instagram_story_content: "%{story_sender} mentioned you in the story: "
       instagram_deleted_story_content: This story is no longer available.
       deleted: 訊息已被刪除
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "被%{user_name}標記的對話已解決。"
@@ -140,6 +148,8 @@ zh_TW:
         header:
           from_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
           reply_with_name: "%{assignee_name} from %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} from %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
@@ -180,6 +190,7 @@ zh_TW:
       empty_placeholder: 查無結果。
       loading_placeholder: Searching...
       results_title: Search results
+    toc_header: 'On this page'
     hero:
       sub_title: Search for the articles here or browse the categories below.
     common:
@@ -193,3 +204,12 @@ zh_TW:
       made_with: Made with
     header:
       go_to_homepage: Go to the main site
+  slack_unfurl:
+    fields:
+      name: 姓名
+      email: Email
+      phone_number: Phone
+      company_name: 公司
+      inbox_name: 收件匣
+      inbox_type: Inbox Type
+    button: 開啟對話

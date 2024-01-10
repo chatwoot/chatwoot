@@ -47,7 +47,7 @@ describe Enterprise::Billing::HandleStripeEventService do
                                                        'stripe_product_id' => 'plan_id',
                                                        'plan_name' => 'Hacker',
                                                        'subscribed_quantity' => '10',
-                                                       'subscription_ends_on' => '2023-06-12T10:58:40.000Z',
+                                                       'subscription_ends_on' => Time.zone.at(1_686_567_520).as_json,
                                                        'subscription_status' => 'active'
                                                      })
     end
@@ -62,7 +62,7 @@ describe Enterprise::Billing::HandleStripeEventService do
                                                        'stripe_product_id' => 'plan_id',
                                                        'plan_name' => 'Hacker',
                                                        'subscribed_quantity' => '10',
-                                                       'subscription_ends_on' => '2023-06-12T10:58:40.000Z',
+                                                       'subscription_ends_on' => Time.zone.at(1_686_567_520).as_json,
                                                        'subscription_status' => 'active'
                                                      })
       expect(account).not_to be_feature_enabled('channel_email')
@@ -101,7 +101,7 @@ describe Enterprise::Billing::HandleStripeEventService do
                                                        'stripe_product_id' => 'plan_id_2',
                                                        'plan_name' => 'Startups',
                                                        'subscribed_quantity' => '10',
-                                                       'subscription_ends_on' => '2023-06-12T10:58:40.000Z',
+                                                       'subscription_ends_on' => Time.zone.at(1_686_567_520).as_json,
                                                        'subscription_status' => 'active'
                                                      })
       expect(account).to be_feature_enabled('channel_email')

@@ -3,7 +3,7 @@
     "NOT_AVAILABLE": "Nepasiekiamas",
     "EMAIL_ADDRESS": "El. pašto adresas",
     "PHONE_NUMBER": "Telefono numeris",
-    "IDENTIFIER": "Identifier",
+    "IDENTIFIER": "Identifikatorius",
     "COPY_SUCCESSFUL": "Sėkmingai nukopijuota į iškarpinę",
     "COMPANY": "Įmonė",
     "LOCATION": "Vieta",
@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Pridėti Etiketę",
         "PLACEHOLDER": "Ieškoti etikečių",
-        "NO_RESULT": "Etikečių nerasta"
+        "NO_RESULT": "Etikečių nerasta",
+        "CREATE_LABEL": "Sukurti naują etiketę"
       }
     },
     "MERGE_CONTACT": "Sujungti kontaktą",
@@ -70,15 +71,22 @@
       "SUBMIT": "Importuoti",
       "CANCEL": "Atšaukti"
     },
-    "SUCCESS_MESSAGE": "Kontaktas išsaugotas sėkmingai",
-    "ERROR_MESSAGE": "There was an error, please try again"
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+    "ERROR_MESSAGE": "Įvyko klaida, prašau pabandykite dar kartą"
+  },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Eksportuoti",
+    "TITLE": "Eksportuoti Kontaktus",
+    "DESC": "Eksportuoti kontaktus į CSV failą.",
+    "SUCCESS_MESSAGE": "Vykdomas eksportavimas. Jums bus pranešta el. paštu, kai eksporto failas bus paruoštas įkelti.",
+    "ERROR_MESSAGE": "Įvyko klaida, prašau pabandykite dar kartą"
   },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Patvirtinti Ištrynimą",
       "MESSAGE": "Ar tikrai norite ištrinti šią pastabą?",
       "YES": "Taip, Trinti",
-      "NO": "No, Keep it"
+      "NO": "Ne, Išsaugoti"
     }
   },
   "DELETE_CONTACT": {
@@ -170,7 +178,7 @@
       }
     },
     "SUCCESS_MESSAGE": "Kontaktas išsaugotas sėkmingai",
-    "ERROR_MESSAGE": "There was an error, please try again"
+    "ERROR_MESSAGE": "Įvyko klaida, prašau pabandykite dar kartą"
   },
   "NEW_CONVERSATION": {
     "BUTTON_LABEL": "Pradėti pokalbį",
@@ -196,6 +204,10 @@
         "PLACEHOLDER": "Rašykite pranešimą čia",
         "ERROR": "Pranešimas negali būti tuščias"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Pasirink failus",
+        "HELP_TEXT": "Nuvilkite failus čia arba pasirinkite failus, kuriuos norite pridėti"
+      },
       "SUBMIT": "Išsiųsti pranešimą",
       "CANCEL": "Atšaukti",
       "SUCCESS_MESSAGE": "Pranešimas įšsiųstas!",
@@ -211,6 +223,7 @@
     "FILTER_CONTACTS": "Filtruoti",
     "FILTER_CONTACTS_SAVE": "Išsaugoti filtrą",
     "FILTER_CONTACTS_DELETE": "Trinti filtrą",
+    "FILTER_CONTACTS_EDIT": "Redaguoti segmentą",
     "LIST": {
       "LOADING_MESSAGE": "Kontaktai užkraunami...",
       "404": "Nė vienas kontaktas neatitinka jūsų paieškos 🔍",
@@ -220,7 +233,7 @@
         "PHONE_NUMBER": "Telefono numeris",
         "CONVERSATIONS": "Pokalbiai",
         "LAST_ACTIVITY": "Paskutiniai veiksmai",
-        "CREATED_AT": "Created At",
+        "CREATED_AT": "Sukūrimo data",
         "COUNTRY": "Šalis",
         "CITY": "Miestas",
         "SOCIAL_PROFILES": "Socialinių tinklų profiliai",
@@ -334,17 +347,17 @@
     "DESCRIPTION": "Dviejų profilių sujungimui į vieną sujunkite kontaktus, įskaitant visus požymius ir pokalbius. Kilus nesuderinamumui, pirmenybė bus teikiama pirminio kontakto požymiams.",
     "PRIMARY": {
       "TITLE": "Pirminis kontaktas",
-      "HELP_LABEL": "Turi būti saugoma"
+      "HELP_LABEL": "Turi būti ištrinta"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Kontaktas sujungimui",
       "PLACEHOLDER": "Ieškoti kontakto",
-      "HELP_LABEL": "Turi būti ištrinta"
+      "HELP_LABEL": "Turi būti saugoma"
     },
     "SUMMARY": {
       "TITLE": "Santrauka",
-      "DELETE_WARNING": "Kontaktas <strong>%{childContactName}</strong> bus ištrintas.",
-      "ATTRIBUTE_WARNING": "Kontakto informacija <strong>%{childContactName}</strong> bus nukopijuota į <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Kontaktas <strong>%{primaryContactName}</strong> bus ištrintas.",
+      "ATTRIBUTE_WARNING": "Kontakto informacija <strong>%{primaryContactName}</strong> bus nukopijuota į <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "KLAIDOS_PRANEŠIMAS"

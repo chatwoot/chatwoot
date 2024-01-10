@@ -63,6 +63,8 @@ en:
         unique: should be unique in the category and portal
     dyte:
       invalid_message_type: "Invalid message type. Action not permitted"
+    slack:
+      invalid_channel_id: "Invalid slack channel. Please try again"
     inboxes:
       imap:
         socket_error: Please check the network connection, IMAP address and try again.
@@ -124,6 +126,8 @@ en:
       instagram_story_content: "%{story_sender} mentioned you in the story: "
       instagram_deleted_story_content: This story is no longer available.
       deleted: This message was deleted
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "Conversation was marked resolved by %{user_name}"
@@ -160,6 +164,8 @@ en:
         header:
           from_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
           reply_with_name: "%{assignee_name} from %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} from %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
@@ -206,11 +212,35 @@ en:
     common:
       home: Home
       last_updated_on: Last updated on %{last_updated_on}
-      view_all_articles: View all articles
+      view_all_articles: View all
       article: article
       articles: articles
+      author: author
+      authors: authors
+      other: other
+      others: others
+      by: By
       no_articles: There are no articles here
     footer:
       made_with: Made with
     header:
-      go_to_homepage: Go to the main site
+      go_to_homepage: Website
+      appearance:
+        system: System
+        light: Light
+        dark: Dark
+      featured_articles: Featured Articles
+      uncategorized: Uncategorized
+    404:
+      title: Page not found
+      description: We couldn't find the page you were looking for.
+      back_to_home: Go to home page
+  slack_unfurl:
+    fields:
+     name: Name
+     email: Email
+     phone_number: Phone
+     company_name: Company
+     inbox_name: Inbox
+     inbox_type: Inbox Type
+    button: Open conversation

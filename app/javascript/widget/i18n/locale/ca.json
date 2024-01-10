@@ -19,12 +19,24 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Normalment responem en pocs minuts",
     "IN_A_FEW_HOURS": "Normalment responem en poques hores",
-    "IN_A_DAY": "Normalment respon en un dia"
+    "IN_A_DAY": "Normalment respon en un dia",
+    "BACK_IN": "We will be back online"
   },
+  "DAY_NAMES": [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ],
   "START_CONVERSATION": "Inicia la conversa",
   "END_CONVERSATION": "End Conversation",
   "CONTINUE_CONVERSATION": "Continue conversation",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "Start a new conversation",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Veure missatges nous",
     "CLOSE_MESSAGES_BUTTON": "Tanca",
@@ -56,7 +68,9 @@
         "LABEL": "Número de telèfon",
         "PLACEHOLDER": "Please enter your phone number",
         "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "DIAL_CODE_VALID_ERROR": "Please select a country code",
+        "VALID_ERROR": "Please enter a valid phone number",
+        "DROPDOWN_EMPTY": "No s'ha trobat agents"
       },
       "MESSAGE": {
         "LABEL": "Missatge",
@@ -92,6 +106,31 @@
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Click here to join",
       "LEAVE_THE_ROOM": "Leave the call"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Missatge d'imatge"
+    },
+    "audio": {
+      "CONTENT": "Missatge d'àudio"
+    },
+    "video": {
+      "CONTENT": "Missatge de vídeo"
+    },
+    "file": {
+      "CONTENT": "Fitxer adjunt"
+    },
+    "location": {
+      "CONTENT": "Ubicació"
+    },
+    "fallback": {
+      "CONTENT": "ha compartit una URL"
     }
   }
 }

@@ -1,6 +1,8 @@
 <template>
-  <div class="row">
-    <div class="small-8 columns with-right-space macros-canvas">
+  <div class="flex flex-col md:flex-row h-auto md:h-full w-full">
+    <div
+      class="flex-1 w-full md:w-auto macro-gradient-radial dark:macro-dark-gradient-radial macro-gradient-radial-size h-full max-h-full py-4 px-12 overflow-y-auto"
+    >
       <macro-nodes
         v-model="macro.actions"
         :files="files"
@@ -9,7 +11,7 @@
         @resetAction="resetNode"
       />
     </div>
-    <div class="small-4 columns">
+    <div class="w-full md:w-1/3">
       <macro-properties
         :macro-name="macro.name"
         :macro-visibility="macro.visibility"
@@ -22,8 +24,8 @@
 </template>
 
 <script>
-import MacroNodes from './MacroNodes';
-import MacroProperties from './MacroProperties';
+import MacroNodes from './MacroNodes.vue';
+import MacroProperties from './MacroProperties.vue';
 import { required, requiredIf } from 'vuelidate/lib/validators';
 
 export default {
@@ -125,17 +127,17 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-.row {
-  height: 100%;
-}
-.macros-canvas {
-  background-image: radial-gradient(var(--s-75) 1.2px, transparent 0);
-  background-size: var(--space-normal) var(--space-normal);
-  height: 100%;
-  max-height: 100%;
-  padding: var(--space-normal) var(--space-larger);
-  max-height: 100vh;
-  overflow-y: auto;
+<style scoped>
+@tailwind components;
+@layer components {
+  .macro-gradient-radial {
+    background-image: radial-gradient(#ebf0f5 1.2px, transparent 0);
+  }
+  .macro-dark-gradient-radial {
+    background-image: radial-gradient(#293f51 1.2px, transparent 0);
+  }
+  .macro-gradient-radial-size {
+    background-size: 1rem 1rem;
+  }
 }
 </style>

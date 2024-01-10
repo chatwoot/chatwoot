@@ -1,17 +1,21 @@
 <template>
   <div class="settings--content">
     <loading-state v-if="uiFlags.isFetching || uiFlags.isFetchingAgentBot" />
-    <form v-else class="row" @submit.prevent="updateActiveAgentBot">
+    <form
+      v-else
+      class="mx-0 flex flex-wrap"
+      @submit.prevent="updateActiveAgentBot"
+    >
       <settings-section
         :title="$t('AGENT_BOTS.BOT_CONFIGURATION.TITLE')"
         :sub-title="$t('AGENT_BOTS.BOT_CONFIGURATION.DESC')"
       >
-        <div class="medium-7 columns">
+        <div class="w-[60%]">
           <label>
             <select v-model="selectedAgentBotId">
-              <option value="" disabled selected>{{
-                $t('AGENT_BOTS.BOT_CONFIGURATION.SELECT_PLACEHOLDER')
-              }}</option>
+              <option value="" disabled selected>
+                {{ $t('AGENT_BOTS.BOT_CONFIGURATION.SELECT_PLACEHOLDER') }}
+              </option>
               <option
                 v-for="agentBot in agentBots"
                 :key="agentBot.id"
@@ -46,8 +50,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import SettingsSection from 'dashboard/components/SettingsSection';
-import LoadingState from 'dashboard/components/widgets/LoadingState';
+import SettingsSection from 'dashboard/components/SettingsSection.vue';
+import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
@@ -120,6 +124,6 @@ export default {
 
 <style scoped lang="scss">
 .button--disconnect {
-  margin-left: var(--space-small);
+  @apply ml-2;
 }
 </style>

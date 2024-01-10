@@ -1,13 +1,16 @@
 <template>
   <woot-modal :show.sync="show" :on-close="onClose">
-    <div class="column content-box">
+    <div class="h-auto overflow-auto flex flex-col">
       <woot-modal-header
         :header-title="$t('AGENT_MGMT.ADD.TITLE')"
         :header-content="$t('AGENT_MGMT.ADD.DESC')"
       />
 
-      <form class="row" @submit.prevent="addAgent()">
-        <div class="medium-12 columns">
+      <form
+        class="flex flex-col w-full items-start"
+        @submit.prevent="addAgent()"
+      >
+        <div class="w-full">
           <label :class="{ error: $v.agentName.$error }">
             {{ $t('AGENT_MGMT.ADD.FORM.NAME.LABEL') }}
             <input
@@ -18,7 +21,7 @@
             />
           </label>
         </div>
-        <div class="medium-12 columns">
+        <div class="w-full">
           <label :class="{ error: $v.agentType.$error }">
             {{ $t('AGENT_MGMT.ADD.FORM.AGENT_TYPE.LABEL') }}
             <select v-model="agentType">
@@ -31,7 +34,7 @@
             </span>
           </label>
         </div>
-        <div class="medium-12 columns">
+        <div class="w-full">
           <label :class="{ error: $v.agentEmail.$error }">
             {{ $t('AGENT_MGMT.ADD.FORM.EMAIL.LABEL') }}
             <input
@@ -42,13 +45,13 @@
             />
           </label>
         </div>
-        <div class="modal-footer">
-          <div class="medium-12 columns">
+        <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+          <div class="w-full">
             <woot-submit-button
               :disabled="
                 $v.agentEmail.$invalid ||
-                  $v.agentName.$invalid ||
-                  uiFlags.isCreating
+                $v.agentName.$invalid ||
+                uiFlags.isCreating
               "
               :button-text="$t('AGENT_MGMT.ADD.FORM.SUBMIT')"
               :loading="uiFlags.isCreating"
@@ -127,9 +130,8 @@ export default {
         this.showAlert(this.$t('AGENT_MGMT.ADD.API.SUCCESS_MESSAGE'));
         this.onClose();
       } catch (error) {
-        const {
-          response: { data: { error: errorResponse = '' } = {} } = {},
-        } = error;
+        const { response: { data: { error: errorResponse = '' } = {} } = {} } =
+          error;
         let errorMessage = '';
         if (error.response.status === 422) {
           errorMessage = this.$t('AGENT_MGMT.ADD.API.EXIST_MESSAGE');

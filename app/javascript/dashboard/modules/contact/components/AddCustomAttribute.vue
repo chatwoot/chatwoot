@@ -1,14 +1,15 @@
+<!-- eslint-disable vue/no-mutating-props -->
 <template>
   <modal :show.sync="show" :on-close="onClose">
     <woot-modal-header
       :header-title="$t('CUSTOM_ATTRIBUTES.ADD.TITLE')"
       :header-content="$t('CUSTOM_ATTRIBUTES.ADD.DESC')"
     />
-    <form class="row" @submit.prevent="addCustomAttribute">
+    <form class="w-full" @submit.prevent="addCustomAttribute">
       <woot-input
         v-model.trim="attributeName"
         :class="{ error: $v.attributeName.$error }"
-        class="medium-12 columns"
+        class="w-full"
         :error="attributeNameError"
         :label="$t('CUSTOM_ATTRIBUTES.FORM.NAME.LABEL')"
         :placeholder="$t('CUSTOM_ATTRIBUTES.FORM.NAME.PLACEHOLDER')"
@@ -16,11 +17,11 @@
       />
       <woot-input
         v-model.trim="attributeValue"
-        class="medium-12 columns"
+        class="w-full"
         :label="$t('CUSTOM_ATTRIBUTES.FORM.VALUE.LABEL')"
         :placeholder="$t('CUSTOM_ATTRIBUTES.FORM.VALUE.PLACEHOLDER')"
       />
-      <div class="modal-footer">
+      <div class="flex justify-end items-center py-2 px-0 gap-2">
         <woot-button
           :is-disabled="$v.attributeName.$invalid || isCreating"
           :is-loading="isCreating"
@@ -36,7 +37,7 @@
 </template>
 
 <script>
-import Modal from 'dashboard/components/Modal';
+import Modal from 'dashboard/components/Modal.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import { required, minLength } from 'vuelidate/lib/validators';
 

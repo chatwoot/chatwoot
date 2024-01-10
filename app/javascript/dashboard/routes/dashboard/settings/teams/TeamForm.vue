@@ -1,11 +1,11 @@
 <template>
-  <div class="row">
-    <div class="small-12 medium-8 columns">
-      <form class="row" @submit.prevent="handleSubmit">
+  <div class="mx-0 flex flex-wrap">
+    <div class="flex-shrink-0 flex-grow-0 w-[65%]">
+      <form class="mx-0 flex flex-wrap" @submit.prevent="handleSubmit">
         <woot-input
           v-model.trim="title"
           :class="{ error: $v.title.$error }"
-          class="medium-12 columns"
+          class="w-full"
           :label="$t('TEAMS_SETTINGS.FORM.NAME.LABEL')"
           :placeholder="$t('TEAMS_SETTINGS.FORM.NAME.PLACEHOLDER')"
           @input="$v.title.$touch"
@@ -14,20 +14,20 @@
         <woot-input
           v-model.trim="description"
           :class="{ error: $v.description.$error }"
-          class="medium-12 columns"
+          class="w-full"
           :label="$t('TEAMS_SETTINGS.FORM.DESCRIPTION.LABEL')"
           :placeholder="$t('TEAMS_SETTINGS.FORM.DESCRIPTION.PLACEHOLDER')"
           @input="$v.description.$touch"
         />
 
-        <div class="medium-12">
+        <div class="w-full">
           <input v-model="allowAutoAssign" type="checkbox" :value="true" />
           <label for="conversation_creation">
             {{ $t('TEAMS_SETTINGS.FORM.AUTO_ASSIGN.LABEL') }}
           </label>
         </div>
-        <div class="modal-footer">
-          <div class="medium-12 columns">
+        <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+          <div class="w-full">
             <woot-submit-button
               :disabled="$v.title.$invalid || submitInProgress"
               :button-text="submitButtonText"
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import WootSubmitButton from '../../../../components/buttons/FormSubmitButton';
+import WootSubmitButton from '../../../../components/buttons/FormSubmitButton.vue';
 import validations from './helpers/validations';
 
 export default {

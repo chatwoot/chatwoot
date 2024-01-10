@@ -8,15 +8,15 @@ RSpec.describe 'Public Articles API', type: :request do
   let!(:category_2) { create(:category, name: 'category', portal: portal, account_id: account.id, locale: 'es', slug: 'category_slug') }
   let!(:article) do
     create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id,
-                     content: 'This is a *test* content with ^markdown^')
+                     content: 'This is a *test* content with ^markdown^', views: 0)
   end
 
   before do
     ENV['HELPCENTER_URL'] = ENV.fetch('FRONTEND_URL', nil)
-    create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id)
-    create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, associated_article_id: article.id)
-    create(:article, category: category_2, portal: portal, account_id: account.id, author_id: agent.id, associated_article_id: article.id)
-    create(:article, category: category_2, portal: portal, account_id: account.id, author_id: agent.id)
+    create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, views: 15)
+    create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, associated_article_id: article.id, views: 1)
+    create(:article, category: category_2, portal: portal, account_id: account.id, author_id: agent.id, associated_article_id: article.id, views: 5)
+    create(:article, category: category_2, portal: portal, account_id: account.id, author_id: agent.id, views: 4)
   end
 
   describe 'GET /public/api/v1/portals/:slug/articles' do
@@ -35,10 +35,21 @@ RSpec.describe 'Public Articles API', type: :request do
                         content: 'this is some test and funny content')
       expect(article2.id).not_to be_nil
 
-      get "/hc/#{portal.slug}/#{category.locale}/categories/#{category.slug}/articles",
-          headers: agent.create_new_auth_token,
-          params: { query: 'funny' }
+      get "/hc/#{portal.slug}/#{category.locale}/categories/#{category.slug}/articles.json", params: { query: 'funny' }
       expect(response).to have_http_status(:success)
+      response_data = JSON.parse(response.body, symbolize_names: true)[:payload]
+      expect(response_data.length).to eq(1)
+    end
+
+    it 'get all popular articles if sort params is passed' do
+      get "/hc/#{portal.slug}/#{category.locale}/articles.json", params: { sort: 'views' }
+
+      expect(response).to have_http_status(:success)
+      response_data = JSON.parse(response.body, symbolize_names: true)[:payload]
+      expect(response_data.length).to eq(3)
+      expect(response_data[0][:views]).to eq(15)
+      expect(response_data[1][:views]).to eq(1)
+      expect(response_data.last[:id]).to eq(article.id)
     end
   end
 

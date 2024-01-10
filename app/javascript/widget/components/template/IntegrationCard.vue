@@ -65,11 +65,10 @@ export default {
     async joinTheCall() {
       this.isLoading = true;
       try {
-        const {
-          data: { authResponse: { authToken = '' } = {} } = {},
-        } = await IntegrationAPIClient.addParticipantToDyteMeeting(
-          this.messageId
-        );
+        const { data: { authResponse: { authToken = '' } = {} } = {} } =
+          await IntegrationAPIClient.addParticipantToDyteMeeting(
+            this.messageId
+          );
         this.dyteAuthToken = authToken;
       } catch (error) {
         // Ignore Error for now

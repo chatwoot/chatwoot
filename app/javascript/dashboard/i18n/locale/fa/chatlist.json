@@ -36,17 +36,33 @@
       }
     },
     "VIEW_FILTER": "نمایش",
-    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "SORT_TOOLTIP_LABEL": "مرتب‌سازی گفتگوها",
     "CHAT_SORT": {
       "STATUS": "وضعیت",
-      "ORDER_BY": "Order by"
+      "ORDER_BY": "مرتب بر اساس"
+    },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "ایجاد شده",
+        "OLDEST": "ایجاد شده در:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "آخرین فعالیت:",
+        "ACTIVE": "آخرین فعالیت"
+      }
     },
     "CHAT_SORT_FILTER_ITEMS": {
       "latest": {
-        "TEXT": "Last activity"
+        "TEXT": "آخرین فعالیت"
       },
       "sort_on_created_at": {
         "TEXT": "ایجاد شده در"
+      },
+      "sort_on_priority": {
+        "TEXT": "اولویت"
+      },
+      "sort_on_waiting_since": {
+        "TEXT": "در انتظار پاسخ"
       }
     },
     "ATTACHMENTS": {
@@ -70,20 +86,20 @@
       }
     },
     "CHAT_SORT_BY_FILTER": {
-      "TITLE": "Sort conversation",
+      "TITLE": "مرتب‌سازی گفتگو",
       "DROPDOWN_TITLE": "مرتب‌سازی براساس",
       "ITEMS": {
         "LATEST": {
-          "NAME": "Last activity at",
-          "LABEL": "Last activity"
+          "NAME": "آخرین فعالیت در",
+          "LABEL": "آخرین فعالیت"
         },
         "CREATED_AT": {
           "NAME": "ایجاد شده در",
           "LABEL": "ایجاد شده در"
         },
         "LAST_USER_MESSAGE_AT": {
-          "NAME": "Last user message at",
-          "LABEL": "Last message"
+          "NAME": "آخرین پیام کاربر در",
+          "LABEL": "آخرین پیام"
         }
       }
     },

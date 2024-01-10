@@ -6,7 +6,7 @@
 #  auto_resolve_duration :integer
 #  custom_attributes     :jsonb
 #  domain                :string(100)
-#  feature_flags         :integer          default(0), not null
+#  feature_flags         :bigint           default(0), not null
 #  limits                :jsonb
 #  locale                :integer          default("en")
 #  name                  :string           not null
@@ -151,5 +151,5 @@ class Account < ApplicationRecord
 end
 
 Account.prepend_mod_with('Account')
-Account.include_mod_with('EnterpriseAccountConcern')
+Account.include_mod_with('Concerns::Account')
 Account.include_mod_with('Audit::Account')

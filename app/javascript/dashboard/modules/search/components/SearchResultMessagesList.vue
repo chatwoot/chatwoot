@@ -6,7 +6,7 @@
     :show-title="showTitle"
     :is-fetching="isFetching"
   >
-    <ul class="search-list">
+    <ul v-if="messages.length" class="search-list">
       <li v-for="message in messages" :key="message.id">
         <search-result-conversation-item
           :id="message.conversation_id"
@@ -30,7 +30,7 @@
 import { mapGetters } from 'vuex';
 import SearchResultConversationItem from './SearchResultConversationItem.vue';
 import SearchResultSection from './SearchResultSection.vue';
-import MessageContent from './MessageContent';
+import MessageContent from './MessageContent.vue';
 
 export default {
   components: {

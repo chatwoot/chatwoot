@@ -12,6 +12,7 @@
     <div v-else class="chat-message-input is-focused">
       <resizable-text-area
         id="chat-input"
+        :rows="1"
         :placeholder="
           $t('INBOX_MGMT.WIDGET_BUILDER.FOOTER.CHAT_INPUT_PLACEHOLDER')
         "
@@ -26,8 +27,8 @@
 </template>
 
 <script>
-import CustomButton from 'dashboard/components/buttons/Button';
-import ResizableTextArea from 'shared/components/ResizableTextArea';
+import CustomButton from 'dashboard/components/buttons/Button.vue';
+import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 export default {
   name: 'WidgetFooter',
   components: {
@@ -70,7 +71,9 @@ export default {
     background: white;
 
     &.is-focused {
-      box-shadow: 0 0 0 0.1rem var(--color-woot), 0 0 0.2rem 0.2rem var(--w-100);
+      box-shadow:
+        0 0 0 1px var(--color-woot),
+        0 0 2px 2px var(--w-100);
     }
   }
 

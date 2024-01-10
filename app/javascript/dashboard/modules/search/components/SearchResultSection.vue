@@ -1,7 +1,7 @@
 <template>
   <section class="result-section">
     <div v-if="showTitle" class="header">
-      <h3 class="text-block-title">{{ title }}</h3>
+      <h3 class="text-sm text-slate-800 dark:text-slate-100">{{ title }}</h3>
     </div>
     <woot-loading-state v-if="isFetching" :message="'Searching'" />
     <slot v-else />
@@ -48,37 +48,22 @@ export default {
 
 <style scoped lang="scss">
 .result-section {
-  margin: var(--space-small) 0;
+  @apply my-2 mx-0;
 }
 .search-list {
-  list-style: none;
-  margin: 0;
-  padding: var(--spacing-normal) 0;
+  @apply m-0 py-4 px-0 list-none;
 }
 .header {
-  position: sticky;
-  top: 0;
-  padding: var(--space-small);
-  z-index: 50;
-  background: var(--white);
-  margin-bottom: var(--space-micro);
+  @apply sticky top-0 p-2 z-50 bg-white dark:bg-slate-900 mb-0.5;
 }
 
 .empty {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-medium) var(--space-normal);
-  margin: var(--space-small);
-  background: var(--s-25);
-  border-radius: var(--border-radius-medium);
+  @apply flex items-center justify-center py-6 px-4 m-2 bg-slate-25 dark:bg-slate-800 rounded-md;
   .icon {
-    color: var(--s-500);
+    @apply text-slate-500 dark:text-slate-300;
   }
   .empty-state__text {
-    text-align: center;
-    color: var(--s-500);
-    margin: 0 var(--space-small);
+    @apply text-slate-500 dark:text-slate-300 text-center my-0 mx-2;
   }
 }
 </style>

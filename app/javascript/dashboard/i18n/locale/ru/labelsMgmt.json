@@ -38,6 +38,19 @@
       "DELETE": "Удалить",
       "CANCEL": "Отменить"
     },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Добавить метку в разговор",
+        "MULTIPLE_SUGGESTION": "Выбрать метку",
+        "DESELECT": "Отменить выбор метки",
+        "DISMISS": "Отменить предложение"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Отклонить",
+      "ADD_SELECTED_LABELS": "Добавить выбранные метки",
+      "ADD_SELECTED_LABEL": "Добавить метку",
+      "ADD_ALL_LABELS": "Добавить все метки"
+    },
     "ADD": {
       "TITLE": "Добавить категорию",
       "DESC": "Категории позволяют вам группировать диалоги.",

@@ -10,7 +10,6 @@ describe Conversations::FilterService do
   let!(:campaign_2) { create(:campaign, title: 'Campaign', account: account) }
   let!(:inbox) { create(:inbox, account: account, enable_auto_assignment: false) }
 
-  let!(:unassigned_conversation) { create(:conversation, account: account, inbox: inbox) }
   let!(:user_2_assigned_conversation) { create(:conversation, account: account, inbox: inbox, assignee: user_2) }
   let!(:en_conversation_1) do
     create(:conversation, account: account, inbox: inbox, assignee: user_1, campaign_id: campaign_1.id,
@@ -75,7 +74,7 @@ describe Conversations::FilterService do
         params[:payload] = payload
         result = filter_service.new(params, user_1).perform
         conversations = Conversation.where("additional_attributes ->> 'browser_language' IN (?) AND status IN (?)", ['en'], [1, 2])
-        expect(result.length).to be conversations.count
+        expect(result[:count][:all_count]).to be conversations.count
       end
 
       it 'filter conversations by additional_attributes and status with pagination' do
@@ -83,7 +82,45 @@ describe Conversations::FilterService do
         params[:page] = 2
         result = filter_service.new(params, user_1).perform
         conversations = Conversation.where("additional_attributes ->> 'browser_language' IN (?) AND status IN (?)", ['en'], [1, 2])
-        expect(result.length).to be conversations.count
+        expect(result[:count][:all_count]).to be conversations.count
+      end
+
+      it 'filters items with contains filter_operator with values being an array' do
+        params[:payload] = [{
+          attribute_key: 'browser_language',
+          filter_operator: 'contains',
+          values: %w[tr fr],
+          query_operator: '',
+          custom_attribute_type: ''
+        }.with_indifferent_access]
+
+        create(:conversation, account: account, inbox: inbox, assignee: user_1, campaign_id: campaign_1.id,
+                              status: 'pending', additional_attributes: { 'browser_language': 'fr' })
+        create(:conversation, account: account, inbox: inbox, assignee: user_1, campaign_id: campaign_1.id,
+                              status: 'pending', additional_attributes: { 'browser_language': 'tr' })
+
+        result = filter_service.new(params, user_1).perform
+        expect(result[:count][:all_count]).to be 2
+      end
+
+      it 'filters items with does not contain filter operator with values being an array' do
+        params[:payload] = [{
+          attribute_key: 'browser_language',
+          filter_operator: 'does_not_contain',
+          values: %w[tr en],
+          query_operator: '',
+          custom_attribute_type: ''
+        }.with_indifferent_access]
+
+        create(:conversation, account: account, inbox: inbox, assignee: user_1, campaign_id: campaign_1.id,
+                              status: 'pending', additional_attributes: { 'browser_language': 'fr' })
+        create(:conversation, account: account, inbox: inbox, assignee: user_1, campaign_id: campaign_1.id,
+                              status: 'pending', additional_attributes: { 'browser_language': 'tr' })
+
+        result = filter_service.new(params, user_1).perform
+
+        expect(result[:count][:all_count]).to be 1
+        expect(result[:conversations].first.additional_attributes['browser_language']).to eq 'fr'
       end
 
       it 'filter conversations by additional_attributes with NOT_IN filter' do
@@ -98,28 +135,29 @@ describe Conversations::FilterService do
       end
 
       it 'filter conversations by tags' do
-        unassigned_conversation.update_labels('support')
+        user_2_assigned_conversation.update_labels('support')
         params[:payload] = [
           {
             attribute_key: 'assignee_id',
             filter_operator: 'equal_to',
-            values: [
-              user_1.id,
-              user_2.id
-            ],
-            query_operator: 'AND',
-            custom_attribute_type: ''
+            values: [user_1.id, user_2.id],
+            query_operator: 'AND'
           }.with_indifferent_access,
           {
             attribute_key: 'labels',
             filter_operator: 'equal_to',
             values: ['support'],
-            query_operator: nil,
-            custom_attribute_type: ''
+            query_operator: 'AND'
+          }.with_indifferent_access,
+          {
+            attribute_key: 'labels',
+            filter_operator: 'not_equal_to',
+            values: ['random-label'],
+            query_operator: nil
           }.with_indifferent_access
         ]
         result = filter_service.new(params, user_1).perform
-        expect(result.length).to be 2
+        expect(result[:count][:all_count]).to be 1
       end
 
       it 'filter conversations by is_present filter_operator' do
@@ -367,6 +405,33 @@ describe Conversations::FilterService do
           result = filter_service.new(params, user_1).perform
           expect(result[:conversations].length).to be expected_count
         end
+      end
+    end
+  end
+
+  describe '#perform on date filter with no current account' do
+    before do
+      Current.account = nil
+    end
+
+    context 'with query present' do
+      let!(:params) { { payload: [], page: 1 } }
+
+      it 'filter by created_at' do
+        params[:payload] = [
+          {
+            attribute_key: 'created_at',
+            filter_operator: 'is_greater_than',
+            values: ['2022-01-20'],
+            query_operator: nil,
+            custom_attribute_type: ''
+          }.with_indifferent_access
+        ]
+        result = filter_service.new(params, user_1, account).perform
+        expected_count = Conversation.where('created_at > ?', DateTime.parse('2022-01-20')).count
+
+        expect(Current.account).to be_nil
+        expect(result[:conversations].length).to be expected_count
       end
     end
   end

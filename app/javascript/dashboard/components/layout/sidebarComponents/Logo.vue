@@ -1,5 +1,5 @@
 <template>
-  <div class="logo">
+  <div class="w-8 h-8">
     <router-link :to="dashboardPath" replace>
       <img :src="source" :alt="name" />
     </router-link>
@@ -30,17 +30,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-$logo-size: 32px;
-
-.logo {
-  padding: var(--space-normal);
-
-  img {
-    width: $logo-size;
-    height: $logo-size;
-    object-fit: cover;
-    object-position: left center;
-  }
-}
-</style>

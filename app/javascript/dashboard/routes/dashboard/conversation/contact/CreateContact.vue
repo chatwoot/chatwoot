@@ -1,6 +1,7 @@
+<!-- eslint-disable vue/no-mutating-props -->
 <template>
   <woot-modal :show.sync="show" :on-close="onCancel" modal-type="right-aligned">
-    <div class="column content-box">
+    <div class="h-auto overflow-auto flex flex-col">
       <woot-modal-header
         :header-title="$t('CREATE_CONTACT.TITLE')"
         :header-content="$t('CREATE_CONTACT.DESC')"
@@ -17,7 +18,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import ContactForm from './ContactForm';
+import ContactForm from './ContactForm.vue';
 
 export default {
   components: {

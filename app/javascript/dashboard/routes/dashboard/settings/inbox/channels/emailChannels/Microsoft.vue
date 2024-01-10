@@ -1,5 +1,5 @@
 <template>
-  <div class="wizard-body columns content-box small-9">
+  <div class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%]">
     <settings-sub-page-header
       :header-title="$t('INBOX_MGMT.ADD.MICROSOFT.TITLE')"
       :header-content="$t('INBOX_MGMT.ADD.MICROSOFT.DESCRIPTION')"
@@ -64,6 +64,6 @@ export default {
 
 <style scoped>
 .microsoft--sign-in-form {
-  margin-top: var(--space-medium);
+  @apply mt-6;
 }
 </style>

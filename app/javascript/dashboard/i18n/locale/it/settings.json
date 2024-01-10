@@ -36,10 +36,13 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Firma del messaggio personale",
-        "NOTE": "Crea una firma personale del messaggio che sarà aggiunta a tutti i messaggi inviati dalla tua casella di posta elettronica. Usa l'editor di contenuti per creare una firma altamente personalizzata.",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
         "BTN_TEXT": "Salva firma del messaggio",
         "API_ERROR": "Impossibile salvare la firma! Riprova",
-        "API_SUCCESS": "Firma salvata con successo"
+        "API_SUCCESS": "Firma salvata con successo",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Firma del messaggio",
@@ -149,6 +152,7 @@
     "SELECTOR_SUBTITLE": "Seleziona un account dal seguente elenco",
     "PROFILE_SETTINGS": "Impostazioni profilo",
     "KEYBOARD_SHORTCUTS": "Scorciatoie da tastiera",
+    "APPEARANCE": "Change Appearance",
     "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "Disconnettiti"
   },
@@ -238,7 +242,7 @@
     "REPORTS_OVERVIEW": "Panoramica",
     "FACEBOOK_REAUTHORIZE": "La tua connessione a Facebook è scaduta, ricollegati alla tua pagina Facebook per continuare i servizi",
     "HELP_CENTER": {
-      "TITLE": "Help Center (Beta)",
+      "TITLE": "Help Center",
       "ALL_ARTICLES": "Tutti gli articoli",
       "MY_ARTICLES": "I miei articoli",
       "DRAFT": "Bozza",

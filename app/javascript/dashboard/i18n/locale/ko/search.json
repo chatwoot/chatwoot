@@ -18,6 +18,8 @@
     "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results. ",
     "BOT_LABEL": "봇",
     "READ_MORE": "Read more",
-    "WROTE": "wrote:"
+    "WROTE": "wrote:",
+    "FROM": "from",
+    "EMAIL": "이메일"
   }
 }

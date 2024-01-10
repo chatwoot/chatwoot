@@ -12,6 +12,10 @@
     "NO_INBOX_2": " 시작하려면",
     "NO_INBOX_AGENT": "오! 어떤 받은 메시지함에도 속하지 않는 것 같습니다. 관리자에게 문의하십시오.",
     "SEARCH_MESSAGES": "대화에서 메시지 검색",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "메시지 검색",
       "RESULT_TITLE": "검색 결과",
@@ -30,7 +34,6 @@
     "ASSIGN_TO_ME": "Assign to me",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24시간 메시지 창 제한",
-    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
     "REPLYING_TO": "회신할 대상:",
     "REMOVE_SELECTION": "선택 항목 제거",
     "DOWNLOAD": "다운로드",
@@ -43,6 +46,7 @@
     "NO_RESPONSE": "응답없음",
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Feedback",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Show labels",
       "HIDE_LABELS": "Hide labels"
@@ -54,18 +58,25 @@
       "OPEN": "더보기",
       "CLOSE": "닫기",
       "DETAILS": "자세히",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
       "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
       "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Mark as pending",
+      "SNOOZE_UNTIL": "Snooze",
       "SNOOZE": {
         "TITLE": "Snooze until",
         "NEXT_REPLY": "Next reply",
         "TOMORROW": "내일",
         "NEXT_WEEK": "다음 주"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Snooze until",
+      "APPLY": "Snooze",
+      "CANCEL": "취소"
     },
     "PRIORITY": {
       "TITLE": "Priority",
@@ -128,7 +139,8 @@
       "PRIVATE_NOTE": "개인 노트",
       "SEND": "보내기",
       "CREATE": "노트 추가",
-      "TWEET": "트윗",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "웹 편집기 보기",
       "TIP_EMOJI_ICON": "이모티콘 보기",
       "TIP_ATTACH_ICON": "파일 첨부",
@@ -140,6 +152,7 @@
       "STOP_AUDIO_RECORDING": "Stop audio recording",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Add bcc",
         "CC": {
           "LABEL": "CC",
@@ -182,6 +195,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "복사",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "삭제",
       "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
       "TRANSLATE": "Translate",

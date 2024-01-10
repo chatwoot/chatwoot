@@ -18,6 +18,8 @@
     "EMPTY_STATE_DEFAULT": "Procurar por ID de conversa, e-mail, número de telefone, mensagens para melhores resultados de busca. ",
     "BOT_LABEL": "Bot",
     "READ_MORE": "Saiba mais",
-    "WROTE": "escreveu:"
+    "WROTE": "escreveu:",
+    "FROM": "De",
+    "EMAIL": "e-mail"
   }
 }

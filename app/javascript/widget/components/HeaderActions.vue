@@ -1,7 +1,11 @@
 <template>
   <div v-if="showHeaderActions" class="actions flex items-center">
     <button
-      v-if="canLeaveConversation && hasEndConversationEnabled"
+      v-if="
+        canLeaveConversation &&
+        hasEndConversationEnabled &&
+        showEndConversationButton
+      "
       class="button transparent compact"
       :title="$t('END_CONVERSATION')"
       @click="resolveConversation"
@@ -14,7 +18,7 @@
     </button>
     <button
       v-if="showPopoutButton"
-      class="button transparent compact new-window--button "
+      class="button transparent compact new-window--button"
       @click="popoutWindow"
     >
       <fluent-icon
@@ -55,6 +59,10 @@ export default {
     showPopoutButton: {
       type: Boolean,
       default: false,
+    },
+    showEndConversationButton: {
+      type: Boolean,
+      default: true,
     },
   },
   computed: {

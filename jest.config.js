@@ -1,5 +1,5 @@
-process.env.VUE_CLI_BABEL_TARGET_NODE = true;
-process.env.VUE_CLI_BABEL_TRANSPILE_MODULES = true;
+process.env.VUE_CLI_BABEL_TARGET_NODE = 'true';
+process.env.VUE_CLI_BABEL_TRANSPILE_MODULES = 'true';
 
 module.exports = {
   moduleDirectories: ['node_modules', 'app/javascript'],
@@ -7,7 +7,7 @@ module.exports = {
   automock: false,
   resetMocks: true,
   transform: {
-    '^.+\\.vue$': 'vue-jest',
+    '^.+\\.vue$': '@vue/vue2-jest',
     '.+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$':
       'jest-transform-stub',
     '^.+\\.(js|jsx)?$': 'babel-jest',
@@ -33,7 +33,16 @@ module.exports = {
   testMatch: [
     '**/app/javascript/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx)',
   ],
-  testURL: 'http://localhost/',
+  testEnvironmentOptions: {
+    url: 'http://localhost/',
+  },
+  globals: {
+    'vue-jest': {
+      templateCompiler: {
+        prettify: false,
+      },
+    },
+  },
   globalSetup: './jest.setup.js',
   testEnvironment: 'jsdom',
   setupFiles: ['fake-indexeddb/auto'],

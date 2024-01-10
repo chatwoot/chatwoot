@@ -37,7 +37,43 @@ describe Sms::IncomingMessageService do
         # no new conversation should be created
         expect(sms_channel.inbox.conversations.count).to eq(3)
         # message appended to the last conversation
-        expect(last_conversation.messages.last.content).to eq('test message')
+        expect(last_conversation.messages.last.content).to eq(params[:text])
+      end
+
+      it 'reopen last conversation if last conversation is resolved and lock to single conversation is enabled' do
+        sms_channel.inbox.update(lock_to_single_conversation: true)
+        contact_inbox = create(:contact_inbox, inbox: sms_channel.inbox, source_id: params[:from])
+        last_conversation = create(:conversation, inbox: sms_channel.inbox, contact_inbox: contact_inbox)
+        last_conversation.update(status: 'resolved')
+        described_class.new(inbox: sms_channel.inbox, params: params).perform
+        # no new conversation should be created
+        expect(sms_channel.inbox.conversations.count).to eq(1)
+        expect(sms_channel.inbox.conversations.open.last.messages.last.content).to eq(params[:text])
+        expect(sms_channel.inbox.conversations.open.last.status).to eq('open')
+      end
+
+      it 'creates a new conversation if last conversation is resolved and lock to single conversation is disabled' do
+        sms_channel.inbox.update(lock_to_single_conversation: false)
+        contact_inbox = create(:contact_inbox, inbox: sms_channel.inbox, source_id: params[:from])
+        last_conversation = create(:conversation, inbox: sms_channel.inbox, contact_inbox: contact_inbox)
+        last_conversation.update(status: 'resolved')
+        described_class.new(inbox: sms_channel.inbox, params: params).perform
+        # new conversation should be created
+        expect(sms_channel.inbox.conversations.count).to eq(2)
+        # message appended to the last conversation
+        expect(contact_inbox.conversations.last.messages.last.content).to eq(params[:text])
+      end
+
+      it 'will not create a new conversation if last conversation is not resolved and lock to single conversation is disabled' do
+        sms_channel.inbox.update(lock_to_single_conversation: false)
+        contact_inbox = create(:contact_inbox, inbox: sms_channel.inbox, source_id: params[:from])
+        last_conversation = create(:conversation, inbox: sms_channel.inbox, contact_inbox: contact_inbox)
+        last_conversation.update(status: Conversation.statuses.except('resolved').keys.sample)
+        described_class.new(inbox: sms_channel.inbox, params: params).perform
+        # new conversation should be created
+        expect(sms_channel.inbox.conversations.count).to eq(1)
+        # message appended to the last conversation
+        expect(contact_inbox.conversations.last.messages.last.content).to eq(params[:text])
       end
 
       it 'creates attachment messages and ignores .smil files' do

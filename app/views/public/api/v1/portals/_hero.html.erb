@@ -1,10 +1,13 @@
-<!-- The inline styles are intentional, migrate it to classes after upgrading to tailwind v3 -->
-<section class="pt-8 pb-16 md:py-20 w-full bg-woot-50 shadow-inner" style="background: url(/assets/images/hc/grid.svg) color-mix(in srgb, <%= @portal.color %> 10%, white)">
-  <div class="mx-auto max-w-6xl px-8 flex flex-col items-center sm:items-start">
-    <h1 class="text-2xl md:text-4xl text-slate-900 font-semibold leading-normal">
-      <%= portal.header_text %>
-    </h1>
-    <p class="text-slate-600 text-center text-lg leading-normal pt-4 pb-4"><%= I18n.t('public_portal.hero.sub_title') %></p>
-    <div id="search-wrap"></div>
+<% if !@is_plain_layout_enabled %>
+<section id="portal-bg" class="w-full bg-white dark:bg-slate-900 shadow-inner">
+  <div id="portal-bg-gradient" class="pt-8 pb-8 md:pt-14 md:pb-6 min-h-[240px] md:min-h-[260px]">
+    <div class="mx-auto max-w-5xl px-4 md:px-8 flex flex-col items-center sm:items-start">
+      <h1 class="text-2xl md:text-4xl text-slate-900 dark:text-white font-semibold leading-normal">
+        <%= portal.header_text %>
+      </h1>
+      <p class="text-slate-600 dark:text-slate-200 text-center text-lg leading-normal pt-4 pb-4"><%= I18n.t('public_portal.hero.sub_title') %></p>
+      <div id="search-wrap"></div>
+    </div>
   </div>
 </section>
+<% end %>

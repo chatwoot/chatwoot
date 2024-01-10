@@ -1,5 +1,5 @@
 <template>
-  <div class="row content-box full-height">
+  <div class="overflow-auto p-4 max-w-full my-auto flex flex-wrap h-full">
     <woot-button
       v-if="showAddButton"
       color-scheme="success"
@@ -9,7 +9,7 @@
     >
       {{ $t('INTEGRATION_APPS.ADD_BUTTON') }}
     </woot-button>
-    <div v-if="showIntegrationHooks" class="integration-hooks">
+    <div v-if="showIntegrationHooks" class="w-full">
       <div v-if="isIntegrationMultiple">
         <multiple-integration-hooks
           :integration="integration"
@@ -46,9 +46,9 @@ import { isEmptyObject } from '../../../../helper/commons';
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import hookMixin from './hookMixin';
-import NewHook from './NewHook';
-import SingleIntegrationHooks from './SingleIntegrationHooks';
-import MultipleIntegrationHooks from './MultipleIntegrationHooks';
+import NewHook from './NewHook.vue';
+import SingleIntegrationHooks from './SingleIntegrationHooks.vue';
+import MultipleIntegrationHooks from './MultipleIntegrationHooks.vue';
 
 export default {
   components: {
@@ -148,8 +148,3 @@ export default {
   },
 };
 </script>
-<style scoped lang="scss">
-.integration-hooks {
-  width: 100%;
-}
-</style>

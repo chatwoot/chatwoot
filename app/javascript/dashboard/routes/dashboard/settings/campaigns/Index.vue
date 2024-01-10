@@ -1,5 +1,5 @@
 <template>
-  <div class="column content-box">
+  <div class="flex-1 overflow-auto p-4">
     <woot-button
       color-scheme="success"
       class-names="button--fixed-top"
@@ -18,7 +18,7 @@
 <script>
 import campaignMixin from 'shared/mixins/campaignMixin';
 import Campaign from './Campaign.vue';
-import AddCampaign from './AddCampaign';
+import AddCampaign from './AddCampaign.vue';
 
 export default {
   components: {

@@ -10,33 +10,33 @@
     },
     "COMPANY_NAME": {
       "LABEL": "Company name",
-      "PLACEHOLDER": "Enter your company name. E.g., Wayne Enterprises",
-      "ERROR": "Company name is too short."
+      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
+      "ERROR": "Company name is too short"
     },
     "FULL_NAME": {
       "LABEL": "Nom complet",
-      "PLACEHOLDER": "Enter your full name. E.g., Bruce Wayne",
-      "ERROR": "El nom del compte és massa curt."
+      "PLACEHOLDER": "Introdueix el teu nom complet. ex: Bruce Wayne",
+      "ERROR": "El nom del compte és massa curt"
     },
     "EMAIL": {
       "LABEL": "Email de treball",
-      "PLACEHOLDER": "Enter your work email address. E.g., bruce@wayne.enterprises",
-      "ERROR": "Please enter a valid work email address."
+      "PLACEHOLDER": "Introdueix la teva adreça email de treball. ex: bruce@wayne.enterprises",
+      "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {
       "LABEL": "Contrasenya",
       "PLACEHOLDER": "Contrasenya",
-      "ERROR": "La contrasenya és massa curta.",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character."
+      "ERROR": "La contrasenya és massa curta",
+      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Confirm password",
-      "PLACEHOLDER": "Confirm password",
-      "ERROR": "Les contrasenyes no coincideixen."
+      "LABEL": "Confirma la contrasenya",
+      "PLACEHOLDER": "Confirma la contrasenya",
+      "ERROR": "Les contrasenyes no coincideixen"
     },
     "API": {
       "SUCCESS_MESSAGE": "Registrat correctament",
-      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+      "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
     },
     "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Ja tens un compte?"

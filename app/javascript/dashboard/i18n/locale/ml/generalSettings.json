@@ -3,6 +3,7 @@
     "TITLE": "അക്കൗണ്ട് ക്രമീകരണങ്ങൾ",
     "SUBMIT": "ക്രമീകരണങ്ങൾ അപ്‌ഡേറ്റു ചെയ്യുക",
     "BACK": "മടങ്ങിപ്പോവുക",
+    "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "ക്രമീകരണങ്ങൾ അപ്‌ഡേറ്റു ചെയ്യാനായില്ല, വീണ്ടും ശ്രമിക്കുക!",
       "SUCCESS": "അക്കൗണ്ട് ക്രമീകരണങ്ങൾ വിജയകരമായി അപ്‌ഡേറ്റു ചെയ്‌തു"
@@ -48,7 +49,10 @@
       }
     },
     "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance.",
-    "LEARN_MORE": "Learn more"
+    "LEARN_MORE": "Learn more",
+    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
+    "OPEN_BILLING": "Open billing"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -103,9 +107,12 @@
       "CHANGE_ASSIGNEE": "Change Assignee",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Change Team",
+      "SNOOZE_CONVERSATION": "Snooze Conversation",
       "ADD_LABEL": "Add label to the conversation",
       "REMOVE_LABEL": "Remove label from the conversation",
-      "SETTINGS": "ക്രമീകരണങ്ങൾ"
+      "SETTINGS": "ക്രമീകരണങ്ങൾ",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
@@ -127,6 +134,7 @@
       "GO_TO_NOTIFICATIONS": "Go to Notifications",
       "ADD_LABELS_TO_CONVERSATION": "Add label to the conversation",
       "ASSIGN_AN_AGENT": "Assign an agent",
+      "AI_ASSIST": "AI Assist",
       "ASSIGN_PRIORITY": "Assign priority",
       "ASSIGN_A_TEAM": "Assign a team",
       "MUTE_CONVERSATION": "Mute conversation",
@@ -138,10 +146,21 @@
       "SNOOZE_CONVERSATION": "Snooze Conversation",
       "UNTIL_NEXT_REPLY": "Until next reply",
       "UNTIL_NEXT_WEEK": "Until next week",
-      "UNTIL_TOMORROW": "Until tomorrow"
+      "UNTIL_TOMORROW": "Until tomorrow",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "System"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "Loading Dashboard App..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "ഇവിടെ ക്ലിക്കു ചെയ്യുക"
   }
 }

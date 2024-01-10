@@ -74,6 +74,14 @@
         "DELETE": "Excluir artigo"
       }
     },
+    "ARTICLE_SEARCH_RESULT": {
+      "UNCATEGORIZED": "Não categorizado",
+      "INSERT_ARTICLE": "Inserir",
+      "NO_RESULT": "Nenhum artigo encontrado",
+      "COPY_LINK": "Copiar link do artigo para área de transferência",
+      "OPEN_LINK": "Abrir artigo em nova aba",
+      "PREVIEW_LINK": "Visualizar artigo"
+    },
     "PORTAL": {
       "HEADER": "Portais",
       "DEFAULT": "Padrão",
@@ -357,7 +365,7 @@
         "NAME": {
           "LABEL": "Nome",
           "PLACEHOLDER": "Nome da categoria",
-          "HELP_TEXT": "O nome da categoria será utilizada no portal voltado ao público para categorizar artigos.",
+          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
           "ERROR": "O nome é obrigatório"
         },
         "SLUG": {
@@ -388,7 +396,7 @@
         "NAME": {
           "LABEL": "Nome",
           "PLACEHOLDER": "Nome da categoria",
-          "HELP_TEXT": "O nome da categoria será utilizada no portal voltado ao público para categorizar artigos.",
+          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
           "ERROR": "O nome é obrigatório"
         },
         "SLUG": {
@@ -415,6 +423,33 @@
         "API": {
           "SUCCESS_MESSAGE": "Categoria excluída com sucesso",
           "ERROR_MESSAGE": "Não é possível excluir a categoria"
+        }
+      }
+    },
+    "UPGRADE_PAGE": {
+      "TITLE": "Centro de Ajuda",
+      "DESCRIPTION": "Crie portais de autoatendimento amigáveis ao usuário. Ajude seus usuários a acessar os artigos e obter suporte 24/7. Atualize sua assinatura para habilitar essa função.",
+      "SELF_HOSTED_DESCRIPTION": "Crie portais de autoatendimento amigáveis ao usuário. Ajude seus usuários a acessar os artigos e obter suporte 24/7. Por favor, contate seu administrador para habilitar essa função.",
+      "BUTTON": {
+        "LEARN_MORE": "Saiba mais",
+        "UPGRADE": "Atualize"
+      },
+      "FEATURES": {
+        "PORTALS": {
+          "TITLE": "Múltiplos portais",
+          "DESCRIPTION": "Crie múltiplos portais de central de ajuda para diferentes produtos usando a mesma conta."
+        },
+        "LOCALES": {
+          "TITLE": "Suporte completo para localidades",
+          "DESCRIPTION": "Localize o portal no seu idioma. Nós damos suporte a todas as localidades e permitimos traduções para todos os artigos."
+        },
+        "SEO": {
+          "TITLE": "Design otimizado para SEO",
+          "DESCRIPTION": "Personalize suas meta tags para melhorar sua visibilidade nos motores de busca com nossas páginas otimizadas para SEO."
+        },
+        "API": {
+          "TITLE": "Suporte completo para API",
+          "DESCRIPTION": "Use o portal como um CMS sem interface gráfica com frameworks front-end de terceiros usando nossas APIs."
         }
       }
     }

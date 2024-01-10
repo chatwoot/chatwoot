@@ -1,6 +1,6 @@
 <template>
-  <div class="wizard-body columns content-box small-9">
-    <div v-if="!hasLoginStarted" class="login-init full-height">
+  <div class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%]">
+    <div v-if="!hasLoginStarted" class="login-init h-full">
       <a href="#" @click="startLogin()">
         <img
           src="~dashboard/assets/images/channels/facebook_login.png"
@@ -17,9 +17,20 @@
       </p>
     </div>
     <div v-else>
-      <loading-state v-if="showLoader" :message="emptyStateMessage" />
-      <form v-if="!showLoader" class="row" @submit.prevent="createChannel()">
-        <div class="medium-12 columns">
+      <div v-if="hasError" class="max-w-lg mx-auto text-center">
+        <h5>{{ errorStateMessage }}</h5>
+        <p
+          v-if="errorStateDescription"
+          v-dompurify-html="errorStateDescription"
+        />
+      </div>
+      <loading-state v-else-if="showLoader" :message="emptyStateMessage" />
+      <form
+        v-else
+        class="mx-0 flex flex-wrap"
+        @submit.prevent="createChannel()"
+      >
+        <div class="w-full">
           <page-header
             :header-title="$t('INBOX_MGMT.ADD.DETAILS.TITLE')"
             :header-content="
@@ -30,8 +41,8 @@
             "
           />
         </div>
-        <div class="medium-7 columns">
-          <div class="medium-12 columns">
+        <div class="w-[60%]">
+          <div class="w-full">
             <div class="input-wrap" :class="{ error: $v.selectedPage.$error }">
               {{ $t('INBOX_MGMT.ADD.FB.CHOOSE_PAGE') }}
               <multiselect
@@ -52,7 +63,7 @@
               </span>
             </div>
           </div>
-          <div class="medium-12 columns">
+          <div class="w-full">
             <label :class="{ error: $v.pageName.$error }">
               {{ $t('INBOX_MGMT.ADD.FB.INBOX_NAME') }}
               <input
@@ -66,7 +77,7 @@
               </span>
             </label>
           </div>
-          <div class="medium-12 columns text-right">
+          <div class="w-full text-right">
             <input type="submit" value="Create Inbox" class="button" />
           </div>
         </div>
@@ -78,10 +89,10 @@
 /* eslint-env browser */
 /* global FB */
 import { required } from 'vuelidate/lib/validators';
-import LoadingState from 'dashboard/components/widgets/LoadingState';
+import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
 import { mapGetters } from 'vuex';
 import ChannelApi from '../../../../../api/channels';
-import PageHeader from '../../SettingsSubPageHeader';
+import PageHeader from '../../SettingsSubPageHeader.vue';
 import router from '../../../../index';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import accountMixin from '../../../../../mixins/account';
@@ -95,6 +106,7 @@ export default {
   data() {
     return {
       isCreating: false,
+      hasError: false,
       omniauth_token: '',
       user_access_token: '',
       channel: 'facebook',
@@ -102,6 +114,8 @@ export default {
       pageName: '',
       pageList: [],
       emptyStateMessage: this.$t('INBOX_MGMT.DETAILS.LOADING_FB'),
+      errorStateMessage: '',
+      errorStateDescription: '',
       hasLoginStarted: false,
     };
   },
@@ -190,24 +204,35 @@ export default {
     tryFBlogin() {
       FB.login(
         response => {
+          this.hasError = false;
           if (response.status === 'connected') {
             this.fetchPages(response.authResponse.accessToken);
           } else if (response.status === 'not_authorized') {
+            // eslint-disable-next-line no-console
+            console.error('FACEBOOK AUTH ERROR', response);
+            this.hasError = true;
             // The person is logged into Facebook, but not your app.
-            this.emptyStateMessage = this.$t(
-              'INBOX_MGMT.DETAILS.ERROR_FB_AUTH'
+            this.errorStateMessage = this.$t(
+              'INBOX_MGMT.DETAILS.ERROR_FB_UNAUTHORIZED'
+            );
+            this.errorStateDescription = this.$t(
+              'INBOX_MGMT.DETAILS.ERROR_FB_UNAUTHORIZED_HELP'
             );
           } else {
+            // eslint-disable-next-line no-console
+            console.error('FACEBOOK AUTH ERROR', response);
+            this.hasError = true;
             // The person is not logged into Facebook, so we're not sure if
             // they are logged into this app or not.
-            this.emptyStateMessage = this.$t(
+            this.errorStateMessage = this.$t(
               'INBOX_MGMT.DETAILS.ERROR_FB_AUTH'
             );
+            this.errorStateDescription = '';
           }
         },
         {
           scope:
-            'pages_manage_metadata,pages_messaging,instagram_basic,pages_show_list,pages_read_engagement,instagram_manage_messages',
+            'pages_manage_metadata,business_management,pages_messaging,instagram_basic,pages_show_list,pages_read_engagement,instagram_manage_messages',
         }
       );
     },

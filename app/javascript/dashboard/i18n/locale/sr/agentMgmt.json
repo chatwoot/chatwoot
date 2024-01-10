@@ -76,8 +76,8 @@
         },
         "AGENT_AVAILABILITY": {
           "LABEL": "Dostupnost",
-          "PLACEHOLDER": "Please select an availability status",
-          "ERROR": "Availability is required"
+          "PLACEHOLDER": "Подведем итог",
+          "ERROR": ""
         },
         "SUBMIT": "Uredi agenta"
       },
@@ -111,7 +111,7 @@
         "PLACEHOLDER": {
           "AGENT": "Traži agente",
           "TEAM": "Traži tim",
-          "INPUT": "Search for agents"
+          "INPUT": "Поиск для агентов"
         }
       }
     }

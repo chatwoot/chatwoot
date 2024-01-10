@@ -1,25 +1,25 @@
 {
     "WHATSAPP_TEMPLATES": {
         "MODAL": {
-            "TITLE": "Whatsapp Templates",
-            "SUBTITLE": "Select the whatsapp template you want to send",
-            "TEMPLATE_SELECTED_SUBTITLE": "Process %{templateName}"
+            "TITLE": "Szablony WhatsApp",
+            "SUBTITLE": "Wybierz szablon WhatsApp, który chcesz wysłać",
+            "TEMPLATE_SELECTED_SUBTITLE": "Przetwarzanie %{templateName}"
         },
         "PICKER": {
-            "SEARCH_PLACEHOLDER": "Search Templates",
-            "NO_TEMPLATES_FOUND": "No templates found for",
+            "SEARCH_PLACEHOLDER": "Wyszukaj szablony",
+            "NO_TEMPLATES_FOUND": "Nie znaleziono szablonów dla",
             "LABELS": {
-                "LANGUAGE": "Language",
-                "TEMPLATE_BODY": "Template Body",
-                "CATEGORY": "Category"
+                "LANGUAGE": "Język",
+                "TEMPLATE_BODY": "Treść szablonu",
+                "CATEGORY": "Kategoria"
             }
         },
         "PARSER": {
-            "VARIABLES_LABEL": "Variables",
-            "VARIABLE_PLACEHOLDER": "Enter %{variable} value",
-            "GO_BACK_LABEL": "Go Back",
-            "SEND_MESSAGE_LABEL": "Send Message",
-            "FORM_ERROR_MESSAGE": "Please fill all variables before sending"
+            "VARIABLES_LABEL": "Zmienne",
+            "VARIABLE_PLACEHOLDER": "Wprowadź wartość %{variable}",
+            "GO_BACK_LABEL": "Powrót",
+            "SEND_MESSAGE_LABEL": "Wyślij wiadomość",
+            "FORM_ERROR_MESSAGE": "Proszę wypełnić wszystkie zmienne przed wysłaniem"
         }
     }
 }

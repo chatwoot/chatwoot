@@ -12,12 +12,12 @@ defaults: &defaults
     # Specify service dependencies here if necessary
     # CircleCI maintains a library of pre-built images
     # documented at https://circleci.com/docs/2.0/circleci-images/
-    - image: cimg/postgres:14.1
+    - image: cimg/postgres:15.3
     - image: cimg/redis:6.2.6
   environment:
-      - RAILS_LOG_TO_STDOUT: false
-      - COVERAGE: true
-      - LOG_LEVEL: warn
+    - RAILS_LOG_TO_STDOUT: false
+    - COVERAGE: true
+    - LOG_LEVEL: warn
   parallelism: 4
   resource_class: large
 
@@ -46,7 +46,7 @@ jobs:
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-            nvm install v16
+            nvm install v20
             echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
             echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
 
@@ -64,7 +64,6 @@ jobs:
             - ~/.bundle
           key: chatwoot-bundle-{{ .Environment.CACHE_VERSION }}-v20220524-{{ checksum "Gemfile.lock" }}
 
-
       # Only necessary if app uses webpacker or yarn in some other way
       - restore_cache:
           keys:
@@ -73,7 +72,7 @@ jobs:
 
       - run:
           name: yarn
-          command: yarn install --cache-folder ~/.cache/yarn
+          command: yarn install --frozen-lockfile --cache-folder ~/.cache/yarn
 
       # Store yarn / webpacker cache
       - save_cache:
@@ -82,7 +81,7 @@ jobs:
             - ~/.cache/yarn
 
       - run:
-          name:  Download cc-test-reporter
+          name: Download cc-test-reporter
           command: |
             mkdir -p ~/tmp
             curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ~/tmp/cc-test-reporter
@@ -104,9 +103,8 @@ jobs:
             fi
             curl -L https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.3.0/openapi-generator-cli-6.3.0.jar > ~/tmp/openapi-generator-cli-6.3.0.jar
             java -jar ~/tmp/openapi-generator-cli-6.3.0.jar validate -i swagger/swagger.json
-            
+
       # Database setup
-      - run: yarn install --check-files
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
 
@@ -117,7 +115,7 @@ jobs:
       - run:
           name: Rubocop
           command: bundle exec rubocop
-      
+
       # - run:
       #     name: Brakeman
       #     command: bundle exec brakeman
@@ -125,6 +123,21 @@ jobs:
       - run:
           name: eslint
           command: yarn run eslint
+
+      # Run frontend tests
+      - run:
+          name: Run frontend tests
+          command: |
+            mkdir -p ~/tmp/test-results/frontend_specs
+            ~/tmp/cc-test-reporter before-build
+            TESTFILES=$(circleci tests glob **/specs/*.spec.js | circleci tests split --split-by=timings)
+            yarn test:coverage --profile 10 \
+                               --out ~/tmp/test-results/yarn.xml \
+                               -- ${TESTFILES}
+      - run:
+          name: Code Climate Test Coverage
+          command: |
+            ~/tmp/cc-test-reporter format-coverage -t lcov -o "coverage/codeclimate.frontend_$CIRCLE_NODE_INDEX.json"
 
       # Run rails tests
       - run:
@@ -145,20 +158,6 @@ jobs:
           command: |
             ~/tmp/cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
 
-      - run:
-          name: Run frontend tests
-          command: |
-            mkdir -p ~/tmp/test-results/frontend_specs
-            ~/tmp/cc-test-reporter before-build
-            TESTFILES=$(circleci tests glob **/specs/*.spec.js | circleci tests split --split-by=timings)
-            yarn test:coverage --profile 10 \
-                               --out ~/tmp/test-results/yarn.xml \
-                               -- ${TESTFILES}
-      - run:
-          name: Code Climate Test Coverage
-          command: |
-            ~/tmp/cc-test-reporter format-coverage -t lcov -o "coverage/codeclimate.frontend_$CIRCLE_NODE_INDEX.json"  
-            
       - persist_to_workspace:
           root: coverage
           paths:
@@ -182,7 +181,7 @@ jobs:
       - attach_workspace:
           at: ~/build
       - run:
-          name:  Download cc-test-reporter
+          name: Download cc-test-reporter
           command: |
             mkdir -p ~/tmp
             curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ~/tmp/cc-test-reporter
@@ -204,4 +203,4 @@ workflows:
       - build
       - upload-coverage:
           requires:
-             - build
+            - build

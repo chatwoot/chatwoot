@@ -1,16 +1,21 @@
 <template>
-  <div class="header--wrap">
-    <div class="header-left--wrap">
+  <div
+    class="flex px-4 items-center justify-between w-full h-16 pt-2 sticky top-0 z-10 bg-white dark:bg-slate-900"
+  >
+    <div class="flex items-center">
       <woot-sidemenu-icon />
-      <div class="header-title">
-        <h3 class="page-title">{{ headerTitle }}</h3>
-        <span class="text-block-title count-view">{{ `(${count})` }}</span>
+      <div class="flex items-center my-0 mx-2">
+        <h3 class="text-2xl text-slate-800 dark:text-slate-100 mb-0">
+          {{ headerTitle }}
+        </h3>
+        <span class="text-sm text-slate-600 dark:text-slate-300 my-0 mx-2">{{
+          `(${count})`
+        }}</span>
       </div>
     </div>
-    <div class="header-right--wrap">
+    <div class="flex items-center gap-1">
       <woot-button
         v-if="shouldShowSettings"
-        class-names="article--buttons"
         icon="filter"
         color-scheme="secondary"
         variant="hollow"
@@ -21,7 +26,6 @@
       </woot-button>
       <woot-button
         v-if="shouldShowSettings"
-        class-names="article--buttons"
         icon="arrow-sort"
         color-scheme="secondary"
         size="small"
@@ -29,7 +33,9 @@
         @click="openDropdown"
       >
         {{ $t('HELP_CENTER.HEADER.SORT') }}
-        <span class="selected-value">
+        <span
+          class="inline-flex ml-1 rtl:ml-0 rtl:mr-1 items-center text-slate-800 dark:text-slate-100"
+        >
           {{ selectedValue }}
           <Fluent-icon class="dropdown-arrow" icon="chevron-down" size="14" />
         </span>
@@ -76,13 +82,50 @@
         v-if="shouldShowSettings"
         v-tooltip.top-end="$t('HELP_CENTER.HEADER.SETTINGS_BUTTON')"
         icon="settings"
-        class-names="article--buttons"
         variant="hollow"
         size="small"
         color-scheme="secondary"
       />
+      <div class="relative">
+        <woot-button
+          v-if="shouldShowLocaleDropdown"
+          icon="globe"
+          color-scheme="secondary"
+          size="small"
+          variant="hollow"
+          @click="openLocaleDropdown"
+        >
+          <div class="flex justify-between w-full min-w-0 items-center">
+            <span
+              class="inline-flex ml-1 rtl:ml-0 rtl:mr-1 items-center text-slate-800 dark:text-slate-100"
+            >
+              {{ selectedLocale }}
+              <Fluent-icon
+                class="dropdown-arrow"
+                icon="chevron-down"
+                size="14"
+              />
+            </span>
+          </div>
+        </woot-button>
+        <div
+          v-if="showLocaleDropdown"
+          v-on-clickaway="closeLocaleDropdown"
+          class="dropdown-pane dropdown-pane--open"
+        >
+          <multiselect-dropdown-items
+            :options="switchableLocales"
+            :has-thumbnail="false"
+            :selected-items="[selectedLocale]"
+            :input-placeholder="
+              $t('HELP_CENTER.HEADER.LOCALE_SELECT.SEARCH_PLACEHOLDER')
+            "
+            :no-search-result="$t('HELP_CENTER.HEADER.LOCALE_SELECT.NO_RESULT')"
+            @click="onClickSelectItem"
+          />
+        </div>
+      </div>
       <woot-button
-        class-names="article--buttons"
         size="small"
         icon="add"
         color-scheme="primary"
@@ -99,12 +142,15 @@ import { mixin as clickaway } from 'vue-clickaway';
 
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
+import MultiselectDropdownItems from 'shared/components/ui/MultiselectDropdownItems.vue';
+
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 export default {
   components: {
     FluentIcon,
     WootDropdownItem,
     WootDropdownMenu,
+    MultiselectDropdownItems,
   },
   mixins: [clickaway],
   props: {
@@ -120,15 +166,34 @@ export default {
       type: String,
       default: '',
     },
+    selectedLocale: {
+      type: String,
+      default: '',
+    },
     shouldShowSettings: {
       type: Boolean,
       default: false,
+    },
+    allLocales: {
+      type: Array,
+      default: () => [],
     },
   },
   data() {
     return {
       showSortByDropdown: false,
+      showLocaleDropdown: false,
     };
+  },
+  computed: {
+    shouldShowLocaleDropdown() {
+      return this.allLocales.length > 1;
+    },
+    switchableLocales() {
+      return this.allLocales.filter(
+        locale => locale.name !== this.selectedLocale
+      );
+    },
   },
   methods: {
     openFilterModal() {
@@ -142,56 +207,32 @@ export default {
       this.$emit('close');
       this.showSortByDropdown = false;
     },
+    openLocaleDropdown() {
+      this.showLocaleDropdown = true;
+    },
+    closeLocaleDropdown() {
+      this.showLocaleDropdown = false;
+    },
     onClickNewArticlePage() {
-      this.$emit('newArticlePage');
+      this.$emit('new-article-page');
+    },
+    onClickSelectItem(value) {
+      const { name, code } = value;
+      this.closeLocaleDropdown();
+      if (!name || name === this.selectedLocale) {
+        return;
+      }
+      this.$emit('change-locale', code);
     },
   },
 };
 </script>
 
 <style scoped lang="scss">
-.header--wrap {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  height: var(--space-jumbo);
-  padding-top: var(--space-small);
-}
-.header-left--wrap {
-  display: flex;
-  align-items: center;
-
-  .header-title {
-    display: flex;
-    align-items: center;
-    margin: 0 var(--space-small);
-    .page-title {
-      margin-bottom: 0;
-    }
-  }
-}
-.header-right--wrap {
-  display: flex;
-  align-items: center;
-}
-.count-view {
-  margin: 0 var(--space-smaller);
-}
 .dropdown-pane--open {
-  top: var(--space-larger);
-  right: 14.8rem;
-}
-.selected-value {
-  display: inline-flex;
-  margin-left: var(--space-smaller);
-  color: var(--b-900);
-  align-items: center;
+  @apply absolute top-10 right-0 z-50 min-w-[8rem];
 }
 .dropdown-arrow {
-  margin-left: var(--space-smaller);
-}
-.article--buttons {
-  margin-left: var(--space-smaller);
+  @apply ml-1 rtl:ml-0 rtl:mr-1;
 }
 </style>

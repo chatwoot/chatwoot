@@ -38,6 +38,19 @@
       "DELETE": "Verwijderen",
       "CANCEL": "Annuleren"
     },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Label aan gesprek toevoegen",
+        "MULTIPLE_SUGGESTION": "Dit label selecteren",
+        "DESELECT": "Label deselecteren",
+        "DISMISS": "Voorstel negeren"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Negeren",
+      "ADD_SELECTED_LABELS": "Voeg geselecteerde labels toe",
+      "ADD_SELECTED_LABEL": "Geselecteerde label toevoegen",
+      "ADD_ALL_LABELS": "Voeg alle labels toe"
+    },
     "ADD": {
       "TITLE": "Label toevoegen",
       "DESC": "Labels laten je gesprekken groeperen.",

@@ -111,6 +111,17 @@
           "PLACEHOLDER": "Por favor, insira o SID sua conta no Twilio",
           "ERROR": "Este campo é obrigatório"
         },
+        "API_KEY": {
+          "USE_API_KEY": "Usar autenticação de chave API",
+          "LABEL": "Chave da API SID",
+          "PLACEHOLDER": "Por favor, insira sua chave de API SID",
+          "ERROR": "Este campo é obrigatório"
+        },
+        "API_KEY_SECRET": {
+          "LABEL": "Segredo da Chave API",
+          "PLACEHOLDER": "Por favor, use sua API Key Secret",
+          "ERROR": "Este campo é obrigatório"
+        },
         "MESSAGING_SERVICE_SID": {
           "LABEL": "SID do Serviço de Mensagens",
           "PLACEHOLDER": "Por favor, informe seu SID do Serviço de Mensagens do Twilio",
@@ -360,6 +371,8 @@
     "DETAILS": {
       "LOADING_FB": "Autenticando você com o Facebook...",
       "ERROR_FB_AUTH": "Algo deu errado, por favor, atualize a página...",
+      "ERROR_FB_UNAUTHORIZED": "Você não está autorizado a realizar esta ação. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "A tradução é:\n\nPor favor, certifique-se de que você tem acesso à página do Facebook com controle total. Você pode ler mais sobre as funções do Facebook <a href=\" https://www.facebook.com/help/187316341316631\">aqui</a>.",
       "CREATING_CHANNEL": "Criando sua caixa de entrada...",
       "TITLE": "Configurar detalhes da Caixa de Entrada",
       "DESC": ""
@@ -390,6 +403,25 @@
       "ENABLE_CSAT": {
         "ENABLED": "Ativado",
         "DISABLED": "Desativado"
+      },
+      "SENDER_NAME_SECTION": {
+        "TITLE": "Nome do remetente",
+        "SUB_TEXT": "Selecione o nome a ser exibido para o seu cliente quando ele receber e-mails de seus agentes.",
+        "FOR_EG": "Por ex:",
+        "FRIENDLY": {
+          "TITLE": "Amigável",
+          "FROM": "De",
+          "SUBTITLE": "Adicione o nome do agente que enviou a resposta ao nome do remetente para torná-la amigável."
+        },
+        "PROFESSIONAL": {
+          "TITLE": "Profissional",
+          "SUBTITLE": "Utilize apenas o nome da empresa configurada como nome do remetente no cabeçalho do e-mail."
+        },
+        "BUSINESS_NAME": {
+          "BUTTON_TEXT": "Configure o nome da sua empresa",
+          "PLACEHOLDER": "Insira o nome de sua empresa",
+          "SAVE_BUTTON_TEXT": "Salvar"
+        }
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
         "ENABLED": "Ativado",
@@ -454,7 +486,9 @@
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Ativar ou desativar caixa de coleta de e-mails em novas conversas",
       "AUTO_ASSIGNMENT": "Habilitar atribuição automática",
       "ENABLE_CSAT": "Habilitar CSAT",
+      "SENDER_NAME_SECTION": "Habilitar o Nome do Agente no E-mail",
       "ENABLE_CSAT_SUB_TEXT": "Ativar/Desativar pesquisa CSAT(satisfação do cliente) após resolver uma conversa",
+      "SENDER_NAME_SECTION_TEXT": "Ativar/Desativar exibição do nome do agente no e-mail, se estiver desativado, exibirá o nome da empresa",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Habilitar continuidade das conversas por e-mail",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "As conversas continuarão sobre o e-mail se o endereço de e-mail de contato estiver disponível.",
       "LOCK_TO_SINGLE_CONVERSATION": "Bloquear para conversa única",
@@ -535,7 +569,6 @@
       "UPDATE": "Atualizar configurações do horário comercial",
       "TOGGLE_AVAILABILITY": "Permitir a disponibilidade de negócios para essa caixa de entrada",
       "UNAVAILABLE_MESSAGE_LABEL": "Mensagem indisponível para visitantes",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "Nós estamos indisponíveis no momento. Deixe uma mensagem a ser respondida assim que voltarmos.",
       "TOGGLE_HELP": "Permitir a disponibilidade de negócios mostrará as horas disponíveis no widget de bate-papo ao vivo, mesmo que todos os agentes estejam offline. Os vistores disponíveis horários externos podem ser avisados com uma mensagem e um formulário de pré-bate-papo.",
       "DAY": {
         "ENABLE": "Permitir a disponibilidade para este dia",
@@ -544,7 +577,7 @@
         "VALIDATION_ERROR": "Hora inicial deve ser antes de hora de fechamento.",
         "CHOOSE": "Selecione"
       },
-      "ALL_DAY": "Todos os Dias"
+      "ALL_DAY": "O dia todo"
     },
     "IMAP": {
       "TITLE": "IMAP",

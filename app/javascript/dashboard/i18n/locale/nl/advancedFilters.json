@@ -2,12 +2,17 @@
   "FILTER": {
     "TITLE": "Conversaties filteren",
     "SUBTITLE": "Voeg hieronder filters toe en druk op 'Filters toepassen' om te filteren.",
+    "EDIT_CUSTOM_FILTER": "Map bewerken",
+    "CUSTOM_VIEWS_SUBTITLE": "Filters toevoegen of verwijderen en bijwerken van uw folder.",
     "ADD_NEW_FILTER": "Filter toevoegen",
     "FILTER_DELETE_ERROR": "U moet minstens één filter hebben om op te slaan",
     "SUBMIT_BUTTON_LABEL": "Filters toepassen",
+    "UPDATE_BUTTON_LABEL": "Update folder",
     "CANCEL_BUTTON_LABEL": "Annuleren",
     "CLEAR_BUTTON_LABEL": "Filters wissen",
     "EMPTY_VALUE_ERROR": "Waarde is vereist",
+    "FOLDER_LABEL": "Folder naam",
+    "FOLDER_QUERY_LABEL": "Folder Query",
     "TOOLTIP_LABEL": "Gesprekken filteren",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "EN",
@@ -23,7 +28,7 @@
       "is_greater_than": "Is groter dan",
       "is_less_than": "Is lager dan",
       "days_before": "Is x dagen vóór",
-      "starts_with": "Starts with"
+      "starts_with": "Begint met"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Waar",
@@ -38,7 +43,7 @@
       "CAMPAIGN_NAME": "Campagne Naam",
       "LABELS": "Labelen",
       "BROWSER_LANGUAGE": "Browser Taal",
-      "PRIORITY": "Priority",
+      "PRIORITY": "Prioriteit",
       "COUNTRY_NAME": "Land Naam",
       "REFERER_LINK": "Verwijzende link",
       "CUSTOM_ATTRIBUTE_LIST": "Lijst",
@@ -70,6 +75,9 @@
           "SUCCESS_MESSAGE": "Segment succesvol aangemaakt",
           "ERROR_MESSAGE": "Fout bij het maken van segment"
         }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Map bewerken"
       },
       "DELETE": {
         "DELETE_BUTTON": "Filter verwijderen",

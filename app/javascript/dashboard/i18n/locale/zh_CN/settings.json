@@ -36,10 +36,13 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Personal message signature",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
         "BTN_TEXT": "Save message signature",
         "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully"
+        "API_SUCCESS": "Signature saved successfully",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Message Signature",
@@ -149,6 +152,7 @@
     "SELECTOR_SUBTITLE": "从以下列表中选择一个账户",
     "PROFILE_SETTINGS": "个人资料设置",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
+    "APPEARANCE": "Change Appearance",
     "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "退出登录"
   },
@@ -214,7 +218,7 @@
     "LABELS": "标签",
     "CUSTOM_ATTRIBUTES": "自定义属性",
     "AUTOMATION": "Automation",
-    "MACROS": "Macros",
+    "MACROS": "宏",
     "TEAMS": "Teams",
     "BILLING": "Billing",
     "CUSTOM_VIEWS_FOLDER": "Folders",
@@ -238,7 +242,7 @@
     "REPORTS_OVERVIEW": "Overview",
     "FACEBOOK_REAUTHORIZE": "您的 Facebook 连接已过期，请重新连接您的 Facebook 页面以继续服务",
     "HELP_CENTER": {
-      "TITLE": "Help Center (Beta)",
+      "TITLE": "Help Center",
       "ALL_ARTICLES": "All Articles",
       "MY_ARTICLES": "My Articles",
       "DRAFT": "Draft",

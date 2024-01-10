@@ -8,15 +8,11 @@ Layout/LineLength:
   Max: 150
 
 Metrics/ClassLength:
-  Max: 125
+  Max: 175
   Exclude:
-    - 'app/models/conversation.rb'
-    - 'app/models/contact.rb'
-    - 'app/mailers/conversation_reply_mailer.rb'
     - 'app/models/message.rb'
-    - 'app/builders/messages/facebook/message_builder.rb'
-    - 'app/controllers/api/v1/accounts/contacts_controller.rb'
-    - 'app/listeners/action_cable_listener.rb'
+    - 'app/models/conversation.rb'
+
 RSpec/ExampleLength:
   Max: 25
 Style/Documentation:
@@ -62,6 +58,7 @@ Metrics/BlockLength:
 Metrics/ModuleLength:
   Exclude:
     - lib/seeders/message_seeder.rb
+    - spec/support/slack_stubs.rb
 Rails/ApplicationController:
   Exclude:
     - 'app/controllers/api/v1/widget/messages_controller.rb'
@@ -73,7 +70,7 @@ Rails/ApplicationController:
     - 'app/controllers/survey/responses_controller.rb'
 Rails/FindEach:
   Enabled: true
-  Include: 
+  Include:
     - 'app/**/*.rb'
 Rails/CompactBlank:
   Enabled: false
@@ -87,6 +84,7 @@ Style/ClassAndModuleChildren:
   EnforcedStyle: compact
   Exclude:
     - 'config/application.rb'
+    - 'config/initializers/monkey_patches/*'
 Style/MapToHash:
   Enabled: false
 Style/HashSyntax:
@@ -187,7 +185,6 @@ RSpec/IndexedLet:
   Enabled: false
 RSpec/NamedSubject:
   Enabled: false
-
 
 # we should bring this down
 RSpec/MultipleMemoizedHelpers:

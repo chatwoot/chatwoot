@@ -1,8 +1,8 @@
 <template>
   <div id="profile-settings-notifications">
-    <div class="profile--settings--row row">
-      <div class="columns small-3 ">
-        <h4 class="block-title">
+    <div class="profile--settings--row text-black-900 dark:text-slate-300 row">
+      <div class="columns small-3">
+        <h4 class="block-title text-black-900 dark:text-slate-200">
           {{ $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.TITLE') }}
         </h4>
         <p>
@@ -139,9 +139,9 @@
         </div>
       </div>
     </div>
-    <div class="profile--settings--row row">
-      <div class="columns small-3 ">
-        <h4 class="block-title">
+    <div class="profile--settings--row text-black-900 dark:text-slate-300 row">
+      <div class="columns small-3">
+        <h4 class="block-title text-black-900 dark:text-slate-200">
           {{ $t('PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.TITLE') }}
         </h4>
         <p>
@@ -236,10 +236,10 @@
     </div>
     <div
       v-if="vapidPublicKey && hasPushAPISupport"
-      class="profile--settings--row row push-row"
+      class="profile--settings--row text-black-900 dark:text-slate-300 row push-row"
     >
-      <div class="columns small-3 ">
-        <h4 class="block-title">
+      <div class="columns small-3">
+        <h4 class="block-title text-black-900 dark:text-slate-200">
           {{ $t('PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.TITLE') }}
         </h4>
         <p>{{ $t('PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.NOTE') }}</p>
@@ -420,7 +420,8 @@ export default {
       const {
         enable_audio_alerts: enableAudio = false,
         always_play_audio_alert: alwaysPlayAudioAlert,
-        alert_if_unread_assigned_conversation_exist: alertIfUnreadConversationExist,
+        alert_if_unread_assigned_conversation_exist:
+          alertIfUnreadConversationExist,
         notification_tone: notificationTone,
       } = uiSettings;
       this.enableAudioAlerts = enableAudio;

@@ -38,6 +38,8 @@ fr:
     contacts:
       import:
         failed: Le fichier est vide
+      export:
+        success: Nous vous informerons lorsque le fichier d'exportation des contacts sera prêt à être affiché.
       email:
         invalid: Email non valide
       phone_number:
@@ -47,6 +49,8 @@ fr:
         unique: Doit être unique dans la catégorie et le portail
     dyte:
       invalid_message_type: "Type de message invalide. Action non autorisée"
+    slack:
+      invalid_channel_id: "Canal Slack invalide. Veuillez réessayer"
     inboxes:
       imap:
         socket_error: Veuillez vérifier la connexion, l'adresse IMAP et réessayez.
@@ -56,6 +60,8 @@ fr:
         connection_closed_error: Connexion fermée.
       validations:
         name: 'ne doit pas commencer ou se terminer par des symboles, et ne doit pas comporter les caractères suivants : "< > / \ @".'
+    custom_filters:
+      number_of_records: Limite atteinte. Le nombre maximum de filtres personnalisés autorisés pour un utilisateur par compte est de 50.
   reports:
     period: Période de rapport %{since} à %{until}
     utc_warning: Le rapport généré est dans le fuseau horaire UTC
@@ -104,6 +110,8 @@ fr:
       instagram_story_content: "%{story_sender} vous a mentionné dans la story: "
       instagram_deleted_story_content: Cette Story n'est plus disponible.
       deleted: Ce message a été supprimé
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "La conversation a été marquée résolue par %{user_name}"
@@ -140,6 +148,8 @@ fr:
         header:
           from_with_name: "%{assignee_name} de %{inbox_name} <%{from_email}>"
           reply_with_name: "%{assignee_name} de %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} de %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} de %{inbox_name} <%{from_email}>"
@@ -180,6 +190,7 @@ fr:
       empty_placeholder: Aucun résultat trouvé.
       loading_placeholder: Recherche en cours...
       results_title: Résultats de recherche
+    toc_header: 'Sur cette page'
     hero:
       sub_title: Recherchez les articles ici ou parcourez les catégories ci-dessous.
     common:
@@ -193,3 +204,12 @@ fr:
       made_with: Réalisé avec
     header:
       go_to_homepage: Aller à la page d'accueil
+  slack_unfurl:
+    fields:
+      name: Nom
+      email: Courriel
+      phone_number: Téléphone
+      company_name: Société
+      inbox_name: Boîte de réception
+      inbox_type: Type de boîte de réception
+    button: Ouvrir la conversation

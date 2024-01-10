@@ -12,7 +12,7 @@
 
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
-import PortalSettingsCustomizationForm from 'dashboard/routes/dashboard/helpcenter/components/PortalSettingsCustomizationForm';
+import PortalSettingsCustomizationForm from 'dashboard/routes/dashboard/helpcenter/components/PortalSettingsCustomizationForm.vue';
 
 import { mapGetters } from 'vuex';
 

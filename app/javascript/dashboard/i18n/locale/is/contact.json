@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Bæta við Merkingum",
         "PLACEHOLDER": "Leita að merkingum",
-        "NO_RESULT": "Engar merkingar fundust"
+        "NO_RESULT": "Engar merkingar fundust",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Sameina tengilið",
@@ -70,8 +71,15 @@
       "SUBMIT": "Hlaða inn",
       "CANCEL": "Hætta við"
     },
-    "SUCCESS_MESSAGE": "Tókst að hlaða inn tengiliðum",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "Það kom upp villa, vinsamlegast reyndur aftur"
+  },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "Það kom upp villa, vinsamlegast reyndu aftur"
   },
   "DELETE_NOTE": {
     "CONFIRM": {
@@ -196,6 +204,10 @@
         "PLACEHOLDER": "Skrifaðu skilaboðin þín hér",
         "ERROR": "Skilaboð mega ekki vera tóm"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "Senda skilaboð",
       "CANCEL": "Hætta við",
       "SUCCESS_MESSAGE": "Skilaboð send!",
@@ -211,6 +223,7 @@
     "FILTER_CONTACTS": "Sía",
     "FILTER_CONTACTS_SAVE": "Vista síu",
     "FILTER_CONTACTS_DELETE": "Eyða síu",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "Hleð tengiliðum...",
       "404": "Engir tengiliðir fundust",
@@ -334,17 +347,17 @@
     "DESCRIPTION": "Sameina tengiliði til að sameina tvo prófíla í einn, þar á meðal alla eiginleika og samtöl. Ef til árekstra kemur munu eiginleikar aðaltengiliðs hafa forgang.",
     "PRIMARY": {
       "TITLE": "Aðaltengiliður",
-      "HELP_LABEL": "Halda eftir"
+      "HELP_LABEL": "Eyða"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Tengiliður til að sameina",
       "PLACEHOLDER": "Leita að tengilið",
-      "HELP_LABEL": "Eyða"
+      "HELP_LABEL": "Halda eftir"
     },
     "SUMMARY": {
       "TITLE": "Samantekt",
-      "DELETE_WARNING": "Tengilið <strong>%{childContactName}</strong> verður eytt.",
-      "ATTRIBUTE_WARNING": "Samskiptaupplýsingar <strong>%{childContactName}</strong> verða afritaðar á <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Tengilið <strong>%{primaryContactName}</strong> verður eytt.",
+      "ATTRIBUTE_WARNING": "Samskiptaupplýsingar <strong>%{primaryContactName}</strong> verða afritaðar á <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"

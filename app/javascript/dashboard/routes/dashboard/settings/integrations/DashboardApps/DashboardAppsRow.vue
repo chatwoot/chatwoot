@@ -4,7 +4,7 @@
       {{ app.title }}
     </td>
     <td class="dashboard-app-label-url">
-      <span class="text-truncate">
+      <span class="overflow-hidden whitespace-nowrap text-ellipsis">
         {{ app.content[0].url }}
       </span>
     </td>
@@ -37,31 +37,27 @@
 
 <script>
 export default {
+  loading: {
+    type: Boolean,
+    default: false,
+  },
   props: {
     app: {
       type: Object,
       default: () => ({}),
     },
   },
-  loading: {
-    type: Boolean,
-    default: false,
-  },
 };
 </script>
 
 <style lang="scss" scoped>
 .dashboard-app-label-url {
-  position: relative;
-  width: 50%;
+  @apply relative w-full;
   &:before {
-    content: '&nbsp;';
-    visibility: hidden;
+    @apply invisible content-['&nbsp'];
   }
   span {
-    position: absolute;
-    left: 0;
-    right: 0;
+    @apply absolute left-0 right-0;
   }
 }
 </style>

@@ -1,43 +1,45 @@
 <template>
-  <div class="filter-container">
-    <reports-filters-date-range @on-range-change="onDateRangeChange" />
-    <woot-date-range-picker
-      v-if="isDateRangeSelected"
-      show-range
-      class="no-margin auto-width"
-      :value="customDateRange"
-      :confirm-text="$t('REPORT.CUSTOM_DATE_RANGE.CONFIRM')"
-      :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
-      @change="onCustomDateRangeChange"
-    />
-    <reports-filters-date-group-by
-      v-if="showGroupByFilter && isGroupByPossible"
-      :valid-group-options="validGroupOptions"
-      :selected-option="selectedGroupByFilter"
-      @on-grouping-change="onGroupingChange"
-    />
-    <reports-filters-agents
-      v-if="showAgentsFilter"
-      @agents-filter-selection="handleAgentsFilterSelection"
-    />
-    <reports-filters-labels
-      v-if="showLabelsFilter"
-      @labels-filter-selection="handleLabelsFilterSelection"
-    />
-    <reports-filters-teams
-      v-if="showTeamFilter"
-      @team-filter-selection="handleTeamFilterSelection"
-    />
-    <reports-filters-inboxes
-      v-if="showInboxFilter"
-      @inbox-filter-selection="handleInboxFilterSelection"
-    />
-    <reports-filters-ratings
-      v-if="showRatingFilter"
-      @rating-filter-selection="handleRatingFilterSelection"
-    />
-    <div v-if="showBusinessHoursSwitch" class="business-hours">
-      <span class="business-hours-text ">
+  <div class="flex flex-col md:flex-row justify-between mb-4">
+    <div class="md:grid flex flex-col filter-container gap-3 w-full">
+      <reports-filters-date-range @on-range-change="onDateRangeChange" />
+      <woot-date-range-picker
+        v-if="isDateRangeSelected"
+        show-range
+        class="no-margin auto-width"
+        :value="customDateRange"
+        :confirm-text="$t('REPORT.CUSTOM_DATE_RANGE.CONFIRM')"
+        :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
+        @change="onCustomDateRangeChange"
+      />
+      <reports-filters-date-group-by
+        v-if="showGroupByFilter && isGroupByPossible"
+        :valid-group-options="validGroupOptions"
+        :selected-option="selectedGroupByFilter"
+        @on-grouping-change="onGroupingChange"
+      />
+      <reports-filters-agents
+        v-if="showAgentsFilter"
+        @agents-filter-selection="handleAgentsFilterSelection"
+      />
+      <reports-filters-labels
+        v-if="showLabelsFilter"
+        @labels-filter-selection="handleLabelsFilterSelection"
+      />
+      <reports-filters-teams
+        v-if="showTeamFilter"
+        @team-filter-selection="handleTeamFilterSelection"
+      />
+      <reports-filters-inboxes
+        v-if="showInboxFilter"
+        @inbox-filter-selection="handleInboxFilterSelection"
+      />
+      <reports-filters-ratings
+        v-if="showRatingFilter"
+        @rating-filter-selection="handleRatingFilterSelection"
+      />
+    </div>
+    <div v-if="showBusinessHoursSwitch" class="flex items-center">
+      <span class="text-sm whitespace-nowrap mx-2">
         {{ $t('REPORT.BUSINESS_HOURS') }}
       </span>
       <span>
@@ -230,10 +232,6 @@ export default {
 
 <style scoped>
 .filter-container {
-  display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  grid-gap: var(--space-slab);
-
-  margin-bottom: var(--space-normal);
 }
 </style>

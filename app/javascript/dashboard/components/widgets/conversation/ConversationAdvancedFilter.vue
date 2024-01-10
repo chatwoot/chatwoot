@@ -1,22 +1,30 @@
 <template>
-  <div class="column">
+  <div>
     <woot-modal-header :header-title="filterModalHeaderTitle">
-      <p>{{ filterModalSubTitle }}</p>
+      <p class="text-slate-600 dark:text-slate-200">
+        {{ filterModalSubTitle }}
+      </p>
     </woot-modal-header>
-    <div class="column modal-content">
-      <div v-if="isFolderView" class="columns">
+    <div class="p-8">
+      <div v-if="isFolderView">
         <label class="input-label" :class="{ error: !activeFolderNewName }">
           {{ $t('FILTER.FOLDER_LABEL') }}
-          <input v-model="activeFolderNewName" type="text" class="name-input" />
+          <input
+            v-model="activeFolderNewName"
+            type="text"
+            class="folder-input border-slate-75 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100"
+          />
           <span v-if="!activeFolderNewName" class="message">
             {{ $t('FILTER.EMPTY_VALUE_ERROR') }}
           </span>
         </label>
-        <label class="input-label">
+        <label class="mb-1">
           {{ $t('FILTER.FOLDER_QUERY_LABEL') }}
         </label>
       </div>
-      <div class="medium-12 columns filters-wrap">
+      <div
+        class="p-4 rounded-lg bg-slate-25 dark:bg-slate-900 border border-solid border-slate-50 dark:border-slate-700/50 mb-4"
+      >
         <filter-input-box
           v-for="(filter, i) in appliedFilters"
           :key="i"
@@ -37,7 +45,7 @@
           @resetFilter="resetFilter(i, appliedFilters[i])"
           @removeFilter="removeFilter(i)"
         />
-        <div class="filter-actions">
+        <div class="mt-4">
           <woot-button
             icon="add"
             color-scheme="success"
@@ -49,8 +57,8 @@
           </woot-button>
         </div>
       </div>
-      <div class="medium-12 columns">
-        <div class="modal-footer justify-content-end w-full">
+      <div class="w-full">
+        <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
           <woot-button class="button clear" @click.prevent="onClose">
             {{ $t('FILTER.CANCEL_BUTTON_LABEL') }}
           </woot-button>
@@ -350,6 +358,7 @@ export default {
         applied_filters: this.appliedFilters.map(filter => ({
           key: filter.attribute_key,
           operator: filter.filter_operator,
+          query_operator: filter.query_operator,
         })),
       });
     },
@@ -371,23 +380,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.filters-wrap {
-  padding: var(--space-normal);
-  border-radius: var(--border-radius-large);
-  border: 1px solid var(--color-border);
-  background: var(--color-background-light);
-  margin-bottom: var(--space-normal);
-}
-
-.filter-actions {
-  margin-top: var(--space-normal);
-}
-
-.input-label {
-  margin-bottom: var(--space-smaller);
-
-  .name-input {
-    width: 50%;
-  }
+.folder-input {
+  @apply w-[50%];
 }
 </style>

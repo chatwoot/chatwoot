@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "لیبلز شامل کریں۔",
         "PLACEHOLDER": "لیبل تلاش کریں۔",
-        "NO_RESULT": "کوئی لیبل نہیں ملے"
+        "NO_RESULT": "کوئی لیبل نہیں ملے",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "کانٹیکٹ ضم کریں۔",
@@ -70,7 +71,14 @@
       "SUBMIT": "درآمد کریں۔",
       "CANCEL": "منسوخ کریں۔"
     },
-    "SUCCESS_MESSAGE": "کانٹیکٹ کامیابی سے محفوظ ہو گیا۔",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+    "ERROR_MESSAGE": "ایک خامی تھی، براہ کرم دوبارہ کوشش کریں۔"
+  },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
     "ERROR_MESSAGE": "ایک خامی تھی، براہ کرم دوبارہ کوشش کریں۔"
   },
   "DELETE_NOTE": {
@@ -196,6 +204,10 @@
         "PLACEHOLDER": "اپنا پیغام یہاں لکھیں۔",
         "ERROR": "پیغام خالی نہیں ہو سکتا"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "پیغام بھیجیں",
       "CANCEL": "منسوخ کریں۔",
       "SUCCESS_MESSAGE": "پیغام چلا گیا!",
@@ -211,6 +223,7 @@
     "FILTER_CONTACTS": "فلٹر",
     "FILTER_CONTACTS_SAVE": "فلٹر محفوظ کریں۔",
     "FILTER_CONTACTS_DELETE": "فلٹر کو حذف کریں۔",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "کانٹیکٹس لوڈ ہو رہے ہیں...",
       "404": "کوئی کانٹیکٹ آپ کی تلاش سے میل نہیں کھاتا 🔍",
@@ -334,17 +347,17 @@
     "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
     "PRIMARY": {
       "TITLE": "بنیادی رابطہ",
-      "HELP_LABEL": "رکھا جائے ۔"
+      "HELP_LABEL": "حذف کیا جائے۔"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "کانٹیکٹ کو زم کریں",
       "PLACEHOLDER": "کانٹیکٹ تلاش کریں",
-      "HELP_LABEL": "حذف کیا جائے۔"
+      "HELP_LABEL": "رکھا جائے ۔"
     },
     "SUMMARY": {
       "TITLE": "خلاصہ",
-      "DELETE_WARNING": "<strong>%{childContactName}</strong> کا کانٹیکٹ حذف کر دیا جائے گا۔.",
-      "ATTRIBUTE_WARNING": "<strong>%{childContactName}</strong> کے کانٹیکٹ کی تفصیلات <strong>%{primaryContactName}</strong> پر کاپی کی جائیں گی۔."
+      "DELETE_WARNING": "<strong>%{primaryContactName}</strong> کا کانٹیکٹ حذف کر دیا جائے گا۔.",
+      "ATTRIBUTE_WARNING": "<strong>%{primaryContactName}</strong> کے کانٹیکٹ کی تفصیلات <strong>%{parentContactName}</strong> پر کاپی کی جائیں گی۔."
     },
     "SEARCH": {
       "ERROR": "خامی کا پیغام"

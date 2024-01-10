@@ -12,6 +12,10 @@
     "NO_INBOX_2": " 始めましょう",
     "NO_INBOX_AGENT": "あなたに受信トレイが設定されていないようです。管理者に問い合わせてください。",
     "SEARCH_MESSAGES": "会話中のメッセージの検索",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "メッセージを検索",
       "RESULT_TITLE": "検索結果",
@@ -30,7 +34,6 @@
     "ASSIGN_TO_ME": "自分に割り当て",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hour message window restriction",
-    "SELECT_A_TWEET_TO_REPLY": "返信するツイートを選択してください。",
     "REPLYING_TO": "以下に返信：",
     "REMOVE_SELECTION": "選択項目を削除",
     "DOWNLOAD": "ダウンロード",
@@ -43,6 +46,7 @@
     "NO_RESPONSE": "No response",
     "RATING_TITLE": "評価",
     "FEEDBACK_TITLE": "フィードバック",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Show labels",
       "HIDE_LABELS": "Hide labels"
@@ -54,18 +58,25 @@
       "OPEN": "もっと見る",
       "CLOSE": "閉じる",
       "DETAILS": "詳細",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "明日までスヌーズしました",
       "SNOOZED_UNTIL_NEXT_WEEK": "来週までスヌーズ",
       "SNOOZED_UNTIL_NEXT_REPLY": "次の返信までうたた寝。"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "保留としてマークする",
+      "SNOOZE_UNTIL": "スヌーズ",
       "SNOOZE": {
         "TITLE": "までスヌーズする",
         "NEXT_REPLY": "Next reply",
         "TOMORROW": "明日",
         "NEXT_WEEK": "次週"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "までスヌーズする",
+      "APPLY": "スヌーズ",
+      "CANCEL": "キャンセル"
     },
     "PRIORITY": {
       "TITLE": "Priority",
@@ -128,7 +139,8 @@
       "PRIVATE_NOTE": "非公開メモ",
       "SEND": "送信",
       "CREATE": "メモを追加",
-      "TWEET": "ツイート",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "Show rich text editor",
       "TIP_EMOJI_ICON": "Show emoji selector",
       "TIP_ATTACH_ICON": "Attach files",
@@ -140,6 +152,7 @@
       "STOP_AUDIO_RECORDING": "Stop audio recording",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Add bcc",
         "CC": {
           "LABEL": "CC",
@@ -182,6 +195,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "コピー",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "削除",
       "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
       "TRANSLATE": "Translate",

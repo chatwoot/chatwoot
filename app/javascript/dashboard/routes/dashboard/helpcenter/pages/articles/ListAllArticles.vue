@@ -1,10 +1,15 @@
 <template>
-  <div class="container overflow-auto">
+  <div
+    class="py-0 px-0 w-full max-w-full overflow-auto bg-white dark:bg-slate-900"
+  >
     <article-header
       :header-title="headerTitle"
       :count="meta.count"
+      :selected-locale="activeLocaleName"
+      :all-locales="allowedLocales"
       selected-value="Published"
-      @newArticlePage="newArticlePage"
+      @new-article-page="newArticlePage"
+      @change-locale="onChangeLocale"
     />
     <article-table
       :articles="articles"
@@ -13,9 +18,14 @@
       @page-change="onPageChange"
       @reorder="onReorder"
     />
-    <div v-if="shouldShowLoader" class="articles--loader">
+    <div
+      v-if="shouldShowLoader"
+      class="items-center flex text-base justify-center py-6 px-4 text-slate-600 dark:text-slate-200"
+    >
       <spinner />
-      <span>{{ $t('HELP_CENTER.TABLE.LOADING_MESSAGE') }}</span>
+      <span class="text-slate-600 dark:text-slate-200">{{
+        $t('HELP_CENTER.TABLE.LOADING_MESSAGE')
+      }}</span>
     </div>
     <empty-state
       v-else-if="shouldShowEmptyState"
@@ -25,11 +35,12 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import allLocales from 'shared/constants/locales.js';
 
 import Spinner from 'shared/components/Spinner.vue';
-import ArticleHeader from 'dashboard/routes/dashboard/helpcenter/components/Header/ArticleHeader';
-import EmptyState from 'dashboard/components/widgets/EmptyState';
-import ArticleTable from '../../components/ArticleTable';
+import ArticleHeader from 'dashboard/routes/dashboard/helpcenter/components/Header/ArticleHeader.vue';
+import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
+import ArticleTable from '../../components/ArticleTable.vue';
 
 export default {
   components: {
@@ -51,6 +62,7 @@ export default {
       meta: 'articles/getMeta',
       isFetching: 'articles/isFetching',
       currentUserId: 'getCurrentUserID',
+      getPortalBySlug: 'portals/portalBySlug',
     }),
     selectedCategory() {
       return this.categories.find(
@@ -111,6 +123,28 @@ export default {
         ? this.selectedCategory.name
         : '';
     },
+    activeLocale() {
+      return this.$route.params.locale;
+    },
+    activeLocaleName() {
+      return allLocales[this.activeLocale];
+    },
+    portal() {
+      return this.getPortalBySlug(this.selectedPortalSlug);
+    },
+    allowedLocales() {
+      if (!this.portal) {
+        return [];
+      }
+      const { allowed_locales: allowedLocales } = this.portal.config;
+      return allowedLocales.map(locale => {
+        return {
+          id: locale.code,
+          name: allLocales[locale.code],
+          code: locale.code,
+        };
+      });
+    },
   },
   watch: {
     $route() {
@@ -130,10 +164,10 @@ export default {
       this.$store.dispatch('articles/index', {
         pageNumber: pageNumber || this.pageNumber,
         portalSlug: this.$route.params.portalSlug,
-        locale: this.$route.params.locale,
+        locale: this.activeLocale,
         status: this.status,
-        author_id: this.author,
-        category_slug: this.selectedCategorySlug,
+        authorId: this.author,
+        categorySlug: this.selectedCategorySlug,
       });
     },
     onPageChange(pageNumber) {
@@ -145,21 +179,16 @@ export default {
         portalSlug: this.$route.params.portalSlug,
       });
     },
+    onChangeLocale(locale) {
+      this.$router.push({
+        name: 'list_all_locale_articles',
+        params: {
+          portalSlug: this.$route.params.portalSlug,
+          locale,
+        },
+      });
+      this.$emit('reload-locale');
+    },
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.container {
-  padding: 0 var(--space-normal);
-  width: 100%;
-  overflow: auto;
-  .articles--loader {
-    align-items: center;
-    display: flex;
-    font-size: var(--font-size-default);
-    justify-content: center;
-    padding: var(--space-big);
-  }
-}
-</style>

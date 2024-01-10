@@ -1,6 +1,13 @@
 {
   "CSAT": {
     "TITLE": "قيم محادثتك",
-    "PLACEHOLDER": "أخبرنا المزيد..."
+    "PLACEHOLDER": "أخبرنا المزيد...",
+    "RATINGS": {
+      "POOR": "😞 Poor",
+      "FAIR": "😑 Fair",
+      "AVERAGE": "😐 Average",
+      "GOOD": "😀 Good",
+      "EXCELLENT": "😍 Excellent"
+    }
   }
 }

@@ -1,10 +1,10 @@
 <template>
-  <div class="wizard-body small-9 columns">
+  <div class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%]">
     <page-header
       :header-title="$t('TEAMS_SETTINGS.EDIT_FLOW.CREATE.TITLE')"
       :header-content="$t('TEAMS_SETTINGS.EDIT_FLOW.CREATE.DESC')"
     />
-    <div class="row channels">
+    <div class="flex flex-wrap">
       <team-form
         v-if="showTeamForm"
         :on-submit="updateTeam"
@@ -18,13 +18,13 @@
 </template>
 
 <script>
-import TeamForm from '../TeamForm';
+import TeamForm from '../TeamForm.vue';
 import router from '../../../../index';
-import PageHeader from '../../SettingsSubPageHeader';
+import PageHeader from '../../SettingsSubPageHeader.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 
 import { mapGetters } from 'vuex';
-import Spinner from 'shared/components/Spinner';
+import Spinner from 'shared/components/Spinner.vue';
 
 export default {
   components: {

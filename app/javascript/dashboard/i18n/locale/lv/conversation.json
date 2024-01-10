@@ -12,6 +12,10 @@
     "NO_INBOX_2": " lai sāktu",
     "NO_INBOX_AGENT": "Ak, vai! Izskatās, ka Jūs neesat nevienas iesūtnes dalībnieks. Lūdzu, sazinieties ar savu administratoru",
     "SEARCH_MESSAGES": "Meklēt ziņojumus sarunās",
+    "EMPTY_STATE": {
+      "CMD_BAR": "lai atvērtu komandu izvēlni",
+      "KEYBOARD_SHORTCUTS": "lai skatītu klaviatūras īsinājumtaustiņus"
+    },
     "SEARCH": {
       "TITLE": "Meklēt ziņojumus",
       "RESULT_TITLE": "Meklēšanas Rezultāti",
@@ -30,7 +34,6 @@
     "ASSIGN_TO_ME": "Piešķirt sev",
     "TWILIO_WHATSAPP_CAN_REPLY": "Jūs varat atbildēt uz šo sarunu, tikai izmantojot veidnes ziņojumu, jo",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 stundu ziņojuma loga ierobežojums",
-    "SELECT_A_TWEET_TO_REPLY": "Lūdzu, izvēlieties tvītu, uz kuru atbildēt.",
     "REPLYING_TO": "Jūs atbildat uz:",
     "REMOVE_SELECTION": "Noņemt Izvēli",
     "DOWNLOAD": "Lejupielādēt",
@@ -43,6 +46,7 @@
     "NO_RESPONSE": "Nav atbildes",
     "RATING_TITLE": "Vērtējums",
     "FEEDBACK_TITLE": "Atsauksmes",
+    "REPLY_MESSAGE_NOT_FOUND": "Ziņa nav pieejama",
     "CARD": {
       "SHOW_LABELS": "Rādīt etiķetes",
       "HIDE_LABELS": "Slēpt etiķetes"
@@ -54,18 +58,25 @@
       "OPEN": "Papildu",
       "CLOSE": "Aizvērt",
       "DETAILS": "detalizēta informācija",
+      "SNOOZED_UNTIL": "Atlikts līdz",
       "SNOOZED_UNTIL_TOMORROW": "Atlikts līdz rītdienai",
       "SNOOZED_UNTIL_NEXT_WEEK": "Atlikts līdz nākamajai nedēļai",
       "SNOOZED_UNTIL_NEXT_REPLY": "Atlikts līdz nākamajai atbildei"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Atzīmēt kā neapstiprinātu",
+      "SNOOZE_UNTIL": "Atlikt",
       "SNOOZE": {
         "TITLE": "Atlikt līdz",
         "NEXT_REPLY": "Nākamā atbilde",
         "TOMORROW": "Rītdiena",
         "NEXT_WEEK": "Nākamā nedēļa"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Atlikt līdz",
+      "APPLY": "Atlikt",
+      "CANCEL": "Atcelt"
     },
     "PRIORITY": {
       "TITLE": "Prioritāte",
@@ -128,7 +139,8 @@
       "PRIVATE_NOTE": "Privāta Piezīme",
       "SEND": "Nosūtīt",
       "CREATE": "Pievienot Piezīmi",
-      "TWEET": "Tvīts",
+      "DISMISS_REPLY": "Noraidīt atbildi",
+      "REPLYING_TO": "Atbildot uz:",
       "TIP_FORMAT_ICON": "Rādīt bagātinātā teksta redaktoru",
       "TIP_EMOJI_ICON": "Rādīt emocijzīmju atlasītāju",
       "TIP_ATTACH_ICON": "Pievienot failus",
@@ -140,6 +152,7 @@
       "STOP_AUDIO_RECORDING": "Apturēt audio ierakstīšanu",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "KAM",
         "ADD_BCC": "Pievienot bcc",
         "CC": {
           "LABEL": "CC",
@@ -182,6 +195,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Kopēt",
+      "REPLY_TO": "Atbildēt uz šo ziņojumu",
       "DELETE": "Dzēst",
       "CREATE_A_CANNED_RESPONSE": "Pievienot sagatavotajām atbildēm",
       "TRANSLATE": "Tulkot",

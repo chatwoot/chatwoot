@@ -10,33 +10,33 @@
     },
     "COMPANY_NAME": {
       "LABEL": "Company name",
-      "PLACEHOLDER": "Enter your company name. E.g., Wayne Enterprises",
-      "ERROR": "Company name is too short."
+      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
+      "ERROR": "Company name is too short"
     },
     "FULL_NAME": {
       "LABEL": "Celé jméno",
-      "PLACEHOLDER": "Enter your full name. E.g., Bruce Wayne",
-      "ERROR": "Celé jméno je příliš krátké."
+      "PLACEHOLDER": "Zadejte celé jméno. např.: Jan Novák",
+      "ERROR": "Celé jméno je příliš krátké"
     },
     "EMAIL": {
       "LABEL": "Pracovní e-mail",
-      "PLACEHOLDER": "Enter your work email address. E.g., bruce@wayne.enterprises",
-      "ERROR": "Please enter a valid work email address."
+      "PLACEHOLDER": "Zadejte svou pracovní e-mailovou adresu. např.: jan@novak.spolecnost",
+      "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {
       "LABEL": "Heslo",
       "PLACEHOLDER": "Heslo",
-      "ERROR": "Heslo je příliš krátké.",
-      "IS_INVALID_PASSWORD": "Heslo by mělo obsahovat alespoň jedno velké písmeno, jedno malé písmeno, jedno číslo a jeden speciální znak."
+      "ERROR": "Heslo je příliš krátké",
+      "IS_INVALID_PASSWORD": "Heslo by mělo obsahovat alespoň jedno velké písmeno, jedno malé písmeno, jedno číslo a jeden speciální znak"
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Confirm password",
-      "PLACEHOLDER": "Confirm password",
-      "ERROR": "Heslo se neshoduje."
+      "LABEL": "Potvrzení hesla",
+      "PLACEHOLDER": "Potvrzení hesla",
+      "ERROR": "Heslo se neshoduje"
     },
     "API": {
       "SUCCESS_MESSAGE": "Registrace byla úspěšná",
-      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+      "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
     },
     "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Máte již účet?"

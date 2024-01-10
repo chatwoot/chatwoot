@@ -13,7 +13,7 @@ slack:
   id: slack
   logo: slack.png
   i18n_key: slack
-  action: https://slack.com/oauth/v2/authorize?scope=commands,chat:write,channels:read,channels:manage,channels:join,groups:write,im:write,mpim:write,users:read,users:read.email,chat:write.customize,channels:history,groups:history,mpim:history,im:history
+  action: https://slack.com/oauth/v2/authorize?scope=commands,chat:write,channels:read,channels:manage,channels:join,groups:read,groups:write,im:write,mpim:write,users:read,users:read.email,chat:write.customize,channels:history,groups:history,mpim:history,im:history,files:read,files:write
   hook_type: account
   allow_multiple_hooks: false
 webhooks:
@@ -139,6 +139,7 @@ openai:
     "type": "object",
     "properties": {
         "api_key": { "type": "string" },
+        "label_suggestion": { "type": "boolean" },
       },
     "required": ["api_key"],
     "additionalProperties": false,
@@ -150,5 +151,11 @@ openai:
       "name": "api_key",
       "validation": "required",
     },
+    {
+      "label": "Show label suggestions",
+      "type": "checkbox",
+      "name": "label_suggestion",
+      "validation": "",
+    },
   ]
-  visible_properties: ['api_key']
+  visible_properties: ['api_key', 'label_suggestion']

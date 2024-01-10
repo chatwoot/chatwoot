@@ -1,98 +1,98 @@
 {
   "ATTRIBUTES_MGMT": {
     "HEADER": "Egyedi atribútumok",
-    "HEADER_BTN_TXT": "Add Custom Attribute",
-    "LOADING": "Fetching custom attributes",
-    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
+    "HEADER_BTN_TXT": "Adj meg egyedi tulajdonságot",
+    "LOADING": "Vonzó egyedi tulajdonság",
+    "SIDEBAR_TXT": "<p><b>Egyéni tulajdonságok</b> <p>Egy egyéni tulajdonság nyomon követi a kapcsolataival/beszélgetéseivel kapcsolatos tényeket – például az előfizetési csomagot, vagy amikor megrendelték az első terméket stb. <br /><br />Egyéni tulajdonság létrehozásához kattintson az <b>Egyéni tulajdonság hozzáadása</b> lehetőségre. Meglévő egyéni tulajdonság szerkesztése vagy törlése is lehetséges, ha a Törlés gombra kattintasz.",
     "ADD": {
-      "TITLE": "Add Custom Attribute",
+      "TITLE": "Adj meg egyedi tulajdonságot",
       "SUBMIT": "Létrehozás",
       "CANCEL_BUTTON_TEXT": "Mégse",
       "FORM": {
         "NAME": {
-          "LABEL": "Display Name",
-          "PLACEHOLDER": "Enter custom attribute display name",
-          "ERROR": "Name is required"
+          "LABEL": "Rövidnév",
+          "PLACEHOLDER": "Add meg az egyéni tulajdonság rövidnevét",
+          "ERROR": "Név kötelező"
         },
         "DESC": {
           "LABEL": "Leírás",
-          "PLACEHOLDER": "Enter custom attribute description",
-          "ERROR": "Description is required"
+          "PLACEHOLDER": "Add meg az egyéni tulajdonság leírását",
+          "ERROR": "Leírás megadása kötelező"
         },
         "MODEL": {
-          "LABEL": "Applies to",
-          "PLACEHOLDER": "Please select one",
-          "ERROR": "Model is required"
+          "LABEL": "Vonatkozik",
+          "PLACEHOLDER": "Kérlek, válassz egyet",
+          "ERROR": "Modell megadása kötelező"
         },
         "TYPE": {
-          "LABEL": "Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Type is required",
+          "LABEL": "Típus",
+          "PLACEHOLDER": "Kérlek, válaszd ki a típust",
+          "ERROR": "Típus megadása kötelező",
           "LIST": {
-            "LABEL": "List Values",
-            "PLACEHOLDER": "Please enter value and press enter key",
-            "ERROR": "Must have at least one value"
+            "LABEL": "Lista értékek",
+            "PLACEHOLDER": "Kérlek add meg az értéket és lépj be a kulccsal",
+            "ERROR": "Legalább egy érték megadása kötelező"
           }
         },
         "KEY": {
-          "LABEL": "Key",
-          "PLACEHOLDER": "Enter custom attribute key",
-          "ERROR": "Key is required",
-          "IN_VALID": "Invalid key"
+          "LABEL": "Kulcs",
+          "PLACEHOLDER": "Add meg az egyéni tulajdonság kulcsát",
+          "ERROR": "Kulcs megadása kötelező",
+          "IN_VALID": "Érvénytelen kulcs"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute added successfully!",
-        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
+        "SUCCESS_MESSAGE": "Sikeresen hozzáadtad ezt az egyedi tulajdonságot!",
+        "ERROR_MESSAGE": "Nem tudsz létrehozni Egyéni Tulajdonságot. Kérlek, próbáld újra később."
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Törlés",
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
+        "SUCCESS_MESSAGE": "Egyéni Tulajdonság sikeresen törölve.",
+        "ERROR_MESSAGE": "Egyéni Tulajdonság törlése sikertelen. Próbáld újra."
       },
       "CONFIRM": {
         "TITLE": "Biztosan törölni akarod: %{attributeName}",
-        "PLACE_HOLDER": "Please type {attributeName} to confirm",
-        "MESSAGE": "Deleting will remove the custom attribute",
+        "PLACE_HOLDER": "Kérlek gépeld a megerősítéshez",
+        "MESSAGE": "A törlés eltávolítja az egyéni tulajdonságot",
         "YES": "Törlés ",
         "NO": "Mégse"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Custom Attribute",
+      "TITLE": "Egyéni tulajdonság szerkesztése",
       "UPDATE_BUTTON_TEXT": "Frissítés",
       "TYPE": {
         "LIST": {
-          "LABEL": "List Values",
-          "PLACEHOLDER": "Please enter values and press enter key"
+          "LABEL": "Lista értékek",
+          "PLACEHOLDER": "Kérlek add meg az értéket és lépj be a kulccsal"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
-        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
+        "SUCCESS_MESSAGE": "Egyéni Tulajdonság sikeresen frissítve",
+        "ERROR_MESSAGE": "Hiba történt az egyéni tulajdonság frissítésekor. Kérjük próbáld később"
       }
     },
     "TABS": {
       "HEADER": "Egyedi atribútumok",
-      "CONVERSATION": "Conversation",
-      "CONTACT": "Contact"
+      "CONVERSATION": "Beszélgetés",
+      "CONTACT": "Kontakt"
     },
     "LIST": {
       "TABLE_HEADER": [
         "Név",
         "Leírás",
-        "Type",
-        "Key"
+        "Típus",
+        "Kulcs"
       ],
       "BUTTONS": {
         "EDIT": "Szerkesztés",
         "DELETE": "Törlés"
       },
       "EMPTY_RESULT": {
-        "404": "There are no custom attributes created",
-        "NOT_FOUND": "There are no custom attributes configured"
+        "404": "Nincsennek létrehozva egyéni tulajdonságok",
+        "NOT_FOUND": "Nincsennek beállítva egyéni tulajdonságok"
       }
     }
   }

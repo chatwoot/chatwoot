@@ -12,6 +12,10 @@
     "NO_INBOX_2": " להתחיל",
     "NO_INBOX_AGENT": "או - או! נראה שאתה לא חלק מתיבת דואר נכנס כלשהי. אנא פנה למנהל המערכת שלך",
     "SEARCH_MESSAGES": "חפש הודעות בשיחות",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "חפש הודעות",
       "RESULT_TITLE": "תוצאות חיפוש",
@@ -30,7 +34,6 @@
     "ASSIGN_TO_ME": "שייך לעצמך",
     "TWILIO_WHATSAPP_CAN_REPLY": "אתה יכול להשיב לשיחה זו רק באמצעות הודעת תבנית בשל",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "הגבלת חלון הודעות של 24 שעות",
-    "SELECT_A_TWEET_TO_REPLY": "אנא בחר ציוץ להשיב.",
     "REPLYING_TO": "אתה משיב ל:",
     "REMOVE_SELECTION": "הסר בחירה",
     "DOWNLOAD": "הורד",
@@ -43,6 +46,7 @@
     "NO_RESPONSE": "אין תגובה",
     "RATING_TITLE": "דירוג",
     "FEEDBACK_TITLE": "משוב",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "הצג תויות",
       "HIDE_LABELS": "הסתר תוויות"
@@ -54,18 +58,25 @@
       "OPEN": "עוד",
       "CLOSE": "סגור",
       "DETAILS": "פרטים",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "נמנם עד מחר",
       "SNOOZED_UNTIL_NEXT_WEEK": "נמנם עד שבוע הבא",
       "SNOOZED_UNTIL_NEXT_REPLY": "נמנם עד תגובה הבאה"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "סמן כממתין",
+      "SNOOZE_UNTIL": "נודניק",
       "SNOOZE": {
         "TITLE": "השהה עד",
         "NEXT_REPLY": "תגובה הבאה",
         "TOMORROW": "מחר",
         "NEXT_WEEK": "שבוע הבא"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "השהה עד",
+      "APPLY": "נודניק",
+      "CANCEL": "ביטול"
     },
     "PRIORITY": {
       "TITLE": "Priority",
@@ -128,7 +139,8 @@
       "PRIVATE_NOTE": "הערה פרטית",
       "SEND": "שלח",
       "CREATE": "הוסף הערה",
-      "TWEET": "ציוץ",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "הצג עורך טקסט עשיר",
       "TIP_EMOJI_ICON": "הצג בחירת אימוג'ים",
       "TIP_ATTACH_ICON": "הוסף קבצים",
@@ -140,6 +152,7 @@
       "STOP_AUDIO_RECORDING": "עצור הקלטת אודיו",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "הוסף bcc",
         "CC": {
           "LABEL": "CC",
@@ -182,6 +195,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "העתק",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "מחק",
       "CREATE_A_CANNED_RESPONSE": "הוסף לתגובות מוכנות",
       "TRANSLATE": "תרגום",

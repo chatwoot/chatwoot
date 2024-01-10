@@ -1,15 +1,26 @@
 <template>
-  <div class="notifications-link">
-    <woot-button
-      class-names="notifications-link--button"
-      variant="clear"
-      color-scheme="secondary"
-      :class="{ 'is-active': isNotificationPanelActive }"
+  <div class="mb-4">
+    <button
+      class="text-slate-600 dark:text-slate-100 w-10 h-10 my-2 flex items-center justify-center rounded-lg hover:bg-slate-25 dark:hover:bg-slate-700 dark:hover:text-slate-100 hover:text-slate-600 relative"
+      :class="{
+        'bg-woot-50 dark:bg-slate-800 text-woot-500 hover:bg-woot-50':
+          isNotificationPanelActive,
+      }"
       @click="openNotificationPanel"
     >
-      <fluent-icon icon="alert" />
-      <span v-if="unreadCount" class="badge warning">{{ unreadCount }}</span>
-    </woot-button>
+      <fluent-icon
+        icon="alert"
+        :class="{
+          'text-woot-500': isNotificationPanelActive,
+        }"
+      />
+      <span
+        v-if="unreadCount"
+        class="text-black-900 bg-yellow-300 absolute -top-0.5 -right-1 p-1 text-xxs min-w-[1rem] rounded-full"
+      >
+        {{ unreadCount }}
+      </span>
+    </button>
   </div>
 </template>
 <script>
@@ -43,37 +54,3 @@ export default {
   },
 };
 </script>
-
-<style scoped lang="scss">
-.notifications-link {
-  margin-bottom: var(--space-small);
-}
-
-.badge {
-  position: absolute;
-  right: var(--space-minus-smaller);
-  top: var(--space-minus-smaller);
-}
-.notifications-link--button {
-  display: flex;
-  position: relative;
-  border-radius: var(--border-radius-large);
-  border: 1px solid transparent;
-  color: var(--s-600);
-  margin: var(--space-small) 0;
-
-  &:hover {
-    background: var(--w-50);
-    color: var(--s-600);
-  }
-
-  &:focus {
-    border-color: var(--w-500);
-  }
-
-  &.is-active {
-    background: var(--w-50);
-    color: var(--w-500);
-  }
-}
-</style>

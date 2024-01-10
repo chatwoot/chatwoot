@@ -1,4 +1,8 @@
-@import 'shared/assets/fonts/inter';
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@import 'shared/assets/fonts/plus-jakarta';
 @import 'shared/assets/stylesheets/animations';
 @import 'shared/assets/stylesheets/colors';
 @import 'shared/assets/stylesheets/spacing';
@@ -67,3 +71,7 @@
 @import 'plugins/dropdown';
 @import '~shared/assets/stylesheets/ionicons';
 @import 'utility-helpers';
+
+.tooltip {
+  @apply bg-slate-900 text-white py-1 px-2 z-40 text-xs rounded-md dark:bg-slate-200 dark:text-slate-900;
+}

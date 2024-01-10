@@ -1,17 +1,20 @@
 <template>
-  <form class="conversation--form" @submit.prevent="onFormSubmit">
+  <form class="conversation--form w-full" @submit.prevent="onFormSubmit">
     <div v-if="showNoInboxAlert" class="callout warning">
       <p>
         {{ $t('NEW_CONVERSATION.NO_INBOX') }}
       </p>
     </div>
     <div v-else>
-      <div class="row gutter-small">
-        <div class="columns">
+      <div class="gap-2 flex flex-row">
+        <div class="w-[50%]">
           <label>
             {{ $t('NEW_CONVERSATION.FORM.INBOX.LABEL') }}
           </label>
-          <div class="multiselect-wrap--small">
+          <div
+            class="multiselect-wrap--small"
+            :class="{ 'has-multi-select-error': $v.targetInbox.$error }"
+          >
             <multiselect
               v-model="targetInbox"
               track-by="id"
@@ -50,25 +53,29 @@
             </span>
           </label>
         </div>
-        <div class="columns">
+        <div class="w-[50%]">
           <label>
             {{ $t('NEW_CONVERSATION.FORM.TO.LABEL') }}
-            <div class="contact-input">
+            <div
+              class="flex items-center h-[2.4735rem] rounded-sm py-1 px-2 bg-slate-25 dark:bg-slate-900 border border-solid border-slate-75 dark:border-slate-600"
+            >
               <thumbnail
                 :src="contact.thumbnail"
                 size="24px"
                 :username="contact.name"
                 :status="contact.availability_status"
               />
-              <h4 class="text-block-title contact-name">
+              <h4
+                class="m-0 ml-2 mr-2 text-slate-700 dark:text-slate-100 text-sm"
+              >
                 {{ contact.name }}
               </h4>
             </div>
           </label>
         </div>
       </div>
-      <div v-if="isAnEmailInbox" class="row">
-        <div class="columns">
+      <div v-if="isAnEmailInbox" class="w-full">
+        <div class="w-full">
           <label :class="{ error: $v.subject.$error }">
             {{ $t('NEW_CONVERSATION.FORM.SUBJECT.LABEL') }}
             <input
@@ -83,9 +90,9 @@
           </label>
         </div>
       </div>
-      <div class="row">
-        <div class="columns">
-          <div class="canned-response">
+      <div class="w-full">
+        <div class="w-full">
+          <div class="relative">
             <canned-response
               v-if="showCannedResponseMenu && hasSlashCommand"
               :search-key="cannedResponseSearchKey"
@@ -95,26 +102,46 @@
           <div v-if="isEmailOrWebWidgetInbox">
             <label>
               {{ $t('NEW_CONVERSATION.FORM.MESSAGE.LABEL') }}
-              <reply-email-head
-                v-if="isAnEmailInbox"
-                :cc-emails.sync="ccEmails"
-                :bcc-emails.sync="bccEmails"
-              />
-              <label class="editor-wrap">
-                <woot-message-editor
-                  v-model="message"
-                  class="message-editor"
-                  :class="{ editor_warning: $v.message.$error }"
-                  :enable-variables="true"
-                  :placeholder="$t('NEW_CONVERSATION.FORM.MESSAGE.PLACEHOLDER')"
-                  @toggle-canned-menu="toggleCannedMenu"
-                  @blur="$v.message.$touch"
-                />
-                <span v-if="$v.message.$error" class="editor-warning__message">
-                  {{ $t('NEW_CONVERSATION.FORM.MESSAGE.ERROR') }}
-                </span>
-              </label>
             </label>
+            <reply-email-head
+              v-if="isAnEmailInbox"
+              :cc-emails.sync="ccEmails"
+              :bcc-emails.sync="bccEmails"
+            />
+            <div class="editor-wrap">
+              <woot-message-editor
+                v-model="message"
+                class="message-editor"
+                :class="{ editor_warning: $v.message.$error }"
+                :enable-variables="true"
+                :signature="signatureToApply"
+                :allow-signature="true"
+                :placeholder="$t('NEW_CONVERSATION.FORM.MESSAGE.PLACEHOLDER')"
+                @toggle-canned-menu="toggleCannedMenu"
+                @blur="$v.message.$touch"
+              >
+                <template #footer>
+                  <message-signature-missing-alert
+                    v-if="isSignatureEnabledForInbox && !messageSignature"
+                    class="!mx-0 mb-1"
+                  />
+                  <div v-if="isAnEmailInbox" class="mb-3 mt-px">
+                    <woot-button
+                      v-tooltip.top-end="signatureToggleTooltip"
+                      icon="signature"
+                      color-scheme="secondary"
+                      variant="smooth"
+                      size="small"
+                      :title="signatureToggleTooltip"
+                      @click.prevent="toggleMessageSignature"
+                    />
+                  </div>
+                </template>
+              </woot-message-editor>
+              <span v-if="$v.message.$error" class="editor-warning__message">
+                {{ $t('NEW_CONVERSATION.FORM.MESSAGE.ERROR') }}
+              </span>
+            </div>
           </div>
           <whatsapp-templates
             v-else-if="hasWhatsappTemplates"
@@ -126,7 +153,7 @@
             {{ $t('NEW_CONVERSATION.FORM.MESSAGE.LABEL') }}
             <textarea
               v-model="message"
-              class="message-input"
+              class="min-h-[5rem]"
               type="text"
               :placeholder="$t('NEW_CONVERSATION.FORM.MESSAGE.PLACEHOLDER')"
               @input="$v.message.$touch"
@@ -135,10 +162,56 @@
               {{ $t('NEW_CONVERSATION.FORM.MESSAGE.ERROR') }}
             </span>
           </label>
+          <div v-if="isEmailOrWebWidgetInbox" class="flex flex-col">
+            <file-upload
+              ref="uploadAttachment"
+              input-id="newConversationAttachment"
+              :size="4096 * 4096"
+              :accept="allowedFileTypes"
+              :multiple="true"
+              :drop="true"
+              :drop-directory="false"
+              :data="{
+                direct_upload_url: '/rails/active_storage/direct_uploads',
+                direct_upload: true,
+              }"
+              @input-file="onFileUpload"
+            >
+              <woot-button
+                class-names="button--upload"
+                icon="attach"
+                emoji="📎"
+                color-scheme="secondary"
+                variant="smooth"
+                size="small"
+              >
+                {{ $t('NEW_CONVERSATION.FORM.ATTACHMENTS.SELECT') }}
+              </woot-button>
+              <span
+                class="text-slate-500 ltr:ml-1 rtl:mr-1 font-medium text-xs dark:text-slate-400"
+              >
+                {{ $t('NEW_CONVERSATION.FORM.ATTACHMENTS.HELP_TEXT') }}
+              </span>
+            </file-upload>
+            <div
+              v-if="hasAttachments"
+              class="max-h-20 overflow-y-auto mb-4 mt-1.5"
+            >
+              <attachment-preview
+                class="[&>.preview-item]:dark:bg-slate-700 flex-row flex-wrap gap-x-3 gap-y-1"
+                :attachments="attachedFiles"
+                :remove-attachment="removeAttachment"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div v-if="!hasWhatsappTemplates" class="modal-footer">
+
+    <div
+      v-if="!hasWhatsappTemplates"
+      class="flex flex-row justify-end gap-2 py-2 px-0 w-full"
+    >
       <button class="button clear" @click.prevent="onCancel">
         {{ $t('NEW_CONVERSATION.FORM.CANCEL') }}
       </button>
@@ -146,22 +219,45 @@
         {{ $t('NEW_CONVERSATION.FORM.SUBMIT') }}
       </woot-button>
     </div>
+
+    <transition v-if="isEmailOrWebWidgetInbox" name="modal-fade">
+      <div
+        v-show="$refs.uploadAttachment && $refs.uploadAttachment.dropActive"
+        class="flex top-0 bottom-0 z-30 gap-2 right-0 left-0 items-center justify-center flex-col absolute w-full h-full bg-white/80 dark:bg-slate-700/80"
+      >
+        <fluent-icon icon="cloud-backup" size="40" />
+        <h4 class="page-sub-title text-slate-600 dark:text-slate-200">
+          {{ $t('CONVERSATION.REPLYBOX.DRAG_DROP') }}
+        </h4>
+      </div>
+    </transition>
   </form>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail';
-import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
-import ReplyEmailHead from 'dashboard/components/widgets/conversation/ReplyEmailHead';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
+import ReplyEmailHead from 'dashboard/components/widgets/conversation/ReplyEmailHead.vue';
 import CannedResponse from 'dashboard/components/widgets/conversation/CannedResponse.vue';
-import InboxDropdownItem from 'dashboard/components/widgets/InboxDropdownItem';
+import MessageSignatureMissingAlert from 'dashboard/components/widgets/conversation/MessageSignatureMissingAlert';
+import InboxDropdownItem from 'dashboard/components/widgets/InboxDropdownItem.vue';
 import WhatsappTemplates from './WhatsappTemplates.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 import { getInboxSource } from 'dashboard/helper/inbox';
 import { required, requiredIf } from 'vuelidate/lib/validators';
+import inboxMixin from 'shared/mixins/inboxMixin';
+import FileUpload from 'vue-upload-component';
+import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
+import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
+import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
+import {
+  appendSignature,
+  removeSignature,
+} from 'dashboard/helper/editorHelper';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
 export default {
   components: {
@@ -171,8 +267,11 @@ export default {
     CannedResponse,
     WhatsappTemplates,
     InboxDropdownItem,
+    FileUpload,
+    AttachmentPreview,
+    MessageSignatureMissingAlert,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, uiSettingsMixin, inboxMixin, fileUploadMixin],
   props: {
     contact: {
       type: Object,
@@ -181,6 +280,10 @@ export default {
     onSubmit: {
       type: Function,
       default: () => {},
+    },
+    channelType: {
+      type: String,
+      default: '',
     },
   },
   data() {
@@ -194,6 +297,7 @@ export default {
       ccEmails: '',
       targetInbox: {},
       whatsappTemplateSelected: false,
+      attachedFiles: [],
     };
   },
   validations: {
@@ -212,8 +316,16 @@ export default {
       uiFlags: 'contacts/getUIFlags',
       conversationsUiFlags: 'contactConversations/getUIFlags',
       currentUser: 'getCurrentUser',
+      globalConfig: 'globalConfig/get',
+      messageSignature: 'getMessageSignature',
     }),
-    emailMessagePayload() {
+    sendWithSignature() {
+      return this.fetchSignatureFlagFromUiSettings(this.channelType);
+    },
+    signatureToApply() {
+      return this.messageSignature;
+    },
+    newMessagePayload() {
       const payload = {
         inboxId: this.targetInbox.id,
         sourceId: this.targetInbox.sourceId,
@@ -222,6 +334,12 @@ export default {
         mailSubject: this.subject,
         assigneeId: this.currentUser.id,
       };
+
+      if (this.attachedFiles && this.attachedFiles.length) {
+        payload.files = [];
+        this.setAttachmentPayload(payload);
+      }
+
       if (this.ccEmails) {
         payload.message.cc_emails = this.ccEmails;
       }
@@ -235,7 +353,9 @@ export default {
       get() {
         const inboxList = this.contact.contactableInboxes || [];
         return (
-          inboxList.find(inbox => inbox.inbox.id === this.targetInbox.id) || {
+          inboxList.find(inbox => {
+            return inbox.inbox?.id && inbox.inbox?.id === this.targetInbox?.id;
+          }) || {
             inbox: {},
           }
         );
@@ -249,6 +369,14 @@ export default {
         return false;
       }
       return this.inboxes.length === 0 && !this.uiFlags.isFetchingInboxes;
+    },
+    isSignatureEnabledForInbox() {
+      return this.isAnEmailInbox && this.sendWithSignature;
+    },
+    signatureToggleTooltip() {
+      return this.sendWithSignature
+        ? this.$t('CONVERSATION.FOOTER.DISABLE_SIGN_TOOLTIP')
+        : this.$t('CONVERSATION.FOOTER.ENABLE_SIGN_TOOLTIP');
     },
     inboxes() {
       const inboxList = this.contact.contactableInboxes || [];
@@ -275,6 +403,15 @@ export default {
     hasWhatsappTemplates() {
       return !!this.selectedInbox.inbox?.message_templates;
     },
+    hasAttachments() {
+      return this.attachedFiles.length;
+    },
+    inbox() {
+      return this.targetInbox;
+    },
+    allowedFileTypes() {
+      return ALLOWED_FILE_TYPES;
+    },
   },
   watch: {
     message(value) {
@@ -289,8 +426,50 @@ export default {
         this.showCannedResponseMenu = false;
       }
     },
+    targetInbox() {
+      this.setSignature();
+    },
+  },
+  mounted() {
+    this.setSignature();
   },
   methods: {
+    setSignature() {
+      if (this.messageSignature) {
+        if (this.isSignatureEnabledForInbox) {
+          this.message = appendSignature(this.message, this.signatureToApply);
+        } else {
+          this.message = removeSignature(this.message, this.signatureToApply);
+        }
+      }
+    },
+    setAttachmentPayload(payload) {
+      this.attachedFiles.forEach(attachment => {
+        if (this.globalConfig.directUploadsEnabled) {
+          payload.files.push(attachment.blobSignedId);
+        } else {
+          payload.files.push(attachment.resource.file);
+        }
+      });
+    },
+    attachFile({ blob, file }) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file.file);
+      reader.onloadend = () => {
+        this.attachedFiles.push({
+          currentChatId: this.contact.id,
+          resource: blob || file,
+          isPrivate: this.isPrivate,
+          thumb: reader.result,
+          blobSignedId: blob ? blob.signed_id : undefined,
+        });
+      };
+    },
+    removeAttachment(itemIndex) {
+      this.attachedFiles = this.attachedFiles.filter(
+        (item, index) => itemIndex !== index
+      );
+    },
     onCancel() {
       this.$emit('cancel');
     },
@@ -314,15 +493,19 @@ export default {
       return payload;
     },
     onFormSubmit() {
+      const isFromWhatsApp = false;
       this.$v.$touch();
       if (this.$v.$invalid) {
         return;
       }
-      this.createConversation(this.emailMessagePayload);
+      this.createConversation({
+        payload: this.newMessagePayload,
+        isFromWhatsApp,
+      });
     },
-    async createConversation(payload) {
+    async createConversation({ payload, isFromWhatsApp }) {
       try {
-        const data = await this.onSubmit(payload);
+        const data = await this.onSubmit(payload, isFromWhatsApp);
         const action = {
           type: 'link',
           to: `/app/accounts/${data.account_id}/conversations/${data.id}`,
@@ -346,8 +529,9 @@ export default {
       this.whatsappTemplateSelected = val;
     },
     async onSendWhatsAppReply(messagePayload) {
+      const isFromWhatsApp = true;
       const payload = this.prepareWhatsAppMessagePayload(messagePayload);
-      await this.createConversation(payload);
+      await this.createConversation({ payload, isFromWhatsApp });
     },
     inboxReadableIdentifier(inbox) {
       return `${inbox.name} (${inbox.channel_type})`;
@@ -361,64 +545,49 @@ export default {
       );
       return classByType;
     },
+    toggleMessageSignature() {
+      this.setSignatureFlagForInbox(this.channelType, !this.sendWithSignature);
+      this.setSignature();
+    },
   },
 };
 </script>
 
 <style scoped lang="scss">
 .conversation--form {
-  padding: var(--space-normal) var(--space-large) var(--space-large);
+  @apply pt-4 px-8 pb-8;
 }
 
-.canned-response {
-  position: relative;
-}
+.message-editor {
+  @apply px-3;
 
-.input-group-label {
-  font-size: var(--font-size-small);
-}
-
-.contact-input {
-  display: flex;
-  align-items: center;
-  height: 3.9rem;
-  background: var(--color-background-light);
-  border: 1px solid var(--color-border);
-  padding: var(--space-smaller) var(--space-small);
-  border-radius: var(--border-radius-small);
-
-  .contact-name {
-    margin: 0;
-    margin-left: var(--space-small);
-    margin-right: var(--space-small);
+  ::v-deep {
+    .ProseMirror-menubar {
+      @apply rounded-tl-[4px];
+    }
   }
 }
 
-.message-input {
-  min-height: 8rem;
+.file-uploads {
+  @apply text-start;
 }
-
-.row.gutter-small {
-  gap: var(--space-small);
+.multiselect-wrap--small.has-multi-select-error {
+  ::v-deep {
+    .multiselect__tags {
+      @apply border-red-500;
+    }
+  }
 }
 
 ::v-deep {
   .mention--box {
-    left: 0;
-    margin: auto;
-    right: 0;
-    top: unset;
-    height: fit-content;
+    @apply left-0 m-auto right-0 top-auto h-fit;
   }
-
-  /* TODO: Remove when have standardized a component out of multiselect  */
   .multiselect .multiselect__content .multiselect__option span {
-    display: inline-flex;
-    width: var(--space-medium);
-    color: var(--s-600);
+    @apply inline-flex w-6 text-slate-600 dark:text-slate-400;
   }
   .multiselect .multiselect__content .multiselect__option {
-    padding: var(--space-micro) var(--space-smaller);
+    @apply py-0.5 px-1;
   }
 }
 </style>

@@ -1,82 +1,84 @@
 <template>
   <woot-modal :show="show" size="medium" :on-close="() => $emit('close')">
-    <div class="column content-box">
+    <div class="h-auto overflow-auto flex flex-col">
       <woot-modal-header
         :header-title="$t('SIDEBAR_ITEMS.KEYBOARD_SHORTCUTS')"
       />
-      <div class="shortcut__wrap margin-top-3">
-        <div class="title-key__wrap">
-          <h5 class="text-block-title">
+      <div class="grid grid-cols-2 gap-x-5 gap-y-3 pt-0 px-8 pb-4 mt-6">
+        <div class="flex justify-between items-center min-w-[25rem]">
+          <h5 class="text-sm text-slate-800 dark:text-slate-100">
             {{ $t('KEYBOARD_SHORTCUTS.TOGGLE_MODAL') }}
           </h5>
-          <div class="shortcut-key__wrap">
-            <p class="shortcut-key">
+          <div class="flex items-center mb-1 ml-2 gap-2">
+            <hotkey custom-class="min-h-[28px] min-w-[60px] normal-case key">
               {{ $t('KEYBOARD_SHORTCUTS.KEYS.WINDOWS_KEY_AND_COMMAND_KEY') }}
-            </p>
-            <p class="shortcut-key key">
+            </hotkey>
+            <hotkey custom-class="min-h-[28px] min-w-[36px] key">
               {{ $t('KEYBOARD_SHORTCUTS.KEYS.FORWARD_SLASH_KEY') }}
-            </p>
+            </hotkey>
           </div>
         </div>
       </div>
 
-      <div class="shortcut__wrap">
-        <div class="title-key__wrap">
-          <h5 class="text-block-title">
+      <div class="grid grid-cols-2 gap-x-5 gap-y-3 pt-0 px-8 pb-8">
+        <div class="flex justify-between items-center min-w-[25rem]">
+          <h5 class="text-sm text-slate-800 dark:text-slate-100">
             {{ $t('KEYBOARD_SHORTCUTS.TITLE.OPEN_CONVERSATION') }}
           </h5>
-          <div class="shortcut-key__wrap">
-            <div class="open-conversation__key">
-              <span class="shortcut-key">
+          <div class="flex items-center mb-1 ml-2 gap-2">
+            <div class="flex gap-2">
+              <hotkey custom-class="min-h-[28px] min-w-[60px] normal-case key">
                 {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
-              </span>
-              <span class="shortcut-key">
-                J
-              </span>
-              <span class="forward-slash text-block-title">
+              </hotkey>
+              <hotkey custom-class="min-h-[28px] w-9 key"> J </hotkey>
+              <span
+                class="flex items-center font-semibold text-sm text-slate-800 dark:text-slate-100"
+              >
                 {{ $t('KEYBOARD_SHORTCUTS.KEYS.FORWARD_SLASH_KEY') }}
               </span>
             </div>
-            <span class="shortcut-key">
+            <hotkey custom-class="min-h-[28px] min-w-[60px] normal-case key">
               {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
-            </span>
-            <span class="shortcut-key key">
-              K
-            </span>
+            </hotkey>
+            <hotkey custom-class="w-9 key"> K </hotkey>
           </div>
         </div>
 
-        <div class="title-key__wrap">
-          <h5 class="text-block-title">
+        <div class="flex justify-between items-center min-w-[25rem]">
+          <h5 class="text-sm text-slate-800 dark:text-slate-100">
             {{ $t('KEYBOARD_SHORTCUTS.TITLE.RESOLVE_AND_NEXT') }}
           </h5>
-          <div class="shortcut-key__wrap">
-            <span class="shortcut-key">
+          <div class="flex items-center mb-1 ml-2 gap-2">
+            <hotkey custom-class="min-h-[28px] min-w-[60px] normal-case key">
               {{ $t('KEYBOARD_SHORTCUTS.KEYS.WINDOWS_KEY_AND_COMMAND_KEY') }}
-            </span>
-            <span class="shortcut-key">
+            </hotkey>
+            <hotkey custom-class="min-h-[28px] min-w-[60px] normal-case key">
               {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
-            </span>
-            <span class="shortcut-key key">
-              E
-            </span>
+            </hotkey>
+            <hotkey custom-class="w-9 key"> E </hotkey>
           </div>
         </div>
         <div
           v-for="shortcutKey in shortcutKeys"
           :key="shortcutKey.id"
-          class="title-key__wrap"
+          class="flex justify-between items-center min-w-[25rem]"
         >
-          <h5 class="text-block-title">
+          <h5 class="text-sm text-slate-800 min-w-[36px] dark:text-slate-100">
             {{ title(shortcutKey) }}
           </h5>
-          <div class="shortcut-key__wrap">
-            <span class="shortcut-key">
-              {{ shortcutKey.firstkey }}
-            </span>
-            <span class="shortcut-key key">
+          <div class="flex items-center mb-1 ml-2 gap-2">
+            <hotkey
+              :class="{ 'min-w-[60px]': shortcutKey.firstKey !== 'Up' }"
+              custom-class="min-h-[28px] normal-case key"
+            >
+              {{ shortcutKey.firstKey }}
+            </hotkey>
+            <hotkey
+              :class="{ 'normal-case': shortcutKey.secondKey === 'Down' }"
+              custom-class="min-h-[28px] min-w-[36px] key"
+            >
               {{ shortcutKey.secondKey }}
-            </span>
+            </hotkey>
           </div>
         </div>
       </div>
@@ -87,8 +89,12 @@
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
 import { SHORTCUT_KEYS } from './constants';
+import Hotkey from 'dashboard/components/base/Hotkey.vue';
 
 export default {
+  components: {
+    Hotkey,
+  },
   mixins: [clickaway],
   props: {
     show: {
@@ -108,64 +114,8 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.title-shortcut-key__wrap {
-  display: flex;
-}
-
-.page-title {
-  font-size: var(--font-size-big);
-  font-weight: var(--font-weight-bold);
-}
-
-.shortcut-key__wrap {
-  display: flex;
-  align-items: center;
-  margin-bottom: var(--space-smaller);
-  margin-left: var(--space-small);
-}
-
-.shortcut__wrap {
-  display: grid;
-  grid-template-columns: repeat(2, 0.5fr);
-  gap: var(--space-smaller) var(--space-large);
-  margin-top: var(--space-small);
-  padding: 0 var(--space-large) var(--space-large);
-}
-
-.title-key__wrap {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  min-width: 40rem;
-}
-
-.forward-slash {
-  display: flex;
-  align-items: center;
-  font-weight: var(--font-weight-bold);
-}
-
-.shortcut-key {
-  background: var(--color-background);
-  padding: var(--space-small) var(--space-one);
-  font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-mini);
-  align-items: center;
-  border-radius: var(--border-radius-normal);
-  margin-right: var(--space-small);
-}
-
+<style scoped>
 .key {
-  display: flex;
-  justify-content: center;
-  min-width: var(--space-large);
-  margin-right: 0;
-}
-
-.open-conversation__key {
-  display: flex;
-  margin-right: var(--space-small);
+  @apply py-2 px-2.5 font-semibold text-xs text-slate-700 dark:text-slate-100 bg-slate-75 dark:bg-slate-900 shadow border-b-2 rtl:border-l-2 ltr:border-r-2 border-slate-200 dark:border-slate-700;
 }
 </style>

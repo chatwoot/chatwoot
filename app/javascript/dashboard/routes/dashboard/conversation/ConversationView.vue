@@ -1,5 +1,5 @@
 <template>
-  <section class="conversation-page">
+  <section class="conversation-page bg-white dark:bg-slate-900">
     <chat-list
       :show-conversation-list="showConversationList"
       :conversation-inbox="inboxId"
@@ -27,9 +27,9 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import ChatList from '../../../components/ChatList';
-import ConversationBox from '../../../components/widgets/conversation/ConversationBox';
-import PopOverSearch from './search/PopOverSearch';
+import ChatList from '../../../components/ChatList.vue';
+import ConversationBox from '../../../components/widgets/conversation/ConversationBox.vue';
+import PopOverSearch from './search/PopOverSearch.vue';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import wootConstants from 'dashboard/constants/globals';
@@ -87,16 +87,14 @@ export default {
       const {
         LAYOUT_TYPES: { CONDENSED },
       } = wootConstants;
-      const {
-        conversation_display_type: conversationDisplayType = CONDENSED,
-      } = this.uiSettings;
+      const { conversation_display_type: conversationDisplayType = CONDENSED } =
+        this.uiSettings;
       return conversationDisplayType !== CONDENSED;
     },
     isContactPanelOpen() {
       if (this.currentChat.id) {
-        const {
-          is_contact_sidebar_open: isContactSidebarOpen,
-        } = this.uiSettings;
+        const { is_contact_sidebar_open: isContactSidebarOpen } =
+          this.uiSettings;
         return isContactSidebarOpen;
       }
       return false;
@@ -127,7 +125,8 @@ export default {
     toggleConversationLayout() {
       const { LAYOUT_TYPES } = wootConstants;
       const {
-        conversation_display_type: conversationDisplayType = LAYOUT_TYPES.CONDENSED,
+        conversation_display_type:
+          conversationDisplayType = LAYOUT_TYPES.CONDENSED,
       } = this.uiSettings;
       const newViewType =
         conversationDisplayType === LAYOUT_TYPES.CONDENSED

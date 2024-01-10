@@ -7,6 +7,7 @@
   z-index: var(--z-index-very-high);
 
   &.dropdown-pane--open {
+    @apply bg-white dark:bg-slate-800;
     display: block;
     visibility: visible;
   }

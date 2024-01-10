@@ -31,7 +31,7 @@
       :title="$t('INBOX_MGMT.SETTINGS_POPUP.AGENT_ASSIGNMENT')"
       :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.AGENT_ASSIGNMENT_SUB_TEXT')"
     >
-      <label class="medium-9 columns settings-item">
+      <label class="w-[75%] settings-item">
         <div class="enter-to-send--checkbox">
           <input
             id="enableAutoAssignment"
@@ -44,7 +44,7 @@
           </label>
         </div>
 
-        <p class="help-text">
+        <p class="pb-1 text-sm not-italic text-slate-600 dark:text-slate-400">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT_SUB_TEXT') }}
         </p>
       </label>
@@ -62,7 +62,7 @@
           @blur="$v.maxAssignmentLimit.$touch"
         />
 
-        <p class="help-text">
+        <p class="pb-1 text-sm not-italic text-slate-600 dark:text-slate-400">
           {{ $t('INBOX_MGMT.AUTO_ASSIGNMENT.MAX_ASSIGNMENT_LIMIT_SUB_TEXT') }}
         </p>
 
@@ -81,7 +81,7 @@ import { mapGetters } from 'vuex';
 import { minValue } from 'vuelidate/lib/validators';
 import alertMixin from 'shared/mixins/alertMixin';
 import configMixin from 'shared/mixins/configMixin';
-import SettingsSection from '../../../../../components/SettingsSection';
+import SettingsSection from '../../../../../components/SettingsSection.vue';
 
 export default {
   components: {
@@ -127,7 +127,7 @@ export default {
     setDefaults() {
       this.enableAutoAssignment = this.inbox.enable_auto_assignment;
       this.maxAssignmentLimit =
-        this.inbox.auto_assignment_config.max_assignment_limit || null;
+        this.inbox?.auto_assignment_config?.max_assignment_limit || null;
       this.fetchAttachedAgents();
     },
     async fetchAttachedAgents() {

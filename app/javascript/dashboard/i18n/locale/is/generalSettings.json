@@ -3,6 +3,7 @@
     "TITLE": "Aðgangs stillingar",
     "SUBMIT": "Uppfæra stillingar",
     "BACK": "Til baka",
+    "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "Gat ekki uppfært stillingar, reyndu aftur!",
       "SUCCESS": "Tókst að uppfæra stillingar"
@@ -48,7 +49,10 @@
       }
     },
     "UPDATE_CHATWOOT": "Uppfærsla %{latestChatwootVersion} fyrir Chatwoot er fáanleg. Vinsamlegast uppfærðu tilvikið þitt.",
-    "LEARN_MORE": "Læra meira"
+    "LEARN_MORE": "Læra meira",
+    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
+    "OPEN_BILLING": "Open billing"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -103,9 +107,12 @@
       "CHANGE_ASSIGNEE": "Breyta úthlutun",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Breyta Teymi",
+      "SNOOZE_CONVERSATION": "Fresta Samtali",
       "ADD_LABEL": "Merkja samtalið",
       "REMOVE_LABEL": "Fjarlægja merki af samtali",
-      "SETTINGS": "Stillingar"
+      "SETTINGS": "Stillingar",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Opna Stjórnborð Samtals",
@@ -127,6 +134,7 @@
       "GO_TO_NOTIFICATIONS": "Opna Tilkynningar",
       "ADD_LABELS_TO_CONVERSATION": "Merkja samtalið",
       "ASSIGN_AN_AGENT": "Úthluta á þjónustufulltrúa",
+      "AI_ASSIST": "AI Assist",
       "ASSIGN_PRIORITY": "Assign priority",
       "ASSIGN_A_TEAM": "Úthluta á teymi",
       "MUTE_CONVERSATION": "Þagga samtal",
@@ -138,10 +146,21 @@
       "SNOOZE_CONVERSATION": "Fresta Samtali",
       "UNTIL_NEXT_REPLY": "Þar til að næsta svar berst",
       "UNTIL_NEXT_WEEK": "Þar til í næstu viku",
-      "UNTIL_TOMORROW": "Þar til á morgun"
+      "UNTIL_TOMORROW": "Þar til á morgun",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "System"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "Hleð Stjórnborði..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "smelltu hér"
   }
 }

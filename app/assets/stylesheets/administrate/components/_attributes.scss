@@ -4,8 +4,8 @@
   float: left;
   margin-bottom: $base-spacing;
   margin-top: 0.25em;
-  text-align: right;
-  width: calc(15% - 1rem);
+  text-align: left;
+  width: calc(16% - 1rem);
 }
 
 .preserve-whitespace {
@@ -16,8 +16,8 @@
 .attribute-data {
   float: left;
   margin-bottom: $base-spacing;
-  margin-left: 2rem;
-  width: calc(85% - 1rem);
+  margin-left: 1.25rem;
+  width: calc(84% - 0.625rem);
 }
 
 .attribute--nested {

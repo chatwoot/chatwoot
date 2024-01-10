@@ -1,5 +1,8 @@
 <template>
-  <button class="small-6 medium-4 large-3 channel" @click="$emit('click')">
+  <button
+    class="sm:w-[50%] md:w-[34%] lg:w-[25%] channel"
+    @click="$emit('click')"
+  >
     <img :src="src" :alt="title" />
     <h3 class="channel__title">
       {{ title }}
@@ -24,44 +27,36 @@ export default {
 
 <style scoped lang="scss">
 .inactive {
-  filter: grayscale(100%);
+  img {
+    filter: grayscale(100%);
+  }
+
+  &.channel:hover {
+    @apply border-transparent shadow-none cursor-not-allowed;
+  }
 }
 
 .channel {
-  background: var(--white);
-  border: 1px solid var(--color-border-light);
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  margin: -1px;
-  padding: var(--space-normal) 0;
-  transition: all 0.2s ease-in;
-  align-items: center;
+  @apply bg-white dark:bg-slate-900 cursor-pointer flex flex-col transition-all duration-200 ease-in -m-px py-4 px-0 items-center border border-solid border-slate-25 dark:border-slate-800;
+
   &:hover {
-    border: 1px solid var(--w-500);
-    box-shadow: var(--shadow-medium);
-    z-index: var(--z-index-high);
+    @apply border-woot-500 dark:border-woot-500 shadow-md z-50;
   }
 
   &.disabled {
-    opacity: 0.6;
+    @apply opacity-60;
   }
 
   img {
-    margin: var(--space-normal) auto;
-    width: 50%;
+    @apply w-[50%] my-4 mx-auto;
   }
 
   .channel__title {
-    color: var(--color-body);
-    font-size: var(--font-size-default);
-    text-align: center;
-    text-transform: capitalize;
+    @apply text-slate-800 dark:text-slate-100 text-base text-center capitalize;
   }
 
   p {
-    color: var(--b-500);
-    width: 100%;
+    @apply text-slate-600 dark:text-slate-300 w-full text-sm;
   }
 }
 </style>

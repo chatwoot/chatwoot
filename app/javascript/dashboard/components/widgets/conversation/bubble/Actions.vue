@@ -57,17 +57,6 @@
       @mouseenter="isHovered = true"
       @mouseleave="isHovered = false"
     />
-    <button
-      v-if="isATweet && (isIncoming || isOutgoing) && sourceId"
-      @click="onTweetReply"
-    >
-      <fluent-icon
-        v-tooltip.top-start="$t('CHAT_LIST.REPLY_TO_TWEET')"
-        icon="arrow-reply"
-        class="action--icon cursor-pointer"
-        size="16"
-      />
-    </button>
     <a
       v-if="isATweet && (isOutgoing || isIncoming) && linkToTweet"
       :href="linkToTweet"
@@ -77,7 +66,7 @@
       <fluent-icon
         v-tooltip.top-start="$t('CHAT_LIST.VIEW_TWEET_IN_TWITTER')"
         icon="open"
-        class="action--icon cursor-pointer"
+        class="cursor-pointer action--icon"
         size="16"
       />
     </a>
@@ -86,7 +75,6 @@
 
 <script>
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
-import { BUS_EVENTS } from 'shared/constants/busEvents';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import { mapGetters } from 'vuex';
 import timeMixin from '../../../../mixins/time';
@@ -123,10 +111,6 @@ export default {
       default: true,
     },
     isATweet: {
-      type: Boolean,
-      default: true,
-    },
-    hasInstagramStory: {
       type: Boolean,
       default: true,
     },
@@ -187,8 +171,9 @@ export default {
         return '';
       }
       const { screenName, sourceId } = this;
-      return `https://twitter.com/${screenName ||
-        this.inbox.name}/status/${sourceId}`;
+      return `https://twitter.com/${
+        screenName || this.inbox.name
+      }/status/${sourceId}`;
     },
     linkToStory() {
       if (!this.storyId || !this.storySender) {
@@ -207,23 +192,45 @@ export default {
       if (!this.showStatusIndicators) {
         return false;
       }
-
+      // Messages will be marked as sent for the Email channel if they have a source ID.
       if (this.isAnEmailChannel) {
         return !!this.sourceId;
       }
 
-      if (this.isAWhatsAppChannel) {
+      if (
+        this.isAWhatsAppChannel ||
+        this.isATwilioChannel ||
+        this.isAFacebookInbox ||
+        this.isASmsInbox ||
+        this.isATelegramChannel
+      ) {
         return this.sourceId && this.isSent;
       }
+      // All messages will be mark as sent for the Line channel, as there is no source ID.
+      if (this.isALineChannel) {
+        return true;
+      }
+
       return false;
     },
     showDeliveredIndicator() {
       if (!this.showStatusIndicators) {
         return false;
       }
-
-      if (this.isAWhatsAppChannel) {
+      if (
+        this.isAWhatsAppChannel ||
+        this.isATwilioChannel ||
+        this.isASmsInbox ||
+        this.isAFacebookInbox
+      ) {
         return this.sourceId && this.isDelivered;
+      }
+      // All messages marked as delivered for the web widget inbox and API inbox once they are sent.
+      if (this.isAWebWidgetInbox || this.isAPIInbox) {
+        return this.isSent;
+      }
+      if (this.isALineChannel) {
+        return this.isDelivered;
       }
 
       return false;
@@ -232,51 +239,46 @@ export default {
       if (!this.showStatusIndicators) {
         return false;
       }
-
-      if (this.isAWebWidgetInbox) {
-        const { contact_last_seen_at: contactLastSeenAt } = this.currentChat;
-        return contactLastSeenAt >= this.createdAt;
-      }
-
-      if (this.isAWhatsAppChannel) {
+      if (
+        this.isAWhatsAppChannel ||
+        this.isATwilioChannel ||
+        this.isAFacebookInbox
+      ) {
         return this.sourceId && this.isRead;
       }
 
+      if (this.isAWebWidgetInbox || this.isAPIInbox) {
+        return this.isRead;
+      }
+
       return false;
-    },
-  },
-  methods: {
-    onTweetReply() {
-      bus.$emit(BUS_EVENTS.SET_TWEET_REPLY, this.id);
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/woot';
-
 .right {
   .message-text--metadata {
-    align-items: center;
+    @apply items-center;
     .time {
-      color: var(--w-100);
+      @apply text-woot-100 dark:text-woot-100;
     }
 
     .action--icon {
-      color: var(--white);
+      @apply text-white dark:text-white;
 
       &.read-tick {
-        color: var(--v-100);
+        @apply text-violet-100 dark:text-violet-100;
       }
 
       &.read-indicator {
-        color: var(--g-200);
+        @apply text-green-200 dark:text-green-200;
       }
     }
 
     .lock--icon--private {
-      color: var(--s-400);
+      @apply text-slate-400 dark:text-slate-400;
     }
   }
 }
@@ -284,45 +286,31 @@ export default {
 .left {
   .message-text--metadata {
     .time {
-      color: var(--s-400);
+      @apply text-slate-400 dark:text-slate-200;
     }
   }
 }
 
 .message-text--metadata {
-  align-items: flex-start;
-  display: flex;
+  @apply items-start flex;
 
   .time {
-    margin-right: var(--space-small);
-    display: block;
-    font-size: var(--font-size-micro);
-    line-height: 1.8;
+    @apply mr-2 block text-xxs leading-[1.8];
   }
 
   .action--icon {
-    margin-right: var(--space-small);
-    margin-left: var(--space-small);
-    color: var(--s-900);
+    @apply mr-2 ml-2 text-slate-900 dark:text-slate-100;
   }
 
   a {
-    color: var(--s-900);
+    @apply text-slate-900 dark:text-slate-100;
   }
 }
 
 .activity-wrap {
   .message-text--metadata {
     .time {
-      color: var(--s-300);
-      display: flex;
-      text-align: center;
-      font-size: var(--font-size-micro);
-      margin-left: 0;
-
-      @include breakpoint(xlarge up) {
-        margin-left: var(--space-small);
-      }
+      @apply ml-2 rtl:mr-2 rtl:ml-0 flex text-center text-xxs text-slate-300 dark:text-slate-200;
     }
   }
 }
@@ -331,35 +319,28 @@ export default {
 .is-video {
   .message-text--metadata {
     .time {
-      bottom: var(--space-smaller);
-      color: var(--white);
-      position: absolute;
-      right: var(--space-small);
-      white-space: nowrap;
+      @apply bottom-1 text-white dark:text-slate-50 absolute right-2 whitespace-nowrap;
 
       &.has-status-icon {
-        right: var(--space-large);
-        line-height: 2;
+        @apply right-8 leading-loose;
       }
     }
     .read-tick {
-      position: absolute;
-      bottom: var(--space-small);
-      right: var(--space-small);
+      @apply absolute bottom-2 right-2;
     }
   }
 }
 
 .is-private {
   .message-text--metadata {
-    align-items: center;
+    @apply items-center;
 
     .time {
-      color: var(--s-400);
+      @apply text-slate-400 dark:text-slate-400;
     }
 
     .icon {
-      color: var(--s-400);
+      @apply text-slate-400 dark:text-slate-400;
     }
   }
 
@@ -367,18 +348,16 @@ export default {
   &.is-video {
     .time {
       position: inherit;
-      padding-left: var(--space-one);
+      @apply pl-2.5;
     }
   }
 }
 
 .delivered-icon {
-  margin-left: -var(--space-normal);
+  @apply ml-4;
 }
 
 .read-indicator-wrap {
-  line-height: 1;
-  display: flex;
-  align-items: center;
+  @apply leading-none flex items-center;
 }
 </style>

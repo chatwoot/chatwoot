@@ -1,25 +1,31 @@
 <template>
   <div
     v-if="showShowCurrentAccountContext"
-    class="account-context--group"
+    class="text-slate-700 dark:text-slate-200 rounded-md text-xs py-2 px-2 mt-2 relative border border-slate-50 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer"
     @mouseover="setShowSwitch"
     @mouseleave="resetShowSwitch"
   >
     {{ $t('SIDEBAR.CURRENTLY_VIEWING_ACCOUNT') }}
-    <p class="account-context--name text-ellipsis">
+    <p
+      class="text-ellipsis overflow-hidden whitespace-nowrap font-medium mb-0 text-slate-800 dark:text-slate-100"
+    >
       {{ account.name }}
     </p>
     <transition name="fade">
-      <div v-if="showSwitchButton" class="account-context--switch-group">
-        <woot-button
-          variant="clear"
-          size="tiny"
-          icon="arrow-swap"
-          class="switch-button"
-          @click="$emit('toggle-accounts')"
-        >
-          {{ $t('SIDEBAR.SWITCH') }}
-        </woot-button>
+      <div
+        v-if="showSwitchButton"
+        class="ltr:overlay-shadow ltr:dark:overlay-shadow-dark rtl:rtl-overlay-shadow rtl:dark:rtl-overlay-shadow-dark flex items-center h-full rounded-md justify-end absolute top-0 right-0 w-full"
+      >
+        <div class="my-0 mx-2">
+          <woot-button
+            variant="clear"
+            size="tiny"
+            icon="arrow-swap"
+            @click="$emit('toggle-accounts')"
+          >
+            {{ $t('SIDEBAR.SWITCH') }}
+          </woot-button>
+        </div>
       </div>
     </transition>
   </div>
@@ -50,52 +56,41 @@ export default {
   },
 };
 </script>
-<style scoped lang="scss">
-.account-context--group {
-  border-radius: var(--border-radius-normal);
-  border: 1px solid var(--color-border);
-  font-size: var(--font-size-mini);
-  padding: var(--space-small);
-  margin: var(--space-small) var(--space-small) 0 var(--space-small);
-  position: relative;
-
-  &:hover {
-    background: var(--b-100);
+<style scoped>
+@tailwind components;
+@layer components {
+  .overlay-shadow {
+    background-image: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 1) 50%
+    );
   }
 
-  .account-context--name {
-    font-weight: var(--font-weight-medium);
-    margin-bottom: 0;
+  .overlay-shadow-dark {
+    background-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0) 0%,
+      rgb(21, 23, 24) 50%
+    );
+  }
+
+  .rtl-overlay-shadow {
+    background-image: linear-gradient(
+      to left,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 1) 50%
+    );
+  }
+
+  .rtl-overlay-shadow-dark {
+    background-image: linear-gradient(
+      to left,
+      rgba(0, 0, 0, 0) 0%,
+      rgb(21, 23, 24) 50%
+    );
   }
 }
-
-.switch-button {
-  margin: 0 var(--space-small);
-}
-
-.account-context--switch-group {
-  --overlay-shadow: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 1) 50%
-  );
-
-  align-items: center;
-  background-image: var(--overlay-shadow);
-  border-top-left-radius: 0;
-  border-top-right-radius: var(--border-radius-normal);
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: var(--border-radius-normal);
-  display: flex;
-  height: 100%;
-  justify-content: flex-end;
-  opacity: 1;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 100%;
-}
-
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 300ms ease;
@@ -103,6 +98,6 @@ export default {
 
 .fade-enter,
 .fade-leave-to {
-  opacity: 0;
+  @apply opacity-0;
 }
 </style>

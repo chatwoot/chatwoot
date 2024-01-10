@@ -2,104 +2,104 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Sukurti naują komandą",
     "HEADER": "Komandos",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> An agent can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "SIDEBAR_TXT": "<p><b>Komandos</b></p> <p>Komandos leidžia suskirstyti agentus į grupes pagal jų pareigas. <br /> Agentas gali būti kelių komandų narys. Galite priskirti pokalbius komandai, kai dirbate kartu. </p>",
     "LIST": {
-      "404": "There are no teams created on this account.",
-      "EDIT_TEAM": "Edit team"
+      "404": "Šioje paskyroje nėra sukurtų komandų.",
+      "EDIT_TEAM": "Redaguoti komandą"
     },
     "CREATE_FLOW": {
       "CREATE": {
         "TITLE": "Sukurti naują komandą",
-        "DESC": "Add a title and description to your new team."
+        "DESC": "Pridėkite naujos komandos pavadinimą ir aprašymą."
       },
       "AGENTS": {
         "BUTTON_TEXT": "Pridėti agentus prie komandos",
         "TITLE": "Pridėti agentus prie komandos - %{teamName}",
-        "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
+        "DESC": "Į naujai sukurtą komandą įtraukite agentus. Taip galėsite kaip komanda bendradarbiauti pokalbiuose, gauti pranešimus apie naujus įvykius tame pačiame pokalbyje."
       },
       "WIZARD": [
         {
           "title": "Sukurti",
           "route": "settings_teams_new",
-          "body": "Create a new team of agents."
+          "body": "Sukurkite naują agentų komandą."
         },
         {
-          "title": "Add Agents",
+          "title": "Pridėti Agentus",
           "route": "settings_teams_add_agents",
-          "body": "Add agents to the team."
+          "body": "Pridėti agentus prie komandos."
         },
         {
           "title": "Pabaigti",
           "route": "settings_teams_finish",
-          "body": "You are all set to go!"
+          "body": "Esate pasiruošę pradėti!"
         }
       ]
     },
     "EDIT_FLOW": {
       "CREATE": {
-        "TITLE": "Edit your team details",
-        "DESC": "Edit title and description to your team.",
+        "TITLE": "Redaguokite savo komandos duomenis",
+        "DESC": "Redaguokite savo komandos pavadinimą ir aprašymą.",
         "BUTTON_TEXT": "Atnaujinti komandą"
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Update agents in team",
+        "BUTTON_TEXT": "Atnaujinkite agentus komandoje",
         "TITLE": "Pridėti agentus prie komandos - %{teamName}",
-        "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
+        "DESC": "Pridėkite agentus į savo naujai sukurtą komandą. Visiems pridėtiems agentams bus pranešta, kai pokalbis bus priskirtas šiai komandai."
       },
       "WIZARD": [
         {
-          "title": "Team details",
+          "title": "Komandos informacija",
           "route": "settings_teams_edit",
-          "body": "Change name, description and other details."
+          "body": "Pakeiskite pavadinimą, aprašymą ir kitą informaciją."
         },
         {
           "title": "Keisti Agentus",
           "route": "settings_teams_edit_members",
-          "body": "Edit agents in your team."
+          "body": "Redaguokite agentus savo komandoje."
         },
         {
           "title": "Pabaigti",
           "route": "settings_teams_edit_finish",
-          "body": "You are all set to go!"
+          "body": "Esate pasiruošę pradėti!"
         }
       ]
     },
     "TEAM_FORM": {
-      "ERROR_MESSAGE": "Couldn't save the team details. Try again."
+      "ERROR_MESSAGE": "Nepavyko išsaugoti komandos informacijos. Bandyk iš naujo."
     },
     "AGENTS": {
       "AGENT": "Agentas",
       "EMAIL": "El. paštas",
       "BUTTON_TEXT": "Pridėti agentus",
-      "ADD_AGENTS": "Adding Agents to your Team...",
+      "ADD_AGENTS": "Agentai pridedami prie komandos...",
       "SELECT": "pasirinkti",
       "SELECT_ALL": "pasirinkti visus agentus",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
+      "SELECTED_COUNT": "Pasirinkta %{selected} iš %{total} agentų."
     },
     "ADD": {
       "TITLE": "Pridėti agentus prie komandos - %{teamName}",
-      "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation.",
+      "DESC": "Į naujai sukurtą komandą įtraukite agentus. Taip galėsite kaip komanda bendradarbiauti pokalbiuose, gauti pranešimus apie naujus įvykius tame pačiame pokalbyje.",
       "SELECT": "pasirinkti",
       "SELECT_ALL": "pasirinkti visus agentus",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
+      "SELECTED_COUNT": "Pasirinkta %{selected} iš %{total} agentų.",
       "BUTTON_TEXT": "Pridėti agentus",
-      "AGENT_VALIDATION_ERROR": "Select at least one agent."
+      "AGENT_VALIDATION_ERROR": "Pasirinkite bent vieną agentą."
     },
     "FINISH": {
       "TITLE": "Jūsų komanda yra pasiruošusi!",
-      "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
+      "MESSAGE": "Dabar pokalbiuose galite bendradarbiauti kaip komanda. Gero palaikymo ",
       "BUTTON_TEXT": "Pabaigti"
     },
     "DELETE": {
       "BUTTON_TEXT": "Ištrinti",
       "API": {
         "SUCCESS_MESSAGE": "Komanda ištrinta sėkmingai.",
-        "ERROR_MESSAGE": "Couldn't delete the team. Try again."
+        "ERROR_MESSAGE": "Nepavyko ištrinti komandos. Bandykite dar kartą."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{teamName}",
-        "PLACE_HOLDER": "Please type {teamName} to confirm",
-        "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
+        "TITLE": "Ar tikrai norite ištrinti – %{teamName}",
+        "PLACE_HOLDER": "Įveskite {teamName}, kad patvirtintumėte",
+        "MESSAGE": "Ištrynus komandą, komandos priskyrimas bus pašalintas iš šiai komandai priskirtų pokalbių.",
         "YES": "Ištrinti ",
         "NO": "Atšaukti"
       }
@@ -110,14 +110,14 @@
       "CREATE": "Sukurti komandą",
       "NAME": {
         "LABEL": "Komandos pavadinimas",
-        "PLACEHOLDER": "Example: Sales, Customer Support"
+        "PLACEHOLDER": "Pavyzdys: pardavimas, klientų aptarnavimas"
       },
       "DESCRIPTION": {
         "LABEL": "Komandos Aprašymas",
-        "PLACEHOLDER": "Short description about this team."
+        "PLACEHOLDER": "Trumpas šios komandos aprašymas."
       },
       "AUTO_ASSIGN": {
-        "LABEL": "Allow auto assign for this team."
+        "LABEL": "Leisti automatiškai priskirti šiai komandai."
       },
       "SUBMIT_CREATE": "Sukurti komandą"
     }

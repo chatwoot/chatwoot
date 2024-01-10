@@ -12,6 +12,10 @@
     "NO_INBOX_2": " začít",
     "NO_INBOX_AGENT": "Uh Oh! Vypadá to, že nejste součástí žádné schránky. Obraťte se na správce",
     "SEARCH_MESSAGES": "Hledat zprávy v konverzacích",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "Hledat zprávy",
       "RESULT_TITLE": "Výsledky hledání",
@@ -30,7 +34,6 @@
     "ASSIGN_TO_ME": "Přiřadit mi",
     "TWILIO_WHATSAPP_CAN_REPLY": "Na tuto konverzaci můžete odpovědět pouze pomocí šablony zprávy z důvodu",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hodinové omezení okna",
-    "SELECT_A_TWEET_TO_REPLY": "Vyberte prosím tweet, na který chcete odpovědět.",
     "REPLYING_TO": "Odpovídáte uživateli:",
     "REMOVE_SELECTION": "Odstranit výběr",
     "DOWNLOAD": "Stáhnout",
@@ -43,6 +46,7 @@
     "NO_RESPONSE": "Bez odpovědi",
     "RATING_TITLE": "Hodnocení",
     "FEEDBACK_TITLE": "Zpětná vazba",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Show labels",
       "HIDE_LABELS": "Hide labels"
@@ -54,18 +58,25 @@
       "OPEN": "Více",
       "CLOSE": "Zavřít",
       "DETAILS": "Podrobnosti",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Odloženo do zítřka",
       "SNOOZED_UNTIL_NEXT_WEEK": "Odloženo do příštího týdne",
       "SNOOZED_UNTIL_NEXT_REPLY": "Odloženo do další odpovědi"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Označit jako nevyřízené",
+      "SNOOZE_UNTIL": "Odložit",
       "SNOOZE": {
         "TITLE": "Odložit do",
         "NEXT_REPLY": "Další odpověď",
         "TOMORROW": "Zítra",
         "NEXT_WEEK": "Příští týden"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Odložit do",
+      "APPLY": "Odložit",
+      "CANCEL": "Zrušit"
     },
     "PRIORITY": {
       "TITLE": "Priority",
@@ -128,7 +139,8 @@
       "PRIVATE_NOTE": "Soukromá poznámka",
       "SEND": "Poslat",
       "CREATE": "Přidat poznámku",
-      "TWEET": "Tweet",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "Zobrazit formátovaný textový editor",
       "TIP_EMOJI_ICON": "Zobrazit výběr emoji",
       "TIP_ATTACH_ICON": "Přiložit soubory",
@@ -140,6 +152,7 @@
       "STOP_AUDIO_RECORDING": "Zastavit nahrávání zvuku",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Přidat bcc",
         "CC": {
           "LABEL": "CC",
@@ -182,6 +195,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Kopírovat",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "Vymazat",
       "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
       "TRANSLATE": "Translate",

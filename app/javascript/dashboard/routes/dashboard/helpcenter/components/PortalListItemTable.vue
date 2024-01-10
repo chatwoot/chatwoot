@@ -124,26 +124,23 @@ export default {
 <style lang="scss" scoped>
 table {
   thead tr th {
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-medium);
-    text-transform: none;
-    color: var(--s-600);
-    padding-left: 0;
-    padding-top: 0;
+    @apply text-sm font-medium normal-case text-slate-600 dark:text-slate-200 pl-0 rtl:pl-2.5 rtl:pr-0 pt-0;
   }
 
   tbody tr {
-    border-bottom: 0;
+    @apply border-b-0;
     td {
-      font-size: var(--font-size-small);
-      padding-left: 0;
+      @apply text-sm pl-0 rtl:pl-2.5 rtl:pr-0;
       .default-status {
-        margin: 0 0 0 var(--space-smaller);
+        @apply py-0 pr-0 pl-1;
+      }
+      span {
+        @apply text-slate-700 dark:text-slate-200;
       }
     }
   }
 }
 .horizontal-line {
-  border-bottom: 1px solid var(--color-border);
+  @apply border-b border-solid border-slate-75 dark:border-slate-700;
 }
 </style>

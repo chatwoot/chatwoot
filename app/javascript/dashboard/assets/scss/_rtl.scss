@@ -1,104 +1,6 @@
 .app-rtl--wrapper {
   direction: rtl;
 
-  // Primary sidebar
-  .primary--sidebar {
-    border-left: 1px solid var(--s-50);
-    border-right: 0;
-
-    .options-menu.dropdown-pane {
-      right: var(--space-smaller);
-
-      .auto-offline--toggle {
-        padding: var(--space-smaller) var(--space-one) var(--space-smaller)
-          var(--space-smaller);
-      }
-
-      .status-items .button {
-        text-align: right;
-      }
-    }
-  }
-
-  // Secondary sidebar
-  .secondary-sidebar {
-    .secondary-menu {
-      border-left: 1px solid var(--s-50);
-      border-right: 0;
-
-      .nested.vertical.menu {
-        .badge--icon {
-          margin-left: var(--space-smaller);
-          margin-right: unset;
-        }
-
-        .menu-label {
-          text-align: right;
-        }
-      }
-
-      .secondary-menu--icon {
-        margin-left: var(--space-smaller);
-        margin-right: unset;
-      }
-
-      .account-context--group .account-context--switch-group {
-        --overlay-shadow: linear-gradient(
-          to left,
-          rgba(255, 255, 255, 0) 0%,
-          rgba(255, 255, 255, 1) 50%
-        );
-        background-image: var(--overlay-shadow);
-      }
-
-      // Help center sidebar
-      .sidebar-header--wrap .header-title--wrap {
-        margin-left: unset;
-        margin-right: var(--space-small);
-      }
-    }
-  }
-
-  // Woot button
-  .button {
-    .icon--emoji + .button__content {
-      padding-left: 0;
-      padding-right: var(--space-small);
-    }
-
-    .icon--font + .button__content {
-      padding-left: 0;
-      padding-right: var(--space-small);
-    }
-
-    .icon + .button__content {
-      padding-left: 0;
-      padding-right: var(--space-small);
-    }
-  }
-
-  // Settings header
-  .settings-header {
-    .header--icon {
-      margin-left: var(--space-small);
-      margin-right: var(--space-smaller);
-    }
-  }
-
-  .header-section.back-button {
-    direction: initial;
-    margin-left: var(--space-normal);
-    margin-right: var(--space-smaller);
-  }
-
-  // Settings header action button
-  .button--fixed-top {
-    left: $space-small;
-    position: fixed;
-    right: unset;
-    top: $space-small;
-  }
-
   // Woot Tabs
   .tabs-title {
     &:first-child {
@@ -133,23 +35,6 @@
 
   // Conversation details
   .conversation-details-wrap {
-    .conv-header {
-      .user {
-        margin-left: var(--space-normal);
-        margin-right: unset;
-
-        .user--profile__meta {
-          margin-left: unset;
-          margin-right: var(--space-small);
-        }
-      }
-
-      .actions--container .resolve-actions {
-        margin-left: unset;
-        margin-right: var(--space-small);
-      }
-    }
-
     .conversation-panel {
       // Message text
       .text-content {
@@ -195,11 +80,6 @@
       .checkbox {
         margin-left: var(--space-small);
       }
-    }
-
-    // Conversation sidebar toggle button
-    .sidebar-toggle--button {
-      transform: rotate(180deg);
     }
 
     // Conversation sidebar close button
@@ -345,31 +225,6 @@
     }
   }
 
-  // scss-lint:disable SelectorDepth
-  .container .header-wrap .header-left-wrap .header-left-wrap > .page-title {
-    margin-right: var(--space-small);
-  }
-
-  .portal-container .container {
-    margin-left: unset !important;
-    margin-right: var(--space-small);
-
-    .configuration-items--wrap {
-      margin-left: var(--space-mega);
-      margin-right: unset !important;
-    }
-
-    thead th {
-      padding-left: var(--space-small);
-      padding-right: 0;
-    }
-
-    tbody td {
-      padding-left: var(--space-small);
-      padding-right: 0;
-    }
-  }
-
   .portal-popover__container .portal {
     .actions-container {
       margin-left: unset;
@@ -439,7 +294,7 @@
     }
 
     span {
-      --minus-space-one-point-five: -1.5rem;
+      --minus-space-one-point-five: -0.9375rem;
 
       &.active {
         transform: translate(
@@ -471,11 +326,6 @@
 
   .account-selector--wrap {
     direction: initial;
-  }
-
-  .inbox--name .inbox--icon {
-    margin-left: var(--space-micro);
-    margin-right: 0;
   }
 
   .colorpicker--chrome {

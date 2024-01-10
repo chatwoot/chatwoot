@@ -36,10 +36,13 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Προσωπική υπογραφή μηνύματος",
-        "NOTE": "Δημιουργήστε μια προσωπική υπογραφή, η οποία θα προστεθεί σε όλα τα μηνύματα που στέλνετε από τα εισερχόμενα email σας. Χρησιμοποιήστε τον επεξεργαστή πλούσιου περιεχομένου για να δημιουργήσετε μια εξατομικευμένη υπογραφή.",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
         "BTN_TEXT": "Αποθήκευση υπογραφής μηνύματος",
         "API_ERROR": "Δεν ήταν δυνατή η αποθήκευση της υπογραφής! Δοκιμάστε ξανά",
-        "API_SUCCESS": "Η υπογραφή αποθηκεύτηκε με επιτυχία"
+        "API_SUCCESS": "Η υπογραφή αποθηκεύτηκε με επιτυχία",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Υπογραφή μηνύματος",
@@ -149,6 +152,7 @@
     "SELECTOR_SUBTITLE": "Επιλέξτε ένα λογαριασμό από την Λίστα",
     "PROFILE_SETTINGS": "Ρυθμίσεις Προφίλ",
     "KEYBOARD_SHORTCUTS": "Συντομεύσεις Πληκτρολογίου",
+    "APPEARANCE": "Change Appearance",
     "SUPER_ADMIN_CONSOLE": "Super Admin Κονσόλα",
     "LOGOUT": "Έξοδος (Logout)"
   },
@@ -238,7 +242,7 @@
     "REPORTS_OVERVIEW": "Επισκόπηση",
     "FACEBOOK_REAUTHORIZE": "Η σύνδεση Facebook έχει λήξει, παρακαλώ ξανασυνδεθείτε στο Facebook για να συνεχίσετε",
     "HELP_CENTER": {
-      "TITLE": "Κέντρο Βοήθειας (Beta)",
+      "TITLE": "Help Center",
       "ALL_ARTICLES": "Όλα Τα Άρθρα",
       "MY_ARTICLES": "Τα Άρθρα Μου",
       "DRAFT": "Πρόχειρο",

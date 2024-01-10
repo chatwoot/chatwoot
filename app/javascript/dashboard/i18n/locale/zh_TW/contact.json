@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "新增標籤",
         "PLACEHOLDER": "搜尋標籤",
-        "NO_RESULT": "查無標籤"
+        "NO_RESULT": "查無標籤",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Merge contact",
@@ -70,7 +71,14 @@
       "SUBMIT": "匯入",
       "CANCEL": "取消"
     },
-    "SUCCESS_MESSAGE": "聯絡人儲存成功",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+    "ERROR_MESSAGE": "出現錯誤，請重試"
+  },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
     "ERROR_MESSAGE": "出現錯誤，請重試"
   },
   "DELETE_NOTE": {
@@ -196,6 +204,10 @@
         "PLACEHOLDER": "在此填寫你的訊息",
         "ERROR": "訊息不得為空"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "傳送訊息",
       "CANCEL": "取消",
       "SUCCESS_MESSAGE": "訊息已傳送",
@@ -211,6 +223,7 @@
     "FILTER_CONTACTS": "Filter",
     "FILTER_CONTACTS_SAVE": "儲存篩選條件",
     "FILTER_CONTACTS_DELETE": "刪除篩選條件",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "聯絡人載入中...",
       "404": "找不到符合條件的聯絡人 🔍",
@@ -334,17 +347,17 @@
     "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
     "PRIMARY": {
       "TITLE": "Primary contact",
-      "HELP_LABEL": "To be kept"
+      "HELP_LABEL": "To be deleted"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Contact to merge",
       "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be deleted"
+      "HELP_LABEL": "To be kept"
     },
     "SUMMARY": {
       "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Contact of <strong>%{primaryContactName}</strong> will be deleted.",
+      "ATTRIBUTE_WARNING": "Contact details of <strong>%{primaryContactName}</strong> will be copied to <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"

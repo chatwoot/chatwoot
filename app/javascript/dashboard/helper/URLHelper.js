@@ -1,39 +1,6 @@
-import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
-
 export const frontendURL = (path, params) => {
   const stringifiedParams = params ? `?${new URLSearchParams(params)}` : '';
   return `/app/${path}${stringifiedParams}`;
-};
-
-const getSSOAccountPath = ({ ssoAccountId, user }) => {
-  const { accounts = [], account_id = null } = user || {};
-  const ssoAccount = accounts.find(
-    account => account.id === Number(ssoAccountId)
-  );
-  let accountPath = '';
-  if (ssoAccount) {
-    accountPath = `accounts/${ssoAccountId}`;
-  } else if (accounts.length) {
-    // If the account id is not found, redirect to the first account
-    const accountId = account_id || accounts[0].id;
-    accountPath = `accounts/${accountId}`;
-  }
-  return accountPath;
-};
-
-export const getLoginRedirectURL = ({
-  ssoAccountId,
-  ssoConversationId,
-  user,
-}) => {
-  const accountPath = getSSOAccountPath({ ssoAccountId, user });
-  if (accountPath) {
-    if (ssoConversationId) {
-      return frontendURL(`${accountPath}/conversations/${ssoConversationId}`);
-    }
-    return frontendURL(`${accountPath}/dashboard`);
-  }
-  return DEFAULT_REDIRECT_URL;
 };
 
 export const conversationUrl = ({
@@ -93,6 +60,51 @@ export const conversationListPageURL = ({
 
 export const isValidURL = value => {
   /* eslint-disable no-useless-escape */
-  const URL_REGEX = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/gm;
+  const URL_REGEX =
+    /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/gm;
   return URL_REGEX.test(value);
+};
+
+export const getArticleSearchURL = ({
+  host,
+  portalSlug,
+  pageNumber,
+  locale,
+  status,
+  authorId,
+  categorySlug,
+  sort,
+  query,
+}) => {
+  const queryParams = new URLSearchParams({});
+
+  const params = {
+    page: pageNumber,
+    locale,
+    status,
+    author_id: authorId,
+    category_slug: categorySlug,
+    sort,
+    query,
+  };
+
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== null && value !== undefined) {
+      queryParams.set(key, value);
+    }
+  });
+
+  return `${host}/${portalSlug}/articles?${queryParams.toString()}`;
+};
+
+export const hasValidAvatarUrl = avatarUrl => {
+  try {
+    const { host: avatarUrlHost } = new URL(avatarUrl);
+    const isFromGravatar = ['www.gravatar.com', 'gravatar'].includes(
+      avatarUrlHost
+    );
+    return avatarUrl && !isFromGravatar;
+  } catch (error) {
+    return false;
+  }
 };

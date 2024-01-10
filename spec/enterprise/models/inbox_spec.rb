@@ -40,21 +40,60 @@ RSpec.describe Inbox do
   describe 'audit log' do
     context 'when inbox is created' do
       it 'has associated audit log created' do
-        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'create').count).to eq 1
+        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'create').count).to eq(1)
       end
     end
 
     context 'when inbox is updated' do
       it 'has associated audit log created' do
-        inbox.update(auto_assignment_config: { max_assignment_limit: 2 })
-        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update').count).to eq 1
+        inbox.update(name: 'Updated Inbox')
+        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update').count).to eq(1)
       end
     end
 
-    context 'when inbox is deleted' do
+    context 'when channel is updated' do
       it 'has associated audit log created' do
-        inbox.destroy!
-        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'destroy').count).to eq 1
+        previous_color = inbox.channel.widget_color
+        new_color = '#ff0000'
+        inbox.channel.update(widget_color: new_color)
+
+        # check if channel update creates an audit log against inbox
+        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update').count).to eq(1)
+        # Check for the specific widget_color update in the audit log
+        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update',
+                                    audited_changes: { 'widget_color' => [previous_color, new_color] }).count).to eq(1)
+      end
+    end
+  end
+
+  describe 'audit log with api channel' do
+    let!(:channel) { create(:channel_api) }
+    let!(:inbox) { channel.inbox }
+
+    context 'when inbox is created' do
+      it 'has associated audit log created' do
+        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'create').count).to eq(1)
+      end
+    end
+
+    context 'when inbox is updated' do
+      it 'has associated audit log created' do
+        inbox.update(name: 'Updated Inbox')
+        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update').count).to eq(1)
+      end
+    end
+
+    context 'when channel is updated' do
+      it 'has associated audit log created' do
+        previous_webhook = inbox.channel.webhook_url
+        new_webhook = 'https://example2.com'
+        inbox.channel.update(webhook_url: new_webhook)
+
+        # check if channel update creates an audit log against inbox
+        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update').count).to eq(1)
+        # Check for the specific webhook_update update in the audit log
+        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update',
+                                    audited_changes: { 'webhook_url' => [previous_webhook, new_webhook] }).count).to eq(1)
       end
     end
   end

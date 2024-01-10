@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Tilføj Labels",
         "PLACEHOLDER": "Søg efter labels",
-        "NO_RESULT": "Ingen labels fundet"
+        "NO_RESULT": "Ingen labels fundet",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Sammenflet kontakt",
@@ -70,7 +71,14 @@
       "SUBMIT": "Importer",
       "CANCEL": "Annuller"
     },
-    "SUCCESS_MESSAGE": "Kontakter gemt",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+    "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen"
+  },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
     "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen"
   },
   "DELETE_NOTE": {
@@ -196,6 +204,10 @@
         "PLACEHOLDER": "Skriv din besked her",
         "ERROR": "Beskeden må ikke være tom"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "Send besked",
       "CANCEL": "Annuller",
       "SUCCESS_MESSAGE": "Besked sendt!",
@@ -211,6 +223,7 @@
     "FILTER_CONTACTS": "Filtrer",
     "FILTER_CONTACTS_SAVE": "Gem filter",
     "FILTER_CONTACTS_DELETE": "Slet filter",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "Indlæser kontakter...",
       "404": "Ingen kontakter matcher din søgning 🔍",
@@ -334,17 +347,17 @@
     "DESCRIPTION": "Sammenflet kontakter for at kombinere to profiler til én, herunder alle attributter og samtaler. I tilfælde af konflikter vil den primære kontakts attributter have forrang.",
     "PRIMARY": {
       "TITLE": "Primær kontakt",
-      "HELP_LABEL": "Skal opbevares"
+      "HELP_LABEL": "Skal slettes"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Kontakt for sammenfletning",
       "PLACEHOLDER": "Søg efter en kontakt",
-      "HELP_LABEL": "Skal slettes"
+      "HELP_LABEL": "Skal opbevares"
     },
     "SUMMARY": {
       "TITLE": "Oversigt",
-      "DELETE_WARNING": "Kontakt af <strong>%{childContactName}</strong> vil blive slettet.",
-      "ATTRIBUTE_WARNING": "Kontaktoplysninger på <strong>%{childContactName}</strong> vil blive kopieret til <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Kontakt af <strong>%{primaryContactName}</strong> vil blive slettet.",
+      "ATTRIBUTE_WARNING": "Kontaktoplysninger på <strong>%{primaryContactName}</strong> vil blive kopieret til <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "FEJL_MEDDELELSE"

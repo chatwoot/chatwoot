@@ -17,7 +17,7 @@
   </div>
 </template>
 <script>
-import Thumbnail from './Thumbnail';
+import Thumbnail from './Thumbnail.vue';
 
 export default {
   components: {

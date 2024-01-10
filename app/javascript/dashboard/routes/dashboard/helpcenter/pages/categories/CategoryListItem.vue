@@ -24,7 +24,7 @@
       <tbody>
         <tr v-for="category in categories" :key="category.id">
           <td>
-            <span>{{ category.name }}</span>
+            <span>{{ category.icon }} {{ category.name }}</span>
           </td>
           <td>
             <span>{{ category.description }}</span>
@@ -64,7 +64,10 @@
         </tr>
       </tbody>
     </table>
-    <p v-if="categories.length === 0" class="empty-text">
+    <p
+      v-if="categories.length === 0"
+      class="flex justify-center text-slate-500 dark:text-slate-300 text-base mt-8"
+    >
       {{ $t('HELP_CENTER.PORTAL.EDIT.CATEGORIES.TABLE.EMPTY_TEXT') }}
     </p>
   </div>
@@ -93,31 +96,17 @@ export default {
 <style lang="scss" scoped>
 table {
   thead tr th {
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-medium);
-    text-transform: none;
-    color: var(--s-600);
-    padding-left: 0;
-    padding-top: 0;
+    @apply text-sm font-medium normal-case text-slate-800 dark:text-slate-100 pl-0 rtl:pl-2.5 rtl:pr-0 pt-0;
   }
 
   tbody tr {
-    border-bottom: 0;
+    @apply border-b-0;
     td {
-      font-size: var(--font-size-small);
-      padding-left: 0;
+      @apply text-sm pl-0 rtl:pl-2.5 rtl:pr-0 text-slate-700 dark:text-slate-100;
     }
   }
 }
 .horizontal-line {
-  border-bottom: 1px solid var(--color-border);
-}
-
-.empty-text {
-  display: flex;
-  justify-content: center;
-  color: var(--s-500);
-  font-size: var(--font-size-default);
-  margin-top: var(--space-large);
+  @apply border-b border-solid border-slate-75 dark:border-slate-700;
 }
 </style>

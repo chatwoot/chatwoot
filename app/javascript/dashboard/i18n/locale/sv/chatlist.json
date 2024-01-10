@@ -41,12 +41,28 @@
       "STATUS": "Status",
       "ORDER_BY": "Order by"
     },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Skapad",
+        "OLDEST": "Skapad den:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Senaste aktivitet:",
+        "ACTIVE": "Senaste aktivitet"
+      }
+    },
     "CHAT_SORT_FILTER_ITEMS": {
       "latest": {
         "TEXT": "Last activity"
       },
       "sort_on_created_at": {
         "TEXT": "Created at"
+      },
+      "sort_on_priority": {
+        "TEXT": "Priority"
+      },
+      "sort_on_waiting_since": {
+        "TEXT": "Pending Response"
       }
     },
     "ATTACHMENTS": {
@@ -83,7 +99,7 @@
         },
         "LAST_USER_MESSAGE_AT": {
           "NAME": "Last user message at",
-          "LABEL": "Last message"
+          "LABEL": "Senaste meddelandet"
         }
       }
     },

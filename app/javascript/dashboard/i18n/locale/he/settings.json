@@ -36,10 +36,13 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "חתימת הודעה אישית",
-        "NOTE": "ניתן לרשום חתימה לכל ההודעות שתרשום ללקוחות שלך.",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
         "BTN_TEXT": "שמירה",
         "API_ERROR": "לא ניתן לשמור את החתימה! אנא נסה שנית",
-        "API_SUCCESS": "החתימה נשמרה בהצלחה"
+        "API_SUCCESS": "החתימה נשמרה בהצלחה",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "גודל התמונה צריך להיות פחות מ-{size}MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "חתימת הודעה",
@@ -149,6 +152,7 @@
     "SELECTOR_SUBTITLE": "בחר חשבון מהרשימה הבאה",
     "PROFILE_SETTINGS": "הגדרות פרופיל",
     "KEYBOARD_SHORTCUTS": "קיצורי דרך במקלדת",
+    "APPEARANCE": "Change Appearance",
     "SUPER_ADMIN_CONSOLE": "מסוף סופר אדמין",
     "LOGOUT": "התנתק"
   },
@@ -238,7 +242,7 @@
     "REPORTS_OVERVIEW": "סקירה כללית",
     "FACEBOOK_REAUTHORIZE": "פג תוקף החיבור שלך לפייסבוק, אנא חבר מחדש את דף הפייסבוק שלך כדי להמשיך בשירותים",
     "HELP_CENTER": {
-      "TITLE": "מרכז העזרה (ביטא)",
+      "TITLE": "Help Center",
       "ALL_ARTICLES": "כל המאמרים",
       "MY_ARTICLES": "הכתבות שלי",
       "DRAFT": "טיוטה",

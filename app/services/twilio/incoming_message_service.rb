@@ -9,7 +9,7 @@ class Twilio::IncomingMessageService
     set_contact
     set_conversation
     @message = @conversation.messages.create!(
-      content: params[:Body],
+      content: message_body,
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
       message_type: :incoming,
@@ -46,6 +46,10 @@ class Twilio::IncomingMessageService
     TelephoneNumber.parse(phone_number).international_number
   end
 
+  def message_body
+    params[:Body]&.delete("\u0000")
+  end
+
   def set_contact
     contact_inbox = ::ContactInboxWithContactBuilder.new(
       source_id: params[:From],
@@ -68,7 +72,13 @@ class Twilio::IncomingMessageService
   end
 
   def set_conversation
-    @conversation = @contact_inbox.conversations.first
+    # if lock to single conversation is disabled, we will create a new conversation if previous conversation is resolved
+    @conversation = if @inbox.lock_to_single_conversation
+                      @contact_inbox.conversations.last
+                    else
+                      @contact_inbox.conversations.where
+                                    .not(status: :resolved).last
+                    end
     return if @conversation
 
     @conversation = ::Conversation.create!(conversation_params)
@@ -98,7 +108,9 @@ class Twilio::IncomingMessageService
     return if params[:MediaUrl0].blank?
 
     attachment_file = Down.download(
-      params[:MediaUrl0]
+      params[:MediaUrl0],
+      # https://support.twilio.com/hc/en-us/articles/223183748-Protect-Media-Access-with-HTTP-Basic-Authentication-for-Programmable-Messaging
+      http_basic_authentication: [twilio_channel.account_sid, twilio_channel.auth_token || twilio_channel.api_key_sid]
     )
 
     attachment = @message.attachments.new(

@@ -2,15 +2,15 @@
   "LABEL_MGMT": {
     "HEADER": "Etykiety",
     "HEADER_BTN_TXT": "Dodaj etykietę",
-    "LOADING": "Fetching labels",
+    "LOADING": "Pobieranie etykiet",
     "SEARCH_404": "Brak elementów pasujących do tego zapytania",
-    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels help you to categorize conversations and prioritize them. You can assign label to a conversation from the sidepanel. <br /><br />Labels are tied to the account and can be used to create custom workflows in your organization. You can assign custom color to a label, it makes it easier to identify the label. You will be able to display the label on the sidebar to filter the conversations easily.</p>",
+    "SIDEBAR_TXT": "<p><b>Etykiety</b></p><p>Etykiety pomagają w kategoryzowaniu rozmów i ustalaniu ich priorytetów. Możesz przypisać etykietę do rozmowy z panelu bocznego. <br /><br />Etykiety są przypisane do konta i mogą być wykorzystywane do tworzenia niestandardowych procesów w Twojej organizacji. Możesz przypisać etykiecie niestandardowy kolor, co ułatwia jej identyfikację. Etykietę można wyświetlić na panelu bocznym, aby łatwo filtrować rozmowy.</p>",
     "LIST": {
-      "404": "Na tym koncie nie ma żadnych etykiet.",
+      "404": "Brak etykiet na tym koncie.",
       "TITLE": "Zarządzaj etykietami",
       "DESC": "Etykiety pozwalają na grupowanie rozmów razem.",
       "TABLE_HEADER": [
-        "Nazwisko",
+        "Nazwa",
         "Opis",
         "Kolor"
       ]
@@ -20,8 +20,8 @@
         "LABEL": "Nazwa etykiety",
         "PLACEHOLDER": "Nazwa etykiety",
         "REQUIRED_ERROR": "Nazwa etykiety jest wymagana",
-        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+        "MINIMUM_LENGTH_ERROR": "Wymagana długość wynosi minimum 2",
+        "VALID_ERROR": "Dozwolone są tylko litery, cyfry, myślnik i podkreślenie"
       },
       "DESCRIPTION": {
         "LABEL": "Opis",
@@ -31,23 +31,36 @@
         "LABEL": "Kolor"
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Show label on sidebar"
+        "LABEL": "Pokaż etykietę na panelu bocznym"
       },
       "EDIT": "Edytuj",
       "CREATE": "Stwórz",
       "DELETE": "Usuń",
       "CANCEL": "Anuluj"
     },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Add label to conversation",
+        "MULTIPLE_SUGGESTION": "Select this label",
+        "DESELECT": "Deselect label",
+        "DISMISS": "Dismiss suggestion"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Odrzuć",
+      "ADD_SELECTED_LABELS": "Add selected labels",
+      "ADD_SELECTED_LABEL": "Add selected label",
+      "ADD_ALL_LABELS": "Add all labels"
+    },
     "ADD": {
       "TITLE": "Dodaj etykietę",
       "DESC": "Etykiety pozwalają na grupowanie rozmów razem.",
       "API": {
-        "SUCCESS_MESSAGE": "Label added successfully",
+        "SUCCESS_MESSAGE": "Etykieta dodana pomyślnie",
         "ERROR_MESSAGE": "Wystąpił błąd, spróbuj ponownie"
       }
     },
     "EDIT": {
-      "TITLE": "Edit label",
+      "TITLE": "Edytuj etykietę",
       "API": {
         "SUCCESS_MESSAGE": "Etykieta została pomyślnie zaktualizowana",
         "ERROR_MESSAGE": "Wystąpił błąd, spróbuj ponownie"

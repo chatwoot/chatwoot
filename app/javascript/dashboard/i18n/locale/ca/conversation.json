@@ -12,6 +12,10 @@
     "NO_INBOX_2": " per començar",
     "NO_INBOX_AGENT": "Uh Oh! Sembla que no ets a cap safata d'entrada. Si us plau, poseu-vos en contacte amb l'administrador",
     "SEARCH_MESSAGES": "Cerca missatges a les converses",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "Cerca missatges",
       "RESULT_TITLE": "Search Results",
@@ -30,7 +34,6 @@
     "ASSIGN_TO_ME": "Assign to me",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restricció de finestra de missatges de 24 hores",
-    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
     "REPLYING_TO": "Estas responent a:",
     "REMOVE_SELECTION": "Elimina la selecció",
     "DOWNLOAD": "Descarrega",
@@ -43,6 +46,7 @@
     "NO_RESPONSE": "Sense resposta",
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Feedback",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Show labels",
       "HIDE_LABELS": "Hide labels"
@@ -54,18 +58,25 @@
       "OPEN": "Més",
       "CLOSE": "Tanca",
       "DETAILS": "detalls",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
       "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
       "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Mark as pending",
+      "SNOOZE_UNTIL": "Snooze",
       "SNOOZE": {
         "TITLE": "Snooze until",
         "NEXT_REPLY": "Next reply",
         "TOMORROW": "Tomorrow",
         "NEXT_WEEK": "Next week"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Snooze until",
+      "APPLY": "Snooze",
+      "CANCEL": "Cancel·la"
     },
     "PRIORITY": {
       "TITLE": "Priority",
@@ -128,7 +139,8 @@
       "PRIVATE_NOTE": "Nota privada",
       "SEND": "Envia",
       "CREATE": "Afegeix una nota",
-      "TWEET": "Tuit",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "Mostra l'editor de text enriquit",
       "TIP_EMOJI_ICON": "Mostra la selecció d'emoticones",
       "TIP_ATTACH_ICON": "Ajuntar fitxers",
@@ -140,6 +152,7 @@
       "STOP_AUDIO_RECORDING": "Stop audio recording",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Add bcc",
         "CC": {
           "LABEL": "CC",
@@ -182,6 +195,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Copia",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "Esborrar",
       "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
       "TRANSLATE": "Translate",

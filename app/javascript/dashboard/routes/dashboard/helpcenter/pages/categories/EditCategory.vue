@@ -1,39 +1,41 @@
+<!-- eslint-disable vue/no-mutating-props -->
 <template>
   <woot-modal :show.sync="show" :on-close="onClose">
     <woot-modal-header
       :header-title="$t('HELP_CENTER.CATEGORY.EDIT.TITLE')"
       :header-content="$t('HELP_CENTER.CATEGORY.EDIT.SUB_TITLE')"
     />
-    <form class="row" @submit.prevent="onUpdate">
-      <div class="medium-12 columns">
-        <div class="row article-info">
-          <div class="columns medium-6">
+    <form class="w-full" @submit.prevent="onUpdate">
+      <div class="w-full">
+        <div class="flex flex-row w-full mt-0 mx-0 mb-4">
+          <div class="w-[50%]">
             <label>
               <span>{{ $t('HELP_CENTER.CATEGORY.EDIT.PORTAL') }}</span>
-              <p class="value">{{ portalName }}</p>
+              <p class="text-slate-600 dark:text-slate-400">{{ portalName }}</p>
             </label>
           </div>
-          <div class="columns medium-6">
+          <div class="w-[50%]">
             <label>
               <span>{{ $t('HELP_CENTER.CATEGORY.EDIT.LOCALE') }}</span>
-              <p class="value">{{ locale }}</p>
+              <p class="text-slate-600 dark:text-slate-400">{{ locale }}</p>
             </label>
           </div>
         </div>
-        <woot-input
-          v-model.trim="name"
-          :class="{ error: $v.name.$error }"
-          class="medium-12 columns"
-          :error="nameError"
+        <category-name-icon-input
           :label="$t('HELP_CENTER.CATEGORY.EDIT.NAME.LABEL')"
           :placeholder="$t('HELP_CENTER.CATEGORY.EDIT.NAME.PLACEHOLDER')"
           :help-text="$t('HELP_CENTER.CATEGORY.EDIT.NAME.HELP_TEXT')"
-          @input="onNameChange"
+          :has-error="$v.name.$error"
+          :error-message="$t('HELP_CENTER.CATEGORY.ADD.NAME.ERROR')"
+          :existing-name="category.name"
+          :saved-icon="category.icon"
+          @name-change="changeName"
+          @icon-change="onClickInsertEmoji"
         />
         <woot-input
           v-model.trim="slug"
           :class="{ error: $v.slug.$error }"
-          class="medium-12 columns"
+          class="w-full"
           :error="slugError"
           :label="$t('HELP_CENTER.CATEGORY.EDIT.SLUG.LABEL')"
           :placeholder="$t('HELP_CENTER.CATEGORY.EDIT.SLUG.PLACEHOLDER')"
@@ -51,8 +53,8 @@
             "
           />
         </label>
-        <div class="medium-12 columns">
-          <div class="modal-footer justify-content-end w-full">
+        <div class="w-full">
+          <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
             <woot-button class="button clear" @click.prevent="onClose">
               {{ $t('HELP_CENTER.CATEGORY.EDIT.BUTTONS.CANCEL') }}
             </woot-button>
@@ -71,8 +73,10 @@ import alertMixin from 'shared/mixins/alertMixin';
 import { required, minLength } from 'vuelidate/lib/validators';
 import { convertToCategorySlug } from 'dashboard/helper/commons.js';
 import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
+import CategoryNameIconInput from './NameEmojiInput.vue';
 
 export default {
+  components: { CategoryNameIconInput },
   mixins: [alertMixin],
   props: {
     show: {
@@ -100,6 +104,7 @@ export default {
     return {
       id: this.category.id,
       name: '',
+      icon: '',
       slug: '',
       description: '',
     };
@@ -114,12 +119,6 @@ export default {
     },
   },
   computed: {
-    nameError() {
-      if (this.$v.name.$error) {
-        return this.$t('HELP_CENTER.CATEGORY.ADD.NAME.ERROR');
-      }
-      return '';
-    },
     slugError() {
       if (this.$v.slug.$error) {
         return this.$t('HELP_CENTER.CATEGORY.ADD.SLUG.ERROR');
@@ -134,11 +133,16 @@ export default {
     updateDataFromStore() {
       const { category } = this;
       this.name = category.name;
+      this.icon = category.icon;
       this.slug = category.slug;
       this.description = category.description;
     },
-    onNameChange() {
+    changeName(name) {
+      this.name = name;
       this.slug = convertToCategorySlug(this.name);
+    },
+    onClickInsertEmoji(emoji) {
+      this.icon = emoji;
     },
     onUpdate() {
       this.$emit('update');
@@ -147,10 +151,11 @@ export default {
       this.$emit('cancel');
     },
     async editCategory() {
-      const { id, name, slug, description } = this;
+      const { id, name, slug, icon, description } = this;
       const data = {
         id,
         name,
+        icon,
         slug,
         description,
       };

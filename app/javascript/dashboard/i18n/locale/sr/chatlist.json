@@ -36,17 +36,33 @@
       }
     },
     "VIEW_FILTER": "Pregled",
-    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "SORT_TOOLTIP_LABEL": "Sortiraj razgovore",
     "CHAT_SORT": {
       "STATUS": "Status",
-      "ORDER_BY": "Order by"
+      "ORDER_BY": "Sortiraj po"
+    },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Kreirano",
+        "OLDEST": "Napravljena u:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Poslednja aktivnost:",
+        "ACTIVE": "Poslednja aktivnost"
+      }
     },
     "CHAT_SORT_FILTER_ITEMS": {
       "latest": {
-        "TEXT": "Last activity"
+        "TEXT": "Poslednja aktivnost"
       },
       "sort_on_created_at": {
         "TEXT": "Napravljena u"
+      },
+      "sort_on_priority": {
+        "TEXT": "Prioritet"
+      },
+      "sort_on_waiting_since": {
+        "TEXT": "Pending Response"
       }
     },
     "ATTACHMENTS": {
@@ -75,7 +91,7 @@
       "ITEMS": {
         "LATEST": {
           "NAME": "Last activity at",
-          "LABEL": "Last activity"
+          "LABEL": "Poslednja aktivnost"
         },
         "CREATED_AT": {
           "NAME": "Napravljena u",

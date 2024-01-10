@@ -2,9 +2,12 @@
   <div
     v-show="activeLabels.length"
     ref="labelContainer"
-    class="label-container"
+    class="label-container mt-0.5 mx-2 mb-0"
   >
-    <div class="labels-wrap" :class="{ expand: showAllLabels }">
+    <div
+      class="labels-wrap flex items-end min-w-0 flex-shrink"
+      :class="{ expand: showAllLabels }"
+    >
       <woot-label
         v-for="(label, index) in activeLabels"
         :key="label.id"
@@ -22,7 +25,7 @@
             ? $t('CONVERSATION.CARD.HIDE_LABELS')
             : $t('CONVERSATION.CARD.SHOW_LABELS')
         "
-        class="show-more--button"
+        class="show-more--button sticky flex-shrink-0 right-0 mr-6 rtl:rotate-180"
         color-scheme="secondary"
         variant="hollow"
         :icon="showAllLabels ? 'chevron-left' : 'chevron-right'"
@@ -84,53 +87,35 @@ export default {
 
 <style lang="scss" scoped>
 .show-more--button {
-  height: var(--space-two);
-  position: sticky;
-  flex-shrink: 0;
-  right: 0;
-  margin-right: var(--space-medium);
-
+  @apply h-5;
   &.secondary:focus {
-    color: var(--s-700);
-    border-color: var(--s-300);
+    @apply text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-700;
   }
 }
 
-.label-container {
-  margin: var(--space-micro) var(--space-small) 0;
-}
-
 .labels-wrap {
-  display: flex;
-  align-items: center;
-  min-width: 0;
-  flex-shrink: 1;
-
   &.expand {
-    height: auto;
-    overflow: visible;
-    flex-flow: row wrap;
+    @apply h-auto overflow-visible flex-row flex-wrap;
 
     .label {
-      margin-bottom: var(--space-smaller);
+      @apply mb-1;
     }
 
     .show-more--button {
-      margin-bottom: var(--space-smaller);
+      @apply mb-1;
     }
   }
 
   .secondary {
-    border: 1px solid var(--s-100);
+    @apply border border-solid border-slate-100 dark:border-slate-700;
   }
 
   .label {
-    margin-bottom: 0;
+    @apply mb-0;
   }
 }
 
 .hidden {
-  visibility: hidden;
-  position: absolute;
+  @apply invisible absolute;
 }
 </style>

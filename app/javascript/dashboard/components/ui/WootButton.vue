@@ -18,14 +18,18 @@
       :icon="icon"
       :icon-size="iconSize"
     />
-    <span v-if="$slots.default" class="button__content">
+    <span
+      v-if="$slots.default"
+      class="button__content"
+      :class="{ 'text-left rtl:text-right': size !== 'expanded' }"
+    >
       <slot />
     </span>
   </button>
 </template>
 <script>
-import Spinner from 'shared/components/Spinner';
-import EmojiOrIcon from 'shared/components/EmojiOrIcon';
+import Spinner from 'shared/components/Spinner.vue';
+import EmojiOrIcon from 'shared/components/EmojiOrIcon.vue';
 
 export default {
   name: 'WootButton',

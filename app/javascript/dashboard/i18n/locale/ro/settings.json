@@ -36,10 +36,13 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Semnătura mesajului personal",
-        "NOTE": "Creați o semnătură de mesaj personal care ar fi adăugată la toate mesajele pe care le trimiteți din inboxul de e-mail. Utilizați editorul de conținut îmbogățit pentru a crea o semnătură extrem de personalizată.",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
         "BTN_TEXT": "Salvarea semnăturii mesajului",
         "API_ERROR": "Nu s-a putut trimite! Încearcă din nou",
-        "API_SUCCESS": "Semnătura salvată cu succes"
+        "API_SUCCESS": "Semnătura salvată cu succes",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Dimensiunea imaginii trebuie să fie mai mică de {size}MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Semnătura mesajului",
@@ -118,7 +121,7 @@
           "Deconectat"
         ],
         "SET_AVAILABILITY_SUCCESS": "Avatar a fost șters cu succes",
-        "SET_AVAILABILITY_ERROR": "Nu s-a putut atribui agentul. Vă rugăm încercați din nou."
+        "SET_AVAILABILITY_ERROR": "Nu s-a putut seta disponibilitatea, vă rugăm să încercați din nou"
       },
       "EMAIL": {
         "LABEL": "Adresa ta de email",
@@ -149,6 +152,7 @@
     "SELECTOR_SUBTITLE": "Selectaţi un cont din următoarea listă",
     "PROFILE_SETTINGS": "Setări profil",
     "KEYBOARD_SHORTCUTS": "Scurtături Tastatură",
+    "APPEARANCE": "Change Appearance",
     "SUPER_ADMIN_CONSOLE": "Super Admin Consola",
     "LOGOUT": "Deconectare"
   },
@@ -238,7 +242,7 @@
     "REPORTS_OVERVIEW": "Prezentare generală",
     "FACEBOOK_REAUTHORIZE": "Conexiunea ta de Facebook a expirat, te rugăm să-ți reconectezi pagina de Facebook pentru a continua serviciile",
     "HELP_CENTER": {
-      "TITLE": "Centrul de ajutor (Beta)",
+      "TITLE": "Asistenta",
       "ALL_ARTICLES": "Toate articolele",
       "MY_ARTICLES": "Articolele mele",
       "DRAFT": "Schita",

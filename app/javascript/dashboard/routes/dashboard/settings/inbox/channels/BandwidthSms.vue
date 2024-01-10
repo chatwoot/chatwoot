@@ -1,6 +1,6 @@
 <template>
-  <form class="row" @submit.prevent="createChannel()">
-    <div class="medium-8 columns">
+  <form class="mx-0 flex flex-wrap" @submit.prevent="createChannel()">
+    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
       <label :class="{ error: $v.inboxName.$error }">
         {{ $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.INBOX_NAME.LABEL') }}
         <input
@@ -17,7 +17,7 @@
       </label>
     </div>
 
-    <div class="medium-8 columns">
+    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
       <label :class="{ error: $v.phoneNumber.$error }">
         {{ $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.PHONE_NUMBER.LABEL') }}
         <input
@@ -34,7 +34,7 @@
       </label>
     </div>
 
-    <div class="medium-8 columns">
+    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
       <label :class="{ error: $v.accountId.$error }">
         {{ $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.ACCOUNT_ID.LABEL') }}
         <input
@@ -51,7 +51,7 @@
       </label>
     </div>
 
-    <div class="medium-8 columns">
+    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
       <label :class="{ error: $v.applicationId.$error }">
         {{ $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.APPLICATION_ID.LABEL') }}
         <input
@@ -68,7 +68,7 @@
       </label>
     </div>
 
-    <div class="medium-8 columns">
+    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
       <label :class="{ error: $v.apiKey.$error }">
         {{ $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.API_KEY.LABEL') }}
         <input
@@ -83,7 +83,7 @@
       </label>
     </div>
 
-    <div class="medium-8 columns">
+    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
       <label :class="{ error: $v.apiSecret.$error }">
         {{ $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.API_SECRET.LABEL') }}
         <input
@@ -100,7 +100,7 @@
       </label>
     </div>
 
-    <div class="medium-12 columns">
+    <div class="w-full">
       <woot-submit-button
         :loading="uiFlags.isCreating"
         :button-text="$t('INBOX_MGMT.ADD.SMS.BANDWIDTH.SUBMIT_BUTTON')"

@@ -2,6 +2,7 @@ import {
   getAttributeInputType,
   getInputType,
   getValuesName,
+  getValuesForStatus,
   getValuesForFilter,
   generateValuesForEditCustomViews,
   generateCustomAttributesInputType,
@@ -106,7 +107,33 @@ describe('customViewsHelper', () => {
     });
   });
 
+  describe('#getValuesForStatus', () => {
+    it('should return id and name if value is present', () => {
+      const values = ['open'];
+      expect(getValuesForStatus(values)).toEqual([
+        { id: 'open', name: 'open' },
+      ]);
+    });
+
+    it('should return id and name if multiple values are present', () => {
+      const values = ['open', 'resolved'];
+      expect(getValuesForStatus(values)).toEqual([
+        { id: 'open', name: 'open' },
+        { id: 'resolved', name: 'resolved' },
+      ]);
+    });
+  });
+
   describe('#getValuesForFilter', () => {
+    it('should return id and name if attribute_key is status', () => {
+      const filter = { attribute_key: 'status', values: ['open', 'resolved'] };
+      const params = {};
+      expect(getValuesForFilter(filter, params)).toEqual([
+        { id: 'open', name: 'open' },
+        { id: 'resolved', name: 'resolved' },
+      ]);
+    });
+
     it('should return id and name if attribute_key is assignee_id', () => {
       const filter = { attribute_key: 'assignee_id', values: [1] };
       const params = { agents: [{ id: 1, name: 'test' }] };

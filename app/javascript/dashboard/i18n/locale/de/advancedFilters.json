@@ -2,12 +2,17 @@
   "FILTER": {
     "TITLE": "Gespräche filtern",
     "SUBTITLE": "Fügen Sie unten Filter hinzu und klicken Sie auf „Filter anwenden“, um Konversationen zu filtern.",
+    "EDIT_CUSTOM_FILTER": "Edit Folder",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
     "ADD_NEW_FILTER": "Filter hinzufügen",
     "FILTER_DELETE_ERROR": "Sie sollten mindestens einen Filter zum Speichern haben",
     "SUBMIT_BUTTON_LABEL": "Filter übernehmen",
+    "UPDATE_BUTTON_LABEL": "Update folder",
     "CANCEL_BUTTON_LABEL": "Abbrechen",
     "CLEAR_BUTTON_LABEL": "Filter zurücksetzen",
     "EMPTY_VALUE_ERROR": "Wert ist erforderlich",
+    "FOLDER_LABEL": "Folder Name",
+    "FOLDER_QUERY_LABEL": "Folder Query",
     "TOOLTIP_LABEL": "Gespräche filtern",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "UND",
@@ -23,7 +28,7 @@
       "is_greater_than": "Ist größer als",
       "is_less_than": "Ist kleiner als",
       "days_before": "Ist x Tage her",
-      "starts_with": "Starts with"
+      "starts_with": "Beginnt mit"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Ja",
@@ -38,7 +43,7 @@
       "CAMPAIGN_NAME": "Kampagnenname",
       "LABELS": "Labels",
       "BROWSER_LANGUAGE": "Browsersprache",
-      "PRIORITY": "Priority",
+      "PRIORITY": "Priorität",
       "COUNTRY_NAME": "Ländername",
       "REFERER_LINK": "Referer-Link",
       "CUSTOM_ATTRIBUTE_LIST": "Liste",
@@ -70,6 +75,9 @@
           "SUCCESS_MESSAGE": "Segment erfolgreich erstellt",
           "ERROR_MESSAGE": "Fehler beim Erstellen des Segments"
         }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Edit folder"
       },
       "DELETE": {
         "DELETE_BUTTON": "Filter löschen",

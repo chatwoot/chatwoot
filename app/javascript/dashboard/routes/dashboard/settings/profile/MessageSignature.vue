@@ -1,46 +1,46 @@
 <template>
-  <form @submit.prevent="updateSignature()">
-    <div class="profile--settings--row row">
-      <div class="columns small-3">
-        <h4 class="block-title">
-          {{ $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.TITLE') }}
-        </h4>
-        <p>{{ $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.NOTE') }}</p>
-      </div>
-      <div class="columns small-9 medium-5">
-        <div>
-          <label for="message-signature-input">{{
-            $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE.LABEL')
-          }}</label>
-          <woot-message-editor
-            id="message-signature-input"
-            v-model="messageSignature"
-            class="message-editor"
-            :is-format-mode="true"
-            :placeholder="
-              $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE.PLACEHOLDER')
-            "
-            @blur="$v.messageSignature.$touch"
-          />
-        </div>
-        <woot-button
-          :is-loading="isUpdating"
-          type="submit"
-          :is-disabled="$v.messageSignature.$invalid"
-        >
-          {{ $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.BTN_TEXT') }}
-        </woot-button>
-      </div>
+  <div class="profile--settings--row text-black-900 dark:text-slate-300 row">
+    <div class="w-[25%] py-4 pr-6 ml-0">
+      <h4 class="block-title text-black-900 dark:text-slate-200">
+        {{ $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.TITLE') }}
+      </h4>
+      <p>{{ $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.NOTE') }}</p>
     </div>
-  </form>
+    <div class="p-4 w-[45%]">
+      <div>
+        <label for="message-signature-input">{{
+          $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE.LABEL')
+        }}</label>
+        <woot-message-editor
+          id="message-signature-input"
+          v-model="messageSignature"
+          class="message-editor h-[10rem]"
+          :is-format-mode="true"
+          :placeholder="
+            $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE.PLACEHOLDER')
+          "
+          :enabled-menu-options="customEditorMenuList"
+          :enable-suggestions="false"
+          :show-image-resize-toolbar="true"
+        />
+      </div>
+      <woot-button
+        :is-loading="isUpdating"
+        type="button"
+        @click.prevent="updateSignature"
+      >
+        {{ $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.BTN_TEXT') }}
+      </woot-button>
+    </div>
+  </div>
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 
-import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import alertMixin from 'shared/mixins/alertMixin';
+import { MESSAGE_SIGNATURE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 
 export default {
   components: {
@@ -53,23 +53,14 @@ export default {
       enableMessageSignature: false,
       isUpdating: false,
       errorMessage: '',
+      customEditorMenuList: MESSAGE_SIGNATURE_EDITOR_MENU_OPTIONS,
     };
-  },
-  validations: {
-    messageSignature: {
-      required,
-    },
   },
   computed: {
     ...mapGetters({
       currentUser: 'getCurrentUser',
       currentUserId: 'getCurrentUserID',
     }),
-  },
-  watch: {
-    currentUser() {
-      this.initValues();
-    },
   },
   mounted() {
     this.initValues();
@@ -80,15 +71,9 @@ export default {
       this.messageSignature = messageSignature || '';
     },
     async updateSignature() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
-        this.showAlert(this.$t('PROFILE_SETTINGS.FORM.ERROR'));
-        return;
-      }
-
       try {
         await this.$store.dispatch('updateProfile', {
-          message_signature: this.messageSignature,
+          message_signature: this.messageSignature || '',
         });
         this.errorMessage = this.$t(
           'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_SUCCESS'
@@ -102,6 +87,7 @@ export default {
         }
       } finally {
         this.isUpdating = false;
+        this.initValues();
         this.showAlert(this.errorMessage);
       }
     },
@@ -109,15 +95,14 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.profile--settings--row {
-  .ProseMirror-woot-style {
-    height: 8rem;
-  }
+<style lang="scss" scoped>
+.message-editor {
+  @apply px-3 mb-4;
 
-  .editor-root {
-    background: var(--white);
-    margin-bottom: var(--space-normal);
+  ::v-deep {
+    .ProseMirror-menubar {
+      @apply left-2;
+    }
   }
 }
 </style>

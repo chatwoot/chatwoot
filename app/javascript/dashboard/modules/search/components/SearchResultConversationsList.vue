@@ -6,11 +6,12 @@
     :show-title="showTitle || isFetching"
     :is-fetching="isFetching"
   >
-    <ul class="search-list">
+    <ul v-if="conversations.length" class="search-list">
       <li v-for="conversation in conversations" :key="conversation.id">
         <search-result-conversation-item
           :id="conversation.id"
           :name="conversation.contact.name"
+          :email="conversation.contact.email"
           :account-id="accountId"
           :inbox="conversation.inbox"
           :created-at="conversation.created_at"

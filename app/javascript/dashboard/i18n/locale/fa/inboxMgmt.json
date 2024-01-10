@@ -111,6 +111,17 @@
           "PLACEHOLDER": "لطفا شناسه SID حساب Twilio خود را وارد کنید",
           "ERROR": "پر کردن این فیلد ضروری است"
         },
+        "API_KEY": {
+          "USE_API_KEY": "Use API Key Authentication",
+          "LABEL": "API Key SID",
+          "PLACEHOLDER": "Please enter your API Key SID",
+          "ERROR": "پر کردن این فیلد ضروری است"
+        },
+        "API_KEY_SECRET": {
+          "LABEL": "API Key Secret",
+          "PLACEHOLDER": "Please enter your API Key Secret",
+          "ERROR": "پر کردن این فیلد ضروری است"
+        },
         "MESSAGING_SERVICE_SID": {
           "LABEL": "SID سرویس پیام رسانی",
           "PLACEHOLDER": "لطفاً SID سرویس پیام رسانی Twilio خود را وارد کنید",
@@ -151,7 +162,7 @@
         "PROVIDERS": {
           "LABEL": "ارائه دهنده API",
           "TWILIO": "Twilio",
-          "BANDWIDTH": "Bandwidth"
+          "BANDWIDTH": "پهنای باند"
         },
         "API": {
           "ERROR_MESSAGE": "ما نتوانستیم کانال پیامک را ذخیره کنیم"
@@ -360,6 +371,8 @@
     "DETAILS": {
       "LOADING_FB": "در حال احراز هویت با فیس بوک...",
       "ERROR_FB_AUTH": "اشکالی پیش آمد.. لطفا دوباره سعی کنید...",
+      "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
       "CREATING_CHANNEL": "در حال ساخت صندوق ورودی...",
       "TITLE": "تنظیمات صفحه ورودی",
       "DESC": ""
@@ -390,6 +403,25 @@
       "ENABLE_CSAT": {
         "ENABLED": "فعال",
         "DISABLED": "غیرفعال"
+      },
+      "SENDER_NAME_SECTION": {
+        "TITLE": "نام ارسال کننده",
+        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
+        "FOR_EG": "For eg:",
+        "FRIENDLY": {
+          "TITLE": "دوستانه",
+          "FROM": "از",
+          "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
+        },
+        "PROFESSIONAL": {
+          "TITLE": "حرفه ای",
+          "SUBTITLE": "Use only the configured business name as the sender name in the email header."
+        },
+        "BUSINESS_NAME": {
+          "BUTTON_TEXT": "+ Configure your business name",
+          "PLACEHOLDER": "نام کسب و کار خود را وارد کنید",
+          "SAVE_BUTTON_TEXT": "ذخیره"
+        }
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
         "ENABLED": "فعال",
@@ -454,7 +486,9 @@
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "فعال یا غیرفعال کردن فرم دریافت ایمیل از کاربر",
       "AUTO_ASSIGNMENT": "فعال کردن واگذاری خودکار گفتگو به ایجنت ها",
       "ENABLE_CSAT": "فعال کردن رضایت مشتری",
+      "SENDER_NAME_SECTION": "فعال سازی نام اپراتور در ایمیل",
       "ENABLE_CSAT_SUB_TEXT": "پس از پایان گفتگو ، نظرسنجی CSAT (رضایت مشتری) را فعال/غیرفعال کنید",
+      "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "ادامه مکالمه را از طریق ایمیل فعال کنید",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "اگر آدرس ایمیل تماس در دسترس باشد، مکالمات از طریق ایمیل ادامه خواهد یافت.",
       "LOCK_TO_SINGLE_CONVERSATION": "قفل کردن مکالمه تکی",
@@ -464,7 +498,7 @@
       "AUTO_ASSIGNMENT_SUB_TEXT": "فعال کردن یا غیرفعال کردن واگذاری خودکار گفتگوها به ایجنت های عضو این صندوق ورودی.",
       "HMAC_VERIFICATION": "اعتبار سنجی کاربر",
       "HMAC_DESCRIPTION": "به منظور اعتبارسنجی هویت کاربر، می‌توانید یک «شناسه_هش» برای هر کاربر ارسال کنید. می‌توانید با استفاده از «شناسه» با کلید نشان داده شده در اینجا یک هش HMAC sha256 ایجاد کنید.",
-      "HMAC_LINK_TO_DOCS": "You can read more here.",
+      "HMAC_LINK_TO_DOCS": "از اینجا می توانید بیشتر بخوانید.",
       "HMAC_MANDATORY_VERIFICATION": "مجبور کردن تأیید اعتبار هویت کاربر",
       "HMAC_MANDATORY_DESCRIPTION": "اگر فعال باشد، درخواست‌هایی که «identifier_hash» را ندارند رد می‌شوند.",
       "INBOX_IDENTIFIER": "شناسه صندوق ورودی",
@@ -535,7 +569,6 @@
       "UPDATE": "تنظیمات ساعات کاری را به روز کنید",
       "TOGGLE_AVAILABILITY": "دسترس بودن کسب و کار را برای این صندوق فعال کردن",
       "UNAVAILABLE_MESSAGE_LABEL": "پیامی برای بازدیدکنندگان در دسترس نیست",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "متاسفانه در حال حاضر در دسترس نیستیم. لطفا پیامی بگذارید که پس از بازگشت به شما پاسخ دهیم.",
       "TOGGLE_HELP": "فعال کردن در دسترس بودن کسب کار ، ساعات موجود در ویجت چت زنده را نشان می دهد حتی اگر همه ایجنت ها آفلاین باشند. خارج از ساعات موجود می توان با پیام و فرم قبل از چت ، به کاربران هشدار داد.",
       "DAY": {
         "ENABLE": "در دسترس بودن را برای این روز فعال کنید",
@@ -641,7 +674,7 @@
           "PLACE_HOLDER": "دسترسی به ما ساده است. هر سوالی پیش آمد همینجا از ما بپرسید."
         },
         "REPLY_TIME": {
-          "LABEL": "زمان پاسخ",
+          "LABEL": "زمان پاسخ دهی",
           "IN_A_FEW_MINUTES": "در چند دقیقه",
           "IN_A_FEW_HOURS": "در چند ساعت",
           "IN_A_DAY": "در یک روز"
@@ -679,12 +712,12 @@
         "CHAT": "گفتگو"
       },
       "REPLY_TIME": {
-        "IN_A_FEW_MINUTES": "معمولاً در عرض چند دقیقه پاسخ می دهند",
+        "IN_A_FEW_MINUTES": "معمولاً در عرض چند دقیقه پاسخ دهی انجام می شود",
         "IN_A_FEW_HOURS": "معمولاً در عرض چند ساعت پاسخ می دهند",
-        "IN_A_DAY": "به طور معمول در یک روز پاسخ می دهند"
+        "IN_A_DAY": "به طور معمول در یک روز پاسخ دهی انجام می شود"
       },
       "FOOTER": {
-        "START_CONVERSATION_BUTTON_TEXT": "شروع گفتگو",
+        "START_CONVERSATION_BUTTON_TEXT": "گفتگو را شروع کنید",
         "CHAT_INPUT_PLACEHOLDER": "پیام خود را وارد کنید"
       },
       "BODY": {

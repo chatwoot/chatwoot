@@ -37,15 +37,13 @@ RSpec.describe Account::ContactsExportJob do
       described_class.perform_now(account.id, [])
 
       csv_data = CSV.parse(account.contacts_export.download, headers: true)
-      first_row = csv_data[0]
-      last_row = csv_data[csv_data.length - 1]
-      first_contact = account.contacts.first
-      last_contact = account.contacts.last
+      emails = csv_data.pluck('email')
+      phone_numbers = csv_data.pluck('phone_number')
 
       expect(csv_data.length).to eq(account.contacts.count)
 
-      expect([first_row['email'], last_row['email']]).to contain_exactly(first_contact.email, last_contact.email)
-      expect([first_row['phone_number'], last_row['phone_number']]).to contain_exactly(first_contact.phone_number, last_contact.phone_number)
+      expect(emails).to include('test1@text.example', 'test2@text.example')
+      expect(phone_numbers).to include('+910808080818', '+910808080808')
     end
   end
 end

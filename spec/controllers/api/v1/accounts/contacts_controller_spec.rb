@@ -87,7 +87,7 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response_body['payload'].last['email']).to eq(contact_4.email)
       end
 
-      it 'returns includes conversations count and last seen at' do
+      it 'returns last seen at' do
         create(:conversation, contact: contact, account: account, inbox: contact_inbox.inbox, contact_last_seen_at: Time.now.utc)
         get "/api/v1/accounts/#{account.id}/contacts",
             headers: admin.create_new_auth_token,
@@ -95,7 +95,6 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(response).to have_http_status(:success)
         response_body = response.parsed_body
-        expect(response_body['payload'].first['conversations_count']).to eq(contact.conversations.count)
         expect(response_body['payload'].first['last_seen_at']).present?
       end
 
@@ -288,6 +287,18 @@ RSpec.describe 'Contacts API', type: :request do
       it 'matches the contact ignoring the case in name' do
         get "/api/v1/accounts/#{account.id}/contacts/search",
             params: { q: 'TestContact' },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include(contact2.email)
+        expect(response.body).not_to include(contact1.email)
+      end
+
+      it 'searches contacts using company name' do
+        contact2.update(additional_attributes: { company_name: 'acme.inc' })
+        get "/api/v1/accounts/#{account.id}/contacts/search",
+            params: { q: 'acme.inc' },
             headers: admin.create_new_auth_token,
             as: :json
 

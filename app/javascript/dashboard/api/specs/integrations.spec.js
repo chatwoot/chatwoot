@@ -1,6 +1,5 @@
 import integrationAPI from '../integrations';
 import ApiClient from '../ApiClient';
-import describeWithAPIMock from './apiSpecHelper';
 
 describe('#integrationAPI', () => {
   it('creates correct instance', () => {
@@ -11,14 +10,32 @@ describe('#integrationAPI', () => {
     expect(integrationAPI).toHaveProperty('update');
     expect(integrationAPI).toHaveProperty('delete');
     expect(integrationAPI).toHaveProperty('connectSlack');
-    expect(integrationAPI).toHaveProperty('createHook');
+    expect(integrationAPI).toHaveProperty('updateSlack');
+    expect(integrationAPI).toHaveProperty('updateSlack');
+    expect(integrationAPI).toHaveProperty('listAllSlackChannels');
     expect(integrationAPI).toHaveProperty('deleteHook');
   });
-  describeWithAPIMock('API calls', context => {
+  describe('API calls', () => {
+    const originalAxios = window.axios;
+    const axiosMock = {
+      post: jest.fn(() => Promise.resolve()),
+      get: jest.fn(() => Promise.resolve()),
+      patch: jest.fn(() => Promise.resolve()),
+      delete: jest.fn(() => Promise.resolve()),
+    };
+
+    beforeEach(() => {
+      window.axios = axiosMock;
+    });
+
+    afterEach(() => {
+      window.axios = originalAxios;
+    });
+
     it('#connectSlack', () => {
       const code = 'SDNFJNSDFNDSJN';
       integrationAPI.connectSlack(code);
-      expect(context.axiosMock.post).toHaveBeenCalledWith(
+      expect(axiosMock.post).toHaveBeenCalledWith(
         '/api/v1/integrations/slack',
         {
           code,
@@ -26,11 +43,27 @@ describe('#integrationAPI', () => {
       );
     });
 
+    it('#updateSlack', () => {
+      const updateObj = { referenceId: 'SDFSDGSVE' };
+      integrationAPI.updateSlack(updateObj);
+      expect(axiosMock.patch).toHaveBeenCalledWith(
+        '/api/v1/integrations/slack',
+        {
+          reference_id: updateObj.referenceId,
+        }
+      );
+    });
+
+    it('#listAllSlackChannels', () => {
+      integrationAPI.listAllSlackChannels();
+      expect(axiosMock.get).toHaveBeenCalledWith(
+        '/api/v1/integrations/slack/list_all_channels'
+      );
+    });
+
     it('#delete', () => {
       integrationAPI.delete(2);
-      expect(context.axiosMock.delete).toHaveBeenCalledWith(
-        '/api/v1/integrations/2'
-      );
+      expect(axiosMock.delete).toHaveBeenCalledWith('/api/v1/integrations/2');
     });
 
     it('#createHook', () => {
@@ -39,7 +72,7 @@ describe('#integrationAPI', () => {
         settings: { api_key: 'SDFSDGSVE' },
       };
       integrationAPI.createHook(hookData);
-      expect(context.axiosMock.post).toHaveBeenCalledWith(
+      expect(axiosMock.post).toHaveBeenCalledWith(
         '/api/v1/integrations/hooks',
         hookData
       );
@@ -47,7 +80,7 @@ describe('#integrationAPI', () => {
 
     it('#deleteHook', () => {
       integrationAPI.deleteHook(2);
-      expect(context.axiosMock.delete).toHaveBeenCalledWith(
+      expect(axiosMock.delete).toHaveBeenCalledWith(
         '/api/v1/integrations/hooks/2'
       );
     });

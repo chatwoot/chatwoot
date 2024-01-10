@@ -21,7 +21,7 @@ class InboxPolicy < ApplicationPolicy
 
   def show?
     # FIXME: for agent bots, lets bring this validation to policies as well in future
-    return true if @user.blank?
+    return true if @user.is_a?(AgentBot)
 
     Current.user.assigned_inboxes.include? record
   end
@@ -35,6 +35,10 @@ class InboxPolicy < ApplicationPolicy
   end
 
   def campaigns?
+    @account_user.administrator?
+  end
+
+  def response_sources?
     @account_user.administrator?
   end
 

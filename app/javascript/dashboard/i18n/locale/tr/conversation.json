@@ -12,6 +12,10 @@
     "NO_INBOX_2": "başlamak",
     "NO_INBOX_AGENT": "Görünüşe göre herhangi bir gelen kutusunun parçası değilsiniz. Lütfen yöneticinizle iletişime geçin",
     "SEARCH_MESSAGES": "Sohbetlerde ara",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "Mesajları ara",
       "RESULT_TITLE": "Arama Sonucu",
@@ -30,7 +34,6 @@
     "ASSIGN_TO_ME": "Bana ata",
     "TWILIO_WHATSAPP_CAN_REPLY": "Bu konuşmaya yalnızca şablon mesaj kullanarak yanıt verebilirsiniz, çünkü",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 saat mesaj penceresi kısıtlaması",
-    "SELECT_A_TWEET_TO_REPLY": "Lütfen yanıtlamak için bir tweet seçin.",
     "REPLYING_TO": "Cevap veriyorsun:",
     "REMOVE_SELECTION": "Seçimi Kaldır",
     "DOWNLOAD": "İndir",
@@ -43,6 +46,7 @@
     "NO_RESPONSE": "Cevap Yok",
     "RATING_TITLE": "Değerlendirme",
     "FEEDBACK_TITLE": "Geribildirim",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Show labels",
       "HIDE_LABELS": "Hide labels"
@@ -54,18 +58,25 @@
       "OPEN": "Devamı",
       "CLOSE": "Kapat",
       "DETAILS": "detaylar",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "yarına ertelendi",
       "SNOOZED_UNTIL_NEXT_WEEK": "Önümüzdeki haftaya ertelendi",
       "SNOOZED_UNTIL_NEXT_REPLY": "Bir sonraki yanıta kadar ertelendi"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Beklemede olarak işaretle",
+      "SNOOZE_UNTIL": "Sustur",
       "SNOOZE": {
         "TITLE": "Şu tarihe kadar ertele",
         "NEXT_REPLY": "Sonraki yanıt",
         "TOMORROW": "Yarın",
         "NEXT_WEEK": "Sonraki hafta"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Şu tarihe kadar ertele",
+      "APPLY": "Sustur",
+      "CANCEL": "İptal Et"
     },
     "PRIORITY": {
       "TITLE": "Priority",
@@ -128,7 +139,8 @@
       "PRIVATE_NOTE": "Özel Not",
       "SEND": "Gönder",
       "CREATE": "Not ekle",
-      "TWEET": "Tweet",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "Metin Düzenlemeyi Göster",
       "TIP_EMOJI_ICON": "Emojileri göster",
       "TIP_ATTACH_ICON": "Dosya ekle",
@@ -140,6 +152,7 @@
       "STOP_AUDIO_RECORDING": "Ses kaydetmeyi durdur",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Bcc ekle",
         "CC": {
           "LABEL": "CC",
@@ -182,6 +195,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Kopyala",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "Sil",
       "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
       "TRANSLATE": "Translate",

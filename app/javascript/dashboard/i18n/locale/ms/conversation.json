@@ -12,6 +12,10 @@
     "NO_INBOX_2": " to get started",
     "NO_INBOX_AGENT": "Uh Oh! Looks like you are not part of any inbox. Please contact your administrator",
     "SEARCH_MESSAGES": "Search for messages in conversations",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "Search messages",
       "RESULT_TITLE": "Search Results",
@@ -30,7 +34,6 @@
     "ASSIGN_TO_ME": "Assign to me",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hour message window restriction",
-    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
     "REPLYING_TO": "You are replying to:",
     "REMOVE_SELECTION": "Remove Selection",
     "DOWNLOAD": "Download",
@@ -43,6 +46,7 @@
     "NO_RESPONSE": "No response",
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Feedback",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Show labels",
       "HIDE_LABELS": "Hide labels"
@@ -54,18 +58,25 @@
       "OPEN": "More",
       "CLOSE": "Close",
       "DETAILS": "details",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
       "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
       "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Mark as pending",
+      "SNOOZE_UNTIL": "Snooze",
       "SNOOZE": {
         "TITLE": "Snooze until",
         "NEXT_REPLY": "Next reply",
         "TOMORROW": "Tomorrow",
         "NEXT_WEEK": "Next week"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Snooze until",
+      "APPLY": "Snooze",
+      "CANCEL": "Batalkan"
     },
     "PRIORITY": {
       "TITLE": "Priority",
@@ -128,7 +139,8 @@
       "PRIVATE_NOTE": "Private Note",
       "SEND": "Send",
       "CREATE": "Add Note",
-      "TWEET": "Tweet",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "Show rich text editor",
       "TIP_EMOJI_ICON": "Show emoji selector",
       "TIP_ATTACH_ICON": "Attach files",
@@ -140,6 +152,7 @@
       "STOP_AUDIO_RECORDING": "Stop audio recording",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Add bcc",
         "CC": {
           "LABEL": "CC",
@@ -182,6 +195,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Copy",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "Padamkan",
       "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
       "TRANSLATE": "Translate",

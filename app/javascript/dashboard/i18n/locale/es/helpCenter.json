@@ -74,6 +74,14 @@
         "DELETE": "Eliminar artículo"
       }
     },
+    "ARTICLE_SEARCH_RESULT": {
+      "UNCATEGORIZED": "Sin categoría",
+      "INSERT_ARTICLE": "Insertar",
+      "NO_RESULT": "No se encontraron articulos",
+      "COPY_LINK": "Copiar enlace del artículo al portapapeles",
+      "OPEN_LINK": "Abrir artículo en nueva pestaña",
+      "PREVIEW_LINK": "Previsualizar artículo"
+    },
     "PORTAL": {
       "HEADER": "Portales",
       "DEFAULT": "Predeterminado",
@@ -357,7 +365,7 @@
         "NAME": {
           "LABEL": "Nombre",
           "PLACEHOLDER": "Nombre de categoría",
-          "HELP_TEXT": "El nombre de la categoría se utilizará en el portal público orientado a categorizar los artículos.",
+          "HELP_TEXT": "El nombre de la categoría y el icono se utilizarán en el portal público para categorizar los artículos.",
           "ERROR": "El nombre es requerido"
         },
         "SLUG": {
@@ -388,7 +396,7 @@
         "NAME": {
           "LABEL": "Nombre",
           "PLACEHOLDER": "Nombre de categoría",
-          "HELP_TEXT": "El nombre de la categoría se utilizará en el portal público orientado a categorizar los artículos.",
+          "HELP_TEXT": "El nombre de la categoría y el icono se utilizarán en el portal público para categorizar los artículos.",
           "ERROR": "El nombre es requerido"
         },
         "SLUG": {
@@ -415,6 +423,33 @@
         "API": {
           "SUCCESS_MESSAGE": "Categoría eliminada correctamente",
           "ERROR_MESSAGE": "No se pudo borrar la categoría"
+        }
+      }
+    },
+    "UPGRADE_PAGE": {
+      "TITLE": "Centro de ayuda",
+      "DESCRIPTION": "Crear portales de autoservicio amigables. Ayuda a tus usuarios a acceder a los artículos y obtener soporte 24/7. Actualiza tu suscripción para activar esta característica.",
+      "SELF_HOSTED_DESCRIPTION": "Crear portales de autoservicio amigables. Ayuda a tus usuarios a acceder a los artículos y obtener soporte 24/7. Póngase en contacto con su administrador para habilitar esta característica.",
+      "BUTTON": {
+        "LEARN_MORE": "Más información",
+        "UPGRADE": "Mejorar"
+      },
+      "FEATURES": {
+        "PORTALS": {
+          "TITLE": "Múltiples portales",
+          "DESCRIPTION": "Crear múltiples portales de centro de ayuda para diferentes productos usando la misma cuenta."
+        },
+        "LOCALES": {
+          "TITLE": "Soporte completo para locales",
+          "DESCRIPTION": "Localiza el portal en tu idioma. Apoyamos todas las localizaciones y permitimos traducciones para cada artículo."
+        },
+        "SEO": {
+          "TITLE": "Diseño amigable con SEO",
+          "DESCRIPTION": "Personalice sus meta-etiquetas para mejorar su visibilidad en los motores de búsqueda con nuestras páginas amigables con SEO."
+        },
+        "API": {
+          "TITLE": "Soporte completo de API",
+          "DESCRIPTION": "Utilice el portal como un CMS sin cabeceras con frameworks front-end de terceros usando nuestras APIs."
         }
       }
     }

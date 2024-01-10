@@ -18,6 +18,8 @@
     "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results. ",
     "BOT_LABEL": "ബോട്ട്",
     "READ_MORE": "Read more",
-    "WROTE": "wrote:"
+    "WROTE": "wrote:",
+    "FROM": "നിന്ന്",
+    "EMAIL": "ഇമെയിൽ"
   }
 }

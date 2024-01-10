@@ -2,12 +2,17 @@
   "FILTER": {
     "TITLE": "Filtrer les conversations",
     "SUBTITLE": "Ajoutez des filtres ci-dessous et appuyez sur 'Appliquer des filtres' pour filtrer les conversations.",
+    "EDIT_CUSTOM_FILTER": "Modifier le dossier",
+    "CUSTOM_VIEWS_SUBTITLE": "Ajouter ou supprimer des filtres et mettre à jour votre dossier.",
     "ADD_NEW_FILTER": "Ajouter un filtre",
     "FILTER_DELETE_ERROR": "Vous devriez avoir au moins un filtre afin d'enregistrer",
     "SUBMIT_BUTTON_LABEL": "Appliquer les filtres",
+    "UPDATE_BUTTON_LABEL": "Mettre à jour le dossier",
     "CANCEL_BUTTON_LABEL": "Annuler",
     "CLEAR_BUTTON_LABEL": "Effacer les filtres",
     "EMPTY_VALUE_ERROR": "La valeur est requise",
+    "FOLDER_LABEL": "Nom du dossier",
+    "FOLDER_QUERY_LABEL": "Requête de dossier",
     "TOOLTIP_LABEL": "Filtrer les conversations",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "ET",
@@ -23,7 +28,7 @@
       "is_greater_than": "Est plus grand que",
       "is_less_than": "Est inférieur à",
       "days_before": "Est x jours avant",
-      "starts_with": "Starts with"
+      "starts_with": "Commence par"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Vrai",
@@ -38,9 +43,9 @@
       "CAMPAIGN_NAME": "Nom de la campagne",
       "LABELS": "Étiquettes",
       "BROWSER_LANGUAGE": "Langue du navigateur",
-      "PRIORITY": "Priority",
+      "PRIORITY": "Priorité",
       "COUNTRY_NAME": "Nom du pays",
-      "REFERER_LINK": "Referer link",
+      "REFERER_LINK": "Lien de référence",
       "CUSTOM_ATTRIBUTE_LIST": "Liste",
       "CUSTOM_ATTRIBUTE_TEXT": "Texte",
       "CUSTOM_ATTRIBUTE_NUMBER": "Nombre",
@@ -70,6 +75,9 @@
           "SUCCESS_MESSAGE": "Segment créé avec succès",
           "ERROR_MESSAGE": "Erreur lors de la création du segment"
         }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Modifier le dossier"
       },
       "DELETE": {
         "DELETE_BUTTON": "Supprimer le filtre",

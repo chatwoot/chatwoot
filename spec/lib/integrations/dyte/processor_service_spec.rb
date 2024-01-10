@@ -25,7 +25,7 @@ describe Integrations::Dyte::ProcessorService do
 
       it 'creates an integration message in the conversation' do
         response = processor.create_a_meeting(agent)
-        expect(response['content']).to eq("#{agent.available_name} has started a meeting")
+        expect(response[:content]).to eq("#{agent.available_name} has started a meeting")
         expect(conversation.reload.messages.last.content_type).to eq('integrations')
       end
     end

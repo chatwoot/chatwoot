@@ -2,12 +2,17 @@
   "FILTER": {
     "TITLE": "Filtrēt Sarunas",
     "SUBTITLE": "Pievienojiet filtrus un noklikšķiniet uz 'Lietot filtrus', lai filtrētu sarunas.",
+    "EDIT_CUSTOM_FILTER": "Rediģēt Mapi",
+    "CUSTOM_VIEWS_SUBTITLE": "Pievienot vai noņemt filtrus un atjaunināt mapi.",
     "ADD_NEW_FILTER": "Pievienot Filtru",
     "FILTER_DELETE_ERROR": "Lai saglabātu, Jums ir jābūt vismaz vienam filtram",
     "SUBMIT_BUTTON_LABEL": "Lietot filtrus",
+    "UPDATE_BUTTON_LABEL": "Atjaunināt mapi",
     "CANCEL_BUTTON_LABEL": "Atcelt",
     "CLEAR_BUTTON_LABEL": "Atcelt Filtrus",
     "EMPTY_VALUE_ERROR": "Nepieciešama vērtība",
+    "FOLDER_LABEL": "Mapes Nosaukums",
+    "FOLDER_QUERY_LABEL": "Mapes Vaicājums",
     "TOOLTIP_LABEL": "Filtrēt sarunas",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "UN",
@@ -70,6 +75,9 @@
           "SUCCESS_MESSAGE": "Segments ir veiksmīgi izveidots",
           "ERROR_MESSAGE": "Izveidojot segmentu, radās kļūda"
         }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Rediģēt mapi"
       },
       "DELETE": {
         "DELETE_BUTTON": "Dzēst filtru",

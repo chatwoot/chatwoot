@@ -12,6 +12,10 @@
     "NO_INBOX_2": " for at komme i gang",
     "NO_INBOX_AGENT": "Åh Åh! Det ser ud til, at du ikke er en del af en indbakke. Kontakt venligst din administrator",
     "SEARCH_MESSAGES": "Søg efter beskeder i samtaler",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "Søg efter beskeder",
       "RESULT_TITLE": "Søgeresultater",
@@ -30,7 +34,6 @@
     "ASSIGN_TO_ME": "Tildel til mig",
     "TWILIO_WHATSAPP_CAN_REPLY": "Du kan kun svare på denne samtale ved hjælp af en skabelon besked på grund af",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 timers beskedvindue begrænsning",
-    "SELECT_A_TWEET_TO_REPLY": "Vælg venligst et tweet at svare på.",
     "REPLYING_TO": "Du svarer til:",
     "REMOVE_SELECTION": "Fjern Markering",
     "DOWNLOAD": "Download",
@@ -43,6 +46,7 @@
     "NO_RESPONSE": "Intet svar",
     "RATING_TITLE": "Bedømmelse",
     "FEEDBACK_TITLE": "Tilbagemelding",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Vis etiketter",
       "HIDE_LABELS": "Skjul etiketter"
@@ -54,18 +58,25 @@
       "OPEN": "Mere",
       "CLOSE": "Luk",
       "DETAILS": "detaljer",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Udsat til i morgen",
       "SNOOZED_UNTIL_NEXT_WEEK": "Udsat indtil næste uge",
       "SNOOZED_UNTIL_NEXT_REPLY": "Udsat indtil næste svar"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Markér som afventende",
+      "SNOOZE_UNTIL": "Udsæt",
       "SNOOZE": {
         "TITLE": "Udsæt til",
         "NEXT_REPLY": "Næste svar",
         "TOMORROW": "I Morgen",
         "NEXT_WEEK": "Næste uge"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Udsæt til",
+      "APPLY": "Udsæt",
+      "CANCEL": "Annuller"
     },
     "PRIORITY": {
       "TITLE": "Priority",
@@ -128,7 +139,8 @@
       "PRIVATE_NOTE": "Privat Note",
       "SEND": "Send",
       "CREATE": "Tilføj Note",
-      "TWEET": "Tweet",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "Vis rig teksteditor",
       "TIP_EMOJI_ICON": "Vis emoji-vælger",
       "TIP_ATTACH_ICON": "Vedhæft filer",
@@ -140,6 +152,7 @@
       "STOP_AUDIO_RECORDING": "Stop lydoptagelse",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Tilføj bcc",
         "CC": {
           "LABEL": "CC",
@@ -182,6 +195,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Kopiér",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "Slet",
       "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
       "TRANSLATE": "Translate",

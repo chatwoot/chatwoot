@@ -11,13 +11,15 @@
       "CONVERSATIONS": "Conversas",
       "MESSAGES": "Mensagens"
     },
-    "EMPTY_STATE": "No %{item} found for query '%{query}'",
-    "EMPTY_STATE_FULL": "No results found for query '%{query}'",
-    "PLACEHOLDER_KEYBINDING": "/ to focus",
-    "INPUT_PLACEHOLDER": "Type 3 or more characters to search",
-    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results. ",
+    "EMPTY_STATE": "Não foi encontrado %{item} para a consulta '%{query}'",
+    "EMPTY_STATE_FULL": "Nenhum resultado encontrado para a consulta '%{query}'",
+    "PLACEHOLDER_KEYBINDING": "/ para focar",
+    "INPUT_PLACEHOLDER": "Digite 3 ou mais caracteres para pesquisar",
+    "EMPTY_STATE_DEFAULT": "Procurar por ID da conversa, email, número de telefone, mensagens para obter melhores resultados. ",
     "BOT_LABEL": "Bot",
-    "READ_MORE": "Read more",
-    "WROTE": "wrote:"
+    "READ_MORE": "Ler mais",
+    "WROTE": "escreveu:",
+    "FROM": "de",
+    "EMAIL": "e-mail"
   }
 }

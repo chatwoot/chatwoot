@@ -66,6 +66,23 @@ class WebhookListener < BaseListener
     deliver_account_webhooks(payload, account)
   end
 
+  def inbox_created(event)
+    inbox, account = extract_inbox_and_account(event)
+    inbox_webhook_data = Inbox::EventDataPresenter.new(inbox).push_data
+    payload = inbox_webhook_data.merge(event: __method__.to_s)
+    deliver_account_webhooks(payload, account)
+  end
+
+  def inbox_updated(event)
+    inbox, account = extract_inbox_and_account(event)
+    changed_attributes = extract_changed_attributes(event)
+    return if changed_attributes.blank?
+
+    inbox_webhook_data = Inbox::EventDataPresenter.new(inbox).push_data
+    payload = inbox_webhook_data.merge(event: __method__.to_s, changed_attributes: changed_attributes)
+    deliver_account_webhooks(payload, account)
+  end
+
   private
 
   def deliver_account_webhooks(payload, account)
@@ -80,7 +97,7 @@ class WebhookListener < BaseListener
     return unless inbox.channel_type == 'Channel::Api'
     return if inbox.channel.webhook_url.blank?
 
-    WebhookJob.perform_later(inbox.channel.webhook_url, payload)
+    WebhookJob.perform_later(inbox.channel.webhook_url, payload, :api_inbox_webhook)
   end
 
   def deliver_webhook_payloads(payload, inbox)

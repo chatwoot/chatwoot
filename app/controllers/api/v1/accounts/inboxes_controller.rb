@@ -63,7 +63,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def destroy
-    ::DeleteObjectJob.perform_later(@inbox) if @inbox.present?
+    ::DeleteObjectJob.perform_later(@inbox, Current.user, request.ip) if @inbox.present?
     render status: :ok, json: { message: I18n.t('messages.inbox_deletetion_response') }
   end
 
@@ -124,7 +124,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def inbox_attributes
     [:name, :avatar, :greeting_enabled, :greeting_message, :enable_email_collect, :csat_survey_enabled,
      :enable_auto_assignment, :working_hours_enabled, :out_of_office_message, :timezone, :allow_messages_after_resolved,
-     :lock_to_single_conversation, :portal_id]
+     :lock_to_single_conversation, :portal_id, :sender_name_type, :business_name]
   end
 
   def permitted_params(channel_attributes = [])

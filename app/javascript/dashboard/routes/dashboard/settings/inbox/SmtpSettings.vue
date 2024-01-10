@@ -90,10 +90,10 @@
 <script>
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
-import SettingsSection from 'dashboard/components/SettingsSection';
+import SettingsSection from 'dashboard/components/SettingsSection.vue';
 import { required, minLength } from 'vuelidate/lib/validators';
-import InputRadioGroup from './components/InputRadioGroup';
-import SingleSelectDropdown from './components/SingleSelectDropdown';
+import InputRadioGroup from './components/InputRadioGroup.vue';
+import SingleSelectDropdown from './components/SingleSelectDropdown.vue';
 
 export default {
   components: {

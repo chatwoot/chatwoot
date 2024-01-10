@@ -1,11 +1,11 @@
 <template>
-  <div class="column content-box audit-log--settings">
+  <div class="flex-1 overflow-auto p-4 flex justify-between flex-col">
     <!-- List Audit Logs -->
     <div>
       <div>
         <p
           v-if="!uiFlags.fetchingList && !records.length"
-          class="no-items-error-message"
+          class="flex h-full items-center flex-col justify-center"
         >
           {{ $t('AUDIT_LOGS.LIST.404') }}
         </p>
@@ -16,10 +16,10 @@
 
         <table
           v-if="!uiFlags.fetchingList && records.length"
-          class="woot-table width-100"
+          class="woot-table w-full"
         >
           <colgroup>
-            <col class="column-activity" />
+            <col class="w-[60%]" />
             <col />
             <col />
           </colgroup>
@@ -34,10 +34,10 @@
           </thead>
           <tbody>
             <tr v-for="auditLogItem in records" :key="auditLogItem.id">
-              <td class="wrap-break-words">
+              <td class="whitespace-nowrap break-all">
                 {{ generateLogText(auditLogItem) }}
               </td>
-              <td class="wrap-break-words">
+              <td class="whitespace-nowrap break-all">
                 {{
                   messageTimestamp(
                     auditLogItem.created_at,
@@ -45,7 +45,7 @@
                   )
                 }}
               </td>
-              <td class="remote-address">
+              <td class="w-[8.75rem]">
                 {{ auditLogItem.remote_address }}
               </td>
             </tr>
@@ -57,21 +57,32 @@
       :current-page="Number(meta.currentPage)"
       :total-count="meta.totalEntries"
       :page-size="meta.perPage"
+      class="dark:bg-slate-900"
       @page-change="onPageChange"
     />
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import TableFooter from 'dashboard/components/widgets/TableFooter';
+import TableFooter from 'dashboard/components/widgets/TableFooter.vue';
 import timeMixin from 'dashboard/mixins/time';
 import alertMixin from 'shared/mixins/alertMixin';
+import {
+  generateTranslationPayload,
+  generateLogActionKey,
+} from 'dashboard/helper/auditlogHelper';
 
 export default {
   components: {
     TableFooter,
   },
   mixins: [alertMixin, timeMixin],
+  beforeRouteEnter(to, from, next) {
+    // Fetch Audit Logs on page load without manual refresh
+    next(vm => {
+      vm.fetchAuditLogs();
+    });
+  },
   data() {
     return {
       loading: {},
@@ -90,49 +101,25 @@ export default {
   },
   mounted() {
     // Fetch API Call
-    this.$store.dispatch('auditlogs/fetch', { page: 1 });
     this.$store.dispatch('agents/get');
   },
   methods: {
-    getAgentName(email) {
-      if (email === null) {
-        return this.$t('AUDIT_LOGS.DEFAULT_USER');
-      }
-      const agentName = this.agentList.find(agent => agent.email === email)
-        ?.name;
-      // If agent does not exist(removed/deleted), return email from audit log
-      return agentName || email;
+    fetchAuditLogs() {
+      const page = this.$route.query.page ?? 1;
+      this.$store.dispatch('auditlogs/fetch', { page }).catch(error => {
+        const errorMessage =
+          error?.message || this.$t('AUDIT_LOGS.API.ERROR_MESSAGE');
+        this.showAlert(errorMessage);
+      });
     },
     generateLogText(auditLogItem) {
-      const agentName = this.getAgentName(auditLogItem.username);
-      const auditableType = auditLogItem.auditable_type.toLowerCase();
-      const action = auditLogItem.action.toLowerCase();
-      const auditId = auditLogItem.auditable_id;
-      const logActionKey = `${auditableType}:${action}`;
+      const translationPayload = generateTranslationPayload(
+        auditLogItem,
+        this.agentList
+      );
+      const translationKey = generateLogActionKey(auditLogItem);
 
-      const translationPayload = {
-        agentName,
-        id: auditId,
-      };
-
-      const translationKeys = {
-        'automationrule:create': `AUDIT_LOGS.AUTOMATION_RULE.ADD`,
-        'automationrule:update': `AUDIT_LOGS.AUTOMATION_RULE.EDIT`,
-        'automationrule:destroy': `AUDIT_LOGS.AUTOMATION_RULE.DELETE`,
-        'webhook:create': `AUDIT_LOGS.WEBHOOK.ADD`,
-        'webhook:update': `AUDIT_LOGS.WEBHOOK.EDIT`,
-        'webhook:destroy': `AUDIT_LOGS.WEBHOOK.DELETE`,
-        'inbox:create': `AUDIT_LOGS.INBOX.ADD`,
-        'inbox:update': `AUDIT_LOGS.INBOX.EDIT`,
-        'inbox:destroy': `AUDIT_LOGS.INBOX.DELETE`,
-        'user:sign_in': `AUDIT_LOGS.USER_ACTION.SIGN_IN`,
-        'user:sign_out': `AUDIT_LOGS.USER_ACTION.SIGN_OUT`,
-        'team:create': `AUDIT_LOGS.TEAM.ADD`,
-        'team:update': `AUDIT_LOGS.TEAM.EDIT`,
-        'team:destroy': `AUDIT_LOGS.TEAM.DELETE`,
-      };
-
-      return this.$t(translationKeys[logActionKey] || '', translationPayload);
+      return this.$t(translationKey, translationPayload);
     },
     onPageChange(page) {
       window.history.pushState({}, null, `${this.$route.path}?page=${page}`);
@@ -147,24 +134,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.audit-log--settings {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-
-  .remote-address {
-    width: 14rem;
-  }
-
-  .wrap-break-words {
-    word-break: break-all;
-    white-space: normal;
-  }
-
-  .column-activity {
-    width: 60%;
-  }
-}
-</style>

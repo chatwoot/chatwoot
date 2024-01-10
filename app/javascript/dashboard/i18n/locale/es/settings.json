@@ -36,10 +36,13 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Firma de mensaje personal",
-        "NOTE": "Cree una firma de mensaje personal que se añadirá a todos los mensajes que envíe desde su buzón de correo electrónico. Utilice el rico editor de contenidos para crear una firma altamente personalizada.",
+        "NOTE": "Crea una firma de mensaje única para que aparezca al final de cada mensaje que envíes desde cualquier bandeja de entrada. También puede incluir una imagen en línea, que es soportada en las bandejas de entrada de live-chat, correo electrónico y API.",
         "BTN_TEXT": "Guardar firma de mensaje",
         "API_ERROR": "¡No se pudo guardar la firma! Inténtalo de nuevo",
-        "API_SUCCESS": "Firma guardada correctamente"
+        "API_SUCCESS": "Firma guardada correctamente",
+        "IMAGE_UPLOAD_ERROR": "¡No se pudo subir la imagen! Intente nuevamente",
+        "IMAGE_UPLOAD_SUCCESS": "Imagen agregada satisfactoriamente. Por favor haga clic en salvar para guardar la firma",
+        "IMAGE_UPLOAD_SIZE_ERROR": "El tamaño de la imagen debe ser menor que {size}MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Firma del mensaje",
@@ -149,6 +152,7 @@
     "SELECTOR_SUBTITLE": "Seleccione una cuenta de la siguiente lista",
     "PROFILE_SETTINGS": "Ajustes del perfil",
     "KEYBOARD_SHORTCUTS": "Atajos de teclado",
+    "APPEARANCE": "Cambiar apariencia",
     "SUPER_ADMIN_CONSOLE": "Consola de Super Admin",
     "LOGOUT": "Cerrar sesión"
   },
@@ -164,7 +168,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Copiar",
-      "CODEPEN": "Open in CodePen",
+      "CODEPEN": "Abrir en Code Pen",
       "COPY_SUCCESSFUL": "Código copiado al portapapeles con éxito"
     },
     "SHOW_MORE_BLOCK": {
@@ -203,7 +207,7 @@
     "HOME": "Inicio",
     "AGENTS": "Agentes",
     "AGENT_BOTS": "Bots",
-    "AUDIT_LOGS": "Audit Logs",
+    "AUDIT_LOGS": "Auditoría de registros",
     "INBOXES": "Entradas",
     "NOTIFICATIONS": "Notificaciones",
     "CANNED_RESPONSES": "Respuestas predefinidas",
@@ -238,7 +242,7 @@
     "REPORTS_OVERVIEW": "Resumen",
     "FACEBOOK_REAUTHORIZE": "Su conexión de Facebook expiró, por favor reconecte si página de Facebook para continuar con el servicio",
     "HELP_CENTER": {
-      "TITLE": "Centro de ayuda (Beta)",
+      "TITLE": "Centro de ayuda",
       "ALL_ARTICLES": "Todos los artículos",
       "MY_ARTICLES": "Todos los artículos",
       "DRAFT": "Borrador",

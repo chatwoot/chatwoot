@@ -12,6 +12,10 @@
     "NO_INBOX_2": " شروع کرنے کے لیے",
     "NO_INBOX_AGENT": "اوہ! ایسا لگتا ہے کہ آپ کسی ان باکس کا حصہ نہیں ہیں۔ براہ کرم اپنے منتظم سے رابطہ کریں۔",
     "SEARCH_MESSAGES": "مکالمات میں پیغامات تلاش کریں۔",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "پیغامات تلاش کریں۔",
       "RESULT_TITLE": "تلاش کے نتائج",
@@ -30,7 +34,6 @@
     "ASSIGN_TO_ME": "مجھے تفویض کریں۔",
     "TWILIO_WHATSAPP_CAN_REPLY": "آپ اس بات چیت کا جواب صرف ایک ٹیمپلیٹ پیغام کا استعمال کرتے ہوئے دے سکتے ہیں, کيونکہ‎",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 گھنٹے میسج ونڈو کی پابندی",
-    "SELECT_A_TWEET_TO_REPLY": "براہ کرم جواب دینے کے لیے ایک ٹویٹ منتخب کریں۔.",
     "REPLYING_TO": "آپ جواب دے رہے ہیں:",
     "REMOVE_SELECTION": "انتخاب کو ہٹا دیں۔",
     "DOWNLOAD": "ڈاؤن لوڈ کریں",
@@ -43,6 +46,7 @@
     "NO_RESPONSE": "کوئی ردعمل نہیں",
     "RATING_TITLE": "درجہ بندی",
     "FEEDBACK_TITLE": "فیڈ بیک",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Show labels",
       "HIDE_LABELS": "Hide labels"
@@ -54,18 +58,25 @@
       "OPEN": "مزید",
       "CLOSE": "Close",
       "DETAILS": "details",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
       "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
       "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Mark as pending",
+      "SNOOZE_UNTIL": "Snooze",
       "SNOOZE": {
         "TITLE": "Snooze until",
         "NEXT_REPLY": "Next reply",
         "TOMORROW": "Tomorrow",
         "NEXT_WEEK": "Next week"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Snooze until",
+      "APPLY": "Snooze",
+      "CANCEL": "منسوخ کریں۔"
     },
     "PRIORITY": {
       "TITLE": "Priority",
@@ -128,7 +139,8 @@
       "PRIVATE_NOTE": "Private Note",
       "SEND": "Send",
       "CREATE": "Add Note",
-      "TWEET": "Tweet",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "Show rich text editor",
       "TIP_EMOJI_ICON": "Show emoji selector",
       "TIP_ATTACH_ICON": "Attach files",
@@ -140,6 +152,7 @@
       "STOP_AUDIO_RECORDING": "Stop audio recording",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Add bcc",
         "CC": {
           "LABEL": "CC",
@@ -182,6 +195,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Copy",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "حذف کریں۔",
       "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
       "TRANSLATE": "Translate",

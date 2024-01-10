@@ -31,4 +31,11 @@ module Redis::RedisKeys
   LATEST_CHATWOOT_VERSION = 'LATEST_CHATWOOT_VERSION'.freeze
   # Check if a message create with same source-id is in progress?
   MESSAGE_SOURCE_KEY = 'MESSAGE_SOURCE_KEY::%<id>s'.freeze
+  OPENAI_CONVERSATION_KEY = 'OPEN_AI_CONVERSATION_KEY::%<event_name>s::%<conversation_id>d::%<updated_at>d'.freeze
+
+  ## Sempahores / Locks
+  # We don't want to process messages from the same sender concurrently to prevent creating double conversations
+  FACEBOOK_MESSAGE_MUTEX = 'FB_MESSAGE_CREATE_LOCK::%<sender_id>s::%<recipient_id>s'.freeze
+  IG_MESSAGE_MUTEX = 'IG_MESSAGE_CREATE_LOCK::%<sender_id>s::%<ig_account_id>s'.freeze
+  SLACK_MESSAGE_MUTEX = 'SLACK_MESSAGE_LOCK::%<conversation_id>s::%<reference_id>s'.freeze
 end

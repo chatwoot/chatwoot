@@ -24,7 +24,6 @@ RSpec.describe Notification do
   context 'when push_title is called' do
     it 'returns appropriate title suited for the notification type conversation_creation' do
       notification = create(:notification, notification_type: 'conversation_creation')
-
       expect(notification.push_message_title).to eq "[New conversation] - ##{notification.primary_actor.display_id} has\
  been created in #{notification.primary_actor.inbox.name}"
     end
@@ -37,7 +36,8 @@ RSpec.describe Notification do
 
     it 'returns appropriate title suited for the notification type assigned_conversation_new_message' do
       message = create(:message, sender: create(:user), content: Faker::Lorem.paragraphs(number: 2))
-      notification = create(:notification, notification_type: 'assigned_conversation_new_message', primary_actor: message)
+      notification = create(:notification, notification_type: 'assigned_conversation_new_message', primary_actor: message.conversation,
+                                           secondary_actor: message)
 
       expect(notification.push_message_title).to eq "[New message] - ##{notification.conversation.display_id} \
 #{message.content.truncate_words(10)}"
@@ -46,14 +46,16 @@ RSpec.describe Notification do
     it 'returns appropriate title suited for the notification type assigned_conversation_new_message when attachment message' do
       # checking content nil should be suffice for attachments
       message = create(:message, sender: create(:user), content: nil)
-      notification = create(:notification, notification_type: 'assigned_conversation_new_message', primary_actor: message)
+      notification = create(:notification, notification_type: 'assigned_conversation_new_message', primary_actor: message.conversation,
+                                           secondary_actor: message)
 
       expect(notification.push_message_title).to eq "[New message] - ##{notification.conversation.display_id} "
     end
 
     it 'returns appropriate title suited for the notification type participating_conversation_new_message' do
       message = create(:message, sender: create(:user), content: Faker::Lorem.paragraphs(number: 2))
-      notification = create(:notification, notification_type: 'participating_conversation_new_message', primary_actor: message)
+      notification = create(:notification, notification_type: 'participating_conversation_new_message', primary_actor: message.conversation,
+                                           secondary_actor: message)
 
       expect(notification.push_message_title).to eq "[New message] - ##{notification.conversation.display_id} \
 #{message.content.truncate_words(10)}"
@@ -61,17 +63,16 @@ RSpec.describe Notification do
 
     it 'returns appropriate title suited for the notification type participating_conversation_new_message having mention' do
       message = create(:message, sender: create(:user), content: 'Hey [@John](mention://user/1/john), can you check this ticket?')
-      notification = create(:notification, notification_type: 'participating_conversation_new_message', primary_actor: message,
-                                           secondary_actor: message.sender)
-
+      notification = create(:notification, notification_type: 'participating_conversation_new_message', primary_actor: message.conversation,
+                                           secondary_actor: message)
       expect(notification.push_message_title).to eq "[New message] - ##{notification.conversation.display_id} Hey @John, can you check this ticket?"
     end
 
     it 'returns appropriate title suited for the notification type participating_conversation_new_message having multple mention' do
       message = create(:message, sender: create(:user),
                                  content: 'Hey [@John](mention://user/1/john), [@Alisha Peter](mention://user/2/alisha) can you check this ticket?')
-      notification = create(:notification, notification_type: 'participating_conversation_new_message', primary_actor: message,
-                                           secondary_actor: message.sender)
+      notification = create(:notification, notification_type: 'participating_conversation_new_message', primary_actor: message.conversation,
+                                           secondary_actor: message)
 
       expect(notification.push_message_title).to eq "[New message] - ##{notification.conversation.display_id} \
 Hey @John, @Alisha Peter can you check this ticket?"
@@ -79,15 +80,15 @@ Hey @John, @Alisha Peter can you check this ticket?"
 
     it 'returns appropriate title suited for the notification type participating_conversation_new_message if username contains white space' do
       message = create(:message, sender: create(:user), content: 'Hey [@John Peter](mention://user/1/john%20K) please check this?')
-      notification = create(:notification, notification_type: 'participating_conversation_new_message', primary_actor: message,
-                                           secondary_actor: message.sender)
+      notification = create(:notification, notification_type: 'participating_conversation_new_message', primary_actor: message.conversation,
+                                           secondary_actor: message)
 
       expect(notification.push_message_title).to eq "[New message] - ##{notification.conversation.display_id} Hey @John Peter please check this?"
     end
 
     it 'returns appropriate title suited for the notification type conversation_mention' do
       message = create(:message, sender: create(:user), content: 'Hey [@John](mention://user/1/john), can you check this ticket?')
-      notification = create(:notification, notification_type: 'conversation_mention', primary_actor: message, secondary_actor: message.sender)
+      notification = create(:notification, notification_type: 'conversation_mention', primary_actor: message.conversation, secondary_actor: message)
 
       expect(notification.push_message_title).to eq "[##{message.conversation.display_id}] Hey @John, can you check this ticket?"
     end
@@ -98,7 +99,7 @@ Hey @John, @Alisha Peter can you check this ticket?"
         create(:user),
                   content: 'Hey [@John](mention://user/1/john), [@Alisha Peter](mention://user/2/alisha) can you check this ticket?'
       )
-      notification = create(:notification, notification_type: 'conversation_mention', primary_actor: message, secondary_actor: message.sender)
+      notification = create(:notification, notification_type: 'conversation_mention', primary_actor: message.conversation, secondary_actor: message)
 
       expect(notification.push_message_title).to eq "[##{message.conversation.display_id}] Hey @John, @Alisha Peter can you check this ticket?"
     end
@@ -109,9 +110,14 @@ Hey @John, @Alisha Peter can you check this ticket?"
         create(:user),
                   content: 'Hey [@John Peter](mention://user/1/john%20K) please check this?'
       )
-      notification = create(:notification, notification_type: 'conversation_mention', primary_actor: message, secondary_actor: message.sender)
-
+      notification = create(:notification, notification_type: 'conversation_mention', primary_actor: message.conversation, secondary_actor: message)
       expect(notification.push_message_title).to eq "[##{message.conversation.display_id}] Hey @John Peter please check this?"
+    end
+
+    it 'calls remove duplicate notification job' do
+      allow(Notification::RemoveDuplicateNotificationJob).to receive(:perform_later)
+      notification = create(:notification, notification_type: 'conversation_mention')
+      expect(Notification::RemoveDuplicateNotificationJob).to have_received(:perform_later).with(notification)
     end
   end
 
@@ -125,16 +131,15 @@ Hey @John, @Alisha Peter can you check this ticket?"
 
     it 'returns correct data for primary actor message' do
       message = create(:message, sender: create(:user), content: Faker::Lorem.paragraphs(number: 2))
-      notification = create(:notification, notification_type: 'assigned_conversation_new_message', primary_actor: message)
-
+      notification = create(:notification, notification_type: 'assigned_conversation_new_message', primary_actor: message.conversation,
+                                           secondary_actor: message)
       expect(notification.fcm_push_data[:primary_actor]).to eq({
-                                                                 'id' => notification.primary_actor.id,
-                                                                 'conversation_id' => notification.primary_actor.conversation.display_id
+                                                                 'id' => notification.primary_actor.display_id
                                                                })
     end
   end
 
-  context 'when primary actory is deleted' do
+  context 'when primary actor is deleted' do
     let!(:conversation) { create(:conversation) }
 
     it 'clears notifications' do

@@ -45,10 +45,19 @@
     >
       <div class="menu-container">
         <menu-item
+          v-if="enabledOptions['replyTo']"
+          :option="{
+            icon: 'arrow-reply',
+            label: $t('CONVERSATION.CONTEXT_MENU.REPLY_TO'),
+          }"
+          variant="icon"
+          @click="handleReplyTo"
+        />
+        <menu-item
           v-if="enabledOptions['copy']"
           :option="{
             icon: 'clipboard',
-            label: this.$t('CONVERSATION.CONTEXT_MENU.COPY'),
+            label: $t('CONVERSATION.CONTEXT_MENU.COPY'),
           }"
           variant="icon"
           @click="handleCopy"
@@ -57,7 +66,7 @@
           v-if="enabledOptions['copy']"
           :option="{
             icon: 'translate',
-            label: this.$t('CONVERSATION.CONTEXT_MENU.TRANSLATE'),
+            label: $t('CONVERSATION.CONTEXT_MENU.TRANSLATE'),
           }"
           variant="icon"
           @click="handleTranslate"
@@ -66,7 +75,7 @@
         <menu-item
           :option="{
             icon: 'link',
-            label: this.$t('CONVERSATION.CONTEXT_MENU.COPY_PERMALINK'),
+            label: $t('CONVERSATION.CONTEXT_MENU.COPY_PERMALINK'),
           }"
           variant="icon"
           @click="copyLinkToMessage"
@@ -75,9 +84,7 @@
           v-if="enabledOptions['cannedResponse']"
           :option="{
             icon: 'comment-add',
-            label: this.$t(
-              'CONVERSATION.CONTEXT_MENU.CREATE_A_CANNED_RESPONSE'
-            ),
+            label: $t('CONVERSATION.CONTEXT_MENU.CREATE_A_CANNED_RESPONSE'),
           }"
           variant="icon"
           @click="showCannedResponseModal"
@@ -87,7 +94,7 @@
           v-if="enabledOptions['delete']"
           :option="{
             icon: 'delete',
-            label: this.$t('CONVERSATION.CONTEXT_MENU.DELETE'),
+            label: $t('CONVERSATION.CONTEXT_MENU.DELETE'),
           }"
           variant="icon"
           @click="openDeleteModal"
@@ -101,11 +108,14 @@ import alertMixin from 'shared/mixins/alertMixin';
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import AddCannedModal from 'dashboard/routes/dashboard/settings/canned/AddCanned';
+import AddCannedModal from 'dashboard/routes/dashboard/settings/canned/AddCanned.vue';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import { conversationUrl, frontendURL } from '../../../helper/URLHelper';
-import { ACCOUNT_EVENTS } from '../../../helper/AnalyticsHelper/events';
-import TranslateModal from 'dashboard/components/widgets/conversation/bubble/TranslateModal';
+import {
+  ACCOUNT_EVENTS,
+  CONVERSATION_EVENTS,
+} from '../../../helper/AnalyticsHelper/events';
+import TranslateModal from 'dashboard/components/widgets/conversation/bubble/TranslateModal.vue';
 import MenuItem from '../../../components/widgets/conversation/contextMenu/menuItem.vue';
 
 export default {
@@ -203,13 +213,17 @@ export default {
         messageId: this.messageId,
         targetLanguage: locale || 'en',
       });
+      this.$track(CONVERSATION_EVENTS.TRANSLATE_A_MESSAGE);
       this.handleClose();
       this.showTranslateModal = true;
+    },
+    handleReplyTo() {
+      this.$emit('replyTo', this.message);
+      this.handleClose();
     },
     onCloseTranslateModal() {
       this.showTranslateModal = false;
     },
-
     openDeleteModal() {
       this.handleClose();
       this.showDeleteModal = true;
@@ -234,34 +248,29 @@ export default {
 </script>
 <style lang="scss" scoped>
 .menu-container {
-  padding: var(--space-smaller);
-  background-color: var(--white);
-  box-shadow: var(--shadow-context-menu);
-  border-radius: var(--border-radius-normal);
+  @apply p-1 bg-white dark:bg-slate-900 shadow-xl rounded-md;
 
   hr:first-child {
-    display: none;
+    @apply hidden;
   }
 
   hr {
-    border-bottom: 1px solid var(--color-border-light);
-    margin: var(--space-smaller);
+    @apply m-1 border-b border-solid border-slate-50 dark:border-slate-800/50;
   }
 }
 
 .context-menu--delete-modal {
   ::v-deep {
     .modal-container {
-      max-width: 48rem;
+      @apply max-w-[30rem];
 
       h2 {
-        font-weight: var(--font-weight-medium);
-        font-size: var(--font-size-default);
+        @apply font-medium text-base;
       }
     }
 
     .modal-footer {
-      padding: var(--space-normal) var(--space-large) var(--space-large);
+      @apply pt-4 pb-8 px-8;
     }
   }
 }

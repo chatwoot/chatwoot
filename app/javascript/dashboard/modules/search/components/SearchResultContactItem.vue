@@ -2,11 +2,17 @@
   <router-link :to="navigateTo" class="contact-item">
     <woot-thumbnail :src="thumbnail" :username="name" size="24px" />
     <div class="contact-details">
-      <h5 class="text-block-title name">{{ name }}</h5>
+      <h5 class="text-block-title name text-slate-800 dark:text-slate-200">
+        {{ name }}
+      </h5>
       <p class="details-meta">
-        <span v-if="email" class="email">{{ email }}</span>
-        <span v-if="phone" class="separator">•</span>
-        <span v-if="phone" class="phone">
+        <span v-if="email" class="email text-slate-800 dark:text-slate-200">{{
+          email
+        }}</span>
+        <span v-if="phone" class="separator text-slate-700 dark:text-slate-200">
+          •
+        </span>
+        <span v-if="phone" class="phone text-slate-800 dark:text-slate-200">
           {{ phone }}
         </span>
       </p>
@@ -53,31 +59,19 @@ export default {
 
 <style scoped lang="scss">
 .contact-item {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  padding: var(--space-small);
-  border-radius: var(--border-radius-small);
-
-  &:hover {
-    background-color: var(--s-25);
-  }
+  @apply cursor-pointer flex items-center p-2 rounded-sm hover:bg-slate-25 dark:hover:bg-slate-800;
 }
 .contact-details {
-  margin-left: var(--space-small);
+  @apply ml-2 rtl:mr-2 rtl:ml-0;
 }
 .name {
-  margin: 0;
+  @apply m-0;
 }
 .details-meta {
-  margin: 0;
-  color: var(--s-600);
-  font-size: var(--font-size-small);
-  display: flex;
-  align-items: center;
+  @apply m-0 text-slate-600 dark:text-slate-200 text-sm flex items-center;
 
   span {
-    margin-right: var(--space-smaller);
+    @apply ml-1 rtl:mr-1 rtl:ml-0;
   }
 }
 </style>

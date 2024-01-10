@@ -41,12 +41,28 @@
       "STATUS": "Status",
       "ORDER_BY": "Order by"
     },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Created",
+        "OLDEST": "Oprettet den:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Last activity:",
+        "ACTIVE": "Last activity"
+      }
+    },
     "CHAT_SORT_FILTER_ITEMS": {
       "latest": {
         "TEXT": "Last activity"
       },
       "sort_on_created_at": {
         "TEXT": "Oprettet den"
+      },
+      "sort_on_priority": {
+        "TEXT": "Priority"
+      },
+      "sort_on_waiting_since": {
+        "TEXT": "Pending Response"
       }
     },
     "ATTACHMENTS": {

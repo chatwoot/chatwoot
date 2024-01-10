@@ -6,6 +6,7 @@ class SuperAdmin::InstanceStatusesController < SuperAdmin::ApplicationController
     postgres_status
     redis_metrics
     chatwoot_edition
+    instance_meta
   end
 
   def chatwoot_edition
@@ -16,6 +17,10 @@ class SuperAdmin::InstanceStatusesController < SuperAdmin::ApplicationController
                                    else
                                      'Community'
                                    end
+  end
+
+  def instance_meta
+    @metrics['Database Migrations'] = ActiveRecord::Base.connection.migration_context.needs_migration? ? 'pending' : 'completed'
   end
 
   def chatwoot_version

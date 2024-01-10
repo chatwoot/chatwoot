@@ -12,6 +12,10 @@
     "NO_INBOX_2": " ที่จะเริ่มต้น",
     "NO_INBOX_AGENT": "เอ่อโอ้! ดูเหมือนว่าคุณไม่ได้เป็นส่วนหนึ่งของกล่องจดหมายใด ๆ โปรดติดต่อผู้ดูแลระบบของคุณ",
     "SEARCH_MESSAGES": "ค้นหาข้อความในการสนทนา",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "ค้นหาข้อความ",
       "RESULT_TITLE": "ผลการค้นหา",
@@ -30,7 +34,6 @@
     "ASSIGN_TO_ME": "มอบหมายให้ฉัน",
     "TWILIO_WHATSAPP_CAN_REPLY": "คุณสามารถตอบกลับการสนทนานี้ได้โดยใช้รูปแบบข้อความที่กำหนดเท่านั้น",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "การจำกัดหน้าต่างข้อความ 24 ชั่วโมง",
-    "SELECT_A_TWEET_TO_REPLY": "โปรดเลือกทวีตที่ต้องการตอบกลับ",
     "REPLYING_TO": "คุณกำลังตอบกลับ:",
     "REMOVE_SELECTION": "ลบตัวเลือก",
     "DOWNLOAD": "ดาวโหลด",
@@ -43,6 +46,7 @@
     "NO_RESPONSE": "ไม่มีการตอบกลับ",
     "RATING_TITLE": "การประเมิน",
     "FEEDBACK_TITLE": "ผลตอบรับ",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "แสดงป้ายกำกับ",
       "HIDE_LABELS": "ซ่อนป้ายกำกับ"
@@ -54,18 +58,25 @@
       "OPEN": "เพิ่มเติม",
       "CLOSE": "ปิด",
       "DETAILS": "รายละเอียด",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "พักการสนทนาจนถึงพรุ่งนี้",
       "SNOOZED_UNTIL_NEXT_WEEK": "พักการสนทนาจนถึงสัปดาห์หน้า",
       "SNOOZED_UNTIL_NEXT_REPLY": "พักการสนทนาจนกว่าจะมีการตอบกลับถัดไป"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "ทำเครื่องหมายว่าอยู่ระหว่างดำเนินการ",
+      "SNOOZE_UNTIL": "Snooze",
       "SNOOZE": {
         "TITLE": "พักการสนทนาจนถึง",
         "NEXT_REPLY": "การตอบกลับถัดไป",
         "TOMORROW": "พรุ่งนี้",
         "NEXT_WEEK": "สัปดาห์หน้า"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "พักการสนทนาจนถึง",
+      "APPLY": "Snooze",
+      "CANCEL": "ยกเลิก"
     },
     "PRIORITY": {
       "TITLE": "Priority",
@@ -128,7 +139,8 @@
       "PRIVATE_NOTE": "โน้ตส่วนตัว",
       "SEND": "ส่ง",
       "CREATE": "เพิ่มโน้ต",
-      "TWEET": "ทวิต",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "เเสดงเครื่องมือแก้ไขข้อความริช",
       "TIP_EMOJI_ICON": "แสดงตัวเลือกอีโมจิ",
       "TIP_ATTACH_ICON": "เพิ่มไฟล์แนบ",
@@ -140,6 +152,7 @@
       "STOP_AUDIO_RECORDING": "หยุดบันทึกเสียง",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "เพิ่ม BCC",
         "CC": {
           "LABEL": "CC",
@@ -182,6 +195,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "คัดลอก",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "ลบ",
       "CREATE_A_CANNED_RESPONSE": "เพิ่มไปยังชุดคำตอบสำเร็จรูป",
       "TRANSLATE": "Translate",

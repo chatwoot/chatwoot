@@ -1,8 +1,5 @@
-import {
-  MESSAGE_TYPE,
-  CONVERSATION_PRIORITY_ORDER,
-} from 'shared/constants/messages';
-import { applyPageFilters } from './helpers';
+import { MESSAGE_TYPE } from 'shared/constants/messages';
+import { applyPageFilters, sortComparator } from './helpers';
 
 export const getSelectedChatConversation = ({
   allConversations,
@@ -10,21 +7,9 @@ export const getSelectedChatConversation = ({
 }) =>
   allConversations.filter(conversation => conversation.id === selectedChatId);
 
-// getters
 const getters = {
-  getAllConversations: ({ allConversations, chatSortFilter }) => {
-    const comparator = {
-      latest: (a, b) => b.last_activity_at - a.last_activity_at,
-      sort_on_created_at: (a, b) => a.created_at - b.created_at,
-      sort_on_priority: (a, b) => {
-        return (
-          CONVERSATION_PRIORITY_ORDER[a.priority] -
-          CONVERSATION_PRIORITY_ORDER[b.priority]
-        );
-      },
-    };
-
-    return allConversations.sort(comparator[chatSortFilter]);
+  getAllConversations: ({ allConversations, chatSortFilter: sortKey }) => {
+    return allConversations.sort((a, b) => sortComparator(a, b, sortKey));
   },
   getSelectedChat: ({ selectedChatId, allConversations }) => {
     const selectedChat = allConversations.find(
@@ -34,8 +19,7 @@ const getters = {
   },
   getSelectedChatAttachments: (_state, _getters) => {
     const selectedChat = _getters.getSelectedChat;
-    const { attachments } = selectedChat;
-    return attachments;
+    return selectedChat.attachments || [];
   },
   getLastEmailInSelectedChat: (stage, _getters) => {
     const selectedChat = _getters.getSelectedChat;

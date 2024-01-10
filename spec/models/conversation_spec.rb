@@ -5,9 +5,19 @@ require Rails.root.join 'spec/models/concerns/assignment_handler_shared.rb'
 require Rails.root.join 'spec/models/concerns/auto_assignment_handler_shared.rb'
 
 RSpec.describe Conversation do
+  after do
+    Current.user = nil
+    Current.account = nil
+  end
+
   describe 'associations' do
     it { is_expected.to belong_to(:account) }
     it { is_expected.to belong_to(:inbox) }
+    it { is_expected.to belong_to(:contact) }
+    it { is_expected.to belong_to(:contact_inbox) }
+    it { is_expected.to belong_to(:assignee).optional }
+    it { is_expected.to belong_to(:team).optional }
+    it { is_expected.to belong_to(:campaign).optional }
   end
 
   describe 'concerns' do
@@ -25,6 +35,10 @@ RSpec.describe Conversation do
 
     it 'runs before_create callbacks' do
       expect(conversation.display_id).to eq(1)
+    end
+
+    it 'sets waiting since' do
+      expect(conversation.waiting_since).not_to be_nil
     end
 
     it 'creates a UUID for every conversation automatically' do
@@ -488,6 +502,12 @@ RSpec.describe Conversation do
     it 'returns unread incoming messages' do
       expect(unread_incoming_messages).to contain_exactly(message)
     end
+
+    it 'returns unread incoming messages even if the agent has not seen the conversation' do
+      conversation.update!(agent_last_seen_at: nil)
+
+      expect(unread_incoming_messages).to contain_exactly(message)
+    end
   end
 
   describe '#push_event_data' do
@@ -518,6 +538,7 @@ RSpec.describe Conversation do
         contact_last_seen_at: conversation.contact_last_seen_at.to_i,
         agent_last_seen_at: conversation.agent_last_seen_at.to_i,
         created_at: conversation.created_at.to_i,
+        waiting_since: conversation.waiting_since.to_i,
         priority: nil,
         unread_count: 0
       }
@@ -534,6 +555,11 @@ RSpec.describe Conversation do
 
     it 'returns conversation status as pending' do
       expect(conversation.status).to eq('pending')
+    end
+
+    it 'returns conversation as open if campaign is present' do
+      conversation = create(:conversation, inbox: bot_inbox.inbox, campaign: create(:campaign))
+      expect(conversation.status).to eq('open')
     end
   end
 
@@ -689,61 +715,52 @@ RSpec.describe Conversation do
     end
   end
 
-  describe 'Custom Sort' do
+  describe 'custom sort option' do
     include ActiveJob::TestHelper
 
-    let!(:conversation_7) { create(:conversation, created_at: DateTime.now - 10.days, last_activity_at: DateTime.now - 13.days) }
-    let!(:conversation_6) { create(:conversation, created_at: DateTime.now - 10.days, last_activity_at: DateTime.now - 10.days) }
-    let!(:conversation_5) { create(:conversation, created_at: DateTime.now - 10.days, last_activity_at: DateTime.now - 12.days, priority: :urgent) }
-    let!(:conversation_4) { create(:conversation, created_at: DateTime.now - 10.days, last_activity_at: DateTime.now - 10.days, priority: :urgent) }
-    let!(:conversation_3) { create(:conversation, created_at: DateTime.now - 9.days, last_activity_at: DateTime.now - 9.days, priority: :low) }
-    let!(:conversation_2) { create(:conversation, created_at: DateTime.now - 6.days, last_activity_at: DateTime.now - 6.days, priority: :high) }
-    let!(:conversation_1) { create(:conversation, created_at: DateTime.now - 8.days, last_activity_at: DateTime.now - 8.days, priority: :medium) }
+    let!(:conversation_7) { create(:conversation, created_at: DateTime.now - 6.days, last_activity_at: DateTime.now - 13.days) }
+    let!(:conversation_6) { create(:conversation, created_at: DateTime.now - 7.days, last_activity_at: DateTime.now - 10.days) }
+    let!(:conversation_5) { create(:conversation, created_at: DateTime.now - 8.days, last_activity_at: DateTime.now - 12.days, priority: :urgent) }
+    let!(:conversation_4) { create(:conversation, created_at: DateTime.now - 9.days, last_activity_at: DateTime.now - 11.days, priority: :urgent) }
+    let!(:conversation_3) { create(:conversation, created_at: DateTime.now - 5.days, last_activity_at: DateTime.now - 9.days, priority: :low) }
+    let!(:conversation_2) { create(:conversation, created_at: DateTime.now - 3.days, last_activity_at: DateTime.now - 6.days, priority: :high) }
+    let!(:conversation_1) { create(:conversation, created_at: DateTime.now - 4.days, last_activity_at: DateTime.now - 8.days, priority: :medium) }
 
-    it 'Sort conversations based on created_at' do
-      records = described_class.sort_on_created_at
-      expect(records.first.id).to eq(conversation_7.id)
-      expect(records.last.id).to eq(conversation_2.id)
+    describe 'sort_on_created_at' do
+      let(:created_desc_order) do
+        [
+          conversation_2.id, conversation_1.id, conversation_3.id, conversation_7.id, conversation_6.id,
+          conversation_5.id, conversation_4.id
+        ]
+      end
+
+      it 'returns the list in ascending order by default' do
+        records = described_class.sort_on_created_at
+        expect(records.map(&:id)).to eq created_desc_order.reverse
+      end
+
+      it 'returns the list in descending order if desc is passed as sort direction' do
+        records = described_class.sort_on_created_at(:desc)
+        expect(records.map(&:id)).to eq created_desc_order
+      end
     end
 
-    context 'when sort on last_user_message_at' do
-      before do
-        create(:message, conversation_id: conversation_3.id, message_type: :outgoing, created_at: DateTime.now - 9.days)
-        create(:message, conversation_id: conversation_1.id, message_type: :incoming, created_at: DateTime.now - 8.days)
-        create(:message, conversation_id: conversation_1.id, message_type: :incoming, created_at: DateTime.now - 8.days)
-        create(:message, conversation_id: conversation_1.id, message_type: :outgoing, created_at: DateTime.now - 7.days)
-        create(:message, conversation_id: conversation_2.id, message_type: :incoming, created_at: DateTime.now - 6.days)
-        create(:message, conversation_id: conversation_2.id, message_type: :incoming, created_at: DateTime.now - 6.days)
-        create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now - 6.days)
-        create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now - 6.days)
-        create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now - 2.days)
+    describe 'sort_on_last_activity_at' do
+      let(:last_activity_asc_order) do
+        [
+          conversation_7.id, conversation_5.id, conversation_4.id, conversation_6.id, conversation_3.id,
+          conversation_1.id, conversation_2.id
+        ]
       end
 
-      # conversation_2 has last unanswered incoming message 6 days ago
-      # conversation_3 has last unanswered incoming message 2 days ago
-      # conversation_1 has incoming message 8 days ago but outgoing message on 7 days ago
-      # so we won't consider it to show it on top of the sort as it is answered/replied conversation
-      it 'Sort conversations with oldest unanswered incoming message first' do
-        conversation_with_message_count = described_class.joins(:messages).uniq.count
-        records = described_class.last_user_message_at
-
-        expect(records.length).to eq(conversation_with_message_count)
-        expect(records[0]['id']).to eq(conversation_2.id)
-        expect(records[1]['id']).to eq(conversation_3.id)
-        expect(records[2]['id']).to eq(conversation_1.id)
-        expect(records.pluck(:id)).not_to include(conversation_4.id)
+      it 'returns the list in descending order by default' do
+        records = described_class.sort_on_last_activity_at
+        expect(records.map(&:id)).to eq last_activity_asc_order.reverse
       end
 
-      # Now we have no incoming message the sprt will happen on the created at
-      it 'Sort based on oldest message first when there are no incoming message' do
-        Message.where(message_type: :incoming).update(message_type: :template)
-        conversation_with_message_count = described_class.joins(:messages).uniq.count
-        records = described_class.last_user_message_at
-
-        expect(records.length).to eq(conversation_with_message_count)
-        expect(records[0]['id']).to eq(conversation_1.id)
-        expect(records[1]['id']).to eq(conversation_2.id)
-        expect(records[2]['id']).to eq(conversation_3.id)
+      it 'returns the list in asc order if asc is passed as sort direction' do
+        records = described_class.sort_on_last_activity_at(:asc)
+        expect(records.map(&:id)).to eq last_activity_asc_order
       end
     end
 
@@ -755,7 +772,7 @@ RSpec.describe Conversation do
       end
 
       it 'sort conversations with latest resolved conversation at first' do
-        records = described_class.latest
+        records = described_class.sort_on_last_activity_at
 
         expect(records.first.id).to eq(conversation_3.id)
 
@@ -769,27 +786,48 @@ RSpec.describe Conversation do
             content: 'Conversation was marked resolved by system due to days of inactivity'
           )
         end
-        records = described_class.latest
+        records = described_class.sort_on_last_activity_at
 
         expect(records.first.id).to eq(conversation_1.id)
       end
 
       it 'Sort conversations with latest message' do
         create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now)
-        records = described_class.latest
+        records = described_class.sort_on_last_activity_at
 
         expect(records.first.id).to eq(conversation_3.id)
       end
     end
 
-    context 'when sort on priority' do
-      it 'Sort conversations with the following order high > medium > low > nil' do
+    describe 'sort_on_priority' do
+      it 'return list with the following order urgent > high > medium > low > nil by default' do
         # ensure they are not pre-sorted
         records = described_class.sort_on_created_at
         expect(records.pluck(:priority)).not_to eq(['urgent', 'urgent', 'high', 'medium', 'low', nil, nil])
 
         records = described_class.sort_on_priority
         expect(records.pluck(:priority)).to eq(['urgent', 'urgent', 'high', 'medium', 'low', nil, nil])
+        expect(records.pluck(:id)).to eq(
+          [
+            conversation_4.id, conversation_5.id, conversation_2.id, conversation_1.id, conversation_3.id,
+            conversation_6.id, conversation_7.id
+          ]
+        )
+      end
+
+      it 'return list with the following order low > medium > high > urgent > nil by default' do
+        # ensure they are not pre-sorted
+        records = described_class.sort_on_created_at
+        expect(records.pluck(:priority)).not_to eq(['urgent', 'urgent', 'high', 'medium', 'low', nil, nil])
+
+        records = described_class.sort_on_priority(:asc)
+        expect(records.pluck(:priority)).to eq(['low', 'medium', 'high', 'urgent', 'urgent', nil, nil])
+        expect(records.pluck(:id)).to eq(
+          [
+            conversation_3.id, conversation_1.id, conversation_2.id, conversation_4.id, conversation_5.id,
+            conversation_6.id, conversation_7.id
+          ]
+        )
       end
 
       it 'sorts conversation with last_activity for the same priority' do
@@ -803,6 +841,34 @@ RSpec.describe Conversation do
         expect(conversation_6.last_activity_at > conversation_7.last_activity_at).to be(true)
         expect(records.pluck(:priority, :id)).to eq([[nil, conversation_6.id], [nil, conversation_7.id]])
       end
+    end
+
+    describe 'sort_on_waiting_since' do
+      it 'returns the list in ascending order by default' do
+        records = described_class.sort_on_waiting_since
+        expect(records.map(&:id)).to eq [
+          conversation_4.id, conversation_5.id, conversation_6.id, conversation_7.id, conversation_3.id, conversation_1.id,
+          conversation_2.id
+        ]
+      end
+
+      it 'returns the list in desc order if asc is passed as sort direction' do
+        records = described_class.sort_on_waiting_since(:desc)
+        expect(records.map(&:id)).to eq [
+          conversation_2.id, conversation_1.id, conversation_3.id, conversation_7.id, conversation_6.id, conversation_5.id,
+          conversation_4.id
+        ]
+      end
+    end
+  end
+
+  describe 'cached_label_list_array' do
+    let(:conversation) { create(:conversation) }
+
+    it 'returns the correct list of labels' do
+      conversation.update(label_list: %w[customer-support enterprise paid-customer])
+
+      expect(conversation.cached_label_list_array).to eq %w[customer-support enterprise paid-customer]
     end
   end
 end

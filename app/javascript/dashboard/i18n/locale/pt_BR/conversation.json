@@ -12,6 +12,10 @@
     "NO_INBOX_2": " para começar",
     "NO_INBOX_AGENT": "Uh Oh! Parece que você não faz parte de nenhuma caixa de entrada. Por favor, contate seu administrador",
     "SEARCH_MESSAGES": "Procurar por mensagens nas conversas",
+    "EMPTY_STATE": {
+      "CMD_BAR": "para abrir o menu de comando",
+      "KEYBOARD_SHORTCUTS": "para ver os atalhos de teclado"
+    },
     "SEARCH": {
       "TITLE": "Procurar mensagens",
       "RESULT_TITLE": "Resultados da pesquisa",
@@ -30,7 +34,6 @@
     "ASSIGN_TO_ME": "Atribuir a mim",
     "TWILIO_WHATSAPP_CAN_REPLY": "Você só pode responder a esta conversa usando um modelo de mensagem devido a",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restrições de janela de mensagem de 24 horas",
-    "SELECT_A_TWEET_TO_REPLY": "Por favor, selecione um tweet para responder.",
     "REPLYING_TO": "Você está respondendo a:",
     "REMOVE_SELECTION": "Remover Seleção",
     "DOWNLOAD": "Baixar",
@@ -43,6 +46,7 @@
     "NO_RESPONSE": "Sem resposta",
     "RATING_TITLE": "Classificação",
     "FEEDBACK_TITLE": "Feedback",
+    "REPLY_MESSAGE_NOT_FOUND": "Mensagem não disponível",
     "CARD": {
       "SHOW_LABELS": "Mostrar rótulos",
       "HIDE_LABELS": "Ocultar os rótulos"
@@ -54,18 +58,25 @@
       "OPEN": "Mais",
       "CLOSE": "Fechar",
       "DETAILS": "detalhes",
+      "SNOOZED_UNTIL": "Suspender até",
       "SNOOZED_UNTIL_TOMORROW": "Adiado até amanhã",
       "SNOOZED_UNTIL_NEXT_WEEK": "Adiada até a próxima semana",
       "SNOOZED_UNTIL_NEXT_REPLY": "Adiado até a próxima resposta"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Marcar como pendente",
+      "SNOOZE_UNTIL": "Adiar",
       "SNOOZE": {
         "TITLE": "Suspender até",
         "NEXT_REPLY": "Próxima resposta",
         "TOMORROW": "Amanhã",
         "NEXT_WEEK": "Próxima semana"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Suspender até",
+      "APPLY": "Adiar",
+      "CANCEL": "Cancelar"
     },
     "PRIORITY": {
       "TITLE": "Prioridade",
@@ -128,7 +139,8 @@
       "PRIVATE_NOTE": "Mensagem Privada",
       "SEND": "Enviar",
       "CREATE": "Enviar",
-      "TWEET": "Tweet",
+      "DISMISS_REPLY": "Dispensar resposta",
+      "REPLYING_TO": "Respondendo a:",
       "TIP_FORMAT_ICON": "Mostrar editor de texto completo",
       "TIP_EMOJI_ICON": "Mostrar seletor de emoji",
       "TIP_ATTACH_ICON": "Anexar arquivos",
@@ -140,6 +152,7 @@
       "STOP_AUDIO_RECORDING": "Parar gravação de áudio",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "Para",
         "ADD_BCC": "Adicionar cco",
         "CC": {
           "LABEL": "CC",
@@ -182,6 +195,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Copiar",
+      "REPLY_TO": "Responder mensagem",
       "DELETE": "Excluir",
       "CREATE_A_CANNED_RESPONSE": "Adicionar às respostas prontas",
       "TRANSLATE": "Traduzir",

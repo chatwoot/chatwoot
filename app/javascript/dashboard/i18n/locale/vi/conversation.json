@@ -12,6 +12,10 @@
     "NO_INBOX_2": " để bắt đầu",
     "NO_INBOX_AGENT": "Uh Oh! Có vẻ như bạn không thuộc bất kỳ hộp thư đến nào. Vui lòng liên hệ với quản trị viên của bạn",
     "SEARCH_MESSAGES": "Tìm kiếm tin nhắn trong các hội thoại",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "Tìm kiếm tin nhắn",
       "RESULT_TITLE": "Các kết quả tìm kiếm",
@@ -30,7 +34,6 @@
     "ASSIGN_TO_ME": "Phân công cho tôi",
     "TWILIO_WHATSAPP_CAN_REPLY": "Bạn chỉ có thể phản hồi hội thoại này bằng tin nhắn mẫu vì",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Giới hạn thời lượng tin nhắn 24 giờ",
-    "SELECT_A_TWEET_TO_REPLY": "Xin chọn một tweet để trả lời.",
     "REPLYING_TO": "Bạn đang trả lời:",
     "REMOVE_SELECTION": "Xóa lựa chọn",
     "DOWNLOAD": "Tải xuống",
@@ -43,6 +46,7 @@
     "NO_RESPONSE": "Không có phản hồi",
     "RATING_TITLE": "Đánh giá",
     "FEEDBACK_TITLE": "Phản hồi",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Hiển thị nhãn",
       "HIDE_LABELS": "Ẩn nhãn"
@@ -54,18 +58,25 @@
       "OPEN": "Nhiều",
       "CLOSE": "Đóng",
       "DETAILS": "chi tiết",
+      "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Tạm dừng đến ngày mai",
       "SNOOZED_UNTIL_NEXT_WEEK": "Tạm dừng đến tuần sau",
       "SNOOZED_UNTIL_NEXT_REPLY": "Tạm dừng đến khi có phản hồi"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Đánh dấu chưa giải quyết",
+      "SNOOZE_UNTIL": "Báo lại",
       "SNOOZE": {
         "TITLE": "Tạm dừng đến khi",
         "NEXT_REPLY": "Phản hồi kế tiếp",
         "TOMORROW": "Ngày mai",
         "NEXT_WEEK": "Tuần sau"
       }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Tạm dừng đến khi",
+      "APPLY": "Báo lại",
+      "CANCEL": "Huỷ"
     },
     "PRIORITY": {
       "TITLE": "Priority",
@@ -128,7 +139,8 @@
       "PRIVATE_NOTE": "Lưu ý riêng",
       "SEND": "Gửi",
       "CREATE": "Thêm ghi chú",
-      "TWEET": "Tweet",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "Hiển thị trình soạn thảo văn bản đa dạng thức",
       "TIP_EMOJI_ICON": "Hiển thị chọn emoji",
       "TIP_ATTACH_ICON": "Đính kèm tệp",
@@ -140,6 +152,7 @@
       "STOP_AUDIO_RECORDING": "Dừng ghi âm",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Thêm bcc",
         "CC": {
           "LABEL": "CC",
@@ -182,6 +195,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Sao Chép",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "Xoá",
       "CREATE_A_CANNED_RESPONSE": "Thêm vào câu trả lời soạn sẵn",
       "TRANSLATE": "Translate",

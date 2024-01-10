@@ -111,6 +111,17 @@
           "PLACEHOLDER": "Lūdzu, ievadiet sava Twilio konta SID",
           "ERROR": "Šis lauks ir nepieciešams"
         },
+        "API_KEY": {
+          "USE_API_KEY": "Izmantot API Atslēgas Autentifikāciju",
+          "LABEL": "API Atslēgas SID",
+          "PLACEHOLDER": "Lūdzu, ievadiet savu API Atslēgas SID",
+          "ERROR": "Šis lauks ir nepieciešams"
+        },
+        "API_KEY_SECRET": {
+          "LABEL": "API Atslēgas Noslēpums",
+          "PLACEHOLDER": "Lūdzu, ievadiet savu API Atslēgas Noslēpumu",
+          "ERROR": "Šis lauks ir nepieciešams"
+        },
         "MESSAGING_SERVICE_SID": {
           "LABEL": "Ziņapmaiņas Pakalpojuma SID",
           "PLACEHOLDER": "Lūdzu, ievadiet savu Twilio ziņojumapmaiņas pakalpojuma SID",
@@ -360,6 +371,8 @@
     "DETAILS": {
       "LOADING_FB": "Notiek Jūsu autentificēšana, izmantojot Facebook...",
       "ERROR_FB_AUTH": "Radās kļūda. Lūdzu, atsvaidziniet lapu...",
+      "ERROR_FB_UNAUTHORIZED": "Jums nav tiesību veikt šo darbību. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Lūdzu, pārliecinieties, ka Jums ir pilna piekļuve Facebook lapai. Vairāk par Facebook lomām varat lasīt <a href=\" https://www.facebook.com/help/187316341316631\">šeit</a>.",
       "CREATING_CHANNEL": "Notiek Iesūtnes izveide...",
       "TITLE": "Nokonfigurēt Iesūtnes Informāciju",
       "DESC": ""
@@ -390,6 +403,25 @@
       "ENABLE_CSAT": {
         "ENABLED": "Iespējots",
         "DISABLED": "Atspējots"
+      },
+      "SENDER_NAME_SECTION": {
+        "TITLE": "Sūtītāja vārds",
+        "SUB_TEXT": "Izvēlieties vārdu, kas uzrādīsies Jūsu klientam kad viņš saņems e-pasta ziņojumus no Jūsu aģentiem.",
+        "FOR_EG": "Piemēram:",
+        "FRIENDLY": {
+          "TITLE": "Draudzīgs",
+          "FROM": "no",
+          "SUBTITLE": "Sūtītāja vārdā pievienojiet tā aģenta vārdu, kurš nosūtīja atbildi, lai atbilde būtu draudzīga."
+        },
+        "PROFESSIONAL": {
+          "TITLE": "Profesionāls",
+          "SUBTITLE": "Izmantot tikai konfigurēto uzņēmuma nosaukumu kā sūtītāja vārdu e-pasta galvenē."
+        },
+        "BUSINESS_NAME": {
+          "BUTTON_TEXT": "+ Konfigurēt uzņēmuma nosaukumu",
+          "PLACEHOLDER": "Ievadiet uzņēmuma nosaukumu",
+          "SAVE_BUTTON_TEXT": "Saglabāt"
+        }
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
         "ENABLED": "Iespējots",
@@ -454,7 +486,9 @@
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Iespējot vai atspējot e-pasta iegūšanas lodziņu jaunai sarunai",
       "AUTO_ASSIGNMENT": "Iespējot automātisko piešķiršanu",
       "ENABLE_CSAT": "Iespējot CSAT",
+      "SENDER_NAME_SECTION": "Iespējot Aģenta Vārdu E-pastā",
       "ENABLE_CSAT_SUB_TEXT": "Iespējot/Atspējot CSAT (klientu apmierinātības) aptauju pēc sarunas atrisināšanas",
+      "SENDER_NAME_SECTION_TEXT": "Iespējot/Atspējot aģenta vārda rādīšanu e-pastā. Ja tas ir atspējots, tiks rādīts uzņēmuma nosaukums",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Iespējot sarunas nepārtrauktību, izmantojot e-pastu",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Sarunas turpināsies pa e-pastu, ja saziņas e-pasta adrese ir pieejama.",
       "LOCK_TO_SINGLE_CONVERSATION": "Pieturēties pie vienas sarunas",
@@ -535,7 +569,6 @@
       "UPDATE": "Atjaunināt darba laika iestatījumus",
       "TOGGLE_AVAILABILITY": "Iespējot biznesa pieejamību šai iesūtnei",
       "UNAVAILABLE_MESSAGE_LABEL": "Ziņojums nav pieejams priekš apmeklētājiem",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "Šobrīd neesam pieejami. Lūdzu atstājiet ziņojumu, mēs atbildēsim, kad būsim atpakaļ.",
       "TOGGLE_HELP": "Iespējojot biznesa pieejamību, tiešraides tērzēšanas logrīkā tiks rādīts pieejamais laiks, pat ja visi aģenti būs bezsaistē. Ārpus pieejamā laika, apmeklētājus var brīdināt ar ziņojumu un pirms tērzēšanas veidlapu.",
       "DAY": {
         "ENABLE": "Iespējot pieejamību šai dienai",

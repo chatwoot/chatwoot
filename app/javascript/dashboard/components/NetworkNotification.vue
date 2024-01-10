@@ -1,24 +1,33 @@
 <template>
   <transition name="network-notification-fade" tag="div">
-    <div v-show="showNotification" class="ui-notification-container">
-      <div class="ui-notification">
-        <fluent-icon icon="wifi-off" />
-        <p class="ui-notification-text">
-          {{
-            useInstallationName(
-              $t('NETWORK.NOTIFICATION.TEXT'),
-              globalConfig.installationName
-            )
-          }}
-        </p>
-        <woot-button variant="clear" size="small" @click="refreshPage">
-          {{ $t('NETWORK.BUTTON.REFRESH') }}
-        </woot-button>
+    <div v-show="showNotification" class="fixed top-4 left-2 z-50 group">
+      <div
+        class="flex items-center justify-between py-1 px-2 w-full rounded-lg shadow-lg bg-yellow-200 dark:bg-yellow-700 relative"
+      >
+        <fluent-icon
+          icon="wifi-off"
+          class="text-yellow-700/50 dark:text-yellow-50"
+          size="18"
+        />
+        <span
+          class="text-xs tracking-wide font-medium px-2 text-yellow-700/70 dark:text-yellow-50"
+        >
+          {{ $t('NETWORK.NOTIFICATION.OFFLINE') }}
+        </span>
         <woot-button
-          variant="smooth"
+          :title="$t('NETWORK.BUTTON.REFRESH')"
+          variant="clear"
           size="small"
           color-scheme="warning"
-          icon="dismiss-circle"
+          icon="arrow-clockwise"
+          class="visible transition-all duration-500 ease-in-out ml-1"
+          @click="refreshPage"
+        />
+        <woot-button
+          variant="clear"
+          size="small"
+          color-scheme="warning"
+          icon="dismiss"
           @click="closeNotification"
         />
       </div>
@@ -47,7 +56,12 @@ export default {
   mounted() {
     window.addEventListener('offline', this.updateOnlineStatus);
     window.bus.$on(BUS_EVENTS.WEBSOCKET_DISCONNECT, () => {
-      this.updateOnlineStatus({ type: 'offline' });
+      // TODO: Remove this after completing the conversation list refetching
+      // TODO: DIRTY FIX : CLEAN UP THIS WITH PROPER FIX, DELAYING THE RECONNECT FOR NOW
+      // THE CABLE IS FIRING IS VERY COMMON AND THUS INTERFERING USER EXPERIENCE
+      setTimeout(() => {
+        this.updateOnlineStatus({ type: 'offline' });
+      }, 4000);
     });
   },
 
@@ -72,33 +86,3 @@ export default {
   },
 };
 </script>
-
-<style scoped lang="scss">
-@import '~dashboard/assets/scss/mixins';
-
-.ui-notification-container {
-  max-width: 40rem;
-  position: absolute;
-  right: var(--space-normal);
-  top: var(--space-normal);
-  z-index: var(--z-index-very-high);
-}
-
-.ui-notification {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-
-  background-color: var(--y-100);
-  border-radius: var(--border-radius-medium);
-  box-shadow: var(--shadow-large);
-
-  min-width: 24rem;
-  padding: var(--space-normal);
-}
-
-.ui-notification-text {
-  margin: 0 var(--space-small);
-}
-</style>

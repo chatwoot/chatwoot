@@ -10,4 +10,14 @@ RSpec.describe DataImport do
       expect(build(:data_import, data_type: 'Xyc').valid?).to be false
     end
   end
+
+  describe 'callbacks' do
+    let(:data_import) { build(:data_import) }
+
+    it 'schedules a job after creation' do
+      expect do
+        data_import.save
+      end.to have_enqueued_job(DataImportJob).with(data_import).on_queue('low')
+    end
+  end
 end

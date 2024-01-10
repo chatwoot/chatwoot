@@ -1,5 +1,7 @@
 <template>
-  <div class="macros__properties-panel">
+  <div
+    class="p-3 bg-white dark:bg-slate-900 h-[calc(100vh-3.5rem)] flex flex-col border-l border-slate-50 dark:border-slate-800/50"
+  >
     <div>
       <woot-input
         :value="macroName"
@@ -10,11 +12,15 @@
         @input="onUpdateName($event)"
       />
     </div>
-    <div class="macros__form-visibility-container">
-      <p class="title">{{ $t('MACROS.EDITOR.VISIBILITY.LABEL') }}</p>
-      <div class="macros__form-visibility">
+    <div class="mt-2">
+      <p
+        class="block m-0 text-sm font-medium leading-[1.8] text-slate-700 dark:text-slate-100"
+      >
+        {{ $t('MACROS.EDITOR.VISIBILITY.LABEL') }}
+      </p>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
         <button
-          class="card"
+          class="p-2 relative rounded-md border border-solid text-left cursor-default"
           :class="isActive('global')"
           @click="onUpdateVisibility('global')"
         >
@@ -22,17 +28,19 @@
             v-if="macroVisibility === 'global'"
             icon="checkmark-circle"
             type="solid"
-            class="visibility-check"
+            class="absolute text-woot-500 dark:text-woot-500 top-2 right-2"
           />
-          <p class="title">
+          <p
+            class="block m-0 text-sm font-medium leading-[1.8] text-slate-700 dark:text-slate-100"
+          >
             {{ $t('MACROS.EDITOR.VISIBILITY.GLOBAL.LABEL') }}
           </p>
-          <p class="subtitle">
+          <p class="text-xs text-slate-500 dark:text-slate-200">
             {{ $t('MACROS.EDITOR.VISIBILITY.GLOBAL.DESCRIPTION') }}
           </p>
         </button>
         <button
-          class="card"
+          class="p-2 relative rounded-md border border-solid text-left cursor-default"
           :class="isActive('personal')"
           @click="onUpdateVisibility('personal')"
         >
@@ -40,24 +48,30 @@
             v-if="macroVisibility === 'personal'"
             icon="checkmark-circle"
             type="solid"
-            class="visibility-check"
+            class="absolute text-woot-500 dark:text-woot-500 top-2 right-2"
           />
-          <p class="title">
+          <p
+            class="block m-0 text-sm font-medium leading-[1.8] text-slate-700 dark:text-slate-100"
+          >
             {{ $t('MACROS.EDITOR.VISIBILITY.PERSONAL.LABEL') }}
           </p>
-          <p class="subtitle">
+          <p class="text-xs text-slate-500 dark:text-slate-200">
             {{ $t('MACROS.EDITOR.VISIBILITY.PERSONAL.DESCRIPTION') }}
           </p>
         </button>
       </div>
-      <div class="macros__info-panel">
-        <fluent-icon icon="info" size="20" />
-        <p>
+      <div
+        class="mt-2 flex items-start p-2 bg-slate-50 dark:bg-slate-700 p-2 rounded-md"
+      >
+        <fluent-icon icon="info" size="20" class="flex-shrink" />
+        <p
+          class="ml-2 rtl:ml-0 rtl:mr-2 mb-0 text-slate-600 dark:text-slate-200"
+        >
           {{ $t('MACROS.ORDER_INFO') }}
         </p>
       </div>
     </div>
-    <div class="macros__submit-button">
+    <div class="mt-auto">
       <woot-button
         size="expanded"
         color-scheme="success"
@@ -84,7 +98,9 @@ export default {
   },
   methods: {
     isActive(key) {
-      return { active: this.macroVisibility === key };
+      return this.macroVisibility === key
+        ? 'bg-woot-25 dark:bg-slate-900 border-woot-200 dark:border-woot-700'
+        : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-600';
     },
     onUpdateName(value) {
       this.$emit('update:name', value);
@@ -97,87 +113,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.macros__properties-panel {
-  padding: var(--space-slab);
-  background-color: var(--white);
-  // full screen height subtracted by the height of the header
-  height: calc(100vh - 5.6rem);
-  display: flex;
-  flex-direction: column;
-  border-left: 1px solid var(--s-50);
-}
-
-.macros__submit-button {
-  margin-top: auto;
-}
-.macros__form-visibility-container {
-  margin-top: var(--space-small);
-}
-.macros__form-visibility {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-slab);
-
-  .card {
-    padding: var(--space-small);
-    border-radius: var(--border-radius-normal);
-    border: 1px solid var(--s-200);
-    text-align: left;
-    cursor: pointer;
-    position: relative;
-
-    &.active {
-      background-color: var(--w-25);
-      border: 1px solid var(--w-300);
-    }
-
-    .visibility-check {
-      position: absolute;
-      color: var(--w-500);
-      top: var(--space-small);
-      right: var(--space-small);
-    }
-  }
-}
-
-.subtitle {
-  font-size: var(--font-size-mini);
-  color: var(--s-500);
-}
-
-.title {
-  display: block;
-  margin: 0;
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-medium);
-  line-height: 1.8;
-  color: var(--color-body);
-}
-
-.macros__info-panel {
-  margin-top: var(--space-small);
-  display: flex;
-  background-color: var(--s-50);
-  padding: var(--space-small);
-  border-radius: var(--border-radius-normal);
-  align-items: flex-start;
-  svg {
-    flex-shrink: 0;
-  }
-  p {
-    margin-left: var(--space-small);
-    margin-bottom: 0;
-    color: var(--s-600);
-  }
-}
-
 ::v-deep input[type='text'] {
-  margin-bottom: 0;
+  @apply mb-0;
 }
 
 ::v-deep .error {
   .message {
-    margin-bottom: 0;
+    @apply mb-0;
   }
 }
 </style>

@@ -1,14 +1,15 @@
 /* eslint arrow-body-style: 0 */
-import SettingsContent from '../Wrapper';
-import TeamsHome from './Index';
-import CreateStepWrap from './Create/Index';
-import EditStepWrap from './Edit/Index';
-import CreateTeam from './Create/CreateTeam';
-import EditTeam from './Edit/EditTeam';
-import AddAgents from './Create/AddAgents';
-import EditAgents from './Edit/EditAgents';
-import FinishSetup from './FinishSetup';
 import { frontendURL } from '../../../../helper/URLHelper';
+
+const CreateStepWrap = () => import('./Create/Index.vue');
+const EditStepWrap = () => import('./Edit/Index.vue');
+const CreateTeam = () => import('./Create/CreateTeam.vue');
+const EditTeam = () => import('./Edit/EditTeam.vue');
+const AddAgents = () => import('./Create/AddAgents.vue');
+const EditAgents = () => import('./Edit/EditAgents.vue');
+const FinishSetup = () => import('./FinishSetup.vue');
+const SettingsContent = () => import('../Wrapper.vue');
+const TeamsHome = () => import('./Index.vue');
 
 export default {
   routes: [

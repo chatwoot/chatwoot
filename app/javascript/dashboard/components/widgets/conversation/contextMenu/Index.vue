@@ -1,5 +1,5 @@
 <template>
-  <div class="menu-container">
+  <div class="bg-white dark:bg-slate-700 shadow-xl rounded-md p-1">
     <menu-item
       v-if="!hasUnreadMessages"
       :option="unreadOption"
@@ -15,14 +15,13 @@
         @click="toggleStatus(option.key, null)"
       />
     </template>
-    <menu-item-with-submenu :option="snoozeMenuConfig">
-      <menu-item
-        v-for="(option, i) in snoozeMenuConfig.options"
-        :key="i"
-        :option="option"
-        @click="snoozeConversation(option.snoozedUntil)"
-      />
-    </menu-item-with-submenu>
+    <menu-item
+      v-if="show(snoozeOption.key)"
+      :option="snoozeOption"
+      variant="icon"
+      @click="snoozeConversation()"
+    />
+
     <menu-item-with-submenu :option="priorityConfig">
       <menu-item
         v-for="(option, i) in priorityConfig.options"
@@ -35,15 +34,13 @@
       :option="labelMenuConfig"
       :sub-menu-available="!!labels.length"
     >
-      <template>
-        <menu-item
-          v-for="label in labels"
-          :key="label.id"
-          :option="generateMenuLabelConfig(label, 'label')"
-          variant="label"
-          @click="$emit('assign-label', label)"
-        />
-      </template>
+      <menu-item
+        v-for="label in labels"
+        :key="label.id"
+        :option="generateMenuLabelConfig(label, 'label')"
+        variant="label"
+        @click="$emit('assign-label', label)"
+      />
     </menu-item-with-submenu>
     <menu-item-with-submenu
       :option="agentMenuConfig"
@@ -78,7 +75,6 @@
 import MenuItem from './menuItem.vue';
 import MenuItemWithSubmenu from './menuItemWithSubmenu.vue';
 import wootConstants from 'dashboard/constants/globals';
-import snoozeTimesMixin from 'dashboard/mixins/conversation/snoozeTimesMixin';
 import agentMixin from 'dashboard/mixins/agentMixin';
 import { mapGetters } from 'vuex';
 import AgentLoadingPlaceholder from './agentLoadingPlaceholder.vue';
@@ -88,7 +84,7 @@ export default {
     MenuItemWithSubmenu,
     AgentLoadingPlaceholder,
   },
-  mixins: [snoozeTimesMixin, agentMixin],
+  mixins: [agentMixin],
   props: {
     status: {
       type: String,
@@ -131,27 +127,10 @@ export default {
           icon: 'arrow-redo',
         },
       ],
-      snoozeMenuConfig: {
-        key: 'snooze',
+      snoozeOption: {
+        key: wootConstants.STATUS_TYPE.SNOOZED,
         label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.SNOOZE.TITLE'),
         icon: 'snooze',
-        options: [
-          {
-            label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.SNOOZE.NEXT_REPLY'),
-            key: 'next-reply',
-            snoozedUntil: null,
-          },
-          {
-            label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.SNOOZE.TOMORROW'),
-            key: 'tomorrow',
-            snoozedUntil: 'tomorrow',
-          },
-          {
-            label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.SNOOZE.NEXT_WEEK'),
-            key: 'next-week',
-            snoozedUntil: 'nextWeek',
-          },
-        ],
       },
       priorityConfig: {
         key: 'priority',
@@ -234,12 +213,9 @@ export default {
     toggleStatus(status, snoozedUntil) {
       this.$emit('update-conversation', status, snoozedUntil);
     },
-    snoozeConversation(snoozedUntil) {
-      this.$emit(
-        'update-conversation',
-        this.STATUS_TYPE.SNOOZED,
-        this.snoozeTimes[snoozedUntil] || null
-      );
+    snoozeConversation() {
+      const ninja = document.querySelector('ninja-keys');
+      ninja.open({ parent: 'snooze_conversation' });
     },
     assignPriority(priority) {
       this.$emit('assign-priority', priority);
@@ -265,12 +241,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.menu-container {
-  padding: var(--space-smaller);
-  background-color: var(--white);
-  box-shadow: var(--shadow-context-menu);
-  border-radius: var(--border-radius-normal);
-}
-</style>

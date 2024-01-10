@@ -1,40 +1,40 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "%{conversationCount} conversations selected",
+    "CONVERSATIONS_SELECTED": "%{conversationCount} conversas selecionadas",
     "AGENT_SELECT_LABEL": "Escolher Agente",
-    "ASSIGN_CONFIRMATION_LABEL": "Are you sure to assign %{conversationCount} %{conversationLabel} to",
-    "UNASSIGN_CONFIRMATION_LABEL": "Are you sure to unassign %{conversationCount} %{conversationLabel}?",
-    "GO_BACK_LABEL": "Go back",
+    "ASSIGN_CONFIRMATION_LABEL": "Tem certeza que pretende atribuir %{conversationCount} %{conversationLabel} a",
+    "UNASSIGN_CONFIRMATION_LABEL": "Tem certeza que pretende remover a atribuição de %{conversationCount} %{conversationLabel}?",
+    "GO_BACK_LABEL": "Retornar",
     "ASSIGN_LABEL": "Atribuir",
     "YES": "Sim",
-    "ASSIGN_AGENT_TOOLTIP": "Assign Agent",
+    "ASSIGN_AGENT_TOOLTIP": "Atribuir agente",
     "ASSIGN_TEAM_TOOLTIP": "Atribuir equipe",
-    "ASSIGN_SUCCESFUL": "Conversations assigned successfully",
-    "ASSIGN_FAILED": "Failed to assign conversations, please try again",
-    "RESOLVE_SUCCESFUL": "Conversations resolved successfully",
-    "RESOLVE_FAILED": "Failed to resolve conversations, please try again",
-    "ALL_CONVERSATIONS_SELECTED_ALERT": "Conversations visible on this page are only selected.",
-    "AGENT_LIST_LOADING": "Loading Agents",
+    "ASSIGN_SUCCESFUL": "Conversas atribuídas com sucesso",
+    "ASSIGN_FAILED": "Falha ao atribuir conversas, por favor, tente novamente",
+    "RESOLVE_SUCCESFUL": "Conversas resolvidas com sucesso",
+    "RESOLVE_FAILED": "Falha ao resolver conversas, por favor, tente novamente",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "As conversas visíveis nesta página estão apenas selecionadas.",
+    "AGENT_LIST_LOADING": "A carregar agentes",
     "UPDATE": {
-      "CHANGE_STATUS": "Change status",
-      "SNOOZE_UNTIL_NEXT_REPLY": "Snooze until next reply",
-      "UPDATE_SUCCESFUL": "Conversation status updated successfully.",
-      "UPDATE_FAILED": "Failed to update conversations, please try again"
+      "CHANGE_STATUS": "Alterar estado",
+      "SNOOZE_UNTIL_NEXT_REPLY": "Adiar até a próxima resposta",
+      "UPDATE_SUCCESFUL": "Estado da conversa atualizado com sucesso.",
+      "UPDATE_FAILED": "Falha ao atualizar conversas, por favor, tente novamente"
     },
     "LABELS": {
-      "ASSIGN_LABELS": "Assign Labels",
-      "NO_LABELS_FOUND": "No labels found for",
-      "ASSIGN_SELECTED_LABELS": "Assign selected labels",
-      "ASSIGN_SUCCESFUL": "Labels assigned successfully",
-      "ASSIGN_FAILED": "Failed to assign labels, please try again"
+      "ASSIGN_LABELS": "Atribuir etiquetas",
+      "NO_LABELS_FOUND": "Nenhuma etiqueta encontrada para",
+      "ASSIGN_SELECTED_LABELS": "Atribuir etiquetas selecionadas",
+      "ASSIGN_SUCCESFUL": "Etiquetas atribuídas com sucesso",
+      "ASSIGN_FAILED": "Falha ao atribuir etiquetas, por favor, tente novamente"
     },
     "TEAMS": {
       "TEAM_SELECT_LABEL": "Escolher Equipa",
       "NONE": "Nenhuma",
-      "NO_TEAMS_AVAILABLE": "There are no teams added to this account yet.",
-      "ASSIGN_SELECTED_TEAMS": "Assign selected team",
-      "ASSIGN_SUCCESFUL": "Teams assiged successfully",
-      "ASSIGN_FAILED": "Failed to assign team, please try again"
+      "NO_TEAMS_AVAILABLE": "Não há equipas nesta conta.",
+      "ASSIGN_SELECTED_TEAMS": "Atribuir equipa selecionada",
+      "ASSIGN_SUCCESFUL": "Equipas atribuídas com sucesso",
+      "ASSIGN_FAILED": "Falha ao atribuir equipa, por favor, tente novamente"
     }
   }
 }

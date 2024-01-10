@@ -29,7 +29,7 @@
       // Override min-height : 50px in foundation
       //
       max-height: $space-mega * 2.4;
-      min-height: 4.8rem;
+      min-height: 3rem;
       padding: var(--space-normal) 0 0;
       resize: none;
     }
@@ -40,20 +40,20 @@
       margin: 0;
       max-height: $space-mega * 2.4;
       // Override min-height : 50px in foundation
-      min-height: 4.8rem;
+      min-height: 3rem;
       padding: var(--space-normal) 0 0;
       resize: none;
     }
   }
 
   &.is-private {
-    background: var(--y-50);
+    @apply bg-yellow-100 dark:bg-yellow-800;
 
     .reply-box__top {
-      background: var(--y-50);
+      @apply bg-yellow-100 dark:bg-yellow-800;
 
       > input {
-        background: var(--y-50);
+        @apply bg-yellow-100 dark:bg-yellow-800;
       }
     }
   }

@@ -4,20 +4,22 @@
       "ALL": "Alla",
       "CONTACTS": "Kontakter",
       "CONVERSATIONS": "Konversationer",
-      "MESSAGES": "Messages"
+      "MESSAGES": "Meddelanden"
     },
     "SECTION": {
       "CONTACTS": "Kontakter",
       "CONVERSATIONS": "Konversationer",
-      "MESSAGES": "Messages"
+      "MESSAGES": "Meddelanden"
     },
-    "EMPTY_STATE": "No %{item} found for query '%{query}'",
-    "EMPTY_STATE_FULL": "No results found for query '%{query}'",
-    "PLACEHOLDER_KEYBINDING": "/ to focus",
-    "INPUT_PLACEHOLDER": "Type 3 or more characters to search",
-    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results. ",
+    "EMPTY_STATE": "Ingen %{item} hittades med orden '%{query}'",
+    "EMPTY_STATE_FULL": "Inga resultat hittades med orden '%{query}'",
+    "PLACEHOLDER_KEYBINDING": "/ att fokusera",
+    "INPUT_PLACEHOLDER": "Skriv 3 eller fler tecken för att söka",
+    "EMPTY_STATE_DEFAULT": "Sök via konversations-id, e-post, telefonnummer, meddelanden, för bättre sökresultat. ",
     "BOT_LABEL": "Bot",
-    "READ_MORE": "Read more",
-    "WROTE": "wrote:"
+    "READ_MORE": "Läs mer",
+    "WROTE": "skrev:",
+    "FROM": "från",
+    "EMAIL": "e-post"
   }
 }

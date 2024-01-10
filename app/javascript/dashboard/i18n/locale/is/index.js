@@ -2,6 +2,7 @@ import advancedFilters from './advancedFilters.json';
 import agentBots from './agentBots.json';
 import agentMgmt from './agentMgmt.json';
 import attributesMgmt from './attributesMgmt.json';
+import auditLogs from './auditLogs.json';
 import automation from './automation.json';
 import bulkActions from './bulkActions.json';
 import campaign from './campaign.json';
@@ -22,6 +23,7 @@ import login from './login.json';
 import macros from './macros.json';
 import report from './report.json';
 import resetPassword from './resetPassword.json';
+import search from './search.json';
 import setNewPassword from './setNewPassword.json';
 import settings from './settings.json';
 import signup from './signup.json';
@@ -33,6 +35,7 @@ export default {
   ...agentBots,
   ...agentMgmt,
   ...attributesMgmt,
+  ...auditLogs,
   ...automation,
   ...bulkActions,
   ...campaign,
@@ -53,6 +56,7 @@ export default {
   ...macros,
   ...report,
   ...resetPassword,
+  ...search,
   ...setNewPassword,
   ...settings,
   ...signup,

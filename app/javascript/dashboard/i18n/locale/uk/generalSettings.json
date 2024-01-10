@@ -3,6 +3,7 @@
     "TITLE": "Налаштування облікового запису",
     "SUBMIT": "Оновити налаштування",
     "BACK": "Назад",
+    "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "Не вдалося оновити налаштування, спробуйте ще раз!",
       "SUCCESS": "Налаштування облікового запису успішно оновлено"
@@ -48,7 +49,10 @@
       }
     },
     "UPDATE_CHATWOOT": "Доступне оновлення %{latestChatwootVersion} для Chatwoot. Будь ласка, оновіть вашу копію.",
-    "LEARN_MORE": "Детальніше"
+    "LEARN_MORE": "Детальніше",
+    "PAYMENT_PENDING": "Очікується ваш платіж. Будь ласка, оновіть вашу платіжну інформацію, щоб продовжити використовувати Chatwoot",
+    "LIMITS_UPGRADE": "В вашому обліковому записі перевищено ліміт використання, будь ласка, поновіть ваш план, щоб продовжити використання Chatwoot",
+    "OPEN_BILLING": "Open billing"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -103,9 +107,12 @@
       "CHANGE_ASSIGNEE": "Змінити виконавця",
       "CHANGE_PRIORITY": "Змінити пріоритет",
       "CHANGE_TEAM": "Змінити команду",
+      "SNOOZE_CONVERSATION": "Відкласти розмову",
       "ADD_LABEL": "Додати мітку до діалогу",
       "REMOVE_LABEL": "Видалити мітку з діалогу",
-      "SETTINGS": "Налаштування"
+      "SETTINGS": "Налаштування",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Перейти до панелі керування бесід",
@@ -127,6 +134,7 @@
       "GO_TO_NOTIFICATIONS": "Перейти до сповіщень",
       "ADD_LABELS_TO_CONVERSATION": "Додати мітку до діалогу",
       "ASSIGN_AN_AGENT": "Призначити агента",
+      "AI_ASSIST": "AI Assist",
       "ASSIGN_PRIORITY": "Призначити пріоритет",
       "ASSIGN_A_TEAM": "Призначити команду",
       "MUTE_CONVERSATION": "Вимкнути звук для розмови",
@@ -138,10 +146,21 @@
       "SNOOZE_CONVERSATION": "Відкласти розмову",
       "UNTIL_NEXT_REPLY": "До наступної відповіді",
       "UNTIL_NEXT_WEEK": "До наступного тижня",
-      "UNTIL_TOMORROW": "До завтра"
+      "UNTIL_TOMORROW": "До завтра",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "CUSTOM": "Custom...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "System"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "Завантаження дашборду..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "натисніть тут"
   }
 }

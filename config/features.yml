@@ -55,3 +55,9 @@
   enabled: false
 - name: audit_logs
   enabled: false
+- name: response_bot
+  enabled: false
+- name: message_reply_to
+  enabled: false
+- name: insert_article_in_reply
+  enabled: false

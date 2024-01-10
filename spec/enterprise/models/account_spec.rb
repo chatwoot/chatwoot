@@ -33,6 +33,11 @@ RSpec.describe Account do
         # checking whether associated_audits method is present
         expect(account.associated_audits.present?).to be false
       end
+
+      it 'creates audit logs when account is updated' do
+        account.update(name: 'New Name')
+        expect(Audited::Audit.where(auditable_type: 'Account', action: 'update').count).to eq 1
+      end
     end
 
     it 'returns max limits from global config when enterprise version' do

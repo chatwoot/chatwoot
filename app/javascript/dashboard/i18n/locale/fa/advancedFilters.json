@@ -2,12 +2,17 @@
   "FILTER": {
     "TITLE": "فیلتر گفتگو‌ها",
     "SUBTITLE": "فیلترهای زیر را اضافه کنید و برای فیلتر کردن مکالمات روی «اعمال فیلترها» ضربه بزنید.",
+    "EDIT_CUSTOM_FILTER": "Edit Folder",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
     "ADD_NEW_FILTER": "افزودن فیلتر",
     "FILTER_DELETE_ERROR": "شما باید حداقل یک فیلتر برای ذخیره داشته باشید",
     "SUBMIT_BUTTON_LABEL": "اعمال فیلترها",
+    "UPDATE_BUTTON_LABEL": "Update folder",
     "CANCEL_BUTTON_LABEL": "انصراف",
     "CLEAR_BUTTON_LABEL": "پاک کردن فیلترها",
     "EMPTY_VALUE_ERROR": "مقدار الزامی است",
+    "FOLDER_LABEL": "Folder Name",
+    "FOLDER_QUERY_LABEL": "Folder Query",
     "TOOLTIP_LABEL": "فیلتر گفتگو‌ها",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "و",
@@ -70,6 +75,9 @@
           "SUCCESS_MESSAGE": "بخش با موفقیت ایجاد شد",
           "ERROR_MESSAGE": "خطا هنگام ایجاد بخش"
         }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Edit folder"
       },
       "DELETE": {
         "DELETE_BUTTON": "حذف فیلتر",

@@ -1,9 +1,11 @@
 <template>
-  <div class="dropdown-search-wrap">
-    <h4 class="text-block-title">
+  <div class="flex flex-col w-full max-h-[12.5rem]">
+    <h4
+      class="text-sm text-slate-800 dark:text-slate-100 mb-1 overflow-hidden whitespace-nowrap text-ellipsis flex-grow"
+    >
       {{ $t('CUSTOM_ATTRIBUTES.FORM.ATTRIBUTE_SELECT.TITLE') }}
     </h4>
-    <div class="search-wrap">
+    <div class="mb-2 flex-shrink-0 flex-grow-0 flex-auto max-h-8">
       <input
         ref="searchbar"
         v-model="search"
@@ -13,8 +15,10 @@
         :placeholder="$t('CUSTOM_ATTRIBUTES.FORM.ATTRIBUTE_SELECT.PLACEHOLDER')"
       />
     </div>
-    <div class="list-wrap">
-      <div class="list">
+    <div
+      class="flex justify-start items-start flex-grow flex-shrink flex-auto overflow-auto h-32"
+    >
+      <div class="w-full h-full">
         <woot-dropdown-menu>
           <custom-attribute-drop-down-item
             v-for="attribute in filteredAttributes"
@@ -23,11 +27,14 @@
             @click="onAddAttribute(attribute)"
           />
         </woot-dropdown-menu>
-        <div v-if="noResult" class="no-result">
+        <div
+          v-if="noResult"
+          class="w-full justify-center items-center flex mb-2 h-[70%] text-slate-500 dark:text-slate-300 py-2 px-2.5 overflow-hidden whitespace-nowrap text-ellipsis text-sm"
+        >
           {{ $t('CUSTOM_ATTRIBUTES.FORM.ATTRIBUTE_SELECT.NO_RESULT') }}
         </div>
         <woot-button
-          class="add"
+          class="float-right"
           icon="add"
           size="tiny"
           @click="addNewAttribute"
@@ -101,54 +108,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.dropdown-search-wrap {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-height: 20rem;
-
-  .search-wrap {
-    margin-bottom: var(--space-small);
-    flex: 0 0 auto;
-    max-height: var(--space-large);
-
-    .search-input {
-      margin: 0;
-      width: 100%;
-      border: 1px solid transparent;
-      height: var(--space-large);
-      font-size: var(--font-size-small);
-      padding: var(--space-small);
-      background-color: var(--color-background);
-    }
-
-    input:focus {
-      border: 1px solid var(--w-500);
-    }
-  }
-
-  .list-wrap {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    flex: 1 1 auto;
-    overflow: auto;
-
-    .list {
-      width: 100%;
-      .add {
-        float: right;
-      }
-    }
-
-    .no-result {
-      display: flex;
-      justify-content: center;
-      color: var(--s-700);
-      padding: var(--space-smaller) var(--space-one);
-      font-weight: var(--font-weight-medium);
-      font-size: var(--font-size-small);
-    }
-  }
+.search-input {
+  @apply m-0 w-full border border-solid border-transparent h-8 text-sm text-slate-700 dark:text-slate-100 rounded-md focus:border-woot-500 bg-slate-50 dark:bg-slate-900;
 }
 </style>

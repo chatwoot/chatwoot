@@ -33,7 +33,8 @@
       "LABEL_SELECT": {
         "TITLE": "Add Labels",
         "PLACEHOLDER": "Search labels",
-        "NO_RESULT": "No labels found"
+        "NO_RESULT": "No labels found",
+        "CREATE_LABEL": "Create new label"
       }
     },
     "MERGE_CONTACT": "Merge contact",
@@ -70,7 +71,14 @@
       "SUBMIT": "Import",
       "CANCEL": "Batalkan"
     },
-    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+    "ERROR_MESSAGE": "There was an error, please try again"
+  },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to download.",
     "ERROR_MESSAGE": "There was an error, please try again"
   },
   "DELETE_NOTE": {
@@ -196,6 +204,10 @@
         "PLACEHOLDER": "Write your message here",
         "ERROR": "Message can't be empty"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "Send message",
       "CANCEL": "Batalkan",
       "SUCCESS_MESSAGE": "Message sent!",
@@ -211,6 +223,7 @@
     "FILTER_CONTACTS": "Filter",
     "FILTER_CONTACTS_SAVE": "Tetapkan penapis",
     "FILTER_CONTACTS_DELETE": "Padam tapisan",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "Loading contacts...",
       "404": "No contacts matches your search 🔍",
@@ -334,17 +347,17 @@
     "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
     "PRIMARY": {
       "TITLE": "Primary contact",
-      "HELP_LABEL": "To be kept"
+      "HELP_LABEL": "To be deleted"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Contact to merge",
       "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be deleted"
+      "HELP_LABEL": "To be kept"
     },
     "SUMMARY": {
       "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Contact of <strong>%{primaryContactName}</strong> will be deleted.",
+      "ATTRIBUTE_WARNING": "Contact details of <strong>%{primaryContactName}</strong> will be copied to <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"

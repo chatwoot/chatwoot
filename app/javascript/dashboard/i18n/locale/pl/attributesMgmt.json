@@ -1,77 +1,77 @@
 {
   "ATTRIBUTES_MGMT": {
     "HEADER": "Niestandardowe atrybuty",
-    "HEADER_BTN_TXT": "Add Custom Attribute",
-    "LOADING": "Fetching custom attributes",
-    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
+    "HEADER_BTN_TXT": "Dodaj niestandardowy atrybut",
+    "LOADING": "Pobieranie niestandardowych atrybutów",
+    "SIDEBAR_TXT": "<p><b>Niestandardowe atrybuty</b> <p>Niestandardowy atrybut śledzi informacje o Twoich kontaktach/rozmowach - na przykład plan subskrypcji lub datę zamówienia pierwszego przedmiotu itp. <br /><br />Aby utworzyć niestandardowy atrybut, wystarczy kliknąć przycisk <b>Dodaj niestandardowy atrybut</b>. Możesz również edytować lub usunąć istniejący niestandardowy atrybut, klikając przycisk Edytuj lub Usuń.</p>",
     "ADD": {
-      "TITLE": "Add Custom Attribute",
+      "TITLE": "Dodaj niestandardowy atrybut",
       "SUBMIT": "Stwórz",
       "CANCEL_BUTTON_TEXT": "Anuluj",
       "FORM": {
         "NAME": {
-          "LABEL": "Display Name",
-          "PLACEHOLDER": "Enter custom attribute display name",
-          "ERROR": "Name is required"
+          "LABEL": "Nazwa wyświetlana",
+          "PLACEHOLDER": "Wprowadź nazwę wyświetlaną niestandardowego atrybutu",
+          "ERROR": "Nazwa jest wymagana"
         },
         "DESC": {
           "LABEL": "Opis",
-          "PLACEHOLDER": "Enter custom attribute description",
-          "ERROR": "Description is required"
+          "PLACEHOLDER": "Wprowadź opis niestandardowego atrybutu",
+          "ERROR": "Opis jest wymagany"
         },
         "MODEL": {
-          "LABEL": "Applies to",
-          "PLACEHOLDER": "Please select one",
-          "ERROR": "Model is required"
+          "LABEL": "Dotyczy",
+          "PLACEHOLDER": "Wybierz jedno",
+          "ERROR": "Model jest wymagany"
         },
         "TYPE": {
-          "LABEL": "Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Type is required",
+          "LABEL": "Typ",
+          "PLACEHOLDER": "Wybierz typ",
+          "ERROR": "Typ jest wymagany",
           "LIST": {
-            "LABEL": "List Values",
-            "PLACEHOLDER": "Please enter value and press enter key",
-            "ERROR": "Must have at least one value"
+            "LABEL": "Wartości listy",
+            "PLACEHOLDER": "Wprowadź wartość i naciśnij klawisz Enter",
+            "ERROR": "Musisz mieć co najmniej jedną wartość"
           }
         },
         "KEY": {
-          "LABEL": "Key",
-          "PLACEHOLDER": "Enter custom attribute key",
-          "ERROR": "Key is required",
-          "IN_VALID": "Invalid key"
+          "LABEL": "Klucz",
+          "PLACEHOLDER": "Wprowadź klucz niestandardowego atrybutu",
+          "ERROR": "Klucz jest wymagany",
+          "IN_VALID": "Nieprawidłowy klucz"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute added successfully!",
-        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
+        "SUCCESS_MESSAGE": "Niestandardowy atrybut został pomyślnie dodany!",
+        "ERROR_MESSAGE": "Nie można utworzyć niestandardowego atrybutu. Spróbuj ponownie później."
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Usuń",
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
+        "SUCCESS_MESSAGE": "Niestandardowy atrybut został pomyślnie usunięty.",
+        "ERROR_MESSAGE": "Nie można usunąć niestandardowego atrybutu. Spróbuj ponownie."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{attributeName}",
-        "PLACE_HOLDER": "Please type {attributeName} to confirm",
-        "MESSAGE": "Deleting will remove the custom attribute",
+        "TITLE": "Czy na pewno chcesz usunąć - %{attributeName}",
+        "PLACE_HOLDER": "Wpisz {attributeName}, aby potwierdzić",
+        "MESSAGE": "Spowoduje to usunięcie niestandardowego atrybutu",
         "YES": "Usuń ",
         "NO": "Anuluj"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Custom Attribute",
+      "TITLE": "Edytuj niestandardowy atrybut",
       "UPDATE_BUTTON_TEXT": "Aktualizuj",
       "TYPE": {
         "LIST": {
-          "LABEL": "List Values",
-          "PLACEHOLDER": "Please enter values and press enter key"
+          "LABEL": "Wartości listy",
+          "PLACEHOLDER": "Wprowadź wartości i naciśnij klawisz Enter"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Atrybut zaktualizowany pomyślnie",
-        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
+        "SUCCESS_MESSAGE": "Atrybut został pomyślnie zaktualizowany",
+        "ERROR_MESSAGE": "Wystąpił błąd podczas aktualizacji niestandardowego atrybutu, spróbuj ponownie"
       }
     },
     "TABS": {
@@ -91,8 +91,8 @@
         "DELETE": "Usuń"
       },
       "EMPTY_RESULT": {
-        "404": "Nie utworzono atrybutów niestandardowych",
-        "NOT_FOUND": "Brak skonfigurowanych atrybutów niestandardowych"
+        "404": "Nie utworzono niestandardowych atrybutów",
+        "NOT_FOUND": "Brak skonfigurowanych niestandardowych atrybutów"
       }
     }
   }
