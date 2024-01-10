@@ -42,6 +42,7 @@ class NotificationFinder
 
   def get_subscribed_notification_types(notification_settings)
     subscribed_notification_types = []
+    return subscribed_notification_types if notification_settings.blank?
 
     ::Notification::NOTIFICATION_TYPES.each_key do |notification_type|
       email_flag = "email_#{notification_type}".to_sym
