@@ -23,7 +23,6 @@ FactoryBot.define do
             'name' => 'SurveyJoy',
             'screen_name' => 'surveyjoyHQ',
             'location' => 'Bangalore',
-            'url' => 'https://surveyjoy.co?utm_source=twitter',
             'description' => 'Delightful in-product customer satisfaction surveys',
             'followers_count' => 21,
             'friends_count' => 13,
