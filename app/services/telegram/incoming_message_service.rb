@@ -100,7 +100,8 @@ class Telegram::IncomingMessageService
   def attach_files
     return unless file
 
-    return if inbox.channel.get_telegram_file_path(file[:file_id]).blank?
+    file_download_path = inbox.channel.get_telegram_file_path(file[:file_id])
+    return if file_download_path.blank?
 
     attachment_file = Down.download(
       inbox.channel.get_telegram_file_path(file[:file_id])
