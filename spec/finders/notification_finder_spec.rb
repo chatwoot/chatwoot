@@ -24,9 +24,9 @@ describe NotificationFinder do
     context 'when params are empty' do
       let(:params) { {} }
 
-      it 'returns notifications which are not snoozed' do
+      it 'returns all the notifications' do
         result = notification_finder.perform
-        expect(result.length).to be 3
+        expect(result.length).to be 6
       end
 
       it 'orders notifications by last activity at' do
@@ -34,23 +34,14 @@ describe NotificationFinder do
         expect(result.first.last_activity_at).to be > result.last.last_activity_at
       end
 
-      it 'filter notifications by user preferences' do
-        notification_setting = user.notification_settings.find_by(account_id: account.id)
-        notification_setting.selected_email_flags = [:email_conversation_creation]
-        notification_setting.save!
-
-        result = notification_finder.perform
-        expect(result.length).to be 4
-      end
-
       it 'returns unread count' do
         result = notification_finder.unread_count
-        expect(result).to be 2
+        expect(result).to be 4
       end
 
       it 'returns count' do
         result = notification_finder.count
-        expect(result).to be 3
+        expect(result).to be 6
       end
     end
 
