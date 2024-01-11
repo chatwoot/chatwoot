@@ -97,6 +97,12 @@ Chatwoot now supports 1-Click deployment to DigitalOcean as a kubernetes app.
   <img width="200" alt="Deploy to DO" src="https://www.deploytodo.com/do-btn-blue.svg"/>
 </a>
 
+### RepoCloud one-click deployment
+
+With a single click, you can have Chatwoot up and running on RepoCloud.
+
+[![Deploy on RepoCloud](https://d16t0pc4846x52.cloudfront.net/deploy.png)](https://repocloud.io/details/?app_id=202)
+
 ### Other deployment options
 
 For other supported options, checkout our [deployment page](https://chatwoot.com/deploy). 
