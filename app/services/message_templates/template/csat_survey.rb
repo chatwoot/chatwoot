@@ -6,7 +6,10 @@ class MessageTemplates::Template::CsatSurvey
       new_csat = conversation.messages.create!(csat_survey_message_params)
 
       if csat_template_question
-        new_csat.csat_template_question = csat_template_question
+        MessageCsatTemplateQuestion.find_or_create_by(
+          message_id: new_csat.id, 
+          csat_template_question_id: csat_template_question.id
+        )
       end
     end
   end
@@ -30,14 +33,14 @@ class MessageTemplates::Template::CsatSurvey
   end
 
   def custom_csat_question
-    return unless account.csat_template_enabled?
+    return unless inbox.csat_template_enabled?
 
     csat_template_question&.content
   end
 
   def csat_template_question
     return @csat_template_question if defined?(@csat_template_question)
-    return unless account.csat_template_enabled?
+    return unless inbox.csat_template_enabled?
 
     send_csat_count = conversation.messages.csat.count
     @csat_template_question = inbox.csat_template.csat_template_questions.offset(send_csat_count).first
