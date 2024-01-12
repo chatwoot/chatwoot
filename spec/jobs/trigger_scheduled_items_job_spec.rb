@@ -26,6 +26,11 @@ RSpec.describe TriggerScheduledItemsJob do
       described_class.perform_now
     end
 
+    it 'triggers Notification::ReopenSnoozedNotificationsJob' do
+      expect(Notification::ReopenSnoozedNotificationsJob).to receive(:perform_later).once
+      described_class.perform_now
+    end
+
     it 'triggers Account::ConversationsResolutionSchedulerJob' do
       expect(Account::ConversationsResolutionSchedulerJob).to receive(:perform_later).once
       described_class.perform_now
