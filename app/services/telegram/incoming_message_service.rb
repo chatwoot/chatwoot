@@ -101,7 +101,10 @@ class Telegram::IncomingMessageService
     return unless file
 
     file_download_path = inbox.channel.get_telegram_file_path(file[:file_id])
-    return if file_download_path.blank?
+    if file_download_path.blank?
+      Rails.logger.info "Telegram file download path is blank for #{file[:file_id]} : inbox_id: #{inbox.id}"
+      return
+    end
 
     attachment_file = Down.download(
       inbox.channel.get_telegram_file_path(file[:file_id])
