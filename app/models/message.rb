@@ -214,7 +214,7 @@ class Message < ApplicationRecord
     return false if private?
     return false if %w[outgoing template].exclude?(message_type)
     return false if template? && %w[input_csat text].exclude?(content_type)
-    return false if input_csat? && can_send_csat_at_reply?
+    return false if input_csat? && inbox.csat_template_enabled?
 
     true
   end
