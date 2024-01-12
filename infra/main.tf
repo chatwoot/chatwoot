@@ -25,9 +25,7 @@ locals {
     SMTP_PORT                 = "587"
     SMTP_ENABLE_STARTTLS_AUTO = "true"
     SMTP_AUTHENTICATION       = "plain"
-    SMTP_FROM_EMAIL           = "chatwoot@digitaltolk.net"
-    SMTP_REPLY_EMAIL          = "chatwoot@digitaltolk.net"
-    MAILER_SENDER_EMAIL       = "chatwoot@digitaltolk.net"
+    MAILER_SENDER_EMAIL       = "Helpdesk <help@digitaltolk.se>"
     RAILS_ENV                 = "production"
     DEFAULT_LOCALE            = "en"
     POSTGRES_HOST             = module.postgres.endpoint
