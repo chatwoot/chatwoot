@@ -53,6 +53,16 @@ class ConversationReplyMailer < ApplicationMailer
          })
   end
 
+  def csat_survey(conversation)
+    return unless smtp_config_set_or_development?
+
+    init_conversation_attributes(conversation)
+    @csat_messages = conversation.messages.csat
+    @message = conversation.messages.last
+    reply_mail_object = prepare_mail(true)
+    @message.update(source_id: reply_mail_object.message_id)
+  end
+
   private
 
   def init_conversation_attributes(conversation)

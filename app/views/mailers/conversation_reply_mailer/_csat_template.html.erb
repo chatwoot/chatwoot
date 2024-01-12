@@ -7,7 +7,7 @@
     body, table, td, a {
       font-family: Arial, sans-serif;
       font-size: 14px;
-      color: #3d3d3d;
+      color: #4d4d4d;
       text-decoration: none;
     }
 
@@ -23,53 +23,40 @@
       text-align: center;
     }
 
-    .content {
-      padding-top: 20px;
-    }
-
-    .footer {
-      background-color: #f2f2f2;
-      padding: 10px;
-      text-align: center;
-    }
-
-    .chatwoot-csat-emojis a:hover {
-      font-size: 28px;
-    }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="content">
-      <div style="font-size: 14px; font-weight: bold;">
+      <div style="font-size: 12px; color: #4d4d4d;">
         <% if message.content %>
           <%= ChatwootMarkdownRenderer.new(message.content).render_message %>
         <% end %>
       </div>
-      <div class="chatwoot-csat-emojis" style="display: flex; padding-top: 5px; padding-bottom: 5px;justify-content: center;">
-        <%= link_to "#{message.csat_link}?rating=1&message_id=#{message.id}", style: 'border: none; background: white; font-size: 26px;padding: 10px;' do %>
+      <div class="chatwoot-csat-emojis" style="display: flex; padding-top: 2px; padding-bottom: 2px;justify-content: center;">
+        <%= link_to "#{message.csat_link}?rating=1&message_id=#{message.id}", style: 'border: none; background: white; font-size: 20px;padding: 5px 10px 5px 10px;' do %>
           😞
         <% end %>
 
-        <%= link_to "#{message.csat_link}?rating=2&message_id=#{message.id}", style: 'border: none; background: white; font-size: 26px;padding: 10px;' do %>
+        <%= link_to "#{message.csat_link}?rating=2&message_id=#{message.id}", style: 'border: none; background: white; font-size: 20px;padding: 5px 10px 5px 10px;' do %>
           😑
         <% end %>
 
-        <%= link_to "#{message.csat_link}?rating=3&message_id=#{message.id}", style: 'border: none; background: white; font-size: 26px;padding: 10px;' do %>
+        <%= link_to "#{message.csat_link}?rating=3&message_id=#{message.id}", style: 'border: none; background: white; font-size: 20px;padding: 5px 10px 5px 10px;' do %>
           😐
         <% end %>
 
-        <%= link_to "#{message.csat_link}?rating=4&message_id=#{message.id}", style: 'border: none; background: white; font-size: 26px;padding: 10px;' do %>
+        <%= link_to "#{message.csat_link}?rating=4&message_id=#{message.id}", style: 'border: none; background: white; font-size: 20px;padding: 5px 10px 5px 10px;' do %>
           😀
         <% end %>
 
-        <%= link_to "#{message.csat_link}?rating=5&message_id=#{message.id}", style: 'border: none; background: white; font-size: 26px;padding: 10px;' do %>
+        <%= link_to "#{message.csat_link}?rating=5&message_id=#{message.id}", style: 'border: none; background: white; font-size: 20px;padding: 5px 10px 5px 10px;' do %>
           😍
         <% end %>
       </div>
       <div style="display: flex;">
-        <div style="width: 210px;color: #4d4d4d;">Very dissatisfied</div>
-        <div style="width: 210px;color: #4d4d4d;">Very satisfied</div>
+        <div style="width: 180px;font-size: 11px;color: #4d4d4d;">Very dissatisfied</div>
+        <div style="width: 180px;font-size: 11px;color: #4d4d4d;">Very satisfied</div>
       </div>
     </div>
   </div>

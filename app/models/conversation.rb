@@ -211,6 +211,13 @@ class Conversation < ApplicationRecord
     notify_status_change
     create_activity
     notify_conversation_updation
+    send_csat_survey_email
+  end
+
+  def send_csat_survey_email
+    return unless saved_change_to_status? && resolved?
+
+    CsatSurveyWorker.perform_in(5.seconds, self.id)
   end
 
   def ensure_snooze_until_reset
