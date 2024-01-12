@@ -51,7 +51,7 @@ class ApplicationMailbox < ActionMailbox::Base
     def validate_to_address(inbound_mail)
       to_address_class = inbound_mail.mail.to&.class
 
-      return unless to_address_class == String
+      return if to_address_class == Mail::AddressContainer
 
       Rails.logger.error "Email to address header is malformed `#{inbound_mail.mail.to}`"
       raise StandardError, "Invalid email to address header #{inbound_mail.mail.to}"
