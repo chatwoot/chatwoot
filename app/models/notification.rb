@@ -118,15 +118,22 @@ class Notification < ApplicationRecord
   private
 
   def process_notification_delivery
-    Notification::PushNotificationJob.perform_later(self)
+    Notification::PushNotificationJob.perform_later(self) if user_subscribed_to_notification?('push')
 
     # Should we do something about the case where user subscribed to both push and email ?
     # In future, we could probably add condition here to enqueue the job for 30 seconds later
     # when push enabled and then check in email job whether notification has been read already.
-    Notification::EmailNotificationJob.perform_later(self)
+    Notification::EmailNotificationJob.perform_later(self) if user_subscribed_to_notification?('email')
 
-    # Remove duplicate notifications
     Notification::RemoveDuplicateNotificationJob.perform_later(self)
+  end
+
+  def user_subscribed_to_notification?(delivery_type)
+    notification_setting = user.notification_settings.find_by(account_id: account.id)
+    return false if notification_setting.blank?
+
+    # Check if the user has subscribed to the specified type of notification
+    notification_setting.public_send("#{delivery_type}_#{notification_type}?")
   end
 
   def dispatch_create_event
