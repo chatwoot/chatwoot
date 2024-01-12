@@ -31,7 +31,7 @@
   ],
   "dependencies": {
     "@braid/vue-formulate": "^2.5.2",
-    "@chatwoot/prosemirror-schema": "1.0.3",
+    "@chatwoot/prosemirror-schema": "1.0.5",
     "@chatwoot/utils": "^0.0.21",
     "@hcaptcha/vue-hcaptcha": "^0.3.2",
     "@june-so/analytics-next": "^1.36.5",
