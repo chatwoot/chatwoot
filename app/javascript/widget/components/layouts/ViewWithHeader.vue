@@ -60,6 +60,7 @@ export default {
       scrollPosition: 0,
       ticking: true,
       disableBranding: window.chatwootWebChannel.disableBranding || false,
+      requestID: null,
     };
   },
   computed: {
@@ -120,6 +121,7 @@ export default {
   },
   beforeDestroy() {
     this.$el.removeEventListener('scroll', this.updateScrollPosition);
+    cancelAnimationFrame(this.requestID);
   },
   methods: {
     closeWindow() {
@@ -128,7 +130,7 @@ export default {
     updateScrollPosition(event) {
       this.scrollPosition = event.target.scrollTop;
       if (!this.ticking) {
-        window.requestAnimationFrame(() => {
+        this.requestID = window.requestAnimationFrame(() => {
           this.ticking = false;
         });
 
