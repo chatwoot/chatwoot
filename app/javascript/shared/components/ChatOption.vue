@@ -56,7 +56,7 @@ export default {
     height: auto;
     line-height: 1.5;
     min-height: $space-two * 2;
-    text-align: left;
+    text-align: right;
     white-space: normal;
 
     span {
