@@ -48,6 +48,18 @@ export default {
       },
     };
   },
+  computed: {
+    brandRedirectURL() {
+      try {
+        const referrerHost = this.$store.getters['appConfig/getReferrerHost'];
+        const utmSource = referrerHost ? '#' : 'survey_branding';
+        return `${this.globalConfig.widgetBrandURL}?utm_source=${utmSource}`;
+      } catch (e) {
+        // Suppressing the error as getter is not defined in some cases
+      }
+      return '';
+    },
+  },
 };
 
 
