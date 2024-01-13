@@ -52,8 +52,13 @@ export default {
     brandRedirectURL() {
       try {
         const referrerHost = this.$store.getters['appConfig/getReferrerHost'];
-        const utmSource = referrerHost ? '#' : 'survey_branding';
-        return `${this.globalConfig.widgetBrandURL}?utm_source=${utmSource}`;
+        const baseURL = `${this.globalConfig.widgetBrandURL}?utm_source=${
+          referrerHost ? 'widget_branding' : 'survey_branding'
+        }`;
+        if (referrerHost) {
+          return `${baseURL}&utm_referrer=${referrerHost}`;
+        }
+        return baseURL;
       } catch (e) {
         // Suppressing the error as getter is not defined in some cases
       }
@@ -61,7 +66,7 @@ export default {
     },
   },
 };
-
+</script>
 
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';
