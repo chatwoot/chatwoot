@@ -139,7 +139,7 @@ class Twilio::IncomingMessageService
 
   # This is just a temporary workaround since some users have not yet enabled media protection. We will remove this in the future.
   def handle_download_attachment_error(error)
-    logger.info "Error downloading attachment from Twilio: #{error.message}"
+    Rails.logger.info "Error downloading attachment from Twilio: #{error.message}"
     if error.message.include?('401 Unauthorized')
       Down.download(params[:MediaUrl0])
     else
