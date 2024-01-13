@@ -136,7 +136,7 @@ export default {
           font-size: var(--font-size-nano);
           line-height: 1.5;
           padding: 0.8125rem 1.09375rem;
-          text-align: left;
+          text-align: right;
 
           p {
             margin: var(--space-zero);
