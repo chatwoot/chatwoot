@@ -7,4 +7,4 @@ const countries = [
   },
 ];
 
-export default name;
+export default countries;
