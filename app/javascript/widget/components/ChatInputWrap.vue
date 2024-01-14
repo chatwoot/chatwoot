@@ -205,7 +205,7 @@ export default {
 .button-wrap {
   display: flex;
   align-items: center;
-  padding-left: $space-small;
+  //padding-left: $space-small;
 }
 
 .user-message-input {
