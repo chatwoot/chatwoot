@@ -215,7 +215,7 @@
   padding: $space-slab $space-normal;
   text-align: right;
   word-break: break-word;
-
+  direction: rtl;
   :not([audio]) {
     max-width: 100%;
   }
