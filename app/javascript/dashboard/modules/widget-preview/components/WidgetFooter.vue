@@ -81,7 +81,7 @@ export default {
   .button-wrap {
     display: flex;
     align-items: center;
-    padding-left: var(--space-small);
+    padding-left: 0;
   }
 
   .user-message-input {
