@@ -1,10 +1,10 @@
 const countries = [
   {
-    name: 'Iran, Islamic Republic of Persian Gulf',
+    name: 'Iran',
     dial_code: '+98',
     emoji: '🇮🇷',
     id: 'IR',
   },
 ];
 
-export default countries;
+export default name;
