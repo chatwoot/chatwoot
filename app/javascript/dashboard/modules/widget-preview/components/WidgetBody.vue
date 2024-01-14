@@ -122,6 +122,7 @@ export default {
         margin-top: var(--space-zero);
         max-width: 85%;
         text-align: right;
+        direction:rtl
       }
 
       .message-wrap {
