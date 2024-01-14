@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-1 overflow-auto">
+  <div style="direction: rtl;"class="flex flex-1 overflow-auto">
     <pre-chat-form :options="preChatFormOptions" @submit="onSubmit" />
   </div>
 </template>
