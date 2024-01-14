@@ -6,7 +6,7 @@
     <div class="flex items-center">
       <button
         v-if="showBackButton"
-        class="-ml-3 px-2"
+        style=" padding-right: 2px; padding-left: 25px" class="-ml-3 px-2" 
         @click="onBackButtonClick"
       >
         <fluent-icon
