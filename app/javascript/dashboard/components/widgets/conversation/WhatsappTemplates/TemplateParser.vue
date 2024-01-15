@@ -101,24 +101,21 @@ export default {
         });
       }
 
+      // Process BUTTONS type components and HEADER component
       this.template.components.forEach((component) => {
+        if (component.type === 'BUTTONS') {
+          component.buttons.forEach((button, buttonIndex) => {
+            this.extractButtonPlaceholders(button, buttonIndex);
+          });
+        }
         if (component.type === 'HEADER') {
-          const headerVariables = this.component.text.match(/{{([^}]+)}}/g);
+          const headerVariables = component.text.match(/{{([^}]+)}}/g);
           if (headerVariables) {
             const variables = headerVariables.map(i => 'header|' + this.processVariable(i));
             variables.forEach(variable => {
               this.processedParams[variable] = '';
             });
           }
-        }
-      });
-
-      // Process BUTTONS type components
-      this.template.components.forEach((component) => {
-        if (component.type === 'BUTTONS') {
-          component.buttons.forEach((button, buttonIndex) => {
-            this.extractButtonPlaceholders(button, buttonIndex);
-          });
         }
       });
     },
