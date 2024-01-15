@@ -15,12 +15,12 @@ class AutomationRules::ConditionsFilterService < FilterService
   end
 
   def perform
+    return false unless rule_valid?
+
     @conversation_filters = @filters['conversations']
     @contact_filters = @filters['contacts']
     @message_filters = @filters['messages']
     @attribute_changed_query_filter = []
-
-    return false unless rule_valid?
 
     @rule.conditions.each_with_index do |query_hash, current_index|
       @attribute_changed_query_filter << query_hash and next if query_hash['filter_operator'] == 'attribute_changed'
