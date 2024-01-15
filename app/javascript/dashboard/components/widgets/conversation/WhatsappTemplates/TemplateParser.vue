@@ -101,6 +101,18 @@ export default {
         });
       }
 
+      this.template.components.forEach((component) => {
+        if (component.type === 'HEADER') {
+          const headerVariables = this.component.text.match(/{{([^}]+)}}/g);
+          if (headerVariables) {
+            const variables = headerVariables.map(i => 'header|' + this.processVariable(i));
+            variables.forEach(variable => {
+              this.processedParams[variable] = '';
+            });
+          }
+        }
+      });
+
       // Process BUTTONS type components
       this.template.components.forEach((component) => {
         if (component.type === 'BUTTONS') {

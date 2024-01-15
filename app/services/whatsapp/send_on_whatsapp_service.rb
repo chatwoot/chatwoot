@@ -78,7 +78,7 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
         secondary_index = 0
       end
 
-      if type == 'body'
+      if type == 'body' || type = 'header'
         # Aggregate all body entries
         categorized_params[type] ||= []
         categorized_params[type] << { type: 'text', text: value }
@@ -94,7 +94,7 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
     # Construct the result array
     result = []
     categorized_params.each do |type, data|
-      if type == 'body'
+      if type == 'body' || type == 'header'
         result << { type: type, parameters: data }
       else
         data.each do |index, sub_types|
