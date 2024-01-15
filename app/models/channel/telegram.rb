@@ -175,10 +175,4 @@ class Channel::Telegram < ApplicationRecord
                     reply_to_message_id: reply_to_message_id
                   })
   end
-
-  def render_as_html_safe(html)
-    # rubocop:disable Rails/OutputSafety
-    html.html_safe
-    # rubocop:enable Rails/OutputSafety
-  end
 end
