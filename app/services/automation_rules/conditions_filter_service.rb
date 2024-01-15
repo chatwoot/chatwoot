@@ -20,7 +20,9 @@ class AutomationRules::ConditionsFilterService < FilterService
     @message_filters = @filters['messages']
     @attribute_changed_query_filter = []
 
-    valid_rule_conditions.each_with_index do |query_hash, current_index|
+    return false unless rule_valid?
+
+    @rule.conditions.each_with_index do |query_hash, current_index|
       @attribute_changed_query_filter << query_hash and next if query_hash['filter_operator'] == 'attribute_changed'
 
       apply_filter(query_hash, current_index)
@@ -33,25 +35,12 @@ class AutomationRules::ConditionsFilterService < FilterService
     records.any?
   end
 
-  def valid_rule_conditions
-    filtered_rules = []
-    @rule.conditions.each do |query_hash|
-      filtered_rules << query_hash if valid_filter?(query_hash)
-    end
+  def rule_valid?
+    is_valid = AutomationRules::ConditionValidationService.new(@rule).perform
 
-    # go to the last condition and remove the `query_operator` key
-    filtered_rules.last.delete('query_operator')
+    Rails.logger.info "Automation rule condition validation failed for rule id: #{rule.id}" unless is_valid
 
-    filtered_rules
-  end
-
-  def valid_filter?(query_hash)
-    conversation_filter = @conversation_filters[query_hash['attribute_key']]
-    contact_filter = @contact_filters[query_hash['attribute_key']]
-    message_filter = @message_filters[query_hash['attribute_key']]
-
-    conversation_filter || contact_filter || message_filter ||
-      custom_attribute(query_hash['attribute_key'], @account, query_hash['custom_attribute_type'])
+    is_valid
   end
 
   def filter_operation(query_hash, current_index)
