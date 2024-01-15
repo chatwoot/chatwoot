@@ -109,6 +109,8 @@ class Twilio::IncomingMessageService
 
     attachment_file = download_attachment_file
 
+    return if attachment_file.blank?
+
     attachment = @message.attachments.new(
       account_id: @message.account_id,
       file_type: file_type(params[:MediaContentType0])
@@ -144,6 +146,7 @@ class Twilio::IncomingMessageService
       Down.download(params[:MediaUrl0])
     else
       ChatwootExceptionTracker.new(error, account: @inbox.account).capture_exception
+      nil
     end
   end
 end
