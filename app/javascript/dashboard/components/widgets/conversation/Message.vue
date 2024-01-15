@@ -1,7 +1,7 @@
 <template>
   <li v-if="shouldRenderMessage" :id="`message${data.id}`" :class="alignBubble">
     <div :class="wrapClass">
-      <div v-if="isFailed" class="message-failed--alert">
+      <div v-if="isFailed && !hasOneDayPassed" class="message-failed--alert">
         <woot-button
           v-tooltip.top-end="$t('CONVERSATION.TRY_AGAIN')"
           size="tiny"
@@ -148,6 +148,7 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
+import { getDayDifferenceFromNow } from 'shared/helpers/DateHelper';
 
 export default {
   components: {
@@ -208,6 +209,10 @@ export default {
         sender: this.data.sender || {},
         created_at: this.data.created_at || '',
       }));
+    },
+    hasOneDayPassed() {
+      // Disable retry button if the message is failed and the message is older than 24 hours
+      return getDayDifferenceFromNow(new Date(), this.data?.created_at) >= 1;
     },
     shouldRenderMessage() {
       return (

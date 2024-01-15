@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Conversations::MarkMessagesAsReadJob do
+RSpec.describe Conversations::UpdateMessageStatusJob do
   subject(:job) { described_class.perform_later(account) }
 
   let!(:account) { create(:account) }
@@ -19,6 +19,13 @@ RSpec.describe Conversations::MarkMessagesAsReadJob do
         described_class.perform_now(conversation.id, conversation.contact_last_seen_at)
         message.reload
       end.to change(message, :status).from('sent').to('read')
+    end
+
+    it 'marks all sent messages in a conversation as delivered if specified' do
+      expect do
+        described_class.perform_now(conversation.id, conversation.contact_last_seen_at, :delivered)
+        message.reload
+      end.to change(message, :status).from('sent').to('delivered')
     end
 
     it 'marks all delivered messages in a conversation as read' do
@@ -61,6 +68,12 @@ RSpec.describe Conversations::MarkMessagesAsReadJob do
     it 'does not run the job if the conversation does not exist' do
       expect do
         described_class.perform_now(1212, conversation.contact_last_seen_at)
+      end.not_to change(message.reload, :status)
+    end
+
+    it 'does not run the job if the status is failed' do
+      expect do
+        described_class.perform_now(conversation.id, conversation.contact_last_seen_at, :failed)
       end.not_to change(message.reload, :status)
     end
   end

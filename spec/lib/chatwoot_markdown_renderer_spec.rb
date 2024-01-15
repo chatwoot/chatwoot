@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ChatwootMarkdownRenderer do
   let(:markdown_content) { 'This is a *test* content with ^markdown^' }
+  let(:plain_text_content) { 'This is a test content with markdown' }
   let(:doc) { instance_double(CommonMarker::Node) }
   let(:renderer) { described_class.new(markdown_content) }
   let(:markdown_renderer) { instance_double(CustomMarkdownRenderer) }
@@ -42,6 +43,18 @@ RSpec.describe ChatwootMarkdownRenderer do
 
     it 'returns an html safe string' do
       expect(rendered_message).to be_html_safe
+    end
+  end
+
+  describe '#render_markdown_to_plain_text' do
+    let(:rendered_content) { renderer.render_markdown_to_plain_text }
+
+    before do
+      allow(doc).to receive(:to_plaintext).and_return(plain_text_content)
+    end
+
+    it 'renders the markdown content to plain text' do
+      expect(rendered_content).to eq(plain_text_content)
     end
   end
 end

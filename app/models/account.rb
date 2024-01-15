@@ -8,7 +8,7 @@
 #  csat_trigger          :string
 #  custom_attributes     :jsonb
 #  domain                :string(100)
-#  feature_flags         :integer          default(0), not null
+#  feature_flags         :bigint           default(0), not null
 #  limits                :jsonb
 #  locale                :integer          default("en")
 #  name                  :string           not null

@@ -97,6 +97,12 @@ class MessageApi extends ApiClient {
     return axios.delete(`${this.url}/${conversationID}/messages/${messageId}`);
   }
 
+  retry(conversationID, messageId) {
+    return axios.post(
+      `${this.url}/${conversationID}/messages/${messageId}/retry`
+    );
+  }
+
   getPreviousMessages({ conversationId, after, before }) {
     const params = { before };
     if (after && Number(after) !== Number(before)) {
