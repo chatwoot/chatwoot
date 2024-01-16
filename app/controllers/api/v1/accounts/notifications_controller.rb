@@ -1,7 +1,8 @@
 class Api::V1::Accounts::NotificationsController < Api::V1::Accounts::BaseController
   RESULTS_PER_PAGE = 15
+  include DateRangeHelper
 
-  before_action :fetch_notification, only: [:update]
+  before_action :fetch_notification, only: [:update, :destroy, :snooze]
   before_action :set_primary_actor, only: [:read_all]
   before_action :set_current_page, only: [:index]
 
@@ -28,9 +29,19 @@ class Api::V1::Accounts::NotificationsController < Api::V1::Accounts::BaseContro
     render json: @notification
   end
 
+  def destroy
+    @notification.destroy
+    head :ok
+  end
+
   def unread_count
     @unread_count = current_user.notifications.where(account_id: current_account.id, read_at: nil).count
     render json: @unread_count
+  end
+
+  def snooze
+    @notification.update(snoozed_until: parse_date_time(params[:snoozed_until].to_s)) if params[:snoozed_until]
+    render json: @notification
   end
 
   private

@@ -40,21 +40,24 @@ describe Messages::NewMessageNotificationService do
         expect(NotificationBuilder).to have_received(:new).with(notification_type: 'participating_conversation_new_message',
                                                                 user: participating_agent_2,
                                                                 account: account,
-                                                                primary_actor: message)
+                                                                primary_actor: message.conversation,
+                                                                secondary_actor: message)
       end
 
       it 'creates notifications for assignee' do
         expect(NotificationBuilder).to have_received(:new).with(notification_type: 'assigned_conversation_new_message',
                                                                 user: assignee,
                                                                 account: account,
-                                                                primary_actor: message)
+                                                                primary_actor: message.conversation,
+                                                                secondary_actor: message)
       end
 
       it 'will not create notifications for the user who created the message' do
         expect(NotificationBuilder).not_to have_received(:new).with(notification_type: 'participating_conversation_new_message',
                                                                     user: participating_agent_1,
                                                                     account: account,
-                                                                    primary_actor: message)
+                                                                    primary_actor: message.conversation,
+                                                                    secondary_actor: message)
       end
     end
 
@@ -69,18 +72,21 @@ describe Messages::NewMessageNotificationService do
         expect(NotificationBuilder).to have_received(:new).with(notification_type: 'assigned_conversation_new_message',
                                                                 user: assignee,
                                                                 account: account,
-                                                                primary_actor: message)
+                                                                primary_actor: message.conversation,
+                                                                secondary_actor: message)
       end
 
       it 'creates notifications for all participating users' do
         expect(NotificationBuilder).to have_received(:new).with(notification_type: 'participating_conversation_new_message',
                                                                 user: participating_agent_1,
                                                                 account: account,
-                                                                primary_actor: message)
+                                                                primary_actor: message.conversation,
+                                                                secondary_actor: message)
         expect(NotificationBuilder).to have_received(:new).with(notification_type: 'participating_conversation_new_message',
                                                                 user: participating_agent_2,
                                                                 account: account,
-                                                                primary_actor: message)
+                                                                primary_actor: message.conversation,
+                                                                secondary_actor: message)
       end
     end
 
@@ -97,7 +103,8 @@ describe Messages::NewMessageNotificationService do
         expect(NotificationBuilder).not_to have_received(:new).with(notification_type: 'assigned_conversation_new_message',
                                                                     user: assignee,
                                                                     account: account,
-                                                                    primary_actor: message)
+                                                                    primary_actor: message.conversation,
+                                                                    secondary_actor: message)
       end
     end
 
@@ -112,11 +119,13 @@ describe Messages::NewMessageNotificationService do
         expect(NotificationBuilder).not_to have_received(:new).with(notification_type: 'participating_conversation_new_message',
                                                                     user: assignee,
                                                                     account: account,
-                                                                    primary_actor: message)
+                                                                    primary_actor: message.conversation,
+                                                                    secondary_actor: message)
         expect(NotificationBuilder).not_to have_received(:new).with(notification_type: 'assigned_conversation_new_message',
                                                                     user: assignee,
                                                                     account: account,
-                                                                    primary_actor: message)
+                                                                    primary_actor: message.conversation,
+                                                                    secondary_actor: message)
       end
     end
   end

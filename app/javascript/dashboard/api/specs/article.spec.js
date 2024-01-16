@@ -34,7 +34,7 @@ describe('#PortalAPI', () => {
         portalSlug: 'room-rental',
         locale: 'en-US',
         status: 'published',
-        author_id: '1',
+        authorId: '1',
       });
       expect(axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/portals/room-rental/articles?page=1&locale=en-US&status=published&author_id=1'
@@ -65,6 +65,33 @@ describe('#PortalAPI', () => {
       });
       expect(axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/portals/room-rental/articles/1'
+      );
+    });
+  });
+  describe('API calls', () => {
+    const originalAxios = window.axios;
+    const axiosMock = {
+      post: jest.fn(() => Promise.resolve()),
+      get: jest.fn(() => Promise.resolve()),
+      patch: jest.fn(() => Promise.resolve()),
+      delete: jest.fn(() => Promise.resolve()),
+    };
+
+    beforeEach(() => {
+      window.axios = axiosMock;
+    });
+
+    afterEach(() => {
+      window.axios = originalAxios;
+    });
+
+    it('#searchArticles', () => {
+      articlesAPI.searchArticles({
+        query: 'test',
+        portalSlug: 'room-rental',
+      });
+      expect(axiosMock.get).toHaveBeenCalledWith(
+        '/api/v1/portals/room-rental/articles?query=test'
       );
     });
   });

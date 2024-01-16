@@ -74,11 +74,14 @@ class Seeders::AccountSeeder
 
   def seed_contacts
     @account_data['contacts'].each do |contact_data|
-      contact = @account.contacts.create!(contact_data.slice('name', 'email'))
-      Avatar::AvatarFromUrlJob.perform_later(contact, "https://xsgames.co/randomusers/avatar.php?g=#{contact_data['gender']}")
+      contact = @account.contacts.find_or_initialize_by(email: contact_data['email'])
+      if contact.new_record?
+        contact.update!(contact_data.slice('name', 'email'))
+        Avatar::AvatarFromUrlJob.perform_later(contact, "https://xsgames.co/randomusers/avatar.php?g=#{contact_data['gender']}")
+      end
       contact_data['conversations'].each do |conversation_data|
         inbox = @account.inboxes.find_by(channel_type: conversation_data['channel'])
-        contact_inbox = inbox.contact_inboxes.create!(contact: contact, source_id: (conversation_data['source_id'] || SecureRandom.hex))
+        contact_inbox = inbox.contact_inboxes.create_or_find_by!(contact: contact, source_id: (conversation_data['source_id'] || SecureRandom.hex))
         create_conversation(contact_inbox: contact_inbox, conversation_data: conversation_data)
       end
     end

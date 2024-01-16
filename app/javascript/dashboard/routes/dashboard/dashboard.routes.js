@@ -1,4 +1,3 @@
-import AppContainer from './Dashboard';
 import settings from './settings/settings.routes';
 import conversation from './conversation/conversation.routes';
 import { routes as searchRoutes } from '../../modules/search/search.routes';
@@ -7,7 +6,8 @@ import { routes as notificationRoutes } from './notifications/routes';
 import { frontendURL } from '../../helper/URLHelper';
 import helpcenterRoutes from './helpcenter/helpcenter.routes';
 
-const Suspended = () => import('./suspended/Index');
+const AppContainer = () => import('./Dashboard.vue');
+const Suspended = () => import('./suspended/Index.vue');
 
 export default {
   routes: [

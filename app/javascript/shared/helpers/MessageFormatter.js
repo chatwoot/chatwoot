@@ -1,5 +1,35 @@
 import mila from 'markdown-it-link-attributes';
 import mentionPlugin from './markdownIt/link';
+
+const setImageHeight = inlineToken => {
+  const imgSrc = inlineToken.attrGet('src');
+  if (!imgSrc) return;
+  const url = new URL(imgSrc);
+  const height = url.searchParams.get('cw_image_height');
+  if (!height) return;
+  inlineToken.attrSet('style', `height: ${height};`);
+};
+
+const processInlineToken = blockToken => {
+  blockToken.children.forEach(inlineToken => {
+    if (inlineToken.type === 'image') {
+      setImageHeight(inlineToken);
+    }
+  });
+};
+
+const imgResizeManager = md => {
+  // Custom rule for image resize in markdown
+  // If the image url has a query param cw_image_height, then add a style attribute to the image
+  md.core.ruler.after('inline', 'add-image-height', state => {
+    state.tokens.forEach(blockToken => {
+      if (blockToken.type === 'inline') {
+        processInlineToken(blockToken);
+      }
+    });
+  });
+};
+
 const md = require('markdown-it')({
   html: false,
   xhtmlOut: true,
@@ -11,6 +41,7 @@ const md = require('markdown-it')({
   maxNesting: 20,
 })
   .use(mentionPlugin)
+  .use(imgResizeManager)
   .use(mila, {
     attrs: {
       class: 'link',

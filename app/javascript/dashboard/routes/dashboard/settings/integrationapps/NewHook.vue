@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/v-slot-style -->
 <template>
-  <div class="flex flex-col h-auto overflow-auto">
+  <div class="flex flex-col h-auto overflow-auto integration-hooks">
     <woot-modal-header
       :header-title="integration.name"
       :header-content="integration.description"

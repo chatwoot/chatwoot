@@ -19,3 +19,10 @@ trigger_imap_email_inboxes_job:
   cron: '*/1 * * * *'
   class: 'Inboxes::FetchImapEmailInboxesJob'
   queue: scheduled_jobs
+
+# executed daily at 2230 UTC
+# which is our lowest traffic time
+remove_stale_contact_inboxes_job.rb:
+  cron: '30 22 * * *'
+  class: 'Internal::RemoveStaleContactInboxesJob'
+  queue: scheduled_jobs

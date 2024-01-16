@@ -14,10 +14,11 @@ RSpec.describe Enterprise::MessageTemplates::ResponseBotService, type: :service 
     stub_request(:post, 'https://api.openai.com/v1/embeddings').to_return(status: 200, body: {}.to_json,
                                                                           headers: { Content_Type: 'application/json' })
     create(:message, message_type: :incoming, conversation: conversation, content: 'Hi')
+    create(:message, message_type: :outgoing, conversation: conversation, content: 'Hello')
     4.times { create(:response, response_source: response_source) }
     allow(ChatGpt).to receive(:new).and_return(chat_gpt_double)
     allow(chat_gpt_double).to receive(:generate_response).and_return({ 'response' => 'some_response', 'context_ids' => Response.all.map(&:id) })
-    allow(conversation.inbox).to receive(:get_responses).and_return([response_object])
+    allow(conversation.inbox).to receive(:get_responses).with('Hi').and_return([response_object])
   end
 
   describe '#perform' do

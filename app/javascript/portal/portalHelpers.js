@@ -3,8 +3,9 @@ import Vue from 'vue';
 
 import PublicArticleSearch from './components/PublicArticleSearch.vue';
 import TableOfContents from './components/TableOfContents.vue';
+import { initializeTheme } from './portalThemeHelper.js';
 
-export const getHeadingsFromTheArticle = () => {
+export const getHeadingsfromTheArticle = () => {
   const rows = [];
   const articleElement = document.getElementById('cw-article-content');
   articleElement.querySelectorAll('h1, h2, h3').forEach(element => {
@@ -21,51 +22,42 @@ export const getHeadingsFromTheArticle = () => {
   return rows;
 };
 
-export const generatePortalBgColor = (portalColor, theme) => {
-  const baseColor = theme === 'dark' ? 'black' : 'white';
-  return `color-mix(in srgb, ${portalColor} 20%, ${baseColor})`;
-};
+export const openExternalLinksInNewTab = () => {
+  const { customDomain, hostURL } = window.portalConfig;
+  const isSameHost =
+    window.location.href.includes(customDomain) ||
+    window.location.href.includes(hostURL);
 
-export const generatePortalBg = (portalColor, theme) => {
-  const bgImage = theme === 'dark' ? 'hexagon-dark.svg' : 'hexagon-light.svg';
-  return `background: url(/assets/images/hc/${bgImage}) ${generatePortalBgColor(
-    portalColor,
-    theme
-  )}`;
-};
+  // Modify external links only on articles page
+  const isOnArticlePage =
+    isSameHost && document.querySelector('#cw-article-content') !== null;
 
-export const generateGradientToBottom = theme => {
-  return `background-image: linear-gradient(to bottom, transparent, ${
-    theme === 'dark' ? '#151718' : 'white'
-  })`;
-};
+  document.addEventListener('click', function (event) {
+    if (!isOnArticlePage) return;
 
-export const setPortalStyles = theme => {
-  const portalColor = window.portalConfig.portalColor;
-  const portalBgDiv = document.querySelector('#portal-bg');
-  const portalBgGradientDiv = document.querySelector('#portal-bg-gradient');
+    // Some of the links come wrapped in strong tag through prosemirror
 
-  if (portalBgDiv) {
-    // Set background for #portal-bg
-    portalBgDiv.setAttribute('style', generatePortalBg(portalColor, theme));
-  }
+    const isTagAnchor = event.target.tagName === 'A';
+    const isParentTagAnchor =
+      event.target.tagName === 'STRONG' &&
+      event.target.parentNode.tagName === 'A';
 
-  if (portalBgGradientDiv) {
-    // Set gradient background for #portal-bg-gradient
-    portalBgGradientDiv.setAttribute('style', generateGradientToBottom(theme));
-  }
-};
+    if (isTagAnchor || isParentTagAnchor) {
+      const link = isTagAnchor ? event.target : event.target.parentNode;
 
-export const setPortalClass = theme => {
-  const portalDiv = document.querySelector('#portal');
-  portalDiv.classList.remove('light', 'dark');
-  if (!portalDiv) return;
-  portalDiv.classList.add(theme);
-};
+      const isInternalLink =
+        link.hostname === window.location.hostname ||
+        link.href.includes(customDomain) ||
+        link.href.includes(hostURL);
 
-export const updateThemeStyles = theme => {
-  setPortalStyles(theme);
-  setPortalClass(theme);
+      if (!isInternalLink) {
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer'; // Security and performance benefits
+        // Prevent default if you want to stop the link from opening in the current tab
+        event.stopPropagation();
+      }
+    }
+  });
 };
 
 export const InitializationHelpers = {
@@ -98,7 +90,7 @@ export const InitializationHelpers = {
     if (isOnArticlePage) {
       new Vue({
         components: { TableOfContents },
-        data: { rows: getHeadingsFromTheArticle() },
+        data: { rows: getHeadingsfromTheArticle() },
         template: '<table-of-contents :rows="rows" />',
       }).$mount('#cw-hc-toc');
     }
@@ -115,30 +107,17 @@ export const InitializationHelpers = {
     });
   },
 
-  initializeTheme: () => {
-    const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
-    const getThemePreference = () =>
-      mediaQueryList.matches ? 'dark' : 'light';
-    const themeFromServer = window.portalConfig.theme;
-    if (themeFromServer === 'system') {
-      // Handle dynamic theme changes for system theme
-      mediaQueryList.addEventListener('change', event => {
-        const newTheme = event.matches ? 'dark' : 'light';
-        updateThemeStyles(newTheme);
-      });
-      const themePreference = getThemePreference();
-      updateThemeStyles(themePreference);
-    }
-  },
+  initializeThemesInPortal: initializeTheme,
 
   initialize: () => {
+    openExternalLinksInNewTab();
     if (window.portalConfig.isPlainLayoutEnabled === 'true') {
       InitializationHelpers.appendPlainParamToURLs();
     } else {
+      InitializationHelpers.initializeThemesInPortal();
       InitializationHelpers.navigateToLocalePage();
       InitializationHelpers.initializeSearch();
       InitializationHelpers.initializeTableOfContents();
-      // InitializationHelpers.initializeTheme();
     }
   },
 

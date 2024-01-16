@@ -56,4 +56,7 @@ export const actions = {
   addNotification({ commit }, data) {
     commit(types.ADD_NOTIFICATION, data);
   },
+  deleteNotification({ commit }, data) {
+    commit(types.DELETE_NOTIFICATION, data);
+  },
 };

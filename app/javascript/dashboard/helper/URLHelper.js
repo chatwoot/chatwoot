@@ -64,3 +64,47 @@ export const isValidURL = value => {
     /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/gm;
   return URL_REGEX.test(value);
 };
+
+export const getArticleSearchURL = ({
+  host,
+  portalSlug,
+  pageNumber,
+  locale,
+  status,
+  authorId,
+  categorySlug,
+  sort,
+  query,
+}) => {
+  const queryParams = new URLSearchParams({});
+
+  const params = {
+    page: pageNumber,
+    locale,
+    status,
+    author_id: authorId,
+    category_slug: categorySlug,
+    sort,
+    query,
+  };
+
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== null && value !== undefined) {
+      queryParams.set(key, value);
+    }
+  });
+
+  return `${host}/${portalSlug}/articles?${queryParams.toString()}`;
+};
+
+export const hasValidAvatarUrl = avatarUrl => {
+  try {
+    const { host: avatarUrlHost } = new URL(avatarUrl);
+    const isFromGravatar = ['www.gravatar.com', 'gravatar'].includes(
+      avatarUrlHost
+    );
+    return avatarUrl && !isFromGravatar;
+  } catch (error) {
+    return false;
+  }
+};

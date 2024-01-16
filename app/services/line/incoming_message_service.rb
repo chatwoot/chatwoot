@@ -4,6 +4,7 @@
 class Line::IncomingMessageService
   include ::FileTypeHelper
   pattr_initialize [:inbox!, :params!]
+  LINE_STICKER_IMAGE_URL = 'https://stickershop.line-scdn.net/stickershop/v1/sticker/%s/iphone/sticker.png'.freeze
 
   def perform
     # probably test events
@@ -31,14 +32,42 @@ class Line::IncomingMessageService
     return unless event_type_message?(event)
 
     @message = @conversation.messages.create!(
-      content: event['message']['text'],
+      content: message_content(event),
       account_id: @inbox.account_id,
+      content_type: message_content_type(event),
       inbox_id: @inbox.id,
       message_type: :incoming,
       sender: @contact,
       source_id: event['message']['id'].to_s
     )
     @message
+  end
+
+  def message_content(event)
+    message_type = event.dig('message', 'type')
+    case message_type
+    when 'text'
+      event.dig('message', 'text')
+    when 'sticker'
+      sticker_id = event.dig('message', 'stickerId')
+      sticker_image_url(sticker_id)
+    end
+  end
+
+  # Currently, Chatwoot doesn't support stickers. As a temporary solution,
+  # we're displaying stickers as images using the sticker ID in markdown format.
+  # This is subject to change in the future. We've chosen not to download and display the sticker as an image because the sticker's information
+  # and images are the property of the creator or legal owner. We aim to avoid storing it on our server without their consent.
+  # If there are any permission or rendering issues, the URL may break, and we'll display the sticker ID as text instead.
+  # Ref: https://developers.line.biz/en/reference/messaging-api/#wh-sticker
+  def sticker_image_url(sticker_id)
+    "![sticker-#{sticker_id}](#{LINE_STICKER_IMAGE_URL % sticker_id})"
+  end
+
+  def message_content_type(event)
+    return 'sticker' if event['message']['type'] == 'sticker'
+
+    'text'
   end
 
   def attach_files(message)
@@ -65,7 +94,7 @@ class Line::IncomingMessageService
   end
 
   def event_type_message?(event)
-    event['type'] == 'message'
+    event['type'] == 'message' || event['type'] == 'sticker'
   end
 
   def message_type_non_text?(type)

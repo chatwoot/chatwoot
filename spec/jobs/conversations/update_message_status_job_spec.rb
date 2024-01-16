@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Conversations::UpdateMessageStatusJob do
-  subject(:job) { described_class.perform_later(conversation.id, conversation.contact_last_seen_at, :read) }
+  subject(:job) { described_class.perform_later(account) }
 
   let!(:account) { create(:account) }
   let!(:conversation) { create(:conversation, account: account, contact_last_seen_at: DateTime.now.utc) }
@@ -9,8 +9,8 @@ RSpec.describe Conversations::UpdateMessageStatusJob do
 
   it 'enqueues the job' do
     expect { job }.to have_enqueued_job(described_class)
-      .with(conversation.id, conversation.contact_last_seen_at, :read)
-      .on_queue('deferred')
+      .with(account)
+      .on_queue('low')
   end
 
   context 'when called' do

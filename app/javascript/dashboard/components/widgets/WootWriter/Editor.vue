@@ -135,6 +135,7 @@ export default {
     // allowSignature is a kill switch, ensuring no signature methods
     // are triggered except when this flag is true
     allowSignature: { type: Boolean, default: false },
+    channelType: { type: String, default: '' },
     showImageResizeToolbar: { type: Boolean, default: false }, // A kill switch to show or hide the image toolbar
   },
   data() {
@@ -266,8 +267,11 @@ export default {
     sendWithSignature() {
       // this is considered the source of truth, we watch this property
       // on change, we toggle the signature in the editor
-      const { send_with_signature: isEnabled } = this.uiSettings;
-      return isEnabled && this.allowSignature && !this.isPrivate;
+      if (this.allowSignature && !this.isPrivate && this.channelType) {
+        return this.fetchSignatureFlagFromUiSettings(this.channelType);
+      }
+
+      return false;
     },
   },
   watch: {
@@ -442,7 +446,7 @@ export default {
             this.onFocus();
           },
           click: () => {
-            // this.isEditorMouseFocusedOnAnImage(); Enable it when the backend supports for message resize is done.
+            this.isEditorMouseFocusedOnAnImage();
           },
           blur: () => {
             this.onBlur();
@@ -670,7 +674,7 @@ export default {
         () => this.resetTyping(),
         TYPING_INDICATOR_IDLE_TIME
       );
-      // this.updateImgToolbarOnDelete(); Enable it when the backend supports for message resize is done.
+      this.updateImgToolbarOnDelete();
     },
     onKeydown(event) {
       if (this.isEnterToSendEnabled()) {

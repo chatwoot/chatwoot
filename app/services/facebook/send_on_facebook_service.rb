@@ -17,7 +17,10 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   def send_message_to_facebook(delivery_params)
     result = Facebook::Messenger::Bot.deliver(delivery_params, page_id: channel.page_id)
     parsed_result = JSON.parse(result)
-    message.update!(status: :failed, external_error: external_error(parsed_result)) if parsed_result['error'].present?
+    if parsed_result['error'].present?
+      message.update!(status: :failed, external_error: external_error(parsed_result))
+      Rails.logger.info "Facebook::SendOnFacebookService: Error sending message to Facebook : Page - #{channel.page_id} : #{result}"
+    end
     message.update!(source_id: parsed_result['message_id']) if parsed_result['message_id'].present?
   end
 

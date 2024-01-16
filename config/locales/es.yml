@@ -204,6 +204,12 @@ es:
       made_with: Hecho con
     header:
       go_to_homepage: Ir al sitio principal
+      appearance:
+        system: Sistema
+        light: Claro
+        dark: Oscuro
+      featured_articles: Artículos Destacados
+      uncategorized: Sin Categoría
   slack_unfurl:
     fields:
       name: Nombre

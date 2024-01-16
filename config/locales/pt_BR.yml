@@ -173,7 +173,7 @@ pt_BR:
       name: "Webhooks"
       description: "Webhooks fornecem informações em tempo real sobre o que está acontecendo em sua conta. Você pode usar os webhooks para comunicar eventos com seus aplicativos favoritos como Slack ou Github. Clique em Configurar para configurar seus webhooks."
     dialogflow:
-      name: "Fluxo de diálogo"
+      name: "Dialogflow"
       description: "Construa chatbots usando Dialogflow e conecte-os à sua caixa de entrada rapidamente. Deixe os bots lidarem com as consultas antes de entregá-los a um agente de atendimento ao cliente."
     fullcontact:
       name: "Contato completo"

@@ -12,6 +12,7 @@ import {
   getCsatTemplateStatus,
 } from 'widget/api/conversation';
 
+import { ON_CONVERSATION_CREATED } from 'widget/constants/widgetBusEvents';
 import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
 
 export const actions = {
@@ -23,6 +24,8 @@ export const actions = {
       const [message = {}] = messages;
       commit('pushMessageToConversation', message);
       dispatch('conversationAttributes/getAttributes', {}, { root: true });
+      // Emit event to notify that conversation is created and show the chat screen
+      bus.$emit(ON_CONVERSATION_CREATED);
     } catch (error) {
       // Ignore error
     } finally {

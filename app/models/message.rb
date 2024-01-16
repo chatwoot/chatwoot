@@ -89,7 +89,8 @@ class Message < ApplicationRecord
     article: 7,
     incoming_email: 8,
     input_csat: 9,
-    integrations: 10
+    integrations: 10,
+    sticker: 11
   }
   enum status: { sent: 0, delivered: 1, read: 2, failed: 3 }
   # [:submitted_email, :items, :submitted_values] : Used for bot message types
@@ -208,6 +209,12 @@ class Message < ApplicationRecord
 
   def csat_link
     "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{conversation.uuid}"
+  end
+
+  def csat_link_shorten
+    return if csat_link.blank?
+
+    "#{csat_link[0, 17]}...#{csat_link[-17, 17]}"
   end
 
   def email_notifiable_message?

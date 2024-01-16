@@ -20,7 +20,9 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
     ActiveRecord::Base.transaction do
       build_message
     end
-  rescue Koala::Facebook::AuthenticationError
+  rescue Koala::Facebook::AuthenticationError => e
+    Rails.logger.warn("Instagram authentication error for inbox: #{@inbox.id} with error: #{e.message}")
+    Rails.logger.error e
     @inbox.channel.authorization_error!
     raise
   rescue StandardError => e

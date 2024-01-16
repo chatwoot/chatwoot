@@ -59,3 +59,5 @@
   enabled: false
 - name: message_reply_to
   enabled: false
+- name: insert_article_in_reply
+  enabled: false

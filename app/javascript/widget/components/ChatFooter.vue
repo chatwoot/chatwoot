@@ -68,7 +68,6 @@ export default {
   data() {
     return {
       inReplyTo: null,
-      allowReplyTo: window.chatwootWebChannel.allowReplyTo || false,
     };
   },
   computed: {
@@ -91,8 +90,6 @@ export default {
       return this.currentUser && this.currentUser.email;
     },
     hasReplyTo() {
-      if (!this.allowReplyTo) return false;
-
       return (
         this.inReplyTo && (this.inReplyTo.content || this.inReplyTo.attachments)
       );

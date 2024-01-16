@@ -18,7 +18,7 @@
       >
         {{ $t('MACROS.EDITOR.VISIBILITY.LABEL') }}
       </p>
-      <div class="grid grid-cols-2 gap-3">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
         <button
           class="p-2 relative rounded-md border border-solid text-left cursor-default"
           :class="isActive('global')"

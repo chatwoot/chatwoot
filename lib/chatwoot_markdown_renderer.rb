@@ -18,6 +18,10 @@ class ChatwootMarkdownRenderer
     render_as_html_safe(html)
   end
 
+  def render_markdown_to_plain_text
+    CommonMarker.render_doc(@content, :DEFAULT).to_plaintext
+  end
+
   private
 
   def render_as_html_safe(html)

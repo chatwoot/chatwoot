@@ -1,3 +1,10 @@
 <% @csat_messages.each do |message| %>
   <%= render 'csat_template', message: message %>
 <% end %>
+
+<% if @csat_messages.present? %>
+  <div style='font-size: 11px;margin-top: 30px;color: #737373;'>
+    Complete the survey at
+    <%= link_to @csat_messages.first.csat_link_shorten, @csat_messages.first.csat_link, style: 'font-size: 11px;color: #737373;'%>
+  </div>
+<% end %>

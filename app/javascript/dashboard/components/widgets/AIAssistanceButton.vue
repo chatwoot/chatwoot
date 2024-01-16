@@ -61,6 +61,7 @@ export default {
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
+      isAChatwootInstance: 'globalConfig/isAChatwootInstance',
     }),
     isAICTAModalDismissed() {
       return this.uiSettings.is_open_ai_cta_modal_dismissed;
@@ -70,7 +71,8 @@ export default {
       return (
         this.isAdmin &&
         !this.isAIIntegrationEnabled &&
-        !this.isAICTAModalDismissed
+        !this.isAICTAModalDismissed &&
+        this.isAChatwootInstance
       );
     },
     // Display a AI CTA button for agents and other admins who have not yet opened the AI assistance modal.

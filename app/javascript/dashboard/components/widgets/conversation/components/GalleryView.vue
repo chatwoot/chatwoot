@@ -46,9 +46,25 @@
           </span>
         </div>
         <div
-          class="items-center flex gap-2 justify-end min-w-[15rem]"
+          class="items-center flex gap-2 justify-end min-w-[8rem] sm:min-w-[15rem]"
           @click.stop
         >
+          <woot-button
+            v-if="isImage"
+            size="large"
+            color-scheme="secondary"
+            variant="clear"
+            icon="arrow-rotate-counter-clockwise"
+            @click="onRotate('counter-clockwise')"
+          />
+          <woot-button
+            v-if="isImage"
+            size="large"
+            color-scheme="secondary"
+            variant="clear"
+            icon="arrow-rotate-clockwise"
+            @click="onRotate('clockwise')"
+          />
           <woot-button
             size="large"
             color-scheme="secondary"
@@ -89,6 +105,7 @@
               :key="activeAttachment.message_id"
               :src="activeAttachment.data_url"
               class="modal-image skip-context-menu my-0 mx-auto"
+              :style="imageRotationStyle"
               @click.stop
             />
             <video
@@ -186,6 +203,7 @@ export default {
         this.allAttachments.findIndex(
           attachment => attachment.message_id === this.attachment.message_id
         ) || 0,
+      activeImageRotation: 0,
     };
   },
   computed: {
@@ -232,6 +250,11 @@ export default {
       const fileName = dataUrl?.split('/').pop();
       return fileName || '';
     },
+    imageRotationStyle() {
+      return {
+        transform: `rotate(${this.activeImageRotation}deg)`,
+      };
+    },
   },
   mounted() {
     this.setImageAndVideoSrc(this.attachment);
@@ -246,6 +269,7 @@ export default {
       }
       this.activeImageIndex = index;
       this.setImageAndVideoSrc(attachment);
+      this.activeImageRotation = 0;
     },
     setImageAndVideoSrc(attachment) {
       const { file_type: type } = attachment;
@@ -279,6 +303,20 @@ export default {
       link.href = url;
       link.download = `attachment.${type}`;
       link.click();
+    },
+    onRotate(type) {
+      if (!this.isImage) {
+        return;
+      }
+
+      const rotation = type === 'clockwise' ? 90 : -90;
+
+      // Reset rotation if it is 360
+      if (Math.abs(this.activeImageRotation) === 360) {
+        this.activeImageRotation = rotation;
+      } else {
+        this.activeImageRotation += rotation;
+      }
     },
   },
 };

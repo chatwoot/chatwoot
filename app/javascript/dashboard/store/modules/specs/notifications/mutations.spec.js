@@ -118,4 +118,27 @@ describe('#mutations', () => {
       expect(state.meta.count).toEqual(232);
     });
   });
+
+  describe('#DELETE_NOTIFICATION', () => {
+    it('delete notification', () => {
+      const state = {
+        meta: { unreadCount: 4, count: 231 },
+        records: {
+          1: { id: 1, primary_actor_id: 1 },
+          2: { id: 2, primary_actor_id: 2 },
+        },
+      };
+      const data = {
+        notification: { id: 1, primary_actor_id: 1 },
+        unread_count: 5,
+        count: 232,
+      };
+      mutations[types.DELETE_NOTIFICATION](state, data);
+      expect(state.records).toEqual({
+        2: { id: 2, primary_actor_id: 2 },
+      });
+      expect(state.meta.unreadCount).toEqual(5);
+      expect(state.meta.count).toEqual(232);
+    });
+  });
 });

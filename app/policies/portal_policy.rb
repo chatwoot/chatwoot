@@ -27,6 +27,10 @@ class PortalPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
+  def logo?
+    @account_user.administrator?
+  end
+
   private
 
   def portal_member?

@@ -83,7 +83,7 @@ RSpec.describe 'Public Inbox Contact Conversations API', type: :request do
       current_time = DateTime.now.utc
       allow(DateTime).to receive(:now).and_return(current_time)
       contact_last_seen_at = conversation.contact_last_seen_at
-      expect(Conversations::MarkMessagesAsReadJob).to receive(:perform_later).with(conversation.id, current_time)
+      expect(Conversations::UpdateMessageStatusJob).to receive(:perform_later).with(conversation.id, current_time)
       post update_last_seen_path
 
       expect(response).to have_http_status(:success)

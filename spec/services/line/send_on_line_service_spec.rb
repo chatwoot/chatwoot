@@ -92,5 +92,57 @@ describe Line::SendOnLineService do
         expect(message.status).to eq('delivered')
       end
     end
+
+    context 'with message attachments' do
+      it 'sends the message with text and attachments' do
+        attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+        attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+        expected_url_regex = %r{rails/active_storage/disk/[a-zA-Z0-9=_\-+]+/avatar\.png}
+
+        expect(line_client).to receive(:push_message).with(
+          message.conversation.contact_inbox.source_id,
+          [
+            { type: 'text', text: message.content },
+            {
+              type: 'image',
+              originalContentUrl: match(expected_url_regex),
+              previewImageUrl: match(expected_url_regex)
+            }
+          ]
+        )
+
+        described_class.new(message: message).perform
+      end
+
+      it 'sends the message with attachments only' do
+        attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+        attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+        message.update!(content: nil)
+        expected_url_regex = %r{rails/active_storage/disk/[a-zA-Z0-9=_\-+]+/avatar\.png}
+
+        expect(line_client).to receive(:push_message).with(
+          message.conversation.contact_inbox.source_id,
+          [
+            {
+              type: 'image',
+              originalContentUrl: match(expected_url_regex),
+              previewImageUrl: match(expected_url_regex)
+            }
+          ]
+        )
+
+        described_class.new(message: message).perform
+      end
+
+      it 'sends the message with text only' do
+        message.attachments.destroy_all
+        expect(line_client).to receive(:push_message).with(
+          message.conversation.contact_inbox.source_id,
+          { type: 'text', text: message.content }
+        )
+
+        described_class.new(message: message).perform
+      end
+    end
   end
 end

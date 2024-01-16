@@ -10,7 +10,7 @@ RSpec.describe '/api/v1/widget/config', type: :request do
 
   describe 'POST /api/v1/widget/config' do
     let(:params) { { website_token: web_widget.website_token } }
-    let(:response_keys) { %w[chatwoot_website_channel chatwoot_widget_defaults contact auth_token global_config] }
+    let(:response_keys) { %w[website_channel_config contact global_config] }
 
     context 'with invalid website token' do
       it 'returns not found' do

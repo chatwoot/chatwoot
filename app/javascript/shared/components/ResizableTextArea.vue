@@ -2,6 +2,7 @@
   <textarea
     ref="textarea"
     :placeholder="placeholder"
+    :rows="rows"
     :value="value"
     @input="onInput"
     @focus="onFocus"
@@ -35,6 +36,10 @@ export default {
     signature: {
       type: String,
       default: '',
+    },
+    rows: {
+      type: Number,
+      default: 2,
     },
     // add this as a prop, so that we won't have to include uiSettingsMixin
     sendWithSignature: {

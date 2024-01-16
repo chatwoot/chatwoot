@@ -1,12 +1,13 @@
-import Index from './Index';
-import AgentReports from './AgentReports';
-import LabelReports from './LabelReports';
-import InboxReports from './InboxReports';
-import TeamReports from './TeamReports';
-import CsatResponses from './CsatResponses';
-import LiveReports from './LiveReports';
-import SettingsContent from '../Wrapper';
 import { frontendURL } from '../../../../helper/URLHelper';
+
+const SettingsContent = () => import('../Wrapper.vue');
+const Index = () => import('./Index.vue');
+const AgentReports = () => import('./AgentReports.vue');
+const LabelReports = () => import('./LabelReports.vue');
+const InboxReports = () => import('./InboxReports.vue');
+const TeamReports = () => import('./TeamReports.vue');
+const CsatResponses = () => import('./CsatResponses.vue');
+const LiveReports = () => import('./LiveReports.vue');
 
 export default {
   routes: [

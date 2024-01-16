@@ -139,8 +139,8 @@ export default {
         portalSlug: this.$route.params.portalSlug,
         locale: this.$route.params.locale,
         status: this.status,
-        author_id: this.author,
-        category_slug: this.selectedCategorySlug,
+        authorId: this.author,
+        categorySlug: this.selectedCategorySlug,
       });
     },
     onPageChange(pageNumber) {
