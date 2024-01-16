@@ -92,7 +92,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "מנותק מ-Chatwoot"
+      "OFFLINE": "לא מחובר"
     },
     "BUTTON": {
       "REFRESH": "רענן"

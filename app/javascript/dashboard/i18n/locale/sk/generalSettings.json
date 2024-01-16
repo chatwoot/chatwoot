@@ -92,7 +92,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Chatwoot je odpojený"
+      "OFFLINE": "Offline"
     },
     "BUTTON": {
       "REFRESH": "Obnoviť"

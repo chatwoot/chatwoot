@@ -3,85 +3,85 @@
     "HEADER": "Özel Nitelikler",
     "HEADER_BTN_TXT": "Nitelik Ekle",
     "LOADING": "Özel Nitelikler getiriliyor",
-    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
+    "SIDEBAR_TXT": "<p><b>Özel Nitelikler</b> <p>Bir özel nitelik, kişilerinizle veya konuşmalarınızla ilgili gerçekleri takip eder - abonelik planı gibi veya ilk öğeyi ne zaman sipariş ettikleri gibi. <br /><br />Bir Özel Nitelik oluşturmak için sadece <b>Özel Nitelik Ekle</b> düğmesine tıklayın. Var olan bir Özel Niteliği düzenlemek veya silmek için Düzenle veya Sil düğmesine tıklayabilirsiniz.</p>",
     "ADD": {
       "TITLE": "Nitelik Ekle",
-      "SUBMIT": "Yarat",
+      "SUBMIT": "Oluştur",
       "CANCEL_BUTTON_TEXT": "İptal Et",
       "FORM": {
         "NAME": {
-          "LABEL": "Ekran adı",
-          "PLACEHOLDER": "Enter custom attribute display name",
-          "ERROR": "Name is required"
+          "LABEL": "Ekran Adı",
+          "PLACEHOLDER": "Özel nitelik görüntü adını girin",
+          "ERROR": "Ad gerekli"
         },
         "DESC": {
           "LABEL": "Açıklama",
-          "PLACEHOLDER": "Enter custom attribute description",
-          "ERROR": "Description is required"
+          "PLACEHOLDER": "Özel nitelik açıklamasını girin",
+          "ERROR": "Açıklama gerekli"
         },
         "MODEL": {
-          "LABEL": "Applies to",
-          "PLACEHOLDER": "Please select one",
+          "LABEL": "Uygulanan Yer",
+          "PLACEHOLDER": "Lütfen birini seçin",
           "ERROR": "Model gerekli"
         },
         "TYPE": {
           "LABEL": "Tip",
-          "PLACEHOLDER": "Lütfen tip seçin",
+          "PLACEHOLDER": "Lütfen bir tip seçin",
           "ERROR": "Tip gerekli",
           "LIST": {
-            "LABEL": "List Values",
-            "PLACEHOLDER": "Please enter value and press enter key",
-            "ERROR": "Must have at least one value"
+            "LABEL": "Liste Değerleri",
+            "PLACEHOLDER": "Lütfen bir değer girin ve enter tuşuna basın",
+            "ERROR": "En az bir değer olmalı"
           }
         },
         "KEY": {
           "LABEL": "Anahtar",
-          "PLACEHOLDER": "Enter custom attribute key",
-          "ERROR": "Key is required",
-          "IN_VALID": "Invalid key"
+          "PLACEHOLDER": "Özel nitelik anahtarını girin",
+          "ERROR": "Anahtar gerekli",
+          "IN_VALID": "Geçersiz anahtar"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute added successfully!",
-        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
+        "SUCCESS_MESSAGE": "Özel Nitelik başarıyla eklendi!",
+        "ERROR_MESSAGE": "Özel Nitelik oluşturulamadı. Lütfen daha sonra tekrar deneyin."
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Sil",
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
+        "SUCCESS_MESSAGE": "Özel Nitelik başarıyla silindi.",
+        "ERROR_MESSAGE": "Özel nitelik silinemedi. Tekrar deneyin."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{attributeName}",
-        "PLACE_HOLDER": "Please type {attributeName} to confirm",
-        "MESSAGE": "Deleting will remove the custom attribute",
+        "TITLE": "Silmek istediğinizden emin misiniz - %{attributeName}",
+        "PLACE_HOLDER": "{attributeName}'ı onaylamak için lütfen yazın",
+        "MESSAGE": "Silme işlemi özel niteliği kaldıracaktır",
         "YES": "Sil ",
         "NO": "İptal Et"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Custom Attribute",
+      "TITLE": "Özel Niteliği Düzenle",
       "UPDATE_BUTTON_TEXT": "Güncelleme",
       "TYPE": {
         "LIST": {
-          "LABEL": "List Values",
-          "PLACEHOLDER": "Please enter values and press enter key"
+          "LABEL": "Liste Değerleri",
+          "PLACEHOLDER": "Lütfen değerleri girin ve enter tuşuna basın"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
-        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
+        "SUCCESS_MESSAGE": "Özel Nitelik başarıyla güncellendi",
+        "ERROR_MESSAGE": "Özel nitelik güncellenirken bir hata oluştu, lütfen tekrar deneyin"
       }
     },
     "TABS": {
       "HEADER": "Özel Nitelikler",
-      "CONVERSATION": "Conversation",
-      "CONTACT": "Contact"
+      "CONVERSATION": "Sohbet",
+      "CONTACT": "İletişim"
     },
     "LIST": {
       "TABLE_HEADER": [
-        "İsim",
+        "Ad",
         "Açıklama",
         "Tip",
         "Anahtar"
@@ -91,8 +91,8 @@
         "DELETE": "Sil"
       },
       "EMPTY_RESULT": {
-        "404": "There are no custom attributes created",
-        "NOT_FOUND": "There are no custom attributes configured"
+        "404": "Oluşturulmuş özel nitelik yok",
+        "NOT_FOUND": "Yapılandırılmış özel nitelikler yok"
       }
     }
   }
