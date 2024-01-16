@@ -1,4 +1,4 @@
-# if you dont specify locked attribute, the default value will be true
+# if you don't specify locked attribute, the default value will be true
 # which means the particular config will be locked
 - name: INSTALLATION_NAME
   value: 'Chatwoot'
