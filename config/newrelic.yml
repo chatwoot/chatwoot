@@ -29,8 +29,8 @@ common: &default_settings
     # independently. If `false`, all logging-related features are disabled.
     enabled: <%= ENV.fetch('NEW_RELIC_APPLICATION_LOGGING_ENABLED', false) %>
     forwarding:
-      # If `true`, the agent captures log records emitted by this application.
-      enabled: <%= ENV.fetch('NEW_RELIC_APPLICATION_LOGGING_FORWARDING_ENABLED', true) %>
+      # If `true`, the agent captures log records emitted by this application
+      enabled: <%= ENV.fetch('NEW_RELIC_APPLICATION_LOGGING_FORWARDING_ENABLED', true) == "false" ? false : true %>
       # Defines the maximum number of log records to buffer in memory at a time.
       max_samples_stored: 30000
     metrics:

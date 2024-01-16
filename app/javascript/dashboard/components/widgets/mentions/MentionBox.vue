@@ -1,6 +1,5 @@
 <template>
   <div
-    v-if="items.length"
     ref="mentionsListContainer"
     class="bg-white dark:bg-slate-800 rounded-md overflow-auto absolute w-full z-20 pb-0 shadow-md left-0 bottom-full max-h-[9.75rem] border border-solid border-slate-100 dark:border-slate-700 mention--box"
   >
