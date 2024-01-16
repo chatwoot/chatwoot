@@ -52,8 +52,7 @@ export default {
   },
   computed: {
     variables() {
-      const variables = this.templateString.match(/{{([^}]+)}}/g);
-      return variables;
+      return Object.keys(this.processedParams);
     },
     templateString() {
       return this.template.components.find(
