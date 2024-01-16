@@ -2,54 +2,57 @@
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Selecteer een gesprek in het linker paneel",
     "CSAT_REPLY_MESSAGE": "Beoordeel het gesprek",
-    "404": "Sorry, we cannot find the conversation. Please try again",
-    "SWITCH_VIEW_LAYOUT": "Switch the layout",
-    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
-    "UNVERIFIED_SESSION": "The identity of this user is not verified",
+    "404": "Sorry, we kunnen het gesprek niet vinden. Probeer het opnieuw",
+    "SWITCH_VIEW_LAYOUT": "Wissel de lay-out",
+    "DASHBOARD_APP_TAB_MESSAGES": "Berichten",
+    "UNVERIFIED_SESSION": "De identiteit van deze gebruiker is niet geverifieerd",
     "NO_MESSAGE_1": "Oh oh! Het lijkt erop dat er geen berichten van klanten in uw inbox staan.",
     "NO_MESSAGE_2": " om een bericht naar uw pagina te sturen!",
     "NO_INBOX_1": "Hola! Het lijkt erop dat je nog geen postvakken hebt toegevoegd.",
     "NO_INBOX_2": " om te beginnen",
     "NO_INBOX_AGENT": "Oh Oh! Het lijkt erop dat u geen deel uitmaakt van een inbox. Neem contact op met uw beheerder",
-    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH_MESSAGES": "Zoek naar berichten in gesprekken",
     "EMPTY_STATE": {
       "CMD_BAR": "to open command menu",
-      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+      "KEYBOARD_SHORTCUTS": "sneltoetsen weergeven"
     },
     "SEARCH": {
-      "TITLE": "Search messages",
-      "RESULT_TITLE": "Search Results",
+      "TITLE": "Zoek berichten",
+      "RESULT_TITLE": "Zoekresultaten",
       "LOADING_MESSAGE": "Crunching data...",
-      "PLACEHOLDER": "Type any text to search messages",
-      "NO_MATCHING_RESULTS": "No results found."
+      "PLACEHOLDER": "Typ een tekst om berichten te zoeken",
+      "NO_MATCHING_RESULTS": "Geen resultaten gevonden."
     },
-    "UNREAD_MESSAGES": "Unread Messages",
-    "UNREAD_MESSAGE": "Unread Message",
+    "UNREAD_MESSAGES": "Ongelezen berichten",
+    "UNREAD_MESSAGE": "Ongelezen bericht",
     "CLICK_HERE": "Klik hier",
     "LOADING_INBOXES": "Inboxen laden",
     "LOADING_CONVERSATIONS": "Conversaties laden",
-    "CANNOT_REPLY": "You cannot reply due to",
-    "24_HOURS_WINDOW": "24 hour message window restriction",
-    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
-    "ASSIGN_TO_ME": "Assign to me",
-    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
-    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hour message window restriction",
-    "REPLYING_TO": "You are replying to:",
-    "REMOVE_SELECTION": "Remove Selection",
+    "CANNOT_REPLY": "Je kunt niet reageren omdat",
+    "24_HOURS_WINDOW": "Beperking van 24-uur berichtenvenster",
+    "NOT_ASSIGNED_TO_YOU": "Dit gesprek is niet aan je toegewezen. Wil je dit gesprek aan jezelf toewijzen?",
+    "ASSIGN_TO_ME": "Aan mij toewijzen",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Je kunt dit gesprek alleen beantwoorden met een sjabloon bericht vanwege",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Beperking van 24-uur berichtenvenster",
+    "REPLYING_TO": "Je antwoordt op:",
+    "REMOVE_SELECTION": "Verwijder selectie",
     "DOWNLOAD": "Download",
-    "UNKNOWN_FILE_TYPE": "Unknown File",
-    "SAVE_CONTACT": "Save",
-    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
-    "REPLIED_TO_STORY": "Replied to your story",
-    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
-    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
-    "NO_RESPONSE": "No response",
-    "RATING_TITLE": "Rating",
+    "UNKNOWN_FILE_TYPE": "Onbekend bestand",
+    "SAVE_CONTACT": "Opslaan",
+    "UPLOADING_ATTACHMENTS": "Bijlagen uploaden...",
+    "REPLIED_TO_STORY": "Reageerde op jouw verhaal",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
+    "SUCCESS_DELETE_MESSAGE": "Bericht succesvol verwijderd",
+    "FAIL_DELETE_MESSSAGE": "Kon bericht niet verwijderen! Probeer het opnieuw",
+    "NO_RESPONSE": "Geen reactie",
+    "RATING_TITLE": "Beoordeling",
     "FEEDBACK_TITLE": "Feedback",
-    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
+    "REPLY_MESSAGE_NOT_FOUND": "Bericht niet beschikbaar",
     "CARD": {
-      "SHOW_LABELS": "Show labels",
-      "HIDE_LABELS": "Hide labels"
+      "SHOW_LABELS": "Labels weergeven",
+      "HIDE_LABELS": "Labels verbergen"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Oplossen",
@@ -58,19 +61,19 @@
       "OPEN": "Meer",
       "CLOSE": "Sluiten",
       "DETAILS": "Details",
-      "SNOOZED_UNTIL": "Snoozed until",
-      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
+      "SNOOZED_UNTIL": "Snooze tot",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed tot morgen",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed tot volgende week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed tot volgende antwoord"
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Mark as pending",
+      "MARK_PENDING": "Markeren als in afwachting van",
       "SNOOZE_UNTIL": "Snooze",
       "SNOOZE": {
-        "TITLE": "Snooze until",
-        "NEXT_REPLY": "Next reply",
-        "TOMORROW": "Tomorrow",
-        "NEXT_WEEK": "Next week"
+        "TITLE": "Snooze tot",
+        "NEXT_REPLY": "Volgende antwoord",
+        "TOMORROW": "Morgen",
+        "NEXT_WEEK": "Volgende week"
       }
     },
     "CUSTOM_SNOOZE": {
@@ -82,38 +85,38 @@
       "TITLE": "Prioriteit",
       "OPTIONS": {
         "NONE": "Geen",
-        "URGENT": "Urgent",
-        "HIGH": "High",
-        "MEDIUM": "Medium",
-        "LOW": "Low"
+        "URGENT": "Dringend",
+        "HIGH": "Hoog",
+        "MEDIUM": "Gemiddeld",
+        "LOW": "Laag"
       },
       "CHANGE_PRIORITY": {
         "SELECT_PLACEHOLDER": "Geen",
-        "INPUT_PLACEHOLDER": "Select priority",
+        "INPUT_PLACEHOLDER": "Selecteer prioriteit",
         "NO_RESULTS": "Geen resultaten gevonden",
         "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
         "FAILED": "Couldn't change priority. Please try again."
       }
     },
     "CARD_CONTEXT_MENU": {
-      "PENDING": "Mark as pending",
-      "RESOLVED": "Mark as resolved",
-      "MARK_AS_UNREAD": "Mark as unread",
+      "PENDING": "Markeren als in afwachting van",
+      "RESOLVED": "Markeer als opgelost",
+      "MARK_AS_UNREAD": "Markeer als ongelezen",
       "REOPEN": "Heropen gesprek",
       "SNOOZE": {
-        "TITLE": "Snooze",
-        "NEXT_REPLY": "Until next reply",
-        "TOMORROW": "Until tomorrow",
-        "NEXT_WEEK": "Until next week"
+        "TITLE": "Sluimeren",
+        "NEXT_REPLY": "Tot volgende antwoord",
+        "TOMORROW": "Tot morgen",
+        "NEXT_WEEK": "Tot volgende week"
       },
-      "ASSIGN_AGENT": "Assign agent",
-      "ASSIGN_LABEL": "Assign label",
-      "AGENTS_LOADING": "Loading agents...",
-      "ASSIGN_TEAM": "Assign team",
+      "ASSIGN_AGENT": "Agent toewijzen",
+      "ASSIGN_LABEL": "Label toewijzen",
+      "AGENTS_LOADING": "Agents worden geladen...",
+      "ASSIGN_TEAM": "Team toewijzen",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
-          "FAILED": "Couldn't assign agent. Please try again."
+          "SUCCESFUL": "Gesprek id %{conversationId} toegewezen aan \"%{agentName}\"",
+          "FAILED": "Kan agent niet toewijzen. Probeer het opnieuw."
         },
         "LABEL_ASSIGNMENT": {
           "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
@@ -126,28 +129,29 @@
       }
     },
     "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "Message signature",
-      "ENABLE_SIGN_TOOLTIP": "Enable signature",
-      "DISABLE_SIGN_TOOLTIP": "Disable signature",
+      "MESSAGE_SIGN_TOOLTIP": "Handtekening van berichten",
+      "ENABLE_SIGN_TOOLTIP": "Handtekening activeren",
+      "DISABLE_SIGN_TOOLTIP": "Handtekening deactiveren",
       "MSG_INPUT": "Shift + enter voor nieuwe regel. Begin met '/' om een standaard antwoord te selecteren.",
       "PRIVATE_MSG_INPUT": "Shift + nieuwe regel invoeren. Dit is alleen zichtbaar voor medewerkers",
-      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
-      "CLICK_HERE": "Click here to update"
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Berichtondertekening is niet geconfigureerd, configureer deze in de profielinstellingen.",
+      "CLICK_HERE": "Klik hier om bij te werken"
     },
     "REPLYBOX": {
       "REPLY": "Beantwoorden",
       "PRIVATE_NOTE": "Privénotitie",
       "SEND": "Verzenden",
       "CREATE": "Notitie toevoegen",
-      "DISMISS_REPLY": "Dismiss reply",
-      "REPLYING_TO": "Replying to:",
-      "TIP_FORMAT_ICON": "Show rich text editor",
-      "TIP_EMOJI_ICON": "Show emoji selector",
-      "TIP_ATTACH_ICON": "Attach files",
-      "TIP_AUDIORECORDER_ICON": "Record audio",
-      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
-      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
-      "DRAG_DROP": "Drag and drop here to attach",
+      "INSERT_READ_MORE": "Meer lezen",
+      "DISMISS_REPLY": "Antwoord afwijzen",
+      "REPLYING_TO": "Antwoord op:",
+      "TIP_FORMAT_ICON": "Toon rich text editor",
+      "TIP_EMOJI_ICON": "Toon emoji-kiezer",
+      "TIP_ATTACH_ICON": "Bestanden toevoegen",
+      "TIP_AUDIORECORDER_ICON": "Audio opnemen",
+      "TIP_AUDIORECORDER_PERMISSION": "Sta toegang tot audio toe",
+      "TIP_AUDIORECORDER_ERROR": "Geluid kon niet worden geopend",
+      "DRAG_DROP": "Sleep hierheen om toe te voegen",
       "START_AUDIO_RECORDING": "Start audio recording",
       "STOP_AUDIO_RECORDING": "Stop audio recording",
       "": "",

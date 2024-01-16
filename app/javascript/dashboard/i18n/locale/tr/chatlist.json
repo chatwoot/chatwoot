@@ -8,7 +8,7 @@
     },
     "TAB_HEADING": "Konuşmalar",
     "MENTION_HEADING": "Bahsedilmeler",
-    "UNATTENDED_HEADING": "Unattended",
+    "UNATTENDED_HEADING": "İlgilenilmemiş",
     "SEARCH": {
       "INPUT": "Kişileri, Sohbetleri, Kaydedilen Yanıtları Ara .."
     },
@@ -36,33 +36,45 @@
       }
     },
     "VIEW_FILTER": "Görünüm",
-    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "SORT_TOOLTIP_LABEL": "Görüşmeleri sırala",
     "CHAT_SORT": {
       "STATUS": "Durum",
-      "ORDER_BY": "Order by"
+      "ORDER_BY": "Sırala"
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "Created",
+        "LATEST": "Oluşturuldu",
         "OLDEST": "Oluşturma zamanı:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "Last activity:",
-        "ACTIVE": "Last activity"
+        "NOT_ACTIVE": "Son etkinlik:",
+        "ACTIVE": "Son etkinlik"
       }
     },
-    "CHAT_SORT_FILTER_ITEMS": {
-      "latest": {
-        "TEXT": "Last activity"
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Last activity: Oldest first"
       },
-      "sort_on_created_at": {
-        "TEXT": "Oluşturma zamanı"
+      "last_activity_at_desc": {
+        "TEXT": "Last activity: Newest first"
       },
-      "sort_on_priority": {
-        "TEXT": "Priority"
+      "created_at_desc": {
+        "TEXT": "Created at: Newest first"
       },
-      "sort_on_waiting_since": {
-        "TEXT": "Pending Response"
+      "created_at_asc": {
+        "TEXT": "Created at: Oldest first"
+      },
+      "priority_desc": {
+        "TEXT": "Priority: Highest first"
+      },
+      "priority_asc": {
+        "TEXT": "Priority: Lowest first"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Pending Response: Longest first"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Pending Response: Shortest first"
       }
     },
     "ATTACHMENTS": {
@@ -86,20 +98,20 @@
       }
     },
     "CHAT_SORT_BY_FILTER": {
-      "TITLE": "Sort conversation",
-      "DROPDOWN_TITLE": "Sort by",
+      "TITLE": "Görüşmeleri sırala",
+      "DROPDOWN_TITLE": "Sırala",
       "ITEMS": {
         "LATEST": {
-          "NAME": "Last activity at",
-          "LABEL": "Last activity"
+          "NAME": "Son etkinlik",
+          "LABEL": "Son etkinlik"
         },
         "CREATED_AT": {
           "NAME": "Oluşturma zamanı",
           "LABEL": "Oluşturma zamanı"
         },
         "LAST_USER_MESSAGE_AT": {
-          "NAME": "Last user message at",
-          "LABEL": "Last message"
+          "NAME": "Son kullanıcı mesajı",
+          "LABEL": "Son mesaj"
         }
       }
     },
@@ -108,8 +120,8 @@
     "REPLY_TO_TWEET": "Bu tweet'i yanıtla",
     "LINK_TO_STORY": "Instagram hikayesine git",
     "SENT": "Başarıyla gönderildi",
-    "READ": "Read successfully",
-    "DELIVERED": "Delivered successfully",
+    "READ": "Başarıyla okundu",
+    "DELIVERED": "Başarıyla teslim edildi",
     "NO_MESSAGES": "Mesaj yok",
     "NO_CONTENT": "Kullanılabilir içerik yok",
     "HIDE_QUOTED_TEXT": "Alıntı Yapılan Mesajı Gizle",
