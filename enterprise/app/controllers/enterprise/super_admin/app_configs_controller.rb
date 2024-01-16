@@ -16,6 +16,7 @@ module Enterprise::SuperAdmin::AppConfigsController
         WIDGET_BRAND_URL
         TERMS_URL
         PRIVACY_URL
+        DISPLAY_MANIFEST
       ]
     else
       super
