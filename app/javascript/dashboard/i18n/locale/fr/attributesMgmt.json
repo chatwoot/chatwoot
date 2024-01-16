@@ -42,7 +42,7 @@
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Attribut personnalisé ajouté avec succès!",
+        "SUCCESS_MESSAGE": "L'attribut personnalisé a été ajouté",
         "ERROR_MESSAGE": "Impossible de créer un attribut personnalisé. Veuillez réessayer plus tard."
       }
     },
