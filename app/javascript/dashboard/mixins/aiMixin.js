@@ -18,7 +18,7 @@ export default {
     aiIntegration() {
       return this.appIntegrations.find(
         integration => integration.id === 'openai' && !!integration.hooks.length
-      ).hooks[0];
+      )?.hooks[0];
     },
     isAIIntegrationEnabled() {
       return !!this.aiIntegration;

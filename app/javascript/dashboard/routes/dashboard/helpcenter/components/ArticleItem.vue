@@ -161,7 +161,7 @@ export default {
   }
 
   span.article-column {
-    @apply text-slate-700 dark:text-slate-100 text-sm font-semibold py-2 px-0 text-right capitalize;
+    @apply text-slate-700 dark:text-slate-100 text-sm font-semibold py-2 px-0 text-left capitalize last:text-right;
 
     &.article-title {
       @apply items-start flex gap-2 col-span-4 text-left;

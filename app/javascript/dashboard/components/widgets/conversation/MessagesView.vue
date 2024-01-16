@@ -32,6 +32,8 @@
         :is-a-tweet="isATweet"
         :is-a-whatsapp-channel="isAWhatsAppChannel"
         :is-web-widget-inbox="isAWebWidgetInbox"
+        :is-a-facebook-inbox="isAFacebookInbox"
+        :is-instagram="isInstagramDM"
         :inbox-supports-reply-to="inboxSupportsReplyTo"
         :in-reply-to="getInReplyToMessage(message)"
       />
@@ -54,6 +56,8 @@
         :is-a-tweet="isATweet"
         :is-a-whatsapp-channel="isAWhatsAppChannel"
         :is-web-widget-inbox="isAWebWidgetInbox"
+        :is-a-facebook-inbox="isAFacebookInbox"
+        :is-instagram-dm="isInstagramDM"
         :inbox-supports-reply-to="inboxSupportsReplyTo"
         :in-reply-to="getInReplyToMessage(message)"
       />
@@ -283,11 +287,16 @@ export default {
     unreadMessageCount() {
       return this.currentChat.unread_count || 0;
     },
+    isInstagramDM() {
+      return this.conversationType === 'instagram_direct_message';
+    },
     inboxSupportsReplyTo() {
-      return {
-        incoming: this.inboxHasFeature(INBOX_FEATURES.REPLY_TO),
-        outgoing: this.inboxHasFeature(INBOX_FEATURES.REPLY_TO_OUTGOING),
-      };
+      const incoming = this.inboxHasFeature(INBOX_FEATURES.REPLY_TO);
+      const outgoing =
+        this.inboxHasFeature(INBOX_FEATURES.REPLY_TO_OUTGOING) &&
+        !this.is360DialogWhatsAppChannel;
+
+      return { incoming, outgoing };
     },
   },
 

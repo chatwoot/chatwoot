@@ -83,7 +83,7 @@ class ReplyMailbox < ApplicationMailbox
   end
 
   def validate_resource(resource)
-    raise "#{resource.class.name} not found" if resource.nil?
+    raise "Email conversation with uuid: #{conversation_uuid} not found" if resource.nil?
 
     resource
   end
