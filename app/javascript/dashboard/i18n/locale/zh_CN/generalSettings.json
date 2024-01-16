@@ -51,8 +51,8 @@
     "UPDATE_CHATWOOT": "Chatwoot 有可用更新%{latestChatwootVersion}，请更新您的应用。",
     "LEARN_MORE": "了解更多",
     "PAYMENT_PENDING": "您的付款尚未完成。请更新您的付款信息以继续使用Chatwoot",
-    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
-    "OPEN_BILLING": "Open billing"
+    "LIMITS_UPGRADE": "您的账户已超过使用限制，请升级您的计划以继续使用Chatwoot",
+    "OPEN_BILLING": "查看计费"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -92,7 +92,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "已与 Chatwoot 断开链接"
+      "OFFLINE": "离线的"
     },
     "BUTTON": {
       "REFRESH": "刷新"
