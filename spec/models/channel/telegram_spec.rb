@@ -21,6 +21,23 @@ RSpec.describe Channel::Telegram do
       expect(telegram_channel.send_message_on_telegram(message)).to eq('telegram_123')
     end
 
+    it 'send message with markdown converted to telegram markdown' do
+      message = create(:message, message_type: :outgoing, content: '**test** ~~test~~ *test* ~test~',
+                                 conversation: create(:conversation, inbox: telegram_channel.inbox, additional_attributes: { 'chat_id' => '123' }))
+
+      stub_request(:post, "https://api.telegram.org/bot#{telegram_channel.bot_token}/sendMessage")
+        .with(
+          body: "chat_id=123&text=#{ERB::Util.url_encode('*test* ~test~ *test* ~test~')}&reply_markup=&parse_mode=MarkdownV2&reply_to_message_id="
+        )
+        .to_return(
+          status: 200,
+          body: { result: { message_id: 'telegram_123' } }.to_json,
+          headers: { 'Content-Type' => 'application/json' }
+        )
+
+      expect(telegram_channel.send_message_on_telegram(message)).to eq('telegram_123')
+    end
+
     it 'send message with reply_markup' do
       message = create(
         :message, message_type: :outgoing, content: 'test', content_type: 'input_select',
