@@ -3,10 +3,10 @@
     class="bg-white dark:bg-slate-900 flex justify-between items-center py-2 px-4 border-b border-slate-50 dark:border-slate-800/50 flex-col md:flex-row"
   >
     <div
-      class="flex-1 w-100 flex flex-col md:flex-row items-center justify-center"
+      class="flex-1 w-full min-w-0 flex flex-col md:flex-row items-center justify-center"
     >
       <div
-        class="flex justify-center items-center mr-4 rtl:mr-0 rtl:ml-4 min-w-0"
+        class="flex justify-start items-center mr-4 rtl:mr-0 rtl:ml-4 min-w-0 w-[inherit]"
       >
         <back-button
           v-if="showBackButton"
@@ -19,26 +19,31 @@
           :username="currentContact.name"
           :status="currentContact.availability_status"
         />
-        <div class="items-start flex flex-col ml-2 rtl:ml-0 rtl:mr-2 min-w-0">
-          <woot-button
-            variant="link"
-            color-scheme="secondary"
-            class="overflow-hidden whitespace-nowrap text-ellipsis"
-            @click.prevent="$emit('contact-panel-toggle')"
-          >
-            <h3
-              class="text-base inline-block leading-tight capitalize m-0 p-0 text-ellipsis overflow-hidden whitespace-nowrap text-slate-900 dark:text-slate-100"
+        <div
+          class="items-start flex flex-col ml-2 rtl:ml-0 rtl:mr-2 min-w-0 w-[inherit] overflow-hidden"
+        >
+          <div class="flex items-center flex-row gap-1 m-0 p-0 w-[inherit]">
+            <woot-button
+              variant="link"
+              color-scheme="secondary"
+              class="[&>span]:overflow-hidden [&>span]:whitespace-nowrap [&>span]:text-ellipsis min-w-0"
+              @click.prevent="$emit('contact-panel-toggle')"
             >
-              <span>{{ currentContact.name }}</span>
-              <fluent-icon
-                v-if="!isHMACVerified"
-                v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
-                size="14"
-                class="text-yellow-600 dark:text-yellow-500 my-0 mx-0.5"
-                icon="warning"
-              />
-            </h3>
-          </woot-button>
+              <span
+                class="text-base leading-tight text-slate-900 dark:text-slate-100"
+              >
+                {{ currentContact.name }}
+              </span>
+            </woot-button>
+            <fluent-icon
+              v-if="!isHMACVerified"
+              v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
+              size="14"
+              class="text-yellow-600 dark:text-yellow-500 my-0 mx-0 min-w-[14px]"
+              icon="warning"
+            />
+          </div>
+
           <div
             class="conversation--header--actions items-center flex text-xs gap-2 text-ellipsis overflow-hidden whitespace-nowrap"
           >

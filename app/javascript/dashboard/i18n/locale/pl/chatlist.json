@@ -41,6 +41,16 @@
       "STATUS": "Status",
       "ORDER_BY": "Sortuj według"
     },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Utworzono",
+        "OLDEST": "Data utworzenia:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Ostatnia aktywność:",
+        "ACTIVE": "Ostatnia aktywność"
+      }
+    },
     "CHAT_SORT_FILTER_ITEMS": {
       "latest": {
         "TEXT": "Ostatnia aktywność"

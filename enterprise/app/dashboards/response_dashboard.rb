@@ -10,8 +10,13 @@ class ResponseDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     id: Field::Number.with_options(searchable: true),
     account: Field::BelongsToSearch.with_options(class_name: 'Account', searchable_field: [:name, :id], order: 'id DESC'),
+    response_source: Field::BelongsToSearch.with_options(class_name: 'ResponseSource', searchable_field: [:name, :id, :source_link],
+                                                         order: 'id DESC'),
     answer: Field::Text.with_options(searchable: true),
     question: Field::String.with_options(searchable: true),
+    status: Field::Select.with_options(searchable: false, collection: lambda { |field|
+      field.resource.class.send(field.attribute.to_s.pluralize).keys
+    }),
     response_document: Field::BelongsToSearch.with_options(class_name: 'ResponseDocument', searchable_field: [:document_link, :content, :id],
                                                            order: 'id DESC'),
     created_at: Field::DateTime,
@@ -27,7 +32,9 @@ class ResponseDashboard < Administrate::BaseDashboard
     id
     question
     answer
+    status
     response_document
+    response_source
     account
   ].freeze
 
@@ -35,9 +42,11 @@ class ResponseDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
     id
+    status
     question
     answer
     response_document
+    response_source
     account
     created_at
     updated_at
@@ -47,10 +56,11 @@ class ResponseDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
+    response_source
+    response_document
     question
     answer
-    response_document
-    account
+    status
   ].freeze
 
   # COLLECTION_FILTERS
@@ -63,7 +73,12 @@ class ResponseDashboard < Administrate::BaseDashboard
   #   COLLECTION_FILTERS = {
   #     open: ->(resources) { resources.where(open: true) }
   #   }.freeze
-  COLLECTION_FILTERS = {}.freeze
+  COLLECTION_FILTERS = {
+    account: ->(resources, attr) { resources.where(account_id: attr) },
+    response_source: ->(resources, attr) { resources.where(response_source_id: attr) },
+    response_document: ->(resources, attr) { resources.where(response_document_id: attr) },
+    status: ->(resources, attr) { resources.where(status: attr) }
+  }.freeze
 
   # Overwrite this method to customize how responses are displayed
   # across all pages of the admin dashboard.

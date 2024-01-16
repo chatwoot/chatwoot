@@ -75,25 +75,25 @@
     "SLACK": {
       "DELETE": "Supprimer",
       "DELETE_CONFIRMATION": {
-        "TITLE": "Delete the integration",
-        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+        "TITLE": "Supprimer l'intégration",
+        "MESSAGE": "Êtes-vous sûr de vouloir supprimer l’intégration ? Cela entraînera la perte de l’accès aux conversations sur votre espace de travail Slack."
       },
       "HELP_TEXT": {
         "TITLE": "Utilisation de l'intégration Slack",
         "BODY": "<br/><p>Chatwoot va maintenant synchroniser toutes les conversations entrantes dans le canal <b><i>customer-conversations</i></b> à l'intérieur de Workspace Sack.</p><p>Répondre à un fil de conversation dans le canal Slack <b><i>customer-conversations</i></b> créera une réponse au client via chatwoot.</p><p>Commencez les réponses avec <b><i>note :</i></b> pour créer des notes privées au lieu de réponses.</p><p>Si le répondant sur Slack a un profil d'agent dans le chat avec la même adresse email, les réponses seront associées en conséquence.</p><p>Lorsque le répondant n'a pas de profil d'agent associé, les réponses seront faites avec le profil du bot.</p>",
-        "SELECTED": "selected"
+        "SELECTED": "sélectionné"
       },
       "SELECT_CHANNEL": {
-        "OPTION_LABEL": "Select a channel",
+        "OPTION_LABEL": "Sélectionnez un canal",
         "UPDATE": "Mettre à jour",
-        "BUTTON_TEXT": "Connect channel",
-        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
-        "ATTENTION_REQUIRED": "Attention required",
-        "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
+        "BUTTON_TEXT": "Connecter le canal",
+        "DESCRIPTION": "Votre espace de travail Slack est maintenant lié à Chatwoot. Cependant, l'intégration est actuellement inactive. Pour activer l'intégration et connecter un canal à Chatwoot, veuillez cliquer sur le bouton ci-dessous.\n\n**Note:** Si vous essayez de connecter un canal privé, ajoutez l'application Chatwoot au canal Slack avant de procéder à cette étape.",
+        "ATTENTION_REQUIRED": "Attention requise",
+        "EXPIRED": "Votre intégration Slack a expiré. Pour continuer à recevoir des messages sur Slack, veuillez supprimer l'intégration et connecter à nouveau votre espace de travail."
       },
-      "UPDATE_ERROR": "There was an error updating the integration, please try again",
-      "UPDATE_SUCCESS": "The channel is connected successfully",
-      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
+      "UPDATE_ERROR": "Une erreur s'est produite lors de la mise à jour du contact, veuillez réessayer",
+      "UPDATE_SUCCESS": "Le canal est connecté avec succès",
+      "FAILED_TO_FETCH_CHANNELS": "Une erreur s'est produite lors de la récupération des informations, veuillez réessayer"
     },
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Cliquez ici pour vous inscrire",
@@ -103,39 +103,39 @@
       "CREATE_ERROR": "Une erreur s'est produite lors de la création du lien de réunion, veuillez réessayer"
     },
     "OPEN_AI": {
-      "AI_ASSIST": "AI Assist",
-      "WITH_AI": " %{option} with AI ",
+      "AI_ASSIST": "Assistance IA",
+      "WITH_AI": " %{option} avec IA ",
       "OPTIONS": {
-        "REPLY_SUGGESTION": "Reply Suggestion",
-        "SUMMARIZE": "Summarize",
-        "REPHRASE": "Improve Writing",
-        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
-        "SHORTEN": "Shorten",
-        "EXPAND": "Expand",
-        "MAKE_FRIENDLY": "Change message tone to friendly",
-        "MAKE_FORMAL": "Use formal tone",
-        "SIMPLIFY": "Simplify"
+        "REPLY_SUGGESTION": "Suggestion de réponse",
+        "SUMMARIZE": "Résumer",
+        "REPHRASE": "Améliorer la rédaction",
+        "FIX_SPELLING_GRAMMAR": "Corriger l'orthographe et la grammaire",
+        "SHORTEN": "Raccourcir",
+        "EXPAND": "Développer",
+        "MAKE_FRIENDLY": "Modifier la tonalité du message en mode convivial",
+        "MAKE_FORMAL": "Utiliser une tonalité formelle",
+        "SIMPLIFY": "Simplifier"
       },
       "ASSISTANCE_MODAL": {
-        "DRAFT_TITLE": "Draft content",
-        "GENERATED_TITLE": "Generated content",
-        "AI_WRITING": "AI is writing",
+        "DRAFT_TITLE": "Contenu du brouillon",
+        "GENERATED_TITLE": "Contenu généré",
+        "AI_WRITING": "L'IA est en train d'écrire",
         "BUTTONS": {
-          "APPLY": "Use this suggestion",
+          "APPLY": "Utiliser cette suggestion",
           "CANCEL": "Annuler"
         }
       },
       "CTA_MODAL": {
-        "TITLE": "Integrate with OpenAI",
-        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
-        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "TITLE": "Intégrer avec OpenAI",
+        "DESC": "Apportez des fonctionnalités IA avancées à votre tableau de bord avec les modèles GPT d'OpenAI. Pour commencer, entrez la clé API de votre compte OpenAI.",
+        "KEY_PLACEHOLDER": "Entrez votre clé API OpenAI",
         "BUTTONS": {
           "NEED_HELP": "Besoin d'aide ?",
           "DISMISS": "Rejeter",
-          "FINISH": "Finish Setup"
+          "FINISH": "Terminer la configuration"
         },
-        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
-        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
+        "DISMISS_MESSAGE": "Vous pouvez configurer l'intégration OpenAI plus tard à chaque fois que vous le souhaitez.",
+        "SUCCESS_MESSAGE": "Configuration de l'intégration OpenAI réussie"
       },
       "TITLE": "Améliorer avec l'IA",
       "SUMMARY_TITLE": "Résumé avec l'IA",

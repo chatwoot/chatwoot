@@ -49,11 +49,11 @@ export default {
     onSuccess() {
       this.$emit('cancel');
     },
-    async onSubmit(contactItem) {
-      const data = await this.$store.dispatch(
-        'contactConversations/create',
-        contactItem
-      );
+    async onSubmit(params, isFromWhatsApp) {
+      const data = await this.$store.dispatch('contactConversations/create', {
+        params,
+        isFromWhatsApp,
+      });
       return data;
     },
   },

@@ -41,6 +41,16 @@
       "STATUS": "الحالة",
       "ORDER_BY": "الترتيب بواسطة"
     },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Created",
+        "OLDEST": "تم إنشاؤها في:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "النشاط الأخير:",
+        "ACTIVE": "النشاط الأخير"
+      }
+    },
     "CHAT_SORT_FILTER_ITEMS": {
       "latest": {
         "TEXT": "النشاط الأخير"

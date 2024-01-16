@@ -9,6 +9,8 @@ describe ActionCableListener do
 
   before do
     create(:inbox_member, inbox: inbox, user: agent)
+    Current.user = nil
+    Current.account = nil
   end
 
   describe '#message_created' do
@@ -126,6 +128,27 @@ describe ActionCableListener do
         contact.push_event_data.merge(account_id: account.id)
       )
       listener.contact_deleted(event)
+    end
+  end
+
+  describe '#notification_deleted' do
+    let(:event_name) { :'notification.deleted' }
+    let!(:notification) { create(:notification, account: account, user: agent) }
+    let!(:event) { Events::Base.new(event_name, Time.zone.now, notification: notification) }
+
+    it 'sends message to account admins, inbox agents' do
+      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+        [agent.pubsub_token],
+        'notification.deleted',
+        {
+          account_id: notification.account_id,
+          notification: notification.push_event_data,
+          unread_count: 1,
+          count: 1
+        }
+      )
+
+      listener.notification_deleted(event)
     end
   end
 

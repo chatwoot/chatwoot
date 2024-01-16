@@ -2,6 +2,7 @@
   <textarea
     ref="textarea"
     :placeholder="placeholder"
+    :rows="rows"
     :value="value"
     @input="onInput"
     @focus="onFocus"
@@ -16,6 +17,7 @@ import {
   removeSignature,
   extractTextFromMarkdown,
 } from 'dashboard/helper/editorHelper';
+import { createTypingIndicator } from '@chatwoot/utils';
 
 const TYPING_INDICATOR_IDLE_TIME = 4000;
 export default {
@@ -36,6 +38,10 @@ export default {
       type: String,
       default: '',
     },
+    rows: {
+      type: Number,
+      default: 2,
+    },
     // add this as a prop, so that we won't have to include uiSettingsMixin
     sendWithSignature: {
       type: Boolean,
@@ -49,7 +55,15 @@ export default {
   },
   data() {
     return {
-      idleTimer: null,
+      typingIndicator: createTypingIndicator(
+        () => {
+          this.$emit('typing-on');
+        },
+        () => {
+          this.$emit('typing-off');
+        },
+        TYPING_INDICATOR_IDLE_TIME
+      ),
     };
   },
   computed: {
@@ -91,6 +105,7 @@ export default {
   },
   methods: {
     resizeTextarea() {
+      this.$el.style.height = 'auto';
       if (!this.value) {
         this.$el.style.height = `${this.minHeight}rem`;
       } else {
@@ -131,28 +146,11 @@ export default {
       this.$emit('input', event.target.value);
       this.resizeTextarea();
     },
-    resetTyping() {
-      this.$emit('typing-off');
-      this.idleTimer = null;
-    },
-    turnOffIdleTimer() {
-      if (this.idleTimer) {
-        clearTimeout(this.idleTimer);
-      }
-    },
     onKeyup() {
-      if (!this.idleTimer) {
-        this.$emit('typing-on');
-      }
-      this.turnOffIdleTimer();
-      this.idleTimer = setTimeout(
-        () => this.resetTyping(),
-        TYPING_INDICATOR_IDLE_TIME
-      );
+      this.typingIndicator.start();
     },
     onBlur() {
-      this.turnOffIdleTimer();
-      this.resetTyping();
+      this.typingIndicator.stop();
       this.$emit('blur');
     },
     onFocus() {

@@ -1,44 +1,41 @@
 <template>
-  <form @submit.prevent="updateSignature()">
-    <div class="profile--settings--row text-black-900 dark:text-slate-300 row">
-      <div class="w-[25%] py-4 pr-6 ml-0">
-        <h4 class="block-title text-black-900 dark:text-slate-200">
-          {{ $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.TITLE') }}
-        </h4>
-        <p>{{ $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.NOTE') }}</p>
-      </div>
-      <div class="p-4 w-[45%]">
-        <div>
-          <label for="message-signature-input">{{
-            $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE.LABEL')
-          }}</label>
-          <woot-message-editor
-            id="message-signature-input"
-            v-model="messageSignature"
-            class="message-editor h-[10rem]"
-            :is-format-mode="true"
-            :placeholder="
-              $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE.PLACEHOLDER')
-            "
-            :enabled-menu-options="customEditorMenuList"
-            :enable-suggestions="false"
-            @blur="$v.messageSignature.$touch"
-          />
-        </div>
-        <woot-button
-          :is-loading="isUpdating"
-          type="submit"
-          :is-disabled="$v.messageSignature.$invalid"
-        >
-          {{ $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.BTN_TEXT') }}
-        </woot-button>
-      </div>
+  <div class="profile--settings--row text-black-900 dark:text-slate-300 row">
+    <div class="w-[25%] py-4 pr-6 ml-0">
+      <h4 class="block-title text-black-900 dark:text-slate-200">
+        {{ $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.TITLE') }}
+      </h4>
+      <p>{{ $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.NOTE') }}</p>
     </div>
-  </form>
+    <div class="p-4 w-[45%]">
+      <div>
+        <label for="message-signature-input">{{
+          $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE.LABEL')
+        }}</label>
+        <woot-message-editor
+          id="message-signature-input"
+          v-model="messageSignature"
+          class="message-editor h-[10rem]"
+          :is-format-mode="true"
+          :placeholder="
+            $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE.PLACEHOLDER')
+          "
+          :enabled-menu-options="customEditorMenuList"
+          :enable-suggestions="false"
+          :show-image-resize-toolbar="true"
+        />
+      </div>
+      <woot-button
+        :is-loading="isUpdating"
+        type="button"
+        @click.prevent="updateSignature"
+      >
+        {{ $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.BTN_TEXT') }}
+      </woot-button>
+    </div>
+  </div>
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
@@ -59,11 +56,6 @@ export default {
       customEditorMenuList: MESSAGE_SIGNATURE_EDITOR_MENU_OPTIONS,
     };
   },
-  validations: {
-    messageSignature: {
-      required,
-    },
-  },
   computed: {
     ...mapGetters({
       currentUser: 'getCurrentUser',
@@ -79,15 +71,9 @@ export default {
       this.messageSignature = messageSignature || '';
     },
     async updateSignature() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
-        this.showAlert(this.$t('PROFILE_SETTINGS.FORM.ERROR'));
-        return;
-      }
-
       try {
         await this.$store.dispatch('updateProfile', {
-          message_signature: this.messageSignature,
+          message_signature: this.messageSignature || '',
         });
         this.errorMessage = this.$t(
           'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_SUCCESS'

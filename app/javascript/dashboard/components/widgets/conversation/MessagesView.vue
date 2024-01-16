@@ -1,5 +1,5 @@
 <template>
-  <div class="m-0 flex flex-col justify-between h-full flex-grow min-w-0">
+  <div class="flex flex-col justify-between flex-grow h-full min-w-0 m-0">
     <banner
       v-if="!currentChat.can_reply"
       color-scheme="alert"
@@ -7,21 +7,12 @@
       :href-link="replyWindowLink"
       :href-link-text="replyWindowLinkText"
     />
-
-    <banner
-      v-if="isATweet"
-      color-scheme="gray"
-      :banner-message="tweetBannerText"
-      :has-close-button="hasSelectedTweetId"
-      @close="removeTweetSelection"
-    />
-
     <div class="flex justify-end">
       <woot-button
         variant="smooth"
         size="tiny"
         color-scheme="secondary"
-        class="rounded-bl-calc rtl:rotate-180 rounded-tl-calc fixed top-[6.25rem] z-10 bg-white dark:bg-slate-700 border-slate-50 dark:border-slate-600 border-solid border border-r-0 box-border"
+        class="rounded-bl-calc rtl:rotate-180 rounded-tl-calc fixed top-[9.5rem] md:top-[6.25rem] z-10 bg-white dark:bg-slate-700 border-slate-50 dark:border-slate-600 border-solid border border-r-0 box-border"
         :icon="isRightOrLeftIcon"
         @click="onToggleContactPanel"
       />
@@ -40,8 +31,11 @@
         :data="message"
         :is-a-tweet="isATweet"
         :is-a-whatsapp-channel="isAWhatsAppChannel"
-        :has-instagram-story="hasInstagramStory"
         :is-web-widget-inbox="isAWebWidgetInbox"
+        :is-a-facebook-inbox="isAFacebookInbox"
+        :is-instagram="isInstagramDM"
+        :inbox-supports-reply-to="inboxSupportsReplyTo"
+        :in-reply-to="getInReplyToMessage(message)"
       />
       <li v-show="unreadMessageCount != 0" class="unread--toast">
         <span>
@@ -61,8 +55,11 @@
         :data="message"
         :is-a-tweet="isATweet"
         :is-a-whatsapp-channel="isAWhatsAppChannel"
-        :has-instagram-story="hasInstagramStory"
         :is-web-widget-inbox="isAWebWidgetInbox"
+        :is-a-facebook-inbox="isAFacebookInbox"
+        :is-instagram-dm="isInstagramDM"
+        :inbox-supports-reply-to="inboxSupportsReplyTo"
+        :in-reply-to="getInReplyToMessage(message)"
       />
       <conversation-label-suggestion
         v-if="shouldShowLabelSuggestions"
@@ -87,8 +84,6 @@
       </div>
       <reply-box
         :conversation-id="currentChat.id"
-        :is-a-tweet="isATweet"
-        :selected-tweet="selectedTweet"
         :popout-reply-box.sync="isPopoutReplyBox"
         @click="showPopoutReplyBox"
       />
@@ -110,7 +105,7 @@ import { mapGetters } from 'vuex';
 import conversationMixin, {
   filterDuplicateSourceMessages,
 } from '../../../mixins/conversations';
-import inboxMixin from 'shared/mixins/inboxMixin';
+import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 import configMixin from 'shared/mixins/configMixin';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import aiMixin from 'dashboard/mixins/aiMixin';
@@ -153,7 +148,6 @@ export default {
       isLoadingPrevious: true,
       heightBeforeLoad: null,
       conversationPanel: null,
-      selectedTweetId: null,
       hasUserScrolled: false,
       isProgrammaticScroll: false,
       isPopoutReplyBox: false,
@@ -164,12 +158,14 @@ export default {
 
   computed: {
     ...mapGetters({
+      accountId: 'getCurrentAccountId',
       currentChat: 'getSelectedChat',
       allConversations: 'getAllConversations',
       inboxesList: 'inboxes/getInboxes',
       listLoadingStatus: 'getAllMessagesLoaded',
       loadingChatList: 'getChatListLoadingStatus',
       appIntegrations: 'integrations/getAppIntegrations',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       currentAccountId: 'getCurrentAccountId',
     }),
     isOpen() {
@@ -188,16 +184,6 @@ export default {
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.inboxId);
-    },
-    hasSelectedTweetId() {
-      return !!this.selectedTweetId;
-    },
-    tweetBannerText() {
-      return !this.selectedTweetId
-        ? this.$t('CONVERSATION.SELECT_A_TWEET_TO_REPLY')
-        : `
-          ${this.$t('CONVERSATION.REPLYING_TO')}
-          ${this.selectedTweet.content}` || '';
     },
     typingUsersList() {
       const userList = this.$store.getters[
@@ -253,21 +239,6 @@ export default {
     isATweet() {
       return this.conversationType === 'tweet';
     },
-
-    hasInstagramStory() {
-      return this.conversationType === 'instagram_direct_message';
-    },
-
-    selectedTweet() {
-      if (this.selectedTweetId) {
-        const { messages = [] } = this.currentChat;
-        const [selectedMessage] = messages.filter(
-          message => message.id === this.selectedTweetId
-        );
-        return selectedMessage || {};
-      }
-      return '';
-    },
     isRightOrLeftIcon() {
       if (this.isContactPanelOpen) {
         return 'arrow-chevron-right';
@@ -316,6 +287,17 @@ export default {
     unreadMessageCount() {
       return this.currentChat.unread_count || 0;
     },
+    isInstagramDM() {
+      return this.conversationType === 'instagram_direct_message';
+    },
+    inboxSupportsReplyTo() {
+      const incoming = this.inboxHasFeature(INBOX_FEATURES.REPLY_TO);
+      const outgoing =
+        this.inboxHasFeature(INBOX_FEATURES.REPLY_TO_OUTGOING) &&
+        !this.is360DialogWhatsAppChannel;
+
+      return { incoming, outgoing };
+    },
   },
 
   watch: {
@@ -326,7 +308,6 @@ export default {
       this.fetchAllAttachmentsFromCurrentChat();
       this.fetchSuggestions();
       this.messageSentSinceOpened = false;
-      this.selectedTweetId = null;
     },
   },
 
@@ -334,7 +315,6 @@ export default {
     bus.$on(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
     // when a new message comes in, we refetch the label suggestions
     bus.$on(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS, this.fetchSuggestions);
-    bus.$on(BUS_EVENTS.SET_TWEET_REPLY, this.setSelectedTweet);
     // when a message is sent we set the flag to true this hides the label suggestions,
     // until the chat is changed and the flag is reset in the watch for currentChat
     bus.$on(BUS_EVENTS.MESSAGE_SENT, () => {
@@ -369,7 +349,7 @@ export default {
       // method available in mixin, need to ensure that integrations are present
       await this.fetchIntegrationsIfRequired();
 
-      if (!this.isAIIntegrationEnabled) {
+      if (!this.isLabelSuggestionFeatureEnabled) {
         return;
       }
 
@@ -405,10 +385,6 @@ export default {
     },
     removeBusListeners() {
       bus.$off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
-      bus.$off(BUS_EVENTS.SET_TWEET_REPLY, this.setSelectedTweet);
-    },
-    setSelectedTweet(tweetId) {
-      this.selectedTweetId = tweetId;
     },
     onScrollToMessage({ messageId = '' } = {}) {
       this.$nextTick(() => {
@@ -531,8 +507,18 @@ export default {
     makeMessagesRead() {
       this.$store.dispatch('markMessagesRead', { id: this.currentChat.id });
     },
-    removeTweetSelection() {
-      this.selectedTweetId = null;
+
+    getInReplyToMessage(parentMessage) {
+      if (!parentMessage) return {};
+      const inReplyToMessageId = parentMessage.content_attributes?.in_reply_to;
+      if (!inReplyToMessageId) return {};
+
+      return this.currentChat?.messages.find(message => {
+        if (message.id === inReplyToMessageId) {
+          return true;
+        }
+        return false;
+      });
     },
   },
 };

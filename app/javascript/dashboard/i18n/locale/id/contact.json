@@ -204,6 +204,10 @@
         "PLACEHOLDER": "Tulis pesan Anda di sini",
         "ERROR": "Pesan tidak boleh kosong"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "Kirim Pesan",
       "CANCEL": "Batalkan",
       "SUCCESS_MESSAGE": "Pesan terkirim!",
@@ -343,17 +347,17 @@
     "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
     "PRIMARY": {
       "TITLE": "Kontak Utama",
-      "HELP_LABEL": "Akan tetap"
+      "HELP_LABEL": "Akan dihapus"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Kontak yang akan Digabungkan",
       "PLACEHOLDER": "Cari kontak",
-      "HELP_LABEL": "Akan dihapus"
+      "HELP_LABEL": "Akan tetap"
     },
     "SUMMARY": {
       "TITLE": "Ringkasan",
-      "DELETE_WARNING": "Kontak <strong>%{childContactName}</strong> akan dihapus.",
-      "ATTRIBUTE_WARNING": "Detail kontak dari <strong>%{childContactName}</strong> akan disalin ke <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Kontak <strong>%{primaryContactName}</strong> akan dihapus.",
+      "ATTRIBUTE_WARNING": "Detail kontak dari <strong>%{primaryContactName}</strong> akan disalin ke <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "PESAN_KESALAHAN"

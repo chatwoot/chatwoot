@@ -52,6 +52,7 @@
       :key="currentChat.id + '-' + dashboardApp.id"
       :is-visible="activeIndex - 1 === index"
       :config="dashboardApps[index].content"
+      :position="index"
       :current-chat="currentChat"
     />
   </div>

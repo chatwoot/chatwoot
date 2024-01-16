@@ -50,7 +50,7 @@ fr:
     dyte:
       invalid_message_type: "Type de message invalide. Action non autorisée"
     slack:
-      invalid_channel_id: "Invalid slack channel. Please try again"
+      invalid_channel_id: "Canal Slack invalide. Veuillez réessayer"
     inboxes:
       imap:
         socket_error: Veuillez vérifier la connexion, l'adresse IMAP et réessayez.
@@ -110,6 +110,8 @@ fr:
       instagram_story_content: "%{story_sender} vous a mentionné dans la story: "
       instagram_deleted_story_content: Cette Story n'est plus disponible.
       deleted: Ce message a été supprimé
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "La conversation a été marquée résolue par %{user_name}"
@@ -202,3 +204,12 @@ fr:
       made_with: Réalisé avec
     header:
       go_to_homepage: Aller à la page d'accueil
+  slack_unfurl:
+    fields:
+      name: Nom
+      email: Courriel
+      phone_number: Téléphone
+      company_name: Société
+      inbox_name: Boîte de réception
+      inbox_type: Type de boîte de réception
+    button: Ouvrir la conversation

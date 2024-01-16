@@ -34,7 +34,6 @@
     "ASSIGN_TO_ME": "Prideliť mne",
     "TWILIO_WHATSAPP_CAN_REPLY": "Na túto konverzáciu môžete odpovedať len pomocou šablóny správy z dôvodu",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24-hodinové obmedzenie okna správ",
-    "SELECT_A_TWEET_TO_REPLY": "Vyberte tweet, na ktorý chcete odpovedať.",
     "REPLYING_TO": "Odpovedáte na:",
     "REMOVE_SELECTION": "Odstrániť výber",
     "DOWNLOAD": "Stiahnuť",
@@ -47,6 +46,7 @@
     "NO_RESPONSE": "Žiadna odpoveď",
     "RATING_TITLE": "Hodnotenia",
     "FEEDBACK_TITLE": "Spätná väzba",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Show labels",
       "HIDE_LABELS": "Hide labels"
@@ -139,7 +139,8 @@
       "PRIVATE_NOTE": "Súkromná správa",
       "SEND": "Poslať",
       "CREATE": "Pridať poznámku",
-      "TWEET": "Tweet",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "Zobraziť rozšírený textový editor",
       "TIP_EMOJI_ICON": "Zobraz výber emotikonov",
       "TIP_ATTACH_ICON": "Pripojiť súbory",
@@ -194,6 +195,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Copy",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "Vymazať",
       "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
       "TRANSLATE": "Translate",

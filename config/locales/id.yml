@@ -110,6 +110,8 @@ id:
       instagram_story_content: "%{story_sender} menyebutmu dalam story: "
       instagram_deleted_story_content: Story ini tidak lagi tersedia.
       deleted: Pesan ini telah terhapus
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "Percakapan ditandai selesai oleh %{user_name}"
@@ -202,3 +204,12 @@ id:
       made_with: Dibuat oleh
     header:
       go_to_homepage: Pergi ke situs beranda
+  slack_unfurl:
+    fields:
+      name: Nama
+      email: Email
+      phone_number: Phone
+      company_name: Perusahaan
+      inbox_name: Kotak masuk
+      inbox_type: Inbox Type
+    button: Buka percakapan

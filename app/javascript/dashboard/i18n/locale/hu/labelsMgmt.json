@@ -40,16 +40,16 @@
     },
     "SUGGESTIONS": {
       "TOOLTIP": {
-        "SINGLE_SUGGESTION": "Add label to conversation",
-        "MULTIPLE_SUGGESTION": "Select this label",
-        "DESELECT": "Deselect label",
-        "DISMISS": "Dismiss suggestion"
+        "SINGLE_SUGGESTION": "Címke hozzáadása a beszélgetéshez",
+        "MULTIPLE_SUGGESTION": "Válassza ki ezt a címkét",
+        "DESELECT": "Címke kijelölésének megszüntetése",
+        "DISMISS": "Javaslatok kihagyása"
       },
       "POWERED_BY": "Chatwoot AI",
       "DISMISS": "Elutasítás",
-      "ADD_SELECTED_LABELS": "Add selected labels",
-      "ADD_SELECTED_LABEL": "Add selected label",
-      "ADD_ALL_LABELS": "Add all labels"
+      "ADD_SELECTED_LABELS": "Kijelölt címkék hozzáadása",
+      "ADD_SELECTED_LABEL": "Kijelölt címke hozzáadása",
+      "ADD_ALL_LABELS": "Minden címke hozzáadása"
     },
     "ADD": {
       "TITLE": "Cimke hozzáadása",

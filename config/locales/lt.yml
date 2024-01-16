@@ -110,6 +110,8 @@ lt:
       instagram_story_content: "%{story_sender} paminėjo jus pasakojime: "
       instagram_deleted_story_content: Šis pasakojimas nebepasiekiamas.
       deleted: Šis pranešimas buvo ištrintas
+      delivery_status:
+        error_code: "Klaidos kodas: %{error_code}"
     activity:
       status:
         resolved: "Pokalbį pažymėjo %{user_name} kaip baigtą"
@@ -202,3 +204,12 @@ lt:
       made_with: Padaryta su
     header:
       go_to_homepage: Eikite į pagrindinę svetainę
+  slack_unfurl:
+    fields:
+      name: Vardas
+      email: El. paštas
+      phone_number: Telefono Nr.
+      company_name: Įmonė
+      inbox_name: Gautų laiškų aplankas
+      inbox_type: Gautų laiškų aplanko tipas
+    button: Atidaryti pokalbį

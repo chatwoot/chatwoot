@@ -4,6 +4,7 @@ module.exports = {
     'prettier',
     'plugin:vue/recommended',
     'plugin:storybook/recommended',
+    'plugin:cypress/recommended',
   ],
   parserOptions: {
     parser: '@babel/eslint-parser',

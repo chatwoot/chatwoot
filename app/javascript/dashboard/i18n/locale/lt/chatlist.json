@@ -41,6 +41,16 @@
       "STATUS": "Būsena",
       "ORDER_BY": "Rūšiuoti pagal"
     },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Sukurta",
+        "OLDEST": "Sukurta:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Paskutiniai veiksmai:",
+        "ACTIVE": "Paskutiniai veiksmai"
+      }
+    },
     "CHAT_SORT_FILTER_ITEMS": {
       "latest": {
         "TEXT": "Paskutiniai veiksmai"

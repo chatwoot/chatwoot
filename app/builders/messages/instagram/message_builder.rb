@@ -20,7 +20,9 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
     ActiveRecord::Base.transaction do
       build_message
     end
-  rescue Koala::Facebook::AuthenticationError
+  rescue Koala::Facebook::AuthenticationError => e
+    Rails.logger.warn("Instagram authentication error for inbox: #{@inbox.id} with error: #{e.message}")
+    Rails.logger.error e
     @inbox.channel.authorization_error!
     raise
   rescue StandardError => e
@@ -44,6 +46,10 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
 
   def message_source_id
     @outgoing_echo ? recipient_id : sender_id
+  end
+
+  def message_is_unsupported?
+    message[:is_unsupported].present? && @messaging[:message][:is_unsupported] == true
   end
 
   def sender_id
@@ -74,6 +80,10 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
 
   def story_reply_attributes
     message[:reply_to][:story] if message[:reply_to].present? && message[:reply_to][:story].present?
+  end
+
+  def message_reply_attributes
+    message[:reply_to][:mid] if message[:reply_to].present? && message[:reply_to][:mid].present?
   end
 
   def build_message
@@ -112,14 +122,20 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def message_params
-    {
+    params = {
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
       message_type: message_type,
       source_id: message_identifier,
       content: message_content,
-      sender: @outgoing_echo ? nil : contact
+      sender: @outgoing_echo ? nil : contact,
+      content_attributes: {
+        in_reply_to_external_id: message_reply_attributes
+      }
     }
+
+    params[:content_attributes][:is_unsupported] = true if message_is_unsupported?
+    params
   end
 
   def already_sent_from_chatwoot?

@@ -110,6 +110,8 @@ nl:
       instagram_story_content: "%{story_sender} heeft je genoemd in het verhaal: "
       instagram_deleted_story_content: Dit verhaal is niet meer beschikbaar.
       deleted: Dit bericht werd verwijderd
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "Gesprek werd gemarkeerd door %{user_name}"
@@ -202,3 +204,12 @@ nl:
       made_with: Made with
     header:
       go_to_homepage: Go to the main site
+  slack_unfurl:
+    fields:
+      name: Naam
+      email: E-mailadres
+      phone_number: Phone
+      company_name: Bedrijfsnaam
+      inbox_name: Postvak In
+      inbox_type: Inbox Type
+    button: Open conversation

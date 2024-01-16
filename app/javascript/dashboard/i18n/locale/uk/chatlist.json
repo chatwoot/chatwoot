@@ -41,6 +41,16 @@
       "STATUS": "Статус",
       "ORDER_BY": "Сортувати за"
     },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Створено",
+        "OLDEST": "Створений в:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Остання активність:",
+        "ACTIVE": "Остання активність"
+      }
+    },
     "CHAT_SORT_FILTER_ITEMS": {
       "latest": {
         "TEXT": "Остання активність"

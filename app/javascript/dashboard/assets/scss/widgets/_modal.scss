@@ -4,10 +4,6 @@
   @apply flex items-center justify-center bg-modal dark:bg-modal z-[9990] h-full left-0 fixed top-0 w-full;
 }
 
-.modal--close {
-  @apply absolute right-2 rtl:right-[unset] rtl:left-2 top-2;
-}
-
 .page-top-bar {
   @apply px-8 pt-9 pb-0;
 

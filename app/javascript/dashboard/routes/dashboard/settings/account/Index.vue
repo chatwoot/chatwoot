@@ -220,14 +220,11 @@ export default {
     },
   },
   mounted() {
-    if (!this.id) {
-      this.initializeAccount();
-    }
+    this.initializeAccount();
   },
   methods: {
     async initializeAccount() {
       try {
-        await this.$store.dispatch('accounts/get');
         const {
           name,
           locale,

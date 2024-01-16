@@ -13,10 +13,9 @@ class Public::Api::V1::Portals::CategoriesController < Public::Api::V1::Portals:
   private
 
   def set_category
-    @category = @portal.categories.find_by!(locale: params[:locale], slug: params[:category_slug])
-  end
+    @category = @portal.categories.find_by(locale: params[:locale], slug: params[:category_slug])
 
-  def portal
-    @portal ||= Portal.find_by!(slug: params[:slug], archived: false)
+    Rails.logger.info "Category: not found for slug: #{params[:category_slug]}"
+    render_404 && return if @category.blank?
   end
 end

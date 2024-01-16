@@ -22,6 +22,7 @@
 
 class Channel::TwilioSms < ApplicationRecord
   include Channelable
+  include Rails.application.routes.url_helpers
 
   self.table_name = 'channel_twilio_sms'
 
@@ -47,6 +48,7 @@ class Channel::TwilioSms < ApplicationRecord
   def send_message(to:, body:, media_url: nil)
     params = send_message_from.merge(to: to, body: body)
     params[:media_url] = media_url if media_url.present?
+    params[:status_callback] = twilio_delivery_status_index_url
     client.messages.create(**params)
   end
 

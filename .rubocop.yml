@@ -58,6 +58,7 @@ Metrics/BlockLength:
 Metrics/ModuleLength:
   Exclude:
     - lib/seeders/message_seeder.rb
+    - spec/support/slack_stubs.rb
 Rails/ApplicationController:
   Exclude:
     - 'app/controllers/api/v1/widget/messages_controller.rb'

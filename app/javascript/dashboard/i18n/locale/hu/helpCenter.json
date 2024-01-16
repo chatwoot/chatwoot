@@ -365,7 +365,7 @@
         "NAME": {
           "LABEL": "Név",
           "PLACEHOLDER": "Kategória neve",
-          "HELP_TEXT": "A kategória nevét a nyilvános portálon a cikkek kategorizálására használjuk.",
+          "HELP_TEXT": "A kategória neve és ikonja a nyilvános portálon a cikkek kategorizálására szolgál.",
           "ERROR": "Név kötelező"
         },
         "SLUG": {
@@ -396,7 +396,7 @@
         "NAME": {
           "LABEL": "Név",
           "PLACEHOLDER": "Kategória neve",
-          "HELP_TEXT": "A kategória nevét a nyilvános portálon a cikkek kategorizálására használjuk.",
+          "HELP_TEXT": "A kategória neve és ikonja a nyilvános portálon a cikkek kategorizálására szolgál.",
           "ERROR": "Név kötelező"
         },
         "SLUG": {
@@ -423,6 +423,33 @@
         "API": {
           "SUCCESS_MESSAGE": "Kategória törölve",
           "ERROR_MESSAGE": "Nem lehet törölni a kategóriát"
+        }
+      }
+    },
+    "UPGRADE_PAGE": {
+      "TITLE": "Súgóközpont",
+      "DESCRIPTION": "Hozzon létre felhasználóbarát önkiszolgáló portálokat. Segítse felhasználóit a cikkek 7/24 elérésében. Frissítse előfizetését, hogy engedélyezze ezt a funkciót.",
+      "SELF_HOSTED_DESCRIPTION": "Hozzon létre felhasználóbarát önkiszolgáló portálokat. Segítse felhasználóit a cikkek 7/24 elérésében. Kérjük, lépjen kapcsolatba a rendszergazdával a funkció engedélyezéséhez.",
+      "BUTTON": {
+        "LEARN_MORE": "Tudj meg többet",
+        "UPGRADE": "Frissítés"
+      },
+      "FEATURES": {
+        "PORTALS": {
+          "TITLE": "Több portál",
+          "DESCRIPTION": "Hozzon létre több help center portált különböző termékekhez ugyanazon fiók használatával."
+        },
+        "LOCALES": {
+          "TITLE": "Teljes körű támogatás a helyiek számára",
+          "DESCRIPTION": "Lokalizálja a portált az Ön nyelvén. Támogatjuk az összes helyi nyelvet, és lehetővé tesszük a fordításokat minden cikkhez."
+        },
+        "SEO": {
+          "TITLE": "SEO-barát design",
+          "DESCRIPTION": "Testre szabhatja meta-cimkéit, hogy SEO-barát oldalainkkal javítsa láthatóságát a keresőmotorokban."
+        },
+        "API": {
+          "TITLE": "Teljes API támogatás",
+          "DESCRIPTION": "Használja a portált fej nélküli CMS-ként harmadik féltől származó front-end keretrendszerekkel a mi API-ink segítségével."
         }
       }
     }

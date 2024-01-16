@@ -110,6 +110,8 @@ lv:
       instagram_story_content: "%{story_sender} pieminēja jūs stāstā: "
       instagram_deleted_story_content: Šis stāsts vairs nav pieejams.
       deleted: Šis ziņojums ir izdzēsts
+      delivery_status:
+        error_code: "Kļūdas kods: %{error_code}"
     activity:
       status:
         resolved: "%{user_name} sarunu atzīmēja kā atrisinātu"
@@ -202,3 +204,12 @@ lv:
       made_with: Veidots ar
     header:
       go_to_homepage: Doties uz galveno vietni
+  slack_unfurl:
+    fields:
+      name: Nosaukums
+      email: E-pasts
+      phone_number: Telefona Nr.
+      company_name: Uzņēmums
+      inbox_name: Iesūtne
+      inbox_type: Iesūtnes Veids
+    button: Atvērt sarunu

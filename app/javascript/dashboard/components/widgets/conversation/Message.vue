@@ -1,7 +1,7 @@
 <template>
   <li v-if="shouldRenderMessage" :id="`message${data.id}`" :class="alignBubble">
     <div :class="wrapClass">
-      <div v-if="isFailed" class="message-failed--alert">
+      <div v-if="isFailed && !hasOneDayPassed" class="message-failed--alert">
         <woot-button
           v-tooltip.top-end="$t('CONVERSATION.TRY_AGAIN')"
           size="tiny"
@@ -22,20 +22,26 @@
           :bcc="emailHeadAttributes.bcc"
           :is-incoming="isIncoming"
         />
-        <blockquote v-if="storyReply" class="story-reply-quote">
-          <span>{{ $t('CONVERSATION.REPLIED_TO_STORY') }}</span>
-          <bubble-image
-            v-if="!hasImgStoryError && storyUrl"
-            :url="storyUrl"
-            @error="onStoryLoadError"
-          />
-          <bubble-video
-            v-else-if="hasImgStoryError && storyUrl"
-            :url="storyUrl"
-          />
-        </blockquote>
+        <instagram-story-reply v-if="storyUrl" :story-url="storyUrl" />
+        <bubble-reply-to
+          v-if="inReplyToMessageId && inboxSupportsReplyTo.incoming"
+          :message="inReplyTo"
+          :message-type="data.message_type"
+          :parent-has-attachments="hasAttachments"
+        />
+        <div v-if="isUnsupported">
+          <template v-if="isAFacebookInbox && isInstagram">
+            {{ $t('CONVERSATION.UNSUPPORTED_MESSAGE_INSTAGRAM') }}
+          </template>
+          <template v-else-if="isAFacebookInbox">
+            {{ $t('CONVERSATION.UNSUPPORTED_MESSAGE_FACEBOOK') }}
+          </template>
+          <template v-else>
+            {{ $t('CONVERSATION.UNSUPPORTED_MESSAGE') }}
+          </template>
+        </div>
         <bubble-text
-          v-if="data.content"
+          v-else-if="data.content"
           :message="message"
           :is-email="isEmailContentType"
           :display-quoted-button="displayQuotedButton"
@@ -53,10 +59,15 @@
         </span>
         <div v-if="!isPending && hasAttachments">
           <div v-for="attachment in attachments" :key="attachment.id">
+            <instagram-story
+              v-if="isAnInstagramStory"
+              :story-url="attachment.data_url"
+              @error="onMediaLoadError"
+            />
             <bubble-image-audio-video
-              v-if="isAttachmentImageVideoAudio(attachment.file_type)"
+              v-else-if="isAttachmentImageVideoAudio(attachment.file_type)"
               :attachment="attachment"
-              @error="onImageLoadError"
+              @error="onMediaLoadError"
             />
             <bubble-location
               v-else-if="attachment.file_type === 'location'"
@@ -69,9 +80,6 @@
               :name="data.content"
               :phone-number="attachment.fallback_title"
             />
-            <instagram-image-error-placeholder
-              v-else-if="hasImageError && hasInstagramStory"
-            />
             <bubble-file v-else :url="attachment.data_url" />
           </div>
         </div>
@@ -83,7 +91,6 @@
           :story-id="`${storyId}`"
           :is-a-tweet="isATweet"
           :is-a-whatsapp-channel="isAWhatsAppChannel"
-          :has-instagram-story="hasInstagramStory"
           :is-email="isEmailContentType"
           :is-private="data.private"
           :message-type="data.message_type"
@@ -124,6 +131,7 @@
         :message="data"
         @open="openContextMenu"
         @close="closeContextMenu"
+        @replyTo="handleReplyTo"
       />
     </div>
   </li>
@@ -131,40 +139,43 @@
 <script>
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import BubbleActions from './bubble/Actions.vue';
+import BubbleContact from './bubble/Contact.vue';
 import BubbleFile from './bubble/File.vue';
-import BubbleImage from './bubble/Image.vue';
-import BubbleVideo from './bubble/Video.vue';
 import BubbleImageAudioVideo from './bubble/ImageAudioVideo.vue';
 import BubbleIntegration from './bubble/Integration.vue';
 import BubbleLocation from './bubble/Location.vue';
 import BubbleMailHead from './bubble/MailHead.vue';
+import BubbleReplyTo from './bubble/ReplyTo.vue';
 import BubbleText from './bubble/Text.vue';
-import BubbleContact from './bubble/Contact.vue';
-import Spinner from 'shared/components/Spinner.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
-import instagramImageErrorPlaceholder from './instagramImageErrorPlaceholder.vue';
+import InstagramStory from './bubble/InstagramStory.vue';
+import InstagramStoryReply from './bubble/InstagramStoryReply.vue';
+import Spinner from 'shared/components/Spinner.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import contentTypeMixin from 'shared/mixins/contentTypeMixin';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import { generateBotMessageContent } from './helpers/botMessageContentHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
+import { LocalStorage } from 'shared/helpers/localStorage';
+import { getDayDifferenceFromNow } from 'shared/helpers/DateHelper';
 
 export default {
   components: {
     BubbleActions,
+    BubbleContact,
     BubbleFile,
-    BubbleImage,
-    BubbleVideo,
     BubbleImageAudioVideo,
     BubbleIntegration,
     BubbleLocation,
     BubbleMailHead,
+    BubbleReplyTo,
     BubbleText,
-    BubbleContact,
     ContextMenu,
+    InstagramStory,
+    InstagramStoryReply,
     Spinner,
-    instagramImageErrorPlaceholder,
   },
   mixins: [alertMixin, messageFormatterMixin, contentTypeMixin],
   props: {
@@ -176,11 +187,15 @@ export default {
       type: Boolean,
       default: false,
     },
-    isAWhatsAppChannel: {
+    isAFacebookInbox: {
       type: Boolean,
       default: false,
     },
-    hasInstagramStory: {
+    isInstagram: {
+      type: Boolean,
+      default: false,
+    },
+    isAWhatsAppChannel: {
       type: Boolean,
       default: false,
     },
@@ -188,14 +203,21 @@ export default {
       type: Boolean,
       default: false,
     },
+    inboxSupportsReplyTo: {
+      type: Object,
+      default: () => ({}),
+    },
+    inReplyTo: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   data() {
     return {
       showContextMenu: false,
-      hasImageError: false,
+      hasMediaLoadError: false,
       contextMenuPosition: {},
       showBackgroundHighlight: false,
-      hasImgStoryError: false,
     };
   },
   computed: {
@@ -207,11 +229,16 @@ export default {
         created_at: this.data.created_at || '',
       }));
     },
+    hasOneDayPassed() {
+      // Disable retry button if the message is failed and the message is older than 24 hours
+      return getDayDifferenceFromNow(new Date(), this.data?.created_at) >= 1;
+    },
     shouldRenderMessage() {
       return (
         this.hasAttachments ||
         this.data.content ||
         this.isEmailContentType ||
+        this.isUnsupported ||
         this.isAnIntegrationMessage
       );
     },
@@ -264,18 +291,29 @@ export default {
         ) + botMessageContent
       );
     },
+    inReplyToMessageId() {
+      // Why not use the inReplyTo object directly?
+      // Glad you asked! The inReplyTo object may or may not be available
+      // depending on the current scroll position of the message list
+      // since old messages are only loaded when the user scrolls up
+      return this.data.content_attributes?.in_reply_to;
+    },
+    isAnInstagramStory() {
+      return this.contentAttributes.image_type === 'story_mention';
+    },
     contextMenuEnabledOptions() {
       return {
         copy: this.hasText,
         delete: this.hasText || this.hasAttachments,
         cannedResponse: this.isOutgoing && this.hasText,
+        replyTo: !this.data.private && this.inboxSupportsReplyTo.outgoing,
       };
     },
     contentAttributes() {
       return this.data.content_attributes || {};
     },
     externalError() {
-      return this.contentAttributes.external_error || null;
+      return this.contentAttributes.external_error || '';
     },
     sender() {
       return this.data.sender || {};
@@ -291,9 +329,6 @@ export default {
     },
     storyUrl() {
       return this.contentAttributes.story_url || null;
-    },
-    storyReply() {
-      return this.storyUrl && this.hasInstagramStory;
     },
     contentType() {
       const {
@@ -318,6 +353,8 @@ export default {
         left: isLeftAligned,
         right: isRightAligned,
         'has-context-menu': this.showContextMenu,
+        // this handles the offset required to align the context menu button
+        // extra alignment is required since a tweet message has a the user name and avatar below it
         'has-tweet-menu': this.isATweet,
         'has-bg': this.showBackgroundHighlight,
       };
@@ -373,7 +410,7 @@ export default {
         return false;
       }
       if (this.isFailed) {
-        return this.externalError ? '' : this.$t(`CONVERSATION.SEND_FAILED`);
+        return this.externalError || this.$t(`CONVERSATION.SEND_FAILED`);
       }
       return false;
     },
@@ -390,6 +427,7 @@ export default {
       return {
         bubble: this.isBubble,
         'is-private': this.data.private,
+        'is-unsupported': this.isUnsupported,
         'is-image': this.hasMediaAttachment('image'),
         'is-video': this.hasMediaAttachment('video'),
         'is-text': this.hasText,
@@ -397,6 +435,9 @@ export default {
         'is-failed': this.isFailed,
         'is-email': this.isEmailContentType,
       };
+    },
+    isUnsupported() {
+      return this.contentAttributes.is_unsupported ?? false;
     },
     isPending() {
       return this.data.status === MESSAGE_STATUS.PROGRESS;
@@ -409,11 +450,7 @@ export default {
       return !this.sender.type || this.sender.type === 'agent_bot';
     },
     shouldShowContextMenu() {
-      return !(this.isFailed || this.isPending);
-    },
-    errorMessage() {
-      const { meta } = this.data;
-      return meta ? meta.error : '';
+      return !(this.isFailed || this.isPending || this.isUnsupported);
     },
     showAvatar() {
       if (this.isOutgoing || this.isTemplate) {
@@ -431,13 +468,11 @@ export default {
   },
   watch: {
     data() {
-      this.hasImageError = false;
-      this.hasImgStoryError = false;
+      this.hasMediaLoadError = false;
     },
   },
   mounted() {
-    this.hasImageError = false;
-    this.hasImgStoryError = false;
+    this.hasMediaLoadError = false;
     bus.$on(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
     this.setupHighlightTimer();
   },
@@ -447,13 +482,13 @@ export default {
   },
   methods: {
     isAttachmentImageVideoAudio(fileType) {
-      return ['image', 'audio', 'video'].includes(fileType);
+      return ['image', 'audio', 'video', 'story_mention'].includes(fileType);
     },
     hasMediaAttachment(type) {
       if (this.hasAttachments && this.data.attachments.length > 0) {
         const { attachments = [{}] } = this.data;
         const { file_type: fileType } = attachments[0];
-        return fileType === type && !this.hasImageError;
+        return fileType === type && !this.hasMediaLoadError;
       }
       if (this.storyReply) {
         return true;
@@ -466,11 +501,8 @@ export default {
     async retrySendMessage() {
       await this.$store.dispatch('sendMessageWithData', this.data);
     },
-    onImageLoadError() {
-      this.hasImageError = true;
-    },
-    onStoryLoadError() {
-      this.hasImgStoryError = true;
+    onMediaLoadError() {
+      this.hasMediaLoadError = true;
     },
     openContextMenu(e) {
       const shouldSkipContextMenu =
@@ -494,6 +526,13 @@ export default {
       this.showContextMenu = false;
       this.contextMenuPosition = { x: null, y: null };
     },
+    handleReplyTo() {
+      const replyStorageKey = LOCAL_STORAGE_KEYS.MESSAGE_REPLY_TO;
+      const { conversation_id: conversationId, id: replyTo } = this.data;
+
+      LocalStorage.updateJsonStore(replyStorageKey, conversationId, replyTo);
+      bus.$emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.data);
+    },
     setupHighlightTimer() {
       if (Number(this.$route.query.messageId) !== Number(this.data.id)) {
         return;
@@ -513,6 +552,14 @@ export default {
   > .bubble {
     @apply min-w-[128px];
 
+    &.is-unsupported {
+      @apply text-xs max-w-[300px] border-dashed border border-slate-200 text-slate-600 dark:text-slate-200 bg-slate-50 dark:bg-slate-700 dark:border-slate-500;
+
+      .message-text--metadata .time {
+        @apply text-slate-400 dark:text-slate-300;
+      }
+    }
+
     &.is-image,
     &.is-video {
       @apply p-0 overflow-hidden;
@@ -525,10 +572,12 @@ export default {
         > video {
           @apply rounded-lg;
         }
+
         > video {
           @apply h-full w-full object-cover;
         }
       }
+
       .video {
         @apply h-[11.25rem];
       }
@@ -543,9 +592,11 @@ export default {
       .file--icon {
         @apply text-woot-400 dark:text-woot-400;
       }
+
       .text-block-title {
         @apply text-slate-700 dark:text-slate-700;
       }
+
       .download.button {
         @apply text-woot-400 dark:text-woot-400;
       }
@@ -554,6 +605,7 @@ export default {
     &.is-private.is-text > .message-text__wrap .link {
       @apply text-woot-600 dark:text-woot-200;
     }
+
     &.is-private.is-text > .message-text__wrap .prosemirror-mention-node {
       @apply font-bold bg-none rounded-sm p-0 bg-yellow-100 dark:bg-yellow-700 text-slate-700 dark:text-slate-25 underline;
     }
@@ -564,6 +616,7 @@ export default {
       .message-text--metadata .time {
         @apply text-violet-50 dark:text-violet-50;
       }
+
       &.is-private .message-text--metadata .time {
         @apply text-slate-400 dark:text-slate-400;
       }
@@ -613,6 +666,8 @@ li.right {
 }
 
 li.left.has-tweet-menu .context-menu {
+  // this handles the offset required to align the context menu button
+  // extra alignment is required since a tweet message has a the user name and avatar below it
   @apply mb-6;
 }
 
@@ -692,9 +747,5 @@ li.right {
       @apply text-woot-75 dark:text-woot-75;
     }
   }
-}
-
-.story-reply-quote {
-  @apply mt-2 mx-4 mb-0 px-2 pb-0 pt-2 border-l-4 border-solid border-slate-75 dark:border-slate-600 text-slate-600 dark:text-slate-200;
 }
 </style>

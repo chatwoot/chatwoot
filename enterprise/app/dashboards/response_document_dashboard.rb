@@ -38,11 +38,11 @@ class ResponseDocumentDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = %i[
     id
     account
-    content
-    document_id
-    document_link
-    document_type
     response_source
+    document_link
+    document_id
+    document_type
+    content
     created_at
     updated_at
     responses
@@ -53,11 +53,11 @@ class ResponseDocumentDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
     account
-    content
-    document_id
-    document_link
-    document_type
     response_source
+    document_link
+    document_id
+    document_type
+    content
   ].freeze
 
   # COLLECTION_FILTERS
@@ -70,7 +70,10 @@ class ResponseDocumentDashboard < Administrate::BaseDashboard
   #   COLLECTION_FILTERS = {
   #     open: ->(resources) { resources.where(open: true) }
   #   }.freeze
-  COLLECTION_FILTERS = {}.freeze
+  COLLECTION_FILTERS = {
+    account: ->(resources, attr) { resources.where(account_id: attr) },
+    response_source: ->(resources, attr) { resources.where(response_source_id: attr) }
+  }.freeze
 
   # Overwrite this method to customize how response documents are displayed
   # across all pages of the admin dashboard.

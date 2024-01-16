@@ -41,6 +41,16 @@
       "STATUS": "État",
       "ORDER_BY": "Trier par"
     },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Créé",
+        "OLDEST": "Créé le:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Dernière activité:",
+        "ACTIVE": "Dernière activité"
+      }
+    },
     "CHAT_SORT_FILTER_ITEMS": {
       "latest": {
         "TEXT": "Dernière activité"

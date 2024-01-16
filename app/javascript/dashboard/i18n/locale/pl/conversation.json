@@ -34,7 +34,6 @@
     "ASSIGN_TO_ME": "Przypisz do mnie",
     "TWILIO_WHATSAPP_CAN_REPLY": "Możesz odpowiedzieć na tę rozmowę tylko za pomocą szablonu wiadomości, ponieważ",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Ograniczenie 24-godzinnego okna wiadomości",
-    "SELECT_A_TWEET_TO_REPLY": "Wybierz tweet, na który chcesz odpowiedzieć.",
     "REPLYING_TO": "Osoba, której odpowiadasz to:",
     "REMOVE_SELECTION": "Usuń zaznaczenie",
     "DOWNLOAD": "Pobierz",
@@ -47,6 +46,7 @@
     "NO_RESPONSE": "Brak odpowiedzi",
     "RATING_TITLE": "Ocena",
     "FEEDBACK_TITLE": "Opinia",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Pokaż etykiety",
       "HIDE_LABELS": "Ukryj etykiety"
@@ -139,7 +139,8 @@
       "PRIVATE_NOTE": "Notatka prywatna",
       "SEND": "Wyślij",
       "CREATE": "Dodaj notatkę",
-      "TWEET": "Tweetuj",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "Pokaż zaawansowany edytor",
       "TIP_EMOJI_ICON": "Pokaż selektor emotikonek",
       "TIP_ATTACH_ICON": "Dołącz pliki",
@@ -194,6 +195,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Kopiuj",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "Usuń",
       "CREATE_A_CANNED_RESPONSE": "Dodaj do gotowych odpowiedzi",
       "TRANSLATE": "Przetłumacz",

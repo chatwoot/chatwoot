@@ -14,6 +14,12 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
     perform_reply
   end
 
+  def link_unfurl(event)
+    slack_client.chat_unfurl(
+      event
+    )
+  end
+
   private
 
   def valid_channel_for_slack?
@@ -38,13 +44,17 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
 
   def message_content
     private_indicator = message.private? ? 'private: ' : ''
-    sanitized_content = ActionView::Base.full_sanitizer.sanitize(message_text)
+    sanitized_content = ActionView::Base.full_sanitizer.sanitize(format_message_content)
 
     if conversation.identifier.present?
       "#{private_indicator}#{sanitized_content}"
     else
       "#{formatted_inbox_name}#{formatted_conversation_link}#{email_subject_line}\n#{sanitized_content}"
     end
+  end
+
+  def format_message_content
+    message.message_type == 'activity' ? "_#{message_text}_" : message_text
   end
 
   def message_text
@@ -73,7 +83,7 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def avatar_url(sender)
-    sender_type = sender.instance_of?(Contact) ? 'contact' : 'user'
+    sender_type = sender_type(sender).downcase
     blob_key = sender&.avatar&.attached? ? sender.avatar.blob.key : nil
     generate_url(sender_type, blob_key)
   end
@@ -86,7 +96,8 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   def send_message
     post_message if message_content.present?
     upload_file if message.attachments.any?
-  rescue Slack::Web::Api::Errors::AccountInactive, Slack::Web::Api::Errors::MissingScope, Slack::Web::Api::Errors::InvalidAuth => e
+  rescue Slack::Web::Api::Errors::AccountInactive, Slack::Web::Api::Errors::MissingScope, Slack::Web::Api::Errors::InvalidAuth,
+         Slack::Web::Api::Errors::ChannelNotFound, Slack::Web::Api::Errors::NotInChannel => e
     Rails.logger.error e
     hook.prompt_reauthorization!
     hook.disable
@@ -130,7 +141,15 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def sender_type(sender)
-    sender.instance_of?(Contact) ? 'Contact' : 'Agent'
+    if sender.instance_of?(Contact)
+      'Contact'
+    elsif message.message_type == 'template' && sender.nil?
+      'Bot'
+    elsif message.message_type == 'activity' && sender.nil?
+      'System'
+    else
+      'Agent'
+    end
   end
 
   def update_reference_id

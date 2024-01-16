@@ -14,10 +14,11 @@
       <file-upload
         ref="upload"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
+        input-id="conversationAttachment"
         :size="4096 * 4096"
         :accept="allowedFileTypes"
         :multiple="enableMultipleFileUpload"
-        :drop="true"
+        :drop="enableDragAndDrop"
         :drop-directory="false"
         :data="{
           direct_upload_url: '/rails/active_storage/direct_uploads',
@@ -100,14 +101,24 @@
       <transition name="modal-fade">
         <div
           v-show="$refs.upload && $refs.upload.dropActive"
-          class="modal-mask"
+          class="fixed top-0 bottom-0 left-0 right-0 z-20 flex flex-col items-center justify-center w-full h-full gap-2 text-slate-600 dark:text-slate-200 bg-white_transparent dark:bg-black_transparent"
         >
-          <fluent-icon icon="cloud-backup" />
+          <fluent-icon icon="cloud-backup" size="40" />
           <h4 class="page-sub-title text-slate-600 dark:text-slate-200">
             {{ $t('CONVERSATION.REPLYBOX.DRAG_DROP') }}
           </h4>
         </div>
       </transition>
+      <woot-button
+        v-if="enableInsertArticleInReply"
+        v-tooltip.top-end="$t('HELP_CENTER.ARTICLE_SEARCH.OPEN_ARTICLE_SEARCH')"
+        icon="document-text-link"
+        color-scheme="secondary"
+        variant="smooth"
+        size="small"
+        :title="$t('HELP_CENTER.ARTICLE_SEARCH.OPEN_ARTICLE_SEARCH')"
+        @click="toggleInsertArticle"
+      />
     </div>
     <div class="right-wrap">
       <woot-button
@@ -133,6 +144,7 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import {
   ALLOWED_FILE_TYPES,
   ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP,
+  ALLOWED_FILE_TYPES_FOR_LINE,
 } from 'shared/constants/messages';
 import VideoCallButton from '../VideoCallButton.vue';
 import AIAssistanceButton from '../AIAssistanceButton.vue';
@@ -228,6 +240,14 @@ export default {
       type: String,
       default: '',
     },
+    newConversationModalActive: {
+      type: Boolean,
+      default: false,
+    },
+    portalSlug: {
+      type: String,
+      required: true,
+    },
   },
   computed: {
     ...mapGetters({
@@ -251,6 +271,9 @@ export default {
       return this.showFileUpload || this.isNote;
     },
     showAudioRecorderButton() {
+      if (this.isALineChannel) {
+        return false;
+      }
       // Disable audio recorder for safari browser as recording is not supported
       const isSafari = /^((?!chrome|android|crios|fxios).)*safari/i.test(
         navigator.userAgent
@@ -272,7 +295,13 @@ export default {
       if (this.isATwilioWhatsAppChannel) {
         return ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP;
       }
+      if (this.isALineChannel) {
+        return ALLOWED_FILE_TYPES_FOR_LINE;
+      }
       return ALLOWED_FILE_TYPES;
+    },
+    enableDragAndDrop() {
+      return !this.newConversationModalActive;
     },
     audioRecorderPlayStopIcon() {
       switch (this.recordingAudioState) {
@@ -291,13 +320,20 @@ export default {
       return !this.isOnPrivateNote;
     },
     sendWithSignature() {
-      const { send_with_signature: isEnabled } = this.uiSettings;
-      return isEnabled;
+      // channelType is sourced from inboxMixin
+      return this.fetchSignatureFlagFromUiSettings(this.channelType);
     },
     signatureToggleTooltip() {
       return this.sendWithSignature
         ? this.$t('CONVERSATION.FOOTER.DISABLE_SIGN_TOOLTIP')
         : this.$t('CONVERSATION.FOOTER.ENABLE_SIGN_TOOLTIP');
+    },
+    enableInsertArticleInReply() {
+      const isFeatEnabled = this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.INSERT_ARTICLE_IN_REPLY
+      );
+      return isFeatEnabled && this.portalSlug;
     },
   },
   mounted() {
@@ -310,12 +346,13 @@ export default {
       }
     },
     toggleMessageSignature() {
-      this.updateUISettings({
-        send_with_signature: !this.sendWithSignature,
-      });
+      this.setSignatureFlagForInbox(this.channelType, !this.sendWithSignature);
     },
     replaceText(text) {
       this.$emit('replace-text', text);
+    },
+    toggleInsertArticle() {
+      this.$emit('toggle-insert-article');
     },
   },
 };
@@ -345,13 +382,5 @@ export default {
   &:hover button {
     @apply dark:bg-slate-800 bg-slate-100;
   }
-}
-
-.modal-mask {
-  @apply text-slate-600 dark:text-slate-200 bg-white_transparent dark:bg-black_transparent flex-col;
-}
-
-.icon {
-  @apply text-[5rem];
 }
 </style>

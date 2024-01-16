@@ -3,6 +3,7 @@ import Vue from 'vue';
 
 import PublicArticleSearch from './components/PublicArticleSearch.vue';
 import TableOfContents from './components/TableOfContents.vue';
+import { initializeTheme } from './portalThemeHelper.js';
 
 export const getHeadingsfromTheArticle = () => {
   const rows = [];
@@ -21,6 +22,44 @@ export const getHeadingsfromTheArticle = () => {
   return rows;
 };
 
+export const openExternalLinksInNewTab = () => {
+  const { customDomain, hostURL } = window.portalConfig;
+  const isSameHost =
+    window.location.href.includes(customDomain) ||
+    window.location.href.includes(hostURL);
+
+  // Modify external links only on articles page
+  const isOnArticlePage =
+    isSameHost && document.querySelector('#cw-article-content') !== null;
+
+  document.addEventListener('click', function (event) {
+    if (!isOnArticlePage) return;
+
+    // Some of the links come wrapped in strong tag through prosemirror
+
+    const isTagAnchor = event.target.tagName === 'A';
+    const isParentTagAnchor =
+      event.target.tagName === 'STRONG' &&
+      event.target.parentNode.tagName === 'A';
+
+    if (isTagAnchor || isParentTagAnchor) {
+      const link = isTagAnchor ? event.target : event.target.parentNode;
+
+      const isInternalLink =
+        link.hostname === window.location.hostname ||
+        link.href.includes(customDomain) ||
+        link.href.includes(hostURL);
+
+      if (!isInternalLink) {
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer'; // Security and performance benefits
+        // Prevent default if you want to stop the link from opening in the current tab
+        event.stopPropagation();
+      }
+    }
+  });
+};
+
 export const InitializationHelpers = {
   navigateToLocalePage: () => {
     const allLocaleSwitcher = document.querySelector('.locale-switcher');
@@ -36,7 +75,7 @@ export const InitializationHelpers = {
     return false;
   },
 
-  initalizeSearch: () => {
+  initializeSearch: () => {
     const isSearchContainerAvailable = document.querySelector('#search-wrap');
     if (isSearchContainerAvailable) {
       new Vue({
@@ -60,20 +99,24 @@ export const InitializationHelpers = {
   appendPlainParamToURLs: () => {
     document.getElementsByTagName('a').forEach(aTagElement => {
       if (aTagElement.href && aTagElement.href.includes('/hc/')) {
-        aTagElement.setAttribute(
-          'href',
-          aTagElement.href + '?show_plain_layout=true'
-        );
+        const url = new URL(aTagElement.href);
+        url.searchParams.set('show_plain_layout', 'true');
+
+        aTagElement.setAttribute('href', url);
       }
     });
   },
 
+  initializeThemesInPortal: initializeTheme,
+
   initialize: () => {
+    openExternalLinksInNewTab();
     if (window.portalConfig.isPlainLayoutEnabled === 'true') {
       InitializationHelpers.appendPlainParamToURLs();
     } else {
+      InitializationHelpers.initializeThemesInPortal();
       InitializationHelpers.navigateToLocalePage();
-      InitializationHelpers.initalizeSearch();
+      InitializationHelpers.initializeSearch();
       InitializationHelpers.initializeTableOfContents();
     }
   },

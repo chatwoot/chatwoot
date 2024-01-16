@@ -46,7 +46,7 @@ class Conversations::FilterService < FilterService
       " (conversations.#{attribute_key})::#{current_filter['data_type']} #{filter_operator_value}#{current_filter['data_type']} #{query_operator} "
     when 'standard'
       if attribute_key == 'labels'
-        tag_filter_query('Conversation', 'conversations', query_hash, current_index)
+        " #{tag_filter_query('Conversation', 'conversations', query_hash, current_index)} "
       else
         " conversations.#{attribute_key} #{filter_operator_value} #{query_operator} "
       end
@@ -64,6 +64,6 @@ class Conversations::FilterService < FilterService
   end
 
   def conversations
-    @conversations.latest.page(current_page)
+    @conversations.sort_on_last_activity_at.page(current_page)
   end
 end

@@ -70,7 +70,6 @@ export default {
   },
   methods: {
     async initializeEnabledFeatures() {
-      await this.$store.dispatch('accounts/get', this.accountId);
       this.enabledFeatures = this.account.features;
     },
     initChannelAuth(channel) {

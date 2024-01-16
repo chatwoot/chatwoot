@@ -723,7 +723,7 @@
       "BODY": {
         "TEAM_AVAILABILITY": {
           "ONLINE": "We are Online",
-          "OFFLINE": "We are away at the moment"
+          "OFFLINE": "Trenutačno nismo online"
         },
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"

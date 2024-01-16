@@ -62,6 +62,25 @@ describe Instagram::SendOnInstagramService do
 
           expect(response).to eq({ message_id: 'anyrandommessageid1234567890' })
         end
+
+        it 'if message sent from chatwoot is failed' do
+          message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
+
+          allow(HTTParty).to receive(:post).and_return(
+            {
+              'error': {
+                'message': 'The Instagram account is restricted.',
+                'type': 'OAuthException',
+                'code': 400,
+                'fbtrace_id': 'anyrandomfbtraceid1234567890'
+              }
+            }
+          )
+          described_class.new(message: message).perform
+          expect(HTTParty).to have_received(:post)
+          expect(message.reload.status).to eq('failed')
+          expect(message.reload.external_error).to eq('400 - The Instagram account is restricted.')
+        end
       end
 
       context 'with message_tag HUMAN_AGENT' do

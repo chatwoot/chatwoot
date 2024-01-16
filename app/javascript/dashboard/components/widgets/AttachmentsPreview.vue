@@ -1,11 +1,9 @@
 <template>
-  <div
-    class="preview-item__wrap flex flex-col overflow-auto mt-4 max-h-[12.5rem]"
-  >
+  <div class="preview-item__wrap flex overflow-auto max-h-[12.5rem]">
     <div
       v-for="(attachment, index) in attachments"
       :key="attachment.id"
-      class="preview-item flex p-1 bg-slate-50 dark:bg-slate-800 rounded-md w-[15rem] mb-1"
+      class="preview-item flex items-center p-1 bg-slate-50 dark:bg-slate-800 gap-1 rounded-md w-[15rem] mb-1"
     >
       <div class="max-w-[4rem] flex-shrink-0 w-6 flex items-center">
         <img
@@ -17,7 +15,7 @@
           📄
         </span>
       </div>
-      <div class="max-w-[60%] min-w-[50%] overflow-hidden text-ellipsis ml-2">
+      <div class="max-w-[60%] min-w-[50%] overflow-hidden text-ellipsis">
         <span
           class="h-4 overflow-hidden text-sm font-medium text-ellipsis whitespace-nowrap"
         >

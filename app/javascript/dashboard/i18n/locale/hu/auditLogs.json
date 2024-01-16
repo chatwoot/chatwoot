@@ -57,15 +57,15 @@
       "DELETE": "%{agentName} törölt egy makrót (#%{id})"
     },
     "INBOX_MEMBER": {
-      "ADD": "%{agentName} added %{user} to the inbox(#%{inbox_id})",
-      "REMOVE": "%{agentName} removed %{user} from the inbox(#%{inbox_id})"
+      "ADD": "%{agentName} hozzáadva %{user} a bejövő üzenetekhez %{inbox_id}",
+      "REMOVE": "%{agentName} eltávolítva %{user} a bejövő üzenetekből %{inbox_id}"
     },
     "TEAM_MEMBER": {
-      "ADD": "%{agentName} added %{user} to the team(#%{team_id})",
-      "REMOVE": "%{agentName} removed %{user} from the team(#%{team_id})"
+      "ADD": "%{agentName} hozzáadva %{user} a csapathoz %{team_id}",
+      "REMOVE": "%{agentName} eltávolítva %{user} a csapatból %{team_id}"
     },
     "ACCOUNT": {
-      "EDIT": "%{agentName} updated the account configuration (#%{id})"
+      "EDIT": "%{agentName} frissítette a fiók konfigurációját %{id}"
     }
   }
 }

@@ -39,15 +39,25 @@ module Reauthorizable
   def prompt_reauthorization!
     ::Redis::Alfred.set(reauthorization_required_key, true)
 
+    mailer = AdministratorNotifications::ChannelNotificationsMailer.with(account: account)
+
     case self.class.name
     when 'Integrations::Hook'
-      AdministratorNotifications::ChannelNotificationsMailer.with(account: account).slack_disconnect.deliver_later if slack?
+      process_integration_hook_reauthorization_emails(mailer)
     when 'Channel::FacebookPage'
-      AdministratorNotifications::ChannelNotificationsMailer.with(account: account).facebook_disconnect(inbox).deliver_later
+      mailer.facebook_disconnect(inbox).deliver_later
     when 'Channel::Whatsapp'
-      AdministratorNotifications::ChannelNotificationsMailer.with(account: account).whatsapp_disconnect(inbox).deliver_later
+      mailer.whatsapp_disconnect(inbox).deliver_later
     when 'Channel::Email'
-      AdministratorNotifications::ChannelNotificationsMailer.with(account: account).email_disconnect(inbox).deliver_later
+      mailer.email_disconnect(inbox).deliver_later
+    end
+  end
+
+  def process_integration_hook_reauthorization_emails(mailer)
+    if slack?
+      mailer.slack_disconnect.deliver_later
+    elsif dialogflow?
+      mailer.dialogflow_disconnect.deliver_later
     end
   end
 

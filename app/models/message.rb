@@ -9,7 +9,7 @@
 #  content_type              :integer          default("text"), not null
 #  external_source_ids       :jsonb
 #  message_type              :integer          not null
-#  private                   :boolean          default(FALSE)
+#  private                   :boolean          default(FALSE), not null
 #  processed_message_content :text
 #  sender_type               :string
 #  sentiment                 :jsonb
@@ -60,6 +60,7 @@ class Message < ApplicationRecord
 
   before_validation :ensure_content_type
   before_save :ensure_processed_message_content
+  before_save :ensure_in_reply_to
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
@@ -88,7 +89,8 @@ class Message < ApplicationRecord
     article: 7,
     incoming_email: 8,
     input_csat: 9,
-    integrations: 10
+    integrations: 10,
+    sticker: 11
   }
   enum status: { sent: 0, delivered: 1, read: 2, failed: 3 }
   # [:submitted_email, :items, :submitted_values] : Used for bot message types
@@ -99,7 +101,7 @@ class Message < ApplicationRecord
   # [:external_error : Can specify if the message creation failed due to an error at external API
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
                                          :external_created_at, :story_sender, :story_id, :external_error,
-                                         :translations, :in_reply_to_external_id], coder: JSON
+                                         :translations, :in_reply_to_external_id, :is_unsupported], coder: JSON
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
@@ -233,6 +235,18 @@ class Message < ApplicationRecord
     self.processed_message_content = message_content&.truncate(150_000)
   end
 
+  # fetch the in_reply_to message and set the external id
+  def ensure_in_reply_to
+    in_reply_to = content_attributes[:in_reply_to]
+    in_reply_to_external_id = content_attributes[:in_reply_to_external_id]
+
+    Messages::InReplyToMessageBuilder.new(
+      message: self,
+      in_reply_to: in_reply_to,
+      in_reply_to_external_id: in_reply_to_external_id
+    ).perform
+  end
+
   def ensure_content_type
     self.content_type ||= Message.content_types[:text]
   end
@@ -285,6 +299,10 @@ class Message < ApplicationRecord
   end
 
   def dispatch_update_event
+    # ref: https://github.com/rails/rails/issues/44500
+    # we want to skip the update event if the message is not updated
+    return if previous_changes.blank?
+
     Rails.configuration.dispatcher.dispatch(MESSAGE_UPDATED, Time.zone.now, message: self, performed_by: Current.executed_by,
                                                                             previous_changes: previous_changes)
   end

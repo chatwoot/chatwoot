@@ -110,6 +110,8 @@ ta:
       instagram_story_content: "%{story_sender} mentioned you in the story: "
       instagram_deleted_story_content: This story is no longer available.
       deleted: This message was deleted
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "உரையாடலுக்கு %{user_name} தீர்வு வழங்கியுள்ளார்"
@@ -202,3 +204,12 @@ ta:
       made_with: Made with
     header:
       go_to_homepage: Go to the main site
+  slack_unfurl:
+    fields:
+      name: பெயர்
+      email: இமெயில்
+      phone_number: Phone
+      company_name: Company
+      inbox_name: Inbox
+      inbox_type: Inbox Type
+    button: Open conversation

@@ -41,6 +41,16 @@
       "STATUS": "Statuss",
       "ORDER_BY": "Sakārtot pēc"
     },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Izveidots",
+        "OLDEST": "Izveidots plkst:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Pēdējā darbība:",
+        "ACTIVE": "Pēdējā darbība"
+      }
+    },
     "CHAT_SORT_FILTER_ITEMS": {
       "latest": {
         "TEXT": "Pēdējā darbība"

@@ -41,8 +41,8 @@
       }
     },
     "DATE_RANGE_OPTIONS": {
-      "LAST_7_DAYS": "Senaste 7 dagarna",
-      "LAST_30_DAYS": "Senaste 30 dagarna",
+      "LAST_7_DAYS": "De senaste 7 dagarna",
+      "LAST_30_DAYS": "De senaste 30 dagarna",
       "LAST_3_MONTHS": "Last 3 months",
       "LAST_6_MONTHS": "Last 6 months",
       "LAST_YEAR": "Last year",
@@ -130,7 +130,7 @@
         "groupBy": "Month"
       }
     ],
-    "BUSINESS_HOURS": "Affärstimmar"
+    "BUSINESS_HOURS": "Öppettider"
   },
   "AGENT_REPORTS": {
     "HEADER": "Agents Overview",
@@ -321,7 +321,7 @@
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Senaste året"
       },
       {
         "id": 5,
@@ -380,15 +380,15 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "De senaste 3 månaderna"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "De senaste 6 månaderna"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Senaste året"
       },
       {
         "id": 5,

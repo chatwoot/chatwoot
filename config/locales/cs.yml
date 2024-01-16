@@ -110,6 +110,8 @@ cs:
       instagram_story_content: "%{story_sender} mentioned you in the story: "
       instagram_deleted_story_content: This story is no longer available.
       deleted: Tato zpráva byla smazána
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "Konverzace byla vyřešena uživatelem %{user_name}"
@@ -202,3 +204,12 @@ cs:
       made_with: Made with
     header:
       go_to_homepage: Go to the main site
+  slack_unfurl:
+    fields:
+      name: Název
+      email: E-mailová adresa
+      phone_number: Phone
+      company_name: Společnost
+      inbox_name: Inbox
+      inbox_type: Inbox Type
+    button: Open conversation

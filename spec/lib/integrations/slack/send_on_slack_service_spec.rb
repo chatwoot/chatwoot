@@ -18,12 +18,14 @@ describe Integrations::Slack::SendOnSlackService do
   let(:slack_message_content) { double }
   let(:slack_client) { double }
   let(:builder) { described_class.new(message: message, hook: hook) }
+  let(:link_builder) { described_class.new(message: nil, hook: hook) }
   let(:conversation_link) do
     "<#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{account.id}/conversations/#{conversation.display_id}|Click here> to view the conversation."
   end
 
   before do
     allow(builder).to receive(:slack_client).and_return(slack_client)
+    allow(link_builder).to receive(:slack_client).and_return(slack_client)
     allow(slack_message).to receive(:[]).with('ts').and_return('12345.6789')
     allow(slack_message).to receive(:[]).with('message').and_return(slack_message_content)
     allow(slack_message_content).to receive(:[]).with('ts').and_return('6789.12345')
@@ -135,6 +137,18 @@ describe Integrations::Slack::SendOnSlackService do
         expect(conversation.identifier).to eq '1691652432.896169'
       end
 
+      it 'sent lnk unfurl to slack' do
+        unflur_payload = { :channel => 'channel',
+                           :ts => 'timestamp',
+                           :unfurls =>
+           { :'https://qa.chatwoot.com/app/accounts/1/conversations/1' =>
+             { :blocks => [{ :type => 'section',
+                             :text => { :type => 'plain_text', :text => 'This is a plain text section block.', :emoji => true } }] } } }
+        allow(slack_client).to receive(:chat_unfurl).with(unflur_payload)
+        link_builder.link_unfurl(unflur_payload)
+        expect(slack_client).to have_received(:chat_unfurl).with(unflur_payload)
+      end
+
       it 'sent attachment on slack' do
         expect(slack_client).to receive(:chat_postMessage).with(
           channel: hook.reference_id,
@@ -169,11 +183,11 @@ describe Integrations::Slack::SendOnSlackService do
       it 'sent a template message on slack' do
         builder = described_class.new(message: template_message, hook: hook)
         allow(builder).to receive(:slack_client).and_return(slack_client)
-
+        template_message.update!(sender: nil)
         expect(slack_client).to receive(:chat_postMessage).with(
           channel: hook.reference_id,
           text: template_message.content,
-          username: "#{template_message.sender.name} (Contact)",
+          username: 'Bot',
           thread_ts: conversation.identifier,
           icon_url: anything,
           unfurl_links: true
@@ -181,6 +195,24 @@ describe Integrations::Slack::SendOnSlackService do
 
         builder.perform
 
+        expect(template_message.external_source_id_slack).to eq 'cw-origin-6789.12345'
+      end
+
+      it 'sent a activity message on slack' do
+        template_message.update!(message_type: :activity)
+        template_message.update!(sender: nil)
+        builder = described_class.new(message: template_message, hook: hook)
+        allow(builder).to receive(:slack_client).and_return(slack_client)
+        expect(slack_client).to receive(:chat_postMessage).with(
+          channel: hook.reference_id,
+          text: "_#{template_message.content}_",
+          username: 'System',
+          thread_ts: conversation.identifier,
+          icon_url: anything,
+          unfurl_links: true
+        ).and_return(slack_message)
+
+        builder.perform
         expect(template_message.external_source_id_slack).to eq 'cw-origin-6789.12345'
       end
 

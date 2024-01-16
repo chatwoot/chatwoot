@@ -3,6 +3,7 @@ import { playNewMessageNotificationInWidget } from 'widget/helpers/WidgetAudioNo
 import { ON_AGENT_MESSAGE_RECEIVED } from '../constants/widgetBusEvents';
 import { IFrameHelper } from 'widget/helpers/utils';
 import { shouldTriggerMessageUpdateEvent } from './IframeEventHelper';
+import { CHATWOOT_ON_MESSAGE } from '../constants/sdkEvents';
 
 const isMessageInActiveConversation = (getters, message) => {
   const { conversation_id: conversationId } = message;
@@ -58,7 +59,11 @@ class ActionCableConnector extends BaseActionCableConnector {
       .dispatch('conversation/addOrUpdateMessage', data)
       .then(() => window.bus.$emit(ON_AGENT_MESSAGE_RECEIVED));
 
-    IFrameHelper.sendMessage({ event: 'onMessage', data });
+    IFrameHelper.sendMessage({
+      event: 'onEvent',
+      eventIdentifier: CHATWOOT_ON_MESSAGE,
+      data,
+    });
     if (data.sender_type === 'User') {
       playNewMessageNotificationInWidget();
     }
@@ -70,7 +75,11 @@ class ActionCableConnector extends BaseActionCableConnector {
     }
 
     if (shouldTriggerMessageUpdateEvent(data)) {
-      IFrameHelper.sendMessage({ event: 'onMessage', data });
+      IFrameHelper.sendMessage({
+        event: 'onEvent',
+        eventIdentifier: CHATWOOT_ON_MESSAGE,
+        data,
+      });
     }
 
     this.app.$store.dispatch('conversation/addOrUpdateMessage', data);

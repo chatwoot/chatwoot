@@ -140,19 +140,20 @@ describe Conversations::FilterService do
           {
             attribute_key: 'assignee_id',
             filter_operator: 'equal_to',
-            values: [
-              user_1.id,
-              user_2.id
-            ],
-            query_operator: 'AND',
-            custom_attribute_type: ''
+            values: [user_1.id, user_2.id],
+            query_operator: 'AND'
           }.with_indifferent_access,
           {
             attribute_key: 'labels',
             filter_operator: 'equal_to',
             values: ['support'],
-            query_operator: nil,
-            custom_attribute_type: ''
+            query_operator: 'AND'
+          }.with_indifferent_access,
+          {
+            attribute_key: 'labels',
+            filter_operator: 'not_equal_to',
+            values: ['random-label'],
+            query_operator: nil
           }.with_indifferent_access
         ]
         result = filter_service.new(params, user_1).perform

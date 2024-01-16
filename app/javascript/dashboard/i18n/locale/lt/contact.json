@@ -204,6 +204,10 @@
         "PLACEHOLDER": "Rašykite pranešimą čia",
         "ERROR": "Pranešimas negali būti tuščias"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Pasirink failus",
+        "HELP_TEXT": "Nuvilkite failus čia arba pasirinkite failus, kuriuos norite pridėti"
+      },
       "SUBMIT": "Išsiųsti pranešimą",
       "CANCEL": "Atšaukti",
       "SUCCESS_MESSAGE": "Pranešimas įšsiųstas!",
@@ -343,17 +347,17 @@
     "DESCRIPTION": "Dviejų profilių sujungimui į vieną sujunkite kontaktus, įskaitant visus požymius ir pokalbius. Kilus nesuderinamumui, pirmenybė bus teikiama pirminio kontakto požymiams.",
     "PRIMARY": {
       "TITLE": "Pirminis kontaktas",
-      "HELP_LABEL": "Turi būti saugoma"
+      "HELP_LABEL": "Turi būti ištrinta"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Kontaktas sujungimui",
       "PLACEHOLDER": "Ieškoti kontakto",
-      "HELP_LABEL": "Turi būti ištrinta"
+      "HELP_LABEL": "Turi būti saugoma"
     },
     "SUMMARY": {
       "TITLE": "Santrauka",
-      "DELETE_WARNING": "Kontaktas <strong>%{childContactName}</strong> bus ištrintas.",
-      "ATTRIBUTE_WARNING": "Kontakto informacija <strong>%{childContactName}</strong> bus nukopijuota į <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Kontaktas <strong>%{primaryContactName}</strong> bus ištrintas.",
+      "ATTRIBUTE_WARNING": "Kontakto informacija <strong>%{primaryContactName}</strong> bus nukopijuota į <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "KLAIDOS_PRANEŠIMAS"

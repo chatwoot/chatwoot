@@ -36,8 +36,8 @@
         "DESC": "( Teljes )"
       },
       "REPLY_TIME": {
-        "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} conversations)"
+        "NAME": "Vevő várakozási idő",
+        "TOOLTIP_TEXT": "Várakozási idő: %{metricValue} (%{conversationCount} függvényében)"
       }
     },
     "DATE_RANGE_OPTIONS": {

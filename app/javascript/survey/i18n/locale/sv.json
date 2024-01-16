@@ -1,17 +1,17 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Dear customer 👋, please take a few moments to share feedback about the conversation you had with %{inboxName}.",
+    "DESCRIPTION": "Ge feedback om den konversation du hade med %{inboxName}.",
     "RATING": {
       "LABEL": "Betygsätt din konversation",
       "SUCCESS_MESSAGE": "Tack för att du lämnat in omdömet"
     },
     "FEEDBACK": {
-      "LABEL": "Do you have any thoughts you'd like to share?",
-      "PLACEHOLDER": "Your feedback (optional)",
-      "BUTTON_TEXT": "Submit feedback"
+      "LABEL": "Har du några tankar du vill dela med dig av?",
+      "PLACEHOLDER": "Dina synpunkter (frivilligt)",
+      "BUTTON_TEXT": "Skicka synpunkter"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Survey updated successfully",
+      "SUCCESS_MESSAGE": "Undersökningen har uppdaterats",
       "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
     }
   },

@@ -34,7 +34,6 @@
     "ASSIGN_TO_ME": "إسناد لي",
     "TWILIO_WHATSAPP_CAN_REPLY": "يمكنك فقط الرد على هذه المحادثة باستخدام رسالة قالب بسبب",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "قيد نافذة الـ 24 ساعة",
-    "SELECT_A_TWEET_TO_REPLY": "الرجاء تحديد تغريدة للرد عليها.",
     "REPLYING_TO": "أنت ترد على:",
     "REMOVE_SELECTION": "إزالة التحديد",
     "DOWNLOAD": "تنزيل",
@@ -47,6 +46,7 @@
     "NO_RESPONSE": "لا توجد استجابة",
     "RATING_TITLE": "التقييم",
     "FEEDBACK_TITLE": "الملاحظات",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "إظهار السمات",
       "HIDE_LABELS": "إخفاء السمات"
@@ -139,7 +139,8 @@
       "PRIVATE_NOTE": "إضافة ملاحظة خاصة",
       "SEND": "إرسال",
       "CREATE": "إضافة ملاحظة",
-      "TWEET": "تغريد",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "عرض محرر النصوص",
       "TIP_EMOJI_ICON": "إظهار قائمة الرموز التعبيرية",
       "TIP_ATTACH_ICON": "إرفاق الملفات",
@@ -194,6 +195,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "نسخ",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "حذف",
       "CREATE_A_CANNED_RESPONSE": "إضافة إلى الردود السريعة",
       "TRANSLATE": "ترجم",

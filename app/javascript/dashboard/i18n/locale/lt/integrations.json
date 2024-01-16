@@ -113,13 +113,13 @@
         "SHORTEN": "Sutrumpinti",
         "EXPAND": "Išskleisti",
         "MAKE_FRIENDLY": "Change message tone to friendly",
-        "MAKE_FORMAL": "Use formal tone",
-        "SIMPLIFY": "Simplify"
+        "MAKE_FORMAL": "Naudokite oficialų toną",
+        "SIMPLIFY": "Supaprastinti"
       },
       "ASSISTANCE_MODAL": {
-        "DRAFT_TITLE": "Draft content",
-        "GENERATED_TITLE": "Generated content",
-        "AI_WRITING": "AI is writing",
+        "DRAFT_TITLE": "Turinio juodraštis",
+        "GENERATED_TITLE": "Sugeneruotas turinys",
+        "AI_WRITING": "AI rašo",
         "BUTTONS": {
           "APPLY": "Use this suggestion",
           "CANCEL": "Atšaukti"

@@ -110,6 +110,8 @@ ro:
       instagram_story_content: "%{story_sender} menționat în poveste: "
       instagram_deleted_story_content: Această poveste nu mai este disponibilă.
       deleted: Acest mesaj a fost șters
+      delivery_status:
+        error_code: "Error code: %{error_code}"
     activity:
       status:
         resolved: "Conversația a fost marcată de %{user_name}"
@@ -202,3 +204,12 @@ ro:
       made_with: Realizat cu
     header:
       go_to_homepage: Accesați site-ul principal
+  slack_unfurl:
+    fields:
+      name: Nume
+      email: E-mail
+      phone_number: Phone
+      company_name: Companie
+      inbox_name: Inbox
+      inbox_type: Inbox Type
+    button: Deschiderea conversației

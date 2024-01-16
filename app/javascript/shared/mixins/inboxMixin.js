@@ -11,6 +11,31 @@ export const INBOX_TYPES = {
   SMS: 'Channel::Sms',
 };
 
+export const INBOX_FEATURES = {
+  REPLY_TO: 'replyTo',
+  REPLY_TO_OUTGOING: 'replyToOutgoing',
+};
+
+// This is a single source of truth for inbox features
+// This is used to check if a feature is available for a particular inbox or not
+export const INBOX_FEATURE_MAP = {
+  [INBOX_FEATURES.REPLY_TO]: [
+    INBOX_TYPES.FB,
+    INBOX_TYPES.WEB,
+    INBOX_TYPES.TWITTER,
+    INBOX_TYPES.WHATSAPP,
+    INBOX_TYPES.TELEGRAM,
+    INBOX_TYPES.API,
+  ],
+  [INBOX_FEATURES.REPLY_TO_OUTGOING]: [
+    INBOX_TYPES.WEB,
+    INBOX_TYPES.TWITTER,
+    INBOX_TYPES.WHATSAPP,
+    INBOX_TYPES.TELEGRAM,
+    INBOX_TYPES.API,
+  ],
+};
+
 export default {
   computed: {
     channelType() {
@@ -100,6 +125,11 @@ export default {
         this.channelType === INBOX_TYPES.WHATSAPP ||
         this.isATwilioWhatsAppChannel
       );
+    },
+  },
+  methods: {
+    inboxHasFeature(feature) {
+      return INBOX_FEATURE_MAP[feature]?.includes(this.channelType) ?? false;
     },
   },
 };

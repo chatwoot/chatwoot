@@ -75,25 +75,25 @@
     "SLACK": {
       "DELETE": "Törlés",
       "DELETE_CONFIRMATION": {
-        "TITLE": "Delete the integration",
-        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+        "TITLE": "Az integráció törlése",
+        "MESSAGE": "Biztos, hogy törölni szeretné az integrációt? Ha így tesz, elveszíti a Slack munkaterületén lévő beszélgetésekhez való hozzáférést."
       },
       "HELP_TEXT": {
         "TITLE": "Using Slack Integration",
         "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>",
-        "SELECTED": "selected"
+        "SELECTED": "kiválasztás"
       },
       "SELECT_CHANNEL": {
-        "OPTION_LABEL": "Select a channel",
+        "OPTION_LABEL": "Csatorna kiválasztása",
         "UPDATE": "Frissítés",
-        "BUTTON_TEXT": "Connect channel",
-        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
-        "ATTENTION_REQUIRED": "Attention required",
-        "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
+        "BUTTON_TEXT": "Csatlakozás a csatornához",
+        "DESCRIPTION": "A Slack munkaterülete mostantól összekapcsolódik a Chatwoot-tal. Az integráció azonban jelenleg inaktív. Az aktiválásához és egy Chatwoot-hoz való csatlakoztatásához kattintson az alábbi gombra.\n\n**Figyelem:** Ha egy privát csatornát próbál csatlakoztatni, akkor a Chatwoot alkalmazást adja hozzá a Slack-csatornához, mielőtt ezt a lépést folytatná.",
+        "ATTENTION_REQUIRED": "Figyelem szükséges",
+        "EXPIRED": "A Slack integráció lejárt. Ha továbbra is szeretne üzeneteket kapni a Slacken, törölje az integrációt, és csatlakoztassa újra a munkaterületét."
       },
-      "UPDATE_ERROR": "There was an error updating the integration, please try again",
-      "UPDATE_SUCCESS": "The channel is connected successfully",
-      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
+      "UPDATE_ERROR": "Hiba történt az integráció frissítésében, kérjük, próbálja újra",
+      "UPDATE_SUCCESS": "A csatorna sikeresen csatlakozott",
+      "FAILED_TO_FETCH_CHANNELS": "Hiba történt a csatornák lekérdezésében a Slackből, kérjük, próbálja meg újra"
     },
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Kattintsd ide a csatlakozáshoz",
@@ -103,39 +103,39 @@
       "CREATE_ERROR": "Hiba történt a link létrehozása során, kérjük próbáld újra"
     },
     "OPEN_AI": {
-      "AI_ASSIST": "AI Assist",
-      "WITH_AI": " %{option} with AI ",
+      "AI_ASSIST": "AI segítség",
+      "WITH_AI": " %{option} AI-al ",
       "OPTIONS": {
-        "REPLY_SUGGESTION": "Reply Suggestion",
-        "SUMMARIZE": "Summarize",
-        "REPHRASE": "Improve Writing",
-        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
-        "SHORTEN": "Shorten",
-        "EXPAND": "Expand",
-        "MAKE_FRIENDLY": "Change message tone to friendly",
-        "MAKE_FORMAL": "Use formal tone",
-        "SIMPLIFY": "Simplify"
+        "REPLY_SUGGESTION": "Válasz lehetőségek",
+        "SUMMARIZE": "Összefoglalás",
+        "REPHRASE": "Írás fejlesztése",
+        "FIX_SPELLING_GRAMMAR": "Helyesírás és nyelvtan kijavítása",
+        "SHORTEN": "Rövidítés",
+        "EXPAND": "Kiegészítés",
+        "MAKE_FRIENDLY": "Legyen személyes hangvételű",
+        "MAKE_FORMAL": "Legyen hivatalos hangvételű",
+        "SIMPLIFY": "Egyszerűsít"
       },
       "ASSISTANCE_MODAL": {
-        "DRAFT_TITLE": "Draft content",
-        "GENERATED_TITLE": "Generated content",
-        "AI_WRITING": "AI is writing",
+        "DRAFT_TITLE": "Vázlatos szöveg",
+        "GENERATED_TITLE": "Generált szöveg",
+        "AI_WRITING": "AI éppen ír",
         "BUTTONS": {
-          "APPLY": "Use this suggestion",
+          "APPLY": "Használja ezt a javaslatot",
           "CANCEL": "Mégse"
         }
       },
       "CTA_MODAL": {
-        "TITLE": "Integrate with OpenAI",
-        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
-        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "TITLE": "OpenAI-al integrálás",
+        "DESC": "Az OpenAI GPT modelljeivel fejlett AI funkciókat építhet be a menüjébe. A kezdéshez adja meg az API kulcsot az OpenAI-fiókjából.",
+        "KEY_PLACEHOLDER": "Adja meg az OpenAI API kulcsát",
         "BUTTONS": {
           "NEED_HELP": "Kell segítség?",
           "DISMISS": "Elutasítás",
-          "FINISH": "Finish Setup"
+          "FINISH": "Előkészületek befejezése"
         },
-        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
-        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
+        "DISMISS_MESSAGE": "Az OpenAI integrációt később is beállíthatja, amikor csak akarja.",
+        "SUCCESS_MESSAGE": "OpenAI integráció sikeres beállítva"
       },
       "TITLE": "Javítás AI segítségével",
       "SUMMARY_TITLE": "Összegzés Al segítségével",

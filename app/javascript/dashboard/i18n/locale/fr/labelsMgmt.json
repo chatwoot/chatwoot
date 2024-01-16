@@ -40,16 +40,16 @@
     },
     "SUGGESTIONS": {
       "TOOLTIP": {
-        "SINGLE_SUGGESTION": "Add label to conversation",
-        "MULTIPLE_SUGGESTION": "Select this label",
-        "DESELECT": "Deselect label",
-        "DISMISS": "Dismiss suggestion"
+        "SINGLE_SUGGESTION": "Ajouter un libellé à la conversation",
+        "MULTIPLE_SUGGESTION": "Sélectionner ce libellé",
+        "DESELECT": "Désélectionner ce libellé",
+        "DISMISS": "Rejeter la suggestion"
       },
-      "POWERED_BY": "Chatwoot AI",
+      "POWERED_BY": "Chatwoot IA",
       "DISMISS": "Rejeter",
-      "ADD_SELECTED_LABELS": "Add selected labels",
-      "ADD_SELECTED_LABEL": "Add selected label",
-      "ADD_ALL_LABELS": "Add all labels"
+      "ADD_SELECTED_LABELS": "Ajouter les libellés sélectionnés",
+      "ADD_SELECTED_LABEL": "Ajouter le libellé sélectionné",
+      "ADD_ALL_LABELS": "Ajouter tous les libellés"
     },
     "ADD": {
       "TITLE": "Ajouter une étiquette",

@@ -111,8 +111,8 @@
       "ADD_LABEL": "Címke hozzáadása a beszélgetéshez",
       "REMOVE_LABEL": "Címke eltávolítása a beszélgetésről",
       "SETTINGS": "Beállítások",
-      "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance"
+      "AI_ASSIST": "AI segítség",
+      "APPEARANCE": "Megjelenés"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Ugrás a beszélgetések kezdőoldalára",
@@ -134,7 +134,7 @@
       "GO_TO_NOTIFICATIONS": "Értesítések megnyitása",
       "ADD_LABELS_TO_CONVERSATION": "Cimke hozzáadása a beszélgetéshez",
       "ASSIGN_AN_AGENT": "Ügynök hozzárendelése",
-      "AI_ASSIST": "AI Assist",
+      "AI_ASSIST": "AI segítség",
       "ASSIGN_PRIORITY": "Prioritás beállítása",
       "ASSIGN_A_TEAM": "Csapat hozzárendelése",
       "MUTE_CONVERSATION": "Beszélgetés némítása",
@@ -150,9 +150,9 @@
       "UNTIL_NEXT_MONTH": "Következő hónapig",
       "AN_HOUR_FROM_NOW": "Mostantól egy óráig",
       "CUSTOM": "Speciális...",
-      "CHANGE_APPEARANCE": "Change Appearance",
-      "LIGHT_MODE": "Light",
-      "DARK_MODE": "Dark",
+      "CHANGE_APPEARANCE": "Megjelenés módosítása",
+      "LIGHT_MODE": "Világos mód",
+      "DARK_MODE": "Sötét mód",
       "SYSTEM_MODE": "Rendszer"
     }
   },
@@ -160,7 +160,7 @@
     "LOADING_MESSAGE": "Kezelőoldal App betöltése..."
   },
   "COMMON": {
-    "OR": "Or",
+    "OR": "Vagy",
     "CLICK_HERE": "kattints ide"
   }
 }

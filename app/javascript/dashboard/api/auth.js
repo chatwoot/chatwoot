@@ -84,6 +84,11 @@ export default {
     return axios.delete(endPoints('deleteAvatar').url);
   },
 
+  resetPassword({ email }) {
+    const urlData = endPoints('resetPassword');
+    return axios.post(urlData.url, { email });
+  },
+
   setActiveAccount({ accountId }) {
     const urlData = endPoints('setActiveAccount');
     return axios.put(urlData.url, {
