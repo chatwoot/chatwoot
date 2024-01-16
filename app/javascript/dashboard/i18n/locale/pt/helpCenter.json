@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "Filtrar por",
       "SORT": "Ordenar por",
+      "LOCALE": "Idioma",
       "SETTINGS_BUTTON": "Confirgurações",
       "NEW_BUTTON": "Novo Artigo",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "Meus Artigos",
         "DRAFT": "Rascunhos de artigos",
         "ARCHIVED": "Artigos Arquivados"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Selecionar idioma",
+        "PLACEHOLDER": "Selecionar idioma",
+        "NO_RESULT": "Nenhum idioma encontrado",
+        "SEARCH_PLACEHOLDER": "Buscar idioma"
       }
     },
     "EDIT_HEADER": {
@@ -76,6 +83,9 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Sem categoria",
+      "SEARCH_RESULTS": "Resultados da pesquisa de %{query}",
+      "EMPTY_TEXT": "Pesquisar artigos para inserir em respostas.",
+      "SEARCH_LOADER": "A pesquisar...",
       "INSERT_ARTICLE": "Inserir",
       "NO_RESULT": "Nenhum artigo encontrado",
       "COPY_LINK": "Copiar link do artigo para área de transferência",
@@ -220,7 +230,10 @@
         "LOGO": {
           "LABEL": "Logo",
           "UPLOAD_BUTTON": "Upload logo",
-          "HELP_TEXT": "Este logo será exibido no cabeçalho do portal."
+          "HELP_TEXT": "Este logo será exibido no cabeçalho do portal.",
+          "IMAGE_UPLOAD_SUCCESS": "Logo importado",
+          "IMAGE_UPLOAD_ERROR": "Logo apagado",
+          "IMAGE_DELETE_ERROR": "Erro ao apagar logo"
         },
         "NAME": {
           "LABEL": "Nome:",
@@ -425,6 +438,21 @@
           "ERROR_MESSAGE": "Não é possível apagar a categoria"
         }
       }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Pesquisar artigos",
+      "PLACEHOLDER": "Pesquisar artigos",
+      "NO_RESULT": "Nenhum artigo encontrado",
+      "SEARCHING": "A pesquisar...",
+      "SEARCH_BUTTON": "Procurar",
+      "INSERT_ARTICLE": "Inserir link",
+      "IFRAME_ERROR": "O URL está vazio ou é inválido. Não é possível exibir o conteúdo.",
+      "OPEN_ARTICLE_SEARCH": "Inserir artigo do centro de ajuda",
+      "SUCCESS_ARTICLE_INSERTED": "Artigo inserido",
+      "PREVIEW_LINK": "Pré-visualizar artigo",
+      "CANCEL": "FECHAR",
+      "BACK": "Voltar",
+      "BACK_RESULTS": "Voltar aos resultados"
     },
     "UPGRADE_PAGE": {
       "TITLE": "Centro de Suporte",

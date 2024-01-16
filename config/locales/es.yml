@@ -196,24 +196,33 @@ es:
     common:
       home: Inicio
       last_updated_on: Última actualización el %{last_updated_on}
-      view_all_articles: Ver todos los artículos
+      view_all_articles: Ver todo
       article: artículo
       articles: artículos
+      author: autor
+      authors: autores
+      other: otro
+      others: otros
+      by: Por
       no_articles: No hay artículos aquí
     footer:
       made_with: Hecho con
     header:
-      go_to_homepage: Ir al sitio principal
+      go_to_homepage: Sitio web
       appearance:
         system: Sistema
         light: Claro
         dark: Oscuro
-      featured_articles: Artículos Destacados
-      uncategorized: Sin Categoría
+      featured_articles: Artículos destacados
+      uncategorized: Sin categoría
+    404:
+      title: Página no encontrada
+      description: No pudimos encontrar la página que estaba buscando.
+      back_to_home: Ir a la página de inicio
   slack_unfurl:
     fields:
       name: Nombre
-      email: E-mail
+      email: Correo electrónico
       phone_number: Teléfono
       company_name: Empresa
       inbox_name: Bandeja de entrada

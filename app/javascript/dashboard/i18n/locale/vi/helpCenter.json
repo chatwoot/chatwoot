@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "Lọc bởi",
       "SORT": "Sắp bởi",
+      "LOCALE": "Ngôn ngữ",
       "SETTINGS_BUTTON": "Cài đặt",
       "NEW_BUTTON": "Bài mới",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "Các bài của tôi",
         "DRAFT": "Các bài nháp",
         "ARCHIVED": "Các bài lưu"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Select locale",
+        "PLACEHOLDER": "Select locale",
+        "NO_RESULT": "No locale found",
+        "SEARCH_PLACEHOLDER": "Search locale"
       }
     },
     "EDIT_HEADER": {
@@ -76,6 +83,9 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Chưa được phân loại",
+      "SEARCH_RESULTS": "Search results for %{query}",
+      "EMPTY_TEXT": "Search for articles to insert into replies.",
+      "SEARCH_LOADER": "Đang tìm kiếm...",
       "INSERT_ARTICLE": "Thêm vào",
       "NO_RESULT": "Không có bài viết nào",
       "COPY_LINK": "Sao chép bài viết vào bộ nhớ tạm",
@@ -220,7 +230,10 @@
         "LOGO": {
           "LABEL": "Logo",
           "UPLOAD_BUTTON": "Tải lên logo",
-          "HELP_TEXT": "Logo này sẽ được hiển thị trên tiêu đề cổng thông tin."
+          "HELP_TEXT": "Logo này sẽ được hiển thị trên tiêu đề cổng thông tin.",
+          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
+          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
+          "IMAGE_DELETE_ERROR": "Error while deleting logo"
         },
         "NAME": {
           "LABEL": "Tên",
@@ -425,6 +438,21 @@
           "ERROR_MESSAGE": "Không thể xoá danh mục"
         }
       }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Search articles",
+      "PLACEHOLDER": "Search articles",
+      "NO_RESULT": "Không có bài viết nào",
+      "SEARCHING": "Đang tìm kiếm...",
+      "SEARCH_BUTTON": "Tìm kiếm",
+      "INSERT_ARTICLE": "Insert link",
+      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
+      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
+      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
+      "PREVIEW_LINK": "Xem trước bài viết",
+      "CANCEL": "Đóng",
+      "BACK": "Trờ về",
+      "BACK_RESULTS": "Back to results"
     },
     "UPGRADE_PAGE": {
       "TITLE": "Help Center",
