@@ -8,6 +8,8 @@ class ActionCableListener < BaseListener
   end
 
   def notification_deleted(event)
+    return if event.data[:notification].user.blank?
+
     notification, account, unread_count, count = extract_notification_and_account(event)
     tokens = [event.data[:notification].user.pubsub_token]
     broadcast(account, tokens, NOTIFICATION_DELETED, { notification: notification.push_event_data, unread_count: unread_count, count: count })
