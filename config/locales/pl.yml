@@ -196,14 +196,29 @@ pl:
     common:
       home: Strona główna
       last_updated_on: Ostatnia aktualizacja %{last_updated_on}
-      view_all_articles: Zobacz wszystkie artykuły
+      view_all_articles: View all
       article: artykuł
       articles: artykuły
+      author: autor
+      authors: authors
+      other: other
+      others: others
+      by: By
       no_articles: Nie ma tu żadnych artykułów
     footer:
       made_with: Wykonane z
     header:
-      go_to_homepage: Przejdź do strony głównej
+      go_to_homepage: Website
+      appearance:
+        system: System
+        light: Light
+        dark: Dark
+      featured_articles: Featured Articles
+      uncategorized: Bez kategorii
+    404:
+      title: Page not found
+      description: We couldn't find the page you were looking for.
+      back_to_home: Go to home page
   slack_unfurl:
     fields:
       name: Nazwa

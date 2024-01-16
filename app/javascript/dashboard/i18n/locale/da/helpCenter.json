@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "Filtrer efter",
       "SORT": "Sorter efter",
+      "LOCALE": "Landestandard",
       "SETTINGS_BUTTON": "Indstillinger",
       "NEW_BUTTON": "Ny Artikel",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "Alle Artikler",
         "DRAFT": "Kladde Artikler",
         "ARCHIVED": "Arkiverede Artikler"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Select locale",
+        "PLACEHOLDER": "Select locale",
+        "NO_RESULT": "No locale found",
+        "SEARCH_PLACEHOLDER": "Search locale"
       }
     },
     "EDIT_HEADER": {
@@ -76,6 +83,9 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Uncategorized",
+      "SEARCH_RESULTS": "Search results for %{query}",
+      "EMPTY_TEXT": "Search for articles to insert into replies.",
+      "SEARCH_LOADER": "Søger...",
       "INSERT_ARTICLE": "Insert",
       "NO_RESULT": "No articles found",
       "COPY_LINK": "Copy article link to clipboard",
@@ -220,7 +230,10 @@
         "LOGO": {
           "LABEL": "Logo",
           "UPLOAD_BUTTON": "Upload logo",
-          "HELP_TEXT": "Dette logo vil blive vist i portalens header."
+          "HELP_TEXT": "Dette logo vil blive vist i portalens header.",
+          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
+          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
+          "IMAGE_DELETE_ERROR": "Error while deleting logo"
         },
         "NAME": {
           "LABEL": "Navn",
@@ -425,6 +438,21 @@
           "ERROR_MESSAGE": "Kan ikke slette kategori"
         }
       }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Search articles",
+      "PLACEHOLDER": "Search articles",
+      "NO_RESULT": "No articles found",
+      "SEARCHING": "Søger...",
+      "SEARCH_BUTTON": "Søg",
+      "INSERT_ARTICLE": "Insert link",
+      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
+      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
+      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
+      "PREVIEW_LINK": "Preview article",
+      "CANCEL": "Luk",
+      "BACK": "Tilbage",
+      "BACK_RESULTS": "Back to results"
     },
     "UPGRADE_PAGE": {
       "TITLE": "Help Center",

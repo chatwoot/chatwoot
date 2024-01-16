@@ -51,18 +51,30 @@
         "ACTIVE": "Pēdējā darbība"
       }
     },
-    "CHAT_SORT_FILTER_ITEMS": {
-      "latest": {
-        "TEXT": "Pēdējā darbība"
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Pēdējā darbība: Vecākā vispirms"
       },
-      "sort_on_created_at": {
-        "TEXT": "Izveidots plkst"
+      "last_activity_at_desc": {
+        "TEXT": "Pēdējā darbība: Jaunākā vispirms"
       },
-      "sort_on_priority": {
-        "TEXT": "Prioritāte"
+      "created_at_desc": {
+        "TEXT": "Izveidots: Jaunākā vispirms"
       },
-      "sort_on_waiting_since": {
-        "TEXT": "Gaida Atbildi"
+      "created_at_asc": {
+        "TEXT": "Izveidots: Vecākā vispirms"
+      },
+      "priority_desc": {
+        "TEXT": "Prioritāte: Augstākā vispirms"
+      },
+      "priority_asc": {
+        "TEXT": "Prioritāte: Zemākā vispirms"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Gaida atbildi: Garākā vispirms"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Gaida atbildi: Īsākā vispirms"
       }
     },
     "ATTACHMENTS": {

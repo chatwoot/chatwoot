@@ -1,36 +1,36 @@
 {
   "INTEGRATION_APPS": {
-    "FETCHING": "Fetching Integrations",
-    "NO_HOOK_CONFIGURED": "There are no %{integrationId} integrations configured in this account.",
-    "HEADER": "Applications",
+    "FETCHING": "Entegrasyonlar alınıyor",
+    "NO_HOOK_CONFIGURED": "Bu hesapta yapılandırılmış %{integrationId} entegrasyonu bulunmuyor.",
+    "HEADER": "Uygulamalar",
     "STATUS": {
       "ENABLED": "Etkin",
       "DISABLED": "Devre dışı"
     },
     "CONFIGURE": "Yapılandır",
-    "ADD_BUTTON": "Add a new hook",
+    "ADD_BUTTON": "Yeni bir bağlantı ekle",
     "DELETE": {
       "TITLE": {
-        "INBOX": "Confirm deletion",
-        "ACCOUNT": "Disconnect"
+        "INBOX": "Silme işlemini onayla",
+        "ACCOUNT": "Bağlantıyı Kes"
       },
       "MESSAGE": {
-        "INBOX": "Are you sure to delete?",
-        "ACCOUNT": "Are you sure to disconnect?"
+        "INBOX": "Silmek istediğinizden emin misiniz?",
+        "ACCOUNT": "Bağlantıyı kesmek istediğinizden emin misiniz?"
       },
       "CONFIRM_BUTTON_TEXT": {
         "INBOX": "Evet, Sil",
-        "ACCOUNT": "Yes, Disconnect"
+        "ACCOUNT": "Evet, Bağlantıyı Kes"
       },
       "CANCEL_BUTTON_TEXT": "İptal Et",
       "API": {
-        "SUCCESS_MESSAGE": "Hook deleted successfully",
+        "SUCCESS_MESSAGE": "Bağlantı başarıyla silindi",
         "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
       }
     },
     "LIST": {
-      "FETCHING": "Fetching integration hooks",
-      "INBOX": "Gelen kutusu",
+      "FETCHING": "Entegrasyon kancaları alınıyor",
+      "INBOX": "Gelen Kutusu",
       "DELETE": {
         "BUTTON_TEXT": "Sil"
       }
@@ -38,14 +38,14 @@
     "ADD": {
       "FORM": {
         "INBOX": {
-          "LABEL": "Select Inbox",
-          "PLACEHOLDER": "Select Inbox"
+          "LABEL": "Gelen Kutu Seç",
+          "PLACEHOLDER": "Gelen Kutu Seç"
         },
-        "SUBMIT": "Yarat",
+        "SUBMIT": "Oluştur",
         "CANCEL": "İptal Et"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Integration hook added successfully",
+        "SUCCESS_MESSAGE": "Entegrasyon kancası başarıyla eklendi",
         "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
       }
     },
@@ -53,10 +53,10 @@
       "BUTTON_TEXT": "Bağlan"
     },
     "DISCONNECT": {
-      "BUTTON_TEXT": "Disconnect"
+      "BUTTON_TEXT": "Bağlantıyı Kes"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow is a natural language understanding platform that makes it easy to design and integrate a conversational user interface into your mobile app, web application, device, bot, interactive voice response system, and so on. <br /> <br /> Dialogflow integration with %{installationName} allows you to configure a Dialogflow bot with your inboxes which lets the bot handle the queries initially and hand them over to an agent when needed. Dialogflow can be used to qualifying the leads, reduce the workload of agents by providing frequently asked questions etc. <br /> <br /> To add Dialogflow, you need to create a Service Account in your Google project console and share the credentials. Please refer to the Dialogflow docs for more information."
+      "DIALOGFLOW": "Dialogflow, doğal dil anlama platformudur ve mobil uygulamanıza, web uygulamanıza, cihazınıza, botunuza, etkileşimli sesli yanıt sistemine vb. sohbet kullanıcı arayüzü tasarlamayı ve entegre etmeyi kolaylaştırır. <br /> <br /> Dialogflow'un %{installationName} ile entegrasyonu, botunuzu gelen kutularınızla yapılandırmanıza olanak tanır, bu da bota soruları başlangıçta ele almasını ve gerektiğinde bir temsilciye devretmesini sağlar. Dialogflow, lead'leri nitelendirmek, temsilcilere sıkça sorulan soruları sağlayarak temsilcilerin iş yükünü azaltmak için kullanılabilir. <br /> <br /> Dialogflow eklemek için, Google proje konsolunuzda bir Hizmet Hesabı oluşturmanız ve kimlik bilgilerini paylaşmanız gerekmektedir. Daha fazla bilgi için Dialogflow belgelerine başvurun."
     }
   }
 }
