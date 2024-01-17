@@ -150,17 +150,12 @@ class Channel::Telegram < ApplicationRecord
   end
 
   def convert_markdown_to_telegram(text)
+    ## supported characters : https://core.telegram.org/bots/api#markdown-style
+    ## To implement MarkdownV2, we will need to do a lot of escaping
+
     # Convert bold - double asterisks to single asterisk in Telegram
+    # Chatwoot uses double asterisks for bold, while telegram used single asterisk
     text.gsub!(/\*\*(.*?)\*\*/, '*\1*')
-
-    # Convert italics - single underscore (same in both CommonMark and Telegram)
-    # No conversion needed for italics as both use _text_
-
-    # Convert underline - not typically used in CommonMark, so we'll leave it as is
-
-    # Convert strikethrough - double tilde to single tilde in Telegram
-    text.gsub!(/~~(.*?)~~/, '~\1~')
-
     text
   end
 
@@ -171,7 +166,7 @@ class Channel::Telegram < ApplicationRecord
                     chat_id: chat_id,
                     text: text_to_md,
                     reply_markup: reply_markup,
-                    parse_mode: 'MarkdownV2',
+                    parse_mode: 'Markdown',
                     reply_to_message_id: reply_to_message_id
                   })
   end
