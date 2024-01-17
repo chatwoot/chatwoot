@@ -19,8 +19,15 @@ class Api::V1::Accounts::CsatTemplatesController < Api::V1::Accounts::BaseContro
     @template.update(csat_template_params)
     # rubocop:disable Rails/SkipsModelValidations
     Current.account.inboxes.where(csat_template_id: params[:id]).update_all(csat_template_id: nil)
-    Current.account.inboxes.where(id: inbox_id_params).update_all(csat_template_id: @template.id)
     # rubocop:enable Rails/SkipsModelValidations
+  
+    inboxes = Current.account.inboxes.where(id: inbox_id_params)
+    if inboxes.present?
+      inboxes.each do |inbox|
+        inbox.update(csat_template_id: @template.id)
+      end
+    end
+
   end
 
   def destroy

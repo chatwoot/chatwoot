@@ -719,7 +719,6 @@ export default {
       this.$store.dispatch('teams/get');
       this.$store.dispatch('labels/get');
       this.$store.dispatch('inboxes/get').then(() => {
-        console.log(this.inbox)
         this.avatarUrl = this.inbox.avatar_url;
         this.selectedInboxName = this.inbox.name;
         this.webhookUrl = this.inbox.webhook_url;
@@ -741,7 +740,7 @@ export default {
         this.channelWelcomeTagline = this.inbox.welcome_tagline;
         this.selectedFeatureFlags = this.inbox.selected_feature_flags || [];
         this.replyTime = this.inbox.reply_time;
-        this.defaultReplyAction = this.inbox.default_reply_action || 'reply_and_resolve';
+        this.defaultReplyAction = this.inbox.default_reply_action;
         this.locktoSingleConversation = this.inbox.lock_to_single_conversation;
         this.selectedPortalSlug = this.inbox.help_center
           ? this.inbox.help_center.slug
