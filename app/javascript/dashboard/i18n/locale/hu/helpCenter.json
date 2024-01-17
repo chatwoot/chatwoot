@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "Szűrés",
       "SORT": "Rendezés",
+      "LOCALE": "Nyelv",
       "SETTINGS_BUTTON": "Beállítások",
       "NEW_BUTTON": "Új bejegyzés",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "Saját bejegyzések",
         "DRAFT": "Vázlat bejegyzések",
         "ARCHIVED": "Archivált bejegyzések"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Nyelv kiválasztása",
+        "PLACEHOLDER": "Nyelv kiválasztása",
+        "NO_RESULT": "Nem található nyelv",
+        "SEARCH_PLACEHOLDER": "Nyelv kiválasztása"
       }
     },
     "EDIT_HEADER": {
@@ -76,6 +83,9 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Kategorizálhatatlan",
+      "SEARCH_RESULTS": "Keresési eredmények %{query}",
+      "EMPTY_TEXT": "Cikkek keresése a válaszokba való beillesztéshez.",
+      "SEARCH_LOADER": "Keresés...",
       "INSERT_ARTICLE": "Beszúrás",
       "NO_RESULT": "Nem található cikk",
       "COPY_LINK": "Cikk másolása a vágólapra",
@@ -220,7 +230,10 @@
         "LOGO": {
           "LABEL": "Logó",
           "UPLOAD_BUTTON": "Logó feltöltése",
-          "HELP_TEXT": "Ez a logó megjelenik a portál fejlécében."
+          "HELP_TEXT": "Ez a logó megjelenik a portál fejlécében.",
+          "IMAGE_UPLOAD_SUCCESS": "Logó sikeresen feltöltve",
+          "IMAGE_UPLOAD_ERROR": "Logo sikeresen törölve",
+          "IMAGE_DELETE_ERROR": "Hiba a logó törlése közben"
         },
         "NAME": {
           "LABEL": "Név",
@@ -425,6 +438,21 @@
           "ERROR_MESSAGE": "Nem lehet törölni a kategóriát"
         }
       }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Cikkek keresése",
+      "PLACEHOLDER": "Cikkek keresése",
+      "NO_RESULT": "Nem található cikk",
+      "SEARCHING": "Keresés...",
+      "SEARCH_BUTTON": "Keresés",
+      "INSERT_ARTICLE": "Link beillesztése",
+      "IFRAME_ERROR": "Az URL üres vagy érvénytelen. A tartalom megjelenítése nem lehetséges.",
+      "OPEN_ARTICLE_SEARCH": "Cikk beillesztése a Súgóközpontból",
+      "SUCCESS_ARTICLE_INSERTED": "Cikk sikeresen beillesztve",
+      "PREVIEW_LINK": "Cikk előnézete",
+      "CANCEL": "Bezárás",
+      "BACK": "Vissza",
+      "BACK_RESULTS": "Vissza az eredményekhez"
     },
     "UPGRADE_PAGE": {
       "TITLE": "Súgóközpont",

@@ -92,7 +92,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Rozłączono z Chatwoot"
+      "OFFLINE": "Offline"
     },
     "BUTTON": {
       "REFRESH": "Odśwież"

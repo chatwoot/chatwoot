@@ -173,7 +173,7 @@ pt_BR:
       name: "Webhooks"
       description: "Webhooks fornecem informações em tempo real sobre o que está acontecendo em sua conta. Você pode usar os webhooks para comunicar eventos com seus aplicativos favoritos como Slack ou Github. Clique em Configurar para configurar seus webhooks."
     dialogflow:
-      name: "Dialogflow"
+      name: "Fluxo de diálogo"
       description: "Construa chatbots usando Dialogflow e conecte-os à sua caixa de entrada rapidamente. Deixe os bots lidarem com as consultas antes de entregá-los a um agente de atendimento ao cliente."
     fullcontact:
       name: "Contato completo"
@@ -196,18 +196,33 @@ pt_BR:
     common:
       home: Principal
       last_updated_on: Última atualização em %{last_updated_on}
-      view_all_articles: Ver todos os artigos
+      view_all_articles: Visualizar tudo
       article: artigo
       articles: artigos
+      author: autor
+      authors: autores
+      other: outro
+      others: outros
+      by: Por
       no_articles: Não há artigos aqui
     footer:
       made_with: Criado com
     header:
-      go_to_homepage: Ir para o site principal
+      go_to_homepage: Site
+      appearance:
+        system: Sistema
+        light: Claro
+        dark: Escuro
+      featured_articles: Artigos em Destaque
+      uncategorized: Não categorizado
+    404:
+      title: Página não encontrada
+      description: Não conseguimos encontrar a página que você estava procurando.
+      back_to_home: Ir para a página inicial
   slack_unfurl:
     fields:
       name: Nome
-      email: e-mail
+      email: E-mail
       phone_number: Telefone
       company_name: Empresa
       inbox_name: Caixa de Entrada

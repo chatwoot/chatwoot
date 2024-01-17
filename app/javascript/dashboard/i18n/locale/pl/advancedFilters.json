@@ -1,18 +1,18 @@
 {
   "FILTER": {
-    "TITLE": "Filtruj rozmowy",
-    "SUBTITLE": "Dodaj poniższe filtry i kliknij 'Zastosuj filtry', aby przefiltrować rozmowy.",
+    "TITLE": "Filtruj konwersacje",
+    "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
     "EDIT_CUSTOM_FILTER": "Edytuj folder",
     "CUSTOM_VIEWS_SUBTITLE": "Dodaj lub usuń filtry i zaktualizuj swój folder.",
-    "ADD_NEW_FILTER": "Dodaj filtr",
-    "FILTER_DELETE_ERROR": "Musisz mieć co najmniej jeden filtr do zapisu",
+    "ADD_NEW_FILTER": "Add filter",
+    "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
     "SUBMIT_BUTTON_LABEL": "Zastosuj filtry",
     "UPDATE_BUTTON_LABEL": "Zaktualizuj folder",
     "CANCEL_BUTTON_LABEL": "Anuluj",
-    "CLEAR_BUTTON_LABEL": "Wyczyść filtry",
-    "EMPTY_VALUE_ERROR": "Wartość jest wymagana",
+    "CLEAR_BUTTON_LABEL": "Clear filters",
     "FOLDER_LABEL": "Nazwa Folderu",
     "FOLDER_QUERY_LABEL": "Zapytanie do Folderu",
+    "EMPTY_VALUE_ERROR": "Wartość jest wymagana.",
     "TOOLTIP_LABEL": "Filtruj konwersacje",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "i",
@@ -36,44 +36,44 @@
     },
     "ATTRIBUTES": {
       "STATUS": "Status",
-      "ASSIGNEE_NAME": "Nazwa Przypisanego",
-      "INBOX_NAME": "Nazwa Skrzynki Odbiorczej",
-      "TEAM_NAME": "Nazwa Zespołu",
-      "CONVERSATION_IDENTIFIER": "Identyfikator Rozmowy",
-      "CAMPAIGN_NAME": "Nazwa Kampanii",
+      "ASSIGNEE_NAME": "Assignee name",
+      "INBOX_NAME": "Nazwa skrzynki odbiorczej",
+      "TEAM_NAME": "Nazwa zespołu",
+      "CONVERSATION_IDENTIFIER": "Conversation identifier",
+      "CAMPAIGN_NAME": "Campaign name",
       "LABELS": "Etykiety",
-      "BROWSER_LANGUAGE": "Język Przeglądarki",
+      "BROWSER_LANGUAGE": "Browser language",
       "PRIORITY": "Priorytet",
-      "COUNTRY_NAME": "Nazwa Kraju",
+      "COUNTRY_NAME": "Country name",
       "REFERER_LINK": "Link Odsyłający",
       "CUSTOM_ATTRIBUTE_LIST": "Lista",
       "CUSTOM_ATTRIBUTE_TEXT": "Tekst",
       "CUSTOM_ATTRIBUTE_NUMBER": "Numer",
       "CUSTOM_ATTRIBUTE_LINK": "Link",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Pole Wyboru",
-      "CREATED_AT": "Utworzono o",
-      "LAST_ACTIVITY": "Ostatnia Aktywność"
+      "CREATED_AT": "Utworzono",
+      "LAST_ACTIVITY": "Ostatnia aktywność"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standardowe Filtry",
-      "ADDITIONAL_FILTERS": "Dodatkowe Filtry",
-      "CUSTOM_ATTRIBUTES": "Niestandardowe Atrybuty"
+      "STANDARD_FILTERS": "Standard filters",
+      "ADDITIONAL_FILTERS": "Additional filters",
+      "CUSTOM_ATTRIBUTES": "Custom attributes"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
         "TITLE": "Czy chcesz zapisać ten filtr?",
         "LABEL": "Nazwa Filtra",
-        "PLACEHOLDER": "Wprowadź nazwę dla tego filtra",
-        "ERROR_MESSAGE": "Nazwa jest wymagana",
+        "PLACEHOLDER": "Name your filter to refer it later.",
+        "ERROR_MESSAGE": "Nazwa jest wymagana.",
         "SAVE_BUTTON": "Zapisz filtr",
         "CANCEL_BUTTON": "Anuluj",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Pomyślnie utworzono folder",
-          "ERROR_MESSAGE": "Błąd podczas tworzenia folderu"
+          "SUCCESS_MESSAGE": "Pomyślnie utworzono folder.",
+          "ERROR_MESSAGE": "Błąd podczas tworzenia folderu."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Pomyślnie utworzono segment",
-          "ERROR_MESSAGE": "Błąd podczas tworzenia segmentu"
+          "SUCCESS_MESSAGE": "Pomyślnie utworzono segment.",
+          "ERROR_MESSAGE": "Błąd podczas tworzenia segmentu."
         }
       },
       "EDIT": {
@@ -83,19 +83,19 @@
         "DELETE_BUTTON": "Usuń filtr",
         "MODAL": {
           "CONFIRM": {
-            "TITLE": "Potwierdź usunięcie",
+            "TITLE": "Potwierdzenie usunięcia",
             "MESSAGE": "Czy na pewno chcesz usunąć filtr ",
-            "YES": "Tak, usuń",
-            "NO": "Nie, zachowaj"
+            "YES": "Yes, delete",
+            "NO": "Nie, zostaw"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Pomyślnie usunięto folder",
-          "ERROR_MESSAGE": "Błąd podczas usuwania folderu"
+          "SUCCESS_MESSAGE": "Pomyślnie usunięto folder.",
+          "ERROR_MESSAGE": "Błąd podczas usuwania folderu."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Pomyślnie usunięto segment",
-          "ERROR_MESSAGE": "Błąd podczas usuwania segmentu"
+          "SUCCESS_MESSAGE": "Pomyślnie usunięto segment.",
+          "ERROR_MESSAGE": "Błąd podczas usuwania segmentu."
         }
       }
     }

@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "Filtrer par",
       "SORT": "Trier par",
+      "LOCALE": "Langue",
       "SETTINGS_BUTTON": "Paramètres",
       "NEW_BUTTON": "Nouvel article",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "Mes articles",
         "DRAFT": "Articles brouillon",
         "ARCHIVED": "Articles archivés"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Choisir un paramètre régional",
+        "PLACEHOLDER": "Choisir un paramètre régional",
+        "NO_RESULT": "Paramètre régional introuvable",
+        "SEARCH_PLACEHOLDER": "Chercher un paramètre régional"
       }
     },
     "EDIT_HEADER": {
@@ -76,6 +83,9 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Non catégorisé",
+      "SEARCH_RESULTS": "Résultats de la recherche pour %{query}",
+      "EMPTY_TEXT": "Rechercher des articles à insérer dans les réponses.",
+      "SEARCH_LOADER": "Recherche en cours...",
       "INSERT_ARTICLE": "Insérer",
       "NO_RESULT": "Aucun article trouvé",
       "COPY_LINK": "Copier le lien de l'article dans le presse-papier",
@@ -220,7 +230,10 @@
         "LOGO": {
           "LABEL": "Logo",
           "UPLOAD_BUTTON": "Télécharger le logo",
-          "HELP_TEXT": "Ce logo sera affiché sur l'en-tête du portail."
+          "HELP_TEXT": "Ce logo sera affiché sur l'en-tête du portail.",
+          "IMAGE_UPLOAD_SUCCESS": "Logo téléchargé",
+          "IMAGE_UPLOAD_ERROR": "Logo effacé",
+          "IMAGE_DELETE_ERROR": "Erreur lors de la suppression du logo"
         },
         "NAME": {
           "LABEL": "Nom",
@@ -365,7 +378,7 @@
         "NAME": {
           "LABEL": "Nom",
           "PLACEHOLDER": "Nom de la catégorie",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "HELP_TEXT": "Le nom de la catégorie sera utilisé dans le portail public pour classer les articles.",
           "ERROR": "Le nom est requis"
         },
         "SLUG": {
@@ -396,7 +409,7 @@
         "NAME": {
           "LABEL": "Nom",
           "PLACEHOLDER": "Nom de la catégorie",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "HELP_TEXT": "Le nom de la catégorie sera utilisé dans le portail public pour classer les articles.",
           "ERROR": "Le nom est requis"
         },
         "SLUG": {
@@ -425,6 +438,21 @@
           "ERROR_MESSAGE": "Impossible de supprimer la catégorie"
         }
       }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Rechercher des articles",
+      "PLACEHOLDER": "Rechercher des articles",
+      "NO_RESULT": "Aucun article trouvé",
+      "SEARCHING": "Recherche en cours...",
+      "SEARCH_BUTTON": "Rechercher",
+      "INSERT_ARTICLE": "Insérer un lien",
+      "IFRAME_ERROR": "L'URL est vide ou non valide. Impossible d'afficher le contenu.",
+      "OPEN_ARTICLE_SEARCH": "Insérer un article depuis le centre d'aide",
+      "SUCCESS_ARTICLE_INSERTED": "Article inséré",
+      "PREVIEW_LINK": "Aperçu de l’article",
+      "CANCEL": "Fermer",
+      "BACK": "Précédent",
+      "BACK_RESULTS": "Retour aux résultats"
     },
     "UPGRADE_PAGE": {
       "TITLE": "Centre d'aide",

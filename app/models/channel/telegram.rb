@@ -149,12 +149,29 @@ class Channel::Telegram < ApplicationRecord
                   })
   end
 
+  def convert_markdown_to_telegram(text)
+    # Convert bold - double asterisks to single asterisk in Telegram
+    text.gsub!(/\*\*(.*?)\*\*/, '*\1*')
+
+    # Convert italics - single underscore (same in both CommonMark and Telegram)
+    # No conversion needed for italics as both use _text_
+
+    # Convert underline - not typically used in CommonMark, so we'll leave it as is
+
+    # Convert strikethrough - double tilde to single tilde in Telegram
+    text.gsub!(/~~(.*?)~~/, '~\1~')
+
+    text
+  end
+
   def message_request(chat_id, text, reply_markup = nil, reply_to_message_id = nil)
+    text_to_md = convert_markdown_to_telegram(text)
     HTTParty.post("#{telegram_api_url}/sendMessage",
                   body: {
                     chat_id: chat_id,
-                    text: text,
+                    text: text_to_md,
                     reply_markup: reply_markup,
+                    parse_mode: 'MarkdownV2',
                     reply_to_message_id: reply_to_message_id
                   })
   end
