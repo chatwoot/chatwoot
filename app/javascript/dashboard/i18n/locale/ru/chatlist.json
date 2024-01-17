@@ -8,7 +8,7 @@
     },
     "TAB_HEADING": "Диалоги",
     "MENTION_HEADING": "Упоминания",
-    "UNATTENDED_HEADING": "Несвязанные",
+    "UNATTENDED_HEADING": "Неотвеченные",
     "SEARCH": {
       "INPUT": "Искать людей, чаты, сохраненные ответы .."
     },
@@ -51,18 +51,30 @@
         "ACTIVE": "Последние действия"
       }
     },
-    "CHAT_SORT_FILTER_ITEMS": {
-      "latest": {
-        "TEXT": "Последние действия"
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Последняя активность: сначала старые"
       },
-      "sort_on_created_at": {
-        "TEXT": "Дата создания"
+      "last_activity_at_desc": {
+        "TEXT": "Последняя активность: сначала новые"
       },
-      "sort_on_priority": {
-        "TEXT": "Приоритет"
+      "created_at_desc": {
+        "TEXT": "Создано: сначала новые"
       },
-      "sort_on_waiting_since": {
-        "TEXT": "Ожидается ответ"
+      "created_at_asc": {
+        "TEXT": "Создано: сначала старые"
+      },
+      "priority_desc": {
+        "TEXT": "Приоритет: сначала высокие"
+      },
+      "priority_asc": {
+        "TEXT": "Приоритет: сначала низкие"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Ожидающие ответа: сначала старые"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Ожидающие ответа: сначала новые"
       }
     },
     "ATTACHMENTS": {

@@ -196,14 +196,29 @@ ar:
     common:
       home: الرئيسية
       last_updated_on: Last updated on %{last_updated_on}
-      view_all_articles: View all articles
+      view_all_articles: View all
       article: article
       articles: المقالات
+      author: المؤلف
+      authors: authors
+      other: other
+      others: others
+      by: By
       no_articles: There are no articles here
     footer:
       made_with: Made with
     header:
-      go_to_homepage: Go to the main site
+      go_to_homepage: Website
+      appearance:
+        system: System
+        light: Light
+        dark: Dark
+      featured_articles: Featured Articles
+      uncategorized: Uncategorized
+    404:
+      title: Page not found
+      description: We couldn't find the page you were looking for.
+      back_to_home: Go to home page
   slack_unfurl:
     fields:
       name: الاسم
