@@ -38,7 +38,7 @@
       ref="dropdown"
       v-on-clickaway="closeDropdown"
       :class="dropdownBackgroundClass"
-      class="country-dropdown h-48 overflow-y-auto z-10 absolute top-12 px-0 pt-0 pl-1 pr-1 pb-1 rounded shadow-lg"
+      class="country-dropdown h-48 overflow-y-auto z-10 absolute top-12 px-0 pt-0 pl-1 pr-1 pb-1 rounded shadow-lg"style="direction: ltr;"
     >
       <div class="sticky top-0" :class="dropdownBackgroundClass">
         <input
