@@ -25,7 +25,7 @@
       <input
         :value="phoneNumber"
         type="phoneInput"
-        class="border-0 w-full py-2 pl-2 pr-3 leading-tight outline-none h-full rounded-r"
+        style="direction: rtl; "class="border-0 w-full py-2 pl-2 pr-3 leading-tight outline-none h-full rounded-r"
         name="phoneNumber"
         :placeholder="placeholder"
         :class="inputLightAndDarkModeColor"
