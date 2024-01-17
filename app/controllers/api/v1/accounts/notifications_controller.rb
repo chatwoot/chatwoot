@@ -9,7 +9,7 @@ class Api::V1::Accounts::NotificationsController < Api::V1::Accounts::BaseContro
   def index
     @unread_count = notification_finder.unread_count
     @notifications = notification_finder.perform
-    @count = @notifications.count
+    @count = notification_finder.count
   end
 
   def read_all
