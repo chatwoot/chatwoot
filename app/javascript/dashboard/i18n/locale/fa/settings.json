@@ -36,12 +36,12 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "امضای پیام شخصی",
-        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
+        "NOTE": "یک امضای منحصر به فرد ایجاد کنید تا در انتهای تمام پیام هایی که از هر صندوق ورودی ارسال می کنید نمایش داده شود. همچنین می‌توانید یک تصویر درون خطی اضافه کنید که در چت، ایمیل و صندوق‌های ورودی API پشتیبانی می‌شود.",
         "BTN_TEXT": "ذخیره امضای پیام",
         "API_ERROR": "امضا ذخیره نشد! دوباره امتحان کنید",
         "API_SUCCESS": "امضا با موفقیت ذخیره شد",
-        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
-        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_ERROR": "تصویر ارسال نشد! دوباره امتحان کنید",
+        "IMAGE_UPLOAD_SUCCESS": "تصویر با موفقیت اضافه شد. لطفا بر روی ذخیره کلیک کنید تا امضا ذخیره شود",
         "IMAGE_UPLOAD_SIZE_ERROR": "اندازه تصویر باید کمتر از {size} مگابایت باشد"
       },
       "MESSAGE_SIGNATURE": {
