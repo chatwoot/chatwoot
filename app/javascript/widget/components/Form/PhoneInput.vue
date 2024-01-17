@@ -1,7 +1,7 @@
 <template>
   <div class="phone-input--wrap relative mt-2">
     <div
-      class="phone-input rounded w-full flex items-center justify-start outline-none border border-solid"
+      style="direction: ltr;" class="phone-input rounded w-full flex items-center justify-start outline-none border border-solid"
       :class="inputHasError"
     >
       <div
