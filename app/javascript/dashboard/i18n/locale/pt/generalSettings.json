@@ -92,7 +92,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Desconectado do Chatwoot"
+      "OFFLINE": "Ausente"
     },
     "BUTTON": {
       "REFRESH": "Atualizar"

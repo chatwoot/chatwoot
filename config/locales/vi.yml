@@ -196,14 +196,29 @@ vi:
     common:
       home: Trang Chủ
       last_updated_on: 'Cập nhật lần cuối: %{last_updated_on}'
-      view_all_articles: Xem tất cả bài viết
+      view_all_articles: View all
       article: bài viết
       articles: bài viết
+      author: tác giả
+      authors: authors
+      other: other
+      others: others
+      by: By
       no_articles: Không tìm thấy bài viết
     footer:
       made_with: Tạo bởi
     header:
-      go_to_homepage: Trở về ứng dụng
+      go_to_homepage: Website
+      appearance:
+        system: System
+        light: Light
+        dark: Dark
+      featured_articles: Featured Articles
+      uncategorized: Chưa được phân loại
+    404:
+      title: Page not found
+      description: We couldn't find the page you were looking for.
+      back_to_home: Go to home page
   slack_unfurl:
     fields:
       name: Tên
