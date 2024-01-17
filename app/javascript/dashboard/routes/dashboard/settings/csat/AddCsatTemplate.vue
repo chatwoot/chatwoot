@@ -1,9 +1,17 @@
 <template>
   <div class="h-auto overflow-auto flex flex-col">
-    <woot-modal-header :header-title="$t('CSAT_SETTINGS.TEMPLATE.ADD')" />
+    <woot-modal-header :header-title="$t('CSAT_TEMPLATES.TEMPLATE.ADD')" />
     <form class="flex flex-col w-full" @submit.prevent="addCsatTemplate()">
+      <label>
+        {{ $t('CSAT_TEMPLATES.FORM.NAME') }}
+        <input
+              v-model="name"
+              class="mb-1"
+              type="text"
+            />
+      </label>
       <label :class="{ error: $v.inboxes.$error }">
-        {{ $t('CSAT_SETTINGS.FORM.INBOXES.LABEL') }}
+        {{ $t('CSAT_TEMPLATES.FORM.INBOXES.LABEL') }}
         <multiselect
           v-model="inboxes"
           :options="dropdownValues"
@@ -21,7 +29,7 @@
           :option-height="104"
         />
         <span v-if="$v.inboxes.$error" class="message">
-          {{ $t('CSAT_SETTINGS.FORM.INBOXES.ERROR') }}
+          {{ $t('CSAT_TEMPLATES.FORM.INBOXES.ERROR') }}
         </span>
       </label>
       <div
@@ -38,7 +46,7 @@
               v-model="question.content"
               class="mb-1"
               type="text"
-              :placeholder="$t('CSAT_SETTINGS.TEMPLATE.PLACEHOLDER')"
+              :placeholder="$t('CSAT_TEMPLATES.TEMPLATE.PLACEHOLDER')"
             />
             <woot-button
               type="button"
@@ -52,12 +60,12 @@
             v-if="$v.custom_questions.$each[index].content.$error"
             class="message"
           >
-            {{ $t('CSAT_SETTINGS.FORM.QUESTION.ERROR') }}
+            {{ $t('CSAT_TEMPLATES.FORM.QUESTION.ERROR') }}
           </span>
         </label>
       </div>
       <span v-if="!$v.custom_questions.maxLength">
-        {{ $t('CSAT_SETTINGS.FORM.QUESTION.ERROR_MAX_LENGTH') }}
+        {{ $t('CSAT_TEMPLATES.FORM.QUESTION.ERROR_MAX_LENGTH') }}
       </span>
       <div v-if="$v.custom_questions.maxLength" class="mt-2 w-full">
         <woot-button
@@ -72,7 +80,7 @@
       </div>
       <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
         <woot-submit-button
-          :button-text="$t('CSAT_SETTINGS.ADD.FORM.SUBMIT')"
+          :button-text="$t('CSAT_TEMPLATES.ADD.FORM.SUBMIT')"
         />
         <button class="button clear" @click.prevent="onClose">
           {{ $t('CANNED_MGMT.ADD.CANCEL_BUTTON_TEXT') }}
@@ -97,6 +105,7 @@ export default {
   },
   data() {
     return {
+      name: '',
       custom_questions: [],
       inboxes: [],
     };
@@ -164,6 +173,7 @@ export default {
     csatTemplate() {
       return {
         csat_template: {
+          name: this.name,
           inbox_ids: this.inboxes.map(inbox => inbox.id),
           csat_template_questions_attributes: this.custom_questions,
         },

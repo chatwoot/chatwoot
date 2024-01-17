@@ -1,9 +1,17 @@
 <template>
   <div class="h-auto overflow-auto flex flex-col">
-    <woot-modal-header :header-title="$t('CSAT_SETTINGS.TEMPLATE.EDIT')" />
+    <woot-modal-header :header-title="$t('CSAT_TEMPLATES.TEMPLATE.EDIT')" />
     <form class="flex flex-col w-full" @submit.prevent="editCsatTemplate()">
-      <label :class="{ error: $v.inboxes.$error }">
-        {{ $t('CSAT_SETTINGS.FORM.INBOXES.LABEL') }}
+      <label>
+        {{ $t('CSAT_TEMPLATES.FORM.NAME') }}
+        <input
+              v-model="name"
+              class="mb-1"
+              type="text"
+            />
+      </label>
+      <label>
+        {{ $t('CSAT_TEMPLATES.FORM.INBOXES.LABEL') }}
         <multiselect
           v-model="inboxes"
           :options="dropdownValues"
@@ -35,7 +43,7 @@
               v-model="question.content"
               class="mb-1"
               type="text"
-              :placeholder="$t('CSAT_SETTINGS.TEMPLATE.PLACEHOLDER')"
+              :placeholder="$t('CSAT_TEMPLATES.TEMPLATE.PLACEHOLDER')"
             />
             <woot-button
               type="button"
@@ -49,12 +57,12 @@
             v-if="$v.custom_questions.$each[index].content.$error"
             class="message"
           >
-            {{ $t('CSAT_SETTINGS.FORM.QUESTION.ERROR') }}
+            {{ $t('CSAT_TEMPLATES.FORM.QUESTION.ERROR') }}
           </span>
         </label>
       </div>
       <span v-if="!$v.custom_questions.maxLength">
-        {{ $t('CSAT_SETTINGS.FORM.QUESTION.ERROR_MAX_LENGTH') }}
+        {{ $t('CSAT_TEMPLATES.FORM.QUESTION.ERROR_MAX_LENGTH') }}
       </span>
       <div v-if="!maxQuestionReached" class="mt-2 w-full">
         <woot-button
@@ -69,7 +77,7 @@
       </div>
       <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
         <woot-submit-button
-          :button-text="$t('CSAT_SETTINGS.EDIT.FORM.SUBMIT')"
+          :button-text="$t('CSAT_TEMPLATES.EDIT.FORM.SUBMIT')"
         />
         <button class="button clear" @click.prevent="onClose">Cancel</button>
       </div>
@@ -91,6 +99,7 @@ export default {
   },
   data() {
     return {
+      name: '',
       custom_questions: [],
       inboxes: [],
       deleted_questions: [],
@@ -107,9 +116,6 @@ export default {
         },
       },
     },
-    inboxes: {
-      required,
-    },
   },
   computed: {
     ...mapGetters({
@@ -125,6 +131,7 @@ export default {
     currentTemplate(temp) {
       this.custom_questions = temp.questions;
       this.inboxes = temp.selected_inboxes;
+      this.name = temp.name;
     },
   },
   mounted() {
@@ -171,6 +178,7 @@ export default {
     csatTemplate() {
       return {
         csat_template: {
+          name: this.name,
           inbox_ids: this.inboxes.map(inbox => inbox.id),
           csat_template_questions_attributes: this.csatTemplateQuestions(),
         },

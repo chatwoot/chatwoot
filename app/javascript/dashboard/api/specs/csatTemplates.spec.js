@@ -9,8 +9,6 @@ describe('#Templates API', () => {
     expect(csatTemplatesAPI).toHaveProperty('getTemplate');
     expect(csatTemplatesAPI).toHaveProperty('create');
     expect(csatTemplatesAPI).toHaveProperty('delete');
-    expect(csatTemplatesAPI).toHaveProperty('getStatus');
-    expect(csatTemplatesAPI).toHaveProperty('toggleSetting');
     expect(csatTemplatesAPI).toHaveProperty('getInboxes');
   });
 
@@ -69,13 +67,6 @@ describe('#Templates API', () => {
           },
         ],
       });
-    });
-
-    it('#getStatus', () => {
-      csatTemplatesAPI.getStatus();
-      expect(axiosMock.get).toHaveBeenCalledWith(
-        '/api/v1/csat_templates/setting_status'
-      );
     });
   });
 });

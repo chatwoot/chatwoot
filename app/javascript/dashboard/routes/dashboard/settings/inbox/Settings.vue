@@ -225,6 +225,25 @@
         </label>
 
         <label class="w-[75%] pb-4">
+          {{ $t('INBOX_MGMT.EDIT.CSAT_TRIGGERS') }}
+          <select v-model="csatTrigger">
+            <option value="conversation_all_reply">{{ $t('INBOX_MGMT.EDIT.SEND_CSAT_ALL_REPLY') }}</option>
+            <option value="conversation_resolved">{{ $t('INBOX_MGMT.EDIT.SEND_CSAT_ON_CLOSED') }}</option>
+          </select>
+          <p class="pb-1 text-sm not-italic text-slate-600 dark:text-slate-400">
+            {{ $t('INBOX_MGMT.SETTINGS_POPUP.CSAT_TRIGGER_SUBTEXT') }}
+          </p>
+        </label>
+
+        <label class="w-[75%] pb-4">
+          CSAT Template
+          <select v-model="csatTemplateId">
+            <option value="">Default</option>
+            <option v-for="temp in csatTemplates" :key="temp.id" :value="temp.id">{{ temp.name }}</option>
+          </select>
+        </label>
+
+        <label class="w-[75%] pb-4">
           Enable Push Notification
           <select v-model="pushNotificationEnabled">
             <option :value="true">
@@ -505,6 +524,8 @@ export default {
       greetingMessage: '',
       emailCollectEnabled: false,
       csatSurveyEnabled: false,
+      csatTrigger: null,
+      csatTemplateId: '',
       pushNotificationEnabled: true,
       audioNotificationEnabled: true,
       senderNameType: 'friendly',
@@ -531,6 +552,7 @@ export default {
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       uiFlags: 'inboxes/getUIFlags',
       portals: 'portals/allPortals',
+      csatTemplates: 'csatTemplates/records'
     }),
     selectedTabKey() {
       return this.tabs[this.selectedTabIndex]?.key;
@@ -666,6 +688,7 @@ export default {
     },
   },
   mounted() {
+    this.$store.dispatch('csatTemplates/get');
     this.fetchInboxSettings();
     this.fetchPortals();
   },
@@ -704,6 +727,8 @@ export default {
         this.greetingMessage = this.inbox.greeting_message || '';
         this.emailCollectEnabled = this.inbox.enable_email_collect;
         this.csatSurveyEnabled = this.inbox.csat_survey_enabled;
+        this.csatTemplateId = this.inbox.csat_template_id;
+        this.csatTrigger = this.inbox.csat_trigger || 'conversation_resolved';
         this.pushNotificationEnabled = this.inbox.push_notification_enabled;
         this.audioNotificationEnabled = this.inbox.audio_notification_enabled;
         this.senderNameType = this.inbox.sender_name_type;
@@ -730,6 +755,8 @@ export default {
           name: this.selectedInboxName,
           enable_email_collect: this.emailCollectEnabled,
           csat_survey_enabled: this.csatSurveyEnabled,
+          csat_template_id: this.csatTemplateId,
+          csat_trigger: this.csatTrigger,
           push_notification_enabled: this.pushNotificationEnabled,
           audio_notification_enabled: this.audioNotificationEnabled,
           default_reply_action: this.defaultReplyAction,

@@ -8,6 +8,8 @@ json.greeting_message resource.greeting_message
 json.working_hours_enabled resource.working_hours_enabled
 json.enable_email_collect resource.enable_email_collect
 json.csat_survey_enabled resource.csat_survey_enabled
+json.csat_trigger resource.csat_trigger
+json.csat_template_id resource.csat_template_id
 json.default_reply_action resource.default_reply_action
 json.push_notification_enabled resource.push_notification_enabled
 json.audio_notification_enabled resource.audio_notification_enabled

@@ -16,6 +16,6 @@ export const FEATURE_FLAGS = {
   TEAM_MANAGEMENT: 'team_management',
   VOICE_RECORDER: 'voice_recorder',
   AUDIT_LOGS: 'audit_logs',
-  CSAT_SETTINGS: 'csat_settings',
+  CSAT_TEMPLATES: 'csat_templates',
   INSERT_ARTICLE_IN_REPLY: 'insert_article_in_reply',
 };
