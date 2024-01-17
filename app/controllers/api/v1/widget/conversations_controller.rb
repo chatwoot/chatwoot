@@ -78,7 +78,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   end
 
   def csat_template_status
-    render json: { status: inbox.account.csat_template_enabled? }
+    render json: { status: inbox.csat_template_enabled? }
   end
 
   private

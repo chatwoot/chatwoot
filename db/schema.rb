@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_16_120930) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_17_135938) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -54,8 +54,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_16_120930) do
     t.jsonb "limits", default: {}
     t.jsonb "custom_attributes", default: {}
     t.integer "status", default: 0
-    t.boolean "csat_template_enabled", default: false, null: false
-    t.string "csat_trigger"
     t.index ["status"], name: "index_accounts_on_status"
   end
 
@@ -508,6 +506,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_16_120930) do
     t.bigint "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
     t.index ["account_id"], name: "index_csat_templates_on_account_id"
   end
 
@@ -615,6 +614,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_16_120930) do
     t.string "default_reply_action"
     t.boolean "push_notification_enabled", default: true
     t.boolean "audio_notification_enabled", default: true
+    t.string "csat_trigger"
     t.index ["account_id"], name: "index_inboxes_on_account_id"
     t.index ["channel_id", "channel_type"], name: "index_inboxes_on_channel_id_and_channel_type"
     t.index ["portal_id"], name: "index_inboxes_on_portal_id"

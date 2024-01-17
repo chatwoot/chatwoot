@@ -39,7 +39,7 @@ const settings = accountId => ({
     'settings_teams_finish',
     'settings_teams_list',
     'settings_teams_new',
-    'settings_csat',
+    'settings_csat_templates',
   ],
   menuItems: [
     {
@@ -161,12 +161,11 @@ const settings = accountId => ({
     },
     {
       icon: 'star-half',
-      label: 'CSAT_SETTINGS',
+      label: 'CSAT_TEMPLATES',
       hasSubMenu: false,
-      toState: frontendURL(`accounts/${accountId}/settings/csat`),
-      toStateName: 'settings_csat',
-      featureFlag: FEATURE_FLAGS.CSAT_SETTINGS,
-      beta: true,
+      toState: frontendURL(`accounts/${accountId}/settings/csat_templates`),
+      toStateName: 'settings_csat_templates',
+      featureFlag: FEATURE_FLAGS.CSAT_TEMPLATES,
     },
   ],
 });

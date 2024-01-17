@@ -217,6 +217,7 @@ class Conversation < ApplicationRecord
 
   def send_csat_survey_email
     return unless saved_change_to_status? && resolved?
+    return unless inbox.email?
 
     CsatSurveyWorker.perform_in(5.seconds, self.id)
   end

@@ -19,30 +19,20 @@ class Api::V1::Accounts::CsatTemplatesController < Api::V1::Accounts::BaseContro
     @template.update(csat_template_params)
     # rubocop:disable Rails/SkipsModelValidations
     Current.account.inboxes.where(csat_template_id: params[:id]).update_all(csat_template_id: nil)
-    Current.account.inboxes.where(id: inbox_id_params).update_all(csat_template_id: @template.id)
     # rubocop:enable Rails/SkipsModelValidations
-  end
+  
+    inboxes = Current.account.inboxes.where(id: inbox_id_params)
+    if inboxes.present?
+      inboxes.each do |inbox|
+        inbox.update(csat_template_id: @template.id)
+      end
+    end
 
-  def update_csat_trigger
-    render json: { status: Current.account.update(csat_trigger: params[:csat_trigger]) }
-  end
-
-  def csat_trigger
-    render json: { csat_trigger: Current.account.csat_trigger }
   end
 
   def destroy
     @template.destroy
     render json: { success: @template.destroyed? }
-  end
-
-  def setting_status
-    render json: { status: Current.account.csat_template_enabled }
-  end
-
-  def toggle_setting
-    Current.account.update(csat_template_enabled: params[:status])
-    render json: { success: true }
   end
 
   def inboxes
@@ -64,7 +54,7 @@ class Api::V1::Accounts::CsatTemplatesController < Api::V1::Accounts::BaseContro
   end
 
   def csat_template_params
-    params.require(:csat_template).permit(csat_template_questions_attributes: [:id, :content, :_destroy])
+    params.require(:csat_template).permit(:name, csat_template_questions_attributes: [:id, :content, :_destroy])
   end
 
   def inbox_id_params

@@ -4,8 +4,6 @@
 #
 #  id                    :integer          not null, primary key
 #  auto_resolve_duration :integer
-#  csat_template_enabled :boolean          default(FALSE), not null
-#  csat_trigger          :string
 #  custom_attributes     :jsonb
 #  domain                :string(100)
 #  feature_flags         :bigint           default(0), not null

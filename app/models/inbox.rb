@@ -11,6 +11,7 @@
 #  business_name                 :string
 #  channel_type                  :string
 #  csat_survey_enabled           :boolean          default(FALSE)
+#  csat_trigger                  :string
 #  default_reply_action          :string
 #  email_address                 :string
 #  enable_auto_assignment        :boolean          default(TRUE)
@@ -167,7 +168,6 @@ class Inbox < ApplicationRecord
 
   def csat_template_enabled?
     return false unless csat_survey_enabled
-    return false unless account.csat_template_enabled?
     
     csat_template.present? && csat_template.csat_template_questions.present?
   end

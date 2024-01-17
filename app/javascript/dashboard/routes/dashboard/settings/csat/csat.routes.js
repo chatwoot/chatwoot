@@ -6,18 +6,18 @@ import CsatSetting from './Index';
 export default {
   routes: [
     {
-      path: frontendURL('accounts/:accountId/settings/csat'),
+      path: frontendURL('accounts/:accountId/settings/csat_templates'),
       component: SettingsContent,
       props: () => {
         return {
-          headerTitle: 'CSAT_SETTINGS.HEADER',
+          headerTitle: 'CSAT_TEMPLATES.HEADER',
           icon: 'star-half',
         };
       },
       children: [
         {
           path: '',
-          name: 'settings_csat',
+          name: 'settings_csat_templates',
           component: CsatSetting,
           roles: ['administrator'],
         },

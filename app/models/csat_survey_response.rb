@@ -49,7 +49,7 @@ class CsatSurveyResponse < ApplicationRecord
 
   def trigger_next_question
     # TODO: enhancement
-    return unless account.csat_template_enabled?
+    return unless message.inbox.csat_template_enabled?
 
     ::MessageTemplates::HookExecutionService.new(message: message).perform
   end

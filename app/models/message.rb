@@ -245,7 +245,7 @@ class Message < ApplicationRecord
 
   def can_send_csat_at_reply?
     return false unless inbox.csat_template_enabled?
-    return false unless inbox.account.csat_trigger == 'conversation_all_reply'
+    return false unless inbox.csat_trigger == 'conversation_all_reply'
 
     true
   end
