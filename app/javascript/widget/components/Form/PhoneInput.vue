@@ -1,7 +1,7 @@
 <template>
   <div class="phone-input--wrap relative mt-2">
     <div
-      style="direction: ltr;" class="phone-input rounded w-full flex items-center justify-start outline-none border border-solid"
+      style="direction: ltr;"class="phone-input rounded w-full flex items-center justify-start outline-none border border-solid"
       :class="inputHasError"
     >
       <div
@@ -25,7 +25,7 @@
       <input
         :value="phoneNumber"
         type="phoneInput"
-        class="border-0 w-full py-2 pl-2 pr-3 leading-tight outline-none h-full rounded-r"style="direction: rtl;"
+        class="border-0 w-full py-2 pl-2 pr-3 leading-tight outline-none h-full rounded-r"
         name="phoneNumber"
         :placeholder="placeholder"
         :class="inputLightAndDarkModeColor"
@@ -38,7 +38,7 @@
       ref="dropdown"
       v-on-clickaway="closeDropdown"
       :class="dropdownBackgroundClass"
-      class="country-dropdown h-48 overflow-y-auto z-10 absolute top-12 px-0 pt-0 pl-1 pr-1 pb-1 rounded shadow-lg" style="direction: ltr;"
+      class="country-dropdown h-48 overflow-y-auto z-10 absolute top-12 px-0 pt-0 pl-1 pr-1 pb-1 rounded shadow-lg"
     >
       <div class="sticky top-0" :class="dropdownBackgroundClass">
         <input
@@ -291,6 +291,7 @@ export default {
 
     input:placeholder-shown {
       text-overflow: ellipsis;
+      direction: rtl;
     }
   }
 
@@ -305,6 +306,7 @@ export default {
     min-width: 6rem;
     max-width: 14.8rem;
     width: 100%;
+    direction:ltr;
   }
 }
 </style>
