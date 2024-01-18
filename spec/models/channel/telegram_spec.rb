@@ -3,6 +3,58 @@ require 'rails_helper'
 RSpec.describe Channel::Telegram do
   let(:telegram_channel) { create(:channel_telegram) }
 
+  describe '#convert_markdown_to_telegram_html' do
+    subject { telegram_channel.send(:convert_markdown_to_telegram_html, text) }
+
+    context 'when text contains multiple newline characters' do
+      let(:text) { "Line one\nLine two\n\nLine four" }
+
+      it 'preserves multiple newline characters' do
+        expect(subject).to eq("Line one\nLine two\n\nLine four")
+      end
+    end
+
+    context 'when text contains broken markdown' do
+      let(:text) { 'This is a **broken markdown with <b>HTML</b> tags.' }
+
+      it 'does not break and properly converts to Telegram HTML format and escapes html tags' do
+        expect(subject).to eq('This is a **broken markdown with &lt;b&gt;HTML&lt;/b&gt; tags.')
+      end
+    end
+
+    context 'when text contains markdown and HTML elements' do
+      let(:text) { "Hello *world*! This is <b>bold</b> and this is <i>italic</i>.\nThis is a new line." }
+
+      it 'converts markdown to Telegram HTML format and escapes other html' do
+        expect(subject).to eq("Hello <em>world</em>! This is &lt;b&gt;bold&lt;/b&gt; and this is &lt;i&gt;italic&lt;/i&gt;.\nThis is a new line.")
+      end
+    end
+
+    context 'when text contains unsupported HTML tags' do
+      let(:text) { 'This is a <span>test</span> with unsupported tags.' }
+
+      it 'removes unsupported HTML tags' do
+        expect(subject).to eq('This is a &lt;span&gt;test&lt;/span&gt; with unsupported tags.')
+      end
+    end
+
+    context 'when text contains special characters' do
+      let(:text) { 'Special characters: & < >' }
+
+      it 'escapes special characters' do
+        expect(subject).to eq('Special characters: &amp; &lt; &gt;')
+      end
+    end
+
+    context 'when text contains markdown links' do
+      let(:text) { 'Check this [link](http://example.com) out!' }
+
+      it 'converts markdown links to Telegram HTML format' do
+        expect(subject).to eq('Check this <a href="http://example.com">link</a> out!')
+      end
+    end
+  end
+
   context 'when a valid message and empty attachments' do
     it 'send message' do
       message = create(:message, message_type: :outgoing, content: 'test',

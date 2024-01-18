@@ -152,18 +152,23 @@ class Channel::Telegram < ApplicationRecord
   def convert_markdown_to_telegram_html(text)
     # ref: https://core.telegram.org/bots/api#html-style
 
-    # escape html tags in text
-    text = CGI.escapeHTML(text)
+    # escape html tags in text. We are subbing \n to <br> since commonmark will strip exta '\n'
+    text = CGI.escapeHTML(text.gsub("\n", '<br>'))
 
     # convert markdown to html
     html = CommonMarker.render_html(text).strip
 
     # remove all html tags except b, strong, i, em, u, ins, s, strike, del, a, code, pre, blockquote
-    Rails::HTML5::SafeListSanitizer.new.sanitize(html, tags: %w[b strong i em u ins s strike del a code pre blockquote], attributes: %w[href])
+    stripped_html = Rails::HTML5::SafeListSanitizer.new.sanitize(html, tags: %w[b strong i em u ins s strike del a code pre blockquote],
+                                                                       attributes: %w[href])
+
+    # converted escaped br tags to \n
+    stripped_html.gsub('&lt;br&gt;', "\n")
   end
 
   def message_request(chat_id, text, reply_markup = nil, reply_to_message_id = nil)
     text_payload = convert_markdown_to_telegram_html(text)
+
     HTTParty.post("#{telegram_api_url}/sendMessage",
                   body: {
                     chat_id: chat_id,
