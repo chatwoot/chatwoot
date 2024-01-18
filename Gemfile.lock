@@ -687,6 +687,9 @@ GEM
       sexp_processor (~> 4.6)
     ruby_parser (3.20.0)
       sexp_processor (~> 4.16)
+    sanitize (6.1.0)
+      crass (~> 1.0.2)
+      nokogiri (>= 1.12.0)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -932,6 +935,7 @@ DEPENDENCIES
   rubocop-performance
   rubocop-rails
   rubocop-rspec
+  sanitize
   scout_apm
   scss_lint
   seed_dump
