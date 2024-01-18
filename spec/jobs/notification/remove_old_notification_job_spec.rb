@@ -16,8 +16,9 @@ RSpec.describe Notification::RemoveOldNotificationJob do
     create(:notification, user: user, notification_type: 'conversation_creation', primary_actor: conversation, created_at: 2.months.ago)
     create(:notification, user: user, notification_type: 'conversation_creation', primary_actor: conversation, created_at: 1.month.ago)
     create(:notification, user: user, notification_type: 'conversation_creation', primary_actor: conversation, created_at: 1.day.ago)
+    create(:notification, user: user, notification_type: 'conversation_creation', primary_actor: conversation, created_at: 1.hour.ago)
 
     described_class.perform_now
-    expect(Notification.count).to eq(1)
+    expect(Notification.count).to eq(2)
   end
 end
