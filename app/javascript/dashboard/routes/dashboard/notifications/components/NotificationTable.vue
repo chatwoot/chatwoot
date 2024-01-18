@@ -58,7 +58,7 @@
           <td>
             <div class="text-right timestamp--column">
               <span class="notification--created-at">
-                {{ dynamicTime(notificationItem.created_at) }}
+                {{ dynamicTime(notificationItem.last_activity_at) }}
               </span>
             </div>
           </td>
