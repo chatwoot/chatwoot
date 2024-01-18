@@ -10,7 +10,7 @@ RSpec.describe Channel::Telegram do
 
       stub_request(:post, "https://api.telegram.org/bot#{telegram_channel.bot_token}/sendMessage")
         .with(
-          body: 'chat_id=123&text=test&reply_markup=&parse_mode=MarkdownV2&reply_to_message_id='
+          body: 'chat_id=123&text=test&reply_markup=&parse_mode=Markdown&reply_to_message_id='
         )
         .to_return(
           status: 200,
@@ -22,12 +22,12 @@ RSpec.describe Channel::Telegram do
     end
 
     it 'send message with markdown converted to telegram markdown' do
-      message = create(:message, message_type: :outgoing, content: '**test** ~~test~~ *test* ~test~',
+      message = create(:message, message_type: :outgoing, content: '**test** *test* ~test~',
                                  conversation: create(:conversation, inbox: telegram_channel.inbox, additional_attributes: { 'chat_id' => '123' }))
 
       stub_request(:post, "https://api.telegram.org/bot#{telegram_channel.bot_token}/sendMessage")
         .with(
-          body: "chat_id=123&text=#{ERB::Util.url_encode('*test* ~test~ *test* ~test~')}&reply_markup=&parse_mode=MarkdownV2&reply_to_message_id="
+          body: "chat_id=123&text=#{ERB::Util.url_encode('*test* *test* ~test~')}&reply_markup=&parse_mode=Markdown&reply_to_message_id="
         )
         .to_return(
           status: 200,
@@ -49,7 +49,7 @@ RSpec.describe Channel::Telegram do
         .with(
           body: 'chat_id=123&text=test' \
                 '&reply_markup=%7B%22one_time_keyboard%22%3Atrue%2C%22inline_keyboard%22%3A%5B%5B%7B%22text%22%3A%22test%22%2C%22' \
-                'callback_data%22%3A%22test%22%7D%5D%5D%7D&parse_mode=MarkdownV2&reply_to_message_id='
+                'callback_data%22%3A%22test%22%7D%5D%5D%7D&parse_mode=Markdown&reply_to_message_id='
         )
         .to_return(
           status: 200,
@@ -66,7 +66,7 @@ RSpec.describe Channel::Telegram do
 
       stub_request(:post, "https://api.telegram.org/bot#{telegram_channel.bot_token}/sendMessage")
         .with(
-          body: 'chat_id=123&text=test&reply_markup=&parse_mode=MarkdownV2&reply_to_message_id='
+          body: 'chat_id=123&text=test&reply_markup=&parse_mode=Markdown&reply_to_message_id='
         )
         .to_return(
           status: 403,

@@ -56,7 +56,7 @@
           <span
             class="mt-1 text-slate-500 dark:text-slate-400 text-xxs font-semibold flex"
           >
-            {{ dynamicTime(notificationItem.created_at) }}
+            {{ dynamicTime(notificationItem.last_activity_at) }}
           </span>
         </div>
       </div>
