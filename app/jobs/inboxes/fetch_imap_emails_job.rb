@@ -42,7 +42,6 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
 
     fetch_message_ids(imap_inbox, channel).each do |message_id_uid_pair|
       uid, message_id = message_id_uid_pair
-      Rails.logger.error("#{uid}, #{message_id}")
       next if email_already_present?(channel, message_id)
 
       inbound_mail = Mail.read_from_string(imap_inbox.fetch(uid, 'RFC822')[0].attr['RFC822'])
