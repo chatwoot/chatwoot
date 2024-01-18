@@ -60,7 +60,7 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
       uid_fetched = imap_inbox.fetch(batch, 'BODY.PEEK[HEADER.FIELDS (MESSAGE-ID)]')
       # print uid_fetched
       uid_fetched.each do |data|
-        message_id = data.attr['BODY[HEADER.FIELDS (MESSAGE-ID)]'].to_s.scan(/<(.+?)>/).flatten.first
+        message_id = Mail.read_from_string(data.attr['BODY[HEADER.FIELDS (MESSAGE-ID)]']).message_id
         message_ids.push([data.seqno, message_id])
       end
     end
