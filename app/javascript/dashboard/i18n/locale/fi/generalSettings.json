@@ -92,7 +92,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Disconnected from Chatwoot"
+      "OFFLINE": "Poissa"
     },
     "BUTTON": {
       "REFRESH": "Refresh"

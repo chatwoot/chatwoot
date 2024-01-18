@@ -1,7 +1,7 @@
 .modal-mask {
   // @include flex;
   // @include flex-align(center, middle);
-  @apply flex items-center justify-center bg-modal dark:bg-modal z-[9990] h-full left-0 fixed top-0 w-full;
+  @apply flex items-center justify-center bg-modal-backdrop-light dark:bg-modal-backdrop-dark  z-[9990] h-full left-0 fixed top-0 w-full;
 }
 
 .page-top-bar {

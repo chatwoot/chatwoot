@@ -196,14 +196,29 @@ lv:
     common:
       home: Sākums
       last_updated_on: Pēdējo reizi atjaunināts %{last_updated_on}
-      view_all_articles: Skatīt visus rakstus
+      view_all_articles: Apskatīt visu
       article: raksts
       articles: raksti
+      author: autors
+      authors: autori
+      other: cits
+      others: citi
+      by: autors
       no_articles: Šeit nav neviena raksta
     footer:
       made_with: Veidots ar
     header:
-      go_to_homepage: Doties uz galveno vietni
+      go_to_homepage: Tīmekļa vietne
+      appearance:
+        system: Sistēma
+        light: Gaišs
+        dark: Tumšs
+      featured_articles: Piedāvātie raksti
+      uncategorized: Bez kategorijas
+    404:
+      title: Lapa nav atrasta
+      description: Mēs nevarējām atrast lapu, kuru meklējāt.
+      back_to_home: Doties uz sākumlapu
   slack_unfurl:
     fields:
       name: Nosaukums

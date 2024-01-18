@@ -149,12 +149,24 @@ class Channel::Telegram < ApplicationRecord
                   })
   end
 
+  def convert_markdown_to_telegram(text)
+    ## supported characters : https://core.telegram.org/bots/api#markdown-style
+    ## To implement MarkdownV2, we will need to do a lot of escaping
+
+    # Convert bold - double asterisks to single asterisk in Telegram
+    # Chatwoot uses double asterisks for bold, while telegram used single asterisk
+    text.gsub!(/\*\*(.*?)\*\*/, '*\1*')
+    text
+  end
+
   def message_request(chat_id, text, reply_markup = nil, reply_to_message_id = nil)
+    text_to_md = convert_markdown_to_telegram(text)
     HTTParty.post("#{telegram_api_url}/sendMessage",
                   body: {
                     chat_id: chat_id,
-                    text: text,
+                    text: text_to_md,
                     reply_markup: reply_markup,
+                    parse_mode: 'Markdown',
                     reply_to_message_id: reply_to_message_id
                   })
   end
