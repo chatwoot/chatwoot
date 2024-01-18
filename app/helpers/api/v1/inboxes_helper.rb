@@ -53,7 +53,7 @@ module Api::V1::InboxesHelper
   rescue StandardError => e
     raise StandardError, e.message
   ensure
-    Rails.logger.error e
+    Rails.logger.error "Check IMAP Connect Failed with #{e.message}" if e.present?
   end
 
   def check_smtp_connection(channel_data, smtp)
