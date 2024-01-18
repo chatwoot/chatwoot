@@ -21,7 +21,7 @@ RSpec.describe Channel::Telegram do
       expect(telegram_channel.send_message_on_telegram(message)).to eq('telegram_123')
     end
 
-    it 'send message with HTML converted to telegram HTML' do
+    it 'send message with markdown converted to telegram HTML' do
       message = create(:message, message_type: :outgoing, content: '**test** *test* ~test~',
                                  conversation: create(:conversation, inbox: telegram_channel.inbox, additional_attributes: { 'chat_id' => '123' }))
 
