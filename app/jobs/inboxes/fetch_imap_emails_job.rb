@@ -15,7 +15,7 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
   rescue EOFError, OpenSSL::SSL::SSLError, Net::IMAP::NoResponseError, Net::IMAP::BadResponseError => e
     Rails.logger.error e
   rescue LockAcquisitionError
-    Rails.logger.error "Lock failed for #{inbox.id}"
+    Rails.logger.error "Lock failed for #{channel.inbox.id}"
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: channel.account).capture_exception
   end
