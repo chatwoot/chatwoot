@@ -37,7 +37,7 @@ module Api::V2::Accounts::ReportsHelper
           business_hours: ActiveModel::Type::Boolean.new.cast(params[:business_hours])
         }
       )
-    ).summary
+    ).short_summary
   end
 
   private
