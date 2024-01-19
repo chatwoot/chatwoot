@@ -92,7 +92,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Terputus dari Chatwoot"
+      "OFFLINE": "Offline"
     },
     "BUTTON": {
       "REFRESH": "Segarkan"

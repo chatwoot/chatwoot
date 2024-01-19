@@ -18,17 +18,15 @@ class MutexApplicationJob < ApplicationJob
     lock_key = format(key_format, *args)
     lock_manager = Redis::LockManager.new
 
-    if lock_manager.locked?(lock_key)
-      Rails.logger.warn "[#{self.class.name}] Failed to acquire lock on attempt #{executions}: #{lock_key}"
-      raise LockAcquisitionError, "Failed to acquire lock for key: #{lock_key}"
-    end
-
     begin
-      lock_manager.lock(lock_key)
-      Rails.logger.info "[#{self.class.name}] Acquired lock for: #{lock_key} on attempt #{executions}"
-      yield
+      if lock_manager.lock(lock_key)
+        Rails.logger.info "[#{self.class.name}] Acquired lock for: #{lock_key} on attempt #{executions}"
+        yield
+      else
+        Rails.logger.warn "[#{self.class.name}] Failed to acquire lock on attempt #{executions}: #{lock_key}"
+        raise LockAcquisitionError, "Failed to acquire lock for key: #{lock_key}"
+      end
     ensure
-      # Ensure that the lock is released even if there's an error in processing
       lock_manager.unlock(lock_key)
     end
   end

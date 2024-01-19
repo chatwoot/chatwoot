@@ -92,7 +92,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Lecsatlakozva a Chatwootról"
+      "OFFLINE": "Offline"
     },
     "BUTTON": {
       "REFRESH": "Frissítés"

@@ -92,7 +92,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Atsijungti nuo Chatwoot"
+      "OFFLINE": "Atsijungęs"
     },
     "BUTTON": {
       "REFRESH": "Atnaujinti"
