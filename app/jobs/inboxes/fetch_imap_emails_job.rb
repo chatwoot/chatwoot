@@ -53,7 +53,7 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
         next
       end
 
-      inbound_mail = Mail.read_from_string(mail_str)
+      inbound_mail = build_mail_from_string(mail_str)
       mail_info_logger(channel, inbound_mail, seq_no)
       process_mail(inbound_mail, channel)
     end
@@ -80,7 +80,7 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
       end
 
       batch_message_ids.each do |data|
-        message_ids_with_seq = build_mail_from_string(data.attr['BODY[HEADER.FIELDS (MESSAGE-ID)]']).message_id
+        message_id = build_mail_from_string(data.attr['BODY[HEADER.FIELDS (MESSAGE-ID)]']).message_id
         message_ids_with_seq.push([data.seqno, message_id])
       end
     end
@@ -134,6 +134,10 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
 
   def email_already_present?(channel, message_id)
     channel.inbox.messages.find_by(source_id: message_id).present?
+  end
+
+  def build_mail_from_string(raw_email_content)
+    Mail.read_from_string(raw_email_content)
   end
 
   def process_mail(inbound_mail, channel)
