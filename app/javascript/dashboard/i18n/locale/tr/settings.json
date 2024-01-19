@@ -20,34 +20,34 @@
         "NOTE": "E-posta adresiniz kimliğinizdir ve oturum açmak için kullanılır."
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "TITLE": "Mesaj göndermek için kısayol",
+        "NOTE": "Tercihinize bağlı olarak Enter veya Cmd/Ctrl+Enter tuşlarından birini seçebilirsiniz.",
+        "UPDATE_SUCCESS": "Ayarlarınız başarıyla güncellendi",
         "CARD": {
           "ENTER_KEY": {
             "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "CONTENT": "Mesajları göndermek için Gönder düğmesine tıklamak yerine Enter tuşuna basarak gönderin."
           },
           "CMD_ENTER_KEY": {
             "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "CONTENT": "Mesajları göndermek için Gönder düğmesine tıklamak yerine Cmd/Ctrl + Enter tuşuna basarak gönderin."
           }
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "İmzanız",
-        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
+        "NOTE": "Her gönderdiğiniz mesajın sonunda görünen benzersiz bir mesaj imzası oluşturun. Ayrıca, canlı sohbet, e-posta ve API gelen kutularında desteklenen iç içe bir resim ekleyebilirsiniz.",
         "BTN_TEXT": "İmzanızı kaydedin",
         "API_ERROR": "İmza kaydedilemedi! Tekrar deneyin",
         "API_SUCCESS": "İmza başarıyla kaydedildi",
-        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
-        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
-        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+        "IMAGE_UPLOAD_ERROR": "Resim yüklenemedi! Tekrar deneyin",
+        "IMAGE_UPLOAD_SUCCESS": "Resim başarıyla eklendi. İmzayı kaydetmek için lütfen kaydet'e tıklayın",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Resim boyutu %{size}MB'dan küçük olmalıdır"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "İmzanız",
         "ERROR": "İmza boş bırakılamaz",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "PLACEHOLDER": "Kişisel mesaj imzanızı buraya ekleyin."
       },
       "PASSWORD_SECTION": {
         "TITLE": "Parola",
@@ -60,30 +60,30 @@
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Sesli Bildirimler",
-        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "NOTE": "Yeni mesajlar ve konuşmalar için panelde sesli bildirimleri etkinleştirin.",
         "ALERT_TYPE": {
-          "TITLE": "Alert events:",
-          "NONE": "Hiç",
-          "ASSIGNED": "Atanmış Görüşmeler",
-          "ALL_CONVERSATIONS": "Tüm Görüşmeler"
+          "TITLE": "Uyarı olayları:",
+          "NONE": "Hiçbiri",
+          "ASSIGNED": "Atanmış Konuşmalar",
+          "ALL_CONVERSATIONS": "Tüm Konuşmalar"
         },
         "DEFAULT_TONE": {
-          "TITLE": "Alert tone:"
+          "TITLE": "Uyarı tonu:"
         },
         "CONDITIONS": {
-          "TITLE": "Alert conditions:",
-          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
-          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+          "TITLE": "Uyarı koşulları:",
+          "CONDITION_ONE": "Tarayıcı penceresi etkin değilse sadece sesli uyarı gönder",
+          "CONDITION_TWO": "Atanmış konuşmaların hepsi okunana kadar her 30 saniyede bir uyarı gönder"
         }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "E-posta Bildirimleri",
         "NOTE": "E-posta bildirim tercihlerinizi buradan güncelleyin",
-        "CONVERSATION_ASSIGNMENT": "Bana bir konuşma atandığında e-posta bildirimleri gönder",
-        "CONVERSATION_CREATION": "Yeni bir görüşme oluşturulduğunda e-posta bildirimleri gönderin",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Atanmış bir görüşmede yeni bir mesaj oluşturulduğunda e-posta bildirimleri gönderin",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
+        "CONVERSATION_ASSIGNMENT": "Bir konuşma bana atanınca e-posta bildirimleri gönder",
+        "CONVERSATION_CREATION": "Yeni bir konuşma oluşturulduğunda e-posta bildirimleri gönder",
+        "CONVERSATION_MENTION": "Bir konuşmada adım geçtiğinde e-posta bildirimleri gönder",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Atanmış bir konuşmada yeni bir mesaj oluşturulduğunda e-posta bildirimleri gönder",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Katıldığım bir konuşmada yeni bir mesaj oluşturulduğunda e-posta bildirimleri gönder"
       },
       "API": {
         "UPDATE_SUCCESS": "Bildirim tercihleriniz başarıyla güncellendi",
@@ -93,10 +93,10 @@
         "TITLE": "Bildirimler",
         "NOTE": "Bildirim tercihlerinizi buradan güncelleyin",
         "CONVERSATION_ASSIGNMENT": "Bana bir konuşma atandığında anında bildirim gönder",
-        "CONVERSATION_CREATION": "Yeni bir görüşme oluşturulduğunda anlık bildirimler gönderin",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Atanan bir görüşmede yeni bir mesaj oluşturulduğunda anlık bildirimler gönderin",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
+        "CONVERSATION_CREATION": "Yeni bir konuşma oluşturulduğunda anlık bildirimler gönderin",
+        "CONVERSATION_MENTION": "Bir konuşmada adım geçtiğinde anlık bildirimler gönder",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Atanmış bir konuşmada yeni bir mesaj oluşturulduğunda anlık bildirimler gönderin",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Katıldığım bir konuşmada yeni bir mesaj oluşturulduğunda anlık bildirimler gönderin",
         "HAS_ENABLED_PUSH": "Bu tarayıcı için bildirim özelliğini etkinleştirdiniz.",
         "REQUEST_PUSH": "Bildirimlerini etkinleştirin"
       },
@@ -106,7 +106,7 @@
       "NAME": {
         "LABEL": "Tam adınız",
         "ERROR": "Lütfen geçerli bir tam ad girin",
-        "PLACEHOLDER": "lütfen tam adınızı giriniz"
+        "PLACEHOLDER": "Lütfen tam adınızı giriniz"
       },
       "DISPLAY_NAME": {
         "LABEL": "Ekran adı",
@@ -114,18 +114,18 @@
         "PLACEHOLDER": "Lütfen bir görünen ad girin, bu görüşmelerde görüntülenecektir"
       },
       "AVAILABILITY": {
-        "LABEL": "Uygun",
+        "LABEL": "Uygunluk",
         "STATUSES_LIST": [
-          "Çevirimiçi",
+          "Çevrimiçi",
           "Meşgul",
-          "Çevirimdışı"
+          "Çevrimdışı"
         ],
-        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
+        "SET_AVAILABILITY_SUCCESS": "Uygunluk başarıyla ayarlandı",
+        "SET_AVAILABILITY_ERROR": "Uygunluk ayarlanamadı, lütfen tekrar deneyin"
       },
       "EMAIL": {
-        "LABEL": "Sizin E-posta Adresiniz",
-        "ERROR": "Lütfen geçerli bir tam e-posta adresi",
+        "LABEL": "E-posta Adresiniz",
+        "ERROR": "Lütfen geçerli bir e-posta adresi girin",
         "PLACEHOLDER": "Lütfen e-posta adresinizi girin, bu görüşmelerde görüntülenecektir"
       },
       "CURRENT_PASSWORD": {
@@ -146,14 +146,14 @@
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "Değişiktir",
-    "CHANGE_ACCOUNTS": "Hesap değiştir",
-    "CONTACT_SUPPORT": "Desteğe Bağlan",
-    "SELECTOR_SUBTITLE": "Aşağıdaki listeden bir hesap seçin",
+    "CHANGE_AVAILABILITY_STATUS": "Durumu Değiştir",
+    "CHANGE_ACCOUNTS": "Hesapları Değiştir",
+    "CONTACT_SUPPORT": "Destek İle İletişime Geç",
+    "SELECTOR_SUBTITLE": "Listeden bir hesap seçin",
     "PROFILE_SETTINGS": "Profil ayarları",
     "KEYBOARD_SHORTCUTS": "Klavye Kısayolları",
-    "APPEARANCE": "Change Appearance",
-    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
+    "APPEARANCE": "Görünüm",
+    "SUPER_ADMIN_CONSOLE": "Süper Yönetici Konsolu",
     "LOGOUT": "Çıkış Yap"
   },
   "APP_GLOBAL": {
@@ -161,53 +161,53 @@
     "TRAIL_BUTTON": "Şimdi satın al",
     "DELETED_USER": "Silinmiş Kullanıcı",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Hesap Askıya Alndı",
+      "TITLE": "Hesap Askıya Alındı",
       "MESSAGE": "Hesabınız askıya alındı. Daha fazla bilgi için lütfen destek ekibine ulaşın."
     }
   },
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Kopyala",
-      "CODEPEN": "Open in CodePen",
-      "COPY_SUCCESSFUL": "Kod panoya başarıyla kopyalandı"
+      "CODEPEN": "CodePen'de Aç",
+      "COPY_SUCCESSFUL": "Kod başarıyla panoya kopyalandı"
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
-      "SHOW_LESS": "Show Less"
+      "SHOW_MORE": "Daha Fazla Göster",
+      "SHOW_LESS": "Daha Az Göster"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "İndir",
-      "UPLOADING": "Yükleniyor ...",
-      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
+      "UPLOADING": "Yükleniyor...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Bu hikaye artık mevcut değil."
     },
     "LOCATION_BUBBLE": {
-      "SEE_ON_MAP": "See on map"
+      "SEE_ON_MAP": "Haritada Görüntüle"
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Yolla"
+      "SUBMIT": "Gönder"
     }
   },
-  "CONFIRM_EMAIL": "Doğrulanıyor...",
+  "CONFIRM_EMAIL": "Doğrulama yapılıyor...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Gelen Kutusu Ekle"
+      "NEW_INBOX": "Yeni Gelen Kutusu"
     }
   },
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Şu an görüntülüyor:",
-    "SWITCH": "Switch",
+    "SWITCH": "Değiştir",
     "CONVERSATIONS": "Konuşmalar",
     "ALL_CONVERSATIONS": "Tüm Görüşmeler",
     "MENTIONED_CONVERSATIONS": "Bahsedilmeler",
-    "PARTICIPATING_CONVERSATIONS": "Participating",
-    "UNATTENDED_CONVERSATIONS": "Unattended",
+    "PARTICIPATING_CONVERSATIONS": "Katılımcılar",
+    "UNATTENDED_CONVERSATIONS": "İlgisiz",
     "REPORTS": "Raporlar",
     "SETTINGS": "Ayarlar",
     "CONTACTS": "Kişiler",
     "HOME": "Anasayfa",
     "AGENTS": "Kullanıcılar",
-    "AGENT_BOTS": "Bots",
-    "AUDIT_LOGS": "Audit Logs",
+    "AGENT_BOTS": "Botlar",
+    "AUDIT_LOGS": "Denetim Kayıtları",
     "INBOXES": "Gelen kutuları",
     "NOTIFICATIONS": "Bildirimler",
     "CANNED_RESPONSES": "Hazır Yanıtlar",
@@ -218,65 +218,65 @@
     "LABELS": "Etiketler",
     "CUSTOM_ATTRIBUTES": "Özel Nitelikler",
     "AUTOMATION": "Otomasyon",
-    "MACROS": "Macros",
+    "MACROS": "Makrolar",
     "TEAMS": "Ekipler",
-    "BILLING": "Billing",
+    "BILLING": "Fatura",
     "CUSTOM_VIEWS_FOLDER": "Klasörler",
-    "CUSTOM_VIEWS_SEGMENTS": "Segments",
+    "CUSTOM_VIEWS_SEGMENTS": "Segmentler",
     "ALL_CONTACTS": "Tüm Kişiler",
-    "TAGGED_WITH": "Tagged with",
+    "TAGGED_WITH": "Etiketlendi",
     "NEW_LABEL": "Yeni etiket",
     "NEW_TEAM": "Yeni ekip",
-    "NEW_INBOX": "Yeni mesaj kutusu",
+    "NEW_INBOX": "Yeni gelen kutusu",
     "REPORTS_CONVERSATION": "Konuşmalar",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Kampanyalar",
-    "ONGOING": "Giden",
-    "ONE_OFF": "One off",
+    "ONGOING": "Devam Eden",
+    "ONE_OFF": "Tek Seferlik",
     "REPORTS_AGENT": "Kullanıcılar",
     "REPORTS_LABEL": "Etiketler",
     "REPORTS_INBOX": "Gelen kutusu",
     "REPORTS_TEAM": "Ekip",
-    "SET_AVAILABILITY_TITLE": "Set yourself as",
+    "SET_AVAILABILITY_TITLE": "Kendini şu şekilde ayarla",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Önizleme",
     "FACEBOOK_REAUTHORIZE": "Facebook bağlantınızın süresi doldu, hizmetlere devam etmek için lütfen Facebook sayfanızı yeniden bağlayın",
     "HELP_CENTER": {
-      "TITLE": "Help Center",
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
-      "CATEGORY": "Category",
+      "TITLE": "Yardım Merkezi",
+      "ALL_ARTICLES": "Tüm Makaleler",
+      "MY_ARTICLES": "Benim Makalelerim",
+      "DRAFT": "Taslak",
+      "ARCHIVED": "Arşivlenmiş",
+      "CATEGORY": "Kategori",
       "SETTINGS": "Ayarlar",
-      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+      "CATEGORY_EMPTY_MESSAGE": "Kategori bulunamadı"
     },
     "SET_AUTO_OFFLINE": {
-      "TEXT": "Mark offline automatically",
-      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+      "TEXT": "Otomatik olarak çevrimdışı olarak işaretle",
+      "INFO_TEXT": "Sistem sizi otomatik olarak çevrimdışı işaretlesin, uygulamayı veya gösterge tablosunu kullanmıyorsanız."
     },
-    "DOCS": "Read docs"
+    "DOCS": "Dokümantasyonu oku"
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
+    "TITLE": "Fatura",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "TITLE": "Mevcut Plan",
+      "PLAN_NOTE": "Şu anda **%{plan}** planına **%{quantity}** lisans abonesisiniz"
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "Aboneliğinizi yönetin",
+      "DESCRIPTION": "Önceki faturalarınızı görüntüleyin, fatura detaylarınızı düzenleyin veya aboneliğinizi iptal edin.",
+      "BUTTON_TXT": "Fatura portalına git"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "TITLE": "Yardıma mı ihtiyacınız var?",
+      "DESCRIPTION": "Fatura konusunda herhangi bir sorunla karşılaşıyor musunuz? Yardımcı olmak için buradayız.",
       "BUTTON_TXT": "Sohbet et"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "Fatura hesabınız yapılandırılıyor. Lütfen sayfayı yenileyip tekrar deneyin."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NO_ACCOUNT_WARNING": "Eyvah! Hiçbir Chatwoot hesabı bulunamadı. Devam etmek için yeni bir hesap oluşturun.",
     "NEW_ACCOUNT": "Yeni hesap",
     "SELECTOR_SUBTITLE": "Yeni bir hesap oluştur",
     "API": {
@@ -289,27 +289,27 @@
         "LABEL": "Şirket Adı",
         "PLACEHOLDER": "Şirketiniz"
       },
-      "SUBMIT": "Yolla"
+      "SUBMIT": "Gönder"
     }
   },
   "KEYBOARD_SHORTCUTS": {
-    "TOGGLE_MODAL": "View all shortcuts",
+    "TOGGLE_MODAL": "Tüm kısayolları görüntüle",
     "TITLE": {
       "OPEN_CONVERSATION": "Görüşmeyi aç",
-      "RESOLVE_AND_NEXT": "Resolve and move to next",
-      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
+      "RESOLVE_AND_NEXT": "Çöz ve bir sonrakine geç",
+      "NAVIGATE_DROPDOWN": "Açılır menü öğelerine git",
       "RESOLVE_CONVERSATION": "Görüşmeyi çöz",
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "ADD_ATTACHMENT": "Add Attachment",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "TOGGLE_SIDEBAR": "Toggle Sidebar",
-      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "GO_TO_CONVERSATION_DASHBOARD": "Konuşma Gösterge Tablosuna git",
+      "ADD_ATTACHMENT": "Eklenti ekle",
+      "GO_TO_CONTACTS_DASHBOARD": "Kişiler Gösterge Tablosuna git",
+      "TOGGLE_SIDEBAR": "Kenar çubuğunu aç/kapat",
+      "GO_TO_REPORTS_SIDEBAR": "Raporlar kenar çubuğuna git",
+      "MOVE_TO_NEXT_TAB": "Konuşma listesinde bir sonraki sekmeye git",
+      "GO_TO_SETTINGS": "Ayarlar'a git",
+      "SWITCH_CONVERSATION_STATUS": "Sonraki konuşma durumuna geç",
+      "SWITCH_TO_PRIVATE_NOTE": "Özel Not'a geç",
+      "SWITCH_TO_REPLY": "Yanıt'a geç",
+      "TOGGLE_SNOOZE_DROPDOWN": "Snooze açılır menüsünü aç/kapat"
     },
     "KEYS": {
       "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",

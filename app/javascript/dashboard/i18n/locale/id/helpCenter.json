@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "Filter berdasarkan",
       "SORT": "Urutkan berdasarkan",
+      "LOCALE": "Bahasa",
       "SETTINGS_BUTTON": "Pengaturan",
       "NEW_BUTTON": "Artikel Baru",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "Artikel Saya",
         "DRAFT": "Artikel Draf",
         "ARCHIVED": "Artikel Diarsipkan"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Select locale",
+        "PLACEHOLDER": "Select locale",
+        "NO_RESULT": "No locale found",
+        "SEARCH_PLACEHOLDER": "Search locale"
       }
     },
     "EDIT_HEADER": {
@@ -76,6 +83,9 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Tanpa Kategori",
+      "SEARCH_RESULTS": "Search results for %{query}",
+      "EMPTY_TEXT": "Search for articles to insert into replies.",
+      "SEARCH_LOADER": "Sedang mencari...",
       "INSERT_ARTICLE": "Sisipkan",
       "NO_RESULT": "Tidak ditemukan artikel",
       "COPY_LINK": "Salin tautan artikel ke clipboard",
@@ -220,7 +230,10 @@
         "LOGO": {
           "LABEL": "Logo",
           "UPLOAD_BUTTON": "Unggah logo",
-          "HELP_TEXT": "Logo ini akan ditampilkan di bagian header portal."
+          "HELP_TEXT": "Logo ini akan ditampilkan di bagian header portal.",
+          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
+          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
+          "IMAGE_DELETE_ERROR": "Error while deleting logo"
         },
         "NAME": {
           "LABEL": "Nama",
@@ -425,6 +438,21 @@
           "ERROR_MESSAGE": "Tidak dapat menghapus kategori"
         }
       }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Search articles",
+      "PLACEHOLDER": "Search articles",
+      "NO_RESULT": "Tidak ditemukan artikel",
+      "SEARCHING": "Sedang mencari...",
+      "SEARCH_BUTTON": "Cari",
+      "INSERT_ARTICLE": "Insert link",
+      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
+      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
+      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
+      "PREVIEW_LINK": "Pratinjau artikel",
+      "CANCEL": "Tutup",
+      "BACK": "Kembali",
+      "BACK_RESULTS": "Back to results"
     },
     "UPGRADE_PAGE": {
       "TITLE": "Pusat Bantuan",
