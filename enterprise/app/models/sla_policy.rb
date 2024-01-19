@@ -3,10 +3,12 @@
 # Table name: sla_policies
 #
 #  id                         :bigint           not null, primary key
-#  frt_threshold              :float
+#  first_response_time        :float
 #  name                       :string           not null
+#  description                :string
 #  only_during_business_hours :boolean          default(FALSE)
-#  rt_threshold               :float
+#  next_response_time         :float
+#  resolution_time            :float
 #  created_at                 :datetime         not null
 #  updated_at                 :datetime         not null
 #  account_id                 :bigint           not null

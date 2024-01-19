@@ -1,6 +1,8 @@
 FactoryBot.define do
   factory :applied_sla do
-    account { nil }
-    sla_policy { nil }
+    account
+    sla_policy
+    conversation
+    sla_status { 'active' }
   end
 end
