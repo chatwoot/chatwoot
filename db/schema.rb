@@ -119,7 +119,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_23_040257) do
     t.bigint "account_id", null: false
     t.bigint "sla_policy_id", null: false
     t.bigint "conversation_id", null: false
-    t.string "sla_id"
     t.string "sla_status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

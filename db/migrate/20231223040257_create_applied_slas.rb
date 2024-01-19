@@ -5,7 +5,6 @@ class CreateAppliedSlas < ActiveRecord::Migration[7.0]
       t.references :sla_policy, null: false, foreign_key: true
       t.references :conversation, null: false, foreign_key: true
 
-      t.string :sla_id
       t.string :sla_status
 
       t.timestamps

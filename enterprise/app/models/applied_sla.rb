@@ -8,7 +8,6 @@
 #  updated_at      :datetime         not null
 #  account_id      :bigint           not null
 #  conversation_id :bigint           not null
-#  sla_id          :string
 #  sla_policy_id   :bigint           not null
 #
 # Indexes
