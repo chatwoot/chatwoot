@@ -19,5 +19,8 @@ class TriggerScheduledItemsJob < ApplicationJob
 
     # Job to sync whatsapp templates
     Channels::Whatsapp::TemplatesSyncSchedulerJob.perform_later
+
+    # Job to clear notifications which are older than 1 month
+    Notification::RemoveOldNotificationJob.perform_later
   end
 end
