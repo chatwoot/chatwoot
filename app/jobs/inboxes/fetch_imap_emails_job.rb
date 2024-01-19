@@ -40,8 +40,8 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
     imap_client = build_imap_client(channel, channel.imap_password, 'PLAIN')
 
     message_ids_with_seq = fetch_message_ids_with_sequence(imap_client, channel)
-    message_ids_with_seq.each do |message_ids_with_seq_pair|
-      seq_no, message_id = message_ids_with_seq_pair
+    message_ids_with_seq.each do |message_id_with_seq|
+      seq_no, message_id = message_id_with_seq
 
       next if email_already_present?(channel, message_id)
 
