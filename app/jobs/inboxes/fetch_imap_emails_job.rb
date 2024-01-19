@@ -41,22 +41,26 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
 
     message_ids_with_seq = fetch_message_ids_with_sequence(imap_client, channel)
     message_ids_with_seq.each do |message_id_with_seq|
-      seq_no, message_id = message_id_with_seq
-
-      next if email_already_present?(channel, message_id)
-
-      # Fetch the original mail content using the sequence no
-      mail_str = imap_client.fetch(seq_no, 'RFC822')[0].attr['RFC822']
-
-      if mail_str.blank?
-        Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Fetch failed for #{channel.email} with message-id <#{message_id}>."
-        next
-      end
-
-      inbound_mail = build_mail_from_string(mail_str)
-      mail_info_logger(channel, inbound_mail, seq_no)
-      process_mail(inbound_mail, channel)
+      process_message_id(channel, imap_client, message_id_with_seq)
     end
+  end
+
+  def process_message_id(channel, imap_client, message_id_with_seq)
+    seq_no, message_id = message_id_with_seq
+
+    return if email_already_present?(channel, message_id)
+
+    # Fetch the original mail content using the sequence no
+    mail_str = imap_client.fetch(seq_no, 'RFC822')[0].attr['RFC822']
+
+    if mail_str.blank?
+      Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Fetch failed for #{channel.email} with message-id <#{message_id}>."
+      return
+    end
+
+    inbound_mail = build_mail_from_string(mail_str)
+    mail_info_logger(channel, inbound_mail, seq_no)
+    process_mail(inbound_mail, channel)
   end
 
   # Sends a FETCH command to retrieve data associated with a message in the mailbox.
