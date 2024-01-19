@@ -5,8 +5,8 @@
         class="cursor-pointer py-2 pr-1.5 pl-2 rounded-tl-md rounded-bl-md flex items-center justify-center gap-1.5 bg-slate-25 dark:bg-slate-700 h-10 w-14"
         @click="toggleCountryDropdown"
       >
-        <h5 v-if="activeCountry.emoji" class="mb-0">
-          {{ activeCountry.emoji }}
+        <h5 v-if="activeCountryEmoji" class="mb-0">
+          {{ activeCountryEmoji }}
         </h5>
         <fluent-icon v-else icon="globe" class="fluent-icon" size="16" />
         <fluent-icon icon="chevron-down" class="fluent-icon" size="12" />
@@ -143,6 +143,9 @@ export default {
         );
       }
       return '';
+    },
+    activeCountryEmoji() {
+      return this.activeCountry?.emoji || '';
     },
   },
   watch: {
