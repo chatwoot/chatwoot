@@ -1,5 +1,6 @@
 <template>
-  <div class="relative items-center p-4 bg-white dark:bg-slate-900">
+  <div class="relative items-center p-4 bg-white dark:bg-slate-900"style="
+    direction: ltr;">
     <div class="text-left rtl:text-right">
       <div class="flex justify-between flex-row">
         <thumbnail
