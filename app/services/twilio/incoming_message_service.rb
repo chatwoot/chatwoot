@@ -127,7 +127,7 @@ class Twilio::IncomingMessageService
 
   def download_attachment_file
     download_with_auth
-  rescue Down::Error => e
+  rescue Down::Error, Down::ClientError => e
     handle_download_attachment_error(e)
   end
 
