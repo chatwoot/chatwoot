@@ -139,7 +139,7 @@ export default {
   },
   methods: {
     openConversationTitle(){
-      return `${this.openConversationCount} open conversation`;
+      return `${this.openConversationCount} open conversations`;
     }
   }
 };
