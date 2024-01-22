@@ -14,7 +14,8 @@
     >
       
       <div class="w-full my-0 m-auto px-12 pt-12 pb-6">
-        <img v-if="logo" :src="logo" alt="Chatwoot logo" class="logo mb-6" />
+        <img src="/brand-assets/logo.png" alt="Digitaltolk" class="mx-auto h-12 mb-5 w-auto block dark:hidden"/>
+        <img src="/brand-assets/logo_dark.png" alt="Digitaltolk" class="mx-auto h-12 mb-5 w-auto hidden dark:block">
         <p
           v-if="!isRatingSubmitted"
           class="text-black-700 text-lg leading-relaxed mb-8"
