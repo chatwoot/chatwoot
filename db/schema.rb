@@ -834,14 +834,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_23_040257) do
 
   create_table "sla_policies", force: :cascade do |t|
     t.string "name", null: false
-    t.float "first_response_time"
-    t.float "next_response_time"
+    t.float "first_response_time_threshold"
+    t.float "next_response_time_threshold"
     t.boolean "only_during_business_hours", default: false
     t.bigint "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "description"
-    t.float "resolution_time"
+    t.float "resolution_time_threshold"
     t.index ["account_id"], name: "index_sla_policies_on_account_id"
   end
 
