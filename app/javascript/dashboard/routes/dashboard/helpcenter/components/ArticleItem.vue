@@ -110,7 +110,9 @@ export default {
       }).format(this.views || 0);
     },
     articleAuthorName() {
-      return this.author.name;
+      return (
+        this.author?.name || this.$t('HELP_CENTER.TABLE.COLUMNS.DELETED_AUTHOR')
+      );
     },
     labelColor() {
       switch (this.status) {
