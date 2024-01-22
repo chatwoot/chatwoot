@@ -5,11 +5,18 @@ class AutomationRules::ConditionsFilterService < FilterService
 
   def initialize(rule, conversation = nil, options = {})
     super([], nil)
+    # assign rule, conversation and account to instance variables
     @rule = rule
     @conversation = conversation
     @account = conversation.account
+
+    # setup filters from json file
     file = File.read('./lib/filters/filter_keys.json')
     @filters = JSON.parse(file)
+    @conversation_filters = @filters['conversations']
+    @contact_filters = @filters['contacts']
+    @message_filters = @filters['messages']
+
     @options = options
     @changed_attributes = options[:changed_attributes]
   end
@@ -17,9 +24,6 @@ class AutomationRules::ConditionsFilterService < FilterService
   def perform
     return false unless rule_valid?
 
-    @conversation_filters = @filters['conversations']
-    @contact_filters = @filters['contacts']
-    @message_filters = @filters['messages']
     @attribute_changed_query_filter = []
 
     @rule.conditions.each_with_index do |query_hash, current_index|
@@ -29,7 +33,6 @@ class AutomationRules::ConditionsFilterService < FilterService
     end
 
     records = base_relation.where(@query_string, @filter_values.with_indifferent_access)
-
     records = perform_attribute_changed_filter(records) if @attribute_changed_query_filter.any?
 
     records.any?
