@@ -12,7 +12,7 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
   rescue *ExceptionList::IMAP_EXCEPTIONS => e
     Rails.logger.error e
     channel.authorization_error!
-  rescue EOFError, OpenSSL::SSL::SSLError, Net::IMAP::NoResponseError, Net::IMAP::BadResponseError => e
+  rescue EOFError, OpenSSL::SSL::SSLError, Net::IMAP::NoResponseError, Net::IMAP::BadResponseError, Net::IMAP::InvalidResponseError => e
     Rails.logger.error e
   rescue LockAcquisitionError
     Rails.logger.error "Lock failed for #{channel.inbox.id}"
