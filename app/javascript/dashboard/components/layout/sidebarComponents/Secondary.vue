@@ -118,6 +118,7 @@ export default {
             type: inbox.channel_type,
             phoneNumber: inbox.phone_number,
             reauthorizationRequired: inbox.reauthorization_required,
+            openConversationCount: inbox.open_conversation_count,
           }))
           .sort((a, b) =>
             a.label.toLowerCase() > b.label.toLowerCase() ? 1 : -1

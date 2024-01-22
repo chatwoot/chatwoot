@@ -64,6 +64,7 @@
         :warning-icon="computedInboxErrorClass(child)"
         :show-child-count="showChildCount(child.count)"
         :child-item-count="child.count"
+        :open-conversation-count="child.openConversationCount"
       />
       <router-link
         v-if="showItem(menuItem)"

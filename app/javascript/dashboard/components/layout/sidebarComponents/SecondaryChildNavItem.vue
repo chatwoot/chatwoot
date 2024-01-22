@@ -74,6 +74,9 @@
             size="12"
           />
         </span>
+        <span v-if="hasOpenConversation" :title="openConversationTitle()" class="unread shadow-lg rounded-full text-xxs font-semibold h-4 leading-4 ml-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-green-400">
+          {{ openConversationCount }}
+        </span>
       </a>
     </li>
   </router-link>
@@ -113,6 +116,10 @@ export default {
       type: Number,
       default: 0,
     },
+    openConversationCount: {
+      type: Number,
+      default: 0,
+    }
   },
   computed: {
     showIcon() {
@@ -126,6 +133,14 @@ export default {
     menuTitle() {
       return this.shouldTruncate ? this.label : '';
     },
+    hasOpenConversation( ){
+      return this.openConversationCount !== undefined && this.openConversationCount > 0;
+    }
   },
+  methods: {
+    openConversationTitle(){
+      return `${this.openConversationCount} open conversation`;
+    }
+  }
 };
 </script>
