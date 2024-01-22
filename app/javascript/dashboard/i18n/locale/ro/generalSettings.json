@@ -92,7 +92,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Oferit de Chatwoot"
+      "OFFLINE": "Deconectat"
     },
     "BUTTON": {
       "REFRESH": "Reîmprospătare"

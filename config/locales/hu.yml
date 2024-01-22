@@ -196,14 +196,29 @@ hu:
     common:
       home: Nyitólap
       last_updated_on: 'Utoljára frissítve: %{last_updated_on}'
-      view_all_articles: Mutasd az összes bejegyzést
+      view_all_articles: Összes megtekintése
       article: bejegyzés
       articles: bejegyzések
+      author: szerző
+      authors: szerzők
+      other: egyéb
+      others: egyebek
+      by: Által
       no_articles: Nincsenek bejegyzések
     footer:
       made_with: 'Ezzel készítve: '
     header:
-      go_to_homepage: Irány a főoldal
+      go_to_homepage: Honlap
+      appearance:
+        system: Rendszer
+        light: Világos mód
+        dark: Sötét mód
+      featured_articles: Kiemelt cikkek
+      uncategorized: Kategorizálhatatlan
+    404:
+      title: Az oldal nem található
+      description: Nem találtuk meg a keresett oldalt.
+      back_to_home: Menj a kezdőlapra
   slack_unfurl:
     fields:
       name: Név

@@ -76,8 +76,8 @@
         },
         "AGENT_AVAILABILITY": {
           "LABEL": "Uygun",
-          "PLACEHOLDER": "Please select an availability status",
-          "ERROR": "Availability is required"
+          "PLACEHOLDER": "Lütfen bir müsaitlik durumu seçin",
+          "ERROR": "Müsaitlik gereklidir"
         },
         "SUBMIT": "Temsilciyi düzenle"
       },
@@ -111,7 +111,7 @@
         "PLACEHOLDER": {
           "AGENT": "Temsilci ara",
           "TEAM": "Takım ara",
-          "INPUT": "Search for agents"
+          "INPUT": "Temsilci Arama"
         }
       }
     }

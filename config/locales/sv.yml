@@ -196,14 +196,29 @@ sv:
     common:
       home: Hem
       last_updated_on: Senast uppdaterad den %{last_updated_on}
-      view_all_articles: Se alla artiklar
+      view_all_articles: Visa alla
       article: artikel
       articles: artiklar
+      author: författare
+      authors: författare
+      other: annan
+      others: andra
+      by: Av
       no_articles: Det finns inga artiklar här
     footer:
       made_with: Gjord med
     header:
-      go_to_homepage: Gå till hemsidan
+      go_to_homepage: Hemsida
+      appearance:
+        system: System
+        light: Ljus
+        dark: Mörk
+      featured_articles: Utvalda artiklar
+      uncategorized: Okategoriserade
+    404:
+      title: Sidan kunde inte hittas
+      description: Vi kunde inte hitta sidan du letade efter.
+      back_to_home: Gå till startsidan
   slack_unfurl:
     fields:
       name: Namn
