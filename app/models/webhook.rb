@@ -3,6 +3,7 @@
 # Table name: webhooks
 #
 #  id            :bigint           not null, primary key
+#  enabled       :boolean          default(TRUE)
 #  subscriptions :jsonb
 #  url           :string
 #  webhook_type  :integer          default("account_type")
@@ -27,6 +28,8 @@ class Webhook < ApplicationRecord
 
   ALLOWED_WEBHOOK_EVENTS = %w[conversation_status_changed conversation_updated conversation_created contact_created contact_updated
                               message_created message_updated webwidget_triggered inbox_created inbox_updated].freeze
+
+  scope :enabled, -> { where(enabled: true) }
 
   private
 

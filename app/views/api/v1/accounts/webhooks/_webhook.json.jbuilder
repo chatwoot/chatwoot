@@ -1,5 +1,6 @@
 json.id webhook.id
 json.url webhook.url
+json.enabled webhook.enabled
 json.account_id webhook.account_id
 json.subscriptions webhook.subscriptions
 if webhook.inbox

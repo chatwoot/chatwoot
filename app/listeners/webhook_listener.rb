@@ -86,7 +86,7 @@ class WebhookListener < BaseListener
   private
 
   def deliver_account_webhooks(payload, account)
-    account.webhooks.account_type.each do |webhook|
+    account.webhooks.enabled.account_type.each do |webhook|
       next unless webhook.subscriptions.include?(payload[:event])
 
       WebhookJob.perform_later(webhook.url, payload)
