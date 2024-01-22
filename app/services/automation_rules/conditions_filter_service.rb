@@ -36,6 +36,10 @@ class AutomationRules::ConditionsFilterService < FilterService
     records = perform_attribute_changed_filter(records) if @attribute_changed_query_filter.any?
 
     records.any?
+  rescue StandardError => e
+    Rails.logger.error "Error in AutomationRules::ConditionsFilterService: #{e.message}"
+    Rails.logger.info "AutomationRules::ConditionsFilterService failed while processing rule #{@rule.id} for conversation #{@conversation.id}"
+    false
   end
 
   def rule_valid?

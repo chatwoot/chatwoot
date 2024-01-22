@@ -16,6 +16,8 @@ module ConversationReplyMailerHelper
     ms_smtp_settings
     set_delivery_method
 
+    Rails.logger.info("Email sent from #{email_from} to #{to_emails} with subject #{mail_subject}")
+
     mail(@options)
   end
 
