@@ -28,7 +28,7 @@ RSpec.describe AutomationRules::ConditionValidationService do
         rule.save
       end
 
-      it 'returns false for items not in filter_keys' do
+      it 'returns false' do
         expect(described_class.new(rule).perform).to be(false)
       end
     end
@@ -41,8 +41,21 @@ RSpec.describe AutomationRules::ConditionValidationService do
         rule.save
       end
 
-      it 'returns false for items not in filter_keys' do
+      it 'returns false' do
         expect(described_class.new(rule).perform).to be(false)
+      end
+    end
+
+    context 'with "attribute_changed" filter operator' do
+      before do
+        rule.conditions = [
+          { 'values': ['open'], 'attribute_key': 'status', 'query_operator': nil, 'filter_operator': 'attribute_changed' }
+        ]
+        rule.save
+      end
+
+      it 'returns true' do
+        expect(described_class.new(rule).perform).to be(true)
       end
     end
 
