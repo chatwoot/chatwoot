@@ -16,12 +16,6 @@
 #  index_applied_slas_on_conversation_id  (conversation_id)
 #  index_applied_slas_on_sla_policy_id    (sla_policy_id)
 #
-# Foreign Keys
-#
-#  fk_rails_...  (account_id => accounts.id)
-#  fk_rails_...  (conversation_id => conversations.id)
-#  fk_rails_...  (sla_policy_id => sla_policies.id)
-#
 class AppliedSla < ApplicationRecord
   belongs_to :account
   belongs_to :sla_policy
