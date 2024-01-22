@@ -325,7 +325,7 @@
       },
       "COLUMNS": {
         "BY": "by",
-        "DELETED_AUTHOR": "Deleted Author"
+        "AUTHOR_NOT_AVAILABLE": "Author is not available"
       }
     },
     "EDIT_ARTICLE": {
