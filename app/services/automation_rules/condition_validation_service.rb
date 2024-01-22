@@ -39,6 +39,10 @@ class AutomationRules::ConditionValidationService
 
   def operation_valid?(condition, filter)
     filter_operator = condition['filter_operator']
+
+    # attribute changed is a special case
+    return true if filter_operator == 'attribute_changed'
+
     filter['filter_operators'].include?(filter_operator)
   end
 
