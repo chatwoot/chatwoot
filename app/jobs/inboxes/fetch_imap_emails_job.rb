@@ -137,7 +137,7 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
   end
 
   def email_already_present?(channel, message_id)
-    channel.inbox.messages.find_by(source_id: message_id).present?
+    Message.find_by(source_id: message_id, inbox_id: channel.inbox).present?
   end
 
   def build_mail_from_string(raw_email_content)
