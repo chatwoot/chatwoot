@@ -92,7 +92,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Disconnected from Chatwoot"
+      "OFFLINE": "離線的"
     },
     "BUTTON": {
       "REFRESH": "Refresh"

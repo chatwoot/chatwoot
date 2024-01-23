@@ -39,5 +39,10 @@ describe ActionService do
       action_service.assign_agent(['nil'])
       expect(conversation.reload.assignee).to be_nil
     end
+
+    it 'unassigns the team if team_id is nil' do
+      action_service.assign_team([nil])
+      expect(conversation.reload.team).to be_nil
+    end
   end
 end

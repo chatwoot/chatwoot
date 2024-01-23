@@ -92,7 +92,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Desconectado "
+      "OFFLINE": "Desconectado"
     },
     "BUTTON": {
       "REFRESH": "Atualizar"

@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "Filter by",
       "SORT": "Sort by",
+      "LOCALE": "Locale",
       "SETTINGS_BUTTON": "Instellingen",
       "NEW_BUTTON": "New Article",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "My Articles",
         "DRAFT": "Draft Articles",
         "ARCHIVED": "Archived Articles"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Select locale",
+        "PLACEHOLDER": "Select locale",
+        "NO_RESULT": "No locale found",
+        "SEARCH_PLACEHOLDER": "Search locale"
       }
     },
     "EDIT_HEADER": {
@@ -76,6 +83,9 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Uncategorized",
+      "SEARCH_RESULTS": "Search results for %{query}",
+      "EMPTY_TEXT": "Search for articles to insert into replies.",
+      "SEARCH_LOADER": "Zoeken...",
       "INSERT_ARTICLE": "Insert",
       "NO_RESULT": "No articles found",
       "COPY_LINK": "Copy article link to clipboard",
@@ -220,7 +230,10 @@
         "LOGO": {
           "LABEL": "Logo",
           "UPLOAD_BUTTON": "Upload logo",
-          "HELP_TEXT": "This logo will be displayed on the portal header."
+          "HELP_TEXT": "This logo will be displayed on the portal header.",
+          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
+          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
+          "IMAGE_DELETE_ERROR": "Error while deleting logo"
         },
         "NAME": {
           "LABEL": "Naam",
@@ -425,6 +438,21 @@
           "ERROR_MESSAGE": "Unable to delete category"
         }
       }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Search articles",
+      "PLACEHOLDER": "Search articles",
+      "NO_RESULT": "No articles found",
+      "SEARCHING": "Zoeken...",
+      "SEARCH_BUTTON": "Zoeken",
+      "INSERT_ARTICLE": "Insert link",
+      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
+      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
+      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
+      "PREVIEW_LINK": "Preview article",
+      "CANCEL": "Sluiten",
+      "BACK": "Back",
+      "BACK_RESULTS": "Back to results"
     },
     "UPGRADE_PAGE": {
       "TITLE": "Help Center",

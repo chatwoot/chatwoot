@@ -440,7 +440,7 @@
       "HEADER": "Открытые диалоги",
       "LOADING_MESSAGE": "Загрузка метрик разговора...",
       "OPEN": "Открытых",
-      "UNATTENDED": "Несвязанные",
+      "UNATTENDED": "Неотвеченные",
       "UNASSIGNED": "Неназначен"
     },
     "CONVERSATION_HEATMAP": {
@@ -456,7 +456,7 @@
       "TABLE_HEADER": {
         "AGENT": "Оператор",
         "OPEN": "ОТКРЫТЫХ",
-        "UNATTENDED": "Несвязанные",
+        "UNATTENDED": "Неотвеченные",
         "STATUS": "Статус"
       }
     },

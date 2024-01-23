@@ -51,18 +51,30 @@
         "ACTIVE": "Utolsó aktivitás"
       }
     },
-    "CHAT_SORT_FILTER_ITEMS": {
-      "latest": {
-        "TEXT": "Utolsó aktivitás"
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Utolsó tevékenység: Legrégebbi először"
       },
-      "sort_on_created_at": {
-        "TEXT": "Létrehozva"
+      "last_activity_at_desc": {
+        "TEXT": "Utolsó tevékenység: Legújabb először"
       },
-      "sort_on_priority": {
-        "TEXT": "Prioritás"
+      "created_at_desc": {
+        "TEXT": "Készült: Legújabb először"
       },
-      "sort_on_waiting_since": {
-        "TEXT": "Függőben lévő válasz"
+      "created_at_asc": {
+        "TEXT": "Készült: Legrégebbi először"
+      },
+      "priority_desc": {
+        "TEXT": "Prioritás: Először a legfontosabb"
+      },
+      "priority_asc": {
+        "TEXT": "Prioritás: Legkevésbé fontos először"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Függőben lévő válasz: Leghosszabb először"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Függőben lévő válasz: Legrövidebb először"
       }
     },
     "ATTACHMENTS": {

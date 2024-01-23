@@ -196,14 +196,29 @@ uk:
     common:
       home: Головна
       last_updated_on: Востаннє оновлено %{last_updated_on}
-      view_all_articles: Переглянути всі статті
+      view_all_articles: View all
       article: статті
       articles: статті
+      author: автор
+      authors: authors
+      other: other
+      others: others
+      by: By
       no_articles: Тут немає статей
     footer:
       made_with: Зроблено з
     header:
-      go_to_homepage: Перейти на основний сайт
+      go_to_homepage: Website
+      appearance:
+        system: System
+        light: Light
+        dark: Dark
+      featured_articles: Featured Articles
+      uncategorized: Uncategorized
+    404:
+      title: Page not found
+      description: We couldn't find the page you were looking for.
+      back_to_home: Go to home page
   slack_unfurl:
     fields:
       name: Ім'я
