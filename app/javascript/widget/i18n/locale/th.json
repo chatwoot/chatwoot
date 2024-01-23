@@ -14,7 +14,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "เรากำลังออนไลน์",
-    "OFFLINE": "ออฟไลน์"
+    "OFFLINE": "เราไม่อยู่"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "ปกติจะตอบกลับภายในไม่กี่นาที",
