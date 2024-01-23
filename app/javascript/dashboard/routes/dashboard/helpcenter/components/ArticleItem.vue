@@ -11,9 +11,30 @@
             {{ title }}
           </h6>
         </router-link>
-        <div class="author">
-          <span class="by">{{ $t('HELP_CENTER.TABLE.COLUMNS.BY') }}</span>
-          <span class="name">{{ articleAuthorName }}</span>
+        <div class="flex gap-1 items-center">
+          <Thumbnail
+            v-if="author"
+            :src="author.thumbnail"
+            :username="author.name"
+            size="16px"
+          />
+          <div
+            v-else
+            v-tooltip.right="
+              $t('HELP_CENTER.TABLE.COLUMNS.AUTHOR_NOT_AVAILABLE')
+            "
+            class="flex items-center justify-center rounded w-4 h-4 bg-woot-100 dark:bg-woot-700"
+          >
+            <fluent-icon
+              icon="person"
+              type="filled"
+              size="10"
+              class="text-woot-300 dark:text-woot-300"
+            />
+          </div>
+          <span class="font-normal text-slate-500 dark:text-slate-200 text-sm">
+            {{ articleAuthorName }}
+          </span>
         </div>
       </div>
     </span>
@@ -57,10 +78,12 @@ import timeMixin from 'dashboard/mixins/time';
 import portalMixin from '../mixins/portalMixin';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import EmojiOrIcon from '../../../../../shared/components/EmojiOrIcon.vue';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 
 export default {
   components: {
     EmojiOrIcon,
+    Thumbnail,
   },
   mixins: [timeMixin, portalMixin],
   props: {
@@ -110,7 +133,7 @@ export default {
       }).format(this.views || 0);
     },
     articleAuthorName() {
-      return this.author.name;
+      return this.author?.name || '-';
     },
     labelColor() {
       switch (this.status) {
@@ -188,15 +211,6 @@ export default {
 
   .article-block {
     @apply min-w-0;
-  }
-
-  .author {
-    .by {
-      @apply font-normal text-slate-500 dark:text-slate-200 text-sm;
-    }
-    .name {
-      @apply font-normal text-slate-500 dark:text-slate-200 text-sm;
-    }
   }
 }
 
