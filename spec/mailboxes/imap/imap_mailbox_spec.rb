@@ -11,7 +11,7 @@ RSpec.describe Imap::ImapMailbox do
                              imap_port: 993, imap_login: 'imap@gmail.com', imap_password: 'password',
                              account: account)
     end
-    let(:inbox) { create(:inbox, channel: channel, account: account) }
+    let(:inbox) { channel.inbox }
     let!(:contact) { create(:contact, email: 'email@gmail.com', phone_number: '+919584546666', account: account, identifier: '123') }
     let(:conversation) { Conversation.where(inbox_id: channel.inbox).last }
     let(:class_instance) { described_class.new }

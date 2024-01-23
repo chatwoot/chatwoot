@@ -25,7 +25,7 @@ RSpec.describe Inbox do
 
     it { is_expected.to have_many(:conversations).dependent(:destroy_async) }
 
-    it { is_expected.to have_many(:messages).through(:conversations) }
+    it { is_expected.to have_many(:messages).dependent(:destroy_async) }
 
     it { is_expected.to have_one(:agent_bot_inbox) }
 
