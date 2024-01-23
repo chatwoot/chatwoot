@@ -513,6 +513,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_23_040257) do
     t.datetime "updated_at", null: false
     t.text "attribute_description"
     t.jsonb "attribute_values", default: []
+    t.string "regex_pattern"
+    t.string "regex_cue"
     t.index ["account_id"], name: "index_custom_attribute_definitions_on_account_id"
     t.index ["attribute_key", "attribute_model", "account_id"], name: "attribute_key_model_index", unique: true
   end
