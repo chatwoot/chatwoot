@@ -25,6 +25,10 @@ class ActionService
     @conversation.update!(priority: (priority[0] == 'nil' ? nil : priority[0]))
   end
 
+  def add_sla(sla_policy)
+    @conversation.update!(sla_policy_id: sla_policy.id)
+  end
+
   def add_label(labels)
     return if labels.empty?
 
