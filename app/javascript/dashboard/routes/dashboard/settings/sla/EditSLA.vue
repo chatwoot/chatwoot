@@ -6,8 +6,8 @@
         v-model.trim="title"
         :class="{ error: $v.title.$error }"
         class="w-full sla-name--input"
-        :sla="$t('SLA_MGMT.FORM.NAME.SLA')"
-        :placeholder="$t('SLA_MGMT.FORM.NAME.PLACEHOLDER')"
+        :sla="$t('SLA.FORM.NAME.SLA')"
+        :placeholder="$t('SLA.FORM.NAME.PLACEHOLDER')"
         :error="getSLATitleErrorMessage"
         @input="$v.title.$touch"
       />
@@ -15,21 +15,21 @@
         v-model.trim="description"
         :class="{ error: $v.description.$error }"
         class="w-full"
-        :sla="$t('SLA_MGMT.FORM.DESCRIPTION.SLA')"
-        :placeholder="$t('SLA_MGMT.FORM.DESCRIPTION.PLACEHOLDER')"
+        :sla="$t('SLA.FORM.DESCRIPTION.SLA')"
+        :placeholder="$t('SLA.FORM.DESCRIPTION.PLACEHOLDER')"
         @input="$v.description.$touch"
       />
 
       <div class="w-full">
         <sla>
-          {{ $t('SLA_MGMT.FORM.COLOR.SLA') }}
+          {{ $t('SLA.FORM.COLOR.SLA') }}
           <woot-color-picker v-model="color" />
         </sla>
       </div>
       <div class="w-full">
         <input v-model="showOnSidebar" type="checkbox" :value="true" />
         <sla for="conversation_creation">
-          {{ $t('SLA_MGMT.FORM.SHOW_ON_SIDEBAR.SLA') }}
+          {{ $t('SLA.FORM.SHOW_ON_SIDEBAR.SLA') }}
         </sla>
       </div>
       <div class="flex justify-end items-center py-2 px-0 gap-2 w-full">
@@ -37,10 +37,10 @@
           :is-disabled="$v.title.$invalid || uiFlags.isUpdating"
           :is-loading="uiFlags.isUpdating"
         >
-          {{ $t('SLA_MGMT.FORM.EDIT') }}
+          {{ $t('SLA.FORM.EDIT') }}
         </woot-button>
         <woot-button class="button clear" @click.prevent="onClose">
-          {{ $t('SLA_MGMT.FORM.CANCEL') }}
+          {{ $t('SLA.FORM.CANCEL') }}
         </woot-button>
       </div>
     </form>
@@ -75,9 +75,7 @@ export default {
       uiFlags: 'slas/getUIFlags',
     }),
     pageTitle() {
-      return `${this.$t('SLA_MGMT.EDIT.TITLE')} - ${
-        this.selectedResponse.title
-      }`;
+      return `${this.$t('SLA.EDIT.TITLE')} - ${this.selectedResponse.title}`;
     },
   },
   mounted() {
@@ -103,11 +101,11 @@ export default {
           show_on_sidebar: this.showOnSidebar,
         })
         .then(() => {
-          this.showAlert(this.$t('SLA_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+          this.showAlert(this.$t('SLA.EDIT.API.SUCCESS_MESSAGE'));
           setTimeout(() => this.onClose(), 10);
         })
         .catch(() => {
-          this.showAlert(this.$t('SLA_MGMT.EDIT.API.ERROR_MESSAGE'));
+          this.showAlert(this.$t('SLA.EDIT.API.ERROR_MESSAGE'));
         });
     },
   },

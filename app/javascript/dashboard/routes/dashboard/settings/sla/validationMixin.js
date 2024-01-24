@@ -5,11 +5,11 @@ export default {
       if (!this.$v.title.$error) {
         errorMessage = '';
       } else if (!this.$v.title.required) {
-        errorMessage = this.$t('SLA_MGMT.FORM.NAME.REQUIRED_ERROR');
+        errorMessage = this.$t('SLA.FORM.NAME.REQUIRED_ERROR');
       } else if (!this.$v.title.minLength) {
-        errorMessage = this.$t('SLA_MGMT.FORM.NAME.MINIMUM_LENGTH_ERROR');
+        errorMessage = this.$t('SLA.FORM.NAME.MINIMUM_LENGTH_ERROR');
       } else if (!this.$v.title.validLabelCharacters) {
-        errorMessage = this.$t('SLA_MGMT.FORM.NAME.VALID_ERROR');
+        errorMessage = this.$t('SLA.FORM.NAME.VALID_ERROR');
       }
       return errorMessage;
     },

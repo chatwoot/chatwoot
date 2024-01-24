@@ -9,7 +9,7 @@ export default {
       path: frontendURL('accounts/:accountId/settings/sla'),
       component: SettingsContent,
       props: {
-        headerTitle: 'SLA_MGMT.HEADER',
+        headerTitle: 'SLA.HEADER',
         icon: 'tag',
         showNewButton: false,
       },

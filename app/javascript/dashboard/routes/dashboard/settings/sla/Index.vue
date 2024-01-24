@@ -6,7 +6,7 @@
       icon="add-circle"
       @click="openAddPopup"
     >
-      {{ $t('SLA_MGMT.HEADER_BTN_TXT') }}
+      {{ $t('SLA.HEADER_BTN_TXT') }}
     </woot-button>
     <div class="flex flex-row gap-4">
       <div class="w-[60%]">
@@ -14,18 +14,15 @@
           v-if="!uiFlags.isFetching && !records.length"
           class="flex h-full items-center flex-col justify-center"
         >
-          {{ $t('SLA_MGMT.LIST.404') }}
+          {{ $t('SLA.LIST.404') }}
         </p>
         <woot-loading-state
           v-if="uiFlags.isFetching"
-          :message="$t('SLA_MGMT.LOADING')"
+          :message="$t('SLA.LOADING')"
         />
         <table v-if="!uiFlags.isFetching && records.length" class="woot-table">
           <thead>
-            <th
-              v-for="thHeader in $t('SLA_MGMT.LIST.TABLE_HEADER')"
-              :key="thHeader"
-            >
+            <th v-for="thHeader in $t('SLA.LIST.TABLE_HEADER')" :key="thHeader">
               {{ thHeader }}
             </th>
           </thead>
@@ -48,7 +45,7 @@
               </td>
               <td class="button-wrapper">
                 <woot-button
-                  v-tooltip.top="$t('SLA_MGMT.FORM.EDIT')"
+                  v-tooltip.top="$t('SLA.FORM.EDIT')"
                   variant="smooth"
                   size="tiny"
                   color-scheme="secondary"
@@ -58,7 +55,7 @@
                   @click="openEditPopup(sla)"
                 />
                 <woot-button
-                  v-tooltip.top="$t('SLA_MGMT.FORM.DELETE')"
+                  v-tooltip.top="$t('SLA.FORM.DELETE')"
                   variant="smooth"
                   color-scheme="alert"
                   size="tiny"
@@ -74,7 +71,7 @@
       </div>
 
       <div class="w-[34%]">
-        <span v-dompurify-html="$t('SLA_MGMT.SIDEBAR_TXT')" />
+        <span v-dompurify-html="$t('SLA.SIDEBAR_TXT')" />
       </div>
     </div>
     <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
@@ -89,8 +86,8 @@
       :show.sync="showDeleteConfirmationPopup"
       :on-close="closeDeletePopup"
       :on-confirm="confirmDeletion"
-      :title="$t('SLA_MGMT.DELETE.CONFIRM.TITLE')"
-      :message="$t('SLA_MGMT.DELETE.CONFIRM.MESSAGE')"
+      :title="$t('SLA.DELETE.CONFIRM.TITLE')"
+      :message="$t('SLA.DELETE.CONFIRM.MESSAGE')"
       :message-value="deleteMessage"
       :confirm-text="deleteConfirmText"
       :reject-text="deleteRejectText"
@@ -126,10 +123,10 @@ export default {
     }),
     // Delete Modal
     deleteConfirmText() {
-      return this.$t('SLA_MGMT.DELETE.CONFIRM.YES');
+      return this.$t('SLA.DELETE.CONFIRM.YES');
     },
     deleteRejectText() {
-      return this.$t('SLA_MGMT.DELETE.CONFIRM.NO');
+      return this.$t('SLA.DELETE.CONFIRM.NO');
     },
     deleteMessage() {
       return ` ${this.selectedResponse.title}?`;
@@ -171,10 +168,10 @@ export default {
       this.$store
         .dispatch('slas/delete', id)
         .then(() => {
-          this.showAlert(this.$t('SLA_MGMT.DELETE.API.SUCCESS_MESSAGE'));
+          this.showAlert(this.$t('SLA.DELETE.API.SUCCESS_MESSAGE'));
         })
         .catch(() => {
-          this.showAlert(this.$t('SLA_MGMT.DELETE.API.ERROR_MESSAGE'));
+          this.showAlert(this.$t('SLA.DELETE.API.ERROR_MESSAGE'));
         })
         .finally(() => {
           this.loading[this.selectedResponse.id] = false;
