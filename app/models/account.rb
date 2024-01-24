@@ -133,7 +133,6 @@ class Account < ApplicationRecord
     update_columns(limits: limit)
   end
 
-
   private
 
   def notify_creation
@@ -160,37 +159,24 @@ class Account < ApplicationRecord
   def get_agent_limit
     ltd_plan_name = ltd_attributes['ltd_plan_name']
     plan_name = custom_attributes['plan_name']
-    if ltd_plan_name && plan_name == "Starter"
-      return
-    end
-    if plan_name
-      if plan_name == "Starter"
-        return ChatwootApp.starter_agent_limit
-      else
-        return ChatwootApp.paid_agent_limit
-      end
-    else
-      return ChatwootApp.starter_agent_limit
-    end
+    return ltd_attributes['ltd_quantity'] if ltd_plan_name && plan_name == 'Starter'
+
+    return ChatwootApp.starter_agent_limit unless plan_name
+    return ChatwootApp.starter_agent_limit if plan_name == 'Starter'
+
+    ChatwootApp.paid_agent_limit
   end
 
   def get_inbox_limit
     ltd_plan_name = ltd_attributes['ltd_plan_name']
     plan_name = custom_attributes['plan_name']
-    if ltd_plan_name && plan_name == "Starter"
-      return
-    end
-    if plan_name
-      if plan_name === "Starter"
-        return ChatwootApp.starter_inbox_limit
-      else
-        return ChatwootApp.paid_inbox_limit
-      end
-    else
-      return ChatwootApp.starter_inbox_limit
-    end
-  end
+    return 100_000 if ltd_plan_name && plan_name == 'Starter'
 
+    return ChatwootApp.starter_inbox_limit unless plan_name
+    return ChatwootApp.starter_inbox_limit if plan_name === 'Starter'
+
+    ChatwootApp.paid_inbox_limit
+  end
 end
 
 Account.prepend_mod_with('Account')
