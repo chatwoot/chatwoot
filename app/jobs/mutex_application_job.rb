@@ -26,8 +26,9 @@ class MutexApplicationJob < ApplicationJob
         Rails.logger.warn "[#{self.class.name}] Failed to acquire lock on attempt #{executions}: #{lock_key}"
         raise LockAcquisitionError, "Failed to acquire lock for key: #{lock_key}"
       end
-    ensure
-      lock_manager.unlock(lock_key)
+    rescue StandardError => e
+      lock_manager.unlock(lock_key) unless e.is_a?(LockAcquisitionError)
+      raise e
     end
   end
 end
