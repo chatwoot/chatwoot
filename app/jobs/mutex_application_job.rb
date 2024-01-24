@@ -27,8 +27,7 @@ class MutexApplicationJob < ApplicationJob
         handle_failed_lock_acquisition(lock_key)
       end
     rescue StandardError => e
-      lock_manager.unlock(lock_key) unless ignore_error?(e)
-      raise e
+      handle_error(e)
     end
   end
 
@@ -38,8 +37,9 @@ class MutexApplicationJob < ApplicationJob
     Rails.logger.info "[#{self.class.name}] Acquired lock for: #{lock_key} on attempt #{executions}"
   end
 
-  def ignore_error?(err)
-    err.is_a?(LockAcquisitionError)
+  def handle_error(err)
+    lock_manager.unlock(lock_key) unless err.is_a?(LockAcquisitionError)
+    raise err
   end
 
   def handle_failed_lock_acquisition(lock_key)
