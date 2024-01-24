@@ -339,7 +339,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Απαιτείται έγκυρη τιμή",
-      "INVALID_URL": "Μη Έγκυρο URL"
+      "INVALID_URL": "Μη Έγκυρο URL",
+      "INVALID_INPUT": "Invalid Input"
     }
   },
   "MERGE_CONTACTS": {
