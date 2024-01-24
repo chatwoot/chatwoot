@@ -14,20 +14,36 @@
 class MutexApplicationJob < ApplicationJob
   class LockAcquisitionError < StandardError; end
 
-  def with_lock(key_format, *args)
-    lock_key = format(key_format, *args)
+  def with_lock(lock_key, timeout = Redis::LockManager::LOCK_TIMEOUT)
     lock_manager = Redis::LockManager.new
 
     begin
-      if lock_manager.lock(lock_key)
-        Rails.logger.info "[#{self.class.name}] Acquired lock for: #{lock_key} on attempt #{executions}"
+      if lock_manager.lock(lock_key, timeout)
+        log_attempt(lock_key, executions)
         yield
+        # release the lock after the block has been executed
+        lock_manager.unlock(lock_key)
       else
-        Rails.logger.warn "[#{self.class.name}] Failed to acquire lock on attempt #{executions}: #{lock_key}"
-        raise LockAcquisitionError, "Failed to acquire lock for key: #{lock_key}"
+        handle_failed_lock_acquisition(lock_key)
       end
-    ensure
-      lock_manager.unlock(lock_key)
+    rescue StandardError => e
+      handle_error(e, lock_manager, lock_key)
     end
+  end
+
+  private
+
+  def log_attempt(lock_key, executions)
+    Rails.logger.info "[#{self.class.name}] Acquired lock for: #{lock_key} on attempt #{executions}"
+  end
+
+  def handle_error(err, lock_manager, lock_key)
+    lock_manager.unlock(lock_key) unless err.is_a?(LockAcquisitionError)
+    raise err
+  end
+
+  def handle_failed_lock_acquisition(lock_key)
+    Rails.logger.warn "[#{self.class.name}] Failed to acquire lock on attempt #{executions}: #{lock_key}"
+    raise LockAcquisitionError, "Failed to acquire lock for key: #{lock_key}"
   end
 end
