@@ -1,0 +1,202 @@
+<template>
+  <div class="flex-1 overflow-auto p-4">
+    <woot-button
+      color-scheme="success"
+      class-names="button--fixed-top"
+      icon="add-circle"
+      @click="openAddPopup"
+    >
+      {{ $t('SLA_MGMT.HEADER_BTN_TXT') }}
+    </woot-button>
+    <div class="flex flex-row gap-4">
+      <div class="w-[60%]">
+        <p
+          v-if="!uiFlags.isFetching && !records.length"
+          class="flex h-full items-center flex-col justify-center"
+        >
+          {{ $t('SLA_MGMT.LIST.404') }}
+        </p>
+        <woot-loading-state
+          v-if="uiFlags.isFetching"
+          :message="$t('SLA_MGMT.LOADING')"
+        />
+        <table v-if="!uiFlags.isFetching && records.length" class="woot-table">
+          <thead>
+            <th
+              v-for="thHeader in $t('SLA_MGMT.LIST.TABLE_HEADER')"
+              :key="thHeader"
+            >
+              {{ thHeader }}
+            </th>
+          </thead>
+          <tbody>
+            <tr v-for="(sla, index) in records" :key="sla.title">
+              <td class="sla-title">
+                <span class="overflow-hidden whitespace-nowrap text-ellipsis">{{
+                  sla.title
+                }}</span>
+              </td>
+              <td>{{ sla.description }}</td>
+              <td>
+                <div class="sla-color--container">
+                  <span
+                    class="sla-color--display"
+                    :style="{ backgroundColor: sla.color }"
+                  />
+                  {{ sla.color }}
+                </div>
+              </td>
+              <td class="button-wrapper">
+                <woot-button
+                  v-tooltip.top="$t('SLA_MGMT.FORM.EDIT')"
+                  variant="smooth"
+                  size="tiny"
+                  color-scheme="secondary"
+                  class-names="grey-btn"
+                  :is-loading="loading[sla.id]"
+                  icon="edit"
+                  @click="openEditPopup(sla)"
+                />
+                <woot-button
+                  v-tooltip.top="$t('SLA_MGMT.FORM.DELETE')"
+                  variant="smooth"
+                  color-scheme="alert"
+                  size="tiny"
+                  icon="dismiss-circle"
+                  class-names="grey-btn"
+                  :is-loading="loading[sla.id]"
+                  @click="openDeletePopup(sla, index)"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="w-[34%]">
+        <span v-dompurify-html="$t('SLA_MGMT.SIDEBAR_TXT')" />
+      </div>
+    </div>
+    <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
+      <add-SLA @close="hideAddPopup" />
+    </woot-modal>
+
+    <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
+      <edit-SLA :selected-response="selectedResponse" @close="hideEditPopup" />
+    </woot-modal>
+
+    <woot-delete-modal
+      :show.sync="showDeleteConfirmationPopup"
+      :on-close="closeDeletePopup"
+      :on-confirm="confirmDeletion"
+      :title="$t('SLA_MGMT.DELETE.CONFIRM.TITLE')"
+      :message="$t('SLA_MGMT.DELETE.CONFIRM.MESSAGE')"
+      :message-value="deleteMessage"
+      :confirm-text="deleteConfirmText"
+      :reject-text="deleteRejectText"
+    />
+  </div>
+</template>
+<script>
+import { mapGetters } from 'vuex';
+
+import AddSLA from './AddSLA.vue';
+import EditSLA from './EditSLA.vue';
+import alertMixin from 'shared/mixins/alertMixin';
+
+export default {
+  components: {
+    AddSLA,
+    EditSLA,
+  },
+  mixins: [alertMixin],
+  data() {
+    return {
+      loading: {},
+      showAddPopup: false,
+      showEditPopup: false,
+      showDeleteConfirmationPopup: false,
+      selectedResponse: {},
+    };
+  },
+  computed: {
+    ...mapGetters({
+      records: 'slas/getslas',
+      uiFlags: 'slas/getUIFlags',
+    }),
+    // Delete Modal
+    deleteConfirmText() {
+      return this.$t('SLA_MGMT.DELETE.CONFIRM.YES');
+    },
+    deleteRejectText() {
+      return this.$t('SLA_MGMT.DELETE.CONFIRM.NO');
+    },
+    deleteMessage() {
+      return ` ${this.selectedResponse.title}?`;
+    },
+  },
+  mounted() {
+    this.$store.dispatch('slas/get');
+  },
+  methods: {
+    openAddPopup() {
+      this.showAddPopup = true;
+    },
+    hideAddPopup() {
+      this.showAddPopup = false;
+    },
+
+    openEditPopup(response) {
+      this.showEditPopup = true;
+      this.selectedResponse = response;
+    },
+    hideEditPopup() {
+      this.showEditPopup = false;
+    },
+
+    openDeletePopup(response) {
+      this.showDeleteConfirmationPopup = true;
+      this.selectedResponse = response;
+    },
+    closeDeletePopup() {
+      this.showDeleteConfirmationPopup = false;
+    },
+
+    confirmDeletion() {
+      this.loading[this.selectedResponse.id] = true;
+      this.closeDeletePopup();
+      this.deletesla(this.selectedResponse.id);
+    },
+    deletesla(id) {
+      this.$store
+        .dispatch('slas/delete', id)
+        .then(() => {
+          this.showAlert(this.$t('SLA_MGMT.DELETE.API.SUCCESS_MESSAGE'));
+        })
+        .catch(() => {
+          this.showAlert(this.$t('SLA_MGMT.DELETE.API.ERROR_MESSAGE'));
+        })
+        .finally(() => {
+          this.loading[this.selectedResponse.id] = false;
+        });
+    },
+  },
+};
+</script>
+
+<style scoped lang="scss">
+@import '~dashboard/assets/scss/variables';
+
+.sla-color--container {
+  @apply flex items-center;
+}
+
+.sla-color--display {
+  @apply rounded h-4 w-4 mr-1 rtl:mr-0 rtl:ml-1 border border-solid border-slate-50 dark:border-slate-700;
+}
+.sla-title {
+  span {
+    @apply w-60 inline-block;
+  }
+}
+</style>
