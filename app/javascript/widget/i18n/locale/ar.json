@@ -80,7 +80,8 @@
     },
     "CAMPAIGN_HEADER": "الرجاء تقديم اسمك و بريدك الإلكتروني قبل بدء المحادثة",
     "IS_REQUIRED": "مطلوب",
-    "REQUIRED": "مطلوب"
+    "REQUIRED": "مطلوب",
+    "REGEX_ERROR": "Please provide a valid input"
   },
   "FILE_SIZE_LIMIT": "حجم الملف يتجاوز حد الاقصى وهو {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
