@@ -339,7 +339,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "مقدار معتبر مورد نیاز است",
-      "INVALID_URL": "URL نامعتبر"
+      "INVALID_URL": "URL نامعتبر",
+      "INVALID_INPUT": "Invalid Input"
     }
   },
   "MERGE_CONTACTS": {
