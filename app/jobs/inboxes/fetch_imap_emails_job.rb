@@ -7,6 +7,13 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
     return unless should_fetch_email?(channel)
 
     key = format(::Redis::Alfred::EMAIL_MESSAGE_MUTEX, inbox_id: channel.inbox.id)
+
+    # Since this job locks for 5 minutes, we will skip if another instance is running
+    if locked?(key)
+      Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Another Job already in progress #{channel.inbox.id}"
+      return
+    end
+
     with_lock(key, 5.minutes) do
       process_email_for_channel(channel)
     end
