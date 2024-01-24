@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe MutexApplicationJob do
   let(:lock_manager) { instance_double(Redis::LockManager) }
   let(:lock_key) { 'test_key' }
-  let(:lock_key_with_format) { 'test_key_for_%<sender>s' }
 
   before do
     allow(Redis::LockManager).to receive(:new).and_return(lock_manager)
