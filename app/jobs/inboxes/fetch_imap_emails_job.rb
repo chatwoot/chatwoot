@@ -7,7 +7,7 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
     return unless should_fetch_email?(channel)
 
     key = format(::Redis::Alfred::EMAIL_MESSAGE_MUTEX, inbox_id: channel.inbox.id)
-    with_lock(key) do
+    with_lock(key, 5.minutes) do
       process_email_for_channel(channel)
     end
   rescue *ExceptionList::IMAP_EXCEPTIONS => e
@@ -138,7 +138,7 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
   end
 
   def email_already_present?(channel, message_id)
-    Message.find_by(source_id: message_id, inbox_id: channel.inbox).present?
+    channel.inbox.messages.find_by(source_id: message_id).present?
   end
 
   def build_mail_from_string(raw_email_content)

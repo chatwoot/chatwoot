@@ -14,7 +14,7 @@
 class MutexApplicationJob < ApplicationJob
   class LockAcquisitionError < StandardError; end
 
-  def with_lock(lock_key, timeout = 1.second)
+  def with_lock(lock_key, timeout = Redis::LockManager::LOCK_TIMEOUT)
     lock_manager = Redis::LockManager.new
 
     begin
