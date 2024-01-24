@@ -13,7 +13,12 @@
       class="flex bg-white shadow-lg rounded-lg flex-col w-full lg:w-2/5 h-full lg:h-auto"
     >
       <div class="w-full my-0 m-auto px-12 pt-12 pb-6">
-        <img v-if="logo" :src="logo" alt="Chatwoot logo" class="logo mb-6" />
+        <img
+          v-if="logo"
+          :src="logo"
+          alt="OneHash Chat logo"
+          class="logo mb-6"
+        />
         <p
           v-if="!isRatingSubmitted"
           class="text-black-700 text-lg leading-relaxed mb-8"
