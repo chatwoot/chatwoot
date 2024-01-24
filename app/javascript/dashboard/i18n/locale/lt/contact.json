@@ -339,7 +339,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Reikalinga tinkama vertė",
-      "INVALID_URL": "Neteisingas URL"
+      "INVALID_URL": "Neteisingas URL",
+      "INVALID_INPUT": "Invalid Input"
     }
   },
   "MERGE_CONTACTS": {
