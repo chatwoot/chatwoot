@@ -339,7 +339,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "โปรดระบุค่าที่ถูกต้อง",
-      "INVALID_URL": "URL ไม่ถูกต้อง"
+      "INVALID_URL": "URL ไม่ถูกต้อง",
+      "INVALID_INPUT": "Invalid Input"
     }
   },
   "MERGE_CONTACTS": {
