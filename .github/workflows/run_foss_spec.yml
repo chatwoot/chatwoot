@@ -21,7 +21,7 @@ jobs:
         image: postgres:15.3
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: ""
+          POSTGRES_PASSWORD: ''
           POSTGRES_DB: postgres
           POSTGRES_HOST_AUTH_METHOD: trust
         ports:
@@ -41,47 +41,59 @@ jobs:
         options: --entrypoint redis-server
 
     steps:
-    - uses: actions/checkout@v3
-      with:
-        ref: ${{ github.event.pull_request.head.ref }}
-        repository: ${{ github.event.pull_request.head.repo.full_name }}
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
 
-    - uses: ruby/setup-ruby@v1
-      with:
-        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
 
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 20
-        cache: yarn
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: yarn
 
-    - name: yarn
-      run: yarn install
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
 
-    - name: Strip enterprise code
-      run: |
-        rm -rf enterprise
-        rm -rf spec/enterprise
+      - name: Cache yarn dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
 
-    - name: Create database
-      run: bundle exec rake db:create
+      - name: yarn
+        run: yarn install
 
-    - name: Seed database
-      run: bundle exec rake db:schema:load
+      - name: Strip enterprise code
+        run: |
+          rm -rf enterprise
+          rm -rf spec/enterprise
 
-    - name: yarn check-files
-      run: yarn install --check-files
+      - name: Create database
+        run: bundle exec rake db:create
 
-    # Run rails tests
-    - name: Run backend tests
-      run: |
-        bundle exec rspec --profile=10 --format documentation
-      env: 
-        NODE_OPTIONS: --openssl-legacy-provider
+      - name: Seed database
+        run: bundle exec rake db:schema:load
 
-    - name: Upload rails log folder
-      uses: actions/upload-artifact@v3
-      if: always()
-      with:
-        name: rails-log-folder
-        path: log
+      - name: yarn check-files
+        run: yarn install --check-files
+
+      # Run rails tests
+      - name: Run backend tests
+        run: |
+          bundle exec rspec --profile=10 --format documentation
+        env:
+          NODE_OPTIONS: --openssl-legacy-provider
+
+      - name: Upload rails log folder
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: rails-log-folder
+          path: log
