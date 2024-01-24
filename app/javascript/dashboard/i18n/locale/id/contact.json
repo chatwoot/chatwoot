@@ -339,7 +339,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Nilai yang valid diperlukan",
-      "INVALID_URL": "URL tidak valid"
+      "INVALID_URL": "URL tidak valid",
+      "INVALID_INPUT": "Invalid Input"
     }
   },
   "MERGE_CONTACTS": {
