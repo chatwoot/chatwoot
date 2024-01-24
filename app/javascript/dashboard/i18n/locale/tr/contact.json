@@ -339,7 +339,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Geçerli değer gereklidir",
-      "INVALID_URL": "Geçersiz URL"
+      "INVALID_URL": "Geçersiz URL",
+      "INVALID_INPUT": "Invalid Input"
     }
   },
   "MERGE_CONTACTS": {
