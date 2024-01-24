@@ -339,7 +339,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Kötelező megadni",
-      "INVALID_URL": "Hibás URL"
+      "INVALID_URL": "Hibás URL",
+      "INVALID_INPUT": "Invalid Input"
     }
   },
   "MERGE_CONTACTS": {
