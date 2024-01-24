@@ -339,7 +339,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Giá trị hợp lệ bắt buộc có",
-      "INVALID_URL": "URL không hợp lệ"
+      "INVALID_URL": "URL không hợp lệ",
+      "INVALID_INPUT": "Invalid Input"
     }
   },
   "MERGE_CONTACTS": {
