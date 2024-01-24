@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe MutexApplicationJob do
   let(:lock_manager) { instance_double(Redis::LockManager) }
   let(:lock_key) { 'test_key' }
+  let(:lock_key_with_format) { 'test_key_for_%<sender>s' }
 
   before do
     allow(Redis::LockManager).to receive(:new).and_return(lock_manager)
@@ -16,6 +17,13 @@ RSpec.describe MutexApplicationJob do
       expect(lock_manager).to receive(:unlock).with(lock_key).and_return(true)
 
       expect { |b| described_class.new.send(:with_lock, lock_key, &b) }.to yield_control
+    end
+
+    it 'formats the lock key if arguments are provided' do
+      expect(lock_manager).to receive(:lock).with('test_key_for_test1').and_return(true)
+      expect(lock_manager).to receive(:unlock).with('test_key_for_test1').and_return(true)
+
+      expect { |b| described_class.new.send(:with_lock, lock_key_with_format, sender: 'test1', &b) }.to yield_control
     end
 
     it 'raises LockAcquisitionError if it cannot acquire the lock' do
