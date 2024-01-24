@@ -39,6 +39,17 @@
           "PLACEHOLDER": "Digite a chave de atributo personalizada",
           "ERROR": "A chave é obrigatória",
           "IN_VALID": "Chave inválida"
+        },
+        "REGEX_PATTERN": {
+          "LABEL": "Regex Pattern",
+          "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+        },
+        "REGEX_CUE": {
+          "LABEL": "Regex Cue",
+          "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "Enable regex validation"
         }
       },
       "API": {
@@ -93,6 +104,17 @@
       "EMPTY_RESULT": {
         "404": "Não há atributos personalizados criados",
         "NOT_FOUND": "Não há atributos personalizados configurados"
+      },
+      "REGEX_PATTERN": {
+        "LABEL": "Regex Pattern",
+        "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+      },
+      "REGEX_CUE": {
+        "LABEL": "Regex Cue",
+        "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "Enable regex validation"
       }
     }
   }
