@@ -339,7 +339,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Það þarf að slá inn gilt gildi",
-      "INVALID_URL": "Ógilt URL"
+      "INVALID_URL": "Ógilt URL",
+      "INVALID_INPUT": "Invalid Input"
     }
   },
   "MERGE_CONTACTS": {
