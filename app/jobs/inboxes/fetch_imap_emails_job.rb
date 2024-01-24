@@ -73,7 +73,7 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
     message_ids_with_seq = []
     seq_nums.each_slice(10).each do |batch|
       # Fetch only message-id only without mail body or contents.
-      batch_message_ids = imap_client.fetch(batch, 'BODY.PEEK[HEADER.FIELDS (MESSAGE-ID)]')
+      batch_message_ids = imap_client.fetch(batch, 'BODY.PEEK[HEADER]')
 
       # .fetch returns an array of Net::IMAP::FetchData or nil
       # (instead of an empty array) if there is no matching message.
@@ -84,7 +84,7 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
       end
 
       batch_message_ids.each do |data|
-        message_id = build_mail_from_string(data.attr['BODY[HEADER.FIELDS (MESSAGE-ID)]']).message_id
+        message_id = build_mail_from_string(data.attr['BODY[HEADER]']).message_id
         message_ids_with_seq.push([data.seqno, message_id])
       end
     end
