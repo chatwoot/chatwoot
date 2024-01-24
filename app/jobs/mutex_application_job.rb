@@ -22,6 +22,8 @@ class MutexApplicationJob < ApplicationJob
       if lock_manager.lock(lock_key)
         Rails.logger.info "[#{self.class.name}] Acquired lock for: #{lock_key} on attempt #{executions}"
         yield
+        # release the lock after the block has been executed
+        lock_manager.unlock(lock_key)
       else
         Rails.logger.warn "[#{self.class.name}] Failed to acquire lock on attempt #{executions}: #{lock_key}"
         raise LockAcquisitionError, "Failed to acquire lock for key: #{lock_key}"

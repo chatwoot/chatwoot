@@ -39,6 +39,18 @@ RSpec.describe MutexApplicationJob do
       expect(lock_manager).not_to receive(:unlock)
     end
 
+    it 'raises StandardError if it execution raises it' do
+      allow(lock_manager).to receive(:lock).with(lock_key).and_return(false)
+      allow(lock_manager).to receive(:unlock).with(lock_key).and_return(true)
+
+      expect do
+        described_class.new.send(:with_lock, lock_key) do
+          raise StandardError
+        end
+      end.to raise_error(StandardError)
+      # expect(lock_manager).to receive(:unlock).with(lock_key)
+    end
+
     it 'ensures that the lock is released even if there is an error during block execution' do
       expect(lock_manager).to receive(:lock).with(lock_key).and_return(true)
       expect(lock_manager).to receive(:unlock).with(lock_key).and_return(true)
