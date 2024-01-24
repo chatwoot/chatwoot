@@ -339,7 +339,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "القيمة الصالحة مطلوبة",
-      "INVALID_URL": "عنوان URL غير صالح"
+      "INVALID_URL": "عنوان URL غير صالح",
+      "INVALID_INPUT": "Invalid Input"
     }
   },
   "MERGE_CONTACTS": {
