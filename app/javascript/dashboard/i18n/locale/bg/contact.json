@@ -339,7 +339,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Необходима е валидна стойност",
-      "INVALID_URL": "Невалиден URL"
+      "INVALID_URL": "Невалиден URL",
+      "INVALID_INPUT": "Invalid Input"
     }
   },
   "MERGE_CONTACTS": {
