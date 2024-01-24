@@ -339,7 +339,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "נדרש ערך חוקי",
-      "INVALID_URL": "כתובת אתר לא חוקית"
+      "INVALID_URL": "כתובת אתר לא חוקית",
+      "INVALID_INPUT": "Invalid Input"
     }
   },
   "MERGE_CONTACTS": {
