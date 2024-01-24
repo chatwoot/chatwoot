@@ -339,7 +339,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Valid value is required",
-      "INVALID_URL": "잘못된 주소입니다."
+      "INVALID_URL": "잘못된 주소입니다.",
+      "INVALID_INPUT": "Invalid Input"
     }
   },
   "MERGE_CONTACTS": {
