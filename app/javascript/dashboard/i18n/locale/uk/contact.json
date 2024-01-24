@@ -339,7 +339,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Потрібне коректне значення",
-      "INVALID_URL": "Недопустимий URL"
+      "INVALID_URL": "Недопустимий URL",
+      "INVALID_INPUT": "Invalid Input"
     }
   },
   "MERGE_CONTACTS": {
