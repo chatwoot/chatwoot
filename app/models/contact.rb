@@ -11,6 +11,8 @@
 #  email                 :string
 #  identifier            :string
 #  last_activity_at      :datetime
+#  last_name             :string           default("")
+#  middle_name           :string           default("")
 #  name                  :string           default("")
 #  phone_number          :string
 #  created_at            :datetime         not null
