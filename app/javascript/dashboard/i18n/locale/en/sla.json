@@ -1,0 +1,79 @@
+{
+  "SLA_MGMT": {
+    "HEADER": "SLA",
+    "HEADER_BTN_TXT": "Add sla",
+    "LOADING": "Fetching slas",
+    "SEARCH_404": "There are no items matching this query",
+    "SIDEBAR_TXT": "<p><b>SLA</b> <p>SLA help you to categorize conversations and prioritize them. You can assign sla to a conversation from the sidepanel. <br /><br />SLA are tied to the account and can be used to create custom workflows in your organization. You can assign custom color to a sla, it makes it easier to identify the sla. You will be able to display the sla on the sidebar to filter the conversations easily.</p>",
+    "LIST": {
+      "404": "There are no slas available in this account.",
+      "TITLE": "Manage slas",
+      "DESC": "SLA let you group the conversations together.",
+      "TABLE_HEADER": ["Name", "Description", "Color"]
+    },
+    "FORM": {
+      "NAME": {
+        "SLA": "SLA Name",
+        "PLACEHOLDER": "SLA name",
+        "REQUIRED_ERROR": "SLA name is required",
+        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
+        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+      },
+      "DESCRIPTION": {
+        "SLA": "Description",
+        "PLACEHOLDER": "SLA Description"
+      },
+      "COLOR": {
+        "SLA": "Color"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "SLA": "Show sla on sidebar"
+      },
+      "EDIT": "Edit",
+      "CREATE": "Create",
+      "DELETE": "Delete",
+      "CANCEL": "Cancel"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Add sla to conversation",
+        "MULTIPLE_SUGGESTION": "Select this sla",
+        "DESELECT": "Deselect sla",
+        "DISMISS": "Dismiss suggestion"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Dismiss",
+      "ADD_SELECTED_SLAS": "Add selected slas",
+      "ADD_SELECTED_SLA": "Add selected sla",
+      "ADD_ALL_SLAS": "Add all slas"
+    },
+    "ADD": {
+      "TITLE": "Add sla",
+      "DESC": "SLA let you group the conversations together.",
+      "API": {
+        "SUCCESS_MESSAGE": "SLA added successfully",
+        "ERROR_MESSAGE": "There was an error, please try again"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit sla",
+      "API": {
+        "SUCCESS_MESSAGE": "SLA updated successfully",
+        "ERROR_MESSAGE": "There was an error, please try again"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Delete",
+      "API": {
+        "SUCCESS_MESSAGE": "SLA deleted successfully",
+        "ERROR_MESSAGE": "There was an error, please try again"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirm Deletion",
+        "MESSAGE": "Are you sure to delete ",
+        "YES": "Yes, Delete ",
+        "NO": "No, Keep "
+      }
+    }
+  }
+}

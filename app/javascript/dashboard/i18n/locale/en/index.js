@@ -29,6 +29,7 @@ import settings from './settings.json';
 import signup from './signup.json';
 import teamsSettings from './teamsSettings.json';
 import whatsappTemplates from './whatsappTemplates.json';
+import sla from './sla.json';
 
 export default {
   ...advancedFilters,
@@ -60,6 +61,7 @@ export default {
   ...setNewPassword,
   ...settings,
   ...signup,
+  ...sla,
   ...teamsSettings,
   ...whatsappTemplates,
 };
