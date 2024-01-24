@@ -12,7 +12,6 @@
 #  identifier            :string
 #  last_activity_at      :datetime
 #  last_name             :string           default("")
-#  location              :string           default("")
 #  middle_name           :string           default("")
 #  name                  :string           default("")
 #  phone_number          :string
