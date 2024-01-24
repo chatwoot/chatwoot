@@ -339,7 +339,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Ispravna vrednost je obavezna",
-      "INVALID_URL": "Neispravna adresa"
+      "INVALID_URL": "Neispravna adresa",
+      "INVALID_INPUT": "Invalid Input"
     }
   },
   "MERGE_CONTACTS": {
