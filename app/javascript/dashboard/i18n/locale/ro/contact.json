@@ -339,7 +339,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Este necesară o valoare validă",
-      "INVALID_URL": "URL invalid"
+      "INVALID_URL": "URL invalid",
+      "INVALID_INPUT": "Invalid Input"
     }
   },
   "MERGE_CONTACTS": {
