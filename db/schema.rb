@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_19_073832) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_23_040257) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -113,6 +113,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_19_073832) do
     t.integer "bot_type", default: 0
     t.jsonb "bot_config", default: {}
     t.index ["account_id"], name: "index_agent_bots_on_account_id"
+  end
+
+  create_table "applied_slas", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "sla_policy_id", null: false
+    t.bigint "conversation_id", null: false
+    t.string "sla_status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_applied_slas_on_account_id"
+    t.index ["conversation_id"], name: "index_applied_slas_on_conversation_id"
+    t.index ["sla_policy_id"], name: "index_applied_slas_on_sla_policy_id"
   end
 
   create_table "articles", force: :cascade do |t|
@@ -501,6 +513,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_19_073832) do
     t.datetime "updated_at", null: false
     t.text "attribute_description"
     t.jsonb "attribute_values", default: []
+    t.string "regex_pattern"
+    t.string "regex_cue"
     t.index ["account_id"], name: "index_custom_attribute_definitions_on_account_id"
     t.index ["attribute_key", "attribute_model", "account_id"], name: "attribute_key_model_index", unique: true
   end
@@ -822,12 +836,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_19_073832) do
 
   create_table "sla_policies", force: :cascade do |t|
     t.string "name", null: false
-    t.float "frt_threshold"
-    t.float "rt_threshold"
+    t.float "first_response_time_threshold"
+    t.float "next_response_time_threshold"
     t.boolean "only_during_business_hours", default: false
     t.bigint "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "description"
+    t.float "resolution_time_threshold"
     t.index ["account_id"], name: "index_sla_policies_on_account_id"
   end
 
