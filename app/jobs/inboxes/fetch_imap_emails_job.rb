@@ -6,13 +6,14 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
   def perform(channel)
     return unless should_fetch_email?(channel)
 
-    with_lock(::Redis::Alfred::EMAIL_MESSAGE_MUTEX, inbox_id: channel.inbox.id) do
+    key = format(::Redis::Alfred::EMAIL_MESSAGE_MUTEX, inbox_id: channel.inbox.id)
+    with_lock(key, 5.minutes) do
       process_email_for_channel(channel)
     end
   rescue *ExceptionList::IMAP_EXCEPTIONS => e
     Rails.logger.error e
     channel.authorization_error!
-  rescue EOFError, OpenSSL::SSL::SSLError, Net::IMAP::NoResponseError, Net::IMAP::BadResponseError => e
+  rescue EOFError, OpenSSL::SSL::SSLError, Net::IMAP::NoResponseError, Net::IMAP::BadResponseError, Net::IMAP::InvalidResponseError => e
     Rails.logger.error e
   rescue LockAcquisitionError
     Rails.logger.error "Lock failed for #{channel.inbox.id}"
