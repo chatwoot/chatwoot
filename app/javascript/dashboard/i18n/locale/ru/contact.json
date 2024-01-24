@@ -339,7 +339,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Требуется корректное значение",
-      "INVALID_URL": "Некорректный URL"
+      "INVALID_URL": "Некорректный URL",
+      "INVALID_INPUT": "Invalid Input"
     }
   },
   "MERGE_CONTACTS": {
