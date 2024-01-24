@@ -48,6 +48,11 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
   def process_message_id(channel, imap_client, message_id_with_seq)
     seq_no, message_id = message_id_with_seq
 
+    if message_id.blank?
+      Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Empty message id for #{channel.email} with seq no. <#{seq_no}>."
+      return
+    end
+
     return if email_already_present?(channel, message_id)
 
     # Fetch the original mail content using the sequence no
