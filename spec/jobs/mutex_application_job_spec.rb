@@ -4,16 +4,6 @@ RSpec.describe MutexApplicationJob do
   let(:lock_manager) { instance_double(Redis::LockManager) }
   let(:lock_key) { 'test_key' }
 
-  let(:test_mutex_job_class) do
-    stub_const('TestMutexJob', Class.new(MutexApplicationJob) do
-      def perform
-        with_lock('test_key') do
-          # Do nothing
-        end
-      end
-    end)
-  end
-
   before do
     allow(Redis::LockManager).to receive(:new).and_return(lock_manager)
     allow(lock_manager).to receive(:lock).and_return(true)
