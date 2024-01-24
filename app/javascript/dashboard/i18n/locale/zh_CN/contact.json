@@ -339,7 +339,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "需要有效的值",
-      "INVALID_URL": "无效的 URL"
+      "INVALID_URL": "无效的 URL",
+      "INVALID_INPUT": "Invalid Input"
     }
   },
   "MERGE_CONTACTS": {
