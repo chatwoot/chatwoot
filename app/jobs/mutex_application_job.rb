@@ -14,8 +14,7 @@
 class MutexApplicationJob < ApplicationJob
   class LockAcquisitionError < StandardError; end
 
-  def with_lock(key_format, *args)
-    lock_key = format(key_format, *args)
+  def with_lock(lock_key)
     lock_manager = Redis::LockManager.new
 
     begin
