@@ -339,7 +339,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Gyldig værdi er påkrævet",
-      "INVALID_URL": "Ugyldig URL"
+      "INVALID_URL": "Ugyldig URL",
+      "INVALID_INPUT": "Invalid Input"
     }
   },
   "MERGE_CONTACTS": {
