@@ -14,11 +14,11 @@
 class MutexApplicationJob < ApplicationJob
   class LockAcquisitionError < StandardError; end
 
-  def with_lock(lock_key)
+  def with_lock(lock_key, timeout = 1.second)
     lock_manager = Redis::LockManager.new
 
     begin
-      if lock_manager.lock(lock_key)
+      if lock_manager.lock(lock_key, timeout)
         Rails.logger.info "[#{self.class.name}] Acquired lock for: #{lock_key} on attempt #{executions}"
         yield
         # release the lock after the block has been executed
