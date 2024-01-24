@@ -39,6 +39,18 @@ export const PRIORITY_CONDITION_VALUES = [
   },
 ];
 
+// # TODO: replace with api call
+export const SLA_POLICIES = [
+  {
+    id: '1',
+    name: 'SLA 1',
+  },
+  {
+    id: '2',
+    name: 'SLA 2',
+  },
+];
+
 export const getCustomAttributeInputType = key => {
   const customAttributeMap = {
     date: 'date',
@@ -137,6 +149,7 @@ export const getActionOptions = ({ agents, teams, labels, type }) => {
     add_label: generateConditionOptions(labels, 'title'),
     remove_label: generateConditionOptions(labels, 'title'),
     change_priority: PRIORITY_CONDITION_VALUES,
+    add_sla: SLA_POLICIES,
   };
   return actionsMap[type];
 };
