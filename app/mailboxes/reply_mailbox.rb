@@ -83,7 +83,7 @@ class ReplyMailbox < ApplicationMailbox
   end
 
   def validate_resource(resource)
-    raise "Email conversation with uuid: #{conversation_uuid} not found" if resource.nil?
+    Rails.logger.error "[App::Mailboxes::ReplyMailbox] Email conversation with uuid: #{conversation_uuid} not found" if resource.nil?
 
     resource
   end
