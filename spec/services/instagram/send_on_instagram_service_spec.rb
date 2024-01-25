@@ -54,14 +54,14 @@ describe Instagram::SendOnInstagramService do
         end
 
         it 'if message is sent from chatwoot and is outgoing with multiple attachments' do
-          new_message = build(:message, content: nil, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
-          avatar = new_message.attachments.new(account_id: new_message.account_id, file_type: :image)
+          message = build(:message, content: nil, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
+          avatar = message.attachments.new(account_id: message.account_id, file_type: :image)
           avatar.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
-          sample = new_message.attachments.new(account_id: new_message.account_id, file_type: :image)
+          sample = message.attachments.new(account_id: message.account_id, file_type: :image)
           sample.file.attach(io: Rails.root.join('spec/assets/sample.png').open, filename: 'sample.png', content_type: 'image/png')
-          new_message.save!
+          message.save!
 
-          service = described_class.new(message: new_message)
+          service = described_class.new(message: message)
 
           # Stub the send_to_facebook_page method on the service instance
           allow(service).to receive(:send_to_facebook_page)
