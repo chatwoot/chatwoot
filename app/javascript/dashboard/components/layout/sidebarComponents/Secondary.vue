@@ -72,6 +72,7 @@ export default {
   computed: {
     ...mapGetters({
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+      chatLists: 'getAllConversations',
     }),
     hasSecondaryMenu() {
       return this.menuConfig.menuItems && this.menuConfig.menuItems.length;
@@ -118,6 +119,7 @@ export default {
             type: inbox.channel_type,
             phoneNumber: inbox.phone_number,
             reauthorizationRequired: inbox.reauthorization_required,
+            showOpenConversationCount: true,
           }))
           .sort((a, b) =>
             a.label.toLowerCase() > b.label.toLowerCase() ? 1 : -1

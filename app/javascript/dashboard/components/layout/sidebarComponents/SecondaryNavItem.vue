@@ -64,6 +64,8 @@
         :warning-icon="computedInboxErrorClass(child)"
         :show-child-count="showChildCount(child.count)"
         :child-item-count="child.count"
+        :inbox-id="child.id"
+        :show-open-conversation-count="child.showOpenConversationCount"
       />
       <router-link
         v-if="showItem(menuItem)"
@@ -187,7 +189,6 @@ export default {
     isCurrentRoute() {
       return this.$store.state.route.name.includes(this.menuItem.toStateName);
     },
-
     computedClass() {
       // If active inbox is present, do not highlight conversations
       if (this.activeInbox) return ' ';
