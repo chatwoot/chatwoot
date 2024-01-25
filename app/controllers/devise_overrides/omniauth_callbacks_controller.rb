@@ -78,7 +78,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   end
 
   def get_resource_from_keycloak 
-    keycloak_url = 'http://localhost:8080/realms/OneHash'
+    keycloak_url = 'https://sso.onehash.ai/realms/OneHash'
     client_id = ENV.fetch('KEYCLOAK_CLIENT_ID', nil)
     client_secret = ENV.fetch('KEYCLOAK_CLIENT_SECRET', nil)
 
