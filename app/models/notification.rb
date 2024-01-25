@@ -60,6 +60,7 @@ class Notification < ApplicationRecord
       secondary_actor: secondary_actor&.push_event_data,
       user: user&.push_event_data,
       created_at: created_at.to_i,
+      last_activity_at: last_activity_at.to_i,
       account_id: account_id
 
     }
