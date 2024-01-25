@@ -38,7 +38,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
     merge_human_agent_tag(params)
   end
 
-  def attachament_message_params(attachment)
+  def attachment_message_params(attachment)
     params = {
       recipient: { id: contact.get_source_id(inbox.id) },
       message: {
