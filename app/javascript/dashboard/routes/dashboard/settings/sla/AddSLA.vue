@@ -51,7 +51,6 @@
       <woot-input
         v-model.trim="onlyDuringBusinessHours"
         class="w-full"
-        type="checkbox"
         :label="$t('SLA.FORM.BUSINESS_HOURS.LABEL')"
         :placeholder="$t('SLA.FORM.BUSINESS_HOURS.PLACEHOLDER')"
         data-testid="sla-onlyDuringBusinessHours"
