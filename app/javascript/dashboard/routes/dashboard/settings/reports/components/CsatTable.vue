@@ -21,7 +21,7 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="jsx">
 import { VeTable, VePagination } from 'vue-easytable';
 import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName.vue';
 import { CSAT_RATINGS } from 'shared/constants/messages';

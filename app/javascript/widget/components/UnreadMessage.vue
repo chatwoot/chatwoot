@@ -106,7 +106,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables.scss';
+
 .chat-bubble {
   max-width: 85%;
   padding: $space-normal;
@@ -119,10 +120,12 @@ export default {
   text-align: left;
   padding-bottom: $space-small;
   font-size: $font-size-small;
+
   .agent--name {
     font-weight: $font-weight-medium;
     margin-left: $space-smaller;
   }
+
   .company--name {
     color: $color-light-gray;
     margin-left: $space-smaller;

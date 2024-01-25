@@ -188,7 +188,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~dashboard/assets/scss/variables';
+@import 'dashboard/assets/scss/variables';
 
 .label-color--container {
   @apply flex items-center;
@@ -197,6 +197,7 @@ export default {
 .label-color--display {
   @apply rounded h-4 w-4 mr-1 rtl:mr-0 rtl:ml-1 border border-solid border-slate-50 dark:border-slate-700;
 }
+
 .label-title {
   span {
     @apply w-60 inline-block;

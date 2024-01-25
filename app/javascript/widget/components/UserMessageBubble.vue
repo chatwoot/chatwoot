@@ -36,7 +36,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables.scss';
 
 .chat-bubble.user::v-deep {
   p code {

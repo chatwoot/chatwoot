@@ -39,7 +39,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables.scss';
 
 .option {
   border-radius: $space-jumbo;

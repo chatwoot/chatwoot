@@ -142,8 +142,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables';
-@import '~widget/assets/scss/mixins';
+@import 'widget/assets/scss/variables';
+@import 'widget/assets/scss/mixins';
 
 .custom-header-shadow {
   @include shadow-large;

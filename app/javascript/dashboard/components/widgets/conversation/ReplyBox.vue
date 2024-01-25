@@ -198,7 +198,7 @@ import {
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
 
-const EmojiInput = () => import('shared/components/emoji/EmojiInput');
+const EmojiInput = () => import('shared/components/emoji/EmojiInput.vue');
 
 export default {
   components: {
@@ -1208,6 +1208,7 @@ export default {
     @apply bg-yellow-50 dark:bg-yellow-200;
   }
 }
+
 .send-button {
   @apply mb-0;
 }
@@ -1228,6 +1229,7 @@ export default {
 
 .emoji-dialog--rtl {
   @apply left-[unset] -right-80;
+
   &::before {
     transform: rotate(90deg);
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.08));

@@ -515,7 +515,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/variables.scss';
+@import 'dashboard/assets/scss/variables.scss';
 
 .notification--checkbox {
   font-size: $font-size-large;

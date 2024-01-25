@@ -63,7 +63,8 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~dashboard/assets/scss/variables.scss';
+@import 'dashboard/assets/scss/variables.scss';
+
 .has-selected {
   .option-button:not(.is-selected) {
     color: $color-light-gray;
@@ -72,7 +73,7 @@ export default {
 }
 </style>
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables.scss';
 
 .options-message {
   max-width: 17rem;

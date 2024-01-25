@@ -137,14 +137,16 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~dashboard/assets/scss/mixins.scss';
+@import 'dashboard/assets/scss/mixins.scss';
 
 .profile--settings--row {
   @include border-normal-bottom;
   padding: var(--space-normal);
+
   .small-3 {
     padding: var(--space-normal) var(--space-medium) var(--space-normal) 0;
   }
+
   .small-9 {
     padding: var(--space-normal);
   }

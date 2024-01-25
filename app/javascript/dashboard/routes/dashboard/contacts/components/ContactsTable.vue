@@ -27,7 +27,7 @@
   </section>
 </template>
 
-<script>
+<script lang="jsx">
 import { mixin as clickaway } from 'vue-clickaway';
 import { VeTable } from 'vue-easytable';
 import { getCountryFlag } from 'dashboard/helper/flag';

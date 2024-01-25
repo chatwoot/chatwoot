@@ -38,7 +38,7 @@
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
 
-const EmojiInput = () => import('shared/components/emoji/EmojiInput');
+const EmojiInput = () => import('shared/components/emoji/EmojiInput.vue');
 
 export default {
   components: { EmojiInput },

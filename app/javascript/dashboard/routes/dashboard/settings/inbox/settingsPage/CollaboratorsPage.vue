@@ -191,8 +191,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~dashboard/assets/scss/variables';
-@import '~dashboard/assets/scss/mixins';
+@import 'dashboard/assets/scss/variables';
+@import 'dashboard/assets/scss/mixins';
 
 .max-assignment-container {
   padding-top: var(--space-slab);

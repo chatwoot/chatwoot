@@ -188,7 +188,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables.scss';
 
 .logo {
   max-height: $space-larger;

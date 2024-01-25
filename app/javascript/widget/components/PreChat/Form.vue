@@ -317,7 +317,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables.scss';
+
 ::v-deep {
   .wrapper[data-type='checkbox'] {
     .formulate-input-wrapper {
@@ -330,6 +331,7 @@ export default {
       }
     }
   }
+
   @media (prefers-color-scheme: dark) {
     .wrapper {
       .formulate-input-element--date,
@@ -340,6 +342,7 @@ export default {
       }
     }
   }
+
   .wrapper[data-type='textarea'] {
     .formulate-input-element--textarea {
       textarea {
@@ -347,6 +350,7 @@ export default {
       }
     }
   }
+
   .pre-chat-header-message {
     .link {
       color: $color-woot;
