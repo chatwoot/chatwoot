@@ -82,6 +82,8 @@
   </router-link>
 </template>
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   props: {
     to: {
@@ -116,12 +118,20 @@ export default {
       type: Number,
       default: 0,
     },
-    openConversationCount: {
+    showOpenConversationCount: {
+      type: Boolean,
+      default: false,
+    },
+    inboxId: {
       type: Number,
       default: 0,
     }
+
   },
   computed: {
+    ...mapGetters({
+      inboxStats: 'conversationStats/getStats',
+    }),
     showIcon() {
       return {
         'overflow-hidden whitespace-nowrap text-ellipsis': this.shouldTruncate,
@@ -133,8 +143,11 @@ export default {
     menuTitle() {
       return this.shouldTruncate ? this.label : '';
     },
-    hasOpenConversation( ){
-      return this.openConversationCount !== undefined && this.openConversationCount > 0;
+    hasOpenConversation(){
+      return this.showOpenConversationCount && this.openConversationCount !== undefined && this.openConversationCount > 0;
+    },
+    openConversationCount(){
+      return this.inboxStats.allInboxOpenCount[this.inboxId];
     }
   },
   methods: {
