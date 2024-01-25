@@ -158,6 +158,7 @@ const settings = accountId => ({
       featureFlag: FEATURE_FLAGS.AUDIT_LOGS,
       beta: true,
     },
+    //Added for OneHash Billing
     {
       icon: 'credit-card-person',
       label: 'BILLING',

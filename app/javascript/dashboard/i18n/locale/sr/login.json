@@ -20,6 +20,10 @@
       "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
       "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
     },
+    "OIDC":{
+      "OIDC_LOGIN": "Login with OIDC",
+      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+    },
     "FORGOT_PASSWORD": "Da li ste zaboravili lozinku?",
     "CREATE_NEW_ACCOUNT": "Napravite novi nalog",
     "SUBMIT": "Prijava"

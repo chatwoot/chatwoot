@@ -20,6 +20,10 @@
       "BUSINESS_ACCOUNTS_ONLY": "Пожалуйста, используйте адрес электронной почты вашей компании для входа",
       "NO_ACCOUNT_FOUND": "Мы не смогли найти учетную запись для вашего адреса электронной почты."
     },
+    "OIDC":{
+      "OIDC_LOGIN": "Login with OIDC",
+      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+    },
     "FORGOT_PASSWORD": "Забыли пароль?",
     "CREATE_NEW_ACCOUNT": "Создать новый аккаунт",
     "SUBMIT": "Вход"

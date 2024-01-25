@@ -519,6 +519,9 @@ export default {
     },
   },
   watch: {
+    teamId() {
+      this.updateVirtualListProps('teamId', this.teamId);
+    },
     activeTeam() {
       this.resetAndFetchData();
     },
