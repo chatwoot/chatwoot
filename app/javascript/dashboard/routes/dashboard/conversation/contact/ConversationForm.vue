@@ -240,7 +240,7 @@ import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import ReplyEmailHead from 'dashboard/components/widgets/conversation/ReplyEmailHead.vue';
 import CannedResponse from 'dashboard/components/widgets/conversation/CannedResponse.vue';
-import MessageSignatureMissingAlert from 'dashboard/components/widgets/conversation/MessageSignatureMissingAlert';
+import MessageSignatureMissingAlert from 'dashboard/components/widgets/conversation/MessageSignatureMissingAlert.vue';
 import InboxDropdownItem from 'dashboard/components/widgets/InboxDropdownItem.vue';
 import WhatsappTemplates from './WhatsappTemplates.vue';
 import alertMixin from 'shared/mixins/alertMixin';
@@ -250,7 +250,7 @@ import { getInboxSource } from 'dashboard/helper/inbox';
 import { required, requiredIf } from '@vuelidate/validators';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import FileUpload from 'vue-upload-component';
-import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
+import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview.vue';
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
 import {

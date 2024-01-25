@@ -30,8 +30,6 @@ import VueDOMPurifyHTML from 'vue-dompurify-html';
 import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
 import AnalyticsPlugin from '../dashboard/helper/AnalyticsHelper/plugin';
 
-Vue.config.env = process.env;
-
 if (window.errorLoggingConfig) {
   Sentry.init({
     Vue,

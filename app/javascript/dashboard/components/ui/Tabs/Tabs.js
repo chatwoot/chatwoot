@@ -1,4 +1,6 @@
-export default {
+import { defineComponent } from 'vue';
+
+export default defineComponent({
   name: 'WootTabs',
   props: {
     index: {
@@ -73,19 +75,25 @@ export default {
       });
     const leftButton = this.createScrollButton(createElement, 'left');
     const rightButton = this.createScrollButton(createElement, 'right');
-    return (
-      <div
-        class={{
+    return createElement(
+      'div',
+      {
+        class: {
           'tabs--container--with-border': this.border,
           'tabs--container': true,
-        }}
-      >
-        {leftButton}
-        <ul class={{ tabs: true, 'tabs--with-scroll': this.hasScroll }}>
-          {Tabs}
-        </ul>
-        {rightButton}
-      </div>
+        },
+      },
+      [
+        leftButton,
+        createElement(
+          'ul',
+          {
+            class: { tabs: true, 'tabs--with-scroll': this.hasScroll },
+          },
+          Tabs
+        ),
+        rightButton,
+      ]
     );
   },
-};
+});

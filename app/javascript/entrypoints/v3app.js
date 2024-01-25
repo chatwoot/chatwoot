@@ -14,8 +14,6 @@ import router, { initalizeRouter } from '../v3/views/index';
 import store from '../v3/store';
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
-Vue.config.env = process.env;
-
 if (window.errorLoggingConfig) {
   Sentry.init({
     Vue,

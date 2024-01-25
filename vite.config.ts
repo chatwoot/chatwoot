@@ -7,6 +7,7 @@ export default defineConfig({
   plugins: [RubyPlugin(), Vue2()],
   resolve: {
     alias: {
+      vue: 'vue/dist/vue.esm.js',
       dashboard: path.resolve('./app/javascript/dashboard'),
       widget: path.resolve('./app/javascript/widget'),
       survey: path.resolve('./app/javascript/survey'),

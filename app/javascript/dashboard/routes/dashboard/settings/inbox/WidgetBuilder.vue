@@ -420,7 +420,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/woot';
+@import 'dashboard/assets/scss/woot';
 
 .widget-builder-container {
   display: flex;

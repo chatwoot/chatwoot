@@ -22,7 +22,7 @@ import ReportStatsCard from './widgets/ReportStatsCard.vue';
 import SidemenuIcon from './SidemenuIcon.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import SubmitButton from './buttons/FormSubmitButton.vue';
-import Tabs from './ui/Tabs/Tabs.jsx';
+import Tabs from './ui/Tabs/Tabs';
 import TabsItem from './ui/Tabs/TabsItem.vue';
 import Thumbnail from './widgets/Thumbnail.vue';
 
