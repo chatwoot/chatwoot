@@ -9,12 +9,14 @@ module Enterprise::SuperAdmin::AppConfigsController
       @allowed_configs = %w[
         LOGO_THUMBNAIL
         LOGO
+        LOGO_DARK
         BRAND_NAME
         INSTALLATION_NAME
         BRAND_URL
         WIDGET_BRAND_URL
         TERMS_URL
         PRIVACY_URL
+        DISPLAY_MANIFEST
       ]
     else
       super

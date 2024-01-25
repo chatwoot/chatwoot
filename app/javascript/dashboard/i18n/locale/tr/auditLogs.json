@@ -1,71 +1,71 @@
 {
   "AUDIT_LOGS": {
-    "HEADER": "Audit Logs",
-    "HEADER_BTN_TXT": "Add Audit Logs",
-    "LOADING": "Fetching Audit Logs",
+    "HEADER": "Denetim Kayıtları",
+    "HEADER_BTN_TXT": "Denetim Kaydı Ekle",
+    "LOADING": "Denetim Kayıtları Alınıyor",
     "SEARCH_404": "Bu sorgu ile eşleşen öğe yok",
-    "SIDEBAR_TXT": "<p><b>Audit Logs</b> </p><p> Audit Logs are trails for events and actions in a Chatwoot System. </p>",
+    "SIDEBAR_TXT": "<p><b>Denetim Kayıtları</b></p><p>Denetim Kayıtları, Chatwoot Sistemi'ndeki olaylar ve eylemler için izlerdir.</p>",
     "LIST": {
-      "404": "There are no Audit Logs available in this account.",
-      "TITLE": "Manage Audit Logs",
-      "DESC": "Audit Logs are trails for events and actions in a Chatwoot System.",
+      "404": "Bu hesapta kullanılabilir denetim kaydı yok.",
+      "TITLE": "Denetim Kayıtlarını Yönet",
+      "DESC": "Denetim Kayıtları, Chatwoot Sistemi'ndeki olaylar ve eylemler için izlerdir.",
       "TABLE_HEADER": [
-        "User",
-        "Action",
+        "Kullanıcı",
+        "Eylem",
         "IP Adresi"
       ]
     },
     "API": {
-      "SUCCESS_MESSAGE": "AuditLogs retrieved successfully",
+      "SUCCESS_MESSAGE": "Denetim Kayıtları başarıyla alındı",
       "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
     },
-    "DEFAULT_USER": "System",
+    "DEFAULT_USER": "Sistem",
     "AUTOMATION_RULE": {
-      "ADD": "%{agentName} created a new automation rule (#%{id})",
-      "EDIT": "%{agentName} updated an automation rule (#%{id})",
-      "DELETE": "%{agentName} deleted an automation rule (#%{id})"
+      "ADD": "%{agentName} yeni bir otomasyon kuralı oluşturdu (#%{id})",
+      "EDIT": "%{agentName} bir otomasyon kuralını güncelledi (#%{id})",
+      "DELETE": "%{agentName} bir otomasyon kuralını sildi (#%{id})"
     },
     "ACCOUNT_USER": {
-      "ADD": "%{agentName} invited %{invitee} to the account as an %{role}",
+      "ADD": "%{agentName}, %{invitee}'yi %{role} olarak hesaba davet etti",
       "EDIT": {
-        "SELF": "%{agentName} changed their %{attributes} to %{values}",
-        "OTHER": "%{agentName} changed %{attributes} of %{user} to %{values}"
+        "SELF": "%{agentName}, %{attributes}ını %{values} olarak değiştirdi",
+        "OTHER": "%{agentName}, %{user}'ın %{attributes}ını %{values} olarak değiştirdi"
       }
     },
     "INBOX": {
-      "ADD": "%{agentName} created a new inbox (#%{id})",
-      "EDIT": "%{agentName} updated an inbox (#%{id})",
-      "DELETE": "%{agentName} deleted an inbox (#%{id})"
+      "ADD": "%{agentName} yeni bir gelen kutusu oluşturdu (#%{id})",
+      "EDIT": "%{agentName} bir gelen kutusunu güncelledi (#%{id})",
+      "DELETE": "%{agentName} bir gelen kutusunu sildi (#%{id})"
     },
     "WEBHOOK": {
-      "ADD": "%{agentName} created a new webhook (#%{id})",
-      "EDIT": "%{agentName} updated a webhook (#%{id})",
-      "DELETE": "%{agentName} deleted a webhook (#%{id})"
+      "ADD": "%{agentName} yeni bir webhook oluşturdu (#%{id})",
+      "EDIT": "%{agentName} bir webhook'u güncelledi (#%{id})",
+      "DELETE": "%{agentName} bir webhook'u sildi (#%{id})"
     },
     "USER_ACTION": {
-      "SIGN_IN": "%{agentName} signed in",
-      "SIGN_OUT": "%{agentName} signed out"
+      "SIGN_IN": "%{agentName} giriş yaptı",
+      "SIGN_OUT": "%{agentName} çıkış yaptı"
     },
     "TEAM": {
-      "ADD": "%{agentName} created a new team (#%{id})",
-      "EDIT": "%{agentName} updated a team (#%{id})",
-      "DELETE": "%{agentName} deleted a team (#%{id})"
+      "ADD": "%{agentName} yeni bir ekip oluşturdu (#%{id})",
+      "EDIT": "%{agentName} bir ekibi güncelledi (#%{id})",
+      "DELETE": "%{agentName} bir ekibi sildi (#%{id})"
     },
     "MACRO": {
-      "ADD": "%{agentName} created a new macro (#%{id})",
-      "EDIT": "%{agentName} updated a macro (#%{id})",
-      "DELETE": "%{agentName} deleted a macro (#%{id})"
+      "ADD": "%{agentName} yeni bir makro oluşturdu (#%{id})",
+      "EDIT": "%{agentName} bir makroyu güncelledi (#%{id})",
+      "DELETE": "%{agentName} bir makroyu sildi (#%{id})"
     },
     "INBOX_MEMBER": {
-      "ADD": "%{agentName} added %{user} to the inbox(#%{inbox_id})",
-      "REMOVE": "%{agentName} removed %{user} from the inbox(#%{inbox_id})"
+      "ADD": "%{agentName}, %{user}'ı gelen kutusuna ekledi (#%{inbox_id})",
+      "REMOVE": "%{agentName}, %{user}'ı gelen kutusundan çıkardı (#%{inbox_id})"
     },
     "TEAM_MEMBER": {
-      "ADD": "%{agentName} added %{user} to the team(#%{team_id})",
-      "REMOVE": "%{agentName} removed %{user} from the team(#%{team_id})"
+      "ADD": "%{agentName}, %{user}'ı ekibe ekledi (#%{team_id})",
+      "REMOVE": "%{agentName}, %{user}'ı ekipten çıkardı (#%{team_id})"
     },
     "ACCOUNT": {
-      "EDIT": "%{agentName} updated the account configuration (#%{id})"
+      "EDIT": "%{agentName}, hesap yapılandırmasını güncelledi (#%{id})"
     }
   }
 }

@@ -196,14 +196,29 @@ fa:
     common:
       home: صفحه اصلی
       last_updated_on: آخرین به‌روزرسانی در تاریخ %{last_updated_on}
-      view_all_articles: مشاهده همه مقالات
+      view_all_articles: مشاهده همه
       article: مقاله
       articles: مقالات
+      author: نویسنده
+      authors: authors
+      other: other
+      others: others
+      by: By
       no_articles: هنوز هیچ مقاله‌ای در اینجا وجود ندارد
     footer:
       made_with: ساخته شده با
     header:
-      go_to_homepage: به سایت اصلی بروید
+      go_to_homepage: وب سایت
+      appearance:
+        system: سیستم
+        light: روشن
+        dark: تیره
+      featured_articles: Featured Articles
+      uncategorized: Uncategorized
+    404:
+      title: صفحه یافت نشد
+      description: ما نتوانستیم صفحه مورد نظر شما را پیدا کنیم.
+      back_to_home: به صفحه اصلی بروید
   slack_unfurl:
     fields:
       name: نام

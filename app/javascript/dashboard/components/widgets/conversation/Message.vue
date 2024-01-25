@@ -29,8 +29,19 @@
           :message-type="data.message_type"
           :parent-has-attachments="hasAttachments"
         />
+        <div v-if="isUnsupported">
+          <template v-if="isAFacebookInbox && isInstagram">
+            {{ $t('CONVERSATION.UNSUPPORTED_MESSAGE_INSTAGRAM') }}
+          </template>
+          <template v-else-if="isAFacebookInbox">
+            {{ $t('CONVERSATION.UNSUPPORTED_MESSAGE_FACEBOOK') }}
+          </template>
+          <template v-else>
+            {{ $t('CONVERSATION.UNSUPPORTED_MESSAGE') }}
+          </template>
+        </div>
         <bubble-text
-          v-if="data.content"
+          v-else-if="data.content"
           :message="message"
           :is-email="isEmailContentType"
           :display-quoted-button="displayQuotedButton"
@@ -176,6 +187,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    isAFacebookInbox: {
+      type: Boolean,
+      default: false,
+    },
+    isInstagram: {
+      type: Boolean,
+      default: false,
+    },
     isAWhatsAppChannel: {
       type: Boolean,
       default: false,
@@ -219,6 +238,7 @@ export default {
         this.hasAttachments ||
         this.data.content ||
         this.isEmailContentType ||
+        this.isUnsupported ||
         this.isAnIntegrationMessage
       );
     },
@@ -407,6 +427,7 @@ export default {
       return {
         bubble: this.isBubble,
         'is-private': this.data.private,
+        'is-unsupported': this.isUnsupported,
         'is-image': this.hasMediaAttachment('image'),
         'is-video': this.hasMediaAttachment('video'),
         'is-text': this.hasText,
@@ -414,6 +435,9 @@ export default {
         'is-failed': this.isFailed,
         'is-email': this.isEmailContentType,
       };
+    },
+    isUnsupported() {
+      return this.contentAttributes.is_unsupported ?? false;
     },
     isPending() {
       return this.data.status === MESSAGE_STATUS.PROGRESS;
@@ -426,11 +450,7 @@ export default {
       return !this.sender.type || this.sender.type === 'agent_bot';
     },
     shouldShowContextMenu() {
-      return !(this.isFailed || this.isPending);
-    },
-    errorMessage() {
-      const { meta } = this.data;
-      return meta ? meta.error : '';
+      return !(this.isFailed || this.isPending || this.isUnsupported);
     },
     showAvatar() {
       if (this.isOutgoing || this.isTemplate) {
@@ -532,6 +552,14 @@ export default {
   > .bubble {
     @apply min-w-[128px];
 
+    &.is-unsupported {
+      @apply text-xs max-w-[300px] border-dashed border border-slate-200 text-slate-600 dark:text-slate-200 bg-slate-50 dark:bg-slate-700 dark:border-slate-500;
+
+      .message-text--metadata .time {
+        @apply text-slate-400 dark:text-slate-300;
+      }
+    }
+
     &.is-image,
     &.is-video {
       @apply p-0 overflow-hidden;
@@ -544,10 +572,12 @@ export default {
         > video {
           @apply rounded-lg;
         }
+
         > video {
           @apply h-full w-full object-cover;
         }
       }
+
       .video {
         @apply h-[11.25rem];
       }
@@ -562,9 +592,11 @@ export default {
       .file--icon {
         @apply text-woot-400 dark:text-woot-400;
       }
+
       .text-block-title {
         @apply text-slate-700 dark:text-slate-700;
       }
+
       .download.button {
         @apply text-woot-400 dark:text-woot-400;
       }
@@ -573,6 +605,7 @@ export default {
     &.is-private.is-text > .message-text__wrap .link {
       @apply text-woot-600 dark:text-woot-200;
     }
+
     &.is-private.is-text > .message-text__wrap .prosemirror-mention-node {
       @apply font-bold bg-none rounded-sm p-0 bg-yellow-100 dark:bg-yellow-700 text-slate-700 dark:text-slate-25 underline;
     }
@@ -583,6 +616,7 @@ export default {
       .message-text--metadata .time {
         @apply text-violet-50 dark:text-violet-50;
       }
+
       &.is-private .message-text--metadata .time {
         @apply text-slate-400 dark:text-slate-400;
       }

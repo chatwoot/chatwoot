@@ -8,6 +8,9 @@
     "OAUTH": {
       "GOOGLE_SIGNUP": "Sign up with Google"
     },
+    "SSO": {
+      "OIDC": "Sign up with OIDC"
+    },
     "COMPANY_NAME": {
       "LABEL": "Company name",
       "PLACEHOLDER": "Enter your company name. E.g., Wayne Enterprises",

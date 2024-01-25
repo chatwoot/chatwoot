@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "Filtruj według",
       "SORT": "Sortuj według",
+      "LOCALE": "Język",
       "SETTINGS_BUTTON": "Ustawienia",
       "NEW_BUTTON": "Nowy artykuł",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "Moje artykuły",
         "DRAFT": "Artykuły w trakcie tworzenia",
         "ARCHIVED": "Archiwalne artykuły"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Select locale",
+        "PLACEHOLDER": "Select locale",
+        "NO_RESULT": "No locale found",
+        "SEARCH_PLACEHOLDER": "Search locale"
       }
     },
     "EDIT_HEADER": {
@@ -76,6 +83,9 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Bez kategorii",
+      "SEARCH_RESULTS": "Search results for %{query}",
+      "EMPTY_TEXT": "Search for articles to insert into replies.",
+      "SEARCH_LOADER": "Wyszukiwanie...",
       "INSERT_ARTICLE": "Wstaw",
       "NO_RESULT": "Brak znalezionych artykułów",
       "COPY_LINK": "Skopiuj link do artykułu do schowka",
@@ -220,7 +230,10 @@
         "LOGO": {
           "LABEL": "Logo",
           "UPLOAD_BUTTON": "Prześlij logo",
-          "HELP_TEXT": "To logo będzie wyświetlane w nagłówku portalu."
+          "HELP_TEXT": "To logo będzie wyświetlane w nagłówku portalu.",
+          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
+          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
+          "IMAGE_DELETE_ERROR": "Error while deleting logo"
         },
         "NAME": {
           "LABEL": "Nazwa",
@@ -425,6 +438,21 @@
           "ERROR_MESSAGE": "Nie można usunąć kategorii"
         }
       }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Search articles",
+      "PLACEHOLDER": "Search articles",
+      "NO_RESULT": "Brak znalezionych artykułów",
+      "SEARCHING": "Wyszukiwanie...",
+      "SEARCH_BUTTON": "Szukaj",
+      "INSERT_ARTICLE": "Insert link",
+      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
+      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
+      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
+      "PREVIEW_LINK": "Podgląd artykułu",
+      "CANCEL": "Zamknij",
+      "BACK": "Powrót",
+      "BACK_RESULTS": "Back to results"
     },
     "UPGRADE_PAGE": {
       "TITLE": "Centrum pomocy",

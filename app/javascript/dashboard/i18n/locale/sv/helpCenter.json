@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "Filter by",
       "SORT": "Sort by",
+      "LOCALE": "Locale",
       "SETTINGS_BUTTON": "Inställningar",
       "NEW_BUTTON": "New Article",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "Mina artiklar",
         "DRAFT": "Draft Articles",
         "ARCHIVED": "Archived Articles"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Select locale",
+        "PLACEHOLDER": "Select locale",
+        "NO_RESULT": "No locale found",
+        "SEARCH_PLACEHOLDER": "Search locale"
       }
     },
     "EDIT_HEADER": {
@@ -76,6 +83,9 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Uncategorized",
+      "SEARCH_RESULTS": "Search results for %{query}",
+      "EMPTY_TEXT": "Search for articles to insert into replies.",
+      "SEARCH_LOADER": "Searching...",
       "INSERT_ARTICLE": "Insert",
       "NO_RESULT": "Inga artiklar hittades",
       "COPY_LINK": "Copy article link to clipboard",
@@ -89,7 +99,7 @@
       "ACTIVE_BADGE": "active",
       "CHOOSE_LOCALE_LABEL": "Choose a locale",
       "LOADING_MESSAGE": "Loading portals...",
-      "ARTICLES_LABEL": "articles",
+      "ARTICLES_LABEL": "artiklar",
       "NO_PORTALS_MESSAGE": "There are no available portals",
       "ADD_NEW_LOCALE": "Add a new locale",
       "POPOVER": {
@@ -220,7 +230,10 @@
         "LOGO": {
           "LABEL": "Logo",
           "UPLOAD_BUTTON": "Upload logo",
-          "HELP_TEXT": "This logo will be displayed on the portal header."
+          "HELP_TEXT": "This logo will be displayed on the portal header.",
+          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
+          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
+          "IMAGE_DELETE_ERROR": "Error while deleting logo"
         },
         "NAME": {
           "LABEL": "Namn",
@@ -426,12 +439,27 @@
         }
       }
     },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Search articles",
+      "PLACEHOLDER": "Search articles",
+      "NO_RESULT": "Inga artiklar hittades",
+      "SEARCHING": "Searching...",
+      "SEARCH_BUTTON": "Sök",
+      "INSERT_ARTICLE": "Insert link",
+      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
+      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
+      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
+      "PREVIEW_LINK": "Preview article",
+      "CANCEL": "Stäng",
+      "BACK": "Tillbaka",
+      "BACK_RESULTS": "Back to results"
+    },
     "UPGRADE_PAGE": {
       "TITLE": "Hjälpcenter",
       "DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Upgrade your subscription to enable this feature.",
       "SELF_HOSTED_DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Please contact your administrator to enable this feature.",
       "BUTTON": {
-        "LEARN_MORE": "Learn more",
+        "LEARN_MORE": "Läs mer",
         "UPGRADE": "Upgrade"
       },
       "FEATURES": {

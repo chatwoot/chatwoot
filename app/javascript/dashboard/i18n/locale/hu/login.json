@@ -20,6 +20,10 @@
       "BUSINESS_ACCOUNTS_ONLY": "Kérlek a céges email címed használd bejelentkezéshez",
       "NO_ACCOUNT_FOUND": "Nem található fiók az email címedhez."
     },
+    "OIDC":{
+      "OIDC_LOGIN": "Login with OIDC",
+      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+    },
     "FORGOT_PASSWORD": "Elfelejtetted a jelszavad?",
     "CREATE_NEW_ACCOUNT": "Új fiók létrehozása",
     "SUBMIT": "Bejelentkezés"
