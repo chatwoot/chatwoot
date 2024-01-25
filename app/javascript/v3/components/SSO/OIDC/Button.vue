@@ -30,7 +30,7 @@ export default {
             const clientId= window.chatwootConfig.keycloakClientId;
             const redirectUri =  window.chatwootConfig.keycloakCallbackUrl
 
-            const baseUrl = 'http://localhost:8080/realms/OneHash/protocol/openid-connect/auth';
+            const baseUrl = 'https://sso.onehash.ai/realms/OneHash/protocol/openid-connect/auth';
             const responseType = 'code';
             const scope = 'openid';
 
