@@ -89,9 +89,9 @@
         },
         "REPLY_TIME": {
           "TITLE": "Set Reply time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day",
+          "IN_A_FEW_MINUTES": "In enkele minuten",
+          "IN_A_FEW_HOURS": "Over een paar uur",
+          "IN_A_DAY": "In één dag",
           "HELP_TEXT": "This reply time will be displayed on the live chat widget"
         },
         "WIDGET_COLOR": {
@@ -162,19 +162,19 @@
         "PROVIDERS": {
           "LABEL": "API Provider",
           "TWILIO": "Twilio",
-          "BANDWIDTH": "Bandwidth"
+          "BANDWIDTH": "Bandbreedte"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+          "ERROR_MESSAGE": "Het SMS-kanaal kon niet worden opgeslagen"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
             "LABEL": "Account ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "PLACEHOLDER": "Voer uw bandbreedte account-ID in",
             "ERROR": "Dit veld is verplicht"
           },
           "API_KEY": {
-            "LABEL": "API Key",
+            "LABEL": "API sleutel",
             "PLACEHOLDER": "Please enter your Bandwith API Key",
             "ERROR": "Dit veld is verplicht"
           },
@@ -409,18 +409,18 @@
         "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
         "FOR_EG": "For eg:",
         "FRIENDLY": {
-          "TITLE": "Friendly",
+          "TITLE": "Vriendelijk",
           "FROM": "van",
           "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
         },
         "PROFESSIONAL": {
-          "TITLE": "Professional",
+          "TITLE": "Professioneel",
           "SUBTITLE": "Use only the configured business name as the sender name in the email header."
         },
         "BUSINESS_NAME": {
           "BUTTON_TEXT": "+ Configure your business name",
           "PLACEHOLDER": "Enter your business name",
-          "SAVE_BUTTON_TEXT": "Save"
+          "SAVE_BUTTON_TEXT": "Opslaan"
         }
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
@@ -509,7 +509,7 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key",
+      "WHATSAPP_SECTION_TITLE": "API sleutel",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Vernieuwen",
@@ -675,9 +675,9 @@
         },
         "REPLY_TIME": {
           "LABEL": "Reply Time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day"
+          "IN_A_FEW_MINUTES": "In enkele minuten",
+          "IN_A_FEW_HOURS": "Over een paar uur",
+          "IN_A_DAY": "In één dag"
         },
         "WIDGET_COLOR_LABEL": "Kleur van widget",
         "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",

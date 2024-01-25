@@ -20,6 +20,10 @@
       "BUSINESS_ACCOUNTS_ONLY": "Gebruik het e-mailadres van uw bedrijf om in te loggen",
       "NO_ACCOUNT_FOUND": "Wij hebben geen e-mailadres gevonden voor uw e-mailadres."
     },
+    "OIDC":{
+      "OIDC_LOGIN": "Login with OIDC",
+      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+    },
     "FORGOT_PASSWORD": "Wachtwoord vergeten?",
     "CREATE_NEW_ACCOUNT": "Nieuw account aanmaken",
     "SUBMIT": "Inloggen"
