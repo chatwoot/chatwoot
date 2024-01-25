@@ -9,7 +9,7 @@
       </div>
       <div class="w-[60%]">
         <div class="w-full">
-          <label :class="{ error: $v.selectedAgents.$error }">
+          <label :class="{ error: v$.selectedAgents.$error }">
             {{ $t('INBOX_MGMT.ADD.AGENTS.TITLE') }}
             <multiselect
               v-model="selectedAgents"
@@ -24,9 +24,9 @@
               :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
               :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
               :placeholder="$t('INBOX_MGMT.ADD.AGENTS.PICK_AGENTS')"
-              @select="$v.selectedAgents.$touch"
+              @select="v$.selectedAgents.$touch"
             />
-            <span v-if="$v.selectedAgents.$error" class="message">
+            <span v-if="v$.selectedAgents.$error" class="message">
               {{ $t('INBOX_MGMT.ADD.AGENTS.VALIDATION_ERROR') }}
             </span>
           </label>

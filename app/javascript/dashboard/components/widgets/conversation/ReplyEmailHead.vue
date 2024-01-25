@@ -1,15 +1,15 @@
 <template>
   <div>
     <div v-if="toEmails">
-      <div class="input-group small" :class="{ error: $v.toEmailsVal.$error }">
+      <div class="input-group small" :class="{ error: v$.toEmailsVal.$error }">
         <label class="input-group-label">
           {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.TO') }}
         </label>
         <div class="input-group-field">
           <woot-input
-            v-model.trim="$v.toEmailsVal.$model"
+            v-model.trim="v$.toEmailsVal.$model"
             type="text"
-            :class="{ error: $v.toEmailsVal.$error }"
+            :class="{ error: v$.toEmailsVal.$error }"
             :placeholder="$t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.PLACEHOLDER')"
             @blur="onBlur"
           />
@@ -17,15 +17,15 @@
       </div>
     </div>
     <div class="input-group-wrap">
-      <div class="input-group small" :class="{ error: $v.ccEmailsVal.$error }">
+      <div class="input-group small" :class="{ error: v$.ccEmailsVal.$error }">
         <label class="input-group-label">
           {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.LABEL') }}
         </label>
         <div class="input-group-field">
           <woot-input
-            v-model.trim="$v.ccEmailsVal.$model"
+            v-model.trim="v$.ccEmailsVal.$model"
             type="text"
-            :class="{ error: $v.ccEmailsVal.$error }"
+            :class="{ error: v$.ccEmailsVal.$error }"
             :placeholder="$t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.PLACEHOLDER')"
             @blur="onBlur"
           />
@@ -39,20 +39,20 @@
           {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.ADD_BCC') }}
         </woot-button>
       </div>
-      <span v-if="$v.ccEmailsVal.$error" class="message">
+      <span v-if="v$.ccEmailsVal.$error" class="message">
         {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.ERROR') }}
       </span>
     </div>
     <div v-if="showBcc" class="input-group-wrap">
-      <div class="input-group small" :class="{ error: $v.bccEmailsVal.$error }">
+      <div class="input-group small" :class="{ error: v$.bccEmailsVal.$error }">
         <label class="input-group-label">
           {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.BCC.LABEL') }}
         </label>
         <div class="input-group-field">
           <woot-input
-            v-model.trim="$v.bccEmailsVal.$model"
+            v-model.trim="v$.bccEmailsVal.$model"
             type="text"
-            :class="{ error: $v.bccEmailsVal.$error }"
+            :class="{ error: v$.bccEmailsVal.$error }"
             :placeholder="
               $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.BCC.PLACEHOLDER')
             "
@@ -60,7 +60,7 @@
           />
         </div>
       </div>
-      <span v-if="$v.bccEmailsVal.$error" class="message">
+      <span v-if="v$.bccEmailsVal.$error" class="message">
         {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.BCC.ERROR') }}
       </span>
     </div>
@@ -137,7 +137,7 @@ export default {
       this.showBcc = true;
     },
     onBlur() {
-      this.$v.$touch();
+      this.v$.$touch();
       this.$emit('update:bccEmails', this.bccEmailsVal);
       this.$emit('update:ccEmails', this.ccEmailsVal);
       this.$emit('update:toEmails', this.toEmailsVal);
@@ -149,12 +149,14 @@ export default {
 .input-group-wrap .message {
   @apply text-sm text-red-500 dark:text-red-500;
 }
+
 .input-group {
   @apply border-b border-solid border-slate-75 dark:border-slate-700 my-1;
 
   .input-group-label {
     @apply border-transparent bg-transparent text-xs font-semibold pl-0;
   }
+
   .input-group-field::v-deep input {
     @apply mb-0 border-transparent;
   }
@@ -162,6 +164,7 @@ export default {
 
 .input-group.error {
   @apply border-b-red-500 dark:border-b-red-500;
+
   .input-group-label {
     @apply text-red-500 dark:text-red-500;
   }

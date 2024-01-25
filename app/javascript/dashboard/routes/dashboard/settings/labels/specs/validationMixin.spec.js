@@ -1,6 +1,5 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import VueI18n from 'vue-i18n';
-import Vuelidate from 'vuelidate';
 
 import validationMixin from '../validationMixin';
 import validations from '../validations';
@@ -8,7 +7,6 @@ import i18n from 'dashboard/i18n';
 const localVue = createLocalVue();
 
 localVue.use(VueI18n);
-localVue.use(Vuelidate);
 const i18nConfig = new VueI18n({
   locale: 'en',
   messages: i18n,
@@ -29,7 +27,7 @@ describe('validationMixin', () => {
         return { title: 'sales' };
       },
     });
-    wrapper.vm.$v.$touch();
+    wrapper.vm.v$.$touch();
     expect(wrapper.vm.getLabelTitleErrorMessage).toBe('');
   });
   it('it should return label required error message if empty name is passed', async () => {
@@ -40,7 +38,7 @@ describe('validationMixin', () => {
         return { title: '' };
       },
     });
-    wrapper.vm.$v.$touch();
+    wrapper.vm.v$.$touch();
     expect(wrapper.vm.getLabelTitleErrorMessage).toBe('Label name is required');
   });
   it('it should return label minimum length error message if one charceter label name is passed', async () => {
@@ -51,7 +49,7 @@ describe('validationMixin', () => {
         return { title: 's' };
       },
     });
-    wrapper.vm.$v.$touch();
+    wrapper.vm.v$.$touch();
     expect(wrapper.vm.getLabelTitleErrorMessage).toBe(
       'Minimum length 2 is required'
     );
@@ -64,7 +62,7 @@ describe('validationMixin', () => {
         return { title: 'sales enquiry' };
       },
     });
-    wrapper.vm.$v.$touch();
+    wrapper.vm.v$.$touch();
     expect(wrapper.vm.getLabelTitleErrorMessage).toBe(
       'Only Alphabets, Numbers, Hyphen and Underscore are allowed'
     );

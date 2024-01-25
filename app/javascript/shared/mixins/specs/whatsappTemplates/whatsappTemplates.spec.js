@@ -3,11 +3,9 @@ import { shallowMount, createLocalVue } from '@vue/test-utils';
 import { templates } from './fixtures';
 const localVue = createLocalVue();
 import VueI18n from 'vue-i18n';
-import Vuelidate from 'vuelidate';
 import i18n from 'dashboard/i18n';
 
 localVue.use(VueI18n);
-localVue.use(Vuelidate);
 
 const i18nConfig = new VueI18n({ locale: 'en', messages: i18n });
 const config = {

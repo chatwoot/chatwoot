@@ -41,7 +41,7 @@
           :dropdown-values="getDropdownValues(appliedFilters[i].attribute_key)"
           :show-query-operator="i !== appliedFilters.length - 1"
           :show-user-input="showUserInput(appliedFilters[i].filter_operator)"
-          :v="$v.appliedFilters.$each[i]"
+          :v="v$.appliedFilters.$each[i]"
           @resetFilter="resetFilter(i, appliedFilters[i])"
           @removeFilter="removeFilter(i)"
         />
@@ -90,7 +90,7 @@
 
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
-import { required } from 'vuelidate/lib/validators';
+import { required } from '@vuelidate/validators';
 import FilterInputBox from '../../../../components/widgets/FilterInput/Index.vue';
 import countries from 'shared/constants/countries.js';
 import { mapGetters } from 'vuex';
@@ -98,6 +98,8 @@ import { filterAttributeGroups } from '../contactFilterItems';
 import filterMixin from 'shared/mixins/filterMixin';
 import * as OPERATORS from 'dashboard/components/widgets/FilterInput/FilterOperatorTypes.js';
 import { CONTACTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
+import { useVuelidate } from '@vuelidate/core';
+
 export default {
   components: {
     FilterInputBox,
@@ -124,6 +126,9 @@ export default {
       type: String,
       default: '',
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   validations: {
     appliedFilters: {
@@ -314,8 +319,8 @@ export default {
       }
     },
     submitFilterQuery() {
-      this.$v.$touch();
-      if (this.$v.$invalid) return;
+      this.v$.$touch();
+      if (this.v$.$invalid) return;
       this.$store.dispatch(
         'contacts/setContactFilters',
         JSON.parse(JSON.stringify(this.appliedFilters))

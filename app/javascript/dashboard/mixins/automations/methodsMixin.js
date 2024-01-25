@@ -150,8 +150,8 @@ export default {
       }
     },
     submitAutomation() {
-      this.$v.$touch();
-      if (this.$v.$invalid) return;
+      this.v$.$touch();
+      if (this.v$.$invalid) return;
       const automation = generateAutomationPayload(this.automation);
       this.$emit('saveAutomation', automation, this.mode);
     },

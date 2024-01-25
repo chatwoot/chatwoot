@@ -6,7 +6,7 @@
     />
     <form class="mx-0 flex flex-wrap" @submit.prevent="createChannel()">
       <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
-        <label :class="{ error: $v.channelName.$error }">
+        <label :class="{ error: v$.channelName.$error }">
           {{ $t('INBOX_MGMT.ADD.LINE_CHANNEL.CHANNEL_NAME.LABEL') }}
           <input
             v-model.trim="channelName"
@@ -14,16 +14,16 @@
             :placeholder="
               $t('INBOX_MGMT.ADD.LINE_CHANNEL.CHANNEL_NAME.PLACEHOLDER')
             "
-            @blur="$v.channelName.$touch"
+            @blur="v$.channelName.$touch"
           />
-          <span v-if="$v.channelName.$error" class="message">{{
+          <span v-if="v$.channelName.$error" class="message">{{
             $t('INBOX_MGMT.ADD.LINE_CHANNEL.CHANNEL_NAME.ERROR')
           }}</span>
         </label>
       </div>
 
       <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
-        <label :class="{ error: $v.lineChannelId.$error }">
+        <label :class="{ error: v$.lineChannelId.$error }">
           {{ $t('INBOX_MGMT.ADD.LINE_CHANNEL.LINE_CHANNEL_ID.LABEL') }}
           <input
             v-model.trim="lineChannelId"
@@ -31,13 +31,13 @@
             :placeholder="
               $t('INBOX_MGMT.ADD.LINE_CHANNEL.LINE_CHANNEL_ID.PLACEHOLDER')
             "
-            @blur="$v.lineChannelId.$touch"
+            @blur="v$.lineChannelId.$touch"
           />
         </label>
       </div>
 
       <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
-        <label :class="{ error: $v.lineChannelSecret.$error }">
+        <label :class="{ error: v$.lineChannelSecret.$error }">
           {{ $t('INBOX_MGMT.ADD.LINE_CHANNEL.LINE_CHANNEL_SECRET.LABEL') }}
           <input
             v-model.trim="lineChannelSecret"
@@ -45,13 +45,13 @@
             :placeholder="
               $t('INBOX_MGMT.ADD.LINE_CHANNEL.LINE_CHANNEL_SECRET.PLACEHOLDER')
             "
-            @blur="$v.lineChannelSecret.$touch"
+            @blur="v$.lineChannelSecret.$touch"
           />
         </label>
       </div>
 
       <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
-        <label :class="{ error: $v.lineChannelToken.$error }">
+        <label :class="{ error: v$.lineChannelToken.$error }">
           {{ $t('INBOX_MGMT.ADD.LINE_CHANNEL.LINE_CHANNEL_TOKEN.LABEL') }}
           <input
             v-model.trim="lineChannelToken"
@@ -59,7 +59,7 @@
             :placeholder="
               $t('INBOX_MGMT.ADD.LINE_CHANNEL.LINE_CHANNEL_TOKEN.PLACEHOLDER')
             "
-            @blur="$v.lineChannelToken.$touch"
+            @blur="v$.lineChannelToken.$touch"
           />
         </label>
       </div>
@@ -77,15 +77,19 @@
 <script>
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
-import { required } from 'vuelidate/lib/validators';
+import { required } from '@vuelidate/validators';
 import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader.vue';
+import { useVuelidate } from '@vuelidate/core';
 
 export default {
   components: {
     PageHeader,
   },
   mixins: [alertMixin],
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       channelName: '',
@@ -107,8 +111,8 @@ export default {
   },
   methods: {
     async createChannel() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
         return;
       }
 

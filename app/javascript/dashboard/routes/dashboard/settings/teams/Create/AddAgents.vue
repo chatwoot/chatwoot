@@ -11,7 +11,7 @@
       </div>
 
       <div class="w-full">
-        <div v-if="$v.selectedAgents.$error">
+        <div v-if="v$.selectedAgents.$error">
           <p class="error-message">
             {{ $t('TEAMS_SETTINGS.ADD.AGENT_VALIDATION_ERROR') }}
           </p>
@@ -87,7 +87,7 @@ export default {
 
   methods: {
     updateSelectedAgents(newAgentList) {
-      this.$v.selectedAgents.$touch();
+      this.v$.selectedAgents.$touch();
       this.selectedAgents = [...newAgentList];
     },
     selectAllAgents() {

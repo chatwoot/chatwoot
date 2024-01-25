@@ -7,38 +7,38 @@
       />
       <form class="flex flex-col w-full" @submit.prevent="addCannedResponse()">
         <div class="w-full">
-          <label :class="{ error: $v.shortCode.$error }">
+          <label :class="{ error: v$.shortCode.$error }">
             {{ $t('CANNED_MGMT.ADD.FORM.SHORT_CODE.LABEL') }}
             <input
               v-model.trim="shortCode"
               type="text"
               :placeholder="$t('CANNED_MGMT.ADD.FORM.SHORT_CODE.PLACEHOLDER')"
-              @input="$v.shortCode.$touch"
+              @input="v$.shortCode.$touch"
             />
           </label>
         </div>
 
         <div class="w-full">
-          <label :class="{ error: $v.content.$error }">
+          <label :class="{ error: v$.content.$error }">
             {{ $t('CANNED_MGMT.ADD.FORM.CONTENT.LABEL') }}
           </label>
           <div class="editor-wrap">
             <woot-message-editor
               v-model="content"
               class="message-editor"
-              :class="{ editor_warning: $v.content.$error }"
+              :class="{ editor_warning: v$.content.$error }"
               :enable-variables="true"
               :enable-canned-responses="false"
               :placeholder="$t('CANNED_MGMT.ADD.FORM.CONTENT.PLACEHOLDER')"
-              @blur="$v.content.$touch"
+              @blur="v$.content.$touch"
             />
           </div>
         </div>
         <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
           <woot-submit-button
             :disabled="
-              $v.content.$invalid ||
-              $v.shortCode.$invalid ||
+              v$.content.$invalid ||
+              v$.shortCode.$invalid ||
               addCanned.showLoading
             "
             :button-text="$t('CANNED_MGMT.ADD.FORM.SUBMIT')"
@@ -54,12 +54,13 @@
 </template>
 
 <script>
-import { required, minLength } from 'vuelidate/lib/validators';
+import { required, minLength } from '@vuelidate/validators';
 
 import WootSubmitButton from '../../../../components/buttons/FormSubmitButton.vue';
 import Modal from '../../../../components/Modal.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import alertMixin from 'shared/mixins/alertMixin';
+import { useVuelidate } from '@vuelidate/core';
 
 export default {
   components: {
@@ -77,6 +78,9 @@ export default {
       type: Function,
       default: () => {},
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -102,8 +106,8 @@ export default {
     resetForm() {
       this.shortCode = '';
       this.content = '';
-      this.$v.shortCode.$reset();
-      this.$v.content.$reset();
+      this.v$.shortCode.$reset();
+      this.v$.content.$reset();
     },
     addCannedResponse() {
       // Show loading on button

@@ -1,20 +1,20 @@
 <template>
   <form class="flex flex-col w-full" @submit.prevent="onSubmit">
     <div class="w-full">
-      <label :class="{ error: $v.url.$error }">
+      <label :class="{ error: v$.url.$error }">
         {{ $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.END_POINT.LABEL') }}
         <input
           v-model.trim="url"
           type="text"
           name="url"
           :placeholder="webhookURLInputPlaceholder"
-          @input="$v.url.$touch"
+          @input="v$.url.$touch"
         />
-        <span v-if="$v.url.$error" class="message">
+        <span v-if="v$.url.$error" class="message">
           {{ $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.END_POINT.ERROR') }}
         </span>
       </label>
-      <label :class="{ error: $v.url.$error }" class="mb-2">
+      <label :class="{ error: v$.url.$error }" class="mb-2">
         {{ $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.SUBSCRIPTIONS.LABEL') }}
       </label>
       <div v-for="event in supportedWebhookEvents" :key="event">
@@ -35,7 +35,7 @@
     <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
       <div class="w-full">
         <woot-button
-          :disabled="$v.$invalid || isSubmitting"
+          :disabled="v$.$invalid || isSubmitting"
           :is-loading="isSubmitting"
         >
           {{ submitLabel }}
@@ -49,9 +49,10 @@
 </template>
 
 <script>
-import { required, url, minLength } from 'vuelidate/lib/validators';
+import { required, url, minLength } from '@vuelidate/validators';
 import webhookMixin from './webhookMixin';
 import wootConstants from 'dashboard/constants/globals';
+import { useVuelidate } from '@vuelidate/core';
 
 const { EXAMPLE_WEBHOOK_URL } = wootConstants;
 
@@ -81,6 +82,9 @@ export default {
       type: String,
       required: true,
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   validations: {
     url: {

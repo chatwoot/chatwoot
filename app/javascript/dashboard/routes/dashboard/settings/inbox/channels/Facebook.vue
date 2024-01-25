@@ -43,7 +43,7 @@
         </div>
         <div class="w-[60%]">
           <div class="w-full">
-            <div class="input-wrap" :class="{ error: $v.selectedPage.$error }">
+            <div class="input-wrap" :class="{ error: v$.selectedPage.$error }">
               {{ $t('INBOX_MGMT.ADD.FB.CHOOSE_PAGE') }}
               <multiselect
                 v-model.trim="selectedPage"
@@ -58,21 +58,21 @@
                 selected-label
                 @select="setPageName"
               />
-              <span v-if="$v.selectedPage.$error" class="message">
+              <span v-if="v$.selectedPage.$error" class="message">
                 {{ $t('INBOX_MGMT.ADD.FB.CHOOSE_PLACEHOLDER') }}
               </span>
             </div>
           </div>
           <div class="w-full">
-            <label :class="{ error: $v.pageName.$error }">
+            <label :class="{ error: v$.pageName.$error }">
               {{ $t('INBOX_MGMT.ADD.FB.INBOX_NAME') }}
               <input
                 v-model.trim="pageName"
                 type="text"
                 :placeholder="$t('INBOX_MGMT.ADD.FB.PICK_NAME')"
-                @input="$v.pageName.$touch"
+                @input="v$.pageName.$touch"
               />
-              <span v-if="$v.pageName.$error" class="message">
+              <span v-if="v$.pageName.$error" class="message">
                 {{ $t('INBOX_MGMT.ADD.FB.ADD_NAME') }}
               </span>
             </label>
@@ -88,7 +88,7 @@
 <script>
 /* eslint-env browser */
 /* global FB */
-import { required } from 'vuelidate/lib/validators';
+import { required } from '@vuelidate/validators';
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
 import { mapGetters } from 'vuex';
 import ChannelApi from '../../../../../api/channels';
@@ -96,6 +96,7 @@ import PageHeader from '../../SettingsSubPageHeader.vue';
 import router from '../../../../index';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import accountMixin from '../../../../../mixins/account';
+import { useVuelidate } from '@vuelidate/core';
 
 export default {
   components: {
@@ -103,6 +104,9 @@ export default {
     PageHeader,
   },
   mixins: [globalConfigMixin, accountMixin],
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       isCreating: false,
@@ -161,7 +165,7 @@ export default {
     },
 
     setPageName({ name }) {
-      this.$v.selectedPage.$touch();
+      this.v$.selectedPage.$touch();
       this.pageName = name;
     },
 
@@ -263,8 +267,8 @@ export default {
     },
 
     createChannel() {
-      this.$v.$touch();
-      if (!this.$v.$error) {
+      this.v$.$touch();
+      if (!this.v$.$error) {
         this.emptyStateMessage = this.$t('INBOX_MGMT.DETAILS.CREATING_CHANNEL');
         this.isCreating = true;
         this.$store

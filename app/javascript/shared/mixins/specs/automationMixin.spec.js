@@ -28,10 +28,6 @@ import Vuex from 'vuex';
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
-// Vuelidate required to test submit method
-import Vuelidate from 'vuelidate';
-Vue.use(Vuelidate);
-
 const createComponent = (
   mixins,
   data,

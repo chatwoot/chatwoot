@@ -11,45 +11,45 @@
         <woot-input
           v-model="currentPassword"
           type="password"
-          :class="{ error: $v.currentPassword.$error }"
+          :class="{ error: v$.currentPassword.$error }"
           :label="$t('PROFILE_SETTINGS.FORM.CURRENT_PASSWORD.LABEL')"
           :placeholder="
             $t('PROFILE_SETTINGS.FORM.CURRENT_PASSWORD.PLACEHOLDER')
           "
           :error="
-            $v.currentPassword.$error
+            v$.currentPassword.$error
               ? $t('PROFILE_SETTINGS.FORM.CURRENT_PASSWORD.ERROR')
               : ''
           "
-          @blur="$v.currentPassword.$touch"
+          @blur="v$.currentPassword.$touch"
         />
 
         <woot-input
           v-model="password"
           type="password"
-          :class="{ error: $v.password.$error }"
+          :class="{ error: v$.password.$error }"
           :label="$t('PROFILE_SETTINGS.FORM.PASSWORD.LABEL')"
           :placeholder="$t('PROFILE_SETTINGS.FORM.PASSWORD.PLACEHOLDER')"
           :error="
-            $v.password.$error ? $t('PROFILE_SETTINGS.FORM.PASSWORD.ERROR') : ''
+            v$.password.$error ? $t('PROFILE_SETTINGS.FORM.PASSWORD.ERROR') : ''
           "
-          @blur="$v.password.$touch"
+          @blur="v$.password.$touch"
         />
 
         <woot-input
           v-model="passwordConfirmation"
           type="password"
-          :class="{ error: $v.passwordConfirmation.$error }"
+          :class="{ error: v$.passwordConfirmation.$error }"
           :label="$t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.LABEL')"
           :placeholder="
             $t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.PLACEHOLDER')
           "
           :error="
-            $v.passwordConfirmation.$error
+            v$.passwordConfirmation.$error
               ? $t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.ERROR')
               : ''
           "
-          @blur="$v.passwordConfirmation.$touch"
+          @blur="v$.passwordConfirmation.$touch"
         />
 
         <woot-button
@@ -58,7 +58,7 @@
           :disabled="
             !currentPassword ||
             !passwordConfirmation ||
-            !$v.passwordConfirmation.isEqPassword
+            !v$.passwordConfirmation.isEqPassword
           "
         >
           {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.BTN_TEXT') }}
@@ -69,12 +69,16 @@
 </template>
 
 <script>
-import { required, minLength } from 'vuelidate/lib/validators';
+import { required, minLength } from '@vuelidate/validators';
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
+import { useVuelidate } from '@vuelidate/core';
 
 export default {
   mixins: [alertMixin],
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       currentPassword: '',
@@ -109,8 +113,8 @@ export default {
   },
   methods: {
     async changePassword() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
         this.showAlert(this.$t('PROFILE_SETTINGS.FORM.ERROR'));
         return;
       }

@@ -41,7 +41,7 @@
           :show-query-operator="i !== appliedFilters.length - 1"
           :show-user-input="showUserInput(appliedFilters[i].filter_operator)"
           :grouped-filters="true"
-          :v="$v.appliedFilters.$each[i]"
+          :v="v$.appliedFilters.$each[i]"
           @resetFilter="resetFilter(i, appliedFilters[i])"
           @removeFilter="removeFilter(i)"
         />
@@ -80,7 +80,7 @@
 
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
-import { required, requiredIf } from 'vuelidate/lib/validators';
+import { required, requiredIf } from '@vuelidate/validators';
 import FilterInputBox from '../FilterInput/Index.vue';
 import languages from './advancedFilterItems/languages';
 import countries from 'shared/constants/countries.js';
@@ -89,6 +89,7 @@ import { filterAttributeGroups } from './advancedFilterItems';
 import filterMixin from 'shared/mixins/filterMixin';
 import * as OPERATORS from 'dashboard/components/widgets/FilterInput/FilterOperatorTypes.js';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import { useVuelidate } from '@vuelidate/core';
 
 export default {
   components: {
@@ -116,6 +117,9 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   validations: {
     appliedFilters: {
@@ -347,8 +351,8 @@ export default {
       }
     },
     submitFilterQuery() {
-      this.$v.$touch();
-      if (this.$v.$invalid) return;
+      this.v$.$touch();
+      if (this.v$.$invalid) return;
       this.$store.dispatch(
         'setConversationFilters',
         JSON.parse(JSON.stringify(this.appliedFilters))

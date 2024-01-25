@@ -13,7 +13,7 @@
         <div class="flex items-center justify-between w-full">
           <span
             class="attribute-name"
-            :class="{ error: $v.editedValue.$error }"
+            :class="{ error: v$.editedValue.$error }"
           >
             {{ label }}
           </span>
@@ -39,8 +39,8 @@
             :type="inputType"
             class="input-group-field"
             autofocus="true"
-            :class="{ error: $v.editedValue.$error }"
-            @blur="$v.editedValue.$touch"
+            :class="{ error: v$.editedValue.$error }"
+            @blur="v$.editedValue.$touch"
             @keyup.enter="onUpdate"
           />
           <div class="input-group-button">
@@ -122,12 +122,13 @@
 
 <script>
 import { format, parseISO } from 'date-fns';
-import { required, url } from 'vuelidate/lib/validators';
+import { required, url } from '@vuelidate/validators';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import { isValidURL } from '../helper/URLHelper';
 import customAttributeMixin from '../mixins/customAttributeMixin';
 const DATE_FORMAT = 'yyyy-MM-dd';
+import { useVuelidate } from '@vuelidate/core';
 
 export default {
   components: {
@@ -148,6 +149,9 @@ export default {
     regexEnabled: { type: Boolean, default: false },
     attributeKey: { type: String, required: true },
     contactId: { type: Number, default: null },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -206,13 +210,13 @@ export default {
       return this.isAttributeTypeLink ? 'url' : this.attributeType;
     },
     shouldShowErrorMessage() {
-      return this.$v.editedValue.$error;
+      return this.v$.editedValue.$error;
     },
     errorMessage() {
-      if (this.$v.editedValue.url) {
+      if (this.v$.editedValue.url) {
         return this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.INVALID_URL');
       }
-      if (!this.$v.editedValue.regexValidation) {
+      if (!this.v$.editedValue.regexValidation) {
         return this.regexCue
           ? this.regexCue
           : this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.INVALID_INPUT');
@@ -280,8 +284,8 @@ export default {
         this.attributeType === 'date'
           ? parseISO(this.editedValue)
           : this.editedValue;
-      this.$v.$touch();
-      if (this.$v.$invalid) {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
         return;
       }
       this.isEditing = false;
@@ -302,11 +306,14 @@ export default {
 .checkbox-wrap {
   @apply flex items-center;
 }
+
 .checkbox {
   @apply my-0 mr-2 ml-0;
 }
+
 .attribute-name {
   @apply w-full text-slate-800 dark:text-slate-100;
+
   &.error {
     @apply text-red-400 dark:text-red-500;
   }
@@ -323,6 +330,7 @@ export default {
     .value {
       @apply bg-slate-50 dark:bg-slate-700 mb-0;
     }
+
     .edit-button {
       @apply block;
     }
@@ -332,10 +340,12 @@ export default {
 ::v-deep {
   .selector-wrap {
     @apply m-0 top-1;
+
     .selector-name {
       @apply ml-0;
     }
   }
+
   .name {
     @apply ml-0;
   }

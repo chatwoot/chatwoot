@@ -47,12 +47,12 @@
             "
             :help-text="homepageExampleHelpText"
             :error="
-              $v.homePageLink.$error
+              v$.homePageLink.$error
                 ? $t('HELP_CENTER.PORTAL.ADD.HOME_PAGE_LINK.ERROR')
                 : ''
             "
-            :class="{ error: $v.homePageLink.$error }"
-            @blur="$v.homePageLink.$touch"
+            :class="{ error: v$.homePageLink.$error }"
+            @blur="v$.homePageLink.$touch"
           />
         </div>
       </div>
@@ -60,7 +60,7 @@
     <div class="flex-end">
       <woot-button
         :is-loading="isSubmitting"
-        :is-disabled="$v.$invalid"
+        :is-disabled="v$.$invalid"
         @click="onSubmitClick"
       >
         {{
@@ -74,8 +74,9 @@
 </template>
 
 <script>
-import { url } from 'vuelidate/lib/validators';
+import { url } from '@vuelidate/validators';
 import { getRandomColor } from 'dashboard/helper/labelColor';
+import { useVuelidate } from '@vuelidate/core';
 
 import alertMixin from 'shared/mixins/alertMixin';
 import wootConstants from 'dashboard/constants/globals';
@@ -83,7 +84,6 @@ import wootConstants from 'dashboard/constants/globals';
 const { EXAMPLE_URL } = wootConstants;
 
 export default {
-  components: {},
   mixins: [alertMixin],
   props: {
     portal: {
@@ -94,6 +94,9 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -132,8 +135,8 @@ export default {
       }
     },
     onSubmitClick() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
         return;
       }
       const portal = {
@@ -158,9 +161,11 @@ export default {
   input {
     @apply mb-1;
   }
+
   .help-text {
     @apply mb-0;
   }
+
   .colorpicker--selected {
     @apply mb-0;
   }

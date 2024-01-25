@@ -11,7 +11,7 @@
     <div
       class="macro__node-action-item"
       :class="{
-        'has-error': hasError($v.macro.actions.$each[index]),
+        'has-error': hasError(v$.macro.actions.$each[index]),
       }"
     >
       <action-input
@@ -21,7 +21,7 @@
         :show-action-input="showActionInput"
         :show-remove-button="false"
         :is-macro="true"
-        :v="$v.macro.actions.$each[index]"
+        :v="v$.macro.actions.$each[index]"
         :initial-file-name="fileName"
         @resetAction="$emit('resetAction')"
       />
@@ -108,6 +108,7 @@ export default {
 .macros__node-drag-handle {
   @apply cursor-move -left-8 absolute;
 }
+
 .macro__node-action-container {
   @apply w-full min-w-0 basis-full items-center flex relative;
 
@@ -125,15 +126,19 @@ export default {
   0% {
     transform: translateX(0);
   }
+
   25% {
     transform: translateX(0.234375rem);
   }
+
   50% {
     transform: translateX(-0.234375rem);
   }
+
   75% {
     transform: translateX(0.234375rem);
   }
+
   100% {
     transform: translateX(0);
   }

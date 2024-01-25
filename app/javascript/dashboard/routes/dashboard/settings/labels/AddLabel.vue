@@ -7,23 +7,23 @@
     <form class="mx-0 flex flex-wrap" @submit.prevent="addLabel">
       <woot-input
         v-model.trim="title"
-        :class="{ error: $v.title.$error }"
+        :class="{ error: v$.title.$error }"
         class="w-full label-name--input"
         :label="$t('LABEL_MGMT.FORM.NAME.LABEL')"
         :placeholder="$t('LABEL_MGMT.FORM.NAME.PLACEHOLDER')"
         :error="getLabelTitleErrorMessage"
         data-testid="label-title"
-        @input="$v.title.$touch"
+        @input="v$.title.$touch"
       />
 
       <woot-input
         v-model.trim="description"
-        :class="{ error: $v.description.$error }"
+        :class="{ error: v$.description.$error }"
         class="w-full"
         :label="$t('LABEL_MGMT.FORM.DESCRIPTION.LABEL')"
         :placeholder="$t('LABEL_MGMT.FORM.DESCRIPTION.PLACEHOLDER')"
         data-testid="label-description"
-        @input="$v.description.$touch"
+        @input="v$.description.$touch"
       />
 
       <div class="w-full">
@@ -40,7 +40,7 @@
       </div>
       <div class="flex justify-end items-center py-2 px-0 gap-2 w-full">
         <woot-button
-          :is-disabled="$v.title.$invalid || uiFlags.isCreating"
+          :is-disabled="v$.title.$invalid || uiFlags.isCreating"
           :is-loading="uiFlags.isCreating"
           data-testid="label-submit"
         >

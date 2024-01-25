@@ -7,8 +7,8 @@
         :value="macroName"
         :label="$t('MACROS.ADD.FORM.NAME.LABEL')"
         :placeholder="$t('MACROS.ADD.FORM.NAME.PLACEHOLDER')"
-        :error="$v.macro.name.$error ? $t('MACROS.ADD.FORM.NAME.ERROR') : null"
-        :class="{ error: $v.macro.name.$error }"
+        :error="v$.macro.name.$error ? $t('MACROS.ADD.FORM.NAME.ERROR') : null"
+        :class="{ error: v$.macro.name.$error }"
         @input="onUpdateName($event)"
       />
     </div>

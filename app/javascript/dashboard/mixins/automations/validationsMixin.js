@@ -1,6 +1,10 @@
-import { required, requiredIf } from 'vuelidate/lib/validators';
+import { required, requiredIf } from '@vuelidate/validators';
+import { useVuelidate } from '@vuelidate/core';
 
 export default {
+  setup() {
+    return { v$: useVuelidate() };
+  },
   validations: {
     automation: {
       name: {

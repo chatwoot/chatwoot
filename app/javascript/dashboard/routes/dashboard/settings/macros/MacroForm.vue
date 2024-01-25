@@ -26,7 +26,8 @@
 <script>
 import MacroNodes from './MacroNodes.vue';
 import MacroProperties from './MacroProperties.vue';
-import { required, requiredIf } from 'vuelidate/lib/validators';
+import { required, requiredIf } from '@vuelidate/validators';
+import { useVuelidate } from '@vuelidate/core';
 
 export default {
   components: {
@@ -43,6 +44,9 @@ export default {
       type: Object,
       default: () => ({}),
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -112,16 +116,16 @@ export default {
       this.macro.actions.splice(index, 1);
     },
     submit() {
-      this.$v.$touch();
-      if (this.$v.$invalid) return;
+      this.v$.$touch();
+      if (this.v$.$invalid) return;
       this.$emit('submit', this.macro);
     },
     resetNode(index) {
-      this.$v.macro.actions.$each[index].$reset();
+      this.v$.macro.actions.$each[index].$reset();
       this.macro.actions[index].action_params = [];
     },
     resetValidation() {
-      this.$v.$reset();
+      this.v$.$reset();
     },
   },
 };
@@ -129,13 +133,16 @@ export default {
 
 <style scoped>
 @tailwind components;
+
 @layer components {
   .macro-gradient-radial {
     background-image: radial-gradient(#ebf0f5 1.2px, transparent 0);
   }
+
   .macro-dark-gradient-radial {
     background-image: radial-gradient(#293f51 1.2px, transparent 0);
   }
+
   .macro-gradient-radial-size {
     background-size: 1rem 1rem;
   }

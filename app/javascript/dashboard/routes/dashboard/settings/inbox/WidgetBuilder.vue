@@ -15,7 +15,7 @@
             />
             <woot-input
               v-model.trim="websiteName"
-              :class="{ error: $v.websiteName.$error }"
+              :class="{ error: v$.websiteName.$error }"
               :label="
                 $t(
                   'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WEBSITE_NAME.LABEL'
@@ -27,7 +27,7 @@
                 )
               "
               :error="websiteNameValidationErrorMsg"
-              @blur="$v.websiteName.$touch"
+              @blur="v$.websiteName.$touch"
             />
             <woot-input
               v-model.trim="welcomeHeading"
@@ -118,7 +118,7 @@
                 )
               "
               :loading="uiFlags.isUpdating"
-              :disabled="$v.$invalid || uiFlags.isUpdating"
+              :disabled="v$.$invalid || uiFlags.isUpdating"
             />
           </form>
         </div>
@@ -157,9 +157,10 @@ import { mapGetters } from 'vuex';
 import Widget from 'dashboard/modules/widget-preview/components/Widget.vue';
 import InputRadioGroup from './components/InputRadioGroup.vue';
 import alertMixin from 'shared/mixins/alertMixin';
-import { required } from 'vuelidate/lib/validators';
+import { required } from '@vuelidate/validators';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
+import { useVuelidate } from '@vuelidate/core';
 
 export default {
   components: {
@@ -172,6 +173,9 @@ export default {
       type: Object,
       default: () => {},
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -288,7 +292,7 @@ export default {
       ];
     },
     websiteNameValidationErrorMsg() {
-      return this.$v.websiteName.$error
+      return this.v$.websiteName.$error
         ? this.$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WEBSITE_NAME.ERROR')
         : '';
     },
@@ -422,6 +426,7 @@ export default {
   display: flex;
   flex-direction: row;
   padding: var(--space-one);
+
   @include breakpoint(900px down) {
     flex-direction: column;
   }
@@ -454,6 +459,7 @@ export default {
       background: none;
     }
   }
+
   .widget-script {
     @apply mx-5 p-2.5 bg-slate-50 dark:bg-slate-700;
   }

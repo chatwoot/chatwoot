@@ -42,35 +42,35 @@
         <div class="mb-4">
           <woot-input
             v-model.trim="name"
-            :class="{ error: $v.name.$error }"
+            :class="{ error: v$.name.$error }"
             :error="nameError"
             :label="$t('HELP_CENTER.PORTAL.ADD.NAME.LABEL')"
             :placeholder="$t('HELP_CENTER.PORTAL.ADD.NAME.PLACEHOLDER')"
             :help-text="$t('HELP_CENTER.PORTAL.ADD.NAME.HELP_TEXT')"
-            @blur="$v.name.$touch"
+            @blur="v$.name.$touch"
             @input="onNameChange"
           />
         </div>
         <div class="mb-4">
           <woot-input
             v-model.trim="slug"
-            :class="{ error: $v.slug.$error }"
+            :class="{ error: v$.slug.$error }"
             :error="slugError"
             :label="$t('HELP_CENTER.PORTAL.ADD.SLUG.LABEL')"
             :placeholder="$t('HELP_CENTER.PORTAL.ADD.SLUG.PLACEHOLDER')"
             :help-text="domainHelpText"
-            @blur="$v.slug.$touch"
+            @blur="v$.slug.$touch"
           />
         </div>
         <div class="mb-4">
           <woot-input
             v-model.trim="domain"
-            :class="{ error: $v.domain.$error }"
+            :class="{ error: v$.domain.$error }"
             :label="$t('HELP_CENTER.PORTAL.ADD.DOMAIN.LABEL')"
             :placeholder="$t('HELP_CENTER.PORTAL.ADD.DOMAIN.PLACEHOLDER')"
             :help-text="domainExampleHelpText"
             :error="domainError"
-            @blur="$v.domain.$touch"
+            @blur="v$.domain.$touch"
           />
         </div>
       </div>
@@ -78,7 +78,7 @@
     <div class="flex-end">
       <woot-button
         :is-loading="isSubmitting"
-        :is-disabled="$v.$invalid"
+        :is-disabled="v$.$invalid"
         @click="onSubmitClick"
       >
         {{ submitButtonText }}
@@ -88,8 +88,9 @@
 </template>
 
 <script>
-import { required, minLength } from 'vuelidate/lib/validators';
+import { required, minLength } from '@vuelidate/validators';
 import { isDomain } from 'shared/helpers/Validators';
+import { useVuelidate } from '@vuelidate/core';
 
 import alertMixin from 'shared/mixins/alertMixin';
 import { convertToCategorySlug } from 'dashboard/helper/commons.js';
@@ -118,6 +119,9 @@ export default {
       default: '',
     },
   },
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       name: '',
@@ -144,19 +148,19 @@ export default {
   },
   computed: {
     nameError() {
-      if (this.$v.name.$error) {
+      if (this.v$.name.$error) {
         return this.$t('HELP_CENTER.CATEGORY.ADD.NAME.ERROR');
       }
       return '';
     },
     slugError() {
-      if (this.$v.slug.$error) {
+      if (this.v$.slug.$error) {
         return this.$t('HELP_CENTER.CATEGORY.ADD.SLUG.ERROR');
       }
       return '';
     },
     domainError() {
-      if (this.$v.domain.$error) {
+      if (this.v$.domain.$error) {
         return this.$t('HELP_CENTER.PORTAL.ADD.DOMAIN.ERROR');
       }
       return '';
@@ -192,8 +196,8 @@ export default {
       this.slug = convertToCategorySlug(this.name);
     },
     onSubmitClick() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
         return;
       }
 
@@ -251,6 +255,7 @@ export default {
   input {
     @apply mb-1;
   }
+
   .help-text {
     @apply mb-0;
   }

@@ -27,19 +27,19 @@
               {{ $t('PROFILE_SETTINGS.DELETE_AVATAR') }}
             </woot-button>
           </div>
-          <label :class="{ error: $v.name.$error }">
+          <label :class="{ error: v$.name.$error }">
             {{ $t('PROFILE_SETTINGS.FORM.NAME.LABEL') }}
             <input
               v-model="name"
               type="text"
               :placeholder="$t('PROFILE_SETTINGS.FORM.NAME.PLACEHOLDER')"
-              @input="$v.name.$touch"
+              @input="v$.name.$touch"
             />
-            <span v-if="$v.name.$error" class="message">
+            <span v-if="v$.name.$error" class="message">
               {{ $t('PROFILE_SETTINGS.FORM.NAME.ERROR') }}
             </span>
           </label>
-          <label :class="{ error: $v.displayName.$error }">
+          <label :class="{ error: v$.displayName.$error }">
             {{ $t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.LABEL') }}
             <input
               v-model="displayName"
@@ -47,21 +47,21 @@
               :placeholder="
                 $t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.PLACEHOLDER')
               "
-              @input="$v.displayName.$touch"
+              @input="v$.displayName.$touch"
             />
           </label>
           <label
             v-if="!globalConfig.disableUserProfileUpdate"
-            :class="{ error: $v.email.$error }"
+            :class="{ error: v$.email.$error }"
           >
             {{ $t('PROFILE_SETTINGS.FORM.EMAIL.LABEL') }}
             <input
               v-model.trim="email"
               type="email"
               :placeholder="$t('PROFILE_SETTINGS.FORM.EMAIL.PLACEHOLDER')"
-              @input="$v.email.$touch"
+              @input="v$.email.$touch"
             />
-            <span v-if="$v.email.$error" class="message">
+            <span v-if="v$.email.$error" class="message">
               {{ $t('PROFILE_SETTINGS.FORM.EMAIL.ERROR') }}
             </span>
           </label>
@@ -125,7 +125,9 @@
 </template>
 
 <script>
-import { required, minLength, email } from 'vuelidate/lib/validators';
+import { required, minLength, email } from '@vuelidate/validators';
+import { useVuelidate } from '@vuelidate/core';
+
 import { mapGetters } from 'vuex';
 import { clearCookiesOnLogout } from '../../../../store/utils/api';
 import { hasValidAvatarUrl } from 'dashboard/helper/URLHelper';
@@ -149,6 +151,9 @@ export default {
     MaskedText,
   },
   mixins: [alertMixin, globalConfigMixin, uiSettingsMixin],
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       avatarFile: '',
@@ -224,8 +229,8 @@ export default {
     },
     isEditorHotKeyEnabled,
     async updateUser() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
         this.showAlert(this.$t('PROFILE_SETTINGS.FORM.ERROR'));
         return;
       }
