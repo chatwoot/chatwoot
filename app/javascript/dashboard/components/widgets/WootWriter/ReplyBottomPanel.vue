@@ -13,12 +13,17 @@
       />
       <file-upload
         ref="upload"
-        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
+        v-tooltip.top-end="
+          disableFileUpload
+            ? $t('CONVERSATION.REPLYBOX.TIP_ATTACHMENT_LIMIT_FB')
+            : $t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')
+        "
         input-id="conversationAttachment"
+        :disabled="disableFileUpload"
         :size="4096 * 4096"
         :accept="allowedFileTypes"
         :multiple="enableMultipleFileUpload"
-        :drop="enableDragAndDrop"
+        :drop="disableFileUpload ? false : enableDragAndDrop"
         :drop-directory="false"
         :data="{
           direct_upload_url: '/rails/active_storage/direct_uploads',
@@ -29,7 +34,12 @@
         <woot-button
           v-if="showAttachButton"
           class-names="button--upload"
-          :title="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
+          :disabled="disableFileUpload"
+          :title="
+            disableFileUpload
+              ? $t('CONVERSATION.REPLYBOX.TIP_ATTACHMENT_LIMIT_FB')
+              : $t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')
+          "
           icon="attach"
           emoji="📎"
           color-scheme="secondary"
@@ -247,6 +257,10 @@ export default {
     portalSlug: {
       type: String,
       required: true,
+    },
+    disableFileUpload: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {

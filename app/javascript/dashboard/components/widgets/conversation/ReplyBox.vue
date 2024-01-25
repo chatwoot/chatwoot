@@ -109,6 +109,7 @@
     <reply-bottom-panel
       :conversation-id="conversationId"
       :enable-multiple-file-upload="enableMultipleFileUpload"
+      :disable-file-upload="disableFileUpload"
       :has-whatsapp-templates="hasWhatsappTemplates"
       :inbox="inbox"
       :is-on-private-note="isOnPrivateNote"
@@ -464,6 +465,13 @@ export default {
     },
     showReplyHead() {
       return !this.isOnPrivateNote && this.isAnEmailChannel;
+    },
+    disableFileUpload() {
+      if (this.isAFacebookInbox) {
+        return this.hasAttachments > 0;
+      }
+
+      return false;
     },
     enableMultipleFileUpload() {
       return (
