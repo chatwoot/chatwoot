@@ -58,7 +58,7 @@ class User < ApplicationRecord
          :validatable,
          :confirmable,
          :password_has_required_content,
-         :omniauthable, omniauth_providers: [:google_oauth2]
+         :omniauthable, omniauth_providers: [:google_oauth2,:keycloakopenid]
 
   # TODO: remove in a future version once online status is moved to account users
   # remove the column availability from users
@@ -152,77 +152,6 @@ class User < ApplicationRecord
   def will_save_change_to_email?
     mutations_from_database.changed?('email')
   end
-
-  def notifications_meta(account_id)
-    {
-      unread_count: notifications.where(account_id: account_id, read_at: nil).count,
-      count: notifications.where(account_id: account_id).count
-    }
-  end
-
-  # added
-
-  # def current_account_user
-  #   # We want to avoid subsequent queries in case where the association is preloaded.
-  #   # using where here will trigger n+1 queries.
-  #   account_users.find { |ac_usr| ac_usr.account_id == Current.account.id } if Current.account
-  # end
-
-  # def an_agent?
-  #   is_an_agent || role == 'agent' || agent? || type == 'SuperAdmin'
-  # end
-
-  # def available_name
-  #   self[:display_name].presence || name
-  # end
-
-  # # Used internally for OneChat in Chatwoot
-  # def hmac_identifier
-  #   hmac_key = GlobalConfig.get('CHATWOOT_INBOX_HMAC_KEY')['CHATWOOT_INBOX_HMAC_KEY']
-  #   return OpenSSL::HMAC.hexdigest('sha256', hmac_key, email) if hmac_key.present?
-
-  #   ''
-  # end
-
-  # def account
-  #   current_account_user&.account
-  # end
-
-  # def assigned_inboxes
-  #   administrator? ? Current.account.inboxes : inboxes.where(account_id: Current.account.id)
-  # end
-
-  # def administrator?
-  #   current_account_user&.administrator?
-  # end
-
-  # def agent?
-  #   current_account_user&.agent?
-  # end
-
-  # def role
-  #   current_account_user&.role
-  # end
-
-  # def availability_status
-  #   current_account_user&.availability_status
-  # end
-
-  # def auto_offline
-  #   current_account_user&.auto_offline
-  # end
-
-  # def inviter
-  #   current_account_user&.inviter
-  # end
-
-  # def set_name
-  #   self.name = "#{first_name} #{last_name}" if name.blank?
-  # end
-
-  # def display_name
-  #   "#{first_name} #{last_name}"
-  # end
 
   private
 

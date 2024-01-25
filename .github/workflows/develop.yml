@@ -25,7 +25,8 @@ jobs:
             echo "Deploying to EC2"
             sudo -i -u chatwoot <<EOF
             cd chatwoot 
-            git pull origin develop
+            git fetch -all
+            git reset --hard origin/develop
             bundle install
             yarn install
             RAILS_ENV=production bundle exec rake db:migrate

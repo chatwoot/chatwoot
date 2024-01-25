@@ -56,7 +56,6 @@ class Api::V1::AccountsController < Api::BaseController
 
   def get_ltd
     code = CouponCode.find_by(code: params[:coupon_code])
-    puts code
     if code && (code.partner == 'AppSumo' || code.partner == 'DealMirror')
       if Time.current > code.expiry_date
         render json: { message: 'Coupon code has expired' }, status: :unprocessable_entity
@@ -73,7 +72,7 @@ class Api::V1::AccountsController < Api::BaseController
           render json: { message: 'Redemption successful' }, status: :ok
         end
       end
-    elsif code && (code.partner == 'PitchGround' || code.partner == 'RocketHub')
+    elsif code && (code.partner == 'PitchGround' || code.partner == 'RocketHub' || code.partner == 'DealFuel' || code.partner == 'OneHash')
       if Time.current > code.expiry_date
         render json: { message: 'Coupon code has expired' }, status: :unprocessable_entity
       elsif code.status == 'redeemed'
@@ -95,17 +94,16 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def stripe_subscription
-    if stripe_customer_id.blank?
-      Account::CreateStripeCustomerJob.perform_later(@account)
-    end
+    Account::CreateStripeCustomerJob.perform_later(@account) if stripe_customer_id.blank?
     head :no_content
   end
 
   def stripe_checkout
     return create_stripe_billing_session(stripe_customer_id) if stripe_customer_id.present?
+
     render_invalid_billing_details
   end
-  
+
   private
 
   def get_cache_keys
@@ -159,26 +157,30 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def activate_ltd(coupon_code)
-    code_prefix = coupon_code.code[0,2]
-    partner_name = ""
-    if code_prefix == "AS"
-      partner_name = "AppSumo"
-    elsif code_prefix == "DM"
-      partner_name = "DealMirror"
-    elsif code_prefix == "PG"
-      partner_name = "PitchGround"
-    elsif code_prefix == "RH"
-      partner_name = "RocketHub"
+    code_prefix = coupon_code.code[0, 2]
+    partner_name = ''
+    if code_prefix == 'AS'
+      partner_name = 'AppSumo'
+    elsif code_prefix == 'DM'
+      partner_name = 'DealMirror'
+    elsif code_prefix == 'PG'
+      partner_name = 'PitchGround'
+    elsif code_prefix == 'RH'
+      partner_name = 'RocketHub'
+    elsif code_prefix == 'DF'
+      partner_name = 'DealFuel'
+    elsif code_prefix == 'OH'
+      partner_name = 'OneHash'
     end
 
-    if partner_name == "AppSumo" || partner_name == "DealMirror"
+    if %w[AppSumo DealMirror].include?(partner_name)
       agent = nil
       ltd_plan_name = nil
       coupon_code_used = @account.coupon_code_used
       if coupon_code_used == 0
         agent = 3
         ltd_plan_name = 'Tier 1'
-      elsif coupon_code_used == 1 
+      elsif coupon_code_used == 1
         agent = 5
         ltd_plan_name = 'Tier 2'
       elsif coupon_code_used == 2
@@ -199,16 +201,16 @@ class Api::V1::AccountsController < Api::BaseController
         limits: {
           agents: agent,
           inboxes: 100_000
-        },
+        }
       )
       if @account.coupon_code_used < 5
         @account.update(
           coupon_code_used: @account.coupon_code_used + 1
-        )      
+        )
       end
-      
-    elsif partner_name == "PitchGround" || partner_name == "RocketHub"
-      tier = coupon_code.code[-2,2]
+
+    elsif %w[PitchGround RocketHub DealFuel OneHash].include?(partner_name)
+      tier = coupon_code.code[-2, 2]
       agent = nil
       ltd_plan_name = nil
       coupon_code_used = @account.coupon_code_used
@@ -233,7 +235,7 @@ class Api::V1::AccountsController < Api::BaseController
         limits: {
           agents: agent,
           inboxes: 100_000
-        },
+        }
       )
       if @account.coupon_code_used < 1
         @account.update(

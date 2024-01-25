@@ -1,17 +1,21 @@
 require 'net/imap'
 
-class Inboxes::FetchImapEmailsJob < ApplicationJob
+class Inboxes::FetchImapEmailsJob < MutexApplicationJob
   queue_as :scheduled_jobs
 
   def perform(channel)
     return unless should_fetch_email?(channel)
 
-    process_email_for_channel(channel)
+    with_lock(::Redis::Alfred::EMAIL_MESSAGE_MUTEX, inbox_id: channel.inbox.id) do
+      process_email_for_channel(channel)
+    end
   rescue *ExceptionList::IMAP_EXCEPTIONS => e
     Rails.logger.error e
     channel.authorization_error!
   rescue EOFError, OpenSSL::SSL::SSLError, Net::IMAP::NoResponseError, Net::IMAP::BadResponseError => e
     Rails.logger.error e
+  rescue LockAcquisitionError
+    Rails.logger.error "Lock failed for #{channel.inbox.id}"
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: channel.account).capture_exception
   end
@@ -23,7 +27,6 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
   end
 
   def process_email_for_channel(channel)
-    # fetching email for microsoft provider
     if channel.microsoft?
       fetch_mail_for_ms_provider(channel)
     else
@@ -34,32 +37,66 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
   end
 
   def fetch_mail_for_channel(channel)
-    imap_inbox = authenticated_imap_inbox(channel, channel.imap_password, 'PLAIN')
-    last_email_time = DateTime.parse(Net::IMAP.format_datetime(last_email_time(channel)))
+    imap_client = build_imap_client(channel, channel.imap_password, 'PLAIN')
 
-    received_mails(imap_inbox).each do |message_id|
-      inbound_mail = Mail.read_from_string imap_inbox.fetch(message_id, 'RFC822')[0].attr['RFC822']
-
-      mail_info_logger(channel, inbound_mail, message_id)
-
-      next if email_already_present?(channel, inbound_mail, last_email_time)
-
-      process_mail(inbound_mail, channel)
+    message_ids_with_seq = fetch_message_ids_with_sequence(imap_client, channel)
+    message_ids_with_seq.each do |message_id_with_seq|
+      process_message_id(channel, imap_client, message_id_with_seq)
     end
   end
 
-  def email_already_present?(channel, inbound_mail, _last_email_time)
-    channel.inbox.messages.find_by(source_id: inbound_mail.message_id).present?
+  def process_message_id(channel, imap_client, message_id_with_seq)
+    seq_no, message_id = message_id_with_seq
+
+    return if email_already_present?(channel, message_id)
+
+    # Fetch the original mail content using the sequence no
+    mail_str = imap_client.fetch(seq_no, 'RFC822')[0].attr['RFC822']
+
+    if mail_str.blank?
+      Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Fetch failed for #{channel.email} with message-id <#{message_id}>."
+      return
+    end
+
+    inbound_mail = build_mail_from_string(mail_str)
+    mail_info_logger(channel, inbound_mail, seq_no)
+    process_mail(inbound_mail, channel)
   end
 
-  def received_mails(imap_inbox)
-    imap_inbox.search(['BEFORE', tomorrow, 'SINCE', yesterday])
+  # Sends a FETCH command to retrieve data associated with a message in the mailbox.
+  # You can send batches of message sequence number in `.fetch` method.
+  def fetch_message_ids_with_sequence(imap_client, channel)
+    seq_nums = fetch_available_mail_sequence_numbers(imap_client)
+
+    Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Fetching mails from #{channel.email}, found #{seq_nums.length}."
+
+    message_ids_with_seq = []
+    seq_nums.each_slice(10).each do |batch|
+      # Fetch only message-id only without mail body or contents.
+      batch_message_ids = imap_client.fetch(batch, 'BODY.PEEK[HEADER.FIELDS (MESSAGE-ID)]')
+
+      # .fetch returns an array of Net::IMAP::FetchData or nil
+      # (instead of an empty array) if there is no matching message.
+      # Check
+      if batch_message_ids.blank?
+        Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Fetching the batch failed for #{channel.email}."
+        next
+      end
+
+      batch_message_ids.each do |data|
+        message_id = build_mail_from_string(data.attr['BODY[HEADER.FIELDS (MESSAGE-ID)]']).message_id
+        message_ids_with_seq.push([data.seqno, message_id])
+      end
+    end
+
+    message_ids_with_seq
   end
 
-  def processed_email?(current_email, last_email_time)
-    return current_email.date < last_email_time if current_email.date.present?
-
-    false
+  # Sends a SEARCH command to search the mailbox for messages that were
+  # created between yesterday and today and returns message sequence numbers.
+  # Return <message set>
+  def fetch_available_mail_sequence_numbers(imap_client)
+    imap_client.search(['BEFORE', tomorrow, 'SINCE', yesterday])
   end
 
   def fetch_mail_for_ms_provider(channel)
@@ -69,16 +106,15 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
 
     return unless access_token
 
-    imap_inbox = authenticated_imap_inbox(channel, access_token, 'XOAUTH2')
-
-    process_mails(imap_inbox, channel)
+    imap_client = build_imap_client(channel, access_token, 'XOAUTH2')
+    process_mails(imap_client, channel)
   end
 
-  def process_mails(imap_inbox, channel)
-    received_mails(imap_inbox).each do |message_id|
-      inbound_mail = Mail.read_from_string imap_inbox.fetch(message_id, 'RFC822')[0].attr['RFC822']
+  def process_mails(imap_client, channel)
+    fetch_available_mail_sequence_numbers(imap_client).each do |seq_no|
+      inbound_mail = Mail.read_from_string imap_client.fetch(seq_no, 'RFC822')[0].attr['RFC822']
 
-      mail_info_logger(channel, inbound_mail, message_id)
+      mail_info_logger(channel, inbound_mail, seq_no)
 
       next if channel.inbox.messages.find_by(source_id: inbound_mail.message_id).present?
 
@@ -86,38 +122,26 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     end
   end
 
-  def mail_info_logger(channel, inbound_mail, message_id)
+  def mail_info_logger(channel, inbound_mail, uid)
     return if Rails.env.test?
 
     Rails.logger.info("
-      #{channel.provider} Email id: #{inbound_mail.from} and message_source_id: #{inbound_mail.message_id}, message_id: #{message_id}")
+      #{channel.provider} Email id: #{inbound_mail.from} - message_source_id: #{inbound_mail.message_id} - sequence id: #{uid}")
   end
 
-  def authenticated_imap_inbox(channel, access_token, auth_method)
+  def build_imap_client(channel, access_token, auth_method)
     imap = Net::IMAP.new(channel.imap_address, channel.imap_port, true)
     imap.authenticate(auth_method, channel.imap_login, access_token)
     imap.select('INBOX')
     imap
   end
 
-  def last_email_time(channel)
-    # we are only checking for emails in last 2 day
-    last_email_incoming_message = channel.inbox.messages.incoming.where('messages.created_at >= ?', 2.days.ago).last
-    if last_email_incoming_message.present?
-      time = last_email_incoming_message.content_attributes['email']['date']
-      time ||= last_email_incoming_message.created_at.to_s
-    end
-    time ||= 1.hour.ago.to_s
-
-    DateTime.parse(time)
+  def email_already_present?(channel, message_id)
+    channel.inbox.messages.find_by(source_id: message_id).present?
   end
 
-  def yesterday
-    (Time.zone.today - 1).strftime('%d-%b-%Y')
-  end
-
-  def tomorrow
-    (Time.zone.today + 1).strftime('%d-%b-%Y')
+  def build_mail_from_string(raw_email_content)
+    Mail.read_from_string(raw_email_content)
   end
 
   def process_mail(inbound_mail, channel)
@@ -131,5 +155,13 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
   # Making sure the access token is valid for microsoft provider
   def valid_access_token(channel)
     Microsoft::RefreshOauthTokenService.new(channel: channel).access_token
+  end
+
+  def yesterday
+    (Time.zone.today - 1).strftime('%d-%b-%Y')
+  end
+
+  def tomorrow
+    (Time.zone.today + 1).strftime('%d-%b-%Y')
   end
 end

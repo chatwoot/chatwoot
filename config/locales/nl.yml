@@ -190,20 +190,35 @@ nl:
       empty_placeholder: Geen resultaten gevonden.
       loading_placeholder: Zoeken...
       results_title: Zoekresultaten
-    toc_header: 'On this page'
+    toc_header: 'Op deze pagina'
     hero:
       sub_title: Search for the articles here or browse the categories below.
     common:
       home: Startpagina
       last_updated_on: Last updated on %{last_updated_on}
-      view_all_articles: View all articles
-      article: article
+      view_all_articles: Alles weergeven
+      article: artikel
       articles: articles
+      author: author
+      authors: authors
+      other: other
+      others: others
+      by: By
       no_articles: There are no articles here
     footer:
       made_with: Made with
     header:
-      go_to_homepage: Go to the main site
+      go_to_homepage: Website
+      appearance:
+        system: Systeem
+        light: Light
+        dark: Dark
+      featured_articles: Featured Articles
+      uncategorized: Uncategorized
+    404:
+      title: Page not found
+      description: We couldn't find the page you were looking for.
+      back_to_home: Go to home page
   slack_unfurl:
     fields:
       name: Naam

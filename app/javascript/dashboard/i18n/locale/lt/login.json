@@ -20,6 +20,10 @@
       "BUSINESS_ACCOUNTS_ONLY": "Norėdami prisijungti, naudokite savo įmonės el. pašto adresą",
       "NO_ACCOUNT_FOUND": "Nepavyko rasti paskyros pagal jūsų el. pašto adresą."
     },
+    "OIDC":{
+      "OIDC_LOGIN": "Login with OIDC",
+      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+    },
     "FORGOT_PASSWORD": "Pamiršote slaptažodį?",
     "CREATE_NEW_ACCOUNT": "Sukurti naują paskyrą",
     "SUBMIT": "Prisijungti"

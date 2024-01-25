@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "Filtruoti pagal",
       "SORT": "Rūšiuoti pagal",
+      "LOCALE": "Lokalizacija",
       "SETTINGS_BUTTON": "Nustatymai",
       "NEW_BUTTON": "Naujas Straipsnis",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "Mano Straipsniai",
         "DRAFT": "Straipsnių juodraščiai",
         "ARCHIVED": "Suarchyvuoti Straipsniai"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Select locale",
+        "PLACEHOLDER": "Select locale",
+        "NO_RESULT": "No locale found",
+        "SEARCH_PLACEHOLDER": "Search locale"
       }
     },
     "EDIT_HEADER": {
@@ -76,6 +83,9 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Neįtraukta į kategorijas",
+      "SEARCH_RESULTS": "Search results for %{query}",
+      "EMPTY_TEXT": "Search for articles to insert into replies.",
+      "SEARCH_LOADER": "Ieškoma...",
       "INSERT_ARTICLE": "Įterpti",
       "NO_RESULT": "Straipsnių nerasta",
       "COPY_LINK": "Nukopijuokite straipsnio nuorodą į iškarpinę",
@@ -220,7 +230,10 @@
         "LOGO": {
           "LABEL": "Logotipas",
           "UPLOAD_BUTTON": "Įkelti logotipą",
-          "HELP_TEXT": "Šis logotipas bus rodomas portalo antraštėje."
+          "HELP_TEXT": "Šis logotipas bus rodomas portalo antraštėje.",
+          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
+          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
+          "IMAGE_DELETE_ERROR": "Error while deleting logo"
         },
         "NAME": {
           "LABEL": "Vardas",
@@ -365,7 +378,7 @@
         "NAME": {
           "LABEL": "Vardas",
           "PLACEHOLDER": "Kategorijos pavadinimas",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "HELP_TEXT": "Kategorijos pavadinimas ir piktograma bus naudojamas viešajame portale straipsniams skirstyti į kategorijas.",
           "ERROR": "Yra reikalingas vardas"
         },
         "SLUG": {
@@ -396,7 +409,7 @@
         "NAME": {
           "LABEL": "Vardas",
           "PLACEHOLDER": "Kategorijos pavadinimas",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "HELP_TEXT": "Kategorijos pavadinimas ir piktograma bus naudojamas viešajame portale straipsniams skirstyti į kategorijas.",
           "ERROR": "Yra reikalingas vardas"
         },
         "SLUG": {
@@ -425,6 +438,21 @@
           "ERROR_MESSAGE": "Nepavyko ištrinti kategorijos"
         }
       }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Ieškoti straipsnių",
+      "PLACEHOLDER": "Ieškoti straipsnių",
+      "NO_RESULT": "Straipsnių nerasta",
+      "SEARCHING": "Ieškoma...",
+      "SEARCH_BUTTON": "Ieškoti",
+      "INSERT_ARTICLE": "Įterpti nuorodą",
+      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
+      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
+      "SUCCESS_ARTICLE_INSERTED": "Straipsnis patalpintas sėkmingai",
+      "PREVIEW_LINK": "Straipsnio peržiūra",
+      "CANCEL": "Uždaryti",
+      "BACK": "Atgal",
+      "BACK_RESULTS": "Back to results"
     },
     "UPGRADE_PAGE": {
       "TITLE": "Palaikymo centras",
