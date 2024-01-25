@@ -1,5 +1,5 @@
 {
-  "SLA_MGMT": {
+  "SLA": {
     "HEADER": "SLA",
     "HEADER_BTN_TXT": "Add sla",
     "LOADING": "Fetching slas",

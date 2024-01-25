@@ -102,3 +102,9 @@ export const OPEN_AI_EVENTS = Object.freeze({
 export const GENERAL_EVENTS = Object.freeze({
   COMMAND_BAR: 'Used commandbar',
 });
+
+export const SLA_EVENTS = Object.freeze({
+  CREATE: 'Created an SLA',
+  UPDATE: 'Updated an SLA',
+  DELETED: 'Deleted an SLA',
+});

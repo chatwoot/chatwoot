@@ -2,9 +2,9 @@
 
 import ApiClient from './ApiClient';
 
-class SLA extends ApiClient {
+class SlaAPI extends ApiClient {
   constructor() {
-    super('sla', { accountScoped: true });
+    super('sla_policies', { accountScoped: true });
   }
 
   get({ page }) {
@@ -13,4 +13,4 @@ class SLA extends ApiClient {
   }
 }
 
-export default new SLA();
+export default new SlaAPI();
