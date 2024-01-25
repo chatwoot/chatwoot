@@ -27,10 +27,10 @@
             </th>
           </thead>
           <tbody>
-            <tr v-for="(sla, index) in records" :key="sla.title">
+            <tr v-for="sla in records" :key="sla.title">
               <td class="sla-title">
                 <span class="overflow-hidden whitespace-nowrap text-ellipsis">{{
-                  sla.title
+                  sla.name
                 }}</span>
               </td>
               <td>{{ sla.description }}</td>
@@ -40,7 +40,34 @@
                     class="sla-color--display"
                     :style="{ backgroundColor: sla.color }"
                   />
-                  {{ sla.color }}
+                  {{ sla.first_response_time_threshold }}
+                </div>
+              </td>
+              <td>
+                <div class="sla-color--container">
+                  <span
+                    class="sla-color--display"
+                    :style="{ backgroundColor: sla.color }"
+                  />
+                  {{ sla.next_response_time_threshold }}
+                </div>
+              </td>
+              <td>
+                <div class="sla-color--container">
+                  <span
+                    class="sla-color--display"
+                    :style="{ backgroundColor: sla.color }"
+                  />
+                  {{ sla.resolution_time_threshold }}
+                </div>
+              </td>
+              <td>
+                <div class="sla-color--container">
+                  <span
+                    class="sla-color--display"
+                    :style="{ backgroundColor: sla.color }"
+                  />
+                  {{ sla.only_during_business_hours }}
                 </div>
               </td>
               <td class="button-wrapper">
@@ -53,16 +80,6 @@
                   :is-loading="loading[sla.id]"
                   icon="edit"
                   @click="openEditPopup(sla)"
-                />
-                <woot-button
-                  v-tooltip.top="$t('SLA.FORM.DELETE')"
-                  variant="smooth"
-                  color-scheme="alert"
-                  size="tiny"
-                  icon="dismiss-circle"
-                  class-names="grey-btn"
-                  :is-loading="loading[sla.id]"
-                  @click="openDeletePopup(sla, index)"
                 />
               </td>
             </tr>
@@ -118,8 +135,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      records: 'slas/getslas',
-      uiFlags: 'slas/getUIFlags',
+      records: 'sla/getSLA',
+      uiFlags: 'sla/getUIFlags',
     }),
     // Delete Modal
     deleteConfirmText() {
@@ -133,7 +150,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('slas/get');
+    this.$store.dispatch('sla/get');
   },
   methods: {
     openAddPopup() {
@@ -193,7 +210,7 @@ export default {
 }
 .sla-title {
   span {
-    @apply w-60 inline-block;
+    @apply inline-block;
   }
 }
 </style>

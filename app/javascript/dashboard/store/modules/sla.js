@@ -24,14 +24,11 @@ export const getters = {
 };
 
 export const actions = {
-  get: async function getSLA({ commit }) {
+  get: async function get({ commit }) {
     commit(types.SET_SLA_UI_FLAG, { isFetching: true });
     try {
-      const response = await SlaAPI.get(true);
-      const sortedSLA = response.data.payload.sort((a, b) =>
-        a.title.localeCompare(b.title)
-      );
-      commit(types.SET_SLA, sortedSLA);
+      const response = await SlaAPI.get();
+      commit(types.SET_SLA, response.data.payload);
     } catch (error) {
       // Ignore error
     } finally {
@@ -39,12 +36,12 @@ export const actions = {
     }
   },
 
-  create: async function createSLA({ commit }, cannedObj) {
+  create: async function create({ commit }, slaObj) {
     commit(types.SET_SLA_UI_FLAG, { isCreating: true });
     try {
-      const response = await SlaAPI.create(cannedObj);
+      const response = await SlaAPI.create(slaObj);
       AnalyticsHelper.track(SLA_EVENTS.CREATE);
-      commit(types.ADD_SLA, response.data);
+      commit(types.ADD_SLA, response.data.payload);
     } catch (error) {
       const errorMessage = error?.response?.data?.message;
       throw new Error(errorMessage);
@@ -53,29 +50,16 @@ export const actions = {
     }
   },
 
-  update: async function updateSLA({ commit }, { id, ...updateObj }) {
+  update: async function update({ commit }, { id, ...updateObj }) {
     commit(types.SET_SLA_UI_FLAG, { isUpdating: true });
     try {
       const response = await SlaAPI.update(id, updateObj);
       AnalyticsHelper.track(SLA_EVENTS.UPDATE);
-      commit(types.EDIT_SLA, response.data);
+      commit(types.EDIT_SLA, response.data.payload);
     } catch (error) {
       throw new Error(error);
     } finally {
       commit(types.SET_SLA_UI_FLAG, { isUpdating: false });
-    }
-  },
-
-  delete: async function deleteSLA({ commit }, id) {
-    commit(types.SET_SLA_UI_FLAG, { isDeleting: true });
-    try {
-      await SlaAPI.delete(id);
-      AnalyticsHelper.track(SLA_EVENTS.DELETED);
-      commit(types.DELETE_SLA, id);
-    } catch (error) {
-      throw new Error(error);
-    } finally {
-      commit(types.SET_SLA_UI_FLAG, { isDeleting: false });
     }
   },
 };
@@ -91,7 +75,6 @@ export const mutations = {
   [types.SET_SLA]: MutationHelpers.set,
   [types.ADD_SLA]: MutationHelpers.create,
   [types.EDIT_SLA]: MutationHelpers.update,
-  [types.DELETE_SLA]: MutationHelpers.destroy,
 };
 
 export default {

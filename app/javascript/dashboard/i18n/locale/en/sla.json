@@ -9,25 +9,35 @@
       "404": "There are no slas available in this account.",
       "TITLE": "Manage slas",
       "DESC": "SLA let you group the conversations together.",
-      "TABLE_HEADER": ["Name", "Description", "Color"]
+      "TABLE_HEADER": ["Name", "Description", "FRT", "NRT", "RT", "Business Hours"]
     },
     "FORM": {
       "NAME": {
-        "SLA": "SLA Name",
-        "PLACEHOLDER": "SLA name",
+        "LABEL": "SLA Name",
+        "PLACEHOLDER": "SLA Name",
         "REQUIRED_ERROR": "SLA name is required",
         "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
         "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
       },
       "DESCRIPTION": {
-        "SLA": "Description",
+        "LABEL": "Description",
         "PLACEHOLDER": "SLA Description"
       },
-      "COLOR": {
-        "SLA": "Color"
+      "FIRST_RESPONSE_TIME": {
+        "LABEL": "First Response Time",
+        "PLACEHOLDER": "First Response Time"
       },
-      "SHOW_ON_SIDEBAR": {
-        "SLA": "Show sla on sidebar"
+      "NEXT_RESPONSE_TIME": {
+        "LABEL": "Next Response Time",
+        "PLACEHOLDER": "Next Response Time"
+      },
+      "RESOLUTION_TIME": {
+        "LABEL": "Resolution Time",
+        "PLACEHOLDER": "Resolution Time"
+      },
+      "BUSINESS_HOURS": {
+        "LABEL": "Business Hours",
+        "PLACEHOLDER": "Business Hours"
       },
       "EDIT": "Edit",
       "CREATE": "Create",
@@ -48,7 +58,7 @@
       "ADD_ALL_SLAS": "Add all slas"
     },
     "ADD": {
-      "TITLE": "Add sla",
+      "TITLE": "Add SLA",
       "DESC": "SLA let you group the conversations together.",
       "API": {
         "SUCCESS_MESSAGE": "SLA added successfully",
@@ -56,7 +66,7 @@
       }
     },
     "EDIT": {
-      "TITLE": "Edit sla",
+      "TITLE": "Edit SLA",
       "API": {
         "SUCCESS_MESSAGE": "SLA updated successfully",
         "ERROR_MESSAGE": "There was an error, please try again"

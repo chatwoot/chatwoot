@@ -3,38 +3,57 @@
     <woot-modal-header :header-title="pageTitle" />
     <form class="mx-0 flex flex-wrap" @submit.prevent="editSLA">
       <woot-input
-        v-model.trim="title"
-        :class="{ error: $v.title.$error }"
+        v-model.trim="name"
+        :class="{ error: $v.name.$error }"
         class="w-full sla-name--input"
-        :sla="$t('SLA.FORM.NAME.SLA')"
+        :sla="$t('SLA.FORM.NAME.LABEL')"
         :placeholder="$t('SLA.FORM.NAME.PLACEHOLDER')"
-        :error="getSLATitleErrorMessage"
-        @input="$v.title.$touch"
+        :error="getSlaNameErrorMessage"
+        @input="$v.name.$touch"
       />
       <woot-input
         v-model.trim="description"
-        :class="{ error: $v.description.$error }"
         class="w-full"
-        :sla="$t('SLA.FORM.DESCRIPTION.SLA')"
+        :label="$t('SLA.FORM.DESCRIPTION.LABEL')"
         :placeholder="$t('SLA.FORM.DESCRIPTION.PLACEHOLDER')"
-        @input="$v.description.$touch"
+        data-testid="sla-description"
       />
 
-      <div class="w-full">
-        <sla>
-          {{ $t('SLA.FORM.COLOR.SLA') }}
-          <woot-color-picker v-model="color" />
-        </sla>
-      </div>
-      <div class="w-full">
-        <input v-model="showOnSidebar" type="checkbox" :value="true" />
-        <sla for="conversation_creation">
-          {{ $t('SLA.FORM.SHOW_ON_SIDEBAR.SLA') }}
-        </sla>
-      </div>
+      <woot-input
+        v-model.trim="firstResponseTimeThreshold"
+        class="w-full"
+        :label="$t('SLA.FORM.FIRST_RESPONSE_TIME.LABEL')"
+        :placeholder="$t('SLA.FORM.FIRST_RESPONSE_TIME.PLACEHOLDER')"
+        data-testid="sla-firstResponseTimeThreshold"
+      />
+
+      <woot-input
+        v-model.trim="nextResponseTimeThreshold"
+        class="w-full"
+        :label="$t('SLA.FORM.NEXT_RESPONSE_TIME.LABEL')"
+        :placeholder="$t('SLA.FORM.NEXT_RESPONSE_TIME.PLACEHOLDER')"
+        data-testid="sla-nextResponseTimeThreshold"
+      />
+
+      <woot-input
+        v-model.trim="resolutionTimeThreshold"
+        class="w-full"
+        :label="$t('SLA.FORM.RESOLUTION_TIME.LABEL')"
+        :placeholder="$t('SLA.FORM.RESOLUTION_TIME.PLACEHOLDER')"
+        data-testid="sla-resolutionTimeThreshold"
+      />
+
+      <woot-input
+        v-model.trim="onlyDuringBusinessHours"
+        class="w-full"
+        :label="$t('SLA.FORM.BUSINESS_HOURS.LABEL')"
+        :placeholder="$t('SLA.FORM.BUSINESS_HOURS.PLACEHOLDER')"
+        data-testid="sla-onlyDuringBusinessHours"
+      />
+
       <div class="flex justify-end items-center py-2 px-0 gap-2 w-full">
         <woot-button
-          :is-disabled="$v.title.$invalid || uiFlags.isUpdating"
+          :is-disabled="$v.name.$invalid || uiFlags.isUpdating"
           :is-loading="uiFlags.isUpdating"
         >
           {{ $t('SLA.FORM.EDIT') }}
@@ -63,19 +82,21 @@ export default {
   },
   data() {
     return {
-      title: '',
+      name: '',
       description: '',
-      showOnSidebar: true,
-      color: '',
+      firstResponseTimeThreshold: '',
+      nextResponseTimeThreshold: '',
+      resolutionTimeThreshold: '',
+      onlyDuringBusinessHours: '',
     };
   },
   validations,
   computed: {
     ...mapGetters({
-      uiFlags: 'slas/getUIFlags',
+      uiFlags: 'sla/getUIFlags',
     }),
     pageTitle() {
-      return `${this.$t('SLA.EDIT.TITLE')} - ${this.selectedResponse.title}`;
+      return `${this.$t('SLA.EDIT.TITLE')} - ${this.selectedResponse.name}`;
     },
   },
   mounted() {
@@ -86,19 +107,27 @@ export default {
       this.$emit('close');
     },
     setFormValues() {
-      this.title = this.selectedResponse.title;
+      this.name = this.selectedResponse.name;
       this.description = this.selectedResponse.description;
-      this.showOnSidebar = this.selectedResponse.show_on_sidebar;
-      this.color = this.selectedResponse.color;
+      this.firstResponseTimeThreshold =
+        this.selectedResponse.first_response_time_threshold;
+      this.nextResponseTimeThreshold =
+        this.selectedResponse.next_response_time_threshold;
+      this.resolutionTimeThreshold =
+        this.selectedResponse.resolution_time_threshold;
+      this.onlyDuringBusinessHours =
+        this.selectedResponse.only_during_business_hours.toString();
     },
     editSLA() {
       this.$store
-        .dispatch('slas/update', {
+        .dispatch('sla/update', {
           id: this.selectedResponse.id,
-          color: this.color,
+          name: this.name,
           description: this.description,
-          title: this.title.toLowerCase(),
-          show_on_sidebar: this.showOnSidebar,
+          first_response_time_threshold: this.firstResponseTimeThreshold,
+          next_response_time_threshold: this.nextResponseTimeThreshold,
+          resolution_time_threshold: this.resolutionTimeThreshold,
+          only_during_business_hours: this.onlyDuringBusinessHours,
         })
         .then(() => {
           this.showAlert(this.$t('SLA.EDIT.API.SUCCESS_MESSAGE'));
@@ -111,13 +140,4 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-// SLA API supports only lowercase letters
-.sla-name--input {
-  ::v-deep {
-    input {
-      @apply lowercase;
-    }
-  }
-}
-</style>
+<style lang="scss" scoped></style>

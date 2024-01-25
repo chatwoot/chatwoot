@@ -11,7 +11,7 @@ export default {
       props: {
         headerTitle: 'SLA.HEADER',
         icon: 'tag',
-        showNewButton: false,
+        showNewButton: true,
       },
       children: [
         {

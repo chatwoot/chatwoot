@@ -6,41 +6,60 @@
     />
     <form class="mx-0 flex flex-wrap" @submit.prevent="addSLA">
       <woot-input
-        v-model.trim="title"
-        :class="{ error: $v.title.$error }"
+        v-model.trim="name"
+        :class="{ error: $v.name.$error }"
         class="w-full sla-name--input"
-        :sla="$t('SLA.FORM.NAME.SLA')"
+        :label="$t('SLA.FORM.NAME.LABEL')"
         :placeholder="$t('SLA.FORM.NAME.PLACEHOLDER')"
-        :error="getSLATitleErrorMessage"
-        data-testid="sla-title"
-        @input="$v.title.$touch"
+        :error="getSlaNameErrorMessage"
+        data-testid="sla-name"
+        @input="$v.name.$touch"
       />
 
       <woot-input
         v-model.trim="description"
-        :class="{ error: $v.description.$error }"
         class="w-full"
-        :sla="$t('SLA.FORM.DESCRIPTION.SLA')"
+        :label="$t('SLA.FORM.DESCRIPTION.LABEL')"
         :placeholder="$t('SLA.FORM.DESCRIPTION.PLACEHOLDER')"
         data-testid="sla-description"
-        @input="$v.description.$touch"
       />
 
-      <div class="w-full">
-        <sla>
-          {{ $t('SLA.FORM.COLOR.SLA') }}
-          <woot-color-picker v-model="color" />
-        </sla>
-      </div>
-      <div class="w-full">
-        <input v-model="showOnSidebar" type="checkbox" :value="true" />
-        <sla for="conversation_creation">
-          {{ $t('SLA.FORM.SHOW_ON_SIDEBAR.SLA') }}
-        </sla>
-      </div>
+      <woot-input
+        v-model.trim="firstResponseTimeThreshold"
+        class="w-full"
+        :label="$t('SLA.FORM.FIRST_RESPONSE_TIME.LABEL')"
+        :placeholder="$t('SLA.FORM.FIRST_RESPONSE_TIME.PLACEHOLDER')"
+        data-testid="sla-firstResponseTimeThreshold"
+      />
+
+      <woot-input
+        v-model.trim="nextResponseTimeThreshold"
+        class="w-full"
+        :label="$t('SLA.FORM.NEXT_RESPONSE_TIME.LABEL')"
+        :placeholder="$t('SLA.FORM.NEXT_RESPONSE_TIME.PLACEHOLDER')"
+        data-testid="sla-nextResponseTimeThreshold"
+      />
+
+      <woot-input
+        v-model.trim="resolutionTimeThreshold"
+        class="w-full"
+        :label="$t('SLA.FORM.RESOLUTION_TIME.LABEL')"
+        :placeholder="$t('SLA.FORM.RESOLUTION_TIME.PLACEHOLDER')"
+        data-testid="sla-resolutionTimeThreshold"
+      />
+
+      <woot-input
+        v-model.trim="onlyDuringBusinessHours"
+        class="w-full"
+        type="checkbox"
+        :label="$t('SLA.FORM.BUSINESS_HOURS.LABEL')"
+        :placeholder="$t('SLA.FORM.BUSINESS_HOURS.PLACEHOLDER')"
+        data-testid="sla-onlyDuringBusinessHours"
+      />
+
       <div class="flex justify-end items-center py-2 px-0 gap-2 w-full">
         <woot-button
-          :is-disabled="$v.title.$invalid || uiFlags.isCreating"
+          :is-disabled="$v.name.$invalid || uiFlags.isCreating"
           :is-loading="uiFlags.isCreating"
           data-testid="sla-submit"
         >
@@ -59,45 +78,41 @@ import alertMixin from 'shared/mixins/alertMixin';
 import validationMixin from './validationMixin';
 import { mapGetters } from 'vuex';
 import validations from './validations';
-import { getRandomColor } from 'dashboard/helper/labelColor';
 
 export default {
   mixins: [alertMixin, validationMixin],
-  props: {
-    prefillTitle: {
-      type: String,
-      default: '',
-    },
-  },
+  props: {},
   data() {
     return {
-      color: '#000',
+      name: '',
       description: '',
-      title: '',
+      firstResponseTimeThreshold: '',
+      nextResponseTimeThreshold: '',
+      resolutionTimeThreshold: '',
+      onlyDuringBusinessHours: '',
       showOnSidebar: true,
     };
   },
   validations,
   computed: {
     ...mapGetters({
-      uiFlags: 'slas/getUIFlags',
+      uiFlags: 'sla/getUIFlags',
     }),
   },
-  mounted() {
-    this.color = getRandomColor();
-    this.title = this.prefillTitle.toLowerCase();
-  },
+  mounted() {},
   methods: {
     onClose() {
       this.$emit('close');
     },
     async addSLA() {
       try {
-        await this.$store.dispatch('slas/create', {
-          color: this.color,
+        await this.$store.dispatch('sla/create', {
+          name: this.name,
           description: this.description,
-          title: this.title.toLowerCase(),
-          show_on_sidebar: this.showOnSidebar,
+          first_response_time_threshold: this.firstResponseTimeThreshold,
+          next_response_time_threshold: this.nextResponseTimeThreshold,
+          resolution_time_threshold: this.resolutionTimeThreshold,
+          only_during_business_hours: this.onlyDuringBusinessHours,
         });
         this.showAlert(this.$t('SLA.ADD.API.SUCCESS_MESSAGE'));
         this.onClose();
@@ -110,13 +125,4 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-// SLA API supports only lowercase letters
-.sla-name--input {
-  ::v-deep {
-    input {
-      @apply lowercase;
-    }
-  }
-}
-</style>
+<style lang="scss" scoped></style>
