@@ -74,7 +74,7 @@ jobs:
           name: yarn
           command: yarn install --frozen-lockfile --cache-folder ~/.cache/yarn
 
-      # Store yarn / webpacker cache
+      # Store yarn cache
       - save_cache:
           key: chatwoot-yarn-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
           paths:

@@ -30,7 +30,7 @@ services:
     depends_on:
       - postgres
       - redis
-      - webpack
+      - vite
       - mailhog
       - sidekiq
     ports:
@@ -80,7 +80,7 @@ services:
       - NODE_ENV=development
       - RAILS_ENV=development
     entrypoint: docker/entrypoints/webpack.sh
-    command: bin/webpack-dev-server
+    command: bin/vite
 
   postgres:
     image: postgres:12

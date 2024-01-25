@@ -1,6 +1,6 @@
 FROM chatwoot:development
 
-RUN chmod +x docker/entrypoints/webpack.sh
+RUN chmod +x docker/entrypoints/vite.sh
 
 EXPOSE 3035
-CMD ["bin/webpack-dev-server"]
+CMD ["bin/vite"]

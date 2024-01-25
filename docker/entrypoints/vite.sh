@@ -15,6 +15,6 @@ do
   sleep 2;
 done
 
-echo "Ready to run webpack development server."
+echo "Ready to run frontend development server."
 
 exec "$@"
