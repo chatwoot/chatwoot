@@ -14,12 +14,12 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
   end
 
   def perform_reply
+    send_to_facebook_page message_params
+
     if message.attachments.present?
       message.attachments.each do |attachment|
         send_to_facebook_page attachment_message_params(attachment)
       end
-    else
-      send_to_facebook_page message_params
     end
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: message.account, user: message.sender).capture_exception
