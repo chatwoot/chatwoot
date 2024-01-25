@@ -105,12 +105,12 @@ GEM
       activerecord (>= 6.0, < 7.1)
     addressable (2.8.4)
       public_suffix (>= 2.0.2, < 6.0)
-    administrate (0.19.0)
-      actionpack (>= 5.0)
-      actionview (>= 5.0)
-      activerecord (>= 5.0)
-      jquery-rails (>= 4.0)
-      kaminari (>= 1.0)
+    administrate (0.20.1)
+      actionpack (>= 6.0, < 8.0)
+      actionview (>= 6.0, < 8.0)
+      activerecord (>= 6.0, < 8.0)
+      jquery-rails (~> 4.6.0)
+      kaminari (~> 1.2.2)
       sassc-rails (~> 2.1)
       selectize-rails (~> 0.6)
     administrate-field-active_storage (1.0.1)
@@ -461,7 +461,7 @@ GEM
     mini_magick (4.12.0)
     mini_mime (1.1.5)
     mini_portile2 (2.8.5)
-    minitest (5.20.0)
+    minitest (5.21.2)
     mock_redis (0.36.0)
       ruby2_keywords
     msgpack (1.7.0)
@@ -840,7 +840,7 @@ DEPENDENCIES
   active_record_query_trace
   activerecord-import
   acts-as-taggable-on
-  administrate (>= 0.19.0)
+  administrate (>= 0.20.1)
   administrate-field-active_storage (>= 1.0.1)
   administrate-field-belongs_to_search (>= 0.9.0)
   annotate

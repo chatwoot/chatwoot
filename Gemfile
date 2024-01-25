@@ -74,7 +74,7 @@ gem 'devise_token_auth'
 gem 'jwt'
 gem 'pundit'
 # super admin
-gem 'administrate', '>= 0.19.0'
+gem 'administrate', '>= 0.20.1'
 gem 'administrate-field-active_storage', '>= 1.0.1'
 gem 'administrate-field-belongs_to_search', '>= 0.9.0'
 
