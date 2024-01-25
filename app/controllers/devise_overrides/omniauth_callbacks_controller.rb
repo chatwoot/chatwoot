@@ -81,7 +81,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     keycloak_url = 'https://sso.onehash.ai/realms/OneHash'
     client_id = ENV.fetch('KEYCLOAK_CLIENT_ID', nil)
     client_secret = ENV.fetch('KEYCLOAK_CLIENT_SECRET', nil)
-
+    redirect_uri = ENV.fetch('KEYCLOAK_CALLBACK_URL', nil)
     # Token from params
     token = params['code']
 
@@ -94,7 +94,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
       code: token,
       client_id: client_id,
       client_secret: client_secret,
-      redirect_uri: 'https://sso.onehash.ai/omniauth/keycloak_openid/callback'
+      redirect_uri: redirect_uri
     }
     response = HTTParty.post(token_endpoint, body: token_data)
     if response.code == 200

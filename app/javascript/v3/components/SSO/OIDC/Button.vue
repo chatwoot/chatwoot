@@ -26,7 +26,6 @@ export default {
     },
     methods: {
         oidcLogin() {
-            const realm = window.chatwootConfig.keycloakRealm;
             const clientId= window.chatwootConfig.keycloakClientId;
             const redirectUri =  window.chatwootConfig.keycloakCallbackUrl
 
