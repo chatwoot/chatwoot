@@ -441,11 +441,7 @@ export default {
     },
     setAttachmentPayload(payload) {
       this.attachedFiles.forEach(attachment => {
-        if (this.globalConfig.directUploadsEnabled) {
-          payload.files.push(attachment.blobSignedId);
-        } else {
-          payload.files.push(attachment.resource.file);
-        }
+        payload.files.push(attachment.resource.file);
       });
     },
     attachFile({ blob, file }) {

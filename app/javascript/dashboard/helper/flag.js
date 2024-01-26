@@ -10,6 +10,10 @@ const FLAG_OFFSET = 127397;
  * getCountryFlag('cz') // '🇨🇿'
  */
 export const getCountryFlag = countryCode => {
+  if (countryCode === undefined) {
+    return "";
+  }
+  
   const codePoints = countryCode
     .toUpperCase()
     .split('')
