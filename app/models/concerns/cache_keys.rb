@@ -4,7 +4,7 @@ module CacheKeys
   include CacheKeysHelper
   include Events::Types
 
-  CACHE_KEYS_EXPIRY = 24.hours
+  CACHE_KEYS_EXPIRY = 48.hours
 
   included do
     class_attribute :cacheable_models
