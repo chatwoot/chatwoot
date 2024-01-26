@@ -19,8 +19,7 @@ module CacheKeys
   end
 
   def invalidate_cache_key_for(key)
-    prefixed_cache_key = get_prefixed_cache_key(id, key)
-    Redis::Alfred.delete(prefixed_cache_key)
+    update_cache_key(key)
     dispatch_cache_update_event
   end
 
