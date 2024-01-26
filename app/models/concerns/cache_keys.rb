@@ -21,13 +21,13 @@ module CacheKeys
   end
 
   def update_cache_key(key)
-    udpate_cache_key_for_account(id, key)
+    update_cache_key_for_account(id, key)
     dispatch_cache_update_event
   end
 
   def reset_cache_keys
     self.class.cacheable_models.each do |model|
-      udpate_cache_key_for_account(id, model.name.underscore)
+      update_cache_key_for_account(id, model.name.underscore)
     end
 
     dispatch_cache_update_event
@@ -35,7 +35,7 @@ module CacheKeys
 
   private
 
-  def udpate_cache_key_for_account(account_id, key)
+  def update_cache_key_for_account(account_id, key)
     prefixed_cache_key = get_prefixed_cache_key(account_id, key)
     Redis::Alfred.setex(prefixed_cache_key, Time.now.utc.to_i, CACHE_KEYS_EXPIRY)
   end
