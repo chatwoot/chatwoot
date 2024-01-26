@@ -175,6 +175,6 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
   end
 
   def tomorrow
-    (Time.zone.today + 1).strftime('%d-%b-%Y')
+    (Time.zone.today + 3).strftime('%d-%b-%Y')
   end
 end
