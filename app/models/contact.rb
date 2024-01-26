@@ -6,10 +6,13 @@
 #
 #  id                    :integer          not null, primary key
 #  additional_attributes :jsonb
+#  contact_type          :integer          default("visitor")
 #  custom_attributes     :jsonb
 #  email                 :string
 #  identifier            :string
 #  last_activity_at      :datetime
+#  last_name             :string           default("")
+#  middle_name           :string           default("")
 #  name                  :string           default("")
 #  phone_number          :string
 #  created_at            :datetime         not null
@@ -54,6 +57,8 @@ class Contact < ApplicationRecord
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
+
+  enum contact_type: { visitor: 0, lead: 1, customer: 2 }
 
   scope :order_on_last_activity_at, lambda { |direction|
     order(
