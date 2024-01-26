@@ -50,7 +50,7 @@ ar:
     dyte:
       invalid_message_type: "Invalid message type. Action not permitted"
     slack:
-      invalid_channel_id: "Invalid slack channel. Please try again"
+      invalid_channel_id: "قناة Slack غير صحيحة. الرجاء المحاولة مرة أخرى"
     inboxes:
       imap:
         socket_error: الرجاء التحقق من اتصال الشبكة، عنوان IMAP وحاول مرة أخرى.
@@ -179,7 +179,7 @@ ar:
       name: "الاتصال الكامل"
       description: "التكامل الكامل يساعد على إثراء ملفات تعريف الزوار. تحديد المستخدمين بمجرد مشاركتهم عنوان البريد الإلكتروني الخاص بهم وتقديم خدمة العملاء الخاصة بهم. قم بتوصيل اتصالك الكامل بحسابك عن طريق مشاركة مفتاح API للاتصال الكامل."
     google_translate:
-      name: "Google Translate"
+      name: "ترجمة Google"
       description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
     openai:
       name: "OpenAI"
@@ -189,41 +189,41 @@ ar:
       search_placeholder: Search for article by title or body...
       empty_placeholder: لم يتم العثور على النتائج.
       loading_placeholder: يبحث...
-      results_title: Search results
+      results_title: نتائج البحث
     toc_header: 'On this page'
     hero:
       sub_title: Search for the articles here or browse the categories below.
     common:
       home: الرئيسية
       last_updated_on: Last updated on %{last_updated_on}
-      view_all_articles: View all
-      article: article
+      view_all_articles: عرض الكل
+      article: مقال
       articles: المقالات
       author: المؤلف
-      authors: authors
+      authors: المؤلفون
       other: other
       others: others
-      by: By
-      no_articles: There are no articles here
+      by: بواسطة
+      no_articles: لا توجد مقالات
     footer:
       made_with: Made with
     header:
       go_to_homepage: Website
       appearance:
-        system: System
+        system: النظام
         light: Light
         dark: Dark
       featured_articles: Featured Articles
       uncategorized: Uncategorized
     404:
-      title: Page not found
-      description: We couldn't find the page you were looking for.
-      back_to_home: Go to home page
+      title: لم يتم العثور على الصفحة
+      description: لم نتمكن من العثور على الصفحة التي تبحث عنها.
+      back_to_home: الذهاب إلى الصفحة الرئيسية
   slack_unfurl:
     fields:
       name: الاسم
       email: البريد الإلكتروني
-      phone_number: Phone
+      phone_number: هاتف
       company_name: الشركة
       inbox_name: صندوق الوارد
       inbox_type: Inbox Type
