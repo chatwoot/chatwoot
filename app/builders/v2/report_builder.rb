@@ -46,6 +46,14 @@ class V2::ReportBuilder
     }
   end
 
+  def short_summary
+    {
+      conversations_count: conversations.count,
+      avg_first_response_time: avg_first_response_time_summary,
+      avg_resolution_time: avg_resolution_time_summary
+    }
+  end
+
   def conversation_metrics
     if params[:type].equal?(:account)
       live_conversations

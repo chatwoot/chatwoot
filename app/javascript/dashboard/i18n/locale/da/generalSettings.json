@@ -92,7 +92,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Afbrudt fra Chatwoot"
+      "OFFLINE": "Offline"
     },
     "BUTTON": {
       "REFRESH": "Opdater"
