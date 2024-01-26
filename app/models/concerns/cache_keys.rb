@@ -4,6 +4,8 @@ module CacheKeys
   include CacheKeysHelper
   include Events::Types
 
+  CACHE_KEYS_EXPIRY = 24.hours
+
   included do
     class_attribute :cacheable_models
     self.cacheable_models = [Label, Inbox, Team]
@@ -35,7 +37,7 @@ module CacheKeys
 
   def udpate_cache_key_for_account(account_id, key)
     prefixed_cache_key = get_prefixed_cache_key(account_id, key)
-    Redis::Alfred.setex(prefixed_cache_key, Time.now.utc.to_i, 72.hours)
+    Redis::Alfred.setex(prefixed_cache_key, Time.now.utc.to_i, CACHE_KEYS_EXPIRY)
   end
 
   def dispatch_cache_update_event
