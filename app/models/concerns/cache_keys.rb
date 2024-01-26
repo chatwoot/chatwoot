@@ -18,24 +18,25 @@ module CacheKeys
     keys
   end
 
-  def invalidate_cache_key_for(key)
-    update_cache_key(key)
-    dispatch_cache_update_event
-  end
-
   def update_cache_key(key)
-    prefixed_cache_key = get_prefixed_cache_key(id, key)
-    Redis::Alfred.setex(prefixed_cache_key, Time.now.utc.to_i, 72.hours)
+    udpate_cache_key_for_account(id, key)
     dispatch_cache_update_event
   end
 
   def reset_cache_keys
     self.class.cacheable_models.each do |model|
-      invalidate_cache_key_for(model.name.underscore)
+      udpate_cache_key_for_account(id, model.name.underscore)
     end
+
+    dispatch_cache_update_event
   end
 
   private
+
+  def udpate_cache_key_for_account(account_id, key)
+    prefixed_cache_key = get_prefixed_cache_key(account_id, key)
+    Redis::Alfred.setex(prefixed_cache_key, Time.now.utc.to_i, 72.hours)
+  end
 
   def dispatch_cache_update_event
     Rails.configuration.dispatcher.dispatch(ACCOUNT_CACHE_INVALIDATED, Time.zone.now, cache_keys: cache_keys, account: self)
