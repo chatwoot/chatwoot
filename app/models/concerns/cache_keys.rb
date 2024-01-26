@@ -26,7 +26,7 @@ module CacheKeys
 
   def update_cache_key(key)
     prefixed_cache_key = get_prefixed_cache_key(id, key)
-    Redis::Alfred.set(prefixed_cache_key, Time.now.utc.to_i)
+    Redis::Alfred.setex(prefixed_cache_key, Time.now.utc.to_i, 72.hours)
     dispatch_cache_update_event
   end
 
