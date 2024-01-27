@@ -40,5 +40,10 @@ RSpec.describe TriggerScheduledItemsJob do
       expect(Channels::Whatsapp::TemplatesSyncSchedulerJob).to receive(:perform_later).once
       described_class.perform_now
     end
+
+    it 'triggers Notification::RemoveOldNotificationJob' do
+      expect(Notification::RemoveOldNotificationJob).to receive(:perform_later).once
+      described_class.perform_now
+    end
   end
 end

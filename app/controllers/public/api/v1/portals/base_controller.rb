@@ -1,6 +1,7 @@
 class Public::Api::V1::Portals::BaseController < PublicController
   before_action :show_plain_layout
   before_action :set_color_scheme
+  before_action :set_global_config
   around_action :set_locale
   after_action :allow_iframe_requests
 
@@ -59,5 +60,9 @@ class Public::Api::V1::Portals::BaseController < PublicController
   def render_404
     portal
     render 'public/api/v1/portals/error/404', status: :not_found
+  end
+
+  def set_global_config
+    @global_config = GlobalConfig.get('LOGO_THUMBNAIL', 'BRAND_NAME', 'BRAND_URL')
   end
 end
