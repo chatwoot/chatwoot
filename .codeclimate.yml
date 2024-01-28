@@ -5,8 +5,6 @@ plugins:
     channel: rubocop-0-73
   eslint:
     enabled: false
-  csslint:
-    enabled: true
   scss-lint:
     enabled: true
   brakeman:
