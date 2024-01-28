@@ -45,7 +45,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
-import { popoutChatWindow } from '../helpers/popoutHelper';
+import { popoutChatWindow } from 'shared/helpers/popoutHelper';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
 import configMixin from 'widget/mixins/configMixin';
@@ -136,6 +136,7 @@ export default {
   .close-button {
     display: none;
   }
+
   .rn-close-button {
     display: block !important;
   }

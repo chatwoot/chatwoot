@@ -1,6 +1,6 @@
 import { sendMessage } from 'widget/helpers/utils';
 import ContactsAPI from '../../api/contacts';
-import { SET_USER_ERROR } from '../../constants/errorTypes';
+import { SET_USER_ERROR } from 'shared/constants/errorTypes';
 import { setHeader } from '../../helpers/axios';
 const state = {
   currentUser: {},
