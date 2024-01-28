@@ -34,7 +34,7 @@
       g.onload = function () {
         window.chatwootSDK.run({
           websiteToken: url.searchParams.get('website_token') || '',
-          baseUrl: 'http://localhost:4104',
+          baseUrl: url.searchParams.get('base_url') || 'http://localhost:3000',
         });
       };
     })(document, 'script');
