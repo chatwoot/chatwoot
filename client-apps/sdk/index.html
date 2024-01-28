@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+  <title>Livechat SDK - Playground</title>
+  <script>
+    const url = new URL(window.location.href);
+    window.chatwootSettings = {
+      showPopoutButton: Boolean(url.searchParams.get('popout') || false),
+      hideMessageBubble: Boolean(url.searchParams.get('hide_bubble') || false),
+      position: url.searchParams.get('position') || 'right',
+      locale: 'en' || url.searchParams.get('locale'),
+      useBrowserLanguage: Boolean(
+        url.searchParams.get('browser_language') || false
+      ),
+      type: url.searchParams.get('type') || 'expanded',
+      widgetStyle: url.searchParams.get('style') || 'standard',
+      darkMode: url.searchParams.get('dark_mode') || 'system',
+    };
+    (function (d, t) {
+      var BASE_URL = 'http://localhost:6174';
+      var g = d.createElement(t);
+      var s = d.getElementsByTagName(t)[0];
+      g.src = BASE_URL + '/main.js';
+      g.type = 'module';
+      g.defer = true;
+      g.async = true;
+      s.parentNode.insertBefore(g, s);
+      g.onload = function () {
+        window.chatwootSDK.run({
+          websiteToken: url.searchParams.get('website_token') || '',
+          baseUrl: 'http://localhost:4104',
+        });
+      };
+    })(document, 'script');
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      window.addEventListener('chatwoot:ready', function () {
+        console.log('chatwoot:ready', window.$chatwoot);
+        if (window.location.search.includes('setUser')) {
+          window.$chatwoot.setUser('<%= user_id %>', {
+            identifier_hash: '<%= user_hash %>',
+            email: 'jane@example.com',
+            name: 'Jane Doe',
+            phone_number: '',
+          });
+        }
+      });
+
+      window.addEventListener('chatwoot:error', function (e) {
+        console.log('chatwoot:error', e.detail);
+      });
+
+      window.addEventListener('chatwoot:on-message', function (e) {
+        console.log('chatwoot:on-message', e.detail);
+      });
+
+      window.addEventListener('chatwoot:on-start-conversation', function (e) {
+        console.log('chatwoot:on-start-conversation', e.detail);
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <div id="app"></div>
+</body>
+
+
+
+</html>

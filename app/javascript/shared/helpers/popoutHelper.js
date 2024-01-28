@@ -1,4 +1,4 @@
-import { buildPopoutURL } from './urlParamsHelper';
+import { buildPopoutURL } from '../../widget/helpers/urlParamsHelper';
 
 export const popoutChatWindow = (
   origin,

@@ -1,11 +1,4 @@
-import { SDK_CSS } from './sdk.js';
 import { IFrameHelper } from './IFrameHelper';
-
-export const loadCSS = () => {
-  const css = document.createElement('style');
-  css.innerHTML = `${SDK_CSS}`;
-  document.body.appendChild(css);
-};
 
 export const addClasses = (elm, classes) => {
   elm.classList.add(...classes.split(' '));

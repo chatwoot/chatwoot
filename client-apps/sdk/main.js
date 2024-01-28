@@ -1,18 +1,20 @@
 import Cookies from 'js-cookie';
-import { IFrameHelper } from '../sdk/IFrameHelper';
+import './style.css';
+import { IFrameHelper } from './src/IFrameHelper';
 import {
   getBubbleView,
   getDarkMode,
   getWidgetStyle,
-} from '../sdk/settingsHelper';
+} from './src/settingsHelper';
 import {
   computeHashForUserData,
   getUserCookieName,
   hasUserKeys,
-} from '../sdk/cookieHelpers';
-import { addClasses, removeClasses } from '../sdk/DOMHelpers';
-import { setCookieWithDomain } from '../sdk/cookieHelpers';
-import { SDK_SET_BUBBLE_VISIBILITY } from 'shared/constants/sharedFrameEvents';
+} from './src/cookieHelpers';
+import { addClasses, removeClasses } from './src/DOMHelpers';
+import { setCookieWithDomain } from './src/cookieHelpers';
+import { SDK_SET_BUBBLE_VISIBILITY } from '@chatwoot/shared/constants/sharedFrameEvents';
+
 const runSDK = ({ baseUrl, websiteToken }) => {
   if (window.$chatwoot) {
     return;

@@ -2,6 +2,7 @@
   "name": "@chatwoot/chatwoot",
   "version": "3.5.2",
   "license": "MIT",
+  "private": true,
   "scripts": {
     "eslint": "eslint app/**/*.{js,vue}",
     "eslint:fix": "eslint app/**/*.{js,vue} --fix",
@@ -19,6 +20,10 @@
     "prepare": "husky install",
     "size": "size-limit"
   },
+  "workspaces": [
+    ".",
+    "client-apps/*"
+  ],
   "size-limit": [
     {
       "path": "public/packs/js/widget-*.js",

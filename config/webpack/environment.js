@@ -53,7 +53,7 @@ environment.loaders.append('audio', {
   },
 });
 
-const preserveNameFor = ['sdk', 'worker'];
+const preserveNameFor = ['worker'];
 
 environment.config.merge({ resolve });
 environment.config.set('output.filename', chunkData => {
