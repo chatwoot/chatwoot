@@ -12,7 +12,7 @@ import {
 } from 'shared/helpers/Validators';
 import router from '../widget/router';
 import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
-const PhoneInput = () => import('../widget/components/Form/PhoneInput');
+const PhoneInput = () => import('../widget/components/Form/PhoneInput.vue');
 
 Vue.use(VueI18n);
 Vue.use(VueDOMPurifyHTML, domPurifyConfig);

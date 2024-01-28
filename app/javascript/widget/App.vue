@@ -346,5 +346,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~widget/assets/scss/woot.scss';
+@import 'widget/assets/scss/woot.scss';
 </style>

@@ -7,11 +7,10 @@ module.exports = {
     'plugin:cypress/recommended',
   ],
   parserOptions: {
-    parser: '@babel/eslint-parser',
-    ecmaVersion: 2020,
+    ecmaVersion: 2022,
     sourceType: 'module',
   },
-  plugins: ['html', 'prettier', 'babel'],
+  plugins: ['html', 'prettier'],
   rules: {
     'prettier/prettier': ['error'],
     camelcase: 'off',
