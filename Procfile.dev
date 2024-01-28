@@ -1,4 +1,6 @@
-backend: bin/rails s -p 3000
-frontend: export NODE_OPTIONS=--openssl-legacy-provider && bin/webpack-dev-server
+legacy-apps: yarn legacy:dev
+client-apps: yarn client-apps:dev
+
 # https://github.com/mperham/sidekiq/issues/3090#issuecomment-389748695
 worker: dotenv bundle exec sidekiq -C config/sidekiq.yml
+backend: bin/rails s -p 3000
