@@ -2,11 +2,6 @@
   @apply bg-slate-25 dark:bg-slate-800;
 }
 
-.flex-center {
-  @include flex-align(center, middle);
-  display: flex;
-}
-
 .bottom-space-fix {
   margin-bottom: auto;
 }

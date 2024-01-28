@@ -8,7 +8,7 @@
 
   .reply-box__top {
     .icon {
-      color: $medium-gray;
+      color: var(--slate-500);
       cursor: pointer;
       font-size: $font-size-medium;
       margin-right: $space-small;
@@ -34,7 +34,7 @@
       resize: none;
     }
 
-    > textarea {
+    >textarea {
       @include ghost-input();
       background: transparent;
       margin: 0;
@@ -52,7 +52,7 @@
     .reply-box__top {
       @apply bg-yellow-100 dark:bg-yellow-800;
 
-      > input {
+      >input {
         @apply bg-yellow-100 dark:bg-yellow-800;
       }
     }

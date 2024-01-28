@@ -1,7 +1,5 @@
 .modal-mask {
-  // @include flex;
-  // @include flex-align(center, middle);
-  @apply flex items-center justify-center bg-modal-backdrop-light dark:bg-modal-backdrop-dark  z-[9990] h-full left-0 fixed top-0 w-full;
+  @apply flex items-center justify-center bg-modal-backdrop-light dark:bg-modal-backdrop-dark z-[9990] h-full left-0 fixed top-0 w-full;
 }
 
 .page-top-bar {
@@ -45,8 +43,6 @@
   }
 
   .modal-footer {
-    // @include flex;
-    // @include flex-align($x: flex-end, $y: middle);
     @apply flex justify-end items-center py-2 px-0 gap-2;
 
     &.justify-content-end {

@@ -5,9 +5,8 @@
         <div class="settings-content">
           <form @submit.prevent="updateWidget">
             <woot-avatar-uploader
-              :label="
-                $t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.AVATAR.LABEL')
-              "
+              :label="$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.AVATAR.LABEL')
+                "
               :src="avatarUrl"
               delete-avatar
               @change="handleImageUpload"
@@ -16,44 +15,38 @@
             <woot-input
               v-model.trim="websiteName"
               :class="{ error: v$.websiteName.$error }"
-              :label="
-                $t(
-                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WEBSITE_NAME.LABEL'
-                )
-              "
-              :placeholder="
-                $t(
-                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WEBSITE_NAME.PLACE_HOLDER'
-                )
-              "
+              :label="$t(
+                'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WEBSITE_NAME.LABEL'
+              )
+                "
+              :placeholder="$t(
+                'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WEBSITE_NAME.PLACE_HOLDER'
+              )
+                "
               :error="websiteNameValidationErrorMsg"
               @blur="v$.websiteName.$touch"
             />
             <woot-input
               v-model.trim="welcomeHeading"
-              :label="
-                $t(
-                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WELCOME_HEADING.LABEL'
-                )
-              "
-              :placeholder="
-                $t(
-                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WELCOME_HEADING.PLACE_HOLDER'
-                )
-              "
+              :label="$t(
+                'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WELCOME_HEADING.LABEL'
+              )
+                "
+              :placeholder="$t(
+                'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WELCOME_HEADING.PLACE_HOLDER'
+              )
+                "
             />
             <woot-input
               v-model.trim="welcomeTagline"
-              :label="
-                $t(
-                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WELCOME_TAGLINE.LABEL'
-                )
-              "
-              :placeholder="
-                $t(
-                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WELCOME_TAGLINE.PLACE_HOLDER'
-                )
-              "
+              :label="$t(
+                'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WELCOME_TAGLINE.LABEL'
+              )
+                "
+              :placeholder="$t(
+                'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WELCOME_TAGLINE.PLACE_HOLDER'
+              )
+                "
             />
             <label>
               {{
@@ -79,44 +72,39 @@
             </label>
             <input-radio-group
               name="widget-bubble-position"
-              :label="
-                $t(
-                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_POSITION_LABEL'
-                )
-              "
+              :label="$t(
+                'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_POSITION_LABEL'
+              )
+                "
               :items="widgetBubblePositions"
               :action="handleWidgetBubblePositionChange"
             />
             <input-radio-group
               name="widget-bubble-type"
-              :label="
-                $t(
-                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_TYPE_LABEL'
-                )
-              "
+              :label="$t(
+                'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_TYPE_LABEL'
+              )
+                "
               :items="widgetBubbleTypes"
               :action="handleWidgetBubbleTypeChange"
             />
             <woot-input
               v-model.trim="widgetBubbleLauncherTitle"
-              :label="
-                $t(
-                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_LAUNCHER_TITLE.LABEL'
-                )
-              "
-              :placeholder="
-                $t(
-                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_LAUNCHER_TITLE.PLACE_HOLDER'
-                )
-              "
+              :label="$t(
+                'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_LAUNCHER_TITLE.LABEL'
+              )
+                "
+              :placeholder="$t(
+                'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_LAUNCHER_TITLE.PLACE_HOLDER'
+              )
+                "
             />
             <woot-submit-button
               class="submit-button"
-              :button-text="
-                $t(
-                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.UPDATE.BUTTON_TEXT'
-                )
-              "
+              :button-text="$t(
+                'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.UPDATE.BUTTON_TEXT'
+              )
+                "
               :loading="uiFlags.isUpdating"
               :disabled="v$.$invalid || uiFlags.isUpdating"
             />
@@ -130,7 +118,10 @@
           :action="handleWidgetViewChange"
           :style="{ 'text-align': 'center' }"
         />
-        <div v-if="isWidgetPreview" class="widget-preview">
+        <div
+          v-if="isWidgetPreview"
+          class="widget-preview"
+        >
           <Widget
             :welcome-heading="welcomeHeading"
             :welcome-tagline="welcomeTagline"
@@ -144,7 +135,10 @@
             :widget-bubble-type="widgetBubbleType"
           />
         </div>
-        <div v-else class="widget-script">
+        <div
+          v-else
+          class="widget-script"
+        >
           <woot-code :script="widgetScript" />
         </div>
       </div>
@@ -171,7 +165,7 @@ export default {
   props: {
     inbox: {
       type: Object,
-      default: () => {},
+      default: () => { },
     },
   },
   setup() {
@@ -369,8 +363,8 @@ export default {
           error.message
             ? error.message
             : this.$t(
-                'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.AVATAR.DELETE.API.ERROR_MESSAGE'
-              )
+              'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.AVATAR.DELETE.API.ERROR_MESSAGE'
+            )
         );
       }
     },
@@ -406,9 +400,9 @@ export default {
       } catch (error) {
         this.showAlert(
           error.message ||
-            this.$t(
-              'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.UPDATE.API.ERROR_MESSAGE'
-            )
+          this.$t(
+            'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.UPDATE.API.ERROR_MESSAGE'
+          )
         );
       }
     },
@@ -426,10 +420,6 @@ export default {
   display: flex;
   flex-direction: row;
   padding: var(--space-one);
-
-  @include breakpoint(900px down) {
-    flex-direction: column;
-  }
 }
 
 .settings-container {
@@ -455,9 +445,9 @@ export default {
     padding: var(--space-one) var(--space-one) var(--space-one) var(--space-one);
     @apply bg-slate-50 dark:bg-slate-700;
 
-    @include breakpoint(500px down) {
-      background: none;
-    }
+    // @include breakpoint(500px down) {
+    //   background: none;
+    // }
   }
 
   .widget-script {

@@ -1,45 +1,10 @@
-.side-menu {
-  i {
-    margin-right: var(--space-smaller);
-    min-width: var(--space-two);
-  }
-}
-
-.sidebar {
-  z-index: 1024 - 1;
-
-  //logo
-  .logo {
-    img {
-      max-height: 108px;
-      padding: $woot-logo-padding;
-    }
-  }
-
-  .nested {
-    a {
-      font-size: var(--font-size-small);
-      margin-bottom: var(--space-micro);
-      margin-top: var(--space-micro);
-
-      .inbox-icon {
-        display: inline-block;
-        margin-right: var(--space-micro);
-        min-width: var(--space-normal);
-        text-align: center;
-      }
-    }
-  }
-}
-
 // bottom-nav
 .bottom-nav {
   @include flex;
   @include space-between-column;
   @include border-normal-top;
   flex-direction: column;
-  padding: var(--space-one) var(--space-normal) var(--space-one)
-    var(--space-one);
+  padding: var(--space-one) var(--space-normal) var(--space-one) var(--space-one);
   position: relative;
 
   &:hover {
