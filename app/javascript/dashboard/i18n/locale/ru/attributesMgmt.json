@@ -41,7 +41,7 @@
           "IN_VALID": "Неверный ключ"
         },
         "REGEX_PATTERN": {
-          "LABEL": "Regex Pattern",
+          "LABEL": "Шаблон Regex",
           "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
         },
         "REGEX_CUE": {
@@ -106,7 +106,7 @@
         "NOT_FOUND": "Нет настроенных пользовательских атрибутов"
       },
       "REGEX_PATTERN": {
-        "LABEL": "Regex Pattern",
+        "LABEL": "Шаблон Regex",
         "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
       },
       "REGEX_CUE": {
