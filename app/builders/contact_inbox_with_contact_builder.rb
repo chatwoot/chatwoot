@@ -51,6 +51,8 @@ class ContactInboxWithContactBuilder
   def create_contact
     account.contacts.create!(
       name: contact_attributes[:name] || ::Haikunator.haikunate(1000),
+      last_name: contact_attributes[:last_name] || '',
+      middle_name: contact_attributes[:middle_name] || '',
       phone_number: contact_attributes[:phone_number],
       email: contact_attributes[:email],
       identifier: contact_attributes[:identifier],

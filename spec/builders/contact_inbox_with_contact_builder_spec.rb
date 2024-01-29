@@ -13,6 +13,7 @@ describe ContactInboxWithContactBuilder do
         inbox: inbox,
         contact_attributes: {
           name: 'Contact',
+          last_name: '1',
           phone_number: '+1234567890',
           email: 'testemail@example.com'
         }
@@ -35,6 +36,7 @@ describe ContactInboxWithContactBuilder do
 
       expect(contact_inbox.contact.id).not_to eq(contact.id)
       expect(contact_inbox.contact.name).to eq('Contact')
+      expect(contact_inbox.contact.last_name).to eq('1')
       expect(contact_inbox.contact.custom_attributes).to eq({ 'test' => 'test' })
       expect(contact_inbox.inbox_id).to eq(inbox.id)
     end

@@ -71,7 +71,8 @@ class Telegram::IncomingMessageService
 
   def contact_attributes
     {
-      name: "#{telegram_params_first_name} #{telegram_params_last_name}",
+      name: telegram_params_first_name,
+      last_name: telegram_params_last_name,
       additional_attributes: additional_attributes
     }
   end
