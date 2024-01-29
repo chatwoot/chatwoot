@@ -12,8 +12,6 @@ import { LocalStorage } from 'shared/helpers/localStorage';
 
 Cookies.defaults = { sameSite: 'Lax' };
 
-window.cck = Cookies;
-
 export const getLoadingStatus = state => state.fetchAPIloadingStatus;
 export const setLoadingStatus = (state, status) => {
   state.fetchAPIloadingStatus = status;
