@@ -83,5 +83,31 @@ RSpec.describe Integrations::Openai::ProcessorService do
         expect(subject.perform).to be_nil
       end
     end
+
+    context 'when hook is not enabled' do
+      let(:event) { { 'name' => 'label_suggestion', 'data' => { 'conversation_display_id' => conversation.display_id } } }
+
+      before do
+        create(:message, account: account, conversation: conversation, message_type: :incoming, content: 'hello agent')
+        create(:message, account: account, conversation: conversation, message_type: :outgoing, content: 'hello customer')
+        create(:message, account: account, conversation: conversation, message_type: :incoming, content: 'hello agent 2')
+        create(:message, account: account, conversation: conversation, message_type: :incoming, content: 'hello agent 3')
+        create(:message, account: account, conversation: conversation, message_type: :incoming, content: 'hello agent 4')
+
+        create(:label, account: account)
+        create(:label, account: account)
+
+        hook.settings['label_suggestion'] = nil
+      end
+
+      it 'returns nil' do
+        stub_request(:post, 'https://api.openai.com/v1/chat/completions')
+          .with(body: anything, headers: expected_headers)
+          .to_return(status: 200, body: openai_response, headers: {})
+
+        result = subject.perform
+        expect(result).to be_nil
+      end
+    end
   end
 end
