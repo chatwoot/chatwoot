@@ -56,7 +56,7 @@ const inbox = {
             class="font-medium text-slate-800 dark:text-slate-100 text-xs overflow-hidden text-ellipsis whitespace-nowrap"
           >
             {{ inboxTypeMessage }}<span v-if="inboxTypeMessage">:</span>
-            {{ inboxMessage }}
+            <span class="font-normal">{{ inboxMessage }}</span>
           </span>
         </div>
       </div>
