@@ -30,11 +30,11 @@ const inbox = {
 
 <template>
   <div
-    class="flex max-w-[360px] flex-col pr-5 pl-4 gap-2.5 py-3 w-full bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-500 hover:bg-slate-25 dark:hover:bg-slate-800 cursor-pointer"
+    class="flex max-w-[360px] flex-col pl-5 pr-4 gap-2.5 py-3 w-full bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-500 hover:bg-slate-25 dark:hover:bg-slate-800 cursor-pointer"
   >
     <div class="flex relative items-center justify-between w-full">
       <div
-        class="absolute -left-3 flex w-2 h-2 rounded bg-woot-500 dark:bg-woot-500"
+        class="absolute -left-3.5 flex w-2 h-2 rounded bg-woot-500 dark:bg-woot-500"
       />
       <InboxNameAndId :inbox="inbox" />
       <div class="flex gap-2">
