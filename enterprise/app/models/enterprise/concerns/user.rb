@@ -2,7 +2,7 @@ module Enterprise::Concerns::User
   extend ActiveSupport::Concern
 
   included do
-    validate :ensure_installation_pricing_plan_quantity
+    before_validation :ensure_installation_pricing_plan_quantity
   end
 
   def ensure_installation_pricing_plan_quantity
