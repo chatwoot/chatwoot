@@ -8,15 +8,13 @@ const props = defineProps({
     default: '',
   },
 });
-
-const STATUS = CONVERSATION_STATUS;
 </script>
 
 <template>
   <div class="inline-flex items-center justify-center rounded-md">
     <!-- Pending -->
     <svg
-      v-if="props.status === STATUS.PENDING"
+      v-if="props.status === CONVERSATION_STATUS.PENDING"
       class="h-3.5 w-3.5"
       width="18"
       height="18"
@@ -31,7 +29,7 @@ const STATUS = CONVERSATION_STATUS;
     </svg>
     <!-- Open -->
     <svg
-      v-if="props.status === STATUS.OPEN"
+      v-if="props.status === CONVERSATION_STATUS.OPEN"
       class="h-3.5 w-3.5"
       width="19"
       height="19"
@@ -47,7 +45,7 @@ const STATUS = CONVERSATION_STATUS;
 
     <!-- Snoozed -->
     <svg
-      v-if="props.status === STATUS.SNOOZED"
+      v-if="props.status === CONVERSATION_STATUS.SNOOZED"
       class="h-3.5 w-3.5"
       width="18"
       height="18"
@@ -63,7 +61,7 @@ const STATUS = CONVERSATION_STATUS;
 
     <!-- Resolved -->
     <svg
-      v-if="props.status === STATUS.RESOLVED"
+      v-if="props.status === CONVERSATION_STATUS.RESOLVED"
       class="h-3.5 w-3.5"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

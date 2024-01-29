@@ -8,15 +8,13 @@ const props = defineProps({
     default: '',
   },
 });
-
-const PRIORITY = CONVERSATION_PRIORITY;
 </script>
 
 <template>
   <div class="inline-flex items-center justify-center rounded-md">
     <!-- High Priority -->
     <svg
-      v-if="props.priority === PRIORITY.HIGH"
+      v-if="props.priority === CONVERSATION_PRIORITY.HIGH"
       class="h-4 w-4"
       width="24"
       height="24"
@@ -31,7 +29,7 @@ const PRIORITY = CONVERSATION_PRIORITY;
 
     <!-- Low Priority -->
     <svg
-      v-if="props.priority === PRIORITY.LOW"
+      v-if="props.priority === CONVERSATION_PRIORITY.LOW"
       class="h-4 w-4"
       width="24"
       height="24"
@@ -46,7 +44,7 @@ const PRIORITY = CONVERSATION_PRIORITY;
 
     <!-- Medium Priority  -->
     <svg
-      v-if="props.priority === PRIORITY.MEDIUM"
+      v-if="props.priority === CONVERSATION_PRIORITY.MEDIUM"
       class="h-4 w-4"
       width="24"
       height="24"
@@ -61,7 +59,7 @@ const PRIORITY = CONVERSATION_PRIORITY;
 
     <!-- Urgent Priority -->
     <svg
-      v-if="props.priority === PRIORITY.URGENT"
+      v-if="props.priority === CONVERSATION_PRIORITY.URGENT"
       class="h-4 w-4"
       width="24"
       height="24"
