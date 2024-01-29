@@ -30,7 +30,7 @@ const inbox = {
 
 <template>
   <div
-    class="flex max-w-[360px] flex-col pl-5 pr-4 gap-2.5 py-3 w-full bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-500 hover:bg-slate-25 dark:hover:bg-slate-800 cursor-pointer"
+    class="flex max-w-[360px] flex-col pl-5 pr-3 gap-2.5 py-3 w-full bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-500 hover:bg-slate-25 dark:hover:bg-slate-800 cursor-pointer"
   >
     <div class="flex relative items-center justify-between w-full">
       <div
