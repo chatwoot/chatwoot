@@ -257,7 +257,7 @@ RSpec.describe Inbox do
     end
 
     it 'updates the cache key after touch' do
-      expect(inbox.account).to receive(:update_cache_key).with('inbox').at_least(:once)
+      expect(inbox.account).to receive(:update_cache_key).with('inbox')
       inbox.touch # rubocop:disable Rails/SkipsModelValidations
     end
   end
