@@ -90,6 +90,24 @@ describe Facebook::SendOnFacebookService do
                                                     }, { page_id: facebook_channel.page_id })
       end
 
+      it 'if message is sent with multiple attachments' do
+        message = build(:message, content: nil, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation)
+        avatar = message.attachments.new(account_id: message.account_id, file_type: :image)
+        avatar.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+        sample = message.attachments.new(account_id: message.account_id, file_type: :image)
+        sample.file.attach(io: Rails.root.join('spec/assets/sample.png').open, filename: 'sample.png', content_type: 'image/png')
+        message.save!
+
+        service = described_class.new(message: message)
+
+        # Stub the send_to_facebook_page method on the service instance
+        allow(service).to receive(:send_message_to_facebook)
+        service.perform
+
+        # Now you can set expectations on the stubbed method for each attachment
+        expect(service).to have_received(:send_message_to_facebook).exactly(:twice)
+      end
+
       it 'if message sent from chatwoot is failed' do
         message = create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation)
         allow(bot).to receive(:deliver).and_return({ error: { message: 'Invalid OAuth access token.', type: 'OAuthException', code: 190,
