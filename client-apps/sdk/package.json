@@ -5,11 +5,15 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
   },
   "devDependencies": {
     "vite": "^5.0.12",
-    "vite-plugin-css-injected-by-js": "^3.3.0"
+    "vite-plugin-css-injected-by-js": "^3.3.0",
+    "vitest": "~1.2.2",
+    "@vitest/coverage-v8": "~1.2.2"
   },
   "dependencies": {
     "js-cookie": "^3.0.5",

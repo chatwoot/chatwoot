@@ -4,6 +4,7 @@ import {
   isExpandedView,
   isFlatWidgetStyle,
 } from '../settingsHelper';
+import { describe, it, expect } from 'vitest';
 
 describe('#getBubbleView', () => {
   it('returns correct view', () => {

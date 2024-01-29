@@ -1,3 +1,4 @@
+import { describe, it, expect, afterEach, vi } from 'vitest';
 import Cookies from 'js-cookie';
 import {
   getUserCookieName,
@@ -6,9 +7,16 @@ import {
   setCookieWithDomain,
 } from '../cookieHelpers';
 
+// Mock the 'set' method of the 'Cookies' object for Vitest
+vi.mock('js-cookie', () => ({
+  default: {
+    set: vi.fn(),
+  },
+}));
+
 describe('#getUserCookieName', () => {
   it('returns correct cookie name', () => {
-    global.$chatwoot = { websiteToken: '123456' };
+    vi.stubGlobal('$chatwoot', { websiteToken: '123456' });
     expect(getUserCookieName()).toBe('cw_user_123456');
   });
 });
@@ -50,15 +58,10 @@ describe('#hasUserKeys', () => {
   });
 });
 
-// Mock the 'set' method of the 'Cookies' object
-jest.mock('js-cookie', () => ({
-  set: jest.fn(),
-}));
-
 describe('setCookieWithDomain', () => {
   afterEach(() => {
-    // Clear mock calls after each test
-    Cookies.set.mockClear();
+    // Clear mock calls after each test with Vitest
+    vi.clearAllMocks();
   });
 
   it('should set a cookie with default parameters', () => {

@@ -20,6 +20,9 @@ export default defineConfig({
       ),
     },
   },
+  test: {
+    environment: 'jsdom',
+  },
   server: {
     /*
      Kaprekar's constant, also known as the Kaprekar routine or 6174, is a unique four-digit math number.
