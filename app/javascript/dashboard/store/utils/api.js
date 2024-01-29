@@ -12,6 +12,8 @@ import { LocalStorage } from 'shared/helpers/localStorage';
 
 Cookies.defaults = { sameSite: 'Lax' };
 
+window.cck = Cookies;
+
 export const getLoadingStatus = state => state.fetchAPIloadingStatus;
 export const setLoadingStatus = (state, status) => {
   state.fetchAPIloadingStatus = status;
@@ -27,7 +29,7 @@ export const getHeaderExpiry = response =>
 
 export const setAuthCredentials = response => {
   const expiryDate = getHeaderExpiry(response);
-  Cookies.set('cw_d_session_info', response.headers, {
+  Cookies.set('cw_d_session_info', JSON.stringify(response.headers), {
     expires: differenceInDays(expiryDate, new Date()),
   });
   setUser(response.data.data, expiryDate);
