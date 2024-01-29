@@ -31,6 +31,12 @@ class Api::V1::ProfilesController < Api::BaseController
     head :ok
   end
 
+  def resend_confirmation
+    return @user.send_confirmation_instructions if @user
+
+    head :ok
+  end
+
   private
 
   def set_user
