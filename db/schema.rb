@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_24_084032) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_29_080827) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -421,6 +421,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_24_084032) do
     t.integer "contact_type", default: 0
     t.string "middle_name", default: ""
     t.string "last_name", default: ""
+    t.string "location", default: ""
+    t.string "country_code", default: ""
     t.index "lower((email)::text), account_id", name: "index_contacts_on_lower_email_account_id"
     t.index ["account_id", "email", "phone_number", "identifier"], name: "index_contacts_on_nonempty_fields", where: "(((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))"
     t.index ["account_id"], name: "index_contacts_on_account_id"
