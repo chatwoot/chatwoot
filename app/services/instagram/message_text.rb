@@ -19,10 +19,11 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
 
     # This channel might require reauthorization, may be owner might have changed the fb password
     if @inbox.channel.reauthorization_required?
-      Rails.logger.info("Skipping message processing as reauthorization is required for inbox #{@inbox.id}")
+      Rails.logger.warn("Skipping message processing as reauthorization is required for inbox #{@inbox.id}")
       return
     end
 
+    Rails.logger.info("[Instagram::MessageText] Processing message for #{instagram_id}, inbox #{@inbox.id}")
     return unsend_message if message_is_deleted?
 
     ensure_contact(contact_id) if contacts_first_message?(contact_id)
