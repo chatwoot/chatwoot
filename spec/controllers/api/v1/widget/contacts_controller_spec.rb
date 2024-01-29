@@ -3,7 +3,10 @@ require 'rails_helper'
 RSpec.describe '/api/v1/widget/contacts', type: :request do
   let(:account) { create(:account) }
   let(:web_widget) { create(:channel_widget, account: account) }
-  let(:contact) { create(:contact, account: account, email: 'test@test.com', phone_number: '+745623239') }
+  let(:contact) do
+    create(:contact, account: account, email: 'test@test.com', phone_number: '+745623239', name: 'emiley', middle_name: 'grace',
+                     last_name: 'thompson')
+  end
   let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: web_widget.inbox) }
   let(:payload) { { source_id: contact_inbox.source_id, inbox_id: web_widget.inbox.id } }
   let(:token) { Widget::TokenService.new(payload: payload).generate_token }
@@ -79,6 +82,16 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
               as: :json
         body = response.parsed_body
         expect(body['email']).to eq('test-1@test.com')
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'update last name if valid last name passed' do
+        patch '/api/v1/widget/contact',
+              params: params.merge({ last_name: 'thompson-1' }),
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+        body = response.parsed_body
+        expect(body['last_name']).to eq('thompson-1')
         expect(response).to have_http_status(:success)
       end
     end

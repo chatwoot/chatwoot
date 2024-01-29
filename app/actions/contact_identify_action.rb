@@ -9,7 +9,7 @@ class ContactIdentifyAction
   pattr_initialize [:contact!, :params!, { retain_original_contact_name: false, discard_invalid_attrs: false }]
 
   def perform
-    @attributes_to_update = [:identifier, :name, :email, :phone_number]
+    @attributes_to_update = [:identifier, :name, :email, :phone_number, :middle_name, :last_name]
 
     ActiveRecord::Base.transaction do
       merge_if_existing_identified_contact
