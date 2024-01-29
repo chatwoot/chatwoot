@@ -9,7 +9,7 @@ RSpec.describe Internal::ReconcilePlanConfigService do
         allow(ChatwootHub).to receive(:pricing_plan).and_return('community')
       end
 
-      it 'disables the premium feature for accounts' do
+      it 'disables the premium features for accounts' do
         account = create(:account)
         account.enable_features!('disable_branding', 'audit_logs', 'response_bot')
         response_bot_account = create(:account)
