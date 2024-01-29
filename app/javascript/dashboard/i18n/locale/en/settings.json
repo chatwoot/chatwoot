@@ -158,6 +158,7 @@
     "DELETED_USER": "Deleted User",
     "EMAIL_VERIFICATION_PENDING": "It seems you haven't verified your email address. Please check your inbox for the verification email.",
     "RESEND_VERIFICATION_MAIL": "Resend verification email",
+    "EMAIL_VERIFICATION_SENT": "Verification email sent, please check your inbox",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Account Suspended",
       "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."

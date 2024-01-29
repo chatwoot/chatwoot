@@ -34,7 +34,16 @@ export default {
     },
   },
   methods: {
-    resendVerificationEmail() {},
+    resendVerificationEmail() {
+      this.$store.dispatch('resendConfirmation', {
+        accountId: this.currentAccountId,
+      });
+
+      bus.$emit(
+        'newToastMessage',
+        this.$t('APP_GLOBAL.EMAIL_VERIFICATION_SENT')
+      );
+    },
   },
 };
 </script>
