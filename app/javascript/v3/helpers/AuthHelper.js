@@ -3,7 +3,7 @@ import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 
 export const hasAuthCookie = () => {
-  return !!Cookies.getJSON('cw_d_session_info');
+  return !!Cookies.get('cw_d_session_info');
 };
 
 const getSSOAccountPath = ({ ssoAccountId, user }) => {
