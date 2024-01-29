@@ -44,6 +44,8 @@ RSpec.describe Integrations::Openai::ProcessorService do
 
         create(:label, account: account)
         create(:label, account: account)
+
+        hook.settings['label_suggestion'] = 'true'
       end
 
       it 'returns the label suggestions' do
