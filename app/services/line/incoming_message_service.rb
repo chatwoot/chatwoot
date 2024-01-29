@@ -146,7 +146,7 @@ class Line::IncomingMessageService
 
   def additional_attributes
     {
-      line_user_id: line_contact_info['userId']
+      social_line_user_id: line_contact_info['userId']
     }
   end
 
