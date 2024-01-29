@@ -13,8 +13,11 @@ import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 //   },
 // });
 
-const thumbnail = '';
-const name = 'Michael Johnson';
+const assigneeMeta = {
+  thumbnail: '',
+  name: 'Michael Johnson',
+};
+const { thumbnail, name } = assigneeMeta || {};
 const status = 'open';
 const priority = 'high';
 const inboxTypeMessage = 'Mentioned by Michael';
@@ -27,7 +30,7 @@ const inbox = {
 
 <template>
   <div
-    class="flex max-w-[360px] flex-col pr-5 pl-4 gap-2.5 py-3 w-full bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-500"
+    class="flex max-w-[360px] flex-col pr-5 pl-4 gap-2.5 py-3 w-full bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-500 hover:bg-slate-25 dark:hover:bg-slate-800 cursor-pointer"
   >
     <div class="flex relative items-center justify-between w-full">
       <div
