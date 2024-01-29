@@ -78,8 +78,11 @@ class Telegram::IncomingMessageService
 
   def additional_attributes
     {
+      # TODO: Remove this once we show the social_telegram_user_name in the UI instead of the username
       username: telegram_params_username,
-      language_code: telegram_params_language_code
+      language_code: telegram_params_language_code,
+      social_telegram_user_id: telegram_params_from_id,
+      social_telegram_user_name: telegram_params_username
     }
   end
 
