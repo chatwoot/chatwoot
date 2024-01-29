@@ -156,6 +156,8 @@
     "TRIAL_MESSAGE": "days trial remaining.",
     "TRAIL_BUTTON": "Buy Now",
     "DELETED_USER": "Deleted User",
+    "EMAIL_VERIFICATION_PENDING": "It seems you haven't verified your email address. Please check your inbox for the verification email.",
+    "RESEND_VERIFICATION_MAIL": "Resend verification email",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Account Suspended",
       "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
