@@ -101,12 +101,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
       end
 
       it 'returns nil' do
-        stub_request(:post, 'https://api.openai.com/v1/chat/completions')
-          .with(body: anything, headers: expected_headers)
-          .to_return(status: 200, body: openai_response, headers: {})
-
-        result = subject.perform
-        expect(result).to be_nil
+        expect(subject.perform).to be_nil
       end
     end
   end
