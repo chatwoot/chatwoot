@@ -34,5 +34,12 @@ export const setCookieWithDomain = (
     domain: baseDomain,
   };
 
+  // if type of value is object, stringify it
+  // this is because js-cookies 3.0 removed builtin json support
+  // ref: https://github.com/js-cookie/js-cookie/releases/tag/v3.0.0
+  if (typeof value === 'object') {
+    value = JSON.stringify(value);
+  }
+
   Cookies.set(name, value, cookieOptions);
 };

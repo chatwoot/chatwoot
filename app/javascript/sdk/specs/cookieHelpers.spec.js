@@ -107,6 +107,26 @@ describe('setCookieWithDomain', () => {
     );
   });
 
+  it('should stringify the cookie value when setting', () => {
+    setCookieWithDomain(
+      'myCookie',
+      { value: 'cookieValue' },
+      {
+        baseDomain: 'example.com',
+      }
+    );
+
+    expect(Cookies.set).toHaveBeenCalledWith(
+      'myCookie',
+      JSON.stringify({ value: 'cookieValue' }),
+      expect.objectContaining({
+        expires: 365,
+        sameSite: 'Lax',
+        domain: 'example.com',
+      })
+    );
+  });
+
   it('should set a cookie with custom expiration, sameSite attribute, and specific base domain', () => {
     setCookieWithDomain('myCookie', 'cookieValue', {
       expires: 7,

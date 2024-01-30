@@ -39,6 +39,8 @@ gem 'rack-attack', '>= 6.7.0'
 gem 'down'
 # authentication type to fetch and send mail over oauth2.0
 gem 'gmail_xoauth'
+# Lock net-smtp to 0.3.4 to avoid issues with gmail_xoauth2
+gem 'net-smtp',  '~> 0.3.4'
 # Prevent CSV injection
 gem 'csv-safe'
 
@@ -74,7 +76,7 @@ gem 'devise_token_auth'
 gem 'jwt'
 gem 'pundit'
 # super admin
-gem 'administrate', '>= 0.19.0'
+gem 'administrate', '>= 0.20.1'
 gem 'administrate-field-active_storage', '>= 1.0.1'
 gem 'administrate-field-belongs_to_search', '>= 0.9.0'
 
