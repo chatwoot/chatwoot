@@ -35,9 +35,7 @@ export default {
   },
   methods: {
     resendVerificationEmail() {
-      this.$store.dispatch('resendConfirmation', {
-        accountId: this.currentAccountId,
-      });
+      this.$store.dispatch('resendConfirmation');
 
       bus.$emit(
         'newToastMessage',
