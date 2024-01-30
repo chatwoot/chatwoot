@@ -34,6 +34,12 @@ export const getters = {
         $state.records.find(record => record.id === Number(id)) || {};
       return features[featureName] || false;
     },
+  // There are some features which can be enabled/disabled globally
+  isFeatureEnabledGlobally: $state => (id, featureName) => {
+    const { features = {} } =
+      $state.records.find(record => record.id === Number(id)) || {};
+    return features[featureName] || false;
+  },
 };
 
 export const actions = {
