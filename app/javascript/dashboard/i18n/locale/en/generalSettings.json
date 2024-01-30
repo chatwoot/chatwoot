@@ -90,6 +90,9 @@
       "conversation_mention": "Mention"
     }
   },
+  "INBOX_PAGE": {
+    "HEADER": "Inbox"
+  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Offline"
