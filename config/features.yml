@@ -61,3 +61,5 @@
   enabled: false
 - name: insert_article_in_reply
   enabled: false
+- name: inbox_view
+  enabled: false
