@@ -44,13 +44,12 @@ export const validateAuthenticateRoutePermission = (to, next, { getters }) => {
 
   // Open inbox view if inbox view feature is enabled, else redirect to dashboard
   // TODO: Remove this code once inbox view feature is enabled for all accounts
-  if (to.name === 'inbox_index') {
-    const isInboxViewEnabled = store.getters[
-      'accounts/isFeatureEnabledGlobally'
-    ](user.account_id, FEATURE_FLAGS.INBOX_VIEW);
-    if (!isInboxViewEnabled) {
-      return next(frontendURL(`accounts/${user.account_id}/dashboard`));
-    }
+  const isInboxViewEnabled = store.getters['accounts/isFeatureEnabledGlobally'](
+    user.account_id,
+    FEATURE_FLAGS.INBOX_VIEW
+  );
+  if (to.name === 'inbox_index' && !isInboxViewEnabled) {
+    return next(frontendURL(`accounts/${user.account_id}/dashboard`));
   }
 
   if (!to.name) {
