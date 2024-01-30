@@ -479,7 +479,7 @@ GEM
       net-protocol
     net-protocol (0.2.2)
       timeout
-    net-smtp (0.4.0)
+    net-smtp (0.3.4)
       net-protocol
     netrc (0.11.0)
     newrelic-sidekiq-metrics (1.6.2)
@@ -903,6 +903,7 @@ DEPENDENCIES
   meta_request
   mock_redis
   neighbor
+  net-smtp (~> 0.3.4)
   newrelic-sidekiq-metrics (>= 1.6.2)
   newrelic_rpm
   omniauth (>= 2.1.2)
