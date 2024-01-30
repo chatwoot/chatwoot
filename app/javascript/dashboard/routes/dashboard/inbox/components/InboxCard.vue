@@ -1,25 +1,22 @@
 <script setup>
-// import { defineProps } from 'vue';
-
-import PriorityIcon from './components/PriorityIcon.vue';
-import StatusIcon from './components/StatusIcon.vue';
-import InboxNameAndId from './components/InboxNameAndId.vue';
+import { defineProps } from 'vue';
+import PriorityIcon from './PriorityIcon.vue';
+import StatusIcon from './StatusIcon.vue';
+import InboxNameAndId from './InboxNameAndId.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 
-// const props = defineProps({
-//   notificationItem: {
-//     type: Object,
-//     default: () => {},
-//   },
-// });
+const props = defineProps({
+  notificationItem: {
+    type: Object,
+    default: () => {},
+  },
+});
 
-const assigneeMeta = {
-  thumbnail: '',
-  name: 'Michael Johnson',
-};
+const { primary_actor: primaryActor } = props.notificationItem || {};
+const { priority, status, meta } = primaryActor || {};
+const { assignee: assigneeMeta } = meta || {};
 const { thumbnail, name } = assigneeMeta || {};
-const status = 'open';
-const priority = 'high';
+
 const inboxTypeMessage = 'Mentioned by Michael';
 const inboxMessage = 'What is the best way to get started?';
 const inbox = {
@@ -30,7 +27,7 @@ const inbox = {
 
 <template>
   <div
-    class="flex max-w-[360px] flex-col pl-5 pr-3 gap-2.5 py-3 w-full bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-500 hover:bg-slate-25 dark:hover:bg-slate-800 cursor-pointer"
+    class="flex flex-col pl-5 pr-3 gap-2.5 py-3 w-full bg-white dark:bg-slate-900 border-b border-slate-50 dark:border-slate-800/50 hover:bg-slate-25 dark:hover:bg-slate-800 cursor-pointer"
   >
     <div class="flex relative items-center justify-between w-full">
       <div
@@ -53,10 +50,11 @@ const inbox = {
         />
         <div class="flex min-w-0">
           <span
-            class="font-medium text-slate-800 dark:text-slate-100 text-xs overflow-hidden text-ellipsis whitespace-nowrap"
+            class="font-medium text-slate-800 dark:text-slate-100 text-sm overflow-hidden text-ellipsis whitespace-nowrap"
           >
-            {{ inboxTypeMessage }}<span v-if="inboxTypeMessage">:</span>
-            <span class="font-normal">{{ inboxMessage }}</span>
+            {{ inboxTypeMessage
+            }}<span v-if="inboxTypeMessage" class="text-sm">:</span>
+            <span class="font-normal text-sm">{{ inboxMessage }}</span>
           </span>
         </div>
       </div>

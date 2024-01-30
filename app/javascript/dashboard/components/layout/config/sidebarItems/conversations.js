@@ -3,6 +3,7 @@ import { frontendURL } from '../../../../helper/URLHelper';
 const conversations = accountId => ({
   parentNav: 'conversations',
   routes: [
+    'inbox_index',
     'home',
     'inbox_dashboard',
     'inbox_conversation',
@@ -22,6 +23,14 @@ const conversations = accountId => ({
     'conversation_through_unattended',
   ],
   menuItems: [
+    {
+      icon: 'mail-inbox',
+      label: 'MY_INBOX',
+      key: 'my_inbox',
+      toState: frontendURL(`accounts/${accountId}/inbox`),
+      toolTip: 'Conversation from all subscribed inboxes',
+      toStateName: 'inbox_index',
+    },
     {
       icon: 'chat',
       label: 'ALL_CONVERSATIONS',

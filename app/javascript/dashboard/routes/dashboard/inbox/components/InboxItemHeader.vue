@@ -23,7 +23,7 @@ const onDelete = () => {
 
 <template>
   <div
-    class="flex gap-2 py-2 pl-4 pr-2 justify-between items-center w-full border-b border-slate-200 dark:border-slate-500"
+    class="flex gap-2 py-2 pl-4 h-14 pr-2 justify-between items-center w-full border-b border-slate-50 dark:border-slate-800/50"
   >
     <pagination-button
       :total-length="props.totalLength"
