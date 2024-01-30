@@ -1,25 +1,45 @@
 <script setup>
-// import { defineProps } from 'vue';
+import { defineProps, ref, onBeforeUnmount } from 'vue';
 
 import PriorityIcon from './components/PriorityIcon.vue';
 import StatusIcon from './components/StatusIcon.vue';
 import InboxNameAndId from './components/InboxNameAndId.vue';
+import InboxContextMenu from './components/InboxContextMenu.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 
-// const props = defineProps({
-//   notificationItem: {
-//     type: Object,
-//     default: () => {},
-//   },
-// });
+const props = defineProps({
+  notificationItem: {
+    type: Object,
+    default: () => {},
+  },
+});
 
-const assigneeMeta = {
-  thumbnail: '',
-  name: 'Michael Johnson',
+const isContextMenuOpen = ref(false);
+const contextMenuPosition = ref({ x: null, y: null });
+
+const closeContextMenu = () => {
+  isContextMenuOpen.value = false;
+  contextMenuPosition.value = { x: null, y: null };
 };
+
+const openContextMenu = e => {
+  e.preventDefault();
+  contextMenuPosition.value = {
+    x: e.pageX || e.clientX,
+    y: e.pageY || e.clientY,
+  };
+  isContextMenuOpen.value = true;
+};
+
+onBeforeUnmount(() => {
+  closeContextMenu();
+});
+
+const { primary_actor: primaryActor } = props.notificationItem || {};
+const { priority, status, meta } = primaryActor || {};
+const { assignee: assigneeMeta } = meta || {};
 const { thumbnail, name } = assigneeMeta || {};
-const status = 'open';
-const priority = 'high';
+
 const inboxTypeMessage = 'Mentioned by Michael';
 const inboxMessage = 'What is the best way to get started?';
 const inbox = {
@@ -31,6 +51,7 @@ const inbox = {
 <template>
   <div
     class="flex max-w-[360px] flex-col pl-5 pr-3 gap-2.5 py-3 w-full bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-500 hover:bg-slate-25 dark:hover:bg-slate-800 cursor-pointer"
+    @contextmenu="openContextMenu($event)"
   >
     <div class="flex relative items-center justify-between w-full">
       <div
@@ -66,5 +87,11 @@ const inbox = {
         10h ago
       </span>
     </div>
+    <InboxContextMenu
+      v-if="contextMenuPosition"
+      :is-open="isContextMenuOpen"
+      :context-menu-position="contextMenuPosition"
+      @close="closeContextMenu"
+    />
   </div>
 </template>
