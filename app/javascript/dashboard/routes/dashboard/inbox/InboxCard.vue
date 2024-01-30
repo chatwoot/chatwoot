@@ -7,7 +7,7 @@ import InboxNameAndId from './components/InboxNameAndId.vue';
 import InboxContextMenu from './components/InboxContextMenu.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 
-const props = defineProps({
+defineProps({
   notificationItem: {
     type: Object,
     default: () => {},
@@ -35,11 +35,13 @@ onBeforeUnmount(() => {
   closeContextMenu();
 });
 
-const { primary_actor: primaryActor } = props.notificationItem || {};
-const { priority, status, meta } = primaryActor || {};
-const { assignee: assigneeMeta } = meta || {};
+const assigneeMeta = {
+  thumbnail: '',
+  name: 'Michael Johnson',
+};
 const { thumbnail, name } = assigneeMeta || {};
-
+const status = 'open';
+const priority = 'high';
 const inboxTypeMessage = 'Mentioned by Michael';
 const inboxMessage = 'What is the best way to get started?';
 const inbox = {
