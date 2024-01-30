@@ -32,8 +32,7 @@ class Api::V1::ProfilesController < Api::BaseController
   end
 
   def resend_confirmation
-    return @user.send_confirmation_instructions if @user
-
+    @user.send_confirmation_instructions unless @user.confirmed?
     head :ok
   end
 
