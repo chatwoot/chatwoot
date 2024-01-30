@@ -1,8 +1,12 @@
 class Internal::ReconcilePlanConfigService
   def perform
+    remove_premium_config_reset_warning
     return if ChatwootHub.pricing_plan != 'community'
 
-    reconcile_premium_config
+    create_premium_config_reset_warning if premium_config_reset_required?
+
+    # We will have this enabled in the future
+    # reconcile_premium_config
     reconcile_premium_features
   end
 
@@ -14,6 +18,22 @@ class Internal::ReconcilePlanConfigService
 
   def premium_config
     @premium_config ||= YAML.safe_load(File.read("#{config_path}/premium_installation_config.yml")).freeze
+  end
+
+  def remove_premium_config_reset_warning
+    Redis::Alfred.delete(Redis::Alfred::CHATWOOT_INSTALLATION_CONFIG_RESET_WARNING)
+  end
+
+  def create_premium_config_reset_warning
+    Redis::Alfred.set(Redis::Alfred::CHATWOOT_INSTALLATION_CONFIG_RESET_WARNING, true)
+  end
+
+  def premium_config_reset_required?
+    premium_config.any? do |config|
+      config = config.with_indifferent_access
+      existing_config = InstallationConfig.find_by(name: config[:name])
+      existing_config&.value != config[:value] if existing_config.present?
+    end
   end
 
   def reconcile_premium_config
