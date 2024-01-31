@@ -18,7 +18,6 @@ describe ActionService do
       expect(applied_sla.sla_policy_id).to eq(sla_policy.id)
       expect(applied_sla.conversation_id).to eq(conversation.id)
       expect(applied_sla.sla_status).to eq('active')
-
     end
   end
 end
