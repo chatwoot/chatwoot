@@ -90,6 +90,9 @@
       "conversation_mention": "Mention"
     }
   },
+  "INBOX_PAGE": {
+    "HEADER": "ഇൻബോക്സ്"
+  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "ഓഫ്‌ലൈൻ"
