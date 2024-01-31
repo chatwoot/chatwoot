@@ -90,6 +90,9 @@
       "conversation_mention": "Mencionar"
     }
   },
+  "INBOX_PAGE": {
+    "HEADER": "Caixa de Entrada"
+  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Ausente"
