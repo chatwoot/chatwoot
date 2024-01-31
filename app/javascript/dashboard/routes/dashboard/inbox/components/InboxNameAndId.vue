@@ -1,15 +1,12 @@
-<script setup>
-import { defineProps } from 'vue';
-
-const props = defineProps({
-  inbox: {
-    type: Object,
-    default: () => {},
+<script>
+export default {
+  props: {
+    inbox: {
+      type: Object,
+      default: () => {},
+    },
   },
-});
-
-const { inbox } = props;
-const { inbox_id: inboxId, inbox_name: inboxName } = inbox;
+};
 </script>
 <template>
   <div
@@ -22,12 +19,12 @@ const { inbox_id: inboxId, inbox_name: inboxName } = inbox;
         size="14"
       />
       <span class="font-medium text-slate-600 dark:text-slate-300 text-xs">
-        {{ inboxName }}
+        {{ inbox.name }}
       </span>
     </div>
     <div class="flex items-center py-0.5 px-1.5">
       <span class="font-medium text-slate-600 dark:text-slate-300 text-xs">
-        {{ inboxId }}
+        {{ inbox.id }}
       </span>
     </div>
   </div>
