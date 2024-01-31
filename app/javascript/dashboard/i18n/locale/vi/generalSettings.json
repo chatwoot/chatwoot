@@ -90,6 +90,9 @@
       "conversation_mention": "Nhắc đến"
     }
   },
+  "INBOX_PAGE": {
+    "HEADER": "Hộp thư đến"
+  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Không Trực Tuyến"
