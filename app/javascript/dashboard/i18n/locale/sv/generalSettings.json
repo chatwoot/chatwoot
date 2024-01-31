@@ -90,6 +90,9 @@
       "conversation_mention": "Omnämning"
     }
   },
+  "INBOX_PAGE": {
+    "HEADER": "Inkorg"
+  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Offline"
