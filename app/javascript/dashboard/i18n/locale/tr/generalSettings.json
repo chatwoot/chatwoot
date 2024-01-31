@@ -90,6 +90,9 @@
       "conversation_mention": "Bahset"
     }
   },
+  "INBOX_PAGE": {
+    "HEADER": "Gelen Kutusu"
+  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Çevrimdışı"
