@@ -8,7 +8,7 @@
       </h1>
       <div
         role="button"
-        class="flex gap-1 items-center py-1 px-2 border border-slate-100 dark:border-slate-800 rounded-md"
+        class="flex gap-1 items-center py-1 px-2 border border-slate-100 dark:border-slate-700/50 rounded-md"
         @click="openInboxDisplayMenu"
       >
         <span
