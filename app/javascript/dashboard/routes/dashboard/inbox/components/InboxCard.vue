@@ -25,7 +25,7 @@
         />
         <div class="flex min-w-0">
           <span
-            class="font-medium text-slate-800 dark:text-slate-100 text-sm overflow-hidden text-ellipsis whitespace-nowrap"
+            class="font-medium text-slate-800 dark:text-slate-50 text-sm overflow-hidden text-ellipsis whitespace-nowrap"
           >
             <!-- {{
               $t(
