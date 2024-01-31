@@ -90,6 +90,9 @@
       "conversation_mention": "Paminėjimas"
     }
   },
+  "INBOX_PAGE": {
+    "HEADER": "Gautų laiškų aplankas"
+  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Atsijungęs"
