@@ -90,6 +90,9 @@
       "conversation_mention": "Упоминание"
     }
   },
+  "INBOX_PAGE": {
+    "HEADER": "Электронная почта"
+  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Оффлайн"
