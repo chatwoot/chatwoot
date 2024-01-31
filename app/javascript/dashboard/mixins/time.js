@@ -28,25 +28,26 @@ export default {
       const unixTime = fromUnixTime(time);
       return format(unixTime, dateFormat);
     },
-    shortTimestamp(time) {
+    shortTimestamp(time, withAgo = false) {
+      const suffix = withAgo ? ' ago' : '';
       const convertToShortTime = time
         .replace(/about|over|almost|/g, '')
         .replace('less than a minute ago', 'now')
-        .replace(' minute ago', 'm')
-        .replace(' minutes ago', 'm')
-        .replace('a minute ago', 'm')
-        .replace('an hour ago', 'h')
-        .replace(' hour ago', 'h')
-        .replace(' hours ago', 'h')
-        .replace(' day ago', 'd')
-        .replace('a day ago', 'd')
-        .replace(' days ago', 'd')
-        .replace('a month ago', 'mo')
-        .replace(' months ago', 'mo')
-        .replace(' month ago', 'mo')
-        .replace('a year ago', 'y')
-        .replace(' year ago', 'y')
-        .replace(' years ago', 'y');
+        .replace('a minute ago', `${withAgo ? '1m ago' : '1m'}`)
+        .replace('an hour ago', `${withAgo ? '1h ago' : '1h'}`)
+        .replace('a day ago', `${withAgo ? '1d ago' : '1d'}`)
+        .replace('a month ago', `${withAgo ? '1mo ago' : '1mo'}`)
+        .replace('a year ago', `${withAgo ? '1y ago' : '1y'}`)
+        .replace(' minute ago', `m${suffix}`)
+        .replace(' minutes ago', `m${suffix}`)
+        .replace(' hour ago', `h${suffix}`)
+        .replace(' hours ago', `h${suffix}`)
+        .replace(' day ago', `d${suffix}`)
+        .replace(' days ago', `d${suffix}`)
+        .replace(' month ago', `mo${suffix}`)
+        .replace(' months ago', `mo${suffix}`)
+        .replace(' year ago', `y${suffix}`)
+        .replace(' years ago', `y${suffix}`);
       return convertToShortTime;
     },
   },

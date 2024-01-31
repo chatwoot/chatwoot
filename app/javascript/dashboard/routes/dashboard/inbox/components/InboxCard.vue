@@ -16,7 +16,7 @@
     </div>
 
     <div class="flex flex-row justify-between items-center w-full">
-      <div class="flex gap-1.5 items-center max-w-[80%]">
+      <div class="flex gap-1.5 items-center max-w-[calc(100%-70px)]">
         <Thumbnail
           v-if="assigneeMeta"
           :src="assigneeMeta.thumbnail"
@@ -41,9 +41,9 @@
         </div>
       </div>
       <span
-        class="font-medium text-slate-600 dark:text-slate-300 text-xs whitespace-nowrap"
+        class="font-medium max-w-[60px] text-slate-600 dark:text-slate-300 text-xs whitespace-nowrap"
       >
-        {{ dynamicTime(notificationItem.last_activity_at) }}
+        {{ lastActivityAt }}
       </span>
     </div>
   </div>
@@ -53,7 +53,7 @@ import PriorityIcon from './PriorityIcon.vue';
 import StatusIcon from './StatusIcon.vue';
 import InboxNameAndId from './InboxNameAndId.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import timeMixin from '../../../../mixins/time';
+import timeMixin from 'dashboard/mixins/time';
 export default {
   components: {
     PriorityIcon,
@@ -85,6 +85,12 @@ export default {
     },
     assigneeMeta() {
       return this.meta?.assignee;
+    },
+    lastActivityAt() {
+      const dynamicTime = this.dynamicTime(
+        this.notificationItem?.last_activity_at
+      );
+      return this.shortTimestamp(dynamicTime, true);
     },
   },
 };

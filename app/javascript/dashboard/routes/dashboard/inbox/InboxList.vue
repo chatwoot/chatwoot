@@ -72,10 +72,10 @@ export default {
 </script>
 <template>
   <div
-    class="inbox-list-view flex flex-col h-full ltr:border-r border-slate-50 dark:border-slate-800/50"
+    class="flex flex-col min-w-[360px] w-full max-w-[360px] h-full ltr:border-r border-slate-50 dark:border-slate-800/50"
   >
     <div
-      class="flex text-xl pl-5 pr-3 py-2 h-14 items-center font-medium text-slate-900 dark:text-slate-25 border-b border-slate-50 dark:border-slate-800/50"
+      class="flex text-xl w-full pl-5 pr-3 py-2 h-14 items-center font-medium text-slate-900 dark:text-slate-25 border-b border-slate-50 dark:border-slate-800/50"
     >
       Inbox
     </div>
@@ -102,8 +102,3 @@ export default {
     </div>
   </div>
 </template>
-<style scoped>
-.inbox-list-view {
-  width: clamp(360px, 22vw, 460px);
-}
-</style>
