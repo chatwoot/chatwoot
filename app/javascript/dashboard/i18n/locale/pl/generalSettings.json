@@ -90,6 +90,9 @@
       "conversation_mention": "Wzmianka"
     }
   },
+  "INBOX_PAGE": {
+    "HEADER": "Skrzynka odbiorcza"
+  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Offline"
