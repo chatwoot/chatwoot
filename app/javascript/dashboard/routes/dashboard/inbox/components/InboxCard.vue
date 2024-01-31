@@ -7,7 +7,8 @@
         v-if="isUnread"
         class="absolute -left-3.5 flex w-2 h-2 rounded bg-woot-500 dark:bg-woot-500"
       />
-      <InboxNameAndId :inbox="inbox" />
+      <InboxNameAndId :inbox="inbox" :conversation-id="primaryActor.id" />
+
       <div class="flex gap-2">
         <PriorityIcon :priority="primaryActor.priority" />
         <StatusIcon :status="primaryActor.status" />

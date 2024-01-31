@@ -7,6 +7,10 @@ export default {
       type: Object,
       default: () => {},
     },
+    conversationId: {
+      type: Number,
+      default: 0,
+    },
   },
   computed: {
     computedInboxClass() {
@@ -33,7 +37,7 @@ export default {
     </div>
     <div class="flex items-center py-0.5 px-1.5">
       <span class="font-medium text-slate-600 dark:text-slate-300 text-xs">
-        {{ inbox.id }}
+        {{ conversationId }}
       </span>
     </div>
   </div>
