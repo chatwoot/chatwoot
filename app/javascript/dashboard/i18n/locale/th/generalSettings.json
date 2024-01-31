@@ -90,6 +90,9 @@
       "conversation_mention": "กล่าวถึง"
     }
   },
+  "INBOX_PAGE": {
+    "HEADER": "กล่องข้อความ"
+  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "ออฟไลน์"
