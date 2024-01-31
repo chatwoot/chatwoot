@@ -143,9 +143,6 @@ export default {
             imap_login: this.login,
             imap_password: this.password,
             imap_enable_ssl: this.isSSLEnabled,
-            imap_inbox_synced_at: this.isIMAPEnabled
-              ? new Date().toISOString()
-              : undefined,
           },
         };
 
