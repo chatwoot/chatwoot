@@ -63,11 +63,10 @@
 # ------- Signup & Account Related Config ------- #
 - name: ENABLE_ACCOUNT_SIGNUP
   display_title: 'Enable Account Signup'
-  type: boolean
-  description: 'Allow users to signup for new accounts'
   value: false
   description: 'Allow users to signup for new accounts'
   locked: false
+  type: boolean
 - name: CREATE_NEW_ACCOUNT_FROM_DASHBOARD
   value: false
   description: 'Allow users to create new accounts from the dashboard'
@@ -109,12 +108,14 @@
   locked: false
 - name: FB_VERIFY_TOKEN 
   display_title: 'Facebook Verify Token'
+  description: 'The verify token used for Facebook Messenger Webhook'
   locked: false
 - name: FB_APP_SECRET
   display_title: 'Facebook App Secret'
   locked: false
 - name: IG_VERIFY_TOKEN
   display_title: 'Instagram Verify Token'
+  description: 'The verify token used for Instagram Webhook'
   locked: false
 - name: ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT
   display_title: 'Enable human agent'
@@ -141,7 +142,7 @@
   description: 'The deployment environment of the installation, to differentiate between Chatwoot cloud and self-hosted'
 - name: ANALYTICS_TOKEN
   value:
-  description: 'The june analytics token for Chatwoot cloud'
+  description: 'The June.so analytics token for Chatwoot cloud'
 # ------- End of Chatwoot Internal Config for Cloud ----#
 
 
@@ -154,13 +155,13 @@
   description: 'The number of licenses purchased for the installation, retrieved from the billing API'
 - name: CHATWOOT_SUPPORT_WEBSITE_TOKEN
   value:
-  description: 'The Chatwoot Support Website Token for Contact Support in Self Hosted'
+  description: 'The Chatwoot website token, used to identify the Chatwoot inbox and display the "Contact Support" option on the billing page'
 - name: CHATWOOT_SUPPORT_SCRIPT_URL
   value:
-  description: 'The Chatwoot Support Script URL for Contact Support in Self Hosted'
+  description: 'The Chatwoot script base URL, to display the "Contact Support" option on the billing page'
 - name: CHATWOOT_SUPPORT_IDENTIFIER_HASH
   value:
-  description: 'The Chatwoot Support Identifier Hash for Contact Support in Self Hosted'
+  description: 'The Chatwoot identifier hash, to validate the contact in the live chat window.'
 # ------- End of Chatwoot Internal Config for Self Hosted ----#
 
 ## ------ Configs added for enterprise clients ------ ##
@@ -177,17 +178,6 @@
 - name: DISABLE_USER_PROFILE_UPDATE
   value: false
   locked: false
-  description: 'Disabled rendering profile update page for users'
+  description: 'Disable rendering profile update page for users'
 
 ## ------ End of Configs added for enterprise clients ------ ##
-
-# Moves everything below this line to appropriate section with descriptions #
-# -------Misc Config ------- #
-- name: CSML_BOT_HOST
-  value:
-  locked: false
-- name: CSML_BOT_API_KEY
-  value:
-  locked: false
-- name: CSML_EDITOR_HOST
-  value:

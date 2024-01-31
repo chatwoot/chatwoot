@@ -38,7 +38,7 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
                        when 'email'
                          ['MAILER_INBOUND_EMAIL_DOMAIN']
                        else
-                         %w[ENABLE_ACCOUNT_SIGNUP INSTALLATION_EVENTS_WEBHOOK_URL]
+                         %w[ENABLE_ACCOUNT_SIGNUP]
                        end
   end
 end
