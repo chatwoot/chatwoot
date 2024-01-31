@@ -90,4 +90,4 @@ class ActionService
   end
 end
 
-ActionService.include_mod_with('SlaActionService')
+ActionService.include_mod_with('ActionService')
