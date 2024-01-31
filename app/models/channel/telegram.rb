@@ -149,29 +149,32 @@ class Channel::Telegram < ApplicationRecord
                   })
   end
 
-  def convert_markdown_to_telegram(text)
-    # Convert bold - double asterisks to single asterisk in Telegram
-    text.gsub!(/\*\*(.*?)\*\*/, '*\1*')
+  def convert_markdown_to_telegram_html(text)
+    # ref: https://core.telegram.org/bots/api#html-style
 
-    # Convert italics - single underscore (same in both CommonMark and Telegram)
-    # No conversion needed for italics as both use _text_
+    # escape html tags in text. We are subbing \n to <br> since commonmark will strip exta '\n'
+    text = CGI.escapeHTML(text.gsub("\n", '<br>'))
 
-    # Convert underline - not typically used in CommonMark, so we'll leave it as is
+    # convert markdown to html
+    html = CommonMarker.render_html(text).strip
 
-    # Convert strikethrough - double tilde to single tilde in Telegram
-    text.gsub!(/~~(.*?)~~/, '~\1~')
+    # remove all html tags except b, strong, i, em, u, ins, s, strike, del, a, code, pre, blockquote
+    stripped_html = Rails::HTML5::SafeListSanitizer.new.sanitize(html, tags: %w[b strong i em u ins s strike del a code pre blockquote],
+                                                                       attributes: %w[href])
 
-    text
+    # converted escaped br tags to \n
+    stripped_html.gsub('&lt;br&gt;', "\n")
   end
 
   def message_request(chat_id, text, reply_markup = nil, reply_to_message_id = nil)
-    text_to_md = convert_markdown_to_telegram(text)
+    text_payload = convert_markdown_to_telegram_html(text)
+
     HTTParty.post("#{telegram_api_url}/sendMessage",
                   body: {
                     chat_id: chat_id,
-                    text: text_to_md,
+                    text: text_payload,
                     reply_markup: reply_markup,
-                    parse_mode: 'MarkdownV2',
+                    parse_mode: 'HTML',
                     reply_to_message_id: reply_to_message_id
                   })
   end
