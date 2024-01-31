@@ -90,6 +90,9 @@
       "conversation_mention": "Omtale"
     }
   },
+  "INBOX_PAGE": {
+    "HEADER": "Indbakke"
+  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Offline"
