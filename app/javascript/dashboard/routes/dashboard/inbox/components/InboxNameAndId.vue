@@ -1,9 +1,18 @@
 <script>
+import { getInboxClassByType } from 'dashboard/helper/inbox';
+
 export default {
   props: {
     inbox: {
       type: Object,
       default: () => {},
+    },
+  },
+  computed: {
+    computedInboxClass() {
+      const { phone_number: phoneNumber, channel_type: type } = this.inbox;
+      const classByType = getInboxClassByType(type, phoneNumber);
+      return classByType;
     },
   },
 };
@@ -15,7 +24,7 @@ export default {
     <div class="flex items-center gap-0.5 py-0.5 px-1.5">
       <fluent-icon
         class="text-slate-600 dark:text-slate-300"
-        icon="globe-desktop"
+        :icon="computedInboxClass"
         size="14"
       />
       <span class="font-medium text-slate-600 dark:text-slate-300 text-xs">

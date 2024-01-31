@@ -4,6 +4,7 @@
   >
     <div class="flex relative items-center justify-between w-full">
       <div
+        v-if="isUnread"
         class="absolute -left-3.5 flex w-2 h-2 rounded bg-woot-500 dark:bg-woot-500"
       />
       <InboxNameAndId :inbox="inbox" />
@@ -68,18 +69,21 @@ export default {
   },
   computed: {
     primaryActor() {
-      return this.notificationItem.primary_actor;
+      return this.notificationItem?.primary_actor;
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](
         this.primaryActor.inbox_id
       );
     },
+    isUnread() {
+      return !this.notificationItem?.read_at;
+    },
     meta() {
-      return this.primaryActor.meta;
+      return this.primaryActor?.meta;
     },
     assigneeMeta() {
-      return this.meta.assignee;
+      return this.meta?.assignee;
     },
   },
 };
