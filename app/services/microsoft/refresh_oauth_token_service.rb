@@ -13,7 +13,7 @@ class Microsoft::RefreshOauthTokenService
   def access_token_expired?
     expiry = provider_config[:expires_on]
 
-    return false if expiry.blank?
+    return true if expiry.blank?
 
     # Adding a 5 minute window to expiry check to avoid any race
     # conditions during the fetch operation. This would assure that the

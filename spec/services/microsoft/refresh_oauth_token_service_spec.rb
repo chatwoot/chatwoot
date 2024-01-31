@@ -30,22 +30,39 @@ RSpec.describe Microsoft::RefreshOauthTokenService do
     end
   end
 
-  context 'when token is expired' do
+  describe 'on expired token or invalid expiry' do
     before do
       stub_request(:post, 'https://login.microsoftonline.com/common/oauth2/v2.0/token').with(
         body: { 'grant_type' => 'refresh_token', 'refresh_token' => microsoft_channel_with_expired_token.provider_config['refresh_token'] }
       ).to_return(status: 200, body: new_tokens.to_json, headers: { 'Content-Type' => 'application/json' })
     end
 
-    it 'fetches new access token and refresh tokens' do
-      provider_config = microsoft_channel_with_expired_token.provider_config
-      service = described_class.new(channel: microsoft_channel_with_expired_token)
-      expect(service.access_token).not_to eq(provider_config['access_token'])
+    context 'when token is invalid' do
+      it 'fetches new access token and refresh tokens' do
+        provider_config = microsoft_channel_with_expired_token.provider_config
+        service = described_class.new(channel: microsoft_channel_with_expired_token)
+        expect(service.access_token).not_to eq(provider_config['access_token'])
 
-      new_provider_config = microsoft_channel_with_expired_token.reload.provider_config
-      expect(new_provider_config['access_token']).to eq(new_tokens[:access_token])
-      expect(new_provider_config['refresh_token']).to eq(new_tokens[:refresh_token])
-      expect(new_provider_config['expires_on']).to eq(Time.at(new_tokens[:expires_at]).utc.to_s)
+        new_provider_config = microsoft_channel_with_expired_token.reload.provider_config
+        expect(new_provider_config['access_token']).to eq(new_tokens[:access_token])
+        expect(new_provider_config['refresh_token']).to eq(new_tokens[:refresh_token])
+        expect(new_provider_config['expires_on']).to eq(Time.at(new_tokens[:expires_at]).utc.to_s)
+      end
+    end
+
+    context 'when expiry time is missing' do
+      it 'fetches new access token and refresh tokens' do
+        microsoft_channel_with_expired_token.provider_config['expires_on'] = nil
+        microsoft_channel_with_expired_token.save!
+        provider_config = microsoft_channel_with_expired_token.provider_config
+        service = described_class.new(channel: microsoft_channel_with_expired_token)
+        expect(service.access_token).not_to eq(provider_config['access_token'])
+
+        new_provider_config = microsoft_channel_with_expired_token.reload.provider_config
+        expect(new_provider_config['access_token']).to eq(new_tokens[:access_token])
+        expect(new_provider_config['refresh_token']).to eq(new_tokens[:refresh_token])
+        expect(new_provider_config['expires_on']).to eq(Time.at(new_tokens[:expires_at]).utc.to_s)
+      end
     end
   end
 
