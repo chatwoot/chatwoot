@@ -6,7 +6,7 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
   let(:account) { create(:account) }
   let(:imap_email_channel) do
     create(:channel_email, imap_enabled: true, imap_address: 'imap.gmail.com', imap_port: 993, imap_login: 'imap@gmail.com',
-                           imap_password: 'password', imap_inbox_synced_at: Time.now.utc, account: account)
+                           imap_password: 'password', account: account)
   end
   let(:microsoft_imap_email_channel) do
     create(:channel_email, provider: 'microsoft', imap_enabled: true, imap_address: 'outlook.office365.com',
