@@ -325,7 +325,7 @@
       },
       "COLUMNS": {
         "BY": "par",
-        "AUTHOR_NOT_AVAILABLE": "Author is not available"
+        "AUTHOR_NOT_AVAILABLE": "L'auteur n'est pas disponible"
       }
     },
     "EDIT_ARTICLE": {
