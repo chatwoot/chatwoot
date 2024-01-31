@@ -90,6 +90,9 @@
       "conversation_mention": "Zmienka"
     }
   },
+  "INBOX_PAGE": {
+    "HEADER": "Schránka"
+  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Offline"
