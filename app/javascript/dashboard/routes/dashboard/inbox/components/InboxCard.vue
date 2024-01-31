@@ -1,6 +1,8 @@
 <template>
   <div
+    role="button"
     class="flex flex-col pl-5 pr-3 gap-2.5 py-3 w-full bg-white dark:bg-slate-900 border-b border-slate-50 dark:border-slate-800/50 hover:bg-slate-25 dark:hover:bg-slate-800 cursor-pointer"
+    @click="openConversation(notificationItem)"
   >
     <div class="flex relative items-center justify-between w-full">
       <div
@@ -91,6 +93,11 @@ export default {
         this.notificationItem?.last_activity_at
       );
       return this.shortTimestamp(dynamicTime, true);
+    },
+  },
+  methods: {
+    openConversation(notification) {
+      this.$emit('open-conversation', notification);
     },
   },
 };

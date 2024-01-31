@@ -77,7 +77,7 @@ export default {
     <div
       class="flex text-xl w-full pl-5 pr-3 py-2 h-14 items-center font-medium text-slate-900 dark:text-slate-25 border-b border-slate-50 dark:border-slate-800/50"
     >
-      Inbox
+      {{ $t('INBOX.LIST.TITLE') }}
     </div>
     <div
       ref="notificationList"
@@ -91,8 +91,11 @@ export default {
       <div v-if="uiFlags.isFetching" class="text-center">
         <span class="spinner mt-4 mb-4" />
       </div>
-      <p v-if="showEndOfList" class="text-center text-muted p-4">
-        {{ $t('INBOX.EOF') }}
+      <p
+        v-if="showEndOfList"
+        class="text-center text-slate-300 dark:text-slate-400 p-4"
+      >
+        {{ $t('INBOX.LIST.EOF') }}
       </p>
       <intersection-observer
         v-if="!showEndOfList && !uiFlags.isFetching"

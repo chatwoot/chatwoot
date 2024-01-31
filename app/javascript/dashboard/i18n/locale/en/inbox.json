@@ -1,8 +1,9 @@
 {
   "INBOX": {
-    "LOADING": "Fetching notifications",
-    "EOF": "All notifications loaded 🎉",
     "LIST": {
+      "TITLE": "Inbox",
+      "LOADING": "Fetching notifications",
+      "EOF": "All notifications loaded 🎉",
       "404": "There are no active notifications in this group."
     }
   }
