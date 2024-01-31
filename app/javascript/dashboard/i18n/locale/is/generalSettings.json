@@ -90,6 +90,9 @@
       "conversation_mention": "Nefna"
     }
   },
+  "INBOX_PAGE": {
+    "HEADER": "Innhólf"
+  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Offline"
