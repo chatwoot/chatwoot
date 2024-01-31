@@ -90,6 +90,9 @@
       "conversation_mention": "Erwähnung"
     }
   },
+  "INBOX_PAGE": {
+    "HEADER": "Posteingang"
+  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Offline"
