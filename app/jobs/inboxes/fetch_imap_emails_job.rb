@@ -51,6 +51,11 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
 
     return if email_already_present?(channel, message_id)
 
+    if message_id.blank?
+      Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Empty message id for #{channel.email} with seq no. <#{seq_no}>."
+      return
+    end
+
     # Fetch the original mail content using the sequence no
     mail_str = imap_client.fetch(seq_no, 'RFC822')[0].attr['RFC822']
 
@@ -74,7 +79,7 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
     message_ids_with_seq = []
     seq_nums.each_slice(10).each do |batch|
       # Fetch only message-id only without mail body or contents.
-      batch_message_ids = imap_client.fetch(batch, 'BODY.PEEK[HEADER.FIELDS (MESSAGE-ID)]')
+      batch_message_ids = imap_client.fetch(batch, 'BODY.PEEK[HEADER]')
 
       # .fetch returns an array of Net::IMAP::FetchData or nil
       # (instead of an empty array) if there is no matching message.
@@ -85,7 +90,7 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
       end
 
       batch_message_ids.each do |data|
-        message_id = build_mail_from_string(data.attr['BODY[HEADER.FIELDS (MESSAGE-ID)]']).message_id
+        message_id = build_mail_from_string(data.attr['BODY.PEEK[HEADER]']).message_id
         message_ids_with_seq.push([data.seqno, message_id])
       end
     end
@@ -97,7 +102,7 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
   # created between yesterday and today and returns message sequence numbers.
   # Return <message set>
   def fetch_available_mail_sequence_numbers(imap_client)
-    imap_client.search(['BEFORE', tomorrow, 'SINCE', yesterday])
+    imap_client.search(['SINCE', yesterday])
   end
 
   def fetch_mail_for_ms_provider(channel)
@@ -160,9 +165,5 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
 
   def yesterday
     (Time.zone.today - 1).strftime('%d-%b-%Y')
-  end
-
-  def tomorrow
-    (Time.zone.today + 1).strftime('%d-%b-%Y')
   end
 end
