@@ -9,6 +9,7 @@ describe ActionService do
     let(:action_service) { described_class.new(conversation) }
 
     it 'adds the sla policy to the conversation' do
+      puts action_service.methods.inspect
       action_service.add_sla(sla_policy)
       expect(conversation.reload.sla_policy).to eq(sla_policy)
     end
