@@ -90,6 +90,9 @@
       "conversation_mention": "Menţiune"
     }
   },
+  "INBOX_PAGE": {
+    "HEADER": "Inbox"
+  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Deconectat"
