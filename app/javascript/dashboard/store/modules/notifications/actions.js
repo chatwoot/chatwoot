@@ -10,7 +10,6 @@ export const actions = {
           data: { payload, meta },
         },
       } = await NotificationsAPI.get(page);
-      commit(types.CLEAR_NOTIFICATIONS);
       commit(types.SET_NOTIFICATIONS, payload);
       commit(types.SET_NOTIFICATIONS_META, meta);
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: false });
@@ -61,5 +60,8 @@ export const actions = {
   },
   deleteNotification({ commit }, data) {
     commit(types.DELETE_NOTIFICATION, data);
+  },
+  clear({ commit }) {
+    commit(types.CLEAR_NOTIFICATIONS);
   },
 };

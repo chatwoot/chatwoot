@@ -14,6 +14,7 @@ export default {
         root: this.$refs.notificationList,
         rootMargin: '100px 0px 100px 0px',
       },
+      page: 1,
     };
   },
   computed: {
@@ -29,6 +30,7 @@ export default {
   },
 
   mounted() {
+    this.$store.dispatch('notifications/clear');
     this.$store.dispatch('notifications/get', { page: 1 });
   },
   methods: {
@@ -60,16 +62,10 @@ export default {
       this.$track(ACCOUNT_EVENTS.MARK_AS_READ_NOTIFICATIONS);
       this.$store.dispatch('notifications/readAll');
     },
-    endReached() {
-      // if (this.meta.currentPage < this.meta.totalPages) {
-      //   this.$store.dispatch('notifications/get', {
-      //     page: this.meta.currentPage + 1,
-      //   });
-      // }
-      return false;
-    },
     loadMoreNotifications() {
-      console.log('loadMoreConversations');
+      if (this.uiFlags.isAllNotificationsLoaded) return;
+      this.$store.dispatch('notifications/get', { page: this.page + 1 });
+      this.page += 1;
     },
   },
 };
@@ -92,16 +88,14 @@ export default {
         :key="notificationItem.id"
         :notification-item="notificationItem"
       />
+      <div v-if="uiFlags.isFetching" class="text-center">
+        <span class="spinner mt-4 mb-4" />
+      </div>
       <p v-if="showEndOfList" class="text-center text-muted p-4">
         {{ $t('INBOX.EOF') }}
       </p>
-      <!-- <intersection-observer
-        v-if="!showEndOfList && !uiFlags.isFetching"
-        :options="infiniteLoaderOptions"
-        @observed="loadMoreNotifications"
-      /> -->
       <intersection-observer
-        v-if="!uiFlags.isFetching"
+        v-if="!showEndOfList && !uiFlags.isFetching"
         :options="infiniteLoaderOptions"
         @observed="loadMoreNotifications"
       />
