@@ -13,7 +13,7 @@ export default {
     },
   },
   computed: {
-    computedInboxClass() {
+    inboxIcon() {
       const { phone_number: phoneNumber, channel_type: type } = this.inbox;
       const classByType = getInboxClassByType(type, phoneNumber);
       return classByType;
@@ -25,10 +25,10 @@ export default {
   <div
     class="inline-flex items-center rounded-[4px] border border-slate-100 dark:border-slate-600 divide-x divide-slate-100 dark:divide-slate-600 bg-none"
   >
-    <div class="flex items-center gap-0.5 py-0.5 px-1.5">
+    <div v-if="inbox" class="flex items-center gap-0.5 py-0.5 px-1.5">
       <fluent-icon
         class="text-slate-600 dark:text-slate-300"
-        :icon="computedInboxClass"
+        :icon="inboxIcon"
         size="14"
       />
       <span class="font-medium text-slate-600 dark:text-slate-300 text-xs">
