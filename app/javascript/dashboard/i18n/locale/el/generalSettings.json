@@ -90,6 +90,9 @@
       "conversation_mention": "Αναφορά"
     }
   },
+  "INBOX_PAGE": {
+    "HEADER": "Εισερχόμενα"
+  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Εκτός"
