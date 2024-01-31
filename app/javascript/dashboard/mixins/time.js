@@ -29,15 +29,25 @@ export default {
       return format(unixTime, dateFormat);
     },
     shortTimestamp(time, withAgo = false) {
+      // This function takes a time string and converts it to a short time string
+      // with the following format: 1m, 1h, 1d, 1mo, 1y
+      // The function also takes an optional boolean parameter withAgo
+      // which will add the word "ago" to the end of the time string
       const suffix = withAgo ? ' ago' : '';
+      const timeMappings = {
+        'less than a minute ago': 'now',
+        'a minute ago': `1m${suffix}`,
+        'an hour ago': `1h${suffix}`,
+        'a day ago': `1d${suffix}`,
+        'a month ago': `1mo${suffix}`,
+        'a year ago': `1y${suffix}`,
+      };
+      // Check if the time string is one of the specific cases
+      if (timeMappings[time]) {
+        return timeMappings[time];
+      }
       const convertToShortTime = time
         .replace(/about|over|almost|/g, '')
-        .replace('less than a minute ago', 'now')
-        .replace('a minute ago', `${withAgo ? '1m ago' : '1m'}`)
-        .replace('an hour ago', `${withAgo ? '1h ago' : '1h'}`)
-        .replace('a day ago', `${withAgo ? '1d ago' : '1d'}`)
-        .replace('a month ago', `${withAgo ? '1mo ago' : '1mo'}`)
-        .replace('a year ago', `${withAgo ? '1y ago' : '1y'}`)
         .replace(' minute ago', `m${suffix}`)
         .replace(' minutes ago', `m${suffix}`)
         .replace(' hour ago', `h${suffix}`)
