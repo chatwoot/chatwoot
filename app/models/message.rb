@@ -4,6 +4,7 @@
 #
 #  id                        :integer          not null, primary key
 #  additional_attributes     :jsonb
+#  auto_reply                :boolean          default(FALSE)
 #  content                   :text
 #  content_attributes        :json
 #  content_type              :integer          default("text"), not null
@@ -212,7 +213,7 @@ class Message < ApplicationRecord
   end
 
   def csat_link_shorten
-    return if csat_link.blank?
+    return '' if csat_link.blank?
 
     "#{csat_link[0, 17]}...#{csat_link[-17, 17]}"
   end
@@ -348,6 +349,7 @@ class Message < ApplicationRecord
   def reopen_conversation
     return if conversation.muted?
     return unless incoming?
+    return if Digitaltolk::MailHelper.auto_reply?(self)
 
     conversation.open! if conversation.snoozed?
 

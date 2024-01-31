@@ -100,6 +100,7 @@ import {
 import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
 import wootConstants from 'dashboard/constants/globals';
 import {
@@ -114,7 +115,7 @@ export default {
     WootDropdownMenu,
     CustomSnoozeModal,
   },
-  mixins: [clickaway, alertMixin, eventListenerMixins],
+  mixins: [clickaway, alertMixin, eventListenerMixins,uiSettingsMixin],
   props: { conversationId: { type: [String, Number], required: true } },
   data() {
     return {
@@ -147,6 +148,9 @@ export default {
     showAdditionalActions() {
       return !this.isPending && !this.isSnoozed;
     },
+    inbox() {
+      return this.$store.getters['inboxes/getInbox'](this.currentChat.inbox_id);
+    }
   },
   mounted() {
     bus.$on(CMD_SNOOZE_CONVERSATION, this.onCmdSnoozeConversation);
@@ -231,6 +235,20 @@ export default {
     },
     toggleStatus(status, snoozedUntil) {
       this.closeDropdown();
+
+      if (this.inbox.label_required && status === this.STATUS_TYPE.RESOLVED){
+        if (this.currentChat.labels.length === 0){
+          this.showAlert("Please add atleast one conversation label");
+
+          this.updateUISettings({
+            is_contact_sidebar_open: true,
+            is_conv_actions_open: true,
+          });
+
+          return;
+        }
+      }
+
       this.isLoading = true;
       this.$store
         .dispatch('toggleStatus', {

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_22_135344) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_31_060216) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -615,6 +615,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_22_135344) do
     t.boolean "push_notification_enabled", default: true
     t.boolean "audio_notification_enabled", default: true
     t.string "csat_trigger"
+    t.boolean "label_required", default: false
     t.index ["account_id"], name: "index_inboxes_on_account_id"
     t.index ["channel_id", "channel_type"], name: "index_inboxes_on_channel_id_and_channel_type"
     t.index ["portal_id"], name: "index_inboxes_on_portal_id"
@@ -709,6 +710,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_22_135344) do
     t.jsonb "additional_attributes", default: {}
     t.text "processed_message_content"
     t.jsonb "sentiment", default: {}
+    t.boolean "auto_reply", default: false
     t.index "((additional_attributes -> 'campaign_id'::text))", name: "index_messages_on_additional_attributes_campaign_id", using: :gin
     t.index ["account_id", "inbox_id"], name: "index_messages_on_account_id_and_inbox_id"
     t.index ["account_id"], name: "index_messages_on_account_id"

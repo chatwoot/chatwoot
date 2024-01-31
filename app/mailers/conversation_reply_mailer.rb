@@ -31,6 +31,7 @@ class ConversationReplyMailer < ApplicationMailer
 
   def email_reply(message)
     return unless smtp_config_set_or_development?
+    return if message.blank?
 
     init_conversation_attributes(message.conversation)
     @message = message

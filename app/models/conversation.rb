@@ -218,6 +218,8 @@ class Conversation < ApplicationRecord
   def send_csat_survey_email
     return unless saved_change_to_status? && resolved?
     return unless inbox.email?
+    return if csat_survey_responses.exists?
+    return if Digitaltolk::MailHelper.auto_reply?(messages.incoming.last)
 
     CsatSurveyWorker.perform_in(5.seconds, self.id)
   end

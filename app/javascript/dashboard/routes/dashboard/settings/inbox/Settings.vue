@@ -273,6 +273,21 @@
           </p>
         </label>
 
+        <label class="w-[75%] pb-4">
+          Require a label
+          <select v-model="labelRequired">
+            <option :value="true">
+              Enabled
+            </option>
+            <option :value="false">
+              Disabled
+            </option>
+          </select>
+          <p class="pb-1 text-sm not-italic text-slate-600 dark:text-slate-400">
+            Enable this option to require at least 1 label before resolving a conversation.
+          </p>
+        </label>
+
         <label v-if="isAWebWidgetInbox" class="w-[75%] pb-4">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.ALLOW_MESSAGES_AFTER_RESOLVED') }}
           <select v-model="allowMessagesAfterResolved">
@@ -528,6 +543,7 @@ export default {
       csatTemplateId: '',
       pushNotificationEnabled: true,
       audioNotificationEnabled: true,
+      labelRequired: false,
       senderNameType: 'friendly',
       businessName: '',
       locktoSingleConversation: false,
@@ -730,6 +746,7 @@ export default {
         this.csatTrigger = this.inbox.csat_trigger || 'conversation_resolved';
         this.pushNotificationEnabled = this.inbox.push_notification_enabled;
         this.audioNotificationEnabled = this.inbox.audio_notification_enabled;
+        this.labelRequired = this.inbox.label_required;
         this.senderNameType = this.inbox.sender_name_type;
         this.businessName = this.inbox.business_name;
         this.allowMessagesAfterResolved =
@@ -758,6 +775,7 @@ export default {
           csat_trigger: this.csatTrigger,
           push_notification_enabled: this.pushNotificationEnabled,
           audio_notification_enabled: this.audioNotificationEnabled,
+          label_required: this.labelRequired,
           default_reply_action: this.defaultReplyAction,
           allow_messages_after_resolved: this.allowMessagesAfterResolved,
           greeting_enabled: this.greetingEnabled,

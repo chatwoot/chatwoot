@@ -74,6 +74,7 @@
   import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
   import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
   import alertMixin from 'shared/mixins/alertMixin';
+  import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
   export default {
     name: 'ReplyTopMultipleAction',
@@ -81,7 +82,7 @@
       WootDropdownItem,
       WootDropdownMenu,
     },
-    mixins: [clickaway, alertMixin],
+    mixins: [clickaway, alertMixin, uiSettingsMixin],
     props: {
       onSend: {
         type: Function,
@@ -165,6 +166,20 @@
       },
       onReplyAndResolve(){
         this.onSend();
+
+        if (this.inbox.label_required){
+          if (this.currentChat.labels.length === 0){
+            this.showAlert("Please add atleast one conversation label");
+
+            this.updateUISettings({
+              is_contact_sidebar_open: true,
+              is_conv_actions_open: true,
+            });
+
+            return;
+          }
+        }
+
         setTimeout(() => {
           this.toggleStatus(this.STATUS_TYPE.RESOLVED);
         }, 500)

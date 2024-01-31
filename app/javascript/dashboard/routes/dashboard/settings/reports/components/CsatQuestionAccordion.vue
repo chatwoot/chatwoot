@@ -97,6 +97,11 @@ export default {
       const fitered = this.responses.filter(
         response => rating === response.rating
       );
+      
+      if (!fitered.length){
+        return "0";
+      }
+
       return ((fitered.length / this.responses.length) * 100).toFixed(2);
     },
     formatToPercent(value) {

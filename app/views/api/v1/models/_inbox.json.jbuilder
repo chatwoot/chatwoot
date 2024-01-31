@@ -13,6 +13,7 @@ json.csat_template_id resource.csat_template_id
 json.default_reply_action resource.default_reply_action
 json.push_notification_enabled resource.push_notification_enabled
 json.audio_notification_enabled resource.audio_notification_enabled
+json.label_required resource.label_required
 json.enable_auto_assignment resource.enable_auto_assignment
 json.auto_assignment_config resource.auto_assignment_config
 json.out_of_office_message resource.out_of_office_message

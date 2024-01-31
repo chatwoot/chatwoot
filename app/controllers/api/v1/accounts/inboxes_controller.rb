@@ -125,7 +125,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     [:name, :avatar, :greeting_enabled, :greeting_message, :enable_email_collect, :csat_survey_enabled,
      :enable_auto_assignment, :working_hours_enabled, :out_of_office_message, :timezone, :allow_messages_after_resolved,
      :lock_to_single_conversation, :portal_id, :sender_name_type, :business_name, :default_reply_action, :csat_trigger,
-     :push_notification_enabled, :audio_notification_enabled, :csat_template_id]
+     :push_notification_enabled, :audio_notification_enabled, :label_required, :csat_template_id]
   end
 
   def permitted_params(channel_attributes = [])
