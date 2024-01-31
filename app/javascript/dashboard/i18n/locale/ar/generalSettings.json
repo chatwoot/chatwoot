@@ -90,6 +90,9 @@
       "conversation_mention": "إشارة"
     }
   },
+  "INBOX_PAGE": {
+    "HEADER": "صندوق الوارد"
+  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "غير متصل"
