@@ -90,6 +90,9 @@
       "conversation_mention": "Mención"
     }
   },
+  "INBOX_PAGE": {
+    "HEADER": "Bandeja de entrada"
+  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Fuera de línea"
