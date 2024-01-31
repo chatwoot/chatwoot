@@ -90,6 +90,9 @@
       "conversation_mention": "Mention"
     }
   },
+  "INBOX_PAGE": {
+    "HEADER": "ان باکس"
+  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Offline"
