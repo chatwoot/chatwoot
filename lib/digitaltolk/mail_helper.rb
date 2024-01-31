@@ -3,7 +3,9 @@ class Digitaltolk::MailHelper
   EMAIL_REGEX = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/
 
   def self.email_from_body(html_content)
-    match = html_content.match(EMAIL_REGEX)
+    return if html_content.blank?
+
+    match = html_content.to_s.match(EMAIL_REGEX)
     match[0]
   end
 
