@@ -1,0 +1,9 @@
+{
+  "INBOX": {
+    "LOADING": "Fetching notifications",
+    "EOF": "All notifications loaded 🎉",
+    "LIST": {
+      "404": "There are no active notifications in this group."
+    }
+  }
+}

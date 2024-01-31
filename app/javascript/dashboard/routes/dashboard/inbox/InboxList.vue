@@ -2,9 +2,19 @@
 import { mapGetters } from 'vuex';
 import InboxCard from './components/InboxCard.vue';
 import { ACCOUNT_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import IntersectionObserver from 'dashboard/components/IntersectionObserver.vue';
 export default {
   components: {
     InboxCard,
+    IntersectionObserver,
+  },
+  data() {
+    return {
+      infiniteLoaderOptions: {
+        root: this.$refs.notificationList,
+        rootMargin: '100px 0px 100px 0px',
+      },
+    };
   },
   computed: {
     ...mapGetters({
@@ -13,7 +23,11 @@ export default {
       records: 'notifications/getNotifications',
       uiFlags: 'notifications/getUIFlags',
     }),
+    showEndOfList() {
+      return this.uiFlags.isAllNotificationsLoaded && !this.uiFlags.isFetching;
+    },
   },
+
   mounted() {
     this.$store.dispatch('notifications/get', { page: 1 });
   },
@@ -38,7 +52,6 @@ export default {
         primaryActorType,
         unreadCount: this.meta.unreadCount,
       });
-
       this.$router.push(
         `/app/accounts/${this.accountId}/conversations/${conversationId}`
       );
@@ -46,6 +59,17 @@ export default {
     onMarkAllDoneClick() {
       this.$track(ACCOUNT_EVENTS.MARK_AS_READ_NOTIFICATIONS);
       this.$store.dispatch('notifications/readAll');
+    },
+    endReached() {
+      // if (this.meta.currentPage < this.meta.totalPages) {
+      //   this.$store.dispatch('notifications/get', {
+      //     page: this.meta.currentPage + 1,
+      //   });
+      // }
+      return false;
+    },
+    loadMoreNotifications() {
+      console.log('loadMoreConversations');
     },
   },
 };
@@ -59,11 +83,27 @@ export default {
     >
       Inbox
     </div>
-    <div class="flex flex-col w-full h-full overflow-x-hidden overflow-y-auto">
+    <div
+      ref="notificationList"
+      class="flex flex-col w-full h-full overflow-x-hidden overflow-y-auto"
+    >
       <inbox-card
         v-for="notificationItem in records"
         :key="notificationItem.id"
         :notification-item="notificationItem"
+      />
+      <p v-if="showEndOfList" class="text-center text-muted p-4">
+        {{ $t('INBOX.EOF') }}
+      </p>
+      <!-- <intersection-observer
+        v-if="!showEndOfList && !uiFlags.isFetching"
+        :options="infiniteLoaderOptions"
+        @observed="loadMoreNotifications"
+      /> -->
+      <intersection-observer
+        v-if="!uiFlags.isFetching"
+        :options="infiniteLoaderOptions"
+        @observed="loadMoreNotifications"
       />
     </div>
   </div>
