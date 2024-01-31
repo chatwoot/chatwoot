@@ -90,6 +90,9 @@
       "conversation_mention": "Pieminēt"
     }
   },
+  "INBOX_PAGE": {
+    "HEADER": "Iesūtne"
+  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Bezsaistē"
