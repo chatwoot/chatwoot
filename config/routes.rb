@@ -408,6 +408,7 @@ Rails.application.routes.draw do
   post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
+  post 'webhooks/webflow', to: 'webhooks/webflow#process_payload'
 
   namespace :twitter do
     resource :callback, only: [:show]

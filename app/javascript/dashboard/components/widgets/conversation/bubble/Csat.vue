@@ -28,9 +28,6 @@ export default {
       default: [],
     },
   },
-  computed: {
-
-  },
   methods: {
     formatCsat(csat){
       const botMessageContent = generateBotMessageContent(
@@ -47,7 +44,7 @@ export default {
 
       return (
         this.formatMessage(
-          csat.content,
+          this.formatted_content(csat.content),
           false,
           false
         ) + botMessageContent
@@ -55,6 +52,14 @@ export default {
     },
     isEmail(csat){
       return csat.content_type === CONTENT_TYPES.INCOMING_EMAIL;
+    },
+    formatted_content(content){
+      var urlRegex = /(https?:\/\/[^\s]+)/g;
+
+      // Replace URLs with an empty string
+      var stringWithoutUrls = content.replace(urlRegex, '');
+
+      return stringWithoutUrls;
     }
   },
 };
