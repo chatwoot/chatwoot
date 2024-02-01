@@ -16,9 +16,22 @@
         @contact-panel-toggle="onToggleContactPanel"
       />
     </div>
-    <!-- <div v-else class="text-center w-full h-full flex items-center">
-      <span class="spinner mt-4 mb-4" />
-    </div> -->
+    <div
+      v-else
+      class="text-center bg-slate-25 dark:bg-slate-800 justify-center w-full h-full flex items-center"
+    >
+      <span v-if="uiFlags.isFetching" class="spinner mt-4 mb-4" />
+      <div v-else class="flex flex-row items-center gap-1">
+        <fluent-icon
+          icon="mail-inbox"
+          size="18"
+          class="text-slate-700 dark:text-slate-400"
+        />
+        <span class="text-slate-700 text-sm font-medium dark:text-slate-400">
+          {{ $t('INBOX.LIST.NOTE') }}
+        </span>
+      </div>
+    </div>
   </section>
 </template>
 
@@ -57,6 +70,15 @@ export default {
       allConversation: 'getAllConversations',
       uiFlags: 'notifications/getUIFlags',
     }),
+    isInboxViewEnabled() {
+      return this.$store.getters['accounts/isFeatureEnabledGlobally'](
+        this.currentAccountId,
+        FEATURE_FLAGS.INBOX_VIEW
+      );
+    },
+    showInboxMessageView() {
+      return Boolean(this.conversationId) && Boolean(this.currentChat.id);
+    },
     totalNotifications() {
       return this.notifications?.length ?? 0;
     },
@@ -66,15 +88,6 @@ export default {
         n => n.primary_actor.id === conversationId
       );
       return notificationIndex >= 0 ? notificationIndex + 1 : 0;
-    },
-    showInboxMessageView() {
-      return Boolean(this.conversationId) && Boolean(this.currentChat.id);
-    },
-    isInboxViewEnabled() {
-      return this.$store.getters['accounts/isFeatureEnabledGlobally'](
-        this.currentAccountId,
-        FEATURE_FLAGS.INBOX_VIEW
-      );
     },
     isOnExpandedLayout() {
       const {

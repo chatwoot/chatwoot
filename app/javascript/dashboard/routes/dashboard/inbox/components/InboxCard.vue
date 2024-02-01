@@ -4,7 +4,7 @@
     class="flex flex-col pl-5 pr-3 gap-2.5 py-3 w-full border-b border-slate-50 dark:border-slate-800/50 hover:bg-slate-25 dark:hover:bg-slate-800 cursor-pointer"
     :class="
       isInboxCardActive
-        ? 'bg-slate-25 dark:bg-slate-800'
+        ? 'bg-slate-25 dark:bg-slate-800 click-animation'
         : 'bg-white dark:bg-slate-900'
     "
     @contextmenu="openContextMenu($event)"
@@ -158,3 +158,19 @@ export default {
   },
 };
 </script>
+<style scoped>
+.click-animation {
+  animation: click-animation 0.3s ease-in-out;
+}
+@keyframes click-animation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.99);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+</style>
