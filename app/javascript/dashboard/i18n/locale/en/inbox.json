@@ -12,6 +12,12 @@
       "CONVERSATION_ASSIGNMENT": "A conversation has been assigned to you",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "New message in an assigned conversation",
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "New message in a conversation you are participating in"
+    },
+    "MENU_ITEM": {
+      "MARK_AS_READ": "Mark as read",
+      "MARK_AS_UNREAD": "Mark as unread",
+      "SNOOZE": "Snooze",
+      "DELETE": "Delete"
     }
   }
 }
