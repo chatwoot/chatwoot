@@ -4,7 +4,7 @@
   >
     <div class="flex items-center gap-1.5">
       <h1 class="font-medium text-slate-900 dark:text-slate-25 text-xl">
-        Inbox
+        {{ $t('INBOX.LIST.TITLE') }}
       </h1>
       <div
         role="button"
@@ -14,7 +14,7 @@
         <span
           class="text-slate-600 relative -top-px dark:text-slate-200 text-xs text-center font-medium"
         >
-          Display
+          {{ $t('INBOX.LIST.DISPLAY_DROPDOWN') }}
         </span>
         <fluent-icon
           icon="chevron-down"
@@ -23,14 +23,14 @@
         />
       </div>
     </div>
-    <div class="flex gap-1 items-center">
-      <woot-button
+    <div class="flex relative gap-1 items-center">
+      <!-- <woot-button
         variant="clear"
         size="small"
         color-scheme="secondary"
         icon="filter"
         @click="openInboxFilter"
-      />
+      /> -->
       <woot-button
         variant="clear"
         size="small"
@@ -38,21 +38,34 @@
         icon="mail-inbox"
         @click="openInboxOptionsMenu"
       />
+      <inbox-option-menu
+        v-if="showInboxOptionMenu"
+        v-on-clickaway="openInboxOptionsMenu"
+        class="absolute top-9"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import { mixin as clickaway } from 'vue-clickaway';
+import InboxOptionMenu from './InboxOptionMenu.vue';
 export default {
+  components: {
+    InboxOptionMenu,
+  },
+  mixins: [clickaway],
+  data() {
+    return {
+      showInboxOptionMenu: false,
+    };
+  },
   methods: {
     openInboxDisplayMenu() {
       this.$emit('open-display-menu');
     },
-    openInboxFilter() {
-      this.$emit('open-filter');
-    },
     openInboxOptionsMenu() {
-      this.$emit('open-options-menu');
+      this.showInboxOptionMenu = !this.showInboxOptionMenu;
     },
   },
 };
