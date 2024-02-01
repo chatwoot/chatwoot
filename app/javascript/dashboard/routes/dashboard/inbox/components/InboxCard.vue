@@ -2,6 +2,7 @@
   <div
     role="button"
     class="flex flex-col pl-5 pr-3 gap-2.5 py-3 w-full bg-white dark:bg-slate-900 border-b border-slate-50 dark:border-slate-800/50 hover:bg-slate-25 dark:hover:bg-slate-800 cursor-pointer"
+    @contextmenu="openContextMenu($event)"
     @click="openConversation(notificationItem)"
   >
     <div class="flex relative items-center justify-between w-full">
@@ -41,17 +42,24 @@
         {{ lastActivityAt }}
       </span>
     </div>
+    <inbox-context-menu
+      v-if="isContextMenuOpen"
+      :context-menu-position="contextMenuPosition"
+      @close="closeContextMenu"
+    />
   </div>
 </template>
 <script>
 import PriorityIcon from './PriorityIcon.vue';
 import StatusIcon from './StatusIcon.vue';
 import InboxNameAndId from './InboxNameAndId.vue';
+import InboxContextMenu from './InboxContextMenu.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import timeMixin from 'dashboard/mixins/time';
 export default {
   components: {
     PriorityIcon,
+    InboxContextMenu,
     StatusIcon,
     InboxNameAndId,
     Thumbnail,
@@ -62,6 +70,12 @@ export default {
       type: Object,
       default: () => {},
     },
+  },
+  data() {
+    return {
+      isContextMenuOpen: false,
+      contextMenuPosition: { x: null, y: null },
+    };
   },
   computed: {
     primaryActor() {
@@ -93,9 +107,25 @@ export default {
       return this.shortTimestamp(dynamicTime, true);
     },
   },
+  unmounted() {
+    this.closeContextMenu();
+  },
   methods: {
     openConversation(notification) {
       this.$emit('open-conversation', notification);
+    },
+    closeContextMenu() {
+      this.isContextMenuOpen = false;
+      this.contextMenuPosition = { x: null, y: null };
+    },
+    openContextMenu(e) {
+      this.closeContextMenu();
+      e.preventDefault();
+      this.contextMenuPosition = {
+        x: e.pageX || e.clientX,
+        y: e.pageY || e.clientY,
+      };
+      this.isContextMenuOpen = true;
     },
   },
 };
