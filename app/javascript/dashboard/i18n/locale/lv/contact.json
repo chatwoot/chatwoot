@@ -340,7 +340,7 @@
     "VALIDATIONS": {
       "REQUIRED": "Nepieciešama derīga vērtība",
       "INVALID_URL": "Nederīgs URL",
-      "INVALID_INPUT": "Invalid Input"
+      "INVALID_INPUT": "Nepareizi Ievadīts"
     }
   },
   "MERGE_CONTACTS": {
