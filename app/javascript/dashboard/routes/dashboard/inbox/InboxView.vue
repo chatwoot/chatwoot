@@ -1,6 +1,9 @@
 <template>
   <section class="flex w-full h-full bg-white dark:bg-slate-900">
-    <inbox-list />
+    <inbox-list
+      v-show="showConversationList"
+      :is-on-expanded-layout="isOnExpandedLayout"
+    />
     <div v-if="showInboxMessageView" class="flex flex-col w-full h-full">
       <inbox-item-header
         :total-length="totalNotifications"
@@ -10,6 +13,7 @@
       />
       <conversation-box
         class="h-[calc(100%-56px)]"
+        is-inbox-view
         :inbox-id="inboxId"
         :is-contact-panel-open="isContactPanelOpen"
         :is-on-expanded-layout="isOnExpandedLayout"
@@ -17,7 +21,7 @@
       />
     </div>
     <div
-      v-else
+      v-if="!showInboxMessageView && !isOnExpandedLayout"
       class="text-center bg-slate-25 dark:bg-slate-800 justify-center w-full h-full flex items-center"
     >
       <span v-if="uiFlags.isFetching" class="spinner mt-4 mb-4" />
@@ -75,6 +79,9 @@ export default {
         this.currentAccountId,
         FEATURE_FLAGS.INBOX_VIEW
       );
+    },
+    showConversationList() {
+      return this.isOnExpandedLayout ? !this.conversationId : true;
     },
     showInboxMessageView() {
       return Boolean(this.conversationId) && Boolean(this.currentChat.id);

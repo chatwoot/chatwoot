@@ -1,6 +1,7 @@
 <template>
   <div
-    class="flex flex-col min-w-[360px] w-full max-w-[360px] h-full ltr:border-r border-slate-50 dark:border-slate-800/50"
+    class="flex flex-col h-full w-full ltr:border-r border-slate-50 dark:border-slate-800/50"
+    :class="isOnExpandedLayout ? '' : 'min-w-[360px] max-w-[360px]'"
   >
     <inbox-list-header />
     <div
@@ -41,6 +42,12 @@ export default {
     InboxCard,
     InboxListHeader,
     IntersectionObserver,
+  },
+  props: {
+    isOnExpandedLayout: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
