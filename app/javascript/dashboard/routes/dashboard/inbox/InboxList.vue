@@ -34,10 +34,6 @@ export default {
     this.$store.dispatch('notifications/get', { page: 1 });
   },
   methods: {
-    onPageChange(page) {
-      window.history.pushState({}, null, `${this.$route.path}?page=${page}`);
-      this.$store.dispatch('notifications/get', { page });
-    },
     openConversation(notification) {
       const {
         primary_actor_id: primaryActorId,
