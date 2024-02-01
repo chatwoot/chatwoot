@@ -14,6 +14,7 @@ const state = {
     isFetchingItem: false,
     isUpdating: false,
     isUpdatingUnreadCount: false,
+    isAllNotificationsLoaded: false,
   },
 };
 
