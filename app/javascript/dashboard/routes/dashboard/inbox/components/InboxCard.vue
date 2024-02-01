@@ -85,7 +85,7 @@ export default {
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](
-        this.primaryActor.inbox_id || this.notificationItem.inbox_id
+        this.primaryActor.inbox_id
       );
     },
     isUnread() {
