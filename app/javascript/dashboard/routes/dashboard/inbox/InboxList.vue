@@ -60,7 +60,7 @@ export default {
     },
     loadMoreNotifications() {
       if (this.uiFlags.isAllNotificationsLoaded) return;
-      this.$store.dispatch('notifications/get', { page: this.page + 1 });
+      this.$store.dispatch('notifications/index', { page: this.page + 1 });
       this.page += 1;
     },
   },
