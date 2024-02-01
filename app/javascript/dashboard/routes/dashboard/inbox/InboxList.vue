@@ -1,11 +1,13 @@
 <script>
 import { mapGetters } from 'vuex';
 import InboxCard from './components/InboxCard.vue';
+import InboxListHeader from './components/InboxListHeader.vue';
 import { ACCOUNT_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import IntersectionObserver from 'dashboard/components/IntersectionObserver.vue';
 export default {
   components: {
     InboxCard,
+    InboxListHeader,
     IntersectionObserver,
   },
   data() {
@@ -70,11 +72,7 @@ export default {
   <div
     class="flex flex-col min-w-[360px] w-full max-w-[360px] h-full ltr:border-r border-slate-50 dark:border-slate-800/50"
   >
-    <div
-      class="flex text-xl w-full pl-5 pr-3 py-2 h-14 items-center font-medium text-slate-900 dark:text-slate-25 border-b border-slate-50 dark:border-slate-800/50"
-    >
-      {{ $t('INBOX.LIST.TITLE') }}
-    </div>
+    <inbox-list-header />
     <div
       ref="notificationList"
       class="flex flex-col w-full h-full overflow-x-hidden overflow-y-auto"
