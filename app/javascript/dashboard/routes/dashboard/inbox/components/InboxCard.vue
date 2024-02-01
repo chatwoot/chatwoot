@@ -29,15 +29,8 @@
           <span
             class="font-medium text-slate-800 dark:text-slate-50 text-sm overflow-hidden text-ellipsis whitespace-nowrap"
           >
-            <!-- {{
-              $t(
-                `NOTIFICATIONS_PAGE.TYPE_LABEL.${notificationItem.notification_type}`
-              )
-            }}
-
-            <span class="text-sm">:</span> -->
             <span class="font-normal text-sm">
-              {{ notificationItem.push_message_title }}
+              {{ pushTitle }}
             </span>
           </span>
         </div>
@@ -87,6 +80,11 @@ export default {
     },
     assigneeMeta() {
       return this.meta?.assignee;
+    },
+    pushTitle() {
+      return this.$t(
+        `INBOX.TYPES.${this.notificationItem.notification_type.toUpperCase()}`
+      );
     },
     lastActivityAt() {
       const dynamicTime = this.dynamicTime(
