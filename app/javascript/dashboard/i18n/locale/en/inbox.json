@@ -13,7 +13,7 @@
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "New message in an assigned conversation",
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "New message in a conversation you are participating in"
     },
-    "CONTEXT_MENU": {
+    "MENU_ITEM": {
       "MARK_AS_READ": "Mark as read",
       "MARK_AS_UNREAD": "Mark as unread",
       "SNOOZE": "Snooze",
