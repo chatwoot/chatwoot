@@ -1,7 +1,12 @@
 <template>
   <div
     role="button"
-    class="flex flex-col pl-5 pr-3 gap-2.5 py-3 w-full bg-white dark:bg-slate-900 border-b border-slate-50 dark:border-slate-800/50 hover:bg-slate-25 dark:hover:bg-slate-800 cursor-pointer"
+    class="flex flex-col pl-5 pr-3 gap-2.5 py-3 w-full border-b border-slate-50 dark:border-slate-800/50 hover:bg-slate-25 dark:hover:bg-slate-800 cursor-pointer"
+    :class="
+      isInboxCardActive
+        ? 'bg-slate-25 dark:bg-slate-800'
+        : 'bg-white dark:bg-slate-900'
+    "
     @contextmenu="openContextMenu($event)"
     @click="openConversation(notificationItem)"
   >
@@ -56,6 +61,7 @@ import InboxNameAndId from './InboxNameAndId.vue';
 import InboxContextMenu from './InboxContextMenu.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import timeMixin from 'dashboard/mixins/time';
+import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 export default {
   components: {
     PriorityIcon,
@@ -80,6 +86,9 @@ export default {
   computed: {
     primaryActor() {
       return this.notificationItem?.primary_actor;
+    },
+    isInboxCardActive() {
+      return this.$route.params.conversation_id === this.primaryActor?.id;
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](
@@ -112,7 +121,26 @@ export default {
   },
   methods: {
     openConversation(notification) {
-      this.$emit('open-conversation', notification);
+      const {
+        // primary_actor_id: primaryActorId,
+        // primary_actor_type: primaryActorType,
+        primary_actor: { id: conversationId, inbox_id: inboxId },
+        notification_type: notificationType,
+      } = notification;
+
+      this.$track(ACCOUNT_EVENTS.OPEN_CONVERSATION_VIA_NOTIFICATION, {
+        notificationType,
+      });
+      // this.$store.dispatch('notifications/read', {
+      //   primaryActorId,
+      //   primaryActorType,
+      //   unreadCount: this.meta.unreadCount,
+      // });
+
+      this.$router.push({
+        name: 'inbox_view_conversation',
+        params: { inboxId, conversation_id: conversationId },
+      });
     },
     closeContextMenu() {
       this.isContextMenuOpen = false;
