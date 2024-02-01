@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex px-4 items-center justify-between w-full h-16 pt-2 sticky top-0 z-10 bg-white dark:bg-slate-900"
+    class="flex px-4 items-center justify-between w-full h-16 pt-2 sticky top-0 z-50 bg-white dark:bg-slate-900"
   >
     <div class="flex items-center">
       <woot-sidemenu-icon />
