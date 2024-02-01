@@ -45,12 +45,4 @@ class Api::V2::AccountsController < Api::BaseController
   def validate_captcha
     raise ActionController::InvalidAuthenticityToken, 'Invalid Captcha' unless ChatwootCaptcha.new(params[:h_captcha_client_response]).valid?
   end
-
-  # def pundit_user
-  #   {
-  #     user: current_user,
-  #     account: @account,
-  #     account_user: @current_account_user
-  #   }
-  # end
 end
