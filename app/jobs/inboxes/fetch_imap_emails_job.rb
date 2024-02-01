@@ -90,7 +90,7 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
       end
 
       batch_message_ids.each do |data|
-        message_id = build_mail_from_string(data.attr['BODY.PEEK[HEADER]']).message_id
+        message_id = build_mail_from_string(data.attr['BODY[HEADER]']).message_id
         message_ids_with_seq.push([data.seqno, message_id])
       end
     end
