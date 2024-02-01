@@ -2,6 +2,7 @@
   "INBOX": {
     "LIST": {
       "TITLE": "Inbox",
+      "DISPLAY_DROPDOWN": "Display",
       "LOADING": "Fetching notifications",
       "EOF": "All notifications loaded 🎉",
       "404": "There are no active notifications in this group."
@@ -17,7 +18,10 @@
       "MARK_AS_READ": "Mark as read",
       "MARK_AS_UNREAD": "Mark as unread",
       "SNOOZE": "Snooze",
-      "DELETE": "Delete"
+      "DELETE": "Delete",
+      "MARK_ALL_READ": "Mark all as read",
+      "DELETE_ALL": "Delete all",
+      "DELETE_ALL_READ": "Delete all read"
     }
   }
 }
