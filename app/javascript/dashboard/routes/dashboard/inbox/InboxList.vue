@@ -63,6 +63,32 @@ export default {
       this.$store.dispatch('notifications/index', { page: this.page + 1 });
       this.page += 1;
     },
+    markNotificationAsRead(notification) {
+      const {
+        id,
+        primary_actor_id: primaryActorId,
+        primary_actor_type: primaryActorType,
+      } = notification;
+      this.$store.dispatch('notifications/read', {
+        id,
+        primaryActorId,
+        primaryActorType,
+        unreadCount: this.meta.unreadCount,
+      });
+    },
+    markNotificationAsUnRead(notification) {
+      const { id } = notification;
+      this.$store.dispatch('notifications/unread', {
+        id,
+      });
+    },
+    deleteNotification(notification) {
+      this.$store.dispatch('notifications/delete', {
+        notification,
+        unread_count: this.meta.unreadCount,
+        count: this.meta.count,
+      });
+    },
   },
 };
 </script>
@@ -83,6 +109,9 @@ export default {
         v-for="notificationItem in records"
         :key="notificationItem.id"
         :notification-item="notificationItem"
+        @mark-notification-as-read="markNotificationAsRead"
+        @mark-notification-as-unread="markNotificationAsUnRead"
+        @delete-notification="deleteNotification"
       />
       <div v-if="uiFlags.isFetching" class="text-center">
         <span class="spinner mt-4 mb-4" />

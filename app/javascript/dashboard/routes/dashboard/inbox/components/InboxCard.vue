@@ -97,6 +97,15 @@ export default {
     openConversation(notification) {
       this.$emit('open-conversation', notification);
     },
+    markNotificationAsRead(notification) {
+      this.$emit('mark-notification-as-read', notification);
+    },
+    markNotificationAsUnRead(notification) {
+      this.$emit('mark-notification-as-unread', notification);
+    },
+    deleteNotification(notification) {
+      this.$emit('delete-notification', notification);
+    },
   },
 };
 </script>
