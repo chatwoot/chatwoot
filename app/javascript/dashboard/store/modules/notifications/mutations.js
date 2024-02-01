@@ -10,6 +10,7 @@ export const mutations = {
   },
   [types.CLEAR_NOTIFICATIONS]: $state => {
     Vue.set($state, 'records', {});
+    Vue.set($state.uiFlags, 'isAllNotificationsLoaded', false);
   },
   [types.SET_NOTIFICATIONS_META]: ($state, data) => {
     const {
@@ -60,5 +61,8 @@ export const mutations = {
     Vue.delete($state.records, notification.id);
     Vue.set($state.meta, 'unreadCount', unreadCount);
     Vue.set($state.meta, 'count', count);
+  },
+  [types.SET_ALL_NOTIFICATIONS_LOADED]: $state => {
+    Vue.set($state.uiFlags, 'isAllNotificationsLoaded', true);
   },
 };
