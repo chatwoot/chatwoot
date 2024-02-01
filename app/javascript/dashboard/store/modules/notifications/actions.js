@@ -18,6 +18,24 @@ export const actions = {
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: false });
     }
   },
+  index: async ({ commit }, { page = 1 } = {}) => {
+    commit(types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: true });
+    try {
+      const {
+        data: {
+          data: { payload, meta },
+        },
+      } = await NotificationsAPI.get(page);
+      commit(types.SET_NOTIFICATIONS, payload);
+      commit(types.SET_NOTIFICATIONS_META, meta);
+      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: false });
+      if (payload.length < 15) {
+        commit(types.SET_ALL_NOTIFICATIONS_LOADED);
+      }
+    } catch (error) {
+      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: false });
+    }
+  },
   unReadCount: async ({ commit } = {}) => {
     commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdatingUnreadCount: true });
     try {
@@ -58,5 +76,8 @@ export const actions = {
   },
   deleteNotification({ commit }, data) {
     commit(types.DELETE_NOTIFICATION, data);
+  },
+  clear({ commit }) {
+    commit(types.CLEAR_NOTIFICATIONS);
   },
 };

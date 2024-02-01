@@ -5,7 +5,6 @@ import dashboard from './dashboard/dashboard.routes';
 import store from '../store';
 import { validateLoggedInRoutes } from '../helper/routeHelpers';
 import AnalyticsHelper from '../helper/AnalyticsHelper';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const routes = [...dashboard.routes];
 
@@ -40,16 +39,6 @@ export const validateAuthenticateRoutePermission = (to, next, { getters }) => {
   if (!isLoggedIn) {
     window.location = '/app/login';
     return '/app/login';
-  }
-
-  // Open inbox view if inbox view feature is enabled, else redirect to dashboard
-  // TODO: Remove this code once inbox view feature is enabled for all accounts
-  const isInboxViewEnabled = store.getters['accounts/isFeatureEnabledGlobally'](
-    user.account_id,
-    FEATURE_FLAGS.INBOX_VIEW
-  );
-  if (to.name === 'inbox_index' && !isInboxViewEnabled) {
-    return next(frontendURL(`accounts/${user.account_id}/dashboard`));
   }
 
   if (!to.name) {

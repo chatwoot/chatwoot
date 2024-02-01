@@ -1,9 +1,17 @@
 /* eslint arrow-body-style: 0 */
 import { frontendURL } from '../../../helper/URLHelper';
 const ConversationView = () => import('./ConversationView');
+const InboxView = () => import('../inbox/InboxView.vue');
 
 export default {
   routes: [
+    {
+      path: frontendURL('accounts/:accountId/inbox'),
+      name: 'inbox',
+      roles: ['administrator', 'agent'],
+      component: InboxView,
+      props: () => {},
+    },
     {
       path: frontendURL('accounts/:accountId/dashboard'),
       name: 'home',
