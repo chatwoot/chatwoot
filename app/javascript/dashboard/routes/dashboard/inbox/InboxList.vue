@@ -37,25 +37,13 @@ export default {
   },
   methods: {
     openConversation(notification) {
-      const {
-        primary_actor_id: primaryActorId,
-        primary_actor_type: primaryActorType,
-        primary_actor: { id: conversationId },
-        notification_type: notificationType,
-      } = notification;
+      const { notification_type: notificationType } = notification;
 
       this.$track(ACCOUNT_EVENTS.OPEN_CONVERSATION_VIA_NOTIFICATION, {
         notificationType,
       });
-      this.$store.dispatch('notifications/read', {
-        id: notification.id,
-        primaryActorId,
-        primaryActorType,
-        unreadCount: this.meta.unreadCount,
-      });
-      this.$router.push(
-        `/app/accounts/${this.accountId}/conversations/${conversationId}`
-      );
+
+      this.markNotificationAsRead(notification);
     },
     onMarkAllDoneClick() {
       this.$track(ACCOUNT_EVENTS.MARK_AS_READ_NOTIFICATIONS);
@@ -108,6 +96,7 @@ export default {
         v-for="notificationItem in records"
         :key="notificationItem.id"
         :notification-item="notificationItem"
+        @open-conversation="openConversation"
         @mark-notification-as-read="markNotificationAsRead"
         @mark-notification-as-unread="markNotificationAsUnRead"
         @delete-notification="deleteNotification"
