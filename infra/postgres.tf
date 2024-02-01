@@ -1,7 +1,7 @@
 module "postgres" {
   source                 = "git@gitlab.digitaltolk.net:dtolk/dope/terraform-aws-db.git"
   name                   = local.system_name
-  instance_class         = "db.t4g.small"
+  instance_class         = "db.t4g.medium"
   engine                 = "postgres"
   engine_version         = "15.4"
   parameter_group_family = "postgres15"
