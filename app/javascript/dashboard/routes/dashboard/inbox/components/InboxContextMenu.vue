@@ -1,50 +1,5 @@
-<script setup>
-import { defineProps, defineEmits } from 'vue';
-import MenuItem from './MenuItem.vue';
-
-defineProps({
-  isOpen: {
-    type: Boolean,
-    default: false,
-  },
-  contextMenuPosition: {
-    type: Object,
-    default: () => ({}),
-  },
-});
-
-const menuItems = [
-  {
-    key: 'mark_as_read',
-    label: 'Mark as read',
-  },
-  {
-    key: 'mark_as_unread',
-    label: 'Mark as unread',
-  },
-  {
-    key: 'snooze',
-    label: 'Snooze',
-  },
-  {
-    key: 'delete',
-    label: 'Delete',
-  },
-];
-
-const emits = defineEmits(['close']);
-
-const handleClose = () => {
-  emits('close');
-};
-
-const onMenuItemClick = () => {
-  // handle menu item click
-};
-</script>
 <template>
   <woot-context-menu
-    v-if="isOpen"
     :x="contextMenuPosition.x"
     :y="contextMenuPosition.y"
     @close="handleClose"
@@ -61,3 +16,49 @@ const onMenuItemClick = () => {
     </div>
   </woot-context-menu>
 </template>
+
+<script>
+import MenuItem from './MenuItem.vue';
+export default {
+  components: {
+    MenuItem,
+  },
+  props: {
+    contextMenuPosition: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
+  data() {
+    return {
+      menuItems: [
+        {
+          key: 'mark_as_read',
+          label: this.$t('INBOX.CONTEXT_MENU.MARK_AS_READ'),
+        },
+        {
+          key: 'mark_as_unread',
+          label: this.$t('INBOX.CONTEXT_MENU.MARK_AS_UNREAD'),
+        },
+        {
+          key: 'snooze',
+          label: this.$t('INBOX.CONTEXT_MENU.SNOOZE'),
+        },
+        {
+          key: 'delete',
+          label: this.$t('INBOX.CONTEXT_MENU.DELETE'),
+        },
+      ],
+    };
+  },
+  methods: {
+    handleClose() {
+      this.$emit('close');
+    },
+    onMenuItemClick(key) {
+      this.$emit('click', key);
+      this.handleClose();
+    },
+  },
+};
+</script>
