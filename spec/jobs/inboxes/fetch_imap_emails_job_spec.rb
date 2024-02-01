@@ -63,7 +63,7 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
       allow(imap).to receive(:authenticate)
       allow(imap).to receive(:select)
       allow(imap).to receive(:search).and_return([1])
-      allow(imap).to receive(:fetch).with([1], 'BODY.PEEK[HEADER]').and_return([email_header])
+      allow(imap).to receive(:fetch).with([1], 'BODY[HEADER]').and_return([email_header])
       allow(imap).to receive(:fetch).with(1, 'RFC822').and_return([imap_fetch_mail])
 
       imap_mailbox = double
