@@ -1,95 +1,48 @@
-<script setup>
-import { defineProps, ref, onBeforeUnmount } from 'vue';
-
-import PriorityIcon from './components/PriorityIcon.vue';
-import StatusIcon from './components/StatusIcon.vue';
-import InboxNameAndId from './components/InboxNameAndId.vue';
-import InboxContextMenu from './components/InboxContextMenu.vue';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-
-defineProps({
-  notificationItem: {
-    type: Object,
-    default: () => {},
-  },
-});
-
-const isContextMenuOpen = ref(false);
-const contextMenuPosition = ref({ x: null, y: null });
-
-const closeContextMenu = () => {
-  isContextMenuOpen.value = false;
-  contextMenuPosition.value = { x: null, y: null };
-};
-
-const openContextMenu = e => {
-  e.preventDefault();
-  contextMenuPosition.value = {
-    x: e.pageX || e.clientX,
-    y: e.pageY || e.clientY,
-  };
-  isContextMenuOpen.value = true;
-};
-
-onBeforeUnmount(() => {
-  closeContextMenu();
-});
-
-const assigneeMeta = {
-  thumbnail: '',
-  name: 'Michael Johnson',
-};
-const { thumbnail, name } = assigneeMeta || {};
-const status = 'open';
-const priority = 'high';
-const inboxTypeMessage = 'Mentioned by Michael';
-const inboxMessage = 'What is the best way to get started?';
-const inbox = {
-  inbox_id: 16787,
-  inbox_name: 'Chatwoot Support',
-};
-</script>
-
 <template>
   <div
-    class="flex max-w-[360px] flex-col pl-5 pr-3 gap-2.5 py-3 w-full bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-500 hover:bg-slate-25 dark:hover:bg-slate-800 cursor-pointer"
+    role="button"
+    class="flex flex-col pl-5 pr-3 gap-2.5 py-3 w-full bg-white dark:bg-slate-900 border-b border-slate-50 dark:border-slate-800/50 hover:bg-slate-25 dark:hover:bg-slate-800 cursor-pointer"
     @contextmenu="openContextMenu($event)"
+    @click="openConversation(notificationItem)"
   >
     <div class="flex relative items-center justify-between w-full">
       <div
+        v-if="isUnread"
         class="absolute -left-3.5 flex w-2 h-2 rounded bg-woot-500 dark:bg-woot-500"
       />
-      <InboxNameAndId :inbox="inbox" />
+      <InboxNameAndId :inbox="inbox" :conversation-id="primaryActor.id" />
+
       <div class="flex gap-2">
-        <PriorityIcon :priority="priority" />
-        <StatusIcon :status="status" />
+        <PriorityIcon :priority="primaryActor.priority" />
+        <StatusIcon :status="primaryActor.status" />
       </div>
     </div>
 
     <div class="flex flex-row justify-between items-center w-full">
-      <div class="flex gap-1.5 items-center max-w-[80%]">
+      <div class="flex gap-1.5 items-center max-w-[calc(100%-70px)]">
         <Thumbnail
           v-if="assigneeMeta"
-          :src="thumbnail"
-          :username="name"
+          :src="assigneeMeta.thumbnail"
+          :username="assigneeMeta.name"
           size="20px"
         />
         <div class="flex min-w-0">
           <span
-            class="font-medium text-slate-800 dark:text-slate-100 text-xs overflow-hidden text-ellipsis whitespace-nowrap"
+            class="font-medium text-slate-800 dark:text-slate-50 text-sm overflow-hidden text-ellipsis whitespace-nowrap"
           >
-            {{ inboxTypeMessage }}<span v-if="inboxTypeMessage">:</span>
-            <span class="font-normal">{{ inboxMessage }}</span>
+            <span class="font-normal text-sm">
+              {{ pushTitle }}
+            </span>
           </span>
         </div>
       </div>
       <span
-        class="font-medium text-slate-600 dark:text-slate-300 text-xs whitespace-nowrap"
+        class="font-medium max-w-[60px] text-slate-600 dark:text-slate-300 text-xs whitespace-nowrap"
       >
-        10h ago
+        {{ lastActivityAt }}
       </span>
     </div>
-    <InboxContextMenu
+    <inbox-context-menu
       v-if="contextMenuPosition"
       :is-open="isContextMenuOpen"
       :context-menu-position="contextMenuPosition"
@@ -97,3 +50,83 @@ const inbox = {
     />
   </div>
 </template>
+<script>
+import PriorityIcon from './PriorityIcon.vue';
+import StatusIcon from './StatusIcon.vue';
+import InboxNameAndId from './InboxNameAndId.vue';
+import InboxContextMenu from './components/InboxContextMenu.vue';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import timeMixin from 'dashboard/mixins/time';
+export default {
+  components: {
+    PriorityIcon,
+    InboxContextMenu,
+    StatusIcon,
+    InboxNameAndId,
+    Thumbnail,
+  },
+  mixins: [timeMixin],
+  props: {
+    notificationItem: {
+      type: Object,
+      default: () => {},
+    },
+  },
+  data() {
+    return {
+      isContextMenuOpen: false,
+      contextMenuPosition: { x: null, y: null },
+    };
+  },
+  computed: {
+    primaryActor() {
+      return this.notificationItem?.primary_actor;
+    },
+    inbox() {
+      return this.$store.getters['inboxes/getInbox'](
+        this.primaryActor.inbox_id
+      );
+    },
+    isUnread() {
+      return !this.notificationItem?.read_at;
+    },
+    meta() {
+      return this.primaryActor?.meta;
+    },
+    assigneeMeta() {
+      return this.meta?.assignee;
+    },
+    pushTitle() {
+      return this.$t(
+        `INBOX.TYPES.${this.notificationItem.notification_type.toUpperCase()}`
+      );
+    },
+    lastActivityAt() {
+      const dynamicTime = this.dynamicTime(
+        this.notificationItem?.last_activity_at
+      );
+      return this.shortTimestamp(dynamicTime, true);
+    },
+  },
+  unmounted() {
+    this.closeContextMenu();
+  },
+  methods: {
+    openConversation(notification) {
+      this.$emit('open-conversation', notification);
+    },
+    closeContextMenu() {
+      this.isContextMenuOpen = false;
+      this.contextMenuPosition = { x: null, y: null };
+    },
+    openContextMenu(e) {
+      e.preventDefault();
+      this.contextMenuPosition = {
+        x: e.pageX || e.clientX,
+        y: e.pageY || e.clientY,
+      };
+      this.isContextMenuOpen = true;
+    },
+  },
+};
+</script>
