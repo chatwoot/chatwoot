@@ -162,7 +162,7 @@ export default {
           window.$chatwoot.toggle('open');
         }
       }
-
+      
       window.chatwootSettings = {
         hideMessageBubble: true,
         position: 'left',
