@@ -61,7 +61,8 @@ class Notification < ApplicationRecord
       user: user&.push_event_data,
       created_at: created_at.to_i,
       last_activity_at: last_activity_at.to_i,
-      account_id: account_id
+      account_id: account_id,
+      inbox_id: primary_actor.inbox_id
 
     }
     if primary_actor.present?
