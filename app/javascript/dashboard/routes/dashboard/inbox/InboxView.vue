@@ -26,7 +26,7 @@ export default {
   mounted() {
     // Open inbox view if inbox view feature is enabled, else redirect to dashboard
     // TODO: Remove this code once inbox view feature is enabled for all accounts
-    if (!this.isInboxViewEnabled) {
+    if (this.isInboxViewEnabled) {
       this.$router.push({
         name: 'home',
       });

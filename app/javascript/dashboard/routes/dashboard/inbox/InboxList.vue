@@ -31,7 +31,7 @@ export default {
 
   mounted() {
     this.$store.dispatch('notifications/clear');
-    this.$store.dispatch('notifications/get', { page: 1 });
+    this.$store.dispatch('notifications/index', { page: 1 });
   },
   methods: {
     openConversation(notification) {
