@@ -325,7 +325,7 @@
       },
       "COLUMNS": {
         "BY": "persona",
-        "AUTHOR_NOT_AVAILABLE": "Author is not available"
+        "AUTHOR_NOT_AVAILABLE": "Autors nav pieejams"
       }
     },
     "EDIT_ARTICLE": {
