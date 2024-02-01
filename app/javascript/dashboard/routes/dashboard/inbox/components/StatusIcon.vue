@@ -1,20 +1,8 @@
-<script setup>
-import { CONVERSATION_STATUS } from 'shared/constants/messages';
-import { defineProps } from 'vue';
-
-const props = defineProps({
-  status: {
-    type: String,
-    default: '',
-  },
-});
-</script>
-
 <template>
   <div class="inline-flex items-center justify-center rounded-md">
     <!-- Pending -->
     <svg
-      v-if="props.status === CONVERSATION_STATUS.PENDING"
+      v-if="status === CONVERSATION_STATUS.PENDING"
       class="h-3.5 w-3.5"
       width="18"
       height="18"
@@ -29,7 +17,7 @@ const props = defineProps({
     </svg>
     <!-- Open -->
     <svg
-      v-if="props.status === CONVERSATION_STATUS.OPEN"
+      v-if="status === CONVERSATION_STATUS.OPEN"
       class="h-3.5 w-3.5"
       width="19"
       height="19"
@@ -45,7 +33,7 @@ const props = defineProps({
 
     <!-- Snoozed -->
     <svg
-      v-if="props.status === CONVERSATION_STATUS.SNOOZED"
+      v-if="status === CONVERSATION_STATUS.SNOOZED"
       class="h-3.5 w-3.5"
       width="18"
       height="18"
@@ -61,7 +49,7 @@ const props = defineProps({
 
     <!-- Resolved -->
     <svg
-      v-if="props.status === CONVERSATION_STATUS.RESOLVED"
+      v-if="status === CONVERSATION_STATUS.RESOLVED"
       class="h-3.5 w-3.5"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -78,3 +66,21 @@ const props = defineProps({
     </svg>
   </div>
 </template>
+
+<script>
+import { CONVERSATION_STATUS } from 'shared/constants/messages';
+
+export default {
+  props: {
+    status: {
+      type: String,
+      default: '',
+    },
+  },
+  data() {
+    return {
+      CONVERSATION_STATUS,
+    };
+  },
+};
+</script>
