@@ -2,7 +2,7 @@
 import { mapGetters } from 'vuex';
 import InboxCard from './components/InboxCard.vue';
 import InboxListHeader from './components/InboxListHeader.vue';
-import { ACCOUNT_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import { INBOX_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import IntersectionObserver from 'dashboard/components/IntersectionObserver.vue';
 export default {
   components: {
@@ -37,33 +37,50 @@ export default {
   },
   methods: {
     openConversation(notification) {
-      const {
-        primary_actor_id: primaryActorId,
-        primary_actor_type: primaryActorType,
-        primary_actor: { id: conversationId },
-        notification_type: notificationType,
-      } = notification;
-
-      this.$track(ACCOUNT_EVENTS.OPEN_CONVERSATION_VIA_NOTIFICATION, {
+      const { notification_type: notificationType } = notification;
+      this.$track(INBOX_EVENTS.OPEN_CONVERSATION_VIA_NOTIFICATION, {
         notificationType,
       });
-      this.$store.dispatch('notifications/read', {
-        primaryActorId,
-        primaryActorType,
-        unreadCount: this.meta.unreadCount,
-      });
-      this.$router.push(
-        `/app/accounts/${this.accountId}/conversations/${conversationId}`
-      );
+
+      this.markNotificationAsRead(notification);
     },
     onMarkAllDoneClick() {
-      this.$track(ACCOUNT_EVENTS.MARK_AS_READ_NOTIFICATIONS);
+      this.$track(INBOX_EVENTS.MARK_ALL_NOTIFICATIONS_AS_READ);
       this.$store.dispatch('notifications/readAll');
     },
     loadMoreNotifications() {
       if (this.uiFlags.isAllNotificationsLoaded) return;
       this.$store.dispatch('notifications/index', { page: this.page + 1 });
       this.page += 1;
+    },
+    markNotificationAsRead(notification) {
+      this.$track(INBOX_EVENTS.MARK_NOTIFICATION_AS_READ);
+      const {
+        id,
+        primary_actor_id: primaryActorId,
+        primary_actor_type: primaryActorType,
+      } = notification;
+      this.$store.dispatch('notifications/read', {
+        id,
+        primaryActorId,
+        primaryActorType,
+        unreadCount: this.meta.unreadCount,
+      });
+    },
+    markNotificationAsUnRead(notification) {
+      this.$track(INBOX_EVENTS.MARK_NOTIFICATION_AS_UNREAD);
+      const { id } = notification;
+      this.$store.dispatch('notifications/unread', {
+        id,
+      });
+    },
+    deleteNotification(notification) {
+      this.$track(INBOX_EVENTS.DELETE_NOTIFICATION);
+      this.$store.dispatch('notifications/delete', {
+        notification,
+        unread_count: this.meta.unreadCount,
+        count: this.meta.count,
+      });
     },
   },
 };
@@ -81,6 +98,10 @@ export default {
         v-for="notificationItem in records"
         :key="notificationItem.id"
         :notification-item="notificationItem"
+        @open-conversation="openConversation"
+        @mark-notification-as-read="markNotificationAsRead"
+        @mark-notification-as-unread="markNotificationAsUnRead"
+        @delete-notification="deleteNotification"
       />
       <div v-if="uiFlags.isFetching" class="text-center">
         <span class="spinner mt-4 mb-4" />

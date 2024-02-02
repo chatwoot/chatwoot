@@ -45,7 +45,9 @@
     <inbox-context-menu
       v-if="isContextMenuOpen"
       :context-menu-position="contextMenuPosition"
+      :menu-items="menuItems"
       @close="closeContextMenu"
+      @click="handleAction"
     />
   </div>
 </template>
@@ -106,6 +108,27 @@ export default {
       );
       return this.shortTimestamp(dynamicTime, true);
     },
+    menuItems() {
+      const items = [
+        {
+          key: 'delete',
+          label: this.$t('INBOX.MENU_ITEM.DELETE'),
+        },
+      ];
+
+      if (!this.isUnread) {
+        items.push({
+          key: 'mark_as_unread',
+          label: this.$t('INBOX.MENU_ITEM.MARK_AS_UNREAD'),
+        });
+      } else {
+        items.push({
+          key: 'mark_as_read',
+          label: this.$t('INBOX.MENU_ITEM.MARK_AS_READ'),
+        });
+      }
+      return items;
+    },
   },
   unmounted() {
     this.closeContextMenu();
@@ -126,6 +149,20 @@ export default {
         y: e.pageY || e.clientY,
       };
       this.isContextMenuOpen = true;
+    },
+    handleAction(key) {
+      switch (key) {
+        case 'mark_as_read':
+          this.$emit('mark-notification-as-read', this.notificationItem);
+          break;
+        case 'mark_as_unread':
+          this.$emit('mark-notification-as-unread', this.notificationItem);
+          break;
+        case 'delete':
+          this.$emit('delete-notification', this.notificationItem);
+          break;
+        default:
+      }
     },
   },
 };

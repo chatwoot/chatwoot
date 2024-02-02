@@ -48,14 +48,26 @@ export const actions = {
   },
   read: async (
     { commit },
-    { primaryActorType, primaryActorId, unreadCount }
+    { id, primaryActorType, primaryActorId, unreadCount }
   ) => {
+    commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: true });
     try {
       await NotificationsAPI.read(primaryActorType, primaryActorId);
       commit(types.SET_NOTIFICATIONS_UNREAD_COUNT, unreadCount - 1);
-      commit(types.UPDATE_NOTIFICATION, primaryActorId);
+      commit(types.UPDATE_NOTIFICATION, { id, read_at: new Date() });
+      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
     } catch (error) {
-      throw new Error(error);
+      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
+    }
+  },
+  unread: async ({ commit }, { id }) => {
+    commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: true });
+    try {
+      await NotificationsAPI.unRead(id);
+      commit(types.UPDATE_NOTIFICATION, { id, read_at: null });
+      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
+    } catch (error) {
+      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
     }
   },
   readAll: async ({ commit }) => {
@@ -68,6 +80,18 @@ export const actions = {
     } catch (error) {
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
       throw new Error(error);
+    }
+  },
+
+  delete: async ({ commit }, { notification, count, unreadCount }) => {
+    commit(types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: true });
+    try {
+      await NotificationsAPI.delete(notification.id);
+      commit(types.SET_NOTIFICATIONS_UNREAD_COUNT, unreadCount - 1);
+      commit(types.DELETE_NOTIFICATION, { notification, count, unreadCount });
+      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: false });
+    } catch (error) {
+      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: false });
     }
   },
 
