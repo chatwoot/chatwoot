@@ -19,16 +19,22 @@ class MonitorSlaJob < ApplicationJob
   end
 
   def check_first_response_time(applied_sla, conversation, sla_policy)
-    return unless sla_policy.first_response_time_threshold.present? && conversation.first_response_time.present?
+    return if conversation.resolved?
+    return if sla_policy.first_response_time_threshold.blank? # && conversation.first_reply_created_at.present?
 
-    threshold = conversation.created_at.to_i + sla_policy.first_response_time_threshold
-    return unless conversation.first_response_time.to_i > threshold
+    # && conversation.first_reply_created_at.present?
+
+    threshold = conversation.created_at.to_i + sla_policy.first_response_time_threshold.to_i
+    return unless Time.now.to_i > threshold
 
     handle_missed_sla(applied_sla, conversation, sla_policy)
   end
 
   def check_next_response_time(applied_sla, conversation, sla_policy)
-    return unless sla_policy.next_response_time_threshold.present? && conversation.waiting_since.present?
+    return if conversation.resolved?
+    unless sla_policy.next_response_time_threshold.present? && conversation.first_reply_created_at.present? && conversation.waiting_since.present?
+      return
+    end
 
     threshold = conversation.waiting_since.to_i + sla_policy.next_response_time_threshold
     return unless Time.now.to_i > threshold
@@ -37,10 +43,10 @@ class MonitorSlaJob < ApplicationJob
   end
 
   def check_resolution_time(applied_sla, conversation, sla_policy)
-    return unless sla_policy.resolution_time_threshold.present? && conversation.status.resolved?
+    return unless sla_policy.resolution_time_threshold.present? && conversation.resolved?
 
-    threshold = conversation.created_at.to_i + sla_policy.resolution_time_threshold
-    resolution_time = conversation.reporting_events.where(name: 'conversation_resolved').first.value
+    threshold = sla_policy.resolution_time_threshold.to_i
+    resolution_time = conversation.account.reporting_events.where(name: 'conversation_resolved').first.value
 
     return unless resolution_time > threshold
 
