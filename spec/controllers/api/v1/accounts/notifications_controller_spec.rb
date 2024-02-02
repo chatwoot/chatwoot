@@ -207,4 +207,59 @@ RSpec.describe 'Notifications API', type: :request do
       end
     end
   end
+
+  describe 'DELETE /api/v1/accounts/{account.id}/notifications/destroy_all' do
+    let(:admin) { create(:user, account: account, role: :administrator) }
+    let(:notification1) { create(:notification, account: account, user: admin) }
+    let(:notification2) { create(:notification, account: account, user: admin) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        delete "/api/v1/accounts/#{account.id}/notifications/destroy_all"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+
+      it 'deletes all the notifications' do
+        expect(Notification::DeleteNotificationJob).to receive(:perform_later).with(admin, type: :all)
+
+        delete "/api/v1/accounts/#{account.id}/notifications/destroy_all",
+               headers: admin.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:success)
+      end
+    end
+  end
+
+  describe 'DELETE /api/v1/accounts/{account.id}/notifications/destroy_read' do
+    let(:admin) { create(:user, account: account, role: :administrator) }
+    let(:notification1) { create(:notification, account: account, user: admin) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        delete "/api/v1/accounts/#{account.id}/notifications/destroy_read"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+
+      it 'deletes all the read notifications' do
+        expect(Notification::DeleteNotificationJob).to receive(:perform_later).with(admin, type: :read)
+
+        delete "/api/v1/accounts/#{account.id}/notifications/destroy_read",
+               headers: admin.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:success)
+      end
+    end
+  end
 end

@@ -173,6 +173,8 @@ Rails.application.routes.draw do
             collection do
               post :read_all
               get :unread_count
+              delete :destroy_all
+              delete :destroy_read
             end
             member do
               post :snooze
