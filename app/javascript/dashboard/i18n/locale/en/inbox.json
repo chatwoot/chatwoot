@@ -5,7 +5,12 @@
       "DISPLAY_DROPDOWN": "Display",
       "LOADING": "Fetching notifications",
       "EOF": "All notifications loaded 🎉",
-      "404": "There are no active notifications in this group."
+      "404": "There are no active notifications in this group.",
+      "NOTE": "Notifications from all subscribed inboxes"
+    },
+    "ACTION_HEADER": {
+      "SNOOZE": "Snooze notification",
+      "DELETE": "Delete notification"
     },
     "TYPES": {
       "CONVERSATION_MENTION": "You have been mentioned in a conversation",

@@ -1,40 +1,3 @@
-<script setup>
-import { ref, computed } from 'vue';
-
-const props = defineProps({
-  totalLength: {
-    type: Number,
-    default: 0,
-  },
-  currentIndex: {
-    type: Number,
-    default: 0,
-  },
-});
-
-const totalItems = ref(props.totalLength);
-const currentPage = ref(Math.floor(props.currentIndex / totalItems.value) + 1);
-
-const isUpDisabled = computed(() => currentPage.value === 1);
-
-const isDownDisabled = computed(
-  () => currentPage.value === totalItems.value || totalItems.value <= 1
-);
-
-const handleUpClick = () => {
-  if (currentPage.value > 1) {
-    currentPage.value -= 1;
-    // need to update it based on usage
-  }
-};
-const handleDownClick = () => {
-  if (currentPage.value < totalItems.value) {
-    currentPage.value += 1;
-    // need to update it based on usage
-  }
-};
-</script>
-
 <template>
   <div class="flex gap-2 items-center">
     <div class="flex gap-1 items-center">
@@ -57,17 +20,51 @@ const handleDownClick = () => {
     </div>
     <div class="flex items-center gap-1 whitespace-nowrap">
       <span class="text-sm font-medium text-gray-600">
-        {{ totalItems <= 1 ? '1' : currentPage }}
+        {{ totalLength <= 1 ? '1' : currentIndex }}
       </span>
       <span
-        v-if="totalItems > 1"
+        v-if="totalLength > 1"
         class="text-sm text-slate-400 relative -top-px"
       >
         /
       </span>
-      <span v-if="totalItems > 1" class="text-sm text-slate-400">
-        {{ totalItems }}
+      <span v-if="totalLength > 1" class="text-sm text-slate-400">
+        {{ totalLength }}
       </span>
     </div>
   </div>
 </template>
+<script>
+export default {
+  props: {
+    totalLength: {
+      type: Number,
+      default: 0,
+    },
+    currentIndex: {
+      type: Number,
+      default: 0,
+    },
+  },
+  computed: {
+    isUpDisabled() {
+      return this.currentIndex === 1;
+    },
+    isDownDisabled() {
+      return this.currentIndex === this.totalLength || this.totalLength <= 1;
+    },
+  },
+  methods: {
+    handleUpClick() {
+      if (this.currentIndex > 1) {
+        this.$emit('prev');
+      }
+    },
+    handleDownClick() {
+      if (this.currentIndex < this.totalLength) {
+        this.$emit('next');
+      }
+    },
+  },
+};
+</script>
