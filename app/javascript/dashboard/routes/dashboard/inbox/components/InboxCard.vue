@@ -151,20 +151,22 @@ export default {
         notification_type: notificationType,
       } = notification;
 
-      this.$track(INBOX_EVENTS.OPEN_CONVERSATION_VIA_NOTIFICATION, {
-        notificationType,
-      });
+      if (this.$route.params.conversation_id !== conversationId) {
+        this.$track(INBOX_EVENTS.OPEN_CONVERSATION_VIA_INBOX, {
+          notificationType,
+        });
 
-      this.$store.dispatch('notifications/read', {
-        primaryActorId,
-        primaryActorType,
-        unreadCount: this.meta.unreadCount,
-      });
+        this.$store.dispatch('notifications/read', {
+          primaryActorId,
+          primaryActorType,
+          unreadCount: this.meta.unreadCount,
+        });
 
-      this.$router.push({
-        name: 'inbox_view_conversation',
-        params: { inboxId, conversation_id: conversationId },
-      });
+        this.$router.push({
+          name: 'inbox_view_conversation',
+          params: { inboxId, conversation_id: conversationId },
+        });
+      }
     },
     closeContextMenu() {
       this.isContextMenuOpen = false;

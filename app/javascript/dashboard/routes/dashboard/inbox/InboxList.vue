@@ -47,6 +47,10 @@ export default {
     IntersectionObserver,
   },
   props: {
+    conversationId: {
+      type: [String, Number],
+      default: 0,
+    },
     isOnExpandedLayout: {
       type: Boolean,
       default: false,
@@ -77,6 +81,11 @@ export default {
     this.$store.dispatch('notifications/index', { page: 1 });
   },
   methods: {
+    redirectToInbox() {
+      if (!this.conversationId) return;
+      if (this.$route.name === 'inbox') return;
+      this.$router.push({ name: 'inbox' });
+    },
     onMarkAllDoneClick() {
       this.$track(INBOX_EVENTS.MARK_ALL_NOTIFICATIONS_AS_READ);
       this.$store.dispatch('notifications/readAll');
@@ -102,6 +111,7 @@ export default {
     },
     markNotificationAsUnRead(notification) {
       this.$track(INBOX_EVENTS.MARK_NOTIFICATION_AS_UNREAD);
+      this.redirectToInbox();
       const { id } = notification;
       this.$store.dispatch('notifications/unread', {
         id,
@@ -109,6 +119,7 @@ export default {
     },
     deleteNotification(notification) {
       this.$track(INBOX_EVENTS.DELETE_NOTIFICATION);
+      this.redirectToInbox();
       this.$store.dispatch('notifications/delete', {
         notification,
         unread_count: this.meta.unreadCount,

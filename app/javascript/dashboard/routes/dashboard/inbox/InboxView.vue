@@ -2,6 +2,7 @@
   <section class="flex w-full h-full bg-white dark:bg-slate-900">
     <inbox-list
       v-show="showConversationList"
+      :conversation-id="conversationId"
       :is-on-expanded-layout="isOnExpandedLayout"
     />
     <div v-if="showInboxMessageView" class="flex flex-col w-full h-full">
@@ -171,7 +172,7 @@ export default {
           notification_type: notificationType,
         } = targetNotification;
 
-        this.$track(INBOX_EVENTS.OPEN_CONVERSATION_VIA_NOTIFICATION, {
+        this.$track(INBOX_EVENTS.OPEN_CONVERSATION_VIA_INBOX, {
           notificationType,
         });
 
