@@ -37,11 +37,6 @@ class MutexApplicationJob < ApplicationJob
     Rails.logger.info "[#{self.class.name}] Acquired lock for: #{lock_key} on attempt #{executions}"
   end
 
-  def locked?(lock_key)
-    lock_manager = Redis::LockManager.new
-    lock_manager.locked?(lock_key)
-  end
-
   def handle_error(err, lock_manager, lock_key)
     lock_manager.unlock(lock_key) unless err.is_a?(LockAcquisitionError)
     raise err
