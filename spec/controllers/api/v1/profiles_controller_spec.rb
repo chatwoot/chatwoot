@@ -258,7 +258,17 @@ RSpec.describe 'Profile API', type: :request do
                       unconfirmed_email: 'test-unconfirmed@email.com')
       end
 
-      it 'resends the confirmation email' do
+      it 'does not send the confirmation email if the user is already confirmed' do
+        expect do
+          post '/api/v1/profile/resend_confirmation',
+               headers: agent.create_new_auth_token,
+               as: :json
+        end.not_to have_enqueued_mail(Devise::Mailer, :confirmation_instructions)
+
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'resends the confirmation email if the user is unconfirmed' do
         agent.confirmed_at = nil
         agent.save!
 
