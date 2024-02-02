@@ -87,6 +87,7 @@ import Thumbnail from '../Thumbnail.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { conversationListPageURL } from 'dashboard/helper/URLHelper';
 import { conversationReopenTime } from 'dashboard/helper/snoozeHelpers';
+import { frontendURL } from 'dashboard/helper/URLHelper';
 
 export default {
   components: {
@@ -109,6 +110,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isInboxView: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     ...mapGetters({
@@ -123,6 +128,9 @@ export default {
         params: { accountId, inbox_id: inboxId, label, teamId },
         name,
       } = this.$route;
+      if (this.isInboxView) {
+        return frontendURL(`accounts/${accountId}/inbox`);
+      }
       return conversationListPageURL({
         accountId,
         inboxId,

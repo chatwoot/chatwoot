@@ -1,14 +1,60 @@
+<template>
+  <div
+    class="flex flex-col h-full w-full ltr:border-r border-slate-50 dark:border-slate-800/50"
+    :class="isOnExpandedLayout ? '' : 'min-w-[360px] max-w-[360px]'"
+  >
+    <inbox-list-header />
+    <div
+      ref="notificationList"
+      class="flex flex-col w-full h-[calc(100%-56px)] overflow-x-hidden overflow-y-auto"
+    >
+      <inbox-card
+        v-for="notificationItem in records"
+        :key="notificationItem.id"
+        :notification-item="notificationItem"
+        @mark-notification-as-read="markNotificationAsRead"
+        @mark-notification-as-unread="markNotificationAsUnRead"
+        @delete-notification="deleteNotification"
+      />
+      <div v-if="uiFlags.isFetching" class="text-center">
+        <span class="spinner mt-4 mb-4" />
+      </div>
+      <p
+        v-if="showEndOfList"
+        class="text-center text-slate-300 dark:text-slate-400 p-4"
+      >
+        {{ $t('INBOX.LIST.EOF') }}
+      </p>
+      <intersection-observer
+        v-if="!showEndOfList && !uiFlags.isFetching"
+        :options="infiniteLoaderOptions"
+        @observed="loadMoreNotifications"
+      />
+    </div>
+  </div>
+</template>
+
 <script>
 import { mapGetters } from 'vuex';
 import InboxCard from './components/InboxCard.vue';
 import InboxListHeader from './components/InboxListHeader.vue';
-import { INBOX_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import IntersectionObserver from 'dashboard/components/IntersectionObserver.vue';
 export default {
   components: {
     InboxCard,
     InboxListHeader,
     IntersectionObserver,
+  },
+  props: {
+    conversationId: {
+      type: [String, Number],
+      default: 0,
+    },
+    isOnExpandedLayout: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -30,19 +76,15 @@ export default {
       return this.uiFlags.isAllNotificationsLoaded && !this.uiFlags.isFetching;
     },
   },
-
   mounted() {
     this.$store.dispatch('notifications/clear');
     this.$store.dispatch('notifications/index', { page: 1 });
   },
   methods: {
-    openConversation(notification) {
-      const { notification_type: notificationType } = notification;
-      this.$track(INBOX_EVENTS.OPEN_CONVERSATION_VIA_NOTIFICATION, {
-        notificationType,
-      });
-
-      this.markNotificationAsRead(notification);
+    redirectToInbox() {
+      if (!this.conversationId) return;
+      if (this.$route.name === 'inbox') return;
+      this.$router.push({ name: 'inbox' });
     },
     onMarkAllDoneClick() {
       this.$track(INBOX_EVENTS.MARK_ALL_NOTIFICATIONS_AS_READ);
@@ -69,6 +111,7 @@ export default {
     },
     markNotificationAsUnRead(notification) {
       this.$track(INBOX_EVENTS.MARK_NOTIFICATION_AS_UNREAD);
+      this.redirectToInbox();
       const { id } = notification;
       this.$store.dispatch('notifications/unread', {
         id,
@@ -76,6 +119,7 @@ export default {
     },
     deleteNotification(notification) {
       this.$track(INBOX_EVENTS.DELETE_NOTIFICATION);
+      this.redirectToInbox();
       this.$store.dispatch('notifications/delete', {
         notification,
         unread_count: this.meta.unreadCount,
@@ -85,38 +129,3 @@ export default {
   },
 };
 </script>
-<template>
-  <div
-    class="flex flex-col min-w-[360px] w-full max-w-[360px] h-full ltr:border-r border-slate-50 dark:border-slate-800/50"
-  >
-    <inbox-list-header />
-    <div
-      ref="notificationList"
-      class="flex flex-col w-full h-full overflow-x-hidden overflow-y-auto"
-    >
-      <inbox-card
-        v-for="notificationItem in records"
-        :key="notificationItem.id"
-        :notification-item="notificationItem"
-        @open-conversation="openConversation"
-        @mark-notification-as-read="markNotificationAsRead"
-        @mark-notification-as-unread="markNotificationAsUnRead"
-        @delete-notification="deleteNotification"
-      />
-      <div v-if="uiFlags.isFetching" class="text-center">
-        <span class="spinner mt-4 mb-4" />
-      </div>
-      <p
-        v-if="showEndOfList"
-        class="text-center text-slate-300 dark:text-slate-400 p-4"
-      >
-        {{ $t('INBOX.LIST.EOF') }}
-      </p>
-      <intersection-observer
-        v-if="!showEndOfList && !uiFlags.isFetching"
-        :options="infiniteLoaderOptions"
-        @observed="loadMoreNotifications"
-      />
-    </div>
-  </div>
-</template>
