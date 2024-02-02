@@ -9,7 +9,7 @@
       "NOTE": "Notifications from all subscribed inboxes"
     },
     "ACTION_HEADER": {
-      "SNOOZE": "Snooze",
+      "SNOOZE": "Snooze notification",
       "DELETE": "Delete notification"
     },
     "TYPES": {

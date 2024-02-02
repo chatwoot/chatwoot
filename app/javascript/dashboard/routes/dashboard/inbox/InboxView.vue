@@ -83,8 +83,15 @@ export default {
     showConversationList() {
       return this.isOnExpandedLayout ? !this.conversationId : true;
     },
+    isFetchingInitialData() {
+      return this.uiFlags.isFetching && !this.notifications.length;
+    },
     showInboxMessageView() {
-      return Boolean(this.conversationId) && Boolean(this.currentChat.id);
+      return (
+        Boolean(this.conversationId) &&
+        Boolean(this.currentChat.id) &&
+        !this.isFetchingInitialData
+      );
     },
     totalNotifications() {
       return this.notifications?.length ?? 0;
@@ -129,7 +136,6 @@ export default {
         name: 'home',
       });
     }
-    this.fetchConversationById();
   },
   methods: {
     async fetchConversationById() {
