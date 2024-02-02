@@ -61,10 +61,9 @@ RSpec.describe 'Accounts API', type: :request do
                params: params,
                as: :json
 
-          expect(AccountBuilder).to have_received(:new).with(params.merge(user_password: params[:password]))
-          expect(account_builder).to have_received(:perform)
+          expect(AccountBuilder).not_to have_received(:new)
           expect(response).to have_http_status(:forbidden)
-          expect(response.body).to eq({ message: I18n.t('errors.signup.failed') }.to_json)
+          expect(response.body).to eq({ message: I18n.t('errors.signup.invalid_params') }.to_json)
         end
       end
     end

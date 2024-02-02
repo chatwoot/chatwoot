@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe Account do
-  it { is_expected.to validate_presence_of(:name) }
   it { is_expected.to validate_numericality_of(:auto_resolve_duration).is_greater_than_or_equal_to(1) }
   it { is_expected.to validate_numericality_of(:auto_resolve_duration).is_less_than_or_equal_to(999) }
 

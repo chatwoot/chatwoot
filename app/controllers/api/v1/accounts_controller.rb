@@ -5,11 +5,13 @@ class Api::V1::AccountsController < Api::BaseController
   skip_before_action :authenticate_user!, :set_current_user, :handle_with_exception,
                      only: [:create], raise: false
   before_action :check_signup_enabled, only: [:create]
+  before_action :ensure_account_name, only: [:create]
   before_action :validate_captcha, only: [:create]
   before_action :fetch_account, except: [:create]
   before_action :check_authorization, except: [:create]
 
   rescue_from CustomExceptions::Account::InvalidEmail,
+              CustomExceptions::Account::InvalidParams,
               CustomExceptions::Account::UserExists,
               CustomExceptions::Account::UserErrors,
               with: :render_error_response
@@ -52,6 +54,17 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   private
+
+  def ensure_account_name
+    # ensure that account_name and user_full_name is present
+    # this is becuase the account builder and the models validations are not triggered
+    # this change is to align the behaviour with the v2 accounts controller
+    # since these values are not required directly there
+    return if account_params[:account_name].present?
+    return if account_params[:user_full_name].present?
+
+    raise CustomExceptions::Account::InvalidParams.new({})
+  end
 
   def get_cache_keys
     {

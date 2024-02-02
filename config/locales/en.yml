@@ -45,6 +45,7 @@ en:
       disposable_email: We do not allow disposable emails
       invalid_email: You have entered an invalid email
       email_already_exists: "You have already signed up for an account with %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Signup failed
     data_import:
       data_type:
