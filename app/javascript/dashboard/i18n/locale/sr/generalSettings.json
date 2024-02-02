@@ -90,9 +90,6 @@
       "conversation_mention": "Pominjanje"
     }
   },
-  "INBOX_PAGE": {
-    "HEADER": "Prijemno sanduče"
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Nedostupan"
