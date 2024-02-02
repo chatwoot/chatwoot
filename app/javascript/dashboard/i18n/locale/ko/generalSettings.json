@@ -90,9 +90,6 @@
       "conversation_mention": "멘션"
     }
   },
-  "INBOX_PAGE": {
-    "HEADER": "받은 메시지함"
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "오프라인"
