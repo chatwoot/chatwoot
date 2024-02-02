@@ -42,6 +42,7 @@
         v-if="showInboxOptionMenu"
         v-on-clickaway="openInboxOptionsMenu"
         class="absolute top-9"
+        @option-click="onInboxOptionMenuClick"
       />
     </div>
   </div>
@@ -50,6 +51,7 @@
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
 import InboxOptionMenu from './InboxOptionMenu.vue';
+import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 export default {
   components: {
     InboxOptionMenu,
@@ -61,11 +63,33 @@ export default {
     };
   },
   methods: {
+    markAllRead() {
+      this.$track(INBOX_EVENTS.MARK_ALL_NOTIFICATIONS_AS_READ);
+      this.$store.dispatch('notifications/readAll');
+    },
+    deleteAll() {
+      this.$store.dispatch('notifications/deleteAll');
+    },
+    deleteAllRead() {
+      this.$store.dispatch('notifications/deleteAllRead');
+    },
     openInboxDisplayMenu() {
       this.$emit('open-display-menu');
     },
     openInboxOptionsMenu() {
       this.showInboxOptionMenu = !this.showInboxOptionMenu;
+    },
+    onInboxOptionMenuClick(key) {
+      this.showInboxOptionMenu = false;
+      if (key === 'mark_all_read') {
+        this.markAllRead();
+      }
+      if (key === 'delete_all') {
+        this.deleteAll();
+      }
+      if (key === 'delete_all_read') {
+        this.deleteAllRead();
+      }
     },
   },
 };

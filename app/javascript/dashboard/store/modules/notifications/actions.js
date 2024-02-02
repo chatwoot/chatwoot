@@ -95,6 +95,26 @@ export const actions = {
     }
   },
 
+  deleteAllRead: async ({ commit }) => {
+    commit(types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: true });
+    try {
+      await NotificationsAPI.deleteRead();
+      commit(types.DELETE_READ_NOTIFICATIONS);
+      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: false });
+    } catch (error) {
+      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: false });
+    }
+  },
+  deleteAll: async ({ commit }) => {
+    commit(types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: true });
+    try {
+      await NotificationsAPI.deleteAll();
+      commit(types.DELETE_ALL_NOTIFICATIONS);
+      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: false });
+    } catch (error) {
+      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: false });
+    }
+  },
   addNotification({ commit }, data) {
     commit(types.ADD_NOTIFICATION, data);
   },
