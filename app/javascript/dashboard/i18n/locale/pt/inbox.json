@@ -1,0 +1,27 @@
+{
+  "INBOX": {
+    "LIST": {
+      "TITLE": "Caixa de Entrada",
+      "DISPLAY_DROPDOWN": "Mostrar",
+      "LOADING": "A obter notificações",
+      "EOF": "Notificações obtidas 🎉",
+      "404": "Não há notificações ativas neste grupo."
+    },
+    "TYPES": {
+      "CONVERSATION_MENTION": "Foi mencionado numa conversa",
+      "CONVERSATION_CREATION": "Nova conversa criada",
+      "CONVERSATION_ASSIGNMENT": "Foi-lhe atribuída uma conversa",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nova mensagem nesta conversa atribuída",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Nova mensagem em uma conversa em que você está participando"
+    },
+    "MENU_ITEM": {
+      "MARK_AS_READ": "Marcar como lido",
+      "MARK_AS_UNREAD": "Marcar como não lida",
+      "SNOOZE": "Adiar",
+      "DELETE": "excluir",
+      "MARK_ALL_READ": "Marcar todos como lidos",
+      "DELETE_ALL": "Excluir tudo",
+      "DELETE_ALL_READ": "Excluir todas lidas"
+    }
+  }
+}
