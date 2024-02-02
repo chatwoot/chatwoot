@@ -1,7 +1,12 @@
 <template>
   <div
     role="button"
-    class="flex flex-col pl-5 pr-3 gap-2.5 py-3 w-full bg-white dark:bg-slate-900 border-b border-slate-50 dark:border-slate-800/50 hover:bg-slate-25 dark:hover:bg-slate-800 cursor-pointer"
+    class="flex flex-col pl-5 pr-3 gap-2.5 py-3 w-full border-b border-slate-50 dark:border-slate-800/50 hover:bg-slate-25 dark:hover:bg-slate-800 cursor-pointer"
+    :class="
+      isInboxCardActive
+        ? 'bg-slate-25 dark:bg-slate-800 click-animation'
+        : 'bg-white dark:bg-slate-900'
+    "
     @contextmenu="openContextMenu($event)"
     @click="openConversation(notificationItem)"
   >
@@ -58,6 +63,7 @@ import InboxNameAndId from './InboxNameAndId.vue';
 import InboxContextMenu from './InboxContextMenu.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import timeMixin from 'dashboard/mixins/time';
+import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 export default {
   components: {
     PriorityIcon,
@@ -82,6 +88,9 @@ export default {
   computed: {
     primaryActor() {
       return this.notificationItem?.primary_actor;
+    },
+    isInboxCardActive() {
+      return this.$route.params.conversation_id === this.primaryActor?.id;
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](
@@ -135,7 +144,31 @@ export default {
   },
   methods: {
     openConversation(notification) {
-      this.$emit('open-conversation', notification);
+      const {
+        id,
+        primary_actor_id: primaryActorId,
+        primary_actor_type: primaryActorType,
+        primary_actor: { id: conversationId, inbox_id: inboxId },
+        notification_type: notificationType,
+      } = notification;
+
+      if (this.$route.params.conversation_id !== conversationId) {
+        this.$track(INBOX_EVENTS.OPEN_CONVERSATION_VIA_INBOX, {
+          notificationType,
+        });
+
+        this.$store.dispatch('notifications/read', {
+          id,
+          primaryActorId,
+          primaryActorType,
+          unreadCount: this.meta.unreadCount,
+        });
+
+        this.$router.push({
+          name: 'inbox_view_conversation',
+          params: { inboxId, conversation_id: conversationId },
+        });
+      }
     },
     closeContextMenu() {
       this.isContextMenuOpen = false;
@@ -167,3 +200,19 @@ export default {
   },
 };
 </script>
+<style scoped>
+.click-animation {
+  animation: click-animation 0.3s ease-in-out;
+}
+@keyframes click-animation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.99);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+</style>
