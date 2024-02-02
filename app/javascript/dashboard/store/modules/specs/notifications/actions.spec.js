@@ -94,18 +94,91 @@ describe('#actions', () => {
   describe('#read', () => {
     it('sends correct actions if API is success', async () => {
       axios.post.mockResolvedValue({});
-      await actions.read({ commit }, { unreadCount: 2, primaryActorId: 1 });
+      await actions.read(
+        { commit },
+        { id: 1, unreadCount: 2, primaryActorId: 1 }
+      );
       expect(commit.mock.calls).toEqual([
+        [types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: true }],
         [types.SET_NOTIFICATIONS_UNREAD_COUNT, 1],
-        [types.UPDATE_NOTIFICATION, 1],
+        [types.UPDATE_NOTIFICATION, { id: 1, read_at: expect.any(Date) }],
+        [types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false }],
       ]);
     });
     it('sends correct actions if API is error', async () => {
       axios.post.mockRejectedValue({ message: 'Incorrect header' });
       await expect(actions.read({ commit })).rejects.toThrow(Error);
+      await actions.read(
+        { commit },
+        { id: 1, unreadCount: 2, primaryActorId: 1 }
+      );
+      expect(commit.mock.calls).toEqual([
+        [types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: true }],
+        [types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false }],
+      ]);
     });
   });
 
+  describe('#unread', () => {
+    it('sends correct actions if API is success', async () => {
+      axios.post.mockResolvedValue({});
+      await actions.unread({ commit }, { id: 1 });
+      expect(commit.mock.calls).toEqual([
+        ['SET_NOTIFICATIONS_UI_FLAG', { isUpdating: true }],
+        ['UPDATE_NOTIFICATION', { id: 1, read_at: null }],
+        ['SET_NOTIFICATIONS_UI_FLAG', { isUpdating: false }],
+      ]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.post.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(actions.unread({ commit })).rejects.toThrow(Error);
+      await actions.unread({ commit }, { id: 1 });
+      expect(commit.mock.calls).toEqual([
+        [types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: true }],
+        [types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false }],
+      ]);
+    });
+  });
+
+  describe('#delete', () => {
+    it('sends correct actions if API is success', async () => {
+      axios.delete.mockResolvedValue({});
+      await actions.delete(
+        { commit },
+        {
+          notification: { id: 1 },
+          count: 2,
+          unreadCount: 1,
+        }
+      );
+
+      expect(commit.mock.calls).toEqual([
+        [types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: true }],
+        [types.SET_NOTIFICATIONS_UNREAD_COUNT, 0],
+        [
+          types.DELETE_NOTIFICATION,
+          { notification: { id: 1 }, count: 2, unreadCount: 1 },
+        ],
+        [types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: false }],
+      ]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.delete.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(actions.delete({ commit })).rejects.toThrow(Error);
+      await actions.delete(
+        { commit },
+        {
+          notification: { id: 1 },
+          count: 2,
+          unreadCount: 1,
+        }
+      );
+      expect(commit.mock.calls).toEqual([
+        [types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: true }],
+        [types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: false }],
+      ]);
+    });
+  });
   describe('#readAll', () => {
     it('sends correct actions if API is success', async () => {
       axios.post.mockResolvedValue({ data: 1 });

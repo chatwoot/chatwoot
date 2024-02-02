@@ -34,12 +34,8 @@ export const mutations = {
       });
     });
   },
-  [types.UPDATE_NOTIFICATION]: ($state, primaryActorId) => {
-    Object.values($state.records).forEach(item => {
-      if (item.primary_actor_id === primaryActorId) {
-        Vue.set($state.records[item.id], 'read_at', true);
-      }
-    });
+  [types.UPDATE_NOTIFICATION]: ($state, { id, read_at }) => {
+    Vue.set($state.records[id], 'read_at', read_at);
   },
   [types.UPDATE_ALL_NOTIFICATIONS]: $state => {
     Object.values($state.records).forEach(item => {

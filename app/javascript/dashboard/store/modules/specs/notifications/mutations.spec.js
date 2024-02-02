@@ -75,7 +75,10 @@ describe('#mutations', () => {
           1: { id: 1, primary_actor_id: 1 },
         },
       };
-      mutations[types.UPDATE_NOTIFICATION](state, 1);
+      mutations[types.UPDATE_NOTIFICATION](state, {
+        id: 1,
+        read_at: true,
+      });
       expect(state.records).toEqual({
         1: { id: 1, primary_actor_id: 1, read_at: true },
       });
