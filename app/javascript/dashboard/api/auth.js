@@ -98,4 +98,8 @@ export default {
       },
     });
   },
+  resendConfirmation() {
+    const urlData = endPoints('resendConfirmation');
+    return axios.post(urlData.url);
+  },
 };
