@@ -20,9 +20,7 @@
           class="border h-5 flex gap-1 rounded-md items-center pr-1.5 pl-1 py-0.5 w-[70px] justify-between border-slate-100 dark:border-slate-700/50"
           @click="openSortMenu"
         >
-          <span
-            class="text-xs font-medium text-slate-600 dark:text-slate-300 relative -top-px"
-          >
+          <span class="text-xs font-medium text-slate-600 dark:text-slate-300">
             {{ activeSortOption }}
           </span>
           <fluent-icon
@@ -46,7 +44,7 @@
             @click.stop="onSortOptionClick(option.key)"
           >
             <span
-              class="text-xs font-medium relative -top-px hover:text-woot-600 dark:hover:text-woot-600"
+              class="text-xs font-medium hover:text-woot-600 dark:hover:text-woot-600"
               :class="
                 activeSort === option.key
                   ? 'text-woot-600 dark:text-woot-600'

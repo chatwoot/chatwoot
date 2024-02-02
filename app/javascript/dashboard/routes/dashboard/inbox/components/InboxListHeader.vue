@@ -13,7 +13,7 @@
           @click="openInboxDisplayMenu"
         >
           <span
-            class="text-slate-600 relative -top-px dark:text-slate-200 text-xs text-center font-medium"
+            class="text-slate-600 dark:text-slate-200 text-xs text-center font-medium"
           >
             {{ $t('INBOX.LIST.DISPLAY_DROPDOWN') }}
           </span>
