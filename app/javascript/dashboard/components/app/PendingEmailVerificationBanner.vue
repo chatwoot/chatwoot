@@ -6,7 +6,6 @@
     :action-button-label="actionButtonMessage"
     action-button-icon="mail"
     has-action-button
-    has-close-button
     @click="resendVerificationEmail"
   />
 </template>
@@ -15,10 +14,11 @@
 import Banner from 'dashboard/components/ui/Banner.vue';
 import { mapGetters } from 'vuex';
 import accountMixin from 'dashboard/mixins/account';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: { Banner },
-  mixins: [accountMixin],
+  mixins: [accountMixin, alertMixin],
   computed: {
     ...mapGetters({
       currentUser: 'getCurrentUser',
@@ -36,11 +36,7 @@ export default {
   methods: {
     resendVerificationEmail() {
       this.$store.dispatch('resendConfirmation');
-
-      bus.$emit(
-        'newToastMessage',
-        this.$t('APP_GLOBAL.EMAIL_VERIFICATION_SENT')
-      );
+      this.showAlert(this.$t('APP_GLOBAL.EMAIL_VERIFICATION_SENT'));
     },
   },
 };
