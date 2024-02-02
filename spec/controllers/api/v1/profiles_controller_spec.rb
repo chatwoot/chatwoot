@@ -253,12 +253,20 @@ RSpec.describe 'Profile API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      let(:agent) { create(:user, password: 'Test123!', account: account, role: :agent) }
+      let(:agent) do
+        create(:user, password: 'Test123!', email: 'test-unconfirmed@email.com', account: account, role: :agent,
+                      unconfirmed_email: 'test-unconfirmed@email.com')
+      end
 
       it 'resends the confirmation email' do
-        post '/api/v1/profile/resend_confirmation',
-             headers: agent.create_new_auth_token,
-             as: :json
+        agent.confirmed_at = nil
+        agent.save!
+
+        expect do
+          post '/api/v1/profile/resend_confirmation',
+               headers: agent.create_new_auth_token,
+               as: :json
+        end.to have_enqueued_mail(Devise::Mailer, :confirmation_instructions)
 
         expect(response).to have_http_status(:success)
       end
