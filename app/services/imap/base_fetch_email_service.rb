@@ -95,7 +95,7 @@ class Imap::BaseFetchEmailService
   # created between yesterday and today and returns message sequence numbers.
   # Return <message set>
   def fetch_available_mail_sequence_numbers
-    imap_client.search(['BEFORE', tomorrow, 'SINCE', yesterday])
+    imap_client.search(['SINCE', yesterday])
   end
 
   def build_imap_client
@@ -111,9 +111,5 @@ class Imap::BaseFetchEmailService
 
   def yesterday
     (Time.zone.today - 1).strftime('%d-%b-%Y')
-  end
-
-  def tomorrow
-    (Time.zone.today + 1).strftime('%d-%b-%Y')
   end
 end

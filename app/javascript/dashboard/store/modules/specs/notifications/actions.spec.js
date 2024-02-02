@@ -39,6 +39,38 @@ describe('#actions', () => {
     });
   });
 
+  describe('#index', () => {
+    it('sends correct actions if API is success', async () => {
+      axios.get.mockResolvedValue({
+        data: {
+          data: {
+            payload: [{ id: 1 }],
+            meta: { count: 3, current_page: 1, unread_count: 2 },
+          },
+        },
+      });
+      await actions.index({ commit });
+      expect(commit.mock.calls).toEqual([
+        [types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: true }],
+        [types.SET_NOTIFICATIONS, [{ id: 1 }]],
+        [
+          types.SET_NOTIFICATIONS_META,
+          { count: 3, current_page: 1, unread_count: 2 },
+        ],
+        [types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: false }],
+        [types.SET_ALL_NOTIFICATIONS_LOADED],
+      ]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.get.mockRejectedValue({ message: 'Incorrect header' });
+      await actions.index({ commit });
+      expect(commit.mock.calls).toEqual([
+        [types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: true }],
+        [types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: false }],
+      ]);
+    });
+  });
+
   describe('#unReadCount', () => {
     it('sends correct actions if API is success', async () => {
       axios.get.mockResolvedValue({ data: 1 });
@@ -105,6 +137,13 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([
         [types.DELETE_NOTIFICATION, { data: 1 }],
       ]);
+    });
+  });
+
+  describe('clear', () => {
+    it('sends correct actions', async () => {
+      await actions.clear({ commit });
+      expect(commit.mock.calls).toEqual([[types.CLEAR_NOTIFICATIONS]]);
     });
   });
 });
