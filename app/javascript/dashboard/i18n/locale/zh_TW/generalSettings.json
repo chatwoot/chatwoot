@@ -90,9 +90,6 @@
       "conversation_mention": "被提及"
     }
   },
-  "INBOX_PAGE": {
-    "HEADER": "收件匣"
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "離線的"
