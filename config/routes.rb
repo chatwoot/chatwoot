@@ -288,16 +288,18 @@ Rails.application.routes.draw do
     end
 
     namespace :v2 do
-      resources :accounts, only: [], module: :accounts do
-        resources :reports, only: [:index] do
-          collection do
-            get :summary
-            get :agents
-            get :inboxes
-            get :labels
-            get :teams
-            get :conversations
-            get :conversation_traffic
+      resources :accounts, only: [:create] do
+        scope module: :accounts do
+          resources :reports, only: [:index] do
+            collection do
+              get :summary
+              get :agents
+              get :inboxes
+              get :labels
+              get :teams
+              get :conversations
+              get :conversation_traffic
+            end
           end
         end
       end
