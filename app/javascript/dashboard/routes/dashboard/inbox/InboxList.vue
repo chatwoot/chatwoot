@@ -6,7 +6,7 @@
     <inbox-list-header />
     <div
       ref="notificationList"
-      class="flex flex-col w-full h-full overflow-x-hidden overflow-y-auto"
+      class="flex flex-col w-full h-[calc(100%-56px)] overflow-x-hidden overflow-y-auto"
     >
       <inbox-card
         v-for="notificationItem in records"
