@@ -84,15 +84,14 @@ export const actions = {
   },
 
   delete: async ({ commit }, { notification, count, unreadCount }) => {
-    commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: true });
+    commit(types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: true });
     try {
       await NotificationsAPI.delete(notification.id);
       commit(types.SET_NOTIFICATIONS_UNREAD_COUNT, unreadCount - 1);
       commit(types.DELETE_NOTIFICATION, { notification, count, unreadCount });
-      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
+      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: false });
     } catch (error) {
-      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
-      throw new Error(error);
+      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: false });
     }
   },
 
