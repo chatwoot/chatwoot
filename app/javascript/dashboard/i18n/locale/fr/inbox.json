@@ -1,0 +1,27 @@
+{
+  "INBOX": {
+    "LIST": {
+      "TITLE": "Boîte de réception",
+      "DISPLAY_DROPDOWN": "Display",
+      "LOADING": "Chargement des notifications",
+      "EOF": "Toutes les notifications ont été chargées 🎉",
+      "404": "Il n'y a aucune notification active dans ce groupe."
+    },
+    "TYPES": {
+      "CONVERSATION_MENTION": "Vous avez été cité dans une conversation",
+      "CONVERSATION_CREATION": "Nouvelle conversation créée",
+      "CONVERSATION_ASSIGNMENT": "Une conversation vous a été attribuée",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nouveau message dans une conversation attribuée",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Nouveau message dans une conversation à laquelle vous participez"
+    },
+    "MENU_ITEM": {
+      "MARK_AS_READ": "Mark as read",
+      "MARK_AS_UNREAD": "Marquer comme non lu",
+      "SNOOZE": "Reporter",
+      "DELETE": "Supprimer",
+      "MARK_ALL_READ": "Tout marquer comme lu",
+      "DELETE_ALL": "Delete all",
+      "DELETE_ALL_READ": "Delete all read"
+    }
+  }
+}
