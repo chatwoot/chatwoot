@@ -90,9 +90,6 @@
       "conversation_mention": "Mention"
     }
   },
-  "INBOX_PAGE": {
-    "HEADER": "Входяща кутия"
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Offline"
