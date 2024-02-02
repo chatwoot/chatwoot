@@ -48,6 +48,7 @@ import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import wootConstants from 'dashboard/constants/globals';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 export default {
   components: {
@@ -164,8 +165,21 @@ export default {
       const targetNotification = this.notifications[activeIndex + indexOffset];
       if (targetNotification) {
         const {
-          primary_actor: { id: conversationId },
+          primary_actor_id: primaryActorId,
+          primary_actor_type: primaryActorType,
+          primary_actor: { id: conversationId, meta: { unreadCount } = {} },
+          notification_type: notificationType,
         } = targetNotification;
+
+        this.$track(ACCOUNT_EVENTS.OPEN_CONVERSATION_VIA_NOTIFICATION, {
+          notificationType,
+        });
+
+        this.$store.dispatch('notifications/read', {
+          primaryActorId,
+          primaryActorType,
+          unreadCount,
+        });
 
         this.$router.push({
           name: 'inbox_view_conversation',

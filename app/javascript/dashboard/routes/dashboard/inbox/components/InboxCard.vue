@@ -122,8 +122,8 @@ export default {
   methods: {
     openConversation(notification) {
       const {
-        // primary_actor_id: primaryActorId,
-        // primary_actor_type: primaryActorType,
+        primary_actor_id: primaryActorId,
+        primary_actor_type: primaryActorType,
         primary_actor: { id: conversationId, inbox_id: inboxId },
         notification_type: notificationType,
       } = notification;
@@ -131,11 +131,12 @@ export default {
       this.$track(ACCOUNT_EVENTS.OPEN_CONVERSATION_VIA_NOTIFICATION, {
         notificationType,
       });
-      // this.$store.dispatch('notifications/read', {
-      //   primaryActorId,
-      //   primaryActorType,
-      //   unreadCount: this.meta.unreadCount,
-      // });
+
+      this.$store.dispatch('notifications/read', {
+        primaryActorId,
+        primaryActorType,
+        unreadCount: this.meta.unreadCount,
+      });
 
       this.$router.push({
         name: 'inbox_view_conversation',
