@@ -90,9 +90,6 @@
       "conversation_mention": "Mention"
     }
   },
-  "INBOX_PAGE": {
-    "HEADER": "Postvak In"
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Offline"
