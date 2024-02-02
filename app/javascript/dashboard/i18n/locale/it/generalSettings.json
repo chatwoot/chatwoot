@@ -90,9 +90,6 @@
       "conversation_mention": "Menzione"
     }
   },
-  "INBOX_PAGE": {
-    "HEADER": "Casella"
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Offline"
