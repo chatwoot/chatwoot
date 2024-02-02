@@ -90,9 +90,6 @@
       "conversation_mention": "Menção"
     }
   },
-  "INBOX_PAGE": {
-    "HEADER": "Caixa de Entrada"
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Desconectado"
