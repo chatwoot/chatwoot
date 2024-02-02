@@ -55,7 +55,7 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
       fixture_path = Rails.root.join('spec/fixtures/files/mail_with_no_date.eml')
       eml_content = File.read(fixture_path)
       inbound_mail_with_no_date = create_inbound_email_from_fixture('mail_with_no_date.eml')
-      email_header = Net::IMAP::FetchData.new(1, 'BODY.PEEK[HEADER]' => eml_content)
+      email_header = Net::IMAP::FetchData.new(1, 'BODY[HEADER]' => eml_content)
       imap_fetch_mail = Net::IMAP::FetchData.new(1, 'RFC822' => eml_content)
 
       imap = double
@@ -63,7 +63,7 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
       allow(imap).to receive(:authenticate)
       allow(imap).to receive(:select)
       allow(imap).to receive(:search).and_return([1])
-      allow(imap).to receive(:fetch).with([1], 'BODY[HEADER]').and_return([email_header])
+      allow(imap).to receive(:fetch).with([1], 'BODY.PEEK[HEADER]').and_return([email_header])
       allow(imap).to receive(:fetch).with(1, 'RFC822').and_return([imap_fetch_mail])
 
       imap_mailbox = double
