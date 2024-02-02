@@ -38,11 +38,15 @@ class NotificationsAPI extends ApiClient {
   }
 
   deleteAll() {
-    return axios.delete(`${this.url}/destroy_all`);
+    return axios.post(`${this.url}/destroy_all`, {
+      type: 'all',
+    });
   }
 
   deleteRead() {
-    return axios.delete(`${this.url}/destroy_read`);
+    return axios.post(`${this.url}/destroy_all`, {
+      type: 'read',
+    });
   }
 }
 
