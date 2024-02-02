@@ -34,7 +34,6 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
                      else
                        Imap::FetchEmailService.new(channel: channel).perform
                      end
-
     inbound_emails.map do |inbound_mail|
       process_mail(inbound_mail, channel)
     end
