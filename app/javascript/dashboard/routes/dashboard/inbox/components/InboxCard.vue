@@ -145,6 +145,7 @@ export default {
   methods: {
     openConversation(notification) {
       const {
+        id,
         primary_actor_id: primaryActorId,
         primary_actor_type: primaryActorType,
         primary_actor: { id: conversationId, inbox_id: inboxId },
@@ -157,6 +158,7 @@ export default {
         });
 
         this.$store.dispatch('notifications/read', {
+          id,
           primaryActorId,
           primaryActorType,
           unreadCount: this.meta.unreadCount,
