@@ -28,6 +28,9 @@
         isValidPhoneNumber: $t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.VALID_ERROR'),
         email: $t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.VALID_ERROR'),
         required: $t('PRE_CHAT_FORM.REQUIRED'),
+        matches: item.regex_cue
+          ? item.regex_cue
+          : $t('PRE_CHAT_FORM.REGEX_ERROR'),
       }"
       :has-error-in-phone-input="hasErrorInPhoneInput"
     />
@@ -68,13 +71,20 @@ import { isEmptyObject } from 'widget/helpers/utils';
 import routerMixin from 'widget/mixins/routerMixin';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
 import configMixin from 'widget/mixins/configMixin';
+import customAttributeMixin from '../../../dashboard/mixins/customAttributeMixin';
 
 export default {
   components: {
     CustomButton,
     Spinner,
   },
-  mixins: [routerMixin, darkModeMixin, messageFormatterMixin, configMixin],
+  mixins: [
+    routerMixin,
+    darkModeMixin,
+    messageFormatterMixin,
+    configMixin,
+    customAttributeMixin,
+  ],
   props: {
     options: {
       type: Object,
@@ -235,30 +245,37 @@ export default {
       }
       return this.formValues[name] || null;
     },
-    getValidation({ type, name }) {
+    getValidation({ type, name, field_type, regex_pattern }) {
+      let regex = regex_pattern ? this.getRegexp(regex_pattern) : null;
       const validations = {
         emailAddress: 'email',
-        phoneNumber: 'startsWithPlus|isValidPhoneNumber',
+        phoneNumber: ['startsWithPlus', 'isValidPhoneNumber'],
         url: 'url',
         date: 'date',
         text: null,
         select: null,
         number: null,
         checkbox: false,
+        contact_attribute: regex ? [['matches', regex]] : null,
+        conversation_attribute: regex ? [['matches', regex]] : null,
       };
       const validationKeys = Object.keys(validations);
       const isRequired = this.isContactFieldRequired(name);
-      const validation = isRequired ? 'bail|required' : 'bail|optional';
+      const validation = isRequired
+        ? ['bail', 'required']
+        : ['bail', 'optional'];
 
-      if (validationKeys.includes(name) || validationKeys.includes(type)) {
-        const validationType = validations[type] || validations[name];
-        const validationString = validationType
-          ? `${validation}|${validationType}`
-          : validation;
-        return validationString;
+      if (
+        validationKeys.includes(name) ||
+        validationKeys.includes(type) ||
+        validationKeys.includes(field_type)
+      ) {
+        const validationType =
+          validations[type] || validations[name] || validations[field_type];
+        return validationType ? validation.concat(validationType) : validation;
       }
 
-      return '';
+      return [];
     },
     findFieldType(type) {
       if (type === 'link') {

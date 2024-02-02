@@ -50,6 +50,7 @@
         :is-loading="uiFlags.isFetching"
         :on-click-notification="openConversation"
         :in-last-page="inLastPage"
+        @close="closeNotificationPanel"
       />
       <div
         v-if="records.length !== 0"
@@ -187,6 +188,7 @@ export default {
         notificationType,
       });
       this.$store.dispatch('notifications/read', {
+        id: notification.id,
         primaryActorId,
         primaryActorType,
         unreadCount: this.meta.unreadCount,

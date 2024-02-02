@@ -34,9 +34,9 @@
   "START_CONVERSATION": "Start Chat",
   "END_CONVERSATION": "Gesprek beëindigen",
   "CONTINUE_CONVERSATION": "Verdergaan met gesprek",
-  "YOU": "You",
+  "YOU": "Jij",
   "START_NEW_CONVERSATION": "Een nieuw gesprek starten",
-  "VIEW_UNREAD_MESSAGES": "You have unread messages",
+  "VIEW_UNREAD_MESSAGES": "Je hebt ongelezen berichten",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Bekijk nieuwe berichten",
     "CLOSE_MESSAGES_BUTTON": "Sluiten",
@@ -111,7 +111,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "Populaire artikelen",
     "VIEW_ALL_ARTICLES": "Bekijk alle artikelen",
-    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+    "IFRAME_LOAD_ERROR": "Er is een fout opgetreden bij het laden van het artikel, ververs de pagina en probeer het opnieuw."
   },
   "ATTACHMENTS": {
     "image": {

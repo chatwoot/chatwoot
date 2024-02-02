@@ -2,14 +2,14 @@ class Api::V1::Accounts::NotificationsController < Api::V1::Accounts::BaseContro
   RESULTS_PER_PAGE = 15
   include DateRangeHelper
 
-  before_action :fetch_notification, only: [:update, :destroy, :snooze]
+  before_action :fetch_notification, only: [:update, :destroy, :snooze, :unread]
   before_action :set_primary_actor, only: [:read_all]
   before_action :set_current_page, only: [:index]
 
   def index
-    @unread_count = current_user.notifications.where(account_id: current_account.id, read_at: nil).count
-    @count = notifications.count
-    @notifications = notifications.page(@current_page).per(RESULTS_PER_PAGE)
+    @unread_count = notification_finder.unread_count
+    @notifications = notification_finder.perform
+    @count = notification_finder.count
   end
 
   def read_all
@@ -29,13 +29,18 @@ class Api::V1::Accounts::NotificationsController < Api::V1::Accounts::BaseContro
     render json: @notification
   end
 
+  def unread
+    @notification.update(read_at: nil)
+    render json: @notification
+  end
+
   def destroy
     @notification.destroy
     head :ok
   end
 
   def unread_count
-    @unread_count = current_user.notifications.where(account_id: current_account.id, read_at: nil).count
+    @unread_count = notification_finder.unread_count
     render json: @unread_count
   end
 
@@ -61,7 +66,7 @@ class Api::V1::Accounts::NotificationsController < Api::V1::Accounts::BaseContro
     @current_page = params[:page] || 1
   end
 
-  def notifications
-    @notifications ||= current_user.notifications.where(account_id: current_account.id)
+  def notification_finder
+    @notification_finder ||= NotificationFinder.new(Current.user, Current.account, params)
   end
 end

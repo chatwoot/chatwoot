@@ -118,7 +118,7 @@
       "attribute_name": "Phone Number",
       "input_type": "text",
       "data_type": "text",
-      "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain" ],
+      "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain", "starts_with"],
       "attribute_type": "standard"
     },
     "email": {

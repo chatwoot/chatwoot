@@ -11,6 +11,7 @@
       <table-footer
         :current-page="Number(meta.currentPage)"
         :total-count="meta.count"
+        :page-size="15"
         @page-change="onPageChange"
       />
     </div>
@@ -57,6 +58,7 @@ export default {
         notificationType,
       });
       this.$store.dispatch('notifications/read', {
+        id: notification.id,
         primaryActorId,
         primaryActorType,
         unreadCount: this.meta.unreadCount,
