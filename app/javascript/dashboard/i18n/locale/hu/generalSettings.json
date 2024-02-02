@@ -90,9 +90,6 @@
       "conversation_mention": "Megemlítés"
     }
   },
-  "INBOX_PAGE": {
-    "HEADER": "Fiók"
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Offline"
