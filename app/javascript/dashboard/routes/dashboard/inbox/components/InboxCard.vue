@@ -63,7 +63,7 @@ import InboxNameAndId from './InboxNameAndId.vue';
 import InboxContextMenu from './InboxContextMenu.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import timeMixin from 'dashboard/mixins/time';
-import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 export default {
   components: {
     PriorityIcon,
@@ -151,7 +151,7 @@ export default {
         notification_type: notificationType,
       } = notification;
 
-      this.$track(ACCOUNT_EVENTS.OPEN_CONVERSATION_VIA_NOTIFICATION, {
+      this.$track(INBOX_EVENTS.OPEN_CONVERSATION_VIA_NOTIFICATION, {
         notificationType,
       });
 

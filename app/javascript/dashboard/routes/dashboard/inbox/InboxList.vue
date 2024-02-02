@@ -38,7 +38,7 @@
 import { mapGetters } from 'vuex';
 import InboxCard from './components/InboxCard.vue';
 import InboxListHeader from './components/InboxListHeader.vue';
-import { INBOX_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import IntersectionObserver from 'dashboard/components/IntersectionObserver.vue';
 export default {
   components: {

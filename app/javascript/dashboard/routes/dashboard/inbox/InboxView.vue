@@ -48,7 +48,7 @@ import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import wootConstants from 'dashboard/constants/globals';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 export default {
   components: {
@@ -171,7 +171,7 @@ export default {
           notification_type: notificationType,
         } = targetNotification;
 
-        this.$track(ACCOUNT_EVENTS.OPEN_CONVERSATION_VIA_NOTIFICATION, {
+        this.$track(INBOX_EVENTS.OPEN_CONVERSATION_VIA_NOTIFICATION, {
           notificationType,
         });
 
