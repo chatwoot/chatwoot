@@ -90,9 +90,6 @@
       "conversation_mention": "Mention"
     }
   },
-  "INBOX_PAGE": {
-    "HEADER": "Kotak masuk"
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Offline"
