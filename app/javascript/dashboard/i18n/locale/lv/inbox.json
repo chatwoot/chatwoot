@@ -1,0 +1,27 @@
+{
+  "INBOX": {
+    "LIST": {
+      "TITLE": "Iesūtne",
+      "DISPLAY_DROPDOWN": "Parādīt",
+      "LOADING": "Notiek paziņojumu iegūšana",
+      "EOF": "Visi paziņojumi ir ielādēti",
+      "404": "Šajā grupā nav aktīvu paziņojumu."
+    },
+    "TYPES": {
+      "CONVERSATION_MENTION": "Jūs esat pieminēts sarunā",
+      "CONVERSATION_CREATION": "Izveidota jauna saruna",
+      "CONVERSATION_ASSIGNMENT": "Jums ir piešķirta saruna",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Jauns ziņojums piešķirtajā sarunā",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Jauns ziņojums sarunā, kurā piedalāties"
+    },
+    "MENU_ITEM": {
+      "MARK_AS_READ": "Atzīmēt kā lasītu",
+      "MARK_AS_UNREAD": "Atzīmēt kā nelasītu",
+      "SNOOZE": "Atlikt",
+      "DELETE": "Dzēst",
+      "MARK_ALL_READ": "Atzīmēt visu kā izlasītu",
+      "DELETE_ALL": "Dzēst visu",
+      "DELETE_ALL_READ": "Dzēst visu izlasīto"
+    }
+  }
+}
