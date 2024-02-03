@@ -31,6 +31,7 @@ sr-Latn:
       disposable_email: Ne dozvoljavamo potrošne e-pošte
       invalid_email: Uneli ste neispravnu e-poštu
       email_already_exists: "Već ste registrovali nalog sa %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Registracija nije uspela
     data_import:
       data_type:
