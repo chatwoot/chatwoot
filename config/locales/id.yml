@@ -31,6 +31,7 @@ id:
       disposable_email: Kami tidak mengizinkan email sekali pakai
       invalid_email: Anda telah memasukkan email yang tidak valid
       email_already_exists: "Anda telah mendaftar untuk sebuah akun dengan %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Pendaftaran gagal
     data_import:
       data_type:
