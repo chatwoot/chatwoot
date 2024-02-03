@@ -31,6 +31,7 @@ hu:
       disposable_email: Nem támogatjuk az eldobható e-mailcímeket
       invalid_email: Hibás e-mailcímet adtál meg
       email_already_exists: "Ezzel az e-mailcímmel már van fiók: %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Feliratkozás sikertelen
     data_import:
       data_type:
