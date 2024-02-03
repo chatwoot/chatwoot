@@ -31,6 +31,7 @@ pl:
       disposable_email: Nie zezwalamy na jednorazowe konta e-mail
       invalid_email: Wprowadzono nieprawidłowy adres e-mail
       email_already_exists: "Już zarejestrowałeś się na konto %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Rejestracja nie powiodła się
     data_import:
       data_type:
