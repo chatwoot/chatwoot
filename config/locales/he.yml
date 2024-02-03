@@ -31,6 +31,7 @@ he:
       disposable_email: אנחנו לא מאפשרים מיילים חד פעמיים
       invalid_email: הכנסת מייל לא תקין
       email_already_exists: "כבר נרשמת לחשבון עם %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: הרשמה נכשלה
     data_import:
       data_type:
