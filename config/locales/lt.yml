@@ -31,6 +31,7 @@ lt:
       disposable_email: Neleidžiame naudoti vienkartinių el. laiškų
       invalid_email: Įvedėte neteisingą el. pašto adresą
       email_already_exists: "Jūs jau užregistravote paskyrą su %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Prisijungimas nesėkmingas
     data_import:
       data_type:
