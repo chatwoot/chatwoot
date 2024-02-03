@@ -31,6 +31,7 @@ ro:
       disposable_email: Nu permitem email-uri de unică folosință
       invalid_email: Ați introdus un e-mail invalid
       email_already_exists: "V-ați înregistrat deja cu un cont cu %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Înregistrare eșuată
     data_import:
       data_type:
