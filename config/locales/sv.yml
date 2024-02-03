@@ -31,6 +31,7 @@ sv:
       disposable_email: Vi tillåter inte engångsadresser
       invalid_email: Du har angett en ogiltig e-postadress
       email_already_exists: "Du har redan registrerat dig för ett konto med %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Registrering misslyckades
     data_import:
       data_type:
