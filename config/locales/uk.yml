@@ -31,6 +31,7 @@ uk:
       disposable_email: Ми не дозволяємо використувати одноразові адреси електронної пошти
       invalid_email: Ви ввели неправильну адресу електронної пошти
       email_already_exists: "Ви вже зареєстровані з адресою %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Помилка реєстрації
     data_import:
       data_type:
