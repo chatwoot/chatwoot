@@ -31,6 +31,7 @@
       disposable_email: Vi tillater ikke engangs e-poster
       invalid_email: Du har angitt en ugyldig e-post
       email_already_exists: "Du har allerede registrert en konto med %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Registrering mislyktes
     data_import:
       data_type:
