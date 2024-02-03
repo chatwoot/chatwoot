@@ -31,6 +31,7 @@ ar:
       disposable_email: نحن لا نسمح باسخدام عناوين البريد الإلكتروني المؤقتة
       invalid_email: لقد قمت بإدخال عنوان بريد إلكتروني غير صالح
       email_already_exists: "لقد قمت بالفعل بتسجيل حساب سابقاً بالعنوان %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: فشلت عملية التسجيل
     data_import:
       data_type:
