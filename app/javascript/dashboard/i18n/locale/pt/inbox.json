@@ -5,7 +5,12 @@
       "DISPLAY_DROPDOWN": "Mostrar",
       "LOADING": "A obter notificações",
       "EOF": "Notificações obtidas 🎉",
-      "404": "Não há notificações ativas neste grupo."
+      "404": "Não há notificações ativas neste grupo.",
+      "NOTE": "Notificações de todas as caixas subscritas"
+    },
+    "ACTION_HEADER": {
+      "SNOOZE": "Suspender notificação",
+      "DELETE": "Apagar notificação"
     },
     "TYPES": {
       "CONVERSATION_MENTION": "Foi mencionado numa conversa",
