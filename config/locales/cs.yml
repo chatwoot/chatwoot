@@ -31,6 +31,7 @@ cs:
       disposable_email: Nepovolujeme jednorázové e-maily
       invalid_email: Zadali jste neplatný e-mail
       email_already_exists: "Již jste se zaregistrovali k účtu s %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Registrace se nezdařila
     data_import:
       data_type:
