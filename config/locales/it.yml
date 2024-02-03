@@ -31,6 +31,7 @@ it:
       disposable_email: Non consentiamo email usa e getta
       invalid_email: Hai inserito un'email non valida
       email_already_exists: "Ti sei già registrato per un account con %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Registrazione non riuscita
     data_import:
       data_type:
