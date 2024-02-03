@@ -31,6 +31,7 @@ tr:
       disposable_email: Tek kullanımlık e-postalara izin vermiyoruz
       invalid_email: Geçersiz bir e-posta girdiniz
       email_already_exists: "%{email} ile zaten bir hesaba kaydoldunuz"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Kayıt başarısız oldu
     data_import:
       data_type:
