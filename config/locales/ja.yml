@@ -31,6 +31,7 @@ ja:
       disposable_email: 使い捨てメールは許可されません
       invalid_email: 無効なメールアドレスを入力しました。
       email_already_exists: "あなたは既に %{email} でアカウントにサインアップしています"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: サインアップに失敗しました
     data_import:
       data_type:
