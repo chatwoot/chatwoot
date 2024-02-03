@@ -31,6 +31,7 @@ el:
       disposable_email: Δεν επιτρέπονται προσωρινά emails
       invalid_email: Έχετε καταχωρήσει ακατάλληλο email
       email_already_exists: "Έχει ήδη καταχωρηθεί λογαριασμός στο %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Η εγγραφή απέτυχε
     data_import:
       data_type:
