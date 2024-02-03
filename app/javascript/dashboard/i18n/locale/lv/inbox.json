@@ -5,7 +5,12 @@
       "DISPLAY_DROPDOWN": "Parādīt",
       "LOADING": "Notiek paziņojumu iegūšana",
       "EOF": "Visi paziņojumi ir ielādēti",
-      "404": "Šajā grupā nav aktīvu paziņojumu."
+      "404": "Šajā grupā nav aktīvu paziņojumu.",
+      "NOTE": "Paziņojumi no visām abonētajām iesūtnēm"
+    },
+    "ACTION_HEADER": {
+      "SNOOZE": "Atlikt paziņojumu",
+      "DELETE": "Dzēst paziņojumu"
     },
     "TYPES": {
       "CONVERSATION_MENTION": "Jūs esat pieminēts sarunā",
