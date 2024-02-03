@@ -31,6 +31,7 @@ fa:
       disposable_email: استفاده از ایمیل‌های موقت امکان‌پذیر نیست
       invalid_email: ایمیل وارد شده معتبر نیست
       email_already_exists: "قبلا کاربری با ایمیل %{email} ثبت‌نام کرده است"
+      invalid_params: 'نامعتبر است، لطفا پارامترهای ثبت‌نام را بررسی کرده و دوباره امتحان کنید'
       failed: ثبت نام ناموفق بود
     data_import:
       data_type:
