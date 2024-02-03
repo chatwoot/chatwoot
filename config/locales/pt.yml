@@ -31,6 +31,7 @@ pt:
       disposable_email: Não permitimos e-mails descartáveis
       invalid_email: Você digitou um email inválido
       email_already_exists: "Você já se inscreveu para uma conta com %{email}"
+      invalid_params: 'Inválido, por favor, verifique os parâmetros de subscrição e tente novamente'
       failed: Falha na inscrição
     data_import:
       data_type:
