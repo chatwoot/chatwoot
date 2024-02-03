@@ -31,6 +31,7 @@ de:
       disposable_email: Wir erlauben keine Einweg-E-Mails
       invalid_email: Sie haben eine ungültige E-Mail-Adresse eingegeben
       email_already_exists: "Sie haben sich bereits für ein Konto bei %{email} angemeldet."
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Anmeldung gescheitert
     data_import:
       data_type:
