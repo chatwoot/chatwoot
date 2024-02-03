@@ -31,6 +31,7 @@ ca:
       disposable_email: Els correus d'un sol ús no s'accepten
       invalid_email: Heu introduït un correu electrònic no vàlid
       email_already_exists: "Ja us heu registrat amb el compte %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: El registre ha fallat
     data_import:
       data_type:
