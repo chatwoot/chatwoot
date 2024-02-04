@@ -27,6 +27,21 @@
       "MARK_ALL_READ": "എല്ലാം വായിച്ചതായി അടയാളപ്പെടുത്തുക",
       "DELETE_ALL": "Delete all",
       "DELETE_ALL_READ": "Delete all read"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "Sort",
+      "DISPLAY": "Display :",
+      "SORT_OPTIONS": {
+        "NEWEST": "Newest",
+        "OLDEST": "Oldest",
+        "PRIORITY": "Priority"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "സ്‌നൂസ് ചെയ്തു",
+        "READ": "Read",
+        "LABELS": "ലേബലുകൾ",
+        "CONVERSATION_ID": "Conversation ID"
+      }
     }
   }
 }
