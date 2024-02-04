@@ -27,6 +27,21 @@
       "MARK_ALL_READ": "Atzīmēt visu kā izlasītu",
       "DELETE_ALL": "Dzēst visu",
       "DELETE_ALL_READ": "Dzēst visu izlasīto"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "Sort",
+      "DISPLAY": "Parādīt :",
+      "SORT_OPTIONS": {
+        "NEWEST": "Newest",
+        "OLDEST": "Oldest",
+        "PRIORITY": "Prioritāte"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "Atlikts",
+        "READ": "Lasīt",
+        "LABELS": "Etiķetes",
+        "CONVERSATION_ID": "Conversation ID"
+      }
     }
   }
 }
