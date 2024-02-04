@@ -133,11 +133,11 @@
     "BUSINESS_HOURS": "Giờ làm việc"
   },
   "AGENT_REPORTS": {
-    "HEADER": "Tổng quan đại lý",
+    "HEADER": "Tổng quan người dùng",
     "LOADING_CHART": "Đang tải các biểu đồ dữ liệu...",
     "NO_ENOUGH_DATA": "Chúng tôi không nhận được đủ điểm dữ liệu để tạo báo cáo, Vui lòng thử lại sau.",
-    "DOWNLOAD_AGENT_REPORTS": "Tải xuống báo cáo đại lý",
-    "FILTER_DROPDOWN_LABEL": "Chọn đại lý",
+    "DOWNLOAD_AGENT_REPORTS": "Tải xuống báo cáo người dùng",
+    "FILTER_DROPDOWN_LABEL": "Chọn người dùng",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Các cuộc hội thoại",
@@ -413,7 +413,7 @@
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "Liên hệ",
-        "AGENT_NAME": "Đại lý được phân công",
+        "AGENT_NAME": "Người dùng được phân công",
         "RATING": "Đánh giá",
         "FEEDBACK_TEXT": "Bình luận phản hồi"
       }
@@ -455,7 +455,7 @@
       "LOADING_MESSAGE": "Đang tải chỉ số tổng đài viên...",
       "NO_AGENTS": "Không có cuộc hội thoại nào của các tổng đài viên",
       "TABLE_HEADER": {
-        "AGENT": "Nhà cung cấp",
+        "AGENT": "Người dùng",
         "OPEN": "MỞ",
         "UNATTENDED": "Không giám sát",
         "STATUS": "Trạng thái"

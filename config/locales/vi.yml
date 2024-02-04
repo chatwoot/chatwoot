@@ -96,7 +96,7 @@ vi:
         contact_email_address: Địa chỉ email của liên hệ
         contact_phone_number: Số điện thoại của liên hệ
         link_to_the_conversation: Liên kế tới hội thoại
-        agent_name: Tên nhà cung cấp
+        agent_name: Tên người dùng
         rating: Đánh giá
         feedback: Bình luận phản hồi
         recorded_at: Ngày nghi
@@ -167,7 +167,7 @@ vi:
   integration_apps:
     dyte:
       name: "Dyte"
-      description: "Dyte là công cụ giúp bạn thêm âm thanh và video trực tiếp vào ứng dụng của mình chỉ bằng một vài dòng mã. Sự tích hợp này cho phép bạn cung cấp tùy chọn cho các đại lý của mình để thực hiện cuộc gọi thoại hoặc video với khách hàng mà không cần rời khỏi Chatwoot."
+      description: "Dyte là công cụ giúp bạn thêm âm thanh và video trực tiếp vào ứng dụng của mình chỉ bằng một vài dòng mã. Sự tích hợp này cho phép bạn cung cấp tùy chọn cho các người dùng của mình để thực hiện cuộc gọi thoại hoặc video với khách hàng mà không cần rời khỏi Chatwoot."
       meeting_name: "%{agent_name} đã bắt đầu một cuộc họp"
     slack:
       name: "Slack"
@@ -177,13 +177,13 @@ vi:
       description: "Sự kiện webhook cung cấp cho bạn thông tin thời gian thực về những gì đang xảy ra trong tài khoản của bạn. Bạn có thể sử dụng webhook để truyền tải các sự kiện tới các ứng dụng yêu thích của mình như Slack hoặc Github. Nhấp vào Cấu hình để thiết lập webhook của bạn."
     dialogflow:
       name: "Dialogflow"
-      description: "Xây dựng chatbot bằng Dialogflow và kết nối chúng với hộp thư đến của bạn một cách nhanh chóng. Hãy để các bot xử lý các truy vấn trước khi giao chúng cho đại lý dịch vụ khách hàng."
+      description: "Xây dựng chatbot bằng Dialogflow và kết nối chúng với hộp thư đến của bạn một cách nhanh chóng. Hãy để các bot xử lý các truy vấn trước khi giao chúng cho người dùng dịch vụ khách hàng."
     fullcontact:
       name: "Fullcontact"
       description: "Tích hợp FullContact giúp làm phong phú hồ sơ khách truy cập. Xác định người dùng ngay khi họ chia sẻ địa chỉ email và cung cấp cho họ dịch vụ khách hàng phù hợp. Kết nối FullContact với tài khoản của bạn bằng cách chia sẻ Khóa API FullContact."
     google_translate:
       name: "Google Translate"
-      description: "Giúp các đại lý dịch tin nhắn dễ dàng hơn bằng cách thêm Tích hợp Google Dịch. Google dịch giúp tự động xác định ngôn ngữ và chuyển đổi ngôn ngữ đó sang ngôn ngữ do quản trị viên đại lý/tài khoản chọn."
+      description: "Giúp các người dùng dịch tin nhắn dễ dàng hơn bằng cách thêm Tích hợp Google Dịch. Google dịch giúp tự động xác định ngôn ngữ và chuyển đổi ngôn ngữ đó sang ngôn ngữ do quản trị viên người dùng/tài khoản chọn."
     openai:
       name: "OpenAI"
       description: "Tích hợp các tính năng AI mạnh mẽ vào Chatwoot bằng cách tận dụng các mô hình GPT từ OpenAI."
