@@ -27,6 +27,21 @@
       "MARK_ALL_READ": "Tout marquer comme lu",
       "DELETE_ALL": "Delete all",
       "DELETE_ALL_READ": "Delete all read"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "Sort",
+      "DISPLAY": "Display :",
+      "SORT_OPTIONS": {
+        "NEWEST": "Newest",
+        "OLDEST": "Oldest",
+        "PRIORITY": "Priorité"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "Reporté",
+        "READ": "Lu",
+        "LABELS": "Étiquettes",
+        "CONVERSATION_ID": "Conversation ID"
+      }
     }
   }
 }
