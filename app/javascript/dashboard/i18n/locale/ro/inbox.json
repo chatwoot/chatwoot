@@ -27,6 +27,21 @@
       "MARK_ALL_READ": "Marcare totală ca citit",
       "DELETE_ALL": "Delete all",
       "DELETE_ALL_READ": "Delete all read"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "Sort",
+      "DISPLAY": "Display :",
+      "SORT_OPTIONS": {
+        "NEWEST": "Newest",
+        "OLDEST": "Oldest",
+        "PRIORITY": "Prioritate"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "Amânat",
+        "READ": "Citește",
+        "LABELS": "Etichete",
+        "CONVERSATION_ID": "Conversation ID"
+      }
     }
   }
 }
