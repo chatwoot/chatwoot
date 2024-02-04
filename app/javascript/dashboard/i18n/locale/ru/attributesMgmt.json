@@ -42,14 +42,14 @@
         },
         "REGEX_PATTERN": {
           "LABEL": "Шаблон Regex",
-          "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+          "PLACEHOLDER": "Пожалуйста, введите пользовательский атрибут шаблона регулярного выражения. (Опционально)"
         },
         "REGEX_CUE": {
-          "LABEL": "Regex Cue",
-          "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+          "LABEL": "Предложенное регулярное выражение",
+          "PLACEHOLDER": "Пожалуйста, введите подсказку для регулярного выражения. (Опционально)"
         },
         "ENABLE_REGEX": {
-          "LABEL": "Enable regex validation"
+          "LABEL": "Включить проверку регулярных выражений"
         }
       },
       "API": {
@@ -107,14 +107,14 @@
       },
       "REGEX_PATTERN": {
         "LABEL": "Шаблон Regex",
-        "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+        "PLACEHOLDER": "Пожалуйста, введите пользовательский атрибут шаблона регулярного выражения. (Опционально)"
       },
       "REGEX_CUE": {
-        "LABEL": "Regex Cue",
-        "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+        "LABEL": "Предложенное регулярное выражение",
+        "PLACEHOLDER": "Пожалуйста, введите подсказку для регулярного выражения. (Опционально)"
       },
       "ENABLE_REGEX": {
-        "LABEL": "Enable regex validation"
+        "LABEL": "Включить проверку регулярных выражений"
       }
     }
   }
