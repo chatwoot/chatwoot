@@ -27,6 +27,21 @@
       "MARK_ALL_READ": "همه را به عنوان خوانده شده علامت بزن",
       "DELETE_ALL": "Delete all",
       "DELETE_ALL_READ": "Delete all read"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "Sort",
+      "DISPLAY": "Display :",
+      "SORT_OPTIONS": {
+        "NEWEST": "Newest",
+        "OLDEST": "Oldest",
+        "PRIORITY": "اولویت"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "به تعویق افتاد",
+        "READ": "خوانده شده",
+        "LABELS": "برچسب‌ها",
+        "CONVERSATION_ID": "Conversation ID"
+      }
     }
   }
 }
