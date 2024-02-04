@@ -27,6 +27,21 @@
       "MARK_ALL_READ": "Đánh dấu tất cả đã đọc",
       "DELETE_ALL": "Delete all",
       "DELETE_ALL_READ": "Delete all read"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "Sort",
+      "DISPLAY": "Display :",
+      "SORT_OPTIONS": {
+        "NEWEST": "Newest",
+        "OLDEST": "Oldest",
+        "PRIORITY": "Priority"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "Tạm dừng",
+        "READ": "\bĐọc",
+        "LABELS": "Nhãn",
+        "CONVERSATION_ID": "Conversation ID"
+      }
     }
   }
 }
