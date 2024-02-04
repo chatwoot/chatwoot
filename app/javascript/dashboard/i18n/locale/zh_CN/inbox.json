@@ -27,6 +27,21 @@
       "MARK_ALL_READ": "全部标记为已读",
       "DELETE_ALL": "Delete all",
       "DELETE_ALL_READ": "Delete all read"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "Sort",
+      "DISPLAY": "Display :",
+      "SORT_OPTIONS": {
+        "NEWEST": "Newest",
+        "OLDEST": "Oldest",
+        "PRIORITY": "优先级"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "已关闭",
+        "READ": "已读",
+        "LABELS": "标签",
+        "CONVERSATION_ID": "Conversation ID"
+      }
     }
   }
 }
