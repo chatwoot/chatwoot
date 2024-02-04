@@ -1,17 +1,17 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "Nhà cung cấp",
-    "HEADER_BTN_TXT": "Thêm nhà cung cấp / đại lý",
-    "LOADING": "Tải danh sách nhà cung cấp",
-    "SIDEBAR_TXT": "<p><b>Nhà cung cấp</b></p> <p> Một <b>nhà cung cấp</b> là thành viên của nhóm Hỗ trợ khách hàng của bạn. </p><p> Nhà cung cấp sẽ có thể xem và trả lời tin nhắn từ người dùng của bạn. Danh sách hiển thị tất cả các đại lý hiện có trong tài khoản của bạn. </p><p> Click vào <b>Thêm nhà cung cấp</b> để thêm mới nhà cung cấp. Nhà cung cấp mà bạn thêm sẽ nhận được email với liên kết xác nhận để kích hoạt tài khoản của họ, sau đó họ có thể truy cập Chatwoot và trả lời tin nhắn. </p><p> Quyền truy cập vào các tính năng của Chatwoot dựa trên các vai trò sau. </p><p> <b>Nhà cung cấp</b> - Nhà cung cấp có vai trò này chỉ có thể truy cập hộp thư đến, báo cáo và cuộc hội thoại. Họ có thể chỉ định các cuộc trò chuyện cho các đại lý khác hoặc chính họ và giải quyết các cuộc trò chuyện.</p><p> <b>Administrator</b> - Quản trị viên sẽ có quyền truy cập vào tất cả các tính năng Chatwoot được kích hoạt cho tài khoản của bạn, bao gồm cài đặt, cùng với tất cả các đặc quyền của một đại lý bình thường.</p>",
+    "HEADER": "Người dùng",
+    "HEADER_BTN_TXT": "Thêm người dùng",
+    "LOADING": "Tải danh sách người dùng",
+    "SIDEBAR_TXT": "<p><b>Người dùng</b></p> <p> Một <b>người dùng</b> là thành viên của nhóm Hỗ trợ khách hàng của bạn. </p><p> Người dùng sẽ có thể xem và trả lời tin nhắn từ liên hệ của bạn. Danh sách hiển thị tất cả các người dùng hiện có trong tài khoản của bạn. </p><p> Click vào <b>Thêm người dùng</b> để thêm mới người dùng. Người dùng mà bạn thêm sẽ nhận được email với liên kết xác nhận để kích hoạt tài khoản của họ, sau đó họ có thể truy cập Chatwoot và trả lời tin nhắn. </p><p> Quyền truy cập vào các tính năng của Chatwoot dựa trên các vai trò sau. </p><p> <b>Người dùng</b> - Người dùng có vai trò này chỉ có thể truy cập hộp thư đến, báo cáo và cuộc hội thoại. Họ có thể chỉ định các cuộc trò chuyện cho các người dùng khác hoặc chính họ và giải quyết các cuộc trò chuyện.</p><p> <b>Administrator</b> - Quản trị viên sẽ có quyền truy cập vào tất cả các tính năng Chatwoot được kích hoạt cho tài khoản của bạn, bao gồm cài đặt, cùng với tất cả các đặc quyền của một người dùng bình thường.</p>",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Quản trị viên",
-      "AGENT": "Nhà cung cấp"
+      "AGENT": "Người dùng"
     },
     "LIST": {
       "404": "Không có tác nhân nào được liên kết với tài khoản này",
-      "TITLE": "Quản lý các đại lý trong nhóm của bạn",
-      "DESC": "Bạn có thể thêm / bớt đại lý vào / trong nhóm của mình.",
+      "TITLE": "Quản lý các người dùng trong nhóm của bạn",
+      "DESC": "Bạn có thể thêm / bớt người dùng vào / trong nhóm của mình.",
       "NAME": "Tên",
       "EMAIL": "EMAIL",
       "STATUS": "Trạng thái",
@@ -20,27 +20,27 @@
       "VERIFICATION_PENDING": "Đang chờ xác minh"
     },
     "ADD": {
-      "TITLE": "Thêm đại lý vào nhóm của bạn",
+      "TITLE": "Thêm người dùng vào nhóm của bạn",
       "DESC": "Bạn có thể thêm những người có thể xử lý hỗ trợ cho hộp thư đến của bạn.",
       "CANCEL_BUTTON_TEXT": "Huỷ",
       "FORM": {
         "NAME": {
-          "LABEL": "Tên nhà cung cấp",
-          "PLACEHOLDER": "Vui lòng nhập tên nhà cung cấp"
+          "LABEL": "Tên người dùng",
+          "PLACEHOLDER": "Vui lòng nhập tên người dùng"
         },
         "AGENT_TYPE": {
-          "LABEL": "Loại nhà cung cấp",
+          "LABEL": "Loại người dùng",
           "PLACEHOLDER": "Vui lòng chọn loại",
-          "ERROR": "Loại nhà cung cấp là bắt buộc"
+          "ERROR": "Loại người dùng là bắt buộc"
         },
         "EMAIL": {
           "LABEL": "Email",
           "PLACEHOLDER": "Vui lòng nhập email"
         },
-        "SUBMIT": "Thêm nhà cung cấp"
+        "SUBMIT": "Thêm người dùng"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Nhà cung cấp được thêm thành công",
+        "SUCCESS_MESSAGE": "Người dùng được thêm thành công",
         "EXIST_MESSAGE": "Email đã được sử dung, vui lòng chọn email khác.",
         "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
       }
@@ -48,7 +48,7 @@
     "DELETE": {
       "BUTTON_TEXT": "Xoá",
       "API": {
-        "SUCCESS_MESSAGE": "Nhà cung cấp được xoá thành công",
+        "SUCCESS_MESSAGE": "Người dùng được xoá thành công",
         "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
       },
       "CONFIRM": {
@@ -59,16 +59,16 @@
       }
     },
     "EDIT": {
-      "TITLE": "Chỉnh sửa nhà cung cấp",
+      "TITLE": "Chỉnh sửa người dùng",
       "FORM": {
         "NAME": {
-          "LABEL": "Tên nhà cung cấp",
-          "PLACEHOLDER": "Vui lòng nhập tên nhà cung cấp"
+          "LABEL": "Tên người dùng",
+          "PLACEHOLDER": "Vui lòng nhập tên người dùng"
         },
         "AGENT_TYPE": {
-          "LABEL": "Loại nhà cung cấp",
+          "LABEL": "Loại người dùng",
           "PLACEHOLDER": "Vui lòng chọn loại",
-          "ERROR": "Loại nhà cung cấp là bắt buộc"
+          "ERROR": "Loại người dùng là bắt buộc"
         },
         "EMAIL": {
           "LABEL": "Emails",
@@ -79,18 +79,18 @@
           "PLACEHOLDER": "Please select an availability status",
           "ERROR": "Availability is required"
         },
-        "SUBMIT": "Chỉnh sửa nhà cung cấp"
+        "SUBMIT": "Chỉnh sửa người dùng"
       },
       "BUTTON_TEXT": "Chỉnh sửa",
       "CANCEL_BUTTON_TEXT": "Huỷ",
       "API": {
-        "SUCCESS_MESSAGE": "Nhà cung cấp được cập nhật thành công",
+        "SUCCESS_MESSAGE": "Người dùng được cập nhật thành công",
         "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "Đặt lại mật khẩu",
-        "ADMIN_SUCCESS_MESSAGE": "Một email với hướng dẫn đặt lại mật khẩu đã được gửi đến đại lý",
-        "SUCCESS_MESSAGE": "Đặt lại mật khẩu đại lý thành công",
+        "ADMIN_SUCCESS_MESSAGE": "Một email với hướng dẫn đặt lại mật khẩu đã được gửi đến người dùng",
+        "SUCCESS_MESSAGE": "Đặt lại mật khẩu người dùng thành công",
         "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
       }
     },
@@ -105,7 +105,7 @@
       },
       "SEARCH": {
         "NO_RESULTS": {
-          "AGENT": "Không tìm thấy nhà cung cấp",
+          "AGENT": "Không tìm thấy người dùng",
           "TEAM": "Không tìm thấy nhóm nào"
         },
         "PLACEHOLDER": {
