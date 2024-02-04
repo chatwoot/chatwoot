@@ -166,6 +166,7 @@ export default {
       const targetNotification = this.notifications[activeIndex + indexOffset];
       if (targetNotification) {
         const {
+          id,
           primary_actor_id: primaryActorId,
           primary_actor_type: primaryActorType,
           primary_actor: { id: conversationId, meta: { unreadCount } = {} },
@@ -177,6 +178,7 @@ export default {
         });
 
         this.$store.dispatch('notifications/read', {
+          id,
           primaryActorId,
           primaryActorType,
           unreadCount,
