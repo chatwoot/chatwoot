@@ -31,7 +31,7 @@ ru:
       disposable_email: Мы не разрешаем одноразовые почтовые ящики
       invalid_email: Вы ввели неверный email
       email_already_exists: "Вы уже зарегистрировались для учётной записи с %{email}"
-      invalid_params: 'Invalid, please check the signup paramters and try again'
+      invalid_params: 'Неверно, проверьте параметры регистрации и повторите попытку'
       failed: Ошибка регистрации
     data_import:
       data_type:
