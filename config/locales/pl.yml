@@ -222,7 +222,7 @@ pl:
       back_to_home: Go to home page
   slack_unfurl:
     fields:
-      name: Nazwa
+      name: Imię
       email: E-mail
       phone_number: Phone
       company_name: Firma
