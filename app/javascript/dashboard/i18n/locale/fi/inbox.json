@@ -27,6 +27,21 @@
       "MARK_ALL_READ": "Merkitse kaikki luetuiksi",
       "DELETE_ALL": "Delete all",
       "DELETE_ALL_READ": "Delete all read"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "Sort",
+      "DISPLAY": "Display :",
+      "SORT_OPTIONS": {
+        "NEWEST": "Newest",
+        "OLDEST": "Oldest",
+        "PRIORITY": "Priority"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "Torkutettu",
+        "READ": "Read",
+        "LABELS": "Tunnisteet",
+        "CONVERSATION_ID": "Conversation ID"
+      }
     }
   }
 }
