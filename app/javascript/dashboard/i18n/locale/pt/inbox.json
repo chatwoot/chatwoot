@@ -27,6 +27,21 @@
       "MARK_ALL_READ": "Marcar todos como lidos",
       "DELETE_ALL": "Excluir tudo",
       "DELETE_ALL_READ": "Excluir todas lidas"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "Sort",
+      "DISPLAY": "Mostrar :",
+      "SORT_OPTIONS": {
+        "NEWEST": "Newest",
+        "OLDEST": "Oldest",
+        "PRIORITY": "Prioridade"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "Adiado",
+        "READ": "Lida",
+        "LABELS": "Etiquetas",
+        "CONVERSATION_ID": "Conversation ID"
+      }
     }
   }
 }
