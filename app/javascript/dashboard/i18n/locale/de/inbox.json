@@ -27,6 +27,21 @@
       "MARK_ALL_READ": "Alle als gelesen markieren",
       "DELETE_ALL": "Delete all",
       "DELETE_ALL_READ": "Delete all read"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "Sort",
+      "DISPLAY": "Display :",
+      "SORT_OPTIONS": {
+        "NEWEST": "Newest",
+        "OLDEST": "Oldest",
+        "PRIORITY": "Priorität"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "Erinnern",
+        "READ": "Lesen",
+        "LABELS": "Labels",
+        "CONVERSATION_ID": "Conversation ID"
+      }
     }
   }
 }
