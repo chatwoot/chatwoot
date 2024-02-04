@@ -27,6 +27,21 @@
       "MARK_ALL_READ": "Mark all as read",
       "DELETE_ALL": "Delete all",
       "DELETE_ALL_READ": "Delete all read"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "Sort",
+      "DISPLAY": "Display :",
+      "SORT_OPTIONS": {
+        "NEWEST": "Newest",
+        "OLDEST": "Oldest",
+        "PRIORITY": "Prioritas"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "Ditunda Sebentar",
+        "READ": "Dibaca",
+        "LABELS": "Label",
+        "CONVERSATION_ID": "Conversation ID"
+      }
     }
   }
 }
