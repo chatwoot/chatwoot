@@ -325,7 +325,7 @@
       },
       "COLUMNS": {
         "BY": "От",
-        "AUTHOR_NOT_AVAILABLE": "Author is not available"
+        "AUTHOR_NOT_AVAILABLE": "Автор недоступен"
       }
     },
     "EDIT_ARTICLE": {
