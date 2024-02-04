@@ -340,7 +340,7 @@
     "VALIDATIONS": {
       "REQUIRED": "Требуется корректное значение",
       "INVALID_URL": "Некорректный URL",
-      "INVALID_INPUT": "Invalid Input"
+      "INVALID_INPUT": "Неверный ввод"
     }
   },
   "MERGE_CONTACTS": {
