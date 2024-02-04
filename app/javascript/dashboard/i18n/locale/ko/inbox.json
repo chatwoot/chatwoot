@@ -27,6 +27,21 @@
       "MARK_ALL_READ": "전부 읽음으로 바꾸기",
       "DELETE_ALL": "Delete all",
       "DELETE_ALL_READ": "Delete all read"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "Sort",
+      "DISPLAY": "Display :",
+      "SORT_OPTIONS": {
+        "NEWEST": "Newest",
+        "OLDEST": "Oldest",
+        "PRIORITY": "Priority"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "일시 중지됨",
+        "READ": "읽기",
+        "LABELS": "라벨",
+        "CONVERSATION_ID": "Conversation ID"
+      }
     }
   }
 }
