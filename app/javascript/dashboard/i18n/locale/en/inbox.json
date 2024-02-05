@@ -6,7 +6,11 @@
       "LOADING": "Fetching notifications",
       "EOF": "All notifications loaded 🎉",
       "404": "There are no active notifications in this group.",
-      "NOTE": "Notifications from all subscribed inboxes"
+      "NOTE": "Notifications from all subscribed inboxes",
+      "SNOOZED_UNTIL": "Snoozed until",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "ACTION_HEADER": {
       "SNOOZE": "Snooze notification",

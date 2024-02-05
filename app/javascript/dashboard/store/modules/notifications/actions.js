@@ -119,6 +119,21 @@ export const actions = {
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: false });
     }
   },
+
+  snooze: async ({ commit }, { id, snoozedUntil }) => {
+    commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: true });
+    try {
+      await NotificationsAPI.snooze({ id, snoozedUntil });
+      commit(types.SNOOZE_NOTIFICATION, {
+        id,
+        snoozed_until: snoozedUntil,
+      });
+      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
+    } catch (error) {
+      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
+    }
+  },
+
   addNotification({ commit }, data) {
     commit(types.ADD_NOTIFICATION, data);
   },
