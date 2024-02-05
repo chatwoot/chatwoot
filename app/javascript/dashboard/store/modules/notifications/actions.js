@@ -123,10 +123,16 @@ export const actions = {
   snooze: async ({ commit }, { id, snoozedUntil }) => {
     commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: true });
     try {
-      await NotificationsAPI.snooze({ id, snoozedUntil });
+      const response = await NotificationsAPI.snooze({
+        id,
+        snoozedUntil,
+      });
+      const {
+        data: { snoozed_until = null },
+      } = response;
       commit(types.SNOOZE_NOTIFICATION, {
         id,
-        snoozed_until: snoozedUntil,
+        snoozed_until,
       });
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
     } catch (error) {

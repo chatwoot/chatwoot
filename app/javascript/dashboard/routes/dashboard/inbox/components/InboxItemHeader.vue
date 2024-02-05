@@ -50,12 +50,14 @@ import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import PaginationButton from './PaginationButton.vue';
 import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal.vue';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
     PaginationButton,
     CustomSnoozeModal,
   },
+  mixins: [alertMixin],
   props: {
     totalLength: {
       type: Number,
@@ -95,10 +97,14 @@ export default {
       this.showCustomSnoozeModal = false;
     },
     snoozeNotification(snoozedUntil) {
-      this.$store.dispatch('notifications/snooze', {
-        id: this.activeNotification?.id,
-        snoozedUntil,
-      });
+      this.$store
+        .dispatch('notifications/snooze', {
+          id: this.activeNotification?.id,
+          snoozedUntil,
+        })
+        .then(() => {
+          this.showAlert(this.$t('INBOX.ALERTS.SNOOZE'));
+        });
     },
     onCmdSnoozeNotification(snoozeType) {
       if (snoozeType === wootConstants.SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME) {
@@ -117,11 +123,15 @@ export default {
     },
     deleteNotification() {
       this.$track(INBOX_EVENTS.DELETE_NOTIFICATION);
-      this.$store.dispatch('notifications/delete', {
-        notification: this.activeNotification,
-        unread_count: this.meta.unreadCount,
-        count: this.meta.count,
-      });
+      this.$store
+        .dispatch('notifications/delete', {
+          notification: this.activeNotification,
+          unread_count: this.meta.unreadCount,
+          count: this.meta.count,
+        })
+        .then(() => {
+          this.showAlert(this.$t('INBOX.ALERTS.DELETE'));
+        });
       this.$router.push({ name: 'inbox' });
     },
     onClickNext() {

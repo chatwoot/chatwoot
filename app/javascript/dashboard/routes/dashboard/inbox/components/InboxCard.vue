@@ -153,7 +153,7 @@ export default {
           this.snoozedUntilTime
         )}`;
       }
-      return this.$t('INBOX.LIST.SNOOZED_UNTIL_NEXT_REPLY');
+      return '';
     },
   },
   unmounted() {
