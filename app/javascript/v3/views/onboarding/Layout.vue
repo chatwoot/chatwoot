@@ -1,13 +1,11 @@
 <template>
   <section
-    class="relative min-h-screen px-8 dark:text-white bg-[#FCFCFD] dark:bg-slate-900 flex items-center justify-center"
+    class="relative min-h-screen px-8 dark:text-white bg-[#FCFCFD] dark:bg-slate-900 flex items-center justify-center bg-[url('/assets/images/dashboard/onboarding/intro.svg')] dark:bg-[url('/assets/images/dashboard/onboarding/intro-dark.svg')] bg-[length:715px_555px] bg-no-repeat bg-[left_calc(-56px)_bottom_calc(-133px)]"
   >
     <div
       class="relative max-w-[1440px] w-full mx-auto flex justify-center gap-16"
     >
-      <div
-        class="relative w-4/12 px-16 py-[88px] bg-[url('/assets/images/dashboard/onboarding/intro.svg')] dark:bg-[url('/assets/images/dashboard/onboarding/intro-dark.svg')] bg-contain bg-no-repeat bg-left-bottom"
-      >
+      <div class="relative w-4/12 px-16 py-[88px]">
         <div class="mb-10 z-0">
           <img
             :src="globalConfig.logo"
