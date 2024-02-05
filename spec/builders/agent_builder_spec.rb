@@ -14,7 +14,7 @@ RSpec.describe AgentBuilder, type: :model do
     {
       email: email,
       name: name,
-      current_user: current_user,
+      inviter: current_user,
       account: account,
       role: role,
       availability: availability,
@@ -52,7 +52,7 @@ RSpec.describe AgentBuilder, type: :model do
     end
 
     context 'when only email is provided' do
-      let(:params) { { email: email, current_user: current_user, account: account } }
+      let(:params) { { email: email, inviter: current_user, account: account } }
 
       it 'creates a user with default values' do
         user = agent_builder.perform
