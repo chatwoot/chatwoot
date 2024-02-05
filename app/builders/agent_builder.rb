@@ -6,7 +6,7 @@ class AgentBuilder
   # @param email [String] the email of the user.
   # @param name [String] the name of the user.
   # @param role [String] the role of the user, defaults to 'agent' if not provided.
-  # @param inviter [User] the current user.
+  # @param inviter [User] the user who is inviting the agent (Current.user in most cases).
   # @param availability [String] the availability status of the user, defaults to 'offline' if not provided.
   # @param auto_offline [Boolean] the auto offline status of the user.
   pattr_initialize [:email, { name: '' }, :inviter, :account, { role: :agent }, { availability: :offline }, { auto_offline: false }]
