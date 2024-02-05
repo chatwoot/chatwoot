@@ -36,6 +36,12 @@ class NotificationsAPI extends ApiClient {
   delete(id) {
     return axios.delete(`${this.url}/${id}`);
   }
+
+  deleteAll({ type = 'all' }) {
+    return axios.post(`${this.url}/destroy_all`, {
+      type,
+    });
+  }
 }
 
 export default new NotificationsAPI();

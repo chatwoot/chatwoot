@@ -7,15 +7,7 @@
         v-for="item in menuItems"
         :key="item.key"
         :label="item.label"
-        @click="onMenuItemClick(item.key)"
-      />
-    </div>
-    <div class="flex flex-col">
-      <menu-item
-        v-for="item in commonMenuItems"
-        :key="item.key"
-        :label="item.label"
-        @click="onMenuItemClick(item.key)"
+        @click="onClick(item.key)"
       />
     </div>
   </div>
@@ -30,24 +22,6 @@ export default {
   data() {
     return {
       menuItems: [
-        {
-          key: 'mark_as_read',
-          label: this.$t('INBOX.MENU_ITEM.MARK_AS_READ'),
-        },
-        {
-          key: 'mark_as_unread',
-          label: this.$t('INBOX.MENU_ITEM.MARK_AS_UNREAD'),
-        },
-        {
-          key: 'snooze',
-          label: this.$t('INBOX.MENU_ITEM.SNOOZE'),
-        },
-        {
-          key: 'delete',
-          label: this.$t('INBOX.MENU_ITEM.DELETE'),
-        },
-      ],
-      commonMenuItems: [
         {
           key: 'mark_all_read',
           label: this.$t('INBOX.MENU_ITEM.MARK_ALL_READ'),
@@ -64,7 +38,7 @@ export default {
     };
   },
   methods: {
-    onMenuItemClick(key) {
+    onClick(key) {
       this.$emit('option-click', key);
     },
   },
