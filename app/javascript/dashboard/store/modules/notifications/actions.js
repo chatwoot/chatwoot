@@ -98,7 +98,9 @@ export const actions = {
   deleteAllRead: async ({ commit }) => {
     commit(types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: true });
     try {
-      await NotificationsAPI.deleteRead();
+      await NotificationsAPI.deleteAll({
+        type: 'read',
+      });
       commit(types.DELETE_READ_NOTIFICATIONS);
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: false });
     } catch (error) {
@@ -108,7 +110,9 @@ export const actions = {
   deleteAll: async ({ commit }) => {
     commit(types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: true });
     try {
-      await NotificationsAPI.deleteAll();
+      await NotificationsAPI.deleteAll({
+        type: 'all',
+      });
       commit(types.DELETE_ALL_NOTIFICATIONS);
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: false });
     } catch (error) {
