@@ -42,10 +42,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    hidden: {
-      type: Boolean,
-      default: false,
-    },
     isComplete: {
       type: Boolean,
       default: false,
