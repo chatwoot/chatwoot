@@ -235,6 +235,7 @@ describe('#actions', () => {
       await actions.deleteAllRead({ commit });
       expect(commit.mock.calls).toEqual([
         [types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: true }],
+        [types.DELETE_READ_NOTIFICATIONS],
         [types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: false }],
       ]);
     });
@@ -255,6 +256,7 @@ describe('#actions', () => {
       await actions.deleteAll({ commit });
       expect(commit.mock.calls).toEqual([
         [types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: true }],
+        [types.DELETE_ALL_NOTIFICATIONS],
         [types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: false }],
       ]);
     });
