@@ -12,7 +12,7 @@
     <div
       class="grid w-8 h-8 border border-solid rounded-full place-content-center"
       :class="{
-        'border-woot-500': (isActive && !isComplete) || isComplete,
+      'border-woot-500': !isActive || isComplete,
         'border-slate-200 dark:border-slate-600': !isActive && !isComplete,
         'text-woot-500': isComplete,
       }"
