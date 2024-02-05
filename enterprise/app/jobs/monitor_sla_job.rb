@@ -2,7 +2,7 @@ class MonitorSlaJob < ApplicationJob
   queue_as :scheduled_jobs
 
   def perform
-    AppliedSla.where(sla_status: 'active').all.find_each(batch_size: 100) do |applied_sla|
+    AppliedSla.includes(:conversation, :sla_policy).where(sla_status: 'active').find_each(batch_size: 100) do |applied_sla|
       process_sla(applied_sla)
     end
   end
@@ -10,8 +10,8 @@ class MonitorSlaJob < ApplicationJob
   private
 
   def process_sla(applied_sla)
-    conversation = Conversation.find_by(id: applied_sla.conversation_id)
-    sla_policy = SlaPolicy.find_by(id: applied_sla.sla_policy_id)
+    conversation = applied_sla.conversation
+    sla_policy = applied_sla.sla_policy
 
     check_first_response_time(applied_sla, conversation, sla_policy)
     check_next_response_time(applied_sla, conversation, sla_policy)
@@ -25,10 +25,14 @@ class MonitorSlaJob < ApplicationJob
     threshold = conversation.created_at.to_i + sla_policy.first_response_time_threshold.to_i
     # If first reply is present, compare it with threshold
     # else use current.time
-    return if conversation.first_reply_created_at.present? && conversation.first_reply_created_at.to_i <= threshold
+    return if first_reply_within_threshold?(conversation, threshold)
     return unless Time.now.to_i > threshold
 
-    handle_missed_sla(applied_sla, conversation, sla_policy)
+    handle_missed_sla(applied_sla)
+  end
+
+  def first_reply_within_threshold?(conversation, threshold)
+    conversation.first_reply_created_at.present? && conversation.first_reply_created_at.to_i <= threshold
   end
 
   def check_next_response_time(applied_sla, conversation, sla_policy)
@@ -37,10 +41,14 @@ class MonitorSlaJob < ApplicationJob
       return
     end
 
-    threshold = conversation.waiting_since.to_i + sla_policy.next_response_time_threshold
-    return unless Time.now.to_i > threshold
+    threshold = conversation.waiting_since.to_i + sla_policy.next_response_time_threshold.to_i
+    return if next_reply_within_threshold?(threshold)
 
-    handle_missed_sla(applied_sla, conversation, sla_policy)
+    handle_missed_sla(applied_sla)
+  end
+
+  def next_reply_within_threshold?(threshold)
+    Time.now.to_i < threshold
   end
 
   def check_resolution_time(applied_sla, conversation, sla_policy)
@@ -49,20 +57,28 @@ class MonitorSlaJob < ApplicationJob
     threshold = sla_policy.resolution_time_threshold.to_i
     resolution_time = conversation.account.reporting_events.where(name: 'conversation_resolved').last.value
 
-    if resolution_time > threshold
-      handle_missed_sla(applied_sla, conversation, sla_policy)
+    if conversation_resolved_within_threshold?(resolution_time, threshold)
+      handle_hit_sla(applied_sla)
     else
-      handle_hit_sla(applied_sla, conversation, sla_policy)
+      handle_missed_sla(applied_sla)
     end
   end
 
-  def handle_missed_sla(applied_sla, conversation, sla_policy)
-    applied_sla.update(sla_status: 'missed')
-    Rails.logger.warn "SLA missed for conversation #{conversation.id} in account #{conversation.account_id} for sla_policy #{sla_policy.id}"
+  def conversation_resolved_within_threshold?(resolution_time, threshold)
+    resolution_time < threshold
   end
 
-  def handle_hit_sla(applied_sla, conversation, sla_policy)
+  def handle_missed_sla(applied_sla)
+    applied_sla.update(sla_status: 'missed')
+    Rails.logger.warn "SLA missed for conversation #{applied_sla.conversation.id}\
+                       in account #{applied_sla.conversation.account_id}\
+                        for sla_policy #{applied_sla.sla_policy.id}"
+  end
+
+  def handle_hit_sla(applied_sla)
     applied_sla.update(sla_status: 'hit')
-    Rails.logger.info "SLA hit for conversation #{conversation.id} in account #{conversation.account_id} for sla_policy #{sla_policy.id}"
+    Rails.logger.info "SLA hit for conversation #{applied_sla.conversation.id}\
+                        in account #{applied_sla.conversation.account_id}\
+                        for sla_policy #{applied_sla.sla_policy.id}"
   end
 end
