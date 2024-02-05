@@ -47,7 +47,7 @@
       </span>
     </div>
     <div v-if="isSnoozed" class="flex items-center">
-      <span class="text-woot-500 dark:text-woot-500 text-xs font-normal">
+      <span class="text-woot-500 dark:text-woot-500 text-xs font-medium">
         {{ snoozedDisplayText }}
       </span>
     </div>
