@@ -9,8 +9,7 @@
       "NOTE": "Notifications from all subscribed inboxes",
       "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week"
     },
     "ACTION_HEADER": {
       "SNOOZE": "Snooze notification",

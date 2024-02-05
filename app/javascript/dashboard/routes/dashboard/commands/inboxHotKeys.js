@@ -14,16 +14,6 @@ const INBOX_SNOOZE_EVENTS = [
     icon: ICON_SNOOZE_NOTIFICATION,
     children: Object.values(SNOOZE_OPTIONS),
   },
-
-  {
-    id: SNOOZE_OPTIONS.UNTIL_NEXT_REPLY,
-    title: 'COMMAND_BAR.COMMANDS.UNTIL_NEXT_REPLY',
-    parent: 'snooze_notification',
-    section: 'COMMAND_BAR.SECTIONS.SNOOZE_NOTIFICATION',
-    icon: ICON_SNOOZE_NOTIFICATION,
-    handler: () =>
-      bus.$emit(CMD_SNOOZE_NOTIFICATION, SNOOZE_OPTIONS.UNTIL_NEXT_REPLY),
-  },
   {
     id: SNOOZE_OPTIONS.AN_HOUR_FROM_NOW,
     title: 'COMMAND_BAR.COMMANDS.AN_HOUR_FROM_NOW',
