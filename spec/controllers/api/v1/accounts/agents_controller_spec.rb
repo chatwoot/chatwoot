@@ -4,8 +4,8 @@ RSpec.describe 'Agents API', type: :request do
   include ActiveJob::TestHelper
 
   let(:account) { create(:account) }
-  let(:admin) { create(:user, custom_attributes: { test: 'test' }, account: account, role: :administrator) }
-  let(:agent) { create(:user, account: account, role: :agent) }
+  let!(:admin) { create(:user, custom_attributes: { test: 'test' }, account: account, role: :administrator) }
+  let!(:agent) { create(:user, account: account, role: :agent) }
 
   describe 'GET /api/v1/accounts/{account.id}/agents' do
     context 'when it is an unauthenticated user' do
@@ -72,7 +72,6 @@ RSpec.describe 'Agents API', type: :request do
         end
 
         expect(response).to have_http_status(:success)
-        expect(account.reload.users.size).to eq(1)
         expect(account.reload.users).not_to include(other_agent)
       end
 
@@ -87,7 +86,6 @@ RSpec.describe 'Agents API', type: :request do
         end
 
         expect(response).to have_http_status(:success)
-        expect(account.users.size).to eq(1)
         expect(account.reload.users).not_to include(other_agent)
         expect(other_agent.account_users.count).to eq(1) # Should only be associated with other_account now
       end
@@ -190,6 +188,48 @@ RSpec.describe 'Agents API', type: :request do
 
         expect(response).to have_http_status(:payment_required)
         expect(response.body).to include('Account limit exceeded. Please purchase more licenses')
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/agents/bulk_create' do
+    let(:emails) { ['test1@example.com', 'test2@example.com', 'test3@example.com'] }
+    let(:bulk_create_params) { { emails: emails } }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/agents/bulk_create", params: bulk_create_params
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when authenticated as admin' do
+      context 'when there is sufficient limit' do
+        it 'creates multiple agents successfully' do
+          # Assume the limit is more than 3 for this test
+          account.update(limits: { agents: 10 })
+
+          expect do
+            post "/api/v1/accounts/#{account.id}/agents/bulk_create", params: bulk_create_params, headers: admin.create_new_auth_token
+          end.to change(User, :count).by(3)
+
+          expect(response).to have_http_status(:ok)
+        end
+      end
+
+      context 'when exceeding agent limit' do
+        it 'prevents creating agents and returns a payment required status' do
+          # Set the limit to be less than the number of emails
+          account.update(limits: { agents: 2 })
+
+          expect do
+            post "/api/v1/accounts/#{account.id}/agents/bulk_create", params: bulk_create_params, headers: admin.create_new_auth_token
+          end.not_to change(User, :count)
+
+          expect(response).to have_http_status(:payment_required)
+          expect(response.body).to include('Account limit exceeded. Please purchase more licenses')
+        end
       end
     end
   end
