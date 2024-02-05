@@ -6,10 +6,10 @@ class AgentBuilder
   # @param email [String] the email of the user.
   # @param name [String] the name of the user.
   # @param role [String] the role of the user, defaults to 'agent' if not provided.
-  # @param current_user [User] the current user.
+  # @param inviter [User] the current user.
   # @param availability [String] the availability status of the user, defaults to 'offline' if not provided.
   # @param auto_offline [Boolean] the auto offline status of the user.
-  pattr_initialize [:email, { name: '' }, :current_user, :account, { role: :agent }, { availability: :offline }, { auto_offline: false }]
+  pattr_initialize [:email, { name: '' }, :inviter, :account, { role: :agent }, { availability: :offline }, { auto_offline: false }]
 
   # Creates a user and account user in a transaction.
   # @return [User] the created user.
@@ -50,7 +50,7 @@ class AgentBuilder
     AccountUser.create!({
       account_id: account.id,
       user_id: @user.id,
-      inviter_id: current_user.id
+      inviter_id: inviter.id
     }.merge({
       role: role,
       availability: availability,
