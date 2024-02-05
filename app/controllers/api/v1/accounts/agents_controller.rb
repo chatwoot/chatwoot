@@ -78,7 +78,7 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def can_add_agent?
-    available_agent_count >= 0
+    available_agent_count.positive?
   end
 
   def delete_user_record(agent)

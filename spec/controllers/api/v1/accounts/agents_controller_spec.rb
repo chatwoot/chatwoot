@@ -176,5 +176,21 @@ RSpec.describe 'Agents API', type: :request do
         expect(account.users.last.name).to eq('NewUser')
       end
     end
+
+    context 'when the account has reached its agent limit' do
+      params = { name: 'NewUser', email: Faker::Internet.email, role: :agent }
+
+      before do
+        account.update(limits: { agents: 4 })
+        create_list(:user, 4, account: account, role: :agent)
+      end
+
+      it 'prevents adding a new agent and returns a payment required status' do
+        post "/api/v1/accounts/#{account.id}/agents", params: params, headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:payment_required)
+        expect(response.body).to include('Account limit exceeded. Please purchase more licenses')
+      end
+    end
   end
 end
