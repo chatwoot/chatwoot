@@ -33,7 +33,10 @@ RSpec.describe AgentBuilder, type: :model do
       end
 
       it 'returns a user' do
-        expect(agent_builder.perform).to be_a(User)
+        # response is a User and AccountUser object
+        result = agent_builder.perform
+        expect(result.first).to be_a(User)
+        expect(result.second).to be_a(AccountUser)
       end
     end
 
@@ -55,15 +58,15 @@ RSpec.describe AgentBuilder, type: :model do
       let(:params) { { email: email, inviter: current_user, account: account } }
 
       it 'creates a user with default values' do
-        user = agent_builder.perform
+        user, account_user = agent_builder.perform
         expect(user.name).to eq('')
-        expect(AccountUser.find_by(user: user).role).to eq('agent')
+        expect(AccountUser.find_by(user: user).id).to eq(account_user.id)
       end
     end
 
     context 'when a temporary password is generated' do
       it 'sets a temporary password for the user' do
-        user = agent_builder.perform
+        user, _account_user = agent_builder.perform
         expect(user.encrypted_password).not_to be_empty
       end
     end
@@ -78,7 +81,7 @@ RSpec.describe AgentBuilder, type: :model do
       end
 
       it 'sends confirmation instructions' do
-        user = agent_builder.perform
+        user, _account_user = agent_builder.perform
         expect(user).to receive(:send_confirmation_instructions)
         agent_builder.send(:send_confirmation_if_required)
       end

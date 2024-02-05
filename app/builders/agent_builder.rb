@@ -17,9 +17,9 @@ class AgentBuilder
     ActiveRecord::Base.transaction do
       @user = find_or_create_user
       send_confirmation_if_required
-      create_account_user
+      @account_user = create_account_user
     end
-    @user
+    [@user, @account_user]
   end
 
   private
