@@ -5,8 +5,6 @@
     :has-error="hasError"
     :error-message="errorMessage"
   >
-    <template #label> {{ label }} <slot /> </template>
-
     <textarea
       :id="name"
       :name="name"
