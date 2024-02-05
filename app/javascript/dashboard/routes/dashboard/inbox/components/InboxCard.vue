@@ -46,7 +46,7 @@
         {{ lastActivityAt }}
       </span>
     </div>
-    <div v-if="isSnoozed" class="flex items-center">
+    <div v-if="snoozedUntilTime" class="flex items-center">
       <span class="text-woot-500 dark:text-woot-500 text-xs font-medium">
         {{ snoozedDisplayText }}
       </span>
@@ -143,15 +143,14 @@ export default {
       }
       return items;
     },
-    isSnoozed() {
+    snoozedUntilTime() {
       const { snoozed_until: snoozedUntil } = this.notificationItem;
       return snoozedUntil;
     },
     snoozedDisplayText() {
-      const { snoozed_until: snoozedUntil } = this.notificationItem;
-      if (snoozedUntil) {
+      if (this.snoozedUntilTime) {
         return `${this.$t('INBOX.LIST.SNOOZED_UNTIL')} ${snoozedReopenTime(
-          snoozedUntil
+          this.snoozedUntilTime
         )}`;
       }
       return this.$t('INBOX.LIST.SNOOZED_UNTIL_NEXT_REPLY');
