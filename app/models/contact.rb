@@ -7,11 +7,13 @@
 #  id                    :integer          not null, primary key
 #  additional_attributes :jsonb
 #  contact_type          :integer          default("visitor")
+#  country_code          :string           default("")
 #  custom_attributes     :jsonb
 #  email                 :string
 #  identifier            :string
 #  last_activity_at      :datetime
 #  last_name             :string           default("")
+#  location              :string           default("")
 #  middle_name           :string           default("")
 #  name                  :string           default("")
 #  phone_number          :string

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_24_084032) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_31_040316) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -276,7 +276,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_24_084032) do
     t.string "imap_login", default: ""
     t.string "imap_password", default: ""
     t.boolean "imap_enable_ssl", default: true
-    t.datetime "imap_inbox_synced_at", precision: nil
     t.boolean "smtp_enabled", default: false
     t.string "smtp_address", default: ""
     t.integer "smtp_port", default: 0
@@ -421,6 +420,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_24_084032) do
     t.integer "contact_type", default: 0
     t.string "middle_name", default: ""
     t.string "last_name", default: ""
+    t.string "location", default: ""
+    t.string "country_code", default: ""
     t.index "lower((email)::text), account_id", name: "index_contacts_on_lower_email_account_id"
     t.index ["account_id", "email", "phone_number", "identifier"], name: "index_contacts_on_nonempty_fields", where: "(((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))"
     t.index ["account_id"], name: "index_contacts_on_account_id"

@@ -250,5 +250,15 @@ RSpec.describe Inbox do
           cache_keys: inbox.account.cache_keys
         )
     end
+
+    it 'updates the cache key after update' do
+      expect(inbox.account).to receive(:update_cache_key).with('inbox')
+      inbox.update(name: 'New Name')
+    end
+
+    it 'updates the cache key after touch' do
+      expect(inbox.account).to receive(:update_cache_key).with('inbox')
+      inbox.touch # rubocop:disable Rails/SkipsModelValidations
+    end
   end
 end
