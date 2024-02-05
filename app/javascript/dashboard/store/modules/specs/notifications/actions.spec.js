@@ -262,20 +262,6 @@ describe('#actions', () => {
     });
   });
 
-  //   snooze: async ({ commit }, { id, snoozedUntil }) => {
-  //   commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: true });
-  //   try {
-  //     await NotificationsAPI.snooze({ id, snoozedUntil });
-  //     commit(types.SNOOZE_NOTIFICATION, {
-  //       id,
-  //       snoozed_until: snoozedUntil,
-  //     });
-  //     commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
-  //   } catch (error) {
-  //     commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
-  //   }
-  // },
-
   describe('snooze', () => {
     it('sends correct actions if API is success', async () => {
       axios.post.mockResolvedValue({});
