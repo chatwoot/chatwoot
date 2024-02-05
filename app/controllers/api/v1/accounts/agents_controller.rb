@@ -18,9 +18,9 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
       inviter: current_user,
       account: Current.account
     )
-    @user, account_user = builder.perform
+    @user = builder.perform
 
-    render json: account_user, status: :created
+    head :ok
   end
 
   def update
