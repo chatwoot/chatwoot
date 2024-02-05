@@ -61,4 +61,15 @@ export const mutations = {
   [types.SET_ALL_NOTIFICATIONS_LOADED]: $state => {
     Vue.set($state.uiFlags, 'isAllNotificationsLoaded', true);
   },
+
+  [types.DELETE_READ_NOTIFICATIONS]: $state => {
+    Object.values($state.records).forEach(item => {
+      if (item.read_at) {
+        Vue.delete($state.records, item.id);
+      }
+    });
+  },
+  [types.DELETE_ALL_NOTIFICATIONS]: $state => {
+    Vue.set($state, 'records', {});
+  },
 };
