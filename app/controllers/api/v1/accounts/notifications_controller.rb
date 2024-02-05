@@ -39,6 +39,15 @@ class Api::V1::Accounts::NotificationsController < Api::V1::Accounts::BaseContro
     head :ok
   end
 
+  def destroy_all
+    if params[:type] == 'read'
+      ::Notification::DeleteNotificationJob.perform_later(Current.user, type: :read)
+    else
+      ::Notification::DeleteNotificationJob.perform_later(Current.user, type: :all)
+    end
+    head :ok
+  end
+
   def unread_count
     @unread_count = notification_finder.unread_count
     render json: @unread_count
