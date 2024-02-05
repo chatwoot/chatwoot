@@ -115,18 +115,6 @@ export default {
           value: 'read',
           selected: true,
         },
-        {
-          id: 3,
-          name: this.$t('INBOX.DISPLAY_MENU.DISPLAY_OPTIONS.LABELS'),
-          value: 'labels',
-          selected: false,
-        },
-        {
-          id: 4,
-          name: this.$t('INBOX.DISPLAY_MENU.DISPLAY_OPTIONS.CONVERSATION_ID'),
-          value: 'conversationId',
-          selected: false,
-        },
       ],
       sortOptions: [
         {
@@ -136,10 +124,6 @@ export default {
         {
           name: this.$t('INBOX.DISPLAY_MENU.SORT_OPTIONS.OLDEST'),
           key: 'oldest',
-        },
-        {
-          name: this.$t('INBOX.DISPLAY_MENU.SORT_OPTIONS.PRIORITY'),
-          key: 'priority',
         },
       ],
       activeSort: 'newest',
