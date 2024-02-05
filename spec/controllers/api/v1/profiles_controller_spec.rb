@@ -242,4 +242,44 @@ RSpec.describe 'Profile API', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/profile/resend_confirmation' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post '/api/v1/profile/resend_confirmation'
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) do
+        create(:user, password: 'Test123!', email: 'test-unconfirmed@email.com', account: account, role: :agent,
+                      unconfirmed_email: 'test-unconfirmed@email.com')
+      end
+
+      it 'does not send the confirmation email if the user is already confirmed' do
+        expect do
+          post '/api/v1/profile/resend_confirmation',
+               headers: agent.create_new_auth_token,
+               as: :json
+        end.not_to have_enqueued_mail(Devise::Mailer, :confirmation_instructions)
+
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'resends the confirmation email if the user is unconfirmed' do
+        agent.confirmed_at = nil
+        agent.save!
+
+        expect do
+          post '/api/v1/profile/resend_confirmation',
+               headers: agent.create_new_auth_token,
+               as: :json
+        end.to have_enqueued_mail(Devise::Mailer, :confirmation_instructions)
+
+        expect(response).to have_http_status(:success)
+      end
+    end
+  end
 end
