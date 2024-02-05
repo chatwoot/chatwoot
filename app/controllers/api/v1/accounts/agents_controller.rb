@@ -18,9 +18,8 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
       inviter: current_user,
       account: Current.account
     )
-    @user = builder.perform
 
-    head :ok
+    builder.perform
   end
 
   def update
