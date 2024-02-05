@@ -10,8 +10,16 @@
         {{ label }}
       </slot>
     </label>
-    <div>
-      <slot />
+    <div class="w-full">
+      <div class="flex items-center relative w-full">
+        <fluent-icon
+          v-if="icon"
+          size="16"
+          :icon="icon"
+          class="absolute left-2 transform text-slate-400 dark:text-slate-600 w-5 h-5"
+        />
+        <slot />
+      </div>
       <span
         v-if="errorMessage && hasError"
         class="text-xs text-red-400 leading-2"
@@ -31,6 +39,10 @@ export default {
     name: {
       type: String,
       required: true,
+    },
+    icon: {
+      type: String,
+      default: '',
     },
     hasError: {
       type: Boolean,
