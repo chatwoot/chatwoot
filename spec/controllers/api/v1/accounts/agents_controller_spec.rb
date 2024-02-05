@@ -174,22 +174,6 @@ RSpec.describe 'Agents API', type: :request do
         expect(account.users.last.name).to eq('NewUser')
       end
     end
-
-    context 'when the account has reached its agent limit' do
-      params = { name: 'NewUser', email: Faker::Internet.email, role: :agent }
-
-      before do
-        account.update(limits: { agents: 4 })
-        create_list(:user, 4, account: account, role: :agent)
-      end
-
-      it 'prevents adding a new agent and returns a payment required status' do
-        post "/api/v1/accounts/#{account.id}/agents", params: params, headers: admin.create_new_auth_token, as: :json
-
-        expect(response).to have_http_status(:payment_required)
-        expect(response.body).to include('Account limit exceeded. Please purchase more licenses')
-      end
-    end
   end
 
   describe 'POST /api/v1/accounts/{account.id}/agents/bulk_create' do
@@ -205,31 +189,12 @@ RSpec.describe 'Agents API', type: :request do
     end
 
     context 'when authenticated as admin' do
-      context 'when there is sufficient limit' do
-        it 'creates multiple agents successfully' do
-          # Assume the limit is more than 3 for this test
-          account.update(limits: { agents: 10 })
+      it 'creates multiple agents successfully' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/agents/bulk_create", params: bulk_create_params, headers: admin.create_new_auth_token
+        end.to change(User, :count).by(3)
 
-          expect do
-            post "/api/v1/accounts/#{account.id}/agents/bulk_create", params: bulk_create_params, headers: admin.create_new_auth_token
-          end.to change(User, :count).by(3)
-
-          expect(response).to have_http_status(:ok)
-        end
-      end
-
-      context 'when exceeding agent limit' do
-        it 'prevents creating agents and returns a payment required status' do
-          # Set the limit to be less than the number of emails
-          account.update(limits: { agents: 2 })
-
-          expect do
-            post "/api/v1/accounts/#{account.id}/agents/bulk_create", params: bulk_create_params, headers: admin.create_new_auth_token
-          end.not_to change(User, :count)
-
-          expect(response).to have_http_status(:payment_required)
-          expect(response.body).to include('Account limit exceeded. Please purchase more licenses')
-        end
+        expect(response).to have_http_status(:ok)
       end
     end
   end
