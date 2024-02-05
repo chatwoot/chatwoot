@@ -70,15 +70,15 @@ class MonitorSlaJob < ApplicationJob
 
   def handle_missed_sla(applied_sla)
     applied_sla.update(sla_status: 'missed')
-    Rails.logger.warn "SLA missed for conversation #{applied_sla.conversation.id}\
-                       in account #{applied_sla.conversation.account_id}\
-                        for sla_policy #{applied_sla.sla_policy.id}"
+    Rails.logger.warn "SLA missed for conversation #{applied_sla.conversation.id} " \
+                      "in account #{applied_sla.conversation.account_id} " \
+                      "for sla_policy #{applied_sla.sla_policy.id}"
   end
 
   def handle_hit_sla(applied_sla)
     applied_sla.update(sla_status: 'hit')
-    Rails.logger.info "SLA hit for conversation #{applied_sla.conversation.id}\
-                        in account #{applied_sla.conversation.account_id}\
-                        for sla_policy #{applied_sla.sla_policy.id}"
+    Rails.logger.info "SLA hit for conversation #{applied_sla.conversation.id} " \
+                      "in account #{applied_sla.conversation.account_id} " \
+                      "for sla_policy #{applied_sla.sla_policy.id}"
   end
 end
