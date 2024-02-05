@@ -144,11 +144,11 @@ export default {
       return items;
     },
     isSnoozed() {
-      const { snoozed_until: snoozedUntil } = this.primaryActor;
+      const { snoozed_until: snoozedUntil } = this.notificationItem;
       return snoozedUntil;
     },
     snoozedDisplayText() {
-      const { snoozed_until: snoozedUntil } = this.primaryActor;
+      const { snoozed_until: snoozedUntil } = this.notificationItem;
       if (snoozedUntil) {
         return `${this.$t('INBOX.LIST.SNOOZED_UNTIL')} ${snoozedReopenTime(
           snoozedUntil
