@@ -1,12 +1,12 @@
 <template>
   <section
-    class="relative h-screen px-8 dark:text-white bg-[#FCFCFD] dark:bg-slate-900 flex items-center justify-center"
+    class="relative min-h-screen px-8 dark:text-white bg-[#FCFCFD] dark:bg-slate-900 flex items-center justify-center"
   >
     <div
       class="relative max-w-[1440px] w-full mx-auto flex justify-center gap-16"
     >
       <div
-        class="relative w-4/12 px-16 py-[88px] bg-[url('/assets/images/dashboard/onboarding/intro.svg')] bg-contain bg-no-repeat bg-left-bottom"
+        class="relative w-4/12 px-16 py-[88px] bg-[url('/assets/images/dashboard/onboarding/intro.svg')] dark:bg-[url('/assets/images/dashboard/onboarding/intro-dark.svg')] bg-contain bg-no-repeat bg-left-bottom"
       >
         <div class="mb-10 z-0">
           <img
