@@ -25,8 +25,22 @@ class NotificationsAPI extends ApiClient {
     });
   }
 
+  unRead(id) {
+    return axios.post(`${this.url}/${id}/unread`);
+  }
+
   readAll() {
     return axios.post(`${this.url}/read_all`);
+  }
+
+  delete(id) {
+    return axios.delete(`${this.url}/${id}`);
+  }
+
+  deleteAll({ type = 'all' }) {
+    return axios.post(`${this.url}/destroy_all`, {
+      type,
+    });
   }
 }
 

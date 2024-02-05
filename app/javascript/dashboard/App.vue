@@ -2,12 +2,13 @@
   <div
     v-if="!authUIFlags.isFetching && !accountUIFlags.isFetchingItem"
     id="app"
-    class="app-wrapper h-full flex-grow-0 min-h-0 w-full"
+    class="flex-grow-0 w-full h-full min-h-0 app-wrapper"
     :class="{ 'app-rtl--wrapper': isRTLView }"
     :dir="isRTLView ? 'rtl' : 'ltr'"
   >
     <update-banner :latest-chatwoot-version="latestChatwootVersion" />
     <template v-if="currentAccountId">
+      <pending-email-verification-banner />
       <payment-pending-banner />
       <upgrade-banner />
     </template>
@@ -32,6 +33,7 @@ import NetworkNotification from './components/NetworkNotification.vue';
 import UpdateBanner from './components/app/UpdateBanner.vue';
 import UpgradeBanner from './components/app/UpgradeBanner.vue';
 import PaymentPendingBanner from './components/app/PaymentPendingBanner.vue';
+import PendingEmailVerificationBanner from './components/app/PendingEmailVerificationBanner.vue';
 import vueActionCable from './helper/actionCable';
 import WootSnackbarBox from './components/SnackbarContainer.vue';
 import rtlMixin from 'shared/mixins/rtlMixin';
@@ -52,6 +54,7 @@ export default {
     PaymentPendingBanner,
     WootSnackbarBox,
     UpgradeBanner,
+    PendingEmailVerificationBanner,
   },
 
   mixins: [rtlMixin],
