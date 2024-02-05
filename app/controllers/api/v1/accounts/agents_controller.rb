@@ -2,6 +2,7 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   before_action :fetch_agent, except: [:create, :index]
   before_action :check_authorization
   before_action :validate_limit, only: [:create]
+  before_action :validate_limit_for_bulk_create, only: [:bulk_create]
 
   def index
     @agents = agents
@@ -34,7 +35,8 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def bulk_create
-    emails = params[:emails].split(',')
+    emails = params[:emails]
+
     emails.each do |email|
       builder = AgentBuilder.new(
         email: email,
@@ -67,6 +69,12 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
 
   def agents
     @agents ||= Current.account.users.order_by_full_name.includes(:account_users, { avatar_attachment: [:blob] })
+  end
+
+  def validate_limit_for_bulk_create
+    limit_available = params[:emails].count <= available_agent_count
+
+    render_payment_required('Account limit exceeded. Please purchase more licenses') unless limit_available
   end
 
   def validate_limit
