@@ -30,19 +30,31 @@
         {{ $t('INBOX.ACTION_HEADER.DELETE') }}
       </woot-button>
     </div>
+    <woot-modal
+      :show.sync="showCustomSnoozeModal"
+      :on-close="hideCustomSnoozeModal"
+    >
+      <custom-snooze-modal
+        @close="hideCustomSnoozeModal"
+        @choose-time="scheduleCustomSnooze"
+      />
+    </woot-modal>
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import PaginationButton from './PaginationButton.vue';
+import { getUnixTime } from 'date-fns';
 import { CMD_SNOOZE_NOTIFICATION } from 'dashboard/routes/dashboard/commands/commandBarBusEvents';
 import wootConstants from 'dashboard/constants/globals';
 import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import PaginationButton from './PaginationButton.vue';
+import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal.vue';
 
 export default {
   components: {
     PaginationButton,
+    CustomSnoozeModal,
   },
   props: {
     totalLength: {
@@ -75,19 +87,33 @@ export default {
     bus.$off(CMD_SNOOZE_NOTIFICATION, this.onCmdSnoozeNotification);
   },
   methods: {
+    openSnoozeNotificationModal() {
+      const ninja = document.querySelector('ninja-keys');
+      ninja.open({ parent: 'snooze_notification' });
+    },
+    hideCustomSnoozeModal() {
+      this.showCustomSnoozeModal = false;
+    },
+    snoozeNotification(snoozedUntil) {
+      this.$store.dispatch('notifications/snooze', {
+        id: this.activeNotification?.id,
+        snoozedUntil,
+      });
+    },
     onCmdSnoozeNotification(snoozeType) {
       if (snoozeType === wootConstants.SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME) {
         this.showCustomSnoozeModal = true;
       } else {
-        this.$store.dispatch('notifications/snooze', {
-          id: this.activeNotification?.id,
-          snoozedUntil: findSnoozeTime(snoozeType) || null,
-        });
+        const snoozedUntil = findSnoozeTime(snoozeType) || null;
+        this.snoozeNotification(snoozedUntil);
       }
     },
-    openSnoozeNotificationModal() {
-      const ninja = document.querySelector('ninja-keys');
-      ninja.open({ parent: 'snooze_notification' });
+    scheduleCustomSnooze(customSnoozeTime) {
+      this.showCustomSnoozeModal = false;
+      if (customSnoozeTime) {
+        const snoozedUntil = getUnixTime(customSnoozeTime) || null;
+        this.snoozeNotification(snoozedUntil);
+      }
     },
     deleteNotification() {
       this.$track(INBOX_EVENTS.DELETE_NOTIFICATION);
@@ -98,7 +124,6 @@ export default {
       });
       this.$router.push({ name: 'inbox' });
     },
-    onDelete() {},
     onClickNext() {
       this.$emit('next');
     },
