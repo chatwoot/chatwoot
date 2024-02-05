@@ -7,8 +7,7 @@ import { isAInboxViewRoute } from 'dashboard/helper/routeHelpers';
 
 const SNOOZE_OPTIONS = wootConstants.SNOOZE_OPTIONS;
 
-// Snooze notification actions for inbox view
-const SNOOZE_NOTIFICATION_ACTIONS = [
+const INBOX_SNOOZE_EVENTS = [
   {
     id: 'snooze_notification',
     title: 'COMMAND_BAR.COMMANDS.SNOOZE_NOTIFICATION',
@@ -71,15 +70,22 @@ const SNOOZE_NOTIFICATION_ACTIONS = [
       bus.$emit(CMD_SNOOZE_NOTIFICATION, SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME),
   },
 ];
-
 export default {
   computed: {
     inboxHotKeys() {
       if (isAInboxViewRoute(this.$route.name)) {
-        return SNOOZE_NOTIFICATION_ACTIONS;
+        return this.prepareActions(INBOX_SNOOZE_EVENTS);
       }
       return [];
     },
   },
-  methods: {},
+  methods: {
+    prepareActions(actions) {
+      return actions.map(action => ({
+        ...action,
+        title: this.$t(action.title),
+        section: this.$t(action.section),
+      }));
+    },
+  },
 };
