@@ -33,6 +33,20 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
     head :ok
   end
 
+  def bulk_create
+    emails = params[:emails].split(',')
+    emails.each do |email|
+      builder = AgentBuilder.new(
+        email: email,
+        name: email.split('@').first,
+        current_user: current_user,
+        account: Current.account
+      )
+      builder.perform
+    end
+    head :ok
+  end
+
   private
 
   def check_authorization
@@ -56,7 +70,15 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def validate_limit
-    render_payment_required('Account limit exceeded. Please purchase more licenses') if agents.count >= Current.account.usage_limits[:agents]
+    render_payment_required('Account limit exceeded. Please purchase more licenses') unless can_add_agent?
+  end
+
+  def available_agent_count
+    Current.account.usage_limits[:agents] - agents.count
+  end
+
+  def can_add_agent?
+    available_agent_count >= 0
   end
 
   def delete_user_record(agent)
