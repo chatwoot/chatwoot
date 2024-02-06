@@ -154,6 +154,8 @@ Rails/UniqueValidationWithoutIndex:
     - 'app/models/webhook.rb'
     - 'app/models/contact.rb'
     - 'app/models/integrations/hook.rb'
+    - 'app/models/canned_response.rb'
+    - 'app/models/telegram_bot.rb'
 Rails/RenderInline:
   Exclude:
     - 'app/controllers/swagger_controller.rb'
