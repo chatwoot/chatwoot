@@ -11,20 +11,6 @@
 
 
 
-# Offense count: 14
-Metrics/AbcSize:
-  Max: 26
-
-# Offense count: 1
-# Configuration parameters: CountComments, ExcludedMethods.
-# ExcludedMethods: refine
-Metrics/BlockLength:
-  Max: 30
-
-# Offense count: 10
-# Configuration parameters: CountComments, ExcludedMethods.
-Metrics/MethodLength:
-  Max: 19
 
 
 # Offense count: 6
@@ -85,27 +71,6 @@ RSpec/DescribeSymbol:
 RSpec/EmptyLineAfterExample:
   Exclude:
     - 'spec/models/user_spec.rb'
-
-# Offense count: 1
-# Configuration parameters: Max.
-RSpec/ExampleLength:
-  Exclude:
-    - 'spec/models/conversation_spec.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: single_line_only, single_statement_only, disallow
-RSpec/ImplicitSubject:
-  Exclude:
-    - 'spec/models/user_spec.rb'
-
-# Offense count: 7
-# Configuration parameters: AggregateFailuresByDefault.
-RSpec/MultipleExpectations:
-  Max: 7
-
-
 
 
 
