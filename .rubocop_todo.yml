@@ -183,17 +183,3 @@ Rails/Output:
     - 'app/bot/bot.rb'
     - 'app/builders/account_builder.rb'
 
-# Offense count: 7
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: strict, flexible
-Rails/TimeZone:
-  Exclude:
-    - 'app/builders/report_builder.rb'
-    - 'lib/reports/update_account_identity.rb'
-    - 'lib/reports/update_agent_identity.rb'
-    - 'lib/reports/update_identity.rb'
-    - 'spec/models/conversation_spec.rb'
-
-
-
