@@ -112,7 +112,8 @@
       "REMOVE_LABEL": "Remove label from the conversation",
       "SETTINGS": "Instellingen",
       "AI_ASSIST": "AI-assistent",
-      "APPEARANCE": "Weergave"
+      "APPEARANCE": "Weergave",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
@@ -153,7 +154,8 @@
       "CHANGE_APPEARANCE": "Change Appearance",
       "LIGHT_MODE": "Light",
       "DARK_MODE": "Dark",
-      "SYSTEM_MODE": "Systeem"
+      "SYSTEM_MODE": "Systeem",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     }
   },
   "DASHBOARD_APPS": {
