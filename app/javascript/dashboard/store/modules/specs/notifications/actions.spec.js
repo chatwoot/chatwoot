@@ -235,6 +235,7 @@ describe('#actions', () => {
       await actions.deleteAllRead({ commit });
       expect(commit.mock.calls).toEqual([
         [types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: true }],
+        [types.DELETE_READ_NOTIFICATIONS],
         [types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: false }],
       ]);
     });
@@ -255,7 +256,28 @@ describe('#actions', () => {
       await actions.deleteAll({ commit });
       expect(commit.mock.calls).toEqual([
         [types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: true }],
+        [types.DELETE_ALL_NOTIFICATIONS],
         [types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: false }],
+      ]);
+    });
+  });
+
+  describe('snooze', () => {
+    it('sends correct actions if API is success', async () => {
+      axios.post.mockResolvedValue({});
+      await actions.snooze({ commit }, { id: 1, snoozedUntil: 1703057715 });
+      expect(commit.mock.calls).toEqual([
+        [types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: true }],
+        [types.SNOOZE_NOTIFICATION, { id: 1, snoozed_until: 1703057715 }],
+        [types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false }],
+      ]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.post.mockRejectedValue({ message: 'Incorrect header' });
+      await actions.snooze({ commit }, { id: 1, snoozedUntil: 1703057715 });
+      expect(commit.mock.calls).toEqual([
+        [types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: true }],
+        [types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false }],
       ]);
     });
   });
