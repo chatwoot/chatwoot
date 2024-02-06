@@ -232,6 +232,9 @@ export default {
         if (!this.isFirstCsat){
           return false;
         }
+        if (this.currentInbox.csat_trigger === 'conversation_all_reply'){
+          return false;
+        }
       }
 
       return (
@@ -240,6 +243,9 @@ export default {
         this.isEmailContentType ||
         this.isAnIntegrationMessage
       );
+    },
+    currentInbox(){
+      return this.$store.getters['inboxes/getInbox'](this.data.inbox_id);
     },
     emailMessageContent() {
       const {

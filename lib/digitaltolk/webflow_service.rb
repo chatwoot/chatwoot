@@ -9,9 +9,6 @@ class Digitaltolk::WebflowService
   end
 
   def perform
-    # temporary disable
-    return false
-
     unless form_submission?
       Rails.logger.error "Error: webflow trigger type not supported '#{trigger_event}'"
       return
