@@ -32,7 +32,7 @@ class Integrations::Widget::OutgoingMessageBuilder
   end
 
   def build_conversation
-    @conversation ||= Conversation.find(options[:conversation_id])
+    @build_conversation ||= Conversation.find(options[:conversation_id])
   end
 
   def build_message

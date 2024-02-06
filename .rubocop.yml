@@ -2,7 +2,6 @@ require:
   - rubocop-performance
   - rubocop-rails
   - rubocop-rspec
-inherit_from: .rubocop_todo.yml
 
 Layout/LineLength:
   Max: 150
@@ -104,6 +103,9 @@ RSpec/FactoryBot/SyntaxMethods:
   Enabled: false
 Naming/VariableNumber:
   Enabled: false
+Naming/MemoizedInstanceVariableName:
+  Exclude:
+    - 'app/models/message.rb'
 Style/GuardClause:
   Exclude:
     - 'app/builders/account_builder.rb'
