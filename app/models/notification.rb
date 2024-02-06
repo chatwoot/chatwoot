@@ -61,6 +61,7 @@ class Notification < ApplicationRecord
       user: user&.push_event_data,
       created_at: created_at.to_i,
       last_activity_at: last_activity_at.to_i,
+      snoozed_until: snoozed_until,
       account_id: account_id
 
     }

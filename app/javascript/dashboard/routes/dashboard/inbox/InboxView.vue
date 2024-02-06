@@ -9,6 +9,7 @@
       <inbox-item-header
         :total-length="totalNotifications"
         :current-index="activeNotificationIndex"
+        :active-notification="activeNotification"
         @next="onClickNext"
         @prev="onClickPrev"
       />
@@ -76,6 +77,11 @@ export default {
       allConversation: 'getAllConversations',
       uiFlags: 'notifications/getUIFlags',
     }),
+    activeNotification() {
+      return this.notifications.find(
+        n => n.primary_actor.id === Number(this.conversationId)
+      );
+    },
     isInboxViewEnabled() {
       return this.$store.getters['accounts/isFeatureEnabledGlobally'](
         this.currentAccountId,

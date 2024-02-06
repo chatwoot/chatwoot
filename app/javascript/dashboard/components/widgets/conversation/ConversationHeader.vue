@@ -86,7 +86,7 @@ import MoreActions from './MoreActions.vue';
 import Thumbnail from '../Thumbnail.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { conversationListPageURL } from 'dashboard/helper/URLHelper';
-import { conversationReopenTime } from 'dashboard/helper/snoozeHelpers';
+import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 
 export default {
@@ -158,7 +158,7 @@ export default {
       if (snoozedUntil) {
         return `${this.$t(
           'CONVERSATION.HEADER.SNOOZED_UNTIL'
-        )} ${conversationReopenTime(snoozedUntil)}`;
+        )} ${snoozedReopenTime(snoozedUntil)}`;
       }
       return this.$t('CONVERSATION.HEADER.SNOOZED_UNTIL_NEXT_REPLY');
     },

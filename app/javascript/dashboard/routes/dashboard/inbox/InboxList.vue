@@ -40,12 +40,14 @@ import InboxCard from './components/InboxCard.vue';
 import InboxListHeader from './components/InboxListHeader.vue';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import IntersectionObserver from 'dashboard/components/IntersectionObserver.vue';
+import alertMixin from 'shared/mixins/alertMixin';
 export default {
   components: {
     InboxCard,
     InboxListHeader,
     IntersectionObserver,
   },
+  mixins: [alertMixin],
   props: {
     conversationId: {
       type: [String, Number],
@@ -86,10 +88,6 @@ export default {
       if (this.$route.name === 'inbox') return;
       this.$router.push({ name: 'inbox' });
     },
-    onMarkAllDoneClick() {
-      this.$track(INBOX_EVENTS.MARK_ALL_NOTIFICATIONS_AS_READ);
-      this.$store.dispatch('notifications/readAll');
-    },
     loadMoreNotifications() {
       if (this.uiFlags.isAllNotificationsLoaded) return;
       this.$store.dispatch('notifications/index', { page: this.page + 1 });
@@ -102,29 +100,41 @@ export default {
         primary_actor_id: primaryActorId,
         primary_actor_type: primaryActorType,
       } = notification;
-      this.$store.dispatch('notifications/read', {
-        id,
-        primaryActorId,
-        primaryActorType,
-        unreadCount: this.meta.unreadCount,
-      });
+      this.$store
+        .dispatch('notifications/read', {
+          id,
+          primaryActorId,
+          primaryActorType,
+          unreadCount: this.meta.unreadCount,
+        })
+        .then(() => {
+          this.showAlert(this.$t('INBOX.ALERTS.MARK_AS_READ'));
+        });
     },
     markNotificationAsUnRead(notification) {
       this.$track(INBOX_EVENTS.MARK_NOTIFICATION_AS_UNREAD);
       this.redirectToInbox();
       const { id } = notification;
-      this.$store.dispatch('notifications/unread', {
-        id,
-      });
+      this.$store
+        .dispatch('notifications/unread', {
+          id,
+        })
+        .then(() => {
+          this.showAlert(this.$t('INBOX.ALERTS.MARK_AS_UNREAD'));
+        });
     },
     deleteNotification(notification) {
       this.$track(INBOX_EVENTS.DELETE_NOTIFICATION);
       this.redirectToInbox();
-      this.$store.dispatch('notifications/delete', {
-        notification,
-        unread_count: this.meta.unreadCount,
-        count: this.meta.count,
-      });
+      this.$store
+        .dispatch('notifications/delete', {
+          notification,
+          unread_count: this.meta.unreadCount,
+          count: this.meta.count,
+        })
+        .then(() => {
+          this.showAlert(this.$t('INBOX.ALERTS.DELETE'));
+        });
     },
   },
 };

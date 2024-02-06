@@ -60,12 +60,14 @@ import { mixin as clickaway } from 'vue-clickaway';
 import InboxOptionMenu from './InboxOptionMenu.vue';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import InboxDisplayMenu from './InboxDisplayMenu.vue';
+import alertMixin from 'shared/mixins/alertMixin';
+
 export default {
   components: {
     InboxOptionMenu,
     InboxDisplayMenu,
   },
-  mixins: [clickaway],
+  mixins: [clickaway, alertMixin],
   data() {
     return {
       showInboxDisplayMenu: false,
@@ -75,13 +77,19 @@ export default {
   methods: {
     markAllRead() {
       this.$track(INBOX_EVENTS.MARK_ALL_NOTIFICATIONS_AS_READ);
-      this.$store.dispatch('notifications/readAll');
+      this.$store.dispatch('notifications/readAll').then(() => {
+        this.showAlert(this.$t('INBOX.ALERTS.MARK_ALL_READ'));
+      });
     },
     deleteAll() {
-      this.$store.dispatch('notifications/deleteAll');
+      this.$store.dispatch('notifications/deleteAll').then(() => {
+        this.showAlert(this.$t('INBOX.ALERTS.DELETE_ALL'));
+      });
     },
     deleteAllRead() {
-      this.$store.dispatch('notifications/deleteAllRead');
+      this.$store.dispatch('notifications/deleteAllRead').then(() => {
+        this.showAlert(this.$t('INBOX.ALERTS.DELETE_ALL_READ'));
+      });
     },
     openInboxDisplayMenu() {
       this.showInboxDisplayMenu = !this.showInboxDisplayMenu;
