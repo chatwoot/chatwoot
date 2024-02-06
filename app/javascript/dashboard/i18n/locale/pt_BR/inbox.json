@@ -2,46 +2,58 @@
   "INBOX": {
     "LIST": {
       "TITLE": "Caixa de Entrada",
-      "DISPLAY_DROPDOWN": "Display",
-      "LOADING": "Fetching notifications",
+      "DISPLAY_DROPDOWN": "Exibir",
+      "LOADING": "Carregando notificações",
       "EOF": "Todas as notificações carregadas 🎉",
-      "404": "There are no active notifications in this group.",
-      "NOTE": "Notifications from all subscribed inboxes"
+      "404": "Não há conversas ativas neste grupo.",
+      "NOTE": "Notificações de todas as caixas inscritas",
+      "SNOOZED_UNTIL": "Suspender até",
+      "SNOOZED_UNTIL_TOMORROW": "Adiado até amanhã",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Adiada até a próxima semana"
     },
     "ACTION_HEADER": {
-      "SNOOZE": "Snooze notification",
-      "DELETE": "Delete notification"
+      "SNOOZE": "Adiar notificação",
+      "DELETE": "Excluir notificação"
     },
     "TYPES": {
-      "CONVERSATION_MENTION": "You have been mentioned in a conversation",
-      "CONVERSATION_CREATION": "New conversation created",
-      "CONVERSATION_ASSIGNMENT": "A conversation has been assigned to you",
-      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "New message in an assigned conversation",
-      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "New message in a conversation you are participating in"
+      "CONVERSATION_MENTION": "Você foi mencionado em uma conversa",
+      "CONVERSATION_CREATION": "Nova conversa criada",
+      "CONVERSATION_ASSIGNMENT": "Uma conversa foi atribuída a você",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nova mensagem em uma conversa atribuída",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Nova mensagem em uma conversa na qual você participa"
     },
     "MENU_ITEM": {
-      "MARK_AS_READ": "Mark as read",
+      "MARK_AS_READ": "Marcar como lido",
       "MARK_AS_UNREAD": "Marcar como não lida",
       "SNOOZE": "Adiar",
       "DELETE": "Excluir",
       "MARK_ALL_READ": "Marcar todas como lidas",
-      "DELETE_ALL": "Delete all",
-      "DELETE_ALL_READ": "Delete all read"
+      "DELETE_ALL": "Excluir todos",
+      "DELETE_ALL_READ": "Excluir todos os lidos"
     },
     "DISPLAY_MENU": {
-      "SORT": "Sort",
-      "DISPLAY": "Display :",
+      "SORT": "Ordenar",
+      "DISPLAY": "Exibir :",
       "SORT_OPTIONS": {
-        "NEWEST": "Newest",
-        "OLDEST": "Oldest",
+        "NEWEST": "Mais recente",
+        "OLDEST": "Mais antigo",
         "PRIORITY": "Prioridade"
       },
       "DISPLAY_OPTIONS": {
         "SNOOZED": "Adiado",
         "READ": "Lida",
         "LABELS": "Marcadores",
-        "CONVERSATION_ID": "Conversation ID"
+        "CONVERSATION_ID": "Conversas"
       }
+    },
+    "ALERTS": {
+      "MARK_AS_READ": "Notification marked as read",
+      "MARK_AS_UNREAD": "Notification marked as unread",
+      "SNOOZE": "Notification snoozed",
+      "DELETE": "Notification deleted",
+      "MARK_ALL_READ": "All notifications marked as read",
+      "DELETE_ALL": "All notifications deleted",
+      "DELETE_ALL_READ": "All read notifications deleted"
     }
   }
 }
