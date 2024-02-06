@@ -99,7 +99,11 @@ class User < ApplicationRecord
   has_many :portals, through: :portal_members, source: :portal,
                      class_name: :Portal,
                      dependent: :nullify
-  has_many :macros, foreign_key: 'created_by_id', dependent: :nullify, inverse_of: :created_by
+  # rubocop:disable Rails/HasManyOrHasOneDependent
+  # we are handling this in `remove_macros` callback
+  has_many :macros, foreign_key: 'created_by_id', inverse_of: :created_by
+  # rubocop:enable Rails/HasManyOrHasOneDependent
+
   before_validation :set_password_and_uid, on: :create
   after_destroy :remove_macros
 
