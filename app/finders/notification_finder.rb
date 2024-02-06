@@ -26,6 +26,7 @@ class NotificationFinder
 
   def set_up
     find_all_notifications
+    filter_by_read_status
     filter_by_status
   end
 
@@ -37,11 +38,15 @@ class NotificationFinder
     @notifications = @notifications.where('snoozed_until > ?', DateTime.now.utc) if params[:status] == 'snoozed'
   end
 
+  def filter_by_read_status
+    @notifications = @notifications.where.not(read_at: nil) if params[:type] == 'read'
+  end
+
   def current_page
     params[:page] || 1
   end
 
   def notifications
-    @notifications.page(current_page).per(RESULTS_PER_PAGE).order(last_activity_at: :desc)
+    @notifications.page(current_page).per(RESULTS_PER_PAGE).order(last_activity_at: params[:sort_order] || :desc)
   end
 end

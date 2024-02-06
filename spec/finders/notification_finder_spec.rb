@@ -63,5 +63,42 @@ describe NotificationFinder do
         expect(result).to be 1
       end
     end
+
+    context 'when type read param is passed' do
+      let(:params) { { type: 'read' } }
+
+      it 'returns only read notifications' do
+        result = notification_finder.perform
+        expect(result.length).to be 2
+      end
+
+      it 'returns count' do
+        result = notification_finder.count
+        expect(result).to be 2
+      end
+    end
+
+    context 'when type read and snoozed param is passed' do
+      let(:params) { { type: 'read', status: 'snoozed' } }
+
+      it 'returns only read notifications' do
+        result = notification_finder.perform
+        expect(result.length).to be 0
+      end
+
+      it 'returns count' do
+        result = notification_finder.count
+        expect(result).to be 0
+      end
+    end
+
+    context 'when sort order is passed' do
+      let(:params) { { sort_order: :asc } }
+
+      it 'returns notifications in ascending order' do
+        result = notification_finder.perform
+        expect(result.first.last_activity_at).to be < result.last.last_activity_at
+      end
+    end
   end
 end
