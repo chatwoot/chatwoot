@@ -6,7 +6,10 @@
       "LOADING": "Notiek paziņojumu iegūšana",
       "EOF": "Visi paziņojumi ir ielādēti",
       "404": "Šajā grupā nav aktīvu paziņojumu.",
-      "NOTE": "Paziņojumi no visām abonētajām iesūtnēm"
+      "NOTE": "Paziņojumi no visām abonētajām iesūtnēm",
+      "SNOOZED_UNTIL": "Atlikts līdz",
+      "SNOOZED_UNTIL_TOMORROW": "Atlikts līdz rītdienai",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Atlikts līdz nākamajai nedēļai"
     },
     "ACTION_HEADER": {
       "SNOOZE": "Atlikt paziņojumu",
@@ -29,19 +32,28 @@
       "DELETE_ALL_READ": "Dzēst visu izlasīto"
     },
     "DISPLAY_MENU": {
-      "SORT": "Sort",
+      "SORT": "Šķirot",
       "DISPLAY": "Parādīt :",
       "SORT_OPTIONS": {
-        "NEWEST": "Newest",
-        "OLDEST": "Oldest",
+        "NEWEST": "Jaunākais",
+        "OLDEST": "Vecākais",
         "PRIORITY": "Prioritāte"
       },
       "DISPLAY_OPTIONS": {
         "SNOOZED": "Atlikts",
-        "READ": "Lasīt",
+        "READ": "Lasīts",
         "LABELS": "Etiķetes",
-        "CONVERSATION_ID": "Conversation ID"
+        "CONVERSATION_ID": "Sarunas ID"
       }
+    },
+    "ALERTS": {
+      "MARK_AS_READ": "Notification marked as read",
+      "MARK_AS_UNREAD": "Notification marked as unread",
+      "SNOOZE": "Notification snoozed",
+      "DELETE": "Notification deleted",
+      "MARK_ALL_READ": "All notifications marked as read",
+      "DELETE_ALL": "All notifications deleted",
+      "DELETE_ALL_READ": "All read notifications deleted"
     }
   }
 }
