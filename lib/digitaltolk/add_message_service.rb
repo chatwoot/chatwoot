@@ -1,7 +1,7 @@
 class Digitaltolk::AddMessageService
   attr_accessor :sender, :conversation, :content, :is_incoming
 
-  def initialize(sender, conversation, content, is_incoming = false)
+  def initialize(sender, conversation, content)
     @conversation = conversation
     @content = content
     @sender = sender
@@ -23,7 +23,7 @@ class Digitaltolk::AddMessageService
   end
 
   def message_type
-    is_incoming ? 'incoming' : 'outgoing'
+    'outgoing'
   end
 
   def message_params

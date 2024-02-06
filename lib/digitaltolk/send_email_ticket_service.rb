@@ -118,6 +118,6 @@ class Digitaltolk::SendEmailTicketService
   def create_message
     return if @errors.present?
 
-    @message = Digitaltolk::AddMessageService.new(@user, @conversation, @params.dig(:body), true).perform
+    @message = Digitaltolk::AddMessageService.new(@user, @conversation, @params.dig(:body)).perform
   end
 end
