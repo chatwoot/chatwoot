@@ -20,13 +20,13 @@
         <span class="spinner mt-4 mb-4" />
       </div>
       <p
-        v-if="!uiFlags.isFetching && !records.length"
+        v-if="showEmptyState"
         class="text-center text-slate-400 text-sm dark:text-slate-400 p-4 font-medium"
       >
         {{ $t('INBOX.LIST.NO_NOTIFICATIONS') }}
       </p>
       <p
-        v-if="showEndOfList && !uiFlags.isFetching && records.length"
+        v-if="showEndOfListMessage"
         class="text-center text-slate-400 dark:text-slate-400 p-4"
       >
         {{ $t('INBOX.LIST.EOF') }}
@@ -82,6 +82,12 @@ export default {
     }),
     showEndOfList() {
       return this.uiFlags.isAllNotificationsLoaded && !this.uiFlags.isFetching;
+    },
+    showEmptyState() {
+      return !this.uiFlags.isFetching && !this.records.length;
+    },
+    showEndOfListMessage() {
+      return this.showEndOfList && this.records.length;
     },
   },
   mounted() {
