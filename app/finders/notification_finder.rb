@@ -26,7 +26,7 @@ class NotificationFinder
 
   def set_up
     find_all_notifications
-    filtr_by_read_status
+    filter_by_read_status
     filter_by_status
   end
 
@@ -34,7 +34,7 @@ class NotificationFinder
     @notifications = current_user.notifications.where(account_id: @current_account.id)
   end
 
-  def filter_by_status
+  def filter_by_read_status
     @notifications = @notifications.where('snoozed_until > ?', DateTime.now.utc) if params[:status] == 'snoozed'
   end
 
