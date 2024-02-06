@@ -9,15 +9,7 @@
 
 
 
-# Offense count: 18
-Lint/UselessAssignment:
-  Exclude:
-    - 'app/controllers/api/v1/callbacks_controller.rb'
-    - 'app/controllers/api/v1/facebook_indicators_controller.rb'
-    - 'app/listeners/action_cable_listener.rb'
-    - 'app/listeners/reporting_listener.rb'
-    - 'app/models/channel/facebook_page.rb'
-    - 'app/models/facebook_page.rb'
+
 
 # Offense count: 14
 Metrics/AbcSize:
@@ -136,23 +128,7 @@ Rails/ActiveRecordAliases:
     - 'app/controllers/api/v1/canned_responses_controller.rb'
     - 'app/controllers/api/v1/contacts_controller.rb'
 
-# Offense count: 2
-# Cop supports --auto-correct.
-Rails/BelongsTo:
-  Exclude:
-    - 'app/models/message.rb'
-    - 'app/models/user.rb'
 
-# Offense count: 6
-# Cop supports --auto-correct.
-# Configuration parameters: Include.
-# Include: app/models/**/*.rb
-Rails/EnumHash:
-  Exclude:
-    - 'app/models/attachment.rb'
-    - 'app/models/conversation.rb'
-    - 'app/models/message.rb'
-    - 'app/models/user.rb'
 
 # Offense count: 1
 # Configuration parameters: Include.
@@ -168,10 +144,5 @@ Rails/InverseOf:
   Exclude:
     - 'app/models/user.rb'
 
-# Offense count: 1
-# Configuration parameters: Include.
-# Include: app/controllers/**/*.rb
-Rails/LexicallyScopedActionFilter:
-  Exclude:
-    - 'app/controllers/home_controller.rb'
+
 
