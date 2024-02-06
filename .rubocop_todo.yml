@@ -6,27 +6,8 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 1
-Lint/DuplicateMethods:
-  Exclude:
-    - 'app/controllers/api/v1/reports_controller.rb'
 
-# Offense count: 1
-Lint/RescueException:
-  Exclude:
-    - 'app/builders/messages/message_builder.rb'
 
-# Offense count: 4
-Lint/ShadowingOuterLocalVariable:
-  Exclude:
-    - 'app/controllers/api/v1/reports_controller.rb'
-
-# Offense count: 3
-# Configuration parameters: AllowKeywordBlockArguments.
-Lint/UnderscorePrefixedVariableName:
-  Exclude:
-    - 'app/models/account.rb'
-    - 'deploy/before_symlink.rb'
 
 # Offense count: 18
 Lint/UselessAssignment:
@@ -48,18 +29,11 @@ Metrics/AbcSize:
 Metrics/BlockLength:
   Max: 30
 
-# Offense count: 2
-Metrics/CyclomaticComplexity:
-  Max: 7
-
 # Offense count: 10
 # Configuration parameters: CountComments, ExcludedMethods.
 Metrics/MethodLength:
   Max: 19
 
-# Offense count: 1
-Metrics/PerceivedComplexity:
-  Max: 8
 
 # Offense count: 6
 Naming/AccessorMethodName:
@@ -258,30 +232,6 @@ Style/CommentedKeyword:
     - 'app/controllers/api/v1/conversations/labels_controller.rb'
     - 'app/controllers/api/v1/labels_controller.rb'
 
-# Offense count: 1
-# Configuration parameters: AllowIfModifier.
-Style/IfInsideElse:
-  Exclude:
-    - 'app/finders/conversation_finder.rb'
 
-# Offense count: 1
-Style/MixinUsage:
-  Exclude:
-    - 'app/bot/bot.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: AutoCorrect, EnforcedStyle, IgnoredMethods.
-# SupportedStyles: predicate, comparison
-Style/NumericPredicate:
-  Exclude:
-    - 'spec/**/*'
-    - 'app/controllers/api/v1/callbacks_controller.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: implicit, explicit
-Style/RescueStandardError:
-  Exclude:
-    - 'app/models/channel/facebook_page.rb'

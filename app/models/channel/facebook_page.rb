@@ -52,14 +52,14 @@ class Channel::FacebookPage < ApplicationRecord
         messages message_deliveries message_echoes message_reads standby messaging_handovers
       ]
     )
-  rescue => e
+  rescue StandardError => e
     Rails.logger.debug { "Rescued: #{e.inspect}" }
     true
   end
 
   def unsubscribe
     Facebook::Messenger::Subscriptions.unsubscribe(access_token: page_access_token)
-  rescue => e
+  rescue StandardError => e
     Rails.logger.debug { "Rescued: #{e.inspect}" }
     true
   end
