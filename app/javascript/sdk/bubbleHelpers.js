@@ -22,26 +22,15 @@ export const setBubbleText = bubbleText => {
 
 export const createBubbleIcon = ({ className, path, target }) => {
   let bubbleClassName = `${className} woot-elements--${window.$chatwoot.position}`;
-  const bubbleIcon = document.createElementNS(
-    'http://www.w3.org/2000/svg',
-    'svg'
+  const iconDiv = document.createElement(
+    'div'
   );
-  bubbleIcon.setAttributeNS(null, 'id', 'woot-widget-bubble-icon');
-  bubbleIcon.setAttributeNS(null, 'width', '24');
-  bubbleIcon.setAttributeNS(null, 'height', '24');
-  bubbleIcon.setAttributeNS(null, 'viewBox', '0 0 240 240');
-  bubbleIcon.setAttributeNS(null, 'fill', 'none');
-  bubbleIcon.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
 
-  const bubblePath = document.createElementNS(
-    'http://www.w3.org/2000/svg',
-    'path'
-  );
-  bubblePath.setAttributeNS(null, 'd', path);
-  bubblePath.setAttributeNS(null, 'fill', '#FFFFFF');
 
-  bubbleIcon.appendChild(bubblePath);
-  target.appendChild(bubbleIcon);
+
+  const bubbleIcon= '<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"> <mask id="mask0_8187_46927" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="28" height="28"> <rect width="28" height="28" fill="#D9D9D9"/> </mask> <g mask="url(#mask0_8187_46927)"> <path d="M8.16536 20.9997C7.83481 20.9997 7.55773 20.8879 7.33411 20.6643C7.1105 20.4406 6.9987 20.1636 6.9987 19.833V17.4997H22.1654V6.99967H24.4987C24.8293 6.99967 25.1063 7.11148 25.3299 7.33509C25.5536 7.5587 25.6654 7.83579 25.6654 8.16634V25.6663L20.9987 20.9997H8.16536ZM2.33203 19.833V3.49967C2.33203 3.16912 2.44384 2.89204 2.66745 2.66842C2.89106 2.44481 3.16814 2.33301 3.4987 2.33301H18.6654C18.9959 2.33301 19.273 2.44481 19.4966 2.66842C19.7202 2.89204 19.832 3.16912 19.832 3.49967V13.9997C19.832 14.3302 19.7202 14.6073 19.4966 14.8309C19.273 15.0545 18.9959 15.1663 18.6654 15.1663H6.9987L2.33203 19.833ZM17.4987 12.833V4.66634H4.66536V12.833H17.4987Z" fill="#FFFFFF"/> </g> </svg>';
+  iconDiv.innerHTML=bubbleIcon;
+  target.appendChild(iconDiv);
 
   if (isExpandedView(window.$chatwoot.type)) {
     const textNode = document.createElement('div');

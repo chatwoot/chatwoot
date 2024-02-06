@@ -57,6 +57,26 @@ By default, it renders:
     </script>
   </head>
   <body>
+
+    <script>
+      if (!<%= @is_plain_layout_enabled %>) {
+      (function(d,t) {
+        var BASE_URL="https://support.paywithatoa.co.uk";
+        var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+        g.src=BASE_URL+"/packs/js/sdk.js";
+        g.defer = true;
+        g.async = true;
+        s.parentNode.insertBefore(g,s);
+        g.onload=function(){
+          window.chatwootSDK.run({
+            websiteToken: 'gKJ8voTwSzxRzYmsx3E8xjPK',
+            baseUrl: BASE_URL
+          })
+        }
+      })(document,"script");
+      }
+    </script>
+
     <div id="portal" class="antialiased">
       <main class="flex flex-col min-h-screen bg-white main-content dark:bg-slate-900" role="main">
         <% if !@is_plain_layout_enabled %>

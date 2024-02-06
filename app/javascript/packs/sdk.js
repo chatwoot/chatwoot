@@ -14,9 +14,6 @@ import { addClasses, removeClasses } from '../sdk/DOMHelpers';
 import { setCookieWithDomain } from '../sdk/cookieHelpers';
 import { SDK_SET_BUBBLE_VISIBILITY } from 'shared/constants/sharedFrameEvents';
 const runSDK = ({ baseUrl, websiteToken }) => {
-  if (window.$chatwoot) {
-    return;
-  }
 
   const chatwootSettings = window.chatwootSettings || {};
   let locale = chatwootSettings.locale;
