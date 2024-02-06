@@ -72,4 +72,8 @@ export const mutations = {
   [types.DELETE_ALL_NOTIFICATIONS]: $state => {
     Vue.set($state, 'records', {});
   },
+
+  [types.SNOOZE_NOTIFICATION]: ($state, { id, snoozed_until }) => {
+    Vue.set($state.records[id], 'snoozed_until', snoozed_until);
+  },
 };
