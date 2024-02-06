@@ -115,7 +115,7 @@ RSpec.describe Conversation do
     let!(:conversation) do
       create(:conversation, status: 'open', account: account, assignee: old_assignee)
     end
-    let(:assignment_mailer) { double(deliver: true) }
+    let(:assignment_mailer) { instance_double(AssignmentMailer, deliver: true) }
     let(:label) { create(:label, account: account) }
 
     before do

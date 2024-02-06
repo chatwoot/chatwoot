@@ -105,28 +105,7 @@ RSpec/ImplicitSubject:
 RSpec/MultipleExpectations:
   Max: 7
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: not_to, to_not
-RSpec/NotToNot:
-  Exclude:
-    - 'spec/mailers/confirmation_instructions_spec.rb'
 
-# Offense count: 1
-# Configuration parameters: IgnoreNameless, IgnoreSymbolicNames.
-RSpec/VerifiedDoubles:
-  Exclude:
-    - 'spec/models/conversation_spec.rb'
-
-# Offense count: 4
-# Cop supports --auto-correct.
-Rails/ActiveRecordAliases:
-  Exclude:
-    - 'app/controllers/api/v1/agents_controller.rb'
-    - 'app/controllers/api/v1/callbacks_controller.rb'
-    - 'app/controllers/api/v1/canned_responses_controller.rb'
-    - 'app/controllers/api/v1/contacts_controller.rb'
 
 
 
