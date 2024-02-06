@@ -6,7 +6,10 @@
       "LOADING": "Fetching notifications",
       "EOF": "所有通知已加载 🎉",
       "404": "There are no active notifications in this group.",
-      "NOTE": "Notifications from all subscribed inboxes"
+      "NOTE": "Notifications from all subscribed inboxes",
+      "SNOOZED_UNTIL": "Snoozed until",
+      "SNOOZED_UNTIL_TOMORROW": "推迟到明天",
+      "SNOOZED_UNTIL_NEXT_WEEK": "推迟到下周"
     },
     "ACTION_HEADER": {
       "SNOOZE": "Snooze notification",
@@ -42,6 +45,15 @@
         "LABELS": "标签",
         "CONVERSATION_ID": "Conversation ID"
       }
+    },
+    "ALERTS": {
+      "MARK_AS_READ": "Notification marked as read",
+      "MARK_AS_UNREAD": "Notification marked as unread",
+      "SNOOZE": "Notification snoozed",
+      "DELETE": "Notification deleted",
+      "MARK_ALL_READ": "All notifications marked as read",
+      "DELETE_ALL": "All notifications deleted",
+      "DELETE_ALL_READ": "All read notifications deleted"
     }
   }
 }
