@@ -20,8 +20,14 @@
         <span class="spinner mt-4 mb-4" />
       </div>
       <p
-        v-if="showEndOfList"
-        class="text-center text-slate-300 dark:text-slate-400 p-4"
+        v-if="!uiFlags.isFetching && !records.length"
+        class="text-center text-slate-400 text-sm dark:text-slate-400 p-4 font-medium"
+      >
+        {{ $t('INBOX.LIST.NO_NOTIFICATIONS') }}
+      </p>
+      <p
+        v-if="showEndOfList && !uiFlags.isFetching && records.length"
+        class="text-center text-slate-400 dark:text-slate-400 p-4"
       >
         {{ $t('INBOX.LIST.EOF') }}
       </p>
