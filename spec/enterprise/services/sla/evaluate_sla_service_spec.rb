@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe EvaluateSlaService do
+RSpec.describe Sla::EvaluateSlaService do
   context 'when EvaluateSlaService is performed' do
     let!(:conversation) { create(:conversation, created_at: 2.hours.ago) }
     let!(:sla_policy) { create(:sla_policy, first_response_time_threshold: 1.hour) }

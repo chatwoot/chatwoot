@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe AccountSlaJob do
+RSpec.describe Accounts::SlaResolutionSchedulerJob do
   context 'when perform is called' do
     let(:account) { create(:account) }
     let(:conversation) { create(:conversation, created_at: 2.hours.ago) }

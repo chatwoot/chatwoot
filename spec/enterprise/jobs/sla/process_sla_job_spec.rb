@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProcessSlaJob do
+RSpec.describe Sla::ProcessSlaJob do
   context 'when perform is called' do
     let(:account) { create(:account) }
 

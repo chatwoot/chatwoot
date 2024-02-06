@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe TriggerSlaJob do
+RSpec.describe Accounts::TriggerSlaJob do
   context 'when perform is called' do
     let(:account) { create(:account) }
 
