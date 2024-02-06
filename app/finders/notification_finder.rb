@@ -38,7 +38,7 @@ class NotificationFinder
     @notifications = @notifications.where('snoozed_until > ?', DateTime.now.utc) if params[:status] == 'snoozed'
   end
 
-  def filtr_by_read_status
+  def filter_by_read_status
     @notifications = @notifications.where.not(read_at: nil) if params[:type] == 'read'
   end
 
