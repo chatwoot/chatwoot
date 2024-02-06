@@ -6,7 +6,10 @@
       "LOADING": "Загрузка уведомлений",
       "EOF": "Все уведомления загружены 🎉",
       "404": "В этой группе нет активных уведомлений.",
-      "NOTE": "Уведомления от всех подписанных источников"
+      "NOTE": "Уведомления от всех подписанных источников",
+      "SNOOZED_UNTIL": "Отложить до",
+      "SNOOZED_UNTIL_TOMORROW": "Отложено до завтра",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Отложено до следующей недели"
     },
     "ACTION_HEADER": {
       "SNOOZE": "Отложить уведомление",
@@ -42,6 +45,15 @@
         "LABELS": "Категории",
         "CONVERSATION_ID": "ID диалога"
       }
+    },
+    "ALERTS": {
+      "MARK_AS_READ": "Notification marked as read",
+      "MARK_AS_UNREAD": "Notification marked as unread",
+      "SNOOZE": "Notification snoozed",
+      "DELETE": "Notification deleted",
+      "MARK_ALL_READ": "All notifications marked as read",
+      "DELETE_ALL": "All notifications deleted",
+      "DELETE_ALL_READ": "All read notifications deleted"
     }
   }
 }
