@@ -19,22 +19,35 @@ class Enterprise::ClearbitLookupService
   def self.lookup(email)
     return nil unless clearbit_enabled?
 
+    response = perform_request(email)
+    return handle_error(response) unless response.success?
+
+    data = response.parsed_response
+    format_response(data)
+  rescue StandardError => e
+    Rails.logger.error "[ClearbitLookup] #{e.message}"
+    nil
+  end
+
+  # Performs a request to the Clearbit API using the provided email.
+  #
+  # @param email [String] The email address to lookup.
+  # @return [HTTParty::Response] The response from the Clearbit API.
+  def self.perform_request(email)
     options = {
       headers: { 'Authorization' => "Bearer #{ENV.fetch('CLEARBIT_API_KEY', nil)}" },
       query: { email: email }
     }
 
-    response = HTTParty.get(CLEARBIT_ENDPOINT, options)
+    HTTParty.get(CLEARBIT_ENDPOINT, options)
+  end
 
-    if response.success?
-      data = response.parsed_response
-      format_response(data)
-    else
-      Rails.logger.error "[ClearbitLookup] API Error: #{response.message} (Status: #{response.code})"
-      nil
-    end
-  rescue StandardError => e
-    Rails.logger.error "[ClearbitLookup] #{e.message}"
+  # Handles an error response from the Clearbit API.
+  #
+  # @param response [HTTParty::Response] The response from the Clearbit API.
+  # @return [nil] Always returns nil.
+  def self.handle_error(response)
+    Rails.logger.error "[ClearbitLookup] API Error: #{response.message} (Status: #{response.code})"
     nil
   end
 
