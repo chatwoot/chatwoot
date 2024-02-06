@@ -1,16 +1,26 @@
 class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
-  before_action :fetch_agent, except: [:create, :index]
+  before_action :fetch_agent, except: [:create, :index, :bulk_create]
   before_action :check_authorization
-  before_action :find_user, only: [:create]
   before_action :validate_limit, only: [:create]
-  before_action :create_user, only: [:create]
-  before_action :save_account_user, only: [:create]
+  before_action :validate_limit_for_bulk_create, only: [:bulk_create]
 
   def index
     @agents = agents
   end
 
-  def create; end
+  def create
+    builder = AgentBuilder.new(
+      email: new_agent_params['email'],
+      name: new_agent_params['name'],
+      role: new_agent_params['role'],
+      availability: new_agent_params['availability'],
+      auto_offline: new_agent_params['auto_offline'],
+      inviter: current_user,
+      account: Current.account
+    )
+
+    builder.perform
+  end
 
   def update
     @agent.update!(agent_params.slice(:name).compact)
@@ -20,6 +30,21 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   def destroy
     @agent.current_account_user.destroy!
     delete_user_record(@agent)
+    head :ok
+  end
+
+  def bulk_create
+    emails = params[:emails]
+
+    emails.each do |email|
+      builder = AgentBuilder.new(
+        email: email,
+        name: email.split('@').first,
+        inviter: current_user,
+        account: Current.account
+      )
+      builder.perform
+    end
     head :ok
   end
 
@@ -33,47 +58,34 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
     @agent = agents.find(params[:id])
   end
 
-  def find_user
-    @user =  User.find_by(email: new_agent_params[:email])
-  end
-
-  # TODO: move this to a builder and combine the save account user method into a builder
-  # ensure the account user association is also created in a single transaction
-  def create_user
-    return @user.send_confirmation_instructions if @user
-
-    @user = User.create!(new_agent_params.slice(:email, :name, :password, :password_confirmation))
-  end
-
-  def save_account_user
-    AccountUser.create!({
-      account_id: Current.account.id,
-      user_id: @user.id,
-      inviter_id: current_user.id
-    }.merge({
-      role: new_agent_params[:role],
-      availability: new_agent_params[:availability],
-      auto_offline: new_agent_params[:auto_offline]
-    }.compact))
-  end
-
   def agent_params
     params.require(:agent).permit(:name, :email, :name, :role, :availability, :auto_offline)
   end
 
   def new_agent_params
-    # intial string ensures the password requirements are met
-    temp_password = "1!aA#{SecureRandom.alphanumeric(12)}"
     params.require(:agent).permit(:email, :name, :role, :availability, :auto_offline)
-          .merge!(password: temp_password, password_confirmation: temp_password, inviter: current_user)
   end
 
   def agents
     @agents ||= Current.account.users.order_by_full_name.includes(:account_users, { avatar_attachment: [:blob] })
   end
 
+  def validate_limit_for_bulk_create
+    limit_available = params[:emails].count <= available_agent_count
+
+    render_payment_required('Account limit exceeded. Please purchase more licenses') unless limit_available
+  end
+
   def validate_limit
-    render_payment_required('Account limit exceeded. Please purchase more licenses') if agents.count >= Current.account.usage_limits[:agents]
+    render_payment_required('Account limit exceeded. Please purchase more licenses') unless can_add_agent?
+  end
+
+  def available_agent_count
+    Current.account.usage_limits[:agents] - agents.count
+  end
+
+  def can_add_agent?
+    available_agent_count.positive?
   end
 
   def delete_user_record(agent)
