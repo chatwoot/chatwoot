@@ -175,11 +175,3 @@ Rails/LexicallyScopedActionFilter:
   Exclude:
     - 'app/controllers/home_controller.rb'
 
-# Offense count: 2
-# Configuration parameters: Include.
-# Include: app/**/*.rb, config/**/*.rb, db/**/*.rb, lib/**/*.rb
-Rails/Output:
-  Exclude:
-    - 'app/bot/bot.rb'
-    - 'app/builders/account_builder.rb'
-
