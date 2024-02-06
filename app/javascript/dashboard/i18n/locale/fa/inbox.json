@@ -6,7 +6,10 @@
       "LOADING": "Fetching notifications",
       "EOF": "همه اعلان ها بارگیری شدند 🎉",
       "404": "There are no active notifications in this group.",
-      "NOTE": "آگاه‌سازی‌ها از همه صندوق‌های ورودی مشترک"
+      "NOTE": "آگاه‌سازی‌ها از همه صندوق‌های ورودی مشترک",
+      "SNOOZED_UNTIL": "به تعویق افتاده تا",
+      "SNOOZED_UNTIL_TOMORROW": "تا فردا به تعویق افتاد",
+      "SNOOZED_UNTIL_NEXT_WEEK": "تا هفته آینده به تعویق افتاد"
     },
     "ACTION_HEADER": {
       "SNOOZE": "به تعویق انداختن آگاه‌سازی",
@@ -42,6 +45,15 @@
         "LABELS": "برچسب‌ها",
         "CONVERSATION_ID": "Conversation ID"
       }
+    },
+    "ALERTS": {
+      "MARK_AS_READ": "Notification marked as read",
+      "MARK_AS_UNREAD": "Notification marked as unread",
+      "SNOOZE": "Notification snoozed",
+      "DELETE": "Notification deleted",
+      "MARK_ALL_READ": "All notifications marked as read",
+      "DELETE_ALL": "All notifications deleted",
+      "DELETE_ALL_READ": "All read notifications deleted"
     }
   }
 }
