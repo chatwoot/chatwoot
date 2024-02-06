@@ -42,6 +42,12 @@ class NotificationsAPI extends ApiClient {
       type,
     });
   }
+
+  snooze({ id, snoozedUntil = null }) {
+    return axios.post(`${this.url}/${id}/snooze`, {
+      snoozed_until: snoozedUntil,
+    });
+  }
 }
 
 export default new NotificationsAPI();

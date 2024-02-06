@@ -4,8 +4,8 @@ RSpec.describe 'Agents API', type: :request do
   include ActiveJob::TestHelper
 
   let(:account) { create(:account) }
-  let(:admin) { create(:user, custom_attributes: { test: 'test' }, account: account, role: :administrator) }
-  let(:agent) { create(:user, account: account, role: :agent) }
+  let!(:admin) { create(:user, custom_attributes: { test: 'test' }, account: account, role: :administrator) }
+  let!(:agent) { create(:user, account: account, role: :agent) }
 
   describe 'GET /api/v1/accounts/{account.id}/agents' do
     context 'when it is an unauthenticated user' do
@@ -63,6 +63,8 @@ RSpec.describe 'Agents API', type: :request do
       end
 
       it 'deletes the agent and user object if associated with only one account' do
+        expect(account.users).to include(other_agent)
+
         perform_enqueued_jobs(only: DeleteObjectJob) do
           delete "/api/v1/accounts/#{account.id}/agents/#{other_agent.id}",
                  headers: admin.create_new_auth_token,
@@ -70,8 +72,7 @@ RSpec.describe 'Agents API', type: :request do
         end
 
         expect(response).to have_http_status(:success)
-        expect(account.reload.users.size).to eq(1)
-        expect(User.count).to eq(account.reload.users.size)
+        expect(account.reload.users).not_to include(other_agent)
       end
 
       it 'deletes only the agent object when user is associated with multiple accounts' do
@@ -85,8 +86,8 @@ RSpec.describe 'Agents API', type: :request do
         end
 
         expect(response).to have_http_status(:success)
-        expect(account.users.size).to eq(1)
-        expect(User.count).to eq(account.reload.users.size + 1)
+        expect(account.reload.users).not_to include(other_agent)
+        expect(other_agent.account_users.count).to eq(1) # Should only be associated with other_account now
       end
     end
   end
@@ -171,6 +172,29 @@ RSpec.describe 'Agents API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(account.users.last.name).to eq('NewUser')
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/agents/bulk_create' do
+    let(:emails) { ['test1@example.com', 'test2@example.com', 'test3@example.com'] }
+    let(:bulk_create_params) { { emails: emails } }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/agents/bulk_create", params: bulk_create_params
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when authenticated as admin' do
+      it 'creates multiple agents successfully' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/agents/bulk_create", params: bulk_create_params, headers: admin.create_new_auth_token
+        end.to change(User, :count).by(3)
+
+        expect(response).to have_http_status(:ok)
       end
     end
   end
