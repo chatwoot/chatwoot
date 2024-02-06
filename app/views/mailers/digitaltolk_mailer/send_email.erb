@@ -1,0 +1,17 @@
+<p>You just got a form submission!</p>
+<br>
+
+<b>Form</b>
+<div><%= @form_name %></div>
+
+<br>
+<b>Site</b>
+<div>Digitaltolk</div>
+
+<br>
+<div><b>Submitted content</b></div>
+<% if @content.present? %>
+  <% @content.each do |key, value| %>
+    <div><%= key %>: <%= value %></div>
+  <% end %>
+<% end %>

@@ -6,13 +6,17 @@ class Digitaltolk::MailHelper
     return if html_content.blank?
 
     match = html_content.to_s.match(EMAIL_REGEX)
-    match[0]
+    match.first
+  rescue
+    nil
   end
 
   def self.from_dt_webflow?(email)
     return false if email.blank?
 
     email == INVALID_LOOPIA_EMAIL
+  rescue
+    false
   end
 
   def self.auto_reply?(message)
@@ -24,5 +28,7 @@ class Digitaltolk::MailHelper
     return true if subject.include?('autoresponder')
 
     subject.include?('autoreply')
+  rescue
+    false
   end
 end
