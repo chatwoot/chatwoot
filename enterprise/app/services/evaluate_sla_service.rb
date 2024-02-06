@@ -1,15 +1,7 @@
-class MonitorSlaJob < ApplicationJob
-  queue_as :scheduled_jobs
+class EvaluateSlaService
+  pattr_initialize [:applied_sla!]
 
   def perform
-    AppliedSla.includes(:conversation, :sla_policy).where(sla_status: 'active').find_each(batch_size: 100) do |applied_sla|
-      process_sla(applied_sla)
-    end
-  end
-
-  private
-
-  def process_sla(applied_sla)
     conversation = applied_sla.conversation
     sla_policy = applied_sla.sla_policy
 
@@ -17,6 +9,8 @@ class MonitorSlaJob < ApplicationJob
     check_next_response_time(applied_sla, conversation, sla_policy)
     check_resolution_time(applied_sla, conversation, sla_policy)
   end
+
+  private
 
   def check_first_response_time(applied_sla, conversation, sla_policy)
     return if conversation.resolved?
