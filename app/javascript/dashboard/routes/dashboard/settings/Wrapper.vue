@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-1 h-full justify-between flex-col m-0 bg-light dark:bg-slate-900"
+    class="flex flex-1 h-full justify-between flex-col m-0 bg-slate-25 dark:bg-slate-900"
   >
     <settings-header
       button-route="new"
@@ -21,7 +21,7 @@
 
 <script>
 /* eslint no-console: 0 */
-import SettingsHeader from './SettingsHeader';
+import SettingsHeader from './SettingsHeader.vue';
 
 export default {
   components: {

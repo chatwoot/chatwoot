@@ -111,6 +111,17 @@
           "PLACEHOLDER": "Įveskite Twilio paskyros SID",
           "ERROR": "Šis laukas yra privalomas"
         },
+        "API_KEY": {
+          "USE_API_KEY": "Naudokite API Key autentifikavimą",
+          "LABEL": "API Key SID",
+          "PLACEHOLDER": "Įveskite savo API Key SID",
+          "ERROR": "Šis laukas yra privalomas"
+        },
+        "API_KEY_SECRET": {
+          "LABEL": "API Key Secret",
+          "PLACEHOLDER": "Įveskite savo API Key Secret",
+          "ERROR": "Šis laukas yra privalomas"
+        },
         "MESSAGING_SERVICE_SID": {
           "LABEL": "Pranešimų siuntimo paslaugos SID",
           "PLACEHOLDER": "Įveskite jūsų Twilio pranešimų siuntimo paslaugos SID",
@@ -360,6 +371,8 @@
     "DETAILS": {
       "LOADING_FB": "Autentifikuojamas jus naudojant Facebook...",
       "ERROR_FB_AUTH": "Kažkas nepavyko, atnaujinkite puslapį...",
+      "ERROR_FB_UNAUTHORIZED": "Jūs nesate įgalioti atlikti šį veiksmą. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Įsitikinkite, kad turite prieigą prie „Facebook“ puslapio su visapusiška kontrole. Daugiau apie „Facebook“ vaidmenis galite perskaityti <a href=\" https://www.facebook.com/help/187316341316631\">čia</a>.",
       "CREATING_CHANNEL": "Kuriamas gautų laiškų aplankas...",
       "TITLE": "Konfigūruoti gautų laiškų aplanko informaciją",
       "DESC": ""
@@ -390,6 +403,25 @@
       "ENABLE_CSAT": {
         "ENABLED": "Leisti",
         "DISABLED": "Išjungta"
+      },
+      "SENDER_NAME_SECTION": {
+        "TITLE": "Siuntėjo vardas",
+        "SUB_TEXT": "Pasirinkite vardą, kuris bus rodomas jūsų klientui, kai jis gauna el. laiškus iš jūsų agentų.",
+        "FOR_EG": "Pvz:",
+        "FRIENDLY": {
+          "TITLE": "Draugiškas",
+          "FROM": "nuo",
+          "SUBTITLE": "Prie siuntėjo vardo pridėkite atsakymą išsiuntusio agento vardą, kad atsakymas būtų draugiškas."
+        },
+        "PROFESSIONAL": {
+          "TITLE": "Profesionalas",
+          "SUBTITLE": "Naudokite tik sukonfigūruotą įmonės pavadinimą kaip siuntėjo vardą el. pašto antraštėje."
+        },
+        "BUSINESS_NAME": {
+          "BUTTON_TEXT": "+ Sukonfigūruokite įmonės pavadinimą",
+          "PLACEHOLDER": "Įveskite įmonės pavadinimą",
+          "SAVE_BUTTON_TEXT": "Išsaugoti"
+        }
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
         "ENABLED": "Leisti",
@@ -454,7 +486,9 @@
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Naujame pokalbyje leiskite arba drauskite el. pašto surinkimo dėžutę",
       "AUTO_ASSIGNMENT": "Įjunkti automatinį priskyrimą",
       "ENABLE_CSAT": "Leisti CSAT",
+      "SENDER_NAME_SECTION": "Leisti agento vardą el. pašte",
       "ENABLE_CSAT_SUB_TEXT": "Leisti/neleisti CSAT (klientų pasitenkinimo) apklausą, kai baigsite pokalbį",
+      "SENDER_NAME_SECTION_TEXT": "Įjungti/išjungti agento vardo rodymą el. pašte, jei išjungta, bus rodomas įmonės pavadinimas",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Leisti pokalbio tęstinumą el. paštu",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Jei kontaktinis el. pašto adresas yra pasiekiamas, pokalbiai bus tęsiami el. paštu.",
       "LOCK_TO_SINGLE_CONVERSATION": "Laikykitės vieno pokalbio",

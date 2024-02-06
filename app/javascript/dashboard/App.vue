@@ -1,13 +1,14 @@
 <template>
   <div
-    v-if="!authUIFlags.isFetching"
+    v-if="!authUIFlags.isFetching && !accountUIFlags.isFetchingItem"
     id="app"
-    class="app-wrapper app-root"
-    :class="{ 'app-rtl--wrapper': isRTLView, dark: theme === 'dark' }"
+    class="flex-grow-0 w-full h-full min-h-0 app-wrapper"
+    :class="{ 'app-rtl--wrapper': isRTLView }"
     :dir="isRTLView ? 'rtl' : 'ltr'"
   >
     <update-banner :latest-chatwoot-version="latestChatwootVersion" />
-    <template v-if="!accountUIFlags.isFetchingItem && currentAccountId">
+    <template v-if="currentAccountId">
+      <pending-email-verification-banner />
       <payment-pending-banner />
       <upgrade-banner />
     </template>
@@ -26,21 +27,21 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import AddAccountModal from '../dashboard/components/layout/sidebarComponents/AddAccountModal';
+import AddAccountModal from '../dashboard/components/layout/sidebarComponents/AddAccountModal.vue';
 import LoadingState from './components/widgets/LoadingState.vue';
-import NetworkNotification from './components/NetworkNotification';
+import NetworkNotification from './components/NetworkNotification.vue';
 import UpdateBanner from './components/app/UpdateBanner.vue';
 import UpgradeBanner from './components/app/UpgradeBanner.vue';
 import PaymentPendingBanner from './components/app/PaymentPendingBanner.vue';
+import PendingEmailVerificationBanner from './components/app/PendingEmailVerificationBanner.vue';
 import vueActionCable from './helper/actionCable';
-import WootSnackbarBox from './components/SnackbarContainer';
+import WootSnackbarBox from './components/SnackbarContainer.vue';
 import rtlMixin from 'shared/mixins/rtlMixin';
-import { LocalStorage } from 'shared/helpers/localStorage';
+import { setColorTheme } from './helper/themeHelper';
 import {
   registerSubscription,
   verifyServiceWorkerExistence,
 } from './helper/pushHelper';
-import { LOCAL_STORAGE_KEYS } from './constants/localStorage';
 
 export default {
   name: 'App',
@@ -53,6 +54,7 @@ export default {
     PaymentPendingBanner,
     WootSnackbarBox,
     UpgradeBanner,
+    PendingEmailVerificationBanner,
   },
 
   mixins: [rtlMixin],
@@ -61,7 +63,6 @@ export default {
     return {
       showAddAccountModal: false,
       latestChatwootVersion: null,
-      theme: 'light',
     };
   },
 
@@ -99,27 +100,11 @@ export default {
   },
   methods: {
     initializeColorTheme() {
-      this.setColorTheme(
-        window.matchMedia('(prefers-color-scheme: dark)').matches
-      );
-    },
-    setColorTheme(isOSOnDarkMode) {
-      const selectedColorScheme =
-        LocalStorage.get(LOCAL_STORAGE_KEYS.COLOR_SCHEME) || 'light';
-      if (
-        (selectedColorScheme === 'auto' && isOSOnDarkMode) ||
-        selectedColorScheme === 'dark'
-      ) {
-        this.theme = 'dark';
-        document.body.classList.add('dark');
-      } else {
-        this.theme = 'light ';
-        document.body.classList.remove('dark');
-      }
+      setColorTheme(window.matchMedia('(prefers-color-scheme: dark)').matches);
     },
     listenToThemeChanges() {
       const mql = window.matchMedia('(prefers-color-scheme: dark)');
-      mql.onchange = e => this.setColorTheme(e.matches);
+      mql.onchange = e => setColorTheme(e.matches);
     },
     setLocale(locale) {
       this.$root.$i18n.locale = locale;
@@ -129,10 +114,8 @@ export default {
       this.$store.dispatch('setActiveAccount', {
         accountId: this.currentAccountId,
       });
-      const {
-        locale,
-        latest_chatwoot_version: latestChatwootVersion,
-      } = this.getAccount(this.currentAccountId);
+      const { locale, latest_chatwoot_version: latestChatwootVersion } =
+        this.getAccount(this.currentAccountId);
       const { pubsub_token: pubsubToken } = this.currentUser || {};
       this.setLocale(locale);
       this.updateRTLDirectionView(locale);

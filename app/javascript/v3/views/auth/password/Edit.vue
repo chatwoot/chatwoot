@@ -36,8 +36,8 @@
         <submit-button
           :disabled="
             $v.credentials.password.$invalid ||
-              $v.credentials.confirmPassword.$invalid ||
-              newPasswordAPI.showLoading
+            $v.credentials.confirmPassword.$invalid ||
+            newPasswordAPI.showLoading
           "
           :button-text="$t('SET_NEW_PASSWORD.SUBMIT')"
           :loading="newPasswordAPI.showLoading"

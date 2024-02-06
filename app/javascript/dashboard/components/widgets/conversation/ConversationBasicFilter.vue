@@ -16,7 +16,7 @@
     >
       <div class="items-center flex justify-between last:mt-4">
         <span class="text-slate-800 dark:text-slate-100 text-xs font-medium">{{
-          this.$t('CHAT_LIST.CHAT_SORT.STATUS')
+          $t('CHAT_LIST.CHAT_SORT.STATUS')
         }}</span>
         <filter-item
           type="status"
@@ -28,13 +28,13 @@
       </div>
       <div class="items-center flex justify-between last:mt-4">
         <span class="text-slate-800 dark:text-slate-100 text-xs font-medium">{{
-          this.$t('CHAT_LIST.CHAT_SORT.ORDER_BY')
+          $t('CHAT_LIST.CHAT_SORT.ORDER_BY')
         }}</span>
         <filter-item
           type="sort"
-          :selected-value="chatSortFilter"
+          :selected-value="sortFilter"
           :items="chatSortItems"
-          path-prefix="CHAT_LIST.CHAT_SORT_FILTER_ITEMS"
+          path-prefix="CHAT_LIST.SORT_ORDER_ITEMS"
           @onChangeFilter="onChangeFilter"
         />
       </div>
@@ -46,18 +46,19 @@
 import wootConstants from 'dashboard/constants/globals';
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
-import FilterItem from './FilterItem';
+import FilterItem from './FilterItem.vue';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
 export default {
   components: {
     FilterItem,
   },
-  mixins: [clickaway],
+  mixins: [clickaway, uiSettingsMixin],
   data() {
     return {
       showActionsDropdown: false,
       chatStatusItems: this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS'),
-      chatSortItems: this.$t('CHAT_LIST.CHAT_SORT_FILTER_ITEMS'),
+      chatSortItems: this.$t('CHAT_LIST.SORT_ORDER_ITEMS'),
     };
   },
   computed: {
@@ -69,7 +70,9 @@ export default {
       return this.chatStatusFilter || wootConstants.STATUS_TYPE.OPEN;
     },
     sortFilter() {
-      return this.chatSortFilter || wootConstants.SORT_BY_TYPE.LATEST;
+      return (
+        this.chatSortFilter || wootConstants.SORT_BY_TYPE.LAST_ACTIVITY_AT_DESC
+      );
     },
   },
   methods: {
@@ -83,8 +86,17 @@ export default {
     closeDropdown() {
       this.showActionsDropdown = false;
     },
-    onChangeFilter(type, value) {
-      this.$emit('changeFilter', type, value);
+    onChangeFilter(value, type) {
+      this.$emit('changeFilter', value, type);
+      this.saveSelectedFilter(type, value);
+    },
+    saveSelectedFilter(type, value) {
+      this.updateUISettings({
+        conversations_filter_by: {
+          status: type === 'status' ? value : this.chatStatus,
+          order_by: type === 'sort' ? value : this.sortFilter,
+        },
+      });
     },
   },
 };

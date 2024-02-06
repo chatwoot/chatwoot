@@ -1,20 +1,6 @@
 .app-rtl--wrapper {
   direction: rtl;
 
-  .header-section.back-button {
-    direction: initial;
-    margin-left: var(--space-normal);
-    margin-right: var(--space-smaller);
-  }
-
-  // Settings header action button
-  .button--fixed-top {
-    left: $space-small;
-    position: fixed;
-    right: unset;
-    top: $space-small;
-  }
-
   // Woot Tabs
   .tabs-title {
     &:first-child {

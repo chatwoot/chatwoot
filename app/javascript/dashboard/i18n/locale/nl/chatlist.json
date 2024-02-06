@@ -36,23 +36,45 @@
       }
     },
     "VIEW_FILTER": "Bekijken",
-    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "SORT_TOOLTIP_LABEL": "Sorteer gesprekken",
     "CHAT_SORT": {
       "STATUS": "Status",
-      "ORDER_BY": "Order by"
+      "ORDER_BY": "Sorteren op"
     },
-    "CHAT_SORT_FILTER_ITEMS": {
-      "latest": {
-        "TEXT": "Last activity"
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Aangemaakt op",
+        "OLDEST": "Aangemaakt op:"
       },
-      "sort_on_created_at": {
-        "TEXT": "Created at"
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Laatste Activiteit:",
+        "ACTIVE": "Laatste Activiteit"
+      }
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Last activity: Oldest first"
       },
-      "sort_on_priority": {
-        "TEXT": "Priority"
+      "last_activity_at_desc": {
+        "TEXT": "Last activity: Newest first"
       },
-      "sort_on_waiting_since": {
-        "TEXT": "Pending Response"
+      "created_at_desc": {
+        "TEXT": "Created at: Newest first"
+      },
+      "created_at_asc": {
+        "TEXT": "Created at: Oldest first"
+      },
+      "priority_desc": {
+        "TEXT": "Priority: Highest first"
+      },
+      "priority_asc": {
+        "TEXT": "Priority: Lowest first"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Pending Response: Longest first"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Pending Response: Shortest first"
       }
     },
     "ATTACHMENTS": {
@@ -76,20 +98,20 @@
       }
     },
     "CHAT_SORT_BY_FILTER": {
-      "TITLE": "Sort conversation",
-      "DROPDOWN_TITLE": "Sort by",
+      "TITLE": "Gesprek sorteren",
+      "DROPDOWN_TITLE": "Sorteren op",
       "ITEMS": {
         "LATEST": {
-          "NAME": "Last activity at",
-          "LABEL": "Last activity"
+          "NAME": "Laatste activiteit om",
+          "LABEL": "Laatste Activiteit"
         },
         "CREATED_AT": {
-          "NAME": "Created at",
-          "LABEL": "Created at"
+          "NAME": "Aangemaakt op",
+          "LABEL": "Aangemaakt op"
         },
         "LAST_USER_MESSAGE_AT": {
-          "NAME": "Last user message at",
-          "LABEL": "Last message"
+          "NAME": "Laatste bericht van gebruiker op",
+          "LABEL": "Laatste bericht"
         }
       }
     },

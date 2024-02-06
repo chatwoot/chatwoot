@@ -2,18 +2,18 @@
   "CONTACTS_FILTER": {
     "TITLE": "Filtrar Contactos",
     "SUBTITLE": "Adicionar filtros abaixo e clicar 'Submeter' para filtrar contactos.",
-    "EDIT_CUSTOM_SEGMENT": "Edit Segment",
-    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your segment.",
+    "EDIT_CUSTOM_SEGMENT": "Editar segmento",
+    "CUSTOM_VIEWS_SUBTITLE": "Adicione ou remova filtros e atualiza seu segmento.",
     "ADD_NEW_FILTER": "Adicionar Filtro",
     "CLEAR_ALL_FILTERS": "Limpar Todos os Filtros",
     "FILTER_DELETE_ERROR": "Você deve ter pelo menos um filtro para guardar",
     "SUBMIT_BUTTON_LABEL": "submeter",
-    "UPDATE_BUTTON_LABEL": "Update Segment",
+    "UPDATE_BUTTON_LABEL": "Atualizar Segmento",
     "CANCEL_BUTTON_LABEL": "cancelar",
     "CLEAR_BUTTON_LABEL": "Limpar Filtros",
     "EMPTY_VALUE_ERROR": "Valor obrigatório",
-    "SEGMENT_LABEL": "Segment Name",
-    "SEGMENT_QUERY_LABEL": "Segment Query",
+    "SEGMENT_LABEL": "Nome do segmento",
+    "SEGMENT_QUERY_LABEL": "Consulta de segmento",
     "TOOLTIP_LABEL": "Filtrar contactos",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "E",
@@ -44,7 +44,7 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Caixa de Seleção",
       "CREATED_AT": "Criado Em",
       "LAST_ACTIVITY": "Última atividade",
-      "REFERER_LINK": "Referrer link"
+      "REFERER_LINK": "Link de referência"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Filtros Padrão",

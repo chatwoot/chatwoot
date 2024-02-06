@@ -37,15 +37,15 @@
 
 <script>
 export default {
+  loading: {
+    type: Boolean,
+    default: false,
+  },
   props: {
     app: {
       type: Object,
       default: () => ({}),
     },
-  },
-  loading: {
-    type: Boolean,
-    default: false,
   },
 };
 </script>

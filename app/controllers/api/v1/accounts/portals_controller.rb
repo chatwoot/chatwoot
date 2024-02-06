@@ -1,7 +1,7 @@
 class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   include ::FileTypeHelper
 
-  before_action :fetch_portal, except: [:index, :create, :attach_file]
+  before_action :fetch_portal, except: [:index, :create]
   before_action :check_authorization
   before_action :set_current_page, only: [:index]
 
@@ -47,20 +47,15 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     head :ok
   end
 
+  def logo
+    @portal.logo.purge if @portal.logo.attached?
+    head :ok
+  end
+
   def process_attached_logo
     blob_id = params[:blob_id]
     blob = ActiveStorage::Blob.find_by(id: blob_id)
     @portal.logo.attach(blob)
-  end
-
-  def attach_file
-    file_blob = ActiveStorage::Blob.create_and_upload!(
-      key: nil,
-      io: params[:logo].tempfile,
-      filename: params[:logo].original_filename,
-      content_type: params[:logo].content_type
-    )
-    render json: { blob_key: file_blob.key, blob_id: file_blob.id }
   end
 
   private

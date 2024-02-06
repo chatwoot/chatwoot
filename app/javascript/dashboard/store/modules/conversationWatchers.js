@@ -28,9 +28,8 @@ export const actions = {
     });
 
     try {
-      const response = await ConversationInboxApi.fetchParticipants(
-        conversationId
-      );
+      const response =
+        await ConversationInboxApi.fetchParticipants(conversationId);
       commit(types.SET_CONVERSATION_PARTICIPANTS, {
         conversationId,
         data: response.data,

@@ -18,7 +18,7 @@
 #  index_response_documents_on_response_source_id  (response_source_id)
 #
 class ResponseDocument < ApplicationRecord
-  has_many :responses, dependent: :destroy
+  has_many :responses, dependent: :destroy_async
   belongs_to :account
   belongs_to :response_source
 

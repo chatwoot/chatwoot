@@ -16,7 +16,7 @@ export default {
   },
   computed: {
     users() {
-      return this.agents.slice(0, 5).map(agent => ({
+      return this.agents.slice(0, 4).map(agent => ({
         id: agent.id,
         avatar: agent.avatar_url,
         name: agent.name,

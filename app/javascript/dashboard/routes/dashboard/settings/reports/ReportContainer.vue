@@ -141,9 +141,8 @@ export default {
           label: tooltipItem => {
             return this.$t(metric.TOOLTIP_TEXT, {
               metricValue: formatTime(tooltipItem.yLabel),
-              conversationCount: this.accountReport.data[metric.KEY][
-                tooltipItem.index
-              ].count,
+              conversationCount:
+                this.accountReport.data[metric.KEY][tooltipItem.index].count,
             });
           },
         };

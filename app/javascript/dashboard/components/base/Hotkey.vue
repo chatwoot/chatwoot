@@ -1,11 +1,21 @@
 <template>
-  <kbd class="hotkey">
+  <kbd class="hotkey p-0.5 min-w-[1rem] uppercase" :class="customClass">
     <slot />
   </kbd>
 </template>
+<script>
+export default {
+  props: {
+    customClass: {
+      type: String,
+      default: '',
+    },
+  },
+};
+</script>
 
 <style lang="scss">
 kbd.hotkey {
-  @apply inline-flex p-0.5 leading-[0.625rem] min-w-[1rem] tracking-wide uppercase text-slate-800 dark:text-slate-100 bg-slate-50 dark:bg-slate-600 text-xxs border border-solid border-slate-75 dark:border-slate-600 rounded flex-shrink-0 items-center select-none justify-center;
+  @apply inline-flex leading-[0.625rem] rounded tracking-wide flex-shrink-0 items-center select-none justify-center;
 }
 </style>

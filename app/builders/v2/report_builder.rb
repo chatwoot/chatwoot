@@ -15,7 +15,10 @@ class V2::ReportBuilder
   end
 
   def timeseries
-    send(params[:metric])
+    return send(params[:metric]) if metric_valid?
+
+    Rails.logger.error "ReportBuilder: Invalid metric - #{params[:metric]}"
+    {}
   end
 
   # For backward compatible with old report
@@ -43,6 +46,14 @@ class V2::ReportBuilder
     }
   end
 
+  def short_summary
+    {
+      conversations_count: conversations.count,
+      avg_first_response_time: avg_first_response_time_summary,
+      avg_resolution_time: avg_resolution_time_summary
+    }
+  end
+
   def conversation_metrics
     if params[:type].equal?(:account)
       live_conversations
@@ -52,6 +63,16 @@ class V2::ReportBuilder
   end
 
   private
+
+  def metric_valid?
+    %w[conversations_count
+       incoming_messages_count
+       outgoing_messages_count
+       avg_first_response_time
+       avg_resolution_time reply_time
+       resolutions_count
+       reply_time].include?(params[:metric])
+  end
 
   def inbox
     @inbox ||= account.inboxes.find(params[:id])

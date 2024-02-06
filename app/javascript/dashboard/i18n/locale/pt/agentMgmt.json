@@ -109,9 +109,9 @@
           "TEAM": "Nenhuma Equipa encontrada"
         },
         "PLACEHOLDER": {
-          "AGENT": "Procurar Agentes",
+          "AGENT": "Procurar agentes",
           "TEAM": "Procurar Equipas",
-          "INPUT": "Search for agents"
+          "INPUT": "Procurar agentes"
         }
       }
     }

@@ -34,15 +34,13 @@
       :option="labelMenuConfig"
       :sub-menu-available="!!labels.length"
     >
-      <template>
-        <menu-item
-          v-for="label in labels"
-          :key="label.id"
-          :option="generateMenuLabelConfig(label, 'label')"
-          variant="label"
-          @click="$emit('assign-label', label)"
-        />
-      </template>
+      <menu-item
+        v-for="label in labels"
+        :key="label.id"
+        :option="generateMenuLabelConfig(label, 'label')"
+        variant="label"
+        @click="$emit('assign-label', label)"
+      />
     </menu-item-with-submenu>
     <menu-item-with-submenu
       :option="agentMenuConfig"

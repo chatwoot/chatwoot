@@ -28,8 +28,8 @@
   </button>
 </template>
 <script>
-import Spinner from 'shared/components/Spinner';
-import EmojiOrIcon from 'shared/components/EmojiOrIcon';
+import Spinner from 'shared/components/Spinner.vue';
+import EmojiOrIcon from 'shared/components/EmojiOrIcon.vue';
 
 export default {
   name: 'WootButton',

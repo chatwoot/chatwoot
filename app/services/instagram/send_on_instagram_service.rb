@@ -14,8 +14,13 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
   end
 
   def perform_reply
-    send_to_facebook_page attachament_message_params if message.attachments.present?
-    send_to_facebook_page message_params
+    if message.attachments.present?
+      message.attachments.each do |attachment|
+        send_to_facebook_page attachment_message_params(attachment)
+      end
+    end
+
+    send_to_facebook_page message_params if message.content.present?
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: message.account, user: message.sender).capture_exception
     # TODO : handle specific errors or else page will get disconnected
@@ -33,8 +38,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
     merge_human_agent_tag(params)
   end
 
-  def attachament_message_params
-    attachment = message.attachments.first
+  def attachment_message_params(attachment)
     params = {
       recipient: { id: contact.get_source_id(inbox.id) },
       message: {
@@ -66,10 +70,24 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
       query: query
     )
 
-    Rails.logger.error("Instagram response: #{response['error']} : #{message_content}") if response['error']
-    message.update!(source_id: response['message_id']) if response['message_id'].present?
+    if response[:error].present?
+      Rails.logger.error("Instagram response: #{response['error']} : #{message_content}")
+      message.status = :failed
+      message.external_error = external_error(response)
+    end
+
+    message.source_id = response['message_id'] if response['message_id'].present?
+    message.save!
 
     response
+  end
+
+  def external_error(response)
+    # https://developers.facebook.com/docs/instagram-api/reference/error-codes/
+    error_message = response[:error][:message]
+    error_code = response[:error][:code]
+
+    "#{error_code} - #{error_message}"
   end
 
   def calculate_app_secret_proof(app_secret, access_token)

@@ -12,6 +12,10 @@
     "NO_INBOX_2": " для початку",
     "NO_INBOX_AGENT": "Ой! Схоже, ви не маєте доступу до скриньки \"Вхідні\". Будь ласка, зверніться до адміністратора",
     "SEARCH_MESSAGES": "Пошук повідомлень у розмовах",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "Пошук повідомлень",
       "RESULT_TITLE": "Результати пошуку",
@@ -30,7 +34,6 @@
     "ASSIGN_TO_ME": "Призначити мені",
     "TWILIO_WHATSAPP_CAN_REPLY": "Ви можете відповісти на цю розмову тільки за допомогою шаблонного повідомлення через",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24-годинне обмеження на повідомлення",
-    "SELECT_A_TWEET_TO_REPLY": "Будь ласка, виберіть твіт для відповіді.",
     "REPLYING_TO": "Ви відповідаєте:",
     "REMOVE_SELECTION": "Видалити вибране",
     "DOWNLOAD": "Звантажити",
@@ -38,11 +41,15 @@
     "SAVE_CONTACT": "Зберегти",
     "UPLOADING_ATTACHMENTS": "Завантаження вкладень...",
     "REPLIED_TO_STORY": "Відповів(-ла) на вашу історію",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "Повідомлення успішно видалено",
     "FAIL_DELETE_MESSSAGE": "Не вдалося видалити повідомлення! Спробуйте ще раз",
     "NO_RESPONSE": "Немає відповіді",
     "RATING_TITLE": "Оцінка",
     "FEEDBACK_TITLE": "Зворотній зв'язок",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Показати мітки",
       "HIDE_LABELS": "Сховати мітки"
@@ -135,7 +142,9 @@
       "PRIVATE_NOTE": "Особиста нотатка",
       "SEND": "Надіслати",
       "CREATE": "Додати нотатку",
-      "TWEET": "Твітнути",
+      "INSERT_READ_MORE": "Детальніше",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "Показати текстовий редактор",
       "TIP_EMOJI_ICON": "Показати емодзі",
       "TIP_ATTACH_ICON": "Прикріпити файли",
@@ -147,6 +156,7 @@
       "STOP_AUDIO_RECORDING": "Зупинити аудіозапис",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Додати bcc",
         "CC": {
           "LABEL": "CC",
@@ -189,6 +199,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Копіювати",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "Видалити",
       "CREATE_A_CANNED_RESPONSE": "Додати швидку відповідь",
       "TRANSLATE": "Перекласти",

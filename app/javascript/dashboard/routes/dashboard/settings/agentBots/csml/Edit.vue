@@ -9,7 +9,7 @@
   </div>
 </template>
 <script>
-import Spinner from 'shared/components/Spinner';
+import Spinner from 'shared/components/Spinner.vue';
 import CsmlBotEditor from '../components/CSMLBotEditor.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 

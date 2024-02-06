@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "Filtrar por",
       "SORT": "Ordenar por",
+      "LOCALE": "Localidade",
       "SETTINGS_BUTTON": "Confirgurações",
       "NEW_BUTTON": "Novo artigo",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "Meus Artigos",
         "DRAFT": "Artigos em rascunho",
         "ARCHIVED": "Artigos arquivados"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Selecionar local",
+        "PLACEHOLDER": "Selecionar local",
+        "NO_RESULT": "Nenhum local encontrado",
+        "SEARCH_PLACEHOLDER": "Selecionar local"
       }
     },
     "EDIT_HEADER": {
@@ -75,12 +82,15 @@
       }
     },
     "ARTICLE_SEARCH_RESULT": {
-      "UNCATEGORIZED": "Uncategorized",
-      "INSERT_ARTICLE": "Insert",
-      "NO_RESULT": "No articles found",
-      "COPY_LINK": "Copy article link to clipboard",
-      "OPEN_LINK": "Open article in new tab",
-      "PREVIEW_LINK": "Preview article"
+      "UNCATEGORIZED": "Não categorizado",
+      "SEARCH_RESULTS": "Resultados da pesquisa para %{query}",
+      "EMPTY_TEXT": "Procurar artigos para inserir em respostas.",
+      "SEARCH_LOADER": "Procurando...",
+      "INSERT_ARTICLE": "Inserir",
+      "NO_RESULT": "Nenhum artigo encontrado",
+      "COPY_LINK": "Copiar link do artigo para área de transferência",
+      "OPEN_LINK": "Abrir artigo em nova aba",
+      "PREVIEW_LINK": "Visualizar artigo"
     },
     "PORTAL": {
       "HEADER": "Portais",
@@ -220,7 +230,10 @@
         "LOGO": {
           "LABEL": "Logotipo",
           "UPLOAD_BUTTON": "Carregar logotipo",
-          "HELP_TEXT": "Este logotipo será exibido no cabeçalho do portal."
+          "HELP_TEXT": "Este logotipo será exibido no cabeçalho do portal.",
+          "IMAGE_UPLOAD_SUCCESS": "Logo enviada com sucesso",
+          "IMAGE_UPLOAD_ERROR": "Logo deletada com sucesso",
+          "IMAGE_DELETE_ERROR": "Ocorreu um erro ao excluir logo"
         },
         "NAME": {
           "LABEL": "Nome",
@@ -365,7 +378,7 @@
         "NAME": {
           "LABEL": "Nome",
           "PLACEHOLDER": "Nome da categoria",
-          "HELP_TEXT": "O nome da categoria será utilizada no portal voltado ao público para categorizar artigos.",
+          "HELP_TEXT": "O nome da categoria e o ícone serão usados no portal público para categorizar os artigos.",
           "ERROR": "O nome é obrigatório"
         },
         "SLUG": {
@@ -396,7 +409,7 @@
         "NAME": {
           "LABEL": "Nome",
           "PLACEHOLDER": "Nome da categoria",
-          "HELP_TEXT": "O nome da categoria será utilizada no portal voltado ao público para categorizar artigos.",
+          "HELP_TEXT": "O nome da categoria e o ícone serão usados no portal público para categorizar os artigos.",
           "ERROR": "O nome é obrigatório"
         },
         "SLUG": {
@@ -423,6 +436,48 @@
         "API": {
           "SUCCESS_MESSAGE": "Categoria excluída com sucesso",
           "ERROR_MESSAGE": "Não é possível excluir a categoria"
+        }
+      }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Pesquisar artigos",
+      "PLACEHOLDER": "Pesquisar artigos",
+      "NO_RESULT": "Nenhum artigo encontrado",
+      "SEARCHING": "Procurando...",
+      "SEARCH_BUTTON": "Pesquisar",
+      "INSERT_ARTICLE": "Inserir link",
+      "IFRAME_ERROR": "A URL está vazia ou é inválida. Não é possível exibir conteúdo.",
+      "OPEN_ARTICLE_SEARCH": "Inserir artigo na Central de Ajuda",
+      "SUCCESS_ARTICLE_INSERTED": "Artigo publicado com sucesso",
+      "PREVIEW_LINK": "Visualizar artigo",
+      "CANCEL": "Fechar",
+      "BACK": "Anterior",
+      "BACK_RESULTS": "Voltar aos resultados"
+    },
+    "UPGRADE_PAGE": {
+      "TITLE": "Centro de Ajuda",
+      "DESCRIPTION": "Crie portais de autoatendimento amigáveis ao usuário. Ajude seus usuários a acessar os artigos e obter suporte 24/7. Atualize sua assinatura para habilitar essa função.",
+      "SELF_HOSTED_DESCRIPTION": "Crie portais de autoatendimento amigáveis ao usuário. Ajude seus usuários a acessar os artigos e obter suporte 24/7. Por favor, contate seu administrador para habilitar essa função.",
+      "BUTTON": {
+        "LEARN_MORE": "Saiba mais",
+        "UPGRADE": "Atualize"
+      },
+      "FEATURES": {
+        "PORTALS": {
+          "TITLE": "Múltiplos portais",
+          "DESCRIPTION": "Crie múltiplos portais de central de ajuda para diferentes produtos usando a mesma conta."
+        },
+        "LOCALES": {
+          "TITLE": "Suporte completo para localidades",
+          "DESCRIPTION": "Localize o portal no seu idioma. Nós damos suporte a todas as localidades e permitimos traduções para todos os artigos."
+        },
+        "SEO": {
+          "TITLE": "Design otimizado para SEO",
+          "DESCRIPTION": "Personalize suas meta tags para melhorar sua visibilidade nos motores de busca com nossas páginas otimizadas para SEO."
+        },
+        "API": {
+          "TITLE": "Suporte completo para API",
+          "DESCRIPTION": "Use o portal como um CMS sem interface gráfica com frameworks front-end de terceiros usando nossas APIs."
         }
       }
     }

@@ -12,13 +12,13 @@
     "VIEW_PROFILE": "Pokaż profil",
     "BROWSER": "Przeglądarka",
     "OS": "System operacyjny",
-    "INITIATED_FROM": "Inicjowane z",
-    "INITIATED_AT": "Inicjowane o",
+    "INITIATED_FROM": "Zainicjowane z",
+    "INITIATED_AT": "Zainicjowane o",
     "IP_ADDRESS": "Adres IP",
     "CREATED_AT_LABEL": "Utworzono",
     "NEW_MESSAGE": "Nowa wiadomość",
     "CONVERSATIONS": {
-      "NO_RECORDS_FOUND": "Brak wcześniejszych rozmów związanych z tym kontaktem.",
+      "NO_RECORDS_FOUND": "Brak wcześniejszych rozmów z tym kontaktem.",
       "TITLE": "Poprzednie rozmowy"
     },
     "LABELS": {
@@ -32,15 +32,15 @@
       },
       "LABEL_SELECT": {
         "TITLE": "Dodaj etykiety",
-        "PLACEHOLDER": "Wyszukaj etykiety",
+        "PLACEHOLDER": "Szukaj etykiet",
         "NO_RESULT": "Brak wyników",
         "CREATE_LABEL": "Utwórz nową etykietę"
       }
     },
     "MERGE_CONTACT": "Połącz kontakty",
     "CONTACT_ACTIONS": "Akcje kontaktu",
-    "MUTE_CONTACT": "Wycisz rozmowę",
-    "UNMUTE_CONTACT": "Wyłącz wyciszenie rozmowy",
+    "MUTE_CONTACT": "Wycisz kontakt",
+    "UNMUTE_CONTACT": "Wyłącz wyciszenie kontaktu",
     "MUTED_SUCCESS": "Ta rozmowa jest wyciszona przez 6 godzin",
     "UNMUTED_SUCCESS": "Ta rozmowa nie jest wyciszona",
     "SEND_TRANSCRIPT": "Wyślij transkrypt",
@@ -57,28 +57,28 @@
     "DESC": "Edytuj dane kontaktowe"
   },
   "CREATE_CONTACT": {
-    "BUTTON_LABEL": "Nowy kontakt",
+    "BUTTON_LABEL": "Utwórz kontakt",
     "TITLE": "Utwórz nowy kontakt",
-    "DESC": "Dodaj podstawowe informacje o kontakcie."
+    "DESC": "Dodaj informacje o kontakcie"
   },
   "IMPORT_CONTACTS": {
     "BUTTON_LABEL": "Importuj",
     "TITLE": "Importuj kontakty",
     "DESC": "Importuj kontakty z pliku CSV.",
-    "DOWNLOAD_LABEL": "Pobierz przykładowy plik CSV.",
+    "DOWNLOAD_LABEL": "Pobierz przykładowy plik CSV",
     "FORM": {
       "LABEL": "Plik CSV",
       "SUBMIT": "Importuj",
       "CANCEL": "Anuluj"
     },
-    "SUCCESS_MESSAGE": "Kontakty zostały pomyślnie zapisane",
+    "SUCCESS_MESSAGE": "Otrzymasz powiadomienie e-mailem, gdy import zostanie zakończony.",
     "ERROR_MESSAGE": "Wystąpił błąd, spróbuj ponownie"
   },
   "EXPORT_CONTACTS": {
     "BUTTON_LABEL": "Eksportuj",
     "TITLE": "Eksportuj kontakty",
-    "DESC": "Eksportuj kontakty do pliku CSV.",
-    "SUCCESS_MESSAGE": "Trwa eksportowanie, otrzymasz powiadomienie e-mailem, gdy plik eksportu będzie gotowy do pobrania.",
+    "DESC": "Eksportuj kontakty do pliku CSV",
+    "SUCCESS_MESSAGE": "Eksportowanie w toku, otrzymasz powiadomienie e-mailem, gdy plik będzie gotowy do pobrania.",
     "ERROR_MESSAGE": "Wystąpił błąd, spróbuj ponownie"
   },
   "DELETE_NOTE": {
@@ -95,7 +95,7 @@
     "DESC": "Usuń dane kontaktowe",
     "CONFIRM": {
       "TITLE": "Potwierdź usunięcie",
-      "MESSAGE": "Czy na pewno chcesz usunąć kontakt ",
+      "MESSAGE": "Czy na pewno chcesz usunąć ten kontakt?",
       "YES": "Tak, usuń",
       "NO": "Nie, anuluj"
     },
@@ -112,12 +112,12 @@
         "LABEL": "Avatar kontaktu"
       },
       "NAME": {
-        "PLACEHOLDER": "Wprowadź pełną nazwę kontaktu",
-        "LABEL": "Pełna nazwa (imię i nazwisko)"
+        "PLACEHOLDER": "Wprowadź pełne imię i nazwisko kontaktu",
+        "LABEL": "Pełne imię i nazwisko"
       },
       "BIO": {
-        "PLACEHOLDER": "Wprowadź bio kontaktu",
-        "LABEL": "Bio"
+        "PLACEHOLDER": "Wprowadź biografię kontaktu",
+        "LABEL": "Biografia"
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Wprowadź adres e-mail kontaktu",
@@ -128,9 +128,9 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Wprowadź numer telefonu kontaktu",
         "LABEL": "Numer telefonu",
-        "HELP": "Numer telefonu powinien mieć format E.164, na przykład +1415555555 [+][kod kraju][kod kierunkowy][numer telefonu]",
+        "HELP": "Numer telefonu powinien być w formacie E.164, np. +1415555555 [+][kod kraju][kod kierunkowy][numer telefonu]",
         "ERROR": "Numer telefonu powinien być pusty lub mieć format E.164",
-        "DIAL_CODE_ERROR": "Wybierz kod wybierania z listy",
+        "DIAL_CODE_ERROR": "Wybierz kod kraju z listy",
         "DUPLICATE": "Ten numer telefonu jest już zajęty przez inny kontakt."
       },
       "LOCATION": {
@@ -173,8 +173,8 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Avatar kontaktu został pomyślnie usunięty",
-        "ERROR_MESSAGE": "Nie można usunąć avatara kontaktu. Spróbuj ponownie później."
+        "SUCCESS_MESSAGE": "Awatar kontaktu został pomyślnie usunięty",
+        "ERROR_MESSAGE": "Nie można usunąć awatara kontaktu. Spróbuj ponownie później."
       }
     },
     "SUCCESS_MESSAGE": "Kontakt został pomyślnie zapisany",
@@ -184,7 +184,7 @@
     "BUTTON_LABEL": "Rozpocznij rozmowę",
     "TITLE": "Nowa rozmowa",
     "DESC": "Rozpocznij nową rozmowę, wysyłając wiadomość.",
-    "NO_INBOX": "Nie można znaleźć skrzynki odbiorczej, aby rozpocząć nową rozmowę z tym kontaktem.",
+    "NO_INBOX": "Nie znaleziono skrzynki odbiorczej, aby rozpocząć nową rozmowę z tym kontaktem.",
     "FORM": {
       "TO": {
         "LABEL": "Do"
@@ -203,6 +203,10 @@
         "LABEL": "Wiadomość",
         "PLACEHOLDER": "Wpisz swoją wiadomość tutaj",
         "ERROR": "Wiadomość nie może być pusta"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
       },
       "SUBMIT": "Wyślij wiadomość",
       "CANCEL": "Anuluj",
@@ -236,7 +240,7 @@
         "COMPANY": "Firma",
         "EMAIL_ADDRESS": "Adres e-mail"
       },
-      "VIEW_DETAILS": "Wyświetl szczegóły"
+      "VIEW_DETAILS": "Zobacz szczegóły"
     }
   },
   "CONTACT_PROFILE": {
@@ -246,7 +250,7 @@
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "Dodaj",
-      "TITLE": "Shift + Enter, aby utworzyć przypomnienie"
+      "TITLE": "Shift + Enter, aby dodać przypomnienie"
     },
     "FOOTER": {
       "DUE_DATE": "Data wykonania",
@@ -265,7 +269,7 @@
     "ADD": {
       "BUTTON": "Dodaj",
       "PLACEHOLDER": "Dodaj notatkę",
-      "TITLE": "Shift + Enter, aby utworzyć notatkę"
+      "TITLE": "Shift + Enter, aby dodać notatkę"
     },
     "CONTENT_HEADER": {
       "DELETE": "Usuń notatkę"
@@ -342,18 +346,18 @@
     "TITLE": "Połącz kontakty",
     "DESCRIPTION": "Połącz kontakty, aby połączyć dwa profile w jeden, wraz z wszystkimi atrybutami i rozmowami. W przypadku konfliktu atrybuty z profilu głównego będą miały pierwszeństwo.",
     "PRIMARY": {
-      "TITLE": "Kontakt główny",
-      "HELP_LABEL": "Przechowywanie"
+      "TITLE": "Główny kontakt",
+      "HELP_LABEL": "Usunięcie"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Kontakt do scalenia",
       "PLACEHOLDER": "Wyszukaj kontakty",
-      "HELP_LABEL": "Usunięcie"
+      "HELP_LABEL": "Zachowaj"
     },
     "SUMMARY": {
       "TITLE": "Podsumowanie",
-      "DELETE_WARNING": "Kontakt <strong>%{childContactName}</strong> zostanie usunięty.",
-      "ATTRIBUTE_WARNING": "Dane kontaktowe z <strong>%{childContactName}</strong> zostaną skopiowane do <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Kontakt <strong>%{primaryContactName}</strong> zostanie usunięty.",
+      "ATTRIBUTE_WARNING": "Dane kontaktowe z <strong>%{primaryContactName}</strong> zostaną skopiowane do <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "Błąd"

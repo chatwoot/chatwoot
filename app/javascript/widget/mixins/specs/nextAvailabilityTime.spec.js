@@ -271,10 +271,8 @@ describe('nextAvailabilityTimeMixin', () => {
       'Friday',
       'Saturday',
     ];
-    const {
-      open_hour: openHour,
-      open_minutes: openMinute,
-    } = wrapper.vm.nextDayWorkingHours;
+    const { open_hour: openHour, open_minutes: openMinute } =
+      wrapper.vm.nextDayWorkingHours;
 
     expect(wrapper.vm.nextDayTimings).toEqual({
       openHour,
@@ -359,11 +357,12 @@ describe('nextAvailabilityTimeMixin', () => {
       chatwootWebChannel.workingHours[
         wrapper.vm.currentDay === 6 ? 0 : wrapper.vm.currentDay + 1
       ].open_minutes;
-    const expectedHoursAndMinutes = wrapper.vm.getHoursAndMinutesUntilNextDayOpen(
-      nextDayOpenHour,
-      nextDayOpenMinute,
-      currentDayCloseHour
-    );
+    const expectedHoursAndMinutes =
+      wrapper.vm.getHoursAndMinutesUntilNextDayOpen(
+        nextDayOpenHour,
+        nextDayOpenMinute,
+        currentDayCloseHour
+      );
     expect(wrapper.vm.hoursAndMinutesBackInOnline).toEqual(
       expectedHoursAndMinutes
     );

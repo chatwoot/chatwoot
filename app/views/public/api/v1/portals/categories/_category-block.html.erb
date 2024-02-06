@@ -1,8 +1,17 @@
 
-<section class="bg-white lg:container w-full py-6 px-4 flex flex-col h-full">
-  <div class="flex justify-between items-center w-full">
-    <h3 class="text-xl text-slate-900 font-semibold leading-relaxed hover:underline"">
-     <a href="/hc/<%= portal.slug %>/<%= category.locale %>/categories/<%= category.slug %>">
+<% category_link_params = {
+      portal_slug: portal.slug,
+      category_locale: category.locale,
+      category_slug: category.slug,
+      theme: @theme_from_params,
+      is_plain_layout_enabled: @is_plain_layout_enabled
+    }
+%>
+
+<section class="flex flex-col w-full h-full px-4 py-6 lg:container">
+  <div class="flex items-center justify-between w-full">
+    <h3 class="text-xl font-semibold leading-relaxed text-slate-900 dark:text-white hover:underline">
+     <a href="<%= generate_category_link(category_link_params) %>">
       <%= category.name %>
     </a>
     </h3>
@@ -10,23 +19,23 @@
       <%= render 'public/api/v1/portals/article_count', article_count: category.articles.published.order(position: :asc).size %>
     </span>
   </div>
-  <div class="py-4 w-full mt-2 flex-grow">
+  <div class="flex-grow w-full py-4 mt-2">
     <% if category.articles.published.size == 0 %>
-      <div class="h-full flex items-center justify-center bg-slate-50 rounded-xl mb-4">
+      <div class="flex items-center justify-center h-full mb-4 bg-slate-50 dark:bg-slate-800 rounded-xl">
         <p class="text-sm text-slate-500"><%= I18n.t('public_portal.common.no_articles') %></p>
       </div>
     <% else %>
       <% category.articles.published.order(position: :asc).take(5).each do |article| %>
-        <div class="flex justify-between content-center h-8 my-1">
+        <div class="flex content-center justify-between h-8 my-1">
           <a
-            class="text-slate-800 hover:underline leading-8"
-            href="/hc/<%= portal.slug %>/articles/<%= article.slug %>"
+            class="leading-8 text-slate-800 dark:text-slate-50 hover:underline"
+            href="<%= generate_article_link(portal.slug, article.slug, @theme_from_params, @is_plain_layout_enabled) %>"
           >
             <%= article.title %>
           </a>
           <span class="flex items-center">
             <svg
-              class="w-4 h-4 fill-current text-slate-700"
+              class="w-4 h-4 fill-current text-slate-700 dark:text-slate-200"
               width="24"
               height="24"
               fill="none"
@@ -45,8 +54,8 @@
   </div>
   <div>
     <a
-      href="/hc/<%= portal.slug %>/<%= category.locale %>/categories/<%= category.slug %>"
-      class="flex flex-row items-center text-base font-medium text-woot-600 hover:text-slate-900 hover:underline mt-4"
+      href="<%= generate_category_link(category_link_params) %>"
+      class="flex flex-row items-center mt-4 text-base font-medium text-woot-600 dark:text-woot-500 hover:text-slate-900 dark:hover:text-white hover:underline"
     >
       <%= I18n.t('public_portal.common.view_all_articles') %>
       <span class="ml-2">

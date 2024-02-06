@@ -1,5 +1,5 @@
 <template>
-  <div class="container py-2 px-4 w-full">
+  <div class="py-2 px-4 w-full max-w-full">
     <div class="flex justify-between items-center mt-0 mb-2 mx-0 h-12">
       <div class="flex items-center">
         <woot-sidemenu-icon />
@@ -53,10 +53,10 @@
 <script>
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
-import PortalListItem from '../../components/PortalListItem';
+import PortalListItem from '../../components/PortalListItem.vue';
 import Spinner from 'shared/components/Spinner.vue';
-import EmptyState from 'dashboard/components/widgets/EmptyState';
-import AddLocale from '../../components/AddLocale';
+import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
+import AddLocale from '../../components/AddLocale.vue';
 import { buildPortalURL } from 'dashboard/helper/portalHelper';
 
 export default {

@@ -41,18 +41,40 @@
       "STATUS": "Situação",
       "ORDER_BY": "Ordenar por"
     },
-    "CHAT_SORT_FILTER_ITEMS": {
-      "latest": {
-        "TEXT": "Última atividade"
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Criado",
+        "OLDEST": "Criado em:"
       },
-      "sort_on_created_at": {
-        "TEXT": "Criado em"
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Última atividade:",
+        "ACTIVE": "Última atividade"
+      }
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": ""
       },
-      "sort_on_priority": {
-        "TEXT": "Prioridade"
+      "last_activity_at_desc": {
+        "TEXT": "Última atividade: Recentes primeiro"
       },
-      "sort_on_waiting_since": {
-        "TEXT": "Pending Response"
+      "created_at_desc": {
+        "TEXT": "Criado em: Recentes primeiro"
+      },
+      "created_at_asc": {
+        "TEXT": "Criado em: Antigos primeiro"
+      },
+      "priority_desc": {
+        "TEXT": "Prioridade: Altas primeiro"
+      },
+      "priority_asc": {
+        "TEXT": "Prioridade: Baixas primeiro"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Resposta pendente: Longas primeiro"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Resposta pendente: Curtas primeiro"
       }
     },
     "ATTACHMENTS": {

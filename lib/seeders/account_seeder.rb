@@ -74,11 +74,14 @@ class Seeders::AccountSeeder
 
   def seed_contacts
     @account_data['contacts'].each do |contact_data|
-      contact = @account.contacts.create!(contact_data.slice('name', 'email'))
-      Avatar::AvatarFromUrlJob.perform_later(contact, "https://xsgames.co/randomusers/avatar.php?g=#{contact_data['gender']}")
+      contact = @account.contacts.find_or_initialize_by(email: contact_data['email'])
+      if contact.new_record?
+        contact.update!(contact_data.slice('name', 'email'))
+        Avatar::AvatarFromUrlJob.perform_later(contact, "https://xsgames.co/randomusers/avatar.php?g=#{contact_data['gender']}")
+      end
       contact_data['conversations'].each do |conversation_data|
         inbox = @account.inboxes.find_by(channel_type: conversation_data['channel'])
-        contact_inbox = inbox.contact_inboxes.create!(contact: contact, source_id: (conversation_data['source_id'] || SecureRandom.hex))
+        contact_inbox = inbox.contact_inboxes.create_or_find_by!(contact: contact, source_id: (conversation_data['source_id'] || SecureRandom.hex))
         create_conversation(contact_inbox: contact_inbox, conversation_data: conversation_data)
       end
     end
@@ -96,16 +99,19 @@ class Seeders::AccountSeeder
   def create_messages(conversation:, messages:)
     messages.each do |message_data|
       sender = find_message_sender(conversation, message_data)
-      conversation.messages.create!(message_data.slice('content', 'message_type').merge(account: conversation.inbox.account, sender: sender,
-                                                                                        inbox: conversation.inbox))
+      conversation.messages.create!(
+        message_data.slice('content', 'message_type').merge(
+          account: conversation.inbox.account, sender: sender, inbox: conversation.inbox
+        )
+      )
     end
   end
 
   def find_message_sender(conversation, message_data)
     if message_data['message_type'] == 'incoming'
-      User.find_by(email: message_data['sender']) if message_data['sender'].present?
-    else
       conversation.contact
+    elsif message_data['sender'].present?
+      User.find_by(email: message_data['sender'])
     end
   end
 

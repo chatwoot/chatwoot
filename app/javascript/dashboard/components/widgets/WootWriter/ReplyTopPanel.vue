@@ -137,7 +137,7 @@ export default {
   .button--note {
     @apply border-l-0 rounded-none;
     &.is-active {
-      @apply border-r border-b-0 bg-yellow-50 dark:bg-yellow-50 border-t-0 border-slate-50 dark:border-slate-700;
+      @apply border-r border-b-0 bg-yellow-100 dark:bg-yellow-800 border-t-0 border-slate-50 dark:border-slate-700;
     }
     &:hover,
     &:active {

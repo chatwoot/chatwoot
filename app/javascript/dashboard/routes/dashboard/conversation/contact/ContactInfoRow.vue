@@ -58,7 +58,7 @@
 </template>
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
-import EmojiOrIcon from 'shared/components/EmojiOrIcon';
+import EmojiOrIcon from 'shared/components/EmojiOrIcon.vue';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 
 export default {

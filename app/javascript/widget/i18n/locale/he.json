@@ -34,7 +34,9 @@
   "START_CONVERSATION": "התחל שיחה",
   "END_CONVERSATION": "סיים שיחה",
   "CONTINUE_CONVERSATION": "המשך שיחה",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "התחל שיחה חדשה",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "ראה הודעות חדשות",
     "CLOSE_MESSAGES_BUTTON": "סגור",
@@ -104,6 +106,31 @@
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "לחץ כאן בשביל להצטרף",
       "LEAVE_THE_ROOM": "עזוב את השיחה"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "הודעת תמונה"
+    },
+    "audio": {
+      "CONTENT": "הודעות קוליות"
+    },
+    "video": {
+      "CONTENT": "הודעות וידאו"
+    },
+    "file": {
+      "CONTENT": "קובץ מצורף"
+    },
+    "location": {
+      "CONTENT": "מיקום"
+    },
+    "fallback": {
+      "CONTENT": "שיתף קישור"
     }
   }
 }

@@ -1,6 +1,8 @@
 <template>
-  <div class="flex flex-row h-full">
-    <div class="w-[60%] macros-canvas">
+  <div class="flex flex-col md:flex-row h-auto md:h-full w-full">
+    <div
+      class="flex-1 w-full md:w-auto macro-gradient-radial dark:macro-dark-gradient-radial macro-gradient-radial-size h-full max-h-full py-4 px-12 overflow-y-auto"
+    >
       <macro-nodes
         v-model="macro.actions"
         :files="files"
@@ -9,7 +11,7 @@
         @resetAction="resetNode"
       />
     </div>
-    <div class="w-[34%]">
+    <div class="w-full md:w-1/3">
       <macro-properties
         :macro-name="macro.name"
         :macro-visibility="macro.visibility"
@@ -22,8 +24,8 @@
 </template>
 
 <script>
-import MacroNodes from './MacroNodes';
-import MacroProperties from './MacroProperties';
+import MacroNodes from './MacroNodes.vue';
+import MacroProperties from './MacroProperties.vue';
 import { required, requiredIf } from 'vuelidate/lib/validators';
 
 export default {
@@ -137,8 +139,5 @@ export default {
   .macro-gradient-radial-size {
     background-size: 1rem 1rem;
   }
-}
-.macros-canvas {
-  @apply macro-gradient-radial dark:macro-dark-gradient-radial macro-gradient-radial-size h-full max-h-full py-4 px-12 overflow-y-auto;
 }
 </style>

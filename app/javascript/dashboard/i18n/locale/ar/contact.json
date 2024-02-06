@@ -71,7 +71,7 @@
       "SUBMIT": "استيراد",
       "CANCEL": "إلغاء"
     },
-    "SUCCESS_MESSAGE": "تم حفظ جهة الاتصال بنجاح",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "حدث خطأ، الرجاء المحاولة مرة أخرى"
   },
   "EXPORT_CONTACTS": {
@@ -203,6 +203,10 @@
         "LABEL": "رسالة",
         "PLACEHOLDER": "اكتب رسالتك هنا",
         "ERROR": "لا يمكن أن تكون الرسالة فارغة"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
       },
       "SUBMIT": "إرسال الرسالة",
       "CANCEL": "إلغاء",
@@ -343,17 +347,17 @@
     "DESCRIPTION": "دمج جهات الاتصال للجمع بين ملفّين شخصيين في واحد، بما في ذلك جميع السمات والمحادثات. في حالة التعارض، تكون لخصائص جهة الاتصال الرئيسية الأسبقية.",
     "PRIMARY": {
       "TITLE": "جهة الاتصال الرئيسية",
-      "HELP_LABEL": "سيتم الاحتفاظ بها"
+      "HELP_LABEL": "ليتم حذفها"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "دمج جهة الإتصال",
       "PLACEHOLDER": "بحث عن جهات الاتصال",
-      "HELP_LABEL": "ليتم حذفها"
+      "HELP_LABEL": "سيتم الاحتفاظ بها"
     },
     "SUMMARY": {
       "TITLE": "ملخص",
-      "DELETE_WARNING": "سيتم حذف جهة الاتصال بـ <strong>%{childContactName}</strong>.",
-      "ATTRIBUTE_WARNING": "سيتم نسخ تفاصيل الاتصال بـ <strong>%{childContactName}</strong> إلى <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "سيتم حذف جهة الاتصال بـ <strong>%{primaryContactName}</strong>.",
+      "ATTRIBUTE_WARNING": "سيتم نسخ تفاصيل الاتصال بـ <strong>%{primaryContactName}</strong> إلى <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "رسالة_خطأ"

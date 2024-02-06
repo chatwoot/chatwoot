@@ -4,8 +4,8 @@
     "LOADING_CHART": "Carregando dados do gráfico...",
     "NO_ENOUGH_DATA": "Não existem dados suficientes para gerar o relatório. Tente novamente mais tarde.",
     "DOWNLOAD_AGENT_REPORTS": "Baixar relatórios de agentes",
-    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
-    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
+    "DATA_FETCHING_FAILED": "Falha ao buscar dados, tente novamente mais tarde.",
+    "SUMMARY_FETCHING_FAILED": "Não foi possível obter o resumo. Tente novamente mais tarde.",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversas",
@@ -34,6 +34,10 @@
       "RESOLUTION_COUNT": {
         "NAME": "Contagem de Resolução",
         "DESC": "( Total )"
+      },
+      "REPLY_TIME": {
+        "NAME": "Tempo de espera do cliente",
+        "TOOLTIP_TEXT": "O tempo de resposta é de %{metricValue} (baseado em %{conversationCount} conversas)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -124,10 +128,6 @@
       {
         "id": 3,
         "groupBy": "Mês"
-      },
-      {
-        "id": 4,
-        "groupBy": "Ano"
       }
     ],
     "BUSINESS_HOURS": "Horários de funcionamento"
@@ -404,7 +404,7 @@
     "HEADER": "Relatórios CSAT",
     "NO_RECORDS": "Não há respostas de pesquisa em CSAT disponíveis.",
     "DOWNLOAD": "Baixar relatórios de CSAT",
-    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
+    "DOWNLOAD_FAILED": "Falha ao baixar Relatórios CSAT",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Escolher agentes"

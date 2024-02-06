@@ -33,7 +33,7 @@
 </template>
 <script>
 import webhookMixin from './webhookMixin';
-import ShowMore from 'dashboard/components/widgets/ShowMore';
+import ShowMore from 'dashboard/components/widgets/ShowMore.vue';
 
 export default {
   components: { ShowMore },

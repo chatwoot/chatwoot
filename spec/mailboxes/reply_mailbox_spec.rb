@@ -86,6 +86,9 @@ RSpec.describe ReplyMailbox do
 
         html_full_content = conversation.messages.last.content_attributes[:email][:html_content][:full]
         expect(html_full_content).to include('img')
+        expect(html_full_content).not_to include('cid:ii_lm7fuura0')
+        expect(html_full_content).not_to include('cid:ii_lm7fuuvm1')
+        expect(html_full_content).not_to include('cid:ii_lm7fuuwn2')
       end
     end
 
@@ -105,6 +108,9 @@ RSpec.describe ReplyMailbox do
         text_full_content = conversation.messages.last.content_attributes[:email][:text_content][:full]
 
         expect(text_full_content).to include('img')
+        expect(text_full_content).not_to include('[image: poster (8).jpg]')
+        expect(text_full_content).not_to include('[image: poster (7).jpg]')
+        expect(text_full_content).not_to include('[image: poster (1).jpg]')
         expect(conversation.messages.last.content).to include("Let's add no HTML content here, just plain text and images")
         expect(conversation.messages.last.attachments.count).to eq(0)
       end

@@ -4,15 +4,19 @@
       v-if="show"
       :class="modalClassName"
       transition="modal"
-      @click="onBackDropClick"
+      @mousedown="handleMouseDown"
     >
-      <div :class="modalContainerClassName" @click.stop>
+      <div
+        :class="modalContainerClassName"
+        @mouse.stop
+        @mousedown="event => event.stopPropagation()"
+      >
         <woot-button
           v-if="showCloseButton"
           color-scheme="secondary"
           icon="dismiss"
           variant="clear"
-          class="modal--close"
+          class="absolute ltr:right-2 rtl:left-2 top-2 z-10"
           @click="close"
         />
         <slot />
@@ -50,6 +54,11 @@ export default {
       default: '',
     },
   },
+  data() {
+    return {
+      mousedDownOnBackdrop: false,
+    };
+  },
   computed: {
     modalContainerClassName() {
       let className =
@@ -66,9 +75,9 @@ export default {
         'right-aligned': 'right-aligned',
       };
 
-      return `modal-mask skip-context-menu ${modalClassNameMap[
-        this.modalType
-      ] || ''}`;
+      return `modal-mask skip-context-menu ${
+        modalClassNameMap[this.modalType] || ''
+      }`;
     },
   },
   mounted() {
@@ -77,13 +86,22 @@ export default {
         this.onClose();
       }
     });
+
+    document.body.addEventListener('mouseup', this.onMouseUp);
+  },
+  beforeDestroy() {
+    document.body.removeEventListener('mouseup', this.onMouseUp);
   },
   methods: {
+    handleMouseDown() {
+      this.mousedDownOnBackdrop = true;
+    },
     close() {
       this.onClose();
     },
-    onBackDropClick() {
-      if (this.closeOnBackdropClick) {
+    onMouseUp() {
+      if (this.mousedDownOnBackdrop) {
+        this.mousedDownOnBackdrop = false;
         this.onClose();
       }
     },

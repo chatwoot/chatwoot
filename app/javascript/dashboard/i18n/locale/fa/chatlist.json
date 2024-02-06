@@ -39,20 +39,42 @@
     "SORT_TOOLTIP_LABEL": "مرتب‌سازی گفتگوها",
     "CHAT_SORT": {
       "STATUS": "وضعیت",
-      "ORDER_BY": "Order by"
+      "ORDER_BY": "مرتب بر اساس"
     },
-    "CHAT_SORT_FILTER_ITEMS": {
-      "latest": {
-        "TEXT": "آخرین فعالیت"
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "ایجاد شده",
+        "OLDEST": "ایجاد شده در:"
       },
-      "sort_on_created_at": {
-        "TEXT": "ایجاد شده در"
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "آخرین فعالیت:",
+        "ACTIVE": "آخرین فعالیت"
+      }
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Last activity: Oldest first"
       },
-      "sort_on_priority": {
-        "TEXT": "اولویت"
+      "last_activity_at_desc": {
+        "TEXT": "Last activity: Newest first"
       },
-      "sort_on_waiting_since": {
-        "TEXT": "Pending Response"
+      "created_at_desc": {
+        "TEXT": "Created at: Newest first"
+      },
+      "created_at_asc": {
+        "TEXT": "Created at: Oldest first"
+      },
+      "priority_desc": {
+        "TEXT": "Priority: Highest first"
+      },
+      "priority_asc": {
+        "TEXT": "Priority: Lowest first"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Pending Response: Longest first"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Pending Response: Shortest first"
       }
     },
     "ATTACHMENTS": {

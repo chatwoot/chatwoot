@@ -10,7 +10,6 @@
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  account_id        :bigint           not null
-#  inbox_id          :bigint           not null
 #  source_model_id   :bigint
 #
 # Indexes
@@ -19,10 +18,11 @@
 #
 class ResponseSource < ApplicationRecord
   enum source_type: { external: 0, kbase: 1, inbox: 2 }
+  has_many :inbox_response_sources, dependent: :destroy_async
+  has_many :inboxes, through: :inbox_response_sources
   belongs_to :account
-  belongs_to :inbox
-  has_many :response_documents, dependent: :destroy
-  has_many :responses, through: :response_documents
+  has_many :response_documents, dependent: :destroy_async
+  has_many :responses, dependent: :destroy_async
 
   accepts_nested_attributes_for :response_documents
 end

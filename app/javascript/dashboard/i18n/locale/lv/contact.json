@@ -71,7 +71,7 @@
       "SUBMIT": "Importēt",
       "CANCEL": "Atcelt"
     },
-    "SUCCESS_MESSAGE": "Kontaktpersonas ir veiksmīgi saglabātas",
+    "SUCCESS_MESSAGE": "Kad importēšana būs pabeigta, jūs saņemsiet paziņojumu pa e-pastu.",
     "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
   },
   "EXPORT_CONTACTS": {
@@ -146,7 +146,7 @@
         "LABEL": "Valsts Nosaukums",
         "SELECT_PLACEHOLDER": "Izvēlieties",
         "REMOVE": "Noņemt",
-        "SELECT_COUNTRY": "Izvēlies valsti"
+        "SELECT_COUNTRY": "Izvēlieties valsti"
       },
       "CITY": {
         "PLACEHOLDER": "Ievadiet pilsētas nosaukumu",
@@ -203,6 +203,10 @@
         "LABEL": "Ziņojums",
         "PLACEHOLDER": "Rakstiet savu ziņojumu šeit",
         "ERROR": "Ziņojuma lauks nedrīkst būt tukšs"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Izvēlieties failus",
+        "HELP_TEXT": "Velciet un nometiet failus šeit vai izvēlieties failus, ko pievienot"
       },
       "SUBMIT": "Sūtīt ziņojumu",
       "CANCEL": "Atcelt",
@@ -343,17 +347,17 @@
     "DESCRIPTION": "Apvienojiet kontaktpersonas, lai apvienotu divus profilus vienā, tostarp visas īpašības un sarunas. Konfliktu gadījumā primārās kontaktpersonas īpašībām būs prioritāte.",
     "PRIMARY": {
       "TITLE": "Primārā kontaktpersona",
-      "HELP_LABEL": "Jāpatur"
+      "HELP_LABEL": "Jādzēš"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Apvienojamā Kontaktpersona",
       "PLACEHOLDER": "Meklēt kontaktpersonu",
-      "HELP_LABEL": "Jādzēš"
+      "HELP_LABEL": "Jāpatur"
     },
     "SUMMARY": {
       "TITLE": "Kopsavilkums",
-      "DELETE_WARNING": "Kontaktpersona <strong>%{childContactName}</strong> tiks dzēsta.",
-      "ATTRIBUTE_WARNING": "Kontaktpersonas <strong>%{childContactName}</strong> informācija tiks kopēta uz <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Kontaktpersona <strong>%{primaryContactName}</strong> tiks dzēsta.",
+      "ATTRIBUTE_WARNING": "Kontaktpersonas <strong>%{primaryContactName}</strong> informācija tiks kopēta uz <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "KĻŪDAS_PAZIŅOJUMS"

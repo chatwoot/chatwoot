@@ -36,10 +36,13 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Asmeninis pranešimo parašas",
-        "NOTE": "Sukurkite asmeninį pranešimo parašą, kuris būtų pridėtas prie visų pranešimų, kuriuos siunčiate iš el. pašto dėžutės. Naudokite turtingo turinio redagavimo priemonę, kad sukurtumėte labai suasmenintą parašą.",
+        "NOTE": "Sukurkite unikalų pranešimo parašą, kuris bus rodomas kiekvieno pranešimo pabaigoje, siunčiamo iš bet kurio gautųjų laiškų aplanko. Taip pat galite įdėti paveikslėlį, kuris rodomas tiesioginio pokalbio, el. pašto ir API.",
         "BTN_TEXT": "Išsaugoti pranešimo parašą",
         "API_ERROR": "Nepavyko išsaugoti parašo! Bandykite dar kartą",
-        "API_SUCCESS": "Parašas išsaugotas sėkmingai"
+        "API_SUCCESS": "Parašas išsaugotas sėkmingai",
+        "IMAGE_UPLOAD_ERROR": "Nepavyko įkelti vaizdo! Prašau, pabandykite dar kartą",
+        "IMAGE_UPLOAD_SUCCESS": "Vaizdas sėkmingai pridėtas. Spustelėkite \"Išsaugoti\", kad išsaugotumėte parašą",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Paveiksliuko dydis turi būti mažesnis nei {size} MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Pranešimo parašas",
@@ -149,6 +152,7 @@
     "SELECTOR_SUBTITLE": "Pasirinkite paskyrą iš toliau pateikto sąrašo",
     "PROFILE_SETTINGS": "Profilio Nustatymai",
     "KEYBOARD_SHORTCUTS": "Spartieji klavišai",
+    "APPEARANCE": "Keisti išvaizdą",
     "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "Atsijungti"
   },
@@ -238,7 +242,7 @@
     "REPORTS_OVERVIEW": "Apžvalga",
     "FACEBOOK_REAUTHORIZE": "Jūsų ryšys su Facebook nutrūko. Jei norite toliau nauditis paslaugomis, iš naujo prisijunkite prie Facebook puslapio",
     "HELP_CENTER": {
-      "TITLE": "Pagalbos centras (beta versija)",
+      "TITLE": "Palaikymo centras",
       "ALL_ARTICLES": "Visi Straipsniai",
       "MY_ARTICLES": "Mano Straipsniai",
       "DRAFT": "Ruošinys",

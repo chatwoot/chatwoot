@@ -72,7 +72,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
-import SettingsSection from 'dashboard/components/SettingsSection';
+import SettingsSection from 'dashboard/components/SettingsSection.vue';
 import { required, minLength } from 'vuelidate/lib/validators';
 
 export default {
@@ -143,9 +143,6 @@ export default {
             imap_login: this.login,
             imap_password: this.password,
             imap_enable_ssl: this.isSSLEnabled,
-            imap_inbox_synced_at: this.isIMAPEnabled
-              ? new Date().toISOString()
-              : undefined,
           },
         };
 

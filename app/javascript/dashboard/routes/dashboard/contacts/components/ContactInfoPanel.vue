@@ -80,9 +80,9 @@
 </template>
 
 <script>
-import AccordionItem from 'dashboard/components/Accordion/AccordionItem';
-import ContactConversations from 'dashboard/routes/dashboard/conversation/ContactConversations';
-import ContactInfo from 'dashboard/routes/dashboard/conversation/contact/ContactInfo';
+import AccordionItem from 'dashboard/components/Accordion/AccordionItem.vue';
+import ContactConversations from 'dashboard/routes/dashboard/conversation/ContactConversations.vue';
+import ContactInfo from 'dashboard/routes/dashboard/conversation/contact/ContactInfo.vue';
 import ContactLabel from 'dashboard/routes/dashboard/contacts/components/ContactLabels.vue';
 import CustomAttributes from 'dashboard/routes/dashboard/conversation/customAttributes/CustomAttributes.vue';
 import CustomAttributeSelector from 'dashboard/routes/dashboard/conversation/customAttributes/CustomAttributeSelector.vue';

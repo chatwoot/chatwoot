@@ -10,6 +10,7 @@ export const getAudioContext = () => {
   return audioCtx;
 };
 
+// eslint-disable-next-line default-param-last
 export const getAlertAudio = async (baseUrl = '', requestContext) => {
   const audioCtx = getAudioContext();
   const playSound = audioBuffer => {
@@ -33,6 +34,7 @@ export const getAlertAudio = async (baseUrl = '', requestContext) => {
       .then(response => response.arrayBuffer())
       .then(buffer => {
         audioCtx.decodeAudioData(buffer).then(playSound);
+        // eslint-disable-next-line no-promise-executor-return
         return new Promise(res => res());
       })
       .catch(() => {

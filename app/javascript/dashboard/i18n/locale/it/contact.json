@@ -71,7 +71,7 @@
       "SUBMIT": "Importa",
       "CANCEL": "Annulla"
     },
-    "SUCCESS_MESSAGE": "Contatti salvati con successo",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "Si è verificato un errore, riprova"
   },
   "EXPORT_CONTACTS": {
@@ -203,6 +203,10 @@
         "LABEL": "Messaggio",
         "PLACEHOLDER": "Scrivi qui il tuo messaggio",
         "ERROR": "Il messaggio non può essere vuoto"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
       },
       "SUBMIT": "Invia messaggio",
       "CANCEL": "Annulla",
@@ -343,17 +347,17 @@
     "DESCRIPTION": "Unisci i contatti per combinare due profili in uno, inclusi tutti gli attributi e le conversazioni. In caso di conflitto, gli attributi del contatto primario avranno la precedenza.",
     "PRIMARY": {
       "TITLE": "Contatto primario",
-      "HELP_LABEL": "Da mantenere"
+      "HELP_LABEL": "Da eliminare"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Contatto da unire",
       "PLACEHOLDER": "Cerca un contatto",
-      "HELP_LABEL": "Da eliminare"
+      "HELP_LABEL": "Da mantenere"
     },
     "SUMMARY": {
       "TITLE": "Riepilogo",
-      "DELETE_WARNING": "Il contatto di <strong>%{childContactName}</strong> verrà eliminato.",
-      "ATTRIBUTE_WARNING": "I dettagli del contatto di <strong>%{childContactName}</strong> verranno copiati in <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Il contatto di <strong>%{primaryContactName}</strong> verrà eliminato.",
+      "ATTRIBUTE_WARNING": "I dettagli del contatto di <strong>%{primaryContactName}</strong> verranno copiati in <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"

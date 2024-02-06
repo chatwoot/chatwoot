@@ -1,75 +1,75 @@
 {
   "CANNED_MGMT": {
     "HEADER": "Mentett válaszok",
-    "HEADER_BTN_TXT": "Mentett válasz hozzáadása",
-    "LOADING": "Mentett válaszok letöltése",
-    "SEARCH_404": "Nincs megfelelő elem",
-    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+    "HEADER_BTN_TXT": "Sablon válasz hozzáadása",
+    "LOADING": "Sablon válaszok lekérése...",
+    "SEARCH_404": "Nincs megfelelő elem.",
+    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are pre-written reply templates that help you quickly respond to a conversation. To insert a canned response during a chat, agents can type a short code preceded by a '/' character. </p><p> You can manage your canned responses from this page or create new ones using the \"Add canned response\" button.</p><p>Open the <a target=\"_blank\" href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677501325-how-to-create-saved-reply-templates-with-canned-responses\">Canned Responses handbook</a> in another tab for a helping hand.</p><p>Also, check out the all-new <a href=\"https://www.chatwoot.com/tools/canned-responses-library\" target=\"_blank\">Canned Responses Library</a>.</p>",
     "LIST": {
       "404": "Nincs megfelelő mentett válasz ebben a fiókban.",
       "TITLE": "Mentett válaszok kezelése",
-      "DESC": "A mentett válaszok előre meghatározott sablonok, melyeket gyors válaszok kiküldésére használhatsz.",
+      "DESC": "A sablon válaszok előre definiáltak, amelyek segítségével gyorsan küldhet válaszokat a beszélgetésekre.",
       "TABLE_HEADER": [
-        "Rövidkód",
+        "Rövid kód",
         "Tartalom",
         "Műveletek"
       ]
     },
     "ADD": {
-      "TITLE": "Mentett válasz hozzáadása",
-      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
+      "TITLE": "Sablon válasz hozzáadása",
+      "DESC": "A sablon válaszok előre definiáltak, amelyek segítségével gyorsan küldhet válaszokat a beszélgetésekre.",
       "CANCEL_BUTTON_TEXT": "Mégse",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Rövidkód",
-          "PLACEHOLDER": "Please enter a short code",
-          "ERROR": "Rövidkód szükséges"
+          "LABEL": "Rövid kód",
+          "PLACEHOLDER": "Kérjük, adjon meg egy rövid kódot.",
+          "ERROR": "Rövid kód szükséges."
         },
         "CONTENT": {
-          "LABEL": "Tartalom",
-          "PLACEHOLDER": "Kérjük adj meg tartalmat",
-          "ERROR": "Tartalom szükséges"
+          "LABEL": "Üzenet",
+          "PLACEHOLDER": "Kérjük, írja meg az üzenetet, amelyet sablonként szeretne elmenteni, hogy később felhasználhassa.",
+          "ERROR": "Üzenetre van szükség."
         },
         "SUBMIT": "Elküldés"
       },
       "API": {
-        "SUCCESS_MESSAGE": "A mentett válasz sikeresen hozzáadva",
+        "SUCCESS_MESSAGE": "Sikeresen hozzáadva a sablon válasz.",
         "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
       }
     },
     "EDIT": {
-      "TITLE": "Mentett válasz szerkesztése",
+      "TITLE": "Sablon válasz szerkesztése",
       "CANCEL_BUTTON_TEXT": "Mégse",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Rövidkód",
-          "PLACEHOLDER": "Kérjük adj meg egy Rövidkódot",
-          "ERROR": "Rövidkód szükséges"
+          "LABEL": "Rövid kód",
+          "PLACEHOLDER": "Kérjük, adjon meg egy rövidkódot.",
+          "ERROR": "Rövid kód szükséges."
         },
         "CONTENT": {
-          "LABEL": "Tartalom",
-          "PLACEHOLDER": "Kérjük adj meg tartalmat",
-          "ERROR": "Tartalom szükséges"
+          "LABEL": "Üzenet",
+          "PLACEHOLDER": "Kérjük, írja meg az üzenetet, amelyet sablonként szeretne elmenteni, hogy később felhasználhassa.",
+          "ERROR": "Üzenet kötelező."
         },
         "SUBMIT": "Elküldés"
       },
       "BUTTON_TEXT": "Szerkesztés",
       "API": {
-        "SUCCESS_MESSAGE": "A mentett válasz sikeresen frissítve",
+        "SUCCESS_MESSAGE": "A sablon válasz sikeresen frissült.",
         "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Törlés",
       "API": {
-        "SUCCESS_MESSAGE": "A mentett válasz sikeresen törölve",
+        "SUCCESS_MESSAGE": "A sablon válasz sikeresen törölve.",
         "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
       },
       "CONFIRM": {
         "TITLE": "Törlés megerősítése",
         "MESSAGE": "Biztos abban, hogy törli ",
-        "YES": "Igen, Törlés ",
-        "NO": "Nem, Mégse "
+        "YES": "Igen, törlés ",
+        "NO": "Nem, mégse "
       }
     }
   }

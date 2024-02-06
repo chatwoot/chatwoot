@@ -30,9 +30,9 @@
 </template>
 
 <script>
-import AddLabel from 'shared/components/ui/dropdown/AddLabel';
+import AddLabel from 'shared/components/ui/dropdown/AddLabel.vue';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
-import LabelDropdown from 'shared/components/ui/label/LabelDropdown';
+import LabelDropdown from 'shared/components/ui/label/LabelDropdown.vue';
 import { mixin as clickaway } from 'vue-clickaway';
 import adminMixin from 'dashboard/mixins/isAdmin';
 import {

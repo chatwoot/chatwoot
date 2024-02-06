@@ -23,7 +23,7 @@
 </template>
 <script>
 import { VeTable, VePagination } from 'vue-easytable';
-import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName';
+import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName.vue';
 import { CSAT_RATINGS } from 'shared/constants/messages';
 import { mapGetters } from 'vuex';
 import timeMixin from 'dashboard/mixins/time';
@@ -57,7 +57,13 @@ export default {
           width: 200,
           renderBodyCell: ({ row }) => {
             if (row.contact) {
-              return <UserAvatarWithName size="24px" user={row.contact} />;
+              return (
+                <UserAvatarWithName
+                  textClass="text-sm text-slate-800"
+                  size="24px"
+                  user={row.contact}
+                />
+              );
             }
             return '---';
           },

@@ -30,7 +30,7 @@
 import { mapGetters } from 'vuex';
 import SearchResultConversationItem from './SearchResultConversationItem.vue';
 import SearchResultSection from './SearchResultSection.vue';
-import MessageContent from './MessageContent';
+import MessageContent from './MessageContent.vue';
 
 export default {
   components: {

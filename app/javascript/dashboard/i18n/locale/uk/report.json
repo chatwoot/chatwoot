@@ -34,6 +34,10 @@
       "RESOLUTION_COUNT": {
         "NAME": "Кількість вирішень",
         "DESC": "(Загалом)"
+      },
+      "REPLY_TIME": {
+        "NAME": "Customer waiting time",
+        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} conversations)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -124,10 +128,6 @@
       {
         "id": 3,
         "groupBy": "Місяць"
-      },
-      {
-        "id": 4,
-        "groupBy": "Рік"
       }
     ],
     "BUSINESS_HOURS": "Робочий час"

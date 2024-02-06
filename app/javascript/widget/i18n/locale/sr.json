@@ -34,7 +34,9 @@
   "START_CONVERSATION": "Započnite razgovor",
   "END_CONVERSATION": "Završi razgovor",
   "CONTINUE_CONVERSATION": "Nastavi razgovor",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "Započnite novi razgovor",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Pogledajte nove poruke",
     "CLOSE_MESSAGES_BUTTON": "Zatvori",
@@ -104,6 +106,31 @@
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Click here to join",
       "LEAVE_THE_ROOM": "Leave the call"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Slikovita poruka"
+    },
+    "audio": {
+      "CONTENT": "Govorna poruka"
+    },
+    "video": {
+      "CONTENT": "Video poruka"
+    },
+    "file": {
+      "CONTENT": "Prilog"
+    },
+    "location": {
+      "CONTENT": "Lokacija"
+    },
+    "fallback": {
+      "CONTENT": "je podelio link"
     }
   }
 }

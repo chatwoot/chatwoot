@@ -1,78 +1,78 @@
 {
   "MACROS": {
-    "HEADER": "Macros",
-    "HEADER_BTN_TXT": "Add a new macro",
-    "HEADER_BTN_TXT_SAVE": "Save macro",
-    "LOADING": "Fetching macros",
-    "SIDEBAR_TXT": "<p><b>Macros</b><p>A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click. When the agents run the macro, the actions would be performed sequentially in the order they are defined. Macros improve productivity and increase consistency in actions. </p><p>A macro can be helpful in 2 ways. </p><p><b>As an agent assist:</b> If an agent performs a set of actions multiple times, they can save it as a macro and execute all the actions together using a single click.</p><p><b>As an option to onboard a team member:</b> Every agent has to perform many different checks/actions during each conversation. Onboarding a new support team member will be easy if pre-defined macros are available on the account. Instead of describing each step in detail, the manager/team lead can point to the macros used in different scenarios.</p>",
-    "ERROR": "Something went wrong. Please try again",
-    "ORDER_INFO": "Macros will run in the order you add your actions. You can rearrange them by dragging them by the handle beside each node.",
+    "HEADER": "Makra",
+    "HEADER_BTN_TXT": "Dodaj nowe makro",
+    "HEADER_BTN_TXT_SAVE": "Zapisz makro",
+    "LOADING": "Pobieranie makr",
+    "SIDEBAR_TXT": "<p><b>Makra</b><p>Makro to zestaw zapisanych czynności, które pomagają agentom obsługi klienta łatwo wykonywać zadania. Agenci mogą zdefiniować zestaw czynności, takich jak oznaczenie rozmowy etykietą, wysłanie transkryptu rozmowy e-mailem, aktualizacja niestandardowego atrybutu, itp., a następnie uruchamiać te czynności za pomocą jednego kliknięcia. Kiedy agenci uruchamiają makro, czynności są wykonywane sekwencyjnie w kolejności, w jakiej są zdefiniowane. Makra poprawiają produktywność i zwiększają spójność działań. </p><p>Makro może być pomocne na dwa sposoby. </p><p><b>Jako pomoc dla agenta:</b> Jeśli agent wykonuje zestaw czynności wielokrotnie, może je zapisać jako makro i uruchamiać wszystkie czynności za pomocą jednego kliknięcia.</p><p><b>Jako opcja wprowadzenia nowego członka zespołu:</b> Każdy agent musi wykonywać wiele różnych czynności sprawdzających/operacyjnych podczas każdej rozmowy. Wprowadzenie nowego członka zespołu wsparcia będzie łatwiejsze, jeśli w ramach konta będą dostępne predefiniowane makra. Zamiast szczegółowego opisywania każdego kroku, menedżer/kierownik zespołu może wskazać na makra używane w różnych scenariuszach.</p>",
+    "ERROR": "Wystąpił błąd. Spróbuj ponownie",
+    "ORDER_INFO": "Makra będą uruchamiane w kolejności, w jakiej dodajesz czynności. Możesz zmieniać ich kolejność, przeciągając je za uchwyt obok każdego węzła.",
     "ADD": {
       "FORM": {
         "NAME": {
-          "LABEL": "Macro name",
-          "PLACEHOLDER": "Enter a name for your macro",
-          "ERROR": "Name is required for creating a macro"
+          "LABEL": "Nazwa makra",
+          "PLACEHOLDER": "Wprowadź nazwę makra",
+          "ERROR": "Wymagana jest nazwa makra"
         },
         "ACTIONS": {
           "LABEL": "Akcje"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Macro added successfully",
-        "ERROR_MESSAGE": "Unable to create macro, Please try again later"
+        "SUCCESS_MESSAGE": "Makro pomyślnie dodane",
+        "ERROR_MESSAGE": "Nie można utworzyć makra. Spróbuj ponownie później"
       }
     },
     "LIST": {
       "TABLE_HEADER": [
         "Nazwa",
-        "Created by",
-        "Last updated by",
-        "Visibility"
+        "Utworzone przez",
+        "Ostatnio zaktualizowane przez",
+        "Widoczność"
       ],
-      "404": "No macros found"
+      "404": "Nie znaleziono makr"
     },
     "DELETE": {
-      "TOOLTIP": "Delete macro",
+      "TOOLTIP": "Usuń makro",
       "CONFIRM": {
         "MESSAGE": "Czy na pewno chcesz usunąć ",
         "YES": "Tak, usuń",
         "NO": "Nie"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Macro deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the macro. Please try again later"
+        "SUCCESS_MESSAGE": "Makro pomyślnie usunięte",
+        "ERROR_MESSAGE": "Wystąpił błąd podczas usuwania makra. Spróbuj ponownie później"
       }
     },
     "EDIT": {
-      "TOOLTIP": "Edit macro",
+      "TOOLTIP": "Edytuj makro",
       "API": {
-        "SUCCESS_MESSAGE": "Macro updated successfully",
-        "ERROR_MESSAGE": "Could not update Macro, Please try again later"
+        "SUCCESS_MESSAGE": "Makro pomyślnie zaktualizowane",
+        "ERROR_MESSAGE": "Nie można zaktualizować makra. Spróbuj ponownie później"
       }
     },
     "EDITOR": {
-      "START_FLOW": "Start Flow",
-      "END_FLOW": "End Flow",
-      "LOADING": "Fetching macro",
-      "ADD_BTN_TOOLTIP": "Add new action",
-      "DELETE_BTN_TOOLTIP": "Delete Action",
+      "START_FLOW": "Rozpocznij przepływ",
+      "END_FLOW": "Zakończ przepływ",
+      "LOADING": "Pobieranie makra",
+      "ADD_BTN_TOOLTIP": "Dodaj nową czynność",
+      "DELETE_BTN_TOOLTIP": "Usuń czynność",
       "VISIBILITY": {
-        "LABEL": "Macro Visibility",
+        "LABEL": "Widoczność makra",
         "GLOBAL": {
-          "LABEL": "Public",
-          "DESCRIPTION": "This macro is available publicly for all agents in this account."
+          "LABEL": "Publiczne",
+          "DESCRIPTION": "To makro jest publicznie dostępne dla wszystkich agentów na tym koncie."
         },
         "PERSONAL": {
-          "LABEL": "Private",
-          "DESCRIPTION": "This macro will be private to you and not be available to others."
+          "LABEL": "Prywatne",
+          "DESCRIPTION": "To makro będzie prywatne i nie będzie dostępne dla innych."
         }
       }
     },
     "EXECUTE": {
-      "BUTTON_TOOLTIP": "Execute",
-      "PREVIEW": "Preview Macro",
-      "EXECUTED_SUCCESSFULLY": "Macro executed successfully"
+      "BUTTON_TOOLTIP": "Wykonaj",
+      "PREVIEW": "Podgląd makra",
+      "EXECUTED_SUCCESSFULLY": "Makro pomyślnie wykonane"
     }
   }
 }

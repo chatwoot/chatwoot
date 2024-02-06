@@ -4,28 +4,22 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex';
-import PreChatForm from '../components/PreChat/Form';
+import PreChatForm from '../components/PreChat/Form.vue';
 import configMixin from '../mixins/configMixin';
 import routerMixin from '../mixins/routerMixin';
 import { isEmptyObject } from 'widget/helpers/utils';
+import { ON_CONVERSATION_CREATED } from '../constants/widgetBusEvents';
 
 export default {
   components: {
     PreChatForm,
   },
   mixins: [configMixin, routerMixin],
-  computed: {
-    ...mapGetters({
-      conversationSize: 'conversation/getConversationSize',
-    }),
-  },
-  watch: {
-    conversationSize(newSize, oldSize) {
-      if (!oldSize && newSize > oldSize) {
-        this.replaceRoute('messages');
-      }
-    },
+  mounted() {
+    bus.$on(ON_CONVERSATION_CREATED, () => {
+      // Redirect to messages page after conversation is created
+      this.replaceRoute('messages');
+    });
   },
   methods: {
     onSubmit({

@@ -72,8 +72,6 @@ export default {
   },
   methods: {
     async fetchAccountDetails() {
-      await this.$store.dispatch('accounts/get');
-
       if (!this.hasABillingPlan) {
         this.$store.dispatch('accounts/subscription');
       }

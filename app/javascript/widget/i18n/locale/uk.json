@@ -34,7 +34,9 @@
   "START_CONVERSATION": "Розпочати розмову",
   "END_CONVERSATION": "Закінчити спілкування",
   "CONTINUE_CONVERSATION": "Продовжити спілкування",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "Розпочати нову розмову",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Переглянути нові повідомлення",
     "CLOSE_MESSAGES_BUTTON": "Закрити",
@@ -104,6 +106,31 @@
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Натисніть тут, щоб приєднатися",
       "LEAVE_THE_ROOM": "Залишити дзвінок"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "Переглянути всі статті",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Повідомлення з картинкою"
+    },
+    "audio": {
+      "CONTENT": "Аудіо-повідомлення"
+    },
+    "video": {
+      "CONTENT": "Відеоповідомлення"
+    },
+    "file": {
+      "CONTENT": "Повідомлення з файлом"
+    },
+    "location": {
+      "CONTENT": "Місцезнаходження"
+    },
+    "fallback": {
+      "CONTENT": "поділився посиланням"
     }
   }
 }

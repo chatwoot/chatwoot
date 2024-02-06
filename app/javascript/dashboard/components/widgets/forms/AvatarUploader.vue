@@ -17,7 +17,7 @@
         type="button"
         @click="onAvatarDelete"
       >
-        {{ this.$t('INBOX_MGMT.DELETE.AVATAR_DELETE_BUTTON_TEXT') }}
+        {{ $t('INBOX_MGMT.DELETE.AVATAR_DELETE_BUTTON_TEXT') }}
       </woot-button>
     </div>
     <label>
@@ -25,7 +25,7 @@
         id="file"
         ref="file"
         type="file"
-        accept="image/png, image/jpeg, image/gif"
+        accept="image/png, image/jpeg, image/jpg, image/gif, image/webp"
         @change="handleImageUpload"
       />
       <slot />

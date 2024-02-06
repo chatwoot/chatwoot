@@ -13,7 +13,7 @@
       <div class="w-[60%]">
         <p
           v-if="!uiFlags.fetchingList && !records.length"
-          class="no-items-error-message"
+          class="flex h-full items-center flex-col justify-center"
         >
           {{ $t('INTEGRATION_SETTINGS.WEBHOOK.LIST.404') }}
         </p>
@@ -90,11 +90,11 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import NewWebhook from './NewWebHook';
-import EditWebhook from './EditWebHook';
+import NewWebhook from './NewWebHook.vue';
+import EditWebhook from './EditWebHook.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import WebhookRow from './WebhookRow';
+import WebhookRow from './WebhookRow.vue';
 
 export default {
   components: {

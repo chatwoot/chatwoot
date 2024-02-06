@@ -18,7 +18,7 @@
             />
           </tbody>
         </table>
-        <p v-else class="no-items-error-message">
+        <p v-else class="flex h-full items-center flex-col justify-center">
           {{ $t('AGENT_BOTS.LIST.404') }}
         </p>
       </div>

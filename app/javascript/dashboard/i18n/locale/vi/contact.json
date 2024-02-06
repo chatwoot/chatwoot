@@ -15,7 +15,7 @@
     "INITIATED_FROM": "Bắt đầu từ",
     "INITIATED_AT": "Bắt đầu lúc",
     "IP_ADDRESS": "Địa chỉ IP",
-    "CREATED_AT_LABEL": "Created",
+    "CREATED_AT_LABEL": "Đã tạo",
     "NEW_MESSAGE": "Tin nhắn mới",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Không có cuộc trò chuyện trước đó được liên kết với liên hệ này.",
@@ -34,7 +34,7 @@
         "TITLE": "Thêm nhãn",
         "PLACEHOLDER": "Tìm nhãn",
         "NO_RESULT": "Không tìm thấy nhãn",
-        "CREATE_LABEL": "Create new label"
+        "CREATE_LABEL": "Tạo mới nhãn"
       }
     },
     "MERGE_CONTACT": "Hợp nhất liên hệ",
@@ -71,7 +71,7 @@
       "SUBMIT": "Nhập",
       "CANCEL": "Huỷ"
     },
-    "SUCCESS_MESSAGE": "Liên hệ được lưu thành công",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
   },
   "EXPORT_CONTACTS": {
@@ -142,7 +142,7 @@
         "LABEL": "Tên công ty"
       },
       "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
+        "PLACEHOLDER": "Nhập tên thành phố",
         "LABEL": "Tên Nước",
         "SELECT_PLACEHOLDER": "Chọn",
         "REMOVE": "Xoá",
@@ -150,7 +150,7 @@
       },
       "CITY": {
         "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
+        "LABEL": "Thành phố"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -204,6 +204,10 @@
         "PLACEHOLDER": "Viết tin nhắn ở đây",
         "ERROR": "Tin nhắn không được rỗng"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Chọn File",
+        "HELP_TEXT": "Kéo thả file đính kèm tại đây"
+      },
       "SUBMIT": "Gửi tin nhắn",
       "CANCEL": "Huỷ",
       "SUCCESS_MESSAGE": "Tin nhắn đã được gửi!",
@@ -219,7 +223,7 @@
     "FILTER_CONTACTS": "Lọc",
     "FILTER_CONTACTS_SAVE": "Lưu bộ lọc",
     "FILTER_CONTACTS_DELETE": "Xoá bộ lọc",
-    "FILTER_CONTACTS_EDIT": "Edit segment",
+    "FILTER_CONTACTS_EDIT": "Sửa giai đoạn",
     "LIST": {
       "LOADING_MESSAGE": "Đang tải liên hệ...",
       "404": "Không có liên hệ nào khớp với tìm kiếm của bạn 🔍",
@@ -343,17 +347,17 @@
     "DESCRIPTION": "Hợp nhất các liên hệ để kết hợp hai hồ sơ thành một, bao gồm tất cả các thuộc tính và hội thoại. Trong trường hợp xung đột, các thuộc tính của liên hệ Chính sẽ được ưu tiên.",
     "PRIMARY": {
       "TITLE": "Liên hệ chính",
-      "HELP_LABEL": "Được giữ"
+      "HELP_LABEL": "Sẽ được xoá"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Liên hệ cần gộp",
       "PLACEHOLDER": "Tìm kiếm liên hệ",
-      "HELP_LABEL": "Sẽ được xoá"
+      "HELP_LABEL": "Được giữ"
     },
     "SUMMARY": {
       "TITLE": "Tóm tắt",
-      "DELETE_WARNING": "Liên hệ của <strong>%{childContactName}</strong> sẽ bị xoá.",
-      "ATTRIBUTE_WARNING": "\bChi tiết liên hệ của <strong>%{childContactName}</strong> \bsẽ được sao chép đến <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Liên hệ của <strong>%{primaryContactName}</strong> sẽ bị xoá.",
+      "ATTRIBUTE_WARNING": "\bChi tiết liên hệ của <strong>%{primaryContactName}</strong> \bsẽ được sao chép đến <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"

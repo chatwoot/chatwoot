@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import ActionInput from 'dashboard/components/widgets/AutomationActionInput';
+import ActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
 import macrosMixin from 'dashboard/mixins/macrosMixin';
 import { mapGetters } from 'vuex';
 
@@ -116,7 +116,7 @@ export default {
 
     &.has-error {
       animation: shake 0.3s ease-in-out 0s 2;
-      @apply bg-red-50 dark:bg-red-100;
+      @apply bg-red-50 dark:bg-red-800;
     }
   }
 }

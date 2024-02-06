@@ -73,10 +73,27 @@
       }
     },
     "SLACK": {
+      "DELETE": "Ištrinti",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Ištrinkite integraciją",
+        "MESSAGE": "Ar tikrai norite ištrinti integraciją? Tai padarius prarasite prieigą prie pokalbių Slack darbo erdvėje."
+      },
       "HELP_TEXT": {
         "TITLE": "Slack integracijos naudojimas",
-        "BODY": "<br/><p>Dabar Chatwoot sinchronizuos visus gaunamus pokalbius į <b><i>kliento pokalbiai</i></b> kanalą jūsų laisvoje darbo vietoje.</p><p>Atsakymas į pokalbių giją <b><i>kliento pokalbiai</i></b> Slack kanale pateiks atsakymą klientui per chatwoot.</p><p>Atsakymus pradėkite naudodami <b><i> pastaba:</i></b> jei norite sukurti privačias pastabas, o ne atsakymus.</p><p>Jei „slack“ atsakytojas turi agento profilį „chatwoot“ tuo pačiu el. pašto adresu, atsakymai bus atitinkamai susieti.</p><p> p><p>Kai atsakiklis neturi susieto agento profilio, atsakymai bus pateikiami iš boto profilio.</p>"
-      }
+        "BODY": "<br/><p>Dabar Chatwoot sinchronizuos visus gaunamus pokalbius į <b><i>kliento pokalbiai</i></b> kanalą jūsų laisvoje darbo vietoje.</p><p>Atsakymas į pokalbių giją <b><i>kliento pokalbiai</i></b> Slack kanale pateiks atsakymą klientui per chatwoot.</p><p>Atsakymus pradėkite naudodami <b><i> pastaba:</i></b> jei norite sukurti privačias pastabas, o ne atsakymus.</p><p>Jei „slack“ atsakytojas turi agento profilį „chatwoot“ tuo pačiu el. pašto adresu, atsakymai bus atitinkamai susieti.</p><p> p><p>Kai atsakiklis neturi susieto agento profilio, atsakymai bus pateikiami iš boto profilio.</p>",
+        "SELECTED": "pasirinkta"
+      },
+      "SELECT_CHANNEL": {
+        "OPTION_LABEL": "Pasirinkite kanalą",
+        "UPDATE": "Atnaujinti",
+        "BUTTON_TEXT": "Prijunkite kanalą",
+        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
+        "ATTENTION_REQUIRED": "Reikalingas dėmesys",
+        "EXPIRED": "Jūsų Slack integracijos galiojimo laikas baigėsi. Norėdami ir toliau gauti pranešimus Slack, ištrinkite integraciją ir vėl prijunkite savo darbo erdvę."
+      },
+      "UPDATE_ERROR": "Atnaujinant integraciją įvyko klaida, bandykite dar kartą",
+      "UPDATE_SUCCESS": "Kanalas sėkmingai prijungtas",
+      "FAILED_TO_FETCH_CHANNELS": "Gaunant kanalus iš Slack įvyko klaida, bandykite dar kartą"
     },
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Spausti čia kad prisijungti",
@@ -86,6 +103,40 @@
       "CREATE_ERROR": "Įvyko klaida kuriant susitikimo nuorodą, pabandykite dar kartą"
     },
     "OPEN_AI": {
+      "AI_ASSIST": "AI pagalba",
+      "WITH_AI": " %{option} su AI ",
+      "OPTIONS": {
+        "REPLY_SUGGESTION": "Atsakymo pasiūlymas",
+        "SUMMARIZE": "Apibendrinti",
+        "REPHRASE": "Pagerinkite rašymą",
+        "FIX_SPELLING_GRAMMAR": "Pataisykite rašybą ir gramatiką",
+        "SHORTEN": "Sutrumpinti",
+        "EXPAND": "Išskleisti",
+        "MAKE_FRIENDLY": "Change message tone to friendly",
+        "MAKE_FORMAL": "Naudokite oficialų toną",
+        "SIMPLIFY": "Supaprastinti"
+      },
+      "ASSISTANCE_MODAL": {
+        "DRAFT_TITLE": "Turinio juodraštis",
+        "GENERATED_TITLE": "Sugeneruotas turinys",
+        "AI_WRITING": "AI rašo",
+        "BUTTONS": {
+          "APPLY": "Use this suggestion",
+          "CANCEL": "Atšaukti"
+        }
+      },
+      "CTA_MODAL": {
+        "TITLE": "Integrate with OpenAI",
+        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
+        "KEY_PLACEHOLDER": "Įveskite savo OpenAI API raktą",
+        "BUTTONS": {
+          "NEED_HELP": "Reikia pagalbos?",
+          "DISMISS": "Atsisakyti",
+          "FINISH": "Baigti nustatymus"
+        },
+        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
+        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
+      },
       "TITLE": "Tobulinti naudojant AI",
       "SUMMARY_TITLE": "Apibendrinimas naudojant AI",
       "REPLY_TITLE": "Atsakymo pasiūlymas naudjant AI",

@@ -1,6 +1,6 @@
 <template>
   <section
-    class="contacts-table-wrap bg-white dark:bg-slate-900 flex-1 h-full overflow-hidden"
+    class="contacts-table-wrap bg-white dark:bg-slate-900 flex-1 h-full overflow-hidden -mt-1"
   >
     <ve-table
       :fixed-header="true"
@@ -37,7 +37,7 @@ import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import timeMixin from 'dashboard/mixins/time';
 import rtlMixin from 'shared/mixins/rtlMixin';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
 export default {
   components: {
@@ -225,7 +225,7 @@ export default {
             if (!items.length) return '---';
 
             return (
-              <div class="cell--social-profiles">
+              <div class="cell--social-profiles flex gap-0.5 items-center">
                 {items.map(
                   profile =>
                     profiles[profile] && (
@@ -254,13 +254,6 @@ export default {
           key: 'created_at',
           sortBy: this.sortConfig.created_at || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CREATED_AT'),
-          align: this.isRTLView ? 'right' : 'left',
-        },
-        {
-          field: 'conversationsCount',
-          key: 'conversationsCount',
-          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CONVERSATIONS'),
-          width: 150,
           align: this.isRTLView ? 'right' : 'left',
         },
       ];

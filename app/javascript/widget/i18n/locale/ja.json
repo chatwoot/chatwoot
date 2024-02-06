@@ -34,7 +34,9 @@
   "START_CONVERSATION": "チャットを開始する",
   "END_CONVERSATION": "End Conversation",
   "CONTINUE_CONVERSATION": "Continue conversation",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "Start a new conversation",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "新しいメッセージを見る",
     "CLOSE_MESSAGES_BUTTON": "閉じる",
@@ -104,6 +106,31 @@
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Click here to join",
       "LEAVE_THE_ROOM": "Leave the call"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "画像メッセージ"
+    },
+    "audio": {
+      "CONTENT": "音声メッセージ"
+    },
+    "video": {
+      "CONTENT": "ビデオ メッセージ"
+    },
+    "file": {
+      "CONTENT": "添付ファイル"
+    },
+    "location": {
+      "CONTENT": "場所"
+    },
+    "fallback": {
+      "CONTENT": "URLを共有しています"
     }
   }
 }

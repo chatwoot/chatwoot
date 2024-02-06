@@ -71,7 +71,7 @@
       "SUBMIT": "Importovať",
       "CANCEL": "Zrušiť"
     },
-    "SUCCESS_MESSAGE": "Kontakty boli úspešne uložené",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "Vyskytla sa chyba, skúste to prosím znova"
   },
   "EXPORT_CONTACTS": {
@@ -203,6 +203,10 @@
         "LABEL": "Správa",
         "PLACEHOLDER": "Napíšte svoju správu sem",
         "ERROR": "Správa nemôže byť prázdna"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
       },
       "SUBMIT": "Poslať správu",
       "CANCEL": "Zrušiť",
@@ -343,17 +347,17 @@
     "DESCRIPTION": "Zlúčením kontaktov spojíte dva profily do jedného vrátane všetkých atribútov a konverzácií. V prípade konfliktu budú mať prednosť atribúty primárneho kontaktu.",
     "PRIMARY": {
       "TITLE": "Primárny kontakt",
-      "HELP_LABEL": "Na uchovanie"
+      "HELP_LABEL": "Na vymazanie"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Kontakt na zlúčenie",
       "PLACEHOLDER": "Hľadať kontakt",
-      "HELP_LABEL": "Na vymazanie"
+      "HELP_LABEL": "Na uchovanie"
     },
     "SUMMARY": {
       "TITLE": "Sumár",
-      "DELETE_WARNING": "Kontakt <strong>%{childContactName}</strong> bude vymazaný.",
-      "ATTRIBUTE_WARNING": "Kontaktné údaje <strong>%{childContactName}</strong> budú skopírované do <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Kontakt <strong>%{primaryContactName}</strong> bude vymazaný.",
+      "ATTRIBUTE_WARNING": "Kontaktné údaje <strong>%{primaryContactName}</strong> budú skopírované do <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"

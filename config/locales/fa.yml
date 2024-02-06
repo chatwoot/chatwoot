@@ -39,7 +39,7 @@ fa:
       import:
         failed: پرونده خالی است
       export:
-        success: We will notify you once contacts export file is ready to view.
+        success: هر زمان فایل خروجی مخاطبین برای مشاهده آماده شود به شما اطلاع خواهیم داد.
       email:
         invalid: ایمیل نامعتبر است
       phone_number:
@@ -49,6 +49,8 @@ fa:
         unique: باید منحصر به فرد در دسته‌بندی و پورتال باشد
     dyte:
       invalid_message_type: "نوع پیام نامعتبر است. اقدام مجاز نیست"
+    slack:
+      invalid_channel_id: "Invalid slack channel. Please try again"
     inboxes:
       imap:
         socket_error: لطفا اتصال شبکه، آدرس IMAP را بررسی کنید و دوباره امتحان کنید.
@@ -59,7 +61,7 @@ fa:
       validations:
         name: نباید با نمادها شروع یا ختم شود و نباید دارای کاراکترهای < > / \ @ باشد.
     custom_filters:
-      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
+      number_of_records: سررسید محدودیت. حداکثر تعداد قابل قبول فیلترها برای یک کاربر در هر اکانت 50 می باشند.
   reports:
     period: زمان گزارش از %{since} تا %{until}
     utc_warning: گزارش تولید شده در منطقه زمانی UTC است
@@ -108,6 +110,8 @@ fa:
       instagram_story_content: "%{story_sender} در داستان به شما اشاره کرده: "
       instagram_deleted_story_content: این داستان دیگر در دسترس نیست.
       deleted: این پیام حذف شد
+      delivery_status:
+        error_code: "کد خطا \" %{error_code}"
     activity:
       status:
         resolved: "مکالمه توسط ایجنت %{user_name} حل شده، اعلام شده بود"
@@ -144,6 +148,8 @@ fa:
         header:
           from_with_name: "%{assignee_name} از %{inbox_name} «%{from_email}»"
           reply_with_name: "%{assignee_name} از %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} از %{business_name} «%{from_email}»"
+          professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
           reply_with_name: "%{assignee_name} از %{inbox_name} «%{from_email}»"
@@ -184,17 +190,41 @@ fa:
       empty_placeholder: نتیجه‌ای یافت نشد.
       loading_placeholder: در حال جستجو...
       results_title: نتایج جستجو
-    toc_header: 'On this page'
+    toc_header: 'در این صفحه'
     hero:
       sub_title: مقالات را در اینجا جستجو کنید یا دسته‌بندی‌های زیر را مرور کنید.
     common:
       home: صفحه اصلی
       last_updated_on: آخرین به‌روزرسانی در تاریخ %{last_updated_on}
-      view_all_articles: مشاهده همه مقالات
+      view_all_articles: مشاهده همه
       article: مقاله
       articles: مقالات
+      author: نویسنده
+      authors: authors
+      other: other
+      others: others
+      by: By
       no_articles: هنوز هیچ مقاله‌ای در اینجا وجود ندارد
     footer:
       made_with: ساخته شده با
     header:
-      go_to_homepage: به سایت اصلی بروید
+      go_to_homepage: وب سایت
+      appearance:
+        system: سیستم
+        light: روشن
+        dark: تیره
+      featured_articles: Featured Articles
+      uncategorized: Uncategorized
+    404:
+      title: صفحه یافت نشد
+      description: ما نتوانستیم صفحه مورد نظر شما را پیدا کنیم.
+      back_to_home: به صفحه اصلی بروید
+  slack_unfurl:
+    fields:
+      name: نام
+      email: ایمیل
+      phone_number: موبایل
+      company_name: شرکت
+      inbox_name: صندوق ورودی
+      inbox_type: نوع صندوق ورودی
+    button: باز کردن گفتگو

@@ -3,21 +3,22 @@
     "TITLE": "Inloggen bij Chatwoot",
     "EMAIL": {
       "LABEL": "E-mailadres",
-      "PLACEHOLDER": "example@companyname.com"
+      "PLACEHOLDER": "voorbeeld@bedrijfsnaam.nl",
+      "ERROR": "Voer een geldig e-mailadres in"
     },
     "PASSWORD": {
       "LABEL": "Wachtwoord",
       "PLACEHOLDER": "Wachtwoord"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Login successful",
-      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again.",
-      "UNAUTH": "Username or password is incorrect. Please try again."
+      "SUCCESS_MESSAGE": "Inloggen geslaagd",
+      "ERROR_MESSAGE": "Kan geen verbinding maken met de Woot server. Probeer het opnieuw.",
+      "UNAUTH": "Gebruikersnaam of wachtwoord is onjuist. Probeer het opnieuw."
     },
     "OAUTH": {
-      "GOOGLE_LOGIN": "Login with Google",
-      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
-      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+      "GOOGLE_LOGIN": "Inloggen met Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Gebruik het e-mailadres van uw bedrijf om in te loggen",
+      "NO_ACCOUNT_FOUND": "Wij hebben geen e-mailadres gevonden voor uw e-mailadres."
     },
     "FORGOT_PASSWORD": "Wachtwoord vergeten?",
     "CREATE_NEW_ACCOUNT": "Nieuw account aanmaken",

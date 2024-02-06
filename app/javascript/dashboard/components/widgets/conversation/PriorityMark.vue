@@ -8,8 +8,10 @@
     }"
     class="shrink-0 rounded-sm inline-flex w-3.5 h-3.5"
     :class="{
-      'bg-red-50 dark:bg-red-700 dark:bg-opacity-30 text-red-500 dark:text-red-600': isUrgent,
-      'bg-slate-50 dark:bg-slate-700 text-slate-600 dark:text-slate-200': !isUrgent,
+      'bg-red-50 dark:bg-red-700 dark:bg-opacity-30 text-red-500 dark:text-red-600':
+        isUrgent,
+      'bg-slate-50 dark:bg-slate-700 text-slate-600 dark:text-slate-200':
+        !isUrgent,
     }"
   >
     <fluent-icon

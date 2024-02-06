@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import { hasPressedCommandAndEnter } from 'shared/helpers/KeyboardHelpers';
 export default {
   components: {

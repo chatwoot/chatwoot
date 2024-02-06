@@ -71,7 +71,7 @@
       "SUBMIT": "درآمد کریں۔",
       "CANCEL": "منسوخ کریں۔"
     },
-    "SUCCESS_MESSAGE": "کانٹیکٹ کامیابی سے محفوظ ہو گیا۔",
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "ایک خامی تھی، براہ کرم دوبارہ کوشش کریں۔"
   },
   "EXPORT_CONTACTS": {
@@ -203,6 +203,10 @@
         "LABEL": "پیغام",
         "PLACEHOLDER": "اپنا پیغام یہاں لکھیں۔",
         "ERROR": "پیغام خالی نہیں ہو سکتا"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
       },
       "SUBMIT": "پیغام بھیجیں",
       "CANCEL": "منسوخ کریں۔",
@@ -343,17 +347,17 @@
     "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
     "PRIMARY": {
       "TITLE": "بنیادی رابطہ",
-      "HELP_LABEL": "رکھا جائے ۔"
+      "HELP_LABEL": "حذف کیا جائے۔"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "کانٹیکٹ کو زم کریں",
       "PLACEHOLDER": "کانٹیکٹ تلاش کریں",
-      "HELP_LABEL": "حذف کیا جائے۔"
+      "HELP_LABEL": "رکھا جائے ۔"
     },
     "SUMMARY": {
       "TITLE": "خلاصہ",
-      "DELETE_WARNING": "<strong>%{childContactName}</strong> کا کانٹیکٹ حذف کر دیا جائے گا۔.",
-      "ATTRIBUTE_WARNING": "<strong>%{childContactName}</strong> کے کانٹیکٹ کی تفصیلات <strong>%{primaryContactName}</strong> پر کاپی کی جائیں گی۔."
+      "DELETE_WARNING": "<strong>%{primaryContactName}</strong> کا کانٹیکٹ حذف کر دیا جائے گا۔.",
+      "ATTRIBUTE_WARNING": "<strong>%{primaryContactName}</strong> کے کانٹیکٹ کی تفصیلات <strong>%{parentContactName}</strong> پر کاپی کی جائیں گی۔."
     },
     "SEARCH": {
       "ERROR": "خامی کا پیغام"

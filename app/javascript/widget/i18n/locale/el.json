@@ -34,7 +34,9 @@
   "START_CONVERSATION": "Έναρξη Συνομιλίας",
   "END_CONVERSATION": "Τέλος Συνομιλίας",
   "CONTINUE_CONVERSATION": "Συνέχιση συνομιλίας",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "Έναρξη νέας συνομιλίας",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Δείτε τα νέα μηνύματα",
     "CLOSE_MESSAGES_BUTTON": "Κλείσιμο",
@@ -104,6 +106,31 @@
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Κάντε κλικ εδώ για να συμμετάσχετε",
       "LEAVE_THE_ROOM": "Έξοδος από την κλήση"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Μήνυμα εικόνας"
+    },
+    "audio": {
+      "CONTENT": "Μήνυμα ήχου"
+    },
+    "video": {
+      "CONTENT": "Μήνυμα βίντεο"
+    },
+    "file": {
+      "CONTENT": "Επισυναπτόμενο αρχείο"
+    },
+    "location": {
+      "CONTENT": "Θέση"
+    },
+    "fallback": {
+      "CONTENT": "έχει μοιράσει ένα σύνδεσμο"
     }
   }
 }

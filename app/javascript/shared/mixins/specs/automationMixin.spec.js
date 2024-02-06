@@ -35,7 +35,9 @@ Vue.use(Vuelidate);
 const createComponent = (
   mixins,
   data,
+  // eslint-disable-next-line default-param-last
   computed = {},
+  // eslint-disable-next-line default-param-last
   methods = {},
   validations
 ) => {

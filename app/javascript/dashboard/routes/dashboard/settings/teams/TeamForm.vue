@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import WootSubmitButton from '../../../../components/buttons/FormSubmitButton';
+import WootSubmitButton from '../../../../components/buttons/FormSubmitButton.vue';
 import validations from './helpers/validations';
 
 export default {

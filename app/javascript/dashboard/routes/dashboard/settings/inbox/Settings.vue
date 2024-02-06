@@ -1,6 +1,6 @@
 <template>
   <div
-    class="settings bg-white dark:bg-slate-800 flex-grow flex-shrink pr-0 pl-0 overflow-auto min-w-0 w-full"
+    class="flex-grow flex-shrink w-full min-w-0 pl-0 pr-0 overflow-auto bg-white settings dark:bg-slate-800"
   >
     <setting-intro-banner
       :header-image="inbox.avatarUrl"
@@ -48,18 +48,6 @@
           "
           @blur="$v.selectedInboxName.$touch"
         />
-        <label
-          v-if="isATwitterInbox"
-          for="toggle-business-hours"
-          class="toggle-input-wrap"
-        >
-          <input
-            v-model="tweetsEnabled"
-            type="checkbox"
-            name="toggle-business-hours"
-          />
-          {{ $t('INBOX_MGMT.ADD.TWITTER.TWEETS.ENABLE') }}
-        </label>
         <woot-input
           v-if="isAPIInbox"
           v-model.trim="webhookUrl"
@@ -145,7 +133,7 @@
               }}
             </option>
           </select>
-          <p class="text-slate-600 dark:text-slate-400 pb-1 text-sm not-italic">
+          <p class="pb-1 text-sm not-italic text-slate-600 dark:text-slate-400">
             {{
               $t(
                 'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.HELP_TEXT'
@@ -187,7 +175,7 @@
             </option>
           </select>
 
-          <p class="text-slate-600 dark:text-slate-400 pb-1 text-sm not-italic">
+          <p class="pb-1 text-sm not-italic text-slate-600 dark:text-slate-400">
             {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.HELP_TEXT') }}
           </p>
         </label>
@@ -202,7 +190,7 @@
               {{ $t('INBOX_MGMT.EDIT.EMAIL_COLLECT_BOX.DISABLED') }}
             </option>
           </select>
-          <p class="text-slate-600 dark:text-slate-400 pb-1 text-sm not-italic">
+          <p class="pb-1 text-sm not-italic text-slate-600 dark:text-slate-400">
             {{
               $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT')
             }}
@@ -219,7 +207,7 @@
               {{ $t('INBOX_MGMT.EDIT.ENABLE_CSAT.DISABLED') }}
             </option>
           </select>
-          <p class="text-slate-600 dark:text-slate-400 pb-1 text-sm not-italic">
+          <p class="pb-1 text-sm not-italic text-slate-600 dark:text-slate-400">
             {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CSAT_SUB_TEXT') }}
           </p>
         </label>
@@ -234,7 +222,7 @@
               {{ $t('INBOX_MGMT.EDIT.ALLOW_MESSAGES_AFTER_RESOLVED.DISABLED') }}
             </option>
           </select>
-          <p class="text-slate-600 dark:text-slate-400 pb-1 text-sm not-italic">
+          <p class="pb-1 text-sm not-italic text-slate-600 dark:text-slate-400">
             {{
               $t(
                 'INBOX_MGMT.SETTINGS_POPUP.ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT'
@@ -253,7 +241,7 @@
               {{ $t('INBOX_MGMT.EDIT.ENABLE_CONTINUITY_VIA_EMAIL.DISABLED') }}
             </option>
           </select>
-          <p class="text-slate-600 dark:text-slate-400 pb-1 text-sm not-italic">
+          <p class="pb-1 text-sm not-italic text-slate-600 dark:text-slate-400">
             {{
               $t(
                 'INBOX_MGMT.SETTINGS_POPUP.ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT'
@@ -273,7 +261,7 @@
               {{ p.name }}
             </option>
           </select>
-          <p class="text-slate-600 dark:text-slate-400 pb-1 text-sm not-italic">
+          <p class="pb-1 text-sm not-italic text-slate-600 dark:text-slate-400">
             {{ $t('INBOX_MGMT.HELP_CENTER.SUB_TEXT') }}
           </p>
         </div>
@@ -287,7 +275,7 @@
               {{ $t('INBOX_MGMT.EDIT.LOCK_TO_SINGLE_CONVERSATION.DISABLED') }}
             </option>
           </select>
-          <p class="text-slate-600 dark:text-slate-400 pb-1 text-sm not-italic">
+          <p class="pb-1 text-sm not-italic text-slate-600 dark:text-slate-400">
             {{
               $t(
                 'INBOX_MGMT.SETTINGS_POPUP.LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT'
@@ -438,19 +426,19 @@ import { mapGetters } from 'vuex';
 import { shouldBeUrl } from 'shared/helpers/Validators';
 import configMixin from 'shared/mixins/configMixin';
 import alertMixin from 'shared/mixins/alertMixin';
-import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner';
-import SettingsSection from '../../../../components/SettingsSection';
+import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner.vue';
+import SettingsSection from '../../../../components/SettingsSection.vue';
 import inboxMixin from 'shared/mixins/inboxMixin';
-import FacebookReauthorize from './facebook/Reauthorize';
-import PreChatFormSettings from './PreChatForm/Settings';
-import WeeklyAvailability from './components/WeeklyAvailability';
-import GreetingsEditor from 'shared/components/GreetingsEditor';
-import ConfigurationPage from './settingsPage/ConfigurationPage';
-import CollaboratorsPage from './settingsPage/CollaboratorsPage';
-import WidgetBuilder from './WidgetBuilder';
-import BotConfiguration from './components/BotConfiguration';
+import FacebookReauthorize from './facebook/Reauthorize.vue';
+import PreChatFormSettings from './PreChatForm/Settings.vue';
+import WeeklyAvailability from './components/WeeklyAvailability.vue';
+import GreetingsEditor from 'shared/components/GreetingsEditor.vue';
+import ConfigurationPage from './settingsPage/ConfigurationPage.vue';
+import CollaboratorsPage from './settingsPage/CollaboratorsPage.vue';
+import WidgetBuilder from './WidgetBuilder.vue';
+import BotConfiguration from './components/BotConfiguration.vue';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
-import SenderNameExamplePreview from './components/SenderNameExamplePreview';
+import SenderNameExamplePreview from './components/SenderNameExamplePreview.vue';
 
 export default {
   components: {
@@ -472,7 +460,6 @@ export default {
       avatarFile: null,
       avatarUrl: '',
       greetingEnabled: true,
-      tweetsEnabled: true,
       greetingMessage: '',
       emailCollectEnabled: false,
       csatSurveyEnabled: false,
@@ -589,8 +576,9 @@ export default {
 
     inboxName() {
       if (this.isATwilioSMSChannel || this.isATwilioWhatsAppChannel) {
-        return `${this.inbox.name} (${this.inbox.messaging_service_sid ||
-          this.inbox.phone_number})`;
+        return `${this.inbox.name} (${
+          this.inbox.messaging_service_sid || this.inbox.phone_number
+        })`;
       }
       if (this.isAWhatsAppChannel) {
         return `${this.inbox.name} (${this.inbox.phone_number})`;
@@ -667,13 +655,13 @@ export default {
         this.selectedInboxName = this.inbox.name;
         this.webhookUrl = this.inbox.webhook_url;
         this.greetingEnabled = this.inbox.greeting_enabled || false;
-        this.tweetsEnabled = this.inbox.tweets_enabled || false;
         this.greetingMessage = this.inbox.greeting_message || '';
         this.emailCollectEnabled = this.inbox.enable_email_collect;
         this.csatSurveyEnabled = this.inbox.csat_survey_enabled;
         this.senderNameType = this.inbox.sender_name_type;
         this.businessName = this.inbox.business_name;
-        this.allowMessagesAfterResolved = this.inbox.allow_messages_after_resolved;
+        this.allowMessagesAfterResolved =
+          this.inbox.allow_messages_after_resolved;
         this.continuityViaEmail = this.inbox.continuity_via_email;
         this.channelWebsiteUrl = this.inbox.website_url;
         this.channelWelcomeTitle = this.inbox.welcome_title;
@@ -712,7 +700,6 @@ export default {
             welcome_tagline: this.channelWelcomeTagline || '',
             selectedFeatureFlags: this.selectedFeatureFlags,
             reply_time: this.replyTime || 'in_a_few_minutes',
-            tweets_enabled: this.tweetsEnabled,
             continuity_via_email: this.continuityViaEmail,
           },
         };

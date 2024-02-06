@@ -76,10 +76,8 @@ export const getters = {
   },
   getNewConversationInboxes($state) {
     return $state.records.filter(inbox => {
-      const {
-        channel_type: channelType,
-        phone_number: phoneNumber = '',
-      } = inbox;
+      const { channel_type: channelType, phone_number: phoneNumber = '' } =
+        inbox;
 
       const isEmailChannel = channelType === INBOX_TYPES.EMAIL;
       const isSmsChannel =

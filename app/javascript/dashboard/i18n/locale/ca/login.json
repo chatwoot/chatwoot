@@ -3,7 +3,8 @@
     "TITLE": "Entra a Chatwoot",
     "EMAIL": {
       "LABEL": "Correu electrònic",
-      "PLACEHOLDER": "Correu electrònic p.e.: someone@exemple.com"
+      "PLACEHOLDER": "Correu electrònic p.e.: someone@exemple.com",
+      "ERROR": "Introduïu una adreça de correu electrònic vàlida"
     },
     "PASSWORD": {
       "LABEL": "Contrasenya",

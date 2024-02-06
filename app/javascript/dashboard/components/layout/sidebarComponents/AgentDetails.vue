@@ -16,7 +16,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import Thumbnail from '../../widgets/Thumbnail';
+import Thumbnail from '../../widgets/Thumbnail.vue';
 
 export default {
   components: {

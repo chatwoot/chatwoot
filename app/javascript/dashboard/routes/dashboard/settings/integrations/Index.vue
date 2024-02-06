@@ -40,7 +40,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import Integration from './Integration';
+import Integration from './Integration.vue';
 
 export default {
   components: {

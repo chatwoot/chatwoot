@@ -41,18 +41,40 @@
       "STATUS": "Estado",
       "ORDER_BY": "Ordenar por"
     },
-    "CHAT_SORT_FILTER_ITEMS": {
-      "latest": {
-        "TEXT": "Última actividad"
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Creado",
+        "OLDEST": "Creado el:"
       },
-      "sort_on_created_at": {
-        "TEXT": "Creado el"
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Última actividad:",
+        "ACTIVE": "Última actividad"
+      }
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Última actividad: Más antigua primero"
       },
-      "sort_on_priority": {
-        "TEXT": "Prioridad"
+      "last_activity_at_desc": {
+        "TEXT": "Última actividad: Más reciente primero"
       },
-      "sort_on_waiting_since": {
-        "TEXT": "Pending Response"
+      "created_at_desc": {
+        "TEXT": "Creado el: Más Nuevo primero"
+      },
+      "created_at_asc": {
+        "TEXT": "Creado el: Más antiguo primero"
+      },
+      "priority_desc": {
+        "TEXT": "Prioridad: el más alto primero"
+      },
+      "priority_asc": {
+        "TEXT": "Prioridad: el más bajo primero"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Respuesta pendiente: la más larga primero"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Respuesta pendiente: la más corta primero"
       }
     },
     "ATTACHMENTS": {

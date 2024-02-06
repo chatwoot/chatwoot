@@ -37,8 +37,8 @@
 </template>
 
 <script>
-import SecondaryNavItem from 'dashboard/components/layout/sidebarComponents/SecondaryNavItem';
-import SidebarHeader from './SidebarHeader';
+import SecondaryNavItem from 'dashboard/components/layout/sidebarComponents/SecondaryNavItem.vue';
+import SidebarHeader from './SidebarHeader.vue';
 
 export default {
   components: {

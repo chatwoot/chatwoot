@@ -7,7 +7,7 @@
   />
 </template>
 <script>
-import ChannelSelector from '../ChannelSelector';
+import ChannelSelector from '../ChannelSelector.vue';
 export default {
   components: { ChannelSelector },
   props: {

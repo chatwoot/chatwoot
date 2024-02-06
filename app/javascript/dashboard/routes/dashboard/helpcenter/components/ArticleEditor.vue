@@ -3,7 +3,7 @@
     <resizable-text-area
       v-model="articleTitle"
       type="text"
-      rows="1"
+      :rows="1"
       class="article-heading"
       :placeholder="$t('HELP_CENTER.EDIT_ARTICLE.TITLE_PLACEHOLDER')"
       @focus="onFocus"
@@ -14,6 +14,7 @@
       v-model="articleContent"
       class="article-content"
       :placeholder="$t('HELP_CENTER.EDIT_ARTICLE.CONTENT_PLACEHOLDER')"
+      :enabled-menu-options="customEditorMenuOptions"
       @focus="onFocus"
       @blur="onBlur"
       @input="onContentInput"
@@ -23,8 +24,9 @@
 
 <script>
 import { debounce } from '@chatwoot/utils';
-import ResizableTextArea from 'shared/components/ResizableTextArea';
+import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 import WootArticleEditor from 'dashboard/components/widgets/WootWriter/FullEditor.vue';
+import { ARTICLE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 
 export default {
   components: {
@@ -46,6 +48,7 @@ export default {
       articleTitle: '',
       articleContent: '',
       saveArticle: () => {},
+      customEditorMenuOptions: ARTICLE_EDITOR_MENU_OPTIONS,
     };
   },
   mounted() {

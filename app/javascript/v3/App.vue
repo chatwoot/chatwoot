@@ -15,6 +15,7 @@ export default {
   mounted() {
     this.setColorTheme();
     this.listenToThemeChanges();
+    this.setLocale(window.chatwootConfig.selectedLocale);
   },
   methods: {
     setColorTheme() {
@@ -35,6 +36,9 @@ export default {
         }
       };
     },
+    setLocale(locale) {
+      this.$root.$i18n.locale = locale;
+    },
   },
 };
 </script>
@@ -51,8 +55,17 @@ export default {
 
 html,
 body {
-  font-family: 'PlusJakarta', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+  font-family:
+    'PlusJakarta',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen-Sans,
+    Ubuntu,
+    Cantarell,
+    'Helvetica Neue',
+    sans-serif;
   @apply h-full w-full;
 
   input,

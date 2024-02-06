@@ -1,6 +1,5 @@
 import accountAPI from '../account';
 import ApiClient from '../ApiClient';
-import describeWithAPIMock from './apiSpecHelper';
 
 describe('#accountAPI', () => {
   it('creates correct instance', () => {
@@ -13,12 +12,28 @@ describe('#accountAPI', () => {
     expect(accountAPI).toHaveProperty('createAccount');
   });
 
-  describeWithAPIMock('API calls', context => {
+  describe('API calls', () => {
+    const originalAxios = window.axios;
+    const axiosMock = {
+      post: jest.fn(() => Promise.resolve()),
+      get: jest.fn(() => Promise.resolve()),
+      patch: jest.fn(() => Promise.resolve()),
+      delete: jest.fn(() => Promise.resolve()),
+    };
+
+    beforeEach(() => {
+      window.axios = axiosMock;
+    });
+
+    afterEach(() => {
+      window.axios = originalAxios;
+    });
+
     it('#createAccount', () => {
       accountAPI.createAccount({
         name: 'Chatwoot',
       });
-      expect(context.axiosMock.post).toHaveBeenCalledWith('/api/v1/accounts', {
+      expect(axiosMock.post).toHaveBeenCalledWith('/api/v1/accounts', {
         name: 'Chatwoot',
       });
     });

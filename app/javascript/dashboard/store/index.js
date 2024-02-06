@@ -51,7 +51,8 @@ const plugins = [];
 
 if (window.logRocketProjectId) {
   LogRocket.init(window.logRocketProjectId);
-  const logRocketPlugin = createPlugin(LogRocket, function(mutation) {
+  // eslint-disable-next-line func-names
+  const logRocketPlugin = createPlugin(LogRocket, function (mutation) {
     const eventsToIgnore = ['SET_CURRENT_USER', 'AUTHENTICATE', 'CLEAR_USER'];
     if (eventsToIgnore.includes(mutation.type)) {
       return null;

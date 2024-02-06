@@ -136,6 +136,7 @@ export default {
         toStateName: 'labels_list',
         showModalForNewItem: true,
         modalName: 'AddLabel',
+        dataTestid: 'sidebar-new-label-button',
         children: this.labels.map(label => ({
           id: label.id,
           label: label.title,

@@ -74,7 +74,10 @@ class Integrations::OpenaiBaseService
       'Authorization' => "Bearer #{hook.settings['api_key']}"
     }
 
+    Rails.logger.info("OpenAI API request: #{body}")
     response = HTTParty.post(API_URL, headers: headers, body: body)
+    Rails.logger.info("OpenAI API response: #{response.body}")
+
     choices = JSON.parse(response.body)['choices']
 
     choices.present? ? choices.first['message']['content'] : nil

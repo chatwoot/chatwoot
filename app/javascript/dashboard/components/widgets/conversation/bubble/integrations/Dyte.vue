@@ -57,9 +57,8 @@ export default {
     async joinTheCall() {
       this.isLoading = true;
       try {
-        const {
-          data: { authResponse: { authToken } = {} } = {},
-        } = await DyteAPI.addParticipantToMeeting(this.messageId);
+        const { data: { authResponse: { authToken } = {} } = {} } =
+          await DyteAPI.addParticipantToMeeting(this.messageId);
         this.dyteAuthToken = authToken;
       } catch (err) {
         this.showAlert(this.$t('INTEGRATION_SETTINGS.DYTE.JOIN_ERROR'));

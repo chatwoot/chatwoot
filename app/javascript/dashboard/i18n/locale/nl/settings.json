@@ -3,10 +3,10 @@
     "LINK": "Profielinstellingen",
     "TITLE": "Profielinstellingen",
     "BTN_TEXT": "Profiel bijwerken",
-    "DELETE_AVATAR": "Delete Avatar",
-    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
-    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "DELETE_AVATAR": "Verwijder avatar",
+    "AVATAR_DELETE_SUCCESS": "Avatar succesvol verwijderd",
+    "AVATAR_DELETE_FAILED": "Er is een fout opgetreden bij het verwijderen van de avatar, probeer het opnieuw",
+    "UPDATE_SUCCESS": "Uw profiel is succesvol bijgewerkt",
     "PASSWORD_UPDATE_SUCCESS": "Uw wachtwoord is succesvol gewijzigd",
     "AFTER_EMAIL_CHANGED": "Uw profiel is succesvol bijgewerkt. Log opnieuw in als uw inloggegevens zijn gewijzigd",
     "FORM": {
@@ -20,8 +20,8 @@
         "NOTE": "Uw e-mailadres is uw identiteit en wordt gebruikt om in te loggen."
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
+        "TITLE": "Sneltoets om berichten te verzenden",
+        "NOTE": "U kunt een sneltoets selecteren (Enter of Cmd/Ctrl+Enter) gebaseerd op uw voorkeur voor schrijven.",
         "UPDATE_SUCCESS": "Uw instellingen zijn met succes bijgewerkt",
         "CARD": {
           "ENTER_KEY": {
@@ -30,47 +30,50 @@
           },
           "CMD_ENTER_KEY": {
             "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "CONTENT": "Verstuur berichten door op Cmd/Ctrl + Enter te drukken in plaats van op de verzendknop te klikken."
           }
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully"
+        "TITLE": "Handtekening persoonlijke berichten",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
+        "BTN_TEXT": "Ondertekening van bericht opslaan",
+        "API_ERROR": "Kon ondertekening niet opslaan! Probeer het opnieuw",
+        "API_SUCCESS": "Ondertekening succesvol opgeslagen",
+        "IMAGE_UPLOAD_ERROR": "Kon afbeelding niet uploaden! Probeer het opnieuw",
+        "IMAGE_UPLOAD_SUCCESS": "Afbeelding succesvol toegevoegd. Klik op opslaan om de handtekening op te slaan",
+        "IMAGE_UPLOAD_SIZE_ERROR": "De grootte van de afbeelding moet kleiner zijn dan {size}MB"
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "LABEL": "Bericht Ondertekening",
+        "ERROR": "Bericht ondertekening kan niet leeg zijn",
+        "PLACEHOLDER": "Voer hier uw persoonlijke bericht handtekening in."
       },
       "PASSWORD_SECTION": {
         "TITLE": "Wachtwoord",
         "NOTE": "Het bijwerken van uw wachtwoord zou uw logins op meerdere apparaten opnieuw instellen.",
-        "BTN_TEXT": "Change password"
+        "BTN_TEXT": "Wachtwoord wijzigen"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Toegangs-token",
         "NOTE": "Dit token kan worden gebruikt als u een API gebaseerde integratie bouwt"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Notifications",
-        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "TITLE": "Audio Notificaties",
+        "NOTE": "Audio-meldingen inschakelen in dashboard voor nieuwe berichten en gesprekken.",
         "ALERT_TYPE": {
-          "TITLE": "Alert events:",
+          "TITLE": "Melding gebeurtenissen:",
           "NONE": "Geen",
-          "ASSIGNED": "Assigned Conversations",
-          "ALL_CONVERSATIONS": "All Conversations"
+          "ASSIGNED": "Toegewezen gesprekken",
+          "ALL_CONVERSATIONS": "Alle gesprekken"
         },
         "DEFAULT_TONE": {
-          "TITLE": "Alert tone:"
+          "TITLE": "Notificatie toon:"
         },
         "CONDITIONS": {
-          "TITLE": "Alert conditions:",
-          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
-          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+          "TITLE": "Voorwaarden voor notificaties:",
+          "CONDITION_ONE": "Stuur alleen audio notificaties als het browservenster niet actief is",
+          "CONDITION_TWO": "Verstuur notificaties om de 30 seconden tot alle toegewezen gesprekken zijn gelezen"
         }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
@@ -78,9 +81,9 @@
         "NOTE": "Update hier uw e-mailvoorkeuren",
         "CONVERSATION_ASSIGNMENT": "E-mailberichten verzenden wanneer een gesprek aan mij is toegewezen",
         "CONVERSATION_CREATION": "E-mailberichten verzenden wanneer een nieuw gesprek is gemaakt",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
+        "CONVERSATION_MENTION": "E-mail notificaties versturen wanneer u in een gesprek wordt genoemd",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "E-mail notificaties verzenden wanneer een nieuw bericht is gemaakt in een toegewezen gesprek",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "E-mail notificaties verzenden wanneer een nieuw bericht is gemaakt in een deelnemend gesprek"
       },
       "API": {
         "UPDATE_SUCCESS": "Uw notificatie-instellingen zijn succesvol bijgewerkt",
@@ -128,7 +131,7 @@
       "CURRENT_PASSWORD": {
         "LABEL": "Current password",
         "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "PLACEHOLDER": "Voer uw huidige wachtwoord in"
       },
       "PASSWORD": {
         "LABEL": "New password",
@@ -149,6 +152,7 @@
     "SELECTOR_SUBTITLE": "Select an account from the following list",
     "PROFILE_SETTINGS": "Profiel instellingen",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
+    "APPEARANCE": "Change Appearance",
     "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "Afmelden"
   },
@@ -193,7 +197,7 @@
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",
     "CONVERSATIONS": "Gesprekken",
-    "ALL_CONVERSATIONS": "All Conversations",
+    "ALL_CONVERSATIONS": "Alle gesprekken",
     "MENTIONED_CONVERSATIONS": "Vermeldingen",
     "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Unattended",
@@ -210,9 +214,9 @@
     "INTEGRATIONS": "Integraties",
     "PROFILE_SETTINGS": "Profielinstellingen",
     "ACCOUNT_SETTINGS": "Accountinstellingen",
-    "APPLICATIONS": "Applications",
+    "APPLICATIONS": "Applicaties",
     "LABELS": "Labelen",
-    "CUSTOM_ATTRIBUTES": "Custom Attributes",
+    "CUSTOM_ATTRIBUTES": "Aangepaste attributen",
     "AUTOMATION": "Automation",
     "MACROS": "Macros",
     "TEAMS": "Teams",
@@ -226,7 +230,7 @@
     "NEW_INBOX": "New inbox",
     "REPORTS_CONVERSATION": "Gesprekken",
     "CSAT": "CSAT",
-    "CAMPAIGNS": "Campaigns",
+    "CAMPAIGNS": "Campagnes",
     "ONGOING": "Ongoing",
     "ONE_OFF": "One off",
     "REPORTS_AGENT": "Medewerkers",
@@ -238,7 +242,7 @@
     "REPORTS_OVERVIEW": "Overview",
     "FACEBOOK_REAUTHORIZE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
     "HELP_CENTER": {
-      "TITLE": "Help Center (Beta)",
+      "TITLE": "Help Center",
       "ALL_ARTICLES": "All Articles",
       "MY_ARTICLES": "My Articles",
       "DRAFT": "Draft",

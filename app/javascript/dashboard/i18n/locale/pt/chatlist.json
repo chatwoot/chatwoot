@@ -8,15 +8,15 @@
     },
     "TAB_HEADING": "Conversas",
     "MENTION_HEADING": "Menções",
-    "UNATTENDED_HEADING": "Unattended",
+    "UNATTENDED_HEADING": "Por tratar",
     "SEARCH": {
       "INPUT": "Pesquisar pessoas, conversas, respostas salvas .."
     },
-    "FILTER_ALL": "TODOS",
+    "FILTER_ALL": "Todas",
     "ASSIGNEE_TYPE_TABS": {
-      "me": "Minerar",
-      "unassigned": "Não atribuído",
-      "all": "TODOS"
+      "me": "Minhas",
+      "unassigned": "Não atribuídas",
+      "all": "Todas"
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
@@ -32,27 +32,49 @@
         "TEXT": "Adiado"
       },
       "all": {
-        "TEXT": "TODOS"
+        "TEXT": "Todas"
       }
     },
     "VIEW_FILTER": "Visualizar",
-    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "SORT_TOOLTIP_LABEL": "Ordenar conversas",
     "CHAT_SORT": {
       "STATUS": "SItuação",
-      "ORDER_BY": "Order by"
+      "ORDER_BY": "Ordenar por"
     },
-    "CHAT_SORT_FILTER_ITEMS": {
-      "latest": {
-        "TEXT": "Last activity"
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Criado",
+        "OLDEST": "Criada em:"
       },
-      "sort_on_created_at": {
-        "TEXT": "Criada em"
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Última atividade:",
+        "ACTIVE": "Última atividade"
+      }
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Última Atividade: Mais antigos primeiro"
       },
-      "sort_on_priority": {
-        "TEXT": "Priority"
+      "last_activity_at_desc": {
+        "TEXT": "Última Atividade: Mais recentes primeiro"
       },
-      "sort_on_waiting_since": {
-        "TEXT": "Pending Response"
+      "created_at_desc": {
+        "TEXT": "Criado em: Mais recentes primeiro"
+      },
+      "created_at_asc": {
+        "TEXT": "Criado em: Mais antigos primeiro"
+      },
+      "priority_desc": {
+        "TEXT": "Prioridade: Mais alto primeiro"
+      },
+      "priority_asc": {
+        "TEXT": "Prioridade: Mais baixo primeiro"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Resposta pendente: Mais longo primeiro"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Resposta pendente: Mais curto primeiro"
       }
     },
     "ATTACHMENTS": {
@@ -76,20 +98,20 @@
       }
     },
     "CHAT_SORT_BY_FILTER": {
-      "TITLE": "Sort conversation",
-      "DROPDOWN_TITLE": "Sort by",
+      "TITLE": "Ordenar conversa",
+      "DROPDOWN_TITLE": "Ordenar por",
       "ITEMS": {
         "LATEST": {
-          "NAME": "Last activity at",
-          "LABEL": "Last activity"
+          "NAME": "Última atividade em",
+          "LABEL": "Última atividade"
         },
         "CREATED_AT": {
           "NAME": "Criada em",
           "LABEL": "Criada em"
         },
         "LAST_USER_MESSAGE_AT": {
-          "NAME": "Last user message at",
-          "LABEL": "Last message"
+          "NAME": "Última resposta do utilizador em",
+          "LABEL": "Última mensagem"
         }
       }
     },
@@ -99,7 +121,7 @@
     "LINK_TO_STORY": "Ir para story do instagram",
     "SENT": "Enviado com sucesso",
     "READ": "Lido com sucesso",
-    "DELIVERED": "Entregue com Sucesso",
+    "DELIVERED": "Entregue com sucesso",
     "NO_MESSAGES": "Nenhuma mensagem",
     "NO_CONTENT": "Sem conteúdo disponível",
     "HIDE_QUOTED_TEXT": "Ocultar Texto Citado",

@@ -38,6 +38,19 @@
       "DELETE": "Dzēst",
       "CANCEL": "Atcelt"
     },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Pievienot sarunai etiķeti",
+        "MULTIPLE_SUGGESTION": "Izvēlēties šo etiķeti",
+        "DESELECT": "Noņemt etiķeti",
+        "DISMISS": "Noraidīt ieteikumu"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Atcelt",
+      "ADD_SELECTED_LABELS": "Pievienot izvēlētās etiķetes",
+      "ADD_SELECTED_LABEL": "Pievienot izvēlēto etiķeti",
+      "ADD_ALL_LABELS": "Pievienot visas etiķetes"
+    },
     "ADD": {
       "TITLE": "Pievienot etiķeti",
       "DESC": "Etiķetes ļauj grupēt sarunas kopā.",

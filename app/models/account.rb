@@ -6,7 +6,7 @@
 #  auto_resolve_duration :integer
 #  custom_attributes     :jsonb
 #  domain                :string(100)
-#  feature_flags         :integer          default(0), not null
+#  feature_flags         :bigint           default(0), not null
 #  limits                :jsonb
 #  locale                :integer          default("en")
 #  name                  :string           not null
@@ -32,7 +32,6 @@ class Account < ApplicationRecord
     check_for_column: false
   }.freeze
 
-  validates :name, presence: true
   validates :auto_resolve_duration, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 999, allow_nil: true }
   validates :domain, length: { maximum: 100 }
 

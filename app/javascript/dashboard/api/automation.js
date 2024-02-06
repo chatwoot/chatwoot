@@ -9,14 +9,6 @@ class AutomationsAPI extends ApiClient {
   clone(automationId) {
     return axios.post(`${this.url}/${automationId}/clone`);
   }
-
-  attachment(file) {
-    return axios.post(`${this.url}/attach_file`, file, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-  }
 }
 
 export default new AutomationsAPI();

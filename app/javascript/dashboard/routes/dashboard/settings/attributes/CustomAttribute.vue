@@ -11,7 +11,10 @@
       </woot-tabs>
 
       <div class="w-full">
-        <p v-if="!uiFlags.isFetching && !attributes.length" class="mt-12">
+        <p
+          v-if="!uiFlags.isFetching && !attributes.length"
+          class="mt-12 flex items-center justify-center"
+        >
           {{ $t('ATTRIBUTES_MGMT.LIST.EMPTY_RESULT.404') }}
         </p>
         <woot-loading-state
@@ -106,7 +109,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
-import EditAttribute from './EditAttribute';
+import EditAttribute from './EditAttribute.vue';
 
 export default {
   components: {

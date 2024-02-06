@@ -34,6 +34,10 @@
       "RESOLUTION_COUNT": {
         "NAME": "Selvitysmäärä",
         "DESC": "(yhteensä)"
+      },
+      "REPLY_TIME": {
+        "NAME": "Customer waiting time",
+        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} conversations)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -80,7 +84,7 @@
       "DAY": "Day",
       "WEEK": "Week",
       "MONTH": "Month",
-      "YEAR": "Year"
+      "YEAR": "Month"
     },
     "GROUP_BY_DAY_OPTIONS": [
       {
@@ -124,10 +128,6 @@
       {
         "id": 3,
         "groupBy": "Month"
-      },
-      {
-        "id": 4,
-        "groupBy": "Year"
       }
     ],
     "BUSINESS_HOURS": "Business Hours"

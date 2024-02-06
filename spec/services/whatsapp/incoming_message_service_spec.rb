@@ -35,6 +35,41 @@ describe Whatsapp::IncomingMessageService do
         expect(last_conversation.messages.last.content).to eq(params[:messages].first[:text][:body])
       end
 
+      it 'reopen last conversation if last conversation is resolved and lock to single conversation is enabled' do
+        whatsapp_channel.inbox.update(lock_to_single_conversation: true)
+        contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: params[:messages].first[:from])
+        last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
+        last_conversation.update(status: 'resolved')
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        # no new conversation should be created
+        expect(whatsapp_channel.inbox.conversations.count).to eq(1)
+        # message appended to the last conversation
+        expect(last_conversation.messages.last.content).to eq(params[:messages].first[:text][:body])
+        expect(last_conversation.reload.status).to eq('open')
+      end
+
+      it 'creates a new conversation if last conversation is resolved and lock to single conversation is disabled' do
+        whatsapp_channel.inbox.update(lock_to_single_conversation: false)
+        contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: params[:messages].first[:from])
+        last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
+        last_conversation.update(status: 'resolved')
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        # new conversation should be created
+        expect(whatsapp_channel.inbox.conversations.count).to eq(2)
+        expect(contact_inbox.conversations.last.messages.last.content).to eq(params[:messages].first[:text][:body])
+      end
+
+      it 'will not create a new conversation if last conversation is not resolved and lock to single conversation is disabled' do
+        whatsapp_channel.inbox.update(lock_to_single_conversation: false)
+        contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: params[:messages].first[:from])
+        last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
+        last_conversation.update(status: Conversation.statuses.except('resolved').keys.sample)
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        # new conversation should be created
+        expect(whatsapp_channel.inbox.conversations.count).to eq(1)
+        expect(contact_inbox.conversations.last.messages.last.content).to eq(params[:messages].first[:text][:body])
+      end
+
       it 'will not create duplicate messages when same message is received' do
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
         expect(whatsapp_channel.inbox.messages.count).to eq(1)
@@ -46,7 +81,7 @@ describe Whatsapp::IncomingMessageService do
     end
 
     context 'when unsupported message types' do
-      it 'ignores type ephemeral' do
+      it 'ignores type ephemeral and does not create ghost conversation' do
         params = {
           'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => '2423423243' }],
           'messages' => [{ 'from' => '2423423243', 'id' => 'SDFADSf23sfasdafasdfa', 'text' => { 'body' => 'Test' },
@@ -54,12 +89,12 @@ describe Whatsapp::IncomingMessageService do
         }.with_indifferent_access
 
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
-        expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
-        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(whatsapp_channel.inbox.conversations.count).to eq(0)
+        expect(Contact.count).to eq(0)
         expect(whatsapp_channel.inbox.messages.count).to eq(0)
       end
 
-      it 'ignores type unsupported' do
+      it 'ignores type unsupported and does not create ghost conversation' do
         params = {
           'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => '2423423243' }],
           'messages' => [{
@@ -70,8 +105,8 @@ describe Whatsapp::IncomingMessageService do
         }.with_indifferent_access
 
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
-        expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
-        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(whatsapp_channel.inbox.conversations.count).to eq(0)
+        expect(Contact.count).to eq(0)
         expect(whatsapp_channel.inbox.messages.count).to eq(0)
       end
     end

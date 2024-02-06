@@ -23,7 +23,7 @@
         </label>
       </div>
       <div
-        class="p-4 rounded-lg bg-slate-25 dark:bg-slate-700 border border-solid border-slate-50 dark:border-slate-700 mb-4"
+        class="p-4 rounded-lg bg-slate-25 dark:bg-slate-900 border border-solid border-slate-50 dark:border-slate-700/50 mb-4"
       >
         <filter-input-box
           v-for="(filter, i) in appliedFilters"
@@ -358,6 +358,7 @@ export default {
         applied_filters: this.appliedFilters.map(filter => ({
           key: filter.attribute_key,
           operator: filter.filter_operator,
+          query_operator: filter.query_operator,
         })),
       });
     },

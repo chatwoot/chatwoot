@@ -6,6 +6,7 @@
 #  additional_attributes  :jsonb
 #  agent_last_seen_at     :datetime
 #  assignee_last_seen_at  :datetime
+#  cached_label_list      :string
 #  contact_last_seen_at   :datetime
 #  custom_attributes      :jsonb
 #  first_reply_created_at :datetime
@@ -72,7 +73,7 @@ class Conversation < ApplicationRecord
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned, -> { where.not(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
-  scope :unattended, -> { where(first_reply_created_at: nil) }
+  scope :unattended, -> { where(first_reply_created_at: nil).or(where.not(waiting_since: nil)) }
   scope :resolvable, lambda { |auto_resolve_duration|
     return none if auto_resolve_duration.to_i.zero?
 
@@ -144,10 +145,6 @@ class Conversation < ApplicationRecord
     end
   end
 
-  def update_assignee(agent = nil)
-    update!(assignee: agent)
-  end
-
   def toggle_status
     # FIXME: implement state machine with aasm
     self.status = open? ? :resolved : :open
@@ -166,11 +163,11 @@ class Conversation < ApplicationRecord
   end
 
   def unread_messages
-    messages.created_since(agent_last_seen_at)
+    agent_last_seen_at.present? ? messages.created_since(agent_last_seen_at) : messages
   end
 
   def unread_incoming_messages
-    messages.incoming.created_since(agent_last_seen_at)
+    unread_messages.where(account_id: account_id).incoming.last(10)
   end
 
   def push_event_data
@@ -183,6 +180,10 @@ class Conversation < ApplicationRecord
 
   def webhook_data
     Conversations::EventDataPresenter.new(self).push_data
+  end
+
+  def cached_label_list_array
+    (cached_label_list || '').split(',').map(&:strip)
   end
 
   def notifiable_assignee_change?
@@ -218,7 +219,7 @@ class Conversation < ApplicationRecord
   end
 
   def ensure_waiting_since
-    self.waiting_since = Time.now.utc
+    self.waiting_since = created_at
   end
 
   def validate_additional_attributes
@@ -226,6 +227,10 @@ class Conversation < ApplicationRecord
   end
 
   def mark_conversation_pending_if_bot
+    # Message template hooks aren't executed for conversations from campaigns
+    # So making these conversations open for agent visibility
+    return if campaign.present?
+
     # TODO: make this an inbox config instead of assuming bot conversations should start as pending
     self.status = :pending if inbox.active_bot?
   end
@@ -242,7 +247,8 @@ class Conversation < ApplicationRecord
 
   def allowed_keys?
     (
-      previous_changes.keys.intersect?(%w[team_id assignee_id status snoozed_until custom_attributes label_list first_reply_created_at priority]) ||
+      previous_changes.keys.intersect?(%w[team_id assignee_id status snoozed_until custom_attributes label_list waiting_since first_reply_created_at
+                                          priority]) ||
       (previous_changes['additional_attributes'].present? && previous_changes['additional_attributes'][1].keys.intersect?(%w[conversation_language]))
     )
   end

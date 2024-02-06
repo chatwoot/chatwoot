@@ -12,8 +12,8 @@
           :username="agentName"
           :status="availabilityStatus"
         />
-        <span class="agent--name">{{ agentName }}</span>
-        <span class="company--name"> {{ companyName }}</span>
+        <span v-dompurify-html="agentName" class="agent--name" />
+        <span v-dompurify-html="companyName" class="company--name" />
       </div>
       <div
         v-dompurify-html="formatMessage(message, false)"
@@ -25,7 +25,7 @@
 
 <script>
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import configMixin from '../mixins/configMixin';
 import { isEmptyObject } from 'widget/helpers/utils';
 import {

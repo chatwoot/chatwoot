@@ -57,8 +57,8 @@
           type="submit"
           :disabled="
             !currentPassword ||
-              !passwordConfirmation ||
-              !$v.passwordConfirmation.isEqPassword
+            !passwordConfirmation ||
+            !$v.passwordConfirmation.isEqPassword
           "
         >
           {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.BTN_TEXT') }}

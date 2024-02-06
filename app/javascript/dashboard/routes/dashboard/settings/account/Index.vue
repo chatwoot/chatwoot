@@ -2,7 +2,7 @@
   <div class="flex-grow flex-shrink min-w-0 p-6 overflow-auto">
     <form v-if="!uiFlags.isFetchingItem" @submit.prevent="updateAccount">
       <div
-        class="flex flex-row p-4 border-b border-slate-25 dark:border-slate-700"
+        class="flex flex-row p-4 border-b border-slate-25 dark:border-slate-800"
       >
         <div
           class="flex-grow-0 flex-shrink-0 flex-[25%] min-w-0 py-4 pr-6 pl-0"
@@ -135,7 +135,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 import configMixin from 'shared/mixins/configMixin';
 import accountMixin from '../../../../mixins/account';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
-const semver = require('semver');
+import semver from 'semver';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 
@@ -220,14 +220,11 @@ export default {
     },
   },
   mounted() {
-    if (!this.id) {
-      this.initializeAccount();
-    }
+    this.initializeAccount();
   },
   methods: {
     async initializeAccount() {
       try {
-        await this.$store.dispatch('accounts/get');
         const {
           name,
           locale,

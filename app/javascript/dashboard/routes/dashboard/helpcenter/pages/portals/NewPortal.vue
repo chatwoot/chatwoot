@@ -25,7 +25,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import SettingsHeader from 'dashboard/routes/dashboard/settings/SettingsHeader';
+import SettingsHeader from 'dashboard/routes/dashboard/settings/SettingsHeader.vue';
 export default {
   components: {
     SettingsHeader,

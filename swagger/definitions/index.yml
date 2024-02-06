@@ -138,6 +138,9 @@ public_message_create_payload:
 public_message_update_payload:
   $ref: ./request/public/message/update_payload.yml
 
+public_conversation_create_payload:
+  $ref: ./request/public/conversation/create_payload.yml
+
 ##  ---------- RESPONSE ------------- ##
 ## -------------------------------- ##
 
@@ -165,6 +168,8 @@ contact_conversations:
       - $ref: '#/definitions/conversation'
       - $ref: ./resource/extension/contact/conversation.yml
       - $ref: ./resource/extension/conversation/with_display_id.yml
+contact_labels:
+  $ref: ./resource/extension/contact/labels.yml
 
 ## conversation
 conversation_list:

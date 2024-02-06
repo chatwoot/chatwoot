@@ -2,11 +2,17 @@
   <router-link :to="navigateTo" class="contact-item">
     <woot-thumbnail :src="thumbnail" :username="name" size="24px" />
     <div class="contact-details">
-      <h5 class="text-block-title name">{{ name }}</h5>
+      <h5 class="text-block-title name text-slate-800 dark:text-slate-200">
+        {{ name }}
+      </h5>
       <p class="details-meta">
-        <span v-if="email" class="email">{{ email }}</span>
-        <span v-if="phone" class="separator">•</span>
-        <span v-if="phone" class="phone">
+        <span v-if="email" class="email text-slate-800 dark:text-slate-200">{{
+          email
+        }}</span>
+        <span v-if="phone" class="separator text-slate-700 dark:text-slate-200">
+          •
+        </span>
+        <span v-if="phone" class="phone text-slate-800 dark:text-slate-200">
           {{ phone }}
         </span>
       </p>

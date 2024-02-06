@@ -36,10 +36,13 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Potpis privatne poruke",
-        "NOTE": "Napravite potpis privatne poruke koji će se dodavati svakoj poruci koju pošaljete u prijemno sanduče e-pošte. Koristite bogati uređivač sadržaja da bi ste napravili personalizovan potpis.",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
         "BTN_TEXT": "Sačuvaj potpis poruke",
         "API_ERROR": "Nije bilo moguće sačuvati potpis! Pokušajte ponovo",
-        "API_SUCCESS": "Potpis je uspešno sačuvan"
+        "API_SUCCESS": "Potpis je uspešno sačuvan",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Potpis poruke",
@@ -149,6 +152,7 @@
     "SELECTOR_SUBTITLE": "Izaberite nalog iz sledećeg spiska",
     "PROFILE_SETTINGS": "Podešavanja profila",
     "KEYBOARD_SHORTCUTS": "Prečice tastature",
+    "APPEARANCE": "Change Appearance",
     "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "Odjavi se"
   },
@@ -238,7 +242,7 @@
     "REPORTS_OVERVIEW": "Pregled",
     "FACEBOOK_REAUTHORIZE": "Vaša veza sa Fejsbukom je istekla, molim vas povežite ponovo vašu Fejsbuk stranicu za nastavak servisa",
     "HELP_CENTER": {
-      "TITLE": "Help Center (Beta)",
+      "TITLE": "Help Center",
       "ALL_ARTICLES": "Svi članci",
       "MY_ARTICLES": "Moji članci",
       "DRAFT": "Nacrt",

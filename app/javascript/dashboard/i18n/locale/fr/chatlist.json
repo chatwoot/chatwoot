@@ -36,23 +36,45 @@
       }
     },
     "VIEW_FILTER": "Voir",
-    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "SORT_TOOLTIP_LABEL": "Trier les conversations",
     "CHAT_SORT": {
       "STATUS": "État",
-      "ORDER_BY": "Order by"
+      "ORDER_BY": "Trier par"
     },
-    "CHAT_SORT_FILTER_ITEMS": {
-      "latest": {
-        "TEXT": "Last activity"
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Créé",
+        "OLDEST": "Créé le:"
       },
-      "sort_on_created_at": {
-        "TEXT": "Créé le"
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Dernière activité:",
+        "ACTIVE": "Dernière activité"
+      }
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Dernière activité : la plus ancienne en premier"
       },
-      "sort_on_priority": {
-        "TEXT": "Priority"
+      "last_activity_at_desc": {
+        "TEXT": "Dernière activité : la plus récente en premier"
       },
-      "sort_on_waiting_since": {
-        "TEXT": "Pending Response"
+      "created_at_desc": {
+        "TEXT": "Créé le : le plus récent en premier"
+      },
+      "created_at_asc": {
+        "TEXT": "Créé le : le plus ancien en premier"
+      },
+      "priority_desc": {
+        "TEXT": "Priorité: le plus important en premier"
+      },
+      "priority_asc": {
+        "TEXT": "Priorité : le moins important en premier"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Réponse en attente : La plus longue en premier"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Réponse en attente : La plus courte en premier"
       }
     },
     "ATTACHMENTS": {
@@ -76,20 +98,20 @@
       }
     },
     "CHAT_SORT_BY_FILTER": {
-      "TITLE": "Sort conversation",
-      "DROPDOWN_TITLE": "Sort by",
+      "TITLE": "Trier la conversation",
+      "DROPDOWN_TITLE": "Trier par",
       "ITEMS": {
         "LATEST": {
-          "NAME": "Last activity at",
-          "LABEL": "Last activity"
+          "NAME": "Dernière activité à",
+          "LABEL": "Dernière activité"
         },
         "CREATED_AT": {
           "NAME": "Créé le",
           "LABEL": "Créé le"
         },
         "LAST_USER_MESSAGE_AT": {
-          "NAME": "Last user message at",
-          "LABEL": "Last message"
+          "NAME": "Dernier message utilisateur à",
+          "LABEL": "Dernier message"
         }
       }
     },

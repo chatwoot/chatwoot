@@ -1,6 +1,6 @@
 <template>
   <div class="text--container">
-    <woot-button size="small" class=" button--text" @click="onCopy">
+    <woot-button size="small" class="button--text" @click="onCopy">
       {{ $t('COMPONENTS.CODE.BUTTON_TEXT') }}
     </woot-button>
     <woot-button

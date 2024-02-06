@@ -190,8 +190,8 @@
 </template>
 
 <script>
-import thumbnail from 'dashboard/components/widgets/Thumbnail';
-import LocaleItemTable from './PortalListItemTable';
+import thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import LocaleItemTable from './PortalListItemTable.vue';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import alertMixin from 'shared/mixins/alertMixin';
 import { PORTALS_EVENTS } from '../../../../helper/AnalyticsHelper/events';

@@ -129,8 +129,8 @@
 <script>
 import { mapGetters } from 'vuex';
 import router from '../../../../index';
-import PageHeader from '../../SettingsSubPageHeader';
-import GreetingsEditor from 'shared/components/GreetingsEditor';
+import PageHeader from '../../SettingsSubPageHeader.vue';
+import GreetingsEditor from 'shared/components/GreetingsEditor.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 
 export default {

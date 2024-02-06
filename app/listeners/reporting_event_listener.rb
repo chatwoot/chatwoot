@@ -38,8 +38,6 @@ class ReportingEventListener < BaseListener
       event_end_time: message.created_at
     )
 
-    conversation.update(first_reply_created_at: message.created_at)
-
     reporting_event.save!
   end
 

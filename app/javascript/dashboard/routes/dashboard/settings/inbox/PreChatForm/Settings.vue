@@ -16,7 +16,7 @@
         </select>
       </label>
       <div v-if="preChatFormEnabled">
-        <label class="w-[70%]">
+        <div class="w-[70%]">
           <label>
             {{ $t('INBOX_MGMT.PRE_CHAT_FORM.PRE_CHAT_MESSAGE.LABEL') }}
           </label>
@@ -27,7 +27,7 @@
               $t('INBOX_MGMT.PRE_CHAT_FORM.PRE_CHAT_MESSAGE.PLACEHOLDER')
             "
           />
-        </label>
+        </div>
         <div class="w-[70%] mt-4">
           <label>{{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS') }}</label>
           <table class="table table-striped w-full">
@@ -82,7 +82,7 @@ import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import PreChatFields from './PreChatFields.vue';
 import { getPreChatFields, standardFieldKeys } from 'dashboard/helper/preChat';
-import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 export default {
   components: {
     PreChatFields,

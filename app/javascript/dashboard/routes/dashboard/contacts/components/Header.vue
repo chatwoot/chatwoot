@@ -6,7 +6,7 @@
       <div class="flex items-center justify-center max-w-full min-w-[6.25rem]">
         <woot-sidemenu-icon />
         <h1
-          class="m-0 text-2xl text-slate-900 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis my-0 mx-2"
+          class="m-0 text-xl text-slate-900 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis my-0 mx-2"
         >
           {{ headerTitle }}
         </h1>

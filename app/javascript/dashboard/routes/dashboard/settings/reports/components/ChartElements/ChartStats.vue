@@ -8,12 +8,12 @@
       <div v-if="metric.trend" class="text-xs ml-4 flex items-center mb-0.5">
         <div
           v-if="metric.trend < 0"
-          class="h-0 w-0 border-x-4  medium border-x-transparent border-t-[8px] mr-1 "
+          class="h-0 w-0 border-x-4 medium border-x-transparent border-t-[8px] mr-1"
           :class="trendColor(metric.trend, metric.KEY)"
         />
         <div
           v-else
-          class="h-0 w-0 border-x-4  medium border-x-transparent border-b-[8px] mr-1 "
+          class="h-0 w-0 border-x-4 medium border-x-transparent border-b-[8px] mr-1"
           :class="trendColor(metric.trend, metric.KEY)"
         />
         <span class="font-medium" :class="trendColor(metric.trend, metric.KEY)">

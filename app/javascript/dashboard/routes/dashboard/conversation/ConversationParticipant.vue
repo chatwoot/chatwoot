@@ -79,12 +79,12 @@
 
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
-import Spinner from 'shared/components/Spinner';
+import Spinner from 'shared/components/Spinner.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import { mapGetters } from 'vuex';
 import agentMixin from 'dashboard/mixins/agentMixin';
-import ThumbnailGroup from 'dashboard/components/widgets/ThumbnailGroup';
-import MultiselectDropdownItems from 'shared/components/ui/MultiselectDropdownItems';
+import ThumbnailGroup from 'dashboard/components/widgets/ThumbnailGroup.vue';
+import MultiselectDropdownItems from 'shared/components/ui/MultiselectDropdownItems.vue';
 
 export default {
   components: {

@@ -71,7 +71,7 @@
       "SUBMIT": "Εισαγωγή",
       "CANCEL": "Άκυρο"
     },
-    "SUCCESS_MESSAGE": "Οι επαφές αποθηκεύτηκαν με επιτυχία",
+    "SUCCESS_MESSAGE": "Θα ειδοποιηθείτε μέσω email όταν ολοκληρωθεί η εισαγωγή.",
     "ERROR_MESSAGE": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά"
   },
   "EXPORT_CONTACTS": {
@@ -203,6 +203,10 @@
         "LABEL": "Μήνυμα",
         "PLACEHOLDER": "Γράψτε το μήνυμά σας εδώ",
         "ERROR": "Το μήνυμα δεν μπορεί να είναι άδειο"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
       },
       "SUBMIT": "Αποστολή μηνύματος",
       "CANCEL": "Άκυρο",
@@ -343,17 +347,17 @@
     "DESCRIPTION": "Συγχώνευση επαφών, για να συνδυάσετε δύο προφίλ σε ένα, συμπεριλαμβανομένων όλων των χαρακτηριστικών και συνομιλιών. Σε περίπτωση σύγκρουσης, τα χαρακτηριστικά της κύριας επαφής υπερισχύουν.",
     "PRIMARY": {
       "TITLE": "Κύρια επαφή",
-      "HELP_LABEL": "Να διατηρούνται"
+      "HELP_LABEL": "Να διαγραφεί"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Επαφή για συγχώνευση",
       "PLACEHOLDER": "Αναζήτηση επαφής",
-      "HELP_LABEL": "Να διαγραφεί"
+      "HELP_LABEL": "Να διατηρούνται"
     },
     "SUMMARY": {
       "TITLE": "Σύνοψη",
-      "DELETE_WARNING": "Η επαφή του <strong>%{childContactName}</strong>θα διαγραφεί.",
-      "ATTRIBUTE_WARNING": "Τα στοιχεία επικοινωνίας του <strong>%{childContactName}</strong> θα αντιγραφούν στο <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Η επαφή του <strong>%{primaryContactName}</strong>θα διαγραφεί.",
+      "ATTRIBUTE_WARNING": "Τα στοιχεία επικοινωνίας του <strong>%{primaryContactName}</strong> θα αντιγραφούν στο <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"

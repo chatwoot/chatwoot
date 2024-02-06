@@ -74,6 +74,7 @@ export const mutations = {
     $state.hideMessageBubble = data.hideMessageBubble;
     $state.widgetStyle = data.widgetStyle;
     $state.darkMode = data.darkMode;
+    $state.locale = data.locale || $state.locale;
   },
   [TOGGLE_WIDGET_OPEN]($state, isWidgetOpen) {
     $state.isWidgetOpen = isWidgetOpen;

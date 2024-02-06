@@ -27,7 +27,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import IntegrationItem from './IntegrationItem';
+import IntegrationItem from './IntegrationItem.vue';
 
 export default {
   components: {

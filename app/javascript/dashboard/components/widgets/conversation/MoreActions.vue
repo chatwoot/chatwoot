@@ -39,8 +39,8 @@
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
-import EmailTranscriptModal from './EmailTranscriptModal';
-import ResolveAction from '../../buttons/ResolveAction';
+import EmailTranscriptModal from './EmailTranscriptModal.vue';
+import ResolveAction from '../../buttons/ResolveAction.vue';
 import {
   CMD_MUTE_CONVERSATION,
   CMD_SEND_TRANSCRIPT,

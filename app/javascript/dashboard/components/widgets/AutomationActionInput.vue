@@ -108,7 +108,7 @@
 <script>
 import AutomationActionTeamMessageInput from './AutomationActionTeamMessageInput.vue';
 import AutomationActionFileInput from './AutomationFileInput.vue';
-import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 export default {
   components: {
     AutomationActionTeamMessageInput,
@@ -213,7 +213,7 @@ export default {
 }
 
 .filter.has-error {
-  @apply bg-red-50 dark:bg-red-100;
+  @apply bg-red-50 dark:bg-red-800/50 border-red-100 dark:border-red-700/50;
 }
 
 .filter-inputs {
@@ -221,7 +221,7 @@ export default {
 }
 
 .filter-error {
-  @apply text-red-500 dark:text-red-600 block my-1 mx-0;
+  @apply text-red-500 dark:text-red-200 block my-1 mx-0;
 }
 
 .action__question,

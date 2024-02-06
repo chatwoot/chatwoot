@@ -1,35 +1,35 @@
 {
   "INTEGRATION_APPS": {
-    "FETCHING": "Fetching Integrations",
-    "NO_HOOK_CONFIGURED": "There are no %{integrationId} integrations configured in this account.",
-    "HEADER": "Applications",
+    "FETCHING": "Integrációk lekérése",
+    "NO_HOOK_CONFIGURED": "Ebben a fiókban nincs beállítva %{integrationId} integráció",
+    "HEADER": "Alkalmazások",
     "STATUS": {
       "ENABLED": "Engedélyezve",
       "DISABLED": "Letiltva"
     },
     "CONFIGURE": "Beállítások",
-    "ADD_BUTTON": "Add a new hook",
+    "ADD_BUTTON": "Új hook hozzáadása",
     "DELETE": {
       "TITLE": {
-        "INBOX": "Confirm deletion",
-        "ACCOUNT": "Disconnect"
+        "INBOX": "Törlés megerősítése",
+        "ACCOUNT": "Leválasztás"
       },
       "MESSAGE": {
         "INBOX": "Biztos abban, hogy törli?",
-        "ACCOUNT": "Are you sure to disconnect?"
+        "ACCOUNT": "Biztosan leválasztja?"
       },
       "CONFIRM_BUTTON_TEXT": {
         "INBOX": "Igen, Törlés",
-        "ACCOUNT": "Yes, Disconnect"
+        "ACCOUNT": "Igen, leválasztás"
       },
       "CANCEL_BUTTON_TEXT": "Mégse",
       "API": {
-        "SUCCESS_MESSAGE": "Hook deleted successfully",
+        "SUCCESS_MESSAGE": "Hook törlésre került",
         "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
       }
     },
     "LIST": {
-      "FETCHING": "Fetching integration hooks",
+      "FETCHING": "Integrációs hookok betöltése",
       "INBOX": "Fiók",
       "DELETE": {
         "BUTTON_TEXT": "Törlés"
@@ -38,14 +38,14 @@
     "ADD": {
       "FORM": {
         "INBOX": {
-          "LABEL": "Select Inbox",
-          "PLACEHOLDER": "Select Inbox"
+          "LABEL": "Válassz fiókot",
+          "PLACEHOLDER": "Válassz fiókot"
         },
         "SUBMIT": "Létrehozás",
         "CANCEL": "Mégse"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Integration hook added successfully",
+        "SUCCESS_MESSAGE": "Integrációs hookok hozzáadásra kerültek",
         "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
       }
     },
@@ -53,10 +53,10 @@
       "BUTTON_TEXT": "Kapcsolódás"
     },
     "DISCONNECT": {
-      "BUTTON_TEXT": "Disconnect"
+      "BUTTON_TEXT": "Leválasztás"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow is a natural language understanding platform that makes it easy to design and integrate a conversational user interface into your mobile app, web application, device, bot, interactive voice response system, and so on. <br /> <br /> Dialogflow integration with %{installationName} allows you to configure a Dialogflow bot with your inboxes which lets the bot handle the queries initially and hand them over to an agent when needed. Dialogflow can be used to qualifying the leads, reduce the workload of agents by providing frequently asked questions etc. <br /> <br /> To add Dialogflow, you need to create a Service Account in your Google project console and share the credentials. Please refer to the Dialogflow docs for more information."
+      "DIALOGFLOW": "A Dialogflow egy természetes nyelvi platform, amely megkönnyíti a társalgási felhasználói felület tervezését és integrálását mobilalkalmazásába, webalkalmazásába, eszközébe, botjába, interaktív hangválaszrendszerébe stb. <br /> <br /> A Dialogflow integráció a %{installationName} szolgáltatással lehetővé teszi egy Dialogflow bot konfigurálását a beérkező leveleihez, amely lehetővé teszi, hogy a bot kezdetben kezelje a lekérdezéseket, és szükség esetén átadja azokat egy ügynöknek. A Dialogflow felhasználható a potenciális ügyfelek minősítésére, az ügynökök munkaterhelésének csökkentésére gyakran ismételt kérdések megadásával stb. <br /> <br /> A Dialogflow hozzáadásához létre kell hoznod egy szolgáltatásfiókot a Google projektkonzoljában, és meg kell osztanod adataidat a hitelesítéshez. További információkért tekintsd meg a Dialogflow dokumentumokat."
     }
   }
 }

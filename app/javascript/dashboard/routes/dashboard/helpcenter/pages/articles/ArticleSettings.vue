@@ -91,6 +91,7 @@
             @search-change="handleSearchChange"
             @close="onBlur"
             @tag="addTagValue"
+            @remove="removeTag"
           />
         </label>
       </div>
@@ -119,7 +120,7 @@
 </template>
 
 <script>
-import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown';
+import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import { mapGetters } from 'vuex';
 import { debounce } from '@chatwoot/utils';
 import { isEmptyObject } from 'dashboard/helper/commons.js';
@@ -157,16 +158,23 @@ export default {
       return this.metaTags.map(item => item.name);
     },
   },
+  watch: {
+    article: {
+      handler() {
+        if (!isEmptyObject(this.article.meta || {})) {
+          const {
+            meta: { title = '', description = '', tags = [] },
+          } = this.article;
+          this.metaTitle = title;
+          this.metaDescription = description;
+          this.metaTags = this.formattedTags({ tags });
+        }
+      },
+      deep: true,
+      immediate: true,
+    },
+  },
   mounted() {
-    if (!isEmptyObject(this.article.meta || {})) {
-      const {
-        meta: { title = '', description = '', tags = [] },
-      } = this.article;
-      this.metaTitle = title;
-      this.metaDescription = description;
-      this.metaTags = this.formattedTags({ tags });
-    }
-
     this.saveArticle = debounce(
       () => {
         this.$emit('save-article', {
@@ -196,6 +204,9 @@ export default {
       this.metaTags.push(...this.formattedTags({ tags: [...new Set(tags)] }));
       this.saveArticle();
     },
+    removeTag() {
+      this.saveArticle();
+    },
     handleSearchChange(value) {
       this.tagInputValue = value;
     },
@@ -209,15 +220,21 @@ export default {
     },
     onClickAssignAuthor({ id }) {
       this.$emit('save-article', { author_id: id });
+      this.updateMeta();
     },
     onChangeMetaInput() {
       this.saveArticle();
     },
     onClickArchiveArticle() {
       this.$emit('archive-article');
+      this.updateMeta();
     },
     onClickDeleteArticle() {
       this.$emit('delete-article');
+      this.updateMeta();
+    },
+    updateMeta() {
+      this.$emit('update-meta');
     },
   },
 };

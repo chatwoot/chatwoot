@@ -6,6 +6,7 @@
     <conversation-header
       v-if="currentChat.id"
       :chat="currentChat"
+      :is-inbox-view="isInboxView"
       :is-contact-panel-open="isContactPanelOpen"
       :show-back-button="isOnExpandedLayout"
       @contact-panel-toggle="onToggleContactPanel"
@@ -30,6 +31,7 @@
       <messages-view
         v-if="currentChat.id"
         :inbox-id="inboxId"
+        :is-inbox-view="isInboxView"
         :is-contact-panel-open="isContactPanelOpen"
         @contact-panel-toggle="onToggleContactPanel"
       />
@@ -52,17 +54,18 @@
       :key="currentChat.id + '-' + dashboardApp.id"
       :is-visible="activeIndex - 1 === index"
       :config="dashboardApps[index].content"
+      :position="index"
       :current-chat="currentChat"
     />
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import ContactPanel from 'dashboard/routes/dashboard/conversation/ContactPanel';
-import ConversationHeader from './ConversationHeader';
+import ContactPanel from 'dashboard/routes/dashboard/conversation/ContactPanel.vue';
+import ConversationHeader from './ConversationHeader.vue';
 import DashboardAppFrame from '../DashboardApp/Frame.vue';
-import EmptyState from './EmptyState';
-import MessagesView from './MessagesView';
+import EmptyState from './EmptyState/EmptyState.vue';
+import MessagesView from './MessagesView.vue';
 
 export default {
   components: {
@@ -78,6 +81,10 @@ export default {
       type: [Number, String],
       default: '',
       required: false,
+    },
+    isInboxView: {
+      type: Boolean,
+      default: false,
     },
     isContactPanelOpen: {
       type: Boolean,

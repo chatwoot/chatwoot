@@ -28,7 +28,7 @@ class Api::V1::Accounts::ResponseSourcesController < Api::V1::Accounts::BaseCont
   end
 
   def response_source_params
-    params.require(:response_source).permit(:name, :source_link, :inbox_id,
+    params.require(:response_source).permit(:name, :source_link,
                                             response_documents_attributes: [:document_link])
   end
 end

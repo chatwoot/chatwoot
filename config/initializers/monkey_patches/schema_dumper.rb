@@ -33,3 +33,4 @@ ActiveRecord::ConnectionAdapters::PostgreSQL::SchemaDumper.ignore_extentions << 
 ActiveRecord::SchemaDumper.ignore_tables << 'responses'
 ActiveRecord::SchemaDumper.ignore_tables << 'response_sources'
 ActiveRecord::SchemaDumper.ignore_tables << 'response_documents'
+ActiveRecord::SchemaDumper.ignore_tables << 'inbox_response_sources'
