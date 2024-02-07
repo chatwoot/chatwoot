@@ -54,7 +54,7 @@ export const actions = {
     try {
       await NotificationsAPI.read(primaryActorType, primaryActorId);
       commit(types.SET_NOTIFICATIONS_UNREAD_COUNT, unreadCount - 1);
-      commit(types.UPDATE_NOTIFICATION, { id, read_at: new Date() });
+      commit(types.READ_NOTIFICATION, { id, read_at: new Date() });
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
     } catch (error) {
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
@@ -64,7 +64,7 @@ export const actions = {
     commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: true });
     try {
       await NotificationsAPI.unRead(id);
-      commit(types.UPDATE_NOTIFICATION, { id, read_at: null });
+      commit(types.READ_NOTIFICATION, { id, read_at: null });
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
     } catch (error) {
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
@@ -127,6 +127,7 @@ export const actions = {
         id,
         snoozedUntil,
       });
+
       const {
         data: { snoozed_until = null },
       } = response;
@@ -138,6 +139,10 @@ export const actions = {
     } catch (error) {
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
     }
+  },
+
+  updateNotification: async ({ commit }, data) => {
+    commit(types.UPDATE_NOTIFICATION, data);
   },
 
   addNotification({ commit }, data) {
