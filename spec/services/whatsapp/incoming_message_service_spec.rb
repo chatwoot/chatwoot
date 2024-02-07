@@ -21,7 +21,7 @@ describe Whatsapp::IncomingMessageService do
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
         expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
         expect(Contact.all.first.name).to eq('Sojan')
-        except(Contact.all.first.last_name).to eq('Jose')
+        expect(Contact.all.first.last_name).to eq('Jose')
         expect(whatsapp_channel.inbox.messages.first.content).to eq('Test')
       end
 
@@ -292,7 +292,7 @@ describe Whatsapp::IncomingMessageService do
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
         expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
         expect(Contact.all.first.name).to eq('Sojan')
-        except(Contact.all.first.last_name).to eq('Jose')
+        expect(Contact.all.first.last_name).to eq('Jose')
         expect(whatsapp_channel.inbox.messages.first.content).to eq('Test')
         expect(whatsapp_channel.inbox.contact_inboxes.first.source_id).to eq(wa_id)
       end
