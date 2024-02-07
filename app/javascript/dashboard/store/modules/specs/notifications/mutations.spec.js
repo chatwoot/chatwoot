@@ -75,7 +75,7 @@ describe('#mutations', () => {
           1: { id: 1, primary_actor_id: 1 },
         },
       };
-      mutations[types.UPDATE_NOTIFICATION](state, {
+      mutations[types.READ_NOTIFICATION](state, {
         id: 1,
         read_at: true,
       });
