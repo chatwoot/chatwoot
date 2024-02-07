@@ -15,7 +15,7 @@ class AccountBuilder
     end
     [@user, @account]
   rescue StandardError => e
-    puts e.inspect
+    Rails.logger.debug e.inspect
     raise e
   end
 
