@@ -4,7 +4,7 @@ describe Redis::Config do
   context 'when single redis instance is used' do
     let(:redis_url) { 'redis://my-redis-instance:6379' }
     let(:redis_pasword) { 'some-strong-password' }
-    let(:redis_db_num) { 1 }
+    let(:redis_db_num) { '1' }
 
     before do
       described_class.instance_variable_set(:@config, nil)
