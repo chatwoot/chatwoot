@@ -47,13 +47,13 @@
       }
     },
     "ALERTS": {
-      "MARK_AS_READ": "Notification marked as read",
-      "MARK_AS_UNREAD": "Notification marked as unread",
-      "SNOOZE": "Notification snoozed",
-      "DELETE": "Notification deleted",
-      "MARK_ALL_READ": "All notifications marked as read",
-      "DELETE_ALL": "All notifications deleted",
-      "DELETE_ALL_READ": "All read notifications deleted"
+      "MARK_AS_READ": "Paziņojums atzīmēts kā izlasīts",
+      "MARK_AS_UNREAD": "Paziņojums atzīmēts kā nelasīts",
+      "SNOOZE": "Paziņojums atlikts",
+      "DELETE": "Paziņojums izdzēsts",
+      "MARK_ALL_READ": "Visi paziņojumi ir atzīmēti kā lasīti",
+      "DELETE_ALL": "Visi paziņojumi izdzēsti",
+      "DELETE_ALL_READ": "Visi lasīšanas paziņojumi ir izdzēsti"
     }
   }
 }
