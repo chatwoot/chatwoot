@@ -7,11 +7,11 @@ require Rails.root.join 'spec/models/concerns/avatarable_shared.rb'
 RSpec.describe User do
   let!(:user) { create(:user) }
 
-  context 'when validations' do
+  context 'with validations' do
     it { is_expected.to validate_presence_of(:email) }
   end
 
-  context 'when associations' do
+  context 'with associations' do
     it { is_expected.to have_many(:accounts).through(:account_users) }
     it { is_expected.to have_many(:account_users) }
     it { is_expected.to have_many(:assigned_conversations).class_name('Conversation').dependent(:nullify) }
