@@ -63,7 +63,6 @@ class Notification < ApplicationRecord
       last_activity_at: last_activity_at.to_i,
       snoozed_until: snoozed_until,
       account_id: account_id
-
     }
     if primary_actor.present?
       payload[:primary_actor] = primary_actor_data
@@ -75,7 +74,8 @@ class Notification < ApplicationRecord
   def primary_actor_data
     {
       id: primary_actor.push_event_data[:id],
-      meta: primary_actor.push_event_data[:meta]
+      meta: primary_actor.push_event_data[:meta],
+      inbox_id: primary_actor.push_event_data[:inbox_id]
     }
   end
 
