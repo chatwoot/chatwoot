@@ -29,7 +29,7 @@ class Digitaltolk::AddMessageService
   def message_params
     {
       message_type: message_type,
-      content: content
+      content: ReverseMarkdown.convert(content)
     }
   end
 end

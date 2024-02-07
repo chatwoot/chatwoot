@@ -1,6 +1,6 @@
 class Digitaltolk::WebflowService
   attr_accessor :params
-  
+
   INFO_EMAIL = 'info@digitaltolk.se'
   WEBFORM_EMAIL = 'webformular@digitaltolk.se'
 
@@ -16,23 +16,23 @@ class Digitaltolk::WebflowService
 
     process_webflow_submission
   rescue StandardError => e
-    Rails.logger.error e
-    Rails.logger.error e.backtrace.first
+    errmsg = ['webflow_error', e.message.to_s, e.backtrace.first.to_s].join(',')
+    Rails.logger.error errmsg
   end
 
   private
 
   def process_webflow_submission
     if from_email.blank?
-      Rails.logger.error 'blank from email'
+      Rails.logger.warn 'blank from email'
       return
     end
 
     emails.each_with_index do |recipient_email, index|
       next if recipient_email.blank?
 
-      second_interval = (10 * (index + 1))
-      Rails.logger.info "Sent webform email for #{from_email}"
+      second_interval = (5 * (index + 1))
+      Rails.logger.warn "Sent webform email for #{from_email}"
       DigitaltolkEmailWorker.perform_in(second_interval.seconds, email_params(recipient_email).to_json)
     end
   end
