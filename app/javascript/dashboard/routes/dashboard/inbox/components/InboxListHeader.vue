@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex w-full pl-4 pr-2 py-2 h-14 justify-between items-center border-b border-slate-50 dark:border-slate-800/50"
+    class="flex w-full ltr:pl-4 rtl:pl-2 rtl:pr-4 ltr:pr-2 py-2 h-14 justify-between items-center border-b border-slate-50 dark:border-slate-800/50"
   >
     <div class="flex items-center gap-1.5">
       <h1 class="font-medium text-slate-900 dark:text-slate-25 text-xl">
