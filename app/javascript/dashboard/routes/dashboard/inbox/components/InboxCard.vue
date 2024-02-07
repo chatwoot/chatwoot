@@ -29,7 +29,7 @@
           v-if="assigneeMeta"
           :src="assigneeMeta.thumbnail"
           :username="assigneeMeta.name"
-          size="20px"
+          size="16px"
         />
         <div class="flex min-w-0">
           <span

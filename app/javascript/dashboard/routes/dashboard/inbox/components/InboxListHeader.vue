@@ -27,6 +27,7 @@
           v-if="showInboxDisplayMenu"
           v-on-clickaway="openInboxDisplayMenu"
           class="absolute top-8"
+          @filter="onFilterChange"
         />
       </div>
     </div>
@@ -108,6 +109,10 @@ export default {
       if (key === 'delete_all_read') {
         this.deleteAllRead();
       }
+    },
+    onFilterChange(option) {
+      this.$emit('filter', option);
+      this.showInboxDisplayMenu = false;
     },
   },
 };

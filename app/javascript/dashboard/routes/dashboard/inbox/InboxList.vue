@@ -3,7 +3,7 @@
     class="flex flex-col h-full w-full ltr:border-r border-slate-50 dark:border-slate-800/50"
     :class="isOnExpandedLayout ? '' : 'min-w-[360px] max-w-[360px]'"
   >
-    <inbox-list-header />
+    <inbox-list-header @filter="onFilterChange" />
     <div
       ref="notificationList"
       class="flex flex-col w-full h-[calc(100%-56px)] overflow-x-hidden overflow-y-auto"
@@ -42,18 +42,20 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import wootConstants from 'dashboard/constants/globals';
 import InboxCard from './components/InboxCard.vue';
 import InboxListHeader from './components/InboxListHeader.vue';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import IntersectionObserver from 'dashboard/components/IntersectionObserver.vue';
 import alertMixin from 'shared/mixins/alertMixin';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 export default {
   components: {
     InboxCard,
     InboxListHeader,
     IntersectionObserver,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, uiSettingsMixin],
   props: {
     conversationId: {
       type: [String, Number],
@@ -71,6 +73,9 @@ export default {
         rootMargin: '100px 0px 100px 0px',
       },
       page: 1,
+      status: '',
+      type: '',
+      sortOrder: wootConstants.INBOX_SORT_BY.NEWEST,
     };
   },
   computed: {
@@ -91,10 +96,20 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('notifications/clear');
-    this.$store.dispatch('notifications/index', { page: 1 });
+    this.setSavedFilter();
+    this.fetchNotifications();
   },
   methods: {
+    fetchNotifications() {
+      this.$store.dispatch('notifications/clear');
+      this.$store.dispatch('notifications/index', {
+        page: 1,
+        status: this.status,
+        type: this.type,
+        sortOrder: this.sortOrder,
+      });
+      this.page = 1;
+    },
     redirectToInbox() {
       if (!this.conversationId) return;
       if (this.$route.name === 'inbox-view') return;
@@ -102,7 +117,12 @@ export default {
     },
     loadMoreNotifications() {
       if (this.uiFlags.isAllNotificationsLoaded) return;
-      this.$store.dispatch('notifications/index', { page: this.page + 1 });
+      this.$store.dispatch('notifications/index', {
+        page: this.page + 1,
+        status: this.status,
+        type: this.type,
+        sortOrder: this.sortOrder,
+      });
       this.page += 1;
     },
     markNotificationAsRead(notification) {
@@ -147,6 +167,25 @@ export default {
         .then(() => {
           this.showAlert(this.$t('INBOX.ALERTS.DELETE'));
         });
+    },
+    onFilterChange(option) {
+      if (option.type === wootConstants.INBOX_FILTER_TYPE.STATUS) {
+        this.status = option.selected ? option.key : '';
+      }
+      if (option.type === wootConstants.INBOX_FILTER_TYPE.TYPE) {
+        this.type = option.selected ? option.key : '';
+      }
+      if (option.type === wootConstants.INBOX_FILTER_TYPE.SORT_ORDER) {
+        this.sortOrder = option.key;
+      }
+      this.fetchNotifications();
+    },
+    setSavedFilter() {
+      const { inbox_filter_by: filterBy = {} } = this.uiSettings;
+      const { status, type, sort_by: sortBy } = filterBy;
+      this.status = status;
+      this.type = type;
+      this.sortOrder = sortBy || wootConstants.INBOX_SORT_BY.NEWEST;
     },
   },
 };
