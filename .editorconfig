@@ -12,3 +12,7 @@ tab_width = 2
 
 [*.{rb,erb,js,coffee,json,yml,css,scss,sh,markdown,md,html}]
 indent_size = 2
+
+[Makefile]
+indent_size = 4
+indent_style = tab
