@@ -55,7 +55,7 @@ describe Redis::Config do
       expect(described_class.app.keys).to contain_exactly(:url, :password, :db, :sentinels, :timeout, :reconnect_attempts, :ssl_params)
       expect(described_class.app[:url]).to eq("redis://#{redis_master_name}")
       expect(described_class.app[:sentinels]).to match_array(expected_sentinels)
-      expect(app_config[:db]).to eq(redis_db_num_default)
+      expect(described_class.app[:db]).to eq(redis_db_num_default)
     end
 
     context 'when redis sentinel is used with REDIS_SENTINEL_PASSWORD empty string' do
