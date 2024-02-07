@@ -89,9 +89,9 @@ RSpec.describe SupportMailbox do
       end
 
       it 'create a new contact as the sender of the email' do
-        email_sender = Mail::Address.new(support_mail.mail[:from].value).name
         expect(conversation.messages.last.sender.email).to eq(support_mail.mail.from.first)
-        expect(conversation.contact.name).to eq(email_sender)
+        expect(conversation.contact.name).to eq('Sony')
+        expect(conversation.contact.last_name).to eq('Mathew')
       end
 
       it 'add the mail content as new message on the conversation' do
@@ -178,10 +178,9 @@ RSpec.describe SupportMailbox do
 
       it 'create new contact with original sender' do
         described_subject
-        email_sender = Mail::Address.new(group_sender_support_mail.mail[:from].value).name
 
         expect(conversation.contact.email).to eq(group_sender_support_mail.mail['X-Original-Sender'].value)
-        expect(conversation.contact.name).to eq(email_sender)
+        expect(conversation.contact.name).to eq('ACME')
       end
     end
 
