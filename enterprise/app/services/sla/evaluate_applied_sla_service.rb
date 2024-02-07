@@ -1,4 +1,4 @@
-class Sla::EvaluateSlaService
+class Sla::EvaluateAppliedSlaService
   pattr_initialize [:applied_sla!]
 
   def perform

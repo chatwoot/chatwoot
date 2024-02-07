@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe Sla::EvaluateSlaService do
-  context 'when EvaluateSlaService is performed' do
+RSpec.describe Sla::EvaluateAppliedSlaService do
+  context 'when EvaluateAppliedSlaService is performed' do
     let!(:conversation) { create(:conversation, created_at: 2.hours.ago) }
     let!(:sla_policy) { create(:sla_policy, first_response_time_threshold: 1.hour) }
     let!(:applied_sla) { create(:applied_sla, conversation: conversation, sla_policy: sla_policy, sla_status: 'active') }
@@ -15,7 +15,7 @@ RSpec.describe Sla::EvaluateSlaService do
     end
   end
 
-  context 'when EvaluateSlaService is performed with a conversation having first reply' do
+  context 'when EvaluateAppliedSlaService is performed with a conversation having first reply' do
     let!(:conversation) { create(:conversation, created_at: 4.hours.ago, first_reply_created_at: 3.hours.ago, waiting_since: 2.hours.ago) }
     let!(:sla_policy) { create(:sla_policy, first_response_time_threshold: 30.minutes.ago, next_response_time_threshold: 1.hour) }
     let!(:applied_sla) { create(:applied_sla, conversation: conversation, sla_policy: sla_policy, sla_status: 'active') }
@@ -29,7 +29,7 @@ RSpec.describe Sla::EvaluateSlaService do
     end
   end
 
-  context 'when EvaluateSlaService is performed with conversation that is resolved' do
+  context 'when EvaluateAppliedSlaService is performed with conversation that is resolved' do
     let!(:conversation) { create(:conversation, created_at: 6.hours.ago, updated_at: 3.hours.ago) }
     let!(:sla_policy) { create(:sla_policy, resolution_time_threshold: 1.hour) }
     let!(:applied_sla) { create(:applied_sla, conversation: conversation, sla_policy: sla_policy, sla_status: 'active') }
@@ -58,7 +58,7 @@ RSpec.describe Sla::EvaluateSlaService do
     end
   end
 
-  context 'when EvaluateSlaService is performed with conversation that is resolve' do
+  context 'when EvaluateAppliedSlaService is performed with conversation that is resolve' do
     let!(:conversation) { create(:conversation, created_at: 6.hours.ago, updated_at: 3.hours.ago) }
     let!(:sla_policy) { create(:sla_policy, resolution_time_threshold: 24.hours) }
     let!(:applied_sla) { create(:applied_sla, conversation: conversation, sla_policy: sla_policy, sla_status: 'active') }
