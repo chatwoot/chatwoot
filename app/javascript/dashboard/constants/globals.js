@@ -47,8 +47,8 @@ export default {
   EXAMPLE_URL: 'https://example.com',
   EXAMPLE_WEBHOOK_URL: 'https://example/api/webhook',
   INBOX_SORT_BY: {
-    NEWEST: 'asc',
-    OLDEST: 'desc',
+    NEWEST: 'desc',
+    OLDEST: 'asc',
   },
   INBOX_DISPLAY_BY: {
     SNOOZED: 'snoozed',

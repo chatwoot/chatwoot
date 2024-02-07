@@ -9,7 +9,7 @@
       class="flex flex-col w-full h-[calc(100%-56px)] overflow-x-hidden overflow-y-auto"
     >
       <inbox-card
-        v-for="notificationItem in records"
+        v-for="notificationItem in notifications"
         :key="notificationItem.id"
         :notification-item="notificationItem"
         @mark-notification-as-read="markNotificationAsRead"
@@ -82,17 +82,28 @@ export default {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
       meta: 'notifications/getMeta',
-      records: 'notifications/getNotifications',
       uiFlags: 'notifications/getUIFlags',
+      notification: 'notifications/getFilteredNotifications',
     }),
+    inboxFilters() {
+      return {
+        page: this.page,
+        status: this.status,
+        type: this.type,
+        sortOrder: this.sortOrder,
+      };
+    },
+    notifications() {
+      return this.notification(this.inboxFilters);
+    },
     showEndOfList() {
       return this.uiFlags.isAllNotificationsLoaded && !this.uiFlags.isFetching;
     },
     showEmptyState() {
-      return !this.uiFlags.isFetching && !this.records.length;
+      return !this.uiFlags.isFetching && !this.notifications.length;
     },
     showEndOfListMessage() {
-      return this.showEndOfList && this.records.length;
+      return this.showEndOfList && this.notifications.length;
     },
   },
   mounted() {
@@ -101,18 +112,15 @@ export default {
   },
   methods: {
     fetchNotifications() {
-      this.$store.dispatch('notifications/clear');
-      this.$store.dispatch('notifications/index', {
-        page: 1,
-        status: this.status,
-        type: this.type,
-        sortOrder: this.sortOrder,
-      });
       this.page = 1;
+      this.$store.dispatch('notifications/clear');
+      const filter = this.inboxFilters;
+
+      this.$store.dispatch('notifications/index', filter);
     },
     redirectToInbox() {
       if (!this.conversationId) return;
-      if (this.$route.name === 'inbox-view') return;
+      if (this.$route.name === 'inbox_view') return;
       this.$router.push({ name: 'inbox_view' });
     },
     loadMoreNotifications() {
