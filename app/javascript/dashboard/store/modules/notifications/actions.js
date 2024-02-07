@@ -95,6 +95,51 @@ export const actions = {
     }
   },
 
+  deleteAllRead: async ({ commit }) => {
+    commit(types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: true });
+    try {
+      await NotificationsAPI.deleteAll({
+        type: 'read',
+      });
+      commit(types.DELETE_READ_NOTIFICATIONS);
+      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: false });
+    } catch (error) {
+      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: false });
+    }
+  },
+  deleteAll: async ({ commit }) => {
+    commit(types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: true });
+    try {
+      await NotificationsAPI.deleteAll({
+        type: 'all',
+      });
+      commit(types.DELETE_ALL_NOTIFICATIONS);
+      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: false });
+    } catch (error) {
+      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: false });
+    }
+  },
+
+  snooze: async ({ commit }, { id, snoozedUntil }) => {
+    commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: true });
+    try {
+      const response = await NotificationsAPI.snooze({
+        id,
+        snoozedUntil,
+      });
+      const {
+        data: { snoozed_until = null },
+      } = response;
+      commit(types.SNOOZE_NOTIFICATION, {
+        id,
+        snoozed_until,
+      });
+      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
+    } catch (error) {
+      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
+    }
+  },
+
   addNotification({ commit }, data) {
     commit(types.ADD_NOTIFICATION, data);
   },

@@ -1,7 +1,7 @@
 <template>
   <div
     role="button"
-    class="flex flex-col pl-5 pr-3 gap-2.5 py-3 w-full border-b border-slate-50 dark:border-slate-800/50 hover:bg-slate-25 dark:hover:bg-slate-800 cursor-pointer"
+    class="flex flex-col ltr:pl-5 rtl:pl-3 rtl:pr-5 ltr:pr-3 gap-2.5 py-3 w-full border-b border-slate-50 dark:border-slate-800/50 hover:bg-slate-25 dark:hover:bg-slate-800 cursor-pointer"
     :class="
       isInboxCardActive
         ? 'bg-slate-25 dark:bg-slate-800 click-animation'
@@ -13,7 +13,7 @@
     <div class="flex relative items-center justify-between w-full">
       <div
         v-if="isUnread"
-        class="absolute -left-3.5 flex w-2 h-2 rounded bg-woot-500 dark:bg-woot-500"
+        class="absolute ltr:-left-3.5 rtl:-right-3.5 flex w-2 h-2 rounded bg-woot-500 dark:bg-woot-500"
       />
       <InboxNameAndId :inbox="inbox" :conversation-id="primaryActor.id" />
 
@@ -33,11 +33,10 @@
         />
         <div class="flex min-w-0">
           <span
-            class="font-medium text-slate-800 dark:text-slate-50 text-sm overflow-hidden text-ellipsis whitespace-nowrap"
+            class="text-slate-800 dark:text-slate-50 text-sm overflow-hidden text-ellipsis whitespace-nowrap"
+            :class="isUnread ? 'font-medium' : 'font-normal'"
           >
-            <span class="font-normal text-sm">
-              {{ pushTitle }}
-            </span>
+            {{ pushTitle }}
           </span>
         </div>
       </div>
@@ -45,6 +44,11 @@
         class="font-medium max-w-[60px] text-slate-600 dark:text-slate-300 text-xs whitespace-nowrap"
       >
         {{ lastActivityAt }}
+      </span>
+    </div>
+    <div v-if="snoozedUntilTime" class="flex items-center">
+      <span class="text-woot-500 dark:text-woot-500 text-xs font-medium">
+        {{ snoozedDisplayText }}
       </span>
     </div>
     <inbox-context-menu
@@ -63,6 +67,7 @@ import InboxNameAndId from './InboxNameAndId.vue';
 import InboxContextMenu from './InboxContextMenu.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import timeMixin from 'dashboard/mixins/time';
+import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 export default {
   components: {
@@ -137,6 +142,18 @@ export default {
         });
       }
       return items;
+    },
+    snoozedUntilTime() {
+      const { snoozed_until: snoozedUntil } = this.notificationItem;
+      return snoozedUntil;
+    },
+    snoozedDisplayText() {
+      if (this.snoozedUntilTime) {
+        return `${this.$t('INBOX.LIST.SNOOZED_UNTIL')} ${snoozedReopenTime(
+          this.snoozedUntilTime
+        )}`;
+      }
+      return '';
     },
   },
   unmounted() {
