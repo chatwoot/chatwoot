@@ -1,89 +1,141 @@
 require 'rails_helper'
 
 RSpec.describe Sla::EvaluateAppliedSlaService do
-  context 'when EvaluateAppliedSlaService is performed' do
-    let!(:conversation) { create(:conversation, created_at: 2.hours.ago) }
-    let!(:sla_policy) { create(:sla_policy, first_response_time_threshold: 1.hour) }
-    let!(:applied_sla) { create(:applied_sla, conversation: conversation, sla_policy: sla_policy, sla_status: 'active') }
+  let!(:conversation) { create(:conversation, created_at: 6.hours.ago) }
+  let!(:sla_policy) do
+    create(:sla_policy, account: conversation.account,
+                        first_response_time_threshold: nil,
+                        next_response_time_threshold: nil,
+                        resolution_time_threshold: nil)
+  end
+  let!(:applied_sla) { create(:applied_sla, conversation: conversation, sla_policy: sla_policy, sla_status: 'active') }
 
-    it 'logs a warning if the first_reponse SLA is missed' do
-      allow(Rails.logger).to receive(:warn)
-      described_class.new(applied_sla: applied_sla).perform
-      expected_log_message = "SLA missed for conversation #{conversation.id} in account #{conversation.account_id} for sla_policy #{sla_policy.id}"
-      expect(Rails.logger).to have_received(:warn).with(expected_log_message)
-      expect(applied_sla.reload.sla_status).to eq('missed')
+  describe '#perform - SLA misses' do
+    context 'when first response SLA is missed' do
+      before { sla_policy.update(first_response_time_threshold: 1.hour) }
+
+      it 'updates the SLA status to missed and logs a warning' do
+        allow(Rails.logger).to receive(:warn)
+        described_class.new(applied_sla: applied_sla).perform
+        expect(Rails.logger).to have_received(:warn).with("SLA missed for conversation #{conversation.id} in account " \
+                                                          "#{applied_sla.account_id} for sla_policy #{sla_policy.id}")
+        expect(applied_sla.reload.sla_status).to eq('missed')
+      end
+    end
+
+    context 'when next response SLA is missed' do
+      before do
+        sla_policy.update(next_response_time_threshold: 1.hour)
+        conversation.update(first_reply_created_at: 5.hours.ago, waiting_since: 5.hours.ago)
+      end
+
+      it 'updates the SLA status to missed and logs a warning' do
+        allow(Rails.logger).to receive(:warn)
+        described_class.new(applied_sla: applied_sla).perform
+        expect(Rails.logger).to have_received(:warn).with("SLA missed for conversation #{conversation.id} in account " \
+                                                          "#{applied_sla.account_id} for sla_policy #{sla_policy.id}")
+        expect(applied_sla.reload.sla_status).to eq('missed')
+      end
+    end
+
+    context 'when resolution time SLA is missed' do
+      before { sla_policy.update(resolution_time_threshold: 1.hour) }
+
+      it 'updates the SLA status to missed and logs a warning' do
+        allow(Rails.logger).to receive(:warn)
+        described_class.new(applied_sla: applied_sla).perform
+        expect(Rails.logger).to have_received(:warn).with("SLA missed for conversation #{conversation.id} in account " \
+                                                          "#{applied_sla.account_id} for sla_policy #{sla_policy.id}")
+        expect(applied_sla.reload.sla_status).to eq('missed')
+      end
+    end
+
+    # We will mark resolved miss only if while processing the SLA
+    # if the conversation is resolved and the resolution time is missed by small margins then we will not mark it as missed
+    context 'when resolved conversation with resolution time SLA is missed' do
+      before do
+        conversation.resolved!
+        sla_policy.update(resolution_time_threshold: 1.hour)
+      end
+
+      it 'does not update the SLA status to missed' do
+        described_class.new(applied_sla: applied_sla).perform
+        expect(applied_sla.reload.sla_status).to eq('hit')
+      end
+    end
+
+    context 'when multiple SLAs are missed' do
+      before do
+        sla_policy.update(first_response_time_threshold: 1.hour, next_response_time_threshold: 1.hour, resolution_time_threshold: 1.hour)
+        conversation.update(first_reply_created_at: 5.hours.ago, waiting_since: 5.hours.ago)
+      end
+
+      it 'updates the SLA status to missed and logs a warning' do
+        allow(Rails.logger).to receive(:warn)
+        described_class.new(applied_sla: applied_sla).perform
+        expect(Rails.logger).to have_received(:warn).with("SLA missed for conversation #{conversation.id} in account " \
+                                                          "#{applied_sla.account_id} for sla_policy #{sla_policy.id}").exactly(1).time
+        expect(applied_sla.reload.sla_status).to eq('missed')
+      end
     end
   end
 
-  context 'when EvaluateAppliedSlaService is performed with a conversation having first reply' do
-    let!(:conversation) { create(:conversation, created_at: 4.hours.ago, first_reply_created_at: 3.hours.ago, waiting_since: 2.hours.ago) }
-    let!(:sla_policy) { create(:sla_policy, first_response_time_threshold: 30.minutes.ago, next_response_time_threshold: 1.hour) }
-    let!(:applied_sla) { create(:applied_sla, conversation: conversation, sla_policy: sla_policy, sla_status: 'active') }
+  describe '#perform - SLA hits' do
+    context 'when first response SLA is hit' do
+      before do
+        sla_policy.update(first_response_time_threshold: 6.hours)
+        conversation.update(first_reply_created_at: 30.minutes.ago)
+      end
 
-    it 'logs a warning if the next_repsonse SLA is missed' do
-      allow(Rails.logger).to receive(:warn)
-      described_class.new(applied_sla: applied_sla).perform
-      expected_log_message = "SLA missed for conversation #{conversation.id} in account #{conversation.account_id} for sla_policy #{sla_policy.id}"
-      expect(Rails.logger).to have_received(:warn).with(expected_log_message)
-      expect(applied_sla.reload.sla_status).to eq('missed')
+      it 'sla remains active until conversation is resolved' do
+        described_class.new(applied_sla: applied_sla).perform
+        expect(applied_sla.reload.sla_status).to eq('active')
+      end
+
+      it 'updates the SLA status to hit and logs an info when conversations is resolved' do
+        conversation.resolved!
+        allow(Rails.logger).to receive(:info)
+        described_class.new(applied_sla: applied_sla).perform
+        expect(Rails.logger).to have_received(:info).with("SLA hit for conversation #{conversation.id} in account " \
+                                                          "#{applied_sla.account_id} for sla_policy #{sla_policy.id}")
+        expect(applied_sla.reload.sla_status).to eq('hit')
+      end
     end
-  end
 
-  context 'when EvaluateAppliedSlaService is performed with conversation that is resolved' do
-    let!(:conversation) { create(:conversation, created_at: 6.hours.ago, updated_at: 3.hours.ago) }
-    let!(:sla_policy) { create(:sla_policy, resolution_time_threshold: 1.hour) }
-    let!(:applied_sla) { create(:applied_sla, conversation: conversation, sla_policy: sla_policy, sla_status: 'active') }
+    context 'when next response SLA is hit' do
+      before do
+        sla_policy.update(next_response_time_threshold: 6.hours)
+        conversation.update(first_reply_created_at: 30.minutes.ago, waiting_since: nil)
+      end
 
-    it 'logs a warning if response_time SLA is missed' do
-      allow(Rails.logger).to receive(:warn)
-      conversation.toggle_status
-      time_to_resolve = conversation.updated_at.to_i - conversation.created_at.to_i
+      it 'sla remains active until conversation is resolved' do
+        described_class.new(applied_sla: applied_sla).perform
+        expect(applied_sla.reload.sla_status).to eq('active')
+      end
 
-      reporting_event = ReportingEvent.new(
-        name: 'conversation_resolved',
-        value: time_to_resolve,
-        account_id: conversation.account_id,
-        inbox_id: conversation.inbox_id,
-        user_id: conversation.assignee_id,
-        conversation_id: conversation.id,
-        event_start_time: conversation.created_at,
-        event_end_time: conversation.updated_at
-      )
-      reporting_event.save!
-
-      described_class.new(applied_sla: applied_sla).perform
-      expected_log_message = "SLA missed for conversation #{conversation.id} in account #{conversation.account_id} for sla_policy #{sla_policy.id}"
-      expect(Rails.logger).to have_received(:warn).with(expected_log_message)
-      expect(applied_sla.reload.sla_status).to eq('missed')
+      it 'updates the SLA status to hit and logs an info when conversations is resolved' do
+        conversation.resolved!
+        allow(Rails.logger).to receive(:info)
+        described_class.new(applied_sla: applied_sla).perform
+        expect(Rails.logger).to have_received(:info).with("SLA hit for conversation #{conversation.id} in account " \
+                                                          "#{applied_sla.account_id} for sla_policy #{sla_policy.id}")
+        expect(applied_sla.reload.sla_status).to eq('hit')
+      end
     end
-  end
 
-  context 'when EvaluateAppliedSlaService is performed with conversation that is resolve' do
-    let!(:conversation) { create(:conversation, created_at: 6.hours.ago, updated_at: 3.hours.ago) }
-    let!(:sla_policy) { create(:sla_policy, resolution_time_threshold: 24.hours) }
-    let!(:applied_sla) { create(:applied_sla, conversation: conversation, sla_policy: sla_policy, sla_status: 'active') }
+    context 'when resolution time SLA is hit' do
+      before do
+        sla_policy.update(resolution_time_threshold: 8.hours)
+        conversation.resolved!
+      end
 
-    it 'logs success if response_time SLA is hit' do
-      allow(Rails.logger).to receive(:info)
-      conversation.toggle_status
-      time_to_resolve = conversation.updated_at.to_i - conversation.created_at.to_i
-
-      reporting_event = ReportingEvent.new(
-        name: 'conversation_resolved',
-        value: time_to_resolve,
-        account_id: conversation.account_id,
-        inbox_id: conversation.inbox_id,
-        user_id: conversation.assignee_id,
-        conversation_id: conversation.id,
-        event_start_time: conversation.created_at,
-        event_end_time: conversation.updated_at
-      )
-      reporting_event.save!
-
-      described_class.new(applied_sla: applied_sla).perform
-      expected_log_message = "SLA hit for conversation #{conversation.id} in account #{conversation.account_id} for sla_policy #{sla_policy.id}"
-      expect(Rails.logger).to have_received(:info).with(expected_log_message)
-      expect(applied_sla.reload.sla_status).to eq('hit')
+      it 'updates the SLA status to hit and logs an info' do
+        allow(Rails.logger).to receive(:info)
+        described_class.new(applied_sla: applied_sla).perform
+        expect(Rails.logger).to have_received(:info).with("SLA hit for conversation #{conversation.id} in account " \
+                                                          "#{applied_sla.account_id} for sla_policy #{sla_policy.id}")
+        expect(applied_sla.reload.sla_status).to eq('hit')
+      end
     end
   end
 end
