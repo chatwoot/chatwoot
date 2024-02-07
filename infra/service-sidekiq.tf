@@ -43,6 +43,6 @@ module "service-sidekiq" {
 
   service_count_desired  = 1
   service_count_min      = 1
-  service_count_max      = 4
+  service_count_max      = 6
   scale_target_value_cpu = 80
 }
