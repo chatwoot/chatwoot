@@ -48,7 +48,8 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
 
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
         expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
-        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(Contact.all.first.name).to eq('Sojan')
+        expect(Contact.all.first.last_name).to eq('Jose')
         expect(whatsapp_channel.inbox.messages.first.content).to eq('Check out my product!')
         expect(whatsapp_channel.inbox.messages.first.attachments.present?).to be true
       end
@@ -60,7 +61,7 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
 
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
         expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
-        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(Contact.all.first.name).to eq('Sojan')
         expect(whatsapp_channel.inbox.messages.first.content).to eq('Check out my product!')
         expect(whatsapp_channel.inbox.messages.first.attachments.present?).to be false
         expect(whatsapp_channel.authorization_error_count).to eq(1)
@@ -100,7 +101,7 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
       it 'with attachment errors' do
         described_class.new(inbox: whatsapp_channel.inbox, params: error_params).perform
         expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
-        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(Contact.all.first.name).to eq('Sojan')
         expect(whatsapp_channel.inbox.messages.count).to eq(0)
       end
     end
