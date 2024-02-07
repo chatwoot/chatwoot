@@ -3,7 +3,7 @@
 # Table name: applied_slas
 #
 #  id              :bigint           not null, primary key
-#  sla_status      :string
+#  sla_status      :integer          default("active")
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  account_id      :bigint           not null
@@ -20,4 +20,6 @@ class AppliedSla < ApplicationRecord
   belongs_to :account
   belongs_to :sla_policy
   belongs_to :conversation
+
+  enum sla_status: { active: 0, hit: 1, missed: 2 }
 end

@@ -119,9 +119,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_15_145314) do
     t.bigint "account_id", null: false
     t.bigint "sla_policy_id", null: false
     t.bigint "conversation_id", null: false
-    t.string "sla_status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "sla_status", default: 0
     t.index ["account_id"], name: "index_applied_slas_on_account_id"
     t.index ["conversation_id"], name: "index_applied_slas_on_conversation_id"
     t.index ["sla_policy_id"], name: "index_applied_slas_on_sla_policy_id"
