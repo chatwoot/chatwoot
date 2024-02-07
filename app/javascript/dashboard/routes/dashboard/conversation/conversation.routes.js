@@ -6,8 +6,8 @@ const InboxView = () => import('../inbox/InboxView.vue');
 export default {
   routes: [
     {
-      path: frontendURL('accounts/:accountId/inbox'),
-      name: 'inbox',
+      path: frontendURL('accounts/:accountId/inbox-view'),
+      name: 'inbox_view',
       roles: ['administrator', 'agent'],
       component: InboxView,
       props: () => {
@@ -15,7 +15,7 @@ export default {
       },
     },
     {
-      path: frontendURL('accounts/:accountId/inbox/:conversation_id'),
+      path: frontendURL('accounts/:accountId/inbox-view/:conversation_id'),
       name: 'inbox_view_conversation',
       roles: ['administrator', 'agent'],
       component: InboxView,
