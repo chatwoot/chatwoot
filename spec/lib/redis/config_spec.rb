@@ -4,7 +4,7 @@ describe Redis::Config do
   context 'when single redis instance is used' do
     let(:redis_url) { 'redis://my-redis-instance:6379' }
     let(:redis_pasword) { 'some-strong-password' }
-    let(:redis_db_num) { '2' }
+    let(:redis_db_num) { '1' }
 
     before do
       described_class.instance_variable_set(:@config, nil)
@@ -39,7 +39,7 @@ describe Redis::Config do
 
     before do
       described_class.instance_variable_set(:@config, nil)
-      with_modified_env REDIS_URL: redis_url, REDIS_PASSWORD: redis_pasword, REDIS_SENTINELS: redis_sentinels,
+      with_modified_env REDIS_URL: redis_url, REDIS_PASSWORD: redis_pasword, REDIS_DB_NUM: nil, REDIS_SENTINELS: redis_sentinels,
                         REDIS_SENTINEL_MASTER_NAME: redis_master_name do
         described_class.config
       end
@@ -51,7 +51,7 @@ describe Redis::Config do
     end
 
     it 'checks for app redis config' do
-      expect(described_class.app.keys).to contain_exactly(:url, :password, :db, :sentinels, :timeout, :reconnect_attempts, :ssl_params)
+      expect(described_class.app.keys).to contain_exactly(:url, :password, :sentinels, :timeout, :reconnect_attempts, :ssl_params)
       expect(described_class.app[:url]).to eq("redis://#{redis_master_name}")
       expect(described_class.app[:sentinels]).to match_array(expected_sentinels)
     end
@@ -73,7 +73,7 @@ describe Redis::Config do
       end
 
       it 'checks for app redis config and sentinel passwords will be empty' do
-        expect(described_class.app.keys).to contain_exactly(:url, :password, :db, :sentinels, :timeout, :reconnect_attempts, :ssl_params)
+        expect(described_class.app.keys).to contain_exactly(:url, :password, :sentinels, :timeout, :reconnect_attempts, :ssl_params)
         expect(described_class.app[:url]).to eq("redis://#{redis_master_name}")
         expect(described_class.app[:sentinels]).to match_array(expected_sentinels.map { |s| s.except(:password) })
       end
@@ -96,7 +96,7 @@ describe Redis::Config do
       end
 
       it 'checks for app redis config and redis password is replaced in sentinel config' do
-        expect(described_class.app.keys).to contain_exactly(:url, :password, :db, :sentinels, :timeout, :reconnect_attempts, :ssl_params)
+        expect(described_class.app.keys).to contain_exactly(:url, :password, :sentinels, :timeout, :reconnect_attempts, :ssl_params)
         expect(described_class.app[:url]).to eq("redis://#{redis_master_name}")
         expect(described_class.app[:sentinels]).to match_array(expected_sentinels.map { |s| s.merge(password: redis_sentinel_password) })
       end
