@@ -36,7 +36,7 @@ parameters:
               query_operator:
                 type: string
                 description: query operator name
-              enum: [ AND, OR ]
+                enum: [ AND, OR ]
           example:
             - attribute_key: 'name'
               filter_operator: 'equal_to'

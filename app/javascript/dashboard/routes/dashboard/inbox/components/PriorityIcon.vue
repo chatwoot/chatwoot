@@ -1,20 +1,25 @@
-<script setup>
+<script>
 import { CONVERSATION_PRIORITY } from 'shared/constants/messages';
-import { defineProps } from 'vue';
-
-const props = defineProps({
-  priority: {
-    type: String,
-    default: '',
+export default {
+  props: {
+    priority: {
+      type: String,
+      default: '',
+    },
   },
-});
+  data() {
+    return {
+      CONVERSATION_PRIORITY,
+    };
+  },
+};
 </script>
 
 <template>
   <div class="inline-flex items-center justify-center rounded-md">
     <!-- High Priority -->
     <svg
-      v-if="props.priority === CONVERSATION_PRIORITY.HIGH"
+      v-if="priority === CONVERSATION_PRIORITY.HIGH"
       class="h-4 w-4"
       width="24"
       height="24"
@@ -29,7 +34,7 @@ const props = defineProps({
 
     <!-- Low Priority -->
     <svg
-      v-if="props.priority === CONVERSATION_PRIORITY.LOW"
+      v-if="priority === CONVERSATION_PRIORITY.LOW"
       class="h-4 w-4"
       width="24"
       height="24"
@@ -44,7 +49,7 @@ const props = defineProps({
 
     <!-- Medium Priority  -->
     <svg
-      v-if="props.priority === CONVERSATION_PRIORITY.MEDIUM"
+      v-if="priority === CONVERSATION_PRIORITY.MEDIUM"
       class="h-4 w-4"
       width="24"
       height="24"
@@ -59,7 +64,7 @@ const props = defineProps({
 
     <!-- Urgent Priority -->
     <svg
-      v-if="props.priority === CONVERSATION_PRIORITY.URGENT"
+      v-if="priority === CONVERSATION_PRIORITY.URGENT"
       class="h-4 w-4"
       width="24"
       height="24"
