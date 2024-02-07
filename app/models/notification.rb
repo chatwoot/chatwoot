@@ -76,7 +76,8 @@ class Notification < ApplicationRecord
   def primary_actor_data
     {
       id: primary_actor.push_event_data[:id],
-      meta: primary_actor.push_event_data[:meta]
+      meta: primary_actor.push_event_data[:meta],
+      inbox_id: primary_actor.push_event_data[:inbox_id]
     }
   end
 
