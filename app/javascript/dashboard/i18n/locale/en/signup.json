@@ -46,7 +46,11 @@
       "INTRO": "Welcome, let’s get started.",
       "TITLE": "Set up profile",
       "BODY": "These are details visible to end users, to make a positive first impression.",
-      "SUBMIT": "Continue to company setup",
+      "SUBMIT": {
+        "BUTTON": "Continue to company setup",
+        "ERROR": "Error in setting up profile, try again.",
+        "SUCCESS": "🔥 Lets add your business details"
+      },
       "AVATAR": {
         "LABEL": "Avatar",
         "PLACEHOLDER": "Upload Profile Image"
@@ -57,8 +61,9 @@
         "ERROR": "Add a valid full name"
       },
       "DISPLAY_NAME": {
-        "LABEL": "Display name",
-        "PLACEHOLDER": "Enter the name you want to display your customers"
+        "LABEL": "Display name (Optional)",
+        "PLACEHOLDER": "Enter the name you want to display your customers",
+        "ERROR": "Add a valid display name or leave it blank"
       },
       "PHONE_NUMBER": {
         "LABEL": "Phone number (Optional)",
@@ -72,7 +77,11 @@
     "COMPANY": {
       "TITLE": "Tell us about your company",
       "BODY": "In this section, we'll set up the language, timezone, and company size. This information allows us to provide contextually accurate information and suggest relevant features for you.",
-      "SUBMIT": "Continue",
+      "SUBMIT": {
+        "BUTTON": "Continue to team setup",
+        "ERROR": "Error in setting up company, try again.",
+        "SUCCESS": "🚀 Lets invite your team"
+      },
       "COMPANY_NAME": {
         "LABEL": "Company name",
         "PLACEHOLDER": "Enter your company name",
@@ -97,10 +106,16 @@
     },
     "INVITE_TEAM": {
       "TITLE": "Invite your team",
+      "ADD": "Add",
       "BODY": "Invite your team members to Chatwoot. You can add them later as well.",
-      "SUBMIT": "Send invitations",
       "PLACEHOLDER": "robin@chatwoot.com",
-      "SKIP": "Skip for now"
+      "SKIP": "Skip for now",
+      "SUBMIT": {
+        "BUTTON": "Send invitations",
+        "ERROR": "Error while inviting team members, try again.",
+        "NO_MEMBER_ERROR": "Please add atleast one team member or skip this step",
+        "SUCCESS": "🪄 Setup complete"
+      }
     },
     "FOUNDERS_NOTE": {
       "TITLE": "A note from the founder",
