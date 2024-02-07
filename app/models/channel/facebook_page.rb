@@ -38,9 +38,12 @@ class Channel::FacebookPage < ApplicationRecord
   end
 
   def create_contact_inbox(instagram_id, name)
-    first_name = split_first_and_last_name(name)[:first_name]
-    last_name = split_first_and_last_name(name)[:last_name]
+    name_parts = split_first_and_last_name(name)
+    first_name = name_parts[:first_name]
+    last_name = name_parts[:last_name]
     @contact_inbox = ::ContactInboxWithContactBuilder.new({
+                                                            name: first_name,
+                                                            last_name: last_name,
                                                             source_id: instagram_id,
                                                             inbox: inbox,
                                                             contact_attributes: { name: first_name, last_name: last_name }

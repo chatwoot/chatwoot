@@ -3,7 +3,7 @@
 # https://developers.facebook.com/docs/whatsapp/api/media/
 class Whatsapp::IncomingMessageBaseService
   include ::Whatsapp::IncomingMessageServiceHelpers
-
+  include ContactHelper
   pattr_initialize [:inbox!, :params!]
 
   def perform
@@ -84,10 +84,15 @@ class Whatsapp::IncomingMessageBaseService
 
     waid = processed_waid(contact_params[:wa_id])
 
+    name = contact_params.dig(:profile, :name)
+    name_parts = split_first_and_last_name(name)
+    first_name = name_parts[:first_name]
+    last_name = name_parts[:last_name]
+
     contact_inbox = ::ContactInboxWithContactBuilder.new(
       source_id: waid,
       inbox: inbox,
-      contact_attributes: { name: contact_params.dig(:profile, :name), phone_number: "+#{@processed_params[:messages].first[:from]}" }
+      contact_attributes: { name: first_name, last_name: last_name, phone_number: "+#{@processed_params[:messages].first[:from]}" }
     ).perform
 
     @contact_inbox = contact_inbox
