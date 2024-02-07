@@ -11,10 +11,11 @@ class Sla::EvaluateAppliedSlaService
       send("check_#{threshold}", applied_sla, conversation, sla_policy)
     end
 
-    return unless conversation.resolved? && applied_sla.active?
+    # We will calculate again in the next iteration
+    return unless conversation.resolved?
 
-    # No SLA missed, so marking as hit
-    handle_hit_sla(applied_sla)
+    # No SLA missed, so marking as hit as conversation is resolved
+    handle_hit_sla(applied_sla) if applied_sla.active?
   end
 
   private
