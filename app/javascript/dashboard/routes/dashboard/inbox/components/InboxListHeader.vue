@@ -113,6 +113,8 @@ export default {
     onFilterChange(option) {
       this.$emit('filter', option);
       this.showInboxDisplayMenu = false;
+      if (this.$route.name === 'inbox_view') return;
+      this.$router.push({ name: 'inbox_view' });
     },
   },
 };

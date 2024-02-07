@@ -30,6 +30,7 @@
           :src="assigneeMeta.thumbnail"
           :username="assigneeMeta.name"
           size="16px"
+          class="relative bottom-0.5"
         />
         <div class="flex min-w-0">
           <span
