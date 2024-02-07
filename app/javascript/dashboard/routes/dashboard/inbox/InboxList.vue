@@ -97,8 +97,8 @@ export default {
   methods: {
     redirectToInbox() {
       if (!this.conversationId) return;
-      if (this.$route.name === 'inbox') return;
-      this.$router.push({ name: 'inbox' });
+      if (this.$route.name === 'inbox-view') return;
+      this.$router.push({ name: 'inbox-view' });
     },
     loadMoreNotifications() {
       if (this.uiFlags.isAllNotificationsLoaded) return;
