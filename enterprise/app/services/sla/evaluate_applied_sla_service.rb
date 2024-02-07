@@ -65,14 +65,14 @@ class Sla::EvaluateAppliedSlaService
   def handle_missed_sla(applied_sla)
     applied_sla.update(sla_status: 'missed')
     Rails.logger.warn "SLA missed for conversation #{applied_sla.conversation.id} " \
-                      "in account #{applied_sla.conversation.account_id} " \
+                      "in account #{applied_sla.account_id} " \
                       "for sla_policy #{applied_sla.sla_policy.id}"
   end
 
   def handle_hit_sla(applied_sla)
     applied_sla.update(sla_status: 'hit')
     Rails.logger.info "SLA hit for conversation #{applied_sla.conversation.id} " \
-                      "in account #{applied_sla.conversation.account_id} " \
+                      "in account #{applied_sla.account_id} " \
                       "for sla_policy #{applied_sla.sla_policy.id}"
   end
 end
