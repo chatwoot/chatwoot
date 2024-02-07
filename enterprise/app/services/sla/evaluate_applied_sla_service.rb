@@ -2,23 +2,24 @@ class Sla::EvaluateAppliedSlaService
   pattr_initialize [:applied_sla!]
 
   def perform
-    conversation = applied_sla.conversation
-    sla_policy = applied_sla.sla_policy
-
-    [:first_response_time_threshold, :next_response_time_threshold, :resolution_time_threshold].each do |threshold|
-      next if sla_policy.send(threshold).blank?
-
-      send("check_#{threshold}", applied_sla, conversation, sla_policy)
-    end
+    check_sla_thresholds
 
     # We will calculate again in the next iteration
-    return unless conversation.resolved?
+    return unless applied_sla.conversation.resolved?
 
     # No SLA missed, so marking as hit as conversation is resolved
     handle_hit_sla(applied_sla) if applied_sla.active?
   end
 
   private
+
+  def check_sla_thresholds
+    [:first_response_time_threshold, :next_response_time_threshold, :resolution_time_threshold].each do |threshold|
+      next if applied_sla.sla_policy.send(threshold).blank?
+
+      send("check_#{threshold}", applied_sla, applied_sla.conversation, applied_sla.sla_policy)
+    end
+  end
 
   def still_within_threshold?(threshold)
     Time.zone.now.to_i < threshold
