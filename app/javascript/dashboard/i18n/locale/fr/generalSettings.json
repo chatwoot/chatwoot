@@ -113,7 +113,7 @@
       "SETTINGS": "Paramètres",
       "AI_ASSIST": "Assistance IA",
       "APPEARANCE": "Apparence",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "SNOOZE_NOTIFICATION": "Mettre la notification en veille"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Aller au tableau de bord des conversations",
@@ -155,7 +155,7 @@
       "LIGHT_MODE": "Clair",
       "DARK_MODE": "Sombre",
       "SYSTEM_MODE": "Système",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "SNOOZE_NOTIFICATION": "Mettre la notification en veille"
     }
   },
   "DASHBOARD_APPS": {
