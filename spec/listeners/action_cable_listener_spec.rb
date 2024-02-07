@@ -157,7 +157,7 @@ describe ActionCableListener do
     let!(:notification) { create(:notification, account: account, user: agent) }
     let!(:event) { Events::Base.new(event_name, Time.zone.now, notification: notification) }
 
-    it 'sends message to account admins, inbox agents' do
+    it 'sends notification to account admins, inbox agents' do
       expect(ActionCableBroadcastJob).to receive(:perform_later).with(
         [agent.pubsub_token],
         'notification.updated',
