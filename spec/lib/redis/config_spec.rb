@@ -28,6 +28,7 @@ describe Redis::Config do
     let(:redis_sentinels) { 'sentinel_1:1234, sentinel_2:4321, sentinel_3' }
     let(:redis_master_name) { 'master-name' }
     let(:redis_pasword) { 'some-strong-password' }
+    let(:redis_db_num_default) { '0' }
 
     let(:expected_sentinels) do
       [
@@ -51,9 +52,10 @@ describe Redis::Config do
     end
 
     it 'checks for app redis config' do
-      expect(described_class.app.keys).to contain_exactly(:url, :password, :sentinels, :timeout, :reconnect_attempts, :ssl_params)
+      expect(described_class.app.keys).to contain_exactly(:url, :password, :db, :sentinels, :timeout, :reconnect_attempts, :ssl_params)
       expect(described_class.app[:url]).to eq("redis://#{redis_master_name}")
       expect(described_class.app[:sentinels]).to match_array(expected_sentinels)
+      expect(app_config[:db]).to eq(redis_db_num_default)
     end
 
     context 'when redis sentinel is used with REDIS_SENTINEL_PASSWORD empty string' do
@@ -73,7 +75,7 @@ describe Redis::Config do
       end
 
       it 'checks for app redis config and sentinel passwords will be empty' do
-        expect(described_class.app.keys).to contain_exactly(:url, :password, :sentinels, :timeout, :reconnect_attempts, :ssl_params)
+        expect(described_class.app.keys).to contain_exactly(:url, :password, :db, :sentinels, :timeout, :reconnect_attempts, :ssl_params)
         expect(described_class.app[:url]).to eq("redis://#{redis_master_name}")
         expect(described_class.app[:sentinels]).to match_array(expected_sentinels.map { |s| s.except(:password) })
       end
@@ -96,7 +98,7 @@ describe Redis::Config do
       end
 
       it 'checks for app redis config and redis password is replaced in sentinel config' do
-        expect(described_class.app.keys).to contain_exactly(:url, :password, :sentinels, :timeout, :reconnect_attempts, :ssl_params)
+        expect(described_class.app.keys).to contain_exactly(:url, :password, :db, :sentinels, :timeout, :reconnect_attempts, :ssl_params)
         expect(described_class.app[:url]).to eq("redis://#{redis_master_name}")
         expect(described_class.app[:sentinels]).to match_array(expected_sentinels.map { |s| s.merge(password: redis_sentinel_password) })
       end
