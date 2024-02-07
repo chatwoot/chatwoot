@@ -4,7 +4,7 @@ describe Redis::Config do
   context 'when single redis instance is used' do
     let(:redis_url) { 'redis://my-redis-instance:6379' }
     let(:redis_pasword) { 'some-strong-password' }
-    let(:redis_db_num) { '1' }
+    let(:redis_db_num) { 1 }
 
     before do
       described_class.instance_variable_set(:@config, nil)
@@ -28,7 +28,7 @@ describe Redis::Config do
     let(:redis_sentinels) { 'sentinel_1:1234, sentinel_2:4321, sentinel_3' }
     let(:redis_master_name) { 'master-name' }
     let(:redis_pasword) { 'some-strong-password' }
-    let(:redis_db_num_default) { '0' }
+    let(:redis_db_num_default) { 0 }
 
     let(:expected_sentinels) do
       [
