@@ -40,7 +40,7 @@ class Api::V1::AccountsController < Api::BaseController
 
   def cache_keys
     expires_in 10.seconds, public: false, stale_while_revalidate: 5.minutes
-    render json: { cache_keys: get_cache_keys }, status: :ok
+    render json: { cache_keys: cache_keys_for_account }, status: :ok
   end
 
   def update
@@ -66,7 +66,7 @@ class Api::V1::AccountsController < Api::BaseController
     raise CustomExceptions::Account::InvalidParams.new({})
   end
 
-  def get_cache_keys
+  def cache_keys_for_account
     {
       label: fetch_value_for_key(params[:id], Label.name.underscore),
       inbox: fetch_value_for_key(params[:id], Inbox.name.underscore),

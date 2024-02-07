@@ -16,7 +16,7 @@ class Integrations::Widget::OutgoingMessageBuilder
 
   def perform
     ActiveRecord::Base.transaction do
-      build_conversation
+      conversation
       build_message
     end
   end
@@ -31,19 +31,19 @@ class Integrations::Widget::OutgoingMessageBuilder
     @user ||= Contact.find(options[:user_id])
   end
 
-  def build_conversation
+  def conversation
     @conversation ||= Conversation.find(options[:conversation_id])
   end
 
   def build_message
-    @message = @conversation.messages.new(message_params)
+    @message = conversation.messages.new(message_params)
     @message.save!
   end
 
   def message_params
     {
-      account_id: @conversation.account_id,
-      inbox_id: @conversation.inbox_id,
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
       message_type: 1,
       content: options[:content],
       sender: user

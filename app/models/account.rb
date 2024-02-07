@@ -101,7 +101,7 @@ class Account < ApplicationRecord
                              .where(context: 'labels',
                                     taggable_type: 'Conversation',
                                     taggable_id: conversation_ids)
-                             .map { |_| _.tag.name }
+                             .map { |tagging| tagging.tag.name }
   end
 
   def webhook_data
