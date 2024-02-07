@@ -20,8 +20,14 @@
         <span class="spinner mt-4 mb-4" />
       </div>
       <p
-        v-if="showEndOfList"
-        class="text-center text-slate-300 dark:text-slate-400 p-4"
+        v-if="showEmptyState"
+        class="text-center text-slate-400 text-sm dark:text-slate-400 p-4 font-medium"
+      >
+        {{ $t('INBOX.LIST.NO_NOTIFICATIONS') }}
+      </p>
+      <p
+        v-if="showEndOfListMessage"
+        class="text-center text-slate-400 dark:text-slate-400 p-4"
       >
         {{ $t('INBOX.LIST.EOF') }}
       </p>
@@ -40,12 +46,14 @@ import InboxCard from './components/InboxCard.vue';
 import InboxListHeader from './components/InboxListHeader.vue';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import IntersectionObserver from 'dashboard/components/IntersectionObserver.vue';
+import alertMixin from 'shared/mixins/alertMixin';
 export default {
   components: {
     InboxCard,
     InboxListHeader,
     IntersectionObserver,
   },
+  mixins: [alertMixin],
   props: {
     conversationId: {
       type: [String, Number],
@@ -75,6 +83,12 @@ export default {
     showEndOfList() {
       return this.uiFlags.isAllNotificationsLoaded && !this.uiFlags.isFetching;
     },
+    showEmptyState() {
+      return !this.uiFlags.isFetching && !this.records.length;
+    },
+    showEndOfListMessage() {
+      return this.showEndOfList && this.records.length;
+    },
   },
   mounted() {
     this.$store.dispatch('notifications/clear');
@@ -83,12 +97,8 @@ export default {
   methods: {
     redirectToInbox() {
       if (!this.conversationId) return;
-      if (this.$route.name === 'inbox') return;
-      this.$router.push({ name: 'inbox' });
-    },
-    onMarkAllDoneClick() {
-      this.$track(INBOX_EVENTS.MARK_ALL_NOTIFICATIONS_AS_READ);
-      this.$store.dispatch('notifications/readAll');
+      if (this.$route.name === 'inbox-view') return;
+      this.$router.push({ name: 'inbox-view' });
     },
     loadMoreNotifications() {
       if (this.uiFlags.isAllNotificationsLoaded) return;
@@ -102,29 +112,41 @@ export default {
         primary_actor_id: primaryActorId,
         primary_actor_type: primaryActorType,
       } = notification;
-      this.$store.dispatch('notifications/read', {
-        id,
-        primaryActorId,
-        primaryActorType,
-        unreadCount: this.meta.unreadCount,
-      });
+      this.$store
+        .dispatch('notifications/read', {
+          id,
+          primaryActorId,
+          primaryActorType,
+          unreadCount: this.meta.unreadCount,
+        })
+        .then(() => {
+          this.showAlert(this.$t('INBOX.ALERTS.MARK_AS_READ'));
+        });
     },
     markNotificationAsUnRead(notification) {
       this.$track(INBOX_EVENTS.MARK_NOTIFICATION_AS_UNREAD);
       this.redirectToInbox();
       const { id } = notification;
-      this.$store.dispatch('notifications/unread', {
-        id,
-      });
+      this.$store
+        .dispatch('notifications/unread', {
+          id,
+        })
+        .then(() => {
+          this.showAlert(this.$t('INBOX.ALERTS.MARK_AS_UNREAD'));
+        });
     },
     deleteNotification(notification) {
       this.$track(INBOX_EVENTS.DELETE_NOTIFICATION);
       this.redirectToInbox();
-      this.$store.dispatch('notifications/delete', {
-        notification,
-        unread_count: this.meta.unreadCount,
-        count: this.meta.count,
-      });
+      this.$store
+        .dispatch('notifications/delete', {
+          notification,
+          unread_count: this.meta.unreadCount,
+          count: this.meta.count,
+        })
+        .then(() => {
+          this.showAlert(this.$t('INBOX.ALERTS.DELETE'));
+        });
     },
   },
 };
