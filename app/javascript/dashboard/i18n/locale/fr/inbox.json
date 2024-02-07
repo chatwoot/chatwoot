@@ -47,13 +47,13 @@
       }
     },
     "ALERTS": {
-      "MARK_AS_READ": "Notification marked as read",
-      "MARK_AS_UNREAD": "Notification marked as unread",
-      "SNOOZE": "Notification snoozed",
-      "DELETE": "Notification deleted",
-      "MARK_ALL_READ": "All notifications marked as read",
-      "DELETE_ALL": "All notifications deleted",
-      "DELETE_ALL_READ": "All read notifications deleted"
+      "MARK_AS_READ": "Notification marquée comme lue",
+      "MARK_AS_UNREAD": "Notification marquée comme non lue",
+      "SNOOZE": "Notification en veille",
+      "DELETE": "Notification supprimée",
+      "MARK_ALL_READ": "Toutes les notifications sont marquées comme lues",
+      "DELETE_ALL": "Toutes les notifications sont supprimées",
+      "DELETE_ALL_READ": "Toutes les notifications lues ont été supprimées"
     }
   }
 }
