@@ -20,6 +20,7 @@
 class Channel::FacebookPage < ApplicationRecord
   include Channelable
   include Reauthorizable
+  include ContactHelper
 
   self.table_name = 'channel_facebook_pages'
 
@@ -37,10 +38,12 @@ class Channel::FacebookPage < ApplicationRecord
   end
 
   def create_contact_inbox(instagram_id, name)
+    first_name = split_first_and_last_name(name)[:first_name]
+    last_name = split_first_and_last_name(name)[:last_name]
     @contact_inbox = ::ContactInboxWithContactBuilder.new({
                                                             source_id: instagram_id,
                                                             inbox: inbox,
-                                                            contact_attributes: { name: name }
+                                                            contact_attributes: { name: first_name, last_name: last_name }
                                                           }).perform
   end
 
