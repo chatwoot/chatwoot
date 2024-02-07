@@ -2,7 +2,6 @@ class Digitaltolk::WebflowService
   attr_accessor :params
 
   INFO_EMAIL = 'info@digitaltolk.se'
-  WEBFORM_EMAIL = 'webformular@digitaltolk.se'
 
   def initialize(params)
     @params = params
@@ -38,7 +37,7 @@ class Digitaltolk::WebflowService
   end
 
   def emails
-    [INFO_EMAIL, WEBFORM_EMAIL]
+    [INFO_EMAIL]
   end
 
   def webflow_params

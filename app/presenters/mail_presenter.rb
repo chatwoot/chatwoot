@@ -117,8 +117,6 @@ class MailPresenter < SimpleDelegator
 
   def from
     # changing to downcase to avoid case mismatch while finding contact
-    return [email_from_body.downcase] if from_dt_webflow? && email_from_body.present?
-
     (@mail.reply_to.presence || @mail.from).map(&:downcase)
   end
 
@@ -127,17 +125,7 @@ class MailPresenter < SimpleDelegator
   end
 
   def original_sender
-    return email_from_body if from_dt_webflow? && email_from_body.present?
-
-    sender_email
-  end
-
-  def sender_email
     from_email_address(@mail[:reply_to].try(:value)) || @mail['X-Original-Sender'].try(:value) || from_email_address(from.first)
-  end
-
-  def from_dt_webflow?
-    Digitaltolk::MailHelper.from_dt_webflow? from_email_address(@mail[:reply_to].try(:value))
   end
 
   def auto_reply?
@@ -147,10 +135,6 @@ class MailPresenter < SimpleDelegator
     return true if @mail['Precedence'].try(:value).to_s.downcase == 'auto_reply'
 
     false
-  end
-
-  def email_from_body
-    Digitaltolk::MailHelper.email_from_body(html_content)
   end
 
   def from_email_address(email)
