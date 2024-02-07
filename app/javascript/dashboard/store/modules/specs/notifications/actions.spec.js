@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { actions } from '../../notifications/actions';
 import types from '../../../mutation-types';
-
 const commit = jest.fn();
 global.axios = axios;
 jest.mock('axios');
@@ -101,7 +100,7 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([
         [types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: true }],
         [types.SET_NOTIFICATIONS_UNREAD_COUNT, 1],
-        [types.UPDATE_NOTIFICATION, { id: 1, read_at: expect.any(Date) }],
+        [types.READ_NOTIFICATION, { id: 1, read_at: expect.any(Date) }],
         [types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false }],
       ]);
     });
@@ -125,7 +124,7 @@ describe('#actions', () => {
       await actions.unread({ commit }, { id: 1 });
       expect(commit.mock.calls).toEqual([
         ['SET_NOTIFICATIONS_UI_FLAG', { isUpdating: true }],
-        ['UPDATE_NOTIFICATION', { id: 1, read_at: null }],
+        ['READ_NOTIFICATION', { id: 1, read_at: null }],
         ['SET_NOTIFICATIONS_UI_FLAG', { isUpdating: false }],
       ]);
     });
@@ -264,17 +263,20 @@ describe('#actions', () => {
 
   describe('snooze', () => {
     it('sends correct actions if API is success', async () => {
-      axios.post.mockResolvedValue({});
+      axios.post.mockResolvedValue({
+        data: { snoozed_until: '20 Jan, 5.04pm' },
+      });
       await actions.snooze({ commit }, { id: 1, snoozedUntil: 1703057715 });
       expect(commit.mock.calls).toEqual([
         [types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: true }],
-        [types.SNOOZE_NOTIFICATION, { id: 1, snoozed_until: 1703057715 }],
+        [types.SNOOZE_NOTIFICATION, { id: 1, snoozed_until: '20 Jan, 5.04pm' }],
         [types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false }],
       ]);
     });
     it('sends correct actions if API is error', async () => {
       axios.post.mockRejectedValue({ message: 'Incorrect header' });
       await actions.snooze({ commit }, { id: 1, snoozedUntil: 1703057715 });
+
       expect(commit.mock.calls).toEqual([
         [types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: true }],
         [types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false }],
