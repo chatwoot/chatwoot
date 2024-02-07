@@ -7,7 +7,7 @@ export default {
   routes: [
     {
       path: frontendURL('accounts/:accountId/inbox-view'),
-      name: 'inbox',
+      name: 'inbox_view',
       roles: ['administrator', 'agent'],
       component: InboxView,
       props: () => {
