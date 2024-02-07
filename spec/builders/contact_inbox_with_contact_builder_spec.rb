@@ -28,6 +28,7 @@ describe ContactInboxWithContactBuilder do
         inbox: inbox,
         contact_attributes: {
           name: 'Contact',
+          last_name: '1',
           phone_number: '+1234567890',
           email: 'testemail@example.com',
           custom_attributes: { test: 'test' }

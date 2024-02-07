@@ -58,7 +58,7 @@ describe Messages::Facebook::MessageBuilder do
 
       expect(facebook_channel.inbox.reload.contacts.count).to eq(1)
       expect(contact.name).to eq(default_name)
-      expect(contact.last_name).to eq(default_name)
+      expect(contact.last_name).to eq('Doe')
     end
   end
 end
