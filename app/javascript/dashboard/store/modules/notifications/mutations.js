@@ -34,7 +34,7 @@ export const mutations = {
       });
     });
   },
-  [types.UPDATE_NOTIFICATION]: ($state, { id, read_at }) => {
+  [types.READ_NOTIFICATION]: ($state, { id, read_at }) => {
     Vue.set($state.records[id], 'read_at', read_at);
   },
   [types.UPDATE_ALL_NOTIFICATIONS]: $state => {
@@ -44,6 +44,15 @@ export const mutations = {
   },
 
   [types.ADD_NOTIFICATION]($state, data) {
+    const { notification, unread_count: unreadCount, count } = data;
+    Vue.set($state.records, notification.id, {
+      ...($state.records[notification.id] || {}),
+      ...notification,
+    });
+    Vue.set($state.meta, 'unreadCount', unreadCount);
+    Vue.set($state.meta, 'count', count);
+  },
+  [types.UPDATE_NOTIFICATION]($state, data) {
     const { notification, unread_count: unreadCount, count } = data;
     Vue.set($state.records, notification.id, {
       ...($state.records[notification.id] || {}),
