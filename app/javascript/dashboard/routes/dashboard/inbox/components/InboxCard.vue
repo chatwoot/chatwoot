@@ -1,7 +1,7 @@
 <template>
   <div
     role="button"
-    class="flex flex-col pl-5 pr-3 gap-2.5 py-3 w-full border-b border-slate-50 dark:border-slate-800/50 hover:bg-slate-25 dark:hover:bg-slate-800 cursor-pointer"
+    class="flex flex-col ltr:pl-5 rtl:pl-3 rtl:pr-5 ltr:pr-3 gap-2.5 py-3 w-full border-b border-slate-50 dark:border-slate-800/50 hover:bg-slate-25 dark:hover:bg-slate-800 cursor-pointer"
     :class="
       isInboxCardActive
         ? 'bg-slate-25 dark:bg-slate-800 click-animation'
@@ -13,7 +13,7 @@
     <div class="flex relative items-center justify-between w-full">
       <div
         v-if="isUnread"
-        class="absolute -left-3.5 flex w-2 h-2 rounded bg-woot-500 dark:bg-woot-500"
+        class="absolute ltr:-left-3.5 rtl:-right-3.5 flex w-2 h-2 rounded bg-woot-500 dark:bg-woot-500"
       />
       <InboxNameAndId :inbox="inbox" :conversation-id="primaryActor.id" />
 
