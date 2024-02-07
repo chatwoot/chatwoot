@@ -113,7 +113,7 @@
       "SETTINGS": "Iestatījumi",
       "AI_ASSIST": "AI Palīgs",
       "APPEARANCE": "Izskats",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "SNOOZE_NOTIFICATION": "Atlikt Paziņojumu"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Doties uz Sarunu Informācijas Paneli",
@@ -155,7 +155,7 @@
       "LIGHT_MODE": "Gaišs",
       "DARK_MODE": "Tumšs",
       "SYSTEM_MODE": "Sistēma",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "SNOOZE_NOTIFICATION": "Atlikt Paziņojumu"
     }
   },
   "DASHBOARD_APPS": {
