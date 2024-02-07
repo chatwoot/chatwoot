@@ -2,7 +2,7 @@ class Api::V1::Accounts::NotificationsController < Api::V1::Accounts::BaseContro
   RESULTS_PER_PAGE = 15
   include DateRangeHelper
 
-  before_action :fetch_notification, only: [:update, :destroy, :snooze]
+  before_action :fetch_notification, only: [:update, :destroy, :snooze, :unread]
   before_action :set_primary_actor, only: [:read_all]
   before_action :set_current_page, only: [:index]
 
@@ -29,8 +29,22 @@ class Api::V1::Accounts::NotificationsController < Api::V1::Accounts::BaseContro
     render json: @notification
   end
 
+  def unread
+    @notification.update(read_at: nil)
+    render json: @notification
+  end
+
   def destroy
     @notification.destroy
+    head :ok
+  end
+
+  def destroy_all
+    if params[:type] == 'read'
+      ::Notification::DeleteNotificationJob.perform_later(Current.user, type: :read)
+    else
+      ::Notification::DeleteNotificationJob.perform_later(Current.user, type: :all)
+    end
     head :ok
   end
 
