@@ -93,7 +93,7 @@ RSpec.describe AdministratorNotifications::ChannelNotificationsMailer do
 
   describe 'contact_export_complete' do
     let!(:file_url) { Rails.application.routes.url_helpers.rails_blob_url(account.contacts_export) }
-    let(:mail) { described_class.with(account: account).contact_export_complete(file_url).deliver_now }
+    let(:mail) { described_class.with(account: account).contact_export_complete(file_url, administrator.email).deliver_now }
 
     it 'renders the subject' do
       expect(mail.subject).to eq("Your contact's export file is available to download.")

@@ -30,7 +30,7 @@ RSpec.describe Account::ContactsExportJob do
 
       expect(account.contacts_export).to be_present
       expect(file_url).to be_present
-      expect(mailer).to have_received(:contact_export_complete).with(file_url)
+      expect(mailer).to have_received(:contact_export_complete).with(file_url, nil)
     end
 
     it 'generates valid data export file' do
