@@ -35,6 +35,9 @@
 
 # rubocop:enable Layout/LineLength
 
+# Notes
+# TODO: We are considering the "name" as "first_name". We will update it to "first_name" in the future.
+
 class Contact < ApplicationRecord
   include Avatarable
   include AvailabilityStatusable
