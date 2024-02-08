@@ -6,6 +6,7 @@
       "LOADING": "Chargement des notifications",
       "EOF": "Toutes les notifications ont été chargées 🎉",
       "404": "Il n'y a aucune notification active dans ce groupe.",
+      "NO_NOTIFICATIONS": "No notifications",
       "NOTE": "Notifications from all subscribed inboxes",
       "SNOOZED_UNTIL": "Reporter jusqu'à",
       "SNOOZED_UNTIL_TOMORROW": "Reporté jusqu'à demain",
