@@ -22,8 +22,7 @@ class Enterprise::ClearbitLookupService
     response = perform_request(email)
     return handle_error(response) unless response.success?
 
-    data = response.parsed_response
-    format_response(data)
+    format_response(response)
   rescue StandardError => e
     Rails.logger.error "[ClearbitLookup] #{e.message}"
     nil
@@ -62,7 +61,9 @@ class Enterprise::ClearbitLookupService
   #
   # @param data [Hash] The raw data from the Clearbit API.
   # @return [Hash] A hash containing the person's full name, company name, and company timezone.
-  def self.format_response(data)
+  def self.format_response(response)
+    data = response.parsed_response
+
     {
       name: data.dig('person', 'name', 'fullName'),
       avatar: data.dig('person', 'avatar'),
