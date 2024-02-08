@@ -48,3 +48,4 @@ export default {
   EXAMPLE_WEBHOOK_URL: 'https://example/api/webhook',
 };
 export const DEFAULT_REDIRECT_URL = '/app/';
+export const ONBOARDING_START_URL = '/app/start/setup-profile';

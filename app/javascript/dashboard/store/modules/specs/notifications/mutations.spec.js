@@ -75,7 +75,7 @@ describe('#mutations', () => {
           1: { id: 1, primary_actor_id: 1 },
         },
       };
-      mutations[types.UPDATE_NOTIFICATION](state, {
+      mutations[types.READ_NOTIFICATION](state, {
         id: 1,
         read_at: true,
       });
@@ -153,6 +153,34 @@ describe('#mutations', () => {
       const state = { uiFlags: { isAllNotificationsLoaded: false } };
       mutations[types.SET_ALL_NOTIFICATIONS_LOADED](state);
       expect(state.uiFlags).toEqual({ isAllNotificationsLoaded: true });
+    });
+  });
+
+  describe('#DELETE_READ_NOTIFICATIONS', () => {
+    it('delete read notifications', () => {
+      const state = {
+        records: {
+          1: { id: 1, primary_actor_id: 1, read_at: true },
+          2: { id: 2, primary_actor_id: 2 },
+        },
+      };
+      mutations[types.DELETE_READ_NOTIFICATIONS](state);
+      expect(state.records).toEqual({
+        2: { id: 2, primary_actor_id: 2 },
+      });
+    });
+  });
+
+  describe('#DELETE_ALL_NOTIFICATIONS', () => {
+    it('delete all notifications', () => {
+      const state = {
+        records: {
+          1: { id: 1, primary_actor_id: 1, read_at: true },
+          2: { id: 2, primary_actor_id: 2 },
+        },
+      };
+      mutations[types.DELETE_ALL_NOTIFICATIONS](state);
+      expect(state.records).toEqual({});
     });
   });
 });

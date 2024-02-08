@@ -54,7 +54,7 @@ export const actions = {
     try {
       await NotificationsAPI.read(primaryActorType, primaryActorId);
       commit(types.SET_NOTIFICATIONS_UNREAD_COUNT, unreadCount - 1);
-      commit(types.UPDATE_NOTIFICATION, { id, read_at: new Date() });
+      commit(types.READ_NOTIFICATION, { id, read_at: new Date() });
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
     } catch (error) {
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
@@ -64,7 +64,7 @@ export const actions = {
     commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: true });
     try {
       await NotificationsAPI.unRead(id);
-      commit(types.UPDATE_NOTIFICATION, { id, read_at: null });
+      commit(types.READ_NOTIFICATION, { id, read_at: null });
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
     } catch (error) {
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
@@ -93,6 +93,56 @@ export const actions = {
     } catch (error) {
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: false });
     }
+  },
+
+  deleteAllRead: async ({ commit }) => {
+    commit(types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: true });
+    try {
+      await NotificationsAPI.deleteAll({
+        type: 'read',
+      });
+      commit(types.DELETE_READ_NOTIFICATIONS);
+      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: false });
+    } catch (error) {
+      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: false });
+    }
+  },
+  deleteAll: async ({ commit }) => {
+    commit(types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: true });
+    try {
+      await NotificationsAPI.deleteAll({
+        type: 'all',
+      });
+      commit(types.DELETE_ALL_NOTIFICATIONS);
+      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: false });
+    } catch (error) {
+      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: false });
+    }
+  },
+
+  snooze: async ({ commit }, { id, snoozedUntil }) => {
+    commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: true });
+    try {
+      const response = await NotificationsAPI.snooze({
+        id,
+        snoozedUntil,
+      });
+
+      const {
+        data: { snoozed_until = null },
+      } = response;
+      commit(types.SNOOZE_NOTIFICATION, {
+        id,
+        snoozed_until,
+      });
+      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
+    } catch (error) {
+      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
+    }
+  },
+
+  updateNotification: async ({ commit }, data) => {
+    commit(types.UPDATE_NOTIFICATION, data);
   },
 
   addNotification({ commit }, data) {

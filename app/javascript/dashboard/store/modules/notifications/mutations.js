@@ -34,7 +34,7 @@ export const mutations = {
       });
     });
   },
-  [types.UPDATE_NOTIFICATION]: ($state, { id, read_at }) => {
+  [types.READ_NOTIFICATION]: ($state, { id, read_at }) => {
     Vue.set($state.records[id], 'read_at', read_at);
   },
   [types.UPDATE_ALL_NOTIFICATIONS]: $state => {
@@ -52,6 +52,15 @@ export const mutations = {
     Vue.set($state.meta, 'unreadCount', unreadCount);
     Vue.set($state.meta, 'count', count);
   },
+  [types.UPDATE_NOTIFICATION]($state, data) {
+    const { notification, unread_count: unreadCount, count } = data;
+    Vue.set($state.records, notification.id, {
+      ...($state.records[notification.id] || {}),
+      ...notification,
+    });
+    Vue.set($state.meta, 'unreadCount', unreadCount);
+    Vue.set($state.meta, 'count', count);
+  },
   [types.DELETE_NOTIFICATION]($state, data) {
     const { notification, unread_count: unreadCount, count } = data;
     Vue.delete($state.records, notification.id);
@@ -60,5 +69,20 @@ export const mutations = {
   },
   [types.SET_ALL_NOTIFICATIONS_LOADED]: $state => {
     Vue.set($state.uiFlags, 'isAllNotificationsLoaded', true);
+  },
+
+  [types.DELETE_READ_NOTIFICATIONS]: $state => {
+    Object.values($state.records).forEach(item => {
+      if (item.read_at) {
+        Vue.delete($state.records, item.id);
+      }
+    });
+  },
+  [types.DELETE_ALL_NOTIFICATIONS]: $state => {
+    Vue.set($state, 'records', {});
+  },
+
+  [types.SNOOZE_NOTIFICATION]: ($state, { id, snoozed_until }) => {
+    Vue.set($state.records[id], 'snoozed_until', snoozed_until);
   },
 };

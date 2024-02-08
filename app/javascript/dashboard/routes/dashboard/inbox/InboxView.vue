@@ -5,10 +5,15 @@
       :conversation-id="conversationId"
       :is-on-expanded-layout="isOnExpandedLayout"
     />
-    <div v-if="showInboxMessageView" class="flex flex-col w-full h-full">
+    <div
+      v-if="showInboxMessageView"
+      class="flex flex-col h-full"
+      :class="isOnExpandedLayout ? 'w-full' : 'w-[calc(100%-360px)]'"
+    >
       <inbox-item-header
         :total-length="totalNotifications"
         :current-index="activeNotificationIndex"
+        :active-notification="activeNotification"
         @next="onClickNext"
         @prev="onClickPrev"
       />
@@ -26,13 +31,13 @@
       class="text-center bg-slate-25 dark:bg-slate-800 justify-center w-full h-full flex items-center"
     >
       <span v-if="uiFlags.isFetching" class="spinner mt-4 mb-4" />
-      <div v-else class="flex flex-row items-center gap-1">
+      <div v-else class="flex flex-col items-center gap-2">
         <fluent-icon
           icon="mail-inbox"
-          size="18"
-          class="text-slate-700 dark:text-slate-400"
+          size="40"
+          class="text-slate-600 dark:text-slate-400"
         />
-        <span class="text-slate-700 text-sm font-medium dark:text-slate-400">
+        <span class="text-slate-500 text-sm font-medium dark:text-slate-300">
           {{ $t('INBOX.LIST.NOTE') }}
         </span>
       </div>
@@ -76,6 +81,11 @@ export default {
       allConversation: 'getAllConversations',
       uiFlags: 'notifications/getUIFlags',
     }),
+    activeNotification() {
+      return this.notifications.find(
+        n => n.primary_actor.id === Number(this.conversationId)
+      );
+    },
     isInboxViewEnabled() {
       return this.$store.getters['accounts/isFeatureEnabledGlobally'](
         this.currentAccountId,
