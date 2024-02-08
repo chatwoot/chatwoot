@@ -28,6 +28,7 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
+    let messagesHistory = []; // Store the message History, so far
     const messageInput = document.getElementById("messageInput");
     const chat = document.getElementById("chat");
 
@@ -65,13 +66,21 @@
             'Content-Type': 'application/json',
             'X-CSRF-Token': csrfToken
           },
-          body: JSON.stringify({ message: message }),
+          body: JSON.stringify({ 
+            message: message,
+            previous_messages: messagesHistory // Include the conversation history in the payload
+          }),
           credentials: 'include'
         });
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
+
+        /// push messages to the history
+        messagesHistory.push({ type: "user", message: message });
+        messagesHistory.push({ type: "bot", message: data.message });
+
         appendMessage("Bot", data.message.replace(/\n/g, "<br>")); // Adjust based on your server's response
       } catch (error) {
         console.error("Failed to send message to server:", error);

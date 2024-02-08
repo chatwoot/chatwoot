@@ -49,17 +49,17 @@ class SuperAdmin::ResponseSourcesController < SuperAdmin::ApplicationController
   def process_chat
     previous_messages = []
     get_previous_messages(previous_messages)
-    robin_response = ChatGpt.new(response_sections(params[:message])).generate_response('', previous_messages)
+    robin_response = ChatGpt.new(response_sections(params[:message])).generate_response(params[:message], previous_messages)
     render json: { message: "#{robin_response['response']} \n context_ids:  #{robin_response['context_ids']}" }
   end
 
   private
 
-  # refer response_bot_service.rb
   def get_previous_messages(previous_messages)
-    # TODO: Implement a redis based temporary storage for previous messages in the Chat
-    # At the moment we are not handling previous response, but on actual inbox bots we are
-    # So we need to implement a temporary storage for previous messages to replicate exact behavior
+    params[:previous_messages].each do |message|
+      role = message['type'] == 'user' ? 'user' : 'system'
+      previous_messages << { content: message['message'], role: role }
+    end
   end
 
   def response_sections(query)
