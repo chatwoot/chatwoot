@@ -113,7 +113,7 @@
       "SETTINGS": "Confirgurações",
       "AI_ASSIST": "Assistente Open AI",
       "APPEARANCE": "Tema",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "SNOOZE_NOTIFICATION": "Adiar Notificação"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Ir para Painel de Conversação",
@@ -155,7 +155,7 @@
       "LIGHT_MODE": "Claro",
       "DARK_MODE": "Escuro",
       "SYSTEM_MODE": "Sistema",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "SNOOZE_NOTIFICATION": "Adiar Notificação"
     }
   },
   "DASHBOARD_APPS": {
