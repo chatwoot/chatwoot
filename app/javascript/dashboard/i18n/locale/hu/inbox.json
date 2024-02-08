@@ -6,6 +6,7 @@
       "LOADING": "Értesítések lekérése",
       "EOF": "Minden értesítés betöltve 🎉",
       "404": "Ebben a csoportban nincsenek aktív értesítések.",
+      "NO_NOTIFICATIONS": "No notifications",
       "NOTE": "Értesítés az összes feliratkozott postafiókból",
       "SNOOZED_UNTIL": "Halasztás eddig",
       "SNOOZED_UNTIL_TOMORROW": "Halasztás holnapig",
