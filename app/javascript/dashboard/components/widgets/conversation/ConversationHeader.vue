@@ -66,7 +66,7 @@
         </div>
       </div>
       <div
-        class="header-actions-wrap items-center flex flex-row flex-grow justify-end mt-3 lg:mt-0"
+        class="header-actions-wrap items-center flex flex-row flex-grow justify-end mt-3 lg:mt-0 rtl:relative rtl:left-6"
         :class="{ 'justify-end': isContactPanelOpen }"
       >
         <more-actions :conversation-id="currentChat.id" />
@@ -86,7 +86,7 @@ import MoreActions from './MoreActions.vue';
 import Thumbnail from '../Thumbnail.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { conversationListPageURL } from 'dashboard/helper/URLHelper';
-import { conversationReopenTime } from 'dashboard/helper/snoozeHelpers';
+import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 
 export default {
@@ -158,7 +158,7 @@ export default {
       if (snoozedUntil) {
         return `${this.$t(
           'CONVERSATION.HEADER.SNOOZED_UNTIL'
-        )} ${conversationReopenTime(snoozedUntil)}`;
+        )} ${snoozedReopenTime(snoozedUntil)}`;
       }
       return this.$t('CONVERSATION.HEADER.SNOOZED_UNTIL_NEXT_REPLY');
     },
