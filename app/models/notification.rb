@@ -46,6 +46,7 @@ class Notification < ApplicationRecord
   before_create :set_last_activity_at
   after_create_commit :process_notification_delivery, :dispatch_create_event
   after_destroy_commit :dispatch_destroy_event
+  after_update_commit :dispatch_update_event
 
   PRIMARY_ACTORS = ['Conversation'].freeze
 
@@ -60,6 +61,8 @@ class Notification < ApplicationRecord
       secondary_actor: secondary_actor&.push_event_data,
       user: user&.push_event_data,
       created_at: created_at.to_i,
+      last_activity_at: last_activity_at.to_i,
+      snoozed_until: snoozed_until,
       account_id: account_id
 
     }
@@ -73,7 +76,8 @@ class Notification < ApplicationRecord
   def primary_actor_data
     {
       id: primary_actor.push_event_data[:id],
-      meta: primary_actor.push_event_data[:meta]
+      meta: primary_actor.push_event_data[:meta],
+      inbox_id: primary_actor.push_event_data[:inbox_id]
     }
   end
 
@@ -138,6 +142,10 @@ class Notification < ApplicationRecord
 
   def dispatch_create_event
     Rails.configuration.dispatcher.dispatch(NOTIFICATION_CREATED, Time.zone.now, notification: self)
+  end
+
+  def dispatch_update_event
+    Rails.configuration.dispatcher.dispatch(NOTIFICATION_UPDATED, Time.zone.now, notification: self)
   end
 
   def dispatch_destroy_event

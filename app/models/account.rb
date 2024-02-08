@@ -32,7 +32,6 @@ class Account < ApplicationRecord
     check_for_column: false
   }.freeze
 
-  validates :name, presence: true
   validates :auto_resolve_duration, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 999, allow_nil: true }
   validates :domain, length: { maximum: 100 }
 
@@ -101,7 +100,7 @@ class Account < ApplicationRecord
                              .where(context: 'labels',
                                     taggable_type: 'Conversation',
                                     taggable_id: conversation_ids)
-                             .map { |_| _.tag.name }
+                             .map { |tagging| tagging.tag.name }
   end
 
   def webhook_data

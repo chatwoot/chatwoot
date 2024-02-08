@@ -6,8 +6,15 @@ class NotificationsAPI extends ApiClient {
     super('notifications', { accountScoped: true });
   }
 
-  get(page) {
-    return axios.get(`${this.url}?page=${page}`);
+  get({ page, status, type, sortOrder }) {
+    return axios.get(this.url, {
+      params: {
+        page,
+        status,
+        type,
+        sort_order: sortOrder,
+      },
+    });
   }
 
   getNotifications(contactId) {
@@ -25,8 +32,28 @@ class NotificationsAPI extends ApiClient {
     });
   }
 
+  unRead(id) {
+    return axios.post(`${this.url}/${id}/unread`);
+  }
+
   readAll() {
     return axios.post(`${this.url}/read_all`);
+  }
+
+  delete(id) {
+    return axios.delete(`${this.url}/${id}`);
+  }
+
+  deleteAll({ type = 'all' }) {
+    return axios.post(`${this.url}/destroy_all`, {
+      type,
+    });
+  }
+
+  snooze({ id, snoozedUntil = null }) {
+    return axios.post(`${this.url}/${id}/snooze`, {
+      snoozed_until: snoozedUntil,
+    });
   }
 }
 
