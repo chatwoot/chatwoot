@@ -3,6 +3,7 @@
 # for contact inbox logic it uses the contact inbox builder
 
 class ContactInboxWithContactBuilder
+  include ContactHelper
   pattr_initialize [:inbox!, :contact_attributes!, :source_id, :hmac_verified]
 
   def perform
@@ -49,16 +50,32 @@ class ContactInboxWithContactBuilder
   end
 
   def create_contact
+    # TODO: Consider name as first_name and we will change the name to full_name in the future
+    name, middle_name, last_name = extract_name_parts
     account.contacts.create!(
-      name: contact_attributes[:name] || ::Haikunator.haikunate(1000),
-      last_name: contact_attributes[:last_name] || '',
-      middle_name: contact_attributes[:middle_name] || '',
+      name: name,
+      middle_name: middle_name,
+      last_name: last_name,
       phone_number: contact_attributes[:phone_number],
       email: contact_attributes[:email],
       identifier: contact_attributes[:identifier],
       additional_attributes: contact_attributes[:additional_attributes],
       custom_attributes: contact_attributes[:custom_attributes]
     )
+  end
+
+  def extract_name_parts
+    # Return a generated name if name attribute is blank
+    return [::Haikunator.haikunate(1000), '', ''] if contact_attributes[:name].blank?
+
+    # Return the all name parts if middle_name or last_name is present
+    if contact_attributes[:middle_name].present? || contact_attributes[:last_name].present?
+      return [contact_attributes[:name], contact_attributes[:middle_name], contact_attributes[:last_name]]
+    end
+
+    # If name is present, split it into first and last name
+    name_parts = split_first_and_last_name(contact_attributes[:name])
+    [name_parts[:first_name], '', name_parts[:last_name]]
   end
 
   def find_contact
