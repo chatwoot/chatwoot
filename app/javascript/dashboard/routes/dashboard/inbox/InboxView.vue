@@ -148,6 +148,7 @@ export default {
         name: 'home',
       });
     }
+    this.$store.dispatch('agents/get');
   },
   methods: {
     async fetchConversationById() {

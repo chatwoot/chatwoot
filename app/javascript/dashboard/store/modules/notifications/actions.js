@@ -9,7 +9,7 @@ export const actions = {
         data: {
           data: { payload, meta },
         },
-      } = await NotificationsAPI.get(page);
+      } = await NotificationsAPI.get({ page });
       commit(types.CLEAR_NOTIFICATIONS);
       commit(types.SET_NOTIFICATIONS, payload);
       commit(types.SET_NOTIFICATIONS_META, meta);
@@ -18,14 +18,19 @@ export const actions = {
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: false });
     }
   },
-  index: async ({ commit }, { page = 1 } = {}) => {
+  index: async ({ commit }, { page = 1, status, type, sortOrder } = {}) => {
     commit(types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: true });
     try {
       const {
         data: {
           data: { payload, meta },
         },
-      } = await NotificationsAPI.get(page);
+      } = await NotificationsAPI.get({
+        page,
+        status,
+        type,
+        sortOrder,
+      });
       commit(types.SET_NOTIFICATIONS, payload);
       commit(types.SET_NOTIFICATIONS_META, meta);
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: false });

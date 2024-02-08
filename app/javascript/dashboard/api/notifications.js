@@ -6,8 +6,15 @@ class NotificationsAPI extends ApiClient {
     super('notifications', { accountScoped: true });
   }
 
-  get(page) {
-    return axios.get(`${this.url}?page=${page}`);
+  get({ page, status, type, sortOrder }) {
+    return axios.get(this.url, {
+      params: {
+        page,
+        status,
+        type,
+        sort_order: sortOrder,
+      },
+    });
   }
 
   getNotifications(contactId) {

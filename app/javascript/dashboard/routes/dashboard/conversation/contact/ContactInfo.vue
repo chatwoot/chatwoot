@@ -306,7 +306,7 @@ export default {
           });
         } else if (isAInboxViewRoute(this.$route.name)) {
           this.$router.push({
-            name: 'inbox-view',
+            name: 'inbox_view',
           });
         } else if (this.$route.name !== 'contacts_dashboard') {
           this.$router.push({
