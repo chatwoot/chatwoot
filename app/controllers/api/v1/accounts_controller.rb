@@ -23,8 +23,6 @@ class Api::V1::AccountsController < Api::BaseController
 
   def create
     @user, @account = AccountBuilder.new(
-      account_name: account_params[:account_name],
-      user_full_name: account_params[:user_full_name],
       email: account_params[:email],
       user_password: account_params[:password],
       locale: account_params[:locale],
