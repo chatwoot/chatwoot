@@ -10,11 +10,20 @@ RSpec.describe Enterprise::ClearbitLookupService do
         'person' => {
           'name' => {
             'fullName' => 'John Doe'
-          }
+          },
+          'avatar' => 'https://example.com/avatar.png'
         },
         'company' => {
           'name' => 'Doe Inc.',
-          'timeZone' => 'Asia/Kolkata'
+          'timeZone' => 'Asia/Kolkata',
+          'category' => {
+            'sector' => 'Technology',
+            'industryGroup' => 'Software',
+            'industry' => 'Software'
+          },
+          'metrics' => {
+            'employees': '1-10'
+          }
         }
       }.to_json
     end
@@ -32,9 +41,13 @@ RSpec.describe Enterprise::ClearbitLookupService do
             result = described_class.lookup(email)
 
             expect(result).to eq({
-                                   name: 'John Doe',
-                                   company_name: 'Doe Inc.',
-                                   timezone: 'Asia/Kolkata'
+                                   :avatar => 'https://example.com/avatar.png',
+                                   :company_name => 'Doe Inc.',
+                                   :company_size => '1-10',
+                                   :industry => 'Software',
+                                   :logo => nil,
+                                   :name => 'John Doe',
+                                   :timezone => 'Asia/Kolkata'
                                  })
           end
         end
