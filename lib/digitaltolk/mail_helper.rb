@@ -6,7 +6,7 @@ class Digitaltolk::MailHelper
     return if html_content.blank?
 
     match = html_content.to_s.match(EMAIL_REGEX)
-    match.first
+    match[0]
   rescue
     nil
   end
@@ -28,6 +28,21 @@ class Digitaltolk::MailHelper
     return true if subject.include?('autoresponder')
 
     subject.include?('autoreply')
+  rescue
+    false
+  end
+
+  def self.thank_you_reply?(message)
+    return false if message.blank?
+
+    convo = message.conversation
+    return false if convo.messages.activity.where("content LIKE '%resolved%'").count <= 1
+
+    content = message.content.to_s[0, 30]
+    return false if content.blank?
+    return true if content == 'ty'
+
+    ['thank', 'thanks', 'tack'].any? { |str| content.downcase.include?(str) }
   rescue
     false
   end

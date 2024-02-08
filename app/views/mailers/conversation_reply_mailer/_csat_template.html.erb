@@ -23,11 +23,25 @@
       text-align: center;
     }
 
+    .dt-brand{
+      width: 100%;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .dt-brand .dt-logo {
+      width: 150px;
+    }
+
   </style>
 </head>
 <body>
   <div class="container">
     <div class="content">
+      <div class="dt-brand">
+        <img class="dt-logo" src="https://helpdesk.digitaltolk.net/brand-assets/logo.png" alt="Logo">
+        <p>Dear customer 👋, please take a few moments to share feedback about the conversation you had with <%= message.inbox.name%>.</p>
+      </div>
       <div style="font-size: 12px; color: #737373;">
         <% if message.content %>
           <%= ChatwootMarkdownRenderer.new(message.content).render_message %>

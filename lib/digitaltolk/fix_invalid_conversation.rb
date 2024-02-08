@@ -68,7 +68,7 @@ class Digitaltolk::FixInvalidConversation
     match = first_message.content.to_s.match(email_regex)
     return if match.nil?
     
-    @email_from_body = match.first
+    @email_from_body = match[0]
   end
 
   def find_or_create_original_contact

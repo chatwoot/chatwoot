@@ -65,6 +65,7 @@ class MessageTemplates::HookExecutionService
 
   def should_send_csat_survey?
     return unless csat_enabled_conversation?
+    return if conversation.messages.incoming.last.auto_reply?
 
     if inbox.csat_template_enabled?
       last_csat_reached = conversation.messages.csat.count >= csat_template.questions_count
