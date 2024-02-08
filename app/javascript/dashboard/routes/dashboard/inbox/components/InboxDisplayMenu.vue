@@ -115,7 +115,7 @@ export default {
         {
           name: this.$t('INBOX.DISPLAY_MENU.DISPLAY_OPTIONS.READ'),
           key: wootConstants.INBOX_DISPLAY_BY.READ,
-          selected: true,
+          selected: false,
           type: wootConstants.INBOX_FILTER_TYPE.TYPE,
         },
       ],
