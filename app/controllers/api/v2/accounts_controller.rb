@@ -20,6 +20,7 @@ class Api::V2::AccountsController < Api::BaseController
       locale: account_params[:locale],
       user: current_user
     ).perform
+
     fetch_account_and_user_info
 
     if @user
@@ -28,12 +29,6 @@ class Api::V2::AccountsController < Api::BaseController
     else
       render_error_response(CustomExceptions::Account::SignupFailed.new({}))
     end
-  end
-
-  def update
-    @account.update!(account_params.slice(:name, :locale, :domain, :support_email, :auto_resolve_duration))
-    @account.custom_attributes.merge!(custom_attributes_params)
-    @account.save!
   end
 
   private
@@ -48,10 +43,6 @@ class Api::V2::AccountsController < Api::BaseController
   def account_params
     params.permit(:account_name, :email, :name, :password, :locale, :domain, :support_email, :auto_resolve_duration, :user_full_name, :industry,
                   :company_size, :timezone)
-  end
-
-  def custom_attributes_params
-    params.permit(:industry, :company_size, :timezone)
   end
 
   def check_signup_enabled
