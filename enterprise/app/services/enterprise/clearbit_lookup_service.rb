@@ -65,8 +65,12 @@ class Enterprise::ClearbitLookupService
   def self.format_response(data)
     {
       name: data.dig('person', 'name', 'fullName'),
+      avatar: data.dig('person', 'avatar'),
       company_name: data.dig('company', 'name'),
-      timezone: data.dig('company', 'timeZone')
+      timezone: data.dig('company', 'timeZone'),
+      logo: data.dig('company', 'logo'),
+      industry: data.dig('company', 'category', 'industry'),
+      company_size: data.dig('company', 'metrics', 'employees')
     }
   end
 end
