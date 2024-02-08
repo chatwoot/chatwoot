@@ -52,19 +52,21 @@ RSpec.describe Enterprise::Api::V2::AccountsController, type: :request do
     end
 
     it 'handles errors when fetching data from clearbit' do
-      allow(account_builder).to receive(:perform).and_return([user, account])
-      allow(Enterprise::ClearbitLookupService).to receive(:lookup).and_raise(StandardError)
-      params = { email: email, user: nil, locale: nil, password: 'Password1!' }
+      with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+        allow(account_builder).to receive(:perform).and_return([user, account])
+        allow(Enterprise::ClearbitLookupService).to receive(:lookup).and_raise(StandardError)
+        params = { email: email, user: nil, locale: nil, password: 'Password1!' }
 
-      post api_v2_accounts_url,
-           params: params,
-           as: :json
+        post api_v2_accounts_url,
+             params: params,
+             as: :json
 
-      expect(AccountBuilder).to have_received(:new).with(params.except(:password).merge(user_password: params[:password]))
-      expect(account_builder).to have_received(:perform)
-      expect(Enterprise::ClearbitLookupService).to have_received(:lookup).with(email)
+        expect(AccountBuilder).to have_received(:new).with(params.except(:password).merge(user_password: params[:password]))
+        expect(account_builder).to have_received(:perform)
+        expect(Enterprise::ClearbitLookupService).to have_received(:lookup).with(email)
 
-      expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(:success)
+      end
     end
   end
 end
