@@ -6,6 +6,7 @@
       "LOADING": "Fetching notifications",
       "EOF": "Todas las notificaciones cargadas 🎉",
       "404": "There are no active notifications in this group.",
+      "NO_NOTIFICATIONS": "No notifications",
       "NOTE": "Notifications from all subscribed inboxes",
       "SNOOZED_UNTIL": "Posponer hasta",
       "SNOOZED_UNTIL_TOMORROW": "Pospuesto hasta mañana",
