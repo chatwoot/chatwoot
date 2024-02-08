@@ -103,7 +103,6 @@ export const GENERAL_EVENTS = Object.freeze({
   COMMAND_BAR: 'Used commandbar',
 });
 
-
 export const INBOX_EVENTS = Object.freeze({
   OPEN_CONVERSATION_VIA_INBOX: 'Opened conversation via inbox',
   MARK_NOTIFICATION_AS_READ: 'Marked notification as read',
@@ -111,13 +110,10 @@ export const INBOX_EVENTS = Object.freeze({
   MARK_NOTIFICATION_AS_UNREAD: 'Marked notification as unread',
   DELETE_NOTIFICATION: 'Deleted notification',
   DELETE_ALL_NOTIFICATIONS: 'Deleted all notifications',
-
 });
 
 export const SLA_EVENTS = Object.freeze({
   CREATE: 'Created an SLA',
   UPDATE: 'Updated an SLA',
   DELETED: 'Deleted an SLA',
-  
-  });
-
+});
