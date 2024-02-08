@@ -6,6 +6,7 @@
       "LOADING": "A obter notificações",
       "EOF": "Notificações obtidas 🎉",
       "404": "Não há notificações ativas neste grupo.",
+      "NO_NOTIFICATIONS": "Sem Notificações",
       "NOTE": "Notificações de todas as caixas subscritas",
       "SNOOZED_UNTIL": "Suspender até",
       "SNOOZED_UNTIL_TOMORROW": "Adiado até amanhã",
@@ -32,28 +33,28 @@
       "DELETE_ALL_READ": "Excluir todas lidas"
     },
     "DISPLAY_MENU": {
-      "SORT": "Sort",
+      "SORT": "Ordenar",
       "DISPLAY": "Mostrar :",
       "SORT_OPTIONS": {
-        "NEWEST": "Newest",
-        "OLDEST": "Oldest",
+        "NEWEST": "Recentes",
+        "OLDEST": "Antigas",
         "PRIORITY": "Prioridade"
       },
       "DISPLAY_OPTIONS": {
         "SNOOZED": "Adiado",
         "READ": "Lida",
         "LABELS": "Etiquetas",
-        "CONVERSATION_ID": "Conversation ID"
+        "CONVERSATION_ID": "ID da conversa"
       }
     },
     "ALERTS": {
-      "MARK_AS_READ": "Notification marked as read",
-      "MARK_AS_UNREAD": "Notification marked as unread",
-      "SNOOZE": "Notification snoozed",
-      "DELETE": "Notification deleted",
-      "MARK_ALL_READ": "All notifications marked as read",
-      "DELETE_ALL": "All notifications deleted",
-      "DELETE_ALL_READ": "All read notifications deleted"
+      "MARK_AS_READ": "Notificação marcada como lida",
+      "MARK_AS_UNREAD": "Notificação marcada como não lida",
+      "SNOOZE": "Notificação adiada",
+      "DELETE": "Notificação excluída",
+      "MARK_ALL_READ": "Todas as notificações marcadas como lidas",
+      "DELETE_ALL": "Todas as notificações foram excluídas",
+      "DELETE_ALL_READ": "Todas as notificações lidas foram excluídas"
     }
   }
 }
