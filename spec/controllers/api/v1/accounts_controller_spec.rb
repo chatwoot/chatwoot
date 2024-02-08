@@ -190,7 +190,9 @@ RSpec.describe 'Accounts API', type: :request do
         domain: 'example.com',
         support_email: 'care@example.com',
         auto_resolve_duration: 40,
-        timezone: 'Asia/Kolkata'
+        timezone: 'Asia/Kolkata',
+        industry: 'Technology',
+        company_size: '1-10'
       }
 
       it 'modifies an account' do
@@ -205,7 +207,10 @@ RSpec.describe 'Accounts API', type: :request do
         expect(account.reload.domain).to eq(params[:domain])
         expect(account.reload.support_email).to eq(params[:support_email])
         expect(account.reload.auto_resolve_duration).to eq(params[:auto_resolve_duration])
-        expect(account.reload.custom_attributes['timezone']).to eq(params[:timezone])
+
+        %w[timezone industry company_size].each do |attribute|
+          expect(account.reload.custom_attributes[attribute]).to eq(params[attribute.to_sym])
+        end
       end
 
       it 'Throws error 422' do
