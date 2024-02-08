@@ -49,7 +49,7 @@ export default {
     // },
     // {
     //   path: frontendURL('accounts/:account_id/start/founders-note'),
-    //   name: 'onboarding_fouunders_note',
+    //   name: 'onboarding_founders_note',
     //   component: FoundersNote,
     // },
   ],
