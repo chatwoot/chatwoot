@@ -6,6 +6,7 @@
       "LOADING": "Fetching notifications",
       "EOF": "Alla aviseringar laddade 🎉",
       "404": "There are no active notifications in this group.",
+      "NO_NOTIFICATIONS": "No notifications",
       "NOTE": "Notifications from all subscribed inboxes",
       "SNOOZED_UNTIL": "Snoozad till",
       "SNOOZED_UNTIL_TOMORROW": "Snoozad till imorgon",
