@@ -11,6 +11,8 @@ class Api::V1::ProfilesController < Api::BaseController
     end
 
     @user.update!(profile_params)
+    @user.custom_attributes.merge!(custom_attributes_params)
+    @user.save!
   end
 
   def avatar
@@ -60,6 +62,10 @@ class Api::V1::ProfilesController < Api::BaseController
       :account_id,
       ui_settings: {}
     )
+  end
+
+  def custom_attributes_params
+    params.require(:profile).permit(:phone_number)
   end
 
   def password_params
