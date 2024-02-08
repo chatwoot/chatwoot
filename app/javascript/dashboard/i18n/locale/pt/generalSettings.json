@@ -113,7 +113,7 @@
       "SETTINGS": "Configurações",
       "AI_ASSIST": "Assistente IA",
       "APPEARANCE": "Aspeto",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "SNOOZE_NOTIFICATION": "Suspender notificação"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Ir para o painel de conversação",
@@ -155,7 +155,7 @@
       "LIGHT_MODE": "Claro",
       "DARK_MODE": "Escuro",
       "SYSTEM_MODE": "Sistema",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "SNOOZE_NOTIFICATION": "Suspender notificação"
     }
   },
   "DASHBOARD_APPS": {
