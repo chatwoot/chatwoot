@@ -6,6 +6,7 @@
       "LOADING": "Fetching notifications",
       "EOF": "Wszystkie powiadomienia załadowane 🎉",
       "404": "There are no active notifications in this group.",
+      "NO_NOTIFICATIONS": "No notifications",
       "NOTE": "Notifications from all subscribed inboxes",
       "SNOOZED_UNTIL": "Uśpione do",
       "SNOOZED_UNTIL_TOMORROW": "Uśpij do jutra",
