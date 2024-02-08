@@ -6,6 +6,7 @@
       "LOADING": "Fetching notifications",
       "EOF": "Tüm bildirimler yüklendi 🎉",
       "404": "There are no active notifications in this group.",
+      "NO_NOTIFICATIONS": "No notifications",
       "NOTE": "Notifications from all subscribed inboxes",
       "SNOOZED_UNTIL": "Susturulacak kadar ertelendi",
       "SNOOZED_UNTIL_TOMORROW": "yarına ertelendi",
