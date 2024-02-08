@@ -1,0 +1,87 @@
+<% content_for(:title) do %>
+ Chat with <%= @response_source.name %>
+<% end %>
+<section class="main-content__body h-full">
+  <div class="flex flex-col h-full">
+    <header class="flex mx-8 pb-4 items-center border-b border-solid border-slate-100" role="banner">
+      <div class="border border-solid border-slate-100 text-slate-700 mr-4 p-2 rounded-full">
+        <svg width="24" height="24"><use xlink:href="#icon-settings-2-line" /></svg>
+      </div>
+      <div class="flex flex-col h-14 justify-center">
+        <h1 class="text-base font-medium leading-6 text-slate-900" id="page-title">
+          <%= content_for(:title) %>
+        </h1>
+        <a href="<%= super_admin_response_source_path(@response_source) %>" class="text-blue-500 hover:underline">Back to  <%= @response_source.name %> </a>
+      </div>
+    </header>
+ 
+    <div class="flex-1 overflow-hidden">
+      <div id="chat" class="px-8 pt-5">
+      <!-- Chat messages will be appended here -->
+      </div>
+    </div>
+    <div class="w-full pt-2 md:pt-0 dark:border-white/20 md:border-transparent md:dark:border-transparent md:w-[calc(100%-.5rem)]">
+      <textarea id="messageInput" class="" placeholder="Type a message..." autofocus autocomplete="off"></textarea>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const messageInput = document.getElementById("messageInput");
+    const chat = document.getElementById("chat");
+
+    messageInput.addEventListener("keydown", function(event) {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault(); // Prevent default to avoid new line on enter key
+        const message = messageInput.value.trim();
+        if (message) {
+          appendMessage("You", message.replace(/\n/g, "<br>")); // Replace new lines with <br> for HTML display
+          sendMessageToServer(message);
+          messageInput.value = ''; // Clear textarea after sending
+        }
+      }
+    });
+
+    function appendMessage(sender, message) {
+      const messageElement = document.createElement("div");
+      messageElement.innerHTML = `<strong>${sender}:</strong> <span>${message}</span>`;
+      messageElement.className = "p-2 bg-gray-100 rounded";
+      chat.appendChild(messageElement);
+      chat.scrollTop = chat.scrollHeight; // Scroll to the bottom
+    }
+
+    async function sendMessageToServer(message) {
+      const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+      const messageInput = document.getElementById("messageInput");
+
+      // Disable the textarea to prevent further input while processing
+      messageInput.disabled = true;
+      
+      try {
+        const response = await fetch(window.location.href, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': csrfToken
+          },
+          body: JSON.stringify({ message: message }),
+          credentials: 'include'
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        appendMessage("Bot", data.message.replace(/\n/g, "<br>")); // Adjust based on your server's response
+      } catch (error) {
+        console.error("Failed to send message to server:", error);
+        appendMessage("Bot", "Error: Could not retrieve response. Please check the console for more details.");
+      } finally {
+        // Re-enable the textarea regardless of the request's outcome
+        messageInput.disabled = false;
+        messageInput.focus(); // Optionally, refocus the textarea for convenience
+      }
+    }
+  });
+</script>
+
