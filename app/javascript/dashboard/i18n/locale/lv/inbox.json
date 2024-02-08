@@ -6,6 +6,7 @@
       "LOADING": "Notiek paziņojumu iegūšana",
       "EOF": "Visi paziņojumi ir ielādēti",
       "404": "Šajā grupā nav aktīvu paziņojumu.",
+      "NO_NOTIFICATIONS": "No notifications",
       "NOTE": "Paziņojumi no visām abonētajām iesūtnēm",
       "SNOOZED_UNTIL": "Atlikts līdz",
       "SNOOZED_UNTIL_TOMORROW": "Atlikts līdz rītdienai",
