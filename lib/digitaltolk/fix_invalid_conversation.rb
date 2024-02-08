@@ -14,10 +14,17 @@ class Digitaltolk::FixInvalidConversation
     return unless first_message.present?
     return unless email_from_body.present?
 
-    find_or_create_original_contact
-    fix_conversation_contact
-    fix_message_email
-    puts "\n conversion_id_fixed: #{conversation.id}"
+    begin
+      ActiveRecord::Base.transaction do
+        find_or_create_original_contact
+        fix_conversation_contact
+        fix_message_email
+      end
+      puts "\n conversion_id_fixed: #{conversation.id}"
+    rescue StandardError => e
+      Rails.logger.error "Error while fixing invalid conversation #{conversation.id}"
+      Rails.logger.error e.message
+    end
   end
 
   private
@@ -36,6 +43,12 @@ class Digitaltolk::FixInvalidConversation
       next if msg.content_attributes.dig(:email, :from).blank?
 
       msg.content_attributes[:email][:from] = [email_from_body]
+
+      if ms.content_attributes(:email, :cc).present?
+        if ms.content_attributes(:email, :cc).to_a.exclude?(email_from_body)
+          msg.content_attributes[:email][:cc] = nil
+        end
+      end
       msg.save
     end
   end

@@ -220,6 +220,7 @@ class Conversation < ApplicationRecord
     return unless inbox.email?
     return if csat_survey_responses.exists?
     return if Digitaltolk::MailHelper.auto_reply?(messages.incoming.last)
+    return if inbox.send_csat_on_all_reply?
 
     CsatSurveyWorker.perform_in(5.seconds, self.id)
   end

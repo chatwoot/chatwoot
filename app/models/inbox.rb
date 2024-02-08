@@ -131,6 +131,10 @@ class Inbox < ApplicationRecord
     channel_type == 'Channel::Whatsapp'
   end
 
+  def send_csat_on_all_reply?
+    csat_trigger == 'conversation_all_reply'
+  end
+
   def assignable_agents
     (account.users.where(id: members.select(:user_id)) + account.administrators).uniq
   end
