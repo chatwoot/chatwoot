@@ -290,7 +290,7 @@ Rails.application.routes.draw do
     end
 
     namespace :v2 do
-      resources :accounts, only: [:create, :update] do
+      resources :accounts, only: [:create] do
         scope module: :accounts do
           resources :reports, only: [:index] do
             collection do
