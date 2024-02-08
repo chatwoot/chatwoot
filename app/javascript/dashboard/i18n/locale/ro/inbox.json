@@ -6,6 +6,7 @@
       "LOADING": "Fetching notifications",
       "EOF": "Toate notificările încărcate 🎉",
       "404": "There are no active notifications in this group.",
+      "NO_NOTIFICATIONS": "No notifications",
       "NOTE": "Notifications from all subscribed inboxes",
       "SNOOZED_UNTIL": "Amânare până la",
       "SNOOZED_UNTIL_TOMORROW": "Amânat până mâine",
