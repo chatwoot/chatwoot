@@ -17,6 +17,7 @@ class Api::V2::AccountsController < Api::BaseController
     @user, @account = AccountBuilder.new(
       email: account_params[:email],
       user_password: account_params[:password],
+      locale: account_params[:locale],
       user: current_user
     ).perform
     fetch_account_and_user_info
@@ -29,6 +30,12 @@ class Api::V2::AccountsController < Api::BaseController
     end
   end
 
+  def update
+    @account.update!(account_params.slice(:name, :locale, :domain, :support_email, :auto_resolve_duration))
+    @account.custom_attributes.merge!(custom_attributes_params)
+    @account.save!
+  end
+
   private
 
   def fetch_account_and_user_info; end
@@ -39,7 +46,12 @@ class Api::V2::AccountsController < Api::BaseController
   end
 
   def account_params
-    params.permit(:account_name, :email, :name, :password, :locale, :domain, :support_email, :auto_resolve_duration, :user_full_name)
+    params.permit(:account_name, :email, :name, :password, :locale, :domain, :support_email, :auto_resolve_duration, :user_full_name, :industry,
+                  :company_size, :timezone)
+  end
+
+  def custom_attributes_params
+    params.permit(:industry, :company_size, :timezone)
   end
 
   def check_signup_enabled
