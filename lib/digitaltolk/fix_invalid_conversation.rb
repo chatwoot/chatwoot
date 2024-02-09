@@ -44,8 +44,8 @@ class Digitaltolk::FixInvalidConversation
 
       msg.content_attributes[:email][:from] = [email_from_body]
 
-      if ms.content_attributes(:email, :cc).present?
-        if ms.content_attributes(:email, :cc).to_a.exclude?(email_from_body)
+      if msg.content_attributes.dig(:email, :cc).present?
+        if msg.content_attributes.dig(:email, :cc).to_a.exclude?(email_from_body)
           msg.content_attributes[:email][:cc] = nil
         end
       end
