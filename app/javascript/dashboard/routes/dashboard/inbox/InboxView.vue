@@ -2,7 +2,7 @@
   <section class="flex w-full h-full bg-white dark:bg-slate-900">
     <inbox-list
       v-show="showConversationList"
-      :conversation-id="conversationId"
+      :notification-id="notificationId"
       :is-on-expanded-layout="isOnExpandedLayout"
     />
     <div
@@ -51,6 +51,7 @@ import InboxList from './InboxList.vue';
 import InboxItemHeader from './components/InboxItemHeader.vue';
 import ConversationBox from 'dashboard/components/widgets/conversation/ConversationBox.vue';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import resizeListenerMixin from 'shared/mixins/resizeListenerMixin';
 import wootConstants from 'dashboard/constants/globals';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -62,16 +63,21 @@ export default {
     InboxItemHeader,
     ConversationBox,
   },
-  mixins: [uiSettingsMixin],
+  mixins: [uiSettingsMixin, resizeListenerMixin],
   props: {
     inboxId: {
       type: [String, Number],
       default: 0,
     },
-    conversationId: {
+    notificationId: {
       type: [String, Number],
       default: 0,
     },
+  },
+  data() {
+    return {
+      isOnExpandedLayout: false,
+    };
   },
   computed: {
     ...mapGetters({
@@ -82,9 +88,10 @@ export default {
       uiFlags: 'notifications/getUIFlags',
     }),
     activeNotification() {
-      return this.notifications.find(
-        n => n.primary_actor.id === Number(this.conversationId)
-      );
+      return this.notifications.find(n => n.id === Number(this.notificationId));
+    },
+    conversationId() {
+      return this.activeNotification?.primary_actor.id;
     },
     isInboxViewEnabled() {
       return this.$store.getters['accounts/isFeatureEnabledGlobally'](
@@ -93,14 +100,14 @@ export default {
       );
     },
     showConversationList() {
-      return this.isOnExpandedLayout ? !this.conversationId : true;
+      return this.isOnExpandedLayout ? !this.notificationId : true;
     },
     isFetchingInitialData() {
       return this.uiFlags.isFetching && !this.notifications.length;
     },
     showInboxMessageView() {
       return (
-        Boolean(this.conversationId) &&
+        Boolean(this.notificationId) &&
         Boolean(this.currentChat.id) &&
         !this.isFetchingInitialData
       );
@@ -109,19 +116,10 @@ export default {
       return this.notifications?.length ?? 0;
     },
     activeNotificationIndex() {
-      const conversationId = Number(this.conversationId);
       const notificationIndex = this.notifications.findIndex(
-        n => n.primary_actor.id === conversationId
+        n => n.id === Number(this.notificationId)
       );
       return notificationIndex >= 0 ? notificationIndex + 1 : 0;
-    },
-    isOnExpandedLayout() {
-      const {
-        LAYOUT_TYPES: { CONDENSED },
-      } = wootConstants;
-      const { conversation_display_type: conversationDisplayType = CONDENSED } =
-        this.uiSettings;
-      return conversationDisplayType !== CONDENSED;
     },
     isContactPanelOpen() {
       if (this.currentChat.id) {
@@ -149,10 +147,19 @@ export default {
       });
     }
     this.$store.dispatch('agents/get');
+    this.handleResize();
   },
   methods: {
+    handleResize() {
+      const { SMALL_SCREEN_BREAKPOINT } = wootConstants;
+      if (window.innerWidth <= SMALL_SCREEN_BREAKPOINT) {
+        this.isOnExpandedLayout = true;
+      } else {
+        this.isOnExpandedLayout = false;
+      }
+    },
     async fetchConversationById() {
-      if (!this.conversationId) return;
+      if (!this.notificationId || !this.conversationId) return;
       const chat = this.findConversation();
       if (!chat) {
         await this.$store.dispatch('getConversation', this.conversationId);
@@ -169,8 +176,9 @@ export default {
         });
     },
     findConversation() {
-      const conversationId = Number(this.conversationId);
-      return this.allConversation.find(c => c.id === conversationId);
+      return this.allConversation.find(
+        c => c.id === Number(this.conversationId)
+      );
     },
     navigateToConversation(activeIndex, direction) {
       const indexOffset = direction === 'next' ? 0 : -2;
@@ -180,7 +188,7 @@ export default {
           id,
           primary_actor_id: primaryActorId,
           primary_actor_type: primaryActorType,
-          primary_actor: { id: conversationId, meta: { unreadCount } = {} },
+          primary_actor: { meta: { unreadCount } = {} },
           notification_type: notificationType,
         } = targetNotification;
 
@@ -197,7 +205,7 @@ export default {
 
         this.$router.push({
           name: 'inbox_view_conversation',
-          params: { conversation_id: conversationId },
+          params: { notification_id: id },
         });
       }
     },

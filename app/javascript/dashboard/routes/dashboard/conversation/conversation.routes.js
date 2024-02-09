@@ -15,12 +15,12 @@ export default {
       },
     },
     {
-      path: frontendURL('accounts/:accountId/inbox-view/:conversation_id'),
+      path: frontendURL('accounts/:accountId/inbox-view/:notification_id'),
       name: 'inbox_view_conversation',
       roles: ['administrator', 'agent'],
       component: InboxView,
       props: route => {
-        return { inboxId: 0, conversationId: route.params.conversation_id };
+        return { inboxId: 0, notificationId: route.params.notification_id };
       },
     },
     {

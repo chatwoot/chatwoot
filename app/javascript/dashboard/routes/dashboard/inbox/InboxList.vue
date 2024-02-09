@@ -3,7 +3,11 @@
     class="flex flex-col h-full w-full ltr:border-r border-slate-50 dark:border-slate-800/50"
     :class="isOnExpandedLayout ? '' : 'min-w-[360px] max-w-[360px]'"
   >
-    <inbox-list-header @filter="onFilterChange" />
+    <inbox-list-header
+      :is-context-menu-open="isContextMenuOpen"
+      @filter="onFilterChange"
+      @redirect="redirectToInbox"
+    />
     <div
       ref="notificationList"
       class="flex flex-col w-full h-[calc(100%-56px)] overflow-x-hidden overflow-y-auto"
@@ -15,6 +19,8 @@
         @mark-notification-as-read="markNotificationAsRead"
         @mark-notification-as-unread="markNotificationAsUnRead"
         @delete-notification="deleteNotification"
+        @context-menu-open="isContextMenuOpen = true"
+        @context-menu-close="isContextMenuOpen = false"
       />
       <div v-if="uiFlags.isFetching" class="text-center">
         <span class="spinner mt-4 mb-4" />
@@ -24,12 +30,6 @@
         class="text-center text-slate-400 text-sm dark:text-slate-400 p-4 font-medium"
       >
         {{ $t('INBOX.LIST.NO_NOTIFICATIONS') }}
-      </p>
-      <p
-        v-if="showEndOfListMessage"
-        class="text-center text-slate-400 dark:text-slate-400 p-4"
-      >
-        {{ $t('INBOX.LIST.EOF') }}
       </p>
       <intersection-observer
         v-if="!showEndOfList && !uiFlags.isFetching"
@@ -57,7 +57,7 @@ export default {
   },
   mixins: [alertMixin, uiSettingsMixin],
   props: {
-    conversationId: {
+    notificationId: {
       type: [String, Number],
       default: 0,
     },
@@ -76,6 +76,7 @@ export default {
       status: '',
       type: '',
       sortOrder: wootConstants.INBOX_SORT_BY.NEWEST,
+      isContextMenuOpen: false,
     };
   },
   computed: {
@@ -102,9 +103,6 @@ export default {
     showEmptyState() {
       return !this.uiFlags.isFetching && !this.notifications.length;
     },
-    showEndOfListMessage() {
-      return this.showEndOfList && this.notifications.length;
-    },
   },
   mounted() {
     this.setSavedFilter();
@@ -119,17 +117,15 @@ export default {
       this.$store.dispatch('notifications/index', filter);
     },
     redirectToInbox() {
-      if (!this.conversationId) return;
+      if (!this.notificationId) return;
       if (this.$route.name === 'inbox_view') return;
       this.$router.push({ name: 'inbox_view' });
     },
     loadMoreNotifications() {
       if (this.uiFlags.isAllNotificationsLoaded) return;
       this.$store.dispatch('notifications/index', {
+        ...this.inboxFilters,
         page: this.page + 1,
-        status: this.status,
-        type: this.type,
-        sortOrder: this.sortOrder,
       });
       this.page += 1;
     },

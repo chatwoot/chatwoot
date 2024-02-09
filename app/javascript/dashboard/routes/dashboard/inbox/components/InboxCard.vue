@@ -166,11 +166,11 @@ export default {
         id,
         primary_actor_id: primaryActorId,
         primary_actor_type: primaryActorType,
-        primary_actor: { id: conversationId, inbox_id: inboxId },
+        primary_actor: { inbox_id: inboxId },
         notification_type: notificationType,
       } = notification;
 
-      if (this.$route.params.conversation_id !== conversationId) {
+      if (this.$route.params.notification_id !== id) {
         this.$track(INBOX_EVENTS.OPEN_CONVERSATION_VIA_INBOX, {
           notificationType,
         });
@@ -184,13 +184,14 @@ export default {
 
         this.$router.push({
           name: 'inbox_view_conversation',
-          params: { inboxId, conversation_id: conversationId },
+          params: { inboxId, notification_id: id },
         });
       }
     },
     closeContextMenu() {
       this.isContextMenuOpen = false;
       this.contextMenuPosition = { x: null, y: null };
+      this.$emit('context-menu-close');
     },
     openContextMenu(e) {
       this.closeContextMenu();
@@ -200,6 +201,7 @@ export default {
         y: e.pageY || e.clientY,
       };
       this.isContextMenuOpen = true;
+      this.$emit('context-menu-open');
     },
     handleAction(key) {
       switch (key) {

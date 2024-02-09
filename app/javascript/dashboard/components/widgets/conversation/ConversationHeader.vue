@@ -129,7 +129,7 @@ export default {
         name,
       } = this.$route;
       if (this.isInboxView) {
-        return frontendURL(`accounts/${accountId}/inbox`);
+        return frontendURL(`accounts/${accountId}/inbox-view`);
       }
       return conversationListPageURL({
         accountId,
