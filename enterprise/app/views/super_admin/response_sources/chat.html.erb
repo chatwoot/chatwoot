@@ -44,11 +44,55 @@
       }
     });
 
+    function markdownToHtml(markdown) {
+      let html = markdown;
+
+      debugger;// First, ensure that line breaks are standardized to <br> tags
+      html = html.replace(/(\r\n|\r|\n)/g, '<br>');
+
+      // Then, replace sequences of two or more <br> tags with exactly two <br> tags
+      html = html.replace(/(<br>\s*){2,}/gi, '<br><br>');
+
+      // Basic Markdown conversions
+      html = html
+        .replace(/(\*\*)(.*?)\1/g, '<strong>$2</strong>') // Bold **text**
+        .replace(/(__)(.*?)\1/g, '<strong>$2</strong>') // Bold __text__
+        .replace(/(\*)(.*?)\1/g, '<em>$2</em>') // Italic *text*
+        .replace(/(_)(.*?)\1/g, '<em>$2</em>') // Italic _text_
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a target="_blank" href="$2">$1</a>'); // Link [text](url)
+      
+      // Return the converted HTML
+      return html;
+    }
+
     function appendMessage(sender, message) {
-      const messageElement = document.createElement("div");
-      messageElement.innerHTML = `<strong>${sender}:</strong> <span>${message}</span>`;
-      messageElement.className = "p-2 bg-gray-100 rounded";
-      chat.appendChild(messageElement);
+      const chat = document.getElementById("chat");
+      const isUser = sender === "You";
+      const messageBubble = document.createElement("div");
+      const bubbleContent = document.createElement("div");
+      const senderIcon = document.createElement("div");
+      
+      // Set the appropriate styles for user vs bot
+      messageBubble.className = isUser ?  'flex items-end mb-2 justify-end' : 'flex items-end mb-2';
+      bubbleContent.className = isUser ? 'text-sm md:text-base bg-woot-500 text-white rounded px-4 py-2 shadow max-w-[60%] leading-normal' : 'text-sm md:text-base bg-white rounded px-4 py-2 shadow max-w-[60%] leading-normal' ;
+      senderIcon.className = isUser ? 'flex items-center h-8 w-8 rounded-full bg-gray-500 text-white justify-center ml-2' : 'flex items-center h-8 w-8 rounded-full bg-woot-500 text-white justify-center mr-2' ;
+      senderIcon.innerText = isUser ? 'U' : 'B'; // Assuming 'U' for User and 'B' for Bot
+
+      // Convert Markdown to HTML and insert into bubble
+      bubbleContent.innerHTML = markdownToHtml(message);
+
+      // Append elements based on sender
+      if (isUser) {
+        messageBubble.appendChild(senderIcon);
+        messageBubble.appendChild(bubbleContent);
+      } else {
+        messageBubble.appendChild(senderIcon);
+        messageBubble.appendChild(bubbleContent);
+        
+      }
+
+      // Append the message bubble to the chat
+      chat.appendChild(messageBubble);
       chat.scrollTop = chat.scrollHeight; // Scroll to the bottom
     }
 

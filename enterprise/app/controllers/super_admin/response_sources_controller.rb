@@ -49,8 +49,16 @@ class SuperAdmin::ResponseSourcesController < SuperAdmin::EnterpriseBaseControll
   def process_chat
     previous_messages = []
     get_previous_messages(previous_messages)
-    robin_response = ChatGpt.new(response_sections(params[:message])).generate_response(params[:message], previous_messages)
-    render json: { message: "#{robin_response['response']} \n context_ids:  #{robin_response['context_ids']}" }
+    robin_response = ChatGpt.new(
+      Enterprise::MessageTemplates::ResponseBotService.response_sections(params[:message], @response_source)
+    ).generate_response(
+      params[:message], previous_messages
+    )
+    message_content = robin_response['response']
+    if robin_response['context_ids'].present?
+      message_content += Enterprise::MessageTemplates::ResponseBotService.generate_sources_section(robin_response['context_ids'])
+    end
+    render json: { message: message_content }
   end
 
   private
@@ -60,16 +68,6 @@ class SuperAdmin::ResponseSourcesController < SuperAdmin::EnterpriseBaseControll
       role = message['type'] == 'user' ? 'user' : 'system'
       previous_messages << { content: message['message'], role: role }
     end
-  end
-
-  def response_sections(query)
-    embedding = Openai::EmbeddingsService.new.get_embedding(query)
-
-    sections = ''
-    @response_source.responses.active.nearest_neighbors(:embedding, embedding, distance: 'cosine').first(5).each do |response|
-      sections += "{context_id: #{response.id}, context: #{response.question} ? #{response.answer}},"
-    end
-    sections
   end
 
   def set_response_source
