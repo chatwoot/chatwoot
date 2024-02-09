@@ -20,9 +20,7 @@ class Enterprise::ClearbitLookupService
     return nil unless clearbit_enabled?
 
     response = perform_request(email)
-    return handle_error(response) unless response.success?
-
-    format_response(response)
+    process_response(response)
   rescue StandardError => e
     Rails.logger.error "[ClearbitLookup] #{e.message}"
     nil
@@ -55,6 +53,16 @@ class Enterprise::ClearbitLookupService
   # @return [Boolean] True if Clearbit is enabled, false otherwise.
   def self.clearbit_enabled?
     ENV['CLEARBIT_API_KEY'].present?
+  end
+
+  # Processes the response from the Clearbit API.
+  #
+  # @param response [HTTParty::Response] The response from the Clearbit API.
+  # @return [Hash, nil] A hash containing the person's full name, company name, and company timezone, or nil if an error occurs.
+  def self.process_response(response)
+    return handle_error(response) unless response.success?
+
+    format_response(response)
   end
 
   # Formats the response data from the Clearbit API.
