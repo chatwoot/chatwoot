@@ -25,5 +25,14 @@ FactoryBot.define do
       end
       provider { 'microsoft' }
     end
+
+    trait :imap_email do
+      imap_enabled { true }
+      imap_address { 'imap.gmail.com' }
+      imap_port { 993 }
+      imap_login { 'email@example.com' }
+      imap_password { 'random-password' }
+      imap_enable_ssl { true }
+    end
   end
 end
