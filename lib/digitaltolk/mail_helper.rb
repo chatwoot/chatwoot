@@ -1,13 +1,15 @@
 class Digitaltolk::MailHelper
   INVALID_LOOPIA_EMAIL = '{{email}}@loopia.invalid'
   EMAIL_REGEX = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/
+  NO_REPLY_EMAIL_REGEX = /\b(?:no\-?reply|do\-?not\-?reply|donotreply)\b/i
 
   def self.email_from_body(html_content)
     return if html_content.blank?
 
     match = html_content.to_s.match(EMAIL_REGEX)
     match[0]
-  rescue
+  rescue StandardError => e
+    Rails.logger.error e
     nil
   end
 
@@ -15,7 +17,8 @@ class Digitaltolk::MailHelper
     return false if email.blank?
 
     email == INVALID_LOOPIA_EMAIL
-  rescue
+  rescue StandardError => e
+    Rails.logger.error e
     false
   end
 
@@ -28,7 +31,8 @@ class Digitaltolk::MailHelper
     return true if subject.include?('autoresponder')
 
     subject.include?('autoreply')
-  rescue
+  rescue StandardError => e
+    Rails.logger.error e
     false
   end
 
@@ -43,7 +47,36 @@ class Digitaltolk::MailHelper
     return true if content == 'ty'
 
     ['thank', 'thanks', 'tack'].any? { |str| content.downcase.include?(str) }
-  rescue
+  rescue StandardError => e
+    Rails.logger.error e
+    false
+  end
+
+  def self.no_reply_email?(email)
+    return false if email.blank?
+
+    email =~ NO_REPLY_EMAIL_REGEX
+  rescue StandardError => e
+    Rails.logger.error e
+    false
+  end
+
+  def self.csat_disabled?(message)
+    return false if message.blank?
+
+    convo = message.conversation
+    return false if convo.blank?
+
+    last_message = convo.messages.incoming.last
+    email = message.conversation.contact.email
+
+    return true if self.no_reply_email?(email)
+    return true if self.auto_reply?(last_message)
+    return true if self.thank_you_reply?(last_message)
+
+    false
+  rescue StandardError => e
+    Rails.logger.error e
     false
   end
 end

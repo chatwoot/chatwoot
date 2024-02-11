@@ -206,6 +206,16 @@ class Conversation < ApplicationRecord
     "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{uuid}"
   end
 
+  def draft_message_key
+    format(Redis::Alfred::CONVERSATION_DRAFT_MESSAGE, conversation_id: display_id, account_id: account.id)
+  end
+
+  def clear_draft_message
+    if Redis::Alfred.exists?(draft_message_key)
+      Redis::Alfred.delete(draft_message_key)
+    end
+  end
+
   private
 
   def execute_after_update_commit_callbacks
@@ -220,8 +230,7 @@ class Conversation < ApplicationRecord
     return unless inbox.email?
     return if csat_survey_responses.exists?
     return if inbox.send_csat_on_all_reply?
-    return if Digitaltolk::MailHelper.auto_reply?(messages.incoming.last)
-    return if Digitaltolk::MailHelper.thank_you_reply?(messages.incoming.last)
+    return if Digitaltolk::MailHelper.csat_disabled?(messages.incoming.last)
 
     CsatSurveyWorker.perform_in(5.seconds, self.id)
   end

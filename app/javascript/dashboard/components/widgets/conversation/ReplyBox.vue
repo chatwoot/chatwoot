@@ -661,8 +661,8 @@ export default {
     saveDraft(conversationId, replyType) {
       if (this.message || this.message === '') {
         const key = `draft-${conversationId}-${replyType}`;
-        const draftToSave = trimContent(this.message || '');
-        
+        const draftToSave = removeSignature(trimContent(this.message || ''), this.signatureToApply);
+
         if (this.previousDraftMessage === draftToSave) {
           return;
         }

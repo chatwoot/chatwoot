@@ -20,7 +20,7 @@ class Digitaltolk::FixInvalidConversation
       end
       puts "\n conversion_id_fixed: #{conversation.id}"
     rescue StandardError => e
-      Rails.logger.error "Error while fixing invalid conversation #{conversation.id}"
+      puts "invalid_conversation_error: #{conversation.id}"
       Rails.logger.error e.message
       Rails.logger.error e.backtrace.first
     end
@@ -31,12 +31,13 @@ class Digitaltolk::FixInvalidConversation
   def fix_conversation_contact
     return if @contact.blank?
 
-    conversation.update_column(:contact_id, @contact.id)
+    @conversation.update_column(:contact_id, @contact.id)
     print '.'
   end
 
   def fix_message_email
-    conversation.messages.incoming.where("content_attributes::text LIKE '%#{Digitaltolk::MailHelper::INVALID_LOOPIA_EMAIL}%'").each do |msg|
+    @conversation.messages.incoming.where("content_attributes::text LIKE '%#{Digitaltolk::MailHelper::INVALID_LOOPIA_EMAIL}%'").each do |msg|
+      puts "fixing_message_id: #{msg&.id}"
       next if msg.blank?
       next if msg.content_attributes.blank?
       next if msg.content_attributes.dig(:email, :from).blank?
@@ -50,6 +51,7 @@ class Digitaltolk::FixInvalidConversation
         end
       end
       msg.save
+      puts "fixed_message_id: #{msg&.id}"
     end
   end
 

@@ -59,13 +59,13 @@ class MessageTemplates::HookExecutionService
     # should not sent since the link will be public
     return false if conversation.tweet?
     return false unless inbox.csat_survey_enabled?
+    return false if Digitaltolk::MailHelper.csat_disabled?(message)
 
     true
   end
 
   def should_send_csat_survey?
     return unless csat_enabled_conversation?
-    return if inbox.email? && conversation.messages.incoming.last.auto_reply?
 
     if inbox.csat_template_enabled?
       last_csat_reached = conversation.messages.csat.count >= csat_template.questions_count
