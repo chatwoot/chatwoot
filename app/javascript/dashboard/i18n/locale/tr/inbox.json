@@ -2,7 +2,7 @@
   "INBOX": {
     "LIST": {
       "TITLE": "Gelen Kutusu",
-      "DISPLAY_DROPDOWN": "Display",
+      "DISPLAY_DROPDOWN": "Görüntüle",
       "LOADING": "Fetching notifications",
       "EOF": "Tüm bildirimler yüklendi 🎉",
       "404": "There are no active notifications in this group.",
