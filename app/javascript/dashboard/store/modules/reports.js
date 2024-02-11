@@ -8,6 +8,7 @@ import {
   reconcileHeatmapData,
   clampDataBetweenTimeline,
 } from 'shared/helpers/ReportsDataHelper';
+import liveReports from '../../api/liveReports';
 
 const state = {
   fetchingStatus: false,
@@ -125,9 +126,10 @@ export const actions = {
         commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, false);
       });
   },
-  fetchAccountConversationMetric({ commit }, reportObj) {
+  fetchLiveConversationMetric({ commit }) {
     commit(types.default.TOGGLE_ACCOUNT_CONVERSATION_METRIC_LOADING, true);
-    Report.getConversationMetric(reportObj.type)
+    liveReports
+      .getConversationMetric()
       .then(accountConversationMetric => {
         commit(
           types.default.SET_ACCOUNT_CONVERSATION_METRIC,
@@ -139,9 +141,10 @@ export const actions = {
         commit(types.default.TOGGLE_ACCOUNT_CONVERSATION_METRIC_LOADING, false);
       });
   },
-  fetchAgentConversationMetric({ commit }, reportObj) {
+  fetchAgentConversationMetric({ commit }) {
     commit(types.default.TOGGLE_AGENT_CONVERSATION_METRIC_LOADING, true);
-    Report.getConversationMetric(reportObj.type, reportObj.page)
+    liveReports
+      .getGroupedConversations()
       .then(agentConversationMetric => {
         commit(
           types.default.SET_AGENT_CONVERSATION_METRIC,

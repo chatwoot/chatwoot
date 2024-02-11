@@ -62,7 +62,6 @@
           :agent-metrics="agentConversationMetric"
           :page-index="pageIndex"
           :is-loading="uiFlags.isFetchingAgentConversationMetric"
-          @page-change="onPageNumberChange"
         />
       </metric-card>
     </div>
@@ -132,8 +131,8 @@ export default {
   },
   methods: {
     fetchAllData() {
-      this.fetchAccountConversationMetric();
-      this.fetchAgentConversationMetric();
+      this.$store.dispatch('fetchLiveConversationMetric');
+      this.$store.dispatch('fetchAgentConversationMetric');
       this.fetchHeatmapData();
     },
     downloadHeatmapData() {
@@ -169,21 +168,6 @@ export default {
         groupBy: 'hour',
         businessHours: false,
       });
-    },
-    fetchAccountConversationMetric() {
-      this.$store.dispatch('fetchAccountConversationMetric', {
-        type: 'account',
-      });
-    },
-    fetchAgentConversationMetric() {
-      this.$store.dispatch('fetchAgentConversationMetric', {
-        type: 'agent',
-        page: this.pageIndex,
-      });
-    },
-    onPageNumberChange(pageIndex) {
-      this.pageIndex = pageIndex;
-      this.fetchAgentConversationMetric();
     },
   },
 };
