@@ -6,13 +6,11 @@ class Digitaltolk::FixInvalidConversation
   end
 
   def call
-    puts "\n conversion_id_fixing: #{conversation.id}"
     return if conversation.blank?
-    return if conversation.resolved?
     return if conversation.messages.blank?
-    return if conversation.messages.incoming.count > 1
     return unless first_message.present?
     return unless email_from_body.present?
+    puts "\n conversion_id_fixing: #{conversation.id}"
 
     begin
       ActiveRecord::Base.transaction do
@@ -24,6 +22,7 @@ class Digitaltolk::FixInvalidConversation
     rescue StandardError => e
       Rails.logger.error "Error while fixing invalid conversation #{conversation.id}"
       Rails.logger.error e.message
+      Rails.logger.error e.backtrace.first
     end
   end
 
@@ -41,7 +40,8 @@ class Digitaltolk::FixInvalidConversation
       next if msg.blank?
       next if msg.content_attributes.blank?
       next if msg.content_attributes.dig(:email, :from).blank?
-
+      next if msg.content_attributes.dig(:email, :from) != Digitaltolk::MailHelper::INVALID_LOOPIA_EMAIL
+    
       msg.content_attributes[:email][:from] = [email_from_body]
 
       if msg.content_attributes.dig(:email, :cc).present?
@@ -72,9 +72,10 @@ class Digitaltolk::FixInvalidConversation
   end
 
   def find_or_create_original_contact
-    @contact = Contact.find_by(email: email_from_body)
+    @contact = Contact.where("email LIKE '%#{email_from_body}%'").first
 
     if @contact.present?
+      @contact.update_column(:name, identify_contact_name)
       @contact_inbox = ContactInbox.find_by(inbox: inbox, contact: @contact)
     else
       create_contact
