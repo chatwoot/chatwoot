@@ -204,6 +204,7 @@ group :development do
   gem 'stackprof'
   # Should install the associated chrome extension to view query logs
   gem 'meta_request'
+  gem 'active_record_doctor'
 end
 
 group :test do

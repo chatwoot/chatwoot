@@ -78,6 +78,8 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
+    active_record_doctor (1.14.0)
+      activerecord (>= 4.2.0)
     active_record_query_trace (1.8)
     activejob (7.0.8)
       activesupport (= 7.0.8)
@@ -837,6 +839,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  active_record_doctor
   active_record_query_trace
   activerecord-import
   acts-as-taggable-on
