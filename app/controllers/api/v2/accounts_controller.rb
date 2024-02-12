@@ -17,8 +17,12 @@ class Api::V2::AccountsController < Api::BaseController
     @user, @account = AccountBuilder.new(
       email: account_params[:email],
       user_password: account_params[:password],
+      locale: account_params[:locale],
       user: current_user
     ).perform
+
+    fetch_account_and_user_info
+
     if @user
       send_auth_headers(@user)
       render 'api/v1/accounts/create', format: :json, locals: { resource: @user }
@@ -28,6 +32,8 @@ class Api::V2::AccountsController < Api::BaseController
   end
 
   private
+
+  def fetch_account_and_user_info; end
 
   def fetch_account
     @account = current_user.accounts.find(params[:id])
@@ -46,3 +52,5 @@ class Api::V2::AccountsController < Api::BaseController
     raise ActionController::InvalidAuthenticityToken, 'Invalid Captcha' unless ChatwootCaptcha.new(params[:h_captcha_client_response]).valid?
   end
 end
+
+Api::V2::AccountsController.prepend_mod_with('Api::V2::AccountsController')
