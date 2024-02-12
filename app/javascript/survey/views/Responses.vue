@@ -17,11 +17,9 @@
         <img src="/brand-assets/logo.png" alt="Digitaltolk" class="mx-auto h-12 mb-5 w-auto block dark:hidden"/>
         <img src="/brand-assets/logo_dark.png" alt="Digitaltolk" class="mx-auto h-12 mb-5 w-auto hidden dark:block">
         <p
-          v-if="!isRatingSubmitted"
           class="text-black-700 text-lg leading-relaxed mb-8"
         >
-          <!-- {{ $t('SURVEY.DESCRIPTION', { inboxName }) }} -->
-          Hej! 👋, Vi vore tacksamma för att få dina synpunkter på konversationen du haft me oss.
+          {{ $t('SURVEY.DESCRIPTION', { inboxName }) }}
         </p>
       </div>
 
