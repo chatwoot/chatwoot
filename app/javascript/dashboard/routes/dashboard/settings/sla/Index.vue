@@ -35,40 +35,24 @@
               </td>
               <td>{{ sla.description }}</td>
               <td>
-                <div class="sla-color--container">
-                  <span
-                    class="sla-color--display"
-                    :style="{ backgroundColor: sla.color }"
-                  />
+                <span class="flex items-center">
                   {{ sla.first_response_time_threshold }}
-                </div>
+                </span>
               </td>
               <td>
-                <div class="sla-color--container">
-                  <span
-                    class="sla-color--display"
-                    :style="{ backgroundColor: sla.color }"
-                  />
+                <span class="flex items-center">
                   {{ sla.next_response_time_threshold }}
-                </div>
+                </span>
               </td>
               <td>
-                <div class="sla-color--container">
-                  <span
-                    class="sla-color--display"
-                    :style="{ backgroundColor: sla.color }"
-                  />
+                <span class="flex items-center">
                   {{ sla.resolution_time_threshold }}
-                </div>
+                </span>
               </td>
               <td>
-                <div class="sla-color--container">
-                  <span
-                    class="sla-color--display"
-                    :style="{ backgroundColor: sla.color }"
-                  />
+                <span class="flex items-center">
                   {{ sla.only_during_business_hours }}
-                </div>
+                </span>
               </td>
               <td class="button-wrapper">
                 <woot-button
@@ -179,9 +163,9 @@ export default {
     confirmDeletion() {
       this.loading[this.selectedResponse.id] = true;
       this.closeDeletePopup();
-      this.deletesla(this.selectedResponse.id);
+      this.deleteSla(this.selectedResponse.id);
     },
-    deletesla(id) {
+    deleteSla(id) {
       this.$store
         .dispatch('slas/delete', id)
         .then(() => {
@@ -200,14 +184,6 @@ export default {
 
 <style scoped lang="scss">
 @import '~dashboard/assets/scss/variables';
-
-.sla-color--container {
-  @apply flex items-center;
-}
-
-.sla-color--display {
-  @apply rounded h-4 w-4 mr-1 rtl:mr-0 rtl:ml-1 border border-solid border-slate-50 dark:border-slate-700;
-}
 .sla-title {
   span {
     @apply inline-block;
