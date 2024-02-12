@@ -121,10 +121,12 @@
 # ------- Chatwoot Internal Config for Cloud ----#
 - name: CHATWOOT_INBOX_TOKEN
   value:
+  display_title: 'Inbox Token'
   description: 'The Chatwoot Inbox Token for Contact Support in Cloud'
   locked: false
 - name: CHATWOOT_INBOX_HMAC_KEY
   value:
+  display_title: 'Inbox HMAC Key'
   description: 'The Chatwoot Inbox HMAC Key for Contact Support in Cloud'
   locked: false
 - name: CHATWOOT_CLOUD_PLANS

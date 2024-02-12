@@ -8,7 +8,7 @@ module Enterprise::SuperAdmin::AppConfigsController
     when 'custom_branding'
       @allowed_configs = custom_branding_options
     when 'internal'
-      @allowed_configs = %w[ANALYTICS_TOKEN CLEARBIT_API_KEY]
+      @allowed_configs = internal_config_options
     else
       super
     end
@@ -27,5 +27,9 @@ module Enterprise::SuperAdmin::AppConfigsController
       PRIVACY_URL
       DISPLAY_MANIFEST
     ]
+  end
+
+  def internal_config_options
+    %w[CHATWOOT_INBOX_TOKEN CHATWOOT_INBOX_HMAC_KEY ANALYTICS_TOKEN CLEARBIT_API_KEY]
   end
 end
