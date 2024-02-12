@@ -22,6 +22,7 @@
         >
           <!-- {{ $t('SURVEY.DESCRIPTION', { inboxName }) }} -->
           Hej! 👋, Vi vore tacksamma för att få dina synpunkter på konversationen du haft me oss.
+        </p>
       </div>
 
       <div v-for="survey in surveys" :key="survey.id">
