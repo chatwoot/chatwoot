@@ -39,9 +39,9 @@ class NotificationFinder
     # Return all the notifications
     return if status == 'snoozed' && type == 'read'
 
-    if type == 'read' && status.nil?
+    if type == 'read'
       exclude_snoozed
-    elsif status == 'snoozed' && type.nil?
+    elsif status == 'snoozed'
       include_snoozed
     else
       # Default case: return all the unread notifications
