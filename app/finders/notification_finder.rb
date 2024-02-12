@@ -34,7 +34,7 @@ class NotificationFinder
   end
 
   def apply_filters
-    # REturn all the read, unread and snoozed notifications when the status is snoozed and type is read
+    # Return all the read, unread and snoozed notifications when the status is snoozed and type is read
     return if params[:status] == 'snoozed' && params[:type] == 'read'
 
     # Exclude snoozed notifications when the status is not snoozed and type is read
