@@ -90,12 +90,12 @@ describe NotificationFinder do
 
       it 'returns snoozed and unread notifications' do
         result = notification_finder.perform
-        expect(result.length).to be 6
+        expect(result.length).to be 4
       end
 
       it 'returns count' do
         result = notification_finder.count
-        expect(result).to be 6
+        expect(result).to be 4
       end
 
       it 'returns unread count' do

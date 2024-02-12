@@ -39,16 +39,22 @@ class NotificationFinder
     # Return all the notifications
     return if status == 'snoozed' && type == 'read'
 
-    if type == 'read' || status == 'snoozed'
-      exclude_both_snoozed_and_read
+    if type == 'read'
+      exclude_snoozed
+    elsif status == 'snoozed'
+      exclude_read
     else
       # Default case: return all the unread notifications
       include_unread
     end
   end
 
-  def exclude_both_snoozed_and_read
+  def exclude_snoozed
     @notifications = @notifications.where.not('snoozed_until IS NOT NULL AND read_at IS NOT NULL')
+  end
+
+  def exclude_read
+    @notifications = @notifications.where('snoozed_until IS NOT NULL OR read_at IS NULL')
   end
 
   def include_unread
