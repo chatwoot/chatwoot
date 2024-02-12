@@ -48,6 +48,8 @@ const updateCampaignReadStatus = baseDomain => {
 };
 
 const sanitizeURL = url => {
+  if (url === '') return '';
+
   try {
     // any invalid url will not be accepted
     // example - JaVaScRiP%0at:alert(document.domain)"
@@ -159,7 +161,7 @@ export const IFrameHelper = {
   },
 
   setupAudioListeners: () => {
-    const { baseUrl = '' } = window.$chatwoot;
+    let { baseUrl = '' } = window.$chatwoot;
     baseUrl = sanitizeURL(baseUrl);
 
     getAlertAudio(baseUrl, { type: 'widget', alertTone: 'ding' }).then(() =>
