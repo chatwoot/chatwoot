@@ -5,28 +5,7 @@ RSpec.describe Enterprise::ClearbitLookupService do
     let(:email) { 'test@example.com' }
     let(:api_key) { 'clearbit_api_key' }
     let(:clearbit_endpoint) { described_class::CLEARBIT_ENDPOINT }
-    let(:response_body) do
-      {
-        'person' => {
-          'name' => {
-            'fullName' => 'John Doe'
-          },
-          'avatar' => 'https://example.com/avatar.png'
-        },
-        'company' => {
-          'name' => 'Doe Inc.',
-          'timeZone' => 'Asia/Kolkata',
-          'category' => {
-            'sector' => 'Technology',
-            'industryGroup' => 'Software',
-            'industry' => 'Software'
-          },
-          'metrics' => {
-            'employees': '1-10'
-          }
-        }
-      }.to_json
-    end
+    let(:response_body) { build(:clearbit_combined_response) }
 
     context 'when Clearbit is enabled' do
       before do

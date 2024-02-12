@@ -1,7 +1,10 @@
 # The Enterprise::ClearbitLookupService class is responsible for interacting with the Clearbit API.
 # It provides methods to lookup a person's information using their email.
 # Clearbit API documentation: {https://dashboard.clearbit.com/docs?ruby#api-reference}
+# We use the combined API which returns both the person and comapnies together
+# Combined API: {https://dashboard.clearbit.com/docs?ruby=#enrichment-api-combined-api}
 # Persons API: {https://dashboard.clearbit.com/docs?ruby=#enrichment-api-person-api}
+# Companies API: {https://dashboard.clearbit.com/docs?ruby=#enrichment-api-company-api}
 #
 # Note: The Clearbit gem is not used in this service, since it is not longer maintained
 # GitHub: {https://github.com/clearbit/clearbit-ruby}
