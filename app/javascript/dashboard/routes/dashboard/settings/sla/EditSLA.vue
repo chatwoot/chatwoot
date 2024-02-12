@@ -5,7 +5,7 @@
       <woot-input
         v-model.trim="name"
         :class="{ error: $v.name.$error }"
-        class="w-full sla-name--input"
+        class="w-full"
         :sla="$t('SLA.FORM.NAME.LABEL')"
         :placeholder="$t('SLA.FORM.NAME.PLACEHOLDER')"
         :error="getSlaNameErrorMessage"
@@ -45,11 +45,11 @@
 
       <div class="w-full">
         <input
+          id="sla_bh_edit"
           v-model="onlyDuringBusinessHours"
           type="checkbox"
-          :value="false"
         />
-        <label for="sla_edit">
+        <label for="sla_bh_edit">
           {{ $t('SLA.FORM.BUSINESS_HOURS.PLACEHOLDER') }}
         </label>
       </div>
@@ -110,16 +110,21 @@ export default {
       this.$emit('close');
     },
     setFormValues() {
-      this.name = this.selectedResponse.name;
-      this.description = this.selectedResponse.description;
-      this.firstResponseTimeThreshold =
-        this.selectedResponse.first_response_time_threshold;
-      this.nextResponseTimeThreshold =
-        this.selectedResponse.next_response_time_threshold;
-      this.resolutionTimeThreshold =
-        this.selectedResponse.resolution_time_threshold;
-      this.onlyDuringBusinessHours =
-        this.selectedResponse.only_during_business_hours;
+      const {
+        name,
+        description,
+        first_response_time_threshold: firstResponseTimeThreshold,
+        next_response_time_threshold: nextResponseTimeThreshold,
+        resolution_time_threshold: resolutionTimeThreshold,
+        only_during_business_hours: onlyDuringBusinessHours,
+      } = this.selectedResponse;
+
+      this.name = name;
+      this.description = description;
+      this.firstResponseTimeThreshold = firstResponseTimeThreshold;
+      this.nextResponseTimeThreshold = nextResponseTimeThreshold;
+      this.resolutionTimeThreshold = resolutionTimeThreshold;
+      this.onlyDuringBusinessHours = onlyDuringBusinessHours;
     },
     editSLA() {
       this.$store
