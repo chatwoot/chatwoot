@@ -41,15 +41,15 @@
           "IN_VALID": "Geçersiz anahtar"
         },
         "REGEX_PATTERN": {
-          "LABEL": "Regex Pattern",
-          "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+          "LABEL": "Düzenli İfade",
+          "PLACEHOLDER": "Lütfen özel nitelikli düzenli deseni giriniz. (İsteğe bağlı)"
         },
         "REGEX_CUE": {
-          "LABEL": "Regex Cue",
-          "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+          "LABEL": "Düzenli ifade ipucu",
+          "PLACEHOLDER": "Lütfen düzenli ifade ipucunu girin (İsteğe bağlı)"
         },
         "ENABLE_REGEX": {
-          "LABEL": "Enable regex validation"
+          "LABEL": "Düzenli ifade doğrulamasını aç"
         }
       },
       "API": {
@@ -106,15 +106,15 @@
         "NOT_FOUND": "Yapılandırılmış özel nitelikler yok"
       },
       "REGEX_PATTERN": {
-        "LABEL": "Regex Pattern",
-        "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+        "LABEL": "Düzenli İfade",
+        "PLACEHOLDER": "Lütfen özel nitelikli düzenli deseni giriniz. (İsteğe bağlı)"
       },
       "REGEX_CUE": {
-        "LABEL": "Regex Cue",
-        "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+        "LABEL": "Düzenli ifade ipucu",
+        "PLACEHOLDER": "Lütfen düzenli ifade ipucunu girin (İsteğe bağlı)"
       },
       "ENABLE_REGEX": {
-        "LABEL": "Enable regex validation"
+        "LABEL": "Düzenli ifade doğrulamasını aç"
       }
     }
   }
