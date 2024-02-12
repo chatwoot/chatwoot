@@ -294,10 +294,10 @@ Rails.application.routes.draw do
     namespace :v2 do
       resources :accounts, only: [:create] do
         scope module: :accounts do
-          resources :live_reports, only: [] do
+          resources :summary_reports, only: [] do
             collection do
-              get :conversation_metrics
-              get :grouped_conversation_metrics
+              get :agent
+              get :team
             end
           end
           resources :reports, only: [:index] do

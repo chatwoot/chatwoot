@@ -1,6 +1,4 @@
-class V2::Reports::TeamSummaryBuilder
-  include DateRangeHelper
-
+class V2::Reports::TeamSummaryBuilder < V2::Reports::BaseSummaryBuilder
   pattr_initialize [:account!, :params!]
 
   def build
@@ -29,12 +27,12 @@ class V2::Reports::TeamSummaryBuilder
     @grouped_avg_reply_time = get_grouped_average(reporting_events.where(name: 'reply_time'))
   end
 
-  def get_grouped_average(events)
-    events.group('conversations.team_id').average(average_value_key)
-  end
-
   def reporting_events
     @reporting_events ||= Current.account.reporting_events.where(created_at: range).joins(:conversation)
+  end
+
+  def group_by_key
+    'conversations.team_id'
   end
 
   def prepare_report
@@ -47,9 +45,5 @@ class V2::Reports::TeamSummaryBuilder
         avg_reply_time: @grouped_avg_reply_time[team.id]
       }
     end
-  end
-
-  def average_value_key
-    ActiveModel::Type::Boolean.new.cast(params[:business_hours]).present? ? :value_in_business_hours : :value
   end
 end

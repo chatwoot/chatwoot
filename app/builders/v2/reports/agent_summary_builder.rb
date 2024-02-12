@@ -1,6 +1,4 @@
-class V2::Reports::AgentSummaryBuilder
-  include DateRangeHelper
-
+class V2::Reports::AgentSummaryBuilder < V2::Reports::BaseSummaryBuilder
   pattr_initialize [:account!, :params!]
 
   def build
@@ -29,8 +27,8 @@ class V2::Reports::AgentSummaryBuilder
     @grouped_avg_reply_time = get_grouped_average(reporting_events.where(name: 'reply_time'))
   end
 
-  def get_grouped_average(events)
-    events.group('user_id').average(average_value_key)
+  def group_by_key
+    :user_id
   end
 
   def reporting_events
