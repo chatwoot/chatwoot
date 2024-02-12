@@ -8,8 +8,6 @@ export default {
         errorMessage = this.$t('SLA.FORM.NAME.REQUIRED_ERROR');
       } else if (!this.$v.name.minLength) {
         errorMessage = this.$t('SLA.FORM.NAME.MINIMUM_LENGTH_ERROR');
-      } else if (!this.$v.name.validLabelCharacters) {
-        errorMessage = this.$t('SLA.FORM.NAME.VALID_ERROR');
       }
       return errorMessage;
     },
