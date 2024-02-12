@@ -3,58 +3,58 @@
     "LIST": {
       "TITLE": "Gelen Kutusu",
       "DISPLAY_DROPDOWN": "Görüntüle",
-      "LOADING": "Fetching notifications",
+      "LOADING": "Bildirimler yükleniyor",
       "EOF": "Tüm bildirimler yüklendi 🎉",
-      "404": "There are no active notifications in this group.",
-      "NO_NOTIFICATIONS": "No notifications",
-      "NOTE": "Notifications from all subscribed inboxes",
+      "404": "Bu grupta aktif görüşme yok.",
+      "NO_NOTIFICATIONS": "Bildirim yok",
+      "NOTE": "Abone olunan tüm gelen kutularından bildirimler",
       "SNOOZED_UNTIL": "Susturulacak kadar ertelendi",
       "SNOOZED_UNTIL_TOMORROW": "yarına ertelendi",
       "SNOOZED_UNTIL_NEXT_WEEK": "Önümüzdeki haftaya ertelendi"
     },
     "ACTION_HEADER": {
-      "SNOOZE": "Snooze notification",
-      "DELETE": "Delete notification"
+      "SNOOZE": "Sessiz bildirim",
+      "DELETE": "Bildirimi Sil"
     },
     "TYPES": {
-      "CONVERSATION_MENTION": "You have been mentioned in a conversation",
-      "CONVERSATION_CREATION": "New conversation created",
-      "CONVERSATION_ASSIGNMENT": "A conversation has been assigned to you",
-      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "New message in an assigned conversation",
-      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "New message in a conversation you are participating in"
+      "CONVERSATION_MENTION": "Bir konuşmada senden bahsedildi",
+      "CONVERSATION_CREATION": "Yeni bir görüşme oluşturuldu",
+      "CONVERSATION_ASSIGNMENT": "Size bir görüşme atandı",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Atandığınız görüşmeden bir yeni mesaj",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Katıldığınız sohbetteki yeni mesaj"
     },
     "MENU_ITEM": {
-      "MARK_AS_READ": "Mark as read",
+      "MARK_AS_READ": "Okundu olarak işaretle",
       "MARK_AS_UNREAD": "Okunmamış olarak işaretle",
       "SNOOZE": "Sustur",
       "DELETE": "Sil",
       "MARK_ALL_READ": "Tümünü okundu olarak işaretle",
-      "DELETE_ALL": "Delete all",
-      "DELETE_ALL_READ": "Delete all read"
+      "DELETE_ALL": "Tümünü sil",
+      "DELETE_ALL_READ": "Tüm okunmuşları sil"
     },
     "DISPLAY_MENU": {
-      "SORT": "Sort",
-      "DISPLAY": "Display :",
+      "SORT": "Filtre",
+      "DISPLAY": "Görüntüle :",
       "SORT_OPTIONS": {
-        "NEWEST": "Newest",
-        "OLDEST": "Oldest",
+        "NEWEST": "En Yeni",
+        "OLDEST": "En Eski",
         "PRIORITY": "Öncelik"
       },
       "DISPLAY_OPTIONS": {
         "SNOOZED": "Susturuldu",
         "READ": "Oku",
         "LABELS": "Etiketler",
-        "CONVERSATION_ID": "Conversation ID"
+        "CONVERSATION_ID": "Sohbet ID"
       }
     },
     "ALERTS": {
-      "MARK_AS_READ": "Notification marked as read",
-      "MARK_AS_UNREAD": "Notification marked as unread",
-      "SNOOZE": "Notification snoozed",
-      "DELETE": "Notification deleted",
-      "MARK_ALL_READ": "All notifications marked as read",
-      "DELETE_ALL": "All notifications deleted",
-      "DELETE_ALL_READ": "All read notifications deleted"
+      "MARK_AS_READ": "Bildirim okundu olarak işaretlendi",
+      "MARK_AS_UNREAD": "Bildirim okunmamış olarak işaretlendi",
+      "SNOOZE": "Bildirim Sessize Alındı",
+      "DELETE": "Bildirim Silindi",
+      "MARK_ALL_READ": "Tüm Bildirimler Okundu Olarak İşaretlendi",
+      "DELETE_ALL": "Tüm Bildirimler Silindi",
+      "DELETE_ALL_READ": "Tüm Okunmuş Bildirimler Silindi"
     }
   }
 }
