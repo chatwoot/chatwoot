@@ -37,8 +37,6 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
                          %w[FB_APP_ID FB_VERIFY_TOKEN FB_APP_SECRET IG_VERIFY_TOKEN ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT]
                        when 'email'
                          ['MAILER_INBOUND_EMAIL_DOMAIN']
-                       when 'clearbit'
-                         ['CLEARBIT_API_KEY']
                        else
                          %w[ENABLE_ACCOUNT_SIGNUP]
                        end

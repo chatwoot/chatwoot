@@ -13,13 +13,6 @@ agent_capacity:
   enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
   icon: 'icon-hourglass-line'
   enterprise: true
-clearbit_integration:
-  name: 'Clearbit Integration'
-  description: 'Enrich your customer data with Clearbit.'
-  enabled: true
-  enterprise: true
-  config_key: 'clearbit'
-  icon: 'icon-user-follow-line'
 audit_logs:
   name: 'Audit Logs'
   description: 'Track and trace account activities with ease with detailed audit logs.'

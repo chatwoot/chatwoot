@@ -136,6 +136,10 @@
 - name: ANALYTICS_TOKEN
   value:
   description: 'The June.so analytics token for Chatwoot cloud'
+- name: CLEARBIT_API_KEY
+  value:
+  display_title: 'Clearbit API Key'
+  description: 'This API key is used for onboarding the users, to pre-fill account data.'
 # ------- End of Chatwoot Internal Config for Cloud ----#
 
 # ------- Chatwoot Internal Config for Self Hosted ----#
@@ -172,10 +176,3 @@
   locked: false
   description: 'Disable rendering profile update page for users'
 ## ------ End of Configs added for enterprise clients ------ ##
-
-## ------ Clearbit API, used for Onboarding  ------ ##
-- name: CLEARBIT_API_KEY
-  value:
-  display_title: 'Clearbit API Key'
-  description: 'This API key is used for onboarding the users, to pre-fill account data.'
-## ------ End of Clearbit API, used for Onboarding  ------ ##
