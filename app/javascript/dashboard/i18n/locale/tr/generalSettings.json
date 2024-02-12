@@ -113,7 +113,7 @@
       "SETTINGS": "Ayarlar",
       "AI_ASSIST": "AI Yardımı",
       "APPEARANCE": "Görünüm",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "SNOOZE_NOTIFICATION": "Sessiz bildirim"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Konuşma Paneline Git",
@@ -155,7 +155,7 @@
       "LIGHT_MODE": "Açık Mod",
       "DARK_MODE": "Koyu Mod",
       "SYSTEM_MODE": "Sistem Modu",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "SNOOZE_NOTIFICATION": "Sessiz bildirim"
     }
   },
   "DASHBOARD_APPS": {
