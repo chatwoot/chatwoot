@@ -37,7 +37,7 @@ module MailboxHelper
   end
 
   def process_regular_attachments(attachments)
-    Rails.logger.info "[MailboxHelper] Processing regular attachments for message with ID: #{@message.id}"
+    Rails.logger.info "[MailboxHelper] Processing regular attachments for message with ID: #{processed_mail.message_id}"
     attachments.each do |mail_attachment|
       attachment = @message.attachments.new(
         account_id: @conversation.account_id,
@@ -48,7 +48,7 @@ module MailboxHelper
   end
 
   def process_inline_attachments(attachments)
-    Rails.logger.info "[MailboxHelper] Processing inline attachments for message with ID: #{@message.id}"
+    Rails.logger.info "[MailboxHelper] Processing inline attachments for message with ID: #{processed_mail.message_id}"
 
     # create an instance variable here, the `embed_inline_image_source`
     # updates them directly. And then the value is eventaully used to update the message content
