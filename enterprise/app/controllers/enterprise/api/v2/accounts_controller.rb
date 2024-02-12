@@ -19,21 +19,17 @@ module Enterprise::Api::V2::AccountsController
 
   def update_user_info(data)
     @user.update(name: data[:name])
-    @user.save
   end
 
   def update_account_info(data)
     @account.update(
-      name: data[:company_name]
+      name: data[:company_name],
+      custom_attributes: @account.custom_attributes.merge(
+        'industry' => data[:industry],
+        'company_size' => data[:company_size],
+        'timezone' => data[:timezone],
+        'logo' => data[:logo]
+      )
     )
-
-    @account.custom_attributes.merge!(
-      'industry' => data[:industry],
-      'company_size' => data[:company_size],
-      'timezone' => data[:timezone],
-      'logo' => data[:logo]
-    )
-
-    @account.save
   end
 end
