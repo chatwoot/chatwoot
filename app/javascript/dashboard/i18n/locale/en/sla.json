@@ -21,19 +21,19 @@
       },
       "DESCRIPTION": {
         "LABEL": "Description",
-        "PLACEHOLDER": "SLA Description"
+        "PLACEHOLDER": "SLA for premium customers"
       },
       "FIRST_RESPONSE_TIME": {
-        "LABEL": "First Response Time",
-        "PLACEHOLDER": "First Response Time"
+        "LABEL": "First Response Time(Seconds)",
+        "PLACEHOLDER": "300 for 5 minutes"
       },
       "NEXT_RESPONSE_TIME": {
-        "LABEL": "Next Response Time",
-        "PLACEHOLDER": "Next Response Time"
+        "LABEL": "Next Response Time(Seconds)",
+        "PLACEHOLDER": "600 for 10 minutes"
       },
       "RESOLUTION_TIME": {
-        "LABEL": "Resolution Time",
-        "PLACEHOLDER": "Resolution Time"
+        "LABEL": "Resolution Time(Seconds)",
+        "PLACEHOLDER": "86400 for 1 day"
       },
       "BUSINESS_HOURS": {
         "LABEL": "Business Hours",
