@@ -34,14 +34,24 @@ class NotificationFinder
   end
 
   def apply_filters
-    # Return immediately if the status is 'snoozed' and type is 'read'
-    return if params[:status] == 'snoozed' && params[:type] == 'read'
+    status = params[:status]
+    type = params[:type]
 
-    # Exclude snoozed notifications when the type is 'read' and status is not 'snoozed'
-    # Exclude read notifications when the status is 'snoozed' and type is not 'read'
-    # For other cases, exclude both snoozed and read notifications
-    exclude_snoozed if params[:type] == 'read' || params.empty?
-    exclude_read if params[:status] == 'snoozed' || params.empty?
+    # Return all the notifications
+    return if status == 'snoozed' && type == 'read'
+
+    if type == 'read'
+      # Exclude snoozed notifications when type is 'read' and status is not 'snoozed'
+      exclude_snoozed
+    elsif status == 'snoozed'
+      # Exclude read notifications when status is 'snoozed' and type is not 'read'
+      exclude_read
+    else
+      # Default case: Exclude both snoozed and read notifications
+      # This handles the case where neither 'type' nor 'status' are provided in params
+      exclude_snoozed
+      exclude_read
+    end
   end
 
   def include_unread
