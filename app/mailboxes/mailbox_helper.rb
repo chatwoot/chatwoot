@@ -103,8 +103,8 @@ module MailboxHelper
       }
     ).perform
 
-    Rails.logger.info "[MailboxHelper] Contact created with ID: #{@contact.id} for inbox with ID: #{@inbox.id}"
     @contact = @contact_inbox.contact
+    Rails.logger.info "[MailboxHelper] Contact created with ID: #{@contact.id} for inbox with ID: #{@inbox.id}"
   end
 
   def notification_email_from_chatwoot?
