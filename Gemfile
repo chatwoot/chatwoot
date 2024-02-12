@@ -203,8 +203,8 @@ group :development do
   gem 'rack-mini-profiler', '>= 3.2.0', require: false
   gem 'stackprof'
   # Should install the associated chrome extension to view query logs
-  gem 'meta_request'
   gem 'active_record_doctor'
+  gem 'meta_request'
 end
 
 group :test do
