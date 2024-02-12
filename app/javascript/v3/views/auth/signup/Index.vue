@@ -66,11 +66,6 @@
           </div>
         </div>
       </div>
-      <testimonials
-        v-if="isAChatwootInstance"
-        class="flex-1"
-        @resize-containers="resizeContainers"
-      />
     </div>
     <div
       v-show="isLoading"
@@ -85,14 +80,12 @@
 import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import SignupForm from './components/Signup/Form.vue';
-import Testimonials from './components/Testimonials/Index.vue';
 import Spinner from 'shared/components/Spinner.vue';
 
 export default {
   components: {
     SignupForm,
     Spinner,
-    Testimonials,
   },
   mixins: [globalConfigMixin],
   data() {
@@ -115,19 +108,6 @@ export default {
 };
 </script>
 <style>
-.overlay-gradient {
-  background: linear-gradient(90deg, rgba(252, 252, 253, 0) 81.8%, #fcfcfd 100%),
-    linear-gradient(270deg, rgba(252, 252, 253, 0) 76.93%, #fcfcfd 100%),
-    linear-gradient(0deg, rgba(252, 252, 253, 0) 68.63%, #fcfcfd 100%),
-    linear-gradient(180deg, rgba(252, 252, 253, 0) 73.2%, #fcfcfd 100%);
-}
-.dark .overlay-gradient {
-  background: linear-gradient(270deg, rgba(24, 24, 26, 0) 76.93%, #151718 100%),
-    linear-gradient(90deg, rgba(24, 24, 26, 0) 81.8%, #151718 100%),
-    linear-gradient(0deg, rgba(24, 24, 26, 0) 68.63%, #151718 100%),
-    linear-gradient(180deg, rgba(24, 24, 26, 0) 73.2%, #151718 100%);
-}
-
 .signup-box::before {
   width: 100%;
   height: 200px;

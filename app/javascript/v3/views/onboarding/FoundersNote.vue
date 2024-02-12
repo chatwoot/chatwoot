@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full w-full dark:bg-slate-900 relative">
+  <div class="h-full w-full dark:bg-slate-900 relative overflow-hidden">
     <div
       class="absolute inset-0 h-full w-full bg-white dark:bg-slate-900 bg-[radial-gradient(var(--w-100)_1px,transparent_1px)] [background-size:16px_16px] z-0"
     />
@@ -13,7 +13,9 @@
         <div
           class="p-10 max-w-[560px] w-full overflow-auto bg-white dark:bg-slate-900 border border-solid border-slate-100 dark:border-slate-800 rounded-2xl"
         >
-          <section class="mt-4 space-y-6 text-sm leading-relaxed">
+          <section
+            class="mt-4 space-y-6 text-sm leading-relaxed text-slate-900 dark:text-white"
+          >
             <div
               class="rounded-full h-16 w-16 border border-solid border-woot-500 p-4"
             >
@@ -45,7 +47,9 @@
               feedback. Talk soon!
             </p>
           </section>
-          <figure class="mt-5 text-sm leading-relaxed">
+          <figure
+            class="mt-5 text-sm leading-relaxed text-slate-900 dark:text-white"
+          >
             <woot-thumbnail
               src="https://www.chatwoot.com/images/team/pranav.jpg"
               username="Pranav"
@@ -94,3 +98,17 @@ export default {
   },
 };
 </script>
+<style>
+.overlay-gradient {
+  background: linear-gradient(90deg, rgba(252, 252, 253, 0) 81.8%, #fcfcfd 100%),
+    linear-gradient(270deg, rgba(252, 252, 253, 0) 76.93%, #fcfcfd 100%),
+    linear-gradient(0deg, rgba(252, 252, 253, 0) 68.63%, #fcfcfd 100%),
+    linear-gradient(180deg, rgba(252, 252, 253, 0) 73.2%, #fcfcfd 100%);
+}
+.dark .overlay-gradient {
+  background: linear-gradient(270deg, rgba(24, 24, 26, 0) 76.93%, #151718 100%),
+    linear-gradient(90deg, rgba(24, 24, 26, 0) 81.8%, #151718 100%),
+    linear-gradient(0deg, rgba(24, 24, 26, 0) 68.63%, #151718 100%),
+    linear-gradient(180deg, rgba(24, 24, 26, 0) 73.2%, #151718 100%);
+}
+</style>

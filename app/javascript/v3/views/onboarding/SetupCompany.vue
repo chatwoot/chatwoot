@@ -56,7 +56,7 @@
             :value="zone.value"
             :selected="timezone === zone.value"
           >
-            {{ zone.value }}
+            {{ zone.label }}
           </option>
         </form-select>
         <form-radio-tags

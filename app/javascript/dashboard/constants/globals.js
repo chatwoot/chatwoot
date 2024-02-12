@@ -61,4 +61,3 @@ export default {
   },
 };
 export const DEFAULT_REDIRECT_URL = '/app/';
-export const ONBOARDING_START_URL = '/app/start/setup-profile';

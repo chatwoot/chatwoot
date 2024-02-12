@@ -69,6 +69,9 @@ import GoogleOAuthButton from '../../../../../components/GoogleOauth/Button.vue'
 import { register } from '../../../../../api/auth';
 var CompanyEmailValidator = require('company-email-validator');
 
+export const generateOnboardingUrl = accountId =>
+  `/app/accounts/${accountId}/start/setup-profile`;
+
 export default {
   components: {
     FormInput,
@@ -151,10 +154,7 @@ export default {
           data: { account_id: accountId },
         } = await register(this.credentials);
 
-        this.$router.push({
-          name: 'onboarding_setup_profile',
-          params: { accountId },
-        });
+        window.location = generateOnboardingUrl(accountId);
       } catch (error) {
         let errorMessage =
           error?.message || this.$t('REGISTER.API.ERROR_MESSAGE');
