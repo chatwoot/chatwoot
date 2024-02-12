@@ -12,7 +12,8 @@ const RouteLayout = () => import('v3/views/onboarding/RouteLayout.vue');
 const SetupProfile = () => import('v3/views/onboarding/SetupProfile.vue');
 const SetupCompany = () => import('v3/views/onboarding/SetupCompany.vue');
 const InviteTeam = () => import('v3/views/onboarding/InviteTeam.vue');
-// const FoundersNote = () => import('v3/views/onboarding/FoundersNote.vue');
+const FoundersNote = () => import('v3/views/onboarding/FoundersNote.vue');
+
 export default {
   routes: [
     ...helpcenterRoutes.routes,
@@ -54,11 +55,10 @@ export default {
         },
       ],
     },
-
-    // {
-    //   path: frontendURL('accounts/:accountId/start/founders-note'),
-    //   name: 'onboarding_founders_note',
-    //   component: FoundersNote,
-    // },
+    {
+      path: frontendURL('accounts/:accountId/start/founders-note'),
+      name: 'onboarding_founders_note',
+      component: FoundersNote,
+    },
   ],
 };

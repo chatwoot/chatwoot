@@ -11,7 +11,7 @@
         class="flex-1 min-h-[640px] inline-flex items-center h-full justify-center overflow-auto py-6"
       >
         <div
-          class="p-10 max-w-[560px] w-full overflow-auto bg-white dark:bg-slate-900 border border-solid border-slate-100 dark:border-slate-800 rounded-xl"
+          class="p-10 max-w-[560px] w-full overflow-auto bg-white dark:bg-slate-900 border border-solid border-slate-100 dark:border-slate-800 rounded-2xl"
         >
           <section class="mt-4 space-y-6 text-sm leading-relaxed">
             <div
@@ -28,7 +28,7 @@
                 a note from the founder
               </p>
               <h3 class="text-slate-900 dark:text-white text-3xl font-semibold">
-                Hey {{ user.name }},
+                Hey {{ userName }},
               </h3>
             </div>
             <p>
@@ -56,6 +56,7 @@
           <submit-button
             button-class="flex justify-center w-full text-sm text-center mt-8"
             :button-text="$t('ONBOARDING.FOUNDERS_NOTE.SUBMIT')"
+            @click="onSubmit"
           />
         </div>
       </div>
@@ -65,6 +66,7 @@
 
 <script>
 import SubmitButton from 'dashboard/components/buttons/FormSubmitButton.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -73,9 +75,22 @@ export default {
   data() {
     return {
       user: {
-        name: 'Alex Morgan',
+        name: '',
       },
     };
+  },
+  computed: {
+    ...mapGetters({
+      currentUser: 'getCurrentUser',
+    }),
+    userName() {
+      return this.currentUser.name;
+    },
+  },
+  methods: {
+    onSubmit() {
+      this.$router.push({ name: 'home' });
+    },
   },
 };
 </script>
