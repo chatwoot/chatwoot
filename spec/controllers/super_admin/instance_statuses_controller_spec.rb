@@ -17,8 +17,7 @@ RSpec.describe 'Super Admin Instance status', type: :request do
         get '/super_admin/instance_status'
         expect(response).to have_http_status(:success)
         expect(response.body).to include('Chatwoot version')
-        sha = `git rev-parse HEAD`
-        expect(response.body).to include(sha)
+        expect(response.body).to include(GIT_HASH)
       end
     end
   end
