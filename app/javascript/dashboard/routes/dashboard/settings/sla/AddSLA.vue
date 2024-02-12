@@ -8,7 +8,7 @@
       <woot-input
         v-model.trim="name"
         :class="{ error: $v.name.$error }"
-        class="w-full sla-name--input"
+        class="w-full"
         :label="$t('SLA.FORM.NAME.LABEL')"
         :placeholder="$t('SLA.FORM.NAME.PLACEHOLDER')"
         :error="getSlaNameErrorMessage"
@@ -50,11 +50,11 @@
 
       <div class="w-full">
         <input
+          id="sla_bh_creation"
           v-model="onlyDuringBusinessHours"
           type="checkbox"
-          :value="false"
         />
-        <label for="sla_creation">
+        <label for="sla_bh_creation">
           {{ $t('SLA.FORM.BUSINESS_HOURS.PLACEHOLDER') }}
         </label>
       </div>

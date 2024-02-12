@@ -35,40 +35,24 @@
               </td>
               <td>{{ sla.description }}</td>
               <td>
-                <div class="sla-color--container">
-                  <span
-                    class="sla-color--display"
-                    :style="{ backgroundColor: sla.color }"
-                  />
+                <span class="flex items-center">
                   {{ sla.first_response_time_threshold }}
-                </div>
+                </span>
               </td>
               <td>
-                <div class="sla-color--container">
-                  <span
-                    class="sla-color--display"
-                    :style="{ backgroundColor: sla.color }"
-                  />
+                <span class="flex items-center">
                   {{ sla.next_response_time_threshold }}
-                </div>
+                </span>
               </td>
               <td>
-                <div class="sla-color--container">
-                  <span
-                    class="sla-color--display"
-                    :style="{ backgroundColor: sla.color }"
-                  />
+                <span class="flex items-center">
                   {{ sla.resolution_time_threshold }}
-                </div>
+                </span>
               </td>
               <td>
-                <div class="sla-color--container">
-                  <span
-                    class="sla-color--display"
-                    :style="{ backgroundColor: sla.color }"
-                  />
+                <span class="flex items-center">
                   {{ sla.only_during_business_hours }}
-                </div>
+                </span>
               </td>
               <td class="button-wrapper">
                 <woot-button
@@ -98,17 +82,6 @@
     <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
       <edit-SLA :selected-response="selectedResponse" @close="hideEditPopup" />
     </woot-modal>
-
-    <woot-delete-modal
-      :show.sync="showDeleteConfirmationPopup"
-      :on-close="closeDeletePopup"
-      :on-confirm="confirmDeletion"
-      :title="$t('SLA.DELETE.CONFIRM.TITLE')"
-      :message="$t('SLA.DELETE.CONFIRM.MESSAGE')"
-      :message-value="deleteMessage"
-      :confirm-text="deleteConfirmText"
-      :reject-text="deleteRejectText"
-    />
   </div>
 </template>
 <script>
@@ -129,7 +102,6 @@ export default {
       loading: {},
       showAddPopup: false,
       showEditPopup: false,
-      showDeleteConfirmationPopup: false,
       selectedResponse: {},
     };
   },
@@ -138,16 +110,6 @@ export default {
       records: 'sla/getSLA',
       uiFlags: 'sla/getUIFlags',
     }),
-    // Delete Modal
-    deleteConfirmText() {
-      return this.$t('SLA.DELETE.CONFIRM.YES');
-    },
-    deleteRejectText() {
-      return this.$t('SLA.DELETE.CONFIRM.NO');
-    },
-    deleteMessage() {
-      return ` ${this.selectedResponse.title}?`;
-    },
   },
   mounted() {
     this.$store.dispatch('sla/get');
@@ -159,7 +121,6 @@ export default {
     hideAddPopup() {
       this.showAddPopup = false;
     },
-
     openEditPopup(response) {
       this.showEditPopup = true;
       this.selectedResponse = response;
@@ -167,47 +128,12 @@ export default {
     hideEditPopup() {
       this.showEditPopup = false;
     },
-
-    openDeletePopup(response) {
-      this.showDeleteConfirmationPopup = true;
-      this.selectedResponse = response;
-    },
-    closeDeletePopup() {
-      this.showDeleteConfirmationPopup = false;
-    },
-
-    confirmDeletion() {
-      this.loading[this.selectedResponse.id] = true;
-      this.closeDeletePopup();
-      this.deletesla(this.selectedResponse.id);
-    },
-    deletesla(id) {
-      this.$store
-        .dispatch('slas/delete', id)
-        .then(() => {
-          this.showAlert(this.$t('SLA.DELETE.API.SUCCESS_MESSAGE'));
-        })
-        .catch(() => {
-          this.showAlert(this.$t('SLA.DELETE.API.ERROR_MESSAGE'));
-        })
-        .finally(() => {
-          this.loading[this.selectedResponse.id] = false;
-        });
-    },
   },
 };
 </script>
 
 <style scoped lang="scss">
 @import '~dashboard/assets/scss/variables';
-
-.sla-color--container {
-  @apply flex items-center;
-}
-
-.sla-color--display {
-  @apply rounded h-4 w-4 mr-1 rtl:mr-0 rtl:ml-1 border border-solid border-slate-50 dark:border-slate-700;
-}
 .sla-title {
   span {
     @apply inline-block;

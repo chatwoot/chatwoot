@@ -5,68 +5,56 @@ import Vuelidate from 'vuelidate';
 import validationMixin from '../validationMixin';
 import validations from '../validations';
 import i18n from 'dashboard/i18n';
-const localVue = createLocalVue();
 
+const localVue = createLocalVue();
 localVue.use(VueI18n);
 localVue.use(Vuelidate);
+
 const i18nConfig = new VueI18n({
   locale: 'en',
   messages: i18n,
 });
-const Component = {
+
+const TestComponent = {
   render() {},
-  title: 'TestComponent',
   mixins: [validationMixin],
   validations,
 };
 
 describe('validationMixin', () => {
-  it('it should return empty error message if valid label name passed', async () => {
-    const wrapper = shallowMount(Component, {
-      i18n: i18nConfig,
+  let wrapper;
+
+  beforeEach(() => {
+    wrapper = shallowMount(TestComponent, {
       localVue,
+      i18n: i18nConfig,
       data() {
-        return { title: 'sales' };
+        return {
+          name: '',
+        };
       },
     });
-    wrapper.vm.$v.$touch();
-    expect(wrapper.vm.getLabelTitleErrorMessage).toBe('');
   });
-  it('it should return label required error message if empty name is passed', async () => {
-    const wrapper = shallowMount(Component, {
-      i18n: i18nConfig,
-      localVue,
-      data() {
-        return { title: '' };
-      },
-    });
-    wrapper.vm.$v.$touch();
-    expect(wrapper.vm.getLabelTitleErrorMessage).toBe('Label name is required');
+
+  it('should return empty error message if name is valid', () => {
+    wrapper.setData({ name: 'ValidName' });
+    wrapper.vm.$v.name.$touch();
+    expect(wrapper.vm.getSlaNameErrorMessage).toBe('');
   });
-  it('it should return label minimum length error message if one charceter label name is passed', async () => {
-    const wrapper = shallowMount(Component, {
-      i18n: i18nConfig,
-      localVue,
-      data() {
-        return { title: 's' };
-      },
-    });
-    wrapper.vm.$v.$touch();
-    expect(wrapper.vm.getLabelTitleErrorMessage).toBe(
-      'Minimum length 2 is required'
+
+  it('should return required error message if name is empty', () => {
+    wrapper.setData({ name: '' });
+    wrapper.vm.$v.name.$touch();
+    expect(wrapper.vm.getSlaNameErrorMessage).toBe(
+      wrapper.vm.$t('SLA.FORM.NAME.REQUIRED_ERROR')
     );
   });
-  it('it should return invalid character error message if invalid lable name passed', async () => {
-    const wrapper = shallowMount(Component, {
-      i18n: i18nConfig,
-      localVue,
-      data() {
-        return { title: 'sales enquiry' };
-      },
-    });
-    wrapper.vm.$v.$touch();
-    expect(wrapper.vm.getLabelTitleErrorMessage).toBe(
-      'Only Alphabets, Numbers, Hyphen and Underscore are allowed'
+
+  it('should return minimum length error message if name is too short', () => {
+    wrapper.setData({ name: 'a' });
+    wrapper.vm.$v.name.$touch();
+    expect(wrapper.vm.getSlaNameErrorMessage).toBe(
+      wrapper.vm.$t('SLA.FORM.NAME.MINIMUM_LENGTH_ERROR')
     );
   });
 });
