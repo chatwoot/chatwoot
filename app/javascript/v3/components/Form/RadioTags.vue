@@ -12,6 +12,7 @@
         :variant="value === option.value ? '' : 'hollow'"
         :color-scheme="value === option.value ? 'primary' : 'secondary'"
         size="small"
+        type=""
         @click="$emit('input', option.value)"
       >
         {{ option.label }}

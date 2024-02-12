@@ -8,7 +8,11 @@ import helpcenterRoutes from './helpcenter/helpcenter.routes';
 
 const AppContainer = () => import('./Dashboard.vue');
 const Suspended = () => import('./suspended/Index.vue');
-
+const RouteLayout = () => import('v3/views/onboarding/RouteLayout.vue');
+const SetupProfile = () => import('v3/views/onboarding/SetupProfile.vue');
+const SetupCompany = () => import('v3/views/onboarding/SetupCompany.vue');
+const InviteTeam = () => import('v3/views/onboarding/InviteTeam.vue');
+// const FoundersNote = () => import('v3/views/onboarding/FoundersNote.vue');
 export default {
   routes: [
     ...helpcenterRoutes.routes,
@@ -29,5 +33,32 @@ export default {
       roles: ['administrator', 'agent'],
       component: Suspended,
     },
+    {
+      path: frontendURL('accounts/:accountId/start'),
+      component: RouteLayout,
+      children: [
+        {
+          path: frontendURL('accounts/:accountId/start/setup-profile'),
+          name: 'onboarding_setup_profile',
+          component: SetupProfile,
+        },
+        {
+          path: frontendURL('accounts/:accountId/start/setup-company'),
+          name: 'onboarding_setup_company',
+          component: SetupCompany,
+        },
+        {
+          path: frontendURL('accounts/:accountId/start/invite-team'),
+          name: 'onboarding_invite_team',
+          component: InviteTeam,
+        },
+      ],
+    },
+
+    // {
+    //   path: frontendURL('accounts/:accountId/start/founders-note'),
+    //   name: 'onboarding_founders_note',
+    //   component: FoundersNote,
+    // },
   ],
 };
