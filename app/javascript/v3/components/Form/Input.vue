@@ -23,7 +23,7 @@
         'px-3 py-2 mb-0': spacing === 'compact',
         'pl-9': icon,
       }"
-      class="block w-full border-none rounded-xl shadow-sm appearance-none outline outline-1 outline-slate-200 dark:outline-slate-800 focus:outline-none focus:outline-0 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:ring-2 focus:ring-woot-500 sm:text-sm sm:leading-6 dark:bg-slate-800"
+      class="block w-full border-none rounded-xl shadow-sm appearance-none outline outline-1 outline-slate-200 dark:outline-slate-700 focus:outline-none focus:outline-0 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:ring-2 focus:ring-woot-500 sm:text-sm sm:leading-6 dark:bg-slate-800"
       @input="onInput"
       @blur="$emit('blur')"
     />

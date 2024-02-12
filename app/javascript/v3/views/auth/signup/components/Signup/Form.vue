@@ -61,7 +61,6 @@ import { required, minLength, email } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import alertMixin from 'shared/mixins/alertMixin';
-import { ONBOARDING_START_URL } from 'dashboard/constants/globals';
 import VueHcaptcha from '@hcaptcha/vue-hcaptcha';
 import FormInput from 'v3/components/Form/Input.vue';
 import SubmitButton from '../../../../../components/Button/SubmitButton.vue';
@@ -148,8 +147,14 @@ export default {
       }
       this.isSignupInProgress = true;
       try {
-        await register(this.credentials);
-        window.location = ONBOARDING_START_URL;
+        const {
+          data: { account_id: accountId },
+        } = await register(this.credentials);
+
+        this.$router.push({
+          name: 'onboarding_setup_profile',
+          params: { accountId },
+        });
       } catch (error) {
         let errorMessage =
           error?.message || this.$t('REGISTER.API.ERROR_MESSAGE');

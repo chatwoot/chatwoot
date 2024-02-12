@@ -75,6 +75,7 @@
       }
     },
     "COMPANY": {
+      "PAGE_TITLE": "Hello %{userName},\nwe are are almost done.",
       "TITLE": "Tell us about your company",
       "BODY": "In this section, we'll set up the language, timezone, and company size. This information allows us to provide contextually accurate information and suggest relevant features for you.",
       "SUBMIT": {

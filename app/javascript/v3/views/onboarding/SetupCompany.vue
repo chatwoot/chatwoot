@@ -1,11 +1,20 @@
 <template>
-  <onboarding-layout
-    :intro="$t('ONBOARDING.PROFILE.INTRO')"
-    :title="$t('ONBOARDING.COMPANY.TITLE')"
-    :body="$t('ONBOARDING.COMPANY.BODY')"
-    current-step="company"
+  <div
+    id="modal-body"
+    class="dark:shadow-[#000] rounded-3xl p-10 pt-14 border shadow border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 z-10 relative w-full max-w-[560px]"
   >
-    <form class="space-y-8" @submit.prevent="onSubmit">
+    <h2
+      class="font-bold text-[28px] leading-8 tracking-[2%] text-slate-900 dark:text-white"
+    >
+      {{ $t('ONBOARDING.COMPANY.TITLE') }}
+    </h2>
+    <p
+      class="text-base text-slate-600 leading-6 tracking-[-1.1%] mt-2 dark:text-slate-200"
+    >
+      {{ $t('ONBOARDING.COMPANY.BODY') }}
+    </p>
+
+    <div class="space-y-8 mt-10">
       <div class="space-y-3">
         <form-input
           v-model="companyName"
@@ -68,9 +77,10 @@
       <submit-button
         button-class="flex justify-center w-full text-sm text-center"
         :button-text="$t('ONBOARDING.COMPANY.SUBMIT.BUTTON')"
+        @click="onSubmit"
       />
-    </form>
-  </onboarding-layout>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -78,9 +88,9 @@ import FormInput from 'v3/components/Form/Input.vue';
 import FormSelect from 'v3/components/Form/Select.vue';
 import FormRadioTags from 'v3/components/Form/RadioTags.vue';
 import { required, minLength } from 'vuelidate/lib/validators';
+import { mapGetters } from 'vuex';
 
 import SubmitButton from 'dashboard/components/buttons/FormSubmitButton.vue';
-import OnboardingLayout from './Layout.vue';
 import { timeZoneOptions } from 'dashboard/routes/dashboard/settings/inbox/helpers/businessHour.js';
 import alertMixin from 'shared/mixins/alertMixin';
 import configMixin from 'shared/mixins/configMixin';
@@ -88,7 +98,6 @@ export default {
   components: {
     FormInput,
     SubmitButton,
-    OnboardingLayout,
     FormSelect,
     FormRadioTags,
   },
@@ -123,6 +132,13 @@ export default {
     },
   },
   computed: {
+    ...mapGetters({
+      getAccount: 'accounts/getAccount',
+      currentAccountId: 'getCurrentAccountId',
+    }),
+    accountDetails() {
+      return this.getAccount(this.currentAccountId);
+    },
     languagesSortedByCode() {
       const enabledLanguages = [...this.enabledLanguages];
       return enabledLanguages.sort((l1, l2) =>
@@ -132,45 +148,41 @@ export default {
     timeZones() {
       return [...timeZoneOptions()];
     },
+    intelligentData() {
+      const { clearbit_data: data } = this.getAccount;
+      return data;
+    },
   },
+
   watch: {
     locale(val) {
       this.setLocale(val);
     },
+    accountDetails() {
+      this.initFormData();
+    },
   },
   mounted() {
-    const localeWithVariant = window.navigator.language.replace('-', '_');
-    const localeWithoutVariant = localeWithVariant.split('_')[0];
-
-    const { iso_639_1_code: locale } =
-      this.enabledLanguages.find(
-        lang =>
-          lang.iso_639_1_code === localeWithVariant ||
-          lang.iso_639_1_code === localeWithoutVariant
-      ) || {};
-
-    if (locale) {
-      this.locale = locale;
-      this.setLocale(locale);
-    }
-
+    this.setLocaleFromBrowser();
     this.setTimezone();
+
+    this.initFormData();
   },
 
   methods: {
-    async onSubmit(event) {
-      event.stopPropagation();
-      event.preventDefault();
+    async onSubmit() {
       this.$v.$touch();
       if (this.$v.$invalid) {
         return;
       }
 
       try {
-        await this.$store.dispatch('updateProfile', {
-          companyName: this.companyName,
-          // phone
-          // avatar
+        await this.$store.dispatch('accounts/update', {
+          name: this.companyName,
+          timezone: this.timezone,
+          locale: this.locale,
+          company_size: this.companySize,
+          industry: this.industry,
         });
         this.showAlert(this.$t('ONBOARDING.COMPANY.SUBMIT.SUCCESS'));
         this.$router.push({ name: 'onboarding_invite_team' });
@@ -181,8 +193,62 @@ export default {
     setLocale(locale) {
       this.$root.$i18n.locale = locale;
     },
+    setLocaleFromBrowser() {
+      const localeWithVariant = window.navigator.language.replace('-', '_');
+      const localeWithoutVariant = localeWithVariant.split('_')[0];
+
+      const { iso_639_1_code: locale } =
+        this.enabledLanguages.find(
+          lang =>
+            lang.iso_639_1_code === localeWithVariant ||
+            lang.iso_639_1_code === localeWithoutVariant
+        ) || {};
+
+      if (locale) {
+        this.locale = locale;
+        this.setLocale(locale);
+      }
+    },
     setTimezone() {
-      this.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      if (!this.intelligentData) {
+        this.timezone = browserTimezone;
+        return;
+      }
+      const { timezone } = this.intelligentData;
+      const allZones = this.timeZones.map(zone => zone.value);
+      const matchForIntelligentZone = allZones.find(zone => zone === timezone);
+      if (matchForIntelligentZone) {
+        this.timezone = timezone;
+      }
+    },
+    setFromIntelligentData() {
+      const { name: companyName, industry, size } = this.intelligentData;
+      this.companyName = companyName;
+      this.industry = industry;
+      this.companySize = size;
+    },
+    setSavedData() {
+      const {
+        name: companyName,
+        industry,
+        size,
+        locale,
+        timezone,
+      } = this.accountDetails;
+      this.companyName = companyName;
+      this.industry = industry;
+      this.companySize = size;
+      this.locale = locale;
+      this.timezone = timezone;
+    },
+    initFormData() {
+      const { name } = this.accountDetails;
+      if (!name) {
+        this.setFromIntelligentData();
+      } else {
+        this.setSavedData();
+      }
     },
   },
 };

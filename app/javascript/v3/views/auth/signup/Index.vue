@@ -6,14 +6,32 @@
     <div
       class="absolute h-full w-full overlay-gradient top-0 left-0 blur-[3px]"
     />
+
+    <svg
+      width="528"
+      height="96"
+      viewBox="0 0 528 96"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs>
+        <mask id="cutoutMask">
+          <path
+            d="M263.999 65.0769C293.048 65.0769 317.641 45.9499 325.929 19.5735C329.219 9.10348 337.794 0 348.744 0H508.172C519.122 0 527.999 8.89875 527.999 19.8759V95.5C527.999 95.5 519.122 95.5 508.172 95.5H263.999H-0.000976562V19.8759C-0.000976562 8.89877 8.87604 0 19.8264 0H179.254C190.204 0 198.779 9.10349 202.069 19.5735C210.357 45.9499 234.95 65.0769 263.999 65.0769Z"
+            fill="#FCFCFD"
+          />
+        </mask>
+      </defs>
+    </svg>
+
     <div v-show="!isLoading" class="flex h-full relative z-50">
       <div
         class="flex-1 min-h-[640px] inline-flex items-center h-full justify-center overflow-auto py-6"
       >
         <div
-          class="relative px-16 py-[104px] max-w-[528px] bg-[url('/assets/images/dashboard/onboarding/signup-card-box.svg')] dark:bg-[url('/assets/images/dashboard/onboarding/signup-card-box-dark.svg')] bg-contain bg-top bg-no-repeat w-full overflow-aut rounded-3xl"
+          class="relative bg-white dark:bg-slate-800 before:bg-white dark:before:bg-slate-800 px-16 pt-8 pb-16 max-w-[528px] w-full rounded-3xl signup-box"
         >
-          <div class="absolute -top-12 right-0 left-0 w-24 h-24 mx-auto">
+          <div class="absolute -top-[116px] right-0 left-0 w-24 h-24 mx-auto">
             <img
               :src="globalConfig.logoThumbnail"
               :alt="globalConfig.installationName"
@@ -108,5 +126,17 @@ export default {
     linear-gradient(90deg, rgba(24, 24, 26, 0) 81.8%, #151718 100%),
     linear-gradient(0deg, rgba(24, 24, 26, 0) 68.63%, #151718 100%),
     linear-gradient(180deg, rgba(24, 24, 26, 0) 73.2%, #151718 100%);
+}
+
+.signup-box::before {
+  width: 100%;
+  height: 200px;
+  content: '';
+  display: block;
+  left: 0;
+  top: -66px;
+  position: absolute;
+  -webkit-mask-image: url('#cutoutMask');
+  mask-image: url('#cutoutMask');
 }
 </style>

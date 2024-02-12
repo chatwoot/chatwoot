@@ -27,7 +27,7 @@ export const login = async ({
 
 export const register = async creds => {
   try {
-    const response = await wootAPI.post('api/v1/accounts.json', {
+    const response = await wootAPI.post('api/v2/accounts.json', {
       email: creds.email,
       password: creds.password,
       h_captcha_client_response: creds.hCaptchaClientResponse,
@@ -42,11 +42,11 @@ export const register = async creds => {
 
 export const accountSetup = async ({ id, name, locale }) => {
   try {
-    const response = await wootAPI.put(`api/v1/accounts/${id}.json`, {
+    const response = await wootAPI.put(`api/v2/accounts/${id}.json`, {
       name,
       locale,
     });
-    setAuthCredentials(response);
+    // setAuthCredentials(response);
     return response.data;
   } catch (error) {
     throwErrorMessage(error);

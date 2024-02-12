@@ -69,11 +69,13 @@
               </router-link>
             </p>
           </form-input>
-          <submit-button
-            :disabled="loginApi.showLoading"
-            :button-text="$t('LOGIN.SUBMIT')"
-            :loading="loginApi.showLoading"
-          />
+          <div class="pt-2">
+            <submit-button
+              :disabled="loginApi.showLoading"
+              :button-text="$t('LOGIN.SUBMIT')"
+              :loading="loginApi.showLoading"
+            />
+          </div>
         </form>
       </div>
       <div v-else class="flex items-center justify-center">
