@@ -1,10 +1,15 @@
+<div class="dt-brand">
+  <img class="dt-logo" src="https://helpdesk.digitaltolk.net/brand-assets/logo.png" alt="Logo">
+  <p>Hej! 👋, Vi vore tacksamma för att få dina synpunkter på konversationen du haft me oss.</p>
+</div>
+
 <% @csat_messages.each do |message| %>
   <%= render 'csat_template', message: message %>
 <% end %>
 
 <% if @csat_messages.present? %>
   <div style='font-size: 11px;margin-top: 30px;color: #737373;'>
-    Complete the survey at
+    Fyll i undersökningen på
     <%= link_to @csat_messages.first.csat_link_shorten, @csat_messages.first.csat_link, style: 'font-size: 11px;color: #737373;'%>
   </div>
 <% end %>
