@@ -32,7 +32,7 @@ class Enterprise::ClearbitLookupService
   # @return [HTTParty::Response] The response from the Clearbit API.
   def self.perform_request(email)
     options = {
-      headers: { 'Authorization' => "Bearer #{ENV.fetch('CLEARBIT_API_KEY', nil)}" },
+      headers: { 'Authorization' => "Bearer #{clearbit_token}" },
       query: { email: email }
     }
 
@@ -52,7 +52,11 @@ class Enterprise::ClearbitLookupService
   #
   # @return [Boolean] True if Clearbit is enabled, false otherwise.
   def self.clearbit_enabled?
-    ENV['CLEARBIT_API_KEY'].present?
+    clearbit_token.present?
+  end
+
+  def self.clearbit_token
+    GlobalConfigService.load('CLEARBIT_API_KEY', '')
   end
 
   # Processes the response from the Clearbit API.
