@@ -3,14 +3,10 @@ require 'rails_helper'
 RSpec.describe Imap::ImapMailbox do
   include ActionMailbox::TestHelper
 
-  describe 'add mail as a new conversation in the email inbox' do
+  describe '#process' do
     let(:account) { create(:account) }
     let(:agent) { create(:user, email: 'agent@example.com', account: account) }
-    let(:channel) do
-      create(:channel_email, imap_enabled: true, imap_address: 'imap.gmail.com',
-                             imap_port: 993, imap_login: 'imap@gmail.com', imap_password: 'password',
-                             account: account)
-    end
+    let(:channel) { create(:channel_email, :imap_email) }
     let(:inbox) { channel.inbox }
     let!(:contact) { create(:contact, email: 'email@gmail.com', phone_number: '+919584546666', account: account, identifier: '123') }
     let(:conversation) { Conversation.where(inbox_id: channel.inbox).last }
@@ -20,14 +16,30 @@ RSpec.describe Imap::ImapMailbox do
       create(:contact_inbox, contact_id: contact.id, inbox_id: channel.inbox.id)
     end
 
-    context 'when a new email from non existing contact' do
+    context 'when the email is from a new contact' do
       let(:inbound_mail) { create_inbound_email_from_mail(from: 'testemail@gmail.com', to: 'imap@gmail.com', subject: 'Hello!') }
 
       it 'creates the contact and conversation with message' do
-        class_instance.process(inbound_mail.mail, channel)
+        expect do
+          class_instance.process(inbound_mail.mail, channel)
+        end.to change(Conversation, :count).by(1)
+
         expect(conversation.contact.email).to eq(inbound_mail.mail.from.first)
         expect(conversation.additional_attributes['source']).to eq('email')
         expect(conversation.messages.empty?).to be false
+      end
+    end
+
+    context 'when the email has 15 or more attachments' do
+      let(:inbound_mail) { create_inbound_email_from_fixture('multiple_attachments.eml') }
+
+      it 'creates a converstation and a message properly' do
+        expect do
+          class_instance.process(inbound_mail.mail, channel)
+        end.to change(Conversation, :count).by(1)
+
+        expect(conversation.contact.email).to eq(inbound_mail.mail.from.first)
+        expect(conversation.messages.last.attachments.count).to be 15
       end
     end
 
