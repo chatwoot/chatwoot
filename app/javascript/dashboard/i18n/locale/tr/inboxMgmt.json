@@ -569,7 +569,7 @@
       "UPDATE": "İş Saatleri Ayarlarını Güncelle",
       "TOGGLE_AVAILABILITY": "Bu gelen kutusu için iş uygunluğunu etkinleştir",
       "UNAVAILABLE_MESSAGE_LABEL": "Ziyaretçiler için uygun değil mesajı",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
+      "TOGGLE_HELP": "İşletme erişilebilirliğini etkinleştirmek, tüm temsilciler çevrimdışı olsa bile canlı sohbet ekranında mevcut saatleri gösterecektir. Mevcut saatler dışında ziyaretçiler bir mesaj ve ön sohbet formu ile uyarılabilir.",
       "DAY": {
         "ENABLE": "Bu gün için uygunluğu etkinleştir",
         "UNAVAILABLE": "Uygun Değil",
