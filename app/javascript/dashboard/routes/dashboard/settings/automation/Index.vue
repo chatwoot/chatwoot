@@ -177,6 +177,7 @@ export default {
     this.$store.dispatch('labels/get');
     this.$store.dispatch('campaigns/get');
     this.$store.dispatch('automations/get');
+    this.$store.dispatch('sla/get');
   },
   methods: {
     openAddPopup() {
