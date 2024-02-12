@@ -175,7 +175,6 @@ export default {
       this.setActiveChat();
       this.isLoadingConversation = false;
     },
-
     setActiveChat(conversation = null) {
       const selectedConversation = conversation || this.findConversation();
       if (!selectedConversation) return;
