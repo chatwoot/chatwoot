@@ -43,13 +43,16 @@
         data-testid="sla-resolutionTimeThreshold"
       />
 
-      <woot-input
-        v-model.trim="onlyDuringBusinessHours"
-        class="w-full"
-        :label="$t('SLA.FORM.BUSINESS_HOURS.LABEL')"
-        :placeholder="$t('SLA.FORM.BUSINESS_HOURS.PLACEHOLDER')"
-        data-testid="sla-onlyDuringBusinessHours"
-      />
+      <div class="w-full">
+        <input
+          v-model="onlyDuringBusinessHours"
+          type="checkbox"
+          :value="false"
+        />
+        <label for="sla_edit">
+          {{ $t('SLA.FORM.BUSINESS_HOURS.PLACEHOLDER') }}
+        </label>
+      </div>
 
       <div class="flex justify-end items-center py-2 px-0 gap-2 w-full">
         <woot-button
@@ -87,7 +90,7 @@ export default {
       firstResponseTimeThreshold: '',
       nextResponseTimeThreshold: '',
       resolutionTimeThreshold: '',
-      onlyDuringBusinessHours: '',
+      onlyDuringBusinessHours: false,
     };
   },
   validations,
@@ -116,7 +119,7 @@ export default {
       this.resolutionTimeThreshold =
         this.selectedResponse.resolution_time_threshold;
       this.onlyDuringBusinessHours =
-        this.selectedResponse.only_during_business_hours.toString();
+        this.selectedResponse.only_during_business_hours;
     },
     editSLA() {
       this.$store

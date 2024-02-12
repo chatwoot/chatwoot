@@ -37,7 +37,7 @@
       },
       "BUSINESS_HOURS": {
         "LABEL": "Business Hours",
-        "PLACEHOLDER": "Business Hours"
+        "PLACEHOLDER": "Only during business hours"
       },
       "EDIT": "Edit",
       "CREATE": "Create",
