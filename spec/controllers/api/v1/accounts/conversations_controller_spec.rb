@@ -466,7 +466,11 @@ RSpec.describe 'Conversations API', type: :request do
   end
 
   describe 'POST /api/v1/accounts/{account.id}/conversations/:id/toggle_priority' do
+    let(:inbox) { create(:inbox, account: account) }
     let(:conversation) { create(:conversation, account: account) }
+    let(:pending_conversation) { create(:conversation, inbox: inbox, account: account, status: 'pending') }
+    let(:agent) { create(:user, account: account, role: :agent) }
+    let(:agent_bot) { create(:agent_bot, account: account) }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -477,7 +481,6 @@ RSpec.describe 'Conversations API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      let(:agent) { create(:user, account: account, role: :agent) }
       let(:administrator) { create(:user, account: account, role: :administrator) }
 
       before do
@@ -507,6 +510,23 @@ RSpec.describe 'Conversations API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(conversation.reload.priority).to be_nil
+      end
+    end
+
+    context 'when it is an authenticated bot' do
+      it 'toggle the priority of the bot agent conversation' do
+        create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
+
+        conversation.update!(priority: 'low')
+        expect(conversation.reload.priority).to eq('low')
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_priority",
+             headers: { api_access_token: agent_bot.access_token.token },
+             params: { priority: 'high' },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.priority).to eq('high')
       end
     end
   end
