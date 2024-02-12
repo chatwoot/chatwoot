@@ -18,11 +18,11 @@ module Enterprise::Api::V2::AccountsController
   end
 
   def update_user_info(data)
-    @user.update(name: data[:name])
+    @user.update!(name: data[:name])
   end
 
   def update_account_info(data)
-    @account.update(
+    @account.update!(
       name: data[:company_name],
       custom_attributes: @account.custom_attributes.merge(
         'industry' => data[:industry],
