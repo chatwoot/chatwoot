@@ -242,16 +242,10 @@ export const IFrameHelper = {
     },
 
     popoutChatWindow: ({ baseUrl, websiteToken, locale }) => {
-      try {
-        baseUrl = sanitizeURL(baseUrl);
-
-        const cwCookie = Cookies.get('cw_conversation');
-        window.$chatwoot.toggle('close');
-        popoutChatWindow(baseUrl, websiteToken, locale, cwCookie);
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.error('Error processing URL', e);
-      }
+      baseUrl = sanitizeURL(baseUrl);
+      const cwCookie = Cookies.get('cw_conversation');
+      window.$chatwoot.toggle('close');
+      popoutChatWindow(baseUrl, websiteToken, locale, cwCookie);
     },
 
     closeWindow: () => {
